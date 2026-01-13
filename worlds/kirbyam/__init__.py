@@ -10,6 +10,8 @@ from .id_map import build_id_map
 
 GAME_NAME = "Kirby & The Amazing Mirror"
 
+ORIGIN_REGION = "Menu"
+
 
 class KirbyAMWebWorld(WebWorld):
     game = GAME_NAME
@@ -31,7 +33,7 @@ class KirbyAMWorld(World):
     game = GAME_NAME
     web = KirbyAMWebWorld()
 
-    origin_region_name = "Menu"
+    origin_region_name = ORIGIN_REGION
     
     # Deterministic base IDs. Do not change once you have public releases.
     _base_location_id = 23_450_000
