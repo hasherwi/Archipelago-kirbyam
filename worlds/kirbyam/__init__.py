@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, Optional
 
-from BaseClasses import Item, ItemClassification, Location, Region
-from worlds.AutoWorld import WebWorld, World, Tutorial
+from BaseClasses import Item, ItemClassification, Location, Region, Tutorial
+from worlds.AutoWorld import WebWorld, World
 
 
 GAME_NAME = "Kirby & The Amazing Mirror"
@@ -59,16 +59,16 @@ class KirbyAMWorld(World):
         main.locations.append(
             Location(
                 self.player,
-                "Test Location A",
-                self.location_name_to_id["Test Location A"],
+                "Test Location 1",
+                self.location_name_to_id["Test Location 1"],
                 main,
             )
         )
         main.locations.append(
             Location(
                 self.player,
-                "Test Location B",
-                self.location_name_to_id["Test Location B"],
+                "Test Location 2",
+                self.location_name_to_id["Test Location 2"],
                 main,
             )
         )
