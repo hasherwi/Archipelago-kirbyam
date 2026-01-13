@@ -49,15 +49,15 @@ class KirbyAMWorld(World):
         data = load_kirbyam_data()
 
         # Build stable ID maps by YAML key, then convert to name->id (AP expects names).
-        item_keys = [row["key"] for row in data.items]
-        loc_keys = [row["key"] for row in data.locations]
+        item_keys = [key for row in data.items if (key := row.get("key")) is not None]
+        loc_keys = [key for row in data.locations if (key := row.get("key")) is not None]
 
         item_key_to_id = build_id_map(item_keys, self._base_item_id, "kirbyam:item")
         loc_key_to_id = build_id_map(loc_keys, self._base_location_id, "kirbyam:location")
 
         # Convert key->id to name->id using YAML "name"
-        self.item_name_to_id = {row["name"]: item_key_to_id[row["key"]] for row in data.items}
-        self.location_name_to_id = {row["name"]: loc_key_to_id[row["key"]] for row in data.locations}
+        self.item_name_to_id = {name: item_key_to_id[key] for row in data.items if (name := row.get("name")) is not None and (key := row.get("key")) is not None}
+        self.location_name_to_id = {name: loc_key_to_id[key] for row in data.locations if (name := row.get("name")) is not None and (key := row.get("key")) is not None}
 
         # Ensure our POC names exist in YAML (optional but strongly recommended).
         # This prevents drift between POC code and data files.

@@ -7,8 +7,8 @@ from worlds.kirbyam.id_map import build_id_map
 def test_id_map_no_collisions() -> None:
     data = load_kirbyam_data()
 
-    item_keys = [row["key"] for row in data.items]
-    loc_keys = [row["key"] for row in data.locations]
+    item_keys = [row["key"] for row in data.items if "key" in row]
+    loc_keys = [row["key"] for row in data.locations if "key" in row]
 
     item_map = build_id_map(item_keys, 23_460_000, "kirbyam:item")
     loc_map = build_id_map(loc_keys, 23_450_000, "kirbyam:location")
