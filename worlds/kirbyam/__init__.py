@@ -98,12 +98,15 @@ class KirbyAMWorld(World):
             raise ValueError(f"POC locations missing from location_name_to_id: {missing_loc_ids}")
         if missing_item_ids:
             raise ValueError(f"POC items missing from item_name_to_id: {missing_item_ids}")
+        
+        poc_loc_count = len(self._poc_location_names)
+        poc_item_count = len(self._poc_item_names)
 
-        # Phase 1 policy: keep counts equal
-        if len(self._poc_item_names) != len(self._poc_location_names):
+        if poc_item_count != poc_loc_count:
             raise ValueError(
                 "POC requires item count == location count. "
-                f"poc_items={len(self._poc_item_names)} poc_locations={len(self._poc_location_names)}"
+                f"poc_items={poc_item_count} poc_locations={poc_loc_count}. "
+                "Tag additional items/locations with 'poc' to fix."
             )
 
     def create_regions(self) -> None:
