@@ -87,9 +87,13 @@ class KirbyAMWorld(World):
         menu.locations.append(victory_event)
 
         main = Region("Main Area", self.player, self.multiworld)
+        branch = Region("Test Branch", self.player, self.multiworld)
+        
         self.multiworld.regions.append(main)
+        self.multiworld.regions.append(branch)
 
         menu.connect(main, "To Main Area")
+        main.connect(branch, "To Test Branch")
         
         # POC locations in Main Area.
         #
@@ -102,15 +106,22 @@ class KirbyAMWorld(World):
         # construction and real location placement.
 
         data = self._data
-        poc_location_names = [name for row in data.locations if "poc" in row.get("tags", []) and (name := row.get("name")) is not None]
-        
-        missing = [n for n in poc_location_names if n not in self.location_name_to_id]
+        poc_locations = [name for row in data.locations if "poc" in row.get("tags", []) and (name := row.get("name")) is not None]
+
+        missing = [n for n in poc_locations if n not in self.location_name_to_id]
         if missing:
             raise ValueError(f"POC locations missing from locations.yaml: {missing}")
 
-        for loc_name in poc_location_names:
-            loc_id = self.location_name_to_id[loc_name]
-            main.locations.append(Location(self.player, loc_name, loc_id, main))
+        # Example: first N go in Main Area, remainder in Test Branch
+        split = max(1, len(poc_locations) // 2)
+        main_locs = poc_locations[:split]
+        branch_locs = poc_locations[split:]
+
+        for loc_name in main_locs:
+            main.locations.append(Location(self.player, loc_name, self.location_name_to_id[loc_name], main))
+
+        for loc_name in branch_locs:
+            branch.locations.append(Location(self.player, loc_name, self.location_name_to_id[loc_name], branch))
 
 
     def create_items(self) -> None:
