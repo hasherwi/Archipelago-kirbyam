@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, List
 
 from BaseClasses import Item, ItemClassification, Location, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
+from worlds.celeste_open_world import data
 
 from .data_loader import load_kirbyam_data, KirbyAMData
-from .id_map import build_id_map
+from .id_map import build_id_map, build_item_key_to_id, build_location_key_to_id
 
 GAME_NAME = "Kirby & The Amazing Mirror"
 
@@ -31,6 +32,8 @@ class KirbyAMWebWorld(WebWorld):
 
 class KirbyAMWorld(World):
     _data: KirbyAMData
+    _poc_location_names: List[str]
+    _poc_item_names: List[str]
     
     game = GAME_NAME
     web = KirbyAMWebWorld()
@@ -44,39 +47,56 @@ class KirbyAMWorld(World):
     # These are populated from YAML in generate_early()
     item_name_to_id: Dict[str, int] = {}
     location_name_to_id: Dict[str, int] = {}
+    
+    @staticmethod
+    def _class_from_str(value: str | None) -> ItemClassification:
+        if not value:
+            return ItemClassification.filler
+        v = value.strip().lower()
+        if v == "progression":
+            return ItemClassification.progression
+        if v == "useful":
+            return ItemClassification.useful
+        if v == "trap":
+            return ItemClassification.trap
+        # default
+        return ItemClassification.filler
 
     def generate_early(self) -> None:
-        """
-        Load canonical YAML and build deterministic name->id maps.
-        This runs early in generation and will fail fast if YAML is invalid.
-        """
         self._data = load_kirbyam_data()
         data = self._data
 
-        # Build stable ID maps by YAML key, then convert to name->id (AP expects names).
-        item_keys = [key for row in data.items if (key := row.get("key")) is not None]
-        loc_keys = [key for row in data.locations if (key := row.get("key")) is not None]
+        # 1) Build deterministic key->id maps (however you're currently doing it)
+        item_key_to_id = build_item_key_to_id(data.items)
+        loc_key_to_id = build_location_key_to_id(data.locations)
 
-        item_key_to_id = build_id_map(item_keys, self._base_item_id, "kirbyam:item")
-        loc_key_to_id = build_id_map(loc_keys, self._base_location_id, "kirbyam:location")
+        # 2) Build Archipelago-required name->id maps
+        self.item_name_to_id = {row["name"]: item_key_to_id[row["key"]] for row in data.items if "name" in row}
+        self.location_name_to_id = {row["name"]: loc_key_to_id[row["key"]] for row in data.locations if "name" in row}
 
-        # Canonical identifier is YAML "key".
-        # Archipelago requires name->id maps; IDs are deterministically derived from keys to remain stable across name tweaks.
-        self.item_name_to_id = {name: item_key_to_id[key] for row in data.items if (name := row.get("name")) is not None and (key := row.get("key")) is not None}
-        self.location_name_to_id = {name: loc_key_to_id[key] for row in data.locations if (name := row.get("name")) is not None and (key := row.get("key")) is not None}
+        # 3) Now compute POC sets from tags
+        self._poc_location_names = [row["name"] for row in data.locations if "poc" in row.get("tags", [])]
+        self._poc_item_names = [row["name"] for row in data.items if "poc" in row.get("tags", [])]
 
-        # Ensure our POC names exist in YAML (optional but strongly recommended).
-        # This prevents drift between POC code and data files.
-        required_items = {"Test Progression", "Test Filler"}
-        required_locations = {"Test Location 1", "Test Location 2"}
+        if not self._poc_location_names:
+            raise ValueError("No locations tagged 'poc' found in locations.yaml")
+        if not self._poc_item_names:
+            raise ValueError("No items tagged 'poc' found in items.yaml")
 
-        missing_items = required_items.difference(self.item_name_to_id.keys())
-        missing_locations = required_locations.difference(self.location_name_to_id.keys())
+        # 4) Validate that POC names exist in the maps we just built
+        missing_loc_ids = [n for n in self._poc_location_names if n not in self.location_name_to_id]
+        missing_item_ids = [n for n in self._poc_item_names if n not in self.item_name_to_id]
+        if missing_loc_ids:
+            raise ValueError(f"POC locations missing from location_name_to_id: {missing_loc_ids}")
+        if missing_item_ids:
+            raise ValueError(f"POC items missing from item_name_to_id: {missing_item_ids}")
 
-        if missing_items:
-            raise ValueError(f"POC requires these items to exist in items.yaml: {sorted(missing_items)}")
-        if missing_locations:
-            raise ValueError(f"POC requires these locations to exist in locations.yaml: {sorted(missing_locations)}")
+        # Phase 1 policy: keep counts equal
+        if len(self._poc_item_names) != len(self._poc_location_names):
+            raise ValueError(
+                "POC requires item count == location count. "
+                f"poc_items={len(self._poc_item_names)} poc_locations={len(self._poc_location_names)}"
+            )
 
     def create_regions(self) -> None:
         menu = Region(self.origin_region_name, self.player, self.multiworld)
@@ -106,7 +126,7 @@ class KirbyAMWorld(World):
         # construction and real location placement.
 
         data = self._data
-        poc_locations = [name for row in data.locations if "poc" in row.get("tags", []) and (name := row.get("name")) is not None]
+        poc_locations = self._poc_location_names
 
         missing = [n for n in poc_locations if n not in self.location_name_to_id]
         if missing:
@@ -126,20 +146,20 @@ class KirbyAMWorld(World):
         for loc_name in branch_locs:
             branch.locations.append(Location(self.player, loc_name, self.location_name_to_id[loc_name], branch))
 
-
     def create_items(self) -> None:
-        # POC item pool: 2 items for 2 locations
-        self.multiworld.itempool.append(self.create_item("Test Progression"))
-        self.multiworld.itempool.append(self.create_item("Test Filler"))
+        for item_name in self._poc_item_names:
+            self.multiworld.itempool.append(self.create_item(item_name))
 
     def set_rules(self) -> None:
         self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
 
     def create_item(self, name: str) -> Item:
         item_id = self.item_name_to_id[name]
-        classification = ItemClassification.filler
-        if name == "Test Progression":
-            classification = ItemClassification.progression
+
+        # Look up classification from YAML (default filler)
+        row = next((r for r in self._data.items if r["name"] == name), None)
+        classification = self._class_from_str(row.get("classification") if row else None)
+
         return Item(name, classification, item_id, self.player)
 
     def _create_event_item(self, name: str) -> Item:
