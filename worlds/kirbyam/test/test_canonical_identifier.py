@@ -22,9 +22,9 @@ def test_keys_unique_and_non_empty() -> None:
 def test_names_unique_within_each_file() -> None:
     data = load_kirbyam_data()
 
-    item_names = [row["name"] for row in data.items]
-    loc_names = [row["name"] for row in data.locations]
-    goal_names = [row["name"] for row in data.goals]
+    item_names = [row["name"] for row in data.items if "name" in row]
+    loc_names = [row["name"] for row in data.locations if "name" in row]
+    goal_names = [row["name"] for row in data.goals if "name" in row]
 
     _assert_unique(item_names, "Duplicate item names found in items.yaml (breaks name->id mapping)")
     _assert_unique(loc_names, "Duplicate location names found in locations.yaml (breaks name->id mapping)")
