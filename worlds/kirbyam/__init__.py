@@ -111,6 +111,9 @@ class KirbyAMWorld(World):
         missing = [n for n in poc_locations if n not in self.location_name_to_id]
         if missing:
             raise ValueError(f"POC locations missing from locations.yaml: {missing}")
+        
+        if not poc_locations:
+            raise ValueError("No locations tagged 'poc' found in locations.yaml")
 
         # Example: first N go in Main Area, remainder in Test Branch
         split = max(1, len(poc_locations) // 2)
