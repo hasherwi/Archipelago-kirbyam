@@ -1,5 +1,19 @@
 schema_version: 1
 locations:
+- key: Test Location 1
+  name: Test Location 1
+  addresses:
+    na: null
+    eu: null
+    jp: null
+    vc: null
+- key: Test Location 2
+  name: Test Location 2
+  addresses:
+    na: null
+    eu: null
+    jp: null
+    vc: null
 - key: big_button_1_15
   name: Big Button 1-15
   addresses:

@@ -1,5 +1,21 @@
 schema_version: 1
 items:
+- key: Test Progression
+  name: Test Progression
+  classification: progression
+  addresses:
+    na: null
+    eu: null
+    jp: null
+    vc: null
+- key: Test Filler
+  name: Test Filler
+  classification: filler
+  addresses:
+    na: null
+    eu: null
+    jp: null
+    vc: null
 - key: battles_notes
   name: Battles Notes
   classification: filler
