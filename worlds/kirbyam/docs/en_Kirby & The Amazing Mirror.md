@@ -1,17 +1,18 @@
-# Kirby & The Amazing Mirror
+# Kirby & The Amazing Mirror (POC)
 
-## What items and locations get randomized?
+This is an in-development Archipelago world for **Kirby & The Amazing Mirror** (GBA).
 
-Items:
+## Current Status
 
-    - List
+This integration is currently a **minimal proof of concept** intended to validate:
 
-Locations:
+- World loading in Archipelago
+- Seed generation
+- Basic tests and structure
 
-    - List
+## Planned Scope (High-Level)
 
-## Can I play offline?
-
-Yes, the client and connector are only necessary for sending and receiving items. If you're playing a solo game, you
-don't need to play online unless you want the rest of Archipelago's functionality (like hints and auto-tracking). If
-you're playing a multiworld game, the client will sync your game with the server the next time you connect.
+- North American ROM first
+- BizHawk Lua client integration
+- Incremental addition of locations/items/logic
+- Optional features (DeathLink, traps, boss shuffle, etc.) later
