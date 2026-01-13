@@ -49,16 +49,16 @@ class KamirrorWorld(World):
         main.locations.append(
             Location(
                 self.player,
-                "Test Location 1",
-                self.location_name_to_id["Test Location 1"],
+                "Test Location A",
+                self.location_name_to_id["Test Location A"],
                 main,
             )
         )
         main.locations.append(
             Location(
                 self.player,
-                "Test Location 2",
-                self.location_name_to_id["Test Location 2"],
+                "Test Location B",
+                self.location_name_to_id["Test Location B"],
                 main,
             )
         )
