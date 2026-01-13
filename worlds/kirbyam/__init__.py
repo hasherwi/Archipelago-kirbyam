@@ -48,7 +48,8 @@ class KirbyAMWorld(World):
         Load canonical YAML and build deterministic name->id maps.
         This runs early in generation and will fail fast if YAML is invalid.
         """
-        data = load_kirbyam_data()
+        self._data = load_kirbyam_data()
+        data = self._data
 
         # Build stable ID maps by YAML key, then convert to name->id (AP expects names).
         item_keys = [key for row in data.items if (key := row.get("key")) is not None]
@@ -77,36 +78,38 @@ class KirbyAMWorld(World):
 
     def create_regions(self) -> None:
         menu = Region(self.origin_region_name, self.player, self.multiworld)
-        main = Region("Main Area", self.player, self.multiworld)
+        self.multiworld.regions.append(menu)
 
-        # Connect Menu -> Main Area
-        menu.connect(main, "To Main Area")
-
-        # POC locations (IDs now come from YAML-generated mapping)
-        main.locations.append(
-            Location(
-                self.player,
-                "Test Location 1",
-                self.location_name_to_id["Test Location 1"],
-                main,
-            )
-        )
-        main.locations.append(
-            Location(
-                self.player,
-                "Test Location 2",
-                self.location_name_to_id["Test Location 2"],
-                main,
-            )
-        )
-
-        # Victory event location (event locations/items do not need numeric IDs)
         victory_event = Location(self.player, "Victory", None, menu)
         victory_event.place_locked_item(self._create_event_item("Victory"))
         menu.locations.append(victory_event)
 
-        self.multiworld.regions.append(menu)
+        main = Region("Main Area", self.player, self.multiworld)
         self.multiworld.regions.append(main)
+
+        menu.connect(main, "To Main Area")
+        
+        # POC locations in Main Area.
+        #
+        # These are intentionally minimal and exist to validate:
+        # - name->id mapping from YAML
+        # - region/location registration
+        # - basic seed generation
+        #
+        # Once Phase 2 starts, this section will be replaced by data-driven region
+        # construction and real location placement.
+
+        data = self._data
+        poc_location_names = [row["name"] for row in data.locations if "poc" in row.get("tags", []) and (name := row.get("name")) is not None]
+        
+        missing = [n for n in poc_location_names if n not in self.location_name_to_id]
+        if missing:
+            raise ValueError(f"POC locations missing from locations.yaml: {missing}")
+
+        for loc_name in poc_location_names:
+            loc_id = self.location_name_to_id[loc_name]
+            main.locations.append(Location(self.player, loc_name, loc_id, main))
+
 
     def create_items(self) -> None:
         # POC item pool: 2 items for 2 locations
