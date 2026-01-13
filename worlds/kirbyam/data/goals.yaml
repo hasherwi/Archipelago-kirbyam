@@ -1,3 +1,5 @@
+# Canonical data for Kirby & The Amazing Mirror (Archipelago world: kirbyam)
+# schema_version increments only when the YAML structure meaningfully changes.
 schema_version: 1
 goals:
 - key: defeat_dark_mind

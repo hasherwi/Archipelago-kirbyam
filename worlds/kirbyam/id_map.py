@@ -19,6 +19,10 @@ def build_id_map(keys: Iterable[str], base_id: int, namespace: str) -> Dict[str,
     - Detects collisions and raises if they occur
 
     You MUST keep base_id stable once published.
+    
+    IDs are derived from canonical YAML keys (not names).
+    Keys must remain stable once published.
+    
     """
     mapping: Dict[str, int] = {}
     used: Dict[int, str] = {}

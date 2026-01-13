@@ -1,13 +1,15 @@
+# Canonical data for Kirby & The Amazing Mirror (Archipelago world: kirbyam)
+# schema_version increments only when the YAML structure meaningfully changes.
 schema_version: 1
 locations:
-- key: Test Location 1
+- key: test_location_1
   name: Test Location 1
   addresses:
     na: null
     eu: null
     jp: null
     vc: null
-- key: Test Location 2
+- key: test_location_2
   name: Test Location 2
   addresses:
     na: null

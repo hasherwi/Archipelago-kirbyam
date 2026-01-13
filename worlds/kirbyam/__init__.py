@@ -55,7 +55,8 @@ class KirbyAMWorld(World):
         item_key_to_id = build_id_map(item_keys, self._base_item_id, "kirbyam:item")
         loc_key_to_id = build_id_map(loc_keys, self._base_location_id, "kirbyam:location")
 
-        # Convert key->id to name->id using YAML "name"
+        # Canonical identifier is YAML "key".
+        # Archipelago requires name->id maps; IDs are deterministically derived from keys to remain stable across name tweaks.
         self.item_name_to_id = {name: item_key_to_id[key] for row in data.items if (name := row.get("name")) is not None and (key := row.get("key")) is not None}
         self.location_name_to_id = {name: loc_key_to_id[key] for row in data.locations if (name := row.get("name")) is not None and (key := row.get("key")) is not None}
 
