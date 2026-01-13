@@ -4,7 +4,18 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import TypedDict, NotRequired, Optional, Literal, List, Dict, Any, cast
 
-import yaml
+try:
+    import yaml  # type: ignore[import]
+except Exception:
+    import json as _json
+
+    class _YamlFallback:
+        @staticmethod
+        def safe_load(s):
+            # Fallback: parse JSON when PyYAML isn't available (keeps runtime behavior predictable).
+            return _json.loads(s)
+
+    yaml = _YamlFallback()
 
 
 Locale = Literal["na", "eu", "jp", "vc"]
