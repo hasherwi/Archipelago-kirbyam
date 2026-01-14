@@ -142,7 +142,7 @@ class KirbyAMWorld(World):
 
         # Deterministic fallback: sort by key then pick first as room-check, second as goal
         poc_rows_sorted = sorted(poc_rows, key=lambda r: str(r.get("key") or ""))
-        return poc_rows_sorted[0], poc_rows_sorted[1]
+        return dict(poc_rows_sorted[0]), dict(poc_rows_sorted[1])
 
     def generate_early(self) -> None:
         log_event("generate_early.start", **self._log_ctx())
