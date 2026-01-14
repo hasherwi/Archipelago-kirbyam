@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 import time
 from pathlib import Path
-from typing import Any, Dict, Optional, Set
+from typing import Any, Dict, Optional, Set, Tuple
 
 # This module is written to be “drop-in friendly” with the typical Archipelago BizHawk pattern:
 # - A Python client talks to the AP server.
