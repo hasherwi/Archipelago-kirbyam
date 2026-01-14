@@ -2,8 +2,8 @@
 # schema_version increments only when the YAML structure meaningfully changes.
 schema_version: 1
 goals:
-- key: move_to_room_1
-  name: Move to Room 1
+- key: enter_1-2
+  name: Enter 1-2
   addresses:
     na: null
     eu: null

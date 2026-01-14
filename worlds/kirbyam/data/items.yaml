@@ -2,26 +2,26 @@
 # schema_version increments only when the YAML structure meaningfully changes.
 schema_version: 1
 items:
-- key: test_progression
-  name: Test Progression
-  classification: progression
-  addresses:
-    na: null
-    eu: null
-    jp: null
-    vc: null
-  tags:
-    - poc
-- key: test_filler
-  name: Test Filler
-  classification: filler
-  addresses:
-    na: null
-    eu: null
-    jp: null
-    vc: null
-  tags:
-    - poc
+#- key: test_progression
+#  name: Test Progression
+#  classification: progression
+#  addresses:
+#     na: null
+#     eu: null
+#     jp: null
+#     vc: null
+#   tags:
+#     - poc
+# - key: test_filler
+#   name: Test Filler
+#   classification: filler
+#   addresses:
+#     na: null
+#     eu: null
+#     jp: null
+#     vc: null
+#   tags:
+    # - poc
 - key: battles_notes
   name: Battles Notes
   classification: filler
@@ -104,6 +104,8 @@ items:
     eu: null
     jp: null
     vc: null
+  tags:
+    - poc
   dev_notes: Should we drop the item or manipulate the value?
 - key: cell_phone_decharge
   name: Cell Phone Decharge
@@ -220,8 +222,8 @@ items:
     eu: null
     jp: null
     vc: null
-- key: health_increase
-  name: Health Increase
+- key: current_health_up
+  name: Current Health Up
   classification: filler
   addresses:
     na: null
@@ -229,8 +231,27 @@ items:
     jp: null
     vc: null
   dev_notes: Should we drop the item or manipulate the value?
-- key: health_decrease
-  name: Health Decrease
+- key: current_health_down
+  name: Current Health Down
+  classification: trap
+  addresses:
+    na: null
+    eu: null
+    jp: null
+    vc: null
+- key: max_health_up
+  name: Max Health Up
+  classification: progress
+  addresses:
+    na: null
+    eu: null
+    jp: null
+    vc: null
+  tags:
+    - poc
+  dev_notes: Should we drop the item or manipulate the value? Later this should become useful, instead of progression.
+- key: max_health_down
+  name: Max Health Down
   classification: trap
   addresses:
     na: null

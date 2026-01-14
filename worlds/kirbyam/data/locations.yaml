@@ -20,6 +20,22 @@ locations:
     vc: null
   tags:
     - poc
+# - key: poc_room_check
+#   name: "POC: Enter Room A"
+#   tags: ["poc"]
+#   addresses:
+#     na: 1234   # TODO: Room A ID value (NOT an address)
+#     eu: null
+#     jp: null
+#     vc: null
+# - key: poc_goal_room
+#   name: "POC: Enter Room B (Goal)"
+#   tags: ["poc"]
+#   addresses:
+#     na: 5678   # TODO: Room B ID value
+#     eu: null
+#     jp: null
+#     vc: null
 - key: big_button_1_15
   name: Big Button 1-15
   addresses:

@@ -1,0 +1,10 @@
+schema_version: 1
+na:
+  room_id_addr: 0x00000000        # TODO
+  room_id_width: 2               # u16 little-endian typical
+  max_hp_addr: 0x00000000        # TODO
+  hp_width: 1                    # u8 typical
+  cur_hp_addr: null              # optional; set if you want to heal-to-full
+  phone_charge_addr: 0x00000000  # TODO
+  phone_width: 1                 # u8 typical
+  phone_charge_cap: 255
