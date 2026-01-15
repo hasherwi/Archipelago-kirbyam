@@ -71,6 +71,19 @@ def validate_regions() -> bool:
         if location_name not in claimed_locations:
             warn(f"Kirby & The Amazing Mirror: Location [{location_name}] was not claimed by any region")
 
+    # Optional: Validate that bitfield indices (if present) are unique.
+    bit_to_loc: dict[int, str] = {}
+    for loc_key, loc in data.locations.items():
+        if loc.bit_index is None:
+            continue
+        if loc.bit_index in bit_to_loc and bit_to_loc[loc.bit_index] != loc_key:
+            error(
+                "Kirby & The Amazing Mirror: bit_index %s is assigned to multiple locations (%s, %s)"
+                % (loc.bit_index, bit_to_loc[loc.bit_index], loc_key)
+            )
+        else:
+            bit_to_loc[loc.bit_index] = loc_key
+
     warn_messages.sort()
     error_messages.sort()
 

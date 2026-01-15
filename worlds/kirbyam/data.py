@@ -69,6 +69,9 @@ class LocationData(NamedTuple):
     label: str
     parent_region: str
     default_item: Optional[int]
+    # Optional: when the game exposes a bitfield for location checks, this is the bit index within it.
+    # For example, shard locations can map cleanly to bits 0..7.
+    bit_index: Optional[int]
     location_id: int
     category: LocationCategory
     tags: FrozenSet[str]
@@ -275,6 +278,15 @@ def _init() -> None:
                 except Exception:
                     default_item_id = None
 
+        # Optional bit index for RAM bitfield based location checks.
+        bit_index_raw = attrs.get("bit_index")
+        bit_index: Optional[int] = None
+        if bit_index_raw not in (None, "", "null"):
+            try:
+                bit_index = int(bit_index_raw)
+            except Exception:
+                bit_index = None
+
         loc_id_raw = attrs.get("location_id")
         # Treat 0 as "unset" to allow placeholder JSON during early development.
         if loc_id_raw in (None, 0, "0"):
@@ -288,6 +300,7 @@ def _init() -> None:
             label=label,
             parent_region=parent_region,
             default_item=default_item_id,
+            bit_index=bit_index,
             location_id=location_id,
             category=category,
             tags=tags,
