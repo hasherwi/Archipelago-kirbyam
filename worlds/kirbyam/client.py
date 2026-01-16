@@ -37,6 +37,75 @@ class KirbyAmClient(BizHawkClient):
         # Cached mapping from bit index -> AP location id.
         self._bit_to_location_id: Optional[dict[int, int]] = None
 
+        # Received-item delivery state.
+        # The client will deliver items through a single-slot RAM "mailbox".
+        # See `data/addresses.json` keys: incoming_item_flag/incoming_item_id/incoming_item_player.
+        self._delivered_items_count: int = 0
+        self._pending_items: list[tuple[int, int]] = []  # (item_id, from_player)
+
+    @staticmethod
+    def _u32(value: int) -> bytes:
+        return int(value).to_bytes(4, "little", signed=False)
+
+    async def _read_u32(self, ctx: "BizHawkClientContext", address: int, domain: str = "System Bus") -> Optional[int]:
+        try:
+            raw = (await bizhawk.read(ctx.bizhawk_ctx, [(address, 4, domain)]))[0]
+            return int.from_bytes(raw, "little", signed=False)
+        except Exception:
+            return None
+
+    async def _try_deliver_received_items(self, ctx: "BizHawkClientContext") -> None:
+        """Deliver received items through a single-slot mailbox in RAM.
+
+        Contract (all addresses in `data/addresses.json`, System Bus domain):
+
+          - incoming_item_flag (u32): 0 = empty/ready; 1 = full/pending
+          - incoming_item_id   (u32): AP item id to deliver (world-defined encoding)
+          - incoming_item_player (u32): sending player slot id
+
+        The patched ROM is expected to:
+          - consume the mailbox when flag==1
+          - clear flag back to 0 after consuming
+        """
+        flag_addr_raw = data.ram_addresses.get("incoming_item_flag")
+        item_addr_raw = data.ram_addresses.get("incoming_item_id")
+        player_addr_raw = data.ram_addresses.get("incoming_item_player")
+
+        if flag_addr_raw is None or item_addr_raw is None or player_addr_raw is None:
+            return
+
+        flag_addr = int(flag_addr_raw)
+        item_addr = int(item_addr_raw)
+        player_addr = int(player_addr_raw)
+
+        # Queue any newly received items.
+        while self._delivered_items_count < len(ctx.items_received):
+            ni = ctx.items_received[self._delivered_items_count]
+            # `ni.item` is the AP item id.
+            self._pending_items.append((int(ni.item), int(ni.player)))
+            self._delivered_items_count += 1
+
+        if not self._pending_items:
+            return
+
+        # Only write if mailbox is empty.
+        flag_val = await self._read_u32(ctx, flag_addr)
+        if flag_val is None or flag_val != 0:
+            return
+
+        item_id, from_player = self._pending_items[0]
+        try:
+            await bizhawk.write(ctx.bizhawk_ctx, [
+                (item_addr, self._u32(item_id), "System Bus"),
+                (player_addr, self._u32(from_player), "System Bus"),
+                (flag_addr, self._u32(1), "System Bus"),
+            ])
+            # Pop only after a successful write.
+            self._pending_items.pop(0)
+        except Exception:
+            # Connector failure or domain issue; try again next loop.
+            return
+
     async def validate_rom(self, ctx: "BizHawkClientContext") -> bool:
         """Return True if the currently loaded ROM appears to be Kirby AM.
 
@@ -83,6 +152,9 @@ class KirbyAmClient(BizHawkClient):
 
         while not ctx.exit_event.is_set():
             await asyncio.sleep(getattr(ctx, "watcher_timeout", 0.5) or 0.5)
+
+            # Attempt item delivery first; it is independent of location checks.
+            await self._try_deliver_received_items(ctx)
 
             # If we don't have a known address yet, nothing to do.
             if shard_bitfield_addr is None:
