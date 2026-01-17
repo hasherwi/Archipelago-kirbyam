@@ -6,8 +6,10 @@ SECTIONS
 
   .text : {
     *(.text*)
+    KEEP(*(.apinfo))
     *(.rodata*)
   }
+
 
   .data : { *(.data*) }
   .bss  : { *(.bss*) *(COMMON) }
