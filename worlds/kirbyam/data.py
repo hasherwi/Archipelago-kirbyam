@@ -12,7 +12,8 @@ from typing import Any, Dict, FrozenSet, List, NamedTuple, Optional, Set, Tuple,
 
 import orjson
 import pkgutil
-import pkg_resources
+from importlib import resources
+
 
 from BaseClasses import ItemClassification
 
@@ -26,11 +27,33 @@ def load_json_data(data_name: str) -> Union[List[Any], Dict[str, Any]]:
         raise FileNotFoundError(f"Missing data file: worlds/kirbyam/data/{data_name}")
     return orjson.loads(raw.decode("utf-8-sig"))
 
+def _list_data_files(subdir: str) -> List[str]:
+    """
+    Lists files under worlds/kirbyam/data/<subdir>/ in a way that works both:
+      - from source checkout
+      - from packaged .apworld (zip)
+
+    Returns file names only (not full paths).
+    """
+    try:
+        base = resources.files(__name__).joinpath("data", subdir)
+        if not base.is_dir():
+            return []
+        return sorted(p.name for p in base.iterdir() if p.is_file())
+    except Exception:
+        # Be tolerant: missing dir, unsupported loader, etc.
+        return []
+
 
 def _maybe_load_json_data(data_name: str) -> Optional[Union[List[Any], Dict[str, Any]]]:
-    raw = pkgutil.get_data(__name__, "data/" + data_name)
+    try:
+        raw = pkgutil.get_data(__name__, "data/" + data_name)
+    except FileNotFoundError:
+        return None
+
     if raw is None:
         return None
+
     return orjson.loads(raw.decode("utf-8-sig"))
 
 
@@ -310,13 +333,20 @@ def _init() -> None:
     # Expected minimal shape:
     #   { "REGION_NAME": { "exits":[...], "locations":[loc_key...], "events":[...], "warps":[...] } }
     region_json_list: List[Dict[str, Any]] = []
-    if pkg_resources.resource_isdir(__name__, "data/regions"):
-        for file in pkg_resources.resource_listdir(__name__, "data/regions"):
-            if pkg_resources.resource_isdir(__name__, "data/regions/" + file):
-                continue
+    for file in _list_data_files("regions"):
+        # Skip nested dirs / non-json content defensively
+        if not isinstance(file, str) or not file.lower().endswith(".json"):
+            continue
+
+        try:
             region_subset = load_json_data("regions/" + file)
-            if isinstance(region_subset, dict):
-                region_json_list.append(region_subset)
+        except FileNotFoundError:
+            continue
+
+        if isinstance(region_subset, dict):
+            region_json_list.append(region_subset)
+
+
 
     merged_regions: Dict[str, Any] = {}
     for subset in region_json_list:
