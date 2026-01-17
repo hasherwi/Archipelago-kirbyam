@@ -1,0 +1,13 @@
+name: Harrison
+game: Kirby & The Amazing Mirror
+description: Manual YAML (temporary)
+
+Kirby & The Amazing Mirror: {}
+  # Fill with your options. If you do not know the option keys yet,
+  # you can leave this empty and the defaults will be used.
+  # Example placeholder:
+  # some_option: true
+
+# If you use the multiworld host, these are commonly required:
+requires:
+  version: 0.6.5
