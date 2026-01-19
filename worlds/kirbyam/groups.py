@@ -32,7 +32,8 @@ _LOCATION_CATEGORY_TO_GROUP_NAME = {
     LocationCategory.SHARD: "Mirror Shards",
 }
 
-# Pre-create category groups and map/area groups so they are always present.
+# Pre-create category groups and map/area groups so they are always present during build.
+# NOTE: We will prune empties at the end to satisfy AP unit tests.
 LOCATION_GROUPS: Dict[str, Set[str]] = {group_name: set() for group_name in _LOCATION_CATEGORY_TO_GROUP_NAME.values()}
 for group_name in _LOCATION_GROUP_MAPS.keys():
     LOCATION_GROUPS.setdefault(group_name, set())
@@ -53,20 +54,17 @@ for location in data.locations.values():
     for tag in location.tags:
         LOCATION_GROUPS.setdefault(tag, set()).add(location.label)
 
-        for area_name in _map_tag_to_area.get(tag, ()):  # noqa: SIM401
+        for area_name in _map_tag_to_area.get(tag, ()):
             LOCATION_GROUPS[area_name].add(location.label)
 
-# Meta-groups
-LOCATION_GROUPS["Areas"] = {
-    *LOCATION_GROUPS.get("0. Game Start", set()),
-    *LOCATION_GROUPS.get("1. Rainbow Route", set()),
-    *LOCATION_GROUPS.get("2. Moonlight Mansion", set()),
-    *LOCATION_GROUPS.get("3. Cabbage Cavern", set()),
-    *LOCATION_GROUPS.get("4. Mustard Mountain", set()),
-    *LOCATION_GROUPS.get("5. Carrot Castle", set()),
-    *LOCATION_GROUPS.get("6. Olive Ocean", set()),
-    *LOCATION_GROUPS.get("7. Peppermint Palace", set()),
-    *LOCATION_GROUPS.get("8. Radish Ruins", set()),
-    *LOCATION_GROUPS.get("9. Candy Constellation", set()),
-    *LOCATION_GROUPS.get("10. Dimension Mirror", set()),
-}
+# Meta-groups: Areas is the union of all non-empty area groups
+areas_union: Set[str] = set()
+for area_name in _LOCATION_GROUP_MAPS.keys():
+    areas_union.update(LOCATION_GROUPS.get(area_name, set()))
+if areas_union:
+    LOCATION_GROUPS["Areas"] = areas_union
+
+# Prune empty groups (required by AP test: location_name_groups entries must not be empty)
+for group_name, members in list(LOCATION_GROUPS.items()):
+    if not members:
+        del LOCATION_GROUPS[group_name]
