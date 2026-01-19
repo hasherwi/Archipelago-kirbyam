@@ -2,5 +2,6 @@
 *.elf
 *.bin
 *.gba
+*.log
 kirby_ap_payload/.vscode/*
 kirby_ap_payload/.idea/*

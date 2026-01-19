@@ -46,7 +46,12 @@ class KirbyAmSettings(settings.Group):
         """File name of your USA Kirby & The Amazing Mirror ROM"""
         description = "Kirby & The Amazing Mirror ROM File"
         copy_to = "Kirby & The Amazing Mirror (USA).gba"
-        md5s = [KirbyAmProcedurePatch.hash]
+        
+        # Validate the ROM hash
+        hash_obj = KirbyAmProcedurePatch.hash
+        if hash_obj is None:
+            raise RuntimeError("KirbyAmProcedurePatch.hash is missing")
+        md5s = [hash_obj]
 
     rom_file: KirbyAmRomFile = KirbyAmRomFile(KirbyAmRomFile.copy_to)
 
@@ -80,6 +85,7 @@ class KirbyAmWorld(World):
     # Per-seed auth token used by BizHawk client connection
     auth: bytes
 
+    # Generation stages
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
         # If you don't have sanity_check.py yet, comment these out for now.
@@ -87,15 +93,18 @@ class KirbyAmWorld(World):
         assert validate_regions()
         assert validate_group_maps()
 
+    # Filler item name
     def get_filler_item_name(self) -> str:
         # Keep simple until you define your filler set.
         return "1 Up"
 
+    # Pre-generation adjustments
     def generate_early(self) -> None:
         # If shards are shuffled as items, they must be local to the ROM unless you implement remote shard handling.
-        if self.options.shards == RandomizeShards.option_shuffle:
+        if self.options.shards.value == RandomizeShards.option_shuffle:
             self.options.local_items.value.update(self.item_name_groups.get("Shard", set()))
 
+    # Create world regions
     def create_regions(self) -> None:
         from .regions import create_regions as create_regions_impl
 
@@ -117,7 +126,7 @@ class KirbyAmWorld(World):
 
         # Filter categories that should not be randomized into the pool.
         filtered_categories = set()
-        if self.options.shards in {RandomizeShards.option_vanilla, RandomizeShards.option_shuffle}:
+        if self.options.shards.value in {RandomizeShards.option_vanilla, RandomizeShards.option_shuffle}:
             filtered_categories.add(LocationCategory.SHARD)
 
         # Build the default item pool from each location's default item.
@@ -132,45 +141,77 @@ class KirbyAmWorld(World):
             if loc_meta.category in filtered_categories:
                 continue
 
-            itempool.append(self.create_item_by_code(loc.default_item_code))
+            # During early iteration it's easy to have a location without a default_item.
+            # Avoid hard crashes and fall back to the world's configured filler.
+            if loc.default_item_code is None:
+                self.logger.warning(
+                    "Location '%s' has no default_item; using filler '%s' instead.",
+                    loc.name,
+                    self.get_filler_item_name(),
+                )
+                itempool.append(self.create_item(self.get_filler_item_name()))
+            else:
+                itempool.append(self.create_item_by_code(loc.default_item_code))
 
         # Add to AP pool
         self.multiworld.itempool += itempool
 
         # If shards are vanilla, convert shard locations to events so logic can see them without randomization.
-        if self.options.shards == RandomizeShards.option_vanilla:
+        if self.options.shards.value == RandomizeShards.option_vanilla:
             for loc in self.multiworld.get_locations(self.player):
                 if not isinstance(loc, KirbyAmLocation) or loc.key is None:
                     continue
                 loc_meta = kirby_data.locations.get(loc.key)
                 if loc_meta and loc_meta.category == LocationCategory.SHARD:
+                    if loc.default_item_code is None:
+                        self.logger.warning(
+                            "Shard location '%s' is missing default_item; leaving it randomized.",
+                            loc.name,
+                        )
+                        continue
                     # Lock the vanilla shard item here as an event.
                     loc.place_locked_item(self.create_event(self.item_id_to_name[loc.default_item_code]))
                     loc.progress_type = LocationProgressType.DEFAULT
                     loc.address = None
 
+    # Set world rules
     def set_rules(self) -> None:
         from .rules import set_rules as set_rules_impl
         set_rules_impl(self)
 
+    # Helper methods for generation and output
     def generate_basic(self) -> None:
         # Create auth for client connection.
         self.auth = self.random.randbytes(16)
 
     def generate_output(self, output_directory: str) -> None:
-        # Create and write patch
+        
+        # Load base patch data from package resources
+        patch_data = pkgutil.get_data(__name__, "data/base_patch.bsdiff4")
+        if patch_data is None:
+            raise FileNotFoundError(
+                "Missing resource 'data/base_patch.bsdiff4' in the kirbyam package/apworld. "
+                "Ensure it is included when packaging."
+            )
+        
+        # Create procedure patch
         patch = KirbyAmProcedurePatch(player=self.player, player_name=self.player_name)
-        patch.write_file("base_patch.bsdiff4", pkgutil.get_data(__name__, "data/base_patch.bsdiff4"))
+        patch.write_file("base_patch.bsdiff4", patch_data)
         write_tokens(self, patch)
 
+        # Write the patch file
         out_file_name = self.multiworld.get_out_file_name_base(self.player)
         patch.write(os.path.join(output_directory, f"{out_file_name}{patch.patch_file_ending}"))
 
     def modify_multidata(self, multidata: Dict[str, Any]) -> None:
         # Register auth token -> player name mapping for BizHawk
         key = base64.b64encode(self.auth).decode("ascii")
-        multidata["connect_names"][key] = multidata["connect_names"][self.player_name]
+        connect_names = multidata.setdefault("connect_names", {})
+        # connect_names is used as an auth-token to player-name mapping.
+        # The player's name should always be the value.
+        connect_names[key] = self.player_name
 
+    # Helper method to fill slot data
     def fill_slot_data(self) -> Dict[str, Any]:
         # Slot data needed by client. Keep minimal while you iterate.
         return self.options.as_dict(
@@ -178,9 +219,11 @@ class KirbyAmWorld(World):
             "shards",
         )
 
+    # Helper methods to create items and events
     def create_item(self, name: str) -> KirbyAmItem:
         return self.create_item_by_code(self.item_name_to_id[name])
 
+    # Helper method to create item by item code
     def create_item_by_code(self, item_code: int) -> KirbyAmItem:
         return KirbyAmItem(
             self.item_id_to_name[item_code],
@@ -189,6 +232,7 @@ class KirbyAmWorld(World):
             self.player,
         )
 
+    # Helper method to create event item
     def create_event(self, name: str) -> KirbyAmItem:
         return KirbyAmItem(
             name,

@@ -21,7 +21,8 @@ if TYPE_CHECKING:
 
 class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
     game = "Kirby & The Amazing Mirror"
-    hash = "df5efe075b35859529ebf82a4d824458" # md5 hash of base rom
+    hash = "DF5EFE075B35859529EBF82A4D824458" # md5 hash of base USA rom
+        # Calculated with PowerShell Command: Get-FileHash "D:\...\Kirby & The Amazing Mirror (USA).gba" -Algorithm MD5
     patch_file_ending = ".apkirbyam"
     result_file_ending = ".gba"
 
