@@ -44,7 +44,7 @@ def _has_all_shards(state: CollectionState, player: int) -> bool:
 
 def set_rules(world: "KirbyAmWorld") -> None:
     # Completion condition
-    if world.options.goal == Goal.option_debug:
+    if world.options.goal.value == Goal.option_debug:
         world.multiworld.completion_condition[world.player] = lambda _state: True
     else:
         # Placeholder until the client/ROM can create a real "defeat boss" signal.
