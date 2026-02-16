@@ -113,10 +113,10 @@ class GanonsTower(Z3Region):
                 .Allow(lambda item, items: all(item.IsNot(type, self.world) for type in [ ItemType.KeyGT, ItemType.BigKeyGT ]))
             ]
 
-    def LeftSide(self, items: Progression, locations: List[Location]):
+    def LeftSide(self, items: Progression, locations: list[Location]):
         return items.Hammer and items.Hookshot and items.KeyGT >= (3 if any(l.ItemIs(ItemType.BigKeyGT, self.world) for l in locations) else 4)
 
-    def RightSide(self, items: Progression, locations: List[Location]):
+    def RightSide(self, items: Progression, locations: list[Location]):
         return items.Somaria and items.Firerod and items.KeyGT >= (3 if any(l.ItemIs(ItemType.BigKeyGT, self.world) for l in locations) else 4)
 
     def BigKeyRoom(self, items: Progression):

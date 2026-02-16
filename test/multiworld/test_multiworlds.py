@@ -24,7 +24,7 @@ class MultiworldTestBase(TestCase):
         locations = [loc for loc in self.multiworld.get_locations()]
         state = CollectionState(self.multiworld)
         while locations:
-            sphere: List[Location] = []
+            sphere: list[Location] = []
             for n in range(len(locations) - 1, -1, -1):
                 if locations[n].can_reach(state):
                     sphere.append(locations.pop(n))
@@ -36,7 +36,7 @@ class MultiworldTestBase(TestCase):
                     state.collect(location.item, True, location)
         return self.multiworld.has_beaten_game(state, 1)
 
-    def assertSteps(self, steps: Tuple[str, ...]) -> None:
+    def assertSteps(self, steps: tuple[str, ...]) -> None:
         """Calls each step individually, continuing if a step for a specific world step fails."""
         world_types = {world.__class__ for world in self.multiworld.worlds.values()}
         for step in steps:

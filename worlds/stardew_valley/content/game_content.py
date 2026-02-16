@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Iterable, Mapping, Set, Tuple, Type, Union
+from typing import Any, Set, Tuple, Type, Union
+from collections.abc import Iterable, Mapping
 
 from ..data.animal import Animal
 from ..data.building import Building
@@ -23,7 +24,7 @@ from .feature import (
 @dataclass(frozen=True)
 class StardewContent:
     features: StardewFeatures
-    registered_packs: Set[str] = field(default_factory=set)
+    registered_packs: set[str] = field(default_factory=set)
 
     # regions -> To be used with can reach rule
 
@@ -35,7 +36,7 @@ class StardewContent:
     skills: dict[str, Skill] = field(default_factory=dict)
     quests: dict[str, Any] = field(default_factory=dict)
 
-    def find_sources_of_type(self, types: Union[Type[Source], Tuple[Type[Source]]]) -> Iterable[Source]:
+    def find_sources_of_type(self, types: type[Source] | tuple[type[Source]]) -> Iterable[Source]:
         for item in self.game_items.values():
             for source in item.sources:
                 if isinstance(source, types):

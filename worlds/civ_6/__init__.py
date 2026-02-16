@@ -94,20 +94,20 @@ class CivVIWorld(World):
         for location in generate_flat_location_table().values()
     }
 
-    item_table: Dict[str, CivVIItemData] = {}
-    location_by_era: Dict[str, Dict[str, CivVILocationData]]
+    item_table: dict[str, CivVIItemData] = {}
+    location_by_era: dict[str, dict[str, CivVILocationData]]
     required_client_version = (0, 4, 5)
-    location_table: Dict[str, CivVILocationData]
-    era_required_non_progressive_items: Dict[EraType, List[str]]
-    era_required_progressive_items_counts: Dict[EraType, Dict[str, int]]
-    era_required_progressive_era_counts: Dict[EraType, int]
-    item_by_civ_name: Dict[str, str]
+    location_table: dict[str, CivVILocationData]
+    era_required_non_progressive_items: dict[EraType, list[str]]
+    era_required_progressive_items_counts: dict[EraType, dict[str, int]]
+    era_required_progressive_era_counts: dict[EraType, int]
+    item_by_civ_name: dict[str, str]
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
         self.location_by_era = generate_era_location_table()
 
-        self.location_table: Dict[str, CivVILocationData] = {}
+        self.location_table: dict[str, CivVILocationData] = {}
         self.item_table = generate_item_table()
 
         self.era_required_non_progressive_items = {}
@@ -273,7 +273,7 @@ class CivVIWorld(World):
                 in self.options.pre_hint_items.value
             )
 
-        start_location_hints: Set[str] = self.options.start_location_hints.value
+        start_location_hints: set[str] = self.options.start_location_hints.value
         non_filler_flags = [
             CivVIHintClassification(flag).to_item_classification()
             for flag in self.options.pre_hint_items.value
@@ -296,7 +296,7 @@ class CivVIWorld(World):
             ):
                 start_location_hints.add(location_name)
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         return self.options.as_dict(
             "progression_style",
             "death_link",

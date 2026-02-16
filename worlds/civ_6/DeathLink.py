@@ -10,7 +10,7 @@ DEATH_LINK_EFFECTS = ["Gold", "Faith", "Era Score", "Unit Killed"]
 
 async def handle_receive_deathlink(ctx: "CivVIContext", message: str):
     """Resolves the effects of a deathlink received from the multiworld based on the options selected by the player"""
-    chosen_effects: List[str] = ctx.slot_data["death_link_effect"]
+    chosen_effects: list[str] = ctx.slot_data["death_link_effect"]
     effect = random.choice(chosen_effects)
 
     percent = ctx.slot_data["death_link_effect_percent"]

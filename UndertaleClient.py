@@ -40,7 +40,7 @@ class UndertaleCommandProcessor(ClientCommandProcessor):
             self.output("Changed to the following directory: " + self.ctx.save_game_folder)
 
     @mark_raw
-    def _cmd_auto_patch(self, steaminstall: typing.Optional[str] = None):
+    def _cmd_auto_patch(self, steaminstall: str | None = None):
         """Patch the game automatically."""
         if isinstance(self.ctx, UndertaleContext):
             os.makedirs(name=Utils.user_path("Undertale"), exist_ok=True)
@@ -139,7 +139,7 @@ class UndertaleContext(CommonContext):
                                             ".youDied", ".LV", ".mine", ".flag", ".hint")):
                     os.remove(os.path.join(root, file))
 
-    async def connect(self, address: typing.Optional[str] = None):
+    async def connect(self, address: str | None = None):
         self.clear_undertale_files()
         await super().connect(address)
 
@@ -181,7 +181,7 @@ class UndertaleContext(CommonContext):
         self.ui = UTManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
-    def on_deathlink(self, data: typing.Dict[str, typing.Any]):
+    def on_deathlink(self, data: dict[str, typing.Any]):
         self.got_deathlink = True
         super().on_deathlink(data)
 

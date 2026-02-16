@@ -12,7 +12,7 @@ class LocationDict(TypedDict, total=False):
     region: str
 
 
-location_table: Dict[int, LocationDict] = {
+location_table: dict[int, LocationDict] = {
     351000: {"name": "Hangar (E1M1) - Mega Armor",
              "episode": 1,
              "map": 1,
@@ -2860,7 +2860,7 @@ location_table: Dict[int, LocationDict] = {
 }
 
 
-location_name_groups: Dict[str, Set[str]] = {
+location_name_groups: dict[str, set[str]] = {
     "Against Thee Wickedly (E4M6)": {
         "Against Thee Wickedly (E4M6) - Armor",
         "Against Thee Wickedly (E4M6) - BFG9000",

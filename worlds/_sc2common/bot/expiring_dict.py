@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from collections import OrderedDict
 from threading import RLock
-from typing import TYPE_CHECKING, Any, Iterable, Union
+from typing import TYPE_CHECKING, Any, Union
+from collections.abc import Iterable
 
 if TYPE_CHECKING:
     from .bot_ai import BotAI
@@ -35,7 +36,7 @@ class ExpiringDict(OrderedDict):
 
         OrderedDict.__init__(self)
         self.bot: BotAI = bot
-        self.max_age: Union[int, float] = max_age_frames
+        self.max_age: int | float = max_age_frames
         self.lock: RLock = RLock()
 
     @property

@@ -1854,7 +1854,7 @@ def connect_regions(world: World, level_to_tile_dict):
     multiworld: MultiWorld = world.multiworld
     player: int = world.player
 
-    names: typing.Dict[str, int] = {}
+    names: dict[str, int] = {}
 
     connect(world, "Menu", LocationName.yoshis_island_region)
     connect(world, LocationName.yoshis_island_region, LocationName.yoshis_house_tile)
@@ -2152,7 +2152,7 @@ def create_region(multiworld: MultiWorld, player: int, active_locations, name: s
     return ret
 
 def add_location_to_region(multiworld: MultiWorld, player: int, active_locations, region_name: str, location_name: str,
-                           rule: typing.Optional[typing.Callable] = None):
+                           rule: typing.Callable | None = None):
     region = multiworld.get_region(region_name, player)
     loc_id = active_locations.get(location_name, 0)
     if loc_id:
@@ -2163,7 +2163,7 @@ def add_location_to_region(multiworld: MultiWorld, player: int, active_locations
 
 
 def connect(world: World, source: str, target: str,
-            rule: typing.Optional[typing.Callable] = None):
+            rule: typing.Callable | None = None):
     source_region: Region = world.get_region(source)
     target_region: Region = world.get_region(target)
     source_region.connect(target_region, rule=rule)

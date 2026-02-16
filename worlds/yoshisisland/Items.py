@@ -5,11 +5,11 @@ from BaseClasses import ItemClassification
 
 class ItemData(NamedTuple):
     category: str
-    code: Optional[int]
+    code: int | None
     classification: ItemClassification
-    amount: Optional[int] = 1
+    amount: int | None = 1
 
-item_table: Dict[str, ItemData] = {
+item_table: dict[str, ItemData] = {
     "! Switch": ItemData("Items", 0x302050, ItemClassification.progression),
     "Dashed Platform": ItemData("Items", 0x302051, ItemClassification.progression),
     "Dashed Stairs": ItemData("Items", 0x302052, ItemClassification.progression),
@@ -92,7 +92,7 @@ item_table: Dict[str, ItemData] = {
     "Saved Baby Luigi": ItemData("Events", None, ItemClassification.progression, 0)
 }
 
-filler_items: Tuple[str, ...] = (
+filler_items: tuple[str, ...] = (
     "Anytime Egg",
     "Anywhere Pow",
     "Winged Cloud Maker",
@@ -107,15 +107,15 @@ filler_items: Tuple[str, ...] = (
     "3-Up"
 )
 
-trap_items: Tuple[str, ...] = (
+trap_items: tuple[str, ...] = (
     "Fuzzy Trap",
     "Reversal Trap",
     "Darkness Trap",
     "Freeze Trap"
 )
 
-def get_item_names_per_category() -> Dict[str, Set[str]]:
-    categories: Dict[str, Set[str]] = {}
+def get_item_names_per_category() -> dict[str, set[str]]:
+    categories: dict[str, set[str]] = {}
 
     for name, data in item_table.items():
         if data.category != "Events":

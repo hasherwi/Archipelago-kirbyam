@@ -3,9 +3,9 @@ from typing import List, NamedTuple
 
 class FusionData(NamedTuple):
     name: str
-    materials: List[str]
+    materials: list[str]
     replaceable: bool
-    additional_spells: List[str]
+    additional_spells: list[str]
 
 
 fusions = {

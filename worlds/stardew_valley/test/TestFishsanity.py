@@ -57,7 +57,7 @@ def complete_options_with_default(options):
 
 
 class SVFishsanityTestBase(SVTestBase):
-    expected_fishes: ClassVar[Set[str]] = set()
+    expected_fishes: ClassVar[set[str]] = set()
 
     @classmethod
     def setUpClass(cls) -> None:

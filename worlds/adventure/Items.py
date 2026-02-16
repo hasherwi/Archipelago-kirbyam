@@ -6,7 +6,7 @@ base_adventure_item_id = 118000000
 
 
 class AdventureItem(Item):
-    def __init__(self, name: str, classification: ItemClassification, code: Optional[int], player: int):
+    def __init__(self, name: str, classification: ItemClassification, code: int | None, player: int):
         super().__init__(name, classification, code, player)
 
 

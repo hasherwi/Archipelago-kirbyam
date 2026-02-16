@@ -4,7 +4,8 @@ Date: Fri, 15 Mar 2024 18:41:40 +0000
 Description: Used to manage Regions in the Aquaria game multiworld randomizer
 """
 
-from typing import Dict, Iterable, Optional
+from typing import Dict, Optional
+from collections.abc import Iterable
 
 from BaseClasses import CollectionState, Entrance, Item, ItemClassification, MultiWorld, Region
 from worlds.generic.Rules import add_rule, set_rule
@@ -256,7 +257,7 @@ class AquariaRegions:
     """
 
     def __add_region(self, hint: str,
-                     locations: Optional[Dict[str, int]]) -> Region:
+                     locations: dict[str, int] | None) -> Region:
         """
         Create a new Region, add it to the `world` regions and return it.
         Be aware that this function have a side effect on ``world`.`regions`

@@ -493,7 +493,7 @@ all_random = {
     "death_link": "random",
 }
 
-sa2b_options_presets: Dict[str, Dict[str, Any]] = {
+sa2b_options_presets: dict[str, dict[str, Any]] = {
     "Minsanity": minsanity,
     "Chao-centric": chao_centric,
     "Allsanity No Chao": allsanity_no_chao,

@@ -19,9 +19,9 @@ class GameData:
         """
         :param data:
         """
-        self.abilities: Dict[int, AbilityData] = {a.ability_id: AbilityData(self, a) for a in data.abilities if a.available}
-        self.units: Dict[int, UnitTypeData] = {u.unit_id: UnitTypeData(self, u) for u in data.units if u.available}
-        self.upgrades: Dict[int, UpgradeData] = {u.upgrade_id: UpgradeData(self, u) for u in data.upgrades}
+        self.abilities: dict[int, AbilityData] = {a.ability_id: AbilityData(self, a) for a in data.abilities if a.available}
+        self.units: dict[int, UnitTypeData] = {u.unit_id: UnitTypeData(self, u) for u in data.units if u.available}
+        self.upgrades: dict[int, UpgradeData] = {u.upgrade_id: UpgradeData(self, u) for u in data.upgrades}
         # Cached UnitTypeIds so that conversion does not take long. This needs to be moved elsewhere if a new GameData object is created multiple times per game
 
 
@@ -87,7 +87,7 @@ class UnitTypeData:
         return self._proto.name
 
     @property
-    def creation_ability(self) -> Optional[AbilityData]:
+    def creation_ability(self) -> AbilityData | None:
         if self._proto.ability_id == 0:
             return None
         if self._proto.ability_id not in self._game_data.abilities:
@@ -95,14 +95,14 @@ class UnitTypeData:
         return self._game_data.abilities[self._proto.ability_id]
 
     @property
-    def footprint_radius(self) -> Optional[float]:
+    def footprint_radius(self) -> float | None:
         """ See unit.py footprint_radius """
         if self.creation_ability is None:
             return None
         return self.creation_ability._proto.footprint_radius
 
     @property
-    def attributes(self) -> List[Attribute]:
+    def attributes(self) -> list[Attribute]:
         return self._proto.attributes
 
     def has_attribute(self, attr) -> bool:
@@ -156,7 +156,7 @@ class UpgradeData:
         return self._proto.name
 
     @property
-    def research_ability(self) -> Optional[AbilityData]:
+    def research_ability(self) -> AbilityData | None:
         if self._proto.ability_id == 0:
             return None
         if self._proto.ability_id not in self._game_data.abilities:
@@ -176,7 +176,7 @@ class Cost:
     """
     minerals: int
     vespene: int
-    time: Optional[float] = None
+    time: float | None = None
 
     def __repr__(self) -> str:
         return f"Cost({self.minerals}, {self.vespene})"

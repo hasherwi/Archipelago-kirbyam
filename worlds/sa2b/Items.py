@@ -6,7 +6,7 @@ from .Names import ItemName
 
 
 class ItemData(typing.NamedTuple):
-    code: typing.Optional[int]
+    code: int | None
     progression: bool
     trap: bool = False
     quantity: int = 1
@@ -271,9 +271,9 @@ item_table = {
     **chaos_drives_table,
 }
 
-lookup_id_to_name: typing.Dict[int, str] = {data.code: item_name for item_name, data in item_table.items() if data.code}
+lookup_id_to_name: dict[int, str] = {data.code: item_name for item_name, data in item_table.items() if data.code}
 
-item_groups: typing.Dict[str, str] = {
+item_groups: dict[str, str] = {
     "Chaos Emeralds": list(emeralds_table.keys()),
     "Eggs":           list(eggs_table.keys()),
     "Fruits":         list(fruits_table.keys()),

@@ -1,5 +1,6 @@
 import functools
-from typing import Any, Iterable
+from typing import Any
+from collections.abc import Iterable
 
 from ..data.animal import IncubatorSource, OstrichIncubatorSource
 from ..data.artisan import MachineSource

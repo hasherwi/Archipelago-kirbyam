@@ -62,12 +62,12 @@ class TerrariaWorld(World):
     calamity = False
     getfixedboi = False
 
-    ter_items: List[str]
-    ter_locations: List[str]
+    ter_items: list[str]
+    ter_locations: list[str]
 
-    ter_goals: Dict[str, str]
-    goal_items: Set[str]
-    goal_locations: Set[str]
+    ter_goals: dict[str, str]
+    goal_items: set[str]
+    goal_locations: set[str]
 
     def generate_early(self) -> None:
         goal, goal_locations = goals[self.options.goal.value]
@@ -324,13 +324,13 @@ class TerrariaWorld(World):
     def check_conditions(
         self,
         state,
-        operator: Union[bool, None],
-        conditions: List[
-            Tuple[
+        operator: bool | None,
+        conditions: list[
+            tuple[
                 bool,
                 int,
-                Union[str, Tuple[Union[bool, None], list]],
-                Union[str, int, None],
+                str | tuple[bool | None, list],
+                str | int | None,
             ]
         ],
     ) -> bool:
@@ -362,7 +362,7 @@ class TerrariaWorld(World):
             self.goal_items, self.player
         )
 
-    def fill_slot_data(self) -> Dict[str, object]:
+    def fill_slot_data(self) -> dict[str, object]:
         return {
             "goal": list(self.goal_locations),
             "deathlink": bool(self.options.death_link),

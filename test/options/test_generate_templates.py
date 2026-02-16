@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 class TestGenerateYamlTemplates(unittest.TestCase):
-    old_world_types: Dict[str, Type["World"]]
+    old_world_types: dict[str, type["World"]]
 
     def setUp(self) -> None:
         import worlds.AutoWorld

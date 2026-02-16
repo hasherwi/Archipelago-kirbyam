@@ -39,8 +39,8 @@ class Starcraft2Settings(settings.Group):
 
     window_width: WindowWidth = WindowWidth(1080)
     window_height: WindowHeight = WindowHeight(720)
-    game_windowed_mode: Union[GameWindowedMode, bool] = False
-    show_traps: Union[ShowTraps, bool] = False
+    game_windowed_mode: GameWindowedMode | bool = False
+    show_traps: ShowTraps | bool = False
     disable_forced_camera: DisableForcedCamera = DisableForcedCamera("default")
     skip_cutscenes: SkipCutscenes = SkipCutscenes("default")
     game_difficulty: GameDifficulty = GameDifficulty("default")

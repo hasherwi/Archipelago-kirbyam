@@ -39,7 +39,7 @@ class BombRushCyberfunkWorld(World):
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super(BombRushCyberfunkWorld, self).__init__(multiworld, player)
-        self.item_classification: Dict[BRCType, ItemClassification] = {
+        self.item_classification: dict[BRCType, ItemClassification] = {
             BRCType.Music: ItemClassification.filler,
             BRCType.GraffitiM: ItemClassification.progression,
             BRCType.GraffitiL: ItemClassification.progression,
@@ -173,10 +173,10 @@ class BombRushCyberfunkWorld(World):
 
         multiworld.completion_condition[player] = lambda state: state.has("Victory", player)
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         options = self.options
 
-        slot_data: Dict[str, Any] = {
+        slot_data: dict[str, Any] = {
             "locations": {loc["game_id"]: (base_id + index) for index, loc in enumerate(location_table)},
             "logic": options.logic.value,
             "skip_intro": bool(options.skip_intro.value),

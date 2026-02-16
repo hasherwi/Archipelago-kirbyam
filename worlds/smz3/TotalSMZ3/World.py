@@ -45,8 +45,8 @@ from .Regions.Zelda.TurtleRock import TurtleRock
 
 
 class World:
-    Locations: List[Location.Location]
-    Regions: List[Region.Region]
+    Locations: list[Location.Location]
+    Regions: list[Region.Region]
     Config: Config.Config
     Player: str
     Guid: str
@@ -70,9 +70,9 @@ class World:
 
     ForwardSearch: bool = False
 
-    rewardLookup: Dict[int, List[Region.IReward]]
-    locationLookup: Dict[str, Location.Location]
-    regionLookup: Dict[str, Region.Region]
+    rewardLookup: dict[int, list[Region.IReward]]
+    locationLookup: dict[str, Location.Location]
+    regionLookup: dict[str, Region.Region]
 
     def GetLocation(self, name:str): return self.locationLookup[name]
     def GetRegion(self, name:str): return self.regionLookup[name]
@@ -158,17 +158,17 @@ class World:
         self.SetRewards(state.Rewards)
         self.SetRewardLookup()
 
-    def SetRewards(self, rewards: List):
+    def SetRewards(self, rewards: list):
         regions = [region for region in self.Regions if isinstance(region, Region.IReward) and region.Reward == Region.RewardType.Null]
         for (region, reward) in zip(regions, rewards):
             region.Reward = reward
 
-    def SetMedallions(self, medallions: List):
+    def SetMedallions(self, medallions: list):
         self.GetRegion("Misery Mire").Medallion = medallions[0]
         self.GetRegion("Turtle Rock").Medallion = medallions[1]
 
     def SetRewardLookup(self):
         #/* Generate a lookup of all possible regions for any given reward combination for faster lookup later */
-        self.rewardLookup: Dict[int, Region.IReward] = {}
+        self.rewardLookup: dict[int, Region.IReward] = {}
         for i in range(0, 512):
             self.rewardLookup[i] = [region for region in self.Regions if isinstance(region, Region.IReward) and (region.Reward.value & i) != 0]

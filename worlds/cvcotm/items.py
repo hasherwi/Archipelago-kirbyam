@@ -17,10 +17,10 @@ class CVCotMItem(Item):
 
 
 class CVCotMItemData(NamedTuple):
-    code: Optional[int]
-    text_id: Optional[bytes]
+    code: int | None
+    text_id: bytes | None
     default_classification: ItemClassification
-    tutorial_id: Optional[bytes] = None
+    tutorial_id: bytes | None = None
 # "code" = The unique part of the Item's AP code attribute, as well as the value to call the in-game "prepare item
 #          textbox" function with to give the Item in-game. Add this + base_id to get the actual AP code.
 # "text_id" = The textbox ID for the vanilla message for receiving the Item. Used when receiving an Item through the
@@ -31,7 +31,7 @@ class CVCotMItemData(NamedTuple):
 # "tutorial_id" = The textbox ID for the item's tutorial. Used by the client if tutorials are not skipped.
 
 
-cvcotm_item_info: Dict[str, CVCotMItemData] = {
+cvcotm_item_info: dict[str, CVCotMItemData] = {
     iname.heart_max:      CVCotMItemData(0xE400, b"\x57\x81", ItemClassification.filler),
     iname.hp_max:         CVCotMItemData(0xE401, b"\x55\x81", ItemClassification.filler),
     iname.mp_max:         CVCotMItemData(0xE402, b"\x56\x81", ItemClassification.filler),
@@ -90,14 +90,14 @@ FILLER_ITEM_NAMES = [iname.heart_max, iname.hp_max, iname.mp_max]
 MAJORS_CLASSIFICATIONS = ItemClassification.progression | ItemClassification.useful
 
 
-def get_item_names_to_ids() -> Dict[str, int]:
+def get_item_names_to_ids() -> dict[str, int]:
     return {name: cvcotm_item_info[name].code + BASE_ID for name in cvcotm_item_info
             if cvcotm_item_info[name].code is not None}
 
 
-def get_item_counts(world: "CVCotMWorld") -> Dict[ItemClassification, Dict[str, int]]:
+def get_item_counts(world: "CVCotMWorld") -> dict[ItemClassification, dict[str, int]]:
 
-    item_counts: Dict[ItemClassification, Counter[str, int]] = {
+    item_counts: dict[ItemClassification, Counter[str, int]] = {
         ItemClassification.progression: Counter(),
         ItemClassification.progression_skip_balancing: Counter(),
         ItemClassification.useful | ItemClassification.progression: Counter(),

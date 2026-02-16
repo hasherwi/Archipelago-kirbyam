@@ -254,22 +254,22 @@ class ALTTPWorld(World):
 
     shops: list[Shop]
 
-    pedestal_credit_texts: typing.Dict[int, str] = \
+    pedestal_credit_texts: dict[int, str] = \
         {data.item_code: data.pedestal_credit for data in item_table.values() if data.pedestal_credit}
-    sickkid_credit_texts: typing.Dict[int, str] = \
+    sickkid_credit_texts: dict[int, str] = \
         {data.item_code: data.sick_kid_credit for data in item_table.values() if data.sick_kid_credit}
-    zora_credit_texts: typing.Dict[int, str] = \
+    zora_credit_texts: dict[int, str] = \
         {data.item_code: data.zora_credit for data in item_table.values() if data.zora_credit}
-    magicshop_credit_texts: typing.Dict[int, str] = \
+    magicshop_credit_texts: dict[int, str] = \
         {data.item_code: data.witch_credit for data in item_table.values() if data.witch_credit}
-    fluteboy_credit_texts: typing.Dict[int, str] = \
+    fluteboy_credit_texts: dict[int, str] = \
         {data.item_code: data.flute_boy_credit for data in item_table.values() if data.flute_boy_credit}
 
     set_rules = set_rules
 
     create_items = generate_itempool
 
-    _enemizer_path: typing.ClassVar[typing.Optional[str]] = None
+    _enemizer_path: typing.ClassVar[str | None] = None
 
     @property
     def enemizer_path(self) -> str:
@@ -281,11 +281,11 @@ class ALTTPWorld(World):
         return cls._enemizer_path
 
     # custom instance vars
-    dungeon_local_item_names: typing.Set[str]
-    dungeon_specific_item_names: typing.Set[str]
+    dungeon_local_item_names: set[str]
+    dungeon_specific_item_names: set[str]
     rom_name_available_event: threading.Event
     has_progressive_bows: bool
-    dungeons: typing.Dict[str, Dungeon]
+    dungeons: dict[str, Dungeon]
     waterfall_fairy_bottle_fill: str
     pyramid_fairy_bottle_fill: str
     escape_assist: list
@@ -644,7 +644,7 @@ class ALTTPWorld(World):
             self.rom_name_available_event.set() # make sure threading continues and errors are collected
 
     @classmethod
-    def stage_extend_hint_information(cls, world, hint_data: typing.Dict[int, typing.Dict[int, str]]):
+    def stage_extend_hint_information(cls, world, hint_data: dict[int, dict[int, str]]):
         er_hint_data = {player: {} for player in world.get_game_players("A Link to the Past") if
                         world.worlds[player].options.entrance_shuffle != "vanilla" or world.worlds[player].options.retro_caves}
 
@@ -744,7 +744,7 @@ class ALTTPWorld(World):
                         logging.warning(f"Could not trash fill Ganon's Tower for player {player}.")
 
     def write_spoiler_header(self, spoiler_handle: typing.TextIO) -> None:
-        def bool_to_text(variable: typing.Union[bool, str]) -> str:
+        def bool_to_text(variable: bool | str) -> str:
             if type(variable) == str:
                 return variable
             return "Yes" if variable else "No"
@@ -763,7 +763,7 @@ class ALTTPWorld(World):
         spoiler_handle.write(f"\nWaterfall Fairy ({player_name}):"
                              f" {self.waterfall_fairy_bottle_fill}")
         if self.options.boss_shuffle != "none":
-            def create_boss_map() -> typing.Dict:
+            def create_boss_map() -> dict:
                 boss_map = {
                     "Eastern Palace": self.dungeons["Eastern Palace"].boss.name,
                     "Desert Palace": self.dungeons["Desert Palace"].boss.name,
@@ -801,7 +801,7 @@ class ALTTPWorld(World):
                 f'\n\nBosses{(f" ({self.multiworld.get_player_name(self.player)})" if self.multiworld.players > 1 else "")}:\n')
             spoiler_handle.write("    " + "\n    ".join([f"{x}: {y}" for x, y in bossmap.items()]))
 
-        def build_shop_info(shop: Shop) -> typing.Dict[str, str]:
+        def build_shop_info(shop: Shop) -> dict[str, str]:
             shop_data = {
                 "location": str(shop.region),
                 "type": "Take Any" if shop.type == ShopType.TakeAny else "Shop"
@@ -878,7 +878,7 @@ class ALTTPWorld(World):
 
 
 def get_same_seed(world, seed_def: tuple) -> str:
-    seeds: typing.Dict[tuple, str] = getattr(world, "__named_seeds", {})
+    seeds: dict[tuple, str] = getattr(world, "__named_seeds", {})
     if seed_def in seeds:
         return seeds[seed_def]
     seeds[seed_def] = str(world.random.randint(0, 2 ** 64))

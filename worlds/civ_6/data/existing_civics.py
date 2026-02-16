@@ -4,7 +4,7 @@ if TYPE_CHECKING:
     from ..Data import ExistingItemData
 
 
-existing_civics: List["ExistingItemData"] = [
+existing_civics: list["ExistingItemData"] = [
     {
         "Type": "CIVIC_CODE_OF_LAWS",
         "Name": "Code of Laws",

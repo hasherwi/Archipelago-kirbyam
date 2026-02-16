@@ -6,35 +6,35 @@ from typing import Dict, List, Set
 
 from .datatypes import Door, Painting, Panel, PanelDoor, Progression, Room
 
-ALL_ROOMS: List[Room] = []
-DOORS_BY_ROOM: Dict[str, Dict[str, Door]] = {}
-PANELS_BY_ROOM: Dict[str, Dict[str, Panel]] = {}
-PANEL_DOORS_BY_ROOM: Dict[str, Dict[str, PanelDoor]] = {}
-PAINTINGS: Dict[str, Painting] = {}
+ALL_ROOMS: list[Room] = []
+DOORS_BY_ROOM: dict[str, dict[str, Door]] = {}
+PANELS_BY_ROOM: dict[str, dict[str, Panel]] = {}
+PANEL_DOORS_BY_ROOM: dict[str, dict[str, PanelDoor]] = {}
+PAINTINGS: dict[str, Painting] = {}
 
-PROGRESSIVE_ITEMS: Set[str] = set()
-PROGRESSIVE_DOORS_BY_ROOM: Dict[str, Dict[str, Progression]] = {}
-PROGRESSIVE_PANELS_BY_ROOM: Dict[str, Dict[str, Progression]] = {}
+PROGRESSIVE_ITEMS: set[str] = set()
+PROGRESSIVE_DOORS_BY_ROOM: dict[str, dict[str, Progression]] = {}
+PROGRESSIVE_PANELS_BY_ROOM: dict[str, dict[str, Progression]] = {}
 
 PAINTING_ENTRANCES: int = 0
-PAINTING_EXIT_ROOMS: Set[str] = set()
+PAINTING_EXIT_ROOMS: set[str] = set()
 PAINTING_EXITS: int = 0
-REQUIRED_PAINTING_ROOMS: List[str] = []
-REQUIRED_PAINTING_WHEN_NO_DOORS_ROOMS: List[str] = []
+REQUIRED_PAINTING_ROOMS: list[str] = []
+REQUIRED_PAINTING_WHEN_NO_DOORS_ROOMS: list[str] = []
 
-SUNWARP_ENTRANCES: List[str] = []
-SUNWARP_EXITS: List[str] = []
+SUNWARP_ENTRANCES: list[str] = []
+SUNWARP_EXITS: list[str] = []
 
-SPECIAL_ITEM_IDS: Dict[str, int] = {}
-PANEL_LOCATION_IDS: Dict[str, Dict[str, int]] = {}
-DOOR_LOCATION_IDS: Dict[str, Dict[str, int]] = {}
-DOOR_ITEM_IDS: Dict[str, Dict[str, int]] = {}
-DOOR_GROUP_ITEM_IDS: Dict[str, int] = {}
-PANEL_DOOR_ITEM_IDS: Dict[str, Dict[str, int]] = {}
-PANEL_GROUP_ITEM_IDS: Dict[str, int] = {}
-PROGRESSIVE_ITEM_IDS: Dict[str, int] = {}
+SPECIAL_ITEM_IDS: dict[str, int] = {}
+PANEL_LOCATION_IDS: dict[str, dict[str, int]] = {}
+DOOR_LOCATION_IDS: dict[str, dict[str, int]] = {}
+DOOR_ITEM_IDS: dict[str, dict[str, int]] = {}
+DOOR_GROUP_ITEM_IDS: dict[str, int] = {}
+PANEL_DOOR_ITEM_IDS: dict[str, dict[str, int]] = {}
+PANEL_GROUP_ITEM_IDS: dict[str, int] = {}
+PROGRESSIVE_ITEM_IDS: dict[str, int] = {}
 
-HASHES: Dict[str, str] = {}
+HASHES: dict[str, str] = {}
 
 
 def get_special_item_id(name: str):

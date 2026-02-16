@@ -3,7 +3,8 @@ import os
 import struct
 import typing
 from logging import warning
-from typing import TYPE_CHECKING, Sequence
+from typing import TYPE_CHECKING
+from collections.abc import Sequence
 
 import settings
 import Utils

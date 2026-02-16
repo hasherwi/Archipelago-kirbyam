@@ -176,11 +176,11 @@ class Absorber(ast.NodeTransformer):
             return True
 
 
-def get_parser(truths: typing.Set[str] = frozenset(), falses: typing.Set[str] = frozenset()):
+def get_parser(truths: set[str] = frozenset(), falses: set[str] = frozenset()):
     return Absorber(truths, falses)
 
 
-def ast_parse(parser, rule_text, truths: typing.Set[str] = frozenset(), falses: typing.Set[str] = frozenset()):
+def ast_parse(parser, rule_text, truths: set[str] = frozenset(), falses: set[str] = frozenset()):
     tree = ast.parse(hk_convert(rule_text), mode="eval")
     parser.additional_truths = truths
     parser.additional_falses = falses
@@ -195,11 +195,11 @@ world_folder = os.path.dirname(__file__)
 resources_source = os.path.join(world_folder, "Resources")
 data_folder = os.path.join(resources_source, "Data")
 logic_folder = os.path.join(resources_source, "Logic")
-logic_options: typing.Dict[str, str] = hk_loads(os.path.join(data_folder, "logic_settings.json"))
+logic_options: dict[str, str] = hk_loads(os.path.join(data_folder, "logic_settings.json"))
 for logic_key, logic_value in logic_options.items():
     logic_options[logic_key] = logic_value.split(".", 1)[-1]
 
-vanilla_cost_data: typing.Dict[str, typing.Dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "costs.json"))
+vanilla_cost_data: dict[str, dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "costs.json"))
 vanilla_location_costs = {
     key: {
         value["term"]: int(value["amount"])
@@ -250,12 +250,12 @@ vanilla_shop_costs = {
     ("Leg_Eater", "Fragile_Greed"): [{"GEO": 250}],
     ("Leg_Eater", "Fragile_Strength"): [{"GEO": 600}],
 }
-extra_pool_options: typing.List[typing.Dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "pools.json"))
-pool_options: typing.Dict[str, typing.Tuple[typing.List[str], typing.List[str]]] = {}
+extra_pool_options: list[dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "pools.json"))
+pool_options: dict[str, tuple[list[str], list[str]]] = {}
 for option in extra_pool_options:
     if option["Path"] != "False":
-        items: typing.List[str] = []
-        locations: typing.List[str] = []
+        items: list[str] = []
+        locations: list[str] = []
         for pairing in option["Vanilla"]:
             items.append(pairing["item"])
             location_name = pairing["location"]
@@ -297,16 +297,16 @@ vanilla_shop_costs = {
 }
 
 # items
-items: typing.Dict[str, typing.Dict] = hk_loads(os.path.join(data_folder, "items.json"))
-logic_items: typing.Set[str] = set()
+items: dict[str, dict] = hk_loads(os.path.join(data_folder, "items.json"))
+logic_items: set[str] = set()
 for item_name in sorted(items):
     item = items[item_name]
     items[item_name] = item["Pool"]
-items: typing.Dict[str, str]
+items: dict[str, str]
 
-extra_item_data: typing.List[typing.Dict[str, typing.Any]] = hk_loads(os.path.join(logic_folder, "items.json"))
-item_effects: typing.Dict[str, typing.Dict[str, int]] = {}
-effect_names: typing.Set[str] = set()
+extra_item_data: list[dict[str, typing.Any]] = hk_loads(os.path.join(logic_folder, "items.json"))
+item_effects: dict[str, dict[str, int]] = {}
+effect_names: set[str] = set()
 for item_data in extra_item_data:
     if "FalseItem" in item_data:
         item_data = item_data["FalseItem"]
@@ -333,13 +333,13 @@ for item_data in extra_item_data:
 del extra_item_data
 
 # locations
-original_locations: typing.Dict[str, typing.Dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "locations.json"))
+original_locations: dict[str, dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "locations.json"))
 del(original_locations["Start"])  # Starting Inventory works different in AP
 
-locations: typing.List[str] = []
-locations_in_regions: typing.Dict[str, typing.List[str]] = {}
-location_to_region_lookup: typing.Dict[str, str] = {}
-multi_locations: typing.Dict[str, typing.List[str]] = {}
+locations: list[str] = []
+locations_in_regions: dict[str, list[str]] = {}
+location_to_region_lookup: dict[str, str] = {}
+multi_locations: dict[str, list[str]] = {}
 for location_name, location_data in original_locations.items():
     region_name = location_data["SceneName"]
     if location_data["FlexibleCount"]:
@@ -354,12 +354,12 @@ for location_name, location_data in original_locations.items():
 del original_locations
 
 # regions
-region_names: typing.Set[str] = set(hk_loads(os.path.join(data_folder, "rooms.json")))
-connectors_data: typing.Dict[str, typing.Dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "transitions.json"))
-connectors_logic: typing.List[typing.Dict[str, typing.Any]] = hk_loads(os.path.join(logic_folder, "transitions.json"))
-exits: typing.Dict[str, typing.List[str]] = {}
-connectors: typing.Dict[str, str] = {}
-one_ways: typing.Set[str] = set()
+region_names: set[str] = set(hk_loads(os.path.join(data_folder, "rooms.json")))
+connectors_data: dict[str, dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "transitions.json"))
+connectors_logic: list[dict[str, typing.Any]] = hk_loads(os.path.join(logic_folder, "transitions.json"))
+exits: dict[str, list[str]] = {}
+connectors: dict[str, str] = {}
+one_ways: set[str] = set()
 for connector_name, connector_data in connectors_data.items():
     exits.setdefault(connector_data["SceneName"], []).append(connector_name)
     connectors[connector_name] = connector_data["VanillaTarget"]
@@ -368,25 +368,25 @@ for connector_name, connector_data in connectors_data.items():
 del connectors_data
 
 # starts
-starts: typing.Dict[str, typing.Dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "starts.json"))
+starts: dict[str, dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "starts.json"))
 
 # only allow always valid starts for now
-removed_starts: typing.Set[str] = {name.replace(" ", "_").lower() for name, data in starts.items() if
+removed_starts: set[str] = {name.replace(" ", "_").lower() for name, data in starts.items() if
                                    name != "King's Pass"}
 
-starts: typing.Dict[str, str] = {
+starts: dict[str, str] = {
     name.replace(" ", "_").lower(): data["sceneName"] for name, data in starts.items() if name == "King's Pass"}
 
 # logic
 falses = {"MAPAREARANDO", "FULLAREARANDO"}
-macros: typing.Dict[str, ast.AST] = {
+macros: dict[str, ast.AST] = {
 }
 parser = get_parser(set(), falses)
-extra_macros: typing.Dict[str, str] = hk_loads(os.path.join(logic_folder, "macros.json"))
-raw_location_rules: typing.List[typing.Dict[str, str]] = hk_loads(os.path.join(logic_folder, "locations.json"))
-events: typing.List[typing.Dict[str, typing.Any]] = hk_loads(os.path.join(logic_folder, "waypoints.json"))
+extra_macros: dict[str, str] = hk_loads(os.path.join(logic_folder, "macros.json"))
+raw_location_rules: list[dict[str, str]] = hk_loads(os.path.join(logic_folder, "locations.json"))
+events: list[dict[str, typing.Any]] = hk_loads(os.path.join(logic_folder, "waypoints.json"))
 
-event_names: typing.Set[str] = {event["name"] for event in events}
+event_names: set[str] = {event["name"] for event in events}
 
 for macro_name, rule in extra_macros.items():
     if macro_name not in macros:
@@ -402,7 +402,7 @@ for macro_name, rule in extra_macros.items():
                 macros[f"COMBAT['{name}']"] = rule
             macros[f'COMBAT["{name}"]'] = rule
 
-location_rules: typing.Dict[str, str] = {}
+location_rules: dict[str, str] = {}
 for loc_obj in raw_location_rules:
     loc_name = loc_obj["name"]
     rule = loc_obj["logic"]
@@ -411,7 +411,7 @@ for loc_obj in raw_location_rules:
         location_rules[loc_name] = unparse(rule)
 location_rules["Salubra_(Requires_Charms)"] = location_rules["Salubra"]
 
-connectors_rules: typing.Dict[str, str] = {}
+connectors_rules: dict[str, str] = {}
 for connector_obj in connectors_logic:
     name = connector_obj["Name"]
     rule = connector_obj["logic"]
@@ -420,7 +420,7 @@ for connector_obj in connectors_logic:
     if rule != "True":
         connectors_rules[name] = rule
 
-event_rules: typing.Dict[str, str] = {}
+event_rules: dict[str, str] = {}
 for event in events:
     rule = ast_parse(parser, event["logic"])
     rule = unparse(rule)

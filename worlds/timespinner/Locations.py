@@ -1,4 +1,5 @@
-from typing import Callable, List, NamedTuple, Optional
+from typing import List, NamedTuple, Optional
+from collections.abc import Callable
 
 from BaseClasses import CollectionState
 
@@ -6,19 +7,19 @@ from .LogicExtensions import TimespinnerLogic
 from .Options import TimespinnerOptions
 from .PreCalculatedWeights import PreCalculatedWeights
 
-EventId: Optional[int] = None
+EventId: int | None = None
 
 
 class LocationData(NamedTuple):
     region: str
     name: str
-    code: Optional[int]
-    rule: Optional[Callable[[CollectionState], bool]] = None
+    code: int | None
+    rule: Callable[[CollectionState], bool] | None = None
 
 
-def get_location_datas(player: Optional[int], options: Optional[TimespinnerOptions],
-                  precalculated_weights: Optional[PreCalculatedWeights]) -> List[LocationData]:
-    flooded: Optional[PreCalculatedWeights] = precalculated_weights
+def get_location_datas(player: int | None, options: TimespinnerOptions | None,
+                  precalculated_weights: PreCalculatedWeights | None) -> list[LocationData]:
+    flooded: PreCalculatedWeights | None = precalculated_weights
     logic = TimespinnerLogic(player, options, precalculated_weights)
 
     # 1337000 - 1337155 Generic locations
@@ -26,7 +27,7 @@ def get_location_datas(player: Optional[int], options: Optional[TimespinnerOptio
     # 1337246 - 1337249 Ancient Pyramid
     # 1337250 - 1337781 Torch checks
     # 1337782 - 1337999 Reserved
-    location_table: List[LocationData] = [
+    location_table: list[LocationData] = [
         # Present item locations
         LocationData("Tutorial", "Tutorial: Yo Momma 1", 1337000),
         LocationData("Tutorial", "Tutorial: Yo Momma 2", 1337001),

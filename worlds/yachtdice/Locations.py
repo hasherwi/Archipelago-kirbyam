@@ -12,7 +12,7 @@ class LocData(typing.NamedTuple):
 class YachtDiceLocation(Location):
     game: str = "Yacht Dice"
 
-    def __init__(self, player: int, name: str, score: int, address: typing.Optional[int], parent):
+    def __init__(self, player: int, name: str, score: int, address: int | None, parent):
         super().__init__(player, name, address, parent)
         self.yacht_dice_score = score
 

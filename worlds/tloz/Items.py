@@ -10,11 +10,11 @@ trap = ItemClassification.trap
 
 
 class ItemData(typing.NamedTuple):
-    code: typing.Optional[int]
+    code: int | None
     classification: ItemClassification
 
 
-item_table: Dict[str, ItemData] = {
+item_table: dict[str, ItemData] = {
     "Boomerang": ItemData(100, useful),
     "Bow": ItemData(101, progression),
     "Magical Boomerang": ItemData(102, useful),

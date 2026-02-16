@@ -1,5 +1,6 @@
 from collections.abc import Iterable
-from typing import Callable, ClassVar, Optional, Tuple
+from typing import ClassVar, Optional, Tuple
+from collections.abc import Callable
 
 from BaseClasses import CollectionState
 
@@ -7,7 +8,7 @@ from .CriticalPathCalculator import CriticalPathCalculator
 from .GameLogic import PowerInfrastructureLevel, Recipe
 from .Options import SatisfactoryOptions
 
-EventId: Optional[int] = None
+EventId: int | None = None
 
 part_event_prefix = "Can Produce: "
 building_event_prefix = "Can Build: "
@@ -48,7 +49,7 @@ class StateLogic:
 
     pipes_rule: Callable[[CollectionState], bool]
     radio_active_rule: Callable[[CollectionState], bool]
-    belt_rules: Tuple[Callable[[CollectionState], bool], ...]
+    belt_rules: tuple[Callable[[CollectionState], bool], ...]
 
     def __init__(self, player: int, options: SatisfactoryOptions, critical_path: CriticalPathCalculator):
         self.player = player
@@ -62,24 +63,24 @@ class StateLogic:
     def has_recipe(self, state: CollectionState, recipe: Recipe) -> bool:
         return state.has(recipe.name, self.player) or recipe.name in self.critical_path.implicitly_unlocked
 
-    def can_build(self, state: CollectionState, building_name: Optional[str]) -> bool:
+    def can_build(self, state: CollectionState, building_name: str | None) -> bool:
         return building_name is None or state.has(building_event_prefix + building_name, self.player)
 
-    def can_build_any(self, state: CollectionState, building_names: Optional[Iterable[str]]) -> bool:
+    def can_build_any(self, state: CollectionState, building_names: Iterable[str] | None) -> bool:
         return building_names is None or \
             state.has_any(map(to_building_event, building_names), self.player)
 
-    def can_build_all(self, state: CollectionState, building_names: Optional[Iterable[str]]) -> bool:
+    def can_build_all(self, state: CollectionState, building_names: Iterable[str] | None) -> bool:
         return building_names is None or \
             state.has_all(map(to_building_event, building_names), self.player)
 
-    def can_produce(self, state: CollectionState, part_name: Optional[str]) -> bool:
+    def can_produce(self, state: CollectionState, part_name: str | None) -> bool:
         return part_name is None or state.has(part_event_prefix + part_name, self.player)
 
-    def can_power(self, state: CollectionState, power_level: Optional[PowerInfrastructureLevel]) -> bool:
+    def can_power(self, state: CollectionState, power_level: PowerInfrastructureLevel | None) -> bool:
         return power_level is None or state.has(building_event_prefix + power_level.to_name(), self.player)
 
-    def can_produce_all(self, state: CollectionState, parts: Optional[Iterable[str]]) -> bool:
+    def can_produce_all(self, state: CollectionState, parts: Iterable[str] | None) -> bool:
         return parts is None or \
             state.has_all(map(to_part_event, parts), self.player)
 
@@ -98,7 +99,7 @@ class StateLogic:
                 for recipe_part in recipe.inputs))
             for recipe in recipes)
 
-    def get_can_produce_all_allowing_handcrafting_rule(self, parts: Optional[Iterable[str]]) \
+    def get_can_produce_all_allowing_handcrafting_rule(self, parts: Iterable[str] | None) \
             -> Callable[[CollectionState], bool]:
         if not parts:
             return true_rule

@@ -44,7 +44,7 @@ from .presets_static import (
 GENERIC_KEY_NAME = "Key".casefold()
 GENERIC_PROGRESSIVE_KEY_NAME = "Progressive Key".casefold()
 
-STR_OPTION_VALUES: Dict[str, Dict[str, Any]] = {
+STR_OPTION_VALUES: dict[str, dict[str, Any]] = {
     "type": {
         "column": Column.__name__, "grid": Grid.__name__, "hopscotch": Hopscotch.__name__, "gauntlet": Gauntlet.__name__, "blitz": Blitz.__name__,
         "canvas": Canvas.__name__,
@@ -113,7 +113,7 @@ class CustomMissionOrder(OptionDict):
     """
     display_name = "Custom Mission Order"
     visibility = Visibility.template
-    value: Dict[str, Dict[str, Any]]
+    value: dict[str, dict[str, Any]]
     default = {
         "Default Campaign": {
             "display_name": "null",
@@ -187,10 +187,10 @@ class CustomMissionOrder(OptionDict):
         }
     })
 
-    def __init__(self, yaml_value: Dict[str, Dict[str, Any]]) -> None:
+    def __init__(self, yaml_value: dict[str, dict[str, Any]]) -> None:
         # This function constructs self.value by parts,
         # so the parent constructor isn't called
-        self.value: Dict[str, Dict[str, Any]] = {}
+        self.value: dict[str, dict[str, Any]] = {}
         yaml_value = copy.deepcopy(yaml_value) # Ensure that all the mutations are local to the world
 
         for campaign in yaml_value:
@@ -228,7 +228,7 @@ class CustomMissionOrder(OptionDict):
             preset_options = {key: yaml_value[campaign].pop(key) for key in preset_option_keys}
 
             # Resolve preset
-            preset: Dict[str, Any] = _resolve_string_option_single("preset", preset_key)(preset_options)
+            preset: dict[str, Any] = _resolve_string_option_single("preset", preset_key)(preset_options)
             # Preset global is resolved internally to avoid conflict with user global
             preset_global_dict = {}
             for name in preset:
@@ -270,14 +270,14 @@ class CustomMissionOrder(OptionDict):
     # Overloaded to remove pre-init schema validation
     # Schema is still validated after __init__
     @classmethod
-    def from_any(cls, data: Dict[str, Any]) -> CustomMissionOrder:
+    def from_any(cls, data: dict[str, Any]) -> CustomMissionOrder:
         if type(data) == dict:
             return cls(data)
         else:
             raise NotImplementedError(f"Cannot Convert from non-dictionary, got {type(data)}")
 
 
-def _resolve_special_options(data: Dict[str, Any]):
+def _resolve_special_options(data: dict[str, Any]):
     # Handle range values & string-to-value conversions
     for option in data:
         option_value = data[option]
@@ -286,7 +286,7 @@ def _resolve_special_options(data: Dict[str, Any]):
 
     # Special case for canvas layouts determining their own size
     if "type" in data and data["type"] == Canvas.__name__:
-        canvas: List[str] = data["canvas"]
+        canvas: list[str] = data["canvas"]
         longest_line = max(len(line) for line in canvas)
         data["size"] = len(canvas) * longest_line
         data["width"] = longest_line
@@ -341,16 +341,16 @@ def _resolve_string_option_single(option: str, option_value: str) -> Any:
     return STR_OPTION_VALUES[option][formatted_value]
 
 
-def _resolve_string_option(option: str, option_value: Union[List[str], str]) -> Any:
+def _resolve_string_option(option: str, option_value: list[str] | str) -> Any:
     if type(option_value) == list:
         return [_resolve_string_option_single(option, val) for val in option_value]
     else:
         return _resolve_string_option_single(option, option_value)
 
 
-def _resolve_entry_rule(option_value: Dict[str, Any]) -> Dict[str, Any]:
-    resolved: Dict[str, Any] = {}
-    mutually_exclusive: List[str] = []
+def _resolve_entry_rule(option_value: dict[str, Any]) -> dict[str, Any]:
+    resolved: dict[str, Any] = {}
+    mutually_exclusive: list[str] = []
     if "amount" in option_value:
         resolved["amount"] = _resolve_potential_range(option_value["amount"])
     if "scope" in option_value:
@@ -368,7 +368,7 @@ def _resolve_entry_rule(option_value: Dict[str, Any]) -> Dict[str, Any]:
             resolved["amount"] = -1
     if "items" in option_value:
         mutually_exclusive.append("items")
-        option_items: Dict[str, Any] = option_value["items"]
+        option_items: dict[str, Any] = option_value["items"]
         resolved_items = {item: int(_resolve_potential_range(str(amount))) for (item, amount) in option_items.items()}
         resolved_items = _resolve_item_names(resolved_items)
         resolved["items"] = {}
@@ -396,7 +396,7 @@ def _resolve_entry_rule(option_value: Dict[str, Any]) -> Dict[str, Any]:
     return resolved
 
 
-def _resolve_potential_range(option_value: Union[Any, str]) -> Union[Any, int]:
+def _resolve_potential_range(option_value: Any | str) -> Any | int:
     # An option value may be a range
     if type(option_value) == str and option_value.startswith("random-range-"):
         resolved = _custom_range(option_value)
@@ -408,11 +408,11 @@ def _resolve_potential_range(option_value: Union[Any, str]) -> Union[Any, int]:
         return option_value
 
 
-def _resolve_mission_pool(option_value: Union[str, List[str]]) -> Set[int]:
+def _resolve_mission_pool(option_value: str | list[str]) -> set[int]:
     if type(option_value) == str:
         pool = _get_target_missions(option_value)
     else:
-        pool: Set[int] = set()
+        pool: set[int] = set()
         for line in option_value:
             if line.startswith("~"):
                 if len(pool) == 0:
@@ -438,7 +438,7 @@ def _resolve_mission_pool(option_value: Union[str, List[str]]) -> Set[int]:
     return pool
 
 
-def _get_target_missions(term: str) -> Set[int]:
+def _get_target_missions(term: str) -> set[int]:
     if term in lookup_name_to_mission:
         return {lookup_name_to_mission[term].id}
     else:
@@ -467,12 +467,12 @@ def _custom_range(text: str) -> int:
         return random.randint(random_range[0], random_range[1])
 
 
-def _triangular(lower: int, end: int, tri: typing.Optional[int] = None) -> int:
+def _triangular(lower: int, end: int, tri: int | None = None) -> int:
     return int(round(random.triangular(lower, end, tri), 0))
 
 
 # Version of options.Sc2ItemDict.verify without World
-def _resolve_item_names(value: Dict[str, int]) -> Dict[str, int]:
+def _resolve_item_names(value: dict[str, int]) -> dict[str, int]:
     new_value: dict[str, int] = {}
     case_insensitive_group_mapping = {
         group_name.casefold(): group_value for group_name, group_value in item_name_groups.items()

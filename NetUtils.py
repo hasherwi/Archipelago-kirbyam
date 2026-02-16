@@ -242,7 +242,7 @@ class JSONtoTextParser(metaclass=HandlerMeta):
     def __init__(self, ctx):
         self.ctx = ctx
 
-    def __call__(self, input_object: typing.List[JSONMessagePart]) -> str:
+    def __call__(self, input_object: list[JSONMessagePart]) -> str:
         return "".join(self.handle_node(section) for section in input_object)
 
     def handle_node(self, node: JSONMessagePart):
@@ -337,14 +337,14 @@ def add_json_location(parts: list, location_id: int, player: int = 0, **kwargs) 
     parts.append({"text": str(location_id), "player": player, "type": JSONTypes.location_id, **kwargs})
 
 
-status_names: typing.Dict[HintStatus, str] = {
+status_names: dict[HintStatus, str] = {
     HintStatus.HINT_FOUND: "(found)",
     HintStatus.HINT_UNSPECIFIED: "(unspecified)",
     HintStatus.HINT_NO_PRIORITY: "(no priority)",
     HintStatus.HINT_AVOID: "(avoid)",
     HintStatus.HINT_PRIORITY: "(priority)",
 }
-status_colors: typing.Dict[HintStatus, str] = {
+status_colors: dict[HintStatus, str] = {
     HintStatus.HINT_FOUND: "green",
     HintStatus.HINT_UNSPECIFIED: "white",
     HintStatus.HINT_NO_PRIORITY: "slateblue",
@@ -353,7 +353,7 @@ status_colors: typing.Dict[HintStatus, str] = {
 }
 
 
-def add_json_hint_status(parts: list, hint_status: HintStatus, text: typing.Optional[str] = None, **kwargs):
+def add_json_hint_status(parts: list, hint_status: HintStatus, text: str | None = None, **kwargs):
     parts.append({"text": text if text != None else status_names.get(hint_status, "(unknown)"),
                   "hint_status": hint_status, "type": JSONTypes.hint_status, **kwargs})
 
@@ -414,8 +414,8 @@ class Hint(typing.NamedTuple):
         return self.receiving_player == self.finding_player
 
 
-class _LocationStore(dict, typing.MutableMapping[int, typing.Dict[int, typing.Tuple[int, int, int]]]):
-    def __init__(self, values: typing.MutableMapping[int, typing.Dict[int, typing.Tuple[int, int, int]]]):
+class _LocationStore(dict, typing.MutableMapping[int, dict[int, tuple[int, int, int]]]):
+    def __init__(self, values: typing.MutableMapping[int, dict[int, tuple[int, int, int]]]):
         super().__init__(values)
 
         if not self:
@@ -427,24 +427,24 @@ class _LocationStore(dict, typing.MutableMapping[int, typing.Dict[int, typing.Tu
         if len(self.get(0, {})):
             raise ValueError("Invalid player id 0 for location")
 
-    def find_item(self, slots: typing.Set[int], seeked_item_id: int
-                  ) -> typing.Generator[typing.Tuple[int, int, int, int, int], None, None]:
+    def find_item(self, slots: set[int], seeked_item_id: int
+                  ) -> typing.Generator[tuple[int, int, int, int, int], None, None]:
         for finding_player, check_data in self.items():
             for location_id, (item_id, receiving_player, item_flags) in check_data.items():
                 if receiving_player in slots and item_id == seeked_item_id:
                     yield finding_player, location_id, item_id, receiving_player, item_flags
 
-    def get_for_player(self, slot: int) -> typing.Dict[int, typing.Set[int]]:
+    def get_for_player(self, slot: int) -> dict[int, set[int]]:
         import collections
-        all_locations: typing.Dict[int, typing.Set[int]] = collections.defaultdict(set)
+        all_locations: dict[int, set[int]] = collections.defaultdict(set)
         for source_slot, location_data in self.items():
             for location_id, values in location_data.items():
                 if values[1] == slot:
                     all_locations[source_slot].add(location_id)
         return all_locations
 
-    def get_checked(self, state: typing.Dict[typing.Tuple[int, int], typing.Set[int]], team: int, slot: int
-                    ) -> typing.List[int]:
+    def get_checked(self, state: dict[tuple[int, int], set[int]], team: int, slot: int
+                    ) -> list[int]:
         checked = state[team, slot]
         if not checked:
             # This optimizes the case where everyone connects to a fresh game at the same time.
@@ -455,8 +455,8 @@ class _LocationStore(dict, typing.MutableMapping[int, typing.Dict[int, typing.Tu
                 location_id in self[slot] if
                 location_id in checked]
 
-    def get_missing(self, state: typing.Dict[typing.Tuple[int, int], typing.Set[int]], team: int, slot: int
-                    ) -> typing.List[int]:
+    def get_missing(self, state: dict[tuple[int, int], set[int]], team: int, slot: int
+                    ) -> list[int]:
         checked = state[team, slot]
         if not checked:
             # This optimizes the case where everyone connects to a fresh game at the same time.
@@ -465,8 +465,8 @@ class _LocationStore(dict, typing.MutableMapping[int, typing.Dict[int, typing.Tu
                 location_id in self[slot] if
                 location_id not in checked]
 
-    def get_remaining(self, state: typing.Dict[typing.Tuple[int, int], typing.Set[int]], team: int, slot: int
-                      ) -> typing.List[typing.Tuple[int, int]]:
+    def get_remaining(self, state: dict[tuple[int, int], set[int]], team: int, slot: int
+                      ) -> list[tuple[int, int]]:
         checked = state[team, slot]
         player_locations = self[slot]
         return sorted([(player_locations[location_id][1], player_locations[location_id][0]) for

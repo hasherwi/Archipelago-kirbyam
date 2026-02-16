@@ -4,7 +4,8 @@ import json
 import logging
 import os
 import pkgutil
-from typing import TYPE_CHECKING, Collection, Dict, Optional
+from typing import TYPE_CHECKING, Dict, Optional
+from collections.abc import Collection
 
 import Utils
 from settings import get_settings
@@ -36,7 +37,7 @@ BATTLE_ARENA_SONG_IDS = [0x01, 0x03, 0x12, 0x06, 0x08, 0x09, 0x07, 0x0A, 0x0B,
 
 
 class RomData:
-    def __init__(self, file: bytes, name: Optional[str] = None) -> None:
+    def __init__(self, file: bytes, name: str | None = None) -> None:
         self.file = bytearray(file)
         self.name = name
 
@@ -533,7 +534,7 @@ class CVCotMProcedurePatch(APProcedurePatch, APTokenMixin):
         return get_base_rom_bytes()
 
 
-def patch_rom(world: "CVCotMWorld", patch: CVCotMProcedurePatch, offset_data: Dict[int, bytes],
+def patch_rom(world: "CVCotMWorld", patch: CVCotMProcedurePatch, offset_data: dict[int, bytes],
               start_with_detonator: bool) -> None:
 
     # Write all the new item values

@@ -1,7 +1,8 @@
 # Python standard libraries
 from collections import defaultdict
 from math import ceil
-from typing import Any, Callable, ClassVar, Union, cast
+from typing import Any, ClassVar, Union, cast
+from collections.abc import Callable
 
 # Archipelago imports
 import settings
@@ -78,8 +79,8 @@ class JakAndDaxterSettings(settings.Group):
     root_directory: RootDirectory = RootDirectory(
         "%programfiles%/OpenGOAL-Launcher/features/jak1/mods/JakMods/archipelagoal")
     # Don't ever change these type hints again.
-    auto_detect_root_directory: Union[AutoDetectRootDirectory, bool] = True
-    enforce_friendly_options: Union[EnforceFriendlyOptions, bool] = True
+    auto_detect_root_directory: AutoDetectRootDirectory | bool = True
+    enforce_friendly_options: EnforceFriendlyOptions | bool = True
 
 
 class JakAndDaxterWebWorld(WebWorld):

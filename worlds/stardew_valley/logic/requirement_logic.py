@@ -1,5 +1,5 @@
 import functools
-from typing import Iterable
+from collections.abc import Iterable
 
 from ..data.game_item import Requirement
 from ..data.requirement import (

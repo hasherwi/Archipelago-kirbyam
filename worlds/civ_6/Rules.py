@@ -15,9 +15,9 @@ if TYPE_CHECKING:
 
 def generate_requirements_for_boosts(
     world: "CivVIWorld", boost_data: CivVIBoostData
-) -> Tuple[List[str], List[Tuple[str, int]]]:
-    required_non_progressive_items: List[str] = []
-    required_progressive_item_counts: List[Tuple[str, int]] = []
+) -> tuple[list[str], list[tuple[str, int]]]:
+    required_non_progressive_items: list[str] = []
+    required_progressive_item_counts: list[tuple[str, int]] = []
 
     for item in boost_data.Prereq:
         progressive_item_name = convert_item_to_progressive_item(item)
@@ -78,8 +78,8 @@ def create_boost_rules(world: "CivVIWorld"):
 
 def has_required_items_progressive(
     state: CollectionState,
-    non_progressive_prereqs: List[str],
-    progressive_prereq_counts: List[Tuple[str, int]],
+    non_progressive_prereqs: list[str],
+    progressive_prereq_counts: list[tuple[str, int]],
     required_count: int,
     world: "CivVIWorld",
 ) -> bool:
@@ -100,7 +100,7 @@ def has_required_items_progressive(
 
 
 def has_required_items_non_progressive(
-    state: CollectionState, prereqs: List[str], required_count: int, world: "CivVIWorld"
+    state: CollectionState, prereqs: list[str], required_count: int, world: "CivVIWorld"
 ) -> bool:
     return state.has_from_list_unique(
         prereqs,

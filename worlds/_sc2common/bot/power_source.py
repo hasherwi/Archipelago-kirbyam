@@ -26,7 +26,7 @@ class PowerSource:
 
 @dataclass
 class PsionicMatrix:
-    sources: List[PowerSource]
+    sources: list[PowerSource]
 
     @classmethod
     def from_proto(cls, proto):

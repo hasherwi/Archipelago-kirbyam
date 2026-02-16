@@ -3,7 +3,8 @@ from __future__ import annotations
 
 import random
 from itertools import chain
-from typing import TYPE_CHECKING, Any, Callable, Generator, Iterable, List, Optional, Set, Tuple, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Set, Tuple, Union
+from collections.abc import Callable, Generator, Iterable
 
 from .position import Point2
 from .unit import Unit
@@ -103,7 +104,7 @@ class Units(list):
     def exists(self) -> bool:
         return bool(self)
 
-    def find_by_tag(self, tag: int) -> Optional[Unit]:
+    def find_by_tag(self, tag: int) -> Unit | None:
         """
         :param tag:
         """
@@ -175,7 +176,7 @@ class Units(list):
         """
         return self.filter(lambda x: unit.target_in_range(x, bonus_distance=bonus_distance))
 
-    def closest_distance_to(self, position: Union[Unit, Point2]) -> float:
+    def closest_distance_to(self, position: Unit | Point2) -> float:
         """Returns the distance between the closest unit from this group to the target unit.
 
         Example::
@@ -193,7 +194,7 @@ class Units(list):
             return min(self._bot_object._distance_squared_unit_to_unit(unit, position) for unit in self)**0.5
         return min(self._bot_object._distance_units_to_pos(self, position))
 
-    def furthest_distance_to(self, position: Union[Unit, Point2]) -> float:
+    def furthest_distance_to(self, position: Unit | Point2) -> float:
         """Returns the distance between the furthest unit from this group to the target unit
 
 
@@ -212,7 +213,7 @@ class Units(list):
             return max(self._bot_object._distance_squared_unit_to_unit(unit, position) for unit in self)**0.5
         return max(self._bot_object._distance_units_to_pos(self, position))
 
-    def closest_to(self, position: Union[Unit, Point2]) -> Unit:
+    def closest_to(self, position: Unit | Point2) -> Unit:
         """Returns the closest unit (from this Units object) to the target unit or position.
 
         Example::
@@ -235,7 +236,7 @@ class Units(list):
         distances = self._bot_object._distance_units_to_pos(self, position)
         return min(((unit, dist) for unit, dist in zip(self, distances)), key=lambda my_tuple: my_tuple[1])[0]
 
-    def furthest_to(self, position: Union[Unit, Point2]) -> Unit:
+    def furthest_to(self, position: Unit | Point2) -> Unit:
         """Returns the furhest unit (from this Units object) to the target unit or position.
 
         Example::
@@ -257,7 +258,7 @@ class Units(list):
         distances = self._bot_object._distance_units_to_pos(self, position)
         return max(((unit, dist) for unit, dist in zip(self, distances)), key=lambda my_tuple: my_tuple[1])[0]
 
-    def closer_than(self, distance: float, position: Union[Unit, Point2]) -> Units:
+    def closer_than(self, distance: float, position: Unit | Point2) -> Units:
         """Returns all units (from this Units object) that are closer than 'distance' away from target unit or position.
 
         Example::
@@ -282,7 +283,7 @@ class Units(list):
         distances = self._bot_object._distance_units_to_pos(self, position)
         return self.subgroup(unit for unit, dist in zip(self, distances) if dist < distance)
 
-    def further_than(self, distance: float, position: Union[Unit, Point2]) -> Units:
+    def further_than(self, distance: float, position: Unit | Point2) -> Units:
         """Returns all units (from this Units object) that are further than 'distance' away from target unit or position.
 
         Example::
@@ -308,7 +309,7 @@ class Units(list):
         return self.subgroup(unit for unit, dist in zip(self, distances) if distance < dist)
 
     def in_distance_between(
-        self, position: Union[Unit, Point2, Tuple[float, float]], distance1: float, distance2: float
+        self, position: Unit | Point2 | tuple[float, float], distance1: float, distance2: float
     ) -> Units:
         """Returns units that are further than distance1 and closer than distance2 to unit or position.
 
@@ -336,7 +337,7 @@ class Units(list):
         distances = self._bot_object._distance_units_to_pos(self, position)
         return self.subgroup(unit for unit, dist in zip(self, distances) if distance1 < dist < distance2)
 
-    def closest_n_units(self, position: Union[Unit, Point2], n: int) -> Units:
+    def closest_n_units(self, position: Unit | Point2, n: int) -> Units:
         """Returns the n closest units in distance to position.
 
         Example::
@@ -354,7 +355,7 @@ class Units(list):
             return self
         return self.subgroup(self._list_sorted_by_distance_to(position)[:n])
 
-    def furthest_n_units(self, position: Union[Unit, Point2], n: int) -> Units:
+    def furthest_n_units(self, position: Unit | Point2, n: int) -> Units:
         """Returns the n furhest units in distance to position.
 
         Example::
@@ -413,7 +414,7 @@ class Units(list):
             min(self._bot_object._distance_squared_unit_to_unit(self_unit, other_unit) for other_unit in other_units),
         )
 
-    def _list_sorted_closest_to_distance(self, position: Union[Unit, Point2], distance: float) -> List[Unit]:
+    def _list_sorted_closest_to_distance(self, position: Unit | Point2, distance: float) -> list[Unit]:
         """This function should be a bit faster than using units.sorted(key=lambda u: u.distance_to(position))
 
         :param position:
@@ -480,7 +481,7 @@ class Units(list):
     def sorted(self, key: Callable[[Unit], Any], reverse: bool = False) -> Units:
         return self.subgroup(sorted(self, key=key, reverse=reverse))
 
-    def _list_sorted_by_distance_to(self, position: Union[Unit, Point2], reverse: bool = False) -> List[Unit]:
+    def _list_sorted_by_distance_to(self, position: Unit | Point2, reverse: bool = False) -> list[Unit]:
         """This function should be a bit faster than using units.sorted(key=lambda u: u.distance_to(position))
 
         :param position:
@@ -494,7 +495,7 @@ class Units(list):
         unit_dist_dict = {unit.tag: dist for unit, dist in zip(self, distances)}
         return sorted(self, key=lambda unit2: unit_dist_dict[unit2.tag], reverse=reverse)
 
-    def sorted_by_distance_to(self, position: Union[Unit, Point2], reverse: bool = False) -> Units:
+    def sorted_by_distance_to(self, position: Unit | Point2, reverse: bool = False) -> Units:
         """This function should be a bit faster than using units.sorted(key=lambda u: u.distance_to(position))
 
         :param position:
@@ -547,7 +548,7 @@ class Units(list):
         return self.filter(lambda unit: unit.is_selected)
 
     @property
-    def tags(self) -> Set[int]:
+    def tags(self) -> set[int]:
         """ Returns all unit tags as a set. """
         return {unit.tag for unit in self}
 

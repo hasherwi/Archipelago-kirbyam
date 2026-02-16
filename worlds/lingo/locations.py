@@ -20,7 +20,7 @@ class LocationData(NamedTuple):
     """
     code: int
     room: str
-    panels: List[RoomAndPanel]
+    panels: list[RoomAndPanel]
     classification: LocationClassification
 
 
@@ -31,8 +31,8 @@ class LingoLocation(Location):
     game: str = "Lingo"
 
 
-ALL_LOCATION_TABLE: Dict[str, LocationData] = {}
-LOCATIONS_BY_GROUP: Dict[str, List[str]] = {}
+ALL_LOCATION_TABLE: dict[str, LocationData] = {}
+LOCATIONS_BY_GROUP: dict[str, list[str]] = {}
 
 
 def load_location_data():

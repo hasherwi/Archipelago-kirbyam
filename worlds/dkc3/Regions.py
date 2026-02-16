@@ -738,7 +738,7 @@ def create_regions(world: World, active_locations):
 
 
 def connect_regions(world: World, level_list):
-    names: typing.Dict[str, int] = {}
+    names: dict[str, int] = {}
 
     # Overworld
     connect(world, world.player, names, "Menu", LocationName.overworld_1_region)
@@ -933,8 +933,8 @@ def create_region(world: World, active_locations, name: str, locations=None):
     return ret
 
 
-def connect(world: World, player: int, used_names: typing.Dict[str, int], source: str, target: str,
-            rule: typing.Optional[typing.Callable] = None):
+def connect(world: World, player: int, used_names: dict[str, int], source: str, target: str,
+            rule: typing.Callable | None = None):
     source_region = world.multiworld.get_region(source, player)
     target_region = world.multiworld.get_region(target, player)
 

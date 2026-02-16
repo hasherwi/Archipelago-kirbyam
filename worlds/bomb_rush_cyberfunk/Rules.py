@@ -439,9 +439,9 @@ def mataan_faux(state: CollectionState, player: int, limit: bool, glitched: bool
     )
 
 
-def spots_s_glitchless(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
+def spots_s_glitchless(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
     total: int = 10
-    conditions: Dict[str, int] = {
+    conditions: dict[str, int] = {
         "versum_hill_entrance": 1,
         "versum_hill_ch1_roadblock": 11,
         "chapter2": 12,
@@ -480,9 +480,9 @@ def spots_s_glitchless(state: CollectionState, player: int, limit: bool, access_
         return total
 
 
-def spots_s_glitched(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
+def spots_s_glitched(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
     total: int = 75
-    conditions: Dict[str, int] = {
+    conditions: dict[str, int] = {
         "brink_terminal_entrance": 13,
         "chapter3": 6
     }
@@ -503,9 +503,9 @@ def spots_s_glitched(state: CollectionState, player: int, limit: bool, access_ca
         return total
 
 
-def spots_m_glitchless(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
+def spots_m_glitchless(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
     total: int = 4
-    conditions: Dict[str, int] = {
+    conditions: dict[str, int] = {
         "versum_hill_entrance": 3,
         "versum_hill_ch1_roadblock": 13,
         "versum_hill_all_challenges": 3,
@@ -551,9 +551,9 @@ def spots_m_glitchless(state: CollectionState, player: int, limit: bool, access_
             return 0
 
 
-def spots_m_glitched(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
+def spots_m_glitched(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
     total: int = 99
-    conditions: Dict[str, int] = {
+    conditions: dict[str, int] = {
         "brink_terminal_entrance": 21,
         "chapter3": 3
     }
@@ -577,9 +577,9 @@ def spots_m_glitched(state: CollectionState, player: int, limit: bool, access_ca
             return 0
 
 
-def spots_l_glitchless(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
+def spots_l_glitchless(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
     total: int = 7
-    conditions: Dict[str, int] = {
+    conditions: dict[str, int] = {
         "inline_skates": 1,
         "versum_hill_entrance": 2,
         "versum_hill_ch1_roadblock": 13,
@@ -628,9 +628,9 @@ def spots_l_glitchless(state: CollectionState, player: int, limit: bool, access_
             return 0
 
 
-def spots_l_glitched(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
+def spots_l_glitched(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
     total: int = 88
-    conditions: Dict[str, int] = {
+    conditions: dict[str, int] = {
         "brink_terminal_entrance": 18,
         "chapter3": 4,
         "chapter4": 1
@@ -655,9 +655,9 @@ def spots_l_glitched(state: CollectionState, player: int, limit: bool, access_ca
             return 0
 
 
-def spots_xl_glitchless(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
+def spots_xl_glitchless(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
     total: int = 3
-    conditions: Dict[str, int] = {
+    conditions: dict[str, int] = {
         "versum_hill_ch1_roadblock": 6,
         "versum_hill_basketball_court": 1,
         "chapter2": 9,
@@ -699,9 +699,9 @@ def spots_xl_glitchless(state: CollectionState, player: int, limit: bool, access
             return 0
 
 
-def spots_xl_glitched(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
+def spots_xl_glitched(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
     total: int = 51
-    conditions: Dict[str, int] = {
+    conditions: dict[str, int] = {
         "brink_terminal_entrance": 7,
         "chapter3": 3,
         "chapter4": 1
@@ -726,8 +726,8 @@ def spots_xl_glitched(state: CollectionState, player: int, limit: bool, access_c
             return 0
 
 
-def build_access_cache(state: CollectionState, player: int, movestyle: int, limit: bool, glitched: bool) -> Dict[str, bool]:
-    funcs: Dict[str, tuple] = {
+def build_access_cache(state: CollectionState, player: int, movestyle: int, limit: bool, glitched: bool) -> dict[str, bool]:
+    funcs: dict[str, tuple] = {
         "versum_hill_entrance": (state, player),
         "versum_hill_ch1_roadblock": (state, player, limit),
         "versum_hill_oldhead": (state, player),
@@ -754,7 +754,7 @@ def build_access_cache(state: CollectionState, player: int, movestyle: int, limi
         "mataan_deepest": (state, player, limit, glitched)
     }
 
-    access_cache: Dict[str, bool] = {
+    access_cache: dict[str, bool] = {
         "skateboard": skateboard(state, player, movestyle),
         "inline_skates": inline_skates(state, player, movestyle),
         "chapter2": current_chapter(state, player, 2),

@@ -37,7 +37,7 @@ class ItemData:
     code_without_offset: offset
     name: str
     classification: ItemClassification
-    groups: Set[Group] = field(default_factory=frozenset)
+    groups: set[Group] = field(default_factory=frozenset)
 
     def __post_init__(self):
         if not isinstance(self.groups, frozenset):
@@ -69,9 +69,9 @@ def load_item_csv():
     return items
 
 
-all_items: List[ItemData] = load_item_csv()
-item_table: Dict[str, ItemData] = {}
-items_by_group: Dict[Group, List[ItemData]] = {}
+all_items: list[ItemData] = load_item_csv()
+item_table: dict[str, ItemData] = {}
+items_by_group: dict[Group, list[ItemData]] = {}
 
 
 def initialize_item_table():
@@ -90,7 +90,7 @@ initialize_item_table()
 initialize_groups()
 
 
-def create_trap_items(world, world_options: Options.DLCQuestOptions, trap_needed: int, random: Random) -> List[Item]:
+def create_trap_items(world, world_options: Options.DLCQuestOptions, trap_needed: int, random: Random) -> list[Item]:
     traps = []
     for i in range(trap_needed):
         trap = random.choice(items_by_group[Group.Trap])

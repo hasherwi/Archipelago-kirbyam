@@ -56,7 +56,7 @@ class GenericWorld(World):
 class PlandoItem(NamedTuple):
     item: str
     location: str
-    world: Union[bool, str] = False  # False -> own world, True -> not own world
+    world: bool | str = False  # False -> own world, True -> not own world
     from_pool: bool = True  # if item should be removed from item pool
     force: str = "silent"  # false -> warns if item not successfully placed. true -> errors out on failure to place item.
 

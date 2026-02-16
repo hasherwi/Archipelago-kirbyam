@@ -13,79 +13,79 @@ class MM2Region(Region):
     game = "Mega Man 2"
 
 
-heat_man_locations: Dict[str, Optional[int]] = {
+heat_man_locations: dict[str, int | None] = {
     names.heat_man: 0x880001,
     names.atomic_fire_get: 0x880101,
     names.item_1_get: 0x880111,
 }
 
-air_man_locations: Dict[str, Optional[int]] = {
+air_man_locations: dict[str, int | None] = {
     names.air_man: 0x880002,
     names.air_shooter_get: 0x880102,
     names.item_2_get: 0x880112
 }
 
-wood_man_locations: Dict[str, Optional[int]] = {
+wood_man_locations: dict[str, int | None] = {
     names.wood_man: 0x880003,
     names.leaf_shield_get: 0x880103
 }
 
-bubble_man_locations: Dict[str, Optional[int]] = {
+bubble_man_locations: dict[str, int | None] = {
     names.bubble_man: 0x880004,
     names.bubble_lead_get: 0x880104
 }
 
-quick_man_locations: Dict[str, Optional[int]] = {
+quick_man_locations: dict[str, int | None] = {
     names.quick_man: 0x880005,
     names.quick_boomerang_get: 0x880105,
 }
 
-flash_man_locations: Dict[str, Optional[int]] = {
+flash_man_locations: dict[str, int | None] = {
     names.flash_man: 0x880006,
     names.time_stopper_get: 0x880106,
     names.item_3_get: 0x880113,
 }
 
-metal_man_locations: Dict[str, Optional[int]] = {
+metal_man_locations: dict[str, int | None] = {
     names.metal_man: 0x880007,
     names.metal_blade_get: 0x880107
 }
 
-crash_man_locations: Dict[str, Optional[int]] = {
+crash_man_locations: dict[str, int | None] = {
     names.crash_man: 0x880008,
     names.crash_bomber_get: 0x880108
 }
 
-wily_1_locations: Dict[str, Optional[int]] = {
+wily_1_locations: dict[str, int | None] = {
     names.wily_1: 0x880009,
     names.wily_stage_1: None
 }
 
-wily_2_locations: Dict[str, Optional[int]] = {
+wily_2_locations: dict[str, int | None] = {
     names.wily_2: 0x88000A,
     names.wily_stage_2: None
 }
 
-wily_3_locations: Dict[str, Optional[int]] = {
+wily_3_locations: dict[str, int | None] = {
     names.wily_3: 0x88000B,
     names.wily_stage_3: None
 }
 
-wily_4_locations: Dict[str, Optional[int]] = {
+wily_4_locations: dict[str, int | None] = {
     names.wily_4: 0x88000C,
     names.wily_stage_4: None
 }
 
-wily_5_locations: Dict[str, Optional[int]] = {
+wily_5_locations: dict[str, int | None] = {
     names.wily_5: 0x88000D,
     names.wily_stage_5: None
 }
 
-wily_6_locations: Dict[str, Optional[int]] = {
+wily_6_locations: dict[str, int | None] = {
     names.dr_wily: None
 }
 
-etank_1ups: Dict[str, Dict[str, Optional[int]]] = {
+etank_1ups: dict[str, dict[str, int | None]] = {
     "Heat Man Stage": {
         names.heat_man_c1: 0x880201,
     },
@@ -126,7 +126,7 @@ etank_1ups: Dict[str, Dict[str, Optional[int]]] = {
     }
 }
 
-energy_pickups: Dict[str, Dict[str, Optional[int]]] = {
+energy_pickups: dict[str, dict[str, int | None]] = {
     "Quick Man Stage": {
         names.quick_man_c4: 0x880205,
         names.quick_man_c5: 0x880206,
@@ -170,7 +170,7 @@ energy_pickups: Dict[str, Dict[str, Optional[int]]] = {
     }
 }
 
-mm2_regions: Dict[str, Tuple[Tuple[str, ...], Dict[str, Optional[int]], Optional[str]]] = {
+mm2_regions: dict[str, tuple[tuple[str, ...], dict[str, int | None], str | None]] = {
     "Heat Man Stage": ((names.heat_man_stage,), heat_man_locations, None),
     "Air Man Stage": ((names.air_man_stage,), air_man_locations, None),
     "Wood Man Stage": ((names.wood_man_stage,), wood_man_locations, None),
@@ -187,7 +187,7 @@ mm2_regions: Dict[str, Tuple[Tuple[str, ...], Dict[str, Optional[int]], Optional
     "Wily Stage 6": ((names.wily_stage_5,), wily_6_locations, "Wily Stage 5")
 }
 
-location_table: Dict[str, Optional[int]] = {
+location_table: dict[str, int | None] = {
     **heat_man_locations,
     **air_man_locations,
     **wood_man_locations,
@@ -238,4 +238,4 @@ location_groups = {
                              names.wily_2_c13, names.wily_2_c14, names.wily_2_c15, names.wily_2_c16}
 }
 
-lookup_location_to_id: Dict[str, int] = {location: idx for location, idx in location_table.items() if idx is not None}
+lookup_location_to_id: dict[str, int] = {location: idx for location, idx in location_table.items() if idx is not None}

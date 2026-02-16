@@ -91,8 +91,8 @@ class CastlevaniaCotMClient(BizHawkClient):
     patch_suffix = ".apcvcotm"
     sent_initial_packets: bool
     self_induced_death: bool
-    time_of_sent_death: Optional[float]
-    local_checked_locations: Set[int]
+    time_of_sent_death: float | None
+    local_checked_locations: set[int]
     client_set_events = {flag_name: False for flag, flag_name in EVENT_FLAG_MAP.items()}
     killed_dracula_2: bool
     won_battle_arena: bool

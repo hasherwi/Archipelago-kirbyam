@@ -19,7 +19,7 @@ def collect_all(mw):
 
 
 class LogicTestBase(RuleAssertMixin, TestCase):
-    options: typing.Dict[str, typing.Any] = {}
+    options: dict[str, typing.Any] = {}
     multiworld: MultiWorld
     logic: StardewLogic
     world: StardewValleyWorld

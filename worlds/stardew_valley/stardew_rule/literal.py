@@ -9,7 +9,7 @@ from .protocol import StardewRule
 class LiteralStardewRule(StardewRule, ABC):
     value: bool
 
-    def evaluate_while_simplifying(self, state: CollectionState) -> Tuple[StardewRule, bool]:
+    def evaluate_while_simplifying(self, state: CollectionState) -> tuple[StardewRule, bool]:
         return self, self.value
 
     def __call__(self, state: CollectionState) -> bool:

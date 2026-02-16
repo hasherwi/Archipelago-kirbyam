@@ -24,7 +24,7 @@ class KirbyAmClient(BizHawkClient):
 
     def initialize_client(self) -> None:
         # Real polling state (shards)
-        self._checked_location_bits: Set[int] = set()
+        self._checked_location_bits: set[int] = set()
 
         # Item delivery state
         self._delivered_item_index: int = 0
@@ -35,7 +35,7 @@ class KirbyAmClient(BizHawkClient):
         self._simulated_location_index: int = 0
 
         # Deterministic location ordering
-        self._all_location_ids_sorted: List[int] = [
+        self._all_location_ids_sorted: list[int] = [
             loc.location_id for loc in sorted(data.locations.values(), key=lambda l: l.location_id)
         ]
 

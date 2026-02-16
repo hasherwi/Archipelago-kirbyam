@@ -25,7 +25,7 @@ links_awakening_dungeon_names = [
 def meta_to_name(meta):
     return f"{meta.name} ({meta.area})"
 
-def get_location_name_groups() -> typing.Dict[str, typing.Set[str]]:
+def get_location_name_groups() -> dict[str, set[str]]:
     groups = {
         "Instrument Pedestals": {
             "Full Moon Cello (Tail Cave)",

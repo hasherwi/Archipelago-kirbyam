@@ -11,7 +11,7 @@ from .Names import ItemName, LocationName
 
 
 class LevelGate:
-    gate_levels: typing.List[int]
+    gate_levels: list[int]
     gate_emblem_count: int
 
     def __init__(self, emblems):
@@ -714,8 +714,8 @@ def create_regions(multiworld: MultiWorld, world: World, player: int, active_loc
     multiworld.regions += conditional_regions
 
 
-def connect_regions(multiworld: MultiWorld, world: World, player: int, gates: typing.List[LevelGate], cannon_core_emblems, gate_bosses, boss_rush_bosses, first_cannons_core_mission: str, final_cannons_core_mission: str):
-    names: typing.Dict[str, int] = {}
+def connect_regions(multiworld: MultiWorld, world: World, player: int, gates: list[LevelGate], cannon_core_emblems, gate_bosses, boss_rush_bosses, first_cannons_core_mission: str, final_cannons_core_mission: str):
+    names: dict[str, int] = {}
 
     connect(multiworld, player, names, "Menu", LocationName.gate_0_region)
     connect(multiworld, player, names, LocationName.gate_0_region, LocationName.cannon_core_region,
@@ -1405,8 +1405,8 @@ def create_region(multiworld: MultiWorld, player: int, active_locations, name: s
     return ret
 
 
-def connect(multiworld: MultiWorld, player: int, used_names: typing.Dict[str, int], source: str, target: str,
-            rule: typing.Optional[typing.Callable] = None):
+def connect(multiworld: MultiWorld, player: int, used_names: dict[str, int], source: str, target: str,
+            rule: typing.Callable | None = None):
     source_region = multiworld.get_region(source, player)
     target_region = multiworld.get_region(target, player)
 

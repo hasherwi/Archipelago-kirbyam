@@ -12,7 +12,7 @@ class ContradictionException(Exception):
 
 
 class Cell:
-    def __init__(self, x, y, tileset: TileSet, options: Set[int]):
+    def __init__(self, x, y, tileset: TileSet, options: set[int]):
         self.x = x
         self.y = y
         self.tileset = tileset

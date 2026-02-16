@@ -13,10 +13,10 @@ class RegionDict(TypedDict, total=False):
     name: str
     connects_to_hub: bool
     episode: int
-    connections: List[ConnectionDict]
+    connections: list[ConnectionDict]
 
 
-regions:List[RegionDict] = [
+regions:list[RegionDict] = [
     # The Docks (E1M1)
     {"name":"The Docks (E1M1) Main",
      "connects_to_hub":True,

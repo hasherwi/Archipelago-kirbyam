@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from functools import cached_property, singledispatch
-from typing import Iterable, List, Optional, Set, Tuple
+from typing import List, Optional, Set, Tuple
+from collections.abc import Iterable
 
 from BaseClasses import CollectionState, Entrance, Location
 from worlds.generic.Rules import CollectionRule
@@ -16,7 +17,7 @@ class RuleExplanation:
     state: CollectionState = field(repr=False, hash=False)
     expected: bool
     sub_rules: Iterable[StardewRule] = field(default_factory=list)
-    explored_rules_key: Set[Tuple[str, str]] = field(default_factory=set, repr=False, hash=False)
+    explored_rules_key: set[tuple[str, str]] = field(default_factory=set, repr=False, hash=False)
     current_rule_explored: bool = False
 
     def __post_init__(self):
@@ -47,7 +48,7 @@ class RuleExplanation:
             return False
 
     @cached_property
-    def explained_sub_rules(self) -> List[RuleExplanation]:
+    def explained_sub_rules(self) -> list[RuleExplanation]:
         rule_key = _rule_key(self.rule)
         if rule_key is not None:
             self.explored_rules_key.add(rule_key)
@@ -75,7 +76,7 @@ class CountExplanation(RuleExplanation):
     rule: Count
 
     @cached_property
-    def explained_sub_rules(self) -> List[RuleExplanation]:
+    def explained_sub_rules(self) -> list[RuleExplanation]:
         return [
             CountSubRuleExplanation.from_explanation(_explain(rule, self.state, self.expected, self.explored_rules_key), count)
             for rule, count in self.rule.counter.items()
@@ -90,22 +91,22 @@ def explain(rule: CollectionRule, state: CollectionState, expected: bool = True)
 
 
 @singledispatch
-def _explain(rule: StardewRule, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
+def _explain(rule: StardewRule, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
     return RuleExplanation(rule, state, expected, explored_rules_key=explored_spots)
 
 
 @_explain.register
-def _(rule: AggregatingStardewRule, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
+def _(rule: AggregatingStardewRule, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
     return RuleExplanation(rule, state, expected, rule.original_rules, explored_rules_key=explored_spots)
 
 
 @_explain.register
-def _(rule: Count, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
+def _(rule: Count, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
     return CountExplanation(rule, state, expected, rule.rules, explored_rules_key=explored_spots)
 
 
 @_explain.register
-def _(rule: Has, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
+def _(rule: Has, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
     try:
         return RuleExplanation(rule, state, expected, [rule.other_rules[rule.item]], explored_rules_key=explored_spots)
     except KeyError:
@@ -113,12 +114,12 @@ def _(rule: Has, state: CollectionState, expected: bool, explored_spots: Set[Tup
 
 
 @_explain.register
-def _(rule: TotalReceived, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
+def _(rule: TotalReceived, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
     return RuleExplanation(rule, state, expected, [Received(i, rule.player, 1) for i in rule.items], explored_rules_key=explored_spots)
 
 
 @_explain.register
-def _(rule: Reach, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
+def _(rule: Reach, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
     access_rules = None
     if rule.resolution_hint == "Location":
         spot = state.multiworld.get_location(rule.spot, rule.player)
@@ -156,7 +157,7 @@ def _(rule: Reach, state: CollectionState, expected: bool, explored_spots: Set[T
 
 
 @_explain.register
-def _(rule: Received, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
+def _(rule: Received, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
     access_rules = None
     if rule.event:
         try:
@@ -175,17 +176,17 @@ def _(rule: Received, state: CollectionState, expected: bool, explored_spots: Se
 
 
 @singledispatch
-def _rule_key(_: StardewRule) -> Optional[Tuple[str, str]]:
+def _rule_key(_: StardewRule) -> tuple[str, str] | None:
     return None
 
 
 @_rule_key.register
-def _(rule: Reach) -> Tuple[str, str]:
+def _(rule: Reach) -> tuple[str, str]:
     return rule.spot, rule.resolution_hint
 
 
 @_rule_key.register
-def _(rule: Received) -> Optional[Tuple[str, str]]:
+def _(rule: Received) -> tuple[str, str] | None:
     if not rule.event:
         return None
 

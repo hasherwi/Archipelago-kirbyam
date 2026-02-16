@@ -4,7 +4,7 @@ from . import MuseDashTestBase
 
 
 class DifficultyRanges(MuseDashTestBase):
-    DIFF_OVERRIDES: List[str] = [
+    DIFF_OVERRIDES: list[str] = [
         "MuseDash ka nanika hi",
         "Rush-Hour",
         "Find this Month's Featured Playlist",

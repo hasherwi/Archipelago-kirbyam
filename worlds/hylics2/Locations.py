@@ -6,7 +6,7 @@ class LocationDict(TypedDict, total=False):
     region: int
 
 
-location_table: Dict[int, LocationDict] = {
+location_table: dict[int, LocationDict] = {
     # Waynehouse
     200622: {"name": "Waynehouse: Toilet",
              "region": 2},
@@ -287,7 +287,7 @@ location_table: Dict[int, LocationDict] = {
 }
 
 
-tv_location_table: Dict[int, LocationDict] = {
+tv_location_table: dict[int, LocationDict] = {
     200627: {"name": "Waynehouse: TV",
              "region": 2},
     200631: {"name": "Afterlife: TV",
@@ -309,7 +309,7 @@ tv_location_table: Dict[int, LocationDict] = {
 }
 
 
-party_location_table: Dict[int, LocationDict] = {
+party_location_table: dict[int, LocationDict] = {
     200644: {"name": "New Muldul: Pongorma Joins",
              "region": 4},
     200654: {"name": "Viewax's Edifice: Dedusmuln Joins",
@@ -319,7 +319,7 @@ party_location_table: Dict[int, LocationDict] = {
 }
 
 
-medallion_location_table: Dict[int, LocationDict] = {
+medallion_location_table: dict[int, LocationDict] = {
     200755: {"name": "New Muldul: Upper House Medallion",
              "region": 4},
 

@@ -280,7 +280,7 @@ class MagpieBridge:
             return
         await self.item_tracker.sendItems(self.ws, diff=True)
 
-    async def send_gps(self, diff: bool=True) -> typing.Dict[str, str]:
+    async def send_gps(self, diff: bool=True) -> dict[str, str]:
         if not self.ws:
             return
 

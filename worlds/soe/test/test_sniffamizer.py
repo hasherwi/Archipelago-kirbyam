@@ -64,7 +64,7 @@ class TestSniffamizerShuffle(Bases.TestSniffamizerLocal):
     """
     Test that shuffle does not add extra items or locations
     """
-    options: typing.Dict[str, typing.Any] = {
+    options: dict[str, typing.Any] = {
         "sniffamizer": "shuffle"
     }
 
@@ -81,7 +81,7 @@ class TestSniffamizerEverywhereVanilla(Bases.TestSniffamizerPool):
     """
     Test that everywhere + vanilla ingredients does add extra items and locations
     """
-    options: typing.Dict[str, typing.Any] = {
+    options: dict[str, typing.Any] = {
         "sniffamizer": "everywhere",
         "sniff_ingredients": "vanilla_ingredients",
     }
@@ -97,7 +97,7 @@ class TestSniffamizerEverywhereRandom(Bases.TestSniffamizerPool):
     """
     Test that everywhere + random ingredients also adds extra items and locations
     """
-    options: typing.Dict[str, typing.Any] = {
+    options: dict[str, typing.Any] = {
         "sniffamizer": "everywhere",
         "sniff_ingredients": "random_ingredients",
     }
@@ -113,12 +113,12 @@ class EverywhereAccessTest(SoETestBase):
     """
     Test that everywhere has certain rules
     """
-    options: typing.Dict[str, typing.Any] = {
+    options: dict[str, typing.Any] = {
         "sniffamizer": "everywhere",
     }
 
     @staticmethod
-    def _resolve_numbers(spots: typing.Mapping[str, typing.Iterable[int]]) -> typing.List[str]:
+    def _resolve_numbers(spots: typing.Mapping[str, typing.Iterable[int]]) -> list[str]:
         return [f"{name} #{number}" for name, numbers in spots.items() for number in numbers]
 
     def test_knight_basher(self) -> None:

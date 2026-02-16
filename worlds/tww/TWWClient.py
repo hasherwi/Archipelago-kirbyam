@@ -123,7 +123,7 @@ class TWWContext(CommonContext):
     game: str = "The Wind Waker"
     items_handling: int = 0b111
 
-    def __init__(self, server_address: Optional[str], password: Optional[str]) -> None:
+    def __init__(self, server_address: str | None, password: str | None) -> None:
         """
         Initialize the TWW context.
 
@@ -132,7 +132,7 @@ class TWWContext(CommonContext):
         """
 
         super().__init__(server_address, password)
-        self.dolphin_sync_task: Optional[asyncio.Task[None]] = None
+        self.dolphin_sync_task: asyncio.Task[None] | None = None
         self.dolphin_status: str = CONNECTION_INITIAL_STATUS
         self.awaiting_rom: bool = False
         self.has_send_death: bool = False
@@ -161,7 +161,7 @@ class TWWContext(CommonContext):
         # cause the server's data storage to update, the TWW AP Client keeps track of the visited stages in a set.
         # Trackers can request the dictionary from data storage to see which stages the player has visited.
         # It starts as `None` until it has been read from the server.
-        self.visited_stage_names: Optional[set[str]] = None
+        self.visited_stage_names: set[str] | None = None
 
         # Length of the item get array in memory.
         self.len_give_item_array: int = 0x10
@@ -696,7 +696,7 @@ async def dolphin_sync_task(ctx: TWWContext) -> None:
             continue
 
 
-def main(connect: Optional[str] = None, password: Optional[str] = None) -> None:
+def main(connect: str | None = None, password: str | None = None) -> None:
     """
     Run the main async loop for the Wind Waker client.
 
@@ -705,7 +705,7 @@ def main(connect: Optional[str] = None, password: Optional[str] = None) -> None:
     """
     Utils.init_logging("The Wind Waker Client")
 
-    async def _main(connect: Optional[str], password: Optional[str]) -> None:
+    async def _main(connect: str | None, password: str | None) -> None:
         ctx = TWWContext(connect, password)
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="ServerLoop")
         if gui_enabled:

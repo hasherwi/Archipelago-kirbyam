@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Callable, Dict
+from typing import TYPE_CHECKING, Dict
+from collections.abc import Callable
 
 from BaseClasses import CollectionState, LocationProgressType
 
@@ -14,8 +15,8 @@ else:
 class InscryptionRules:
     player: int
     world: InscryptionWorld
-    location_rules: Dict[str, Callable[[CollectionState], bool]]
-    region_rules: Dict[str, Callable[[CollectionState], bool]]
+    location_rules: dict[str, Callable[[CollectionState], bool]]
+    region_rules: dict[str, Callable[[CollectionState], bool]]
 
     def __init__(self, world: InscryptionWorld) -> None:
         self.player = world.player

@@ -24,7 +24,7 @@ def has_stage_access_rule(multiworld: MultiWorld, stage: str, amount: int, regio
         entrance.access_rule = rule
 
 
-def has_all_items(multiworld: MultiWorld, items: Set[str], region: str, player: int) -> None:
+def has_all_items(multiworld: MultiWorld, items: set[str], region: str, player: int) -> None:
     rule = lambda state: state.has_all(items, player) and state.has(region, player)
     for entrance in multiworld.get_region(region, player).entrances:
         entrance.access_rule = rule

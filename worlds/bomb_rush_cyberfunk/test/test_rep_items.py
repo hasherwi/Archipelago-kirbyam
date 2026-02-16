@@ -2,7 +2,7 @@ from typing import List
 
 from . import BombRushCyberfunkTestBase
 
-rep_item_names: List[str] = [
+rep_item_names: list[str] = [
     "8 REP",
     "16 REP",
     "24 REP",

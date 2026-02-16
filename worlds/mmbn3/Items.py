@@ -51,7 +51,7 @@ class MMBN3Item(Item):
     game: str = "MegaMan Battle Network 3"
 
 
-keyItemList: typing.List[ItemData] = [
+keyItemList: list[ItemData] = [
     ItemData(0xB31000, ItemName.Progressive_Undernet_Rank, ItemClassification.progression_skip_balancing, ItemType.Undernet, 27),
     ItemData(0xB31001, ItemName.CACDCPas,                  ItemClassification.progression, ItemType.KeyItem,  92),
     ItemData(0xB31002, ItemName.CSciPas,                   ItemClassification.progression, ItemType.KeyItem,  93),
@@ -85,7 +85,7 @@ keyItemList: typing.List[ItemData] = [
     ItemData(0xB310DF, ItemName.Hammer, ItemClassification.progression, ItemType.KeyItem, 56)
 ]
 
-subChipList: typing.List[ItemData] = [
+subChipList: list[ItemData] = [
     ItemData(0xB31018, ItemName.Unlocker, ItemClassification.progression, ItemType.SubChip,  117),
     ItemData(0xB31019, ItemName.Untrap,   ItemClassification.filler, ItemType.SubChip,  115),
     ItemData(0xB3101A, ItemName.LockEnmy, ItemClassification.filler, ItemType.SubChip,  116),
@@ -94,7 +94,7 @@ subChipList: typing.List[ItemData] = [
     ItemData(0xB3101D, ItemName.SneakRun, ItemClassification.filler, ItemType.SubChip,  114)
 ]
 
-chipList: typing.List[ItemData] = [
+chipList: list[ItemData] = [
     ItemData(0xB3101E, ItemName.AirShoes_star, ItemClassification.useful, ItemType.Chip, 168, chip_code("*")),
     ItemData(0xB3101F, ItemName.AirShot3_star, ItemClassification.useful, ItemType.Chip, 6, chip_code("*")),
 
@@ -265,7 +265,7 @@ chipList: typing.List[ItemData] = [
     ItemData(0xB310DE, ItemName.BowlManV3_B, ItemClassification.useful, ItemType.Chip, 289, chip_code("B")),
 ]
 
-programList: typing.List[ItemData] = [
+programList: list[ItemData] = [
     ItemData(0xB31084, ItemName.Airshoes,          ItemClassification.useful, ItemType.Program, 29, ProgramColor.White),
     ItemData(0xB31085, ItemName.Attack_plus_White, ItemClassification.filler, ItemType.Program, 41, ProgramColor.White),
     ItemData(0xB31086, ItemName.Attack_plus_Pink,  ItemClassification.filler, ItemType.Program, 41, ProgramColor.Pink),
@@ -296,7 +296,7 @@ programList: typing.List[ItemData] = [
     ItemData(0xB310E1, ItemName.BlckMnd,           ItemClassification.progression, ItemType.Program, 46, ProgramColor.White)
 ]
 
-zennyList: typing.List[ItemData] = [
+zennyList: list[ItemData] = [
     ItemData(0xB3109B, ItemName.zenny_200z,   ItemClassification.filler, ItemType.Zenny, count=200),
     ItemData(0xB3109C, ItemName.zenny_500z,   ItemClassification.filler, ItemType.Zenny, count=500),
     ItemData(0xB3109D, ItemName.zenny_600z,   ItemClassification.filler, ItemType.Zenny, count=600),
@@ -316,13 +316,13 @@ zennyList: typing.List[ItemData] = [
     ItemData(0xB310AA, ItemName.zenny_50000z, ItemClassification.useful, ItemType.Zenny, count=50000)
 ]
 
-bugFragList: typing.List[ItemData] = [
+bugFragList: list[ItemData] = [
     ItemData(0xB310AB, ItemName.bugfrag_30, ItemClassification.filler, ItemType.BugFrag, count=30),
     ItemData(0xB310B5, ItemName.bugfrag_10, ItemClassification.filler, ItemType.BugFrag, count=10),
     ItemData(0xB310B6, ItemName.bugfrag_01, ItemClassification.filler, ItemType.BugFrag, count=1)
 ]
 
-item_frequencies: typing.Dict[str, int] = {
+item_frequencies: dict[str, int] = {
     ItemName.Progressive_Undernet_Rank: 8,
     ItemName.ExpMem: 2,
     ItemName.Unlocker: 10,
@@ -345,7 +345,7 @@ item_frequencies: typing.Dict[str, int] = {
     ItemName.bugfrag_10: 5
 }
 
-item_groups: typing.Dict[str, typing.Set[str]] = {
+item_groups: dict[str, set[str]] = {
     "Key Items": {loc.itemName for loc in keyItemList},
     "Subchips": {loc.itemName for loc in subChipList},
     "Programs": {loc.itemName for loc in programList},
@@ -364,6 +364,6 @@ item_groups: typing.Dict[str, typing.Set[str]] = {
     }
 }
 
-all_items: typing.List[ItemData] = keyItemList + subChipList + chipList + programList + zennyList + bugFragList
-item_table: typing.Dict[str, ItemData] = {item.itemName: item for item in all_items}
-items_by_id: typing.Dict[int, ItemData] = {item.code: item for item in all_items}
+all_items: list[ItemData] = keyItemList + subChipList + chipList + programList + zennyList + bugFragList
+item_table: dict[str, ItemData] = {item.itemName: item for item in all_items}
+items_by_id: dict[int, ItemData] = {item.code: item for item in all_items}

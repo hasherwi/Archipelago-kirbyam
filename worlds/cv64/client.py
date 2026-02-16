@@ -28,7 +28,7 @@ class Castlevania64Client(BizHawkClient):
     received_deathlinks = 0
     death_causes = []
     currently_shopping = False
-    local_checked_locations: Set[int]
+    local_checked_locations: set[int]
 
     def __init__(self) -> None:
         super().__init__()

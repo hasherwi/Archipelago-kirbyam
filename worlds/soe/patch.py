@@ -18,7 +18,7 @@ class SoEDeltaPatch(APDeltaPatch):
             return read_rom(stream)
 
 
-def get_base_rom_path(file_name: Optional[str] = None) -> str:
+def get_base_rom_path(file_name: str | None = None) -> str:
     if not file_name:
         from . import SoEWorld
         file_name = SoEWorld.settings.rom_file

@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from functools import cached_property
-from typing import Iterable, Tuple
+from typing import Tuple
+from collections.abc import Iterable
 
 
 @dataclass(frozen=True)
@@ -17,5 +18,5 @@ class Skill:
         return f"{self.name} Level"
 
     @cached_property
-    def level_names_by_level(self) -> Iterable[Tuple[int, str]]:
+    def level_names_by_level(self) -> Iterable[tuple[int, str]]:
         return tuple((level, f"Level {level} {self.name}") for level in range(1, 11))

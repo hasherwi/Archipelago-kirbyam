@@ -16,12 +16,12 @@ class LocationData:
     region: str
     name: str
     event_name: str
-    code: Optional[int]
-    non_progression: Optional[bool]
-    rule: Optional[Callable[[CollectionState], bool]]
+    code: int | None
+    non_progression: bool | None
+    rule: Callable[[CollectionState], bool] | None
 
-    def __init__(self, region: str, name: str, code: Optional[int], event_name: Optional[str] = None,
-                 non_progression: Optional[bool] = False, rule: Optional[Callable[[CollectionState], bool]] = None):
+    def __init__(self, region: str, name: str, code: int | None, event_name: str | None = None,
+                 non_progression: bool | None = False, rule: Callable[[CollectionState], bool] | None = None):
         self.region = region
         self.name = name
         self.code = code
@@ -117,12 +117,12 @@ class MamSlot(LocationData):
 
 
 class ShopSlot(LocationData):
-    def __init__(self, state_logic: Optional[StateLogic], slot: int, cost: int, location_id: int):
+    def __init__(self, state_logic: StateLogic | None, slot: int, cost: int, location_id: int):
         super().__init__("AWESOME Shop", f"AWESOME Shop purchase {slot}", location_id,
                          rule=ShopSlot.can_purchase_from_shop(state_logic, cost))
 
     @staticmethod
-    def can_purchase_from_shop(state_logic: Optional[StateLogic], cost: int) -> Callable[[CollectionState], bool]:
+    def can_purchase_from_shop(state_logic: StateLogic | None, cost: int) -> Callable[[CollectionState], bool]:
         def can_purchase(state: CollectionState) -> bool:
             if not state_logic or cost < 20:
                 return True
@@ -137,16 +137,16 @@ class ShopSlot(LocationData):
 
 
 class HardDrive(LocationData):
-    def __init__(self, data: DropPodData, state_logic: Optional[StateLogic],
+    def __init__(self, data: DropPodData, state_logic: StateLogic | None,
                  location_id: int, tier: int, can_hold_progression: bool):
 
         # drop pod locations are unlocked by hard drives, there is currently no direct mapping between location and hard drive
         # we currently do not know how many hdd require gas or radioactive protection
         # coordinates are for us to reference them, there is no real link between coordinate and check
-        def get_region(gassed: Optional[bool], radioactive: Optional[bool]) -> str:
+        def get_region(gassed: bool | None, radioactive: bool | None) -> str:
             return f"Hub Tier {tier}"
 
-        def get_rule(unlocked_by: Optional[str], power_needed: int) -> Callable[[CollectionState], bool]:
+        def get_rule(unlocked_by: str | None, power_needed: int) -> Callable[[CollectionState], bool]:
             # Power is kept out of logic. with energy link its simple,
             # without you just going to have to figure it your yourself
 
@@ -163,11 +163,11 @@ class HardDrive(LocationData):
 
 
 class Locations:
-    game_logic: Optional[GameLogic]
-    options: Optional[SatisfactoryOptions]
-    state_logic: Optional[StateLogic]
-    items: Optional[Items]
-    critical_path: Optional[CriticalPathCalculator]
+    game_logic: GameLogic | None
+    options: SatisfactoryOptions | None
+    state_logic: StateLogic | None
+    items: Items | None
+    critical_path: CriticalPathCalculator | None
 
     hub_location_start: ClassVar[int] = 1338000
     max_tiers: ClassVar[int] = 10
@@ -176,9 +176,9 @@ class Locations:
     drop_pod_location_id_start: ClassVar[int] = 1338600
     drop_pod_location_id_end: ClassVar[int] = 1338699
 
-    def __init__(self, game_logic: Optional[GameLogic] = None, options: Optional[SatisfactoryOptions] = None,
-                 state_logic: Optional[StateLogic] = None, items: Optional[Items] = None,
-                 critical_path: Optional[CriticalPathCalculator] = None):
+    def __init__(self, game_logic: GameLogic | None = None, options: SatisfactoryOptions | None = None,
+                 state_logic: StateLogic | None = None, items: Items | None = None,
+                 critical_path: CriticalPathCalculator | None = None):
         self.game_logic = game_logic
         self.options = options
         self.state_logic = state_logic

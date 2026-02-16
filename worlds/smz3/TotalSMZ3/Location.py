@@ -1,5 +1,6 @@
 ﻿from enum import Enum
-from typing import Callable, List
+from typing import List
+from collections.abc import Callable
 
 from . import Region, World
 from .Item import Progression

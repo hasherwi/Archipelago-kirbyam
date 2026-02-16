@@ -37,7 +37,7 @@ class ShiversWorld(World):
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = Constants.location_name_to_id
     storage_placements = []
-    pot_completed_list: List[int]
+    pot_completed_list: list[int]
 
     def generate_early(self):
         self.pot_completed_list = []
@@ -60,7 +60,7 @@ class ShiversWorld(World):
         data = item_table[name]
         return ShiversItem(name, data.classification, data.code, self.player)
 
-    def create_event_location(self, region_name: str, location_name: str, event_name: Optional[str] = None) -> None:
+    def create_event_location(self, region_name: str, location_name: str, event_name: str | None = None) -> None:
         region = self.get_region(region_name)
         loc = ShiversLocation(self.player, location_name, None, region)
         if event_name is not None:
@@ -183,7 +183,7 @@ class ShiversWorld(World):
         else:
             item_pool.append(self.create_item("Heal"))
 
-        def set_lobby_access_keys(items: Dict[str, int]):
+        def set_lobby_access_keys(items: dict[str, int]):
             if lobby_access_keys == 0:
                 items["Key for Underground Lake"] = 1
                 items["Key for Office Elevator"] = 1
@@ -256,7 +256,7 @@ class ShiversWorld(World):
         self.storage_placements = {location.name.replace("Storage: ", ""): location.item.name.replace(" DUPE", "") for
                                    location in storage_locs}
 
-    def get_pre_fill_items(self) -> List[Item]:
+    def get_pre_fill_items(self) -> list[Item]:
         if self.options.full_pots == "pieces":
             return [self.create_item(name) for name, data in item_table.items() if
                     data.type == ItemType.POT_DUPLICATE]

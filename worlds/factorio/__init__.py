@@ -94,9 +94,9 @@ class Factorio(World):
     """
     game = "Factorio"
     special_nodes = {"automation", "logistics", "rocket-silo"}
-    custom_recipes: typing.Dict[str, Recipe]
-    location_pool: typing.List[FactorioScienceLocation]
-    advancement_technologies: typing.Set[str]
+    custom_recipes: dict[str, Recipe]
+    location_pool: list[FactorioScienceLocation]
+    advancement_technologies: set[str]
 
     web = FactorioWeb()
     options_dataclass = FactorioOptions
@@ -110,14 +110,14 @@ class Factorio(World):
     required_client_version = (0, 6, 0)
     if Utils.version_tuple < required_client_version:
         raise Exception(f"Update Archipelago to use this world ({game}).")
-    ordered_science_packs: typing.List[str] = MaxSciencePack.get_ordered_science_packs()
-    tech_tree_layout_prerequisites: typing.Dict[FactorioScienceLocation, typing.Set[FactorioScienceLocation]]
+    ordered_science_packs: list[str] = MaxSciencePack.get_ordered_science_packs()
+    tech_tree_layout_prerequisites: dict[FactorioScienceLocation, set[FactorioScienceLocation]]
     tech_mix: int = 0
     skip_silo: bool = False
     origin_region_name = "Nauvis"
-    science_locations: typing.List[FactorioScienceLocation]
-    craftsanity_locations: typing.List[FactorioCraftsanityLocation]
-    removed_technologies: typing.Set[str]
+    science_locations: list[FactorioScienceLocation]
+    craftsanity_locations: list[FactorioCraftsanityLocation]
+    removed_technologies: set[str]
     settings: typing.ClassVar[FactorioSettings]
     trap_names: tuple[str] = ("Evolution", "Attack", "Teleport", "Grenade", "Cluster Grenade", "Artillery",
                               "Atomic Rocket", "Atomic Cliff Remover", "Inventory Spill")
@@ -387,7 +387,7 @@ class Factorio(World):
             # 32 bit uint
             map_basic_settings["seed"] = self.random.randint(0, 2 ** 32 - 1)
 
-        start_location_hints: typing.Set[str] = self.options.start_location_hints.value
+        start_location_hints: set[str] = self.options.start_location_hints.value
 
         for loc in self.science_locations:
             # show start_location_hints ingame
@@ -445,12 +445,12 @@ class Factorio(World):
         return Recipe(original.name, self.get_category(original.category, liquids_used), new_ingredients,
                       original.products, original.energy)
 
-    def make_balanced_recipe(self, original: Recipe, pool: typing.Set[str], factor: float = 1,
+    def make_balanced_recipe(self, original: Recipe, pool: set[str], factor: float = 1,
                              allow_liquids: int = 2, ingredients_offset: int = 0) -> Recipe:
         """Generate a recipe from pool with time and cost similar to original * factor"""
         new_ingredients = {}
         # have to first sort for determinism, while filtering out non-stacking items
-        pool: typing.List[str] = sorted(pool & valid_ingredients)
+        pool: list[str] = sorted(pool & valid_ingredients)
         # then sort with random data to shuffle
         self.random.shuffle(pool)
         target_raw = int(sum((count for ingredient, count in original.base_cost.items())) * factor)
@@ -661,7 +661,7 @@ class FactorioScienceLocation(FactorioLocation):
     crafted_item = None
 
     # Factorio technology properties:
-    ingredients: typing.Dict[str, int]
+    ingredients: dict[str, int]
     count: int = 0
 
     def __init__(self, player: int, name: str, address: int, parent: Region):
@@ -677,5 +677,5 @@ class FactorioScienceLocation(FactorioLocation):
                 self.ingredients[Factorio.ordered_science_packs[complexity]] = 1
 
     @property
-    def factorio_ingredients(self) -> typing.List[typing.Tuple[str, int]]:
+    def factorio_ingredients(self) -> list[tuple[str, int]]:
         return [(name, count) for name, count in self.ingredients.items()]

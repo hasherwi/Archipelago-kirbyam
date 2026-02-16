@@ -173,7 +173,7 @@ def create_dw_regions(world: "HatInTimeWorld"):
 
     if world.options.DWShuffle:
         # Connect Death Wishes randomly to one another in a linear sequence
-        dw_list: List[str] = []
+        dw_list: list[str] = []
         for name in death_wishes.keys():
             # Don't shuffle excluded or invalid Death Wishes
             if not world.is_dlc2() and name == "Snatcher Coins in Nyakuza Metro" or world.is_dw_excluded(name):
@@ -183,7 +183,7 @@ def create_dw_regions(world: "HatInTimeWorld"):
 
         world.random.shuffle(dw_list)
         count = world.random.randint(world.options.DWShuffleCountMin.value, world.options.DWShuffleCountMax.value)
-        dw_shuffle: List[str] = []
+        dw_shuffle: list[str] = []
         total = min(len(dw_list), count)
         for i in range(total):
             dw_shuffle.append(dw_list[i])

@@ -700,7 +700,7 @@ class CommandPromptTextInput(ResizableTextField):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self._command_history_index = -1
-        self._command_history: typing.Deque[str] = deque(maxlen=CommandPromptTextInput.MAXIMUM_HISTORY_MESSAGES)
+        self._command_history: deque[str] = deque(maxlen=CommandPromptTextInput.MAXIMUM_HISTORY_MESSAGES)
 
     def update_history(self, new_entry: str) -> None:
         self._command_history_index = -1
@@ -710,9 +710,9 @@ class CommandPromptTextInput(ResizableTextField):
     def keyboard_on_key_down(
         self,
         window,
-        keycode: typing.Tuple[int, str],
-        text: typing.Optional[str],
-        modifiers: typing.List[str]
+        keycode: tuple[int, str],
+        text: str | None,
+        modifiers: list[str]
     ) -> bool:
         """
         :param window: The kivy window object
@@ -863,7 +863,7 @@ class GameManager(ThemedApp):
         self.commandprocessor = ctx.command_processor(ctx)
         self.icon = r"data/icon.png"
         self.json_to_kivy_parser = KivyJSONtoTextParser(ctx)
-        self.log_panels: typing.Dict[str, Widget] = {}
+        self.log_panels: dict[str, Widget] = {}
 
         # keep track of last used command to autofill on click
         self.last_autofillable_command = "!hint"
@@ -1098,7 +1098,7 @@ class GameManager(ThemedApp):
         except Exception as e:
             logging.getLogger("Client").exception(e)
 
-    def print_json(self, data: typing.List[JSONMessagePart]):
+    def print_json(self, data: list[JSONMessagePart]):
         text = self.json_to_kivy_parser(data)
         self.log_panels["Archipelago"].on_message_markup(text)
         self.log_panels["All"].on_message_markup(text)
@@ -1195,14 +1195,14 @@ class HintLayout(MDBoxLayout):
                 fix_func()
 
 
-status_names: typing.Dict[HintStatus, str] = {
+status_names: dict[HintStatus, str] = {
     HintStatus.HINT_FOUND: "Found",
     HintStatus.HINT_UNSPECIFIED: "Unspecified",
     HintStatus.HINT_NO_PRIORITY: "No Priority",
     HintStatus.HINT_AVOID: "Avoid",
     HintStatus.HINT_PRIORITY: "Priority",
 }
-status_colors: typing.Dict[HintStatus, str] = {
+status_colors: dict[HintStatus, str] = {
     HintStatus.HINT_FOUND: "green",
     HintStatus.HINT_UNSPECIFIED: "white",
     HintStatus.HINT_NO_PRIORITY: "cyan",
@@ -1300,14 +1300,14 @@ class ApAsyncImage(AsyncImage):
 
 
 class ImageLoaderPkgutil(ImageLoaderBase):
-    def load(self, filename: str) -> typing.List[ImageData]:
+    def load(self, filename: str) -> list[ImageData]:
         # take off the "ap:" prefix
         module, path = filename[3:].split("/", 1)
         data = pkgutil.get_data(module, path)
         return self._bytes_to_data(data)
 
     @staticmethod
-    def _bytes_to_data(data: typing.Union[bytes, bytearray]) -> typing.List[ImageData]:
+    def _bytes_to_data(data: bytes | bytearray) -> list[ImageData]:
         loader = next(loader for loader in ImageLoader.loaders if loader.can_load_memory())
         return loader.load(loader, io.BytesIO(data))
 

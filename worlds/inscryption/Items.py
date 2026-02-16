@@ -15,7 +15,7 @@ class ItemDict(TypedDict):
     classification: ItemClassification
 
 
-act1_items: List[ItemDict] = [
+act1_items: list[ItemDict] = [
     {"name": "Stinkbug Card",
      "count": 1,
      "classification": ItemClassification.useful},
@@ -67,7 +67,7 @@ act1_items: List[ItemDict] = [
 ]
 
 
-act2_items: List[ItemDict] = [
+act2_items: list[ItemDict] = [
     {"name": "Camera Replica",
      "count": 1,
      "classification": ItemClassification.progression},
@@ -113,7 +113,7 @@ act2_items: List[ItemDict] = [
 ]
 
 
-act3_items: List[ItemDict] = [
+act3_items: list[ItemDict] = [
     {"name": "Extra Battery",
      "count": 1,
      "classification": ItemClassification.useful},
@@ -146,7 +146,7 @@ act3_items: List[ItemDict] = [
      "classification": ItemClassification.progression},
 ]
 
-filler_items: List[ItemDict] = [
+filler_items: list[ItemDict] = [
     {"name": "Currency",
      "count": 1,
      "classification": ItemClassification.filler},

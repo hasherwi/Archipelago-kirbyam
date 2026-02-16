@@ -16,7 +16,7 @@ class RuleAssertMixin(TestCase):
             raise AssertionError(f"Error while checking rule {rule}: {e}"
                                  f"\nExplanation: {expl}")
 
-    def assert_rules_true(self, rules: List[StardewRule], state: CollectionState):
+    def assert_rules_true(self, rules: list[StardewRule], state: CollectionState):
         for rule in rules:
             self.assert_rule_true(rule, state)
 
@@ -28,7 +28,7 @@ class RuleAssertMixin(TestCase):
             raise AssertionError(f"Error while checking rule {rule}: {e}"
                                  f"\nExplanation: {expl}")
 
-    def assert_rules_false(self, rules: List[StardewRule], state: CollectionState):
+    def assert_rules_false(self, rules: list[StardewRule], state: CollectionState):
         for rule in rules:
             self.assert_rule_false(rule, state)
 

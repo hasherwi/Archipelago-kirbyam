@@ -643,7 +643,7 @@ class Progression:
         self.PowerBomb = False
         self.Add(items)
 
-    def Add(self, items:List[Item]):
+    def Add(self, items:list[Item]):
         for item in items:
             found = item.Type in Progression.itemMapping
             if found:
@@ -680,7 +680,7 @@ class Progression:
                 self.TwoPowerBombs = self.PowerBomb
                 self.PowerBomb = True
 
-    def Remove(self, items:List[Item]):
+    def Remove(self, items:list[Item]):
         for item in items:
             found = item.Type in Progression.itemMapping
             if found:

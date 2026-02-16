@@ -61,7 +61,7 @@ Item grouping currently supports
 """
 
 _id_base = 64000
-_id_offset: typing.Dict[int, int] = {
+_id_offset: dict[int, int] = {
     pyevermizer.CHECK_ALCHEMY: _id_base + 0,  # alchemy 64000..64049
     pyevermizer.CHECK_BOSS: _id_base + 50,  # bosses 64050..6499
     pyevermizer.CHECK_GOURD: _id_base + 100,  # gourds 64100..64399
@@ -104,7 +104,7 @@ def _match_item_name(item: pyevermizer.Item, substr: str) -> bool:
     return sub == substr or sub == substr+"s"
 
 
-def _get_location_mapping() -> typing.Tuple[typing.Dict[str, int], typing.Dict[int, pyevermizer.Location]]:
+def _get_location_mapping() -> tuple[dict[str, int], dict[int, pyevermizer.Location]]:
     name_to_id = {}
     id_to_raw = {}
     for loc in itertools.chain(_locations, _sniff_locations):
@@ -115,7 +115,7 @@ def _get_location_mapping() -> typing.Tuple[typing.Dict[str, int], typing.Dict[i
     return name_to_id, id_to_raw
 
 
-def _get_item_mapping() -> typing.Tuple[typing.Dict[str, int], typing.Dict[int, pyevermizer.Item]]:
+def _get_item_mapping() -> tuple[dict[str, int], dict[int, pyevermizer.Item]]:
     name_to_id = {}
     id_to_raw = {}
     for item in itertools.chain(_items, _sniff_items, _extras, _traps):
@@ -128,7 +128,7 @@ def _get_item_mapping() -> typing.Tuple[typing.Dict[str, int], typing.Dict[int, 
     return name_to_id, id_to_raw
 
 
-def _get_item_grouping() -> typing.Dict[str, typing.Set[str]]:
+def _get_item_grouping() -> dict[str, set[str]]:
     groups = {}
     ingredients_group = set()
     for ingredient in _ingredients:
@@ -189,7 +189,7 @@ class SoEWorld(World):
     evermizer_seed: int
     connect_name: str
 
-    _halls_ne_chest_names: typing.List[str] = [loc.name for loc in _locations if "Halls NE" in loc.name]
+    _halls_ne_chest_names: list[str] = [loc.name for loc in _locations if "Halls NE" in loc.name]
     _fillers = sorted(item_name_groups["Ingredients"])
 
     def __init__(self, multiworld: "MultiWorld", player: int):
@@ -205,7 +205,7 @@ class SoEWorld(World):
     def create_event(self, event: str) -> Item:
         return SoEItem(event, ItemClassification.progression, None, self.player)
 
-    def create_item(self, item: typing.Union[pyevermizer.Item, str]) -> Item:
+    def create_item(self, item: pyevermizer.Item | str) -> Item:
         if isinstance(item, str):
             item = self.item_id_to_raw[self.item_name_to_id[item]]
         if item.type == pyevermizer.CHECK_TRAP:
@@ -243,7 +243,7 @@ class SoEWorld(World):
         ingame = Region("Ingame", self.player, self.multiworld)
 
         # group locations into spheres (1, 2, 3+ at index 0, 1, 2)
-        spheres: typing.Dict[int, typing.Dict[int, typing.List[SoELocation]]] = {}
+        spheres: dict[int, dict[int, list[SoELocation]]] = {}
         for loc in _locations:
             spheres.setdefault(get_sphere_index(loc), {}).setdefault(loc.type, []).append(
                 SoELocation(self.player, loc.name, self.location_name_to_id[loc.name], ingame,
@@ -256,7 +256,7 @@ class SoEWorld(World):
                                 loc.difficulty > max_difficulty))
 
         # location balancing data
-        trash_fills: typing.Dict[int, typing.Dict[int, typing.Tuple[int, int, int, int]]] = {
+        trash_fills: dict[int, dict[int, tuple[int, int, int, int]]] = {
             0: {pyevermizer.CHECK_GOURD: (20, 40, 40, 40),  # remove up to 40 gourds from sphere 1
                 pyevermizer.CHECK_SNIFF: (100, 130, 130, 130)},  # remove up to 130 sniff spots from sphere 1
             1: {pyevermizer.CHECK_GOURD: (70, 90, 90, 90),  # remove up to 90 gourds from sphere 2
@@ -311,7 +311,7 @@ class SoEWorld(World):
 
     def create_items(self) -> None:
         # add regular items to the pool
-        exclusions: typing.List[str] = []
+        exclusions: list[str] = []
         if self.options.energy_core != EnergyCore.option_shuffle:
             exclusions.append("Energy Core")  # will be placed in generate_basic or replaced by a fragment below
         items = list(map(lambda item: self.create_item(item), (item for item in _items if item.name not in exclusions)))
@@ -347,8 +347,8 @@ class SoEWorld(World):
 
         # add traps to the pool
         trap_count = self.options.trap_count.value
-        trap_names: typing.List[str] = []
-        trap_weights: typing.List[int] = []
+        trap_names: list[str] = []
+        trap_weights: list[int] = []
         if trap_count > 0:
             for trap_option in self.options.trap_chances:
                 trap_names.append(trap_option.item_name)
@@ -383,7 +383,7 @@ class SoEWorld(World):
             location = self.multiworld.get_location(loc.name, self.player)
             set_rule(location, self.make_rule(loc.requires))
 
-    def make_rule(self, requires: typing.List[typing.Tuple[int, int]]) -> typing.Callable[[typing.Any], bool]:
+    def make_rule(self, requires: list[tuple[int, int]]) -> typing.Callable[[typing.Any], bool]:
         def rule(state: "CollectionState") -> bool:
             for count, progress in requires:
                 if not self.logic.has(state, progress, count):
@@ -417,7 +417,7 @@ class SoEWorld(World):
         try:
             money = self.options.money_modifier.value
             exp = self.options.exp_modifier.value
-            switches: typing.List[str] = []
+            switches: list[str] = []
             if self.options.death_link.value:
                 switches.append("--death-link")
             if self.options.energy_core == EnergyCore.option_fragments:
@@ -484,7 +484,7 @@ class SoELocation(Location):
     game: str = "Secret of Evermore"
     __slots__ = ()  # disables __dict__ once Location has __slots__
 
-    def __init__(self, player: int, name: str, address: typing.Optional[int], parent: Region, exclude: bool = False):
+    def __init__(self, player: int, name: str, address: int | None, parent: Region, exclude: bool = False):
         super().__init__(player, name, address, parent)
         # unconditional assignments favor a split dict, saving memory
         self.progress_type = LocationProgressType.EXCLUDED if exclude else LocationProgressType.DEFAULT

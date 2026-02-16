@@ -4,8 +4,8 @@ import typing
 class RegionRow(typing.NamedTuple):
     name: str
     itemReq: str
-    connections: typing.List[str]
-    resources: typing.List[str]
+    connections: list[str]
+    resources: list[str]
 
 
 class ResourceRow(typing.NamedTuple):

@@ -2,7 +2,7 @@
 
 from typing import List
 
-map_names: List[str] = [
+map_names: list[str] = [
     "Entryway (MAP01)",
     "Underhalls (MAP02)",
     "The Gantlet (MAP03)",

@@ -27,8 +27,8 @@ class AP_SudokuWorld(World):
     game = "Sudoku"
     web = AP_SudokuWebWorld()
 
-    item_name_to_id: Dict[str, int] = {}
-    location_name_to_id: Dict[str, int] = {}
+    item_name_to_id: dict[str, int] = {}
+    location_name_to_id: dict[str, int] = {}
 
     @classmethod
     def stage_assert_generate(cls, multiworld):

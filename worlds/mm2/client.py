@@ -34,7 +34,7 @@ MM2_CONSUMABLES = 0x780
 MM2_SFX_QUEUE = 0x580
 MM2_SFX_STROBE = 0x66
 
-MM2_CONSUMABLE_TABLE: Dict[int, Tuple[int, int]] = {
+MM2_CONSUMABLE_TABLE: dict[int, tuple[int, int]] = {
     # Item: (byte offset, bit mask)
     0x880201: (0, 8),
     0x880202: (16, 1),
@@ -102,7 +102,7 @@ class MM2EnergyLinkType(IntEnum):
     OneUP = 12
 
 
-request_to_name: Dict[str, str] = {
+request_to_name: dict[str, str] = {
     "HP": "health",
     "AF": "Atomic Fire energy",
     "AS": "Air Shooter energy",
@@ -149,7 +149,7 @@ def cmd_request(self: "BizHawkClientCommandProcessor", amount: str, target: str)
     if not self.ctx.server or not self.ctx.slot:
         logger.warning("You must be connected to a server to use this command.")
         return
-    valid_targets: Dict[str, MM2EnergyLinkType] = {
+    valid_targets: dict[str, MM2EnergyLinkType] = {
         "HP": MM2EnergyLinkType.Life,
         "AF": MM2EnergyLinkType.AtomicFire,
         "AS": MM2EnergyLinkType.AirShooter,
@@ -193,7 +193,7 @@ def cmd_autoheal(self) -> None:
             logger.info(f"Auto healing enabled.")
 
 
-def get_sfx_writes(sfx: int) -> Tuple[Tuple[int, bytes, str], ...]:
+def get_sfx_writes(sfx: int) -> tuple[tuple[int, bytes, str], ...]:
     return (MM2_SFX_QUEUE, sfx.to_bytes(1, "little"), "RAM"), (MM2_SFX_STROBE, 0x01.to_bytes(1, "little"), "RAM")
 
 
@@ -201,18 +201,18 @@ class MegaMan2Client(BizHawkClient):
     game = "Mega Man 2"
     system = "NES"
     patch_suffix = ".apmm2"
-    item_queue: List[NetworkItem] = []
+    item_queue: list[NetworkItem] = []
     pending_death_link: bool = False
     # default to true, as we don't want to send a deathlink until Mega Man's HP is initialized once
     sending_death_link: bool = True
     death_link: bool = False
     energy_link: bool = False
-    rom: Optional[bytes] = None
+    rom: bytes | None = None
     weapon_energy: int = 0
     health_energy: int = 0
     auto_heal: bool = False
-    refill_queue: List[Tuple[MM2EnergyLinkType, int]] = []
-    last_wily: Optional[int] = None  # default to wily 1
+    refill_queue: list[tuple[MM2EnergyLinkType, int]] = []
+    last_wily: int | None = None  # default to wily 1
 
     async def validate_rom(self, ctx: "BizHawkClientContext") -> bool:
         from worlds._bizhawk import RequestFailedError, get_memory_size, read
@@ -275,7 +275,7 @@ class MegaMan2Client(BizHawkClient):
         if self.rom:
             ctx.auth = b64encode(self.rom).decode()
 
-    def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: Dict[str, Any]) -> None:
+    def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict[str, Any]) -> None:
         if cmd == "Bounced":
             if "tags" in args:
                 assert ctx.slot is not None

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from graphlib import TopologicalSorter
-from typing import Callable, Iterable, Mapping
+from collections.abc import Callable, Iterable, Mapping
 
 from ..data.game_item import GameItem, Source
 from .game_content import ContentPack, StardewContent, StardewFeatures

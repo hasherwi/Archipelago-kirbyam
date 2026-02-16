@@ -14,7 +14,7 @@ class ItemDict(TypedDict, total=False):
     map: int
 
 
-item_table: Dict[int, ItemDict] = {
+item_table: dict[int, ItemDict] = {
     370000: {"classification": ItemClassification.progression,
              "count": 1,
              "name": "Gauntlets of the Necromancer",
@@ -1632,7 +1632,7 @@ item_table: Dict[int, ItemDict] = {
 }
 
 
-item_name_groups: Dict[str, Set[str]] = {
+item_name_groups: dict[str, set[str]] = {
     "Ammos": {"Crystal Geode", "Energy Orb", "Greater Runes", "Inferno Orb", "Pile of Mace Spheres", "Quiver of Ethereal Arrows", },
     "Armors": {"Enchanted Shield", "Silver Shield", },
     "Artifacts": {"Chaos Device", "Morph Ovum", "Mystic Urn", "Quartz Flask", "Ring of Invincibility", "Shadowsphere", "Timebomb of the Ancients", "Tome of Power", "Torch", },

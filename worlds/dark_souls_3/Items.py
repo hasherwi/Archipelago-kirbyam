@@ -1,7 +1,8 @@
 import dataclasses
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import Any, ClassVar, Dict, Generator, List, Optional, Set, cast
+from typing import Any, ClassVar, Dict, List, Optional, Set, cast
+from collections.abc import Generator
 
 from BaseClasses import Item, ItemClassification
 
@@ -31,7 +32,7 @@ class DS3ItemCategory(IntEnum):
         ]
 
     @property
-    def upgrade_level(self) -> Optional[int]:
+    def upgrade_level(self) -> int | None:
         """The maximum upgrade level for this category, or None if it's not upgradable."""
         if self == DS3ItemCategory.WEAPON_UPGRADE_5: return 5
         if self in [
@@ -96,22 +97,22 @@ class DS3ItemData:
     """The next item ID to use when creating item data."""
 
     name: str
-    ds3_code: Optional[int]
+    ds3_code: int | None
     category: DS3ItemCategory
 
-    base_ds3_code: Optional[int] = None
+    base_ds3_code: int | None = None
     """If this is an upgradable weapon, the base ID of the weapon it upgrades from.
 
     Otherwise, or if the weapon isn't upgraded, this is the same as ds3_code.
     """
 
-    base_name: Optional[str] = None
+    base_name: str | None = None
     """The name of the individual item, if this is a multi-item group."""
 
     classification: ItemClassification = ItemClassification.filler
     """How important this item is to the game progression."""
 
-    ap_code: Optional[int] = None
+    ap_code: int | None = None
     """The Archipelago ID for this item."""
 
     is_dlc: bool = False
@@ -129,7 +130,7 @@ class DS3ItemData:
     difference.
     """
 
-    souls: Optional[int] = None
+    souls: int | None = None
     """If this is a consumable item that gives souls, the number of souls it gives."""
 
     useful_if: UsefulIf = UsefulIf.DEFAULT
@@ -155,7 +156,7 @@ class DS3ItemData:
         if not self.base_ds3_code: self.base_ds3_code = self.ds3_code
         DS3ItemData.__item_id += 1
 
-    def item_groups(self) -> List[str]:
+    def item_groups(self) -> list[str]:
         """The names of item groups this item should appear in.
 
         This is computed from the properties assigned to this item."""
@@ -182,7 +183,7 @@ class DS3ItemData:
 
         return names
 
-    def counts(self, counts: List[int]) -> Generator["DS3ItemData", None, None]:
+    def counts(self, counts: list[int]) -> Generator["DS3ItemData", None, None]:
         """Returns an iterable of copies of this item with the given counts."""
         yield self
         for count in counts:
@@ -245,7 +246,7 @@ class DarkSouls3Item(Item):
     data: DS3ItemData
 
     @property
-    def level(self) -> Optional[int]:
+    def level(self) -> int | None:
         """This item's upgrade level, if it's a weapon."""
         return cast(int, self.data.ds3_code) % 100 if self.data.category.upgrade_level else None
 
@@ -1644,7 +1645,7 @@ _cut_content_items = [
 ]
 
 
-item_name_groups: Dict[str, Set] = {
+item_name_groups: dict[str, set] = {
     "Progression": set(),
     "Cinders": set(),
     "Weapons": set(),

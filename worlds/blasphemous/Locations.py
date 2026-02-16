@@ -1,6 +1,6 @@
 from typing import Dict
 
-location_names: Dict[str, str] = {
+location_names: dict[str, str] = {
     # The Holy Line
     "PR14":              "THL: Hanging skeleton",
     "RB07":              "THL: Across blood platforms",

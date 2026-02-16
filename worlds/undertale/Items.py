@@ -4,7 +4,7 @@ from BaseClasses import Item, ItemClassification
 
 
 class ItemData(typing.NamedTuple):
-    code: typing.Optional[int]
+    code: int | None
     classification: any
 
 

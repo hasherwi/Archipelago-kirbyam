@@ -10,12 +10,12 @@ FILLER = ItemClassification.filler
 
 
 class ItemData(typing.NamedTuple):
-    code: typing.Optional[int]
+    code: int | None
     type: str
     classification: ItemClassification = PROGRESSION
 
 
-item_table: Dict[str, ItemData] = {
+item_table: dict[str, ItemData] = {
     # Units
     "Spearman": ItemData(52000, "Unit"),
     "Wagon": ItemData(52001, "Unit", USEFUL),
@@ -68,7 +68,7 @@ class CommanderData(typing.NamedTuple):
     alt_name: str = None
 
 
-faction_table: Dict[str, List[CommanderData]] = {
+faction_table: dict[str, list[CommanderData]] = {
     "Starter": [
         CommanderData("Mercival", "commander_mercival")
     ],

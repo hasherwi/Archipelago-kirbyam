@@ -262,7 +262,7 @@ ability_remap = {
 
 
 class RomData:
-    def __init__(self, file: bytes, name: typing.Optional[str] = None):
+    def __init__(self, file: bytes, name: str | None = None):
         self.file = bytearray(file)
         self.name = name
 
@@ -282,8 +282,8 @@ class RomData:
         return bytes(self.file)
 
 
-def handle_level_sprites(stages: List[Tuple[int, ...]], sprites: List[bytearray], palettes: List[List[bytearray]]) \
-        -> Tuple[List[bytearray], List[bytearray]]:
+def handle_level_sprites(stages: list[tuple[int, ...]], sprites: list[bytearray], palettes: list[list[bytearray]]) \
+        -> tuple[list[bytearray], list[bytearray]]:
     palette_by_level = list()
     for palette in palettes:
         palette_by_level.extend(palette[10:16])
@@ -300,7 +300,7 @@ def handle_level_sprites(stages: List[Tuple[int, ...]], sprites: List[bytearray]
     out_sprites = list()
     for world in range(5):
         levels = [stages[world][x] for x in range(6)]
-        world_tiles: typing.List[bytes] = [bytes() for _ in range(72)]
+        world_tiles: list[bytes] = [bytes() for _ in range(72)]
         for i in range(6):
             for x in range(12):
                 world_tiles[stage_tiles[i][x]] = tiles_by_level[levels[i]][x]
@@ -584,7 +584,7 @@ def patch_rom(world: "KDL3World", patch: KDL3ProcedurePatch) -> None:
 
 def get_base_rom_bytes() -> bytes:
     rom_file: str = get_base_rom_path()
-    base_rom_bytes: Optional[bytes] = getattr(get_base_rom_bytes, "base_rom_bytes", None)
+    base_rom_bytes: bytes | None = getattr(get_base_rom_bytes, "base_rom_bytes", None)
     if not base_rom_bytes:
         base_rom_bytes = bytes(Utils.read_snes_rom(open(rom_file, "rb")))
 

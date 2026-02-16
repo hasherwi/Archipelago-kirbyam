@@ -24,7 +24,7 @@ def create() -> None:
     Options.generate_yaml_templates(yaml_folder)
 
 
-def render_options_page(template: str, world_name: str, is_complex: bool = False) -> Union[Response, str]:
+def render_options_page(template: str, world_name: str, is_complex: bool = False) -> Response | str:
     world = AutoWorldRegister.world_types[world_name]
     if world.hidden or world.web.options_page is False:
         return redirect("games")
@@ -46,7 +46,7 @@ def render_options_page(template: str, world_name: str, is_complex: bool = False
     )
 
 
-def generate_game(options: Dict[str, Union[dict, str]]) -> Union[Response, str]:
+def generate_game(options: dict[str, dict | str]) -> Response | str:
     from .generate import start_generation
     return start_generation(options, get_meta({}))
 

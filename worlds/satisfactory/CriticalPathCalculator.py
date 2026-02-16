@@ -96,7 +96,7 @@ class CriticalPathCalculator:
         self.select_minimal_required_parts_for(self.logic.buildings[building].inputs)
         self.required_buildings.add(building)
 
-    def select_minimal_required_parts_for(self, parts: Optional[Iterable[str]]) -> None:
+    def select_minimal_required_parts_for(self, parts: Iterable[str] | None) -> None:
         if parts is None:
             return
 

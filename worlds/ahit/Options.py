@@ -10,8 +10,8 @@ if TYPE_CHECKING:
     from . import HatInTimeWorld
 
 
-def create_option_groups() -> List[OptionGroup]:
-    option_group_list: List[OptionGroup] = []
+def create_option_groups() -> list[OptionGroup]:
+    option_group_list: list[OptionGroup] = []
     for name, options in ahit_option_groups.items():
         option_group_list.append(OptionGroup(name=name, options=options))
 
@@ -723,7 +723,7 @@ class AHITOptions(PerGameCommonOptions):
     dw_death_link_amnesty:    DWDeathLinkAmnesty
 
 
-ahit_option_groups: Dict[str, List[Any]] = {
+ahit_option_groups: dict[str, list[Any]] = {
     "General Options": [EndGoal, ShuffleStorybookPages, ShuffleAlpineZiplines, ShuffleSubconPaintings,
                         ShuffleActContracts, MinPonCost, MaxPonCost, BadgeSellerMinItems, BadgeSellerMaxItems,
                         LogicDifficulty, NoPaintingSkips, CTRLogic],
@@ -750,7 +750,7 @@ ahit_option_groups: Dict[str, List[Any]] = {
 }
 
 
-slot_data_options: List[str] = [
+slot_data_options: list[str] = [
     "EndGoal",
     "ActRandomizer",
     "ShuffleAlpineZiplines",

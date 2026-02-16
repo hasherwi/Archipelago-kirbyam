@@ -81,11 +81,11 @@ class Group(enum.Enum):
 
 @dataclass(frozen=True)
 class ItemData:
-    code_without_offset: Optional[int]
+    code_without_offset: int | None
     name: str
     classification: ItemClassification
-    mod_name: Optional[str] = None
-    groups: Set[Group] = field(default_factory=frozenset)
+    mod_name: str | None = None
+    groups: set[Group] = field(default_factory=frozenset)
 
     def __post_init__(self):
         if not isinstance(self.groups, frozenset):
@@ -101,7 +101,7 @@ class ItemData:
 
 
 class StardewItemFactory(Protocol):
-    def __call__(self, name: Union[str, ItemData], override_classification: ItemClassification = None) -> Item:
+    def __call__(self, name: str | ItemData, override_classification: ItemClassification = None) -> Item:
         raise NotImplementedError
 
 
@@ -125,9 +125,9 @@ events = [
     for e in sorted(all_events)
 ]
 
-all_items: List[ItemData] = load_item_csv() + events
-item_table: Dict[str, ItemData] = {}
-items_by_group: Dict[Group, List[ItemData]] = {}
+all_items: list[ItemData] = load_item_csv() + events
+item_table: dict[str, ItemData] = {}
+items_by_group: dict[Group, list[ItemData]] = {}
 
 
 def initialize_groups():

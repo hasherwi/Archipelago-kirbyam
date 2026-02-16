@@ -360,7 +360,7 @@ allsanity_settings = {
 # @formatter:on
 
 
-sv_options_presets: Dict[str, Dict[str, Any]] = {
+sv_options_presets: dict[str, dict[str, Any]] = {
     "All random": all_random_settings,
     "Easy": easy_settings,
     "Medium": medium_settings,

@@ -50,7 +50,7 @@ class BlasphemousWorld(World):
     def __init__(self, multiworld, player):
         super(BlasphemousWorld, self).__init__(multiworld, player)
         self.start_room: str = "D17Z01S01"
-        self.disabled_locations: List[str] = []
+        self.disabled_locations: list[str] = []
 
 
     def create_item(self, name: str) -> "BlasphemousItem":
@@ -84,7 +84,7 @@ class BlasphemousWorld(World):
                 raise OptionError(f"[Blasphemous - '{self.player_name}'] "
                                 f"{self.options.starting_location} cannot be chosen if Shuffle Wall Climb is enabled.")
         else:
-            locations: List[int] = [ 0, 1, 2, 3, 4, 5, 6 ]
+            locations: list[int] = [ 0, 1, 2, 3, 4, 5, 6 ]
 
             if self.options.difficulty < 2:
                 locations.remove(4)
@@ -122,7 +122,7 @@ class BlasphemousWorld(World):
             for loc in junk_locations:
                 self.options.exclude_locations.value.add(loc)
 
-        start_rooms: Dict[int, str] = {
+        start_rooms: dict[int, str] = {
             0: "D17Z01S01",
             1: "D01Z02S01",
             2: "D02Z03S09",
@@ -137,7 +137,7 @@ class BlasphemousWorld(World):
 
     def create_items(self):
         removed: int = 0
-        to_remove: List[str] = [
+        to_remove: list[str] = [
             "Tears of Atonement (250)",
             "Tears of Atonement (300)",
             "Tears of Atonement (500)",
@@ -210,12 +210,12 @@ class BlasphemousWorld(World):
         if not self.options.skill_randomizer:
             self.place_items_from_dict(skill_dict)
 
-    def place_items_from_set(self, location_set: Set[str], name: str):
+    def place_items_from_set(self, location_set: set[str], name: str):
         for loc in location_set:
             self.get_location(loc).place_locked_item(self.create_item(name))
 
 
-    def place_items_from_dict(self, option_dict: Dict[str, str]):
+    def place_items_from_dict(self, option_dict: dict[str, str]):
         for loc, item in option_dict.items():
             self.get_location(loc).place_locked_item(self.create_item(item))
 
@@ -224,7 +224,7 @@ class BlasphemousWorld(World):
         multiworld = self.multiworld
         player = self.player
 
-        created_regions: List[str] = []
+        created_regions: list[str] = []
 
         for r in regions:
             multiworld.regions.append(Region(r["name"], player, multiworld))
@@ -277,9 +277,9 @@ class BlasphemousWorld(World):
         multiworld.completion_condition[self.player] = lambda state: state.has("Victory", player)
 
 
-    def fill_slot_data(self) -> Dict[str, Any]:
-        slot_data: Dict[str, Any] = {}
-        doors: Dict[str, str] = {}
+    def fill_slot_data(self) -> dict[str, Any]:
+        slot_data: dict[str, Any] = {}
+        doors: dict[str, str] = {}
         thorns: bool = True
 
         if self.options.thorn_shuffle == "vanilla":

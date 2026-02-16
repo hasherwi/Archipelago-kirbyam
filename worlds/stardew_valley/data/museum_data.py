@@ -15,17 +15,17 @@ from ..strings.region_names import Region
 @dataclass(frozen=True)
 class MuseumItem:
     item_name: str
-    locations: Tuple[str, ...]
-    geodes: Tuple[str, ...]
-    monsters: Tuple[str, ...]
+    locations: tuple[str, ...]
+    geodes: tuple[str, ...]
+    monsters: tuple[str, ...]
     difficulty: float
 
     @staticmethod
     def of(item_name: str,
            difficulty: float,
-           locations: Union[str, Tuple[str, ...]],
-           geodes: Union[str, Tuple[str, ...]],
-           monsters: Union[str, Tuple[str, ...]]) -> MuseumItem:
+           locations: str | tuple[str, ...],
+           geodes: str | tuple[str, ...],
+           monsters: str | tuple[str, ...]) -> MuseumItem:
         if isinstance(locations, str):
             locations = (locations,)
 
@@ -45,17 +45,17 @@ class MuseumItem:
 
 unlikely = ()
 
-all_museum_artifacts: List[MuseumItem] = []
-all_museum_minerals: List[MuseumItem] = []
+all_museum_artifacts: list[MuseumItem] = []
+all_museum_minerals: list[MuseumItem] = []
 
-all_museum_items: List[MuseumItem] = []
+all_museum_items: list[MuseumItem] = []
 
 
 def create_artifact(name: str,
                     difficulty: float,
-                    locations: Union[str, Tuple[str, ...]] = (),
-                    geodes: Union[str, Tuple[str, ...]] = (),
-                    monsters: Union[str, Tuple[str, ...]] = ()) -> MuseumItem:
+                    locations: str | tuple[str, ...] = (),
+                    geodes: str | tuple[str, ...] = (),
+                    monsters: str | tuple[str, ...] = ()) -> MuseumItem:
     artifact_item = MuseumItem.of(name, difficulty, locations, geodes, monsters)
     all_museum_artifacts.append(artifact_item)
     all_museum_items.append(artifact_item)
@@ -63,10 +63,10 @@ def create_artifact(name: str,
 
 
 def create_mineral(name: str,
-                   locations: Union[str, Tuple[str, ...]] = (),
-                   geodes: Union[str, Tuple[str, ...]] = (),
-                   monsters: Union[str, Tuple[str, ...]] = (),
-                   difficulty: Optional[float] = None) -> MuseumItem:
+                   locations: str | tuple[str, ...] = (),
+                   geodes: str | tuple[str, ...] = (),
+                   monsters: str | tuple[str, ...] = (),
+                   difficulty: float | None = None) -> MuseumItem:
     if difficulty is None:
         difficulty = 0
         if "Geode" in geodes:

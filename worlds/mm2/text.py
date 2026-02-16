@@ -1,7 +1,7 @@
 from collections import defaultdict
 from typing import DefaultDict
 
-MM2_WEAPON_ENCODING: DefaultDict[str, int] = defaultdict(lambda: 0x6F, {
+MM2_WEAPON_ENCODING: defaultdict[str, int] = defaultdict(lambda: 0x6F, {
     " ": 0x40,
     "A": 0x41,
     "B": 0x42,

@@ -2,7 +2,8 @@
 import typing
 from enum import Enum
 from logging import exception
-from typing import Any, Callable, List, Sequence
+from typing import Any, List
+from collections.abc import Callable, Sequence
 
 from BaseClasses import Location
 
@@ -87,7 +88,7 @@ class Patch:
     Major = 11
     Minor = 3
     Patch = 1
-    allWorlds: List[World]
+    allWorlds: list[World]
     myWorld: World
     seedGuid: str
     seed: int
@@ -96,7 +97,7 @@ class Patch:
     stringTable: StringTable
     silversWorldID: int
 
-    def __init__(self, myWorld: World, allWorlds: List[World], seedGuid: str, seed: int, rnd: random.Random, playerNames: List[str], silversWorldID: int):
+    def __init__(self, myWorld: World, allWorlds: list[World], seedGuid: str, seed: int, rnd: random.Random, playerNames: list[str], silversWorldID: int):
         self.myWorld = myWorld
         self.allWorlds = allWorlds
         self.seedGuid = seedGuid
@@ -204,7 +205,7 @@ class Patch:
         self.patches += self.RewardPatches(pendantRegions, pendantRewards, self.PendantValues)
         self.patches += self.RewardPatches(bossRegions, bossTokens, self.BossTokenValues)
 
-    def RewardPatches(self, regions: List[IReward], rewards: List[int], rewardValues: Callable):
+    def RewardPatches(self, regions: list[IReward], rewards: list[int], rewardValues: Callable):
         addresses = [self.RewardAddresses(region) for region in regions]
         values = [rewardValues(reward) for reward in rewards]
         associations = zip(addresses, values)
@@ -275,7 +276,7 @@ class Patch:
         else:
             return result
 
-    def WriteSMLocations(self, locations: List[Location]):
+    def WriteSMLocations(self, locations: list[Location]):
         def GetSMItemPLM(location:Location):
             itemMap = {
                     ItemType.ETank : 0xEED7,
@@ -318,7 +319,7 @@ class Patch:
                 if (plmId >= 0xEFE0):
                     self.patches.append((Snes(location.Address + 5), [self.GetZ3ItemId(location)]))
 
-    def WriteZ3Locations(self, locations: List[Location]):
+    def WriteZ3Locations(self, locations: list[Location]):
         for location in locations:
             if (location.Type == LocationType.HeraStandingKey):
                 self.patches.append((Snes(0x9E3BB), [0xEB]))
@@ -398,7 +399,7 @@ class Patch:
     #    while (true) yield return rnd.Next(2) == 0 ? (byte)0x11 : (byte)0x16;
     #}
 
-    def MusicPatches(self, regions: List[IReward], music: List[int]):
+    def MusicPatches(self, regions: list[IReward], music: list[int]):
         addresses = [self.MusicAddresses(region) for region in regions]
         associations = zip(addresses, music)
         return [(Snes(i), [association[1]]) for association in associations for i in association[0]]
@@ -834,7 +835,7 @@ def getDoubleWordArray(w):
 
 }
 """
-def SplitOff(source: List[Any], count: int):
+def SplitOff(source: list[Any], count: int):
     head = source[:count]
     tail = source[count:]
     return (head, tail)

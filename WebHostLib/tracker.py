@@ -2,7 +2,9 @@ import collections
 import datetime
 from dataclasses import dataclass
 from email.utils import parsedate_to_datetime
-from typing import Any, Callable, Counter, Dict, List, NamedTuple, Optional, Set, Tuple
+from typing import Any, Dict, List, NamedTuple, Optional, Set, Tuple
+from collections import Counter
+from collections.abc import Callable
 from uuid import UUID
 
 from flask import Request, Response, make_response, render_template, request
@@ -18,11 +20,11 @@ from .models import GameDataPackage, Room
 # Multisave is currently updated, at most, every minute.
 TRACKER_CACHE_TIMEOUT_IN_SECONDS = 60
 
-_multiworld_trackers: Dict[str, Callable] = {}
-_player_trackers: Dict[str, Callable] = {}
+_multiworld_trackers: dict[str, Callable] = {}
+_player_trackers: dict[str, Callable] = {}
 
-TeamPlayer = Tuple[int, int]
-ItemMetadata = Tuple[int, int, int]
+TeamPlayer = tuple[int, int]
+ItemMetadata = tuple[int, int, int]
 
 
 def _cache_results(func: Callable) -> Callable:
@@ -49,9 +51,9 @@ class TrackerData:
     subsequent helper method calls do not need to recompute results during the lifetime of this instance.
     """
     room: Room
-    _multidata: Dict[str, Any]
-    _multisave: Dict[str, Any]
-    _tracker_cache: Dict[str, Any]
+    _multidata: dict[str, Any]
+    _multisave: dict[str, Any]
+    _tracker_cache: dict[str, Any]
 
     def __init__(self, room: Room):
         """Initialize a new RoomMultidata object for the current room."""
@@ -60,14 +62,14 @@ class TrackerData:
         self._multisave = restricted_loads(room.multisave) if room.multisave else {}
         self._tracker_cache = {}
 
-        self.item_name_to_id: Dict[str, Dict[str, int]] = {}
-        self.location_name_to_id: Dict[str, Dict[str, int]] = {}
+        self.item_name_to_id: dict[str, dict[str, int]] = {}
+        self.location_name_to_id: dict[str, dict[str, int]] = {}
 
         # Generate inverse lookup tables from data package, useful for trackers.
-        self.item_id_to_name: Dict[str, Dict[int, str]] = KeyedDefaultDict(lambda game_name: {
+        self.item_id_to_name: dict[str, dict[int, str]] = KeyedDefaultDict(lambda game_name: {
             game_name: KeyedDefaultDict(lambda code: f"Unknown Game {game_name} - Item (ID: {code})")
         })
-        self.location_id_to_name: Dict[str, Dict[int, str]] = KeyedDefaultDict(lambda game_name: {
+        self.location_id_to_name: dict[str, dict[int, str]] = KeyedDefaultDict(lambda game_name: {
             game_name: KeyedDefaultDict(lambda code: f"Unknown Game {game_name} - Location (ID: {code})")
         })
         for game, game_package in self._multidata["datapackage"].items():
@@ -85,7 +87,7 @@ class TrackerData:
         """Retrieves the seed name."""
         return self._multidata["seed_name"]
 
-    def get_slot_data(self, player: int) -> Dict[str, Any]:
+    def get_slot_data(self, player: int) -> dict[str, Any]:
         """Retrieves the slot data for a given player."""
         return self._multidata["slot_data"][player]
 
@@ -101,24 +103,24 @@ class TrackerData:
         """Retrieves the game for a given player."""
         return self.get_slot_info(player).game
 
-    def get_player_locations(self, player: int) -> Dict[int, ItemMetadata]:
+    def get_player_locations(self, player: int) -> dict[int, ItemMetadata]:
         """Retrieves all locations with their containing item's metadata for a given player."""
         return self._multidata["locations"][player]
 
-    def get_player_starting_inventory(self, player: int) -> List[int]:
+    def get_player_starting_inventory(self, player: int) -> list[int]:
         """Retrieves a list of all item codes a given slot starts with."""
         return self._multidata["precollected_items"][player]
 
-    def get_player_checked_locations(self, team: int, player: int) -> Set[int]:
+    def get_player_checked_locations(self, team: int, player: int) -> set[int]:
         """Retrieves the set of all locations marked complete by this player."""
         return self._multisave.get("location_checks", {}).get((team, player), set())
 
     @_cache_results
-    def get_player_missing_locations(self, team: int, player: int) -> Set[int]:
+    def get_player_missing_locations(self, team: int, player: int) -> set[int]:
         """Retrieves the set of all locations not marked complete by this player."""
         return set(self.get_player_locations(player)) - self.get_player_checked_locations(team, player)
 
-    def get_player_received_items(self, team: int, player: int) -> List[NetworkItem]:
+    def get_player_received_items(self, team: int, player: int) -> list[NetworkItem]:
         """Returns all items received to this player in order of received."""
         return self._multisave.get("received_items", {}).get((team, player, True), [])
 
@@ -136,12 +138,12 @@ class TrackerData:
         return inventory
 
     @_cache_results
-    def get_player_hints(self, team: int, player: int) -> Set[Hint]:
+    def get_player_hints(self, team: int, player: int) -> set[Hint]:
         """Retrieves a set of all hints relevant for a particular player."""
         return self._multisave.get("hints", {}).get((team, player), set())
 
     @_cache_results
-    def get_player_last_activity(self, team: int, player: int) -> Optional[datetime.timedelta]:
+    def get_player_last_activity(self, team: int, player: int) -> datetime.timedelta | None:
         """Retrieves the relative timedelta for when a particular player was last active.
         Returns None if no activity was ever recorded.
         """
@@ -151,12 +153,12 @@ class TrackerData:
         """Retrieves the ClientStatus of a particular player."""
         return self._multisave.get("client_game_state", {}).get((team, player), ClientStatus.CLIENT_UNKNOWN)
 
-    def get_player_alias(self, team: int, player: int) -> Optional[str]:
+    def get_player_alias(self, team: int, player: int) -> str | None:
         """Returns the alias of a particular player, if any."""
         return self._multisave.get("name_aliases", {}).get((team, player), None)
 
     @_cache_results
-    def get_team_completed_worlds_count(self) -> Dict[int, int]:
+    def get_team_completed_worlds_count(self) -> dict[int, int]:
         """Retrieves a dictionary of number of completed worlds per team."""
         return {
             team: sum(
@@ -165,7 +167,7 @@ class TrackerData:
         }
 
     @_cache_results
-    def get_team_hints(self) -> Dict[int, Set[Hint]]:
+    def get_team_hints(self) -> dict[int, set[Hint]]:
         """Retrieves a dictionary of all hints per team."""
         hints = {}
         for team, players in self.get_all_slots().items():
@@ -176,7 +178,7 @@ class TrackerData:
         return hints
 
     @_cache_results
-    def get_team_locations_total_count(self) -> Dict[int, int]:
+    def get_team_locations_total_count(self) -> dict[int, int]:
         """Retrieves a dictionary of total player locations each team has."""
         return {
             team: sum(len(self.get_player_locations(player)) for player in players)
@@ -184,7 +186,7 @@ class TrackerData:
         }
 
     @_cache_results
-    def get_team_locations_checked_count(self) -> Dict[int, int]:
+    def get_team_locations_checked_count(self) -> dict[int, int]:
         """Retrieves a dictionary of checked player locations each team has."""
         return {
             team: sum(len(self.get_player_checked_locations(team, player)) for player in players)
@@ -194,7 +196,7 @@ class TrackerData:
     # TODO: Change this method to properly build for each team once teams are properly implemented, as they don't
     #       currently exist in multidata to easily look up, so these are all assuming only 1 team: Team #0
     @_cache_results
-    def get_all_slots(self) -> Dict[int, List[int]]:
+    def get_all_slots(self) -> dict[int, list[int]]:
         """Retrieves a dictionary of all players ids on each team."""
         return {
             0: [
@@ -205,7 +207,7 @@ class TrackerData:
     # TODO: Change this method to properly build for each team once teams are properly implemented, as they don't
     #       currently exist in multidata to easily look up, so these are all assuming only 1 team: Team #0
     @_cache_results
-    def get_all_players(self) -> Dict[int, List[int]]:
+    def get_all_players(self) -> dict[int, list[int]]:
         """Retrieves a dictionary of all player slot-type players ids on each team."""
         return {
             0: [
@@ -223,7 +225,7 @@ class TrackerData:
         return get_saving_second(self.get_seed_name())
 
     @_cache_results
-    def get_room_locations(self) -> Dict[TeamPlayer, Dict[int, ItemMetadata]]:
+    def get_room_locations(self) -> dict[TeamPlayer, dict[int, ItemMetadata]]:
         """Retrieves a dictionary of all locations and their associated item metadata per player."""
         return {
             (team, player): self.get_player_locations(player)
@@ -231,7 +233,7 @@ class TrackerData:
         }
 
     @_cache_results
-    def get_room_games(self) -> Dict[TeamPlayer, str]:
+    def get_room_games(self) -> dict[TeamPlayer, str]:
         """Retrieves a dictionary of games for each player."""
         return {
             (team, player): self.get_player_game(player)
@@ -239,7 +241,7 @@ class TrackerData:
         }
 
     @_cache_results
-    def get_room_locations_complete(self) -> Dict[TeamPlayer, int]:
+    def get_room_locations_complete(self) -> dict[TeamPlayer, int]:
         """Retrieves a dictionary of all locations complete per player."""
         return {
             (team, player): len(self.get_player_checked_locations(team, player))
@@ -247,7 +249,7 @@ class TrackerData:
         }
 
     @_cache_results
-    def get_room_client_statuses(self) -> Dict[TeamPlayer, ClientStatus]:
+    def get_room_client_statuses(self) -> dict[TeamPlayer, ClientStatus]:
         """Retrieves a dictionary of all ClientStatus values per player."""
         return {
             (team, player): self.get_player_client_status(team, player)
@@ -255,7 +257,7 @@ class TrackerData:
         }
 
     @_cache_results
-    def get_room_long_player_names(self) -> Dict[TeamPlayer, str]:
+    def get_room_long_player_names(self) -> dict[TeamPlayer, str]:
         """Retrieves a dictionary of names with aliases for each player."""
         long_player_names = {}
         for team, players in self.get_all_slots().items():
@@ -269,11 +271,11 @@ class TrackerData:
         return long_player_names
 
     @_cache_results
-    def get_room_last_activity(self) -> Dict[TeamPlayer, datetime.timedelta]:
+    def get_room_last_activity(self) -> dict[TeamPlayer, datetime.timedelta]:
         """Retrieves a dictionary of all players and the timedelta from now to their last activity.
         Does not include players who have no activity recorded.
         """
-        last_activity: Dict[TeamPlayer, datetime.timedelta] = {}
+        last_activity: dict[TeamPlayer, datetime.timedelta] = {}
         now = datetime.datetime.utcnow()
         for (team, player), timestamp in self._multisave.get("client_activity_timers", []):
             last_activity[team, player] = now - datetime.datetime.utcfromtimestamp(timestamp)
@@ -281,7 +283,7 @@ class TrackerData:
         return last_activity
 
     @_cache_results
-    def get_room_videos(self) -> Dict[TeamPlayer, Tuple[str, str]]:
+    def get_room_videos(self) -> dict[TeamPlayer, tuple[str, str]]:
         """Retrieves a dictionary of any players who have video streaming enabled and their feeds.
 
         Only supported platforms are Twitch and YouTube.
@@ -293,16 +295,16 @@ class TrackerData:
         return video_feeds
 
     @_cache_results
-    def get_spheres(self) -> List[List[int]]:
+    def get_spheres(self) -> list[list[int]]:
         """ each sphere is { player: { location_id, ... } } """
         return self._multidata.get("spheres", [])
 
 
-def _process_if_request_valid(incoming_request: Request, room: Optional[Room]) -> Optional[Response]:
+def _process_if_request_valid(incoming_request: Request, room: Room | None) -> Response | None:
     if not room:
         abort(404)
 
-    if_modified_str: Optional[str] = incoming_request.headers.get("If-Modified-Since", None)
+    if_modified_str: str | None = incoming_request.headers.get("If-Modified-Since", None)
     if if_modified_str:
         if_modified = parsedate_to_datetime(if_modified_str)
         if if_modified.tzinfo is None:
@@ -321,7 +323,7 @@ def _process_if_request_valid(incoming_request: Request, room: Optional[Room]) -
 @app.route("/tracker/<suuid:tracker>/<int:tracked_team>/<int:tracked_player>")
 def get_player_tracker(tracker: UUID, tracked_team: int, tracked_player: int, generic: bool = False) -> Response:
     key = f"{tracker}_{tracked_team}_{tracked_player}_{generic}"
-    response: Optional[Response] = cache.get(key)
+    response: Response | None = cache.get(key)
     if response:
         return response
 
@@ -340,7 +342,7 @@ def get_player_tracker(tracker: UUID, tracked_team: int, tracked_player: int, ge
 
 
 def get_timeout_and_player_tracker(room: Room, tracked_team: int, tracked_player: int, generic: bool)\
-        -> Tuple[int, datetime.datetime, str]:
+        -> tuple[int, datetime.datetime, str]:
     tracker_data = TrackerData(room)
 
     # Load and render the game-specific player tracker, or fallback to generic tracker if none exists.
@@ -363,7 +365,7 @@ def get_generic_game_tracker(tracker: UUID, tracked_team: int, tracked_player: i
 @app.route("/tracker/<suuid:tracker>/<game>")
 def get_multiworld_tracker(tracker: UUID, game: str) -> Response:
     key = f"{tracker}_{game}"
-    response: Optional[Response] = cache.get(key)
+    response: Response | None = cache.get(key)
     if response:
         return response
 
@@ -382,7 +384,7 @@ def get_multiworld_tracker(tracker: UUID, game: str) -> Response:
 
 
 def get_timeout_and_multiworld_tracker(room: Room, game: str)\
-        -> Tuple[int, datetime.datetime, str]:
+        -> tuple[int, datetime.datetime, str]:
     tracker_data = TrackerData(room)
     enabled_trackers = list(get_enabled_multiworld_trackers(room).keys())
     if game in _multiworld_trackers:
@@ -394,7 +396,7 @@ def get_timeout_and_multiworld_tracker(room: Room, game: str)\
             % TRACKER_CACHE_TIMEOUT_IN_SECONDS or TRACKER_CACHE_TIMEOUT_IN_SECONDS, room.last_activity, tracker)
 
 
-def get_enabled_multiworld_trackers(room: Room) -> Dict[str, Callable]:
+def get_enabled_multiworld_trackers(room: Room) -> dict[str, Callable]:
     # Render the multitracker for any games that exist in the current room if they are defined.
     enabled_trackers = {}
     for game_name, endpoint in _multiworld_trackers.items():
@@ -441,7 +443,7 @@ def render_generic_tracker(tracker_data: TrackerData, team: int, player: int) ->
     )
 
 
-def render_generic_multiworld_tracker(tracker_data: TrackerData, enabled_trackers: List[str]) -> str:
+def render_generic_multiworld_tracker(tracker_data: TrackerData, enabled_trackers: list[str]) -> str:
     return render_template(
         "multitracker.html",
         enabled_trackers=enabled_trackers,
@@ -493,8 +495,8 @@ def get_multiworld_sphere_tracker(tracker: UUID):
 from worlds import network_data_package
 
 if "Factorio" in network_data_package["games"]:
-    def render_Factorio_multiworld_tracker(tracker_data: TrackerData, enabled_trackers: List[str]):
-        inventories: Dict[TeamPlayer, collections.Counter[str]] = {
+    def render_Factorio_multiworld_tracker(tracker_data: TrackerData, enabled_trackers: list[str]):
+        inventories: dict[TeamPlayer, collections.Counter[str]] = {
             (team, player): collections.Counter({
                 tracker_data.item_id_to_name["Factorio"][item_id]: count
                 for item_id, count in tracker_data.get_player_inventory_counts(team, player).items()
@@ -597,8 +599,8 @@ if "A Link to the Past" in network_data_package["games"]:
         if tracker_data.get_room_client_statuses()[team, player] == ClientStatus.CLIENT_GOAL:
             inventory["Triforce"] = 1
 
-    def render_ALinkToThePast_multiworld_tracker(tracker_data: TrackerData, enabled_trackers: List[str]):
-        inventories: Dict[Tuple[int, int], Counter[str]] = {
+    def render_ALinkToThePast_multiworld_tracker(tracker_data: TrackerData, enabled_trackers: list[str]):
+        inventories: dict[tuple[int, int], Counter[str]] = {
             (team, player): collections.Counter({
                 tracker_data.item_id_to_name["A Link to the Past"][code]: count
                 for code, count in tracker_data.get_player_inventory_counts(team, player).items()
@@ -611,7 +613,7 @@ if "A Link to the Past" in network_data_package["games"]:
         for (team, player), inventory in inventories.items():
             prepare_inventories(team, player, inventory, tracker_data)
 
-        regions: Dict[Tuple[int, int], Dict[str, RegionCounts]] = {
+        regions: dict[tuple[int, int], dict[str, RegionCounts]] = {
             (team, player): {
                 region_name: RegionCounts(
                     total=len(tracker_data._multidata["checks_in_area"][player][region_name]),

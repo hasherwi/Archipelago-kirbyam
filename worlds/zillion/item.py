@@ -1,4 +1,4 @@
-from typing import Counter
+from collections import Counter
 
 from zilliandomizer.logic_components.items import Item as ZzItem
 

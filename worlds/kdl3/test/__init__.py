@@ -14,7 +14,7 @@ from worlds.AutoWorld import call_all
 class KDL3TestBase(WorldTestBase):
     game = "Kirby's Dream Land 3"
 
-    def world_setup(self, seed: typing.Optional[int] = None) -> None:
+    def world_setup(self, seed: int | None = None) -> None:
         if type(self) is WorldTestBase or \
                 (hasattr(WorldTestBase, self._testMethodName)
                  and not self.run_default_tests and

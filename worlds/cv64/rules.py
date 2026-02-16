@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 class CV64Rules:
     player: int
     world: "CV64World"
-    rules: Dict[str, CollectionRule]
+    rules: dict[str, CollectionRule]
     s1s_per_warp: int
     required_s2s: int
     drac_condition: int

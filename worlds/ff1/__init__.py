@@ -121,8 +121,8 @@ class FF1World(World):
                 self.locked_items.append(progression_item)
                 self.locked_locations.append(locked_location.name)
 
-    def fill_slot_data(self) -> Dict[str, object]:
-        slot_data: Dict[str, object] = {}
+    def fill_slot_data(self) -> dict[str, object]:
+        slot_data: dict[str, object] = {}
 
         return slot_data
 

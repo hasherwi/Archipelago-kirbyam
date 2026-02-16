@@ -24,7 +24,7 @@ If this file does exist, then it will be used.
         """Whether to filter connection changes displayed in-game."""
 
     executable: Executable = Executable("factorio/bin/x64/factorio")
-    server_settings: typing.Optional[ServerSettings] = None
-    filter_item_sends: typing.Union[FilterItemSends, bool] = False
-    filter_connection_changes: typing.Union[FilterConnectionChanges, bool] = False
-    bridge_chat_out: typing.Union[BridgeChatOut, bool] = True
+    server_settings: ServerSettings | None = None
+    filter_item_sends: FilterItemSends | bool = False
+    filter_connection_changes: FilterConnectionChanges | bool = False
+    bridge_chat_out: BridgeChatOut | bool = True

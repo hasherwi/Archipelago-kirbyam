@@ -12,7 +12,7 @@ class LocationDict(TypedDict, total=False):
     region: str
 
 
-location_table: Dict[int, LocationDict] = {
+location_table: dict[int, LocationDict] = {
     361000: {"name": "Entryway (MAP01) - Armor",
              "episode": 1,
              "map": 1,
@@ -2890,7 +2890,7 @@ location_table: Dict[int, LocationDict] = {
 }
 
 
-location_name_groups: Dict[str, Set[str]] = {
+location_name_groups: dict[str, set[str]] = {
     "Barrels o' Fun (MAP23)": {
         "Barrels o' Fun (MAP23) - Armor",
         "Barrels o' Fun (MAP23) - BFG9000",

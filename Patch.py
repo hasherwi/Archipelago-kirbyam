@@ -13,11 +13,11 @@ from worlds.Files import APAutoPatchInterface, AutoPatchRegister
 
 class RomMeta(TypedDict):
     server: str
-    player: Optional[int]
+    player: int | None
     player_name: str
 
 
-def create_rom_file(patch_file: str) -> Tuple[RomMeta, str]:
+def create_rom_file(patch_file: str) -> tuple[RomMeta, str]:
     auto_handler = AutoPatchRegister.get_handler(patch_file)
     if auto_handler:
         handler: APAutoPatchInterface = auto_handler(patch_file)

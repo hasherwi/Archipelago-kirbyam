@@ -10,16 +10,16 @@ class SavingPrincessLocation(Location):
 
 
 class LocData:
-    code: Optional[int]
+    code: int | None
 
-    def __init__(self, code: Optional[int] = None):
+    def __init__(self, code: int | None = None):
         if code is not None:
             self.code = code + BASE_ID
         else:
             self.code = None
 
 
-location_dict_base: Dict[str, LocData] = {
+location_dict_base: dict[str, LocData] = {
     LOCATION_CAVE_AMMO:         LocData(0),
     LOCATION_CAVE_RELOAD:       LocData(1),
     LOCATION_CAVE_HEALTH:       LocData(2),
@@ -46,7 +46,7 @@ location_dict_base: Dict[str, LocData] = {
     LOCATION_ELECTRICAL_WEAPON: LocData(23),
 }
 
-location_dict_expanded: Dict[str, LocData] = {
+location_dict_expanded: dict[str, LocData] = {
     **location_dict_base,
     EP_LOCATION_CAVE_MINIBOSS:          LocData(24),
     EP_LOCATION_CAVE_BOSS:              LocData(25),
@@ -62,12 +62,12 @@ location_dict_expanded: Dict[str, LocData] = {
     EP_LOCATION_ELECTRICAL_FINAL_BOSS:  LocData(35),
 }
 
-location_dict_event_expanded: Dict[str, LocData] = {
+location_dict_event_expanded: dict[str, LocData] = {
     EVENT_LOCATION_VICTORY: LocData(),
 }
 
 # most event locations are only relevant without expanded pool
-location_dict_events: Dict[str, LocData] = {
+location_dict_events: dict[str, LocData] = {
     EVENT_LOCATION_GUARD_GONE:      LocData(),
     EVENT_LOCATION_CLIFF_GONE:      LocData(),
     EVENT_LOCATION_ACE_GONE:        LocData(),
@@ -76,7 +76,7 @@ location_dict_events: Dict[str, LocData] = {
     **location_dict_event_expanded,
 }
 
-location_dict: Dict[str, LocData] = {
+location_dict: dict[str, LocData] = {
     **location_dict_expanded,
     **location_dict_events,
 }

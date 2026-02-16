@@ -26,7 +26,7 @@ def run_locations_benchmark():
     logger = logging.getLogger("Benchmark")
 
     class BenchmarkRunner:
-        gen_steps: typing.Tuple[str, ...] = (
+        gen_steps: tuple[str, ...] = (
             "generate_early", "create_regions", "create_items", "set_rules", "generate_basic", "pre_fill")
         rule_iterations: int = 100_000
 
@@ -46,7 +46,7 @@ def run_locations_benchmark():
 
         def main(self):
             game = "Stardew Valley"
-            summary_data: typing.Dict[str, collections.Counter[str]] = {
+            summary_data: dict[str, collections.Counter[str]] = {
                 "empty_state": collections.Counter(),
                 "all_state": collections.Counter(),
             }

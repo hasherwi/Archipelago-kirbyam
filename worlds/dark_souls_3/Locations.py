@@ -53,7 +53,7 @@ class DS3LocationData:
 
     This needs to be unique within this world."""
 
-    default_item_name: Optional[str]
+    default_item_name: str | None
     """The name of the item that appears by default in this location.
 
     If this is None, that indicates that this location is an "event" that's
@@ -62,7 +62,7 @@ class DS3LocationData:
     that progression balancing and item smoothing is more accurate for DS3.
     """
 
-    ap_code: Optional[int] = None
+    ap_code: int | None = None
     """Archipelago's internal ID for this location (also known as its "address")."""
 
     region_value: int = 0
@@ -71,7 +71,7 @@ class DS3LocationData:
     This is used to sort locations when placing items like the base game.
     """
 
-    static: Optional[str] = None
+    static: str | None = None
     """The key in the static randomizer's Slots table that corresponds to this location.
 
     By default, the static randomizer chooses its location based on the region and the item name.
@@ -184,7 +184,7 @@ class DS3LocationData:
             DS3LocationData.__location_id += 1
         if self.miniboss or self.mimic or self.lizard or self.hostile_npc: self.drop = True
 
-    def location_groups(self) -> List[str]:
+    def location_groups(self) -> list[str]:
         """The names of location groups this location should appear in.
 
         This is computed from the properties assigned to this location."""
@@ -230,7 +230,7 @@ class DarkSouls3Location(Location):
             self,
             player: int,
             data: DS3LocationData,
-            parent: Optional[Region] = None,
+            parent: Region | None = None,
             event: bool = False):
         super().__init__(player, data.name, None if event else data.ap_code, parent)
         self.data = data
@@ -259,7 +259,7 @@ class DarkSouls3Location(Location):
 #   as part of their normal quest, "kill [name]" for items that require killing
 #   them even when they aren't hostile, and just "[name]" for items that are
 #   naturally available as part of their quest.
-location_tables: Dict[str, List[DS3LocationData]] = {
+location_tables: dict[str, list[DS3LocationData]] = {
     "Cemetery of Ash": [
         DS3LocationData("CA: Soul of a Deserted Corpse - right of spawn",
                         "Soul of a Deserted Corpse"),
@@ -3035,7 +3035,7 @@ for region in [
     for location in location_tables[region]:
         location.conditional = True
 
-location_name_groups: Dict[str, Set[str]] = {
+location_name_groups: dict[str, set[str]] = {
     # We could insert these locations automatically with setdefault(), but we set them up explicitly
     # instead so we can choose the ordering.
     "Prominent": set(),
@@ -3091,7 +3091,7 @@ location_descriptions = {
     "Spells": "Locations that contain spells in vanilla.",
 }
 
-location_dictionary: Dict[str, DS3LocationData] = {}
+location_dictionary: dict[str, DS3LocationData] = {}
 for location_name, location_table in location_tables.items():
     location_dictionary.update({location_data.name: location_data for location_data in location_table})
 

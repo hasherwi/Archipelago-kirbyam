@@ -105,25 +105,25 @@ def create_regions_lfod_campaign(coin_bundle_size, has_campaign_lfod, has_coinsa
     connect_entrances_lfod(multiworld, player)
 
 
-def conditional_location(condition: bool, location: str) -> List[str]:
+def conditional_location(condition: bool, location: str) -> list[str]:
     return conditional_locations(condition, [location])
 
 
-def conditional_locations(condition: bool, locations: List[str]) -> List[str]:
+def conditional_locations(condition: bool, locations: list[str]) -> list[str]:
     return locations if condition else []
 
 
-def create_region_and_locations_basic(region_name: str, locations: List[str], exits: List[str], player: int, multiworld: MultiWorld,
+def create_region_and_locations_basic(region_name: str, locations: list[str], exits: list[str], player: int, multiworld: MultiWorld,
                                       number_coins: int = 0) -> Region:
     return create_region_and_locations(region_name, locations, exits, player, multiworld, number_coins, 0)
 
 
-def create_region_and_locations_lfod(region_name: str, locations: List[str], exits: List[str], player: int, multiworld: MultiWorld,
+def create_region_and_locations_lfod(region_name: str, locations: list[str], exits: list[str], player: int, multiworld: MultiWorld,
                                      number_coins: int = 0) -> Region:
     return create_region_and_locations(region_name, locations, exits, player, multiworld, 0, number_coins)
 
 
-def create_region_and_locations(region_name: str, locations: List[str], exits: List[str], player: int, multiworld: MultiWorld,
+def create_region_and_locations(region_name: str, locations: list[str], exits: list[str], player: int, multiworld: MultiWorld,
                                 number_coins_basic: int, number_coins_lfod: int) -> Region:
     region = Region(region_name, player, multiworld)
     region.exits = [Entrance(player, exit_name, region) for exit_name in exits]

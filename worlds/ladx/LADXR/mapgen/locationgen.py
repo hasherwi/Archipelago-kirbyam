@@ -78,7 +78,7 @@ class EntranceInfo:
 class LocationGenerator:
     def __init__(self, the_map: Map):
         # Find all entrances
-        entrances: List[EntranceInfo] = []
+        entrances: list[EntranceInfo] = []
         for room in the_map:
             # Prevent more then one chest or hole-entrance per map
             remove_duplicate_tile(room.tiles, 0xA0)

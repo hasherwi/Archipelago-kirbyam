@@ -1,4 +1,5 @@
-from typing import Iterable, Tuple, Union
+from typing import Tuple, Union
+from collections.abc import Iterable
 
 from Utils import cache_self1
 
@@ -37,7 +38,7 @@ class ToolLogicMixin(BaseLogicMixin):
 
 class ToolLogic(BaseLogic):
 
-    def has_all_tools(self, tools: Iterable[Tuple[str, str]]):
+    def has_all_tools(self, tools: Iterable[tuple[str, str]]):
         return self.logic.and_(*(self.logic.tool.has_tool(tool, material) for tool, material in tools))
 
     # Should be cached
@@ -94,7 +95,7 @@ class ToolLogic(BaseLogic):
         return self.logic.money.can_spend_at(Region.fish_shop, fishing_rod_prices[level])
 
     # Should be cached
-    def can_forage(self, season: Union[str, Iterable[str]], region: str = Region.forest, need_hoe: bool = False) -> StardewRule:
+    def can_forage(self, season: str | Iterable[str], region: str = Region.forest, need_hoe: bool = False) -> StardewRule:
         season_rule = False_()
         if isinstance(season, str):
             season_rule = self.logic.season.has(season)

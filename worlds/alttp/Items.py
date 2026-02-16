@@ -21,7 +21,7 @@ def GetBeemizerItem(world, player: int, item):
         return "Bee Trap" if isinstance(item, str) else world.create_item("Bee Trap", player)
 
 
-def item_factory(items: typing.Union[str, typing.Iterable[str]], world: World):
+def item_factory(items: str | typing.Iterable[str], world: World):
     ret = []
     singleton = False
     if isinstance(items, str):
@@ -40,17 +40,17 @@ def item_factory(items: typing.Union[str, typing.Iterable[str]], world: World):
 
 class ItemData(typing.NamedTuple):
     classification: IC
-    type: typing.Optional[str]
-    item_code: typing.Union[typing.Optional[int], typing.Iterable[int]]
-    pedestal_hint: typing.Optional[str]
-    pedestal_credit: typing.Optional[str]
-    sick_kid_credit: typing.Optional[str]
-    zora_credit: typing.Optional[str]
-    witch_credit: typing.Optional[str]
-    flute_boy_credit: typing.Optional[str]
-    hint_text: typing.Optional[str]
+    type: str | None
+    item_code: int | None | typing.Iterable[int]
+    pedestal_hint: str | None
+    pedestal_credit: str | None
+    sick_kid_credit: str | None
+    zora_credit: str | None
+    witch_credit: str | None
+    flute_boy_credit: str | None
+    hint_text: str | None
 
-    def as_init_dict(self) -> typing.Dict[str, typing.Any]:
+    def as_init_dict(self) -> dict[str, typing.Any]:
         return {key: getattr(self, key) for key in
                 ("classification", "type", "item_code", "pedestal_hint", "hint_text")}
 

@@ -18,7 +18,8 @@ import typing
 import warnings
 from argparse import Namespace
 from time import sleep
-from typing import Any, BinaryIO, Coroutine, Dict, Optional, Set, TypeGuard, Union
+from typing import Any, BinaryIO, Dict, Optional, Set, TypeGuard, Union
+from collections.abc import Coroutine
 
 from yaml import dump, load, load_all
 
@@ -61,12 +62,12 @@ is_macos = sys.platform == "darwin"
 is_windows = sys.platform in ("win32", "cygwin", "msys")
 
 
-def int16_as_bytes(value: int) -> typing.List[int]:
+def int16_as_bytes(value: int) -> list[int]:
     value = value & 0xFFFF
     return [value & 0xFF, (value >> 8) & 0xFF]
 
 
-def int32_as_bytes(value: int) -> typing.List[int]:
+def int32_as_bytes(value: int) -> list[int]:
     value = value & 0xFFFFFFFF
     return [value & 0xFF, (value >> 8) & 0xFF, (value >> 16) & 0xFF, (value >> 24) & 0xFF]
 
@@ -88,7 +89,7 @@ def cache_argsless(function: typing.Callable[[], RetType]) -> typing.Callable[[]
     assert not function.__code__.co_argcount, "Can only cache 0 argument functions with this cache."
 
     sentinel = object()
-    result: typing.Union[object, RetType] = sentinel
+    result: object | RetType = sentinel
 
     def _wrap() -> RetType:
         nonlocal result
@@ -108,7 +109,7 @@ def cache_self1(function: typing.Callable[[S, T], RetType]) -> typing.Callable[[
 
     @functools.wraps(function)
     def wrap(self: S, arg: T) -> RetType:
-        cache: Optional[Dict[T, RetType]] = getattr(self, cache_name, None)
+        cache: dict[T, RetType] | None = getattr(self, cache_name, None)
         if cache is None:
             res = function(self, arg)
             setattr(self, cache_name, {arg: res})
@@ -229,7 +230,7 @@ def output_path(*path: str) -> str:
     return path
 
 
-def open_file(filename: typing.Union[str, "pathlib.Path"]) -> None:
+def open_file(filename: str | "pathlib.Path") -> None:
     if is_windows:
         os.startfile(filename)  # type: ignore
     else:
@@ -335,8 +336,8 @@ def persistent_store(category: str, key: str, value: typing.Any, force_store: bo
         f.write(dump(storage, Dumper=Dumper))
 
 
-def persistent_load() -> Dict[str, Dict[str, Any]]:
-    storage: Union[Dict[str, Dict[str, Any]], None] = getattr(persistent_load, "storage", None)
+def persistent_load() -> dict[str, dict[str, Any]]:
+    storage: dict[str, dict[str, Any]] | None = getattr(persistent_load, "storage", None)
     if storage:
         return storage
     path = user_path("_persistent_storage.yaml")
@@ -357,7 +358,7 @@ def get_file_safe_name(name: str) -> str:
     return "".join(c for c in name if c not in '<>:"/\\|?*')
 
 
-def load_data_package_for_checksum(game: str, checksum: typing.Optional[str]) -> Dict[str, Any]:
+def load_data_package_for_checksum(game: str, checksum: str | None) -> dict[str, Any]:
     if checksum and game:
         if checksum != get_file_safe_name(checksum):
             raise ValueError(f"Bad symbols in checksum: {checksum}")
@@ -378,7 +379,7 @@ def load_data_package_for_checksum(game: str, checksum: typing.Optional[str]) ->
     return {}
 
 
-def store_data_package_for_checksum(game: str, data: typing.Dict[str, Any]) -> None:
+def store_data_package_for_checksum(game: str, data: dict[str, Any]) -> None:
     checksum = data.get("checksum")
     if checksum and game:
         if checksum != get_file_safe_name(checksum):
@@ -447,7 +448,7 @@ safe_builtins = frozenset((
 
 
 class RestrictedUnpickler(pickle.Unpickler):
-    generic_properties_module: Optional[object]
+    generic_properties_module: object | None
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super(RestrictedUnpickler, self).__init__(*args, **kwargs)
@@ -517,7 +518,7 @@ class KeyedDefaultDict(collections.defaultdict):
 
     def __init__(self,
                  default_factory: typing.Callable[[Any], Any] = None,
-                 seq: typing.Union[typing.Mapping, typing.Iterable, None] = None,
+                 seq: typing.Mapping | typing.Iterable | None = None,
                  **kwargs):
         if seq is not None:
             super().__init__(default_factory, seq, **kwargs)
@@ -540,9 +541,9 @@ def get_text_after(text: str, start: str) -> str:
 loglevel_mapping = {"error": logging.ERROR, "info": logging.INFO, "warning": logging.WARNING, "debug": logging.DEBUG}
 
 
-def init_logging(name: str, loglevel: typing.Union[str, int] = logging.INFO,
+def init_logging(name: str, loglevel: str | int = logging.INFO,
                  write_mode: str = "w", log_format: str = "[%(name)s at %(asctime)s]: %(message)s",
-                 add_timestamp: bool = False, exception_logger: typing.Optional[str] = None):
+                 add_timestamp: bool = False, exception_logger: str | None = None):
     import datetime
     loglevel: int = loglevel_mapping.get(loglevel, loglevel)
     log_folder = user_path("logs")
@@ -674,8 +675,8 @@ def format_SI_prefix(value, power=1000, power_labels=("", "k", "M", "G", "T", "P
     return f"{value.quantize(decimal.Decimal('1.00'))} {chaining_prefix(n, power_labels)}"
 
 
-def get_fuzzy_results(input_word: str, word_list: typing.Collection[str], limit: typing.Optional[int] = None) \
-        -> typing.List[typing.Tuple[str, int]]:
+def get_fuzzy_results(input_word: str, word_list: typing.Collection[str], limit: int | None = None) \
+        -> list[tuple[str, int]]:
     import jellyfish
 
     def get_fuzzy_ratio(word1: str, word2: str) -> float:
@@ -697,7 +698,7 @@ def get_fuzzy_results(input_word: str, word_list: typing.Collection[str], limit:
     )
 
 
-def get_intended_text(input_text: str, possible_answers) -> typing.Tuple[str, bool, str]:
+def get_intended_text(input_text: str, possible_answers) -> tuple[str, bool, str]:
     picks = get_fuzzy_results(input_text, possible_answers, limit=2)
     if len(picks) > 1:
         dif = picks[0][1] - picks[1][1]
@@ -721,7 +722,7 @@ def get_intended_text(input_text: str, possible_answers) -> typing.Tuple[str, bo
                                        f"did you mean '{picks[0][0]}'? ({picks[0][1]}% sure)"
 
 
-def get_input_text_from_response(text: str, command: str) -> typing.Optional[str]:
+def get_input_text_from_response(text: str, command: str) -> str | None:
     """
     Parses the response text from `get_intended_text` to find the suggested input and autocomplete the command in
     arguments with it.
@@ -750,13 +751,13 @@ def is_kivy_running() -> bool:
     return False
 
 
-def _mp_open_filename(res: "multiprocessing.Queue[typing.Optional[str]]", *args: Any) -> None:
+def _mp_open_filename(res: "multiprocessing.Queue[str | None]", *args: Any) -> None:
     if is_kivy_running():
         raise RuntimeError("kivy should not be running in multiprocess")
     res.put(open_filename(*args))
 
 
-def _mp_save_filename(res: "multiprocessing.Queue[typing.Optional[str]]", *args: Any) -> None:
+def _mp_save_filename(res: "multiprocessing.Queue[str | None]", *args: Any) -> None:
     if is_kivy_running():
         raise RuntimeError("kivy should not be running in multiprocess")
     res.put(save_filename(*args))
@@ -769,8 +770,8 @@ def _run_for_stdout(*args: str):
     return subprocess.run(args, capture_output=True, text=True, env=env).stdout.split("\n", 1)[0] or None
 
 
-def open_filename(title: str, filetypes: typing.Iterable[typing.Tuple[str, typing.Iterable[str]]], suggest: str = "") \
-        -> typing.Optional[str]:
+def open_filename(title: str, filetypes: typing.Iterable[tuple[str, typing.Iterable[str]]], suggest: str = "") \
+        -> str | None:
     logging.info(f"Opening file input dialog for {title}.")
 
     if is_linux:
@@ -799,7 +800,7 @@ def open_filename(title: str, filetypes: typing.Iterable[typing.Tuple[str, typin
             # on macOS, mixing kivy and tk does not work, so spawn a new process
             # FIXME: performance of this is pretty bad, and we should (also) look into alternatives
             from multiprocessing import Process, Queue
-            res: "Queue[typing.Optional[str]]" = Queue()
+            res: "Queue[str | None]" = Queue()
             Process(target=_mp_open_filename, args=(res, title, filetypes, suggest)).start()
             return res.get()
         try:
@@ -811,8 +812,8 @@ def open_filename(title: str, filetypes: typing.Iterable[typing.Tuple[str, typin
                                                   initialfile=suggest or None)
 
 
-def save_filename(title: str, filetypes: typing.Iterable[typing.Tuple[str, typing.Iterable[str]]], suggest: str = "") \
-        -> typing.Optional[str]:
+def save_filename(title: str, filetypes: typing.Iterable[tuple[str, typing.Iterable[str]]], suggest: str = "") \
+        -> str | None:
     logging.info(f"Opening file save dialog for {title}.")
 
     def run(*args: str):
@@ -844,7 +845,7 @@ def save_filename(title: str, filetypes: typing.Iterable[typing.Tuple[str, typin
             # on macOS, mixing kivy and tk does not work, so spawn a new process
             # FIXME: performance of this is pretty bad, and we should (also) look into alternatives
             from multiprocessing import Process, Queue
-            res: "Queue[typing.Optional[str]]" = Queue()
+            res: "Queue[str | None]" = Queue()
             Process(target=_mp_save_filename, args=(res, title, filetypes, suggest)).start()
             return res.get()
         try:
@@ -856,13 +857,13 @@ def save_filename(title: str, filetypes: typing.Iterable[typing.Tuple[str, typin
                                                     initialfile=suggest or None)
 
 
-def _mp_open_directory(res: "multiprocessing.Queue[typing.Optional[str]]", *args: Any) -> None:
+def _mp_open_directory(res: "multiprocessing.Queue[str | None]", *args: Any) -> None:
     if is_kivy_running():
         raise RuntimeError("kivy should not be running in multiprocess")
     res.put(open_directory(*args))
 
 
-def open_directory(title: str, suggest: str = "") -> typing.Optional[str]:
+def open_directory(title: str, suggest: str = "") -> str | None:
     if is_linux:
         # prefer native dialog
         from shutil import which
@@ -889,7 +890,7 @@ def open_directory(title: str, suggest: str = "") -> typing.Optional[str]:
             # on macOS, mixing kivy and tk does not work, so spawn a new process
             # FIXME: performance of this is pretty bad, and we should (also) look into alternatives
             from multiprocessing import Process, Queue
-            res: "Queue[typing.Optional[str]]" = Queue()
+            res: "Queue[str | None]" = Queue()
             Process(target=_mp_open_directory, args=(res, title, suggest)).start()
             return res.get()
         try:
@@ -938,7 +939,7 @@ def messagebox(title: str, text: str, error: bool = False) -> None:
 
 def title_sorted(data: typing.Iterable, key=None, ignore: typing.AbstractSet[str] = frozenset(("a", "the"))):
     """Sorts a sequence of text ignoring typical articles like "a" or "the" in the beginning."""
-    def sorter(element: Union[str, Dict[str, Any]]) -> str:
+    def sorter(element: str | dict[str, Any]) -> str:
         if (not isinstance(element, str)):
             element = element["title"]
 
@@ -958,10 +959,10 @@ def read_snes_rom(stream: BinaryIO, strip_header: bool = True) -> bytearray:
     return buffer
 
 
-_faf_tasks: "Set[asyncio.Task[typing.Any]]" = set()
+_faf_tasks: "set[asyncio.Task[typing.Any]]" = set()
 
 
-def async_start(co: Coroutine[None, None, typing.Any], name: Optional[str] = None) -> None:
+def async_start(co: Coroutine[None, None, typing.Any], name: str | None = None) -> None:
     """
     Use this to start a task when you don't keep a reference to it or immediately await it,
     to prevent early garbage collection. "fire-and-forget"
@@ -1095,12 +1096,12 @@ def visualize_regions(root_region: Region, file_name: str, *,
 
     from BaseClasses import Entrance, Item, Location, LocationProgressType, MultiWorld, Region
 
-    uml: typing.List[str] = list()
-    seen: typing.Set[Region] = set()
-    regions: typing.Deque[Region] = deque((root_region,))
+    uml: list[str] = list()
+    seen: set[Region] = set()
+    regions: deque[Region] = deque((root_region,))
     multiworld: MultiWorld = root_region.multiworld
 
-    def fmt(obj: Union[Entrance, Item, Location, Region]) -> str:
+    def fmt(obj: Entrance | Item | Location | Region) -> str:
         name = obj.name
         if isinstance(obj, Item):
             name = multiworld.get_name_string_for_object(obj)

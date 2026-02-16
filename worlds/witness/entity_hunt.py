@@ -39,20 +39,20 @@ ALL_HUNTABLE_PANELS = [
 
 class EntityHuntPicker:
     def __init__(self, player_logic: "WitnessPlayerLogic", world: "WitnessWorld",
-                 pre_picked_entities: Set[str]) -> None:
+                 pre_picked_entities: set[str]) -> None:
         self.player_logic = player_logic
         self.player_options = world.options
         self.player_name = world.player_name
         self.random = world.random
 
         self.PRE_PICKED_HUNT_ENTITIES = pre_picked_entities.copy()
-        self.HUNT_ENTITIES: Set[str] = set()
+        self.HUNT_ENTITIES: set[str] = set()
 
         self._add_plandoed_hunt_panels_to_pre_picked()
 
         self.ALL_ELIGIBLE_ENTITIES, self.ELIGIBLE_ENTITIES_PER_AREA = self._get_eligible_panels()
 
-    def pick_panel_hunt_panels(self, total_amount: int) -> Set[str]:
+    def pick_panel_hunt_panels(self, total_amount: int) -> set[str]:
         """
         The process of picking all hunt entities is:
 
@@ -116,7 +116,7 @@ class EntityHuntPicker:
 
                 self.PRE_PICKED_HUNT_ENTITIES.add(entity_hex)
 
-    def _get_eligible_panels(self) -> Tuple[List[str], Dict[str, Set[str]]]:
+    def _get_eligible_panels(self) -> tuple[list[str], dict[str, set[str]]]:
         """
         There are some entities that are not allowed for panel hunt for various technical of gameplay reasons.
         Make a list of all the ones that *are* eligible, plus a lookup of eligible panels per area.
@@ -134,7 +134,7 @@ class EntityHuntPicker:
 
         return all_eligible_panels, eligible_panels_by_area
 
-    def _get_percentage_of_hunt_entities_by_area(self) -> Dict[str, float]:
+    def _get_percentage_of_hunt_entities_by_area(self) -> dict[str, float]:
         hunt_entities_picked_so_far_prevent_div_0 = max(len(self.HUNT_ENTITIES), 1)
 
         contributing_percentage_per_area = {}
@@ -145,7 +145,7 @@ class EntityHuntPicker:
 
         return contributing_percentage_per_area
 
-    def _get_next_random_batch(self, amount: int, same_area_discouragement: float) -> List[str]:
+    def _get_next_random_batch(self, amount: int, same_area_discouragement: float) -> list[str]:
         """
         Pick the next batch of hunt entities.
         Areas that already have a lot of hunt entities in them will be discouraged from getting more.

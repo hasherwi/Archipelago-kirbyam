@@ -175,7 +175,7 @@ class CVCotMWorld(World):
                 self.get_location(locked_loc).place_locked_item(self.create_item(locked_item,
                                                                                  ItemClassification.progression))
 
-    def create_item(self, name: str, force_classification: typing.Optional[ItemClassification] = None) -> Item:
+    def create_item(self, name: str, force_classification: ItemClassification | None = None) -> Item:
         if force_classification is not None:
             classification = force_classification
         else:
@@ -242,7 +242,7 @@ class CVCotMWorld(World):
     def get_filler_item_name(self) -> str:
         return self.random.choice(FILLER_ITEM_NAMES)
 
-    def modify_multidata(self, multidata: typing.Dict[str, typing.Any]):
+    def modify_multidata(self, multidata: dict[str, typing.Any]):
         # Put the player's unique authentication in connect_names.
         multidata["connect_names"][base64.b64encode(self.auth).decode("ascii")] = \
             multidata["connect_names"][self.player_name]

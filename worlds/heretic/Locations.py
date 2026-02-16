@@ -13,7 +13,7 @@ class LocationDict(TypedDict, total=False):
     region: str
 
 
-location_table: Dict[int, LocationDict] = {
+location_table: dict[int, LocationDict] = {
     371000: {"name": "The Docks (E1M1) - Yellow key",
              "episode": 1,
              "check_sanity": False,
@@ -7115,7 +7115,7 @@ location_table: Dict[int, LocationDict] = {
 }
 
 
-location_name_groups: Dict[str, Set[str]] = {
+location_name_groups: dict[str, set[str]] = {
     "Ambulatory (E4M3)": {
         "Ambulatory (E4M3) - Bag of Holding",
         "Ambulatory (E4M3) - Bag of Holding 2",

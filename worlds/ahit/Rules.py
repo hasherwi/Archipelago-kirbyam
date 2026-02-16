@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Callable, Dict, List, Union
+from typing import TYPE_CHECKING, Dict, List, Union
+from collections.abc import Callable
 
 from BaseClasses import Entrance, Location, Region
 from worlds.AutoWorld import CollectionState
@@ -135,7 +136,7 @@ def set_rules(world: "HatInTimeWorld"):
     world.chapter_timepiece_costs[starting_chapter] = 0
 
     # Chapter costs increase progressively. Randomly decide the chapter order, except for Finale
-    chapter_list: List[ChapterIndex] = [ChapterIndex.MAFIA, ChapterIndex.BIRDS,
+    chapter_list: list[ChapterIndex] = [ChapterIndex.MAFIA, ChapterIndex.BIRDS,
                                         ChapterIndex.SUBCON, ChapterIndex.ALPINE]
 
     final_chapter = ChapterIndex.FINALE
@@ -302,7 +303,7 @@ def set_rules(world: "HatInTimeWorld"):
             add_rule(world.multiworld.get_location(loc, world.player),
                      lambda state, z=zipline: state.has(z, world.player))
 
-    dummy_entrances: List[Entrance] = []
+    dummy_entrances: list[Entrance] = []
 
     for (key, acts) in act_connections.items():
         if "Arctic Cruise" in key and not world.is_dlc1():
@@ -310,11 +311,11 @@ def set_rules(world: "HatInTimeWorld"):
 
         entrance: Entrance = world.multiworld.get_entrance(key, world.player)
         region: Region = entrance.connected_region
-        access_rules: List[Callable[[CollectionState], bool]] = []
+        access_rules: list[Callable[[CollectionState], bool]] = []
         dummy_entrances.append(entrance)
 
         # Entrances to this act that we have to set access_rules on
-        entrances: List[Entrance] = []
+        entrances: list[Entrance] = []
 
         for i, act in enumerate(acts, start=1):
             act_entrance: Entrance = world.multiworld.get_entrance(act, world.player)
@@ -807,7 +808,7 @@ def set_dlc2_rules(world: "HatInTimeWorld"):
                      lambda state: state.has("Metro Ticket - Yellow", world.player), "or")
 
 
-def reg_act_connection(world: "HatInTimeWorld", region: Union[str, Region], unlocked_entrance: Union[str, Entrance]):
+def reg_act_connection(world: "HatInTimeWorld", region: str | Region, unlocked_entrance: str | Entrance):
     reg: Region
     entrance: Entrance
     if isinstance(region, str):
@@ -825,7 +826,7 @@ def reg_act_connection(world: "HatInTimeWorld", region: Union[str, Region], unlo
 
 # See randomize_act_entrances in Regions.py
 # Called before set_rules
-def set_rift_rules(world: "HatInTimeWorld", regions: Dict[str, Region]):
+def set_rift_rules(world: "HatInTimeWorld", regions: dict[str, Region]):
 
     # This is accessing the regions in place of these time rifts, so we can set the rules on all the entrances.
     for entrance in regions["Time Rift - Gallery"].entrances:

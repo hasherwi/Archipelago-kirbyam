@@ -12,14 +12,13 @@ from typing import (
     ClassVar,
     Dict,
     Generic,
-    Iterable,
     Optional,
-    Sequence,
     Tuple,
     TypeGuard,
     TypeVar,
     Union,
 )
+from collections.abc import Iterable, Sequence
 
 from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components
 
@@ -38,7 +37,7 @@ component = Component("SNI Client", "SNIClient", component_type=Type.CLIENT, fil
 components.append(component)
 
 
-def valid_patch_suffix(obj: object) -> TypeGuard[Union[str, Iterable[str]]]:
+def valid_patch_suffix(obj: object) -> TypeGuard[str | Iterable[str]]:
     """ make sure this is a valid value for the class variable `patch_suffix` """
 
     def valid_individual(one: object) -> TypeGuard[str]:
@@ -56,9 +55,9 @@ def valid_patch_suffix(obj: object) -> TypeGuard[Union[str, Iterable[str]]]:
 
 
 class AutoSNIClientRegister(abc.ABCMeta):
-    game_handlers: ClassVar[Dict[str, SNIClient]] = {}
+    game_handlers: ClassVar[dict[str, SNIClient]] = {}
 
-    def __new__(cls, name: str, bases: Tuple[type, ...], dct: Dict[str, Any]) -> AutoSNIClientRegister:
+    def __new__(cls, name: str, bases: tuple[type, ...], dct: dict[str, Any]) -> AutoSNIClientRegister:
         # construct class
         new_class = super().__new__(cls, name, bases, dct)
         if "game" in dct:
@@ -82,7 +81,7 @@ class AutoSNIClientRegister(abc.ABCMeta):
         return new_class
 
     @staticmethod
-    async def get_handler(ctx: SNIContext) -> Optional[SNIClient]:
+    async def get_handler(ctx: SNIContext) -> SNIClient | None:
         for _game, handler in AutoSNIClientRegister.game_handlers.items():
             try:
                 if await handler.validate_rom(ctx):
@@ -95,7 +94,7 @@ class AutoSNIClientRegister(abc.ABCMeta):
 
 class SNIClient(abc.ABC, metaclass=AutoSNIClientRegister):
 
-    patch_suffix: ClassVar[Union[str, Iterable[str]]] = ()
+    patch_suffix: ClassVar[str | Iterable[str]] = ()
     """The file extension(s) this client is meant to open and patch (e.g. ".aplttp")"""
 
     @abc.abstractmethod
@@ -112,7 +111,7 @@ class SNIClient(abc.ABC, metaclass=AutoSNIClientRegister):
         """ override this with implementation to kill player """
         pass
 
-    def on_package(self, ctx: SNIContext, cmd: str, args: Dict[str, Any]) -> None:
+    def on_package(self, ctx: SNIContext, cmd: str, args: dict[str, Any]) -> None:
         """ override this with code to handle packages from the server """
         pass
 

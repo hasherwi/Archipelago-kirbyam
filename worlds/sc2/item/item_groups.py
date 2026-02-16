@@ -21,7 +21,7 @@ For non-developers the following will be useful:
 * Hand-crafted item groups can be found at the bottom of this file
 """
 
-item_name_groups: typing.Dict[str, typing.List[str]] = {}
+item_name_groups: dict[str, list[str]] = {}
 
 # Groups for use in world logic
 item_name_groups["Missions"] = ["Beat " + mission.mission_name for mission in SC2Mission]
@@ -41,7 +41,7 @@ unlisted_item_name_groups = {
 
 # Some item names only differ in bracketed parts
 # These items are ambiguous for short-hand name groups
-bracketless_duplicates: typing.Set[str]
+bracketless_duplicates: set[str]
 # This is a list of names in ItemNames with bracketed parts removed, for internal use
 _shortened_names = [(name[:name.find(" (")] if "(" in name else name)
                     for name in [item_names.__dict__[name] for name in item_names.__dir__() if not name.startswith("_")]]
@@ -194,7 +194,7 @@ class ItemGroupNames:
     KEYS = "Keys"
 
     @classmethod
-    def get_all_group_names(cls) -> typing.Set[str]:
+    def get_all_group_names(cls) -> set[str]:
         return {
             name for identifier, name in cls.__dict__.items()
             if not identifier.startswith("_")

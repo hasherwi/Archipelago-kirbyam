@@ -51,14 +51,14 @@ class DOOM1993World(World):
     location_name_to_id = {data["name"]: loc_id for loc_id, data in Locations.location_table.items()}
     location_name_groups = Locations.location_name_groups
 
-    starting_level_for_episode: Dict[int, str] = {
+    starting_level_for_episode: dict[int, str] = {
         1: "Hangar (E1M1)",
         2: "Deimos Anomaly (E2M1)",
         3: "Hell Keep (E3M1)",
         4: "Hell Beneath (E4M1)"
     }
 
-    all_boss_levels: List[str] = [
+    all_boss_levels: list[str] = [
         "Phobos Anomaly (E1M8)",
         "Tower of Babel (E2M8)",
         "Dis (E3M8)",
@@ -66,7 +66,7 @@ class DOOM1993World(World):
     ]
 
     # Item ratio that scales depending on episode count. These are the ratio for 3 episode.
-    items_ratio: Dict[str, float] = {
+    items_ratio: dict[str, float] = {
         "Armor": 41,
         "Mega Armor": 25,
         "Berserk": 12,
@@ -199,7 +199,7 @@ class DOOM1993World(World):
         return DOOM1993Item(name, Items.item_table[item_id]["classification"], item_id, self.player)
 
     def create_items(self):
-        itempool: List[DOOM1993Item] = []
+        itempool: list[DOOM1993Item] = []
         start_with_computer_area_maps: bool = self.options.start_with_computer_area_maps.value
 
         # Items
@@ -278,7 +278,7 @@ class DOOM1993World(World):
             "Energy cell pack"
         ])
 
-    def create_ratioed_items(self, item_name: str, itempool: List[DOOM1993Item]):
+    def create_ratioed_items(self, item_name: str, itempool: list[DOOM1993Item]):
         remaining_loc = self.location_count - len(itempool)
         ep_count = self.get_episode_count()
 
@@ -291,7 +291,7 @@ class DOOM1993World(World):
         for i in range(count):
             itempool.append(self.create_item(item_name))
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         slot_data = self.options.as_dict("goal", "difficulty", "random_monsters", "random_pickups", "random_music", "flip_levels", "allow_death_logic", "pro", "start_with_computer_area_maps", "death_link", "reset_level_on_death", "episode1", "episode2", "episode3", "episode4")
 
         # E2M6 and E3M9 each have one way keydoor. You can enter, but required the keycard to get out.

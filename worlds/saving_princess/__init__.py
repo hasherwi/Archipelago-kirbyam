@@ -45,7 +45,7 @@ class SavingPrincessSettings(Group):
 
     exe_path: GamePath = GamePath("Saving Princess.exe")
     install_folder: InstallFolder = InstallFolder("Saving Princess")
-    launch_game: Union[LaunchGame, bool] = True
+    launch_game: LaunchGame | bool = True
     launch_command: LaunchCommand = LaunchCommand('"Saving Princess v0_8.exe"' if Utils.is_windows
                                                   else 'wine "Saving Princess v0_8.exe"')
 
@@ -94,13 +94,13 @@ class SavingPrincessWorld(World):
         "Traps": {key for key in Items.item_dict_traps.keys()},
     }
 
-    options_dataclass: ClassVar[Type[PerGameCommonOptions]] = Options.SavingPrincessOptions
+    options_dataclass: ClassVar[type[PerGameCommonOptions]] = Options.SavingPrincessOptions
     options: Options.SavingPrincessOptions
     settings_key = "saving_princess_settings"
     settings: ClassVar[SavingPrincessSettings]
 
     is_pool_expanded: bool = False
-    music_table: List[int] = list(range(16))
+    music_table: list[int] = list(range(16))
 
     def generate_early(self) -> None:
         if not self.player_name.isascii():
@@ -162,7 +162,7 @@ class SavingPrincessWorld(World):
         from .Rules import set_rules
         set_rules(self)
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         slot_data = self.options.as_dict(
             "death_link",
             "expanded_pool",

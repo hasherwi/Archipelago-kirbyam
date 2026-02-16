@@ -14,8 +14,8 @@ class TerrariaLocation(Location):
 
 
 def add_token(
-    tokens: List[Tuple[int, int, Union[str, int, None]]],
-    token: Union[str, int],
+    tokens: list[tuple[int, int, str | int | None]],
+    token: str | int,
     token_index: int,
 ):
     if token == "":
@@ -52,7 +52,7 @@ CHAR_TO_TOKEN_ID = {
 TOKEN_ID_TO_CHAR = {id: char for char, id in CHAR_TO_TOKEN_ID.items()}
 
 
-def tokens(rule: str) -> List[Tuple[int, int, Union[str, int, None]]]:
+def tokens(rule: str) -> list[tuple[int, int, str | int | None]]:
     token_list = []
     token = ""
     token_index = 0
@@ -166,8 +166,8 @@ class Condition:
         # See the `COND_*` constants
         type: int,
         # Condition name or list
-        condition: Union[str, Tuple[Union[bool, None], List["Condition"]]],
-        argument: Union[str, int, None],
+        condition: str | tuple[bool | None, list["Condition"]],
+        argument: str | int | None,
     ):
         self.sign = sign
         self.type = type
@@ -180,10 +180,10 @@ class Rule:
         self,
         name: str,
         # Name to arg
-        flags: Dict[str, Union[str, int, None]],
+        flags: dict[str, str | int | None],
         # True = or, False = and, None = N/A
-        operator: Union[bool, None],
-        conditions: List[Condition],
+        operator: bool | None,
+        conditions: list[Condition],
     ):
         self.name = name
         self.flags = flags
@@ -194,7 +194,7 @@ class Rule:
 def validate_conditions(
     rule: str,
     rule_indices: dict,
-    conditions: List[Condition],
+    conditions: list[Condition],
 ):
     for condition in conditions:
         if condition.type == COND_ITEM:
@@ -227,8 +227,8 @@ def validate_conditions(
 
 
 def mark_progression(
-    conditions: List[Condition],
-    progression: Set[str],
+    conditions: list[Condition],
+    progression: set[str],
     rules: list,
     rule_indices: dict,
     loc_to_item: dict,
@@ -261,37 +261,37 @@ def mark_progression(
             mark_progression(conditions, progression, rules, rule_indices, loc_to_item)
 
 
-def read_data() -> Tuple[
+def read_data() -> tuple[
     # Goal to rule index that ends that goal's range and the locations required
-    List[Tuple[int, Set[str]]],
+    list[tuple[int, set[str]]],
     # Rules
-    List[Rule],
+    list[Rule],
     # Rule to rule index
-    Dict[str, int],
+    dict[str, int],
     # Label to rewards
-    Dict[str, List[str]],
+    dict[str, list[str]],
     # Reward to flags
-    Dict[str, Set[str]],
+    dict[str, set[str]],
     # Item name to ID
-    Dict[str, int],
+    dict[str, int],
     # Location name to ID
-    Dict[str, int],
+    dict[str, int],
     # NPCs
-    List[str],
+    list[str],
     # Pickaxe to pick power
-    Dict[str, int],
+    dict[str, int],
     # Hammer to hammer power
-    Dict[str, int],
+    dict[str, int],
     # Mechanical bosses
-    List[str],
+    list[str],
     # Calamity final bosses
-    List[str],
+    list[str],
     # Progression rules
-    Set[str],
+    set[str],
     # Armor to minion count,
-    Dict[str, int],
+    dict[str, int],
     # Accessory to minion count,
-    Dict[str, int],
+    dict[str, int],
 ]:
     next_id = 0x7E0000
     item_name_to_id = {}

@@ -21,7 +21,7 @@ from ..strings.region_names import Region
 from .bases import SVTestBase
 
 
-def get_all_permanent_progression_items() -> List[ItemData]:
+def get_all_permanent_progression_items() -> list[ItemData]:
     """Ignore all the stuff that the algorithm chooses one of, instead of all, to fulfill logical progression.
     """
     return [
@@ -150,7 +150,7 @@ class TestProgressiveElevator(SVTestBase):
 
         self.assert_can_reach_region(Region.mines_floor_120)
 
-    def generate_items_for_mine_115(self) -> List[Item]:
+    def generate_items_for_mine_115(self) -> list[Item]:
         pickaxes = [self.get_item_by_name("Progressive Pickaxe")] * 2
         elevators = [self.get_item_by_name("Progressive Mine Elevator")] * 21
         swords = [self.get_item_by_name("Progressive Sword")] * 3
@@ -158,7 +158,7 @@ class TestProgressiveElevator(SVTestBase):
         mining_levels = [self.get_item_by_name("Mining Level")] * 4
         return [*combat_levels, *mining_levels, *elevators, *pickaxes, *swords]
 
-    def generate_items_for_extra_mine_levels(self, weapon_name: str) -> List[Item]:
+    def generate_items_for_extra_mine_levels(self, weapon_name: str) -> list[Item]:
         last_pickaxe = self.get_item_by_name("Progressive Pickaxe")
         last_weapon = self.multiworld.create_item(weapon_name, self.player)
         second_last_combat_level = self.get_item_by_name("Combat Level")
@@ -199,7 +199,7 @@ class TestSkullCavernLogic(SVTestBase):
         self.assert_can_reach_region(Region.skull_cavern_25)
         self.assert_can_reach_region(Region.skull_cavern_75)
 
-    def generate_items_for_mine_115(self) -> List[Item]:
+    def generate_items_for_mine_115(self) -> list[Item]:
         pickaxes = [self.get_item_by_name("Progressive Pickaxe")] * 2
         swords = [self.get_item_by_name("Progressive Sword")] * 3
         combat_levels = [self.get_item_by_name("Combat Level")] * 4
@@ -208,7 +208,7 @@ class TestSkullCavernLogic(SVTestBase):
         skull_key = self.get_item_by_name("Skull Key")
         return [*combat_levels, *mining_levels, *pickaxes, *swords, bus, skull_key]
 
-    def generate_items_for_skull_50(self) -> List[Item]:
+    def generate_items_for_skull_50(self) -> list[Item]:
         pickaxes = [self.get_item_by_name("Progressive Pickaxe")] * 3
         swords = [self.get_item_by_name("Progressive Sword")] * 4
         combat_levels = [self.get_item_by_name("Combat Level")] * 6
@@ -217,7 +217,7 @@ class TestSkullCavernLogic(SVTestBase):
         skull_key = self.get_item_by_name("Skull Key")
         return [*combat_levels, *mining_levels, *pickaxes, *swords, bus, skull_key]
 
-    def generate_items_for_skull_100(self) -> List[Item]:
+    def generate_items_for_skull_100(self) -> list[Item]:
         pickaxes = [self.get_item_by_name("Progressive Pickaxe")] * 4
         swords = [self.get_item_by_name("Progressive Sword")] * 5
         combat_levels = [self.get_item_by_name("Combat Level")] * 8

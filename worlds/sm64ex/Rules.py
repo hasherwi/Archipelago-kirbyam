@@ -1,4 +1,5 @@
-from typing import Callable, Dict, Set, Union
+from typing import Dict, Set, Union
+from collections.abc import Callable
 
 from BaseClasses import MultiWorld
 
@@ -24,8 +25,8 @@ def shuffle_dict_keys(world, dictionary: dict) -> dict:
     world.random.shuffle(keys)
     return dict(zip(keys, values))
 
-def fix_reg(entrance_map: Dict[SM64Levels, str], entrance: SM64Levels, invalid_regions: Set[str],
-            swapdict: Dict[SM64Levels, str], world):
+def fix_reg(entrance_map: dict[SM64Levels, str], entrance: SM64Levels, invalid_regions: set[str],
+            swapdict: dict[SM64Levels, str], world):
     if entrance_map[entrance] in invalid_regions: # Unlucky :C
         replacement_regions = [(rand_entrance, rand_region) for rand_entrance, rand_region in swapdict.items()
                                if rand_region not in invalid_regions]
@@ -314,7 +315,7 @@ class RuleFactory:
         else:
             return None
 
-    def combine_and_clauses(self, rule_expr: str, cannon_name: str) -> Union[Callable, bool]:
+    def combine_and_clauses(self, rule_expr: str, cannon_name: str) -> Callable | bool:
         expressions = rule_expr.split(" & ")
         rules = []
         for expression in expressions:
@@ -330,7 +331,7 @@ class RuleFactory:
         else:
             return True
 
-    def make_lambda(self, expression: str, cannon_name: str) -> Union[Callable, bool]:
+    def make_lambda(self, expression: str, cannon_name: str) -> Callable | bool:
         if "+" in expression:
             tokens = expression.split("+")
             items = set()
@@ -368,7 +369,7 @@ class RuleFactory:
             return item
         return lambda state: state.has(item, self.player)
 
-    def parse_token(self, token: str, cannon_name: str) -> Union[str, bool]:
+    def parse_token(self, token: str, cannon_name: str) -> str | bool:
         if token == "CANN":
             return cannon_name
         if token == "CAPLESS":

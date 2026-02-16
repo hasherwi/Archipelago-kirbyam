@@ -27,7 +27,7 @@ class ModQuestLogicMixin(BaseLogicMixin):
 
 
 class ModQuestLogic(BaseLogic):
-    def get_modded_quest_rules(self) -> Dict[str, StardewRule]:
+    def get_modded_quest_rules(self) -> dict[str, StardewRule]:
         quests = dict()
         quests.update(self._get_juna_quest_rules())
         quests.update(self._get_mr_ginger_quest_rules())

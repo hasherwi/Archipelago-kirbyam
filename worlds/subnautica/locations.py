@@ -15,14 +15,14 @@ class LocationDict(TypedDict, total=False):
     need_propulsion_cannon: bool
 
 
-events: List[str] = [
+events: list[str] = [
     "Neptune Launch",
     "Disable Quarantine",
     "Full Infection",
     "Repair Aurora Drive",
 ]
 
-location_table: Dict[int, LocationDict] = {
+location_table: dict[int, LocationDict] = {
     33000: {"can_slip_through": False,
             "name": "Blood Kelp Trench Wreck - Outside Databox",
             "need_laser_cutter": False,

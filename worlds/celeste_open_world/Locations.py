@@ -21,7 +21,7 @@ class CelesteLocation(Location):
 
 class CelesteLocationData(NamedTuple):
     region: str
-    address: Optional[int] = None
+    address: int | None = None
 
 
 checkpoint_location_data_table: dict[str, CelesteLocationData] = {}

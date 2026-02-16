@@ -2,7 +2,8 @@ import itertools
 import unittest
 from dataclasses import fields
 from random import Random
-from typing import Iterable, List, Set
+from typing import List, Set
+from collections.abc import Iterable
 
 import Options as CoreOptions
 from BaseClasses import ItemClassification, MultiWorld
@@ -19,7 +20,7 @@ class TestInventory:
     """
     def __init__(self) -> None:
         self.random: Random = Random()
-        self.progression_types: Set[ItemClassification] = {ItemClassification.progression, ItemClassification.progression_skip_balancing}
+        self.progression_types: set[ItemClassification] = {ItemClassification.progression, ItemClassification.progression_skip_balancing}
 
     def is_item_progression(self, item: str) -> bool:
         return item_tables.item_table[item].classification in self.progression_types
@@ -32,13 +33,13 @@ class TestInventory:
             raise AssertionError("Logic item {} is not a progression item".format(item))
         return self.random_boolean()
 
-    def has_any(self, items: Set[str], player: int):
+    def has_any(self, items: set[str], player: int):
         non_progression_items = [item for item in items if not self.is_item_progression(item)]
         if len(non_progression_items) > 0:
             raise AssertionError("Logic items {} are not progression items".format(non_progression_items))
         return self.random_boolean()
 
-    def has_all(self, items: Set[str], player: int):
+    def has_all(self, items: set[str], player: int):
         return self.has_any(items, player)
 
     def has_group(self, item_group: str, player: int, count: int = 1):
@@ -88,16 +89,16 @@ class TestWorld:
 
 class TestRules(unittest.TestCase):
     def setUp(self) -> None:
-        self.required_tactics_values: List[int] = [
+        self.required_tactics_values: list[int] = [
             options.RequiredTactics.option_standard, options.RequiredTactics.option_advanced
         ]
-        self.all_in_map_values: List[int] = [
+        self.all_in_map_values: list[int] = [
             options.AllInMap.option_ground, options.AllInMap.option_air
         ]
-        self.take_over_ai_allies_values: List[int] = [
+        self.take_over_ai_allies_values: list[int] = [
             options.TakeOverAIAllies.option_true, options.TakeOverAIAllies.option_false
         ]
-        self.kerrigan_presence_values: List[int] = [
+        self.kerrigan_presence_values: list[int] = [
             options.KerriganPresence.option_vanilla, options.KerriganPresence.option_not_present
         ]
         self.NUM_TEST_RUNS = 100

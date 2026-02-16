@@ -61,7 +61,7 @@ class MLSSWorld(World):
     location_name_to_id = {loc_data.name: loc_data.id for loc_data in all_locations}
     required_client_version = (0, 5, 0)
 
-    disabled_locations: Set[str]
+    disabled_locations: set[str]
 
     def generate_early(self) -> None:
         self.disabled_locations = set()
@@ -103,7 +103,7 @@ class MLSSWorld(World):
         item = MLSSItem("Victory", ItemClassification.progression, None, self.player)
         self.get_location("Cackletta's Soul").place_locked_item(item)
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         return {
             "CastleSkip": self.options.castle_skip.value,
             "SkipMinecart": self.options.skip_minecart.value,

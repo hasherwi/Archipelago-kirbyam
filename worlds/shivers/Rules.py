@@ -91,7 +91,7 @@ def completion_condition(state: CollectionState, player: int) -> bool:
 
 
 def get_rules_lookup(world: "ShiversWorld", player: int):
-    rules_lookup: Dict[str, Dict[str, Callable[[CollectionState], bool]]] = {
+    rules_lookup: dict[str, dict[str, Callable[[CollectionState], bool]]] = {
         "entrances": {
             "To Office Elevator From Underground Blue Tunnels": lambda state: state.has("Key for Office Elevator", player),
             "To Office Elevator From Office": lambda state: state.has("Key for Office Elevator", player),

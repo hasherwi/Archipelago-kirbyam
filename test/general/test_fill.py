@@ -1,5 +1,6 @@
 import unittest
-from typing import Iterable, List
+from typing import List
+from collections.abc import Iterable
 
 from BaseClasses import Entrance, Item, ItemClassification, Location, LocationProgressType, MultiWorld, Region
 from Fill import (
@@ -18,12 +19,12 @@ class PlayerDefinition(object):
     multiworld: MultiWorld
     id: int
     menu: Region
-    locations: List[Location]
-    prog_items: List[Item]
-    basic_items: List[Item]
-    regions: List[Region]
+    locations: list[Location]
+    prog_items: list[Item]
+    basic_items: list[Item]
+    regions: list[Region]
 
-    def __init__(self, multiworld: MultiWorld, id: int, menu: Region, locations: List[Location] = [], prog_items: List[Item] = [], basic_items: List[Item] = []):
+    def __init__(self, multiworld: MultiWorld, id: int, menu: Region, locations: list[Location] = [], prog_items: list[Item] = [], basic_items: list[Item] = []):
         self.multiworld = multiworld
         self.id = id
         self.menu = menu
@@ -49,7 +50,7 @@ class PlayerDefinition(object):
         return region
 
 
-def fill_region(multiworld: MultiWorld, region: Region, items: List[Item]) -> List[Item]:
+def fill_region(multiworld: MultiWorld, region: Region, items: list[Item]) -> list[Item]:
     items = items.copy()
     while len(items) > 0:
         location = region.locations.pop(0)

@@ -660,16 +660,16 @@ add_conds = {"carrie":  ("carrie_logic", True, True),
              "vincent": ("vincent_fight_condition", VincentFightCondition.option_never, False)}
 
 
-def get_location_info(location: str, info: str) -> Union[int, str, List[str], None]:
+def get_location_info(location: str, info: str) -> int | str | list[str] | None:
     return location_info[location].get(info, None)
 
 
-def get_location_names_to_ids() -> Dict[str, int]:
+def get_location_names_to_ids() -> dict[str, int]:
     return {name: get_location_info(name, "code")+base_id for name in location_info if get_location_info(name, "code")
             is not None}
 
 
-def verify_locations(options: CV64Options, locations: List[str]) -> Tuple[Dict[str, Optional[int]], Dict[str, str]]:
+def verify_locations(options: CV64Options, locations: list[str]) -> tuple[dict[str, int | None], dict[str, str]]:
 
     verified_locations = {}
     events = {}

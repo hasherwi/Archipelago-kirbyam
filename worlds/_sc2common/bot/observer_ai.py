@@ -99,7 +99,7 @@ class ObserverAI(BotAIInternal):
         return self.game_info.player_start_location
 
     @property
-    def enemy_start_locations(self) -> List[Point2]:
+    def enemy_start_locations(self) -> list[Point2]:
         """Possible start locations for enemies."""
         return self.game_info.start_locations
 

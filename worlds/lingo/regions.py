@@ -39,8 +39,8 @@ def is_acceptable_pilgrimage_entrance(entrance_type: EntranceType, world: "Lingo
     return bool(entrance_type & allowed_entrance_types)
 
 
-def connect_entrance(regions: Dict[str, Region], source_region: Region, target_region: Region, description: str,
-                     door: Optional[RoomAndDoor], entrance_type: EntranceType, pilgrimage: bool, world: "LingoWorld"):
+def connect_entrance(regions: dict[str, Region], source_region: Region, target_region: Region, description: str,
+                     door: RoomAndDoor | None, entrance_type: EntranceType, pilgrimage: bool, world: "LingoWorld"):
     connection = Entrance(world.player, description, source_region)
     connection.access_rule = lambda state: lingo_can_use_entrance(state, target_region.name, door, world)
 
@@ -76,7 +76,7 @@ def connect_entrance(regions: Dict[str, Region], source_region: Region, target_r
                              f"{description}{pilgrimage_descriptor}", effective_door, entrance_type, True, world)
 
 
-def connect_painting(regions: Dict[str, Region], warp_enter: str, warp_exit: str, world: "LingoWorld") -> None:
+def connect_painting(regions: dict[str, Region], warp_enter: str, warp_exit: str, world: "LingoWorld") -> None:
     source_painting = PAINTINGS[warp_enter]
     target_painting = PAINTINGS[warp_exit]
 

@@ -229,11 +229,11 @@ vanilla_stage_exits = {rname.forest_of_silence: {"prev": None, "next": rname.cas
                                            "alt": None, "position": 10, "path": " "}}
 
 
-def get_stage_info(stage: str, info: str) -> Union[str, int, Union[List[int], List[str]], None]:
+def get_stage_info(stage: str, info: str) -> str | int | list[int] | list[str] | None:
     return stage_info[stage].get(info, None)
 
 
-def get_locations_from_stage(stage: str) -> List[str]:
+def get_locations_from_stage(stage: str) -> list[str]:
     overall_locations = []
     for region in get_stage_info(stage, "regions"):
         stage_locations = get_region_info(region, "locations")
@@ -254,7 +254,7 @@ def verify_character_stage(world: "CV64World", stage: str) -> bool:
         (world.carrie_stages and stage_char == "Carrie")
 
 
-def get_normal_stage_exits(world: "CV64World") -> Dict[str, dict]:
+def get_normal_stage_exits(world: "CV64World") -> dict[str, dict]:
     exits = {name: vanilla_stage_exits[name].copy() for name in vanilla_stage_exits}
     non_branching_pos = 1
 
@@ -279,8 +279,8 @@ def get_normal_stage_exits(world: "CV64World") -> Dict[str, dict]:
     return exits
 
 
-def shuffle_stages(world: "CV64World", stage_1_blacklist: List[str]) \
-        -> Tuple[Dict[str, Dict[str, Union[str, int, None]]], str, List[str]]:
+def shuffle_stages(world: "CV64World", stage_1_blacklist: list[str]) \
+        -> tuple[dict[str, dict[str, str | int | None]], str, list[str]]:
     """Woah, this is a lot! I should probably summarize what's happening in here, huh?
 
     So, in the vanilla game, all the stages are basically laid out on a linear "timeline" with some stages being
@@ -448,7 +448,7 @@ def shuffle_stages(world: "CV64World", stage_1_blacklist: List[str]) \
     return world.active_stage_exits, starting_stage, new_stage_order
 
 
-def generate_warps(world: "CV64World") -> List[str]:
+def generate_warps(world: "CV64World") -> list[str]:
     # Create a list of warps from the active stage list. They are in a random order by default and will never
     # include the starting stage.
     possible_warps = [stage for stage in world.active_stage_list]
@@ -479,7 +479,7 @@ def generate_warps(world: "CV64World") -> List[str]:
     return active_warp_list
 
 
-def get_region_names(active_stage_exits: Dict[str, Dict[str, Union[str, int, None]]]) -> List[str]:
+def get_region_names(active_stage_exits: dict[str, dict[str, str | int | None]]) -> list[str]:
     region_names = []
     for stage in active_stage_exits:
         stage_regions = get_stage_info(stage, "regions")

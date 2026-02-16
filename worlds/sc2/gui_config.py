@@ -6,7 +6,7 @@ from typing import Any, List, Tuple
 from .settings import Starcraft2Settings
 
 
-def get_window_defaults() -> Tuple[List[str], int, int]:
+def get_window_defaults() -> tuple[list[str], int, int]:
     """
     Gets the window size options from the sc2 settings.
     Returns a list of warnings to be printed once the GUI is started, followed by the window width and height
@@ -14,7 +14,7 @@ def get_window_defaults() -> Tuple[List[str], int, int]:
     from . import SC2World
 
     # validate settings
-    warnings: List[str] = []
+    warnings: list[str] = []
     if isinstance(SC2World.settings.window_height, int) and SC2World.settings.window_height > 0:
         window_height = SC2World.settings.window_height
     else:
@@ -29,7 +29,7 @@ def get_window_defaults() -> Tuple[List[str], int, int]:
     return warnings, window_width, window_height
 
 
-def validate_color(color: Any, default: Tuple[float, float, float]) -> Tuple[Tuple[str, ...], Tuple[float, float, float]]:
+def validate_color(color: Any, default: tuple[float, float, float]) -> tuple[tuple[str, ...], tuple[float, float, float]]:
     if isinstance(color, int):
         if color < 0:
             return ("Integer color was negative; expected a value from 0 to 0xffffff",), default
@@ -60,8 +60,8 @@ def validate_color(color: Any, default: Tuple[float, float, float]) -> Tuple[Tup
         return (f"Invalid type {type(color)}; expected 3-element list or integer",), default
     elif len(color) != 3:
         return (f"Wrong number of elements in color; expected 3, got {len(color)}",), default
-    result: List[float] = [0.0, 0.0, 0.0]
-    errors: List[str] = []
+    result: list[float] = [0.0, 0.0, 0.0]
+    errors: list[str] = []
     expected = "expected a number from 0 to 1"
     for index, element in enumerate(color):
         if isinstance(element, int):
@@ -80,7 +80,7 @@ def validate_color(color: Any, default: Tuple[float, float, float]) -> Tuple[Tup
     return tuple(errors), tuple(result)
 
 
-def get_button_color(race: str) -> Tuple[Tuple[str, ...], Tuple[float, float, float]]:
+def get_button_color(race: str) -> tuple[tuple[str, ...], tuple[float, float, float]]:
     from . import SC2World
     baseline_color = 0.345  # the button graphic is grey, with this value in each color channel
     if race == "TERRAN":

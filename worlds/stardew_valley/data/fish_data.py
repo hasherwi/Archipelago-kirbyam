@@ -10,12 +10,12 @@ from . import season_data as season
 @dataclass(frozen=True)
 class FishItem:
     name: str
-    locations: Tuple[str]
-    seasons: Tuple[str]
+    locations: tuple[str]
+    seasons: tuple[str]
     difficulty: int
     legendary: bool
     extended_family: bool
-    mod_name: Optional[str] = None
+    mod_name: str | None = None
 
     def __repr__(self):
         return f"{self.name} (Locations: {self.locations} |" \
@@ -54,8 +54,8 @@ fable_reef = (SVERegion.fable_reef,)
 vineyard = (SVERegion.blue_moon_vineyard,)
 
 
-def create_fish(name: str, locations: Tuple[str, ...], seasons: Union[str, Tuple[str, ...]],
-                difficulty: int, legendary: bool = False, extended_family: bool = False, mod_name: Optional[str] = None) -> FishItem:
+def create_fish(name: str, locations: tuple[str, ...], seasons: str | tuple[str, ...],
+                difficulty: int, legendary: bool = False, extended_family: bool = False, mod_name: str | None = None) -> FishItem:
     if isinstance(seasons, str):
         seasons = (seasons,)
 

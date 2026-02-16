@@ -18,7 +18,7 @@ RESOURCE_PACK_CODE_OFFSET = 5000
 script_folder = Path(__file__)
 
 
-def write_item_csv(items: List[ItemData]):
+def write_item_csv(items: list[ItemData]):
     with open((script_folder.parent.parent / "data/items.csv").resolve(), "w", newline="") as file:
         writer = csv.DictWriter(file, ["id", "name", "classification", "groups"])
         writer.writeheader()
@@ -32,7 +32,7 @@ def write_item_csv(items: List[ItemData]):
             writer.writerow(item_dict)
 
 
-def write_location_csv(locations: List[LocationData]):
+def write_location_csv(locations: list[LocationData]):
     with open((script_folder.parent.parent / "data/locations.csv").resolve(), "w", newline="") as file:
         write = csv.DictWriter(file, ["id", "region", "name", "tags", "mod_name"])
         write.writeheader()

@@ -25,7 +25,7 @@ class ItemDict(TypedDict, total=False):
 base_id = 2308000
 
 
-item_table: List[ItemDict] = [
+item_table: list[ItemDict] = [
     # Music
     {"name": "Music (GET ENUF)",
         "type": BRCType.Music},
@@ -406,7 +406,7 @@ item_table: List[ItemDict] = [
 ]
 
 
-group_table: Dict[str, Set[str]] = {
+group_table: dict[str, set[str]] = {
     "graffitim": {"Graffiti (M - OVERWHELMME)",
                   "Graffiti (M - QUICK BING)",
                   "Graffiti (M - BLOCKY)",

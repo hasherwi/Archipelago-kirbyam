@@ -14,4 +14,4 @@ class ChecksFinderLocation(Location):
 
 base_id = 81000
 advancement_table = {f"Tile {i+1}": AdvData(base_id+i) for i in range(25)}
-lookup_id_to_name: typing.Dict[int, str] = {data.id: item_name for item_name, data in advancement_table.items()}
+lookup_id_to_name: dict[int, str] = {data.id: item_name for item_name, data in advancement_table.items()}

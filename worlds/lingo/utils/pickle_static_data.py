@@ -25,36 +25,36 @@ from datatypes import (
 
 import Utils
 
-ALL_ROOMS: List[Room] = []
-DOORS_BY_ROOM: Dict[str, Dict[str, Door]] = {}
-PANELS_BY_ROOM: Dict[str, Dict[str, Panel]] = {}
-PANEL_DOORS_BY_ROOM: Dict[str, Dict[str, PanelDoor]] = {}
-PAINTINGS: Dict[str, Painting] = {}
+ALL_ROOMS: list[Room] = []
+DOORS_BY_ROOM: dict[str, dict[str, Door]] = {}
+PANELS_BY_ROOM: dict[str, dict[str, Panel]] = {}
+PANEL_DOORS_BY_ROOM: dict[str, dict[str, PanelDoor]] = {}
+PAINTINGS: dict[str, Painting] = {}
 
-PROGRESSIVE_ITEMS: Set[str] = set()
-PROGRESSIVE_DOORS_BY_ROOM: Dict[str, Dict[str, Progression]] = {}
-PROGRESSIVE_PANELS_BY_ROOM: Dict[str, Dict[str, Progression]] = {}
+PROGRESSIVE_ITEMS: set[str] = set()
+PROGRESSIVE_DOORS_BY_ROOM: dict[str, dict[str, Progression]] = {}
+PROGRESSIVE_PANELS_BY_ROOM: dict[str, dict[str, Progression]] = {}
 
 PAINTING_ENTRANCES: int = 0
-PAINTING_EXIT_ROOMS: Set[str] = set()
+PAINTING_EXIT_ROOMS: set[str] = set()
 PAINTING_EXITS: int = 0
-REQUIRED_PAINTING_ROOMS: List[str] = []
-REQUIRED_PAINTING_WHEN_NO_DOORS_ROOMS: List[str] = []
+REQUIRED_PAINTING_ROOMS: list[str] = []
+REQUIRED_PAINTING_WHEN_NO_DOORS_ROOMS: list[str] = []
 
-SUNWARP_ENTRANCES: List[str] = ["", "", "", "", "", ""]
-SUNWARP_EXITS: List[str] = ["", "", "", "", "", ""]
+SUNWARP_ENTRANCES: list[str] = ["", "", "", "", "", ""]
+SUNWARP_EXITS: list[str] = ["", "", "", "", "", ""]
 
-SPECIAL_ITEM_IDS: Dict[str, int] = {}
-PANEL_LOCATION_IDS: Dict[str, Dict[str, int]] = {}
-DOOR_LOCATION_IDS: Dict[str, Dict[str, int]] = {}
-DOOR_ITEM_IDS: Dict[str, Dict[str, int]] = {}
-DOOR_GROUP_ITEM_IDS: Dict[str, int] = {}
-PANEL_DOOR_ITEM_IDS: Dict[str, Dict[str, int]] = {}
-PANEL_GROUP_ITEM_IDS: Dict[str, int] = {}
-PROGRESSIVE_ITEM_IDS: Dict[str, int] = {}
+SPECIAL_ITEM_IDS: dict[str, int] = {}
+PANEL_LOCATION_IDS: dict[str, dict[str, int]] = {}
+DOOR_LOCATION_IDS: dict[str, dict[str, int]] = {}
+DOOR_ITEM_IDS: dict[str, dict[str, int]] = {}
+DOOR_GROUP_ITEM_IDS: dict[str, int] = {}
+PANEL_DOOR_ITEM_IDS: dict[str, dict[str, int]] = {}
+PANEL_GROUP_ITEM_IDS: dict[str, int] = {}
+PROGRESSIVE_ITEM_IDS: dict[str, int] = {}
 
 # This doesn't need to be stored in the datafile.
-PANEL_DOOR_BY_PANEL_BY_ROOM: Dict[str, Dict[str, str]] = {}
+PANEL_DOOR_BY_PANEL_BY_ROOM: dict[str, dict[str, str]] = {}
 
 
 def hash_file(path):
@@ -177,7 +177,7 @@ def process_entrance(source_room, doors, room_obj):
         # If the value of an entrance is a list, then there are multiple possible doors that can give access to the
         # entrance. If there are multiple connections with the same door (or lack of door) that differ only by entrance
         # type, coalesce them into one entrance.
-        entrances: Dict[Optional[RoomAndDoor], EntranceType] = {}
+        entrances: dict[RoomAndDoor | None, EntranceType] = {}
         for door in doors:
             entrance = process_single_entrance(source_room, room_obj.name, door)
             entrances[entrance.door] = entrances.get(entrance.door, EntranceType(0)) | entrance.type
@@ -187,7 +187,7 @@ def process_entrance(source_room, doors, room_obj):
 
 
 def process_panel_door(room_name, panel_door_name, panel_door_data):
-    panels: List[RoomAndPanel] = list()
+    panels: list[RoomAndPanel] = list()
     for panel in panel_door_data["panels"]:
         if isinstance(panel, dict):
             panels.append(RoomAndPanel(panel["room"], panel["panel"]))
@@ -484,7 +484,7 @@ def process_progressive_door(room_name, progression_name, progression_doors):
 
     progression_index = 1
     for door in progression_doors:
-        if isinstance(door, Dict):
+        if isinstance(door, dict):
             door_room = door["room"]
             door_door = door["door"]
         else:
@@ -502,7 +502,7 @@ def process_progressive_panel(room_name, progression_name, progression_panel_doo
 
     progression_index = 1
     for panel_door in progression_panel_doors:
-        if isinstance(panel_door, Dict):
+        if isinstance(panel_door, dict):
             panel_door_room = panel_door["room"]
             panel_door_door = panel_door["panel_door"]
         else:

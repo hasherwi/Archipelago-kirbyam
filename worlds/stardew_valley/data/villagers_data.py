@@ -13,9 +13,9 @@ from ..strings.villager_names import NPC, ModNPC
 class Villager:
     name: str
     bachelor: bool
-    locations: Tuple[str, ...]
+    locations: tuple[str, ...]
     birthday: str
-    gifts: Tuple[str, ...]
+    gifts: tuple[str, ...]
     available: bool
     mod_name: str
 
@@ -356,8 +356,8 @@ susan_loves = pancakes + chocolate_cake + pink_cake + ice_cream + cookie + pumpk
               blueberry_tart + blackberry_cobbler + cranberry_candy + red_plate
 
 
-def villager(name: str, bachelor: bool, locations: Tuple[str, ...], birthday: str, gifts: Tuple[str, ...],
-             available: bool, mod_name: Optional[str] = None) -> Villager:
+def villager(name: str, bachelor: bool, locations: tuple[str, ...], birthday: str, gifts: tuple[str, ...],
+             available: bool, mod_name: str | None = None) -> Villager:
     return Villager(name, bachelor, locations, birthday, gifts, available, mod_name)
 
 

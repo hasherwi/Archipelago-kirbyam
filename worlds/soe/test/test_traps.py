@@ -38,7 +38,7 @@ class Bases:
 
 class TestTrapAllZeroChance(Bases.TrapTestBase):
     """Tests all zero chances still gives traps if trap_count is set."""
-    options: typing.Dict[str, typing.Any] = {
+    options: dict[str, typing.Any] = {
         "trap_count": 1,
         **{name: 0 for name in Bases.TrapTestBase.option_name_to_item_name}
     }
@@ -46,7 +46,7 @@ class TestTrapAllZeroChance(Bases.TrapTestBase):
 
 class TestTrapNoConfound(Bases.TrapTestBase):
     """Tests that one zero chance does not give that trap."""
-    options: typing.Dict[str, typing.Any] = {
+    options: dict[str, typing.Any] = {
         "trap_count": 99,
         "trap_chance_confound": 0,
     }

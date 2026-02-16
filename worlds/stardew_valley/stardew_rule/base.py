@@ -6,7 +6,8 @@ from dataclasses import dataclass, field
 from functools import cached_property
 from itertools import chain
 from threading import Lock
-from typing import Callable, Dict, Hashable, Iterable, List, Optional, Set, Sized, Tuple, Union, cast
+from typing import Dict, List, Optional, Set, Tuple, Union, cast
+from collections.abc import Callable, Hashable, Iterable, Sized
 
 from BaseClasses import CollectionState
 
@@ -46,8 +47,8 @@ class CombinableStardewRule(BaseStardewRule, ABC):
     def is_same_rule(self, other: CombinableStardewRule):
         return self.combination_key == other.combination_key
 
-    def add_into(self, rules: Dict[Hashable, CombinableStardewRule], reducer: Callable[[CombinableStardewRule, CombinableStardewRule], CombinableStardewRule]) \
-            -> Dict[Hashable, CombinableStardewRule]:
+    def add_into(self, rules: dict[Hashable, CombinableStardewRule], reducer: Callable[[CombinableStardewRule, CombinableStardewRule], CombinableStardewRule]) \
+            -> dict[Hashable, CombinableStardewRule]:
         rules = dict(rules)
 
         if self.combination_key in rules:
@@ -69,14 +70,14 @@ class CombinableStardewRule(BaseStardewRule, ABC):
 
 
 class _SimplificationState:
-    original_simplifiable_rules: Tuple[StardewRule, ...]
+    original_simplifiable_rules: tuple[StardewRule, ...]
 
     rules_to_simplify: deque[StardewRule]
-    simplified_rules: Set[StardewRule]
+    simplified_rules: set[StardewRule]
     lock: Lock
 
-    def __init__(self, simplifiable_rules: Tuple[StardewRule, ...], rules_to_simplify: Optional[deque[StardewRule]] = None,
-                 simplified_rules: Optional[Set[StardewRule]] = None):
+    def __init__(self, simplifiable_rules: tuple[StardewRule, ...], rules_to_simplify: deque[StardewRule] | None = None,
+                 simplified_rules: set[StardewRule] | None = None):
         if simplified_rules is None:
             simplified_rules = set()
 
@@ -133,9 +134,9 @@ class AggregatingStardewRule(BaseStardewRule, ABC):
     complement: LiteralStardewRule
     symbol: str
 
-    combinable_rules: Dict[Hashable, CombinableStardewRule]
+    combinable_rules: dict[Hashable, CombinableStardewRule]
     simplification_state: _SimplificationState
-    _last_short_circuiting_rule: Optional[StardewRule] = None
+    _last_short_circuiting_rule: StardewRule | None = None
 
     def __init__(self, *rules: StardewRule, _combinable_rules=None, _simplification_state=None):
         if _combinable_rules is None:
@@ -158,7 +159,7 @@ class AggregatingStardewRule(BaseStardewRule, ABC):
         return RepeatableChain(self.combinable_rules.values(), self.simplification_state.simplified_rules, self.simplification_state.rules_to_simplify)
 
     @classmethod
-    def split_rules(cls, rules: Union[Iterable[StardewRule]]) -> Tuple[Tuple[StardewRule, ...], Dict[Hashable, CombinableStardewRule]]:
+    def split_rules(cls, rules: Iterable[StardewRule]) -> tuple[tuple[StardewRule, ...], dict[Hashable, CombinableStardewRule]]:
         other_rules = []
         reduced_rules = {}
         for rule in rules:
@@ -181,7 +182,7 @@ class AggregatingStardewRule(BaseStardewRule, ABC):
         return tuple(other_rules), reduced_rules
 
     @classmethod
-    def merge(cls, left: Dict[Hashable, CombinableStardewRule], right: Dict[Hashable, CombinableStardewRule]) -> Dict[Hashable, CombinableStardewRule]:
+    def merge(cls, left: dict[Hashable, CombinableStardewRule], right: dict[Hashable, CombinableStardewRule]) -> dict[Hashable, CombinableStardewRule]:
         reduced_rules = dict(left)
         for key, rule in right.items():
             if key not in reduced_rules:
@@ -206,7 +207,7 @@ class AggregatingStardewRule(BaseStardewRule, ABC):
         self._last_short_circuiting_rule = rule
         return self, self.complement.value
 
-    def evaluate_while_simplifying(self, state: CollectionState) -> Tuple[StardewRule, bool]:
+    def evaluate_while_simplifying(self, state: CollectionState) -> tuple[StardewRule, bool]:
         """
         The global idea here is the same as short-circuiting operators, applied to evaluation and rule simplification.
         """
@@ -359,14 +360,14 @@ class And(AggregatingStardewRule):
 
 class Count(BaseStardewRule):
     count: int
-    rules: List[StardewRule]
+    rules: list[StardewRule]
     counter: Counter[StardewRule]
     evaluate: Callable[[CollectionState], bool]
 
-    total: Optional[int]
-    rule_mapping: Optional[Dict[StardewRule, StardewRule]]
+    total: int | None
+    rule_mapping: dict[StardewRule, StardewRule] | None
 
-    def __init__(self, rules: List[StardewRule], count: int):
+    def __init__(self, rules: list[StardewRule], count: int):
         self.count = count
         self.counter = Counter(rules)
 
@@ -426,7 +427,7 @@ class Count(BaseStardewRule):
             self.rule_mapping[rule], value = rule.evaluate_while_simplifying(state)
             return value
 
-    def evaluate_while_simplifying(self, state: CollectionState) -> Tuple[StardewRule, bool]:
+    def evaluate_while_simplifying(self, state: CollectionState) -> tuple[StardewRule, bool]:
         return self, self(state)
 
     @cached_property
@@ -441,13 +442,13 @@ class Count(BaseStardewRule):
 class Has(BaseStardewRule):
     item: str
     # For sure there is a better way than just passing all the rules everytime
-    other_rules: Dict[str, StardewRule] = field(repr=False, hash=False, compare=False)
+    other_rules: dict[str, StardewRule] = field(repr=False, hash=False, compare=False)
     group: str = "item"
 
     def __call__(self, state: CollectionState) -> bool:
         return self.evaluate_while_simplifying(state)[1]
 
-    def evaluate_while_simplifying(self, state: CollectionState) -> Tuple[StardewRule, bool]:
+    def evaluate_while_simplifying(self, state: CollectionState) -> tuple[StardewRule, bool]:
         return self.other_rules[self.item].evaluate_while_simplifying(state)
 
     def __str__(self):
@@ -466,7 +467,7 @@ class RepeatableChain(Iterable, Sized):
     Essentially a copy of what's in the core, with proper type hinting
     """
 
-    def __init__(self, *iterable: Union[Iterable, Sized]):
+    def __init__(self, *iterable: Iterable | Sized):
         self.iterables = iterable
 
     def __iter__(self):

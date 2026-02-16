@@ -99,15 +99,15 @@ filler_item_names = [iname.red_jewel_s, iname.red_jewel_l, iname.five_hundred_go
                      iname.one_hundred_gold]
 
 
-def get_item_info(item: str, info: str) -> Union[str, int, None]:
+def get_item_info(item: str, info: str) -> str | int | None:
     return item_info[item].get(info, None)
 
 
-def get_item_names_to_ids() -> Dict[str, int]:
+def get_item_names_to_ids() -> dict[str, int]:
     return {name: get_item_info(name, "code")+base_id for name in item_info if get_item_info(name, "code") is not None}
 
 
-def get_item_counts(world: "CV64World") -> Dict[str, Dict[str, int]]:
+def get_item_counts(world: "CV64World") -> dict[str, dict[str, int]]:
 
     active_locations = world.multiworld.get_unfilled_locations(world.player)
 

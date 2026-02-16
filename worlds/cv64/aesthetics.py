@@ -1,5 +1,6 @@
 import logging
-from typing import TYPE_CHECKING, Dict, Iterable, List, Tuple, Union
+from typing import TYPE_CHECKING, Dict, List, Tuple, Union
+from collections.abc import Iterable
 
 from BaseClasses import Item, ItemClassification, Location
 
@@ -269,7 +270,7 @@ renon_item_dialogue = {
 }
 
 
-def randomize_lighting(world: "CV64World") -> Dict[int, bytes]:
+def randomize_lighting(world: "CV64World") -> dict[int, bytes]:
     """Generates randomized data for the map lighting table."""
     randomized_lighting = {}
     for entry in range(67):
@@ -280,7 +281,7 @@ def randomize_lighting(world: "CV64World") -> Dict[int, bytes]:
     return randomized_lighting
 
 
-def shuffle_sub_weapons(world: "CV64World") -> Dict[int, bytes]:
+def shuffle_sub_weapons(world: "CV64World") -> dict[int, bytes]:
     """Shuffles the sub-weapons amongst themselves."""
     sub_weapon_dict = {offset: rom_sub_weapon_offsets[offset][0] for offset in rom_sub_weapon_offsets if
                        rom_sub_weapon_offsets[offset][1] in world.active_stage_exits}
@@ -294,7 +295,7 @@ def shuffle_sub_weapons(world: "CV64World") -> Dict[int, bytes]:
     return dict(zip(sub_weapon_dict, sub_bytes))
 
 
-def randomize_music(world: "CV64World") -> Dict[int, bytes]:
+def randomize_music(world: "CV64World") -> dict[int, bytes]:
     """Generates randomized or disabled data for all the music in the game."""
     music_array = bytearray(0x7A)
     for number in music_sfx_ids:
@@ -342,7 +343,7 @@ def randomize_music(world: "CV64World") -> Dict[int, bytes]:
     return {0xBFCD30: bytes(music_array)}
 
 
-def randomize_shop_prices(world: "CV64World") -> Dict[int, bytes]:
+def randomize_shop_prices(world: "CV64World") -> dict[int, bytes]:
     """Randomize the shop prices based on the minimum and maximum values chosen.
     The minimum price will adjust if it's higher than the max."""
     min_price = world.options.minimum_gold_price.value
@@ -365,7 +366,7 @@ def randomize_shop_prices(world: "CV64World") -> Dict[int, bytes]:
     return price_dict
 
 
-def get_countdown_numbers(options: CV64Options, active_locations: Iterable[Location]) -> Dict[int, bytes]:
+def get_countdown_numbers(options: CV64Options, active_locations: Iterable[Location]) -> dict[int, bytes]:
     """Figures out which Countdown numbers to increase for each Location after verifying the Item on the Location should
     increase a number.
 
@@ -392,7 +393,7 @@ def get_countdown_numbers(options: CV64Options, active_locations: Iterable[Locat
 
 
 def get_location_data(world: "CV64World", active_locations: Iterable[Location]) \
-        -> Tuple[Dict[int, bytes], List[str], List[bytearray], List[List[Union[int, str, None]]]]:
+        -> tuple[dict[int, bytes], list[str], list[bytearray], list[list[int | str | None]]]:
     """Gets ALL the item data to go into the ROM. Item data consists of two bytes: the first dictates the appearance of
     the item, the second determines what the item actually is when picked up. All items from other worlds will be AP
     items that do nothing when picked up other than set their flag, and their appearance will depend on whether it's
@@ -521,7 +522,7 @@ def get_location_data(world: "CV64World", active_locations: Iterable[Location]) 
 
 
 def get_loading_zone_bytes(options: CV64Options, starting_stage: str,
-                           active_stage_exits: Dict[str, Dict[str, Union[str, int, None]]]) -> Dict[int, bytes]:
+                           active_stage_exits: dict[str, dict[str, str | int | None]]) -> dict[int, bytes]:
     """Figure out all the bytes for loading zones and map transitions based on which stages are where in the exit data.
     The same data was used earlier in figuring out the logic. Map transitions consist of two major components: which map
     to send the player to, and which spot within the map to spawn the player at."""
@@ -565,7 +566,7 @@ def get_loading_zone_bytes(options: CV64Options, starting_stage: str,
     return loading_zone_bytes
 
 
-def get_start_inventory_data(player: int, options: CV64Options, precollected_items: List[Item]) -> Dict[int, bytes]:
+def get_start_inventory_data(player: int, options: CV64Options, precollected_items: list[Item]) -> dict[int, bytes]:
     """Calculate and return the starting inventory values. Not every Item goes into the menu inventory, so everything
     has to be handled appropriately."""
     start_inventory_data = {}

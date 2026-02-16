@@ -21,8 +21,8 @@ class RegionName:
 
 class RegionInfo:
     name: str
-    connections: typing.List[str]
-    locations: typing.List[str]
+    connections: list[str]
+    locations: list[str]
 
     def __init__(self, name, connections, locations):
         self.name = name

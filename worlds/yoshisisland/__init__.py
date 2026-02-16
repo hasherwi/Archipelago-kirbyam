@@ -64,7 +64,7 @@ class YoshisIslandWorld(World):
     options_dataclass = YoshisIslandOptions
     options: YoshisIslandOptions
 
-    locked_locations: List[str]
+    locked_locations: list[str]
     set_req_bosses: str
     lives_high: int
     lives_low: int
@@ -89,7 +89,7 @@ class YoshisIslandWorld(World):
         if not os.path.exists(rom_file):
             raise FileNotFoundError(rom_file)
 
-    def fill_slot_data(self) -> Dict[str, List[int]]:
+    def fill_slot_data(self) -> dict[str, list[int]]:
         return {
             "world_1": self.world_1_stages,
             "world_2": self.world_2_stages,
@@ -220,8 +220,8 @@ class YoshisIslandWorld(World):
     def generate_early(self) -> None:
         setup_gamevars(self)
 
-    def get_excluded_items(self) -> Set[str]:
-        excluded_items: Set[str] = set()
+    def get_excluded_items(self) -> set[str]:
+        excluded_items: set[str] = set()
 
         starting_gate = ["World 1 Gate", "World 2 Gate", "World 3 Gate",
                          "World 4 Gate", "World 5 Gate", "World 6 Gate"]
@@ -301,7 +301,7 @@ class YoshisIslandWorld(World):
 
         return item
 
-    def generate_filler(self, pool: List[Item]) -> None:
+    def generate_filler(self, pool: list[Item]) -> None:
         if self.options.goal == PlayerGoal.option_luigi_hunt:
             for _ in range(self.options.luigi_pieces_in_pool.value):
                 item = self.create_item_with_correct_settings("Piece of Luigi")
@@ -311,8 +311,8 @@ class YoshisIslandWorld(World):
             item = self.create_item_with_correct_settings(self.get_filler_item_name())
             pool.append(item)
 
-    def get_item_pool(self, excluded_items: Set[str]) -> List[Item]:
-        pool: List[Item] = []
+    def get_item_pool(self, excluded_items: set[str]) -> list[Item]:
+        pool: list[Item] = []
 
         for name, data in item_table.items():
             if name not in excluded_items:
@@ -367,7 +367,7 @@ class YoshisIslandWorld(World):
             new_name = base64.b64encode(bytes(self.rom_name)).decode()
             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
 
-    def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]) -> None:
+    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]) -> None:
         world_names = [f"World {i}" for i in range(1, 7)]
         world_stages = [
             self.world_1_stages, self.world_2_stages, self.world_3_stages,

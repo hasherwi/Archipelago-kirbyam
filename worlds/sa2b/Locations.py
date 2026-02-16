@@ -3967,7 +3967,7 @@ cannon_core_region_locations = [
 ]
 
 
-def setup_locations(world: World, player: int, mission_map: typing.Dict[int, int], mission_count_map: typing.Dict[int, int]):
+def setup_locations(world: World, player: int, mission_map: dict[int, int], mission_count_map: dict[int, int]):
     location_table = {}
     chao_location_table = {}
 
@@ -3982,7 +3982,7 @@ def setup_locations(world: World, player: int, mission_map: typing.Dict[int, int
     else:
         for i in range(31):
             mission_count = mission_count_map[i]
-            mission_order: typing.List[int] = mission_orders[mission_map[i]]
+            mission_order: list[int] = mission_orders[mission_map[i]]
             stage_prefix: str = stage_name_prefixes[i]
 
             for j in range(mission_count):
@@ -4106,10 +4106,10 @@ def setup_locations(world: World, player: int, mission_map: typing.Dict[int, int
     return location_table
 
 
-lookup_id_to_name: typing.Dict[int, str] = {id: name for name, _ in all_locations.items()}
+lookup_id_to_name: dict[int, str] = {id: name for name, _ in all_locations.items()}
 
 
-location_groups: typing.Dict[str, typing.Set[str]] = {
+location_groups: dict[str, set[str]] = {
     "Missions": set(mission_location_table),
     "Upgrades": set(upgrade_location_table),
     "Boss Gates": set(boss_gate_location_table),

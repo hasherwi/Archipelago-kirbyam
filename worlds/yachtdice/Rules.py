@@ -32,11 +32,11 @@ class Category:
 
 
 class ListState:
-    def __init__(self, state: List[str]):
+    def __init__(self, state: list[str]):
         self.state = state
         self.item_counts = Counter(state)
 
-    def count(self, item: str, player: Optional[str] = None) -> int:
+    def count(self, item: str, player: str | None = None) -> int:
         return self.item_counts[item]
 
 

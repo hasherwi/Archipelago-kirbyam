@@ -129,13 +129,13 @@ class Hylics2World(World):
                 tv = tvs.pop()
                 self.get_location(tv).place_locked_item(self.create_item(gesture))
 
-    def get_pre_fill_items(self) -> List["Item"]:
+    def get_pre_fill_items(self) -> list["Item"]:
         if self.options.gesture_shuffle:
             return [self.create_item(gesture["name"]) for gesture in Items.gesture_item_table.values()]
         return []
 
-    def fill_slot_data(self) -> Dict[str, Any]:
-        slot_data: Dict[str, Any] = {
+    def fill_slot_data(self) -> dict[str, Any]:
+        slot_data: dict[str, Any] = {
             "party_shuffle": self.options.party_shuffle.value,
             "medallion_shuffle": self.options.medallion_shuffle.value,
             "random_start": int(self.options.start_location != "waynehouse"),
@@ -147,7 +147,7 @@ class Hylics2World(World):
 
     def create_regions(self) -> None:
 
-        region_table: Dict[int, Region] = {
+        region_table: dict[int, Region] = {
             0: Region("Menu", self.player, self.multiworld),
             1: Region("Afterlife", self.player, self.multiworld),
             2: Region("Waynehouse", self.player, self.multiworld),

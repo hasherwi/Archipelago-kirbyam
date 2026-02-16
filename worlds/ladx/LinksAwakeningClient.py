@@ -504,7 +504,7 @@ class LinksAwakeningContext(CommonContext):
     def slot_storage_key(self):
         return f"{self.slot_info[self.slot].name}_{storage_key}"
 
-    def __init__(self, server_address: typing.Optional[str], password: typing.Optional[str], magpie: typing.Optional[bool]) -> None:
+    def __init__(self, server_address: str | None, password: str | None, magpie: bool | None) -> None:
         self.client = LinksAwakeningClient()
         self.slot_data = {}
 
@@ -543,7 +543,7 @@ class LinksAwakeningContext(CommonContext):
         self.ui = LADXManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
-    async def send_new_entrances(self, entrances: typing.Dict[str, str]):
+    async def send_new_entrances(self, entrances: dict[str, str]):
         # Store the entrances we find on the server for future sessions
         message = [{
             "cmd": "Set",
@@ -588,7 +588,7 @@ class LinksAwakeningContext(CommonContext):
         # Ask for updates so that players can co-op entrances in a seed
         await self.send_msgs([{"cmd": "SetNotify", "keys": [self.slot_storage_key]}])
 
-    async def on_deathlink(self, data: typing.Dict[str, typing.Any]) -> None:
+    async def on_deathlink(self, data: dict[str, typing.Any]) -> None:
         if self.ENABLE_DEATHLINK:
             self.client.pending_deathlink = True
 
@@ -658,7 +658,7 @@ class LinksAwakeningContext(CommonContext):
         sync_msg = [{"cmd": "Sync"}]
         await self.send_msgs(sync_msg)
 
-    def add_linked_items(self, checks: typing.List[Check]):
+    def add_linked_items(self, checks: list[Check]):
         for check in checks:
             if check.value and check.linkedItem:
                 linkedItem = check.linkedItem

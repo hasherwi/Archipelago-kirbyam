@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-era_required_items: Dict[str, List[str]] = {
+era_required_items: dict[str, list[str]] = {
     "ERA_ANCIENT": [
         "TECH_MINING",
         "TECH_BRONZE_WORKING",

@@ -1,5 +1,6 @@
 import math
-from typing import TYPE_CHECKING, Callable, Dict, Optional
+from typing import TYPE_CHECKING, Dict, Optional
+from collections.abc import Callable
 
 from worlds.generic.Rules import add_rule, set_rule
 
@@ -274,7 +275,7 @@ def set_creature_rule(world: "SubnauticaWorld", player: int, creature_name: str)
 
 
 def get_aggression_rule(option: AggressiveScanLogic, creature_name: str) -> \
-        Optional[Callable[["CollectionState", int], bool]]:
+        Callable[["CollectionState", int], bool] | None:
     """Get logic rule for a creature scan location."""
     if creature_name not in hatchable and option != option.option_none:  # can only be done via stasis
         return has_stasis_rifle
@@ -282,7 +283,7 @@ def get_aggression_rule(option: AggressiveScanLogic, creature_name: str) -> \
     return aggression_rules.get(option.value, None)
 
 
-aggression_rules: Dict[int, Callable[["CollectionState", int], bool]] = {
+aggression_rules: dict[int, Callable[["CollectionState", int], bool]] = {
     AggressiveScanLogic.option_stasis: has_stasis_rifle,
     AggressiveScanLogic.option_containment: has_containment,
     AggressiveScanLogic.option_either: lambda state, player:

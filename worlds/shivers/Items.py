@@ -24,7 +24,7 @@ class ItemType(enum.Enum):
 
 
 class ItemData(NamedTuple):
-    code: Optional[int]
+    code: int | None
     type: ItemType
     classification: ItemClassification = ItemClassification.progression
 

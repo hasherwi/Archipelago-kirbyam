@@ -10,7 +10,7 @@ class ItemData(NamedTuple):
     trap: bool = False
 
 # A lot of items arent normally dropped by the randomizer as they are mostly enemy drops, but they can be enabled if desired
-item_table: Dict[str, ItemData] = {
+item_table: dict[str, ItemData] = {
     "Eternal Crown": ItemData("Equipment", 1337000, useful=True),
     "Security Visor": ItemData("Equipment", 1337001, 0),
     "Engineer Goggles": ItemData("Equipment", 1337002, 0),
@@ -217,7 +217,7 @@ item_table: Dict[str, ItemData] = {
     "Max Sand": ItemData("Stat", 1337249, 14)
 }
 
-starter_melee_weapons: Tuple[str, ...] = (
+starter_melee_weapons: tuple[str, ...] = (
     "Blue Orb",
     "Blade Orb",
     "Fire Orb",
@@ -235,7 +235,7 @@ starter_melee_weapons: Tuple[str, ...] = (
     "Radiant Orb"
 )
 
-starter_spells: Tuple[str, ...] = (
+starter_spells: tuple[str, ...] = (
     "Aura Blast",
     "Colossal Blade",
     "Infernal Flames",
@@ -254,7 +254,7 @@ starter_spells: Tuple[str, ...] = (
 )
 
 # weighted
-starter_progression_items: Tuple[str, ...] = (
+starter_progression_items: tuple[str, ...] = (
     "Talaria Attachment",
     "Talaria Attachment",
     "Succubus Hairpin",
@@ -269,7 +269,7 @@ starter_progression_items: Tuple[str, ...] = (
     "Mysterious Warp Beacon"
 )
 
-pyramid_start_starter_progression_items: Tuple[str, ...] = (
+pyramid_start_starter_progression_items: tuple[str, ...] = (
     "Succubus Hairpin",
     "Succubus Hairpin",
     "Twin Pyramid Key",
@@ -280,7 +280,7 @@ pyramid_start_starter_progression_items: Tuple[str, ...] = (
     "Mysterious Warp Beacon"
 )
 
-filler_items: Tuple[str, ...] = (
+filler_items: tuple[str, ...] = (
     "Potion",
     "Ether",
     "Hi-Potion",
@@ -295,8 +295,8 @@ filler_items: Tuple[str, ...] = (
     "Chaos Rose"
 )
 
-def get_item_names_per_category() -> Dict[str, Set[str]]:
-    categories: Dict[str, Set[str]] = {}
+def get_item_names_per_category() -> dict[str, set[str]]:
+    categories: dict[str, set[str]] = {}
 
     for name, data in item_table.items():
         categories.setdefault(data.category, set()).add(name)

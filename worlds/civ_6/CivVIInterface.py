@@ -15,7 +15,7 @@ class ConnectionState(Enum):
 class CivVIInterface:
     logger: Logger
     tuner: TunerClient
-    last_error: Optional[str] = None
+    last_error: str | None = None
 
     def __init__(self, logger: Logger):
         self.logger = logger
@@ -52,7 +52,7 @@ class CivVIInterface:
             self.last_error = error
             self.logger.info(error)
 
-    async def give_item_to_player(self, item: CivVIItemData, sender: str = "", amount: int = 1, game_id_override: Optional[str] = None) -> None:
+    async def give_item_to_player(self, item: CivVIItemData, sender: str = "", amount: int = 1, game_id_override: str | None = None) -> None:
         if game_id_override:
             item_id = f'"{game_id_override}"'
         else:
@@ -71,7 +71,7 @@ class CivVIInterface:
         result = await self.tuner.send_game_command(command)
         return result == "true"
 
-    async def get_checked_locations(self) -> List[str]:
+    async def get_checked_locations(self) -> list[str]:
         command = "GetUnsentCheckedLocations()"
         result = await self.tuner.send_game_command(command, 2048 * 4)
         return result.split(",")

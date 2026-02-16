@@ -2,20 +2,20 @@ import copy
 from typing import Any, Dict, List
 
 
-def _required_option(option: str, options: Dict[str, Any]) -> Any:
+def _required_option(option: str, options: dict[str, Any]) -> Any:
     """Returns the option value, or raises an error if the option is not present."""
     if option not in options:
         raise KeyError(f"Campaign preset is missing required option \"{option}\".")
     return options.pop(option)
 
-def _validate_option(option: str, options: Dict[str, str], default: str, valid_values: List[str]) -> str:
+def _validate_option(option: str, options: dict[str, str], default: str, valid_values: list[str]) -> str:
     """Returns the option value if it is present and valid, the default if it is not present, or raises an error if it is present but not valid."""
     result = options.pop(option, default)
     if result not in valid_values:
         raise ValueError(f"Preset option \"{option}\" received unknown value \"{result}\".")
     return result
 
-def make_golden_path(options: Dict[str, Any]) -> Dict[str, Any]:
+def make_golden_path(options: dict[str, Any]) -> dict[str, Any]:
     chain_name_options = ["Mar Sara", "Agria", "Redstone", "Meinhoff", "Haven", "Tarsonis", "Valhalla", "Char",
                           "Umoja", "Kaldir", "Zerus", "Skygeirr Station", "Dominion Space", "Korhal",
                           "Aiur", "Glacius", "Shakuras", "Ulnar", "Slayn",

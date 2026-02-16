@@ -9,11 +9,11 @@ from ...locations import LocationTags, locations_by_tag
 from .rule_assert import RuleAssertMixin
 
 
-def get_all_item_names(multiworld: MultiWorld) -> List[str]:
+def get_all_item_names(multiworld: MultiWorld) -> list[str]:
     return [item.name for item in multiworld.itempool]
 
 
-def get_all_location_names(multiworld: MultiWorld) -> List[str]:
+def get_all_location_names(multiworld: MultiWorld) -> list[str]:
     return [location.name for location in multiworld.get_locations() if location.address is not None]
 
 

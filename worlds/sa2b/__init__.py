@@ -80,7 +80,7 @@ class SA2BWeb(WebWorld):
     options_presets = sa2b_options_presets
 
 
-def check_for_impossible_shuffle(shuffled_levels: typing.List[int], gate_0_range: int, multiworld: MultiWorld):
+def check_for_impossible_shuffle(shuffled_levels: list[int], gate_0_range: int, multiworld: MultiWorld):
     blacklist_level_count = 0
 
     for i in range(gate_0_range):
@@ -109,18 +109,18 @@ class SA2BWorld(World):
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = all_locations
 
-    location_table: typing.Dict[str, int]
+    location_table: dict[str, int]
 
-    shuffled_region_list: typing.List[int]
-    levels_per_gate: typing.List[int]
-    mission_map: typing.Dict[int, int]
-    mission_count_map: typing.Dict[int, int]
+    shuffled_region_list: list[int]
+    levels_per_gate: list[int]
+    mission_map: dict[int, int]
+    mission_count_map: dict[int, int]
     emblems_for_cannons_core: int
-    region_emblem_map: typing.Dict[int, int]
-    gate_costs: typing.Dict[int, int]
-    gate_bosses: typing.Dict[int, int]
-    boss_rush_map: typing.Dict[int, int]
-    black_market_costs: typing.Dict[int, int]
+    region_emblem_map: dict[int, int]
+    gate_costs: dict[int, int]
+    gate_bosses: dict[int, int]
+    boss_rush_map: dict[int, int]
+    black_market_costs: dict[int, int]
 
     web = SA2BWeb()
 
@@ -278,7 +278,7 @@ class SA2BWorld(World):
                 animal_event_item = SA2BItem(animal_name, ItemClassification.progression, None, self.player)
                 self.multiworld.get_location(animal_name, self.player).place_locked_item(animal_event_item)
 
-        itempool: typing.List[SA2BItem] = []
+        itempool: list[SA2BItem] = []
 
         # First Missions
         total_required_locations = len(self.location_table)
@@ -531,7 +531,7 @@ class SA2BWorld(World):
                     spoiler_handle.writelines(text)
                 spoiler_handle.write("\n")
 
-    def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]):
+    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]):
         gate_names = [
             LocationName.gate_0_region,
             LocationName.gate_1_region,
@@ -617,7 +617,7 @@ class SA2BWorld(World):
 
         return levels_per_gate
 
-    def output_active_traps(self) -> typing.Dict[int, int]:
+    def output_active_traps(self) -> dict[int, int]:
         trap_data = {}
 
         trap_data[0x30] = self.options.omochao_trap_weight.value
@@ -662,7 +662,7 @@ class SA2BWorld(World):
 
         return False
 
-    def generate_music_data(self) -> typing.Dict[int, int]:
+    def generate_music_data(self) -> dict[int, int]:
         if self.options.music_shuffle == "levels":
             musiclist_o = list(range(0, 47))
             musiclist_s = musiclist_o.copy()
@@ -715,7 +715,7 @@ class SA2BWorld(World):
 
             return dict(zip(musiclist_o, musiclist_s))
 
-    def generate_voice_data(self) -> typing.Dict[int, int]:
+    def generate_voice_data(self) -> dict[int, int]:
         if self.options.voice_shuffle == "shuffled":
             voicelist_o = list(range(0, 2623))
             voicelist_s = voicelist_o.copy()
@@ -752,7 +752,7 @@ class SA2BWorld(World):
 
             return dict(zip(voicelist_o, voicelist_s))
 
-    def generate_chao_egg_data(self) -> typing.Dict[int, int]:
+    def generate_chao_egg_data(self) -> dict[int, int]:
         if self.options.shuffle_starting_chao_eggs:
             egglist_o = list(range(0, 4))
             egglist_s = self.random.sample(range(0,54), 4)
@@ -765,7 +765,7 @@ class SA2BWorld(World):
 
             return dict(zip(egglist_o, egglist_s))
 
-    def generate_chao_name_data(self) -> typing.Dict[int, int]:
+    def generate_chao_name_data(self) -> dict[int, int]:
         number_of_names = 30
         name_list_o = list(range(number_of_names * 7))
         name_list_s = []
@@ -791,7 +791,7 @@ class SA2BWorld(World):
 
         return dict(zip(name_list_o, name_list_s))
 
-    def generate_black_market_data(self) -> typing.Dict[int, int]:
+    def generate_black_market_data(self) -> dict[int, int]:
         if self.options.black_market_slots.value == 0:
             return {}
 
@@ -833,7 +833,7 @@ class SA2BWorld(World):
 
         return market_data
 
-    def generate_er_layout(self) -> typing.Dict[int, int]:
+    def generate_er_layout(self) -> dict[int, int]:
         if not self.options.chao_entrance_randomization:
             return {}
 

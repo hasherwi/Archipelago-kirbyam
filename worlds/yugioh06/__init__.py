@@ -111,7 +111,7 @@ class Yugioh06World(World):
     for k, v in Required_Cards.items():
         location_name_to_id[k] = v + start_id
 
-    item_name_groups: Dict[str, Set[str]] = {
+    item_name_groups: dict[str, set[str]] = {
         "Core Booster": set(core_booster),
         "Campaign Boss Beaten": {"Tier 1 Beaten", "Tier 2 Beaten", "Tier 3 Beaten", "Tier 4 Beaten", "Tier 5 Beaten"},
         "Challenge": set(challenges),
@@ -124,10 +124,10 @@ class Yugioh06World(World):
                              tier_4_opponents + tier_5_opponents)
     }
 
-    removed_challenges: List[str]
+    removed_challenges: list[str]
     starting_booster: str
     starting_opponent: str
-    campaign_opponents: List[OpponentData]
+    campaign_opponents: list[OpponentData]
     is_draft_mode: bool
 
     def __init__(self, world: MultiWorld, player: int):
@@ -423,8 +423,8 @@ class Yugioh06World(World):
         out_file_name = self.multiworld.get_out_file_name_base(self.player)
         patch.write(os.path.join(output_directory, f"{out_file_name}{patch.patch_file_ending}"))
 
-    def fill_slot_data(self) -> Dict[str, Any]:
-        slot_data: Dict[str, Any] = {
+    def fill_slot_data(self) -> dict[str, Any]:
+        slot_data: dict[str, Any] = {
             "structure_deck": self.options.structure_deck.value,
             "banlist": self.options.banlist.value,
             "final_campaign_boss_unlock_condition": self.options.final_campaign_boss_unlock_condition.value,
@@ -453,7 +453,7 @@ class Yugioh06World(World):
 
     # for the universal tracker, doesn't get called in standard gen
     @staticmethod
-    def interpret_slot_data(slot_data: Dict[str, Any]) -> Dict[str, Any]:
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
         # returning slot_data so it regens, giving it back in multiworld.re_gen_passthrough
         return slot_data
 

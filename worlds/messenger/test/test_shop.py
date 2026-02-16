@@ -19,7 +19,7 @@ class ShopCostTest(MessengerTestBase):
                 self.assertFalse(self.can_reach_location(loc))
 
     def test_shop_prices(self) -> None:
-        prices: Dict[str, int] = self.world.shop_prices
+        prices: dict[str, int] = self.world.shop_prices
         for loc, price in prices.items():
             with self.subTest("prices", loc=loc):
                 self.assertLessEqual(price, self.multiworld.get_location(f"The Shop - {loc}", self.player).cost)

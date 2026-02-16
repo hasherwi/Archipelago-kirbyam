@@ -12,8 +12,8 @@ class Medallion(Enum):
     Quake = 2
 
 class DropPrizeRecord:
-    Packs: List[DropPrize]
-    TreePulls: List[DropPrize]
+    Packs: list[DropPrize]
+    TreePulls: list[DropPrize]
     CrabContinous: DropPrize
     CrabFinal: DropPrize
     Stun: DropPrize
@@ -28,8 +28,8 @@ class DropPrizeRecord:
         self.Fish = Fish
 
 class WorldState:
-    Rewards: List[RewardType]
-    Medallions: List[Medallion]
+    Rewards: list[RewardType]
+    Medallions: list[Medallion]
 
     TowerCrystals: int
     GanonCrystals: int

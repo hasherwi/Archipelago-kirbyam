@@ -23,10 +23,10 @@ all_vanilla_npc = {
 
 
 class SVFriendsanityTestBase(SVTestBase):
-    expected_npcs: ClassVar[Set[str]] = set()
-    expected_pet_heart_size: ClassVar[Set[str]] = set()
-    expected_bachelor_heart_size: ClassVar[Set[str]] = set()
-    expected_other_heart_size: ClassVar[Set[str]] = set()
+    expected_npcs: ClassVar[set[str]] = set()
+    expected_pet_heart_size: ClassVar[set[str]] = set()
+    expected_bachelor_heart_size: ClassVar[set[str]] = set()
+    expected_other_heart_size: ClassVar[set[str]] = set()
 
     @classmethod
     def setUpClass(cls) -> None:

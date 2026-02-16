@@ -480,7 +480,7 @@ class KDL3Options(PerGameCommonOptions, DeathLinkMixin):
     total_heart_stars: TotalHeartStars  # remove in 2 versions
 
 
-kdl3_option_groups: List[OptionGroup] = [
+kdl3_option_groups: list[OptionGroup] = [
     OptionGroup("Goal Options", [Goal, GoalSpeed, MaxHeartStars, HeartStarsRequired, JumpingTarget, ]),
     OptionGroup("World Options", [RemoteItems, StrictBosses, OpenWorld, OpenWorldBossRequirement, ConsumableChecks,
                                   StarChecks, FillerPercentage, TrapPercentage, GooeyTrapPercentage,

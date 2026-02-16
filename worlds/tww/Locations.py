@@ -71,13 +71,13 @@ class TWWLocationData(NamedTuple):
     that location. Defaults to `None`.
     """
 
-    code: Optional[int]
+    code: int | None
     flags: TWWFlag
     region: str
     stage_id: int
     type: TWWLocationType
     bit: int
-    address: Optional[int] = None
+    address: int | None = None
 
 
 class TWWLocation(Location):

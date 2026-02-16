@@ -33,12 +33,12 @@ class Region:
     Name: str
     Area: str
 
-    Locations: List[Location.Location]
+    Locations: list[Location.Location]
     Weight: int = 0
 
     Config: Config
 
-    locationLookup: Dict[str, Location.Location]
+    locationLookup: dict[str, Location.Location]
 
     def GetLocation(self, name: str):
         return self.locationLookup[name]

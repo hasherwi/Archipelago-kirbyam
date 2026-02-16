@@ -19,7 +19,7 @@ class StringTable:
         result = []
         for entryValue in content:
             (key, value) = next(iter(entryValue.items()))
-            if isinstance(value, List):
+            if isinstance(value, list):
                 result.append((key, value))
             elif isinstance(value, str):
                 result.append((key, Dialog.Compiled(value)))

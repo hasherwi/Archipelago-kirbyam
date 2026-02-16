@@ -420,14 +420,14 @@ gooey_target_palettes = {
 }
 
 
-def get_kirby_palette(world: "KDL3World") -> Optional[Dict[str, str]]:
+def get_kirby_palette(world: "KDL3World") -> dict[str, str] | None:
     palette = world.options.kirby_flavor_preset.value
     if palette == KirbyFlavorPreset.option_custom:
         return world.options.kirby_flavor.value
     return kirby_flavor_presets.get(palette, None)
 
 
-def get_gooey_palette(world: "KDL3World") -> Optional[Dict[str, str]]:
+def get_gooey_palette(world: "KDL3World") -> dict[str, str] | None:
     palette = world.options.gooey_flavor_preset.value
     if palette == GooeyFlavorPreset.option_custom:
         return world.options.gooey_flavor.value
@@ -442,14 +442,14 @@ def rgb888_to_bgr555(red: int, green: int, blue: int) -> bytes:
     return struct.pack("H", outcol)
 
 
-def get_palette_bytes(palette: Dict[str, str], target: List[str], offset: int, factor: float) -> bytes:
+def get_palette_bytes(palette: dict[str, str], target: list[str], offset: int, factor: float) -> bytes:
     output_data = bytearray()
     for color in target:
         hexcol = palette[color]
         if hexcol.startswith("#"):
             hexcol = hexcol.replace("#", "")
         colint = int(hexcol, 16)
-        col: Tuple[int, ...] = ((colint & 0xFF0000) >> 16, (colint & 0xFF00) >> 8, colint & 0xFF)
+        col: tuple[int, ...] = ((colint & 0xFF0000) >> 16, (colint & 0xFF00) >> 8, colint & 0xFF)
         col = tuple(int(int(factor*x) + offset) for x in col)
         byte_data = rgb888_to_bgr555(col[0], col[1], col[2])
         output_data.extend(bytearray(byte_data))

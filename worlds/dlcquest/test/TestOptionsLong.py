@@ -14,7 +14,7 @@ def basic_checks(tester: DLCQuestTestBase, multiworld: MultiWorld):
     assert_same_number_items_locations(tester, multiworld)
 
 
-def get_option_choices(option) -> Dict[str, int]:
+def get_option_choices(option) -> dict[str, int]:
     if issubclass(option, NamedRange):
         return option.special_range_names
     elif option.options:

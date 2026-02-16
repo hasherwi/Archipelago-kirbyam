@@ -57,11 +57,11 @@ class Difficulty(IntEnum):
 class LocData(NamedTuple):
     id: int = 0
     region: str = ""
-    required_hats: List[HatType] = []
+    required_hats: list[HatType] = []
     hookshot: bool = False
     dlc_flags: HatDLC = HatDLC.none
     paintings: int = 0  # Paintings required for Subcon painting shuffle
-    misc_required: List[str] = []
+    misc_required: list[str] = []
 
     # For UmbrellaLogic setting only.
     hit_type: HitType = HitType.none
@@ -73,9 +73,9 @@ class LocData(NamedTuple):
 
 
 class ItemData(NamedTuple):
-    code: Optional[int]
+    code: int | None
     classification: ItemClassification
-    dlc_flags: Optional[HatDLC] = HatDLC.none
+    dlc_flags: HatDLC | None = HatDLC.none
 
 
 hat_type_to_item = {

@@ -11,7 +11,7 @@ class ItemDict(TypedDict):
 
 base_id = 82000
 
-item_table: List[ItemDict] = [
+item_table: list[ItemDict] = [
     {"name": "Stick", "id": base_id + 1, "count": 0, "classification": ItemClassification.progression_skip_balancing},
     {"name": "Seashell", "id": base_id + 2, "count": 23, "classification": ItemClassification.progression_skip_balancing},
     {"name": "Golden Feather", "id": base_id + 3, "count": 0, "classification": ItemClassification.progression},
@@ -58,7 +58,7 @@ item_table: List[ItemDict] = [
     {"name": "13 Coins", "id": base_id + 37, "count": 0, "classification": ItemClassification.filler},
 ]
 
-group_table: Dict[str, Set[str]] = {
+group_table: dict[str, set[str]] = {
     "Coins": {"7 Coins", "13 Coins", "15 Coins", "18 Coins", "21 Coins", "25 Coins", "27 Coins", "32 Coins", "33 Coins", "50 Coins"},
     "Maps": {"A Stormy View Map", "The King Map", "The Treasure of Sid Beach Map", "In Her Shadow Map"},
 }

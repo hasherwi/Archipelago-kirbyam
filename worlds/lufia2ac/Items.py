@@ -27,11 +27,11 @@ class ItemData(NamedTuple):
 class L2ACItem(Item):
     game: str = "Lufia II Ancient Cave"
 
-    def __init__(self, name: str, classification: ItemClassification, code: Optional[int], player: int):
+    def __init__(self, name: str, classification: ItemClassification, code: int | None, player: int):
         super().__init__(name, classification, code, player)
 
 
-l2ac_item_table: Dict[str, ItemData] = {
+l2ac_item_table: dict[str, ItemData] = {
     # 0x0000: "No equip"
     # ----- CONSUMABLE -----
     "Charred newt": ItemData(0x0001, ItemType.ENEMY_DROP, ItemClassification.useful),
@@ -550,4 +550,4 @@ l2ac_item_table: Dict[str, ItemData] = {
     # 0x8027: "Light"
 }
 
-l2ac_item_name_to_id: Dict[str, int] = {name: (start_id + data.code) for name, data in l2ac_item_table.items()}
+l2ac_item_name_to_id: dict[str, int] = {name: (start_id + data.code) for name, data in l2ac_item_table.items()}

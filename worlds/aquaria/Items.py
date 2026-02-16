@@ -40,7 +40,7 @@ class AquariaItem(Item):
     """The name of the game"""
 
     def __init__(self, name: str, classification: ItemClassification,
-                 code: Optional[int], player: int):
+                 code: int | None, player: int):
         """
         Initialisation of the Item
         :param name: The name of the item

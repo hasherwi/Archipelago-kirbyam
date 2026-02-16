@@ -210,7 +210,7 @@ class YachtDiceWorld(World):
         # Yacht Dice adds items into the pool until a score of at least 1000 is reached.
         # the yaml contains weights, which determine how likely it is that specific items get added.
         # If all weights are 0, some of them will be made to be non-zero later.
-        weights: Dict[str, float] = {
+        weights: dict[str, float] = {
             "Dice": self.options.weight_of_dice.value,
             "Roll": self.options.weight_of_roll.value,
             "Fixed Score Multiplier": self.options.weight_of_fixed_score_multiplier.value,

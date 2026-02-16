@@ -11,7 +11,7 @@ class BeachSword(DroppedKey):
     def __init__(self) -> None:
         super().__init__(0x0F2)
 
-    def patch(self, rom: ROM, option: str, *, multiworld: Optional[int] = None) -> None:
+    def patch(self, rom: ROM, option: str, *, multiworld: int | None = None) -> None:
         # Set the heart piece data
         super().patch(rom, option, multiworld=multiworld)
 

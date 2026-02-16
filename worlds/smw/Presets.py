@@ -51,7 +51,7 @@ allsanity = {
     "overworld_palette_shuffle": "on_curated",
 }
 
-smw_options_presets: Dict[str, Dict[str, Any]] = {
+smw_options_presets: dict[str, dict[str, Any]] = {
     "All Random": all_random,
     "Allsanity": allsanity,
 }

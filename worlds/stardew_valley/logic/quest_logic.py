@@ -96,7 +96,7 @@ class QuestLogic(BaseLogic):
             Quest.giant_stump: self.logic.has(Material.hardwood)
         })
 
-    def update_rules(self, new_rules: Dict[str, StardewRule]):
+    def update_rules(self, new_rules: dict[str, StardewRule]):
         self.registry.quest_rules.update(new_rules)
 
     def can_complete_quest(self, quest: str) -> StardewRule:

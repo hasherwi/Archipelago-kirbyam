@@ -74,26 +74,26 @@ class HatInTimeWorld(World):
 
     def __init__(self, multiworld: "MultiWorld", player: int):
         super().__init__(multiworld, player)
-        self.act_connections: Dict[str, str] = {}
-        self.shop_locs: List[str] = []
+        self.act_connections: dict[str, str] = {}
+        self.shop_locs: list[str] = []
 
-        self.hat_craft_order: List[HatType] = [HatType.SPRINT, HatType.BREWING, HatType.ICE,
+        self.hat_craft_order: list[HatType] = [HatType.SPRINT, HatType.BREWING, HatType.ICE,
                                                HatType.DWELLER, HatType.TIME_STOP]
 
-        self.hat_yarn_costs: Dict[HatType, int] = {HatType.SPRINT: -1, HatType.BREWING: -1, HatType.ICE: -1,
+        self.hat_yarn_costs: dict[HatType, int] = {HatType.SPRINT: -1, HatType.BREWING: -1, HatType.ICE: -1,
                                                    HatType.DWELLER: -1, HatType.TIME_STOP: -1}
 
-        self.chapter_timepiece_costs: Dict[ChapterIndex, int] = {ChapterIndex.MAFIA: -1,
+        self.chapter_timepiece_costs: dict[ChapterIndex, int] = {ChapterIndex.MAFIA: -1,
                                                                  ChapterIndex.BIRDS: -1,
                                                                  ChapterIndex.SUBCON: -1,
                                                                  ChapterIndex.ALPINE: -1,
                                                                  ChapterIndex.FINALE: -1,
                                                                  ChapterIndex.CRUISE: -1,
                                                                  ChapterIndex.METRO: -1}
-        self.excluded_dws: List[str] = []
-        self.excluded_bonuses: List[str] = []
-        self.dw_shuffle: List[str] = []
-        self.nyakuza_thug_items: Dict[str, int] = {}
+        self.excluded_dws: list[str] = []
+        self.excluded_bonuses: list[str] = []
+        self.dw_shuffle: list[str] = []
+        self.nyakuza_thug_items: dict[str, int] = {}
         self.badge_seller_count: int = 0
 
     def get_filler_item_name(self) -> str:
@@ -264,7 +264,7 @@ class HatInTimeWorld(World):
                 for i in range(len(shuffled_dws)):
                     slot_data[f"dw_{i}"] = dw_classes[shuffled_dws[i]]
 
-        shop_item_names: Dict[str, str] = {}
+        shop_item_names: dict[str, str] = {}
         for name in self.shop_locs:
             loc: Location = self.multiworld.get_location(name, self.player)
             assert loc.item
@@ -281,7 +281,7 @@ class HatInTimeWorld(World):
         slot_data.update(self.options.as_dict(*slot_data_options))
         return slot_data
 
-    def extend_hint_information(self, hint_data: Dict[int, Dict[int, str]]):
+    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]):
         if self.is_dw_only() or not self.options.ActRandomizer:
             return
 

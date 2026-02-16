@@ -44,7 +44,7 @@ class FarmingLogic(BaseLogic):
         return self.logic.false_
 
     @cache_self1
-    def can_plant_and_grow_item(self, seasons: Union[str, Tuple[str]]) -> StardewRule:
+    def can_plant_and_grow_item(self, seasons: str | tuple[str]) -> StardewRule:
         if seasons == ():  # indoor farming
             return (self.logic.region.can_reach(Region.greenhouse) | self.logic.farming.has_island_farm()) & self.logic.farming.has_farming_tools
 

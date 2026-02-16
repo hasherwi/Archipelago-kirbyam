@@ -2,7 +2,8 @@ import json
 import sys
 import warnings
 from pathlib import Path
-from typing import TYPE_CHECKING, Iterable, Union
+from typing import TYPE_CHECKING, Union
+from collections.abc import Iterable
 
 if TYPE_CHECKING:
     from multiprocessing.managers import ListProxy  # noqa
@@ -13,8 +14,8 @@ __all__ = [
 
 
 def _generate_local_inner(games: Iterable[str],
-                          dest: Union[Path, str],
-                          results: "ListProxy[Union[Path, BaseException]]") -> None:
+                          dest: Path | str,
+                          results: "ListProxy[Path | BaseException]") -> None:
     original_argv = sys.argv
     warnings.simplefilter("ignore")
     try:
@@ -56,7 +57,7 @@ def _generate_local_inner(games: Iterable[str],
         sys.argv = original_argv
 
 
-def generate_local(games: Iterable[str], dest: Union[Path, str]) -> Path:
+def generate_local(games: Iterable[str], dest: Path | str) -> Path:
     from multiprocessing import Manager, Process, set_start_method
 
     try:
@@ -65,7 +66,7 @@ def generate_local(games: Iterable[str], dest: Union[Path, str]) -> Path:
         pass
 
     manager = Manager()
-    results: "ListProxy[Union[Path, Exception]]" = manager.list()
+    results: "ListProxy[Path | Exception]" = manager.list()
 
     p = Process(target=_generate_local_inner, args=(games, dest, results))
     p.start()

@@ -17,8 +17,8 @@ class KH1Container(APPlayerContainer):
     game: str = "Kingdom Hearts"
     patch_file_ending = ".zip"
 
-    def __init__(self, patch_data: Dict[str, str] | io.BytesIO, base_path: str = "", output_directory: str = "",
-        player: Optional[int] = None, player_name: str = "", server: str = ""):
+    def __init__(self, patch_data: dict[str, str] | io.BytesIO, base_path: str = "", output_directory: str = "",
+        player: int | None = None, player_name: str = "", server: str = ""):
         self.patch_data = patch_data
         self.file_path = base_path
         container_path = os.path.join(output_directory, base_path + ".zip")

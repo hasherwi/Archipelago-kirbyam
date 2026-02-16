@@ -11,14 +11,14 @@ from .locations import special
 class OpponentData(NamedTuple):
     id: int
     name: str
-    campaign_info: List[str]
+    campaign_info: list[str]
     tier: int
     column: int
     card_id: int = 0
     deck_name_id: int = 0
     deck_file: str = ""
     difficulty: int = 1
-    additional_info: List[str] = []
+    additional_info: list[str] = []
 
     def tier(self, tier):
         self.tier = tier
@@ -163,9 +163,9 @@ challenge_opponents = [
 ]
 
 
-def get_opponents(multiworld: Optional[MultiWorld], player: Optional[int], randomize: bool = False) -> List[
+def get_opponents(multiworld: MultiWorld | None, player: int | None, randomize: bool = False) -> list[
     OpponentData]:
-    opponents_table: List[OpponentData] = [
+    opponents_table: list[OpponentData] = [
         # Tier 1
         OpponentData(0, "Kuriboh", [], 1, 1, 4064, 8000, "deck/LV1_kuriboh.ydc\x00\x00"),
         OpponentData(1, "Scapegoat", [], 1, 2, 4818, 8001, "deck/LV1_sukego.ydc\x00\x00\x00", 0,
@@ -238,7 +238,7 @@ def get_opponents(multiworld: Optional[MultiWorld], player: Optional[int], rando
     return recreation
 
 
-def get_opponent_locations(opponent: OpponentData) -> Dict[str, Optional[Union[str, int]]]:
+def get_opponent_locations(opponent: OpponentData) -> dict[str, str | int | None]:
     location = {opponent.name + " Beaten": "Tier " + str(opponent.tier) + " Beaten"}
     if opponent.tier > 4 and opponent.column != 5:
         name = "Campaign Tier 5: Column " + str(opponent.column) + " Win"

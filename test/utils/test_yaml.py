@@ -12,12 +12,12 @@ class AClass:
 
 
 class TestYaml(unittest.TestCase):
-    safe_data: ClassVar[Dict[str, Any]] = {
+    safe_data: ClassVar[dict[str, Any]] = {
         "a": [1, 2, 3],
         "b": None,
         "c": True,
     }
-    unsafe_data: ClassVar[Dict[str, Any]] = {
+    unsafe_data: ClassVar[dict[str, Any]] = {
         "a": AClass()
     }
 

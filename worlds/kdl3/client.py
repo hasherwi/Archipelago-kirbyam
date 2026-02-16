@@ -100,10 +100,10 @@ def cmd_gift(self: "SNIClientCommandProcessor") -> None:
 class KDL3SNIClient(SNIClient):
     game = "Kirby's Dream Land 3"
     patch_suffix = ".apkdl3"
-    levels: typing.Dict[int, typing.List[int]] = {}
-    consumables: typing.Optional[bool] = None
-    stars: typing.Optional[bool] = None
-    item_queue: typing.List[int] = []
+    levels: dict[int, list[int]] = {}
+    consumables: bool | None = None
+    stars: bool | None = None
+    item_queue: list[int] = []
     initialize_gifting: bool = False
     gifting: bool = False
     giftbox_key: str = ""

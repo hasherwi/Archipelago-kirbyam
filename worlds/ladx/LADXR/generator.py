@@ -64,7 +64,7 @@ class VersionError(Exception):
     pass
 
 # Function to generate a final rom, this patches the rom with all required patches
-def generateRom(base_rom: bytes, args, patch_data: Dict):
+def generateRom(base_rom: bytes, args, patch_data: dict):
     from .. import LinksAwakeningWorld
     patcher_version = LinksAwakeningWorld.world_version
     generated_version = Utils.tuplize_version(patch_data.get("generated_world_version", "2.0.0"))

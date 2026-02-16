@@ -17,7 +17,7 @@ class ItemType():
 
 
 class LocationDef:
-    def __init__(self, id: Optional[int], name: str, region: str, type: int, original_item: int):
+    def __init__(self, id: int | None, name: str, region: str, type: int, original_item: int):
         self.id = id
         self.name = name
         self.region = region
@@ -25,7 +25,7 @@ class LocationDef:
         self.original_item = original_item
 
 
-locations: List[LocationDef] = [
+locations: list[LocationDef] = [
     # Eolis
     LocationDef(400100, "Eolis Guru", "Eolis", LocationType.give, ItemType.unknown),
     LocationDef(400101, "Eolis Key Jack", "Eolis", LocationType.shop, ItemType.unknown),

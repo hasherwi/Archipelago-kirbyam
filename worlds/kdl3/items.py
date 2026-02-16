@@ -4,7 +4,7 @@ from BaseClasses import Item
 
 
 class ItemData(typing.NamedTuple):
-    code: typing.Optional[int]
+    code: int | None
     progression: bool
     skip_balancing: bool = False
     trap: bool = False
@@ -103,4 +103,4 @@ item_names = {
     "Animal Friend": set(animal_friend_table),
 }
 
-lookup_item_to_id: typing.Dict[str, int] = {item_name: data.code for item_name, data in item_table.items() if data.code}
+lookup_item_to_id: dict[str, int] = {item_name: data.code for item_name, data in item_table.items() if data.code}

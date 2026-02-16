@@ -4,7 +4,7 @@ from BaseClasses import Location
 
 
 class AdvData(typing.NamedTuple):
-    id: typing.Optional[int]
+    id: int | None
     region: str
 
 

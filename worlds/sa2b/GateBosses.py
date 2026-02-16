@@ -78,12 +78,12 @@ def boss_has_requirement(boss: int):
 
 
 def get_gate_bosses(world: World):
-    selected_bosses: typing.List[int] = []
-    boss_gates: typing.List[int] = []
-    available_bosses: typing.List[str] = list(gate_bosses_no_requirements_table.keys())
+    selected_bosses: list[int] = []
+    boss_gates: list[int] = []
+    available_bosses: list[str] = list(gate_bosses_no_requirements_table.keys())
     world.random.shuffle(available_bosses)
 
-    gate_boss_plando: typing.Union[int, str] = world.options.gate_boss_plando.value
+    gate_boss_plando: int | str = world.options.gate_boss_plando.value
     plando_bosses = ["None", "None", "None", "None", "None"]
     if isinstance(gate_boss_plando, str):
         # boss plando
@@ -123,7 +123,7 @@ def get_gate_bosses(world: World):
         boss_gates.append(x + 1)
         available_bosses.remove(chosen_boss)
 
-    bosses: typing.Dict[int, int] = dict(zip(boss_gates, selected_bosses))
+    bosses: dict[int, int] = dict(zip(boss_gates, selected_bosses))
 
     return bosses
 

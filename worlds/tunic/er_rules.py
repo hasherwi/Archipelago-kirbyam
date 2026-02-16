@@ -1250,7 +1250,7 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
         for origin_region, ladders in region_ladders.items():
             for ladder_region, region_info in ow_ladder_groups.items():
                 # checking if that region has a ladder or ladders for that elevation
-                common_ladders: FrozenSet[str] = frozenset(ladders.intersection(region_info.ladders))
+                common_ladders: frozenset[str] = frozenset(ladders.intersection(region_info.ladders))
                 if common_ladders:
                     if options.shuffle_ladders:
                         regions[origin_region].connect(

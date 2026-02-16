@@ -201,7 +201,7 @@ hardcore_mode_options = {
     "completion_goal":               CompletionGoal.option_battle_arena_and_dracula,
 }
 
-cvcotm_options_presets: Dict[str, Dict[str, Any]] = {
+cvcotm_options_presets: dict[str, dict[str, Any]] = {
     "All Random": all_random_options,
     "Beginner Mode": beginner_mode_options,
     "Standard Competitive": standard_competitive_options,

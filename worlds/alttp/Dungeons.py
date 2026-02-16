@@ -17,8 +17,8 @@ if typing.TYPE_CHECKING:
 
 
 class Dungeon:
-    def __init__(self, name: str, regions: List[Region], big_key: ALttPItem, small_keys: List[ALttPItem],
-                 dungeon_items: List[ALttPItem], player: int):
+    def __init__(self, name: str, regions: list[Region], big_key: ALttPItem, small_keys: list[ALttPItem],
+                 dungeon_items: list[ALttPItem], player: int):
         self.name = name
         self.regions = regions
         self.big_key = big_key
@@ -29,19 +29,19 @@ class Dungeon:
         self.multiworld = None
 
     @property
-    def boss(self) -> Optional[Boss]:
+    def boss(self) -> Boss | None:
         return self.bosses.get(None, None)
 
     @boss.setter
-    def boss(self, value: Optional[Boss]):
+    def boss(self, value: Boss | None):
         self.bosses[None] = value
 
     @property
-    def keys(self) -> List[ALttPItem]:
+    def keys(self) -> list[ALttPItem]:
         return self.small_keys + ([self.big_key] if self.big_key else [])
 
     @property
-    def all_items(self) -> List[ALttPItem]:
+    def all_items(self) -> list[ALttPItem]:
         return self.dungeon_items + self.keys
 
     def is_dungeon_item(self, item: ALttPItem) -> bool:
@@ -174,19 +174,19 @@ def create_dungeons(world: "ALTTPWorld"):
         world.dungeons[dungeon.name] = dungeon
 
 
-def get_dungeon_item_pool(multiworld: MultiWorld) -> typing.List[ALttPItem]:
+def get_dungeon_item_pool(multiworld: MultiWorld) -> list[ALttPItem]:
     return [item
             for world in multiworld.get_game_worlds("A Link to the Past")
             for item in get_dungeon_item_pool_player(world)]
 
 
-def get_dungeon_item_pool_player(world) -> typing.List[ALttPItem]:
+def get_dungeon_item_pool_player(world) -> list[ALttPItem]:
     return [item
             for dungeon in world.dungeons.values()
             for item in dungeon.all_items]
 
 
-def get_unfilled_dungeon_locations(multiworld: MultiWorld) -> typing.List[ALttPLocation]:
+def get_unfilled_dungeon_locations(multiworld: MultiWorld) -> list[ALttPLocation]:
     return [location
             for world in multiworld.get_game_worlds("A Link to the Past")
             for dungeon in world.dungeons.values()
@@ -211,7 +211,7 @@ def fill_dungeons_restrictive(multiworld: MultiWorld):
         if in_dungeon_items:
             restricted_players = {world.player for world in multiworld.get_game_worlds("A Link to the Past") if
                                   world.options.restrict_dungeon_item_on_boss}
-            locations: typing.List["ALttPLocation"] = [
+            locations: list["ALttPLocation"] = [
                 location for location in get_unfilled_dungeon_locations(multiworld)
                 # filter boss
                 if not (location.player in restricted_players and location.name in lookup_boss_drops)]

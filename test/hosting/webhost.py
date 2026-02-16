@@ -4,7 +4,8 @@ import re
 import time
 import zipfile
 from pathlib import Path
-from typing import TYPE_CHECKING, Iterable, Optional, cast
+from typing import TYPE_CHECKING, Optional, cast
+from collections.abc import Iterable
 
 from WebHostLib import to_python
 
@@ -131,7 +132,7 @@ def start_room(app_client: "FlaskClient", room_id: str, timeout: float = 30) -> 
 
 def stop_room(app_client: "FlaskClient",
               room_id: str,
-              timeout: Optional[float] = None,
+              timeout: float | None = None,
               simulate_idle: bool = True) -> None:
     from datetime import datetime, timedelta
     from time import sleep

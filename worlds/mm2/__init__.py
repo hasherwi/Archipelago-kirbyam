@@ -4,7 +4,8 @@ import logging
 import os
 import threading
 from copy import deepcopy
-from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Optional, Sequence, Tuple
+from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Optional, Tuple
+from collections.abc import Sequence
 
 import settings
 from BaseClasses import Item, ItemClassification, Location, MultiWorld, Tutorial
@@ -55,12 +56,12 @@ class MM2Settings(settings.Group):
     class RomFile(settings.UserFilePath):
         """File name of the MM2 EN rom"""
         description = "Mega Man 2 ROM File"
-        copy_to: Optional[str] = "Mega Man 2 (USA).nes"
+        copy_to: str | None = "Mega Man 2 (USA).nes"
         md5s = [MM2NESHASH, MM2VCHASH, MM2LCHASH, PROTEUSHASH]
 
         def browse(self: settings.T,
-                   filetypes: Optional[Sequence[Tuple[str, Sequence[str]]]] = None,
-                   **kwargs: Any) -> Optional[settings.T]:
+                   filetypes: Sequence[tuple[str, Sequence[str]]] | None = None,
+                   **kwargs: Any) -> settings.T | None:
             if not filetypes:
                 file_types = [("NES", [".nes"]), ("Program", [".exe"])]  # LC1 is only a windows executable, no linux
                 return super().browse(file_types, **kwargs)
@@ -122,7 +123,7 @@ class MM2World(World):
     location_name_groups = location_groups
     web = MM2WebWorld()
     rom_name: bytearray
-    wily_5_weapons: Dict[int, List[int]]
+    wily_5_weapons: dict[int, list[int]]
 
     def __init__(self, multiworld: MultiWorld, player: int):
         self.rom_name = bytearray()
@@ -218,10 +219,10 @@ class MM2World(World):
                 f"{self.options.starting_robot_master.current_key.replace('_', ' ').title()}")
 
     def fill_hook(self,
-                  progitempool: List["Item"],
-                  usefulitempool: List["Item"],
-                  filleritempool: List["Item"],
-                  fill_locations: List["Location"]) -> None:
+                  progitempool: list["Item"],
+                  usefulitempool: list["Item"],
+                  filleritempool: list["Item"],
+                  fill_locations: list["Location"]) -> None:
         # on a solo gen, fill can try to force Wily into sphere 2, but for most generations this is impossible
         # since MM2 can have a 2 item sphere 1, and 3 items are required for Wily
         if self.multiworld.players > 1:
@@ -291,19 +292,19 @@ class MM2World(World):
         finally:
             self.rom_name_available_event.set()  # make sure threading continues and errors are collected
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         return {
             "death_link": self.options.death_link.value,
             "weapon_damage": self.weapon_damage,
             "wily_5_weapons": self.wily_5_weapons,
         }
 
-    def interpret_slot_data(self, slot_data: Dict[str, Any]) -> Dict[str, Any]:
+    def interpret_slot_data(self, slot_data: dict[str, Any]) -> dict[str, Any]:
         local_weapon = {int(key): value for key, value in slot_data["weapon_damage"].items()}
         local_wily = {int(key): value for key, value in slot_data["wily_5_weapons"].items()}
         return {"weapon_damage": local_weapon, "wily_5_weapons": local_wily}
 
-    def modify_multidata(self, multidata: Dict[str, Any]) -> None:
+    def modify_multidata(self, multidata: dict[str, Any]) -> None:
         # wait for self.rom_name to be available.
         self.rom_name_available_event.wait()
         rom_name = getattr(self, "rom_name", None)

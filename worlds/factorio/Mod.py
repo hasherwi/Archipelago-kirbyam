@@ -6,7 +6,8 @@ import os
 import shutil
 import threading
 import zipfile
-from typing import TYPE_CHECKING, Any, Callable, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Tuple, Union
+from collections.abc import Callable
 
 import jinja2
 
@@ -28,13 +29,13 @@ from .Technologies import (
 if TYPE_CHECKING:
     from . import Factorio
 
-template_env: Optional[jinja2.Environment] = None
+template_env: jinja2.Environment | None = None
 
-data_template: Optional[jinja2.Template] = None
-data_final_template: Optional[jinja2.Template] = None
-locale_template: Optional[jinja2.Template] = None
-control_template: Optional[jinja2.Template] = None
-settings_template: Optional[jinja2.Template] = None
+data_template: jinja2.Template | None = None
+data_final_template: jinja2.Template | None = None
+locale_template: jinja2.Template | None = None
+control_template: jinja2.Template | None = None
+settings_template: jinja2.Template | None = None
 
 template_load_lock = threading.Lock()
 
@@ -75,7 +76,7 @@ recipe_time_ranges = {
 class FactorioModFile(worlds.Files.APPlayerContainer):
     game = "Factorio"
     compression_method = zipfile.ZIP_DEFLATED  # Factorio can't load LZMA archives
-    writing_tasks: List[Callable[[], Tuple[str, Union[str, bytes]]]]
+    writing_tasks: list[Callable[[], tuple[str, str | bytes]]]
     patch_file_ending = ".zip"
 
     def __init__(self, *args: Any, **kwargs: Any):
@@ -111,7 +112,7 @@ def generate_mod(world: "Factorio", output_directory: str):
                 data = pkgutil.get_data(__name__, "data/mod_template/" + name).decode()
                 return data, name, lambda: False
 
-            template_env: Optional[jinja2.Environment] = \
+            template_env: jinja2.Environment | None = \
                 jinja2.Environment(loader=jinja2.FunctionLoader(load_template))
 
             data_template = template_env.get_template("data.lua")

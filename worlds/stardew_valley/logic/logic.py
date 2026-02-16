@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Callable, Collection
+from collections.abc import Callable, Collection
 
 from ..content.game_content import StardewContent
 from ..data.craftable_data import all_crafting_recipes

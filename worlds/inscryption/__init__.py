@@ -131,7 +131,7 @@ class InscryptionWorld(World):
     def set_rules(self) -> None:
         Rules.InscryptionRules(self).set_all_rules()
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         return self.options.as_dict(
             "death_link",
             "act1_death_link_behaviour",

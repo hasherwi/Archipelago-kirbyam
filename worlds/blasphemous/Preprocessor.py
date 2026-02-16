@@ -10,7 +10,7 @@ from typing import Any, Dict, List
 import requests
 
 
-def load_resource_local(file: str) -> List[Dict[str, Any]]:
+def load_resource_local(file: str) -> list[dict[str, Any]]:
     print(f"Reading from {file}")
     loaded = []
     with open(file, encoding="utf-8") as f:
@@ -20,11 +20,11 @@ def load_resource_local(file: str) -> List[Dict[str, Any]]:
     return loaded
 
 
-def load_resource_from_web(url: str) -> List[Dict[str, Any]]:
+def load_resource_from_web(url: str) -> list[dict[str, Any]]:
     req = requests.get(url, timeout=1)
     print(f"Reading from {url}")
     req.encoding = "utf-8"
-    lines: List[str] = []
+    lines: list[str] = []
     for line in req.text.splitlines():
         while "\t" in line:
             line = line[1::]
@@ -33,7 +33,7 @@ def load_resource_from_web(url: str) -> List[Dict[str, Any]]:
     return read_json(lines)
 
 
-def read_json(lines: List[str]) -> List[Dict[str, Any]]:
+def read_json(lines: list[str]) -> list[dict[str, Any]]:
     loaded = []
     creating_object: bool = False
     obj: str = ""
@@ -98,15 +98,15 @@ def preprocess_logic(is_door: bool, id: str, logic: str) -> str:
     return logic
 
 
-def build_logic_conditions(logic: str) -> List[List[str]]:
-    all_conditions: List[List[str]] = []
+def build_logic_conditions(logic: str) -> list[list[str]]:
+    all_conditions: list[list[str]] = []
 
     parts = logic.split()
     sub_part: str = ""
     current_index: int = 0
     parens: int = -1
-    current_condition: List[str] = []
-    parens_conditions: List[List[List[str]]] = []
+    current_condition: list[str] = []
+    parens_conditions: list[list[list[str]]] = []
 
     for index, part in enumerate(parts):
         #print(current_index, index, parens, part)
@@ -171,7 +171,7 @@ def build_logic_conditions(logic: str) -> List[List[str]]:
                         parens_conditions.append(build_logic_subconditions(current_condition, sub_part))
                         #print("PARENS:", parens_conditions)
 
-                        temp_conditions: List[List[str]] = []
+                        temp_conditions: list[list[str]] = []
 
                         for i in parens_conditions[0]:
                             for j in parens_conditions[1]:
@@ -203,7 +203,7 @@ def build_logic_conditions(logic: str) -> List[List[str]]:
                             parens_conditions.append(build_logic_subconditions(current_condition, sub_part))
                             #print("PARENS:", parens_conditions)
 
-                            temp_conditions: List[List[str]] = []
+                            temp_conditions: list[list[str]] = []
 
                             for i in parens_conditions[0]:
                                 for j in parens_conditions[1]:
@@ -261,7 +261,7 @@ def build_logic_conditions(logic: str) -> List[List[str]]:
     return remove_duplicates(all_conditions)
 
 
-def build_logic_subconditions(current_condition: List[str], subcondition: str) -> List[List[str]]:
+def build_logic_subconditions(current_condition: list[str], subcondition: str) -> list[list[str]]:
     #print("STARTED SUBCONDITION", current_condition, subcondition)
     subconditions = build_logic_conditions(subcondition[1:-1])
     final_conditions = []
@@ -275,21 +275,21 @@ def build_logic_subconditions(current_condition: List[str], subcondition: str) -
     return final_conditions
 
 
-def remove_duplicates(conditions: List[List[str]]) -> List[List[str]]:
-    final_conditions: List[List[str]] = []
+def remove_duplicates(conditions: list[list[str]]) -> list[list[str]]:
+    final_conditions: list[list[str]] = []
     for condition in conditions:
         final_conditions.append(list(dict.fromkeys(condition)))
 
     return final_conditions
 
 
-def handle_door_visibility(door: Dict[str, Any]) -> Dict[str, Any]:
+def handle_door_visibility(door: dict[str, Any]) -> dict[str, Any]:
     if door.get("visibilityFlags") == None:
         return door
     else:
-        flags: List[str] = str(door.get("visibilityFlags")).split(", ")
+        flags: list[str] = str(door.get("visibilityFlags")).split(", ")
         #print(flags)
-        temp_flags: List[str] = []
+        temp_flags: list[str] = []
         this_door: bool = False
         #required_doors: str = ""
 
@@ -351,7 +351,7 @@ def handle_door_visibility(door: Dict[str, Any]) -> Dict[str, Any]:
         return door
 
 
-def get_state_provider_for_condition(condition: List[str]) -> str:
+def get_state_provider_for_condition(condition: list[str]) -> str:
     for item in condition:
         if (item[0] == "D" and item[3] == "Z" and item[6] == "S")\
         or (item[0] == "D" and item[3] == "B" and item[4] == "Z" and item[7] == "S"):
@@ -378,10 +378,10 @@ def main(args: argparse.Namespace):
         doors = load_resource_from_web("https://raw.githubusercontent.com/BrandenEK/Blasphemous-Randomizer/main/resources/data/Randomizer/doors.json")
         locations = load_resource_from_web("https://raw.githubusercontent.com/BrandenEK/Blasphemous-Randomizer/main/resources/data/Randomizer/locations_items.json")
 
-    original_connections: Dict[str, str] = {}
-    rooms: Dict[str, List[str]] = {}
-    output: Dict[str, Any] = {}
-    logic_objects: List[Dict[str, Any]] = []
+    original_connections: dict[str, str] = {}
+    rooms: dict[str, list[str]] = {}
+    output: dict[str, Any] = {}
+    logic_objects: list[dict[str, Any]] = []
 
     for door in doors:
          if door.get("originalDoor") != None:
@@ -395,7 +395,7 @@ def main(args: argparse.Namespace):
             else:
                 rooms[room].append(door.get("id"))
 
-    def flip_doors_in_condition(condition: List[str]) -> List[str]:
+    def flip_doors_in_condition(condition: list[str]) -> list[str]:
         new_condition = []
         for item in condition:
             if item in original_connections:
@@ -435,14 +435,14 @@ def main(args: argparse.Namespace):
             "Handling": handling
         }
 
-        visibility_flags: List[str] = []
+        visibility_flags: list[str] = []
         if door.get("visibilityFlags") != None:
             visibility_flags = str(door.get("visibilityFlags")).split(", ")
             if "1" in visibility_flags:
                 visibility_flags.remove("1")
                 visibility_flags.append("ThisDoor")
 
-        required_doors: List[str] = []
+        required_doors: list[str] = []
         if door.get("requiredDoors"):
             required_doors = door.get("requiredDoors")
 

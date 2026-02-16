@@ -512,11 +512,11 @@ key_drop_data = {
 # address to write to for player getting the item
 # can this location drop a crystal
 # hint tile/npc text for this location
-location_table: typing.Dict[str,
-                            typing.Tuple[typing.Optional[typing.Union[int, typing.List[int]]],
-                                         typing.Optional[int],
+location_table: dict[str,
+                            tuple[int | list[int] | None,
+                                         int | None,
                                          bool,
-                                         typing.Optional[str]]] = \
+                                         str | None]] = \
     {"Mushroom": (0x180013, 0x186338, False, "in the woods"),
      "Bottle Merchant": (0x2eb18, 0x186339, False, "with a merchant"),
      "Flute Spot": (0x18014a, 0x18633d, False, "underground"),

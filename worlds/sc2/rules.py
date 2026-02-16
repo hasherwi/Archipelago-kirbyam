@@ -1,5 +1,6 @@
 from math import floor
-from typing import TYPE_CHECKING, Callable, Dict, Iterable, Optional, Set, Tuple
+from typing import TYPE_CHECKING, Dict, Optional, Set, Tuple
+from collections.abc import Callable, Iterable
 
 from BaseClasses import CollectionState, Location
 
@@ -91,7 +92,7 @@ class SC2Logic:
         self.has_protoss_ground_unit: bool = True
         self.has_protoss_air_unit: bool = True
 
-        self.unit_count_functions: Dict[Tuple[SC2Race, int], Callable[[CollectionState], bool]] = {}
+        self.unit_count_functions: dict[tuple[SC2Race, int], Callable[[CollectionState], bool]] = {}
         """Cache of logic functions used by any_units logic level"""
 
     # Super Globals
@@ -3693,7 +3694,7 @@ class SC2Logic:
         return result
 
 
-def get_basic_units(logic_level: int, race: SC2Race) -> Set[str]:
+def get_basic_units(logic_level: int, race: SC2Race) -> set[str]:
     if logic_level > RequiredTactics.option_advanced:
         return no_logic_basic_units[race]
     elif logic_level == RequiredTactics.option_advanced:

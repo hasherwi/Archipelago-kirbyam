@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Dict, List, Optional, Tuple, Union
+from collections.abc import Callable
 
 from Fill import FillError
 
@@ -35,7 +36,7 @@ class Boss:
         return f"Boss({self.name})"
 
 
-def BossFactory(boss: str, player: int) -> Optional[Boss]:
+def BossFactory(boss: str, player: int) -> Boss | None:
     if boss in boss_table:
         enemizer_name, defeat_rule = boss_table[boss]
         return Boss(boss, enemizer_name, defeat_rule, player)
@@ -165,7 +166,7 @@ def GanonDefeatRule(state, player: int) -> bool:
         return common and state.has("Silver Bow", player) and can_shoot_arrows(state, player)
 
 
-boss_table: Dict[str, Tuple[str, Optional[Callable]]] = {
+boss_table: dict[str, tuple[str, Callable | None]] = {
     "Armos Knights": ("Armos", ArmosKnightsDefeatRule),
     "Lanmolas": ("Lanmola", LanmolasDefeatRule),
     "Moldorm": ("Moldorm", MoldormDefeatRule),
@@ -180,7 +181,7 @@ boss_table: Dict[str, Tuple[str, Optional[Callable]]] = {
     "Agahnim2": ("Agahnim2", AgahnimDefeatRule)
 }
 
-boss_location_table: List[Tuple[str, str]] = [
+boss_location_table: list[tuple[str, str]] = [
         ("Ganons Tower", "top"),
         ("Tower of Hera", None),
         ("Skull Woods", None),
@@ -197,12 +198,12 @@ boss_location_table: List[Tuple[str, str]] = [
     ]
 
 
-def place_plando_bosses(world: "ALTTPWorld", bosses: List[str]) -> Tuple[List[str], List[Tuple[str, str]]]:
+def place_plando_bosses(world: "ALTTPWorld", bosses: list[str]) -> tuple[list[str], list[tuple[str, str]]]:
     # Most to least restrictive order
     boss_locations = boss_location_table.copy()
     world.multiworld.random.shuffle(boss_locations)
     boss_locations.sort(key=lambda location: -int(restrictive_boss_locations[location]))
-    already_placed_bosses: List[str] = []
+    already_placed_bosses: list[str] = []
 
     for boss in bosses:
         if "-" in boss:  # handle plando locations
@@ -225,7 +226,7 @@ def place_plando_bosses(world: "ALTTPWorld", bosses: List[str]) -> Tuple[List[st
     return already_placed_bosses, boss_locations
 
 
-def can_place_boss(boss: str, dungeon_name: str, level: Optional[str] = None) -> bool:
+def can_place_boss(boss: str, dungeon_name: str, level: str | None = None) -> bool:
     # blacklist approach
     if boss in {"Agahnim", "Agahnim2", "Ganon"}:
         return False
@@ -249,13 +250,13 @@ def can_place_boss(boss: str, dungeon_name: str, level: Optional[str] = None) ->
     return True
 
 
-restrictive_boss_locations: Dict[Tuple[str, str], bool] = {}
+restrictive_boss_locations: dict[tuple[str, str], bool] = {}
 for location in boss_location_table:
     restrictive_boss_locations[location] = not all(can_place_boss(boss, *location)
                                                for boss in boss_table if not boss.startswith("Agahnim"))
 
 
-def place_boss(world: "ALTTPWorld", boss: str, location: str, level: Optional[str]) -> None:
+def place_boss(world: "ALTTPWorld", boss: str, location: str, level: str | None) -> None:
     player = world.player
     if location == "Ganons Tower" and world.options.mode == "inverted":
         location = "Inverted Ganons Tower"
@@ -270,9 +271,9 @@ def format_boss_location(location_name: str, level: str) -> str:
 def place_bosses(world: "ALTTPWorld") -> None:
     multiworld = world.multiworld
     # will either be an int or a lower case string with ';' between options
-    boss_shuffle: Union[str, int] = world.options.boss_shuffle.value
-    already_placed_bosses: List[str] = []
-    remaining_locations: List[Tuple[str, str]] = []
+    boss_shuffle: str | int = world.options.boss_shuffle.value
+    already_placed_bosses: list[str] = []
+    remaining_locations: list[tuple[str, str]] = []
     # handle plando
     if isinstance(boss_shuffle, str):
         # figure out our remaining mode, convert it to an int and remove it from plando_args
@@ -347,9 +348,9 @@ def place_bosses(world: "ALTTPWorld") -> None:
         raise FillError(f"Could not find boss shuffle mode {boss_shuffle}")
 
 
-def place_where_possible(world: "ALTTPWorld", boss: str, boss_locations) -> Tuple[List[Tuple[str, str]], List[str]]:
-    remainder: List[Tuple[str, str]] = []
-    placed_bosses: List[str] = []
+def place_where_possible(world: "ALTTPWorld", boss: str, boss_locations) -> tuple[list[tuple[str, str]], list[str]]:
+    remainder: list[tuple[str, str]] = []
+    placed_bosses: list[str] = []
     for loc, level in boss_locations:
         # place that boss where it can go
         if can_place_boss(boss, loc, level):

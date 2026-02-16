@@ -77,7 +77,7 @@ hidden = [
 ]
 
 
-mainArea: typing.List[LocationData] = [
+mainArea: list[LocationData] = [
     LocationData("Stardust Fields Room 1 Block 1", 0x39D65D, 0),
     LocationData("Stardust Fields Room 1 Block 2", 0x39D665, 0),
     LocationData("Stardust Fields Room 2 Block", 0x39D678, 0),
@@ -234,7 +234,7 @@ mainArea: typing.List[LocationData] = [
     LocationData("Beanbean Castle Town Mini Mario Block 5", 0x39D833, 0),
 ]
 
-coins: typing.List[LocationData] = [
+coins: list[LocationData] = [
     LocationData("Stardust Fields Room 2 Coin Block 1", 0x39D680, 0),
     LocationData("Stardust Fields Room 2 Coin Block 2", 0x39D688, 0),
     LocationData("Stardust Fields Room 2 Coin Block 3", 0x39D690, 0),
@@ -281,7 +281,7 @@ coins: typing.List[LocationData] = [
     LocationData("Outside Woohoo Hooniversity Coin Block 3", 0x39E9C5, 0),
 ]
 
-baseUltraRocks: typing.List[LocationData] = [
+baseUltraRocks: list[LocationData] = [
     LocationData("Hoohoo Mountain Base Past Ultra Hammer Rocks Block 1", 0x39DA42, 0),
     LocationData("Hoohoo Mountain Base Past Ultra Hammer Rocks Block 2", 0x39DA4A, 0),
     LocationData("Hoohoo Mountain Base Past Ultra Hammer Rocks Block 3", 0x39DA52, 0),
@@ -297,7 +297,7 @@ baseUltraRocks: typing.List[LocationData] = [
     LocationData("Hoohoo Mountain Base Teehee Valley Entrance Block", 0x39DA18, 0),
 ]
 
-booStatue: typing.List[LocationData] = [
+booStatue: list[LocationData] = [
     LocationData("Beanbean Outskirts Before Harhall Digspot 1", 0x39E951, 0),
     LocationData("Beanbean Outskirts Before Harhall Digspot 2", 0x39E959, 0),
     LocationData("Beanstar Piece Harhall", 0x1E9441, 2),
@@ -309,7 +309,7 @@ booStatue: typing.List[LocationData] = [
     LocationData("Beanbean Outskirts S Room 2 Digspot 3", 0x39DC35, 0),
 ]
 
-chucklehuck: typing.List[LocationData] = [
+chucklehuck: list[LocationData] = [
     LocationData("Chateau Room 1 Digspot", 0x39DD20, 0),
     LocationData("Chateau Popple Fight Room Block 1", 0x39DD38, 0),
     LocationData("Chateau Popple Fight Room Block 2", 0x39DD48, 0),
@@ -370,7 +370,7 @@ chucklehuck: typing.List[LocationData] = [
     LocationData("Chucklehuck Woods Purple Chuckola Fruit", 0x24ED74, 1),
 ]
 
-castleTown: typing.List[LocationData] = [
+castleTown: list[LocationData] = [
     LocationData("Beanbean Castle Town West Side House Block 1", 0x39D7A4, 0),
     LocationData("Beanbean Castle Town West Side House Block 2", 0x39D7AC, 0),
     LocationData("Beanbean Castle Town West Side House Block 3", 0x39D7B4, 0),
@@ -414,9 +414,9 @@ castleTown: typing.List[LocationData] = [
     LocationData("Beanbean Castle Town Beanlet Reward", 0x2515EB, 1),
 ]
 
-eReward: typing.List[int] = [0x253515, 0x253776, 0x253C70, 0x254324, 0x254718, 0x254A34, 0x254E24]
+eReward: list[int] = [0x253515, 0x253776, 0x253C70, 0x254324, 0x254718, 0x254A34, 0x254E24]
 
-startingFlag: typing.List[LocationData] = [
+startingFlag: list[LocationData] = [
     LocationData("Badge Shop Starting Flag 1", 0x3C0618, 2),
     LocationData("Badge Shop Starting Flag 2", 0x3C061A, 2),
     LocationData("Pants Shop Starting Flag 1", 0x3C061C, 2),
@@ -424,7 +424,7 @@ startingFlag: typing.List[LocationData] = [
     LocationData("Pants Shop Starting Flag 3", 0x3C0620, 2),
 ]
 
-chuckolatorFlag: typing.List[LocationData] = [
+chuckolatorFlag: list[LocationData] = [
     LocationData("Shop Chuckolator Flag", 0x3C05F8, 3),
     LocationData("Pants Shop Chuckolator Flag 1", 0x3C062A, 2),
     LocationData("Pants Shop Chuckolator Flag 2", 0x3C062C, 2),
@@ -434,7 +434,7 @@ chuckolatorFlag: typing.List[LocationData] = [
     LocationData("Badge Shop Chuckolator Flag 3", 0x3C0628, 2),
 ]
 
-piranhaFlag: typing.List[LocationData] = [
+piranhaFlag: list[LocationData] = [
     LocationData("Shop Mom Piranha Flag 1", 0x3C05FC, 3),
     LocationData("Shop Mom Piranha Flag 2", 0x3C05FE, 3),
     LocationData("Shop Mom Piranha Flag 3", 0x3C0600, 3),
@@ -447,7 +447,7 @@ piranhaFlag: typing.List[LocationData] = [
     LocationData("Badge Shop Mom Piranha Flag 3", 0x3C0636, 2),
 ]
 
-kidnappedFlag: typing.List[LocationData] = [
+kidnappedFlag: list[LocationData] = [
     LocationData("Badge Shop Trunkle Flag 1", 0x3C0640, 2),
     LocationData("Badge Shop Trunkle Flag 2", 0x3C0642, 2),
     LocationData("Badge Shop Trunkle Flag 3", 0x3C0644, 2),
@@ -458,7 +458,7 @@ kidnappedFlag: typing.List[LocationData] = [
     LocationData("Shop Trunkle Flag 2", 0x3C0608, 3),
 ]
 
-beanstarFlag: typing.List[LocationData] = [
+beanstarFlag: list[LocationData] = [
     LocationData("Badge Shop Beanstar Complete Flag 1", 0x3C064E, 2),
     LocationData("Badge Shop Beanstar Complete Flag 2", 0x3C0650, 2),
     LocationData("Badge Shop Beanstar Complete Flag 3", 0x3C0652, 2),
@@ -470,7 +470,7 @@ beanstarFlag: typing.List[LocationData] = [
     LocationData("Shop Beanstar Complete Flag 3", 0x3C0610, 3),
 ]
 
-birdoFlag: typing.List[LocationData] = [
+birdoFlag: list[LocationData] = [
     LocationData("Badge Shop Birdo Flag 1", 0x3C065C, 2),
     LocationData("Badge Shop Birdo Flag 2", 0x3C065E, 2),
     LocationData("Badge Shop Birdo Flag 3", 0x3C0660, 2),
@@ -480,7 +480,7 @@ birdoFlag: typing.List[LocationData] = [
     LocationData("Shop Birdo Flag", 0x3C0614, 3),
 ]
 
-winkle: typing.List[LocationData] = [
+winkle: list[LocationData] = [
     LocationData("Chucklehuck Woods Winkle Cave Block 1", 0x39DF70, 0),
     LocationData("Chucklehuck Woods Winkle Cave Block 2", 0x39DF78, 0),
     LocationData("Winkle Area Beanstar Room Block", 0x39DF21, 0),
@@ -491,7 +491,7 @@ winkle: typing.List[LocationData] = [
     LocationData("Winkle Area Winkle Card", 0x261658, 1),
 ]
 
-sewers: typing.List[LocationData] = [
+sewers: list[LocationData] = [
     LocationData("Sewers Room 3 Block 1", 0x39DFE6, 0),
     LocationData("Sewers Room 3 Block 2", 0x39DFEE, 0),
     LocationData("Sewers Room 3 Block 3", 0x39DFF6, 0),
@@ -504,7 +504,7 @@ sewers: typing.List[LocationData] = [
     LocationData("Beanbean Castle Beanbean Brooch", 0x2578E7, 1),
 ]
 
-hooniversity: typing.List[LocationData] = [
+hooniversity: list[LocationData] = [
     LocationData("Woohoo Hooniversity South Of Star Room Block", 0x39E16F, 0),
     LocationData("Woohoo Hooniversity Barrel Puzzle Entrance Digspot 1", 0x39E194, 0),
     LocationData("Woohoo Hooniversity Barrel Puzzle Entrance Block 1", 0x39E19C, 0),
@@ -530,7 +530,7 @@ hooniversity: typing.List[LocationData] = [
     LocationData("Woohoo Hooniversity Solo Mario Barrel Area Block 3", 0x39EC15, 0),
 ]
 
-surfable: typing.List[LocationData] = [
+surfable: list[LocationData] = [
     LocationData("Oho Ocean North Whirlpool Block 1", 0x39E0A5, 0),
     LocationData("Oho Ocean North Whirlpool Block 2", 0x39E0AD, 0),
     LocationData("Oho Ocean North Whirlpool Block 3", 0x39E0B5, 0),
@@ -554,7 +554,7 @@ surfable: typing.List[LocationData] = [
     LocationData("Beanbean Outskirts Surf Beach Digspot 3", 0x39DD13, 0),
 ]
 
-airport: typing.List[LocationData] = [
+airport: list[LocationData] = [
     LocationData("Airport Entrance Digspot", 0x39E2DC, 0),
     LocationData("Airport Lobby Digspot", 0x39E2E9, 0),
     LocationData("Airport Westside Digspot 1", 0x39E2F6, 0),
@@ -574,7 +574,7 @@ airport: typing.List[LocationData] = [
     LocationData("Airport Eastside Digspot 5", 0x39E370, 0),
 ]
 
-gwarharEntrance: typing.List[LocationData] = [
+gwarharEntrance: list[LocationData] = [
     LocationData("Gwarhar Lagoon Pipe Room Digspot", 0x39E37D, 0),
     LocationData("Gwarhar Lagoon Massage Parlor Entrance Digspot", 0x39E396, 0),
     LocationData("Gwarhar Lagoon First Underwater Area Room 1 Block", 0x39E438, 0),
@@ -586,7 +586,7 @@ gwarharEntrance: typing.List[LocationData] = [
     LocationData("Oho Ocean South Room 2 Digspot", 0x39E077, 0),
 ]
 
-gwarharMain: typing.List[LocationData] = [
+gwarharMain: list[LocationData] = [
     LocationData("Gwarhar Lagoon Past Hermie Digspot", 0x39E3A6, 0),
     LocationData("Gwarhar Lagoon East of Stone Bridge Block", 0x39E403, 0),
     LocationData("Gwarhar Lagoon North of Spangle Room Digspot", 0x39E40B, 0),
@@ -610,7 +610,7 @@ gwarharMain: typing.List[LocationData] = [
     LocationData("Gwarhar Lagoon Spangle", 0x1E9437, 2),
 ]
 
-teeheeValley: typing.List[LocationData] = [
+teeheeValley: list[LocationData] = [
     LocationData("Teehee Valley Room 1 Digspot 1", 0x39E51E, 0),
     LocationData("Teehee Valley Room 1 Digspot 2", 0x39E526, 0),
     LocationData("Teehee Valley Room 1 Digspot 3", 0x39E52E, 0),
@@ -627,7 +627,7 @@ teeheeValley: typing.List[LocationData] = [
     LocationData("S.S. Chuckola Membership Card", 0x260637, 1),
 ]
 
-fungitown: typing.List[LocationData] = [
+fungitown: list[LocationData] = [
     LocationData("Teehee Valley Trunkle Room Digspot", 0x39E5FD, 0),
     LocationData("Fungitown Embassy Room Block", 0x39E66B, 0),
     LocationData("Fungitown Entrance Room Block", 0x39E67E, 0),
@@ -647,7 +647,7 @@ fungitown: typing.List[LocationData] = [
     LocationData("Fungitown Pants Shop Starting Flag 3", 0x3C068E, 2),
 ]
 
-fungitownBeanstar: typing.List[LocationData] = [
+fungitownBeanstar: list[LocationData] = [
     LocationData("Fungitown Badge Shop Beanstar Complete Flag 1", 0x3C0692, 2),
     LocationData("Fungitown Badge Shop Beanstar Complete Flag 2", 0x3C0694, 2),
     LocationData("Fungitown Pants Shop Beanstar Complete Flag 1", 0x3C0696, 2),
@@ -655,7 +655,7 @@ fungitownBeanstar: typing.List[LocationData] = [
     LocationData("Fungitown Shop Beanstar Complete Flag", 0x3C067C, 3),
 ]
 
-fungitownBirdo: typing.List[LocationData] = [
+fungitownBirdo: list[LocationData] = [
     LocationData("Fungitown Shop Birdo Flag", 0x3C0680, 3),
     LocationData("Fungitown Pants Shop Birdo Flag 1", 0x3C06A0, 2),
     LocationData("Fungitown Pants Shop Birdo Flag 2", 0x3C06A2, 2),
@@ -663,7 +663,7 @@ fungitownBirdo: typing.List[LocationData] = [
     LocationData("Fungitown Badge Shop Birdo Flag 2", 0x3C069E, 2),
 ]
 
-bowsers: typing.List[LocationData] = [
+bowsers: list[LocationData] = [
     LocationData("Bowser's Castle Entrance Block 1", 0x39E9D2, 0),
     LocationData("Bowser's Castle Entrance Block 2", 0x39E9DA, 0),
     LocationData("Bowser's Castle Entrance Digspot", 0x39E9E2, 0),
@@ -678,7 +678,7 @@ bowsers: typing.List[LocationData] = [
     LocationData("Bowser's Castle Lemmy Room Mole", 0x277B1F, 1),
 ]
 
-bowsersMini: typing.List[LocationData] = [
+bowsersMini: list[LocationData] = [
     LocationData("Bowser's Castle Ludwig & Roy Hallway Block 1", 0x39EA1C, 0),
     LocationData("Bowser's Castle Ludwig & Roy Hallway Block 2", 0x39EA24, 0),
     LocationData("Bowser's Castle Roy Corridor Block 1", 0x39EA31, 0),
@@ -697,7 +697,7 @@ bowsersMini: typing.List[LocationData] = [
     LocationData("Bowser's Castle Great Door Block 2", 0x39EA73, 0),
 ]
 
-jokesEntrance: typing.List[LocationData] = [
+jokesEntrance: list[LocationData] = [
     LocationData("Joke's End West of First Boiler Room Block 1", 0x39E6E5, 0),
     LocationData("Joke's End West of First Boiler Room Block 2", 0x39E6ED, 0),
     LocationData("Joke's End First Boiler Room Digspot 1", 0x39E6FA, 0),
@@ -717,7 +717,7 @@ jokesEntrance: typing.List[LocationData] = [
     LocationData("Joke's End Northeast of Boiler Room 3 Digspot", 0x39E73F, 0),
 ]
 
-jokesMain: typing.List[LocationData] = [
+jokesMain: list[LocationData] = [
     LocationData("Joke's End Second Floor East Room Digspot", 0x39E794, 0),
     LocationData("Joke's End Final Split up Room Digspot", 0x39E7A7, 0),
     LocationData("Joke's End South of Bridge Room Block", 0x39E7B4, 0),
@@ -741,7 +741,7 @@ jokesMain: typing.List[LocationData] = [
     LocationData("Joke's End Jojora Room Digspot", 0x39E944, 0),
 ]
 
-postJokes: typing.List[LocationData] = [
+postJokes: list[LocationData] = [
     LocationData("Teehee Valley Past Ultra Hammer Rock Digspot 2 (Post-Birdo)", 0x39E5A0, 0),
     LocationData("Teehee Valley Before Birdo Digspot 1", 0x39E55B, 0),
     LocationData("Teehee Valley Before Birdo Digspot 2", 0x39E563, 0),
@@ -749,7 +749,7 @@ postJokes: typing.List[LocationData] = [
     LocationData("Teehee Valley Before Birdo Digspot 4", 0x39E573, 0),
 ]
 
-theater: typing.List[LocationData] = [
+theater: list[LocationData] = [
     LocationData("Yoshi Theater Blue Yoshi", 0x241155, 1),
     LocationData("Yoshi Theater Red Yoshi", 0x240EBE, 1),
     LocationData("Yoshi Theater Green Yoshi", 0x241AFA, 1),
@@ -760,7 +760,7 @@ theater: typing.List[LocationData] = [
     LocationData("Beanstar Piece Yoshi Theater", 0x1E9442, 2),
 ]
 
-oasis: typing.List[LocationData] = [
+oasis: list[LocationData] = [
     LocationData("Oho Oasis West Digspot", 0x39DF9F, 0),
     LocationData("Oho Oasis Fire Palace Block", 0x39DFBE, 0),
     LocationData("Oho Ocean Spike Room Digspot 1", 0x39E08A, 0),
@@ -769,7 +769,7 @@ oasis: typing.List[LocationData] = [
     LocationData("Oho Oasis Thunderhand", 0x1E9409, 2),
 ]
 
-cacklettas_soul: typing.List[LocationData] = [
+cacklettas_soul: list[LocationData] = [
     LocationData("Cackletta's Soul", None, 0),
 ]
 
@@ -1156,7 +1156,7 @@ pants = {
     0x3C0684: [0x3C068A, 0x3C068C, 0x3C068E, 0x3C0696, 0x3C0698, 0x3C06A0, 0x3C06A2],
 }
 
-all_locations: typing.List[LocationData] = (
+all_locations: list[LocationData] = (
     mainArea
     + booStatue
     + chucklehuck
@@ -1189,4 +1189,4 @@ all_locations: typing.List[LocationData] = (
     + coins
 )
 
-location_table: typing.Dict[str, int] = {location.name: location.id for location in all_locations}
+location_table: dict[str, int] = {location.name: location.id for location in all_locations}

@@ -12,7 +12,7 @@ from .StateLogic import StateLogic
 
 class SatisfactoryLocation(Location):
     game: str = "Satisfactory"
-    event_name: Optional[str]
+    event_name: str | None
 
     def __init__(self, player: int, data: LocationData, region: Region):
         super().__init__(player, data.name, data.code, region)
@@ -184,7 +184,7 @@ def create_regions(multiworld: MultiWorld, player: int, locations_per_region: di
 
 
 def connect(regions: dict[str, Region], source: str, target: str,
-            rule: Optional[Callable[[CollectionState], bool]] = None) -> None:
+            rule: Callable[[CollectionState], bool] | None = None) -> None:
 
     source_region = regions[source]
     target_region = regions[target]

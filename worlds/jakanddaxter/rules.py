@@ -99,7 +99,7 @@ def can_trade_vanilla(state: CollectionState,
                       player: int,
                       world: "JakAndDaxterWorld",
                       required_orbs: int,
-                      required_previous_trade: typing.Optional[int] = None) -> bool:
+                      required_previous_trade: int | None = None) -> bool:
 
     # With Orbsanity Off, Reachable Orbs are in fact Tradeable Orbs.
     if not state.prog_items[player]["Reachable Orbs Fresh"]:
@@ -116,7 +116,7 @@ def can_trade_orbsanity(state: CollectionState,
                         player: int,
                         world: "JakAndDaxterWorld",
                         required_orbs: int,
-                        required_previous_trade: typing.Optional[int] = None) -> bool:
+                        required_previous_trade: int | None = None) -> bool:
 
     # Yes, even Orbsanity trades may unlock access to new Reachable Orbs.
     if not state.prog_items[player]["Reachable Orbs Fresh"]:

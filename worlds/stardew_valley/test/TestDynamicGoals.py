@@ -39,7 +39,7 @@ def create_and_collect(tester: SVTestBase, item_name: str) -> StardewItem:
     return item
 
 
-def create_and_collect_fishing_access_items(tester: SVTestBase) -> List[Tuple[StardewItem, str]]:
+def create_and_collect_fishing_access_items(tester: SVTestBase) -> list[tuple[StardewItem, str]]:
     items = [(create_and_collect(tester, Wallet.dark_talisman), Fish.void_salmon),
              (create_and_collect(tester, Wallet.rusty_key), Fish.slimejack),
              (create_and_collect(tester, "Progressive Mine Elevator"), Fish.lava_eel),

@@ -19,11 +19,11 @@ class MissionOrderObjectSlotData(Protocol):
 class CampaignSlotData:
     name: str
     entry_rule: SubRuleRuleData
-    exits: List[int]
-    layouts: List[LayoutSlotData]
+    exits: list[int]
+    layouts: list[LayoutSlotData]
 
     @staticmethod
-    def legacy(name: str, layouts: List[LayoutSlotData]) -> CampaignSlotData:
+    def legacy(name: str, layouts: list[LayoutSlotData]) -> CampaignSlotData:
         return CampaignSlotData(name, SubRuleRuleData.empty(), [], layouts)
 
 
@@ -31,18 +31,18 @@ class CampaignSlotData:
 class LayoutSlotData:
     name: str
     entry_rule: SubRuleRuleData
-    exits: List[int]
-    missions: List[List[MissionSlotData]]
+    exits: list[int]
+    missions: list[list[MissionSlotData]]
 
     @staticmethod
-    def legacy(name: str, missions: List[List[MissionSlotData]]) -> LayoutSlotData:
+    def legacy(name: str, missions: list[list[MissionSlotData]]) -> LayoutSlotData:
         return LayoutSlotData(name, SubRuleRuleData.empty(), [], missions)
 
 
 @dataclass
 class MissionSlotData:
     mission_id: int
-    prev_mission_ids: List[int]
+    prev_mission_ids: list[int]
     entry_rule: SubRuleRuleData
     victory_cache_size: int = 0
 
@@ -51,5 +51,5 @@ class MissionSlotData:
         return MissionSlotData(-1, [], SubRuleRuleData.empty())
 
     @staticmethod
-    def legacy(mission_id: int, prev_mission_ids: List[int], entry_rule: SubRuleRuleData) -> MissionSlotData:
+    def legacy(mission_id: int, prev_mission_ids: list[int], entry_rule: SubRuleRuleData) -> MissionSlotData:
         return MissionSlotData(mission_id, prev_mission_ids, entry_rule)

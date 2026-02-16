@@ -899,7 +899,7 @@ class Items:
     trap_chance: int
     enabled_traps: tuple[str, ...]
 
-    def __init__(self, player: Optional[int], logic: GameLogic, random: Random,
+    def __init__(self, player: int | None, logic: GameLogic, random: Random,
                  options: SatisfactoryOptions, critical_path: CriticalPathCalculator):
         self.player = player
         self.logic = logic

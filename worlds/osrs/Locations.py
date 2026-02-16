@@ -12,9 +12,9 @@ class SkillRequirement(typing.NamedTuple):
 class LocationRow(typing.NamedTuple):
     name: str
     category: str
-    regions: typing.List[str]
-    skills: typing.List[SkillRequirement]
-    items: typing.List[str]
+    regions: list[str]
+    skills: list[SkillRequirement]
+    items: list[str]
     qp: int
 
 

@@ -5,8 +5,8 @@ from typing import List, Optional, Tuple, Union
 class Setting:
     def __init__(self, key: str,
                  category: str, short_key: str, label: str, *,
-                 description: str, multiworld: bool = True, aesthetic: bool = False, options: Optional[List[Tuple[str, str, str]]] = None,
-                 default: Optional[Union[bool, float, str]] = None, placeholder: Optional[str] = None):
+                 description: str, multiworld: bool = True, aesthetic: bool = False, options: list[tuple[str, str, str]] | None = None,
+                 default: bool | float | str | None = None, placeholder: str | None = None):
         if options:
             assert default in [option_key for option_key, option_short, option_label in options], f"{default} not in {options}"
             short_options = set()

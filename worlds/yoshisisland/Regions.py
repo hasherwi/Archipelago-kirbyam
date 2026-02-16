@@ -20,7 +20,7 @@ class YoshisIslandLocation(Location):
         self.level_id = level_id
 
 
-def init_areas(world: "YoshisIslandWorld", locations: List[LocationData]) -> None:
+def init_areas(world: "YoshisIslandWorld", locations: list[LocationData]) -> None:
     multiworld = world.multiworld
     player = world.player
     logic = YoshiLogic(world)
@@ -220,7 +220,7 @@ def create_location(player: int, location_data: LocationData, region: Region) ->
     return location
 
 
-def create_region(world: "YoshisIslandWorld", player: int, locations_per_region: Dict[str, List[LocationData]], name: str) -> Region:
+def create_region(world: "YoshisIslandWorld", player: int, locations_per_region: dict[str, list[LocationData]], name: str) -> Region:
     region = Region(name, player, world.multiworld)
 
     if name in locations_per_region:
@@ -242,8 +242,8 @@ def connect_starting_region(world: "YoshisIslandWorld") -> None:
     world_main.connect(starting_region, "Overworld")
 
 
-def get_locations_per_region(locations: List[LocationData]) -> Dict[str, List[LocationData]]:
-    per_region: Dict[str, List[LocationData]] = {}
+def get_locations_per_region(locations: list[LocationData]) -> dict[str, list[LocationData]]:
+    per_region: dict[str, list[LocationData]] = {}
 
     for location in locations:
         per_region.setdefault(location.region, []).append(location)

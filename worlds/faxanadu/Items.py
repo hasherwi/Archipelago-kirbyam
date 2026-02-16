@@ -5,12 +5,12 @@ from BaseClasses import ItemClassification
 
 class ItemDef:
     def __init__(self,
-                 id: Optional[int],
+                 id: int | None,
                  name: str,
                  classification: ItemClassification,
                  count: int,
                  progression_count: int,
-                 prefill_location: Optional[str]):
+                 prefill_location: str | None):
         self.id = id
         self.name = name
         self.classification = classification
@@ -19,7 +19,7 @@ class ItemDef:
         self.prefill_location = prefill_location
 
 
-items: List[ItemDef] = [
+items: list[ItemDef] = [
     ItemDef(400000, "Progressive Sword", ItemClassification.progression, 4, 0, None),
     ItemDef(400001, "Progressive Armor", ItemClassification.progression, 3, 0, None),
     ItemDef(400002, "Progressive Shield", ItemClassification.useful, 4, 0, None),

@@ -33,7 +33,7 @@ class Stages:
     MA5 = "Mataan - Skyscrapers"
 
 
-region_exits: Dict[str, str] = {
+region_exits: dict[str, str] = {
     Stages.Misc: [Stages.H],
     Stages.H: [Stages.Misc,
                Stages.VH1,

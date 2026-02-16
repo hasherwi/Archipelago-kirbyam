@@ -84,9 +84,9 @@ class CV64World(World):
     item_name_to_id = get_item_names_to_ids()
     location_name_to_id = get_location_names_to_ids()
 
-    active_stage_exits: typing.Dict[str, typing.Dict]
-    active_stage_list: typing.List[str]
-    active_warp_list: typing.List[str]
+    active_stage_exits: dict[str, dict]
+    active_stage_list: list[str]
+    active_warp_list: list[str]
 
     # Default values to possibly be updated in generate_early
     reinhardt_stages: bool = True
@@ -213,7 +213,7 @@ class CV64World(World):
                             f"setting: {self.options.bosses_required.value}. Lowering to: {self.required_s2s}")
             self.options.bosses_required.value = self.required_s2s
 
-    def create_item(self, name: str, force_classification: typing.Optional[str] = None) -> Item:
+    def create_item(self, name: str, force_classification: str | None = None) -> Item:
         if force_classification is not None:
             classification = getattr(ItemClassification, force_classification)
         else:
@@ -298,7 +298,7 @@ class CV64World(World):
     def get_filler_item_name(self) -> str:
         return self.random.choice(filler_item_names)
 
-    def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]):
+    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]):
         # Attach each location's stage's position to its hint information if Stage Shuffle is on.
         if not self.options.stage_shuffle:
             return
@@ -314,7 +314,7 @@ class CV64World(World):
                     stage_pos_data[loc.address] += path
         hint_data[self.player] = stage_pos_data
 
-    def modify_multidata(self, multidata: typing.Dict[str, typing.Any]):
+    def modify_multidata(self, multidata: dict[str, typing.Any]):
         # Put the player's unique authentication in connect_names.
         multidata["connect_names"][base64.b64encode(self.auth).decode("ascii")] = \
             multidata["connect_names"][self.multiworld.player_name[self.player]]

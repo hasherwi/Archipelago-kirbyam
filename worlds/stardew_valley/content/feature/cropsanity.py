@@ -10,7 +10,7 @@ def to_location_name(crop: str) -> str:
     return location_prefix + crop
 
 
-def extract_crop_from_location_name(location_name: str) -> Optional[str]:
+def extract_crop_from_location_name(location_name: str) -> str | None:
     if not location_name.startswith(location_prefix):
         return None
 

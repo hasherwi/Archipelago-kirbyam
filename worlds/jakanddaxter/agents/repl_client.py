@@ -8,7 +8,7 @@ import time
 from asyncio import Lock, StreamReader, StreamWriter
 from dataclasses import dataclass
 from queue import Queue
-from typing import Callable
+from collections.abc import Callable
 
 import pymem
 from pymem.exception import ProcessError, ProcessNotFound

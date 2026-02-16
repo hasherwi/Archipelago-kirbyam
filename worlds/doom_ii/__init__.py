@@ -52,7 +52,7 @@ class DOOM2World(World):
     location_name_to_id = {data["name"]: loc_id for loc_id, data in Locations.location_table.items()}
     location_name_groups = Locations.location_name_groups
 
-    starting_level_for_episode: Dict[int, str] = {
+    starting_level_for_episode: dict[int, str] = {
         1: "Entryway (MAP01)",
         2: "The Factory (MAP12)",
         3: "Nirvana (MAP21)"
@@ -60,7 +60,7 @@ class DOOM2World(World):
 
     # Item ratio that scales depending on episode count. These are the ratio for 3 episode. In DOOM1.
     # The ratio have been tweaked seem, and feel good.
-    items_ratio: Dict[str, float] = {
+    items_ratio: dict[str, float] = {
         "Armor": 39,
         "Mega Armor": 23,
         "Berserk": 11,
@@ -189,7 +189,7 @@ class DOOM2World(World):
         return DOOM2Item(name, Items.item_table[item_id]["classification"], item_id, self.player)
 
     def create_items(self):
-        itempool: List[DOOM2Item] = []
+        itempool: list[DOOM2Item] = []
         start_with_computer_area_maps: bool = self.options.start_with_computer_area_maps.value
 
         # Items
@@ -269,7 +269,7 @@ class DOOM2World(World):
             "Energy cell pack"
         ])
 
-    def create_ratioed_items(self, item_name: str, itempool: List[DOOM2Item]):
+    def create_ratioed_items(self, item_name: str, itempool: list[DOOM2Item]):
         remaining_loc = self.location_count - len(itempool)
         ep_count = self.get_episode_count()
 
@@ -282,7 +282,7 @@ class DOOM2World(World):
         for i in range(count):
             itempool.append(self.create_item(item_name))
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         slot_data = self.options.as_dict("difficulty", "random_monsters", "random_pickups", "random_music", "flip_levels", "allow_death_logic", "pro", "death_link", "reset_level_on_death", "episode1", "episode2", "episode3", "episode4")
 
         # Send slot data for ammo capacity values; this must be generic because Heretic uses it too

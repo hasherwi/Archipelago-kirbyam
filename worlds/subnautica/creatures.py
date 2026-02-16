@@ -2,7 +2,7 @@ import functools
 from typing import Dict, List, Set
 
 # EN Locale Creature Name to rough depth in meters found at
-all_creatures: Dict[str, int] = {
+all_creatures: dict[str, int] = {
     "Gasopod": 0,
     "Bladderfish": 0,
     "Ancient Floater": 0,
@@ -55,7 +55,7 @@ all_creatures: Dict[str, int] = {
     "Sea Emperor Juvenile": 1700,
 }
 
-aggressive: Set[str] = {
+aggressive: set[str] = {
     "Cave Crawler",  # is very easy without Stasis Rifle, but included for consistency
     "Crashfish",
     "Biter",
@@ -78,11 +78,11 @@ aggressive: Set[str] = {
     "Ghost Leviathan"
 }
 
-containment: Set[str] = {  # creatures that have to be raised from eggs
+containment: set[str] = {  # creatures that have to be raised from eggs
     "Cuddlefish",
 }
 
-hatchable: Set[str] = {  # aggressive creatures that can be grown from eggs as alternative to stasis
+hatchable: set[str] = {  # aggressive creatures that can be grown from eggs as alternative to stasis
     "Ampeel",  # warning: electric shocks
     "Crabsquid",  # warning: electric shocks
     "Crabsnake",
@@ -97,7 +97,7 @@ hatchable: Set[str] = {  # aggressive creatures that can be grown from eggs as a
 
 suffix: str = " Scan"
 
-creature_locations: Dict[str, int] = {
+creature_locations: dict[str, int] = {
     creature + suffix: creature_id for creature_id, creature in enumerate(all_creatures, start=34000)
 }
 
@@ -106,19 +106,19 @@ class Definitions:
     """Only compute lists if needed and then cache them."""
 
     @functools.cached_property
-    def all_creatures_presorted(self) -> List[str]:
+    def all_creatures_presorted(self) -> list[str]:
         return sorted(all_creatures)
 
     @functools.cached_property
-    def all_creatures_presorted_without_containment(self) -> List[str]:
+    def all_creatures_presorted_without_containment(self) -> list[str]:
         return [name for name in self.all_creatures_presorted if name not in containment]
 
     @functools.cached_property
-    def all_creatures_presorted_without_stasis(self) -> List[str]:
+    def all_creatures_presorted_without_stasis(self) -> list[str]:
         return [name for name in self.all_creatures_presorted if name not in aggressive or name in hatchable]
 
     @functools.cached_property
-    def all_creatures_presorted_without_aggressive_and_containment(self) -> List[str]:
+    def all_creatures_presorted_without_aggressive_and_containment(self) -> list[str]:
         return [name for name in self.all_creatures_presorted if name not in aggressive and name not in containment]
 
 # only singleton needed

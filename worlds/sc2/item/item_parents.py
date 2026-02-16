@@ -6,7 +6,8 @@ Rules may be more complex than all or any items being present. Call them to dete
 """
 
 import abc
-from typing import TYPE_CHECKING, Dict, Iterable, List, Optional, Sequence
+from typing import TYPE_CHECKING, Dict, List, Optional
+from collections.abc import Iterable, Sequence
 
 from . import item_groups, item_names, item_tables, parent_names
 
@@ -16,7 +17,7 @@ if TYPE_CHECKING:
 
 class PresenceRule(abc.ABC):
     """Contract for a parent presence rule. This should be a protocol in Python 3.10+"""
-    constraint_group: Optional[str]
+    constraint_group: str | None
     """Identifies the group this item rule is a part of, subject to min/max upgrades per unit"""
     display_string: str
     """Main item to count as the parent for min/max upgrades per unit purposes"""
@@ -35,12 +36,12 @@ class ItemPresent(PresenceRule):
     def __call__(self, inventory: Iterable[str], options: "Starcraft2Options") -> bool:
         return self.item_name in inventory
 
-    def parent_items(self) -> List[str]:
+    def parent_items(self) -> list[str]:
         return [self.item_name]
 
 
 class AnyOf(PresenceRule):
-    def __init__(self, group: Iterable[str], main_item: Optional[str] = None, display_string: Optional[str] = None) -> None:
+    def __init__(self, group: Iterable[str], main_item: str | None = None, display_string: str | None = None) -> None:
         self.group = set(group)
         self.constraint_group = main_item
         self.display_string = display_string or main_item or " | ".join(group)
@@ -48,12 +49,12 @@ class AnyOf(PresenceRule):
     def __call__(self, inventory: Iterable[str], options: "Starcraft2Options") -> bool:
         return len(self.group.intersection(inventory)) > 0
 
-    def parent_items(self) -> List[str]:
+    def parent_items(self) -> list[str]:
         return sorted(self.group)
 
 
 class AllOf(PresenceRule):
-    def __init__(self, group: Iterable[str], main_item: Optional[str] = None) -> None:
+    def __init__(self, group: Iterable[str], main_item: str | None = None) -> None:
         self.group = set(group)
         self.constraint_group = main_item
         self.display_string = main_item or " & ".join(group)
@@ -61,7 +62,7 @@ class AllOf(PresenceRule):
     def __call__(self, inventory: Iterable[str], options: "Starcraft2Options") -> bool:
         return len(self.group.intersection(inventory)) == len(self.group)
 
-    def parent_items(self) -> List[str]:
+    def parent_items(self) -> list[str]:
         return sorted(self.group)
 
 
@@ -75,7 +76,7 @@ class AnyOfGroupAndOneOtherItem(PresenceRule):
     def __call__(self, inventory: Iterable[str], options: "Starcraft2Options") -> bool:
         return (len(self.group.intersection(inventory)) > 0) and self.item_name in inventory
 
-    def parent_items(self) -> List[str]:
+    def parent_items(self) -> list[str]:
         return sorted(self.group) + [self.item_name]
 
 
@@ -88,12 +89,12 @@ class MorphlingOrItem(PresenceRule):
     def __call__(self, inventory: Iterable[str], options: "Starcraft2Options") -> bool:
         return (options.enable_morphling.value != 0) or self.item_name in inventory
 
-    def parent_items(self) -> List[str]:
+    def parent_items(self) -> list[str]:
         return [self.item_name]
 
 
 class MorphlingOrAnyOf(PresenceRule):
-    def __init__(self, group: Iterable[str], display_string: str, main_item: Optional[str] = None) -> None:
+    def __init__(self, group: Iterable[str], display_string: str, main_item: str | None = None) -> None:
         self.group = set(group)
         self.constraint_group = main_item
         self.display_string = display_string
@@ -101,11 +102,11 @@ class MorphlingOrAnyOf(PresenceRule):
     def __call__(self, inventory: Iterable[str], options: "Starcraft2Options") -> bool:
         return (options.enable_morphling.value != 0) or (len(self.group.intersection(inventory)) > 0)
 
-    def parent_items(self) -> List[str]:
+    def parent_items(self) -> list[str]:
         return sorted(self.group)
 
 
-parent_present: Dict[str, PresenceRule] = {
+parent_present: dict[str, PresenceRule] = {
     item_name: ItemPresent(item_name)
     for item_name in item_tables.item_table
 }
@@ -237,16 +238,16 @@ parent_present[parent_names.PROTOSS_ATTACKING_BUILDING] = AnyOf(
 )
 
 
-parent_id_to_children: Dict[str, Sequence[str]] = {}
+parent_id_to_children: dict[str, Sequence[str]] = {}
 """Parent identifier to child items. Only contains parent rules with children."""
-child_item_to_parent_items: Dict[str, Sequence[str]] = {}
+child_item_to_parent_items: dict[str, Sequence[str]] = {}
 """Child item name to all parent items that can possibly affect its presence rule. Populated for all item names."""
 
-parent_item_to_ids: Dict[str, Sequence[str]] = {}
+parent_item_to_ids: dict[str, Sequence[str]] = {}
 """Parent item to parent identifiers it affects. Populated for all items and parent IDs."""
-parent_item_to_children: Dict[str, Sequence[str]] = {}
+parent_item_to_children: dict[str, Sequence[str]] = {}
 """Parent item to child item names. Populated for all items and parent IDs."""
-item_upgrade_groups: Dict[str, Sequence[str]] = {}
+item_upgrade_groups: dict[str, Sequence[str]] = {}
 """Mapping of upgradable item group -> child items. Only populated for groups with child items."""
 # Note(mm): "All items" promise satisfied by the basic ItemPresent auto-generated rules
 

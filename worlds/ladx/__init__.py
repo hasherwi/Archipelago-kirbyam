@@ -117,7 +117,7 @@ class LinksAwakeningSettings(settings.Group):
 
 
     rom_file: RomFile = RomFile(RomFile.copy_to)
-    rom_start: typing.Union[RomStart, bool] = True
+    rom_start: RomStart | bool = True
     gfx_mod_file: GfxModFile = GfxModFile()
 
 class LinksAwakeningWebWorld(WebWorld):
@@ -131,7 +131,7 @@ class LinksAwakeningWebWorld(WebWorld):
     )]
     theme = "ocean"
     option_groups = ladx_option_groups
-    options_presets: typing.Dict[str, typing.Dict[str, typing.Any]] = {
+    options_presets: dict[str, dict[str, typing.Any]] = {
         "Keysanity": {
             "shuffle_nightmare_keys": "any_world",
             "shuffle_small_keys": "any_world",

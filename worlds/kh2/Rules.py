@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Callable, Dict
+from typing import TYPE_CHECKING, Dict
+from collections.abc import Callable
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import add_item_rule, add_rule, forbid_items
@@ -31,10 +32,10 @@ class KH2Rules:
     # Location Rules: Deterministic of player settings.
     # Form Rules: Rules for Drive Forms and Summon levels. These Are Locations
     # Fight Rules: Rules for fights. These are regions in the worlds.
-    world_rules: Dict[str, Callable[[CollectionState], bool]]
-    location_rules: Dict[str, Callable[[CollectionState], bool]]
+    world_rules: dict[str, Callable[[CollectionState], bool]]
+    location_rules: dict[str, Callable[[CollectionState], bool]]
 
-    fight_rules: Dict[str, Callable[[CollectionState], bool]]
+    fight_rules: dict[str, Callable[[CollectionState], bool]]
 
     def __init__(self, world: KH2World) -> None:
         self.player = world.player
@@ -424,8 +425,8 @@ class KH2FormRules(KH2Rules):
 class KH2FightRules(KH2Rules):
     player: int
     world: KH2World
-    region_rules: Dict[str, Callable[[CollectionState], bool]]
-    location_rules: Dict[str, Callable[[CollectionState], bool]]
+    region_rules: dict[str, Callable[[CollectionState], bool]]
+    location_rules: dict[str, Callable[[CollectionState], bool]]
 
     # cor logic
     # have 3 things for the logic

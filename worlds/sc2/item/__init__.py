@@ -45,7 +45,7 @@ class StarcraftItem(Item):
     game: str = "Starcraft 2"
     filter_flags: ItemFilterFlags = ItemFilterFlags.Available
 
-    def __init__(self, name: str, classification: ItemClassification, code: Optional[int], player: int, filter_flags: ItemFilterFlags = ItemFilterFlags.Available):
+    def __init__(self, name: str, classification: ItemClassification, code: int | None, player: int, filter_flags: ItemFilterFlags = ItemFilterFlags.Available):
         super().__init__(name, classification, code, player)
         self.filter_flags = filter_flags
 
@@ -141,7 +141,7 @@ class FactionlessItemType(ItemTypeEnum):
 
 
 ItemType = Union[TerranItemType, ZergItemType, ProtossItemType, FactionlessItemType]
-race_to_item_type: Dict[SC2Race, Type[ItemTypeEnum]] = {
+race_to_item_type: dict[SC2Race, type[ItemTypeEnum]] = {
     SC2Race.ANY: FactionlessItemType,
     SC2Race.TERRAN: TerranItemType,
     SC2Race.ZERG: ZergItemType,
@@ -156,7 +156,7 @@ class ItemData(typing.NamedTuple):
     race: SC2Race
     classification: ItemClassification = ItemClassification.useful
     quantity: int = 1
-    parent: typing.Optional[str] = None
+    parent: str | None = None
     important_for_filtering: bool = False
 
     def is_important_for_filtering(self):

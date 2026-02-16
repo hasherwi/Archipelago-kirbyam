@@ -96,7 +96,7 @@ def is_location_valid(world: "HatInTimeWorld", location: str) -> bool:
     return True
 
 
-def get_location_names() -> Dict[str, int]:
+def get_location_names() -> dict[str, int]:
     names = {name: data.id for name, data in location_table.items()}
     id_start: int = TASKSANITY_START_ID
     for i in range(TasksanityCheckCount.range_end):

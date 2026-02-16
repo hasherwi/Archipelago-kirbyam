@@ -59,7 +59,7 @@ class TestFillerItemsIncludedByRarity(CivVITestBase):
         self.world_setup()
         self.world.generate_early()
         distribute_items_restrictive(self.multiworld)
-        rarity_counts: Dict[FillerItemRarity, int] = {
+        rarity_counts: dict[FillerItemRarity, int] = {
             FillerItemRarity.COMMON: 0,
             FillerItemRarity.UNCOMMON: 0,
             FillerItemRarity.RARE: 0,
@@ -94,7 +94,7 @@ class TestFillerItemsIncludedByRarityWithoutBoostsanity(CivVITestBase):
         self.world_setup()
         self.world.generate_early()
         distribute_items_restrictive(self.multiworld)
-        rarity_counts: Dict[FillerItemRarity, int] = {
+        rarity_counts: dict[FillerItemRarity, int] = {
             FillerItemRarity.COMMON: 0,
             FillerItemRarity.UNCOMMON: 0,
             FillerItemRarity.RARE: 0,

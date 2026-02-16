@@ -42,10 +42,10 @@ class Texts:
             return [text.rstrip("\n") for text in file.read().replace("\r", "").split("---\n") if text]
 
     scripts: Any = ParseYamlScripts.__func__("smz3/TotalSMZ3/Text/Scripts/General.yaml")
-    blind: List[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/Blind.txt")
-    ganon: List[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/Ganon.txt")
-    tavernMan: List[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/TavernMan.txt")
-    triforceRoom: List[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/TriforceRoom.txt")
+    blind: list[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/Blind.txt")
+    ganon: list[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/Ganon.txt")
+    tavernMan: list[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/TavernMan.txt")
+    triforceRoom: list[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/TriforceRoom.txt")
 
     @staticmethod
     def SahasrahlaReveal(dungeon: Region):
@@ -53,7 +53,7 @@ class Texts:
         return text.replace("<dungeon>", dungeon.Area)
 
     @staticmethod
-    def BombShopReveal(dungeons: List[Region]):
+    def BombShopReveal(dungeons: list[Region]):
         text = Texts.scripts["BombShopReveal"]
         return text.replace("<first>", dungeons[0].Area).replace("<second>", dungeons[1].Area)
 
@@ -115,4 +115,4 @@ class Texts:
     def TriforceRoom(rnd: random): return Texts.RandomLine(rnd, Texts.triforceRoom)
 
     @staticmethod
-    def RandomLine(rnd: random, lines: List[str]): return lines[rnd.randrange(0, len(lines))]
+    def RandomLine(rnd: random, lines: list[str]): return lines[rnd.randrange(0, len(lines))]

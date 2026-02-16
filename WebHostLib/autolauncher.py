@@ -183,7 +183,7 @@ def autogen(config: dict):
 class MultiworldInstance():
     def __init__(self, config: dict, id: int):
         self.room_ids = set()
-        self.process: typing.Optional[multiprocessing.Process] = None
+        self.process: multiprocessing.Process | None = None
         self.ponyconfig = config["PONY"]
         self.cert = config["SELFLAUNCHCERT"]
         self.key = config["SELFLAUNCHKEY"]

@@ -13,7 +13,7 @@ class linkedTestHK():
     game = "Hollow Knight"
     world: HKWorld
     expected_grubs: int
-    item_link_group: typing.List[typing.Dict[str, typing.Any]]
+    item_link_group: list[dict[str, typing.Any]]
 
     def setup_item_links(self, args):
         setattr(args, "item_links",

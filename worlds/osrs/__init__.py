@@ -58,18 +58,18 @@ class OSRSWorld(World):
     item_name_to_id = {item_rows[i].name: 0x070000 + i for i in range(len(item_rows))}
     location_name_to_id = {location_rows[i].name: 0x070000 + i for i in range(len(location_rows))}
 
-    region_name_to_data: typing.Dict[str, Region]
-    location_name_to_data: typing.Dict[str, OSRSLocation]
+    region_name_to_data: dict[str, Region]
+    location_name_to_data: dict[str, OSRSLocation]
 
-    location_rows_by_name: typing.Dict[str, LocationRow]
-    region_rows_by_name: typing.Dict[str, RegionRow]
-    resource_rows_by_name: typing.Dict[str, ResourceRow]
-    item_rows_by_name: typing.Dict[str, ItemRow]
+    location_rows_by_name: dict[str, LocationRow]
+    region_rows_by_name: dict[str, RegionRow]
+    resource_rows_by_name: dict[str, ResourceRow]
+    item_rows_by_name: dict[str, ItemRow]
 
     starting_area_item: str
 
-    locations_by_category: typing.Dict[str, typing.List[LocationRow]]
-    available_QP_locations: typing.List[str]
+    locations_by_category: dict[str, list[LocationRow]]
+    available_QP_locations: list[str]
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
@@ -139,7 +139,7 @@ class OSRSWorld(World):
         return data
 
     @staticmethod
-    def interpret_slot_data(slot_data: typing.Dict[str, typing.Any]) -> typing.Dict[str, typing.Any]:
+    def interpret_slot_data(slot_data: dict[str, typing.Any]) -> dict[str, typing.Any]:
         return slot_data
 
     def create_regions(self) -> None:
@@ -261,8 +261,8 @@ class OSRSWorld(World):
 
         general_weight = self.options.general_task_weight.value if len(general_tasks) > 0 else 0
 
-        tasks_per_task_type: typing.Dict[str, typing.List[LocationRow]] = {}
-        weights_per_task_type: typing.Dict[str, int] = {}
+        tasks_per_task_type: dict[str, list[LocationRow]] = {}
+        weights_per_task_type: dict[str, int] = {}
 
         for task_type in task_types:
             max_amount_for_task_type = getattr(self.options, f"max_{task_type}_tasks")

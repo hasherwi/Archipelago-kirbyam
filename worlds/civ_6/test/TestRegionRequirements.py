@@ -1,4 +1,5 @@
-from typing import Callable, List
+from typing import List
+from collections.abc import Callable
 
 from BaseClasses import CollectionState
 
@@ -134,7 +135,7 @@ class TestProgressiveEraRequirements(CivVITestBase):
         state = self.multiworld.state
         self.collect_all_but(["Progressive Era"])
 
-        def check_eras_accessible(eras: List[EraType]):
+        def check_eras_accessible(eras: list[EraType]):
             for era in EraType:
                 if era in eras:
                     self.assertTrue(state.can_reach(era.value, "Region", self.player))
@@ -187,7 +188,7 @@ class TestProgressiveEraRequirementsWithBoostsanity(CivVITestBase):
         state = self.multiworld.state
         self.collect_all_but(["Progressive Era"])
 
-        def check_eras_accessible(eras: List[EraType]):
+        def check_eras_accessible(eras: list[EraType]):
             for era in EraType:
                 if era in eras:
                     self.assertTrue(

@@ -1,5 +1,6 @@
 import math
-from typing import Any, Mapping
+from typing import Any
+from collections.abc import Mapping
 
 from BaseClasses import Item, LocationProgressType, MultiWorld, Tutorial
 from Options import OptionError

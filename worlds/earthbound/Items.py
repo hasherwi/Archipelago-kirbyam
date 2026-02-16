@@ -5,12 +5,12 @@ from BaseClasses import ItemClassification
 
 class ItemData(NamedTuple):
     category: str
-    code: Optional[int]
+    code: int | None
     classification: ItemClassification
     amount: int = 1
 
 
-item_table: Dict[str, ItemData] = {
+item_table: dict[str, ItemData] = {
     "Franklin Badge": ItemData("Key Items", 0xEB0001, ItemClassification.progression),
     "Teddy Bear": ItemData("Characters", 0xEB0002, ItemClassification.filler, 0),
     "Super Plush Bear": ItemData("Characters", 0xEB0003, ItemClassification.useful, 0),
@@ -328,8 +328,8 @@ item_table: Dict[str, ItemData] = {
 }
 
 
-def get_item_names_per_category() -> Dict[str, Set[str]]:
-    categories: Dict[str, Set[str]] = {}
+def get_item_names_per_category() -> dict[str, set[str]]:
+    categories: dict[str, set[str]] = {}
 
     for name, data in item_table.items():
         if data.category != "Events":

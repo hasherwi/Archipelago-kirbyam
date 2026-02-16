@@ -11,7 +11,8 @@ import time
 import zipimport
 from pathlib import Path
 from types import ModuleType
-from typing import List, Sequence
+from typing import List
+from collections.abc import Sequence
 
 from NetUtils import DataPackage
 from Utils import Version, local_path, tuplize_version, user_path, version_tuple
@@ -33,7 +34,7 @@ __all__ = {
 }
 
 
-failed_world_loads: List[str] = []
+failed_world_loads: list[str] = []
 
 
 @dataclasses.dataclass(order=True)
@@ -74,7 +75,7 @@ class WorldSource:
 
 
 # find potential world containers, currently folders and zip-importable .apworld's
-world_sources: List[WorldSource] = []
+world_sources: list[WorldSource] = []
 for folder in (folder for folder in (user_folder, local_folder) if folder):
     relative = folder == local_folder
     for entry in os.scandir(folder):

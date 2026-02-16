@@ -16,10 +16,10 @@ class KH1ItemData(NamedTuple):
     weight: int = 1
 
 
-def get_items_by_category(category: str) -> Dict[str, KH1ItemData]:
+def get_items_by_category(category: str) -> dict[str, KH1ItemData]:
     return {name: data for name, data in item_table.items() if data.category == category}
 
-item_table: Dict[str, KH1ItemData] = {
+item_table: dict[str, KH1ItemData] = {
     "Potion":                            KH1ItemData("Item",             code = 264_1001, classification = ItemClassification.filler,      type = "Item",                            ),
     "Hi-Potion":                         KH1ItemData("Item",             code = 264_1002, classification = ItemClassification.filler,      type = "Item",                            ),
     "Ether":                             KH1ItemData("Item",             code = 264_1003, classification = ItemClassification.filler,      type = "Item",                            ),
@@ -342,12 +342,12 @@ item_table: Dict[str, KH1ItemData] = {
     "Combo Master":                      KH1ItemData("Abilities",        code = 264_3065, classification = ItemClassification.progression, type = "Ability",                         )
 }
 
-event_item_table: Dict[str, KH1ItemData] = {
+event_item_table: dict[str, KH1ItemData] = {
     "Victory": KH1ItemData("Event", code = None, classification = ItemClassification.progression, type = "Event")
 }
 
 #Make item categories
-item_name_groups: Dict[str, Set[str]] = {}
+item_name_groups: dict[str, set[str]] = {}
 for item in item_table.keys():
     category = item_table[item].category
     if category not in item_name_groups.keys():

@@ -96,7 +96,7 @@ class PaintWorld(World):
         from .rules import set_completion_rules
         set_completion_rules(self, self.player)
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         return dict(self.options.as_dict("logic_percent", "goal_percent", "goal_image", "death_link",
                                          "canvas_size_increment"), version="0.5.2")
 

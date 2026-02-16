@@ -7,7 +7,8 @@ import pkgutil
 import random
 import sys
 import typing
-from typing import Dict, Iterable, List, Tuple
+from typing import Dict, List, Tuple
+from collections.abc import Iterable
 
 import ModuleUpdate
 
@@ -204,7 +205,7 @@ class WargrooveContext(CommonContext):
             with open(destination, "wb") as f:
                 f.write(file_data)
 
-    def on_deathlink(self, data: typing.Dict[str, typing.Any]) -> None:
+    def on_deathlink(self, data: dict[str, typing.Any]) -> None:
         with open(os.path.join(self.game_communication_path, "deathLinkReceive"), "w+") as f:
             text = data.get("cause", "")
             if text:
@@ -365,7 +366,7 @@ class WargrooveContext(CommonContext):
             unit_tracker: ItemTracker
             trigger_tracker: BoxLayout
             boost_tracker: BoxLayout
-            commander_buttons: Dict[int, List[CommanderButton]]
+            commander_buttons: dict[int, list[CommanderButton]]
             tracker_items = {
                 "Swordsman": ItemData(None, "Unit", False),
                 "Dog": ItemData(None, "Unit", False),
@@ -487,7 +488,7 @@ class WargrooveContext(CommonContext):
         else:
             wg_logger.error(f"{commander_name} is not a recognized Wargroove commander.")
 
-    def get_commanders(self) -> List[Tuple[CommanderData, bool]]:
+    def get_commanders(self) -> list[tuple[CommanderData, bool]]:
         """Gets a list of commanders with their unlocked status"""
         commanders = []
         received_ids = [item.item for item in self.items_received]

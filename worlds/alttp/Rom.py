@@ -18,7 +18,8 @@ import random
 import struct
 import subprocess
 import threading
-from typing import Collection, List, Optional, SupportsIndex
+from typing import List, Optional, SupportsIndex
+from collections.abc import Collection
 
 import bsdiff4
 
@@ -562,7 +563,7 @@ class Sprite():
     sprite_size = 28672
     palette_size = 120
     glove_size = 4
-    author_name: Optional[str] = None
+    author_name: str | None = None
     base_data: bytes
 
     def __init__(self, filename):
@@ -677,7 +678,7 @@ class Sprite():
             self.valid = False
 
     @staticmethod
-    def get_sprite_from_name(name: str, local_random=random) -> Optional[Sprite]:
+    def get_sprite_from_name(name: str, local_random=random) -> Sprite | None:
         _populate_sprite_table()
         name = name.lower()
         if name.startswith("random"):
@@ -1760,7 +1761,7 @@ def patch_race_rom(rom, world, player):
     rom.encrypt(world, player)
 
 
-def get_price_data(price: int, price_type: int) -> List[int]:
+def get_price_data(price: int, price_type: int) -> list[int]:
     if price_type != ShopPriceType.Rupees:
         # Set special price flag 0x8000
         # Then set the type of price we're setting 0x7F00 (this starts from Hearts, not Rupees, subtract 1)

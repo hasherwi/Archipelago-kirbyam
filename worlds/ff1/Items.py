@@ -33,8 +33,8 @@ FF1_USEFUL_LIST = [
 
 
 class FF1Items:
-    _item_table: List[ItemData] = []
-    _item_table_lookup: Dict[str, ItemData] = {}
+    _item_table: list[ItemData] = []
+    _item_table_lookup: dict[str, ItemData] = {}
 
     def _populate_item_table_from_data(self):
         file = pkgutil.get_data(__name__, "data/items.json").decode("utf-8")
@@ -45,18 +45,18 @@ class FF1Items:
                             ItemClassification.filler) for name, code in items.items()]
         self._item_table_lookup = {item.name: item for item in self._item_table}
 
-    def _get_item_table(self) -> List[ItemData]:
+    def _get_item_table(self) -> list[ItemData]:
         if not self._item_table or not self._item_table_lookup:
             self._populate_item_table_from_data()
         return self._item_table
 
-    def _get_item_table_lookup(self) -> Dict[str, ItemData]:
+    def _get_item_table_lookup(self) -> dict[str, ItemData]:
         if not self._item_table or not self._item_table_lookup:
             self._populate_item_table_from_data()
         return self._item_table_lookup
 
-    def get_item_names_per_category(self) -> Dict[str, Set[str]]:
-        categories: Dict[str, Set[str]] = {}
+    def get_item_names_per_category(self) -> dict[str, set[str]]:
+        categories: dict[str, set[str]] = {}
 
         for item in self._get_item_table():
             categories.setdefault(item.item_type, set()).add(item.name)
@@ -68,7 +68,7 @@ class FF1Items:
         return Item(name, item.classification,
                     item.code, player)
 
-    def get_item_name_to_code_dict(self) -> Dict[str, int]:
+    def get_item_name_to_code_dict(self) -> dict[str, int]:
         return {name: item.code for name, item in self._get_item_table_lookup().items()}
 
     def get_item(self, name: str) -> ItemData:

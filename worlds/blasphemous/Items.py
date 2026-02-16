@@ -10,7 +10,7 @@ class ItemDict(TypedDict):
 
 base_id = 1909000
 
-item_table: List[ItemDict] = [
+item_table: list[ItemDict] = [
     # Rosary Beads
     {"name": "Dove Skull",
         "count": 1,
@@ -638,7 +638,7 @@ item_table: List[ItemDict] = [
         "classification": ItemClassification.filler}
 ]
 
-group_table: Dict[str, Set[str]] = {
+group_table: dict[str, set[str]] = {
     "wounds"  : {"Holy Wound of Attrition",
                  "Holy Wound of Contrition",
                  "Holy Wound of Compunction"},
@@ -740,7 +740,7 @@ group_table: Dict[str, Set[str]] = {
                  "Broken Left Eye of the Traitor"}
 }
 
-tears_list: List[str] = [
+tears_list: list[str] = [
     "Tears of Atonement (500)",
     "Tears of Atonement (625)",
     "Tears of Atonement (750)",
@@ -763,13 +763,13 @@ tears_list: List[str] = [
     "Tears of Atonement (30000)"
 ]
 
-reliquary_set: Set[str] = {
+reliquary_set: set[str] = {
     "Reliquary of the Fervent Heart",
     "Reliquary of the Suffering Heart",
     "Reliquary of the Sorrowful Heart"
 }
 
-skill_set: Set[str] = {
+skill_set: set[str] = {
     "Combo Skill",
     "Charged Skill",
     "Ranged Skill",

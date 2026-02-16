@@ -6,8 +6,8 @@ import warnings
 
 from NetUtils import LocationStore, _LocationStore
 
-State = typing.Dict[typing.Tuple[int, int], typing.Set[int]]
-RawLocations = typing.Dict[int, typing.Dict[int, typing.Tuple[int, int, int]]]
+State = dict[tuple[int, int], set[int]]
+RawLocations = dict[int, dict[int, tuple[int, int, int]]]
 
 ci = bool(os.environ.get("CI"))  # always set in GitHub actions
 
@@ -49,7 +49,7 @@ one_state: State = {
 class Base:
     class TestLocationStore(unittest.TestCase):
         """Test method calls on a loaded store."""
-        store: typing.Union[LocationStore, _LocationStore]
+        store: LocationStore | _LocationStore
 
         def test_len(self) -> None:
             self.assertEqual(len(self.store), 5)

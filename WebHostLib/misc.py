@@ -2,7 +2,8 @@ import datetime
 import os
 import warnings
 from enum import StrEnum
-from typing import IO, Any, Dict, Iterator, List, Tuple, Union
+from typing import IO, Any, Dict, List, Tuple, Union
+from collections.abc import Iterator
 
 import jinja2.exceptions
 from flask import Response, abort, redirect, render_template, request, send_from_directory, session, url_for
@@ -190,7 +191,7 @@ def _read_log(log: IO[Any], offset: int = 0) -> Iterator[bytes]:
 
 
 @app.route("/log/<suuid:room>")
-def display_log(room: UUID) -> Union[str, Response, Tuple[str, int]]:
+def display_log(room: UUID) -> str | Response | tuple[str, int]:
     room = Room.get(id=room)
     if room is None:
         return abort(404)
@@ -250,13 +251,13 @@ def host_room(room: UUID):
                  or "Discordbot" in request.user_agent.string
                  or not any(browser_token in request.user_agent.string for browser_token in browser_tokens))
 
-    def get_log(max_size: int = 0 if automated else 1024000) -> Tuple[str, int]:
+    def get_log(max_size: int = 0 if automated else 1024000) -> tuple[str, int]:
         if max_size == 0:
             return "…", 0
         try:
             with open(os.path.join("logs", str(room.id) + ".txt"), "rb") as log:
                 raw_size = 0
-                fragments: List[str] = []
+                fragments: list[str] = []
                 for block in _read_log(log):
                     if raw_size + len(block) > max_size:
                         fragments.append("…")
@@ -295,7 +296,7 @@ def get_datapackage():
 @app.route("/sitemap")
 @cache.cached()
 def get_sitemap():
-    available_games: List[Dict[str, Union[str, bool]]] = []
+    available_games: list[dict[str, str | bool]] = []
     for game, world in AutoWorldRegister.world_types.items():
         if not world.hidden:
             has_settings: bool = isinstance(world.web.options_page, bool) and world.web.options_page

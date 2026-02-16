@@ -153,7 +153,7 @@ def set_rules(world: MultiWorld, player: int):
              lambda state: state._wargroove_has_item_and_region(player, "Spearman", "Rebel Village"))
 
 
-def set_region_exit_rules(region: Region, locations: List[Location], operator: str = "or"):
+def set_region_exit_rules(region: Region, locations: list[Location], operator: str = "or"):
     if operator == "or":
         exit_rule = lambda state: any(location.access_rule(state) for location in locations)
     else:

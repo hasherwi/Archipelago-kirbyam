@@ -29,7 +29,7 @@ class PerformanceResults:
     case: SVTestCase
 
     amount_of_players: int
-    results: List[float]
+    results: list[float]
     acceptable_mean: float
 
     def __repr__(self):
@@ -47,7 +47,7 @@ Mean: {mean_time:.2f} Median: {median_time:.2f} Stdeviation: {stdev_time:.2f} Va
 
 class SVPerformanceTestCase(SVTestCase):
     acceptable_time_per_player: float
-    results: List[PerformanceResults]
+    results: list[PerformanceResults]
 
     # Set False to not call the fill in the tests"""
     skip_fill: bool = True

@@ -52,10 +52,10 @@ def process_multidata(compressed_multidata, files={}):
 
     decompressed_multidata = MultiServer.Context.decompress(compressed_multidata)
 
-    slots: typing.Set[Slot] = set()
+    slots: set[Slot] = set()
     if "datapackage" in decompressed_multidata:
         # strip datapackage from multidata, leaving only the checksums
-        game_data_packages: typing.List[GameDataPackage] = []
+        game_data_packages: list[GameDataPackage] = []
         for game, game_data in decompressed_multidata["datapackage"].items():
             if game_data.get("checksum"):
                 original_checksum = game_data.pop("checksum")

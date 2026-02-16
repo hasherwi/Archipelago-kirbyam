@@ -46,8 +46,8 @@ class GpsTracker:
     spawn_room: int = None
     spawn_changed: bool = False
     spawn_same_for: int = 0
-    entrance_mapping: typing.Dict[str, str] = None
-    entrances_by_name: typing.Dict[str, Entrance] = {}
+    entrance_mapping: dict[str, str] = None
+    entrances_by_name: dict[str, Entrance] = {}
     needs_found_entrances: bool = False
     needs_slot_data: bool = True
 
@@ -63,7 +63,7 @@ class GpsTracker:
     async def read_byte(self, b: int):
         return (await self.gameboy.read_memory_cache([b]))[b]
 
-    def load_slot_data(self, slot_data: typing.Dict[str, typing.Any]):
+    def load_slot_data(self, slot_data: dict[str, typing.Any]):
         if "entrance_mapping" not in slot_data:
             return
 
@@ -229,7 +229,7 @@ class GpsTracker:
             self.last_location_message = message
             await socket.send(json.dumps(message))
 
-    async def send_entrances(self, socket: WebSocketServerProtocol, diff: bool=True) -> typing.Dict[str, str]:
+    async def send_entrances(self, socket: WebSocketServerProtocol, diff: bool=True) -> dict[str, str]:
         if not self.entrance_mapping:
             return
 
@@ -259,7 +259,7 @@ class GpsTracker:
 
         return new_to_server
 
-    def receive_found_entrances(self, found_entrances: typing.Dict[str, str]):
+    def receive_found_entrances(self, found_entrances: dict[str, str]):
         if not found_entrances:
             return
 

@@ -64,7 +64,7 @@ class TotalRep(Range):
         else:
             self.value = self.value - rem
 
-    def get_rep_item_counts(self, random_source: Random, location_count: int) -> typing.List[int]:
+    def get_rep_item_counts(self, random_source: Random, location_count: int) -> list[int]:
         def increment_item(item: int) -> int:
             if item >= 32:
                 item = 48

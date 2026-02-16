@@ -39,18 +39,18 @@ def create_regions(world: "CivVIWorld"):
     menu = Region("Menu", world.player, world.multiworld)
     world.multiworld.regions.append(menu)
 
-    optional_location_inclusions: Dict[str, Union[bool, int]] = {
+    optional_location_inclusions: dict[str, bool | int] = {
         "ERA": world.options.progression_style
         == world.options.progression_style.option_eras_and_districts,
         "GOODY": world.options.shuffle_goody_hut_rewards.value,
         "BOOST": world.options.boostsanity.value,
     }
 
-    regions: List[Region] = []
+    regions: list[Region] = []
     previous_era: EraType = EraType.ERA_ANCIENT
     for era in EraType:
         era_region = Region(era.value, world.player, world.multiworld)
-        era_locations: Dict[str, Optional[int]] = {}
+        era_locations: dict[str, int | None] = {}
 
         for key, location in world.location_by_era[era.value].items():
             category = key.split("_")[0]
@@ -111,7 +111,7 @@ def create_regions(world: "CivVIWorld"):
 
 
 def exclude_necessary_locations(world: "CivVIWorld"):
-    forced_excluded_location_names: Set[str] = set()
+    forced_excluded_location_names: set[str] = set()
 
     if world.options.shuffle_goody_hut_rewards:
         forced_excluded_location_names.update(GOODY_HUT_LOCATION_NAMES)

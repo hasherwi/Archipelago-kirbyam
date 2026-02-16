@@ -22,7 +22,7 @@ class PlandoTest(LADXTestBase):
         }],
     }
 
-    def world_setup(self, seed: Optional[int] = None) -> None:
+    def world_setup(self, seed: int | None = None) -> None:
         self.multiworld = setup_solo_multiworld(
             LinksAwakeningWorld,
             ("generate_early", "create_regions", "create_items", "set_rules", "generate_basic")

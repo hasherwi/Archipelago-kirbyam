@@ -1,5 +1,5 @@
 from random import Random
-from typing import Callable
+from collections.abc import Callable
 
 from BaseClasses import Location, LocationProgressType, Region
 

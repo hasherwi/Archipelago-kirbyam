@@ -76,7 +76,7 @@ class SMWWorld(World):
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = all_locations
 
-    active_level_dict: typing.Dict[int,int]
+    active_level_dict: dict[int,int]
     web = SMWWeb()
 
     def __init__(self, multiworld: MultiWorld, player: int):
@@ -111,7 +111,7 @@ class SMWWorld(World):
         create_regions(self, location_table)
 
         # Not generate basic
-        itempool: typing.List[SMWItem] = []
+        itempool: list[SMWItem] = []
 
         self.active_level_dict = dict(zip(generate_level_list(self), full_level_list))
         self.topology_present = self.options.level_shuffle
@@ -254,7 +254,7 @@ class SMWWorld(World):
             new_name = base64.b64encode(bytes(self.rom_name)).decode()
             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
 
-    def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]):
+    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]):
         if self.topology_present:
             world_names = [
                 LocationName.yoshis_island_region,

@@ -1,4 +1,5 @@
-from typing import Callable, Dict, List, Optional, Set
+from typing import Dict, List, Optional, Set
+from collections.abc import Callable
 
 from BaseClasses import CollectionState, Entrance, Location, MultiWorld, Region
 
@@ -11,7 +12,7 @@ from .PreCalculatedWeights import PreCalculatedWeights
 def create_regions_and_locations(world: MultiWorld, player: int, options: TimespinnerOptions,
                                  precalculated_weights: PreCalculatedWeights):
 
-    locations_per_region: Dict[str, List[LocationData]] = split_location_datas_per_region(
+    locations_per_region: dict[str, list[LocationData]] = split_location_datas_per_region(
         get_location_datas(player, options, precalculated_weights))
 
     regions = [
@@ -204,8 +205,8 @@ def create_regions_and_locations(world: MultiWorld, player: int, options: Timesp
         connect(world, player, "Ifrit\'s Lair", "Library top")
 
 
-def throwIfAnyLocationIsNotAssignedToARegion(regions: List[Region], regionNames: Set[str]):
-    existingRegions: Set[str] = set()
+def throwIfAnyLocationIsNotAssignedToARegion(regions: list[Region], regionNames: set[str]):
+    existingRegions: set[str] = set()
 
     for region in regions:
         existingRegions.add(region.name)
@@ -225,7 +226,7 @@ def create_location(player: int, location_data: LocationData, region: Region) ->
     return location
 
 
-def create_region(world: MultiWorld, player: int, locations_per_region: Dict[str, List[LocationData]], name: str) -> Region:
+def create_region(world: MultiWorld, player: int, locations_per_region: dict[str, list[LocationData]], name: str) -> Region:
     region = Region(name, player, world)
 
     if name in locations_per_region:
@@ -259,7 +260,7 @@ def connectStartingRegion(world: MultiWorld, player: int, options: TimespinnerOp
 
 
 def connect(world: MultiWorld, player: int, source: str, target: str,
-            rule: Optional[Callable[[CollectionState], bool]] = None,
+            rule: Callable[[CollectionState], bool] | None = None,
             indirect: str = ""):
 
     sourceRegion = world.get_region(source, player)
@@ -274,8 +275,8 @@ def connect(world: MultiWorld, player: int, source: str, target: str,
             world.indirect_connections[indirectRegion] = {entrance}
 
 
-def split_location_datas_per_region(locations: List[LocationData]) -> Dict[str, List[LocationData]]:
-    per_region: Dict[str, List[LocationData]]  = {}
+def split_location_datas_per_region(locations: list[LocationData]) -> dict[str, list[LocationData]]:
+    per_region: dict[str, list[LocationData]]  = {}
 
     for location in locations:
         per_region.setdefault(location.region, []).append(location)

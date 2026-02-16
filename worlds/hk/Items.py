@@ -19,8 +19,8 @@ for i, (item_name, item_type) in enumerate(items.items(), start=0x1000000):
 for item_name in godhome_event_names:
     item_table[item_name] = HKItemData(advancement=True, id=None, type=None)
 
-lookup_id_to_name: Dict[int, str] = {data.id: item_name for item_name, data in item_table.items()}
-lookup_type_to_names: Dict[str, Set[str]] = {}
+lookup_id_to_name: dict[int, str] = {data.id: item_name for item_name, data in item_table.items()}
+lookup_type_to_names: dict[str, set[str]] = {}
 for item, item_data in item_table.items():
     lookup_type_to_names.setdefault(item_data.type, set()).add(item)
 

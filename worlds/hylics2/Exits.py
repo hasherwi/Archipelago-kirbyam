@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-region_exit_table: Dict[int, List[str]] = {
+region_exit_table: dict[int, list[str]] = {
     0: ["New Game"],
 
     1: ["To Waynehouse",
@@ -71,7 +71,7 @@ region_exit_table: Dict[int, List[str]] = {
 }
 
 
-exit_lookup_table: Dict[str, int] = {
+exit_lookup_table: dict[str, int] = {
     "New Game": 2,
     "To Waynehouse": 2,
     "To Afterlife": 1,

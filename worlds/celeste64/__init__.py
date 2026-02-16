@@ -56,8 +56,8 @@ class Celeste64World(World):
 
     # Instance Data
     strawberries_required: int
-    active_logic_mapping: Dict[str, List[List[str]]]
-    active_region_logic_mapping: Dict[Tuple[str], List[List[str]]]
+    active_logic_mapping: dict[str, list[list[str]]]
+    active_region_logic_mapping: dict[tuple[str], list[list[str]]]
 
     madeline_one_dash_hair_color: int
     madeline_two_dash_hair_color: int
@@ -81,7 +81,7 @@ class Celeste64World(World):
             return Celeste64Item(name, item_data_table[name].type, item_data_table[name].code, self.player)
 
     def create_items(self) -> None:
-        item_pool: List[Celeste64Item] = []
+        item_pool: list[Celeste64Item] = []
 
         location_count: int = 30
 
@@ -102,7 +102,7 @@ class Celeste64World(World):
 
         if self.options.move_shuffle:
             if self.options.logic_difficulty == "standard":
-                possible_unwalls: List[str] = [name for name in move_item_data_table.keys()
+                possible_unwalls: list[str] = [name for name in move_item_data_table.keys()
                                                 if name != ItemName.skid_jump]
 
                 if self.options.checkpointsanity:

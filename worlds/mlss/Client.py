@@ -19,14 +19,14 @@ class MLSSClient(BizHawkClient):
     game = "Mario & Luigi Superstar Saga"
     system = "GBA"
     patch_suffix = ".apmlss"
-    local_checked_locations: Set[int]
+    local_checked_locations: set[int]
     goal_flag: int
-    rom_slot_name: Optional[str]
-    eUsed: List[int]
+    rom_slot_name: str | None
+    eUsed: list[int]
     room: int
-    local_events: List[int]
-    player_name: Optional[str]
-    checked_flags: Dict[int, list] = {}
+    local_events: list[int]
+    player_name: str | None
+    checked_flags: dict[int, list] = {}
 
     def __init__(self) -> None:
         super().__init__()

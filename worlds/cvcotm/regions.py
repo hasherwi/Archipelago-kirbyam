@@ -4,14 +4,14 @@ from .data import lname
 
 
 class RegionInfo(TypedDict, total=False):
-    locations: List[str]
-    entrances: Dict[str, str]
+    locations: list[str]
+    entrances: dict[str, str]
 
 
 # # #    KEY    # # #
 # "locations" = A list of the Locations to add to that Region when adding said Region.
 # "entrances" = A dict of the connecting Regions to the Entrances' names to add to that Region when adding said Region.
-cvcotm_region_info: Dict[str, RegionInfo] = {
+cvcotm_region_info: dict[str, RegionInfo] = {
     "Catacomb": {"locations": [lname.sr3,
                                lname.cc1,
                                lname.cc3,
@@ -182,9 +182,9 @@ cvcotm_region_info: Dict[str, RegionInfo] = {
 }
 
 
-def get_region_info(region: str, info: str) -> Optional[Union[List[str], Dict[str, str]]]:
+def get_region_info(region: str, info: str) -> list[str] | dict[str, str] | None:
     return cvcotm_region_info[region].get(info, None)
 
 
-def get_all_region_names() -> List[str]:
+def get_all_region_names() -> list[str]:
     return [reg_name for reg_name in cvcotm_region_info]

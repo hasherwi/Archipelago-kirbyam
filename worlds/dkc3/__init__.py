@@ -65,7 +65,7 @@ class DKC3World(World):
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = all_locations
 
-    active_level_list: typing.List[str]
+    active_level_list: list[str]
     web = DKC3Web()
 
     def __init__(self, world: MultiWorld, player: int):
@@ -99,7 +99,7 @@ class DKC3World(World):
 
         # Not generate basic
         self.topology_present = self.options.level_shuffle.value
-        itempool: typing.List[DKC3Item] = []
+        itempool: list[DKC3Item] = []
 
         # Levels
         total_required_locations = 159
@@ -187,7 +187,7 @@ class DKC3World(World):
             new_name = base64.b64encode(bytes(self.rom_name)).decode()
             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
 
-    def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]):
+    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]):
         if self.topology_present:
             world_names = [
             LocationName.lake_orangatanga_region,

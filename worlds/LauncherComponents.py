@@ -3,7 +3,8 @@ import logging
 import pathlib
 import weakref
 from enum import Enum, auto
-from typing import Callable, Iterable, List, Optional, Tuple
+from typing import List, Optional, Tuple
+from collections.abc import Callable, Iterable
 
 from Utils import is_frozen, is_kivy_running, local_path, open_file, open_filename, user_path
 
@@ -34,33 +35,33 @@ class Component:
     Enum "Type" classification of component intent, for filtering in the Launcher GUI
     If not set in the constructor, it will be inferred by display_name
     """
-    script_name: Optional[str]
+    script_name: str | None
     """Recommended to use func instead; Name of file to run when the component is called"""
-    frozen_name: Optional[str]
+    frozen_name: str | None
     """Recommended to use func instead; Name of the frozen executable file for this component"""
     icon: str  # just the name, no suffix
     """Lookup ID for the icon path in LauncherComponents.icon_paths"""
     cli: bool
     """Bool to control if the component gets launched in an appropriate Terminal for the OS"""
-    func: Optional[Callable]
+    func: Callable | None
     """
     Function that gets called when the component gets launched
     Any arg besides the component name arg is passed into the func as well, so handling *args is suggested
     """
-    file_identifier: Optional[Callable[[str], bool]]
+    file_identifier: Callable[[str], bool] | None
     """
     Function that is run against patch file arg to identify which component is appropriate to launch
     If the function is an Instance of SuffixIdentifier the suffixes will also be valid for the Open Patch component
     """
-    game_name: Optional[str]
+    game_name: str | None
     """Game name to identify component when handling launch links from WebHost"""
-    supports_uri: Optional[bool]
+    supports_uri: bool | None
     """Bool to identify if a component supports being launched by launch links from WebHost"""
 
-    def __init__(self, display_name: str, script_name: Optional[str] = None, frozen_name: Optional[str] = None,
-                 cli: bool = False, icon: str = "icon", component_type: Optional[Type] = None,
-                 func: Optional[Callable] = None, file_identifier: Optional[Callable[[str], bool]] = None,
-                 game_name: Optional[str] = None, supports_uri: Optional[bool] = False, description: str = "") -> None:
+    def __init__(self, display_name: str, script_name: str | None = None, frozen_name: str | None = None,
+                 cli: bool = False, icon: str = "icon", component_type: Type | None = None,
+                 func: Callable | None = None, file_identifier: Callable[[str], bool] | None = None,
+                 game_name: str | None = None, supports_uri: bool | None = False, description: str = "") -> None:
         self.display_name = display_name
         self.description = description
         self.script_name = script_name
@@ -90,14 +91,14 @@ class Component:
 processes = weakref.WeakSet()
 
 
-def launch_subprocess(func: Callable, name: str | None = None, args: Tuple[str, ...] = ()) -> None:
+def launch_subprocess(func: Callable, name: str | None = None, args: tuple[str, ...] = ()) -> None:
     import multiprocessing
     process = multiprocessing.Process(target=func, name=name, args=args)
     process.start()
     processes.add(process)
 
 
-def launch(func: Callable, name: str | None = None, args: Tuple[str, ...] = ()) -> None:
+def launch(func: Callable, name: str | None = None, args: tuple[str, ...] = ()) -> None:
     from Utils import is_kivy_running
     if is_kivy_running():
         launch_subprocess(func, name, args)
@@ -124,7 +125,7 @@ def launch_textclient(*args):
     launch(CommonClient.run_as_textclient, name="TextClient", args=args)
 
 
-def _install_apworld(apworld_src: str = "") -> Optional[Tuple[pathlib.Path, pathlib.Path]]:
+def _install_apworld(apworld_src: str = "") -> tuple[pathlib.Path, pathlib.Path] | None:
     if not apworld_src:
         apworld_src = open_filename("Select APWorld file to install", (("APWorld", (".apworld",)),))
         if not apworld_src:
@@ -216,7 +217,7 @@ def export_datapackage() -> None:
     open_file(path)
 
 
-components: List[Component] = [
+components: list[Component] = [
     # Launcher
     Component("Launcher", "Launcher", component_type=Type.HIDDEN),
     # Core

@@ -21,14 +21,14 @@ def to_location_name(npc_name: str, heart: int) -> str:
 pet_heart_item_name = to_item_name(NPC.pet)
 
 
-def extract_npc_from_item_name(item_name: str) -> Optional[str]:
+def extract_npc_from_item_name(item_name: str) -> str | None:
     if not item_name.endswith(suffix):
         return None
 
     return item_name[:-len(suffix)]
 
 
-def extract_npc_from_location_name(location_name: str) -> Tuple[Optional[str], int]:
+def extract_npc_from_location_name(location_name: str) -> tuple[str | None, int]:
     if not location_name.endswith(suffix):
         return None, 0
 
@@ -38,7 +38,7 @@ def extract_npc_from_location_name(location_name: str) -> Tuple[Optional[str], i
 
 
 @lru_cache(maxsize=32)  # Should not go pass 32 values if every friendsanity options are in the multi world
-def get_heart_steps(max_heart: int, heart_size: int) -> Tuple[int, ...]:
+def get_heart_steps(max_heart: int, heart_size: int) -> tuple[int, ...]:
     return tuple(range(heart_size, max_heart + 1, heart_size)) + ((max_heart,) if max_heart % heart_size else ())
 
 
@@ -55,7 +55,7 @@ class FriendsanityFeature(ABC):
     extract_npc_from_location_name = staticmethod(extract_npc_from_location_name)
 
     @abstractmethod
-    def get_randomized_hearts(self, villager: Villager) -> Tuple[int, ...]:
+    def get_randomized_hearts(self, villager: Villager) -> tuple[int, ...]:
         ...
 
     @property
@@ -63,7 +63,7 @@ class FriendsanityFeature(ABC):
         return bool(self.get_pet_randomized_hearts())
 
     @abstractmethod
-    def get_pet_randomized_hearts(self) -> Tuple[int, ...]:
+    def get_pet_randomized_hearts(self) -> tuple[int, ...]:
         ...
 
 
@@ -73,10 +73,10 @@ class FriendsanityNone(FriendsanityFeature):
     def __init__(self):
         super().__init__(1)
 
-    def get_randomized_hearts(self, villager: Villager) -> Tuple[int, ...]:
+    def get_randomized_hearts(self, villager: Villager) -> tuple[int, ...]:
         return ()
 
-    def get_pet_randomized_hearts(self) -> Tuple[int, ...]:
+    def get_pet_randomized_hearts(self) -> tuple[int, ...]:
         return ()
 
 
@@ -84,13 +84,13 @@ class FriendsanityNone(FriendsanityFeature):
 class FriendsanityBachelors(FriendsanityFeature):
     is_enabled = True
 
-    def get_randomized_hearts(self, villager: Villager) -> Tuple[int, ...]:
+    def get_randomized_hearts(self, villager: Villager) -> tuple[int, ...]:
         if not villager.bachelor:
             return ()
 
         return get_heart_steps(8, self.heart_size)
 
-    def get_pet_randomized_hearts(self) -> Tuple[int, ...]:
+    def get_pet_randomized_hearts(self) -> tuple[int, ...]:
         return ()
 
 
@@ -98,7 +98,7 @@ class FriendsanityBachelors(FriendsanityFeature):
 class FriendsanityStartingNpc(FriendsanityFeature):
     is_enabled = True
 
-    def get_randomized_hearts(self, villager: Villager) -> Tuple[int, ...]:
+    def get_randomized_hearts(self, villager: Villager) -> tuple[int, ...]:
         if not villager.available:
             return ()
 
@@ -107,7 +107,7 @@ class FriendsanityStartingNpc(FriendsanityFeature):
 
         return get_heart_steps(10, self.heart_size)
 
-    def get_pet_randomized_hearts(self) -> Tuple[int, ...]:
+    def get_pet_randomized_hearts(self) -> tuple[int, ...]:
         return get_heart_steps(5, self.heart_size)
 
 
@@ -115,13 +115,13 @@ class FriendsanityStartingNpc(FriendsanityFeature):
 class FriendsanityAll(FriendsanityFeature):
     is_enabled = True
 
-    def get_randomized_hearts(self, villager: Villager) -> Tuple[int, ...]:
+    def get_randomized_hearts(self, villager: Villager) -> tuple[int, ...]:
         if villager.bachelor:
             return get_heart_steps(8, self.heart_size)
 
         return get_heart_steps(10, self.heart_size)
 
-    def get_pet_randomized_hearts(self) -> Tuple[int, ...]:
+    def get_pet_randomized_hearts(self) -> tuple[int, ...]:
         return get_heart_steps(5, self.heart_size)
 
 
@@ -129,11 +129,11 @@ class FriendsanityAll(FriendsanityFeature):
 class FriendsanityAllWithMarriage(FriendsanityFeature):
     is_enabled = True
 
-    def get_randomized_hearts(self, villager: Villager) -> Tuple[int, ...]:
+    def get_randomized_hearts(self, villager: Villager) -> tuple[int, ...]:
         if villager.bachelor:
             return get_heart_steps(14, self.heart_size)
 
         return get_heart_steps(10, self.heart_size)
 
-    def get_pet_randomized_hearts(self) -> Tuple[int, ...]:
+    def get_pet_randomized_hearts(self) -> tuple[int, ...]:
         return get_heart_steps(5, self.heart_size)

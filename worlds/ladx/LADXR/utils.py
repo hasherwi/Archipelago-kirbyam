@@ -144,7 +144,7 @@ def setReplacementName(key: str, value: str) -> None:
     _NAMES[key] = value
 
 
-def formatText(instr: str, *, center: bool = False, ask: Optional[str] = None) -> bytes:
+def formatText(instr: str, *, center: bool = False, ask: str | None = None) -> bytes:
     instr = instr.format(**_NAMES)
     s = instr.encode("ascii", errors="replace")
     s = s.replace(b"'", b"^")

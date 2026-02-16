@@ -236,7 +236,7 @@ def create_location(player: int, location_data: LocationData, region: Region) ->
     return location
 
 
-def create_region(world: "EarthBoundWorld", player: int, locations_per_region: Dict[str, List[LocationData]], name: str) -> Region:
+def create_region(world: "EarthBoundWorld", player: int, locations_per_region: dict[str, list[LocationData]], name: str) -> Region:
     region = Region(name, player, world.multiworld)
 
     if name in locations_per_region:
@@ -247,8 +247,8 @@ def create_region(world: "EarthBoundWorld", player: int, locations_per_region: D
     return region
 
 
-def get_locations_per_region(locations: List[LocationData]) -> Dict[str, List[LocationData]]:
-    per_region: Dict[str, List[LocationData]] = {}
+def get_locations_per_region(locations: list[LocationData]) -> dict[str, list[LocationData]]:
+    per_region: dict[str, list[LocationData]] = {}
 
     for location in locations:
         per_region.setdefault(location.region, []).append(location)

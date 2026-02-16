@@ -2,7 +2,8 @@ import base64
 import itertools
 import os
 from enum import IntFlag
-from typing import Any, ClassVar, Dict, Iterator, List, Set, Tuple, Type
+from typing import Any, ClassVar, Dict, List, Set, Tuple, Type
+from collections.abc import Iterator
 
 import settings
 from BaseClasses import Item, ItemClassification, Location, MultiWorld, Region, Tutorial
@@ -63,18 +64,18 @@ class L2ACWorld(World):
     game: ClassVar[str] = "Lufia II Ancient Cave"
     web: ClassVar[WebWorld] = L2ACWeb()
 
-    options_dataclass: ClassVar[Type[PerGameCommonOptions]] = L2ACOptions
+    options_dataclass: ClassVar[type[PerGameCommonOptions]] = L2ACOptions
     options: L2ACOptions
     settings: ClassVar[L2ACSettings]
-    item_name_to_id: ClassVar[Dict[str, int]] = l2ac_item_name_to_id
-    location_name_to_id: ClassVar[Dict[str, int]] = l2ac_location_name_to_id
-    item_name_groups: ClassVar[Dict[str, Set[str]]] = {
+    item_name_to_id: ClassVar[dict[str, int]] = l2ac_item_name_to_id
+    location_name_to_id: ClassVar[dict[str, int]] = l2ac_location_name_to_id
+    item_name_groups: ClassVar[dict[str, set[str]]] = {
         "Blue chest items": {name for name, data in l2ac_item_table.items() if data.type is ItemType.BLUE_CHEST},
         "Capsule monsters": {name for name, data in l2ac_item_table.items() if data.type is ItemType.CAPSULE_MONSTER},
         "Iris treasures": {name for name, data in l2ac_item_table.items() if data.type is ItemType.IRIS_TREASURE},
         "Party members": {name for name, data in l2ac_item_table.items() if data.type is ItemType.PARTY_MEMBER},
     }
-    required_client_version: Tuple[int, int, int] = (0, 4, 4)
+    required_client_version: tuple[int, int, int] = (0, 4, 4)
 
     # L2ACWorld specific properties
     rom_name: bytearray
@@ -148,7 +149,7 @@ class L2ACWorld(World):
         ancient_dungeon.connect(final_floor, "FinalFloorEntrance")
 
     def create_items(self) -> None:
-        item_pool: List[str] = self.random.choices(sorted(self.item_name_groups["Blue chest items"]),
+        item_pool: list[str] = self.random.choices(sorted(self.item_name_groups["Blue chest items"]),
                                                    k=self.o.blue_chest_count - self.o.custom_item_pool.count)
         item_pool += [item_name for item_name, count in self.o.custom_item_pool.items() for _ in range(count)]
 
@@ -163,7 +164,7 @@ class L2ACWorld(World):
 
     def set_rules(self) -> None:
         max_sphere: int = (self.o.blue_chest_count - 1) // CHESTS_PER_SPHERE + 1
-        rule_for_sphere: Dict[int, CollectionRule] = \
+        rule_for_sphere: dict[int, CollectionRule] = \
             {sphere: lambda state, s=sphere: state.has("Progressive chest access", self.player, s - 1)
              for sphere in range(2, max_sphere + 1)}
 
@@ -263,7 +264,7 @@ class L2ACWorld(World):
             if os.path.exists(rom_path):
                 os.unlink(rom_path)
 
-    def modify_multidata(self, multidata: Dict[str, Any]) -> None:
+    def modify_multidata(self, multidata: dict[str, Any]) -> None:
         b64_name: str = base64.b64encode(bytes(self.rom_name)).decode()
         multidata["connect_names"][b64_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
 
@@ -285,9 +286,9 @@ class L2ACWorld(World):
         if self.o.capsule_cravings_jp_style:
             number_of_items: int = 467
             items_offset: int = 0x0B4F69
-            value_thresholds: List[int] = \
+            value_thresholds: list[int] = \
                 [200, 500, 600, 800, 1000, 2000, 3000, 4000, 5000, 6000, 8000, 12000, 20000, 25000, 29000, 32000, 33000]
-            tier_list: List[List[int]] = [list() for _ in value_thresholds[:-1]]
+            tier_list: list[list[int]] = [list() for _ in value_thresholds[:-1]]
 
             for item_id in range(number_of_items):
                 pointer: int = int.from_bytes(rom[items_offset + 2 * item_id:items_offset + 2 * item_id + 2], "little")
@@ -297,7 +298,7 @@ class L2ACWorld(World):
                         if value_thresholds[t] <= value < value_thresholds[t + 1]:
                             tier_list[t].append(item_id)
                             break
-            tier_sizes: List[int] = [len(tier) for tier in tier_list]
+            tier_sizes: list[int] = [len(tier) for tier in tier_list]
 
             cravings_table: bytes = b"".join(i.to_bytes(2, "little") for i in itertools.chain(
                 *zip(itertools.accumulate((2 * tier_size for tier_size in tier_sizes), initial=0x40), tier_sizes),
@@ -307,7 +308,7 @@ class L2ACWorld(World):
         else:
             return rom[0x0AFF16:0x0AFF16 + 470]
 
-    def get_enemy_floors_sprites_and_movement_patterns(self) -> Tuple[bytes, bytes, bytes, bytes]:
+    def get_enemy_floors_sprites_and_movement_patterns(self) -> tuple[bytes, bytes, bytes, bytes]:
         rom: bytes = get_base_rom_bytes()
 
         if self.o.enemy_floor_numbers == EnemyFloorNumbers.default \
@@ -319,15 +320,15 @@ class L2ACWorld(World):
         formations: bytes = rom[0x0A595C:0x0A595C + 200]
         sprites: bytes = rom[0x0A5DF6:0x0A5DF6 + 192]
         indices: bytes = rom[0x27F6B5:0x27F6B5 + 113]
-        pointers: List[bytes] = [rom[0x08A1D4 + 2 * index:0x08A1D4 + 2 * index + 2] for index in range(64)]
+        pointers: list[bytes] = [rom[0x08A1D4 + 2 * index:0x08A1D4 + 2 * index + 2] for index in range(64)]
 
-        used_formations: List[int] = list(formations)
-        formation_set: Set[int] = set(used_formations)
-        used_sprites: List[int] = [sprite for formation, sprite in enumerate(sprites) if formation in formation_set]
-        sprite_set: Set[int] = set(used_sprites)
-        used_indices: List[int] = [index for sprite, index in enumerate(indices, 128) if sprite in sprite_set]
-        index_set: Set[int] = set(used_indices)
-        used_pointers: List[bytes] = [pointer for index, pointer in enumerate(pointers) if index in index_set]
+        used_formations: list[int] = list(formations)
+        formation_set: set[int] = set(used_formations)
+        used_sprites: list[int] = [sprite for formation, sprite in enumerate(sprites) if formation in formation_set]
+        sprite_set: set[int] = set(used_sprites)
+        used_indices: list[int] = [index for sprite, index in enumerate(indices, 128) if sprite in sprite_set]
+        index_set: set[int] = set(used_indices)
+        used_pointers: list[bytes] = [pointer for index, pointer in enumerate(pointers) if index in index_set]
 
         d: int = 2 * 6
         if self.o.enemy_floor_numbers == EnemyFloorNumbers.option_shuffle:
@@ -382,7 +383,7 @@ class L2ACWorld(World):
         return enemy_stats
 
     def get_goal_text_bytes(self) -> bytes:
-        goal_text: List[str] = []
+        goal_text: list[str] = []
         iris: str = f"{self.o.iris_treasures_required} Iris treasure{'s' if self.o.iris_treasures_required > 1 else ''}"
         if self.o.goal == Goal.option_boss:
             goal_text = ["You have to defeat", f"the boss on B{self.o.final_floor}."]
@@ -409,13 +410,13 @@ class L2ACWorld(World):
         number_of_items: int = 467
         spells_offset: int = 0x0AFA5B
         items_offset: int = 0x0B4F69
-        non_restorative_list: List[List[int]] = [list() for _ in range(99)]
-        restorative_list: List[List[int]] = [list() for _ in range(99)]
-        blue_list: List[List[int]] = [list() for _ in range(99)]
-        spell_list: List[List[int]] = [list() for _ in range(99)]
-        gear_list: List[List[int]] = [list() for _ in range(99)]
-        weapon_list: List[List[int]] = [list() for _ in range(99)]
-        custom_list: List[List[int]] = [list() for _ in range(99)]
+        non_restorative_list: list[list[int]] = [list() for _ in range(99)]
+        restorative_list: list[list[int]] = [list() for _ in range(99)]
+        blue_list: list[list[int]] = [list() for _ in range(99)]
+        spell_list: list[list[int]] = [list() for _ in range(99)]
+        gear_list: list[list[int]] = [list() for _ in range(99)]
+        weapon_list: list[list[int]] = [list() for _ in range(99)]
+        custom_list: list[list[int]] = [list() for _ in range(99)]
 
         for spell_id in range(number_of_spells):
             pointer: int = int.from_bytes(rom[spells_offset + 2 * spell_id:spells_offset + 2 * spell_id + 2], "little")
@@ -424,7 +425,7 @@ class L2ACWorld(World):
                 spell_list[f].append(spell_id)
         for item_id in range(number_of_items):
             pointer = int.from_bytes(rom[items_offset + 2 * item_id:items_offset + 2 * item_id + 2], "little")
-            buckets: List[List[List[int]]] = list()
+            buckets: list[list[list[int]]] = list()
             if item_id in non_restorative_ids:
                 buckets.append(non_restorative_list)
             if item_id in restorative_ids:
@@ -448,17 +449,17 @@ class L2ACWorld(World):
             for f in range(99):
                 del gear_list[f][len(gear_list[f]) % 128:]
 
-        def create_shop(floor: int) -> Tuple[int, ...]:
+        def create_shop(floor: int) -> tuple[int, ...]:
             if self.random.randrange(self.o.shop_inventory.total) < self.o.shop_inventory.spell:
                 return create_spell_shop(floor)
             else:
                 return create_item_shop(floor)
 
-        def create_spell_shop(floor: int) -> Tuple[int, ...]:
+        def create_spell_shop(floor: int) -> tuple[int, ...]:
             spells = self.random.sample(spell_list[floor], 3)
             return 0x03, 0x20, 0x00, *spells, 0xFF
 
-        def create_item_shop(floor: int) -> Tuple[int, ...]:
+        def create_item_shop(floor: int) -> tuple[int, ...]:
             population = non_restorative_list[floor] + restorative_list[floor] + blue_list[floor] \
                          + gear_list[floor] + weapon_list[floor] + custom_list[floor]
             weights = itertools.chain(*([weight / len_] * len_ if (len_ := len(list_)) else [] for weight, list_ in

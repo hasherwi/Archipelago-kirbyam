@@ -48,8 +48,8 @@ class CivVILocation(Location):
         self,
         player: int,
         name: str = "",
-        address: Optional[int] = None,
-        parent: Optional[Region] = None,
+        address: int | None = None,
+        parent: Region | None = None,
     ):
         super().__init__(player, name, address, parent)
         category = name.split("_")[0]
@@ -59,7 +59,7 @@ class CivVILocation(Location):
             self.location_type = CivVICheckType(category)
 
 
-def generate_flat_location_table() -> Dict[str, CivVILocationData]:
+def generate_flat_location_table() -> dict[str, CivVILocationData]:
     """
     Generates a flat location table in the following format:
     {
@@ -70,14 +70,14 @@ def generate_flat_location_table() -> Dict[str, CivVILocationData]:
     }
     """
     era_locations = generate_era_location_table()
-    flat_locations: Dict[str, CivVILocationData] = {}
+    flat_locations: dict[str, CivVILocationData] = {}
     for locations in era_locations.values():
         for location_id, location_data in locations.items():
             flat_locations[location_id] = location_data
     return flat_locations
 
 
-def generate_era_location_table() -> Dict[str, Dict[str, CivVILocationData]]:
+def generate_era_location_table() -> dict[str, dict[str, CivVILocationData]]:
     """
     Uses the data from existing_tech.json to generate a location table in the following format:
     {
@@ -91,7 +91,7 @@ def generate_era_location_table() -> Dict[str, Dict[str, CivVILocationData]]:
     """
 
     new_techs = get_new_techs_data()
-    era_locations: Dict[str, Dict[str, CivVILocationData]] = defaultdict(dict)
+    era_locations: dict[str, dict[str, CivVILocationData]] = defaultdict(dict)
     id_base = 0
     # Techs
     for data in new_techs:

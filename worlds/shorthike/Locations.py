@@ -13,7 +13,7 @@ class LocationInfo(TypedDict):
 
 base_id = 83000
 
-location_table: List[LocationInfo] = [
+location_table: list[LocationInfo] = [
     # Original Seashell Locations
     {"name": "Start Beach Seashell",
         "id": base_id + 1,

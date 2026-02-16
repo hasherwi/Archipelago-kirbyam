@@ -37,10 +37,10 @@ class V6World(World):
     item_name_to_id = item_table
     location_name_to_id = location_table
 
-    area_connections: typing.Dict[int, int]
-    area_cost_map: typing.Dict[int,int]
+    area_connections: dict[int, int]
+    area_cost_map: dict[int,int]
 
-    music_map: typing.Dict[int,int]
+    music_map: dict[int,int]
 
     options_dataclass = V6Options
 

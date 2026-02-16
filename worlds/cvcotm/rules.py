@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 class CVCotMRules:
     player: int
     world: "CVCotMWorld"
-    rules: Dict[str, CollectionRule]
+    rules: dict[str, CollectionRule]
     required_last_keys: int
     iron_maiden_behavior: int
     nerf_roc_wing: int

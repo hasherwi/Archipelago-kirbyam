@@ -7,7 +7,7 @@ from .Items import Events_Table
 from .Names import LocationName, RegionName
 from .Subclasses import KH2Location
 
-KH2REGIONS: typing.Dict[str, typing.List[str]] = {
+KH2REGIONS: dict[str, list[str]] = {
     "Menu":                        [],
     RegionName.GoA:                [
         LocationName.GardenofAssemblageMap,
@@ -1032,7 +1032,7 @@ def connect_regions(self):
     multiworld = self.multiworld
     player = self.player
     # connecting every first visit to the GoA
-    KH2RegionConnections: typing.Dict[str, typing.Tuple[str]] = {
+    KH2RegionConnections: dict[str, tuple[str]] = {
         "Menu":                        (RegionName.GoA,),
         RegionName.GoA:                (RegionName.Sp, RegionName.Pr, RegionName.Tt, RegionName.Oc, RegionName.Ht,
                                         RegionName.LoD,

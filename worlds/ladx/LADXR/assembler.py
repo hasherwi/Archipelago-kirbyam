@@ -1,7 +1,8 @@
 import binascii
 import re
 import unicodedata
-from typing import Dict, ItemsView, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
+from collections.abc import ItemsView
 
 from . import utils
 
@@ -10,30 +11,30 @@ REGS16A = {"BC": 0, "DE": 1, "HL": 2, "SP": 3}
 REGS16B = {"BC": 0, "DE": 1, "HL": 2, "AF": 3}
 FLAGS = {"NZ": 0x00, "Z": 0x08, "NC": 0x10, "C": 0x18}
 
-CONST_MAP: Dict[str, int] = {}
+CONST_MAP: dict[str, int] = {}
 
 
 class ExprBase:
-    def asReg8(self) -> Optional[int]:
+    def asReg8(self) -> int | None:
         return None
 
-    def isA(self, kind: str, value: Optional[str] = None) -> bool:
+    def isA(self, kind: str, value: str | None = None) -> bool:
         return False
 
 
 class Token(ExprBase):
-    def __init__(self, kind: str, value: Union[str, int], line_nr: int) -> None:
+    def __init__(self, kind: str, value: str | int, line_nr: int) -> None:
         self.kind = kind
         self.value = value
         self.line_nr = line_nr
 
-    def isA(self, kind: str, value: Optional[str] = None) -> bool:
+    def isA(self, kind: str, value: str | None = None) -> bool:
         return self.kind == kind and (value is None or value == self.value)
 
     def __repr__(self) -> str:
         return "[%s:%s:%d]" % (self.kind, self.value, self.line_nr)
 
-    def asReg8(self) -> Optional[int]:
+    def asReg8(self) -> int | None:
         if self.kind == "ID":
             return REGS8.get(str(self.value), None)
         return None
@@ -43,7 +44,7 @@ class REF(ExprBase):
     def __init__(self, expr: ExprBase) -> None:
         self.expr = expr
 
-    def asReg8(self) -> Optional[int]:
+    def asReg8(self) -> int | None:
         if self.expr.isA("ID", "HL"):
             return REGS8["[HL]"]
         return None
@@ -53,7 +54,7 @@ class REF(ExprBase):
 
 
 class OP(ExprBase):
-    def __init__(self, op: str, left: ExprBase, right: Optional[ExprBase] = None):
+    def __init__(self, op: str, left: ExprBase, right: ExprBase | None = None):
         self.op = op
         self.left = left
         self.right = right
@@ -62,7 +63,7 @@ class OP(ExprBase):
         return "%s %s %s" % (self.left, self.op, self.right)
 
     @staticmethod
-    def make(op: str, left: ExprBase, right: Optional[ExprBase] = None) -> ExprBase:
+    def make(op: str, left: ExprBase, right: ExprBase | None = None) -> ExprBase:
         if left.isA("NUMBER") and right is not None and right.isA("NUMBER"):
             assert isinstance(right, Token) and isinstance(right.value, int)
             assert isinstance(left, Token) and isinstance(left.value, int)
@@ -107,12 +108,12 @@ class Tokenizer:
     ]))
 
     def __init__(self, code: str) -> None:
-        self.__tokens: List[Token] = []
+        self.__tokens: list[Token] = []
         line_num = 1
         for mo in self.TOKEN_REGEX.finditer(code):
             kind = mo.lastgroup
             assert kind is not None
-            value: Union[str, int] = mo.group()
+            value: str | int = mo.group()
             if kind == "MISMATCH":
                 line = code.split("\n")[line_num - 1]
                 raise RuntimeError(f"Syntax error on line: {line_num}: {kind}:`{line}`")
@@ -139,7 +140,7 @@ class Tokenizer:
     def pop(self) -> Token:
         return self.__tokens.pop(0)
 
-    def expect(self, kind: str, value: Optional[str] = None) -> None:
+    def expect(self, kind: str, value: str | None = None) -> None:
         pop = self.pop()
         if not pop.isA(kind, value):
             if value is not None:
@@ -172,13 +173,13 @@ class Assembler:
     LINK_ABS8 = 1
     LINK_ABS16 = 2
 
-    def __init__(self, base_address: Optional[int] = None) -> None:
+    def __init__(self, base_address: int | None = None) -> None:
         self.__base_address = base_address or -1
         self.__result = bytearray()
-        self.__label: Dict[str, int] = {}
-        self.__constant: Dict[str, int] = {}
-        self.__link: Dict[int, Tuple[int, ExprBase]] = {}
-        self.__scope: Optional[str] = None
+        self.__label: dict[str, int] = {}
+        self.__constant: dict[str, int] = {}
+        self.__link: dict[int, tuple[int, ExprBase]] = {}
+        self.__scope: str | None = None
 
         self.__tok = Tokenizer("")
 
@@ -736,7 +737,7 @@ class Assembler:
             else:
                 raise RuntimeError
 
-    def resolveExpr(self, expr: Optional[ExprBase]) -> Optional[ExprBase]:
+    def resolveExpr(self, expr: ExprBase | None) -> ExprBase | None:
         if expr is None:
             return None
         elif isinstance(expr, OP):
@@ -764,7 +765,7 @@ def resetConsts() -> None:
     CONST_MAP.clear()
 
 
-def ASM(code: str, base_address: Optional[int] = None, labels_result: Optional[Dict[str, int]] = None) -> bytes:
+def ASM(code: str, base_address: int | None = None, labels_result: dict[str, int] | None = None) -> bytes:
     asm = Assembler(base_address)
     asm.process(code)
     asm.link()

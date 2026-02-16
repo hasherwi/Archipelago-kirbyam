@@ -1,5 +1,6 @@
 import enum
-from typing import TYPE_CHECKING, Callable, List, NamedTuple, Optional, Set, Tuple
+from typing import TYPE_CHECKING, List, NamedTuple, Optional, Set, Tuple
+from collections.abc import Callable
 
 from BaseClasses import Location
 from worlds.AutoWorld import World
@@ -70,7 +71,7 @@ class LocationData(NamedTuple):
     type: LocationType
     rule: Callable[["CollectionState"], bool] = Location.access_rule
     flags: LocationFlag = LocationFlag.NONE
-    hard_rule: Optional[Callable[["CollectionState"], bool]] = None
+    hard_rule: Callable[["CollectionState"], bool] | None = None
 
 
 def make_location_data(
@@ -80,12 +81,12 @@ def make_location_data(
     type: LocationType,
     rule: Callable[["CollectionState"], bool] = Location.access_rule,
     flags: LocationFlag = LocationFlag.NONE,
-    hard_rule: Optional[Callable[["CollectionState"], bool]] = None,
+    hard_rule: Callable[["CollectionState"], bool] | None = None,
 ) -> LocationData:
     return LocationData(region, f"{region}: {name}", code, type, rule, flags, hard_rule)
 
 
-def get_location_types(world: "SC2World", inclusion_type: int) -> Set[LocationType]:
+def get_location_types(world: "SC2World", inclusion_type: int) -> set[LocationType]:
     """
     :param world: The starcraft 2 world object
     :param inclusion_type: Level of inclusion to check for
@@ -120,7 +121,7 @@ def get_location_flags(world: "SC2World", inclusion_type: int) -> LocationFlag:
     return matching_location_flags
 
 
-def get_plando_locations(world: World) -> List[str]:
+def get_plando_locations(world: World) -> list[str]:
     """
     :param multiworld:
     :param player:
@@ -135,7 +136,7 @@ def get_plando_locations(world: World) -> List[str]:
     return plando_locations
 
 
-def get_locations(world: Optional["SC2World"]) -> Tuple[LocationData, ...]:
+def get_locations(world: Optional["SC2World"]) -> tuple[LocationData, ...]:
     # Note: rules which are ended with or True are rules identified as needed later when restricted units is an option
     if world is None:
         logic_level = int(RequiredTactics.default)
@@ -154,7 +155,7 @@ def get_locations(world: Optional["SC2World"]) -> Tuple[LocationData, ...]:
 
         logic = SC2Logic(world)
     player = 1 if world is None else world.player
-    location_table: List[LocationData] = [
+    location_table: list[LocationData] = [
         # WoL
         make_location_data(
             SC2Mission.LIBERATION_DAY.mission_name,
@@ -14156,8 +14157,8 @@ def get_locations(world: Optional["SC2World"]) -> Tuple[LocationData, ...]:
         location_table = [
             location for location in location_table if include_location(location)
         ]
-    beat_events: List[LocationData] = []
-    victory_caches: List[LocationData] = []
+    beat_events: list[LocationData] = []
+    victory_caches: list[LocationData] = []
     VICTORY_CACHE_SIZE = 10
     for location_data in location_table:
         # Generating Beat event and Victory Cache locations

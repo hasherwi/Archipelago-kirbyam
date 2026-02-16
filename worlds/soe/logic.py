@@ -1,6 +1,7 @@
 import typing
 from itertools import chain
-from typing import Callable, Set
+from typing import Set
+from collections.abc import Callable
 
 from . import pyevermizer
 from .options import EnergyCore, OutOfBounds, SequenceBreaks, SoEOptions
@@ -15,7 +16,7 @@ if typing.TYPE_CHECKING:
 rules = pyevermizer.get_logic()
 # Logic.items are all items and extra items excluding non-progression items and duplicates
 # NOTE: we are skipping sniff items here because none of them is supposed to provide progression
-item_names: Set[str] = set()
+item_names: set[str] = set()
 items = [
     item
     for item in filter(

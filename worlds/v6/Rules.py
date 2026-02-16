@@ -11,7 +11,7 @@ def _has_trinket_range(state, player, start, end) -> bool:
     return True
 
 
-def set_rules(multiworld, options, player, area_connections: typing.Dict[int, int], area_cost_map: typing.Dict[int, int]):
+def set_rules(multiworld, options, player, area_connections: dict[int, int], area_cost_map: dict[int, int]):
     areashuffle = list(range(len(v6areas)))
     if options.area_rando:
         multiworld.random.shuffle(areashuffle)

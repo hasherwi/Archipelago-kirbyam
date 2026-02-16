@@ -91,7 +91,7 @@ class EffectData:
         self.fake = fake
 
     @property
-    def positions(self) -> Set[Point2]:
+    def positions(self) -> set[Point2]:
         if self.fake:
             return {Point2.from_proto(self._proto.pos)}
         return {Point2.from_proto(p) for p in self._proto.pos}
@@ -178,7 +178,7 @@ class GameState:
         """
 
     @cached_property
-    def dead_units(self) -> Set[int]:
+    def dead_units(self) -> set[int]:
         """ A set of unit tags that died this frame """
         _dead_units = set(self.observation_raw.event.dead_units)
         if self.previous_observation:
@@ -186,7 +186,7 @@ class GameState:
         return _dead_units
 
     @cached_property
-    def chat(self) -> List[ChatMessage]:
+    def chat(self) -> list[ChatMessage]:
         """List of chat messages sent this frame (by either player)."""
         previous_frame_chat = self.previous_observation.chat if self.previous_observation else []
         return [
@@ -195,7 +195,7 @@ class GameState:
         ]
 
     @cached_property
-    def alerts(self) -> List[int]:
+    def alerts(self) -> list[int]:
         """
         Game alerts, see https://github.com/Blizzard/s2client-proto/blob/01ab351e21c786648e4c6693d4aad023a176d45c/s2clientprotocol/sc2api.proto#L683-L706
         """

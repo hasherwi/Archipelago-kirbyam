@@ -20,10 +20,10 @@ def add_rule_safe(multiworld: MultiWorld, spot_name: str, player: int, rule: Col
         add_rule(location, rule)
 
 
-def set_mission_progress_rules(multiworld: MultiWorld, player: int, mission_map: typing.Dict[int, int], mission_count_map: typing.Dict[int, int]):
+def set_mission_progress_rules(multiworld: MultiWorld, player: int, mission_map: dict[int, int], mission_count_map: dict[int, int]):
     for i in range(31):
         mission_count = mission_count_map[i]
-        mission_order: typing.List[int] = mission_orders[mission_map[i]]
+        mission_order: list[int] = mission_orders[mission_map[i]]
         stage_prefix: str = stage_name_prefixes[i]
 
         for j in range(mission_count):
@@ -4260,14 +4260,14 @@ def set_mission_upgrade_rules_expert(multiworld: MultiWorld, world: World, playe
                  lambda state: state.has(ItemName.eggman_jet_engine, player))
 
 
-def set_boss_gate_rules(multiworld: MultiWorld, player: int, gate_bosses: typing.Dict[int, int]):
+def set_boss_gate_rules(multiworld: MultiWorld, player: int, gate_bosses: dict[int, int]):
     for x in range(len(gate_bosses)):
         if boss_has_requirement(gate_bosses[x + 1]):
             add_rule(multiworld.get_location(boss_gate_set[x], player),
                      lambda state: state.has(ItemName.knuckles_shovel_claws, player))
 
 
-def set_rules(multiworld: MultiWorld, world: World, player: int, gate_bosses: typing.Dict[int, int], boss_rush_map: typing.Dict[int, int], mission_map: typing.Dict[int, int], mission_count_map: typing.Dict[int, int], black_market_costs: typing.Dict[int, int]):
+def set_rules(multiworld: MultiWorld, world: World, player: int, gate_bosses: dict[int, int], boss_rush_map: dict[int, int], mission_map: dict[int, int], mission_count_map: dict[int, int], black_market_costs: dict[int, int]):
     # Mission Progression Rules (Mission 1 begets Mission 2, etc.)
     set_mission_progress_rules(multiworld, player, mission_map, mission_count_map)
 

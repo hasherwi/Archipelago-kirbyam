@@ -18,4 +18,4 @@ item_table = {
     "Map Bombs": ItemData(80002),
 }
 
-lookup_id_to_name: typing.Dict[int, str] = {data.code: item_name for item_name, data in item_table.items()}
+lookup_id_to_name: dict[int, str] = {data.code: item_name for item_name, data in item_table.items()}

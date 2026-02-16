@@ -3,7 +3,8 @@ import base64
 import io
 import pkgutil
 import platform
-from typing import Any, ClassVar, Coroutine, Protocol, cast
+from typing import Any, ClassVar, Protocol, cast
+from collections.abc import Coroutine
 
 import colorama
 from typing_extensions import override

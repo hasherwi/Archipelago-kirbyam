@@ -18,7 +18,7 @@ from .base_logic import BaseLogic, BaseLogicMixin
 possible_kids = ("Cute Baby", "Ugly Baby")
 
 
-def heart_item_name(npc: Union[str, Villager]) -> str:
+def heart_item_name(npc: str | Villager) -> str:
     if isinstance(npc, Villager):
         npc = npc.name
 

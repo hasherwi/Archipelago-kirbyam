@@ -138,9 +138,9 @@ def level_shuffle_factory(
     shuffle_prep_levels: bool,
     shuffle_horde_levels: bool,
     kevin_levels: bool,
-    enabled_dlc: Set[Overcooked2Dlc],
+    enabled_dlc: set[Overcooked2Dlc],
     player_name: str,
-) -> Dict[int, Overcooked2GenericLevel]:  # return <story_level_id, level>
+) -> dict[int, Overcooked2GenericLevel]:  # return <story_level_id, level>
 
     # Create a list of all valid levels for selection
     # (excludes tutorial, throne and sometimes horde/prep levels)
@@ -179,7 +179,7 @@ def level_shuffle_factory(
     # Sort the pool to eliminate risk
     pool.sort(key=lambda x: int(x.dlc)*1000 + x.level_id)
 
-    result: Dict[int, Overcooked2GenericLevel] = dict()
+    result: dict[int, Overcooked2GenericLevel] = dict()
     story = Overcooked2Dlc.STORY
 
     attempts = 0
@@ -217,7 +217,7 @@ def level_shuffle_factory(
 
 
 def meets_minimum_sphere_one_requirements(
-    levels: Dict[int, Overcooked2GenericLevel],
+    levels: dict[int, Overcooked2GenericLevel],
 ) -> bool:
 
     # 1-1, 2-1, and 4-1 are guaranteed to be accessible on

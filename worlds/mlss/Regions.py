@@ -84,7 +84,7 @@ def create_regions(world: "MLSSWorld"):
 
 
 def connect_regions(world: "MLSSWorld"):
-    names: typing.Dict[str, int] = {}
+    names: dict[str, int] = {}
 
     connect(world, names, "Menu", "Main Area")
     if world.options.coins:
@@ -310,12 +310,12 @@ def create_region(world: "MLSSWorld", name, locations):
 
 def connect(
     world: "MLSSWorld",
-    used_names: typing.Dict[str, int],
+    used_names: dict[str, int],
     source: str,
     target: str,
-    rule: typing.Optional[typing.Callable] = None,
-    reach: typing.Optional[bool] = False,
-) -> typing.Optional[Entrance]:
+    rule: typing.Callable | None = None,
+    reach: bool | None = False,
+) -> Entrance | None:
     source_region = world.multiworld.get_region(source, world.player)
     target_region = world.multiworld.get_region(target, world.player)
 

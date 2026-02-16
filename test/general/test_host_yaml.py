@@ -10,7 +10,7 @@ from settings import Group, ServerOptions, Settings
 
 
 class TestIDs(unittest.TestCase):
-    yaml_options: Dict[Any, Any]
+    yaml_options: dict[Any, Any]
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -57,7 +57,7 @@ class TestSettingsDumper(unittest.TestCase):
     def test_indentation(self) -> None:
         """Test that dumping items will add indentation"""
         # NOTE: we don't care how many spaces there are, but it has to be a multiple of level
-        class AList(List[Any]):
+        class AList(list[Any]):
             __doc__ = None  # make sure we get no doc string
 
         class AGroup(Group):

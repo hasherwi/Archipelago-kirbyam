@@ -15,7 +15,7 @@ class EventDict(TypedDict):
     item: str
 
 
-location_table: List[LocationDict] = [
+location_table: list[LocationDict] = [
     {"name": "Hideout: Half pipe CD",
         "stage": Stages.H,
         "game_id": "MusicTrack_CondensedMilk"},
@@ -767,7 +767,7 @@ location_table: List[LocationDict] = [
 ]
 
 
-event_table: List[EventDict] = [
+event_table: list[EventDict] = [
     {"name": "Versum Hill: Complete Chapter 1",
         "stage": Stages.VH4,
         "item": "Chapter Completed"},

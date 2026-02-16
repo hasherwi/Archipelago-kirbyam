@@ -44,7 +44,7 @@ class FaxanaduWorld(World):
     location_name_to_id = {loc.name: loc.id for loc in Locations.locations if loc.id is not None}
 
     def __init__(self, world: MultiWorld, player: int):
-        self.filler_ratios: Dict[str, int] = {
+        self.filler_ratios: dict[str, int] = {
             item.name: item.count
             for item in Items.items
             if item.classification in [ItemClassification.filler, ItemClassification.trap]
@@ -105,7 +105,7 @@ class FaxanaduWorld(World):
     # Returns how many wingboots were prefilled into shops
     def prefill_shop_wingboots(self) -> int:
         # Collect shops
-        shops: Dict[str, List[Locations.LocationDef]] = {}
+        shops: dict[str, list[Locations.LocationDef]] = {}
         for loc in Locations.locations:
             if loc.type == Locations.LocationType.shop:
                 if self.options.keep_shop_red_potions and loc.original_item == Locations.ItemType.red_potion:
@@ -127,7 +127,7 @@ class FaxanaduWorld(World):
         return wingboots_count
 
     def create_items(self) -> None:
-        itempool: List[FaxanaduItem] = []
+        itempool: list[FaxanaduItem] = []
 
         # Prefill red potions in shops if option is set
         red_potion_in_shop_count = self.prefill_shop_red_potions()
@@ -183,7 +183,7 @@ class FaxanaduWorld(World):
     def get_filler_item_name(self) -> str:
         return self.random.choices(list(self.filler_ratios.keys()), weights=list(self.filler_ratios.values()))[0]
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         slot_data = self.options.as_dict("keep_shop_red_potions", "random_musics", "random_sounds", "random_npcs", "random_monsters", "random_rewards")
         slot_data["daxanadu_version"] = DAXANADU_VERSION
         return slot_data

@@ -14,7 +14,7 @@ from .Options import (
                       TimeIsMoney,
 )
 
-dlcq_option_groups: List[OptionGroup] = [
+dlcq_option_groups: list[OptionGroup] = [
     OptionGroup("General", [
         Campaign,
         ItemShuffle,

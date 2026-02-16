@@ -4,7 +4,7 @@ import typing
 from BaseClasses import MultiWorld
 from worlds.AutoWorld import World
 
-mission_orders: typing.List[typing.List[int]] = [
+mission_orders: list[list[int]] = [
     [1, 2, 3, 4, 5],
     [1, 2, 3, 5, 4],
     [1, 2, 4, 3, 5],
@@ -126,7 +126,7 @@ mission_orders: typing.List[typing.List[int]] = [
 ### 5: Rouge
 ### 6: Kart
 ### 7: Cannon's Core
-level_styles: typing.List[int] = [
+level_styles: list[int] = [
     0,
     2,
     1,
@@ -162,7 +162,7 @@ level_styles: typing.List[int] = [
     7,
 ]
 
-stage_name_prefixes: typing.List[str] = [
+stage_name_prefixes: list[str] = [
     "City Escape - ",
     "Wild Canyon - ",
     "Prison Lane - ",
@@ -197,7 +197,7 @@ stage_name_prefixes: typing.List[str] = [
 ]
 
 def get_mission_count_table(multiworld: MultiWorld, world: World, player: int):
-    mission_count_table: typing.Dict[int, int] = {}
+    mission_count_table: dict[int, int] = {}
 
     if world.options.goal == 3:
         for level in range(31):
@@ -246,7 +246,7 @@ def get_mission_count_table(multiworld: MultiWorld, world: World, player: int):
         kart_active_missions         = min(kart_active_missions, world.options.kart_mission_count.value)
         cannons_core_active_missions = min(cannons_core_active_missions, world.options.cannons_core_mission_count.value)
 
-        active_missions: typing.List[typing.List[int]] = [
+        active_missions: list[list[int]] = [
             sonic_active_missions,
             tails_active_missions,
             knuckles_active_missions,
@@ -266,20 +266,20 @@ def get_mission_count_table(multiworld: MultiWorld, world: World, player: int):
 
 
 def get_mission_table(multiworld: MultiWorld, world: World, player: int):
-    mission_table: typing.Dict[int, int] = {}
+    mission_table: dict[int, int] = {}
 
     if world.options.goal == 3:
         for level in range(31):
             mission_table[level] = 0
     else:
-        sonic_active_missions: typing.List[int] = [1]
-        tails_active_missions: typing.List[int] = [1]
-        knuckles_active_missions: typing.List[int] = [1]
-        shadow_active_missions: typing.List[int] = [1]
-        eggman_active_missions: typing.List[int] = [1]
-        rouge_active_missions: typing.List[int] = [1]
-        kart_active_missions: typing.List[int] = [1]
-        cannons_core_active_missions: typing.List[int] = [1]
+        sonic_active_missions: list[int] = [1]
+        tails_active_missions: list[int] = [1]
+        knuckles_active_missions: list[int] = [1]
+        shadow_active_missions: list[int] = [1]
+        eggman_active_missions: list[int] = [1]
+        rouge_active_missions: list[int] = [1]
+        kart_active_missions: list[int] = [1]
+        cannons_core_active_missions: list[int] = [1]
 
         # Add included missions
         for i in range(2,6):
@@ -307,7 +307,7 @@ def get_mission_table(multiworld: MultiWorld, world: World, player: int):
             if getattr(world.options, "cannons_core_mission_" + str(i), None):
                 cannons_core_active_missions.append(i)
 
-        active_missions: typing.List[typing.List[int]] = [
+        active_missions: list[list[int]] = [
             sonic_active_missions,
             tails_active_missions,
             knuckles_active_missions,
@@ -321,8 +321,8 @@ def get_mission_table(multiworld: MultiWorld, world: World, player: int):
         for level in range(31):
             level_style = level_styles[level]
 
-            level_active_missions: typing.List[int] = copy.deepcopy(active_missions[level_style])
-            level_chosen_missions: typing.List[int] = []
+            level_active_missions: list[int] = copy.deepcopy(active_missions[level_style])
+            level_chosen_missions: list[int] = []
 
             # The first mission must be M1, M2, M3, or M4
             first_mission = 1
@@ -362,9 +362,9 @@ def get_mission_table(multiworld: MultiWorld, world: World, player: int):
     return mission_table
 
 
-def get_first_and_last_cannons_core_missions(mission_map: typing.Dict[int, int], mission_count_map: typing.Dict[int, int]):
+def get_first_and_last_cannons_core_missions(mission_map: dict[int, int], mission_count_map: dict[int, int]):
     mission_count = mission_count_map[30]
-    mission_order: typing.List[int] = mission_orders[mission_map[30]]
+    mission_order: list[int] = mission_orders[mission_map[30]]
     stage_prefix: str = stage_name_prefixes[30]
 
     first_mission_number = mission_order[0]
@@ -375,10 +375,10 @@ def get_first_and_last_cannons_core_missions(mission_map: typing.Dict[int, int],
     return first_location_name, last_location_name
 
 
-def print_mission_orders_to_spoiler(mission_map: typing.Dict[int, int],
-                                    mission_count_map: typing.Dict[int, int],
-                                    shuffled_region_list: typing.Dict[int, int],
-                                    levels_per_gate: typing.Dict[int, int],
+def print_mission_orders_to_spoiler(mission_map: dict[int, int],
+                                    mission_count_map: dict[int, int],
+                                    shuffled_region_list: dict[int, int],
+                                    levels_per_gate: dict[int, int],
                                     player_name: str,
                                     spoiler_handle: typing.TextIO):
     spoiler_handle.write("\n")
@@ -399,7 +399,7 @@ def print_mission_orders_to_spoiler(mission_map: typing.Dict[int, int],
         for i in range(len(gate_levels)):
             stage = gate_levels[i]
             mission_count = mission_count_map[stage]
-            mission_order: typing.List[int] = mission_orders[mission_map[stage]]
+            mission_order: list[int] = mission_orders[mission_map[stage]]
             stage_prefix: str = stage_name_prefixes[stage]
 
             for mission in range(mission_count):
@@ -412,7 +412,7 @@ def print_mission_orders_to_spoiler(mission_map: typing.Dict[int, int],
         spoiler_handle.write("\n")
 
     mission_count = mission_count_map[30]
-    mission_order: typing.List[int] = mission_orders[mission_map[30]]
+    mission_order: list[int] = mission_orders[mission_map[30]]
     stage_prefix: str = stage_name_prefixes[30]
 
     for mission in range(mission_count):

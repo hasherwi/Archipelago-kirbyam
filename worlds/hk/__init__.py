@@ -51,7 +51,7 @@ class HollowKnightSettings(Group):
     class DisableMapModSpoilers(Bool):
         """Disallows the APMapMod from showing spoiler placements."""
 
-    disable_spoilers: typing.Union[DisableMapModSpoilers, bool] = False
+    disable_spoilers: DisableMapModSpoilers | bool = False
 
 
 path_of_pain_locations = {
@@ -136,14 +136,14 @@ logicless_options = {
 }
 
 # Options that affect vanilla starting items
-randomizable_starting_items: typing.Dict[str, typing.Tuple[str, ...]] = {
+randomizable_starting_items: dict[str, tuple[str, ...]] = {
     "RandomizeFocus": ("Focus",),
     "RandomizeSwim": ("Swim",),
     "RandomizeNail": ("Upslash", "Leftslash", "Rightslash")
 }
 
 # Shop cost types.
-shop_cost_types: typing.Dict[str, typing.Tuple[str, ...]] = {
+shop_cost_types: dict[str, tuple[str, ...]] = {
     "Egg_Shop": ("RANCIDEGGS",),
     "Grubfather": ("GRUBS",),
     "Seer": ("ESSENCE",),
@@ -210,15 +210,15 @@ class HKWorld(World):
                            enumerate(locations, start=0x1000000)}
     item_name_groups = item_name_groups
 
-    ranges: typing.Dict[str, typing.Tuple[int, int]]
-    charm_costs: typing.List[int]
+    ranges: dict[str, tuple[int, int]]
+    charm_costs: list[int]
     cached_filler_items = {}
     grub_count: int
-    grub_player_count: typing.Dict[int, int]
+    grub_player_count: dict[int, int]
 
     def __init__(self, multiworld, player):
         super(HKWorld, self).__init__(multiworld, player)
-        self.created_multi_locations: typing.Dict[str, typing.List[HKLocation]] = {
+        self.created_multi_locations: dict[str, list[HKLocation]] = {
             location: list() for location in multi_locations
         }
         self.ranges = {}
@@ -298,9 +298,9 @@ class HKWorld(World):
     def create_items(self):
         unfilled_locations = 0
         # Generate item pool and associated locations (paired in HK)
-        pool: typing.List[HKItem] = []
+        pool: list[HKItem] = []
         wp_exclusions = self.white_palace_exclusions()
-        junk_replace: typing.Set[str] = set()
+        junk_replace: set[str] = set()
         if self.options.RemoveSpellUpgrades:
             junk_replace.update(("Abyss_Shriek", "Shade_Soul", "Descending_Dark"))
 
@@ -433,7 +433,7 @@ class HKWorld(World):
         if not setting:
             return  # noop
 
-        def _compute_weights(weights: dict, desc: str) -> typing.Dict[str, int]:
+        def _compute_weights(weights: dict, desc: str) -> dict[str, int]:
             if all(x == 0 for x in weights.values()):
                 logger.warning(
                     f"All {desc} weights were zero for {self.multiworld.player_name[self.player]}."
@@ -715,7 +715,7 @@ class HKWorld(World):
                     for loc in shop_locations:
                         spoiler_handle.write(f"\n{loc}: {loc.item} costing {loc.cost_text()}")
 
-    def get_multi_location_name(self, base: str, i: typing.Optional[int]) -> str:
+    def get_multi_location_name(self, base: str, i: int | None) -> str:
         if i is None:
             i = len(self.created_multi_locations[base]) + 1
         assert 1 <= 16, "limited number of multi location IDs reserved."
@@ -748,8 +748,8 @@ def create_region(multiworld: MultiWorld, player: int, name: str, location_names
 
 class HKLocation(Location):
     game: str = "Hollow Knight"
-    costs: typing.Dict[str, int] = None
-    unit: typing.Optional[str] = None
+    costs: dict[str, int] = None
+    unit: str | None = None
     vanilla = False
     basename: str
 
@@ -760,7 +760,7 @@ class HKLocation(Location):
 
     def __init__(
             self, player: int, name: str, code=None, parent=None,
-            costs: typing.Dict[str, int] = None, vanilla: bool = False, basename: str = None
+            costs: dict[str, int] = None, vanilla: bool = False, basename: str = None
     ):
         self.basename = basename or name
         super(HKLocation, self).__init__(player, name, code if code else None, parent)

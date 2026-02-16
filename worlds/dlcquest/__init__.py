@@ -92,7 +92,7 @@ class DLCqworld(World):
             if self.options.coinsanity == Options.CoinSanity.option_coin and self.options.coinbundlequantity >= 5:
                 self.multiworld.push_precollected(self.create_item("DLC Quest: Coin Bundle"))
 
-    def create_item(self, item: Union[str, ItemData], classification: ItemClassification = None) -> DLCQuestItem:
+    def create_item(self, item: str | ItemData, classification: ItemClassification = None) -> DLCQuestItem:
         if isinstance(item, str):
             item = item_table[item]
         if classification is None:

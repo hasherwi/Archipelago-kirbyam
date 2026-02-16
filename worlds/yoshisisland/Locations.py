@@ -12,16 +12,16 @@ from .level_logic import YoshiLogic
 class LocationData(NamedTuple):
     region: str
     name: str
-    code: Optional[int]
+    code: int | None
     LevelID: int
     rule: CollectionRule = lambda state: True
 
 
-def get_locations(world: Optional["YoshisIslandWorld"]) -> List[LocationData]:
+def get_locations(world: Optional["YoshisIslandWorld"]) -> list[LocationData]:
     if world:
         logic = YoshiLogic(world)
 
-    location_table: List[LocationData] = [
+    location_table: list[LocationData] = [
         LocationData("1-1", "Make Eggs, Throw Eggs: Red Coins", 0x305020, 0x00),
         LocationData("1-1", "Make Eggs, Throw Eggs: Flowers", 0x305021, 0x00),
         LocationData("1-1", "Make Eggs, Throw Eggs: Stars", 0x305022, 0x00),

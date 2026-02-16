@@ -11,18 +11,18 @@ if TYPE_CHECKING:
 class ALttPLocation(Location):
     game: str = "A Link to the Past"
     crystal: bool
-    player_address: Optional[int]
-    _hint_text: Optional[str]
+    player_address: int | None
+    _hint_text: str | None
     shop: None
-    shop_slot: Optional[int] = None
+    shop_slot: int | None = None
     """If given as integer, shop_slot is the shop's inventory index."""
     shop_slot_disabled: bool = False
     shop_price = 0
     shop_price_type = None
     parent_region: "LTTPRegion"
 
-    def __init__(self, player: int, name: str, address: Optional[int] = None, crystal: bool = False,
-                 hint_text: Optional[str] = None, parent=None, player_address: Optional[int] = None):
+    def __init__(self, player: int, name: str, address: int | None = None, crystal: bool = False,
+                 hint_text: str | None = None, parent=None, player_address: int | None = None):
         super(ALttPLocation, self).__init__(player, name, address, parent)
         self.crystal = crystal
         self.player_address = player_address
@@ -38,9 +38,9 @@ class ALttPLocation(Location):
 
 class ALttPItem(Item):
     game: str = "A Link to the Past"
-    type: Optional[str]
-    _pedestal_hint_text: Optional[str]
-    _hint_text: Optional[str]
+    type: str | None
+    _pedestal_hint_text: str | None
+    _hint_text: str | None
     dungeon = None
 
     def __init__(self, name, player, classification=ItemClassification.filler, type=None, item_code=None,
@@ -71,7 +71,7 @@ class ALttPItem(Item):
         return self.type == "Compass"
 
     @property
-    def dungeon_item(self) -> Optional[str]:
+    def dungeon_item(self) -> str | None:
         if self.type in {"SmallKey", "BigKey", "Map", "Compass"}:
             return self.type
 

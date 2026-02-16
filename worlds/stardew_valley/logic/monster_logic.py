@@ -1,5 +1,6 @@
 from functools import cached_property
-from typing import Hashable, Iterable, Union
+from typing import Union
+from collections.abc import Hashable, Iterable
 
 from Utils import cache_self1
 
@@ -31,7 +32,7 @@ class MonsterLogic(BaseLogic):
     def all_monsters_by_category(self):
         return monster_data.all_monsters_by_category_given_mods(self.options.mods.value)
 
-    def can_kill(self, monster: Union[str, monster_data.StardewMonster], amount_tier: int = 0) -> StardewRule:
+    def can_kill(self, monster: str | monster_data.StardewMonster, amount_tier: int = 0) -> StardewRule:
         if amount_tier <= 0:
             amount_tier = 0
         time_rule = self.logic.time.has_lived_months(amount_tier)

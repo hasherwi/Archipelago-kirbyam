@@ -37,9 +37,9 @@ class ShopPriceType(IntEnum):
 
 class Shop:
     slots: int = 3  # slot count is not dynamic in asm, however inventory can have None as empty slots
-    blacklist: Set[str] = set()  # items that don't work
+    blacklist: set[str] = set()  # items that don't work
     type = ShopType.Shop
-    slot_names: Dict[int, str] = {
+    slot_names: dict[int, str] = {
         0: " Left",
         1: " Center",
         2: " Right"
@@ -48,7 +48,7 @@ class Shop:
     def __init__(self, region, room_id: int, shopkeeper_config: int, custom: bool, locked: bool, sram_offset: int):
         self.region = region
         self.room_id = room_id
-        self.inventory: List[Optional[dict]] = [None] * self.slots
+        self.inventory: list[dict | None] = [None] * self.slots
         self.shopkeeper_config = shopkeeper_config
         self.custom = custom
         self.locked = locked
@@ -61,7 +61,7 @@ class Shop:
                 return x + 1
         return 0
 
-    def get_bytes(self) -> List[int]:
+    def get_bytes(self) -> list[int]:
         from .EntranceShuffle import door_addresses
         # [id][roomID-low][roomID-high][doorID][zero][shop_config][shopkeeper_config][sram_index]
         entrances = self.region.entrances
@@ -103,7 +103,7 @@ class Shop:
         self.inventory = [None] * self.slots
 
     def add_inventory(self, slot: int, item: str, price: int, max: int = 0,
-                      replacement: Optional[str] = None, replacement_price: int = 0,
+                      replacement: str | None = None, replacement_price: int = 0,
                       player: int = 0, price_type: int = ShopPriceType.Rupees,
                       replacement_price_type: int = ShopPriceType.Rupees):
         self.inventory[slot] = {
@@ -134,7 +134,7 @@ class Shop:
 
 class TakeAny(Shop):
     type = ShopType.TakeAny
-    slot_names: Dict[int, str] = {
+    slot_names: dict[int, str] = {
         0: "",
         1: "",
         2: ""
@@ -146,7 +146,7 @@ class UpgradeShop(Shop):
     # Potions break due to VRAM flags set in UpgradeShop.
     # Didn't check for more things breaking as not much else can be shuffled here currently
     blacklist = item_name_groups["Potions"]
-    slot_names: Dict[int, str] = {
+    slot_names: dict[int, str] = {
         0: " Left",
         1: " Right"
     }
@@ -193,7 +193,7 @@ def create_shops(multiworld, player: int):
         player_shop_table["Capacity Upgrade"] = player_shop_table["Capacity Upgrade"]._replace(locked=False)
 
     num_slots = min(dynamic_shop_slots, multiworld.worlds[player].options.shop_item_slots)
-    single_purchase_slots: List[bool] = [True] * num_slots + [False] * (dynamic_shop_slots - num_slots)
+    single_purchase_slots: list[bool] = [True] * num_slots + [False] * (dynamic_shop_slots - num_slots)
     multiworld.random.shuffle(single_purchase_slots)
 
     if multiworld.worlds[player].options.randomize_shop_inventories:
@@ -249,8 +249,8 @@ class ShopData(NamedTuple):
     type: ShopType
     shopkeeper: int
     custom: bool
-    locked: Optional[bool]
-    items: List
+    locked: bool | None
+    items: list
     sram_offset: int
 
 
@@ -259,7 +259,7 @@ class ShopData(NamedTuple):
 _basic_shop_defaults = [("Red Potion", 150), ("Small Heart", 10), ("Bombs (10)", 50)]
 _dark_world_shop_defaults = [("Red Potion", 150), ("Blue Shield", 50), ("Bombs (10)", 50)]
 _inverted_hylia_shop_defaults = [("Blue Potion", 160), ("Blue Shield", 50), ("Bombs (10)", 50)]
-shop_table: Dict[str, ShopData] = {
+shop_table: dict[str, ShopData] = {
     "Cave Shop (Dark Death Mountain)": ShopData(0x0112, ShopType.Shop, 0xC1, True, False, _basic_shop_defaults, 0),
     "Red Shield Shop": ShopData(0x0110, ShopType.Shop, 0xC1, True, False,
                                 [("Red Shield", 500), ("Bee", 10), ("Arrows (10)", 30)], 3),

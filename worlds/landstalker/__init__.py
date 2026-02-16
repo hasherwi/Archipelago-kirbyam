@@ -40,7 +40,7 @@ class LandstalkerWorld(World):
     item_name_to_id = build_item_name_to_id_table()
     location_name_to_id = build_location_name_to_id_table()
 
-    cached_spheres: List[Set[Location]] = []
+    cached_spheres: List[set[Location]] = []
 
     def __init__(self, multiworld, player):
         super().__init__(multiworld, player)

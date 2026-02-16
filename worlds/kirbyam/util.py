@@ -1,4 +1,5 @@
-from typing import Iterable, List, Optional
+from typing import List, Optional
+from collections.abc import Iterable
 
 from .data import data
 
@@ -40,7 +41,7 @@ CHARACTER_ENCODING_MAP.update({
     "_": CHARACTER_ENCODING_MAP[" "],
 })
 
-def encode_string(string: str, length: Optional[int] = None) -> bytes:
+def encode_string(string: str, length: int | None = None) -> bytes:
     arr = []
     length = len(string) if length is None else length
 
@@ -75,13 +76,13 @@ def location_name_to_label(name: str) -> str:
     return data.locations[name].label
 
 
-def int_to_bool_array(num: int) -> List[bool]:
+def int_to_bool_array(num: int) -> list[bool]:
     binary_string = format(num, "064b")
     bool_array = [bit == "1" for bit in reversed(binary_string)]
     return bool_array
 
 
-def bool_array_to_int(bool_array: List[bool]) -> int:
+def bool_array_to_int(bool_array: list[bool]) -> int:
     binary_string = "".join(["1" if bit else "0" for bit in reversed(bool_array)])
     num = int(binary_string, 2)
     return num

@@ -8,7 +8,7 @@ import sys
 from asyncio import Task
 from datetime import datetime
 from logging import Logger
-from typing import Awaitable
+from collections.abc import Awaitable
 
 # Misc imports
 import colorama

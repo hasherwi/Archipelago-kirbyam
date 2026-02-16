@@ -87,7 +87,7 @@ class OOTSettings(settings.Group):
         """
 
     rom_file: RomFile = RomFile(RomFile.copy_to)
-    rom_start: typing.Union[RomStart, bool] = True
+    rom_start: RomStart | bool = True
 
 
 class OOTWeb(WebWorld):
@@ -1433,9 +1433,9 @@ def valid_dungeon_item_location(world: OOTWorld, option: str, dungeon: str, loc:
 
 def gather_locations(multiworld: MultiWorld,
     item_type: str,
-    players: Union[int, AbstractSet[int]],
+    players: int | AbstractSet[int],
     dungeon: str = ""
-) -> Optional[List[OOTLocation]]:
+) -> list[OOTLocation] | None:
     type_to_setting = {
         "Map": "shuffle_mapcompass",
         "Compass": "shuffle_mapcompass",

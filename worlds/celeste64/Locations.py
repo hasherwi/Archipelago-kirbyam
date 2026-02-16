@@ -13,10 +13,10 @@ class Celeste64Location(Location):
 
 class Celeste64LocationData(NamedTuple):
     region: str
-    address: Optional[int] = None
+    address: int | None = None
 
 
-strawberry_location_data_table: Dict[str, Celeste64LocationData] = {
+strawberry_location_data_table: dict[str, Celeste64LocationData] = {
     LocationName.strawberry_1:  Celeste64LocationData(RegionName.intro_islands,        celeste_64_base_id + 0x00),
     LocationName.strawberry_2:  Celeste64LocationData(RegionName.granny_island,        celeste_64_base_id + 0x01),
     LocationName.strawberry_3:  Celeste64LocationData(RegionName.granny_island,        celeste_64_base_id + 0x02),
@@ -49,7 +49,7 @@ strawberry_location_data_table: Dict[str, Celeste64LocationData] = {
     LocationName.strawberry_30: Celeste64LocationData(RegionName.badeline_island,      celeste_64_base_id + 0x1D),
 }
 
-friend_location_data_table: Dict[str, Celeste64LocationData] = {
+friend_location_data_table: dict[str, Celeste64LocationData] = {
     LocationName.granny_1:   Celeste64LocationData(RegionName.granny_island,   celeste_64_base_id + 0x100 + 0x00),
     LocationName.granny_2:   Celeste64LocationData(RegionName.granny_island,   celeste_64_base_id + 0x100 + 0x01),
     LocationName.granny_3:   Celeste64LocationData(RegionName.granny_island,   celeste_64_base_id + 0x100 + 0x02),
@@ -61,7 +61,7 @@ friend_location_data_table: Dict[str, Celeste64LocationData] = {
     LocationName.badeline_3: Celeste64LocationData(RegionName.badeline_island, celeste_64_base_id + 0x100 + 0x08),
 }
 
-sign_location_data_table: Dict[str, Celeste64LocationData] = {
+sign_location_data_table: dict[str, Celeste64LocationData] = {
     LocationName.sign_1: Celeste64LocationData(RegionName.granny_island,   celeste_64_base_id + 0x200 + 0x00),
     LocationName.sign_2: Celeste64LocationData(RegionName.granny_island,   celeste_64_base_id + 0x200 + 0x01),
     LocationName.sign_3: Celeste64LocationData(RegionName.highway_island,  celeste_64_base_id + 0x200 + 0x02),
@@ -69,12 +69,12 @@ sign_location_data_table: Dict[str, Celeste64LocationData] = {
     LocationName.sign_5: Celeste64LocationData(RegionName.badeline_island, celeste_64_base_id + 0x200 + 0x04),
 }
 
-car_location_data_table: Dict[str, Celeste64LocationData] = {
+car_location_data_table: dict[str, Celeste64LocationData] = {
     LocationName.car_1: Celeste64LocationData(RegionName.intro_islands, celeste_64_base_id + 0x300 + 0x00),
     LocationName.car_2: Celeste64LocationData(RegionName.granny_island, celeste_64_base_id + 0x300 + 0x01),
 }
 
-checkpoint_location_data_table: Dict[str, Celeste64LocationData] = {
+checkpoint_location_data_table: dict[str, Celeste64LocationData] = {
     LocationName.checkpoint_1:  Celeste64LocationData(RegionName.intro_islands,        celeste_64_base_id + 0x400 + 0x00),
     LocationName.checkpoint_2:  Celeste64LocationData(RegionName.granny_island,        celeste_64_base_id + 0x400 + 0x01),
     LocationName.checkpoint_3:  Celeste64LocationData(RegionName.granny_island,        celeste_64_base_id + 0x400 + 0x02),
@@ -87,7 +87,7 @@ checkpoint_location_data_table: Dict[str, Celeste64LocationData] = {
     LocationName.checkpoint_10: Celeste64LocationData(RegionName.badeline_island,      celeste_64_base_id + 0x400 + 0x09),
 }
 
-location_data_table: Dict[str, Celeste64LocationData] = {**strawberry_location_data_table,
+location_data_table: dict[str, Celeste64LocationData] = {**strawberry_location_data_table,
                                                          **friend_location_data_table,
                                                          **sign_location_data_table,
                                                          **car_location_data_table,

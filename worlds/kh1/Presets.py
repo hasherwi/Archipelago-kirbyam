@@ -2,7 +2,7 @@ from typing import Any, Dict
 
 from .Options import *
 
-kh1_option_presets: Dict[str, Dict[str, Any]] = {
+kh1_option_presets: dict[str, dict[str, Any]] = {
     # Standard playthrough where your goal is to defeat Ansem, reaching him by acquiring enough lucky emblems.
     "Final Ansem": {
         "final_rest_door_key": FinalRestDoorKey.option_lucky_emblems,

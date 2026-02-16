@@ -5,7 +5,8 @@ import os.path
 import subprocess
 import urllib.request
 from shutil import which
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any
+from collections.abc import Callable
 from zipfile import ZipFile
 
 import requests

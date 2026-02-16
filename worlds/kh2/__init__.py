@@ -62,7 +62,7 @@ class KH2World(World):
     lucky_emblem_required: int
     bounties_required: int
     bounties_amount: int
-    filler_items: List[str]
+    filler_items: list[str]
     item_quantity_dict: Dict[str, int]
     local_items: Dict[int, int]
     sora_ability_dict: Dict[str, int]
@@ -438,7 +438,7 @@ class KH2World(World):
         for location in keyblade_locations:
             location.locked = True
 
-    def get_pre_fill_items(self) -> List["Item"]:
+    def get_pre_fill_items(self) -> list["Item"]:
         return [self.create_item(item) for item in [*DonaldAbility_Table.keys(), *GoofyAbility_Table.keys(),
                                                     *SupportAbility_Table.keys()]]
 

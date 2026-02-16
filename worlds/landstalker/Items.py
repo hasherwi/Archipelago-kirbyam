@@ -17,7 +17,7 @@ class LandstalkerItemData(NamedTuple):
     quantity: int = 1
 
 
-item_table: Dict[str, LandstalkerItemData] = {
+item_table: dict[str, LandstalkerItemData] = {
     "EkeEke":               LandstalkerItemData(0,  ItemClassification.filler,      20,     0),  # Variable amount
     "Magic Sword":          LandstalkerItemData(1,  ItemClassification.useful,      300),
     "Sword of Ice":         LandstalkerItemData(2,  ItemClassification.useful,      300),
@@ -94,7 +94,7 @@ item_table: Dict[str, LandstalkerItemData] = {
 
 
 def get_weighted_filler_item_names():
-    weighted_item_names: List[str] = []
+    weighted_item_names: list[str] = []
     for name, data in item_table.items():
         if data.classification == ItemClassification.filler:
             weighted_item_names += [name for _ in range(data.quantity)]

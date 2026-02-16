@@ -26,7 +26,7 @@ class DS3BossInfo:
     aren't randomized.
     """
 
-    locations: Set[str] = field(default_factory=set)
+    locations: set[str] = field(default_factory=set)
     """Additional individual locations that can't be accessed until the boss is dead."""
 
 

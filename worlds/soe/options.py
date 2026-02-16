@@ -1,6 +1,7 @@
 from dataclasses import dataclass, fields
 from datetime import datetime
-from typing import Any, ClassVar, Dict, Iterator, List, Protocol, Tuple, cast
+from typing import Any, ClassVar, Dict, List, Protocol, Tuple, cast
+from collections.abc import Iterator
 
 from Options import (
     AssembleOptions,
@@ -19,7 +20,7 @@ from Options import (
 class FlagsProtocol(Protocol):
     value: int
     default: ClassVar[int]
-    flags: List[str]
+    flags: list[str]
 
 
 class FlagProtocol(Protocol):
@@ -30,7 +31,7 @@ class FlagProtocol(Protocol):
 
 # meta options
 class EvermizerFlags:
-    flags: List[str]
+    flags: list[str]
 
     def to_flag(self: FlagsProtocol) -> str:
         return self.flags[self.value]
@@ -229,7 +230,7 @@ class TrapCount(Range):
 
 # more meta options
 class ItemChanceMeta(AssembleOptions):
-    def __new__(mcs, name: str, bases: Tuple[type], attrs: Dict[Any, Any]) -> "ItemChanceMeta":
+    def __new__(mcs, name: str, bases: tuple[type], attrs: dict[Any, Any]) -> "ItemChanceMeta":
         if "item_name" in attrs:
             attrs["display_name"] = f"{attrs['item_name']} Chance"
         attrs["range_start"] = 0

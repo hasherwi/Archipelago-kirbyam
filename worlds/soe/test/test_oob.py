@@ -5,7 +5,7 @@ from . import SoETestBase
 
 class OoBTest(SoETestBase):
     """Tests that 'on' doesn't put out-of-bounds in logic. This is also the test base for OoB in logic."""
-    options: typing.Dict[str, typing.Any] = {"out_of_bounds": "on"}
+    options: dict[str, typing.Any] = {"out_of_bounds": "on"}
 
     def test_oob_access(self) -> None:
         in_logic = self.options["out_of_bounds"] == "logic"
@@ -80,4 +80,4 @@ class OoBTest(SoETestBase):
 
 class OoBInLogicTest(OoBTest):
     """Tests that stuff that should be reachable/unreachable with out-of-bounds actually is."""
-    options: typing.Dict[str, typing.Any] = {"out_of_bounds": "logic"}
+    options: dict[str, typing.Any] = {"out_of_bounds": "logic"}

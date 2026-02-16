@@ -15,7 +15,7 @@ if typing.TYPE_CHECKING:
 
 
 def can_reach_boss(state: "CollectionState", player: int, level: int, open_world: int,
-                   ow_boss_req: int, player_levels: typing.Dict[int, typing.List[int]]) -> bool:
+                   ow_boss_req: int, player_levels: dict[int, list[int]]) -> bool:
     if open_world:
         return state.has(f"{location_name.level_names_inverse[level]} - Stage Completion", player, ow_boss_req)
     else:
@@ -78,7 +78,7 @@ def can_reach_cutter(state: "CollectionState", player: int) -> bool:
     return state.has("Cutter", player) and state.has("Cutter Ability", player)
 
 
-ability_map: typing.Dict[str, typing.Callable[["CollectionState", int], bool]] = {
+ability_map: dict[str, typing.Callable[["CollectionState", int], bool]] = {
     "No Ability": lambda state, player: True,
     "Burning Ability": can_reach_burning,
     "Stone Ability": can_reach_stone,
@@ -91,7 +91,7 @@ ability_map: typing.Dict[str, typing.Callable[["CollectionState", int], bool]] =
 }
 
 
-def can_assemble_rob(state: "CollectionState", player: int, copy_abilities: typing.Dict[str, str]) -> bool:
+def can_assemble_rob(state: "CollectionState", player: int, copy_abilities: dict[str, str]) -> bool:
     # check animal requirements
     if not (can_reach_coo(state, player) and can_reach_kine(state, player)):
         return False
@@ -108,7 +108,7 @@ def can_assemble_rob(state: "CollectionState", player: int, copy_abilities: typi
     return can_reach_parasol(state, player) and can_reach_stone(state, player)
 
 
-def can_fix_angel_wings(state: "CollectionState", player: int, copy_abilities: typing.Dict[str, str]) -> bool:
+def can_fix_angel_wings(state: "CollectionState", player: int, copy_abilities: dict[str, str]) -> bool:
     can_reach = True
     for enemy in {"Sparky", "Blocky", "Jumper Shoot", "Yuki", "Sir Kibble", "Haboki", "Boboo", "Captain Stitch"}:
         can_reach = can_reach & ability_map[copy_abilities[enemy]](state, player)

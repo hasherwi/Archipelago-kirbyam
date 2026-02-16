@@ -199,7 +199,7 @@ class FactorioContext(CommonContext):
                                      f"{format_SI_prefix(args['value'])}J remaining.")
                         self.rcon_client.send_command(f"/ap-energylink {gained}")
 
-    def on_user_say(self, text: str) -> typing.Optional[str]:
+    def on_user_say(self, text: str) -> str | None:
         # Mirror chat sent from the UI to the Factorio server.
         self.print_to_game(f"{self.player_names[self.slot]}: {text}")
         return text

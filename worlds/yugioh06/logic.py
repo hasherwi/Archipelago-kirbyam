@@ -2,7 +2,7 @@ from typing import List
 
 from BaseClasses import CollectionState
 
-core_booster: List[str] = [
+core_booster: list[str] = [
     "LEGEND OF B.E.W.D.",
     "METAL RAIDERS",
     "PHARAOH'S SERVANT",

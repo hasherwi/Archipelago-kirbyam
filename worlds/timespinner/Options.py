@@ -379,7 +379,7 @@ class RisingTides(Toggle):
     """Random areas are flooded or drained, can be further specified with RisingTidesOverrides"""
     display_name = "Rising Tides"
 
-def rising_tide_option(location: str, with_save_point_option: bool = False) -> Dict[Optional, Or]:
+def rising_tide_option(location: str, with_save_point_option: bool = False) -> dict[Optional, Or]:
     if with_save_point_option:
         return {
             Optional(location): Or(
@@ -557,7 +557,7 @@ class HiddenDeathLink(DeathLink):
     """When you die, everyone who enabled death link dies. Of course, the reverse is true too."""
     visibility = Visibility.none
 
-def hidden(option: Type[Option[Any]]) -> Type[Option]:
+def hidden(option: type[Option[Any]]) -> type[Option]:
     new_option = AssembleOptions(f"{option.__name__}Hidden", option.__bases__, vars(option).copy())
     new_option.visibility = Visibility.none
     new_option.__doc__ = option.__doc__

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Hashable, Iterable, List, Tuple, Union
+from typing import TYPE_CHECKING, List, Tuple, Union
+from collections.abc import Hashable, Iterable
 
 from BaseClasses import CollectionState
 
@@ -16,8 +17,8 @@ class TotalReceived(BaseStardewRule):
     items: Iterable[str]
     player: int
 
-    def __init__(self, count: int, items: Union[str, Iterable[str]], player: int):
-        items_list: List[str]
+    def __init__(self, count: int, items: str | Iterable[str], player: int):
+        items_list: list[str]
 
         if isinstance(items, Iterable):
             items_list = [*items]
@@ -36,7 +37,7 @@ class TotalReceived(BaseStardewRule):
                 return True
         return False
 
-    def evaluate_while_simplifying(self, state: CollectionState) -> Tuple[StardewRule, bool]:
+    def evaluate_while_simplifying(self, state: CollectionState) -> tuple[StardewRule, bool]:
         return self, self(state)
 
     def __repr__(self):
@@ -62,7 +63,7 @@ class Received(CombinableStardewRule):
     def __call__(self, state: CollectionState) -> bool:
         return state.has(self.item, self.player, self.count)
 
-    def evaluate_while_simplifying(self, state: CollectionState) -> Tuple[StardewRule, bool]:
+    def evaluate_while_simplifying(self, state: CollectionState) -> tuple[StardewRule, bool]:
         return self, self(state)
 
     def __repr__(self):
@@ -82,7 +83,7 @@ class Reach(BaseStardewRule):
             return False
         return state.can_reach(self.spot, self.resolution_hint, self.player)
 
-    def evaluate_while_simplifying(self, state: CollectionState) -> Tuple[StardewRule, bool]:
+    def evaluate_while_simplifying(self, state: CollectionState) -> tuple[StardewRule, bool]:
         return self, self(state)
 
     def __repr__(self):

@@ -13,13 +13,13 @@ class LandstalkerLocation(Location):
     type_string: str
     price: int = 0
 
-    def __init__(self, player: int, name: str, location_id: Optional[int], region: LandstalkerRegion, type_string: str):
+    def __init__(self, player: int, name: str, location_id: int | None, region: LandstalkerRegion, type_string: str):
         super().__init__(player, name, location_id, region)
         self.type_string = type_string
 
 
-def create_locations(player: int, regions_table: Dict[str, LandstalkerRegion],
-                     name_to_id_table: Dict[str, int], reach_kazalt_goal: bool):
+def create_locations(player: int, regions_table: dict[str, LandstalkerRegion],
+                     name_to_id_table: dict[str, int], reach_kazalt_goal: bool):
     # Create real locations from the data inside the corresponding JSON file
     for data in ITEM_SOURCES_JSON:
         region_id = data["nodeId"]

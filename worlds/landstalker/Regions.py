@@ -14,18 +14,18 @@ if TYPE_CHECKING:
 class LandstalkerRegion(Region):
     code: str
 
-    def __init__(self, code: str, name: str, player: int, multiworld: MultiWorld, hint: Optional[str] = None):
+    def __init__(self, code: str, name: str, player: int, multiworld: MultiWorld, hint: str | None = None):
         super().__init__(name, player, multiworld, hint)
         self.code = code
 
 
 class LandstalkerRegionData(NamedTuple):
-    locations: Optional[List[str]]
-    region_exits: Optional[List[str]]
+    locations: list[str] | None
+    region_exits: list[str] | None
 
 
 def create_regions(world: "LandstalkerWorld"):
-    regions_table: Dict[str, LandstalkerRegion] = {}
+    regions_table: dict[str, LandstalkerRegion] = {}
     multiworld = world.multiworld
     player = world.player
 
@@ -57,7 +57,7 @@ def create_regions(world: "LandstalkerWorld"):
     return regions_table
 
 
-def add_specific_paths(world: "LandstalkerWorld", regions_table: Dict[str, LandstalkerRegion]):
+def add_specific_paths(world: "LandstalkerWorld", regions_table: dict[str, LandstalkerRegion]):
     # If Gumi boulder is removed, add a path from "route_gumi_ryuma" to "gumi"
     if world.options.remove_gumi_boulder == 1:
         create_entrance("route_gumi_ryuma", "gumi", False, regions_table)
@@ -72,7 +72,7 @@ def add_specific_paths(world: "LandstalkerWorld", regions_table: Dict[str, Lands
         create_entrance("greenmaze_post_whistle", "greenmaze_pre_whistle", False, regions_table)
 
 
-def create_entrance(from_id: str, to_id: str, two_way: bool, regions_table: Dict[str, LandstalkerRegion]):
+def create_entrance(from_id: str, to_id: str, two_way: bool, regions_table: dict[str, LandstalkerRegion]):
     created_entrances = []
 
     name = from_id + " -> " + to_id
@@ -88,7 +88,7 @@ def create_entrance(from_id: str, to_id: str, two_way: bool, regions_table: Dict
     return created_entrances
 
 
-def get_starting_region(world: "LandstalkerWorld", regions_table: Dict[str, LandstalkerRegion]):
+def get_starting_region(world: "LandstalkerWorld", regions_table: dict[str, LandstalkerRegion]):
     # Most spawn locations have the same name as the region they are bound to, but a few vary.
     spawn_id = world.options.spawn_region.current_key
     if spawn_id == "waterfall":

@@ -84,7 +84,7 @@ class TimespinnerWorld(World):
     def create_items(self) -> None:
         self.create_and_assign_event_items()
 
-        excluded_items: Set[str] = self.get_excluded_items()
+        excluded_items: set[str] = self.get_excluded_items()
 
         self.assign_starter_items(excluded_items)
         self.place_first_progression_item(excluded_items)
@@ -100,7 +100,7 @@ class TimespinnerWorld(World):
 
         self.multiworld.completion_condition[self.player] = lambda state: state.has(final_boss, self.player)
 
-    def fill_slot_data(self) -> Dict[str, object]:
+    def fill_slot_data(self) -> dict[str, object]:
         return {
             # options
             "StartWithJewelryBox": self.options.start_with_jewelry_box.value,
@@ -170,7 +170,7 @@ class TimespinnerWorld(World):
             "Lab": self.precalculated_weights.flood_lab
         }
 
-    def interpret_slot_data(self, slot_data: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+    def interpret_slot_data(self, slot_data: dict[str, Any] | None) -> dict[str, Any] | None:
         """Used by Universal Tracker to correctly rebuild state"""
 
         if not slot_data \
@@ -257,7 +257,7 @@ class TimespinnerWorld(World):
             spoiler_handle.write(f"Selected bosses:                 {self.precalculated_weights.boss_rando_overrides}\n")
 
         if self.options.rising_tides:
-            flooded_areas: List[str] = []
+            flooded_areas: list[str] = []
 
             if self.precalculated_weights.flood_basement:
                 if self.precalculated_weights.flood_basement_high:
@@ -344,15 +344,15 @@ class TimespinnerWorld(World):
 
     def get_filler_item_name(self) -> str:
         trap_chance: int = self.options.trap_chance.value
-        enabled_traps: List[str] = self.options.traps.value
+        enabled_traps: list[str] = self.options.traps.value
 
         if self.random.random() < (trap_chance / 100) and enabled_traps:
             return self.random.choice(enabled_traps)
         else:
             return self.random.choice(filler_items)
 
-    def get_excluded_items(self) -> Set[str]:
-        excluded_items: Set[str] = set()
+    def get_excluded_items(self) -> set[str]:
+        excluded_items: set[str] = set()
 
         if self.options.start_with_jewelry_box:
             excluded_items.add("Jewelry Box")
@@ -394,9 +394,9 @@ class TimespinnerWorld(World):
 
         return excluded_items
 
-    def assign_starter_items(self, excluded_items: Set[str]) -> None:
-        non_local_items: Set[str] = self.options.non_local_items.value
-        local_items: Set[str] = self.options.local_items.value
+    def assign_starter_items(self, excluded_items: set[str]) -> None:
+        non_local_items: set[str] = self.options.non_local_items.value
+        local_items: set[str] = self.options.local_items.value
 
         local_starter_melee_weapons = tuple(item for item in starter_melee_weapons if
                                             item in local_items or not item in non_local_items)
@@ -417,12 +417,12 @@ class TimespinnerWorld(World):
         self.assign_starter_item(excluded_items, "Tutorial: Yo Momma 1", local_starter_melee_weapons)
         self.assign_starter_item(excluded_items, "Tutorial: Yo Momma 2", local_starter_spells)
 
-    def assign_starter_item(self, excluded_items: Set[str], location: str, item_list: Tuple[str, ...]) -> None:
+    def assign_starter_item(self, excluded_items: set[str], location: str, item_list: tuple[str, ...]) -> None:
         item_name = self.random.choice(item_list)
 
         self.place_locked_item(excluded_items, location, item_name)
 
-    def place_first_progression_item(self, excluded_items: Set[str]) -> None:
+    def place_first_progression_item(self, excluded_items: set[str]) -> None:
         if (self.options.quick_seed or self.options.inverted or self.precalculated_weights.flood_lake_desolation) \
         and not self.options.pyramid_start:
             return
@@ -444,15 +444,15 @@ class TimespinnerWorld(World):
 
         self.multiworld.local_early_items[self.player][progression_item] = 1
 
-    def place_locked_item(self, excluded_items: Set[str], location: str, item: str) -> None:
+    def place_locked_item(self, excluded_items: set[str], location: str, item: str) -> None:
         excluded_items.add(item)
 
         item = self.create_item(item)
 
         self.multiworld.get_location(location, self.player).place_locked_item(item)
 
-    def get_item_pool(self, excluded_items: Set[str]) -> List[Item]:
-        pool: List[Item] = []
+    def get_item_pool(self, excluded_items: set[str]) -> list[Item]:
+        pool: list[Item] = []
 
         for name, data in item_table.items():
             if name not in excluded_items:
@@ -472,8 +472,8 @@ class TimespinnerWorld(World):
                 item = Item(location.name, ItemClassification.progression, EventId, self.player)
                 location.place_locked_item(item)
 
-    def get_personal_items(self) -> Dict[int, int]:
-        personal_items: Dict[int, int] = {}
+    def get_personal_items(self) -> dict[int, int]:
+        personal_items: dict[int, int] = {}
 
         for location in self.multiworld.get_locations(self.player):
             if location.address and location.item and location.item.code and location.item.player == self.player:

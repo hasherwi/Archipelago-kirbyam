@@ -217,7 +217,7 @@ def get_payload(ctx: AdventureContext):
     return ret
 
 
-async def parse_locations(data: List, ctx: AdventureContext):
+async def parse_locations(data: list, ctx: AdventureContext):
     locations = data
 
     # for loc_name, loc_data in location_table.items():

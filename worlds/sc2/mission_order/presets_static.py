@@ -1,5 +1,6 @@
 import copy
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple
+from collections.abc import Callable
 
 from ..mission_groups import MissionGroupNames
 from ..mission_tables import SC2Campaign, SC2Mission
@@ -760,7 +761,7 @@ preset_nco = {
     },
 }
 
-def _build_static_preset(preset: Dict[str, Any], options: Dict[str, Any]) -> Dict[str, Any]:
+def _build_static_preset(preset: dict[str, Any], options: dict[str, Any]) -> dict[str, Any]:
     # Raceswap shuffling
     raceswaps = options.pop("shuffle_raceswaps", False)
     if not isinstance(raceswaps, bool):
@@ -774,7 +775,7 @@ def _build_static_preset(preset: Dict[str, Any], options: Dict[str, Any]) -> Dic
         for layout in preset.values():
             if type(layout) == dict:
                 # Currently mission pools in layouts are always ["X campaign missions", "~ raceswap missions"]
-                layout_mission_pool: List[str] = layout.get("mission_pool", None)
+                layout_mission_pool: list[str] = layout.get("mission_pool", None)
                 if layout_mission_pool is not None:
                     layout_mission_pool.pop()
                     layout["mission_pool"] = layout_mission_pool
@@ -875,13 +876,13 @@ def _build_static_preset(preset: Dict[str, Any], options: Dict[str, Any]) -> Dic
 
     return preset
 
-def _remove_key_rules(entry_rules: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def _remove_key_rules(entry_rules: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return [rule for rule in entry_rules if not ("items" in rule and "Key" in rule["items"])]
 
-def _make_key_rules_progressive(entry_rules: List[Dict[str, Any]], track: int) -> List[Dict[str, Any]]:
+def _make_key_rules_progressive(entry_rules: list[dict[str, Any]], track: int) -> list[dict[str, Any]]:
     for rule in entry_rules:
         if "items" in rule and "Key" in rule["items"]:
-            new_items: Dict[str, Any] = {}
+            new_items: dict[str, Any] = {}
             for (item, amount) in rule["items"].items():
                 if item == "Key":
                     new_items["Progressive Key"] = track
@@ -890,11 +891,11 @@ def _make_key_rules_progressive(entry_rules: List[Dict[str, Any]], track: int) -
             rule["items"] = new_items
     return entry_rules
 
-def static_preset(preset: Dict[str, Any]) -> Callable[[Dict[str, Any]], Dict[str, Any]]:
+def static_preset(preset: dict[str, Any]) -> Callable[[dict[str, Any]], dict[str, Any]]:
     return lambda options: _build_static_preset(copy.deepcopy(preset), options)
 
-def get_used_layout_names() -> Dict[SC2Campaign, Tuple[int, List[str]]]:
-    campaign_to_preset: Dict[SC2Campaign, Dict[str, Any]] = {
+def get_used_layout_names() -> dict[SC2Campaign, tuple[int, list[str]]]:
+    campaign_to_preset: dict[SC2Campaign, dict[str, Any]] = {
         SC2Campaign.WOL: preset_wol_with_prophecy,
         SC2Campaign.PROPHECY: preset_prophecy,
         SC2Campaign.HOTS: preset_hots,
@@ -903,7 +904,7 @@ def get_used_layout_names() -> Dict[SC2Campaign, Tuple[int, List[str]]]:
         SC2Campaign.EPILOGUE: preset_lotv_epilogue,
         SC2Campaign.NCO: preset_nco
     }
-    campaign_to_layout_names: Dict[SC2Campaign, Tuple[int, List[str]]] = { SC2Campaign.GLOBAL: (0, []) }
+    campaign_to_layout_names: dict[SC2Campaign, tuple[int, list[str]]] = { SC2Campaign.GLOBAL: (0, []) }
     for campaign in SC2Campaign:
         if campaign == SC2Campaign.GLOBAL:
             continue

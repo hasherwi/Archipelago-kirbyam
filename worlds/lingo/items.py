@@ -29,7 +29,7 @@ class ItemData(NamedTuple):
     classification: ItemClassification
     type: ItemType
     has_doors: bool
-    painting_ids: List[str]
+    painting_ids: list[str]
 
 
 class LingoItem(Item):
@@ -39,12 +39,12 @@ class LingoItem(Item):
     game: str = "Lingo"
 
 
-ALL_ITEM_TABLE: Dict[str, ItemData] = {}
-ITEMS_BY_GROUP: Dict[str, List[str]] = {}
+ALL_ITEM_TABLE: dict[str, ItemData] = {}
+ITEMS_BY_GROUP: dict[str, list[str]] = {}
 
-TRAP_ITEMS: List[str] = ["Slowness Trap", "Iceland Trap", "Atbash Trap"]
+TRAP_ITEMS: list[str] = ["Slowness Trap", "Iceland Trap", "Atbash Trap"]
 
-PROGUSEFUL_ITEMS: List[str] = [
+PROGUSEFUL_ITEMS: list[str] = [
     "Crossroads - Roof Access",
     "Black",
     "Red",
@@ -73,7 +73,7 @@ def load_item_data():
                                          ItemType.COLOR, False, [])
         ITEMS_BY_GROUP.setdefault("Colors", []).append(color)
 
-    door_groups: Set[str] = set()
+    door_groups: set[str] = set()
     for room_name, doors in DOORS_BY_ROOM.items():
         for door_name, door in doors.items():
             if door.skip_item is True or door.event is True:
@@ -95,7 +95,7 @@ def load_item_data():
                                          ItemType.NORMAL, True, [])
         ITEMS_BY_GROUP.setdefault("Doors", []).append(group)
 
-    panel_groups: Set[str] = set()
+    panel_groups: set[str] = set()
     for room_name, panel_doors in PANEL_DOORS_BY_ROOM.items():
         for panel_door_name, panel_door in panel_doors.items():
             if panel_door.panel_group is not None:
@@ -111,7 +111,7 @@ def load_item_data():
                                          ItemType.NORMAL, False, [])
         ITEMS_BY_GROUP.setdefault("Panels", []).append(group)
 
-    special_items: Dict[str, ItemClassification] = {
+    special_items: dict[str, ItemClassification] = {
         ":)":                        ItemClassification.filler,
         "The Feeling of Being Lost": ItemClassification.filler,
         "Wanderlust":                ItemClassification.filler,

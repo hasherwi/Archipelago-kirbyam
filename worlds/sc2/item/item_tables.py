@@ -2281,7 +2281,7 @@ for key, values in upgrade_bundles.items():
             # Shield handling is trickier as it's max of Ground/Air group, not their sum
             upgrade_bundle_inverted_lookup[value].append(key)
 
-lookup_id_to_name: typing.Dict[int, str] = {data.code: item_name for item_name, data in get_full_item_list().items() if
+lookup_id_to_name: dict[int, str] = {data.code: item_name for item_name, data in get_full_item_list().items() if
                                             data.code}
 
 upgrade_item_types = (TerranItemType.Upgrade, ZergItemType.Upgrade, ProtossItemType.Upgrade)

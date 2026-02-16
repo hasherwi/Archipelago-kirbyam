@@ -1,4 +1,5 @@
-from typing import Callable, Dict, List, Tuple
+from typing import Dict, List, Tuple
+from collections.abc import Callable
 
 from BaseClasses import CollectionState, Region
 from worlds.generic.Rules import set_rule
@@ -22,7 +23,7 @@ def set_rules(world: Celeste64World):
     world.multiworld.completion_condition[world.player] = lambda state: goal_rule(state, world)
 
 
-location_standard_moves_logic: Dict[str, List[List[str]]] = {
+location_standard_moves_logic: dict[str, list[list[str]]] = {
     LocationName.strawberry_1:  [[ItemName.ground_dash],
                                  [ItemName.air_dash],
                                  [ItemName.climb]],
@@ -67,7 +68,7 @@ location_standard_moves_logic: Dict[str, List[List[str]]] = {
                          [ItemName.breakables, ItemName.air_dash, ItemName.climb]],
 }
 
-location_hard_moves_logic: Dict[str, List[List[str]]] = {
+location_hard_moves_logic: dict[str, list[list[str]]] = {
     LocationName.strawberry_5:  [[ItemName.ground_dash],
                                  [ItemName.air_dash]],
     LocationName.strawberry_10: [[ItemName.air_dash],
@@ -116,7 +117,7 @@ location_hard_moves_logic: Dict[str, List[List[str]]] = {
 }
 
 
-region_standard_moves_logic: Dict[Tuple[str], List[List[str]]] = {
+region_standard_moves_logic: dict[tuple[str], list[list[str]]] = {
     (RegionName.forsaken_city, RegionName.granny_island):        [[ItemName.checkpoint_2], [ItemName.checkpoint_3], [ItemName.checkpoint_4]],
     (RegionName.forsaken_city, RegionName.highway_island):       [[ItemName.checkpoint_5], [ItemName.checkpoint_6]],
     (RegionName.forsaken_city, RegionName.ne_feathers_island):   [[ItemName.checkpoint_7]],
@@ -160,7 +161,7 @@ region_standard_moves_logic: Dict[Tuple[str], List[List[str]]] = {
     (RegionName.badeline_island, RegionName.badeline_tower_upper): [[ItemName.air_dash], [ItemName.ground_dash]],
 }
 
-region_hard_moves_logic: Dict[Tuple[str], List[List[str]]] = {
+region_hard_moves_logic: dict[tuple[str], list[list[str]]] = {
     (RegionName.forsaken_city, RegionName.granny_island):        [[ItemName.checkpoint_2], [ItemName.checkpoint_3], [ItemName.checkpoint_4]],
     (RegionName.forsaken_city, RegionName.highway_island):       [[ItemName.checkpoint_5], [ItemName.checkpoint_6]],
     (RegionName.forsaken_city, RegionName.ne_feathers_island):   [[ItemName.checkpoint_7]],
@@ -202,7 +203,7 @@ def location_rule(state: CollectionState, world: Celeste64World, loc: str) -> bo
 
     return False
 
-def region_connection_rule(state: CollectionState, world: Celeste64World, region_connection: Tuple[str]) -> bool:
+def region_connection_rule(state: CollectionState, world: Celeste64World, region_connection: tuple[str]) -> bool:
     if region_connection not in world.active_region_logic_mapping:
         return True
 
@@ -219,11 +220,11 @@ def goal_rule(state: CollectionState, world: Celeste64World) -> bool:
     goal_region: Region = world.multiworld.get_region(RegionName.badeline_island, world.player)
     return state.can_reach(goal_region)
 
-def connect_region(world: Celeste64World, region: Region, dest_regions: List[str]):
-    rules: Dict[str, Callable[[CollectionState], bool]] = {}
+def connect_region(world: Celeste64World, region: Region, dest_regions: list[str]):
+    rules: dict[str, Callable[[CollectionState], bool]] = {}
 
     for dest_region in dest_regions:
-        region_connection: Tuple[str] = (region.name, dest_region)
+        region_connection: tuple[str] = (region.name, dest_region)
         rules[dest_region] = lambda state, region_connection=region_connection: region_connection_rule(state, world, region_connection)
 
     region.add_exits(dest_regions, rules)

@@ -351,7 +351,7 @@ def write_tokens(world: "MLSSWorld", patch: MLSSProcedurePatch) -> None:
 
 
 def swap_colors(world: "MLSSWorld", patch: MLSSProcedurePatch, color: int, bro: int,
-                pants_option: Optional[bool] = False):
+                pants_option: bool | None = False):
     if not pants_option and color == bro:
         return
     chaos = False

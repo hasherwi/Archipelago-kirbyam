@@ -2,14 +2,15 @@
 Location group definitions
 """
 
-from typing import Dict, Iterable, Set
+from typing import Dict, Set
+from collections.abc import Iterable
 
 from .locations import DEFAULT_LOCATION_LIST, LocationData
 from .mission_tables import MissionFlag, lookup_name_to_mission
 
 
-def get_location_groups() -> Dict[str, Set[str]]:
-    result: Dict[str, Set[str]] = {}
+def get_location_groups() -> dict[str, set[str]]:
+    result: dict[str, set[str]] = {}
     locations: Iterable[LocationData] = DEFAULT_LOCATION_LIST
 
     for location in locations:

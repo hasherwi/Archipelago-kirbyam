@@ -2,7 +2,7 @@ from typing import List
 
 from ..ItemData import TechPrereqData
 
-new_tech_prereqs: List[TechPrereqData] = [
+new_tech_prereqs: list[TechPrereqData] = [
     {"Technology": "TECH_AP_ANCIENT_06", "PrereqTech": "TECH_AP_ANCIENT_01"},
     {"Technology": "TECH_AP_ANCIENT_07", "PrereqTech": "TECH_AP_ANCIENT_00"},
     {"Technology": "TECH_AP_ANCIENT_05", "PrereqTech": "TECH_AP_ANCIENT_00"},

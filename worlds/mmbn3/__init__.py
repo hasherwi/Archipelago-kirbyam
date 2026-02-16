@@ -73,8 +73,8 @@ class MMBN3World(World):
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = {loc_data.name: loc_data.id for loc_data in all_locations}
 
-    excluded_locations: typing.Set[str]
-    item_frequencies: typing.Dict[str, int]
+    excluded_locations: set[str]
+    item_frequencies: dict[str, int]
 
     location_name_groups = location_groups
     item_name_groups = item_groups

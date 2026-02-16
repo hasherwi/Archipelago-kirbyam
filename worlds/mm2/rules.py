@@ -27,7 +27,7 @@ if TYPE_CHECKING:
 
     from . import MM2World
 
-weapon_damage: Dict[int, List[int]] = {
+weapon_damage: dict[int, list[int]] = {
     0: [2,  2,  1,   1,  2,   2,  1,   1,   1,  7,  1,  0,    1,   -1],  # Mega Buster
     1: [-1, 6,  0xE, 0,  0xA, 6,  4,   6,   8,  13, 8,  0,    0xE, -1],  # Atomic Fire
     2: [2,  0,  4,   0,  2,   0,  0,   0xA, 0,  0,  0,  0,    1,   -1],  # Air Shooter
@@ -39,7 +39,7 @@ weapon_damage: Dict[int, List[int]] = {
     8: [0,  0,  0,   0,  2,   0,  0,   0,   0,  0,  0,  0,    0,    0],  # Time Stopper
 }
 
-weapons_to_name: Dict[int, str] = {
+weapons_to_name: dict[int, str] = {
     1: names.atomic_fire,
     2: names.air_shooter,
     3: names.leaf_shield,
@@ -50,7 +50,7 @@ weapons_to_name: Dict[int, str] = {
     8: names.time_stopper
 }
 
-minimum_weakness_requirement: Dict[int, int] = {
+minimum_weakness_requirement: dict[int, int] = {
     0: 1,  # Mega Buster is free
     1: 14,  # 2 shots of Atomic Fire
     2: 2,  # 14 shots of Air Shooter
@@ -62,7 +62,7 @@ minimum_weakness_requirement: Dict[int, int] = {
     8: 4,  # 1 use of Time Stopper, but setting to 4 means we shave the entire HP bar
 }
 
-robot_masters: Dict[int, str] = {
+robot_masters: dict[int, str] = {
     0: "Heat Man Defeated",
     1: "Air Man Defeated",
     2: "Wood Man Defeated",
@@ -87,7 +87,7 @@ weapon_costs = {
 
 
 def can_defeat_enough_rbms(state: "CollectionState", player: int,
-                           required: int, boss_requirements: Dict[int, List[int]]):
+                           required: int, boss_requirements: dict[int, list[int]]):
     can_defeat = 0
     for boss, reqs in boss_requirements.items():
         if boss in robot_masters:

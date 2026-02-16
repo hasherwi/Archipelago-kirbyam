@@ -41,7 +41,7 @@ class SubnauticaWorld(World):
     options: options.SubnauticaOptions
     required_client_version = (0, 6, 2)
     origin_region_name = "Planet 4546B"
-    creatures_to_scan: List[str]
+    creatures_to_scan: list[str]
 
     def generate_early(self) -> None:
         if not self.options.filler_items_distribution.weights_pair[1][-1]:
@@ -92,7 +92,7 @@ class SubnauticaWorld(World):
 
     def create_items(self):
         # Generate item pool
-        pool: List[SubnauticaItem] = []
+        pool: list[SubnauticaItem] = []
         extras = self.options.creature_scans.value
 
         grouped = set(itertools.chain.from_iterable(group_items.values()))
@@ -143,10 +143,10 @@ class SubnauticaWorld(World):
 
         self.multiworld.itempool += pool
 
-    def fill_slot_data(self) -> Dict[str, Any]:
-        vanilla_tech: List[str] = []
+    def fill_slot_data(self) -> dict[str, Any]:
+        vanilla_tech: list[str] = []
 
-        slot_data: Dict[str, Any] = {
+        slot_data: dict[str, Any] = {
             "goal": self.options.goal.current_key,
             "swim_rule": self.options.swim_rule.current_key,
             "vanilla_tech": vanilla_tech,

@@ -50,7 +50,7 @@ class HereticWorld(World):
     location_name_to_id = {data["name"]: loc_id for loc_id, data in Locations.location_table.items()}
     location_name_groups = Locations.location_name_groups
 
-    starting_level_for_episode: Dict[int, str] = {
+    starting_level_for_episode: dict[int, str] = {
         1: "The Docks (E1M1)",
         2: "The Crater (E2M1)",
         3: "The Storehouse (E3M1)",
@@ -58,7 +58,7 @@ class HereticWorld(World):
         5: "Ochre Cliffs (E5M1)"
     }
 
-    all_boss_levels: List[str] = [
+    all_boss_levels: list[str] = [
         "Hell's Maw (E1M8)",
         "The Portals of Chaos (E2M8)",
         "D'Sparil's Keep (E3M8)",
@@ -67,7 +67,7 @@ class HereticWorld(World):
     ]
 
     # Item ratio that scales depending on episode count. These are the ratio for 1 episode.
-    items_ratio: Dict[str, float] = {
+    items_ratio: dict[str, float] = {
         "Timebomb of the Ancients": 16,
         "Tome of Power": 16,
         "Silver Shield": 10,
@@ -199,7 +199,7 @@ class HereticWorld(World):
         return HereticItem(name, Items.item_table[item_id]["classification"], item_id, self.player)
 
     def create_items(self):
-        itempool: List[HereticItem] = []
+        itempool: list[HereticItem] = []
         start_with_map_scrolls: bool = self.options.start_with_map_scrolls.value
 
         # Items
@@ -286,7 +286,7 @@ class HereticWorld(World):
             "Quiver of Ethereal Arrows"
         ])
 
-    def create_ratioed_items(self, item_name: str, itempool: List[HereticItem]):
+    def create_ratioed_items(self, item_name: str, itempool: list[HereticItem]):
         remaining_loc = self.location_count - len(itempool)
         if remaining_loc <= 0:
             return
@@ -300,7 +300,7 @@ class HereticWorld(World):
         for i in range(count):
             itempool.append(self.create_item(item_name))
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         slot_data = self.options.as_dict("goal", "difficulty", "random_monsters", "random_pickups", "random_music", "allow_death_logic", "pro", "death_link", "reset_level_on_death", "check_sanity")
 
         # Make sure we send proper episode settings

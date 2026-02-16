@@ -6,11 +6,11 @@ from ... import Options
 from .. import DLCQuestTestBase
 
 
-def get_all_item_names(multiworld: MultiWorld) -> List[str]:
+def get_all_item_names(multiworld: MultiWorld) -> list[str]:
     return [item.name for item in multiworld.itempool]
 
 
-def get_all_location_names(multiworld: MultiWorld) -> List[str]:
+def get_all_location_names(multiworld: MultiWorld) -> list[str]:
     return [location.name for location in multiworld.get_locations() if not location.advancement]
 
 

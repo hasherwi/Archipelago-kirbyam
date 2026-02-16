@@ -9,8 +9,8 @@ if TYPE_CHECKING:
 
 
 class RoRRegionData(NamedTuple):
-    locations: Optional[List[str]]
-    region_exits: Optional[List[str]]
+    locations: list[str] | None
+    region_exits: list[str] | None
 
 
 def create_explore_regions(ror2_world: "RiskOfRainWorld") -> None:
@@ -18,7 +18,7 @@ def create_explore_regions(ror2_world: "RiskOfRainWorld") -> None:
     ror2_options = ror2_world.options
     multiworld = ror2_world.multiworld
     # Default Locations
-    non_dlc_regions: Dict[str, RoRRegionData] = {
+    non_dlc_regions: dict[str, RoRRegionData] = {
         "Menu":                                 RoRRegionData(None, ["Distant Roost", "Distant Roost (2)",
                                                                      "Titanic Plains", "Titanic Plains (2)",
                                                                      "Verdant Falls"]),
@@ -37,12 +37,12 @@ def create_explore_regions(ror2_world: "RiskOfRainWorld") -> None:
         "Sky Meadow":                           RoRRegionData([], ["Hidden Realm: Bulwark's Ambry", "OrderedStage_5"]),
     }
     # SOTV Regions
-    dlc_regions: Dict[str, RoRRegionData] = {
+    dlc_regions: dict[str, RoRRegionData] = {
         "Siphoned Forest":                      RoRRegionData([], ["OrderedStage_1"]),
         "Aphelian Sanctuary":                   RoRRegionData([], ["OrderedStage_2"]),
         "Sulfur Pools":                         RoRRegionData([], ["OrderedStage_3"])
     }
-    other_regions: Dict[str, RoRRegionData] = {
+    other_regions: dict[str, RoRRegionData] = {
         "Commencement":                         RoRRegionData(None, ["Victory", "Petrichor V"]),
         "OrderedStage_5":                       RoRRegionData(None, ["Hidden Realm: A Moment, Fractured",
                                                                      "Commencement"]),
@@ -62,7 +62,7 @@ def create_explore_regions(ror2_world: "RiskOfRainWorld") -> None:
         "Hidden Realm: Bazaar Between Time":    RoRRegionData(None, ["Void Fields"]),
         "Hidden Realm: Gilded Coast":           RoRRegionData(None, None)
     }
-    dlc_other_regions: Dict[str, RoRRegionData] = {
+    dlc_other_regions: dict[str, RoRRegionData] = {
         "The Planetarium":                      RoRRegionData(None, ["Victory", "Petrichor V"]),
         "Void Locus":                           RoRRegionData(None, ["The Planetarium"])
     }
@@ -98,7 +98,7 @@ def create_explore_regions(ror2_world: "RiskOfRainWorld") -> None:
         if newt > 0:
             for i in range(0, newt):
                 all_location_regions[key].locations.append(f"{key}: Newt Altar {i + 1}")
-    regions_pool: Dict = {**all_location_regions, **other_regions}
+    regions_pool: dict = {**all_location_regions, **other_regions}
 
     # DLC Locations
     if ror2_options.dlc_sotv:
@@ -107,7 +107,7 @@ def create_explore_regions(ror2_world: "RiskOfRainWorld") -> None:
         other_regions["OrderedStage_2"].region_exits.append("Sulfur Pools")
         other_regions["Void Fields"].region_exits.append("Void Locus")
         other_regions["Commencement"].region_exits.append("The Planetarium")
-        regions_pool: Dict = {**all_location_regions, **other_regions, **dlc_other_regions}
+        regions_pool: dict = {**all_location_regions, **other_regions, **dlc_other_regions}
 
     # Check to see if Victory needs to be removed from regions
     if ror2_options.victory == "mithrix":
@@ -170,7 +170,7 @@ def create_classic_regions(ror2_world: "RiskOfRainWorld") -> None:
     connection.connect(petrichor)
 
 
-def create_classic_region(multiworld: MultiWorld, player: int, name: str, locations: Dict[str, int] = {}) -> Region:
+def create_classic_region(multiworld: MultiWorld, player: int, name: str, locations: dict[str, int] = {}) -> Region:
     ret = Region(name, player, multiworld)
     for location_name, location_id in locations.items():
         ret.locations.append(RiskOfRainLocation(player, location_name, location_id, ret))

@@ -89,9 +89,9 @@ class TestCopyAbilityShuffle(KDL3TestBase):
             ({"Stone Ability", "Burning Ability"}, {"Bukiset (Stone)", "Bukiset (Burning)"}),
         ]
         copy_abilities = self.multiworld.worlds[1].copy_abilities
-        required_abilities: List[List[str]] = []
+        required_abilities: list[list[str]] = []
         for abilities, bukisets in groups:
-            potential_abilities: List[str] = list()
+            potential_abilities: list[str] = list()
             for bukiset in bukisets:
                 if copy_abilities[bukiset] in abilities:
                     potential_abilities.append(copy_abilities[bukiset])
@@ -291,9 +291,9 @@ class TestAllShuffle(KDL3TestBase):
             ({"Stone Ability", "Burning Ability"}, {"Bukiset (Stone)", "Bukiset (Burning)"}),
         ]
         copy_abilities = self.multiworld.worlds[1].copy_abilities
-        required_abilities: List[List[str]] = []
+        required_abilities: list[list[str]] = []
         for abilities, bukisets in groups:
-            potential_abilities: List[str] = list()
+            potential_abilities: list[str] = list()
             for bukiset in bukisets:
                 if copy_abilities[bukiset] in abilities:
                     potential_abilities.append(copy_abilities[bukiset])

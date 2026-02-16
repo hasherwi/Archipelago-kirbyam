@@ -12,7 +12,7 @@ class PaintItemData(NamedTuple):
     type: ItemClassification
 
 
-item_data_table: Dict[str, PaintItemData] = {
+item_data_table: dict[str, PaintItemData] = {
     "Progressive Canvas Width":         PaintItemData(198501, ItemClassification.progression),
     "Progressive Canvas Height":        PaintItemData(198502, ItemClassification.progression),
     "Progressive Color Depth (Red)":    PaintItemData(198503, ItemClassification.progression),

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import Mapping, Sequence, Tuple
+from typing import Tuple
+from collections.abc import Mapping, Sequence
 
 from ..strings.season_names import Season
 from .game_item import ItemTag, Source
@@ -7,15 +8,15 @@ from .game_item import ItemTag, Source
 
 @dataclass(frozen=True, kw_only=True)
 class ForagingSource(Source):
-    regions: Tuple[str, ...]
-    seasons: Tuple[str, ...] = Season.all
+    regions: tuple[str, ...]
+    seasons: tuple[str, ...] = Season.all
 
 
 @dataclass(frozen=True, kw_only=True)
 class SeasonalForagingSource(Source):
     season: str
     days: Sequence[int]
-    regions: Tuple[str, ...]
+    regions: tuple[str, ...]
 
     def as_foraging_source(self) -> ForagingSource:
         return ForagingSource(seasons=(self.season,), regions=self.regions)
@@ -36,10 +37,10 @@ class HarvestFruitTreeSource(Source):
     add_tags = (ItemTag.CROPSANITY,)
 
     sapling: str
-    seasons: Tuple[str, ...] = Season.all
+    seasons: tuple[str, ...] = Season.all
 
     @property
-    def requirement_tags(self) -> Mapping[str, Tuple[ItemTag, ...]]:
+    def requirement_tags(self) -> Mapping[str, tuple[ItemTag, ...]]:
         return {
             self.sapling: (ItemTag.CROPSANITY_SEED,)
         }
@@ -50,11 +51,11 @@ class HarvestCropSource(Source):
     add_tags = (ItemTag.CROPSANITY,)
 
     seed: str
-    seasons: Tuple[str, ...] = Season.all
+    seasons: tuple[str, ...] = Season.all
     """Empty means it can't be grown on the farm."""
 
     @property
-    def requirement_tags(self) -> Mapping[str, Tuple[ItemTag, ...]]:
+    def requirement_tags(self) -> Mapping[str, tuple[ItemTag, ...]]:
         return {
             self.seed: (ItemTag.CROPSANITY_SEED,)
         }

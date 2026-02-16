@@ -2,7 +2,7 @@
 
 from typing import List
 
-map_names: List[str] = [
+map_names: list[str] = [
     "Hangar (E1M1)",
     "Nuclear Plant (E1M2)",
     "Toxin Refinery (E1M3)",

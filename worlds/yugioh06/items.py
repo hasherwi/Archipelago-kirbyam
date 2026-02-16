@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-item_to_index: Dict[str, int] = {
+item_to_index: dict[str, int] = {
     "LEGEND OF B.E.W.D.": 1,
     "METAL RAIDERS": 2,
     "PHARAOH'S SERVANT": 3,
@@ -175,7 +175,7 @@ item_to_index: Dict[str, int] = {
     "Remote": 255,
 }
 
-tier_1_opponents: List[str] = [
+tier_1_opponents: list[str] = [
     "Campaign Tier 1 Column 1",
     "Campaign Tier 1 Column 2",
     "Campaign Tier 1 Column 3",
@@ -183,7 +183,7 @@ tier_1_opponents: List[str] = [
     "Campaign Tier 1 Column 5",
 ]
 
-tier_2_opponents: List[str] = [
+tier_2_opponents: list[str] = [
     "Campaign Tier 2 Column 1",
     "Campaign Tier 2 Column 2",
     "Campaign Tier 2 Column 3",
@@ -191,7 +191,7 @@ tier_2_opponents: List[str] = [
     "Campaign Tier 2 Column 5",
 ]
 
-tier_3_opponents: List[str] = [
+tier_3_opponents: list[str] = [
     "Campaign Tier 3 Column 1",
     "Campaign Tier 3 Column 2",
     "Campaign Tier 3 Column 3",
@@ -199,7 +199,7 @@ tier_3_opponents: List[str] = [
     "Campaign Tier 3 Column 5",
 ]
 
-tier_4_opponents: List[str] = [
+tier_4_opponents: list[str] = [
     "Campaign Tier 4 Column 1",
     "Campaign Tier 4 Column 2",
     "Campaign Tier 4 Column 3",
@@ -207,12 +207,12 @@ tier_4_opponents: List[str] = [
     "Campaign Tier 4 Column 5",
 ]
 
-tier_5_opponents: List[str] = [
+tier_5_opponents: list[str] = [
     "Campaign Tier 5 Column 1",
     "Campaign Tier 5 Column 2",
 ]
 
-Banlist_Items: List[str] = [
+Banlist_Items: list[str] = [
     "No Banlist",
     "Banlist September 2003",
     "Banlist March 2004",
@@ -221,7 +221,7 @@ Banlist_Items: List[str] = [
     "Banlist September 2005",
 ]
 
-draft_boosters: List[str] = [
+draft_boosters: list[str] = [
     "METAL RAIDERS",
     "PHARAOH'S SERVANT",
     "PHARAONIC GUARDIAN",
@@ -235,9 +235,9 @@ draft_boosters: List[str] = [
     "SHADOW OF INFINITY",
 ]
 
-draft_opponents: List[str] = ["Campaign Tier 1 Column 1", "Campaign Tier 1 Column 5"]
+draft_opponents: list[str] = ["Campaign Tier 1 Column 1", "Campaign Tier 1 Column 5"]
 
-booster_packs: List[str] = [
+booster_packs: list[str] = [
     "LEGEND OF B.E.W.D.",
     "METAL RAIDERS",
     "PHARAOH'S SERVANT",
@@ -285,7 +285,7 @@ booster_packs: List[str] = [
     "Monster Destroy Collection",
 ]
 
-challenges: List[str] = [
+challenges: list[str] = [
     "LD01 All except Level 4 forbidden Unlock",
     "LD02 Medium/high Level forbidden Unlock",
     "LD03 ATK 1500 or more forbidden Unlock",
@@ -379,7 +379,7 @@ challenges: List[str] = [
     "TD50 Dark Scorpion Combination Unlock",
 ]
 
-excluded_items: List[str] = [
+excluded_items: list[str] = [
     "All Normal Monsters",
     "All Effect Monsters",
     "All Fusion Monsters",
@@ -390,7 +390,7 @@ excluded_items: List[str] = [
     "Remote",
 ]
 
-useful: List[str] = [
+useful: list[str] = [
     "Banlist March 2004",
     "Banlist September 2004",
     "Banlist March 2005",

@@ -22,7 +22,7 @@ import Utils
 from . import SavingPrincessWorld
 from .Constants import *
 
-files_to_clean: Set[str] = {
+files_to_clean: set[str] = {
     "D3DX9_43.dll",
     "data.win",
     "m_boss.ogg",
@@ -50,7 +50,7 @@ files_to_clean: Set[str] = {
     "versions.json",
 }
 
-file_hashes: Dict[str, str] = {
+file_hashes: dict[str, str] = {
     "D3DX9_43.dll": "86e39e9161c3d930d93822f1563c280d",
     "Saving Princess v0_8.exe": "cc3ad10c782e115d93c5b9fbc5675eaf",
     "original_data.win": "f97b80204bd9ae535faa5a8d1e5eb6ca",

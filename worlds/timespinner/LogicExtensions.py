@@ -13,13 +13,13 @@ class TimespinnerLogic:
     flag_eye_spy: bool
     flag_specific_keycards: bool
     flag_prism_break: bool
-    pyramid_keys_unlock: Optional[str]
-    present_keys_unlock: Optional[str]
-    past_keys_unlock: Optional[str]
-    time_keys_unlock: Optional[str]
+    pyramid_keys_unlock: str | None
+    present_keys_unlock: str | None
+    past_keys_unlock: str | None
+    time_keys_unlock: str | None
 
-    def __init__(self, player: int, options: Optional[TimespinnerOptions],
-                 precalculated_weights: Optional[PreCalculatedWeights]):
+    def __init__(self, player: int, options: TimespinnerOptions | None,
+                 precalculated_weights: PreCalculatedWeights | None):
         self.player = player
 
         self.flag_specific_keycards = bool(options and options.specific_keycards)

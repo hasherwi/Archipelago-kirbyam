@@ -352,7 +352,7 @@ if __name__ == "__main__":
 
 
     async def run_game(romfile: str) -> None:
-        auto_start = typing.cast(typing.Union[bool, str],
+        auto_start = typing.cast(bool | str,
                                  get_settings()["tloz_options"].get("rom_start", True))
         if auto_start is True:
             import webbrowser

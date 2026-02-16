@@ -72,9 +72,9 @@ class AdventureSettings(settings.Group):
         """Set this to true to display item received messages in EmuHawk"""
 
     rom_file: RomFile = RomFile(RomFile.copy_to)
-    rom_start: typing.Union[RomStart, bool] = True
-    rom_args: Optional[RomArgs] = " "
-    display_msgs: typing.Union[DisplayMsgs, bool] = True
+    rom_start: RomStart | bool = True
+    rom_args: RomArgs | None = " "
+    display_msgs: DisplayMsgs | bool = True
 
 
 class AdventureWeb(WebWorld):
@@ -119,26 +119,26 @@ class AdventureWorld(World):
 
     options_dataclass = AdventureOptions
     settings: ClassVar[AdventureSettings]
-    item_name_to_id: ClassVar[Dict[str, int]] = {name: data.id for name, data in item_table.items()}
-    location_name_to_id: ClassVar[Dict[str, int]] = {name: data.location_id for name, data in location_table.items()}
-    required_client_version: Tuple[int, int, int] = (0, 3, 9)
+    item_name_to_id: ClassVar[dict[str, int]] = {name: data.id for name, data in item_table.items()}
+    location_name_to_id: ClassVar[dict[str, int]] = {name: data.location_id for name, data in location_table.items()}
+    required_client_version: tuple[int, int, int] = (0, 3, 9)
 
     def __init__(self, world: MultiWorld, player: int):
         super().__init__(world, player)
-        self.rom_name: Optional[bytearray] = bytearray("", "utf8" )
+        self.rom_name: bytearray | None = bytearray("", "utf8" )
         self.dragon_rooms: [int] = [0x14, 0x19, 0x4]
-        self.dragon_slay_check: Optional[int] = 0
-        self.connector_multi_slot: Optional[int] = 0
-        self.dragon_rando_type: Optional[int] = 0
-        self.yorgle_speed: Optional[int] = 2
-        self.yorgle_min_speed: Optional[int] = 2
-        self.grundle_speed: Optional[int] = 2
-        self.grundle_min_speed: Optional[int] = 2
-        self.rhindle_speed: Optional[int] = 3
-        self.rhindle_min_speed: Optional[int] = 3
-        self.difficulty_switch_a: Optional[int] = 0
-        self.difficulty_switch_b: Optional[int] = 0
-        self.start_castle: Optional[int] = 0
+        self.dragon_slay_check: int | None = 0
+        self.connector_multi_slot: int | None = 0
+        self.dragon_rando_type: int | None = 0
+        self.yorgle_speed: int | None = 2
+        self.yorgle_min_speed: int | None = 2
+        self.grundle_speed: int | None = 2
+        self.grundle_min_speed: int | None = 2
+        self.rhindle_speed: int | None = 3
+        self.rhindle_min_speed: int | None = 3
+        self.difficulty_switch_a: int | None = 0
+        self.difficulty_switch_b: int | None = 0
+        self.start_castle: int | None = 0
         # dict of item names -> list of speed deltas
         self.dragon_speed_reducer_info: {} = {}
         self.created_items: int = 0

@@ -41,14 +41,14 @@ class SM64World(World):
 
     required_client_version = (0, 3, 5)
 
-    area_connections: typing.Dict[int, int]
+    area_connections: dict[int, int]
 
     options_dataclass = SM64Options
 
     number_of_stars: int
     move_rando_bitvec: int
     filler_count: int
-    star_costs: typing.Dict[str, int]
+    star_costs: dict[str, int]
 
     # Spoiler specific variable(s)
     star_costs_spoiler_key_maxlen = len(max([
@@ -229,7 +229,7 @@ class SM64World(World):
         with open(os.path.join(output_directory, filename), "w") as f:
             json.dump(data, f)
 
-    def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]):
+    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]):
         if self.topology_present:
             er_hint_data = {}
             for entrance, destination in self.area_connections.items():

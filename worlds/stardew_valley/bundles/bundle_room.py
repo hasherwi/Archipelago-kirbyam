@@ -10,13 +10,13 @@ from .bundle import Bundle, BundleTemplate
 @dataclass
 class BundleRoom:
     name: str
-    bundles: List[Bundle]
+    bundles: list[Bundle]
 
 
 @dataclass
 class BundleRoomTemplate:
     name: str
-    bundles: List[BundleTemplate]
+    bundles: list[BundleTemplate]
     number_bundles: int
 
     def create_bundle_room(self, random: Random, content: StardewContent, options: StardewValleyOptions):

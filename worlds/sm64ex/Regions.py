@@ -63,11 +63,11 @@ class SM64Levels(int, Enum):
 
 
 class SM64Region(Region):
-    subregions: typing.List[Region] = []
+    subregions: list[Region] = []
 
 
 # sm64paintings is a dict of entrances, format LEVEL | AREA
-sm64_level_to_paintings: typing.Dict[SM64Levels, str] = {
+sm64_level_to_paintings: dict[SM64Levels, str] = {
     SM64Levels.BOB_OMB_BATTLEFIELD: "Bob-omb Battlefield",
     SM64Levels.WHOMPS_FORTRESS: "Whomp's Fortress",
     SM64Levels.JOLLY_ROGER_BAY: "Jolly Roger Bay",
@@ -88,7 +88,7 @@ sm64_level_to_paintings: typing.Dict[SM64Levels, str] = {
 sm64_paintings_to_level = {painting: level for (level, painting) in sm64_level_to_paintings.items() }
 
 # sm64secrets is a dict of secret areas, same format as sm64paintings
-sm64_level_to_secrets: typing.Dict[SM64Levels, str] = {
+sm64_level_to_secrets: dict[SM64Levels, str] = {
     SM64Levels.THE_PRINCESS_SECRET_SLIDE: "The Princess's Secret Slide",
     SM64Levels.THE_SECRET_AQUARIUM: "The Secret Aquarium",
     SM64Levels.BOWSER_IN_THE_DARK_WORLD: "Bowser in the Dark World",

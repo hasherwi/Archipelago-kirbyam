@@ -1,6 +1,7 @@
 import hashlib
 import os
-from typing import TYPE_CHECKING, Collection, SupportsIndex
+from typing import TYPE_CHECKING, SupportsIndex
+from collections.abc import Collection
 
 import Utils
 from settings import get_settings

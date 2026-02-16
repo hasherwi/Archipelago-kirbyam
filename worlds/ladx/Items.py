@@ -311,7 +311,7 @@ links_awakening_items_by_name = {
     item.item_name : item for item in links_awakening_items
 }
 
-links_awakening_item_name_groups: typing.Dict[str, typing.Set[str]] = {
+links_awakening_item_name_groups: dict[str, set[str]] = {
     "Instruments": {
         "Full Moon Cello",
         "Conch Horn",

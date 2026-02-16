@@ -98,7 +98,7 @@ def add_specific_path_requirements(world: "LandstalkerWorld"):
         entrance.access_rule = make_path_requirement_lambda(player, ["Einstein Whistle"], [])
 
 
-def make_path_requirement_lambda(player: int, required_items: List[str], required_regions: List[LandstalkerRegion]):
+def make_path_requirement_lambda(player: int, required_items: list[str], required_regions: list[LandstalkerRegion]):
     """
     Lambdas are created in a for loop, so values need to be captured
     """

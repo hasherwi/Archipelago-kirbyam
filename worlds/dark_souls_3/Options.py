@@ -324,7 +324,7 @@ class RandomEnemyPresetOption(OptionDict):
                   "DontRandomize", "RemoveSource", "Enemies"]
 
     @classmethod
-    def get_option_name(cls, value: Dict[str, Any]) -> str:
+    def get_option_name(cls, value: dict[str, Any]) -> str:
         return json.dumps(value)
 
 

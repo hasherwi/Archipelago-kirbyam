@@ -30,11 +30,11 @@ class CivVIContainer(APPlayerContainer):
     """
     Responsible for generating the dynamic mod files for the Civ VI multiworld
     """
-    game: Optional[str] = "Civilization VI"
+    game: str | None = "Civilization VI"
     patch_file_ending = ".apcivvi"
 
-    def __init__(self, patch_data: Dict[str, str], base_path: str = "", output_directory: str = "",
-                 player: Optional[int] = None, player_name: str = "", server: str = ""):
+    def __init__(self, patch_data: dict[str, str], base_path: str = "", output_directory: str = "",
+                 player: int | None = None, player_name: str = "", server: str = ""):
         self.patch_data = patch_data
         self.file_path = base_path
         container_path = os.path.join(output_directory, base_path + ".apcivvi")
@@ -79,7 +79,7 @@ def generate_new_items(world: "CivVIWorld") -> str:
     """
     Generates the XML for the new techs/civics as well as the blockers used to prevent players from researching their own items
     """
-    locations: List[CivVILocation] = cast(List[CivVILocation], world.multiworld.get_filled_locations(world.player))
+    locations: list[CivVILocation] = cast(list[CivVILocation], world.multiworld.get_filled_locations(world.player))
     techs = [location for location in locations if location.location_type ==
              CivVICheckType.TECH]
     civics = [location for location in locations if location.location_type ==

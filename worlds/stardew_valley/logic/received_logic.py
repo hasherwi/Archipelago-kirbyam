@@ -10,7 +10,7 @@ from .logic_event import all_events
 
 
 class ReceivedLogicMixin(BaseLogic, BaseLogicMixin):
-    def received(self, item: str, count: Optional[int] = 1) -> StardewRule:
+    def received(self, item: str, count: int | None = 1) -> StardewRule:
         assert count >= 0, "Can't receive a negative amount of item."
 
         if item in all_events:

@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Tuple
+from typing import TYPE_CHECKING, Any, Dict, List, Tuple
+from collections.abc import Callable
 
 from BaseClasses import CollectionState
 
@@ -11,13 +12,13 @@ else:
 class BlasRules:
     player: int
     world: BlasphemousWorld
-    string_rules: Dict[str, Callable[[CollectionState], bool]]
+    string_rules: dict[str, Callable[[CollectionState], bool]]
 
     def __init__(self, world: "BlasphemousWorld") -> None:
         self.player = world.player
         self.world = world
         self.multiworld = world.multiworld
-        self.indirect_conditions: List[Tuple[str, str]] = []
+        self.indirect_conditions: list[tuple[str, str]] = []
 
         # BrandenEK/Blasphemous.Randomizer/ItemRando/BlasphemousInventory.cs
         self.string_rules = {
@@ -282,7 +283,7 @@ class BlasRules:
             "canBeatLegionary": self.can_beat_legionary
         }
 
-        boss_strength_indirect_regions: List[str] = [
+        boss_strength_indirect_regions: list[str] = [
             # flasks
             "D01Z05S05[SW]",
             "D02Z02S04[W]",
@@ -295,7 +296,7 @@ class BlasRules:
             "D01Z05S01[W]"
         ]
 
-        guilt_indirect_regions: List[str] = [
+        guilt_indirect_regions: list[str] = [
             "D01Z04S01[NE]",
             "D02Z02S11[W]",
             "D03Z03S02[NE]",
@@ -305,7 +306,7 @@ class BlasRules:
             "D17Z01S04[W]"
         ]
 
-        sword_indirect_regions: List[str] = [
+        sword_indirect_regions: list[str] = [
             "D01Z02S07[E]",
             "D01Z02S02[SW]",
             "D20Z01S04[E]",
@@ -317,7 +318,7 @@ class BlasRules:
             "D17Z01S07[SW]"
         ]
 
-        redento_indirect_regions: List[str] = [
+        redento_indirect_regions: list[str] = [
             "D03Z01S04[E]",
             "D03Z02S10[N]",
             "D17Z01S05[S]",
@@ -332,7 +333,7 @@ class BlasRules:
             "D17Z01S07[NW]"
         ]
 
-        miriam_indirect_regions: List[str] = [
+        miriam_indirect_regions: list[str] = [
             "D02Z03S07[NWW]",
             "D03Z03S07[NW]",
             "D04Z04S01[E]",
@@ -340,7 +341,7 @@ class BlasRules:
             "D06Z01S17[E]"
         ]
 
-        chalice_indirect_regions: List[str] = [
+        chalice_indirect_regions: list[str] = [
             "D03Z01S02[E]",
             "D01Z05S02[W]",
             "D20Z01S03[N]",
@@ -352,7 +353,7 @@ class BlasRules:
             "D09Z01S02[SW]"
         ]
 
-        self.indirect_regions: Dict[str, List[str]] = {
+        self.indirect_regions: dict[str, list[str]] = {
             "openedDCGateW":          ["D20Z01S04[E]",
                                        "D01Z05S23[W]"],
             "openedDCGateE":          ["D01Z05S10[SE]",
@@ -497,7 +498,7 @@ class BlasRules:
         return (string[0] == "D" and string[3] == "Z" and string[6] == "S")\
             or (string[0] == "D" and string[3] == "B" and string[4] == "Z" and string[7] == "S")
 
-    def load_rule(self, obj_is_region: bool, name: str, obj: Dict[str, Any]) -> Callable[[CollectionState], bool]:
+    def load_rule(self, obj_is_region: bool, name: str, obj: dict[str, Any]) -> Callable[[CollectionState], bool]:
         clauses = []
         for clause in obj["logic"]:
             reqs = []
@@ -1261,7 +1262,7 @@ class BlasRules:
             + min(5, quicksilver) * 0.15 / 5
         )
 
-        bosses: Dict[str, float] = {
+        bosses: dict[str, float] = {
             "warden": -0.10,
             "ten-piedad": 0.05,
             "charred-visage": 0.20,

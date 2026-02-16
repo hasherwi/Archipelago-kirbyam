@@ -515,7 +515,7 @@ class PokemonRedBlueWorld(World):
                 loc.item = None
             loc.place_locked_item(self.pc_item)
 
-    def get_pre_fill_items(self) -> typing.List["Item"]:
+    def get_pre_fill_items(self) -> list["Item"]:
         pool = [self.create_item(mon) for mon in poke_data.pokemon_data]
         pool.append(self.pc_item)
         return pool

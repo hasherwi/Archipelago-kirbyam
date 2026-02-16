@@ -1,4 +1,4 @@
-from typing import Iterable
+from collections.abc import Iterable
 
 from BaseClasses import MultiWorld, Region
 from worlds.generic.Rules import CollectionRule

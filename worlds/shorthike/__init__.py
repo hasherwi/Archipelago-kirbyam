@@ -38,7 +38,7 @@ class ShortHikeWorld(World):
 
     item_name_groups = group_table
 
-    options_dataclass: ClassVar[Type[PerGameCommonOptions]] = ShortHikeOptions
+    options_dataclass: ClassVar[type[PerGameCommonOptions]] = ShortHikeOptions
     options: ShortHikeOptions
 
     required_client_version = (0, 4, 4)
@@ -131,7 +131,7 @@ class ShortHikeWorld(World):
     def set_rules(self):
         create_rules(self, location_table)
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         options = self.options
 
         settings = {

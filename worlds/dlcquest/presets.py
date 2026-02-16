@@ -68,7 +68,7 @@ hard_settings = {
 }
 
 
-dlcq_options_presets: Dict[str, Dict[str, Any]] = {
+dlcq_options_presets: dict[str, dict[str, Any]] = {
     "All random": all_random_settings,
     "Main campaign": main_campaign_settings,
     "LFOD campaign": lfod_campaign_settings,

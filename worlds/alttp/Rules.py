@@ -1,6 +1,7 @@
 import collections
 import logging
-from typing import Iterator, Set
+from typing import Set
+from collections.abc import Iterator
 
 from BaseClasses import MultiWorld
 from Options import ItemsAccessibility
@@ -219,7 +220,7 @@ def global_rules(multiworld: MultiWorld, player: int):
     # ganon can only carry triforce
     add_item_rule(multiworld.get_location("Ganon", player), lambda item: item.name == "Triforce" and item.player == player)
     # dungeon prizes can only be crystals/pendants
-    crystals_and_pendants: Set[str] = \
+    crystals_and_pendants: set[str] = \
         {item for item, item_data in item_table.items() if item_data.type == "Crystal"}
     prize_locations: Iterator[str] = \
         (locations for locations, location_data in location_table.items() if location_data[2] == True)

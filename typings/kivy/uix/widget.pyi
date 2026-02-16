@@ -25,7 +25,7 @@ class Widget:
 
     def bind(self,
              *,
-             pos: Optional[FillType_BindCallback] = ...,
-             size: Optional[FillType_BindCallback] = ...) -> None: ...
+             pos: FillType_BindCallback | None = ...,
+             size: FillType_BindCallback | None = ...) -> None: ...
 
     def refresh(self) -> None: ...

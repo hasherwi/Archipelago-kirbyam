@@ -47,7 +47,7 @@ if TYPE_CHECKING:
 
 
 def create_mission_order(
-    world: "SC2World", locations: Tuple[LocationData, ...], location_cache: List[Location]
+    world: "SC2World", locations: tuple[LocationData, ...], location_cache: list[Location]
 ):
     # 'locations' contains both actual game locations and beat event locations for all mission regions
     # When a region (mission) is accessible, all its locations are potentially accessible
@@ -178,15 +178,15 @@ def adjust_mission_pools(world: "SC2World", pools: SC2MOGenMissionPools):
 
 def setup_mission_pool_balancing(world: "SC2World", pools: SC2MOGenMissionPools):
     race_mission_balance = world.options.mission_race_balancing.value
-    flag_ratios: Dict[MissionFlag, int] = {}
-    flag_weights: Dict[MissionFlag, int] = {}
+    flag_ratios: dict[MissionFlag, int] = {}
+    flag_weights: dict[MissionFlag, int] = {}
     if race_mission_balance == EnableMissionRaceBalancing.option_semi_balanced:
         flag_weights = { MissionFlag.Terran: 1, MissionFlag.Zerg: 1, MissionFlag.Protoss: 1 }
     elif race_mission_balance == EnableMissionRaceBalancing.option_fully_balanced:
         flag_ratios = { MissionFlag.Terran: 1, MissionFlag.Zerg: 1, MissionFlag.Protoss: 1 }
     pools.set_flag_balances(flag_ratios, flag_weights)
 
-def create_regular_mission_order(world: "SC2World", mission_pools: SC2MOGenMissionPools) -> Dict[str, Dict[str, Any]]:
+def create_regular_mission_order(world: "SC2World", mission_pools: SC2MOGenMissionPools) -> dict[str, dict[str, Any]]:
     mission_order_type = world.options.mission_order.value
 
     if mission_order_type in static_mission_orders:
@@ -194,8 +194,8 @@ def create_regular_mission_order(world: "SC2World", mission_pools: SC2MOGenMissi
     else:
         return create_dynamic_mission_order(world, mission_order_type, mission_pools)
 
-def create_static_mission_order(world: "SC2World", mission_order_type: int, mission_pools: SC2MOGenMissionPools) -> Dict[str, Dict[str, Any]]:
-    mission_order: Dict[str, Dict[str, Any]] = {}
+def create_static_mission_order(world: "SC2World", mission_order_type: int, mission_pools: SC2MOGenMissionPools) -> dict[str, dict[str, Any]]:
+    mission_order: dict[str, dict[str, Any]] = {}
 
     enabled_campaigns = get_enabled_campaigns(world)
     if mission_order_type == MissionOrder.option_vanilla:
@@ -230,7 +230,7 @@ def create_static_mission_order(world: "SC2World", mission_order_type: int, miss
     else:
         prefix = ""
 
-    def mission_order_preset(name: str) -> Dict[str, str]:
+    def mission_order_preset(name: str) -> dict[str, str]:
         return {
             "preset": prefix + name,
             "missions": missions,
@@ -287,11 +287,11 @@ def create_static_mission_order(world: "SC2World", mission_order_type: int, miss
     return mission_order
 
 
-def fix_wol_prophecy_entry_rules(mission_order: Dict[str, Dict[str, Any]]):
+def fix_wol_prophecy_entry_rules(mission_order: dict[str, dict[str, Any]]):
     prophecy_name = SC2Campaign.PROPHECY.campaign_name
 
     # Make the mission count entry rules in WoL also count Prophecy
-    def fix_entry_rule(entry_rule: Dict[str, Any], local_campaign_scope: str):
+    def fix_entry_rule(entry_rule: dict[str, Any], local_campaign_scope: str):
         # This appends Prophecy to any scope that points at the local campaign (WoL)
         if "scope" in entry_rule:
             if entry_rule["scope"] == local_campaign_scope:
@@ -315,15 +315,15 @@ def fix_wol_prophecy_entry_rules(mission_order: Dict[str, Dict[str, Any]]):
     mission_order[prophecy_name][prophecy_name]["entry_rules"] = [{ "scope": [f"{SC2Campaign.WOL.campaign_name}/Artifact/1"]}]
 
 
-def force_final_missions(world: "SC2World", mission_order: Dict[str, Dict[str, Any]], mission_order_type: int):
-    goal_mission: Optional[SC2Mission] = None
+def force_final_missions(world: "SC2World", mission_order: dict[str, dict[str, Any]], mission_order_type: int):
+    goal_mission: SC2Mission | None = None
     excluded_missions = get_excluded_missions(world)
     enabled_campaigns = get_enabled_campaigns(world)
     raceswap_variants = [mission for mission in SC2Mission if mission.flags & MissionFlag.RaceSwap]
     # Prefer long campaigns over shorter ones and harder missions over easier ones
     goal_priorities = {campaign: get_campaign_goal_priority(campaign, excluded_missions) for campaign in enabled_campaigns}
     goal_level = max(goal_priorities.values())
-    candidate_campaigns: List[SC2Campaign] = [campaign for campaign, goal_priority in goal_priorities.items() if goal_priority == goal_level]
+    candidate_campaigns: list[SC2Campaign] = [campaign for campaign, goal_priority in goal_priorities.items() if goal_priority == goal_level]
     candidate_campaigns.sort(key=lambda it: it.id)
 
     # Vanilla Shuffled & Mini Campaign get a curated final mission
@@ -357,9 +357,9 @@ def force_final_missions(world: "SC2World", mission_order: Dict[str, Dict[str, A
         if campaign not in candidate_campaigns:
             mission_order[campaign.campaign_name]["goal"] = False
 
-def remove_missions(world: "SC2World", mission_order: Dict[str, Dict[str, Any]], mission_pools: SC2MOGenMissionPools):
+def remove_missions(world: "SC2World", mission_order: dict[str, dict[str, Any]], mission_pools: SC2MOGenMissionPools):
     enabled_campaigns = get_enabled_campaigns(world)
-    removed_counts: Dict[SC2Campaign, Dict[str, int]] = {}
+    removed_counts: dict[SC2Campaign, dict[str, int]] = {}
     for campaign in enabled_campaigns:
         # Count missing missions for each campaign individually
         campaign_size = sum(layout["size"] for layout in mission_order[campaign.campaign_name].values() if type(layout) == dict)
@@ -394,7 +394,7 @@ def remove_missions(world: "SC2World", mission_order: Dict[str, Dict[str, Any]],
         if "Mission Pack 3" in removed_counts[SC2Campaign.NCO] and removed_counts[SC2Campaign.NCO]["Mission Pack 3"] == 3:
             mission_order[SC2Campaign.NCO.campaign_name].pop("Mission Pack 3")
 
-removal_priorities: Dict[SC2Campaign, List[str]] = {
+removal_priorities: dict[SC2Campaign, list[str]] = {
     SC2Campaign.WOL: [
         "Colonist",
         "Covert",
@@ -442,7 +442,7 @@ removal_priorities: Dict[SC2Campaign, List[str]] = {
     ]
 }
 
-def make_grid(world: "SC2World", size: int) -> Dict[str, Dict[str, Any]]:
+def make_grid(world: "SC2World", size: int) -> dict[str, dict[str, Any]]:
     mission_order = {
         "grid": {
             "display_name": "",
@@ -453,7 +453,7 @@ def make_grid(world: "SC2World", size: int) -> Dict[str, Dict[str, Any]]:
     }
     return mission_order
 
-def make_golden_path(world: "SC2World", size: int) -> Dict[str, Dict[str, Any]]:
+def make_golden_path(world: "SC2World", size: int) -> dict[str, dict[str, Any]]:
     key_mode = world.options.key_mode.value
     if key_mode == KeyMode.option_missions:
         keys = "missions"
@@ -479,7 +479,7 @@ def make_golden_path(world: "SC2World", size: int) -> Dict[str, Dict[str, Any]]:
     }
     return mission_order
 
-def make_gauntlet(size: int) -> Dict[str, Dict[str, Any]]:
+def make_gauntlet(size: int) -> dict[str, dict[str, Any]]:
     mission_order = {
         "gauntlet": {
             "display_name": "",
@@ -489,7 +489,7 @@ def make_gauntlet(size: int) -> Dict[str, Dict[str, Any]]:
     }
     return mission_order
 
-def make_blitz(size: int) -> Dict[str, Dict[str, Any]]:
+def make_blitz(size: int) -> dict[str, dict[str, Any]]:
     mission_order = {
         "blitz": {
             "display_name": "",
@@ -499,7 +499,7 @@ def make_blitz(size: int) -> Dict[str, Dict[str, Any]]:
     }
     return mission_order
 
-def make_hopscotch(world: "SC2World", size: int) -> Dict[str, Dict[str, Any]]:
+def make_hopscotch(world: "SC2World", size: int) -> dict[str, dict[str, Any]]:
     mission_order = {
         "hopscotch": {
             "display_name": "",
@@ -510,7 +510,7 @@ def make_hopscotch(world: "SC2World", size: int) -> Dict[str, Dict[str, Any]]:
     }
     return mission_order
 
-def create_dynamic_mission_order(world: "SC2World", mission_order_type: int, mission_pools: SC2MOGenMissionPools) -> Dict[str, Dict[str, Any]]:
+def create_dynamic_mission_order(world: "SC2World", mission_order_type: int, mission_pools: SC2MOGenMissionPools) -> dict[str, dict[str, Any]]:
     num_missions = min(mission_pools.get_allowed_mission_count(), world.options.maximum_campaign_size.value)
     num_missions = max(1, num_missions)
     if mission_order_type == MissionOrder.option_golden_path:

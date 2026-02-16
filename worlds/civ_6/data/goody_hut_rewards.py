@@ -2,7 +2,7 @@ from typing import List
 
 from ..ItemData import GoodyHutRewardData
 
-reward_data: List[GoodyHutRewardData] = [
+reward_data: list[GoodyHutRewardData] = [
   {
     "Type": "GOODY_GOLD_SMALL_MODIFIER",
     "Rarity": "COMMON",

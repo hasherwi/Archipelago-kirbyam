@@ -1,6 +1,6 @@
 from typing import Dict
 
-enemy_id_to_name: Dict[int, str] = {
+enemy_id_to_name: dict[int, str] = {
     0x00: "a Goblin",
     0x01: "an Armor goblin",
     0x02: "a Regal Goblin",
@@ -227,7 +227,7 @@ enemy_id_to_name: Dict[int, str] = {
     0xDF: "the Master",
 }
 
-enemy_name_to_sprite: Dict[str, int] = {
+enemy_name_to_sprite: dict[str, int] = {
     "Ammonite": 0x81,
     "Antares": 0x8B,
     "Archfiend": 0xBD,

@@ -513,5 +513,5 @@ region_info = {
 }
 
 
-def get_region_info(region: str, info: str) -> Union[str, List[str], None]:
+def get_region_info(region: str, info: str) -> str | list[str] | None:
     return region_info[region].get(info, None)

@@ -6,7 +6,7 @@
 import collections
 import time
 import zlib
-from typing import Iterable
+from collections.abc import Iterable
 
 REPEAT = 10
 

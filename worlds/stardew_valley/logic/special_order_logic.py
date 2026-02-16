@@ -95,7 +95,7 @@ class SpecialOrderLogic(BaseLogic):
                                                    self.logic.money.can_spend(80000),  # I need this extra rule because money rules aren't additive...)
             })
 
-    def update_rules(self, new_rules: Dict[str, StardewRule]):
+    def update_rules(self, new_rules: dict[str, StardewRule]):
         self.registry.special_order_rules.update(new_rules)
 
     def can_complete_special_order(self, special_order: str) -> StardewRule:

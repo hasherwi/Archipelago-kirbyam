@@ -40,11 +40,11 @@ from .recipe_source import (
 
 class CookingRecipe:
     meal: str
-    ingredients: Dict[str, int]
+    ingredients: dict[str, int]
     source: RecipeSource
-    mod_name: Optional[str] = None
+    mod_name: str | None = None
 
-    def __init__(self, meal: str, ingredients: Dict[str, int], source: RecipeSource, mod_name: Optional[str] = None):
+    def __init__(self, meal: str, ingredients: dict[str, int], source: RecipeSource, mod_name: str | None = None):
         self.meal = meal
         self.ingredients = ingredients
         self.source = source
@@ -55,46 +55,46 @@ class CookingRecipe:
                f" Ingredients: {self.ingredients})"
 
 
-all_cooking_recipes: List[CookingRecipe] = []
+all_cooking_recipes: list[CookingRecipe] = []
 
 
-def friendship_recipe(name: str, friend: str, hearts: int, ingredients: Dict[str, int], mod_name: Optional[str] = None) -> CookingRecipe:
+def friendship_recipe(name: str, friend: str, hearts: int, ingredients: dict[str, int], mod_name: str | None = None) -> CookingRecipe:
     source = FriendshipSource(friend, hearts)
     return create_recipe(name, ingredients, source, mod_name)
 
 
-def friendship_and_shop_recipe(name: str, friend: str, hearts: int, region: str, price: int, ingredients: Dict[str, int],
-                               mod_name: Optional[str] = None) -> CookingRecipe:
+def friendship_and_shop_recipe(name: str, friend: str, hearts: int, region: str, price: int, ingredients: dict[str, int],
+                               mod_name: str | None = None) -> CookingRecipe:
     source = ShopFriendshipSource(friend, hearts, region, price)
     return create_recipe(name, ingredients, source, mod_name)
 
 
-def skill_recipe(name: str, skill: str, level: int, ingredients: Dict[str, int], mod_name: Optional[str] = None) -> CookingRecipe:
+def skill_recipe(name: str, skill: str, level: int, ingredients: dict[str, int], mod_name: str | None = None) -> CookingRecipe:
     source = SkillSource(skill, level)
     return create_recipe(name, ingredients, source, mod_name)
 
 
-def shop_recipe(name: str, region: str, price: int, ingredients: Dict[str, int], mod_name: Optional[str] = None) -> CookingRecipe:
+def shop_recipe(name: str, region: str, price: int, ingredients: dict[str, int], mod_name: str | None = None) -> CookingRecipe:
     source = ShopSource(region, price)
     return create_recipe(name, ingredients, source, mod_name)
 
 
-def shop_trade_recipe(name: str, region: str, currency: str, price: int, ingredients: Dict[str, int]) -> CookingRecipe:
+def shop_trade_recipe(name: str, region: str, currency: str, price: int, ingredients: dict[str, int]) -> CookingRecipe:
     source = ShopTradeSource(region, currency, price)
     return create_recipe(name, ingredients, source)
 
 
-def queen_of_sauce_recipe(name: str, year: int, season: str, day: int, ingredients: Dict[str, int]) -> CookingRecipe:
+def queen_of_sauce_recipe(name: str, year: int, season: str, day: int, ingredients: dict[str, int]) -> CookingRecipe:
     source = QueenOfSauceSource(year, season, day)
     return create_recipe(name, ingredients, source)
 
 
-def starter_recipe(name: str, ingredients: Dict[str, int]) -> CookingRecipe:
+def starter_recipe(name: str, ingredients: dict[str, int]) -> CookingRecipe:
     source = StarterSource()
     return create_recipe(name, ingredients, source)
 
 
-def create_recipe(name: str, ingredients: Dict[str, int], source: RecipeSource, mod_name: Optional[str] = None) -> CookingRecipe:
+def create_recipe(name: str, ingredients: dict[str, int], source: RecipeSource, mod_name: str | None = None) -> CookingRecipe:
     recipe = CookingRecipe(name, ingredients, source, mod_name)
     all_cooking_recipes.append(recipe)
     return recipe

@@ -100,7 +100,7 @@ class AggressiveScanLogic(Choice):
     option_none = 3
     option_removed = 4
 
-    def get_pool(self) -> typing.List[str]:
+    def get_pool(self) -> list[str]:
         if self == self.option_removed:
             return Definitions.all_creatures_presorted_without_aggressive_and_containment
         elif self == self.option_stasis:
@@ -124,7 +124,7 @@ class FillerItemsDistribution(ItemDict):
     display_name = "Filler Items Distribution"
 
     @cached_property
-    def weights_pair(self) -> typing.Tuple[typing.List[str], typing.List[int]]:
+    def weights_pair(self) -> tuple[list[str], list[int]]:
         from itertools import accumulate
         return list(self.value.keys()), list(accumulate(self.value.values()))
 

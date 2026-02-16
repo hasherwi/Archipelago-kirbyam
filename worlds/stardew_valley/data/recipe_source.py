@@ -14,9 +14,9 @@ class StarterSource(RecipeSource):
 
 
 class ArchipelagoSource(RecipeSource):
-    ap_item: Tuple[str]
+    ap_item: tuple[str]
 
-    def __init__(self, ap_item: Union[str, List[str]]):
+    def __init__(self, ap_item: str | list[str]):
         if isinstance(ap_item, str):
             ap_item = [ap_item]
         self.ap_item = tuple(ap_item)

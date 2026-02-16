@@ -127,7 +127,7 @@ class RiskOfRainWorld(World):
             environments_pool.pop(unlock[0])
 
         # Generate item pool
-        itempool: List[str] = ["Beads of Fealty", "Radar Scanner"]
+        itempool: list[str] = ["Beads of Fealty", "Radar Scanner"]
         # Add revive items for the player
         itempool += ["Dio's Best Friend"] * self.total_revivals
 
@@ -164,10 +164,10 @@ class RiskOfRainWorld(World):
         # Convert itempool into real items
         self.multiworld.itempool += map(self.create_item, itempool)
 
-    def create_junk_pool(self) -> Dict[str, int]:
+    def create_junk_pool(self) -> dict[str, int]:
         # if presets are enabled generate junk_pool from the selected preset
         pool_option = self.options.item_weights.value
-        junk_pool: Dict[str, int] = {}
+        junk_pool: dict[str, int] = {}
         if self.options.item_pool_presets:
             # generate chaos weights if the preset is chosen
             if pool_option == ItemWeights.option_chaos:
@@ -224,7 +224,7 @@ class RiskOfRainWorld(World):
                                                 k=1)[0]
         return filler
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         options_dict = self.options.as_dict("item_pickup_step", "shrine_use_step", "goal", "victory", "total_locations",
                                             "chests_per_stage", "shrines_per_stage", "scavengers_per_stage",
                                             "scanner_per_stage", "altars_per_stage", "total_revivals",

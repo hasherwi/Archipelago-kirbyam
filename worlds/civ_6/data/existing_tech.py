@@ -2,7 +2,7 @@ from typing import List
 
 from ..ItemData import ExistingItemData
 
-existing_tech: List[ExistingItemData] = [
+existing_tech: list[ExistingItemData] = [
     {
         "Type": "TECH_POTTERY",
         "Cost": 25,

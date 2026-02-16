@@ -14,7 +14,7 @@ class LocationData:
 
     text_archive_address: int = 0x00
     text_script_index: int = 0
-    text_box_indices: typing.List[int] = [0]
+    text_box_indices: list[int] = [0]
     inject_name: bool = False
     hint_flag: int = None
     hint_flag_mask: int = None
@@ -345,7 +345,7 @@ secret_locations = {
     LocationName.Serenade
 }
 
-location_groups: typing.Dict[str, typing.Set[str]] = {
+location_groups: dict[str, set[str]] = {
     "BMDs": {loc.name for loc in bmds},
     "PMDs": {loc.name for loc in pmds},
     "Jobs": {loc.name for loc in jobs},
@@ -357,7 +357,7 @@ location_groups: typing.Dict[str, typing.Set[str]] = {
                     LocationName.Secret_3_BugFrag_BMD, LocationName.Secret_3_South_BMD, LocationName.Serenade},
 }
 
-all_locations: typing.List[LocationData] = bmds + pmds + overworlds + jobs + number_traders + chocolate_shop
-scoutable_locations: typing.List[LocationData] = [loc for loc in all_locations if loc.hint_flag is not None]
-location_table: typing.Dict[str, int] = {locData.name: locData.id for locData in all_locations}
-location_data_table: typing.Dict[str, LocationData] = {locData.name: locData for locData in all_locations}
+all_locations: list[LocationData] = bmds + pmds + overworlds + jobs + number_traders + chocolate_shop
+scoutable_locations: list[LocationData] = [loc for loc in all_locations if loc.hint_flag is not None]
+location_table: dict[str, int] = {locData.name: locData.id for locData in all_locations}
+location_data_table: dict[str, LocationData] = {locData.name: locData for locData in all_locations}

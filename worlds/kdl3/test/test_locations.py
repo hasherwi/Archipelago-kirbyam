@@ -38,7 +38,7 @@ class TestLocations(KDL3TestBase):
         self.run_location_test(location_name.iceberg_angel, ["Cutter", "Burning", "Spark", "Parasol", "Needle", "Clean",
                                                             "Stone", "Ice"])
 
-    def run_location_test(self, location: str, itempool: typing.List[str]) -> None:
+    def run_location_test(self, location: str, itempool: list[str]) -> None:
         items = itempool.copy()
         while len(itempool) > 0:
             self.assertFalse(self.can_reach_location(location), str(self.multiworld.seed))

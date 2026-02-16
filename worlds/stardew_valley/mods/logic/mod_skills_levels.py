@@ -5,7 +5,7 @@ from ...options import Mods
 from ...strings.ap_names.mods.mod_items import SkillLevel
 
 
-def get_mod_skill_levels(mods: Mods) -> Tuple[str]:
+def get_mod_skill_levels(mods: Mods) -> tuple[str]:
     skills_items = []
     if ModNames.luck_skill in mods:
         skills_items.append(SkillLevel.luck)

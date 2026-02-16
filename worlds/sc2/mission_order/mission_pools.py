@@ -1,5 +1,6 @@
 from enum import IntEnum
-from typing import TYPE_CHECKING, Dict, Iterable, List, Set
+from typing import TYPE_CHECKING, Dict, List, Set
+from collections.abc import Iterable
 
 from Options import OptionError
 from worlds.AutoWorld import World
@@ -37,12 +38,12 @@ STANDARD_DIFFICULTY_FILL_ORDER = (
 """Fill mission slots outer->inner difficulties,
 so if multiple pools get exhausted, they will tend to overflow towards the middle."""
 
-def modified_difficulty_thresholds(min_difficulty: Difficulty, max_difficulty: Difficulty) -> Dict[int, Difficulty]:
+def modified_difficulty_thresholds(min_difficulty: Difficulty, max_difficulty: Difficulty) -> dict[int, Difficulty]:
     if min_difficulty == Difficulty.RELATIVE:
         min_difficulty = Difficulty.STARTER
     if max_difficulty == Difficulty.RELATIVE:
         max_difficulty = Difficulty.VERY_HARD
-    thresholds: Dict[int, Difficulty] = {}
+    thresholds: dict[int, Difficulty] = {}
     min_thresh = DEFAULT_DIFFICULTY_THRESHOLDS[min_difficulty]
     total_thresh = DEFAULT_DIFFICULTY_THRESHOLDS[max_difficulty + 1] - min_thresh
     for difficulty in range(min_difficulty, max_difficulty + 1):
@@ -55,14 +56,14 @@ class SC2MOGenMissionPools:
     """
     Manages available and used missions for a mission order.
     """
-    master_list: Set[int]
-    difficulty_pools: Dict[Difficulty, Set[int]]
+    master_list: set[int]
+    difficulty_pools: dict[Difficulty, set[int]]
     exclude_mission_variants_on_pull: bool
-    _used_flags: Dict[MissionFlag, int]
-    _used_missions: List[SC2Mission]
-    _updated_difficulties: Dict[int, Difficulty]
-    _flag_ratios: Dict[MissionFlag, float]
-    _flag_weights: Dict[MissionFlag, int]
+    _used_flags: dict[MissionFlag, int]
+    _used_missions: list[SC2Mission]
+    _updated_difficulties: dict[int, Difficulty]
+    _flag_ratios: dict[MissionFlag, float]
+    _flag_weights: dict[MissionFlag, int]
     _unexcluded_missions: Iterable[SC2Mission]
 
     def __init__(self, exclude_mission_variants_on_pull: bool) -> None:
@@ -126,22 +127,22 @@ class SC2MOGenMissionPools:
         """Returns the amount of missions of the given difficulty that are allowed to appear."""
         return len(self.difficulty_pools[diff])
 
-    def get_used_flags(self) -> Dict[MissionFlag, int]:
+    def get_used_flags(self) -> dict[MissionFlag, int]:
         """Returns a dictionary of all used flags and their appearance count within the mission order.
         Flags that don't appear in the mission order also don't appear in this dictionary."""
         return self._used_flags
 
-    def get_used_missions(self) -> List[SC2Mission]:
+    def get_used_missions(self) -> list[SC2Mission]:
         """Returns a set of all missions used in the mission order."""
         return self._used_missions
 
-    def set_flag_balances(self, flag_ratios: Dict[MissionFlag, int], flag_weights: Dict[MissionFlag, int]):
+    def set_flag_balances(self, flag_ratios: dict[MissionFlag, int], flag_weights: dict[MissionFlag, int]):
         # Ensure the ratios are percentages
         ratio_sum = sum(ratio for ratio in flag_ratios.values())
         self._flag_ratios = {flag: ratio / ratio_sum for flag, ratio in flag_ratios.items()}
         self._flag_weights = flag_weights
 
-    def pick_balanced_mission(self, world: World, pool: List[int]) -> int:
+    def pick_balanced_mission(self, world: World, pool: list[int]) -> int:
         """Applies ratio-based and weight-based balancing to pick a preferred mission from a given mission pool."""
         # Currently only used for race balancing
         # Untested for flags that may overlap or not be present at all, but should at least generate
@@ -229,7 +230,7 @@ class SC2MOGenMissionPools:
         With `prefer_close_difficulty = True` the mission is picked to be as close to the slot's desired difficulty as possible."""
         pool = slot.option_mission_pool.intersection(self.master_list)
 
-        difficulty_pools: Dict[int, List[int]] = {
+        difficulty_pools: dict[int, list[int]] = {
             diff: sorted(pool.intersection(self.difficulty_pools[diff]))
             for diff in Difficulty if diff != Difficulty.RELATIVE
         }

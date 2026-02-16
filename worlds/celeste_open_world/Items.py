@@ -88,7 +88,7 @@ class CelesteItem(Item):
 
 
 class CelesteItemData(NamedTuple):
-    code: Optional[int] = None
+    code: int | None = None
     type: ItemClassification = ItemClassification.filler
 
 

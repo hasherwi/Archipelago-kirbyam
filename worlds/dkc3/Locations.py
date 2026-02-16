@@ -335,4 +335,4 @@ def setup_locations(world: World):
     return location_table
 
 
-lookup_id_to_name: typing.Dict[int, str] = {id: name for name, _ in all_locations.items()}
+lookup_id_to_name: dict[int, str] = {id: name for name, _ in all_locations.items()}

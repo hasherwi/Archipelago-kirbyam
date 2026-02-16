@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Any, Callable, Dict, List
+from typing import TYPE_CHECKING, Any, Dict, List
+from collections.abc import Callable
 
 from BaseClasses import CollectionState
 
@@ -19,12 +20,12 @@ class SC2MissionOrder:
         self.mission_pools: SC2MOGenMissionPools = mission_pools
         """Manager for missions in the mission order."""
 
-    def get_used_flags(self) -> Dict[MissionFlag, int]:
+    def get_used_flags(self) -> dict[MissionFlag, int]:
         """Returns a dictionary of all used flags and their appearance count within the mission order.
         Flags that don't appear in the mission order also don't appear in this dictionary."""
         return self.mission_pools.get_used_flags()
 
-    def get_used_missions(self) -> List[SC2Mission]:
+    def get_used_missions(self) -> list[SC2Mission]:
         """Returns a list of all missions used in the mission order."""
         return self.mission_pools.get_used_missions()
 
@@ -35,7 +36,7 @@ class SC2MissionOrder:
             for campaign in self.mission_order_node.campaigns for layout in campaign.layouts
         )
 
-    def get_starting_missions(self) -> List[SC2Mission]:
+    def get_starting_missions(self) -> list[SC2Mission]:
         """Returns a list containing all the missions that are accessible without beating any other missions."""
         return [
             slot.mission
@@ -49,19 +50,19 @@ class SC2MissionOrder:
         final_locations = [get_goal_location(mission.mission) for mission in self.get_final_missions()]
         return lambda state, final_locations=final_locations: all(state.can_reach_location(loc, player) for loc in final_locations)
 
-    def get_final_mission_ids(self) -> List[int]:
+    def get_final_mission_ids(self) -> list[int]:
         """Returns the IDs of all missions that are required to beat the mission order."""
         return [mission.mission.id for mission in self.get_final_missions()]
 
-    def get_final_missions(self) -> List["SC2MOGenMission"]:
+    def get_final_missions(self) -> list["SC2MOGenMission"]:
         """Returns the slots of all missions that are required to beat the mission order."""
         return self.mission_order_node.goal_missions
 
-    def get_items_to_lock(self) -> Dict[str, int]:
+    def get_items_to_lock(self) -> dict[str, int]:
         """Returns a dict of item names and amounts that are required by Item entry rules."""
         return self.mission_order_node.items_to_lock
 
-    def get_slot_data(self) -> List[Dict[str, Any]]:
+    def get_slot_data(self) -> list[dict[str, Any]]:
         """Parses the mission order into a format usable for slot data."""
         return self.mission_order_node.get_slot_data()
 

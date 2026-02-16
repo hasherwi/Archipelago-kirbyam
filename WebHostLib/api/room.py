@@ -11,7 +11,7 @@ from . import api_endpoints, get_players
 
 
 @api_endpoints.route("/room_status/<suuid:room_id>")
-def room_info(room_id: UUID) -> Dict[str, Any]:
+def room_info(room_id: UUID) -> dict[str, Any]:
     room = Room.get(id=room_id)
     if room is None:
         return abort(404)

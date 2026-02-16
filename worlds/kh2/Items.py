@@ -642,7 +642,7 @@ filler_items = [ItemName.PowerBoost, ItemName.MagicBoost, ItemName.DefenseBoost,
                 ItemName.Potion, ItemName.HiPotion, ItemName.Ether, ItemName.Elixir, ItemName.Megalixir,
                 ItemName.Tent, ItemName.DriveRecovery, ItemName.HighDriveRecovery,
                 ]
-item_groups: typing.Dict[str, list] = {
+item_groups: dict[str, list] = {
     "Drive Form":      [item_name for item_name in Forms_Table.keys()],
     "Growth":          [item_name for item_name in Movement_Table.keys()],
     "Donald Limit":    [ItemName.FlareForce, ItemName.Fantasia],

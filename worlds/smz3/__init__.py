@@ -84,14 +84,14 @@ class SMZ3World(World):
     options_dataclass = SMZ3Options
     options: SMZ3Options
 
-    item_names: Set[str] = frozenset(TotalSMZ3Item.lookup_name_to_id)
-    location_names: Set[str]
+    item_names: set[str] = frozenset(TotalSMZ3Item.lookup_name_to_id)
+    location_names: set[str]
     item_name_to_id = TotalSMZ3Item.lookup_name_to_id
-    location_name_to_id: Dict[str, int] = {key : locations_start_id + convertLocSMZ3IDToAPID(value.Id)
+    location_name_to_id: dict[str, int] = {key : locations_start_id + convertLocSMZ3IDToAPID(value.Id)
         for key, value in TotalSMZ3World(Config(), "", 0, "").locationLookup.items()}
     web = SMZ3Web()
 
-    locationNamesGT: Set[str] = {loc.Name for loc in GanonsTower(None, None).Locations}
+    locationNamesGT: set[str] = {loc.Name for loc in GanonsTower(None, None).Locations}
 
     # first added for 0.2.6
     # optimized message queues for 0.4.4
@@ -99,7 +99,7 @@ class SMZ3World(World):
 
     def __init__(self, world: MultiWorld, player: int):
         self.rom_name_available_event = threading.Event()
-        self.locations: Dict[str, Location] = {}
+        self.locations: dict[str, Location] = {}
         self.unreachable = []
         self.junkItemsNames = [item.name for item in [
             ItemType.Arrow,

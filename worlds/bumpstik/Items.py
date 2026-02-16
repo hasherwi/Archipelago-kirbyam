@@ -9,11 +9,11 @@ from BaseClasses import Item, ItemClassification
 
 
 class BumpStikLttPText(typing.NamedTuple):
-    pedestal: typing.Optional[str]
-    sickkid: typing.Optional[str]
-    magicshop: typing.Optional[str]
-    zora: typing.Optional[str]
-    fluteboy: typing.Optional[str]
+    pedestal: str | None
+    sickkid: str | None
+    magicshop: str | None
+    zora: str | None
+    fluteboy: str | None
 
 
 LttPCreditsText = {

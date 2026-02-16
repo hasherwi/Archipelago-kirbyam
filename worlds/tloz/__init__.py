@@ -51,8 +51,8 @@ class TLoZSettings(settings.Group):
         """Display message inside of Bizhawk"""
 
     rom_file: RomFile = RomFile(RomFile.copy_to)
-    rom_start: typing.Union[RomStart, bool] = True
-    display_msgs: typing.Union[DisplayMsgs, bool] = True
+    rom_start: RomStart | bool = True
+    display_msgs: DisplayMsgs | bool = True
 
 
 class TLoZWeb(WebWorld):
@@ -337,7 +337,7 @@ class TLoZWorld(World):
             self.filler_items = [item for item in item_table if item_table[item].classification == ItemClassification.filler]
         return self.random.choice(self.filler_items)
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         if self.options.ExpandedPool:
             take_any_left = self.multiworld.get_location("Take Any Item Left", self.player).item
             take_any_middle = self.multiworld.get_location("Take Any Item Middle", self.player).item

@@ -34,19 +34,19 @@ def locality_needed(multiworld: MultiWorld) -> bool:
 def locality_rules(multiworld: MultiWorld):
     if locality_needed(multiworld):
 
-        forbid_data: typing.Dict[int, typing.Dict[int, typing.Set[str]]] = \
+        forbid_data: dict[int, dict[int, set[str]]] = \
             collections.defaultdict(lambda: collections.defaultdict(set))
 
-        def forbid(sender: int, receiver: int, items: typing.Set[str]):
+        def forbid(sender: int, receiver: int, items: set[str]):
             forbid_data[sender][receiver].update(items)
 
         for receiving_player in multiworld.player_ids:
-            local_items: typing.Set[str] = multiworld.worlds[receiving_player].options.local_items.value
+            local_items: set[str] = multiworld.worlds[receiving_player].options.local_items.value
             if local_items:
                 for sending_player in multiworld.player_ids:
                     if receiving_player != sending_player:
                         forbid(sending_player, receiving_player, local_items)
-            non_local_items: typing.Set[str] = multiworld.worlds[receiving_player].options.non_local_items.value
+            non_local_items: set[str] = multiworld.worlds[receiving_player].options.non_local_items.value
             if non_local_items:
                 forbid(receiving_player, receiving_player, non_local_items)
 
@@ -82,7 +82,7 @@ def locality_rules(multiworld: MultiWorld):
                     i.name not in sending_blockers[i.player] and old_rule(i)
 
 
-def exclusion_rules(multiworld: MultiWorld, player: int, exclude_locations: typing.Set[str]) -> None:
+def exclusion_rules(multiworld: MultiWorld, player: int, exclude_locations: set[str]) -> None:
     for loc_name in exclude_locations:
         try:
             location = multiworld.get_location(loc_name, player)
@@ -121,12 +121,12 @@ def forbid_item(location: "BaseClasses.Location", item: str, player: int):
         location.item_rule = lambda i: (i.name != item or i.player != player) and old_rule(i)
 
 
-def forbid_items_for_player(location: "BaseClasses.Location", items: typing.Set[str], player: int):
+def forbid_items_for_player(location: "BaseClasses.Location", items: set[str], player: int):
     old_rule = location.item_rule
     location.item_rule = lambda i: (i.player != player or i.name not in items) and old_rule(i)
 
 
-def forbid_items(location: "BaseClasses.Location", items: typing.Set[str]):
+def forbid_items(location: "BaseClasses.Location", items: set[str]):
     """unused, but kept as a debugging tool."""
     old_rule = location.item_rule
     location.item_rule = lambda i: i.name not in items and old_rule(i)
@@ -145,7 +145,7 @@ def add_item_rule(location: "BaseClasses.Location", rule: ItemRule, combine: str
 
 
 def item_name_in_location_names(state: "BaseClasses.CollectionState", item: str, player: int,
-                                location_name_player_pairs: typing.Sequence[typing.Tuple[str, int]]) -> bool:
+                                location_name_player_pairs: typing.Sequence[tuple[str, int]]) -> bool:
     for location in location_name_player_pairs:
         if location_item_name(state, location[0], location[1]) == (item, player):
             return True
@@ -161,14 +161,14 @@ def item_name_in_locations(item: str, player: int,
 
 
 def location_item_name(state: "BaseClasses.CollectionState", location: str, player: int) -> \
-        typing.Optional[typing.Tuple[str, int]]:
+        tuple[str, int] | None:
     location = state.multiworld.get_location(location, player)
     if location.item is None:
         return None
     return location.item.name, location.item.player
 
 
-def allow_self_locking_items(spot: typing.Union[Location, Region], *item_names: str) -> None:
+def allow_self_locking_items(spot: Location | Region, *item_names: str) -> None:
     """
     This function sets rules on the supplied spot, such that the supplied item_name(s) can possibly be placed there.
 
@@ -177,7 +177,7 @@ def allow_self_locking_items(spot: typing.Union[Location, Region], *item_names: 
     """
     player = spot.player
 
-    def add_allowed_rules(area: typing.Union[Location, Entrance], location: Location) -> None:
+    def add_allowed_rules(area: Location | Entrance, location: Location) -> None:
         def set_always_allow(location: Location, rule: typing.Callable) -> None:
             location.always_allow = rule
 

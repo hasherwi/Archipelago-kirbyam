@@ -12,7 +12,7 @@ class MuseDashCollections:
     MUSIC_SHEET_NAME: str = "Music Sheet"
     MUSIC_SHEET_CODE: int = STARTING_CODE
 
-    FREE_ALBUMS: List[str] = [
+    FREE_ALBUMS: list[str] = [
         "Default Music",
         "Budget Is Burning: Nano Core",
         "Budget Is Burning Vol.1",
@@ -21,7 +21,7 @@ class MuseDashCollections:
     MUSE_PLUS_DLC: str = "Muse Plus"
 
     # Ordering matters for webhost. Order goes: Muse Plus, Time Limited Muse Plus Dlcs, Paid Dlcs
-    DLC: List[str] = [
+    DLC: list[str] = [
         MUSE_PLUS_DLC,
         "CHUNITHM COURSE MUSE",  # Part of Muse Plus. Goes away 22nd May 2027.
         "maimai DX Limited-time Suite",  # Part of Muse Plus. Goes away 31st Jan 2026.
@@ -42,9 +42,9 @@ class MuseDashCollections:
     ]
 
     song_items = SONG_DATA
-    song_locations: Dict[str, int] = {}
+    song_locations: dict[str, int] = {}
 
-    trap_items: Dict[str, int] = {
+    trap_items: dict[str, int] = {
         "Bad Apple Trap": STARTING_CODE + 1,
         "Pixelate Trap": STARTING_CODE + 2,
         "Ripple Trap": STARTING_CODE + 3,
@@ -58,19 +58,19 @@ class MuseDashCollections:
         "Beefcake SFX Trap": STARTING_CODE + 11,
     }
 
-    sfx_trap_items: List[str] = [
+    sfx_trap_items: list[str] = [
         "Nyaa SFX Trap",
         "Error SFX Trap",
         "Beefcake SFX Trap",
     ]
 
-    filler_items: Dict[str, int] = {
+    filler_items: dict[str, int] = {
         "Great To Perfect (10 Pack)": STARTING_CODE + 30,
         "Miss To Great (5 Pack)": STARTING_CODE + 31,
         "Extra Life": STARTING_CODE + 32,
     }
 
-    filler_item_weights: Dict[str, int] = {
+    filler_item_weights: dict[str, int] = {
         "Great To Perfect (10 Pack)": 10,
         "Miss To Great (5 Pack)": 3,
         "Extra Life": 1,
@@ -88,8 +88,8 @@ class MuseDashCollections:
             self.song_locations[f"{name}-1"] = location_id_index + 1
             location_id_index += 2
 
-    def get_songs_with_settings(self, dlc_songs: Set[str], streamer_mode_active: bool,
-                                diff_lower: int, diff_higher: int) -> List[str]:
+    def get_songs_with_settings(self, dlc_songs: set[str], streamer_mode_active: bool,
+                                diff_lower: int, diff_higher: int) -> list[str]:
         """Gets a list of all songs that match the filter settings. Difficulty thresholds are inclusive."""
         filtered_list = []
 
@@ -117,10 +117,10 @@ class MuseDashCollections:
 
         return filtered_list
 
-    def filter_songs_to_dlc(self, song_list: List[str], dlc_songs: Set[str]) -> List[str]:
+    def filter_songs_to_dlc(self, song_list: list[str], dlc_songs: set[str]) -> list[str]:
         return [song for song in song_list if self.song_matches_dlc_filter(self.song_items[song], dlc_songs)]
 
-    def song_matches_dlc_filter(self, song: SongData, dlc_songs: Set[str]) -> bool:
+    def song_matches_dlc_filter(self, song: SongData, dlc_songs: set[str]) -> bool:
         if song.album in self.FREE_ALBUMS:
             return True
 

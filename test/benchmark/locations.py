@@ -25,7 +25,7 @@ def run_locations_benchmark(freeze_gc: bool = True) -> None:
     logger = logging.getLogger("Benchmark")
 
     class BenchmarkRunner:
-        gen_steps: typing.Tuple[str, ...] = (
+        gen_steps: tuple[str, ...] = (
             "generate_early",
             "create_regions",
             "create_items",
@@ -57,7 +57,7 @@ def run_locations_benchmark(freeze_gc: bool = True) -> None:
 
         def main(self):
             for game in sorted(AutoWorld.AutoWorldRegister.world_types):
-                summary_data: typing.Dict[str, collections.Counter[str]] = {
+                summary_data: dict[str, collections.Counter[str]] = {
                     "empty_state": collections.Counter(),
                     "all_state": collections.Counter(),
                 }

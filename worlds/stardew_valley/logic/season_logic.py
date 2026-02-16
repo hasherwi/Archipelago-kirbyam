@@ -1,5 +1,6 @@
 from functools import cached_property
-from typing import Iterable, Union
+from typing import Union
+from collections.abc import Iterable
 
 from Utils import cache_self1
 

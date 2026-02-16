@@ -3,7 +3,7 @@ import logging
 import random
 import struct
 from dataclasses import dataclass
-from typing import ByteString, Callable
+from collections.abc import ByteString, Callable
 
 import pymem
 from pymem import pattern

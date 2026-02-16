@@ -24,7 +24,7 @@ class RiskOfRainLocation(Location):
 ror2_locations_start_id = 38000
 
 
-def get_classic_item_pickups(n: int) -> Dict[str, int]:
+def get_classic_item_pickups(n: int) -> dict[str, int]:
     """Get n ItemPickups, capped at the max value for TotalLocations"""
     n = max(n, 0)
     n = min(n, TotalLocations.range_end)
@@ -49,7 +49,7 @@ allocation = offset_altars + AltarsPerEnvironment.range_end
 
 
 def get_environment_locations(chests: int, shrines: int, scavengers: int, scanners: int, altars: int,
-                              environment_name: str, environment_index: int) -> Dict[str, int]:
+                              environment_name: str, environment_index: int) -> dict[str, int]:
     """Get the locations within a specific environment"""
     locations = {}
 
@@ -69,7 +69,7 @@ def get_environment_locations(chests: int, shrines: int, scavengers: int, scanne
 
 
 def get_locations(chests: int, shrines: int, scavengers: int, scanners: int, altars: int, dlc_sotv: bool) \
-        -> Dict[str, int]:
+        -> dict[str, int]:
     """Get a dictionary of locations for the orderedstage environments with the locations from the parameters."""
     locations = {}
     orderedstages = compress_dict_list_horizontal(environment_vanilla_orderedstages_table)

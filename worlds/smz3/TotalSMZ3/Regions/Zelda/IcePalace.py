@@ -45,7 +45,7 @@ class IcePalace(Z3Region, IReward):
                     items.KeyIP >= (1 if items.Somaria else 2))
             ]
 
-    def CanNotWasteKeysBeforeAccessible(self, items: Progression, locations: List[Location]):
+    def CanNotWasteKeysBeforeAccessible(self, items: Progression, locations: list[Location]):
         return self.world.ForwardSearch or not items.BigKeyIP or any(l.ItemIs(ItemType.BigKeyIP, self.world) for l in locations)
 
     def CanEnter(self, items: Progression):

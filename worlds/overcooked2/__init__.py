@@ -1,5 +1,6 @@
 from enum import IntEnum
-from typing import Any, Callable, Dict, List, Optional, Set, TextIO
+from typing import Any, Dict, List, Optional, Set, TextIO
+from collections.abc import Callable
 
 from BaseClasses import CollectionState, Entrance, ItemClassification, Location, LocationProgressType, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
@@ -71,7 +72,7 @@ class Overcooked2World(World):
 
     options_dataclass = OC2Options
     options: OC2Options
-    itempool: List[Overcooked2Item]
+    itempool: list[Overcooked2Item]
 
     # Helper Functions
 
@@ -100,7 +101,7 @@ class Overcooked2World(World):
         )
         self.multiworld.regions.append(region)
 
-    def connect_regions(self, source: str, target: str, rule: Optional[Callable[[CollectionState], bool]] = None):
+    def connect_regions(self, source: str, target: str, rule: Callable[[CollectionState], bool] | None = None):
         sourceRegion = self.multiworld.get_region(source, self.player)
         targetRegion = self.multiworld.get_region(target, self.player)
         sourceRegion.connect(targetRegion, rule=rule)
@@ -150,7 +151,7 @@ class Overcooked2World(World):
             location
         )
 
-    def get_n_random_locations(self, n: int) -> List[int]:
+    def get_n_random_locations(self, n: int) -> list[int]:
         """Return a list of n random non-repeating level locations"""
         levels = list()
 
@@ -168,7 +169,7 @@ class Overcooked2World(World):
         self.multiworld.random.shuffle(levels)
         return levels[:n]
 
-    def get_priority_locations(self) -> List[int]:
+    def get_priority_locations(self) -> list[int]:
         """Randomly generate list of priority locations, thus insulating this game
         from the negative effects of being shuffled with games that contain large
         ammounts of filler"""
@@ -223,9 +224,9 @@ class Overcooked2World(World):
     # Helper Data
 
     player_name: str
-    level_unlock_counts: Dict[int, int]  # level_id, stars to purchase
-    level_mapping: Dict[int, Overcooked2GenericLevel]  # level_id, level
-    enabled_dlc: Set[Overcooked2Dlc]
+    level_unlock_counts: dict[int, int]  # level_id, stars to purchase
+    level_mapping: dict[int, Overcooked2GenericLevel]  # level_id, level
+    enabled_dlc: set[Overcooked2Dlc]
 
     # Autoworld Hooks
 
@@ -440,7 +441,7 @@ class Overcooked2World(World):
 
     # Items get distributed to locations
 
-    def fill_json_data(self) -> Dict[str, Any]:
+    def fill_json_data(self) -> dict[str, Any]:
         mod_name = f"AP-{self.multiworld.seed_name}-P{self.player}-{self.player_name}"
 
         # Serialize Level Order
@@ -479,7 +480,7 @@ class Overcooked2World(World):
 
         # Set Kevin Unlock Requirements
         if self.options.kevin_levels:
-            def kevin_level_to_keyholder_level_id(level_id: int) -> Optional[int]:
+            def kevin_level_to_keyholder_level_id(level_id: int) -> int | None:
                 location = self.multiworld.find_item(f"Kevin-{level_id-36}", self.player)
                 if location.player != self.player:
                     return None  # This kevin level will be unlocked by the server at runtime
@@ -492,7 +493,7 @@ class Overcooked2World(World):
                     level_unlock_requirements[str(level_id)] = keyholder_level_id
 
         # Place Items at Level Completion Screens (local only)
-        on_level_completed: Dict[str, list[Dict[str, str]]] = dict()
+        on_level_completed: dict[str, list[dict[str, str]]] = dict()
         locations = self.multiworld.get_filled_locations(self.player)
         for location in locations:
             if location.item.code is None:
@@ -591,7 +592,7 @@ class Overcooked2World(World):
 
         return base_data
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         return self.fill_json_data()
 
     def write_spoiler(self, spoiler_handle: TextIO) -> None:
@@ -606,7 +607,7 @@ class Overcooked2World(World):
             spoiler_handle.write(f"{overworld_name} | {kitchen_name}\n")
 
 
-def level_unlock_requirement_factory(stars_to_win: int) -> Dict[int, int]:
+def level_unlock_requirement_factory(stars_to_win: int) -> dict[int, int]:
     level_unlock_counts = dict()
     level = 1
     sublevel = 1

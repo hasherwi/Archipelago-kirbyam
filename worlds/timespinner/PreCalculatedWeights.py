@@ -23,11 +23,11 @@ class PreCalculatedWeights:
     flood_lake_serene_bridge: bool
     flood_lab: bool
 
-    boss_rando_overrides: Dict[str, str]
+    boss_rando_overrides: dict[str, str]
 
     def __init__(self, options: TimespinnerOptions, random: Random):
         if options.rising_tides:
-            weights_overrrides: Dict[str, Union[str, Dict[str, int]]] = self.get_flood_weights_overrides(options)
+            weights_overrrides: dict[str, str | dict[str, int]] = self.get_flood_weights_overrides(options)
 
             self.flood_basement, self.flood_basement_high = \
                 self.roll_flood_setting(random, weights_overrrides, "CastleBasement")
@@ -55,7 +55,7 @@ class PreCalculatedWeights:
             self.flood_lake_serene_bridge = False
             self.flood_lab = False
 
-        boss_rando_weights_overrides: Dict[str, Union[str, Dict[str, int]]] = self.get_boss_rando_weights_overrides(options)
+        boss_rando_weights_overrides: dict[str, str | dict[str, int]] = self.get_boss_rando_weights_overrides(options)
         self.boss_rando_overrides = {
             "FelineSentry": self.roll_boss_rando_setting(random, boss_rando_weights_overrides, "FelineSentry"),
             "Varndagroth": self.roll_boss_rando_setting(random, boss_rando_weights_overrides, "Varndagroth"),
@@ -81,9 +81,9 @@ class PreCalculatedWeights:
     @staticmethod
     def get_pyramid_keys_unlocks(options: TimespinnerOptions, random: Random,
                                  is_maw_flooded: bool, is_xarion_flooded: bool,
-                                 is_lab_flooded: bool) -> Tuple[str, str, str, str]:
+                                 is_lab_flooded: bool) -> tuple[str, str, str, str]:
 
-        present_teleportation_gates: List[str] = [
+        present_teleportation_gates: list[str] = [
             "GateKittyBoss",
             "GateLeftLibrary",
             "GateMilitaryGate",
@@ -92,7 +92,7 @@ class PreCalculatedWeights:
             "GateLakeDesolation"
         ]
 
-        past_teleportation_gates: List[str] = [
+        past_teleportation_gates: list[str] = [
             "GateLakeSereneRight",
             "GateAccessToPast",
             "GateCastleRamparts",
@@ -101,7 +101,7 @@ class PreCalculatedWeights:
             "GateCavesOfBanishment"
         ]
 
-        ancient_pyramid_teleportation_gates: Tuple[str, ...] = (
+        ancient_pyramid_teleportation_gates: tuple[str, ...] = (
             "GateGyre",
             "GateLeftPyramid",
             "GateRightPyramid"
@@ -122,9 +122,9 @@ class PreCalculatedWeights:
 
         # Prevent getting stuck in the past without a way back to the future
         if options.inverted or (options.pyramid_start and not options.back_to_the_future):
-            all_gates: Tuple[str, ...] = present_teleportation_gates
+            all_gates: tuple[str, ...] = present_teleportation_gates
         else:
-            all_gates: Tuple[str, ...] = past_teleportation_gates + present_teleportation_gates
+            all_gates: tuple[str, ...] = past_teleportation_gates + present_teleportation_gates
 
         return (
             random.choice(all_gates),
@@ -134,11 +134,11 @@ class PreCalculatedWeights:
         )
 
     @staticmethod
-    def get_flood_weights_overrides(options: TimespinnerOptions) -> Dict[str, Union[str, Dict[str, int]]]:
-        weights_overrides_option: Union[int, Dict[str, Union[str, Dict[str, int]]]] = \
+    def get_flood_weights_overrides(options: TimespinnerOptions) -> dict[str, str | dict[str, int]]:
+        weights_overrides_option: int | dict[str, str | dict[str, int]] = \
             options.rising_tides_overrides.value
 
-        default_weights: Dict[str, Dict[str, int]] = options.rising_tides_overrides.default
+        default_weights: dict[str, dict[str, int]] = options.rising_tides_overrides.default
 
         if not weights_overrides_option:
             weights_overrides_option = default_weights
@@ -150,10 +150,10 @@ class PreCalculatedWeights:
         return weights_overrides_option
 
     @staticmethod
-    def roll_flood_setting(random: Random, all_weights: Dict[str, Union[Dict[str, int], str]],
-                           key: str) -> Tuple[bool, bool]:
+    def roll_flood_setting(random: Random, all_weights: dict[str, dict[str, int] | str],
+                           key: str) -> tuple[bool, bool]:
 
-        weights: Union[Dict[str, int], str] = all_weights[key]
+        weights: dict[str, int] | str = all_weights[key]
 
         if isinstance(weights, dict):
             result: str = random.choices(list(weights.keys()), weights=list(map(int, weights.values())))[0]
@@ -168,11 +168,11 @@ class PreCalculatedWeights:
             return True, False
 
     @staticmethod
-    def get_boss_rando_weights_overrides(options: TimespinnerOptions) -> Dict[str, Union[str, Dict[str, int]]]:
-        weights_overrides_option: Union[int, Dict[str, Union[str, Dict[str, int]]]] = \
+    def get_boss_rando_weights_overrides(options: TimespinnerOptions) -> dict[str, str | dict[str, int]]:
+        weights_overrides_option: int | dict[str, str | dict[str, int]] = \
             options.boss_rando_overrides.value
 
-        default_weights: Dict[str, Dict[str, int]] = options.boss_rando_overrides.default
+        default_weights: dict[str, dict[str, int]] = options.boss_rando_overrides.default
 
         if not weights_overrides_option:
             weights_overrides_option = default_weights
@@ -184,10 +184,10 @@ class PreCalculatedWeights:
         return weights_overrides_option
 
     @staticmethod
-    def roll_boss_rando_setting(random: Random, all_weights: Dict[str, Union[Dict[str, int], str]],
+    def roll_boss_rando_setting(random: Random, all_weights: dict[str, dict[str, int] | str],
                            key: str) -> str:
 
-        weights: Union[Dict[str, int], str] = all_weights[key]
+        weights: dict[str, int] | str = all_weights[key]
 
         if isinstance(weights, dict):
             result: str = random.choices(list(weights.keys()), weights=list(map(int, weights.values())))[0]

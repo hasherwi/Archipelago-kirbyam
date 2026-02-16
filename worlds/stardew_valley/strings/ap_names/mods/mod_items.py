@@ -58,4 +58,4 @@ class SVERunes:
     nexus_farm = "Nexus: Farm Runes"
     nexus_wizard = "Nexus: Wizard Runes"
 
-    nexus_items: List[str] = [nexus_farm, nexus_wizard, nexus_spring, nexus_aurora, nexus_guild, nexus_junimo, nexus_outpost]
+    nexus_items: list[str] = [nexus_farm, nexus_wizard, nexus_spring, nexus_aurora, nexus_guild, nexus_junimo, nexus_outpost]

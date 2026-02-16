@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Callable, List
+from typing import TYPE_CHECKING, List
+from collections.abc import Callable
 
 from BaseClasses import Entrance, ItemClassification, Location
 from worlds.AutoWorld import CollectionState
@@ -108,7 +109,7 @@ def set_dw_rules(world: "HatInTimeWorld"):
     if "Snatcher's Hit List" not in world.excluded_dws or "Camera Tourist" not in world.excluded_dws:
         set_enemy_rules(world)
 
-    dw_list: List[str] = []
+    dw_list: list[str] = []
     if world.options.DWShuffle:
         dw_list = world.dw_shuffle
     else:
@@ -161,8 +162,8 @@ def set_dw_rules(world: "HatInTimeWorld"):
             if key == "Snatcher Coins in Nyakuza Metro" and not world.is_dlc2():
                 continue
 
-            access_rules: List[Callable[[CollectionState], bool]] = []
-            entrances: List[Entrance] = []
+            access_rules: list[Callable[[CollectionState], bool]] = []
+            entrances: list[Entrance] = []
 
             for parent in reqs:
                 entrance = world.multiworld.get_entrance(f"{parent} -> {key}", world.player)
@@ -294,7 +295,7 @@ def set_candle_dw_rules(name: str, world: "HatInTimeWorld"):
                  and state.has("Triple Enemy Photo", world.player))
 
     elif "Snatcher Coins" in name:
-        coins: List[str] = []
+        coins: list[str] = []
         for coin in required_snatcher_coins[name]:
             coins.append(coin)
             add_rule(full_clear, lambda state, c=coin: state.has(c, world.player))

@@ -84,8 +84,8 @@ class EarthBoundWorld(World):
     options_dataclass = EBOptions
     options: EBOptions
 
-    locked_locations: List[str]
-    location_cache: List[Location]
+    locked_locations: list[str]
+    location_cache: list[Location]
 
     def __init__(self, multiworld: MultiWorld, player: int):
         self.rom_name_available_event = threading.Event()
@@ -100,10 +100,10 @@ class EarthBoundWorld(World):
         self.progressive_filler_bracelets: int = 0
         self.progressive_filler_other: int = 0
         self.world_version: str = world_version
-        self.armor_list = Dict[str, EBArmor]
-        self.weapon_list = Dict[str, EBWeapon]
-        self.boss_slots = Dict[str, SlotInfo]
-        self.boss_info = Dict[str, BossData]
+        self.armor_list = dict[str, EBArmor]
+        self.weapon_list = dict[str, EBWeapon]
+        self.boss_slots = dict[str, SlotInfo]
+        self.boss_info = dict[str, BossData]
         self.starting_character: str | None = None
         self.locals = []
         self.rom_name = None
@@ -112,7 +112,7 @@ class EarthBoundWorld(World):
         self.uncommon_gear = []
         self.rare_gear = []
         self.get_all_spheres = threading.Event()
-        self.boss_list: List[str] = []
+        self.boss_list: list[str] = []
         self.starting_region = str
         self.start_location = int
         self.dungeon_connections: dict[str, str] = {}
@@ -374,7 +374,7 @@ class EarthBoundWorld(World):
         finally:
             self.rom_name_available_event.set()  # make sure threading continues and errors are collected
 
-    def extend_hint_information(self, hint_data: Dict[int, Dict[int, str]]) -> None:
+    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]) -> None:
         if self.options.dungeon_shuffle:
             dungeon_entrances = {}
             dungeon_mapping = {}
@@ -388,7 +388,7 @@ class EarthBoundWorld(World):
 
             hint_data[self.player] = dungeon_mapping
 
-    def fill_slot_data(self) -> Dict[str, typing.Any]:
+    def fill_slot_data(self) -> dict[str, typing.Any]:
         return {
             "starting_area": self.start_location,
             "pizza_logic": self.options.monkey_caves_mode.value,
@@ -503,8 +503,8 @@ class EarthBoundWorld(World):
         }
         return self.random.choice(weight_table[filler_type])
 
-    def get_excluded_items(self) -> Set[str]:
-        excluded_items: Set[str] = set()
+    def get_excluded_items(self) -> set[str]:
+        excluded_items: set[str] = set()
         excluded_items.add(self.starting_character)
         starting_area_to_teleport = ["Onett Teleport", "Onett Teleport", "Twoson Teleport", "Happy-Happy Village Teleport",
                                      "Threed Teleport", "Saturn Valley Teleport", "Fourside Teleport", "Winters Teleport",
@@ -557,7 +557,7 @@ class EarthBoundWorld(World):
             item.classification = ItemClassification.useful
         return item
 
-    def fill_item_pool(self, pool: List[Item]) -> None:
+    def fill_item_pool(self, pool: list[Item]) -> None:
         item_to_counts = {
             "Progressive Bat": self.progressive_filler_bats,
             "Progressive Fry Pan": self.progressive_filler_pans,
@@ -586,8 +586,8 @@ class EarthBoundWorld(World):
                     self.rare_gear = [x for x in self.rare_gear if x != item.name]
             pool.append(item)
 
-    def get_item_pool(self, excluded_items: Set[str]) -> List[Item]:
-        pool: List[Item] = []
+    def get_item_pool(self, excluded_items: set[str]) -> list[Item]:
+        pool: list[Item] = []
 
         for name, data in item_table.items():
             if name not in excluded_items:

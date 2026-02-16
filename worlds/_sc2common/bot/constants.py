@@ -9,17 +9,17 @@ IS_BIOLOGICAL: int = Attribute.Biological.value
 IS_MECHANICAL: int = Attribute.Mechanical.value
 IS_MASSIVE: int = Attribute.Massive.value
 IS_PSIONIC: int = Attribute.Psionic.value
-TARGET_GROUND: Set[int] = {TargetType.Ground.value, TargetType.Any.value}
-TARGET_AIR: Set[int] = {TargetType.Air.value, TargetType.Any.value}
+TARGET_GROUND: set[int] = {TargetType.Ground.value, TargetType.Any.value}
+TARGET_AIR: set[int] = {TargetType.Air.value, TargetType.Any.value}
 TARGET_BOTH = TARGET_GROUND | TARGET_AIR
 IS_SNAPSHOT = DisplayType.Snapshot.value
 IS_VISIBLE = DisplayType.Visible.value
 IS_PLACEHOLDER = DisplayType.Placeholder.value
 IS_MINE = Alliance.Self.value
 IS_ENEMY = Alliance.Enemy.value
-IS_CLOAKED: Set[int] = {CloakState.Cloaked.value, CloakState.CloakedDetected.value, CloakState.CloakedAllied.value}
+IS_CLOAKED: set[int] = {CloakState.Cloaked.value, CloakState.CloakedDetected.value, CloakState.CloakedAllied.value}
 IS_REVEALED: int = CloakState.CloakedDetected.value
-CAN_BE_ATTACKED: Set[int] = {CloakState.NotCloaked.value, CloakState.CloakedDetected.value}
+CAN_BE_ATTACKED: set[int] = {CloakState.NotCloaked.value, CloakState.CloakedDetected.value}
 
 TARGET_HELPER = {
     1: "no target",

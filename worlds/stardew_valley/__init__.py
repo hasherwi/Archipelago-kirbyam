@@ -113,8 +113,8 @@ class StardewValleyWorld(World):
     logic: StardewLogic
 
     web = StardewWebWorld()
-    modified_bundles: List[BundleRoom]
-    randomized_entrances: Dict[str, str]
+    modified_bundles: list[BundleRoom]
+    randomized_entrances: dict[str, str]
 
     total_progression_items: int
 
@@ -137,7 +137,7 @@ class StardewValleyWorld(World):
         self.seed = getattr(multiworld, "re_gen_passthrough", {}).get(STARDEW_VALLEY, self.random.getrandbits(64))
         self.random = Random(self.seed)
 
-    def interpret_slot_data(self, slot_data: Dict[str, Any]) -> Optional[int]:
+    def interpret_slot_data(self, slot_data: dict[str, Any]) -> int | None:
         # If the seed is not specified in the slot data, this mean the world was generated before Universal Tracker support.
         seed = slot_data.get(UNIVERSAL_TRACKER_SEED_PROPERTY)
         if seed is None:
@@ -157,7 +157,7 @@ class StardewValleyWorld(World):
         self.logic = StardewLogic(self.player, self.options, self.content, world_regions.keys())
         self.modified_bundles = get_all_bundles(self.random, self.logic, self.content, self.options)
 
-        def add_location(name: str, code: Optional[int], region: str):
+        def add_location(name: str, code: int | None, region: str):
             region: Region = world_regions[region]
             location = StardewLocation(self.player, name, code, region)
             region.locations.append(location)
@@ -309,7 +309,7 @@ class StardewValleyWorld(World):
 
         self.multiworld.completion_condition[self.player] = lambda state: state.has(Event.victory, self.player)
 
-    def get_all_location_names(self) -> List[str]:
+    def get_all_location_names(self) -> list[str]:
         return list(location.name for location in self.multiworld.get_locations(self.player))
 
     def create_item(self, item: str | ItemData, override_classification: ItemClassification = None) -> StardewItem:
@@ -372,7 +372,7 @@ class StardewValleyWorld(World):
         for original_entrance, replaced_entrance in self.randomized_entrances.items():
             self.multiworld.spoiler.set_entrance(original_entrance, replaced_entrance, "entrance", self.player)
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         bundles = dict()
         for room in self.modified_bundles:
             bundles[room.name] = dict()
@@ -385,7 +385,7 @@ class StardewValleyWorld(World):
         excluded_option_names = [option.internal_name for option in excluded_options]
         generic_option_names = [option_name for option_name in PerGameCommonOptions.type_hints]
         excluded_option_names.extend(generic_option_names)
-        included_option_names: List[str] = [option_name for option_name in self.options_dataclass.type_hints if option_name not in excluded_option_names]
+        included_option_names: list[str] = [option_name for option_name in self.options_dataclass.type_hints if option_name not in excluded_option_names]
         slot_data = self.options.as_dict(*included_option_names)
         slot_data.update({
             UNIVERSAL_TRACKER_SEED_PROPERTY: self.seed,

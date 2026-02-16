@@ -10,7 +10,8 @@ import base64
 import enum
 import json
 import sys
-from typing import Any, Sequence
+from typing import Any
+from collections.abc import Sequence
 
 BIZHAWK_SOCKET_PORT_RANGE_START = 43055
 BIZHAWK_SOCKET_PORT_RANGE_SIZE = 5

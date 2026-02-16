@@ -9,12 +9,12 @@ if TYPE_CHECKING:
 class LocationData(NamedTuple):
     region: str
     name: str
-    code: Optional[int]
+    code: int | None
 
 
-def get_locations(world: "EarthBoundWorld") -> List[LocationData]:
+def get_locations(world: "EarthBoundWorld") -> list[LocationData]:
 
-    location_table: List[LocationData] = [
+    location_table: list[LocationData] = [
         LocationData("Northern Onett", "Onett - Tracy Gift", 0xEB0000),
         LocationData("Northern Onett", "Onett - Tracy's Room Present", 0xEB0001),
         LocationData("Northern Onett", "Onett - Hilltop Present", 0xEB0002),

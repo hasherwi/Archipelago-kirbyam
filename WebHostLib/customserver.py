@@ -236,7 +236,7 @@ def set_up_logging(room_id) -> logging.Logger:
 
 
 def run_server_process(name: str, ponyconfig: dict, static_server_data: dict,
-                       cert_file: typing.Optional[str], cert_key_file: typing.Optional[str],
+                       cert_file: str | None, cert_key_file: str | None,
                        host: str, rooms_to_run: multiprocessing.Queue, rooms_shutting_down: multiprocessing.Queue):
     from setproctitle import setproctitle
 
@@ -361,7 +361,7 @@ def run_server_process(name: str, ponyconfig: dict, static_server_data: dict,
                     rooms_shutting_down.put(room_id)
 
     class Starter(threading.Thread):
-        _tasks: typing.List[asyncio.Future]
+        _tasks: list[asyncio.Future]
 
         def __init__(self):
             super().__init__()
@@ -389,6 +389,6 @@ def run_server_process(name: str, ponyconfig: dict, static_server_data: dict,
     finally:
         # save all tasks that want to be saved during shutdown
         for task in asyncio.all_tasks(loop):
-            save: typing.Optional[typing.Callable[[], typing.Any]] = getattr(task, "save", None)
+            save: typing.Callable[[], typing.Any] | None = getattr(task, "save", None)
             if save:
                 save()

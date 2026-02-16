@@ -70,7 +70,7 @@ class MissionGroupNames:
     NCO_MISSION_PACK_3 = "NCO Mission Pack 3"
 
     @classmethod
-    def get_all_group_names(cls) -> Set[str]:
+    def get_all_group_names(cls) -> set[str]:
         return {
             name
             for identifier, name in cls.__dict__.items()
@@ -78,7 +78,7 @@ class MissionGroupNames:
         }
 
 
-mission_groups: Dict[str, List[str]] = {}
+mission_groups: dict[str, list[str]] = {}
 
 mission_groups[MissionGroupNames.ALL_MISSIONS] = [mission.mission_name for mission in SC2Mission]
 for group_name, campaign in (

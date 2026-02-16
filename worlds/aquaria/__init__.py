@@ -76,7 +76,7 @@ class AquariaWorld(World):
     web: WebWorld = AquariaWeb()
     "The web page generation informations"
 
-    item_name_to_id: ClassVar[Dict[str, int]] = \
+    item_name_to_id: ClassVar[dict[str, int]] = \
         {name: data.id for name, data in item_table.items()}
     "The name and associated ID of each item of the world"
 
@@ -94,7 +94,7 @@ class AquariaWorld(World):
     base_id = 698000
     "The starting ID of the items and locations of the world"
 
-    ingredients_substitution: List[int]
+    ingredients_substitution: list[int]
     "Used to randomize ingredient drop"
 
     options_dataclass = AquariaOptions
@@ -106,7 +106,7 @@ class AquariaWorld(World):
     regions: AquariaRegions | None
     "Used to manage Regions"
 
-    exclude: List[str]
+    exclude: list[str]
 
     def __init__(self, multiworld: MultiWorld, player: int):
         """Initialisation of the Aquaria World"""
@@ -235,7 +235,7 @@ class AquariaWorld(World):
         self.ingredients_substitution.extend(simple_ingredients_substitution)
         self.ingredients_substitution.extend(dishes_substitution)
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         return {"ingredientReplacement": self.ingredients_substitution,
                 "aquarian_translate": bool(self.options.aquarian_translation.value),
                 "blind_goal": bool(self.options.blind_goal.value),

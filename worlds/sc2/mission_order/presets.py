@@ -505,7 +505,7 @@ full_campaign_settings = {
     }
 }
 
-sc2_options_presets: Dict[str, Dict[str, Any]] = {
+sc2_options_presets: dict[str, dict[str, Any]] = {
     "F2P Terran [~7 hours]":        template_settings,
     "F2P Big [~10 hours]":          f2p_big_settings,
     "Zerg Rush [~3 hours]":         zerg_rush_settings,

@@ -1,6 +1,6 @@
 import unittest
 from enum import IntEnum
-from typing import Callable
+from collections.abc import Callable
 
 from BaseClasses import Entrance, EntranceType, MultiWorld, Region
 from entrance_rando import (

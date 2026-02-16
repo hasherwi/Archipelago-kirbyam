@@ -9,7 +9,7 @@ class ItemDict(TypedDict):
     name: str
 
 
-item_table: Dict[int, ItemDict] = {
+item_table: dict[int, ItemDict] = {
     # Things
     200622: {"classification": ItemClassification.filler,
              "count": 1,
@@ -194,7 +194,7 @@ item_table: Dict[int, ItemDict] = {
 }
 
 
-gesture_item_table: Dict[int, ItemDict] = {
+gesture_item_table: dict[int, ItemDict] = {
     200678: {"classification": ItemClassification.useful,
             "count": 1,
             "name": "POROMER BLEB"},
@@ -225,7 +225,7 @@ gesture_item_table: Dict[int, ItemDict] = {
 }
 
 
-party_item_table: Dict[int, ItemDict] = {
+party_item_table: dict[int, ItemDict] = {
     200689: {"classification": ItemClassification.progression,
              "count": 1,
              "name": "Pongorma"},
@@ -237,7 +237,7 @@ party_item_table: Dict[int, ItemDict] = {
              "name": "Somsnosa"}
 }
 
-medallion_item_table: Dict[int, ItemDict] = {
+medallion_item_table: dict[int, ItemDict] = {
     200692: {"classification": ItemClassification.filler,
              "count": 30,
              "name": "10 Bones"}
