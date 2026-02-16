@@ -1,6 +1,6 @@
+import struct
 from collections import defaultdict
 from operator import itemgetter
-import struct
 from typing import Union
 
 ByteString = Union[bytes, bytearray, memoryview]
@@ -59,7 +59,7 @@ def compress(data: bytearray):
     # padding
     padding = 4 - (length % 4 or 4)
     if padding:
-        byteOut.extend(b'\xff' * padding)
+        byteOut.extend(b"\xff" * padding)
     return byteOut
 
 

@@ -1,17 +1,18 @@
 from functools import cached_property
-from typing import Iterable, Union, Hashable
+from typing import Hashable, Iterable, Union
 
 from Utils import cache_self1
-from .base_logic import BaseLogicMixin, BaseLogic
-from .combat_logic import CombatLogicMixin
-from .has_logic import HasLogicMixin
-from .region_logic import RegionLogicMixin
-from .time_logic import TimeLogicMixin, MAX_MONTHS
+
 from .. import options
 from ..data import monster_data
 from ..stardew_rule import StardewRule
 from ..strings.generic_names import Generic
 from ..strings.region_names import Region
+from .base_logic import BaseLogic, BaseLogicMixin
+from .combat_logic import CombatLogicMixin
+from .has_logic import HasLogicMixin
+from .region_logic import RegionLogicMixin
+from .time_logic import MAX_MONTHS, TimeLogicMixin
 
 
 class MonsterLogicMixin(BaseLogicMixin):

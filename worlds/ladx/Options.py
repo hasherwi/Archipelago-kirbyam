@@ -1,11 +1,21 @@
-from dataclasses import dataclass
-
+import logging
 import os.path
 import typing
-import logging
-from Options import Choice, Toggle, DefaultOnToggle, Range, FreeText, PerGameCommonOptions, OptionGroup, Removed, StartInventoryPool
 from collections import defaultdict
+from dataclasses import dataclass
+
 import Utils
+from Options import (
+    Choice,
+    DefaultOnToggle,
+    FreeText,
+    OptionGroup,
+    PerGameCommonOptions,
+    Range,
+    Removed,
+    StartInventoryPool,
+    Toggle,
+)
 
 DefaultOffToggle = Toggle
 

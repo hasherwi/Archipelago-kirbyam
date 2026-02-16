@@ -1,5 +1,5 @@
-from . import KH2TestBase
 from ..Names import ItemName
+from . import KH2TestBase
 
 
 class TestDefault(KH2TestBase):

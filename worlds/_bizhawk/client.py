@@ -7,7 +7,8 @@ from __future__ import annotations
 import abc
 from typing import TYPE_CHECKING, Any, ClassVar
 
-from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch as launch_component
+from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components
+from worlds.LauncherComponents import launch as launch_component
 
 if TYPE_CHECKING:
     from .context import BizHawkClientContext

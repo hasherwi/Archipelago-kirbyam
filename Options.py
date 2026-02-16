@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import abc
 import collections
+import enum
 import functools
 import logging
 import math
 import numbers
 import random
 import typing
-import enum
 from collections import defaultdict
 from copy import deepcopy
 from dataclasses import dataclass
@@ -19,9 +19,10 @@ from typing_extensions import Self
 from Utils import get_file_safe_name, get_fuzzy_results, is_iterable_except_str, output_path
 
 if typing.TYPE_CHECKING:
+    import pathlib
+
     from BaseClasses import MultiWorld, PlandoOptions
     from worlds.AutoWorld import World
-    import pathlib
 
 
 def roll_percentage(percentage: int | float) -> bool:
@@ -119,7 +120,7 @@ class AssembleOptions(abc.ABCMeta):
         return super(AssembleOptions, mcs).__new__(mcs, name, bases, attrs)
 
 
-T = typing.TypeVar('T')
+T = typing.TypeVar("T")
 
 
 class Option(typing.Generic[T], metaclass=AssembleOptions):
@@ -689,7 +690,7 @@ class Range(NumericOption):
     range_end = 1
 
     _RANDOM_OPTS = [
-        "random", "random-low", "random-middle", "random-high", 
+        "random", "random-low", "random-middle", "random-high",
         "random-range-low-<min>-<max>", "random-range-middle-<min>-<max>",
         "random-range-high-<min>-<max>", "random-range-<min>-<max>",
     ]
@@ -891,7 +892,7 @@ class VerifyKeys(metaclass=FreezeValidKeys):
     def __iter__(self) -> typing.Iterator[typing.Any]:
         return self.value.__iter__()
 
-    
+
 class OptionDict(Option[typing.Dict[str, typing.Any]], VerifyKeys, typing.Mapping[str, typing.Any]):
     default = {}
     supports_weighting = False
@@ -1656,7 +1657,7 @@ class PlandoItems(Option[typing.List[PlandoItem]]):
     def __len__(self) -> int:
         return len(self.value)
 
-        
+
 class Removed(FreeText):
     """This Option has been Removed."""
     rich_text_doc = True
@@ -1738,8 +1739,8 @@ def generate_yaml_templates(target_folder: typing.Union[str, "pathlib.Path"], ge
     import yaml
     from jinja2 import Template
 
+    from Utils import __version__, local_path
     from worlds import AutoWorldRegister
-    from Utils import local_path, __version__
 
     full_path: str
 

@@ -1,5 +1,7 @@
-from typing import Dict, Callable, TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable, Dict
+
 from BaseClasses import CollectionState, LocationProgressType
+
 from .Options import Goal, PaintingChecksBalancing
 
 if TYPE_CHECKING:

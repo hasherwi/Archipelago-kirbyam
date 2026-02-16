@@ -2,12 +2,13 @@ import json
 import zipfile
 from io import BytesIO
 
-from flask import send_file, Response, render_template
+from flask import Response, render_template, send_file
 from pony.orm import select
 
 from worlds.Files import AutoPatchRegister
+
 from . import app, cache
-from .models import Slot, Room, Seed
+from .models import Room, Seed, Slot
 
 
 @app.route("/dl_patch/<suuid:room_id>/<int:patch_id>")

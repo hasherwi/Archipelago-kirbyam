@@ -1,6 +1,5 @@
-from typing import Dict, NamedTuple, Optional, Set
 import typing
-
+from typing import Dict, NamedTuple, Optional, Set
 
 from BaseClasses import Location
 
@@ -252,7 +251,7 @@ location_table: Dict[str, KH1LocationData] = {
     "End of the World Final Rest Chest":                                                KH1LocationData("End of the World", 265_4772, "Chest",  True),
     "Monstro Chamber 6 White Trinity Chest":                                            KH1LocationData("Monstro",          265_5092, "Chest",  True),
     #"Awakening Chest":                                                                 KH1LocationData("Awakening",        265_5093, "Chest"), missable
-   
+
     "Traverse Town Defeat Guard Armor Dodge Roll Event":                                KH1LocationData("Traverse Town",    265_6011, "Reward"),
     "Traverse Town Defeat Guard Armor Fire Event":                                      KH1LocationData("Traverse Town",    265_6012, "Static"),
     "Traverse Town Defeat Guard Armor Blue Trinity Event":                              KH1LocationData("Traverse Town",    265_6013, "Static"),
@@ -297,7 +296,7 @@ location_table: Dict[str, KH1LocationData] = {
     "End of the World Defeat Chernabog Superglide Event":                               KH1LocationData("End of the World", 265_6111, "Reward", True),
     "Neverland Seal Keyhole Navi-G Piece Event":                                        KH1LocationData("Neverland",        265_6112, "Static", True),
     "Traverse Town Secret Waterway Navi Gummi Event":                                   KH1LocationData("Traverse Town",    265_6113, "Static", True),
-    
+
     "Traverse Town Mail Postcard 01 Event":                                             KH1LocationData("Traverse Town",    265_6120, "Reward"),
     "Traverse Town Mail Postcard 02 Event":                                             KH1LocationData("Traverse Town",    265_6121, "Reward"),
     "Traverse Town Mail Postcard 03 Event":                                             KH1LocationData("Traverse Town",    265_6122, "Reward"),
@@ -308,10 +307,10 @@ location_table: Dict[str, KH1LocationData] = {
     "Traverse Town Mail Postcard 08 Event":                                             KH1LocationData("Traverse Town",    265_6127, "Reward"),
     "Traverse Town Mail Postcard 09 Event":                                             KH1LocationData("Traverse Town",    265_6128, "Reward"),
     "Traverse Town Mail Postcard 10 Event":                                             KH1LocationData("Traverse Town",    265_6129, "Reward"),
-    
+
     "Traverse Town Defeat Opposite Armor Aero Event":                                   KH1LocationData("Traverse Town",    265_6131, "Static", True),
     "Traverse Town Defeat Opposite Armor Navi-G Piece Event":                           KH1LocationData("Traverse Town",    265_6132, "Static", True),
-    
+
     "Atlantica Undersea Gorge Blizzard Clam":                                           KH1LocationData("Atlantica",        265_6201, "Static"),
     "Atlantica Undersea Gorge Ocean Floor Clam":                                        KH1LocationData("Atlantica",        265_6202, "Static"),
     "Atlantica Undersea Valley Higher Cave Clam":                                       KH1LocationData("Atlantica",        265_6203, "Static"),
@@ -328,7 +327,7 @@ location_table: Dict[str, KH1LocationData] = {
     "Atlantica Below Deck Clam":                                                        KH1LocationData("Atlantica",        265_6214, "Static"),
     "Atlantica Undersea Garden Clam":                                                   KH1LocationData("Atlantica",        265_6215, "Static"),
     "Atlantica Undersea Cave Clam":                                                     KH1LocationData("Atlantica",        265_6216, "Static"),
-    
+
     #"Traverse Town Magician's Study Turn in Naturespark":                              KH1LocationData("Traverse Town",    265_6300, "Static"),
     #"Traverse Town Magician's Study Turn in Watergleam":                               KH1LocationData("Traverse Town",    265_6301, "Static"),
     #"Traverse Town Magician's Study Turn in Fireglow":                                 KH1LocationData("Traverse Town",    265_6302, "Static"),
@@ -415,7 +414,7 @@ location_table: Dict[str, KH1LocationData] = {
     "Deep Jungle Cavern of Hearts Navi-G Piece Event":                                  KH1LocationData("Deep Jungle",      265_6384, "Static", True),
     "Wonderland Bizarre Room Navi-G Piece Event":                                       KH1LocationData("Wonderland",       265_6385, "Static", True),
     "Olympus Coliseum Coliseum Gates Entry Pass Event":                                 KH1LocationData("Olympus Coliseum", 265_6386, "Static"),
-    
+
     "Traverse Town Synth 15 Items":                                                      KH1LocationData("Traverse Town",   265_6400, "Reward"),
     "Traverse Town Synth Item 01":                                                       KH1LocationData("Traverse Town",   265_6401, "Synth"),
     "Traverse Town Synth Item 02":                                                       KH1LocationData("Traverse Town",   265_6402, "Synth"),
@@ -451,7 +450,7 @@ location_table: Dict[str, KH1LocationData] = {
     "Traverse Town Synth Item 31":                                                       KH1LocationData("Traverse Town",   265_6431, "Synth"),
     "Traverse Town Synth Item 32":                                                       KH1LocationData("Traverse Town",   265_6432, "Synth"),
     "Traverse Town Synth Item 33":                                                       KH1LocationData("Traverse Town",   265_6433, "Synth"),
-    
+
     "Traverse Town Item Shop Postcard":                                                 KH1LocationData("Traverse Town",    265_6500, "Static"),
     "Traverse Town 1st District Safe Postcard":                                         KH1LocationData("Traverse Town",    265_6501, "Static"),
     "Traverse Town Gizmo Shop Postcard 1":                                              KH1LocationData("Traverse Town",    265_6502, "Static"),
@@ -468,7 +467,7 @@ location_table: Dict[str, KH1LocationData] = {
     #"Traverse Town 1st District Aerith Gift":                                          KH1LocationData("Traverse Town",    265_6521, "Reward"),
     "Hollow Bastion Library Speak to Belle Divine Rose":                                KH1LocationData("Hollow Bastion",   265_6522, "Reward", True),
     "Hollow Bastion Library Speak to Aerith Cure":                                      KH1LocationData("Hollow Bastion",   265_6523, "Static", True),
-    
+
     "Traverse Town 1st District Blue Trinity by Exit Door":                             KH1LocationData("Traverse Town",    265_6600, "Prize"),
     "Traverse Town 3rd District Blue Trinity":                                          KH1LocationData("Traverse Town",    265_6601, "Prize"),
     "Traverse Town Magician's Study Blue Trinity":                                      KH1LocationData("Traverse Town",    265_6602, "Prize"),
@@ -493,7 +492,7 @@ location_table: Dict[str, KH1LocationData] = {
     "Wonderland Tea Party Garden Left Gray Chair":                                      KH1LocationData("Wonderland",       265_6621, "Prize"),
     "Wonderland Tea Party Garden Right Brown Chair":                                    KH1LocationData("Wonderland",       265_6622, "Prize"),
     "Hollow Bastion Lift Stop from Waterway Examine Node":                              KH1LocationData("Hollow Bastion",   265_6623, "Prize",  True),
-    
+
     "Destiny Islands Seashore Capture Fish 1 (Day 2)":                                  KH1LocationData("Destiny Islands",  265_6700, "Static"),
     "Destiny Islands Seashore Capture Fish 2 (Day 2)":                                  KH1LocationData("Destiny Islands",  265_6701, "Static"),
     "Destiny Islands Seashore Capture Fish 3 (Day 2)":                                  KH1LocationData("Destiny Islands",  265_6702, "Static"),
@@ -509,7 +508,7 @@ location_table: Dict[str, KH1LocationData] = {
     "Destiny Islands Cove Talk to Kairi (Day 2)":                                       KH1LocationData("Destiny Islands",  265_6714, "Static"),
     "Destiny Islands Gather Drinking Water (Day 2)":                                    KH1LocationData("Destiny Islands",  265_6715, "Static"),
    #"Destiny Islands Cove Deliver Kairi Items (Day 2)":                                 KH1LocationData("Destiny Islands",  265_6716, "Static"),
-    
+
     "Donald Starting Accessory 1":                                                      KH1LocationData("Traverse Town",    265_6800, "Starting Accessory"),
     "Donald Starting Accessory 2":                                                      KH1LocationData("Traverse Town",    265_6801, "Starting Accessory"),
     "Goofy Starting Accessory 1":                                                       KH1LocationData("Traverse Town",    265_6802, "Starting Accessory"),
@@ -525,7 +524,7 @@ location_table: Dict[str, KH1LocationData] = {
     "Peter Pan Starting Accessory 1":                                                   KH1LocationData("Neverland",        265_6812, "Starting Accessory"),
     "Peter Pan Starting Accessory 2":                                                   KH1LocationData("Neverland",        265_6813, "Starting Accessory"),
     "Beast Starting Accessory 1":                                                       KH1LocationData("Hollow Bastion",   265_6814, "Starting Accessory"),
-    
+
     "Agrabah Defeat Jafar Genie Ansem's Report 1":                                      KH1LocationData("Agrabah",          265_7018, "Static", True),
     "Hollow Bastion Speak with Aerith Ansem's Report 2":                                KH1LocationData("Hollow Bastion",   265_7017, "Static", True),
     "Atlantica Defeat Ursula II Ansem's Report 3":                                      KH1LocationData("Atlantica",        265_7016, "Static", True),

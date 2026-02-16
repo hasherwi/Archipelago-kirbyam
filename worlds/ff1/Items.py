@@ -1,6 +1,6 @@
 import json
 import pkgutil
-from typing import Dict, Set, NamedTuple, List
+from typing import Dict, List, NamedTuple, Set
 
 from BaseClasses import Item, ItemClassification
 
@@ -11,7 +11,7 @@ class ItemData(NamedTuple):
     item_type: str
     classification: ItemClassification
 
-FF1_BRIDGE = 'Bridge'
+FF1_BRIDGE = "Bridge"
 
 
 FF1_STARTER_ITEMS = [

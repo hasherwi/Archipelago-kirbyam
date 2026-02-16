@@ -1,6 +1,8 @@
-from typing import Tuple, Dict, Union, List
 from random import Random
+from typing import Dict, List, Tuple, Union
+
 from .Options import TimespinnerOptions
+
 
 class PreCalculatedWeights:
     pyramid_keys_unlock: str
@@ -49,7 +51,7 @@ class PreCalculatedWeights:
             self.flood_moat = False
             self.flood_courtyard = False
             self.flood_lake_desolation = False
-            self.flood_lake_serene = True 
+            self.flood_lake_serene = True
             self.flood_lake_serene_bridge = False
             self.flood_lab = False
 
@@ -80,7 +82,7 @@ class PreCalculatedWeights:
     def get_pyramid_keys_unlocks(options: TimespinnerOptions, random: Random,
                                  is_maw_flooded: bool, is_xarion_flooded: bool,
                                  is_lab_flooded: bool) -> Tuple[str, str, str, str]:
-        
+
         present_teleportation_gates: List[str] = [
             "GateKittyBoss",
             "GateLeftLibrary",
@@ -108,7 +110,7 @@ class PreCalculatedWeights:
         if not is_maw_flooded:
             past_teleportation_gates.append("GateMaw")
 
-        if options.risky_warps: 
+        if options.risky_warps:
             past_teleportation_gates.append("GateLakeSereneLeft")
             if not is_xarion_flooded:
                 present_teleportation_gates.append("GateXarion")
@@ -145,7 +147,7 @@ class PreCalculatedWeights:
                 if not key in weights_overrides_option:
                     weights_overrides_option[key] = weights
 
-        return weights_overrides_option 
+        return weights_overrides_option
 
     @staticmethod
     def roll_flood_setting(random: Random, all_weights: Dict[str, Union[Dict[str, int], str]],
@@ -157,7 +159,7 @@ class PreCalculatedWeights:
             result: str = random.choices(list(weights.keys()), weights=list(map(int, weights.values())))[0]
         else:
             result: str = weights
-        
+
         if result == "Dry":
             return False, False
         elif result == "Flooded":

@@ -15,9 +15,10 @@ import typing
 
 from BaseClasses import CollectionState, Location
 from Utils import init_logging
+
+from ...stardew_rule.rule_explain import explain
 from ..bases import setup_solo_multiworld
 from ..options import presets
-from ...stardew_rule.rule_explain import explain
 
 
 def run_locations_benchmark():
@@ -51,10 +52,10 @@ def run_locations_benchmark():
             }
             try:
                 parser = argparse.ArgumentParser()
-                parser.add_argument('--options', help="Define the option set to use, from the preset in test/__init__.py .", type=str, required=True)
-                parser.add_argument('--seed', help="Define the seed to use.", type=int, required=True)
-                parser.add_argument('--location', help="Define the specific location to benchmark.", type=str, default=None)
-                parser.add_argument('--state', help="Define the state in which the location will be benchmarked.", type=str, default=None)
+                parser.add_argument("--options", help="Define the option set to use, from the preset in test/__init__.py .", type=str, required=True)
+                parser.add_argument("--seed", help="Define the seed to use.", type=int, required=True)
+                parser.add_argument("--location", help="Define the specific location to benchmark.", type=str, default=None)
+                parser.add_argument("--state", help="Define the state in which the location will be benchmarked.", type=str, default=None)
                 args = parser.parse_args()
                 options_set = args.options
                 options = getattr(presets, options_set)()

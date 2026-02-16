@@ -1,8 +1,9 @@
-from typing import Dict, Tuple, List, TYPE_CHECKING, Union
-from . import names
-from zlib import crc32
-import struct
 import logging
+import struct
+from typing import TYPE_CHECKING, Dict, List, Tuple, Union
+from zlib import crc32
+
+from . import names
 
 if TYPE_CHECKING:
     from . import MM2World

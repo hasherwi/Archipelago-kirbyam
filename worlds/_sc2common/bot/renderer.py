@@ -1,8 +1,7 @@
 import datetime
 
-from .proto import score_pb2 as score_pb
-
 from .position import Point2
+from .proto import score_pb2 as score_pb
 
 
 class Renderer:

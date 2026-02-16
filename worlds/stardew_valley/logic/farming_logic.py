@@ -1,14 +1,15 @@
 from functools import cached_property
-from typing import Union, Tuple
+from typing import Tuple, Union
 
 from Utils import cache_self1
-from .base_logic import BaseLogicMixin, BaseLogic
+
 from .. import options
 from ..stardew_rule import StardewRule, True_, false_
 from ..strings.fertilizer_names import Fertilizer
-from ..strings.region_names import Region, LogicRegion
+from ..strings.region_names import LogicRegion, Region
 from ..strings.season_names import Season
 from ..strings.tool_names import Tool
+from .base_logic import BaseLogic, BaseLogicMixin
 
 farming_region_by_season = {
     Season.spring: LogicRegion.spring_farming,

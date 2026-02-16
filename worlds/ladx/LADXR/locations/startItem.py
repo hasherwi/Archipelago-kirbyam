@@ -1,9 +1,9 @@
-from .itemInfo import ItemInfo
+from ..assembler import ASM
+from ..roomEditor import RoomEditor
+from ..utils import formatText
 from .constants import *
 from .droppedKey import DroppedKey
-from ..assembler import ASM
-from ..utils import formatText
-from ..roomEditor import RoomEditor
+from .itemInfo import ItemInfo
 
 
 class StartItem(DroppedKey):

@@ -4,8 +4,9 @@ Date: Fri, 15 Mar 2024 18:41:40 +0000
 Description: Manage items in the Aquaria game multiworld randomizer
 """
 
-from typing import Optional
 from enum import Enum
+from typing import Optional
+
 from BaseClasses import Item, ItemClassification
 
 

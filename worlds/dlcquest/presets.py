@@ -1,6 +1,15 @@
 from typing import Any, Dict
 
-from .Options import DoubleJumpGlitch, CoinSanity, CoinSanityRange, PermanentCoins, TimeIsMoney, EndingChoice, Campaign, ItemShuffle
+from .Options import (
+    Campaign,
+    CoinSanity,
+    CoinSanityRange,
+    DoubleJumpGlitch,
+    EndingChoice,
+    ItemShuffle,
+    PermanentCoins,
+    TimeIsMoney,
+)
 
 all_random_settings = {
     DoubleJumpGlitch.internal_name:         "random",

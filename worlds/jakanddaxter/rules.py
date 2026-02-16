@@ -1,19 +1,23 @@
 import logging
 import math
 import typing
+
 from BaseClasses import CollectionState
 from Options import OptionError
-from .options import (EnableOrbsanity,
-                      GlobalOrbsanityBundleSize,
-                      PerLevelOrbsanityBundleSize,
-                      FireCanyonCellCount,
-                      MountainPassCellCount,
-                      LavaTubeCellCount,
-                      CitizenOrbTradeAmount,
-                      OracleOrbTradeAmount)
-from .locs import cell_locations as cells
-from .locations import location_table
+
 from .levels import level_table
+from .locations import location_table
+from .locs import cell_locations as cells
+from .options import (
+    CitizenOrbTradeAmount,
+    EnableOrbsanity,
+    FireCanyonCellCount,
+    GlobalOrbsanityBundleSize,
+    LavaTubeCellCount,
+    MountainPassCellCount,
+    OracleOrbTradeAmount,
+    PerLevelOrbsanityBundleSize,
+)
 
 if typing.TYPE_CHECKING:
     from . import JakAndDaxterWorld

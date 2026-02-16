@@ -2,52 +2,88 @@ from __future__ import annotations
 
 import asyncio
 import collections
+import concurrent.futures
 import copy
 import ctypes
 import enum
 import functools
 import inspect
+import io
 import logging
 import multiprocessing
 import os.path
+import queue
+import random
 import re
 import sys
 import tempfile
-import typing
-import queue
-import zipfile
-import io
-import random
-import concurrent.futures
 import time
+import typing
 import uuid
+import zipfile
 from pathlib import Path
 
 # CommonClient import first to trigger ModuleUpdater
-from CommonClient import CommonContext, server_loop, ClientCommandProcessor, gui_enabled, get_base_parser, handle_url_arg
-from Utils import init_logging, is_windows, async_start
+from CommonClient import (
+    ClientCommandProcessor,
+    CommonContext,
+    get_base_parser,
+    gui_enabled,
+    handle_url_arg,
+    server_loop,
+)
+from Utils import async_start, init_logging, is_windows
+
+from . import VICTORY_MODULO, SC2World, options
 from .item import item_names, item_parents, race_to_item_type
 from .item.item_annotations import ITEM_NAME_ANNOTATIONS
-from .item.item_groups import item_name_groups, unlisted_item_name_groups, ItemGroupNames
-from . import options, VICTORY_MODULO
-from .options import (
-    MissionOrder, KerriganPrimalStatus, kerrigan_unit_available, KerriganPresence, EnableMorphling, GameDifficulty,
-    GameSpeed, GenericUpgradeItems, GenericUpgradeResearch, ColorChoice, GenericUpgradeMissions, MaxUpgradeLevel,
-    LocationInclusion, ExtraLocations, MasteryLocations, SpeedrunLocations, PreventativeLocations, ChallengeLocations,
-    VanillaLocations,
-    DisableForcedCamera, SkipCutscenes, GrantStoryTech, GrantStoryLevels, TakeOverAIAllies, RequiredTactics,
-    SpearOfAdunPresence, SpearOfAdunPresentInNoBuild, SpearOfAdunPassiveAbilityPresence,
-    SpearOfAdunPassivesPresentInNoBuild, EnableVoidTrade, VoidTradeAgeLimit, void_trade_age_limits_ms, VoidTradeWorkers,
-    DifficultyDamageModifier, MissionOrderScouting, GenericUpgradeResearchSpeedup, MercenaryHighlanders, WarCouncilNerfs,
-    is_mission_in_soa_presence,
-    upgrade_included_names,
-)
-from .mission_order.slot_data import CampaignSlotData, LayoutSlotData, MissionSlotData, MissionOrderObjectSlotData
-from .mission_order.entry_rules import SubRuleRuleData, CountMissionsRuleData, MissionEntryRules
+from .item.item_groups import ItemGroupNames, item_name_groups, unlisted_item_name_groups
+from .mission_order.entry_rules import CountMissionsRuleData, MissionEntryRules, SubRuleRuleData
+from .mission_order.slot_data import CampaignSlotData, LayoutSlotData, MissionOrderObjectSlotData, MissionSlotData
 from .mission_tables import MissionFlag
+from .options import (
+    ChallengeLocations,
+    ColorChoice,
+    DifficultyDamageModifier,
+    DisableForcedCamera,
+    EnableMorphling,
+    EnableVoidTrade,
+    ExtraLocations,
+    GameDifficulty,
+    GameSpeed,
+    GenericUpgradeItems,
+    GenericUpgradeMissions,
+    GenericUpgradeResearch,
+    GenericUpgradeResearchSpeedup,
+    GrantStoryLevels,
+    GrantStoryTech,
+    KerriganPresence,
+    KerriganPrimalStatus,
+    LocationInclusion,
+    MasteryLocations,
+    MaxUpgradeLevel,
+    MercenaryHighlanders,
+    MissionOrder,
+    MissionOrderScouting,
+    PreventativeLocations,
+    RequiredTactics,
+    SkipCutscenes,
+    SpearOfAdunPassiveAbilityPresence,
+    SpearOfAdunPassivesPresentInNoBuild,
+    SpearOfAdunPresence,
+    SpearOfAdunPresentInNoBuild,
+    SpeedrunLocations,
+    TakeOverAIAllies,
+    VanillaLocations,
+    VoidTradeAgeLimit,
+    VoidTradeWorkers,
+    WarCouncilNerfs,
+    is_mission_in_soa_presence,
+    kerrigan_unit_available,
+    upgrade_included_names,
+    void_trade_age_limits_ms,
+)
 from .transfer_data import normalized_unit_types, worker_units
-from . import SC2World
-
 
 if __name__ == "__main__":
     init_logging("SC2Client", exception_logger="Client")
@@ -55,25 +91,43 @@ if __name__ == "__main__":
 logger = logging.getLogger("Client")
 sc2_logger = logging.getLogger("Starcraft2")
 
+import colorama
 import nest_asyncio
+
+from MultiServer import mark_raw
+from NetUtils import (
+    ClientStatus,
+    JSONMessagePart,
+    JSONtoTextParser,
+    JSONTypes,
+    NetworkItem,
+    add_json_item,
+    add_json_location,
+    add_json_text,
+)
 from worlds._sc2common import bot
 from worlds._sc2common.bot.data import Race
 from worlds._sc2common.bot.main import run_game
 from worlds._sc2common.bot.player import Bot
-from .item.item_tables import (
-    lookup_id_to_name, get_full_item_list, ItemData,
-    ZergItemType, upgrade_bundles,
-    WEAPON_ARMOR_UPGRADE_MAX_LEVEL,
-)
-from .locations import SC2WOL_LOC_ID_OFFSET, LocationType, LocationFlag, SC2HOTS_LOC_ID_OFFSET, VICTORY_CACHE_OFFSET
-from .mission_tables import (
-    lookup_id_to_mission, SC2Campaign, MissionInfo,
-    lookup_id_to_campaign, SC2Mission, campaign_mission_table, SC2Race
-)
 
-import colorama
-from NetUtils import ClientStatus, NetworkItem, JSONtoTextParser, JSONMessagePart, add_json_item, add_json_location, add_json_text, JSONTypes
-from MultiServer import mark_raw
+from .item.item_tables import (
+    WEAPON_ARMOR_UPGRADE_MAX_LEVEL,
+    ItemData,
+    ZergItemType,
+    get_full_item_list,
+    lookup_id_to_name,
+    upgrade_bundles,
+)
+from .locations import SC2HOTS_LOC_ID_OFFSET, SC2WOL_LOC_ID_OFFSET, VICTORY_CACHE_OFFSET, LocationFlag, LocationType
+from .mission_tables import (
+    MissionInfo,
+    SC2Campaign,
+    SC2Mission,
+    SC2Race,
+    campaign_mission_table,
+    lookup_id_to_campaign,
+    lookup_id_to_mission,
+)
 
 if typing.TYPE_CHECKING:
     from Options import Option
@@ -135,7 +189,7 @@ class ConfigurableOptionInfo(typing.NamedTuple):
 
 
 class ColouredMessage:
-    def __init__(self, text: str = '', *, keep_markup: bool = False) -> None:
+    def __init__(self, text: str = "", *, keep_markup: bool = False) -> None:
         self.parts: typing.List[dict] = []
         if text:
             self(text, keep_markup=keep_markup)
@@ -241,7 +295,7 @@ class StarcraftClientProcessor(ClientCommandProcessor):
             self.output("To change the game speed, add the name of the speed after the command,"
                         " or Default to select based on difficulty.")
             return False
-    
+
     @mark_raw
     def _cmd_received(self, filter_search: str = "") -> bool:
         """List received items.
@@ -250,12 +304,12 @@ class StarcraftClientProcessor(ClientCommandProcessor):
         if self.ctx.slot is None:
             self.formatted_print("Connect to a slot to view what items are received.")
             return True
-        if filter_search.casefold().startswith('recent'):
-            return self._received_recent(filter_search[len('recent'):].strip())
+        if filter_search.casefold().startswith("recent"):
+            return self._received_recent(filter_search[len("recent"):].strip())
         # Groups must be matched case-sensitively, so we properly capitalize the search term
         # eg. "Spear of Adun" over "Spear Of Adun" or "spear of adun"
         # This fails a lot of item name matches, but those should be found by partial name match
-        group_filter = ''
+        group_filter = ""
         for group_name in item_name_groups:
             if group_name in unlisted_item_name_groups:
                 continue
@@ -338,7 +392,7 @@ class StarcraftClientProcessor(ClientCommandProcessor):
                 if not items:
                     ColouredMessage(indent_str)("- ").coloured(name, "red")(" - not obtained").send(self.ctx)
                 for item in items:
-                    (ColouredMessage(indent_str)('- ')
+                    (ColouredMessage(indent_str)("- ")
                         .item(item.item, self.ctx.slot, flags=item.flags)
                         (" from ").location(item.location, item.player)
                         (" by ").player(item.player)
@@ -386,58 +440,58 @@ class StarcraftClientProcessor(ClientCommandProcessor):
         LOGIC_WARNING = "  *Note changing this may result in logically unbeatable games*\n"
 
         configurable_options = (
-            ConfigurableOptionInfo('speed', 'game_speed', options.GameSpeed),
-            ConfigurableOptionInfo('kerrigan_presence', 'kerrigan_presence', options.KerriganPresence, can_break_logic=True),
-            ConfigurableOptionInfo('kerrigan_level_cap', 'kerrigan_total_level_cap', options.KerriganTotalLevelCap, ConfigurableOptionType.INTEGER, can_break_logic=True),
-            ConfigurableOptionInfo('kerrigan_mission_level_cap', 'kerrigan_levels_per_mission_completed_cap', options.KerriganLevelsPerMissionCompletedCap, ConfigurableOptionType.INTEGER),
-            ConfigurableOptionInfo('kerrigan_levels_per_mission', 'kerrigan_levels_per_mission_completed', options.KerriganLevelsPerMissionCompleted, ConfigurableOptionType.INTEGER),
-            ConfigurableOptionInfo('grant_story_levels', 'grant_story_levels', options.GrantStoryLevels, can_break_logic=True),
-            ConfigurableOptionInfo('grant_story_tech', 'grant_story_tech', options.GrantStoryTech, can_break_logic=True),
-            ConfigurableOptionInfo('control_ally', 'take_over_ai_allies', options.TakeOverAIAllies, can_break_logic=True),
-            ConfigurableOptionInfo('soa_presence', 'spear_of_adun_presence', options.SpearOfAdunPresence, can_break_logic=True),
-            ConfigurableOptionInfo('soa_in_nobuilds', 'spear_of_adun_present_in_no_build', options.SpearOfAdunPresentInNoBuild, can_break_logic=True),
+            ConfigurableOptionInfo("speed", "game_speed", options.GameSpeed),
+            ConfigurableOptionInfo("kerrigan_presence", "kerrigan_presence", options.KerriganPresence, can_break_logic=True),
+            ConfigurableOptionInfo("kerrigan_level_cap", "kerrigan_total_level_cap", options.KerriganTotalLevelCap, ConfigurableOptionType.INTEGER, can_break_logic=True),
+            ConfigurableOptionInfo("kerrigan_mission_level_cap", "kerrigan_levels_per_mission_completed_cap", options.KerriganLevelsPerMissionCompletedCap, ConfigurableOptionType.INTEGER),
+            ConfigurableOptionInfo("kerrigan_levels_per_mission", "kerrigan_levels_per_mission_completed", options.KerriganLevelsPerMissionCompleted, ConfigurableOptionType.INTEGER),
+            ConfigurableOptionInfo("grant_story_levels", "grant_story_levels", options.GrantStoryLevels, can_break_logic=True),
+            ConfigurableOptionInfo("grant_story_tech", "grant_story_tech", options.GrantStoryTech, can_break_logic=True),
+            ConfigurableOptionInfo("control_ally", "take_over_ai_allies", options.TakeOverAIAllies, can_break_logic=True),
+            ConfigurableOptionInfo("soa_presence", "spear_of_adun_presence", options.SpearOfAdunPresence, can_break_logic=True),
+            ConfigurableOptionInfo("soa_in_nobuilds", "spear_of_adun_present_in_no_build", options.SpearOfAdunPresentInNoBuild, can_break_logic=True),
             # Note(mm): Technically SOA passive presence is in the logic for Amon's Fall if Takeover AI Allies is true,
             # but that's edge case enough I don't think we should warn about it.
-            ConfigurableOptionInfo('soa_passive_presence', 'spear_of_adun_passive_ability_presence', options.SpearOfAdunPassiveAbilityPresence),
-            ConfigurableOptionInfo('soa_passives_in_nobuilds', 'spear_of_adun_passive_present_in_no_build', options.SpearOfAdunPassivesPresentInNoBuild),
-            ConfigurableOptionInfo('max_upgrade_level', 'max_upgrade_level', options.MaxUpgradeLevel, ConfigurableOptionType.INTEGER),
-            ConfigurableOptionInfo('generic_upgrade_research', 'generic_upgrade_research', options.GenericUpgradeResearch),
-            ConfigurableOptionInfo('generic_upgrade_research_speedup', 'generic_upgrade_research_speedup', options.GenericUpgradeResearchSpeedup),
-            ConfigurableOptionInfo('minerals_per_item', 'minerals_per_item', options.MineralsPerItem, ConfigurableOptionType.INTEGER),
-            ConfigurableOptionInfo('gas_per_item', 'vespene_per_item', options.VespenePerItem, ConfigurableOptionType.INTEGER),
-            ConfigurableOptionInfo('supply_per_item', 'starting_supply_per_item', options.StartingSupplyPerItem, ConfigurableOptionType.INTEGER),
-            ConfigurableOptionInfo('max_supply_per_item', 'maximum_supply_per_item', options.MaximumSupplyPerItem, ConfigurableOptionType.INTEGER),
-            ConfigurableOptionInfo('reduced_supply_per_item', 'maximum_supply_reduction_per_item', options.MaximumSupplyReductionPerItem, ConfigurableOptionType.INTEGER),
-            ConfigurableOptionInfo('lowest_max_supply', 'lowest_maximum_supply', options.LowestMaximumSupply, ConfigurableOptionType.INTEGER),
-            ConfigurableOptionInfo('research_cost_per_item', 'research_cost_reduction_per_item', options.ResearchCostReductionPerItem, ConfigurableOptionType.INTEGER),
-            ConfigurableOptionInfo('no_forced_camera', 'disable_forced_camera', options.DisableForcedCamera),
-            ConfigurableOptionInfo('skip_cutscenes', 'skip_cutscenes', options.SkipCutscenes),
-            ConfigurableOptionInfo('enable_morphling', 'enable_morphling', options.EnableMorphling, can_break_logic=True),
-            ConfigurableOptionInfo('difficulty_damage_modifier', 'difficulty_damage_modifier', options.DifficultyDamageModifier),
-            ConfigurableOptionInfo('void_trade_age_limit', 'trade_age_limit', options.VoidTradeAgeLimit),
-            ConfigurableOptionInfo('void_trade_workers', 'trade_workers_allowed', options.VoidTradeWorkers),
-            ConfigurableOptionInfo('mercenary_highlanders', 'mercenary_highlanders', options.MercenaryHighlanders),
+            ConfigurableOptionInfo("soa_passive_presence", "spear_of_adun_passive_ability_presence", options.SpearOfAdunPassiveAbilityPresence),
+            ConfigurableOptionInfo("soa_passives_in_nobuilds", "spear_of_adun_passive_present_in_no_build", options.SpearOfAdunPassivesPresentInNoBuild),
+            ConfigurableOptionInfo("max_upgrade_level", "max_upgrade_level", options.MaxUpgradeLevel, ConfigurableOptionType.INTEGER),
+            ConfigurableOptionInfo("generic_upgrade_research", "generic_upgrade_research", options.GenericUpgradeResearch),
+            ConfigurableOptionInfo("generic_upgrade_research_speedup", "generic_upgrade_research_speedup", options.GenericUpgradeResearchSpeedup),
+            ConfigurableOptionInfo("minerals_per_item", "minerals_per_item", options.MineralsPerItem, ConfigurableOptionType.INTEGER),
+            ConfigurableOptionInfo("gas_per_item", "vespene_per_item", options.VespenePerItem, ConfigurableOptionType.INTEGER),
+            ConfigurableOptionInfo("supply_per_item", "starting_supply_per_item", options.StartingSupplyPerItem, ConfigurableOptionType.INTEGER),
+            ConfigurableOptionInfo("max_supply_per_item", "maximum_supply_per_item", options.MaximumSupplyPerItem, ConfigurableOptionType.INTEGER),
+            ConfigurableOptionInfo("reduced_supply_per_item", "maximum_supply_reduction_per_item", options.MaximumSupplyReductionPerItem, ConfigurableOptionType.INTEGER),
+            ConfigurableOptionInfo("lowest_max_supply", "lowest_maximum_supply", options.LowestMaximumSupply, ConfigurableOptionType.INTEGER),
+            ConfigurableOptionInfo("research_cost_per_item", "research_cost_reduction_per_item", options.ResearchCostReductionPerItem, ConfigurableOptionType.INTEGER),
+            ConfigurableOptionInfo("no_forced_camera", "disable_forced_camera", options.DisableForcedCamera),
+            ConfigurableOptionInfo("skip_cutscenes", "skip_cutscenes", options.SkipCutscenes),
+            ConfigurableOptionInfo("enable_morphling", "enable_morphling", options.EnableMorphling, can_break_logic=True),
+            ConfigurableOptionInfo("difficulty_damage_modifier", "difficulty_damage_modifier", options.DifficultyDamageModifier),
+            ConfigurableOptionInfo("void_trade_age_limit", "trade_age_limit", options.VoidTradeAgeLimit),
+            ConfigurableOptionInfo("void_trade_workers", "trade_workers_allowed", options.VoidTradeWorkers),
+            ConfigurableOptionInfo("mercenary_highlanders", "mercenary_highlanders", options.MercenaryHighlanders),
         )
 
         WARNING_COLOUR = "salmon"
         CMD_COLOUR = "slateblue"
         boolean_option_map = {
-            'y': 'true', 'yes': 'true', 'n': 'false', 'no': 'false', 'true': 'true', 'false': 'false',
+            "y": "true", "yes": "true", "n": "false", "no": "false", "true": "true", "false": "false",
         }
 
         help_message = ColouredMessage(inspect.cleandoc("""
             Options
         --------------------
-        """))('\n')
+        """))("\n")
         for option in configurable_options:
-            option_help_text = inspect.cleandoc(option.option_class.__doc__ or "No description provided.").split('\n', 1)[0]
+            option_help_text = inspect.cleandoc(option.option_class.__doc__ or "No description provided.").split("\n", 1)[0]
             help_message.coloured(option.name, CMD_COLOUR)(": " + " | ".join(option.option_class.options)
                 + f" -- {option_help_text}\n")
             if option.can_break_logic:
                 help_message.coloured(LOGIC_WARNING, WARNING_COLOUR)
         help_message("--------------------\nEnter an option without arguments to see its current value.\n")
 
-        if not option_name or option_name == 'list' or option_name == 'help':
+        if not option_name or option_name == "list" or option_name == "help":
             help_message.send(self.ctx)
             return
         for option in configurable_options:
@@ -471,32 +525,32 @@ class StarcraftClientProcessor(ClientCommandProcessor):
             "Random", "Default"
         ]
         var_names = {
-            'raynor': 'player_color_raynor',
-            'kerrigan': 'player_color_zerg',
-            'primal': 'player_color_zerg_primal',
-            'protoss': 'player_color_protoss',
-            'nova': 'player_color_nova',
+            "raynor": "player_color_raynor",
+            "kerrigan": "player_color_zerg",
+            "primal": "player_color_zerg_primal",
+            "protoss": "player_color_protoss",
+            "nova": "player_color_nova",
         }
         faction = faction.lower()
         if not faction:
             for faction_name, key in var_names.items():
                 self.output(f"Current player color for {faction_name}: {player_colors[self.ctx.__dict__[key]]}")
             self.output("To change your color, add the faction name and color after the command.")
-            self.output("Available factions: " + ', '.join(var_names))
-            self.output("Available colors: " + ', '.join(player_colors))
+            self.output("Available factions: " + ", ".join(var_names))
+            self.output("Available colors: " + ", ".join(player_colors))
             return
         elif faction not in var_names:
             self.output(f"Unknown faction '{faction}'.")
-            self.output("Available factions: " + ', '.join(var_names))
+            self.output("Available factions: " + ", ".join(var_names))
             return
         match_colors = [player_color.lower() for player_color in player_colors]
         if not color:
             self.output(f"Current player color for {faction}: {player_colors[self.ctx.__dict__[var_names[faction]]]}")
             self.output("To change this faction's colors, add the name of the color after the command.")
-            self.output("Available colors: " + ', '.join(player_colors))
+            self.output("Available colors: " + ", ".join(player_colors))
         else:
             if color.lower() not in match_colors:
-                self.output(color + " is not a valid color.  Available colors: " + ', '.join(player_colors))
+                self.output(color + " is not a valid color.  Available colors: " + ", ".join(player_colors))
                 return
             if color.lower() == "random":
                 color = random.choice(player_colors[:-2])
@@ -508,7 +562,7 @@ class StarcraftClientProcessor(ClientCommandProcessor):
         """Controls whether sc2 will launch in Windowed mode. Persists across sessions."""
         if not value:
             sc2_logger.info("Use `/windowed_mode [true|false]` to set the windowed mode")
-        elif value.casefold() in ('t', 'true', 'yes', 'y'):
+        elif value.casefold() in ("t", "true", "yes", "y"):
             SC2World.settings.game_windowed_mode = True
             force_settings_save_on_close()
         else:
@@ -524,7 +578,7 @@ class StarcraftClientProcessor(ClientCommandProcessor):
         return True
 
     @mark_raw
-    def _cmd_set_path(self, path: str = '') -> bool:
+    def _cmd_set_path(self, path: str = "") -> bool:
         """Manually set the SC2 install directory (if the automatic detection fails)."""
         if path:
             os.environ["SC2PATH"] = path
@@ -582,8 +636,8 @@ class SC2JSONtoTextParser(JSONtoTextParser):
     def _handle_color(self, node: JSONMessagePart) -> str:
         codes = node["color"].split(";")
         buffer = "".join(self.color_code(code) for code in codes if code in self.color_codes)
-        return buffer + self._handle_text(node) + '</c>'
-    
+        return buffer + self._handle_text(node) + "</c>"
+
     def _handle_item_name(self, node: JSONMessagePart) -> str:
         if self.ctx.slot_info[node["player"]].game == STARCRAFT2:
             annotation = ITEM_NAME_ANNOTATIONS.get(node["text"])
@@ -695,39 +749,39 @@ class SC2Context(CommonContext):
 
     def trade_storage_team(self) -> str:
         return f"{TRADE_DATASTORAGE_TEAM}{self.team}"
-    
+
     def trade_storage_slot(self) -> str:
         return f"{TRADE_DATASTORAGE_SLOT}{self.slot}"
-    
+
     def _apply_host_settings_to_options(self) -> None:
-        if str(SC2World.settings.game_difficulty).casefold() == 'casual':
+        if str(SC2World.settings.game_difficulty).casefold() == "casual":
             self.difficulty = GameDifficulty.option_casual
-        elif str(SC2World.settings.game_difficulty).casefold() == 'normal':
+        elif str(SC2World.settings.game_difficulty).casefold() == "normal":
             self.difficulty = GameDifficulty.option_normal
-        elif str(SC2World.settings.game_difficulty).casefold() == 'hard':
+        elif str(SC2World.settings.game_difficulty).casefold() == "hard":
             self.difficulty = GameDifficulty.option_hard
-        elif str(SC2World.settings.game_difficulty).casefold() == 'brutal':
+        elif str(SC2World.settings.game_difficulty).casefold() == "brutal":
             self.difficulty = GameDifficulty.option_brutal
 
-        if str(SC2World.settings.game_speed).casefold() == 'slower':
+        if str(SC2World.settings.game_speed).casefold() == "slower":
             self.game_speed = GameSpeed.option_slower
-        elif str(SC2World.settings.game_speed).casefold() == 'slow':
+        elif str(SC2World.settings.game_speed).casefold() == "slow":
             self.game_speed = GameSpeed.option_slow
-        elif str(SC2World.settings.game_speed).casefold() == 'normal':
+        elif str(SC2World.settings.game_speed).casefold() == "normal":
             self.game_speed = GameSpeed.option_normal
-        elif str(SC2World.settings.game_speed).casefold() == 'fast':
+        elif str(SC2World.settings.game_speed).casefold() == "fast":
             self.game_speed = GameSpeed.option_fast
-        elif str(SC2World.settings.game_speed).casefold() == 'faster':
+        elif str(SC2World.settings.game_speed).casefold() == "faster":
             self.game_speed = GameSpeed.option_faster
 
-        if str(SC2World.settings.disable_forced_camera).casefold() == 'true':
+        if str(SC2World.settings.disable_forced_camera).casefold() == "true":
             self.disable_forced_camera = DisableForcedCamera.option_true
-        elif str(SC2World.settings.disable_forced_camera).casefold() == 'false':
+        elif str(SC2World.settings.disable_forced_camera).casefold() == "false":
             self.disable_forced_camera = DisableForcedCamera.option_false
 
-        if str(SC2World.settings.skip_cutscenes).casefold() == 'true':
+        if str(SC2World.settings.skip_cutscenes).casefold() == "true":
             self.skip_cutscenes = SkipCutscenes.option_true
-        elif str(SC2World.settings.skip_cutscenes).casefold() == 'false':
+        elif str(SC2World.settings.skip_cutscenes).casefold() == "false":
             self.skip_cutscenes = SkipCutscenes.option_false
 
     def on_package(self, cmd: str, args: dict) -> None:
@@ -776,9 +830,9 @@ class SC2Context(CommonContext):
                             for mission, mission_info in slot_req_table.items()
                         }
                     }
-                
+
                 self.custom_mission_order = self.parse_mission_req_table(mission_req_table)
-                
+
             if self.slot_data_version >= 4:
                 self.custom_mission_order = [
                     CampaignSlotData(
@@ -805,7 +859,7 @@ class SC2Context(CommonContext):
                 for campaign in self.custom_mission_order for layout in campaign.layouts
                 for column in layout.missions for mission in column
             }
-                
+
             self.mission_order = args["slot_data"].get("mission_order", MissionOrder.option_vanilla)
             if self.slot_data_version < 4:
                 self.final_mission_ids = [args["slot_data"].get("final_mission", SC2Mission.ALL_IN.id)]
@@ -919,9 +973,9 @@ class SC2Context(CommonContext):
                     (" to install.")
                 ).send(self)
                 self.data_out_of_date = True
-            
+
             ColouredMessage("[b]Check the Launcher tab to start playing.[/b]", keep_markup=True).send(self)
-        
+
         elif cmd == "SetReply":
             # Currently can only be Void Trade reply
             self.trade_latest_reply = args
@@ -937,7 +991,7 @@ class SC2Context(CommonContext):
         return MissionInfo(
             **{field: value for field, value in mission_info.items() if field in MissionInfo._fields}
         )
-    
+
     @staticmethod
     def parse_mission_req_table(mission_req_table: typing.Dict[SC2Campaign, typing.Dict[typing.Any, MissionInfo]]) -> typing.List[CampaignSlotData]:
         campaigns: typing.List[typing.Tuple[int, CampaignSlotData]] = []
@@ -947,7 +1001,7 @@ class SC2Context(CommonContext):
                 campaign_name = ""
             else:
                 campaign_name = campaign.campaign_name
-            
+
             categories: typing.Dict[str, typing.List[MissionSlotData]] = {}
             for mission in campaign_data.values():
                 if mission.category not in categories:
@@ -1075,7 +1129,7 @@ class SC2Context(CommonContext):
         objectives = self.mission_id_to_location_ids[mission_id]
         for objective in objectives:
             yield get_location_id(mission_id, objective)
-    
+
     def locations_for_mission_id(self, mission_id: int) -> typing.Iterable[int]:
         objectives = self.mission_id_to_location_ids[mission_id]
         for objective in objectives:
@@ -1088,8 +1142,8 @@ class SC2Context(CommonContext):
 
     def is_mission_completed(self, mission_id: int) -> bool:
         return get_location_id(mission_id, 0) in self.checked_locations
-    
-        
+
+
     async def trade_acquire_storage(self, keep_trying: bool = False) -> typing.Optional[dict]:
         # This function was largely taken from the Pokemon Emerald client
         """
@@ -1155,7 +1209,7 @@ class SC2Context(CommonContext):
             if lock - reply["original_value"][TRADE_DATASTORAGE_LOCK] < TRADE_LOCK_TIME:
                 if not keep_trying:
                     return None
-                
+
                 # Multiple clients trying to lock the key may get stuck in a loop of checking the lock
                 # by trying to set it, which will extend its expiration. So if we see that the lock was
                 # too new when we replaced it, we should wait for increasingly longer periods so that
@@ -1171,7 +1225,7 @@ class SC2Context(CommonContext):
             self.trade_lock_start = None
             return reply
         return None
-        
+
 
     async def trade_receive(self, amount: int = 1):
         """
@@ -1202,7 +1256,7 @@ class SC2Context(CommonContext):
             is_unit_allowed = lambda unit: unit not in worker_units
         else:
             is_unit_allowed = lambda _: True
-        
+
         available_units: typing.List[typing.Tuple[str, str, int]] = []
         available_counts: typing.List[int] = []
         for slot in allowed_slots:
@@ -1268,17 +1322,17 @@ class SC2Context(CommonContext):
         if reply is None:
             self.trade_response = "?TradeFail Void Trade failed: Could not communicate with server. Your units remain."
             return None
-        
+
         # Create a storage entry for the time the trade was confirmed
         trade_time = reply["value"][TRADE_DATASTORAGE_LOCK]
         storage_entry = {}
         for unit in units:
             storage_entry[unit] = storage_entry.get(unit, 0) + 1
-        
+
         # Update the storage with the new units
         data: typing.Dict[int, typing.Dict[str, int]] = copy.deepcopy(reply["value"].get(self.trade_storage_slot(), {}))
         data[trade_time] = storage_entry
-        
+
         await self.send_msgs([
             {   # Send the updated data
                 "cmd": "Set",
@@ -1291,7 +1345,7 @@ class SC2Context(CommonContext):
                 "operations": [{ "operation": "update", "value": { TRADE_DATASTORAGE_LOCK: 0 } }]
             }
         ])
-        
+
         # Notify the game
         self.trade_response = "?TradeSuccess Void Trade successful: Units sent!"
 
@@ -1304,10 +1358,10 @@ class CompatItemHolder(typing.NamedTuple):
 async def main(args: typing.Sequence[str] | None):
     multiprocessing.freeze_support()
     parser = get_base_parser()
-    parser.add_argument('--name', default=None, help="Slot Name to connect as.")
+    parser.add_argument("--name", default=None, help="Slot Name to connect as.")
     args, uri = parser.parse_known_args(args)
 
-    if uri and uri[0].startswith('archipelago://'):
+    if uri and uri[0].startswith("archipelago://"):
         args.url = uri[0]
         handle_url_arg(args, parser)
 
@@ -1531,15 +1585,15 @@ def get_bundle_upgrade_member_numbers(bundled_item: str) -> typing.List[int]:
 
 def calc_difficulty(difficulty: int):
     if difficulty == 0:
-        return 'C'
+        return "C"
     elif difficulty == 1:
-        return 'N'
+        return "N"
     elif difficulty == 2:
-        return 'H'
+        return "H"
     elif difficulty == 3:
-        return 'B'
+        return "B"
 
-    return 'X'
+    return "X"
 
 
 def get_kerrigan_level(ctx: SC2Context, items: typing.Dict[SC2Race, typing.List[int]], missions_beaten: int) -> int:
@@ -1643,7 +1697,7 @@ def calculate_trade_options(ctx: SC2Context) -> int:
     # Workers allowed
     if ctx.trade_workers_allowed == VoidTradeWorkers.option_true:
         result |= 1 << 1
-    
+
     return result
 
 def kerrigan_primal(ctx: SC2Context, kerrigan_level: int) -> bool:
@@ -1694,17 +1748,17 @@ async def starcraft_launch(ctx: SC2Context, mission_id: int):
 
 class ArchipelagoBot(bot.bot_ai.BotAI):
     __slots__ = [
-        'game_running',
-        'mission_completed',
-        'boni',
-        'setup_done',
-        'ctx',
-        'mission_id',
-        'want_close',
-        'can_read_game',
-        'last_received_update',
-        'last_trade_cargo',
-        'last_supply_used'
+        "game_running",
+        "mission_completed",
+        "boni",
+        "setup_done",
+        "ctx",
+        "mission_id",
+        "want_close",
+        "can_read_game",
+        "last_received_update",
+        "last_trade_cargo",
+        "last_supply_used"
     ]
     ctx: SC2Context
     # defined in bot_ai_internal.py; seems to be mis-annotated as a float and later re-annotated as an int
@@ -1893,7 +1947,7 @@ class ArchipelagoBot(bot.bot_ai.BotAI):
                             self.mission_id in self.ctx.final_mission_ids and
                             len(self.ctx.final_locations) == len(self.ctx.checked_locations.union(victory_locations).intersection(self.ctx.final_locations))
                         )
-                        
+
                         # Old slots don't have locations on goal
                         if not send_victory or self.ctx.slot_data_version >= 4:
                             sc2_logger.info("Mission Completed")
@@ -1904,23 +1958,23 @@ class ArchipelagoBot(bot.bot_ai.BotAI):
                                 if (location_id % VICTORY_MODULO) >= VICTORY_CACHE_OFFSET
                             ])
                             await self.ctx.send_msgs(
-                                [{"cmd": 'LocationChecks',
+                                [{"cmd": "LocationChecks",
                                     "locations": victory_locations}])
                             self.mission_completed = True
 
                         if send_victory:
                             print("Game Complete")
-                            await self.ctx.send_msgs([{"cmd": 'StatusUpdate', "status": ClientStatus.CLIENT_GOAL}])
+                            await self.ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
                             self.mission_completed = True
                             self.ctx.finished_game = True
 
                     for x, completed in enumerate(self.boni):
                         if not completed and game_state & (1 << (x + 2)):
                             await self.ctx.send_msgs(
-                                [{"cmd": 'LocationChecks',
+                                [{"cmd": "LocationChecks",
                                   "locations": [get_location_id(self.mission_id, x + 1)]}])
                             self.boni[x] = True
-                    
+
                     # Send Void Trade results
                     if self.ctx.trade_response is not None and self.trade_reply_cooldown == 0:
                         await self.chat_send(self.ctx.trade_response)
@@ -1978,7 +2032,7 @@ class ArchipelagoBot(bot.bot_ai.BotAI):
         zerg_items = [value for index, value in enumerate(zerg_items) if index not in [ZergItemType.Level.flag_word, ZergItemType.Primal_Form.flag_word]]
         kerrigan_primal_by_items = kerrigan_primal(self.ctx, kerrigan_level)
         kerrigan_primal_bot_value = 1 if kerrigan_primal_by_items else 0
-        await self.chat_send(f"?GiveZergTech {kerrigan_level} {kerrigan_primal_bot_value} " + ' '.join(map(str, zerg_items)))
+        await self.chat_send(f"?GiveZergTech {kerrigan_level} {kerrigan_primal_bot_value} " + " ".join(map(str, zerg_items)))
 
     async def update_protoss_tech(self, current_items: typing.Dict[SC2Race, typing.List[int]]):
         protoss_items = current_items[SC2Race.PROTOSS]
@@ -2004,7 +2058,7 @@ def calc_unfinished_nodes(
             objectives_completed = ctx.checked_locations & objectives
             if len(objectives_completed) < len(objectives):
                 unfinished_missions.add(mission_id)
-    
+
     return available_missions, available_layouts, available_campaigns, unfinished_missions
 
 def is_mission_available(ctx: SC2Context, mission_id_to_check: int) -> bool:
@@ -2156,7 +2210,7 @@ def is_mod_installed_correctly() -> bool:
     if "SC2PATH" not in os.environ:
         check_game_install_path()
     sc2_path: str = os.environ["SC2PATH"]
-    mapdir = sc2_path / Path('Maps/ArchipelagoCampaign')
+    mapdir = sc2_path / Path("Maps/ArchipelagoCampaign")
     mods = ["ArchipelagoCore", "ArchipelagoPlayer", "ArchipelagoPlayerSuper", "ArchipelagoPatches",
             "ArchipelagoTriggers", "ArchipelagoPlayerWoL", "ArchipelagoPlayerHotS",
             "ArchipelagoPlayerLotV", "ArchipelagoPlayerLotVPrologue", "ArchipelagoPlayerNCO"]
@@ -2249,7 +2303,7 @@ def download_latest_release_zip(
     """Downloads the latest release of a GitHub repo to the current directory as a .zip file."""
     import requests
 
-    headers = {"Accept": 'application/vnd.github.v3+json'}
+    headers = {"Accept": "application/vnd.github.v3+json"}
     url = f"https://api.github.com/repos/{owner}/{repo}/releases/tags/{api_version}"
 
     try:
@@ -2291,14 +2345,14 @@ def download_latest_release_zip(
 
 
 def cleanup_downloaded_metadata(medatada_json: dict) -> None:
-    for asset in medatada_json['assets']:
-        del asset['download_count']
+    for asset in medatada_json["assets"]:
+        del asset["download_count"]
 
 
 def is_mod_update_available(owner: str, repo: str, api_version: str, metadata: str) -> bool:
     import requests
 
-    headers = {"Accept": 'application/vnd.github.v3+json'}
+    headers = {"Accept": "application/vnd.github.v3+json"}
     url = f"https://api.github.com/repos/{owner}/{repo}/releases/tags/{api_version}"
 
     try:
@@ -2339,7 +2393,7 @@ def force_settings_save_on_close() -> None:
     global _has_forced_save
     if _has_forced_save:
         return
-    SC2World.settings.update({'invalid_attribute': True})
+    SC2World.settings.update({"invalid_attribute": True})
     del SC2World.settings.invalid_attribute
     _has_forced_save = True
 

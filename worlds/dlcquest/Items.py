@@ -7,6 +7,7 @@ from random import Random
 from typing import Dict, List, Set
 
 from BaseClasses import Item, ItemClassification
+
 from . import Options, data
 
 

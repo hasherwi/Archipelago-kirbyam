@@ -1,26 +1,43 @@
 import functools
-from dataclasses import fields, Field, dataclass
-from typing import *
+from dataclasses import Field, dataclass, fields
 from datetime import timedelta
+from typing import *
 
+from BaseClasses import PlandoOptions
 from Options import (
-    Choice, Toggle, DefaultOnToggle, OptionSet, Range,
-    PerGameCommonOptions, VerifyKeys, StartInventory,
-    is_iterable_except_str, OptionGroup, Visibility, ItemDict,
+    Choice,
+    DefaultOnToggle,
+    ItemDict,
     OptionCounter,
+    OptionGroup,
+    OptionSet,
+    PerGameCommonOptions,
+    Range,
+    StartInventory,
+    Toggle,
+    VerifyKeys,
+    Visibility,
+    is_iterable_except_str,
 )
 from Utils import get_fuzzy_results
-from BaseClasses import PlandoOptions
-from .item import item_names, item_tables, item_groups
-from .mission_tables import (
-    SC2Campaign, SC2Mission, lookup_name_to_mission, MissionPools, get_missions_with_any_flags_in_list,
-    campaign_mission_table, SC2Race, MissionFlag
-)
-from .mission_groups import mission_groups, MissionGroupNames
+
+from .item import item_groups, item_names, item_tables
+from .mission_groups import MissionGroupNames, mission_groups
 from .mission_order.options import CustomMissionOrder
+from .mission_tables import (
+    MissionFlag,
+    MissionPools,
+    SC2Campaign,
+    SC2Mission,
+    SC2Race,
+    campaign_mission_table,
+    get_missions_with_any_flags_in_list,
+    lookup_name_to_mission,
+)
 
 if TYPE_CHECKING:
     from worlds.AutoWorld import World
+
     from . import SC2World
 
 
@@ -34,7 +51,7 @@ class Sc2MissionSet(OptionSet):
             return cls(data)
         return cls.from_text(str(data))
 
-    def verify(self, world: Type['World'], player_name: str, plando_options: PlandoOptions) -> None:
+    def verify(self, world: Type["World"], player_name: str, plando_options: PlandoOptions) -> None:
         """Overridden version of function from Options.VerifyKeys for a better error message"""
         new_value: set[str] = set()
         case_insensitive_group_mapping = {
@@ -126,7 +143,7 @@ class AllInMap(Choice):
     display_name = "All In Map"
     option_ground = 0
     option_air = 1
-    default = 'random'
+    default = "random"
 
 
 class MissionOrder(Choice):
@@ -937,7 +954,7 @@ class Sc2ItemDict(OptionCounter, VerifyKeys, Mapping[str, int]):
     supports_weighting = False
     verify_item_name = True
     # convert_name_groups = True
-    display_name = 'Unnamed dictionary'
+    display_name = "Unnamed dictionary"
     # Note(phaneros): Limiting minimum to -1 means that if two triggers add -1 to the same item,
     # the validation fails. So give trigger people space to stack a bunch of triggers.
     min: int = -1000
@@ -948,7 +965,7 @@ class Sc2ItemDict(OptionCounter, VerifyKeys, Mapping[str, int]):
         self.value = {key: val for key, val in value.items()}
 
     @classmethod
-    def from_any(cls, data: list[str] | dict[str, int]) -> 'Sc2ItemDict':
+    def from_any(cls, data: list[str] | dict[str, int]) -> "Sc2ItemDict":
         if isinstance(data, list):
             raise ValueError(
                 f"{cls.display_name}: Cannot convert from list. "
@@ -974,7 +991,7 @@ class Sc2ItemDict(OptionCounter, VerifyKeys, Mapping[str, int]):
         else:
             raise NotImplementedError(f"{cls.display_name}: Cannot convert from non-dictionary, got {type(data)}")
 
-    def verify(self, world: Type['World'], player_name: str, plando_options: PlandoOptions) -> None:
+    def verify(self, world: Type["World"], player_name: str, plando_options: PlandoOptions) -> None:
         """Overridden version of function from Options.VerifyKeys for a better error message"""
         new_value: dict[str, int] = {}
         case_insensitive_group_mapping = {
@@ -1556,7 +1573,7 @@ option_groups = [
     ])
 ]
 
-def get_option_value(world: Union['SC2World', None], name: str) -> int:
+def get_option_value(world: Union["SC2World", None], name: str) -> int:
     """
     You should basically never use this unless `world` can be `None`.
     Use `world.options.<option_name>.value` instead for better typing, autocomplete, and error messages.
@@ -1575,12 +1592,12 @@ def get_option_value(world: Union['SC2World', None], name: str) -> int:
     return player_option.value
 
 
-def get_enabled_races(world: Optional['SC2World']) -> Set[SC2Race]:
+def get_enabled_races(world: Optional["SC2World"]) -> Set[SC2Race]:
     race_names = world.options.selected_races.value if world and len(world.options.selected_races.value) > 0 else SelectedRaces.valid_keys
     return {race for race in SC2Race if race.get_title() in race_names}
 
 
-def get_enabled_campaigns(world: Optional['SC2World']) -> Set[SC2Campaign]:
+def get_enabled_campaigns(world: Optional["SC2World"]) -> Set[SC2Campaign]:
     if world is None:
         return {campaign for campaign in SC2Campaign if campaign.campaign_name in EnabledCampaigns.default}
     campaign_names = world.options.enabled_campaigns
@@ -1596,7 +1613,7 @@ def get_enabled_campaigns(world: Optional['SC2World']) -> Set[SC2Campaign]:
     return campaigns
 
 
-def get_disabled_campaigns(world: 'SC2World') -> Set[SC2Campaign]:
+def get_disabled_campaigns(world: "SC2World") -> Set[SC2Campaign]:
     all_campaigns = set(SC2Campaign)
     enabled_campaigns = get_enabled_campaigns(world)
     disabled_campaigns = all_campaigns.difference(enabled_campaigns)
@@ -1604,7 +1621,7 @@ def get_disabled_campaigns(world: 'SC2World') -> Set[SC2Campaign]:
     return disabled_campaigns
 
 
-def get_disabled_flags(world: 'SC2World') -> MissionFlag:
+def get_disabled_flags(world: "SC2World") -> MissionFlag:
     excluded = (
             (MissionFlag.Terran | MissionFlag.Zerg | MissionFlag.Protoss)
             ^ functools.reduce(lambda a, b: a | b, [race.get_mission_flag() for race in get_enabled_races(world)])
@@ -1621,7 +1638,7 @@ def get_disabled_flags(world: 'SC2World') -> MissionFlag:
     return MissionFlag(excluded)
 
 
-def get_excluded_missions(world: 'SC2World') -> Set[SC2Mission]:
+def get_excluded_missions(world: "SC2World") -> Set[SC2Mission]:
     mission_order_type = world.options.mission_order.value
     excluded_mission_names = world.options.excluded_missions.value
     disabled_campaigns = get_disabled_campaigns(world)

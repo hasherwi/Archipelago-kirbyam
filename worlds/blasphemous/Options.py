@@ -1,6 +1,7 @@
-from dataclasses import dataclass
-from Options import Choice, Toggle, DefaultOnToggle, DeathLink, PerGameCommonOptions, StartInventoryPool, OptionGroup
 import random
+from dataclasses import dataclass
+
+from Options import Choice, DeathLink, DefaultOnToggle, OptionGroup, PerGameCommonOptions, StartInventoryPool, Toggle
 
 
 class ChoiceIsRandom(Choice):

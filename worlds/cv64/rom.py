@@ -1,23 +1,33 @@
-import json
-import Utils
-
-from BaseClasses import Location
-from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes, APPatchExtension
-from typing import List, Dict, Union, Iterable, Collection, Optional, TYPE_CHECKING
-
 import hashlib
+import json
 import os
 import pkgutil
+from typing import TYPE_CHECKING, Collection, Dict, Iterable, List, Optional, Union
+
+import Utils
+from BaseClasses import Location
+from settings import get_settings
+from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
 
 from . import lzkn64
+from .aesthetics import get_item_text_color, renon_item_dialogue
 from .data import patches
+from .locations import get_location_info
+from .options import (
+    BadEndingCondition,
+    CharacterStages,
+    Countdown,
+    CV64DeathLink,
+    DraculasCondition,
+    InvisibleItems,
+    PantherDash,
+    PostBehemothBoss,
+    RenonFightCondition,
+    RoomOfClocksBoss,
+    VincentFightCondition,
+)
 from .stages import get_stage_info
 from .text import cv64_string_to_bytearray, cv64_text_truncate, cv64_text_wrap
-from .aesthetics import renon_item_dialogue, get_item_text_color
-from .locations import get_location_info
-from .options import CharacterStages, VincentFightCondition, RenonFightCondition, PostBehemothBoss, RoomOfClocksBoss, \
-    BadEndingCondition, CV64DeathLink, DraculasCondition, InvisibleItems, Countdown, PantherDash
-from settings import get_settings
 
 if TYPE_CHECKING:
     from . import CV64World
@@ -1018,7 +1028,7 @@ def write_patch(world: "CV64World", patch: CV64ProcedurePatch, offset_data: Dict
         "window_color_a": world.options.window_color_a.value,
     }
 
-    patch.write_file("options.json", json.dumps(options_dict).encode('utf-8'))
+    patch.write_file("options.json", json.dumps(options_dict).encode("utf-8"))
 
 
 def get_base_rom_bytes(file_name: str = "") -> bytes:

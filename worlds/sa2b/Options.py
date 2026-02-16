@@ -1,6 +1,16 @@
 from dataclasses import dataclass
 
-from Options import Choice, Range, Option, OptionGroup, Toggle, DeathLink, DefaultOnToggle, PerGameCommonOptions, PlandoBosses
+from Options import (
+    Choice,
+    DeathLink,
+    DefaultOnToggle,
+    Option,
+    OptionGroup,
+    PerGameCommonOptions,
+    PlandoBosses,
+    Range,
+    Toggle,
+)
 
 from .Names import LocationName
 

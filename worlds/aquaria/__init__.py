@@ -4,13 +4,22 @@ Date: Fri, 15 Mar 2024 18:41:40 +0000
 Description: Main module for Aquaria game multiworld randomizer
 """
 
-from typing import List, Dict, ClassVar, Any
-from worlds.AutoWorld import World, WebWorld
-from BaseClasses import Tutorial, MultiWorld, ItemClassification
-from .Items import item_table, AquariaItem, ItemType, ItemGroup, ItemNames
-from .Locations import location_table, AquariaLocationNames
-from .Options import (AquariaOptions, IngredientRandomizer, TurtleRandomizer, EarlyBindSong, EarlyEnergyForm,
-                      UnconfineHomeWater, Objective)
+from typing import Any, ClassVar, Dict, List
+
+from BaseClasses import ItemClassification, MultiWorld, Tutorial
+from worlds.AutoWorld import WebWorld, World
+
+from .Items import AquariaItem, ItemGroup, ItemNames, ItemType, item_table
+from .Locations import AquariaLocationNames, location_table
+from .Options import (
+    AquariaOptions,
+    EarlyBindSong,
+    EarlyEnergyForm,
+    IngredientRandomizer,
+    Objective,
+    TurtleRandomizer,
+    UnconfineHomeWater,
+)
 from .Regions import AquariaRegions
 
 

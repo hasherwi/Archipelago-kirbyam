@@ -1,7 +1,7 @@
 """
 Classes and functions related to AP items for Kirby & The Amazing Mirror
 """
-from typing import Dict, FrozenSet, Set, Optional
+from typing import Dict, FrozenSet, Optional, Set
 
 from BaseClasses import Item, ItemClassification
 

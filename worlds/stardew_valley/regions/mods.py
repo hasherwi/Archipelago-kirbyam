@@ -1,7 +1,7 @@
 from collections.abc import Iterable
 
-from .model import ConnectionData, RegionData, ModRegionsData
 from ..mods.region_data import region_data_by_content_pack, vanilla_connections_to_remove_by_content_pack
+from .model import ConnectionData, ModRegionsData, RegionData
 
 
 def modify_regions_for_mods(current_regions_by_name: dict[str, RegionData], active_content_packs: Iterable[str]) -> None:

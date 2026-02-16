@@ -3,8 +3,11 @@
 # https://github.com/ArchipelagoMW-HollowKnight/APHKLogicExtractor
 
 
-import json, requests, argparse
-from typing import List, Dict, Any
+import argparse
+import json
+from typing import Any, Dict, List
+
+import requests
 
 
 def load_resource_local(file: str) -> List[Dict[str, Any]]:
@@ -84,7 +87,7 @@ def preprocess_logic(is_door: bool, id: str, logic: str) -> str:
     while "<=" in logic:
         index: int = logic.find("<=")
         logic = logic[:index-1] + logic[index+3:]
-    
+
     while "<" in logic:
         index: int = logic.find("<")
         count = int(logic[index+2])
@@ -137,7 +140,7 @@ def build_logic_conditions(logic: str) -> List[List[str]]:
             for char in part:
                 if char == "(":
                     parens += 1
-            
+
             # add to sub part
             if sub_part == "":
                 sub_part = part
@@ -183,7 +186,7 @@ def build_logic_conditions(logic: str) -> List[List[str]]:
                             for k in temp_conditions2:
                                 for l in parens_conditions[0]:
                                     temp_conditions.append(k + l)
-                            
+
                             parens_conditions.pop(0)
 
                         #print("TEMP:", remove_duplicates(temp_conditions))
@@ -215,7 +218,7 @@ def build_logic_conditions(logic: str) -> List[List[str]]:
                                 for k in temp_conditions2:
                                     for l in parens_conditions[0]:
                                         temp_conditions.append(k + l)
-                                
+
                                 parens_conditions.pop(0)
 
                             #print("TEMP:", remove_duplicates(temp_conditions))
@@ -224,10 +227,10 @@ def build_logic_conditions(logic: str) -> List[List[str]]:
                             all_conditions += build_logic_subconditions(current_condition, sub_part)
 
                     current_index = index+2
-                    
+
                     current_condition = []
                     sub_part = ""
-                    
+
             continue
 
         # collect all parts until reaching end of parentheses
@@ -241,7 +244,7 @@ def build_logic_conditions(logic: str) -> List[List[str]]:
         if parts[index+1] == "&&":
             current_index = index+2
             continue
-        
+
         # add condition to list and start new one
         elif parts[index+1] == "||":
             if len(parens_conditions) > 0:
@@ -249,12 +252,12 @@ def build_logic_conditions(logic: str) -> List[List[str]]:
                     for j in i:
                         all_conditions.append(j + current_condition)
                 parens_conditions = []
-            else:    
+            else:
                 all_conditions.append(current_condition)
             current_condition = []
             current_index = index+2
             continue
-        
+
     return remove_duplicates(all_conditions)
 
 
@@ -329,7 +332,7 @@ def handle_door_visibility(door: Dict[str, Any]) -> Dict[str, Any]:
         if temp_flags != []:
             if temp_logic != "":
                 temp_logic += " || "
-            temp_logic += ' && '.join(temp_flags)
+            temp_logic += " && ".join(temp_flags)
 
         if temp_logic != "" and original_logic != None:
             if len(original_logic.split()) == 1:
@@ -344,7 +347,7 @@ def handle_door_visibility(door: Dict[str, Any]) -> Dict[str, Any]:
                     door["logic"] = f"({temp_logic}) && ({original_logic})"
         elif temp_logic != "" and original_logic == None:
             door["logic"] = temp_logic
-        
+
         return door
 
 
@@ -358,7 +361,7 @@ def get_state_provider_for_condition(condition: List[str]) -> str:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument('-l', '--local', action="store_true", help="Use local files in the same directory instead of reading resource files from the BrandenEK/Blasphemous-Randomizer repository.")
+    parser.add_argument("-l", "--local", action="store_true", help="Use local files in the same directory instead of reading resource files from the BrandenEK/Blasphemous-Randomizer repository.")
     args = parser.parse_args()
     return args
 
@@ -370,7 +373,7 @@ def main(args: argparse.Namespace):
     if (args.local):
         doors = load_resource_local("doors.json")
         locations = load_resource_local("locations_items.json")
-    
+
     else:
         doors = load_resource_from_web("https://raw.githubusercontent.com/BrandenEK/Blasphemous-Randomizer/main/resources/data/Randomizer/doors.json")
         locations = load_resource_from_web("https://raw.githubusercontent.com/BrandenEK/Blasphemous-Randomizer/main/resources/data/Randomizer/locations_items.json")
@@ -401,7 +404,7 @@ def main(args: argparse.Namespace):
                 new_condition.append(item)
 
         return new_condition
-    
+
     for room in rooms.keys():
         obj = {
             "Name": room,
@@ -416,7 +419,7 @@ def main(args: argparse.Namespace):
                 "StateModifiers": []
             }
             obj["Logic"].append(logic)
-        
+
         logic_objects.append(obj)
 
     for door in doors:
@@ -450,7 +453,7 @@ def main(args: argparse.Namespace):
 
                 if flag == "ThisDoor":
                     flag = original_connections[door.get("id")]
-                
+
                 if door.get("logic") != None:
                     logic: str = door.get("logic")
                     logic = f"{flag} && ({logic})"
@@ -477,7 +480,7 @@ def main(args: argparse.Namespace):
                         "StateModifiers": []
                     }
                     obj["Logic"].append(logic)
-            
+
             if "RequiredDoors" in visibility_flags:
                 for d in required_doors:
                     flipped = original_connections[d]
@@ -572,7 +575,7 @@ def main(args: argparse.Namespace):
         logic_objects.append(obj)
 
     output["LogicObjects"] = logic_objects
-        
+
     with open("StringWorldDefinition.json", "w") as file:
         print("Writing to StringWorldDefinition.json")
         file.write(json.dumps(output, indent=4))

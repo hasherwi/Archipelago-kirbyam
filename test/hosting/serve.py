@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from threading import Event
+
     from werkzeug.test import Client as FlaskClient
 
 __all__ = [
@@ -26,6 +27,7 @@ def _launch_multiserver(multidata: Path, ready: "Event", stop: "Event") -> None:
     warnings.simplefilter("ignore")
     try:
         import asyncio
+
         from MultiServer import main, parse_args
 
         sys.argv = [sys.argv[0], str(multidata), "--host", "127.0.0.1"]

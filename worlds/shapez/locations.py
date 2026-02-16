@@ -2,8 +2,9 @@ from random import Random
 from typing import Callable
 
 from BaseClasses import Location, LocationProgressType, Region
-from .data.strings import CATEGORY, LOCATIONS, REGIONS, OPTIONS, GOALS, OTHER, SHAPESANITY
-from .options import max_shapesanity, max_levels_and_upgrades
+
+from .data.strings import CATEGORY, GOALS, LOCATIONS, OPTIONS, OTHER, REGIONS, SHAPESANITY
+from .options import max_levels_and_upgrades, max_shapesanity
 
 categories = [CATEGORY.belt, CATEGORY.miner, CATEGORY.processors, CATEGORY.painting]
 

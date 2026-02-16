@@ -1,7 +1,7 @@
 from typing import Dict, List
 
-from .Technologies import factorio_base_id, recipes
 from .Options import MaxSciencePack
+from .Technologies import factorio_base_id, recipes
 
 
 def make_pools() -> Dict[str, List[str]]:

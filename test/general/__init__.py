@@ -3,7 +3,7 @@ from typing import Any, List, Optional, Tuple, Type
 
 from BaseClasses import CollectionState, Item, ItemClassification, Location, MultiWorld, Region
 from worlds import network_data_package
-from worlds.AutoWorld import World, WebWorld, call_all
+from worlds.AutoWorld import WebWorld, World, call_all
 
 gen_steps = (
     "generate_early",

@@ -1,12 +1,12 @@
-from .pelican_town import pelican_town as pelican_town_content_pack
-from ..game_content import ContentPack
-from ...data.animal import IncubatorSource, Animal, AnimalName
+from ...data.animal import Animal, AnimalName, IncubatorSource
 from ...data.harvest import FruitBatsSource, MushroomCaveSource
 from ...data.shop import ShopSource
 from ...strings.animal_product_names import AnimalProduct
 from ...strings.building_names import Building
 from ...strings.forageable_names import Forageable, Mushroom
 from ...strings.region_names import Region
+from ..game_content import ContentPack
+from .pelican_town import pelican_town as pelican_town_content_pack
 
 the_farm = ContentPack(
     "The Farm (Vanilla)",

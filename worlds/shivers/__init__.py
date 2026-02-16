@@ -3,8 +3,9 @@ from typing import Dict, List, Optional
 from BaseClasses import Item, ItemClassification, Location, Region, Tutorial
 from Fill import fill_restrictive
 from worlds.AutoWorld import WebWorld, World
+
 from . import Constants, Rules
-from .Items import ItemType, SHIVERS_ITEM_ID_OFFSET, ShiversItem, item_table
+from .Items import SHIVERS_ITEM_ID_OFFSET, ItemType, ShiversItem, item_table
 from .Options import ShiversOptions, shivers_option_groups
 from .Rules import set_rules
 
@@ -52,7 +53,7 @@ class ShiversWorld(World):
         # Ixupi captures priority locations:
         if self.options.ixupi_captures_priority:
             self.options.priority_locations.value |= (
-                {name for name in self.location_names if name.startswith('Ixupi Captured')}
+                {name for name in self.location_names if name.startswith("Ixupi Captured")}
             )
 
     def create_item(self, name: str) -> Item:
@@ -82,7 +83,7 @@ class ShiversWorld(World):
             e = self.get_entrance(entr_name)
             r = self.get_region(region_name)
             e.connect(r)
-        
+
         # Locations
         # Build exclusion list
         removed_locations = set()

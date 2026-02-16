@@ -1,7 +1,8 @@
+from collections import ChainMap
+from typing import Dict, List, Set
+
 from .Items import SongData
 from .MuseDashData import SONG_DATA
-from typing import Dict, List, Set
-from collections import ChainMap
 
 
 class MuseDashCollections:
@@ -24,10 +25,10 @@ class MuseDashCollections:
         MUSE_PLUS_DLC,
         "CHUNITHM COURSE MUSE",  # Part of Muse Plus. Goes away 22nd May 2027.
         "maimai DX Limited-time Suite",  # Part of Muse Plus. Goes away 31st Jan 2026.
-        "MSR Anthology",  # Goes away January 26, 2026. 
+        "MSR Anthology",  # Goes away January 26, 2026.
         "Miku in Museland",  # Paid DLC not included in Muse Plus
         "Rin Len's Mirrorland",  # Paid DLC not included in Muse Plus
-        "MSR Anthology_Vol.02", # Goes away January 26, 2026. 
+        "MSR Anthology_Vol.02", # Goes away January 26, 2026.
     ]
 
     REMOVED_SONGS = [

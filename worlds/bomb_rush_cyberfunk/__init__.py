@@ -1,11 +1,13 @@
 from typing import Any, Dict
-from BaseClasses import MultiWorld, Region, Location, Item, Tutorial, ItemClassification, CollectionState
-from worlds.AutoWorld import World, WebWorld
-from .Items import base_id, item_table, group_table, BRCType
-from .Locations import location_table, event_table
+
+from BaseClasses import CollectionState, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
+from worlds.AutoWorld import WebWorld, World
+
+from .Items import BRCType, base_id, group_table, item_table
+from .Locations import event_table, location_table
+from .Options import BombRushCyberfunkOptions, StartStyle
 from .Regions import region_exits
 from .Rules import rules
-from .Options import BombRushCyberfunkOptions, StartStyle
 
 
 class BombRushCyberfunkWeb(WebWorld):
@@ -100,7 +102,7 @@ class BombRushCyberfunkWorld(World):
             self.item_classification[BRCType.InlineSkates] = ItemClassification.filler
         else:
             self.item_classification[BRCType.InlineSkates] = ItemClassification.progression
-        
+
         if self.options.starting_movestyle == StartStyle.option_bmx:
             self.item_classification[BRCType.BMX] = ItemClassification.filler
         else:

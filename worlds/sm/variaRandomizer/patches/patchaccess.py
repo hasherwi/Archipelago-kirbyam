@@ -1,17 +1,19 @@
 import importlib
+
 from ..logic.logic import Logic
-from ..patches.common.patches import patches, additional_PLMs
+from ..patches.common.patches import additional_PLMs, patches
 from ..utils.parameters import appDir
-from ..utils.utils import listDir, exists
+from ..utils.utils import exists, listDir
+
 
 class PatchAccess(object):
     def __init__(self):
         # load all ips patches
         self.patchesPath = {}
-        commonDir = "/".join((appDir, 'worlds/sm/variaRandomizer/patches/common/ips'))
+        commonDir = "/".join((appDir, "worlds/sm/variaRandomizer/patches/common/ips"))
         for patch in listDir(commonDir):
             self.patchesPath[patch] = commonDir
-        logicDir = "/".join((appDir, 'worlds/sm/variaRandomizer/patches/{}/ips'.format(Logic.patches)))
+        logicDir = "/".join((appDir, "worlds/sm/variaRandomizer/patches/{}/ips".format(Logic.patches)))
         for patch in listDir(logicDir):
             self.patchesPath[patch] = logicDir
 

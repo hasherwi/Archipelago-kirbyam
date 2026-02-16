@@ -1,6 +1,6 @@
-from .requirements import *
-from .location import Location
 from ..locations.all import *
+from .location import Location
+from .requirements import *
 
 
 class DungeonColor:
@@ -29,16 +29,16 @@ class DungeonColor:
         boss = Location(dungeon=9).connect(pre_boss, AND(NIGHTMARE_KEY9, r.boss_requirements[world_setup.boss_mapping[8]]))
         boss.add(TunicFairy(0), TunicFairy(1))
 
-        if options.logic == 'hard' or options.logic == 'glitched' or options.logic == 'hell':
+        if options.logic == "hard" or options.logic == "glitched" or options.logic == "hell":
             room2.connect(entrance, r.throw_pot) # throw pots at enemies
-            room2_weapon.connect(room2, r.attack_hookshot_no_bomb) # knock the karakoro into the pit without picking them up. 
+            room2_weapon.connect(room2, r.attack_hookshot_no_bomb) # knock the karakoro into the pit without picking them up.
             pre_boss.connect(room6, r.tight_jump) # before the boss, jump past raised blocks without boots
 
-        if options.logic == 'hell':
-            room2_weapon.connect(room2, r.attack_hookshot) # also have a bomb as option to knock the karakoro into the pit without bracelet 
+        if options.logic == "hell":
+            room2_weapon.connect(room2, r.attack_hookshot) # also have a bomb as option to knock the karakoro into the pit without bracelet
             room2_weapon.connect(room2, r.shield_bump) # shield bump karakoro into the holes
             room4karakoro.connect(room4, r.shield_bump) # shield bump karakoro into the holes
-            
+
         self.entrance = entrance
 
 

@@ -1,10 +1,11 @@
-from typing import Dict, Any
+from typing import Any, Dict
 
-from BaseClasses import CollectionState, Item, MultiWorld, Tutorial, Region
+from BaseClasses import CollectionState, Item, MultiWorld, Region, Tutorial
 from Options import OptionError
-from worlds.AutoWorld import LogicMixin, World, WebWorld
-from .items import item_table, PaintItem, item_data_table, traps, deathlink_traps
-from .locations import location_table, PaintLocation, location_data_table
+from worlds.AutoWorld import LogicMixin, WebWorld, World
+
+from .items import PaintItem, deathlink_traps, item_data_table, item_table, traps
+from .locations import PaintLocation, location_data_table, location_table
 from .options import PaintOptions
 
 

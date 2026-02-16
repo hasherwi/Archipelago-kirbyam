@@ -3,7 +3,8 @@ Mission group aliases for use in yaml options.
 """
 
 from typing import Dict, List, Set
-from .mission_tables import SC2Mission, MissionFlag, SC2Campaign
+
+from .mission_tables import MissionFlag, SC2Campaign, SC2Mission
 
 
 class MissionGroupNames:

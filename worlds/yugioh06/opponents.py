@@ -1,6 +1,7 @@
 from typing import Dict, List, NamedTuple, Optional, Union
 
 from BaseClasses import MultiWorld
+
 from worlds.generic.Rules import CollectionRule
 
 from . import item_to_index, tier_1_opponents, yugioh06_difficulty

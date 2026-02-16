@@ -1,6 +1,7 @@
-from typing import Optional, Dict, Tuple
+from typing import Dict, Optional, Tuple
 
-from BaseClasses import Item, ItemClassification as ItemClass
+from BaseClasses import Item
+from BaseClasses import ItemClassification as ItemClass
 
 from .Constants import *
 

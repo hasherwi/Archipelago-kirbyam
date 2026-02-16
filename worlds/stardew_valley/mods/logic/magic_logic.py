@@ -1,6 +1,6 @@
-from ...logic.base_logic import BaseLogicMixin, BaseLogic
+from ...logic.base_logic import BaseLogic, BaseLogicMixin
 from ...mods.mod_data import ModNames
-from ...stardew_rule import StardewRule, False_
+from ...stardew_rule import False_, StardewRule
 from ...strings.ap_names.skill_level_names import ModSkillLevel
 from ...strings.region_names import MagicRegion
 from ...strings.spells import MagicSpell, all_spells

@@ -6,13 +6,18 @@ import os
 import struct
 from typing import TYPE_CHECKING, Dict, List, Tuple
 
-from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 from settings import get_settings
+from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 
-from .data import TrainerPokemonDataTypeEnum, BASE_OFFSET, data
+from .data import BASE_OFFSET, TrainerPokemonDataTypeEnum, data
 from .items import reverse_offset_item_value
-from .options import (RandomizeWildPokemon, RandomizeTrainerParties, EliteFourRequirement, NormanRequirement,
-                      MatchTrainerLevels)
+from .options import (
+    EliteFourRequirement,
+    MatchTrainerLevels,
+    NormanRequirement,
+    RandomizeTrainerParties,
+    RandomizeWildPokemon,
+)
 from .pokemon import HM_MOVES, get_random_move
 from .util import bool_array_to_int, encode_string, get_easter_egg
 

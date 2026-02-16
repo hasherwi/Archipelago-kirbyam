@@ -2,7 +2,6 @@ import math
 from typing import Dict
 
 from BaseClasses import CollectionState, Entrance, Item, ItemClassification, Location, Region, Tutorial
-
 from worlds.AutoWorld import WebWorld, World
 
 from .Items import YachtDiceItem, item_groups, item_table

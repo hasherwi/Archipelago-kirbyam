@@ -1,11 +1,12 @@
 from typing import Union
 
 from Utils import cache_self1
-from .base_logic import BaseLogicMixin, BaseLogic
+
+from ..stardew_rule import False_, StardewRule, True_
+from ..strings.quality_names import CropQuality
+from .base_logic import BaseLogic, BaseLogicMixin
 from .farming_logic import FarmingLogicMixin
 from .skill_logic import SkillLogicMixin
-from ..stardew_rule import StardewRule, True_, False_
-from ..strings.quality_names import CropQuality
 
 
 class QualityLogicMixin(BaseLogicMixin):

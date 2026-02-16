@@ -1,9 +1,10 @@
 import typing
 
 from worlds.generic.Rules import add_rule, forbid_item
-from .Names.LocationName import LocationName
-from .Locations import all_locations, hidden
+
 from . import StateLogic
+from .Locations import all_locations, hidden
+from .Names.LocationName import LocationName
 
 if typing.TYPE_CHECKING:
     from . import MLSSWorld

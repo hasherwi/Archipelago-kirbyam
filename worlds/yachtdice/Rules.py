@@ -3,7 +3,6 @@ from collections import Counter, defaultdict
 from typing import List, Optional
 
 from BaseClasses import MultiWorld
-
 from worlds.generic.Rules import set_rule
 
 from .YachtWeights import yacht_weights

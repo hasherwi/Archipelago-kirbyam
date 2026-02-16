@@ -19,7 +19,7 @@ If this file does exist, then it will be used.
 
     class BridgeChatOut(settings.Bool):
         """Whether to send chat messages from players on the Factorio server to Archipelago."""
-    
+
     class FilterConnectionChanges(settings.Bool):
         """Whether to filter connection changes displayed in-game."""
 

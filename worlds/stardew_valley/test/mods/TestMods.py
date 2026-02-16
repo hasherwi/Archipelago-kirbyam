@@ -1,13 +1,14 @@
 from typing import ClassVar
 
 from test.param import classvar_matrix
-from ..TestGeneration import get_all_permanent_progression_items
-from ..assertion import ModAssertMixin, WorldAssertMixin
-from ..bases import SVTestCase, SVTestBase, solo_multiworld
-from ..options.presets import allsanity_mods_6_x_x
-from ... import options, Group
+
+from ... import Group, options
 from ...mods.mod_data import ModNames
 from ...options.options import all_mods
+from ..assertion import ModAssertMixin, WorldAssertMixin
+from ..bases import SVTestBase, SVTestCase, solo_multiworld
+from ..options.presets import allsanity_mods_6_x_x
+from ..TestGeneration import get_all_permanent_progression_items
 
 
 class TestCanGenerateAllsanityWithMods(WorldAssertMixin, ModAssertMixin, SVTestCase):

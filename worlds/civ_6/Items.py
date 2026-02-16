@@ -1,6 +1,8 @@
 from enum import Enum
-from typing import Dict, Optional, TYPE_CHECKING, List
+from typing import TYPE_CHECKING, Dict, List, Optional
+
 from BaseClasses import Item, ItemClassification
+
 from .Data import (
     GoodyHutRewardData,
     get_era_required_items_data,

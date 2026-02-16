@@ -2,15 +2,22 @@ from copy import deepcopy
 from random import Random
 from typing import TYPE_CHECKING
 
-from BaseClasses import Region, ItemClassification, Item, Location
+from BaseClasses import Item, ItemClassification, Location, Region
 from Options import PlandoConnection
 
 from .breakables import create_breakable_exclusive_regions, set_breakable_location_rules
-from .er_data import (Portal, portal_mapping, traversal_requirements, DeadEnd, Direction, RegionInfo,
-                      get_portal_outlet_region)
+from .er_data import (
+    DeadEnd,
+    Direction,
+    Portal,
+    RegionInfo,
+    get_portal_outlet_region,
+    portal_mapping,
+    traversal_requirements,
+)
 from .er_rules import set_er_region_rules
 from .locations import all_locations
-from .options import EntranceRando, EntranceLayout
+from .options import EntranceLayout, EntranceRando
 
 if TYPE_CHECKING:
     from . import TunicWorld

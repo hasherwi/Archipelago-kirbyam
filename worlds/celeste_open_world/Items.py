@@ -1,8 +1,8 @@
 from typing import NamedTuple, Optional
 
 from BaseClasses import Item, ItemClassification
-from .Names import ItemName
 
+from .Names import ItemName
 
 level_item_lists: dict[str, set[str]] = {
     "0a": set(),

@@ -1,10 +1,10 @@
 import typing
 
-from .base_logic import BaseLogicMixin, BaseLogic
 from ..stardew_rule import StardewRule
 from ..strings.building_names import Building
 from ..strings.forageable_names import Forageable
 from ..strings.machine_names import Machine
+from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class AnimalLogicMixin(BaseLogicMixin):

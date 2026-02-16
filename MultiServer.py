@@ -28,11 +28,13 @@ ModuleUpdate.update()
 
 if typing.TYPE_CHECKING:
     import ssl
+
     from NetUtils import ServerConnection
 
 import colorama
 import websockets
 from websockets.extensions.permessage_deflate import PerMessageDeflate, ServerPerMessageDeflateFactory
+
 try:
     # ponyorm is a requirement for webhost, not default server, so may not be importable
     from pony.orm.dbapiprovider import OperationalError
@@ -41,11 +43,23 @@ except ImportError:
 
 import NetUtils
 import Utils
-from Utils import version_tuple, restricted_loads, Version, async_start, get_intended_text
-from NetUtils import Endpoint, ClientStatus, NetworkItem, decode, encode, NetworkPlayer, Permission, NetworkSlot, \
-    SlotType, LocationStore, MultiData, Hint, HintStatus
 from BaseClasses import ItemClassification
-
+from NetUtils import (
+    ClientStatus,
+    Endpoint,
+    Hint,
+    HintStatus,
+    LocationStore,
+    MultiData,
+    NetworkItem,
+    NetworkPlayer,
+    NetworkSlot,
+    Permission,
+    SlotType,
+    decode,
+    encode,
+)
+from Utils import Version, async_start, get_intended_text, restricted_loads, version_tuple
 
 min_client_version = Version(0, 5, 0)
 colorama.just_fix_windows_console()
@@ -253,7 +267,7 @@ class Context:
 
     def __init__(self, host: str, port: int, server_password: str, password: str, location_check_points: int,
                  hint_cost: int, item_cheat: bool, release_mode: str = "disabled", collect_mode="disabled",
-                 countdown_mode: str = "auto", remaining_mode: str = "disabled", auto_shutdown: typing.SupportsFloat = 0, 
+                 countdown_mode: str = "auto", remaining_mode: str = "disabled", auto_shutdown: typing.SupportsFloat = 0,
                  compatibility: int = 2, log_network: bool = False, logger: logging.Logger = logging.getLogger()):
         self.logger = logger
         super(Context, self).__init__()
@@ -303,7 +317,7 @@ class Context:
         self.auto_save_interval = 60  # in seconds
         self.auto_saver_thread: typing.Optional[threading.Thread] = None
         self.save_dirty = False
-        self.tags = ['AP']
+        self.tags = ["AP"]
         self.games: typing.Dict[int, str] = {}
         self.minimum_client_versions: typing.Dict[int, Version] = {}
         self.seed_name = ""
@@ -323,9 +337,9 @@ class Context:
         self.all_item_and_group_names = {}
         self.all_location_and_group_names = {}
         self.item_names = collections.defaultdict(
-            lambda: Utils.KeyedDefaultDict(lambda code: f'Unknown item (ID:{code})'))
+            lambda: Utils.KeyedDefaultDict(lambda code: f"Unknown item (ID:{code})"))
         self.location_names = collections.defaultdict(
-            lambda: Utils.KeyedDefaultDict(lambda code: f'Unknown location (ID:{code})'))
+            lambda: Utils.KeyedDefaultDict(lambda code: f"Unknown location (ID:{code})"))
         self.non_hintable_names = collections.defaultdict(frozenset)
 
         self._load_game_data()
@@ -478,7 +492,7 @@ class Context:
                 else:
                     raise Exception("No .archipelago found in archive.")
         else:
-            with open(multidatapath, 'rb') as f:
+            with open(multidatapath, "rb") as f:
                 data = f.read()
 
         self._load(self.decompress(data), {}, use_embedded_server_options)
@@ -532,9 +546,9 @@ class Context:
 
         self.seed_name = decoded_obj["seed_name"]
         self.random.seed(self.seed_name)
-        self.connect_names = decoded_obj['connect_names']
+        self.connect_names = decoded_obj["connect_names"]
         self.locations = LocationStore(decoded_obj.pop("locations"))  # pre-emptively free memory
-        self.slot_data = decoded_obj['slot_data']
+        self.slot_data = decoded_obj["slot_data"]
         for slot, data in self.slot_data.items():
             self.read_data[f"slot_data_{slot}"] = lambda data=data: data
         self.er_hint_data = {int(player): {int(address): name for address, name in loc_data.items()}
@@ -608,14 +622,14 @@ class Context:
             if not self.save_filename:
                 import os
                 name, ext = os.path.splitext(self.data_filename)
-                self.save_filename = name + '.apsave' if ext.lower() in ('.archipelago', '.zip') \
-                    else self.data_filename + '_' + 'apsave'
+                self.save_filename = name + ".apsave" if ext.lower() in (".archipelago", ".zip") \
+                    else self.data_filename + "_" + "apsave"
             try:
-                with open(self.save_filename, 'rb') as f:
+                with open(self.save_filename, "rb") as f:
                     save_data = restricted_loads(zlib.decompress(f.read()))
                     self.set_save(save_data)
             except FileNotFoundError:
-                self.logger.error('No save data found, starting a new game')
+                self.logger.error("No save data found, starting a new game")
             except Exception as e:
                 self.logger.exception(e)
             self._start_async_saving()
@@ -719,8 +733,8 @@ class Context:
             self.stored_data = savedata["stored_data"]
         # count items and slots from lists for items_handling = remote
         self.logger.info(
-            f'Loaded save file with {sum([len(v) for k, v in self.received_items.items() if k[2]])} received items '
-            f'for {sum(k[2] for k in self.received_items)} players')
+            f"Loaded save file with {sum([len(v) for k, v in self.received_items.items() if k[2]])} received items "
+            f"for {sum(k[2] for k in self.received_items)} players")
 
     # rest
 
@@ -809,7 +823,7 @@ class Context:
             return
         new_hint_events: typing.Set[int] = set()
         concerns = collections.defaultdict(list)
-        for hint in sorted(hints, key=operator.attrgetter('found'), reverse=True):
+        for hint in sorted(hints, key=operator.attrgetter("found"), reverse=True):
             data = (hint, hint.as_network_message())
             for player in self.slot_set(hint.receiving_player):
                 concerns[player].append(data)
@@ -845,17 +859,17 @@ class Context:
             if hint.location == seeked_location and hint.finding_player == finding_player:
                 return hint
         return None
-    
+
     def replace_hint(self, team: int, slot: int, old_hint: Hint, new_hint: Hint) -> None:
         if old_hint in self.hints[team, slot]:
             self.hints[team, slot].remove(old_hint)
             self.hints[team, slot].add(new_hint)
-    
+
     # "events"
 
     def on_goal_achieved(self, client: Client):
-        finished_msg = f'{self.get_aliased_name(client.team, client.slot)} (Team #{client.team + 1})' \
-                       f' has completed their goal.'
+        finished_msg = f"{self.get_aliased_name(client.team, client.slot)} (Team #{client.team + 1})" \
+                       f" has completed their goal."
         self.broadcast_text_all(finished_msg, {"type": "Goal", "team": client.team, "slot": client.slot})
         if "auto" in self.collect_mode:
             collect_player(self, client.team, client.slot)
@@ -920,21 +934,21 @@ async def on_client_connected(ctx: Context, client: Client):
     games = {ctx.games[x] for x in range(1, len(ctx.games) + 1)}
     games.add("Archipelago")
     await ctx.send_msgs(client, [{
-        'cmd': 'RoomInfo',
-        'password': bool(ctx.password),
-        'games': games,
+        "cmd": "RoomInfo",
+        "password": bool(ctx.password),
+        "games": games,
         # tags are for additional features in the communication.
         # Name them by feature or fork, as you feel is appropriate.
-        'tags': ctx.tags,
-        'version': version_tuple,
-        'generator_version': ctx.generator_version,
-        'permissions': get_permissions(ctx),
-        'hint_cost': ctx.hint_cost,
-        'location_check_points': ctx.location_check_points,
-        'datapackage_checksums': {game: game_data["checksum"] for game, game_data
+        "tags": ctx.tags,
+        "version": version_tuple,
+        "generator_version": ctx.generator_version,
+        "permissions": get_permissions(ctx),
+        "hint_cost": ctx.hint_cost,
+        "location_check_points": ctx.location_check_points,
+        "datapackage_checksums": {game: game_data["checksum"] for game, game_data
                                   in ctx.gamespackage.items() if game in games and "checksum" in game_data},
-        'seed_name': ctx.seed_name,
-        'time': time.time(),
+        "seed_name": ctx.seed_name,
+        "time": time.time(),
     }])
 
 
@@ -958,7 +972,7 @@ _non_game_messages = {"HintGame": "hinting", "Tracker": "tracking", "TextOnly": 
 async def on_client_joined(ctx: Context, client: Client):
     if ctx.client_game_state[client.team, client.slot] == ClientStatus.CLIENT_UNKNOWN:
         update_client_status(ctx, client, ClientStatus.CLIENT_CONNECTED)
-    version_str = '.'.join(str(x) for x in client.version)
+    version_str = ".".join(str(x) for x in client.version)
 
     for tag, verb in _non_game_messages.items():
         if tag in client.tags:
@@ -989,7 +1003,7 @@ async def on_client_left(ctx: Context, client: Client):
         update_client_status(ctx, client, ClientStatus.CLIENT_UNKNOWN)
         ctx.client_connection_timers[client.team, client.slot] = datetime.datetime.now(datetime.timezone.utc)
 
-    version_str = '.'.join(str(x) for x in client.version)
+    version_str = ".".join(str(x) for x in client.version)
 
     for tag, verb in _non_game_messages.items():
         if tag in client.tags:
@@ -1024,20 +1038,20 @@ def get_players_string(ctx: Context):
 
     player_names = sorted(ctx.player_names.keys())
     current_team = -1
-    text = ''
+    text = ""
     total = 0
     for team, slot in player_names:
         if ctx.slot_info[slot].type == SlotType.player:
             total += 1
             player_name = ctx.player_names[team, slot]
             if team != current_team:
-                text += f':: Team #{team + 1}: '
+                text += f":: Team #{team + 1}: "
                 current_team = team
             if (team, slot) in auth_clients:
-                text += f'{player_name} '
+                text += f"{player_name} "
             else:
-                text += f'({player_name}) '
-    return f'{len(auth_clients)} players of {total} connected ' + text[:-1]
+                text += f"({player_name}) "
+    return f"{len(auth_clients)} players of {total} connected " + text[:-1]
 
 
 def get_status_string(ctx: Context, team: int, tag: str):
@@ -1150,7 +1164,7 @@ def register_location_checks(ctx: Context, team: int, slot: int, locations: typi
             new_item = NetworkItem(item_id, location, slot, flags)
             send_items_to(ctx, team, target_player, new_item)
 
-            ctx.logger.info('(Team #%d) %s sent %s to %s (%s)' % (
+            ctx.logger.info("(Team #%d) %s sent %s to %s (%s)" % (
                 team + 1, ctx.player_names[(team, slot)], ctx.item_names[ctx.slot_info[target_player].game][item_id],
                 ctx.player_names[(team, target_player)], ctx.location_names[ctx.slot_info[slot].game][location]))
             if len(info_texts) >= 140:
@@ -1269,7 +1283,7 @@ def format_hint(ctx: Context, team: int, hint: Hint) -> str:
 
     if hint.entrance:
         text += f" at {hint.entrance}"
-    
+
     return text + ". " + status_names.get(hint.status, "(unknown)")
 
 
@@ -1364,7 +1378,7 @@ class CommandProcessor(metaclass=CommandMeta):
                         argname += "=" + parameter.default
                 argtext += argname
                 argtext += " "
-            doctext = '\n    '.join(inspect.getdoc(method).split('\n'))
+            doctext = "\n    ".join(inspect.getdoc(method).split("\n"))
             s += f"{self.marker}{command} {argtext}\n    {doctext}\n"
         return s
 
@@ -1413,7 +1427,7 @@ class ClientMessageProcessor(CommonCommandProcessor):
 
     def __call__(self, raw: str) -> typing.Optional[bool]:
         if not raw.startswith("!admin"):
-            self.ctx.broadcast_text_all(self.ctx.get_aliased_name(self.client.team, self.client.slot) + ': ' + raw,
+            self.ctx.broadcast_text_all(self.ctx.get_aliased_name(self.client.team, self.client.slot) + ": " + raw,
                                         {"type": "Chat", "team": self.client.team, "slot": self.client.slot, "message": raw})
         return super(ClientMessageProcessor, self).__call__(raw)
 
@@ -1444,7 +1458,7 @@ class ClientMessageProcessor(CommonCommandProcessor):
                 # disallow others from knowing what the new remote administration password is.
                 "!admin /option server_password"):
             output = f"!admin /option server_password {('*' * random.randint(4, 16))}"
-        self.ctx.broadcast_text_all(self.ctx.get_aliased_name(self.client.team, self.client.slot) + ': ' + output,
+        self.ctx.broadcast_text_all(self.ctx.get_aliased_name(self.client.team, self.client.slot) + ": " + output,
                                     {"type": "Chat", "team": self.client.team, "slot": self.client.slot, "message": output})
 
         if not self.ctx.server_password:
@@ -1596,7 +1610,7 @@ class ClientMessageProcessor(CommonCommandProcessor):
                     names = [name for name in names if name in location_groups[filter_text]]
                 else:
                     names = [name for name in names if filter_text in name]
-            texts = [f'Missing: {name}' for name in names]
+            texts = [f"Missing: {name}" for name in names]
             if filter_text:
                 texts.append(f"Found {len(locations)} missing location checks, displaying {len(names)} of them.")
             else:
@@ -1622,7 +1636,7 @@ class ClientMessageProcessor(CommonCommandProcessor):
                     names = [name for name in names if name in location_groups[filter_text]]
                 else:
                     names = [name for name in names if filter_text in name]
-            texts = [f'Checked: {name}' for name in names]
+            texts = [f"Checked: {name}" for name in names]
             if filter_text:
                 texts.append(f"Found {len(locations)} done location checks, displaying {len(names)} of them.")
             else:
@@ -1845,52 +1859,52 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
         cmd: str = args["cmd"]
     except:
         ctx.logger.exception(f"Could not get command from {args}")
-        await ctx.send_msgs(client, [{'cmd': 'InvalidPacket', "type": "cmd", "original_cmd": None,
+        await ctx.send_msgs(client, [{"cmd": "InvalidPacket", "type": "cmd", "original_cmd": None,
                                       "text": f"Could not get command from {args} at `cmd`"}])
         raise
 
     if type(cmd) is not str:
-        await ctx.send_msgs(client, [{'cmd': 'InvalidPacket', "type": "cmd", "original_cmd": None,
+        await ctx.send_msgs(client, [{"cmd": "InvalidPacket", "type": "cmd", "original_cmd": None,
                                       "text": f"Command should be str, got {type(cmd)}"}])
         return
 
-    if cmd == 'Connect':
-        if not args or 'password' not in args or type(args['password']) not in [str, type(None)] or \
-                'game' not in args:
-            await ctx.send_msgs(client, [{'cmd': 'InvalidPacket', "type": "arguments", 'text': 'Connect',
+    if cmd == "Connect":
+        if not args or "password" not in args or type(args["password"]) not in [str, type(None)] or \
+                "game" not in args:
+            await ctx.send_msgs(client, [{"cmd": "InvalidPacket", "type": "arguments", "text": "Connect",
                                           "original_cmd": cmd}])
             return
 
         errors = set()
-        if ctx.password and args['password'] != ctx.password:
-            errors.add('InvalidPassword')
+        if ctx.password and args["password"] != ctx.password:
+            errors.add("InvalidPassword")
 
-        if args['name'] not in ctx.connect_names:
-            errors.add('InvalidSlot')
+        if args["name"] not in ctx.connect_names:
+            errors.add("InvalidSlot")
         else:
-            team, slot = ctx.connect_names[args['name']]
+            team, slot = ctx.connect_names[args["name"]]
             game = ctx.games[slot]
 
             ignore_game = not args.get("game") and any(tag in _non_game_messages for tag in args["tags"])
 
-            if not ignore_game and args['game'] != game:
-                errors.add('InvalidGame')
+            if not ignore_game and args["game"] != game:
+                errors.add("InvalidGame")
             minver = min_client_version if ignore_game else ctx.minimum_client_versions[slot]
-            if minver > args['version']:
-                errors.add('IncompatibleVersion')
+            if minver > args["version"]:
+                errors.add("IncompatibleVersion")
             try:
-                client.items_handling = args['items_handling']
+                client.items_handling = args["items_handling"]
             except (ValueError, TypeError):
-                errors.add('InvalidItemsHandling')
+                errors.add("InvalidItemsHandling")
 
         # only exact version match allowed
-        if ctx.compatibility == 0 and args['version'] != version_tuple:
-            errors.add('IncompatibleVersion')
+        if ctx.compatibility == 0 and args["version"] != version_tuple:
+            errors.add("IncompatibleVersion")
         if errors:
             ctx.logger.info(f"A client connection was refused due to: {errors}, the sent connect information was {args}.")
             await ctx.send_msgs(client, [{"cmd": "ConnectionRefused", "errors": list(errors)}])
         else:
-            team, slot = ctx.connect_names[args['name']]
+            team, slot = ctx.connect_names[args["name"]]
             if client.auth and client.team is not None and client.slot in ctx.clients[client.team]:
                 ctx.clients[team][slot].remove(client)  # re-auth, remove old entry
                 if client.team != team or client.slot != slot:
@@ -1900,8 +1914,8 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
 
             ctx.client_ids[client.team, client.slot] = args["uuid"]
             ctx.clients[team][slot].append(client)
-            client.version = args['version']
-            client.tags = args['tags']
+            client.version = args["version"]
+            client.tags = args["tags"]
             client.no_locations = bool(client.tags & _non_game_messages.keys())
             # set NoText for old PopTracker clients that predate the tag to save traffic
             client.no_text = "NoText" in client.tags or ("PopTracker" in client.tags and client.version < (0, 5, 1))
@@ -1918,7 +1932,7 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
             start_inventory = get_start_inventory(ctx, slot, client.remote_start_inventory)
             items = get_received_items(ctx, client.team, client.slot, client.remote_items)
             if (start_inventory or items) and not client.no_items:
-                reply.append({"cmd": 'ReceivedItems', "index": 0, "items": start_inventory + items})
+                reply.append({"cmd": "ReceivedItems", "index": 0, "items": start_inventory + items})
                 client.send_index = len(start_inventory) + len(items)
             if not client.auth:  # if this was a Re-Connect, don't print to console
                 client.auth = True
@@ -1951,13 +1965,13 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
     elif client.auth:
         if cmd == "ConnectUpdate":
             if not args:
-                await ctx.send_msgs(client, [{'cmd': 'InvalidPacket', "type": "arguments", 'text': cmd,
+                await ctx.send_msgs(client, [{"cmd": "InvalidPacket", "type": "arguments", "text": cmd,
                                               "original_cmd": cmd}])
                 return
 
-            if args.get('items_handling', None) is not None and client.items_handling != args['items_handling']:
+            if args.get("items_handling", None) is not None and client.items_handling != args["items_handling"]:
                 try:
-                    client.items_handling = args['items_handling']
+                    client.items_handling = args["items_handling"]
                     start_inventory = get_start_inventory(ctx, client.slot, client.remote_start_inventory)
                     items = get_received_items(ctx, client.team, client.slot, client.remote_items)
                     if (items or start_inventory) and not client.no_items:
@@ -1967,9 +1981,9 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
                     else:
                         client.send_index = 0
                 except (ValueError, TypeError) as err:
-                    await ctx.send_msgs(client, [{'cmd': 'InvalidPacket', 'type': 'arguments',
-                                                  'text': f'Invalid items_handling: {err}',
-                                                  'original_cmd': cmd}])
+                    await ctx.send_msgs(client, [{"cmd": "InvalidPacket", "type": "arguments",
+                                                  "text": f"Invalid items_handling: {err}",
+                                                  "original_cmd": cmd}])
                     return
 
             if "tags" in args:
@@ -1985,7 +1999,7 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
                         f"from {old_tags} to {client.tags}.",
                         {"type": "TagsChanged", "team": client.team, "slot": client.slot, "tags": client.tags})
 
-        elif cmd == 'Sync':
+        elif cmd == "Sync":
             start_inventory = get_start_inventory(ctx, client.slot, client.remote_start_inventory)
             items = get_received_items(ctx, client.team, client.slot, client.remote_items)
             if (start_inventory or items) and not client.no_items:
@@ -1993,23 +2007,23 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
                 await ctx.send_msgs(client, [{"cmd": "ReceivedItems", "index": 0,
                                               "items": start_inventory + items}])
 
-        elif cmd == 'LocationChecks':
+        elif cmd == "LocationChecks":
             if client.no_locations:
-                await ctx.send_msgs(client, [{'cmd': 'InvalidPacket', "type": "cmd",
+                await ctx.send_msgs(client, [{"cmd": "InvalidPacket", "type": "cmd",
                                               "text": "Trackers can't register new Location Checks",
                                               "original_cmd": cmd}])
             else:
                 register_location_checks(ctx, client.team, client.slot, args["locations"])
 
-        elif cmd == 'LocationScouts':
+        elif cmd == "LocationScouts":
             locs = []
             create_as_hint: int = int(args.get("create_as_hint", 0))
             hints = []
             for location in args["locations"]:
                 if type(location) is not int:
                     await ctx.send_msgs(client,
-                                        [{'cmd': 'InvalidPacket', "type": "arguments",
-                                          "text": 'Locations has to be a list of integers',
+                                        [{"cmd": "InvalidPacket", "type": "arguments",
+                                          "text": "Locations has to be a list of integers",
                                           "original_cmd": cmd}])
                     return
 
@@ -2020,9 +2034,9 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
             ctx.notify_hints(client.team, hints, only_new=create_as_hint == 2, persist_even_if_found=True)
             if locs and create_as_hint:
                 ctx.save()
-            await ctx.send_msgs(client, [{'cmd': 'LocationInfo', 'locations': locs}])
+            await ctx.send_msgs(client, [{"cmd": "LocationInfo", "locations": locs}])
 
-        elif cmd == 'CreateHints':
+        elif cmd == "CreateHints":
             location_player = args.get("player", client.slot)
             locations = args["locations"]
             status = args.get("status", HintStatus.HINT_UNSPECIFIED)
@@ -2073,15 +2087,15 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
             # As of writing this code, only_new=True does not update status for existing hints
             ctx.notify_hints(client.team, hints, only_new=True, persist_even_if_found=True)
             ctx.save()
-        
-        elif cmd == 'UpdateHint':
+
+        elif cmd == "UpdateHint":
             location = args["location"]
             player = args["player"]
             status = args["status"]
             if not isinstance(player, int) or not isinstance(location, int) \
                     or (status is not None and not isinstance(status, int)):
                 await ctx.send_msgs(client,
-                                    [{'cmd': 'InvalidPacket', "type": "arguments", "text": 'UpdateHint',
+                                    [{"cmd": "InvalidPacket", "type": "arguments", "text": "UpdateHint",
                                       "original_cmd": cmd}])
                 return
             hint = ctx.get_hint(client.team, player, location)
@@ -2089,7 +2103,7 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
                 return  # Ignored safely
             if client.slot not in ctx.slot_set(hint.receiving_player):
                 await ctx.send_msgs(client,
-                                    [{'cmd': 'InvalidPacket', "type": "arguments", "text": 'UpdateHint: No Permission',
+                                    [{"cmd": "InvalidPacket", "type": "arguments", "text": "UpdateHint: No Permission",
                                       "original_cmd": cmd}])
                 return
             new_hint = hint
@@ -2099,12 +2113,12 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
                 status = HintStatus(status)
             except ValueError:
                 await ctx.send_msgs(client,
-                                    [{'cmd': 'InvalidPacket', "type": "arguments",
-                                      "text": 'UpdateHint: Invalid Status', "original_cmd": cmd}])
+                                    [{"cmd": "InvalidPacket", "type": "arguments",
+                                      "text": "UpdateHint: Invalid Status", "original_cmd": cmd}])
                 return
             if status == HintStatus.HINT_FOUND:
                 await ctx.send_msgs(client,
-                                    [{'cmd': 'InvalidPacket', "type": "arguments",
+                                    [{"cmd": "InvalidPacket", "type": "arguments",
                                       "text": 'UpdateHint: Cannot manually update status to "HINT_FOUND"', "original_cmd": cmd}])
                 return
             new_hint = new_hint.re_prioritize(ctx, status)
@@ -2118,17 +2132,17 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
             for slot in concerning_slots:
                 ctx.on_changed_hints(client.team, slot)
 
-        elif cmd == 'StatusUpdate':
+        elif cmd == "StatusUpdate":
             if client.no_locations and args["status"] == ClientStatus.CLIENT_GOAL:
-                await ctx.send_msgs(client, [{'cmd': 'InvalidPacket', "type": "cmd",
+                await ctx.send_msgs(client, [{"cmd": "InvalidPacket", "type": "cmd",
                                               "text": "Trackers can't register Goal Complete",
                                               "original_cmd": cmd}])
             else:
                 update_client_status(ctx, client, args["status"])
 
-        elif cmd == 'Say':
+        elif cmd == "Say":
             if "text" not in args or type(args["text"]) is not str or not args["text"].isprintable():
-                await ctx.send_msgs(client, [{'cmd': 'InvalidPacket', "type": "arguments", "text": 'Say',
+                await ctx.send_msgs(client, [{"cmd": "InvalidPacket", "type": "arguments", "text": "Say",
                                               "original_cmd": cmd}])
                 return
 
@@ -2149,8 +2163,8 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
 
         elif cmd == "Get":
             if "keys" not in args or type(args["keys"]) != list:
-                await ctx.send_msgs(client, [{'cmd': 'InvalidPacket', "type": "arguments",
-                                              "text": 'Retrieve', "original_cmd": cmd}])
+                await ctx.send_msgs(client, [{"cmd": "InvalidPacket", "type": "arguments",
+                                              "text": "Retrieve", "original_cmd": cmd}])
                 return
             args["cmd"] = "Retrieved"
             keys = args["keys"]
@@ -2164,8 +2178,8 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
         elif cmd == "Set":
             if "key" not in args or args["key"].startswith("_read_") or \
                     "operations" not in args or not type(args["operations"]) == list:
-                await ctx.send_msgs(client, [{'cmd': 'InvalidPacket', "type": "arguments",
-                                              "text": 'Set', "original_cmd": cmd}])
+                await ctx.send_msgs(client, [{"cmd": "InvalidPacket", "type": "arguments",
+                                              "text": "Set", "original_cmd": cmd}])
                 return
             args["cmd"] = "SetReply"
             value = ctx.stored_data.get(args["key"], args.get("default", 0))
@@ -2184,8 +2198,8 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
 
         elif cmd == "SetNotify":
             if "keys" not in args or type(args["keys"]) != list:
-                await ctx.send_msgs(client, [{'cmd': 'InvalidPacket', "type": "arguments",
-                                              "text": 'SetNotify', "original_cmd": cmd}])
+                await ctx.send_msgs(client, [{"cmd": "InvalidPacket", "type": "arguments",
+                                              "text": "SetNotify", "original_cmd": cmd}])
                 return
             for key in args["keys"]:
                 ctx.stored_data_notification_clients[key].add(client)
@@ -2218,7 +2232,7 @@ class ServerCommandProcessor(CommonCommandProcessor):
         super(ServerCommandProcessor, self).output(text)
 
     def default(self, raw: str):
-        self.ctx.broadcast_text_all('[Server]: ' + raw, {"type": "ServerChat", "message": raw})
+        self.ctx.broadcast_text_all("[Server]: " + raw, {"type": "ServerChat", "message": raw})
 
     def _cmd_save(self) -> bool:
         """Save current state to multidata"""
@@ -2375,7 +2389,7 @@ class ServerCommandProcessor(CommonCommandProcessor):
 
                 send_new_items(self.ctx)
                 self.ctx.broadcast_text_all(
-                    'Cheat console: sending ' + ('' if amount == 1 else f'{amount} of ') +
+                    "Cheat console: sending " + ("" if amount == 1 else f"{amount} of ") +
                     f'"{item_name}" to {self.ctx.get_aliased_name(team, slot)}')
                 return True
             else:
@@ -2527,7 +2541,7 @@ class ServerCommandProcessor(CommonCommandProcessor):
         setattr(self.ctx, option_name, value_type(option_value))
         self.output(f"Set option {option_name} to {getattr(self.ctx, option_name)}")
         if option_name in {"release_mode", "remaining_mode", "collect_mode"}:
-            self.ctx.broadcast_all([{"cmd": "RoomUpdate", 'permissions': get_permissions(self.ctx)}])
+            self.ctx.broadcast_all([{"cmd": "RoomUpdate", "permissions": get_permissions(self.ctx)}])
         elif option_name in {"hint_cost", "location_check_points"}:
             self.ctx.broadcast_all([{"cmd": "RoomUpdate", option_name: getattr(self.ctx, option_name)}])
         return True
@@ -2570,24 +2584,24 @@ def parse_args() -> argparse.Namespace:
 
     parser = argparse.ArgumentParser()
     defaults = get_settings().server_options.as_dict()
-    parser.add_argument('multidata', nargs="?", default=defaults["multidata"])
-    parser.add_argument('--host', default=defaults["host"])
-    parser.add_argument('--port', default=defaults["port"], type=int)
-    parser.add_argument('--server_password', default=defaults["server_password"])
-    parser.add_argument('--password', default=defaults["password"])
-    parser.add_argument('--savefile', default=defaults["savefile"])
-    parser.add_argument('--disable_save', default=defaults["disable_save"], action='store_true')
-    parser.add_argument('--cert', help="Path to a SSL Certificate for encryption.")
-    parser.add_argument('--cert_key', help="Path to SSL Certificate Key file")
-    parser.add_argument('--loglevel', default=defaults["loglevel"],
-                        choices=['debug', 'info', 'warning', 'error', 'critical'])
-    parser.add_argument('--logtime', help="Add timestamps to STDOUT",
-                        default=defaults["logtime"], action='store_true')
-    parser.add_argument('--location_check_points', default=defaults["location_check_points"], type=int)
-    parser.add_argument('--hint_cost', default=defaults["hint_cost"], type=int)
-    parser.add_argument('--disable_item_cheat', default=defaults["disable_item_cheat"], action='store_true')
-    parser.add_argument('--release_mode', default=defaults["release_mode"], nargs='?',
-                        choices=['auto', 'enabled', 'disabled', "goal", "auto-enabled"], help='''\
+    parser.add_argument("multidata", nargs="?", default=defaults["multidata"])
+    parser.add_argument("--host", default=defaults["host"])
+    parser.add_argument("--port", default=defaults["port"], type=int)
+    parser.add_argument("--server_password", default=defaults["server_password"])
+    parser.add_argument("--password", default=defaults["password"])
+    parser.add_argument("--savefile", default=defaults["savefile"])
+    parser.add_argument("--disable_save", default=defaults["disable_save"], action="store_true")
+    parser.add_argument("--cert", help="Path to a SSL Certificate for encryption.")
+    parser.add_argument("--cert_key", help="Path to SSL Certificate Key file")
+    parser.add_argument("--loglevel", default=defaults["loglevel"],
+                        choices=["debug", "info", "warning", "error", "critical"])
+    parser.add_argument("--logtime", help="Add timestamps to STDOUT",
+                        default=defaults["logtime"], action="store_true")
+    parser.add_argument("--location_check_points", default=defaults["location_check_points"], type=int)
+    parser.add_argument("--hint_cost", default=defaults["hint_cost"], type=int)
+    parser.add_argument("--disable_item_cheat", default=defaults["disable_item_cheat"], action="store_true")
+    parser.add_argument("--release_mode", default=defaults["release_mode"], nargs="?",
+                        choices=["auto", "enabled", "disabled", "goal", "auto-enabled"], help='''\
                              Select !release Accessibility. (default: %(default)s)
                              auto:     Automatic "release" on goal completion
                              enabled:  !release is always available
@@ -2595,8 +2609,8 @@ def parse_args() -> argparse.Namespace:
                              goal:     !release can be used after goal completion
                              auto-enabled: !release is available and automatically triggered on goal completion
                              ''')
-    parser.add_argument('--collect_mode', default=defaults["collect_mode"], nargs='?',
-                        choices=['auto', 'enabled', 'disabled', "goal", "auto-enabled"], help='''\
+    parser.add_argument("--collect_mode", default=defaults["collect_mode"], nargs="?",
+                        choices=["auto", "enabled", "disabled", "goal", "auto-enabled"], help='''\
                              Select !collect Accessibility. (default: %(default)s)
                              auto:     Automatic "collect" on goal completion
                              enabled:  !collect is always available
@@ -2604,33 +2618,33 @@ def parse_args() -> argparse.Namespace:
                              goal:     !collect can be used after goal completion
                              auto-enabled: !collect is available and automatically triggered on goal completion
                              ''')
-    parser.add_argument('--countdown_mode', default=defaults["countdown_mode"], nargs='?',
-                        choices=['enabled', 'disabled', "auto"], help='''\
+    parser.add_argument("--countdown_mode", default=defaults["countdown_mode"], nargs="?",
+                        choices=["enabled", "disabled", "auto"], help='''\
                                 Select !countdown Accessibility. (default: %(default)s)
                                 enabled:  !countdown is always available
                                 disabled: !countdown is never available
                                 auto:     !countdown is available for rooms with less than 30 players
                                 ''')
-    parser.add_argument('--remaining_mode', default=defaults["remaining_mode"], nargs='?',
-                        choices=['enabled', 'disabled', "goal"], help='''\
+    parser.add_argument("--remaining_mode", default=defaults["remaining_mode"], nargs="?",
+                        choices=["enabled", "disabled", "goal"], help='''\
                              Select !remaining Accessibility. (default: %(default)s)
                              enabled:  !remaining is always available
                              disabled: !remaining is never available
                              goal:     !remaining can be used after goal completion
                              ''')
-    parser.add_argument('--auto_shutdown', default=defaults["auto_shutdown"], type=int,
+    parser.add_argument("--auto_shutdown", default=defaults["auto_shutdown"], type=int,
                         help="automatically shut down the server after this many minutes without new location checks. "
                              "0 to keep running. Not yet implemented.")
-    parser.add_argument('--use_embedded_options', action="store_true",
-                        help='retrieve release, remaining and hint options from the multidata file,'
-                             ' instead of host.yaml')
-    parser.add_argument('--compatibility', default=defaults["compatibility"], type=int,
+    parser.add_argument("--use_embedded_options", action="store_true",
+                        help="retrieve release, remaining and hint options from the multidata file,"
+                             " instead of host.yaml")
+    parser.add_argument("--compatibility", default=defaults["compatibility"], type=int,
                         help="""
     #2 -> recommended for casual/cooperative play, attempt to be compatible with everything across all versions
     #1 -> recommended for friendly racing, tries to block third party clients
     #0 -> recommended for tournaments to force a level playing field, only allow an exact version match
     """)
-    parser.add_argument('--log_network', default=defaults["log_network"], action="store_true")
+    parser.add_argument("--log_network", default=defaults["log_network"], action="store_true")
     args = parser.parse_args()
     return args
 
@@ -2719,8 +2733,8 @@ async def main(args: argparse.Namespace):
         extensions=[server_per_message_deflate_factory],
     )
     ip = args.host if args.host else Utils.get_public_ipv4()
-    logging.info('Hosting game at %s:%d (%s)' % (ip, ctx.port,
-                                                 'No password' if not ctx.password else 'Password: %s' % ctx.password))
+    logging.info("Hosting game at %s:%d (%s)" % (ip, ctx.port,
+                                                 "No password" if not ctx.password else "Password: %s" % ctx.password))
 
     await ctx.server
     console_task = asyncio.create_task(console(ctx))
@@ -2734,7 +2748,7 @@ async def main(args: argparse.Namespace):
 
 client_message_processor = ClientMessageProcessor
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         asyncio.run(main(parse_args()))
     except asyncio.exceptions.CancelledError:

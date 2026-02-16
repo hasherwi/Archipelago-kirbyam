@@ -2,14 +2,20 @@ import os
 import time
 import unittest
 from dataclasses import dataclass
-from statistics import mean, median, variance, stdev
+from statistics import mean, median, stdev, variance
 from typing import List
 
 from BaseClasses import get_seed
-from Fill import distribute_items_restrictive, balance_multiworld_progression
+from Fill import balance_multiworld_progression, distribute_items_restrictive
 from worlds import AutoWorld
+
 from ..bases import SVTestCase, setup_multiworld
-from ..options.presets import default_6_x_x, allsanity_no_mods_6_x_x, allsanity_mods_6_x_x, minimal_locations_maximal_items
+from ..options.presets import (
+    allsanity_mods_6_x_x,
+    allsanity_no_mods_6_x_x,
+    default_6_x_x,
+    minimal_locations_maximal_items,
+)
 
 assert default_6_x_x
 assert allsanity_no_mods_6_x_x
@@ -109,7 +115,7 @@ class SVPerformanceTestCase(SVTestCase):
                 multiworld = setup_multiworld(options, seed)
                 if not self.skip_fill:
                     distribute_items_restrictive(multiworld)
-                    AutoWorld.call_all(multiworld, 'post_fill')
+                    AutoWorld.call_all(multiworld, "post_fill")
                     if multiworld.players > 1:
                         balance_multiworld_progression(multiworld)
 

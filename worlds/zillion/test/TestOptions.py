@@ -1,8 +1,8 @@
-from . import ZillionTestBase
+from zilliandomizer.options import VBLR_CHOICES
 
 from .. import ZillionWorld
-from ..options import ZillionJumpLevels, ZillionGunLevels, ZillionOptions, ZillionPriorityDeadEnds, validate
-from zilliandomizer.options import VBLR_CHOICES
+from ..options import ZillionGunLevels, ZillionJumpLevels, ZillionOptions, ZillionPriorityDeadEnds, validate
+from . import ZillionTestBase
 
 
 class OptionsTest(ZillionTestBase):

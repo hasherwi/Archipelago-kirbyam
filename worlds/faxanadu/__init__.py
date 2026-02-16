@@ -1,11 +1,11 @@
 from typing import Any, Dict, List
 
-from BaseClasses import Item, Location, Tutorial, ItemClassification, MultiWorld
+from BaseClasses import Item, ItemClassification, Location, MultiWorld, Tutorial
 from worlds.AutoWorld import WebWorld, World
-from . import Items, Locations, Regions, Rules
-from .Options import FaxanaduOptions
 from worlds.generic.Rules import set_rule
 
+from . import Items, Locations, Regions, Rules
+from .Options import FaxanaduOptions
 
 DAXANADU_VERSION = "0.3.0"
 
@@ -64,7 +64,7 @@ class FaxanaduWorld(World):
                 # In Faxanadu, Poison hurts you when picked up. It makes no sense to sell them in shops
                 if loc.type == Locations.LocationType.shop:
                     location.item_rule = lambda item, player=self.player: not (player == item.player and item.name == "Poison")
-                
+
                 region.locations.append(location)
 
     def set_rules(self):
@@ -111,7 +111,7 @@ class FaxanaduWorld(World):
                 if self.options.keep_shop_red_potions and loc.original_item == Locations.ItemType.red_potion:
                     continue # Don't override our red potions
                 shops.setdefault(loc.region, []).append(loc)
-        
+
         shop_count = len(shops)
         wingboots_count = round(shop_count / 2.5) # On 10 shops, we should have about 4 shops with wingboots
 
@@ -177,12 +177,12 @@ class FaxanaduWorld(World):
         filler_count = len(Locations.locations) - len(itempool) - prefilled_count
         for i in range(filler_count):
             itempool.append(self.create_item(self.get_filler_item_name()))
-                
+
         self.multiworld.itempool += itempool
 
     def get_filler_item_name(self) -> str:
         return self.random.choices(list(self.filler_ratios.keys()), weights=list(self.filler_ratios.values()))[0]
-    
+
     def fill_slot_data(self) -> Dict[str, Any]:
         slot_data = self.options.as_dict("keep_shop_red_potions", "random_musics", "random_sounds", "random_npcs", "random_monsters", "random_rewards")
         slot_data["daxanadu_version"] = DAXANADU_VERSION

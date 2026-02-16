@@ -1,6 +1,7 @@
 import typing
-from .requirements import hasConsumableRequirement, OR
+
 from ..locations.itemInfo import ItemInfo
+from .requirements import OR, hasConsumableRequirement
 
 
 class Location:

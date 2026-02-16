@@ -1,9 +1,9 @@
 import unittest
 
+from .. import Group, items_by_group, options
+from ..options import TrapDistribution
 from .assertion import WorldAssertMixin
 from .bases import SVTestBase
-from .. import options, items_by_group, Group
-from ..options import TrapDistribution
 
 default_distribution = {trap.name: TrapDistribution.default_weight for trap in items_by_group[Group.TRAP] if Group.DEPRECATED not in trap.groups}
 threshold_difference = 2

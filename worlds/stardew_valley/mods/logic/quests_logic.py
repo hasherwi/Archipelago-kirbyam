@@ -1,6 +1,5 @@
 from typing import Dict
 
-from ..mod_data import ModNames
 from ...logic.base_logic import BaseLogic, BaseLogicMixin
 from ...stardew_rule import StardewRule
 from ...strings.animal_product_names import AnimalProduct
@@ -8,16 +7,17 @@ from ...strings.ap_names.mods.mod_items import SVEQuestItem
 from ...strings.artisan_good_names import ArtisanGood
 from ...strings.crop_names import Fruit, SVEFruit, SVEVegetable, Vegetable
 from ...strings.fertilizer_names import Fertilizer
-from ...strings.food_names import Meal, Beverage
+from ...strings.food_names import Beverage, Meal
 from ...strings.material_names import Material
-from ...strings.metal_names import Ore, MetalBar
+from ...strings.metal_names import MetalBar, Ore
 from ...strings.monster_drop_names import Loot, ModLoot
 from ...strings.monster_names import Monster
-from ...strings.quest_names import Quest, ModQuest
-from ...strings.region_names import Region, SVERegion, BoardingHouseRegion
+from ...strings.quest_names import ModQuest, Quest
+from ...strings.region_names import BoardingHouseRegion, Region, SVERegion
 from ...strings.season_names import Season
-from ...strings.villager_names import ModNPC, NPC
+from ...strings.villager_names import NPC, ModNPC
 from ...strings.wallet_item_names import Wallet
+from ..mod_data import ModNames
 
 
 class ModQuestLogicMixin(BaseLogicMixin):

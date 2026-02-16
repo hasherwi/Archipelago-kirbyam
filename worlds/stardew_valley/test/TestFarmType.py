@@ -1,8 +1,8 @@
 from collections import Counter
 
+from .. import options
 from .assertion import WorldAssertMixin
 from .bases import SVTestBase
-from .. import options
 
 
 class TestStartInventoryStandardFarm(WorldAssertMixin, SVTestBase):

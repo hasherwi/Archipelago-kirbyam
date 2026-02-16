@@ -1,6 +1,6 @@
 from typing import List
-from ..ItemData import NewItemData
 
+from ..ItemData import NewItemData
 
 new_civics: List[NewItemData] = [
     {

@@ -1,12 +1,26 @@
 from Utils import cache_self1
-from .base_logic import BaseLogicMixin, BaseLogic
+
 from .. import options
 from ..data.craftable_data import CraftingRecipe
-from ..data.recipe_source import CutsceneSource, ShopTradeSource, ArchipelagoSource, LogicSource, SpecialOrderSource, \
-    FestivalShopSource, QuestSource, StarterSource, ShopSource, SkillSource, MasterySource, FriendshipSource, SkillCraftsanitySource
+from ..data.recipe_source import (
+    ArchipelagoSource,
+    CutsceneSource,
+    FestivalShopSource,
+    FriendshipSource,
+    LogicSource,
+    MasterySource,
+    QuestSource,
+    ShopSource,
+    ShopTradeSource,
+    SkillCraftsanitySource,
+    SkillSource,
+    SpecialOrderSource,
+    StarterSource,
+)
 from ..options import Craftsanity, SpecialOrderLocations
-from ..stardew_rule import StardewRule, True_, False_
+from ..stardew_rule import False_, StardewRule, True_
 from ..strings.region_names import Region
+from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class CraftingLogicMixin(BaseLogicMixin):

@@ -1,6 +1,7 @@
 from typing import Dict, List, NamedTuple
 
 from BaseClasses import Item, ItemClassification
+
 from .Constants import BASE_ITEM_ID
 
 

@@ -2,8 +2,17 @@ from dataclasses import dataclass
 
 from schema import And, Schema
 
-from Options import Toggle, Choice, DefaultOnToggle, Range, PerGameCommonOptions, StartInventoryPool, OptionCounter, \
-    OptionGroup
+from Options import (
+    Choice,
+    DefaultOnToggle,
+    OptionCounter,
+    OptionGroup,
+    PerGameCommonOptions,
+    Range,
+    StartInventoryPool,
+    Toggle,
+)
+
 from .items import TRAP_ITEMS
 
 

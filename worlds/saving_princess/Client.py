@@ -1,25 +1,26 @@
 import argparse
-import zipfile
-from io import BytesIO
-
-import bsdiff4
-from datetime import datetime
 import hashlib
 import json
 import logging
 import os
-import requests
 import secrets
 import shutil
 import subprocess
-from tkinter import messagebox
-from typing import Any, Dict, Set
 import urllib
 import urllib.parse
+import zipfile
+from datetime import datetime
+from io import BytesIO
+from tkinter import messagebox
+from typing import Any, Dict, Set
+
+import bsdiff4
+import requests
 
 import Utils
-from .Constants import *
+
 from . import SavingPrincessWorld
+from .Constants import *
 
 files_to_clean: Set[str] = {
     "D3DX9_43.dll",
@@ -173,7 +174,7 @@ def install() -> None:
         logging.info("Looking for cab archive inside exe.")
         cab_found: bool = False
         while not cab_found:
-            cab_found = exe.read(1) == b'M' and exe.read(1) == b'S' and exe.read(1) == b'C' and exe.read(1) == b'F'
+            cab_found = exe.read(1) == b"M" and exe.read(1) == b"S" and exe.read(1) == b"C" and exe.read(1) == b"F"
         exe.read(4)  # skip reserved1, always 0
         cab_size: int = int.from_bytes(exe.read(4), "little")  # read size in bytes
         exe.seek(-12, 1)  # move the cursor back to the start of the cab file

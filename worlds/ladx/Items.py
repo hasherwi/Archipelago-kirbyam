@@ -1,8 +1,11 @@
-from BaseClasses import Item, ItemClassification
-from . import Common
 import typing
 from enum import IntEnum
+
+from BaseClasses import Item, ItemClassification
+
+from . import Common
 from .LADXR.locations.constants import CHEST_ITEMS
+
 
 class ItemData(typing.NamedTuple):
     item_name: str

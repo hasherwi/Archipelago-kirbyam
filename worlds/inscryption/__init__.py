@@ -1,11 +1,13 @@
-from .Options import InscryptionOptions, Goal, EpitaphPiecesRandomization, PaintingChecksBalancing
-from .Items import act1_items, act2_items, act3_items, filler_items, base_id, InscryptionItem, ItemDict
-from .Locations import act1_locations, act2_locations, act3_locations, regions_to_locations
-from .Regions import inscryption_regions_all, inscryption_regions_act_1
-from typing import Dict, Any
+from typing import Any, Dict
+
+from BaseClasses import Item, ItemClassification, Region, Tutorial
+from worlds.AutoWorld import WebWorld, World
+
 from . import Rules
-from BaseClasses import Region, Item, Tutorial, ItemClassification
-from worlds.AutoWorld import World, WebWorld
+from .Items import InscryptionItem, ItemDict, act1_items, act2_items, act3_items, base_id, filler_items
+from .Locations import act1_locations, act2_locations, act3_locations, regions_to_locations
+from .Options import EpitaphPiecesRandomization, Goal, InscryptionOptions, PaintingChecksBalancing
+from .Regions import inscryption_regions_act_1, inscryption_regions_all
 
 
 class InscrypWeb(WebWorld):

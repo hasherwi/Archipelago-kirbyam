@@ -5,7 +5,7 @@ from flask import Blueprint
 
 from ..models import Seed, Slot
 
-api_endpoints = Blueprint('api', __name__, url_prefix="/api")
+api_endpoints = Blueprint("api", __name__, url_prefix="/api")
 
 
 def get_players(seed: Seed) -> List[Tuple[str, str]]:

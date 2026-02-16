@@ -16,12 +16,13 @@ from queue import Queue
 
 import factorio_rcon
 
-from CommonClient import ClientCommandProcessor, CommonContext, logger, server_loop, gui_enabled, get_base_parser
+from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger, server_loop
 from MultiServer import mark_raw
-from NetUtils import ClientStatus, NetworkItem, JSONtoTextParser, JSONMessagePart
-from Utils import async_start, get_file_safe_name, is_windows, Version, format_SI_prefix, get_text_between
-from .settings import FactorioSettings
+from NetUtils import ClientStatus, JSONMessagePart, JSONtoTextParser, NetworkItem
 from settings import get_settings
+from Utils import Version, async_start, format_SI_prefix, get_file_safe_name, get_text_between, is_windows
+
+from .settings import FactorioSettings
 
 
 def check_stdin() -> None:
@@ -63,7 +64,7 @@ class FactorioCommandProcessor(ClientCommandProcessor):
     def _cmd_toggle_chat(self):
         """Toggle sending of chat messages from players on the Factorio server to Archipelago."""
         self.ctx.toggle_bridge_chat_out()
-        
+
     def _cmd_rcon_reconnect(self) -> bool:
         """Reconnect the RCON client if its disconnected."""
         try:
@@ -129,8 +130,8 @@ class FactorioContext(CommonContext):
     def on_print(self, args: dict):
         super(FactorioContext, self).on_print(args)
         if self.rcon_client:
-            if not args['text'].startswith(self.player_names[self.slot] + ":"):
-                self.print_to_game(args['text'])
+            if not args["text"].startswith(self.player_names[self.slot] + ":"):
+                self.print_to_game(args["text"])
 
     def on_print_json(self, args: dict):
         if self.rcon_client:
@@ -181,7 +182,7 @@ class FactorioContext(CommonContext):
         if cmd in {"Connected", "RoomUpdate"}:
             # catch up sync anything that is already cleared.
             if "checked_locations" in args and args["checked_locations"]:
-                self.rcon_client.send_commands({item_name: f'/ap-get-technology ap-{item_name}-\t-1' for
+                self.rcon_client.send_commands({item_name: f"/ap-get-technology ap-{item_name}-\t-1" for
                                                 item_name in args["checked_locations"]})
             if cmd == "Connected" and self.energy_link_increment:
                 async_start(self.send_msgs([{
@@ -586,13 +587,13 @@ def launch(*new_args: str):
     parser = get_base_parser(description="Optional arguments to Factorio Client follow. "
                                          "Remaining arguments get passed into bound Factorio instance. "
                                          "Refer to Factorio --help for those.")
-    parser.add_argument('--rcon-port', default='24242', type=int, help='Port to use to communicate with Factorio')
-    parser.add_argument('--rcon-password', help='Password to authenticate with RCON.')
-    parser.add_argument('--server-settings', help='Factorio server settings configuration file.')
+    parser.add_argument("--rcon-port", default="24242", type=int, help="Port to use to communicate with Factorio")
+    parser.add_argument("--rcon-password", help="Password to authenticate with RCON.")
+    parser.add_argument("--server-settings", help="Factorio server settings configuration file.")
 
     args, rest = parser.parse_known_args(args=new_args)
     rcon_port = args.rcon_port
-    rcon_password = args.rcon_password if args.rcon_password else ''.join(
+    rcon_password = args.rcon_password if args.rcon_password else "".join(
         random.choice(string.ascii_letters) for _ in range(32))
 
     server_settings = args.server_settings if args.server_settings \

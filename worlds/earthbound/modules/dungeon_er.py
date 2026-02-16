@@ -1,10 +1,9 @@
 import struct
-from typing import Optional, TYPE_CHECKING
 from dataclasses import dataclass
+from typing import TYPE_CHECKING, Optional
+
 from ..game_data.local_data import item_id_table
-from typing import Optional, TYPE_CHECKING
-from dataclasses import dataclass
-from ..game_data.local_data import item_id_table
+
 if TYPE_CHECKING:
     from .. import EarthBoundWorld
     from ..Rom import LocalRom

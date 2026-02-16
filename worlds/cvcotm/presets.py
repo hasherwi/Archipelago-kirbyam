@@ -1,10 +1,31 @@
 from typing import Any, Dict
 
 from Options import Accessibility, ProgressionBalancing
-from .options import IgnoreCleansing, AutoRun, DSSPatch, AlwaysAllowSpeedDash, IronMaidenBehavior, BuffRangedFamiliars,\
-    BuffSubWeapons, BuffShooterStrength, ItemDropRandomization, HalveDSSCardsPlaced, Countdown, SubWeaponShuffle,\
-    DisableBattleArenaMPDrain, RequiredSkirmishes, EarlyEscapeItem, CVCotMDeathLink, CompletionGoal, SkipDialogues,\
-    NerfRocWing, SkipTutorials, BattleArenaMusic, PlutoGriffinAirSpeed
+
+from .options import (
+    AlwaysAllowSpeedDash,
+    AutoRun,
+    BattleArenaMusic,
+    BuffRangedFamiliars,
+    BuffShooterStrength,
+    BuffSubWeapons,
+    CompletionGoal,
+    Countdown,
+    CVCotMDeathLink,
+    DisableBattleArenaMPDrain,
+    DSSPatch,
+    EarlyEscapeItem,
+    HalveDSSCardsPlaced,
+    IgnoreCleansing,
+    IronMaidenBehavior,
+    ItemDropRandomization,
+    NerfRocWing,
+    PlutoGriffinAirSpeed,
+    RequiredSkirmishes,
+    SkipDialogues,
+    SkipTutorials,
+    SubWeaponShuffle,
+)
 
 all_random_options = {
     "progression_balancing":         "random",

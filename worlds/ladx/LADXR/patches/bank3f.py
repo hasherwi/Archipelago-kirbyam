@@ -1,5 +1,5 @@
-from ..assembler import ASM
 from .. import utils
+from ..assembler import ASM
 
 
 def addBank3F(rom):

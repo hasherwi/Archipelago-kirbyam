@@ -1,8 +1,8 @@
 from dataclasses import dataclass
-from typing import Tuple, Sequence, Mapping
+from typing import Mapping, Sequence, Tuple
 
-from .game_item import Source, ItemTag
 from ..strings.season_names import Season
+from .game_item import ItemTag, Source
 
 
 @dataclass(frozen=True, kw_only=True)

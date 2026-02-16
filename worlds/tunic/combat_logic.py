@@ -5,7 +5,7 @@ from typing import NamedTuple
 from BaseClasses import CollectionState
 from worlds.AutoWorld import LogicMixin
 
-from .logic_helpers import has_sword, has_melee
+from .logic_helpers import has_melee, has_sword
 
 
 # the vanilla stats you are expected to have to get through an area, based on where they are in vanilla

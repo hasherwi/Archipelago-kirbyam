@@ -1,16 +1,17 @@
-import pkgutil
-from typing import Optional, TYPE_CHECKING, Iterable, Dict, Sequence
 import hashlib
-import Utils
 import os
+import pkgutil
+from typing import TYPE_CHECKING, Dict, Iterable, Optional, Sequence
 
 import settings
+import Utils
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
+
 from . import names
+from .color import get_colors_for_item, write_palette_shuffle
+from .options import Consumables, RandomMusic, ReduceFlashing
 from .rules import minimum_weakness_requirement
 from .text import MM2TextEntry
-from .color import get_colors_for_item, write_palette_shuffle
-from .options import Consumables, ReduceFlashing, RandomMusic
 
 if TYPE_CHECKING:
     from . import MM2World
@@ -99,7 +100,7 @@ class RomData:
         self.file[offset:offset + len(values)] = values
 
     def write_to_file(self, file: str) -> None:
-        with open(file, 'wb') as outfile:
+        with open(file, "wb") as outfile:
             outfile.write(self.file)
 
 
@@ -329,7 +330,7 @@ def patch_rom(world: "MM2World", patch: MM2ProcedurePatch) -> None:
 
     from Utils import __version__
     patch.name = bytearray(f'MM2{__version__.replace(".", "")[0:3]}_{world.player}_{world.multiworld.seed:11}\0',
-                           'utf8')[:21]
+                           "utf8")[:21]
     patch.name.extend([0] * (21 - len(patch.name)))
     patch.write_bytes(0x3FFC0, patch.name)
     deathlink_byte = world.options.death_link.value | (world.options.energy_link.value << 1)

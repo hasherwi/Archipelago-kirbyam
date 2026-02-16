@@ -1,12 +1,15 @@
-from typing import ClassVar, Dict, Any, Type, List, Union
+from typing import Any, ClassVar, Dict, List, Type, Union
 
 import Utils
-from BaseClasses import Tutorial, ItemClassification as ItemClass
-from Options import PerGameCommonOptions, OptionError
-from settings import Group, UserFilePath, LocalFolderPath, Bool
-from worlds.AutoWorld import World, WebWorld
-from worlds.LauncherComponents import components, Component, launch_subprocess, Type as ComponentType
-from . import Options, Items, Locations
+from BaseClasses import ItemClassification as ItemClass
+from BaseClasses import Tutorial
+from Options import OptionError, PerGameCommonOptions
+from settings import Bool, Group, LocalFolderPath, UserFilePath
+from worlds.AutoWorld import WebWorld, World
+from worlds.LauncherComponents import Component, components, launch_subprocess
+from worlds.LauncherComponents import Type as ComponentType
+
+from . import Items, Locations, Options
 from .Constants import *
 
 

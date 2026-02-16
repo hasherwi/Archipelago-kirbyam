@@ -1,24 +1,41 @@
 from typing import Dict, List, Optional
 
-from .recipe_source import RecipeSource, FriendshipSource, SkillSource, QueenOfSauceSource, ShopSource, StarterSource, ShopTradeSource, ShopFriendshipSource
 from ..mods.mod_data import ModNames
 from ..strings.animal_product_names import AnimalProduct
 from ..strings.artisan_good_names import ArtisanGood
-from ..strings.craftable_names import ModEdible, Edible
-from ..strings.crop_names import Fruit, Vegetable, SVEFruit, DistantLandsCrop
-from ..strings.fish_names import Fish, SVEFish, WaterItem, DistantLandsFish, SVEWaterItem
+from ..strings.craftable_names import Edible, ModEdible
+from ..strings.crop_names import DistantLandsCrop, Fruit, SVEFruit, Vegetable
+from ..strings.fish_names import DistantLandsFish, Fish, SVEFish, SVEWaterItem, WaterItem
 from ..strings.flower_names import Flower
-from ..strings.food_names import Meal, SVEMeal, Beverage, DistantLandsMeal, BoardingHouseMeal, ArchaeologyMeal, TrashyMeal
-from ..strings.forageable_names import Forageable, SVEForage, Mushroom
+from ..strings.food_names import (
+    ArchaeologyMeal,
+    Beverage,
+    BoardingHouseMeal,
+    DistantLandsMeal,
+    Meal,
+    SVEMeal,
+    TrashyMeal,
+)
+from ..strings.forageable_names import Forageable, Mushroom, SVEForage
 from ..strings.ingredient_names import Ingredient
 from ..strings.material_names import Material
-from ..strings.metal_names import Fossil, Artifact
+from ..strings.metal_names import Artifact, Fossil
 from ..strings.monster_drop_names import Loot
 from ..strings.region_names import Region, SVERegion
 from ..strings.season_names import Season
 from ..strings.seed_names import Seed
-from ..strings.skill_names import Skill, ModSkill
+from ..strings.skill_names import ModSkill, Skill
 from ..strings.villager_names import NPC, ModNPC
+from .recipe_source import (
+    FriendshipSource,
+    QueenOfSauceSource,
+    RecipeSource,
+    ShopFriendshipSource,
+    ShopSource,
+    ShopTradeSource,
+    SkillSource,
+    StarterSource,
+)
 
 
 class CookingRecipe:

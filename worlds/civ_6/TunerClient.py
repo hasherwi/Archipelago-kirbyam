@@ -1,6 +1,6 @@
 import asyncio
-from logging import Logger
 import socket
+from logging import Logger
 from typing import Any
 
 ADDRESS = "127.0.0.1"

@@ -1,15 +1,18 @@
-from typing import Dict, List, Set, Any
 from collections import Counter
-from BaseClasses import Region, Location, Item, Tutorial, ItemClassification
+from typing import Any, Dict, List, Set
+
+from BaseClasses import Item, ItemClassification, Location, Region, Tutorial
 from Options import OptionError
-from worlds.AutoWorld import World, WebWorld
-from .Items import base_id, item_table, group_table, tears_list, reliquary_set
-from .Locations import location_names
-from .Rules import BlasRules
+from worlds.AutoWorld import WebWorld, World
 from worlds.generic.Rules import set_rule
+
+from .Items import base_id, group_table, item_table, reliquary_set, tears_list
+from .Locations import location_names
 from .Options import BlasphemousOptions, blas_option_groups
-from .Vanilla import unrandomized_dict, junk_locations, thorn_set, skill_dict
-from .region_data import regions, locations
+from .region_data import locations, regions
+from .Rules import BlasRules
+from .Vanilla import junk_locations, skill_dict, thorn_set, unrandomized_dict
+
 
 class BlasphemousWeb(WebWorld):
     theme = "stone"
@@ -76,7 +79,7 @@ class BlasphemousWorld(World):
                 and self.options.dash_shuffle:
                     raise OptionError(f"[Blasphemous - '{self.player_name}'] "
                                     f"{self.options.starting_location} cannot be chosen if Shuffle Dash is enabled.")
-            
+
             if self.options.starting_location == "grievance" and self.options.wall_climb_shuffle:
                 raise OptionError(f"[Blasphemous - '{self.player_name}'] "
                                 f"{self.options.starting_location} cannot be chosen if Shuffle Wall Climb is enabled.")
@@ -98,8 +101,8 @@ class BlasphemousWorld(World):
 
             if self.options.starting_location.value not in locations:
                 self.options.starting_location.value = self.random.choice(locations)
-            
-        
+
+
         if not self.options.dash_shuffle:
             self.multiworld.push_precollected(self.create_item("Dash Ability"))
 
@@ -187,7 +190,7 @@ class BlasphemousWorld(World):
 
         for item in item_table:
             count = item["count"] - counter[item["name"]]
-            
+
             if count <= 0:
                 continue
             else:
@@ -206,12 +209,12 @@ class BlasphemousWorld(World):
 
         if not self.options.skill_randomizer:
             self.place_items_from_dict(skill_dict)
-        
+
     def place_items_from_set(self, location_set: Set[str], name: str):
         for loc in location_set:
             self.get_location(loc).place_locked_item(self.create_item(name))
 
-    
+
     def place_items_from_dict(self, option_dict: Dict[str, str]):
         for loc, item in option_dict.items():
             self.get_location(loc).place_locked_item(self.create_item(item))
@@ -243,7 +246,7 @@ class BlasphemousWorld(World):
             for t in r["transitions"]:
                 if t == r["name"]:
                     continue
-                
+
                 if t in created_regions:
                     region.add_exits({t})
                 else:
@@ -260,7 +263,7 @@ class BlasphemousWorld(World):
             self.multiworld.register_indirect_condition(self.get_region(rname), self.get_entrance(ename))
         #from Utils import visualize_regions
         #visualize_regions(self.get_region("Menu"), "blasphemous_regions.puml")
-        
+
         victory = Location(player, "His Holiness Escribar", None, self.get_region("D07Z01S03[W]"))
         victory.place_locked_item(self.create_event("Victory"))
         self.get_region("D07Z01S03[W]").locations.append(victory)
@@ -272,8 +275,8 @@ class BlasphemousWorld(World):
                 state.has("Holy Wound of Abnegation", player))
 
         multiworld.completion_condition[self.player] = lambda state: state.has("Victory", player)
-    
-    
+
+
     def fill_slot_data(self) -> Dict[str, Any]:
         slot_data: Dict[str, Any] = {}
         doors: Dict[str, str] = {}
@@ -286,17 +289,17 @@ class BlasphemousWorld(World):
             "LogicDifficulty": self.options.difficulty.value,
             "StartingLocation": self.options.starting_location.value,
             "VersionCreated": "AP",
-            
+
             "UnlockTeleportation": bool(self.options.prie_dieu_warp.value),
             "AllowHints": bool(self.options.corpse_hints.value),
             "AllowPenitence": bool(self.options.penitence.value),
-            
+
             "ShuffleReliquaries": bool(self.options.reliquary_shuffle.value),
             "ShuffleBootsOfPleading": bool(self.options.boots_of_pleading.value),
             "ShufflePurifiedHand": bool(self.options.purified_hand.value),
             "ShuffleDash": bool(self.options.dash_shuffle.value),
             "ShuffleWallClimb": bool(self.options.wall_climb_shuffle.value),
-            
+
             "ShuffleSwordSkills": bool(self.options.wall_climb_shuffle.value),
             "ShuffleThorns": thorns,
             "JunkLongQuests": bool(self.options.skip_long_quests.value),
@@ -309,7 +312,7 @@ class BlasphemousWorld(World):
             "BossShuffleType": 0,
             "DoorShuffleType": 0
         }
-    
+
         slot_data = {
             "locationinfo": [{"gameId": loc, "apId": (base_id + index)} for index, loc in enumerate(location_names)],
             "doors": doors,
@@ -317,7 +320,7 @@ class BlasphemousWorld(World):
             "ending": self.options.ending.value,
             "death_link": bool(self.options.death_link.value)
         }
-    
+
         return slot_data
 
 

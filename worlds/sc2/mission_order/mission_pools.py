@@ -1,9 +1,10 @@
 from enum import IntEnum
-from typing import TYPE_CHECKING, Dict, Set, List, Iterable
+from typing import TYPE_CHECKING, Dict, Iterable, List, Set
 
 from Options import OptionError
-from ..mission_tables import SC2Mission, lookup_id_to_mission, MissionFlag, SC2Campaign
 from worlds.AutoWorld import World
+
+from ..mission_tables import MissionFlag, SC2Campaign, SC2Mission, lookup_id_to_mission
 
 if TYPE_CHECKING:
     from .nodes import SC2MOGenMission
@@ -99,7 +100,7 @@ class SC2MOGenMissionPools:
             return len(used_files)
         else:
             return len(self.master_list)
-    
+
     def count_allowed_missions(self, campaign: SC2Campaign) -> int:
         allowed_missions = [
             mission_id
@@ -124,7 +125,7 @@ class SC2MOGenMissionPools:
     def get_pool_size(self, diff: Difficulty) -> int:
         """Returns the amount of missions of the given difficulty that are allowed to appear."""
         return len(self.difficulty_pools[diff])
-    
+
     def get_used_flags(self) -> Dict[MissionFlag, int]:
         """Returns a dictionary of all used flags and their appearance count within the mission order.
         Flags that don't appear in the mission order also don't appear in this dictionary."""
@@ -166,7 +167,7 @@ class SC2MOGenMissionPools:
             # Only keep the missions that create the best balance
             best_score = max(mission_scores)
             balanced_pool = [mission for idx, mission in enumerate(balanced_pool) if mission_scores[idx] == best_score]
-        
+
         balanced_weights = [1.0 for _ in balanced_pool]
         if len(self._flag_weights) > 0:
             relevant_used_flag_count = max(sum(self._used_flags.get(flag, 0) for flag in self._flag_weights), 1)
@@ -200,7 +201,7 @@ class SC2MOGenMissionPools:
                     self.difficulty_pools[diff].remove(mission.id)
                     break
         self._add_mission_stats(mission)
-    
+
     def _add_mission_stats(self, mission: SC2Mission) -> None:
         # Update used flag counts & missions
         # Done weirdly for Python <= 3.10 compatibility
@@ -209,7 +210,7 @@ class SC2MOGenMissionPools:
             if flag & mission.flags == flag:
                 self._used_flags.setdefault(flag, 0)
                 self._used_flags[flag] += 1
-        
+
         # Exclude race swap variants
         if self.exclude_mission_variants_on_pull and mission.flags & (MissionFlag.HasRaceSwap|MissionFlag.RaceSwap):
             variants = [
@@ -222,7 +223,7 @@ class SC2MOGenMissionPools:
 
         self._used_missions.append(mission)
 
-    def pull_random_mission(self, world: World, slot: 'SC2MOGenMission', *, prefer_close_difficulty: bool = False) -> SC2Mission:
+    def pull_random_mission(self, world: World, slot: "SC2MOGenMission", *, prefer_close_difficulty: bool = False) -> SC2Mission:
         """Picks a random mission from the mission pool of the given slot and marks it as present in the mission order.
 
         With `prefer_close_difficulty = True` the mission is picked to be as close to the slot's desired difficulty as possible."""

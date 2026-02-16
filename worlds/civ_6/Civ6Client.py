@@ -2,15 +2,16 @@ import asyncio
 import logging
 import os
 import traceback
-from typing import Any, Dict, List, Optional
 import zipfile
+from typing import Any, Dict, List, Optional
 
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
+import Utils
+from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger, server_loop
+from NetUtils import ClientStatus
+
+from .CivVIInterface import CivVIInterface, ConnectionState
 from .Data import get_progressive_districts_data
 from .DeathLink import handle_check_deathlink
-from NetUtils import ClientStatus
-import Utils
-from .CivVIInterface import CivVIInterface, ConnectionState
 from .Enum import CivVICheckType
 from .Items import CivVIItemData, generate_item_table, get_item_by_civ_name
 from .Locations import CivVILocationData, generate_era_location_table

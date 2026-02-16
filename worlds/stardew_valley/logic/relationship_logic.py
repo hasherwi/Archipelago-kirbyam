@@ -2,7 +2,7 @@ import math
 from typing import Union
 
 from Utils import cache_self1
-from .base_logic import BaseLogic, BaseLogicMixin
+
 from ..content.feature import friendsanity
 from ..data.villagers_data import Villager
 from ..stardew_rule import StardewRule, True_, false_, true_
@@ -13,6 +13,7 @@ from ..strings.gift_names import Gift
 from ..strings.region_names import Region
 from ..strings.season_names import Season
 from ..strings.villager_names import NPC, ModNPC
+from .base_logic import BaseLogic, BaseLogicMixin
 
 possible_kids = ("Cute Baby", "Ugly Baby")
 

@@ -1,14 +1,13 @@
-from typing import TYPE_CHECKING, Optional, Set, List, Dict
-import struct
-
-from NetUtils import ClientStatus
-from .Locations import roomCount, nonBlock, beanstones, roomException, shop, badge, pants, eReward
-from .Items import items_by_id
-
 import asyncio
+import struct
+from typing import TYPE_CHECKING, Dict, List, Optional, Set
 
 import worlds._bizhawk as bizhawk
+from NetUtils import ClientStatus
 from worlds._bizhawk.client import BizHawkClient
+
+from .Items import items_by_id
+from .Locations import badge, beanstones, eReward, nonBlock, pants, roomCount, roomException, shop
 
 if TYPE_CHECKING:
     from worlds._bizhawk.context import BizHawkClientContext

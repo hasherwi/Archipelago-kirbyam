@@ -1,8 +1,8 @@
 import unittest
-
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, Dict, Type
+
 from Utils import parse_yaml
 
 if TYPE_CHECKING:
@@ -27,8 +27,7 @@ class TestGenerateYamlTemplates(unittest.TestCase):
 
     def test_name_with_colon(self) -> None:
         from Options import generate_yaml_templates
-        from worlds.AutoWorld import AutoWorldRegister
-        from worlds.AutoWorld import World
+        from worlds.AutoWorld import AutoWorldRegister, World
 
         class WorldWithColon(World):
             game = "World: with colon"

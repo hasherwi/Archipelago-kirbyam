@@ -1,12 +1,12 @@
 import unittest
 from typing import ClassVar, Set
 
-from .assertion import WorldAssertMixin
-from .bases import SVTestBase
 from ..content.feature import fishsanity
 from ..mods.mod_data import ModNames
-from ..options import Fishsanity, ExcludeGingerIsland, Mods, SpecialOrderLocations, Goal, QuestLocations
-from ..strings.fish_names import Fish, SVEFish, DistantLandsFish
+from ..options import ExcludeGingerIsland, Fishsanity, Goal, Mods, QuestLocations, SpecialOrderLocations
+from ..strings.fish_names import DistantLandsFish, Fish, SVEFish
+from .assertion import WorldAssertMixin
+from .bases import SVTestBase
 
 pelican_town_legendary_fishes = {Fish.angler, Fish.crimsonfish, Fish.glacierfish, Fish.legend, Fish.mutant_carp, }
 pelican_town_hard_special_fishes = {Fish.lava_eel, Fish.octopus, Fish.scorpion_carp, Fish.ice_pip, Fish.super_cucumber, }

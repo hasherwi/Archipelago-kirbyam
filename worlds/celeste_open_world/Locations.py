@@ -1,4 +1,4 @@
-from typing import NamedTuple, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, NamedTuple, Optional
 
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule

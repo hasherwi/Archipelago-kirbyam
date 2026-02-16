@@ -1,8 +1,10 @@
 import typing
 from argparse import Namespace
+
 from BaseClasses import CollectionState, MultiWorld
 from Options import ItemLinks
 from worlds.AutoWorld import AutoWorldRegister, call_all
+
 from .. import HKWorld
 
 

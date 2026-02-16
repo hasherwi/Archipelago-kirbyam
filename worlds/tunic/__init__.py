@@ -1,28 +1,48 @@
 from dataclasses import fields
 from logging import warning
-from typing import Any, TypedDict, ClassVar, TextIO
+from typing import Any, ClassVar, TextIO, TypedDict
 
-from BaseClasses import Location, Item, Tutorial, ItemClassification, MultiWorld, CollectionState
-from Options import PlandoConnection, OptionError, PerGameCommonOptions, Range, Removed
-from settings import Group, Bool, FilePath
+from BaseClasses import CollectionState, Item, ItemClassification, Location, MultiWorld, Tutorial
+from Options import OptionError, PerGameCommonOptions, PlandoConnection, Range, Removed
+from settings import Bool, FilePath, Group
 from worlds.AutoWorld import WebWorld, World
 
+from . import ut_stuff
 from .bells import bell_location_groups, bell_location_name_to_id
-from .breakables import breakable_location_name_to_id, breakable_location_groups, breakable_location_table
-from .combat_logic import area_data, CombatState
-from .er_data import portal_mapping, RegionInfo, tunic_er_regions
+from .breakables import breakable_location_groups, breakable_location_name_to_id, breakable_location_table
+from .combat_logic import CombatState, area_data
+from .er_data import RegionInfo, portal_mapping, tunic_er_regions
 from .er_rules import set_er_location_rules
 from .er_scripts import create_er_regions, verify_plando_directions
-from .fuses import fuse_location_name_to_id, fuse_location_groups
-from .grass import grass_location_table, grass_location_name_to_id, grass_location_name_groups, excluded_grass_locations
-from .items import (item_name_to_id, item_table, item_name_groups, fool_tiers, filler_items, slot_data_item_names,
-                    combat_items)
-from .locations import location_table, location_name_groups, standard_location_name_to_id, hexagon_locations
-from .logic_helpers import randomize_ability_unlocks, gold_hexagon
-from .options import (TunicOptions, EntranceRando, tunic_option_groups, tunic_option_presets, TunicPlandoConnections,
-                      LaurelsLocation, LaurelsZips, IceGrappling, LadderStorage, EntranceLayout,
-                      check_options, LocalFill, get_hexagons_in_pool, HexagonQuestAbilityUnlockType)
-from . import ut_stuff
+from .fuses import fuse_location_groups, fuse_location_name_to_id
+from .grass import excluded_grass_locations, grass_location_name_groups, grass_location_name_to_id, grass_location_table
+from .items import (
+    combat_items,
+    filler_items,
+    fool_tiers,
+    item_name_groups,
+    item_name_to_id,
+    item_table,
+    slot_data_item_names,
+)
+from .locations import hexagon_locations, location_name_groups, location_table, standard_location_name_to_id
+from .logic_helpers import gold_hexagon, randomize_ability_unlocks
+from .options import (
+    EntranceLayout,
+    EntranceRando,
+    HexagonQuestAbilityUnlockType,
+    IceGrappling,
+    LadderStorage,
+    LaurelsLocation,
+    LaurelsZips,
+    LocalFill,
+    TunicOptions,
+    TunicPlandoConnections,
+    check_options,
+    get_hexagons_in_pool,
+    tunic_option_groups,
+    tunic_option_presets,
+)
 
 
 class TunicSettings(Group):

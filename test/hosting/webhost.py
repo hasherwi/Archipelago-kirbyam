@@ -28,8 +28,8 @@ __all__ = [
 
 
 def get_app(tempdir: str) -> "Flask":
-    from WebHostLib import app as raw_app
     from WebHost import get_app
+    from WebHostLib import app as raw_app
     raw_app.config["PONY"] = {
         "provider": "sqlite",
         "filename": str(Path(tempdir) / "host.db"),
@@ -138,8 +138,8 @@ def stop_room(app_client: "FlaskClient",
 
     from pony.orm import db_session
 
-    from WebHostLib.models import Command, Room
     from WebHostLib import app
+    from WebHostLib.models import Command, Room
 
     poll_interval = 2
 
@@ -194,8 +194,8 @@ def stop_room(app_client: "FlaskClient",
 def set_room_timeout(room_id: str, timeout: float) -> None:
     from pony.orm import db_session
 
-    from WebHostLib.models import Room
     from WebHostLib import app
+    from WebHostLib.models import Room
 
     room_uuid = to_python(room_id)
     with db_session:
@@ -206,8 +206,8 @@ def set_room_timeout(room_id: str, timeout: float) -> None:
 def get_multidata_for_room(webhost_client: "FlaskClient", room_id: str) -> bytes:
     from pony.orm import db_session
 
-    from WebHostLib.models import Room
     from WebHostLib import app
+    from WebHostLib.models import Room
 
     room_uuid = to_python(room_id)
     with db_session:
@@ -218,8 +218,8 @@ def get_multidata_for_room(webhost_client: "FlaskClient", room_id: str) -> bytes
 def set_multidata_for_room(webhost_client: "FlaskClient", room_id: str, data: bytes) -> None:
     from pony.orm import db_session
 
-    from WebHostLib.models import Room
     from WebHostLib import app
+    from WebHostLib.models import Room
 
     room_uuid = to_python(room_id)
     with db_session:
@@ -228,10 +228,9 @@ def set_multidata_for_room(webhost_client: "FlaskClient", room_id: str, data: by
 
 
 def _stop_webhost_mp(name_filter: str, graceful: bool = True) -> None:
+    import multiprocessing
     import os
     import signal
-
-    import multiprocessing
 
     from WebHostLib.autolauncher import stop
 

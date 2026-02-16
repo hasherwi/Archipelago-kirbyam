@@ -1,8 +1,8 @@
+from BaseClasses import ItemClassification
+
+from ..Locations import LinksAwakeningLocation
 from .locations.items import *
 from .utils import formatText
-from BaseClasses import ItemClassification
-from ..Locations import LinksAwakeningLocation
-
 
 hint_text_ids = [
     # Overworld owl statues

@@ -1,6 +1,5 @@
-from worlds.generic.Rules import set_rule
 from BaseClasses import MultiWorld
-
+from worlds.generic.Rules import set_rule
 
 items = ["Map Width", "Map Height", "Map Bombs"]
 

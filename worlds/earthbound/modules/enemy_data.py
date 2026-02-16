@@ -1,9 +1,9 @@
-from typing import Dict
-from collections import Counter
-import struct
 import math
-from typing import TYPE_CHECKING
+import struct
+from collections import Counter
 from logging import warning
+from typing import TYPE_CHECKING, Dict
+
 if TYPE_CHECKING:
     from .. import EarthBoundWorld
     from ..Rom import LocalRom
@@ -183,7 +183,7 @@ def initialize_enemies(world: "EarthBoundWorld") -> None:
         "Spinning Robo": 0x0132,
         "Whirling Robo": 0x0132,
         "Hyper Spinning Robo": 0x0132,
-        "Cop": 0x004A, 
+        "Cop": 0x004A,
         "Coil Snake": 0x011B,
         "Thirsty Coil Snake": 0x011B,
         "Mr. Batty": 0x0112,
@@ -194,7 +194,7 @@ def initialize_enemies(world: "EarthBoundWorld") -> None:
         "Wooly Shambler": 0x0132,
         "Wild 'n Wooly Shambler": 0x0132,
         "Skate Punk": 0x011C,
-        "Skelpion": 0x013F, 
+        "Skelpion": 0x013F,
         "Dread Skelpion": 0x013F,
         "Starman": 0x012F,
         "Starman Super": 0x012F,
@@ -566,7 +566,7 @@ def initialize_enemies(world: "EarthBoundWorld") -> None:
                               "Cave of the Past": {shuffled_enemies["Bionic Kraken"], shuffled_enemies["Final Starman"], shuffled_enemies["Ghost of Starman"], shuffled_enemies["Nuclear Reactor Robot"], shuffled_enemies["Squatter Demon"],
                                                    shuffled_enemies["Ultimate Octobot"], shuffled_enemies["Wild 'n Wooly Shambler"]},
                               "Endgame": {world.enemies[world.boss_list[25]], world.enemies["Giygas (2)"], world.enemies[world.boss_list[28]], world.enemies["Giygas (3)"], world.enemies["Giygas (5)"], world.enemies["Giygas (6)"]},
-                        
+
                               }
 
     if world.options.randomize_enemy_attacks:
@@ -1073,7 +1073,7 @@ spell_data = {
         "beta": [0xA3, 0x01, 0x00],
         "gamma": [0x33, 0x01, 0x00]
     },
-    
+
     "explosion_damage": {
         "alpha": [0xA7, 0x00, 0x00],
         "beta": [0xA3, 0x01, 0x00],
@@ -1251,7 +1251,7 @@ def scale_enemies(world: "EarthBoundWorld", rom: "LocalRom") -> None:
         if world.starting_character != "Paula":
             rom.write_bytes(0x15F60F, bytearray([max(levels[world.scaled_area_order.index(world.Paula_region)] + world.random.randint(-3, 3), 1)]))  # Paula starting level
 
-        if world.starting_character != "Jeff":  
+        if world.starting_character != "Jeff":
             rom.write_bytes(0x15F623, bytearray([max(levels[world.scaled_area_order.index(world.Jeff_region)] + world.random.randint(-3, 3), 1)]))  # Jeff starting level
 
         if world.starting_character != "Poo":
@@ -1298,7 +1298,7 @@ def scale_enemies(world: "EarthBoundWorld", rom: "LocalRom") -> None:
                 rom.write_bytes(enemy.address + 54, enemy_level.to_bytes(1, "little"))
                 if enemy.shield is not None:
                     rom.write_bytes(enemy.address + 89, shield_table[enemy_shield].to_bytes(1, "little"))
-                
+
                 if enemy.name in world.enemy_psi:
                     for index, spell in [(i, s) for i, s in enumerate(world.enemy_psi[enemy.name]) if s != "null"]:
                         if spell == "special":
@@ -1308,7 +1308,7 @@ def scale_enemies(world: "EarthBoundWorld", rom: "LocalRom") -> None:
                             element = spell_elements[spell]
                         else:
                             element = "None"
-                        
+
                         if element == world.franklin_protection and not has_badge:
                             spell = f"{spell}_minus"
                         psi_level = get_psi_levels(level, spell_breaks[spell])

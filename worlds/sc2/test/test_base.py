@@ -1,16 +1,16 @@
-from typing import *
-import unittest
 import random
+import unittest
 from argparse import Namespace
-from BaseClasses import MultiWorld, CollectionState, PlandoOptions
-from Generate import get_seed_name
-from worlds import AutoWorld
-from test.general import gen_steps, call_all
+from typing import *
 
+from BaseClasses import CollectionState, MultiWorld, PlandoOptions
+from Generate import get_seed_name
 from test.bases import WorldTestBase
-from .. import SC2World, SC2Campaign
-from .. import client
-from .. import options
+from test.general import call_all, gen_steps
+from worlds import AutoWorld
+
+from .. import SC2Campaign, SC2World, client, options
+
 
 class Sc2TestBase(WorldTestBase):
     game = client.SC2Context.game
@@ -26,16 +26,16 @@ class Sc2SetupTestBase(unittest.TestCase):
     crash.
     """
     ALL_CAMPAIGNS = {
-        'enabled_campaigns': options.EnabledCampaigns.valid_keys,
+        "enabled_campaigns": options.EnabledCampaigns.valid_keys,
     }
     TERRAN_CAMPAIGNS = {
-        'enabled_campaigns': {SC2Campaign.WOL.campaign_name, SC2Campaign.NCO.campaign_name,}
+        "enabled_campaigns": {SC2Campaign.WOL.campaign_name, SC2Campaign.NCO.campaign_name,}
     }
     ZERG_CAMPAIGNS = {
-        'enabled_campaigns': {SC2Campaign.HOTS.campaign_name,}
+        "enabled_campaigns": {SC2Campaign.HOTS.campaign_name,}
     }
     PROTOSS_CAMPAIGNS = {
-        'enabled_campaigns': {SC2Campaign.PROPHECY.campaign_name, SC2Campaign.PROLOGUE.campaign_name, SC2Campaign.LOTV.campaign_name,}
+        "enabled_campaigns": {SC2Campaign.PROPHECY.campaign_name, SC2Campaign.PROLOGUE.campaign_name, SC2Campaign.LOTV.campaign_name,}
     }
     seed: Optional[int] = None
     game = SC2World.game

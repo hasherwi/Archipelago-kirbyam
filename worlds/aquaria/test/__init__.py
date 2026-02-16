@@ -6,6 +6,7 @@ Description: Base class for the Aquaria randomizer unit tests
 
 
 from test.bases import WorldTestBase
+
 from ..Locations import AquariaLocationNames
 
 # Every location accessible after the home water.

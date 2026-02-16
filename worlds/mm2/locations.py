@@ -1,5 +1,7 @@
+from typing import Dict, Optional, Tuple
+
 from BaseClasses import Location, Region
-from typing import Dict, Tuple, Optional
+
 from . import names
 
 

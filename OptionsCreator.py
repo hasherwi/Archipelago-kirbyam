@@ -4,32 +4,58 @@ if __name__ == "__main__":
     ModuleUpdate.update()
 
 
-from kvui import (ThemedApp, ScrollBox, MainLayout, ContainerLayout, dp, Widget, MDBoxLayout, TooltipLabel, MDLabel,
-                  ToggleButton, MarkupDropdown, ResizableTextField)
-from kivy.uix.behaviors.button import ButtonBehavior
-from kivymd.uix.behaviors import RotateBehavior
-from kivymd.uix.anchorlayout import MDAnchorLayout
-from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelContent, MDExpansionPanelHeader
-from kivymd.uix.list import MDListItem, MDListItemTrailingIcon, MDListItemSupportingText
-from kivymd.uix.slider import MDSlider
-from kivymd.uix.snackbar import MDSnackbar, MDSnackbarText
-from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.button import MDButton, MDButtonText, MDIconButton
-from kivymd.uix.dialog import MDDialog
-from kivy.core.text.markup import MarkupLabel
-from kivy.utils import escape_markup
-from kivy.lang.builder import Builder
-from kivy.properties import ObjectProperty
-from textwrap import dedent
-from copy import deepcopy
-import Utils
+import re
 import typing
 import webbrowser
-import re
+from copy import deepcopy
+from textwrap import dedent
 from urllib.parse import urlparse
+
+from kivy.core.text.markup import MarkupLabel
+from kivy.lang.builder import Builder
+from kivy.properties import ObjectProperty
+from kivy.uix.behaviors.button import ButtonBehavior
+from kivy.utils import escape_markup
+from kivymd.uix.anchorlayout import MDAnchorLayout
+from kivymd.uix.behaviors import RotateBehavior
+from kivymd.uix.button import MDButton, MDButtonText, MDIconButton
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelContent, MDExpansionPanelHeader
+from kivymd.uix.list import MDListItem, MDListItemSupportingText, MDListItemTrailingIcon
+from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.slider import MDSlider
+from kivymd.uix.snackbar import MDSnackbar, MDSnackbarText
+
+import Utils
+from kvui import (
+    ContainerLayout,
+    MainLayout,
+    MarkupDropdown,
+    MDBoxLayout,
+    MDLabel,
+    ResizableTextField,
+    ScrollBox,
+    ThemedApp,
+    ToggleButton,
+    TooltipLabel,
+    Widget,
+    dp,
+)
+from Options import (
+    Choice,
+    FreeText,
+    NamedRange,
+    Option,
+    OptionCounter,
+    OptionList,
+    OptionSet,
+    Range,
+    Removed,
+    TextChoice,
+    Toggle,
+    Visibility,
+)
 from worlds.AutoWorld import AutoWorldRegister, World
-from Options import (Option, Toggle, TextChoice, Choice, FreeText, NamedRange, Range, OptionSet, OptionList, Removed,
-                     OptionCounter, Visibility)
 
 
 def validate_url(x):
@@ -156,7 +182,7 @@ class VisualToggle(MDBoxLayout):
 
 
 class CounterItemValue(ResizableTextField):
-    pat = re.compile('[^0-9]')
+    pat = re.compile("[^0-9]")
 
     def insert_text(self, substring, from_undo=False):
         return super().insert_text(re.sub(self.pat, "", substring), from_undo=from_undo)
@@ -280,7 +306,7 @@ class OptionsCreator(ThemedApp):
                 self.current_game: {k: check_random(v) for k, v in self.options.items()}
             }
             try:
-                with open(file_name, 'w') as f:
+                with open(file_name, "w") as f:
                     f.write(Utils.dump(options, sort_keys=False))
                     f.close()
                     MDSnackbar(MDSnackbarText(text="File saved successfully."), y=dp(24), pos_hint={"center_x": 0.5},
@@ -639,7 +665,7 @@ class OptionsCreator(ThemedApp):
             world_text = MDButtonText(text=world, size_hint_y=None, width=dp(150),
                                       pos_hint={"x": 0.03, "center_y": 0.5})
             world_text.text_size = (world_text.width, None)
-            world_text.bind(width=lambda *x, text=world_text: text.setter('text_size')(text, (text.width, None)),
+            world_text.bind(width=lambda *x, text=world_text: text.setter("text_size")(text, (text.width, None)),
                             texture_size=lambda *x, text=world_text: text.setter("height")(text,
                                                                                            world_text.texture_size[1]))
             world_button = WorldButton(world_text, size_hint_x=None, width=dp(150), theme_width="Custom",

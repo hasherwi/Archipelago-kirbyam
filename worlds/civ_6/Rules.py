@@ -1,13 +1,13 @@
 from typing import TYPE_CHECKING, List, Tuple
-from BaseClasses import CollectionState
-from .ItemData import CivVIBoostData
-from .Items import format_item_name
-from .Data import get_boosts_data, get_progressive_districts_data
-from .Enum import CivVICheckType
-from .ProgressiveDistricts import convert_item_to_progressive_item
 
+from BaseClasses import CollectionState
 from worlds.generic.Rules import forbid_item, set_rule
 
+from .Data import get_boosts_data, get_progressive_districts_data
+from .Enum import CivVICheckType
+from .ItemData import CivVIBoostData
+from .Items import format_item_name
+from .ProgressiveDistricts import convert_item_to_progressive_item
 
 if TYPE_CHECKING:
     from . import CivVIWorld

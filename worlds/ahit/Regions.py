@@ -1,10 +1,22 @@
-from BaseClasses import Region, Entrance, ItemClassification, Location, LocationProgressType
-from .Types import ChapterIndex, Difficulty, HatInTimeLocation, HatInTimeItem
-from .Locations import location_table, storybook_pages, event_locs, is_location_valid, \
-    shop_locations, TASKSANITY_START_ID, snatcher_coins, zero_jumps, zero_jumps_expert, zero_jumps_hard
-from typing import TYPE_CHECKING, List, Dict, Optional
-from .Rules import set_rift_rules, get_difficulty
+from typing import TYPE_CHECKING, Dict, List, Optional
+
+from BaseClasses import Entrance, ItemClassification, Location, LocationProgressType, Region
+
+from .Locations import (
+    TASKSANITY_START_ID,
+    event_locs,
+    is_location_valid,
+    location_table,
+    shop_locations,
+    snatcher_coins,
+    storybook_pages,
+    zero_jumps,
+    zero_jumps_expert,
+    zero_jumps_hard,
+)
 from .Options import ActRandomizer, EndGoal
+from .Rules import get_difficulty, set_rift_rules
+from .Types import ChapterIndex, Difficulty, HatInTimeItem, HatInTimeLocation
 
 if TYPE_CHECKING:
     from . import HatInTimeWorld

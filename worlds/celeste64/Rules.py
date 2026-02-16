@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple, Callable
+from typing import Callable, Dict, List, Tuple
 
 from BaseClasses import CollectionState, Region
 from worlds.generic.Rules import set_rule
@@ -133,30 +133,30 @@ region_standard_moves_logic: Dict[Tuple[str], List[List[str]]] = {
     (RegionName.granny_island, RegionName.nw_girders_island): [[ItemName.traffic_block]],
     (RegionName.granny_island, RegionName.badeline_tower_lower): [[ItemName.air_dash, ItemName.climb, ItemName.dash_refill]],
     (RegionName.granny_island, RegionName.se_house_island): [[ItemName.air_dash, ItemName.climb, ItemName.double_dash_refill]],
-    
+
     (RegionName.highway_island, RegionName.granny_island): [[ItemName.traffic_block], [ItemName.air_dash, ItemName.dash_refill]],
     (RegionName.highway_island, RegionName.ne_feathers_island): [[ItemName.feather]],
     (RegionName.highway_island, RegionName.nw_girders_island): [[ItemName.cannot_access]],
-    
+
     (RegionName.nw_girders_island, RegionName.highway_island): [[ItemName.traffic_block]],
-    
+
     (RegionName.ne_feathers_island, RegionName.highway_island): [[ItemName.feather]],
     (RegionName.ne_feathers_island, RegionName.badeline_tower_lower): [[ItemName.feather]],
     (RegionName.ne_feathers_island, RegionName.badeline_tower_upper): [[ItemName.climb, ItemName.air_dash, ItemName.feather]],
-    
+
     (RegionName.se_house_island, RegionName.granny_island): [[ItemName.air_dash, ItemName.traffic_block, ItemName.double_dash_refill]],
     (RegionName.se_house_island, RegionName.badeline_tower_lower): [[ItemName.air_dash, ItemName.double_dash_refill]],
-    
+
     (RegionName.badeline_tower_lower, RegionName.se_house_island): [[ItemName.cannot_access]],
     (RegionName.badeline_tower_lower, RegionName.ne_feathers_island): [[ItemName.air_dash, ItemName.breakables, ItemName.feather]],
     (RegionName.badeline_tower_lower, RegionName.granny_island): [[ItemName.cannot_access]],
     (RegionName.badeline_tower_lower, RegionName.badeline_tower_upper): [[ItemName.cannot_access]],
-    
+
     (RegionName.badeline_tower_upper, RegionName.badeline_island): [[ItemName.air_dash, ItemName.climb, ItemName.double_dash_refill, ItemName.feather, ItemName.traffic_block, ItemName.breakables]],
     (RegionName.badeline_tower_upper, RegionName.se_house_island): [[ItemName.air_dash], [ItemName.ground_dash]],
     (RegionName.badeline_tower_upper, RegionName.ne_feathers_island): [[ItemName.air_dash], [ItemName.ground_dash]],
     (RegionName.badeline_tower_upper, RegionName.granny_island): [[ItemName.dash_refill]],
-    
+
     (RegionName.badeline_island, RegionName.badeline_tower_upper): [[ItemName.air_dash], [ItemName.ground_dash]],
 }
 
@@ -171,18 +171,18 @@ region_hard_moves_logic: Dict[Tuple[str], List[List[str]]] = {
     (RegionName.granny_island, RegionName.nw_girders_island): [[ItemName.traffic_block]],
     (RegionName.granny_island, RegionName.badeline_tower_lower): [[ItemName.air_dash], [ItemName.ground_dash]],
     (RegionName.granny_island, RegionName.se_house_island): [[ItemName.air_dash, ItemName.double_dash_refill], [ItemName.ground_dash]],
-    
+
     (RegionName.highway_island, RegionName.nw_girders_island): [[ItemName.air_dash, ItemName.ground_dash]],
-    
+
     (RegionName.nw_girders_island, RegionName.highway_island): [[ItemName.traffic_block], [ItemName.air_dash, ItemName.ground_dash]],
-    
+
     (RegionName.ne_feathers_island, RegionName.highway_island): [[ItemName.feather], [ItemName.air_dash], [ItemName.ground_dash], [ItemName.skid_jump]],
     (RegionName.ne_feathers_island, RegionName.badeline_tower_lower): [[ItemName.feather], [ItemName.air_dash], [ItemName.ground_dash]],
     (RegionName.ne_feathers_island, RegionName.badeline_tower_upper): [[ItemName.feather]],
-    
+
     (RegionName.se_house_island, RegionName.granny_island): [[ItemName.traffic_block]],
     (RegionName.se_house_island, RegionName.badeline_tower_lower): [[ItemName.air_dash], [ItemName.ground_dash]],
-    
+
     (RegionName.badeline_tower_upper, RegionName.badeline_island): [[ItemName.air_dash, ItemName.climb, ItemName.feather, ItemName.traffic_block],
                                                                     [ItemName.air_dash, ItemName.climb, ItemName.feather, ItemName.skid_jump],
                                                                     [ItemName.air_dash, ItemName.climb, ItemName.ground_dash, ItemName.traffic_block],

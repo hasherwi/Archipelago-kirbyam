@@ -1,11 +1,12 @@
 import typing
 from argparse import Namespace
 
-from BaseClasses import MultiWorld, PlandoOptions, CollectionState
+from BaseClasses import CollectionState, MultiWorld, PlandoOptions
 from test.bases import WorldTestBase
 from test.general import gen_steps
 from worlds import AutoWorld
 from worlds.AutoWorld import call_all
+
 # mypy: ignore-errors
 # This is a copy of core code, and I'm not smart enough to solve the errors in here
 

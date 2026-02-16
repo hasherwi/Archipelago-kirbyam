@@ -1,16 +1,17 @@
-import datetime
 import collections
+import datetime
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple, NamedTuple, Counter
-from uuid import UUID
 from email.utils import parsedate_to_datetime
+from typing import Any, Callable, Counter, Dict, List, NamedTuple, Optional, Set, Tuple
+from uuid import UUID
 
-from flask import make_response, render_template, request, Request, Response
+from flask import Request, Response, make_response, render_template, request
 from werkzeug.exceptions import abort
 
 from MultiServer import Context, get_saving_second
 from NetUtils import ClientStatus, Hint, NetworkItem, NetworkSlot, SlotType
-from Utils import restricted_loads, KeyedDefaultDict
+from Utils import KeyedDefaultDict, restricted_loads
+
 from . import app, cache
 from .models import GameDataPackage, Room
 
@@ -491,7 +492,6 @@ def get_multiworld_sphere_tracker(tracker: UUID):
 
 from worlds import network_data_package
 
-
 if "Factorio" in network_data_package["games"]:
     def render_Factorio_multiworld_tracker(tracker_data: TrackerData, enabled_trackers: List[str]):
         inventories: Dict[TeamPlayer, collections.Counter[str]] = {
@@ -952,7 +952,7 @@ if "Timespinner" in network_data_package["games"]:
             "Laser Access":        "https://timespinnerwiki.com/mediawiki/images/9/99/Historical_Documents.png",
             "Lab Glasses":         "https://timespinnerwiki.com/mediawiki/images/4/4a/Lab_Glasses.png",
             "Eye Orb":             "https://timespinnerwiki.com/mediawiki/images/a/a4/Eye_Orb.png",
-            "Lab Coat":            "https://timespinnerwiki.com/mediawiki/images/5/51/Lab_Coat.png", 
+            "Lab Coat":            "https://timespinnerwiki.com/mediawiki/images/5/51/Lab_Coat.png",
             "Demon":               "https://timespinnerwiki.com/mediawiki/images/f/f8/Familiar_Demon.png",
             "Cube of Bodie":       "https://timespinnerwiki.com/mediawiki/images/1/14/Menu_Icon_Stats.png"
         }
@@ -1066,28 +1066,28 @@ if "Super Metroid" in network_data_package["games"]:
         }
 
         supermetroid_location_ids = {
-            'Crateria/Blue Brinstar': [82005, 82007, 82008, 82026, 82029,
+            "Crateria/Blue Brinstar": [82005, 82007, 82008, 82026, 82029,
                                        82000, 82004, 82006, 82009, 82010,
                                        82011, 82012, 82027, 82028, 82034,
                                        82036, 82037],
-            'Green/Pink Brinstar':    [82017, 82023, 82030, 82033, 82035,
+            "Green/Pink Brinstar":    [82017, 82023, 82030, 82033, 82035,
                                        82013, 82014, 82015, 82016, 82018,
                                        82019, 82021, 82022, 82024, 82025,
                                        82031],
-            'Red Brinstar':           [82038, 82042, 82039, 82040, 82041],
-            'Kraid':                  [82043, 82048, 82044],
-            'Norfair':                [82050, 82053, 82061, 82066, 82068,
+            "Red Brinstar":           [82038, 82042, 82039, 82040, 82041],
+            "Kraid":                  [82043, 82048, 82044],
+            "Norfair":                [82050, 82053, 82061, 82066, 82068,
                                        82049, 82051, 82054, 82055, 82056,
                                        82062, 82063, 82064, 82065, 82067],
-            'Lower Norfair':          [82078, 82079, 82080, 82070, 82071,
+            "Lower Norfair":          [82078, 82079, 82080, 82070, 82071,
                                        82073, 82074, 82075, 82076, 82077],
-            'Crocomire':              [82052, 82060, 82057, 82058, 82059],
-            'Wrecked Ship':           [82129, 82132, 82134, 82135, 82001,
+            "Crocomire":              [82052, 82060, 82057, 82058, 82059],
+            "Wrecked Ship":           [82129, 82132, 82134, 82135, 82001,
                                        82002, 82003, 82128, 82130, 82131,
                                        82133],
-            'West Maridia':           [82138, 82136, 82137, 82139, 82140,
+            "West Maridia":           [82138, 82136, 82137, 82139, 82140,
                                        82141, 82142],
-            'East Maridia':           [82143, 82145, 82150, 82152, 82154,
+            "East Maridia":           [82143, 82145, 82150, 82152, 82154,
                                        82144, 82146, 82147, 82148, 82149,
                                        82151],
         }
@@ -1110,9 +1110,9 @@ if "Super Metroid" in network_data_package["games"]:
                          for tab_name, tab_locations in supermetroid_location_ids.items()}
         checks_done = {tab_name: len([id for id in tab_locations if id in checked_locations])
                        for tab_name, tab_locations in supermetroid_location_ids.items()}
-        checks_done['Total'] = len(checked_locations)
+        checks_done["Total"] = len(checked_locations)
         checks_in_area = {tab_name: len(tab_locations) for tab_name, tab_locations in supermetroid_location_ids.items()}
-        checks_in_area['Total'] = sum(checks_in_area.values())
+        checks_in_area["Total"] = sum(checks_in_area.values())
 
         lookup_any_item_id_to_name = tracker_data.item_id_to_name["Super Metroid"]
         return render_template(
@@ -1195,7 +1195,7 @@ if "ChecksFinder" in network_data_package["games"]:
                          tile_location in set(locations)}
         checks_done = {tile_name: len([tile_location]) for tile_name, tile_location in checksfinder_location_ids.items()
                        if tile_location in checked_locations and tile_location in set(locations)}
-        checks_done['Total'] = len(checked_locations)
+        checks_done["Total"] = len(checked_locations)
         checks_in_area = checks_done
 
         # Calculate checks available

@@ -1,6 +1,7 @@
 from enum import IntEnum, IntFlag
-from typing import NamedTuple, Optional, List
-from BaseClasses import Location, Item, ItemClassification
+from typing import List, NamedTuple, Optional
+
+from BaseClasses import Item, ItemClassification, Location
 
 
 class HatInTimeLocation(Location):

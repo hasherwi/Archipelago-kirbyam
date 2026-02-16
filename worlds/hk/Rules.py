@@ -1,8 +1,9 @@
-from ..generic.Rules import set_rule, add_rule
+from typing import NamedTuple
+
 from ..AutoWorld import World
+from ..generic.Rules import add_rule, set_rule
 from .GeneratedRules import set_generated_rules
 from .GodhomeData import set_godhome_rules
-from typing import NamedTuple
 
 
 class CostTerm(NamedTuple):
@@ -52,39 +53,39 @@ def set_rules(hk_world: World):
 
 
 def _hk_nail_combat(state, player) -> bool:
-    return state.has_any({'LEFTSLASH', 'RIGHTSLASH', 'UPSLASH'}, player)
+    return state.has_any({"LEFTSLASH", "RIGHTSLASH", "UPSLASH"}, player)
 
 
 def _hk_can_beat_thk(state, player) -> bool:
     return (
-        state.has('Opened_Black_Egg_Temple', player)
-        and (state.count('FIREBALL', player) + state.count('SCREAM', player) + state.count('QUAKE', player)) > 1
+        state.has("Opened_Black_Egg_Temple", player)
+        and (state.count("FIREBALL", player) + state.count("SCREAM", player) + state.count("QUAKE", player)) > 1
         and _hk_nail_combat(state, player)
         and (
-            state.has_any({'LEFTDASH', 'RIGHTDASH'}, player)
-            or state._hk_option(player, 'ProficientCombat')
+            state.has_any({"LEFTDASH", "RIGHTDASH"}, player)
+            or state._hk_option(player, "ProficientCombat")
         )
-        and state.has('FOCUS', player)
+        and state.has("FOCUS", player)
     )
 
 
 def _hk_siblings_ending(state, player) -> bool:
-    return _hk_can_beat_thk(state, player) and state.has('WHITEFRAGMENT', player, 3)
+    return _hk_can_beat_thk(state, player) and state.has("WHITEFRAGMENT", player, 3)
 
 
 def _hk_can_beat_radiance(state, player) -> bool:
     return (
-        state.has('Opened_Black_Egg_Temple', player)
+        state.has("Opened_Black_Egg_Temple", player)
         and _hk_nail_combat(state, player)
-        and state.has('WHITEFRAGMENT', player, 3)
-        and state.has('DREAMNAIL', player)
+        and state.has("WHITEFRAGMENT", player, 3)
+        and state.has("DREAMNAIL", player)
         and (
-            (state.has('LEFTCLAW', player) and state.has('RIGHTCLAW', player))
-            or state.has('WINGS', player)
+            (state.has("LEFTCLAW", player) and state.has("RIGHTCLAW", player))
+            or state.has("WINGS", player)
         )
-        and (state.count('FIREBALL', player) + state.count('SCREAM', player) + state.count('QUAKE', player)) > 1
+        and (state.count("FIREBALL", player) + state.count("SCREAM", player) + state.count("QUAKE", player)) > 1
         and (
-            (state.has('LEFTDASH', player, 2) and state.has('RIGHTDASH', player, 2))  # Both Shade Cloaks
-            or (state._hk_option(player, 'ProficientCombat') and state.has('QUAKE', player))  # or Dive
+            (state.has("LEFTDASH", player, 2) and state.has("RIGHTDASH", player, 2))  # Both Shade Cloaks
+            or (state._hk_option(player, "ProficientCombat") and state.has("QUAKE", player))  # or Dive
         )
     )

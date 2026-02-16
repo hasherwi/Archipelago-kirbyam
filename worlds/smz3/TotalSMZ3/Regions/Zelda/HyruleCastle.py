@@ -1,8 +1,10 @@
 ﻿from typing import List
-from ...Region import Z3Region
+
 from ...Config import Config
-from ...Location import Location, LocationType
 from ...Item import ItemType
+from ...Location import Location, LocationType
+from ...Region import Z3Region
+
 
 class HyruleCastle(Z3Region):
     Name = "Hyrule Castle"

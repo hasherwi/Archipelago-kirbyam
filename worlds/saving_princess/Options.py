@@ -1,8 +1,16 @@
 from dataclasses import dataclass
-from typing import Dict, Any
+from typing import Any, Dict
 
-from Options import PerGameCommonOptions, DeathLink, StartInventoryPool, Choice, DefaultOnToggle, Range, Toggle, \
-    OptionGroup
+from Options import (
+    Choice,
+    DeathLink,
+    DefaultOnToggle,
+    OptionGroup,
+    PerGameCommonOptions,
+    Range,
+    StartInventoryPool,
+    Toggle,
+)
 
 
 class ExpandedPool(DefaultOnToggle):

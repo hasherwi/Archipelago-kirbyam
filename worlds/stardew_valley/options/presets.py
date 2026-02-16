@@ -1,8 +1,9 @@
 from typing import Any, Dict
 
 import Options as ap_options
-from . import options
+
 from ..strings.ap_names.ap_option_names import WalnutsanityOptionName
+from . import options
 
 # @formatter:off
 all_random_settings = {

@@ -1,12 +1,17 @@
 import unittest
 
-from .bases import SVTestBase
 from .. import BundleRandomization
-from ..data.bundle_data import all_bundle_items_except_money, quality_crops_items_thematic, quality_foraging_items, quality_fish_items
+from ..data.bundle_data import (
+    all_bundle_items_except_money,
+    quality_crops_items_thematic,
+    quality_fish_items,
+    quality_foraging_items,
+)
 from ..options import BundlePlando
 from ..strings.bundle_names import BundleName
 from ..strings.crop_names import Fruit
-from ..strings.quality_names import CropQuality, ForageQuality, FishQuality
+from ..strings.quality_names import CropQuality, FishQuality, ForageQuality
+from .bases import SVTestBase
 
 
 class TestBundles(unittest.TestCase):

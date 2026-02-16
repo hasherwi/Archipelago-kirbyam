@@ -1,19 +1,19 @@
+import json
 import logging
 import random
 import struct
+from dataclasses import dataclass
 from typing import ByteString, Callable
-import json
+
 import pymem
 from pymem import pattern
-from pymem.exception import ProcessNotFound, ProcessError, MemoryReadError, WinAPIError
-from dataclasses import dataclass
+from pymem.exception import MemoryReadError, ProcessError, ProcessNotFound, WinAPIError
 
-from ..locs import (orb_locations as orbs,
-                    cell_locations as cells,
-                    scout_locations as flies,
-                    special_locations as specials,
-                    orb_cache_locations as caches)
-
+from ..locs import cell_locations as cells
+from ..locs import orb_cache_locations as caches
+from ..locs import orb_locations as orbs
+from ..locs import scout_locations as flies
+from ..locs import special_locations as specials
 
 logger = logging.getLogger("MemoryReader")
 
@@ -116,7 +116,7 @@ end_marker_offset = offsets.define(sizeof_uint8, 4)
 
 # Can't believe this is easier to do in GOAL than Python but that's how it be sometimes.
 def as_float(value: int) -> int:
-    return int(struct.unpack('f', value.to_bytes(sizeof_float, "little"))[0])
+    return int(struct.unpack("f", value.to_bytes(sizeof_float, "little"))[0])
 
 
 # "Jak" to be replaced by player name in the Client.
@@ -206,7 +206,7 @@ class JakAndDaxterMemoryReader:
                  log_warn_callback: Callable,
                  log_success_callback: Callable,
                  log_info_callback: Callable,
-                 marker: ByteString = b'UnLiStEdStRaTs_JaK1\x00'):
+                 marker: ByteString = b"UnLiStEdStRaTs_JaK1\x00"):
         self.marker = marker
 
         self.inform_checked_location = location_check_callback

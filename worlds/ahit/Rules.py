@@ -1,14 +1,16 @@
+from typing import TYPE_CHECKING, Callable, Dict, List, Union
+
+from BaseClasses import Entrance, Location, Region
 from worlds.AutoWorld import CollectionState
 from worlds.generic.Rules import add_rule, set_rule
-from .Locations import location_table, zipline_unlocks, is_location_valid, shop_locations, event_locs
-from .Types import HatType, ChapterIndex, hat_type_to_item, Difficulty, HitType
-from BaseClasses import Location, Entrance, Region
-from typing import TYPE_CHECKING, List, Callable, Union, Dict
-from .Options import EndGoal, CTRLogic, NoTicketSkips
+
+from .Locations import event_locs, is_location_valid, location_table, shop_locations, zipline_unlocks
+from .Options import CTRLogic, EndGoal, NoTicketSkips
+from .Types import ChapterIndex, Difficulty, HatType, HitType, hat_type_to_item
 
 if TYPE_CHECKING:
     from . import HatInTimeWorld
-    
+
 
 act_connections = {
     "Mafia Town - Act 2": ["Mafia Town - Act 1"],
@@ -301,7 +303,7 @@ def set_rules(world: "HatInTimeWorld"):
                      lambda state, z=zipline: state.has(z, world.player))
 
     dummy_entrances: List[Entrance] = []
-      
+
     for (key, acts) in act_connections.items():
         if "Arctic Cruise" in key and not world.is_dlc1():
             continue

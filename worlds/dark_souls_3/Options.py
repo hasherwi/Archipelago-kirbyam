@@ -1,9 +1,20 @@
-from dataclasses import dataclass
 import json
+from dataclasses import dataclass
 from typing import Any, Dict
 
-from Options import Choice, DeathLink, DefaultOnToggle, ExcludeLocations, NamedRange, OptionDict, \
-    OptionGroup, PerGameCommonOptions, Range, Removed, Toggle
+from Options import (
+    Choice,
+    DeathLink,
+    DefaultOnToggle,
+    ExcludeLocations,
+    NamedRange,
+    OptionDict,
+    OptionGroup,
+    PerGameCommonOptions,
+    Range,
+    Removed,
+    Toggle,
+)
 
 ## Game Options
 

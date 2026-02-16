@@ -1,4 +1,5 @@
 from worlds._pokemon_gen3_adjuster.adjuster_constants import *
+
 from .data import data
 
 EMERALD_PATCH_EXTENSIONS = ".apemerald"

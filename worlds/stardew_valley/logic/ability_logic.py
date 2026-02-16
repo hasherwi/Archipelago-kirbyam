@@ -1,8 +1,8 @@
-from .base_logic import BaseLogicMixin, BaseLogic
 from ..stardew_rule import StardewRule
 from ..strings.region_names import Region
-from ..strings.skill_names import Skill, ModSkill
-from ..strings.tool_names import ToolMaterial, Tool
+from ..strings.skill_names import ModSkill, Skill
+from ..strings.tool_names import Tool, ToolMaterial
+from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class AbilityLogicMixin(BaseLogicMixin):

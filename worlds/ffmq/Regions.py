@@ -1,6 +1,7 @@
-from BaseClasses import Region, MultiWorld, Entrance, Location, LocationProgressType, ItemClassification
+from BaseClasses import Entrance, ItemClassification, Location, LocationProgressType, MultiWorld, Region
 from worlds.generic.Rules import add_rule
-from .data.rooms import rooms, entrances
+
+from .data.rooms import entrances, rooms
 from .Items import item_groups, yaml_item
 
 entrance_names = {entrance["id"]: entrance["name"] for entrance in entrances}
@@ -100,7 +101,7 @@ def create_regions(self):
 
                         if spoiler:
                             self.multiworld.spoiler.set_entrance(entrance_names[link["entrance"]], connect_room.name,
-                                                                 'both', self.player)
+                                                                 "both", self.player)
                     if link["access"]:
                         process_rules(connection, link["access"])
                     region.exits.append(connection)
@@ -109,18 +110,18 @@ def create_regions(self):
 
 
 non_dead_end_crest_rooms = [
-    'Libra Temple', 'Aquaria Gemini Room', "GrenadeMan's Mobius Room", 'Fireburg Gemini Room',
-    'Sealed Temple', 'Alive Forest', 'Kaidge Temple Upper Ledge',
-    'Windia Kid House Basement', 'Windia Old People House Basement'
+    "Libra Temple", "Aquaria Gemini Room", "GrenadeMan's Mobius Room", "Fireburg Gemini Room",
+    "Sealed Temple", "Alive Forest", "Kaidge Temple Upper Ledge",
+    "Windia Kid House Basement", "Windia Old People House Basement"
 ]
 
 non_dead_end_crest_warps = [
-    'Libra Temple - Libra Tile Script', 'Aquaria Gemini Room - Gemini Script',
-    'GrenadeMan Mobius Room - Mobius Teleporter Script', 'Fireburg Gemini Room - Gemini Teleporter Script',
-    'Sealed Temple - Gemini Tile Script', 'Alive Forest - Libra Teleporter Script',
-    'Alive Forest - Gemini Teleporter Script', 'Alive Forest - Mobius Teleporter Script',
-    'Kaidge Temple - Mobius Teleporter Script', 'Windia Kid House Basement - Mobius Teleporter',
-    'Windia Old People House Basement - Mobius Teleporter Script',
+    "Libra Temple - Libra Tile Script", "Aquaria Gemini Room - Gemini Script",
+    "GrenadeMan Mobius Room - Mobius Teleporter Script", "Fireburg Gemini Room - Gemini Teleporter Script",
+    "Sealed Temple - Gemini Tile Script", "Alive Forest - Libra Teleporter Script",
+    "Alive Forest - Gemini Teleporter Script", "Alive Forest - Mobius Teleporter Script",
+    "Kaidge Temple - Mobius Teleporter Script", "Windia Kid House Basement - Mobius Teleporter",
+    "Windia Old People House Basement - Mobius Teleporter Script",
 ]
 
 

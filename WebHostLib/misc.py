@@ -2,18 +2,20 @@ import datetime
 import os
 import warnings
 from enum import StrEnum
-from typing import Any, IO, Dict, Iterator, List, Tuple, Union
+from typing import IO, Any, Dict, Iterator, List, Tuple, Union
 
 import jinja2.exceptions
-from flask import request, redirect, url_for, render_template, Response, session, abort, send_from_directory
-from pony.orm import count, commit, db_session
+from flask import Response, abort, redirect, render_template, request, send_from_directory, session, url_for
+from pony.orm import commit, count, db_session
 from werkzeug.utils import secure_filename
 
+from Utils import title_sorted
 from worlds.AutoWorld import AutoWorldRegister, World
+
 from . import app, cache
 from .markdown import render_markdown
-from .models import Seed, Room, Command, UUID, uuid4
-from Utils import title_sorted
+from .models import UUID, Command, Room, Seed, uuid4
+
 
 class WebWorldTheme(StrEnum):
     DIRT = "dirt"
@@ -47,17 +49,17 @@ def get_visible_worlds() -> dict[str, type(World)]:
 @app.errorhandler(404)
 @app.errorhandler(jinja2.exceptions.TemplateNotFound)
 def page_not_found(err):
-    return render_template('404.html'), 404
+    return render_template("404.html"), 404
 
 
 # Start Playing Page
-@app.route('/start-playing')
+@app.route("/start-playing")
 @cache.cached()
 def start_playing():
     return render_template(f"startPlaying.html")
 
 
-@app.route('/games/<string:game>/info/<string:lang>')
+@app.route("/games/<string:game>/info/<string:lang>")
 @cache.cached()
 def game_info(game, lang):
     """Game Info Pages"""
@@ -78,14 +80,14 @@ def game_info(game, lang):
         return abort(404)
 
 
-@app.route('/games')
+@app.route("/games")
 @cache.cached()
 def games():
     """List of supported games"""
     return render_template("supportedGames.html", worlds=get_visible_worlds())
 
 
-@app.route('/tutorial/<string:game>/<string:file>')
+@app.route("/tutorial/<string:game>/<string:file>")
 @cache.cached()
 def tutorial(game: str, file: str):
     try:
@@ -105,7 +107,7 @@ def tutorial(game: str, file: str):
         return abort(404)
 
 
-@app.route('/tutorial/<string:game>/<string:file>/<string:lang>')
+@app.route("/tutorial/<string:game>/<string:file>/<string:lang>")
 def tutorial_redirect(game: str, file: str, lang: str):
     """
     Permanent redirect old tutorial URLs to new ones to keep search engines happy.
@@ -114,7 +116,7 @@ def tutorial_redirect(game: str, file: str, lang: str):
     return redirect(url_for("tutorial", game=game, file=f"{file}_{lang}"), code=301)
 
 
-@app.route('/tutorial/')
+@app.route("/tutorial/")
 @cache.cached()
 def tutorial_landing():
     tutorials = {}
@@ -138,7 +140,7 @@ def tutorial_landing():
     return render_template("tutorialLanding.html", worlds=worlds, tutorials=tutorials)
 
 
-@app.route('/faq/<string:lang>/')
+@app.route("/faq/<string:lang>/")
 @cache.cached()
 def faq(lang: str):
     document = render_markdown(os.path.join(app.static_folder, "assets", "faq", secure_filename(lang)+".md"))
@@ -149,7 +151,7 @@ def faq(lang: str):
     )
 
 
-@app.route('/glossary/<string:lang>/')
+@app.route("/glossary/<string:lang>/")
 @cache.cached()
 def glossary(lang: str):
     document = render_markdown(os.path.join(app.static_folder, "assets", "glossary", secure_filename(lang)+".md"))
@@ -160,7 +162,7 @@ def glossary(lang: str):
     )
 
 
-@app.route('/seed/<suuid:seed>')
+@app.route("/seed/<suuid:seed>")
 def view_seed(seed: UUID):
     seed = Seed.get(id=seed)
     if not seed:
@@ -168,7 +170,7 @@ def view_seed(seed: UUID):
     return render_template("viewSeed.html", seed=seed, slot_count=count(seed.slots))
 
 
-@app.route('/new_room/<suuid:seed>')
+@app.route("/new_room/<suuid:seed>")
 def new_room(seed: UUID):
     seed = Seed.get(id=seed)
     if not seed:
@@ -180,14 +182,14 @@ def new_room(seed: UUID):
 
 def _read_log(log: IO[Any], offset: int = 0) -> Iterator[bytes]:
     marker = log.read(3)  # skip optional BOM
-    if marker != b'\xEF\xBB\xBF':
+    if marker != b"\xEF\xBB\xBF":
         log.seek(0, os.SEEK_SET)
     log.seek(offset, os.SEEK_CUR)
     yield from log
     log.close()  # free file handle as soon as possible
 
 
-@app.route('/log/<suuid:room>')
+@app.route("/log/<suuid:room>")
 def display_log(room: UUID) -> Union[str, Response, Tuple[str, int]]:
     room = Room.get(id=room)
     if room is None:
@@ -198,8 +200,8 @@ def display_log(room: UUID) -> Union[str, Response, Tuple[str, int]]:
             log = open(file_path, "rb")
             range_header = request.headers.get("Range")
             if range_header:
-                range_type, range_values = range_header.split('=')
-                start, end = map(str.strip, range_values.split('-', 1))
+                range_type, range_values = range_header.split("=")
+                start, end = map(str.strip, range_values.split("-", 1))
                 if range_type != "bytes" or end != "":
                     return "Unsupported range", 500
                 # NOTE: we skip Content-Range in the response here, which isn't great but works for our JS
@@ -268,33 +270,34 @@ def host_room(room: UUID):
     return render_template("hostRoom.html", room=room, should_refresh=should_refresh, get_log=get_log)
 
 
-@app.route('/favicon.ico')
+@app.route("/favicon.ico")
 def favicon():
     return send_from_directory(os.path.join(app.root_path, "static", "static"),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+                               "favicon.ico", mimetype="image/vnd.microsoft.icon")
 
 
-@app.route('/discord')
+@app.route("/discord")
 def discord():
     return redirect("https://discord.gg/8Z65BR2")
 
 
-@app.route('/datapackage')
+@app.route("/datapackage")
 @cache.cached()
 def get_datapackage():
     """A pretty print version of /api/datapackage"""
-    from worlds import network_data_package
     import json
+
+    from worlds import network_data_package
     return Response(json.dumps(network_data_package, indent=4), mimetype="text/plain")
 
 
-@app.route('/index')
-@app.route('/sitemap')
+@app.route("/index")
+@app.route("/sitemap")
 @cache.cached()
 def get_sitemap():
     available_games: List[Dict[str, Union[str, bool]]] = []
     for game, world in AutoWorldRegister.world_types.items():
         if not world.hidden:
             has_settings: bool = isinstance(world.web.options_page, bool) and world.web.options_page
-            available_games.append({ 'title': game, 'has_settings': has_settings })
+            available_games.append({ "title": game, "has_settings": has_settings })
     return render_template("siteMap.html", games=available_games)

@@ -1,9 +1,10 @@
 import enum
 import typing
 from dataclasses import dataclass
-from typing import Optional, Union, Dict, Type
+from typing import Dict, Optional, Type, Union
 
 from BaseClasses import Item, ItemClassification
+
 from ..mission_tables import SC2Race
 
 

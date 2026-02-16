@@ -4,15 +4,16 @@ import json
 import logging
 import multiprocessing
 import typing
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 from threading import Event, Thread
 from typing import Any
 from uuid import UUID
 
-from pony.orm import db_session, select, commit, PrimaryKey
+from pony.orm import PrimaryKey, commit, db_session, select
 
 from Utils import restricted_loads
-from .locker import Locker, AlreadyRunningException
+
+from .locker import AlreadyRunningException, Locker
 
 _stop_event = Event()
 
@@ -225,6 +226,6 @@ class MultiworldInstance():
         self.process = None
 
 
-from .models import Room, Generation, STATE_QUEUED, STATE_STARTED, STATE_ERROR, db, Seed, Slot
-from .customserver import run_server_process, get_static_server_data
+from .customserver import get_static_server_data, run_server_process
 from .generate import gen_game
+from .models import STATE_ERROR, STATE_QUEUED, STATE_STARTED, Generation, Room, Seed, Slot, db

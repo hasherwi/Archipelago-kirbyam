@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from functools import lru_cache
-from typing import Optional, Tuple, ClassVar
+from typing import ClassVar, Optional, Tuple
 
 from ...data.villagers_data import Villager
 from ...strings.villager_names import NPC

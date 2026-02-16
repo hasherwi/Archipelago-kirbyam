@@ -1,22 +1,65 @@
-import typing
-import math
 import logging
+import math
+import typing
 
-from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification
+from BaseClasses import Item, ItemClassification, MultiWorld, Tutorial
 from worlds.AutoWorld import WebWorld, World
 
-from .AestheticData import chao_name_conversion, sample_chao_names, totally_real_item_names, \
-                           all_exits, all_destinations, multi_rooms, single_rooms, room_to_exits_map, exit_to_room_map, valid_kindergarten_exits
-from .GateBosses import get_gate_bosses, get_boss_rush_bosses, get_boss_name
-from .Items import SA2BItem, ItemData, item_table, upgrades_table, emeralds_table, junk_table, minigame_trap_table, item_groups, \
-                   eggs_table, fruits_table, seeds_table, hats_table, animals_table, chaos_drives_table, event_table
-from .Locations import SA2BLocation, all_locations, location_groups, setup_locations, chao_animal_event_location_table, black_market_location_table
-from .Missions import get_mission_table, get_mission_count_table, get_first_and_last_cannons_core_missions, print_mission_orders_to_spoiler
+from .AestheticData import (
+    all_destinations,
+    all_exits,
+    chao_name_conversion,
+    exit_to_room_map,
+    multi_rooms,
+    room_to_exits_map,
+    sample_chao_names,
+    single_rooms,
+    totally_real_item_names,
+    valid_kindergarten_exits,
+)
+from .GateBosses import get_boss_name, get_boss_rush_bosses, get_gate_bosses
+from .Items import (
+    ItemData,
+    SA2BItem,
+    animals_table,
+    chaos_drives_table,
+    eggs_table,
+    emeralds_table,
+    event_table,
+    fruits_table,
+    hats_table,
+    item_groups,
+    item_table,
+    junk_table,
+    minigame_trap_table,
+    seeds_table,
+    upgrades_table,
+)
+from .Locations import (
+    SA2BLocation,
+    all_locations,
+    black_market_location_table,
+    chao_animal_event_location_table,
+    location_groups,
+    setup_locations,
+)
+from .Missions import (
+    get_first_and_last_cannons_core_missions,
+    get_mission_count_table,
+    get_mission_table,
+    print_mission_orders_to_spoiler,
+)
 from .Names import ItemName, LocationName
 from .Options import SA2BOptions, sa2b_option_groups
 from .Presets import sa2b_options_presets
-from .Regions import create_regions, shuffleable_regions, connect_regions, LevelGate, gate_0_whitelist_regions, \
-    gate_0_blacklist_regions
+from .Regions import (
+    LevelGate,
+    connect_regions,
+    create_regions,
+    gate_0_blacklist_regions,
+    gate_0_whitelist_regions,
+    shuffleable_regions,
+)
 from .Rules import set_rules
 
 

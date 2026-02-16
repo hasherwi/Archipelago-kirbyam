@@ -14,11 +14,12 @@ from pony.orm import commit, db_session
 from BaseClasses import get_seed, seeddigits
 from Generate import PlandoOptions, handle_name, mystery_argparse
 from Main import main as ERmain
-from Utils import __version__, restricted_dumps, DaemonThreadPoolExecutor
+from settings import GeneratorOptions, ServerOptions
+from Utils import DaemonThreadPoolExecutor, __version__, restricted_dumps
 from WebHostLib import app
-from settings import ServerOptions, GeneratorOptions
+
 from .check import get_yaml_data, roll_options
-from .models import Generation, STATE_ERROR, STATE_QUEUED, Seed, UUID
+from .models import STATE_ERROR, STATE_QUEUED, UUID, Generation, Seed
 from .upload import upload_zip_to_db
 
 
@@ -54,15 +55,15 @@ def get_meta(options_source: dict, race: bool = False) -> dict[str, list[str] | 
     }
 
 
-@app.route('/generate', methods=['GET', 'POST'])
-@app.route('/generate/<race>', methods=['GET', 'POST'])
+@app.route("/generate", methods=["GET", "POST"])
+@app.route("/generate/<race>", methods=["GET", "POST"])
 def generate(race=False):
-    if request.method == 'POST':
+    if request.method == "POST":
         # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
+        if "file" not in request.files:
+            flash("No file part")
         else:
-            files = request.files.getlist('file')
+            files = request.files.getlist("file")
             options = get_yaml_data(files)
             if isinstance(options, str):
                 flash(options)
@@ -211,7 +212,7 @@ def gen_game(gen_options: dict, meta: dict[str, Any] | None = None, owner=None, 
         thread_pool.shutdown(wait=False, cancel_futures=True)
 
 
-@app.route('/wait/<suuid:seed>')
+@app.route("/wait/<suuid:seed>")
 def wait_seed(seed: UUID):
     seed_id = seed
     seed = Seed.get(id=seed_id)

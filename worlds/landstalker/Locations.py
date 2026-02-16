@@ -1,10 +1,11 @@
 from typing import Dict, Optional
 
-from BaseClasses import Location, ItemClassification, Item
+from BaseClasses import Item, ItemClassification, Location
+
 from .Constants import *
-from .Regions import LandstalkerRegion
 from .data.item_source import ITEM_SOURCES_JSON
 from .data.world_path import WORLD_PATHS_JSON
+from .Regions import LandstalkerRegion
 
 
 class LandstalkerLocation(Location):
@@ -41,7 +42,7 @@ def create_locations(player: int, regions_table: Dict[str, LandstalkerRegion],
     regions_with_entrance_checks = sorted(set(regions_with_entrance_checks))
     for region_id in regions_with_entrance_checks:
         region = regions_table[region_id]
-        location = LandstalkerLocation(player, 'event_visited_' + region_id, None, region, "event")
+        location = LandstalkerLocation(player, "event_visited_" + region_id, None, region, "event")
         location.place_locked_item(Item("event_visited_" + region_id, ItemClassification.progression, None, player))
         region.locations.append(location)
 

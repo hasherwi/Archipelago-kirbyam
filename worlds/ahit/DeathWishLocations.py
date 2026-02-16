@@ -1,10 +1,12 @@
-from .Types import HatInTimeLocation, HatInTimeItem
-from .Regions import create_region
-from BaseClasses import Region, LocationProgressType, ItemClassification
+from typing import TYPE_CHECKING, List
+
+from BaseClasses import ItemClassification, LocationProgressType, Region
 from worlds.generic.Rules import add_rule
-from typing import List, TYPE_CHECKING
+
 from .Locations import death_wishes
 from .Options import EndGoal
+from .Regions import create_region
+from .Types import HatInTimeItem, HatInTimeLocation
 
 if TYPE_CHECKING:
     from . import HatInTimeWorld

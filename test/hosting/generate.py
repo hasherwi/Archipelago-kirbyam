@@ -2,7 +2,7 @@ import json
 import sys
 import warnings
 from pathlib import Path
-from typing import Iterable, Union, TYPE_CHECKING
+from typing import TYPE_CHECKING, Iterable, Union
 
 if TYPE_CHECKING:
     from multiprocessing.managers import ListProxy  # noqa
@@ -44,7 +44,7 @@ def _generate_local_inner(games: Iterable[str],
                             "--player_files_path", players_dir,
                             "--outputpath", output_dir]
                 Main.main(*Generate.main())
-                output_files = list(Path(output_dir).glob('*.zip'))
+                output_files = list(Path(output_dir).glob("*.zip"))
                 assert len(output_files) == 1
                 final_file = dest / output_files[0].name
                 output_files[0].rename(final_file)

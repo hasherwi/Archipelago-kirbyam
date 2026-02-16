@@ -1,14 +1,14 @@
-from copy import deepcopy
 import typing
+from copy import deepcopy
 
 from worlds.Files import APTokenTypes
 
-from . import poke_data, logic
+from . import logic, poke_data
 from .rom_addresses import rom_addresses
 
 if typing.TYPE_CHECKING:
     from . import PokemonRedBlueWorld
-    from .rom import PokemonRedProcedurePatch, PokemonBlueProcedurePatch
+    from .rom import PokemonBlueProcedurePatch, PokemonRedProcedurePatch
 
 
 def set_mon_palettes(world: "PokemonRedBlueWorld", patch: "PokemonRedProcedurePatch | PokemonBlueProcedurePatch"):

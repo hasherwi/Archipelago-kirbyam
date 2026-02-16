@@ -1,20 +1,22 @@
 import logging
 import re
-from typing import List
 from math import ceil
+from typing import List
 
 from BaseClasses import Tutorial
 from worlds.AutoWorld import WebWorld, World
-from .Items import KH1Item, KH1ItemData, event_item_table, get_items_by_category, item_table, item_name_groups
-from .Locations import KH1Location, location_table, get_locations_by_type, location_name_groups
+from worlds.LauncherComponents import Component, Type, components, icon_paths, launch_subprocess
+from worlds.LauncherComponents import launch as launch_component
+
+from .Data import CHAR_TO_KH, VANILLA_ABILITY_AP_COSTS, VANILLA_KEYBLADE_STATS, VANILLA_PUPPY_LOCATIONS, WORLD_KEY_ITEMS
+from .GenerateJSON import generate_json
+from .Items import KH1Item, KH1ItemData, event_item_table, get_items_by_category, item_name_groups, item_table
+from .Locations import KH1Location, get_locations_by_type, location_name_groups, location_table
 from .Options import KH1Options, kh1_option_groups
+from .Presets import kh1_option_presets
 from .Regions import connect_entrances, create_regions
 from .Rules import set_rules
-from .Presets import kh1_option_presets
-from worlds.LauncherComponents import Component, components, Type, launch as launch_component, icon_paths
-from .GenerateJSON import generate_json
-from .Data import VANILLA_KEYBLADE_STATS, VANILLA_PUPPY_LOCATIONS, CHAR_TO_KH, VANILLA_ABILITY_AP_COSTS, WORLD_KEY_ITEMS
-from worlds.LauncherComponents import Component, components, Type, launch_subprocess
+
 
 def launch_client():
     from .Client import launch
@@ -89,14 +91,14 @@ class KH1World(World):
             starting_worlds = self.random.sample(possible_starting_worlds, min(self.options.starting_worlds.value, len(possible_starting_worlds)))
             for starting_world in starting_worlds:
                 self.multiworld.push_precollected(self.create_item(starting_world))
-        
+
         # Handle starting tools
         starting_tools = []
         if self.options.starting_tools:
             starting_tools = ["Scan", "Dodge Roll"]
             self.multiworld.push_precollected(self.create_item("Scan"))
             self.multiworld.push_precollected(self.create_item("Dodge Roll"))
-        
+
         # Handle starting party member accessories
         starting_party_member_accessories = []
         starting_party_member_locations = []
@@ -104,11 +106,11 @@ class KH1World(World):
         starting_party_member_accessories = self.get_starting_accessories()
         for i in range(len(starting_party_member_locations)):
             self.get_location(self.starting_accessory_locations[i]).place_locked_item(self.create_item(self.starting_accessories[i]))
-        
+
         item_pool: List[KH1Item] = []
         possible_level_up_item_pool = []
         level_up_item_pool = []
-        
+
         # Calculate Level Up Items
         # Fill pool with mandatory items
         for _ in range(self.options.item_slot_increase):
@@ -131,7 +133,7 @@ class KH1World(World):
         # Fill remaining pool with items from other pool
         self.random.shuffle(possible_level_up_item_pool)
         level_up_item_pool = level_up_item_pool + possible_level_up_item_pool[:(99 - len(level_up_item_pool))]
-        
+
         level_up_locations = list(get_locations_by_type("Level Slot 1").keys())
         self.random.shuffle(level_up_item_pool)
         current_level_index_for_placing_stats = self.options.force_stats_on_levels.value - 2 # Level 2 is index 0, Level 3 is index 1, etc
@@ -143,16 +145,16 @@ class KH1World(World):
         while len(level_up_item_pool) > 0 and current_level_index_for_placing_stats < self.options.level_checks: # With all levels in location pool, 99 level ups so need to go index 0-98
             self.get_location(level_up_locations[current_level_index_for_placing_stats]).place_locked_item(self.create_item(level_up_item_pool.pop()))
             current_level_index_for_placing_stats += 1
-        
-        
-        
+
+
+
         # Calculate prefilled locations and items
         exclude_items = ["Final Door Key", "Lucky Emblem"]
         if not self.options.randomize_emblem_pieces:
             exclude_items = exclude_items + ["Emblem Piece (Flame)", "Emblem Piece (Chest)", "Emblem Piece (Fountain)", "Emblem Piece (Statue)"]
-        
+
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
-        
+
         non_filler_item_categories = ["Key", "Magic", "Worlds", "Trinities", "Cups", "Summons", "Abilities", "Shared Abilities", "Keyblades", "Accessory", "Weapons", "Puppies"]
         if self.options.hundred_acre_wood:
             non_filler_item_categories.append("Torn Pages")
@@ -216,17 +218,17 @@ class KH1World(World):
                     item_pool += [self.create_item(name) for _ in range(0, self.options.materials_in_pool.value)]
             elif name not in exclude_items:
                 item_pool += [self.create_item(name) for _ in range(0, quantity)]
-        
+
         for i in range(self.determine_lucky_emblems_in_pool()):
             item_pool += [self.create_item("Lucky Emblem")]
-        
+
         while len(item_pool) < total_locations and len(level_up_item_pool) > 0:
             item_pool += [self.create_item(level_up_item_pool.pop())]
-        
+
         # Fill any empty locations with filler items.
         while len(item_pool) < total_locations:
             item_pool.append(self.create_item(self.get_filler_item_name()))
-        
+
         self.multiworld.itempool += item_pool
 
     def place_predetermined_items(self) -> None:
@@ -248,7 +250,7 @@ class KH1World(World):
         if self.options.final_rest_door_key.current_key != "lucky_emblems":
             self.get_location(goal_location_name).place_locked_item(self.create_item("Final Door Key"))
         self.get_location("Final Ansem").place_locked_item(self.create_event("Victory"))
-                
+
         if not self.options.randomize_emblem_pieces:
             self.get_location("Hollow Bastion Entrance Hall Emblem Piece (Flame)").place_locked_item(self.create_item("Emblem Piece (Flame)"))
             self.get_location("Hollow Bastion Entrance Hall Emblem Piece (Statue)").place_locked_item(self.create_item("Emblem Piece (Statue)"))
@@ -342,7 +344,7 @@ class KH1World(World):
                     "warp_anywhere": bool(self.options.warp_anywhere)
                     }
         return slot_data
-    
+
     def create_item(self, name: str) -> KH1Item:
         data = item_table[name]
         return KH1Item(name, data.classification, data.code, self.player)
@@ -356,19 +358,19 @@ class KH1World(World):
 
     def create_regions(self):
         create_regions(self)
-    
+
     def connect_entrances(self):
         connect_entrances(self)
-    
+
     def generate_output(self, output_directory: str):
         """
         Generates the json file for use with mod generator.
         """
         generate_json(self, output_directory)
-    
+
     def generate_early(self):
         self.determine_level_checks()
-        
+
         value_names = ["Lucky Emblems to Open End of the World", "Lucky Emblems to Open Final Rest Door", "Lucky Emblems in Pool"]
         initial_lucky_emblem_settings = [self.options.required_lucky_emblems_eotw.value, self.options.required_lucky_emblems_door.value, self.options.lucky_emblems_in_pool.value]
         self.change_numbers_of_lucky_emblems_to_consider()
@@ -377,7 +379,7 @@ class KH1World(World):
             if initial_lucky_emblem_settings[i] != new_lucky_emblem_settings[i]:
                 logging.info(f"{self.player_name}'s value {initial_lucky_emblem_settings[i]} for \"{value_names[i]}\" was invalid\n"
                              f"Setting \"{value_names[i]}\" value to {new_lucky_emblem_settings[i]}")
-        
+
         value_names = ["Day 2 Materials", "Homecoming Materials", "Materials in Pool"]
         initial_materials_settings = [self.options.day_2_materials.value, self.options.homecoming_materials.value, self.options.materials_in_pool.value]
         self.change_numbers_of_materials_to_consider()
@@ -386,11 +388,11 @@ class KH1World(World):
             if initial_materials_settings[i] != new_materials_settings[i]:
                 logging.info(f"{self.player_name}'s value {initial_materials_settings[i]} for \"{value_names[i]}\" was invalid\n"
                              f"Setting \"{value_names[i]}\" value to {new_materials_settings[i]}")
-        
+
         if self.options.stacking_world_items.value and not self.options.halloween_town_key_item_bundle.value:
             logging.info(f"{self.player_name}'s value {self.options.halloween_town_key_item_bundle.value} for Halloween Town Key Item Bundle must be TRUE when Stacking World Items is on.  Setting to TRUE")
             self.options.halloween_town_key_item_bundle.value = True
-    
+
     def change_numbers_of_lucky_emblems_to_consider(self) -> None:
         if self.options.end_of_the_world_unlock == "lucky_emblems" and self.options.final_rest_door_key == "lucky_emblems":
             self.options.required_lucky_emblems_eotw.value, self.options.required_lucky_emblems_door.value, self.options.lucky_emblems_in_pool.value = sorted(
@@ -408,22 +410,22 @@ class KH1World(World):
         if self.options.end_of_the_world_unlock == "lucky_emblems" or self.options.final_rest_door_key == "lucky_emblems":
             return self.options.lucky_emblems_in_pool.value
         return 0
-    
+
     def determine_lucky_emblems_required_to_open_end_of_the_world(self) -> int:
         if self.options.end_of_the_world_unlock == "lucky_emblems":
             return self.options.required_lucky_emblems_eotw.value
         return -1
-    
+
     def determine_lucky_emblems_required_to_open_final_rest_door(self) -> int:
         if self.options.final_rest_door_key == "lucky_emblems":
             return self.options.required_lucky_emblems_door.value
         return -1
-    
+
     def change_numbers_of_materials_to_consider(self) -> None:
         if self.options.destiny_islands:
             self.options.day_2_materials.value, self.options.homecoming_materials.value, self.options.materials_in_pool.value = sorted(
                 [self.options.day_2_materials.value, self.options.homecoming_materials.value, self.options.materials_in_pool.value])
-    
+
     def get_remote_location_ids(self):
         remote_location_ids = []
         for location in self.multiworld.get_filled_locations(self.player):
@@ -456,7 +458,7 @@ class KH1World(World):
                         if item_data.type not in ["Item"]:
                             remote_location_ids.append(location_data.code)
         return remote_location_ids
-    
+
     def get_slot_2_levels(self):
         if self.slot_2_levels is None:
             self.slot_2_levels = []
@@ -473,9 +475,9 @@ class KH1World(World):
                             f"Setting slot 2 level check's value to {self.options.max_level_for_slot_2_level_checks.value - 1}")
                 self.options.slot_2_level_checks.value = self.options.max_level_for_slot_2_level_checks.value - 1
             # Range is exclusive of the top, so if max_level_for_slot_2_level_checks is 2 then the top end of the range needs to be 3 as the only level it can choose is 2.
-            self.slot_2_levels = self.random.sample(range(2,self.options.max_level_for_slot_2_level_checks.value + 1), self.options.slot_2_level_checks.value) 
+            self.slot_2_levels = self.random.sample(range(2,self.options.max_level_for_slot_2_level_checks.value + 1), self.options.slot_2_level_checks.value)
         return self.slot_2_levels
-    
+
     def get_keyblade_stats(self):
         # Create keyblade stat array from vanilla
         keyblade_stats = [x.copy() for x in VANILLA_KEYBLADE_STATS]
@@ -525,7 +527,7 @@ class KH1World(World):
                 else:
                     self.random.shuffle(keyblade_stats)
         return keyblade_stats
-    
+
     def determine_level_checks(self):
         # Handle if remote_items is off and level_checks > number of stats items
         total_level_up_items = min(99,
@@ -541,7 +543,7 @@ class KH1World(World):
                          f"This value cannot be more than the number of stat items in the pool when \"remote_items\" is \"off\".\n"
                          f"Set to be equal to number of stat items in pool, {total_level_up_items}.")
             self.options.level_checks.value = total_level_up_items
-    
+
     def get_synthesis_item_name_byte_arrays(self):
         # Get synth item names to show in synthesis menu
         synthesis_byte_arrays = []
@@ -549,13 +551,13 @@ class KH1World(World):
             if location.name != "Final Ansem":
                 location_data = location_table[location.name]
                 if location_data.type == "Synth":
-                    item_name = re.sub('[^A-Za-z0-9 ]+', '',str(location.item.name.replace("Progressive", "Prog")))[:14]
+                    item_name = re.sub("[^A-Za-z0-9 ]+", "",str(location.item.name.replace("Progressive", "Prog")))[:14]
                     byte_array = []
                     for character in item_name:
                         byte_array.append(CHAR_TO_KH[character])
                     synthesis_byte_arrays.append(byte_array)
         return synthesis_byte_arrays
-    
+
     def get_starting_accessory_locations(self):
         if self.starting_accessory_locations is None:
             if self.options.randomize_party_member_starting_accessories:
@@ -568,7 +570,7 @@ class KH1World(World):
             else:
                 self.starting_accessory_locations = []
         return self.starting_accessory_locations
-    
+
     def get_starting_accessories(self):
         if self.starting_accessories is None:
             if self.options.randomize_party_member_starting_accessories:
@@ -577,7 +579,7 @@ class KH1World(World):
             else:
                 self.starting_accessories = []
         return self.starting_accessories
-    
+
     def get_ap_costs(self):
         if self.ap_costs is None:
             ap_costs = VANILLA_ABILITY_AP_COSTS.copy()

@@ -1,7 +1,7 @@
 import itertools
 import time
 
-from worlds.shapez.data.strings import SHAPESANITY, REGIONS
+from worlds.shapez.data.strings import REGIONS, SHAPESANITY
 
 shapesanity_simple: dict[str, str] = {}
 shapesanity_1_4: dict[str, str] = {}
@@ -47,7 +47,7 @@ def generate_shapesanity_pool() -> None:
         colors = [first_color, second_color, third_color, fourth_color]
         color_region = color_to_needed_building(colors)
         shape_regions = [REGIONS.stitched, REGIONS.stitched] if fourth_color == "-" else [REGIONS.col_full, REGIONS.col_east_wind]
-        color_code = ''.join(colors)
+        color_code = "".join(colors)
         shapesanity_1_4[SHAPESANITY.full(color_code, SHAPESANITY.circle)] = REGIONS.sanity(shape_regions[0], color_region)
         shapesanity_1_4[SHAPESANITY.full(color_code, SHAPESANITY.square)] = REGIONS.sanity(shape_regions[0], color_region)
         shapesanity_1_4[SHAPESANITY.full(color_code, SHAPESANITY.star)] = REGIONS.sanity(shape_regions[0], color_region)
@@ -56,7 +56,7 @@ def generate_shapesanity_pool() -> None:
     # one shape && 4 colors (including empty)
     for first_shape, second_shape, third_shape, fourth_shape in itertools.combinations(short_subshapes+["-"], 4):
         for color in color_names:
-            shapesanity_1_4[SHAPESANITY.full(color, ''.join([first_shape, second_shape, third_shape, fourth_shape]))] \
+            shapesanity_1_4[SHAPESANITY.full(color, "".join([first_shape, second_shape, third_shape, fourth_shape]))] \
                 = REGIONS.sanity(REGIONS.stitched, color_to_needed_building([color]))
 
     combos = [shape + color for shape in short_subshapes for color in short_colors]

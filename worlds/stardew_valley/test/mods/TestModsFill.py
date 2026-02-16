@@ -1,5 +1,5 @@
-from ..bases import SVTestBase
 from ... import options
+from ..bases import SVTestBase
 
 
 class TestNoGingerIslandCraftingRecipesAreRequired(SVTestBase):

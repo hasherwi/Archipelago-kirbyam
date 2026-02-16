@@ -1,4 +1,5 @@
 from BaseClasses import ItemClassification
+
 from .locations import level_name_to_id
 from .options import CoinsanityChecks
 

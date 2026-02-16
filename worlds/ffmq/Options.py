@@ -1,5 +1,6 @@
-from Options import Choice, FreeText, ItemsAccessibility, Toggle, Range, PerGameCommonOptions
 from dataclasses import dataclass
+
+from Options import Choice, FreeText, ItemsAccessibility, PerGameCommonOptions, Range, Toggle
 
 
 class Logic(Choice):

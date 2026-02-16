@@ -1,9 +1,11 @@
+from typing import TYPE_CHECKING, Dict, List
+
 from BaseClasses import Item, ItemClassification
-from .Types import HatDLC, HatType, hat_type_to_item, Difficulty, ItemData, HatInTimeItem
+
 from .Locations import get_total_locations
+from .Options import CTRLogic, get_total_time_pieces
 from .Rules import get_difficulty
-from .Options import get_total_time_pieces, CTRLogic
-from typing import List, Dict, TYPE_CHECKING
+from .Types import Difficulty, HatDLC, HatInTimeItem, HatType, ItemData, hat_type_to_item
 
 if TYPE_CHECKING:
     from . import HatInTimeWorld

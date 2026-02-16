@@ -1,11 +1,13 @@
 from __future__ import annotations
-from typing import Set, Callable, Dict, List, Union, TYPE_CHECKING, Any, NamedTuple
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, NamedTuple, Set, Union
 
-from ..mission_tables import SC2Mission
-from ..item.item_tables import item_table
 from BaseClasses import CollectionState
+
+from ..item.item_tables import item_table
+from ..mission_tables import SC2Mission
 
 if TYPE_CHECKING:
     from .nodes import SC2MOGenMission
@@ -22,7 +24,7 @@ class EntryRule(ABC):
     def __init__(self) -> None:
         self.buffer_fulfilled = False
         self.buffer_depth = -1
-    
+
     def is_always_fulfilled(self, in_region_creation: bool = False) -> bool:
         return self.is_fulfilled(set(), in_region_creation)
 
@@ -46,7 +48,7 @@ class EntryRule(ABC):
     def _get_depth(self, beaten_missions: Set[SC2MOGenMission]) -> int:
         """Used during region creation to determine the minimum depth this entry rule can be cleared at."""
         return -1
-    
+
     def get_depth(self, beaten_missions: Set[SC2MOGenMission]) -> int:
         if not self.is_fulfilled(beaten_missions, in_region_creation = True):
             return -1
@@ -58,7 +60,7 @@ class EntryRule(ABC):
     def to_lambda(self, player: int) -> Callable[[CollectionState], bool]:
         """Passed to Archipelago for use during item placement."""
         return lambda _: False
-    
+
     @abstractmethod
     def to_slot_data(self) -> RuleData:
         """Used in the client to determine accessibility while playing and to populate tooltips."""
@@ -75,7 +77,7 @@ class RuleData(ABC):
     @abstractmethod
     def tooltip(self, indents: int, missions: Dict[int, SC2Mission], done_color: str, not_done_color: str) -> str:
         return ""
-    
+
     @abstractmethod
     def shows_single_rule(self) -> bool:
         return False
@@ -95,16 +97,16 @@ class BeatMissionsEntryRule(EntryRule):
         super().__init__()
         self.missions_to_beat = missions_to_beat
         self.visual_reqs = visual_reqs
-    
+
     def _is_fulfilled(self, beaten_missions: Set[SC2MOGenMission], in_region_check: bool) -> bool:
         return beaten_missions.issuperset(self.missions_to_beat)
-    
+
     def _get_depth(self, beaten_missions: Set[SC2MOGenMission]) -> int:
         return max(mission.min_depth for mission in self.missions_to_beat)
 
     def to_lambda(self, player: int) -> Callable[[CollectionState], bool]:
         return lambda state: state.has_all([mission.beat_item() for mission in self.missions_to_beat], player)
-    
+
     def to_slot_data(self) -> RuleData:
         resolved_reqs: List[Union[str, int]] = [req if isinstance(req, str) else req.mission.id for req in self.visual_reqs]
         mission_ids = [mission.mission.id for mission in self.missions_to_beat]
@@ -112,7 +114,7 @@ class BeatMissionsEntryRule(EntryRule):
             mission_ids,
             resolved_reqs
         )
-    
+
     def find_mandatory_mission(self) -> SC2MOGenMission | None:
         if len(self.missions_to_beat) > 0:
             return self.missions_to_beat[0]
@@ -133,7 +135,7 @@ class BeatMissionsRuleData(RuleData):
         reqs = [missions[req].mission_name if isinstance(req, int) else req for req in self.visual_reqs]
         tooltip += f"\n{indent}- ".join(req for req in reqs)
         return tooltip
-    
+
     def shows_single_rule(self) -> bool:
         return len(self.visual_reqs) == 1
 
@@ -162,7 +164,7 @@ class CountMissionsEntryRule(EntryRule):
 
     def _is_fulfilled(self, beaten_missions: Set[SC2MOGenMission], in_region_check: bool) -> bool:
         return self.target_amount <= len(beaten_missions.intersection(self.missions_to_count))
-    
+
     def _get_depth(self, beaten_missions: Set[SC2MOGenMission]) -> int:
         sorted_missions = sorted(beaten_missions.intersection(self.missions_to_count), key = lambda mission: mission.min_depth)
         mission_depth = max(mission.min_depth for mission in sorted_missions[:self.target_amount])
@@ -171,7 +173,7 @@ class CountMissionsEntryRule(EntryRule):
     def to_lambda(self, player: int) -> Callable[[CollectionState], bool]:
         if self.target_amount == 0:
             return always_true
-        
+
         beat_items = [mission.beat_item() for mission in self.missions_to_count]
         def count_missions(state: CollectionState) -> bool:
             count = 0
@@ -181,9 +183,9 @@ class CountMissionsEntryRule(EntryRule):
                     if count == self.target_amount:
                         return True
             return False
-        
+
         return count_missions
-    
+
     def to_slot_data(self) -> RuleData:
         resolved_reqs: List[Union[str, int]] = [req if isinstance(req, str) else req.mission.id for req in self.visual_reqs]
         mission_ids = [mission.mission.id for mission in sorted(self.missions_to_count, key = lambda mission: mission.min_depth)]
@@ -192,7 +194,7 @@ class CountMissionsEntryRule(EntryRule):
             self.target_amount,
             resolved_reqs
         )
-    
+
     def find_mandatory_mission(self) -> SC2MOGenMission | None:
         if self.target_amount > 0 and self.target_amount == len(self.missions_to_count):
             return self.missions_to_count[0]
@@ -226,7 +228,7 @@ class CountMissionsRuleData(RuleData):
         reqs = [missions[req].mission_name if isinstance(req, int) else req for req in self.visual_reqs]
         tooltip += f"\n{indent}- ".join(req for req in reqs)
         return tooltip
-    
+
     def shows_single_rule(self) -> bool:
         return len(self.visual_reqs) == 1
 
@@ -263,7 +265,7 @@ class SubRuleEntryRule(EntryRule):
                 if count == self.target_amount:
                     return True
         return False
-    
+
     def _get_depth(self, beaten_missions: Set[SC2MOGenMission]) -> int:
         if len(self.rules_to_check) == 0:
             return self.min_depth
@@ -279,7 +281,7 @@ class SubRuleEntryRule(EntryRule):
             return always_true
         if len(sub_lambdas) == 1:
             return sub_lambdas[0]
-        
+
         def count_rules(state: CollectionState) -> bool:
             count = 0
             for sub_lambda in sub_lambdas:
@@ -288,9 +290,9 @@ class SubRuleEntryRule(EntryRule):
                     if count == self.target_amount:
                         return True
             return False
-        
+
         return count_rules
-    
+
     def to_slot_data(self) -> SubRuleRuleData:
         sub_rules = [rule.to_slot_data() for rule in self.rules_to_check]
         return SubRuleRuleData(
@@ -298,7 +300,7 @@ class SubRuleEntryRule(EntryRule):
             sub_rules,
             self.target_amount
         )
-    
+
     def find_mandatory_mission(self) -> SC2MOGenMission | None:
         if self.target_amount > 0 and self.target_amount == len(self.rules_to_check):
             for sub_rule in self.rules_to_check:
@@ -344,11 +346,11 @@ class SubRuleRuleData(RuleData):
             amount
         )
         return rule
-    
+
     @staticmethod
     def empty() -> SubRuleRuleData:
         return SubRuleRuleData(-1, [], 0)
-    
+
     def tooltip(self, indents: int, missions: Dict[int, SC2Mission], done_color: str, not_done_color: str) -> str:
         indent = " ".join("" for _ in range(indents))
         if self.amount == len(self.sub_rules):
@@ -409,14 +411,14 @@ class ItemEntryRule(EntryRule):
         # Region creation should assume items can be placed,
         # but later uses (eg. starter missions) should respect that this locks a mission
         return in_region_check
-    
+
     def _get_depth(self, beaten_missions: Set[SC2MOGenMission]) -> int:
         # Depth 0 means this rule requires 0 prior beaten missions
         return 0
-    
+
     def to_lambda(self, player: int) -> Callable[[CollectionState], bool]:
         return lambda state: state.has_all_counts(self.items_to_check, player)
-    
+
     def to_slot_data(self) -> RuleData:
         item_ids = {item_table[item].code: amount for (item, amount) in self.items_to_check.items()}
         visual_reqs = [item if amount == 1 else str(amount) + "x " + item for (item, amount) in self.items_to_check.items()]
@@ -424,7 +426,7 @@ class ItemEntryRule(EntryRule):
             item_ids,
             visual_reqs
         )
-    
+
     def find_mandatory_mission(self) -> SC2MOGenMission | None:
         return None
 
@@ -441,7 +443,7 @@ class ItemRuleData(RuleData):
         tooltip = f"Find all of these:\n{indent}- "
         tooltip += f"\n{indent}- ".join(req for req in self.visual_reqs)
         return tooltip
-    
+
     def shows_single_rule(self) -> bool:
         return len(self.visual_reqs) == 1
 

@@ -1,38 +1,43 @@
 from __future__ import annotations
 
 import asyncio
-import concurrent.futures
-import json
-import typing
 import builtins
-import os
+import collections
+import concurrent.futures
+import functools
+import importlib
+import io
 import itertools
+import json
+import logging
+import os
+import pickle
 import subprocess
 import sys
-import pickle
-import functools
-import io
-import collections
-import importlib
-import logging
+import typing
 import warnings
-
 from argparse import Namespace
-from settings import Settings, get_settings
 from time import sleep
-from typing import BinaryIO, Coroutine, Optional, Set, Dict, Any, Union, TypeGuard
-from yaml import load, load_all, dump
+from typing import Any, BinaryIO, Coroutine, Dict, Optional, Set, TypeGuard, Union
+
+from yaml import dump, load, load_all
+
+from settings import Settings, get_settings
 
 try:
-    from yaml import CLoader as UnsafeLoader, CSafeLoader as SafeLoader, CDumper as Dumper
+    from yaml import CDumper as Dumper
+    from yaml import CLoader as UnsafeLoader
+    from yaml import CSafeLoader as SafeLoader
 except ImportError:
-    from yaml import Loader as UnsafeLoader, SafeLoader, Dumper
+    from yaml import Dumper, SafeLoader
+    from yaml import Loader as UnsafeLoader
 
 if typing.TYPE_CHECKING:
-    import tkinter
-    import pathlib
-    from BaseClasses import Region
     import multiprocessing
+    import pathlib
+    import tkinter
+
+    from BaseClasses import Region
 
 
 def tuplize_version(version: str) -> Version:
@@ -121,7 +126,7 @@ def cache_self1(function: typing.Callable[[S, T], RetType]) -> typing.Callable[[
 
 
 def is_frozen() -> bool:
-    return typing.cast(bool, getattr(sys, 'frozen', False))
+    return typing.cast(bool, getattr(sys, "frozen", False))
 
 
 def local_path(*path: str) -> str:
@@ -129,7 +134,7 @@ def local_path(*path: str) -> str:
     Returns path to a file in the local Archipelago installation or source.
     This might be read-only and user_path should be used instead for ROMs, configuration, etc.
     """
-    if hasattr(local_path, 'cached_path'):
+    if hasattr(local_path, "cached_path"):
         pass
     elif is_frozen():
         if hasattr(sys, "_MEIPASS"):
@@ -155,19 +160,19 @@ def local_path(*path: str) -> str:
 
 def home_path(*path: str) -> str:
     """Returns path to a file in the user home's Archipelago directory."""
-    if hasattr(home_path, 'cached_path'):
+    if hasattr(home_path, "cached_path"):
         pass
-    elif sys.platform.startswith('linux'):
-        xdg_data_home = os.getenv('XDG_DATA_HOME', os.path.expanduser('~/.local/share'))
-        home_path.cached_path = xdg_data_home + '/Archipelago'
+    elif sys.platform.startswith("linux"):
+        xdg_data_home = os.getenv("XDG_DATA_HOME", os.path.expanduser("~/.local/share"))
+        home_path.cached_path = xdg_data_home + "/Archipelago"
         if not os.path.isdir(home_path.cached_path):
-            legacy_home_path = os.path.expanduser('~/Archipelago')
+            legacy_home_path = os.path.expanduser("~/Archipelago")
             if os.path.isdir(legacy_home_path):
                 os.renames(legacy_home_path, home_path.cached_path)
                 os.symlink(home_path.cached_path, legacy_home_path)
             else:
                 os.makedirs(home_path.cached_path, 0o700, exist_ok=True)
-    elif sys.platform == 'darwin':
+    elif sys.platform == "darwin":
         import platformdirs
         home_path.cached_path = platformdirs.user_data_dir("Archipelago", False)
         os.makedirs(home_path.cached_path, 0o700, exist_ok=True)
@@ -216,7 +221,7 @@ def cache_path(*path: str) -> str:
 
 
 def output_path(*path: str) -> str:
-    if hasattr(output_path, 'cached_path'):
+    if hasattr(output_path, "cached_path"):
         return os.path.join(output_path.cached_path, *path)
     output_path.cached_path = user_path(get_settings()["general_options"]["output_path"])
     path = os.path.join(output_path.cached_path, *path)
@@ -436,8 +441,8 @@ def get_unique_identifier():
 
 
 safe_builtins = frozenset((
-    'set',
-    'frozenset',
+    "set",
+    "frozenset",
 ))
 
 
@@ -532,7 +537,7 @@ def get_text_after(text: str, start: str) -> str:
     return text[text.index(start) + len(start):]
 
 
-loglevel_mapping = {'error': logging.ERROR, 'info': logging.INFO, 'warning': logging.WARNING, 'debug': logging.DEBUG}
+loglevel_mapping = {"error": logging.ERROR, "info": logging.INFO, "warning": logging.WARNING, "debug": logging.DEBUG}
 
 
 def init_logging(name: str, loglevel: typing.Union[str, int] = logging.INFO,
@@ -565,10 +570,10 @@ def init_logging(name: str, loglevel: typing.Union[str, int] = logging.INFO,
             return self.condition(record)
 
     file_handler.addFilter(Filter("NoStream", lambda record: not getattr(record, "NoFile", False)))
-    file_handler.addFilter(Filter("NoCarriageReturn", lambda record: '\r' not in record.getMessage()))
+    file_handler.addFilter(Filter("NoCarriageReturn", lambda record: "\r" not in record.getMessage()))
     root_logger.addHandler(file_handler)
     if sys.stdout:
-        formatter = logging.Formatter(fmt='[%(asctime)s] %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+        formatter = logging.Formatter(fmt="[%(asctime)s] %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
         stream_handler = logging.StreamHandler(sys.stdout)
         stream_handler.addFilter(Filter("NoFile", lambda record: not getattr(record, "NoStream", False)))
         if add_timestamp:
@@ -755,7 +760,7 @@ def _mp_save_filename(res: "multiprocessing.Queue[typing.Optional[str]]", *args:
     if is_kivy_running():
         raise RuntimeError("kivy should not be running in multiprocess")
     res.put(save_filename(*args))
-    
+
 def _run_for_stdout(*args: str):
     env = os.environ
     if "LD_LIBRARY_PATH" in env:
@@ -773,7 +778,7 @@ def open_filename(title: str, filetypes: typing.Iterable[typing.Tuple[str, typin
         from shutil import which
         kdialog = which("kdialog")
         if kdialog:
-            k_filters = '|'.join((f'{text} (*{" *".join(ext)})' for (text, ext) in filetypes))
+            k_filters = "|".join((f'{text} (*{" *".join(ext)})' for (text, ext) in filetypes))
             return _run_for_stdout(kdialog, f"--title={title}", "--getopenfilename", suggest or ".", k_filters)
         zenity = which("zenity")
         if zenity:
@@ -802,7 +807,7 @@ def open_filename(title: str, filetypes: typing.Iterable[typing.Tuple[str, typin
         except tkinter.TclError:
             return None  # GUI not available. None is the same as a user clicking "cancel"
         root.withdraw()
-        return tkinter.filedialog.askopenfilename(title=title, filetypes=((t[0], ' '.join(t[1])) for t in filetypes),
+        return tkinter.filedialog.askopenfilename(title=title, filetypes=((t[0], " ".join(t[1])) for t in filetypes),
                                                   initialfile=suggest or None)
 
 
@@ -818,7 +823,7 @@ def save_filename(title: str, filetypes: typing.Iterable[typing.Tuple[str, typin
         from shutil import which
         kdialog = which("kdialog")
         if kdialog:
-            k_filters = '|'.join((f'{text} (*{" *".join(ext)})' for (text, ext) in filetypes))
+            k_filters = "|".join((f'{text} (*{" *".join(ext)})' for (text, ext) in filetypes))
             return run(kdialog, f"--title={title}", "--getsavefilename", suggest or ".", k_filters)
         zenity = which("zenity")
         if zenity:
@@ -847,7 +852,7 @@ def save_filename(title: str, filetypes: typing.Iterable[typing.Tuple[str, typin
         except tkinter.TclError:
             return None  # GUI not available. None is the same as a user clicking "cancel"
         root.withdraw()
-        return tkinter.filedialog.asksaveasfilename(title=title, filetypes=((t[0], ' '.join(t[1])) for t in filetypes),
+        return tkinter.filedialog.asksaveasfilename(title=title, filetypes=((t[0], " ".join(t[1])) for t in filetypes),
                                                     initialfile=suggest or None)
 
 
@@ -1013,9 +1018,9 @@ def _extend_freeze_support() -> None:
 
         # Handle the first process that MP will create
         if (
-            len(sys.argv) >= 2 and sys.argv[-2] == '-c' and sys.argv[-1].startswith((
-                'from multiprocessing.resource_tracker import main',
-                'from multiprocessing.forkserver import main'
+            len(sys.argv) >= 2 and sys.argv[-2] == "-c" and sys.argv[-1].startswith((
+                "from multiprocessing.resource_tracker import main",
+                "from multiprocessing.forkserver import main"
             )) and set(sys.argv[1:-2]) == set(_args_from_interpreter_flags())
         ):
             exec(sys.argv[-1])
@@ -1025,8 +1030,8 @@ def _extend_freeze_support() -> None:
         if multiprocessing.spawn.is_forking(sys.argv):
             kwargs = {}
             for arg in sys.argv[2:]:
-                name, value = arg.split('=')
-                if value == 'None':
+                name, value = arg.split("=")
+                if value == "None":
                     kwargs[name] = None
                 else:
                     kwargs[name] = int(value)
@@ -1085,9 +1090,10 @@ def visualize_regions(root_region: Region, file_name: str, *,
     if regions_to_highlight is None:
         regions_to_highlight = set()
     assert root_region.multiworld, "The multiworld attribute of root_region has to be filled"
-    from BaseClasses import Entrance, Item, Location, LocationProgressType, MultiWorld, Region
-    from collections import deque
     import re
+    from collections import deque
+
+    from BaseClasses import Entrance, Item, Location, LocationProgressType, MultiWorld, Region
 
     uml: typing.List[str] = list()
     seen: typing.Set[Region] = set()

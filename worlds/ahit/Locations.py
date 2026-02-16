@@ -1,6 +1,7 @@
-from .Types import HatDLC, HatType, LocData, Difficulty, HitType
-from typing import Dict, TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict
+
 from .Options import TasksanityCheckCount
+from .Types import Difficulty, HatDLC, HatType, HitType, LocData
 
 if TYPE_CHECKING:
     from . import HatInTimeWorld

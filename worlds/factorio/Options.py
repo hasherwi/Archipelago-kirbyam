@@ -1,12 +1,23 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 import typing
+from dataclasses import dataclass
 
-from schema import Schema, Optional, And, Or, SchemaError
+from schema import And, Optional, Or, Schema, SchemaError
 
-from Options import Choice, OptionDict, OptionSet, DefaultOnToggle, Range, DeathLink, Toggle, \
-    StartInventoryPool, PerGameCommonOptions, OptionGroup, NamedRange
+from Options import (
+    Choice,
+    DeathLink,
+    DefaultOnToggle,
+    NamedRange,
+    OptionDict,
+    OptionGroup,
+    OptionSet,
+    PerGameCommonOptions,
+    Range,
+    StartInventoryPool,
+    Toggle,
+)
 
 
 # schema helpers

@@ -1,5 +1,6 @@
-from enum import IntFlag
 from dataclasses import dataclass
+from enum import IntFlag
+
 from BaseClasses import ItemClassification
 
 

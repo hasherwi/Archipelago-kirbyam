@@ -1,11 +1,13 @@
-import orjson
 import os
-from pkgutil import get_data
 from copy import deepcopy
+from pkgutil import get_data
+from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Union
 
-from typing import TYPE_CHECKING, List, Dict, Optional, Union, Callable
-from BaseClasses import Region, CollectionState
+import orjson
+
+from BaseClasses import CollectionState, Region
 from worlds.generic.Rules import add_item_rule
+
 from .locations import KDL3Location
 from .names import location_name
 from .options import BossShuffle

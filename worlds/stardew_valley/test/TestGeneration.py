@@ -1,13 +1,24 @@
 from typing import List
 
-from BaseClasses import ItemClassification, Item
-from .bases import SVTestBase
-from .. import location_table, options, items
+from BaseClasses import Item, ItemClassification
+
+from .. import items, location_table, options
 from ..items import Group, ItemData, item_data
 from ..locations import LocationTags
-from ..options import Friendsanity, SpecialOrderLocations, Shipsanity, Chefsanity, SeasonRandomization, Craftsanity, ExcludeGingerIsland, SkillProgression, \
-    Booksanity, Walnutsanity
+from ..options import (
+    Booksanity,
+    Chefsanity,
+    Craftsanity,
+    ExcludeGingerIsland,
+    Friendsanity,
+    SeasonRandomization,
+    Shipsanity,
+    SkillProgression,
+    SpecialOrderLocations,
+    Walnutsanity,
+)
 from ..strings.region_names import Region
+from .bases import SVTestBase
 
 
 def get_all_permanent_progression_items() -> List[ItemData]:

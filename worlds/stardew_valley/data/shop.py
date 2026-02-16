@@ -1,8 +1,8 @@
 from dataclasses import dataclass
-from typing import Tuple, Optional
+from typing import Optional, Tuple
 
-from .game_item import Source
 from ..strings.season_names import Season
+from .game_item import Source
 
 ItemPrice = Tuple[int, str]
 

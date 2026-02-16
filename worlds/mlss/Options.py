@@ -1,5 +1,6 @@
-from Options import Choice, Toggle, StartInventoryPool, PerGameCommonOptions, Range, Removed
 from dataclasses import dataclass
+
+from Options import Choice, PerGameCommonOptions, Range, Removed, StartInventoryPool, Toggle
 
 
 class SkipBowsersCastle(Toggle):

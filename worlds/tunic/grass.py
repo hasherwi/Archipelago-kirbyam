@@ -1,10 +1,10 @@
-from typing import NamedTuple, TYPE_CHECKING
+from typing import TYPE_CHECKING, NamedTuple
 
 from BaseClasses import CollectionState
-from worlds.generic.Rules import set_rule, add_rule
+from worlds.generic.Rules import add_rule, set_rule
 
 from .constants import base_id
-from .logic_helpers import has_sword, has_melee
+from .logic_helpers import has_melee, has_sword
 
 if TYPE_CHECKING:
     from . import TunicWorld
@@ -7794,7 +7794,7 @@ def set_grass_location_rules(world: "TunicWorld") -> None:
 
     set_rule(world.get_location("Fortress Courtyard - Fortress Courtyard Upper Grass (1) (72.0, 8.0, -29.0)"),
              lambda state: state.has("Magic Wand", player))
-    
+
     add_rule(world.get_location("Ruined Atoll - Ruined Atoll Grass beach (325) (-111.8, 1.3, 2.0)"), lambda state: state.has("Hero's Laurels", player))
     add_rule(world.get_location("Ruined Atoll - Ruined Atoll Grass beach (323) (-111.8, 1.3, 1.0)"), lambda state: state.has("Hero's Laurels", player))
     add_rule(world.get_location("Ruined Atoll - Ruined Atoll Grass beach (316) (-110.5, 1.3, 3.0)"), lambda state: state.has("Hero's Laurels", player))

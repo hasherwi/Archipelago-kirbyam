@@ -6,15 +6,24 @@ import os
 import shutil
 import threading
 import zipfile
-from typing import Optional, TYPE_CHECKING, Any, List, Callable, Tuple, Union
+from typing import TYPE_CHECKING, Any, Callable, List, Optional, Tuple, Union
 
 import jinja2
 
 import Utils
 import worlds.Files
+
 from . import Options
-from .Technologies import tech_table, recipes, free_sample_exclusions, progressive_technology_table, \
-    base_tech_table, tech_to_progressive_lookup, fluids, useless_technologies
+from .Technologies import (
+    base_tech_table,
+    fluids,
+    free_sample_exclusions,
+    progressive_technology_table,
+    recipes,
+    tech_table,
+    tech_to_progressive_lookup,
+    useless_technologies,
+)
 
 if TYPE_CHECKING:
     from . import Factorio
@@ -81,7 +90,7 @@ class FactorioModFile(worlds.Files.APPlayerContainer):
                 filename = os.path.join(root, file)
                 opened_zipfile.write(filename,
                                      os.path.relpath(filename,
-                                                     os.path.join(mod_dir, '..')))
+                                                     os.path.join(mod_dir, "..")))
         for task in self.writing_tasks:
             target, content = task()
             opened_zipfile.writestr(target, content)

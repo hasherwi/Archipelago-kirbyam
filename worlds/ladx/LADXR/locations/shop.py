@@ -1,7 +1,7 @@
-from .itemInfo import ItemInfo
-from .constants import *
-from ..utils import formatText
 from ..assembler import ASM
+from ..utils import formatText
+from .constants import *
+from .itemInfo import ItemInfo
 
 
 class ShopItem(ItemInfo):
@@ -20,7 +20,7 @@ class ShopItem(ItemInfo):
             mw_text = f" for player {rom.player_names[multiworld - 1].encode('ascii', 'replace').decode()}"
             # filter out { and } since they cause issues with string.format later on
             mw_text = mw_text.replace("{", "").replace("}", "")
-        
+
         if self.custom_item_name:
             name = self.custom_item_name
         else:
@@ -36,7 +36,7 @@ class ShopItem(ItemInfo):
         elif self.__index == 1:
             rom.patch(0x04, 0x37C6, "02", "%02X" % (CHEST_ITEMS[option]))
             rom.texts[0x02C] = formatText(f"{name} only 980 {{RUPEES}}{mw_text}!", ask="Buy  No Way")
-            
+
             rom.banks[0x3E][0x3800 + 0x2A7] = CHEST_ITEMS[option]
             if multiworld:
                 rom.banks[0x3E][0x3300 + 0x2A7] = multiworld

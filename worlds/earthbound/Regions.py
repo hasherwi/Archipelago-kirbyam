@@ -1,7 +1,10 @@
-from typing import List, Dict, TYPE_CHECKING, Optional
-from BaseClasses import Region, Location
+from typing import TYPE_CHECKING, Dict, List, Optional
+
+from BaseClasses import Location, Region
+
 from .Locations import LocationData
 from .Options import MagicantMode
+
 if TYPE_CHECKING:
     from . import EarthBoundWorld
 
@@ -138,7 +141,7 @@ def connect_area_exits(world: "EarthBoundWorld"):
                                                                     {"Twoson": lambda state: state.has_any({"Pencil Eraser", "Valley Bridge Repair"}, player)})
 
     multiworld.get_region("Happy-Happy Village", player).add_exits(["Peaceful Rest Valley", lilliput_steps_connection, "Global ATM Access", happy_happy_hq_connection])
-    
+
     multiworld.get_region("Threed", player).add_exits(["Twoson", "Dusty Dunes Desert", "Andonuts Lab Area", "Threed Underground", "Boogey Tent", "Global ATM Access"],
                                                     {"Twoson": lambda state: state.has("Threed Tunnels Clear", player),
                                                     "Dusty Dunes Desert": lambda state: state.has("Threed Tunnels Clear", player),
@@ -276,4 +279,3 @@ def connect_menu_region(world: "EarthBoundWorld") -> None:
     world.multiworld.get_region("Menu", world.player).add_exits([world.starting_region, "Ness's Mind"],
                           {"Ness's Mind": lambda state: state.has_any({"Ness", "Paula", "Jeff", "Poo"}, world.player),
                                 world.starting_region: lambda state: state.has_any({"Ness", "Paula", "Jeff", "Poo"}, world.player)})
-    

@@ -1,9 +1,9 @@
 import unittest
 
-from .bases import SVTestBase
-from ..options import ExcludeGingerIsland, Walnutsanity, ToolProgression, SkillProgression
+from ..options import ExcludeGingerIsland, SkillProgression, ToolProgression, Walnutsanity
 from ..strings.ap_names.ap_option_names import WalnutsanityOptionName
 from ..strings.ap_names.transport_names import Transportation
+from .bases import SVTestBase
 
 
 class SVWalnutsanityTestBase(SVTestBase):

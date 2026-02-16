@@ -1,7 +1,9 @@
-from . import KDL3TestBase
-from ..names import location_name
-from Options import PlandoConnection
 import typing
+
+from Options import PlandoConnection
+
+from ..names import location_name
+from . import KDL3TestBase
 
 
 class TestLocations(KDL3TestBase):

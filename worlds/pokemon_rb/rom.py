@@ -7,11 +7,11 @@ from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 
 from . import poke_data
 from .items import item_table
-from .text import encode_text
 from .pokemon import set_mon_palettes
 from .regions import PokemonRBWarp, map_ids, town_map_coords
 from .rock_tunnel import randomize_rock_tunnel
 from .rom_addresses import rom_addresses
+from .text import encode_text
 
 if typing.TYPE_CHECKING:
     from . import PokemonRedBlueWorld

@@ -9,21 +9,26 @@ import multiprocessing
 import pickle
 import random
 import socket
+import sys
 import threading
 import time
 import typing
-import sys
 
 import websockets
 from pony.orm import commit, db_session, select
 
 import Utils
-
 from MultiServer import (
-    Context, server, auto_shutdown, ServerCommandProcessor, ClientMessageProcessor, load_server_cert,
+    ClientMessageProcessor,
+    Context,
+    ServerCommandProcessor,
+    auto_shutdown,
+    load_server_cert,
+    server,
     server_per_message_deflate_factory,
 )
-from Utils import restricted_loads, cache_argsless
+from Utils import cache_argsless, restricted_loads
+
 from .locker import Locker
 from .models import Command, GameDataPackage, Room, db
 
@@ -78,6 +83,7 @@ class WebHostContext(Context):
     def __del__(self):
         try:
             import psutil
+
             from Utils import format_SI_prefix
             self.logger.debug(f"Context destroyed, Mem: {format_SI_prefix(psutil.Process().memory_info().rss, 1024)}iB")
         except ImportError:
@@ -308,7 +314,7 @@ def run_server_process(name: str, ponyconfig: dict, static_server_data: dict,
                     elif wssocket.family == socket.AF_INET:
                         port = socketname[1]
                 if port:
-                    ctx.logger.info(f'Hosting game at {host}:{port}')
+                    ctx.logger.info(f"Hosting game at {host}:{port}")
                     with db_session:
                         room = Room.get(id=ctx.room_id)
                         room.last_port = port

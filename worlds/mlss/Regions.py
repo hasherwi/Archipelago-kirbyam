@@ -1,41 +1,42 @@
 import typing
 
-from BaseClasses import Region, Entrance
+from BaseClasses import Entrance, Region
+
+from . import StateLogic
 from .Locations import (
     MLSSLocation,
-    mainArea,
-    chucklehuck,
-    castleTown,
-    startingFlag,
-    chuckolatorFlag,
-    piranhaFlag,
-    kidnappedFlag,
+    airport,
+    baseUltraRocks,
     beanstarFlag,
     birdoFlag,
-    surfable,
-    hooniversity,
-    gwarharEntrance,
-    gwarharMain,
+    booStatue,
+    bowsers,
+    bowsersMini,
+    cacklettas_soul,
+    castleTown,
+    chucklehuck,
+    chuckolatorFlag,
+    coins,
     fungitown,
     fungitownBeanstar,
     fungitownBirdo,
-    teeheeValley,
-    winkle,
-    sewers,
-    airport,
-    bowsers,
-    bowsersMini,
+    gwarharEntrance,
+    gwarharMain,
+    hooniversity,
     jokesEntrance,
     jokesMain,
-    theater,
-    booStatue,
+    kidnappedFlag,
+    mainArea,
     oasis,
+    piranhaFlag,
     postJokes,
-    baseUltraRocks,
-    coins,
-    cacklettas_soul,
+    sewers,
+    startingFlag,
+    surfable,
+    teeheeValley,
+    theater,
+    winkle,
 )
-from . import StateLogic
 
 if typing.TYPE_CHECKING:
     from . import MLSSWorld

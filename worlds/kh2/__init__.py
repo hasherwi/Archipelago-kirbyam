@@ -1,16 +1,18 @@
 import logging
 from typing import List
 
-from BaseClasses import Tutorial, ItemClassification
+from BaseClasses import ItemClassification, Tutorial
 from Fill import fast_fill
-from worlds.LauncherComponents import Component, components, Type, launch as launch_component
-from worlds.AutoWorld import World, WebWorld
+from worlds.AutoWorld import WebWorld, World
+from worlds.LauncherComponents import Component, Type, components
+from worlds.LauncherComponents import launch as launch_component
+
 from .Items import *
 from .Locations import *
 from .Names import ItemName, LocationName, RegionName
 from .OpenKH import patch_kh2
 from .Options import KingdomHearts2Options
-from .Regions import create_regions, connect_regions
+from .Regions import connect_regions, create_regions
 from .Rules import *
 from .Subclasses import KH2Item
 
@@ -102,9 +104,9 @@ class KH2World(World):
                 self.goofy_ability_dict[ability] -= 1
 
         slot_data = self.options.as_dict(
-            "Goal", 
-            "FinalXemnas", 
-            "LuckyEmblemsRequired", 
+            "Goal",
+            "FinalXemnas",
+            "LuckyEmblemsRequired",
             "BountyRequired",
             "FightLogic",
             "FinalFormLogic",

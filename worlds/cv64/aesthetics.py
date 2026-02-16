@@ -1,14 +1,14 @@
 import logging
+from typing import TYPE_CHECKING, Dict, Iterable, List, Tuple, Union
 
-from BaseClasses import ItemClassification, Location, Item
+from BaseClasses import Item, ItemClassification, Location
+
 from .data import iname, rname
-from .options import CV64Options, BackgroundMusic, Countdown, IceTrapAppearance, InvisibleItems, CharacterStages
-from .stages import vanilla_stage_order, get_stage_info
-from .locations import get_location_info, base_id
-from .regions import get_region_info
 from .items import get_item_info, item_info
-
-from typing import TYPE_CHECKING, Dict, List, Tuple, Union, Iterable
+from .locations import base_id, get_location_info
+from .options import BackgroundMusic, CharacterStages, Countdown, CV64Options, IceTrapAppearance, InvisibleItems
+from .regions import get_region_info
+from .stages import get_stage_info, vanilla_stage_order
 
 if TYPE_CHECKING:
     from . import CV64World

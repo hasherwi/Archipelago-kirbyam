@@ -1,30 +1,41 @@
+import base64
 import logging
+import math
+import os
+import threading
+from typing import Any, ClassVar, Dict, List, Mapping, Optional, TextIO, Type
 
-from BaseClasses import Tutorial, ItemClassification, MultiWorld, CollectionState, Item
+import settings
+from BaseClasses import CollectionState, Item, ItemClassification, MultiWorld, Tutorial
 from Fill import fill_restrictive
 from Options import PerGameCommonOptions
-from worlds.AutoWorld import World, WebWorld
-from .items import item_table, item_names, copy_ability_table, animal_friend_table, filler_item_weights, KDL3Item, \
-    trap_item_table, copy_ability_access_table, star_item_weights, total_filler_weights, animal_friend_spawn_table,\
-    lookup_item_to_id
-from .locations import location_table, KDL3Location, level_consumables, consumable_locations, star_locations
+from worlds.AutoWorld import WebWorld, World
+
+from .client import KDL3SNIClient
+from .items import (
+    KDL3Item,
+    animal_friend_spawn_table,
+    animal_friend_table,
+    copy_ability_access_table,
+    copy_ability_table,
+    filler_item_weights,
+    item_names,
+    item_table,
+    lookup_item_to_id,
+    star_item_weights,
+    total_filler_weights,
+    trap_item_table,
+)
+from .locations import KDL3Location, consumable_locations, level_consumables, location_table, star_locations
+from .names import location_name
 from .names.animal_friend_spawns import animal_friend_spawns, problematic_sets
-from .names.enemy_abilities import vanilla_enemies, enemy_mapping, enemy_restrictive
-from .regions import create_levels, default_levels
+from .names.enemy_abilities import enemy_mapping, enemy_restrictive, vanilla_enemies
 from .options import KDL3Options, kdl3_option_groups
 from .presets import kdl3_options_presets
-from .names import location_name
+from .regions import create_levels, default_levels
+from .rom import KDL3JHASH, KDL3UHASH, KDL3ProcedurePatch, get_base_rom_path, patch_rom
 from .room import KDL3Room
 from .rules import set_rules
-from .rom import KDL3ProcedurePatch, get_base_rom_path, patch_rom, KDL3JHASH, KDL3UHASH
-from .client import KDL3SNIClient
-
-from typing import Dict, TextIO, Optional, List, Any, Mapping, ClassVar, Type
-import os
-import math
-import threading
-import base64
-import settings
 
 logger = logging.getLogger("Kirby's Dream Land 3")
 

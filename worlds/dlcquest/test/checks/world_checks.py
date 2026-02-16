@@ -1,8 +1,9 @@
 from typing import List
 
 from BaseClasses import MultiWorld
-from .. import DLCQuestTestBase
+
 from ... import Options
+from .. import DLCQuestTestBase
 
 
 def get_all_item_names(multiworld: MultiWorld) -> List[str]:

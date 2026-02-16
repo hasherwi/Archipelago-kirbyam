@@ -1,12 +1,14 @@
+from typing import TYPE_CHECKING, Callable, List
+
+from BaseClasses import Entrance, ItemClassification, Location
 from worlds.AutoWorld import CollectionState
-from .Rules import can_use_hat, can_use_hookshot, can_hit, zipline_logic, get_difficulty, has_paintings
-from .Types import HatType, Difficulty, HatInTimeLocation, HatInTimeItem, LocData, HitType
-from .DeathWishLocations import dw_prereqs, dw_candles
-from BaseClasses import Entrance, Location, ItemClassification
 from worlds.generic.Rules import add_rule, set_rule
-from typing import List, Callable, TYPE_CHECKING
+
+from .DeathWishLocations import dw_candles, dw_prereqs
 from .Locations import death_wishes
 from .Options import EndGoal
+from .Rules import can_hit, can_use_hat, can_use_hookshot, get_difficulty, has_paintings, zipline_logic
+from .Types import Difficulty, HatInTimeItem, HatInTimeLocation, HatType, HitType, LocData
 
 if TYPE_CHECKING:
     from . import HatInTimeWorld

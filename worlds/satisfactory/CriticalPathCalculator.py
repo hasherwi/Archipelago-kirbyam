@@ -1,6 +1,7 @@
+from collections.abc import Iterable
 from random import Random
 from typing import Optional
-from collections.abc import Iterable
+
 from .GameLogic import GameLogic, Recipe
 from .Options import SatisfactoryOptions
 

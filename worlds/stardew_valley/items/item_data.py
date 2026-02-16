@@ -3,9 +3,10 @@ import enum
 from dataclasses import dataclass, field
 from functools import reduce
 from pathlib import Path
-from typing import Dict, List, Protocol, Union, Set, Optional
+from typing import Dict, List, Optional, Protocol, Set, Union
 
 from BaseClasses import Item, ItemClassification
+
 from .. import data
 from ..logic.logic_event import all_events
 

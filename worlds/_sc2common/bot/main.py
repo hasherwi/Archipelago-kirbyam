@@ -14,8 +14,8 @@ from typing import Dict, List, Optional, Tuple, Union
 import mpyq
 import portpicker
 from aiohttp import ClientSession, ClientWebSocketResponse
+
 from worlds._sc2common.bot import logger
-from .proto import sc2api_pb2 as sc_pb
 
 from .bot_ai import BotAI
 from .client import Client
@@ -25,6 +25,7 @@ from .game_state import GameState
 from .maps import Map
 from .player import AbstractPlayer, Bot, BotProcess, Human
 from .portconfig import Portconfig
+from .proto import sc2api_pb2 as sc_pb
 from .protocol import ConnectionAlreadyClosed, ProtocolError
 from .proxy import Proxy
 from .sc2process import SC2Process, kill_switch
@@ -351,7 +352,7 @@ async def _join_game(
 
 
 def get_replay_version(replay_path: Union[str, Path]) -> Tuple[str, str]:
-    with open(replay_path, 'rb') as f:
+    with open(replay_path, "rb") as f:
         replay_data = f.read()
         replay_io = BytesIO()
         replay_io.write(replay_data)

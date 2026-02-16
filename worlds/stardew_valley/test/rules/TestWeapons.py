@@ -1,6 +1,6 @@
-from ..bases import SVTestBase
 from ... import options
 from ...options import ToolProgression
+from ..bases import SVTestBase
 
 
 class TestWeaponsLogic(SVTestBase):

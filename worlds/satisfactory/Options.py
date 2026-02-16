@@ -1,9 +1,22 @@
 from dataclasses import dataclass
-from typing import ClassVar, Any, cast
 from enum import IntEnum
-from schema import Schema, And
-from Options import PerGameCommonOptions, DeathLinkMixin, AssembleOptions, OptionGroup
-from Options import Range, NamedRange, Toggle, DefaultOnToggle, OptionSet, StartInventoryPool, Choice
+from typing import Any, ClassVar, cast
+
+from schema import And, Schema
+
+from Options import (
+    AssembleOptions,
+    Choice,
+    DeathLinkMixin,
+    DefaultOnToggle,
+    NamedRange,
+    OptionGroup,
+    OptionSet,
+    PerGameCommonOptions,
+    Range,
+    StartInventoryPool,
+    Toggle,
+)
 
 
 class Placement(IntEnum):
@@ -31,7 +44,7 @@ class ChoiceMapMeta(AssembleOptions):
     def __new__(mcs, name: str, bases: tuple[type], attrs: dict[Any, Any]) -> "ChoiceMapMeta":
         if "choices" in attrs:
             for index, choice in enumerate(attrs["choices"]):
-                option_name = "option_" + choice.replace(' ', '_')
+                option_name = "option_" + choice.replace(" ", "_")
                 attrs[option_name] = index
 
                 if "default" in attrs and attrs["default"] == choice:
@@ -49,7 +62,7 @@ class ChoiceMap(Choice, metaclass=ChoiceMapMeta):
         for index, choice in enumerate(self.choices):
             if index == self.value:
                 return self.choices[choice]
-            
+
         raise Exception(f"ChoiceMap: selected choice {self.value} is not valid, valid choices are: {self.choices.keys()}")
 
 
@@ -242,9 +255,9 @@ class TrapChance(Range):
 
 
 _trap_types = {
-        "Trap: Doggo with Pulse Nobelisk", 
-        "Trap: Doggo with Nuke Nobelisk", 
-        "Trap: Doggo with Gas Nobelisk", 
+        "Trap: Doggo with Pulse Nobelisk",
+        "Trap: Doggo with Nuke Nobelisk",
+        "Trap: Doggo with Gas Nobelisk",
         "Trap: Hog",
         "Trap: Alpha Hog",
         "Trap: Cliff Hog",
@@ -611,4 +624,4 @@ option_presets: dict[str, dict[str, Any]] = {
         "milestone_cost_multiplier": 300,
         "trap_selection_preset": 4  # All
     }
-} 
+}

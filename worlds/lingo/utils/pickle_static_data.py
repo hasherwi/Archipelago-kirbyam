@@ -1,18 +1,29 @@
-from typing import Dict, List, Set, Optional
-
 import os
 import sys
+from typing import Dict, List, Optional, Set
 
 sys.path.append(os.path.join("worlds", "lingo"))
 sys.path.append(".")
 sys.path.append("..")
-from datatypes import Door, DoorType, EntranceType, Painting, Panel, PanelDoor, Progression, Room, RoomAndDoor,\
-    RoomAndPanel, RoomAndPanelDoor, RoomEntrance
-
 import hashlib
 import pickle
-import Utils
 
+from datatypes import (
+    Door,
+    DoorType,
+    EntranceType,
+    Painting,
+    Panel,
+    PanelDoor,
+    Progression,
+    Room,
+    RoomAndDoor,
+    RoomAndPanel,
+    RoomAndPanelDoor,
+    RoomEntrance,
+)
+
+import Utils
 
 ALL_ROOMS: List[Room] = []
 DOORS_BY_ROOM: Dict[str, Dict[str, Door]] = {}
@@ -48,12 +59,12 @@ PANEL_DOOR_BY_PANEL_BY_ROOM: Dict[str, Dict[str, str]] = {}
 
 def hash_file(path):
     md5 = hashlib.md5()
-    
-    with open(path, 'rb') as f:
+
+    with open(path, "rb") as f:
         content = f.read()
-        content = content.replace(b'\r\n', b'\n')
+        content = content.replace(b"\r\n", b"\n")
         md5.update(content)
-    
+
     return md5.hexdigest()
 
 
@@ -540,7 +551,7 @@ def process_room(room_name, room_data):
     ALL_ROOMS.append(room_obj)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) == 1:
         ll1_path = os.path.join("worlds", "lingo", "data", "LL1.yaml")
         ids_path = os.path.join("worlds", "lingo", "data", "ids.yaml")
@@ -552,20 +563,20 @@ if __name__ == '__main__':
         print(" - Path to LL1.yaml")
         print(" - Path to ids.yaml")
         print(" - Path to output file")
-        
+
         exit()
     else:
         ll1_path = sys.argv[1]
         ids_path = sys.argv[2]
         output_path = sys.argv[3]
-        
+
     load_static_data(ll1_path, ids_path)
-    
+
     hashes = {
         "LL1.yaml": hash_file(ll1_path),
         "ids.yaml": hash_file(ids_path),
     }
-    
+
     pickdata = {
         "HASHES": hashes,
         "PAINTINGS": PAINTINGS,
@@ -592,6 +603,6 @@ if __name__ == '__main__':
         "PANEL_GROUP_ITEM_IDS": PANEL_GROUP_ITEM_IDS,
         "PROGRESSIVE_ITEM_IDS": PROGRESSIVE_ITEM_IDS,
     }
-    
+
     with open(output_path, "wb") as file:
         pickle.dump(pickdata, file)

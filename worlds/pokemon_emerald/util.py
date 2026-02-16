@@ -1,8 +1,8 @@
+from typing import Any, Dict, Iterable, List, Optional, Tuple
+
 import orjson
-from typing import Any, Dict, List, Optional, Tuple, Iterable
 
 from .data import NATIONAL_ID_TO_SPECIES_ID, EncounterType, data
-
 
 CHARACTER_DECODING_MAP = {
     0x00: " ", 0x01: "À", 0x02: "Á", 0x03: "Â", 0x04: "Ç",
@@ -44,7 +44,7 @@ CHARACTER_ENCODING_MAP.update({
 
 ALLOWED_TRAINER_NAME_CHARACTERS = frozenset({
     " ", "0", "1", "2", "3", "4", "5", "6", "7", "8",
-    "9", "!", "?", ".", "-", "…", "“", "”", "‘", "’",    
+    "9", "!", "?", ".", "-", "…", "“", "”", "‘", "’",
     "♂", "♀", ",", "/", "A", "B", "C", "D", "E", "F",
     "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
     "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
@@ -100,11 +100,11 @@ def get_encounter_type_label(encounter_type: EncounterType, slot: int) -> str:
             8: "Super Rod",
             9: "Super Rod",
         }[slot]
-    
+
     return {
-        EncounterType.LAND: 'Land',
-        EncounterType.WATER: 'Water',
-        EncounterType.ROCK_SMASH: 'Rock Smash',
+        EncounterType.LAND: "Land",
+        EncounterType.WATER: "Water",
+        EncounterType.ROCK_SMASH: "Rock Smash",
     }[encounter_type]
 
 

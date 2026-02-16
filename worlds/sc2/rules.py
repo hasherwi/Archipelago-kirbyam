@@ -1,34 +1,35 @@
 from math import floor
-from typing import TYPE_CHECKING, Set, Optional, Callable, Dict, Tuple, Iterable
+from typing import TYPE_CHECKING, Callable, Dict, Iterable, Optional, Set, Tuple
 
 from BaseClasses import CollectionState, Location
-from .item.item_groups import kerrigan_non_ulimates, kerrigan_logic_active_abilities
-from .item.item_names import PROGRESSIVE_PROTOSS_AIR_WEAPON, PROGRESSIVE_PROTOSS_AIR_ARMOR, PROGRESSIVE_PROTOSS_SHIELDS
-from .options import (
-    RequiredTactics,
-    kerrigan_unit_available,
-    AllInMap,
-    GrantStoryTech,
-    GrantStoryLevels,
-    SpearOfAdunPassiveAbilityPresence,
-    SpearOfAdunPresence,
-    MissionOrder,
-    EnableMorphling,
-    NovaGhostOfAChanceVariant,
-    get_enabled_campaigns,
-    get_enabled_races,
-)
+
+from .item import item_groups, item_names
+from .item.item_groups import kerrigan_logic_active_abilities, kerrigan_non_ulimates
+from .item.item_names import PROGRESSIVE_PROTOSS_AIR_ARMOR, PROGRESSIVE_PROTOSS_AIR_WEAPON, PROGRESSIVE_PROTOSS_SHIELDS
 from .item.item_tables import (
-    kerrigan_levels,
-    get_full_item_list,
-    no_logic_basic_units,
+    WEAPON_ARMOR_UPGRADE_MAX_LEVEL,
     advanced_basic_units,
     basic_units,
+    get_full_item_list,
+    kerrigan_levels,
+    no_logic_basic_units,
     upgrade_bundle_inverted_lookup,
-    WEAPON_ARMOR_UPGRADE_MAX_LEVEL,
 )
-from .mission_tables import SC2Race, SC2Campaign
-from .item import item_groups, item_names
+from .mission_tables import SC2Campaign, SC2Race
+from .options import (
+    AllInMap,
+    EnableMorphling,
+    GrantStoryLevels,
+    GrantStoryTech,
+    MissionOrder,
+    NovaGhostOfAChanceVariant,
+    RequiredTactics,
+    SpearOfAdunPassiveAbilityPresence,
+    SpearOfAdunPresence,
+    get_enabled_campaigns,
+    get_enabled_races,
+    kerrigan_unit_available,
+)
 
 if TYPE_CHECKING:
     from . import SC2World
@@ -658,7 +659,7 @@ class SC2Logic:
 
     def nova_escape_assist(self, state: CollectionState) -> bool:
         return state.has_any({item_names.NOVA_BLINK, item_names.NOVA_HOLO_DECOY, item_names.NOVA_IONIC_FORCE_FIELD}, self.player)
-    
+
     def nova_beat_stone(self, state: CollectionState) -> bool:
         """
         Used for any units logic for beating Stone. Shotgun may not be possible; may need feedback.
@@ -2380,7 +2381,7 @@ class SC2Logic:
             # Tested by THE EV, "facetank with Kerrigan and stutter step to the end with >10s left"
             # > have to lure the first group of Zerg in the 2nd timed section into the first room of the second area
             # > (with the heal box) so you can kill them before the timer starts.
-            # 
+            #
             # phaneros: Technically possible without the levels, but adding them in for safety margin and to hopefully
             # make generation force this branch less often
             or (state.has_any((item_names.KERRIGAN_HEROIC_FORTITUDE, item_names.KERRIGAN_INFEST_BROODLINGS), self.player)
@@ -2742,7 +2743,7 @@ class SC2Logic:
             and (self.take_over_ai_allies or (self.zerg_competent_comp(state) and self.zerg_big_monsters(state)))
             and self.zerg_power_rating(state) >= 6
         )
-    
+
     def protoss_unsealing_the_past_ledge_requirement(self, state: CollectionState) -> bool:
         return (
             state.has_any((item_names.COLOSSUS, item_names.WRATHWALKER), self.player)

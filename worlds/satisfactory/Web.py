@@ -1,6 +1,7 @@
 from BaseClasses import Tutorial
-from .Options import option_groups, option_presets
+
 from ..AutoWorld import WebWorld
+from .Options import option_groups, option_presets
 
 
 class SatisfactoryWebWorld(WebWorld):

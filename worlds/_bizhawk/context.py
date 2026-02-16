@@ -9,15 +9,25 @@ import enum
 import subprocess
 from typing import Any
 
-import settings
-from CommonClient import CommonContext, ClientCommandProcessor, get_base_parser, server_loop, logger, gui_enabled
 import Patch
+import settings
 import Utils
+from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger, server_loop
 
-from . import BizHawkContext, ConnectionStatus, NotConnectedError, RequestFailedError, connect, disconnect, get_hash, \
-    get_script_version, get_system, ping, display_message
-from .client import BizHawkClient, AutoBizHawkClientRegister
-
+from . import (
+    BizHawkContext,
+    ConnectionStatus,
+    NotConnectedError,
+    RequestFailedError,
+    connect,
+    disconnect,
+    display_message,
+    get_hash,
+    get_script_version,
+    get_system,
+    ping,
+)
+from .client import AutoBizHawkClientRegister, BizHawkClient
 
 EXPECTED_SCRIPT_VERSION = 1
 
@@ -93,7 +103,7 @@ class BizHawkClientCommandProcessor(ClientCommandProcessor):
             if value is None:
                 logger.info('Must specify "on" or "off" for category "all"')
                 return
-            
+
             if value:
                 self.ctx.text_passthrough_categories.update((
                     TextCategory.OTHER,

@@ -1,12 +1,13 @@
 from typing import Protocol
 
 from BaseClasses import Region
-from . import vanilla_data, mods
-from .entrance_rando import create_player_randomization_flag, connect_regions
-from .model import ConnectionData, RegionData
+
 from ..content import StardewContent
 from ..content.vanilla.ginger_island import ginger_island_content_pack
 from ..options import StardewValleyOptions
+from . import mods, vanilla_data
+from .entrance_rando import connect_regions, create_player_randomization_flag
+from .model import ConnectionData, RegionData
 
 
 class RegionFactory(Protocol):

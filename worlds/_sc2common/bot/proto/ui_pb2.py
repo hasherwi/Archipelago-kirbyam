@@ -9,13 +9,14 @@ from google.protobuf import descriptor_pool as _descriptor_pool
 from google.protobuf import runtime_version as _runtime_version
 from google.protobuf import symbol_database as _symbol_database
 from google.protobuf.internal import builder as _builder
+
 _runtime_version.ValidateProtobufRuntimeVersion(
     _runtime_version.Domain.PUBLIC,
     6,
     31,
     1,
-    '',
-    's2clientprotocol/ui.proto'
+    "",
+    "s2clientprotocol/ui.proto"
 )
 # @@protoc_insertion_point(imports)
 
@@ -28,49 +29,49 @@ DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19s2clientprotoc
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 's2clientprotocol.ui_pb2', _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, "s2clientprotocol.ui_pb2", _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_OBSERVATIONUI']._serialized_start=46
-  _globals['_OBSERVATIONUI']._serialized_end=308
-  _globals['_CONTROLGROUP']._serialized_start=310
-  _globals['_CONTROLGROUP']._serialized_end=394
-  _globals['_UNITINFO']._serialized_start=397
-  _globals['_UNITINFO']._serialized_end=658
-  _globals['_SINGLEPANEL']._serialized_start=661
-  _globals['_SINGLEPANEL']._serialized_end=818
-  _globals['_MULTIPANEL']._serialized_start=820
-  _globals['_MULTIPANEL']._serialized_end=873
-  _globals['_CARGOPANEL']._serialized_start=875
-  _globals['_CARGOPANEL']._serialized_end=998
-  _globals['_BUILDITEM']._serialized_start=1000
-  _globals['_BUILDITEM']._serialized_end=1055
-  _globals['_PRODUCTIONPANEL']._serialized_start=1058
-  _globals['_PRODUCTIONPANEL']._serialized_end=1215
-  _globals['_ACTIONUI']._serialized_start=1218
-  _globals['_ACTIONUI']._serialized_end=1820
-  _globals['_ACTIONCONTROLGROUP']._serialized_start=1823
-  _globals['_ACTIONCONTROLGROUP']._serialized_end=2035
-  _globals['_ACTIONCONTROLGROUP_CONTROLGROUPACTION']._serialized_start=1945
-  _globals['_ACTIONCONTROLGROUP_CONTROLGROUPACTION']._serialized_end=2035
-  _globals['_ACTIONSELECTARMY']._serialized_start=2037
-  _globals['_ACTIONSELECTARMY']._serialized_end=2078
-  _globals['_ACTIONSELECTWARPGATES']._serialized_start=2080
-  _globals['_ACTIONSELECTWARPGATES']._serialized_end=2126
-  _globals['_ACTIONSELECTLARVA']._serialized_start=2128
-  _globals['_ACTIONSELECTLARVA']._serialized_end=2147
-  _globals['_ACTIONSELECTIDLEWORKER']._serialized_start=2150
-  _globals['_ACTIONSELECTIDLEWORKER']._serialized_end=2280
-  _globals['_ACTIONSELECTIDLEWORKER_TYPE']._serialized_start=2235
-  _globals['_ACTIONSELECTIDLEWORKER_TYPE']._serialized_end=2280
-  _globals['_ACTIONMULTIPANEL']._serialized_start=2283
-  _globals['_ACTIONMULTIPANEL']._serialized_end=2462
-  _globals['_ACTIONMULTIPANEL_TYPE']._serialized_start=2376
-  _globals['_ACTIONMULTIPANEL_TYPE']._serialized_end=2462
-  _globals['_ACTIONCARGOPANELUNLOAD']._serialized_start=2464
-  _globals['_ACTIONCARGOPANELUNLOAD']._serialized_end=2508
-  _globals['_ACTIONPRODUCTIONPANELREMOVEFROMQUEUE']._serialized_start=2510
-  _globals['_ACTIONPRODUCTIONPANELREMOVEFROMQUEUE']._serialized_end=2568
-  _globals['_ACTIONTOGGLEAUTOCAST']._serialized_start=2570
-  _globals['_ACTIONTOGGLEAUTOCAST']._serialized_end=2612
+  _globals["_OBSERVATIONUI"]._serialized_start=46
+  _globals["_OBSERVATIONUI"]._serialized_end=308
+  _globals["_CONTROLGROUP"]._serialized_start=310
+  _globals["_CONTROLGROUP"]._serialized_end=394
+  _globals["_UNITINFO"]._serialized_start=397
+  _globals["_UNITINFO"]._serialized_end=658
+  _globals["_SINGLEPANEL"]._serialized_start=661
+  _globals["_SINGLEPANEL"]._serialized_end=818
+  _globals["_MULTIPANEL"]._serialized_start=820
+  _globals["_MULTIPANEL"]._serialized_end=873
+  _globals["_CARGOPANEL"]._serialized_start=875
+  _globals["_CARGOPANEL"]._serialized_end=998
+  _globals["_BUILDITEM"]._serialized_start=1000
+  _globals["_BUILDITEM"]._serialized_end=1055
+  _globals["_PRODUCTIONPANEL"]._serialized_start=1058
+  _globals["_PRODUCTIONPANEL"]._serialized_end=1215
+  _globals["_ACTIONUI"]._serialized_start=1218
+  _globals["_ACTIONUI"]._serialized_end=1820
+  _globals["_ACTIONCONTROLGROUP"]._serialized_start=1823
+  _globals["_ACTIONCONTROLGROUP"]._serialized_end=2035
+  _globals["_ACTIONCONTROLGROUP_CONTROLGROUPACTION"]._serialized_start=1945
+  _globals["_ACTIONCONTROLGROUP_CONTROLGROUPACTION"]._serialized_end=2035
+  _globals["_ACTIONSELECTARMY"]._serialized_start=2037
+  _globals["_ACTIONSELECTARMY"]._serialized_end=2078
+  _globals["_ACTIONSELECTWARPGATES"]._serialized_start=2080
+  _globals["_ACTIONSELECTWARPGATES"]._serialized_end=2126
+  _globals["_ACTIONSELECTLARVA"]._serialized_start=2128
+  _globals["_ACTIONSELECTLARVA"]._serialized_end=2147
+  _globals["_ACTIONSELECTIDLEWORKER"]._serialized_start=2150
+  _globals["_ACTIONSELECTIDLEWORKER"]._serialized_end=2280
+  _globals["_ACTIONSELECTIDLEWORKER_TYPE"]._serialized_start=2235
+  _globals["_ACTIONSELECTIDLEWORKER_TYPE"]._serialized_end=2280
+  _globals["_ACTIONMULTIPANEL"]._serialized_start=2283
+  _globals["_ACTIONMULTIPANEL"]._serialized_end=2462
+  _globals["_ACTIONMULTIPANEL_TYPE"]._serialized_start=2376
+  _globals["_ACTIONMULTIPANEL_TYPE"]._serialized_end=2462
+  _globals["_ACTIONCARGOPANELUNLOAD"]._serialized_start=2464
+  _globals["_ACTIONCARGOPANELUNLOAD"]._serialized_end=2508
+  _globals["_ACTIONPRODUCTIONPANELREMOVEFROMQUEUE"]._serialized_start=2510
+  _globals["_ACTIONPRODUCTIONPANELREMOVEFROMQUEUE"]._serialized_end=2568
+  _globals["_ACTIONTOGGLEAUTOCAST"]._serialized_start=2570
+  _globals["_ACTIONTOGGLEAUTOCAST"]._serialized_end=2612
 # @@protoc_insertion_point(module_scope)

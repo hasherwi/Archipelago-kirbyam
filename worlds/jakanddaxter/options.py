@@ -1,7 +1,17 @@
 from dataclasses import dataclass
 from functools import cached_property
-from Options import PerGameCommonOptions, StartInventoryPool, Toggle, Choice, Range, DefaultOnToggle, OptionCounter, \
-    AssembleOptions
+
+from Options import (
+    AssembleOptions,
+    Choice,
+    DefaultOnToggle,
+    OptionCounter,
+    PerGameCommonOptions,
+    Range,
+    StartInventoryPool,
+    Toggle,
+)
+
 from .items import trap_item_table
 
 

@@ -1,30 +1,53 @@
-from typing import TYPE_CHECKING, List, Dict, Any, Tuple, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 
 from Options import OptionError
-from .locations import LocationData, Location
+
+from .locations import Location, LocationData
+from .mission_order import SC2MissionOrder
+from .mission_order.generation import (
+    fill_depths,
+    fill_missions,
+    make_connections,
+    resolve_difficulties,
+    resolve_generic_keys,
+    resolve_unlocks,
+)
+from .mission_order.mission_pools import SC2MOGenMissionPools
+from .mission_order.nodes import Difficulty, SC2MOGenMissionOrder
+from .mission_order.options import CustomMissionOrder
 from .mission_tables import (
-    SC2Mission, SC2Campaign, MissionFlag, get_campaign_goal_priority,
-    campaign_final_mission_locations, campaign_alt_final_mission_locations
+    MissionFlag,
+    SC2Campaign,
+    SC2Mission,
+    campaign_alt_final_mission_locations,
+    campaign_final_mission_locations,
+    get_campaign_goal_priority,
 )
 from .options import (
-    ShuffleNoBuild, RequiredTactics, ShuffleCampaigns,
-    kerrigan_unit_available, TakeOverAIAllies, MissionOrder, get_excluded_missions, get_enabled_campaigns,
+    EnableMissionRaceBalancing,
+    EnableRaceSwapVariants,
+    GrantStoryTech,
+    KeyMode,
+    MissionOrder,
+    NovaGhostOfAChanceVariant,
+    RequiredTactics,
+    ShuffleCampaigns,
+    ShuffleNoBuild,
+    TakeOverAIAllies,
+    TwoStartPositions,
+    WarCouncilNerfs,
+    get_enabled_campaigns,
+    get_excluded_missions,
+    kerrigan_unit_available,
     static_mission_orders,
-    TwoStartPositions, KeyMode, EnableMissionRaceBalancing, EnableRaceSwapVariants, NovaGhostOfAChanceVariant,
-    WarCouncilNerfs, GrantStoryTech
 )
-from .mission_order.options import CustomMissionOrder
-from .mission_order import SC2MissionOrder
-from .mission_order.nodes import SC2MOGenMissionOrder, Difficulty
-from .mission_order.mission_pools import SC2MOGenMissionPools
-from .mission_order.generation import resolve_unlocks, fill_depths, resolve_difficulties, fill_missions, make_connections, resolve_generic_keys
 
 if TYPE_CHECKING:
     from . import SC2World
 
 
 def create_mission_order(
-    world: 'SC2World', locations: Tuple[LocationData, ...], location_cache: List[Location]
+    world: "SC2World", locations: Tuple[LocationData, ...], location_cache: List[Location]
 ):
     # 'locations' contains both actual game locations and beat event locations for all mission regions
     # When a region (mission) is accessible, all its locations are potentially accessible
@@ -56,21 +79,21 @@ def create_mission_order(
 
     # Set up requirements for individual parts of the mission order
     resolve_unlocks(mission_order)
-    
+
     # Ensure total accessibilty and resolve relative difficulties
     fill_depths(mission_order)
     resolve_difficulties(mission_order)
-    
+
     # Build the mission order
     fill_missions(mission_order, mission_pools, world, [], locations, location_cache) # TODO set locked missions
     make_connections(mission_order, world)
 
     # Fill in Key requirements now that missions are placed
     resolve_generic_keys(mission_order)
-    
+
     return SC2MissionOrder(mission_order, mission_pools)
 
-def adjust_mission_pools(world: 'SC2World', pools: SC2MOGenMissionPools):
+def adjust_mission_pools(world: "SC2World", pools: SC2MOGenMissionPools):
     # Mission pool changes
     mission_order_type = world.options.mission_order.value
     enabled_campaigns = get_enabled_campaigns(world)
@@ -138,7 +161,7 @@ def adjust_mission_pools(world: 'SC2World', pools: SC2MOGenMissionPools):
         pools.move_mission(SC2Mission.SUPREME, Difficulty.MEDIUM, Difficulty.STARTER)
         pools.move_mission(SC2Mission.THE_INFINITE_CYCLE, Difficulty.HARD, Difficulty.STARTER)
         pools.move_mission(SC2Mission.CONVICTION, Difficulty.MEDIUM, Difficulty.STARTER)
-    
+
     # Take over AI allies
     if world.options.take_over_ai_allies.value == TakeOverAIAllies.option_true:
         pools.move_mission(SC2Mission.HARBINGER_OF_OBLIVION, Difficulty.MEDIUM, Difficulty.STARTER)
@@ -153,7 +176,7 @@ def adjust_mission_pools(world: 'SC2World', pools: SC2MOGenMissionPools):
         # Flashpoint needs just a few items at start but competent comp at the end
         pools.move_mission(SC2Mission.FLASHPOINT, Difficulty.HARD, Difficulty.EASY)
 
-def setup_mission_pool_balancing(world: 'SC2World', pools: SC2MOGenMissionPools):
+def setup_mission_pool_balancing(world: "SC2World", pools: SC2MOGenMissionPools):
     race_mission_balance = world.options.mission_race_balancing.value
     flag_ratios: Dict[MissionFlag, int] = {}
     flag_weights: Dict[MissionFlag, int] = {}
@@ -163,7 +186,7 @@ def setup_mission_pool_balancing(world: 'SC2World', pools: SC2MOGenMissionPools)
         flag_ratios = { MissionFlag.Terran: 1, MissionFlag.Zerg: 1, MissionFlag.Protoss: 1 }
     pools.set_flag_balances(flag_ratios, flag_weights)
 
-def create_regular_mission_order(world: 'SC2World', mission_pools: SC2MOGenMissionPools) -> Dict[str, Dict[str, Any]]:
+def create_regular_mission_order(world: "SC2World", mission_pools: SC2MOGenMissionPools) -> Dict[str, Dict[str, Any]]:
     mission_order_type = world.options.mission_order.value
 
     if mission_order_type in static_mission_orders:
@@ -171,7 +194,7 @@ def create_regular_mission_order(world: 'SC2World', mission_pools: SC2MOGenMissi
     else:
         return create_dynamic_mission_order(world, mission_order_type, mission_pools)
 
-def create_static_mission_order(world: 'SC2World', mission_order_type: int, mission_pools: SC2MOGenMissionPools) -> Dict[str, Dict[str, Any]]:
+def create_static_mission_order(world: "SC2World", mission_order_type: int, mission_pools: SC2MOGenMissionPools) -> Dict[str, Dict[str, Any]]:
     mission_order: Dict[str, Dict[str, Any]] = {}
 
     enabled_campaigns = get_enabled_campaigns(world)
@@ -181,7 +204,7 @@ def create_static_mission_order(world: 'SC2World', mission_order_type: int, miss
         missions = "random"
     else:
         missions = "vanilla_shuffled"
-    
+
     if world.options.enable_race_swap.value == EnableRaceSwapVariants.option_disabled:
         shuffle_raceswaps = False
     else:
@@ -201,7 +224,7 @@ def create_static_mission_order(world: 'SC2World', mission_order_type: int, miss
         keys = "progressive_per_layout"
     else:
         keys = "none"
-    
+
     if mission_order_type == MissionOrder.option_mini_campaign:
         prefix = "mini "
     else:
@@ -218,7 +241,7 @@ def create_static_mission_order(world: 'SC2World', mission_order_type: int, miss
     prophecy_enabled = SC2Campaign.PROPHECY in enabled_campaigns
     wol_enabled = SC2Campaign.WOL in enabled_campaigns
     if wol_enabled:
-        mission_order[SC2Campaign.WOL.campaign_name] = mission_order_preset("wol") 
+        mission_order[SC2Campaign.WOL.campaign_name] = mission_order_preset("wol")
 
     if prophecy_enabled:
         mission_order[SC2Campaign.PROPHECY.campaign_name] = mission_order_preset("prophecy")
@@ -253,7 +276,7 @@ def create_static_mission_order(world: 'SC2World', mission_order_type: int, miss
     # There is a preset that already does this, but special-casing this way is easier to work with for other code
     if wol_enabled and prophecy_enabled:
         fix_wol_prophecy_entry_rules(mission_order)
-    
+
     # Vanilla Shuffled is allowed to drop some slots
     if mission_order_type == MissionOrder.option_vanilla_shuffled:
         remove_missions(world, mission_order, mission_pools)
@@ -275,7 +298,7 @@ def fix_wol_prophecy_entry_rules(mission_order: Dict[str, Dict[str, Any]]):
                 entry_rule["scope"] = [local_campaign_scope, prophecy_name]
             elif isinstance(entry_rule["scope"], list) and local_campaign_scope in entry_rule["scope"]:
                 entry_rule["scope"] = entry_rule["scope"] + [prophecy_name]
-    
+
     for layout_dict in mission_order[SC2Campaign.WOL.campaign_name].values():
         if not isinstance(layout_dict, dict):
             continue
@@ -287,12 +310,12 @@ def fix_wol_prophecy_entry_rules(mission_order: Dict[str, Dict[str, Any]]):
                 if "entry_rules" in mission_dict:
                     for entry_rule in mission_dict["entry_rules"]:
                         fix_entry_rule(entry_rule, "../..")
-    
+
     # Make Prophecy require Artifact's second mission
     mission_order[prophecy_name][prophecy_name]["entry_rules"] = [{ "scope": [f"{SC2Campaign.WOL.campaign_name}/Artifact/1"]}]
 
 
-def force_final_missions(world: 'SC2World', mission_order: Dict[str, Dict[str, Any]], mission_order_type: int):
+def force_final_missions(world: "SC2World", mission_order: Dict[str, Dict[str, Any]], mission_order_type: int):
     goal_mission: Optional[SC2Mission] = None
     excluded_missions = get_excluded_missions(world)
     enabled_campaigns = get_enabled_campaigns(world)
@@ -320,7 +343,7 @@ def force_final_missions(world: 'SC2World', mission_order: Dict[str, Dict[str, A
                 goal_mission = world.random.choice(candidate_missions)
             else:
                 goal_mission = primary_goal.mission
-            
+
             # The goal layout for static presets is the layout corresponding to the last key
             goal_layout = list(mission_order[goal_campaign.campaign_name].keys())[-1]
             goal_index = mission_order[goal_campaign.campaign_name][goal_layout]["size"] - 1
@@ -334,7 +357,7 @@ def force_final_missions(world: 'SC2World', mission_order: Dict[str, Dict[str, A
         if campaign not in candidate_campaigns:
             mission_order[campaign.campaign_name]["goal"] = False
 
-def remove_missions(world: 'SC2World', mission_order: Dict[str, Dict[str, Any]], mission_pools: SC2MOGenMissionPools):
+def remove_missions(world: "SC2World", mission_order: Dict[str, Dict[str, Any]], mission_pools: SC2MOGenMissionPools):
     enabled_campaigns = get_enabled_campaigns(world)
     removed_counts: Dict[SC2Campaign, Dict[str, int]] = {}
     for campaign in enabled_campaigns:
@@ -419,7 +442,7 @@ removal_priorities: Dict[SC2Campaign, List[str]] = {
     ]
 }
 
-def make_grid(world: 'SC2World', size: int) -> Dict[str, Dict[str, Any]]:
+def make_grid(world: "SC2World", size: int) -> Dict[str, Dict[str, Any]]:
     mission_order = {
         "grid": {
             "display_name": "",
@@ -430,7 +453,7 @@ def make_grid(world: 'SC2World', size: int) -> Dict[str, Dict[str, Any]]:
     }
     return mission_order
 
-def make_golden_path(world: 'SC2World', size: int) -> Dict[str, Dict[str, Any]]:
+def make_golden_path(world: "SC2World", size: int) -> Dict[str, Dict[str, Any]]:
     key_mode = world.options.key_mode.value
     if key_mode == KeyMode.option_missions:
         keys = "missions"
@@ -444,7 +467,7 @@ def make_golden_path(world: 'SC2World', size: int) -> Dict[str, Dict[str, Any]]:
         keys = "progressive_per_layout"
     else:
         keys = "none"
-    
+
     mission_order = {
         "golden path": {
             "display_name": "",
@@ -476,7 +499,7 @@ def make_blitz(size: int) -> Dict[str, Dict[str, Any]]:
     }
     return mission_order
 
-def make_hopscotch(world: 'SC2World', size: int) -> Dict[str, Dict[str, Any]]:
+def make_hopscotch(world: "SC2World", size: int) -> Dict[str, Dict[str, Any]]:
     mission_order = {
         "hopscotch": {
             "display_name": "",
@@ -487,12 +510,12 @@ def make_hopscotch(world: 'SC2World', size: int) -> Dict[str, Dict[str, Any]]:
     }
     return mission_order
 
-def create_dynamic_mission_order(world: 'SC2World', mission_order_type: int, mission_pools: SC2MOGenMissionPools) -> Dict[str, Dict[str, Any]]:
+def create_dynamic_mission_order(world: "SC2World", mission_order_type: int, mission_pools: SC2MOGenMissionPools) -> Dict[str, Dict[str, Any]]:
     num_missions = min(mission_pools.get_allowed_mission_count(), world.options.maximum_campaign_size.value)
     num_missions = max(1, num_missions)
     if mission_order_type == MissionOrder.option_golden_path:
         return make_golden_path(world, num_missions)
-    
+
     if mission_order_type == MissionOrder.option_grid:
         mission_order = make_grid(world, num_missions)
     elif mission_order_type == MissionOrder.option_gauntlet:
@@ -503,7 +526,7 @@ def create_dynamic_mission_order(world: 'SC2World', mission_order_type: int, mis
         mission_order = make_hopscotch(world, num_missions)
     else:
         raise ValueError("Received unknown Mission Order type")
-    
+
     # Optionally add key requirements
     # This only works for layout types that don't define their own entry rules (which is currently all of them)
     # Golden Path handles Key Mode on its own
@@ -518,5 +541,5 @@ def create_dynamic_mission_order(world: 'SC2World', mission_order_type: int, mis
             { "index": "all", "entry_rules": [{ "items": { "Progressive Key": 1 }}] },
             { "index": "entrances", "entry_rules": [] }
         ]
-    
+
     return mission_order

@@ -1,10 +1,12 @@
 import json
 import typing
+
 from websockets import WebSocketServerProtocol
 
 from . import TrackerConsts as Consts
-from .TrackerConsts import EntranceCoord
 from .LADXR.entranceInfo import ENTRANCE_INFO
+from .TrackerConsts import EntranceCoord
+
 
 class Entrance:
     outdoor_room: int
@@ -25,7 +27,7 @@ class Entrance:
         if other_side != self.other_side_name:
             self.changed = True
             self.known_to_server = known_to_server
-        
+
         self.other_side_name = other_side
 
 class GpsTracker:
@@ -62,19 +64,19 @@ class GpsTracker:
         return (await self.gameboy.read_memory_cache([b]))[b]
 
     def load_slot_data(self, slot_data: typing.Dict[str, typing.Any]):
-        if 'entrance_mapping' not in slot_data:
+        if "entrance_mapping" not in slot_data:
             return
 
         # We need to know how entrances were mapped at generation before we can autotrack them
         self.entrance_mapping = {}
 
         # Convert to upstream's newer format
-        for outside, inside in slot_data['entrance_mapping'].items():
+        for outside, inside in slot_data["entrance_mapping"].items():
             new_inside = f"{inside}:inside"
             self.entrance_mapping[outside] = new_inside
             self.entrance_mapping[new_inside] = outside
 
-        self.entrances_by_name = {} 
+        self.entrances_by_name = {}
 
         for name, info in ENTRANCE_INFO.items():
             alternate_address = (
@@ -88,7 +90,7 @@ class GpsTracker:
 
             inside_entrance = Entrance(info.target, info.room, f"{name}:inside", alternate_address)
             self.entrances_by_name[f"{name}:inside"] = inside_entrance
-        
+
         self.needs_slot_data = False
         self.needs_found_entrances = True
 
@@ -141,7 +143,7 @@ class GpsTracker:
         # Also used to validate that we came from the right room for what the spawn point is mapped to
         map_id = await self.read_byte(Consts.map_id)
         if map_id not in Consts.map_map:
-            print(f'Unknown map ID {hex(map_id)}')
+            print(f"Unknown map ID {hex(map_id)}")
             return
 
         map_digit = Consts.map_map[map_id] << 8 if indoors else 0
@@ -211,13 +213,13 @@ class GpsTracker:
 
     last_location_message = {}
     async def send_location(self, socket: WebSocketServerProtocol) -> None:
-        if self.room is None or self.room_same_for < 1: 
+        if self.room is None or self.room_same_for < 1:
             return
 
         message = {
             "type":"location",
             "refresh": True,
-            "room": f'0x{self.room:02X}',
+            "room": f"0x{self.room:02X}",
             "x": self.screen_x,
             "y": self.screen_y,
             "drawFine": True,
@@ -244,17 +246,17 @@ class GpsTracker:
         }
 
         for entrance in new_entrances:
-            message['entranceMap'][entrance.name] = entrance.other_side_name
+            message["entranceMap"][entrance.name] = entrance.other_side_name
             entrance.changed = False
 
         await socket.send(json.dumps(message))
 
-        new_to_server = { 
-            entrance.name: entrance.other_side_name 
-            for entrance in new_entrances 
-            if not entrance.known_to_server 
-        } 
- 
+        new_to_server = {
+            entrance.name: entrance.other_side_name
+            for entrance in new_entrances
+            if not entrance.known_to_server
+        }
+
         return new_to_server
 
     def receive_found_entrances(self, found_entrances: typing.Dict[str, str]):

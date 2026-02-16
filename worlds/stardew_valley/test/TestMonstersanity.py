@@ -1,10 +1,10 @@
 import unittest
 from typing import ClassVar
 
-from .bases import SVTestBase
 from .. import options
 from ..locations import LocationTags, location_table
 from ..mods.mod_data import ModNames
+from .bases import SVTestBase
 
 
 class SVMonstersanityTestBase(SVTestBase):

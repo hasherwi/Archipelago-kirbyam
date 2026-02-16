@@ -1,6 +1,9 @@
-from .level_logic import YoshiLogic
-from worlds.generic.Rules import set_rule
 from typing import TYPE_CHECKING
+
+from worlds.generic.Rules import set_rule
+
+from .level_logic import YoshiLogic
+
 if TYPE_CHECKING:
     from . import YoshisIslandWorld
 

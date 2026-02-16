@@ -1,7 +1,8 @@
 from __future__ import annotations
-from typing import List, Callable, Set, Tuple, Union, TYPE_CHECKING, Dict, Any
+
 import math
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Set, Tuple, Union
 
 if TYPE_CHECKING:
     from .nodes import SC2MOGenMission
@@ -24,7 +25,7 @@ class LayoutType(ABC):
 
         This should include at least one entrance and exit."""
         return []
-    
+
     def final_setup(self, missions: List[SC2MOGenMission]):
         """Called after user changes to the layout are applied to make any final checks and changes.
 
@@ -36,13 +37,13 @@ class LayoutType(ABC):
 
         If the term cannot be parsed, either raise an exception or return `None`."""
         return self.parse_index_as_function(term)
-    
+
     def parse_index_as_function(self, term: str) -> Union[Set[int], None]:
         """Helper function to interpret the term as a function call on the layout type, if it is declared in `self.index_functions`.
         
         Returns the function's return value if `term` is a valid function call, `None` otherwise."""
-        left = term.find('(')
-        right = term.find(')')
+        left = term.find("(")
+        right = term.find(")")
         if left == -1 and right == -1:
             # Assume no args are desired
             fn_name = term.strip()
@@ -52,7 +53,7 @@ class LayoutType(ABC):
         else:
             fn_name = term[:left].strip()
             fn_args_str = term[left + 1:right]
-            fn_args = [arg.strip() for arg in fn_args_str.split(',')]
+            fn_args = [arg.strip() for arg in fn_args_str.split(",")]
 
         if fn_name in self.index_functions:
             try:
@@ -84,7 +85,7 @@ class Column(LayoutType):
         for i in range(self.size - 1):
             missions[i].next.append(missions[i + 1])
         return missions
-    
+
     def get_visual_layout(self) -> List[List[int]]:
         return [list(range(self.size))]
 
@@ -147,27 +148,27 @@ class Grid(LayoutType):
     @staticmethod
     def manhattan_distance(point1: Tuple[int, int], point2: Tuple[int, int]) -> int:
         return abs(point1[0] - point2[0]) + abs(point1[1] - point2[1])
-    
+
     @staticmethod
     def euclidean_distance_squared(point1: Tuple[int, int], point2: Tuple[int, int]) -> int:
         return (point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2
-    
+
     @staticmethod
     def euclidean_distance(point1: Tuple[int, int], point2: Tuple[int, int]) -> float:
         return math.sqrt(Grid.euclidean_distance_squared(point1, point2))
 
     def get_grid_coordinates(self, idx: int) -> Tuple[int, int]:
         return (idx % self.width), (idx // self.width)
-    
+
     def get_grid_index(self, x: int, y: int) -> int:
         return y * self.width + x
-    
+
     def is_valid_coordinates(self, x: int, y: int) -> bool:
         return (
             0 <= x < self.width and
             0 <= y < self.height
         )
-    
+
     def make_slots(self, mission_factory: Callable[[], SC2MOGenMission]) -> List[SC2MOGenMission]:
         missions = [mission_factory() for _ in range(self.width * self.height)]
         if self.two_start_positions:
@@ -191,7 +192,7 @@ class Grid(LayoutType):
                     if self.is_valid_coordinates(nb_x, nb_y)
                 ]
                 missions[idx].next = [missions[nb] for nb in neighbours]
-        
+
         # Empty corners
         top_corners = math.floor(self.num_corners_to_remove / 2)
         bottom_corners = math.ceil(self.num_corners_to_remove / 2)
@@ -227,14 +228,14 @@ class Grid(LayoutType):
             y += 1
 
         return missions
-    
+
     def get_visual_layout(self) -> List[List[int]]:
         columns = [
             [self.get_grid_index(x, y) for y in range(self.height)]
             for x in range(self.width)
         ]
         return columns
-    
+
     def idx_point(self, x: str, y: str) -> Union[Set[int], None]:
         try:
             x = int(x)
@@ -244,7 +245,7 @@ class Grid(LayoutType):
         if self.is_valid_coordinates(x, y):
             return {self.get_grid_index(x, y)}
         return None
-    
+
     def idx_rect(self, x: str, y: str, width: str, height: str) -> Union[Set[int], None]:
         try:
             x = int(x)
@@ -260,7 +261,7 @@ class Grid(LayoutType):
             if self.is_valid_coordinates(pt_x, pt_y)
         }
         return indices
-    
+
 
 class Canvas(Grid):
     """Rectangular grid that determines size and filled slots based on special canvas option."""
@@ -288,14 +289,14 @@ class Canvas(Grid):
         # Pad short lines with spaces
         longest_line = max(len(line) for line in self.canvas)
         for idx in range(len(self.canvas)):
-            padding = ' ' * (longest_line - len(self.canvas[idx]))
+            padding = " " * (longest_line - len(self.canvas[idx]))
             self.canvas[idx] += padding
 
         self.groups = {}
         for (line_idx, line) in enumerate(self.canvas):
             for (char_idx, char) in enumerate(line):
                 self.groups.setdefault(char, []).append(self.get_grid_index(char_idx, line_idx))
-        
+
         return options
 
     def make_slots(self, mission_factory: Callable[[], SC2MOGenMission]) -> List[SC2MOGenMission]:
@@ -313,7 +314,7 @@ class Canvas(Grid):
                 point[0] + direction[0] * distance,
                 point[1] + direction[1] * distance
             )
-        
+
         def raycast(point: Tuple[int, int], direction: Tuple[int, int], max_distance: int) -> Union[Tuple[int, SC2MOGenMission], None]:
             for distance in range(1, max_distance + 1):
                 target = jump(point, direction, distance)
@@ -362,7 +363,7 @@ class Canvas(Grid):
         # if the user didn't set one themselves
         def distance_lambda(point: Tuple[int, int]) -> Callable[[Tuple[int, SC2MOGenMission]], int]:
             return lambda idx_mission: Grid.euclidean_distance_squared(self.get_grid_coordinates(idx_mission[0]), point)
-        
+
         if not any(mission.option_entrance for mission in missions):
             top_left = self.get_grid_coordinates(0)
             closest_to_top_left = sorted(
@@ -435,9 +436,9 @@ class Hopscotch(LayoutType):
             for next_idx in indices:
                 if next_idx < self.size:
                     slots[idx].next.append(slots[next_idx])
-        
+
         return slots
-    
+
     @staticmethod
     def space_at_column(idx: int) -> List[int]:
         # -1 0 1 2 3 4 5
@@ -468,7 +469,7 @@ class Hopscotch(LayoutType):
             if col_idx >= self.width:
                 final_cols[col_idx % self.width].extend([-1 for _ in range(self.spacer)])
             final_cols[col_idx % self.width].extend(col)
-        
+
         fill_to_longest(final_cols)
 
         return final_cols
@@ -516,7 +517,7 @@ class Gauntlet(LayoutType):
     # 0 1 2 3
     #
     # 4 5 6 7
-    
+
     def set_options(self, options: Dict[str, Any]) -> Dict[str, Any]:
         width: int = options.pop("width", 7)
         self.width = min(max(width, 4), self.size)
@@ -529,7 +530,7 @@ class Gauntlet(LayoutType):
         for i in range(self.size - 1):
             missions[i].next.append(missions[i + 1])
         return missions
-    
+
     def get_visual_layout(self) -> List[List[int]]:
         columns = [[] for _ in range(self.width)]
         for idx in range(self.size):
@@ -562,12 +563,12 @@ class Blitz(LayoutType):
         else:
             self.width = min(self.size, width)
         return options
-    
+
     def make_slots(self, mission_factory: Callable[[], SC2MOGenMission]) -> List[SC2MOGenMission]:
         slots = [mission_factory() for _ in range(self.size)]
         for idx in range(self.width):
             slots[idx].option_entrance = True
-        
+
         # TODO: this is copied from the original mission order and works, but I'm not sure on the intent
         # middle_column = self.width // 2
         # if self.size % self.width > middle_column:
@@ -587,18 +588,18 @@ class Blitz(LayoutType):
                         slots[idx].next.append(slots[other])
                     if row == rows-1:
                         slots[idx].option_exit = True
-        
+
         return slots
-    
+
     def get_visual_layout(self) -> List[List[int]]:
         columns = [[] for _ in range(self.width)]
         for idx in range(self.size):
             columns[idx % self.width].append(idx)
-        
+
         fill_to_longest(columns)
 
         return columns
-    
+
     def idx_row(self, row: str) -> Union[Set[int], None]:
         try:
             row = int(row)
@@ -611,7 +612,7 @@ class Blitz(LayoutType):
         return {
             idx for idx in indices if idx < self.size
         }
-    
+
 def fill_to_longest(columns: List[List[int]]):
     longest = max(len(col) for col in columns)
     for idx in range(len(columns)):

@@ -2,8 +2,9 @@ import typing
 
 from BaseClasses import Location, MultiWorld
 from worlds.AutoWorld import World
+
+from .Missions import mission_orders, stage_name_prefixes
 from .Names import LocationName
-from .Missions import stage_name_prefixes, mission_orders
 
 
 class SA2BLocation(Location):
@@ -1583,7 +1584,7 @@ itembox_location_table = {
     LocationName.final_chase_itembox_8: 0xFF16FD,
 
     LocationName.cannon_core_itembox_8: 0xFF16FE,
-    
+
     LocationName.city_escape_itembox_9: 0xFF1700,
     LocationName.green_forest_itembox_9: 0xFF1704,
     LocationName.pumpkin_hill_itembox_9: 0xFF1705,

@@ -1,8 +1,9 @@
 import unittest
 from argparse import Namespace
 
-from BaseClasses import MultiWorld, CollectionState, ItemClassification
+from BaseClasses import CollectionState, ItemClassification, MultiWorld
 from worlds import AutoWorldRegister
+
 from ..Items import item_factory
 
 

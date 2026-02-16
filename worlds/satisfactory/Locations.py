@@ -1,12 +1,14 @@
-from typing import ClassVar, Optional
-from collections.abc import Iterable, Callable
+from collections.abc import Callable, Iterable
 from math import ceil, floor
+from typing import ClassVar, Optional
+
 from BaseClasses import CollectionState
-from .GameLogic import GameLogic, Recipe, Building, PowerInfrastructureLevel, DropPodData
-from .StateLogic import StateLogic, EventId, part_event_prefix, building_event_prefix
+
+from .CriticalPathCalculator import CriticalPathCalculator
+from .GameLogic import Building, DropPodData, GameLogic, PowerInfrastructureLevel, Recipe
 from .Items import Items
 from .Options import SatisfactoryOptions
-from .CriticalPathCalculator import CriticalPathCalculator
+from .StateLogic import EventId, StateLogic, building_event_prefix, part_event_prefix
 
 
 class LocationData:
@@ -40,7 +42,7 @@ class Part(LocationData):
 
             recipes_per_region.setdefault(recipe.building or "Overworld", []).append(recipe)
 
-        return [Part(state_logic, region, recipes_for_region, name) 
+        return [Part(state_logic, region, recipes_for_region, name)
                 for region, recipes_for_region in recipes_per_region.items()]
 
     def __init__(self, state_logic: StateLogic, region: str, recipes: Iterable[Recipe], name: str):
@@ -50,7 +52,7 @@ class Part(LocationData):
     @staticmethod
     def can_produce_any_recipe_for_part(state_logic: StateLogic, recipes: Iterable[Recipe]) \
             -> Callable[[CollectionState], bool]:
-        
+
         recipe_rules = tuple(state_logic.get_can_produce_specific_recipe_for_part_rule(recipe) for recipe in recipes)
 
         def can_build_by_any_recipe(state: CollectionState) -> bool:
@@ -78,7 +80,7 @@ class EventBuilding(LocationData):
 
 
 class PowerInfrastructure(LocationData):
-    def __init__(self, state_logic: StateLogic, 
+    def __init__(self, state_logic: StateLogic,
                  power_level: PowerInfrastructureLevel, recipes: Iterable[Recipe]):
         super().__init__("Overworld", building_event_prefix + power_level.to_name(), EventId,
                          rule=PowerInfrastructure.get_can_create_power_infrastructure_rule(state_logic, power_level, recipes))
@@ -130,7 +132,7 @@ class ShopSlot(LocationData):
                 return state_logic.is_elevator_phase(state, 2)
             else:
                 return state_logic.is_elevator_phase(state, 3)
-            
+
         return can_purchase
 
 
@@ -145,7 +147,7 @@ class HardDrive(LocationData):
             return f"Hub Tier {tier}"
 
         def get_rule(unlocked_by: Optional[str], power_needed: int) -> Callable[[CollectionState], bool]:
-            # Power is kept out of logic. with energy link its simple, 
+            # Power is kept out of logic. with energy link its simple,
             # without you just going to have to figure it your yourself
 
             def logic_rule(state: CollectionState) -> bool:
@@ -361,11 +363,11 @@ class Locations:
                         if tier <= max_tier \
                                 and milestone <= len(self.game_logic.hub_layout[tier - 1]) \
                                 and slot <= number_of_slots_per_milestone_for_game:
-                            
+
                             location_table.append(HubSlot(tier, milestone, slot, hub_location_id))
 
                     hub_location_id += 1
-                
+
         return location_table
 
     def get_logical_event_locations(self, final_elevator_phase: int) -> list[LocationData]:
@@ -375,25 +377,25 @@ class Locations:
         # and than create one massive state.has_all for each logical gate (hub tiers, elevator phases)
 
         location_table.extend(
-            ElevatorPhase(phaseIndex, self.state_logic, self.game_logic) 
+            ElevatorPhase(phaseIndex, self.state_logic, self.game_logic)
             for phaseIndex, _ in enumerate(self.game_logic.space_elevator_phases)
             if phaseIndex < final_elevator_phase)
         location_table.extend(
             part
-            for part_name, recipes in self.game_logic.recipes.items() 
+            for part_name, recipes in self.game_logic.recipes.items()
             if part_name in self.critical_path.required_parts
             for part in Part.get_parts(self.state_logic, recipes, part_name, final_elevator_phase))
         location_table.extend(
-            EventBuilding(self.state_logic, name, building) 
+            EventBuilding(self.state_logic, name, building)
             for name, building in self.game_logic.buildings.items()
             if name in self.critical_path.required_buildings)
         location_table.extend(
-            PowerInfrastructure(self.state_logic, power_level, recipes) 
+            PowerInfrastructure(self.state_logic, power_level, recipes)
             for power_level, recipes in self.game_logic.requirement_per_powerlevel.items()
             if power_level <= self.critical_path.required_power_level)
 
         return location_table
-    
+
     def get_hard_drive_locations(self, for_data_package: bool, max_tier: int, available_parts: set[str]) \
             -> list[LocationData]:
         hard_drive_locations: list[LocationData] = []

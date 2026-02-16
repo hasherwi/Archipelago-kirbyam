@@ -1,10 +1,10 @@
 import json
 import sys
-from typing import Any, Collection, Dict, Iterable, Optional
-from websockets import ConnectionClosed
-from websockets.sync.client import connect, ClientConnection
 from threading import Thread
+from typing import Any, Collection, Dict, Iterable, Optional
 
+from websockets import ConnectionClosed
+from websockets.sync.client import ClientConnection, connect
 
 __all__ = [
     "Client"

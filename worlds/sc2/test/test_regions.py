@@ -1,8 +1,9 @@
 import unittest
-from .test_base import Sc2TestBase
-from .. import mission_tables, SC2Campaign
-from .. import options
+
+from .. import SC2Campaign, mission_tables, options
 from ..mission_order.layout_types import Grid
+from .test_base import Sc2TestBase
+
 
 class TestGridsizes(unittest.TestCase):
     def test_grid_sizes_meet_specs(self):

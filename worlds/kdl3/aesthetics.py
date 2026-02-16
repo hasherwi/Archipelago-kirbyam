@@ -1,6 +1,7 @@
 import struct
-from .options import KirbyFlavorPreset, GooeyFlavorPreset
-from typing import TYPE_CHECKING, Optional, Dict, List, Tuple
+from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
+
+from .options import GooeyFlavorPreset, KirbyFlavorPreset
 
 if TYPE_CHECKING:
     from . import KDL3World

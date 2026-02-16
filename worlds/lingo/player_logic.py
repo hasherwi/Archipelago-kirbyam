@@ -1,14 +1,26 @@
 from enum import Enum
-from typing import Dict, List, NamedTuple, Optional, Set, Tuple, TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict, List, NamedTuple, Optional, Set, Tuple
 
 from Options import OptionError
+
 from .datatypes import Door, DoorType, Painting, RoomAndDoor, RoomAndPanel
 from .items import ALL_ITEM_TABLE, ItemType
 from .locations import ALL_LOCATION_TABLE, LocationClassification
 from .options import LocationChecks, ShuffleDoors, SunwarpAccess, VictoryCondition
-from .static_logic import DOORS_BY_ROOM, PAINTINGS, PAINTING_ENTRANCES, PAINTING_EXITS, \
-    PANELS_BY_ROOM, REQUIRED_PAINTING_ROOMS, REQUIRED_PAINTING_WHEN_NO_DOORS_ROOMS, PROGRESSIVE_DOORS_BY_ROOM, \
-    PANEL_DOORS_BY_ROOM, PROGRESSIVE_PANELS_BY_ROOM, SUNWARP_ENTRANCES, SUNWARP_EXITS
+from .static_logic import (
+    DOORS_BY_ROOM,
+    PAINTING_ENTRANCES,
+    PAINTING_EXITS,
+    PAINTINGS,
+    PANEL_DOORS_BY_ROOM,
+    PANELS_BY_ROOM,
+    PROGRESSIVE_DOORS_BY_ROOM,
+    PROGRESSIVE_PANELS_BY_ROOM,
+    REQUIRED_PAINTING_ROOMS,
+    REQUIRED_PAINTING_WHEN_NO_DOORS_ROOMS,
+    SUNWARP_ENTRANCES,
+    SUNWARP_EXITS,
+)
 
 if TYPE_CHECKING:
     from . import LingoWorld

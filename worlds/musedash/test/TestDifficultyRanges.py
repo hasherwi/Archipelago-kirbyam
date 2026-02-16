@@ -1,5 +1,6 @@
-from . import MuseDashTestBase
 from typing import List
+
+from . import MuseDashTestBase
 
 
 class DifficultyRanges(MuseDashTestBase):

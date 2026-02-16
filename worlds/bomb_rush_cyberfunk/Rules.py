@@ -1,6 +1,8 @@
-from worlds.generic.Rules import set_rule, add_rule
-from BaseClasses import CollectionState
 from typing import Dict
+
+from BaseClasses import CollectionState
+from worlds.generic.Rules import add_rule, set_rule
+
 from .Regions import Stages
 
 
@@ -41,27 +43,27 @@ def is_girl(state: CollectionState, player: int) -> bool:
 
 def current_chapter(state: CollectionState, player: int, chapter: int) -> bool:
     return state.has("Chapter Completed", player, chapter-1)
-    
+
 
 def versum_hill_entrance(state: CollectionState, player: int) -> bool:
     return rep(state, player, 20)
-    
+
 
 def versum_hill_ch1_roadblock(state: CollectionState, player: int, limit: bool) -> bool:
     return graffitiL(state, player, limit, 10)
-    
+
 
 def versum_hill_challenge1(state: CollectionState, player: int) -> bool:
     return rep(state, player, 50)
-    
+
 
 def versum_hill_challenge2(state: CollectionState, player: int) -> bool:
     return rep(state, player, 58)
-    
+
 
 def versum_hill_challenge3(state: CollectionState, player: int) -> bool:
     return rep(state, player, 65)
-    
+
 
 def versum_hill_all_challenges(state: CollectionState, player: int) -> bool:
     return versum_hill_challenge3(state, player)
@@ -69,11 +71,11 @@ def versum_hill_all_challenges(state: CollectionState, player: int) -> bool:
 
 def versum_hill_basketball_court(state: CollectionState, player: int) -> bool:
     return rep(state, player, 90)
-    
+
 
 def versum_hill_oldhead(state: CollectionState, player: int) -> bool:
     return rep(state, player, 120)
-    
+
 
 def versum_hill_crew_battle(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     if glitched:
@@ -86,7 +88,7 @@ def versum_hill_crew_battle(state: CollectionState, player: int, limit: bool, gl
             rep(state, player, 90)
             and graffitiM(state, player, limit, 27)
         )
-    
+
 
 def versum_hill_rietveld(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     if glitched:
@@ -99,7 +101,7 @@ def versum_hill_rietveld(state: CollectionState, player: int, limit: bool, glitc
             current_chapter(state, player, 2)
             and graffitiM(state, player, limit, 67)
         )
-    
+
 
 def versum_hill_rave(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     if glitched:
@@ -155,19 +157,19 @@ def brink_terminal_all_challenges(state: CollectionState, player: int) -> bool:
 
 def brink_terminal_plaza(state: CollectionState, player: int) -> bool:
     return brink_terminal_all_challenges(state, player)
-    
+
 
 def brink_terminal_tower(state: CollectionState, player: int) -> bool:
     return rep(state, player, 280)
-    
+
 
 def brink_terminal_oldhead_underground(state: CollectionState, player: int) -> bool:
     return rep(state, player, 250)
-    
+
 
 def brink_terminal_oldhead_dock(state: CollectionState, player: int) -> bool:
     return rep(state, player, 320)
-    
+
 
 def brink_terminal_crew_battle(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     if glitched:
@@ -180,7 +182,7 @@ def brink_terminal_crew_battle(state: CollectionState, player: int, limit: bool,
             rep(state, player, 280)
             and graffitiL(state, player, limit, 62)
         )
-    
+
 
 def brink_terminal_mesh(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     if glitched:
@@ -200,14 +202,14 @@ def millennium_mall_entrance(state: CollectionState, player: int) -> bool:
         rep(state, player, 380)
         and current_chapter(state, player, 3)
     )
-    
+
 
 def millennium_mall_oldhead_ceiling(state: CollectionState, player: int, limit: bool) -> bool:
     return (
         rep(state, player, 580)
         or millennium_mall_theater(state, player, limit)
     )
-    
+
 
 def millennium_mall_switch(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     if glitched:
@@ -220,15 +222,15 @@ def millennium_mall_switch(state: CollectionState, player: int, limit: bool, gli
             graffitiM(state, player, limit, 72)
             and current_chapter(state, player, 3)
         )
-    
+
 
 def millennium_mall_big(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     return millennium_mall_switch(state, player, limit, glitched)
-    
+
 
 def millennium_mall_oldhead_race(state: CollectionState, player: int) -> bool:
     return rep(state, player, 530)
-    
+
 
 def millennium_mall_challenge1(state: CollectionState, player: int) -> bool:
     return rep(state, player, 434)
@@ -255,7 +257,7 @@ def millennium_mall_theater(state: CollectionState, player: int, limit: bool) ->
         rep(state, player, 491)
         and graffitiM(state, player, limit, 78)
     )
-    
+
 
 def millennium_mall_crew_battle(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     if glitched:
@@ -274,15 +276,15 @@ def millennium_mall_crew_battle(state: CollectionState, player: int, limit: bool
 
 def pyramid_island_entrance(state: CollectionState, player: int) -> bool:
     return current_chapter(state, player, 4)
-    
+
 
 def pyramid_island_gate(state: CollectionState, player: int) -> bool:
     return rep(state, player, 620)
-    
+
 
 def pyramid_island_oldhead(state: CollectionState, player: int) -> bool:
     return rep(state, player, 780)
-    
+
 
 def pyramid_island_challenge1(state: CollectionState, player: int) -> bool:
     return (
@@ -292,7 +294,7 @@ def pyramid_island_challenge1(state: CollectionState, player: int) -> bool:
 
 
 def pyramid_island_race(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
-    if glitched: 
+    if glitched:
         return (
             pyramid_island_challenge1(state, player)
             and graffitiL(state, player, limit, 108)
@@ -327,7 +329,7 @@ def pyramid_island_all_challenges(state: CollectionState, player: int, limit: bo
 
 def pyramid_island_upper_half(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     return pyramid_island_all_challenges(state, player, limit, glitched)
-    
+
 
 def pyramid_island_crew_battle(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     if glitched:
@@ -348,14 +350,14 @@ def pyramid_island_top(state: CollectionState, player: int) -> bool:
 
 def mataan_entrance(state: CollectionState, player: int) -> bool:
     return current_chapter(state, player, 2)
-    
+
 
 def mataan_smoke_wall(state: CollectionState, player: int) -> bool:
     return (
         current_chapter(state, player, 5)
         and rep(state, player, 850)
     )
-    
+
 
 def mataan_challenge1(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     if glitched:
@@ -374,11 +376,11 @@ def mataan_challenge1(state: CollectionState, player: int, limit: bool, glitched
 
 def mataan_deep_city(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     return mataan_challenge1(state, player, limit, glitched)
-    
+
 
 def mataan_oldhead(state: CollectionState, player: int) -> bool:
     return rep(state, player, 935)
-    
+
 
 def mataan_challenge2(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     if glitched:
@@ -424,11 +426,11 @@ def mataan_crew_battle(state: CollectionState, player: int, limit: bool, glitche
             and graffitiM(state, player, limit, 117)
             and graffitiXL(state, player, limit, 57)
         )
-    
+
 
 def mataan_deepest(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     return mataan_crew_battle(state, player, limit, glitched)
-    
+
 
 def mataan_faux(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
     return (
@@ -476,7 +478,7 @@ def spots_s_glitchless(state: CollectionState, player: int, limit: bool, access_
             return sprayable
     else:
         return total
-    
+
 
 def spots_s_glitched(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
     total: int = 75
@@ -499,7 +501,7 @@ def spots_s_glitched(state: CollectionState, player: int, limit: bool, access_ca
             return sprayable
     else:
         return total
-    
+
 
 def spots_m_glitchless(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
     total: int = 4
@@ -547,7 +549,7 @@ def spots_m_glitchless(state: CollectionState, player: int, limit: bool, access_
             return total
         else:
             return 0
-        
+
 
 def spots_m_glitched(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
     total: int = 99
@@ -573,7 +575,7 @@ def spots_m_glitched(state: CollectionState, player: int, limit: bool, access_ca
             return total
         else:
             return 0
-        
+
 
 def spots_l_glitchless(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
     total: int = 7
@@ -624,7 +626,7 @@ def spots_l_glitchless(state: CollectionState, player: int, limit: bool, access_
             return total
         else:
             return 0
-        
+
 
 def spots_l_glitched(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
     total: int = 88
@@ -651,7 +653,7 @@ def spots_l_glitched(state: CollectionState, player: int, limit: bool, access_ca
             return total
         else:
             return 0
-        
+
 
 def spots_xl_glitchless(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
     total: int = 3
@@ -695,7 +697,7 @@ def spots_xl_glitchless(state: CollectionState, player: int, limit: bool, access
             return total
         else:
             return 0
-        
+
 
 def spots_xl_glitched(state: CollectionState, player: int, limit: bool, access_cache: Dict[str, bool]) -> int:
     total: int = 51
@@ -760,7 +762,7 @@ def build_access_cache(state: CollectionState, player: int, movestyle: int, limi
         "chapter4": current_chapter(state, player, 4),
         "chapter5": current_chapter(state, player, 5)
     }
-    
+
     stop: bool = False
     for fname, fvars in funcs.items():
         if stop:
@@ -887,7 +889,7 @@ def rules(brcworld):
         lambda state: current_chapter(state, player, 4))
     set_rule(multiworld.get_location("Hideout: Solace joins the crew", player),
         lambda state: current_chapter(state, player, 5))
-    
+
     # versum hill
     set_rule(multiworld.get_location("Versum Hill: Wallrunning challenge reward", player),
         lambda state: versum_hill_challenge1(state, player))
@@ -914,12 +916,12 @@ def rules(brcworld):
             lambda state: camera(state, player))
         set_rule(multiworld.get_location("Versum Hill: Fruit stand Polo", player),
             lambda state: camera(state, player))
-    
+
     # millennium square
     if photos:
         set_rule(multiworld.get_location("Millennium Square: Half pipe Polo", player),
             lambda state: camera(state, player))
-    
+
     # brink terminal
     set_rule(multiworld.get_location("Brink Terminal: Upside grind challenge reward", player),
         lambda state: brink_terminal_challenge1(state, player))
@@ -940,7 +942,7 @@ def rules(brcworld):
     if photos:
         set_rule(multiworld.get_location("Brink Terminal: Behind glass Polo", player),
             lambda state: camera(state, player))
-    
+
     # millennium mall
     set_rule(multiworld.get_location("Millennium Mall: Glass cylinder CD", player),
         lambda state: inline_skates(state, player, movestyle))
@@ -958,7 +960,7 @@ def rules(brcworld):
         lambda state: current_chapter(state, player, 4))
     set_rule(multiworld.get_location("Millennium Mall: DOT.EXE joins the crew", player),
         lambda state: current_chapter(state, player, 4))
-    
+
     # pyramid island
     set_rule(multiworld.get_location("Pyramid Island: BMX gate BMX", player),
         lambda state: bmx(state, player, movestyle))
@@ -1025,7 +1027,7 @@ def rules(brcworld):
         lambda state: pyramid_island_crew_battle(state, player, limit, glitched))
     set_rule(multiworld.get_location("Defeat Faux", player),
         lambda state: mataan_faux(state, player, limit, glitched))
-    
+
     if extra:
         add_rule(multiworld.get_location("Defeat Faux", player),
             lambda state: rep(state, player, 1000))

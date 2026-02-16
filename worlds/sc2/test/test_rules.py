@@ -1,15 +1,16 @@
 import itertools
+import unittest
 from dataclasses import fields
 from random import Random
-import unittest
-from typing import List, Set, Iterable
+from typing import Iterable, List, Set
 
-from BaseClasses import ItemClassification, MultiWorld
 import Options as CoreOptions
-from .. import options, locations
+from BaseClasses import ItemClassification, MultiWorld
+
+from .. import locations, options
 from ..item import item_tables
+from ..mission_tables import MissionFlag, SC2Race, lookup_name_to_mission
 from ..rules import SC2Logic
-from ..mission_tables import SC2Race, MissionFlag, lookup_name_to_mission
 
 
 class TestInventory:
@@ -128,13 +129,13 @@ class TestRules(unittest.TestCase):
             for location in location_data:
                 for _ in range(self.NUM_TEST_RUNS):
                     location.rule(test_inventory)
-    
+
     def test_items_in_all_in_are_progression(self):
         test_inventory = TestInventory()
         for test_options in itertools.product(self.required_tactics_values, self.all_in_map_values):
             test_world = self._get_world(required_tactics=test_options[0], all_in_map=test_options[1])
             for location in locations.get_locations(test_world):
-                if 'All-In' not in location.region:
+                if "All-In" not in location.region:
                     continue
                 for _ in range(self.NUM_TEST_RUNS):
                     location.rule(test_inventory)
@@ -160,7 +161,7 @@ class TestRules(unittest.TestCase):
                     continue
                 for _ in range(self.NUM_TEST_RUNS):
                     location.rule(test_inventory)
-    
+
     def test_items_in_hard_rules_are_progression(self):
         test_inventory = TestInventory()
         test_world = TestWorld()

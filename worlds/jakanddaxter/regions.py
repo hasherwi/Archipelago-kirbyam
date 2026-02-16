@@ -1,26 +1,29 @@
 import typing
+
 from Options import OptionError
+
 from .items import item_table
-from .options import EnableOrbsanity, CompletionCondition
-from .rules import can_reach_orbs_global
-from .locs import cell_locations as cells, scout_locations as scouts
-from .regs import (geyser_rock_regions as geyser_rock,
-                   sandover_village_regions as sandover_village,
-                   forbidden_jungle_regions as forbidden_jungle,
-                   sentinel_beach_regions as sentinel_beach,
-                   misty_island_regions as misty_island,
-                   fire_canyon_regions as fire_canyon,
-                   rock_village_regions as rock_village,
-                   precursor_basin_regions as precursor_basin,
-                   lost_precursor_city_regions as lost_precursor_city,
-                   boggy_swamp_regions as boggy_swamp,
-                   mountain_pass_regions as mountain_pass,
-                   volcanic_crater_regions as volcanic_crater,
-                   spider_cave_regions as spider_cave,
-                   snowy_mountain_regions as snowy_mountain,
-                   lava_tube_regions as lava_tube,
-                   gol_and_maias_citadel_regions as gol_and_maias_citadel)
+from .locs import cell_locations as cells
+from .locs import scout_locations as scouts
+from .options import CompletionCondition, EnableOrbsanity
+from .regs import boggy_swamp_regions as boggy_swamp
+from .regs import fire_canyon_regions as fire_canyon
+from .regs import forbidden_jungle_regions as forbidden_jungle
+from .regs import geyser_rock_regions as geyser_rock
+from .regs import gol_and_maias_citadel_regions as gol_and_maias_citadel
+from .regs import lava_tube_regions as lava_tube
+from .regs import lost_precursor_city_regions as lost_precursor_city
+from .regs import misty_island_regions as misty_island
+from .regs import mountain_pass_regions as mountain_pass
+from .regs import precursor_basin_regions as precursor_basin
+from .regs import rock_village_regions as rock_village
+from .regs import sandover_village_regions as sandover_village
+from .regs import sentinel_beach_regions as sentinel_beach
+from .regs import snowy_mountain_regions as snowy_mountain
+from .regs import spider_cave_regions as spider_cave
+from .regs import volcanic_crater_regions as volcanic_crater
 from .regs.region_base import JakAndDaxterRegion
+from .rules import can_reach_orbs_global
 
 if typing.TYPE_CHECKING:
     from . import JakAndDaxterWorld

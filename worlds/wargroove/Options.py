@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from Options import Choice, Range, PerGameCommonOptions, StartInventoryPool, OptionDict, OptionGroup, \
-    DeathLinkMixin
+
+from Options import Choice, DeathLinkMixin, OptionDict, OptionGroup, PerGameCommonOptions, Range, StartInventoryPool
 
 
 class IncomeBoost(Range):

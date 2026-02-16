@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from typing import Tuple
 
-from schema import And, Schema
-
 from Options import (
     Choice,
     DefaultOnToggle,
@@ -16,6 +14,7 @@ from Options import (
     Toggle,
     Visibility,
 )
+from schema import And, Schema
 
 from .data import static_logic as static_witness_logic
 from .data.item_definition_classes import ItemCategory, WeightedItemDefinition

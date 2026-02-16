@@ -5,7 +5,7 @@ import time
 from collections import deque
 from collections.abc import Callable, Iterable
 
-from BaseClasses import CollectionState, Entrance, Region, EntranceType
+from BaseClasses import CollectionState, Entrance, EntranceType, Region
 from Options import Accessibility
 from worlds.AutoWorld import World
 

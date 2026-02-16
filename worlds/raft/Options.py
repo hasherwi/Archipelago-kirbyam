@@ -1,5 +1,7 @@
 from dataclasses import dataclass
-from Options import Range, Toggle, DefaultOnToggle, Choice, DeathLink, PerGameCommonOptions
+
+from Options import Choice, DeathLink, DefaultOnToggle, PerGameCommonOptions, Range, Toggle
+
 
 class MinimumResourcePackAmount(Range):
     """The minimum amount of resources available in a resource pack"""

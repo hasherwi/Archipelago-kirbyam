@@ -1,20 +1,20 @@
+import dataclasses
 import importlib
 import importlib.abc
 import importlib.machinery
 import importlib.util
+import json
 import logging
 import os
 import sys
-import zipimport
 import time
-import dataclasses
-import json
+import zipimport
 from pathlib import Path
 from types import ModuleType
 from typing import List, Sequence
 
 from NetUtils import DataPackage
-from Utils import local_path, user_path, Version, version_tuple, tuplize_version
+from Utils import Version, local_path, tuplize_version, user_path, version_tuple
 
 local_folder = os.path.dirname(__file__)
 user_folder = user_path("worlds") if user_path() != local_path() else user_path("custom_worlds")
@@ -62,8 +62,8 @@ class WorldSource:
 
         except Exception:
             # A single world failing can still mean enough is working for the user, log and carry on
-            import traceback
             import io
+            import traceback
             file_like = io.StringIO()
             print(f"Could not load world {self}:", file=file_like)
             traceback.print_exc(file=file_like)
@@ -82,9 +82,9 @@ for folder in (folder for folder in (user_folder, local_folder) if folder):
         if not entry.name.startswith(("_", ".")):
             file_name = entry.name if relative else os.path.join(folder, entry.name)
             if entry.is_dir():
-                if os.path.isfile(os.path.join(entry.path, '__init__.py')):
+                if os.path.isfile(os.path.join(entry.path, "__init__.py")):
                     world_sources.append(WorldSource(file_name, relative=relative))
-                elif os.path.isfile(os.path.join(entry.path, '__init__.pyc')):
+                elif os.path.isfile(os.path.join(entry.path, "__init__.pyc")):
                     world_sources.append(WorldSource(file_name, relative=relative))
                 else:
                     logging.warning(f"excluding {entry.name} from world sources because it has no __init__.py")

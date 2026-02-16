@@ -1,5 +1,7 @@
+from typing import Dict, NamedTuple
+
 from BaseClasses import Item
-from typing import NamedTuple, Dict
+
 from . import names
 
 

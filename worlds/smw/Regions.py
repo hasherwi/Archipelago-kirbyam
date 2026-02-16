@@ -1,18 +1,19 @@
 import typing
 
-from BaseClasses import CollectionState, MultiWorld, Region, Entrance
-from .Locations import SMWLocation
-from .Levels import level_info_dict
-from .Names import LocationName, ItemName
-from worlds.generic.Rules import add_rule, set_rule
+from BaseClasses import CollectionState, Entrance, MultiWorld, Region
 from worlds.AutoWorld import World
+from worlds.generic.Rules import add_rule, set_rule
+
+from .Levels import level_info_dict
+from .Locations import SMWLocation
+from .Names import ItemName, LocationName
 
 
 def create_regions(world: World, active_locations):
     multiworld: MultiWorld = world.multiworld
     player: int = world.player
 
-    menu_region = create_region(multiworld, player, active_locations, 'Menu', None)
+    menu_region = create_region(multiworld, player, active_locations, "Menu", None)
 
     yoshis_island_region = create_region(multiworld, player, active_locations, LocationName.yoshis_island_region, None)
 
@@ -868,7 +869,7 @@ def create_regions(world: World, active_locations):
                                lambda state: state.has(ItemName.p_switch, player))
         add_location_to_region(multiworld, player, active_locations, LocationName.chocolate_island_1_region, LocationName.chocolate_island_1_moon,
                                lambda state: ((state.has(ItemName.mario_run, player) and
-                                              state.has(ItemName.progressive_powerup, player, 3)) or 
+                                              state.has(ItemName.progressive_powerup, player, 3)) or
                                               state.has(ItemName.yoshi_activate, player)))
         add_location_to_region(multiworld, player, active_locations, LocationName.valley_of_bowser_1_region, LocationName.valley_of_bowser_1_moon)
 
@@ -901,7 +902,7 @@ def create_regions(world: World, active_locations):
         add_location_to_region(multiworld, player, active_locations, LocationName.valley_castle_region, LocationName.valley_castle_hidden_1up)
         add_location_to_region(multiworld, player, active_locations, LocationName.special_zone_1_region, LocationName.special_zone_1_hidden_1up,
                                lambda state: state.has(ItemName.mario_climb, player))
-        
+
     if world.options.bonus_block_checks:
         add_location_to_region(multiworld, player, active_locations, LocationName.yoshis_island_3_region, LocationName.yoshis_island_3_bonus_block)
         add_location_to_region(multiworld, player, active_locations, LocationName.donut_plains_3_region, LocationName.donut_plains_3_bonus_block)
@@ -1900,7 +1901,7 @@ def connect_regions(world: World, level_to_tile_dict):
     connect(world, LocationName.donut_plains_4_region, LocationName.donut_plains_4_exit_1)
     connect(world, LocationName.donut_secret_2_region, LocationName.donut_secret_2_exit_1)
     connect(world, LocationName.donut_plains_castle_region, LocationName.donut_plains_castle)
-    
+
     connect(world, LocationName.vanilla_dome_1_region, LocationName.vanilla_dome_1_exit_1,
             lambda state: (state.has(ItemName.mario_run, player) and
                            (state.has(ItemName.super_star_active, player) or
@@ -1933,7 +1934,7 @@ def connect_regions(world: World, level_to_tile_dict):
     connect(world, LocationName.vanilla_fortress_region, LocationName.vanilla_fortress,
             lambda state: state.has(ItemName.mario_swim, player))
     connect(world, LocationName.vanilla_dome_castle_region, LocationName.vanilla_dome_castle)
-    
+
     connect(world, LocationName.butter_bridge_1_region, LocationName.butter_bridge_1_exit_1)
     connect(world, LocationName.butter_bridge_2_region, LocationName.butter_bridge_2_exit_1)
     connect(world, LocationName.cheese_bridge_region, LocationName.cheese_bridge_exit_1,
@@ -1948,7 +1949,7 @@ def connect_regions(world: World, level_to_tile_dict):
     connect(world, LocationName.twin_bridges_castle_region, LocationName.twin_bridges_castle,
             lambda state: (state.has(ItemName.mario_run, player) and
                            state.has(ItemName.mario_climb, player)))
-                           
+
     connect(world, LocationName.forest_of_illusion_1_region, LocationName.forest_of_illusion_1_exit_1)
     connect(world, LocationName.forest_of_illusion_1_region, LocationName.forest_of_illusion_1_exit_2,
             lambda state: (state.has(ItemName.mario_carry, player) and
@@ -1975,7 +1976,7 @@ def connect_regions(world: World, level_to_tile_dict):
     connect(world, LocationName.forest_secret_region, LocationName.forest_secret_exit_1)
     connect(world, LocationName.forest_fortress_region, LocationName.forest_fortress)
     connect(world, LocationName.forest_castle_region, LocationName.forest_castle)
-    
+
     connect(world, LocationName.chocolate_island_1_region, LocationName.chocolate_island_1_exit_1,
             lambda state: state.has(ItemName.p_switch, player))
     connect(world, LocationName.chocolate_island_2_region, LocationName.chocolate_island_2_exit_1)
@@ -1994,7 +1995,7 @@ def connect_regions(world: World, level_to_tile_dict):
             lambda state: state.has(ItemName.mario_run, player))
     connect(world, LocationName.chocolate_castle_region, LocationName.chocolate_castle,
             lambda state: (state.has(ItemName.progressive_powerup, player, 1)))
-            
+
     connect(world, LocationName.sunken_ghost_ship_region, LocationName.sunken_ghost_ship,
             lambda state: state.has(ItemName.mario_swim, player))
     connect(world, LocationName.valley_of_bowser_1_region, LocationName.valley_of_bowser_1_exit_1)
@@ -2134,7 +2135,7 @@ def connect_regions(world: World, level_to_tile_dict):
     connect(world, LocationName.star_road_special, LocationName.special_star_road)
     connect(world, LocationName.special_star_road, LocationName.star_road_special)
     connect(world, LocationName.special_star_road, LocationName.special_zone_1_tile)
-    
+
     connect(world, LocationName.star_road_valley, LocationName.front_door_tile)
 
 

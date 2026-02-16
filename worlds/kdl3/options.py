@@ -2,8 +2,21 @@ import random
 from dataclasses import dataclass
 from typing import List
 
-from Options import DeathLinkMixin, Choice, Toggle, OptionDict, Range, PlandoBosses, DefaultOnToggle, \
-    PerGameCommonOptions, Visibility, NamedRange, OptionGroup, PlandoConnections
+from Options import (
+    Choice,
+    DeathLinkMixin,
+    DefaultOnToggle,
+    NamedRange,
+    OptionDict,
+    OptionGroup,
+    PerGameCommonOptions,
+    PlandoBosses,
+    PlandoConnections,
+    Range,
+    Toggle,
+    Visibility,
+)
+
 from .names import location_name
 
 

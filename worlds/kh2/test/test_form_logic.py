@@ -1,5 +1,5 @@
-from . import KH2TestBase
 from ..Names import ItemName, LocationName
+from . import KH2TestBase
 
 global_all_possible_forms = [ItemName.ValorForm, ItemName.WisdomForm, ItemName.LimitForm, ItemName.MasterForm, ItemName.FinalForm] + [ItemName.AutoValor, ItemName.AutoWisdom, ItemName.AutoLimit, ItemName.AutoMaster, ItemName.AutoFinal]
 

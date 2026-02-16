@@ -1,7 +1,6 @@
-from typing import List, Optional, Iterable
+from typing import Iterable, List, Optional
 
 from .data import data
-
 
 CHARACTER_DECODING_MAP = {
     0x00: " ", 0x01: "À", 0x02: "Á", 0x03: "Â", 0x04: "Ç",

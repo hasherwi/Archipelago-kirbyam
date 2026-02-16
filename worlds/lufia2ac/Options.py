@@ -5,10 +5,21 @@ import numbers
 import random
 from dataclasses import dataclass
 from itertools import accumulate, chain, combinations
-from typing import Any, cast, Dict, Iterator, List, Mapping, Optional, Set, Tuple, Type, TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Mapping, Optional, Set, Tuple, Type, Union, cast
 
-from Options import AssembleOptions, Choice, DeathLink, ItemDict, NamedRange, OptionDict, PerGameCommonOptions, Range, \
-    TextChoice, Toggle
+from Options import (
+    AssembleOptions,
+    Choice,
+    DeathLink,
+    ItemDict,
+    NamedRange,
+    OptionDict,
+    PerGameCommonOptions,
+    Range,
+    TextChoice,
+    Toggle,
+)
+
 from .Enemies import enemy_name_to_sprite
 from .Items import ItemType, l2ac_item_table
 

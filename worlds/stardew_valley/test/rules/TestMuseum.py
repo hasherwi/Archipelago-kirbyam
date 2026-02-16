@@ -1,11 +1,11 @@
 from collections import Counter
 from unittest.mock import patch
 
+from ... import StardewLogic, StardewRule, options
+from ...logic.museum_logic import MuseumLogic
+from ...stardew_rule import LiteralStardewRule, true_
 from ..bases import SVTestBase
 from ..options import presets
-from ... import options, StardewLogic, StardewRule
-from ...logic.museum_logic import MuseumLogic
-from ...stardew_rule import true_, LiteralStardewRule
 
 
 class TestMuseumMilestones(SVTestBase):

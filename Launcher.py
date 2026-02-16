@@ -29,9 +29,18 @@ if __name__ == "__main__":
 
 import settings
 import Utils
-from Utils import (init_logging, is_frozen, is_linux, is_macos, is_windows, local_path, messagebox, open_filename,
-                   user_path)
-from worlds.LauncherComponents import Component, components, icon_paths, SuffixIdentifier, Type
+from Utils import (
+    init_logging,
+    is_frozen,
+    is_linux,
+    is_macos,
+    is_windows,
+    local_path,
+    messagebox,
+    open_filename,
+    user_path,
+)
+from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, icon_paths
 
 
 def open_host_yaml():
@@ -40,8 +49,8 @@ def open_host_yaml():
     s.save()
     assert file, "host.yaml missing"
     if is_linux:
-        exe = which('sensible-editor') or which('gedit') or \
-              which('xdg-open') or which('gnome-open') or which('kde-open')
+        exe = which("sensible-editor") or which("gedit") or \
+              which("xdg-open") or which("gnome-open") or which("kde-open")
     elif is_macos:
         exe = which("open")
     else:
@@ -94,7 +103,7 @@ def browse_files():
 
 def open_folder(folder_path):
     if is_linux:
-        exe = which('xdg-open') or which('gnome-open') or which('kde-open')
+        exe = which("xdg-open") or which("gnome-open") or which("kde-open")
     elif is_macos:
         exe = which("open")
     else:
@@ -205,12 +214,12 @@ def launch(exe, in_terminal=False):
             subprocess.Popen(["start", "Running Archipelago", *exe], shell=True)
             return
         elif is_linux:
-            terminal = which('x-terminal-emulator') or which('gnome-terminal') or which('xterm')
+            terminal = which("x-terminal-emulator") or which("gnome-terminal") or which("xterm")
             if terminal:
-                subprocess.Popen([terminal, '-e', shlex.join(exe)])
+                subprocess.Popen([terminal, "-e", shlex.join(exe)])
                 return
         elif is_macos:
-            terminal = [which('open'), '-W', '-a', 'Terminal.app']
+            terminal = [which("open"), "-W", "-a", "Terminal.app"]
             subprocess.Popen([*terminal, *exe])
             return
     subprocess.Popen(exe)
@@ -236,17 +245,17 @@ refresh_components: Callable[[], None] | None = None
 
 
 def run_gui(launch_components: list[Component], args: Any) -> None:
-    from kvui import (ThemedApp, MDFloatLayout, MDGridLayout, ScrollBox)
-    from kivy.properties import ObjectProperty
     from kivy.core.window import Window
+    from kivy.lang.builder import Builder
     from kivy.metrics import dp
-    from kivymd.uix.button import MDIconButton, MDButton
+    from kivy.properties import ObjectProperty
+    from kivymd.uix.button import MDButton, MDIconButton
     from kivymd.uix.card import MDCard
     from kivymd.uix.menu import MDDropdownMenu
     from kivymd.uix.snackbar import MDSnackbar, MDSnackbarText
     from kivymd.uix.textfield import MDTextField
 
-    from kivy.lang.builder import Builder
+    from kvui import MDFloatLayout, MDGridLayout, ScrollBox, ThemedApp
 
     class LauncherCard(MDCard):
         component: Component | None
@@ -472,13 +481,13 @@ def main(args: argparse.Namespace | dict | None = None):
             if not components:
                 args["component"] = text_client_component
             else:
-                args['launch_components'] = [text_client_component, *components]
+                args["launch_components"] = [text_client_component, *components]
         else:
             file, component = identify(path)
             if file:
-                args['file'] = file
+                args["file"] = file
             if component:
-                args['component'] = component
+                args["component"] = component
             if not component:
                 logging.warning(f"Could not identify Component responsible for {path}")
 
@@ -492,12 +501,12 @@ def main(args: argparse.Namespace | dict | None = None):
         run_gui(args.get("launch_components", None), args.get("args", ()))
 
 
-if __name__ == '__main__':
-    init_logging('Launcher')
+if __name__ == "__main__":
+    init_logging("Launcher")
     multiprocessing.freeze_support()
     multiprocessing.set_start_method("spawn")  # if launched process uses kivy, fork won't work
     parser = argparse.ArgumentParser(
-        description='Archipelago Launcher',
+        description="Archipelago Launcher",
         usage="[-h] [--update_settings] [Patch|Game|Component] [-- component args here]"
     )
     run_group = parser.add_argument_group("Run")

@@ -1,6 +1,9 @@
-from test.bases import WorldTestBase
-from .. import MuseDashWorld
 from typing import cast
+
+from test.bases import WorldTestBase
+
+from .. import MuseDashWorld
+
 
 class MuseDashTestBase(WorldTestBase):
     game = "Muse Dash"

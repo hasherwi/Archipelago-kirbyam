@@ -1,19 +1,19 @@
 from __future__ import annotations
-import os
-import sys
+
 import asyncio
-import typing
-import bsdiff4
+import os
 import shutil
+import sys
+import typing
+
+import bsdiff4
 
 import Utils
-
-from NetUtils import NetworkItem, ClientStatus
-from worlds import undertale
+from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger, server_loop
 from MultiServer import mark_raw
-from CommonClient import CommonContext, server_loop, \
-    gui_enabled, ClientCommandProcessor, logger, get_base_parser
+from NetUtils import ClientStatus, NetworkItem
 from Utils import async_start
+from worlds import undertale
 
 
 class UndertaleCommandProcessor(ClientCommandProcessor):
@@ -135,7 +135,7 @@ class UndertaleContext(CommonContext):
             for file in files:
                 if "check.spot" == file or "scout" == file:
                     os.remove(os.path.join(root, file))
-                elif file.endswith((".item", ".victory", ".route", ".playerspot", ".mad", 
+                elif file.endswith((".item", ".victory", ".route", ".playerspot", ".mad",
                                             ".youDied", ".LV", ".mine", ".flag", ".hint")):
                     os.remove(os.path.join(root, file))
 
@@ -434,7 +434,7 @@ async def game_watcher(ctx: UndertaleContext):
                             lines = f.readlines()
                         for l in lines:
                             if ctx.server_locations.__contains__(int(l)+12000):
-                                sending = sending + [int(l.rstrip('\n'))+12000]
+                                sending = sending + [int(l.rstrip("\n"))+12000]
                     finally:
                         await ctx.send_msgs([{"cmd": "LocationScouts", "locations": sending,
                                                           "create_as_hint": int(2)}])
@@ -445,7 +445,7 @@ async def game_watcher(ctx: UndertaleContext):
                         with open(os.path.join(root, file), "r") as f:
                             lines = f.readlines()
                         for l in lines:
-                            sending = sending+[(int(l.rstrip('\n')))+12000]
+                            sending = sending+[(int(l.rstrip("\n")))+12000]
                     finally:
                         await ctx.send_msgs([{"cmd": "LocationChecks", "locations": sending}])
                 if "victory" in file and str(ctx.route) in file:

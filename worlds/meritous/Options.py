@@ -3,11 +3,10 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
+import typing
 from dataclasses import dataclass
 
-import typing
-from Options import Option, DeathLink, Toggle, DefaultOnToggle, Choice, PerGameCommonOptions
-
+from Options import Choice, DeathLink, DefaultOnToggle, Option, PerGameCommonOptions, Toggle
 
 cost_scales = {
     0: [80, 5, 4],

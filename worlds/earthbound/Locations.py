@@ -1,4 +1,5 @@
-from typing import List, Optional, NamedTuple, TYPE_CHECKING
+from typing import TYPE_CHECKING, List, NamedTuple, Optional
+
 from .Options import MagicantMode, ShopRandomizer
 
 if TYPE_CHECKING:

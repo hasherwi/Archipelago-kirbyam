@@ -2,9 +2,11 @@
 Location group definitions
 """
 
-from typing import Dict, Set, Iterable
+from typing import Dict, Iterable, Set
+
 from .locations import DEFAULT_LOCATION_LIST, LocationData
-from .mission_tables import lookup_name_to_mission, MissionFlag
+from .mission_tables import MissionFlag, lookup_name_to_mission
+
 
 def get_location_groups() -> Dict[str, Set[str]]:
     result: Dict[str, Set[str]] = {}
@@ -22,14 +24,14 @@ def get_location_groups() -> Dict[str, Set[str]]:
             # Location group including race-swapped variants of a location
             agnostic_location_name = (
                 location.name
-                .replace(' (Terran)', '')
-                .replace(' (Protoss)', '')
-                .replace(' (Zerg)', '')
+                .replace(" (Terran)", "")
+                .replace(" (Protoss)", "")
+                .replace(" (Zerg)", "")
             )
             result.setdefault(agnostic_location_name, set()).add(location.name)
 
             # Location group including all locations in all raceswaps
-            result.setdefault(mission.mission_name[:mission.mission_name.find(' (')], set()).add(location.name)
+            result.setdefault(mission.mission_name[:mission.mission_name.find(" (")], set()).add(location.name)
 
         # Location group including all locations in a mission
         result.setdefault(mission.mission_name, set()).add(location.name)

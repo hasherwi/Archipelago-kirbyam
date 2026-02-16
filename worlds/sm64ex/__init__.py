@@ -1,13 +1,15 @@
-import typing
-import os
 import json
-from .Items import item_data_table, action_item_data_table, cannon_item_data_table, item_table, SM64Item
-from .Locations import location_table, SM64Location
-from .Options import sm64_options_groups, SM64Options
+import os
+import typing
+
+from BaseClasses import Item, ItemClassification, Region, Tutorial
+
+from ..AutoWorld import WebWorld, World
+from .Items import SM64Item, action_item_data_table, cannon_item_data_table, item_data_table, item_table
+from .Locations import SM64Location, location_table
+from .Options import SM64Options, sm64_options_groups
+from .Regions import SM64Levels, create_regions, sm64_level_to_entrances
 from .Rules import set_rules
-from .Regions import create_regions, sm64_level_to_entrances, SM64Levels
-from BaseClasses import Item, Tutorial, ItemClassification, Region
-from ..AutoWorld import World, WebWorld
 
 
 class SM64Web(WebWorld):
@@ -50,12 +52,12 @@ class SM64World(World):
 
     # Spoiler specific variable(s)
     star_costs_spoiler_key_maxlen = len(max([
-        'First Floor Big Star Door',
-        'Basement Big Star Door',
-        'Second Floor Big Star Door',
-        'MIPS 1',
-        'MIPS 2',
-        'Endless Stairs',
+        "First Floor Big Star Door",
+        "Basement Big Star Door",
+        "Second Floor Big Star Door",
+        "MIPS 1",
+        "MIPS 2",
+        "Endless Stairs",
     ], key=len))
 
 
@@ -65,7 +67,7 @@ class SM64World(World):
             max_stars -= 15
         self.move_rando_bitvec = 0
         if self.options.enable_move_rando:
-            double_jump_bitvec_offset = action_item_data_table['Double Jump'].code
+            double_jump_bitvec_offset = action_item_data_table["Double Jump"].code
             for action in self.options.move_rando_actions.value:
                 max_stars -= 1
                 self.move_rando_bitvec |= (1 << (action_item_data_table[action].code - double_jump_bitvec_offset))
@@ -74,16 +76,16 @@ class SM64World(World):
         self.number_of_stars = min(self.options.amount_of_stars, max_stars)
         self.filler_count = max_stars - self.number_of_stars
         self.star_costs = {
-            'FirstBowserDoorCost': round(self.options.first_bowser_star_door_cost * self.number_of_stars / 100),
-            'BasementDoorCost': round(self.options.basement_star_door_cost * self.number_of_stars / 100),
-            'SecondFloorDoorCost': round(self.options.second_floor_star_door_cost * self.number_of_stars / 100),
-            'MIPS1Cost': round(self.options.mips1_cost * self.number_of_stars / 100),
-            'MIPS2Cost': round(self.options.mips2_cost * self.number_of_stars / 100),
-            'StarsToFinish': round(self.options.stars_to_finish * self.number_of_stars / 100)
+            "FirstBowserDoorCost": round(self.options.first_bowser_star_door_cost * self.number_of_stars / 100),
+            "BasementDoorCost": round(self.options.basement_star_door_cost * self.number_of_stars / 100),
+            "SecondFloorDoorCost": round(self.options.second_floor_star_door_cost * self.number_of_stars / 100),
+            "MIPS1Cost": round(self.options.mips1_cost * self.number_of_stars / 100),
+            "MIPS2Cost": round(self.options.mips2_cost * self.number_of_stars / 100),
+            "StarsToFinish": round(self.options.stars_to_finish * self.number_of_stars / 100)
         }
         # Nudge MIPS 1 to match vanilla on default percentage
         if self.number_of_stars == 120 and self.options.mips1_cost == 12:
-            self.star_costs['MIPS1Cost'] = 15
+            self.star_costs["MIPS1Cost"] = 15
         self.topology_present = self.options.area_rando
 
     def create_regions(self):
@@ -98,7 +100,7 @@ class SM64World(World):
                 self.multiworld.spoiler.set_entrance(
                     sm64_level_to_entrances[entrance] + " Entrance",
                     sm64_level_to_entrances[destination],
-                    'entrance', self.player)
+                    "entrance", self.player)
 
     def create_item(self, name: str) -> Item:
         data = item_data_table[name]
@@ -128,7 +130,7 @@ class SM64World(World):
         if (self.options.buddy_checks):
             self.multiworld.itempool += [self.create_item(cannon_name) for cannon_name in cannon_item_data_table.keys()]
         # Moves
-        double_jump_bitvec_offset = action_item_data_table['Double Jump'].code
+        double_jump_bitvec_offset = action_item_data_table["Double Jump"].code
         self.multiworld.itempool += [self.create_item(action)
                                      for action, itemdata in action_item_data_table.items()
                                      if self.move_rando_bitvec & (1 << itemdata.code - double_jump_bitvec_offset)]
@@ -224,7 +226,7 @@ class SM64World(World):
             }
         }
         filename = f"{self.multiworld.get_out_file_name_base(self.player)}.apsm64ex"
-        with open(os.path.join(output_directory, filename), 'w') as f:
+        with open(os.path.join(output_directory, filename), "w") as f:
             json.dump(data, f)
 
     def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]):
@@ -236,7 +238,7 @@ class SM64World(World):
                     # Special rules for Tiny-Huge Island's dual entrances
                     reverse_area_connections = {destination: entrance for entrance, destination in self.area_connections.items()}
                     entrance_name = sm64_level_to_entrances[reverse_area_connections[SM64Levels.TINY_HUGE_ISLAND_HUGE]] \
-                                    + ' or ' + sm64_level_to_entrances[reverse_area_connections[SM64Levels.TINY_HUGE_ISLAND_TINY]]
+                                    + " or " + sm64_level_to_entrances[reverse_area_connections[SM64Levels.TINY_HUGE_ISLAND_TINY]]
                     regions[0] = self.multiworld.get_region("Tiny-Huge Island", self.player)
                 else:
                     entrance_name = sm64_level_to_entrances[entrance]
@@ -248,16 +250,16 @@ class SM64World(World):
 
     def write_spoiler(self, spoiler_handle: typing.TextIO) -> None:
         # Write calculated star costs to spoiler.
-        star_cost_spoiler_header = '\n\n' + self.player_name + ' Star Costs for Super Mario 64:\n\n'
+        star_cost_spoiler_header = "\n\n" + self.player_name + " Star Costs for Super Mario 64:\n\n"
         spoiler_handle.write(star_cost_spoiler_header)
         # - Reformat star costs dictionary in spoiler to be a bit more readable.
         star_costs_spoiler = {}
         star_costs_copy = self.star_costs.copy()
-        star_costs_spoiler['First Floor Big Star Door'] = star_costs_copy['FirstBowserDoorCost']
-        star_costs_spoiler['Basement Big Star Door'] = star_costs_copy['BasementDoorCost']
-        star_costs_spoiler['Second Floor Big Star Door'] = star_costs_copy['SecondFloorDoorCost']
-        star_costs_spoiler['MIPS 1'] = star_costs_copy['MIPS1Cost']
-        star_costs_spoiler['MIPS 2'] = star_costs_copy['MIPS2Cost']
-        star_costs_spoiler['Endless Stairs'] = star_costs_copy['StarsToFinish']
+        star_costs_spoiler["First Floor Big Star Door"] = star_costs_copy["FirstBowserDoorCost"]
+        star_costs_spoiler["Basement Big Star Door"] = star_costs_copy["BasementDoorCost"]
+        star_costs_spoiler["Second Floor Big Star Door"] = star_costs_copy["SecondFloorDoorCost"]
+        star_costs_spoiler["MIPS 1"] = star_costs_copy["MIPS1Cost"]
+        star_costs_spoiler["MIPS 2"] = star_costs_copy["MIPS2Cost"]
+        star_costs_spoiler["Endless Stairs"] = star_costs_copy["StarsToFinish"]
         for star, cost in star_costs_spoiler.items():
             spoiler_handle.write(f"{star:{self.star_costs_spoiler_key_maxlen}s} = {cost}\n")

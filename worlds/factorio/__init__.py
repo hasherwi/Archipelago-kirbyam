@@ -5,21 +5,49 @@ import logging
 import typing
 
 import Utils
-from BaseClasses import Region, Location, Item, Tutorial, ItemClassification
-from worlds.AutoWorld import World, WebWorld
-from worlds.LauncherComponents import Component, components, Type, launch as launch_component
+from BaseClasses import Item, ItemClassification, Location, Region, Tutorial
+from worlds.AutoWorld import WebWorld, World
 from worlds.generic import Rules
-from .Locations import location_pools, location_table, craftsanity_locations
+from worlds.LauncherComponents import Component, Type, components
+from worlds.LauncherComponents import launch as launch_component
+
+from .Locations import craftsanity_locations, location_pools, location_table
 from .Mod import generate_mod
-from .Options import (FactorioOptions, MaxSciencePack, Silo, Satellite, TechTreeInformation, Goal,
-                      TechCostDistribution, option_groups)
-from .Shapes import get_shapes
-from .Technologies import base_tech_table, recipe_sources, base_technology_table, \
-    all_product_sources, required_technologies, get_rocket_requirements, \
-    progressive_technology_table, common_tech_table, tech_to_progressive_lookup, progressive_tech_table, \
-    get_science_pack_pools, Recipe, recipes, technology_table, tech_table, factorio_base_id, useless_technologies, \
-    fluids, stacking_items, valid_ingredients, progressive_rows
+from .Options import (
+    FactorioOptions,
+    Goal,
+    MaxSciencePack,
+    Satellite,
+    Silo,
+    TechCostDistribution,
+    TechTreeInformation,
+    option_groups,
+)
 from .settings import FactorioSettings
+from .Shapes import get_shapes
+from .Technologies import (
+    Recipe,
+    all_product_sources,
+    base_tech_table,
+    base_technology_table,
+    common_tech_table,
+    factorio_base_id,
+    fluids,
+    get_rocket_requirements,
+    get_science_pack_pools,
+    progressive_rows,
+    progressive_tech_table,
+    progressive_technology_table,
+    recipe_sources,
+    recipes,
+    required_technologies,
+    stacking_items,
+    tech_table,
+    tech_to_progressive_lookup,
+    technology_table,
+    useless_technologies,
+    valid_ingredients,
+)
 
 
 def launch_client(*args: str):
@@ -307,7 +335,7 @@ class Factorio(World):
         self.get_location("Rocket Launch").access_rule = lambda state: all(state.has(technology, player)
                                                                            for technology in
                                                                            victory_tech_names)
-        self.multiworld.completion_condition[player] = lambda state: state.has('Victory', player)
+        self.multiworld.completion_condition[player] = lambda state: state.has("Victory", player)
 
         if "Craft rocket-silo" in self.multiworld.regions.location_cache[self.player]:
             victory_tech_names_r = get_rocket_requirements(silo_recipe, None, None, None)
@@ -386,7 +414,7 @@ class Factorio(World):
     @classmethod
     def stage_write_spoiler(cls, world, spoiler_handle):
         factorio_players = world.get_game_players(cls.game)
-        spoiler_handle.write('\n\nFactorio Recipes:\n')
+        spoiler_handle.write("\n\nFactorio Recipes:\n")
         for player in factorio_players:
             name = world.get_player_name(player)
             for recipe in world.worlds[player].custom_recipes.values():

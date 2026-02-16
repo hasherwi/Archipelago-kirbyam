@@ -1,15 +1,18 @@
-from ..game_data.local_data import item_id_table, character_item_table, party_id_nums
-from ..game_data.text_data import text_encoder
-from ..game_data.static_location_data import location_groups
-from ..modules.shopsanity import shop_locations
-from ..Options import ShopRandomizer, MagicantMode
 import struct
-from BaseClasses import Location
 from typing import TYPE_CHECKING
+
+from BaseClasses import Location
+
+from ..game_data.local_data import character_item_table, item_id_table, party_id_nums
+from ..game_data.static_location_data import location_groups
+from ..game_data.text_data import text_encoder
+from ..modules.shopsanity import shop_locations
+from ..Options import MagicantMode, ShopRandomizer
+
 if TYPE_CHECKING:
     from .. import EarthBoundWorld
     from ..Rom import LocalRom
-    
+
 def setup_hints(world: "EarthBoundWorld") -> None:
     hint_types = [
         # gives a hint for a specific out of the way location in this player's world, regardless of what item it is
@@ -208,7 +211,7 @@ def setup_hints(world: "EarthBoundWorld") -> None:
 
     if world.options.giygas_required:
         world.local_hintable_locations.append("Cave of the Past - Present")
-    
+
     if world.options.magicant_mode == MagicantMode.option_psi_location:
         world.local_hintable_locations.append("Magicant - Ness's Nightmare")
 
@@ -219,7 +222,7 @@ def setup_hints(world: "EarthBoundWorld") -> None:
         if hint == "item_at_location":
             location = world.random.choice(world.local_hintable_locations)
             world.hinted_locations[index] = location
-        
+
         elif hint == "region_progression_check":
             group, group_locs = world.random.choice(list(hintable_location_groups.items()))
             world.hinted_regions[index] = group
@@ -268,7 +271,7 @@ def parse_hint_data(world: "EarthBoundWorld", location: Location, rom: "LocalRom
             text = f"you can find {world.progression_count} important items at {world.hinted_area}."
         text = text_encoder(text, 255)
         text.append(0x02)
-        
+
     elif hint == "hint_for_good_item" or hint == "prog_item_at_region" or hint == "item_in_local_region":
         if location.item.name in character_item_table and location.item.player == world.player and location.item.name != "Photograph":
             item_text = text_encoder("your friend ", 255)
@@ -282,12 +285,12 @@ def parse_hint_data(world: "EarthBoundWorld", location: Location, rom: "LocalRom
             item_text = f"{world.multiworld.get_player_name(location.item.player)}'s {location.item.name}"
             item_text = text_encoder(item_text, 255)
         item_text.extend(text_encoder(" can be found ", 255))
-        
+
         if location.player != world.player:
             player_text = text_encoder(f"by {world.multiworld.get_player_name(location.player)}\n", 255)
         else:
             player_text = text_encoder("\n", 255)
-        
+
         if hint == "hint_for_good_item":
             location_text = text_encoder(f"@at {location.name}.", 255)
             # your [item] can be found by [player] at [location]

@@ -1,10 +1,12 @@
-from .region_base import JakAndDaxterRegion
-from ..options import EnableOrbsanity
 from typing import TYPE_CHECKING
+
+from ..options import EnableOrbsanity
+from .region_base import JakAndDaxterRegion
+
 if TYPE_CHECKING:
     from .. import JakAndDaxterWorld
-from ..rules import can_free_scout_flies, can_reach_orbs_level
 from ..locs import scout_locations as scouts
+from ..rules import can_free_scout_flies, can_reach_orbs_level
 
 
 def build_regions(level_name: str, world: "JakAndDaxterWorld") -> JakAndDaxterRegion:

@@ -2,12 +2,14 @@ import argparse
 import io
 import logging
 import os.path
-import requests
 import subprocess
 import urllib.request
 from shutil import which
-from typing import Any, Callable, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Callable
 from zipfile import ZipFile
+
+import requests
+
 from Utils import is_windows, messagebox, open_file, tuplize_version
 
 if TYPE_CHECKING:
@@ -59,12 +61,12 @@ def launch_game(*args) -> None:
         # can't use latest since courier uses pre-release tags
         courier_url = "https://api.github.com/repos/Brokemia/Courier/releases"
         latest_download = request_data(courier_url)[0]["assets"][-1]["browser_download_url"]
-    
+
         with urllib.request.urlopen(latest_download) as download:
             with ZipFile(io.BytesIO(download.read()), "r") as zf:
                 for member in zf.infolist():
                     zf.extract(member, path=game_folder)
-    
+
         os.chdir(game_folder)
         # linux and mac handling
         if not is_windows:
@@ -103,7 +105,7 @@ def launch_game(*args) -> None:
             os.chdir(working_directory)
             raise RuntimeError("Failed to install Courier")
         os.chdir(working_directory)
-    
+
         if courier_installed():
             messagebox("Success!", "Courier successfully installed!")
             return
@@ -225,8 +227,9 @@ def launch_game(*args) -> None:
     working_directory = os.getcwd()
     # setup ssl context
     try:
-        import certifi
         import ssl
+
+        import certifi
         context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH, cafile=certifi.where())
         context.set_alpn_protocols(["http/1.1"])
         https_handler = urllib.request.HTTPSHandler(context=context)

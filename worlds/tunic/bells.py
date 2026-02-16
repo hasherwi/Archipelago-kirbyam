@@ -1,10 +1,9 @@
-from typing import NamedTuple, TYPE_CHECKING
+from typing import TYPE_CHECKING, NamedTuple
 
 from worlds.generic.Rules import set_rule
 
 from .constants import base_id
 from .logic_helpers import has_melee
-
 
 if TYPE_CHECKING:
     from . import TunicWorld

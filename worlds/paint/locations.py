@@ -1,4 +1,4 @@
-from typing import NamedTuple, Dict
+from typing import Dict, NamedTuple
 
 from BaseClasses import CollectionState, Location
 

@@ -1,6 +1,6 @@
-from .Items import SongData
 from typing import Dict
 
+from .Items import SongData
 
 # Auto Generated
 SONG_DATA: Dict[str, SongData] = {

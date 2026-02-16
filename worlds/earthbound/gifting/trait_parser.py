@@ -1,6 +1,7 @@
-from ..game_data.local_data import item_id_table
 import random
 from typing import Any
+
+from ..game_data.local_data import item_id_table
 
 gift_exclusions = [
     "Franklin Badge",
@@ -317,7 +318,7 @@ gift_by_quality = {
         0.50: "HP-Sucker",
         1.00: "Hungry HP-Sucker"
     },
-    
+
     "Bomb": {
         0.50: "Bomb",
         1.00: "Super Bomb"
@@ -441,7 +442,7 @@ def trait_interpreter(gift: dict[str, Any]) -> int:
             if trait in tertiary_trait_list:
                 item = random.choice(tertiary_trait_list[trait])
                 break
-                
+
     if item is not None:
         item = item_id_table[item]
     else:

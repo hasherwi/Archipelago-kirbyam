@@ -1,6 +1,5 @@
 from typing import Dict, List
 
-
 progressive_districts: Dict[str, List[str]] = {
     "PROGRESSIVE_CAMPUS": ["TECH_WRITING", "TECH_EDUCATION", "TECH_CHEMISTRY"],
     "PROGRESSIVE_THEATER": ["CIVIC_DRAMA_POETRY", "CIVIC_HUMANISM", "TECH_RADIO"],

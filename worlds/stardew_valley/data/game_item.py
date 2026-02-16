@@ -2,7 +2,7 @@ import enum
 from abc import ABC
 from dataclasses import dataclass, field
 from types import MappingProxyType
-from typing import List, Iterable, Set, ClassVar, Tuple, Mapping, Callable, Any
+from typing import Any, Callable, ClassVar, Iterable, List, Mapping, Set, Tuple
 
 from ..stardew_rule.protocol import StardewRule
 

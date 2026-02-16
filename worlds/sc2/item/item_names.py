@@ -119,9 +119,9 @@ MERCENARY_MUNITIONS                   = "Mercenary Munitions (Terran)"
 PROGRESSIVE_FAST_DELIVERY             = "Progressive Fast Delivery (Terran)"
 RAPID_REINFORCEMENT                   = "Rapid Reinforcement (Terran)"
 FUSION_CORE_FUSION_REACTOR            = "Fusion Reactor (Fusion Core)"
-PSI_DISRUPTER                         = "Psi Disrupter"  
-PSI_SCREEN                            = "Psi Screen (Psi Disrupter)"  
-SONIC_DISRUPTER                       = "Sonic Disrupter (Psi Disrupter)"  
+PSI_DISRUPTER                         = "Psi Disrupter"
+PSI_SCREEN                            = "Psi Screen (Psi Disrupter)"
+SONIC_DISRUPTER                       = "Sonic Disrupter (Psi Disrupter)"
 HIVE_MIND_EMULATOR                    = "Hive Mind Emulator"
 PSI_INDOCTRINATOR                     = "Psi Indoctrinator (Hive Mind Emulator)"
 ARGUS_AMPLIFIER                       = "Argus Amplifier (Hive Mind Emulator)"
@@ -598,7 +598,7 @@ HUNTERLING              = "Hunterling"
 YGGDRASIL               = "Yggdrasil"
 CAUSTIC_HORRORS         = "Caustic Horrors"
 
-    
+
 # Kerrigan Upgrades
 KERRIGAN_KINETIC_BLAST           = "Kinetic Blast (Kerrigan Ability)"
 KERRIGAN_HEROIC_FORTITUDE        = "Heroic Fortitude (Kerrigan Passive)"

@@ -2,7 +2,6 @@ from typing import List
 
 from ..ItemData import CivicPrereqData
 
-
 new_civic_prereqs: List[CivicPrereqData] = [
     {"Civic": "CIVIC_AP_ANCIENT_01", "PrereqCivic": "CIVIC_AP_ANCIENT_00"},
     {"Civic": "CIVIC_AP_ANCIENT_02", "PrereqCivic": "CIVIC_AP_ANCIENT_00"},

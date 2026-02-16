@@ -1,11 +1,12 @@
-import os
+import io
 import logging
+import os
+import pkgutil
+import re
 import sys
 import typing
-import re
-import io
-import pkgutil
 from collections import deque
+
 assert "kivy" not in sys.modules, "kvui should be imported before kivy for frozen compatibility"
 
 if sys.platform == "win32":
@@ -26,6 +27,7 @@ if Utils.is_frozen():
     os.environ["KIVY_DATA_DIR"] = Utils.local_path("data")
 
 import platformdirs
+
 os.environ["KIVY_HOME"] = os.path.join(platformdirs.user_config_dir("Archipelago", False), "kivy")
 os.makedirs(os.environ["KIVY_HOME"], exist_ok=True)
 
@@ -37,9 +39,10 @@ Config.set("graphics", "multisamples", "0")  # multisamples crash old intel driv
 
 # Workaround for Kivy issue #9226.
 # caused by kivy by default using probesysfs,
-# which assumes all multi touch deviecs are touch screens. 
+# which assumes all multi touch deviecs are touch screens.
 # workaround provided by Snu of the kivy commmunity c:
 from kivy.utils import platform
+
 if platform == "linux":
     options = Config.options("input")
     for option in options:
@@ -51,55 +54,55 @@ if platform == "linux":
 # kivymd imports kivy.core.window, so we have to do this before the first kivymd import.
 # No longer necessary when we switch to kivy 3.0.0, which fixes this issue.
 from kivy.core.audio import SoundLoader
+
 for classobj in SoundLoader._classes:
     # The least invasive way to force a SoundLoader class to load its audio engine seems to be calling
     # .extensions(), which e.g. in audio_sdl2.pyx then calls a function called "mix_init()"
     classobj.extensions()
 
-from kivymd.uix.divider import MDDivider
-from kivy.core.window import Window
-from kivy.core.clipboard import Clipboard
-from kivy.core.text.markup import MarkupLabel
-from kivy.core.image import ImageLoader, ImageLoaderBase, ImageData
+from kivy.animation import Animation
 from kivy.base import ExceptionHandler, ExceptionManager
 from kivy.clock import Clock
+from kivy.core.clipboard import Clipboard
+from kivy.core.image import ImageData, ImageLoader, ImageLoaderBase
+from kivy.core.text.markup import MarkupLabel
+from kivy.core.window import Window
 from kivy.factory import Factory
-from kivy.properties import BooleanProperty, ObjectProperty, NumericProperty, StringProperty
-from kivy.metrics import dp, sp
-from kivy.uix.widget import Widget
-from kivy.uix.layout import Layout
-from kivy.utils import escape_markup
 from kivy.lang import Builder
-from kivy.uix.recycleview.views import RecycleDataViewBehavior
+from kivy.metrics import dp, sp
+from kivy.properties import BooleanProperty, NumericProperty, ObjectProperty, StringProperty
 from kivy.uix.behaviors import FocusBehavior, ToggleButtonBehavior
+from kivy.uix.image import AsyncImage
+from kivy.uix.layout import Layout
+from kivy.uix.popup import Popup
 from kivy.uix.recycleboxlayout import RecycleBoxLayout
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
-from kivy.animation import Animation
-from kivy.uix.popup import Popup
-from kivy.uix.image import AsyncImage
+from kivy.uix.recycleview.views import RecycleDataViewBehavior
+from kivy.uix.widget import Widget
+from kivy.utils import escape_markup
 from kivymd.app import MDApp
-from kivymd.uix.dialog import MDDialog, MDDialogHeadlineText, MDDialogSupportingText, MDDialogButtonContainer
-from kivymd.uix.gridlayout import MDGridLayout
-from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.navigationbar import MDNavigationBar, MDNavigationItem
-from kivymd.uix.screen import MDScreen
-from kivymd.uix.screenmanager import MDScreenManager
-
+from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText, MDIconButton
+from kivymd.uix.dialog import MDDialog, MDDialogButtonContainer, MDDialogHeadlineText, MDDialogSupportingText
+from kivymd.uix.divider import MDDivider
+from kivymd.uix.dropdownitem import MDDropDownItem, MDDropDownItemText
+from kivymd.uix.floatlayout import MDFloatLayout
+from kivymd.uix.gridlayout import MDGridLayout
+from kivymd.uix.label import MDIcon, MDLabel
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.menu.menu import MDDropdownTextItem
-from kivymd.uix.dropdownitem import MDDropDownItem, MDDropDownItemText
-from kivymd.uix.button import MDButton, MDButtonText, MDButtonIcon, MDIconButton
-from kivymd.uix.label import MDLabel, MDIcon
-from kivymd.uix.recycleview import MDRecycleView
-from kivymd.uix.textfield.textfield import MDTextField
+from kivymd.uix.navigationbar import MDNavigationBar, MDNavigationItem
 from kivymd.uix.progressindicator import MDLinearProgressIndicator
+from kivymd.uix.recycleview import MDRecycleView
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.screenmanager import MDScreenManager
 from kivymd.uix.scrollview import MDScrollView
+from kivymd.uix.textfield.textfield import MDTextField
 from kivymd.uix.tooltip import MDTooltip, MDTooltipPlain
 
 fade_in_animation = Animation(opacity=0, duration=0) + Animation(opacity=1, duration=0.25)
 
-from NetUtils import JSONtoTextParser, JSONMessagePart, SlotType, HintStatus
+from NetUtils import HintStatus, JSONMessagePart, JSONtoTextParser, SlotType
 from Utils import async_start, get_input_text_from_response
 
 if typing.TYPE_CHECKING:
@@ -718,10 +721,10 @@ class CommandPromptTextInput(ResizableTextField):
                      Seems to pretty naively interpret the keycode as unicode, so numlock can return odd characters.
         :param modifiers: A list of string modifiers, like `ctrl` or `numlock`
         """
-        if keycode[1] == 'up':
+        if keycode[1] == "up":
             self._change_to_history_text_if_available(self._command_history_index + 1)
             return True
-        if keycode[1] == 'down':
+        if keycode[1] == "down":
             self._change_to_history_text_if_available(self._command_history_index - 1)
             return True
         return super().keyboard_on_key_down(window, keycode, text, modifiers)

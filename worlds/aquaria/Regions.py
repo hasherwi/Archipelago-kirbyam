@@ -4,13 +4,14 @@ Date: Fri, 15 Mar 2024 18:41:40 +0000
 Description: Used to manage Regions in the Aquaria game multiworld randomizer
 """
 
-from typing import Dict, Optional, Iterable
-from BaseClasses import MultiWorld, Region, Entrance, Item, ItemClassification, CollectionState
-from .Items import AquariaItem, ItemNames
-from .Locations import AquariaLocations, AquariaLocation, AquariaLocationNames
-from .Options import AquariaOptions, UnconfineHomeWater
+from typing import Dict, Iterable, Optional
+
+from BaseClasses import CollectionState, Entrance, Item, ItemClassification, MultiWorld, Region
 from worlds.generic.Rules import add_rule, set_rule
 
+from .Items import AquariaItem, ItemNames
+from .Locations import AquariaLocation, AquariaLocationNames, AquariaLocations
+from .Options import AquariaOptions, UnconfineHomeWater
 
 # Every condition to connect regions
 

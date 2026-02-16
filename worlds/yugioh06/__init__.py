@@ -3,13 +3,14 @@ import pkgutil
 from typing import Any, ClassVar, Dict, List, Set
 
 import settings
+import Utils
 from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
 
-import Utils
 from worlds.AutoWorld import WebWorld, World
 
 from .boosterpacks import booster_contents as booster_contents
 from .boosterpacks import get_booster_locations
+from .client_bh import YuGiOh2006Client
 from .items import (
     Banlist_Items,
     booster_packs,
@@ -17,12 +18,12 @@ from .items import (
     draft_opponents,
     excluded_items,
     item_to_index,
-    useful,
     tier_1_opponents,
     tier_2_opponents,
     tier_3_opponents,
     tier_4_opponents,
     tier_5_opponents,
+    useful,
 )
 from .items import challenges as challenges
 from .locations import (
@@ -46,7 +47,6 @@ from .rom_values import function_addresses as function_addresses
 from .rom_values import structure_deck_selection as structure_deck_selection
 from .rules import set_rules
 from .structure_deck import get_deck_content_locations
-from .client_bh import YuGiOh2006Client
 
 
 class Yugioh06Web(WebWorld):

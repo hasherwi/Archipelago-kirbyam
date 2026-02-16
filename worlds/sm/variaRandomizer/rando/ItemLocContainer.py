@@ -1,12 +1,14 @@
 
 import copy
-from ..utils import log
-from ..logic.smbool import SMBool, smboolFalse
-from ..logic.smboolmanager import SMBoolManager
 from collections import Counter
 
+from ..logic.smbool import SMBool, smboolFalse
+from ..logic.smboolmanager import SMBoolManager
+from ..utils import log
+
+
 class ItemLocation(object):
-    __slots__ = ( 'Item', 'Location', 'Accessible', 'player' )
+    __slots__ = ( "Item", "Location", "Accessible", "player" )
 
     def __init__(self, Item=None, Location=None, player=0, accessible=True):
         self.Item = Item
@@ -15,7 +17,7 @@ class ItemLocation(object):
         self.player = player
 
     def json(self):
-        return {'Item': self.Item.json(), 'Location': self.Location.json()}
+        return {"Item": self.Item.json(), "Location": self.Location.json()}
 
 def getItemListStr(items):
     return str(dict(Counter(["%s/%s" % (item.Type,item.Class) for item in items])))
@@ -59,7 +61,7 @@ class ItemLocContainer(object):
         self.itemPool = itemPool
         self.itemPoolBackup = None
         self.unrestrictedItems = set()
-        self.log = log.get('ItemLocContainer')
+        self.log = log.get("ItemLocContainer")
         self.checkConsistency()
 
     def checkConsistency(self):

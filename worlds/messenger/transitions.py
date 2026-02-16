@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Entrance, Region
 from entrance_rando import EntranceType, randomize_entrances
+
 from .connections import RANDOMIZED_CONNECTIONS, TRANSITIONS
 from .options import ShuffleTransitions, TransitionPlando
 
@@ -68,7 +69,7 @@ def connect_plando(world: "MessengerWorld", plando_connections: TransitionPlando
         else:
             reg1 = world.get_region(plando_connection.entrance)
             remove_dangling_exit(reg1)
-        
+
         reg2 = world.get_region(plando_connection.exit)
         remove_dangling_entrance(reg2)
         # connect the regions

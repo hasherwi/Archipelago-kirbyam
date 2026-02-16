@@ -1,10 +1,12 @@
 import struct
-from ..Options import PSIShuffle
 from typing import TYPE_CHECKING
+
+from ..Options import PSIShuffle
+
 if TYPE_CHECKING:
     from . import EarthBoundWorld
     from .Rom import LocalRom
-    
+
 
 def shuffle_psi(world: "EarthBoundWorld") -> None:
     world.offensive_psi_slots = [
@@ -157,7 +159,7 @@ def shuffle_psi(world: "EarthBoundWorld") -> None:
         [[0x00, 0x00, 0x00], [0x00, 0x00, 0x00]],  # Disable
         [[0x00, 0x00, 0x00], [0x00, 0x00, 0x00]],  # Stop
         [[0x00, 0x00, 0x00], [0x00, 0x00, 0x00]]  # Neutralize
-        
+
     ]
 
     world.bomb_names = {

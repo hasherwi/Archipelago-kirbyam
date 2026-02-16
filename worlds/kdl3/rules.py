@@ -1,14 +1,17 @@
-from BaseClasses import ItemClassification
-from worlds.generic.Rules import set_rule, add_rule
-from .items import KDL3Item
-from .locations import location_table
-from .names import location_name, enemy_abilities, animal_friend_spawns
-from .options import GoalSpeed
 import typing
 
+from BaseClasses import ItemClassification
+from worlds.generic.Rules import add_rule, set_rule
+
+from .items import KDL3Item
+from .locations import location_table
+from .names import animal_friend_spawns, enemy_abilities, location_name
+from .options import GoalSpeed
+
 if typing.TYPE_CHECKING:
-    from . import KDL3World
     from BaseClasses import CollectionState
+
+    from . import KDL3World
 
 
 def can_reach_boss(state: "CollectionState", player: int, level: int, open_world: int,

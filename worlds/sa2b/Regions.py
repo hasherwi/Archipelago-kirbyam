@@ -1,12 +1,13 @@
-import typing
 import math
+import typing
 
-from BaseClasses import MultiWorld, Region, Entrance, ItemClassification
+from BaseClasses import Entrance, ItemClassification, MultiWorld, Region
 from worlds.AutoWorld import World
+
+from .GateBosses import all_gate_bosses_table, get_boss_name, king_boom_boo
 from .Items import SA2BItem, minigame_trap_table
 from .Locations import *
-from .Names import LocationName, ItemName
-from .GateBosses import get_boss_name, all_gate_bosses_table, king_boom_boo
+from .Names import ItemName, LocationName
 
 
 class LevelGate:
@@ -89,35 +90,35 @@ gate_0_whitelist_regions = [
 
 
 def create_regions(multiworld: MultiWorld, world: World, player: int, active_locations):
-    menu_region = create_region(multiworld, player, active_locations, 'Menu', None)
+    menu_region = create_region(multiworld, player, active_locations, "Menu", None)
 
     conditional_regions = []
-    gate_0_region = create_region(multiworld, player, active_locations, 'Gate 0', None)
+    gate_0_region = create_region(multiworld, player, active_locations, "Gate 0", None)
     conditional_regions += [gate_0_region]
 
     if world.options.number_of_level_gates.value >= 1:
-        gate_1_boss_region = create_region(multiworld, player, active_locations, 'Gate 1 Boss', [LocationName.gate_1_boss])
-        gate_1_region = create_region(multiworld, player, active_locations, 'Gate 1', None)
+        gate_1_boss_region = create_region(multiworld, player, active_locations, "Gate 1 Boss", [LocationName.gate_1_boss])
+        gate_1_region = create_region(multiworld, player, active_locations, "Gate 1", None)
         conditional_regions += [gate_1_region, gate_1_boss_region]
 
     if world.options.number_of_level_gates.value >= 2:
-        gate_2_boss_region = create_region(multiworld, player, active_locations, 'Gate 2 Boss', [LocationName.gate_2_boss])
-        gate_2_region = create_region(multiworld, player, active_locations, 'Gate 2', None)
+        gate_2_boss_region = create_region(multiworld, player, active_locations, "Gate 2 Boss", [LocationName.gate_2_boss])
+        gate_2_region = create_region(multiworld, player, active_locations, "Gate 2", None)
         conditional_regions += [gate_2_region, gate_2_boss_region]
 
     if world.options.number_of_level_gates.value >= 3:
-        gate_3_boss_region = create_region(multiworld, player, active_locations, 'Gate 3 Boss', [LocationName.gate_3_boss])
-        gate_3_region = create_region(multiworld, player, active_locations, 'Gate 3', None)
+        gate_3_boss_region = create_region(multiworld, player, active_locations, "Gate 3 Boss", [LocationName.gate_3_boss])
+        gate_3_region = create_region(multiworld, player, active_locations, "Gate 3", None)
         conditional_regions += [gate_3_region, gate_3_boss_region]
 
     if world.options.number_of_level_gates.value >= 4:
-        gate_4_boss_region = create_region(multiworld, player, active_locations, 'Gate 4 Boss', [LocationName.gate_4_boss])
-        gate_4_region = create_region(multiworld, player, active_locations, 'Gate 4', None)
+        gate_4_boss_region = create_region(multiworld, player, active_locations, "Gate 4 Boss", [LocationName.gate_4_boss])
+        gate_4_region = create_region(multiworld, player, active_locations, "Gate 4", None)
         conditional_regions += [gate_4_region, gate_4_boss_region]
 
     if world.options.number_of_level_gates.value >= 5:
-        gate_5_boss_region = create_region(multiworld, player, active_locations, 'Gate 5 Boss', [LocationName.gate_5_boss])
-        gate_5_region = create_region(multiworld, player, active_locations, 'Gate 5', None)
+        gate_5_boss_region = create_region(multiworld, player, active_locations, "Gate 5 Boss", [LocationName.gate_5_boss])
+        gate_5_region = create_region(multiworld, player, active_locations, "Gate 5", None)
         conditional_regions += [gate_5_region, gate_5_boss_region]
 
     city_escape_region = create_region(multiworld, player, active_locations, LocationName.city_escape_region,
@@ -638,15 +639,15 @@ def create_regions(multiworld: MultiWorld, world: World, player: int, active_loc
             LocationName.green_hill,
             LocationName.green_hill_chao_1,
             #LocationName.green_hill_animal_1,
-            LocationName.green_hill_itembox_1, 
-            LocationName.green_hill_itembox_2, 
-            LocationName.green_hill_itembox_3, 
-            LocationName.green_hill_itembox_4, 
-            LocationName.green_hill_itembox_5, 
-            LocationName.green_hill_itembox_6, 
-            LocationName.green_hill_itembox_7, 
-            LocationName.green_hill_itembox_8, 
-            LocationName.green_hill_itembox_9, 
+            LocationName.green_hill_itembox_1,
+            LocationName.green_hill_itembox_2,
+            LocationName.green_hill_itembox_3,
+            LocationName.green_hill_itembox_4,
+            LocationName.green_hill_itembox_5,
+            LocationName.green_hill_itembox_6,
+            LocationName.green_hill_itembox_7,
+            LocationName.green_hill_itembox_8,
+            LocationName.green_hill_itembox_9,
             LocationName.green_hill_itembox_10,
             LocationName.green_hill_itembox_11,
         ]
@@ -716,7 +717,7 @@ def create_regions(multiworld: MultiWorld, world: World, player: int, active_loc
 def connect_regions(multiworld: MultiWorld, world: World, player: int, gates: typing.List[LevelGate], cannon_core_emblems, gate_bosses, boss_rush_bosses, first_cannons_core_mission: str, final_cannons_core_mission: str):
     names: typing.Dict[str, int] = {}
 
-    connect(multiworld, player, names, 'Menu', LocationName.gate_0_region)
+    connect(multiworld, player, names, "Menu", LocationName.gate_0_region)
     connect(multiworld, player, names, LocationName.gate_0_region, LocationName.cannon_core_region,
             lambda state: (state.has(ItemName.emblem, player, cannon_core_emblems)))
 
@@ -729,7 +730,7 @@ def connect_regions(multiworld: MultiWorld, world: World, player: int, gates: ty
         connect(multiworld, player, names, LocationName.cannon_core_region, LocationName.biolizard_region,
                 lambda state: (state.can_reach(required_mission_name, "Location", player)))
     elif world.options.goal in [1, 2]:
-        connect(multiworld, player, names, 'Menu', LocationName.green_hill_region,
+        connect(multiworld, player, names, "Menu", LocationName.green_hill_region,
                 lambda state: (state.has(ItemName.white_emerald, player) and
                                state.has(ItemName.red_emerald, player) and
                                state.has(ItemName.cyan_emerald, player) and
@@ -1414,7 +1415,7 @@ def connect(multiworld: MultiWorld, player: int, used_names: typing.Dict[str, in
         name = target
     else:
         used_names[target] += 1
-        name = target + (' ' * used_names[target])
+        name = target + (" " * used_names[target])
 
     connection = Entrance(player, name, source_region)
 

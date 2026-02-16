@@ -1,29 +1,27 @@
+import asyncio
 import json
 import logging
 import queue
-import time
-import struct
 import random
+import struct
+import time
+from asyncio import Lock, StreamReader, StreamWriter
 from dataclasses import dataclass
 from queue import Queue
 from typing import Callable
 
 import pymem
-from pymem.exception import ProcessNotFound, ProcessError
-
-import asyncio
-from asyncio import StreamReader, StreamWriter, Lock
+from pymem.exception import ProcessError, ProcessNotFound
 
 from NetUtils import NetworkItem
+
 from ..game_id import jak1_id, jak1_max
 from ..items import item_table, trap_item_table
-from ..locs import (
-    orb_locations as orbs,
-    cell_locations as cells,
-    scout_locations as flies,
-    special_locations as specials,
-    orb_cache_locations as caches)
-
+from ..locs import cell_locations as cells
+from ..locs import orb_cache_locations as caches
+from ..locs import orb_locations as orbs
+from ..locs import scout_locations as flies
+from ..locs import special_locations as specials
 
 logger = logging.getLogger("ReplClient")
 
@@ -150,7 +148,7 @@ class JakAndDaxterReplClient:
             self.received_deathlink = False
 
         # Progressively empty the queue during each tick
-        # if text messages happen to be too slow we could pool dequeuing here, 
+        # if text messages happen to be too slow we could pool dequeuing here,
         # but it'd slow down the ItemReceived message during release
         if not self.json_message_queue.empty():
             json_txt_data = self.json_message_queue.get_nowait()

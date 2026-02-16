@@ -1,6 +1,6 @@
-from typing import Optional
 from dataclasses import dataclass
 from enum import IntEnum
+from typing import Optional
 
 
 class PowerInfrastructureLevel(IntEnum):
@@ -881,7 +881,7 @@ class GameLogic:
     }
 
     drop_pods: list[DropPodData] = [
-        # Regenerate via /Script/Engine.Blueprint'/Archipelago/Debug/CC_BuildDropPodLocations.CC_BuildDropPodLocations' 
+        # Regenerate via /Script/Engine.Blueprint'/Archipelago/Debug/CC_BuildDropPodLocations.CC_BuildDropPodLocations'
         DropPodData(-29068, -22640, 17384,  "Encased Industrial Beam", 0),  # Unlocks with: 4 x Desc_SteelPlateReinforced_C
         DropPodData(-33340, 5176,   23519,  "Crystal Oscillator", 0),  # Unlocks with: 5 x Desc_CrystalOscillator_C
         DropPodData(8680,   -41777, 13053,  "Steel Pipe", 0),  # Unlocks with: 7 x Desc_SteelPipe_C

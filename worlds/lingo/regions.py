@@ -1,6 +1,7 @@
-from typing import Dict, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict, Optional
 
 from BaseClasses import Entrance, ItemClassification, Region
+
 from .datatypes import EntranceType, Room, RoomAndDoor
 from .items import LingoItem
 from .locations import LingoLocation
@@ -58,7 +59,7 @@ def connect_entrance(regions: Dict[str, Region], source_region: Region, target_r
                 for mastery_req in world.player_logic.mastery_reqs:
                     for region in mastery_req.rooms:
                         world.multiworld.register_indirect_condition(regions[region], connection)
-    
+
     if not pilgrimage and world.options.enable_pilgrimage and is_acceptable_pilgrimage_entrance(entrance_type, world)\
             and source_region.name != "Menu":
         for part in range(1, 6):

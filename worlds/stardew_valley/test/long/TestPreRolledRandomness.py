@@ -3,9 +3,10 @@ from typing import ClassVar
 
 from BaseClasses import get_seed
 from test.param import classvar_matrix
-from ..assertion import WorldAssertMixin
-from ..bases import skip_long_tests, SVTestCase, solo_multiworld
+
 from ... import options
+from ..assertion import WorldAssertMixin
+from ..bases import SVTestCase, skip_long_tests, solo_multiworld
 
 if skip_long_tests():
     raise unittest.SkipTest("Long tests disabled")

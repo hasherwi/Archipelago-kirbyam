@@ -1,10 +1,11 @@
 from dataclasses import dataclass
-from typing import Iterable, Union, List, Tuple, Hashable, TYPE_CHECKING
+from typing import TYPE_CHECKING, Hashable, Iterable, List, Tuple, Union
 
 from BaseClasses import CollectionState
+
+from ..strings.ap_names.event_names import Event
 from .base import BaseStardewRule, CombinableStardewRule
 from .protocol import StardewRule
-from ..strings.ap_names.event_names import Event
 
 if TYPE_CHECKING:
     from .. import StardewValleyWorld
@@ -77,7 +78,7 @@ class Reach(BaseStardewRule):
     player: int
 
     def __call__(self, state: CollectionState) -> bool:
-        if self.resolution_hint == 'Region' and self.spot not in state.multiworld.regions.region_cache[self.player]:
+        if self.resolution_hint == "Region" and self.spot not in state.multiworld.regions.region_cache[self.player]:
             return False
         return state.can_reach(self.spot, self.resolution_hint, self.player)
 

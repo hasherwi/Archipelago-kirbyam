@@ -5,7 +5,6 @@ import logging
 import os
 import subprocess
 import sys
-
 from asyncio import Task
 from datetime import datetime
 from logging import Logger
@@ -14,23 +13,21 @@ from typing import Awaitable
 # Misc imports
 import colorama
 import pymem
-
 from pymem.exception import ProcessNotFound
 
 # Archipelago imports
 import ModuleUpdate
 import Utils
-
-from CommonClient import ClientCommandProcessor, CommonContext, server_loop, gui_enabled
+from CommonClient import ClientCommandProcessor, CommonContext, gui_enabled, server_loop
 from NetUtils import ClientStatus
+
+from . import JakAndDaxterWorld
+from .agents.memory_reader import JakAndDaxterMemoryReader
+from .agents.repl_client import JakAndDaxterReplClient
 
 # Jak imports
 from .game_id import jak1_name
 from .options import EnableOrbsanity
-from .agents.memory_reader import JakAndDaxterMemoryReader
-from .agents.repl_client import JakAndDaxterReplClient
-from . import JakAndDaxterWorld
-
 
 ModuleUpdate.update()
 logger = logging.getLogger("JakClient")

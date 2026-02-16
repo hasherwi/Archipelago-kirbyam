@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Tuple, Union, Optional
+from typing import List, Optional, Tuple, Union
 
 from ..strings.animal_product_names import AnimalProduct
 from ..strings.fish_names import WaterChest
 from ..strings.forageable_names import Forageable
 from ..strings.geode_names import Geode
-from ..strings.metal_names import Mineral, Artifact, Fossil
+from ..strings.metal_names import Artifact, Fossil, Mineral
 from ..strings.monster_names import Monster
 from ..strings.region_names import Region
 

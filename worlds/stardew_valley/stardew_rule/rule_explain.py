@@ -2,11 +2,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from functools import cached_property, singledispatch
-from typing import Iterable, Set, Tuple, List, Optional
+from typing import Iterable, List, Optional, Set, Tuple
 
-from BaseClasses import CollectionState, Location, Entrance
+from BaseClasses import CollectionState, Entrance, Location
 from worlds.generic.Rules import CollectionRule
-from . import StardewRule, AggregatingStardewRule, Count, Has, TotalReceived, Received, Reach, true_
+
+from . import AggregatingStardewRule, Count, Has, Reach, Received, StardewRule, TotalReceived, true_
 
 
 @dataclass
@@ -119,7 +120,7 @@ def _(rule: TotalReceived, state: CollectionState, expected: bool, explored_spot
 @_explain.register
 def _(rule: Reach, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
     access_rules = None
-    if rule.resolution_hint == 'Location':
+    if rule.resolution_hint == "Location":
         spot = state.multiworld.get_location(rule.spot, rule.player)
 
         if isinstance(spot.access_rule, StardewRule):
@@ -132,7 +133,7 @@ def _(rule: Reach, state: CollectionState, expected: bool, explored_spots: Set[T
             access_rules = [Reach(spot.parent_region.name, "Region", rule.player)]
 
 
-    elif rule.resolution_hint == 'Entrance':
+    elif rule.resolution_hint == "Entrance":
         spot = state.multiworld.get_entrance(rule.spot, rule.player)
 
         if isinstance(spot.access_rule, StardewRule):

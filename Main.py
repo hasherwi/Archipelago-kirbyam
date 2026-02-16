@@ -1,22 +1,29 @@
 import collections
-from collections.abc import Mapping
 import concurrent.futures
 import logging
 import os
 import tempfile
 import time
-from typing import Any
 import zipfile
 import zlib
+from collections.abc import Mapping
+from typing import Any
 
 import worlds
 from BaseClasses import CollectionState, Item, Location, LocationProgressType, MultiWorld
-from Fill import FillError, balance_multiworld_progression, distribute_items_restrictive, flood_items, \
-    parse_planned_blocks, distribute_planned_blocks, resolve_early_locations_for_planned
+from Fill import (
+    FillError,
+    balance_multiworld_progression,
+    distribute_items_restrictive,
+    distribute_planned_blocks,
+    flood_items,
+    parse_planned_blocks,
+    resolve_early_locations_for_planned,
+)
 from NetUtils import convert_to_base_types
 from Options import StartInventoryPool
-from Utils import __version__, output_path, restricted_dumps, version_tuple
 from settings import get_settings
+from Utils import __version__, output_path, restricted_dumps, version_tuple
 from worlds import AutoWorld
 from worlds.generic.Rules import exclusion_rules, locality_rules
 
@@ -49,7 +56,7 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
         dump_player_options(multiworld)
     multiworld.set_item_links()
     multiworld.state = CollectionState(multiworld)
-    logger.info('Archipelago Version %s  -  Seed: %s\n', __version__, multiworld.seed)
+    logger.info("Archipelago Version %s  -  Seed: %s\n", __version__, multiworld.seed)
 
     logger.info(f"Found {len(AutoWorld.AutoWorldRegister.world_types)} World Types:")
     longest_name = max(len(text) for text in AutoWorld.AutoWorldRegister.world_types)
@@ -75,7 +82,7 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
 
     AutoWorld.call_all(multiworld, "generate_early")
 
-    logger.info('')
+    logger.info("")
 
     for player in multiworld.player_ids:
         for item_name, count in multiworld.worlds[player].options.start_inventory.value.items():
@@ -108,13 +115,13 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
         multiworld.worlds[1].options.non_local_items.value = set()
         multiworld.worlds[1].options.local_items.value = set()
 
-    logger.info('Creating MultiWorld.')
+    logger.info("Creating MultiWorld.")
     AutoWorld.call_all(multiworld, "create_regions")
 
-    logger.info('Creating Items.')
+    logger.info("Creating Items.")
     AutoWorld.call_all(multiworld, "create_items")
 
-    logger.info('Calculating Access Rules.')
+    logger.info("Calculating Access Rules.")
     AutoWorld.call_all(multiworld, "set_rules")
 
     for player in multiworld.player_ids:
@@ -189,18 +196,18 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
     distribute_planned_blocks(multiworld, [x for player in multiworld.plando_item_blocks
                                            for x in multiworld.plando_item_blocks[player]])
 
-    logger.info('Running Pre Main Fill.')
+    logger.info("Running Pre Main Fill.")
 
     AutoWorld.call_all(multiworld, "pre_fill")
 
-    logger.info(f'Filling the multiworld with {len(multiworld.itempool)} items.')
+    logger.info(f"Filling the multiworld with {len(multiworld.itempool)} items.")
 
-    if multiworld.algorithm == 'flood':
+    if multiworld.algorithm == "flood":
         flood_items(multiworld)  # different algo, biased towards early game progress items
-    elif multiworld.algorithm == 'balanced':
+    elif multiworld.algorithm == "balanced":
         distribute_items_restrictive(multiworld, get_settings().generator.panic_method)
 
-    AutoWorld.call_all(multiworld, 'post_fill')
+    AutoWorld.call_all(multiworld, "post_fill")
 
     if multiworld.players > 1 and not args.skip_prog_balancing:
         balance_multiworld_progression(multiworld)
@@ -211,19 +218,19 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
     multiworld.random.passthrough = False
 
     if args.skip_output:
-        logger.info('Done. Skipped output/spoiler generation. Total Time: %s', time.perf_counter() - start)
+        logger.info("Done. Skipped output/spoiler generation. Total Time: %s", time.perf_counter() - start)
         return multiworld
 
-    logger.info(f'Beginning output...')
-    outfilebase = 'AP_' + multiworld.seed_name
+    logger.info(f"Beginning output...")
+    outfilebase = "AP_" + multiworld.seed_name
 
     if args.spoiler_only:
         if args.spoiler > 1:
-            logger.info('Calculating playthrough.')
+            logger.info("Calculating playthrough.")
             multiworld.spoiler.create_playthrough(create_paths=args.spoiler > 2)
 
-        multiworld.spoiler.to_file(output_path('%s_Spoiler.txt' % outfilebase))
-        logger.info('Done. Skipped multidata modification. Total time: %s', time.perf_counter() - start)
+        multiworld.spoiler.to_file(output_path("%s_Spoiler.txt" % outfilebase))
+        logger.info("Done. Skipped multidata modification. Total time: %s", time.perf_counter() - start)
         return multiworld
 
     output = tempfile.TemporaryDirectory()
@@ -241,7 +248,7 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
 
             # collect ER hint info
             er_hint_data: dict[int, dict[int, str]] = {}
-            AutoWorld.call_all(multiworld, 'extend_hint_information', er_hint_data)
+            AutoWorld.call_all(multiworld, "extend_hint_information", er_hint_data)
 
             def write_multidata():
                 import NetUtils
@@ -352,7 +359,7 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
 
                 serialized_multidata = zlib.compress(restricted_dumps(multidata), 9)
 
-                with open(os.path.join(temp_dir, f'{outfilebase}.archipelago'), 'wb') as f:
+                with open(os.path.join(temp_dir, f"{outfilebase}.archipelago"), "wb") as f:
                     f.write(bytes([3]))  # version of format
                     f.write(serialized_multidata)
 
@@ -366,15 +373,15 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
             # retrieve exceptions via .result() if they occurred.
             for i, future in enumerate(concurrent.futures.as_completed(output_file_futures), start=1):
                 if i % 10 == 0 or i == len(output_file_futures):
-                    logger.info(f'Generating output files ({i}/{len(output_file_futures)}).')
+                    logger.info(f"Generating output files ({i}/{len(output_file_futures)}).")
                 future.result()
 
         if args.spoiler > 1:
-            logger.info('Calculating playthrough.')
+            logger.info("Calculating playthrough.")
             multiworld.spoiler.create_playthrough(create_paths=args.spoiler > 2)
 
         if args.spoiler:
-            multiworld.spoiler.to_file(os.path.join(temp_dir, '%s_Spoiler.txt' % outfilebase))
+            multiworld.spoiler.to_file(os.path.join(temp_dir, "%s_Spoiler.txt" % outfilebase))
 
         zipfilename = output_path(f"AP_{multiworld.seed_name}.zip")
         logger.info(f"Creating final archive at {zipfilename}")
@@ -383,5 +390,5 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
             for file in os.scandir(temp_dir):
                 zf.write(file.path, arcname=file.name)
 
-    logger.info('Done. Enjoy. Total Time: %s', time.perf_counter() - start)
+    logger.info("Done. Enjoy. Total Time: %s", time.perf_counter() - start)
     return multiworld

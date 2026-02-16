@@ -1,17 +1,17 @@
-from typing import TYPE_CHECKING, Set, Optional
-from .locations import BASE_ID, get_location_names_to_ids
-from .items import cvcotm_item_info, MAJORS_CLASSIFICATIONS
-from .locations import cvcotm_location_info
-from .cvcotm_text import cvcotm_string_to_bytearray
-from .options import CompletionGoal, CVCotMDeathLink, IronMaidenBehavior
-from .rom import ARCHIPELAGO_IDENTIFIER_START, ARCHIPELAGO_IDENTIFIER, AUTH_NUMBER_START, QUEUED_TEXT_STRING_START
-from .data import iname, lname
+import base64
+from typing import TYPE_CHECKING, Optional, Set
 
+import worlds._bizhawk as bizhawk
 from BaseClasses import ItemClassification
 from NetUtils import ClientStatus
-import worlds._bizhawk as bizhawk
-import base64
 from worlds._bizhawk.client import BizHawkClient
+
+from .cvcotm_text import cvcotm_string_to_bytearray
+from .data import iname, lname
+from .items import MAJORS_CLASSIFICATIONS, cvcotm_item_info
+from .locations import BASE_ID, cvcotm_location_info, get_location_names_to_ids
+from .options import CompletionGoal, CVCotMDeathLink, IronMaidenBehavior
+from .rom import ARCHIPELAGO_IDENTIFIER, ARCHIPELAGO_IDENTIFIER_START, AUTH_NUMBER_START, QUEUED_TEXT_STRING_START
 
 if TYPE_CHECKING:
     from worlds._bizhawk.context import BizHawkClientContext
@@ -112,7 +112,7 @@ class CastlevaniaCotMClient(BizHawkClient):
                                                               (ARCHIPELAGO_IDENTIFIER_START, 12, "ROM")])
             if game_names[0].decode("ascii") != "DRACULA AGB1":
                 return False
-            if game_names[1] == b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00':
+            if game_names[1] == b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00":
                 logger.info("ERROR: You appear to be running an unpatched version of Castlevania: Circle of the Moon. "
                             "You need to generate a patch file and use it to create a patched ROM.")
                 return False
@@ -171,9 +171,9 @@ class CastlevaniaCotMClient(BizHawkClient):
                 cause = f"{args['data']['source']} killed you without a word!"
 
             # Highlight the player that killed us in the game's orange text.
-            if args['data']['source'] in cause:
-                words = cause.split(args['data']['source'], 1)
-                cause = words[0] + "「" + args['data']['source'] + "」" + words[1]
+            if args["data"]["source"] in cause:
+                words = cause.split(args["data"]["source"], 1)
+                cause = words[0] + "「" + args["data"]["source"] + "」" + words[1]
 
             self.death_causes += [cause]
 

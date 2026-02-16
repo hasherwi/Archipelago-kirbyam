@@ -1,15 +1,15 @@
 from functools import cached_property
 from typing import List
 
-from .base_logic import BaseLogicMixin, BaseLogic
 from ..bundles.bundle import Bundle
 from ..stardew_rule import StardewRule, True_
 from ..strings.ap_names.community_upgrade_names import CommunityUpgrade
 from ..strings.currency_names import Currency
 from ..strings.machine_names import Machine
-from ..strings.quality_names import CropQuality, ForageQuality, FishQuality, ArtisanQuality
+from ..strings.quality_names import ArtisanQuality, CropQuality, FishQuality, ForageQuality
 from ..strings.quest_names import Quest
 from ..strings.region_names import Region
+from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class BundleLogicMixin(BaseLogicMixin):

@@ -1,9 +1,10 @@
 import itertools
 import logging
-from typing import List, Dict, Set
+from typing import Dict, List, Set
 
-from BaseClasses import MultiWorld, CollectionState
+from BaseClasses import CollectionState, MultiWorld
 from worlds.generic.Rules import set_rule
+
 from . import locations
 from .bundles.bundle_room import BundleRoom
 from .content import StardewContent
@@ -11,16 +12,37 @@ from .content.feature import friendsanity
 from .data.craftable_data import all_crafting_recipes_by_name
 from .data.game_item import ItemTag
 from .data.harvest import HarvestCropSource, HarvestFruitTreeSource
-from .data.museum_data import all_museum_items, dwarf_scrolls, skeleton_front, skeleton_middle, skeleton_back, all_museum_items_by_name, all_museum_minerals, \
-    all_museum_artifacts, Artifact
+from .data.museum_data import (
+    Artifact,
+    all_museum_artifacts,
+    all_museum_items,
+    all_museum_items_by_name,
+    all_museum_minerals,
+    dwarf_scrolls,
+    skeleton_back,
+    skeleton_front,
+    skeleton_middle,
+)
 from .data.recipe_data import all_cooking_recipes_by_name
 from .locations import LocationTags
 from .logic.logic import StardewLogic
 from .logic.time_logic import MAX_MONTHS
 from .logic.tool_logic import tool_upgrade_prices
 from .mods.mod_data import ModNames
-from .options import ExcludeGingerIsland, SpecialOrderLocations, Museumsanity, BackpackProgression, Shipsanity, \
-    Monstersanity, Chefsanity, Craftsanity, ArcadeMachineLocations, Cooksanity, StardewValleyOptions, Walnutsanity
+from .options import (
+    ArcadeMachineLocations,
+    BackpackProgression,
+    Chefsanity,
+    Cooksanity,
+    Craftsanity,
+    ExcludeGingerIsland,
+    Monstersanity,
+    Museumsanity,
+    Shipsanity,
+    SpecialOrderLocations,
+    StardewValleyOptions,
+    Walnutsanity,
+)
 from .stardew_rule import And, StardewRule, true_
 from .stardew_rule.indirect_connection import look_for_indirect_connection
 from .stardew_rule.rule_explain import explain
@@ -34,8 +56,18 @@ from .strings.bundle_names import CCRoom
 from .strings.calendar_names import Weekday
 from .strings.craftable_names import Bomb, Furniture
 from .strings.crop_names import Fruit, Vegetable
-from .strings.entrance_names import dig_to_mines_floor, dig_to_skull_floor, Entrance, move_to_woods_depth, DeepWoodsEntrance, AlecEntrance, \
-    SVEEntrance, LaceyEntrance, BoardingHouseEntrance, LogicEntrance
+from .strings.entrance_names import (
+    AlecEntrance,
+    BoardingHouseEntrance,
+    DeepWoodsEntrance,
+    Entrance,
+    LaceyEntrance,
+    LogicEntrance,
+    SVEEntrance,
+    dig_to_mines_floor,
+    dig_to_skull_floor,
+    move_to_woods_depth,
+)
 from .strings.forageable_names import Forageable
 from .strings.generic_names import Generic
 from .strings.geode_names import Geode

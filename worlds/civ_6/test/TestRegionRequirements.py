@@ -1,10 +1,11 @@
 from typing import Callable, List
 
 from BaseClasses import CollectionState
+
 from ..Data import get_era_required_items_data
 from ..Enum import EraType
-from ..ProgressiveDistricts import convert_items_to_progressive_items
 from ..Items import get_item_by_civ_name
+from ..ProgressiveDistricts import convert_items_to_progressive_items
 from . import CivVITestBase
 
 

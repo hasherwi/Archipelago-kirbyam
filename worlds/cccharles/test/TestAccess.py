@@ -1,4 +1,5 @@
 from BaseClasses import CollectionState
+
 from .bases import CCCharlesTestBase
 
 

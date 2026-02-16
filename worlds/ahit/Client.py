@@ -1,14 +1,15 @@
 import asyncio
+import functools
 import time
+from copy import deepcopy
+from typing import Any, Iterable, List
+
+import websockets
 
 import Utils
-import websockets
-import functools
-from copy import deepcopy
-from typing import List, Any, Iterable
-from NetUtils import decode, encode, JSONtoTextParser, JSONMessagePart, NetworkItem, NetworkPlayer
+from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger
 from MultiServer import Endpoint
-from CommonClient import CommonContext, gui_enabled, ClientCommandProcessor, logger, get_base_parser
+from NetUtils import JSONMessagePart, JSONtoTextParser, NetworkItem, NetworkPlayer, decode, encode
 
 DEBUG = False
 

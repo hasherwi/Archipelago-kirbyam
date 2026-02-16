@@ -1,6 +1,5 @@
 from typing import Dict, List
 
-
 era_required_items: Dict[str, List[str]] = {
     "ERA_ANCIENT": [
         "TECH_MINING",

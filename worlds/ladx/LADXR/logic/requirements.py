@@ -1,9 +1,10 @@
 from typing import Optional
+
 from ..locations.items import *
 
 
 class OR:
-    __slots__ = ('__items', '__children')
+    __slots__ = ("__items", "__children")
 
     def __new__(cls, *args):
         if True in args:
@@ -70,7 +71,7 @@ class OR:
 
 
 class AND:
-    __slots__ = ('__items', '__children')
+    __slots__ = ("__items", "__children")
 
     def __new__(cls, *args):
         if False in args:
@@ -131,7 +132,7 @@ class AND:
 
 
 class COUNT:
-    __slots__ = ('__item', '__amount')
+    __slots__ = ("__item", "__amount")
 
     def __init__(self, item: str, amount: int) -> None:
         self.__item = item
@@ -165,7 +166,7 @@ class COUNT:
 
 
 class COUNTS:
-    __slots__ = ('__items', '__amount')
+    __slots__ = ("__items", "__amount")
 
     def __init__(self, items, amount):
         self.__items = items
@@ -206,7 +207,7 @@ class COUNTS:
 
 
 class FOUND:
-    __slots__ = ('__item', '__amount')
+    __slots__ = ("__item", "__amount")
 
     def __init__(self, item: str, amount: int) -> None:
         self.__item = item
@@ -358,14 +359,14 @@ class RequirementsSettings:
             self.attack_no_boomerang.remove(BOMB)
             self.attack_skeleton.remove(BOMB)
 
-        if options.logic == 'hard' or options.logic == 'glitched' or options.logic == 'hell':
+        if options.logic == "hard" or options.logic == "glitched" or options.logic == "hell":
             self.boss_requirements[1] = AND(OR(SWORD, MAGIC_ROD, BOMB), POWER_BRACELET)  # bombs + bracelet genie
             self.boss_requirements[3] = AND(FLIPPERS, OR(SWORD, MAGIC_ROD, BOW, BOMB))  # bomb angler fish
             self.boss_requirements[6] = OR(MAGIC_ROD, AND(BOMB, BOW), COUNT(SWORD, 2), AND(OR(SWORD, HOOKSHOT, BOW), SHIELD))  # evil eagle 3 cycle magic rod / bomb arrows / l2 sword, and bow kill
             self.attack_pols_voice = OR(BOMB, MAGIC_ROD, AND(OCARINA, SONG1), AND(self.stun_wizrobe, self.throw_enemy, BOW)) # wizrobe stun has same req as pols voice stun
             self.attack_wizrobe = OR(BOMB, MAGIC_ROD, AND(self.stun_wizrobe, self.throw_enemy, BOW))
 
-        if options.logic == 'glitched' or options.logic == 'hell':
+        if options.logic == "glitched" or options.logic == "hell":
             self.boss_requirements[6] = OR(MAGIC_ROD, BOMB, BOW, HOOKSHOT, COUNT(SWORD, 2), AND(SWORD, SHIELD))  # evil eagle off screen kill or 3 cycle with bombs
 
         if options.logic == "hell":

@@ -1,7 +1,8 @@
-from typing import Dict, TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import CollectionRule
+
 from .data import iname, lname
 from .options import CompletionGoal, IronMaidenBehavior
 

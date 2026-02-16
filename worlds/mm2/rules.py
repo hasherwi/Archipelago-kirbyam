@@ -1,15 +1,31 @@
 from math import ceil
 from typing import TYPE_CHECKING, Dict, List
-from . import names
-from .locations import heat_man_locations, air_man_locations, wood_man_locations, bubble_man_locations, \
-    quick_man_locations, flash_man_locations, metal_man_locations, crash_man_locations, wily_1_locations, \
-    wily_2_locations, wily_3_locations, wily_4_locations, wily_5_locations, wily_6_locations
-from .options import bosses, weapons_to_id, Consumables, RandomWeaknesses
+
 from worlds.generic.Rules import add_rule
 
+from . import names
+from .locations import (
+    air_man_locations,
+    bubble_man_locations,
+    crash_man_locations,
+    flash_man_locations,
+    heat_man_locations,
+    metal_man_locations,
+    quick_man_locations,
+    wily_1_locations,
+    wily_2_locations,
+    wily_3_locations,
+    wily_4_locations,
+    wily_5_locations,
+    wily_6_locations,
+    wood_man_locations,
+)
+from .options import Consumables, RandomWeaknesses, bosses, weapons_to_id
+
 if TYPE_CHECKING:
-    from . import MM2World
     from BaseClasses import CollectionState
+
+    from . import MM2World
 
 weapon_damage: Dict[int, List[int]] = {
     0: [2,  2,  1,   1,  2,   2,  1,   1,   1,  7,  1,  0,    1,   -1],  # Mega Buster

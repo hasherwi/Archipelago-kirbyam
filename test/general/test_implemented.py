@@ -2,8 +2,9 @@ import unittest
 
 from Fill import distribute_items_restrictive
 from NetUtils import convert_to_base_types
-from worlds.AutoWorld import AutoWorldRegister, call_all
 from worlds import failed_world_loads
+from worlds.AutoWorld import AutoWorldRegister, call_all
+
 from . import setup_solo_multiworld
 
 
@@ -69,7 +70,7 @@ class TestImplemented(unittest.TestCase):
                     self.assertTrue(not unreachable,
                                     f"Locations were not reachable with all state before prefill: "
                                     f"{unreachable}. Seed: {multiworld.seed}")
-                    
+
     def test_explicit_indirect_conditions_spheres(self):
         """Tests that worlds using explicit indirect conditions produce identical spheres as when using implicit
         indirect conditions"""

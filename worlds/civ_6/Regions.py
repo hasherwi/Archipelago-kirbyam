@@ -1,6 +1,8 @@
 from typing import TYPE_CHECKING, Dict, List, Optional, Set, Union
+
 from BaseClasses import CollectionState, LocationProgressType, Region
 from worlds.generic.Rules import add_rule, set_rule
+
 from .Data import (
     get_boosts_data,
 )

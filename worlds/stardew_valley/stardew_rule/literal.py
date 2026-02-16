@@ -2,6 +2,7 @@ from abc import ABC
 from typing import Tuple
 
 from BaseClasses import CollectionState
+
 from .protocol import StardewRule
 
 

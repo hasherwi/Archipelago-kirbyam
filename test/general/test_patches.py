@@ -1,4 +1,5 @@
 ﻿import unittest
+
 from worlds.AutoWorld import AutoWorldRegister
 from worlds.Files import AutoPatchRegister
 

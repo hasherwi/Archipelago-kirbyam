@@ -1,29 +1,59 @@
 import math
-from typing import Mapping, Any
+from typing import Any, Mapping
 
+from BaseClasses import Item, LocationProgressType, MultiWorld, Tutorial
 from Options import OptionError
-from .data.strings import OTHER, ITEMS, CATEGORY, LOCATIONS, SLOTDATA, GOALS, OPTIONS
-from .items import item_descriptions, item_table, ShapezItem, \
-    buildings_routing, buildings_processing, buildings_other, \
-    buildings_top_row, buildings_wires, gameplay_unlocks, upgrades, \
-    big_upgrades, filler, trap, bundles, belt_and_extractor, standard_traps, random_draining_trap, split_draining_traps, \
-    whacky_upgrade_traps
-from .locations import ShapezLocation, addlevels, addupgrades, addachievements, location_description, \
-    addshapesanity, addshapesanity_ut, shapesanity_simple, init_shapesanity_pool, achievement_locations, \
-    level_locations, upgrade_locations, shapesanity_locations, categories
-from .presets import options_presets
-from .options import ShapezOptions
-from worlds.AutoWorld import World, WebWorld
-from BaseClasses import Item, Tutorial, LocationProgressType, MultiWorld
-from .regions import create_shapez_regions, has_x_belt_multiplier
+from worlds.AutoWorld import WebWorld, World
+
 from ..generic.Rules import add_rule
+from .data.strings import CATEGORY, GOALS, ITEMS, LOCATIONS, OPTIONS, OTHER, SLOTDATA
+from .items import (
+    ShapezItem,
+    belt_and_extractor,
+    big_upgrades,
+    buildings_other,
+    buildings_processing,
+    buildings_routing,
+    buildings_top_row,
+    buildings_wires,
+    bundles,
+    filler,
+    gameplay_unlocks,
+    item_descriptions,
+    item_table,
+    random_draining_trap,
+    split_draining_traps,
+    standard_traps,
+    trap,
+    upgrades,
+    whacky_upgrade_traps,
+)
+from .locations import (
+    ShapezLocation,
+    achievement_locations,
+    addachievements,
+    addlevels,
+    addshapesanity,
+    addshapesanity_ut,
+    addupgrades,
+    categories,
+    init_shapesanity_pool,
+    level_locations,
+    location_description,
+    shapesanity_locations,
+    shapesanity_simple,
+    upgrade_locations,
+)
+from .options import ShapezOptions
+from .presets import options_presets
+from .regions import create_shapez_regions, has_x_belt_multiplier
 
 
 class ShapezWeb(WebWorld):
     options_presets = options_presets
     rich_text_options_doc = True
     theme = "stone"
-    game_info_languages = ['en', 'de']
+    game_info_languages = ["en", "de"]
     setup_en = Tutorial(
         "Multiworld Setup Guide",
         "A guide to playing shapez with Archipelago:",

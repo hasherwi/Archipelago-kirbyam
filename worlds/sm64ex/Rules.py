@@ -1,12 +1,22 @@
-from typing import Callable, Union, Dict, Set
+from typing import Callable, Dict, Set, Union
 
 from BaseClasses import MultiWorld
+
 from ..generic.Rules import add_rule, set_rule
+from .Items import action_item_data_table
 from .Locations import location_table
 from .Options import SM64Options
-from .Regions import connect_regions, SM64Levels, sm64_level_to_paintings, sm64_paintings_to_level,\
-sm64_level_to_secrets, sm64_secrets_to_level, sm64_entrances_to_level, sm64_level_to_entrances
-from .Items import action_item_data_table
+from .Regions import (
+    SM64Levels,
+    connect_regions,
+    sm64_entrances_to_level,
+    sm64_level_to_entrances,
+    sm64_level_to_paintings,
+    sm64_level_to_secrets,
+    sm64_paintings_to_level,
+    sm64_secrets_to_level,
+)
+
 
 def shuffle_dict_keys(world, dictionary: dict) -> dict:
     keys = list(dictionary.keys())
@@ -94,7 +104,7 @@ def set_rules(world, options: SM64Options, player: int, area_connections: dict, 
                     rf.build_rule("GP"))
     entrance = connect_regions(world, player, "Basement", randomized_entrances_s["Bowser in the Fire Sea"],
                                lambda state: state.has("Power Star", player, star_costs["BasementDoorCost"]) and
-                               state.can_reach("DDD: Board Bowser's Sub", 'Location', player))
+                               state.can_reach("DDD: Board Bowser's Sub", "Location", player))
     # Access to "DDD: Board Bowser's Sub" does not require access to other locations or regions, so the only region that
     # needs to be registered is its parent region.
     world.register_indirect_condition(world.get_location("DDD: Board Bowser's Sub", player).parent_region, entrance)
@@ -216,25 +226,25 @@ def set_rules(world, options: SM64Options, player: int, area_connections: dict, 
         rf.assign_rule("THI: 100 Coins", "GP")
         rf.assign_rule("RR: 100 Coins", "GP & WK")
     # Castle Stars
-    add_rule(world.get_location("Toad (Basement)", player), lambda state: state.can_reach("Basement", 'Region', player) and state.has("Power Star", player, 12))
-    add_rule(world.get_location("Toad (Second Floor)", player), lambda state: state.can_reach("Second Floor", 'Region', player) and state.has("Power Star", player, 25))
-    add_rule(world.get_location("Toad (Third Floor)", player), lambda state: state.can_reach("Third Floor", 'Region', player) and state.has("Power Star", player, 35))
+    add_rule(world.get_location("Toad (Basement)", player), lambda state: state.can_reach("Basement", "Region", player) and state.has("Power Star", player, 12))
+    add_rule(world.get_location("Toad (Second Floor)", player), lambda state: state.can_reach("Second Floor", "Region", player) and state.has("Power Star", player, 25))
+    add_rule(world.get_location("Toad (Third Floor)", player), lambda state: state.can_reach("Third Floor", "Region", player) and state.has("Power Star", player, 35))
 
     if star_costs["MIPS1Cost"] > star_costs["MIPS2Cost"]:
         (star_costs["MIPS2Cost"], star_costs["MIPS1Cost"]) = (star_costs["MIPS1Cost"], star_costs["MIPS2Cost"])
     rf.assign_rule("MIPS 1", "DV | MOVELESS")
     rf.assign_rule("MIPS 2", "DV | MOVELESS")
-    add_rule(world.get_location("MIPS 1", player), lambda state: state.can_reach("Basement", 'Region', player) and state.has("Power Star", player, star_costs["MIPS1Cost"]))
-    add_rule(world.get_location("MIPS 2", player), lambda state: state.can_reach("Basement", 'Region', player) and state.has("Power Star", player, star_costs["MIPS2Cost"]))
+    add_rule(world.get_location("MIPS 1", player), lambda state: state.can_reach("Basement", "Region", player) and state.has("Power Star", player, star_costs["MIPS1Cost"]))
+    add_rule(world.get_location("MIPS 2", player), lambda state: state.can_reach("Basement", "Region", player) and state.has("Power Star", player, star_costs["MIPS2Cost"]))
 
-    world.completion_condition[player] = lambda state: state.can_reach("BitS: Top", 'Region', player)
+    world.completion_condition[player] = lambda state: state.can_reach("BitS: Top", "Region", player)
 
     if options.completion_type == "last_bowser_stage":
-        world.completion_condition[player] = lambda state: state.can_reach("BitS: Top", 'Region', player)
+        world.completion_condition[player] = lambda state: state.can_reach("BitS: Top", "Region", player)
     elif options.completion_type == "all_bowser_stages":
-        world.completion_condition[player] = lambda state: state.can_reach("Bowser in the Dark World", 'Region', player) and \
-                                                           state.can_reach("BitFS: Upper", 'Region', player) and \
-                                                           state.can_reach("BitS: Top", 'Region', player)
+        world.completion_condition[player] = lambda state: state.can_reach("Bowser in the Dark World", "Region", player) and \
+                                                           state.can_reach("BitFS: Upper", "Region", player) and \
+                                                           state.can_reach("BitS: Top", "Region", player)
 
 
 class RuleFactory:
@@ -278,7 +288,7 @@ class RuleFactory:
 
     def assign_rule(self, target_name: str, rule_expr: str):
         target = self.world.get_location(target_name, self.player) if target_name in location_table else self.world.get_entrance(target_name, self.player)
-        cannon_name = "Cannon Unlock " + target_name.split(':')[0]
+        cannon_name = "Cannon Unlock " + target_name.split(":")[0]
         try:
             rule = self.build_rule(rule_expr, cannon_name)
         except RuleFactory.SM64LogicException as exception:
@@ -287,7 +297,7 @@ class RuleFactory:
         if rule:
             set_rule(target, rule)
 
-    def build_rule(self, rule_expr: str, cannon_name: str = '') -> Callable:
+    def build_rule(self, rule_expr: str, cannon_name: str = "") -> Callable:
         expressions = rule_expr.split(" | ")
         rules = []
         for expression in expressions:
@@ -321,8 +331,8 @@ class RuleFactory:
             return True
 
     def make_lambda(self, expression: str, cannon_name: str) -> Union[Callable, bool]:
-        if '+' in expression:
-            tokens = expression.split('+')
+        if "+" in expression:
+            tokens = expression.split("+")
             items = set()
             for token in tokens:
                 item = self.parse_token(token, cannon_name)
@@ -335,8 +345,8 @@ class RuleFactory:
                 return lambda state: state.has_all(items, self.player)
             else:
                 return True
-        if '/' in expression:
-            tokens = expression.split('/')
+        if "/" in expression:
+            tokens = expression.split("/")
             items = set()
             for token in tokens:
                 item = self.parse_token(token, cannon_name)
@@ -349,9 +359,9 @@ class RuleFactory:
                 return lambda state: state.has_any(items, self.player)
             else:
                 return False
-        if '{{' in expression:
+        if "{{" in expression:
             return lambda state: state.can_reach(expression[2:-2], "Location", self.player)
-        if '{' in expression:
+        if "{" in expression:
             return lambda state: state.can_reach(expression[1:-1], "Region", self.player)
         item = self.parse_token(expression, cannon_name)
         if item in (True, False):
@@ -373,7 +383,7 @@ class RuleFactory:
         if not item:
             raise Exception(f"Invalid token: '{item}'")
         if item in action_item_data_table:
-            double_jump_bitvec_offset = action_item_data_table['Double Jump'].code
+            double_jump_bitvec_offset = action_item_data_table["Double Jump"].code
             if self.move_rando_bitvec & (1 << (action_item_data_table[item].code - double_jump_bitvec_offset)) == 0:
                 # This action item is not randomized.
                 return True

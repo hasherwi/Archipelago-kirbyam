@@ -1,4 +1,5 @@
 from BaseClasses import MultiWorld
+
 from ..generic.Rules import set_rule
 from .Options import CCCharlesOptions
 

@@ -1,12 +1,10 @@
 import ModuleUpdate
-ModuleUpdate.update()
 
-import Utils
+ModuleUpdate.update()
 
 import asyncio
 import base64
 import binascii
-import colorama
 import io
 import os
 import re
@@ -14,23 +12,27 @@ import select
 import shlex
 import socket
 import struct
-import sys
 import subprocess
+import sys
 import time
 import typing
 
+import colorama
 
-from CommonClient import (CommonContext, get_base_parser, gui_enabled, logger,
-                          server_loop)
+import Utils
+from CommonClient import CommonContext, get_base_parser, gui_enabled, logger, server_loop
 from NetUtils import ClientStatus
+
 from . import LinksAwakeningWorld
 from .Common import BASE_ID as LABaseID
 from .GpsTracker import GpsTracker
-from .TrackerConsts import storage_key
 from .ItemTracker import ItemTracker
 from .LADXR.checkMetadata import checkMetadataTable
 from .Locations import get_locations_to_id, meta_to_name
-from .Tracker import LocationTracker, MagpieBridge, Check
+from .Tracker import Check, LocationTracker, MagpieBridge
+from .TrackerConsts import storage_key
+
+
 class GameboyException(Exception):
     pass
 
@@ -109,7 +111,7 @@ class RAGameboy():
         self.socket.setblocking(False)
 
     async def send_command(self, command, timeout=1.0):
-        self.send(f'{command}\n')
+        self.send(f"{command}\n")
         response_str = await self.async_recv()
         self.check_command_response(command, response_str)
         return response_str.rstrip()
@@ -131,7 +133,7 @@ class RAGameboy():
 
     def send(self, b):
         if type(b) is str:
-            b = b.encode('ascii')
+            b = b.encode("ascii")
         self.socket.sendto(b, (self.address, self.port))
 
     def recv(self):
@@ -265,7 +267,7 @@ class RAGameboy():
 
     def check_command_response(self, command: str, response: bytes):
         if command == "VERSION":
-            ok = re.match(r"\d+\.\d+\.\d+", response.decode('ascii')) is not None
+            ok = re.match(r"\d+\.\d+\.\d+", response.decode("ascii")) is not None
         else:
             ok = response.startswith(command.encode())
         if not ok:
@@ -275,7 +277,7 @@ class RAGameboy():
     def read_memory(self, address, size=1):
         command = "READ_CORE_MEMORY"
 
-        self.send(f'{command} {hex(address)} {size}\n')
+        self.send(f"{command} {hex(address)} {size}\n")
         response = self.recv()
 
         self.check_command_response(command, response)
@@ -292,7 +294,7 @@ class RAGameboy():
     async def async_read_memory(self, address, size=1):
         command = "READ_CORE_MEMORY"
 
-        self.send(f'{command} {hex(address)} {size}\n')
+        self.send(f"{command} {hex(address)} {size}\n")
         response = await self.async_recv()
         self.check_command_response(command, response)
         response = response[:-1]
@@ -513,9 +515,11 @@ class LinksAwakeningContext(CommonContext):
 
     def run_gui(self) -> None:
         import webbrowser
-        from kvui import GameManager
+
         from kivy.metrics import dp
         from kivymd.uix.button import MDButton, MDButtonText
+
+        from kvui import GameManager
 
         class LADXManager(GameManager):
             logging_pairs = [
@@ -530,7 +534,7 @@ class LinksAwakeningContext(CommonContext):
                 if self.ctx.magpie_enabled:
                     button = MDButton(MDButtonText(text="Open Tracker"), style="filled", size=(dp(100), dp(70)), radius=5,
                                       size_hint_x=None, size_hint_y=None, pos_hint={"center_y": 0.55},
-                                      on_press=lambda _: webbrowser.open('https://magpietracker.us/?enable_autotracker=1'))
+                                      on_press=lambda _: webbrowser.open("https://magpietracker.us/?enable_autotracker=1"))
                     button.height = self.server_connect_bar.height
                     self.connect_layout.add_widget(button)
 
@@ -563,9 +567,9 @@ class LinksAwakeningContext(CommonContext):
     ENABLE_DEATHLINK = False
     async def send_deathlink(self):
         if self.ENABLE_DEATHLINK:
-            message = [{"cmd": 'Deathlink',
-                        'time': time.time(),
-                        'cause': 'Had a nightmare',
+            message = [{"cmd": "Deathlink",
+                        "time": time.time(),
+                        "cause": "Had a nightmare",
                         # 'source': self.slot_info[self.slot].name,
                         }]
             await self.send_msgs(message)
@@ -651,15 +655,15 @@ class LinksAwakeningContext(CommonContext):
             self.client.gps_tracker.receive_found_entrances(args["value"])
 
     async def sync(self):
-        sync_msg = [{'cmd': 'Sync'}]
+        sync_msg = [{"cmd": "Sync"}]
         await self.send_msgs(sync_msg)
 
     def add_linked_items(self, checks: typing.List[Check]):
         for check in checks:
             if check.value and check.linkedItem:
                 linkedItem = check.linkedItem
-                if 'condition' not in linkedItem or (self.slot_data and linkedItem['condition'](self.slot_data)):
-                    self.client.item_tracker.setExtraItem(check.linkedItem['item'], check.linkedItem['qty'])
+                if "condition" not in linkedItem or (self.slot_data and linkedItem["condition"](self.slot_data)):
+                    self.client.item_tracker.setExtraItem(check.linkedItem["item"], check.linkedItem["qty"])
 
     item_id_lookup = get_locations_to_id()
 
@@ -758,7 +762,7 @@ def run_game(romfile: str) -> None:
         args.append(full_rom_path)
         try:
             # set cwd so that paths to lua scripts are always relative to our client
-            if getattr(sys, 'frozen', False):
+            if getattr(sys, "frozen", False):
                 # The application is frozen
                 script_dir = os.path.dirname(sys.executable)
             else:
@@ -772,9 +776,9 @@ def launch(*launch_args):
     async def main():
         parser = get_base_parser(description="Link's Awakening Client.")
         parser.add_argument("--url", help="Archipelago connection url")
-        parser.add_argument("--no-magpie", dest='magpie', default=True, action='store_false', help="Disable magpie bridge")
-        parser.add_argument('diff_file', default="", type=str, nargs="?",
-                            help='Path to a .apladx Archipelago Binary Patch file')
+        parser.add_argument("--no-magpie", dest="magpie", default=True, action="store_false", help="Disable magpie bridge")
+        parser.add_argument("diff_file", default="", type=str, nargs="?",
+                            help="Path to a .apladx Archipelago Binary Patch file")
 
         args = parser.parse_args(launch_args)
 

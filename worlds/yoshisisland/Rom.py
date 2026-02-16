@@ -1,11 +1,12 @@
 import hashlib
 import os
-import Utils
-from worlds.Files import APDeltaPatch
-from settings import get_settings
 from typing import TYPE_CHECKING, Collection, SupportsIndex
 
-from .Options import YoshiColors, BowserDoor, PlayerGoal, MinigameChecks
+import Utils
+from settings import get_settings
+from worlds.Files import APDeltaPatch
+
+from .Options import BowserDoor, MinigameChecks, PlayerGoal, YoshiColors
 
 if TYPE_CHECKING:
     from . import YoshisIslandWorld

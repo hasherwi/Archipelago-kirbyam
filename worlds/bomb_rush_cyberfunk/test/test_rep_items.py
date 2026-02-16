@@ -1,6 +1,6 @@
-from . import BombRushCyberfunkTestBase
 from typing import List
 
+from . import BombRushCyberfunkTestBase
 
 rep_item_names: List[str] = [
     "8 REP",
@@ -15,7 +15,7 @@ class TestCollectAndRemoveREP(BombRushCyberfunkTestBase):
     @property
     def run_default_tests(self) -> bool:
         return False
-    
+
     def test_default_rep_total(self) -> None:
         self.collect_by_name(rep_item_names)
         self.assertEqual(1400, self.multiworld.state.prog_items[self.player]["rep"])

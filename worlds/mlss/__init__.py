@@ -2,16 +2,18 @@ import logging
 import os
 import pkgutil
 import typing
+from typing import Any, Dict, Set
+
 import settings
-from BaseClasses import Tutorial, ItemClassification
+from BaseClasses import ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
-from typing import Set, Dict, Any
-from .Locations import all_locations, location_table, bowsers, bowsersMini, hidden, coins
-from .Options import MLSSOptions
-from .Items import MLSSItem, itemList, item_frequencies, item_table, mlss_item_name_groups
-from .Names.LocationName import LocationName
+
 from .Client import MLSSClient
-from .Regions import create_regions, connect_regions
+from .Items import MLSSItem, item_frequencies, item_table, itemList, mlss_item_name_groups
+from .Locations import all_locations, bowsers, bowsersMini, coins, hidden, location_table
+from .Names.LocationName import LocationName
+from .Options import MLSSOptions
+from .Regions import connect_regions, create_regions
 from .Rom import MLSSProcedurePatch, write_tokens
 from .Rules import set_rules
 

@@ -1,18 +1,19 @@
 from collections import deque
 from collections.abc import Collection
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
-from BaseClasses import get_seed, MultiWorld, Entrance
-from ..assertion import WorldAssertMixin
-from ..bases import SVTestCase, solo_multiworld
+from BaseClasses import Entrance, MultiWorld, get_seed
+
 from ... import options
 from ...mods.mod_data import ModNames
 from ...options import EntranceRandomization, ExcludeGingerIsland, SkillProgression
 from ...options.options import all_mods
-from ...regions.entrance_rando import create_entrance_rando_target, prepare_mod_data, connect_regions
-from ...regions.model import RegionData, ConnectionData, RandomizationFlag
+from ...regions.entrance_rando import connect_regions, create_entrance_rando_target, prepare_mod_data
+from ...regions.model import ConnectionData, RandomizationFlag, RegionData
 from ...strings.entrance_names import Entrance as EntranceName
 from ...strings.region_names import Region as RegionName
+from ..assertion import WorldAssertMixin
+from ..bases import SVTestCase, solo_multiworld
 
 
 class TestEntranceRando(SVTestCase):

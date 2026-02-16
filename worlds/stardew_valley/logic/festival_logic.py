@@ -1,4 +1,3 @@
-from .base_logic import BaseLogicMixin, BaseLogic
 from ..options import FestivalLocations
 from ..stardew_rule import StardewRule
 from ..strings.animal_product_names import AnimalProduct
@@ -12,6 +11,7 @@ from ..strings.generic_names import Generic
 from ..strings.machine_names import Machine
 from ..strings.monster_names import Monster
 from ..strings.region_names import Region
+from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class FestivalLogicMixin(BaseLogicMixin):

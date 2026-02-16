@@ -5,17 +5,32 @@ import logging
 import pathlib
 import sys
 import time
-from random import Random
 from dataclasses import make_dataclass
-from typing import (Any, Callable, ClassVar, Dict, FrozenSet, Iterable, List, Mapping, Optional, Set, TextIO, Tuple,
-                    TYPE_CHECKING, Type, Union)
+from random import Random
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Callable,
+    ClassVar,
+    Dict,
+    FrozenSet,
+    Iterable,
+    List,
+    Mapping,
+    Optional,
+    Set,
+    TextIO,
+    Tuple,
+    Type,
+    Union,
+)
 
-from Options import item_and_loc_options, ItemsAccessibility, OptionGroup, PerGameCommonOptions
 from BaseClasses import CollectionState
+from Options import ItemsAccessibility, OptionGroup, PerGameCommonOptions, item_and_loc_options
 from Utils import Version
 
 if TYPE_CHECKING:
-    from BaseClasses import MultiWorld, Item, Location, Tutorial, Region, Entrance
+    from BaseClasses import Entrance, Item, Location, MultiWorld, Region, Tutorial
     from NetUtils import GamesPackage, MultiData
     from settings import Group
 
@@ -222,7 +237,7 @@ class WebWorld(metaclass=WebWorldRegister):
     options_page: Union[bool, str] = True
     """display a settings page. Can be a link to a specific page or external tool."""
 
-    game_info_languages: List[str] = ['en']
+    game_info_languages: List[str] = ["en"]
     """docs folder will be scanned for game info pages using this list in the format '{language}_{game_name}.md'"""
 
     tutorials: List["Tutorial"]

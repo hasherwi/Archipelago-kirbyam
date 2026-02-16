@@ -7,7 +7,6 @@ from worlds.AutoWorld import World
 from .Names import LocationName
 from .Options import GateBossPlando
 
-
 speed_characters_1 = "sonic vs shadow 1"
 speed_characters_2 = "sonic vs shadow 2"
 mech_characters_1 = "tails vs eggman 1"

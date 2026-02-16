@@ -1,9 +1,11 @@
-from typing import Optional, Callable, ClassVar, Tuple
 from collections.abc import Iterable
+from typing import Callable, ClassVar, Optional, Tuple
+
 from BaseClasses import CollectionState
-from .GameLogic import Recipe, PowerInfrastructureLevel
-from .Options import SatisfactoryOptions
+
 from .CriticalPathCalculator import CriticalPathCalculator
+from .GameLogic import PowerInfrastructureLevel, Recipe
+from .Options import SatisfactoryOptions
 
 EventId: Optional[int] = None
 

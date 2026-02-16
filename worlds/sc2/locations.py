@@ -1,22 +1,24 @@
 import enum
-from typing import List, Tuple, Optional, Callable, NamedTuple, Set, TYPE_CHECKING
-from .item import item_names
-from .item.item_groups import kerrigan_logic_ultimates
-from .options import (
-    get_option_value,
-    RequiredTactics,
-    LocationInclusion,
-    KerriganPresence,
-    GrantStoryTech,
-    get_enabled_campaigns,
-)
-from .mission_tables import SC2Mission, SC2Campaign
+from typing import TYPE_CHECKING, Callable, List, NamedTuple, Optional, Set, Tuple
 
 from BaseClasses import Location
 from worlds.AutoWorld import World
 
+from .item import item_names
+from .item.item_groups import kerrigan_logic_ultimates
+from .mission_tables import SC2Campaign, SC2Mission
+from .options import (
+    GrantStoryTech,
+    KerriganPresence,
+    LocationInclusion,
+    RequiredTactics,
+    get_enabled_campaigns,
+    get_option_value,
+)
+
 if TYPE_CHECKING:
     from BaseClasses import CollectionState
+
     from . import SC2World
 
 SC2WOL_LOC_ID_OFFSET = 1000

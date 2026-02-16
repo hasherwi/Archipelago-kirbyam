@@ -10,10 +10,20 @@ from typing import Any
 
 from test.hosting.client import Client
 from test.hosting.generate import generate_local
-from test.hosting.serve import ServeGame, LocalServeGame, WebHostServeGame
-from test.hosting.webhost import (create_room, get_app, get_multidata_for_room, set_multidata_for_room, start_room,
-                                  stop_autogen, stop_autohost, upload_multidata, generate_remote)
-from test.hosting.world import copy as copy_world, delete as delete_world
+from test.hosting.serve import LocalServeGame, ServeGame, WebHostServeGame
+from test.hosting.webhost import (
+    create_room,
+    generate_remote,
+    get_app,
+    get_multidata_for_room,
+    set_multidata_for_room,
+    start_room,
+    stop_autogen,
+    stop_autohost,
+    upload_multidata,
+)
+from test.hosting.world import copy as copy_world
+from test.hosting.world import delete as delete_world
 
 failure = False
 fail_fast = True
@@ -64,7 +74,7 @@ if __name__ == "__main__":
     warnings.simplefilter("ignore", UserWarning)
     warnings.simplefilter("ignore", DeprecationWarning)
 
-    spacer = '=' * 80
+    spacer = "=" * 80
 
     with TemporaryDirectory() as tempdir:
         empty_file = str(Path(tempdir) / "empty")

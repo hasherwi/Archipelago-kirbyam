@@ -1,6 +1,16 @@
 from dataclasses import dataclass
 
-from Options import NamedRange, Choice, Range, Toggle, DefaultOnToggle, PerGameCommonOptions, StartInventoryPool, OptionGroup
+from Options import (
+    Choice,
+    DefaultOnToggle,
+    NamedRange,
+    OptionGroup,
+    PerGameCommonOptions,
+    Range,
+    StartInventoryPool,
+    Toggle,
+)
+
 
 class StrengthIncrease(Range):
     """
@@ -520,7 +530,7 @@ class StartingWorlds(Range):
     default = 4
     range_start = 0
     range_end = 10
-    
+
 class StartingTools(DefaultOnToggle):
     """
     Determines whether you start with Scan and Dodge Roll.
@@ -877,7 +887,7 @@ class KH1Options(PerGameCommonOptions):
     materials_in_pool: MaterialsInPool
     stacking_world_items: StackingWorldItems
     halloween_town_key_item_bundle: HalloweenTownKeyItemBundle
-    
+
 
 kh1_option_groups = [
     OptionGroup("Goal", [

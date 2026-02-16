@@ -1,6 +1,7 @@
 from Utils import cache_self1
-from .base_logic import BaseLogicMixin, BaseLogic
+
 from ..stardew_rule import StardewRule
+from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class BookLogicMixin(BaseLogicMixin):

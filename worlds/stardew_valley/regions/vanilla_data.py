@@ -1,9 +1,10 @@
 from collections.abc import Mapping
 from types import MappingProxyType
 
+from ..strings.entrance_names import Entrance, LogicEntrance
+from ..strings.region_names import LogicRegion
+from ..strings.region_names import Region as RegionName
 from .model import ConnectionData, RandomizationFlag, RegionData
-from ..strings.entrance_names import LogicEntrance, Entrance
-from ..strings.region_names import LogicRegion, Region as RegionName
 
 vanilla_regions: tuple[RegionData, ...] = (
     RegionData(RegionName.menu, (Entrance.to_stardew_valley,)),

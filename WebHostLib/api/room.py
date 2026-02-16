@@ -3,13 +3,14 @@ from uuid import UUID
 
 from flask import abort, url_for
 
-from WebHostLib import to_url
 import worlds.Files
-from . import api_endpoints, get_players
+from WebHostLib import to_url
+
 from ..models import Room
+from . import api_endpoints, get_players
 
 
-@api_endpoints.route('/room_status/<suuid:room_id>')
+@api_endpoints.route("/room_status/<suuid:room_id>")
 def room_info(room_id: UUID) -> Dict[str, Any]:
     room = Room.get(id=room_id)
     if room is None:

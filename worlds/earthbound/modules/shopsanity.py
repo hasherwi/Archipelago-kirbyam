@@ -1,10 +1,19 @@
-from ..game_data.local_data import psi_item_table, character_item_table, special_name_table, item_id_table, money_item_table
-from ..game_data.text_data import calc_pixel_width, text_encoder
-from ..game_data.static_location_data import location_ids
-from ..Options import ShopRandomizer, MagicantMode, MonkeyCavesMode
-from BaseClasses import ItemClassification, Location
 import struct
 from typing import TYPE_CHECKING
+
+from BaseClasses import ItemClassification, Location
+
+from ..game_data.local_data import (
+    character_item_table,
+    item_id_table,
+    money_item_table,
+    psi_item_table,
+    special_name_table,
+)
+from ..game_data.static_location_data import location_ids
+from ..game_data.text_data import calc_pixel_width, text_encoder
+from ..Options import MagicantMode, MonkeyCavesMode, ShopRandomizer
+
 if TYPE_CHECKING:
     from . import EarthBoundWorld
     from .Rom import LocalRom
@@ -358,7 +367,7 @@ def write_shop_checks(world: "EarthBoundWorld", rom: "LocalRom", shop_checks: li
                         item_id = list(money_item_table).index(location.item.name) + 1
                     else:
                         item_type = 0x00
-                        item_id = item_id_table[location.item.name] 
+                        item_id = item_id_table[location.item.name]
 
                 if location.item.name in unsellable_filler_prices and location.item.player == world.player:
                     rom.write_bytes(0x15501A + (item_id_table[location.item.name] * 39),
@@ -367,7 +376,7 @@ def write_shop_checks(world: "EarthBoundWorld", rom: "LocalRom", shop_checks: li
             else:
                 item_type = 0x04
                 item_id = 0xAD
-        
+
             if ItemClassification.trap in location.item.classification:
                 price = 0
             else:
@@ -375,8 +384,8 @@ def write_shop_checks(world: "EarthBoundWorld", rom: "LocalRom", shop_checks: li
 
             if location.parent_region.name in high_purchase_areas:
                 price = int(price / 1.5)
-            
-            item_struct = struct.pack('<BHBH', item_id, price, item_type, flag)
+
+            item_struct = struct.pack("<BHBH", item_id, price, item_type, flag)
             rom.write_bytes(0x34002A + (0x06 * flag), item_struct)
             menu_long_name = text_encoder(location.item.name, 127)
             menu_item_name = location.item.name[:0x30]

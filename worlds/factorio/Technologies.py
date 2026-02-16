@@ -5,11 +5,12 @@ import pkgutil
 import string
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
-from typing import Dict, Set, FrozenSet, Tuple, Union, List, Any, Optional
+from typing import Any, Dict, FrozenSet, List, Optional, Set, Tuple, Union
 
 import orjson
 
 import Utils
+
 from . import Options
 
 factorio_tech_id = factorio_base_id = 2 ** 17
@@ -180,7 +181,7 @@ class Recipe(FactorioElement):
         total_energy = self.energy
         for ingredient, cost in self.ingredients.items():
             if ingredient in all_product_sources:
-                selected_recipe_energy = float('inf')
+                selected_recipe_energy = float("inf")
                 for ingredient_recipe in all_product_sources[ingredient]:
                     craft_count = max((n for name, n in ingredient_recipe.products.items() if name == ingredient))
                     recipe_energy = ingredient_recipe.total_energy / craft_count * cost

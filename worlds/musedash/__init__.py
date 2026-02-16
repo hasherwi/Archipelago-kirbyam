@@ -1,13 +1,14 @@
-from worlds.AutoWorld import World, WebWorld
-from BaseClasses import Region, Item, ItemClassification, Tutorial
-from typing import List, ClassVar, Type, Set
 from math import floor
-from Options import PerGameCommonOptions, OptionError
+from typing import ClassVar, List, Set, Type
 
-from .Options import MuseDashOptions, md_option_groups
-from .Items import MuseDashSongItem, MuseDashFixedItem
+from BaseClasses import Item, ItemClassification, Region, Tutorial
+from Options import OptionError, PerGameCommonOptions
+from worlds.AutoWorld import WebWorld, World
+
+from .Items import MuseDashFixedItem, MuseDashSongItem
 from .Locations import MuseDashLocation
 from .MuseDashCollection import MuseDashCollections
+from .Options import MuseDashOptions, md_option_groups
 from .Presets import MuseDashPresets
 
 

@@ -2,7 +2,6 @@ from typing import Dict, Set
 
 from .data import LocationCategory, data
 
-
 # Item Groups
 ITEM_GROUPS: Dict[str, Set[str]] = {}
 

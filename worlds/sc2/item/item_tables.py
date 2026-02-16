@@ -1,13 +1,12 @@
+import typing
 from typing import *
 
 from BaseClasses import ItemClassification
-import typing
 
-from ..mission_tables import SC2Mission, SC2Race, SC2Campaign
-from ..item import parent_names, ItemData, TerranItemType, FactionlessItemType, ProtossItemType, ZergItemType
+from ..item import FactionlessItemType, ItemData, ProtossItemType, TerranItemType, ZergItemType, parent_names
 from ..mission_order.presets_static import get_used_layout_names
+from ..mission_tables import SC2Campaign, SC2Mission, SC2Race
 from . import item_names
-
 
 
 def get_full_item_list():
@@ -1497,7 +1496,7 @@ item_table = {
         ItemData(389 + SC2HOTS_ITEM_ID_OFFSET, ZergItemType.Mutation_5, 16, SC2Race.ZERG, parent=item_names.BULLFROG),
     item_names.BULLFROG_RANGE:
         ItemData(390 + SC2HOTS_ITEM_ID_OFFSET, ZergItemType.Mutation_5, 17, SC2Race.ZERG, parent=item_names.BULLFROG),
-    item_names.SPORE_CRAWLER_BIO_BONUS: 
+    item_names.SPORE_CRAWLER_BIO_BONUS:
         ItemData(391 + SC2HOTS_ITEM_ID_OFFSET, ZergItemType.Mutation_5, 18, SC2Race.ZERG, parent=item_names.SPORE_CRAWLER),
 
     item_names.KERRIGAN_KINETIC_BLAST: ItemData(400 + SC2HOTS_ITEM_ID_OFFSET, ZergItemType.Ability, 0, SC2Race.ZERG, classification=ItemClassification.progression),
@@ -1581,16 +1580,16 @@ item_table = {
     item_names.ZEALOT:
         ItemData(700 + SC2WOL_ITEM_ID_OFFSET, ProtossItemType.Unit, 0, SC2Race.PROTOSS,
                  classification=ItemClassification.progression),
-    item_names.STALKER: 
-        ItemData(701 + SC2WOL_ITEM_ID_OFFSET, ProtossItemType.Unit, 1, SC2Race.PROTOSS, 
+    item_names.STALKER:
+        ItemData(701 + SC2WOL_ITEM_ID_OFFSET, ProtossItemType.Unit, 1, SC2Race.PROTOSS,
                  classification=ItemClassification.progression),
-    item_names.HIGH_TEMPLAR: 
-        ItemData(702 + SC2WOL_ITEM_ID_OFFSET, ProtossItemType.Unit, 2, SC2Race.PROTOSS, 
+    item_names.HIGH_TEMPLAR:
+        ItemData(702 + SC2WOL_ITEM_ID_OFFSET, ProtossItemType.Unit, 2, SC2Race.PROTOSS,
                  classification=ItemClassification.progression),
-    item_names.DARK_TEMPLAR: 
-        ItemData(703 + SC2WOL_ITEM_ID_OFFSET, ProtossItemType.Unit, 3, SC2Race.PROTOSS, 
+    item_names.DARK_TEMPLAR:
+        ItemData(703 + SC2WOL_ITEM_ID_OFFSET, ProtossItemType.Unit, 3, SC2Race.PROTOSS,
                  classification=ItemClassification.progression),
-    item_names.IMMORTAL: 
+    item_names.IMMORTAL:
         ItemData(704 + SC2WOL_ITEM_ID_OFFSET, ProtossItemType.Unit, 4, SC2Race.PROTOSS,
                  classification=ItemClassification.progression),
     item_names.COLOSSUS:

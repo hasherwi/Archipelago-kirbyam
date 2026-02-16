@@ -2,8 +2,18 @@ from enum import Enum
 from typing import Dict, List, NamedTuple, Set
 
 from BaseClasses import Item, ItemClassification
-from .static_logic import DOORS_BY_ROOM, PROGRESSIVE_ITEMS, get_door_group_item_id, get_door_item_id, \
-    get_progressive_item_id, get_special_item_id, PANEL_DOORS_BY_ROOM, get_panel_door_item_id, get_panel_group_item_id
+
+from .static_logic import (
+    DOORS_BY_ROOM,
+    PANEL_DOORS_BY_ROOM,
+    PROGRESSIVE_ITEMS,
+    get_door_group_item_id,
+    get_door_item_id,
+    get_panel_door_item_id,
+    get_panel_group_item_id,
+    get_progressive_item_id,
+    get_special_item_id,
+)
 
 
 class ItemType(Enum):

@@ -1,11 +1,14 @@
-from typing import ClassVar, Dict, Any, Type
-from BaseClasses import ItemClassification, Region, Location, Item, Tutorial
+from typing import Any, ClassVar, Dict, Type
+
+from BaseClasses import Item, ItemClassification, Location, Region, Tutorial
 from Options import PerGameCommonOptions
-from worlds.AutoWorld import World, WebWorld
-from .Items import item_table, group_table, base_id
+from worlds.AutoWorld import WebWorld, World
+
+from .Items import base_id, group_table, item_table
 from .Locations import location_table
-from .Rules import create_rules, get_min_feathers
 from .Options import ShortHikeOptions, shorthike_option_groups
+from .Rules import create_rules, get_min_feathers
+
 
 class ShortHikeWeb(WebWorld):
     theme = "ocean"
@@ -34,7 +37,7 @@ class ShortHikeWorld(World):
     location_name_to_game_id = {loc["name"]: loc["inGameId"] for loc in location_table}
 
     item_name_groups = group_table
-    
+
     options_dataclass: ClassVar[Type[PerGameCommonOptions]] = ShortHikeOptions
     options: ShortHikeOptions
 
@@ -57,13 +60,13 @@ class ShortHikeWorld(World):
         itempool = []
         for item in item_table:
             count = item["count"]
-            
+
             if count <= 0:
                 continue
             else:
                 for i in range(count):
                     itempool.append(self.create_item(item["name"]))
- 
+
         feather_count = self.options.golden_feathers
         if self.options.goal == 1 or self.options.goal == 3:
             if feather_count < 12:
@@ -88,7 +91,7 @@ class ShortHikeWorld(World):
     def create_regions(self) -> None:
         menu_region = Region("Menu", self.player, self.multiworld)
         self.multiworld.regions.append(menu_region)
-        
+
         main_region = Region("Hawk Peak", self.player, self.multiworld)
 
         for loc in self.location_name_to_id.keys():
@@ -139,11 +142,11 @@ class ShortHikeWorld(World):
             "minShopCheckLogic": int(options.min_shop_check_logic),
             "easierRaces": bool(options.easier_races),
         }
-    
+
         slot_data = {
             "settings": settings,
         }
-    
+
         return slot_data
 
 class ShortHikeItem(Item):

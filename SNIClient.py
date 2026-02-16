@@ -1,26 +1,26 @@
 from __future__ import annotations
 
-import sys
-import threading
-import time
+import asyncio
+import base64
+import enum
+import logging
 import multiprocessing
 import os
 import subprocess
-import base64
-import logging
-import asyncio
-import enum
+import sys
+import threading
+import time
 import typing
+from json import dumps, loads
 
-from json import loads, dumps
+import settings
+import Utils
 
 # CommonClient import first to trigger ModuleUpdater
-from CommonClient import CommonContext, server_loop, ClientCommandProcessor, gui_enabled, get_base_parser
-
-import Utils
-import settings
-from Utils import async_start
+from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, server_loop
 from MultiServer import mark_raw
+from Utils import async_start
+
 if typing.TYPE_CHECKING:
     from worlds.AutoSNIClient import SNIClient
 
@@ -28,8 +28,9 @@ if __name__ == "__main__":
     Utils.init_logging("SNIClient", exception_logger="Client")
 
 import colorama
-from websockets.client import connect as websockets_connect, WebSocketClientProtocol
-from websockets.exceptions import WebSocketException, ConnectionClosed
+from websockets.client import WebSocketClientProtocol
+from websockets.client import connect as websockets_connect
+from websockets.exceptions import ConnectionClosed, WebSocketException
 
 snes_logger = logging.getLogger("SNES")
 
@@ -244,7 +245,7 @@ class SNIContext(CommonContext):
                 # Once the games handled by SNIClient gets made to be remote items,
                 # this will no longer be needed.
                 async_start(self.send_msgs([{"cmd": "LocationScouts", "locations": list(new_locations)}]))
-                
+
         if self.client_handler is not None:
             self.client_handler.on_package(self, cmd, args)
 
@@ -309,7 +310,7 @@ def launch_sni() -> None:
                                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             try:
                 proc.wait(.1)  # wait a bit to see if startup fails (missing dependencies)
-                snes_logger.info('Failed to start SNI. Try running it externally for error output.')
+                snes_logger.info("Failed to start SNI. Try running it externally for error output.")
             except subprocess.TimeoutExpired:
                 pass  # seems to be running
 
@@ -362,15 +363,15 @@ async def get_snes_devices(ctx: SNIContext) -> typing.List[str]:
     await socket.send(dumps(DeviceList_Request))
 
     reply: typing.Dict[str, typing.Any] = loads(await socket.recv())
-    devices: typing.List[str] = reply['Results'] if 'Results' in reply and len(reply['Results']) > 0 else []
+    devices: typing.List[str] = reply["Results"] if "Results" in reply and len(reply["Results"]) > 0 else []
 
     if not devices:
-        snes_logger.info('No SNES device found. Please connect a SNES device to SNI.')
+        snes_logger.info("No SNES device found. Please connect a SNES device to SNI.")
         while not devices and not ctx.exit_event.is_set():
             await asyncio.sleep(0.1)
             await socket.send(dumps(DeviceList_Request))
             reply = loads(await socket.recv())
-            devices = reply['Results'] if 'Results' in reply and len(reply['Results']) > 0 else []
+            devices = reply["Results"] if "Results" in reply and len(reply["Results"]) > 0 else []
     if devices:
         await verify_snes_app(socket)
     await socket.close()
@@ -392,9 +393,9 @@ async def snes_connect(ctx: SNIContext, address: str, deviceIndex: int = -1) -> 
     global _global_snes_reconnect_delay
     if ctx.snes_socket is not None and ctx.snes_state == SNESState.SNES_CONNECTED:
         if ctx.rom:
-            snes_logger.error('Already connected to SNES, with rom loaded.')
+            snes_logger.error("Already connected to SNES, with rom loaded.")
         else:
-            snes_logger.error('Already connected to SNI, likely awaiting a device.')
+            snes_logger.error("Already connected to SNI, likely awaiting a device.")
         return
 
     ctx.cancel_snes_autoreconnect()
@@ -545,10 +546,10 @@ async def snes_read(ctx: SNIContext, address: int, size: int) -> typing.Optional
                 break
 
         if len(data) != size:
-            snes_logger.error('Error reading %s, requested %d bytes, received %d' % (hex(address), size, len(data)))
+            snes_logger.error("Error reading %s, requested %d bytes, received %d" % (hex(address), size, len(data)))
             if len(data):
                 snes_logger.error(str(data))
-                snes_logger.warning('Communication Failure with SNI')
+                snes_logger.warning("Communication Failure with SNI")
             if ctx.snes_socket is not None and not ctx.snes_socket.closed:
                 await ctx.snes_socket.close()
             return None
@@ -566,10 +567,10 @@ async def snes_write(ctx: SNIContext, write_list: typing.List[typing.Tuple[int, 
                 not ctx.snes_socket.open or ctx.snes_socket.closed:
             return False
 
-        PutAddress_Request: SNESRequest = {"Opcode": "PutAddress", "Operands": [], 'Space': 'SNES'}
+        PutAddress_Request: SNESRequest = {"Opcode": "PutAddress", "Operands": [], "Space": "SNES"}
         try:
             for address, data in write_list:
-                PutAddress_Request['Operands'] = [hex(address)[2:], hex(len(data))[2:]]
+                PutAddress_Request["Operands"] = [hex(address)[2:], hex(len(data))[2:]]
                 if ctx.snes_socket is not None:
                     await ctx.snes_socket.send(dumps(PutAddress_Request))
                     await ctx.snes_socket.send(data)
@@ -681,10 +682,10 @@ async def run_game(romfile: str) -> None:
 async def main() -> None:
     multiprocessing.freeze_support()
     parser = get_base_parser()
-    parser.add_argument('diff_file', default="", type=str, nargs="?",
-                        help='Path to a Archipelago Binary Patch file')
-    parser.add_argument('--snes', default='localhost:23074', help='Address of the SNI server.')
-    parser.add_argument('--loglevel', default='info', choices=['debug', 'info', 'warning', 'error', 'critical'])
+    parser.add_argument("diff_file", default="", type=str, nargs="?",
+                        help="Path to a Archipelago Binary Patch file")
+    parser.add_argument("--snes", default="localhost:23074", help="Address of the SNI server.")
+    parser.add_argument("--loglevel", default="info", choices=["debug", "info", "warning", "error", "critical"])
     args = parser.parse_args()
 
     if args.diff_file:
@@ -693,7 +694,7 @@ async def main() -> None:
         try:
             meta, romfile = Patch.create_rom_file(args.diff_file)
         except Exception as e:
-            Utils.messagebox('Error', str(e), True)
+            Utils.messagebox("Error", str(e), True)
             raise
         args.connect = meta["server"]
         logging.info(f"Wrote rom file to {romfile}")
@@ -734,7 +735,7 @@ async def main() -> None:
     await ctx.shutdown()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     colorama.just_fix_windows_console()
     asyncio.run(main())
     colorama.deinit()

@@ -1,28 +1,42 @@
-import logging
 import copy
+import logging
 import os
 import random
 import threading
 from typing import Dict, Set, TextIO
 
-from BaseClasses import Region, Entrance, Location, MultiWorld, Item, ItemClassification, CollectionState, \
-    Tutorial
-from worlds.generic.Rules import set_rule
-from .TotalSMZ3.Item import ItemType
-from .TotalSMZ3 import Item as TotalSMZ3Item
-from .TotalSMZ3.World import World as TotalSMZ3World
-from .TotalSMZ3.Regions.Zelda.GanonsTower import GanonsTower
-from .TotalSMZ3.Config import Config, GameMode, Goal, KeyShuffle, MorphLocation, SMLogic, SwordLocation, Z3Logic, OpenTower, GanonVulnerable, OpenTourian
-from .TotalSMZ3.Location import LocationType, locations_start_id, Location as TotalSMZ3Location
-from .TotalSMZ3.Patch import Patch as TotalSMZ3Patch, getWord, getWordArray
-from .TotalSMZ3.WorldState import WorldState
-from .TotalSMZ3.Region import IReward, IMedallionAccess
-from .TotalSMZ3.Text.Texts import openFile
-from worlds.AutoWorld import World, AutoLogicRegister, WebWorld
-from .Rom import SMZ3ProcedurePatch
-from .Options import SMZ3Options
+from BaseClasses import CollectionState, Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
 from Options import ItemsAccessibility
+from worlds.AutoWorld import AutoLogicRegister, WebWorld, World
+from worlds.generic.Rules import set_rule
+
 from .Client import SMZ3SNIClient
+from .Options import SMZ3Options
+from .Rom import SMZ3ProcedurePatch
+from .TotalSMZ3 import Item as TotalSMZ3Item
+from .TotalSMZ3.Config import (
+    Config,
+    GameMode,
+    GanonVulnerable,
+    Goal,
+    KeyShuffle,
+    MorphLocation,
+    OpenTourian,
+    OpenTower,
+    SMLogic,
+    SwordLocation,
+    Z3Logic,
+)
+from .TotalSMZ3.Item import ItemType
+from .TotalSMZ3.Location import Location as TotalSMZ3Location
+from .TotalSMZ3.Location import LocationType, locations_start_id
+from .TotalSMZ3.Patch import Patch as TotalSMZ3Patch
+from .TotalSMZ3.Patch import getWord, getWordArray
+from .TotalSMZ3.Region import IMedallionAccess, IReward
+from .TotalSMZ3.Regions.Zelda.GanonsTower import GanonsTower
+from .TotalSMZ3.Text.Texts import openFile
+from .TotalSMZ3.World import World as TotalSMZ3World
+from .TotalSMZ3.WorldState import WorldState
 
 world_folder = os.path.dirname(__file__)
 logger = logging.getLogger("SMZ3")
@@ -220,7 +234,7 @@ class SMZ3World(World):
         if not self.smz3World.Config.Keysanity:
             # Dungeons items here are not in the itempool and will be prefilled locally so they must stay local
             self.options.non_local_items.value -= frozenset(item_name for item_name in self.item_names if TotalSMZ3Item.Item.IsNameDungeonItem(item_name))
-    
+
     def create_items(self):
         self.dungeon = TotalSMZ3Item.Item.CreateDungeonPool(self.smz3World)
         self.dungeon.reverse()
@@ -252,7 +266,7 @@ class SMZ3World(World):
             self.smz3World.GetRegion("Ganon's Tower").CanComplete(state.smz3state[self.player])
 
         for region in self.smz3World.Regions:
-            entrance = self.multiworld.get_entrance('Menu' + "->" + region.Name, self.player)
+            entrance = self.multiworld.get_entrance("Menu" + "->" + region.Name, self.player)
             set_rule(entrance, lambda state, region=region: region.CanEnter(state.smz3state[self.player]))
             for loc in region.Locations:
                 l = self.locations[loc.Name]
@@ -275,15 +289,15 @@ class SMZ3World(World):
 
     def create_regions(self):
         self.create_locations(self.player)
-        startRegion = self.create_region(self.multiworld, self.player, 'Menu')
+        startRegion = self.create_region(self.multiworld, self.player, "Menu")
         self.multiworld.regions.append(startRegion)
 
         for region in self.smz3World.Regions:
-            currentRegion = self.create_region(self.multiworld, self.player, region.Name, region.locationLookup.keys(), [region.Name + "->" + 'Menu'])
+            currentRegion = self.create_region(self.multiworld, self.player, region.Name, region.locationLookup.keys(), [region.Name + "->" + "Menu"])
             self.multiworld.regions.append(currentRegion)
-            entrance = self.multiworld.get_entrance(region.Name + "->" + 'Menu', self.player)
+            entrance = self.multiworld.get_entrance(region.Name + "->" + "Menu", self.player)
             entrance.connect(startRegion)
-            exit = Entrance(self.player, 'Menu' + "->" + region.Name, startRegion)
+            exit = Entrance(self.player, "Menu" + "->" + region.Name, startRegion)
             startRegion.exits.append(exit)
             exit.connect(currentRegion)
 
@@ -293,7 +307,7 @@ class SMZ3World(World):
         idx = 0
         offworldSprites = {}
         for fileName in itemSprites:
-            with openFile(world_folder + "/data/custom_sprite/" + fileName, 'rb') as stream:
+            with openFile(world_folder + "/data/custom_sprite/" + fileName, "rb") as stream:
                 buffer = bytearray(stream.read())
                 offworldSprites[0x04Eff2 + 10*((0x6B + 0x40) + idx)] = bytearray(getWordArray(itemSpritesAddress[idx])) + buffer[0:8]
                 offworldSprites[0x090000 + itemSpritesAddress[idx]] = buffer[8:264]
@@ -384,7 +398,7 @@ class SMZ3World(World):
         data = []
 
         itemName = itemName.replace("_", "-").strip()[:26]
-        itemName = itemName.center(26, " ")    
+        itemName = itemName.center(26, " ")
         itemName = "___" + itemName + "___"
 
         for char in itemName:
@@ -394,7 +408,7 @@ class SMZ3World(World):
         return data
 
     def convert_to_lttp_item_name(self, itemName):
-        return bytearray(itemName[:19].center(19, " "), 'utf8') + bytearray(0)
+        return bytearray(itemName[:19].center(19, " "), "utf8") + bytearray(0)
 
     def apply_item_names(self):
         patch = {}
@@ -412,7 +426,7 @@ class SMZ3World(World):
                     lttp_remote_idx += 1
                     progressionItem = (0 if location.APLocation.item.advancement else 0x8000) + lttp_remote_idx
                     patch[0x386000 + (location.Id * 8) + 6] = bytearray(getWordArray(progressionItem))
-                
+
         return patch
 
     def SnesCustomization(self, addr: int):
@@ -478,7 +492,7 @@ class SMZ3World(World):
                                                       f"{patch.patch_file_ending}")
             patch.write(rom_path)
 
-            self.rom_name = bytearray(patcher.title, 'utf8')
+            self.rom_name = bytearray(patcher.title, "utf8")
         except:
             raise
         finally:
@@ -503,7 +517,7 @@ class SMZ3World(World):
             payload = multidata["connect_names"][self.multiworld.player_name[self.player]]
             multidata["connect_names"][new_name] = payload
 
-    def fill_slot_data(self): 
+    def fill_slot_data(self):
         slot_data = {
             "goal": self.options.goal.value,
             "open_tower": self.options.open_tower.value,
@@ -580,15 +594,15 @@ class SMZ3World(World):
 
     def write_spoiler(self, spoiler_handle: TextIO):
         self.multiworld.spoiler.unreachables.update(self.unreachable)
-        player_name = f'{self.multiworld.get_player_name(self.player)}: ' if self.multiworld.players > 1 else ''
-        spoiler_handle.write('\n\nRewards:\n\n')
-        spoiler_handle.write('\n'.join([
+        player_name = f"{self.multiworld.get_player_name(self.player)}: " if self.multiworld.players > 1 else ""
+        spoiler_handle.write("\n\nRewards:\n\n")
+        spoiler_handle.write("\n".join([
             f"{player_name}{region.Name}: {region.Reward.name}"
             for region in self.smz3World.Regions
             if isinstance(region, IReward)
         ]))
-        spoiler_handle.write('\n\nMedallions:\n\n')
-        spoiler_handle.write('\n'.join([
+        spoiler_handle.write("\n\nMedallions:\n\n")
+        spoiler_handle.write("\n".join([
             f"{player_name}{region.Name}: {region.Medallion.name}"
             for region in self.smz3World.Regions
             if isinstance(region, IMedallionAccess)
@@ -608,9 +622,9 @@ class SMZ3World(World):
             toRemove.append(junkPoolIdx.pop(0))
             loc.place_locked_item(itemFromPool)
         toRemove.sort(reverse = True)
-        for i in toRemove: 
+        for i in toRemove:
             self.multiworld.itempool.pop(i)
-            
+
     def FillItemAtLocation(self, itemPool, itemType, location):
         itemToPlace = TotalSMZ3Item.Item.Get(itemPool, itemType, self.smz3World)
         if (itemToPlace == None):
@@ -633,7 +647,7 @@ class SMZ3World(World):
         location = next(iter(self.multiworld.random.sample(TotalSMZ3Location.AvailableGlobal(TotalSMZ3Location.Empty(self.smz3World.Locations), self.smz3World.Items()), 1)), None)
         if (location == None):
             raise Exception(f"Tried to front fill {item.Name} in, but no location was available")
-        
+
         location.Item = item
         itemPoolIdx = next((idx for idx, i in enumerate(self.multiworld.itempool) if i.player == self.player and i.name == item.Type.name and i.advancement == item.Progression), None)
         if itemPoolIdx is not None:

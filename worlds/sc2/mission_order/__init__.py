@@ -1,19 +1,20 @@
-from typing import List, Dict, Any, Callable, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Callable, Dict, List
 
 from BaseClasses import CollectionState
-from ..mission_tables import SC2Mission, MissionFlag, get_goal_location
+
+from ..mission_tables import MissionFlag, SC2Mission, get_goal_location
 from .mission_pools import SC2MOGenMissionPools
 
 if TYPE_CHECKING:
-    from .nodes import SC2MOGenMissionOrder, SC2MOGenMission
+    from .nodes import SC2MOGenMission, SC2MOGenMissionOrder
 
 class SC2MissionOrder:
     """
     Wrapper class for a generated mission order. Contains helper functions for getting data about generated missions.
     """
 
-    def __init__(self, mission_order_node: 'SC2MOGenMissionOrder', mission_pools: SC2MOGenMissionPools):
-        self.mission_order_node: 'SC2MOGenMissionOrder' = mission_order_node
+    def __init__(self, mission_order_node: "SC2MOGenMissionOrder", mission_pools: SC2MOGenMissionPools):
+        self.mission_order_node: "SC2MOGenMissionOrder" = mission_order_node
         """Root node of the mission order structure."""
         self.mission_pools: SC2MOGenMissionPools = mission_pools
         """Manager for missions in the mission order."""
@@ -22,11 +23,11 @@ class SC2MissionOrder:
         """Returns a dictionary of all used flags and their appearance count within the mission order.
         Flags that don't appear in the mission order also don't appear in this dictionary."""
         return self.mission_pools.get_used_flags()
-    
+
     def get_used_missions(self) -> List[SC2Mission]:
         """Returns a list of all missions used in the mission order."""
         return self.mission_pools.get_used_missions()
-    
+
     def get_mission_count(self) -> int:
         """Returns the amount of missions in the mission order."""
         return sum(
@@ -52,7 +53,7 @@ class SC2MissionOrder:
         """Returns the IDs of all missions that are required to beat the mission order."""
         return [mission.mission.id for mission in self.get_final_missions()]
 
-    def get_final_missions(self) -> List['SC2MOGenMission']:
+    def get_final_missions(self) -> List["SC2MOGenMission"]:
         """Returns the slots of all missions that are required to beat the mission order."""
         return self.mission_order_node.goal_missions
 

@@ -1,19 +1,61 @@
-from BaseClasses import MultiWorld, Region, ItemClassification
+from BaseClasses import ItemClassification, MultiWorld, Region
+
 from .Items import CCCharlesItem
-from .Options import CCCharlesOptions
 from .Locations import (
-    CCCharlesLocation, loc_start_camp, loc_tony_tiddle_mission, loc_barn, loc_candice_mission, \
-    loc_tutorial_house, loc_swamp_edges, loc_swamp_mission, loc_junkyard_area, loc_south_house, \
-    loc_junkyard_shed, loc_military_base, loc_south_mine_outside, loc_south_mine_inside, \
-    loc_middle_station, loc_canyon, loc_watchtower, loc_boulder_field, loc_haunted_house, \
-    loc_santiago_house, loc_port, loc_trench_house, loc_doll_woods, loc_lost_stairs, loc_east_house, \
-    loc_rockets_testing_ground, loc_rockets_testing_bunker, loc_workshop, loc_east_tower, \
-    loc_lighthouse, loc_north_mine_outside, loc_north_mine_inside, loc_wood_bridge, loc_museum, \
-    loc_barbed_shelter, loc_west_beach, loc_church, loc_west_cottage, loc_caravan, loc_trailer_cabin, \
-    loc_towers, loc_north_beach, loc_mine_shaft, loc_mob_camp, loc_mob_camp_locked_room, \
-    loc_mine_elevator_exit, loc_mountain_ruin_outside, loc_mountain_ruin_inside, loc_prism_temple, \
-    loc_pickle_val, loc_shrine_near_temple, loc_morse_bunker
+    CCCharlesLocation,
+    loc_barbed_shelter,
+    loc_barn,
+    loc_boulder_field,
+    loc_candice_mission,
+    loc_canyon,
+    loc_caravan,
+    loc_church,
+    loc_doll_woods,
+    loc_east_house,
+    loc_east_tower,
+    loc_haunted_house,
+    loc_junkyard_area,
+    loc_junkyard_shed,
+    loc_lighthouse,
+    loc_lost_stairs,
+    loc_middle_station,
+    loc_military_base,
+    loc_mine_elevator_exit,
+    loc_mine_shaft,
+    loc_mob_camp,
+    loc_mob_camp_locked_room,
+    loc_morse_bunker,
+    loc_mountain_ruin_inside,
+    loc_mountain_ruin_outside,
+    loc_museum,
+    loc_north_beach,
+    loc_north_mine_inside,
+    loc_north_mine_outside,
+    loc_pickle_val,
+    loc_port,
+    loc_prism_temple,
+    loc_rockets_testing_bunker,
+    loc_rockets_testing_ground,
+    loc_santiago_house,
+    loc_shrine_near_temple,
+    loc_south_house,
+    loc_south_mine_inside,
+    loc_south_mine_outside,
+    loc_start_camp,
+    loc_swamp_edges,
+    loc_swamp_mission,
+    loc_tony_tiddle_mission,
+    loc_towers,
+    loc_trailer_cabin,
+    loc_trench_house,
+    loc_tutorial_house,
+    loc_watchtower,
+    loc_west_beach,
+    loc_west_cottage,
+    loc_wood_bridge,
+    loc_workshop,
 )
+from .Options import CCCharlesOptions
 
 
 def create_regions(world: MultiWorld, options: CCCharlesOptions, player: int) -> None:

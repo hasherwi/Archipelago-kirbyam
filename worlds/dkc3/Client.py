@@ -59,7 +59,7 @@ class DKC3SNIClient(SNIClient):
             return
 
         new_checks = []
-        from .Rom import location_rom_data, item_rom_data, boss_location_ids, level_unlock_map
+        from .Rom import boss_location_ids, item_rom_data, level_unlock_map, location_rom_data
         location_ram_data = await snes_read(ctx, WRAM_START + 0x5FE, 0x81)
         for loc_id, loc_data in location_rom_data.items():
             if loc_id not in ctx.locations_checked:
@@ -87,8 +87,8 @@ class DKC3SNIClient(SNIClient):
             ctx.locations_checked.add(new_check_id)
             location = ctx.location_names.lookup_in_game(new_check_id)
             snes_logger.info(
-                f'New Check: {location} ({len(ctx.locations_checked)}/{len(ctx.missing_locations) + len(ctx.checked_locations)})')
-            await ctx.send_msgs([{"cmd": 'LocationChecks', "locations": [new_check_id]}])
+                f"New Check: {location} ({len(ctx.locations_checked)}/{len(ctx.missing_locations) + len(ctx.checked_locations)})")
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": [new_check_id]}])
 
         # DKC3_TODO: Make this actually visually display new things received (ASM Hook required)
         recv_count = await snes_read(ctx, DKC3_RECV_PROGRESS_ADDR, 1)
@@ -97,9 +97,9 @@ class DKC3SNIClient(SNIClient):
         if recv_index < len(ctx.items_received):
             item = ctx.items_received[recv_index]
             recv_index += 1
-            logging.info('Received %s from %s (%s) (%d/%d in list)' % (
-                color(ctx.item_names.lookup_in_game(item.item), 'red', 'bold'),
-                color(ctx.player_names[item.player], 'yellow'),
+            logging.info("Received %s from %s (%s) (%d/%d in list)" % (
+                color(ctx.item_names.lookup_in_game(item.item), "red", "bold"),
+                color(ctx.player_names[item.player], "yellow"),
                 ctx.location_names.lookup_in_slot(item.location, item.player), recv_index, len(ctx.items_received)))
 
             snes_buffered_write(ctx, DKC3_RECV_PROGRESS_ADDR, bytes([recv_index]))

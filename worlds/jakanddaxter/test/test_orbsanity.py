@@ -1,5 +1,5 @@
-from .bases import JakAndDaxterTestBase
 from ..items import orb_item_table
+from .bases import JakAndDaxterTestBase
 
 
 class NoOrbsanityTest(JakAndDaxterTestBase):

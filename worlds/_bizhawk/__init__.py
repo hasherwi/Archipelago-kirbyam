@@ -12,7 +12,6 @@ import json
 import sys
 from typing import Any, Sequence
 
-
 BIZHAWK_SOCKET_PORT_RANGE_START = 43055
 BIZHAWK_SOCKET_PORT_RANGE_SIZE = 5
 

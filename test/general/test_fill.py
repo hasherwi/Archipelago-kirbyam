@@ -1,12 +1,16 @@
-from typing import List, Iterable
 import unittest
+from typing import Iterable, List
 
+from BaseClasses import Entrance, Item, ItemClassification, Location, LocationProgressType, MultiWorld, Region
+from Fill import (
+    FillError,
+    balance_multiworld_progression,
+    distribute_early_items,
+    distribute_items_restrictive,
+    fill_restrictive,
+)
 from Options import Accessibility
 from test.general import generate_items, generate_locations, generate_test_multiworld
-from Fill import FillError, balance_multiworld_progression, fill_restrictive, \
-    distribute_early_items, distribute_items_restrictive
-from BaseClasses import Entrance, LocationProgressType, MultiWorld, Region, Item, Location, \
-    ItemClassification
 from worlds.generic.Rules import CollectionRule, add_item_rule, locality_rules, set_rule
 
 

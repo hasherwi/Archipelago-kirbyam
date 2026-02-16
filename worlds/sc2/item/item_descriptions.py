@@ -3,7 +3,7 @@ Contains descriptions for Starcraft 2 items.
 """
 import inspect
 
-from . import item_tables, item_names
+from . import item_names, item_tables
 
 WEAPON_ARMOR_UPGRADE_NOTE = inspect.cleandoc("""
     Must be researched during the mission if the mission type isn't set to auto-unlock generic upgrades.
@@ -109,7 +109,7 @@ def _get_start_and_max_energy_desc(unit_name_plural: str, starting_amount_increa
     return f"{unit_name_plural} gain +{starting_amount_increase} starting energy and +{maximum_amount_increase} maximum energy."
 
 
-def _ability_desc(unit_name_plural: str, ability_name: str, ability_description: str = '') -> str:
+def _ability_desc(unit_name_plural: str, ability_name: str, ability_description: str = "") -> str:
     if ability_description:
         suffix = f", \nwhich {ability_description}"
     else:
@@ -751,7 +751,7 @@ item_descriptions = {
     item_names.BILE_LAUNCHER_ARTILLERY_DUCTS: "Increases Bile Launcher range by +8.",
     item_names.BILE_LAUNCHER_RAPID_BOMBARMENT: "Bile Launchers attack 40% faster.",
     item_names.NYDUS_WORM_ECHIDNA_WORM_SUBTERRANEAN_SCALES: f"Increases {DISPLAY_NAME_WORMS} maximum health by 250 and armor by 1.",
-    item_names.NYDUS_WORM_ECHIDNA_WORM_JORMUNGANDR_STRAIN: f"Removes emerge time for {DISPLAY_NAME_WORMS}, and allows them to be salvaged to return the resources spent on them.", 
+    item_names.NYDUS_WORM_ECHIDNA_WORM_JORMUNGANDR_STRAIN: f"Removes emerge time for {DISPLAY_NAME_WORMS}, and allows them to be salvaged to return the resources spent on them.",
     item_names.NYDUS_WORM_RAVENOUS_APPETITE: "Allows Nydus Worms to unload and load units nearly instantly.",
     item_names.NYDUS_WORM_ECHIDNA_WORM_RESOURCE_EFFICIENCY: _get_resource_efficiency_desc(DISPLAY_NAME_WORMS),
     item_names.ECHIDNA_WORM_OUROBOROS_STRAIN: "Allows Echidna Worms to train a limited assortment of combat units (Zerglings, Roaches, Hydralisks, and Aberrations) at a reduced time and cost.",
@@ -1082,7 +1082,7 @@ item_descriptions = {
     item_names.MISTWING_PHANTOM_DASH: "Mist Wing War Council ability.\n" + _ability_desc("Mist Wings", "Phantom Dash", "dashes forward to cover some distance quickly. Deals damage in a line if the Mist Wing is cloaked"),
     item_names.SUPPLICANT_SACRIFICE: "Supplicant War Council ability.\nAllows Supplicants to sacrifice themselves to save nearby units from death.",
 
-    
+
     item_names.SOA_CHRONO_SURGE: "The Spear of Adun increases a target structure's unit warp in and research speeds by +1000% for 20 seconds.",
     item_names.SOA_PROGRESSIVE_PROXY_PYLON: inspect.cleandoc("""
         Level 1: The Spear of Adun quickly warps in a Pylon to a target location.

@@ -1,8 +1,10 @@
-from typing import List, TYPE_CHECKING, Dict, Any
-from schema import Schema, Optional
 from dataclasses import dataclass
+from typing import TYPE_CHECKING, Any, Dict, List
+
+from schema import Optional, Schema
+
+from Options import Choice, DeathLink, DefaultOnToggle, OptionDict, OptionGroup, Range, StartInventoryPool, Toggle
 from worlds.AutoWorld import PerGameCommonOptions
-from Options import Range, Toggle, DeathLink, Choice, OptionDict, DefaultOnToggle, OptionGroup, StartInventoryPool
 
 if TYPE_CHECKING:
     from . import HatInTimeWorld

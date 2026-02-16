@@ -5,7 +5,8 @@ Description: Manage options in the Aquaria game multiworld randomizer
 """
 
 from dataclasses import dataclass
-from Options import Toggle, Choice, Range, PerGameCommonOptions, DefaultOnToggle, StartInventoryPool
+
+from Options import Choice, DefaultOnToggle, PerGameCommonOptions, Range, StartInventoryPool, Toggle
 
 
 class IngredientRandomizer(Choice):

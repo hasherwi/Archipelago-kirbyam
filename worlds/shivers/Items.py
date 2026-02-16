@@ -2,6 +2,7 @@ import enum
 from typing import NamedTuple, Optional
 
 from BaseClasses import Item, ItemClassification
+
 from . import Constants
 
 

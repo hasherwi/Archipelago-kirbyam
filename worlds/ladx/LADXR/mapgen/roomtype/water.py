@@ -1,5 +1,6 @@
-from .base import RoomType
 import random
+
+from .base import RoomType
 
 
 class Water(RoomType):

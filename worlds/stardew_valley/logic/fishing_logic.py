@@ -1,11 +1,11 @@
 from functools import cached_property
 
 from Utils import cache_self1
-from .base_logic import BaseLogicMixin, BaseLogic
+
 from ..data import fish_data
 from ..data.fish_data import FishItem
 from ..options import ExcludeGingerIsland, SpecialOrderLocations
-from ..stardew_rule import StardewRule, True_, False_
+from ..stardew_rule import False_, StardewRule, True_
 from ..strings.ap_names.mods.mod_items import SVEQuestItem
 from ..strings.craftable_names import Fishing
 from ..strings.fish_names import SVEFish
@@ -13,6 +13,7 @@ from ..strings.machine_names import Machine
 from ..strings.quality_names import FishQuality
 from ..strings.region_names import Region
 from ..strings.skill_names import Skill
+from .base_logic import BaseLogic, BaseLogicMixin
 
 fishing_regions = (Region.beach, Region.town, Region.forest, Region.mountain, Region.island_south, Region.island_west)
 

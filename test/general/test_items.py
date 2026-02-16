@@ -6,6 +6,7 @@ from BaseClasses import CollectionState, MultiWorld
 from Fill import distribute_items_restrictive
 from Options import ItemLinks
 from worlds.AutoWorld import AutoWorldRegister, World, call_all
+
 from . import setup_solo_multiworld
 
 
@@ -87,7 +88,7 @@ class TestBase(unittest.TestCase):
                 multiworld = setup_solo_multiworld(world_type)
                 for item in multiworld.itempool:
                     self.assertIn(item.name, world_type.item_name_to_id)
-    
+
     def test_item_links(self) -> None:
         """
         Tests item link creation by creating a multiworld of 2 worlds for every game and linking their items together.

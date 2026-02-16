@@ -6,14 +6,13 @@ It is tolerant of incomplete data while you iterate on JSON schemas.
 """
 from __future__ import annotations
 
+import pkgutil
 from dataclasses import dataclass
 from enum import IntEnum
+from importlib import resources
 from typing import Any, Dict, FrozenSet, List, NamedTuple, Optional, Set, Tuple, Union
 
 import orjson
-import pkgutil
-from importlib import resources
-
 
 from BaseClasses import ItemClassification
 

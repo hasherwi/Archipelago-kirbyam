@@ -1,10 +1,11 @@
-from BaseClasses import ItemClassification, Location
-from .options import ItemDropRandomization, Countdown, RequiredSkirmishes, IronMaidenBehavior
-from .locations import cvcotm_location_info
-from .items import cvcotm_item_info, MAJORS_CLASSIFICATIONS
-from .data import iname
+from typing import TYPE_CHECKING, Dict, Iterable, List, NamedTuple, Optional, Tuple, TypedDict
 
-from typing import TYPE_CHECKING, Dict, List, Iterable, Tuple, NamedTuple, Optional, TypedDict
+from BaseClasses import ItemClassification, Location
+
+from .data import iname
+from .items import MAJORS_CLASSIFICATIONS, cvcotm_item_info
+from .locations import cvcotm_location_info
+from .options import Countdown, IronMaidenBehavior, ItemDropRandomization, RequiredSkirmishes
 
 if TYPE_CHECKING:
     from . import CVCotMWorld

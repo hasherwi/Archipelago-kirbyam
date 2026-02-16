@@ -1,7 +1,10 @@
 from typing import TYPE_CHECKING
-from BaseClasses import CollectionState, Location, Entrance
+
+from BaseClasses import CollectionState, Entrance, Location
 from worlds.generic.Rules import set_rule
+
 from .Constants import *
+
 if TYPE_CHECKING:
     from . import SavingPrincessWorld
 

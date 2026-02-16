@@ -1,7 +1,6 @@
 from typing import Dict
 
-from .base_logic import BaseLogicMixin, BaseLogic
-from ..stardew_rule import StardewRule, Has, True_
+from ..stardew_rule import Has, StardewRule, True_
 from ..strings.ap_names.community_upgrade_names import CommunityUpgrade
 from ..strings.artisan_good_names import ArtisanGood
 from ..strings.building_names import Building
@@ -12,7 +11,7 @@ from ..strings.food_names import Meal
 from ..strings.forageable_names import Forageable
 from ..strings.machine_names import Machine
 from ..strings.material_names import Material
-from ..strings.metal_names import MetalBar, Ore, Mineral
+from ..strings.metal_names import MetalBar, Mineral, Ore
 from ..strings.monster_drop_names import Loot
 from ..strings.quest_names import Quest
 from ..strings.region_names import Region
@@ -20,6 +19,7 @@ from ..strings.season_names import Season
 from ..strings.tool_names import Tool
 from ..strings.villager_names import NPC
 from ..strings.wallet_item_names import Wallet
+from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class QuestLogicMixin(BaseLogicMixin):

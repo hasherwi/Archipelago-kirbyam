@@ -1,17 +1,23 @@
-import typing
-from pkgutil import get_data
-
-import Utils
-from typing import Optional, TYPE_CHECKING, Tuple, Dict, List
 import hashlib
 import os
 import struct
+import typing
+from pkgutil import get_data
+from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
 
-from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes, APPatchExtension
-from .aesthetics import get_palette_bytes, kirby_target_palettes, get_kirby_palette, gooey_target_palettes, \
-    get_gooey_palette
-from .compression import hal_decompress
 import bsdiff4
+
+import Utils
+from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
+
+from .aesthetics import (
+    get_gooey_palette,
+    get_kirby_palette,
+    get_palette_bytes,
+    gooey_target_palettes,
+    kirby_target_palettes,
+)
+from .compression import hal_decompress
 
 if TYPE_CHECKING:
     from . import KDL3World
@@ -549,7 +555,7 @@ def patch_rom(world: "KDL3World", patch: KDL3ProcedurePatch) -> None:
 
     from Utils import __version__
     patch_name = bytearray(
-        f'KDL3{__version__.replace(".", "")[0:3]}_{world.player}_{world.multiworld.seed:11}\0', 'utf8')[:21]
+        f'KDL3{__version__.replace(".", "")[0:3]}_{world.player}_{world.multiworld.seed:11}\0', "utf8")[:21]
     patch_name.extend([0] * (21 - len(patch_name)))
     patch.name = bytes(patch_name)
     patch.write_token(APTokenTypes.WRITE, 0x3C000, patch.name)

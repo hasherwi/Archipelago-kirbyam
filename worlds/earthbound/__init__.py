@@ -1,32 +1,33 @@
-import os
-import typing
-import threading
-import pkgutil
-from typing import List, Set, Dict, TextIO, Tuple
-
-from BaseClasses import Item, MultiWorld, Location, Tutorial, ItemClassification
-from Fill import fill_restrictive
-from worlds.AutoWorld import World, WebWorld
 import itertools
+import os
+import pkgutil
+import threading
+import typing
+from typing import Dict, List, Set, TextIO, Tuple
+
 import settings
+from BaseClasses import Item, ItemClassification, Location, MultiWorld, Tutorial
+from Fill import fill_restrictive
+from Options import OptionError
+from worlds.AutoWorld import WebWorld, World
+from worlds.generic.Rules import add_item_rule
+
+from .Client import EarthBoundClient
+from .game_data.local_data import item_id_table, world_version
+from .game_data.static_location_data import location_groups, location_ids
+from .game_data.text_data import spoiler_badges, spoiler_psi, spoiler_starts
 from .Items import get_item_names_per_category, item_table
 from .Locations import get_locations
-from .Regions import init_areas, connect_area_exits
-from .Options import EBOptions, eb_option_groups
-from .setup_game import setup_gamevars, place_static_items
-from .modules.enemy_data import initialize_enemies
-from .modules.flavor_data import create_flavors
-from .game_data.local_data import item_id_table, world_version
-from .modules.hint_data import setup_hints
-from .game_data.text_data import spoiler_psi, spoiler_starts, spoiler_badges
-from .Client import EarthBoundClient
-from .Rules import set_location_rules
-from .Rom import patch_rom, EBProcPatch, valid_hashes
-from .game_data.static_location_data import location_ids, location_groups
-from .modules.equipamizer import EBArmor, EBWeapon
 from .modules.boss_shuffle import BossData, SlotInfo
-from worlds.generic.Rules import add_item_rule
-from Options import OptionError
+from .modules.enemy_data import initialize_enemies
+from .modules.equipamizer import EBArmor, EBWeapon
+from .modules.flavor_data import create_flavors
+from .modules.hint_data import setup_hints
+from .Options import EBOptions, eb_option_groups
+from .Regions import connect_area_exits, init_areas
+from .Rom import EBProcPatch, patch_rom, valid_hashes
+from .Rules import set_location_rules
+from .setup_game import place_static_items, setup_gamevars
 
 
 class EBSettings(settings.Group):
@@ -65,11 +66,11 @@ class EBItem(Item):
 class EarthBoundWorld(World):
     """EarthBound is a contemporary-themed JRPG. Take four psychically-endowed children
        across the world in search of 8 Melodies to defeat Giygas, the cosmic evil."""
-    
+
     game = "EarthBound"
     option_definitions = EBOptions
     data_version = 1
-    required_client_version = (0, 5, 0) 
+    required_client_version = (0, 5, 0)
 
     item_name_to_id = {item: data.code for item, data in item_table.items() if data.code}
     location_name_to_id = location_ids
@@ -302,7 +303,7 @@ class EarthBoundWorld(World):
 
     def set_rules(self) -> None:
         set_location_rules(self)
-        self.multiworld.completion_condition[self.player] = lambda state: state.has('Saved Earth', self.player)
+        self.multiworld.completion_condition[self.player] = lambda state: state.has("Saved Earth", self.player)
 
     def pre_fill(self) -> None:
         prefill_locations = []
@@ -344,7 +345,7 @@ class EarthBoundWorld(World):
         prefill_items = []
         for character in characters:
             if character != self.starting_character:
-                prefill_items.append(self.create_item(f"{character}"))     
+                prefill_items.append(self.create_item(f"{character}"))
         return prefill_items
 
     @classmethod
@@ -436,7 +437,7 @@ class EarthBoundWorld(World):
             spoiler_handle.write(f" Multi-Level Gadget Slot 2:    {spoiler_psi[self.jeff_assist_items[4]]}\n")
 
         if self.options.boss_shuffle:
-            spoiler_handle.write("\nBoss Randomization:\n" + 
+            spoiler_handle.write("\nBoss Randomization:\n" +
                                  f" Frank => {self.boss_list[0]}\n" +
                                  f" Frankystein Mark II => {self.boss_list[1]}\n" +
                                  f" Titanic Ant => {self.boss_list[2]}\n" +
@@ -473,7 +474,7 @@ class EarthBoundWorld(World):
                 spoiler_handle.write(
                     f" {dungeon} => {self.dungeon_connections[dungeon]}\n"
                 )
-        
+
         if self.has_generated_output:
             spoiler_handle.write("\nArea Levels:\n")
             spoiler_excluded_areas = ["Ness's Mind", "Global ATM Access", "Common Condiment Shop"]
@@ -489,7 +490,7 @@ class EarthBoundWorld(World):
         weights = {"rare": self.options.rare_filler_weight.value, "uncommon": self.options.uncommon_filler_weight.value, "common": self.options.common_filler_weight.value,
                    "rare_gear": int(self.options.rare_filler_weight.value * 0.5), "uncommon_gear": int(self.options.uncommon_filler_weight.value * 0.5),
                    "common_gear": int(self.options.common_filler_weight.value * 0.5), "money": self.options.money_weight.value}
-        
+
         filler_type = self.random.choices(list(weights), weights=list(weights.values()), k=1)[0]
         weight_table = {
             "common": self.common_items,
@@ -593,7 +594,7 @@ class EarthBoundWorld(World):
                 for _ in range(data.amount):
                     item = self.set_classifications(name)
                     pool.append(item)
-        
+
         if self.options.progressive_weapons:
             for i in range(2):
                 pool.append(self.set_classifications("Progressive Bat"))

@@ -2,6 +2,7 @@ from typing import Dict, List, NamedTuple
 
 from .Names import RegionName
 
+
 class Celeste64RegionData(NamedTuple):
     connecting_regions: List[str] = []
 

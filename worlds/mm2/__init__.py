@@ -1,24 +1,50 @@
+import base64
 import hashlib
 import logging
-from copy import deepcopy
-from typing import Dict, Any, TYPE_CHECKING, Optional, Sequence, Tuple, ClassVar, List
-
-from BaseClasses import Tutorial, ItemClassification, MultiWorld, Item, Location
-from worlds.AutoWorld import World, WebWorld
-from .names import (dr_wily, heat_man_stage, air_man_stage, wood_man_stage, bubble_man_stage, quick_man_stage,
-                    flash_man_stage, metal_man_stage, crash_man_stage)
-from .items import (item_table, item_names, MM2Item, filler_item_weights, robot_master_weapon_table,
-                    stage_access_table, item_item_table, lookup_item_to_id)
-from .locations import (MM2Location, mm2_regions, MM2Region, energy_pickups, etank_1ups, lookup_location_to_id,
-                        location_groups)
-from .rom import patch_rom, MM2ProcedurePatch, MM2LCHASH, PROTEUSHASH, MM2VCHASH, MM2NESHASH
-from .options import MM2Options, Consumables
-from .client import MegaMan2Client
-from .rules import set_rules, weapon_damage, robot_masters, weapons_to_name, minimum_weakness_requirement
 import os
 import threading
-import base64
+from copy import deepcopy
+from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Optional, Sequence, Tuple
+
 import settings
+from BaseClasses import Item, ItemClassification, Location, MultiWorld, Tutorial
+from worlds.AutoWorld import WebWorld, World
+
+from .client import MegaMan2Client
+from .items import (
+    MM2Item,
+    filler_item_weights,
+    item_item_table,
+    item_names,
+    item_table,
+    lookup_item_to_id,
+    robot_master_weapon_table,
+    stage_access_table,
+)
+from .locations import (
+    MM2Location,
+    MM2Region,
+    energy_pickups,
+    etank_1ups,
+    location_groups,
+    lookup_location_to_id,
+    mm2_regions,
+)
+from .names import (
+    air_man_stage,
+    bubble_man_stage,
+    crash_man_stage,
+    dr_wily,
+    flash_man_stage,
+    heat_man_stage,
+    metal_man_stage,
+    quick_man_stage,
+    wood_man_stage,
+)
+from .options import Consumables, MM2Options
+from .rom import MM2LCHASH, MM2NESHASH, MM2VCHASH, PROTEUSHASH, MM2ProcedurePatch, patch_rom
+from .rules import minimum_weakness_requirement, robot_masters, set_rules, weapon_damage, weapons_to_name
+
 logger = logging.getLogger("Mega Man 2")
 
 if TYPE_CHECKING:

@@ -2,6 +2,7 @@ from typing import ClassVar, Set
 
 from BaseClasses import LocationProgressType, Tutorial
 from worlds.AutoWorld import WebWorld, World
+
 from .Constants import *
 from .Hints import *
 from .Items import *

@@ -1,10 +1,9 @@
-from typing import List, Dict
+from typing import Dict, List
 
-from BaseClasses import MultiWorld, Region, Entrance
+from BaseClasses import Entrance, MultiWorld, Region
 
 from . import Locations
 from .Constants import *
-
 
 region_dict: Dict[str, List[str]] = {
     REGION_MENU: [],

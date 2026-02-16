@@ -1,21 +1,27 @@
 import typing
 
-from BaseClasses import Item, Tutorial, ItemClassification, Region, MultiWorld
-from worlds.AutoWorld import WebWorld, World
+from BaseClasses import Item, ItemClassification, MultiWorld, Region, Tutorial
 from Options import OptionError
-from .Items import OSRSItem, starting_area_dict, chunksanity_starting_chunks, QP_Items, ItemRow, \
-    chunksanity_special_region_names
-from .Locations import OSRSLocation, LocationRow, task_types
-from .Rules import *
-from .Options import OSRSOptions, StartingArea
-from .Names import LocationNames, ItemNames, RegionNames
+from worlds.AutoWorld import WebWorld, World
 
-from .LogicCSV.LogicCSVToPython import data_csv_tag
+from .Items import (
+    ItemRow,
+    OSRSItem,
+    QP_Items,
+    chunksanity_special_region_names,
+    chunksanity_starting_chunks,
+    starting_area_dict,
+)
+from .Locations import LocationRow, OSRSLocation, task_types
 from .LogicCSV.items_generated import item_rows
 from .LogicCSV.locations_generated import location_rows
+from .LogicCSV.LogicCSVToPython import data_csv_tag
 from .LogicCSV.regions_generated import region_rows
 from .LogicCSV.resources_generated import resource_rows
+from .Names import ItemNames, LocationNames, RegionNames
+from .Options import OSRSOptions, StartingArea
 from .Regions import RegionRow, ResourceRow
+from .Rules import *
 
 
 class OSRSWeb(WebWorld):
@@ -168,7 +174,7 @@ class OSRSWorld(World):
             region = self.region_name_to_data[region_row.name]
 
             for outbound_region_name in region_row.connections:
-                parsed_outbound = outbound_region_name.replace('*', '')
+                parsed_outbound = outbound_region_name.replace("*", "")
                 entrance = region.create_exit(f"{region_row.name}->{parsed_outbound}")
                 entrance.connect(self.region_name_to_data[parsed_outbound])
 
@@ -184,7 +190,7 @@ class OSRSWorld(World):
                 if "*" not in resource_region:
                     entrance.connect(self.region_name_to_data[resource_region])
                 else:
-                    entrance.connect(self.region_name_to_data[resource_region.replace('*', '')])
+                    entrance.connect(self.region_name_to_data[resource_region.replace("*", "")])
                 generate_special_rules_for(entrance, region_row, resource_region, self.player, self.options, self)
 
         self.roll_locations()
@@ -257,7 +263,7 @@ class OSRSWorld(World):
 
         tasks_per_task_type: typing.Dict[str, typing.List[LocationRow]] = {}
         weights_per_task_type: typing.Dict[str, int] = {}
-        
+
         for task_type in task_types:
             max_amount_for_task_type = getattr(self.options, f"max_{task_type}_tasks")
             tasks_for_this_type = [task for task in self.locations_by_category[task_type]

@@ -1,8 +1,10 @@
 ﻿from typing import List
-from ...Region import Z3Region, RewardType, IReward
+
 from ...Config import Config
+from ...Item import ItemType, Progression
 from ...Location import Location, LocationType
-from ...Item import Progression, ItemType
+from ...Region import IReward, RewardType, Z3Region
+
 
 class TowerOfHera(Z3Region, IReward):
     Name = "Tower of Hera"

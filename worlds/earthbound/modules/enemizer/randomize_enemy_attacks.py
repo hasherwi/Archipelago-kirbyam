@@ -1,8 +1,10 @@
 import struct
-from .enemy_attributes import excluded_enemies
+from typing import TYPE_CHECKING
+
 from ..enemy_data import spell_breaks
 from ..enemy_shuffler import enemy_ids
-from typing import TYPE_CHECKING
+from .enemy_attributes import excluded_enemies
+
 if TYPE_CHECKING:
     from ... import EarthBoundWorld
     from ...Rom import LocalRom
@@ -220,7 +222,7 @@ def randomize_enemy_attacks(world: "EarthBoundWorld", rom: "LocalRom") -> None:
                     attack_id = battle_actions[attack]
                 if attack in spell_breaks:
                     world.enemy_psi[enemy][i] = attack
-                
+
                 if attack in needs_argument:
                     argument = world.random.choice(needs_argument[attack])
                 elif attack in ["Sow Seeds", "Call"]:
@@ -228,7 +230,7 @@ def randomize_enemy_attacks(world: "EarthBoundWorld", rom: "LocalRom") -> None:
                     max_calls = world.random.randint(1, 4)
                 else:
                     argument = 0
-                
+
                 rom.write_bytes(world.enemies[enemy].address + (0x46 + (i * 2)), struct.pack("H", attack_id))
                 rom.write_bytes(world.enemies[enemy].address + (0x50 + (i)), bytearray([argument]))
                 rom.write_bytes(world.enemies[enemy].address + 0x5C, bytearray([max_calls]))

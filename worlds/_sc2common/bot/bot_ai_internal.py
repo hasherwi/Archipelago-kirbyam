@@ -6,10 +6,7 @@ import time
 import warnings
 from abc import ABC
 from collections import Counter
-from typing import TYPE_CHECKING, Any
-from typing import Dict, Generator, Iterable, List, Set, Tuple, Union, final
-
-from .proto import sc2api_pb2 as sc_pb
+from typing import TYPE_CHECKING, Any, Dict, Generator, Iterable, List, Set, Tuple, Union, final
 
 from .constants import (
     IS_PLACEHOLDER,
@@ -19,6 +16,7 @@ from .game_data import GameData
 from .game_state import Blip, GameState
 from .pixel_map import PixelMap
 from .position import Point2
+from .proto import sc2api_pb2 as sc_pb
 from .unit import Unit
 from .units import Units
 

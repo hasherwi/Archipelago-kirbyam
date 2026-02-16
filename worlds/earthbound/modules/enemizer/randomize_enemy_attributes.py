@@ -1,8 +1,21 @@
 import struct
-from .enemy_attributes import (enemy_species, enemy_adjectives, battle_sprites, field_sprites, excluded_enemies,
-                               insects, robots, movement_patterns, start_texts, death_texts, weakness_table)
-from ...game_data.text_data import calc_pixel_width, text_encoder
 from typing import TYPE_CHECKING
+
+from ...game_data.text_data import calc_pixel_width, text_encoder
+from .enemy_attributes import (
+    battle_sprites,
+    death_texts,
+    enemy_adjectives,
+    enemy_species,
+    excluded_enemies,
+    field_sprites,
+    insects,
+    movement_patterns,
+    robots,
+    start_texts,
+    weakness_table,
+)
+
 if TYPE_CHECKING:
     from ... import EarthBoundWorld
     from ...Rom import LocalRom
@@ -84,7 +97,7 @@ def randomize_enemy_attributes(world: "EarthBoundWorld", rom: "LocalRom") -> Non
                 miss_rate = 5
             else:
                 miss_rate = world.random.randint(0, 4)
-                
+
             fire_weakness = get_weakness("Fire", species)
 
             freeze_weakness = get_weakness("Freeze", species)

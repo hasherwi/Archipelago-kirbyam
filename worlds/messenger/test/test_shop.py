@@ -1,8 +1,9 @@
 from typing import Dict
 
 from BaseClasses import CollectionState
+
+from ..shop import FIGURINES, SHOP_ITEMS
 from . import MessengerTestBase
-from ..shop import SHOP_ITEMS, FIGURINES
 
 
 class ShopCostTest(MessengerTestBase):

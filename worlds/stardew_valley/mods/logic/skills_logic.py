@@ -1,6 +1,6 @@
-from ...logic.base_logic import BaseLogicMixin, BaseLogic
+from ...logic.base_logic import BaseLogic, BaseLogicMixin
 from ...mods.mod_data import ModNames
-from ...stardew_rule import StardewRule, False_, True_, And
+from ...stardew_rule import And, False_, StardewRule, True_
 from ...strings.building_names import Building
 from ...strings.craftable_names import ModCraftable, ModMachine
 from ...strings.geode_names import Geode

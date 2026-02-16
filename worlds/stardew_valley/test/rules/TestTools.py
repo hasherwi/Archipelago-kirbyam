@@ -1,11 +1,11 @@
 from collections import Counter
 
-from ..bases import SVTestBase
 from ... import options
-from ...options import ToolProgression, SeasonRandomization
+from ...options import SeasonRandomization, ToolProgression
 from ...strings.entrance_names import Entrance
 from ...strings.region_names import Region
 from ...strings.tool_names import Tool, ToolMaterial
+from ..bases import SVTestBase
 
 
 class TestProgressiveToolsLogic(SVTestBase):

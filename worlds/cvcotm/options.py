@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from Options import OptionGroup, Choice, Range, Toggle, PerGameCommonOptions, StartInventoryPool, DeathLink
+
+from Options import Choice, DeathLink, OptionGroup, PerGameCommonOptions, Range, StartInventoryPool, Toggle
 
 
 class IgnoreCleansing(Toggle):

@@ -1,14 +1,15 @@
 import io
 import json
 import random
-
-from . import Data
 from typing import TYPE_CHECKING, Optional
+
 from BaseClasses import Item, Location
 from settings import get_settings
-from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes, APPatchExtension
+from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
+
+from . import Data
 from .Items import item_table
-from .Locations import shop, badge, pants, location_table, all_locations
+from .Locations import all_locations, badge, location_table, pants, shop
 
 if TYPE_CHECKING:
     from . import MLSSWorld

@@ -1,11 +1,14 @@
-import yaml
 import os
-import zipfile
-import Utils
-from copy import deepcopy
-from .Regions import object_id_table
-from worlds.Files import APPatch
 import pkgutil
+import zipfile
+from copy import deepcopy
+
+import yaml
+
+import Utils
+from worlds.Files import APPatch
+
+from .Regions import object_id_table
 
 settings_template = Utils.parse_yaml(pkgutil.get_data(__name__, "data/settings.yaml"))
 
@@ -92,7 +95,7 @@ def generate_output(self, output_directory):
 
     rom_name = f'MQ{Utils.__version__.replace(".", "")[0:3]}_{self.player}_{self.multiworld.seed_name:11}'[:21]
     self.rom_name = bytearray(rom_name,
-                              'utf8')
+                              "utf8")
     self.rom_name_available_event.set()
 
     setup = {"version": "1.5", "name": self.multiworld.player_name[self.player], "romname": rom_name, "seed":

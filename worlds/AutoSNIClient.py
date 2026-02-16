@@ -1,13 +1,25 @@
 
 from __future__ import annotations
+
 import abc
-from bisect import bisect_right
-from dataclasses import dataclass
 import enum
 import logging
-from typing import (TYPE_CHECKING, Any, ClassVar, Dict, Generic, Iterable,
-                    Optional, Sequence, Tuple, TypeGuard, TypeVar, Union)
-
+from bisect import bisect_right
+from dataclasses import dataclass
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    ClassVar,
+    Dict,
+    Generic,
+    Iterable,
+    Optional,
+    Sequence,
+    Tuple,
+    TypeGuard,
+    TypeVar,
+    Union,
+)
 
 from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components
 
@@ -21,7 +33,7 @@ RetroArch >2048 bytes will only return the last ~2048 bytes read.
 https://github.com/alttpo/sni/issues/51
 """
 
-component = Component('SNI Client', 'SNIClient', component_type=Type.CLIENT, file_identifier=SuffixIdentifier(".apsoe"),
+component = Component("SNI Client", "SNIClient", component_type=Type.CLIENT, file_identifier=SuffixIdentifier(".apsoe"),
                       description="A client for connecting to SNES consoles via Super Nintendo Interface.")
 components.append(component)
 

@@ -9,10 +9,10 @@ class EntranceCoord:
         self.room = room
         self.x = x
         self.y = y
-    
+
     def __repr__(self):
         return EntranceCoord.coordString(self.room, self.x, self.y)
-    
+
     def coordString(room: int, x: int, y: int):
         return f"{room:#05x}, {x}, {y}"
 
@@ -32,7 +32,7 @@ transition_target_y = 0xC12D
 transition_scroll_x = 0xFF96
 transition_scroll_y = 0xFF97
 link_motion_state = 0xC11C
-transition_sequence = 0xC16B 
+transition_sequence = 0xC16B
 screen_coord = 0xFFFA
 
 entrance_address_overrides = {
@@ -81,7 +81,7 @@ sidescroller_rooms = {
     0x049: "castle_secret_exit",
     0x1ec: "castle_secret_entrance:inside",
     0x04a: "castle_secret_entrance",
-    0x117: "d1:inside", # not a sidescroller, but acts weird 
+    0x117: "d1:inside", # not a sidescroller, but acts weird
 }
 
 entrance_coords = [

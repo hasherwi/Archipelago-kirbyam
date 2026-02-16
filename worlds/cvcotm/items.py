@@ -1,12 +1,12 @@
 import logging
+from collections import Counter
+from typing import TYPE_CHECKING, Dict, NamedTuple, Optional
 
 from BaseClasses import Item, ItemClassification
+
 from .data import iname
 from .locations import BASE_ID
 from .options import IronMaidenBehavior
-
-from typing import TYPE_CHECKING, Dict, NamedTuple, Optional
-from collections import Counter
 
 if TYPE_CHECKING:
     from . import CVCotMWorld

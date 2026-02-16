@@ -1,12 +1,13 @@
 import os
 from argparse import Namespace
-from typing import ClassVar
-from typing import Dict, FrozenSet, Tuple, Any
+from typing import Any, ClassVar, Dict, FrozenSet, Tuple
 
 from BaseClasses import MultiWorld
 from test.bases import WorldTestBase
-from test.general import gen_steps, setup_solo_multiworld as setup_base_solo_multiworld
+from test.general import gen_steps
+from test.general import setup_solo_multiworld as setup_base_solo_multiworld
 from worlds.AutoWorld import call_all
+
 from .. import DLCqworld
 
 

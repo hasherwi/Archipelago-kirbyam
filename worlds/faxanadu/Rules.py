@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+
 from worlds.generic.Rules import set_rule
 
 if TYPE_CHECKING:
@@ -26,8 +27,8 @@ def set_rules(faxanadu_world: "FaxanaduWorld"):
     set_rule(multiworld.get_entrance("Apolune -> Path to Forepaw", player), lambda state: state.has("Mattock", player))
     set_rule(multiworld.get_entrance("Trunk -> Joker Spring", player), lambda state: state.has("Key Joker", player))
     set_rule(multiworld.get_entrance("Trunk -> Tower of Fortress", player), lambda state: state.has("Key Jack", player))
-    set_rule(multiworld.get_entrance("Trunk -> Path to Mascon", player), lambda state: 
-             state.has_all(["Key Queen", "Ring of Ruby", "Sky Spring Flow", "Tower of Fortress Spring Flow", "Joker Spring Flow"], player) and 
+    set_rule(multiworld.get_entrance("Trunk -> Path to Mascon", player), lambda state:
+             state.has_all(["Key Queen", "Ring of Ruby", "Sky Spring Flow", "Tower of Fortress Spring Flow", "Joker Spring Flow"], player) and
              state.has("Progressive Sword", player, 2))
     set_rule(multiworld.get_entrance("Path to Mascon -> Tower of Red Potion", player), lambda state:
              state.has("Key Queen", player) and
@@ -61,7 +62,7 @@ def set_rules(faxanadu_world: "FaxanaduWorld"):
     set_rule(multiworld.get_location("Sky Spring", player), lambda state: state.has("Unlock Wingboots", player))
     set_rule(multiworld.get_location("Tower of Fortress Spring", player), lambda state: state.has("Spring Elixir", player))
     set_rule(multiworld.get_location("Tower of Fortress Guru", player), lambda state: state.has("Sky Spring Flow", player))
-    set_rule(multiworld.get_location("Tower of Suffer Hidden Wingboots", player), lambda state: 
+    set_rule(multiworld.get_location("Tower of Suffer Hidden Wingboots", player), lambda state:
              state.has("Deluge", player) or
              state.has("Progressive Sword", player, 2))
     set_rule(multiworld.get_location("Misty House", player), lambda state: state.has("Black Onyx", player))
@@ -75,5 +76,5 @@ def set_rules(faxanadu_world: "FaxanaduWorld"):
     set_rule(multiworld.get_location("Fraternal Castle Shop Hidden Ointment", player), lambda state: has_any_magic(state, player))
 
     if faxanadu_world.options.require_dragon_slayer.value:
-        set_rule(multiworld.get_location("Evil One", player), lambda state: 
+        set_rule(multiworld.get_location("Evil One", player), lambda state:
                  state.has_all_counts({"Progressive Sword": 4, "Progressive Armor": 3, "Progressive Shield": 4}, player))

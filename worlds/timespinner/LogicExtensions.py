@@ -1,5 +1,7 @@
-from typing import Union, Optional
+from typing import Optional, Union
+
 from BaseClasses import CollectionState
+
 from .Options import TimespinnerOptions
 from .PreCalculatedWeights import PreCalculatedWeights
 
@@ -16,7 +18,7 @@ class TimespinnerLogic:
     past_keys_unlock: Optional[str]
     time_keys_unlock: Optional[str]
 
-    def __init__(self, player: int, options: Optional[TimespinnerOptions], 
+    def __init__(self, player: int, options: Optional[TimespinnerOptions],
                  precalculated_weights: Optional[PreCalculatedWeights]):
         self.player = player
 
@@ -39,74 +41,74 @@ class TimespinnerLogic:
                 self.time_keys_unlock = None
 
     def has_timestop(self, state: CollectionState) -> bool:
-        return state.has_any({'Timespinner Wheel', 'Succubus Hairpin', 'Lightwall', 'Celestial Sash'}, self.player)
+        return state.has_any({"Timespinner Wheel", "Succubus Hairpin", "Lightwall", "Celestial Sash"}, self.player)
 
     def has_doublejump(self, state: CollectionState) -> bool:
-        return state.has_any({'Succubus Hairpin', 'Lightwall', 'Celestial Sash'}, self.player)
+        return state.has_any({"Succubus Hairpin", "Lightwall", "Celestial Sash"}, self.player)
 
     def has_forwarddash_doublejump(self, state: CollectionState) -> bool:
         return self.has_upwarddash(state) \
-            or (state.has('Talaria Attachment', self.player) and self.has_doublejump(state))
+            or (state.has("Talaria Attachment", self.player) and self.has_doublejump(state))
 
     def has_doublejump_of_npc(self, state: CollectionState) -> bool:
         return self.has_upwarddash(state) \
-            or (state.has('Timespinner Wheel', self.player) and self.has_doublejump(state))
+            or (state.has("Timespinner Wheel", self.player) and self.has_doublejump(state))
 
     def has_fastjump_on_npc(self, state: CollectionState) -> bool:
-        return state.has_all({'Timespinner Wheel', 'Talaria Attachment'}, self.player)
+        return state.has_all({"Timespinner Wheel", "Talaria Attachment"}, self.player)
 
     def has_multiple_small_jumps_of_npc(self, state: CollectionState) -> bool:
-        return state.has('Timespinner Wheel', self.player) or self.has_upwarddash(state)
+        return state.has("Timespinner Wheel", self.player) or self.has_upwarddash(state)
 
     def has_upwarddash(self, state: CollectionState) -> bool:
-        return state.has_any({'Lightwall', 'Celestial Sash'}, self.player)
-    
+        return state.has_any({"Lightwall", "Celestial Sash"}, self.player)
+
     def has_fire(self, state: CollectionState) -> bool:
-        return state.has_any({'Fire Orb', 'Infernal Flames', 'Pyro Ring', 'Djinn Inferno'}, self.player)
+        return state.has_any({"Fire Orb", "Infernal Flames", "Pyro Ring", "Djinn Inferno"}, self.player)
 
     def has_pink(self, state: CollectionState) -> bool:
-        return state.has_any({'Plasma Orb', 'Plasma Geyser', 'Royal Ring'}, self.player)
+        return state.has_any({"Plasma Orb", "Plasma Geyser", "Royal Ring"}, self.player)
 
     def has_keycard_A(self, state: CollectionState) -> bool:
-        return state.has('Security Keycard A', self.player)
+        return state.has("Security Keycard A", self.player)
 
     def has_keycard_B(self, state: CollectionState) -> bool:
         if self.flag_specific_keycards:
-            return state.has('Security Keycard B', self.player)
+            return state.has("Security Keycard B", self.player)
         else:
-            return state.has_any({'Security Keycard A', 'Security Keycard B'}, self.player)
+            return state.has_any({"Security Keycard A", "Security Keycard B"}, self.player)
 
     def has_keycard_C(self, state: CollectionState) -> bool:
         if self.flag_specific_keycards:
-            return state.has('Security Keycard C', self.player)
+            return state.has("Security Keycard C", self.player)
         else:
-            return state.has_any({'Security Keycard A', 'Security Keycard B', 'Security Keycard C'}, self.player)
+            return state.has_any({"Security Keycard A", "Security Keycard B", "Security Keycard C"}, self.player)
 
     def has_keycard_D(self, state: CollectionState) -> bool:
         if self.flag_specific_keycards:
-            return state.has('Security Keycard D', self.player)
+            return state.has("Security Keycard D", self.player)
         else:
-            return state.has_any({'Security Keycard A', 'Security Keycard B', 'Security Keycard C', 'Security Keycard D'}, self.player)
+            return state.has_any({"Security Keycard A", "Security Keycard B", "Security Keycard C", "Security Keycard D"}, self.player)
 
     def can_break_walls(self, state: CollectionState) -> bool:
         if self.flag_eye_spy:
-            return state.has('Oculus Ring', self.player)
+            return state.has("Oculus Ring", self.player)
         else:
             return True
 
     def can_break_lanterns(self, state: CollectionState) -> bool:
         if self.flag_find_the_flame:
-            return state.has('Cube of Bodie', self.player)
+            return state.has("Cube of Bodie", self.player)
         else:
             return True
 
     def can_kill_all_3_bosses(self, state: CollectionState) -> bool:
         if self.flag_prism_break:
-            return state.has_all({'Laser Access M', 'Laser Access I', 'Laser Access A'}, self.player)
-        return state.has_all({'Killed Maw', 'Killed Twins', 'Killed Aelana'}, self.player)
+            return state.has_all({"Laser Access M", "Laser Access I", "Laser Access A"}, self.player)
+        return state.has_all({"Killed Maw", "Killed Twins", "Killed Aelana"}, self.player)
 
     def has_teleport(self, state: CollectionState) -> bool:
-        return self.flag_unchained_keys or state.has('Twin Pyramid Key', self.player)
+        return self.flag_unchained_keys or state.has("Twin Pyramid Key", self.player)
 
     def can_teleport_to(self, state: CollectionState, era: str, gate: str) -> bool:
         if not self.flag_unchained_keys:

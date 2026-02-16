@@ -1,14 +1,17 @@
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from unittest import TestLoader, TestSuite
 
 
 def load_tests(loader: "TestLoader", standard_tests: "TestSuite", pattern: str):
+    import fnmatch
     import os
     import unittest
-    import fnmatch
-    from .. import file_path
+
     from worlds.AutoWorld import AutoWorldRegister
+
+    from .. import file_path
 
     suite = unittest.TestSuite()
     suite.addTests(standard_tests)

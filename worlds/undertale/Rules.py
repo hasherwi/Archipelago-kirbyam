@@ -1,6 +1,7 @@
-from worlds.generic.Rules import set_rule, add_rule
-from BaseClasses import CollectionState
 from typing import TYPE_CHECKING
+
+from BaseClasses import CollectionState
+from worlds.generic.Rules import add_rule, set_rule
 
 if TYPE_CHECKING:
     from . import UndertaleWorld

@@ -2,94 +2,95 @@
 Unit tests for custom mission orders
 """
 
-from .test_base import Sc2SetupTestBase
-from .. import MissionFlag
-from ..item import item_tables, item_names
 from BaseClasses import ItemClassification
-from .. import options
+
+from .. import MissionFlag, options
+from ..item import item_names, item_tables
+from .test_base import Sc2SetupTestBase
+
 
 class TestCustomMissionOrders(Sc2SetupTestBase):
     def test_mini_wol_generates(self):
         world_options = {
             **self.ALL_CAMPAIGNS,
-            'mission_order': 'custom',
-            'custom_mission_order': {
-                'Mini Wings of Liberty': {
-                    'global': {
-                        'type': 'column',
-                        'mission_pool': [
-                            'terran missions',
-                            '^ wol missions'
+            "mission_order": "custom",
+            "custom_mission_order": {
+                "Mini Wings of Liberty": {
+                    "global": {
+                        "type": "column",
+                        "mission_pool": [
+                            "terran missions",
+                            "^ wol missions"
                         ]
                     },
-                    'Mar Sara': {
-                        'size': 1
+                    "Mar Sara": {
+                        "size": 1
                     },
-                    'Colonist': {
-                        'size': 2,
-                        'entry_rules': [{
-                            'scope': '../Mar Sara'
+                    "Colonist": {
+                        "size": 2,
+                        "entry_rules": [{
+                            "scope": "../Mar Sara"
                         }]
                     },
-                    'Artifact': {
-                        'size': 3,
-                        'entry_rules': [{
-                            'scope': '../Mar Sara'
+                    "Artifact": {
+                        "size": 3,
+                        "entry_rules": [{
+                            "scope": "../Mar Sara"
                         }],
-                        'missions': [
+                        "missions": [
                             {
-                                'index': 1,
-                                'entry_rules': [{
-                                'scope': 'Mini Wings of Liberty',
-                                'amount': 4
+                                "index": 1,
+                                "entry_rules": [{
+                                "scope": "Mini Wings of Liberty",
+                                "amount": 4
                                 }]
                             },
                             {
-                                'index': 2,
-                                'entry_rules': [{
-                                'scope': 'Mini Wings of Liberty',
-                                'amount': 8
+                                "index": 2,
+                                "entry_rules": [{
+                                "scope": "Mini Wings of Liberty",
+                                "amount": 8
                                 }]
                             }
                         ]
                     },
-                    'Prophecy': {
-                        'size': 2,
-                        'entry_rules': [{
-                            'scope': '../Artifact/1'
+                    "Prophecy": {
+                        "size": 2,
+                        "entry_rules": [{
+                            "scope": "../Artifact/1"
                             }],
-                        'mission_pool': [
-                            'protoss missions',
-                            '^ prophecy missions'
+                        "mission_pool": [
+                            "protoss missions",
+                            "^ prophecy missions"
                         ]
                     },
-                    'Covert': {
-                        'size': 2,
-                        'entry_rules': [{
-                            'scope': 'Mini Wings of Liberty',
-                            'amount': 2
+                    "Covert": {
+                        "size": 2,
+                        "entry_rules": [{
+                            "scope": "Mini Wings of Liberty",
+                            "amount": 2
                         }]
                     },
-                    'Rebellion': {
-                        'size': 2,
-                        'entry_rules': [{
-                            'scope': 'Mini Wings of Liberty',
-                            'amount': 3
+                    "Rebellion": {
+                        "size": 2,
+                        "entry_rules": [{
+                            "scope": "Mini Wings of Liberty",
+                            "amount": 3
                         }]
                     },
-                    'Char': {
-                        'size': 3,
-                        'entry_rules': [{
-                            'scope': '../Artifact/2'
+                    "Char": {
+                        "size": 3,
+                        "entry_rules": [{
+                            "scope": "../Artifact/2"
                         }],
-                        'missions': [
+                        "missions": [
                             {
-                                'index': 0,
-                                'next': [2]
+                                "index": 0,
+                                "next": [2]
                             },
                             {
-                                'index': 1,
-                                'entrance': True
+                                "index": 1,
+                                "entrance": True
                             }
                         ]
                     }
@@ -109,17 +110,17 @@ class TestCustomMissionOrders(Sc2SetupTestBase):
         # This is a filler upgrade with a parent
         test_item = item_names.MARINE_OPTIMIZED_LOGISTICS
         world_options = {
-            'mission_order': 'custom',
-            'locked_items': { test_item: 1 },
-            'custom_mission_order': {
-                'test': {
-                    'type': 'column',
-                    'size': 5, # Give the generator some space to place the key
-                    'max_difficulty': 'easy',
-                    'missions': [{
-                        'index': 4,
-                        'entry_rules': [{
-                            'items': { test_item: 1 }
+            "mission_order": "custom",
+            "locked_items": { test_item: 1 },
+            "custom_mission_order": {
+                "test": {
+                    "type": "column",
+                    "size": 5, # Give the generator some space to place the key
+                    "max_difficulty": "easy",
+                    "missions": [{
+                        "index": 4,
+                        "entry_rules": [{
+                            "items": { test_item: 1 }
                         }]
                     }]
                 }
@@ -138,18 +139,18 @@ class TestCustomMissionOrders(Sc2SetupTestBase):
         # This is a filler upgrade with a parent
         test_item = item_names.ZERGLING_METABOLIC_BOOST
         world_options = {
-            'mission_order': 'custom',
-            'enabled_campaigns': set(options.EnabledCampaigns.valid_keys),
-            'start_inventory': { test_item: 1 },
-            'custom_mission_order': {
-                'test': {
-                    'type': 'column',
-                    'size': 5, # Give the generator some space to place the key
-                    'max_difficulty': 'easy',
-                    'missions': [{
-                        'index': 4,
-                        'entry_rules': [{
-                            'items': { test_item: 1 }
+            "mission_order": "custom",
+            "enabled_campaigns": set(options.EnabledCampaigns.valid_keys),
+            "start_inventory": { test_item: 1 },
+            "custom_mission_order": {
+                "test": {
+                    "type": "column",
+                    "size": 5, # Give the generator some space to place the key
+                    "max_difficulty": "easy",
+                    "missions": [{
+                        "index": 4,
+                        "entry_rules": [{
+                            "items": { test_item: 1 }
                         }]
                     }]
                 }
@@ -166,19 +167,19 @@ class TestCustomMissionOrders(Sc2SetupTestBase):
         # This is a filler upgrade with a parent
         test_item = item_names.ZERGLING_METABOLIC_BOOST
         world_options = {
-            'mission_order': 'custom',
-            'enabled_campaigns': set(options.EnabledCampaigns.valid_keys),
-            'start_inventory': { test_item: 1 },
-            'locked_items': { test_item: 1 },
-            'custom_mission_order': {
-                'test': {
-                    'type': 'column',
-                    'size': 5, # Give the generator some space to place the key
-                    'max_difficulty': 'easy',
-                    'missions': [{
-                        'index': 4,
-                        'entry_rules': [{
-                            'items': { test_item: 1 }
+            "mission_order": "custom",
+            "enabled_campaigns": set(options.EnabledCampaigns.valid_keys),
+            "start_inventory": { test_item: 1 },
+            "locked_items": { test_item: 1 },
+            "custom_mission_order": {
+                "test": {
+                    "type": "column",
+                    "size": 5, # Give the generator some space to place the key
+                    "max_difficulty": "easy",
+                    "missions": [{
+                        "index": 4,
+                        "entry_rules": [{
+                            "items": { test_item: 1 }
                         }]
                     }]
                 }
@@ -197,18 +198,18 @@ class TestCustomMissionOrders(Sc2SetupTestBase):
         test_amount = 3
         world_options = {
             **self.ALL_CAMPAIGNS,
-            'mission_order': 'custom',
-            'locked_items': { test_item: 1 }, # Make sure it is generated as normal
-            'custom_mission_order': {
-                'test': {
-                    'type': 'column',
-                    'size': 12, # Give the generator some space to place the keys
-                    'max_difficulty': 'easy',
-                    'mission_pool': ['zerg missions'], # Make sure the item isn't excluded by race selection
-                    'missions': [{
-                        'index': 10,
-                        'entry_rules': [{
-                            'items': { test_item: test_amount } # Require more than the usual item amount
+            "mission_order": "custom",
+            "locked_items": { test_item: 1 }, # Make sure it is generated as normal
+            "custom_mission_order": {
+                "test": {
+                    "type": "column",
+                    "size": 12, # Give the generator some space to place the keys
+                    "max_difficulty": "easy",
+                    "mission_pool": ["zerg missions"], # Make sure the item isn't excluded by race selection
+                    "missions": [{
+                        "index": 10,
+                        "entry_rules": [{
+                            "items": { test_item: test_amount } # Require more than the usual item amount
                         }]
                     }]
                 }

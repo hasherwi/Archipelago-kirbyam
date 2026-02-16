@@ -1,31 +1,56 @@
 """
 Archipelago World definition for Pokemon Emerald Version
 """
-from collections import Counter
 import copy
 import logging
 import os
 import pkgutil
-from typing import Any, Set, List, Dict, Optional, Tuple, ClassVar, TextIO, Union
+from collections import Counter
+from typing import Any, ClassVar, Dict, List, Optional, Set, TextIO, Tuple, Union
 
-from BaseClasses import CollectionState, ItemClassification, MultiWorld, Tutorial, LocationProgressType
+import settings
+from BaseClasses import CollectionState, ItemClassification, LocationProgressType, MultiWorld, Tutorial
 from Fill import FillError, fill_restrictive
 from Options import OptionError, Toggle
-import settings
 from worlds.AutoWorld import WebWorld, World
 
 from .client import PokemonEmeraldClient  # Unused, but required to register with BizHawkClient
-from .data import LEGENDARY_POKEMON, MapData, SpeciesData, TrainerData, LocationCategory, data as emerald_data
+from .data import LEGENDARY_POKEMON, LocationCategory, MapData, SpeciesData, TrainerData
+from .data import data as emerald_data
 from .groups import ITEM_GROUPS, LOCATION_GROUPS
 from .items import PokemonEmeraldItem, create_item_label_to_code_map, get_item_classification, offset_item_value
-from .locations import (PokemonEmeraldLocation, create_location_label_to_id_map, create_locations_by_category,
-                        set_free_fly, set_legendary_cave_entrances)
+from .locations import (
+    PokemonEmeraldLocation,
+    create_location_label_to_id_map,
+    create_locations_by_category,
+    set_free_fly,
+    set_legendary_cave_entrances,
+)
 from .opponents import randomize_opponent_parties
-from .options import (Goal, DarkCavesRequireFlash, HmRequirements, ItemPoolType, PokemonEmeraldOptions,
-                      RandomizeWildPokemon, RandomizeBadges, RandomizeHms, NormanRequirement, OPTION_GROUPS)
-from .pokemon import (get_random_move, get_species_id_by_label, randomize_abilities, randomize_learnsets,
-                      randomize_legendary_encounters, randomize_misc_pokemon, randomize_starters,
-                      randomize_tm_hm_compatibility,randomize_types, randomize_wild_encounters)
+from .options import (
+    OPTION_GROUPS,
+    DarkCavesRequireFlash,
+    Goal,
+    HmRequirements,
+    ItemPoolType,
+    NormanRequirement,
+    PokemonEmeraldOptions,
+    RandomizeBadges,
+    RandomizeHms,
+    RandomizeWildPokemon,
+)
+from .pokemon import (
+    get_random_move,
+    get_species_id_by_label,
+    randomize_abilities,
+    randomize_learnsets,
+    randomize_legendary_encounters,
+    randomize_misc_pokemon,
+    randomize_starters,
+    randomize_tm_hm_compatibility,
+    randomize_types,
+    randomize_wild_encounters,
+)
 from .rom import PokemonEmeraldProcedurePatch, write_tokens
 from .util import get_encounter_type_label
 
@@ -151,7 +176,7 @@ class PokemonEmeraldWorld(World):
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
-        from .sanity_check import validate_regions, validate_group_maps
+        from .sanity_check import validate_group_maps, validate_regions
 
         assert validate_regions()
         assert validate_group_maps()

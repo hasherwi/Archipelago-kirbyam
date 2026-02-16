@@ -1,8 +1,10 @@
 
+import logging
+
 from NetUtils import ClientStatus, color
 from worlds.AutoSNIClient import SNIClient
+
 from .Regions import offset
-import logging
 
 snes_logger = logging.getLogger("SNES")
 
@@ -56,8 +58,8 @@ def validate_read_state(data1, data2):
         if data1[i] != validation_array[i] or data2[i] != validation_array[i]:
             return False;
     return True
-    
-   
+
+
 
 class FFMQClient(SNIClient):
     game = "Final Fantasy Mystic Quest"
@@ -116,7 +118,7 @@ class FFMQClient(SNIClient):
                 ctx.locations_checked.add(offset["BattlefieldItem"] + battlefield + 1)
 
         if old_locations_checked != ctx.locations_checked:
-            await ctx.send_msgs([{"cmd": 'LocationChecks', "locations": ctx.locations_checked}])
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": ctx.locations_checked}])
 
         if received[0] == 0:
             received_index = int.from_bytes(received[1:], "big")

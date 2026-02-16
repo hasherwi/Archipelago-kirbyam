@@ -1,7 +1,7 @@
-from ..bases import SVTestBase
 from ... import options
 from ...options import BundleRandomization
 from ...strings.bundle_names import BundleName
+from ..bases import SVTestBase
 
 
 class TestBundlesLogic(SVTestBase):

@@ -1,21 +1,20 @@
 
-import Utils
-import logging
-import json
-
-from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes, APPatchExtension
-from typing import Dict, Optional, Collection, TYPE_CHECKING
-
 import hashlib
+import json
+import logging
 import os
 import pkgutil
+from typing import TYPE_CHECKING, Collection, Dict, Optional
 
+import Utils
+from settings import get_settings
+from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
+
+from .cvcotm_text import cvcotm_string_to_bytearray
 from .data import patches
 from .locations import cvcotm_location_info
-from .cvcotm_text import cvcotm_string_to_bytearray
-from .options import CompletionGoal, IronMaidenBehavior, RequiredSkirmishes
 from .lz10 import decompress
-from settings import get_settings
+from .options import CompletionGoal, IronMaidenBehavior, RequiredSkirmishes
 
 if TYPE_CHECKING:
     from . import CVCotMWorld
@@ -573,7 +572,7 @@ def patch_rom(world: "CVCotMWorld", patch: CVCotMProcedurePatch, offset_data: Di
         "compat_identifier": ARCHIPELAGO_IDENTIFIER
     }
 
-    patch.write_file("options.json", json.dumps(options_dict).encode('utf-8'))
+    patch.write_file("options.json", json.dumps(options_dict).encode("utf-8"))
 
 
 def get_base_rom_bytes(file_name: str = "") -> bytes:

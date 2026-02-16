@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory, TemporaryFile
 from typing import Any, Dict, List, cast
 
 import Utils
-from settings import Group, Settings, ServerOptions
+from settings import Group, ServerOptions, Settings
 
 
 class TestIDs(unittest.TestCase):

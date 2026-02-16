@@ -1,5 +1,6 @@
-from .data import lname
 from typing import Dict, List, Optional, TypedDict, Union
+
+from .data import lname
 
 
 class RegionInfo(TypedDict, total=False):

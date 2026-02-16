@@ -1,4 +1,5 @@
 from BaseClasses import ItemClassification
+
 from .bases import JakAndDaxterTestBase
 
 

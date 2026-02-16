@@ -9,6 +9,7 @@ import bsdiff4
 import Utils
 from settings import get_settings
 from worlds.Files import APPatch
+
 from .Locations import LocationData
 
 ADVENTUREHASH: str = "157bddb7192754a45372be196797f284"

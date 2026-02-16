@@ -1,10 +1,10 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Optional, Dict
+from typing import Dict, Optional
+
 from BaseClasses import Location, Region
 
 from .Data import get_boosts_data, get_new_civics_data, get_new_techs_data
-
 from .Enum import CivVICheckType, EraType
 
 CIV_VI_AP_LOCATION_ID_BASE = 5041000

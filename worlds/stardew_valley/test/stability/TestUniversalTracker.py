@@ -1,11 +1,11 @@
 import unittest
 from unittest.mock import Mock
 
-from ..bases import skip_long_tests, SVTestBase
+from ... import STARDEW_VALLEY
+from ...options import BundleRandomization, EntranceRandomization, FarmType
+from ..bases import SVTestBase, skip_long_tests
 from ..options.presets import allsanity_mods_6_x_x
 from ..options.utils import fill_namespace_with_default
-from ... import STARDEW_VALLEY
-from ...options import FarmType, BundleRandomization, EntranceRandomization
 
 
 @unittest.skipIf(skip_long_tests(), "Long tests disabled")

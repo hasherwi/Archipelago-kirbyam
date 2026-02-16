@@ -1,4 +1,5 @@
 from copy import deepcopy
+
 from . import poke_data
 from .locations import location_data
 
@@ -171,7 +172,7 @@ def process_pokemon_locations(self):
 
     zone_mapping = {}
     zone_placed_mons = {}
-    
+
     if self.options.randomize_wild_pokemon:
         mons_list = [pokemon for pokemon in poke_data.pokemon_data.keys() if pokemon not in poke_data.legendary_pokemon
                      or self.options.randomize_legendary_pokemon.value == 3]

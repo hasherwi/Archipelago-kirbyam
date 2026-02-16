@@ -1,10 +1,23 @@
 import sys
 import typing
 from dataclasses import dataclass
-from typing import Protocol, ClassVar
+from typing import ClassVar, Protocol
 
-from Options import Range, NamedRange, Toggle, Choice, OptionSet, PerGameCommonOptions, DeathLink, OptionList, Visibility, Removed, OptionCounter
-from ..items import items_by_group, Group
+from Options import (
+    Choice,
+    DeathLink,
+    NamedRange,
+    OptionCounter,
+    OptionList,
+    OptionSet,
+    PerGameCommonOptions,
+    Range,
+    Removed,
+    Toggle,
+    Visibility,
+)
+
+from ..items import Group, items_by_group
 from ..mods.mod_data import ModNames
 from ..strings.ap_names.ap_option_names import BuffOptionName, WalnutsanityOptionName
 from ..strings.bundle_names import all_cc_bundle_names
@@ -845,7 +858,7 @@ class Mods(OptionSet):
     valid_keys = enabled_mods
     # In tests, we keep even the disabled mods active, because we expect some of them to eventually get updated for SV 1.6
     # In that case, we want to maintain content and logic for them, and therefore keep testing them
-    if 'unittest' in sys.modules.keys() or 'pytest' in sys.modules.keys():
+    if "unittest" in sys.modules.keys() or "pytest" in sys.modules.keys():
         valid_keys = all_mods
 
 

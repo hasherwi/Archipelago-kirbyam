@@ -1,19 +1,19 @@
-from ..mod_data import ModNames
 from ...data.craftable_data import all_crafting_recipes_by_name
-from ...logic.base_logic import BaseLogicMixin, BaseLogic
+from ...logic.base_logic import BaseLogic, BaseLogicMixin
 from ...strings.ap_names.community_upgrade_names import CommunityUpgrade
 from ...strings.artisan_good_names import ArtisanGood
-from ...strings.craftable_names import Consumable, Edible, Bomb
+from ...strings.craftable_names import Bomb, Consumable, Edible
 from ...strings.crop_names import Fruit
 from ...strings.fertilizer_names import Fertilizer
 from ...strings.food_names import Meal
 from ...strings.geode_names import Geode
 from ...strings.material_names import Material
-from ...strings.metal_names import MetalBar, Artifact
+from ...strings.metal_names import Artifact, MetalBar
 from ...strings.monster_drop_names import Loot
 from ...strings.region_names import Region, SVERegion
-from ...strings.special_order_names import SpecialOrder, ModSpecialOrder
+from ...strings.special_order_names import ModSpecialOrder, SpecialOrder
 from ...strings.villager_names import ModNPC
+from ..mod_data import ModNames
 
 
 class ModSpecialOrderLogicMixin(BaseLogicMixin):

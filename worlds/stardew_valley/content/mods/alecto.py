@@ -1,5 +1,3 @@
-from ..game_content import ContentPack, StardewContent
-from ..mod_registry import register_mod_content_pack
 from ...data import villagers_data
 from ...data.harvest import ForagingSource
 from ...data.requirement import QuestRequirement
@@ -7,6 +5,8 @@ from ...mods.mod_data import ModNames
 from ...strings.quest_names import ModQuest
 from ...strings.region_names import Region
 from ...strings.seed_names import DistantLandsSeed
+from ..game_content import ContentPack, StardewContent
+from ..mod_registry import register_mod_content_pack
 
 
 class AlectoContentPack(ContentPack):

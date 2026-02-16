@@ -1,11 +1,11 @@
-from . import SVContentPackTestBase
 from ...data.artisan import MachineSource
 from ...strings.artisan_good_names import ArtisanGood
-from ...strings.crop_names import Vegetable, Fruit
+from ...strings.crop_names import Fruit, Vegetable
 from ...strings.food_names import Beverage
 from ...strings.forageable_names import Forageable
 from ...strings.machine_names import Machine
 from ...strings.seed_names import Seed
+from . import SVContentPackTestBase
 
 wine_base_fruits = [
     Fruit.ancient_fruit, Fruit.apple, Fruit.apricot, Forageable.blackberry, Fruit.blueberry, Forageable.cactus_fruit, Fruit.cherry,

@@ -2,6 +2,7 @@
 from typing import TYPE_CHECKING
 
 from BaseClasses import Entrance, Region
+
 from . import locations
 from .events import create_all_events
 

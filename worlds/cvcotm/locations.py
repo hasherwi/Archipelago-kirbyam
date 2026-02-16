@@ -1,8 +1,9 @@
-from BaseClasses import Location
-from .data import lname, iname
-from .options import CVCotMOptions, CompletionGoal, IronMaidenBehavior, RequiredSkirmishes
+from typing import Dict, List, NamedTuple, Optional, Set, Tuple, Union
 
-from typing import Dict, List, Union, Tuple, Optional, Set, NamedTuple
+from BaseClasses import Location
+
+from .data import iname, lname
+from .options import CompletionGoal, CVCotMOptions, IronMaidenBehavior, RequiredSkirmishes
 
 BASE_ID = 0xD55C0000
 

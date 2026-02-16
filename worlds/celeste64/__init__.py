@@ -3,11 +3,24 @@ from typing import Dict, List, Tuple
 
 from BaseClasses import ItemClassification, Location, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
-from .Items import Celeste64Item, unlockable_item_data_table, move_item_data_table, item_data_table,\
-                                  checkpoint_item_data_table, item_table
-from .Locations import Celeste64Location, strawberry_location_data_table, friend_location_data_table,\
-                                          sign_location_data_table, car_location_data_table, checkpoint_location_data_table,\
-                                          location_table
+
+from .Items import (
+    Celeste64Item,
+    checkpoint_item_data_table,
+    item_data_table,
+    item_table,
+    move_item_data_table,
+    unlockable_item_data_table,
+)
+from .Locations import (
+    Celeste64Location,
+    car_location_data_table,
+    checkpoint_location_data_table,
+    friend_location_data_table,
+    location_table,
+    sign_location_data_table,
+    strawberry_location_data_table,
+)
 from .Names import ItemName, LocationName
 from .Options import Celeste64Options, celeste_64_option_groups, resolve_options
 

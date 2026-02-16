@@ -3,28 +3,43 @@ Contains the Custom Mission Order option. Also validates the option value, so ge
 """
 
 from __future__ import annotations
+
+import copy
 import random
+import typing
+from typing import Any, Dict, List, Set, Union
+
+from schema import And, Optional, Or, Schema
 
 from Options import OptionDict, Visibility
-from schema import Schema, Optional, And, Or
-import typing
-from typing import Any, Union, Dict, Set, List
-import copy
 
-from ..mission_tables import lookup_name_to_mission
-from ..mission_groups import mission_groups
-from ..item.item_tables import item_table
 from ..item.item_groups import item_name_groups
+from ..item.item_tables import item_table
+from ..mission_groups import mission_groups
+from ..mission_tables import lookup_name_to_mission
 from . import layout_types
-from .layout_types import LayoutType, Column, Grid, Hopscotch, Gauntlet, Blitz, Canvas
+from .layout_types import Blitz, Canvas, Column, Gauntlet, Grid, Hopscotch, LayoutType
 from .mission_pools import Difficulty
-from .presets_static import (
-    static_preset, preset_mini_wol_with_prophecy, preset_mini_wol, preset_mini_hots, preset_mini_prophecy,
-    preset_mini_lotv_prologue, preset_mini_lotv, preset_mini_lotv_epilogue, preset_mini_nco,
-    preset_wol_with_prophecy, preset_wol, preset_prophecy, preset_hots, preset_lotv_prologue,
-    preset_lotv_epilogue, preset_lotv, preset_nco
-)
 from .presets_scripted import make_golden_path
+from .presets_static import (
+    preset_hots,
+    preset_lotv,
+    preset_lotv_epilogue,
+    preset_lotv_prologue,
+    preset_mini_hots,
+    preset_mini_lotv,
+    preset_mini_lotv_epilogue,
+    preset_mini_lotv_prologue,
+    preset_mini_nco,
+    preset_mini_prophecy,
+    preset_mini_wol,
+    preset_mini_wol_with_prophecy,
+    preset_nco,
+    preset_prophecy,
+    preset_wol,
+    preset_wol_with_prophecy,
+    static_preset,
+)
 
 GENERIC_KEY_NAME = "Key".casefold()
 GENERIC_PROGRESSIVE_KEY_NAME = "Progressive Key".casefold()
@@ -171,7 +186,7 @@ class CustomMissionOrder(OptionDict):
             },
         }
     })
-    
+
     def __init__(self, yaml_value: Dict[str, Dict[str, Any]]) -> None:
         # This function constructs self.value by parts,
         # so the parent constructor isn't called
@@ -281,14 +296,14 @@ def _resolve_special_option(option: str, option_value: Any) -> Any:
     # Option values can be string representations of values
     if option in STR_OPTION_VALUES:
         return _resolve_string_option(option, option_value)
-    
+
     if option == "mission_pool":
         return _resolve_mission_pool(option_value)
-    
+
     if option == "entry_rules":
         rules = [_resolve_entry_rule(subrule) for subrule in option_value]
         return rules
-    
+
     if option == "display_name":
         # Make sure all the values are strings
         if type(option_value) == list:
@@ -299,7 +314,7 @@ def _resolve_special_option(option: str, option_value: Any) -> Any:
             return []
         else:
             return [str(option_value)]
-        
+
     if option in ["index", "next"]:
         # All index values could be ranges
         if type(option_value) == list:
@@ -468,4 +483,3 @@ def _resolve_item_names(value: Dict[str, int]) -> Dict[str, int]:
         for item_name in item_names:
             new_value[item_name] = new_value.get(item_name, 0) + value[group_name]
     return new_value
-    

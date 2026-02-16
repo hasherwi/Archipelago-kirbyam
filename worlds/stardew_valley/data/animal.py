@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
-from .game_item import Source
 from ..strings.animal_names import Animal as AnimalName
+from .game_item import Source
 
 assert AnimalName
 

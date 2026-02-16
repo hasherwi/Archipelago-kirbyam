@@ -23,6 +23,7 @@ class TestTracker(TestBase):
 
     def setUp(self) -> None:
         from pony.orm import db_session
+
         from MultiServer import Context as MultiServerContext
         from Utils import user_path
         from WebHostLib.models import GameDataPackage, Room, Seed
@@ -48,6 +49,7 @@ class TestTracker(TestBase):
 
     def tearDown(self) -> None:
         from pony.orm import db_session, select
+
         from WebHostLib.models import Command, Room
 
         with db_session:

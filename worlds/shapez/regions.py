@@ -1,8 +1,9 @@
-from BaseClasses import Region, MultiWorld, LocationProgressType, ItemClassification, CollectionState
+from BaseClasses import CollectionState, ItemClassification, LocationProgressType, MultiWorld, Region
+from worlds.generic.Rules import add_rule
+
+from .data.strings import GOALS, ITEMS, LOCATIONS, OPTIONS, REGIONS
 from .items import ShapezItem
 from .locations import ShapezLocation
-from .data.strings import ITEMS, REGIONS, GOALS, LOCATIONS, OPTIONS
-from worlds.generic.Rules import add_rule
 
 shapesanity_processing = [REGIONS.full, REGIONS.half, REGIONS.piece, REGIONS.stitched, REGIONS.east_wind,
                           REGIONS.half_half, REGIONS.col_east_wind, REGIONS.col_half_half, REGIONS.col_full,

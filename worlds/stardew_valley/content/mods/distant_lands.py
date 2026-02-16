@@ -1,6 +1,4 @@
-from ..game_content import ContentPack, StardewContent
-from ..mod_registry import register_mod_content_pack
-from ...data import villagers_data, fish_data
+from ...data import fish_data, villagers_data
 from ...data.game_item import ItemTag, Tag
 from ...data.harvest import ForagingSource, HarvestCropSource
 from ...data.requirement import QuestRequirement
@@ -11,6 +9,8 @@ from ...strings.quest_names import ModQuest
 from ...strings.region_names import Region
 from ...strings.season_names import Season
 from ...strings.seed_names import DistantLandsSeed
+from ..game_content import ContentPack, StardewContent
+from ..mod_registry import register_mod_content_pack
 
 
 class DistantLandsContentPack(ContentPack):

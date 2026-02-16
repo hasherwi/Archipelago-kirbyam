@@ -1,9 +1,10 @@
 from enum import Enum
 from typing import List
 
+from .Config import GanonVulnerable, OpenTourian, OpenTower
 from .Patch import DropPrize
 from .Region import RewardType
-from .Config import OpenTower, GanonVulnerable, OpenTourian
+
 
 class Medallion(Enum):
     Bombos = 0
@@ -17,7 +18,7 @@ class DropPrizeRecord:
     CrabFinal: DropPrize
     Stun: DropPrize
     Fish: DropPrize
-    
+
     def __init__(self, Packs, TreePulls, CrabContinous, CrabFinal, Stun, Fish):
         self.Packs = Packs
         self.TreePulls = TreePulls
@@ -63,7 +64,7 @@ class WorldState:
         #// Assign four rewards for SM using a "loot table", randomized result
         gen = WorldState.Distribution().Generate(lambda dist: dist.Hit(rnd.randrange(dist.Sum)))
         smRewards = [next(gen) for x in range(4)]
-        
+
         #// Exclude the SM rewards to get the Z3 lineup
         z3Rewards = WorldState.BaseRewards[:]
         for reward in smRewards:
@@ -89,23 +90,23 @@ class WorldState:
             self.Pend = 2
             self.Green = 1
 
-            if (distribution is not None): 
+            if (distribution is not None):
                 self.Boss = distribution.Boss
                 self.Blue = distribution.Blue
                 self.Red = distribution.Red
                 self.Pend = distribution.Pend
                 self.Green = distribution.Green
-            if (boss is not None): 
+            if (boss is not None):
                 self.Boss = boss
-            if (blue is not None): 
+            if (blue is not None):
                 self.Blue = blue
-            if (red is not None): 
+            if (red is not None):
                 self.Red = red
-            if (pend is not None): 
+            if (pend is not None):
                 self.Pend = pend
-            if (green is not None): 
+            if (green is not None):
                 self.Green = green
-        
+
         @property
         def Sum(self):
             return self.Boss + self.Blue + self.Red + self.Pend + self.Green

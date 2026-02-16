@@ -1,10 +1,11 @@
-from BaseClasses import MultiWorld, get_seed, ItemClassification
-from .bases import SVTestCase, solo_multiworld, setup_solo_multiworld
-from .options.presets import allsanity_no_mods_6_x_x, get_minsanity_options
+from BaseClasses import ItemClassification, MultiWorld, get_seed
+
 from .. import StardewValleyWorld
 from ..items import Group, item_table
-from ..options import Friendsanity, SeasonRandomization, Museumsanity, Shipsanity, Goal
+from ..options import Friendsanity, Goal, Museumsanity, SeasonRandomization, Shipsanity
 from ..strings.wallet_item_names import Wallet
+from .bases import SVTestCase, setup_solo_multiworld, solo_multiworld
+from .options.presets import allsanity_no_mods_6_x_x, get_minsanity_options
 
 all_seasons = ["Spring", "Summer", "Fall", "Winter"]
 

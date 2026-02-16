@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import ClassVar, Optional, Iterable
+from typing import ClassVar, Iterable, Optional
 
 from ...data.game_item import GameItem, ItemTag
 from ...strings.book_names import ordered_lost_books

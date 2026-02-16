@@ -1,7 +1,9 @@
 import struct
-from typing import Optional, Dict, TYPE_CHECKING, List, Union
-from BaseClasses import Region, ItemClassification, MultiWorld
+from typing import TYPE_CHECKING, Dict, List, Optional, Union
+
+from BaseClasses import ItemClassification, MultiWorld, Region
 from worlds.Files import APTokenTypes
+
 from .client_addrs import consumable_addrs, star_addrs
 
 if TYPE_CHECKING:

@@ -4,32 +4,32 @@
 # This script downloads the static randomizer's descriptions for each location and adds them to
 # the location documentation.
 
-from collections import defaultdict
 import html
 import os
 import re
+from collections import defaultdict
+
 import requests
 import yaml
 
 from .Locations import location_dictionary
 
+location_re = re.compile(r"^([A-Z0-9]+): (.*?)(?:$| - )")
 
-location_re = re.compile(r'^([A-Z0-9]+): (.*?)(?:$| - )')
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     # TODO: update this to the main branch of the main randomizer once Archipelago support is merged
-    url = 'https://raw.githubusercontent.com/nex3/SoulsRandomizers/archipelago-server/dist/Base/annotations.txt'
+    url = "https://raw.githubusercontent.com/nex3/SoulsRandomizers/archipelago-server/dist/Base/annotations.txt"
     response = requests.get(url)
     if response.status_code != 200:
         raise Exception(f"Got {response.status_code} when downloading static randomizer locations")
     annotations = yaml.safe_load(response.text)
 
     static_to_archi_regions = {
-        area['Name']: area['Archipelago']
-        for area in annotations['Areas']
+        area["Name"]: area["Archipelago"]
+        for area in annotations["Areas"]
     }
 
-    descriptions_by_key = {slot['Key']: slot['Text'] for slot in annotations['Slots']}
+    descriptions_by_key = {slot["Key"]: slot["Text"] for slot in annotations["Slots"]}
 
     # A map from (region, item name) pairs to all the descriptions that match those pairs.
     descriptions_by_location = defaultdict(list)
@@ -37,12 +37,12 @@ if __name__ == '__main__':
     # A map from item names to all the descriptions for those item names.
     descriptions_by_item = defaultdict(list)
 
-    for slot in annotations['Slots']:
-        region = static_to_archi_regions[slot['Area']]
-        for item in slot['DebugText']:
+    for slot in annotations["Slots"]:
+        region = static_to_archi_regions[slot["Area"]]
+        for item in slot["DebugText"]:
             name = item.split(" - ")[0]
-            descriptions_by_location[(region, name)].append(slot['Text'])
-            descriptions_by_item[name].append(slot['Text'])
+            descriptions_by_location[(region, name)].append(slot["Text"])
+            descriptions_by_item[name].append(slot["Text"])
     counts_by_location = {
         location: len(descriptions) for (location, descriptions) in descriptions_by_location.items()
     }
@@ -70,7 +70,7 @@ if __name__ == '__main__':
         candidates = descriptions_by_location[key]
         if len(candidates) == 0:
             raise Exception(
-                f'There are only {counts_by_location[key]} locations in the static randomizer ' +
+                f"There are only {counts_by_location[key]} locations in the static randomizer " +
                 f'matching "{match[1]}: {match[2]}", but there are more in Archipelago.'
             )
 
@@ -85,9 +85,9 @@ if __name__ == '__main__':
     table += "</table>\n"
 
     with open(
-        os.path.join(os.path.dirname(__file__), 'docs/locations_en.md'),
-        'r+',
-        encoding='utf-8'
+        os.path.join(os.path.dirname(__file__), "docs/locations_en.md"),
+        "r+",
+        encoding="utf-8"
     ) as f:
         original = f.read()
         start_flag = "<!-- begin location table -->\n"

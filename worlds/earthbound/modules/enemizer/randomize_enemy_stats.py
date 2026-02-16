@@ -1,5 +1,7 @@
-from .enemy_attributes import excluded_enemies
 from typing import TYPE_CHECKING
+
+from .enemy_attributes import excluded_enemies
+
 if TYPE_CHECKING:
     from ... import EarthBoundWorld
     from ...Rom import LocalRom

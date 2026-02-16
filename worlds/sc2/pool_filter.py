@@ -1,9 +1,10 @@
 import logging
-from typing import Callable, Dict, List, Set, Tuple, TYPE_CHECKING, Iterable
+from typing import TYPE_CHECKING, Callable, Dict, Iterable, List, Set, Tuple
 
-from BaseClasses import Location, ItemClassification
-from .item import StarcraftItem, ItemFilterFlags, item_names, item_parents, item_groups
-from .item.item_tables import item_table, TerranItemType, ZergItemType, spear_of_adun_calldowns
+from BaseClasses import ItemClassification, Location
+
+from .item import ItemFilterFlags, StarcraftItem, item_groups, item_names, item_parents
+from .item.item_tables import TerranItemType, ZergItemType, item_table, spear_of_adun_calldowns
 from .options import RequiredTactics
 
 if TYPE_CHECKING:
@@ -105,10 +106,10 @@ def copy_item(item: StarcraftItem) -> StarcraftItem:
 
 
 class ValidInventory:
-    def __init__(self, world: 'SC2World', item_pool: List[StarcraftItem]) -> None:
+    def __init__(self, world: "SC2World", item_pool: List[StarcraftItem]) -> None:
         self.multiworld = world.multiworld
         self.player = world.player
-        self.world: 'SC2World' = world
+        self.world: "SC2World" = world
         # Track all Progression items and those with complex rules for filtering
         self.logical_inventory: Dict[str, int] = {}
         for item in item_pool:
@@ -182,7 +183,7 @@ class ValidInventory:
                     del self.logical_inventory[item.name]
             item.filter_flags |= remove_flag
             return ""
-        
+
         def remove_child_items(
             parent_item: StarcraftItem,
             remove_flag: ItemFilterFlags = ItemFilterFlags.FilterExcluded,
@@ -250,7 +251,7 @@ class ValidInventory:
             for group_name, group_items in group_to_item.items():
                 self.world.random.shuffle(group_to_item[group])
                 cull_items_over_maximum(group_items, max_upgrades_per_unit)
-        
+
         # Requesting minimum upgrades for items that have already been locked/placed when minimum required
         if min_upgrades_per_unit != -1:
             for group_name, group_items in group_to_item.items():
@@ -349,7 +350,7 @@ class ValidInventory:
                 ItemFilterFlags.Removed not in item.filter_flags
                 and ((ItemFilterFlags.Unexcludable|ItemFilterFlags.Excluded) & item.filter_flags) != ItemFilterFlags.Excluded
             )
-        
+
         # Actually remove culled items; we won't re-add them
         inventory = [
             item for item in inventory
@@ -373,7 +374,7 @@ class ValidInventory:
                 item for item in cullable_items
                 if not ((ItemFilterFlags.Removed|ItemFilterFlags.Uncullable) & item.filter_flags)
             ]
-        
+
         # Handle too many requested
         if current_inventory_size - start_inventory_size > inventory_size - filler_amount:
             for item in inventory:
@@ -414,7 +415,7 @@ class ValidInventory:
             removable_transport_hooks = [item for item in inventory_transport_hooks if not (ItemFilterFlags.Unexcludable & item.filter_flags)]
             if len(inventory_transport_hooks) > 1 and removable_transport_hooks:
                 inventory.remove(removable_transport_hooks[0])
-        
+
         # Weapon/Armour upgrades
         def exclude_wa(prefix: str) -> List[StarcraftItem]:
             return [
@@ -439,7 +440,7 @@ class ValidInventory:
             inventory = exclude_wa(item_names.PROTOSS_GROUND_UPGRADE_PREFIX)
         if used_item_names.isdisjoint(item_groups.protoss_air_wa):
             inventory = exclude_wa(item_names.PROTOSS_AIR_UPGRADE_PREFIX)
-        
+
         # Part 4: Last-ditch effort to reduce inventory size; upgrades can go in start inventory
         current_inventory_size = len(inventory)
         precollect_items = current_inventory_size - inventory_size - start_inventory_size - filler_amount
@@ -453,7 +454,7 @@ class ValidInventory:
             for item in promotable[:precollect_items]:
                 item.filter_flags |= ItemFilterFlags.StartInventory
                 start_inventory_size += 1
-        
+
         assert current_inventory_size - start_inventory_size <= inventory_size - filler_amount, (
             f"Couldn't reduce inventory to fit. target={inventory_size}, poolsize={current_inventory_size}, "
             f"start_inventory={starcraft_item}, filler_amount={filler_amount}"
@@ -462,7 +463,7 @@ class ValidInventory:
         return inventory
 
 
-def filter_items(world: 'SC2World', location_cache: List[Location], item_pool: List[StarcraftItem]) -> List[StarcraftItem]:
+def filter_items(world: "SC2World", location_cache: List[Location], item_pool: List[StarcraftItem]) -> List[StarcraftItem]:
     """
     Returns a semi-randomly pruned set of items based on number of available locations.
     The returned inventory must be capable of logically accessing every location in the world.

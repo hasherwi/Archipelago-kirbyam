@@ -1,7 +1,7 @@
-from ..bases import SVTestBase
 from ... import HasProgressionPercent, StardewLogic
-from ...options import ToolProgression, SkillProgression, Mods
-from ...strings.skill_names import all_skills, all_vanilla_skills, Skill
+from ...options import Mods, SkillProgression, ToolProgression
+from ...strings.skill_names import Skill, all_skills, all_vanilla_skills
+from ..bases import SVTestBase
 
 
 class TestSkillProgressionVanilla(SVTestBase):

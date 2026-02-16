@@ -165,8 +165,8 @@ def pumpkin_zone_1_normal_exit(state, player):
 def pumpkin_zone_1_midway_bell(state, player):
     return ((has_pipe_down(state, player) and not is_auto_scroll(state, player, "Pumpkin Zone 1"))
             or state.has("Pumpkin Zone 1 Midway Bell", player))
-    
-    
+
+
 def pumpkin_zone_1_coins(state, player, coins):
     auto_scroll = is_auto_scroll(state, player, "Pumpkin Zone 1")
     if auto_scroll:
@@ -354,8 +354,8 @@ def turtle_zone_2_secret_exit(state, player):
 def turtle_zone_2_midway_bell(state, player):
     return ((state.has("Water Physics", player) and not is_auto_scroll(state, player, "Turtle Zone 2"))
             or state.has("Turtle Zone 2 Midway Bell", player))
-    
-    
+
+
 def turtle_zone_2_coins(state, player, coins):
     auto_scroll = is_auto_scroll(state, player, "Turtle Zone 2")
     reachable_coins = 2
@@ -538,8 +538,8 @@ def macro_zone_secret_course_coins(state, player, coins):
 def macro_zone_2_normal_exit(state, player):
     return (has_pipe_down(state, player) or state.has("Macro Zone 2 Midway Bell", player)) and state.has(
         "Water Physics", player) and has_pipe_up(state, player) and not is_auto_scroll(state, player, "Macro Zone 2")
-    
-    
+
+
 def macro_zone_2_midway_bell(state, player):
     return ((has_pipe_down(state, player) and state.has("Water Physics", player))
             or state.has("Macro Zone 2 Midway Bell", player))

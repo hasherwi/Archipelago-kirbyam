@@ -3,9 +3,8 @@ import os
 import pkgutil
 
 import Utils
-
-from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 from settings import get_settings
+from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 
 from .rom_addresses import rom_addresses
 from .sprites import sprite_name_to_id
@@ -98,7 +97,7 @@ def generate_output(self, output_directory: str):
         patch.write_bytes(rom_addresses["Starting_Lives"], 1)
 
     rom_name = bytearray(f'AP{Utils.__version__.replace(".", "")[0:3]}_{self.player}_{self.multiworld.seed:11}\0',
-                         'utf8')[:21]
+                         "utf8")[:21]
     rom_name.extend([0] * (21 - len(rom_name)))
     patch.write_bytes(0x77777, rom_name)
     patch.write_file("tokens.bin", patch.get_token_binary())

@@ -1,6 +1,7 @@
-from worlds.jakanddaxter import JakAndDaxterWorld
-from ..game_id import jak1_name
 from test.bases import WorldTestBase
+from worlds.jakanddaxter import JakAndDaxterWorld
+
+from ..game_id import jak1_name
 
 
 class JakAndDaxterTestBase(WorldTestBase):

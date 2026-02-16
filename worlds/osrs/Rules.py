@@ -2,7 +2,8 @@
     Ensures a target level can be reached with available resources
     """
 from worlds.generic.Rules import CollectionRule, add_rule
-from .Names import RegionNames, ItemNames
+
+from .Names import ItemNames, RegionNames
 
 
 def get_fishing_skill_rule(level, player, options) -> CollectionRule:

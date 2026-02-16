@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Set, Optional, List
+from typing import TYPE_CHECKING, List, Optional, Set
 
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient

@@ -1,5 +1,6 @@
 import io
 import json
+
 import yaml
 
 from . import TestBase
@@ -22,7 +23,7 @@ class TestAPIGenerate(TestBase):
         response = self.client.post(
             "/api/generate",
             data=json.dumps({"weights": options}),
-            content_type='application/json'
+            content_type="application/json"
         )
         json_data = response.get_json()
         self.assertTrue(json_data["text"].startswith("Generation of seed "))
@@ -37,7 +38,7 @@ class TestAPIGenerate(TestBase):
         response = self.client.post(
             "/api/generate",
             data={
-                'file': (io.BytesIO(yaml.dump(options, encoding="utf-8")), "test.yaml")
+                "file": (io.BytesIO(yaml.dump(options, encoding="utf-8")), "test.yaml")
             },
         )
         json_data = response.get_json()

@@ -1,19 +1,37 @@
-from BaseClasses import Item, ItemClassification, Tutorial, Location, MultiWorld
-from .Items import item_table, create_item, relic_groups, act_contracts, create_itempool, get_shop_trap_name, \
-    calculate_yarn_costs, alps_hooks, junk_weights
-from .Regions import create_regions, randomize_act_entrances, chapter_act_info, create_events, get_shuffled_region
-from .Locations import location_table, contract_locations, is_location_valid, get_location_names, TASKSANITY_START_ID, \
-    get_total_locations
-from .Rules import set_rules, has_paintings
-from .Options import AHITOptions, slot_data_options, adjust_options, RandomizeHatOrder, EndGoal, create_option_groups
-from .Types import HatType, ChapterIndex, HatInTimeItem, hat_type_to_item, Difficulty
-from .DeathWishLocations import create_dw_regions, dw_classes, death_wishes
-from .DeathWishRules import set_dw_rules, create_enemy_events, hit_list, bosses
-from worlds.AutoWorld import World, WebWorld, CollectionState
-from worlds.generic.Rules import add_rule
-from typing import List, Dict, TextIO
-from worlds.LauncherComponents import Component, components, icon_paths, launch as launch_component, Type
+from typing import Dict, List, TextIO
+
+from BaseClasses import Item, ItemClassification, Location, MultiWorld, Tutorial
 from Utils import local_path
+from worlds.AutoWorld import CollectionState, WebWorld, World
+from worlds.generic.Rules import add_rule
+from worlds.LauncherComponents import Component, Type, components, icon_paths
+from worlds.LauncherComponents import launch as launch_component
+
+from .DeathWishLocations import create_dw_regions, death_wishes, dw_classes
+from .DeathWishRules import bosses, create_enemy_events, hit_list, set_dw_rules
+from .Items import (
+    act_contracts,
+    alps_hooks,
+    calculate_yarn_costs,
+    create_item,
+    create_itempool,
+    get_shop_trap_name,
+    item_table,
+    junk_weights,
+    relic_groups,
+)
+from .Locations import (
+    TASKSANITY_START_ID,
+    contract_locations,
+    get_location_names,
+    get_total_locations,
+    is_location_valid,
+    location_table,
+)
+from .Options import AHITOptions, EndGoal, RandomizeHatOrder, adjust_options, create_option_groups, slot_data_options
+from .Regions import chapter_act_info, create_events, create_regions, get_shuffled_region, randomize_act_entrances
+from .Rules import has_paintings, set_rules
+from .Types import ChapterIndex, Difficulty, HatInTimeItem, HatType, hat_type_to_item
 
 
 def launch_client(*args: str):
@@ -22,9 +40,9 @@ def launch_client(*args: str):
 
 
 components.append(Component("A Hat in Time Client", "AHITClient", func=launch_client,
-                            component_type=Type.CLIENT, icon='yatta'))
+                            component_type=Type.CLIENT, icon="yatta"))
 
-icon_paths['yatta'] = local_path('data', 'yatta.png')
+icon_paths["yatta"] = local_path("data", "yatta.png")
 
 
 class AWebInTime(WebWorld):

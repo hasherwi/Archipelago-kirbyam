@@ -1,18 +1,13 @@
-from collections import defaultdict
 import math
 import os
+from collections import defaultdict
 from typing import Any, Dict, List, Set
 
-from .ProgressiveDistricts import get_flat_progressive_districts
+from BaseClasses import Item, ItemClassification, MultiWorld, Tutorial
+from worlds.AutoWorld import WebWorld, World
 from worlds.generic.Rules import forbid_item
+from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess  # type: ignore
 
-
-from .Data import (
-    get_boosts_data,
-    get_era_required_items_data,
-)
-
-from .Rules import create_boost_rules
 from .Container import (
     CivVIContainer,
     generate_goody_hut_sql,
@@ -20,16 +15,20 @@ from .Container import (
     generate_setup_file,
     generate_update_boosts_sql,
 )
+from .Data import (
+    get_boosts_data,
+    get_era_required_items_data,
+)
 from .Enum import CivVICheckType, CivVIHintClassification
 from .Items import (
     BOOSTSANITY_PROGRESSION_ITEMS,
     FILLER_DISTRIBUTION,
     CivVIEvent,
+    CivVIItem,
     CivVIItemData,
     FillerItemRarity,
     format_item_name,
     generate_item_table,
-    CivVIItem,
     get_item_by_civ_name,
     get_random_filler_by_rarity,
 )
@@ -41,10 +40,9 @@ from .Locations import (
     generate_flat_location_table,
 )
 from .Options import CivVIOptions
+from .ProgressiveDistricts import get_flat_progressive_districts
 from .Regions import create_regions
-from BaseClasses import Item, ItemClassification, MultiWorld, Tutorial
-from worlds.AutoWorld import World, WebWorld
-from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess  # type: ignore
+from .Rules import create_boost_rules
 
 
 def run_client(*args: Any):

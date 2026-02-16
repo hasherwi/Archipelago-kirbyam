@@ -1,8 +1,8 @@
 from typing import Dict, NamedTuple, Optional
 
 from BaseClasses import Location
-from .Names import LocationName, RegionName
 
+from .Names import LocationName, RegionName
 
 celeste_64_base_id: int = 0xCA0000
 

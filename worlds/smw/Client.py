@@ -4,8 +4,9 @@ from typing import Any
 
 from NetUtils import ClientStatus, NetworkItem, color
 from worlds.AutoSNIClient import SNIClient
+
+from .Items import trap_name_to_value, trap_value_to_name
 from .Names.TextBox import generate_received_text, generate_received_trap_link_text
-from .Items import trap_value_to_name, trap_name_to_value
 
 snes_logger = logging.getLogger("SNES")
 
@@ -410,8 +411,9 @@ class SMWSNIClient(SNIClient):
                 await self.send_trap_link(ctx, trap_value_to_name[next_trap.item])
 
             # Handle Literature Trap
-            from .Names.LiteratureTrap import lit_trap_text_list
             import random
+
+            from .Names.LiteratureTrap import lit_trap_text_list
             rand_trap = random.choice(lit_trap_text_list)
 
             for message in rand_trap:
@@ -471,7 +473,7 @@ class SMWSNIClient(SNIClient):
 
     async def game_watcher(self, ctx):
         from SNIClient import snes_buffered_write, snes_flush_writes, snes_read
-        
+
         boss_state = await snes_read(ctx, SMW_BOSS_STATE_ADDR, 0x1)
         game_state = await snes_read(ctx, SMW_GAME_STATE_ADDR, 0x1)
         mario_state = await snes_read(ctx, SMW_MARIO_STATE_ADDR, 0x1)
@@ -546,9 +548,10 @@ class SMWSNIClient(SNIClient):
         blocksanity_flags = bytearray(await snes_read(ctx, SMW_BLOCKSANITY_FLAGS, 0xC))
         blocksanity_active = await snes_read(ctx, SMW_BLOCKSANITY_ACTIVE_ADDR, 0x1)
         level_clear_flags = bytearray(await snes_read(ctx, SMW_LEVEL_CLEAR_FLAGS, 0x60))
-        from .Rom import item_rom_data, ability_rom_data, trap_rom_data, icon_rom_data
-        from .Levels import location_id_to_level_id, level_info_dict, level_blocks_data
         from worlds import AutoWorldRegister
+
+        from .Levels import level_blocks_data, level_info_dict, location_id_to_level_id
+        from .Rom import ability_rom_data, icon_rom_data, item_rom_data, trap_rom_data
         for loc_name, level_data in location_id_to_level_id.items():
             loc_id = AutoWorldRegister.world_types[ctx.game].location_name_to_id[loc_name]
             if loc_id not in ctx.locations_checked:
@@ -647,8 +650,8 @@ class SMWSNIClient(SNIClient):
             ctx.locations_checked.add(new_check_id)
             location = ctx.location_names.lookup_in_game(new_check_id)
             snes_logger.info(
-                f'New Check: {location} ({len(ctx.locations_checked)}/{len(ctx.missing_locations) + len(ctx.checked_locations)})')
-            await ctx.send_msgs([{"cmd": 'LocationChecks', "locations": [new_check_id]}])
+                f"New Check: {location} ({len(ctx.locations_checked)}/{len(ctx.missing_locations) + len(ctx.checked_locations)})")
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": [new_check_id]}])
 
         # Send Current Room for Tracker
         current_sublevel_data = await snes_read(ctx, SMW_CURRENT_SUBLEVEL_ADDR, 2)
@@ -682,7 +685,7 @@ class SMWSNIClient(SNIClient):
             # Don't receive items or collect locations outside of in-level mode
             ctx.current_sublevel_value = 0
             return
-        
+
         if boss_state[0] in SMW_BOSS_STATES:
             # Don't receive items or collect locations inside boss battles
             return
@@ -697,9 +700,9 @@ class SMWSNIClient(SNIClient):
             item = ctx.items_received[recv_index]
             recv_index += 1
             sending_game = ctx.slot_info[item.player].game
-            logging.info('Received %s from %s (%s) (%d/%d in list)' % (
-                color(ctx.item_names.lookup_in_game(item.item), 'red', 'bold'),
-                color(ctx.player_names[item.player], 'yellow'),
+            logging.info("Received %s from %s (%s) (%d/%d in list)" % (
+                color(ctx.item_names.lookup_in_game(item.item), "red", "bold"),
+                color(ctx.player_names[item.player], "yellow"),
                 ctx.location_names.lookup_in_slot(item.location, item.player), recv_index, len(ctx.items_received)))
 
             if self.should_show_message(ctx, item):
@@ -862,7 +865,7 @@ class SMWSNIClient(SNIClient):
 
                     # Handle map indicators
                     flag = 1 if level_data[1] == 0 else 2
-                    level_clear_flags[level_data[0]] |= flag 
+                    level_clear_flags[level_data[0]] |= flag
 
                     event_id = event_data[level_data[0]]
                     event_id_value = event_id + level_data[1]

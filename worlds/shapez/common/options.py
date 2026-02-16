@@ -1,5 +1,5 @@
 import random
-from typing import cast, Any
+from typing import Any, cast
 
 from Options import FreeText, NumericOption
 

@@ -1,17 +1,17 @@
 from typing import Dict
 
-from ..mod_data import ModNames
-from ...logic.base_logic import BaseLogicMixin, BaseLogic
+from ...logic.base_logic import BaseLogic, BaseLogicMixin
 from ...stardew_rule import StardewRule
 from ...strings.artisan_good_names import ModArtisanGood
 from ...strings.craftable_names import ModCraftable
 from ...strings.ingredient_names import Ingredient
 from ...strings.material_names import Material
-from ...strings.metal_names import all_fossils, all_artifacts, Ore, ModFossil
+from ...strings.metal_names import ModFossil, Ore, all_artifacts, all_fossils
 from ...strings.monster_drop_names import Loot
 from ...strings.performance_names import Performance
-from ...strings.region_names import SVERegion, DeepWoodsRegion, BoardingHouseRegion
+from ...strings.region_names import BoardingHouseRegion, DeepWoodsRegion, SVERegion
 from ...strings.tool_names import Tool, ToolMaterial
+from ..mod_data import ModNames
 
 display_types = [ModCraftable.wooden_display, ModCraftable.hardwood_display]
 display_items = all_artifacts + all_fossils

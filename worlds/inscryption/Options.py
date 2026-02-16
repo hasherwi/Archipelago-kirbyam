@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import Toggle, Choice, DeathLinkMixin, StartInventoryPool, PerGameCommonOptions, DefaultOnToggle
+from Options import Choice, DeathLinkMixin, DefaultOnToggle, PerGameCommonOptions, StartInventoryPool, Toggle
 
 
 class Act1DeathLinkBehaviour(Choice):

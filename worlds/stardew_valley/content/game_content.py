@@ -1,15 +1,23 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Iterable, Set, Any, Mapping, Type, Tuple, Union
+from typing import Any, Iterable, Mapping, Set, Tuple, Type, Union
 
-from .feature import booksanity, cropsanity, fishsanity, friendsanity, skill_progression, building_progression, tool_progression
 from ..data.animal import Animal
 from ..data.building import Building
 from ..data.fish_data import FishItem
-from ..data.game_item import GameItem, Source, ItemTag
+from ..data.game_item import GameItem, ItemTag, Source
 from ..data.skill import Skill
 from ..data.villagers_data import Villager
+from .feature import (
+    booksanity,
+    building_progression,
+    cropsanity,
+    fishsanity,
+    friendsanity,
+    skill_progression,
+    tool_progression,
+)
 
 
 @dataclass(frozen=True)

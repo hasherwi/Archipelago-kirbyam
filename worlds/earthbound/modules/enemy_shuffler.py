@@ -1,6 +1,8 @@
 import struct
-from ..game_data.text_data import text_encoder
 from typing import TYPE_CHECKING
+
+from ..game_data.text_data import text_encoder
+
 if TYPE_CHECKING:
     from .. import EarthBoundWorld
     from ..Rom import LocalRom

@@ -1,8 +1,8 @@
 from typing import Dict, List
 
 from .ItemData import (
-    CivVIBoostData,
     CivicPrereqData,
+    CivVIBoostData,
     ExistingItemData,
     GoodyHutRewardData,
     NewItemData,

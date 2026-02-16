@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import CollectionState, Entrance, EntranceType, Item, ItemClassification, Location, Region
 from entrance_rando import ERPlacementState
+
 from .regions import LOCATIONS, MEGA_SHARDS
 from .shop import FIGURINES, SHOP_ITEMS
 

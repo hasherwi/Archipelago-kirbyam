@@ -1,10 +1,28 @@
 from dataclasses import dataclass
 
 from BaseClasses import MultiWorld
-from Options import Choice, Range, DeathLink, DefaultOnToggle, FreeText, ItemsAccessibility, PerGameCommonOptions, \
-    PlandoBosses, PlandoConnections, PlandoTexts, Removed, StartInventoryPool, Toggle
-from .EntranceShuffle import default_connections, default_dungeon_connections, \
-    inverted_default_connections, inverted_default_dungeon_connections
+from Options import (
+    Choice,
+    DeathLink,
+    DefaultOnToggle,
+    FreeText,
+    ItemsAccessibility,
+    PerGameCommonOptions,
+    PlandoBosses,
+    PlandoConnections,
+    PlandoTexts,
+    Range,
+    Removed,
+    StartInventoryPool,
+    Toggle,
+)
+
+from .EntranceShuffle import (
+    default_connections,
+    default_dungeon_connections,
+    inverted_default_connections,
+    inverted_default_dungeon_connections,
+)
 from .Text import TextTable
 
 
@@ -156,10 +174,10 @@ class OpenPyramid(Choice):
 
     def to_bool(self, world: MultiWorld, player: int) -> bool:
         if self.value == self.option_goal:
-            return world.worlds[player].options.goal.current_key in {'crystals', 'ganon_triforce_hunt', 'local_ganon_triforce_hunt', 'ganon_pedestal'}
+            return world.worlds[player].options.goal.current_key in {"crystals", "ganon_triforce_hunt", "local_ganon_triforce_hunt", "ganon_pedestal"}
         elif self.value == self.option_auto:
-            return world.worlds[player].options.goal.current_key in {'crystals', 'ganon_triforce_hunt', 'local_ganon_triforce_hunt', 'ganon_pedestal'} \
-            and (world.worlds[player].options.entrance_shuffle.current_key in {'vanilla', 'dungeons_simple', 'dungeons_full', 'dungeons_crossed'} or not
+            return world.worlds[player].options.goal.current_key in {"crystals", "ganon_triforce_hunt", "local_ganon_triforce_hunt", "ganon_pedestal"} \
+            and (world.worlds[player].options.entrance_shuffle.current_key in {"vanilla", "dungeons_simple", "dungeons_full", "dungeons_crossed"} or not
                  world.shuffle_ganon)
         elif self.value == self.option_open:
             return True
@@ -487,7 +505,7 @@ class LTTPBosses(PlandoBosses):
     @classmethod
     def can_place_boss(cls, boss: str, location: str) -> bool:
         from .Bosses import can_place_boss
-        level = ''
+        level = ""
         words = location.split(" ")
         if words[-1] in ("top", "middle", "bottom"):
             level = words[-1]

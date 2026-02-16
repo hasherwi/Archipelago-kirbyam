@@ -1,33 +1,37 @@
 import hashlib
 import os
-import Utils
-import typing
 import struct
+import typing
+from logging import warning
+from typing import TYPE_CHECKING, Sequence
+
 import settings
-from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes, APPatchExtension
+import Utils
+from BaseClasses import ItemClassification
+from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
+
 from .game_data import local_data
 from .game_data.battle_bg_data import battle_bg_bpp
-from .modules.psi_shuffle import write_psi
+from .game_data.static_location_data import location_groups
 from .game_data.text_data import barf_text, text_encoder
-from .modules.flavor_data import flavor_data, vanilla_flavor_pointers
-from .modules.hint_data import parse_hint_data
-from .modules.enemy_data import scale_enemies
 from .modules.area_scaling import calculate_scaling
 from .modules.boss_shuffle import write_bosses
-from .modules.equipamizer import randomize_armor, randomize_weapons
-from .modules.music_rando import music_randomizer
-from .modules.palette_shuffle import randomize_psi_palettes, map_palette_shuffle
-from .modules.shopsanity import write_shop_checks
-from .modules.enemy_shuffler import apply_enemy_shuffle
 from .modules.dungeon_er import write_dungeon_entrances
+from .modules.enemizer.randomize_enemy_attacks import randomize_enemy_attacks
+
 # from .modules.foodamizer import randomize_food
 from .modules.enemizer.randomize_enemy_attributes import randomize_enemy_attributes
 from .modules.enemizer.randomize_enemy_stats import randomize_enemy_stats
-from .modules.enemizer.randomize_enemy_attacks import randomize_enemy_attacks
-from .game_data.static_location_data import location_groups
-from BaseClasses import ItemClassification
-from typing import TYPE_CHECKING, Sequence
-from logging import warning
+from .modules.enemy_data import scale_enemies
+from .modules.enemy_shuffler import apply_enemy_shuffle
+from .modules.equipamizer import randomize_armor, randomize_weapons
+from .modules.flavor_data import flavor_data, vanilla_flavor_pointers
+from .modules.hint_data import parse_hint_data
+from .modules.music_rando import music_randomizer
+from .modules.palette_shuffle import map_palette_shuffle, randomize_psi_palettes
+from .modules.psi_shuffle import write_psi
+from .modules.shopsanity import write_shop_checks
+
 # from .local_data import local_locations
 
 if TYPE_CHECKING:
@@ -134,7 +138,7 @@ def patch_rom(world: "EarthBoundWorld", rom: LocalRom, player: int) -> None:
     }
     world.start_items = []
     world.handled_locations = []
-    
+
     for item in world.multiworld.precollected_items[world.player]:
         world.start_items.append(item.name)
 
@@ -144,7 +148,7 @@ def patch_rom(world: "EarthBoundWorld", rom: LocalRom, player: int) -> None:
         rom.write_bytes(0x0F9629, bytearray([0x69, 0x00]))  # Block Northern Onett
     else:
         rom.write_bytes(0x00B66A, bytearray([0x06]))  # Fix starting direction
-    
+
     rom.write_bytes(0x01FE9B, bytearray(starting_area_coordinates[world.start_location][0:2]))
     rom.write_bytes(0x01FE9E, bytearray(starting_area_coordinates[world.start_location][2:4]))  # Start position
 
@@ -215,7 +219,7 @@ def patch_rom(world: "EarthBoundWorld", rom: LocalRom, player: int) -> None:
 
     rom.write_bytes(0x04FD70, bytearray([world.options.sanctuaries_required.value]))
     shop_checks = []
-    
+
     for location in world.multiworld.get_locations(player):
         if location.address:
             receiver_name = world.multiworld.get_player_name(location.item.player)
@@ -343,7 +347,7 @@ def patch_rom(world: "EarthBoundWorld", rom: LocalRom, player: int) -> None:
                     rom.write_bytes(0x2EC618, bytearray([(special_name_table[item][0] + 1)]))
                     rom.write_bytes(0x2EC61A, bytearray([0xA5, 0xAA, 0xEE]))
                     rom.write_bytes(0x2EC613, bytearray([0x03, 0x01]))
-                
+
                 if item in money_item_table and location.item.player == location.player:
                     rom.write_bytes(0x15F764, bytearray([0x1D, 0x08]))
                     rom.write_bytes(0x15F766, struct.pack("H", money_item_table[item]))
@@ -355,7 +359,7 @@ def patch_rom(world: "EarthBoundWorld", rom: LocalRom, player: int) -> None:
 
             if name not in world.handled_locations:
                 warning(f"{name} not placed in {world.multiworld.get_player_name(world.player)}'s EarthBound world. Something went wrong here.")
-            
+
             if name in item_space_checks:
                 if item not in item_id_table or location.item.player != location.player:
                     if len(item_space_checks[name]) == 4:
@@ -399,7 +403,7 @@ def patch_rom(world: "EarthBoundWorld", rom: LocalRom, player: int) -> None:
 
     rom.write_bytes(0x2EA05C, bytearray([item_id_table[world.slime_pile_wanted_item]]))
     rom.write_bytes(0x2F61F6, bytearray([item_id_table[world.slime_pile_wanted_item]]))
-    
+
     hintable_locations = [
         location for location in world.multiworld.get_locations()
         if location.player == world.player or location.item.player == world.player
@@ -411,7 +415,7 @@ def patch_rom(world: "EarthBoundWorld", rom: LocalRom, player: int) -> None:
             for location in hintable_locations:
                 if location.name == world.hinted_locations[index] and location.player == world.player:
                     parse_hint_data(world, location, rom, hint, index)
-                    
+
         elif hint == "region_progression_check":
             world.progression_count = 0
             for location in hintable_locations:
@@ -443,11 +447,11 @@ def patch_rom(world: "EarthBoundWorld", rom: LocalRom, player: int) -> None:
         else:
             location = "null"
             parse_hint_data(world, location, rom, hint, index)
-    
+
     for location in hintable_locations:
         if location.item.name == "Paula":
             world.paula_region = location.parent_region
-        
+
         if location.item.name == "Jeff":
             world.jeff_region = location.parent_region
 
@@ -459,8 +463,8 @@ def patch_rom(world: "EarthBoundWorld", rom: LocalRom, player: int) -> None:
         rom.write_bytes(0x07BA2C, bytearray([0x02]))
         rom.write_bytes(0x07BAC7, bytearray([0x02]))
         rom.write_bytes(0x07BB38, bytearray([0x02]))
-        rom.write_bytes(0x07BBF3, bytearray([0x02])) 
-        rom.write_bytes(0x07BC56, bytearray([0x02])) 
+        rom.write_bytes(0x07BBF3, bytearray([0x02]))
+        rom.write_bytes(0x07BC56, bytearray([0x02]))
         rom.write_bytes(0x07B9A1, bytearray([0x1f, 0xeb, 0xff, 0x02, 0x1f, 0x1f, 0xca, 0x01, 0x06, 0x1f, 0x1f, 0x72, 0x01, 0x06, 0x02]))  # Clean up overworld stuff
 
     if world.options.easy_deaths:
@@ -495,7 +499,7 @@ def patch_rom(world: "EarthBoundWorld", rom: LocalRom, player: int) -> None:
         rom.write_bytes(0x2EC164, bytearray([0xE8, 0xF0, 0xEE]))
         rom.write_bytes(0x02EC1E2, bytearray([0x40, 0xC1, 0xEE]))
         rom.write_bytes(0x02EC1E2, bytearray([0x40, 0xC1, 0xEE]))
-    
+
     flavor_address = 0x3FAF10
     for i in range(4):
         rom.copy_bytes(world.flavor_pointer[i], 2, 0x34B110 + (2 * i))
@@ -540,7 +544,7 @@ def patch_rom(world: "EarthBoundWorld", rom: LocalRom, player: int) -> None:
         starting_inv_amounts["Poo"] = 0x0B
     rom.write_bytes(0x16FB66, struct.pack("H", starting_inventory_pointers[world.starting_character]))
     rom.write_bytes(0x16FB68, struct.pack("H", starting_inv_amounts[world.starting_character]))
-    
+
     for item in world.multiworld.precollected_items[player]:
         if item.name == world.starting_character:  # Write the starting character
             rom.write_bytes(0x00B672, bytearray([world.options.starting_character.value + 1]))
@@ -647,7 +651,7 @@ def patch_rom(world: "EarthBoundWorld", rom: LocalRom, player: int) -> None:
 
     if world.options.weaponizer:
         randomize_weapons(world, rom)
-    
+
     music_randomizer(world, rom)
     if world.options.map_palette_shuffle:
         map_palette_shuffle(world, rom)
@@ -679,7 +683,7 @@ def patch_rom(world: "EarthBoundWorld", rom: LocalRom, player: int) -> None:
     world.badge_name = text_encoder(world.badge_name, 23)
     world.badge_name.extend([0x00])
     world.starting_money = min(world.starting_money, 99999)
-    world.starting_money = struct.pack('<I', world.starting_money)
+    world.starting_money = struct.pack("<I", world.starting_money)
 
     rom.write_bytes(0x17FCD0, world.starting_money)
     rom.write_bytes(0x17FCE0, world.prayer_player)
@@ -726,7 +730,7 @@ class EBProcPatch(APProcedurePatch, APTokenMixin):
 
     def write_bytes(self, offset: int, value: typing.Iterable[int]) -> None:
         self.write_token(APTokenTypes.WRITE, offset, bytes(value))
-    
+
     def copy_bytes(self, source: int, amount: int, destination: int) -> None:
         self.write_token(APTokenTypes.COPY, destination, (amount, source))
 
@@ -738,7 +742,7 @@ class EBPatchExtensions(APPatchExtension):
     def repoint_vanilla_tables(caller: APProcedurePatch, rom: bytes) -> bytes:
         rom = LocalRom(rom)
         version_check = rom.read_bytes(0x3FF0A0, 16)
-        version_check = version_check.split(b'\x00', 1)[0]
+        version_check = version_check.split(b"\x00", 1)[0]
         version_check_str = version_check.decode("ascii")
         client_version = world_version
         if client_version != version_check_str and version_check_str != "":
@@ -751,17 +755,17 @@ class EBPatchExtensions(APPatchExtension):
         for action_number in range(0x013F):
             current_action = rom.read_bytes(0x157B68 + (12 * action_number), 12)
             rom.write_bytes(0x3FAFB0 + (12 * action_number), current_action)
-        
+
         for psi_number in range(0x35):
             current_action = rom.read_bytes(0x158A50 + (15 * psi_number), 15)
             rom.write_bytes(0x350000 + (15 * psi_number), current_action)
-        
+
         psi_text_table = rom.read_bytes(0x158D7A, (25 * 17))
         rom.write_bytes(0x3B0500, psi_text_table)
 
         psi_anim_config = rom.read_bytes(0x0CF04D, 0x0198)
         rom.write_bytes(0x360000, psi_anim_config)
-        
+
         psi_anim_pointers = rom.read_bytes(0x0CF58F, 0x088)
         rom.write_bytes(0x360400, psi_anim_pointers)
 
@@ -830,8 +834,8 @@ def get_base_rom_bytes(file_name: str = "") -> bytes:
         basemd5 = hashlib.md5()
         basemd5.update(base_rom_bytes)
         if basemd5.hexdigest() not in valid_hashes:
-            raise Exception('Supplied Base Rom does not match known MD5 for US(1.0) release. '
-                            'Get the correct game and version, then dump it')
+            raise Exception("Supplied Base Rom does not match known MD5 for US(1.0) release. "
+                            "Get the correct game and version, then dump it")
         get_base_rom_bytes.base_rom_bytes = base_rom_bytes
     return base_rom_bytes
 

@@ -10,18 +10,18 @@ from flask_compress import Compress
 from pony.flask import Pony
 from werkzeug.routing import BaseConverter
 
-from Utils import title_sorted, get_file_safe_name
+from Utils import get_file_safe_name, title_sorted
 
-UPLOAD_FOLDER = os.path.relpath('uploads')
-LOGS_FOLDER = os.path.relpath('logs')
+UPLOAD_FOLDER = os.path.relpath("uploads")
+LOGS_FOLDER = os.path.relpath("logs")
 os.makedirs(LOGS_FOLDER, exist_ok=True)
 
 app = Flask(__name__)
 Pony(app)
 
-app.jinja_env.filters['any'] = any
-app.jinja_env.filters['all'] = all
-app.jinja_env.filters['get_file_safe_name'] = get_file_safe_name
+app.jinja_env.filters["any"] = any
+app.jinja_env.filters["all"] = all
+app.jinja_env.filters["get_file_safe_name"] = get_file_safe_name
 
 # overwrites of flask default config
 app.config["DEBUG"] = False
@@ -53,9 +53,9 @@ app.config["GENERATOR_MEMORY_LIMIT"] = 4294967296
 app.config["WAITRESS_THREADS"] = 10
 # a default that just works. archipelago.gg runs on mariadb
 app.config["PONY"] = {
-    'provider': 'sqlite',
-    'filename': os.path.abspath('ap.db3'),
-    'create_db': True
+    "provider": "sqlite",
+    "filename": os.path.abspath("ap.db3"),
+    "create_db": True
 }
 app.config["MAX_ROLL"] = 20
 app.config["CACHE_TYPE"] = "SimpleCache"
@@ -67,11 +67,11 @@ Compress(app)
 
 
 def to_python(value: str) -> uuid.UUID:
-    return uuid.UUID(bytes=base64.urlsafe_b64decode(value + '=='))
+    return uuid.UUID(bytes=base64.urlsafe_b64decode(value + "=="))
 
 
 def to_url(value: uuid.UUID) -> str:
-    return base64.urlsafe_b64encode(value.bytes).rstrip(b'=').decode('ascii')
+    return base64.urlsafe_b64encode(value.bytes).rstrip(b"=").decode("ascii")
 
 
 class B64UUIDConverter(BaseConverter):
@@ -96,9 +96,10 @@ def register() -> None:
     import importlib
 
     from werkzeug.utils import find_modules
+
     # has automatic patch integration
     import worlds.Files
-    app.jinja_env.filters['is_applayercontainer'] = worlds.Files.is_ap_player_container
+    app.jinja_env.filters["is_applayercontainer"] = worlds.Files.is_ap_player_container
 
     from WebHostLib.customserver import run_server_process
 

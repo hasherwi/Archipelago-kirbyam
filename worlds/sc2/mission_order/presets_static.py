@@ -1,8 +1,8 @@
-from typing import Dict, Any, Callable, List, Tuple
 import copy
+from typing import Any, Callable, Dict, List, Tuple
 
 from ..mission_groups import MissionGroupNames
-from ..mission_tables import SC2Mission, SC2Campaign
+from ..mission_tables import SC2Campaign, SC2Mission
 
 preset_mini_wol_with_prophecy = {
     "global": {
@@ -812,7 +812,7 @@ def _build_static_preset(preset: Dict[str, Any], options: Dict[str, Any]) -> Dic
             f"Preset option \"missions\" received unknown value \"{missions}\".\n"
             "Valid values are: random, vanilla, vanilla_shuffled"
         )
-    
+
     # Key rule selection
     keys = options.pop("keys", "none")
     if keys == "layouts":
@@ -872,7 +872,7 @@ def _build_static_preset(preset: Dict[str, Any], options: Dict[str, Any]) -> Dic
             f"Preset option \"keys\" received unknown value \"{keys}\".\n"
             "Valid values are: none, missions, layouts, progressive_missions, progressive_layouts, progressive_per_layout"
         )
-    
+
     return preset
 
 def _remove_key_rules(entry_rules: List[Dict[str, Any]]) -> List[Dict[str, Any]]:

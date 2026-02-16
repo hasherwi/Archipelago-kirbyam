@@ -3,8 +3,9 @@ from typing import Any, Iterable
 
 from BaseClasses import PlandoOptions
 from Options import VerifyKeys
+
 from ... import StardewValleyWorld
-from ...options import StardewValleyOptions, StardewValleyOption
+from ...options import StardewValleyOption, StardewValleyOptions
 
 
 def parse_class_option_keys(test_options: dict[str | type[StardewValleyOption], Any] | None) -> dict:

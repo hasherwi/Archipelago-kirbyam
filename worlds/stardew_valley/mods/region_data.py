@@ -1,10 +1,38 @@
-from .mod_data import ModNames
 from ..content.mods.sve import SVE_GINGER_ISLAND_PACK
-from ..regions.model import RegionData, ConnectionData, MergeFlag, RandomizationFlag, ModRegionsData
-from ..strings.entrance_names import Entrance, DeepWoodsEntrance, EugeneEntrance, LaceyEntrance, BoardingHouseEntrance, \
-    JasperEntrance, AlecEntrance, YobaEntrance, JunaEntrance, MagicEntrance, AyeishaEntrance, RileyEntrance, SVEEntrance, AlectoEntrance
-from ..strings.region_names import Region, DeepWoodsRegion, EugeneRegion, JasperRegion, BoardingHouseRegion, \
-    AlecRegion, YobaRegion, JunaRegion, MagicRegion, AyeishaRegion, RileyRegion, SVERegion, AlectoRegion, LaceyRegion
+from ..regions.model import ConnectionData, MergeFlag, ModRegionsData, RandomizationFlag, RegionData
+from ..strings.entrance_names import (
+    AlecEntrance,
+    AlectoEntrance,
+    AyeishaEntrance,
+    BoardingHouseEntrance,
+    DeepWoodsEntrance,
+    Entrance,
+    EugeneEntrance,
+    JasperEntrance,
+    JunaEntrance,
+    LaceyEntrance,
+    MagicEntrance,
+    RileyEntrance,
+    SVEEntrance,
+    YobaEntrance,
+)
+from ..strings.region_names import (
+    AlecRegion,
+    AlectoRegion,
+    AyeishaRegion,
+    BoardingHouseRegion,
+    DeepWoodsRegion,
+    EugeneRegion,
+    JasperRegion,
+    JunaRegion,
+    LaceyRegion,
+    MagicRegion,
+    Region,
+    RileyRegion,
+    SVERegion,
+    YobaRegion,
+)
+from .mod_data import ModNames
 
 deep_woods_regions = [
     RegionData(Region.farm, (DeepWoodsEntrance.use_woods_obelisk,)),

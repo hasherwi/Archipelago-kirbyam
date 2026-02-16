@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from .game_item import Requirement
 from ..strings.tool_names import ToolMaterial
+from .game_item import Requirement
 
 
 @dataclass(frozen=True)

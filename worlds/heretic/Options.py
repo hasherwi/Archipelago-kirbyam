@@ -1,5 +1,6 @@
-from Options import PerGameCommonOptions, Range, Choice, Toggle, DeathLink, DefaultOnToggle, StartInventoryPool
 from dataclasses import dataclass
+
+from Options import Choice, DeathLink, DefaultOnToggle, PerGameCommonOptions, Range, StartInventoryPool, Toggle
 
 
 class Goal(Choice):
@@ -88,7 +89,7 @@ class AllowDeathLogic(Toggle):
     Get killed in the current map. The map will reset, you can now attempt the puzzle again."""
     display_name = "Allow Death Logic"
 
-    
+
 class Pro(Toggle):
     """Include difficult tricks into rules. Mostly employed by speed runners.
     i.e.: Leaps across to a locked area, trigger a switch behind a window at the right angle, etc."""
@@ -105,7 +106,7 @@ class ResetLevelOnDeath(DefaultOnToggle):
     Turning this setting off is considered easy mode. Good for new players that don't know the levels well."""
     display_name = "Reset Level on Death"
 
-    
+
 class CheckSanity(Toggle):
     """Include redundant checks. This increase total check count for the game.
     i.e.: In a room, there might be 3 checks close to each other. By default, two of them will be remove.

@@ -1,4 +1,5 @@
-from typing import Dict, Set, NamedTuple, Optional
+from typing import Dict, NamedTuple, Optional, Set
+
 from BaseClasses import ItemClassification
 
 
@@ -123,7 +124,7 @@ item_table: Dict[str, ItemData] = {
     "Rock Candy": ItemData("Food", 0xEB0065, ItemClassification.useful, 0),
     "Croissant": ItemData("Food", 0xEB0066, ItemClassification.filler, 0),
     "Bread Roll": ItemData("Food", 0xEB0067, ItemClassification.filler, 0),
-    
+
     "Pak of Bubble Gum": ItemData("Key Items", 0xEB0068, ItemClassification.progression),
     "Jar of Fly Honey": ItemData("Key Items", 0xEB0069, ItemClassification.progression),
 
@@ -257,7 +258,7 @@ item_table: Dict[str, ItemData] = {
     "Repel Sandwich": ItemData("Food", 0xEB00E0, ItemClassification.useful, 0),
     "Repel Superwich": ItemData("Food", 0xEB00E1, ItemClassification.useful, 0),
     "Lucky Sandwich": ItemData("Food", 0xEB00E2, ItemClassification.useful, 0),
-    "Progressive Bat": ItemData("Progressive Equipment", 0xEB00E3, ItemClassification.useful, 0), 
+    "Progressive Bat": ItemData("Progressive Equipment", 0xEB00E3, ItemClassification.useful, 0),
     "Progressive Fry Pan": ItemData("Progressive Equipment", 0xEB00E4, ItemClassification.useful, 0),
     "Progressive Gun": ItemData("Progressive Equipment", 0xEB00E5, ItemClassification.useful, 0),
     "Progressive Bracelet": ItemData("Progressive Equipment", 0xEB00E6, ItemClassification.useful, 0),
@@ -315,10 +316,10 @@ item_table: Dict[str, ItemData] = {
     "$100": ItemData("Money", 0xEB0115, ItemClassification.filler, 0),
     "$1000": ItemData("Money", 0xEB0116, ItemClassification.useful, 0),
 
-    'Threed Tunnels Clear': ItemData('Events', None, ItemClassification.progression, 0),
-    'Submarine to Deep Darkness': ItemData('Events', None, ItemClassification.progression, 0),
-    'Melody': ItemData('Events', None, ItemClassification.progression, 0),
-    'Saved Earth': ItemData('Events', None, ItemClassification.progression, 0),
+    "Threed Tunnels Clear": ItemData("Events", None, ItemClassification.progression, 0),
+    "Submarine to Deep Darkness": ItemData("Events", None, ItemClassification.progression, 0),
+    "Melody": ItemData("Events", None, ItemClassification.progression, 0),
+    "Saved Earth": ItemData("Events", None, ItemClassification.progression, 0),
     "Power of the Earth": ItemData("Events", None, ItemClassification.progression, 0),
     "Alternate Goal": ItemData("Events", None, ItemClassification.useful, 0),
     "Valley Bridge Repair": ItemData("Events", None, ItemClassification.progression, 0),

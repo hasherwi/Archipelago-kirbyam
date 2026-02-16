@@ -1,8 +1,9 @@
 from collections.abc import Callable
-from typing import Dict, TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import forbid_item
+
 from . import Constants
 
 if TYPE_CHECKING:

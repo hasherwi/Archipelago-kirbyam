@@ -6,9 +6,8 @@ from typing import Any, ClassVar
 
 import yaml
 
-from BaseClasses import Item
+from BaseClasses import Item, MultiWorld, Region, Tutorial
 from BaseClasses import ItemClassification as IC
-from BaseClasses import MultiWorld, Region, Tutorial
 from Options import Toggle
 from worlds.AutoWorld import WebWorld, World
 from worlds.Files import APPlayerContainer

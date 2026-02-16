@@ -2,7 +2,6 @@ from typing import Any, Sequence
 
 from .widget import Widget
 
-
 class Layout(Widget):
     @property
     def children(self) -> Sequence[Widget]: ...

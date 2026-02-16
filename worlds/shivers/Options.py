@@ -1,9 +1,21 @@
 from dataclasses import dataclass
 
 from Options import (
-    Choice, DefaultOnToggle, ExcludeLocations, LocalItems, NonLocalItems, OptionGroup, PerGameCommonOptions,
-    PriorityLocations, Range, StartHints, StartInventory, StartLocationHints, Toggle,
+    Choice,
+    DefaultOnToggle,
+    ExcludeLocations,
+    LocalItems,
+    NonLocalItems,
+    OptionGroup,
+    PerGameCommonOptions,
+    PriorityLocations,
+    Range,
+    StartHints,
+    StartInventory,
+    StartLocationHints,
+    Toggle,
 )
+
 from . import ItemType, item_table
 from .Constants import location_info
 

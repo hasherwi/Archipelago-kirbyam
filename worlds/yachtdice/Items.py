@@ -70,7 +70,7 @@ item_table = {
 # item groups for better hinting
 item_groups = {
     "Score Multiplier": {
-        "Step Score Multiplier", 
+        "Step Score Multiplier",
         "Fixed Score Multiplier"
     },
     "Categories": {
@@ -108,9 +108,9 @@ item_groups = {
         "Category 4&5 Full House",
     },
     "Points": {
-        "100 Points", 
-        "10 Points", 
-        "1 Point", 
+        "100 Points",
+        "10 Points",
+        "1 Point",
         "Bonus Point"
     },
 }

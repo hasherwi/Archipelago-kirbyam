@@ -5,22 +5,40 @@ import typing
 from typing import ClassVar, Dict, Optional, Tuple
 
 import settings
-from BaseClasses import Item, ItemClassification, MultiWorld, Tutorial, LocationProgressType
+from BaseClasses import Item, ItemClassification, LocationProgressType, MultiWorld, Tutorial
 from Utils import __version__
 from worlds.AutoWorld import WebWorld, World
-from worlds.LauncherComponents import Component, components, SuffixIdentifier
-from .Items import item_table, ItemData, nothing_item_id, event_table, AdventureItem, standard_item_max
-from .Locations import location_table, base_location_id, LocationData, get_random_room_in_regions
-from .Offsets import static_item_data_location, items_ram_start, static_item_element_size, item_position_table, \
-    static_first_dragon_index, connector_port_offset, yorgle_speed_data_location, grundle_speed_data_location, \
-    rhindle_speed_data_location, item_ram_addresses, start_castle_values, start_castle_offset
-from .Options import DragonRandoType, DifficultySwitchA, DifficultySwitchB, AdventureOptions
+from worlds.LauncherComponents import Component, SuffixIdentifier, components
+
+from .Items import AdventureItem, ItemData, event_table, item_table, nothing_item_id, standard_item_max
+from .Locations import LocationData, base_location_id, get_random_room_in_regions, location_table
+from .Offsets import (
+    connector_port_offset,
+    grundle_speed_data_location,
+    item_position_table,
+    item_ram_addresses,
+    items_ram_start,
+    rhindle_speed_data_location,
+    start_castle_offset,
+    start_castle_values,
+    static_first_dragon_index,
+    static_item_data_location,
+    static_item_element_size,
+    yorgle_speed_data_location,
+)
+from .Options import AdventureOptions, DifficultySwitchA, DifficultySwitchB, DragonRandoType
 from .Regions import create_regions
-from .Rom import get_base_rom_bytes, get_base_rom_path, AdventureDeltaPatch, apply_basepatch, AdventureAutoCollectLocation
+from .Rom import (
+    AdventureAutoCollectLocation,
+    AdventureDeltaPatch,
+    apply_basepatch,
+    get_base_rom_bytes,
+    get_base_rom_path,
+)
 from .Rules import set_rules
 
 # Adventure
-components.append(Component('Adventure Client', 'AdventureClient', file_identifier=SuffixIdentifier('.apadvn')))
+components.append(Component("Adventure Client", "AdventureClient", file_identifier=SuffixIdentifier(".apadvn")))
 
 
 class AdventureSettings(settings.Group):
@@ -281,7 +299,7 @@ class AdventureWorld(World):
                         hard_locations.append(loc)
                 force_empty_item_count -= 1
                 loc = self.multiworld.random.choice(hard_locations)
-                loc.place_locked_item(self.create_item('nothing'))
+                loc.place_locked_item(self.create_item("nothing"))
                 hard_locations.remove(loc)
                 locations_copy.remove(loc)
 
@@ -298,7 +316,7 @@ class AdventureWorld(World):
                 for i in range(2):
                     force_empty_item_count -= 1
                     loc = self.multiworld.random.choice(hard_locations)
-                    loc.place_locked_item(self.create_item('nothing'))
+                    loc.place_locked_item(self.create_item("nothing"))
                     hard_locations.remove(loc)
                     locations_copy.remove(loc)
 
@@ -316,7 +334,7 @@ class AdventureWorld(World):
                 loc = self.multiworld.random.choice(overworld_locations_copy)
             else:
                 loc = self.multiworld.random.choice(locations_copy)
-            loc.place_locked_item(self.create_item('nothing'))
+            loc.place_locked_item(self.create_item("nothing"))
             locations_copy.remove(loc)
             if loc in overworld_locations_copy:
                 overworld_locations_copy.remove(loc)

@@ -1,6 +1,7 @@
 import typing
 from dataclasses import dataclass
-from Options import Option, DefaultOnToggle, Choice, PerGameCommonOptions
+
+from Options import Choice, DefaultOnToggle, Option, PerGameCommonOptions
 
 
 class ExpandedPool(DefaultOnToggle):

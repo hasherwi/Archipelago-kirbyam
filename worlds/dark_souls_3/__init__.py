@@ -1,18 +1,43 @@
 # world/dark_souls_3/__init__.py
-from collections.abc import Sequence
-from collections import defaultdict
 import json
+from collections import defaultdict
+from collections.abc import Sequence
 from logging import warning
-from typing import cast, Any, Callable, Dict, Set, List, Optional, TextIO, Union
+from typing import Any, Callable, Dict, List, Optional, Set, TextIO, Union, cast
 
-from BaseClasses import CollectionState, MultiWorld, Region, Location, LocationProgressType, Entrance, Tutorial, ItemClassification
-
-from worlds.AutoWorld import World, WebWorld
-from worlds.generic.Rules import CollectionRule, ItemRule, add_rule, add_item_rule
+from BaseClasses import (
+    CollectionState,
+    Entrance,
+    ItemClassification,
+    Location,
+    LocationProgressType,
+    MultiWorld,
+    Region,
+    Tutorial,
+)
+from worlds.AutoWorld import WebWorld, World
+from worlds.generic.Rules import CollectionRule, ItemRule, add_item_rule, add_rule
 
 from .Bosses import DS3BossInfo, all_bosses, default_yhorm_location
-from .Items import DarkSouls3Item, DS3ItemData, Infusion, UsefulIf, filler_item_names, item_descriptions, item_dictionary, item_name_groups
-from .Locations import DarkSouls3Location, DS3LocationData, location_tables, location_descriptions, location_dictionary, location_name_groups, region_order
+from .Items import (
+    DarkSouls3Item,
+    DS3ItemData,
+    Infusion,
+    UsefulIf,
+    filler_item_names,
+    item_descriptions,
+    item_dictionary,
+    item_name_groups,
+)
+from .Locations import (
+    DarkSouls3Location,
+    DS3LocationData,
+    location_descriptions,
+    location_dictionary,
+    location_name_groups,
+    location_tables,
+    region_order,
+)
 from .Options import DarkSouls3Options, option_groups
 
 
@@ -394,7 +419,7 @@ class DarkSouls3World(World):
                 if item in items: continue
                 self.multiworld.push_precollected(self.create_item(item))
                 warning(
-                    f"Couldn't add \"{item.name}\" to the item pool for " + 
+                    f"Couldn't add \"{item.name}\" to the item pool for " +
                     f"{self.player_name}. Adding it to the starting " +
                     f"inventory instead."
                 )
@@ -733,7 +758,7 @@ class DarkSouls3World(World):
                 "US: Young White Branch - by white tree #2",
                 lambda item: item.player != self.player or not item.data.unique
             )
-        
+
         # Make sure the Storm Ruler is available BEFORE Yhorm the Giant
         if self.yhorm_location.name == "Ancient Wyvern":
             # This is a white lie, you can get to a bunch of items in AP before you beat the Wyvern,
@@ -937,7 +962,7 @@ class DarkSouls3World(World):
         ], "Black Eye Orb")
 
         ## Hawkwood
-        
+
         # After Hawkwood leaves and once you have the Torso Stone, you can fight him for dragon
         # stones. Andre will give Swordgrass as a hint as well
         self._add_location_rule([
@@ -1286,7 +1311,7 @@ class DarkSouls3World(World):
             self._add_entrance_rule("Road of Sacrifices", "Transposing Kiln")
             self._add_entrance_rule("Consumed King's Garden", "Transposing Kiln")
             self._add_entrance_rule("Grand Archives", "Transposing Kiln")
-        # Make this available pretty early 
+        # Make this available pretty early
         if "Small Lothric Banner" in randomized_items:
             if self.options.early_banner == "early_global":
                 self.multiworld.early_items[self.player]["Small Lothric Banner"] = 1

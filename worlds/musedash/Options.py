@@ -1,5 +1,6 @@
-from Options import Toggle, Range, Choice, DeathLink, OptionSet, PerGameCommonOptions, OptionGroup, Removed
 from dataclasses import dataclass
+
+from Options import Choice, DeathLink, OptionGroup, OptionSet, PerGameCommonOptions, Range, Removed, Toggle
 
 from .MuseDashCollection import MuseDashCollections
 from .MuseDashData import SONG_DATA

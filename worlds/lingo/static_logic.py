@@ -1,6 +1,6 @@
 import os
-import pkgutil
 import pickle
+import pkgutil
 from io import BytesIO
 from typing import Dict, List, Set
 
@@ -96,8 +96,9 @@ def get_progressive_item_id(name: str):
 def load_static_data_from_file():
     global PAINTING_ENTRANCES, PAINTING_EXITS
 
-    from . import datatypes
     from Utils import safe_builtins
+
+    from . import datatypes
 
     class RenameUnpickler(pickle.Unpickler):
         def find_class(self, module, name):
@@ -109,7 +110,7 @@ def load_static_data_from_file():
 
     file = pkgutil.get_data(__name__, "data/generated.dat")
     pickdata = RenameUnpickler(BytesIO(file)).load()
-        
+
     HASHES.update(pickdata["HASHES"])
     PAINTINGS.update(pickdata["PAINTINGS"])
     ALL_ROOMS.extend(pickdata["ALL_ROOMS"])

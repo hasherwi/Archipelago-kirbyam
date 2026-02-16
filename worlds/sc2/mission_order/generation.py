@@ -4,23 +4,27 @@ Incoming data is validated to match specifications in .options.py.
 The functions here are called from ..regions.py.
 """
 
-from typing import Set, Dict, Any, List, Tuple, Union, Optional, Callable, TYPE_CHECKING
 import logging
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Set, Tuple, Union
 
-from BaseClasses import Location, Region, Entrance
-from ..mission_tables import SC2Mission, MissionFlag, lookup_name_to_mission, lookup_id_to_mission
-from ..item.item_tables import named_layout_key_item_table, named_campaign_key_item_table
+from BaseClasses import Entrance, Location, Region
+
 from ..item import item_names
-from .nodes import MissionOrderNode, SC2MOGenMissionOrder, SC2MOGenCampaign, SC2MOGenLayout, SC2MOGenMission
-from .entry_rules import EntryRule, SubRuleEntryRule, ItemEntryRule, CountMissionsEntryRule, BeatMissionsEntryRule
+from ..item.item_tables import named_campaign_key_item_table, named_layout_key_item_table
+from ..mission_tables import MissionFlag, SC2Mission, lookup_id_to_mission, lookup_name_to_mission
+from .entry_rules import BeatMissionsEntryRule, CountMissionsEntryRule, EntryRule, ItemEntryRule, SubRuleEntryRule
 from .mission_pools import (
-    SC2MOGenMissionPools, Difficulty, modified_difficulty_thresholds, STANDARD_DIFFICULTY_FILL_ORDER
+    STANDARD_DIFFICULTY_FILL_ORDER,
+    Difficulty,
+    SC2MOGenMissionPools,
+    modified_difficulty_thresholds,
 )
+from .nodes import MissionOrderNode, SC2MOGenCampaign, SC2MOGenLayout, SC2MOGenMission, SC2MOGenMissionOrder
 from .options import GENERIC_KEY_NAME, GENERIC_PROGRESSIVE_KEY_NAME
 
 if TYPE_CHECKING:
-    from ..locations import LocationData
     from .. import SC2World
+    from ..locations import LocationData
 
 def resolve_unlocks(mission_order: SC2MOGenMissionOrder):
     """Parses a mission order's entry rule dicts into entry rule objects."""
@@ -174,7 +178,7 @@ def fill_depths(mission_order: SC2MOGenMissionOrder) -> None:
         while len(cur_missions) > 0:
             mission = cur_missions.pop()
             new_beaten_missions.add(mission)
-            # If the beaten missions at depth X unlock a mission, said mission can be beaten at depth X+1 
+            # If the beaten missions at depth X unlock a mission, said mission can be beaten at depth X+1
             mission.min_depth = mission.entry_rule.get_depth(beaten_missions) + 1
             new_next = [
                 next_mission for next_mission in mission.next if not (
@@ -184,7 +188,7 @@ def fill_depths(mission_order: SC2MOGenMissionOrder) -> None:
                 )
             ]
             next_missions.update(new_next)
-        
+
         # Any campaigns/layouts/missions added after this point will be seen in the next iteration at the earliest
         iterations += 1
         beaten_missions.update(new_beaten_missions)
@@ -218,7 +222,7 @@ def fill_depths(mission_order: SC2MOGenMissionOrder) -> None:
         len([mission for mission in layout.missions if not mission.option_empty])
         for campaign in mission_order.campaigns for layout in campaign.layouts
     )
-    assert len(beaten_missions) == total_missions, f'Can only access {len(beaten_missions)} missions out of {total_missions}'
+    assert len(beaten_missions) == total_missions, f"Can only access {len(beaten_missions)} missions out of {total_missions}"
 
     # Fill campaign/layout depth values as min/max of their children
     for campaign in mission_order.campaigns:
@@ -247,7 +251,7 @@ def resolve_difficulties(mission_order: SC2MOGenMissionOrder) -> None:
             else:
                 min_diff = layout.option_min_difficulty
                 min_depth = layout.min_depth
-            
+
             if layout.option_max_difficulty == Difficulty.RELATIVE:
                 max_diff = campaign.option_max_difficulty
                 if max_diff == Difficulty.RELATIVE:
@@ -257,7 +261,7 @@ def resolve_difficulties(mission_order: SC2MOGenMissionOrder) -> None:
             else:
                 max_diff = layout.option_max_difficulty
                 max_depth = layout.max_depth
-            
+
             depth_range = max_depth - min_depth
             if depth_range == 0:
                 # This can happen if layout size is 1 or layout is all entrances
@@ -266,7 +270,7 @@ def resolve_difficulties(mission_order: SC2MOGenMissionOrder) -> None:
             # If min/max aren't relative, assume the limits are meant to show up
             layout_thresholds = modified_difficulty_thresholds(min_diff, max_diff)
             thresholds = sorted(layout_thresholds.keys())
-            
+
             for mission in layout.missions:
                 if mission.option_empty:
                     continue
@@ -288,7 +292,7 @@ def resolve_difficulties(mission_order: SC2MOGenMissionOrder) -> None:
 
 def fill_missions(
         mission_order: SC2MOGenMissionOrder, mission_pools: SC2MOGenMissionPools,
-        world: 'SC2World', locked_missions: List[str], locations: Tuple['LocationData', ...], location_cache: List[Location]
+        world: "SC2World", locked_missions: List[str], locations: Tuple["LocationData", ...], location_cache: List[Location]
 ) -> None:
     """Places missions in all non-empty mission slots. Also responsible for creating Archipelago regions & locations for placed missions."""
     locations_per_region = get_locations_per_region(locations)
@@ -383,8 +387,8 @@ def fill_missions(
     world.multiworld.regions += regions
 
 
-def get_locations_per_region(locations: Tuple['LocationData', ...]) -> Dict[str, List['LocationData']]:
-    per_region: Dict[str, List['LocationData']] = {}
+def get_locations_per_region(locations: Tuple["LocationData", ...]) -> Dict[str, List["LocationData"]]:
+    per_region: Dict[str, List["LocationData"]] = {}
 
     for location in locations:
         per_region.setdefault(location.region, []).append(location)
@@ -392,7 +396,7 @@ def get_locations_per_region(locations: Tuple['LocationData', ...]) -> Dict[str,
     return per_region
 
 
-def create_location(player: int, location_data: 'LocationData', region: Region,
+def create_location(player: int, location_data: "LocationData", region: Region,
                     location_cache: List[Location]) -> Location:
     location = Location(player, location_data.name, location_data.code, region)
     location.access_rule = location_data.rule
@@ -402,7 +406,7 @@ def create_location(player: int, location_data: 'LocationData', region: Region,
 
 
 def create_minimal_logic_location(
-    world: 'SC2World', location_data: 'LocationData', region: Region, location_cache: List[Location], unit_count: int = 0,
+    world: "SC2World", location_data: "LocationData", region: Region, location_cache: List[Location], unit_count: int = 0,
 ) -> Location:
     location = Location(world.player, location_data.name, location_data.code, region)
     mission = lookup_name_to_mission.get(region.name)
@@ -420,8 +424,8 @@ def create_minimal_logic_location(
 
 
 def create_region(
-    world: 'SC2World',
-    locations_per_region: Dict[str, List['LocationData']],
+    world: "SC2World",
+    locations_per_region: Dict[str, List["LocationData"]],
     location_cache: List[Location],
     name: str,
     slot: Optional[SC2MOGenMission] = None,
@@ -483,7 +487,7 @@ def create_region(
 ########################
 
 
-def make_connections(mission_order: SC2MOGenMissionOrder, world: 'SC2World'):
+def make_connections(mission_order: SC2MOGenMissionOrder, world: "SC2World"):
     """Creates Archipelago entrances between missions and creates access rules for the generator from entry rule objects."""
     names: Dict[str, int] = {}
     player = world.player
@@ -534,7 +538,7 @@ def make_connections(mission_order: SC2MOGenMissionOrder, world: 'SC2World'):
                         unlock_rule = mission_rule
                     else:
                         unlock_rule = None
-                    
+
                     # Connect to a discovered mandatory mission if possible
                     if mandatory_prereq is not None:
                         connect(world, names, mandatory_prereq.mission.mission_name, mission.mission.mission_name, unlock_rule)
@@ -547,7 +551,7 @@ def make_connections(mission_order: SC2MOGenMissionOrder, world: 'SC2World'):
                             connect(world, names, "Menu", mission.mission.mission_name, unlock_rule)
 
 
-def connect(world: 'SC2World', used_names: Dict[str, int], source: str, target: str,
+def connect(world: "SC2World", used_names: Dict[str, int], source: str, target: str,
             rule: Optional[Callable] = None):
     source_region = world.get_region(source)
     target_region = world.get_region(target)
@@ -557,7 +561,7 @@ def connect(world: 'SC2World', used_names: Dict[str, int], source: str, target: 
         name = target
     else:
         used_names[target] += 1
-        name = target + (' ' * used_names[target])
+        name = target + (" " * used_names[target])
 
     connection = Entrance(world.player, name, source_region)
 
@@ -617,7 +621,7 @@ def resolve_generic_keys(mission_order: SC2MOGenMissionOrder) -> None:
                             f"- {GENERIC_PROGRESSIVE_KEY_NAME.title()}: X\n"
                             f"- {GENERIC_PROGRESSIVE_KEY_NAME.title()} X: 1"
                         )
-    
+
     def find_progressive_keys(item_rule: ItemEntryRule, track_to_find: int) -> List[str]:
         return [
             item_name for (item_name, amount) in item_rule.items_to_check.items()
@@ -661,7 +665,7 @@ def resolve_generic_keys(mission_order: SC2MOGenMissionOrder) -> None:
             empty_tracks.append(track)
     for track in empty_tracks:
         progression_tracks.pop(track)
-    
+
     # Make sure all tracks that can't have keys have been taken care of
     invalid_tracks: List[int] = [track for track in progression_tracks if track < 1 or track > len(SC2Mission)]
     if len(invalid_tracks) > 0:
@@ -703,7 +707,7 @@ def resolve_generic_keys(mission_order: SC2MOGenMissionOrder) -> None:
             progressive_flavor_name = item_names.PROGRESSIVE_QUESTLINE_KEY
         elif all(isinstance(node, SC2MOGenMission) for rule_list in progression_tracks.values() for (node, _) in rule_list):
             progressive_flavor_name = item_names.PROGRESSIVE_MISSION_KEY
-    
+
     for (track, rule_list) in progression_tracks.items():
         key_name = item_names._TEMPLATE_PROGRESSIVE_KEY.format(track) if progressive_flavor_name is None else progressive_flavor_name
         # Determine order in which the rules should unlock
@@ -718,7 +722,7 @@ def resolve_generic_keys(mission_order: SC2MOGenMissionOrder) -> None:
             for (node, item_rule) in rule_list:
                 depth_to_rules.setdefault(node.get_min_depth(), []).append(item_rule)
             ordered_item_rules = [depth_to_rules[depth] for depth in sorted(depth_to_rules.keys())]
-        
+
         # Assign correct progressive keys to each rule
         for (position, item_rules) in enumerate(ordered_item_rules):
             for item_rule in item_rules:

@@ -3,7 +3,8 @@ from dataclasses import dataclass
 
 import orjson
 
-from Options import Toggle, Choice, PerGameCommonOptions, NamedRange, Range
+from Options import Choice, NamedRange, PerGameCommonOptions, Range, Toggle
+
 from .common.options import FloatRangeText
 
 datapackage_options = orjson.loads(pkgutil.get_data(__name__, "data/options.json"))
