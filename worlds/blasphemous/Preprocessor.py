@@ -286,69 +286,68 @@ def remove_duplicates(conditions: list[list[str]]) -> list[list[str]]:
 def handle_door_visibility(door: dict[str, Any]) -> dict[str, Any]:
     if door.get("visibilityFlags") == None:
         return door
-    else:
-        flags: list[str] = str(door.get("visibilityFlags")).split(", ")
-        #print(flags)
-        temp_flags: list[str] = []
-        this_door: bool = False
-        #required_doors: str = ""
+    flags: list[str] = str(door.get("visibilityFlags")).split(", ")
+    #print(flags)
+    temp_flags: list[str] = []
+    this_door: bool = False
+    #required_doors: str = ""
 
-        if "ThisDoor" in flags:
-            this_door = True
+    if "ThisDoor" in flags:
+        this_door = True
 
-        #if "requiredDoors" in flags:
-        #    required_doors: str = " || ".join(door.get("requiredDoors"))
+    #if "requiredDoors" in flags:
+    #    required_doors: str = " || ".join(door.get("requiredDoors"))
 
-        if "DoubleJump" in flags:
-            temp_flags.append("DoubleJump")
+    if "DoubleJump" in flags:
+        temp_flags.append("DoubleJump")
 
-        if "NormalLogic" in flags:
-            temp_flags.append("NormalLogic")
+    if "NormalLogic" in flags:
+        temp_flags.append("NormalLogic")
 
-        if "NormalLogicAndDoubleJump" in flags:
-            temp_flags.append("NormalLogicAndDoubleJump")
+    if "NormalLogicAndDoubleJump" in flags:
+        temp_flags.append("NormalLogicAndDoubleJump")
 
-        if "HardLogic" in flags:
-            temp_flags.append("HardLogic")
+    if "HardLogic" in flags:
+        temp_flags.append("HardLogic")
 
-        if "HardLogicAndDoubleJump" in flags:
-            temp_flags.append("HardLogicAndDoubleJump")
+    if "HardLogicAndDoubleJump" in flags:
+        temp_flags.append("HardLogicAndDoubleJump")
 
-        if "EnemySkips" in flags:
-            temp_flags.append("EnemySkips")
+    if "EnemySkips" in flags:
+        temp_flags.append("EnemySkips")
 
-        if "EnemySkipsAndDoubleJump" in flags:
-            temp_flags.append("EnemySkipsAndDoubleJump")
+    if "EnemySkipsAndDoubleJump" in flags:
+        temp_flags.append("EnemySkipsAndDoubleJump")
 
-        # remove duplicates
-        temp_flags = list(dict.fromkeys(temp_flags))
+    # remove duplicates
+    temp_flags = list(dict.fromkeys(temp_flags))
 
-        original_logic: str = door.get("logic")
-        temp_logic: str = ""
+    original_logic: str = door.get("logic")
+    temp_logic: str = ""
 
-        if this_door:
-            temp_logic = door.get("id")
+    if this_door:
+        temp_logic = door.get("id")
 
-        if temp_flags != []:
-            if temp_logic != "":
-                temp_logic += " || "
-            temp_logic += " && ".join(temp_flags)
+    if temp_flags != []:
+        if temp_logic != "":
+            temp_logic += " || "
+        temp_logic += " && ".join(temp_flags)
 
-        if temp_logic != "" and original_logic != None:
-            if len(original_logic.split()) == 1:
-                if len(temp_logic.split()) == 1:
-                    door["logic"] = f"{temp_logic} && {original_logic}"
-                else:
-                    door["logic"] = f"({temp_logic}) && {original_logic}"
+    if temp_logic != "" and original_logic != None:
+        if len(original_logic.split()) == 1:
+            if len(temp_logic.split()) == 1:
+                door["logic"] = f"{temp_logic} && {original_logic}"
             else:
-                if len(temp_logic.split()) == 1:
-                    door["logic"] = f"{temp_logic} && ({original_logic})"
-                else:
-                    door["logic"] = f"({temp_logic}) && ({original_logic})"
-        elif temp_logic != "" and original_logic == None:
-            door["logic"] = temp_logic
+                door["logic"] = f"({temp_logic}) && {original_logic}"
+        else:
+            if len(temp_logic.split()) == 1:
+                door["logic"] = f"{temp_logic} && ({original_logic})"
+            else:
+                door["logic"] = f"({temp_logic}) && ({original_logic})"
+    elif temp_logic != "" and original_logic == None:
+        door["logic"] = temp_logic
 
-        return door
+    return door
 
 
 def get_state_provider_for_condition(condition: list[str]) -> str:

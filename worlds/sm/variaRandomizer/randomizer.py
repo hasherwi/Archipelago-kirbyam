@@ -316,20 +316,20 @@ class VariaRandomizer:
                     raise Exception("varia_custom was chosen but varia_custom_preset is missing.")
                 url = "https://randommetroidsolver.pythonanywhere.com/presetWebService"
                 preset_name = next(iter(options.varia_custom_preset.value))
-                payload = '{{"preset": "{}"}}'.format(preset_name)
+                payload = f'{{"preset": "{preset_name}"}}'
                 headers = {"content-type": "application/json", "Accept-Charset": "UTF-8"}
                 response = requests.post(url, data=payload, headers=headers)
                 if response.ok:
                     PresetLoader.factory(json.loads(response.text)).load(self.player)
                 else:
-                    raise Exception("Got error {} {} {} from trying to fetch varia custom preset named {}".format(response.status_code, response.reason, response.text, preset_name))
+                    raise Exception(f"Got error {response.status_code} {response.reason} {response.text} from trying to fetch varia custom preset named {preset_name}")
             else:
                 preset = "default"
                 PresetLoader.factory("/".join((appDir, getPresetDir("casual"), "casual.json"))).load(self.player)
 
 
 
-        logger.debug("preset: {}".format(preset))
+        logger.debug(f"preset: {preset}")
 
         # Archipelago provides a seed for the multiworld.
         self.seed = seed
@@ -338,7 +338,7 @@ class VariaRandomizer:
         #     self.seed = random.randrange(sys.maxsize)
         # else:
         #     self.seed = args.seed
-        logger.debug("seed: {}".format(self.seed))
+        logger.debug(f"seed: {self.seed}")
 
         if args.raceMagic is not None:
             if args.raceMagic <= 0 or args.raceMagic >= 0x10000:
@@ -367,7 +367,7 @@ class VariaRandomizer:
         elif self.maxDifficulty <= hardcore:
             threshold = mania - epsilon
         maxDifficulty = threshold
-        logger.debug("maxDifficulty: {}".format(self.maxDifficulty))
+        logger.debug(f"maxDifficulty: {self.maxDifficulty}")
 
         # handle random parameters with dynamic pool of values
         (_, progSpeed) = randomMulti(args.__dict__, "progressionSpeed", speeds, random)
@@ -390,7 +390,7 @@ class VariaRandomizer:
             forceArg("majorsSplit", "Full", "'Majors Split' forced to Full", altValue="FullWithHUD")
             if args.minimizerN == "random":
                 self.minimizerN = random.randint(30, 60)
-                logger.debug("minimizerN: {}".format(self.minimizerN))
+                logger.debug(f"minimizerN: {self.minimizerN}")
             else:
                 self.minimizerN = int(args.minimizerN)
         else:
@@ -400,17 +400,17 @@ class VariaRandomizer:
         if args.doorsColorsRando == "random":
             doorsColorsRandom = True
             args.doorsColorsRando = bool(random.getrandbits(1))
-        logger.debug("doorsColorsRando: {}".format(args.doorsColorsRando))
+        logger.debug(f"doorsColorsRando: {args.doorsColorsRando}")
 
         bossesRandom = False
         if args.bosses == "random":
             bossesRandom = True
             args.bosses = bool(random.getrandbits(1))
-        logger.debug("bosses: {}".format(args.bosses))
+        logger.debug(f"bosses: {args.bosses}")
 
         if args.escapeRando == "random":
             args.escapeRando = bool(random.getrandbits(1))
-        logger.debug("escapeRando: {}".format(args.escapeRando))
+        logger.debug(f"escapeRando: {args.escapeRando}")
 
         if args.suitsRestriction != False and self.minimizerN is not None:
             forceArg("suitsRestriction", False, "'Suits restriction' forced to off", webValue="off")
@@ -420,7 +420,7 @@ class VariaRandomizer:
                 forceArg("suitsRestriction", False, "'Suits restriction' forced to off", webValue="off")
             else:
                 args.suitsRestriction = bool(random.getrandbits(1))
-        logger.debug("suitsRestriction: {}".format(args.suitsRestriction))
+        logger.debug(f"suitsRestriction: {args.suitsRestriction}")
 
         if args.hideItems == "random":
             args.hideItems = bool(random.getrandbits(1))
@@ -446,7 +446,7 @@ class VariaRandomizer:
         if (progSpeed == "speedrun" or progSpeed == "basic") and args.majorsSplit != "Scavenger":
             forceArg("progressionDifficulty", "normal", "'Progression difficulty' forced to normal")
             progDiff = args.progressionDifficulty
-        logger.debug("progressionDifficulty: {}".format(progDiff))
+        logger.debug(f"progressionDifficulty: {progDiff}")
 
         if args.strictMinors == "random":
             args.strictMinors = bool(random.getrandbits(1))
@@ -571,7 +571,7 @@ class VariaRandomizer:
                         "Super": superQty,
                         "PowerBomb": powerBombQty },
             "strictMinors" : args.strictMinors }
-        logger.debug("quantities: {}".format(qty))
+        logger.debug(f"quantities: {qty}")
 
         if len(args.superFun) > 0:
             superFun = []
@@ -582,7 +582,7 @@ class VariaRandomizer:
                 else:
                     superFun.append(fun)
             args.superFun = superFun
-        logger.debug("superFun: {}".format(args.superFun))
+        logger.debug(f"superFun: {args.superFun}")
 
         ctrlButton = ["A", "B", "X", "Y", "L", "R", "Select"]
         ctrl = Controller.ControllerDict[self.player]
@@ -688,7 +688,7 @@ class VariaRandomizer:
 
         if stuck == True:
             #dumpErrorMsg(args.output, self.randoExec.errorMsg)
-            raise Exception("Can't generate " + self.fileName + " with the given parameters: {}".format(self.randoExec.errorMsg))
+            raise Exception("Can't generate " + self.fileName + f" with the given parameters: {self.randoExec.errorMsg}")
 
     def PatchRom(self, customPrePatchApply = None, customPostPatchApply = None) -> RomPatcher:
         args = self.args
@@ -794,7 +794,7 @@ class VariaRandomizer:
         except Exception as e:
             import traceback
             traceback.print_exc(file=sys.stdout)
-            raise Exception("Error patching: ({}: {})".format(type(e).__name__, e))
+            raise Exception(f"Error patching: ({type(e).__name__}: {e})")
             #dumpErrorMsg(args.output, msg)
 
 #        if stuck == True:

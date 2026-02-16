@@ -62,10 +62,9 @@ class West(SMRegion):
                     ) or
                     items.CanAccessNorfairLowerPortal() and items.CanDestroyBombWalls()
                 )
-        else:
-            return self.world.CanEnter("Norfair Upper East", items) and items.CanUsePowerBombs() and items.Varia and (items.HiJump or items.Gravity) and (
-                    # /* Trivial case, Bubble Mountain access */
-                    items.CardNorfairL2 or
-                    # /* Frog Speedway -> UN Farming Room gate */
-                    items.SpeedBooster and (items.Missile or items.Super or items.Wave) # /* Blue Gate */
-                ) or items.CanAccessNorfairLowerPortal() and items.CanDestroyBombWalls()
+        return self.world.CanEnter("Norfair Upper East", items) and items.CanUsePowerBombs() and items.Varia and (items.HiJump or items.Gravity) and (
+                # /* Trivial case, Bubble Mountain access */
+                items.CardNorfairL2 or
+                # /* Frog Speedway -> UN Farming Room gate */
+                items.SpeedBooster and (items.Missile or items.Super or items.Wave) # /* Blue Gate */
+            ) or items.CanAccessNorfairLowerPortal() and items.CanDestroyBombWalls()

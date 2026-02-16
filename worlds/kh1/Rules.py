@@ -36,23 +36,22 @@ BROKEN_KEYBLADE_LOCKING_LOCATIONS = [
 def has_x_worlds(state: CollectionState, player: int, num_of_worlds: int, keyblades_unlock_chests: bool, logic_difficulty: int, hundred_acre_wood: bool) -> bool:
     if logic_difficulty >= LOGIC_MINIMAL:
         return True
-    else:
-        worlds_acquired = 0.0
-        for i in range(len(WORLDS)):
-            if WORLDS[i] == "Traverse Town":
+    worlds_acquired = 0.0
+    for i in range(len(WORLDS)):
+        if WORLDS[i] == "Traverse Town":
+            worlds_acquired = worlds_acquired + 0.5
+            if not keyblades_unlock_chests or state.has(KEYBLADES[i], player):
+                worlds_acquired = worlds_acquired + 0.5
+        elif WORLDS[i] == "100 Acre Wood" and hundred_acre_wood:
+            if state.has("Progressive Fire", player):
                 worlds_acquired = worlds_acquired + 0.5
                 if not keyblades_unlock_chests or state.has(KEYBLADES[i], player):
                     worlds_acquired = worlds_acquired + 0.5
-            elif WORLDS[i] == "100 Acre Wood" and hundred_acre_wood:
-                if state.has("Progressive Fire", player):
-                    worlds_acquired = worlds_acquired + 0.5
-                    if not keyblades_unlock_chests or state.has(KEYBLADES[i], player):
-                        worlds_acquired = worlds_acquired + 0.5
-            elif state.has(WORLDS[i], player):
+        elif state.has(WORLDS[i], player):
+            worlds_acquired = worlds_acquired + 0.5
+            if not keyblades_unlock_chests or state.has(KEYBLADES[i], player):
                 worlds_acquired = worlds_acquired + 0.5
-                if not keyblades_unlock_chests or state.has(KEYBLADES[i], player):
-                    worlds_acquired = worlds_acquired + 0.5
-        return worlds_acquired >= num_of_worlds
+    return worlds_acquired >= num_of_worlds
 
 def has_emblems(state: CollectionState, player: int, keyblades_unlock_chests: bool, logic_difficulty: int, hundred_acre_wood: bool) -> bool:
     return state.has_all({
@@ -94,17 +93,15 @@ def has_lucky_emblems(state: CollectionState, player: int, required_amt: int) ->
 def has_final_rest_door(state: CollectionState, player: int, final_rest_door_requirement: str, final_rest_door_required_lucky_emblems: int):
     if final_rest_door_requirement == "lucky_emblems":
         return state.has("Lucky Emblem", player, final_rest_door_required_lucky_emblems)
-    else:
-        return state.has("Final Door Key", player)
+    return state.has("Final Door Key", player)
 
 def has_defensive_tools(state: CollectionState, player: int, logic_difficulty: int) -> bool:
     if logic_difficulty >= LOGIC_MINIMAL:
         return True
-    else:
-        return (
-            state.has_all_counts({"Progressive Cure": 2, "Leaf Bracer": 1, "Dodge Roll": 1}, player)
-            and state.has_any_count({"Second Chance": 1, "MP Rage": 1, "Progressive Aero": 2}, player)
-        )
+    return (
+        state.has_all_counts({"Progressive Cure": 2, "Leaf Bracer": 1, "Dodge Roll": 1}, player)
+        and state.has_any_count({"Second Chance": 1, "MP Rage": 1, "Progressive Aero": 2}, player)
+    )
 
 def has_basic_tools(state: CollectionState, player: int) -> bool:
     return (

@@ -359,10 +359,8 @@ class SafeFormatter(string.Formatter):
         if isinstance(key, int):
             if key < len(args):
                 return args[key]
-            else:
-                return "{" + str(key) + "}"
-        else:
-            return kwargs.get(key, "{" + key + "}")
+            return "{" + str(key) + "}"
+        return kwargs.get(key, "{" + key + "}")
 
 
 def handle_name(name: str, player: int, name_counter: Counter):

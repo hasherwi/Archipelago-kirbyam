@@ -177,7 +177,7 @@ def identify(path: None | str) -> tuple[None | str, None | Component]:
     for component in components:
         if component.handles_file(path):
             return path, component
-        elif path == component.display_name or path == component.script_name:
+        if path == component.display_name or path == component.script_name:
             return None, component
     return None, None
 
@@ -203,8 +203,7 @@ def get_exe(component: str | Component) -> Sequence[str] | None:
     if is_frozen():
         suffix = ".exe" if is_windows else ""
         return [local_path(f"{component.frozen_name}{suffix}")] if component.frozen_name else None
-    else:
-        return [sys.executable, local_path(f"{component.script_name}.py")] if component.script_name else None
+    return [sys.executable, local_path(f"{component.script_name}.py")] if component.script_name else None
 
 
 def launch(exe, in_terminal=False):
@@ -213,7 +212,7 @@ def launch(exe, in_terminal=False):
             # intentionally using a window title with a space so it gets quoted and treated as a title
             subprocess.Popen(["start", "Running Archipelago", *exe], shell=True)
             return
-        elif is_linux:
+        if is_linux:
             terminal = which("x-terminal-emulator") or which("gnome-terminal") or which("xterm")
             if terminal:
                 subprocess.Popen([terminal, "-e", shlex.join(exe)])

@@ -1194,8 +1194,7 @@ def scale_exp_2(base_exp: int, base_level: int, new_level: int, world: "EarthBou
 def calculate_exp(level: int) -> float:
     if level > 30:
         return 1000 * math.exp(0.05 * level)
-    else:
-        return 50 * math.exp(0.15 * level)
+    return 50 * math.exp(0.15 * level)
         # return 10 * math.exp(0.2 * level) if not boosted
 
 

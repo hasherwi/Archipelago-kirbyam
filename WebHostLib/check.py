@@ -49,11 +49,11 @@ def get_yaml_data(files) -> dict[str, str] | str | Markup:
             return ("Uploaded data contained a rom file, which is likely to contain copyrighted material. "
                     "Your file was deleted.")
         # If the user does not select file, the browser will still submit an empty string without a file name.
-        elif uploaded_file.filename == "":
+        if uploaded_file.filename == "":
             return "No selected file."
-        elif uploaded_file.filename in options:
+        if uploaded_file.filename in options:
             return f"Conflicting files named {uploaded_file.filename} submitted."
-        elif uploaded_file and allowed_options(uploaded_file.filename):
+        if uploaded_file and allowed_options(uploaded_file.filename):
             if uploaded_file.filename.endswith(".zip"):
                 if not zipfile.is_zipfile(uploaded_file):
                     return f"Uploaded file {uploaded_file.filename} is not a valid .zip file and cannot be opened."
@@ -67,13 +67,13 @@ def get_yaml_data(files) -> dict[str, str] | str | Markup:
                         if base_filename.endswith(".archipelago"):
                             return Markup("Error: Your .zip file contains an .archipelago file. "
                                           'Did you mean to <a href="/uploads">host a game</a>?')
-                        elif base_filename.endswith(".zip"):
+                        if base_filename.endswith(".zip"):
                             return "Nested .zip files inside a .zip are not supported."
-                        elif banned_file(base_filename):
+                        if banned_file(base_filename):
                             return ("Uploaded data contained a rom file, which is likely to contain copyrighted "
                                     "material. Your file was deleted.")
                         # Ignore dot-files.
-                        elif not base_filename.startswith(".") and allowed_options(base_filename):
+                        if not base_filename.startswith(".") and allowed_options(base_filename):
                             options[file.filename] = zfile.open(file, "r").read()
             else:
                 options[uploaded_file.filename] = uploaded_file.read()

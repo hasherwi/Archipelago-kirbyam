@@ -162,9 +162,9 @@ class PreCalculatedWeights:
 
         if result == "Dry":
             return False, False
-        elif result == "Flooded":
+        if result == "Flooded":
             return True, True
-        elif result == "FloodedWithSavePointAvailable":
+        if result == "FloodedWithSavePointAvailable":
             return True, False
 
     @staticmethod

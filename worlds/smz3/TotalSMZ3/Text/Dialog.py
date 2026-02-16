@@ -152,12 +152,11 @@ class Dialog:
         if match is None:
             value = Dialog.letters.get(c, None)
             return value if value else [ 0xFF ]
-        elif match.group("digit") != None: return [(ord(c) - ord("0") + 0xA0) ]
-        elif match.group("upper") != None: return [ (ord(c) - ord("A") + 0xAA) ]
-        elif match.group("lower") != None: return [ (ord(c) - ord("a") + 0x30) ]
-        else:
-            value = Dialog.letters.get(c, None)
-            return value if value else [ 0xFF ]
+        if match.group("digit") != None: return [(ord(c) - ord("0") + 0xA0) ]
+        if match.group("upper") != None: return [ (ord(c) - ord("A") + 0xAA) ]
+        if match.group("lower") != None: return [ (ord(c) - ord("a") + 0x30) ]
+        value = Dialog.letters.get(c, None)
+        return value if value else [ 0xFF ]
 
         #regions letter bytes lookup
 

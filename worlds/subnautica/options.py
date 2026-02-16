@@ -103,12 +103,11 @@ class AggressiveScanLogic(Choice):
     def get_pool(self) -> list[str]:
         if self == self.option_removed:
             return Definitions.all_creatures_presorted_without_aggressive_and_containment
-        elif self == self.option_stasis:
+        if self == self.option_stasis:
             return Definitions.all_creatures_presorted_without_containment
-        elif self == self.option_containment:
+        if self == self.option_containment:
             return Definitions.all_creatures_presorted_without_stasis
-        else:
-            return Definitions.all_creatures_presorted
+        return Definitions.all_creatures_presorted
 
 
 class SubnauticaDeathLink(DeathLink):

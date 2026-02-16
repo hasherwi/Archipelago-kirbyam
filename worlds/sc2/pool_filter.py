@@ -110,7 +110,7 @@ class ValidInventory:
     def __init__(self, world: "SC2World", item_pool: list[StarcraftItem]) -> None:
         self.multiworld = world.multiworld
         self.player = world.player
-        self.world: "SC2World" = world
+        self.world: SC2World = world
         # Track all Progression items and those with complex rules for filtering
         self.logical_inventory: dict[str, int] = {}
         for item in item_pool:

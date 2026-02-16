@@ -87,8 +87,7 @@ class ModSkillLogic(BaseLogic):
         if level >= 6:
             return self.logic.cooking.can_cook() & self.logic.region.can_reach(Region.saloon) & \
                 self.logic.building.has_building(Building.coop) & self.logic.building.has_building(Building.barn)
-        else:
-            return self.logic.cooking.can_cook()
+        return self.logic.cooking.can_cook()
 
     def can_earn_binning_skill_level(self, level: int) -> StardewRule:
         if level <= 2:

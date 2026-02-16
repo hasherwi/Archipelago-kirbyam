@@ -166,7 +166,7 @@ class ScrollBox(MDScrollView):
 # thanks kivymd
 class ToggleButton(MDButton, ToggleButtonBehavior):
     def __init__(self, *args, **kwargs):
-        super(ToggleButton, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.bind(state=self._update_bg)
         self._update_bg(self, self.state)
 
@@ -234,7 +234,7 @@ class HoverBehavior(object):
         self.register_event_type("on_leave")
         Window.bind(mouse_pos=self.on_mouse_pos)
         Window.bind(on_cursor_leave=self.on_cursor_leave)
-        super(HoverBehavior, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def on_mouse_pos(self, window, pos):
         if not self.get_root_window():
@@ -382,8 +382,7 @@ class ServerLabel(HoverBehavior, MDTooltip, MDBoxLayout):
 
             return text
 
-        else:
-            return "No current server connection. \nPlease connect to an Archipelago server."
+        return "No current server connection. \nPlease connect to an Archipelago server."
 
 
 class MainLayout(MDGridLayout):
@@ -407,7 +406,7 @@ class SelectableLabel(RecycleDataViewBehavior, TooltipLabel):
     def refresh_view_attrs(self, rv, index, data):
         """ Catch and handle the view changes """
         self.index = index
-        return super(SelectableLabel, self).refresh_view_attrs(
+        return super().refresh_view_attrs(
             rv, index, data)
 
     def on_size(self, instance_label, size: list) -> None:
@@ -417,7 +416,7 @@ class SelectableLabel(RecycleDataViewBehavior, TooltipLabel):
 
     def on_touch_down(self, touch):
         """ Add selection on touch down """
-        if super(SelectableLabel, self).on_touch_down(touch):
+        if super().on_touch_down(touch):
             return True
         if self.collide_point(*touch.pos):
             if self.selected:
@@ -585,7 +584,7 @@ class HintLabel(RecycleDataViewBehavior, MDBoxLayout):
     dropdown: MDDropdownMenu
 
     def __init__(self):
-        super(HintLabel, self).__init__()
+        super().__init__()
         self.receiving_text = ""
         self.item_text = ""
         self.finding_text = ""
@@ -629,11 +628,11 @@ class HintLabel(RecycleDataViewBehavior, MDBoxLayout):
         self.entrance_text = data["entrance"]["text"]
         self.status_text = data["status"]["text"]
         self.hint = data["status"]["hint"]
-        return super(HintLabel, self).refresh_view_attrs(rv, index, data)
+        return super().refresh_view_attrs(rv, index, data)
 
     def on_touch_down(self, touch):
         """ Add selection on touch down """
-        if super(HintLabel, self).on_touch_down(touch):
+        if super().on_touch_down(touch):
             return True
         if self.index:  # skip header
             if self.collide_point(*touch.pos):
@@ -687,7 +686,7 @@ class HintLabel(RecycleDataViewBehavior, MDBoxLayout):
 class ConnectBarTextInput(ResizableTextField):
     def insert_text(self, substring, from_undo=False):
         s = substring.replace("\n", "").replace("\r", "")
-        return super(ConnectBarTextInput, self).insert_text(s, from_undo=from_undo)
+        return super().insert_text(s, from_undo=from_undo)
 
 
 def is_command_input(string: str) -> bool:
@@ -881,7 +880,7 @@ class GameManager(ThemedApp):
 
         ctx.on_user_say = intercept_say
 
-        super(GameManager, self).__init__()
+        super().__init__()
 
     @property
     def tab_count(self):
@@ -1130,7 +1129,7 @@ class GameManager(ThemedApp):
 
 class LogtoUI(logging.Handler):
     def __init__(self, on_log):
-        super(LogtoUI, self).__init__(logging.INFO)
+        super().__init__(logging.INFO)
         self.on_log = on_log
 
     @staticmethod
@@ -1153,7 +1152,7 @@ class UILog(MDRecycleView):
     adaptive_height = True
 
     def __init__(self, *loggers_to_handle, **kwargs):
-        super(UILog, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.data = []
         for logger in loggers_to_handle:
             logger.addHandler(LogtoUI(self.on_log))
@@ -1233,7 +1232,7 @@ class HintLog(MDRecycleView):
     reversed: bool = True
 
     def __init__(self, parser):
-        super(HintLog, self).__init__()
+        super().__init__()
         self.data = [self.header]
         self.parser = parser
 
@@ -1295,8 +1294,7 @@ class ApAsyncImage(AsyncImage):
     def is_uri(self, filename: str) -> bool:
         if filename.startswith("ap:"):
             return True
-        else:
-            return super().is_uri(filename)
+        return super().is_uri(filename)
 
 
 class ImageLoaderPkgutil(ImageLoaderBase):
@@ -1319,8 +1317,7 @@ _original_image_loader_load = ImageLoader.load
 def load_override(filename: str, default_load=_original_image_loader_load, **kwargs):
     if filename.startswith("ap:"):
         return ImageLoaderPkgutil(filename)
-    else:
-        return default_load(filename, **kwargs)
+    return default_load(filename, **kwargs)
 
 
 ImageLoader.load = load_override
@@ -1366,7 +1363,7 @@ class KivyJSONtoTextParser(JSONtoTextParser):
 
     def __call__(self, *args, **kwargs):
         self.ref_count = 0
-        return super(KivyJSONtoTextParser, self).__call__(*args, **kwargs)
+        return super().__call__(*args, **kwargs)
 
     def _handle_item_name(self, node: JSONMessagePart):
         flags = node.get("flags", 0)
@@ -1381,7 +1378,7 @@ class KivyJSONtoTextParser(JSONtoTextParser):
             item_types.append("normal")
 
         node.setdefault("refs", []).append("Item Class: " + ", ".join(item_types))
-        return super(KivyJSONtoTextParser, self)._handle_item_name(node)
+        return super()._handle_item_name(node)
 
     def _handle_player_id(self, node: JSONMessagePart):
         player = int(node["text"])
@@ -1395,7 +1392,7 @@ class KivyJSONtoTextParser(JSONtoTextParser):
                     for player in slot_info.group_members
                 )
             node.setdefault("refs", []).append(text)
-        return super(KivyJSONtoTextParser, self)._handle_player_id(node)
+        return super()._handle_player_id(node)
 
     def _handle_color(self, node: JSONMessagePart):
         colors = node["color"].split(";")
@@ -1415,7 +1412,7 @@ class KivyJSONtoTextParser(JSONtoTextParser):
         for ref in node.get("refs", []):
             node["text"] = f"[ref={self.ref_count}|{ref}]{node['text']}[/ref]"
             self.ref_count += 1
-        return super(KivyJSONtoTextParser, self)._handle_text(node)
+        return super()._handle_text(node)
 
 
 ExceptionManager.add_handler(E())

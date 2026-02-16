@@ -25,7 +25,7 @@ class True_(LiteralStardewRule):  # noqa
     def __new__(cls, _cache=[]):  # noqa
         # Only one single instance will be ever created.
         if not _cache:
-            _cache.append(super(True_, cls).__new__(cls))
+            _cache.append(super().__new__(cls))
         return _cache[0]
 
     def __or__(self, other) -> StardewRule:
@@ -41,7 +41,7 @@ class False_(LiteralStardewRule):  # noqa
     def __new__(cls, _cache=[]):  # noqa
         # Only one single instance will be ever created.
         if not _cache:
-            _cache.append(super(False_, cls).__new__(cls))
+            _cache.append(super().__new__(cls))
         return _cache[0]
 
     def __or__(self, other) -> StardewRule:

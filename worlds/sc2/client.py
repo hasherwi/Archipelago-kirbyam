@@ -193,19 +193,19 @@ class ColouredMessage:
         self.parts: list[dict] = []
         if text:
             self(text, keep_markup=keep_markup)
-    def __call__(self, text: str, *, keep_markup: bool = False) -> 'ColouredMessage':
+    def __call__(self, text: str, *, keep_markup: bool = False) -> ColouredMessage:
         add_json_text(self.parts, text, keep_markup=keep_markup)
         return self
-    def coloured(self, text: str, colour: str, *, keep_markup: bool = False) -> 'ColouredMessage':
+    def coloured(self, text: str, colour: str, *, keep_markup: bool = False) -> ColouredMessage:
         add_json_text(self.parts, text, type="color", color=colour, keep_markup=keep_markup)
         return self
-    def location(self, location_id: int, player_id: int) -> 'ColouredMessage':
+    def location(self, location_id: int, player_id: int) -> ColouredMessage:
         add_json_location(self.parts, location_id, player_id)
         return self
-    def item(self, item_id: int, player_id: int, flags: int = 0) -> 'ColouredMessage':
+    def item(self, item_id: int, player_id: int, flags: int = 0) -> ColouredMessage:
         add_json_item(self.parts, item_id, player_id, flags)
         return self
-    def player(self, player_id: int) -> 'ColouredMessage':
+    def player(self, player_id: int) -> ColouredMessage:
         add_json_text(self.parts, str(player_id), type=JSONTypes.player_id)
         return self
     def send(self, ctx: SC2Context) -> None:
@@ -244,16 +244,15 @@ class StarcraftClientProcessor(ClientCommandProcessor):
             self.output("Difficulty set to " + arguments[0])
             return True
 
+        if self.ctx.difficulty == -1:
+            self.output("Please connect to a seed before checking difficulty.")
         else:
-            if self.ctx.difficulty == -1:
-                self.output("Please connect to a seed before checking difficulty.")
-            else:
-                current_difficulty = self.ctx.difficulty
-                if self.ctx.difficulty_override >= 0:
-                    current_difficulty = self.ctx.difficulty_override
-                self.output("Current difficulty: " + ["Casual", "Normal", "Hard", "Brutal"][current_difficulty])
-            self.output("To change the difficulty, add the name of the difficulty after the command.")
-            return False
+            current_difficulty = self.ctx.difficulty
+            if self.ctx.difficulty_override >= 0:
+                current_difficulty = self.ctx.difficulty_override
+            self.output("Current difficulty: " + ["Casual", "Normal", "Hard", "Brutal"][current_difficulty])
+        self.output("To change the difficulty, add the name of the difficulty after the command.")
+        return False
 
 
     def _cmd_game_speed(self, game_speed: str = "") -> bool:
@@ -283,18 +282,17 @@ class StarcraftClientProcessor(ClientCommandProcessor):
             self.output("Game speed set to " + arguments[0])
             return True
 
+        if self.ctx.game_speed == -1:
+            self.output("Please connect to a seed before checking game speed.")
         else:
-            if self.ctx.game_speed == -1:
-                self.output("Please connect to a seed before checking game speed.")
-            else:
-                current_speed = self.ctx.game_speed
-                if self.ctx.game_speed_override >= 0:
-                    current_speed = self.ctx.game_speed_override
-                self.output("Current game speed: "
-                            + ["Default", "Slower", "Slow", "Normal", "Fast", "Faster"][current_speed])
-            self.output("To change the game speed, add the name of the speed after the command,"
-                        " or Default to select based on difficulty.")
-            return False
+            current_speed = self.ctx.game_speed
+            if self.ctx.game_speed_override >= 0:
+                current_speed = self.ctx.game_speed_override
+            self.output("Current game speed: "
+                        + ["Default", "Slower", "Slow", "Normal", "Fast", "Faster"][current_speed])
+        self.output("To change the game speed, add the name of the speed after the command,"
+                    " or Default to select based on difficulty.")
+        return False
 
     @mark_raw
     def _cmd_received(self, filter_search: str = "") -> bool:
@@ -539,7 +537,7 @@ class StarcraftClientProcessor(ClientCommandProcessor):
             self.output("Available factions: " + ", ".join(var_names))
             self.output("Available colors: " + ", ".join(player_colors))
             return
-        elif faction not in var_names:
+        if faction not in var_names:
             self.output(f"Unknown faction '{faction}'.")
             self.output("Available factions: " + ", ".join(var_names))
             return
@@ -584,8 +582,7 @@ class StarcraftClientProcessor(ClientCommandProcessor):
             os.environ["SC2PATH"] = path
             is_mod_installed_correctly()
             return True
-        else:
-            sc2_logger.warning("When using set_path, you must type the path to your SC2 install directory.")
+        sc2_logger.warning("When using set_path, you must type the path to your SC2 install directory.")
         return False
 
     def _cmd_download_data(self) -> bool:
@@ -655,7 +652,7 @@ class SC2Context(CommonContext):
     items_handling = 0b111
 
     def __init__(self, *args, **kwargs) -> None:
-        super(SC2Context, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.raw_text_parser = SC2JSONtoTextParser(self)
 
         self.data_out_of_date: bool = False
@@ -730,7 +727,7 @@ class SC2Context(CommonContext):
     async def server_auth(self, password_requested: bool = False) -> None:
         self.game = STARCRAFT2
         if password_requested and not self.password:
-            await super(SC2Context, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
         await self.get_username()
         await self.send_connect()
         if self.ui:
@@ -1068,14 +1065,14 @@ class SC2Context(CommonContext):
         if relevant:
             self.announcements.put(self.raw_text_parser(copy.deepcopy(args["data"])))
 
-        super(SC2Context, self).on_print_json(args)
+        super().on_print_json(args)
 
     def run_gui(self) -> None:
         from .client_gui import start_gui
         start_gui(self)
 
     async def shutdown(self) -> None:
-        await super(SC2Context, self).shutdown()
+        await super().shutdown()
         if self.last_bot:
             self.last_bot.want_close = True
             # If the client is not set up yet, the game is not done loading and must be force-closed
@@ -1086,7 +1083,7 @@ class SC2Context(CommonContext):
 
     async def disconnect(self, allow_autoreconnect: bool = False):
         self.finished_game = False
-        await super(SC2Context, self).disconnect(allow_autoreconnect=allow_autoreconnect)
+        await super().disconnect(allow_autoreconnect=allow_autoreconnect)
 
     def play_mission(self, mission_id: int) -> bool:
         if self.missions_unlocked or is_mission_available(self, mission_id):
@@ -1100,9 +1097,8 @@ class SC2Context(CommonContext):
             self.sc2_run_task = asyncio.create_task(starcraft_launch(self, mission_id),
                                                     name="Starcraft 2 Launch")
             return True
-        else:
-            sc2_logger.info(f"{lookup_id_to_mission[mission_id].mission_name} is not currently unlocked.")
-            return False
+        sc2_logger.info(f"{lookup_id_to_mission[mission_id].mission_name} is not currently unlocked.")
+        return False
 
     def build_location_to_mission_mapping(self) -> None:
         mission_id_to_location_ids: dict[int, set[int]] = {
@@ -1586,11 +1582,11 @@ def get_bundle_upgrade_member_numbers(bundled_item: str) -> list[int]:
 def calc_difficulty(difficulty: int):
     if difficulty == 0:
         return "C"
-    elif difficulty == 1:
+    if difficulty == 1:
         return "N"
-    elif difficulty == 2:
+    if difficulty == 2:
         return "H"
-    elif difficulty == 3:
+    if difficulty == 3:
         return "B"
 
     return "X"
@@ -1703,16 +1699,16 @@ def calculate_trade_options(ctx: SC2Context) -> int:
 def kerrigan_primal(ctx: SC2Context, kerrigan_level: int) -> bool:
     if ctx.kerrigan_primal_status == KerriganPrimalStatus.option_always_zerg:
         return True
-    elif ctx.kerrigan_primal_status == KerriganPrimalStatus.option_always_human:
+    if ctx.kerrigan_primal_status == KerriganPrimalStatus.option_always_human:
         return False
-    elif ctx.kerrigan_primal_status == KerriganPrimalStatus.option_level_35:
+    if ctx.kerrigan_primal_status == KerriganPrimalStatus.option_level_35:
         return kerrigan_level >= 35
-    elif ctx.kerrigan_primal_status == KerriganPrimalStatus.option_half_completion:
+    if ctx.kerrigan_primal_status == KerriganPrimalStatus.option_half_completion:
         total_missions = len(ctx.mission_id_to_location_ids)
         completed = sum(ctx.is_mission_completed(mission_id)
                          for mission_id in ctx.mission_id_to_location_ids)
         return completed >= (total_missions / 2)
-    elif ctx.kerrigan_primal_status == KerriganPrimalStatus.option_item:
+    if ctx.kerrigan_primal_status == KerriganPrimalStatus.option_item:
         codes = [item.item for item in ctx.items_received]
         return get_full_item_list()[item_names.KERRIGAN_PRIMAL_FORM].code in codes
     return False
@@ -1724,9 +1720,9 @@ def get_mission_variant(mission_id: int) -> int:
         return 0
     if MissionFlag.Terran in mission_flags:
         return 1
-    elif MissionFlag.Zerg in mission_flags:
+    if MissionFlag.Zerg in mission_flags:
         return 2
-    elif MissionFlag.Protoss in mission_flags:
+    if MissionFlag.Protoss in mission_flags:
         return 3
     return 0
 
@@ -1779,7 +1775,7 @@ class ArchipelagoBot(bot.bot_ai.BotAI):
         self.mission_id = mission_id
         self.boni = [False for _ in range(MAX_BONUS)]
 
-        super(ArchipelagoBot, self).__init__()
+        super().__init__()
 
     async def on_step(self, iteration: int):
         if self.want_close:
@@ -2016,12 +2012,7 @@ class ArchipelagoBot(bot.bot_ai.BotAI):
             ),
             self.ctx.lowest_maximum_supply,
         )
-        await self.chat_send("?GiveResources {} {} {} {}".format(
-            current_items[SC2Race.ANY][get_item_flag_word(item_names.STARTING_MINERALS)],
-            current_items[SC2Race.ANY][get_item_flag_word(item_names.STARTING_VESPENE)],
-            current_items[SC2Race.ANY][get_item_flag_word(item_names.STARTING_SUPPLY)],
-            max_supply_amount - DEFAULT_MAX_SUPPLY,
-        ))
+        await self.chat_send(f"?GiveResources {current_items[SC2Race.ANY][get_item_flag_word(item_names.STARTING_MINERALS)]} {current_items[SC2Race.ANY][get_item_flag_word(item_names.STARTING_VESPENE)]} {current_items[SC2Race.ANY][get_item_flag_word(item_names.STARTING_SUPPLY)]} {max_supply_amount - DEFAULT_MAX_SUPPLY}")
 
     async def update_terran_tech(self, current_items: dict[SC2Race, list[int]]):
         terran_items = current_items[SC2Race.TERRAN]
@@ -2039,11 +2030,7 @@ class ArchipelagoBot(bot.bot_ai.BotAI):
         await self.chat_send("?GiveProtossTech " + " ".join(map(str, protoss_items)))
 
     async def update_misc_tech(self, current_items: dict[SC2Race, list[int]]):
-        await self.chat_send("?GiveMiscTech {} {} {}".format(
-            current_items[SC2Race.ANY][get_item_flag_word(item_names.BUILDING_CONSTRUCTION_SPEED)],
-            current_items[SC2Race.ANY][get_item_flag_word(item_names.UPGRADE_RESEARCH_SPEED)],
-            current_items[SC2Race.ANY][get_item_flag_word(item_names.UPGRADE_RESEARCH_COST)],
-        ))
+        await self.chat_send(f"?GiveMiscTech {current_items[SC2Race.ANY][get_item_flag_word(item_names.BUILDING_CONSTRUCTION_SPEED)]} {current_items[SC2Race.ANY][get_item_flag_word(item_names.UPGRADE_RESEARCH_SPEED)]} {current_items[SC2Race.ANY][get_item_flag_word(item_names.UPGRADE_RESEARCH_COST)]}")
 
 def calc_unfinished_nodes(
         ctx: SC2Context
@@ -2195,8 +2182,7 @@ def check_game_install_path() -> bool:
                     os.environ["SC2PATH"] = base
                     sc2_logger.debug(f"SC2PATH set to {base}.")
                     return True
-                else:
-                    sc2_logger.warning(f"We may have found an SC2 install at {base}, but couldn't find {executable}.")
+                sc2_logger.warning(f"We may have found an SC2 install at {base}, but couldn't find {executable}.")
             else:
                 sc2_logger.warning(f"{einfo} pointed to {base}, but we could not find an SC2 install there.")
     else:
@@ -2252,9 +2238,8 @@ def is_mod_installed_correctly() -> bool:
     if needs_files:
         sc2_logger.warning("Required files are missing. Run /download_data to acquire them.")
         return False
-    else:
-        sc2_logger.debug("All map/mod files are properly installed.")
-        return True
+    sc2_logger.debug("All map/mod files are properly installed.")
+    return True
 
 
 class DllDirectory:
@@ -2334,11 +2319,10 @@ def download_latest_release_zip(
                 fh.write(r2.content)
             sc2_logger.info(f"Successfully downloaded {repo}.zip. Installing...")
             return file, latest_metadata
-        else:
-            sc2_logger.warning(f"Status code: {r2.status_code}")
-            sc2_logger.warning("Download failed.")
-            sc2_logger.warning(f"text: {r2.text}")
-            return "", metadata
+        sc2_logger.warning(f"Status code: {r2.status_code}")
+        sc2_logger.warning("Download failed.")
+        sc2_logger.warning(f"text: {r2.text}")
+        return "", metadata
     except requests.ConnectionError:
         sc2_logger.warning("Failed to reach GitHub. Could not find download link.")
         return "", metadata
@@ -2363,14 +2347,12 @@ def is_mod_update_available(owner: str, repo: str, api_version: str, metadata: s
             latest_metadata = str(latest_metadata)
             if metadata != latest_metadata:
                 return True
-            else:
-                return False
-
-        else:
-            sc2_logger.warning("Failed to reach GitHub while checking for updates.")
-            sc2_logger.warning(f"Status code: {r1.status_code}")
-            sc2_logger.warning(f"text: {r1.text}")
             return False
+
+        sc2_logger.warning("Failed to reach GitHub while checking for updates.")
+        sc2_logger.warning(f"Status code: {r1.status_code}")
+        sc2_logger.warning(f"text: {r1.text}")
+        return False
     except requests.ConnectionError:
         sc2_logger.warning("Failed to reach GitHub while checking for updates.")
         return False

@@ -29,10 +29,9 @@ class Outer(SMRegion):
             return items.Gravity and (
                     self.world.CanEnter("Norfair Upper West", items) and items.CanUsePowerBombs() or
                     items.CanAccessMaridiaPortal(self.world) and items.CardMaridiaL1 and items.CardMaridiaL2 and (items.CanPassBombPassages() or items.ScrewAttack))
-        else:
-            return self.world.CanEnter("Norfair Upper West", items) and items.CanUsePowerBombs() and (
-                    items.Gravity or items.HiJump and (items.CanSpringBallJump() or items.Ice)) or (
-                items.CanAccessMaridiaPortal(self.world)) and items.CardMaridiaL1 and items.CardMaridiaL2 and (
-                    items.CanPassBombPassages() or
-                    items.Gravity and items.ScrewAttack or
-                    items.Super and (items.Gravity or items.HiJump and (items.CanSpringBallJump() or items.Ice)))
+        return self.world.CanEnter("Norfair Upper West", items) and items.CanUsePowerBombs() and (
+                items.Gravity or items.HiJump and (items.CanSpringBallJump() or items.Ice)) or (
+            items.CanAccessMaridiaPortal(self.world)) and items.CardMaridiaL1 and items.CardMaridiaL2 and (
+                items.CanPassBombPassages() or
+                items.Gravity and items.ScrewAttack or
+                items.Super and (items.Gravity or items.HiJump and (items.CanSpringBallJump() or items.Ice)))

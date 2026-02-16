@@ -86,7 +86,7 @@ class TileSet:
         self.palette_id = None
         self.attr_bank = None
         self.attr_addr = None
-        self.tiles: dict[int, "TileInfo"] = {}
+        self.tiles: dict[int, TileInfo] = {}
         self.all: set[int] = set()
 
     def copy(self) -> "TileSet":

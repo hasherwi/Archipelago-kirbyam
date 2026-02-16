@@ -273,8 +273,7 @@ class CustomMissionOrder(OptionDict):
     def from_any(cls, data: dict[str, Any]) -> CustomMissionOrder:
         if type(data) == dict:
             return cls(data)
-        else:
-            raise NotImplementedError(f"Cannot Convert from non-dictionary, got {type(data)}")
+        raise NotImplementedError(f"Cannot Convert from non-dictionary, got {type(data)}")
 
 
 def _resolve_special_options(data: dict[str, Any]):
@@ -309,11 +308,10 @@ def _resolve_special_option(option: str, option_value: Any) -> Any:
         if type(option_value) == list:
             names = [str(value) for value in option_value]
             return names
-        elif option_value == "null":
+        if option_value == "null":
             # "null" means no custom display name
             return []
-        else:
-            return [str(option_value)]
+        return [str(option_value)]
 
     if option in ["index", "next"]:
         # All index values could be ranges
@@ -323,9 +321,8 @@ def _resolve_special_option(option: str, option_value: Any) -> Any:
             indices = [_resolve_potential_range(index) for index in indices]
             indices = [idx if type(idx) == int else str(idx) for idx in indices]
             return indices
-        else:
-            idx = _resolve_potential_range(option_value)
-            return [idx if type(idx) == int else str(idx)]
+        idx = _resolve_potential_range(option_value)
+        return [idx if type(idx) == int else str(idx)]
 
     # Option values can be ranges
     return _resolve_potential_range(option_value)
@@ -344,8 +341,7 @@ def _resolve_string_option_single(option: str, option_value: str) -> Any:
 def _resolve_string_option(option: str, option_value: list[str] | str) -> Any:
     if type(option_value) == list:
         return [_resolve_string_option_single(option, val) for val in option_value]
-    else:
-        return _resolve_string_option_single(option, option_value)
+    return _resolve_string_option_single(option, option_value)
 
 
 def _resolve_entry_rule(option_value: dict[str, Any]) -> dict[str, Any]:
@@ -401,11 +397,10 @@ def _resolve_potential_range(option_value: Any | str) -> Any | int:
     if type(option_value) == str and option_value.startswith("random-range-"):
         resolved = _custom_range(option_value)
         return resolved
-    else:
-        # As this is a catch-all function,
-        # assume non-range option values are handled elsewhere
-        # or intended to fall through
-        return option_value
+    # As this is a catch-all function,
+    # assume non-range option values are handled elsewhere
+    # or intended to fall through
+    return option_value
 
 
 def _resolve_mission_pool(option_value: str | list[str]) -> set[int]:
@@ -441,12 +436,10 @@ def _resolve_mission_pool(option_value: str | list[str]) -> set[int]:
 def _get_target_missions(term: str) -> set[int]:
     if term in lookup_name_to_mission:
         return {lookup_name_to_mission[term].id}
-    else:
-        groups = [mission_groups[group] for group in mission_groups if group.casefold() == term.casefold()]
-        if len(groups) > 0:
-            return {lookup_name_to_mission[mission].id for mission in groups[0]}
-        else:
-            raise ValueError(f"Mission pool term \"{term}\" did not resolve to any specific mission or mission group.")
+    groups = [mission_groups[group] for group in mission_groups if group.casefold() == term.casefold()]
+    if len(groups) > 0:
+        return {lookup_name_to_mission[mission].id for mission in groups[0]}
+    raise ValueError(f"Mission pool term \"{term}\" did not resolve to any specific mission or mission group.")
 
 
 # Class-agnostic version of AP Options.Range.custom_range
@@ -459,12 +452,11 @@ def _custom_range(text: str) -> int:
     random_range.sort()
     if text.startswith("random-range-low"):
         return _triangular(random_range[0], random_range[1], random_range[0])
-    elif text.startswith("random-range-middle"):
+    if text.startswith("random-range-middle"):
         return _triangular(random_range[0], random_range[1])
-    elif text.startswith("random-range-high"):
+    if text.startswith("random-range-high"):
         return _triangular(random_range[0], random_range[1], random_range[1])
-    else:
-        return random.randint(random_range[0], random_range[1])
+    return random.randint(random_range[0], random_range[1])
 
 
 def _triangular(lower: int, end: int, tri: int | None = None) -> int:

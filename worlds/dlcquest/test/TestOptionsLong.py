@@ -17,7 +17,7 @@ def basic_checks(tester: DLCQuestTestBase, multiworld: MultiWorld):
 def get_option_choices(option) -> dict[str, int]:
     if issubclass(option, NamedRange):
         return option.special_range_names
-    elif option.options:
+    if option.options:
         return option.options
     return {}
 

@@ -776,8 +776,7 @@ class HelpersGraph(Helpers):
         sm = self.smbm
         if self.isVanillaDraygon():
             return self.canExitDraygonVanilla()
-        else:
-            return self.canExitDraygonRandomized()
+        return self.canExitDraygonRandomized()
 
     @Cache.decorator
     def canExitPreciousRoomVanilla(self):
@@ -805,8 +804,7 @@ class HelpersGraph(Helpers):
     def canExitPreciousRoom(self):
         if self.isVanillaDraygon():
             return self.canExitPreciousRoomVanilla()
-        else:
-            return self.canExitPreciousRoomRandomized()
+        return self.canExitPreciousRoomRandomized()
 
     @Cache.decorator
     def canPassDachoraRoom(self):

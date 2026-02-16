@@ -223,14 +223,12 @@ class SatisfactoryWorld(World):
     def get_filler_item_name(self) -> str:
         if self.items:
             return self.items.get_filler_item_name(self.random, None)
-        else:
-            return Items.get_filler_item_name_uninitialized(self.random)
+        return Items.get_filler_item_name_uninitialized(self.random)
 
     def create_item(self, name: str) -> Item:
         if self.items:
             return self.items.create_item(name, self.player)
-        else:
-            return Items.create_item_uninitialized(name, self.player)
+        return Items.create_item_uninitialized(name, self.player)
 
     def extend_hint_information(self, _: dict[int, dict[int, str]]):
         """

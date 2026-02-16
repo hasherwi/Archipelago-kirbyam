@@ -2475,7 +2475,7 @@ def door_shuffle(world, multiworld, player, badges, badge_locs):
         def dead_end(e):
             if e.can_reach(state):
                 return True
-            elif world.options.door_shuffle == "decoupled":
+            if world.options.door_shuffle == "decoupled":
                 # Any unreachable exit in decoupled is not a dead end
                 return False
             region = e.parent_region
@@ -2494,7 +2494,7 @@ def door_shuffle(world, multiworld, player, badges, badge_locs):
                     # confirm warp is in entrances list to ensure it's not a loop-out interior
                     if warp.connected_region is None and warp in entrances:
                         return False
-                    elif isinstance(warp, PokemonRBWarp) or warp.access_rule(state):
+                    if isinstance(warp, PokemonRBWarp) or warp.access_rule(state):
                         if warp.connected_region and warp.connected_region not in checked_regions:
                             checked_regions.add(warp.connected_region)
                             check_warps.update(warp.connected_region.exits)
@@ -2602,7 +2602,7 @@ def door_shuffle(world, multiworld, player, badges, badge_locs):
                         x = check_region(entrance.parent_region)
                         if x is True:
                             return entrance.name.split(" to ")[1].split("-")[0]
-                        elif x is not None:
+                        if x is not None:
                             return x
                 return None
 

@@ -32,6 +32,5 @@ class Red(SMRegion):
         if self.Logic == SMLogic.Normal:
             return (items.CanDestroyBombWalls() or items.SpeedBooster) and items.Super and items.Morph or \
                 items.CanAccessNorfairUpperPortal() and (items.Ice or items.HiJump or items.SpaceJump)
-        else:
-            return (items.CanDestroyBombWalls() or items.SpeedBooster) and items.Super and items.Morph or \
-                items.CanAccessNorfairUpperPortal() and (items.Ice or items.CanSpringBallJump() or items.HiJump or items.CanFly())
+        return (items.CanDestroyBombWalls() or items.SpeedBooster) and items.Super and items.Morph or \
+            items.CanAccessNorfairUpperPortal() and (items.Ice or items.CanSpringBallJump() or items.HiJump or items.CanFly())

@@ -110,8 +110,7 @@ class Difficulty(Choice):
     def get_option_name(cls, value) -> str:
         if cls.auto_display_name:
             return cls.name_lookup[value].upper()
-        else:
-            return cls.name_lookup[value]
+        return cls.name_lookup[value]
 
 
 class Autosave(DefaultOnToggle):

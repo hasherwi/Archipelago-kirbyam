@@ -248,13 +248,12 @@ def launch_game(*args) -> None:
                                      "No randomizer mod detected. Would you like to install now?",
                                      after_mod_install_popup)
         return
-    else:
-        latest = request_data(MOD_URL)["tag_name"]
-        if available_mod_update(latest):
-            prompt = create_yes_no_popup("Update Mod",
-                                         f"New mod version detected. Would you like to update to {latest} now?",
-                                         after_mod_update_popup)
-            return
+    latest = request_data(MOD_URL)["tag_name"]
+    if available_mod_update(latest):
+        prompt = create_yes_no_popup("Update Mod",
+                                     f"New mod version detected. Would you like to update to {latest} now?",
+                                     after_mod_update_popup)
+        return
 
     if not args:
         prompt = create_yes_no_popup("Launch Game",

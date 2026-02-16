@@ -38,27 +38,27 @@ def validate_color(color: Any, default: tuple[float, float, float]) -> tuple[tup
             ((color >> 4) & 0xff) / 255,
             ((color >> 0) & 0xff) / 255,
         )
-    elif color == "default":
+    if color == "default":
         return (), default
-    elif color == "white":
+    if color == "white":
         return (), (0.9, 0.9, 0.9)
-    elif color == "black":
+    if color == "black":
         return (), (0.0, 0.0, 0.0)
-    elif color == "grey":
+    if color == "grey":
         return (), (0.345, 0.345, 0.345)
-    elif color == "red":
+    if color == "red":
         return (), (0.85, 0.2, 0.1)
-    elif color == "orange":
+    if color == "orange":
         return (), (1.0, 0.65, 0.37)
-    elif color == "green":
+    if color == "green":
         return (), (0.24, 0.84, 0.55)
-    elif color == "blue":
+    if color == "blue":
         return (), (0.3, 0.4, 1.0)
-    elif color == "pink":
+    if color == "pink":
         return (), (0.886, 0.176, 0.843)
-    elif not isinstance(color, list):
+    if not isinstance(color, list):
         return (f"Invalid type {type(color)}; expected 3-element list or integer",), default
-    elif len(color) != 3:
+    if len(color) != 3:
         return (f"Wrong number of elements in color; expected 3, got {len(color)}",), default
     result: list[float] = [0.0, 0.0, 0.0]
     errors: list[str] = []

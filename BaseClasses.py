@@ -44,7 +44,7 @@ if TYPE_CHECKING:
 class Group(TypedDict):
     name: str
     game: str
-    world: "AutoWorld.World"
+    world: AutoWorld.World
     players: AbstractSet[int]
     item_pool: NotRequired[set[str]]
     replacement_items: NotRequired[dict[int, str | None]]
@@ -62,9 +62,8 @@ class ThreadBarrierProxy:
     def __getattr__(self, name: str) -> Any:
         if self.passthrough:
             return getattr(self.obj, name)
-        else:
-            raise RuntimeError("You are in a threaded context and global random state was removed for your safety. "
-                               "Please use multiworld.per_slot_randoms[player] or randomize ahead of output.")
+        raise RuntimeError("You are in a threaded context and global random state was removed for your safety. "
+                           "Please use multiworld.per_slot_randoms[player] or randomize ahead of output.")
 
 
 class HasNameAndPlayer(Protocol):
@@ -87,7 +86,7 @@ class PlandoItemBlock:
 class MultiWorld():
     debug_types = False
     player_name: dict[int, str]
-    worlds: dict[int, "AutoWorld.World"]
+    worlds: dict[int, AutoWorld.World]
     groups: dict[int, Group]
     regions: RegionManager
     itempool: list[Item]
@@ -574,8 +573,7 @@ class MultiWorld():
     def has_beaten_game(self, state: CollectionState, player: int | None = None) -> bool:
         if player:
             return self.completion_condition[player](state)
-        else:
-            return all((self.has_beaten_game(state, p) for p in range(1, self.players + 1)))
+        return all(self.has_beaten_game(state, p) for p in range(1, self.players + 1))
 
     def can_beat_game(self,
                       starting_state: CollectionState | None = None,
@@ -855,11 +853,10 @@ class CollectionState():
             # try to resolve a name
             if resolution_hint == "Location":
                 return self.can_reach_location(spot, player)
-            elif resolution_hint == "Entrance":
+            if resolution_hint == "Entrance":
                 return self.can_reach_entrance(spot, player)
-            else:
-                # default to Region
-                return self.can_reach_region(spot, player)
+            # default to Region
+            return self.can_reach_region(spot, player)
         return spot.can_reach(self)
 
     def can_reach_location(self, spot: str, player: int) -> bool:
@@ -997,12 +994,11 @@ class CollectionState():
         if yield_each_sweep:
             # Return a generator that will yield at the end of each sweep iteration.
             return self._sweep_for_advancements_impl(advancements_per_player, True)
-        else:
-            # Create the generator, but tell it not to yield anything, so it will run to completion in zero iterations
-            # once started, then start and exhaust the generator by attempting to iterate it.
-            for _ in self._sweep_for_advancements_impl(advancements_per_player, False):
-                assert False, "Generator yielded when it should have run to completion without yielding"
-            return None
+        # Create the generator, but tell it not to yield anything, so it will run to completion in zero iterations
+        # once started, then start and exhaust the generator by attempting to iterate it.
+        for _ in self._sweep_for_advancements_impl(advancements_per_player, False):
+            assert False, "Generator yielded when it should have run to completion without yielding"
+        return None
 
     # item name related
     def has(self, item: str, player: int, count: int = 1) -> bool:
@@ -1221,7 +1217,7 @@ class Entrance:
         self.connected_region = region
         region.entrances.append(self)
 
-    def is_valid_source_transition(self, er_state: "ERPlacementState") -> bool:
+    def is_valid_source_transition(self, er_state: ERPlacementState) -> bool:
         """
         Determines whether this is a valid source transition, that is, whether the entrance
         randomizer is allowed to pair it to place any other regions. By default, this is the
@@ -1232,7 +1228,7 @@ class Entrance:
         """
         return self.can_reach(er_state.collection_state)
 
-    def can_connect_to(self, other: Entrance, dead_end: bool, er_state: "ERPlacementState") -> bool:
+    def can_connect_to(self, other: Entrance, dead_end: bool, er_state: ERPlacementState) -> bool:
         """
         Determines whether a given Entrance is a valid target transition, that is, whether
         the entrance randomizer is allowed to pair this Entrance to that Entrance. By default,
@@ -1935,7 +1931,7 @@ class Spoiler:
                     path_lines: list[str] = []
                     for region, exit in path:
                         if exit is not None:
-                            path_lines.append("{} -> {}".format(region, exit))
+                            path_lines.append(f"{region} -> {exit}")
                         else:
                             path_lines.append(region)
                     path_listings.append("{}\n        {}".format(location, "\n   =>   ".join(path_lines)))

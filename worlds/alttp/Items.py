@@ -17,8 +17,7 @@ def GetBeemizerItem(world, player: int, item):
     # second roll - bee replacement should be trap, within beemizer_trap_chance
     if not world.worlds[player].options.beemizer_trap_chance or world.random.random() > (world.worlds[player].options.beemizer_trap_chance / 100):
         return "Bee" if isinstance(item, str) else world.create_item("Bee", player)
-    else:
-        return "Bee Trap" if isinstance(item, str) else world.create_item("Bee Trap", player)
+    return "Bee Trap" if isinstance(item, str) else world.create_item("Bee Trap", player)
 
 
 def item_factory(items: str | typing.Iterable[str], world: World):

@@ -20,11 +20,11 @@ def to_progressive_item(building: str) -> tuple[str, int]:
     """
     if building in [Building.coop, Building.barn, Building.shed]:
         return f"Progressive {building}", 1
-    elif building.startswith("Big"):
+    if building.startswith("Big"):
         return f"Progressive {building[building.index(' ') + 1:]}", 2
-    elif building.startswith("Deluxe"):
+    if building.startswith("Deluxe"):
         return f"Progressive {building[building.index(' ') + 1:]}", 3
-    elif building in progressive_house_by_upgrade_name:
+    if building in progressive_house_by_upgrade_name:
         return progressive_house, progressive_house_by_upgrade_name[building]
 
     return building, 1

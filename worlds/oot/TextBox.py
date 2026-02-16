@@ -155,11 +155,9 @@ def get_character_width(character):
         if ord(character) < 0x20:
             if character in control_code_width:
                 return sum([character_table[c] for c in control_code_width[character]])
-            else:
-                return 0
-        else:
-            # A sane default with the most common character width
-            return character_table[" "]
+            return 0
+        # A sane default with the most common character width
+        return character_table[" "]
 
 
 control_code_width = {

@@ -154,15 +154,14 @@ class BizHawkClientContext(CommonContext):
         if "type" not in args or args["type"] in {"Hint", "Join", "Part", "TagsChanged", "Goal", "Release", "Collect",
                                                   "Countdown", "ServerChat", "ItemCheat"}:
             return TextCategory.SERVER
-        elif args["type"] == "Chat":
+        if args["type"] == "Chat":
             return TextCategory.CHAT
-        elif args["type"] == "ItemSend":
+        if args["type"] == "ItemSend":
             if args["item"].player == self.slot:
                 return TextCategory.OUTGOING
-            elif args["receiving"] == self.slot:
+            if args["receiving"] == self.slot:
                 return TextCategory.INCOMING
-            else:
-                return TextCategory.OTHER
+            return TextCategory.OTHER
 
     def on_print_json(self, args: dict):
         super().on_print_json(args)
@@ -206,7 +205,7 @@ class BizHawkClientContext(CommonContext):
 
         if password_requested and not self.password:
             self.auth_status = AuthStatus.NEED_INFO
-            await super(BizHawkClientContext, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
 
         await self.send_connect()
         self.auth_status = AuthStatus.PENDING

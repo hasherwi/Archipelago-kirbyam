@@ -301,7 +301,7 @@ def patch_rom(world, rom):
     for idx,part in enumerate(msg):
         part_bytes = list(ord(c) for c in part) + [0] * (line_len+1)
         part_bytes = part_bytes[:(line_len+1)]
-        symbol = rom.sym("CFG_CUSTOM_MESSAGE_{}".format(idx+1))
+        symbol = rom.sym(f"CFG_CUSTOM_MESSAGE_{idx+1}")
         rom.write_bytes(symbol, part_bytes)
 
     # Change graveyard graves to not allow grabbing on to the ledge
@@ -2838,8 +2838,7 @@ def boss_reward_index(item):
     code = item.special["item_id"]
     if code >= 0x6C:
         return code - 0x6C
-    else:
-        return 3 + code - 0x66
+    return 3 + code - 0x66
 
 
 def configure_dungeon_info(rom, world):

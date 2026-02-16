@@ -17,7 +17,7 @@ class SA2BItem(Item):
     game: str = "Sonic Adventure 2 Battle"
 
     def __init__(self, name, classification: ItemClassification, code: int = None, player: int = None):
-        super(SA2BItem, self).__init__(name, classification, code, player)
+        super().__init__(name, classification, code, player)
 
 
 # Separate tables for each type of item.

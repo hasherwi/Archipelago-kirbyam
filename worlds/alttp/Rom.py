@@ -1767,8 +1767,7 @@ def get_price_data(price: int, price_type: int) -> list[int]:
         # Then set the type of price we're setting 0x7F00 (this starts from Hearts, not Rupees, subtract 1)
         # Then append the price/index into the second byte 0x00FF
         return int16_as_bytes(0x8000 | 0x100 * (price_type - 1) | price)
-    else:
-        return int16_as_bytes(price)
+    return int16_as_bytes(price)
 
 
 def write_custom_shops(rom, world, player):

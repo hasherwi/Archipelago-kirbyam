@@ -243,12 +243,12 @@ class TerrariaWorld(World):
                 name = condition.condition
 
             return condition.sign == state.has(name, self.player)
-        elif condition.type == COND_LOC:
+        if condition.type == COND_LOC:
             rule = rules[rule_indices[condition.condition]]
             return condition.sign == self.check_conditions(
                 state, rule.operator, rule.conditions
             )
-        elif condition.type == COND_FN:
+        if condition.type == COND_FN:
             if condition.condition == "npc":
                 if type(condition.argument) is not int:
                     raise Exception("@npc requires an integer argument")
@@ -261,11 +261,11 @@ class TerrariaWorld(World):
                             return condition.sign
 
                 return not condition.sign
-            elif condition.condition == "calamity":
+            if condition.condition == "calamity":
                 return condition.sign == self.options.calamity.value
-            elif condition.condition == "grindy":
+            if condition.condition == "grindy":
                 return condition.sign == self.options.grindy_achievements.value
-            elif condition.condition == "pickaxe":
+            if condition.condition == "pickaxe":
                 if type(condition.argument) is not int:
                     raise Exception("@pickaxe requires an integer argument")
 
@@ -274,7 +274,7 @@ class TerrariaWorld(World):
                         return condition.sign
 
                 return not condition.sign
-            elif condition.condition == "hammer":
+            if condition.condition == "hammer":
                 if type(condition.argument) is not int:
                     raise Exception("@hammer requires an integer argument")
 
@@ -283,7 +283,7 @@ class TerrariaWorld(World):
                         return condition.sign
 
                 return not condition.sign
-            elif condition.condition == "mech_boss":
+            if condition.condition == "mech_boss":
                 if type(condition.argument) is not int:
                     raise Exception("@mech_boss requires an integer argument")
 
@@ -295,7 +295,7 @@ class TerrariaWorld(World):
                             return condition.sign
 
                 return not condition.sign
-            elif condition.condition == "minions":
+            if condition.condition == "minions":
                 if type(condition.argument) is not int:
                     raise Exception("@minions requires an integer argument")
 
@@ -313,10 +313,9 @@ class TerrariaWorld(World):
                             return condition.sign
 
                 return not condition.sign
-            elif condition.condition == "getfixedboi":
+            if condition.condition == "getfixedboi":
                 return condition.sign == self.options.getfixedboi.value
-            else:
-                raise Exception(f"Unknown function {condition.condition}")
+            raise Exception(f"Unknown function {condition.condition}")
         elif condition.type == COND_GROUP:
             operator, conditions = condition.condition
             return condition.sign == self.check_conditions(state, operator, conditions)
@@ -340,14 +339,13 @@ class TerrariaWorld(World):
             if len(conditions) > 1:
                 raise Exception("Found multiple conditions without an operator")
             return self.check_condition(state, conditions[0])
-        elif operator:
+        if operator:
             return any(
                 self.check_condition(state, condition) for condition in conditions
             )
-        else:
-            return all(
-                self.check_condition(state, condition) for condition in conditions
-            )
+        return all(
+            self.check_condition(state, condition) for condition in conditions
+        )
 
     def set_rules(self) -> None:
         for location in self.ter_locations:

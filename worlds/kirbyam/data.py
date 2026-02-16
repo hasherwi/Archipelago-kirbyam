@@ -153,11 +153,11 @@ class Warp:
         dest_ids_string = ",".join(str(x) for x in self.dest_ids)
         return f"{self.source_map}:{source_ids_string}/{self.dest_map}:{dest_ids_string}{'!' if self.is_one_way else ''}"
 
-    def connects_to(self, other: "Warp") -> bool:
+    def connects_to(self, other: Warp) -> bool:
         return self.dest_map == other.source_map and set(self.dest_ids) <= set(other.source_ids)
 
     @staticmethod
-    def decode(encoded_string: str) -> "Warp":
+    def decode(encoded_string: str) -> Warp:
         warp = Warp()
         warp.is_one_way = encoded_string.endswith("!")
         if warp.is_one_way:

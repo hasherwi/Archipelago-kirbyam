@@ -175,14 +175,13 @@ class OpenPyramid(Choice):
     def to_bool(self, world: MultiWorld, player: int) -> bool:
         if self.value == self.option_goal:
             return world.worlds[player].options.goal.current_key in {"crystals", "ganon_triforce_hunt", "local_ganon_triforce_hunt", "ganon_pedestal"}
-        elif self.value == self.option_auto:
+        if self.value == self.option_auto:
             return world.worlds[player].options.goal.current_key in {"crystals", "ganon_triforce_hunt", "local_ganon_triforce_hunt", "ganon_pedestal"} \
             and (world.worlds[player].options.entrance_shuffle.current_key in {"vanilla", "dungeons_simple", "dungeons_full", "dungeons_crossed"} or not
                  world.shuffle_ganon)
-        elif self.value == self.option_open:
+        if self.value == self.option_open:
             return True
-        else:
-            return False
+        return False
 
 
 class DungeonItem(Choice):

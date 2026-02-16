@@ -80,7 +80,7 @@ def option_can_be_randomized(option: type[Option]):
     # most options can be randomized, so we should just check for those that cannot
     if not option.supports_weighting:
         return False
-    elif issubclass(option, FreeText) and not issubclass(option, TextChoice):
+    if issubclass(option, FreeText) and not issubclass(option, TextChoice):
         return False
     return True
 
@@ -565,7 +565,7 @@ class OptionsCreator(ThemedApp):
         if not cls.web.options_page:
             self.current_game = "None"
             return
-        elif isinstance(cls.web.options_page, str):
+        if isinstance(cls.web.options_page, str):
             self.current_game = "None"
             if validate_url(cls.web.options_page):
                 webbrowser.open(cls.web.options_page)

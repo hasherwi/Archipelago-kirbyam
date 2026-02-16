@@ -542,14 +542,13 @@ class KH2World(World):
         if self.options.LevelDepth == "level_50_sanity":
             # level 50 sanity
             return 49
-        elif self.options.LevelDepth == "level_1":
+        if self.options.LevelDepth == "level_1":
             # level 1. No checks on levels
             return 98
-        elif self.options.LevelDepth in ["level_50", "level_99"]:
+        if self.options.LevelDepth in ["level_50", "level_99"]:
             # could be if leveldepth!= 99 sanity but this reads better imo
             return 75
-        else:
-            return 0
+        return 0
 
     def get_filler_item_name(self) -> str:
         """

@@ -177,8 +177,7 @@ class YoshisIslandWorld(World):
 
         if self.random.random() < (trap_chance / 100) and self.options.traps_enabled:
             return self.random.choice(trap_items)
-        else:
-            return self.random.choice(filler_items)
+        return self.random.choice(filler_items)
 
     def set_rules(self) -> None:
         rules_per_difficulty = {

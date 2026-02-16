@@ -55,18 +55,17 @@ def generate_api():
         if any(type(result) == str for result in results.values()):
             return {"text": str(results),
                     "detail": results}, 400
-        else:
-            gen = Generation(
-                options=restricted_dumps({name: vars(options) for name, options in gen_options.items()}),
-                # convert to json compatible
-                meta=json.dumps(meta), state=STATE_QUEUED,
-                owner=session["_id"])
-            commit()
-            return {"text": f"Generation of seed {gen.id} started successfully.",
-                    "detail": gen.id,
-                    "encoded": app.url_map.converters["suuid"].to_url(None, gen.id),
-                    "wait_api_url": url_for("api.wait_seed_api", seed=gen.id, _external=True),
-                    "url": url_for("wait_seed", seed=gen.id, _external=True)}, 201
+        gen = Generation(
+            options=restricted_dumps({name: vars(options) for name, options in gen_options.items()}),
+            # convert to json compatible
+            meta=json.dumps(meta), state=STATE_QUEUED,
+            owner=session["_id"])
+        commit()
+        return {"text": f"Generation of seed {gen.id} started successfully.",
+                "detail": gen.id,
+                "encoded": app.url_map.converters["suuid"].to_url(None, gen.id),
+                "wait_api_url": url_for("api.wait_seed_api", seed=gen.id, _external=True),
+                "url": url_for("wait_seed", seed=gen.id, _external=True)}, 201
     except Exception as e:
         return {"text": "Uncaught Exception:" + str(e)}, 500
 
@@ -81,6 +80,6 @@ def wait_seed_api(seed: UUID):
 
     if not generation:
         return {"text": "Generation not found"}, 404
-    elif generation.state == STATE_ERROR:
+    if generation.state == STATE_ERROR:
         return {"text": "Generation failed"}, 500
     return {"text": "Generation running"}, 202

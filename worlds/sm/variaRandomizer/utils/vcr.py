@@ -6,7 +6,7 @@ import os.path
 class VCR(object):
     def __init__(self, name, type):
         self.baseName = os.path.basename(os.path.splitext(name)[0])
-        self.outFileName = "{}.{}.vcr".format(self.baseName, type)
+        self.outFileName = f"{self.baseName}.{type}.vcr"
         self.empty()
 
     def empty(self):
@@ -25,5 +25,5 @@ class VCR(object):
     # in scavenger we have the rando solver then the scav solver, generate vcr for both
     def reinit(self, type):
         self.dump()
-        self.outFileName = "{}.{}.vcr".format(self.baseName, type)
+        self.outFileName = f"{self.baseName}.{type}.vcr"
         self.empty()

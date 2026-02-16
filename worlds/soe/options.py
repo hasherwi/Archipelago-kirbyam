@@ -235,7 +235,7 @@ class ItemChanceMeta(AssembleOptions):
             attrs["display_name"] = f"{attrs['item_name']} Chance"
         attrs["range_start"] = 0
         attrs["range_end"] = 100
-        cls = super(ItemChanceMeta, mcs).__new__(mcs, name, bases, attrs)   # type: ignore[no-untyped-call]
+        cls = super().__new__(mcs, name, bases, attrs)   # type: ignore[no-untyped-call]
         return cast(ItemChanceMeta, cls)
 
 

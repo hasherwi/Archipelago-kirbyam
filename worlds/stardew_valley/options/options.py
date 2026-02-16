@@ -624,8 +624,7 @@ class Walnutsanity(OptionSet):
             return set(self.value) == other.value
         if isinstance(other, OptionList):
             return set(self.value) == set(other.value)
-        else:
-            return typing.cast(bool, self.value == other)
+        return typing.cast(bool, self.value == other)
 
 
 class NumberOfMovementBuffs(Range):

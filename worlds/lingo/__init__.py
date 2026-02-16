@@ -209,6 +209,5 @@ class LingoWorld(World):
     def get_filler_item_name(self) -> str:
         if self.options.speed_boost_mode:
             return "Speed Boost"
-        else:
-            filler_list = [":)", "The Feeling of Being Lost", "Wanderlust", "Empty White Hallways"]
-            return self.random.choice(filler_list)
+        filler_list = [":)", "The Feeling of Being Lost", "Wanderlust", "Empty White Hallways"]
+        return self.random.choice(filler_list)

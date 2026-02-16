@@ -129,26 +129,24 @@ class Helpers(object):
                 if ret.bool == True:
                     ret._items.append(items)
                 return ret
-            else:
-                tanks = self.energyReserveCount()
-                multCF = mult
-                if tanks >= 14:
-                    multCF *= 2.0
-                nCF = int(math.ceil(2/multCF))
-                ret = sm.wand(self.energyReserveCountOkHellRun(hellRun, mult),
-                              self.canCrystalFlash(nCF))
-                if ret.bool == True:
-                    if sm.haveItem("Gravity") == True:
-                        ret.difficulty *= 0.7
-                        ret._items.append("Gravity")
-                    elif sm.haveItem("ScrewAttack") == True:
-                        ret.difficulty *= 0.7
-                        ret._items.append("ScrewAttack")
-                #nPB = self.smbm.itemCount('PowerBomb')
-                #print("canHellRun LN. tanks=" + str(tanks) + ", nCF=" + str(nCF) + ", nPB=" + str(nPB) + ", mult=" + str(mult) + ", heatProof=" + str(isHeatProof.bool) + ", ret=" + str(ret))
-                return ret
-        else:
-            return smboolFalse
+            tanks = self.energyReserveCount()
+            multCF = mult
+            if tanks >= 14:
+                multCF *= 2.0
+            nCF = int(math.ceil(2/multCF))
+            ret = sm.wand(self.energyReserveCountOkHellRun(hellRun, mult),
+                          self.canCrystalFlash(nCF))
+            if ret.bool == True:
+                if sm.haveItem("Gravity") == True:
+                    ret.difficulty *= 0.7
+                    ret._items.append("Gravity")
+                elif sm.haveItem("ScrewAttack") == True:
+                    ret.difficulty *= 0.7
+                    ret._items.append("ScrewAttack")
+            #nPB = self.smbm.itemCount('PowerBomb')
+            #print("canHellRun LN. tanks=" + str(tanks) + ", nCF=" + str(nCF) + ", nPB=" + str(nPB) + ", mult=" + str(mult) + ", heatProof=" + str(isHeatProof.bool) + ", ret=" + str(ret))
+            return ret
+        return smboolFalse
 
     @Cache.decorator
     def canMockball(self):
@@ -296,7 +294,7 @@ class Helpers(object):
             ret = sm.wand(sm.canUsePowerBombs(),
                           SMBool(nAmmo >= 30*n))
         if ret:
-            ret._items.append("{}-CrystalFlash".format(n))
+            ret._items.append(f"{n}-CrystalFlash")
         return ret
 
     @Cache.decorator
@@ -529,8 +527,7 @@ class Helpers(object):
                            sm.wor(sm.itemCountOk("Missile", 2),
                                   sm.wand(sm.haveItem("Missile"),
                                           sm.haveItem("Super"))))
-        else:
-            return SMBool(True, easy, items=items)
+        return SMBool(True, easy, items=items)
 
     @Cache.decorator
     def enoughStuffBotwoon(self):
@@ -579,8 +576,7 @@ class Helpers(object):
             diff = 1
         if diff < 0:
             return smboolFalse
-        else:
-            return SMBool(True, diff, items=ammoItems+defenseItems)
+        return SMBool(True, diff, items=ammoItems+defenseItems)
 
     @Cache.decorator
     def enoughStuffsKraid(self):
@@ -767,15 +763,13 @@ class Pickup:
         if self.itemsPickup in ("all", "all_strict"):
             return (len(minorLocations) == 0
                     or (len(minorLocations) == 1 and minorLocations[0].Name in self.endGameLocations))
-        else:
-            return True
+        return True
 
     def enoughMajors(self, smbm, majorLocations):
         if self.itemsPickup in ("all", "all_strict"):
             return (len(majorLocations) == 0
                     or (len(majorLocations) == 1 and majorLocations[0].Name in self.endGameLocations))
-        else:
-            return True
+        return True
 
 class Bosses:
     # bosses helpers to know if they are dead

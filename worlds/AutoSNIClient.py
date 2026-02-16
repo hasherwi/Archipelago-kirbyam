@@ -201,7 +201,7 @@ class SnesReader(Generic[_T_Enum]):
         logging.debug(f"{len(ranges)=} {max(r.size for r in ranges)=}")
         return ranges
 
-    async def read(self, ctx: "SNIContext") -> SnesData[_T_Enum] | None:
+    async def read(self, ctx: SNIContext) -> SnesData[_T_Enum] | None:
         """
         returns `None` if reading fails,
         otherwise returns the data for the registered `Enum`

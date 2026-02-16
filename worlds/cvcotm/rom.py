@@ -60,7 +60,7 @@ class RomData:
         # Try loading the IPS file.
         try:
             ips_file = pkgutil.get_data(__name__, "data/ips/" + filename)
-        except IOError:
+        except OSError:
             raise Exception(f"{filename} is not present in the ips folder. If it was removed, please replace it.")
 
         # Verify that the IPS patch is, indeed, an IPS patch.

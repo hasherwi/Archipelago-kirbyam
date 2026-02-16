@@ -316,12 +316,12 @@ class CommonContext:
     starting_reconnect_delay: int = 5
     current_reconnect_delay: int = starting_reconnect_delay
     command_processor: type[CommandProcessor] = ClientCommandProcessor
-    ui: "kvui.GameManager" | None = None
-    ui_task: "asyncio.Task[None]" | None = None
-    input_task: "asyncio.Task[None]" | None = None
-    keep_alive_task: "asyncio.Task[None]" | None = None
-    server_task: "asyncio.Task[None]" | None = None
-    autoreconnect_task: "asyncio.Task[None]" | None = None
+    ui: kvui.GameManager | None = None
+    ui_task: asyncio.Task[None] | None = None
+    input_task: asyncio.Task[None] | None = None
+    keep_alive_task: asyncio.Task[None] | None = None
+    server_task: asyncio.Task[None] | None = None
+    autoreconnect_task: asyncio.Task[None] | None = None
     disconnected_intentionally: bool = False
     server: Endpoint | None = None
     server_version: Version = Version(0, 0, 0)
@@ -393,9 +393,9 @@ class CommonContext:
     """Current container of watched Data Storage keys, managed by ctx.set_notify"""
 
     # internals
-    _messagebox: "kvui.MessageBox" | None = None
+    _messagebox: kvui.MessageBox | None = None
     """Current message box through kvui"""
-    _messagebox_connection_loss: "kvui.MessageBox" | None = None
+    _messagebox_connection_loss: kvui.MessageBox | None = None
     """Message box reporting a loss of connection"""
 
     def __init__(self, server_address: str | None = None, password: str | None = None) -> None:
@@ -777,7 +777,7 @@ class CommonContext:
         if old_tags != self.tags and self.server and not self.server.socket.closed:
             await self.send_msgs([{"cmd": "ConnectUpdate", "tags": self.tags}])
 
-    def gui_error(self, title: str, text: Exception | str) -> "kvui.MessageBox" | None:
+    def gui_error(self, title: str, text: Exception | str) -> kvui.MessageBox | None:
         """Displays an error messagebox in the loaded Kivy UI. Override if using a different UI framework"""
         if not self.ui:
             return None
@@ -805,7 +805,7 @@ class CommonContext:
         logger.exception(msg, exc_info=exc_info, extra={"compact_gui": True})
         self._messagebox_connection_loss = self.gui_error(msg, exc_info[1])
 
-    def make_gui(self) -> "type[kvui.GameManager]":
+    def make_gui(self) -> type[kvui.GameManager]:
         """
         To return the Kivy `App` class needed for `run_gui` so it can be overridden before being built
 
@@ -1167,8 +1167,8 @@ def get_base_parser(description: str | None = None):
     return parser
 
 
-def handle_url_arg(args: "argparse.Namespace",
-                   parser: "argparse.ArgumentParser | None" = None) -> "argparse.Namespace":
+def handle_url_arg(args: argparse.Namespace,
+                   parser: argparse.ArgumentParser | None = None) -> argparse.Namespace:
     """
     Parse the url arg "archipelago://name:pass@host:port" from launcher into correct launch args for CommonClient
     If alternate data is required the urlparse response is saved back to args.url if valid
@@ -1203,7 +1203,7 @@ def run_as_textclient(*args):
 
         async def server_auth(self, password_requested: bool = False):
             if password_requested and not self.password:
-                await super(TextContext, self).server_auth(password_requested)
+                await super().server_auth(password_requested)
             await self.get_username()
             await self.send_connect(game="")
 

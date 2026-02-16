@@ -269,12 +269,11 @@ class TWWWorld(World):
 
         if IC.progression in classification:
             return "progression"
-        elif IC.trap in classification:
+        if IC.trap in classification:
             return "trap"
-        elif IC.useful in classification:
+        if IC.useful in classification:
             return "useful"
-        else:
-            return "filler"
+        return "filler"
 
     def generate_early(self) -> None:
         """

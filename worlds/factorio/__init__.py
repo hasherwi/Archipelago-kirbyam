@@ -124,7 +124,7 @@ class Factorio(World):
     want_progressives: dict[str, bool] = collections.defaultdict(lambda: False)
 
     def __init__(self, world, player: int):
-        super(Factorio, self).__init__(world, player)
+        super().__init__(world, player)
         self.removed_technologies = useless_technologies.copy()
         self.advancement_technologies = set()
         self.custom_recipes = {}
@@ -409,7 +409,7 @@ class Factorio(World):
                     if not state.has(item_name, item.player):
                         return item_name
 
-        return super(Factorio, self).collect_item(state, item, remove)
+        return super().collect_item(state, item, remove)
 
     @classmethod
     def stage_write_spoiler(cls, world, spoiler_handle):
@@ -648,7 +648,7 @@ class FactorioCraftsanityLocation(FactorioLocation):
     revealed = False
 
     def __init__(self, player: int, name: str, address: int, parent: Region):
-        super(FactorioCraftsanityLocation, self).__init__(player, name, address, parent)
+        super().__init__(player, name, address, parent)
 
     @property
     def crafted_item(self):
@@ -665,7 +665,7 @@ class FactorioScienceLocation(FactorioLocation):
     count: int = 0
 
     def __init__(self, player: int, name: str, address: int, parent: Region):
-        super(FactorioScienceLocation, self).__init__(player, name, address, parent)
+        super().__init__(player, name, address, parent)
         # "AP-{Complexity}-{Cost}"
         self.complexity = int(self.name[3]) - 1
         self.rel_cost = int(self.name[5:])

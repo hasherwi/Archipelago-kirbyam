@@ -104,7 +104,7 @@ def load_static_data_from_file():
         def find_class(self, module, name):
             if module in ("worlds.lingo.datatypes", "datatypes"):
                 return getattr(datatypes, name)
-            elif module == "builtins" and name in safe_builtins:
+            if module == "builtins" and name in safe_builtins:
                 return getattr(safe_builtins, name)
             raise pickle.UnpicklingError(f"global '{module}.{name}' is forbidden")
 

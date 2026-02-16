@@ -257,9 +257,8 @@ def get_opponent_condition(opponent: OpponentData, unlock_item: str, unlock_amou
             and yugioh06_difficulty(state, player, opponent.difficulty)
             and state.has_all(opponent.additional_info, player)
         )
-    else:
-        return lambda state: (
-            state.has_group(unlock_item, player, unlock_amount)
-            and yugioh06_difficulty(state, player, opponent.difficulty)
-            and state.has_all(opponent.additional_info, player)
-        )
+    return lambda state: (
+        state.has_group(unlock_item, player, unlock_amount)
+        and yugioh06_difficulty(state, player, opponent.difficulty)
+        and state.has_all(opponent.additional_info, player)
+    )

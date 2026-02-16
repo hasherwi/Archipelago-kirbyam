@@ -698,7 +698,7 @@ class Assembler:
         t = self.__tok.pop()
         if t.isA("OP", "-") or t.isA("OP", "+"):
             return OP.make(str(t.value), self.parseUnary())
-        elif t.isA("OP", "("):
+        if t.isA("OP", "("):
             result = self.parseExpression()
             self.__tok.expect("OP", ")")
             return result
@@ -740,11 +740,11 @@ class Assembler:
     def resolveExpr(self, expr: ExprBase | None) -> ExprBase | None:
         if expr is None:
             return None
-        elif isinstance(expr, OP):
+        if isinstance(expr, OP):
             left = self.resolveExpr(expr.left)
             assert left is not None
             return OP.make(expr.op, left, self.resolveExpr(expr.right))
-        elif isinstance(expr, Token) and expr.isA("ID") and isinstance(expr, Token) and expr.value in self.__label:
+        if isinstance(expr, Token) and expr.isA("ID") and isinstance(expr, Token) and expr.value in self.__label:
             return Token("NUMBER", self.__label[str(expr.value)] + self.__base_address, expr.line_nr)
         return expr
 

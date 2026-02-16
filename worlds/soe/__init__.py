@@ -194,7 +194,7 @@ class SoEWorld(World):
 
     def __init__(self, multiworld: "MultiWorld", player: int):
         self.connect_name_available_event = threading.Event()
-        super(SoEWorld, self).__init__(multiworld, player)
+        super().__init__(multiworld, player)
 
     def generate_early(self) -> None:
         # create logic from options

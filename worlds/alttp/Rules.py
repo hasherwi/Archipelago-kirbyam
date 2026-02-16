@@ -59,11 +59,10 @@ def set_rules(world):
             for exit in world.get_region("Menu", player).exits:
                 exit.hide_path = True
             return
-        else:
-            # Set access rules according to max glitches for multiworld progression.
-            # Set accessibility to none, and shuffle assuming the no logic players can always win
-            world.worlds[player].options.accessibility.value = ItemsAccessibility.option_minimal
-            world.worlds[player].options.progression_balancing.value = 0
+        # Set access rules according to max glitches for multiworld progression.
+        # Set accessibility to none, and shuffle assuming the no logic players can always win
+        world.worlds[player].options.accessibility.value = ItemsAccessibility.option_minimal
+        world.worlds[player].options.progression_balancing.value = 0
 
     else:
         world.completion_condition[player] = lambda state: state.has("Triforce", player)
@@ -158,8 +157,7 @@ def mirrorless_path_to_castle_courtyard(world, player):
                 new_path = path + [entrance.access_rule]
                 if entrance.connected_region == target:
                     return new_path
-                else:
-                    queue.append((entrance.connected_region, new_path))
+                queue.append((entrance.connected_region, new_path))
 
     raise Exception(f"Could not find mirrorless path to castle courtyard for Player {player} ({world.get_player_name(player)})")
 
@@ -346,9 +344,9 @@ def global_rules(multiworld: MultiWorld, player: int):
                      lambda state, item: item.name == "Big Key (Eastern Palace)" and item.player == player)
     set_rule(multiworld.get_location("Eastern Palace - Big Key Chest", player),
              lambda state: can_kill_most_things(state, player, 5) and (state._lttp_has_key("Small Key (Eastern Palace)",
-             player, 2) or ((location_item_name(state, "Eastern Palace - Big Key Chest", player)
+             player, 2) or (location_item_name(state, "Eastern Palace - Big Key Chest", player)
                              == ("Big Key (Eastern Palace)", player) and state.has("Small Key (Eastern Palace)",
-                                                                                   player)))))
+                                                                                   player))))
     set_rule(multiworld.get_location("Eastern Palace - Dark Eyegore Key Drop", player),
              lambda state: state.has("Big Key (Eastern Palace)", player) and can_kill_most_things(state, player, 1))
     set_rule(multiworld.get_location("Eastern Palace - Big Chest", player),
@@ -1057,8 +1055,7 @@ def open_rules(world, player):
     def basement_key_rule(state):
         if location_item_name(state, "Sewers - Key Rat Key Drop", player) == ("Small Key (Hyrule Castle)", player):
             return state._lttp_has_key("Small Key (Hyrule Castle)", player, 2)
-        else:
-            return state._lttp_has_key("Small Key (Hyrule Castle)", player, 3)
+        return state._lttp_has_key("Small Key (Hyrule Castle)", player, 3)
 
     set_rule(world.get_location("Hyrule Castle - Boomerang Guard Key Drop", player),
              lambda state: basement_key_rule(state) and can_kill_most_things(state, player, 2))

@@ -46,13 +46,11 @@ class CraftingLogic(BaseLogic):
         if isinstance(recipe.source, FestivalShopSource):
             if self.options.festival_locations == options.FestivalLocations.option_disabled:
                 return self.logic.crafting.can_learn_recipe(recipe)
-            else:
-                return self.logic.crafting.received_recipe(recipe.item)
+            return self.logic.crafting.received_recipe(recipe.item)
         if isinstance(recipe.source, QuestSource):
             if self.options.quest_locations.has_no_story_quests():
                 return self.logic.crafting.can_learn_recipe(recipe)
-            else:
-                return self.logic.crafting.received_recipe(recipe.item)
+            return self.logic.crafting.received_recipe(recipe.item)
         if self.options.craftsanity == Craftsanity.option_none:
             return self.logic.crafting.can_learn_recipe(recipe)
         if isinstance(recipe.source, (StarterSource, ShopTradeSource, ShopSource, SkillCraftsanitySource)):

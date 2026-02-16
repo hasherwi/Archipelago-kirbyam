@@ -82,14 +82,13 @@ class East(SMRegion):
                     # /* Frog Speedway */
                     items.SpeedBooster and (items.CardNorfairL2 or items.Wave) and items.CanUsePowerBombs()
                 )
-        else:
-            return ((items.CanDestroyBombWalls() or items.SpeedBooster) and items.Super and items.Morph or
-                    items.CanAccessNorfairUpperPortal()) and (
-                items.CanHellRun()) and (
-                    # /* Cathedral */
-                    items.CanOpenRedDoors() and (items.CardNorfairL2 if self.Config.Keysanity else items.Super) and (
-                        items.CanFly() or items.HiJump or items.SpeedBooster or
-                        items.CanSpringBallJump() or items.Varia and items.Ice
-                    ) or
-                    # /* Frog Speedway */
-                    items.SpeedBooster and (items.CardNorfairL2 or items.Missile or items.Super or items.Wave) and items.CanUsePowerBombs())
+        return ((items.CanDestroyBombWalls() or items.SpeedBooster) and items.Super and items.Morph or
+                items.CanAccessNorfairUpperPortal()) and (
+            items.CanHellRun()) and (
+                # /* Cathedral */
+                items.CanOpenRedDoors() and (items.CardNorfairL2 if self.Config.Keysanity else items.Super) and (
+                    items.CanFly() or items.HiJump or items.SpeedBooster or
+                    items.CanSpringBallJump() or items.Varia and items.Ice
+                ) or
+                # /* Frog Speedway */
+                items.SpeedBooster and (items.CardNorfairL2 or items.Missile or items.Super or items.Wave) and items.CanUsePowerBombs())

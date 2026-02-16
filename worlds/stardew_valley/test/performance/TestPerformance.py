@@ -133,9 +133,9 @@ class SVPerformanceTestCase(SVTestCase):
 def size_name(number_players):
     if number_players == 1:
         return "solo"
-    elif number_players == 2:
+    if number_players == 2:
         return "duo"
-    elif number_players == 3:
+    if number_players == 3:
         return "trio"
     return f"{number_players}-player"
 

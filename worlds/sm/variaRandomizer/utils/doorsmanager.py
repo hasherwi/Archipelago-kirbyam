@@ -105,8 +105,7 @@ class Door(object):
     def getColor(self):
         if self.hidden:
             return "grey"
-        else:
-            return self.color
+        return self.color
 
     def isRandom(self):
         return self.color != self.vanillaColor and not self.isBlue()
@@ -120,8 +119,7 @@ class Door(object):
     def filterColorList(self, colorsList):
         if self.forbiddenColors is None:
             return colorsList
-        else:
-            return [color for color in colorsList if color not in self.forbiddenColors]
+        return [color for color in colorsList if color not in self.forbiddenColors]
 
     def randomize(self, allowGreyDoors, random):
         if self.canRandomize():
@@ -133,25 +131,24 @@ class Door(object):
     def traverse(self, smbm):
         if self.hidden or self.color == "grey":
             return SMBool(False)
-        elif self.color == "red":
+        if self.color == "red":
             return smbm.canOpenRedDoors()
-        elif self.color == "green":
+        if self.color == "green":
             return smbm.canOpenGreenDoors()
-        elif self.color == "yellow":
+        if self.color == "yellow":
             return smbm.canOpenYellowDoors()
-        elif self.color == "wave":
+        if self.color == "wave":
             return smbm.haveItem("Wave")
-        elif self.color == "spazer":
+        if self.color == "spazer":
             return smbm.haveItem("Spazer")
-        elif self.color == "plasma":
+        if self.color == "plasma":
             return smbm.haveItem("Plasma")
-        elif self.color == "ice":
+        if self.color == "ice":
             return smbm.haveItem("Ice")
-        else:
-            return SMBool(True)
+        return SMBool(True)
 
     def __repr__(self):
-        return "Door({}, {})".format(self.name, self.color)
+        return f"Door({self.name}, {self.color})"
 
     def isRefillSave(self):
         return self.address is None
@@ -387,7 +384,7 @@ class DoorsManager():
     def debugDoorsColor():
         if LOG.getEffectiveLevel() == logging.DEBUG:
             for door in DoorsManager.doors.values():
-                LOG.debug("{:>32}: {:>6}".format(door.name, door.color))
+                LOG.debug(f"{door.name:>32}: {door.color:>6}")
 
     # call from rom patcher
     @staticmethod

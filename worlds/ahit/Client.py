@@ -48,7 +48,7 @@ class AHITContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super(AHITContext, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
 
         await self.get_username()
         await self.send_connect()

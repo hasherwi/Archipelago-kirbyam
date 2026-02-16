@@ -34,7 +34,7 @@ class OOTRegion(Region):
     game: str = "Ocarina of Time"
 
     def __init__(self, name: str, player: int, multiworld: MultiWorld):
-        super(OOTRegion, self).__init__(name, player, multiworld)
+        super().__init__(name, player, multiworld)
         self._oot_hint = None
         self.alt_hint = None
         self.price = None
@@ -59,10 +59,9 @@ class OOTRegion(Region):
     def get_scene(self):
         if self.scene:
             return self.scene
-        elif self.dungeon:
+        if self.dungeon:
             return self.dungeon.name
-        else:
-            return None
+        return None
 
     def can_reach(self, state):
         if state._oot_stale[self.player]:
@@ -71,10 +70,10 @@ class OOTRegion(Region):
             state.age[self.player] = stored_age
         if state.age[self.player] == "child":
             return self in state.child_reachable_regions[self.player]
-        elif state.age[self.player] == "adult":
+        if state.age[self.player] == "adult":
             return self in state.adult_reachable_regions[self.player]
-        else: # we don't care about age
-            return self in state.child_reachable_regions[self.player] or self in state.adult_reachable_regions[self.player]
+        # we don't care about age
+        return self in state.child_reachable_regions[self.player] or self in state.adult_reachable_regions[self.player]
 
     def set_hint_data(self, hint):
         if self.dungeon:

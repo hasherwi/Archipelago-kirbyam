@@ -353,40 +353,38 @@ class SMWSNIClient(SNIClient):
                     if from_queue:
                         self.add_trap_to_queue(next_trap, message)
                     return
-                else:
-                    if len(message_str) > 0:
-                        snes_logger.info(message_str)
-                    if "TrapLink" in ctx.tags and from_queue:
-                        await self.send_trap_link(ctx, trap_value_to_name[next_trap.item])
-                    snes_buffered_write(ctx, WRAM_START + trap_rom_data[next_trap.item][0], bytes([0x01]))
-                    snes_buffered_write(ctx, WRAM_START + trap_rom_data[next_trap.item][0] + 1, bytes([0x00]))
-                    snes_buffered_write(ctx, WRAM_START + trap_rom_data[next_trap.item][0] + 2, bytes([0x00]))
+                if len(message_str) > 0:
+                    snes_logger.info(message_str)
+                if "TrapLink" in ctx.tags and from_queue:
+                    await self.send_trap_link(ctx, trap_value_to_name[next_trap.item])
+                snes_buffered_write(ctx, WRAM_START + trap_rom_data[next_trap.item][0], bytes([0x01]))
+                snes_buffered_write(ctx, WRAM_START + trap_rom_data[next_trap.item][0] + 1, bytes([0x00]))
+                snes_buffered_write(ctx, WRAM_START + trap_rom_data[next_trap.item][0] + 2, bytes([0x00]))
             else:
                 if trap_active[0] > 0:
                     # Trap already active
                     if from_queue:
                         self.add_trap_to_queue(next_trap, message)
                     return
-                else:
-                    if next_trap.item == 0xBC001D:
-                        # Special case thwimp trap
-                        # Do not fire if the previous thwimp hasn't reached the player's Y pos
-                        active_thwimp = await snes_read(ctx, SMW_ACTIVE_THWIMP_ADDR, 0x1)
-                        if active_thwimp[0] != 0xFF:
-                            if from_queue:
-                                self.add_trap_to_queue(next_trap, message)
-                            return
-                    verify_game_state = await snes_read(ctx, SMW_GAME_STATE_ADDR, 0x1)
-                    if verify_game_state[0] == 0x14 and len(trap_rom_data[next_trap.item]) > 2:
-                        snes_buffered_write(ctx, SMW_SFX_ADDR, bytes([trap_rom_data[next_trap.item][2]]))
+                if next_trap.item == 0xBC001D:
+                    # Special case thwimp trap
+                    # Do not fire if the previous thwimp hasn't reached the player's Y pos
+                    active_thwimp = await snes_read(ctx, SMW_ACTIVE_THWIMP_ADDR, 0x1)
+                    if active_thwimp[0] != 0xFF:
+                        if from_queue:
+                            self.add_trap_to_queue(next_trap, message)
+                        return
+                verify_game_state = await snes_read(ctx, SMW_GAME_STATE_ADDR, 0x1)
+                if verify_game_state[0] == 0x14 and len(trap_rom_data[next_trap.item]) > 2:
+                    snes_buffered_write(ctx, SMW_SFX_ADDR, bytes([trap_rom_data[next_trap.item][2]]))
 
-                    if len(message_str) > 0:
-                        snes_logger.info(message_str)
-                    if "TrapLink" in ctx.tags and from_queue:
-                        await self.send_trap_link(ctx, trap_value_to_name[next_trap.item])
+                if len(message_str) > 0:
+                    snes_logger.info(message_str)
+                if "TrapLink" in ctx.tags and from_queue:
+                    await self.send_trap_link(ctx, trap_value_to_name[next_trap.item])
 
-                    new_item_count = trap_rom_data[next_trap.item][1]
-                    snes_buffered_write(ctx, WRAM_START + trap_rom_data[next_trap.item][0], bytes([new_item_count]))
+                new_item_count = trap_rom_data[next_trap.item][1]
+                snes_buffered_write(ctx, WRAM_START + trap_rom_data[next_trap.item][0], bytes([new_item_count]))
 
             current_level = await snes_read(ctx, SMW_CURRENT_LEVEL_ADDR, 0x1)
             if current_level[0] in SMW_BAD_TEXT_BOX_LEVELS:
@@ -480,7 +478,7 @@ class SMWSNIClient(SNIClient):
         if game_state is None:
             # We're not properly connected
             return
-        elif game_state[0] >= 0x18:
+        if game_state[0] >= 0x18:
             if not ctx.finished_game:
                 current_level = await snes_read(ctx, SMW_CURRENT_LEVEL_ADDR, 0x1)
 
@@ -488,12 +486,12 @@ class SMWSNIClient(SNIClient):
                     await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
                     ctx.finished_game = True
             return
-        elif game_state[0] < 0x0B:
+        if game_state[0] < 0x0B:
             # We haven't loaded a save file
             ctx.message_queue = []
             ctx.current_sublevel_value = 0
             return
-        elif mario_state[0] in SMW_INVALID_MARIO_STATES:
+        if mario_state[0] in SMW_INVALID_MARIO_STATES:
             # Mario can't come to the phone right now
             return
 

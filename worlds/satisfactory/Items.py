@@ -933,11 +933,9 @@ class Items:
     def get_filler_item_name(self, random: Random, filler_items: Sequence[str] | None) -> str:
         if self.enabled_traps and random.random() < (self.trap_chance / 100):
             return random.choice(self.enabled_traps)
-        else:
-            if filler_items:
-                return random.choice(filler_items)
-            else:
-                return Items.get_filler_item_name_uninitialized(random)
+        if filler_items:
+            return random.choice(filler_items)
+        return Items.get_filler_item_name_uninitialized(random)
 
     def get_excluded_items(self, precollected_items: list[Item]) -> set[str]:
         excluded_items: set[str] = {

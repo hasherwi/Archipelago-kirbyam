@@ -567,7 +567,7 @@ def set_up_take_anys(multiworld, world, player):
         old_man_take_any.shop.add_inventory(0, "Rupees (300)", 0, 0)
 
     for num in range(4):
-        take_any = LTTPRegion("Take-Any #{}".format(num+1), LTTPRegionType.Cave, "a cave of choice", player, multiworld)
+        take_any = LTTPRegion(f"Take-Any #{num+1}", LTTPRegionType.Cave, "a cave of choice", player, multiworld)
         multiworld.regions.append(take_any)
 
         target, room_id = multiworld.random.choice([(0x58, 0x0112), (0x60, 0x010F), (0x46, 0x011F)])

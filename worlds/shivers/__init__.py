@@ -260,22 +260,21 @@ class ShiversWorld(World):
         if self.options.full_pots == "pieces":
             return [self.create_item(name) for name, data in item_table.items() if
                     data.type == ItemType.POT_DUPLICATE]
-        elif self.options.full_pots == "complete":
+        if self.options.full_pots == "complete":
             return [self.create_item(name) for name, data in item_table.items() if
                     data.type == ItemType.POT_COMPLETE_DUPLICATE]
-        else:
-            pool = []
-            pieces = [self.create_item(name) for name, data in item_table.items() if
-                      data.type == ItemType.POT_DUPLICATE]
-            complete = [self.create_item(name) for name, data in item_table.items() if
-                        data.type == ItemType.POT_COMPLETE_DUPLICATE]
-            for i in range(10):
-                if self.pot_completed_list[i] == 0:
-                    pool.append(pieces[i])
-                    pool.append(pieces[i + 10])
-                else:
-                    pool.append(complete[i])
-            return pool
+        pool = []
+        pieces = [self.create_item(name) for name, data in item_table.items() if
+                  data.type == ItemType.POT_DUPLICATE]
+        complete = [self.create_item(name) for name, data in item_table.items() if
+                    data.type == ItemType.POT_COMPLETE_DUPLICATE]
+        for i in range(10):
+            if self.pot_completed_list[i] == 0:
+                pool.append(pieces[i])
+                pool.append(pieces[i + 10])
+            else:
+                pool.append(complete[i])
+        return pool
 
     def fill_slot_data(self) -> dict:
         return {

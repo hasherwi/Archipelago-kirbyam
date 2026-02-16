@@ -63,8 +63,7 @@ PROGUSEFUL_ITEMS: list[str] = [
 def get_prog_item_classification(item_name: str):
     if item_name in PROGUSEFUL_ITEMS:
         return ItemClassification.progression | ItemClassification.useful
-    else:
-        return ItemClassification.progression
+    return ItemClassification.progression
 
 
 def load_item_data():

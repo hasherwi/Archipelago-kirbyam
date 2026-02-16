@@ -230,7 +230,7 @@ def output_path(*path: str) -> str:
     return path
 
 
-def open_file(filename: str | "pathlib.Path") -> None:
+def open_file(filename: str | pathlib.Path) -> None:
     if is_windows:
         os.startfile(filename)  # type: ignore
     else:
@@ -451,7 +451,7 @@ class RestrictedUnpickler(pickle.Unpickler):
     generic_properties_module: object | None
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super(RestrictedUnpickler, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.options_module = importlib.import_module("Options")
         self.net_utils_module = importlib.import_module("NetUtils")
         self.generic_properties_module = None
@@ -622,7 +622,7 @@ def init_logging(name: str, loglevel: str | int = logging.INFO,
     )
 
 
-def stream_input(stream: typing.TextIO, queue: "asyncio.Queue[str]"):
+def stream_input(stream: typing.TextIO, queue: asyncio.Queue[str]):
     def queuer():
         while 1:
             try:
@@ -641,7 +641,7 @@ def stream_input(stream: typing.TextIO, queue: "asyncio.Queue[str]"):
     return thread
 
 
-def tkinter_center_window(window: "tkinter.Tk") -> None:
+def tkinter_center_window(window: tkinter.Tk) -> None:
     window.update()
     x = int(window.winfo_screenwidth() / 2 - window.winfo_reqwidth() / 2)
     y = int(window.winfo_screenheight() / 2 - window.winfo_reqheight() / 2)
@@ -704,21 +704,18 @@ def get_intended_text(input_text: str, possible_answers) -> tuple[str, bool, str
         dif = picks[0][1] - picks[1][1]
         if picks[0][1] == 101:
             return picks[0][0], True, "Perfect Match"
-        elif picks[0][1] == 100:
+        if picks[0][1] == 100:
             return picks[0][0], True, "Case Insensitive Perfect Match"
-        elif picks[0][1] < 75:
+        if picks[0][1] < 75:
             return picks[0][0], False, f"Didn't find something that closely matches '{input_text}', " \
                                        f"did you mean '{picks[0][0]}'? ({picks[0][1]}% sure)"
-        elif dif > 5:
+        if dif > 5:
             return picks[0][0], True, "Close Match"
-        else:
-            return picks[0][0], False, f"Too many close matches for '{input_text}', " \
+        return picks[0][0], False, f"Too many close matches for '{input_text}', " \
                                        f"did you mean '{picks[0][0]}'? ({picks[0][1]}% sure)"
-    else:
-        if picks[0][1] > 90:
-            return picks[0][0], True, "Only Option Match"
-        else:
-            return picks[0][0], False, f"Didn't find something that closely matches '{input_text}', " \
+    if picks[0][1] > 90:
+        return picks[0][0], True, "Only Option Match"
+    return picks[0][0], False, f"Didn't find something that closely matches '{input_text}', " \
                                        f"did you mean '{picks[0][0]}'? ({picks[0][1]}% sure)"
 
 
@@ -751,13 +748,13 @@ def is_kivy_running() -> bool:
     return False
 
 
-def _mp_open_filename(res: "multiprocessing.Queue[str | None]", *args: Any) -> None:
+def _mp_open_filename(res: multiprocessing.Queue[str | None], *args: Any) -> None:
     if is_kivy_running():
         raise RuntimeError("kivy should not be running in multiprocess")
     res.put(open_filename(*args))
 
 
-def _mp_save_filename(res: "multiprocessing.Queue[str | None]", *args: Any) -> None:
+def _mp_save_filename(res: multiprocessing.Queue[str | None], *args: Any) -> None:
     if is_kivy_running():
         raise RuntimeError("kivy should not be running in multiprocess")
     res.put(save_filename(*args))
@@ -779,7 +776,7 @@ def open_filename(title: str, filetypes: typing.Iterable[tuple[str, typing.Itera
         from shutil import which
         kdialog = which("kdialog")
         if kdialog:
-            k_filters = "|".join((f'{text} (*{" *".join(ext)})' for (text, ext) in filetypes))
+            k_filters = "|".join(f'{text} (*{" *".join(ext)})' for (text, ext) in filetypes)
             return _run_for_stdout(kdialog, f"--title={title}", "--getopenfilename", suggest or ".", k_filters)
         zenity = which("zenity")
         if zenity:
@@ -800,7 +797,7 @@ def open_filename(title: str, filetypes: typing.Iterable[tuple[str, typing.Itera
             # on macOS, mixing kivy and tk does not work, so spawn a new process
             # FIXME: performance of this is pretty bad, and we should (also) look into alternatives
             from multiprocessing import Process, Queue
-            res: "Queue[str | None]" = Queue()
+            res: Queue[str | None] = Queue()
             Process(target=_mp_open_filename, args=(res, title, filetypes, suggest)).start()
             return res.get()
         try:
@@ -824,7 +821,7 @@ def save_filename(title: str, filetypes: typing.Iterable[tuple[str, typing.Itera
         from shutil import which
         kdialog = which("kdialog")
         if kdialog:
-            k_filters = "|".join((f'{text} (*{" *".join(ext)})' for (text, ext) in filetypes))
+            k_filters = "|".join(f'{text} (*{" *".join(ext)})' for (text, ext) in filetypes)
             return run(kdialog, f"--title={title}", "--getsavefilename", suggest or ".", k_filters)
         zenity = which("zenity")
         if zenity:
@@ -845,7 +842,7 @@ def save_filename(title: str, filetypes: typing.Iterable[tuple[str, typing.Itera
             # on macOS, mixing kivy and tk does not work, so spawn a new process
             # FIXME: performance of this is pretty bad, and we should (also) look into alternatives
             from multiprocessing import Process, Queue
-            res: "Queue[str | None]" = Queue()
+            res: Queue[str | None] = Queue()
             Process(target=_mp_save_filename, args=(res, title, filetypes, suggest)).start()
             return res.get()
         try:
@@ -857,7 +854,7 @@ def save_filename(title: str, filetypes: typing.Iterable[tuple[str, typing.Itera
                                                     initialfile=suggest or None)
 
 
-def _mp_open_directory(res: "multiprocessing.Queue[str | None]", *args: Any) -> None:
+def _mp_open_directory(res: multiprocessing.Queue[str | None], *args: Any) -> None:
     if is_kivy_running():
         raise RuntimeError("kivy should not be running in multiprocess")
     res.put(open_directory(*args))
@@ -890,7 +887,7 @@ def open_directory(title: str, suggest: str = "") -> str | None:
             # on macOS, mixing kivy and tk does not work, so spawn a new process
             # FIXME: performance of this is pretty bad, and we should (also) look into alternatives
             from multiprocessing import Process, Queue
-            res: "Queue[str | None]" = Queue()
+            res: Queue[str | None] = Queue()
             Process(target=_mp_open_directory, args=(res, title, suggest)).start()
             return res.get()
         try:
@@ -946,8 +943,7 @@ def title_sorted(data: typing.Iterable, key=None, ignore: typing.AbstractSet[str
         parts = element.split(maxsplit=1)
         if parts[0].lower() in ignore:
             return parts[1].lower()
-        else:
-            return element.lower()
+        return element.lower()
     return sorted(data, key=lambda i: sorter(key(i)) if key else sorter(i))
 
 
@@ -959,7 +955,7 @@ def read_snes_rom(stream: BinaryIO, strip_header: bool = True) -> bytearray:
     return buffer
 
 
-_faf_tasks: "set[asyncio.Task[typing.Any]]" = set()
+_faf_tasks: set[asyncio.Task[typing.Any]] = set()
 
 
 def async_start(co: Coroutine[None, None, typing.Any], name: str | None = None) -> None:

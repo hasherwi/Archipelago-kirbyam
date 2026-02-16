@@ -168,7 +168,7 @@ class WargrooveItem(Item):
 
     def __init__(self, name, player: int = None):
         item_data = item_table[name]
-        super(WargrooveItem, self).__init__(
+        super().__init__(
             name,
             item_data.classification,
             item_data.code,

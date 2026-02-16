@@ -129,7 +129,7 @@ def resolve_address(mission_order: SC2MOGenMissionOrder, address: str, start_nod
                 # Layouts are allowed to end with multiple missions via an index function
                 if type(result[0]) == SC2MOGenMission and address_so_far == address:
                     return result
-                raise ValueError((f"Address \"{address_so_far}\" (from \"{address}\") found more than one {cursor.child_type_name()}."))
+                raise ValueError(f"Address \"{address_so_far}\" (from \"{address}\") found more than one {cursor.child_type_name()}.")
             cursor = result[0]
         if cursor == start_node:
             raise ValueError(
@@ -389,7 +389,7 @@ def fill_missions(
 
 
 def get_locations_per_region(locations: tuple["LocationData", ...]) -> dict[str, list["LocationData"]]:
-    per_region: dict[str, list["LocationData"]] = {}
+    per_region: dict[str, list[LocationData]] = {}
 
     for location in locations:
         per_region.setdefault(location.region, []).append(location)

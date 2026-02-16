@@ -310,10 +310,8 @@ class RuleFactory:
         if rules:
             if len(rules) == 1:
                 return rules[0]
-            else:
-                return lambda state: any(rule(state) for rule in rules)
-        else:
-            return None
+            return lambda state: any(rule(state) for rule in rules)
+        return None
 
     def combine_and_clauses(self, rule_expr: str, cannon_name: str) -> Callable | bool:
         expressions = rule_expr.split(" & ")
@@ -328,8 +326,7 @@ class RuleFactory:
             if len(rules) == 1:
                 return rules[0]
             return lambda state: all(rule(state) for rule in rules)
-        else:
-            return True
+        return True
 
     def make_lambda(self, expression: str, cannon_name: str) -> Callable | bool:
         if "+" in expression:
@@ -344,8 +341,7 @@ class RuleFactory:
                 items.add(item)
             if items:
                 return lambda state: state.has_all(items, self.player)
-            else:
-                return True
+            return True
         if "/" in expression:
             tokens = expression.split("/")
             items = set()
@@ -358,8 +354,7 @@ class RuleFactory:
                 items.add(item)
             if items:
                 return lambda state: state.has_any(items, self.player)
-            else:
-                return False
+            return False
         if "{{" in expression:
             return lambda state: state.can_reach(expression[2:-2], "Location", self.player)
         if "{" in expression:

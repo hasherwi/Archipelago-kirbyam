@@ -18,7 +18,7 @@ def data_path(*args):
 @lru_cache
 def read_json(file_path):
     json_string = ""
-    with io.open(file_path, "r") as file:
+    with open(file_path, "r") as file:
         for line in file.readlines():
             json_string += line.split("#")[0].replace("\n", " ")
     json_string = re.sub(" +", " ", json_string)
@@ -87,9 +87,9 @@ def get_version_bytes(a):
 def compare_version(a, b):
     if not a and not b:
         return 0
-    elif a and not b:
+    if a and not b:
         return 1
-    elif not a and b:
+    if not a and b:
         return -1
 
     sa = get_version_bytes(a)

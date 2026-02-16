@@ -771,8 +771,7 @@ class SpearOfAdunPresence(Choice):
     def get_option_name(cls, value: int) -> str:
         if value == SpearOfAdunPresence.option_any_race_lotv:
             return "Any Race LotV"
-        else:
-            return super().get_option_name(value)
+        return super().get_option_name(value)
 
 
 class SpearOfAdunPresentInNoBuild(Toggle):
@@ -810,8 +809,7 @@ class SpearOfAdunPassiveAbilityPresence(Choice):
     def get_option_name(cls, value: int) -> str:
         if value == SpearOfAdunPresence.option_any_race_lotv:
             return "Any Race LotV"
-        else:
-            return super().get_option_name(value)
+        return super().get_option_name(value)
 
 
 class SpearOfAdunPassivesPresentInNoBuild(Toggle):
@@ -936,7 +934,7 @@ class NovaGhostOfAChanceVariant(Choice):
     def get_option_name(cls, value: int) -> str:
         if value == NovaGhostOfAChanceVariant.option_wol:
             return "WoL"
-        elif value == NovaGhostOfAChanceVariant.option_nco:
+        if value == NovaGhostOfAChanceVariant.option_nco:
             return "NCO"
         return super().get_option_name(value)
 
@@ -988,8 +986,7 @@ class Sc2ItemDict(OptionCounter, VerifyKeys, Mapping[str, int]):
                     f"element '{key}' maps to {value}, which is greater than the maximum ({cls.max})"
                 )
             return cls(data)
-        else:
-            raise NotImplementedError(f"{cls.display_name}: Cannot convert from non-dictionary, got {type(data)}")
+        raise NotImplementedError(f"{cls.display_name}: Cannot convert from non-dictionary, got {type(data)}")
 
     def verify(self, world: Type["World"], player_name: str, plando_options: PlandoOptions) -> None:
         """Overridden version of function from Options.VerifyKeys for a better error message"""

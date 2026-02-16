@@ -77,13 +77,11 @@ def should_split_progression(progression_name: str, world: "LingoWorld") -> Prog
     if progression_name == "Progressive Orange Tower":
         if world.options.progressive_orange_tower:
             return ProgressiveItemBehavior.PROGRESSIVE
-        else:
-            return ProgressiveItemBehavior.SPLIT
-    elif progression_name == "Progressive Colorful":
+        return ProgressiveItemBehavior.SPLIT
+    if progression_name == "Progressive Colorful":
         if world.options.progressive_colorful:
             return ProgressiveItemBehavior.PROGRESSIVE
-        else:
-            return ProgressiveItemBehavior.SPLIT
+        return ProgressiveItemBehavior.SPLIT
 
     return ProgressiveItemBehavior.PROGRESSIVE
 

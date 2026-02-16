@@ -318,7 +318,7 @@ class RomPatcher:
             self.applyStartAP(self.settings["startLocation"], plms, doors)
             self.applyPLMs(plms)
         except Exception as e:
-            raise Exception("Error patching. ({})".format(e))
+            raise Exception(f"Error patching. ({e})")
 
     def applyIPSPatch(self, patchName, patchDict=None, ipsDir=None):
         if patchDict is None:
@@ -343,7 +343,7 @@ class RomPatcher:
     def getStartDoors(self, plms, area, minimizerN):
         doors = [0x10] # red brin elevator
         def addBlinking(name):
-            key = "Blinking[{}]".format(name)
+            key = f"Blinking[{name}]"
             if key in self.patchAccess.getDictPatches():
                 self.applyIPSPatch(key)
             if key in self.patchAccess.getAdditionalPLMs():
@@ -555,7 +555,7 @@ class RomPatcher:
         totalEnergy = self.getItemQty(itemLocs, "ETank")+self.getItemQty(itemLocs, "Reserve")
         totalMajors = max(totalItemLocs - totalEnergy - totalAmmo - totalNothing, 0)
         address = snes_to_pc(0xceb6c0)
-        value = "{:>2}".format(totalItemLocs)
+        value = f"{totalItemLocs:>2}"
         line = " ITEM LOCATIONS              %s " % value
         self.writeCreditsStringBig(address, line, top=True)
         address += 0x40
@@ -564,10 +564,10 @@ class RomPatcher:
         self.writeCreditsStringBig(address, line, top=False)
         address += 0x40
 
-        maj = "{:>2}".format(int(totalMajors))
-        htanks = "{:>2}".format(int(totalEnergy))
-        ammo = "{:>2}".format(int(totalAmmo))
-        blank = "{:>2}".format(int(totalNothing))
+        maj = f"{int(totalMajors):>2}"
+        htanks = f"{int(totalEnergy):>2}"
+        ammo = f"{int(totalAmmo):>2}"
+        blank = f"{int(totalNothing):>2}"
         line = "  MAJ %s EN %s AMMO %s BLANK %s " % (maj, htanks, ammo, blank)
         self.writeCreditsStringBig(address, line, top=True)
         address += 0x40
@@ -634,10 +634,10 @@ class RomPatcher:
         # write ammo/energy pct
         address = snes_to_pc(0xcebc40)
         (ammoPct, energyPct) = (int(self.getAmmoPct(dist)), int(100*totalEnergy/18))
-        line = " AVAILABLE AMMO {:>3}% ENERGY {:>3}%".format(ammoPct, energyPct)
+        line = f" AVAILABLE AMMO {ammoPct:>3}% ENERGY {energyPct:>3}%"
         self.writeCreditsStringBig(address, line, top=True)
         address += 0x40
-        line = " available ammo {:>3}% energy {:>3}%".format(ammoPct, energyPct)
+        line = f" available ammo {ammoPct:>3}% energy {energyPct:>3}%"
         self.writeCreditsStringBig(address, line, top=False)
 
     def writeSpoiler(self, itemLocs, progItemLocs=None):
@@ -758,8 +758,7 @@ class RomPatcher:
 
         if ib == 0x7F:
             return 0x007F
-        else:
-            return (color << 8) + ib
+        return (color << 8) + ib
 
     def convertCreditsCharBig(self, byte, top=True):
         # from: https://jathys.zophar.net/supermetroid/kejardon/TextFormat.txt
@@ -1146,7 +1145,7 @@ class MessageBox(object):
     def updateMessage(self, box, message, vFlip=False, hFlip=False):
         (address, oldLength) = self.offsets[box]
         newLength = len(message)
-        assert newLength <= oldLength, "string '{}' is too long, max {}".format(message, oldLength)
+        assert newLength <= oldLength, f"string '{message}' is too long, max {oldLength}"
         padding = oldLength - newLength
         paddingLeft = int(padding / 2)
         paddingRight = int(padding / 2)

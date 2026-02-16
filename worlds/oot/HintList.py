@@ -47,12 +47,11 @@ def getHint(item, rand, clearer_hint=False):
             if clearText == None:
                 return Hint(item, textOptions, hintType, rand, 0)
             return Hint(item, clearText, hintType, rand)
-        else:
-            return Hint(item, textOptions, hintType, rand)
-    elif isinstance(item, str):
+        return Hint(item, textOptions, hintType, rand)
+    if isinstance(item, str):
         return Hint(item, item, "generic", rand)
-    else: # is an Item
-        return Hint(item.name, item.hint_text, "item", rand)
+    # is an Item
+    return Hint(item.name, item.hint_text, "item", rand)
 
 
 def getHintGroup(group, world):

@@ -413,7 +413,7 @@ class Count(BaseStardewRule):
 
             if c >= self.count:
                 return True
-            elif t < self.count:
+            if t < self.count:
                 break
 
         return False

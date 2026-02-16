@@ -146,10 +146,9 @@ class GameStateAdapater:
         # Don't allow any money usage if you can't get back wasted rupees
         if item == "RUPEES":
             return self.state.prog_items[self.player]["RUPEES"]
-        elif item.endswith("_USED"):
+        if item.endswith("_USED"):
             return 0
-        else:
-            item = ladxr_item_to_la_item_name[item]
+        item = ladxr_item_to_la_item_name[item]
         return self.state.prog_items[self.player].get(item, default)
 
 

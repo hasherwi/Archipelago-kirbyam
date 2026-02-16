@@ -33,7 +33,7 @@ class KH2Context(CommonContext):
     items_handling = 0b111  # Indicates you get items sent from other worlds.
 
     def __init__(self, server_address, password):
-        super(KH2Context, self).__init__(server_address, password)
+        super().__init__(server_address, password)
 
         self.goofy_ability_to_slot = dict()
         self.donald_ability_to_slot = dict()
@@ -195,7 +195,7 @@ class KH2Context(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super(KH2Context, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
         await self.get_username()
         # if slot name != first time login or previous name
         # and seed name is none or saved seed name
@@ -214,7 +214,7 @@ class KH2Context(CommonContext):
         if self.kh2seedname is not None and self.auth is not None:
             with open(self.kh2_seed_save_path_join, "w") as f:
                 f.write(json.dumps(self.kh2_seed_save, indent=4))
-        await super(KH2Context, self).connection_closed()
+        await super().connection_closed()
 
     async def disconnect(self, allow_autoreconnect: bool = False):
         self.kh2connected = False
@@ -223,20 +223,19 @@ class KH2Context(CommonContext):
         if self.kh2seedname not in {None} and self.auth not in {None}:
             with open(self.kh2_seed_save_path_join, "w") as f:
                 f.write(json.dumps(self.kh2_seed_save, indent=4))
-        await super(KH2Context, self).disconnect()
+        await super().disconnect()
 
     @property
     def endpoints(self):
         if self.server:
             return [self.server]
-        else:
-            return []
+        return []
 
     async def shutdown(self):
         if self.kh2seedname not in {None} and self.auth not in {None}:
             with open(self.kh2_seed_save_path_join, "w") as f:
                 f.write(json.dumps(self.kh2_seed_save, indent=4))
-        await super(KH2Context, self).shutdown()
+        await super().shutdown()
 
     def kh2_read_short(self, address):
         return self.kh2.read_short(self.kh2.base_address + address)
@@ -930,7 +929,7 @@ def finishedGame(ctx: KH2Context):
                 return False
             return True
         return False
-    elif ctx.kh2slotdata["Goal"] == 1:
+    if ctx.kh2slotdata["Goal"] == 1:
         if ctx.kh2_read_byte(ctx.Save + 0x3641) >= ctx.kh2slotdata["LuckyEmblemsRequired"]:
             if ctx.kh2_read_byte(ctx.Save + 0x36B3) < 1:
                 ctx.kh2_write_byte(ctx.Save + 0x36B2, 1)
@@ -943,7 +942,7 @@ def finishedGame(ctx: KH2Context):
                 return False
             return True
         return False
-    elif ctx.kh2slotdata["Goal"] == 2:
+    if ctx.kh2slotdata["Goal"] == 2:
         # for backwards compat
         if "hitlist" in ctx.kh2slotdata:
             locations = ctx.sending
@@ -963,7 +962,7 @@ def finishedGame(ctx: KH2Context):
                 return False
             return True
         return False
-    elif ctx.kh2slotdata["Goal"] == 3:
+    if ctx.kh2slotdata["Goal"] == 3:
         if ctx.kh2_seed_save_cache["AmountInvo"]["Amount"]["Bounty"] >= ctx.kh2slotdata["BountyRequired"] and \
                 ctx.kh2_read_byte(ctx.Save + 0x3641) >= ctx.kh2slotdata["LuckyEmblemsRequired"]:
             if ctx.kh2_read_byte(ctx.Save + 0x36B3) < 1:

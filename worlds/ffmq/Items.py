@@ -207,7 +207,7 @@ prog_map = {
 def yaml_item(text):
     if text == "CaptainCap":
         return "Captain's Cap"
-    elif text == "WakeWater":
+    if text == "WakeWater":
         return "Wakewater"
     return "".join(
         [(" " + c if (c.isupper() or c.isnumeric()) and not (text[i - 1].isnumeric() and c == "F") else c) for
@@ -245,7 +245,7 @@ def create_items(self) -> None:
                 for _ in range(40):
                     items.append(self.create_item("Sky Fragment"))
                 return
-            elif self.options.sky_coin_mode == "save_the_crystals":
+            if self.options.sky_coin_mode == "save_the_crystals":
                 items.append(self.create_filler())
                 return
         if item_name in precollected_item_names:
@@ -287,7 +287,7 @@ class FFMQItem(Item):
 
     def __init__(self, name, player: int = None):
         item_data = item_table[name]
-        super(FFMQItem, self).__init__(
+        super().__init__(
             name,
             item_data.classification,
             item_data.id, player

@@ -83,7 +83,7 @@ class SC2MOGenMissionOrder(MissionOrderNode):
     goal_missions: list[SC2MOGenMission]
     max_depth: int
 
-    def __init__(self, world: 'SC2World', data: dict[str, Any]):
+    def __init__(self, world: SC2World, data: dict[str, Any]):
         self.campaigns = []
         self.sorted_missions = {diff: [] for diff in Difficulty if diff != Difficulty.RELATIVE}
         self.fixed_missions = []
@@ -198,7 +198,7 @@ class SC2MOGenCampaign(MissionOrderNode):
     min_depth: int
     max_depth: int
 
-    def __init__(self, world: 'SC2World', parent: ReferenceType[SC2MOGenMissionOrder], name: str, data: dict[str, Any]):
+    def __init__(self, world: SC2World, parent: ReferenceType[SC2MOGenMissionOrder], name: str, data: dict[str, Any]):
         self.parent = parent
         self.important_beat_event = False
         self.option_name = name
@@ -321,7 +321,7 @@ class SC2MOGenLayout(MissionOrderNode):
     min_depth: int
     max_depth: int
 
-    def __init__(self, world: 'SC2World', parent: ReferenceType[SC2MOGenCampaign], name: str, data: dict):
+    def __init__(self, world: SC2World, parent: ReferenceType[SC2MOGenCampaign], name: str, data: dict):
         self.parent: ReferenceType[SC2MOGenCampaign] = parent
         self.important_beat_event = False
         self.option_name = name

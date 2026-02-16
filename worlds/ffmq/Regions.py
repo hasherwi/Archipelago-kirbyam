@@ -147,7 +147,7 @@ def set_rules(self) -> None:
                 if region.name == "Subregion Foresta":
                     add_rule(loc, hard_boss_logic)
                     return True
-                elif "Subregion" in region.name:
+                if "Subregion" in region.name:
                     return True
                 for entrance in region.entrances:
                     if entrance.parent_region not in checked_regions:
@@ -237,7 +237,7 @@ class FFMQLocation(Location):
     game = "Final Fantasy Mystic Quest"
 
     def __init__(self, player, name, address, loc_type, access=None, event=None):
-        super(FFMQLocation, self).__init__(
+        super().__init__(
             player, name,
             address
         )

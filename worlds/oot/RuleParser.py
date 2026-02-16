@@ -71,13 +71,13 @@ class Rule_AST_Transformer(ast.NodeTransformer):
     def visit_Name(self, node):
         if node.id in dir(self):
             return getattr(self, node.id)(node)
-        elif node.id in rule_aliases:
+        if node.id in rule_aliases:
             args, repl = rule_aliases[node.id]
             if args:
                 raise Exception("Parse Error: expected %d args for %s, not 0" % (len(args), node.id),
                         self.current_spot.name, ast.dump(node, False))
             return self.visit(ast.parse(repl, mode="eval").body)
-        elif node.id in escaped_items:
+        if node.id in escaped_items:
             return ast.Call(
                 func=ast.Attribute(
                     value=ast.Name(id="state", ctx=ast.Load()),
@@ -85,14 +85,14 @@ class Rule_AST_Transformer(ast.NodeTransformer):
                     ctx=ast.Load()),
                 args=[ast.Str(escaped_items[node.id]), ast.Constant(self.player)],
                 keywords=[])
-        elif node.id in self.world.__dict__:
+        if node.id in self.world.__dict__:
             # Settings are constant
             return ast.parse("%r" % self.world.__dict__[node.id], mode="eval").body
-        elif node.id in State.__dict__:
+        if node.id in State.__dict__:
             return self.make_call(node, node.id, [], [])
-        elif node.id in self.kwarg_defaults or node.id in allowed_globals:
+        if node.id in self.kwarg_defaults or node.id in allowed_globals:
             return node
-        elif event_name.match(node.id):
+        if event_name.match(node.id):
             self.events.add(node.id.replace("_", " "))
             return ast.Call(
                 func=ast.Attribute(
@@ -101,8 +101,7 @@ class Rule_AST_Transformer(ast.NodeTransformer):
                     ctx=ast.Load()),
                 args=[ast.Str(node.id.replace("_", " ")), ast.Constant(self.player)],
                 keywords=[])
-        else:
-            raise Exception("Parse Error: invalid node name %s" % node.id, self.current_spot.name, ast.dump(node, False))
+        raise Exception("Parse Error: invalid node name %s" % node.id, self.current_spot.name, ast.dump(node, False))
 
     def visit_Str(self, node):
         return ast.Call(
@@ -159,7 +158,7 @@ class Rule_AST_Transformer(ast.NodeTransformer):
 
         if node.func.id in dir(self):
             return getattr(self, node.func.id)(node)
-        elif node.func.id in rule_aliases:
+        if node.func.id in rule_aliases:
             args, repl = rule_aliases[node.func.id]
             if len(args) != len(node.args):
                 raise Exception("Parse Error: expected %d args for %s, not %d" % (len(args), node.func.id, len(node.args)),
@@ -226,15 +225,14 @@ class Rule_AST_Transformer(ast.NodeTransformer):
                     ctx=ast.Load()),
                 slice=ast.Index(value=ast.Str(s.id.replace("_", " "))),
                 ctx=node.ctx)
-        else:
-            return node
+        return node
 
 
     def visit_Compare(self, node):
         def escape_or_string(n):
             if isinstance(n, ast.Name) and n.id in escaped_items:
                 return ast.Str(escaped_items[n.id])
-            elif not isinstance(n, ast.Str):
+            if not isinstance(n, ast.Str):
                 return self.visit(n)
             return n
 

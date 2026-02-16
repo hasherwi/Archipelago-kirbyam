@@ -31,7 +31,7 @@ class ChecksFinderContext(CommonContext):
     items_handling = 0b111  # full remote
 
     def __init__(self, server_address, password):
-        super(ChecksFinderContext, self).__init__(server_address, password)
+        super().__init__(server_address, password)
         self.send_index: int = 0
         self.syncing = False
         self.awaiting_bridge = False
@@ -56,12 +56,12 @@ class ChecksFinderContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super(ChecksFinderContext, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
         await self.get_username()
         await self.send_connect()
 
     async def connection_closed(self):
-        await super(ChecksFinderContext, self).connection_closed()
+        await super().connection_closed()
         for root, dirs, files in os.walk(self.game_communication_path):
             for file in files:
                 if file.find("obtain") <= -1:
@@ -71,11 +71,10 @@ class ChecksFinderContext(CommonContext):
     def endpoints(self):
         if self.server:
             return [self.server]
-        else:
-            return []
+        return []
 
     async def shutdown(self):
-        await super(ChecksFinderContext, self).shutdown()
+        await super().shutdown()
         for root, dirs, files in os.walk(self.game_communication_path):
             for file in files:
                 if file.find("obtain") <= -1:

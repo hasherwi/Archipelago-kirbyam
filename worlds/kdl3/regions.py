@@ -50,7 +50,7 @@ def generate_valid_level(world: "KDL3World", level: int, stage: int,
         if stage == 0 and new_stage in first_stage_blacklist:
             possible_stages.remove(new_stage)
             return generate_valid_level(world, level, stage, possible_stages, placed_stages)
-        elif (not (world.multiworld.players > 1 or world.options.consumables or world.options.starsanity) and
+        if (not (world.multiworld.players > 1 or world.options.consumables or world.options.starsanity) and
               new_stage in first_world_limit and
               sum(p_stage in first_world_limit for p_stage in placed_stages)
               >= (2 if world.options.open_world else 1)):

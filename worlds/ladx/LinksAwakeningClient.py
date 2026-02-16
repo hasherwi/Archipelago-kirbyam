@@ -600,7 +600,7 @@ class LinksAwakeningContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super(LinksAwakeningContext, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
 
         if self.had_invalid_slot_data:
             # We are connecting when previously we had the wrong ROM or server - just in case

@@ -23,7 +23,7 @@ class ALttPLocation(Location):
 
     def __init__(self, player: int, name: str, address: int | None = None, crystal: bool = False,
                  hint_text: str | None = None, parent=None, player_address: int | None = None):
-        super(ALttPLocation, self).__init__(player, name, address, parent)
+        super().__init__(player, name, address, parent)
         self.crystal = crystal
         self.player_address = player_address
         self._hint_text = hint_text
@@ -45,7 +45,7 @@ class ALttPItem(Item):
 
     def __init__(self, name, player, classification=ItemClassification.filler, type=None, item_code=None,
                  pedestal_hint=None, hint_text=None):
-        super(ALttPItem, self).__init__(name, classification, item_code, player)
+        super().__init__(name, classification, item_code, player)
         self.type = type
         self._pedestal_hint_text = pedestal_hint
         self._hint_text = hint_text

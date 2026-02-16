@@ -31,8 +31,7 @@ class Item:
         return id(self)
 
     def __repr__(self):
-      return "Item({}, {}, {}, {}, {})".format(self.Category,
-          self.Class, self.Code, self.Name, self.Type)
+      return f"Item({self.Category}, {self.Class}, {self.Code}, {self.Name}, {self.Type})"
 
     def json(self):
         # as we have slots instead of dict
@@ -314,7 +313,7 @@ class ItemManager:
 
     for itemType, item in Items.items():
       if item.Type != itemType:
-        raise RuntimeError("Wrong item type for {} (expected {})".format(item, itemType))
+        raise RuntimeError(f"Wrong item type for {item} (expected {itemType})")
 
     @staticmethod
     def isBeam(item):
@@ -386,8 +385,7 @@ class ItemManager:
     def getItem(itemType, itemClass=None):
         if itemClass is None:
             return copy.copy(ItemManager.Items[itemType])
-        else:
-            return ItemManager.Items[itemType].withClass(itemClass)
+        return ItemManager.Items[itemType].withClass(itemClass)
 
     def createItemPool(self, exclude=None):
         itemPoolGenerator = ItemPoolGenerator.factory(self.majorsSplit, self, self.qty, self.sm, exclude, self.nLocs, self.maxDiff, self.random)
@@ -409,15 +407,13 @@ class ItemPoolGenerator(object):
     def factory(majorsSplit, itemManager, qty, sm, exclude, nLocs, maxDiff, random):
         if majorsSplit == "Chozo":
             return ItemPoolGeneratorChozo(itemManager, qty, sm, maxDiff, random)
-        elif majorsSplit == "Plando":
+        if majorsSplit == "Plando":
             return ItemPoolGeneratorPlando(itemManager, qty, sm, exclude, nLocs, maxDiff, random)
-        elif nLocs == ItemPoolGenerator.maxLocs:
+        if nLocs == ItemPoolGenerator.maxLocs:
             if majorsSplit == "Scavenger":
                 return ItemPoolGeneratorScavenger(itemManager, qty, sm, maxDiff, random)
-            else:
-                return ItemPoolGeneratorMajors(itemManager, qty, sm, maxDiff, random)
-        else:
-            return ItemPoolGeneratorMinimizer(itemManager, qty, sm, nLocs, maxDiff, random)
+            return ItemPoolGeneratorMajors(itemManager, qty, sm, maxDiff, random)
+        return ItemPoolGeneratorMinimizer(itemManager, qty, sm, nLocs, maxDiff, random)
 
     def __init__(self, itemManager, qty, sm, maxDiff, random):
         self.itemManager = itemManager
@@ -456,18 +452,18 @@ class ItemPoolGenerator(object):
         self.calcMaxMinors()
         self.log.debug("maxMinors: "+str(self.maxMinors))
         self.minorLocations = max(0, self.maxMinors*self.qty["minors"]/100.0 - self.nbMinorsAlready)
-        self.log.debug("minorLocations: {}".format(self.minorLocations))
+        self.log.debug(f"minorLocations: {self.minorLocations}")
 
     # add ammo given quantity settings
     def addAmmo(self):
         self.calcMaxAmmo()
         # we have to remove the minors already added
         maxItems = min(len(self.itemManager.getItemPool()) + int(self.minorLocations), self.maxItems)
-        self.log.debug("maxItems: {}, (self.maxItems={})".format(maxItems, self.maxItems))
+        self.log.debug(f"maxItems: {maxItems}, (self.maxItems={self.maxItems})")
         ammoQty = self.qty["ammo"]
         if not self.qty["strictMinors"]:
             rangeDict = getRangeDict(ammoQty)
-            self.log.debug("rangeDict: {}".format(rangeDict))
+            self.log.debug(f"rangeDict: {rangeDict}")
             while len(self.itemManager.getItemPool()) < maxItems:
                 item = chooseFromRange(rangeDict, self.random)
                 self.itemManager.addMinor(item)
@@ -476,7 +472,7 @@ class ItemPoolGenerator(object):
             totalProps = sum(ammoQty[m] for m in minorsTypes)
             minorsByProp = sorted(minorsTypes, key=lambda m: ammoQty[m])
             totalMinorLocations = self.minorLocations + self.nbMinorsAlready
-            self.log.debug("totalMinorLocations: {}".format(totalMinorLocations))
+            self.log.debug(f"totalMinorLocations: {totalMinorLocations}")
             def ammoCount(ammo):
                 return float(len([item for item in self.itemManager.getItemPool() if item.Type == ammo]))
             def targetRatio(ammo):
@@ -485,13 +481,13 @@ class ItemPoolGenerator(object):
                 thisAmmo = ammoCount(ammo)
                 thisRatio = round(thisAmmo/totalMinorLocations, 3)
                 nextRatio = round((thisAmmo + 1)/totalMinorLocations, 3)
-                self.log.debug("{} current, next/target ratio: {}, {}/{}".format(ammo, thisRatio, nextRatio, ratio))
+                self.log.debug(f"{ammo} current, next/target ratio: {thisRatio}, {nextRatio}/{ratio}")
                 return abs(nextRatio - ratio) < abs(thisRatio - ratio)
             def fillAmmoType(ammo, checkRatio=True):
                 ratio = targetRatio(ammo)
-                self.log.debug("{}: target ratio: {}".format(ammo, ratio))
+                self.log.debug(f"{ammo}: target ratio: {ratio}")
                 while len(self.itemManager.getItemPool()) < maxItems and (not checkRatio or cmpRatio(ammo, ratio)):
-                    self.log.debug("Add {}".format(ammo))
+                    self.log.debug(f"Add {ammo}")
                     self.itemManager.addMinor(ammo)
             for m in minorsByProp:
                 fillAmmoType(m)
@@ -587,7 +583,7 @@ class ItemPoolGeneratorChozo(ItemPoolGenerator):
 
 class ItemPoolGeneratorMajors(ItemPoolGenerator):
     def __init__(self, itemManager, qty, sm, maxDiff, random):
-        super(ItemPoolGeneratorMajors, self).__init__(itemManager, qty, sm, maxDiff, random)
+        super().__init__(itemManager, qty, sm, maxDiff, random)
         self.sparseRest = 1 + randGaussBounds(self.random,2, 5)
         self.mediumRest = 3 + randGaussBounds(self.random, 4, 3.7)
         self.ultraSparseNoTanks = self.isUltraSparseNoTanks()
@@ -682,14 +678,14 @@ class ItemPoolGeneratorMajors(ItemPoolGenerator):
 
 class ItemPoolGeneratorScavenger(ItemPoolGeneratorMajors):
     def __init__(self, itemManager, qty, sm, maxDiff, random):
-        super(ItemPoolGeneratorScavenger, self).__init__(itemManager, qty, sm, maxDiff, random)
+        super().__init__(itemManager, qty, sm, maxDiff, random)
 
     def addNoEnergy(self):
         self.itemManager.addItem("Nothing")
 
 class ItemPoolGeneratorMinimizer(ItemPoolGeneratorMajors):
     def __init__(self, itemManager, qty, sm, nLocs, maxDiff, random):
-        super(ItemPoolGeneratorMinimizer, self).__init__(itemManager, qty, sm, maxDiff, random)
+        super().__init__(itemManager, qty, sm, maxDiff, random)
         self.maxItems = nLocs
         self.calcMaxAmmo()
         nMajors = len([itemName for itemName,item in ItemManager.Items.items() if item.Class == "Major" and item.Category != "Energy"])
@@ -722,7 +718,7 @@ class ItemPoolGeneratorMinimizer(ItemPoolGeneratorMajors):
 
 class ItemPoolGeneratorPlando(ItemPoolGenerator):
     def __init__(self, itemManager, qty, sm, exclude, nLocs, maxDiff, random):
-        super(ItemPoolGeneratorPlando, self).__init__(itemManager, qty, sm, maxDiff, random)
+        super().__init__(itemManager, qty, sm, maxDiff, random)
         # in exclude dict:
         #   in alreadyPlacedItems:
         #     dict of 'itemType: count' of items already added in the plando.
@@ -730,8 +726,8 @@ class ItemPoolGeneratorPlando(ItemPoolGenerator):
         #   in forbiddenItems: list of item forbidden in the pool
         self.exclude = exclude
         self.maxItems = nLocs
-        self.log.debug("maxItems: {}".format(self.maxItems))
-        self.log.debug("exclude: {}".format(self.exclude))
+        self.log.debug(f"maxItems: {self.maxItems}")
+        self.log.debug(f"exclude: {self.exclude}")
 
     def getItemPool(self):
         exceptionMessage = "Too many items already placed by the plando or not enough available locations:"
@@ -748,7 +744,7 @@ class ItemPoolGeneratorPlando(ItemPoolGenerator):
                 self.itemManager.addItem(item, itemClass)
 
         remain = self.maxItems - self.exclude["alreadyPlacedItems"]["total"]
-        self.log.debug("Plando: remain start: {}".format(remain))
+        self.log.debug(f"Plando: remain start: {remain}")
         if remain > 0:
             # add missing bosses
             for boss in self.itemManager.bossesItems:
@@ -757,9 +753,9 @@ class ItemPoolGeneratorPlando(ItemPoolGenerator):
                     self.exclude["alreadyPlacedItems"][boss] = 1
                     remain -= 1
 
-            self.log.debug("Plando: remain after bosses: {}".format(remain))
+            self.log.debug(f"Plando: remain after bosses: {remain}")
             if remain < 0:
-                raise Exception("{} can't add the remaining bosses".format(exceptionMessage))
+                raise Exception(f"{exceptionMessage} can't add the remaining bosses")
 
             # add missing majors
             majors = []
@@ -770,7 +766,7 @@ class ItemPoolGeneratorPlando(ItemPoolGenerator):
                     majors.append(itemType)
                     remain -= 1
 
-            self.log.debug("Plando: remain after majors: {}".format(remain))
+            self.log.debug(f"Plando: remain after majors: {remain}")
             if remain < 0:
                 raise Exception("{} can't add the remaining majors: {}".format(exceptionMessage, ", ".join(majors)))
 
@@ -781,9 +777,9 @@ class ItemPoolGeneratorPlando(ItemPoolGenerator):
                     self.exclude["alreadyPlacedItems"][itemType] += 1
                     remain -= 1
 
-            self.log.debug("Plando: remain after minimum minors: {}".format(remain))
+            self.log.debug(f"Plando: remain after minimum minors: {remain}")
             if remain < 0:
-                raise Exception("{} can't add the minimum minors to finish the game".format(exceptionMessage))
+                raise Exception(f"{exceptionMessage} can't add the minimum minors to finish the game")
 
             # add energy
             energyQty = self.qty["energy"]
@@ -798,9 +794,9 @@ class ItemPoolGeneratorPlando(ItemPoolGenerator):
                     self.exclude["alreadyPlacedItems"][itemType] += 1
                     remain -= 1
 
-            self.log.debug("Plando: remain after energy: {}".format(remain))
+            self.log.debug(f"Plando: remain after energy: {remain}")
             if remain < 0:
-                raise Exception("{} can't add energy".format(exceptionMessage))
+                raise Exception(f"{exceptionMessage} can't add energy")
 
             # add ammo
             nbMinorsAlready = self.exclude["alreadyPlacedItems"]["Missile"] + self.exclude["alreadyPlacedItems"]["Super"] + self.exclude["alreadyPlacedItems"]["PowerBomb"]
@@ -814,13 +810,13 @@ class ItemPoolGeneratorPlando(ItemPoolGenerator):
                     self.itemManager.addMinor(item)
                     remain -= 1
 
-            self.log.debug("Plando: remain after ammo: {}".format(remain))
+            self.log.debug(f"Plando: remain after ammo: {remain}")
 
             # add nothing
             while remain > 0:
                 self.itemManager.addMinor("Nothing")
                 remain -= 1
 
-            self.log.debug("Plando: remain after nothing: {}".format(remain))
+            self.log.debug(f"Plando: remain after nothing: {remain}")
 
         return self.itemManager.getItemPool()

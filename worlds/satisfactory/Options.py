@@ -30,7 +30,7 @@ class PlacementLogicMeta(AssembleOptions):
         if "default" in attrs and isinstance(attrs["default"], Placement):
             attrs["default"] = int(attrs["default"])
 
-        cls = super(PlacementLogicMeta, mcs).__new__(mcs, name, bases, attrs)
+        cls = super().__new__(mcs, name, bases, attrs)
         return cast(PlacementLogicMeta, cls)
 
 
@@ -50,7 +50,7 @@ class ChoiceMapMeta(AssembleOptions):
                 if "default" in attrs and attrs["default"] == choice:
                     attrs["default"] = index
 
-        cls = super(ChoiceMapMeta, mcs).__new__(mcs, name, bases, attrs)
+        cls = super().__new__(mcs, name, bases, attrs)
         return cast(ChoiceMapMeta, cls)
 
 

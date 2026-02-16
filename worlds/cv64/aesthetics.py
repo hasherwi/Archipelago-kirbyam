@@ -646,9 +646,8 @@ def get_start_inventory_data(player: int, options: CV64Options, precollected_ite
 def get_item_text_color(loc: Location) -> bytearray:
     if loc.item.advancement:
         return bytearray([0xA2, 0x0C])
-    elif loc.item.classification == ItemClassification.useful:
+    if loc.item.classification == ItemClassification.useful:
         return bytearray([0xA2, 0x0A])
-    elif loc.item.classification == ItemClassification.trap:
+    if loc.item.classification == ItemClassification.trap:
         return bytearray([0xA2, 0x0B])
-    else:
-        return bytearray([0xA2, 0x02])
+    return bytearray([0xA2, 0x02])

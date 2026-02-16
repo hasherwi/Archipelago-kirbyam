@@ -17,5 +17,4 @@ class BookLogic(BaseLogic):
         booksanity = self.content.features.booksanity
         if booksanity.is_included(self.content.game_items[book]):
             return self.logic.received(booksanity.to_item_name(book))
-        else:
-            return self.logic.has(book)
+        return self.logic.has(book)

@@ -738,20 +738,18 @@ class Progression:
     def CanAccessDarkWorldPortal(self, config: Config):
         if (config.SMLogic == SMLogic.Normal):
             return self.CardMaridiaL1 and self.CardMaridiaL2 and self.CanUsePowerBombs() and self.Super and self.Gravity and self.SpeedBooster
-        else:
-            return self.CardMaridiaL1 and self.CardMaridiaL2 and self.CanUsePowerBombs() and self.Super and \
-                (self.Charge or self.Super and self.Missile) and \
-                (self.Gravity or self.HiJump and self.Ice and self.Grapple) and \
-                (self.Ice or self.Gravity and self.SpeedBooster)
+        return self.CardMaridiaL1 and self.CardMaridiaL2 and self.CanUsePowerBombs() and self.Super and \
+            (self.Charge or self.Super and self.Missile) and \
+            (self.Gravity or self.HiJump and self.Ice and self.Grapple) and \
+            (self.Ice or self.Gravity and self.SpeedBooster)
 
 
     def CanAccessMiseryMirePortal(self, config: Config):
         if (config.SMLogic == SMLogic.Normal):
             return (self.CardNorfairL2 or (self.SpeedBooster and self.Wave)) and self.Varia and self.Super and self.Gravity and self.SpaceJump and self.CanUsePowerBombs()
-        else:
-            return (self.CardNorfairL2 or self.SpeedBooster) and self.Varia and self.Super and \
-                    (self.CanFly() or self.HiJump or self.SpeedBooster or self.CanSpringBallJump() or self.Ice) \
-                    and (self.Gravity or self.HiJump) and self.CanUsePowerBombs()
+        return (self.CardNorfairL2 or self.SpeedBooster) and self.Varia and self.Super and \
+                (self.CanFly() or self.HiJump or self.SpeedBooster or self.CanSpringBallJump() or self.Ice) \
+                and (self.Gravity or self.HiJump) and self.CanUsePowerBombs()
 
     def CanIbj(self):
             return self.Morph and self.Bombs
@@ -792,10 +790,9 @@ class Progression:
             return self.MoonPearl and self.Flippers and \
                     self.Gravity and self.Morph and \
                     (world.CanAcquire(self, RewardType.Agahnim) or self.Hammer and self.CanLiftLight() or self.CanLiftHeavy())
-        else:
-            return self.MoonPearl and self.Flippers and \
-                    (self.CanSpringBallJump() or self.HiJump or self.Gravity) and self.Morph and \
-                    (world.CanAcquire(self, RewardType.Agahnim) or self.Hammer and self.CanLiftLight() or self.CanLiftHeavy())
+        return self.MoonPearl and self.Flippers and \
+                (self.CanSpringBallJump() or self.HiJump or self.Gravity) and self.Morph and \
+                (world.CanAcquire(self, RewardType.Agahnim) or self.Hammer and self.CanLiftLight() or self.CanLiftHeavy())
 
 # Start of AP integration
 items_start_id = 84000

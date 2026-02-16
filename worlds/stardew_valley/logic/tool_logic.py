@@ -71,8 +71,7 @@ class ToolLogic(BaseLogic):
 
         if self.content.features.tool_progression.is_progressive:
             return self.logic.received(APTool.pickaxe, tool_materials[material])
-        else:
-            return self.logic.tool._can_purchase_upgrade(material)
+        return self.logic.tool._can_purchase_upgrade(material)
 
     @cache_self1
     def _can_purchase_upgrade(self, material: str) -> StardewRule:

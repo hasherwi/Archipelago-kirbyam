@@ -180,40 +180,34 @@ def get_seamoth_max_depth(state: "CollectionState", player: int):
     if has_seamoth(state, player):
         if has_seamoth_depth_module_mk3(state, player):
             return 900
-        elif has_seamoth_depth_module_mk2(state, player):  # Will never be the case, 3 is craftable
+        if has_seamoth_depth_module_mk2(state, player):  # Will never be the case, 3 is craftable
             return 500
-        elif has_seamoth_depth_module_mk1(state, player):
+        if has_seamoth_depth_module_mk1(state, player):
             return 300
-        else:
-            return 200
-    else:
-        return 0
+        return 200
+    return 0
 
 
 def get_cyclops_max_depth(state: "CollectionState", player):
     if has_cyclops(state, player):
         if has_cyclops_depth_module_mk3(state, player):
             return 1700
-        elif has_cyclops_depth_module_mk2(state, player):  # Will never be the case, 3 is craftable
+        if has_cyclops_depth_module_mk2(state, player):  # Will never be the case, 3 is craftable
             return 1300
-        elif has_cyclops_depth_module_mk1(state, player):
+        if has_cyclops_depth_module_mk1(state, player):
             return 900
-        else:
-            return 500
-    else:
-        return 0
+        return 500
+    return 0
 
 
 def get_prawn_max_depth(state: "CollectionState", player):
     if has_prawn(state, player):
         if has_prawn_depth_module_mk2(state, player):
             return 1700
-        elif has_prawn_depth_module_mk1(state, player):
+        if has_prawn_depth_module_mk1(state, player):
             return 1300
-        else:
-            return 900
-    else:
-        return 0
+        return 900
+    return 0
 
 
 def get_max_depth(state: "CollectionState", player: int):

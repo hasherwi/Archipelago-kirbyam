@@ -277,8 +277,7 @@ class Goal(Choice, LADXROption):
     def to_ladxr_option(self, all_options):
         if self.value == self.option_instruments:
             return ("goal", all_options["instrument_count"])
-        else:
-            return LADXROption.to_ladxr_option(self, all_options)
+        return LADXROption.to_ladxr_option(self, all_options)
 
 
 class InstrumentCount(Range, LADXROption):

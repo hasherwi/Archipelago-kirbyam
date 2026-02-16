@@ -876,16 +876,15 @@ def verify_plando_directions(connection: PlandoConnection) -> bool:
     if entrance_portal and exit_portal:
         return verify_direction_pair(entrance_portal, exit_portal)
     # this is two shop portals, they can never pair directions
-    elif not entrance_portal and not exit_portal:
+    if not entrance_portal and not exit_portal:
         return False
     # if one of them is none, it's a shop, which has two possible directions
-    elif not entrance_portal:
+    if not entrance_portal:
         return exit_portal.direction in [Direction.north, Direction.east]
-    elif not exit_portal:
+    if not exit_portal:
         return entrance_portal.direction in [Direction.north, Direction.east]
-    else:
-        # shouldn't be reachable, more of a just in case
-        raise Exception("Something went very wrong with verify_plando_directions")
+    # shouldn't be reachable, more of a just in case
+    raise Exception("Something went very wrong with verify_plando_directions")
 
 
 # sort the portal dict by the name of the first portal, referring to the portal order in the master portal list

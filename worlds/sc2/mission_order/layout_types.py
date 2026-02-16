@@ -446,8 +446,7 @@ class Hopscotch(LayoutType):
         amount = idx - 1
         if amount > 0:
             return [-1 for _ in range(amount)]
-        else:
-            return []
+        return []
 
     def get_visual_layout(self) -> list[list[int]]:
         # size offset by 1 to account for first column of two slots

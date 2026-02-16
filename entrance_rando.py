@@ -102,7 +102,7 @@ class EntranceLookup:
                         and exit_ in self._usable_exits):
                     self._expands_graph_cache[entrance] = True
                     return True
-                elif exit_.connected_region and exit_.connected_region not in seen:
+                if exit_.connected_region and exit_.connected_region not in seen:
                     seen.add(exit_.connected_region)
                     q.append(exit_.connected_region)
 

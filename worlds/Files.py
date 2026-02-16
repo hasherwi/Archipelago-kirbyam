@@ -100,8 +100,7 @@ class AutoPatchExtensionRegister(abc.ABCMeta):
                     raise NotImplementedError(f"No handler for {required}.")
                 handlers.append(ext)
             return handlers
-        else:
-            return handler
+        return handler
 
 
 container_version: int = 7
@@ -205,9 +204,9 @@ class APContainer:
 class APWorldContainer(APContainer):
     """A zipfile containing a world implementation."""
     game: str | None = None
-    world_version: "Version | None" = None
-    minimum_ap_version: "Version | None" = None
-    maximum_ap_version: "Version | None" = None
+    world_version: Version | None = None
+    minimum_ap_version: Version | None = None
+    maximum_ap_version: Version | None = None
 
     def read_contents(self, opened_zipfile: zipfile.ZipFile) -> dict[str, Any]:
         from Utils import tuplize_version
@@ -275,7 +274,7 @@ class APPatch(APPlayerContainer):
     procedure: Literal["custom"] | list[tuple[str, list[Any]]] = "custom"
 
     def get_manifest(self) -> dict[str, Any]:
-        manifest = super(APPatch, self).get_manifest()
+        manifest = super().get_manifest()
         manifest["procedure"] = self.procedure
         manifest["compatible_version"] = 6
         return manifest
@@ -313,11 +312,11 @@ class APProcedurePatch(APAutoPatchInterface):
         return cls.source_data
 
     def __init__(self, *args: Any, **kwargs: Any):
-        super(APProcedurePatch, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.files = {}
 
     def get_manifest(self) -> dict[str, Any]:
-        manifest = super(APProcedurePatch, self).get_manifest()
+        manifest = super().get_manifest()
         manifest["base_checksum"] = self.hash
         manifest["result_file_ending"] = self.result_file_ending
         manifest["procedure"] = self.procedure
@@ -326,7 +325,7 @@ class APProcedurePatch(APAutoPatchInterface):
         return manifest
 
     def read_contents(self, opened_zipfile: zipfile.ZipFile) -> dict[str, Any]:
-        manifest = super(APProcedurePatch, self).read_contents(opened_zipfile)
+        manifest = super().read_contents(opened_zipfile)
         if "procedure" not in manifest:
             # support patching files made before moving to procedures
             self.procedure = [("apply_bsdiff4", ["delta.bsdiff4"])]
@@ -338,7 +337,7 @@ class APProcedurePatch(APAutoPatchInterface):
         return manifest
 
     def write_contents(self, opened_zipfile: zipfile.ZipFile) -> None:
-        super(APProcedurePatch, self).write_contents(opened_zipfile)
+        super().write_contents(opened_zipfile)
         for file in self.files:
             opened_zipfile.writestr(file, self.files[file],
                                     compress_type=zipfile.ZIP_STORED if file.endswith(".bsdiff4") else None)
@@ -381,13 +380,13 @@ class APDeltaPatch(APProcedurePatch):
     ]
 
     def __init__(self, *args: Any, patched_path: str = "", **kwargs: Any) -> None:
-        super(APDeltaPatch, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.patched_path = patched_path
 
     def write_contents(self, opened_zipfile: zipfile.ZipFile) -> None:
         self.write_file("delta.bsdiff4",
                         bsdiff4.diff(self.get_source_data_with_cache(), open(self.patched_path, "rb").read()))
-        super(APDeltaPatch, self).write_contents(opened_zipfile)
+        super().write_contents(opened_zipfile)
 
 
 class APTokenTypes(IntEnum):

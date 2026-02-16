@@ -96,7 +96,7 @@ class FactorioModFile(worlds.Files.APPlayerContainer):
             target, content = task()
             opened_zipfile.writestr(target, content)
         # now we can add extras.
-        super(FactorioModFile, self).write_contents(opened_zipfile)
+        super().write_contents(opened_zipfile)
 
 
 def generate_mod(world: "Factorio", output_directory: str):
@@ -132,8 +132,7 @@ def generate_mod(world: "Factorio", output_directory: str):
             distance = random.random()
             if random.randint(0, 1):
                 return base + (high - base) * distance
-            else:
-                return base - (base - low) * distance
+            return base - (base - low) * distance
         return random.uniform(low, high)
 
     template_data = {

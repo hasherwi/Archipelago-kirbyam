@@ -20,7 +20,7 @@ class Bases:
         def test_dataclass(self) -> None:
             """Test that the dataclass helper property returns the expected sequence"""
             self.assertGreater(len(self.option_name_to_item_name), 0, "Expected more than 0 trap types")
-            world: "SoEWorld" = typing.cast("SoEWorld", self.multiworld.worlds[1])
+            world: SoEWorld = typing.cast("SoEWorld", self.multiworld.worlds[1])
             item_name_to_rolled_option = {option.item_name: option for option in world.options.trap_chances}
             # compare that all fields are present - that is property in dataclass and selector code in test line up
             self.assertEqual(sorted(self.option_name_to_item_name.values()), sorted(item_name_to_rolled_option),

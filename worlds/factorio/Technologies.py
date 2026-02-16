@@ -106,7 +106,7 @@ class CustomTechnology(Technology):
         if origin.name not in world.special_nodes:
             ingredients = set(world.random.sample(list(ingredients), world.random.randint(1, len(ingredients))))
         self.ingredients = ingredients
-        super(CustomTechnology, self).__init__(origin.name, origin.factorio_id)
+        super().__init__(origin.name, origin.factorio_id)
 
     def get_prior_technologies(self) -> set[Technology]:
         """Get Technologies that have to precede this one to resolve tree connections."""
@@ -291,8 +291,7 @@ def recursively_get_unlocking_technologies(ingredient_name, _done=None, unlock_f
     if _done:
         if ingredient_name in _done:
             return set()
-        else:
-            _done.add(ingredient_name)
+        _done.add(ingredient_name)
     else:
         _done = {ingredient_name}
     recipes = all_product_sources.get(ingredient_name)

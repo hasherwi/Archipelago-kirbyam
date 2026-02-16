@@ -52,7 +52,7 @@ class MeritousWorld(World):
     options_dataclass = MeritousOptions
 
     def __init__(self, multiworld: MultiWorld, player: int):
-        super(MeritousWorld, self).__init__(multiworld, player)
+        super().__init__(multiworld, player)
         self.goal = 0
         self.include_evolution_traps = False
         self.include_psi_keys = False
@@ -91,10 +91,9 @@ class MeritousWorld(World):
         rand_crystals = self.multiworld.random.randrange(0, 32)
         if rand_crystals < 16:
             return "Crystals x500"
-        elif rand_crystals < 28:
+        if rand_crystals < 28:
             return "Crystals x1000"
-        else:
-            return "Crystals x2000"
+        return "Crystals x2000"
 
     def generate_early(self):
         self.goal = self.options.goal.value

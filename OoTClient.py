@@ -97,7 +97,7 @@ class OoTContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super(OoTContext, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
         if not self.auth:
             self.awaiting_rom = True
             logger.info("Awaiting connection to EmuHawk to get player information")

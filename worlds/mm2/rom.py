@@ -370,8 +370,7 @@ header = b"\x4E\x45\x53\x1A\x10\x00\x10\x00\x00\x00\x00\x00\x00\x00\x00\x00"
 def read_headerless_nes_rom(rom: bytes) -> bytes:
     if rom[:4] == b"NES\x1A":
         return rom[16:]
-    else:
-        return rom
+    return rom
 
 
 def get_base_rom_bytes(file_name: str = "") -> bytes:

@@ -127,14 +127,14 @@ class JakAndDaxterContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super(JakAndDaxterContext, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
         await self.get_username()
         self.tags = set()
         await self.send_connect()
 
     async def disconnect(self, allow_autoreconnect: bool = False):
         self.locations_checked = set()  # Clear this set to gracefully handle server disconnects.
-        await super(JakAndDaxterContext, self).disconnect(allow_autoreconnect)
+        await super().disconnect(allow_autoreconnect)
 
     def on_package(self, cmd: str, args: dict):
 
@@ -249,7 +249,7 @@ class JakAndDaxterContext(CommonContext):
     # async tasks to speed up large releases of items.
     def on_print_json(self, args: dict) -> None:
         create_task_log_exception(self.json_to_game_text(args))
-        super(JakAndDaxterContext, self).on_print_json(args)
+        super().on_print_json(args)
 
     # We need to do a little more than just use CommonClient's on_deathlink.
     def on_deathlink(self, data: dict):

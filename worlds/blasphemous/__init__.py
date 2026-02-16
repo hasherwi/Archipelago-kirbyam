@@ -48,7 +48,7 @@ class BlasphemousWorld(World):
 
 
     def __init__(self, multiworld, player):
-        super(BlasphemousWorld, self).__init__(multiworld, player)
+        super().__init__(multiworld, player)
         self.start_room: str = "D17Z01S01"
         self.disabled_locations: list[str] = []
 

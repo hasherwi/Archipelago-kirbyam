@@ -136,5 +136,4 @@ def build_regions(level_name: str, world: "JakAndDaxterWorld") -> tuple[JakAndDa
         world.level_to_regions[level_name].append(final_door)
 
         return main_area, final_boss, final_door
-    else:
-        return main_area, final_boss, None
+    return main_area, final_boss, None

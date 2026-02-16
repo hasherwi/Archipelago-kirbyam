@@ -30,13 +30,13 @@ class TestInventory:
 
     def has(self, item: str, player: int, count: int = 1):
         if not self.is_item_progression(item):
-            raise AssertionError("Logic item {} is not a progression item".format(item))
+            raise AssertionError(f"Logic item {item} is not a progression item")
         return self.random_boolean()
 
     def has_any(self, items: set[str], player: int):
         non_progression_items = [item for item in items if not self.is_item_progression(item)]
         if len(non_progression_items) > 0:
-            raise AssertionError("Logic items {} are not progression items".format(non_progression_items))
+            raise AssertionError(f"Logic items {non_progression_items} are not progression items")
         return self.random_boolean()
 
     def has_all(self, items: set[str], player: int):
@@ -50,12 +50,11 @@ class TestInventory:
 
     def count(self, item: str, player: int) -> int:
         if not self.is_item_progression(item):
-            raise AssertionError("Item {} is not a progression item".format(item))
+            raise AssertionError(f"Item {item} is not a progression item")
         random_value: int = self.random.randrange(0, 5)
         if random_value == 4:  # 0-3 has a higher chance due to logic rules
             return self.random.randrange(4, 100)
-        else:
-            return random_value
+        return random_value
 
     def count_from_list(self, items: Iterable[str], player: int) -> int:
         return sum(self.count(item_name, player) for item_name in items)

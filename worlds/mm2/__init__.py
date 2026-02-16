@@ -65,8 +65,7 @@ class MM2Settings(settings.Group):
             if not filetypes:
                 file_types = [("NES", [".nes"]), ("Program", [".exe"])]  # LC1 is only a windows executable, no linux
                 return super().browse(file_types, **kwargs)
-            else:
-                return super().browse(filetypes, **kwargs)
+            return super().browse(filetypes, **kwargs)
 
         @classmethod
         def validate(cls, path: str) -> None:

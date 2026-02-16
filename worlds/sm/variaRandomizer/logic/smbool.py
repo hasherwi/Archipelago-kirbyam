@@ -1,8 +1,7 @@
 def flatten(l):
     if type(l) is list:
         return [ y for x in l for y in flatten(x) ]
-    else:
-        return [ l ]
+    return [ l ]
 
 # super metroid boolean
 class SMBool:
@@ -33,7 +32,7 @@ class SMBool:
 
     def __repr__(self):
         # to display the smbool as a string
-        return "SMBool({}, {}, {}, {})".format(self.bool, self.difficulty, sorted(self.knows), sorted(self.items))
+        return f"SMBool({self.bool}, {self.difficulty}, {sorted(self.knows)}, {sorted(self.items)})"
 
     def __getitem__(self, index):
         # to acces the smbool as [0] for the bool and [1] for the difficulty.
@@ -41,7 +40,7 @@ class SMBool:
         # and we add missing smbools to it, so we have a mix of lists and smbools.
         if index == 0:
             return self.bool
-        elif index == 1:
+        if index == 1:
             return self.difficulty
 
     def __bool__(self):
@@ -60,8 +59,7 @@ class SMBool:
         # for <
         if self.bool and other.bool:
             return self.difficulty < other.difficulty
-        else:
-            return self.bool
+        return self.bool
 
     def __copy__(self):
         return SMBool(self.bool, self.difficulty, self._knows, self._items)

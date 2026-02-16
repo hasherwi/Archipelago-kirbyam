@@ -301,11 +301,11 @@ class SMWorld(World):
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         state.smbm[self.player].addItem(item.type)
-        return super(SMWorld, self).collect(state, item)
+        return super().collect(state, item)
 
     def remove(self, state: CollectionState, item: Item) -> bool:
         state.smbm[self.player].removeItem(item.type)
-        return super(SMWorld, self).remove(state, item)
+        return super().remove(state, item)
 
     def create_item(self, name: str) -> Item:
         item = next((x for x in ItemManager.Items.values() if x.Name == name), None)
@@ -322,12 +322,10 @@ class SMWorld(World):
             roll = self.random.randint(1, power_bombs + missiles + super_missiles)
             if roll <= power_bombs:
                 return "Power Bomb"
-            elif roll <= power_bombs + missiles:
+            if roll <= power_bombs + missiles:
                 return "Missile"
-            else:
-                return "Super Missile"
-        else:
-            return "Nothing"
+            return "Super Missile"
+        return "Nothing"
 
     def pre_fill(self):
         if len(self.NothingPool) > 0:
@@ -896,12 +894,12 @@ class SMLocation(Location):
     game: str = "Super Metroid"
 
     def __init__(self, player: int, name: str, address=None, parent=None):
-        super(SMLocation, self).__init__(player, name, address, parent)
+        super().__init__(player, name, address, parent)
 
 class SMItem(Item):
     game = "Super Metroid"
     type: str
 
     def __init__(self, name, classification, type: str, code, player: int):
-        super(SMItem, self).__init__(name, classification, code, player)
+        super().__init__(name, classification, code, player)
         self.type = type

@@ -22,7 +22,7 @@ def get_option_choices(option: type[Option]) -> dict[str, int]:
         return option.special_range_names
     if issubclass(option, Range):
         return {f"{val}": val for val in range(option.range_start, option.range_end + 1)}
-    elif option.options:
+    if option.options:
         return option.options
     return {}
 

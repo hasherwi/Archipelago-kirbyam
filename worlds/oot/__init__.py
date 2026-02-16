@@ -198,7 +198,7 @@ class OOTWorld(World):
     def __init__(self, world, player):
         self.hint_data_available = threading.Event()
         self.collectible_flags_available = threading.Event()
-        super(OOTWorld, self).__init__(world, player)
+        super().__init__(world, player)
 
 
     @classmethod
@@ -1413,15 +1413,15 @@ def valid_dungeon_item_location(world: OOTWorld, option: str, dungeon: str, loc:
     if option == "dungeon":
         return (getattr(loc.parent_region.dungeon, "name", None) == dungeon
             and (world.shuffle_song_items != "dungeon" or loc.name not in dungeon_song_locations))
-    elif option == "any_dungeon":
+    if option == "any_dungeon":
         return (loc.parent_region.dungeon is not None
             and (world.shuffle_song_items != "dungeon" or loc.name not in dungeon_song_locations))
-    elif option == "overworld":
+    if option == "overworld":
         return (loc.parent_region.dungeon is None
             and (loc.type != "Shop" or loc.name in world.shop_prices)
             and (world.shuffle_song_items != "song" or loc.type != "Song")
             and (world.shuffle_song_items != "dungeon" or loc.name not in dungeon_song_locations))
-    elif option == "regional":
+    if option == "regional":
         color = HintArea.for_dungeon(dungeon).color
         return (HintArea.at(loc).color == color
             and (loc.type != "Shop" or loc.name in world.shop_prices)

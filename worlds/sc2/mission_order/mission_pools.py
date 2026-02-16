@@ -99,8 +99,7 @@ class SC2MOGenMissionPools:
                 for mission in self.master_list
             )
             return len(used_files)
-        else:
-            return len(self.master_list)
+        return len(self.master_list)
 
     def count_allowed_missions(self, campaign: SC2Campaign) -> int:
         allowed_missions = [

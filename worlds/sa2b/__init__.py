@@ -678,7 +678,7 @@ class SA2BWorld(World):
                         musiclist_s[i] += 100
 
             return dict(zip(musiclist_o, musiclist_s))
-        elif self.options.music_shuffle == "full":
+        if self.options.music_shuffle == "full":
             musiclist_o = list(range(0, 78))
             musiclist_s = musiclist_o.copy()
             self.random.shuffle(musiclist_s)
@@ -691,7 +691,7 @@ class SA2BWorld(World):
                         musiclist_s[i] += 100
 
             return dict(zip(musiclist_o, musiclist_s))
-        elif self.options.music_shuffle == "singularity":
+        if self.options.music_shuffle == "singularity":
             musiclist_o = list(range(0, 78))
             musiclist_s = [self.random.choice(musiclist_o)] * len(musiclist_o)
 
@@ -702,18 +702,17 @@ class SA2BWorld(World):
                     musiclist_s = [x+100 for x in musiclist_s]
 
             return dict(zip(musiclist_o, musiclist_s))
-        else:
-            musiclist_o = list(range(0, 78))
-            musiclist_s = musiclist_o.copy()
+        musiclist_o = list(range(0, 78))
+        musiclist_s = musiclist_o.copy()
 
-            if self.options.sadx_music.value == 1:
-                musiclist_s = [x+100 for x in musiclist_s]
-            elif self.options.sadx_music.value == 2:
-                for i in range(len(musiclist_s)):
-                    if self.random.randint(0,1):
-                        musiclist_s[i] += 100
+        if self.options.sadx_music.value == 1:
+            musiclist_s = [x+100 for x in musiclist_s]
+        elif self.options.sadx_music.value == 2:
+            for i in range(len(musiclist_s)):
+                if self.random.randint(0,1):
+                    musiclist_s[i] += 100
 
-            return dict(zip(musiclist_o, musiclist_s))
+        return dict(zip(musiclist_o, musiclist_s))
 
     def generate_voice_data(self) -> dict[int, int]:
         if self.options.voice_shuffle == "shuffled":
@@ -722,7 +721,7 @@ class SA2BWorld(World):
             self.random.shuffle(voicelist_s)
 
             return dict(zip(voicelist_o, voicelist_s))
-        elif self.options.voice_shuffle == "rude":
+        if self.options.voice_shuffle == "rude":
             voicelist_o = list(range(0, 2623))
             voicelist_s = voicelist_o.copy()
             self.random.shuffle(voicelist_s)
@@ -732,7 +731,7 @@ class SA2BWorld(World):
                     voicelist_s[i] = 17
 
             return dict(zip(voicelist_o, voicelist_s))
-        elif self.options.voice_shuffle == "chao":
+        if self.options.voice_shuffle == "chao":
             voicelist_o = list(range(0, 2623))
             voicelist_s = voicelist_o.copy()
             self.random.shuffle(voicelist_s)
@@ -741,16 +740,15 @@ class SA2BWorld(World):
                 voicelist_s[i] = self.random.choice(range(2586, 2608))
 
             return dict(zip(voicelist_o, voicelist_s))
-        elif self.options.voice_shuffle == "singularity":
+        if self.options.voice_shuffle == "singularity":
             voicelist_o = list(range(0, 2623))
             voicelist_s = [self.random.choice(voicelist_o)] * len(voicelist_o)
 
             return dict(zip(voicelist_o, voicelist_s))
-        else:
-            voicelist_o = list(range(0, 2623))
-            voicelist_s = voicelist_o.copy()
+        voicelist_o = list(range(0, 2623))
+        voicelist_s = voicelist_o.copy()
 
-            return dict(zip(voicelist_o, voicelist_s))
+        return dict(zip(voicelist_o, voicelist_s))
 
     def generate_chao_egg_data(self) -> dict[int, int]:
         if self.options.shuffle_starting_chao_eggs:
@@ -758,12 +756,11 @@ class SA2BWorld(World):
             egglist_s = self.random.sample(range(0,54), 4)
 
             return dict(zip(egglist_o, egglist_s))
-        else:
-            # Indicate these are not shuffled
-            egglist_o = [0, 1, 2, 3]
-            egglist_s = [255, 255, 255, 255]
+        # Indicate these are not shuffled
+        egglist_o = [0, 1, 2, 3]
+        egglist_s = [255, 255, 255, 255]
 
-            return dict(zip(egglist_o, egglist_s))
+        return dict(zip(egglist_o, egglist_s))
 
     def generate_chao_name_data(self) -> dict[int, int]:
         number_of_names = 30

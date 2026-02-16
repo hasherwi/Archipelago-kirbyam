@@ -90,7 +90,7 @@ def tree_zone_3_coins(state, player, coins):
         return coins <= 4
     if coins <= 19:
         return True
-    elif state.has_any(["Mushroom", "Fire Flower"], player) and coins <= 21:
+    if state.has_any(["Mushroom", "Fire Flower"], player) and coins <= 21:
         return True
     return state.has("Carrot", player)
 

@@ -66,7 +66,7 @@ def generate_local(games: Iterable[str], dest: Path | str) -> Path:
         pass
 
     manager = Manager()
-    results: "ListProxy[Path | Exception]" = manager.list()
+    results: ListProxy[Path | Exception] = manager.list()
 
     p = Process(target=_generate_local_inner, args=(games, dest, results))
     p.start()

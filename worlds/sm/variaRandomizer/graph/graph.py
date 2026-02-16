@@ -139,7 +139,7 @@ class AccessGraph(object):
         if self.log.getEffectiveLevel() == logging.DEBUG:
             self.log.debug("Area graph:")
             for s, d in self.InterAreaTransitions:
-                self.log.debug("{} -> {}".format(s.Name, d.Name))
+                self.log.debug(f"{s.Name} -> {d.Name}")
 
     def addAccessPoint(self, ap):
         ap.distance = 0

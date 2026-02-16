@@ -112,15 +112,14 @@ def has_logic_list_building(state: CollectionState, player: int, buildings: list
     if buildings[index] == ITEMS.cutter:
         if buildings.index(ITEMS.stacker) < index and not floating:
             return state.has_any((ITEMS.cutter, ITEMS.cutter_quad), player)
-        else:
-            return can_cut_half(state, player)
-    elif buildings[index] == ITEMS.rotator:
+        return can_cut_half(state, player)
+    if buildings[index] == ITEMS.rotator:
         return can_rotate_90(state, player)
-    elif buildings[index] == ITEMS.stacker:
+    if buildings[index] == ITEMS.stacker:
         return can_stack(state, player)
-    elif buildings[index] == ITEMS.painter:
+    if buildings[index] == ITEMS.painter:
         return can_paint(state, player)
-    elif buildings[index] == ITEMS.color_mixer:
+    if buildings[index] == ITEMS.color_mixer:
         return can_mix_colors(state, player)
 
 

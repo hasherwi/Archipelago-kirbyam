@@ -110,8 +110,8 @@ class SMBoolManager(object):
         for (item, (pos, bitMask)) in self.itemsPositions.items():
             value = (key & bitMask) >> pos
             if value != 0:
-                msg += " {}: {}".format(item, value)
-        print("items:{}".format(msg))
+                msg += f" {item}: {value}"
+        print(f"items:{msg}")
 
     def isEmpty(self):
         for item in self.items:
@@ -267,8 +267,7 @@ class SMBoolManager(object):
             if item in ["ETank", "Reserve"]:
                 item = str(count)+"-"+item
             return SMBool(True, difficulty, items = [item])
-        else:
-            return smboolFalse
+        return smboolFalse
 
     def energyReserveCountOk(self, count, difficulty=0):
         if self.energyReserveCount() >= count:
@@ -281,12 +280,11 @@ class SMBoolManager(object):
                 nReserve = int(count) - nEtank
                 items += " - "+str(nReserve)+"-Reserve"
             return SMBool(True, difficulty, items = [items])
-        else:
-            return smboolFalse
+        return smboolFalse
 
 class SMBoolManagerPlando(SMBoolManager):
     def __init__(self):
-        super(SMBoolManagerPlando, self).__init__()
+        super().__init__()
 
     def __deepcopy__(self, memodict):
         return super().__deepcopy__(memodict)

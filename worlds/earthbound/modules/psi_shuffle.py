@@ -454,7 +454,7 @@ def write_psi(world: "EarthBoundWorld", rom: "LocalRom") -> None:
             name = world.jeff_item_names[jeff_item_num][item][i]
             description = world.jeff_help_text[jeff_item_num][item][i]
             name_encoded = text_encoder(name, 22)
-            name_encoded.extend(([0x00]))
+            name_encoded.extend([0x00])
             rom.write_bytes(address, name_encoded)
             rom.write_bytes(address + 35, struct.pack("I", description))
             if "Broken" not in name:  # broken items don't need attack data
@@ -464,7 +464,7 @@ def write_psi(world: "EarthBoundWorld", rom: "LocalRom") -> None:
     jeff_item_num = 0
     name = world.spray_names[world.jeff_assist_items[0]]
     name_encoded = text_encoder(name, 22)
-    name_encoded.extend(([0x00]))
+    name_encoded.extend([0x00])
     description = world.spray_desc[world.jeff_assist_items[0]]
     address = 0x156887
     action = world.gadget_actions[world.jeff_assist_items[0]][0]
@@ -478,7 +478,7 @@ def write_psi(world: "EarthBoundWorld", rom: "LocalRom") -> None:
                 i = 1
             name = world.gadget_names[item][i]
             name_encoded = text_encoder(name, 22)
-            name_encoded.extend(([0x00]))
+            name_encoded.extend([0x00])
             description = world.gadget_desc[item][i]
             action = world.gadget_actions[world.jeff_assist_items[jeff_item_num]][i]
             address = world.gadget_addresses[jeff_item_num][i]
@@ -498,7 +498,7 @@ def write_psi(world: "EarthBoundWorld", rom: "LocalRom") -> None:
         name = world.broken_gadgets[item][level]
         description = world.broken_desc[item][level]
         name_encoded = text_encoder(name, 22)
-        name_encoded.extend(([0x00]))
+        name_encoded.extend([0x00])
         rom.write_bytes(address, name_encoded)
         rom.write_bytes(address + 35, struct.pack("I", description))
         rom.write_bytes(description - 0xC00000 + 5, bytearray([world.broken_gadget_ids[i]]))

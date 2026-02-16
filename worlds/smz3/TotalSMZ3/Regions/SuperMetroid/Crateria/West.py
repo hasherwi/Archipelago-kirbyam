@@ -32,8 +32,7 @@ class West(SMRegion):
                     items.CanIbj() or
                     items.CanUsePowerBombs() and items.TwoPowerBombs or
                     items.ScrewAttack)
-        else:
-            return items.CardCrateriaL1 and (
-                    items.Morph and (items.Bombs or items.TwoPowerBombs) or
-                    items.ScrewAttack or
-                    items.SpeedBooster and items.CanUsePowerBombs() and items.HasEnergyReserves(2))
+        return items.CardCrateriaL1 and (
+                items.Morph and (items.Bombs or items.TwoPowerBombs) or
+                items.ScrewAttack or
+                items.SpeedBooster and items.CanUsePowerBombs() and items.HasEnergyReserves(2))

@@ -104,8 +104,7 @@ class UndertaleWorld(World):
             junk_pool = junk_weights_all
         if not self.options.only_flakes:
             return self.random.choices(list(junk_pool.keys()), weights=list(junk_pool.values()))[0]
-        else:
-            return "Temmie Flakes"
+        return "Temmie Flakes"
 
     def create_items(self):
         self.multiworld.get_location("Undyne Date", self.player).place_locked_item(self.create_item("Undyne Date"))

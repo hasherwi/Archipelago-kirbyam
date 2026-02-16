@@ -60,8 +60,7 @@ def has_key_items(state, count, player):
 def can_pass_guards(state, world, player):
     if world.options.tea:
         return state.has("Tea", player)
-    else:
-        return state.has("Vending Machine Drinks", player)
+    return state.has("Vending Machine Drinks", player)
 
 
 def has_badges(state, count, player):
@@ -100,12 +99,12 @@ def rock_tunnel(state, world, player):
 def route(state, world, player):
     if world.options.route_3_condition == "defeat_brock":
         return state.has("Defeat Brock", player)
-    elif world.options.route_3_condition == "defeat_any_gym":
+    if world.options.route_3_condition == "defeat_any_gym":
         return state.has_any(["Defeat Brock", "Defeat Misty", "Defeat Lt. Surge", "Defeat Erika", "Defeat Koga",
                               "Defeat Blaine", "Defeat Sabrina", "Defeat Viridian Gym Giovanni"], player)
-    elif world.options.route_3_condition == "boulder_badge":
+    if world.options.route_3_condition == "boulder_badge":
         return state.has("Boulder Badge", player)
-    elif world.options.route_3_condition == "any_badge":
+    if world.options.route_3_condition == "any_badge":
         return state.has_any(["Boulder Badge", "Cascade Badge", "Thunder Badge", "Rainbow Badge", "Marsh Badge",
                               "Soul Badge", "Volcano Badge", "Earth Badge"], player)
     # open

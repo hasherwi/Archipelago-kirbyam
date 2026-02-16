@@ -87,7 +87,7 @@ class Location:
     def __repr__(self):
         return "Location({}: {})".format(self.Name,
             ". ".join(
-                (repr(getattr(self, slot)) for slot in Location.__slots__ if getattr(self, slot) is not None)))
+                repr(getattr(self, slot)) for slot in Location.__slots__ if getattr(self, slot) is not None))
 
     def __copy__(self):
         d = self.difficulty

@@ -76,7 +76,7 @@ class LocalServeGame(ServeGame):
             pass
 
         manager = Manager()
-        ready: "Event" = manager.Event()
+        ready: Event = manager.Event()
         self._stop = manager.Event()
 
         self._proc = Process(target=_launch_multiserver, args=(self._multidata, ready, self._stop))

@@ -140,7 +140,7 @@ class MeritousItem(Item):
     type: str
 
     def __init__(self, name, advancement, code, player):
-        super(MeritousItem, self).__init__(name,
+        super().__init__(name,
                                            ItemClassification.progression if advancement else ItemClassification.filler,
                                            code, player)
         if code is None:

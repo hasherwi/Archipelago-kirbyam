@@ -190,8 +190,7 @@ def generate_weighted_yaml(game: str):
         if intent_generate:
             return generate_game({player_name: formatted_options})
 
-        else:
-            return send_yaml(player_name, formatted_options)
+        return send_yaml(player_name, formatted_options)
 
 
 # Player options pages
@@ -284,5 +283,4 @@ def generate_yaml(game: str):
         if intent_generate:
             return generate_game({player_name: formatted_options})
 
-        else:
-            return send_yaml(player_name, formatted_options)
+        return send_yaml(player_name, formatted_options)

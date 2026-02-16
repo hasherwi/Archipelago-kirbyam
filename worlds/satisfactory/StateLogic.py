@@ -130,45 +130,37 @@ class StateLogic:
                         and self.pipes_rule(state) \
                         and self.radio_active_rule(state) \
                         and self.belt_rule[recipe.minimal_belt_speed - 1]
-                else:
-                    return lambda state: \
-                        self.is_recipe_producible(state, recipe) \
-                        and self.pipes_rule(state) \
-                        and self.radio_active_rule(state)
-            else:
-                if recipe.minimal_belt_speed:
-                    return lambda state: \
-                        self.is_recipe_producible(state, recipe) \
-                        and self.pipes_rule(state) \
-                        and self.belt_rule[recipe.minimal_belt_speed - 1]
-                else:
-                    return lambda state: \
-                        self.is_recipe_producible(state, recipe) \
-                        and self.pipes_rule(state)
-        else:
-            if recipe.is_radio_active:
-                if recipe.minimal_belt_speed:
-                    return lambda state: \
-                        self.is_recipe_producible(state, recipe) \
-                        and self.radio_active_rule(state) \
-                        and self.belt_rule[recipe.minimal_belt_speed - 1]
-                else:
-                    return lambda state: \
-                        self.is_recipe_producible(state, recipe) \
-                        and self.radio_active_rule(state)
-            else:
-                if recipe.minimal_belt_speed:
-                    return lambda state: \
-                        self.is_recipe_producible(state, recipe) \
-                        and self.belt_rule[recipe.minimal_belt_speed - 1]
-                else:
-                    return lambda state: \
-                        self.is_recipe_producible(state, recipe)
+                return lambda state: \
+                    self.is_recipe_producible(state, recipe) \
+                    and self.pipes_rule(state) \
+                    and self.radio_active_rule(state)
+            if recipe.minimal_belt_speed:
+                return lambda state: \
+                    self.is_recipe_producible(state, recipe) \
+                    and self.pipes_rule(state) \
+                    and self.belt_rule[recipe.minimal_belt_speed - 1]
+            return lambda state: \
+                self.is_recipe_producible(state, recipe) \
+                and self.pipes_rule(state)
+        if recipe.is_radio_active:
+            if recipe.minimal_belt_speed:
+                return lambda state: \
+                    self.is_recipe_producible(state, recipe) \
+                    and self.radio_active_rule(state) \
+                    and self.belt_rule[recipe.minimal_belt_speed - 1]
+            return lambda state: \
+                self.is_recipe_producible(state, recipe) \
+                and self.radio_active_rule(state)
+        if recipe.minimal_belt_speed:
+            return lambda state: \
+                self.is_recipe_producible(state, recipe) \
+                and self.belt_rule[recipe.minimal_belt_speed - 1]
+        return lambda state: \
+            self.is_recipe_producible(state, recipe)
 
     def is_elevator_phase(self, state: CollectionState, phase: int) -> bool:
         limited_phase = min(self.options.final_elevator_phase - 1, phase)
 
         if limited_phase != 0:
             return state.has(f"Elevator Phase {limited_phase}", self.player)
-        else:
-            return True
+        return True

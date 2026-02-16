@@ -120,12 +120,12 @@ def postJokes(state, player, goal):
         and rose(state, player)
         and canDash(state, player)
         )
-    else: # Logic for beating jokes end with beanstar emblems
-        return (
-        surfable(state, player)
-        and canDig(state, player)
-        and canDash(state, player)
-        )
+    # Logic for beating jokes end with beanstar emblems
+    return (
+    surfable(state, player)
+    and canDig(state, player)
+    and canDash(state, player)
+    )
 
 
 def teehee(state, player):

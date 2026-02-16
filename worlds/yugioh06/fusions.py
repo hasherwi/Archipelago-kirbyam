@@ -58,11 +58,10 @@ def has_all_materials(state, monster, player):
         return False
     if data is None:
         return True
-    else:
-        materials = data.replaceable and state.has_any(fusion_subs, player)
-        for material in data.materials:
-            materials += has_all_materials(state, material, player)
-        return materials >= len(data.materials)
+    materials = data.replaceable and state.has_any(fusion_subs, player)
+    for material in data.materials:
+        materials += has_all_materials(state, material, player)
+    return materials >= len(data.materials)
 
 
 def count_has_materials(state, monsters, player):

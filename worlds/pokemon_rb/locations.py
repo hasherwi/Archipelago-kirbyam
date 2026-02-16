@@ -2777,7 +2777,7 @@ class PokemonRBLocation(Location):
     game = "Pokemon Red and Blue"
 
     def __init__(self, player, name, address, rom_address, type, level, level_address):
-        super(PokemonRBLocation, self).__init__(
+        super().__init__(
             player, name,
             address
         )

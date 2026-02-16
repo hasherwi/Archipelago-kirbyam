@@ -189,19 +189,19 @@ class UndertaleContext(CommonContext):
 def to_room_name(place_name: str):
     if place_name == "Old Home Exit":
         return "room_ruinsexit"
-    elif place_name == "Snowdin Forest":
+    if place_name == "Snowdin Forest":
         return "room_tundra1"
-    elif place_name == "Snowdin Town Exit":
+    if place_name == "Snowdin Town Exit":
         return "room_fogroom"
-    elif place_name == "Waterfall":
+    if place_name == "Waterfall":
         return "room_water1"
-    elif place_name == "Waterfall Exit":
+    if place_name == "Waterfall Exit":
         return "room_fire2"
-    elif place_name == "Hotland":
+    if place_name == "Hotland":
         return "room_fire_prelab"
-    elif place_name == "Hotland Exit":
+    if place_name == "Hotland Exit":
         return "room_fire_precore"
-    elif place_name == "Core":
+    if place_name == "Core":
         return "room_fire_core1"
 
 

@@ -624,7 +624,7 @@ def randomize_starters(world: "PokemonEmeraldWorld") -> None:
 def randomize_legendary_encounters(world: "PokemonEmeraldWorld") -> None:
     if world.options.legendary_encounters == RandomizeLegendaryEncounters.option_vanilla:
         return
-    elif world.options.legendary_encounters == RandomizeLegendaryEncounters.option_shuffle:
+    if world.options.legendary_encounters == RandomizeLegendaryEncounters.option_shuffle:
         # Just take the existing species and shuffle them
         shuffled_species = [encounter.species_id for encounter in data.legendary_encounters]
         world.random.shuffle(shuffled_species)
@@ -662,7 +662,7 @@ def randomize_legendary_encounters(world: "PokemonEmeraldWorld") -> None:
 def randomize_misc_pokemon(world: "PokemonEmeraldWorld") -> None:
     if world.options.misc_pokemon == RandomizeMiscPokemon.option_vanilla:
         return
-    elif world.options.misc_pokemon == RandomizeMiscPokemon.option_shuffle:
+    if world.options.misc_pokemon == RandomizeMiscPokemon.option_shuffle:
         # Just take the existing species and shuffle them
         shuffled_species = [encounter.species_id for encounter in data.misc_pokemon]
         world.random.shuffle(shuffled_species)

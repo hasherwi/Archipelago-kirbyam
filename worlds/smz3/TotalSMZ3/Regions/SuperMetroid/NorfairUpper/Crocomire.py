@@ -50,20 +50,19 @@ class Crocomire(SMRegion):
                     # /* Reverse Lava Dive */
                     items.Varia) and items.CanAccessNorfairLowerPortal() and items.ScrewAttack and items.SpaceJump and items.Super and (
                     items.Gravity) and items.Wave and (items.CardNorfairL2 or items.Morph)
-        else:
-            return ((items.CanDestroyBombWalls() or items.SpeedBooster) and items.Super and items.Morph or items.CanAccessNorfairUpperPortal()) and (
-                    # /* Ice Beam -> Croc Speedway */
-                    (items.CardNorfairL1 if self.Config.Keysanity else items.Super) and items.CanUsePowerBombs() and
-                        items.SpeedBooster and (items.HasEnergyReserves(3) or items.Varia) or
-                    # /* Frog Speedway */
-                    items.SpeedBooster and (items.HasEnergyReserves(2) or items.Varia) and
-                        (items.Missile or items.Super or items.Wave) or ( # /* Blue Gate */
-                    # /* Cathedral -> through the floor or Vulcano */
-                    items.CanHellRun()) and items.CanOpenRedDoors() and (items.CardNorfairL2 if self.Config.Keysanity else items.Super) and
-                        (items.CanFly() or items.HiJump or items.SpeedBooster or items.CanSpringBallJump() or items.Varia and items.Ice) and
-                        (items.CanPassBombPassages() or items.Varia and items.Morph) and
-                        (items.Missile or items.Super or items.Wave) # /* Blue Gate */
-                    ) or (
-                    # /* Reverse Lava Dive */
-                    items.Varia and items.CanAccessNorfairLowerPortal()) and items.ScrewAttack and items.SpaceJump and items.Super and (
-                    items.HasEnergyReserves(2)) and (items.CardNorfairL2 or items.Morph)
+        return ((items.CanDestroyBombWalls() or items.SpeedBooster) and items.Super and items.Morph or items.CanAccessNorfairUpperPortal()) and (
+                # /* Ice Beam -> Croc Speedway */
+                (items.CardNorfairL1 if self.Config.Keysanity else items.Super) and items.CanUsePowerBombs() and
+                    items.SpeedBooster and (items.HasEnergyReserves(3) or items.Varia) or
+                # /* Frog Speedway */
+                items.SpeedBooster and (items.HasEnergyReserves(2) or items.Varia) and
+                    (items.Missile or items.Super or items.Wave) or ( # /* Blue Gate */
+                # /* Cathedral -> through the floor or Vulcano */
+                items.CanHellRun()) and items.CanOpenRedDoors() and (items.CardNorfairL2 if self.Config.Keysanity else items.Super) and
+                    (items.CanFly() or items.HiJump or items.SpeedBooster or items.CanSpringBallJump() or items.Varia and items.Ice) and
+                    (items.CanPassBombPassages() or items.Varia and items.Morph) and
+                    (items.Missile or items.Super or items.Wave) # /* Blue Gate */
+                ) or (
+                # /* Reverse Lava Dive */
+                items.Varia and items.CanAccessNorfairLowerPortal()) and items.ScrewAttack and items.SpaceJump and items.Super and (
+                items.HasEnergyReserves(2)) and (items.CardNorfairL2 or items.Morph)

@@ -60,7 +60,7 @@ class Dungeon:
             else f"{self.name} (Player {self.player})"
 
 
-def create_dungeons(world: "ALTTPWorld"):
+def create_dungeons(world: ALTTPWorld):
     multiworld = world.multiworld
     player = world.player
 
@@ -211,7 +211,7 @@ def fill_dungeons_restrictive(multiworld: MultiWorld):
         if in_dungeon_items:
             restricted_players = {world.player for world in multiworld.get_game_worlds("A Link to the Past") if
                                   world.options.restrict_dungeon_item_on_boss}
-            locations: list["ALttPLocation"] = [
+            locations: list[ALttPLocation] = [
                 location for location in get_unfilled_dungeon_locations(multiworld)
                 # filter boss
                 if not (location.player in restricted_players and location.name in lookup_boss_drops)]

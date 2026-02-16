@@ -305,8 +305,7 @@ class L2ACWorld(World):
                 (item_id for tier in tier_list for item_id in tier)))
             assert len(cravings_table) == 470, cravings_table
             return cravings_table
-        else:
-            return rom[0x0AFF16:0x0AFF16 + 470]
+        return rom[0x0AFF16:0x0AFF16 + 470]
 
     def get_enemy_floors_sprites_and_movement_patterns(self) -> tuple[bytes, bytes, bytes, bytes]:
         rom: bytes = get_base_rom_bytes()
@@ -452,8 +451,7 @@ class L2ACWorld(World):
         def create_shop(floor: int) -> tuple[int, ...]:
             if self.random.randrange(self.o.shop_inventory.total) < self.o.shop_inventory.spell:
                 return create_spell_shop(floor)
-            else:
-                return create_item_shop(floor)
+            return create_item_shop(floor)
 
         def create_spell_shop(floor: int) -> tuple[int, ...]:
             spells = self.random.sample(spell_list[floor], 3)

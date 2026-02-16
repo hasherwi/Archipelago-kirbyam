@@ -20,9 +20,9 @@ def _sorter(location: "FactorioScienceLocation"):
 
 
 def get_shapes(world: "Factorio") -> dict["FactorioScienceLocation", set["FactorioScienceLocation"]]:
-    prerequisites: dict["FactorioScienceLocation", set["FactorioScienceLocation"]] = {}
+    prerequisites: dict[FactorioScienceLocation, set[FactorioScienceLocation]] = {}
     layout = world.options.tech_tree_layout.value
-    locations: list["FactorioScienceLocation"] = sorted(world.science_locations, key=lambda loc: loc.name)
+    locations: list[FactorioScienceLocation] = sorted(world.science_locations, key=lambda loc: loc.name)
     world.random.shuffle(locations)
 
     if layout == TechTreeLayout.option_single:

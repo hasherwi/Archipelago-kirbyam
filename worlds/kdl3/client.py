@@ -211,8 +211,8 @@ class KDL3SNIClient(SNIClient):
                 # check if it's tasty
                 if any(x in traits for x in ["Consumable", "Food", "Drink", "Heal", "Health"]):
                     # it's tasty!, use quality to decide how much to heal
-                    quality = max((trait.get("quality", 1.0) for trait in gift["traits"]
-                                   if trait["trait"] in ["Consumable", "Food", "Drink", "Heal", "Health"]))
+                    quality = max(trait.get("quality", 1.0) for trait in gift["traits"]
+                                   if trait["trait"] in ["Consumable", "Food", "Drink", "Heal", "Health"])
                     quality = min(10, quality * 2)
                 else:
                     # it's not really edible, but he'll eat it anyway

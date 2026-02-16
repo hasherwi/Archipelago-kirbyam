@@ -15,10 +15,9 @@ def get_fishing_skill_rule(level, player, options) -> CollectionRule:
     if level < 20:
         return lambda state: state.can_reach_region(RegionNames.Shrimp, player) and \
                              state.can_reach_region(RegionNames.Port_Sarim, player)
-    else:
-        return lambda state: state.can_reach_region(RegionNames.Shrimp, player) and \
-                             state.can_reach_region(RegionNames.Port_Sarim, player) and \
-                             state.can_reach_region(RegionNames.Fly_Fish, player)
+    return lambda state: state.can_reach_region(RegionNames.Shrimp, player) and \
+                         state.can_reach_region(RegionNames.Port_Sarim, player) and \
+                         state.can_reach_region(RegionNames.Fly_Fish, player)
 
 
 def get_mining_skill_rule(level, player, options) -> CollectionRule:
@@ -28,11 +27,10 @@ def get_mining_skill_rule(level, player, options) -> CollectionRule:
     if options.brutal_grinds or level < 15:
         return lambda state: state.can_reach_region(RegionNames.Bronze_Ores, player) or \
                              state.can_reach_region(RegionNames.Clay_Rock, player)
-    else:
-        # Iron is the best way to train all the way to 99, so having access to iron is all you need to check for
-        return lambda state: (state.can_reach_region(RegionNames.Bronze_Ores, player) or
-                              state.can_reach_region(RegionNames.Clay_Rock, player)) and \
-                             state.can_reach_region(RegionNames.Iron_Rock, player)
+    # Iron is the best way to train all the way to 99, so having access to iron is all you need to check for
+    return lambda state: (state.can_reach_region(RegionNames.Bronze_Ores, player) or
+                          state.can_reach_region(RegionNames.Clay_Rock, player)) and \
+                         state.can_reach_region(RegionNames.Iron_Rock, player)
 
 
 def get_woodcutting_skill_rule(level, player, options) -> CollectionRule:
@@ -45,9 +43,8 @@ def get_woodcutting_skill_rule(level, player, options) -> CollectionRule:
         return lambda state: True
     if level < 30:
         return lambda state: state.can_reach_region(RegionNames.Oak_Tree, player)
-    else:
-        return lambda state: state.can_reach_region(RegionNames.Oak_Tree, player) and \
-                             state.can_reach_region(RegionNames.Willow_Tree, player)
+    return lambda state: state.can_reach_region(RegionNames.Oak_Tree, player) and \
+                         state.can_reach_region(RegionNames.Willow_Tree, player)
 
 
 def get_smithing_skill_rule(level, player, options) -> CollectionRule:
@@ -70,12 +67,11 @@ def get_smithing_skill_rule(level, player, options) -> CollectionRule:
                              state.can_reach_region(RegionNames.Iron_Rock, player) and \
                              state.can_reach_region(RegionNames.Furnace, player) and \
                              state.can_reach_region(RegionNames.Anvil, player)
-    else:
-        return lambda state: state.can_reach_region(RegionNames.Bronze_Ores, player) and \
-                             state.can_reach_region(RegionNames.Iron_Rock, player) and \
-                             state.can_reach_region(RegionNames.Coal_Rock, player) and \
-                             state.can_reach_region(RegionNames.Furnace, player) and \
-                             state.can_reach_region(RegionNames.Anvil, player)
+    return lambda state: state.can_reach_region(RegionNames.Bronze_Ores, player) and \
+                         state.can_reach_region(RegionNames.Iron_Rock, player) and \
+                         state.can_reach_region(RegionNames.Coal_Rock, player) and \
+                         state.can_reach_region(RegionNames.Furnace, player) and \
+                         state.can_reach_region(RegionNames.Anvil, player)
 
 
 def get_crafting_skill_rule(level, player, options):
@@ -114,9 +110,8 @@ def get_crafting_skill_rule(level, player, options):
     can_smelt_silver = get_smithing_skill_rule(20, player, options)
     if level < 16:
         return lambda state: can_pot(state) or can_tan(state) or (can_gold(state) and can_smelt_gold(state))
-    else:
-        return lambda state: can_tan(state) or (can_silver(state) and can_smelt_silver(state)) or \
-                             (can_gold(state) and can_smelt_gold(state))
+    return lambda state: can_tan(state) or (can_silver(state) and can_smelt_silver(state)) or \
+                         (can_gold(state) and can_smelt_gold(state))
 
 
 def get_cooking_skill_rule(level, player, options) -> CollectionRule:
@@ -129,19 +124,18 @@ def get_cooking_skill_rule(level, player, options) -> CollectionRule:
                              state.can_reach_region(RegionNames.Shrimp, player) or \
                              (state.can_reach_region(RegionNames.Wheat, player) and
                               state.can_reach_region(RegionNames.Windmill, player))
-    else:
-        can_catch_fly_fish = get_fishing_skill_rule(20, player, options)
+    can_catch_fly_fish = get_fishing_skill_rule(20, player, options)
 
-        return lambda state: (
-                                 (state.can_reach_region(RegionNames.Fly_Fish, player) and can_catch_fly_fish(state)) or
-                                 (state.can_reach_region(RegionNames.Port_Sarim, player))
-                             ) and (
-                              state.can_reach_region(RegionNames.Milk, player) or
-                              state.can_reach_region(RegionNames.Egg, player) or
-                              state.can_reach_region(RegionNames.Shrimp, player) or
-                              (state.can_reach_region(RegionNames.Wheat, player) and
-                               state.can_reach_region(RegionNames.Windmill, player))
-                             )
+    return lambda state: (
+                             (state.can_reach_region(RegionNames.Fly_Fish, player) and can_catch_fly_fish(state)) or
+                             (state.can_reach_region(RegionNames.Port_Sarim, player))
+                         ) and (
+                          state.can_reach_region(RegionNames.Milk, player) or
+                          state.can_reach_region(RegionNames.Egg, player) or
+                          state.can_reach_region(RegionNames.Shrimp, player) or
+                          (state.can_reach_region(RegionNames.Wheat, player) and
+                           state.can_reach_region(RegionNames.Windmill, player))
+                         )
 
 
 def get_runecraft_skill_rule(level, player, options) -> CollectionRule:

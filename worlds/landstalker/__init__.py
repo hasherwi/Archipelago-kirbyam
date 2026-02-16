@@ -228,12 +228,11 @@ class LandstalkerWorld(World):
         spawn_id = self.options.spawn_region.current_key
         if spawn_id == "destel":
             return 20
-        elif spawn_id == "verla":
+        if spawn_id == "verla":
             return 16
-        elif spawn_id in ["waterfall", "mercator", "greenmaze"]:
+        if spawn_id in ["waterfall", "mercator", "greenmaze"]:
             return 10
-        else:
-            return 4
+        return 4
 
     @classmethod
     def stage_modify_multidata(cls, multiworld: MultiWorld, *_):

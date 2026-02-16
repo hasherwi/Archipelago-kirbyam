@@ -56,7 +56,7 @@ class AutoBizHawkClientRegister(abc.ABCMeta):
         return new_class
 
     @staticmethod
-    async def get_handler(ctx: "BizHawkClientContext", system: str) -> BizHawkClient | None:
+    async def get_handler(ctx: BizHawkClientContext, system: str) -> BizHawkClient | None:
         for systems, handlers in AutoBizHawkClientRegister.game_handlers.items():
             if system in systems:
                 for handler in handlers.values():
@@ -77,7 +77,7 @@ class BizHawkClient(abc.ABC, metaclass=AutoBizHawkClientRegister):
     """The file extension(s) this client is meant to open and patch (e.g. ".apz3")"""
 
     @abc.abstractmethod
-    async def validate_rom(self, ctx: "BizHawkClientContext") -> bool:
+    async def validate_rom(self, ctx: BizHawkClientContext) -> bool:
         """Should return whether the currently loaded ROM should be handled by this client. You might read the game name
         from the ROM header, for example. This function will only be asked to validate ROMs from the system set by the
         client class, so you do not need to check the system yourself.
@@ -86,18 +86,18 @@ class BizHawkClient(abc.ABC, metaclass=AutoBizHawkClientRegister):
         as necessary (such as setting `ctx.game = self.game`, modifying `ctx.items_handling`, etc...)."""
         ...
 
-    async def set_auth(self, ctx: "BizHawkClientContext") -> None:
+    async def set_auth(self, ctx: BizHawkClientContext) -> None:
         """Should set ctx.auth in anticipation of sending a `Connected` packet. You may override this if you store slot
         name in your patched ROM. If ctx.auth is not set after calling, the player will be prompted to enter their
         username."""
         pass
 
     @abc.abstractmethod
-    async def game_watcher(self, ctx: "BizHawkClientContext") -> None:
+    async def game_watcher(self, ctx: BizHawkClientContext) -> None:
         """Runs on a loop with the approximate interval `ctx.watcher_timeout`. The currently loaded ROM is guaranteed
         to have passed your validator when this function is called, and the emulator is very likely to be connected."""
         ...
 
-    def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict) -> None:
+    def on_package(self, ctx: BizHawkClientContext, cmd: str, args: dict) -> None:
         """For handling packages from the server. Called from `BizHawkClientContext.on_package`."""
         pass

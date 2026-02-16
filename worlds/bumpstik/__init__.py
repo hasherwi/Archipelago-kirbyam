@@ -46,7 +46,7 @@ class BumpStikWorld(World):
     options_dataclass = BumpstikOptions
 
     def __init__(self, multiworld: MultiWorld, player: int):
-        super(BumpStikWorld, self).__init__(multiworld, player)
+        super().__init__(multiworld, player)
         self.task_advances = TaskAdvances.default
         self.turners = Turners.default
         self.paint_cans = PaintCans.default

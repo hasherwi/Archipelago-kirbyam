@@ -102,7 +102,7 @@ def dump_dict(obj, current_indent="", sub_width=None, ensure_ascii=False):
     output = output_format.format(
         indent=current_indent,
         values=join_format.join([values_format.format(
-            key="{key}:".format(key=key),
+            key=f"{key}:",
             value=value,
             indent=current_indent + INDENT,
             padding=key_width + 2,
@@ -115,7 +115,6 @@ def dump_dict(obj, current_indent="", sub_width=None, ensure_ascii=False):
 def dump_obj(obj, current_indent="", sub_width=None, ensure_ascii=False):
     if is_list(obj):
         return dump_list(obj, current_indent, ensure_ascii)
-    elif is_dict(obj):
+    if is_dict(obj):
         return dump_dict(obj, current_indent, sub_width, ensure_ascii)
-    else:
-        return dump_scalar(obj, ensure_ascii)
+    return dump_scalar(obj, ensure_ascii)

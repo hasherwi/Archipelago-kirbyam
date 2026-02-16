@@ -856,13 +856,12 @@ class EntranceRandomizer:
         possible_exits = [ex for ex in ZoneExit.all.values() if ex.zone_name == loc_zone_name]
         if len(possible_exits) == 0:
             return None
-        elif len(possible_exits) == 1:
+        if len(possible_exits) == 1:
             return possible_exits[0]
-        else:
-            raise Exception(
-                f"Multiple zone exits share the same zone name: {loc_zone_name!r}. "
-                "Use a location exit override instead."
-            )
+        raise Exception(
+            f"Multiple zone exits share the same zone name: {loc_zone_name!r}. "
+            "Use a location exit override instead."
+        )
 
     def get_entrance_zone_for_boss(self, boss_name: str) -> str:
         """

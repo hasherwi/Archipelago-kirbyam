@@ -86,8 +86,7 @@ class CountExplanation(RuleExplanation):
 def explain(rule: CollectionRule, state: CollectionState, expected: bool = True) -> RuleExplanation:
     if isinstance(rule, StardewRule):
         return _explain(rule, state, expected, explored_spots=set())
-    else:
-        return f"Value of rule {str(rule)} was not {str(expected)} in {str(state)}"  # noqa
+    return f"Value of rule {str(rule)} was not {str(expected)} in {str(state)}"  # noqa
 
 
 @singledispatch

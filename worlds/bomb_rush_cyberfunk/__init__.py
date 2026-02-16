@@ -38,7 +38,7 @@ class BombRushCyberfunkWorld(World):
     options: BombRushCyberfunkOptions
 
     def __init__(self, multiworld: MultiWorld, player: int):
-        super(BombRushCyberfunkWorld, self).__init__(multiworld, player)
+        super().__init__(multiworld, player)
         self.item_classification: dict[BRCType, ItemClassification] = {
             BRCType.Music: ItemClassification.filler,
             BRCType.GraffitiM: ItemClassification.progression,

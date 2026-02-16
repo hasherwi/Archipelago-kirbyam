@@ -92,7 +92,7 @@ class BumpStikItem(Item):
     type: str
 
     def __init__(self, name, classification, code, player):
-        super(BumpStikItem, self).__init__(
+        super().__init__(
             name, classification, code, player)
 
         if code is None:

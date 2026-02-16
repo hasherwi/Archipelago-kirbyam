@@ -83,7 +83,7 @@ class ZeldaContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super(ZeldaContext, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
         if not self.auth:
             self.awaiting_rom = True
             logger.info("Awaiting connection to NES to get Player information")
@@ -175,15 +175,15 @@ def reconcile_shops(ctx: ZeldaContext):
 def get_shop_bit_from_name(location_name):
     if "Potion" in location_name:
         return Rom.potion_shop
-    elif "Arrow" in location_name:
+    if "Arrow" in location_name:
         return Rom.arrow_shop
-    elif "Shield" in location_name:
+    if "Shield" in location_name:
         return Rom.shield_shop
-    elif "Ring" in location_name:
+    if "Ring" in location_name:
         return Rom.ring_shop
-    elif "Candle" in location_name:
+    if "Candle" in location_name:
         return Rom.candle_shop
-    elif "Take" in location_name:
+    if "Take" in location_name:
         return Rom.take_any
     return 0  # this should never be hit
 
@@ -191,68 +191,67 @@ def get_shop_bit_from_name(location_name):
 async def parse_locations(locations_array, ctx: ZeldaContext, force: bool, zone="None"):
     if locations_array == ctx.locations_array and not force:
         return
-    else:
-        # print("New values")
-        ctx.locations_array = locations_array
-        locations_checked = []
-        location = None
-        for location in ctx.missing_locations:
-            location_name = ctx.location_names.lookup_in_game(location)
+    # print("New values")
+    ctx.locations_array = locations_array
+    locations_checked = []
+    location = None
+    for location in ctx.missing_locations:
+        location_name = ctx.location_names.lookup_in_game(location)
 
-            if location_name in Locations.overworld_locations and zone == "overworld":
-                status = locations_array[Locations.major_location_offsets[location_name]]
-                if location_name == "Ocean Heart Container":
-                    status = locations_array[ctx.overworld_item]
-                if location_name == "Armos Knights":
-                    status = locations_array[ctx.armos_item]
-                if status & 0x10:
-                    ctx.locations_checked.add(location)
-                    locations_checked.append(location)
-            elif location_name in Locations.underworld1_locations and zone == "underworld1":
-                status = locations_array[Locations.floor_location_game_offsets_early[location_name]]
-                if status & 0x10:
-                    ctx.locations_checked.add(location)
-                    locations_checked.append(location)
-            elif location_name in Locations.underworld2_locations and zone == "underworld2":
-                status = locations_array[Locations.floor_location_game_offsets_late[location_name]]
-                if status & 0x10:
-                    ctx.locations_checked.add(location)
-                    locations_checked.append(location)
-            elif (location_name in Locations.shop_locations or "Take" in location_name) and zone == "caves":
-                shop_bit = get_shop_bit_from_name(location_name)
-                slot = 0
+        if location_name in Locations.overworld_locations and zone == "overworld":
+            status = locations_array[Locations.major_location_offsets[location_name]]
+            if location_name == "Ocean Heart Container":
+                status = locations_array[ctx.overworld_item]
+            if location_name == "Armos Knights":
+                status = locations_array[ctx.armos_item]
+            if status & 0x10:
+                ctx.locations_checked.add(location)
+                locations_checked.append(location)
+        elif location_name in Locations.underworld1_locations and zone == "underworld1":
+            status = locations_array[Locations.floor_location_game_offsets_early[location_name]]
+            if status & 0x10:
+                ctx.locations_checked.add(location)
+                locations_checked.append(location)
+        elif location_name in Locations.underworld2_locations and zone == "underworld2":
+            status = locations_array[Locations.floor_location_game_offsets_late[location_name]]
+            if status & 0x10:
+                ctx.locations_checked.add(location)
+                locations_checked.append(location)
+        elif (location_name in Locations.shop_locations or "Take" in location_name) and zone == "caves":
+            shop_bit = get_shop_bit_from_name(location_name)
+            slot = 0
+            context_slot = 0
+            if "Left" in location_name:
+                slot = "slot1"
                 context_slot = 0
-                if "Left" in location_name:
-                    slot = "slot1"
-                    context_slot = 0
-                elif "Middle" in location_name:
-                    slot = "slot2"
-                    context_slot = 1
-                elif "Right" in location_name:
-                    slot = "slot3"
-                    context_slot = 2
-                if locations_array[slot] & shop_bit > 0:
-                    locations_checked.append(location)
-                    ctx.shop_slots[context_slot] |= shop_bit
-                if locations_array["takeAnys"] and locations_array["takeAnys"] >= 4:
-                    if "Take Any" in location_name:
-                        short_name = None
-                        if "Left" in location_name:
-                            short_name = "TakeAnyLeft"
-                        elif "Middle" in location_name:
-                            short_name = "TakeAnyMiddle"
-                        elif "Right" in location_name:
-                            short_name = "TakeAnyRight"
-                        if short_name is not None:
-                            item_code = ctx.slot_data[short_name]
-                            if item_code > 0:
-                                ctx.bonus_items.append(item_code)
-                            locations_checked.append(location)
-        if locations_checked:
-            await ctx.send_msgs([
-                {"cmd": "LocationChecks",
-                 "locations": locations_checked}
-            ])
+            elif "Middle" in location_name:
+                slot = "slot2"
+                context_slot = 1
+            elif "Right" in location_name:
+                slot = "slot3"
+                context_slot = 2
+            if locations_array[slot] & shop_bit > 0:
+                locations_checked.append(location)
+                ctx.shop_slots[context_slot] |= shop_bit
+            if locations_array["takeAnys"] and locations_array["takeAnys"] >= 4:
+                if "Take Any" in location_name:
+                    short_name = None
+                    if "Left" in location_name:
+                        short_name = "TakeAnyLeft"
+                    elif "Middle" in location_name:
+                        short_name = "TakeAnyMiddle"
+                    elif "Right" in location_name:
+                        short_name = "TakeAnyRight"
+                    if short_name is not None:
+                        item_code = ctx.slot_data[short_name]
+                        if item_code > 0:
+                            ctx.bonus_items.append(item_code)
+                        locations_checked.append(location)
+    if locations_checked:
+        await ctx.send_msgs([
+            {"cmd": "LocationChecks",
+             "locations": locations_checked}
+        ])
 
 
 async def nes_sync_task(ctx: ZeldaContext):

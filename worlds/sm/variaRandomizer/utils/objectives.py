@@ -89,12 +89,12 @@ class Goal(object):
         return self.clearFunc(smbm, ap)
 
     def getText(self, random):
-        out = "{}. ".format(self.rank)
+        out = f"{self.rank}. "
         if self.useSynonym:
             out += self.text.format(Synonyms.getVerb(random))
         else:
             out += self.text
-        assert len(out) <= 28, "Goal text '{}' is too long: {}, max 28".format(out, len(out))
+        assert len(out) <= 28, f"Goal text '{out}' is too long: {len(out)}, max 28"
         if self.introText is not None:
             self.introText = "%d. %s" % (self.rank, self.introText)
         else:
@@ -383,14 +383,14 @@ class Objectives(object):
         if newGoal.exclusion.get("tourian") == "Disabled" and self.tourianRequired == False:
             LOG.debug("new goal %s conflicts with disabled Tourian" % newGoal.name)
             return True
-        LOG.debug("check if new goal {} conflicts with existing active goals".format(newGoal.name))
+        LOG.debug(f"check if new goal {newGoal.name} conflicts with existing active goals")
         count = 0
         for goal in self.activeGoals:
             if newGoal.name in goal.exclusion["list"]:
-                LOG.debug("new goal {} in exclusion list of active goal {}".format(newGoal.name, goal.name))
+                LOG.debug(f"new goal {newGoal.name} in exclusion list of active goal {goal.name}")
                 return True
             if goal.name in newGoal.exclusion["list"]:
-                LOG.debug("active goal {} in exclusion list of new goal {}".format(goal.name, newGoal.name))
+                LOG.debug(f"active goal {goal.name} in exclusion list of new goal {newGoal.name}")
                 return True
             # count bosses/minibosses already active if new goal has a limit
             if newGoal.exclusion.get("type") == goal.gtype:
@@ -399,7 +399,7 @@ class Objectives(object):
         if count > newGoal.exclusion.get("limit", 0):
             LOG.debug("new goal {} limit {} is lower than active goals of type: {}".format(newGoal.name, newGoal.exclusion["limit"], newGoal.exclusion["type"]))
             return True
-        LOG.debug("no direct conflict detected for new goal {}".format(newGoal.name))
+        LOG.debug(f"no direct conflict detected for new goal {newGoal.name}")
 
         # if at least one active goal has a limit and new goal has the same type of one of the existing limit
         # check that new goal doesn't exceed the limit
@@ -415,18 +415,18 @@ class Objectives(object):
                     LOG.debug("new Goal {} would excess limit {} of active goal {}".format(newGoal.name, goal.exclusion["limit"], goal.name))
                     return True
 
-        LOG.debug("no backward conflict detected for new goal {}".format(newGoal.name))
+        LOG.debug(f"no backward conflict detected for new goal {newGoal.name}")
 
         if self.randoSettings is not None and newGoal.conflictFunc is not None:
             if newGoal.conflictFunc(self.randoSettings, self.player):
-                LOG.debug("new Goal {} is conflicting with rando settings".format(newGoal.name))
+                LOG.debug(f"new Goal {newGoal.name} is conflicting with rando settings")
                 return True
-            LOG.debug("no conflict with rando settings detected for new goal {}".format(newGoal.name))
+            LOG.debug(f"no conflict with rando settings detected for new goal {newGoal.name}")
 
         return False
 
     def addGoal(self, goalName, completed=False):
-        LOG.debug("addGoal: {}".format(goalName))
+        LOG.debug(f"addGoal: {goalName}")
         goal = self.goals[goalName]
         if self.conflict(goal):
             return
@@ -475,18 +475,17 @@ class Objectives(object):
                 if goal.name not in self.scavHuntGoal:
                     return False
             return True
-        elif len(self.activeGoals) == 4:
+        if len(self.activeGoals) == 4:
             for goal in self.activeGoals:
                 if goal.name not in self.vanillaGoals:
                     return False
             return True
-        elif len(self.activeGoals) == 5:
+        if len(self.activeGoals) == 5:
             for goal in self.activeGoals:
                 if goal.name not in self.vanillaGoals + self.scavHuntGoal:
                     return False
             return True
-        else:
-            return False
+        return False
 
     def setScavengerHunt(self):
         self.addGoal("finish scavenger hunt")
@@ -561,7 +560,7 @@ class Objectives(object):
         if expandable is None:
             return
 
-        LOG.debug("replace {} with {}".format(expandable.name, expandable.expandableList))
+        LOG.debug(f"replace {expandable.name} with {expandable.expandableList}")
         self.removeGoal(expandable)
         for name in expandable.expandableList:
             self.addGoal(name)
@@ -594,7 +593,7 @@ class Objectives(object):
             if goal.name == goalName:
                 goal.completed = completed
                 return
-        assert False, "Can't set goal {} completion to {}, goal not active".format(goalName, completed)
+        assert False, f"Can't set goal {goalName} completion to {completed}, goal not active"
 
     def allGoalsCompleted(self):
         for goal in self.activeGoals:
@@ -606,7 +605,7 @@ class Objectives(object):
         for name, goal in self.goals.items():
             if goal.checkAddr == checkFunction:
                 return goal
-        assert True, "Goal with check function {} not found".format(hex(checkFunction))
+        assert True, f"Goal with check function {hex(checkFunction)} not found"
 
     def getTotalItemsCount(self):
         return self.totalItemsCount
@@ -696,10 +695,10 @@ class Objectives(object):
         self.totalItemsCount = romReader.romFile.readByte(Addresses.getOne("totalItems"))
 
         for goal in self.activeGoals:
-            LOG.debug("active goal: {}".format(goal.name))
+            LOG.debug(f"active goal: {goal.name}")
 
         self._tourianRequired = not romReader.patchPresent("Escape_Trigger")
-        LOG.debug("tourianRequired: {}".format(self.tourianRequired))
+        LOG.debug(f"tourianRequired: {self.tourianRequired}")
 
     # call from rando
     def writeGoals(self, romFile, random):

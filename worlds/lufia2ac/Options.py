@@ -46,8 +46,7 @@ class RandomGroupsChoice(Choice, metaclass=AssembleCustomizableChoices):
     def get_option_name(cls, value: int) -> str:
         if value in cls.options.values():
             return next(k for k, v in cls.options.items() if v == value)
-        else:
-            return super().get_option_name(value)
+        return super().get_option_name(value)
 
     @classmethod
     def from_text(cls, text: str) -> Choice:
@@ -287,8 +286,7 @@ class CapsuleStartingForm(NamedRange):
     def unlock(self) -> int:
         if self.value == self.special_range_names["m"]:
             return 0x0B
-        else:
-            return self.value - 1
+        return self.value - 1
 
 
 class CapsuleStartingLevel(LevelMixin, NamedRange):

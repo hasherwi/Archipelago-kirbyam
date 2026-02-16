@@ -141,7 +141,7 @@ class SC2World(World):
     filler_items_distribution: Dict[str, int]
 
     def __init__(self, multiworld: MultiWorld, player: int):
-        super(SC2World, self).__init__(multiworld, player)
+        super().__init__(multiworld, player)
         self.location_cache = []
         self.locked_locations = []
         self.filler_items_distribution = FillerItemsDistribution.default
@@ -387,10 +387,9 @@ def _get_column_display(index: int, single_row_layout: bool) -> str:
     """
     if single_row_layout:
         return str(index + 1)
-    else:
-        # Convert column name to a letter, from Z continue with AA and so on
-        f: Callable[[int], str] = lambda x: "" if x == 0 else f((x - 1) // 26) + chr((x - 1) % 26 + ord("A"))
-        return f(index + 1)
+    # Convert column name to a letter, from Z continue with AA and so on
+    f: Callable[[int], str] = lambda x: "" if x == 0 else f((x - 1) // 26) + chr((x - 1) % 26 + ord("A"))
+    return f(index + 1)
 
 
 def setup_events(player: int, locked_locations: List[str], location_cache: List[Location]) -> None:

@@ -185,7 +185,7 @@ class Client(Endpoint):
     no_locations: bool
     no_text: bool
 
-    def __init__(self, socket: "ServerConnection", ctx: Context) -> None:
+    def __init__(self, socket: ServerConnection, ctx: Context) -> None:
         super().__init__(socket)
         self.version = no_version
         self.auth = False
@@ -270,7 +270,7 @@ class Context:
                  countdown_mode: str = "auto", remaining_mode: str = "disabled", auto_shutdown: typing.SupportsFloat = 0,
                  compatibility: int = 2, log_network: bool = False, logger: logging.Logger = logging.getLogger()):
         self.logger = logger
-        super(Context, self).__init__()
+        super().__init__()
         self.slot_info = {}
         self.log_network = log_network
         self.endpoints = []
@@ -811,8 +811,7 @@ class Context:
     def get_aliased_name(self, team: int, slot: int):
         if (team, slot) in self.name_aliases:
             return f"{self.name_aliases[team, slot]} ({self.player_names[team, slot]})"
-        else:
-            return self.player_names[team, slot]
+        return self.player_names[team, slot]
 
     def notify_hints(self, team: int, hints: list[Hint], only_new: bool = False,
                      persist_even_if_found: bool = False, recipients: typing.Sequence[int] = None):
@@ -906,7 +905,7 @@ def update_aliases(ctx: Context, team: int):
             async_start(ctx.send_encoded_msgs(client, cmd))
 
 
-async def server(websocket: "ServerConnection", path: str = "/", ctx: Context = None) -> None:
+async def server(websocket: ServerConnection, path: str = "/", ctx: Context = None) -> None:
     client = Client(websocket, ctx)
     ctx.endpoints.append(client)
 
@@ -1315,7 +1314,7 @@ class CommandMeta(type):
             commands.update(base.commands)
         commands.update({command_name[5:]: method for command_name, method in attrs.items() if
                          command_name.startswith("_cmd_")})
-        return super(CommandMeta, cls).__new__(cls, name, bases, attrs)
+        return super().__new__(cls, name, bases, attrs)
 
 
 _Return = typing.TypeVar("_Return")
@@ -1353,10 +1352,8 @@ class CommandProcessor(metaclass=CommandMeta):
                         arg = raw.split(maxsplit=1)
                         if len(arg) > 1:
                             return method(self, arg[1])  # argument text was found, so pass it along
-                        else:
-                            return method(self)  # argument may be optional, try running without args
-                    else:
-                        return method(self, *command[1:])  # pass each word as argument
+                        return method(self)  # argument may be optional, try running without args
+                    return method(self, *command[1:])  # pass each word as argument
             else:
                 self.default(raw)
         except Exception as e:
@@ -1429,7 +1426,7 @@ class ClientMessageProcessor(CommonCommandProcessor):
         if not raw.startswith("!admin"):
             self.ctx.broadcast_text_all(self.ctx.get_aliased_name(self.client.team, self.client.slot) + ": " + raw,
                                         {"type": "Chat", "team": self.client.team, "slot": self.client.slot, "message": raw})
-        return super(ClientMessageProcessor, self).__call__(raw)
+        return super().__call__(raw)
 
     def output(self, text: str):
         self.ctx.notify_client(self.client, text, {"type": "CommandResult"})
@@ -1478,9 +1475,8 @@ class ClientMessageProcessor(CommonCommandProcessor):
                 self.output("Login successful. You can now issue server side commands.")
                 self.ctx.commandprocessor.client = self.client
                 return True
-            else:
-                self.output("Password incorrect.")
-                return False
+            self.output("Password incorrect.")
+            return False
 
         if not self.is_authenticated():
             self.output("You must first login using !admin login [password]")
@@ -1516,38 +1512,36 @@ class ClientMessageProcessor(CommonCommandProcessor):
         if "enabled" in self.ctx.release_mode:
             release_player(self.ctx, self.client.team, self.client.slot)
             return True
-        elif "disabled" in self.ctx.release_mode:
+        if "disabled" in self.ctx.release_mode:
             self.output("Sorry, client item releasing has been disabled on this server. "
                         "You can ask the server admin for a /release")
             return False
-        else:  # is auto or goal
-            if self.ctx.client_game_state[self.client.team, self.client.slot] == ClientStatus.CLIENT_GOAL:
-                release_player(self.ctx, self.client.team, self.client.slot)
-                return True
-            else:
-                self.output(
-                    "Sorry, client item releasing requires you to have beaten the game on this server."
-                    " You can ask the server admin for a /release")
-                return False
+        # is auto or goal
+        if self.ctx.client_game_state[self.client.team, self.client.slot] == ClientStatus.CLIENT_GOAL:
+            release_player(self.ctx, self.client.team, self.client.slot)
+            return True
+        self.output(
+            "Sorry, client item releasing requires you to have beaten the game on this server."
+            " You can ask the server admin for a /release")
+        return False
 
     def _cmd_collect(self) -> bool:
         """Send your remaining items to yourself"""
         if "enabled" in self.ctx.collect_mode:
             collect_player(self.ctx, self.client.team, self.client.slot)
             return True
-        elif "disabled" in self.ctx.collect_mode:
+        if "disabled" in self.ctx.collect_mode:
             self.output(
                 "Sorry, client collecting has been disabled on this server. You can ask the server admin for a /collect")
             return False
-        else:  # is auto or goal
-            if self.ctx.client_game_state[self.client.team, self.client.slot] == ClientStatus.CLIENT_GOAL:
-                collect_player(self.ctx, self.client.team, self.client.slot)
-                return True
-            else:
-                self.output(
-                    "Sorry, client collecting requires you to have beaten the game on this server."
-                    " You can ask the server admin for a /collect")
-                return False
+        # is auto or goal
+        if self.ctx.client_game_state[self.client.team, self.client.slot] == ClientStatus.CLIENT_GOAL:
+            collect_player(self.ctx, self.client.team, self.client.slot)
+            return True
+        self.output(
+            "Sorry, client collecting requires you to have beaten the game on this server."
+            " You can ask the server admin for a /collect")
+        return False
 
     def _cmd_countdown(self, seconds: str = "10") -> bool:
         """Start a countdown in seconds"""
@@ -1576,23 +1570,22 @@ class ClientMessageProcessor(CommonCommandProcessor):
             else:
                 self.output("No remaining items found.")
             return True
-        elif self.ctx.remaining_mode == "disabled":
+        if self.ctx.remaining_mode == "disabled":
             self.output(
                 "Sorry, !remaining has been disabled on this server.")
             return False
-        else:  # is goal
-            if self.ctx.client_game_state[self.client.team, self.client.slot] == ClientStatus.CLIENT_GOAL:
-                rest_locations = get_remaining(self.ctx, self.client.team, self.client.slot)
-                if rest_locations:
-                    self.output("Remaining items: " + ", ".join(self.ctx.item_names[self.ctx.games[slot]][item_id]
-                                                                for slot, item_id in rest_locations))
-                else:
-                    self.output("No remaining items found.")
-                return True
+        # is goal
+        if self.ctx.client_game_state[self.client.team, self.client.slot] == ClientStatus.CLIENT_GOAL:
+            rest_locations = get_remaining(self.ctx, self.client.team, self.client.slot)
+            if rest_locations:
+                self.output("Remaining items: " + ", ".join(self.ctx.item_names[self.ctx.games[slot]][item_id]
+                                                            for slot, item_id in rest_locations))
             else:
-                self.output(
-                    "Sorry, !remaining requires you to have beaten the game on this server")
-                return False
+                self.output("No remaining items found.")
+            return True
+        self.output(
+            "Sorry, !remaining requires you to have beaten the game on this server")
+        return False
 
     @mark_raw
     def _cmd_missing(self, filter_text="") -> bool:
@@ -1656,7 +1649,7 @@ class ClientMessageProcessor(CommonCommandProcessor):
             update_aliases(self.ctx, self.client.team)
             self.ctx.save()
             return True
-        elif (self.client.team, self.client.slot) in self.ctx.name_aliases:
+        if (self.client.team, self.client.slot) in self.ctx.name_aliases:
             del (self.ctx.name_aliases[self.client.team, self.client.slot])
             self.output("Removed Alias")
             update_aliases(self.ctx, self.client.team)
@@ -1683,12 +1676,10 @@ class ClientMessageProcessor(CommonCommandProcessor):
                     {"type": "ItemCheat", "team": self.client.team, "receiving": self.client.slot, "item": new_item})
                 send_new_items(self.ctx)
                 return True
-            else:
-                self.output(response)
-                return False
-        else:
-            self.output("Cheating is disabled.")
+            self.output(response)
             return False
+        self.output("Cheating is disabled.")
+        return False
 
     def get_hints(self, input_text: str, for_location: bool = False) -> bool:
         points_available = get_client_points(self.ctx, self.client)
@@ -1706,7 +1697,7 @@ class ClientMessageProcessor(CommonCommandProcessor):
                             "please let them know of the content or to run !hint themselves.")
             return True
 
-        elif input_text.isnumeric():
+        if input_text.isnumeric():
             game = self.ctx.games[self.client.slot]
             hint_id = int(input_text)
             hint_name = self.ctx.item_names[game][hint_id] \
@@ -2224,12 +2215,12 @@ def update_client_status(ctx: Context, client: Client, new_status: ClientStatus)
 class ServerCommandProcessor(CommonCommandProcessor):
     def __init__(self, ctx: Context):
         self.ctx = ctx
-        super(ServerCommandProcessor, self).__init__()
+        super().__init__()
 
     def output(self, text: str):
         if self.client:
             self.ctx.notify_client(self.client, text, {"type": "AdminCommandResult"})
-        super(ServerCommandProcessor, self).output(text)
+        super().output(text)
 
     def default(self, raw: str):
         self.ctx.broadcast_text_all("[Server]: " + raw, {"type": "ServerChat", "message": raw})
@@ -2240,9 +2231,8 @@ class ServerCommandProcessor(CommonCommandProcessor):
             self.ctx.save(True)
             self.output("Game saved")
             return True
-        else:
-            self.output("Saving is disabled.")
-            return False
+        self.output("Saving is disabled.")
+        return False
 
     def _cmd_players(self) -> bool:
         """Get information about connected players"""
@@ -2280,12 +2270,11 @@ class ServerCommandProcessor(CommonCommandProcessor):
                         update_aliases(self.ctx, team)
                         self.ctx.save()
                         return True
-                    else:
-                        del (self.ctx.name_aliases[team, slot])
-                        self.output(f"Removed Alias for {player_name}")
-                        update_aliases(self.ctx, team)
-                        self.ctx.save()
-                        return True
+                    del (self.ctx.name_aliases[team, slot])
+                    self.output(f"Removed Alias for {player_name}")
+                    update_aliases(self.ctx, team)
+                    self.ctx.save()
+                    return True
         else:
             self.output(response)
             return False
@@ -2392,12 +2381,10 @@ class ServerCommandProcessor(CommonCommandProcessor):
                     "Cheat console: sending " + ("" if amount == 1 else f"{amount} of ") +
                     f'"{item_name}" to {self.ctx.get_aliased_name(team, slot)}')
                 return True
-            else:
-                self.output(response)
-                return False
-        else:
             self.output(response)
             return False
+        self.output(response)
+        return False
 
     def _cmd_send(self, player_name: str, *item_name: str) -> bool:
         """Sends an item to the specified player"""
@@ -2426,13 +2413,11 @@ class ServerCommandProcessor(CommonCommandProcessor):
                     seeked_location: int = self.ctx.location_names_for_game(self.ctx.games[slot])[location]
                     register_location_checks(self.ctx, team, slot, [seeked_location])
                 return True
-            else:
-                self.output(response)
-                return False
-
-        else:
             self.output(response)
             return False
+
+        self.output(response)
+        return False
 
     def _cmd_hint(self, player_name: str, *item_name: str) -> bool:
         """Send out a hint for a player's item to their team"""
@@ -2465,13 +2450,11 @@ class ServerCommandProcessor(CommonCommandProcessor):
                 else:
                     self.output("No hints found.")
                 return True
-            else:
-                self.output(response)
-                return False
-
-        else:
             self.output(response)
             return False
+
+        self.output(response)
+        return False
 
     def _cmd_hint_location(self, player_name: str, *location_name: str) -> bool:
         """Send out a hint for a player's location to their team"""
@@ -2504,13 +2487,11 @@ class ServerCommandProcessor(CommonCommandProcessor):
                 else:
                     self.output("No hints found.")
                 return True
-            else:
-                self.output(response)
-                return False
-
-        else:
             self.output(response)
             return False
+
+        self.output(response)
+        return False
 
     def _cmd_option(self, option_name: str, option_value: str):
         """Set an option for the server."""
@@ -2675,7 +2656,7 @@ async def auto_shutdown(ctx, to_cancel=None):
                     await asyncio.wait_for(ctx.exit_event.wait(), seconds)
 
 
-def load_server_cert(path: str, cert_key: str | None) -> "ssl.SSLContext":
+def load_server_cert(path: str, cert_key: str | None) -> ssl.SSLContext:
     import ssl
     ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     ssl_context.load_default_certs()

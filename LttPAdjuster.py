@@ -603,7 +603,7 @@ class AttachTooltip(object):
         x, y, *_ = self._parent.bbox("insert")
         x = x + self._parent.winfo_rootx() + 20
         y = y + self._parent.winfo_rooty() + 20
-        self._window.wm_geometry("+{0}+{1}".format(x,y))
+        self._window.wm_geometry(f"+{x}+{y}")
         #show text
         label = Label(self._window, text=self._text, justify=LEFT)
         label.pack(ipadx=1)
@@ -1179,7 +1179,7 @@ class SpriteSelector():
             self.callback("random")
             self.add_to_sprite_pool("random")
             return
-        elif self.randomOnEventText.get():
+        if self.randomOnEventText.get():
             self.callback(self.randomOnEventText.get())
         elif self.sprite_pool:
             self.callback(random.choice(self.sprite_pool))

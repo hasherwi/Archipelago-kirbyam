@@ -77,8 +77,7 @@ class GrindLogic(BaseLogic):
     def can_grind_item(self, quantity: int, item: str | None = None) -> StardewRule:
         if item in EASY_ITEMS:
             return self.logic.grind.can_grind_easy_item(quantity)
-        else:
-            return self.logic.grind.can_grind_medium_item(quantity)
+        return self.logic.grind.can_grind_medium_item(quantity)
 
     @cache_self1
     def can_grind_medium_item(self, quantity: int) -> StardewRule:

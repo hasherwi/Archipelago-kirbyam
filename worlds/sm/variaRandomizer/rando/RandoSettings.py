@@ -36,8 +36,7 @@ class RandoSettings(object):
     def getItemManager(self, smbm, nLocs, bossesItems, random):
         if not self.isPlandoRando():
             return ItemManager(self.restrictions["MajorMinor"], self.qty, smbm, nLocs, bossesItems, self.maxDiff, random)
-        else:
-            return ItemManager("Plando", self.qty, smbm, nLocs, bossesItems, self.maxDiff, random)
+        return ItemManager("Plando", self.qty, smbm, nLocs, bossesItems, self.maxDiff, random)
 
     def getExcludeItems(self, locations):
         if not self.isPlandoRando():
@@ -110,22 +109,22 @@ class ProgSpeedParameters(object):
             return 0
         if progSpeed == "slowest":
             return 0.16
-        elif progSpeed == "slow":
+        if progSpeed == "slow":
             return 0.33
-        elif progSpeed == "medium":
+        if progSpeed == "medium":
             return 0.5
         return 1
 
     def getLateDoorsProb(self, progSpeed):
         if progSpeed == "slowest":
             return 1
-        elif progSpeed == "slow":
+        if progSpeed == "slow":
             return 0.8
-        elif progSpeed == "medium":
+        if progSpeed == "medium":
             return 0.66
-        elif progSpeed == "fast":
+        if progSpeed == "fast":
             return 0.5
-        elif progSpeed == "fastest":
+        if progSpeed == "fastest":
             return 0.33
         return 0
 
@@ -172,24 +171,20 @@ class ProgSpeedParameters(object):
         progTypes.append("Charge")
         if progSpeed == "slowest" and self.restrictions.split != "Chozo":
             return progTypes
-        else:
-            progTypes.remove("HiJump")
-            progTypes.remove("Charge")
+        progTypes.remove("HiJump")
+        progTypes.remove("Charge")
         if self.isSlow(progSpeed):
             return progTypes
-        else:
-            progTypes.remove("Bomb")
-            progTypes.remove("Grapple")
+        progTypes.remove("Bomb")
+        progTypes.remove("Grapple")
         if progSpeed == "medium":
             return progTypes
-        else:
-            if not self.restrictions.isLateDoors():
-                progTypes.remove("Ice")
-            progTypes.remove("SpaceJump")
+        if not self.restrictions.isLateDoors():
+            progTypes.remove("Ice")
+        progTypes.remove("SpaceJump")
         if progSpeed == "fast":
             return progTypes
-        else:
-            progTypes.remove("SpeedBooster")
+        progTypes.remove("SpeedBooster")
         if progSpeed == "fastest":
             return progTypes # only morph, varia, gravity
         raise RuntimeError("Unknown prog speed " + progSpeed)
@@ -214,13 +209,13 @@ class ProgSpeedParameters(object):
                 "MinDiff" : 0,
                 "MaxDiff" : 0
             }
-        elif progDiff == "easier":
+        if progDiff == "easier":
             return {
                 "Random" : 2,
                 "MinDiff" : 1,
                 "MaxDiff" : 0
             }
-        elif progDiff == "harder":
+        if progDiff == "harder":
             return {
                 "Random" : 2,
                 "MinDiff" : 0,
@@ -234,25 +229,25 @@ class ProgSpeedParameters(object):
                 "Random" : 2,
                 "MaxProgression" : 0
             }
-        elif progSpeed == "slow":
+        if progSpeed == "slow":
             return {
                 "MinProgression" : 25,
                 "Random" : 75,
                 "MaxProgression" : 0
             }
-        elif progSpeed == "medium":
+        if progSpeed == "medium":
             return {
                 "MinProgression" : 0,
                 "Random" : 1,
                 "MaxProgression" : 0
             }
-        elif progSpeed == "fast":
+        if progSpeed == "fast":
             return {
                 "MinProgression" : 0,
                 "Random" : 85,
                 "MaxProgression" : 15
             }
-        elif progSpeed == "fastest":
+        if progSpeed == "fastest":
             return {
                 "MinProgression" : 0,
                 "Random" : 2,
@@ -262,11 +257,11 @@ class ProgSpeedParameters(object):
     def getSpreadFactor(self, progSpeed):
         if progSpeed == "slowest":
             return 0.9
-        elif progSpeed == "slow":
+        if progSpeed == "slow":
             return 0.7
-        elif progSpeed == "medium":
+        if progSpeed == "medium":
             return 0.4
-        elif progSpeed == "fast":
+        if progSpeed == "fast":
             return 0.1
         return 0
 

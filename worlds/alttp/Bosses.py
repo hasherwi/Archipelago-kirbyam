@@ -162,8 +162,7 @@ def GanonDefeatRule(state, player: int) -> bool:
                 state.has("Silver Bow", player) and can_shoot_arrows(state, player)) or
                            state.has("Lamp", player) or can_extend_magic(state, player, 12))
 
-    else:
-        return common and state.has("Silver Bow", player) and can_shoot_arrows(state, player)
+    return common and state.has("Silver Bow", player) and can_shoot_arrows(state, player)
 
 
 boss_table: dict[str, tuple[str, Callable | None]] = {
@@ -198,7 +197,7 @@ boss_location_table: list[tuple[str, str]] = [
     ]
 
 
-def place_plando_bosses(world: "ALTTPWorld", bosses: list[str]) -> tuple[list[str], list[tuple[str, str]]]:
+def place_plando_bosses(world: ALTTPWorld, bosses: list[str]) -> tuple[list[str], list[tuple[str, str]]]:
     # Most to least restrictive order
     boss_locations = boss_location_table.copy()
     world.multiworld.random.shuffle(boss_locations)
@@ -256,7 +255,7 @@ for location in boss_location_table:
                                                for boss in boss_table if not boss.startswith("Agahnim"))
 
 
-def place_boss(world: "ALTTPWorld", boss: str, location: str, level: str | None) -> None:
+def place_boss(world: ALTTPWorld, boss: str, location: str, level: str | None) -> None:
     player = world.player
     if location == "Ganons Tower" and world.options.mode == "inverted":
         location = "Inverted Ganons Tower"
@@ -268,7 +267,7 @@ def format_boss_location(location_name: str, level: str) -> str:
     return location_name + (" (" + level + ")" if level else "")
 
 
-def place_bosses(world: "ALTTPWorld") -> None:
+def place_bosses(world: ALTTPWorld) -> None:
     multiworld = world.multiworld
     # will either be an int or a lower case string with ';' between options
     boss_shuffle: str | int = world.options.boss_shuffle.value
@@ -348,7 +347,7 @@ def place_bosses(world: "ALTTPWorld") -> None:
         raise FillError(f"Could not find boss shuffle mode {boss_shuffle}")
 
 
-def place_where_possible(world: "ALTTPWorld", boss: str, boss_locations) -> tuple[list[tuple[str, str]], list[str]]:
+def place_where_possible(world: ALTTPWorld, boss: str, boss_locations) -> tuple[list[tuple[str, str]], list[str]]:
     remainder: list[tuple[str, str]] = []
     placed_bosses: list[str] = []
     for loc, level in boss_locations:

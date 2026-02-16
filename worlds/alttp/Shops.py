@@ -411,19 +411,17 @@ def get_price_modifier(item) -> float:
         if any(x in item.name for x in
                ["Compass", "Map", "Single Bomb", "Single Arrow", "Piece of Heart"]):
             return 0.125
-        elif any(x in item.name for x in
+        if any(x in item.name for x in
                  ["Arrow", "Bomb", "Clock"]) and item.name != "Bombos" and "(50)" not in item.name:
             return 0.25
-        elif any(x in item.name for x in ["Small Key", "Heart"]):
+        if any(x in item.name for x in ["Small Key", "Heart"]):
             return 0.5
-        else:
-            return 1.0
+        return 1.0
     if item.advancement:
         return 1.0
-    elif item.useful:
+    if item.useful:
         return 0.5
-    else:
-        return 0.25
+    return 0.25
 
 
 def get_price(multiworld, item, player: int, price_type=None):
@@ -471,8 +469,8 @@ def get_price(multiworld, item, player: int, price_type=None):
 def shop_price_rules(state: CollectionState, player: int, location: ALttPLocation):
     if location.shop_price_type == ShopPriceType.Hearts:
         return has_hearts(state, player, (location.shop_price // 8) + 1)
-    elif location.shop_price_type == ShopPriceType.Bombs:
+    if location.shop_price_type == ShopPriceType.Bombs:
         return can_use_bombs(state, player, location.shop_price)
-    elif location.shop_price_type == ShopPriceType.Arrows:
+    if location.shop_price_type == ShopPriceType.Arrows:
         return can_hold_arrows(state, player, location.shop_price)
     return True

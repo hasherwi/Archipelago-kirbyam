@@ -45,8 +45,7 @@ def create_all_regions(active_content_packs: set[str]) -> dict[str, RegionData]:
 def create_vanilla_regions(active_content_packs: set[str]) -> dict[str, RegionData]:
     if ginger_island_content_pack.name in active_content_packs:
         return {**vanilla_data.regions_with_ginger_island_by_name}
-    else:
-        return {**vanilla_data.regions_without_ginger_island_by_name}
+    return {**vanilla_data.regions_without_ginger_island_by_name}
 
 
 def create_all_connections(active_content_packs: set[str]) -> dict[str, ConnectionData]:
@@ -58,5 +57,4 @@ def create_all_connections(active_content_packs: set[str]) -> dict[str, Connecti
 def create_vanilla_connections(active_content_packs: set[str]) -> dict[str, ConnectionData]:
     if ginger_island_content_pack.name in active_content_packs:
         return {**vanilla_data.connections_with_ginger_island_by_name}
-    else:
-        return {**vanilla_data.connections_without_ginger_island_by_name}
+    return {**vanilla_data.connections_without_ginger_island_by_name}

@@ -392,16 +392,15 @@ def rising_tide_option(location: str, with_save_point_option: bool = False) -> d
                 "Flooded",
                 "FloodedWithSavePointAvailable")
         }
-    else:
-        return {
-            Optional(location): Or(
-                And({
-                    Optional("Dry"): And(int, lambda n: n >= 0),
-                    Optional("Flooded"): And(int, lambda n: n >= 0)
-                }, lambda d: any(v > 0 for v in d.values())),
-                "Dry",
-                "Flooded")
-        }
+    return {
+        Optional(location): Or(
+            And({
+                Optional("Dry"): And(int, lambda n: n >= 0),
+                Optional("Flooded"): And(int, lambda n: n >= 0)
+            }, lambda d: any(v > 0 for v in d.values())),
+            "Dry",
+            "Flooded")
+    }
 
 class RisingTidesOverrides(OptionDict):
     """Odds for specific areas to be flooded or drained, only has effect when RisingTides is on.

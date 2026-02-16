@@ -57,14 +57,14 @@ class Restrictions(object):
         assert morph is not None
         locs = services.possibleLocations(morph, ap, emptyContainer, bossesKilled=False)
         self.lateMorphLimit = len(locs)
-        self.log.debug("lateMorphInit. {} locs: {}".format(self.lateMorphLimit, getLocListStr(locs)))
+        self.log.debug(f"lateMorphInit. {self.lateMorphLimit} locs: {getLocListStr(locs)}")
         areas = {}
         for loc in locs:
             areas[loc.GraphArea] = areas.get(loc.GraphArea, 0) + 1
-        self.log.debug("lateMorphLimit. areas: {}".format(areas))
+        self.log.debug(f"lateMorphLimit. areas: {areas}")
         if len(areas) > 1:
             self.lateMorphForbiddenArea = getAccessPoint(ap).GraphArea
-            self.log.debug("lateMorphLimit. forbid start area: {}".format(self.lateMorphForbiddenArea))
+            self.log.debug(f"lateMorphLimit. forbid start area: {self.lateMorphForbiddenArea}")
         else:
             self.lateMorphForbiddenArea = None
 
@@ -92,26 +92,23 @@ class Restrictions(object):
     def isItemMajor(self, item):
         if self.split == "Full":
             return True
-        elif self.split == "Scavenger":
+        if self.split == "Scavenger":
             return not self.isItemMinor(item) or item.Type == "Ridley"
-        else:
-            return item.Class == self.split
+        return item.Class == self.split
 
     def isItemMinor(self, item):
         if self.split == "Full":
             return True
-        elif self.split == "Scavenger":
+        if self.split == "Scavenger":
             return item.Class != "Major" or item.Category == "Energy"
-        else:
-            return item.Class == "Minor"
+        return item.Class == "Minor"
 
     def isItemLocMatching(self, item, loc):
         if self.split == "Full":
             return True
         if loc.isClass(self.split):
             return item.Class == self.split
-        else:
-            return item.Class == "Minor"
+        return item.Class == "Minor"
 
     # return True if we can keep morph as a possibility
     def lateMorphCheck(self, container, possibleLocs, random):
@@ -190,5 +187,4 @@ class Restrictions(object):
     def canPlaceAtLocationFast(self, itemType, locName, container):
         if itemType in ["Super", "PowerBomb"] and container.hasUnrestrictedLocWithItemType(itemType):
             return self.dynamic.get((locName, itemType))
-        else:
-            return self.static.get((locName, itemType))
+        return self.static.get((locName, itemType))

@@ -159,7 +159,7 @@ class PokemonEmeraldWorld(World):
     modified_trainers: list[TrainerData]
 
     def __init__(self, multiworld, player):
-        super(PokemonEmeraldWorld, self).__init__(multiworld, player)
+        super().__init__(multiworld, player)
         self.badge_shuffle_info = None
         self.hm_shuffle_info = None
         self.free_fly_location_id = 0

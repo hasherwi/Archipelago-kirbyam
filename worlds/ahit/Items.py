@@ -108,11 +108,11 @@ def item_dlc_enabled(world: "HatInTimeWorld", name: str) -> bool:
 
     if data.dlc_flags == HatDLC.none:
         return True
-    elif data.dlc_flags == HatDLC.dlc1 and world.is_dlc1():
+    if data.dlc_flags == HatDLC.dlc1 and world.is_dlc1():
         return True
-    elif data.dlc_flags == HatDLC.dlc2 and world.is_dlc2():
+    if data.dlc_flags == HatDLC.dlc2 and world.is_dlc2():
         return True
-    elif data.dlc_flags == HatDLC.death_wish and world.is_dw():
+    if data.dlc_flags == HatDLC.death_wish and world.is_dw():
         return True
 
     return False

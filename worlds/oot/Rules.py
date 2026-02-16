@@ -46,8 +46,7 @@ class OOTLogic(LogicMixin):
         mult = self.multiworld.worlds[player].damage_multiplier
         if hearts*4 >= 3:
             return mult != "ohko" and mult != "quadruple"
-        else:
-            return mult != "ohko"
+        return mult != "ohko"
 
     # Figure out if the given region's parent dungeon has shortcuts enabled
     def _oot_region_has_shortcuts(self, player, regionname):

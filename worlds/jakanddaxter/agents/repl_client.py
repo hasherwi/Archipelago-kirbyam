@@ -169,9 +169,8 @@ class JakAndDaxterReplClient:
                 if print_ok:
                     logger.debug(response)
                 return True
-            else:
-                self.log_error(logger, f"Unexpected response from REPL: {response}")
-                return False
+            self.log_error(logger, f"Unexpected response from REPL: {response}")
+            return False
 
     async def connect(self):
         try:

@@ -9,8 +9,7 @@ def oot_data_to_ap_id(data, event):
     offset = 66000
     if data[0] in ["Item", "BossKey", "Compass", "Map", "SmallKey", "Token", "GanonBossKey", "HideoutSmallKey", "Song"]:
         return offset + data[2]
-    else:
-        raise Exception(f"Unexpected OOT item type found: {data[0]}")
+    raise Exception(f"Unexpected OOT item type found: {data[0]}")
 
 
 def ap_id_to_oot_data(ap_id):
@@ -47,7 +46,7 @@ class OOTItem(Item):
             classification = ItemClassification.progression
         else:
             classification = ItemClassification.filler
-        super(OOTItem, self).__init__(name, classification, oot_data_to_ap_id(data, event), player)
+        super().__init__(name, classification, oot_data_to_ap_id(data, event), player)
         self.type = type
         self.index = index
         self.special = special or {}

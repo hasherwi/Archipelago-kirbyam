@@ -91,8 +91,7 @@ class SNIClientCommandProcessor(ClientCommandProcessor):
         if self.ctx.snes_socket and not self.ctx.snes_socket.closed:
             async_start(self.ctx.snes_socket.close())
             return True
-        else:
-            return False
+        return False
 
     # Left here for quick re-addition for debugging.
     # def _cmd_snes_write(self, address, data):
@@ -119,20 +118,20 @@ class SNIContext(CommonContext):
     command_processor: type[SNIClientCommandProcessor] = SNIClientCommandProcessor
     game: str | None = None  # set in validate_rom
     items_handling: int | None = None  # set in game_watcher
-    snes_connect_task: "asyncio.Task[None] | None" = None
-    snes_autoreconnect_task: "asyncio.Task[None]" | None = None
+    snes_connect_task: asyncio.Task[None] | None = None
+    snes_autoreconnect_task: asyncio.Task[None] | None = None
 
     snes_address: str
     snes_socket: WebSocketClientProtocol | None
     snes_state: SNESState
     snes_attached_device: tuple[int, str] | None
     snes_reconnect_address: str | None
-    snes_recv_queue: "asyncio.Queue[bytes]"
+    snes_recv_queue: asyncio.Queue[bytes]
     snes_request_lock: asyncio.Lock
     snes_write_buffer: list[tuple[int, bytes]]
     snes_connector_lock: threading.Lock
     death_state: DeathState
-    killing_player_task: "asyncio.Task[None] | None"
+    killing_player_task: asyncio.Task[None] | None
     allow_collect: bool
     slow_mode: bool
 
@@ -145,7 +144,7 @@ class SNIContext(CommonContext):
     death_link_allow_survive: bool
 
     def __init__(self, snes_address: str, server_address: str, password: str) -> None:
-        super(SNIContext, self).__init__(server_address, password)
+        super().__init__(server_address, password)
 
         # snes stuff
         self.snes_address = snes_address
@@ -168,7 +167,7 @@ class SNIContext(CommonContext):
         self.prev_rom = None
 
     async def connection_closed(self) -> None:
-        await super(SNIContext, self).connection_closed()
+        await super().connection_closed()
         self.awaiting_rom = False
 
     def event_invalid_slot(self) -> typing.NoReturn:
@@ -179,7 +178,7 @@ class SNIContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False) -> None:
         if password_requested and not self.password:
-            await super(SNIContext, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
         if self.rom is None:
             self.awaiting_rom = True
             snes_logger.info(
@@ -208,7 +207,7 @@ class SNIContext(CommonContext):
     def on_deathlink(self, data: dict[str, typing.Any]) -> None:
         if not self.killing_player_task or self.killing_player_task.done():
             self.killing_player_task = asyncio.create_task(deathlink_kill_player(self))
-        super(SNIContext, self).on_deathlink(data)
+        super().on_deathlink(data)
 
     async def handle_deathlink_state(self, currently_dead: bool, death_text: str = "") -> None:
         # in this state we only care about triggering a death send
@@ -226,7 +225,7 @@ class SNIContext(CommonContext):
                 self.death_state = DeathState.alive
 
     async def shutdown(self) -> None:
-        await super(SNIContext, self).shutdown()
+        await super().shutdown()
         self.cancel_snes_autoreconnect()
         if self.snes_connect_task:
             try:
@@ -292,7 +291,7 @@ def launch_sni() -> None:
     if not os.path.isdir(sni_path):
         sni_path = Utils.local_path(sni_path)
     if os.path.isdir(sni_path):
-        dir_entry: "os.DirEntry[str]"
+        dir_entry: os.DirEntry[str]
         for dir_entry in os.scandir(sni_path):
             if dir_entry.is_file():
                 lower_file = dir_entry.name.lower()

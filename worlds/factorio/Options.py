@@ -482,8 +482,7 @@ class FactorioWorldGen(OptionDict):
     def from_any(cls, data: dict[str, typing.Any]) -> FactorioWorldGen:
         if type(data) == dict:
             return cls(data)
-        else:
-            raise NotImplementedError(f"Cannot Convert from non-dictionary, got {type(data)}")
+        raise NotImplementedError(f"Cannot Convert from non-dictionary, got {type(data)}")
 
 
 class ImportedBlueprint(DefaultOnToggle):

@@ -54,19 +54,18 @@ class FloatRangeText(FreeText, NumericOption):
     def weighted_range(cls, text: str) -> float:
         if text == "random-low":
             return random.triangular(cls.range_start, cls.range_end, cls.range_start)
-        elif text == "random-high":
+        if text == "random-high":
             return random.triangular(cls.range_start, cls.range_end, cls.range_end)
-        elif text == "random-middle":
+        if text == "random-middle":
             return random.triangular(cls.range_start, cls.range_end)
-        elif text.startswith("random-range-"):
+        if text.startswith("random-range-"):
             return cls.custom_range(text)
-        elif text == "random":
+        if text == "random":
             return random.uniform(cls.range_start, cls.range_end)
-        else:
-            raise Exception(f"random text \"{text}\" did not resolve to a recognized pattern. "
-                            f"Acceptable values are: random, random-high, random-middle, random-low, "
-                            f"random-range-low-<min>-<max>, random-range-middle-<min>-<max>, "
-                            f"random-range-high-<min>-<max>, or random-range-<min>-<max>.")
+        raise Exception(f"random text \"{text}\" did not resolve to a recognized pattern. "
+                        f"Acceptable values are: random, random-high, random-middle, random-low, "
+                        f"random-range-low-<min>-<max>, random-range-middle-<min>-<max>, "
+                        f"random-range-high-<min>-<max>, or random-range-<min>-<max>.")
 
     @classmethod
     def custom_range(cls, text: str) -> float:
@@ -84,12 +83,11 @@ class FloatRangeText(FreeText, NumericOption):
                 f"{cls.range_start}-{cls.range_end} for option {cls.__name__}")
         if text.startswith("random-range-low"):
             return random.triangular(random_range[0], random_range[1], random_range[0])
-        elif text.startswith("random-range-middle"):
+        if text.startswith("random-range-middle"):
             return random.triangular(random_range[0], random_range[1])
-        elif text.startswith("random-range-high"):
+        if text.startswith("random-range-high"):
             return random.triangular(random_range[0], random_range[1], random_range[1])
-        else:
-            return random.uniform(random_range[0], random_range[1])
+        return random.uniform(random_range[0], random_range[1])
 
     @property
     def current_key(self) -> str:
@@ -102,32 +100,27 @@ class FloatRangeText(FreeText, NumericOption):
     def __eq__(self, other: Any):
         if isinstance(other, NumericOption):
             return self.value == other.value
-        else:
-            return cast(bool, self.value == other)
+        return cast(bool, self.value == other)
 
     def __lt__(self, other: int | float | NumericOption) -> bool:
         if isinstance(other, NumericOption):
             return self.value < other.value
-        else:
-            return self.value < other
+        return self.value < other
 
     def __le__(self, other: int | float | NumericOption) -> bool:
         if isinstance(other, NumericOption):
             return self.value <= other.value
-        else:
-            return self.value <= other
+        return self.value <= other
 
     def __gt__(self, other: int | float | NumericOption) -> bool:
         if isinstance(other, NumericOption):
             return self.value > other.value
-        else:
-            return self.value > other
+        return self.value > other
 
     def __ge__(self, other: int | float | NumericOption) -> bool:
         if isinstance(other, NumericOption):
             return self.value >= other.value
-        else:
-            return self.value >= other
+        return self.value >= other
 
     def __int__(self) -> int:
         return int(self.value)

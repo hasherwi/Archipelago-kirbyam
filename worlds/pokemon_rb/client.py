@@ -135,7 +135,7 @@ class PokemonRBClient(BizHawkClient):
             # Do not handle anything before game save is loaded
             self.game_state = False
             return
-        elif (data["GameStatus"][0] not in (0x2A, 0xAC)
+        if (data["GameStatus"][0] not in (0x2A, 0xAC)
               or data["CrashCheck1"][0] & 0xF0 or data["CrashCheck1"][1] & 0xFF
               or data["CrashCheck2"][0]
               or data["CrashCheck3"][0] > 10
@@ -304,10 +304,10 @@ def cmd_bank(self, cmd: str = "", amount: str = ""):
     if (not self.ctx.server) or self.ctx.server.socket.closed or not self.ctx.client_handler.game_state:
         logger.info(f"Must be connected to server and in game.")
         return
-    elif not cmd:
+    if not cmd:
         logger.info(f"Money available: {int((self.ctx.stored_data[f'EnergyLink{self.ctx.team}'] or 0) / BANK_EXCHANGE_RATE)}")
         return
-    elif not amount:
+    if not amount:
         logger.warning("You must specify an amount.")
     elif cmd == "withdraw":
         self.ctx.client_handler.banking_command = -int(amount)

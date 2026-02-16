@@ -58,22 +58,21 @@ class WreckedShip(SMRegion, IReward):
                     items.CanAccessMaridiaPortal(self.world) and items.Gravity and (
                         items.CanDestroyBombWalls() and items.CardMaridiaL2 or
                         self.world.GetLocation("Space Jump").Available(items)))
-        else:
-            return items.Super and (
-                    # /* Over the Moat */
-                    (items.CardCrateriaL2 if self.Config.Keysanity else items.CanUsePowerBombs()) or
-                    # /* Through Maridia -> Forgotten Highway */
-                    items.CanUsePowerBombs() and (
-                        items.Gravity or
-                        # /* Climb Mt. Everest */
-                        items.HiJump and (items.Ice or items.CanSpringBallJump()) and items.Grapple and items.CardMaridiaL1
-                    ) or
-                    # /* From Maridia portal -> Forgotten Highway */
-                    items.CanAccessMaridiaPortal(self.world) and (
-                        items.HiJump and items.CanPassBombPassages() and items.CardMaridiaL2 or
-                        items.Gravity and (
-                            items.CanDestroyBombWalls() and items.CardMaridiaL2 or
-                            self.world.GetLocation("Space Jump").Available(items))))
+        return items.Super and (
+                # /* Over the Moat */
+                (items.CardCrateriaL2 if self.Config.Keysanity else items.CanUsePowerBombs()) or
+                # /* Through Maridia -> Forgotten Highway */
+                items.CanUsePowerBombs() and (
+                    items.Gravity or
+                    # /* Climb Mt. Everest */
+                    items.HiJump and (items.Ice or items.CanSpringBallJump()) and items.Grapple and items.CardMaridiaL1
+                ) or
+                # /* From Maridia portal -> Forgotten Highway */
+                items.CanAccessMaridiaPortal(self.world) and (
+                    items.HiJump and items.CanPassBombPassages() and items.CardMaridiaL2 or
+                    items.Gravity and (
+                        items.CanDestroyBombWalls() and items.CardMaridiaL2 or
+                        self.world.GetLocation("Space Jump").Available(items))))
 
     def CanComplete(self, items:Progression):
         return self.CanEnter(items) and self.CanUnlockShip(items)

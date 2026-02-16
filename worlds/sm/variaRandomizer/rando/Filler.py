@@ -77,7 +77,7 @@ class Filler(object):
             locs = self.container.getUsedLocs(lambda loc: loc.difficulty.difficulty > self.maxDiff)
             aboveMaxDiffStr = "[ " + " ; ".join([loc.Name + ": " + diffValue2txt(loc.difficulty.difficulty) for loc in locs]) + " ]"
             if aboveMaxDiffStr != "[  ]":
-                self.errorMsg += "\nMaximum difficulty could not be applied everywhere. Affected locations: {}".format(aboveMaxDiffStr)
+                self.errorMsg += f"\nMaximum difficulty could not be applied everywhere. Affected locations: {aboveMaxDiffStr}"
             isStuck = False
 
         if self.vcr != None:
@@ -111,7 +111,7 @@ class Filler(object):
 # very simple front fill algorithm with no rollback and no "softlock checks" (== dessy algorithm)
 class FrontFiller(Filler):
     def __init__(self, startAP, graph, restrictions, emptyContainer, endDate=infinity, *, random):
-        super(FrontFiller, self).__init__(startAP, graph, restrictions, emptyContainer, endDate, random=random)
+        super().__init__(startAP, graph, restrictions, emptyContainer, endDate, random=random)
         self.choice = ItemThenLocChoice(restrictions, random)
         self.stdStart = GraphUtils.isStandardStart(self.startAP)
 

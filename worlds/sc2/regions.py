@@ -191,8 +191,7 @@ def create_regular_mission_order(world: "SC2World", mission_pools: SC2MOGenMissi
 
     if mission_order_type in static_mission_orders:
         return create_static_mission_order(world, mission_order_type, mission_pools)
-    else:
-        return create_dynamic_mission_order(world, mission_order_type, mission_pools)
+    return create_dynamic_mission_order(world, mission_order_type, mission_pools)
 
 def create_static_mission_order(world: "SC2World", mission_order_type: int, mission_pools: SC2MOGenMissionPools) -> dict[str, dict[str, Any]]:
     mission_order: dict[str, dict[str, Any]] = {}

@@ -48,18 +48,17 @@ text2diff = {
 def diff4solver(difficulty):
     if difficulty == -1:
         return ("break", "break")
-    elif difficulty < medium:
+    if difficulty < medium:
         return ("easy", "easy")
-    elif difficulty < hard:
+    if difficulty < hard:
         return ("medium", "medium")
-    elif difficulty < harder:
+    if difficulty < harder:
         return ("hard", "hard")
-    elif difficulty < hardcore:
+    if difficulty < hardcore:
         return ("harder", "very hard")
-    elif difficulty < mania:
+    if difficulty < mania:
         return ("hardcore", "hardcore")
-    else:
-        return ("mania", "mania")
+    return ("mania", "mania")
 
 # allow multiple local repo
 appDir = str(Path(__file__).parents[4])

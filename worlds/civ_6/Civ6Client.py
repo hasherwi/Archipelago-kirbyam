@@ -109,7 +109,7 @@ class CivVIContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super(CivVIContext, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
         await self.get_username()
         self.tags = set()
         await self.send_connect()
@@ -138,7 +138,7 @@ class CivVIContext(CommonContext):
 def update_connection_status(ctx: CivVIContext, status: ConnectionState):
     if ctx.connection_state == status:
         return
-    elif status == ConnectionState.IN_GAME:
+    if status == ConnectionState.IN_GAME:
         ctx.logger.info("Connected to Civ VI")
     elif status == ConnectionState.IN_MENU:
         ctx.logger.info("Connected to Civ VI, waiting for game to start")

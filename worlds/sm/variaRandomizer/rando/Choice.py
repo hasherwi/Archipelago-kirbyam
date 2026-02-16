@@ -24,7 +24,7 @@ class Choice(object):
 # simple random choice, that chooses an item first, then a locatio to put it in
 class ItemThenLocChoice(Choice):
     def __init__(self, restrictions, random):
-        super(ItemThenLocChoice, self).__init__(restrictions)
+        super().__init__(restrictions)
         self.random = random
 
     def chooseItemLoc(self, itemLocDict, isProg):
@@ -43,8 +43,7 @@ class ItemThenLocChoice(Choice):
             return None
         if isProg:
             return self.chooseItemProg(itemList)
-        else:
-            return self.chooseItemRandom(itemList)
+        return self.chooseItemRandom(itemList)
 
     def chooseItemProg(self, itemList):
         return self.chooseItemRandom(itemList)
@@ -57,8 +56,7 @@ class ItemThenLocChoice(Choice):
             return None
         if isProg:
             return self.chooseLocationProg(locList, item)
-        else:
-            return self.chooseLocationRandom(locList)
+        return self.chooseLocationRandom(locList)
 
     def chooseLocationProg(self, locList, item):
         return self.chooseLocationRandom(locList)
@@ -69,7 +67,7 @@ class ItemThenLocChoice(Choice):
 # Choice specialization for prog speed based filler
 class ItemThenLocChoiceProgSpeed(ItemThenLocChoice):
     def __init__(self, restrictions, progSpeedParams, distanceProp, services, random):
-        super(ItemThenLocChoiceProgSpeed, self).__init__(restrictions, random)
+        super().__init__(restrictions, random)
         self.progSpeedParams = progSpeedParams
         self.distanceProp = distanceProp
         self.services = services
@@ -121,7 +119,7 @@ class ItemThenLocChoiceProgSpeed(ItemThenLocChoice):
         self.progressionItemLocs = progressionItemLocs
         self.ap = ap
         self.container = container
-        return super(ItemThenLocChoiceProgSpeed, self).chooseItemLoc(itemLocDict, isProg)
+        return super().chooseItemLoc(itemLocDict, isProg)
 
     def determineParameters(self, progSpeed=None, progDiff=None):
         self.chooseLocRanges = getRangeDict(self.getChooseLocs(progDiff))
@@ -182,12 +180,12 @@ class ItemThenLocChoiceProgSpeed(ItemThenLocChoice):
 
     def chooseLocationMaxDiff(self, availableLocations):
         self.log.debug("MAX")
-        self.log.debug("chooseLocationMaxDiff: {}".format([(l.Name, l.difficulty) for l in availableLocations]))
+        self.log.debug(f"chooseLocationMaxDiff: {[(l.Name, l.difficulty) for l in availableLocations]}")
         return max(availableLocations, key=lambda loc:loc.difficulty.difficulty)
 
     def chooseLocationMinDiff(self, availableLocations):
         self.log.debug("MIN")
-        self.log.debug("chooseLocationMinDiff: {}".format([(l.Name, l.difficulty) for l in availableLocations]))
+        self.log.debug(f"chooseLocationMinDiff: {[(l.Name, l.difficulty) for l in availableLocations]}")
         return min(availableLocations, key=lambda loc:loc.difficulty.difficulty)
 
     def areaDistance(self, loc, otherLocs):

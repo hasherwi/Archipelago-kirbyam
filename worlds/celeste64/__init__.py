@@ -77,8 +77,7 @@ class Celeste64World(World):
                 self.prog_strawberries += 1
 
             return Celeste64Item(name, classification, item_data_table[name].code, self.player)
-        else:
-            return Celeste64Item(name, item_data_table[name].type, item_data_table[name].code, self.player)
+        return Celeste64Item(name, item_data_table[name].type, item_data_table[name].code, self.player)
 
     def create_items(self) -> None:
         item_pool: list[Celeste64Item] = []

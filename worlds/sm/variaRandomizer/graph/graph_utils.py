@@ -186,8 +186,7 @@ class GraphUtils:
     def createAreaTransitions(lightAreaRando=False, *, random):
         if lightAreaRando:
             return GraphUtils.createLightAreaTransitions(random=random)
-        else:
-            return GraphUtils.createRegularAreaTransitions(random=random)
+        return GraphUtils.createRegularAreaTransitions(random=random)
 
     @staticmethod
     def createRegularAreaTransitions(apList=None, apPred=None, *, random):
@@ -259,9 +258,9 @@ class GraphUtils:
         areas = [startAp.GraphArea]
         if startAp.GraphArea in forcedAreas:
             forcedAreas.remove(startAp.GraphArea)
-        GraphUtils.log.debug("availAreas: {}".format(availAreas))
-        GraphUtils.log.debug("forcedAreas: {}".format(forcedAreas))
-        GraphUtils.log.debug("areas: {}".format(areas))
+        GraphUtils.log.debug(f"availAreas: {availAreas}")
+        GraphUtils.log.debug(f"forcedAreas: {forcedAreas}")
+        GraphUtils.log.debug(f"areas: {areas}")
         inBossCheck = lambda ap: ap.Boss and ap.Name.endswith("In")
         nLocs = 0
         transitions = []
@@ -299,13 +298,13 @@ class GraphUtils:
             src = random.choice(possibleSources)
             dst = random.choice(possibleTargets)
             usedAPs += [src,dst]
-            GraphUtils.log.debug("add transition: (src: {}, dst: {})".format(src.Name, dst.Name))
+            GraphUtils.log.debug(f"add transition: (src: {src.Name}, dst: {dst.Name})")
             transitions.append((src.Name,dst.Name))
             availAreas.remove(nextArea)
             areas.append(nextArea)
-            GraphUtils.log.debug("areas: {}".format(areas))
+            GraphUtils.log.debug(f"areas: {areas}")
             nLocs = getNLocs(lambda loc:loc.GraphArea in areas)
-            GraphUtils.log.debug("nLocs: {}".format(nLocs))
+            GraphUtils.log.debug(f"nLocs: {nLocs}")
         # we picked the areas, add transitions (bosses and tourian first)
         sourceAPs = openTransitions()
         random.shuffle(sourceAPs)
@@ -315,7 +314,7 @@ class GraphUtils:
         while len(targetAPs) > 0:
             transitions.append((sourceAPs.pop().Name, targetAPs.pop().Name))
         transitions += GraphUtils.createRegularAreaTransitions(sourceAPs, lambda ap: not ap.isInternal())
-        GraphUtils.log.debug("FINAL MINIMIZER transitions: {}".format(transitions))
+        GraphUtils.log.debug(f"FINAL MINIMIZER transitions: {transitions}")
         GraphUtils.loopUnusedTransitions(transitions)
         GraphUtils.log.debug("FINAL MINIMIZER nLocs: "+str(nLocs+3))
         GraphUtils.log.debug("FINAL MINIMIZER areas: "+str(areas))

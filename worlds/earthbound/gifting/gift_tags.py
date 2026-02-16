@@ -171,8 +171,7 @@ def make_trait(trait: str, name: str) -> dict[str, str | int]:
 
     if quality:
         return {"trait": trait, "quality": quality}
-    else:
-        return {"trait": trait}
+    return {"trait": trait}
 
 
 def make_default_traits(traits: list[str], name: str) -> list[dict[str, str | int]]:

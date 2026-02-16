@@ -183,14 +183,13 @@ def cmd_autoheal(self) -> None:
     if not self.ctx.server or not self.ctx.slot:
         logger.warning("You must be connected to a server to use this command.")
         return
+    assert isinstance(self.ctx.client_handler, MegaMan2Client)
+    if self.ctx.client_handler.auto_heal:
+        self.ctx.client_handler.auto_heal = False
+        logger.info(f"Auto healing disabled.")
     else:
-        assert isinstance(self.ctx.client_handler, MegaMan2Client)
-        if self.ctx.client_handler.auto_heal:
-            self.ctx.client_handler.auto_heal = False
-            logger.info(f"Auto healing disabled.")
-        else:
-            self.ctx.client_handler.auto_heal = True
-            logger.info(f"Auto healing enabled.")
+        self.ctx.client_handler.auto_heal = True
+        logger.info(f"Auto healing enabled.")
 
 
 def get_sfx_writes(sfx: int) -> tuple[tuple[int, bytes, str], ...]:

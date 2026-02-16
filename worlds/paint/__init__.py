@@ -46,10 +46,9 @@ class PaintWorld(World):
     def get_filler_item_name(self) -> str:
         if self.random.randint(0, 99) >= self.options.trap_count:
             return "Additional Palette Color"
-        elif self.options.death_link:
+        if self.options.death_link:
             return self.random.choice(deathlink_traps)
-        else:
-            return self.random.choice(traps)
+        return self.random.choice(traps)
 
     def create_item(self, name: str) -> PaintItem:
         item = PaintItem(name, item_data_table[name].type, item_data_table[name].code, self.player)

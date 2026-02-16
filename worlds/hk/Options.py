@@ -301,18 +301,17 @@ class RandomCharmCosts(NamedRange):
         charms: list[int]
         if -1 == self.value:
             return self.vanilla_costs.copy()
-        elif -2 == self.value:
+        if -2 == self.value:
             charms = self.vanilla_costs.copy()
             random_source.shuffle(charms)
             return charms
-        else:
-            charms = [0] * self.charm_count
-            for x in range(self.value):
+        charms = [0] * self.charm_count
+        for x in range(self.value):
+            index = random_source.randint(0, self.charm_count - 1)
+            while charms[index] > 5:
                 index = random_source.randint(0, self.charm_count - 1)
-                while charms[index] > 5:
-                    index = random_source.randint(0, self.charm_count - 1)
-                charms[index] += 1
-            return charms
+            charms[index] += 1
+        return charms
 
 
 class CharmCost(Range):

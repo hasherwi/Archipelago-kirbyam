@@ -890,11 +890,11 @@ def entrance_unreachable_as(entrance, age, already_checked=[]):
 
     if entrance.type in {"WarpSong", "Overworld"}:
         return False
-    elif entrance.type == "OwlDrop":
+    if entrance.type == "OwlDrop":
         return age == "adult"
-    elif entrance.name == "Child Spawn -> KF Links House":
+    if entrance.name == "Child Spawn -> KF Links House":
         return age == "adult"
-    elif entrance.name == "Adult Spawn -> Temple of Time":
+    if entrance.name == "Adult Spawn -> Temple of Time":
         return age == "child"
 
     for parent_entrance in entrance.parent_region.entrances:

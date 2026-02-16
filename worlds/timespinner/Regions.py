@@ -212,7 +212,7 @@ def throwIfAnyLocationIsNotAssignedToARegion(regions: list[Region], regionNames:
         existingRegions.add(region.name)
 
     if (regionNames - existingRegions):
-        raise Exception("Timespinner: the following regions are used in locations: {}, but no such region exists".format(regionNames - existingRegions))
+        raise Exception(f"Timespinner: the following regions are used in locations: {regionNames - existingRegions}, but no such region exists")
 
 
 def create_location(player: int, location_data: LocationData, region: Region) -> Location:

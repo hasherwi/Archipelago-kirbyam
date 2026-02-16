@@ -124,8 +124,7 @@ class SC2JSONtoKivyParser(KivyJSONtoTextParser):
                 node["text"] = f"[ref={self.ref_count}|{ref}]{node['text']}[/ref]"
                 self.ref_count += 1
             return super(KivyJSONtoTextParser, self)._handle_text(node)
-        else:
-            return super()._handle_text(node)
+        return super()._handle_text(node)
 
 
 class SC2Manager(GameManager):
@@ -574,10 +573,9 @@ class SC2Manager(GameManager):
                     # Take max of each item across all sub-rules
                     all_items |= resolve_rule_to_items(sub_rule)
                 return all_items
-            elif isinstance(rule, ItemRuleData):
+            if isinstance(rule, ItemRuleData):
                 return Counter(rule.item_ids)
-            else:
-                return Counter()
+            return Counter()
 
         rules = self.ctx.mission_id_to_entry_rules[mission_id]
         # Take max value of each item across all rules using '|'
@@ -637,17 +635,16 @@ class SC2Manager(GameManager):
     def is_scoutable(self, remaining_locations, mission_available: bool, layout_locked: bool, campaign_locked: bool) -> bool:
         if self.ctx.mission_order_scouting == MissionOrderScouting.option_all:
             return True
-        elif self.ctx.mission_order_scouting == MissionOrderScouting.option_campaign and not campaign_locked:
+        if self.ctx.mission_order_scouting == MissionOrderScouting.option_campaign and not campaign_locked:
             return True
-        elif self.ctx.mission_order_scouting == MissionOrderScouting.option_layout and not layout_locked:
+        if self.ctx.mission_order_scouting == MissionOrderScouting.option_layout and not layout_locked:
             return True
-        elif self.ctx.mission_order_scouting == MissionOrderScouting.option_available and mission_available:
+        if self.ctx.mission_order_scouting == MissionOrderScouting.option_available and mission_available:
             return True
-        elif self.ctx.mission_order_scouting == MissionOrderScouting.option_completed and len([loc for loc in remaining_locations if loc[0] in (LocationType.VICTORY, LocationType.VICTORY_CACHE)]) == 0:
+        if self.ctx.mission_order_scouting == MissionOrderScouting.option_completed and len([loc for loc in remaining_locations if loc[0] in (LocationType.VICTORY, LocationType.VICTORY_CACHE)]) == 0:
             # Assuming that when a mission is completed, all victory location are removed
             return True
-        else:
-            return False
+        return False
 
     def handle_scout_display(self, location_name: str) -> str:
         if self.ctx.mission_item_classification is None:

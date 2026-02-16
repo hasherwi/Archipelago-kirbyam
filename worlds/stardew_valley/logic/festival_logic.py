@@ -113,8 +113,7 @@ class FestivalLogic(BaseLogic):
     def has_squidfest_day_1_iridium_reward(self) -> StardewRule:
         if self.options.festival_locations == FestivalLocations.option_disabled:
             return self.logic.festival.can_squidfest_day_1_iridium_reward()
-        else:
-            return self.logic.received(f"Book: {Book.the_art_o_crabbing}")
+        return self.logic.received(f"Book: {Book.the_art_o_crabbing}")
 
     def can_win_egg_hunt(self) -> StardewRule:
         return self.logic.true_

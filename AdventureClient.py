@@ -84,7 +84,7 @@ class AdventureContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super(AdventureContext, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
         if not self.auth:
             self.auth = self.player_name
         if not self.auth:

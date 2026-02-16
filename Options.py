@@ -108,7 +108,7 @@ class AssembleOptions(abc.ABCMeta):
             else:
                 # construct an __init__ that calls parent __init__
 
-                cls = super(AssembleOptions, mcs).__new__(mcs, name, bases, attrs)
+                cls = super().__new__(mcs, name, bases, attrs)
 
                 def meta__init__(self, *args, **kwargs):
                     super(cls, self).__init__(*args, **kwargs)
@@ -117,7 +117,7 @@ class AssembleOptions(abc.ABCMeta):
                 cls.__init__ = meta__init__
                 return cls
 
-        return super(AssembleOptions, mcs).__new__(mcs, name, bases, attrs)
+        return super().__new__(mcs, name, bases, attrs)
 
 
 T = typing.TypeVar("T")
@@ -177,8 +177,7 @@ class Option(typing.Generic[T], metaclass=AssembleOptions):
     def get_option_name(cls, value: T) -> str:
         if cls.auto_display_name:
             return cls.name_lookup[value].replace("_", " ").title()
-        else:
-            return cls.name_lookup[value]
+        return cls.name_lookup[value]
 
     def __int__(self) -> T:
         return self.value
@@ -228,10 +227,9 @@ class FreeText(Option[str]):
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             return other.value == self.value
-        elif isinstance(other, str):
+        if isinstance(other, str):
             return other == self.value
-        else:
-            raise TypeError(f"Can't compare {self.__class__.__name__} with {other.__class__.__name__}")
+        raise TypeError(f"Can't compare {self.__class__.__name__} with {other.__class__.__name__}")
 
 
 class NumericOption(Option[int], numbers.Integral, abc.ABC):
@@ -247,32 +245,27 @@ class NumericOption(Option[int], numbers.Integral, abc.ABC):
     def __eq__(self, other: typing.Any) -> bool:
         if isinstance(other, NumericOption):
             return self.value == other.value
-        else:
-            return typing.cast(bool, self.value == other)
+        return typing.cast(bool, self.value == other)
 
     def __lt__(self, other: int | NumericOption) -> bool:
         if isinstance(other, NumericOption):
             return self.value < other.value
-        else:
-            return self.value < other
+        return self.value < other
 
     def __le__(self, other: int | NumericOption) -> bool:
         if isinstance(other, NumericOption):
             return self.value <= other.value
-        else:
-            return self.value <= other
+        return self.value <= other
 
     def __gt__(self, other: int | NumericOption) -> bool:
         if isinstance(other, NumericOption):
             return self.value > other.value
-        else:
-            return self.value > other
+        return self.value > other
 
     def __ge__(self, other: int | NumericOption) -> bool:
         if isinstance(other, NumericOption):
             return self.value >= other.value
-        else:
-            return self.value >= other
+        return self.value >= other
 
     def __bool__(self) -> bool:
         return bool(self.value)
@@ -283,50 +276,42 @@ class NumericOption(Option[int], numbers.Integral, abc.ABC):
     def __mul__(self, other: typing.Any) -> typing.Any:
         if isinstance(other, NumericOption):
             return self.value * other.value
-        else:
-            return self.value * other
+        return self.value * other
 
     def __rmul__(self, other: typing.Any) -> typing.Any:
         if isinstance(other, NumericOption):
             return other.value * self.value
-        else:
-            return other * self.value
+        return other * self.value
 
     def __sub__(self, other: typing.Any) -> typing.Any:
         if isinstance(other, NumericOption):
             return self.value - other.value
-        else:
-            return self.value - other
+        return self.value - other
 
     def __rsub__(self, left: typing.Any) -> typing.Any:
         if isinstance(left, NumericOption):
             return left.value - self.value
-        else:
-            return left - self.value
+        return left - self.value
 
     def __add__(self, other: typing.Any) -> typing.Any:
         if isinstance(other, NumericOption):
             return self.value + other.value
-        else:
-            return self.value + other
+        return self.value + other
 
     def __radd__(self, left: typing.Any) -> typing.Any:
         if isinstance(left, NumericOption):
             return left.value + self.value
-        else:
-            return left + self.value
+        return left + self.value
 
     def __truediv__(self, other: typing.Any) -> typing.Any:
         if isinstance(other, NumericOption):
             return self.value / other.value
-        else:
-            return self.value / other
+        return self.value / other
 
     def __rtruediv__(self, left: typing.Any) -> typing.Any:
         if isinstance(left, NumericOption):
             return left.value / self.value
-        else:
-            return left / self.value
+        return left / self.value
 
     def __abs__(self) -> typing.Any:
         return abs(self.value)
@@ -418,17 +403,15 @@ class Toggle(NumericOption):
     def from_text(cls, text: str) -> Toggle:
         if text == "random":
             return cls(random.choice(list(cls.name_lookup)))
-        elif text.lower() in {"off", "0", "false", "none", "null", "no"}:
+        if text.lower() in {"off", "0", "false", "none", "null", "no"}:
             return cls(0)
-        else:
-            return cls(1)
+        return cls(1)
 
     @classmethod
     def from_any(cls, data: typing.Any):
         if type(data) == str:
             return cls.from_text(data)
-        else:
-            return cls(int(data))
+        return cls(int(data))
 
     @classmethod
     def get_option_name(cls, value):
@@ -468,56 +451,54 @@ class Choice(NumericOption):
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             return other.value == self.value
-        elif isinstance(other, str):
+        if isinstance(other, str):
             assert other in self.options, f"compared against a str that could never be equal. {self} == {other}"
             return other == self.current_key
-        elif isinstance(other, int):
+        if isinstance(other, int):
             assert other in self.name_lookup, f"compared against an int that could never be equal. {self} == {other}"
             return other == self.value
-        elif isinstance(other, bool):
+        if isinstance(other, bool):
             return other == bool(self.value)
-        else:
-            raise TypeError(f"Can't compare {self.__class__.__name__} with {other.__class__.__name__}")
+        raise TypeError(f"Can't compare {self.__class__.__name__} with {other.__class__.__name__}")
 
     def __ne__(self, other):
         if isinstance(other, self.__class__):
             return other.value != self.value
-        elif isinstance(other, str):
+        if isinstance(other, str):
             assert other in self.options, f"compared against a str that could never be equal. {self} != {other}"
             return other != self.current_key
-        elif isinstance(other, int):
+        if isinstance(other, int):
             assert other in self.name_lookup, f"compared against am int that could never be equal. {self} != {other}"
             return other != self.value
-        elif isinstance(other, bool):
+        if isinstance(other, bool):
             return other != bool(self.value)
-        elif other is None:
+        if other is None:
             return False
-        else:
-            raise TypeError(f"Can't compare {self.__class__.__name__} with {other.__class__.__name__}")
+        raise TypeError(f"Can't compare {self.__class__.__name__} with {other.__class__.__name__}")
 
     def __lt__(self, other: Choice | int | str):
         if isinstance(other, str):
             assert other in self.options, f"compared against an unknown string. {self} < {other}"
             other = self.options[other]
-        return super(Choice, self).__lt__(other)
+        return super().__lt__(other)
 
     def __gt__(self, other: Choice | int | str):
         if isinstance(other, str):
             assert other in self.options, f"compared against an unknown string. {self} > {other}"
             other = self.options[other]
-        return super(Choice, self).__gt__(other)
+        return super().__gt__(other)
 
     def __le__(self, other: Choice | int | str):
         if isinstance(other, str):
             assert other in self.options, f"compared against an unknown string. {self} <= {other}"
             other = self.options[other]
-        return super(Choice, self).__le__(other)
+        return super().__le__(other)
 
     def __ge__(self, other: Choice | int | str):
         if isinstance(other, str):
             assert other in self.options, f"compared against an unknown string. {self} >= {other}"
             other = self.options[other]
-        return super(Choice, self).__ge__(other)
+        return super().__ge__(other)
 
     __hash__ = Option.__hash__  # see https://docs.python.org/3/reference/datamodel.html#object.__hash__
 
@@ -555,26 +536,25 @@ class TextChoice(Choice):
     def __eq__(self, other: typing.Any):
         if isinstance(other, self.__class__):
             return other.value == self.value
-        elif isinstance(other, str):
+        if isinstance(other, str):
             if other in self.options:
                 return other == self.current_key
             return other == self.value
-        elif isinstance(other, int):
+        if isinstance(other, int):
             assert other in self.name_lookup, f"compared against an int that could never be equal. {self} == {other}"
             return other == self.value
-        elif isinstance(other, bool):
+        if isinstance(other, bool):
             return other == bool(self.value)
-        else:
-            raise TypeError(f"Can't compare {self.__class__.__name__} with {other.__class__.__name__}")
+        raise TypeError(f"Can't compare {self.__class__.__name__} with {other.__class__.__name__}")
 
 
 class BossMeta(AssembleOptions):
     def __new__(mcs, name, bases, attrs):
         if name != "PlandoBosses":
             assert "bosses" in attrs, f"Please define valid bosses for {name}"
-            attrs["bosses"] = frozenset((boss.lower() for boss in attrs["bosses"]))
+            attrs["bosses"] = frozenset(boss.lower() for boss in attrs["bosses"])
             assert "locations" in attrs, f"Please define valid locations for {name}"
-            attrs["locations"] = frozenset((location.lower() for location in attrs["locations"]))
+            attrs["locations"] = frozenset(location.lower() for location in attrs["locations"])
         cls = super().__new__(mcs, name, bases, attrs)
         assert not cls.duplicate_bosses or "singularity" in cls.options, f"Please define option_singularity for {name}"
         return cls
@@ -673,7 +653,7 @@ class PlandoBosses(TextChoice, metaclass=BossMeta):
     def valid_location_name(cls, value: str) -> bool:
         return value in cls.locations
 
-    def verify(self, world: type[World], player_name: str, plando_options: "PlandoOptions") -> None:
+    def verify(self, world: type[World], player_name: str, plando_options: PlandoOptions) -> None:
         if isinstance(self.value, int):
             return
         from BaseClasses import PlandoOptions
@@ -707,13 +687,13 @@ class Range(NumericOption):
         text = text.lower()
         if text.startswith("random"):
             return cls.weighted_range(text)
-        elif text == "default" and hasattr(cls, "default"):
+        if text == "default" and hasattr(cls, "default"):
             return cls.from_any(cls.default)
-        elif text == "high":
+        if text == "high":
             return cls(cls.range_end)
-        elif text == "low":
+        if text == "low":
             return cls(cls.range_start)
-        elif cls.range_start == 0 \
+        if cls.range_start == 0 \
                 and hasattr(cls, "default") \
                 and cls.default != 0 \
                 and text in ("true", "false"):
@@ -745,17 +725,16 @@ class Range(NumericOption):
     def weighted_range(cls, text) -> Range:
         if text == "random-low":
             return cls(cls.triangular(cls.range_start, cls.range_end, 0.0))
-        elif text == "random-high":
+        if text == "random-high":
             return cls(cls.triangular(cls.range_start, cls.range_end, 1.0))
-        elif text == "random-middle":
+        if text == "random-middle":
             return cls(cls.triangular(cls.range_start, cls.range_end))
-        elif text.startswith("random-range-"):
+        if text.startswith("random-range-"):
             return cls.custom_range(text)
-        elif text == "random":
+        if text == "random":
             return cls(random.randint(cls.range_start, cls.range_end))
-        else:
-            raise Exception(f"random text \"{text}\" did not resolve to a recognized pattern. "
-                            f"Acceptable values are: {', '.join(cls._RANDOM_OPTS)}.")
+        raise Exception(f"random text \"{text}\" did not resolve to a recognized pattern. "
+                        f"Acceptable values are: {', '.join(cls._RANDOM_OPTS)}.")
 
     @classmethod
     def custom_range(cls, text) -> Range:
@@ -771,12 +750,11 @@ class Range(NumericOption):
                 f"{cls.range_start}-{cls.range_end} for option {cls.__name__}")
         if text.startswith("random-range-low"):
             return cls(cls.triangular(random_range[0], random_range[1], 0.0))
-        elif text.startswith("random-range-middle"):
+        if text.startswith("random-range-middle"):
             return cls(cls.triangular(random_range[0], random_range[1]))
-        elif text.startswith("random-range-high"):
+        if text.startswith("random-range-high"):
             return cls(cls.triangular(random_range[0], random_range[1], 1.0))
-        else:
-            return cls(random.randint(random_range[0], random_range[1]))
+        return cls(random.randint(random_range[0], random_range[1]))
 
     @classmethod
     def from_any(cls, data: typing.Any) -> Range:
@@ -836,7 +814,7 @@ class FreezeValidKeys(AssembleOptions):
         assert not "_valid_keys" in attrs, "'_valid_keys' gets set by FreezeValidKeys, define 'valid_keys' instead."
         if "valid_keys" in attrs:
             attrs["_valid_keys"] = frozenset(attrs["valid_keys"])
-        return super(FreezeValidKeys, mcs).__new__(mcs, name, bases, attrs)
+        return super().__new__(mcs, name, bases, attrs)
 
 
 class VerifyKeys(metaclass=FreezeValidKeys):
@@ -859,7 +837,7 @@ class VerifyKeys(metaclass=FreezeValidKeys):
                     f"Allowed keys: {self._valid_keys}."
                 )
 
-    def verify(self, world: type[World], player_name: str, plando_options: "PlandoOptions") -> None:
+    def verify(self, world: type[World], player_name: str, plando_options: PlandoOptions) -> None:
         try:
             self.verify_keys()
         except OptionError as validation_error:
@@ -904,8 +882,7 @@ class OptionDict(Option[dict[str, typing.Any]], VerifyKeys, typing.Mapping[str, 
     def from_any(cls, data: dict[str, typing.Any]) -> OptionDict:
         if type(data) == dict:
             return cls(data)
-        else:
-            raise NotImplementedError(f"Cannot Convert from non-dictionary, got {type(data)}")
+        raise NotImplementedError(f"Cannot Convert from non-dictionary, got {type(data)}")
 
     def get_option_name(self, value):
         return ", ".join(f"{key}: {v}" for key, v in value.items())
@@ -929,10 +906,10 @@ class OptionCounter(OptionDict):
     max: int | None = None
 
     def __init__(self, value: dict[str, int]) -> None:
-        super(OptionCounter, self).__init__(collections.Counter(value))
+        super().__init__(collections.Counter(value))
 
     def verify(self, world: type[World], player_name: str, plando_options: PlandoOptions) -> None:
-        super(OptionCounter, self).verify(world, player_name, plando_options)
+        super().verify(world, player_name, plando_options)
 
         range_errors = []
 
@@ -962,7 +939,7 @@ class ItemDict(OptionCounter):
         # Backwards compatibility: Cull 0s to make "in" checks behave the same as when this wasn't a OptionCounter
         value = {item_name: amount for item_name, amount in value.items() if amount != 0}
 
-        super(ItemDict, self).__init__(value)
+        super().__init__(value)
 
 
 class OptionList(Option[list[typing.Any]], VerifyKeys):
@@ -975,7 +952,7 @@ class OptionList(Option[list[typing.Any]], VerifyKeys):
 
     def __init__(self, value: typing.Iterable[typing.Any]):
         self.value = list(deepcopy(value))
-        super(OptionList, self).__init__()
+        super().__init__()
 
     @classmethod
     def from_text(cls, text: str):
@@ -1000,7 +977,7 @@ class OptionSet(Option[set[str]], VerifyKeys):
 
     def __init__(self, value: typing.Iterable[str]):
         self.value = set(deepcopy(value))
-        super(OptionSet, self).__init__()
+        super().__init__()
 
     @classmethod
     def from_text(cls, text: str):
@@ -1046,7 +1023,7 @@ class PlandoTexts(Option[list[PlandoText]], VerifyKeys):
         self.value = list(deepcopy(value))
         super().__init__()
 
-    def verify(self, world: type[World], player_name: str, plando_options: "PlandoOptions") -> None:
+    def verify(self, world: type[World], player_name: str, plando_options: PlandoOptions) -> None:
         from BaseClasses import PlandoOptions
         if self.value and not (PlandoOptions.texts & plando_options):
             # plando is disabled but plando options were given so overwrite the options
@@ -1104,8 +1081,7 @@ class PlandoTexts(Option[list[PlandoText]], VerifyKeys):
                 else:
                     raise Exception(f"Cannot create plando text from non-dictionary type, got {type(text)}")
             return cls(texts)
-        else:
-            raise NotImplementedError(f"Cannot Convert from non-list, got {type(data)}")
+        raise NotImplementedError(f"Cannot Convert from non-list, got {type(data)}")
 
     @classmethod
     def get_option_name(cls, value: list[PlandoText]) -> str:
@@ -1125,9 +1101,9 @@ class ConnectionsMeta(AssembleOptions):
     def __new__(mcs, name: str, bases: tuple[type, ...], attrs: dict[str, typing.Any]):
         if name != "PlandoConnections":
             assert "entrances" in attrs, f"Please define valid entrances for {name}"
-            attrs["entrances"] = frozenset((connection.lower() for connection in attrs["entrances"]))
+            attrs["entrances"] = frozenset(connection.lower() for connection in attrs["entrances"])
             assert "exits" in attrs, f"Please define valid exits for {name}"
-            attrs["exits"] = frozenset((connection.lower() for connection in attrs["exits"]))
+            attrs["exits"] = frozenset(connection.lower() for connection in attrs["exits"])
         if "__doc__" not in attrs:
             attrs["__doc__"] = PlandoConnections.__doc__
         cls = super().__new__(mcs, name, bases, attrs)
@@ -1175,7 +1151,7 @@ class PlandoConnections(Option[list[PlandoConnection]], metaclass=ConnectionsMet
 
     def __init__(self, value: typing.Iterable[PlandoConnection]):
         self.value = list(deepcopy(value))
-        super(PlandoConnections, self).__init__()
+        super().__init__()
 
     @classmethod
     def validate_entrance_name(cls, entrance: str) -> bool:
@@ -1250,7 +1226,7 @@ class PlandoConnections(Option[list[PlandoConnection]], metaclass=ConnectionsMet
         cls.validate_plando_connections(value)
         return cls(value)
 
-    def verify(self, world: type[World], player_name: str, plando_options: "PlandoOptions") -> None:
+    def verify(self, world: type[World], player_name: str, plando_options: PlandoOptions) -> None:
         from BaseClasses import PlandoOptions
         if self.value and not (PlandoOptions.connections & plando_options):
             # plando is disabled but plando options were given so overwrite the options
@@ -1330,14 +1306,14 @@ class OptionsMetaProperty(type):
     def __new__(mcs,
                 name: str,
                 bases: tuple[type, ...],
-                attrs: dict[str, typing.Any]) -> "OptionsMetaProperty":
+                attrs: dict[str, typing.Any]) -> OptionsMetaProperty:
         for attr_type in attrs.values():
             assert not isinstance(attr_type, AssembleOptions), \
                 f"Options for {name} should be type hinted on the class, not assigned"
         return super().__new__(mcs, name, bases, attrs)
 
     @property
-    @functools.lru_cache(maxsize=None)
+    @functools.cache
     def type_hints(cls) -> dict[str, type[Option[typing.Any]]]:
         """Returns type hints of the class as a dictionary."""
         return typing.get_type_hints(cls)
@@ -1496,9 +1472,9 @@ class ItemLinks(OptionList):
                 pool |= {item_name}
         return pool
 
-    def verify(self, world: type[World], player_name: str, plando_options: "PlandoOptions") -> None:
+    def verify(self, world: type[World], player_name: str, plando_options: PlandoOptions) -> None:
         link: dict
-        super(ItemLinks, self).verify(world, player_name, plando_options)
+        super().verify(world, player_name, plando_options)
         existing_links = set()
         for link in self.value:
             link["name"] = link["name"].strip()[:16].strip()
@@ -1604,7 +1580,7 @@ class PlandoItems(Option[list[PlandoItem]]):
                 raise OptionError(f"Cannot create plando item from non-Dict type, got {type(item)}.")
         return cls(value)
 
-    def verify(self, world: type[World], player_name: str, plando_options: "PlandoOptions") -> None:
+    def verify(self, world: type[World], player_name: str, plando_options: PlandoOptions) -> None:
         if not self.value:
             return
         from BaseClasses import PlandoOptions
@@ -1732,7 +1708,7 @@ def get_option_groups(world: type[World], visibility_level: Visibility = Visibil
     }
 
 
-def generate_yaml_templates(target_folder: str | "pathlib.Path", generate_hidden: bool = True) -> None:
+def generate_yaml_templates(target_folder: str | pathlib.Path, generate_hidden: bool = True) -> None:
     import os
     from inspect import cleandoc
 

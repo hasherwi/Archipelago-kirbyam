@@ -245,7 +245,7 @@ def extend_museumsanity_locations(randomized_locations: list[LocationData], opti
     prefix = "Museumsanity: "
     if options.museumsanity == Museumsanity.option_none:
         return
-    elif options.museumsanity == Museumsanity.option_milestones:
+    if options.museumsanity == Museumsanity.option_milestones:
         randomized_locations.extend(locations_by_tag[LocationTags.MUSEUM_MILESTONES])
     elif options.museumsanity == Museumsanity.option_randomized:
         randomized_locations.extend(location_table[f"{prefix}{museum_item.item_name}"]
@@ -556,8 +556,7 @@ def filter_farm_type(options: StardewValleyOptions, locations: Iterable[Location
     # On Meadowlands, "Feeding Animals" replaces "Raising Animals"
     if options.farm_type == FarmType.option_meadowlands:
         return (location for location in locations if location.name != Quest.raising_animals)
-    else:
-        return (location for location in locations if location.name != Quest.feeding_animals)
+    return (location for location in locations if location.name != Quest.feeding_animals)
 
 
 def filter_ginger_island(options: StardewValleyOptions, locations: Iterable[LocationData]) -> Iterable[LocationData]:

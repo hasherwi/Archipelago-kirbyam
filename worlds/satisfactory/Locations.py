@@ -126,12 +126,11 @@ class ShopSlot(LocationData):
         def can_purchase(state: CollectionState) -> bool:
             if not state_logic or cost < 20:
                 return True
-            elif 20 <= cost < 50:
+            if 20 <= cost < 50:
                 return state_logic.is_elevator_phase(state, 1)
-            elif 50 <= cost < 100:
+            if 50 <= cost < 100:
                 return state_logic.is_elevator_phase(state, 2)
-            else:
-                return state_logic.is_elevator_phase(state, 3)
+            return state_logic.is_elevator_phase(state, 3)
 
         return can_purchase
 

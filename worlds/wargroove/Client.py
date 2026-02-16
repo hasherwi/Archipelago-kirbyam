@@ -134,7 +134,7 @@ class WargrooveContext(CommonContext):
     }
 
     def __init__(self, server_address, password):
-        super(WargrooveContext, self).__init__(server_address, password)
+        super().__init__(server_address, password)
         self.send_index: int = 0
         self.syncing = False
         self.awaiting_bridge = False
@@ -212,16 +212,16 @@ class WargrooveContext(CommonContext):
                 f.write(f"DeathLink: {text}")
             else:
                 f.write(f"DeathLink: Received from {data['source']}")
-        super(WargrooveContext, self).on_deathlink(data)
+        super().on_deathlink(data)
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super(WargrooveContext, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
         await self.get_username()
         await self.send_connect()
 
     async def connection_closed(self):
-        await super(WargrooveContext, self).connection_closed()
+        await super().connection_closed()
         self.remove_communication_files()
         self.checked_locations.clear()
         self.server_locations.clear()
@@ -231,11 +231,10 @@ class WargrooveContext(CommonContext):
     def endpoints(self):
         if self.server:
             return [self.server]
-        else:
-            return []
+        return []
 
     async def shutdown(self):
-        await super(WargrooveContext, self).shutdown()
+        await super().shutdown()
         self.remove_communication_files()
         self.checked_locations.clear()
         self.server_locations.clear()
@@ -482,9 +481,8 @@ class WargrooveContext(CommonContext):
                     wg_logger.info(f"Commander set to {commander.name}.")
                     self.update_commander_data()
                     return True
-                else:
-                    wg_logger.error(f"Commander {commander.name} has not been unlocked.")
-                    return False
+                wg_logger.error(f"Commander {commander.name} has not been unlocked.")
+                return False
         else:
             wg_logger.error(f"{commander_name} is not a recognized Wargroove commander.")
 

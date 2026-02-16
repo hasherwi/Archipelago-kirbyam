@@ -571,8 +571,7 @@ class SMZ3World(World):
     def get_pre_fill_items(self):
         if (not self.smz3World.Config.Keysanity):
             return self.smz3DungeonItems
-        else:
-            return []
+        return []
 
     def post_fill(self):
         # some small or big keys (those always_allow) can be unreachable in-game
@@ -703,7 +702,7 @@ class SMZ3Location(Location):
     game: str = "SMZ3"
 
     def __init__(self, player: int, name: str, address=None, parent=None):
-        super(SMZ3Location, self).__init__(player, name, address, parent)
+        super().__init__(player, name, address, parent)
 
 
 class SMZ3Item(Item):
@@ -712,6 +711,6 @@ class SMZ3Item(Item):
     item: Item
 
     def __init__(self, name, classification, type: ItemType, code, player: int, item: Item):
-        super(SMZ3Item, self).__init__(name, classification, code, player)
+        super().__init__(name, classification, code, player)
         self.type = type
         self.item = item

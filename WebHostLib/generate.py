@@ -83,11 +83,11 @@ def start_generation(options: dict[str, dict | str], meta: dict[str, Any]):
 
     if any(type(result) == str for result in results.values()):
         return render_template("checkResult.html", results=results)
-    elif len(gen_options) > app.config["MAX_ROLL"]:
+    if len(gen_options) > app.config["MAX_ROLL"]:
         flash(f"Sorry, generating of multiworlds is limited to {app.config['MAX_ROLL']} players. "
               f"If you have a larger group, please generate it yourself and upload it.")
         return redirect(url_for(request.endpoint, **(request.view_args or {})))
-    elif len(gen_options) >= app.config["JOB_THRESHOLD"]:
+    if len(gen_options) >= app.config["JOB_THRESHOLD"]:
         try:
             gen = Generation(
                 options=restricted_dumps({name: vars(options) for name, options in gen_options.items()}),
@@ -105,18 +105,17 @@ def start_generation(options: dict[str, dict | str], meta: dict[str, Any]):
         commit()
 
         return redirect(url_for("wait_seed", seed=gen.id))
-    else:
-        try:
-            seed_id = gen_game({name: vars(options) for name, options in gen_options.items()},
-                               meta=meta, owner=session["_id"].int, timeout=app.config["JOB_TIME"])
-        except BaseException as e:
-            from .autolauncher import handle_generation_failure
-            handle_generation_failure(e)
-            meta["error"] = format_exception(e)
-            details = json.dumps(meta, indent=4).strip()
-            return render_template("seedError.html", seed_error=meta["error"], details=details)
+    try:
+        seed_id = gen_game({name: vars(options) for name, options in gen_options.items()},
+                           meta=meta, owner=session["_id"].int, timeout=app.config["JOB_TIME"])
+    except BaseException as e:
+        from .autolauncher import handle_generation_failure
+        handle_generation_failure(e)
+        meta["error"] = format_exception(e)
+        details = json.dumps(meta, indent=4).strip()
+        return render_template("seedError.html", seed_error=meta["error"], details=details)
 
-        return redirect(url_for("view_seed", seed=seed_id))
+    return redirect(url_for("view_seed", seed=seed_id))
 
 
 def gen_game(gen_options: dict, meta: dict[str, Any] | None = None, owner=None, sid=None, timeout: int|None = None):
@@ -222,7 +221,7 @@ def wait_seed(seed: UUID):
 
     if not generation:
         return "Generation not found."
-    elif generation.state == STATE_ERROR:
+    if generation.state == STATE_ERROR:
         meta = json.loads(generation.meta)
         details = json.dumps(meta, indent=4).strip()
         return render_template("seedError.html", seed_error=meta["error"], details=details)

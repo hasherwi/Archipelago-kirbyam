@@ -65,7 +65,7 @@ class ItemLocContainer(object):
         self.checkConsistency()
 
     def checkConsistency(self):
-        assert len(self.unusedLocations) == len(self.itemPool), "Item({})/Locs({}) count mismatch".format(len(self.itemPool), len(self.unusedLocations))
+        assert len(self.unusedLocations) == len(self.itemPool), f"Item({len(self.itemPool)})/Locs({len(self.unusedLocations)}) count mismatch"
 
     def __eq__(self, rhs):
         eq = self.currentItems == rhs.currentItems
@@ -229,10 +229,10 @@ class ItemLocContainer(object):
         locs = []
         for il in self.itemLocations:
             loc = il.Location
-            self.log.debug("getLocsForSolver: {}".format(loc.Name))
+            self.log.debug(f"getLocsForSolver: {loc.Name}")
             # filter out restricted locations
             if loc.restricted:
-                self.log.debug("getLocsForSolver: restricted, remove {}".format(loc.Name))
+                self.log.debug(f"getLocsForSolver: restricted, remove {loc.Name}")
                 continue
             loc.itemName = il.Item.Type
             locs.append(loc)

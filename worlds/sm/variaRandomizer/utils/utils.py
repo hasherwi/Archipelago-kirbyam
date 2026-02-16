@@ -40,8 +40,7 @@ def openFile(resource: str, mode: str = "r", encoding: None = None):
             zipFilePath = resource[resource.index(stem + "/"):]
             if mode == "rb":
                 return zf.open(zipFilePath, "r")
-            else:
-                return io.TextIOWrapper(zf.open(zipFilePath, mode), encoding)
+            return io.TextIOWrapper(zf.open(zipFilePath, mode), encoding)
     else:
         return open(resource, mode)
 
@@ -64,8 +63,7 @@ def exists(resource: str):
                 zipFilePath = resource[resource.index(stem + "/"):]
                 path = zipfile.Path(zf, zipFilePath)
                 return path.exists()
-            else:
-                return False
+            return False
     else:
         return os.path.exists(resource)
 
@@ -75,11 +73,10 @@ def isStdPreset(preset):
 def getPresetDir(preset) -> str:
     if isStdPreset(preset):
         return "worlds/sm/variaRandomizer/standard_presets"
-    else:
-        return "worlds/sm/variaRandomizer/community_presets"
+    return "worlds/sm/variaRandomizer/community_presets"
 
 def removeChars(string, toRemove):
-    return re.sub("[{}]+".format(toRemove), "", string)
+    return re.sub(f"[{toRemove}]+", "", string)
 
 def range_union(ranges):
     ret = []
@@ -96,9 +93,8 @@ def normalizeRounding(n):
     # Normalizes rounding as Python 2 and Python 3 handing the rounding of halves (0.5, 1.5, etc) differently.
     # This normalizes rounding to be the same in both environments.
     if round(0.5) != 1 and n % 1 == .5 and not int(n) % 2:
-        return int((round(n) + (abs(n) / n) * 1))
-    else:
-        return int(round(n))
+        return int(round(n) + (abs(n) / n) * 1)
+    return int(round(n))
 
 # gauss random in [0, r] range
 # the higher the slope, the less probable extreme values are.
@@ -142,12 +138,11 @@ class PresetLoader(object):
             ext = os.path.splitext(params)
             if ext[1].lower() == ".json":
                 return PresetLoaderJson(params)
-            else:
-                raise Exception("PresetLoader: wrong parameters file type: {}".format(ext[1]))
+            raise Exception(f"PresetLoader: wrong parameters file type: {ext[1]}")
         elif type(params) is dict:
             return PresetLoaderDict(params)
         else:
-            raise Exception("wrong parameters input, is neither a string nor a json file name: {}::{}".format(params, type(params)))
+            raise Exception(f"wrong parameters input, is neither a string nor a json file name: {params}::{type(params)}")
 
     def __init__(self):
         if "Knows" not in self.params:
@@ -178,7 +173,7 @@ class PresetLoader(object):
             if isKnows(param) and hasattr(Knows, param):
                 setattr(Knows.knowsDict[player], param, SMBool(  self.params["Knows"][param][0],
                                                     self.params["Knows"][param][1],
-                                                    ["{}".format(param)]))
+                                                    [f"{param}"]))
         # Settings
         ## hard rooms
         for hardRoom in ["X-Ray", "Gauntlet"]:
@@ -205,20 +200,20 @@ class PresetLoader(object):
             json.dump(self.params, jsonFile)
 
     def printToScreen(self):
-        print("self.params: {}".format(self.params))
+        print(f"self.params: {self.params}")
 
         print("loaded knows: ")
         for knows in Knows.__dict__:
             if isKnows(knows):
-                print("{}: {}".format(knows, Knows.__dict__[knows]))
+                print(f"{knows}: {Knows.__dict__[knows]}")
         print("loaded settings:")
         for setting in Settings.__dict__:
             if isSettings(setting):
-                print("{}: {}".format(setting, Settings.__dict__[setting]))
+                print(f"{setting}: {Settings.__dict__[setting]}")
         print("loaded controller:")
         for button in Controller.__dict__:
             if isButton(button):
-                print("{}: {}".format(button, Controller.__dict__[button]))
+                print(f"{button}: {Controller.__dict__[button]}")
         print("loaded score: {}".format(self.params["score"]))
 
     def computeScore(self):
@@ -320,13 +315,13 @@ class PresetLoaderJson(PresetLoader):
     def __init__(self, jsonFileName):
         with openFile(jsonFileName) as jsonFile:
             self.params = json.load(jsonFile)
-        super(PresetLoaderJson, self).__init__()
+        super().__init__()
 
 class PresetLoaderDict(PresetLoader):
     # when called from the website
     def __init__(self, params):
         self.params = params
-        super(PresetLoaderDict, self).__init__()
+        super().__init__()
 
 def getDefaultMultiValues():
     from ..graph.graph_utils import GraphUtils
@@ -366,11 +361,11 @@ def convertParam(randoParams, param, inverse=False):
     value = randoParams.get(param, "off" if inverse == False else "on")
     if value == "on":
         return True if inverse == False else False
-    elif value == "off":
+    if value == "off":
         return False if inverse == False else True
-    elif value == "random":
+    if value == "random":
         return "random"
-    raise Exception("invalid value for parameter {}".format(param))
+    raise Exception(f"invalid value for parameter {param}")
 
 def loadRandoPreset(options, args):
     defaultMultiValues = getDefaultMultiValues()
@@ -525,9 +520,9 @@ def fixEnergy(items):
                 maxETank = nETank
                 maxReserve = nReserve
             items.remove(energy)
-        items.append("{}-ETank".format(maxETank))
+        items.append(f"{maxETank}-ETank")
         if maxReserve > 0:
-            items.append("{}-Reserve".format(maxReserve))
+            items.append(f"{maxReserve}-Reserve")
 
 
     # keep biggest crystal flash
@@ -539,7 +534,7 @@ def fixEnergy(items):
             if nCf > maxCf:
                 maxCf = nCf
             items.remove(cf)
-        items.append("{}-CrystalFlash".format(maxCf))
+        items.append(f"{maxCf}-CrystalFlash")
     return items
 
 def dumpErrorMsg(outFileName, msg):

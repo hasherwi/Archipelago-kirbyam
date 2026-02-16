@@ -323,7 +323,7 @@ class ALTTPWorld(World):
         self.shops = []
         self.logical_heart_containers = 10
         self.logical_heart_pieces = 24
-        super(ALTTPWorld, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld):
@@ -452,37 +452,33 @@ class ALTTPWorld(World):
                 if "Sword" in item_name:
                     if state.has("Golden Sword", item.player):
                         return "Golden Sword"
-                    elif state.has("Tempered Sword", item.player):
+                    if state.has("Tempered Sword", item.player):
                         return "Tempered Sword"
-                    elif state.has("Master Sword", item.player):
+                    if state.has("Master Sword", item.player):
                         return "Master Sword"
-                    elif state.has("Fighter Sword", item.player):
+                    if state.has("Fighter Sword", item.player):
                         return "Fighter Sword"
-                    else:
-                        return None
-                elif "Glove" in item.name:
+                    return None
+                if "Glove" in item.name:
                     if state.has("Titans Mitts", item.player):
                         return "Titans Mitts"
-                    elif state.has("Power Glove", item.player):
+                    if state.has("Power Glove", item.player):
                         return "Power Glove"
-                    else:
-                        return None
-                elif "Shield" in item_name:
+                    return None
+                if "Shield" in item_name:
                     if state.has("Mirror Shield", item.player):
                         return "Mirror Shield"
-                    elif state.has("Red Shield", item.player):
+                    if state.has("Red Shield", item.player):
                         return "Red Shield"
-                    elif state.has("Blue Shield", item.player):
+                    if state.has("Blue Shield", item.player):
                         return "Blue Shield"
-                    else:
-                        return None
-                elif "Bow" in item_name:
+                    return None
+                if "Bow" in item_name:
                     if state.has("Silver Bow", item.player):
                         return "Silver Bow"
-                    elif state.has("Bow", item.player):
+                    if state.has("Bow", item.player):
                         return "Bow"
-                    else:
-                        return None
+                    return None
             else:
                 if "Sword" in item_name:
                     if state.has("Golden Sword", item.player):
@@ -501,30 +497,29 @@ class ALTTPWorld(World):
                 elif "Glove" in item_name:
                     if state.has("Titans Mitts", item.player):
                         return
-                    elif state.has("Power Glove", item.player):
+                    if state.has("Power Glove", item.player):
                         return "Titans Mitts"
-                    else:
-                        return "Power Glove"
+                    return "Power Glove"
                 elif "Shield" in item_name:
                     if state.has("Mirror Shield", item.player):
                         return
-                    elif (state.has("Red Shield", item.player) and
+                    if (state.has("Red Shield", item.player) and
                           self.difficulty_requirements.progressive_shield_limit >= 3):
                         return "Mirror Shield"
-                    elif (state.has("Blue Shield", item.player) and
+                    if (state.has("Blue Shield", item.player) and
                           self.difficulty_requirements.progressive_shield_limit >= 2):
                         return "Red Shield"
-                    elif self.difficulty_requirements.progressive_shield_limit >= 1:
+                    if self.difficulty_requirements.progressive_shield_limit >= 1:
                         return "Blue Shield"
                 elif "Bow" in item_name:
                     if state.has("Silver Bow", item.player):
                         return
-                    elif state.has("Bow", item.player) and (self.difficulty_requirements.progressive_bow_limit >= 2
+                    if state.has("Bow", item.player) and (self.difficulty_requirements.progressive_bow_limit >= 2
                                                             or self.options.glitches_required == "no_glitches"
                                                             or self.options.swordless):
                         # modes where silver bow is always required for ganon
                         return "Silver Bow"
-                    elif self.difficulty_requirements.progressive_bow_limit >= 1:
+                    if self.difficulty_requirements.progressive_bow_limit >= 1:
                         return "Bow"
         elif item.advancement:
             return item_name
@@ -811,17 +806,17 @@ class ALTTPWorld(World):
                 if item is None:
                     continue
                 price = item["price"] // price_rate_display.get(item["price_type"], 1)
-                shop_data["item_{}".format(index)] = f"{item['item']} - {price} {price_type_display_name[item['price_type']]}"
+                shop_data[f"item_{index}"] = f"{item['item']} - {price} {price_type_display_name[item['price_type']]}"
                 if item["player"]:
-                    shop_data["item_{}".format(index)] =\
-                        shop_data["item_{}".format(index)].replace("—", "(Player {}) — ".format(item["player"]))
+                    shop_data[f"item_{index}"] =\
+                        shop_data[f"item_{index}"].replace("—", "(Player {}) — ".format(item["player"]))
 
                 if item["max"] == 0:
                     continue
-                shop_data["item_{}".format(index)] += " x {}".format(item["max"])
+                shop_data[f"item_{index}"] += " x {}".format(item["max"])
                 if item["replacement"] is None:
                     continue
-                shop_data["item_{}".format(index)] +=\
+                shop_data[f"item_{index}"] +=\
                     f", {item['replacement']} - {item['replacement_price'] // price_rate_display.get(item['replacement_price_type'], 1)}" \
                     f" {price_type_display_name[item['replacement_price_type']]}"
 

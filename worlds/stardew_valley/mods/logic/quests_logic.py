@@ -35,7 +35,7 @@ class ModQuestLogic(BaseLogic):
         quests.update(self._get_sve_quest_rules())
         quests.update(self._get_distant_lands_quest_rules())
         quests.update(self._get_boarding_house_quest_rules())
-        quests.update((self._get_hat_mouse_quest_rules()))
+        quests.update(self._get_hat_mouse_quest_rules())
         return quests
 
     def _get_juna_quest_rules(self):

@@ -113,8 +113,7 @@ class SC2Mission(Enum):
     def get_short_name(self):
         if self.mission_name.find(" (") == -1:
             return self.mission_name
-        else:
-            return self.mission_name[:self.mission_name.find(" (")]
+        return self.mission_name[:self.mission_name.find(" (")]
 
     # Wings of Liberty
     LIBERATION_DAY = 1, "Liberation Day", SC2Campaign.WOL, "Mar Sara", SC2Race.ANY, MissionPools.STARTER, "ap_liberation_day", MissionFlag.Terran|MissionFlag.NoBuild|MissionFlag.VsTerran
@@ -429,22 +428,19 @@ def get_campaign_goal_priority(campaign: SC2Campaign, excluded_missions: Iterabl
     """
     if excluded_missions is None:
         return campaign.goal_priority
-    else:
-        goal_missions = set(get_campaign_potential_goal_missions(campaign))
-        excluded_mission_set = set(excluded_missions)
-        remaining_goals = goal_missions.difference(excluded_mission_set)
-        if remaining_goals == set():
-            # All potential goals are excluded, the campaign can't be a goal
-            return SC2CampaignGoalPriority.NONE
-        elif campaign.goal_priority == SC2CampaignGoalPriority.VERY_HARD:
-            # Check if a very hard campaign doesn't get rid of it's last very hard mission
-            difficulty = get_campaign_difficulty(campaign, excluded_missions)
-            if difficulty == MissionPools.VERY_HARD:
-                return SC2CampaignGoalPriority.VERY_HARD
-            else:
-                return SC2CampaignGoalPriority.HARD
-        else:
-            return campaign.goal_priority
+    goal_missions = set(get_campaign_potential_goal_missions(campaign))
+    excluded_mission_set = set(excluded_missions)
+    remaining_goals = goal_missions.difference(excluded_mission_set)
+    if remaining_goals == set():
+        # All potential goals are excluded, the campaign can't be a goal
+        return SC2CampaignGoalPriority.NONE
+    if campaign.goal_priority == SC2CampaignGoalPriority.VERY_HARD:
+        # Check if a very hard campaign doesn't get rid of it's last very hard mission
+        difficulty = get_campaign_difficulty(campaign, excluded_missions)
+        if difficulty == MissionPools.VERY_HARD:
+            return SC2CampaignGoalPriority.VERY_HARD
+        return SC2CampaignGoalPriority.HARD
+    return campaign.goal_priority
 
 
 class SC2CampaignGoal(NamedTuple):

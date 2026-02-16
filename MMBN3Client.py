@@ -73,7 +73,7 @@ class MMBN3Context(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super(MMBN3Context, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
 
         if self.auth_name is None:
             self.awaiting_rom = True
@@ -230,7 +230,7 @@ async def gba_sync_task(ctx: MMBN3Context):
                     if reported_version >= script_version:
                         if ctx.game is not None and "locations" in data_decoded:
                             # Not just a keep alive ping, parse
-                            asyncio.create_task((parse_payload(data_decoded, ctx, False)))
+                            asyncio.create_task(parse_payload(data_decoded, ctx, False))
                         if not ctx.auth:
                             ctx.auth_name = bytes(data_decoded["playerName"])
 

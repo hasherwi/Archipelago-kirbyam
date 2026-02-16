@@ -161,8 +161,7 @@ def process_single_entrance(source_room: str, room_name: str, door_obj) -> RoomE
             door_obj["room"] if "room" in door_obj else None,
             door_obj["door"]
         ), entrance_type)
-    else:
-        return RoomEntrance(source_room, None, entrance_type)
+    return RoomEntrance(source_room, None, entrance_type)
 
 
 def process_entrance(source_room, doors, room_obj):

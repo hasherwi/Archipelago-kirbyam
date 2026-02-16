@@ -271,11 +271,10 @@ def process_pokemon_data(self):
                     if r and mon not in poke_data.legendary_pokemon:
                         compat_hms.add(roll_move)
                     return r
-                else:
-                    if self.options.tm_same_type_compatibility.value == -1:
-                        return mon_data["tms"][int(flag / 8)] & 1 << (flag % 8)
-                    return self.random.randint(1, 100) <= self.options.tm_same_type_compatibility.value
-            elif self.local_move_data[roll_move]["type"] == "Normal" and "Normal" not in [mon_data["type1"], mon_data["type2"]]:
+                if self.options.tm_same_type_compatibility.value == -1:
+                    return mon_data["tms"][int(flag / 8)] & 1 << (flag % 8)
+                return self.random.randint(1, 100) <= self.options.tm_same_type_compatibility.value
+            if self.local_move_data[roll_move]["type"] == "Normal" and "Normal" not in [mon_data["type1"], mon_data["type2"]]:
                 if roll_move in poke_data.hm_moves:
                     if self.options.hm_normal_type_compatibility.value == -1:
                         return mon_data["tms"][int(flag / 8)] & 1 << (flag % 8)
@@ -283,22 +282,19 @@ def process_pokemon_data(self):
                     if r and mon not in poke_data.legendary_pokemon:
                         compat_hms.add(roll_move)
                     return r
-                else:
-                    if self.options.tm_normal_type_compatibility.value == -1:
-                        return mon_data["tms"][int(flag / 8)] & 1 << (flag % 8)
-                    return self.random.randint(1, 100) <= self.options.tm_normal_type_compatibility.value
-            else:
-                if roll_move in poke_data.hm_moves:
-                    if self.options.hm_other_type_compatibility.value == -1:
-                        return mon_data["tms"][int(flag / 8)] & 1 << (flag % 8)
-                    r = self.random.randint(1, 100) <= self.options.hm_other_type_compatibility.value
-                    if r and mon not in poke_data.legendary_pokemon:
-                        compat_hms.add(roll_move)
-                    return r
-                else:
-                    if self.options.tm_other_type_compatibility.value == -1:
-                        return mon_data["tms"][int(flag / 8)] & 1 << (flag % 8)
-                    return self.random.randint(1, 100) <= self.options.tm_other_type_compatibility.value
+                if self.options.tm_normal_type_compatibility.value == -1:
+                    return mon_data["tms"][int(flag / 8)] & 1 << (flag % 8)
+                return self.random.randint(1, 100) <= self.options.tm_normal_type_compatibility.value
+            if roll_move in poke_data.hm_moves:
+                if self.options.hm_other_type_compatibility.value == -1:
+                    return mon_data["tms"][int(flag / 8)] & 1 << (flag % 8)
+                r = self.random.randint(1, 100) <= self.options.hm_other_type_compatibility.value
+                if r and mon not in poke_data.legendary_pokemon:
+                    compat_hms.add(roll_move)
+                return r
+            if self.options.tm_other_type_compatibility.value == -1:
+                return mon_data["tms"][int(flag / 8)] & 1 << (flag % 8)
+            return self.random.randint(1, 100) <= self.options.tm_other_type_compatibility.value
 
         for flag, tm_move in enumerate(tms_hms):
             if mon in poke_data.evolves_from and self.options.inherit_tm_hm_compatibility:

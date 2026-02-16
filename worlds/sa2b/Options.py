@@ -53,10 +53,9 @@ class Goal(Choice):
     def get_option_name(cls, value) -> str:
         if cls.auto_display_name and value == 5:
             return "Cannon's Core Boss Rush"
-        elif cls.auto_display_name:
+        if cls.auto_display_name:
             return cls.name_lookup[value].replace("_", " ").title()
-        else:
-            return cls.name_lookup[value]
+        return cls.name_lookup[value]
 
 
 class MissionShuffle(Toggle):
@@ -1040,8 +1039,7 @@ class RingLoss(Choice):
     def get_option_name(cls, value) -> str:
         if cls.auto_display_name and value == 2:
             return cls.name_lookup[value].upper()
-        else:
-            return cls.name_lookup[value]
+        return cls.name_lookup[value]
 
 
 class RingLink(Toggle):
@@ -1083,8 +1081,7 @@ class SADXMusic(Choice):
     def get_option_name(cls, value) -> str:
         if cls.auto_display_name and value != 2:
             return cls.name_lookup[value].upper()
-        else:
-            return cls.name_lookup[value]
+        return cls.name_lookup[value]
 
 
 class MusicShuffle(Choice):

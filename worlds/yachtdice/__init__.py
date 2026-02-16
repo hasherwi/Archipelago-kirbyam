@@ -261,24 +261,24 @@ class YachtDiceWorld(World):
             if which_item_to_add == "Dice":
                 weights["Dice"] /= 1 + self.frags_per_dice
                 return "Dice" if self.frags_per_dice == 1 else "Dice Fragment"
-            elif which_item_to_add == "Roll":
+            if which_item_to_add == "Roll":
                 weights["Roll"] /= 1 + self.frags_per_roll
                 return "Roll" if self.frags_per_roll == 1 else "Roll Fragment"
-            elif which_item_to_add == "Fixed Score Multiplier":
+            if which_item_to_add == "Fixed Score Multiplier":
                 weights["Fixed Score Multiplier"] /= 1.05
                 return "Fixed Score Multiplier"
-            elif which_item_to_add == "Step Score Multiplier":
+            if which_item_to_add == "Step Score Multiplier":
                 weights["Step Score Multiplier"] /= 1.1
                 step_score_multipliers_added[0] += 1
                 return "Step Score Multiplier"
-            elif which_item_to_add == "Double category":
+            if which_item_to_add == "Double category":
                 # Below entries are the weights to add each category.
                 # Prefer to add choice or number categories, because the other categories are too "all or nothing",
                 # which often don't give any points, until you get overpowered, and then they give all points.
                 cat_weights = [2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1]
                 weights["Double category"] /= 1.1
                 return self.random.choices(self.possible_categories, weights=cat_weights)[0]
-            elif which_item_to_add == "Points":
+            if which_item_to_add == "Points":
                 score_dist = self.options.points_size
                 probs = {"1 Point": 1, "10 Points": 0, "100 Points": 0}
                 if score_dist == PointsSize.option_small:
@@ -296,16 +296,15 @@ class YachtDiceWorld(World):
                     weights["Points"] /= 1.01
                     extra_points_added[0] += 1
                     return "1 Point"
-                elif choice == "10 Points":
+                if choice == "10 Points":
                     weights["Points"] /= 1.1
                     extra_points_added[0] += 10
                     return "10 Points"
-                elif choice == "100 Points":
+                if choice == "100 Points":
                     weights["Points"] /= 2
                     extra_points_added[0] += 100
                     return "100 Points"
-                else:
-                    raise Exception("Unknown point value (Yacht Dice)")
+                raise Exception("Unknown point value (Yacht Dice)")
             else:
                 raise Exception(f"Invalid index when adding new items in Yacht Dice: {which_item_to_add}")
 

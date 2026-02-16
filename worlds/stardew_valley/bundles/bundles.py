@@ -39,13 +39,13 @@ from .bundle_room import BundleRoom, BundleRoomTemplate
 def get_all_bundles(random: Random, logic: StardewLogic, content: StardewContent, options: StardewValleyOptions) -> list[BundleRoom]:
     if options.bundle_randomization == BundleRandomization.option_vanilla:
         return get_vanilla_bundles(random, content, options)
-    elif options.bundle_randomization == BundleRandomization.option_thematic:
+    if options.bundle_randomization == BundleRandomization.option_thematic:
         return get_thematic_bundles(random, content, options)
-    elif options.bundle_randomization == BundleRandomization.option_remixed:
+    if options.bundle_randomization == BundleRandomization.option_remixed:
         return get_remixed_bundles(random, content, options)
-    elif options.bundle_randomization == BundleRandomization.option_remixed_anywhere:
+    if options.bundle_randomization == BundleRandomization.option_remixed_anywhere:
         return get_remixed_bundles_anywhere(random, content, options)
-    elif options.bundle_randomization == BundleRandomization.option_shuffled:
+    if options.bundle_randomization == BundleRandomization.option_shuffled:
         return get_shuffled_bundles(random, logic, content, options)
 
     raise NotImplementedError

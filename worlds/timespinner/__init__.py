@@ -348,8 +348,7 @@ class TimespinnerWorld(World):
 
         if self.random.random() < (trap_chance / 100) and enabled_traps:
             return self.random.choice(enabled_traps)
-        else:
-            return self.random.choice(filler_items)
+        return self.random.choice(filler_items)
 
     def get_excluded_items(self) -> set[str]:
         excluded_items: set[str] = set()

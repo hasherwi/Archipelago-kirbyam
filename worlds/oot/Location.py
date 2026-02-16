@@ -36,7 +36,7 @@ class OOTLocation(Location):
         default=None, type="Chest", scene=None, parent=None, filter_tags=None,
         internal=False, vanilla_item=None
     ):
-        super(OOTLocation, self).__init__(player, name, code, parent)
+        super().__init__(player, name, code, parent)
         self.address1 = address1
         self.address2 = address2
         self.default = default

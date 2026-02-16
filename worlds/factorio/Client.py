@@ -90,7 +90,7 @@ class FactorioContext(CommonContext):
     def __init__(self, server_address, password, filter_connection_changes: bool, filter_item_sends: bool, bridge_chat_out: bool,
                  rcon_port: int, rcon_password: str, server_settings_path: str | None,
                  factorio_server_args: tuple[str, ...]):
-        super(FactorioContext, self).__init__(server_address, password)
+        super().__init__(server_address, password)
         self.send_index: int = 0
         self.rcon_client = None
         self.awaiting_bridge = False
@@ -112,12 +112,11 @@ class FactorioContext(CommonContext):
     def energylink_key(self) -> str:
         if self.generator_version >= (0, 4, 2):
             return f"EnergyLink{self.team}"
-        else:
-            return "EnergyLink"
+        return "EnergyLink"
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super(FactorioContext, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
 
         if self.rcon_client:
             await get_info(self, self.rcon_client)  # retrieve current auth code
@@ -128,7 +127,7 @@ class FactorioContext(CommonContext):
         await self.send_connect()
 
     def on_print(self, args: dict):
-        super(FactorioContext, self).on_print(args)
+        super().on_print(args)
         if self.rcon_client:
             if not args["text"].startswith(self.player_names[self.slot] + ":"):
                 self.print_to_game(args["text"])
@@ -142,7 +141,7 @@ class FactorioContext(CommonContext):
                 if not text.startswith(
                         self.player_names[self.slot] + ":"):  # TODO: Remove string heuristic in the future.
                     self.print_to_game(text)
-        super(FactorioContext, self).on_print_json(args)
+        super().on_print_json(args)
 
     @property
     def savegame_name(self) -> str:
@@ -160,23 +159,21 @@ class FactorioContext(CommonContext):
                 "--rcon-password", self.rcon_password,
                 "--server-settings", self.server_settings_path,
                 *self.additional_factorio_server_args)
-        else:
-            return ("--rcon-port", str(self.rcon_port), "--rcon-password", self.rcon_password,
-                    *self.additional_factorio_server_args)
+        return ("--rcon-port", str(self.rcon_port), "--rcon-password", self.rcon_password,
+                *self.additional_factorio_server_args)
 
     @property
     def energy_link_status(self) -> str:
         if not self.energy_link_increment:
             return "Disabled"
-        elif self.current_energy_link_value is None:
+        if self.current_energy_link_value is None:
             return "Standby"
-        else:
-            return f"{format_SI_prefix(self.current_energy_link_value)}J"
+        return f"{format_SI_prefix(self.current_energy_link_value)}J"
 
     def on_deathlink(self, data: dict):
         if self.rcon_client:
             self.rcon_client.send_command(f"/ap-deathlink {data['source']}")
-        super(FactorioContext, self).on_deathlink(data)
+        super().on_deathlink(data)
 
     def on_package(self, cmd: str, args: dict):
         if cmd in {"Connected", "RoomUpdate"}:

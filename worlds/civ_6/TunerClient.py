@@ -44,7 +44,7 @@ class TunerClient:
             start = split[1]
             end = start.split(CLIENT_POSTFIX)[0]
             return end
-        elif "ERR:" in response:
+        if "ERR:" in response:
             raise TunerErrorException(response.replace("?", ""))
         else:
             return ""

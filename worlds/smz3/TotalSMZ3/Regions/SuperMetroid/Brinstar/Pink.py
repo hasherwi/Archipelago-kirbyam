@@ -38,8 +38,7 @@ class Pink(SMRegion):
             items.CanUsePowerBombs() or \
             items.CanAccessNorfairUpperPortal() and items.Morph and items.Wave and \
                 (items.Ice or items.HiJump or items.SpaceJump)
-        else:
-            return items.CanOpenRedDoors() and (items.CanDestroyBombWalls() or items.SpeedBooster) or \
-                items.CanUsePowerBombs() or \
-                items.CanAccessNorfairUpperPortal() and items.Morph and (items.Missile or items.Super or items.Wave ) and \
-                    (items.Ice or items.HiJump or items.CanSpringBallJump() or items.CanFly())
+        return items.CanOpenRedDoors() and (items.CanDestroyBombWalls() or items.SpeedBooster) or \
+            items.CanUsePowerBombs() or \
+            items.CanAccessNorfairUpperPortal() and items.Morph and (items.Missile or items.Super or items.Wave ) and \
+                (items.Ice or items.HiJump or items.CanSpringBallJump() or items.CanFly())

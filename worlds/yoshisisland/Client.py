@@ -88,9 +88,9 @@ class YoshisIslandSNIClient(SNIClient):
         if game_mode is None:
             return
 
-        elif game_mode[0] not in VALID_GAME_STATES:
+        if game_mode[0] not in VALID_GAME_STATES:
             return
-        elif item_received[0] > 0x00:
+        if item_received[0] > 0x00:
             return
 
         from .Rom import item_values

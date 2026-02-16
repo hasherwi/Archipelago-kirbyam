@@ -126,10 +126,9 @@ gossipLocations_reversemap = {
 def getItemGenericName(item):
     if item.game != "Ocarina of Time":
         return item.name
-    elif item.dungeonitem:
+    if item.dungeonitem:
         return item.type
-    else:
-        return item.name
+    return item.name
 
 
 def isRestrictedDungeonItem(dungeon, item):
@@ -246,8 +245,7 @@ def writeGossipStoneHints(world, messages):
 def filterTrailingSpace(text):
     if text.endswith("& "):
         return text[:-1]
-    else:
-        return text
+    return text
 
 
 hintPrefixes = [
@@ -459,7 +457,7 @@ def get_hint_area(spot):
 
             if parent_region.dungeon:
                 return parent_region.dungeon.hint_text
-            elif parent_region.hint and (spot.parent_region.name == "Root" or parent_region.name != "Root"):
+            if parent_region.hint and (spot.parent_region.name == "Root" or parent_region.name != "Root"):
                 return parent_region.hint_text
 
             spot_queue.extend(list(filter(lambda ent: ent not in already_checked, parent_region.entrances)))
@@ -494,8 +492,7 @@ def get_woth_hint(world, checked):
 
     if world.triforce_hunt:
         return (GossipText("#%s# is on the path of gold." % location_text, ["Light Blue"]), location)
-    else:
-        return (GossipText("#%s# is on the way of the hero." % location_text, ["Light Blue"]), location)
+    return (GossipText("#%s# is on the way of the hero." % location_text, ["Light Blue"]), location)
 
 
 def get_barren_hint(world, checked):
@@ -574,10 +571,9 @@ def get_good_item_hint(world, checked):
         location_text = getHint(location.parent_region.dungeon.name, world.hint_rng, world.clearer_hints).text
         return (GossipText("#%s# hoards #%s#." % (attach_name(location_text, location, world), attach_name(item_text, location.item, world)),
             ["Green", "Red"]), location)
-    else:
-        location_text = get_hint_area(location)
-        return (GossipText("#%s# can be found at #%s#." % (attach_name(item_text, location.item, world), attach_name(location_text, location, world)),
-            ["Red", "Green"]), location)
+    location_text = get_hint_area(location)
+    return (GossipText("#%s# can be found at #%s#." % (attach_name(item_text, location.item, world), attach_name(location_text, location, world)),
+        ["Red", "Green"]), location)
 
 
 def get_specific_item_hint(world, checked):
@@ -618,16 +614,13 @@ def get_specific_item_hint(world, checked):
         location_text = getHint(location.parent_region.dungeon.name, world.hint_rng, world.clearer_hints).text
         if world.hint_dist_user.get("vague_named_items", False):
             return (GossipText("#%s# may be on the hero\'s path." % (location_text), ["Green"]), location)
-        else:
-            return (GossipText("#%s# hoards #%s#." % (attach_name(location_text, location, world), attach_name(item_text, location.item, world)),
-                ["Green", "Red"]), location)
-    else:
-        location_text = get_hint_area(location)
-        if world.hint_dist_user.get("vague_named_items", False):
-            return (GossipText("#%s# may be on the hero\'s path." % (location_text), ["Green"]), location)
-        else:
-            return (GossipText("#%s# can be found at #%s#." % (attach_name(item_text, location.item, world), attach_name(location_text, location, world)),
-                ["Red", "Green"]), location)
+        return (GossipText("#%s# hoards #%s#." % (attach_name(location_text, location, world), attach_name(item_text, location.item, world)),
+            ["Green", "Red"]), location)
+    location_text = get_hint_area(location)
+    if world.hint_dist_user.get("vague_named_items", False):
+        return (GossipText("#%s# may be on the hero\'s path." % (location_text), ["Green"]), location)
+    return (GossipText("#%s# can be found at #%s#." % (attach_name(item_text, location.item, world), attach_name(location_text, location, world)),
+        ["Red", "Green"]), location)
 
 
 def get_random_location_hint(world, checked):
@@ -652,10 +645,9 @@ def get_random_location_hint(world, checked):
         location_text = getHint(dungeon.name, world.hint_rng, world.clearer_hints).text
         return (GossipText("#%s# hoards #%s#." % (attach_name(location_text, location, world), attach_name(item_text, location.item, world)),
             ["Green", "Red"]), location)
-    else:
-        location_text = get_hint_area(location)
-        return (GossipText("#%s# can be found at #%s#." % (attach_name(item_text, location.item, world), attach_name(location_text, location, world)),
-            ["Red", "Green"]), location)
+    location_text = get_hint_area(location)
+    return (GossipText("#%s# can be found at #%s#." % (attach_name(item_text, location.item, world), attach_name(location_text, location, world)),
+        ["Red", "Green"]), location)
 
 
 def get_specific_hint(world, checked, type):

@@ -20,8 +20,7 @@ class WorldPosition:
     def get_position(self, random):
         if self.room_x is None or self.room_y is None:
             return self.room_id, random.choice(standard_positions)
-        else:
-            return self.room_id, (self.room_x, self.room_y)
+        return self.room_id, (self.room_x, self.room_y)
 
 
 class LocationData:
@@ -52,10 +51,9 @@ class LocationData:
                 return None
             x, y = random.choice(standard_positions)
             return self.room_id, x, y
-        else:
-            selected_pos = random.choice(self.world_positions)
-            room_id, (x, y) = selected_pos.get_position(random)
-            return self.get_random_room_id(random), x, y
+        selected_pos = random.choice(self.world_positions)
+        room_id, (x, y) = selected_pos.get_position(random)
+        return self.get_random_room_id(random), x, y
 
     def get_random_room_id(self, random):
         if self.world_positions is None or len(self.world_positions) == 0:
@@ -81,15 +79,15 @@ standard_positions = [
 def dragon_room_to_region(room: int) -> str:
     if room <= 0x11:
         return "Overworld"
-    elif room <= 0x12:
+    if room <= 0x12:
         return "YellowCastle"
-    elif room <= 0x16 or room == 0x1B:
+    if room <= 0x16 or room == 0x1B:
         return "BlackCastle"
-    elif room <= 0x1A:
+    if room <= 0x1A:
         return "WhiteCastleVault"
-    elif room <= 0x1D:
+    if room <= 0x1D:
         return "Overworld"
-    elif room <= 0x1E:
+    if room <= 0x1E:
         return "CreditsRoom"
 
 

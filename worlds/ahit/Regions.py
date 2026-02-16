@@ -734,7 +734,7 @@ def is_valid_first_act(world: "HatInTimeWorld", act: Region) -> bool:
         # Needs to be at least moderate to cross the big dweller wall
         if act.name == "Queen Vanessa's Manor" and diff < Difficulty.MODERATE:
             return False
-        elif act.name == "Heating Up Mafia Town":  # Straight up impossible
+        if act.name == "Heating Up Mafia Town":  # Straight up impossible
             return False
 
     # Need to be able to hover
@@ -978,8 +978,7 @@ def get_region_shuffled_to(world: "HatInTimeWorld", region: str) -> str:
         shuffled_ci = world.act_connections[original_ci]
         return next(act_name for act_name, ci in chapter_act_info.items()
                     if ci == shuffled_ci)
-    else:
-        return region
+    return region
 
 
 def get_region_location_count(world: "HatInTimeWorld", region_name: str, included_only: bool = True) -> int:

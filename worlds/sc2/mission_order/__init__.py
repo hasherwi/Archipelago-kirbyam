@@ -15,7 +15,7 @@ class SC2MissionOrder:
     """
 
     def __init__(self, mission_order_node: "SC2MOGenMissionOrder", mission_pools: SC2MOGenMissionPools):
-        self.mission_order_node: "SC2MOGenMissionOrder" = mission_order_node
+        self.mission_order_node: SC2MOGenMissionOrder = mission_order_node
         """Root node of the mission order structure."""
         self.mission_pools: SC2MOGenMissionPools = mission_pools
         """Manager for missions in the mission order."""

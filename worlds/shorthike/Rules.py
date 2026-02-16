@@ -101,7 +101,7 @@ def get_min_shop_logic_cost(self):
 
     if options.min_shop_check_logic == MinShopCheckLogic.option_40_coins:
         return 40
-    elif options.min_shop_check_logic == MinShopCheckLogic.option_100_coins:
+    if options.min_shop_check_logic == MinShopCheckLogic.option_100_coins:
         return 100
-    elif options.min_shop_check_logic == MinShopCheckLogic.option_400_coins:
+    if options.min_shop_check_logic == MinShopCheckLogic.option_400_coins:
         return 400

@@ -163,7 +163,7 @@ class RaftWorld(World):
                     if not state.has(item_name, item.player):
                         return item_name
 
-        return super(RaftWorld, self).collect_item(state, item, remove)
+        return super().collect_item(state, item, remove)
 
     def place_frequencyItems(self, frequencyItems):
         def setLocationItem(location: str, itemName: str):

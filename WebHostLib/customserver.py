@@ -45,7 +45,7 @@ class CustomClientMessageProcessor(ClientMessageProcessor):
             self.ctx.save()
             self.output(f"Registered Twitch Stream https://www.twitch.tv/{user}")
             return True
-        elif platform.lower().startswith("y"):  # youtube
+        if platform.lower().startswith("y"):  # youtube
             self.ctx.video[self.client.team, self.client.slot] = "Youtube", user
             self.ctx.save()
             self.output(f"Registered Youtube Stream for {user}")
@@ -72,7 +72,7 @@ class WebHostContext(Context):
         # static server data is used during _load_game_data to load required data,
         # without needing to import worlds system, which takes quite a bit of memory
         self.static_server_data = static_server_data
-        super(WebHostContext, self).__init__("", 0, "", "", 1,
+        super().__init__("", 0, "", "", 1,
                                              40, True, "enabled", "enabled",
                                              "enabled", 0, 2, logger=logger)
         del self.static_server_data
@@ -177,7 +177,7 @@ class WebHostContext(Context):
         return True
 
     def get_save(self) -> dict:
-        d = super(WebHostContext, self).get_save()
+        d = super().get_save()
         d["video"] = [(tuple(playerslot), videodata) for playerslot, videodata in self.video.items()]
         return d
 

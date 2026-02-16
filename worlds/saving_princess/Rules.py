@@ -56,12 +56,11 @@ def set_rules(world: "SavingPrincessWorld"):
                         world.player
                     ) and super_nice_check(state)
             )
-        else:
-            # in base pool, check that the main area bosses can be defeated
-            return state.has_all(
-                        {EVENT_ITEM_GUARD_GONE, EVENT_ITEM_CLIFF_GONE, EVENT_ITEM_ACE_GONE, EVENT_ITEM_SNAKE_GONE},
-                        world.player
-                    ) and super_nice_check(state)
+        # in base pool, check that the main area bosses can be defeated
+        return state.has_all(
+                    {EVENT_ITEM_GUARD_GONE, EVENT_ITEM_CLIFF_GONE, EVENT_ITEM_ACE_GONE, EVENT_ITEM_SNAKE_GONE},
+                    world.player
+                ) and super_nice_check(state)
 
     def is_power_on(state: CollectionState) -> bool:
         # in expanded pool, the power item is what determines this, else it happens when the generator is powered

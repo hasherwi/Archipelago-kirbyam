@@ -24,9 +24,9 @@ CONTROL_CODES = {
     0x01: ("line-break", 0, lambda _: "\n" ),
     0x02: ("end", 0, lambda _: "" ),
     0x04: ("box-break", 0, lambda _: "\n▼\n" ),
-    0x05: ("color", 1, lambda d: "<color " + "{:02x}".format(d) + ">" ),
+    0x05: ("color", 1, lambda d: "<color " + f"{d:02x}" + ">" ),
     0x06: ("gap", 1, lambda d: "<" + str(d) + "px gap>" ),
-    0x07: ("goto", 2, lambda d: "<goto " + "{:04x}".format(d) + ">" ),
+    0x07: ("goto", 2, lambda d: "<goto " + f"{d:04x}" + ">" ),
     0x08: ("instant", 0, lambda _: "<allow instant text>" ),
     0x09: ("un-instant", 0, lambda _: "<disallow instant text>" ),
     0x0A: ("keep-open", 0, lambda _: "<keep open>" ),
@@ -35,10 +35,10 @@ CONTROL_CODES = {
     0x0E: ("fade-out", 1, lambda d: "<fade after " + str(d) + " frames?>" ),
     0x0F: ("name", 0, lambda _: "<name>" ),
     0x10: ("ocarina", 0, lambda _: "<ocarina>" ),
-    0x12: ("sound", 2, lambda d: "<play SFX " + "{:04x}".format(d) + ">" ),
-    0x13: ("icon", 1, lambda d: "<icon " + "{:02x}".format(d) + ">" ),
+    0x12: ("sound", 2, lambda d: "<play SFX " + f"{d:04x}" + ">" ),
+    0x13: ("icon", 1, lambda d: "<icon " + f"{d:02x}" + ">" ),
     0x14: ("speed", 1, lambda d: "<delay each character by " + str(d) + " frames>" ),
-    0x15: ("background", 3, lambda d: "<set background to " + "{:06x}".format(d) + ">" ),
+    0x15: ("background", 3, lambda d: "<set background to " + f"{d:06x}" + ">" ),
     0x16: ("marathon", 0, lambda _: "<marathon time>" ),
     0x17: ("race", 0, lambda _: "<race time>" ),
     0x18: ("points", 0, lambda _: "<points>" ),
@@ -47,7 +47,7 @@ CONTROL_CODES = {
     0x1B: ("two-choice", 0, lambda _: "<start two choice>" ),
     0x1C: ("three-choice", 0, lambda _: "<start three choice>" ),
     0x1D: ("fish", 0, lambda _: "<fish weight>" ),
-    0x1E: ("high-score", 1, lambda d: "<high-score " + "{:02x}".format(d) + ">" ),
+    0x1E: ("high-score", 1, lambda d: "<high-score " + f"{d:02x}" + ">" ),
     0x1F: ("time", 0, lambda _: "<current time>" ),
 }
 
@@ -412,12 +412,11 @@ class Text_Code:
     def display(self):
         if self.code in CONTROL_CODES:
             return CONTROL_CODES[self.code][2](self.data)
-        elif self.code in SPECIAL_CHARACTERS:
+        if self.code in SPECIAL_CHARACTERS:
             return SPECIAL_CHARACTERS[self.code]
-        elif self.code >= 0x7F:
+        if self.code >= 0x7F:
             return "?"
-        else:
-            return chr(self.code)
+        return chr(self.code)
 
     def get_python_string(self):
         if self.code in CONTROL_CODES:
@@ -428,12 +427,11 @@ class Text_Code:
                 subdata = subdata >> 8
             ret = "\\x%02X" % self.code + ret
             return ret
-        elif self.code in SPECIAL_CHARACTERS:
+        if self.code in SPECIAL_CHARACTERS:
             return "\\x%02X" % self.code
-        elif self.code >= 0x7F:
+        if self.code >= 0x7F:
             return "?"
-        else:
-            return chr(self.code)
+        return chr(self.code)
 
     def get_string(self):
         if self.code in CONTROL_CODES:
@@ -444,9 +442,8 @@ class Text_Code:
                 subdata = subdata >> 8
             ret = chr(self.code) + ret
             return ret
-        else:
-            # raise ValueError(repr(REVERSE_MAP))
-            return REVERSE_MAP[self.code]
+        # raise ValueError(repr(REVERSE_MAP))
+        return REVERSE_MAP[self.code]
 
     # writes the code to the given offset, and returns the offset of the next byte
     def size(self):
@@ -483,9 +480,9 @@ class Message:
     def display(self):
         meta_data = [
             "#" + str(self.index),
-            "ID: 0x" + "{:04x}".format(self.id),
-            "Offset: 0x" + "{:06x}".format(self.offset),
-            "Length: 0x" + "{:04x}".format(self.unpadded_length) + "/0x" + "{:04x}".format(self.length),
+            "ID: 0x" + f"{self.id:04x}",
+            "Offset: 0x" + f"{self.offset:06x}",
+            "Length: 0x" + f"{self.unpadded_length:04x}" + "/0x" + f"{self.length:04x}",
             "Box Type: " + str(self.box_type),
             "Postion: " + str(self.position)
         ]
@@ -696,8 +693,7 @@ def get_message_by_id(messages, id):
     index = next( (m.index for m in messages if m.id == id), -1)
     if index >= 0:
         return messages[index]
-    else:
-        return None
+    return None
 
 # wrapper for updating the text of a message, given its index in the list
 def update_message_by_index(messages, index, text, opts=None):
@@ -723,18 +719,18 @@ class Shop_Item():
 
     def display(self):
         meta_data = ["#" + str(self.index),
-         "Item: 0x" + "{:04x}".format(self.get_item_id),
+         "Item: 0x" + f"{self.get_item_id:04x}",
          "Price: " + str(self.price),
          "Amount: " + str(self.pieces),
-         "Object: 0x" + "{:04x}".format(self.object),
-         "Model: 0x" + "{:04x}".format(self.model),
-         "Description: 0x" + "{:04x}".format(self.description_message),
-         "Purchase: 0x" + "{:04x}".format(self.purchase_message),]
+         "Object: 0x" + f"{self.object:04x}",
+         "Model: 0x" + f"{self.model:04x}",
+         "Description: 0x" + f"{self.description_message:04x}",
+         "Purchase: 0x" + f"{self.purchase_message:04x}",]
         func_data = [
-         "func1: 0x" + "{:08x}".format(self.func1),
-         "func2: 0x" + "{:08x}".format(self.func2),
-         "func3: 0x" + "{:08x}".format(self.func3),
-         "func4: 0x" + "{:08x}".format(self.func4),]
+         "func1: 0x" + f"{self.func1:08x}",
+         "func2: 0x" + f"{self.func2:08x}",
+         "func3: 0x" + f"{self.func3:08x}",
+         "func4: 0x" + f"{self.func4:08x}",]
         return ", ".join(meta_data) + "\n" + ", ".join(func_data)
 
     # write the shop item back
@@ -954,7 +950,7 @@ def repack_messages(rom, messages, permutation=None, always_allow_skip=True, spe
     # raise an exception if too much is written
     # we raise it at the end so that we know how much overflow there is
     if offset > text_size_limit:
-        raise(TypeError("Message Text table is too large: 0x" + "{:x}".format(offset) + " written / 0x" + "{:x}".format(ENG_TEXT_SIZE_LIMIT) + " allowed."))
+        raise(TypeError("Message Text table is too large: 0x" + f"{offset:x}" + " written / 0x" + f"{ENG_TEXT_SIZE_LIMIT:x}" + " allowed."))
 
     # end the table
     table_index = len(messages)
@@ -964,7 +960,7 @@ def repack_messages(rom, messages, permutation=None, always_allow_skip=True, spe
     table_index += 1
     entry_offset = EXTENDED_TABLE_START + 8 * table_index
     if 8 * (table_index + 1) > EXTENDED_TABLE_SIZE:
-        raise(TypeError("Message ID table is too large: 0x" + "{:x}".format(8 * (table_index + 1)) + " written / 0x" + "{:x}".format(EXTENDED_TABLE_SIZE) + " allowed."))
+        raise(TypeError("Message ID table is too large: 0x" + f"{8 * (table_index + 1):x}" + " written / 0x" + f"{EXTENDED_TABLE_SIZE:x}" + " allowed."))
     rom.write_bytes(entry_offset, [0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
 
 # shuffles the messages in the game, making sure to keep various message types in their own group

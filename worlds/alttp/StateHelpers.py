@@ -131,14 +131,13 @@ def can_kill_most_things(state: CollectionState, player: int, enemies: int = 5) 
                 and can_shoot_arrows(state, player)
                 and state.has("Fire Rod", player)
                 and can_use_bombs(state, player, enemies * 4))
-    else:
-        return (has_melee_weapon(state, player)
-                or state.has("Cane of Somaria", player)
-                or (state.has("Cane of Byrna", player) and (enemies < 6 or can_extend_magic(state, player)))
-                or can_shoot_arrows(state, player)
-                or state.has("Fire Rod", player)
-                or (state.multiworld.worlds[player].options.enemy_health in ("easy", "default")
-                    and can_use_bombs(state, player, enemies * 4)))
+    return (has_melee_weapon(state, player)
+            or state.has("Cane of Somaria", player)
+            or (state.has("Cane of Byrna", player) and (enemies < 6 or can_extend_magic(state, player)))
+            or can_shoot_arrows(state, player)
+            or state.has("Fire Rod", player)
+            or (state.multiworld.worlds[player].options.enemy_health in ("easy", "default")
+                and can_use_bombs(state, player, enemies * 4)))
 
 
 def can_kill_standard_start(state: CollectionState, player: int, enemies: int = 5) -> bool:

@@ -18,8 +18,7 @@ def can_reach_boss(state: "CollectionState", player: int, level: int, open_world
                    ow_boss_req: int, player_levels: dict[int, list[int]]) -> bool:
     if open_world:
         return state.has(f"{location_name.level_names_inverse[level]} - Stage Completion", player, ow_boss_req)
-    else:
-        return state.can_reach(location_table[player_levels[level][5]], "Location", player)
+    return state.can_reach(location_table[player_levels[level][5]], "Location", player)
 
 
 def can_reach_rick(state: "CollectionState", player: int) -> bool:

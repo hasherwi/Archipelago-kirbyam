@@ -24,8 +24,7 @@ def openFile(resource: str, mode: str = "r", encoding: str = None):
             zipFilePath = resource[resource.index(game):]
             if mode == "rb":
                 return zf.open(zipFilePath, "r")
-            else:
-                return io.TextIOWrapper(zf.open(zipFilePath, "r"), encoding)
+            return io.TextIOWrapper(zf.open(zipFilePath, "r"), encoding)
     else:
         return open(os.path.join(text_folder, resource), mode, encoding=encoding)
 

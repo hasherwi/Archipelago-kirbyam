@@ -156,11 +156,11 @@ class IPS_Patch(object):
 
     def add_record(self, address, data):
         if address == int.from_bytes(b"EOF", byteorder="big"):
-            raise RuntimeError("Start address {0:x} is invalid in the IPS format. Please shift your starting address back by one byte to avoid it.".format(address))
+            raise RuntimeError(f"Start address {address:x} is invalid in the IPS format. Please shift your starting address back by one byte to avoid it.")
         if address > 0xffffff:
-            raise RuntimeError("Start address {0:x} is too large for the IPS format. Addresses must fit into 3 bytes.".format(address))
+            raise RuntimeError(f"Start address {address:x} is too large for the IPS format. Addresses must fit into 3 bytes.")
         if len(data) > 0xffff:
-            raise RuntimeError("Record with length {0} is too large for the IPS format. Records must be less than 65536 bytes.".format(len(data)))
+            raise RuntimeError(f"Record with length {len(data)} is too large for the IPS format. Records must be less than 65536 bytes.")
         if len(data) == 0: # ignore empty records
             return
         record = {"address": address, "data": data, "size":len(data)}
@@ -168,13 +168,13 @@ class IPS_Patch(object):
 
     def add_rle_record(self, address, data, count):
         if address == int.from_bytes(b"EOF", byteorder="big"):
-            raise RuntimeError("Start address {0:x} is invalid in the IPS format. Please shift your starting address back by one byte to avoid it.".format(address))
+            raise RuntimeError(f"Start address {address:x} is invalid in the IPS format. Please shift your starting address back by one byte to avoid it.")
         if address > 0xffffff:
-            raise RuntimeError("Start address {0:x} is too large for the IPS format. Addresses must fit into 3 bytes.".format(address))
+            raise RuntimeError(f"Start address {address:x} is too large for the IPS format. Addresses must fit into 3 bytes.")
         if count > 0xffff:
-            raise RuntimeError("RLE record with length {0} is too large for the IPS format. RLE records must be less than 65536 bytes.".format(count))
+            raise RuntimeError(f"RLE record with length {count} is too large for the IPS format. RLE records must be less than 65536 bytes.")
         if len(data) != 1:
-            raise RuntimeError("Data for RLE record must be exactly one byte! Received {0}.".format(data))
+            raise RuntimeError(f"Data for RLE record must be exactly one byte! Received {data}.")
         record = {"address": address, "data": data, "rle_count": count, "size": count}
         self.appendRecord(record)
 

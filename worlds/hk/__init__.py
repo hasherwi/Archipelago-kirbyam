@@ -217,7 +217,7 @@ class HKWorld(World):
     grub_player_count: dict[int, int]
 
     def __init__(self, multiworld, player):
-        super(HKWorld, self).__init__(multiworld, player)
+        super().__init__(multiworld, player)
         self.created_multi_locations: dict[str, list[HKLocation]] = {
             location: list() for location in multi_locations
         }
@@ -528,7 +528,7 @@ class HKWorld(World):
         return all(state.has("Grub", owner, count) for owner, count in self.grub_player_count.items())
 
     @classmethod
-    def stage_pre_fill(cls, multiworld: "MultiWorld"):
+    def stage_pre_fill(cls, multiworld: MultiWorld):
         worlds = [world for world in multiworld.get_game_worlds(cls.game) if world.options.Goal in ["any", "grub_hunt"]]
         if worlds:
             grubs = [item for item in multiworld.get_items() if item.name == "Grub"]
@@ -662,7 +662,7 @@ class HKWorld(World):
         return location
 
     def collect(self, state, item: HKItem) -> bool:
-        change = super(HKWorld, self).collect(state, item)
+        change = super().collect(state, item)
         if change:
             for effect_name, effect_value in item_effects.get(item.name, {}).items():
                 state.prog_items[item.player][effect_name] += effect_value
@@ -674,7 +674,7 @@ class HKWorld(World):
         return change
 
     def remove(self, state, item: HKItem) -> bool:
-        change = super(HKWorld, self).remove(state, item)
+        change = super().remove(state, item)
 
         if change:
             for effect_name, effect_value in item_effects.get(item.name, {}).items():
@@ -763,7 +763,7 @@ class HKLocation(Location):
             costs: dict[str, int] = None, vanilla: bool = False, basename: str = None
     ):
         self.basename = basename or name
-        super(HKLocation, self).__init__(player, name, code if code else None, parent)
+        super().__init__(player, name, code if code else None, parent)
         self.vanilla = vanilla
         if costs:
             self.costs = dict(costs)
@@ -799,7 +799,7 @@ class HKItem(Item):
             classification = ItemClassification.progression
         else:
             classification = ItemClassification.filler
-        super(HKItem, self).__init__(name, classification, code if code else None, player)
+        super().__init__(name, classification, code if code else None, player)
         self.type = type
 
 

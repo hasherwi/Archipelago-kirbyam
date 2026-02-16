@@ -45,14 +45,14 @@ def read_u32_le(data, offset) -> int:
 
 
 def int32_to_byte_list_le(x) -> bytearray:
-    byte32_string = "{:08x}".format(x)
+    byte32_string = f"{x:08x}"
     data = bytearray.fromhex(byte32_string)
     data.reverse()
     return data
 
 
 def int16_to_byte_list_le(x) -> bytearray:
-    byte32_string = "{:04x}".format(x)
+    byte32_string = f"{x:04x}"
     data = bytearray.fromhex(byte32_string)
     data.reverse()
     return data
@@ -65,10 +65,9 @@ def generate_text_bytes(message) -> bytearray:
 def char_to_hex(c) -> int:
     if c in charDict:
         return charDict[c]
-    else:
-        # If the character doesn't exist, return one of the mod tools error characters
-        # Yes, it _is_ a coincidence this happens to be 69
-        return 0x69
+    # If the character doesn't exist, return one of the mod tools error characters
+    # Yes, it _is_ a coincidence this happens to be 69
+    return 0x69
 
 def generate_chip_get(chip, code, amt) -> bytearray:
     chip_bytes = int16_to_byte_list_le(chip)
@@ -142,17 +141,17 @@ def generate_progressive_undernet(progression_index, next_script) -> bytearray:
 def generate_get_for_item(item) -> bytearray:
     if item.type == ItemType.Undernet:
         return generate_text_bytes("Got the next\n\"Undernet Rank\"!!")
-    elif item.type == ItemType.Chip:
+    if item.type == ItemType.Chip:
         return generate_chip_get(item.itemID, item.subItemID, item.count)
-    elif item.type == ItemType.KeyItem:
+    if item.type == ItemType.KeyItem:
         return generate_key_item_get(item.itemID, item.count)
-    elif item.type == ItemType.SubChip:
+    if item.type == ItemType.SubChip:
         return generate_sub_chip_get(item.itemID, item.count)
-    elif item.type == ItemType.Zenny:
+    if item.type == ItemType.Zenny:
         return generate_zenny_get(item.count)
-    elif item.type == ItemType.Program:
+    if item.type == ItemType.Program:
         return generate_program_get(item.itemID, item.subItemID, item.count)
-    elif item.type == ItemType.BugFrag:
+    if item.type == ItemType.BugFrag:
         return generate_bugfrag_get(item.count)
 
     return generate_text_bytes("Empty Message")

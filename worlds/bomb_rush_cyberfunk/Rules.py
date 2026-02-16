@@ -83,11 +83,10 @@ def versum_hill_crew_battle(state: CollectionState, player: int, limit: bool, gl
             rep(state, player, 90)
             and graffitiM(state, player, limit, 98)
         )
-    else:
-        return (
-            rep(state, player, 90)
-            and graffitiM(state, player, limit, 27)
-        )
+    return (
+        rep(state, player, 90)
+        and graffitiM(state, player, limit, 27)
+    )
 
 
 def versum_hill_rietveld(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
@@ -96,11 +95,10 @@ def versum_hill_rietveld(state: CollectionState, player: int, limit: bool, glitc
             current_chapter(state, player, 2)
             and graffitiM(state, player, limit, 114)
         )
-    else:
-        return (
-            current_chapter(state, player, 2)
-            and graffitiM(state, player, limit, 67)
-        )
+    return (
+        current_chapter(state, player, 2)
+        and graffitiM(state, player, limit, 67)
+    )
 
 
 def versum_hill_rave(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
@@ -110,21 +108,19 @@ def versum_hill_rave(state: CollectionState, player: int, limit: bool, glitched:
                 graffitiL(state, player, limit, 90)
                 and graffitiXL(state, player, limit, 51)
             )
-        elif current_chapter(state, player, 3):
+        if current_chapter(state, player, 3):
             return (
                 graffitiL(state, player, limit, 89)
                 and graffitiXL(state, player, limit, 51)
             )
-        else:
-            return (
-                graffitiL(state, player, limit, 85)
-                and graffitiXL(state, player, limit, 48)
-            )
-    else:
         return (
-            graffitiL(state, player, limit, 26)
-            and graffitiXL(state, player, limit, 10)
+            graffitiL(state, player, limit, 85)
+            and graffitiXL(state, player, limit, 48)
         )
+    return (
+        graffitiL(state, player, limit, 26)
+        and graffitiXL(state, player, limit, 10)
+    )
 
 
 def millennium_square_entrance(state: CollectionState, player: int) -> bool:
@@ -177,11 +173,10 @@ def brink_terminal_crew_battle(state: CollectionState, player: int, limit: bool,
             rep(state, player, 280)
             and graffitiL(state, player, limit, 103)
         )
-    else:
-        return (
-            rep(state, player, 280)
-            and graffitiL(state, player, limit, 62)
-        )
+    return (
+        rep(state, player, 280)
+        and graffitiL(state, player, limit, 62)
+    )
 
 
 def brink_terminal_mesh(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
@@ -190,11 +185,10 @@ def brink_terminal_mesh(state: CollectionState, player: int, limit: bool, glitch
             graffitiM(state, player, limit, 114)
             and graffitiXL(state, player, limit, 45)
         )
-    else:
-        return (
-            graffitiM(state, player, limit, 67)
-            and graffitiXL(state, player, limit, 45)
-        )
+    return (
+        graffitiM(state, player, limit, 67)
+        and graffitiXL(state, player, limit, 45)
+    )
 
 
 def millennium_mall_entrance(state: CollectionState, player: int) -> bool:
@@ -217,11 +211,10 @@ def millennium_mall_switch(state: CollectionState, player: int, limit: bool, gli
             graffitiM(state, player, limit, 114)
             and current_chapter(state, player, 3)
         )
-    else:
-        return (
-            graffitiM(state, player, limit, 72)
-            and current_chapter(state, player, 3)
-        )
+    return (
+        graffitiM(state, player, limit, 72)
+        and current_chapter(state, player, 3)
+    )
 
 
 def millennium_mall_big(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
@@ -266,12 +259,11 @@ def millennium_mall_crew_battle(state: CollectionState, player: int, limit: bool
             and graffitiM(state, player, limit, 114)
             and graffitiL(state, player, limit, 107)
         )
-    else:
-        return (
-            rep(state, player, 491)
-            and graffitiM(state, player, limit, 78)
-            and graffitiL(state, player, limit, 80)
-        )
+    return (
+        rep(state, player, 491)
+        and graffitiM(state, player, limit, 78)
+        and graffitiL(state, player, limit, 80)
+    )
 
 
 def pyramid_island_entrance(state: CollectionState, player: int) -> bool:
@@ -299,11 +291,10 @@ def pyramid_island_race(state: CollectionState, player: int, limit: bool, glitch
             pyramid_island_challenge1(state, player)
             and graffitiL(state, player, limit, 108)
         )
-    else:
-        return (
-            pyramid_island_challenge1(state, player)
-            and graffitiL(state, player, limit, 93)
-        )
+    return (
+        pyramid_island_challenge1(state, player)
+        and graffitiL(state, player, limit, 93)
+    )
 
 
 def pyramid_island_challenge2(state: CollectionState, player: int) -> bool:
@@ -320,11 +311,10 @@ def pyramid_island_all_challenges(state: CollectionState, player: int, limit: bo
             graffitiM(state, player, limit, 114)
             and rep(state, player, 660)
         )
-    else:
-        return (
-            graffitiM(state, player, limit, 88)
-            and rep(state, player, 660)
-        )
+    return (
+        graffitiM(state, player, limit, 88)
+        and rep(state, player, 660)
+    )
 
 
 def pyramid_island_upper_half(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
@@ -337,11 +327,10 @@ def pyramid_island_crew_battle(state: CollectionState, player: int, limit: bool,
             rep(state, player, 730)
             and graffitiL(state, player, limit, 108)
         )
-    else:
-        return (
-            rep(state, player, 730)
-            and graffitiL(state, player, limit, 97)
-        )
+    return (
+        rep(state, player, 730)
+        and graffitiL(state, player, limit, 97)
+    )
 
 
 def pyramid_island_top(state: CollectionState, player: int) -> bool:
@@ -366,12 +355,11 @@ def mataan_challenge1(state: CollectionState, player: int, limit: bool, glitched
             and rep(state, player, 864)
             and graffitiL(state, player, limit, 108)
         )
-    else:
-        return (
-            current_chapter(state, player, 5)
-            and rep(state, player, 864)
-            and graffitiL(state, player, limit, 98)
-        )
+    return (
+        current_chapter(state, player, 5)
+        and rep(state, player, 864)
+        and graffitiL(state, player, limit, 98)
+    )
 
 
 def mataan_deep_city(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
@@ -388,11 +376,10 @@ def mataan_challenge2(state: CollectionState, player: int, limit: bool, glitched
             rep(state, player, 880)
             and graffitiXL(state, player, limit, 59)
         )
-    else:
-        return (
-            rep(state, player, 880)
-            and graffitiXL(state, player, limit, 57)
-        )
+    return (
+        rep(state, player, 880)
+        and graffitiXL(state, player, limit, 57)
+    )
 
 
 def mataan_challenge3(state: CollectionState, player: int) -> bool:
@@ -420,12 +407,11 @@ def mataan_crew_battle(state: CollectionState, player: int, limit: bool, glitche
             and graffitiM(state, player, limit, 122)
             and graffitiXL(state, player, limit, 59)
         )
-    else:
-        return (
-            mataan_smoke_wall2(state, player, limit, glitched)
-            and graffitiM(state, player, limit, 117)
-            and graffitiXL(state, player, limit, 57)
-        )
+    return (
+        mataan_smoke_wall2(state, player, limit, glitched)
+        and graffitiM(state, player, limit, 117)
+        and graffitiXL(state, player, limit, 57)
+    )
 
 
 def mataan_deepest(state: CollectionState, player: int, limit: bool, glitched: bool) -> bool:
@@ -474,10 +460,8 @@ def spots_s_glitchless(state: CollectionState, player: int, limit: bool, access_
         sprayable: int = 5 + (state.count_group_unique("characters", player) * 5)
         if total <= sprayable:
             return total
-        else:
-            return sprayable
-    else:
-        return total
+        return sprayable
+    return total
 
 
 def spots_s_glitched(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
@@ -497,10 +481,8 @@ def spots_s_glitched(state: CollectionState, player: int, limit: bool, access_ca
         sprayable: int = 5 + (state.count_group_unique("characters", player) * 5)
         if total <= sprayable:
             return total
-        else:
-            return sprayable
-    else:
-        return total
+        return sprayable
+    return total
 
 
 def spots_m_glitchless(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
@@ -542,13 +524,10 @@ def spots_m_glitchless(state: CollectionState, player: int, limit: bool, access_
         sprayable: int = state.count_group_unique("graffitim", player) * 7
         if total <= sprayable:
             return total
-        else:
-            return sprayable
-    else:
-        if state.has_group("graffitim", player):
-            return total
-        else:
-            return 0
+        return sprayable
+    if state.has_group("graffitim", player):
+        return total
+    return 0
 
 
 def spots_m_glitched(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
@@ -568,13 +547,10 @@ def spots_m_glitched(state: CollectionState, player: int, limit: bool, access_ca
         sprayable: int = state.count_group_unique("graffitim", player) * 7
         if total <= sprayable:
             return total
-        else:
-            return sprayable
-    else:
-        if state.has_group("graffitim", player):
-            return total
-        else:
-            return 0
+        return sprayable
+    if state.has_group("graffitim", player):
+        return total
+    return 0
 
 
 def spots_l_glitchless(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
@@ -619,13 +595,10 @@ def spots_l_glitchless(state: CollectionState, player: int, limit: bool, access_
         sprayable: int = state.count_group_unique("graffitil", player) * 6
         if total <= sprayable:
             return total
-        else:
-            return sprayable
-    else:
-        if state.has_group("graffitil", player):
-            return total
-        else:
-            return 0
+        return sprayable
+    if state.has_group("graffitil", player):
+        return total
+    return 0
 
 
 def spots_l_glitched(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
@@ -646,13 +619,10 @@ def spots_l_glitched(state: CollectionState, player: int, limit: bool, access_ca
         sprayable: int = state.count_group_unique("graffitil", player) * 6
         if total <= sprayable:
             return total
-        else:
-            return sprayable
-    else:
-        if state.has_group("graffitil", player):
-            return total
-        else:
-            return 0
+        return sprayable
+    if state.has_group("graffitil", player):
+        return total
+    return 0
 
 
 def spots_xl_glitchless(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
@@ -690,13 +660,10 @@ def spots_xl_glitchless(state: CollectionState, player: int, limit: bool, access
         sprayable: int = state.count_group_unique("graffitixl", player) * 4
         if total <= sprayable:
             return total
-        else:
-            return sprayable
-    else:
-        if state.has_group("graffitixl", player):
-            return total
-        else:
-            return 0
+        return sprayable
+    if state.has_group("graffitixl", player):
+        return total
+    return 0
 
 
 def spots_xl_glitched(state: CollectionState, player: int, limit: bool, access_cache: dict[str, bool]) -> int:
@@ -717,13 +684,10 @@ def spots_xl_glitched(state: CollectionState, player: int, limit: bool, access_c
         sprayable: int = state.count_group_unique("graffitixl", player) * 4
         if total <= sprayable:
             return total
-        else:
-            return sprayable
-    else:
-        if state.has_group("graffitixl", player):
-            return total
-        else:
-            return 0
+        return sprayable
+    if state.has_group("graffitixl", player):
+        return total
+    return 0
 
 
 def build_access_cache(state: CollectionState, player: int, movestyle: int, limit: bool, glitched: bool) -> dict[str, bool]:

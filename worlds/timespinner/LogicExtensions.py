@@ -75,32 +75,27 @@ class TimespinnerLogic:
     def has_keycard_B(self, state: CollectionState) -> bool:
         if self.flag_specific_keycards:
             return state.has("Security Keycard B", self.player)
-        else:
-            return state.has_any({"Security Keycard A", "Security Keycard B"}, self.player)
+        return state.has_any({"Security Keycard A", "Security Keycard B"}, self.player)
 
     def has_keycard_C(self, state: CollectionState) -> bool:
         if self.flag_specific_keycards:
             return state.has("Security Keycard C", self.player)
-        else:
-            return state.has_any({"Security Keycard A", "Security Keycard B", "Security Keycard C"}, self.player)
+        return state.has_any({"Security Keycard A", "Security Keycard B", "Security Keycard C"}, self.player)
 
     def has_keycard_D(self, state: CollectionState) -> bool:
         if self.flag_specific_keycards:
             return state.has("Security Keycard D", self.player)
-        else:
-            return state.has_any({"Security Keycard A", "Security Keycard B", "Security Keycard C", "Security Keycard D"}, self.player)
+        return state.has_any({"Security Keycard A", "Security Keycard B", "Security Keycard C", "Security Keycard D"}, self.player)
 
     def can_break_walls(self, state: CollectionState) -> bool:
         if self.flag_eye_spy:
             return state.has("Oculus Ring", self.player)
-        else:
-            return True
+        return True
 
     def can_break_lanterns(self, state: CollectionState) -> bool:
         if self.flag_find_the_flame:
             return state.has("Cube of Bodie", self.player)
-        else:
-            return True
+        return True
 
     def can_kill_all_3_bosses(self, state: CollectionState) -> bool:
         if self.flag_prism_break:
@@ -116,9 +111,8 @@ class TimespinnerLogic:
 
         if era == "Present":
             return self.present_keys_unlock == gate and state.has("Modern Warp Beacon", self.player)
-        elif era == "Past":
+        if era == "Past":
             return self.past_keys_unlock == gate and state.has("Timeworn Warp Beacon", self.player)
-        elif era == "Time":
+        if era == "Time":
             return self.time_keys_unlock == gate and state.has("Mysterious Warp Beacon", self.player)
-        else:
-            raise Exception("Invallid Era: {}".format(era))
+        raise Exception(f"Invallid Era: {era}")

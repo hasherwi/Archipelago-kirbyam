@@ -99,7 +99,7 @@ class ArchiveScript:
     def __str__(self):
         s = str(self.index)+" - \n"
         for messageBox in self.messageBoxes:
-            s += "  "+str(["{:02x}".format(x) for x in messageBox])+"\n"
+            s += "  "+str([f"{x:02x}" for x in messageBox])+"\n"
 
 
 class TextArchive:

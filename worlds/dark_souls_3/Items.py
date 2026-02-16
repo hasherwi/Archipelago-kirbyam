@@ -190,7 +190,7 @@ class DS3ItemData:
             yield dataclasses.replace(
                 self,
                 ap_code = None,
-                name = "{} x{}".format(self.base_name, count),
+                name = f"{self.base_name} x{count}",
                 base_name = self.base_name,
                 count = count,
                 filler = False, # Don't count multiples as filler by default

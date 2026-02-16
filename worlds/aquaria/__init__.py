@@ -110,7 +110,7 @@ class AquariaWorld(World):
 
     def __init__(self, multiworld: MultiWorld, player: int):
         """Initialisation of the Aquaria World"""
-        super(AquariaWorld, self).__init__(multiworld, player)
+        super().__init__(multiworld, player)
         self.regions = None
         self.ingredients_substitution = []
         self.exclude = []

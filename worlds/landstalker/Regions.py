@@ -93,9 +93,9 @@ def get_starting_region(world: "LandstalkerWorld", regions_table: dict[str, Land
     spawn_id = world.options.spawn_region.current_key
     if spawn_id == "waterfall":
         return regions_table["greenmaze_post_whistle"]
-    elif spawn_id == "kado":
+    if spawn_id == "kado":
         return regions_table["route_gumi_ryuma"]
-    elif spawn_id == "greenmaze":
+    if spawn_id == "greenmaze":
         return regions_table["greenmaze_pre_whistle"]
     return regions_table[spawn_id]
 

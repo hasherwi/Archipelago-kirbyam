@@ -24,52 +24,52 @@ def _undertale_is_route(world: "UndertaleWorld", route: int):
 def _undertale_has_plot(state: CollectionState, player: int, item: str):
     if item == "Complete Skeleton":
         return state.has("Complete Skeleton", player)
-    elif item == "Fish":
+    if item == "Fish":
         return state.has("Fish", player)
-    elif item == "Mettaton Plush":
+    if item == "Mettaton Plush":
         return state.has("Mettaton Plush", player)
-    elif item == "DT Extractor":
+    if item == "DT Extractor":
         return state.has("DT Extractor", player)
 
 
 def _undertale_can_level(exp: int, lvl: int):
     if exp >= 10 and lvl == 1:
         return True
-    elif exp >= 30 and lvl == 2:
+    if exp >= 30 and lvl == 2:
         return True
-    elif exp >= 70 and lvl == 3:
+    if exp >= 70 and lvl == 3:
         return True
-    elif exp >= 120 and lvl == 4:
+    if exp >= 120 and lvl == 4:
         return True
-    elif exp >= 200 and lvl == 5:
+    if exp >= 200 and lvl == 5:
         return True
-    elif exp >= 300 and lvl == 6:
+    if exp >= 300 and lvl == 6:
         return True
-    elif exp >= 500 and lvl == 7:
+    if exp >= 500 and lvl == 7:
         return True
-    elif exp >= 800 and lvl == 8:
+    if exp >= 800 and lvl == 8:
         return True
-    elif exp >= 1200 and lvl == 9:
+    if exp >= 1200 and lvl == 9:
         return True
-    elif exp >= 1700 and lvl == 10:
+    if exp >= 1700 and lvl == 10:
         return True
-    elif exp >= 2500 and lvl == 11:
+    if exp >= 2500 and lvl == 11:
         return True
-    elif exp >= 3500 and lvl == 12:
+    if exp >= 3500 and lvl == 12:
         return True
-    elif exp >= 5000 and lvl == 13:
+    if exp >= 5000 and lvl == 13:
         return True
-    elif exp >= 7000 and lvl == 14:
+    if exp >= 7000 and lvl == 14:
         return True
-    elif exp >= 10000 and lvl == 15:
+    if exp >= 10000 and lvl == 15:
         return True
-    elif exp >= 15000 and lvl == 16:
+    if exp >= 15000 and lvl == 16:
         return True
-    elif exp >= 25000 and lvl == 17:
+    if exp >= 25000 and lvl == 17:
         return True
-    elif exp >= 50000 and lvl == 18:
+    if exp >= 50000 and lvl == 18:
         return True
-    elif exp >= 99999 and lvl == 19:
+    if exp >= 99999 and lvl == 19:
         return True
     return False
 

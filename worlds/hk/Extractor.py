@@ -71,7 +71,7 @@ class Absorber(ast.NodeTransformer):
         self.false_values = false_values
         self.false_values |= {"False", "NONE"}
 
-        super(Absorber, self).__init__()
+        super().__init__()
 
     def generic_visit(self, node: ast.AST) -> ast.AST:
         # Need to call super() in any case to visit child nodes of the current one.
@@ -133,34 +133,32 @@ class Absorber(ast.NodeTransformer):
             return ast.Call(
                 func=ast.Attribute(value=ast.Name(id="state", ctx=ast.Load()), attr="_hk_notches", ctx=ast.Load()),
                 args=[ast.Name(id="player", ctx=ast.Load())] + notches, keywords=[])
-        elif node.value.id == "StartLocation":
+        if node.value.id == "StartLocation":
             node.slice.value = node.slice.value.replace(" ", "_").lower()
             if node.slice.value in removed_starts:
                 return ast.Constant(False, ctx=node.ctx)
             return ast.Call(
                 func=ast.Attribute(value=ast.Name(id="state", ctx=ast.Load()), attr="_hk_start", ctx=ast.Load()),
                 args=[ast.Name(id="player", ctx=ast.Load()), node.slice], keywords=[])
-        elif node.value.id == "COMBAT":
+        if node.value.id == "COMBAT":
             return macros[unparse(node)].body
-        else:
-            name = unparse(node)
-            if name in self.additional_truths:
-                return ast.Constant(True, ctx=ast.Load())
-            elif name in self.additional_falses:
-                return ast.Constant(False, ctx=ast.Load())
-            elif name in macros:
-                # macro such as "COMBAT[White_Palace_Arenas]"
-                return macros[name].body
-            else:
-                # assume Entrance
-                entrance = unparse(node)
-                assert entrance in connectors, entrance
-                return ast.Call(
-                    func=ast.Attribute(value=ast.Name(id="state", ctx=ast.Load()), attr="can_reach", ctx=ast.Load()),
-                    args=[ast.Constant(value=entrance),
-                          ast.Constant(value="Entrance"),
-                          ast.Name(id="player", ctx=ast.Load())],
-                    keywords=[])
+        name = unparse(node)
+        if name in self.additional_truths:
+            return ast.Constant(True, ctx=ast.Load())
+        if name in self.additional_falses:
+            return ast.Constant(False, ctx=ast.Load())
+        if name in macros:
+            # macro such as "COMBAT[White_Palace_Arenas]"
+            return macros[name].body
+        # assume Entrance
+        entrance = unparse(node)
+        assert entrance in connectors, entrance
+        return ast.Call(
+            func=ast.Attribute(value=ast.Name(id="state", ctx=ast.Load()), attr="can_reach", ctx=ast.Load()),
+            args=[ast.Constant(value=entrance),
+                  ast.Constant(value="Entrance"),
+                  ast.Name(id="player", ctx=ast.Load())],
+            keywords=[])
         return node
 
     def is_always_true(self, node):

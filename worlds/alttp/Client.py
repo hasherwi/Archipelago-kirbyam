@@ -462,8 +462,7 @@ async def track_locations(ctx, roomid, roomdata) -> bool:
                 rom_name != ctx.rom:
             snes_logger.info(f"Discarding recent {len(new_locations)} checks as ROM Status has changed.")
             return False
-        else:
-            await ctx.check_locations(new_locations)
+        await ctx.check_locations(new_locations)
     await snes_flush_writes(ctx)
     return True
 

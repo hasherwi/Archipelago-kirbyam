@@ -131,10 +131,9 @@ class CelesteOpenWorld(World):
 
         if name == ItemName.strawberry and force_useful:
             return CelesteItem(name, ItemClassification.useful, item_data_table[name].code, self.player)
-        elif name in item_data_table:
+        if name in item_data_table:
             return CelesteItem(name, item_data_table[name].type, item_data_table[name].code, self.player)
-        else:
-            return CelesteItem(name, ItemClassification.progression, None, self.player)
+        return CelesteItem(name, ItemClassification.progression, None, self.player)
 
     def create_items(self) -> None:
         item_pool: list[CelesteItem] = []
@@ -349,16 +348,15 @@ class CelesteOpenWorld(World):
             self.random.shuffle(musiclist_s)
 
             return dict(zip(musiclist_o, musiclist_s))
-        elif self.options.music_shuffle == "singularity":
+        if self.options.music_shuffle == "singularity":
             musiclist_o = list(range(0, 48))
             musiclist_s = [self.random.choice(musiclist_o)] * len(musiclist_o)
 
             return dict(zip(musiclist_o, musiclist_s))
-        else:
-            musiclist_o = list(range(0, 48))
-            musiclist_s = musiclist_o.copy()
+        musiclist_o = list(range(0, 48))
+        musiclist_s = musiclist_o.copy()
 
-            return dict(zip(musiclist_o, musiclist_s))
+        return dict(zip(musiclist_o, musiclist_s))
 
 
     # Useful Debugging tools, kept around for later.

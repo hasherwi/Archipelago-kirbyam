@@ -91,7 +91,7 @@ class ROM(object):
 class FakeROM(ROM):
     # to have the same code for real ROM and the webservice
     def __init__(self, data=None):
-        super(FakeROM, self).__init__()
+        super().__init__()
         if data is None:
             self.data = {}
         else:
@@ -153,16 +153,16 @@ class FakeROM(ROM):
 
 class RealROM(ROM):
     def __init__(self, name):
-        super(RealROM, self).__init__()
+        super().__init__()
         self.romFile = open(name, "rb+")
 
     def seek(self, address):
-        super(RealROM, self).seek(address)
+        super().seek(address)
         self.romFile.seek(address)
 
     def tell(self):
         self.address = self.romFile.tell()
-        return super(RealROM, self).tell()
+        return super().tell()
 
     def write(self, bytes):
         self.romFile.write(bytes)

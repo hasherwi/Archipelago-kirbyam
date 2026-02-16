@@ -543,5 +543,5 @@ class ShapezLocation(Location):
 
     def __init__(self, player: int, name: str, address: int | None, region: Region,
                  progress_type: LocationProgressType):
-        super(ShapezLocation, self).__init__(player, name, address, region)
+        super().__init__(player, name, address, region)
         self.progress_type = progress_type

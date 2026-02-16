@@ -116,7 +116,7 @@ def upload_zip_to_db(zfile: zipfile.ZipFile, owner=None, meta={"race": False}, s
                    "Your file was deleted."
 
         # AP Container
-        elif handler:
+        if handler:
             data = zfile.open(file, "r").read()
             with zipfile.ZipFile(BytesIO(data)) as container:
                 player = json.loads(container.open("archipelago.json").read())["player"]
@@ -165,8 +165,7 @@ def upload_zip_to_db(zfile: zipfile.ZipFile, owner=None, meta={"race": False}, s
         for slot in slots:
             slot.seed = seed
         return seed
-    else:
-        flash("No multidata was found in the zip file, which is required.")
+    flash("No multidata was found in the zip file, which is required.")
 
 
 @app.route("/uploads", methods=["GET", "POST"])
@@ -192,7 +191,7 @@ def uploads():
                         else:
                             if res is str:
                                 return res
-                            elif res:
+                            if res:
                                 return redirect(url_for("view_seed", seed=res.id))
                 else:
                     uploaded_file.seek(0)  # offset from is_zipfile check

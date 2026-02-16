@@ -69,8 +69,8 @@ class File(object):
     def __repr__(self):
         remap = "None"
         if self.remap is not None:
-            remap = "{0:x}".format(self.remap)
-        return "{0}: {1:x} {2:x}, remap {3}".format(self.name, self.start, self.end, remap)
+            remap = f"{self.remap:x}"
+        return f"{self.name}: {self.start:x} {self.end:x}, remap {remap}"
 
     def relocate(self, rom:Rom):
         if self.remap is None:
@@ -518,12 +518,12 @@ def verify_remap(scenes):
     for scene in scenes:
         file = scene.file
         result = test_remap(file)
-        print("{0} - {1}".format(result, file))
+        print(f"{result} - {file}")
 
         for room in scene.rooms:
             file = room.file
             result = test_remap(file)
-            print("{0} - {1}".format(result, file))
+            print(f"{result} - {file}")
 
 
 def update_dmadata(rom:Rom, file:File):

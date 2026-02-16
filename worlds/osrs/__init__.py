@@ -352,10 +352,9 @@ class OSRSWorld(World):
     def get_filler_item_name(self) -> str:
         if self.options.enable_duds:
             return self.random.choice([item.name for item in item_rows if item.progression == ItemClassification.filler])
-        else:
-            return self.random.choice([ItemNames.Progressive_Weapons, ItemNames.Progressive_Magic,
-                                       ItemNames.Progressive_Range_Weapon, ItemNames.Progressive_Armor,
-                                       ItemNames.Progressive_Range_Armor, ItemNames.Progressive_Tools])
+        return self.random.choice([ItemNames.Progressive_Weapons, ItemNames.Progressive_Magic,
+                                   ItemNames.Progressive_Range_Weapon, ItemNames.Progressive_Armor,
+                                   ItemNames.Progressive_Range_Armor, ItemNames.Progressive_Tools])
 
     def create_and_add_location(self, row_index) -> None:
         location_row = location_rows[row_index]

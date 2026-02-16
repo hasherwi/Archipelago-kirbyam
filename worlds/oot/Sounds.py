@@ -194,8 +194,7 @@ def get_hook_pool(sound_hook, earsafeonly = "FALSE"):
     if earsafeonly == "TRUE":
         list = [s for s in sound_hook.value.pool if Tags.PAINFUL not in s.value.tags]
         return list
-    else:
-        return sound_hook.value.pool
+    return sound_hook.value.pool
 
 
 def get_setting_choices(sound_hook):

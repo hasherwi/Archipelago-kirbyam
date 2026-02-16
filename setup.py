@@ -165,8 +165,7 @@ except (ConnectionError, TimeoutError, urllib.error.URLError) as e:
 
 
 build_platform = sysconfig.get_platform()
-arch_folder = "exe.{platform}-{version}".format(platform=build_platform,
-                                                version=sysconfig.get_python_version())
+arch_folder = f"exe.{build_platform}-{sysconfig.get_python_version()}"
 buildfolder = Path("build", arch_folder)
 build_arch = build_platform.split("-")[-1] if "-" in build_platform else platform.machine()
 
@@ -179,8 +178,7 @@ def resolve_icon(icon_name: str):
         ico_file = path + ".ico"
         assert os.path.exists(ico_file), f"ico counterpart of {base_path} should exist."
         return ico_file
-    else:
-        return base_path
+    return base_path
 
 
 exes = [
@@ -550,13 +548,8 @@ $APPDIR/$exe "$@"
         self.app_dir = None
         self.app_name = self.distribution.metadata.name
         self.app_icon = self.distribution.executables[0].icon
-        self.app_exec = Path("opt/{app_name}/{exe}".format(
-            app_name=self.distribution.metadata.name, exe=self.distribution.executables[0].target_name
-        ))
-        self.dist_file = Path("dist", "{app_name}_{app_version}_{platform}.AppImage".format(
-            app_name=self.distribution.metadata.name, app_version=self.distribution.metadata.version,
-            platform=sysconfig.get_platform()
-        ))
+        self.app_exec = Path(f"opt/{self.distribution.metadata.name}/{self.distribution.executables[0].target_name}")
+        self.dist_file = Path("dist", f"{self.distribution.metadata.name}_{self.distribution.metadata.version}_{sysconfig.get_platform()}.AppImage")
         self.yes = False
 
     def finalize_options(self) -> None:

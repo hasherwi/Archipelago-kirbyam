@@ -82,7 +82,7 @@ def generate_hint_texts(world):
         chance = world.random.uniform(0, 1)
         if chance < JUNK_HINT:
             return None
-        elif chance < RANDOM_HINT:
+        if chance < RANDOM_HINT:
             location = world.random.choice(our_items).location
         else: # USEFUL_HINT
             location = world.random.choice(our_useful_items).location

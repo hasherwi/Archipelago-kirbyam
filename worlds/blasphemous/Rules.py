@@ -520,10 +520,9 @@ class BlasRules:
                 clauses.append(lambda state, reqs=reqs: all(req(state) for req in reqs))
         if not clauses:
             return lambda state: True
-        elif len(clauses) == 1:
+        if len(clauses) == 1:
             return clauses[0]
-        else:
-            return lambda state: any(clause(state) for clause in clauses)
+        return lambda state: any(clause(state) for clause in clauses)
 
     # Relics
     def blood(self, state: CollectionState) -> bool:
