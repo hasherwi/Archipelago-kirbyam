@@ -351,7 +351,7 @@ class World(metaclass=AutoWorldRegister):
 
     settings_key: ClassVar[str]
     """name of the section in host.yaml for world-specific settings, will default to {folder}_options"""
-    settings: ClassVar[Group | None]
+    settings: ClassVar[Optional["Group"]]
     """loaded settings from host.yaml"""
 
     zip_path: ClassVar[pathlib.Path | None] = None
