@@ -1,19 +1,11 @@
-from typing import TYPE_CHECKING, Dict
-from collections.abc import Callable
+from typing import Dict, Callable, TYPE_CHECKING
 
 from BaseClasses import CollectionState
-from worlds.generic.Rules import add_item_rule, add_rule, forbid_items
-
-from .Items import (
-    DonaldAbility_Table,
-    GoofyAbility_Table,
-    SupportAbility_Table,
-    exclusion_item_table,
-    visit_locking_dict,
-)
-from .Locations import Donald_Checks, Goofy_Checks, exclusion_table, popups_set
+from .Items import exclusion_item_table, visit_locking_dict, DonaldAbility_Table, GoofyAbility_Table, SupportAbility_Table
+from .Locations import exclusion_table, popups_set, Goofy_Checks, Donald_Checks
+from .Names import LocationName, ItemName, RegionName
+from worlds.generic.Rules import add_rule, forbid_items, add_item_rule
 from .Logic import *
-from .Names import ItemName, LocationName, RegionName
 
 # I don't know what is going on here, but it works.
 if TYPE_CHECKING:
@@ -32,10 +24,10 @@ class KH2Rules:
     # Location Rules: Deterministic of player settings.
     # Form Rules: Rules for Drive Forms and Summon levels. These Are Locations
     # Fight Rules: Rules for fights. These are regions in the worlds.
-    world_rules: dict[str, Callable[[CollectionState], bool]]
-    location_rules: dict[str, Callable[[CollectionState], bool]]
+    world_rules: Dict[str, Callable[[CollectionState], bool]]
+    location_rules: Dict[str, Callable[[CollectionState], bool]]
 
-    fight_rules: dict[str, Callable[[CollectionState], bool]]
+    fight_rules: Dict[str, Callable[[CollectionState], bool]]
 
     def __init__(self, world: KH2World) -> None:
         self.player = world.player
@@ -305,7 +297,7 @@ class KH2WorldRules(KH2Rules):
             else:
                 self.multiworld.completion_condition[self.player] = lambda state: state.has(ItemName.Bounty, self.player, self.world.options.BountyRequired.value)
         else:
-
+          
             final_xemnas_location.access_rule = lambda state: state.has(ItemName.Bounty, self.player, self.world.options.BountyRequired.value) and \
                                                               state.has(ItemName.LuckyEmblem, self.player, self.world.options.LuckyEmblemsRequired.value)
             if self.world.options.FinalXemnas:
@@ -425,8 +417,8 @@ class KH2FormRules(KH2Rules):
 class KH2FightRules(KH2Rules):
     player: int
     world: KH2World
-    region_rules: dict[str, Callable[[CollectionState], bool]]
-    location_rules: dict[str, Callable[[CollectionState], bool]]
+    region_rules: Dict[str, Callable[[CollectionState], bool]]
+    location_rules: Dict[str, Callable[[CollectionState], bool]]
 
     # cor logic
     # have 3 things for the logic
@@ -522,7 +514,7 @@ class KH2FightRules(KH2Rules):
         return shan_yu_rules[self.fight_logic]
 
     def get_ansem_riku_rules(self, state: CollectionState) -> bool:
-        # easy: gap closer,defensive tool,ground finisher/limit form
+        # easy: gap closer,defensive tool,ground finisher/limit form 
         # normal: defensive tool and (gap closer/ground finisher/limit form)
         # hard: defensive tool or limit form
         ansem_riku_rules = {
@@ -535,7 +527,7 @@ class KH2FightRules(KH2Rules):
     def get_storm_rider_rules(self, state: CollectionState) -> bool:
         # easy: has defensive tool,drive form, party limit,aerial move
         # normal: has 3 of those things
-        # hard: has 2 of those things
+        # hard: has 2 of those things 
         storm_rider_rules = {
             "easy":   self.kh2_list_any_sum([defensive_tool, party_limit, aerial_move, form_list], state) >= 4,
             "normal": self.kh2_list_any_sum([defensive_tool, party_limit, aerial_move, form_list], state) >= 3,

@@ -2,21 +2,21 @@ from dataclasses import dataclass
 from random import Random
 from typing import List
 
+from .bundle import Bundle, BundleTemplate
 from ..content import StardewContent
 from ..options import StardewValleyOptions
-from .bundle import Bundle, BundleTemplate
 
 
 @dataclass
 class BundleRoom:
     name: str
-    bundles: list[Bundle]
+    bundles: List[Bundle]
 
 
 @dataclass
 class BundleRoomTemplate:
     name: str
-    bundles: list[BundleTemplate]
+    bundles: List[BundleTemplate]
     number_bundles: int
 
     def create_bundle_room(self, random: Random, content: StardewContent, options: StardewValleyOptions):

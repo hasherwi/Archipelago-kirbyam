@@ -2,18 +2,8 @@ from enum import Enum
 from typing import Dict, List, NamedTuple, Set
 
 from BaseClasses import Item, ItemClassification
-
-from .static_logic import (
-    DOORS_BY_ROOM,
-    PANEL_DOORS_BY_ROOM,
-    PROGRESSIVE_ITEMS,
-    get_door_group_item_id,
-    get_door_item_id,
-    get_panel_door_item_id,
-    get_panel_group_item_id,
-    get_progressive_item_id,
-    get_special_item_id,
-)
+from .static_logic import DOORS_BY_ROOM, PROGRESSIVE_ITEMS, get_door_group_item_id, get_door_item_id, \
+    get_progressive_item_id, get_special_item_id, PANEL_DOORS_BY_ROOM, get_panel_door_item_id, get_panel_group_item_id
 
 
 class ItemType(Enum):
@@ -29,7 +19,7 @@ class ItemData(NamedTuple):
     classification: ItemClassification
     type: ItemType
     has_doors: bool
-    painting_ids: list[str]
+    painting_ids: List[str]
 
 
 class LingoItem(Item):
@@ -39,12 +29,12 @@ class LingoItem(Item):
     game: str = "Lingo"
 
 
-ALL_ITEM_TABLE: dict[str, ItemData] = {}
-ITEMS_BY_GROUP: dict[str, list[str]] = {}
+ALL_ITEM_TABLE: Dict[str, ItemData] = {}
+ITEMS_BY_GROUP: Dict[str, List[str]] = {}
 
-TRAP_ITEMS: list[str] = ["Slowness Trap", "Iceland Trap", "Atbash Trap"]
+TRAP_ITEMS: List[str] = ["Slowness Trap", "Iceland Trap", "Atbash Trap"]
 
-PROGUSEFUL_ITEMS: list[str] = [
+PROGUSEFUL_ITEMS: List[str] = [
     "Crossroads - Roof Access",
     "Black",
     "Red",
@@ -63,7 +53,8 @@ PROGUSEFUL_ITEMS: list[str] = [
 def get_prog_item_classification(item_name: str):
     if item_name in PROGUSEFUL_ITEMS:
         return ItemClassification.progression | ItemClassification.useful
-    return ItemClassification.progression
+    else:
+        return ItemClassification.progression
 
 
 def load_item_data():
@@ -72,7 +63,7 @@ def load_item_data():
                                          ItemType.COLOR, False, [])
         ITEMS_BY_GROUP.setdefault("Colors", []).append(color)
 
-    door_groups: set[str] = set()
+    door_groups: Set[str] = set()
     for room_name, doors in DOORS_BY_ROOM.items():
         for door_name, door in doors.items():
             if door.skip_item is True or door.event is True:
@@ -94,7 +85,7 @@ def load_item_data():
                                          ItemType.NORMAL, True, [])
         ITEMS_BY_GROUP.setdefault("Doors", []).append(group)
 
-    panel_groups: set[str] = set()
+    panel_groups: Set[str] = set()
     for room_name, panel_doors in PANEL_DOORS_BY_ROOM.items():
         for panel_door_name, panel_door in panel_doors.items():
             if panel_door.panel_group is not None:
@@ -110,7 +101,7 @@ def load_item_data():
                                          ItemType.NORMAL, False, [])
         ITEMS_BY_GROUP.setdefault("Panels", []).append(group)
 
-    special_items: dict[str, ItemClassification] = {
+    special_items: Dict[str, ItemClassification] = {
         ":)":                        ItemClassification.filler,
         "The Feeling of Being Lost": ItemClassification.filler,
         "Wanderlust":                ItemClassification.filler,

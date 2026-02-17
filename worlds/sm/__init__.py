@@ -5,8 +5,7 @@ import copy
 import logging
 import threading
 import typing
-from typing import Any, Dict, List, Set, TextIO, TypedDict
-from collections.abc import Iterable
+from typing import Any, Dict, Iterable, List, Set, TextIO, TypedDict
 
 import settings
 from BaseClasses import CollectionState, Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
@@ -16,23 +15,24 @@ from worlds.generic.Rules import add_rule, set_rule
 
 logger = logging.getLogger("Super Metroid")
 
+from .Options import SMOptions, sm_option_groups
+from .Client import SMSNIClient
+from .Rom import SM_ROM_MAX_PLAYERID, SM_ROM_PLAYERDATA_COUNT, SMProcedurePatch, get_sm_symbols
 import Utils
 
-from .Client import SMSNIClient
-from .Options import SMOptions, sm_option_groups
-from .Rom import SM_ROM_MAX_PLAYERID, SM_ROM_PLAYERDATA_COUNT, SMProcedurePatch, get_sm_symbols
-from .variaRandomizer.graph.graph_utils import GraphUtils, getAccessPoint
-from .variaRandomizer.graph.vanilla.graph_locations import locationsDict
-from .variaRandomizer.logic.logic import Logic
 from .variaRandomizer.logic.smboolmanager import SMBoolManager
+from .variaRandomizer.graph.vanilla.graph_locations import locationsDict
+from .variaRandomizer.graph.graph_utils import getAccessPoint
 from .variaRandomizer.rando.ItemLocContainer import ItemLocation, ItemLocContainer
 from .variaRandomizer.rando.Items import ItemManager
 from .variaRandomizer.rando.RandoServices import ComebackCheckType
-from .variaRandomizer.randomizer import VariaRandomizer
-from .variaRandomizer.rom.rom_patches import RomPatches
-from .variaRandomizer.utils.doorsmanager import DoorsManager
 from .variaRandomizer.utils.parameters import *
 from .variaRandomizer.utils.utils import openFile
+from .variaRandomizer.logic.logic import Logic
+from .variaRandomizer.randomizer import VariaRandomizer
+from .variaRandomizer.utils.doorsmanager import DoorsManager
+from .variaRandomizer.rom.rom_patches import RomPatches
+from .variaRandomizer.graph.graph_utils import GraphUtils
 
 
 class SMSettings(settings.Group):
@@ -47,7 +47,7 @@ class SMSettings(settings.Group):
 
 class SMCollectionState(metaclass=AutoLogicRegister):
     def init_mixin(self, parent: MultiWorld):
-
+        
         # for unit tests where MultiWorld is instantiated before worlds
         if hasattr(parent, "state"):
             self.smbm = {player: SMBoolManager(player, parent.state.smbm[player].maxDiff,
@@ -82,7 +82,7 @@ class SMWeb(WebWorld):
 
 
 class ByteEdit(TypedDict):
-    sym: dict[str, Any]
+    sym: Dict[str, Any]
     offset: int
     values: Iterable[int]
 
@@ -101,7 +101,7 @@ class SMWorld(World):
     topology_present = True
     options_dataclass = SMOptions
     options: SMOptions
-
+      
     settings: typing.ClassVar[SMSettings]
 
     item_name_to_id = {value.Name: items_start_id + value.Id for key, value in ItemManager.Items.items() if value.Id != None}
@@ -114,7 +114,7 @@ class SMWorld(World):
 
     itemManager: ItemManager
 
-    Logic.factory("vanilla")
+    Logic.factory('vanilla')
 
     def __init__(self, world: MultiWorld, player: int):
         self.rom_name_available_event = threading.Event()
@@ -122,7 +122,7 @@ class SMWorld(World):
         super().__init__(world, player)
 
     def generate_early(self):
-        Logic.factory("vanilla")
+        Logic.factory('vanilla')
 
         dummy_rom_file = Utils.user_path(SMSettings.RomFile.copy_to)  # actual rom set in generate_output
         self.variaRando = VariaRandomizer(self.options, dummy_rom_file, self.player, self.multiworld.seed, self.random)
@@ -130,18 +130,18 @@ class SMWorld(World):
 
         # keeps Nothing items local so no player will ever pickup Nothing
         # doing so reduces contribution of this world to the Multiworld the more Nothing there is though
-        self.options.local_items.value.add("Nothing")
-        self.options.local_items.value.add("No Energy")
+        self.options.local_items.value.add('Nothing')
+        self.options.local_items.value.add('No Energy')
 
         if (self.variaRando.args.morphPlacement == "early"):
-            self.multiworld.local_early_items[self.player]["Morph Ball"] = 1
+            self.multiworld.local_early_items[self.player]['Morph Ball'] = 1
 
         self.remote_items = self.options.remote_items
 
         if (len(self.variaRando.randoExec.setup.restrictedLocs) > 0):
             self.options.accessibility.value = Accessibility.option_minimal
             logger.warning(f"accessibility forced to 'minimal' for player {self.multiworld.get_player_name(self.player)} because of 'fun' settings")
-
+    
     def create_items(self):
         itemPool = self.variaRando.container.itemPool
         self.startItems = [variaItem for item in self.multiworld.precollected_items[self.player] for variaItem in ItemManager.Items.values() if variaItem.Name == item.name]
@@ -152,8 +152,8 @@ class SMWorld(World):
 
         missingPool = 109 - len(itemPool)
         for i in range(missingPool):
-            itemPool.append(ItemManager.Items["Nothing"])
-
+            itemPool.append(ItemManager.Items['Nothing'])
+        
         # Generate item pool
         pool = []
         self.locked_items = {}
@@ -161,34 +161,34 @@ class SMWorld(World):
         weaponCount = [0, 0, 0]
         for item in itemPool:
             isAdvancement = True
-            if item.Type == "Missile":
+            if item.Type == 'Missile':
                 if weaponCount[0] < 3:
                     weaponCount[0] += 1
                 else:
                     isAdvancement = False
-            elif item.Type == "Super":
+            elif item.Type == 'Super':
                 if weaponCount[1] < 2:
                     weaponCount[1] += 1
                 else:
                     isAdvancement = False
-            elif item.Type == "PowerBomb":
+            elif item.Type == 'PowerBomb':
                 if weaponCount[2] < 3:
                     weaponCount[2] += 1
                 else:
                     isAdvancement = False
-            elif item.Category == "Nothing":
+            elif item.Category == 'Nothing':
                 isAdvancement = False
 
             itemClass = ItemManager.Items[item.Type].Class
             smitem = SMItem(item.Name,
                             ItemClassification.progression if isAdvancement else ItemClassification.filler,
                             item.Type,
-                            None if itemClass == "Boss" else self.item_name_to_id[item.Name],
+                            None if itemClass == 'Boss' else self.item_name_to_id[item.Name],
                             player=self.player)
 
-            if itemClass == "Boss":
+            if itemClass == 'Boss':
                 self.locked_items[item.Name] = smitem
-            elif item.Category == "Nothing":
+            elif item.Category == 'Nothing':
                 self.NothingPool.append(smitem)
             else:
                 pool.append(smitem)
@@ -218,7 +218,7 @@ class SMWorld(World):
         def set_entrance_rule(entrance, player, func):
             set_rule(entrance, lambda state: self.evalSMBool(func(state.smbm[player]), state.smbm[player].maxDiff))
 
-        self.multiworld.completion_condition[self.player] = lambda state: state.has("Mother Brain", self.player)
+        self.multiworld.completion_condition[self.player] = lambda state: state.has('Mother Brain', self.player)
 
         for key, value in locationsDict.items():
             location = self.multiworld.get_location(key, self.player)
@@ -293,24 +293,24 @@ class SMWorld(World):
             self.add_entrance_rule(self.multiworld.get_entrance(src.Name + "->" + dest.Name, self.player), self.player, getAccessPoint(src.Name).traverse)
 
         self.multiworld.regions += [
-            self.create_region(self.multiworld, self.player, "Menu", None, ["StartAP"])
+            self.create_region(self.multiworld, self.player, 'Menu', None, ['StartAP'])
         ]
 
-        startAP = self.multiworld.get_entrance("StartAP", self.player)
+        startAP = self.multiworld.get_entrance('StartAP', self.player)
         startAP.connect(self.multiworld.get_region(self.variaRando.args.startLocation, self.player))
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         state.smbm[self.player].addItem(item.type)
-        return super().collect(state, item)
+        return super(SMWorld, self).collect(state, item)
 
     def remove(self, state: CollectionState, item: Item) -> bool:
         state.smbm[self.player].removeItem(item.type)
-        return super().remove(state, item)
+        return super(SMWorld, self).remove(state, item)
 
     def create_item(self, name: str) -> Item:
         item = next((x for x in ItemManager.Items.values() if x.Name == name), None)
         if item:
-            return SMItem(item.Name, ItemClassification.progression if item.Class != "Minor" else ItemClassification.filler, item.Type, self.item_name_to_id[item.Name],
+            return SMItem(item.Name, ItemClassification.progression if item.Class != 'Minor' else ItemClassification.filler, item.Type, self.item_name_to_id[item.Name],
                       player=self.player)
         raise KeyError(f"Item {name} for {self.player_name} is invalid.")
 
@@ -322,10 +322,12 @@ class SMWorld(World):
             roll = self.random.randint(1, power_bombs + missiles + super_missiles)
             if roll <= power_bombs:
                 return "Power Bomb"
-            if roll <= power_bombs + missiles:
+            elif roll <= power_bombs + missiles:
                 return "Missile"
-            return "Super Missile"
-        return "Nothing"
+            else:
+                return "Super Missile"
+        else:
+            return "Nothing"
 
     def pre_fill(self):
         if len(self.NothingPool) > 0:
@@ -358,7 +360,7 @@ class SMWorld(World):
                         ItemManager.Items[
                             itemLoc.item.type
                             if isinstance(itemLoc.item, SMItem) and itemLoc.item.type in ItemManager.Items
-                            else "ArchipelagoItem"
+                            else 'ArchipelagoItem'
                         ]
                     ),
                     copy.copy(
@@ -378,7 +380,7 @@ class SMWorld(World):
         # get_spheres could be cached in multiworld?
         # Another possible solution would be to have a globally accessible list of items in the order in which the get placed in push_item
         # and use the inversed starting from the first progression item.
-        spheres: list[Location] = getattr(self.multiworld, "_sm_spheres", None)
+        spheres: List[Location] = getattr(self.multiworld, "_sm_spheres", None)
         if spheres is None:
             spheres = [itemLoc for sphere in self.multiworld.get_spheres() for itemLoc in sorted(sphere, key=lambda location: location.name)]
             setattr(self.multiworld, "_sm_spheres", spheres)
@@ -386,7 +388,7 @@ class SMWorld(World):
         self.itemLocs = [
             ItemLocation(copy.copy(ItemManager.Items[itemLoc.item.type
                          if isinstance(itemLoc.item, SMItem) and itemLoc.item.type in ItemManager.Items else
-                         "ArchipelagoItem"]),
+                         'ArchipelagoItem']),
                          copy.copy(locationsDict[itemLoc.name]), itemLoc.item.player, True)
             for itemLoc in self.multiworld.get_locations(self.player)
         ]
@@ -403,7 +405,7 @@ class SMWorld(World):
                 if itemLoc.Item.Class == "Boss":
                     itemLoc.Item.Class = "Minor"
 
-            escapeTrigger = (playerItemsItemLocs, playerProgItemsItemLocs, "Full")
+            escapeTrigger = (playerItemsItemLocs, playerProgItemsItemLocs, 'Full')
 
         escapeOk = self.variaRando.randoExec.graphBuilder.escapeGraph(self.variaRando.container, self.variaRando.randoExec.areaGraph, self.variaRando.randoExec.randoSettings.maxDiff, escapeTrigger)
         if (not escapeOk):
@@ -414,7 +416,7 @@ class SMWorld(World):
         self.variaRando.doors = GraphUtils.getDoorConnections(self.variaRando.randoExec.areaGraph,
                                     self.variaRando.args.area, self.variaRando.args.bosses,
                                     self.variaRando.args.escapeRando if escapeOk else False)
-
+        
         self.variaRando.randoExec.postProcessItemLocs(self.itemLocs, self.variaRando.args.hideItems)
 
     @classmethod
@@ -428,14 +430,14 @@ class SMWorld(World):
         for item in progitempool:
             new_state.collect(item, True)
 
-        bossesLoc = ["Draygon", "Kraid", "Ridley", "Phantoon", "Mother Brain"]
+        bossesLoc = ['Draygon', 'Kraid', 'Ridley', 'Phantoon', 'Mother Brain']
         for player in world.get_game_players("Super Metroid"):
             for bossLoc in bossesLoc:
                 if not world.get_location(bossLoc, player).can_reach(new_state):
                     world.state.smbm[player].onlyBossLeft = True
                     break
 
-    def getWordArray(self, w: int) -> list[int]:
+    def getWordArray(self, w: int) -> List[int]:
         """ little-endian convert a 16-bit number to an array of numbers <= 255 each """
         return [w & 0x00FF, (w & 0xFF00) >> 8]
 
@@ -449,7 +451,7 @@ class SMWorld(World):
             return False
 
     def convertToROMItemName(self, itemName):
-        charMap = { "A" : 0x3CE0,
+        charMap = { "A" : 0x3CE0, 
                     "B" : 0x3CE1,
                     "C" : 0x3CE2,
                     "D" : 0x3CE3,
@@ -498,7 +500,7 @@ class SMWorld(World):
 
         itemName = itemName.upper()[:26]
         itemName = itemName.strip()
-        itemName = itemName.center(26, " ")
+        itemName = itemName.center(26, " ")    
         itemName = "___" + itemName + "___"
 
         for char in itemName:
@@ -521,14 +523,14 @@ class SMWorld(World):
                                               "data", "SMBasepatch_prebuilt", "sm-basepatch-symbols.json")))
 
         # gather all player ids and names relevant to this rom, then write player name and player id data tables
-        playerIdSet: set[int] = {0}  # 0 is for "Archipelago" server
+        playerIdSet: Set[int] = {0}  # 0 is for "Archipelago" server
         for itemLoc in self.multiworld.get_locations():
             assert itemLoc.item, f"World of player '{self.multiworld.player_name[itemLoc.player]}' has a loc.item " + \
                                  f"that is {itemLoc.item} during generate_output"
             # add each playerid who has a location containing an item to send to us *or* to an item_link we're part of
             if itemLoc.item.player == self.player or \
                     (itemLoc.item.player in self.multiworld.groups and
-                     self.player in self.multiworld.groups[itemLoc.item.player]["players"]):
+                     self.player in self.multiworld.groups[itemLoc.item.player]['players']):
                 playerIdSet |= {itemLoc.player}
             # add each playerid, including item link ids, that we'll be sending items to
             if itemLoc.player == self.player:
@@ -539,9 +541,9 @@ class SMWorld(World):
             logger.warning("SM is interacting with too many players to fit in ROM. "
                            f"Removing the highest {len(playerIdSet) - SM_ROM_PLAYERDATA_COUNT} ids to fit")
             playerIdSet = set(sorted(playerIdSet)[:SM_ROM_PLAYERDATA_COUNT])
-        otherPlayerIndex: dict[int, int] = {}  # ap player id -> rom-local player index
-        playerNameData: list[ByteEdit] = []
-        playerIdData: list[ByteEdit] = []
+        otherPlayerIndex: Dict[int, int] = {}  # ap player id -> rom-local player index
+        playerNameData: List[ByteEdit] = []
+        playerIdData: List[ByteEdit] = []
         # sort all player data by player id so that the game can look up a player's data reasonably quickly when
         # the client sends an ap playerid to the game
         for i, playerid in enumerate(sorted(playerIdSet)):
@@ -563,8 +565,8 @@ class SMWorld(World):
                                  "offset": i * 2,
                                  "values": self.getWordArray(playerIdForRom)})
 
-        multiWorldLocations: list[ByteEdit] = []
-        multiWorldItems: list[ByteEdit] = []
+        multiWorldLocations: List[ByteEdit] = []
+        multiWorldItems: List[ByteEdit] = []
         idx = 0
         vanillaItemTypesCount = 21
         for itemLoc in self.multiworld.get_locations(self.player):
@@ -590,7 +592,7 @@ class SMWorld(World):
                 if itemLoc.item.player == self.player:
                     itemDestinationType = 0  # dest type 0 means 'regular old SM item' per itemtable.asm
                 elif itemLoc.item.player in self.multiworld.groups and \
-                        self.player in self.multiworld.groups[itemLoc.item.player]["players"]:
+                        self.player in self.multiworld.groups[itemLoc.item.player]['players']:
                     # dest type 2 means 'SM item link item that sends to the current player and others'
                     # per itemtable.asm (groups are synonymous with item_links, currently)
                     itemDestinationType = 2
@@ -614,9 +616,9 @@ class SMWorld(World):
                         "paletteSymbolName": "nonprog_item_eight_palette_indices",
                         "dataSymbolName":    "offworld_graphics_data_item"}]
         idx = 0
-        offworldSprites: list[ByteEdit] = []
+        offworldSprites: List[ByteEdit] = []
         for itemSprite in itemSprites:
-            with openFile("/".join((os.path.dirname(self.__file__), "data", "custom_sprite", itemSprite["fileName"])), "rb") as stream:
+            with openFile("/".join((os.path.dirname(self.__file__), "data", "custom_sprite", itemSprite["fileName"])), 'rb') as stream:
                 buffer = bytearray(stream.read())
                 offworldSprites.append({"sym": symbols[itemSprite["paletteSymbolName"]],
                                         "offset": 0,
@@ -626,35 +628,35 @@ class SMWorld(World):
                                         "values": buffer[8:264]})
                 idx += 1
 
-        deathLink: list[ByteEdit] = [{
+        deathLink: List[ByteEdit] = [{
             "sym": symbols["config_deathlink"],
             "offset": 0,
             "values": [self.options.death_link.value]
         }]
-        remoteItem: list[ByteEdit] = [{
+        remoteItem: List[ByteEdit] = [{
             "sym": symbols["config_remote_items"],
             "offset": 0,
             "values": self.getWordArray(0b001 + (0b010 if self.remote_items else 0b000))
         }]
-        ownPlayerId: list[ByteEdit] = [{
+        ownPlayerId: List[ByteEdit] = [{
             "sym": symbols["config_player_id"],
             "offset": 0,
             "values": self.getWordArray(self.player)
         }]
 
-        patchDict = {   "MultiWorldLocations": multiWorldLocations,
-                        "MultiWorldItems": multiWorldItems,
-                        "offworldSprites": offworldSprites,
-                        "deathLink": deathLink,
-                        "remoteItem": remoteItem,
-                        "ownPlayerId": ownPlayerId,
-                        "playerNameData":  playerNameData,
-                        "playerIdData":  playerIdData}
+        patchDict = {   'MultiWorldLocations': multiWorldLocations,
+                        'MultiWorldItems': multiWorldItems,
+                        'offworldSprites': offworldSprites,
+                        'deathLink': deathLink,
+                        'remoteItem': remoteItem,
+                        'ownPlayerId': ownPlayerId,
+                        'playerNameData':  playerNameData,
+                        'playerIdData':  playerIdData}
 
         # convert an array of symbolic byte_edit dicts like {"sym": symobj, "offset": 0, "values": [1, 0]}
         # to a single rom patch dict like {0x438c: [1, 0], 0xa4a5: [0, 0, 0]} which varia will understand and apply
-        def resolve_symbols_to_file_offset_based_dict(byte_edits_arr: list[ByteEdit]) -> dict[int, Iterable[int]]:
-            this_patch_as_dict: dict[int, Iterable[int]] = {}
+        def resolve_symbols_to_file_offset_based_dict(byte_edits_arr: List[ByteEdit]) -> Dict[int, Iterable[int]]:
+            this_patch_as_dict: Dict[int, Iterable[int]] = {}
             for byte_edit in byte_edits_arr:
                 offset_within_rom_file: int = byte_edit["sym"]["offset_within_rom_file"] + byte_edit["offset"]
                 this_patch_as_dict[offset_within_rom_file] = byte_edit["values"]
@@ -666,17 +668,17 @@ class SMWorld(World):
         romPatcher.applyIPSPatchDict(patchDict)
 
         openTourianGreyDoors = {0x07C823 + 5: [0x0C], 0x07C831 + 5: [0x0C]}
-        romPatcher.applyIPSPatchDict({"openTourianGreyDoors": openTourianGreyDoors})
+        romPatcher.applyIPSPatchDict({'openTourianGreyDoors': openTourianGreyDoors})
 
 
         # set rom name
         # 21 bytes
         from Utils import __version__
-        self.romName = bytearray(f'SM{__version__.replace(".", "")[0:3]}_{self.player}_{self.multiworld.seed:11}', "utf8")[:21]
+        self.romName = bytearray(f'SM{__version__.replace(".", "")[0:3]}_{self.player}_{self.multiworld.seed:11}', 'utf8')[:21]
         self.romName.extend([0] * (21 - len(self.romName)))
         # clients should read from 0x7FC0, the location of the rom title in the SNES header.
         # duplicative ROM name at 0x1C4F00 is still written here for now, since people with archipelago pre-0.3.0 client installed will still be depending on this location for connecting to SM
-        romPatcher.applyIPSPatch("ROMName", { "ROMName":  {0x1C4F00 : self.romName, 0x007FC0 : self.romName} })
+        romPatcher.applyIPSPatch('ROMName', { 'ROMName':  {0x1C4F00 : self.romName, 0x007FC0 : self.romName} })
 
 
         startItemROMAddressBase = symbols["start_item_data_major"]["offset_within_rom_file"]
@@ -804,7 +806,7 @@ class SMWorld(World):
             rom_path = os.path.join(output_directory, f"{self.multiworld.get_out_file_name_base(self.player)}"
                                                       f"{patch.patch_file_ending}")
             patch.write(rom_path)
-
+            
         except:
             raise
         finally:
@@ -831,12 +833,12 @@ class SMWorld(World):
         buffer[startaddress:startaddress + len(values)] = values
 
     def write_crc(self, romName):
-        with open(romName, "rb") as stream:
+        with open(romName, 'rb') as stream:
             buffer = bytearray(stream.read())
             crc = self.checksum_mirror_sum(buffer, len(buffer))
             inv = crc ^ 0xFFFF
             self.write_bytes(buffer, 0x7FDC, [inv & 0xFF, (inv >> 8) & 0xFF, crc & 0xFF, (crc >> 8) & 0xFF])
-        with open(romName, "wb") as outfile:
+        with open(romName, 'wb') as outfile:
             outfile.write(buffer)
 
     def modify_multidata(self, multidata: dict):
@@ -848,7 +850,7 @@ class SMWorld(World):
             new_name = base64.b64encode(bytes(self.rom_name)).decode()
             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
 
-    def fill_slot_data(self):
+    def fill_slot_data(self): 
         slot_data = {}
         if not self.multiworld.is_race:
             slot_data = self.options.as_dict("start_location", "max_difficulty", "area_randomization", "doors_colors_rando", "boss_randomization")
@@ -860,46 +862,46 @@ class SMWorld(World):
 
             for knows in Knows.__dict__:
                 if isKnows(knows):
-                    slot_data["Preset"]["Knows"][knows] = [ getattr(Knows.knowsDict[self.player], knows).bool,
+                    slot_data["Preset"]["Knows"][knows] = [ getattr(Knows.knowsDict[self.player], knows).bool, 
                                                             getattr(Knows.knowsDict[self.player], knows).difficulty]
 
             slot_data["InterAreaTransitions"] = {}
             for src, dest in self.variaRando.randoExec.areaGraph.InterAreaTransitions:
                 slot_data["InterAreaTransitions"][src.Name] = dest.Name
-
+                
             slot_data["Doors"] = {}
             for door in DoorsManager.doorsDict[self.player].values():
                 slot_data["Doors"][door.name] = door.getColor()
 
             slot_data["RomPatches"] = RomPatches.ActivePatches[self.player]
-
+                
         return slot_data
 
     def write_spoiler(self, spoiler_handle: TextIO):
         if self.options.area_randomization.value != 0:
-            spoiler_handle.write("\n\nArea Transitions:\n\n")
-            spoiler_handle.write("\n".join(["%s%s %s %s" % (f"{self.multiworld.get_player_name(self.player)}: "
-                                                            if self.multiworld.players > 1 else "", src.Name,
-                                                            "<=>",
+            spoiler_handle.write('\n\nArea Transitions:\n\n')
+            spoiler_handle.write('\n'.join(['%s%s %s %s' % (f'{self.multiworld.get_player_name(self.player)}: '
+                                                            if self.multiworld.players > 1 else '', src.Name,
+                                                            '<=>',
                                                             dest.Name) for src, dest in self.variaRando.randoExec.areaGraph.InterAreaTransitions if not src.Boss]))
 
         if self.options.boss_randomization.value != 0:
-            spoiler_handle.write("\n\nBoss Transitions:\n\n")
-            spoiler_handle.write("\n".join(["%s%s %s %s" % (f"{self.multiworld.get_player_name(self.player)}: "
-                                                            if self.multiworld.players > 1 else "", src.Name,
-                                                            "<=>",
+            spoiler_handle.write('\n\nBoss Transitions:\n\n')
+            spoiler_handle.write('\n'.join(['%s%s %s %s' % (f'{self.multiworld.get_player_name(self.player)}: '
+                                                            if self.multiworld.players > 1 else '', src.Name,
+                                                            '<=>',
                                                             dest.Name) for src, dest in self.variaRando.randoExec.areaGraph.InterAreaTransitions if src.Boss]))
 
 class SMLocation(Location):
     game: str = "Super Metroid"
 
     def __init__(self, player: int, name: str, address=None, parent=None):
-        super().__init__(player, name, address, parent)
+        super(SMLocation, self).__init__(player, name, address, parent)
 
 class SMItem(Item):
     game = "Super Metroid"
     type: str
 
     def __init__(self, name, classification, type: str, code, player: int):
-        super().__init__(name, classification, code, player)
+        super(SMItem, self).__init__(name, classification, code, player)
         self.type = type

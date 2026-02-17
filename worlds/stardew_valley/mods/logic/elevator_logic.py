@@ -1,4 +1,4 @@
-from ...logic.base_logic import BaseLogic, BaseLogicMixin
+from ...logic.base_logic import BaseLogicMixin, BaseLogic
 from ...mods.mod_data import ModNames
 from ...options import ElevatorProgression
 from ...stardew_rule import StardewRule, True_

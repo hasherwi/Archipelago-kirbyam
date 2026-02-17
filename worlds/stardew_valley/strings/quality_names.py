@@ -8,7 +8,7 @@ class CropQuality:
     iridium = "Iridium Crop"
 
     @staticmethod
-    def get_highest(qualities: list[str]) -> str:
+    def get_highest(qualities: List[str]) -> str:
         for quality in crop_qualities_in_desc_order:
             if quality in qualities:
                 return quality
@@ -22,7 +22,7 @@ class FishQuality:
     iridium = "Iridium Fish"
 
     @staticmethod
-    def get_highest(qualities: list[str]) -> str:
+    def get_highest(qualities: List[str]) -> str:
         for quality in fish_qualities_in_desc_order:
             if quality in qualities:
                 return quality
@@ -36,7 +36,7 @@ class ForageQuality:
     iridium = "Iridium Forage"
 
     @staticmethod
-    def get_highest(qualities: list[str]) -> str:
+    def get_highest(qualities: List[str]) -> str:
         for quality in forage_qualities_in_desc_order:
             if quality in qualities:
                 return quality
@@ -50,7 +50,7 @@ class ArtisanQuality:
     iridium = "Iridium Artisan"
 
     @staticmethod
-    def get_highest(qualities: list[str]) -> str:
+    def get_highest(qualities: List[str]) -> str:
         for quality in artisan_qualities_in_desc_order:
             if quality in qualities:
                 return quality

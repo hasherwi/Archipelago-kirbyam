@@ -2,20 +2,14 @@ import os
 import time
 import unittest
 from dataclasses import dataclass
-from statistics import mean, median, stdev, variance
+from statistics import mean, median, variance, stdev
 from typing import List
 
 from BaseClasses import get_seed
-from Fill import balance_multiworld_progression, distribute_items_restrictive
+from Fill import distribute_items_restrictive, balance_multiworld_progression
 from worlds import AutoWorld
-
 from ..bases import SVTestCase, setup_multiworld
-from ..options.presets import (
-    allsanity_mods_6_x_x,
-    allsanity_no_mods_6_x_x,
-    default_6_x_x,
-    minimal_locations_maximal_items,
-)
+from ..options.presets import default_6_x_x, allsanity_no_mods_6_x_x, allsanity_mods_6_x_x, minimal_locations_maximal_items
 
 assert default_6_x_x
 assert allsanity_no_mods_6_x_x
@@ -29,7 +23,7 @@ class PerformanceResults:
     case: SVTestCase
 
     amount_of_players: int
-    results: list[float]
+    results: List[float]
     acceptable_mean: float
 
     def __repr__(self):
@@ -47,7 +41,7 @@ Mean: {mean_time:.2f} Median: {median_time:.2f} Stdeviation: {stdev_time:.2f} Va
 
 class SVPerformanceTestCase(SVTestCase):
     acceptable_time_per_player: float
-    results: list[PerformanceResults]
+    results: List[PerformanceResults]
 
     # Set False to not call the fill in the tests"""
     skip_fill: bool = True
@@ -115,7 +109,7 @@ class SVPerformanceTestCase(SVTestCase):
                 multiworld = setup_multiworld(options, seed)
                 if not self.skip_fill:
                     distribute_items_restrictive(multiworld)
-                    AutoWorld.call_all(multiworld, "post_fill")
+                    AutoWorld.call_all(multiworld, 'post_fill')
                     if multiworld.players > 1:
                         balance_multiworld_progression(multiworld)
 
@@ -133,9 +127,9 @@ class SVPerformanceTestCase(SVTestCase):
 def size_name(number_players):
     if number_players == 1:
         return "solo"
-    if number_players == 2:
+    elif number_players == 2:
         return "duo"
-    if number_players == 3:
+    elif number_players == 3:
         return "trio"
     return f"{number_players}-player"
 

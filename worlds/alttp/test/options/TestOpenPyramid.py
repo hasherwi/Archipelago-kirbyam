@@ -1,5 +1,4 @@
 from test.bases import WorldTestBase
-
 from ...Items import item_factory
 
 

@@ -1,11 +1,10 @@
-from BaseClasses import ItemClassification, Tutorial
-from worlds.AutoWorld import InvalidItemError, WebWorld, World
-
-from .Items import CCCharlesItem, full_item_list, item_groups, unique_item_dict
+from .Items import CCCharlesItem, unique_item_dict, full_item_list, item_groups
 from .Locations import location_table
 from .Options import CCCharlesOptions
-from .Regions import create_regions
 from .Rules import set_rules
+from .Regions import create_regions
+from BaseClasses import Tutorial, ItemClassification
+from worlds.AutoWorld import InvalidItemError, World, WebWorld
 
 
 class CCCharlesWeb(WebWorld):

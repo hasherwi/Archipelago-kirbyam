@@ -1,13 +1,13 @@
 from typing import List, Tuple
 
-from .. import StardewItem, options
+from .assertion import WorldAssertMixin
+from .bases import SVTestBase
+from .. import options, StardewItem
 from ..strings.ap_names.ap_weapon_names import APWeapon
 from ..strings.ap_names.transport_names import Transportation
 from ..strings.fish_names import Fish
 from ..strings.tool_names import APTool
 from ..strings.wallet_item_names import Wallet
-from .assertion import WorldAssertMixin
-from .bases import SVTestBase
 
 
 def collect_fishing_abilities(tester: SVTestBase):
@@ -39,7 +39,7 @@ def create_and_collect(tester: SVTestBase, item_name: str) -> StardewItem:
     return item
 
 
-def create_and_collect_fishing_access_items(tester: SVTestBase) -> list[tuple[StardewItem, str]]:
+def create_and_collect_fishing_access_items(tester: SVTestBase) -> List[Tuple[StardewItem, str]]:
     items = [(create_and_collect(tester, Wallet.dark_talisman), Fish.void_salmon),
              (create_and_collect(tester, Wallet.rusty_key), Fish.slimejack),
              (create_and_collect(tester, "Progressive Mine Elevator"), Fish.lava_eel),

@@ -1,7 +1,6 @@
 from typing import Dict, List, NamedTuple, Optional, Union
 
 from BaseClasses import MultiWorld
-
 from worlds.generic.Rules import CollectionRule
 
 from . import item_to_index, tier_1_opponents, yugioh06_difficulty
@@ -11,14 +10,14 @@ from .locations import special
 class OpponentData(NamedTuple):
     id: int
     name: str
-    campaign_info: list[str]
+    campaign_info: List[str]
     tier: int
     column: int
     card_id: int = 0
     deck_name_id: int = 0
     deck_file: str = ""
     difficulty: int = 1
-    additional_info: list[str] = []
+    additional_info: List[str] = []
 
     def tier(self, tier):
         self.tier = tier
@@ -163,9 +162,9 @@ challenge_opponents = [
 ]
 
 
-def get_opponents(multiworld: MultiWorld | None, player: int | None, randomize: bool = False) -> list[
+def get_opponents(multiworld: Optional[MultiWorld], player: Optional[int], randomize: bool = False) -> List[
     OpponentData]:
-    opponents_table: list[OpponentData] = [
+    opponents_table: List[OpponentData] = [
         # Tier 1
         OpponentData(0, "Kuriboh", [], 1, 1, 4064, 8000, "deck/LV1_kuriboh.ydc\x00\x00"),
         OpponentData(1, "Scapegoat", [], 1, 2, 4818, 8001, "deck/LV1_sukego.ydc\x00\x00\x00", 0,
@@ -238,7 +237,7 @@ def get_opponents(multiworld: MultiWorld | None, player: int | None, randomize: 
     return recreation
 
 
-def get_opponent_locations(opponent: OpponentData) -> dict[str, str | int | None]:
+def get_opponent_locations(opponent: OpponentData) -> Dict[str, Optional[Union[str, int]]]:
     location = {opponent.name + " Beaten": "Tier " + str(opponent.tier) + " Beaten"}
     if opponent.tier > 4 and opponent.column != 5:
         name = "Campaign Tier 5: Column " + str(opponent.column) + " Win"
@@ -257,8 +256,9 @@ def get_opponent_condition(opponent: OpponentData, unlock_item: str, unlock_amou
             and yugioh06_difficulty(state, player, opponent.difficulty)
             and state.has_all(opponent.additional_info, player)
         )
-    return lambda state: (
-        state.has_group(unlock_item, player, unlock_amount)
-        and yugioh06_difficulty(state, player, opponent.difficulty)
-        and state.has_all(opponent.additional_info, player)
-    )
+    else:
+        return lambda state: (
+            state.has_group(unlock_item, player, unlock_amount)
+            and yugioh06_difficulty(state, player, opponent.difficulty)
+            and state.has_all(opponent.additional_info, player)
+        )

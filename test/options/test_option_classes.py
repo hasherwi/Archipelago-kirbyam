@@ -25,7 +25,7 @@ class TestNumericOptions(unittest.TestCase):
             choice_option_int = TestChoice.from_any(2)
             choice_option_alias = TestChoice.from_any("three")
             choice_option_attr = TestChoice.from_any(TestChoice.option_two)
-
+            
             self.assertEqual(choice_option_default, TestChoice.option_zero,
                 "assigning default didn't match default value")
             self.assertEqual(choice_option_string, "one")
@@ -43,7 +43,7 @@ class TestNumericOptions(unittest.TestCase):
             self.assertGreaterEqual(choice_option_alias, "three")
 
             self.assertRaises(KeyError, TestChoice.from_any, "four")
-
+            
             self.assertIn(choice_option_int, [1, 2, 3])
             self.assertIn(choice_option_int, {2})
             self.assertIn(choice_option_int, (2,))

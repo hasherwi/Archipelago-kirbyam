@@ -1,7 +1,6 @@
-from typing import TYPE_CHECKING, Dict
-
+from .Types import HatDLC, HatType, LocData, Difficulty, HitType
+from typing import Dict, TYPE_CHECKING
 from .Options import TasksanityCheckCount
-from .Types import Difficulty, HatDLC, HatType, HitType, LocData
 
 if TYPE_CHECKING:
     from . import HatInTimeWorld
@@ -43,15 +42,15 @@ def location_dlc_enabled(world: "HatInTimeWorld", location: str) -> bool:
 
     if data.dlc_flags == HatDLC.none:
         return True
-    if data.dlc_flags == HatDLC.dlc1 and world.is_dlc1():
+    elif data.dlc_flags == HatDLC.dlc1 and world.is_dlc1():
         return True
-    if data.dlc_flags == HatDLC.dlc2 and world.is_dlc2():
+    elif data.dlc_flags == HatDLC.dlc2 and world.is_dlc2():
         return True
-    if data.dlc_flags == HatDLC.death_wish and world.is_dw():
+    elif data.dlc_flags == HatDLC.death_wish and world.is_dw():
         return True
-    if data.dlc_flags == HatDLC.dlc1_dw and world.is_dlc1() and world.is_dw():
+    elif data.dlc_flags == HatDLC.dlc1_dw and world.is_dlc1() and world.is_dw():
         return True
-    if data.dlc_flags == HatDLC.dlc2_dw and world.is_dlc2() and world.is_dw():
+    elif data.dlc_flags == HatDLC.dlc2_dw and world.is_dlc2() and world.is_dw():
         return True
 
     return False
@@ -96,7 +95,7 @@ def is_location_valid(world: "HatInTimeWorld", location: str) -> bool:
     return True
 
 
-def get_location_names() -> dict[str, int]:
+def get_location_names() -> Dict[str, int]:
     names = {name: data.id for name, data in location_table.items()}
     id_start: int = TASKSANITY_START_ID
     for i in range(TasksanityCheckCount.range_end):

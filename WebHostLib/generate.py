@@ -14,12 +14,11 @@ from pony.orm import commit, db_session
 from BaseClasses import get_seed, seeddigits
 from Generate import PlandoOptions, handle_name, mystery_argparse
 from Main import main as ERmain
-from settings import GeneratorOptions, ServerOptions
-from Utils import DaemonThreadPoolExecutor, __version__, restricted_dumps
+from Utils import __version__, restricted_dumps, DaemonThreadPoolExecutor
 from WebHostLib import app
-
+from settings import ServerOptions, GeneratorOptions
 from .check import get_yaml_data, roll_options
-from .models import STATE_ERROR, STATE_QUEUED, UUID, Generation, Seed
+from .models import Generation, STATE_ERROR, STATE_QUEUED, Seed, UUID
 from .upload import upload_zip_to_db
 
 
@@ -55,15 +54,15 @@ def get_meta(options_source: dict, race: bool = False) -> dict[str, list[str] | 
     }
 
 
-@app.route("/generate", methods=["GET", "POST"])
-@app.route("/generate/<race>", methods=["GET", "POST"])
+@app.route('/generate', methods=['GET', 'POST'])
+@app.route('/generate/<race>', methods=['GET', 'POST'])
 def generate(race=False):
-    if request.method == "POST":
+    if request.method == 'POST':
         # check if the post request has the file part
-        if "file" not in request.files:
-            flash("No file part")
+        if 'file' not in request.files:
+            flash('No file part')
         else:
-            files = request.files.getlist("file")
+            files = request.files.getlist('file')
             options = get_yaml_data(files)
             if isinstance(options, str):
                 flash(options)
@@ -83,11 +82,11 @@ def start_generation(options: dict[str, dict | str], meta: dict[str, Any]):
 
     if any(type(result) == str for result in results.values()):
         return render_template("checkResult.html", results=results)
-    if len(gen_options) > app.config["MAX_ROLL"]:
+    elif len(gen_options) > app.config["MAX_ROLL"]:
         flash(f"Sorry, generating of multiworlds is limited to {app.config['MAX_ROLL']} players. "
               f"If you have a larger group, please generate it yourself and upload it.")
         return redirect(url_for(request.endpoint, **(request.view_args or {})))
-    if len(gen_options) >= app.config["JOB_THRESHOLD"]:
+    elif len(gen_options) >= app.config["JOB_THRESHOLD"]:
         try:
             gen = Generation(
                 options=restricted_dumps({name: vars(options) for name, options in gen_options.items()}),
@@ -105,17 +104,18 @@ def start_generation(options: dict[str, dict | str], meta: dict[str, Any]):
         commit()
 
         return redirect(url_for("wait_seed", seed=gen.id))
-    try:
-        seed_id = gen_game({name: vars(options) for name, options in gen_options.items()},
-                           meta=meta, owner=session["_id"].int, timeout=app.config["JOB_TIME"])
-    except BaseException as e:
-        from .autolauncher import handle_generation_failure
-        handle_generation_failure(e)
-        meta["error"] = format_exception(e)
-        details = json.dumps(meta, indent=4).strip()
-        return render_template("seedError.html", seed_error=meta["error"], details=details)
+    else:
+        try:
+            seed_id = gen_game({name: vars(options) for name, options in gen_options.items()},
+                               meta=meta, owner=session["_id"].int, timeout=app.config["JOB_TIME"])
+        except BaseException as e:
+            from .autolauncher import handle_generation_failure
+            handle_generation_failure(e)
+            meta["error"] = format_exception(e)
+            details = json.dumps(meta, indent=4).strip()
+            return render_template("seedError.html", seed_error=meta["error"], details=details)
 
-    return redirect(url_for("view_seed", seed=seed_id))
+        return redirect(url_for("view_seed", seed=seed_id))
 
 
 def gen_game(gen_options: dict, meta: dict[str, Any] | None = None, owner=None, sid=None, timeout: int|None = None):
@@ -211,7 +211,7 @@ def gen_game(gen_options: dict, meta: dict[str, Any] | None = None, owner=None, 
         thread_pool.shutdown(wait=False, cancel_futures=True)
 
 
-@app.route("/wait/<suuid:seed>")
+@app.route('/wait/<suuid:seed>')
 def wait_seed(seed: UUID):
     seed_id = seed
     seed = Seed.get(id=seed_id)
@@ -221,7 +221,7 @@ def wait_seed(seed: UUID):
 
     if not generation:
         return "Generation not found."
-    if generation.state == STATE_ERROR:
+    elif generation.state == STATE_ERROR:
         meta = json.loads(generation.meta)
         details = json.dumps(meta, indent=4).strip()
         return render_template("seedError.html", seed_error=meta["error"], details=details)

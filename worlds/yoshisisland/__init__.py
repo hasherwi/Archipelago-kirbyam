@@ -1,21 +1,20 @@
 import base64
 import os
-import threading
 import typing
-from typing import Dict, List, Set, TextIO
+import threading
 
+from typing import List, Set, TextIO, Dict
+from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification
+from worlds.AutoWorld import World, WebWorld
 import settings
-from BaseClasses import Item, ItemClassification, MultiWorld, Tutorial
-from worlds.AutoWorld import WebWorld, World
-
-from .Client import YoshisIslandSNIClient
-from .Items import filler_items, get_item_names_per_category, item_table, trap_items
+from .Items import get_item_names_per_category, item_table, filler_items, trap_items
 from .Locations import get_locations
-from .Options import MinigameChecks, ObjectVis, PlayerGoal, StageLogic, YoshisIslandOptions
 from .Regions import init_areas
-from .Rom import USHASH, LocalRom, YoshisIslandDeltaPatch, get_base_rom_path, patch_rom
-from .Rules import set_easy_rules, set_hard_rules, set_normal_rules
+from .Options import YoshisIslandOptions, PlayerGoal, ObjectVis, StageLogic, MinigameChecks
 from .setup_game import setup_gamevars
+from .Client import YoshisIslandSNIClient
+from .Rules import set_easy_rules, set_normal_rules, set_hard_rules
+from .Rom import LocalRom, patch_rom, get_base_rom_path, YoshisIslandDeltaPatch, USHASH
 
 
 class YoshisIslandSettings(settings.Group):
@@ -64,7 +63,7 @@ class YoshisIslandWorld(World):
     options_dataclass = YoshisIslandOptions
     options: YoshisIslandOptions
 
-    locked_locations: list[str]
+    locked_locations: List[str]
     set_req_bosses: str
     lives_high: int
     lives_low: int
@@ -89,7 +88,7 @@ class YoshisIslandWorld(World):
         if not os.path.exists(rom_file):
             raise FileNotFoundError(rom_file)
 
-    def fill_slot_data(self) -> dict[str, list[int]]:
+    def fill_slot_data(self) -> Dict[str, List[int]]:
         return {
             "world_1": self.world_1_stages,
             "world_2": self.world_2_stages,
@@ -177,7 +176,8 @@ class YoshisIslandWorld(World):
 
         if self.random.random() < (trap_chance / 100) and self.options.traps_enabled:
             return self.random.choice(trap_items)
-        return self.random.choice(filler_items)
+        else:
+            return self.random.choice(filler_items)
 
     def set_rules(self) -> None:
         rules_per_difficulty = {
@@ -219,8 +219,8 @@ class YoshisIslandWorld(World):
     def generate_early(self) -> None:
         setup_gamevars(self)
 
-    def get_excluded_items(self) -> set[str]:
-        excluded_items: set[str] = set()
+    def get_excluded_items(self) -> Set[str]:
+        excluded_items: Set[str] = set()
 
         starting_gate = ["World 1 Gate", "World 2 Gate", "World 3 Gate",
                          "World 4 Gate", "World 5 Gate", "World 6 Gate"]
@@ -300,7 +300,7 @@ class YoshisIslandWorld(World):
 
         return item
 
-    def generate_filler(self, pool: list[Item]) -> None:
+    def generate_filler(self, pool: List[Item]) -> None:
         if self.options.goal == PlayerGoal.option_luigi_hunt:
             for _ in range(self.options.luigi_pieces_in_pool.value):
                 item = self.create_item_with_correct_settings("Piece of Luigi")
@@ -310,8 +310,8 @@ class YoshisIslandWorld(World):
             item = self.create_item_with_correct_settings(self.get_filler_item_name())
             pool.append(item)
 
-    def get_item_pool(self, excluded_items: set[str]) -> list[Item]:
-        pool: list[Item] = []
+    def get_item_pool(self, excluded_items: Set[str]) -> List[Item]:
+        pool: List[Item] = []
 
         for name, data in item_table.items():
             if name not in excluded_items:
@@ -366,7 +366,7 @@ class YoshisIslandWorld(World):
             new_name = base64.b64encode(bytes(self.rom_name)).decode()
             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
 
-    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]) -> None:
+    def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]) -> None:
         world_names = [f"World {i}" for i in range(1, 7)]
         world_stages = [
             self.world_1_stages, self.world_2_stages, self.world_3_stages,

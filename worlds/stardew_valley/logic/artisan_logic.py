@@ -1,13 +1,13 @@
+from .base_logic import BaseLogic, BaseLogicMixin
 from ..data.artisan import MachineSource
 from ..data.game_item import ItemTag
 from ..stardew_rule import StardewRule
 from ..strings.artisan_good_names import ArtisanGood
-from ..strings.crop_names import Fruit, Vegetable
+from ..strings.crop_names import Vegetable, Fruit
 from ..strings.fish_names import Fish, all_fish
 from ..strings.forageable_names import Mushroom
 from ..strings.generic_names import Generic
 from ..strings.machine_names import Machine
-from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class ArtisanLogicMixin(BaseLogicMixin):

@@ -1,49 +1,49 @@
 # Python standard libraries
 from collections import defaultdict
 from math import ceil
-from typing import Any, ClassVar, Union, cast
-from collections.abc import Callable
+from typing import Any, ClassVar, Callable, Union, cast
 
 # Archipelago imports
 import settings
-from BaseClasses import CollectionState, Item, Tutorial
-from BaseClasses import ItemClassification as ItemClass
+from worlds.AutoWorld import World, WebWorld
+from worlds.LauncherComponents import components, Component, launch_subprocess, Type, icon_paths
+from BaseClasses import (Item,
+                         ItemClassification as ItemClass,
+                         Tutorial,
+                         CollectionState)
 from Options import OptionGroup
-from worlds.AutoWorld import WebWorld, World
-from worlds.LauncherComponents import Component, Type, components, icon_paths, launch_subprocess
 
 # Jak imports
 from . import options
-from .game_id import jak1_id, jak1_max, jak1_name
-from .items import (
-    JakAndDaxterItem,
-    OrbAssoc,
-    cell_item_table,
-    item_table,
-    move_item_table,
-    orb_item_table,
-    scout_item_table,
-    special_item_table,
-    trap_item_table,
-)
+from .game_id import jak1_id, jak1_name, jak1_max
+from .items import (JakAndDaxterItem,
+                    OrbAssoc,
+                    item_table,
+                    cell_item_table,
+                    scout_item_table,
+                    special_item_table,
+                    move_item_table,
+                    orb_item_table,
+                    trap_item_table)
 from .levels import level_table, level_table_with_global
-from .locations import (
-    JakAndDaxterLocation,
-    cache_location_table,
-    cell_location_table,
-    location_table,
-    orb_location_table,
-    scout_location_table,
-    special_location_table,
-)
-from .locs import cell_locations as cells
-from .locs import orb_cache_locations as caches
-from .locs import orb_locations as orbs
-from .locs import scout_locations as scouts
-from .locs import special_locations as specials
+from .locations import (JakAndDaxterLocation,
+                        location_table,
+                        cell_location_table,
+                        scout_location_table,
+                        special_location_table,
+                        cache_location_table,
+                        orb_location_table)
 from .regions import create_regions
+from .rules import (enforce_mp_absolute_limits,
+                    enforce_mp_friendly_limits,
+                    enforce_sp_limits,
+                    set_orb_trade_rule)
+from .locs import (cell_locations as cells,
+                   scout_locations as scouts,
+                   special_locations as specials,
+                   orb_cache_locations as caches,
+                   orb_locations as orbs)
 from .regs.region_base import JakAndDaxterRegion
-from .rules import enforce_mp_absolute_limits, enforce_mp_friendly_limits, enforce_sp_limits, set_orb_trade_rule
 
 
 def launch_client():
@@ -79,8 +79,8 @@ class JakAndDaxterSettings(settings.Group):
     root_directory: RootDirectory = RootDirectory(
         "%programfiles%/OpenGOAL-Launcher/features/jak1/mods/JakMods/archipelagoal")
     # Don't ever change these type hints again.
-    auto_detect_root_directory: AutoDetectRootDirectory | bool = True
-    enforce_friendly_options: EnforceFriendlyOptions | bool = True
+    auto_detect_root_directory: Union[AutoDetectRootDirectory, bool] = True
+    enforce_friendly_options: Union[EnforceFriendlyOptions, bool] = True
 
 
 class JakAndDaxterWebWorld(WebWorld):

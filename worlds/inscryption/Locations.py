@@ -118,7 +118,7 @@ act3_locations = [
     "Act 3 - Well"
 ]
 
-regions_to_locations: dict[str, list[str]] = {
+regions_to_locations: Dict[str, List[str]] = {
     "Menu": [],
     "Act 1": act1_locations,
     "Act 2": act2_locations,

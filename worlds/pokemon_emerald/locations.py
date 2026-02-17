@@ -56,19 +56,19 @@ VISITED_EVENTS = frozenset(BLACKLIST_OPTION_TO_VISITED_EVENT.values())
 
 class PokemonEmeraldLocation(Location):
     game: str = "Pokemon Emerald"
-    item_address: int | None
-    default_item_code: int | None
-    key: str | None
+    item_address: Optional[int]
+    default_item_code: Optional[int]
+    key: Optional[str]
 
     def __init__(
             self,
             player: int,
             name: str,
-            address: int | None,
-            parent: Region | None = None,
-            key: str | None = None,
-            item_address: int | None = None,
-            default_item_value: int | None = None) -> None:
+            address: Optional[int],
+            parent: Optional[Region] = None,
+            key: Optional[str] = None,
+            item_address: Optional[int] = None,
+            default_item_value: Optional[int] = None) -> None:
         super().__init__(player, name, address, parent)
         self.default_item_code = None if default_item_value is None else offset_item_value(default_item_value)
         self.item_address = item_address
@@ -93,7 +93,7 @@ def reverse_offset_flag(location_id: int) -> int:
     return location_id - BASE_OFFSET
 
 
-def create_locations_by_category(world: "PokemonEmeraldWorld", regions: dict[str, Region], categories: set[LocationCategory]) -> None:
+def create_locations_by_category(world: "PokemonEmeraldWorld", regions: Dict[str, Region], categories: Set[LocationCategory]) -> None:
     """
     Iterates through region data and adds locations to the multiworld if
     those locations include any of the provided tags.
@@ -127,11 +127,11 @@ def create_locations_by_category(world: "PokemonEmeraldWorld", regions: dict[str
             region.locations.append(location)
 
 
-def create_location_label_to_id_map() -> dict[str, int]:
+def create_location_label_to_id_map() -> Dict[str, int]:
     """
     Creates a map from location labels to their AP location id (address)
     """
-    label_to_id_map: dict[str, int] = {}
+    label_to_id_map: Dict[str, int] = {}
     for region_data in data.regions.values():
         for location_name in region_data.locations:
             location_data = data.locations[location_name]
@@ -177,7 +177,7 @@ def set_legendary_cave_entrances(world: "PokemonEmeraldWorld") -> None:
     terra_cave_location_location = world.multiworld.get_location("TERRA_CAVE_LOCATION", world.player)
     terra_cave_location_location.item = None
     terra_cave_location_location.place_locked_item(world.create_event(terra_cave_location_name))
-
+    
     marine_cave_location_name = world.random.choice([
         "MARINE_CAVE_ROUTE_105_1",
         "MARINE_CAVE_ROUTE_105_2",

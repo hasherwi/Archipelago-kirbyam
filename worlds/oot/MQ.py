@@ -43,21 +43,20 @@
 # the floor map data is missing a vertex pointer that would point within kaleido_scope.
 # As such, if the file moves, the patch will break.
 
+from .Utils import data_path
+from .Rom import Rom
 import json
 from struct import pack, unpack
-
-from .Rom import Rom
-from .Utils import data_path
 
 SCENE_TABLE = 0xB71440
 
 
 class File(object):
     def __init__(self, file):
-        self.name = file["Name"]
-        self.start = int(file["Start"], 16) if "Start" in file else 0
-        self.end = int(file["End"], 16) if "End" in file else self.start
-        self.remap = file["RemapStart"] if "RemapStart" in file else None
+        self.name = file['Name']
+        self.start = int(file['Start'], 16) if 'Start' in file else 0
+        self.end = int(file['End'], 16) if 'End' in file else self.start
+        self.remap = file['RemapStart'] if 'RemapStart' in file else None
         self.from_file = self.start
 
         # used to update the file's associated dmadata record
@@ -69,8 +68,8 @@ class File(object):
     def __repr__(self):
         remap = "None"
         if self.remap is not None:
-            remap = f"{self.remap:x}"
-        return f"{self.name}: {self.start:x} {self.end:x}, remap {remap}"
+            remap = "{0:x}".format(self.remap)
+        return "{0}: {1:x} {2:x}, remap {3}".format(self.name, self.start, self.end, remap)
 
     def relocate(self, rom:Rom):
         if self.remap is None:
@@ -107,10 +106,10 @@ class CollisionMesh(object):
 
 class ColDelta(object):
     def __init__(self, delta):
-        self.is_larger = delta["IsLarger"]
-        self.polys = delta["Polys"]
-        self.polytypes = delta["PolyTypes"]
-        self.cams = delta["Cams"]
+        self.is_larger = delta['IsLarger']
+        self.polys = delta['Polys']
+        self.polytypes = delta['PolyTypes']
+        self.cams = delta['Cams']
 
 
 class Icon(object):
@@ -156,17 +155,17 @@ class IconPoint(object):
 
 class Scene(object):
     def __init__(self, scene):
-        self.file = File(scene["File"])
-        self.id = scene["Id"]
-        self.transition_actors = [convert_actor_data(x) for x in scene["TActors"]]
-        self.rooms = [Room(x) for x in scene["Rooms"]]
+        self.file = File(scene['File'])
+        self.id = scene['Id']
+        self.transition_actors = [convert_actor_data(x) for x in scene['TActors']]
+        self.rooms = [Room(x) for x in scene['Rooms']]
         self.paths = []
         self.coldelta = ColDelta(scene["ColDelta"])
-        self.minimaps = [[Icon(icon) for icon in minimap["Icons"]] for minimap in scene["Minimaps"]]
-        self.floormaps = [[Icon(icon) for icon in floormap["Icons"]] for floormap in scene["Floormaps"]]
-        temp_paths = scene["Paths"]
+        self.minimaps = [[Icon(icon) for icon in minimap['Icons']] for minimap in scene['Minimaps']]
+        self.floormaps = [[Icon(icon) for icon in floormap['Icons']] for floormap in scene['Floormaps']]
+        temp_paths = scene['Paths']
         for item in temp_paths:
-            self.paths.append(item["Points"])
+            self.paths.append(item['Points'])
 
 
     def write_data(self, rom:Rom):
@@ -270,8 +269,8 @@ class Scene(object):
 
         # build final camera data
         for cam in self.coldelta.cams:
-            data = cam["Data"]
-            pos = cam["PositionIndex"]
+            data = cam['Data']
+            pos = cam['PositionIndex']
             if pos < 0:
                 final_cams.append((data, 0))
             else:
@@ -308,17 +307,17 @@ class Scene(object):
 
         # patch polytypes
         for item in self.coldelta.polytypes:
-            id = item["Id"]
-            high = item["High"]
-            low = item["Low"]
+            id = item['Id']
+            high = item['High']
+            low = item['Low']
             addr = self.file.start + (mesh.polytypes_addr & 0xFFFFFF) + (id * 8)
             rom.write_int32s(addr, [high, low])
 
         # patch poly data
         for item in self.coldelta.polys:
-            id = item["Id"]
-            t = item["Type"]
-            flags = item["Flags"]
+            id = item['Id']
+            t = item['Type']
+            flags = item['Flags']
 
             addr = self.file.start + (mesh.poly_addr & 0xFFFFFF) + (id * 0x10)
             vert_bit =  rom.read_byte(addr + 0x02) & 0x1F # VertexA id data
@@ -367,10 +366,10 @@ class Scene(object):
 
 class Room(object):
     def __init__(self, room):
-        self.file = File(room["File"])
-        self.id = room["Id"]
-        self.objects = [int(x, 16) for x in room["Objects"]]
-        self.actors = [convert_actor_data(x) for x in room["Actors"]]
+        self.file = File(room['File'])
+        self.id = room['Id']
+        self.objects = [int(x, 16) for x in room['Objects']]
+        self.actors = [convert_actor_data(x) for x in room['Actors']]
 
     def write_data(self, rom:Rom):
         # move file to remap address
@@ -429,7 +428,7 @@ def patch_files(rom:Rom, mq_scenes:list):
 
 
 def get_json():
-    with open(data_path("mqu.json"), "r") as stream:
+    with open(data_path('mqu.json'), 'r') as stream:
         data = json.load(stream)
     return data
 
@@ -518,12 +517,12 @@ def verify_remap(scenes):
     for scene in scenes:
         file = scene.file
         result = test_remap(file)
-        print(f"{result} - {file}")
+        print("{0} - {1}".format(result, file))
 
         for room in scene.rooms:
             file = room.file
             result = test_remap(file)
-            print(f"{result} - {file}")
+            print("{0} - {1}".format(result, file))
 
 
 def update_dmadata(rom:Rom, file:File):
@@ -617,7 +616,7 @@ def insert_space(rom, file, vram_start, insert_section, insert_offset, insert_si
             # Load Low: Lower half of the address load
             reg = (value >> 21) & 0x1F
             val_low = value & 0x0000FFFF
-            val_low = unpack("h", pack("H", val_low))[0]
+            val_low = unpack('h', pack('H', val_low))[0]
             # combine with previous load high
             value = val_hi[reg] + val_low
         else:

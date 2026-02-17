@@ -1,20 +1,7 @@
 import typing
-from dataclasses import dataclass
-
-from Options import (
-    Choice,
-    DefaultOnToggle,
-    OptionDict,
-    OptionGroup,
-    OptionList,
-    OptionSet,
-    PerGameCommonOptions,
-    Range,
-    Toggle,
-)
-
+from Options import Choice, PerGameCommonOptions, Range, OptionDict, OptionList, OptionSet, OptionGroup, Toggle, DefaultOnToggle
 from .variaRandomizer.utils.objectives import _goals
-
+from dataclasses import dataclass
 
 class StartItemsRemovesFromPool(Toggle):
     """Remove items in starting inventory from pool."""
@@ -284,7 +271,7 @@ class CustomPreset(OptionDict):
 
 class VariaCustomPreset(OptionList):
     """use an entry from the preset list on https://varia.run/presets"""
-    display_name = "Varia Custom Preset"
+    display_name = "Varia Custom Preset"  
     default = {}
 
 
@@ -313,7 +300,7 @@ class EscapeRando(Toggle):
 
 class RemoveEscapeEnemies(Toggle):
     """Remove enemies during escape sequence, disable it to blast through enemies with your Hyper Beam and cause lag."""
-    display_name = "Remove enemies during escape"
+    display_name = "Remove enemies during escape"   
 
 class Tourian(Choice):
     """
@@ -326,7 +313,7 @@ class Tourian(Choice):
     option_Vanilla = 0
     option_Fast = 1
     option_Disabled = 2
-    default = 0
+    default = 0  
 
 class CustomObjective(Toggle):
     """

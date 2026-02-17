@@ -5,7 +5,7 @@ if typing.TYPE_CHECKING:
     from SNIClient import SNIContext
 
 
-async def update_object(ctx: "SNIContext", key: str, value: dict[str, typing.Any]) -> None:
+async def update_object(ctx: "SNIContext", key: str, value: typing.Dict[str, typing.Any]) -> None:
     await ctx.send_msgs([
         {
             "cmd": "Set",

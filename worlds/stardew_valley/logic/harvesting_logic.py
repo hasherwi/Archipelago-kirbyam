@@ -1,12 +1,11 @@
 from functools import cached_property
 
 from Utils import cache_self1
-
-from ..data.harvest import ForagingSource, HarvestCropSource, HarvestFruitTreeSource
+from .base_logic import BaseLogicMixin, BaseLogic
+from ..data.harvest import ForagingSource, HarvestFruitTreeSource, HarvestCropSource
 from ..stardew_rule import StardewRule
 from ..strings.ap_names.community_upgrade_names import CommunityUpgrade
 from ..strings.region_names import Region
-from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class HarvestingLogicMixin(BaseLogicMixin):

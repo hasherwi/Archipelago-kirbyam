@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, NamedTuple
+from typing import NamedTuple, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from . import MessengerWorld

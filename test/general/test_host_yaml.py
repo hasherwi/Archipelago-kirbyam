@@ -6,11 +6,11 @@ from tempfile import TemporaryDirectory, TemporaryFile
 from typing import Any, Dict, List, cast
 
 import Utils
-from settings import Group, ServerOptions, Settings
+from settings import Group, Settings, ServerOptions
 
 
 class TestIDs(unittest.TestCase):
-    yaml_options: dict[Any, Any]
+    yaml_options: Dict[Any, Any]
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -57,7 +57,7 @@ class TestSettingsDumper(unittest.TestCase):
     def test_indentation(self) -> None:
         """Test that dumping items will add indentation"""
         # NOTE: we don't care how many spaces there are, but it has to be a multiple of level
-        class AList(list[Any]):
+        class AList(List[Any]):
             __doc__ = None  # make sure we get no doc string
 
         class AGroup(Group):

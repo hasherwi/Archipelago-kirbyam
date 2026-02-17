@@ -6,7 +6,8 @@
 import collections
 import time
 import zlib
-from collections.abc import Iterable
+from typing import Iterable
+
 
 REPEAT = 10
 
@@ -139,9 +140,8 @@ def generate_solo_release_corpus() -> list[bytes]:
     # NOTE: time delta is highly unstable; time is ~0.4ms
 
     from random import Random
-
     from MultiServer import json_format_send_event
-    from NetUtils import NetworkItem, encode
+    from NetUtils import encode, NetworkItem
 
     r = Random()
     r.seed(0)
@@ -175,9 +175,8 @@ def generate_gameplay_corpus() -> list[bytes]:
 
     from copy import copy
     from random import Random
-
     from MultiServer import json_format_send_event
-    from NetUtils import NetworkItem, encode
+    from NetUtils import encode, NetworkItem
 
     r = Random()
     r.seed(0)

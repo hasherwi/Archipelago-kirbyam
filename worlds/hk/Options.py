@@ -1,25 +1,13 @@
-import re
 import typing
+import re
 from dataclasses import make_dataclass
 
-from schema import And, Optional, Schema
-
-from Options import (
-    Choice,
-    DeathLink,
-    DefaultOnToggle,
-    NamedRange,
-    Option,
-    OptionDict,
-    PerGameCommonOptions,
-    Range,
-    Toggle,
-)
-
-from .Charms import names as charm_names
-from .Charms import vanilla_costs
-from .ExtractedData import logic_options, pool_options, starts
+from .ExtractedData import logic_options, starts, pool_options
 from .Rules import cost_terms
+from schema import And, Schema, Optional
+
+from Options import Option, DefaultOnToggle, Toggle, Choice, Range, OptionDict, NamedRange, DeathLink, PerGameCommonOptions
+from .Charms import vanilla_costs, names as charm_names
 
 if typing.TYPE_CHECKING:
     # avoid import during runtime
@@ -138,9 +126,9 @@ shop_to_option = {
     "Egg_Shop": "EggShopSlots",
 }
 
-hollow_knight_randomize_options: dict[str, type(Option)] = {}
+hollow_knight_randomize_options: typing.Dict[str, type(Option)] = {}
 
-splitter_pattern = re.compile(r"(?<!^)(?=[A-Z])")
+splitter_pattern = re.compile(r'(?<!^)(?=[A-Z])')
 for option_name, option_data in pool_options.items():
     extra_data = {"__module__": __name__, "items": option_data[0], "locations": option_data[1]}
     if option_name in option_docstrings:
@@ -159,7 +147,7 @@ for option_name, option_data in pool_options.items():
     globals()[option.__name__] = option
     hollow_knight_randomize_options[option.__name__] = option
 
-hollow_knight_logic_options: dict[str, type(Option)] = {}
+hollow_knight_logic_options: typing.Dict[str, type(Option)] = {}
 for option_name in logic_options.values():
     if option_name in hollow_knight_randomize_options:
         continue
@@ -290,28 +278,29 @@ class RandomCharmCosts(NamedRange):
     range_start = 0
     range_end = 240
     default = -1
-    vanilla_costs: list[int] = vanilla_costs
+    vanilla_costs: typing.List[int] = vanilla_costs
     charm_count: int = len(vanilla_costs)
     special_range_names = {
         "vanilla": -1,
         "shuffle": -2
     }
 
-    def get_costs(self, random_source: Random) -> list[int]:
-        charms: list[int]
+    def get_costs(self, random_source: Random) -> typing.List[int]:
+        charms: typing.List[int]
         if -1 == self.value:
             return self.vanilla_costs.copy()
-        if -2 == self.value:
+        elif -2 == self.value:
             charms = self.vanilla_costs.copy()
             random_source.shuffle(charms)
             return charms
-        charms = [0] * self.charm_count
-        for x in range(self.value):
-            index = random_source.randint(0, self.charm_count - 1)
-            while charms[index] > 5:
+        else:
+            charms = [0] * self.charm_count
+            for x in range(self.value):
                 index = random_source.randint(0, self.charm_count - 1)
-            charms[index] += 1
-        return charms
+                while charms[index] > 5:
+                    index = random_source.randint(0, self.charm_count - 1)
+                charms[index] += 1
+            return charms
 
 
 class CharmCost(Range):
@@ -348,7 +337,7 @@ class PlandoCharmCosts(OptionDict):
                 # will fail schema afterwords
                 self.value[key] = data
 
-    def get_costs(self, charm_costs: list[int]) -> list[int]:
+    def get_costs(self, charm_costs: typing.List[int]) -> typing.List[int]:
         for name, cost in self.value.items():
             charm_costs[charm_names.index(name)] = cost
         return charm_costs
@@ -555,7 +544,7 @@ class CostSanityHybridChance(Range):
     display_name = "Costsanity Hybrid Chance"
 
 
-cost_sanity_weights: dict[str, type(Option)] = {}
+cost_sanity_weights: typing.Dict[str, type(Option)] = {}
 for term, cost in cost_terms.items():
     option_name = f"CostSanity{cost.option}Weight"
     display_name = f"Costsanity {cost.option} Weight"
@@ -567,7 +556,7 @@ for term, cost in cost_terms.items():
         ),
         "default": cost.weight
     }
-    if cost == "GEO":
+    if cost == 'GEO':
         extra_data["__doc__"] += " Geo costs will never be chosen for Grubfather, Seer, or Egg Shop."
 
     option = type(option_name, (Range,), extra_data)
@@ -575,7 +564,7 @@ for term, cost in cost_terms.items():
     globals()[option.__name__] = option
     cost_sanity_weights[option.__name__] = option
 
-hollow_knight_options: dict[str, type(Option)] = {
+hollow_knight_options: typing.Dict[str, type(Option)] = {
     **hollow_knight_randomize_options,
     RandomizeElevatorPass.__name__: RandomizeElevatorPass,
     **hollow_knight_logic_options,

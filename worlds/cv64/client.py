@@ -1,12 +1,11 @@
-import base64
 from typing import TYPE_CHECKING, Set
-
-import worlds._bizhawk as bizhawk
-from NetUtils import ClientStatus
-from worlds._bizhawk.client import BizHawkClient
-
 from .locations import base_id
-from .text import cv64_string_to_bytearray, cv64_text_wrap
+from .text import cv64_text_wrap, cv64_string_to_bytearray
+
+from NetUtils import ClientStatus
+import worlds._bizhawk as bizhawk
+import base64
+from worlds._bizhawk.client import BizHawkClient
 
 if TYPE_CHECKING:
     from worlds._bizhawk.context import BizHawkClientContext
@@ -28,7 +27,7 @@ class Castlevania64Client(BizHawkClient):
     received_deathlinks = 0
     death_causes = []
     currently_shopping = False
-    local_checked_locations: set[int]
+    local_checked_locations: Set[int]
 
     def __init__(self) -> None:
         super().__init__()
@@ -42,7 +41,7 @@ class Castlevania64Client(BizHawkClient):
             game_names = await bizhawk.read(ctx.bizhawk_ctx, [(0x20, 0x14, "ROM"), (0xBFBFD0, 12, "ROM")])
             if game_names[0].decode("ascii") != "CASTLEVANIA         ":
                 return False
-            if game_names[1] == b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00":
+            if game_names[1] == b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00':
                 logger.info("ERROR: You appear to be running an unpatched version of Castlevania 64. "
                             "You need to generate a patch file and use it to create a patched ROM.")
                 return False

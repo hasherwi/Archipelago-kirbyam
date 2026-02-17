@@ -9,14 +9,13 @@ from google.protobuf import descriptor_pool as _descriptor_pool
 from google.protobuf import runtime_version as _runtime_version
 from google.protobuf import symbol_database as _symbol_database
 from google.protobuf.internal import builder as _builder
-
 _runtime_version.ValidateProtobufRuntimeVersion(
     _runtime_version.Domain.PUBLIC,
     6,
     31,
     1,
-    "",
-    "s2clientprotocol/common.proto"
+    '',
+    's2clientprotocol/common.proto'
 )
 # @@protoc_insertion_point(imports)
 
@@ -29,23 +28,23 @@ DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1ds2clientprotoc
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, "s2clientprotocol.common_pb2", _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 's2clientprotocol.common_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals["_RACE"]._serialized_start=429
-  _globals["_RACE"]._serialized_end=494
-  _globals["_AVAILABLEABILITY"]._serialized_start=49
-  _globals["_AVAILABLEABILITY"]._serialized_end=111
-  _globals["_IMAGEDATA"]._serialized_start=113
-  _globals["_IMAGEDATA"]._serialized_end=201
-  _globals["_POINTI"]._serialized_start=203
-  _globals["_POINTI"]._serialized_end=233
-  _globals["_RECTANGLEI"]._serialized_start=235
-  _globals["_RECTANGLEI"]._serialized_end=319
-  _globals["_POINT2D"]._serialized_start=321
-  _globals["_POINT2D"]._serialized_end=352
-  _globals["_POINT"]._serialized_start=354
-  _globals["_POINT"]._serialized_end=394
-  _globals["_SIZE2DI"]._serialized_start=396
-  _globals["_SIZE2DI"]._serialized_end=427
+  _globals['_RACE']._serialized_start=429
+  _globals['_RACE']._serialized_end=494
+  _globals['_AVAILABLEABILITY']._serialized_start=49
+  _globals['_AVAILABLEABILITY']._serialized_end=111
+  _globals['_IMAGEDATA']._serialized_start=113
+  _globals['_IMAGEDATA']._serialized_end=201
+  _globals['_POINTI']._serialized_start=203
+  _globals['_POINTI']._serialized_end=233
+  _globals['_RECTANGLEI']._serialized_start=235
+  _globals['_RECTANGLEI']._serialized_end=319
+  _globals['_POINT2D']._serialized_start=321
+  _globals['_POINT2D']._serialized_end=352
+  _globals['_POINT']._serialized_start=354
+  _globals['_POINT']._serialized_end=394
+  _globals['_SIZE2DI']._serialized_start=396
+  _globals['_SIZE2DI']._serialized_end=427
 # @@protoc_insertion_point(module_scope)

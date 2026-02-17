@@ -1,11 +1,8 @@
-from typing import Any
-from collections.abc import Callable
+from typing import Callable, Any
 
-from BaseClasses import Item
-from BaseClasses import ItemClassification as IClass
-
-from .data.strings import GOALS, ITEMS, OTHER
+from BaseClasses import Item, ItemClassification as IClass
 from .options import ShapezOptions
+from .data.strings import GOALS, ITEMS, OTHER
 
 
 def is_mam_achievement_included(options: ShapezOptions) -> IClass:

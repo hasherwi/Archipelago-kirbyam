@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 from ..content import StardewContent, content_packs
-from ..options import FestivalLocations, StardewValleyOptions
+from ..options import StardewValleyOptions, FestivalLocations
 from ..strings.crop_names import Fruit
 from ..strings.currency_names import Currency
 from ..strings.quality_names import CropQuality, FishQuality, ForageQuality

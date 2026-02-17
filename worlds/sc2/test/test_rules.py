@@ -1,17 +1,15 @@
 import itertools
-import unittest
 from dataclasses import fields
 from random import Random
-from typing import List, Set
-from collections.abc import Iterable
+import unittest
+from typing import List, Set, Iterable
 
-import Options as CoreOptions
 from BaseClasses import ItemClassification, MultiWorld
-
-from .. import locations, options
+import Options as CoreOptions
+from .. import options, locations
 from ..item import item_tables
-from ..mission_tables import MissionFlag, SC2Race, lookup_name_to_mission
 from ..rules import SC2Logic
+from ..mission_tables import SC2Race, MissionFlag, lookup_name_to_mission
 
 
 class TestInventory:
@@ -20,7 +18,7 @@ class TestInventory:
     """
     def __init__(self) -> None:
         self.random: Random = Random()
-        self.progression_types: set[ItemClassification] = {ItemClassification.progression, ItemClassification.progression_skip_balancing}
+        self.progression_types: Set[ItemClassification] = {ItemClassification.progression, ItemClassification.progression_skip_balancing}
 
     def is_item_progression(self, item: str) -> bool:
         return item_tables.item_table[item].classification in self.progression_types
@@ -30,16 +28,16 @@ class TestInventory:
 
     def has(self, item: str, player: int, count: int = 1):
         if not self.is_item_progression(item):
-            raise AssertionError(f"Logic item {item} is not a progression item")
+            raise AssertionError("Logic item {} is not a progression item".format(item))
         return self.random_boolean()
 
-    def has_any(self, items: set[str], player: int):
+    def has_any(self, items: Set[str], player: int):
         non_progression_items = [item for item in items if not self.is_item_progression(item)]
         if len(non_progression_items) > 0:
-            raise AssertionError(f"Logic items {non_progression_items} are not progression items")
+            raise AssertionError("Logic items {} are not progression items".format(non_progression_items))
         return self.random_boolean()
 
-    def has_all(self, items: set[str], player: int):
+    def has_all(self, items: Set[str], player: int):
         return self.has_any(items, player)
 
     def has_group(self, item_group: str, player: int, count: int = 1):
@@ -50,11 +48,12 @@ class TestInventory:
 
     def count(self, item: str, player: int) -> int:
         if not self.is_item_progression(item):
-            raise AssertionError(f"Item {item} is not a progression item")
+            raise AssertionError("Item {} is not a progression item".format(item))
         random_value: int = self.random.randrange(0, 5)
         if random_value == 4:  # 0-3 has a higher chance due to logic rules
             return self.random.randrange(4, 100)
-        return random_value
+        else:
+            return random_value
 
     def count_from_list(self, items: Iterable[str], player: int) -> int:
         return sum(self.count(item_name, player) for item_name in items)
@@ -88,16 +87,16 @@ class TestWorld:
 
 class TestRules(unittest.TestCase):
     def setUp(self) -> None:
-        self.required_tactics_values: list[int] = [
+        self.required_tactics_values: List[int] = [
             options.RequiredTactics.option_standard, options.RequiredTactics.option_advanced
         ]
-        self.all_in_map_values: list[int] = [
+        self.all_in_map_values: List[int] = [
             options.AllInMap.option_ground, options.AllInMap.option_air
         ]
-        self.take_over_ai_allies_values: list[int] = [
+        self.take_over_ai_allies_values: List[int] = [
             options.TakeOverAIAllies.option_true, options.TakeOverAIAllies.option_false
         ]
-        self.kerrigan_presence_values: list[int] = [
+        self.kerrigan_presence_values: List[int] = [
             options.KerriganPresence.option_vanilla, options.KerriganPresence.option_not_present
         ]
         self.NUM_TEST_RUNS = 100
@@ -129,13 +128,13 @@ class TestRules(unittest.TestCase):
             for location in location_data:
                 for _ in range(self.NUM_TEST_RUNS):
                     location.rule(test_inventory)
-
+    
     def test_items_in_all_in_are_progression(self):
         test_inventory = TestInventory()
         for test_options in itertools.product(self.required_tactics_values, self.all_in_map_values):
             test_world = self._get_world(required_tactics=test_options[0], all_in_map=test_options[1])
             for location in locations.get_locations(test_world):
-                if "All-In" not in location.region:
+                if 'All-In' not in location.region:
                     continue
                 for _ in range(self.NUM_TEST_RUNS):
                     location.rule(test_inventory)
@@ -161,7 +160,7 @@ class TestRules(unittest.TestCase):
                     continue
                 for _ in range(self.NUM_TEST_RUNS):
                     location.rule(test_inventory)
-
+    
     def test_items_in_hard_rules_are_progression(self):
         test_inventory = TestInventory()
         test_world = TestWorld()

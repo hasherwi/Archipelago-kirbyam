@@ -1,5 +1,5 @@
-import binascii
 import os
+import binascii
 import pkgutil
 
 from ..assembler import ASM

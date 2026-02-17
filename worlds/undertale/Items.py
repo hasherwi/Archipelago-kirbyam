@@ -1,10 +1,9 @@
-import typing
-
 from BaseClasses import Item, ItemClassification
+import typing
 
 
 class ItemData(typing.NamedTuple):
-    code: int | None
+    code: typing.Optional[int]
     classification: any
 
 

@@ -1,8 +1,7 @@
-﻿from ...Config import Config
-from ...Item import ItemType, Progression
+﻿from ...Region import Z3Region, RewardType, IReward
+from ...Config import Config
 from ...Location import Location, LocationType
-from ...Region import IReward, RewardType, Z3Region
-
+from ...Item import Progression, ItemType
 
 class EasternPalace(Z3Region, IReward):
     Name = "Eastern Palace"

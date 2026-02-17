@@ -1,13 +1,10 @@
-from typing import TYPE_CHECKING
-
 from BaseClasses import CollectionState
-
-from ..options import CompletionCondition, EnableOrbsanity
 from .region_base import JakAndDaxterRegion
-
+from ..options import EnableOrbsanity, CompletionCondition
+from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .. import JakAndDaxterWorld
-from ..rules import can_fight, can_free_scout_flies, can_reach_orbs_level
+from ..rules import can_free_scout_flies, can_fight, can_reach_orbs_level
 
 
 # God help me... here we go.
@@ -136,4 +133,5 @@ def build_regions(level_name: str, world: "JakAndDaxterWorld") -> tuple[JakAndDa
         world.level_to_regions[level_name].append(final_door)
 
         return main_area, final_boss, final_door
-    return main_area, final_boss, None
+    else:
+        return main_area, final_boss, None

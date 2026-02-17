@@ -177,9 +177,10 @@ class LOCATIONS:
     def level(number: int, additional: int = 0) -> str:
         if not additional:
             return f"Level {number}"
-        if additional == 1:
+        elif additional == 1:
             return f"Level {number} Additional"
-        return f"Level {number} Additional {additional}"
+        else:
+            return f"Level {number} Additional {additional}"
 
     @staticmethod
     def upgrade(category: str, tier: str) -> str:

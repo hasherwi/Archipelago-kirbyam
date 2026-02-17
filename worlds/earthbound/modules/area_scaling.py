@@ -1,8 +1,6 @@
-from typing import TYPE_CHECKING
-
 from ..modules.enemy_data import combat_regions
 from ..Options import MagicantMode
-
+from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .. import EarthBoundWorld
 
@@ -238,13 +236,13 @@ def calculate_scaling(world: "EarthBoundWorld") -> None:
                         },
 
         "Northern Onett": {"Onett": [["Nothing"]]},
-        "Onett":
+        "Onett": 
             {"Northern Onett": [["Police Badge"]],
              "Twoson": [["Police Badge"]],
              giant_step: [["Key to the Shack"]],
              arcade: [["Nothing"]],
              "Global ATM Access": [["Nothing"]]},
-
+        
         arcade: {arcade: [["Nothing"]]},
         "Giant Step": {"Giant Step": [["Nothing"]]},
 
@@ -280,7 +278,7 @@ def calculate_scaling(world: "EarthBoundWorld") -> None:
         "Boogey Tent": {"Boogey Tent": [["Nothing"]]},
 
         "Threed Underground": {"Grapefruit Falls": [["Nothing"]]},
-
+                                
         "Grapefruit Falls": {belch_factory: [["Jar of Fly Honey"]],
                              "Saturn Valley": [["Nothing"]],
                              "Threed Underground": [["Nothing"]]},
@@ -348,7 +346,7 @@ def calculate_scaling(world: "EarthBoundWorld") -> None:
         "Summers": {"Scaraba": [["Nothing"]],
                     "Summers Museum": [["Tiny Ruby"]],
                     "Global ATM Access": [["Nothing"]]},
-
+        
         "Summers Museum": {"Summers Museum": [["Nothing"]]},
 
         "Dalaam": {pink_cloud: [["Carrot Key"]]},
@@ -360,7 +358,7 @@ def calculate_scaling(world: "EarthBoundWorld") -> None:
                     "Global ATM Access": [["Nothing"]]},
 
         pyramid: {"Southern Scaraba": [["Nothing"]]},
-
+        
         "Southern Scaraba": {dungeon_man: [["Key to the Tower"]]},
 
         "Dungeon Man": {"Deep Darkness": [["Submarine to Deep Darkness"]]},
@@ -393,7 +391,7 @@ def calculate_scaling(world: "EarthBoundWorld") -> None:
         "Common Condiment Shop": {"Common Condiment Shop": [["Nothing"]]},
 
         "Global ATM Access": {"Global ATM Access": [["Nothing"]]}
-
+        
     }
 
     teleports = {
@@ -487,7 +485,7 @@ def calculate_scaling(world: "EarthBoundWorld") -> None:
             if location.player == world.player and location.parent_region.name in combat_regions and (
                     location.parent_region.name not in regions_that_were_already_scaled):
                 last_region = location.parent_region.name
-
+            
             regions_that_were_already_scaled.append(last_region)
 
             if location.item.player == world.player and location.item.name == "Ness" and not scaled_chars["Ness"]:

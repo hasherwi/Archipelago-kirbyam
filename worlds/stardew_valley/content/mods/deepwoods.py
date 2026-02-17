@@ -1,11 +1,11 @@
+from ..game_content import ContentPack
+from ..mod_registry import register_mod_content_pack
 from ...data.harvest import ForagingSource
 from ...mods.mod_data import ModNames
 from ...strings.crop_names import Fruit
 from ...strings.flower_names import Flower
 from ...strings.region_names import DeepWoodsRegion
 from ...strings.season_names import Season
-from ..game_content import ContentPack
-from ..mod_registry import register_mod_content_pack
 
 register_mod_content_pack(ContentPack(
     ModNames.deepwoods,

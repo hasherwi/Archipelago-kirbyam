@@ -2,35 +2,17 @@
 Functions related to pokemon species and moves
 """
 import functools
-from typing import TYPE_CHECKING, Dict, List, Optional, Set, Tuple
+from typing import TYPE_CHECKING, Dict, List, Set, Optional, Tuple
 
-from .data import (
-    NUM_REAL_SPECIES,
-    OUT_OF_LOGIC_MAPS,
-    EncounterTableData,
-    EncounterType,
-    LearnsetMove,
-    MapData,
-    SpeciesData,
-    data,
-)
-from .options import (
-    Goal,
-    HmCompatibility,
-    LevelUpMoves,
-    RandomizeAbilities,
-    RandomizeLegendaryEncounters,
-    RandomizeMiscPokemon,
-    RandomizeStarters,
-    RandomizeTypes,
-    RandomizeWildPokemon,
-    TmTutorCompatibility,
-)
+from .data import (NUM_REAL_SPECIES, OUT_OF_LOGIC_MAPS, EncounterType, EncounterTableData, LearnsetMove, SpeciesData,
+                   MapData, data)
+from .options import (Goal, HmCompatibility, LevelUpMoves, RandomizeAbilities, RandomizeLegendaryEncounters,
+                      RandomizeMiscPokemon, RandomizeStarters, RandomizeTypes, RandomizeWildPokemon,
+                      TmTutorCompatibility)
 from .util import bool_array_to_int, get_easter_egg, int_to_bool_array
 
 if TYPE_CHECKING:
     from random import Random
-
     from . import PokemonEmeraldWorld
 
 
@@ -84,7 +66,7 @@ _MOVE_TYPES = [
 ]
 """Maps move ids to the type of that move"""
 
-_MOVES_BY_TYPE: dict[int, list[int]] = {}
+_MOVES_BY_TYPE: Dict[int, List[int]] = {}
 """Categorizes move ids by their type"""
 for move, type in enumerate(_MOVE_TYPES):
     _MOVES_BY_TYPE.setdefault(type, []).append(move)
@@ -121,10 +103,10 @@ def get_random_type(random: "Random") -> int:
 
 def get_random_move(
         random: "Random",
-        blacklist: set[int] | None = None,
+        blacklist: Optional[Set[int]] = None,
         type_bias: int = 0,
         normal_bias: int = 0,
-        type_target: tuple[int, int] | None = None) -> int:
+        type_target: Optional[Tuple[int, int]] = None) -> int:
     expanded_blacklist = _MOVE_BLACKLIST | (blacklist if blacklist is not None else set())
 
     bias = random.random() * 100
@@ -164,7 +146,7 @@ def get_random_move(
     return random.choice(possible_moves)
 
 
-def get_random_damaging_move(random: "Random", blacklist: set[int] | None = None) -> int:
+def get_random_damaging_move(random: "Random", blacklist: Optional[Set[int]] = None) -> int:
     expanded_blacklist = _MOVE_BLACKLIST | (blacklist if blacklist is not None else set())
     move_options = list(_DAMAGING_MOVES)
 
@@ -175,7 +157,7 @@ def get_random_damaging_move(random: "Random", blacklist: set[int] | None = None
     return move
 
 
-def filter_species_by_nearby_bst(species: list[SpeciesData], target_bst: int) -> list[SpeciesData]:
+def filter_species_by_nearby_bst(species: List[SpeciesData], target_bst: int) -> List[SpeciesData]:
     # Sort by difference in bst, then chop off the tail of the list that's more than
     # 10% different. If that leaves the list empty, increase threshold to 20%, then 30%, etc.
     species = sorted(species, key=lambda species: abs(sum(species.base_stats) - target_bst))
@@ -211,7 +193,7 @@ def randomize_types(world: "PokemonEmeraldWorld") -> None:
 
             species.types = (new_type_1, new_type_2)
     elif world.options.types == RandomizeTypes.option_follow_evolutions:
-        already_modified: set[int] = set()
+        already_modified: Set[int] = set()
 
         # Similar to follow evolutions for abilities, but only needs to loop through once.
         # For every pokemon without a pre-evolution, generates a random mapping from old types to new types
@@ -245,14 +227,14 @@ def randomize_types(world: "PokemonEmeraldWorld") -> None:
                 evolutions += [world.modified_species[evo.species_id] for evo in evolution.evolutions]
 
 
-_encounter_subcategory_ranges: dict[EncounterType, dict[range, str | None]] = {
+_encounter_subcategory_ranges: Dict[EncounterType, Dict[range, Optional[str]]] = {
     EncounterType.LAND: {range(0, 12): None},
     EncounterType.WATER: {range(0, 5): None},
     EncounterType.FISHING: {range(0, 2): "OLD_ROD", range(2, 5): "GOOD_ROD", range(5, 10): "SUPER_ROD"},
 }
 
 
-def _rename_wild_events(world: "PokemonEmeraldWorld", map_data: MapData, new_slots: list[int], encounter_type: EncounterType):
+def _rename_wild_events(world: "PokemonEmeraldWorld", map_data: MapData, new_slots: List[int], encounter_type: EncounterType):
     """
     Renames the events that correspond to wild encounters to reflect the new species there after randomization
     """
@@ -308,13 +290,13 @@ def randomize_wild_encounters(world: "PokemonEmeraldWorld") -> None:
         placed_priority_species = False
         map_data = world.modified_maps[map_name]
 
-        new_encounters: dict[EncounterType, EncounterTableData] = {}
+        new_encounters: Dict[EncounterType, EncounterTableData] = {}
 
         for encounter_type, table in map_data.encounters.items():
             # Create a map from the original species to new species
             # instead of just randomizing every slot.
             # Force area 1-to-1 mapping, in other words.
-            species_old_to_new_map: dict[int, int] = {}
+            species_old_to_new_map: Dict[int, int] = {}
             for species_id in table.slots:
                 if species_id not in species_old_to_new_map:
                     if not placed_priority_species and len(priority_species) > 0 \
@@ -328,7 +310,7 @@ def randomize_wild_encounters(world: "PokemonEmeraldWorld") -> None:
                         # collectively cover too much of the pokedex. A lower index in `blacklists`
                         # indicates a more important set of species to avoid. Entries at `0` will
                         # always be blacklisted.
-                        blacklists: dict[int, list[set[int]]] = defaultdict(list)
+                        blacklists: Dict[int, List[Set[int]]] = defaultdict(list)
 
                         # Blacklist pokemon already on this table
                         blacklists[0].append(set(species_old_to_new_map.values()))
@@ -356,7 +338,7 @@ def randomize_wild_encounters(world: "PokemonEmeraldWorld") -> None:
                                 if not bool(set(species.types) & set(original_species.types))
                             })
 
-                        merged_blacklist: set[int] = set()
+                        merged_blacklist: Set[int] = set()
                         for max_priority in reversed(sorted(blacklists.keys())):
                             merged_blacklist = set()
                             for priority in blacklists.keys():
@@ -387,7 +369,7 @@ def randomize_wild_encounters(world: "PokemonEmeraldWorld") -> None:
                         already_placed.add(new_species_id)
 
             # Actually create the new list of slots and encounter table
-            new_slots: list[int] = []
+            new_slots: List[int] = []
             for species_id in table.slots:
                 new_slots.append(species_old_to_new_map[species_id])
 
@@ -420,7 +402,7 @@ def randomize_abilities(world: "PokemonEmeraldWorld") -> None:
         ability_whitelist = [data.constants["ABILITY_CACOPHONY"]]
 
     if world.options.abilities == RandomizeAbilities.option_follow_evolutions:
-        already_modified: set[int] = set()
+        already_modified: Set[int] = set()
 
         # Loops through species and only tries to modify abilities if the pokemon has no pre-evolution
         # or if the pre-evolution has already been modified. Then tries to modify all species that evolve
@@ -482,7 +464,7 @@ def randomize_learnsets(world: "PokemonEmeraldWorld") -> None:
 
     for species in world.modified_species.values():
         old_learnset = species.learnset
-        new_learnset: list[LearnsetMove] = []
+        new_learnset: List[LearnsetMove] = []
 
         # All species have 4 moves at level 0. Up to 3 of them are blank spaces reserved for the
         # start with four moves option. This either replaces those moves or leaves it blank
@@ -512,7 +494,7 @@ def randomize_learnsets(world: "PokemonEmeraldWorld") -> None:
 
         species.learnset = new_learnset
 
-
+        
 def randomize_starters(world: "PokemonEmeraldWorld") -> None:
     if world.options.starters == RandomizeStarters.option_vanilla:
         return
@@ -526,7 +508,7 @@ def randomize_starters(world: "PokemonEmeraldWorld") -> None:
         RandomizeStarters.option_match_base_stats_and_type,
     }
 
-    new_starters: list[SpeciesData] = []
+    new_starters: List[SpeciesData] = []
 
     easter_egg_type, easter_egg_value = get_easter_egg(world.options.easter_egg.value)
     if easter_egg_type == 1:
@@ -569,7 +551,7 @@ def randomize_starters(world: "PokemonEmeraldWorld") -> None:
 
     # Putting the unchosen starter onto the rival's team
     # (trainer name, index of starter in team, whether the starter is evolved)
-    rival_teams: list[list[tuple[str, int, bool]]] = [
+    rival_teams: List[List[Tuple[str, int, bool]]] = [
         [
             ("TRAINER_BRENDAN_ROUTE_103_TREECKO", 0, False),
             ("TRAINER_BRENDAN_RUSTBORO_TREECKO",  1, False),
@@ -624,7 +606,7 @@ def randomize_starters(world: "PokemonEmeraldWorld") -> None:
 def randomize_legendary_encounters(world: "PokemonEmeraldWorld") -> None:
     if world.options.legendary_encounters == RandomizeLegendaryEncounters.option_vanilla:
         return
-    if world.options.legendary_encounters == RandomizeLegendaryEncounters.option_shuffle:
+    elif world.options.legendary_encounters == RandomizeLegendaryEncounters.option_shuffle:
         # Just take the existing species and shuffle them
         shuffled_species = [encounter.species_id for encounter in data.legendary_encounters]
         world.random.shuffle(shuffled_species)
@@ -662,7 +644,7 @@ def randomize_legendary_encounters(world: "PokemonEmeraldWorld") -> None:
 def randomize_misc_pokemon(world: "PokemonEmeraldWorld") -> None:
     if world.options.misc_pokemon == RandomizeMiscPokemon.option_vanilla:
         return
-    if world.options.misc_pokemon == RandomizeMiscPokemon.option_shuffle:
+    elif world.options.misc_pokemon == RandomizeMiscPokemon.option_shuffle:
         # Just take the existing species and shuffle them
         shuffled_species = [encounter.species_id for encounter in data.misc_pokemon]
         world.random.shuffle(shuffled_species)
@@ -692,7 +674,7 @@ def randomize_misc_pokemon(world: "PokemonEmeraldWorld") -> None:
                 ]
             if should_match_bst:
                 candidates = filter_species_by_nearby_bst(candidates, sum(original_species.base_stats))
-
+            
             player_filtered_candidates = [
                 species
                 for species in candidates

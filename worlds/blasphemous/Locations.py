@@ -1,6 +1,7 @@
 from typing import Dict
 
-location_names: dict[str, str] = {
+
+location_names: Dict[str, str] = {
     # The Holy Line
     "PR14":              "THL: Hanging skeleton",
     "RB07":              "THL: Across blood platforms",
@@ -154,7 +155,7 @@ location_names: dict[str, str] = {
     "RESCUED_CHERUB_16":    "MotED: Child of Moonlight, above chasm",
     "Amanecida[D03Z01S03]": "MotED: Amanecida of the Golden Blades",
     "QI63":                 "MotED: Blood platform alcove",
-    "RB13":                 "MotED: Perpetva",
+    'RB13':                 "MotED: Perpetva",
     "QI14":                 "MotED: Egg hatching",
 
     # Jondo

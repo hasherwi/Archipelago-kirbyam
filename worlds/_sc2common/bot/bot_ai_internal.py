@@ -6,8 +6,10 @@ import time
 import warnings
 from abc import ABC
 from collections import Counter
-from typing import TYPE_CHECKING, Any, Dict, List, Set, Tuple, Union, final
-from collections.abc import Generator, Iterable
+from typing import TYPE_CHECKING, Any
+from typing import Dict, Generator, Iterable, List, Set, Tuple, Union, final
+
+from .proto import sc2api_pb2 as sc_pb
 
 from .constants import (
     IS_PLACEHOLDER,
@@ -17,7 +19,6 @@ from .game_data import GameData
 from .game_state import Blip, GameState
 from .pixel_map import PixelMap
 from .position import Point2
-from .proto import sc2api_pb2 as sc_pb
 from .unit import Unit
 from .units import Units
 
@@ -36,7 +37,7 @@ class BotAIInternal(ABC):
     @final
     def _initialize_variables(self):
         """ Called from main.py internally """
-        self.cache: dict[str, Any] = {}
+        self.cache: Dict[str, Any] = {}
         # Specific opponent bot ID used in sc2ai ladder games http://sc2ai.net/ and on ai arena https://aiarena.net
         # The bot ID will stay the same each game so your bot can "adapt" to the opponent
         if not hasattr(self, "opponent_id"):
@@ -69,8 +70,8 @@ class BotAIInternal(ABC):
         self.mineral_field: Units = Units([], self)
         self.vespene_geyser: Units = Units([], self)
         self.placeholders: Units = Units([], self)
-        self.techlab_tags: set[int] = set()
-        self.reactor_tags: set[int] = set()
+        self.techlab_tags: Set[int] = set()
+        self.reactor_tags: Set[int] = set()
         self.minerals: int = 50
         self.vespene: int = 0
         self.supply_army: float = 0
@@ -81,19 +82,19 @@ class BotAIInternal(ABC):
         self.idle_worker_count: int = 0
         self.army_count: int = 0
         self.warp_gate_count: int = 0
-        self.blips: set[Blip] = set()
+        self.blips: Set[Blip] = set()
         self.race: Race = None
         self.enemy_race: Race = None
         self._generated_frame = -100
         self._units_created: Counter = Counter()
-        self._unit_tags_seen_this_game: set[int] = set()
-        self._units_previous_map: dict[int, Unit] = {}
-        self._structures_previous_map: dict[int, Unit] = {}
-        self._enemy_units_previous_map: dict[int, Unit] = {}
-        self._enemy_structures_previous_map: dict[int, Unit] = {}
-        self._all_units_previous_map: dict[int, Unit] = {}
-        self._expansion_positions_list: list[Point2] = []
-        self._resource_location_to_expansion_position_dict: dict[Point2, Point2] = {}
+        self._unit_tags_seen_this_game: Set[int] = set()
+        self._units_previous_map: Dict[int, Unit] = {}
+        self._structures_previous_map: Dict[int, Unit] = {}
+        self._enemy_units_previous_map: Dict[int, Unit] = {}
+        self._enemy_structures_previous_map: Dict[int, Unit] = {}
+        self._all_units_previous_map: Dict[int, Unit] = {}
+        self._expansion_positions_list: List[Point2] = []
+        self._resource_location_to_expansion_position_dict: Dict[Point2, Point2] = {}
         self._time_before_step: float = None
         self._time_after_step: float = None
         self._min_step_time: float = math.inf
@@ -102,7 +103,7 @@ class BotAIInternal(ABC):
         self._total_time_in_on_step: float = 0
         self._total_steps_iterations: int = 0
         # Internally used to keep track which units received an action in this frame, so that self.train() function does not give the same larva two orders - cleared every frame
-        self.unit_tags_received_action: set[int] = set()
+        self.unit_tags_received_action: Set[int] = set()
 
     @final
     @property
@@ -180,14 +181,14 @@ class BotAIInternal(ABC):
         # update pathing grid, which unfortunately is in GameInfo instead of GameState
         self.game_info.pathing_grid = PixelMap(proto_game_info.game_info.start_raw.pathing_grid, in_bits=True)
         # Required for events, needs to be before self.units are initialized so the old units are stored
-        self._units_previous_map: dict[int, Unit] = {unit.tag: unit for unit in self.units}
-        self._structures_previous_map: dict[int, Unit] = {structure.tag: structure for structure in self.structures}
-        self._enemy_units_previous_map: dict[int, Unit] = {unit.tag: unit for unit in self.enemy_units}
-        self._enemy_structures_previous_map: dict[int, Unit] = {
+        self._units_previous_map: Dict[int, Unit] = {unit.tag: unit for unit in self.units}
+        self._structures_previous_map: Dict[int, Unit] = {structure.tag: structure for structure in self.structures}
+        self._enemy_units_previous_map: Dict[int, Unit] = {unit.tag: unit for unit in self.enemy_units}
+        self._enemy_structures_previous_map: Dict[int, Unit] = {
             structure.tag: structure
             for structure in self.enemy_structures
         }
-        self._all_units_previous_map: dict[int, Unit] = {unit.tag: unit for unit in self.all_units}
+        self._all_units_previous_map: Dict[int, Unit] = {unit.tag: unit for unit in self.all_units}
 
         self._prepare_units()
         self.minerals: int = state.common.minerals
@@ -215,7 +216,7 @@ class BotAIInternal(ABC):
     @final
     def _prepare_units(self):
         # Set of enemy units detected by own sensor tower, as blips have less unit information than normal visible units
-        self.blips: set[Blip] = set()
+        self.blips: Set[Blip] = set()
         self.all_units: Units = Units([], self)
         self.units: Units = Units([], self)
         self.workers: Units = Units([], self)
@@ -233,8 +234,8 @@ class BotAIInternal(ABC):
         self.mineral_field: Units = Units([], self)
         self.vespene_geyser: Units = Units([], self)
         self.placeholders: Units = Units([], self)
-        self.techlab_tags: set[int] = set()
-        self.reactor_tags: set[int] = set()
+        self.techlab_tags: Set[int] = set()
+        self.reactor_tags: Set[int] = set()
 
         index: int = 0
         for unit in self.state.observation_raw.units:
@@ -422,16 +423,16 @@ class BotAIInternal(ABC):
     @final
     @staticmethod
     def distance_math_hypot(
-        p1: tuple[float, float] | Point2,
-        p2: tuple[float, float] | Point2,
+        p1: Union[Tuple[float, float], Point2],
+        p2: Union[Tuple[float, float], Point2],
     ) -> float:
         return math.hypot(p1[0] - p2[0], p1[1] - p2[1])
 
     @final
     @staticmethod
     def distance_math_hypot_squared(
-        p1: tuple[float, float] | Point2,
-        p2: tuple[float, float] | Point2,
+        p1: Union[Tuple[float, float], Point2],
+        p2: Union[Tuple[float, float], Point2],
     ) -> float:
         return pow(p1[0] - p2[0], 2) + pow(p1[1] - p2[1], 2)
 
@@ -464,8 +465,8 @@ class BotAIInternal(ABC):
     @final
     def _distance_pos_to_pos(
         self,
-        pos1: tuple[float, float] | Point2,
-        pos2: tuple[float, float] | Point2,
+        pos1: Union[Tuple[float, float], Point2],
+        pos2: Union[Tuple[float, float], Point2],
     ) -> float:
         return self.distance_math_hypot(pos1, pos2)
 
@@ -473,7 +474,7 @@ class BotAIInternal(ABC):
     def _distance_units_to_pos(
         self,
         units: Units,
-        pos: tuple[float, float] | Point2,
+        pos: Union[Tuple[float, float], Point2],
     ) -> Generator[float, None, None]:
         """ This function does not scale well, if len(units) > 100 it gets fairly slow """
         return (self.distance_math_hypot(u.position_tuple, pos) for u in units)
@@ -482,7 +483,7 @@ class BotAIInternal(ABC):
     def _distance_unit_to_points(
         self,
         unit: Unit,
-        points: Iterable[tuple[float, float]],
+        points: Iterable[Tuple[float, float]],
     ) -> Generator[float, None, None]:
         """ This function does not scale well, if len(points) > 100 it gets fairly slow """
         pos = unit.position_tuple

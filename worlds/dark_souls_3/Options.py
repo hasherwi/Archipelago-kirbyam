@@ -1,20 +1,9 @@
-import json
 from dataclasses import dataclass
+import json
 from typing import Any, Dict
 
-from Options import (
-    Choice,
-    DeathLink,
-    DefaultOnToggle,
-    ExcludeLocations,
-    NamedRange,
-    OptionDict,
-    OptionGroup,
-    PerGameCommonOptions,
-    Range,
-    Removed,
-    Toggle,
-)
+from Options import Choice, DeathLink, DefaultOnToggle, ExcludeLocations, NamedRange, OptionDict, \
+    OptionGroup, PerGameCommonOptions, Range, Removed, Toggle
 
 ## Game Options
 
@@ -324,7 +313,7 @@ class RandomEnemyPresetOption(OptionDict):
                   "DontRandomize", "RemoveSource", "Enemies"]
 
     @classmethod
-    def get_option_name(cls, value: dict[str, Any]) -> str:
+    def get_option_name(cls, value: Dict[str, Any]) -> str:
         return json.dumps(value)
 
 

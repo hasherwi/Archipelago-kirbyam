@@ -1,12 +1,11 @@
 from typing import Optional
-
-from BaseClasses import Item, ItemClassification
+from BaseClasses import ItemClassification, Item
 
 base_adventure_item_id = 118000000
 
 
 class AdventureItem(Item):
-    def __init__(self, name: str, classification: ItemClassification, code: int | None, player: int):
+    def __init__(self, name: str, classification: ItemClassification, code: Optional[int], player: int):
         super().__init__(name, classification, code, player)
 
 

@@ -1,10 +1,9 @@
 from random import Random
-from collections.abc import Callable
+from typing import Callable
 
 from BaseClasses import Location, LocationProgressType, Region
-
-from .data.strings import CATEGORY, GOALS, LOCATIONS, OPTIONS, OTHER, REGIONS, SHAPESANITY
-from .options import max_levels_and_upgrades, max_shapesanity
+from .data.strings import CATEGORY, LOCATIONS, REGIONS, OPTIONS, GOALS, OTHER, SHAPESANITY
+from .options import max_shapesanity, max_levels_and_upgrades
 
 categories = [CATEGORY.belt, CATEGORY.miner, CATEGORY.processors, CATEGORY.painting]
 
@@ -543,5 +542,5 @@ class ShapezLocation(Location):
 
     def __init__(self, player: int, name: str, address: int | None, region: Region,
                  progress_type: LocationProgressType):
-        super().__init__(player, name, address, region)
+        super(ShapezLocation, self).__init__(player, name, address, region)
         self.progress_type = progress_type

@@ -5,14 +5,14 @@ import math
 from functools import cached_property
 from typing import TYPE_CHECKING, Dict, List, Optional, Set, Tuple, Union
 
-from worlds._sc2common.bot import logger
-
 from .bot_ai_internal import BotAIInternal
 from .cache import property_cache_once_per_frame
 from .data import Alert, Result
 from .position import Point2
 from .unit import Unit
 from .units import Units
+
+from worlds._sc2common.bot import logger
 
 if TYPE_CHECKING:
     from .game_info import Ramp
@@ -35,7 +35,7 @@ class BotAI(BotAIInternal):
         return f"{int(t // 60):02}:{int(t % 60):02}"
 
     @property
-    def step_time(self) -> tuple[float, float, float, float]:
+    def step_time(self) -> Tuple[float, float, float, float]:
         """Returns a tuple of step duration in milliseconds.
         First value is the minimum step duration - the shortest the bot ever took
         Second value is the average step duration
@@ -102,7 +102,7 @@ class BotAI(BotAIInternal):
         return self.game_info.player_start_location
 
     @property
-    def enemy_start_locations(self) -> list[Point2]:
+    def enemy_start_locations(self) -> List[Point2]:
         """Possible start locations for enemies."""
         return self.game_info.start_locations
 
@@ -130,7 +130,7 @@ class BotAI(BotAIInternal):
         return found_main_base_ramp
 
     @property_cache_once_per_frame
-    def expansion_locations_list(self) -> list[Point2]:
+    def expansion_locations_list(self) -> List[Point2]:
         """ Returns a list of expansion positions, not sorted in any way. """
         assert (
             self._expansion_positions_list
@@ -138,7 +138,7 @@ class BotAI(BotAIInternal):
         return self._expansion_positions_list
 
     @property_cache_once_per_frame
-    def expansion_locations_dict(self) -> dict[Point2, Units]:
+    def expansion_locations_dict(self) -> Dict[Point2, Units]:
         """
         Returns dict with the correct expansion position Point2 object as key,
         resources as Units (mineral fields and vespene geysers) as value.
@@ -148,7 +148,7 @@ class BotAI(BotAIInternal):
         assert (
             self._expansion_positions_list
         ), "self._find_expansion_locations() has not been run yet, so accessing the list of expansion locations is pointless."
-        expansion_locations: dict[Point2, Units] = {pos: Units([], self) for pos in self._expansion_positions_list}
+        expansion_locations: Dict[Point2, Units] = {pos: Units([], self) for pos in self._expansion_positions_list}
         for resource in self.resources:
             # It may be that some resources are not mapped to an expansion location
             exp_position: Point2 = self._resource_location_to_expansion_position_dict.get(resource.position, None)
@@ -157,7 +157,7 @@ class BotAI(BotAIInternal):
                 expansion_locations[exp_position].append(resource)
         return expansion_locations
 
-    async def get_next_expansion(self) -> Point2 | None:
+    async def get_next_expansion(self) -> Optional[Point2]:
         """Find next expansion location."""
 
         closest = None
@@ -289,7 +289,7 @@ class BotAI(BotAIInternal):
                 pass
 
     @property_cache_once_per_frame
-    def owned_expansions(self) -> dict[Point2, Unit]:
+    def owned_expansions(self) -> Dict[Point2, Unit]:
         """Dict of expansions owned by the player with mapping {expansion_location: townhall_structure}."""
         owned = {}
         for el in self.expansion_locations_list:
@@ -315,7 +315,7 @@ class BotAI(BotAIInternal):
         logger.debug("Sending message: " + message)
         await self.client.chat_send(message, team_only)
 
-    def in_map_bounds(self, pos: Point2 | tuple | list) -> bool:
+    def in_map_bounds(self, pos: Union[Point2, tuple, list]) -> bool:
         """Tests if a 2 dimensional point is within the map boundaries of the pixelmaps.
 
         :param pos:"""
@@ -326,7 +326,7 @@ class BotAI(BotAIInternal):
         )
 
     # For the functions below, make sure you are inside the boundaries of the map size.
-    def get_terrain_height(self, pos: Point2 | Unit) -> int:
+    def get_terrain_height(self, pos: Union[Point2, Unit]) -> int:
         """Returns terrain height at a position.
         Caution: terrain height is different from a unit's z-coordinate.
 
@@ -335,7 +335,7 @@ class BotAI(BotAIInternal):
         pos = pos.position.rounded
         return self.game_info.terrain_height[pos]
 
-    def get_terrain_z_height(self, pos: Point2 | Unit) -> float:
+    def get_terrain_z_height(self, pos: Union[Point2, Unit]) -> float:
         """Returns terrain z-height at a position.
 
         :param pos:"""
@@ -343,7 +343,7 @@ class BotAI(BotAIInternal):
         pos = pos.position.rounded
         return -16 + 32 * self.game_info.terrain_height[pos] / 255
 
-    def in_placement_grid(self, pos: Point2 | Unit) -> bool:
+    def in_placement_grid(self, pos: Union[Point2, Unit]) -> bool:
         """Returns True if you can place something at a position.
         Remember, buildings usually use 2x2, 3x3 or 5x5 of these grid points.
         Caution: some x and y offset might be required, see ramp code in game_info.py
@@ -353,7 +353,7 @@ class BotAI(BotAIInternal):
         pos = pos.position.rounded
         return self.game_info.placement_grid[pos] == 1
 
-    def in_pathing_grid(self, pos: Point2 | Unit) -> bool:
+    def in_pathing_grid(self, pos: Union[Point2, Unit]) -> bool:
         """Returns True if a ground unit can pass through a grid point.
 
         :param pos:"""
@@ -361,7 +361,7 @@ class BotAI(BotAIInternal):
         pos = pos.position.rounded
         return self.game_info.pathing_grid[pos] == 1
 
-    def is_visible(self, pos: Point2 | Unit) -> bool:
+    def is_visible(self, pos: Union[Point2, Unit]) -> bool:
         """Returns True if you have vision on a grid point.
 
         :param pos:"""
@@ -370,7 +370,7 @@ class BotAI(BotAIInternal):
         pos = pos.position.rounded
         return self.state.visibility[pos] == 2
 
-    def has_creep(self, pos: Point2 | Unit) -> bool:
+    def has_creep(self, pos: Union[Point2, Unit]) -> bool:
         """Returns True if there is creep on the grid point.
 
         :param pos:"""

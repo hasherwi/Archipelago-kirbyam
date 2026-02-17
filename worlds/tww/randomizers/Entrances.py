@@ -20,7 +20,7 @@ class ZoneEntrance:
     """
 
     entrance_name: str
-    island_name: str | None = None
+    island_name: Optional[str] = None
     nested_in: Optional["ZoneExit"] = None
 
     @property
@@ -56,7 +56,7 @@ class ZoneExit:
     """
 
     unique_name: str
-    zone_name: str | None = None
+    zone_name: Optional[str] = None
 
     def __repr__(self) -> str:
         """
@@ -760,7 +760,7 @@ class EntranceRandomizer:
             relevant_exits += FAIRY_FOUNTAIN_EXITS
         return relevant_entrances, relevant_exits
 
-    def get_outermost_entrance_for_exit(self, zone_exit: ZoneExit) -> ZoneEntrance | None:
+    def get_outermost_entrance_for_exit(self, zone_exit: ZoneExit) -> Optional[ZoneEntrance]:
         """
         Unrecurses nested dungeons to determine a given exit's outermost (island) entrance.
 
@@ -770,7 +770,7 @@ class EntranceRandomizer:
         zone_entrance = self.done_exits_to_entrances[zone_exit]
         return self.get_outermost_entrance_for_entrance(zone_entrance)
 
-    def get_outermost_entrance_for_entrance(self, zone_entrance: ZoneEntrance) -> ZoneEntrance | None:
+    def get_outermost_entrance_for_entrance(self, zone_entrance: ZoneEntrance) -> Optional[ZoneEntrance]:
         """
         Unrecurses nested dungeons to determine a given entrance's outermost (island) entrance.
 
@@ -784,7 +784,7 @@ class EntranceRandomizer:
         outermost_entrance = seen_entrances[-1]
         return outermost_entrance
 
-    def get_all_entrances_on_path_to_entrance(self, zone_entrance: ZoneEntrance) -> list[ZoneEntrance] | None:
+    def get_all_entrances_on_path_to_entrance(self, zone_entrance: ZoneEntrance) -> Optional[list[ZoneEntrance]]:
         """
         Unrecurses nested dungeons to build a list of all entrances leading to a given entrance.
 
@@ -837,7 +837,7 @@ class EntranceRandomizer:
 
         return False
 
-    def get_zone_exit_for_item_location(self, location_name: str) -> ZoneExit | None:
+    def get_zone_exit_for_item_location(self, location_name: str) -> Optional[ZoneExit]:
         """
         Retrieve the zone exit for a given location.
 
@@ -856,12 +856,13 @@ class EntranceRandomizer:
         possible_exits = [ex for ex in ZoneExit.all.values() if ex.zone_name == loc_zone_name]
         if len(possible_exits) == 0:
             return None
-        if len(possible_exits) == 1:
+        elif len(possible_exits) == 1:
             return possible_exits[0]
-        raise Exception(
-            f"Multiple zone exits share the same zone name: {loc_zone_name!r}. "
-            "Use a location exit override instead."
-        )
+        else:
+            raise Exception(
+                f"Multiple zone exits share the same zone name: {loc_zone_name!r}. "
+                "Use a location exit override instead."
+            )
 
     def get_entrance_zone_for_boss(self, boss_name: str) -> str:
         """

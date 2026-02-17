@@ -1,5 +1,6 @@
-from .. import ZillionWorld
 from . import ZillionTestBase
+
+from .. import ZillionWorld
 
 
 class SeedTest(ZillionTestBase):

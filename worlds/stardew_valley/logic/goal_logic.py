@@ -1,3 +1,4 @@
+from .base_logic import BaseLogic, BaseLogicMixin
 from ..data.craftable_data import all_crafting_recipes_by_name
 from ..data.recipe_data import all_cooking_recipes_by_name
 from ..locations import LocationTags, locations_by_tag
@@ -8,7 +9,6 @@ from ..strings.building_names import Building
 from ..strings.quest_names import Quest
 from ..strings.season_names import Season
 from ..strings.wallet_item_names import Wallet
-from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class GoalLogicMixin(BaseLogicMixin):

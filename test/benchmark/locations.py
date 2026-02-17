@@ -8,16 +8,16 @@ def run_locations_benchmark(freeze_gc: bool = True) -> None:
         than running all iterations for the location rule being benchmarked.
     """
     import argparse
-    import collections
-    import gc
     import logging
-    import sys
+    import gc
+    import collections
     import typing
+    import sys
 
     from time_it import TimeIt
 
-    from BaseClasses import CollectionState, Location, MultiWorld
     from Utils import init_logging
+    from BaseClasses import MultiWorld, CollectionState, Location
     from worlds import AutoWorld
     from worlds.AutoWorld import call_all
 
@@ -25,7 +25,7 @@ def run_locations_benchmark(freeze_gc: bool = True) -> None:
     logger = logging.getLogger("Benchmark")
 
     class BenchmarkRunner:
-        gen_steps: tuple[str, ...] = (
+        gen_steps: typing.Tuple[str, ...] = (
             "generate_early",
             "create_regions",
             "create_items",
@@ -57,7 +57,7 @@ def run_locations_benchmark(freeze_gc: bool = True) -> None:
 
         def main(self):
             for game in sorted(AutoWorld.AutoWorldRegister.world_types):
-                summary_data: dict[str, collections.Counter[str]] = {
+                summary_data: typing.Dict[str, collections.Counter[str]] = {
                     "empty_state": collections.Counter(),
                     "all_state": collections.Counter(),
                 }

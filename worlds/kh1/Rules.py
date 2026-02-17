@@ -1,11 +1,11 @@
+from BaseClasses import CollectionState
+from worlds.generic.Rules import add_rule, add_item_rule
 from math import ceil
+from BaseClasses import ItemClassification
+from .Data import WORLD_KEY_ITEMS, LOGIC_BEGINNER, LOGIC_NORMAL, LOGIC_PROUD, LOGIC_MINIMAL
 
-from BaseClasses import CollectionState, ItemClassification
-from worlds.generic.Rules import add_item_rule, add_rule
-
-from .Data import LOGIC_BEGINNER, LOGIC_MINIMAL, LOGIC_NORMAL, LOGIC_PROUD, WORLD_KEY_ITEMS
-from .Items import KH1Item, item_table
 from .Locations import KH1Location, location_table
+from .Items import KH1Item, item_table
 
 WORLDS =    ["Destiny Islands", "Traverse Town", "Wonderland", "Olympus Coliseum", "Deep Jungle", "Agrabah",      "Monstro",      "Atlantica", "Halloween Town", "Neverland",  "Hollow Bastion", "End of the World", "100 Acre Wood"]
 KEYBLADES = ["Oathkeeper",      "Lionheart",     "Lady Luck",  "Olympia",          "Jungle King", "Three Wishes", "Wishing Star", "Crabclaw",  "Pumpkinhead",    "Fairy Harp", "Divine Rose",    "Oblivion",         "Spellbinder"]
@@ -16,7 +16,7 @@ BROKEN_KEYBLADE_LOCKING_LOCATIONS = [
     "End of the World Final Dimension 8th Chest",
     "End of the World Final Dimension 10th Chest",
     "Neverland Hold Aero Chest",
-    "Hollow Bastion Library 1st Floor Turn the Carousel Chest",
+    "Hollow Bastion Library 1st Floor Turn the Carousel Chest", 
     "Hollow Bastion Library Top of Bookshelf Turn the Carousel Chest",
     "Hollow Bastion Library 2nd Floor Turn the Carousel 1st Chest",
     "Hollow Bastion Library 2nd Floor Turn the Carousel 2nd Chest",
@@ -36,22 +36,23 @@ BROKEN_KEYBLADE_LOCKING_LOCATIONS = [
 def has_x_worlds(state: CollectionState, player: int, num_of_worlds: int, keyblades_unlock_chests: bool, logic_difficulty: int, hundred_acre_wood: bool) -> bool:
     if logic_difficulty >= LOGIC_MINIMAL:
         return True
-    worlds_acquired = 0.0
-    for i in range(len(WORLDS)):
-        if WORLDS[i] == "Traverse Town":
-            worlds_acquired = worlds_acquired + 0.5
-            if not keyblades_unlock_chests or state.has(KEYBLADES[i], player):
-                worlds_acquired = worlds_acquired + 0.5
-        elif WORLDS[i] == "100 Acre Wood" and hundred_acre_wood:
-            if state.has("Progressive Fire", player):
+    else:
+        worlds_acquired = 0.0
+        for i in range(len(WORLDS)):
+            if WORLDS[i] == "Traverse Town":
                 worlds_acquired = worlds_acquired + 0.5
                 if not keyblades_unlock_chests or state.has(KEYBLADES[i], player):
                     worlds_acquired = worlds_acquired + 0.5
-        elif state.has(WORLDS[i], player):
-            worlds_acquired = worlds_acquired + 0.5
-            if not keyblades_unlock_chests or state.has(KEYBLADES[i], player):
+            elif WORLDS[i] == "100 Acre Wood" and hundred_acre_wood:
+                if state.has("Progressive Fire", player):
+                    worlds_acquired = worlds_acquired + 0.5
+                    if not keyblades_unlock_chests or state.has(KEYBLADES[i], player):
+                        worlds_acquired = worlds_acquired + 0.5
+            elif state.has(WORLDS[i], player):
                 worlds_acquired = worlds_acquired + 0.5
-    return worlds_acquired >= num_of_worlds
+                if not keyblades_unlock_chests or state.has(KEYBLADES[i], player):
+                    worlds_acquired = worlds_acquired + 0.5
+        return worlds_acquired >= num_of_worlds
 
 def has_emblems(state: CollectionState, player: int, keyblades_unlock_chests: bool, logic_difficulty: int, hundred_acre_wood: bool) -> bool:
     return state.has_all({
@@ -93,15 +94,17 @@ def has_lucky_emblems(state: CollectionState, player: int, required_amt: int) ->
 def has_final_rest_door(state: CollectionState, player: int, final_rest_door_requirement: str, final_rest_door_required_lucky_emblems: int):
     if final_rest_door_requirement == "lucky_emblems":
         return state.has("Lucky Emblem", player, final_rest_door_required_lucky_emblems)
-    return state.has("Final Door Key", player)
+    else:
+        return state.has("Final Door Key", player)
 
 def has_defensive_tools(state: CollectionState, player: int, logic_difficulty: int) -> bool:
     if logic_difficulty >= LOGIC_MINIMAL:
         return True
-    return (
-        state.has_all_counts({"Progressive Cure": 2, "Leaf Bracer": 1, "Dodge Roll": 1}, player)
-        and state.has_any_count({"Second Chance": 1, "MP Rage": 1, "Progressive Aero": 2}, player)
-    )
+    else:
+        return (
+            state.has_all_counts({"Progressive Cure": 2, "Leaf Bracer": 1, "Dodge Roll": 1}, player)
+            and state.has_any_count({"Second Chance": 1, "MP Rage": 1, "Progressive Aero": 2}, player)
+        )
 
 def has_basic_tools(state: CollectionState, player: int) -> bool:
     return (
@@ -149,8 +152,8 @@ def has_key_item(state: CollectionState, player: int, key_item: str, stacking_wo
             or (stacking_world_items and state.has(WORLD_KEY_ITEMS[key_item], player, 2))
             or (key_item == "Jack-In-The-Box" and state.has("Forget-Me-Not", player) and halloween_town_key_item_bundle)
         )
-        # Adding this to make sure that if a beginner logic player is playing with keyblade locking,
-        # anything that would require the Crystal Trident should expect the player to be able to
+        # Adding this to make sure that if a beginner logic player is playing with keyblade locking, 
+        # anything that would require the Crystal Trident should expect the player to be able to 
         # open the Crystal Trident chest.
         and (key_item != "Crystal Trident" or difficulty > LOGIC_BEGINNER or not keyblades_unlock_chests or state.has("Crabclaw", player))
     )
@@ -169,7 +172,7 @@ def set_rules(kh1world):
     halloween_town_key_item_bundle         = kh1world.options.halloween_town_key_item_bundle.value
     end_of_the_world_unlock                = kh1world.options.end_of_the_world_unlock.current_key
     hundred_acre_wood                      = kh1world.options.hundred_acre_wood
-
+    
 
     add_rule(kh1world.get_location("Traverse Town 1st District Candle Puzzle Chest"),
         lambda state: state.has("Progressive Blizzard", player))
@@ -247,7 +250,7 @@ def set_rules(kh1world):
             or (difficulty > LOGIC_NORMAL and has_x_worlds(state, player, 3, options.keyblades_unlock_chests, difficulty, hundred_acre_wood))
             or difficulty > LOGIC_PROUD
         ))
-
+        
     add_rule(kh1world.get_location("Wonderland Bizarre Room Green Trinity Chest"),
         lambda state: state.has("Green Trinity", player))
     add_rule(kh1world.get_location("Wonderland Queen's Castle Hedge Left Red Chest"),
@@ -289,7 +292,7 @@ def set_rules(kh1world):
             )
             or
             (
-                difficulty > LOGIC_PROUD
+                difficulty > LOGIC_PROUD  
                 and state.has_all_counts({"Combo Master": 1, "High Jump": 3, "Air Combo Plus": 2}, player)
             )
         ))
@@ -318,7 +321,7 @@ def set_rules(kh1world):
             )
             or
             (
-                difficulty > LOGIC_PROUD
+                difficulty > LOGIC_PROUD 
                 and state.has_all_counts({"Combo Master": 1, "High Jump": 3, "Air Combo Plus": 2}, player)
             )
         ))
@@ -339,7 +342,7 @@ def set_rules(kh1world):
             )
             or
             (
-                difficulty > LOGIC_PROUD
+                difficulty > LOGIC_PROUD 
                 and state.has_all_counts({"Combo Master": 1, "High Jump": 3, "Air Combo Plus": 2}, player)
             )
         ))
@@ -349,7 +352,7 @@ def set_rules(kh1world):
             or state.has("Progressive Glide", player)
             or
             (
-                difficulty > LOGIC_PROUD
+                difficulty > LOGIC_PROUD 
                 and state.has_all_counts({"Combo Master": 1, "High Jump": 3, "Air Combo Plus": 2}, player)
             )
         ))
@@ -365,7 +368,7 @@ def set_rules(kh1world):
             or
             (
                 difficulty > LOGIC_NORMAL
-                and
+                and 
                 (
                     (
                         state.has_all({"High Jump", "Combo Master"}, player)
@@ -376,7 +379,7 @@ def set_rules(kh1world):
             )
             or
             (
-                difficulty > LOGIC_PROUD
+                difficulty > LOGIC_PROUD 
                 and state.has_all_counts({"Combo Master": 1, "High Jump": 3, "Air Combo Plus": 2}, player)
             )
         ))
@@ -502,9 +505,9 @@ def set_rules(kh1world):
     add_rule(kh1world.get_location("Monstro Chamber 6 Other Platform Chest"),
         lambda state: (
             state.has_all({"High Jump","Progressive Glide"}, player)
-            or
+            or 
             (
-                difficulty > LOGIC_NORMAL
+                difficulty > LOGIC_NORMAL 
                 and
                 (
                     state.has("Combo Master", player)
@@ -518,9 +521,9 @@ def set_rules(kh1world):
     add_rule(kh1world.get_location("Monstro Chamber 6 Raised Area Near Chamber 1 Entrance Chest"),
         lambda state: (
             state.has_all({"High Jump","Progressive Glide"}, player)
-            or
+            or 
             (
-                difficulty > LOGIC_NORMAL
+                difficulty > LOGIC_NORMAL 
                 and
                 (
                     state.has("Combo Master", player)
@@ -873,7 +876,7 @@ def set_rules(kh1world):
             or
             (
                 difficulty > LOGIC_NORMAL
-                and
+                and 
                 (
                     state.has_all({"High Jump", "Combo Master"}, player)
                     or state.has("High Jump", player, 2)
@@ -1013,7 +1016,7 @@ def set_rules(kh1world):
     add_rule(kh1world.get_location("Traverse Town Geppetto's House Geppetto Reward 5"),
         lambda state: has_parasite_cage(state, player, difficulty, has_x_worlds(state, player, 3, options.keyblades_unlock_chests, difficulty, hundred_acre_wood)))
     add_rule(kh1world.get_location("Traverse Town Geppetto's House Geppetto All Summons Reward"),
-        lambda state:
+        lambda state: 
             has_parasite_cage(state, player, difficulty, has_x_worlds(state, player, 3, options.keyblades_unlock_chests, difficulty, hundred_acre_wood)
             and has_all_summons(state, player)
         ))
@@ -1087,13 +1090,13 @@ def set_rules(kh1world):
             and has_item_workshop(state, player, difficulty)
         ))
     for i in range(33):
-        add_rule(kh1world.get_location("Traverse Town Synth Item " + str(i+1).rjust(2,"0")),
+        add_rule(kh1world.get_location("Traverse Town Synth Item " + str(i+1).rjust(2,'0')),
             lambda state: (
                 state.has("Orichalcum", player, 17)
                 and state.has("Mythril", player, 16)
                 and has_item_workshop(state, player, difficulty)
             ))
-        add_item_rule(kh1world.get_location("Traverse Town Synth Item " + str(i+1).rjust(2,"0")),
+        add_item_rule(kh1world.get_location("Traverse Town Synth Item " + str(i+1).rjust(2,'0')),
             lambda i: (i.player != player or i.name not in ["Orichalcum", "Mythril"]))
     add_rule(kh1world.get_location("Traverse Town Gizmo Shop Postcard 1"),
         lambda state: state.has("Progressive Thunder", player))
@@ -1199,7 +1202,7 @@ def set_rules(kh1world):
             or state.has("Progressive Glide", player)
             or
             (
-                difficulty > LOGIC_PROUD
+                difficulty > LOGIC_PROUD 
                 and state.has_all_counts({"Combo Master": 1, "High Jump": 3, "Air Combo Plus": 2}, player)
             )
         ))
@@ -1209,7 +1212,7 @@ def set_rules(kh1world):
             or state.has("Progressive Glide", player)
             or
             (
-                difficulty > LOGIC_PROUD
+                difficulty > LOGIC_PROUD 
                 and state.has_all_counts({"Combo Master": 1, "High Jump": 3, "Air Combo Plus": 2}, player)
             )
         ))
@@ -1219,7 +1222,7 @@ def set_rules(kh1world):
             or state.has("Progressive Glide", player)
             or
             (
-                difficulty > LOGIC_PROUD
+                difficulty > LOGIC_PROUD 
                 and state.has_all_counts({"Combo Master": 1, "High Jump": 3, "Air Combo Plus": 2}, player)
             )
         ))
@@ -1229,7 +1232,7 @@ def set_rules(kh1world):
             or state.has("Progressive Glide", player)
             or
             (
-                difficulty > LOGIC_PROUD
+                difficulty > LOGIC_PROUD 
                 and state.has_all_counts({"Combo Master": 1, "High Jump": 3, "Air Combo Plus": 2}, player)
             )
         ))
@@ -1239,7 +1242,7 @@ def set_rules(kh1world):
             or state.has("Progressive Glide", player)
             or
             (
-                difficulty > LOGIC_PROUD
+                difficulty > LOGIC_PROUD 
                 and state.has_all_counts({"Combo Master": 1, "High Jump": 3, "Air Combo Plus": 2}, player)
             )
         ))
@@ -1535,7 +1538,7 @@ def set_rules(kh1world):
                     and has_key_item(state, player, "Entry Pass", stacking_world_items, halloween_town_key_item_bundle, difficulty, options.keyblades_unlock_chests)
                     and has_x_worlds(state, player, 8, options.keyblades_unlock_chests, difficulty, hundred_acre_wood)
                     and has_defensive_tools(state, player, difficulty)
-                ))
+                ))            
             add_rule(kh1world.get_location("Olympus Coliseum Gates Purple Jar After Defeating Hades"),
                 lambda state: (
                     state.has_all({
@@ -1566,13 +1569,13 @@ def set_rules(kh1world):
                         "Hercules Cup"}, player)
                     and has_key_item(state, player, "Entry Pass", stacking_world_items, halloween_town_key_item_bundle, difficulty, options.keyblades_unlock_chests)
                 and has_x_worlds(state, player, 4, options.keyblades_unlock_chests, difficulty, hundred_acre_wood)
-            ))
+            ))    
     if options.super_bosses:
         add_rule(kh1world.get_location("Neverland Defeat Phantom Stop Event"),
             lambda state: (
                 state.has("Green Trinity", player)
                 and has_emblems(state, player, options.keyblades_unlock_chests, difficulty, hundred_acre_wood)
-                and
+                and 
                 (
                     has_all_magic_lvx(state, player, 3)
                     or (difficulty > LOGIC_BEGINNER and has_all_magic_lvx(state, player, 2))
@@ -1612,7 +1615,7 @@ def set_rules(kh1world):
                     or (difficulty > LOGIC_BEGINNER and state.has_any_count({"Progressive Blizzard": 2, "Progressive Fire": 3,"Progressive Thunder": 3, "Progressive Gravity": 3}, player))
                     or (difficulty > LOGIC_NORMAL and (state.has_any_count({"Progressive Blizzard": 1, "Progressive Fire": 2, "Progressive Thunder": 2, "Progressive Gravity": 2}, player)))
                     or (difficulty > LOGIC_PROUD and (state.has_any({"Progressive Fire", "Progressive Thunder", "Progressive Gravity"}, player) or (state.has_group("Magic", player) and state.has_all({"Mushu", "Genie", "Dumbo"}, player))))
-                )
+                ) 
             ))
     if options.super_bosses or options.final_rest_door_key.current_key == "sephiroth":
         add_rule(kh1world.get_location("Olympus Coliseum Defeat Sephiroth Ansem's Report 12"),
@@ -1689,29 +1692,29 @@ def set_rules(kh1world):
         #add_rule(kh1world.get_location("Destiny Islands Cove Deliver Kairi Items (Day 2)"),
         #    lambda state: state.has("Raft Materials", player, homecoming_materials))
     for i in range(1,options.level_checks+1):
-        add_rule(kh1world.get_location("Level " + str(i+1).rjust(3,"0") + " (Slot 1)"),
+        add_rule(kh1world.get_location("Level " + str(i+1).rjust(3,'0') + " (Slot 1)"),
             lambda state, level_num=i: (
                 has_x_worlds(state, player, min(((level_num//10)*2), 8), options.keyblades_unlock_chests, difficulty, hundred_acre_wood)
             ))
         if i+1 in kh1world.get_slot_2_levels():
-            add_rule(kh1world.get_location("Level " + str(i+1).rjust(3,"0") + " (Slot 2)"),
+            add_rule(kh1world.get_location("Level " + str(i+1).rjust(3,'0') + " (Slot 2)"),
                 lambda state, level_num=i: (
                     has_x_worlds(state, player, min(((level_num//10)*2), 8), options.keyblades_unlock_chests, difficulty, hundred_acre_wood)
                 ))
     add_rule(kh1world.get_location("Final Ansem"),
         lambda state: (
             has_x_worlds(state, player, 8, options.keyblades_unlock_chests, difficulty, hundred_acre_wood) # In logic, player is strong enough
-            and
+            and 
             (
                 ( # Can DI Finish
                     state.has("Destiny Islands", player)
                     and state.has("Raft Materials", player, homecoming_materials)
                 )
-                or
+                or 
                 (
                     ( # Has access to EotW
                         (
-                            has_lucky_emblems(state, player, eotw_required_lucky_emblems)
+                            has_lucky_emblems(state, player, eotw_required_lucky_emblems) 
                             and end_of_the_world_unlock == "lucky_emblems"
                         )
                         or state.has("End of the World", player)
@@ -1721,7 +1724,7 @@ def set_rules(kh1world):
             )
             and has_defensive_tools(state, player, difficulty)
         ))
-
+    
     for location in location_table.keys():
         try:
             kh1world.get_location(location)

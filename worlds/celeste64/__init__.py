@@ -3,24 +3,11 @@ from typing import Dict, List, Tuple
 
 from BaseClasses import ItemClassification, Location, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
-
-from .Items import (
-    Celeste64Item,
-    checkpoint_item_data_table,
-    item_data_table,
-    item_table,
-    move_item_data_table,
-    unlockable_item_data_table,
-)
-from .Locations import (
-    Celeste64Location,
-    car_location_data_table,
-    checkpoint_location_data_table,
-    friend_location_data_table,
-    location_table,
-    sign_location_data_table,
-    strawberry_location_data_table,
-)
+from .Items import Celeste64Item, unlockable_item_data_table, move_item_data_table, item_data_table,\
+                                  checkpoint_item_data_table, item_table
+from .Locations import Celeste64Location, strawberry_location_data_table, friend_location_data_table,\
+                                          sign_location_data_table, car_location_data_table, checkpoint_location_data_table,\
+                                          location_table
 from .Names import ItemName, LocationName
 from .Options import Celeste64Options, celeste_64_option_groups, resolve_options
 
@@ -56,8 +43,8 @@ class Celeste64World(World):
 
     # Instance Data
     strawberries_required: int
-    active_logic_mapping: dict[str, list[list[str]]]
-    active_region_logic_mapping: dict[tuple[str], list[list[str]]]
+    active_logic_mapping: Dict[str, List[List[str]]]
+    active_region_logic_mapping: Dict[Tuple[str], List[List[str]]]
 
     madeline_one_dash_hair_color: int
     madeline_two_dash_hair_color: int
@@ -77,10 +64,11 @@ class Celeste64World(World):
                 self.prog_strawberries += 1
 
             return Celeste64Item(name, classification, item_data_table[name].code, self.player)
-        return Celeste64Item(name, item_data_table[name].type, item_data_table[name].code, self.player)
+        else:
+            return Celeste64Item(name, item_data_table[name].type, item_data_table[name].code, self.player)
 
     def create_items(self) -> None:
-        item_pool: list[Celeste64Item] = []
+        item_pool: List[Celeste64Item] = []
 
         location_count: int = 30
 
@@ -101,7 +89,7 @@ class Celeste64World(World):
 
         if self.options.move_shuffle:
             if self.options.logic_difficulty == "standard":
-                possible_unwalls: list[str] = [name for name in move_item_data_table.keys()
+                possible_unwalls: List[str] = [name for name in move_item_data_table.keys()
                                                 if name != ItemName.skid_jump]
 
                 if self.options.checkpointsanity:

@@ -5,13 +5,12 @@
 
 from BaseClasses import Item, MultiWorld, Tutorial
 from Fill import fill_restrictive
-
-from ..AutoWorld import WebWorld, World
-from .Items import MeritousItem, item_groups, item_table
-from .Locations import MeritousLocation, location_table
+from .Items import item_table, item_groups, MeritousItem
+from .Locations import location_table, MeritousLocation
 from .Options import MeritousOptions, cost_scales
 from .Regions import create_regions
 from .Rules import set_rules
+from ..AutoWorld import World, WebWorld
 
 client_version = 1
 
@@ -52,7 +51,7 @@ class MeritousWorld(World):
     options_dataclass = MeritousOptions
 
     def __init__(self, multiworld: MultiWorld, player: int):
-        super().__init__(multiworld, player)
+        super(MeritousWorld, self).__init__(multiworld, player)
         self.goal = 0
         self.include_evolution_traps = False
         self.include_psi_keys = False
@@ -91,9 +90,10 @@ class MeritousWorld(World):
         rand_crystals = self.multiworld.random.randrange(0, 32)
         if rand_crystals < 16:
             return "Crystals x500"
-        if rand_crystals < 28:
+        elif rand_crystals < 28:
             return "Crystals x1000"
-        return "Crystals x2000"
+        else:
+            return "Crystals x2000"
 
     def generate_early(self):
         self.goal = self.options.goal.value

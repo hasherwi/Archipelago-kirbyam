@@ -1,9 +1,8 @@
 from typing import Any, Dict
 
 import Options as ap_options
-
-from ..strings.ap_names.ap_option_names import WalnutsanityOptionName
 from . import options
+from ..strings.ap_names.ap_option_names import WalnutsanityOptionName
 
 # @formatter:off
 all_random_settings = {
@@ -360,7 +359,7 @@ allsanity_settings = {
 # @formatter:on
 
 
-sv_options_presets: dict[str, dict[str, Any]] = {
+sv_options_presets: Dict[str, Dict[str, Any]] = {
     "All random": all_random_settings,
     "Easy": easy_settings,
     "Medium": medium_settings,

@@ -1,6 +1,6 @@
-from .assembler import ASM
-from .pointerTable import PointerTable
 from .rom import ROM
+from .pointerTable import PointerTable
+from .assembler import ASM
 
 
 class Texts(PointerTable):

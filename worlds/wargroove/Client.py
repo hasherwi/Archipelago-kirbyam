@@ -1,32 +1,30 @@
 from __future__ import annotations
 
-import asyncio
 import atexit
 import os
 import pkgutil
-import random
 import sys
+import asyncio
+import random
 import typing
-from typing import Dict, List, Tuple
-from collections.abc import Iterable
-
-import ModuleUpdate
+from typing import Tuple, List, Iterable, Dict
 
 from . import WargrooveWorld
-from .Items import CommanderData, ItemData, faction_table, item_table
+from .Items import item_table, faction_table, CommanderData, ItemData
 
+import ModuleUpdate
 ModuleUpdate.update()
 
+import Utils
 import json
 import logging
-
-import Utils
 
 if __name__ == "__main__":
     Utils.init_logging("WargrooveClient", exception_logger="Client")
 
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger, server_loop
 from NetUtils import ClientStatus
+from CommonClient import gui_enabled, logger, get_base_parser, ClientCommandProcessor, \
+    CommonContext, server_loop
 
 wg_logger = logging.getLogger("WG")
 
@@ -68,16 +66,16 @@ class WargrooveClientCommandProcessor(ClientCommandProcessor):
     def _cmd_commander(self, *commander_name: Iterable[str]):
         """Set the current commander to the given commander."""
         if commander_name:
-            self.ctx.set_commander(" ".join(commander_name))
+            self.ctx.set_commander(' '.join(commander_name))
         else:
             if self.ctx.can_choose_commander:
                 commanders = self.ctx.get_commanders()
-                wg_logger.info("Unlocked commanders: " +
-                               ", ".join((commander.name for commander, unlocked in commanders if unlocked)))
-                wg_logger.info("Locked commanders: " +
-                               ", ".join((commander.name for commander, unlocked in commanders if not unlocked)))
+                wg_logger.info('Unlocked commanders: ' +
+                               ', '.join((commander.name for commander, unlocked in commanders if unlocked)))
+                wg_logger.info('Locked commanders: ' +
+                               ', '.join((commander.name for commander, unlocked in commanders if not unlocked)))
             else:
-                wg_logger.error("Cannot set commanders in this game mode.")
+                wg_logger.error('Cannot set commanders in this game mode.')
 
 
 class WargrooveContext(CommonContext):
@@ -95,17 +93,17 @@ class WargrooveContext(CommonContext):
     ai_stored_units_key: str = ""
     max_stored_units: int = 1000
     faction_item_ids = {
-        "Starter": 0,
-        "Cherrystone": 52025,
-        "Felheim": 52026,
-        "Floran": 52027,
-        "Heavensong": 52028,
-        "Requiem": 52029,
-        "Outlaw": 52030
+        'Starter': 0,
+        'Cherrystone': 52025,
+        'Felheim': 52026,
+        'Floran': 52027,
+        'Heavensong': 52028,
+        'Requiem': 52029,
+        'Outlaw': 52030
     }
     buff_item_ids = {
-        "Income Boost": 52023,
-        "Commander Defense Boost": 52024,
+        'Income Boost': 52023,
+        'Commander Defense Boost': 52024,
     }
     unit_classes = {
         "archer",
@@ -134,7 +132,7 @@ class WargrooveContext(CommonContext):
     }
 
     def __init__(self, server_address, password):
-        super().__init__(server_address, password)
+        super(WargrooveContext, self).__init__(server_address, password)
         self.send_index: int = 0
         self.syncing = False
         self.awaiting_bridge = False
@@ -146,7 +144,7 @@ class WargrooveContext(CommonContext):
         # However, other OSes don't usually have this value set, so we need to rely on a settings value instead.
         appdata_wargroove = None
         if "appdata" in os.environ:
-            appdata_wargroove = os.environ["appdata"]
+            appdata_wargroove = os.environ['appdata']
         else:
             try:
                 appdata_wargroove = game_options.save_directory
@@ -202,26 +200,26 @@ class WargrooveContext(CommonContext):
             file_data = pkgutil.get_data("worlds.wargroove", resource)
             if file_data is None:
                 print_error_and_close("WargrooveClient couldn't find Wargoove mod and save files in install!")
-            with open(destination, "wb") as f:
+            with open(destination, 'wb') as f:
                 f.write(file_data)
 
-    def on_deathlink(self, data: dict[str, typing.Any]) -> None:
-        with open(os.path.join(self.game_communication_path, "deathLinkReceive"), "w+") as f:
+    def on_deathlink(self, data: typing.Dict[str, typing.Any]) -> None:
+        with open(os.path.join(self.game_communication_path, "deathLinkReceive"), 'w+') as f:
             text = data.get("cause", "")
             if text:
                 f.write(f"DeathLink: {text}")
             else:
                 f.write(f"DeathLink: Received from {data['source']}")
-        super().on_deathlink(data)
+        super(WargrooveContext, self).on_deathlink(data)
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super().server_auth(password_requested)
+            await super(WargrooveContext, self).server_auth(password_requested)
         await self.get_username()
         await self.send_connect()
 
     async def connection_closed(self):
-        await super().connection_closed()
+        await super(WargrooveContext, self).connection_closed()
         self.remove_communication_files()
         self.checked_locations.clear()
         self.server_locations.clear()
@@ -231,10 +229,11 @@ class WargrooveContext(CommonContext):
     def endpoints(self):
         if self.server:
             return [self.server]
-        return []
+        else:
+            return []
 
     async def shutdown(self):
-        await super().shutdown()
+        await super(WargrooveContext, self).shutdown()
         self.remove_communication_files()
         self.checked_locations.clear()
         self.server_locations.clear()
@@ -250,16 +249,16 @@ class WargrooveContext(CommonContext):
             slot_data = args["slot_data"]
             self.has_death_link = slot_data.get("death_link", False)
             filename = f"AP_settings.json"
-            with open(os.path.join(self.game_communication_path, filename), "w") as f:
+            with open(os.path.join(self.game_communication_path, filename), 'w') as f:
                 json.dump(slot_data, f)
                 self.can_choose_commander = slot_data["can_choose_commander"]
-                print("can choose commander:", self.can_choose_commander)
+                print('can choose commander:', self.can_choose_commander)
                 self.starting_groove_multiplier = slot_data["starting_groove_multiplier"]
                 self.income_boost_multiplier = slot_data["income_boost"]
                 self.commander_defense_boost_multiplier = slot_data["commander_defense_boost"]
             for ss in self.checked_locations:
                 filename = f"send{ss}"
-                with open(os.path.join(self.game_communication_path, filename), "w") as f:
+                with open(os.path.join(self.game_communication_path, filename), 'w') as f:
                     pass
 
             self.player_stored_units_key = f"wargroove_player_units_{self.team}"
@@ -273,7 +272,7 @@ class WargrooveContext(CommonContext):
             # Our indexes start at 1 and we have 24 levels
             for i in range(1, 25):
                 filename = f"seed{i}"
-                with open(os.path.join(self.game_communication_path, filename), "w") as f:
+                with open(os.path.join(self.game_communication_path, filename), 'w') as f:
                     f.write(str(random.randint(0, 4294967295)))
 
         if cmd in {"RoomInfo"}:
@@ -287,14 +286,14 @@ class WargrooveContext(CommonContext):
 
                 # Newly-obtained items
                 if not os.path.isfile(path):
-                    open(path, "w").close()
+                    open(path, 'w').close()
                     # Announcing commander unlocks
                     item_name = self.item_names.lookup_in_game(network_item.item)
                     if item_name in faction_table.keys():
                         for commander in faction_table[item_name]:
                             logger.info(f"{commander.name} has been unlocked!")
 
-                with open(path, "w") as f:
+                with open(path, 'w') as f:
                     item_count = received_ids.count(network_item.item)
                     if self.buff_item_ids["Income Boost"] == network_item.item:
                         f.write(f"{item_count * self.income_boost_multiplier}")
@@ -306,8 +305,8 @@ class WargrooveContext(CommonContext):
                 print_filename = f"AP_{str(network_item.item)}.item.print"
                 print_path = os.path.join(self.game_communication_path, print_filename)
                 if not os.path.isfile(print_path):
-                    open(print_path, "w").close()
-                    with open(print_path, "w") as f:
+                    open(print_path, 'w').close()
+                    with open(print_path, 'w') as f:
                         f.write("Received " +
                                 self.item_names.lookup_in_game(network_item.item) +
                                 " from " +
@@ -319,20 +318,18 @@ class WargrooveContext(CommonContext):
             if "checked_locations" in args:
                 for ss in self.checked_locations:
                     filename = f"send{ss}"
-                    with open(os.path.join(self.game_communication_path, filename), "w") as f:
+                    with open(os.path.join(self.game_communication_path, filename), 'w') as f:
                         pass
 
     def run_gui(self):
         """Import kivy UI system and start running it as self.ui_task."""
-        import pkgutil
-
+        from kvui import GameManager, HoverBehavior, ServerToolTip
+        from kivymd.uix.tab import MDTabsItem, MDTabsItemText
         from kivy.lang import Builder
+        from kivy.uix.togglebutton import ToggleButton
         from kivy.uix.boxlayout import BoxLayout
         from kivy.uix.label import Label
-        from kivy.uix.togglebutton import ToggleButton
-        from kivymd.uix.tab import MDTabsItem, MDTabsItemText
-
-        from kvui import GameManager, HoverBehavior, ServerToolTip
+        import pkgutil
 
         class TrackerLayout(BoxLayout):
             pass
@@ -365,7 +362,7 @@ class WargrooveContext(CommonContext):
             unit_tracker: ItemTracker
             trigger_tracker: BoxLayout
             boost_tracker: BoxLayout
-            commander_buttons: dict[int, list[CommanderButton]]
+            commander_buttons: Dict[int, List[CommanderButton]]
             tracker_items = {
                 "Swordsman": ItemData(None, "Unit", False),
                 "Dog": ItemData(None, "Unit", False),
@@ -395,7 +392,7 @@ class WargrooveContext(CommonContext):
                             commander_buttons.append(commander_button)
                             commander_group.add_widget(commander_button)
                         self.commander_buttons[faction] = commander_buttons
-                        faction_box.add_widget(Label(text=faction, size_hint_x=None, pos_hint={"left": 1}, size_hint_y=None, height=10))
+                        faction_box.add_widget(Label(text=faction, size_hint_x=None, pos_hint={'left': 1}, size_hint_y=None, height=10))
                         faction_box.add_widget(commander_group)
                         commander_select.add_widget(faction_box)
                     item_tracker = ItemTracker(padding=[0,20])
@@ -445,7 +442,7 @@ class WargrooveContext(CommonContext):
     def update_commander_data(self):
         if self.can_choose_commander:
             faction_items = 0
-            faction_item_names = [faction + " Commanders" for faction in faction_table.keys()]
+            faction_item_names = [faction + ' Commanders' for faction in faction_table.keys()]
             for network_item in self.items_received:
                 if self.item_names.lookup_in_game(network_item.item) in faction_item_names:
                     faction_items += 1
@@ -461,8 +458,8 @@ class WargrooveContext(CommonContext):
                 "commander": "seed",
                 "starting_groove": 0
             }
-        filename = "commander.json"
-        with open(os.path.join(self.game_communication_path, filename), "w") as f:
+        filename = 'commander.json'
+        with open(os.path.join(self.game_communication_path, filename), 'w') as f:
             json.dump(data, f)
         if self.ui:
             self.ui.update_tracker()
@@ -481,17 +478,18 @@ class WargrooveContext(CommonContext):
                     wg_logger.info(f"Commander set to {commander.name}.")
                     self.update_commander_data()
                     return True
-                wg_logger.error(f"Commander {commander.name} has not been unlocked.")
-                return False
+                else:
+                    wg_logger.error(f"Commander {commander.name} has not been unlocked.")
+                    return False
         else:
             wg_logger.error(f"{commander_name} is not a recognized Wargroove commander.")
 
-    def get_commanders(self) -> list[tuple[CommanderData, bool]]:
+    def get_commanders(self) -> List[Tuple[CommanderData, bool]]:
         """Gets a list of commanders with their unlocked status"""
         commanders = []
         received_ids = [item.item for item in self.items_received]
         for faction in faction_table.keys():
-            unlocked = faction == "Starter" or self.faction_item_ids[faction] in received_ids
+            unlocked = faction == 'Starter' or self.faction_item_ids[faction] in received_ids
             commanders += [(commander, unlocked) for commander in faction_table[faction]]
         return commanders
 
@@ -500,7 +498,7 @@ async def game_watcher(ctx: WargrooveContext):
     while not ctx.exit_event.is_set():
         try:
             if ctx.syncing == True:
-                sync_msg = [{"cmd": "Sync"}]
+                sync_msg = [{'cmd': 'Sync'}]
                 if ctx.locations_checked:
                     sync_msg.append({"cmd": "LocationChecks", "locations": list(ctx.locations_checked)})
                 await ctx.send_msgs(sync_msg)
@@ -510,7 +508,7 @@ async def game_watcher(ctx: WargrooveContext):
             for root, dirs, files in os.walk(ctx.game_communication_path):
                 for file in files:
                     if file == "deathLinkSend" and ctx.has_death_link:
-                        with open(os.path.join(ctx.game_communication_path, file), "r") as f:
+                        with open(os.path.join(ctx.game_communication_path, file), 'r') as f:
                             failed_mission = f.read()
                             if ctx.slot is not None:
                                 await ctx.send_death(f"{ctx.player_names[ctx.slot]} failed {failed_mission}")
@@ -527,9 +525,9 @@ async def game_watcher(ctx: WargrooveContext):
                             stored_units_key = ctx.player_stored_units_key
                             if file == "unitSacrificeAI":
                                 stored_units_key = ctx.ai_stored_units_key
-                            with open(os.path.join(ctx.game_communication_path, file), "r") as f:
+                            with open(os.path.join(ctx.game_communication_path, file), 'r') as f:
                                 unit_class = f.read()
-                                message = [{"cmd": "Set", "key": stored_units_key,
+                                message = [{"cmd": 'Set', "key": stored_units_key,
                                             "default": [],
                                             "want_reply": True,
                                             "operations": [{"operation": "add", "value": [unit_class[:64]]}]}]
@@ -540,7 +538,7 @@ async def game_watcher(ctx: WargrooveContext):
                             stored_units_key = ctx.player_stored_units_key
                             if file == "unitSummonRequestAI":
                                 stored_units_key = ctx.ai_stored_units_key
-                            with open(os.path.join(ctx.game_communication_path, "unitSummonResponse"), "w") as f:
+                            with open(os.path.join(ctx.game_communication_path, "unitSummonResponse"), 'w') as f:
                                 if stored_units_key in ctx.stored_data:
                                     stored_units = ctx.stored_data[stored_units_key]
                                     if stored_units is None:
@@ -548,7 +546,7 @@ async def game_watcher(ctx: WargrooveContext):
                                     wg1_stored_units = [unit for unit in stored_units if unit in ctx.unit_classes]
                                     if len(wg1_stored_units) != 0:
                                         summoned_unit = random.choice(wg1_stored_units)
-                                        message = [{"cmd": "Set", "key": stored_units_key,
+                                        message = [{"cmd": 'Set', "key": stored_units_key,
                                                     "default": [],
                                                     "want_reply": True,
                                                     "operations": [{"operation": "remove", "value": summoned_unit[:64]}]}]
@@ -557,7 +555,7 @@ async def game_watcher(ctx: WargrooveContext):
                         os.remove(os.path.join(ctx.game_communication_path, file))
 
             ctx.locations_checked = sending
-            message = [{"cmd": "LocationChecks", "locations": sending}]
+            message = [{"cmd": 'LocationChecks', "locations": sending}]
             await ctx.send_msgs(message)
             if not ctx.finished_game and victory:
                 await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])

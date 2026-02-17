@@ -1,5 +1,5 @@
-import subprocess
 from pathlib import Path
+import subprocess
 
 config = Path(__file__).parent / "pyright-config.json"
 

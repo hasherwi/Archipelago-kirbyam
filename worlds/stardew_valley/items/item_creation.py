@@ -3,32 +3,14 @@ from random import Random
 from typing import List, Set
 
 from BaseClasses import Item, ItemClassification
-
+from .item_data import StardewItemFactory, items_by_group, Group, item_table, ItemData
 from ..content.feature import friendsanity
 from ..content.game_content import StardewContent
 from ..data.game_item import ItemTag
 from ..mods.mod_data import ModNames
-from ..options import (
-    ArcadeMachineLocations,
-    BackpackProgression,
-    BundleRandomization,
-    Chefsanity,
-    Craftsanity,
-    ElevatorProgression,
-    EnabledFillerBuffs,
-    EntranceRandomization,
-    ExcludeGingerIsland,
-    FestivalLocations,
-    Goal,
-    Monstersanity,
-    Museumsanity,
-    SeasonRandomization,
-    Shipsanity,
-    SpecialOrderLocations,
-    StardewValleyOptions,
-    TrapDifficulty,
-    Walnutsanity,
-)
+from ..options import StardewValleyOptions, FestivalLocations, ExcludeGingerIsland, SpecialOrderLocations, SeasonRandomization, Museumsanity, \
+    ElevatorProgression, BackpackProgression, ArcadeMachineLocations, Monstersanity, Goal, \
+    Chefsanity, Craftsanity, BundleRandomization, EntranceRandomization, Shipsanity, Walnutsanity, EnabledFillerBuffs, TrapDifficulty
 from ..strings.ap_names.ap_option_names import BuffOptionName, WalnutsanityOptionName
 from ..strings.ap_names.ap_weapon_names import APWeapon
 from ..strings.ap_names.buff_names import Buff
@@ -37,7 +19,6 @@ from ..strings.ap_names.mods.mod_items import SVEQuestItem
 from ..strings.currency_names import Currency
 from ..strings.tool_names import Tool
 from ..strings.wallet_item_names import Wallet
-from .item_data import Group, ItemData, StardewItemFactory, item_table, items_by_group
 
 logger = logging.getLogger(__name__)
 
@@ -45,8 +26,8 @@ def get_too_many_items_error_message(locations_count: int, items_count: int) -> 
     return f"There should be at least as many locations [{locations_count}] as there are mandatory items [{items_count}]"
 
 
-def create_items(item_factory: StardewItemFactory, locations_count: int, items_to_exclude: list[Item],
-                 options: StardewValleyOptions, content: StardewContent, random: Random) -> list[Item]:
+def create_items(item_factory: StardewItemFactory, locations_count: int, items_to_exclude: List[Item],
+                 options: StardewValleyOptions, content: StardewContent, random: Random) -> List[Item]:
     items = []
     unique_items = create_unique_items(item_factory, options, content, random)
 
@@ -74,7 +55,7 @@ def remove_items(items_to_remove, items):
             items.remove(item)
 
 
-def remove_items_if_no_room_for_them(unique_items: list[Item], locations_count: int, random: Random):
+def remove_items_if_no_room_for_them(unique_items: List[Item], locations_count: int, random: Random):
     if len(unique_items) <= locations_count:
         return
 
@@ -90,7 +71,7 @@ def remove_items_if_no_room_for_them(unique_items: list[Item], locations_count: 
     remove_items(items_to_remove, unique_items)
 
 
-def create_unique_items(item_factory: StardewItemFactory, options: StardewValleyOptions, content: StardewContent, random: Random) -> list[Item]:
+def create_unique_items(item_factory: StardewItemFactory, options: StardewValleyOptions, content: StardewContent, random: Random) -> List[Item]:
     items = []
 
     items.extend(item_factory(item) for item in items_by_group[Group.COMMUNITY_REWARD])
@@ -142,7 +123,7 @@ def create_unique_items(item_factory: StardewItemFactory, options: StardewValley
     return items
 
 
-def create_raccoons(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_raccoons(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     number_progressive_raccoons = 9
     if options.quest_locations.has_no_story_quests():
         number_progressive_raccoons = number_progressive_raccoons - 1
@@ -150,7 +131,7 @@ def create_raccoons(item_factory: StardewItemFactory, options: StardewValleyOpti
     items.extend(item_factory(item) for item in [CommunityUpgrade.raccoon] * number_progressive_raccoons)
 
 
-def create_backpack_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_backpack_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     if (options.backpack_progression == BackpackProgression.option_progressive or
             options.backpack_progression == BackpackProgression.option_early_progressive):
         items.extend(item_factory(item) for item in ["Progressive Backpack"] * 2)
@@ -158,7 +139,7 @@ def create_backpack_items(item_factory: StardewItemFactory, options: StardewVall
             items.append(item_factory("Progressive Backpack"))
 
 
-def create_weapons(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_weapons(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     weapons = weapons_count(options)
     items.extend(item_factory(item) for item in [APWeapon.slingshot] * 2)
     monstersanity = options.monstersanity
@@ -181,7 +162,7 @@ def create_weapons(item_factory: StardewItemFactory, options: StardewValleyOptio
     items.extend(item_factory(item) for item in rings_items)
 
 
-def create_elevators(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_elevators(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     if options.elevator_progression == ElevatorProgression.option_vanilla:
         return
 
@@ -192,7 +173,7 @@ def create_elevators(item_factory: StardewItemFactory, options: StardewValleyOpt
         items.extend([item_factory(item) for item in ["Progressive Skull Cavern Elevator"] * 8])
 
 
-def create_tools(item_factory: StardewItemFactory, content: StardewContent, items: list[Item]):
+def create_tools(item_factory: StardewItemFactory, content: StardewContent, items: List[Item]):
     tool_progression = content.features.tool_progression
     for tool, count in tool_progression.tool_distribution.items():
         item = item_table[tool_progression.to_progressive_item(tool)]
@@ -205,7 +186,7 @@ def create_tools(item_factory: StardewItemFactory, content: StardewContent, item
         items.extend([item_factory(item) for _ in range(count)])
 
 
-def create_skills(item_factory: StardewItemFactory, content: StardewContent, items: list[Item]):
+def create_skills(item_factory: StardewItemFactory, content: StardewContent, items: List[Item]):
     skill_progression = content.features.skill_progression
     if not skill_progression.is_progressive:
         return
@@ -220,7 +201,7 @@ def create_skills(item_factory: StardewItemFactory, content: StardewContent, ite
         items.append(item_factory(Wallet.mastery_of_the_five_ways))
 
 
-def create_wizard_buildings(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_wizard_buildings(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     useless_buildings_classification = ItemClassification.progression_skip_balancing if world_is_perfection(options) else ItemClassification.useful
     items.append(item_factory("Earth Obelisk", useless_buildings_classification))
     items.append(item_factory("Water Obelisk", useless_buildings_classification))
@@ -233,7 +214,7 @@ def create_wizard_buildings(item_factory: StardewItemFactory, options: StardewVa
         items.append(item_factory("Woods Obelisk"))
 
 
-def create_carpenter_buildings(item_factory: StardewItemFactory, content: StardewContent, items: list[Item]):
+def create_carpenter_buildings(item_factory: StardewItemFactory, content: StardewContent, items: List[Item]):
     building_progression = content.features.building_progression
     if not building_progression.is_progressive:
         return
@@ -243,14 +224,14 @@ def create_carpenter_buildings(item_factory: StardewItemFactory, content: Starde
         items.append(item_factory(item_name))
 
 
-def create_quest_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_quest_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     create_special_quest_rewards(item_factory, options, items)
     create_help_wanted_quest_rewards(item_factory, options, items)
 
     create_quest_rewards_sve(item_factory, options, items)
 
 
-def create_special_quest_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_special_quest_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     if options.quest_locations.has_no_story_quests():
         return
     # items.append(item_factory("Adventurer's Guild")) # Now unlocked always!
@@ -266,7 +247,7 @@ def create_special_quest_rewards(item_factory: StardewItemFactory, options: Star
         items.append(item_factory("Fairy Dust Recipe"))
 
 
-def create_help_wanted_quest_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_help_wanted_quest_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     if options.quest_locations <= 0:
         return
 
@@ -276,7 +257,7 @@ def create_help_wanted_quest_rewards(item_factory: StardewItemFactory, options: 
     items.extend(item_factory(item) for item in [Currency.prize_ticket] * number_prize_tickets)
 
 
-def create_stardrops(item_factory: StardewItemFactory, options: StardewValleyOptions, content: StardewContent, items: list[Item]):
+def create_stardrops(item_factory: StardewItemFactory, options: StardewValleyOptions, content: StardewContent, items: List[Item]):
     stardrops_classification = get_stardrop_classification(options)
     items.append(item_factory("Stardrop", stardrops_classification))  # The Mines level 100
     items.append(item_factory("Stardrop", stardrops_classification))  # Old Master Cannoli
@@ -289,7 +270,7 @@ def create_stardrops(item_factory: StardewItemFactory, options: StardewValleyOpt
         items.append(item_factory("Stardrop", stardrops_classification))  # Spouse Stardrop
 
 
-def create_museum_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_museum_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     items.append(item_factory(Wallet.rusty_key))
     items.append(item_factory(Wallet.dwarvish_translation_guide))
     items.append(item_factory("Ancient Seeds Recipe"))
@@ -301,7 +282,7 @@ def create_museum_items(item_factory: StardewItemFactory, options: StardewValley
     items.append(item_factory(Wallet.metal_detector))
 
 
-def create_friendsanity_items(item_factory: StardewItemFactory, options: StardewValleyOptions, content: StardewContent, items: list[Item], random: Random):
+def create_friendsanity_items(item_factory: StardewItemFactory, options: StardewValleyOptions, content: StardewContent, items: List[Item], random: Random):
     if not content.features.friendsanity.is_enabled:
         return
 
@@ -320,14 +301,14 @@ def create_friendsanity_items(item_factory: StardewItemFactory, options: Stardew
         items.append(item_factory(friendsanity.pet_heart_item_name, pet_item_classification))
 
 
-def create_babies(item_factory: StardewItemFactory, items: list[Item], random: Random):
+def create_babies(item_factory: StardewItemFactory, items: List[Item], random: Random):
     baby_items = [item for item in items_by_group[Group.BABY]]
     for i in range(2):
         chosen_baby = random.choice(baby_items)
         items.append(item_factory(chosen_baby))
 
 
-def create_arcade_machine_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_arcade_machine_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     if options.arcade_machine_locations == ArcadeMachineLocations.option_full_shuffling:
         items.append(item_factory("JotPK: Progressive Boots"))
         items.append(item_factory("JotPK: Progressive Boots"))
@@ -344,17 +325,17 @@ def create_arcade_machine_items(item_factory: StardewItemFactory, options: Stard
         items.extend(item_factory(item) for item in ["Junimo Kart: Extra Life"] * 8)
 
 
-def create_movement_buffs(item_factory, options: StardewValleyOptions, items: list[Item]):
+def create_movement_buffs(item_factory, options: StardewValleyOptions, items: List[Item]):
     movement_buffs: int = options.movement_buff_number.value
     items.extend(item_factory(item) for item in [Buff.movement] * movement_buffs)
 
 
-def create_traveling_merchant_items(item_factory: StardewItemFactory, items: list[Item]):
+def create_traveling_merchant_items(item_factory: StardewItemFactory, items: List[Item]):
     items.extend([*(item_factory(item) for item in items_by_group[Group.TRAVELING_MERCHANT_DAY]),
                   *(item_factory(item) for item in ["Traveling Merchant Stock Size"] * 6)])
 
 
-def create_seasons(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_seasons(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     if options.season_randomization == SeasonRandomization.option_disabled:
         return
 
@@ -365,14 +346,14 @@ def create_seasons(item_factory: StardewItemFactory, options: StardewValleyOptio
     items.extend([item_factory(item) for item in items_by_group[Group.SEASON]])
 
 
-def create_seeds(item_factory: StardewItemFactory, content: StardewContent, items: list[Item]):
+def create_seeds(item_factory: StardewItemFactory, content: StardewContent, items: List[Item]):
     if not content.features.cropsanity.is_enabled:
         return
 
     items.extend(item_factory(item_table[seed.name]) for seed in content.find_tagged_items(ItemTag.CROPSANITY_SEED))
 
 
-def create_festival_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_festival_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     items.append(item_factory("Deluxe Scarecrow Recipe"))
     if options.festival_locations == FestivalLocations.option_disabled:
         return
@@ -381,7 +362,7 @@ def create_festival_rewards(item_factory: StardewItemFactory, options: StardewVa
     items.extend([*festival_rewards, item_factory("Stardrop", get_stardrop_classification(options))])
 
 
-def create_walnuts(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_walnuts(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     walnutsanity = options.walnutsanity
     if options.exclude_ginger_island == ExcludeGingerIsland.option_true or walnutsanity == Walnutsanity.preset_none:
         return
@@ -410,7 +391,7 @@ def create_walnuts(item_factory: StardewItemFactory, options: StardewValleyOptio
     items.extend([item_factory(item) for item in ["5 Golden Walnuts"] * num_penta_walnuts])
 
 
-def create_walnut_purchase_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_walnut_purchase_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     if options.exclude_ginger_island == ExcludeGingerIsland.option_true:
         return
 
@@ -421,7 +402,7 @@ def create_walnut_purchase_rewards(item_factory: StardewItemFactory, options: St
                   *[item_factory(item) for item in items_by_group[Group.WALNUT_PURCHASE]]])
 
 
-def create_special_order_board_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_special_order_board_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     if options.special_order_locations & SpecialOrderLocations.option_board:
         special_order_board_items = [item for item in items_by_group[Group.SPECIAL_ORDER_BOARD]]
         items.extend([item_factory(item) for item in special_order_board_items])
@@ -439,7 +420,7 @@ def special_order_board_item_classification(item: ItemData, need_all_recipes: bo
     return ItemClassification.useful
 
 
-def create_special_order_qi_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_special_order_qi_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     if options.exclude_ginger_island == ExcludeGingerIsland.option_true:
         return
     qi_gem_rewards = []
@@ -455,14 +436,14 @@ def create_special_order_qi_rewards(item_factory: StardewItemFactory, options: S
     items.extend(qi_gem_items)
 
 
-def create_tv_channels(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_tv_channels(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     channels = [channel for channel in items_by_group[Group.TV_CHANNEL]]
     if options.entrance_randomization == EntranceRandomization.option_disabled:
         channels = [channel for channel in channels if channel.name != "The Gateway Gazette"]
     items.extend([item_factory(item) for item in channels])
 
 
-def create_crafting_recipes(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_crafting_recipes(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     has_craftsanity = options.craftsanity == Craftsanity.option_all
     crafting_recipes = []
     crafting_recipes.extend([recipe for recipe in items_by_group[Group.QI_CRAFTING_RECIPE]])
@@ -472,7 +453,7 @@ def create_crafting_recipes(item_factory: StardewItemFactory, options: StardewVa
     items.extend([item_factory(item) for item in crafting_recipes])
 
 
-def create_cooking_recipes(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_cooking_recipes(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     chefsanity = options.chefsanity
     if chefsanity == Chefsanity.option_none:
         return
@@ -492,7 +473,7 @@ def create_cooking_recipes(item_factory: StardewItemFactory, options: StardewVal
     items.extend([item_factory(item) for item in filtered_chefsanity_recipes])
 
 
-def create_shipsanity_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_shipsanity_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     shipsanity = options.shipsanity
     if shipsanity != Shipsanity.option_everything:
         return
@@ -500,7 +481,7 @@ def create_shipsanity_items(item_factory: StardewItemFactory, options: StardewVa
     items.append(item_factory(Wallet.metal_detector))
 
 
-def create_booksanity_items(item_factory: StardewItemFactory, content: StardewContent, items: list[Item]):
+def create_booksanity_items(item_factory: StardewItemFactory, content: StardewContent, items: List[Item]):
     booksanity = content.features.booksanity
     if not booksanity.is_enabled:
         return
@@ -510,7 +491,7 @@ def create_booksanity_items(item_factory: StardewItemFactory, content: StardewCo
     items.extend(item_factory(progressive_lost_book) for _ in content.features.booksanity.get_randomized_lost_books())
 
 
-def create_goal_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_goal_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     goal = options.goal
     if goal != Goal.option_perfection and goal != Goal.option_complete_collection:
         return
@@ -518,7 +499,7 @@ def create_goal_items(item_factory: StardewItemFactory, options: StardewValleyOp
     items.append(item_factory(Wallet.metal_detector))
 
 
-def create_archaeology_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_archaeology_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     mods = options.mods
     if ModNames.archaeology not in mods:
         return
@@ -526,7 +507,7 @@ def create_archaeology_items(item_factory: StardewItemFactory, options: StardewV
     items.append(item_factory(Wallet.metal_detector))
 
 
-def create_filler_festival_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions) -> list[Item]:
+def create_filler_festival_rewards(item_factory: StardewItemFactory, options: StardewValleyOptions) -> List[Item]:
     if options.festival_locations == FestivalLocations.option_disabled:
         return []
 
@@ -534,26 +515,26 @@ def create_filler_festival_rewards(item_factory: StardewItemFactory, options: St
             item.classification == ItemClassification.filler]
 
 
-def create_magic_mod_spells(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_magic_mod_spells(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     if ModNames.magic not in options.mods:
         return
     items.extend([item_factory(item) for item in items_by_group[Group.MAGIC_SPELL]])
 
 
-def create_deepwoods_pendants(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_deepwoods_pendants(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     if ModNames.deepwoods not in options.mods:
         return
     items.extend([item_factory(item) for item in ["Pendant of Elders", "Pendant of Community", "Pendant of Depths"]])
 
 
-def create_sve_special_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_sve_special_items(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     if ModNames.sve not in options.mods:
         return
 
     items.extend([item_factory(item) for item in items_by_group[Group.MOD_WARP] if item.mod_name == ModNames.sve])
 
 
-def create_quest_rewards_sve(item_factory: StardewItemFactory, options: StardewValleyOptions, items: list[Item]):
+def create_quest_rewards_sve(item_factory: StardewItemFactory, options: StardewValleyOptions, items: List[Item]):
     if ModNames.sve not in options.mods:
         return
 
@@ -572,7 +553,7 @@ def create_quest_rewards_sve(item_factory: StardewItemFactory, options: StardewV
 
 
 def create_unique_filler_items(item_factory: StardewItemFactory, options: StardewValleyOptions, random: Random,
-                               available_item_slots: int) -> list[Item]:
+                               available_item_slots: int) -> List[Item]:
     items = []
 
     items.extend(create_filler_festival_rewards(item_factory, options))
@@ -590,8 +571,8 @@ def weapons_count(options: StardewValleyOptions):
 
 
 def fill_with_resource_packs_and_traps(item_factory: StardewItemFactory, options: StardewValleyOptions, random: Random,
-                                       items_already_added: list[Item],
-                                       available_item_slots: int) -> list[Item]:
+                                       items_already_added: List[Item],
+                                       available_item_slots: int) -> List[Item]:
     include_traps = options.trap_difficulty != TrapDifficulty.option_no_traps
     items_already_added_names = [item.name for item in items_already_added]
     useful_resource_packs = [pack for pack in items_by_group[Group.RESOURCE_PACK_USEFUL]
@@ -654,7 +635,7 @@ def fill_with_resource_packs_and_traps(item_factory: StardewItemFactory, options
     return items
 
 
-def get_filler_weights(options: StardewValleyOptions, all_filler_packs: list[ItemData]):
+def get_filler_weights(options: StardewValleyOptions, all_filler_packs: List[ItemData]):
     weights = []
     for filler in all_filler_packs:
         if filler.name in options.trap_distribution:
@@ -665,15 +646,15 @@ def get_filler_weights(options: StardewValleyOptions, all_filler_packs: list[Ite
     return weights
 
 
-def filter_deprecated_items(items: list[ItemData]) -> list[ItemData]:
+def filter_deprecated_items(items: List[ItemData]) -> List[ItemData]:
     return [item for item in items if Group.DEPRECATED not in item.groups]
 
 
-def filter_ginger_island_items(exclude_island: bool, items: list[ItemData]) -> list[ItemData]:
+def filter_ginger_island_items(exclude_island: bool, items: List[ItemData]) -> List[ItemData]:
     return [item for item in items if not exclude_island or Group.GINGER_ISLAND not in item.groups]
 
 
-def filter_mod_items(mods: set[str], items: list[ItemData]) -> list[ItemData]:
+def filter_mod_items(mods: Set[str], items: List[ItemData]) -> List[ItemData]:
     return [item for item in items if item.mod_name is None or item.mod_name in mods]
 
 
@@ -681,7 +662,7 @@ def remove_excluded_items(items, options: StardewValleyOptions):
     return remove_excluded_items_island_mods(items, options.exclude_ginger_island == ExcludeGingerIsland.option_true, options.mods.value)
 
 
-def remove_excluded_items_island_mods(items, exclude_ginger_island: bool, mods: set[str]):
+def remove_excluded_items_island_mods(items, exclude_ginger_island: bool, mods: Set[str]):
     deprecated_filter = filter_deprecated_items(items)
     ginger_island_filter = filter_ginger_island_items(exclude_ginger_island, deprecated_filter)
     mod_filter = filter_mod_items(mods, ginger_island_filter)
@@ -702,7 +683,7 @@ def remove_limited_amount_packs(packs):
     return [pack for pack in packs if Group.MAXIMUM_ONE not in pack.groups and Group.AT_LEAST_TWO not in pack.groups]
 
 
-def get_all_filler_items(include_traps: bool, exclude_ginger_island: bool) -> list[ItemData]:
+def get_all_filler_items(include_traps: bool, exclude_ginger_island: bool) -> List[ItemData]:
     all_filler_items = [pack for pack in items_by_group[Group.RESOURCE_PACK]]
     all_filler_items.extend(items_by_group[Group.TRASH])
     if include_traps:
@@ -711,7 +692,7 @@ def get_all_filler_items(include_traps: bool, exclude_ginger_island: bool) -> li
     return all_filler_items
 
 
-def get_allowed_player_buffs(buff_option: EnabledFillerBuffs) -> list[ItemData]:
+def get_allowed_player_buffs(buff_option: EnabledFillerBuffs) -> List[ItemData]:
     allowed_buffs = []
     if BuffOptionName.luck in buff_option:
         allowed_buffs.append(item_table[Buff.luck])

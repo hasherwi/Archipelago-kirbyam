@@ -1,6 +1,6 @@
+from ..bases import SVTestBase
 from ...locations import LocationTags, location_table
 from ...options import BuildingProgression, Shipsanity
-from ..bases import SVTestBase
 
 
 class TestShipsanityNone(SVTestBase):

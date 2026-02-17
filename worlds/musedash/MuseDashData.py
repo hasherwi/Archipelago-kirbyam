@@ -1,9 +1,9 @@
+from .Items import SongData
 from typing import Dict
 
-from .Items import SongData
 
 # Auto Generated
-SONG_DATA: dict[str, SongData] = {
+SONG_DATA: Dict[str, SongData] = {
     "Magical Wonderland": SongData(2900051, "0-48", "Default Music", True, 1, 3, None),
     "Iyaiya": SongData(2900052, "0-0", "Default Music", True, 1, 4, None),
     "Wonderful Pain": SongData(2900053, "0-2", "Default Music", False, 1, 3, None),

@@ -3,10 +3,10 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-import typing
 from dataclasses import dataclass
 
-from Options import Option, PerGameCommonOptions, Range
+import typing
+from Options import Option, Range, PerGameCommonOptions
 
 
 class TaskAdvances(Range):

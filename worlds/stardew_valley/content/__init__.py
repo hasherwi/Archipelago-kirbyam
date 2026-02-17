@@ -1,17 +1,9 @@
-from .. import options
-from ..strings.building_names import Building
 from . import content_packs
-from .feature import (
-    booksanity,
-    building_progression,
-    cropsanity,
-    fishsanity,
-    friendsanity,
-    skill_progression,
-    tool_progression,
-)
+from .feature import cropsanity, friendsanity, fishsanity, booksanity, building_progression, skill_progression, tool_progression
 from .game_content import ContentPack, StardewContent, StardewFeatures
 from .unpacking import unpack_content
+from .. import options
+from ..strings.building_names import Building
 
 
 def create_content(player_options: options.StardewValleyOptions) -> StardewContent:

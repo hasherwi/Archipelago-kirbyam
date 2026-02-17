@@ -1,10 +1,9 @@
 import typing
 
 from BaseClasses import Location
-
-from .Names import ItemName, LocationName, RegionName
-from .Regions import KH2REGIONS
+from .Names import LocationName, ItemName, RegionName
 from .Subclasses import LocationData
+from .Regions import KH2REGIONS
 
 # data's addrcheck sys3 addr obtained roomid bit index is eventid
 LoD_Checks = {
@@ -1354,7 +1353,7 @@ exclusion_table = {
     }
 }
 
-location_groups: dict[str, list]
+location_groups: typing.Dict[str, list]
 location_groups = {
     Region_Name: [loc for loc in Region_Locs if "Event" not in loc]
     for Region_Name, Region_Locs in KH2REGIONS.items() if Region_Locs and "Event" not in Region_Locs[0]

@@ -1,9 +1,8 @@
 from BaseClasses import CollectionState
 from Fill import distribute_items_restrictive
-
+from . import MessengerTestBase
 from .. import MessengerWorld
 from ..options import Logic
-from . import MessengerTestBase
 
 
 class LimitedMovementTest(MessengerTestBase):

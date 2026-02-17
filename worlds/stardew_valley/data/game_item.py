@@ -2,8 +2,7 @@ import enum
 from abc import ABC
 from dataclasses import dataclass, field
 from types import MappingProxyType
-from typing import Any, ClassVar, List, Set, Tuple
-from collections.abc import Callable, Iterable, Mapping
+from typing import List, Iterable, Set, ClassVar, Tuple, Mapping, Callable, Any
 
 from ..stardew_rule.protocol import StardewRule
 
@@ -29,18 +28,18 @@ class ItemTag(enum.Enum):
 
 @dataclass(frozen=True)
 class Source(ABC):
-    add_tags: ClassVar[tuple[ItemTag]] = ()
+    add_tags: ClassVar[Tuple[ItemTag]] = ()
 
-    other_requirements: tuple[Requirement, ...] = field(kw_only=True, default_factory=tuple)
+    other_requirements: Tuple[Requirement, ...] = field(kw_only=True, default_factory=tuple)
 
     @property
-    def requirement_tags(self) -> Mapping[str, tuple[ItemTag, ...]]:
+    def requirement_tags(self) -> Mapping[str, Tuple[ItemTag, ...]]:
         return DEFAULT_REQUIREMENT_TAGS
 
 
 @dataclass(frozen=True, kw_only=True)
 class GenericSource(Source):
-    regions: tuple[str, ...] = ()
+    regions: Tuple[str, ...] = ()
     """No region means it's available everywhere."""
 
 
@@ -52,7 +51,7 @@ class CustomRuleSource(Source):
 
 class Tag(Source):
     """Not a real source, just a way to add tags to an item. Will be removed from the item sources during unpacking."""
-    tag: tuple[ItemTag, ...]
+    tag: Tuple[ItemTag, ...]
 
     def __init__(self, *tag: ItemTag):
         self.tag = tag  # noqa
@@ -65,8 +64,8 @@ class Tag(Source):
 @dataclass(frozen=True)
 class GameItem:
     name: str
-    sources: list[Source] = field(default_factory=list)
-    tags: set[ItemTag] = field(default_factory=set)
+    sources: List[Source] = field(default_factory=list)
+    tags: Set[ItemTag] = field(default_factory=set)
 
     def add_sources(self, sources: Iterable[Source]):
         self.sources.extend(source for source in sources if type(source) is not Tag)

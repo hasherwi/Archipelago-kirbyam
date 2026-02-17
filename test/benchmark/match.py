@@ -30,7 +30,7 @@ def make_dict(count: int, mode: str) -> str:
         code += "}\n"
         code += f"for val in range({count}):\n    res = dct[val]"
         return code
-    if mode == "call":
+    elif mode == "call":
         code = ""
         for n in range(count):
             m = n + 1

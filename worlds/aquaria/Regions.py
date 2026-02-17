@@ -4,15 +4,13 @@ Date: Fri, 15 Mar 2024 18:41:40 +0000
 Description: Used to manage Regions in the Aquaria game multiworld randomizer
 """
 
-from typing import Dict, Optional
-from collections.abc import Iterable
-
-from BaseClasses import CollectionState, Entrance, Item, ItemClassification, MultiWorld, Region
+from typing import Dict, Optional, Iterable
+from BaseClasses import MultiWorld, Region, Entrance, Item, ItemClassification, CollectionState
+from .Items import AquariaItem, ItemNames
+from .Locations import AquariaLocations, AquariaLocation, AquariaLocationNames
+from .Options import AquariaOptions, UnconfineHomeWater
 from worlds.generic.Rules import add_rule, set_rule
 
-from .Items import AquariaItem, ItemNames
-from .Locations import AquariaLocation, AquariaLocationNames, AquariaLocations
-from .Options import AquariaOptions, UnconfineHomeWater
 
 # Every condition to connect regions
 
@@ -257,7 +255,7 @@ class AquariaRegions:
     """
 
     def __add_region(self, hint: str,
-                     locations: dict[str, int] | None) -> Region:
+                     locations: Optional[Dict[str, int]]) -> Region:
         """
         Create a new Region, add it to the `world` regions and return it.
         Be aware that this function have a side effect on ``world`.`regions`

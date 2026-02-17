@@ -1,17 +1,15 @@
 from __future__ import annotations
-
-import asyncio
-import json
-import logging
 import os
-import re
-import shutil
+import json
 import sys
+import asyncio
+import shutil
+import logging
+import re
 import time
 from calendar import timegm
 
 import ModuleUpdate
-
 ModuleUpdate.update()
 
 import Utils
@@ -21,8 +19,9 @@ logger = logging.getLogger("Client")
 if __name__ == "__main__":
     Utils.init_logging("KH1Client", exception_logger="Client")
 
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger, server_loop
-from NetUtils import ClientStatus, NetworkItem
+from NetUtils import NetworkItem, ClientStatus
+from CommonClient import gui_enabled, logger, get_base_parser, ClientCommandProcessor, \
+    CommonContext, server_loop
 
 
 def check_stdin() -> None:
@@ -32,13 +31,13 @@ def check_stdin() -> None:
 class KH1ClientCommandProcessor(ClientCommandProcessor):
     def __init__(self, ctx):
         super().__init__(ctx)
-
+    
     def _cmd_slot_data(self):
         """Prints slot data settings for the connected seed"""
         for key in self.ctx.slot_data.keys():
             if key not in ["remote_location_ids", "synthesis_item_name_byte_arrays"]:
                 self.output(str(key) + ": " + str(self.ctx.slot_data[key]))
-
+    
     def _cmd_deathlink(self):
         """If your Death Link setting is set to "Toggle", use this command to turn Death Link on and off."""
         if "death_link" in self.ctx.slot_data.keys():
@@ -54,7 +53,7 @@ class KH1ClientCommandProcessor(ClientCommandProcessor):
                 self.output(f"'death_link' = " + str(self.ctx.slot_data["death_link"]))
         else:
             self.output(f"No 'death_link' in slot_data keys. You probably aren't connected or are playing an older seed.")
-
+    
     def _cmd_communication_path(self):
         """Opens a file browser to allow Linux users to manually set their %LOCALAPPDATA% path"""
         directory = Utils.open_directory("Select %LOCALAPPDATA% dir", "~/.local/share/Steam/steamapps/compatdata/2552430/pfx/drive_c/users/steamuser/AppData/Local")
@@ -72,7 +71,7 @@ class KH1Context(CommonContext):
     items_handling = 0b011  # full remote except start inventory
 
     def __init__(self, server_address, password):
-        super().__init__(server_address, password)
+        super(KH1Context, self).__init__(server_address, password)
         self.send_index: int = 0
         self.syncing = False
         self.awaiting_bridge = False
@@ -102,12 +101,12 @@ class KH1Context(CommonContext):
                 if file.find("obtain") <= -1:
                     os.remove(root+"/"+file)
         if password_requested and not self.password:
-            await super().server_auth(password_requested)
+            await super(KH1Context, self).server_auth(password_requested)
         await self.get_username()
         await self.send_connect()
 
     async def connection_closed(self):
-        await super().connection_closed()
+        await super(KH1Context, self).connection_closed()
         for root, dirs, files in os.walk(self.game_communication_path):
             for file in files:
                 if file.find("obtain") <= -1:
@@ -118,10 +117,11 @@ class KH1Context(CommonContext):
     def endpoints(self):
         if self.server:
             return [self.server]
-        return []
+        else:
+            return []
 
     async def shutdown(self):
-        await super().shutdown()
+        await super(KH1Context, self).shutdown()
         for root, dirs, files in os.walk(self.game_communication_path):
             for file in files:
                 if file.find("obtain") <= -1:
@@ -134,26 +134,26 @@ class KH1Context(CommonContext):
                 os.makedirs(self.game_communication_path)
             for ss in self.checked_locations:
                 filename = f"send{ss}"
-                with open(os.path.join(self.game_communication_path, filename), "w", encoding="utf-8") as f:
+                with open(os.path.join(self.game_communication_path, filename), 'w', encoding='utf-8') as f:
                     f.close()
-
+            
             # Handle Slot Data
-            self.slot_data = args["slot_data"]
-            for key in list(args["slot_data"].keys()):
-                with open(os.path.join(self.game_communication_path, key + ".cfg"), "w", encoding="utf-8") as f:
-                    f.write(str(args["slot_data"][key]))
+            self.slot_data = args['slot_data']
+            for key in list(args['slot_data'].keys()):
+                with open(os.path.join(self.game_communication_path, key + ".cfg"), 'w', encoding='utf-8') as f:
+                    f.write(str(args['slot_data'][key]))
                     f.close()
                 if key == "remote_location_ids":
-                    self.remote_location_ids = args["slot_data"][key]
+                    self.remote_location_ids = args['slot_data'][key]
                 if key == "death_link":
-                    if args["slot_data"]["death_link"] != "off":
+                    if args['slot_data']["death_link"] != "off":
                         self.death_link = True
             # End Handle Slot Data
 
         if cmd in {"ReceivedItems"}:
             start_index = args["index"]
             if start_index != len(self.items_received):
-                for item in args["items"]:
+                for item in args['items']:
                     found = False
                     item_filename = f"AP_{str(self.item_num)}.item"
                     for filename in os.listdir(self.game_communication_path):
@@ -161,7 +161,7 @@ class KH1Context(CommonContext):
                             found = True
                     if not found:
                         if (NetworkItem(*item).player == self.slot and (NetworkItem(*item).location in self.remote_location_ids) or (NetworkItem(*item).location < 0)) or NetworkItem(*item).player != self.slot:
-                            with open(os.path.join(self.game_communication_path, item_filename), "w", encoding="utf-8") as f:
+                            with open(os.path.join(self.game_communication_path, item_filename), 'w', encoding='utf-8') as f:
                                 f.write(str(NetworkItem(*item).item) + "\n" + str(NetworkItem(*item).location) + "\n" + str(NetworkItem(*item).player))
                                 f.close()
                                 self.item_num += 1
@@ -170,7 +170,7 @@ class KH1Context(CommonContext):
             if "checked_locations" in args:
                 for ss in self.checked_locations:
                     filename = f"send{ss}"
-                    with open(os.path.join(self.game_communication_path, filename), "w", encoding="utf-8") as f:
+                    with open(os.path.join(self.game_communication_path, filename), 'w', encoding='utf-8') as f:
                         f.close()
 
         if cmd in {"PrintJSON"} and "type" in args:
@@ -195,7 +195,7 @@ class KH1Context(CommonContext):
                     filename = "msg"
                     if message != "":
                         if not os.path.exists(self.game_communication_path + "/" + filename):
-                            with open(os.path.join(self.game_communication_path, filename), "w", encoding="utf-8") as f:
+                            with open(os.path.join(self.game_communication_path, filename), 'w', encoding='utf-8') as f:
                                 f.write(message)
                                 f.close()
             if args["type"] == "ItemCheat":
@@ -207,7 +207,7 @@ class KH1Context(CommonContext):
                     filename = "msg"
                     message = "Received " + itemName + "\nfrom server"
                     if not os.path.exists(self.game_communication_path + "/" + filename):
-                        with open(os.path.join(self.game_communication_path, filename), "w", encoding="utf-8") as f:
+                        with open(os.path.join(self.game_communication_path, filename), 'w', encoding='utf-8') as f:
                             f.write(message)
                             f.close()
 
@@ -218,7 +218,7 @@ class KH1Context(CommonContext):
             logger.info(f"DeathLink: {text}")
         else:
             logger.info(f"DeathLink: Received from {data['source']}")
-        with open(os.path.join(self.game_communication_path, "dlreceive"), "w", encoding="utf-8") as f:
+        with open(os.path.join(self.game_communication_path, 'dlreceive'), 'w', encoding='utf-8') as f:
             f.write(str(int(data["time"])))
             f.close()
 
@@ -244,7 +244,7 @@ async def game_watcher(ctx: KH1Context):
         if not ctx.death_link and "DeathLink" in ctx.tags:
             await ctx.update_death_link(ctx.death_link)
         if ctx.syncing is True:
-            sync_msg = [{"cmd": "Sync"}]
+            sync_msg = [{'cmd': 'Sync'}]
             if ctx.locations_checked:
                 sync_msg.append({"cmd": "LocationChecks", "locations": list(ctx.locations_checked)})
             await ctx.send_msgs(sync_msg)
@@ -262,7 +262,7 @@ async def game_watcher(ctx: KH1Context):
                 if file.find("dlsend") > -1 and "DeathLink" in ctx.tags:
                     st = file.split("dlsend", -1)[1]
                     if st != "nil":
-                        if timegm(time.strptime(st, "%Y%m%d%H%M%S")) > ctx.last_death_link and int(time.time()) % int(timegm(time.strptime(st, "%Y%m%d%H%M%S"))) < 10:
+                        if timegm(time.strptime(st, '%Y%m%d%H%M%S')) > ctx.last_death_link and int(time.time()) % int(timegm(time.strptime(st, '%Y%m%d%H%M%S'))) < 10:
                             await ctx.send_death(death_text = "Sora was defeated!")
                 if file.find("hint") > -1:
                     hint_location_id = int(file.split("hint", -1)[1])

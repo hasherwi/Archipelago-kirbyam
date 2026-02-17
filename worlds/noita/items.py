@@ -1,10 +1,9 @@
 import itertools
 from collections import Counter
-from typing import TYPE_CHECKING, NamedTuple
+from typing import NamedTuple, TYPE_CHECKING
 
 from BaseClasses import Item, ItemClassification
-
-from .options import BossesAsChecks, ExtraOrbs, VictoryCondition
+from .options import BossesAsChecks, VictoryCondition, ExtraOrbs
 
 if TYPE_CHECKING:
     from . import NoitaWorld

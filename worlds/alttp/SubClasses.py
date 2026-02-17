@@ -1,8 +1,8 @@
 """Module extending BaseClasses.py for aLttP"""
+from typing import Optional, TYPE_CHECKING
 from enum import IntEnum
-from typing import TYPE_CHECKING, Optional
 
-from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region
+from BaseClasses import Entrance, Location, Item, ItemClassification, Region, MultiWorld
 
 if TYPE_CHECKING:
     from .Dungeons import Dungeon
@@ -11,19 +11,19 @@ if TYPE_CHECKING:
 class ALttPLocation(Location):
     game: str = "A Link to the Past"
     crystal: bool
-    player_address: int | None
-    _hint_text: str | None
+    player_address: Optional[int]
+    _hint_text: Optional[str]
     shop: None
-    shop_slot: int | None = None
+    shop_slot: Optional[int] = None
     """If given as integer, shop_slot is the shop's inventory index."""
     shop_slot_disabled: bool = False
     shop_price = 0
     shop_price_type = None
     parent_region: "LTTPRegion"
 
-    def __init__(self, player: int, name: str, address: int | None = None, crystal: bool = False,
-                 hint_text: str | None = None, parent=None, player_address: int | None = None):
-        super().__init__(player, name, address, parent)
+    def __init__(self, player: int, name: str, address: Optional[int] = None, crystal: bool = False,
+                 hint_text: Optional[str] = None, parent=None, player_address: Optional[int] = None):
+        super(ALttPLocation, self).__init__(player, name, address, parent)
         self.crystal = crystal
         self.player_address = player_address
         self._hint_text = hint_text
@@ -38,40 +38,40 @@ class ALttPLocation(Location):
 
 class ALttPItem(Item):
     game: str = "A Link to the Past"
-    type: str | None
-    _pedestal_hint_text: str | None
-    _hint_text: str | None
+    type: Optional[str]
+    _pedestal_hint_text: Optional[str]
+    _hint_text: Optional[str]
     dungeon = None
 
     def __init__(self, name, player, classification=ItemClassification.filler, type=None, item_code=None,
                  pedestal_hint=None, hint_text=None):
-        super().__init__(name, classification, item_code, player)
+        super(ALttPItem, self).__init__(name, classification, item_code, player)
         self.type = type
         self._pedestal_hint_text = pedestal_hint
         self._hint_text = hint_text
 
     @property
     def crystal(self) -> bool:
-        return self.type == "Crystal"
+        return self.type == 'Crystal'
 
     @property
     def smallkey(self) -> bool:
-        return self.type == "SmallKey"
+        return self.type == 'SmallKey'
 
     @property
     def bigkey(self) -> bool:
-        return self.type == "BigKey"
+        return self.type == 'BigKey'
 
     @property
     def map(self) -> bool:
-        return self.type == "Map"
+        return self.type == 'Map'
 
     @property
     def compass(self) -> bool:
-        return self.type == "Compass"
+        return self.type == 'Compass'
 
     @property
-    def dungeon_item(self) -> str | None:
+    def dungeon_item(self) -> Optional[str]:
         if self.type in {"SmallKey", "BigKey", "Map", "Compass"}:
             return self.type
 

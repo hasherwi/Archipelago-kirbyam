@@ -1,11 +1,11 @@
 import json
 import pkgutil
-from typing import Dict, List, NamedTuple, Optional
+from typing import Dict, NamedTuple, List, Optional
 
-from BaseClasses import Location, MultiWorld, Region
+from BaseClasses import Region, Location, MultiWorld
 
-EventId: int | None = None
-CHAOS_TERMINATED_EVENT = "Terminated Chaos"
+EventId: Optional[int] = None
+CHAOS_TERMINATED_EVENT = 'Terminated Chaos'
 
 
 class LocationData(NamedTuple):
@@ -14,8 +14,8 @@ class LocationData(NamedTuple):
 
 
 class FF1Locations:
-    _location_table: list[LocationData] = []
-    _location_table_lookup: dict[str, LocationData] = {}
+    _location_table: List[LocationData] = []
+    _location_table_lookup: Dict[str, LocationData] = {}
 
     def _populate_item_table_from_data(self):
         file = pkgutil.get_data(__name__, "data/locations.json")
@@ -24,24 +24,24 @@ class FF1Locations:
         self._location_table = [LocationData(name, code) for name, code in locations.items()]
         self._location_table_lookup = {item.name: item for item in self._location_table}
 
-    def _get_location_table(self) -> list[LocationData]:
+    def _get_location_table(self) -> List[LocationData]:
         if not self._location_table or not self._location_table_lookup:
             self._populate_item_table_from_data()
         return self._location_table
 
-    def _get_location_table_lookup(self) -> dict[str, LocationData]:
+    def _get_location_table_lookup(self) -> Dict[str, LocationData]:
         if not self._location_table or not self._location_table_lookup:
             self._populate_item_table_from_data()
         return self._location_table_lookup
 
-    def get_location_name_to_address_dict(self) -> dict[str, int]:
+    def get_location_name_to_address_dict(self) -> Dict[str, int]:
         data = {name: location.address for name, location in self._get_location_table_lookup().items()}
         data[CHAOS_TERMINATED_EVENT] = EventId
         return data
 
     @staticmethod
-    def create_menu_region(player: int, locations: dict[str, int],
-                           rules: dict[str, list[list[str]]], world: MultiWorld) -> Region:
+    def create_menu_region(player: int, locations: Dict[str, int],
+                           rules: Dict[str, List[List[str]]], world: MultiWorld) -> Region:
         menu_region = Region("Menu", player, world)
         for name, address in locations.items():
             location = Location(player, name, address, menu_region)

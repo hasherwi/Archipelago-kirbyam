@@ -1,14 +1,11 @@
+from typing import Optional, Callable, ClassVar, Tuple
 from collections.abc import Iterable
-from typing import ClassVar, Optional, Tuple
-from collections.abc import Callable
-
 from BaseClasses import CollectionState
-
-from .CriticalPathCalculator import CriticalPathCalculator
-from .GameLogic import PowerInfrastructureLevel, Recipe
+from .GameLogic import Recipe, PowerInfrastructureLevel
 from .Options import SatisfactoryOptions
+from .CriticalPathCalculator import CriticalPathCalculator
 
-EventId: int | None = None
+EventId: Optional[int] = None
 
 part_event_prefix = "Can Produce: "
 building_event_prefix = "Can Build: "
@@ -49,7 +46,7 @@ class StateLogic:
 
     pipes_rule: Callable[[CollectionState], bool]
     radio_active_rule: Callable[[CollectionState], bool]
-    belt_rules: tuple[Callable[[CollectionState], bool], ...]
+    belt_rules: Tuple[Callable[[CollectionState], bool], ...]
 
     def __init__(self, player: int, options: SatisfactoryOptions, critical_path: CriticalPathCalculator):
         self.player = player
@@ -63,24 +60,24 @@ class StateLogic:
     def has_recipe(self, state: CollectionState, recipe: Recipe) -> bool:
         return state.has(recipe.name, self.player) or recipe.name in self.critical_path.implicitly_unlocked
 
-    def can_build(self, state: CollectionState, building_name: str | None) -> bool:
+    def can_build(self, state: CollectionState, building_name: Optional[str]) -> bool:
         return building_name is None or state.has(building_event_prefix + building_name, self.player)
 
-    def can_build_any(self, state: CollectionState, building_names: Iterable[str] | None) -> bool:
+    def can_build_any(self, state: CollectionState, building_names: Optional[Iterable[str]]) -> bool:
         return building_names is None or \
             state.has_any(map(to_building_event, building_names), self.player)
 
-    def can_build_all(self, state: CollectionState, building_names: Iterable[str] | None) -> bool:
+    def can_build_all(self, state: CollectionState, building_names: Optional[Iterable[str]]) -> bool:
         return building_names is None or \
             state.has_all(map(to_building_event, building_names), self.player)
 
-    def can_produce(self, state: CollectionState, part_name: str | None) -> bool:
+    def can_produce(self, state: CollectionState, part_name: Optional[str]) -> bool:
         return part_name is None or state.has(part_event_prefix + part_name, self.player)
 
-    def can_power(self, state: CollectionState, power_level: PowerInfrastructureLevel | None) -> bool:
+    def can_power(self, state: CollectionState, power_level: Optional[PowerInfrastructureLevel]) -> bool:
         return power_level is None or state.has(building_event_prefix + power_level.to_name(), self.player)
 
-    def can_produce_all(self, state: CollectionState, parts: Iterable[str] | None) -> bool:
+    def can_produce_all(self, state: CollectionState, parts: Optional[Iterable[str]]) -> bool:
         return parts is None or \
             state.has_all(map(to_part_event, parts), self.player)
 
@@ -99,7 +96,7 @@ class StateLogic:
                 for recipe_part in recipe.inputs))
             for recipe in recipes)
 
-    def get_can_produce_all_allowing_handcrafting_rule(self, parts: Iterable[str] | None) \
+    def get_can_produce_all_allowing_handcrafting_rule(self, parts: Optional[Iterable[str]]) \
             -> Callable[[CollectionState], bool]:
         if not parts:
             return true_rule
@@ -130,37 +127,45 @@ class StateLogic:
                         and self.pipes_rule(state) \
                         and self.radio_active_rule(state) \
                         and self.belt_rule[recipe.minimal_belt_speed - 1]
-                return lambda state: \
-                    self.is_recipe_producible(state, recipe) \
-                    and self.pipes_rule(state) \
-                    and self.radio_active_rule(state)
-            if recipe.minimal_belt_speed:
-                return lambda state: \
-                    self.is_recipe_producible(state, recipe) \
-                    and self.pipes_rule(state) \
-                    and self.belt_rule[recipe.minimal_belt_speed - 1]
-            return lambda state: \
-                self.is_recipe_producible(state, recipe) \
-                and self.pipes_rule(state)
-        if recipe.is_radio_active:
-            if recipe.minimal_belt_speed:
-                return lambda state: \
-                    self.is_recipe_producible(state, recipe) \
-                    and self.radio_active_rule(state) \
-                    and self.belt_rule[recipe.minimal_belt_speed - 1]
-            return lambda state: \
-                self.is_recipe_producible(state, recipe) \
-                and self.radio_active_rule(state)
-        if recipe.minimal_belt_speed:
-            return lambda state: \
-                self.is_recipe_producible(state, recipe) \
-                and self.belt_rule[recipe.minimal_belt_speed - 1]
-        return lambda state: \
-            self.is_recipe_producible(state, recipe)
+                else:
+                    return lambda state: \
+                        self.is_recipe_producible(state, recipe) \
+                        and self.pipes_rule(state) \
+                        and self.radio_active_rule(state)
+            else:
+                if recipe.minimal_belt_speed:
+                    return lambda state: \
+                        self.is_recipe_producible(state, recipe) \
+                        and self.pipes_rule(state) \
+                        and self.belt_rule[recipe.minimal_belt_speed - 1]
+                else:
+                    return lambda state: \
+                        self.is_recipe_producible(state, recipe) \
+                        and self.pipes_rule(state)
+        else:
+            if recipe.is_radio_active:
+                if recipe.minimal_belt_speed:
+                    return lambda state: \
+                        self.is_recipe_producible(state, recipe) \
+                        and self.radio_active_rule(state) \
+                        and self.belt_rule[recipe.minimal_belt_speed - 1]
+                else:
+                    return lambda state: \
+                        self.is_recipe_producible(state, recipe) \
+                        and self.radio_active_rule(state)
+            else:
+                if recipe.minimal_belt_speed:
+                    return lambda state: \
+                        self.is_recipe_producible(state, recipe) \
+                        and self.belt_rule[recipe.minimal_belt_speed - 1]
+                else:
+                    return lambda state: \
+                        self.is_recipe_producible(state, recipe)
 
     def is_elevator_phase(self, state: CollectionState, phase: int) -> bool:
         limited_phase = min(self.options.final_elevator_phase - 1, phase)
 
         if limited_phase != 0:
             return state.has(f"Elevator Phase {limited_phase}", self.player)
-        return True
+        else:
+            return True

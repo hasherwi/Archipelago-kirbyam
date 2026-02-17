@@ -1,8 +1,7 @@
-from typing import TYPE_CHECKING, Dict
+from typing import Dict, TYPE_CHECKING
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import CollectionRule
-
 from .data import iname, lname
 from .options import CompletionGoal, IronMaidenBehavior
 
@@ -13,7 +12,7 @@ if TYPE_CHECKING:
 class CVCotMRules:
     player: int
     world: "CVCotMWorld"
-    rules: dict[str, CollectionRule]
+    rules: Dict[str, CollectionRule]
     required_last_keys: int
     iron_maiden_behavior: int
     nerf_roc_wing: int
@@ -136,19 +135,22 @@ class CVCotMRules:
         if self.nerf_roc_wing:
             return state.has(iname.roc_wing, self.player) and \
                    state.has_any([iname.double, iname.kick_boots], self.player)
-        return state.has(iname.roc_wing, self.player)
+        else:
+            return state.has(iname.roc_wing, self.player)
 
     def has_jump_level_4(self, state: CollectionState) -> bool:
         """Roc Wing and Kick Boots specifically if Roc is nerfed. Otherwise, just Roc."""
         if self.nerf_roc_wing:
             return state.has_all([iname.roc_wing, iname.kick_boots], self.player)
-        return state.has(iname.roc_wing, self.player)
+        else:
+            return state.has(iname.roc_wing, self.player)
 
     def has_jump_level_5(self, state: CollectionState) -> bool:
         """Roc Wing, Double, AND Kick Boots if Roc is nerfed. Otherwise, just Roc."""
         if self.nerf_roc_wing:
             return state.has_all([iname.roc_wing, iname.double, iname.kick_boots], self.player)
-        return state.has(iname.roc_wing, self.player)
+        else:
+            return state.has(iname.roc_wing, self.player)
 
     def has_tackle(self, state: CollectionState) -> bool:
         return state.has(iname.tackle, self.player)

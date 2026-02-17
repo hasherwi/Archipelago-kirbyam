@@ -1,14 +1,8 @@
+from .bases import SVTestBase
+from .options.presets import default_6_x_x, allsanity_no_mods_6_x_x, allsanity_mods_6_x_x_exclude_disabled, get_minsanity_options, \
+    minimal_locations_maximal_items, minimal_locations_maximal_items_with_island
 from .. import location_table
 from ..items import Group, item_table
-from .bases import SVTestBase
-from .options.presets import (
-    allsanity_mods_6_x_x_exclude_disabled,
-    allsanity_no_mods_6_x_x,
-    default_6_x_x,
-    get_minsanity_options,
-    minimal_locations_maximal_items,
-    minimal_locations_maximal_items_with_island,
-)
 
 
 class TestLocationGeneration(SVTestBase):

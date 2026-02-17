@@ -1,12 +1,10 @@
-from typing import TYPE_CHECKING, Dict, List, NamedTuple, Optional, Tuple, TypedDict
-from collections.abc import Iterable
-
 from BaseClasses import ItemClassification, Location
-
-from .data import iname
-from .items import MAJORS_CLASSIFICATIONS, cvcotm_item_info
+from .options import ItemDropRandomization, Countdown, RequiredSkirmishes, IronMaidenBehavior
 from .locations import cvcotm_location_info
-from .options import Countdown, IronMaidenBehavior, ItemDropRandomization, RequiredSkirmishes
+from .items import cvcotm_item_info, MAJORS_CLASSIFICATIONS
+from .data import iname
+
+from typing import TYPE_CHECKING, Dict, List, Iterable, Tuple, NamedTuple, Optional, TypedDict
 
 if TYPE_CHECKING:
     from . import CVCotMWorld
@@ -23,7 +21,7 @@ class StatInfo(TypedDict):
     variable: str
 
 
-extra_starting_stat_info: dict[str, StatInfo] = {
+extra_starting_stat_info: Dict[str, StatInfo] = {
     iname.hp_max: {"amount_per": 10,
                    "max_allowed": 5289,
                    "variable": "extra health"},
@@ -49,7 +47,7 @@ class OtherGameAppearancesInfo(TypedDict):
     appearance: int
 
 
-other_game_item_appearances: dict[str, dict[str, OtherGameAppearancesInfo]] = {
+other_game_item_appearances: Dict[str, Dict[str, OtherGameAppearancesInfo]] = {
     # NOTE: Symphony of the Night and Harmony of Dissonance are custom worlds that are not core verified.
     "Symphony of the Night": {"Life Vessel": {"type": 0xE4,
                                               "appearance": 0x01},
@@ -255,10 +253,10 @@ class CVCotMEnemyData(NamedTuple):
     attack: int
     defense: int
     exp: int
-    type: str | None = None
+    type: Optional[str] = None
 
 
-cvcotm_enemy_info: list[CVCotMEnemyData] = [
+cvcotm_enemy_info: List[CVCotMEnemyData] = [
     #                Name                  HP   ATK   DEF     EXP
     CVCotMEnemyData("Medusa Head",          6,  120,   60,      2),
     CVCotMEnemyData("Zombie",              48,   70,   20,      2),
@@ -415,21 +413,21 @@ COUNTDOWN_TABLE_ADDR = 0x673400
 ITEM_ID_SHINNING_ARMOR = 11
 
 
-def shuffle_sub_weapons(world: "CVCotMWorld") -> dict[int, bytes]:
+def shuffle_sub_weapons(world: "CVCotMWorld") -> Dict[int, bytes]:
     """Shuffles the sub-weapons amongst themselves."""
     sub_bytes = list(rom_sub_weapon_offsets.values())
     world.random.shuffle(sub_bytes)
     return dict(zip(rom_sub_weapon_offsets, sub_bytes))
 
 
-def get_countdown_flags(world: "CVCotMWorld", active_locations: Iterable[Location]) -> dict[int, bytes]:
+def get_countdown_flags(world: "CVCotMWorld", active_locations: Iterable[Location]) -> Dict[int, bytes]:
     """Figures out which Countdown numbers to increase for each Location after verifying the Item on the Location should
     count towards a number.
 
     Which number to increase is determined by the Location's "countdown" attr in its CVCotMLocationData."""
 
     next_pos = COUNTDOWN_TABLE_ADDR + 0x40
-    countdown_flags: list[list[int]] = [[] for _ in range(16)]
+    countdown_flags: List[List[int]] = [[] for _ in range(16)]
     countdown_dict = {}
     ptr_offset = COUNTDOWN_TABLE_ADDR
 
@@ -456,7 +454,7 @@ def get_countdown_flags(world: "CVCotMWorld", active_locations: Iterable[Locatio
     return countdown_dict
 
 
-def get_location_data(world: "CVCotMWorld", active_locations: Iterable[Location]) -> dict[int, bytes]:
+def get_location_data(world: "CVCotMWorld", active_locations: Iterable[Location]) -> Dict[int, bytes]:
     """Gets ALL the Item data to go into the ROM. Items consist of four bytes; the first two represent the object ID
     for the "category" of item that it belongs to, the third is the sub-value for which item within that "category" it
     is, and the fourth controls the appearance it takes."""
@@ -520,7 +518,7 @@ def get_location_data(world: "CVCotMWorld", active_locations: Iterable[Location]
     return location_bytes
 
 
-def populate_enemy_drops(world: "CVCotMWorld") -> dict[int, bytes]:
+def populate_enemy_drops(world: "CVCotMWorld") -> Dict[int, bytes]:
     """Randomizes the enemy-dropped items throughout the game within each other. There are three tiers of item drops:
     Low, Mid, and High. Each enemy has two item slots that can both drop its own item; a Common slot and a Rare one.
 
@@ -657,7 +655,7 @@ def populate_enemy_drops(world: "CVCotMWorld") -> dict[int, bytes]:
     return drop_data
 
 
-def select_drop(world: "CVCotMWorld", drop_list: list[int], drops_placed: list[int], exclusive_drop: bool = False,
+def select_drop(world: "CVCotMWorld", drop_list: List[int], drops_placed: List[int], exclusive_drop: bool = False,
                 start_index: int = 0) -> int:
     """Chooses a drop from a given list of drops based on another given list of how many drops from that list were
     selected before. In order to ensure an even number of drops are distributed, drops that were selected the least are
@@ -688,7 +686,7 @@ def select_drop(world: "CVCotMWorld", drop_list: list[int], drops_placed: list[i
     return drop_list[random_index]
 
 
-def get_start_inventory_data(world: "CVCotMWorld") -> tuple[dict[int, bytes], bool]:
+def get_start_inventory_data(world: "CVCotMWorld") -> Tuple[Dict[int, bytes], bool]:
     """Calculate and return the starting inventory arrays. Different items go into different arrays, so they all have
     to be handled accordingly."""
     start_inventory_data = {}

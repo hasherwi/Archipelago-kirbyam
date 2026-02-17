@@ -1,7 +1,6 @@
 import typing
 
 from BaseClasses import Item, ItemClassification
-
 from .Names import ItemNames
 
 
@@ -15,7 +14,7 @@ class OSRSItem(Item):
     game: str = "Old School Runescape"
 
 
-QP_Items: list[str] = [
+QP_Items: typing.List[str] = [
     ItemNames.QP_Cooks_Assistant,
     ItemNames.QP_Demon_Slayer,
     ItemNames.QP_Restless_Ghost,
@@ -39,7 +38,7 @@ QP_Items: list[str] = [
     ItemNames.QP_Below_Ice_Mountain
 ]
 
-starting_area_dict: dict[int, str] = {
+starting_area_dict: typing.Dict[int, str] = {
     0: ItemNames.Lumbridge,
     1: ItemNames.Al_Kharid,
     2: ItemNames.Central_Varrock,
@@ -50,7 +49,7 @@ starting_area_dict: dict[int, str] = {
     7: ItemNames.Wilderness,
 }
 
-chunksanity_starting_chunks: list[str] = [
+chunksanity_starting_chunks: typing.List[str] = [
     ItemNames.Lumbridge,
     ItemNames.Lumbridge_Swamp,
     ItemNames.Lumbridge_Farms,
@@ -80,7 +79,7 @@ chunksanity_starting_chunks: list[str] = [
 ]
 
 # Some starting areas contain multiple regions, so if that area is rolled for Chunksanity, we need to map it to one
-chunksanity_special_region_names: dict[str, str] = {
-    ItemNames.Lumbridge_Farms: "Lumbridge Farms East",
-    ItemNames.Crafting_Guild: "Crafting Guild Outskirts",
+chunksanity_special_region_names: typing.Dict[str, str] = {
+    ItemNames.Lumbridge_Farms: 'Lumbridge Farms East',
+    ItemNames.Crafting_Guild: 'Crafting Guild Outskirts',
 }

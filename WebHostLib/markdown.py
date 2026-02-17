@@ -4,9 +4,10 @@ from collections import Counter
 import mistune
 from werkzeug.utils import secure_filename
 
+
 __all__ = [
     "ImgUrlRewriteInlineParser",
-    "render_markdown",
+    'render_markdown',
 ]
 
 
@@ -41,7 +42,7 @@ class ImgUrlRewriteInlineParser(mistune.InlineParser):
                             url = "/".join(parts[1:2] + [secure_filename(game_name)] + parts[4:])
                 # change relative URL to point to deployment folder
                 url = f"{self.relative_url_base}/{url}"
-                image_token["attrs"]["url"] = url
+                image_token['attrs']['url'] = url
         return res
 
 

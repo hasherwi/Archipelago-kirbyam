@@ -1,5 +1,4 @@
 import unittest
-
 from ..MuseDashCollection import MuseDashCollections
 
 

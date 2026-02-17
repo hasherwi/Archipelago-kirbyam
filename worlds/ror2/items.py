@@ -1,9 +1,7 @@
-from typing import Dict, NamedTuple, Optional
-
 from BaseClasses import Item, ItemClassification
-
 from .options import ItemWeights
 from .ror2environments import environment_all_table
+from typing import NamedTuple, Optional, Dict
 
 
 class RiskOfRainItem(Item):
@@ -14,7 +12,7 @@ class RiskOfRainItemData(NamedTuple):
     category: str
     code: int
     item_type: ItemClassification = ItemClassification.filler
-    weight: int | None = None
+    weight: Optional[int] = None
 
 
 offset: int = 37000
@@ -23,7 +21,7 @@ trap_offset: int = offset + 400
 stage_offset: int = offset + 500
 environment_offset: int = offset + 700
 # Upgrade item ids 37002 - 37012
-upgrade_table: dict[str, RiskOfRainItemData] = {
+upgrade_table: Dict[str, RiskOfRainItemData] = {
     "Common Item":          RiskOfRainItemData("Upgrade", 2 + offset, ItemClassification.filler, 64),
     "Uncommon Item":        RiskOfRainItemData("Upgrade", 3 + offset, ItemClassification.filler, 32),
     "Legendary Item":       RiskOfRainItemData("Upgrade", 4 + offset, ItemClassification.useful, 8),
@@ -36,19 +34,19 @@ upgrade_table: dict[str, RiskOfRainItemData] = {
     "Void Item":            RiskOfRainItemData("Upgrade", 12 + offset, ItemClassification.filler, 16),
 }
 # Other item ids 37001, 37013-37014
-other_table: dict[str, RiskOfRainItemData] = {
+other_table: Dict[str, RiskOfRainItemData] = {
     "Dio's Best Friend":    RiskOfRainItemData("ExtraLife", 1 + offset, ItemClassification.progression_skip_balancing),
     "Beads of Fealty":      RiskOfRainItemData("Beads", 13 + offset, ItemClassification.progression),
     "Radar Scanner":        RiskOfRainItemData("Radar", 14 + offset, ItemClassification.useful),
 }
 # Filler item ids 37301 - 37303
-filler_table: dict[str, RiskOfRainItemData] = {
+filler_table: Dict[str, RiskOfRainItemData] = {
     "Money":                RiskOfRainItemData("Filler", 1 + filler_offset, ItemClassification.filler, 64),
     "Lunar Coin":           RiskOfRainItemData("Filler", 2 + filler_offset, ItemClassification.filler, 20),
     "1000 Exp":             RiskOfRainItemData("Filler", 3 + filler_offset, ItemClassification.filler, 40),
 }
 # Trap item ids 37401 - 37404 (Lunar items used to be part of the upgrade item list, so keeping the id the same)
-trap_table: dict[str, RiskOfRainItemData] = {
+trap_table: Dict[str, RiskOfRainItemData] = {
     "Lunar Item":           RiskOfRainItemData("Trap", 6 + offset, ItemClassification.trap, 16),
     "Mountain Trap":        RiskOfRainItemData("Trap", 1 + trap_offset, ItemClassification.trap, 5),
     "Time Warp Trap":       RiskOfRainItemData("Trap", 2 + trap_offset, ItemClassification.trap, 20),
@@ -56,7 +54,7 @@ trap_table: dict[str, RiskOfRainItemData] = {
     "Teleport Trap":        RiskOfRainItemData("Trap", 4 + trap_offset, ItemClassification.trap, 10),
 }
 # Stage item ids 37501 - 37504
-stage_table: dict[str, RiskOfRainItemData] = {
+stage_table: Dict[str, RiskOfRainItemData] = {
     "Stage 1":              RiskOfRainItemData("Stage", 1 + stage_offset, ItemClassification.progression),
     "Stage 2":              RiskOfRainItemData("Stage", 2 + stage_offset, ItemClassification.progression),
     "Stage 3":              RiskOfRainItemData("Stage", 3 + stage_offset, ItemClassification.progression),
@@ -72,11 +70,11 @@ item_table = {**upgrade_table, **other_table, **filler_table, **trap_table, **st
 
 # add ALL environments into the item table
 def create_environment_table(name: str, environment_id: int, environment_classification: ItemClassification) \
-        -> dict[str, RiskOfRainItemData]:
+        -> Dict[str, RiskOfRainItemData]:
     return {name: RiskOfRainItemData("Environment", environment_offset + environment_id, environment_classification)}
 
 
-environment_table: dict[str, RiskOfRainItemData] = {}
+environment_table: Dict[str, RiskOfRainItemData] = {}
 # use the sotv dlc in the item table so that all names can be looked up regardless of use
 for data, key in environment_all_table.items():
     classification = ItemClassification.progression
@@ -89,7 +87,7 @@ item_table.update(environment_table)
 # end of environments
 ##################################################
 
-default_weights: dict[str, int] = {
+default_weights: Dict[str, int] = {
     "Item Scrap, Green":    16,
     "Item Scrap, Red":      4,
     "Item Scrap, Yellow":   1,
@@ -110,7 +108,7 @@ default_weights: dict[str, int] = {
     "Teleport Trap":        20
 }
 
-new_weights: dict[str, int] = {
+new_weights: Dict[str, int] = {
     "Item Scrap, Green":    15,
     "Item Scrap, Red":      5,
     "Item Scrap, Yellow":   1,
@@ -131,7 +129,7 @@ new_weights: dict[str, int] = {
     "Teleport Trap":        20
 }
 
-uncommon_weights: dict[str, int] = {
+uncommon_weights: Dict[str, int] = {
     "Item Scrap, Green":    45,
     "Item Scrap, Red":      5,
     "Item Scrap, Yellow":   1,
@@ -152,7 +150,7 @@ uncommon_weights: dict[str, int] = {
     "Teleport Trap":        20
 }
 
-legendary_weights: dict[str, int] = {
+legendary_weights: Dict[str, int] = {
     "Item Scrap, Green":    15,
     "Item Scrap, Red":      5,
     "Item Scrap, Yellow":   1,
@@ -173,7 +171,7 @@ legendary_weights: dict[str, int] = {
     "Teleport Trap":        20
 }
 
-chaos_weights: dict[str, int] = {
+chaos_weights: Dict[str, int] = {
     "Item Scrap, Green":    80,
     "Item Scrap, Red":      45,
     "Item Scrap, Yellow":   30,
@@ -194,7 +192,7 @@ chaos_weights: dict[str, int] = {
     "Teleport Trap":        20
 }
 
-no_scraps_weights: dict[str, int] = {
+no_scraps_weights: Dict[str, int] = {
     "Item Scrap, Green":    0,
     "Item Scrap, Red":      0,
     "Item Scrap, Yellow":   0,
@@ -215,7 +213,7 @@ no_scraps_weights: dict[str, int] = {
     "Teleport Trap":        20
 }
 
-even_weights: dict[str, int] = {
+even_weights: Dict[str, int] = {
     "Item Scrap, Green":    1,
     "Item Scrap, Red":      1,
     "Item Scrap, Yellow":   1,
@@ -236,7 +234,7 @@ even_weights: dict[str, int] = {
     "Teleport Trap":        1
 }
 
-scraps_only: dict[str, int] = {
+scraps_only: Dict[str, int] = {
     "Item Scrap, Green":    70,
     "Item Scrap, White":    100,
     "Item Scrap, Red":      30,
@@ -256,7 +254,7 @@ scraps_only: dict[str, int] = {
     "Combat Trap":          10,
     "Teleport Trap":        10
 }
-lunartic_weights: dict[str, int] = {
+lunartic_weights: Dict[str, int] = {
     "Item Scrap, Green": 0,
     "Item Scrap, Red": 0,
     "Item Scrap, Yellow": 0,
@@ -276,7 +274,7 @@ lunartic_weights: dict[str, int] = {
     "Combat Trap": 10,
     "Teleport Trap": 10
 }
-void_weights: dict[str, int] = {
+void_weights: Dict[str, int] = {
     "Item Scrap, Green":    0,
     "Item Scrap, Red":      0,
     "Item Scrap, Yellow":   0,
@@ -297,7 +295,7 @@ void_weights: dict[str, int] = {
     "Teleport Trap":        10
 }
 
-item_pool_weights: dict[int, dict[str, int]] = {
+item_pool_weights: Dict[int, Dict[str, int]] = {
     ItemWeights.option_default:     default_weights,
     ItemWeights.option_new:         new_weights,
     ItemWeights.option_uncommon:    uncommon_weights,

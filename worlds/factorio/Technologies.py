@@ -5,12 +5,11 @@ import pkgutil
 import string
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
-from typing import Any, Dict, FrozenSet, List, Optional, Set, Tuple, Union
+from typing import Dict, Set, FrozenSet, Tuple, Union, List, Any, Optional
 
 import orjson
 
 import Utils
-
 from . import Options
 
 factorio_tech_id = factorio_base_id = 2 ** 17
@@ -19,7 +18,7 @@ pool = ThreadPoolExecutor(1)
 
 
 # Factorio technologies are imported from a .json document in /data
-def load_json_data(data_name: str) -> list[str] | dict[str, Any]:
+def load_json_data(data_name: str) -> Union[List[str], Dict[str, Any]]:
     return orjson.loads(pkgutil.get_data(__name__, "data/" + data_name + ".json"))
 
 
@@ -30,8 +29,8 @@ machines_future = pool.submit(load_json_data, "machines")
 fluids_future = pool.submit(load_json_data, "fluids")
 items_future = pool.submit(load_json_data, "items")
 
-tech_table: dict[str, int] = {}
-technology_table: dict[str, Technology] = {}
+tech_table: Dict[str, int] = {}
+technology_table: Dict[str, Technology] = {}
 
 start_unlocked_recipes = {
     "offshore-pump",
@@ -65,12 +64,12 @@ class FactorioElement:
 
 class Technology(FactorioElement):  # maybe make subclass of Location?
     factorio_id: int
-    progressive: tuple[str]
-    unlocks: set[str] | bool  # bool case is for progressive technologies
+    progressive: Tuple[str]
+    unlocks: Union[Set[str], bool]  # bool case is for progressive technologies
     modifiers: list[str]
 
-    def __init__(self, technology_name: str, factorio_id: int, progressive: tuple[str] = (),
-                 modifiers: list[str] = None, unlocks: set[str] | bool = None):
+    def __init__(self, technology_name: str, factorio_id: int, progressive: Tuple[str] = (),
+                 modifiers: list[str] = None, unlocks: Union[Set[str], bool] = None):
         self.name = technology_name
         self.factorio_id = factorio_id
         self.progressive = progressive
@@ -89,7 +88,7 @@ class Technology(FactorioElement):  # maybe make subclass of Location?
     def has_modifier(self) -> bool:
         return bool(self.modifiers)
 
-    def get_custom(self, world, allowed_packs: set[str], player: int) -> CustomTechnology:
+    def get_custom(self, world, allowed_packs: Set[str], player: int) -> CustomTechnology:
         return CustomTechnology(self, world, allowed_packs, player)
 
     def useful(self) -> bool:
@@ -98,17 +97,17 @@ class Technology(FactorioElement):  # maybe make subclass of Location?
 
 class CustomTechnology(Technology):
     """A particularly configured Technology for a world."""
-    ingredients: set[str]
+    ingredients: Set[str]
 
-    def __init__(self, origin: Technology, world, allowed_packs: set[str], player: int):
+    def __init__(self, origin: Technology, world, allowed_packs: Set[str], player: int):
         ingredients = allowed_packs
         self.player = player
         if origin.name not in world.special_nodes:
             ingredients = set(world.random.sample(list(ingredients), world.random.randint(1, len(ingredients))))
         self.ingredients = ingredients
-        super().__init__(origin.name, origin.factorio_id)
+        super(CustomTechnology, self).__init__(origin.name, origin.factorio_id)
 
-    def get_prior_technologies(self) -> set[Technology]:
+    def get_prior_technologies(self) -> Set[Technology]:
         """Get Technologies that have to precede this one to resolve tree connections."""
         technologies = set()
         for ingredient in self.ingredients:
@@ -119,11 +118,11 @@ class CustomTechnology(Technology):
 class Recipe(FactorioElement):
     name: str
     category: str
-    ingredients: dict[str, int]
-    products: dict[str, int]
+    ingredients: Dict[str, int]
+    products: Dict[str, int]
     energy: float
 
-    def __init__(self, name: str, category: str, ingredients: dict[str, int], products: dict[str, int], energy: float):
+    def __init__(self, name: str, category: str, ingredients: Dict[str, int], products: Dict[str, int], energy: float):
         self.name = name
         self.category = category
         self.ingredients = ingredients
@@ -139,12 +138,12 @@ class Recipe(FactorioElement):
         return machine_per_category[self.category]
 
     @property
-    def unlocking_technologies(self) -> set[Technology]:
+    def unlocking_technologies(self) -> Set[Technology]:
         """Unlocked by any of the returned technologies. Empty set indicates a starting recipe."""
         return {technology_table[tech_name] for tech_name in recipe_sources.get(self.name, ())}
 
     @property
-    def recursive_unlocking_technologies(self) -> set[Technology]:
+    def recursive_unlocking_technologies(self) -> Set[Technology]:
         base = {technology_table[tech_name] for tech_name in recipe_sources.get(self.name, ())}
         for ingredient in self.ingredients:
             base |= required_technologies[ingredient]
@@ -157,7 +156,7 @@ class Recipe(FactorioElement):
         return min(ingredients / amount for product, amount in self.products.items())
 
     @functools.cached_property
-    def base_cost(self) -> dict[str, int]:
+    def base_cost(self) -> Dict[str, int]:
         ingredients = Counter()
         try:
             for ingredient, cost in self.ingredients.items():
@@ -181,7 +180,7 @@ class Recipe(FactorioElement):
         total_energy = self.energy
         for ingredient, cost in self.ingredients.items():
             if ingredient in all_product_sources:
-                selected_recipe_energy = float("inf")
+                selected_recipe_energy = float('inf')
                 for ingredient_recipe in all_product_sources[ingredient]:
                     craft_count = max((n for name, n in ingredient_recipe.products.items() if name == ingredient))
                     recipe_energy = ingredient_recipe.total_energy / craft_count * cost
@@ -197,7 +196,7 @@ class Machine(FactorioElement):
         self.categories: set = categories
 
 
-recipe_sources: dict[str, set[str]] = {}  # recipe_name -> technology source
+recipe_sources: Dict[str, Set[str]] = {}  # recipe_name -> technology source
 mining_with_fluid_sources: set[str] = set()
 
 # recipes and technologies can share names in Factorio
@@ -218,7 +217,7 @@ for technology_name, data in sorted(techs_future.result().items()):
 del techs_future
 
 recipes = {}
-all_product_sources: dict[str, set[Recipe]] = {"character": set()}
+all_product_sources: Dict[str, Set[Recipe]] = {"character": set()}
 # add uranium mining to logic graph. TODO: add to automatic extractor for mod support
 raw_recipes = recipes_future.result()
 del recipes_future
@@ -250,7 +249,7 @@ for recipe_name, recipe_data in raw_recipes.items():
 
 assert all(recipe_name in raw_recipes for recipe_name in start_unlocked_recipes), "Unknown Recipe defined."
 
-machines: dict[str, Machine] = {}
+machines: Dict[str, Machine] = {}
 
 for name, categories in machines_future.result().items():
     machine = Machine(name, set(categories))
@@ -266,10 +265,10 @@ del machines_future
 
 # build requirements graph for all technology ingredients
 
-all_ingredient_names: set[str] = set(Options.MaxSciencePack.get_ordered_science_packs())
+all_ingredient_names: Set[str] = set(Options.MaxSciencePack.get_ordered_science_packs())
 
 
-def unlock_just_tech(recipe: Recipe, _done) -> set[Technology]:
+def unlock_just_tech(recipe: Recipe, _done) -> Set[Technology]:
     current_technologies = recipe.unlocking_technologies
     for ingredient_name in recipe.ingredients:
         current_technologies |= recursively_get_unlocking_technologies(ingredient_name, _done,
@@ -277,7 +276,7 @@ def unlock_just_tech(recipe: Recipe, _done) -> set[Technology]:
     return current_technologies
 
 
-def unlock(recipe: Recipe, _done) -> set[Technology]:
+def unlock(recipe: Recipe, _done) -> Set[Technology]:
     current_technologies = recipe.unlocking_technologies
     for ingredient_name in recipe.ingredients:
         current_technologies |= recursively_get_unlocking_technologies(ingredient_name, _done, unlock_func=unlock)
@@ -286,12 +285,13 @@ def unlock(recipe: Recipe, _done) -> set[Technology]:
     return current_technologies
 
 
-def recursively_get_unlocking_technologies(ingredient_name, _done=None, unlock_func=unlock_just_tech) -> set[
+def recursively_get_unlocking_technologies(ingredient_name, _done=None, unlock_func=unlock_just_tech) -> Set[
     Technology]:
     if _done:
         if ingredient_name in _done:
             return set()
-        _done.add(ingredient_name)
+        else:
+            _done.add(ingredient_name)
     else:
         _done = {ingredient_name}
     recipes = all_product_sources.get(ingredient_name)
@@ -304,7 +304,7 @@ def recursively_get_unlocking_technologies(ingredient_name, _done=None, unlock_f
     return current_technologies
 
 
-required_machine_technologies: dict[str, frozenset[Technology]] = {}
+required_machine_technologies: Dict[str, FrozenSet[Technology]] = {}
 for ingredient_name in machines:
     required_machine_technologies[ingredient_name] = frozenset(recursively_get_unlocking_technologies(ingredient_name))
 
@@ -317,25 +317,25 @@ for machine in machines.values():
         if machine_cost < current_cost:
             machine_tech_cost[category] = machine_cost, machine.name
 
-machine_per_category: dict[str: str] = {}
+machine_per_category: Dict[str: str] = {}
 for category, (cost, machine_name) in machine_tech_cost.items():
     machine_per_category[category] = machine_name
 
 del machine_tech_cost
 
 # required technologies to be able to craft recipes from a certain category
-required_category_technologies: dict[str, frozenset[frozenset[Technology]]] = {}
+required_category_technologies: Dict[str, FrozenSet[FrozenSet[Technology]]] = {}
 for category_name, machine_name in machine_per_category.items():
     techs = set()
     techs |= recursively_get_unlocking_technologies(machine_name)
     required_category_technologies[category_name] = frozenset(techs)
 
-required_technologies: dict[str, frozenset[Technology]] = Utils.KeyedDefaultDict(lambda ingredient_name: frozenset(
+required_technologies: Dict[str, FrozenSet[Technology]] = Utils.KeyedDefaultDict(lambda ingredient_name: frozenset(
     recursively_get_unlocking_technologies(ingredient_name, unlock_func=unlock)))
 
 
-def get_rocket_requirements(silo_recipe: Recipe | None, part_recipe: Recipe | None,
-                            satellite_recipe: Recipe | None, cargo_landing_pad_recipe: Recipe | None) -> set[str]:
+def get_rocket_requirements(silo_recipe: Optional[Recipe], part_recipe: Optional[Recipe],
+                            satellite_recipe: Optional[Recipe], cargo_landing_pad_recipe: Optional[Recipe]) -> Set[str]:
     techs = set()
     if silo_recipe:
         for ingredient in silo_recipe.ingredients:
@@ -353,11 +353,11 @@ def get_rocket_requirements(silo_recipe: Recipe | None, part_recipe: Recipe | No
     return {tech.name for tech in techs}
 
 
-free_sample_exclusions: set[str] = all_ingredient_names | {"rocket-part"}
+free_sample_exclusions: Set[str] = all_ingredient_names | {"rocket-part"}
 
 # progressive technologies
 # auto-progressive
-progressive_rows: dict[str, list[str] | tuple[str, ...]] = {}
+progressive_rows: Dict[str, Union[List[str], Tuple[str, ...]]] = {}
 progressive_incs = set()
 for tech_name in tech_table:
     if tech_name.endswith("-1"):
@@ -419,7 +419,7 @@ progressive_rows["progressive-personal-roboport-equipment"] = ("personal-robopor
 sorted_rows = sorted(progressive_rows)
 
 # integrate into
-source_target_mapping: dict[str, str] = {
+source_target_mapping: Dict[str, str] = {
     "progressive-braking-force": "progressive-train-network",
     "progressive-inserter-capacity-bonus": "progressive-inserter",
     "progressive-refined-flammables": "progressive-flamethrower",
@@ -431,8 +431,8 @@ for source, target in source_target_mapping.items():
 base_tech_table = tech_table.copy()  # without progressive techs
 base_technology_table = technology_table.copy()
 
-progressive_tech_table: dict[str, int] = {}
-progressive_technology_table: dict[str, Technology] = {}
+progressive_tech_table: Dict[str, int] = {}
+progressive_technology_table: Dict[str, Technology] = {}
 
 for root in sorted_rows:
     progressive = progressive_rows[root]
@@ -449,7 +449,7 @@ for root in sorted_rows:
     progressive_tech_table[root] = progressive_technology.factorio_id
     progressive_technology_table[root] = progressive_technology
 
-tech_to_progressive_lookup: dict[str, str] = {}
+tech_to_progressive_lookup: Dict[str, str] = {}
 for technology in progressive_technology_table.values():
     if technology.name not in source_target_mapping:
         for progressive in technology.progressive:
@@ -459,10 +459,10 @@ tech_table.update(progressive_tech_table)
 technology_table.update(progressive_technology_table)
 
 # techs that are never progressive
-common_tech_table: dict[str, int] = {tech_name: tech_id for tech_name, tech_id in base_tech_table.items()
+common_tech_table: Dict[str, int] = {tech_name: tech_id for tech_name, tech_id in base_tech_table.items()
                                      if tech_name not in progressive_tech_table}
 
-useless_technologies: set[str] = {tech_name for tech_name in common_tech_table
+useless_technologies: Set[str] = {tech_name for tech_name in common_tech_table
                                   if not technology_table[tech_name].useful()}
 
 rel_cost = {
@@ -478,13 +478,13 @@ rel_cost = {
     "used-up-uranium-fuel-cell": 1000
 }
 
-exclusion_list: set[str] = all_ingredient_names | {"rocket-part", "used-up-uranium-fuel-cell"}
-fluids: set[str] = set(fluids_future.result())
+exclusion_list: Set[str] = all_ingredient_names | {"rocket-part", "used-up-uranium-fuel-cell"}
+fluids: Set[str] = set(fluids_future.result())
 del fluids_future
 
 
 @Utils.cache_argsless
-def get_science_pack_pools() -> dict[str, set[str]]:
+def get_science_pack_pools() -> Dict[str, Set[str]]:
     def get_estimated_difficulty(recipe: Recipe):
         base_ingredients = recipe.base_cost
         cost = 0
@@ -493,7 +493,7 @@ def get_science_pack_pools() -> dict[str, set[str]]:
             cost += rel_cost.get(ingredient_name, 1) * amount
         return cost
 
-    science_pack_pools: dict[str, set[str]] = {}
+    science_pack_pools: Dict[str, Set[str]] = {}
     already_taken = exclusion_list.copy()
     current_difficulty = 5
     for science_pack in Options.MaxSciencePack.get_ordered_science_packs():
@@ -516,10 +516,10 @@ def get_science_pack_pools() -> dict[str, set[str]]:
     return science_pack_pools
 
 
-item_stack_sizes: dict[str, int] = items_future.result()
-non_stacking_items: set[str] = {item for item, stack in item_stack_sizes.items() if stack == 1}
-stacking_items: set[str] = set(item_stack_sizes) - non_stacking_items
-valid_ingredients: set[str] = stacking_items | fluids
+item_stack_sizes: Dict[str, int] = items_future.result()
+non_stacking_items: Set[str] = {item for item, stack in item_stack_sizes.items() if stack == 1}
+stacking_items: Set[str] = set(item_stack_sizes) - non_stacking_items
+valid_ingredients: Set[str] = stacking_items | fluids
 
 # cleanup async helpers
 pool.shutdown()

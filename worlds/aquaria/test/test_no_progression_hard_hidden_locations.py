@@ -4,10 +4,9 @@ Date: Fri, 03 May 2024 14:07:35 +0000
 Description: Unit test used to test that no progression items can be put in hard or hidden locations when option enabled
 """
 
-from BaseClasses import ItemClassification
-
-from ..Locations import AquariaLocationNames
 from . import AquariaTestBase
+from BaseClasses import ItemClassification
+from ..Locations import AquariaLocationNames
 
 
 class UNoProgressionHardHiddenTest(AquariaTestBase):

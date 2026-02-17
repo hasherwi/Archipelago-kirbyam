@@ -4,9 +4,8 @@ Date: Fri, 15 Mar 2024 18:41:40 +0000
 Description: Manage items in the Aquaria game multiworld randomizer
 """
 
-from enum import Enum
 from typing import Optional
-
+from enum import Enum
 from BaseClasses import Item, ItemClassification
 
 
@@ -40,7 +39,7 @@ class AquariaItem(Item):
     """The name of the game"""
 
     def __init__(self, name: str, classification: ItemClassification,
-                 code: int | None, player: int):
+                 code: Optional[int], player: int):
         """
         Initialisation of the Item
         :param name: The name of the item

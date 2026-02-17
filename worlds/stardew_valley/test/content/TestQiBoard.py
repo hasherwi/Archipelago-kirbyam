@@ -1,10 +1,10 @@
+from . import SVContentPackTestBase
 from ...content import content_packs
 from ...data.artisan import MachineSource
 from ...strings.artisan_good_names import ArtisanGood
 from ...strings.crop_names import Fruit
 from ...strings.fish_names import Fish
 from ...strings.machine_names import Machine
-from . import SVContentPackTestBase
 
 
 class TestQiBoard(SVContentPackTestBase):

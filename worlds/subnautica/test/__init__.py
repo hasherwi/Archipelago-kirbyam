@@ -1,5 +1,4 @@
 import unittest
-
 from worlds import subnautica
 
 

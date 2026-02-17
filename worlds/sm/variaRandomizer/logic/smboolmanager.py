@@ -1,23 +1,21 @@
 # object to handle the smbools and optimize them
 
-import logging
-import sys
-from copy import deepcopy
-
 from ..logic.cache import Cache
+from ..logic.smbool import SMBool, smboolFalse
 from ..logic.helpers import Bosses
 from ..logic.logic import Logic
-from ..logic.smbool import SMBool, smboolFalse
 from ..utils.doorsmanager import DoorsManager
 from ..utils.objectives import Objectives
 from ..utils.parameters import Knows, isKnows
-
+import logging
+from copy import deepcopy
+import sys
 
 class SMBoolManager(object):
-    items = ["ETank", "Missile", "Super", "PowerBomb", "Bomb", "Charge", "Ice", "HiJump", "SpeedBooster", "Wave", "Spazer", "SpringBall", "Varia", "Plasma", "Grapple", "Morph", "Reserve", "Gravity", "XRayScope", "SpaceJump", "ScrewAttack", "Nothing", "NoEnergy", "MotherBrain", "Hyper", "Gunship"] + Bosses.Golden4() + Bosses.miniBosses()
-    countItems = ["Missile", "Super", "PowerBomb", "ETank", "Reserve"]
+    items = ['ETank', 'Missile', 'Super', 'PowerBomb', 'Bomb', 'Charge', 'Ice', 'HiJump', 'SpeedBooster', 'Wave', 'Spazer', 'SpringBall', 'Varia', 'Plasma', 'Grapple', 'Morph', 'Reserve', 'Gravity', 'XRayScope', 'SpaceJump', 'ScrewAttack', 'Nothing', 'NoEnergy', 'MotherBrain', 'Hyper', 'Gunship'] + Bosses.Golden4() + Bosses.miniBosses()
+    countItems = ['Missile', 'Super', 'PowerBomb', 'ETank', 'Reserve']
 
-    percentItems = ["Bomb", "Charge", "Ice", "HiJump", "SpeedBooster", "Wave", "Spazer", "SpringBall", "Varia", "Plasma", "Grapple", "Morph", "Gravity", "XRayScope", "SpaceJump", "ScrewAttack"]
+    percentItems = ['Bomb', 'Charge', 'Ice', 'HiJump', 'SpeedBooster', 'Wave', 'Spazer', 'SpringBall', 'Varia', 'Plasma', 'Grapple', 'Morph', 'Gravity', 'XRayScope', 'SpaceJump', 'ScrewAttack']
     def __init__(self, player=0, maxDiff=sys.maxsize, onlyBossLeft = False):
         self._items = { }
         self._counts = { }
@@ -30,7 +28,7 @@ class SMBoolManager(object):
         #self.cacheKey = 0
         #self.computeItemsPositions()
         Cache.reset()
-        Logic.factory("vanilla")
+        Logic.factory('vanilla')
         self.helpers = Logic.HelpersGraph(self)
         self.doorsManager = DoorsManager()
         self.objectives = Objectives.objDict[player] if player in Objectives.objDict.keys() else Objectives(player)
@@ -94,7 +92,7 @@ class SMBoolManager(object):
 
     def computeNewCacheKey(self, item, value):
         # generate an unique integer for each items combinations which is use as key in the cache.
-        if item in ["Nothing", "NoEnergy"]:
+        if item in ['Nothing', 'NoEnergy']:
             return
         (pos, bitMask) = self.itemsPositions[item]
 #        print("--------------------- {} {} ----------------------------".format(item, value))
@@ -105,13 +103,13 @@ class SMBoolManager(object):
 
     def printItemsInKey(self, key):
         # for debug purpose
-        print("key:  "+format(key, "#067b"))
+        print("key:  "+format(key, '#067b'))
         msg = ""
         for (item, (pos, bitMask)) in self.itemsPositions.items():
             value = (key & bitMask) >> pos
             if value != 0:
-                msg += f" {item}: {value}"
-        print(f"items:{msg}")
+                msg += " {}: {}".format(item, value)
+        print("items:{}".format(msg))
 
     def isEmpty(self):
         for item in self.items:
@@ -189,14 +187,14 @@ class SMBoolManager(object):
 
     def createFacadeFunctions(self):
         for fun in dir(self.helpers):
-            if fun != "smbm" and fun[0:2] != "__":
+            if fun != 'smbm' and fun[0:2] != '__':
                 setattr(self, fun, getattr(self.helpers, fun))
 
     def traverse(self, doorName):
         return self.doorsManager.traverse(self, doorName)
-
+    
     def canPassG4(self):
-        return self.objectives.canClearGoals(self, "Golden Four")
+        return self.objectives.canClearGoals(self, 'Golden Four')
 
     def hasItemsPercent(self, percent, totalItemsCount=None):
         if totalItemsCount is None:
@@ -216,7 +214,7 @@ class SMBoolManager(object):
                 self._createKnowsFunction(knows, player)
 
     def _setKnowsFunction(self, knows, k):
-        setattr(self, "knows"+knows, lambda: SMBool(k.bool, k.difficulty,
+        setattr(self, 'knows'+knows, lambda: SMBool(k.bool, k.difficulty,
                                                     knows=[knows]))
 
     def _createKnowsFunction(self, knows, player):
@@ -238,7 +236,7 @@ class SMBoolManager(object):
             #Cache.reset()
         else:
             raise ValueError("Invalid knows "+str(knows))
-
+        
     def isCountItem(self, item):
         return item in self.countItems
 
@@ -250,7 +248,7 @@ class SMBoolManager(object):
     def haveItem(self, item):
         #return self.state.has(item, self.player)
         return self._items[item]
-
+    
     def haveItems(self, items):
         for item in items:
             if not self.haveItem(item):
@@ -264,27 +262,29 @@ class SMBoolManager(object):
 
     def itemCountOk(self, item, count, difficulty=0):
         if self.itemCount(item) >= count:
-            if item in ["ETank", "Reserve"]:
-                item = str(count)+"-"+item
+            if item in ['ETank', 'Reserve']:
+                item = str(count)+'-'+item
             return SMBool(True, difficulty, items = [item])
-        return smboolFalse
+        else:
+            return smboolFalse
 
     def energyReserveCountOk(self, count, difficulty=0):
         if self.energyReserveCount() >= count:
-            nEtank = self.itemCount("ETank")
+            nEtank = self.itemCount('ETank')
             if nEtank > count:
                 nEtank = int(count)
-            items = str(nEtank)+"-ETank"
-            nReserve = self.itemCount("Reserve")
+            items = str(nEtank)+'-ETank'
+            nReserve = self.itemCount('Reserve')
             if nEtank < count:
                 nReserve = int(count) - nEtank
-                items += " - "+str(nReserve)+"-Reserve"
+                items += ' - '+str(nReserve)+'-Reserve'
             return SMBool(True, difficulty, items = [items])
-        return smboolFalse
+        else:
+            return smboolFalse
 
 class SMBoolManagerPlando(SMBoolManager):
     def __init__(self):
-        super().__init__()
+        super(SMBoolManagerPlando, self).__init__()
 
     def __deepcopy__(self, memodict):
         return super().__deepcopy__(memodict)
@@ -297,7 +297,7 @@ class SMBoolManagerPlando(SMBoolManager):
             self._items[item] = SMBool(True, items=[item])
         else:
             # handle duplicate major items (plandos)
-            self._items["dup_"+item] = True
+            self._items['dup_'+item] = True
         if isCount:
             count = self._counts[item] + 1
             self._counts[item] = count
@@ -316,7 +316,7 @@ class SMBoolManagerPlando(SMBoolManager):
                 self._items[item] = smboolFalse
             #self.computeNewCacheKey(item, count)
         else:
-            dup = "dup_"+item
+            dup = 'dup_'+item
             if self._items.get(dup, None) is None:
                 self._items[item] = smboolFalse
                 #self.computeNewCacheKey(item, 0)

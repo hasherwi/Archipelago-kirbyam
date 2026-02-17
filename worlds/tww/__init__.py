@@ -6,8 +6,9 @@ from typing import Any, ClassVar
 
 import yaml
 
-from BaseClasses import Item, MultiWorld, Region, Tutorial
+from BaseClasses import Item
 from BaseClasses import ItemClassification as IC
+from BaseClasses import MultiWorld, Region, Tutorial
 from Options import Toggle
 from worlds.AutoWorld import WebWorld, World
 from worlds.Files import APPlayerContainer
@@ -269,11 +270,12 @@ class TWWWorld(World):
 
         if IC.progression in classification:
             return "progression"
-        if IC.trap in classification:
+        elif IC.trap in classification:
             return "trap"
-        if IC.useful in classification:
+        elif IC.useful in classification:
             return "useful"
-        return "filler"
+        else:
+            return "filler"
 
     def generate_early(self) -> None:
         """

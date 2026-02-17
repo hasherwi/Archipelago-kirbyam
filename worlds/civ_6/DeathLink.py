@@ -1,6 +1,6 @@
 import random
-from typing import TYPE_CHECKING, List
 
+from typing import TYPE_CHECKING, List
 if TYPE_CHECKING:
     from .Civ6Client import CivVIContext
 
@@ -8,9 +8,9 @@ if TYPE_CHECKING:
 DEATH_LINK_EFFECTS = ["Gold", "Faith", "Era Score", "Unit Killed"]
 
 
-async def handle_receive_deathlink(ctx: "CivVIContext", message: str):
+async def handle_receive_deathlink(ctx: 'CivVIContext', message: str):
     """Resolves the effects of a deathlink received from the multiworld based on the options selected by the player"""
-    chosen_effects: list[str] = ctx.slot_data["death_link_effect"]
+    chosen_effects: List[str] = ctx.slot_data["death_link_effect"]
     effect = random.choice(chosen_effects)
 
     percent = ctx.slot_data["death_link_effect_percent"]
@@ -28,7 +28,7 @@ async def handle_receive_deathlink(ctx: "CivVIContext", message: str):
         await ctx.game_interface.kill_unit(message)
 
 
-async def handle_check_deathlink(ctx: "CivVIContext"):
+async def handle_check_deathlink(ctx: 'CivVIContext'):
     """Checks if the local player should send out a deathlink to the multiworld as well as if we should respond to any pending deathlinks sent to us """
     # check if we received a death link
     if ctx.received_death_link:

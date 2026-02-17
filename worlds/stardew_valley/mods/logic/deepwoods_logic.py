@@ -1,4 +1,5 @@
-from ...logic.base_logic import BaseLogic, BaseLogicMixin
+from ..mod_data import ModNames
+from ...logic.base_logic import BaseLogicMixin, BaseLogic
 from ...options import ElevatorProgression
 from ...stardew_rule import StardewRule, True_, true_
 from ...strings.ap_names.mods.mod_items import DeepWoodsItem
@@ -6,9 +7,8 @@ from ...strings.ap_names.transport_names import ModTransportation
 from ...strings.craftable_names import Bomb
 from ...strings.food_names import Meal
 from ...strings.performance_names import Performance
-from ...strings.skill_names import ModSkill, Skill
+from ...strings.skill_names import Skill, ModSkill
 from ...strings.tool_names import Tool, ToolMaterial
-from ..mod_data import ModNames
 
 
 class DeepWoodsLogicMixin(BaseLogicMixin):

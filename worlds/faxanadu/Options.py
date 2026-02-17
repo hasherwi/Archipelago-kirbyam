@@ -1,6 +1,5 @@
+from Options import PerGameCommonOptions, Toggle, DefaultOnToggle, StartInventoryPool, Choice
 from dataclasses import dataclass
-
-from Options import Choice, DefaultOnToggle, PerGameCommonOptions, StartInventoryPool, Toggle
 
 
 class KeepShopRedPotions(Toggle):

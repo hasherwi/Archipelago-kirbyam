@@ -1,26 +1,26 @@
 from __future__ import annotations
 
-import asyncio
-import base64
-import enum
-import logging
-import multiprocessing
-import os
-import subprocess
 import sys
 import threading
 import time
+import multiprocessing
+import os
+import subprocess
+import base64
+import logging
+import asyncio
+import enum
 import typing
-from json import dumps, loads
 
-import settings
-import Utils
+from json import loads, dumps
 
 # CommonClient import first to trigger ModuleUpdater
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, server_loop
-from MultiServer import mark_raw
-from Utils import async_start
+from CommonClient import CommonContext, server_loop, ClientCommandProcessor, gui_enabled, get_base_parser
 
+import Utils
+import settings
+from Utils import async_start
+from MultiServer import mark_raw
 if typing.TYPE_CHECKING:
     from worlds.AutoSNIClient import SNIClient
 
@@ -28,9 +28,8 @@ if __name__ == "__main__":
     Utils.init_logging("SNIClient", exception_logger="Client")
 
 import colorama
-from websockets.client import WebSocketClientProtocol
-from websockets.client import connect as websockets_connect
-from websockets.exceptions import ConnectionClosed, WebSocketException
+from websockets.client import connect as websockets_connect, WebSocketClientProtocol
+from websockets.exceptions import WebSocketException, ConnectionClosed
 
 snes_logger = logging.getLogger("SNES")
 
@@ -91,7 +90,8 @@ class SNIClientCommandProcessor(ClientCommandProcessor):
         if self.ctx.snes_socket and not self.ctx.snes_socket.closed:
             async_start(self.ctx.snes_socket.close())
             return True
-        return False
+        else:
+            return False
 
     # Left here for quick re-addition for debugging.
     # def _cmd_snes_write(self, address, data):
@@ -115,36 +115,36 @@ class SNIClientCommandProcessor(ClientCommandProcessor):
 
 
 class SNIContext(CommonContext):
-    command_processor: type[SNIClientCommandProcessor] = SNIClientCommandProcessor
-    game: str | None = None  # set in validate_rom
-    items_handling: int | None = None  # set in game_watcher
-    snes_connect_task: asyncio.Task[None] | None = None
-    snes_autoreconnect_task: asyncio.Task[None] | None = None
+    command_processor: typing.Type[SNIClientCommandProcessor] = SNIClientCommandProcessor
+    game: typing.Optional[str] = None  # set in validate_rom
+    items_handling: typing.Optional[int] = None  # set in game_watcher
+    snes_connect_task: "typing.Optional[asyncio.Task[None]]" = None
+    snes_autoreconnect_task: typing.Optional["asyncio.Task[None]"] = None
 
     snes_address: str
-    snes_socket: WebSocketClientProtocol | None
+    snes_socket: typing.Optional[WebSocketClientProtocol]
     snes_state: SNESState
-    snes_attached_device: tuple[int, str] | None
-    snes_reconnect_address: str | None
-    snes_recv_queue: asyncio.Queue[bytes]
+    snes_attached_device: typing.Optional[typing.Tuple[int, str]]
+    snes_reconnect_address: typing.Optional[str]
+    snes_recv_queue: "asyncio.Queue[bytes]"
     snes_request_lock: asyncio.Lock
-    snes_write_buffer: list[tuple[int, bytes]]
+    snes_write_buffer: typing.List[typing.Tuple[int, bytes]]
     snes_connector_lock: threading.Lock
     death_state: DeathState
-    killing_player_task: asyncio.Task[None] | None
+    killing_player_task: "typing.Optional[asyncio.Task[None]]"
     allow_collect: bool
     slow_mode: bool
 
-    client_handler: SNIClient | None
+    client_handler: typing.Optional[SNIClient]
     awaiting_rom: bool
-    rom: bytes | None
-    prev_rom: bytes | None
+    rom: typing.Optional[bytes]
+    prev_rom: typing.Optional[bytes]
 
-    hud_message_queue: list[str]  # TODO: str is a guess, is this right?
+    hud_message_queue: typing.List[str]  # TODO: str is a guess, is this right?
     death_link_allow_survive: bool
 
     def __init__(self, snes_address: str, server_address: str, password: str) -> None:
-        super().__init__(server_address, password)
+        super(SNIContext, self).__init__(server_address, password)
 
         # snes stuff
         self.snes_address = snes_address
@@ -167,7 +167,7 @@ class SNIContext(CommonContext):
         self.prev_rom = None
 
     async def connection_closed(self) -> None:
-        await super().connection_closed()
+        await super(SNIContext, self).connection_closed()
         self.awaiting_rom = False
 
     def event_invalid_slot(self) -> typing.NoReturn:
@@ -178,7 +178,7 @@ class SNIContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False) -> None:
         if password_requested and not self.password:
-            await super().server_auth(password_requested)
+            await super(SNIContext, self).server_auth(password_requested)
         if self.rom is None:
             self.awaiting_rom = True
             snes_logger.info(
@@ -204,10 +204,10 @@ class SNIContext(CommonContext):
             return True
         return False
 
-    def on_deathlink(self, data: dict[str, typing.Any]) -> None:
+    def on_deathlink(self, data: typing.Dict[str, typing.Any]) -> None:
         if not self.killing_player_task or self.killing_player_task.done():
             self.killing_player_task = asyncio.create_task(deathlink_kill_player(self))
-        super().on_deathlink(data)
+        super(SNIContext, self).on_deathlink(data)
 
     async def handle_deathlink_state(self, currently_dead: bool, death_text: str = "") -> None:
         # in this state we only care about triggering a death send
@@ -225,7 +225,7 @@ class SNIContext(CommonContext):
                 self.death_state = DeathState.alive
 
     async def shutdown(self) -> None:
-        await super().shutdown()
+        await super(SNIContext, self).shutdown()
         self.cancel_snes_autoreconnect()
         if self.snes_connect_task:
             try:
@@ -233,7 +233,7 @@ class SNIContext(CommonContext):
             except asyncio.TimeoutError:
                 self.snes_connect_task.cancel()
 
-    def on_package(self, cmd: str, args: dict[str, typing.Any]) -> None:
+    def on_package(self, cmd: str, args: typing.Dict[str, typing.Any]) -> None:
         if cmd in {"Connected", "RoomUpdate"}:
             if "checked_locations" in args and args["checked_locations"]:
                 new_locations = set(args["checked_locations"])
@@ -244,7 +244,7 @@ class SNIContext(CommonContext):
                 # Once the games handled by SNIClient gets made to be remote items,
                 # this will no longer be needed.
                 async_start(self.send_msgs([{"cmd": "LocationScouts", "locations": list(new_locations)}]))
-
+                
         if self.client_handler is not None:
             self.client_handler.on_package(self, cmd, args)
 
@@ -291,7 +291,7 @@ def launch_sni() -> None:
     if not os.path.isdir(sni_path):
         sni_path = Utils.local_path(sni_path)
     if os.path.isdir(sni_path):
-        dir_entry: os.DirEntry[str]
+        dir_entry: "os.DirEntry[str]"
         for dir_entry in os.scandir(sni_path):
             if dir_entry.is_file():
                 lower_file = dir_entry.name.lower()
@@ -309,7 +309,7 @@ def launch_sni() -> None:
                                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             try:
                 proc.wait(.1)  # wait a bit to see if startup fails (missing dependencies)
-                snes_logger.info("Failed to start SNI. Try running it externally for error output.")
+                snes_logger.info('Failed to start SNI. Try running it externally for error output.')
             except subprocess.TimeoutExpired:
                 pass  # seems to be running
 
@@ -322,7 +322,7 @@ def launch_sni() -> None:
 async def _snes_connect(ctx: SNIContext, address: str, retry: bool = True) -> WebSocketClientProtocol:
     address = f"ws://{address}" if "://" not in address else address
     snes_logger.info("Connecting to SNI at %s ..." % address)
-    seen_problems: set[str] = set()
+    seen_problems: typing.Set[str] = set()
     while True:
         try:
             snes_socket = await websockets_connect(address, ping_timeout=None, ping_interval=None)
@@ -347,12 +347,12 @@ async def _snes_connect(ctx: SNIContext, address: str, retry: bool = True) -> We
 class SNESRequest(typing.TypedDict):
     Opcode: str
     Space: str
-    Operands: list[str]
+    Operands: typing.List[str]
     # TODO: When Python 3.11 is the lowest version supported, `Operands` can use `typing.NotRequired` (pep-0655)
     # Then the `Operands` key doesn't need to be given for opcodes that don't use it.
 
 
-async def get_snes_devices(ctx: SNIContext) -> list[str]:
+async def get_snes_devices(ctx: SNIContext) -> typing.List[str]:
     socket = await _snes_connect(ctx, ctx.snes_address)  # establish new connection to poll
     DeviceList_Request: SNESRequest = {
         "Opcode": "DeviceList",
@@ -361,16 +361,16 @@ async def get_snes_devices(ctx: SNIContext) -> list[str]:
     }
     await socket.send(dumps(DeviceList_Request))
 
-    reply: dict[str, typing.Any] = loads(await socket.recv())
-    devices: list[str] = reply["Results"] if "Results" in reply and len(reply["Results"]) > 0 else []
+    reply: typing.Dict[str, typing.Any] = loads(await socket.recv())
+    devices: typing.List[str] = reply['Results'] if 'Results' in reply and len(reply['Results']) > 0 else []
 
     if not devices:
-        snes_logger.info("No SNES device found. Please connect a SNES device to SNI.")
+        snes_logger.info('No SNES device found. Please connect a SNES device to SNI.')
         while not devices and not ctx.exit_event.is_set():
             await asyncio.sleep(0.1)
             await socket.send(dumps(DeviceList_Request))
             reply = loads(await socket.recv())
-            devices = reply["Results"] if "Results" in reply and len(reply["Results"]) > 0 else []
+            devices = reply['Results'] if 'Results' in reply and len(reply['Results']) > 0 else []
     if devices:
         await verify_snes_app(socket)
     await socket.close()
@@ -392,9 +392,9 @@ async def snes_connect(ctx: SNIContext, address: str, deviceIndex: int = -1) -> 
     global _global_snes_reconnect_delay
     if ctx.snes_socket is not None and ctx.snes_state == SNESState.SNES_CONNECTED:
         if ctx.rom:
-            snes_logger.error("Already connected to SNES, with rom loaded.")
+            snes_logger.error('Already connected to SNES, with rom loaded.')
         else:
-            snes_logger.error("Already connected to SNI, likely awaiting a device.")
+            snes_logger.error('Already connected to SNI, likely awaiting a device.')
         return
 
     ctx.cancel_snes_autoreconnect()
@@ -474,7 +474,7 @@ async def snes_disconnect(ctx: SNIContext) -> None:
         ctx.snes_socket = None
 
 
-def task_alive(task: asyncio.Task | None) -> bool:
+def task_alive(task: typing.Optional[asyncio.Task]) -> bool:
     if task:
         return not task.done()
     return False
@@ -515,7 +515,7 @@ async def snes_recv_loop(ctx: SNIContext) -> None:
             ctx.snes_autoreconnect_task = asyncio.create_task(snes_autoreconnect(ctx), name="snes auto-reconnect")
 
 
-async def snes_read(ctx: SNIContext, address: int, size: int) -> bytes | None:
+async def snes_read(ctx: SNIContext, address: int, size: int) -> typing.Optional[bytes]:
     try:
         await ctx.snes_request_lock.acquire()
 
@@ -545,10 +545,10 @@ async def snes_read(ctx: SNIContext, address: int, size: int) -> bytes | None:
                 break
 
         if len(data) != size:
-            snes_logger.error("Error reading %s, requested %d bytes, received %d" % (hex(address), size, len(data)))
+            snes_logger.error('Error reading %s, requested %d bytes, received %d' % (hex(address), size, len(data)))
             if len(data):
                 snes_logger.error(str(data))
-                snes_logger.warning("Communication Failure with SNI")
+                snes_logger.warning('Communication Failure with SNI')
             if ctx.snes_socket is not None and not ctx.snes_socket.closed:
                 await ctx.snes_socket.close()
             return None
@@ -558,7 +558,7 @@ async def snes_read(ctx: SNIContext, address: int, size: int) -> bytes | None:
         ctx.snes_request_lock.release()
 
 
-async def snes_write(ctx: SNIContext, write_list: list[tuple[int, bytes]]) -> bool:
+async def snes_write(ctx: SNIContext, write_list: typing.List[typing.Tuple[int, bytes]]) -> bool:
     try:
         await ctx.snes_request_lock.acquire()
 
@@ -566,10 +566,10 @@ async def snes_write(ctx: SNIContext, write_list: list[tuple[int, bytes]]) -> bo
                 not ctx.snes_socket.open or ctx.snes_socket.closed:
             return False
 
-        PutAddress_Request: SNESRequest = {"Opcode": "PutAddress", "Operands": [], "Space": "SNES"}
+        PutAddress_Request: SNESRequest = {"Opcode": "PutAddress", "Operands": [], 'Space': 'SNES'}
         try:
             for address, data in write_list:
-                PutAddress_Request["Operands"] = [hex(address)[2:], hex(len(data))[2:]]
+                PutAddress_Request['Operands'] = [hex(address)[2:], hex(len(data))[2:]]
                 if ctx.snes_socket is not None:
                     await ctx.snes_socket.send(dumps(PutAddress_Request))
                     await ctx.snes_socket.send(data)
@@ -681,10 +681,10 @@ async def run_game(romfile: str) -> None:
 async def main() -> None:
     multiprocessing.freeze_support()
     parser = get_base_parser()
-    parser.add_argument("diff_file", default="", type=str, nargs="?",
-                        help="Path to a Archipelago Binary Patch file")
-    parser.add_argument("--snes", default="localhost:23074", help="Address of the SNI server.")
-    parser.add_argument("--loglevel", default="info", choices=["debug", "info", "warning", "error", "critical"])
+    parser.add_argument('diff_file', default="", type=str, nargs="?",
+                        help='Path to a Archipelago Binary Patch file')
+    parser.add_argument('--snes', default='localhost:23074', help='Address of the SNI server.')
+    parser.add_argument('--loglevel', default='info', choices=['debug', 'info', 'warning', 'error', 'critical'])
     args = parser.parse_args()
 
     if args.diff_file:
@@ -693,7 +693,7 @@ async def main() -> None:
         try:
             meta, romfile = Patch.create_rom_file(args.diff_file)
         except Exception as e:
-            Utils.messagebox("Error", str(e), True)
+            Utils.messagebox('Error', str(e), True)
             raise
         args.connect = meta["server"]
         logging.info(f"Wrote rom file to {romfile}")
@@ -734,7 +734,7 @@ async def main() -> None:
     await ctx.shutdown()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     colorama.just_fix_windows_console()
     asyncio.run(main())
     colorama.deinit()

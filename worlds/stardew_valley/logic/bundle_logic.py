@@ -1,15 +1,15 @@
 from functools import cached_property
 from typing import List
 
+from .base_logic import BaseLogicMixin, BaseLogic
 from ..bundles.bundle import Bundle
 from ..stardew_rule import StardewRule, True_
 from ..strings.ap_names.community_upgrade_names import CommunityUpgrade
 from ..strings.currency_names import Currency
 from ..strings.machine_names import Machine
-from ..strings.quality_names import ArtisanQuality, CropQuality, FishQuality, ForageQuality
+from ..strings.quality_names import CropQuality, ForageQuality, FishQuality, ArtisanQuality
 from ..strings.quest_names import Quest
 from ..strings.region_names import Region
-from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class BundleLogicMixin(BaseLogicMixin):
@@ -38,7 +38,7 @@ class BundleLogic(BaseLogic):
         time_rule = self.logic.time.has_lived_months(time_to_grind)
         return can_speak_junimo & item_rules & quality_rules & time_rule
 
-    def get_quality_rules(self, qualities: list[str]) -> StardewRule:
+    def get_quality_rules(self, qualities: List[str]) -> StardewRule:
         crop_quality = CropQuality.get_highest(qualities)
         fish_quality = FishQuality.get_highest(qualities)
         forage_quality = ForageQuality.get_highest(qualities)

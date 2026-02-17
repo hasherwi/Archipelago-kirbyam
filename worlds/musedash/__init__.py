@@ -1,14 +1,13 @@
+from worlds.AutoWorld import World, WebWorld
+from BaseClasses import Region, Item, ItemClassification, Tutorial
+from typing import List, ClassVar, Type, Set
 from math import floor
-from typing import ClassVar, List, Set, Type
+from Options import PerGameCommonOptions, OptionError
 
-from BaseClasses import Item, ItemClassification, Region, Tutorial
-from Options import OptionError, PerGameCommonOptions
-from worlds.AutoWorld import WebWorld, World
-
-from .Items import MuseDashFixedItem, MuseDashSongItem
+from .Options import MuseDashOptions, md_option_groups
+from .Items import MuseDashSongItem, MuseDashFixedItem
 from .Locations import MuseDashLocation
 from .MuseDashCollection import MuseDashCollections
-from .Options import MuseDashOptions, md_option_groups
 from .Presets import MuseDashPresets
 
 
@@ -51,7 +50,7 @@ class MuseDashWorld(World):
 
     # World Options
     game = "Muse Dash"
-    options_dataclass: ClassVar[type[PerGameCommonOptions]] = MuseDashOptions
+    options_dataclass: ClassVar[Type[PerGameCommonOptions]] = MuseDashOptions
     options: MuseDashOptions
 
     topology_present = False
@@ -72,8 +71,8 @@ class MuseDashWorld(World):
 
     # Working Data
     victory_song_name: str = ""
-    starting_songs: list[str]
-    included_songs: list[str]
+    starting_songs: List[str]
+    included_songs: List[str]
     needed_token_count: int
     location_count: int
 
@@ -115,7 +114,7 @@ class MuseDashWorld(World):
         for song in self.starting_songs:
             self.multiworld.push_precollected(self.create_item(song))
 
-    def handle_plando(self, available_song_keys: list[str], dlc_songs: set[str]) -> list[str]:
+    def handle_plando(self, available_song_keys: List[str], dlc_songs: Set[str]) -> List[str]:
         song_items = self.md_collection.song_items
 
         start_items = self.options.start_inventory.value.keys()
@@ -142,7 +141,7 @@ class MuseDashWorld(World):
         return [s for s in available_song_keys if s not in start_items
                 and s not in include_songs and s not in exclude_songs]
 
-    def create_song_pool(self, available_song_keys: list[str]):
+    def create_song_pool(self, available_song_keys: List[str]):
         starting_song_count = self.options.starting_song_count.value
         additional_song_count = self.options.additional_song_count.value
 
@@ -296,7 +295,7 @@ class MuseDashWorld(World):
         self.multiworld.completion_condition[self.player] = lambda state: \
             state.has(self.md_collection.MUSIC_SHEET_NAME, self.player, self.get_music_sheet_win_count())
 
-    def get_available_traps(self) -> list[str]:
+    def get_available_traps(self) -> List[str]:
         full_trap_list = self.md_collection.trap_items.keys()
         if self.md_collection.MUSE_PLUS_DLC not in self.options.dlc_packs.value:
             full_trap_list = [trap for trap in full_trap_list if trap not in self.md_collection.sfx_trap_items]
@@ -318,7 +317,7 @@ class MuseDashWorld(World):
         sheet_count = self.get_music_sheet_count()
         return max(1, floor(sheet_count * multiplier))
 
-    def get_difficulty_range(self) -> list[int]:
+    def get_difficulty_range(self) -> List[int]:
         difficulty_mode = self.options.song_difficulty_mode
 
         # Valid difficulties are between 1 and 11. But make it 0 to 12 for safety

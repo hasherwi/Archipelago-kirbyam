@@ -1,8 +1,7 @@
-from typing import TYPE_CHECKING, List, NamedTuple, Optional
+from typing import List, Optional, NamedTuple, TYPE_CHECKING
 
+from .Options import PlayerGoal, MinigameChecks
 from worlds.generic.Rules import CollectionRule
-
-from .Options import MinigameChecks, PlayerGoal
 
 if TYPE_CHECKING:
     from . import YoshisIslandWorld
@@ -12,16 +11,16 @@ from .level_logic import YoshiLogic
 class LocationData(NamedTuple):
     region: str
     name: str
-    code: int | None
+    code: Optional[int]
     LevelID: int
     rule: CollectionRule = lambda state: True
 
 
-def get_locations(world: Optional["YoshisIslandWorld"]) -> list[LocationData]:
+def get_locations(world: Optional["YoshisIslandWorld"]) -> List[LocationData]:
     if world:
         logic = YoshiLogic(world)
 
-    location_table: list[LocationData] = [
+    location_table: List[LocationData] = [
         LocationData("1-1", "Make Eggs, Throw Eggs: Red Coins", 0x305020, 0x00),
         LocationData("1-1", "Make Eggs, Throw Eggs: Flowers", 0x305021, 0x00),
         LocationData("1-1", "Make Eggs, Throw Eggs: Stars", 0x305022, 0x00),

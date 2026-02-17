@@ -1,12 +1,11 @@
 import typing
 from argparse import Namespace
 
-from BaseClasses import CollectionState, MultiWorld, PlandoOptions
+from BaseClasses import MultiWorld, PlandoOptions, CollectionState
 from test.bases import WorldTestBase
 from test.general import gen_steps
 from worlds import AutoWorld
 from worlds.AutoWorld import call_all
-
 # mypy: ignore-errors
 # This is a copy of core code, and I'm not smart enough to solve the errors in here
 
@@ -14,7 +13,7 @@ from worlds.AutoWorld import call_all
 class KDL3TestBase(WorldTestBase):
     game = "Kirby's Dream Land 3"
 
-    def world_setup(self, seed: int | None = None) -> None:
+    def world_setup(self, seed: typing.Optional[int] = None) -> None:
         if type(self) is WorldTestBase or \
                 (hasattr(WorldTestBase, self._testMethodName)
                  and not self.run_default_tests and

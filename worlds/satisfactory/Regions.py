@@ -1,18 +1,16 @@
-from collections.abc import Callable
 from typing import Optional
-
-from BaseClasses import CollectionState, Item, Location, MultiWorld, Region
-
-from .CriticalPathCalculator import CriticalPathCalculator
-from .GameLogic import GameLogic, PowerInfrastructureLevel
+from collections.abc import Callable
+from BaseClasses import MultiWorld, Region, Location, Item, CollectionState
 from .Locations import LocationData
-from .Options import Placement, SatisfactoryOptions
+from .GameLogic import GameLogic, PowerInfrastructureLevel
 from .StateLogic import StateLogic
+from .Options import SatisfactoryOptions, Placement
+from .CriticalPathCalculator import CriticalPathCalculator
 
 
 class SatisfactoryLocation(Location):
     game: str = "Satisfactory"
-    event_name: str | None
+    event_name: Optional[str]
 
     def __init__(self, player: int, data: LocationData, region: Region):
         super().__init__(player, data.name, data.code, region)
@@ -37,7 +35,7 @@ class SatisfactoryLocation(Location):
 def create_regions_and_return_locations(multiworld: MultiWorld, options: SatisfactoryOptions, player: int,
                                         game_logic: GameLogic, state_logic: StateLogic,
                                         critical_path: CriticalPathCalculator, locations: list[LocationData]) -> None:
-
+    
     region_names: list[str] = [
         "Overworld",
         "Mam",
@@ -71,11 +69,11 @@ def create_regions_and_return_locations(multiworld: MultiWorld, options: Satisfa
 
     if __debug__:
         throw_if_any_location_is_not_assigned_to_a__region(regions, locations_per_region)
-
+        
     multiworld.regions += regions.values()
 
     super_early_game_buildings: list[str] = [
-        "Foundation",
+        "Foundation", 
         "Walls Orange"
     ]
 
@@ -128,12 +126,12 @@ def create_regions_and_return_locations(multiworld: MultiWorld, options: Satisfa
         for milestone, parts_per_milestone in enumerate(milestones_per_hub_tier, 1):
             connect(regions, f"Hub Tier {hub_tier}", f"Hub {hub_tier}-{milestone}",
                     state_logic.get_can_produce_all_allowing_handcrafting_rule(parts_per_milestone))
-
+            
     for building_name, building in game_logic.buildings.items():
         if building.can_produce and building_name in critical_path.required_buildings:
             connect(regions, "Overworld", building_name,
                     lambda state, name=building_name: state_logic.can_build(state, name))
-
+        
     for tree_name, tree in game_logic.man_trees.items():
         connect(regions, "Mam", tree_name)
 
@@ -184,7 +182,7 @@ def create_regions(multiworld: MultiWorld, player: int, locations_per_region: di
 
 
 def connect(regions: dict[str, Region], source: str, target: str,
-            rule: Callable[[CollectionState], bool] | None = None) -> None:
+            rule: Optional[Callable[[CollectionState], bool]] = None) -> None:
 
     source_region = regions[source]
     target_region = regions[target]

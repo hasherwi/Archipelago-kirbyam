@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 import itertools
-from typing import Any, Dict, List, cast
+from typing import List, Dict, Any, cast
 
-from BaseClasses import Item, ItemClassification, Location, Region, Tutorial
-from worlds.AutoWorld import WebWorld, World
-
-from . import creatures, items, locations, options
-from .items import group_items, item_table
+from BaseClasses import Region, Location, Item, Tutorial, ItemClassification
+from worlds.AutoWorld import World, WebWorld
+from . import items
+from . import locations
+from . import creatures
+from . import options
+from .items import item_table, group_items
 from .rules import set_rules
 
 
@@ -41,7 +43,7 @@ class SubnauticaWorld(World):
     options: options.SubnauticaOptions
     required_client_version = (0, 6, 2)
     origin_region_name = "Planet 4546B"
-    creatures_to_scan: list[str]
+    creatures_to_scan: List[str]
 
     def generate_early(self) -> None:
         if not self.options.filler_items_distribution.weights_pair[1][-1]:
@@ -92,7 +94,7 @@ class SubnauticaWorld(World):
 
     def create_items(self):
         # Generate item pool
-        pool: list[SubnauticaItem] = []
+        pool: List[SubnauticaItem] = []
         extras = self.options.creature_scans.value
 
         grouped = set(itertools.chain.from_iterable(group_items.values()))
@@ -143,10 +145,10 @@ class SubnauticaWorld(World):
 
         self.multiworld.itempool += pool
 
-    def fill_slot_data(self) -> dict[str, Any]:
-        vanilla_tech: list[str] = []
+    def fill_slot_data(self) -> Dict[str, Any]:
+        vanilla_tech: List[str] = []
 
-        slot_data: dict[str, Any] = {
+        slot_data: Dict[str, Any] = {
             "goal": self.options.goal.current_key,
             "swim_rule": self.options.swim_rule.current_key,
             "vanilla_tech": vanilla_tech,

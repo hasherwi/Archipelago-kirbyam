@@ -10,7 +10,7 @@ if __name__ == "__main__":
     all_levels: list[str] = []
 
 
-    data_file = open("CelesteLevelData.json")
+    data_file = open('CelesteLevelData.json')
     level_data = json.load(data_file)
     data_file.close()
 
@@ -58,8 +58,8 @@ if __name__ == "__main__":
                     for location in region["locations"]:
                         location_full_name = f"{room_full_name}_{location['name']}"
 
-                        location_display_name = location["display_name"]
-                        if (location["type"] == "strawberry" and location_display_name != "Moon Berry") or location["type"] == "binoculars" :
+                        location_display_name = location['display_name']
+                        if (location['type'] == "strawberry" and location_display_name != "Moon Berry") or location['type'] == "binoculars" :
                             location_display_name = f"Room {room['name']} {location_display_name}"
                         location_full_display_name = f"{level['display_name']} - {location_display_name}"
 
@@ -69,7 +69,7 @@ if __name__ == "__main__":
                                        )
 
                         if "rule" in location:
-                            for possible_access in location["rule"]:
+                            for possible_access in location['rule']:
                                 location_str += f"["
                                 for item in possible_access:
                                     if "Key" in item or "Gem" in item:
@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
                     reg_con_str = f"    \"{reg_con_full_name}\": RegionConnection(\"{region_full_name}\", \"{dest_region_full_name}\", ["
 
-                    for possible_access in reg_con["rule"]:
+                    for possible_access in reg_con['rule']:
                         reg_con_str += f"["
                         for item in possible_access:
                             if "Key" in item or "Gem" in item:

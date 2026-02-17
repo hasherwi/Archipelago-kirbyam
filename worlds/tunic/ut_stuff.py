@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any
+from typing import Any, TYPE_CHECKING
 
 from .options import EntranceLayout, LaurelsLocation
 

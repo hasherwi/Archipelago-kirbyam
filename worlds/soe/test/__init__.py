@@ -1,7 +1,5 @@
-from collections.abc import Iterable
-
 from test.bases import WorldTestBase
-
+from typing import Iterable
 from .. import SoEWorld
 
 

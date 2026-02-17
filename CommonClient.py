@@ -1,18 +1,17 @@
 from __future__ import annotations
 
-import asyncio
 import collections
 import copy
-import functools
 import logging
-import sys
-import time
-import typing
+import asyncio
 import urllib.parse
+import sys
+import typing
+import time
+import functools
 import warnings
 
 import ModuleUpdate
-
 ModuleUpdate.update()
 
 import websockets
@@ -22,34 +21,17 @@ import Utils
 if __name__ == "__main__":
     Utils.init_logging("TextClient", exception_logger="Client")
 
+from MultiServer import CommandProcessor, mark_raw
+from NetUtils import (Endpoint, decode, NetworkItem, encode, JSONtoTextParser, ClientStatus, Permission, NetworkSlot,
+                      RawJSONtoTextParser, add_json_text, add_json_location, add_json_item, JSONTypes, HintStatus, SlotType)
+from Utils import Version, stream_input, async_start
+from worlds import network_data_package, AutoWorldRegister
 import os
 import ssl
 
-from MultiServer import CommandProcessor, mark_raw
-from NetUtils import (
-    ClientStatus,
-    Endpoint,
-    HintStatus,
-    JSONtoTextParser,
-    JSONTypes,
-    NetworkItem,
-    NetworkSlot,
-    Permission,
-    RawJSONtoTextParser,
-    SlotType,
-    add_json_item,
-    add_json_location,
-    add_json_text,
-    decode,
-    encode,
-)
-from Utils import Version, async_start, stream_input
-from worlds import AutoWorldRegister, network_data_package
-
 if typing.TYPE_CHECKING:
-    import argparse
-
     import kvui
+    import argparse
 
 logger = logging.getLogger("Client")
 
@@ -106,7 +88,7 @@ class ClientCommandProcessor(CommandProcessor):
     def _cmd_received(self) -> bool:
         """List all received items"""
         item: NetworkItem
-        self.output(f"{len(self.ctx.items_received)} received items, sorted by time:")
+        self.output(f'{len(self.ctx.items_received)} received items, sorted by time:')
         for index, item in enumerate(self.ctx.items_received, 1):
             parts = []
             add_json_item(parts, item.item, self.ctx.slot, item.flags)
@@ -134,10 +116,10 @@ class ClientCommandProcessor(CommandProcessor):
                 continue
             if location_id not in self.ctx.locations_checked:
                 if location_id in self.ctx.missing_locations:
-                    self.output("Missing: " + location)
+                    self.output('Missing: ' + location)
                     count += 1
                 elif location_id in self.ctx.checked_locations:
-                    self.output("Checked: " + location)
+                    self.output('Checked: ' + location)
                     count += 1
                     checked_count += 1
 
@@ -249,9 +231,9 @@ class ClientCommandProcessor(CommandProcessor):
 
 class CommonContext:
     # The following attributes are used to Connect and should be adjusted as needed in subclasses
-    tags: set[str] = {"AP"}
-    game: str | None = None
-    items_handling: int | None = None
+    tags: typing.Set[str] = {"AP"}
+    game: typing.Optional[str] = None
+    items_handling: typing.Optional[int] = None
     want_slot_data: bool = True  # should slot_data be retrieved via Connect
 
     class NameLookupDict:
@@ -260,8 +242,8 @@ class CommonContext:
             self.ctx: CommonContext = ctx
             self.lookup_type: typing.Literal["item", "location"] = lookup_type
             self._unknown_item: typing.Callable[[int], str] = lambda key: f"Unknown {lookup_type} (ID: {key})"
-            self._archipelago_lookup: dict[int, str] = {}
-            self._game_store: dict[str, typing.ChainMap[int, str]] = collections.defaultdict(
+            self._archipelago_lookup: typing.Dict[int, str] = {}
+            self._game_store: typing.Dict[str, typing.ChainMap[int, str]] = collections.defaultdict(
                 lambda: collections.ChainMap(self._archipelago_lookup, Utils.KeyedDefaultDict(self._unknown_item)))
 
         # noinspection PyTypeChecker
@@ -278,7 +260,7 @@ class CommonContext:
         def __repr__(self) -> str:
             return repr(self._game_store)
 
-        def lookup_in_game(self, code: int, game_name: str | None = None) -> str:
+        def lookup_in_game(self, code: int, game_name: typing.Optional[str] = None) -> str:
             """Returns the name for an item/location id in the context of a specific game or own game if `game` is
             omitted.
             """
@@ -288,7 +270,7 @@ class CommonContext:
 
             return self._game_store[game_name][code]
 
-        def lookup_in_slot(self, code: int, slot: int | None = None) -> str:
+        def lookup_in_slot(self, code: int, slot: typing.Optional[int] = None) -> str:
             """Returns the name for an item/location id in the context of a specific slot or own slot if `slot` is
             omitted.
 
@@ -301,7 +283,7 @@ class CommonContext:
 
             return self.lookup_in_game(code, self.ctx.slot_info[slot].game)
 
-        def update_game(self, game: str, name_to_id_lookup_table: dict[str, int]) -> None:
+        def update_game(self, game: str, name_to_id_lookup_table: typing.Dict[str, int]) -> None:
             """Overrides existing lookup tables for a particular game."""
             id_to_name_lookup_table = Utils.KeyedDefaultDict(self._unknown_item)
             id_to_name_lookup_table.update({code: name for name, code in name_to_id_lookup_table.items()})
@@ -315,18 +297,18 @@ class CommonContext:
     # defaults
     starting_reconnect_delay: int = 5
     current_reconnect_delay: int = starting_reconnect_delay
-    command_processor: type[CommandProcessor] = ClientCommandProcessor
-    ui: kvui.GameManager | None = None
-    ui_task: asyncio.Task[None] | None = None
-    input_task: asyncio.Task[None] | None = None
-    keep_alive_task: asyncio.Task[None] | None = None
-    server_task: asyncio.Task[None] | None = None
-    autoreconnect_task: asyncio.Task[None] | None = None
+    command_processor: typing.Type[CommandProcessor] = ClientCommandProcessor
+    ui: typing.Optional["kvui.GameManager"] = None
+    ui_task: typing.Optional["asyncio.Task[None]"] = None
+    input_task: typing.Optional["asyncio.Task[None]"] = None
+    keep_alive_task: typing.Optional["asyncio.Task[None]"] = None
+    server_task: typing.Optional["asyncio.Task[None]"] = None
+    autoreconnect_task: typing.Optional["asyncio.Task[None]"] = None
     disconnected_intentionally: bool = False
-    server: Endpoint | None = None
+    server: typing.Optional[Endpoint] = None
     server_version: Version = Version(0, 0, 0)
     generator_version: Version = Version(0, 0, 0)
-    current_energy_link_value: int | None = None  # to display in UI, gets set by server
+    current_energy_link_value: typing.Optional[int] = None  # to display in UI, gets set by server
     max_size: int = 16*1024*1024  # 16 MB of max incoming packet size
 
     last_death_link: float = time.time()  # last send/received death link on AP layer
@@ -393,12 +375,12 @@ class CommonContext:
     """Current container of watched Data Storage keys, managed by ctx.set_notify"""
 
     # internals
-    _messagebox: kvui.MessageBox | None = None
+    _messagebox: typing.Optional["kvui.MessageBox"] = None
     """Current message box through kvui"""
-    _messagebox_connection_loss: kvui.MessageBox | None = None
+    _messagebox_connection_loss: typing.Optional["kvui.MessageBox"] = None
     """Message box reporting a loss of connection"""
 
-    def __init__(self, server_address: str | None = None, password: str | None = None) -> None:
+    def __init__(self, server_address: typing.Optional[str] = None, password: typing.Optional[str] = None) -> None:
         # server state
         self.server_address = server_address
         self.username = None
@@ -462,7 +444,7 @@ class CommonContext:
         return RawJSONtoTextParser(self)
 
     @property
-    def total_locations(self) -> int | None:
+    def total_locations(self) -> typing.Optional[int]:
         """Will return None until connected."""
         if self.checked_locations or self.missing_locations:
             return len(self.checked_locations | self.missing_locations)
@@ -501,25 +483,25 @@ class CommonContext:
         if self.ui:
             self.ui.update_hints()
 
-    async def send_msgs(self, msgs: list[typing.Any]) -> None:
+    async def send_msgs(self, msgs: typing.List[typing.Any]) -> None:
         """ `msgs` JSON serializable """
         if not self.server or not self.server.socket.open or self.server.socket.closed:
             return
         await self.server.socket.send(encode(msgs))
 
-    def consume_players_package(self, package: list[tuple]):
+    def consume_players_package(self, package: typing.List[tuple]):
         self.player_names = {slot: name for team, slot, name, orig_name in package if self.team == team}
         self.player_names[0] = "Archipelago"
 
     def event_invalid_slot(self):
-        raise Exception("Invalid Slot; please verify that you have connected to the correct world.")
+        raise Exception('Invalid Slot; please verify that you have connected to the correct world.')
 
     def event_invalid_game(self):
-        raise Exception("Invalid Game; please verify that you connected with the right game to the correct world.")
+        raise Exception('Invalid Game; please verify that you connected with the right game to the correct world.')
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            logger.info("Enter the password required to join this game:")
+            logger.info('Enter the password required to join this game:')
             self.password = await self.console_input()
             return self.password
 
@@ -527,7 +509,7 @@ class CommonContext:
         if not self.auth:
             self.auth = self.username
             if not self.auth:
-                logger.info("Enter slot name:")
+                logger.info('Enter slot name:')
                 self.auth = await self.console_input()
 
     async def send_connect(self, **kwargs: typing.Any) -> None:
@@ -536,10 +518,10 @@ class CommonContext:
         additional keyword args can override any value in the connection packet
         """
         payload = {
-            "cmd": "Connect",
-            "password": self.password, "name": self.auth, "version": Utils.version_tuple,
-            "tags": self.tags, "items_handling": self.items_handling,
-            "uuid": Utils.get_unique_identifier(), "game": self.game, "slot_data": self.want_slot_data,
+            'cmd': 'Connect',
+            'password': self.password, 'name': self.auth, 'version': Utils.version_tuple,
+            'tags': self.tags, 'items_handling': self.items_handling,
+            'uuid': Utils.get_unique_identifier(), 'game': self.game, "slot_data": self.want_slot_data,
         }
         if kwargs:
             payload.update(kwargs)
@@ -550,7 +532,7 @@ class CommonContext:
         """Send new location checks to the server. Returns the set of actually new locations that were sent."""
         locations = set(locations) & self.missing_locations
         if locations:
-            await self.send_msgs([{"cmd": "LocationChecks", "locations": tuple(locations)}])
+            await self.send_msgs([{"cmd": 'LocationChecks', "locations": tuple(locations)}])
         return locations
 
     async def console_input(self) -> str:
@@ -559,7 +541,7 @@ class CommonContext:
         self.input_requests += 1
         return await self.input_queue.get()
 
-    async def connect(self, address: str | None = None) -> None:
+    async def connect(self, address: typing.Optional[str] = None) -> None:
         """ disconnect any previous connection, and open new connection to the server """
         await self.disconnect()
         self.server_task = asyncio.create_task(server_loop(self, address), name="server loop")
@@ -590,7 +572,7 @@ class CommonContext:
         return print_json_packet.get("type", "") == "ItemSend" \
             and not self.slot_concerns_self(print_json_packet["receiving"]) \
             and not self.slot_concerns_self(print_json_packet["item"].player)
-
+    
     def is_connection_change(self, print_json_packet: dict) -> bool:
         """Helper function for filtering out connection changes."""
         return print_json_packet.get("type", "") in ["Join","Part"]
@@ -612,7 +594,7 @@ class CommonContext:
         """For custom package handling in subclasses."""
         pass
 
-    def on_user_say(self, text: str) -> str | None:
+    def on_user_say(self, text: str) -> typing.Optional[str]:
         """Gets called before sending a Say to the server from the user.
         Returned text is sent, or sending is aborted if None is returned."""
         return text
@@ -622,7 +604,7 @@ class CommonContext:
         The command processor is still called; this is just intended for command echoing."""
         self.ui.print_json([{"text": text, "type": "color", "color": "orange"}])
 
-    def update_permissions(self, permissions: dict[str, int]):
+    def update_permissions(self, permissions: typing.Dict[str, int]):
         """Internal method to parse and save server permissions from RoomInfo"""
         for permission_name, permission_flag in permissions.items():
             try:
@@ -650,42 +632,42 @@ class CommonContext:
             await self.ui_task
         if self.input_task:
             self.input_task.cancel()
-
+    
     # Hints
-    def update_hint(self, location: int, finding_player: int, status: HintStatus | None) -> None:
+    def update_hint(self, location: int, finding_player: int, status: typing.Optional[HintStatus]) -> None:
         msg = {"cmd": "UpdateHint", "location": location, "player": finding_player}
         if status is not None:
             msg["status"] = status
         async_start(self.send_msgs([msg]), name="update_hint")
-
+    
     # DataPackage
-    async def prepare_data_package(self, relevant_games: set[str],
-                                   remote_data_package_checksums: dict[str, str]):
+    async def prepare_data_package(self, relevant_games: typing.Set[str],
+                                   remote_data_package_checksums: typing.Dict[str, str]):
         """Validate that all data is present for the current multiworld.
         Download, assimilate and cache missing data from the server."""
         # by documentation any game can use Archipelago locations/items -> always relevant
         relevant_games.add("Archipelago")
 
-        needed_updates: set[str] = set()
+        needed_updates: typing.Set[str] = set()
         for game in relevant_games:
             if game not in remote_data_package_checksums:
                 continue
 
-            remote_checksum: str | None = remote_data_package_checksums.get(game)
+            remote_checksum: typing.Optional[str] = remote_data_package_checksums.get(game)
 
             if not remote_checksum:  # custom data package and no checksum for this game
                 needed_updates.add(game)
                 continue
 
-            cached_checksum: str | None = self.checksums.get(game)
+            cached_checksum: typing.Optional[str] = self.checksums.get(game)
             # no action required if cached version is new enough
             if remote_checksum != cached_checksum:
-                local_checksum: str | None = network_data_package["games"].get(game, {}).get("checksum")
+                local_checksum: typing.Optional[str] = network_data_package["games"].get(game, {}).get("checksum")
                 if remote_checksum == local_checksum:
                     self.update_game(network_data_package["games"][game], game)
                 else:
                     cached_game = Utils.load_data_package_for_checksum(game, remote_checksum)
-                    cache_checksum: str | None = cached_game.get("checksum")
+                    cache_checksum: typing.Optional[str] = cached_game.get("checksum")
                     # download remote version if cache is not new enough
                     if remote_checksum != cache_checksum:
                         needed_updates.add(game)
@@ -744,7 +726,7 @@ class CommonContext:
 
     # DeathLink hooks
 
-    def on_deathlink(self, data: dict[str, typing.Any]) -> None:
+    def on_deathlink(self, data: typing.Dict[str, typing.Any]) -> None:
         """Gets dispatched when a new DeathLink is triggered by another linked player."""
         self.last_death_link = max(data["time"], self.last_death_link)
         text = data.get("cause", "")
@@ -777,7 +759,7 @@ class CommonContext:
         if old_tags != self.tags and self.server and not self.server.socket.closed:
             await self.send_msgs([{"cmd": "ConnectUpdate", "tags": self.tags}])
 
-    def gui_error(self, title: str, text: Exception | str) -> kvui.MessageBox | None:
+    def gui_error(self, title: str, text: typing.Union[Exception, str]) -> typing.Optional["kvui.MessageBox"]:
         """Displays an error messagebox in the loaded Kivy UI. Override if using a different UI framework"""
         if not self.ui:
             return None
@@ -786,13 +768,13 @@ class CommonContext:
         if self._messagebox:
             self._messagebox.dismiss()
         # make "Multiple exceptions" look nice
-        text = str(text).replace("[Errno", "\n[Errno").strip()
+        text = str(text).replace('[Errno', '\n[Errno').strip()
         # split long messages into title and text
-        parts = title.split(". ", 1)
+        parts = title.split('. ', 1)
         if len(parts) == 1:
-            parts = title.split(", ", 1)
+            parts = title.split(', ', 1)
         if len(parts) > 1:
-            text = parts[1] + "\n\n" + text
+            text = parts[1] + '\n\n' + text
             title = parts[0]
         # display error
         self._messagebox = MessageBox(title, text, error=True)
@@ -802,10 +784,10 @@ class CommonContext:
     def handle_connection_loss(self, msg: str) -> None:
         """Helper for logging and displaying a loss of connection. Must be called from an except block."""
         exc_info = sys.exc_info()
-        logger.exception(msg, exc_info=exc_info, extra={"compact_gui": True})
+        logger.exception(msg, exc_info=exc_info, extra={'compact_gui': True})
         self._messagebox_connection_loss = self.gui_error(msg, exc_info[1])
 
-    def make_gui(self) -> type[kvui.GameManager]:
+    def make_gui(self) -> "type[kvui.GameManager]":
         """
         To return the Kivy `App` class needed for `run_gui` so it can be overridden before being built
 
@@ -836,7 +818,7 @@ class CommonContext:
                     return  # ignore MultiProcessing pipe
 
             # steam overlay breaks when starting console_loop
-            if "gameoverlayrenderer" in os.environ.get("LD_PRELOAD", ""):
+            if 'gameoverlayrenderer' in os.environ.get('LD_PRELOAD', ''):
                 logger.info("Skipping terminal input, due to conflicting Steam Overlay detected. Please use GUI only.")
             else:
                 self.input_task = asyncio.create_task(console_loop(self), name="Input")
@@ -855,9 +837,9 @@ async def keep_alive(ctx: CommonContext, seconds_between_checks=100):
                 seconds_elapsed = 0
 
 
-async def server_loop(ctx: CommonContext, address: str | None = None) -> None:
+async def server_loop(ctx: CommonContext, address: typing.Optional[str] = None) -> None:
     if ctx.server and ctx.server.socket:
-        logger.error("Already connected")
+        logger.error('Already connected')
         return
 
     if address is None:  # set through CLI or APBP
@@ -865,7 +847,7 @@ async def server_loop(ctx: CommonContext, address: str | None = None) -> None:
 
     # Wait for the user to provide a multiworld server address
     if not address:
-        logger.info("Please connect to an Archipelago server.")
+        logger.info('Please connect to an Archipelago server.')
         return
 
     ctx.cancel_autoreconnect()
@@ -885,7 +867,7 @@ async def server_loop(ctx: CommonContext, address: str | None = None) -> None:
     def reconnect_hint() -> str:
         return ", type /connect to reconnect" if ctx.server_address else ""
 
-    logger.info(f"Connecting to Archipelago server at {address}")
+    logger.info(f'Connecting to Archipelago server at {address}')
     try:
         port = server_url.port or 38281  # raises ValueError if invalid
         socket = await websockets.connect(address, port=port, ping_timeout=None, ping_interval=None,
@@ -894,7 +876,7 @@ async def server_loop(ctx: CommonContext, address: str | None = None) -> None:
         if ctx.ui is not None:
             ctx.ui.update_address_bar(server_url.netloc)
         ctx.server = Endpoint(socket)
-        logger.info("Connected")
+        logger.info('Connected')
         ctx.server_address = address
         ctx.current_reconnect_delay = ctx.starting_reconnect_delay
         ctx.disconnected_intentionally = False
@@ -940,15 +922,15 @@ async def process_server_cmd(ctx: CommonContext, args: dict):
     except:
         logger.exception(f"Could not get command from {args}")
         raise
-    if cmd == "RoomInfo":
+    if cmd == 'RoomInfo':
         if ctx.seed_name and ctx.seed_name != args["seed_name"]:
             msg = "The server is running a different multiworld than your client is. (invalid seed_name)"
-            logger.info(msg, extra={"compact_gui": True})
-            ctx.gui_error("Error", msg)
+            logger.info(msg, extra={'compact_gui': True})
+            ctx.gui_error('Error', msg)
         else:
-            logger.info("--------------------------------")
-            logger.info("Room Information:")
-            logger.info("--------------------------------")
+            logger.info('--------------------------------')
+            logger.info('Room Information:')
+            logger.info('--------------------------------')
             version = args["version"]
             ctx.server_version = Version(*version)
 
@@ -960,64 +942,64 @@ async def process_server_cmd(ctx: CommonContext, args: dict):
             else:
                 logger.info(f'Server protocol version: {ctx.server_version.as_simple_string()}, '
                             f'tags: {", ".join(args["tags"])}')
-            if args["password"]:
-                logger.info("Password required")
+            if args['password']:
+                logger.info('Password required')
             ctx.update_permissions(args.get("permissions", {}))
             logger.info(
                 f"A !hint costs {args['hint_cost']}% of your total location count as points"
                 f" and you get {args['location_check_points']}"
                 f" for each location checked. Use !hint for more information.")
-            ctx.hint_cost = int(args["hint_cost"])
-            ctx.check_points = int(args["location_check_points"])
+            ctx.hint_cost = int(args['hint_cost'])
+            ctx.check_points = int(args['location_check_points'])
 
             if "players" in args:  # TODO remove when servers sending this are outdated
                 players = args.get("players", [])
                 if len(players) < 1:
-                    logger.info("No player connected")
+                    logger.info('No player connected')
                 else:
                     players.sort()
                     current_team = -1
-                    logger.info("Connected Players:")
+                    logger.info('Connected Players:')
                     for network_player in players:
                         if network_player.team != current_team:
-                            logger.info(f"  Team #{network_player.team + 1}")
+                            logger.info(f'  Team #{network_player.team + 1}')
                             current_team = network_player.team
-                        logger.info("    %s (Player %d)" % (network_player.alias, network_player.slot))
+                        logger.info('    %s (Player %d)' % (network_player.alias, network_player.slot))
 
             # update data package
             data_package_checksums = args.get("datapackage_checksums", {})
             await ctx.prepare_data_package(set(args["games"]), data_package_checksums)
 
-            await ctx.server_auth(args["password"])
+            await ctx.server_auth(args['password'])
 
-    elif cmd == "DataPackage":
-        ctx.consume_network_data_package(args["data"])
+    elif cmd == 'DataPackage':
+        ctx.consume_network_data_package(args['data'])
 
-    elif cmd == "ConnectionRefused":
+    elif cmd == 'ConnectionRefused':
         errors = args["errors"]
-        if "InvalidSlot" in errors:
+        if 'InvalidSlot' in errors:
             ctx.disconnected_intentionally = True
             ctx.event_invalid_slot()
-        elif "InvalidGame" in errors:
+        elif 'InvalidGame' in errors:
             ctx.disconnected_intentionally = True
             ctx.event_invalid_game()
-        elif "IncompatibleVersion" in errors:
+        elif 'IncompatibleVersion' in errors:
             ctx.disconnected_intentionally = True
-            raise Exception("Server reported your client version as incompatible. "
-                            "This probably means you have to update.")
-        elif "InvalidItemsHandling" in errors:
-            raise Exception("The item handling flags requested by the client are not supported")
+            raise Exception('Server reported your client version as incompatible. '
+                            'This probably means you have to update.')
+        elif 'InvalidItemsHandling' in errors:
+            raise Exception('The item handling flags requested by the client are not supported')
         # last to check, recoverable problem
-        elif "InvalidPassword" in errors:
-            logger.error("Invalid password")
+        elif 'InvalidPassword' in errors:
+            logger.error('Invalid password')
             ctx.password = None
             await ctx.server_auth(True)
         elif errors:
             raise Exception("Unknown connection errors: " + str(errors))
         else:
-            raise Exception("Connection refused by the multiworld host, no reason provided")
+            raise Exception('Connection refused by the multiworld host, no reason provided')
 
-    elif cmd == "Connected":
+    elif cmd == 'Connected':
         ctx.username = ctx.auth
         ctx.team = args["team"]
         ctx.slot = args["slot"]
@@ -1061,24 +1043,24 @@ async def process_server_cmd(ctx: CommonContext, args: dict):
         server_url = urllib.parse.urlparse(ctx.server_address)
         Utils.persistent_store("client", "last_server_address", server_url.netloc)
 
-    elif cmd == "ReceivedItems":
+    elif cmd == 'ReceivedItems':
         start_index = args["index"]
 
         if start_index == 0:
             ctx.items_received = []
         elif start_index != len(ctx.items_received):
-            sync_msg = [{"cmd": "Sync"}]
+            sync_msg = [{'cmd': 'Sync'}]
             if ctx.locations_checked:
                 sync_msg.append({"cmd": "LocationChecks",
                                  "locations": list(ctx.locations_checked)})
             await ctx.send_msgs(sync_msg)
         if start_index == len(ctx.items_received):
-            for item in args["items"]:
+            for item in args['items']:
                 ctx.items_received.append(NetworkItem(*item))
         ctx.watcher_event.set()
 
-    elif cmd == "LocationInfo":
-        for item in [NetworkItem(*item) for item in args["locations"]]:
+    elif cmd == 'LocationInfo':
+        for item in [NetworkItem(*item) for item in args['locations']]:
             ctx.locations_info[item.location] = item
         ctx.watcher_event.set()
 
@@ -1086,7 +1068,7 @@ async def process_server_cmd(ctx: CommonContext, args: dict):
         if "players" in args:
             ctx.consume_players_package(args["players"])
         if "hint_points" in args:
-            ctx.hint_points = args["hint_points"]
+            ctx.hint_points = args['hint_points']
         if "checked_locations" in args:
             checked = set(args["checked_locations"])
             ctx.checked_locations |= checked
@@ -1094,13 +1076,13 @@ async def process_server_cmd(ctx: CommonContext, args: dict):
         if "permissions" in args:
             ctx.update_permissions(args["permissions"])
 
-    elif cmd == "Print":
+    elif cmd == 'Print':
         ctx.on_print(args)
 
-    elif cmd == "PrintJSON":
+    elif cmd == 'PrintJSON':
         ctx.on_print_json(args)
 
-    elif cmd == "InvalidPacket":
+    elif cmd == 'InvalidPacket':
         logger.warning(f"Invalid Packet of {args['type']}: {args['text']}")
 
     elif cmd == "Bounced":
@@ -1156,26 +1138,26 @@ async def console_loop(ctx: CommonContext):
             logger.exception(e)
 
 
-def get_base_parser(description: str | None = None):
+def get_base_parser(description: typing.Optional[str] = None):
     """Base argument parser to be reused for components subclassing off of CommonClient"""
     import argparse
     parser = argparse.ArgumentParser(description=description)
-    parser.add_argument("--connect", default=None, help="Address of the multiworld host.")
-    parser.add_argument("--password", default=None, help="Password of the multiworld host.")
+    parser.add_argument('--connect', default=None, help='Address of the multiworld host.')
+    parser.add_argument('--password', default=None, help='Password of the multiworld host.')
     if sys.stdout:  # If terminal output exists, offer gui-less mode
-        parser.add_argument("--nogui", default=False, action="store_true", help="Turns off Client GUI.")
+        parser.add_argument('--nogui', default=False, action='store_true', help="Turns off Client GUI.")
     return parser
 
 
-def handle_url_arg(args: argparse.Namespace,
-                   parser: argparse.ArgumentParser | None = None) -> argparse.Namespace:
+def handle_url_arg(args: "argparse.Namespace",
+                   parser: "typing.Optional[argparse.ArgumentParser]" = None) -> "argparse.Namespace":
     """
     Parse the url arg "archipelago://name:pass@host:port" from launcher into correct launch args for CommonClient
     If alternate data is required the urlparse response is saved back to args.url if valid
     """
     if not args.url:
         return args
-
+        
     url = urllib.parse.urlparse(args.url)
     if url.scheme != "archipelago":
         if not parser:
@@ -1203,7 +1185,7 @@ def run_as_textclient(*args):
 
         async def server_auth(self, password_requested: bool = False):
             if password_requested and not self.password:
-                await super().server_auth(password_requested)
+                await super(TextContext, self).server_auth(password_requested)
             await self.get_username()
             await self.send_connect(game="")
 
@@ -1230,7 +1212,7 @@ def run_as_textclient(*args):
     import colorama
 
     parser = get_base_parser(description="Gameless Archipelago Client, for text interfacing.")
-    parser.add_argument("--name", default=None, help="Slot Name to connect as.")
+    parser.add_argument('--name', default=None, help="Slot Name to connect as.")
     parser.add_argument("url", nargs="?", help="Archipelago connection url")
     args = parser.parse_args(args)
 
@@ -1243,6 +1225,6 @@ def run_as_textclient(*args):
     colorama.deinit()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)  # force log-level to work around log level resetting to WARNING
     run_as_textclient(*sys.argv[1:])  # default value for parse_args

@@ -3,10 +3,9 @@ import logging
 import pathlib
 import weakref
 from enum import Enum, auto
-from typing import List, Optional, Tuple
-from collections.abc import Callable, Iterable
+from typing import Optional, Callable, List, Iterable, Tuple
 
-from Utils import is_frozen, is_kivy_running, local_path, open_file, open_filename, user_path
+from Utils import local_path, open_filename, is_frozen, is_kivy_running, open_file, user_path
 
 
 class Type(Enum):
@@ -35,37 +34,37 @@ class Component:
     Enum "Type" classification of component intent, for filtering in the Launcher GUI
     If not set in the constructor, it will be inferred by display_name
     """
-    script_name: str | None
+    script_name: Optional[str]
     """Recommended to use func instead; Name of file to run when the component is called"""
-    frozen_name: str | None
+    frozen_name: Optional[str]
     """Recommended to use func instead; Name of the frozen executable file for this component"""
     icon: str  # just the name, no suffix
     """Lookup ID for the icon path in LauncherComponents.icon_paths"""
     cli: bool
     """Bool to control if the component gets launched in an appropriate Terminal for the OS"""
-    func: Callable | None
+    func: Optional[Callable]
     """
     Function that gets called when the component gets launched
     Any arg besides the component name arg is passed into the func as well, so handling *args is suggested
     """
-    file_identifier: Callable[[str], bool] | None
+    file_identifier: Optional[Callable[[str], bool]]
     """
     Function that is run against patch file arg to identify which component is appropriate to launch
     If the function is an Instance of SuffixIdentifier the suffixes will also be valid for the Open Patch component
     """
-    game_name: str | None
+    game_name: Optional[str]
     """Game name to identify component when handling launch links from WebHost"""
-    supports_uri: bool | None
+    supports_uri: Optional[bool]
     """Bool to identify if a component supports being launched by launch links from WebHost"""
 
-    def __init__(self, display_name: str, script_name: str | None = None, frozen_name: str | None = None,
-                 cli: bool = False, icon: str = "icon", component_type: Type | None = None,
-                 func: Callable | None = None, file_identifier: Callable[[str], bool] | None = None,
-                 game_name: str | None = None, supports_uri: bool | None = False, description: str = "") -> None:
+    def __init__(self, display_name: str, script_name: Optional[str] = None, frozen_name: Optional[str] = None,
+                 cli: bool = False, icon: str = 'icon', component_type: Optional[Type] = None,
+                 func: Optional[Callable] = None, file_identifier: Optional[Callable[[str], bool]] = None,
+                 game_name: Optional[str] = None, supports_uri: Optional[bool] = False, description: str = "") -> None:
         self.display_name = display_name
         self.description = description
         self.script_name = script_name
-        self.frozen_name = frozen_name or f"Archipelago{script_name}" if script_name else None
+        self.frozen_name = frozen_name or f'Archipelago{script_name}' if script_name else None
         self.icon = icon
         self.cli = cli
         if component_type == Type.FUNC:
@@ -91,14 +90,14 @@ class Component:
 processes = weakref.WeakSet()
 
 
-def launch_subprocess(func: Callable, name: str | None = None, args: tuple[str, ...] = ()) -> None:
+def launch_subprocess(func: Callable, name: str | None = None, args: Tuple[str, ...] = ()) -> None:
     import multiprocessing
     process = multiprocessing.Process(target=func, name=name, args=args)
     process.start()
     processes.add(process)
 
 
-def launch(func: Callable, name: str | None = None, args: tuple[str, ...] = ()) -> None:
+def launch(func: Callable, name: str | None = None, args: Tuple[str, ...] = ()) -> None:
     from Utils import is_kivy_running
     if is_kivy_running():
         launch_subprocess(func, name, args)
@@ -125,9 +124,9 @@ def launch_textclient(*args):
     launch(CommonClient.run_as_textclient, name="TextClient", args=args)
 
 
-def _install_apworld(apworld_src: str = "") -> tuple[pathlib.Path, pathlib.Path] | None:
+def _install_apworld(apworld_src: str = "") -> Optional[Tuple[pathlib.Path, pathlib.Path]]:
     if not apworld_src:
-        apworld_src = open_filename("Select APWorld file to install", (("APWorld", (".apworld",)),))
+        apworld_src = open_filename('Select APWorld file to install', (('APWorld', ('.apworld',)),))
         if not apworld_src:
             # user closed menu
             return
@@ -217,36 +216,36 @@ def export_datapackage() -> None:
     open_file(path)
 
 
-components: list[Component] = [
+components: List[Component] = [
     # Launcher
-    Component("Launcher", "Launcher", component_type=Type.HIDDEN),
+    Component('Launcher', 'Launcher', component_type=Type.HIDDEN),
     # Core
-    Component("Host", "MultiServer", "ArchipelagoServer", cli=True,
-              file_identifier=SuffixIdentifier(".archipelago", ".zip"),
+    Component('Host', 'MultiServer', 'ArchipelagoServer', cli=True,
+              file_identifier=SuffixIdentifier('.archipelago', '.zip'),
               description="Host a generated multiworld on your computer."),
-    Component("Generate", "Generate", cli=True,
+    Component('Generate', 'Generate', cli=True,
               description="Generate a multiworld with the YAMLs in the players folder."),
     Component("Options Creator", "OptionsCreator", "ArchipelagoOptionsCreator", component_type=Type.TOOL,
               description="Visual creator for Archipelago option files."),
     Component("Install APWorld", func=install_apworld, file_identifier=SuffixIdentifier(".apworld"),
               description="Install an APWorld to play games not included with Archipelago by default."),
-    Component("Text Client", "CommonClient", "ArchipelagoTextClient", func=launch_textclient,
+    Component('Text Client', 'CommonClient', 'ArchipelagoTextClient', func=launch_textclient,
               description="Connect to a multiworld using the text client."),
-    Component("LttP Adjuster", "LttPAdjuster"),
+    Component('LttP Adjuster', 'LttPAdjuster'),
     # Ocarina of Time
-    Component("OoT Client", "OoTClient",
-              file_identifier=SuffixIdentifier(".apz5")),
-    Component("OoT Adjuster", "OoTAdjuster"),
+    Component('OoT Client', 'OoTClient',
+              file_identifier=SuffixIdentifier('.apz5')),
+    Component('OoT Adjuster', 'OoTAdjuster'),
     # TLoZ
-    Component("Zelda 1 Client", "Zelda1Client", file_identifier=SuffixIdentifier(".aptloz")),
+    Component('Zelda 1 Client', 'Zelda1Client', file_identifier=SuffixIdentifier('.aptloz')),
     # ChecksFinder
-    Component("ChecksFinder Client", "ChecksFinderClient"),
+    Component('ChecksFinder Client', 'ChecksFinderClient'),
     # Zillion
-    Component("Zillion Client", "ZillionClient",
-              file_identifier=SuffixIdentifier(".apzl")),
+    Component('Zillion Client', 'ZillionClient',
+              file_identifier=SuffixIdentifier('.apzl')),
 
     # MegaMan Battle Network 3
-    Component("MMBN3 Client", "MMBN3Client", file_identifier=SuffixIdentifier(".apbn3")),
+    Component('MMBN3 Client', 'MMBN3Client', file_identifier=SuffixIdentifier('.apbn3')),
 
     Component("Export Datapackage", func=export_datapackage, component_type=Type.TOOL,
               description="Write item/location data for installed worlds to a file and open it."),
@@ -255,20 +254,21 @@ components: list[Component] = [
 
 # if registering an icon from within an apworld, the format "ap:module.name/path/to/file.png" can be used
 icon_paths = {
-    "icon": local_path("data", "icon.png"),
-    "discord": local_path("data", "discord-mark-blue.png"),
+    'icon': local_path('data', 'icon.png'),
+    'discord': local_path('data', 'discord-mark-blue.png'),
 }
 
 if not is_frozen():
     def _build_apworlds(*launch_args: str):
-        import argparse
         import json
         import os
         import zipfile
 
-        from Launcher import open_folder
         from worlds import AutoWorldRegister
         from worlds.Files import APWorldContainer
+        from Launcher import open_folder
+
+        import argparse
         parser = argparse.ArgumentParser("Build script for APWorlds")
         parser.add_argument("worlds", type=str, default=(), nargs="*", help="Names of APWorlds to build.")
         args = parser.parse_args(launch_args)

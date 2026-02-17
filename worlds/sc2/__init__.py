@@ -1,75 +1,41 @@
-import logging
 from dataclasses import fields
-from math import ceil, floor
-from typing import *
+import logging
 
-from BaseClasses import CollectionState, Item, ItemClassification, Location, MultiWorld, Tutorial
+from typing import *
+from math import floor, ceil
+from BaseClasses import Item, MultiWorld, Location, Tutorial, ItemClassification, CollectionState
 from Options import Accessibility, OptionError
 from worlds.AutoWorld import WebWorld, World
-from worlds.LauncherComponents import Component, components
-from worlds.LauncherComponents import launch as launch_component
-
-from . import location_groups, settings
-from .item import (
-    FilterItem,
-    ItemData,
-    ItemFilterFlags,
-    ProtossItemType,
-    StarcraftItem,
-    ZergItemType,
-    item_groups,
-    item_names,
-    item_parents,
-    item_tables,
-)
+from . import location_groups
 from .item.item_groups import unreleased_items, war_council_upgrades
 from .item.item_tables import (
-    WEAPON_ARMOR_UPGRADE_MAX_LEVEL,
     get_full_item_list,
-    not_balanced_starting_units,
+    not_balanced_starting_units, WEAPON_ARMOR_UPGRADE_MAX_LEVEL,
 )
+from .item import FilterItem, ItemFilterFlags, StarcraftItem, item_groups, item_names, item_tables, item_parents, \
+    ZergItemType, ProtossItemType, ItemData
 from .locations import (
-    DEFAULT_LOCATION_LIST,
-    LocationType,
-    get_location_flags,
-    get_location_types,
-    get_locations,
-    get_plando_locations,
-    lookup_location_id_to_type,
+	get_locations, DEFAULT_LOCATION_LIST, get_location_types, get_location_flags,
+    get_plando_locations, LocationType, lookup_location_id_to_type
 )
-from .mission_order import SC2MissionOrder
 from .mission_order.layout_types import Gauntlet
-from .mission_order.presets import sc2_options_presets
-from .mission_tables import MissionFlag, SC2Campaign, SC2Mission, SC2Race
 from .options import (
-    EnableVoidTrade,
-    ExcludeOverpoweredItems,
-    FillerItemsDistribution,
-    GenericUpgradeResearch,
-    GrantStoryTech,
-    KerriganLevelItemDistribution,
-    KerriganPresence,
-    KerriganPrimalStatus,
-    LocationInclusion,
-    MissionOrder,
-    MissionOrderScouting,
-    NovaGhostOfAChanceVariant,
-    RequiredTactics,
-    SpearOfAdunPassiveAbilityPresence,
-    SpearOfAdunPresence,
-    Starcraft2Options,
-    StarterUnit,
-    VanillaItemsOnly,
-    get_enabled_campaigns,
-    get_option_value,
+    get_option_value, LocationInclusion, KerriganLevelItemDistribution,
+    KerriganPresence, KerriganPrimalStatus, kerrigan_unit_available, StarterUnit, SpearOfAdunPresence,
+    get_enabled_campaigns, SpearOfAdunPassiveAbilityPresence, Starcraft2Options,
+    GrantStoryTech, GenericUpgradeResearch, RequiredTactics,
+    upgrade_included_names, EnableVoidTrade, FillerItemsDistribution, MissionOrderScouting, option_groups,
+    NovaGhostOfAChanceVariant, MissionOrder, VanillaItemsOnly, ExcludeOverpoweredItems,
     is_mission_in_soa_presence,
-    kerrigan_unit_available,
-    option_groups,
-    upgrade_included_names,
 )
+from .rules import get_basic_units, SC2Logic
+from . import settings
 from .pool_filter import filter_items
+from .mission_tables import SC2Campaign, SC2Mission, SC2Race, MissionFlag
 from .regions import create_mission_order
-from .rules import SC2Logic, get_basic_units
+from .mission_order import SC2MissionOrder
+from worlds.LauncherComponents import components, Component, launch as launch_component
+from .mission_order.presets import sc2_options_presets
 
 logger = logging.getLogger("Starcraft 2")
 VICTORY_MODULO = 100
@@ -78,7 +44,7 @@ def launch_client(*args: str):
     from .client import launch
     launch_component(launch, name="Starcraft 2 Client", args=args)
 
-components.append(Component("Starcraft 2 Client", func=launch_client, game_name="Starcraft 2", supports_uri=True))
+components.append(Component('Starcraft 2 Client', func=launch_client, game_name='Starcraft 2', supports_uri=True))
 
 class Starcraft2WebWorld(WebWorld):
     setup_en = Tutorial(
@@ -137,11 +103,11 @@ class SC2World(World):
     final_missions: List[int]
     required_client_version = 0, 6, 4
     custom_mission_order: SC2MissionOrder
-    logic: Optional["SC2Logic"]
+    logic: Optional['SC2Logic']
     filler_items_distribution: Dict[str, int]
 
     def __init__(self, multiworld: MultiWorld, player: int):
-        super().__init__(multiworld, player)
+        super(SC2World, self).__init__(multiworld, player)
         self.location_cache = []
         self.locked_locations = []
         self.filler_items_distribution = FillerItemsDistribution.default
@@ -387,9 +353,10 @@ def _get_column_display(index: int, single_row_layout: bool) -> str:
     """
     if single_row_layout:
         return str(index + 1)
-    # Convert column name to a letter, from Z continue with AA and so on
-    f: Callable[[int], str] = lambda x: "" if x == 0 else f((x - 1) // 26) + chr((x - 1) % 26 + ord("A"))
-    return f(index + 1)
+    else:
+        # Convert column name to a letter, from Z continue with AA and so on
+        f: Callable[[int], str] = lambda x: "" if x == 0 else f((x - 1) // 26) + chr((x - 1) % 26 + ord("A"))
+        return f(index + 1)
 
 
 def setup_events(player: int, locked_locations: List[str], location_cache: List[Location]) -> None:
@@ -431,7 +398,7 @@ def create_and_flag_explicit_item_locks_and_excludes(world: SC2World) -> List[Fi
         if max_count and count > max_count:
             return max_count
         return count
-
+    
     auto_excludes = Counter({item_name: 1 for item_name in item_groups.legacy_items})
     if world.options.exclude_overpowered_items.value == ExcludeOverpoweredItems.option_true:
         for item_name in item_groups.overpowered_items:
@@ -1063,7 +1030,7 @@ def fill_pool_with_kerrigan_levels(world: SC2World, item_pool: List[StarcraftIte
         or (world.options.grant_story_levels and not kerrigan_build_missions)
     ):
         return
-
+    
     def add_kerrigan_level_items(level_amount: int, item_amount: int):
         name = f"{level_amount} Kerrigan Level"
         if level_amount > 1:

@@ -1,8 +1,6 @@
 import typing
 from dataclasses import dataclass
-
-from Options import DeathLink, Option, PerGameCommonOptions, Range, Toggle
-
+from Options import Option, DeathLink, Range, Toggle, PerGameCommonOptions
 
 class DoorCost(Range):
     """Amount of Trinkets required to enter Areas. Set to 0 to disable artificial locks."""

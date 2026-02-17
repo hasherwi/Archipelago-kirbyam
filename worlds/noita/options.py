@@ -1,6 +1,5 @@
+from Options import Choice, DeathLink, DefaultOnToggle, Range, StartInventoryPool, PerGameCommonOptions
 from dataclasses import dataclass
-
-from Options import Choice, DeathLink, DefaultOnToggle, PerGameCommonOptions, Range, StartInventoryPool
 
 
 class PathOption(Choice):

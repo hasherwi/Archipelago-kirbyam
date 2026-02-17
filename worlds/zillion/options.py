@@ -2,24 +2,13 @@ from collections import Counter
 from dataclasses import dataclass
 from typing import ClassVar, Literal, TypeGuard
 
+from Options import Choice, DefaultOnToggle, NamedRange, OptionGroup, PerGameCommonOptions, Range, Removed, Toggle
+
 from zilliandomizer.options import (
-    ID,
-    Chars,
-    char_to_gun,
-    char_to_jump,
-)
-from zilliandomizer.options import (
-    VBLR as ZzVBLR,
-)
-from zilliandomizer.options import (
-    ItemCounts as ZzItemCounts,
-)
-from zilliandomizer.options import (
-    Options as ZzOptions,
+    Options as ZzOptions, char_to_gun, char_to_jump, ID,
+    VBLR as ZzVBLR, Chars, ItemCounts as ZzItemCounts,
 )
 from zilliandomizer.options.parsing import validate as zz_validate
-
-from Options import Choice, DefaultOnToggle, NamedRange, OptionGroup, PerGameCommonOptions, Range, Removed, Toggle
 
 
 class ZillionContinues(NamedRange):

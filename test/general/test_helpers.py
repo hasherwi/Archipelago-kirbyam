@@ -1,6 +1,5 @@
 import unittest
-from typing import Dict, Optional
-from collections.abc import Callable
+from typing import Callable, Dict, Optional
 
 from typing_extensions import override
 
@@ -20,13 +19,13 @@ class TestHelpers(unittest.TestCase):
 
     def test_region_helpers(self) -> None:
         """Tests `Region.add_locations()` and `Region.add_exits()` have correct behavior"""
-        regions: dict[str, str] = {
+        regions: Dict[str, str] = {
             "TestRegion1": "I'm an apple",
             "TestRegion2": "I'm a banana",
             "TestRegion3": "Empty Region",
         }
 
-        locations: dict[str, dict[str, int | None]] = {
+        locations: Dict[str, Dict[str, Optional[int]]] = {
             "TestRegion1": {
                 "loc_1": 123,
                 "loc_2": 456,
@@ -38,16 +37,16 @@ class TestHelpers(unittest.TestCase):
             }
         }
 
-        reg_exits: dict[str, dict[str, str | None]] = {
+        reg_exits: Dict[str, Dict[str, Optional[str]]] = {
             "TestRegion1": {"TestRegion2": "connection"},
             "TestRegion2": {"TestRegion1": None},
         }
 
-        reg_exit_set: dict[str, set[str]] = {
+        reg_exit_set: Dict[str, set[str]] = {
             "TestRegion1": {"TestRegion3"}
         }
 
-        exit_rules: dict[str, Callable[[CollectionState], bool]] = {
+        exit_rules: Dict[str, Callable[[CollectionState], bool]] = {
             "TestRegion1": lambda state: state.has("test_item", self.player)
         }
 

@@ -1,9 +1,9 @@
 import math
 
+from .base_logic import BaseLogicMixin, BaseLogic
 from ..content.feature.friendsanity import pet_heart_item_name
 from ..stardew_rule import StardewRule, True_
 from ..strings.region_names import Region
-from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class PetLogicMixin(BaseLogicMixin):

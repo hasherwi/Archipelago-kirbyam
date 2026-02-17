@@ -1,7 +1,6 @@
 from enum import IntEnum, IntFlag
-from typing import List, NamedTuple, Optional
-
-from BaseClasses import Item, ItemClassification, Location
+from typing import NamedTuple, Optional, List
+from BaseClasses import Location, Item, ItemClassification
 
 
 class HatInTimeLocation(Location):
@@ -57,11 +56,11 @@ class Difficulty(IntEnum):
 class LocData(NamedTuple):
     id: int = 0
     region: str = ""
-    required_hats: list[HatType] = []
+    required_hats: List[HatType] = []
     hookshot: bool = False
     dlc_flags: HatDLC = HatDLC.none
     paintings: int = 0  # Paintings required for Subcon painting shuffle
-    misc_required: list[str] = []
+    misc_required: List[str] = []
 
     # For UmbrellaLogic setting only.
     hit_type: HitType = HitType.none
@@ -73,9 +72,9 @@ class LocData(NamedTuple):
 
 
 class ItemData(NamedTuple):
-    code: int | None
+    code: Optional[int]
     classification: ItemClassification
-    dlc_flags: HatDLC | None = HatDLC.none
+    dlc_flags: Optional[HatDLC] = HatDLC.none
 
 
 hat_type_to_item = {

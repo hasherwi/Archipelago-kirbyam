@@ -1,26 +1,17 @@
+import Utils
+import settings
 import base64
 import threading
-
 import requests
-
-import settings
-import Utils
+from worlds.AutoWorld import World, WebWorld
 from BaseClasses import Tutorial
-from worlds.AutoWorld import WebWorld, World
-
-from .Client import FFMQClient
-from .Items import FFMQItem, create_items, fillers, item_groups, item_table
-from .Options import FFMQOptions
+from .Regions import create_regions, location_table, set_rules, stage_set_rules, rooms, non_dead_end_crest_rooms,\
+    non_dead_end_crest_warps
+from .Items import item_table, item_groups, create_items, FFMQItem, fillers
 from .Output import generate_output
-from .Regions import (
-    create_regions,
-    location_table,
-    non_dead_end_crest_rooms,
-    non_dead_end_crest_warps,
-    rooms,
-    set_rules,
-    stage_set_rules,
-)
+from .Options import FFMQOptions
+from .Client import FFMQClient
+
 
 # removed until lists are supported
 # class FFMQSettings(settings.Group):
@@ -41,7 +32,7 @@ class FFMQWebWorld(WebWorld):
         "setup/en",
         ["Alchav"]
         )
-
+    
     setup_fr = Tutorial(
         setup_en.tutorial_name,
         setup_en.description,
@@ -50,7 +41,7 @@ class FFMQWebWorld(WebWorld):
         "setup/fr",
         ["Artea"]
         )
-
+    
     tutorials = [setup_en, setup_fr]
     game_info_languages = ["en", "fr"]
 
@@ -77,7 +68,7 @@ class FFMQWorld(World):
     create_regions = create_regions
     set_rules = set_rules
     stage_set_rules = stage_set_rules
-
+    
     web = FFMQWebWorld()
     # settings: FFMQSettings
 
@@ -227,8 +218,8 @@ class FFMQWorld(World):
                                 if location.address:
                                     hint = []
                                     if self.options.map_shuffle != "dungeons":
-                                        hint.append(subregion.split("Subregion ")[-1] + (" Region" if subregion not
-                                                    in single_location_regions else ""))
+                                        hint.append((subregion.split("Subregion ")[-1] + (" Region" if subregion not
+                                                    in single_location_regions else "")))
                                     if self.options.map_shuffle != "overworld":
                                         hint.append(overworld_spot.name.split("Overworld - ")[-1].replace("Pazuzu",
                                             "Pazuzu's"))

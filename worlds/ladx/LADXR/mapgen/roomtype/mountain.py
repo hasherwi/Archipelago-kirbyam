@@ -1,7 +1,6 @@
-import random
-
-from ..locations.entrance import EggEntrance
 from .base import RoomType
+from ..locations.entrance import EggEntrance
+import random
 
 
 class Mountain(RoomType):

@@ -1,3 +1,5 @@
+from . import SVContentPackTestBase
+from ..bases import SVTestBase
 from ... import options
 from ...content import content_packs
 from ...data.artisan import MachineSource
@@ -6,8 +8,6 @@ from ...strings.crop_names import Fruit, Vegetable
 from ...strings.fish_names import Fish
 from ...strings.machine_names import Machine
 from ...strings.villager_names import NPC
-from ..bases import SVTestBase
-from . import SVContentPackTestBase
 
 
 class TestGingerIsland(SVContentPackTestBase):

@@ -1,7 +1,6 @@
-﻿from .....Config import Config
+﻿from .....Region import Z3Region
+from .....Config import Config
 from .....Location import Location, LocationType
-from .....Region import Z3Region
-
 
 class West(Z3Region):
     Name = "Dark World Death Mountain West"

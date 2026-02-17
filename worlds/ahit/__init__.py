@@ -1,37 +1,19 @@
-from typing import Dict, List, TextIO
-
-from BaseClasses import Item, ItemClassification, Location, MultiWorld, Tutorial
-from Utils import local_path
-from worlds.AutoWorld import CollectionState, WebWorld, World
+from BaseClasses import Item, ItemClassification, Tutorial, Location, MultiWorld
+from .Items import item_table, create_item, relic_groups, act_contracts, create_itempool, get_shop_trap_name, \
+    calculate_yarn_costs, alps_hooks, junk_weights
+from .Regions import create_regions, randomize_act_entrances, chapter_act_info, create_events, get_shuffled_region
+from .Locations import location_table, contract_locations, is_location_valid, get_location_names, TASKSANITY_START_ID, \
+    get_total_locations
+from .Rules import set_rules, has_paintings
+from .Options import AHITOptions, slot_data_options, adjust_options, RandomizeHatOrder, EndGoal, create_option_groups
+from .Types import HatType, ChapterIndex, HatInTimeItem, hat_type_to_item, Difficulty
+from .DeathWishLocations import create_dw_regions, dw_classes, death_wishes
+from .DeathWishRules import set_dw_rules, create_enemy_events, hit_list, bosses
+from worlds.AutoWorld import World, WebWorld, CollectionState
 from worlds.generic.Rules import add_rule
-from worlds.LauncherComponents import Component, Type, components, icon_paths
-from worlds.LauncherComponents import launch as launch_component
-
-from .DeathWishLocations import create_dw_regions, death_wishes, dw_classes
-from .DeathWishRules import bosses, create_enemy_events, hit_list, set_dw_rules
-from .Items import (
-    act_contracts,
-    alps_hooks,
-    calculate_yarn_costs,
-    create_item,
-    create_itempool,
-    get_shop_trap_name,
-    item_table,
-    junk_weights,
-    relic_groups,
-)
-from .Locations import (
-    TASKSANITY_START_ID,
-    contract_locations,
-    get_location_names,
-    get_total_locations,
-    is_location_valid,
-    location_table,
-)
-from .Options import AHITOptions, EndGoal, RandomizeHatOrder, adjust_options, create_option_groups, slot_data_options
-from .Regions import chapter_act_info, create_events, create_regions, get_shuffled_region, randomize_act_entrances
-from .Rules import has_paintings, set_rules
-from .Types import ChapterIndex, Difficulty, HatInTimeItem, HatType, hat_type_to_item
+from typing import List, Dict, TextIO
+from worlds.LauncherComponents import Component, components, icon_paths, launch as launch_component, Type
+from Utils import local_path
 
 
 def launch_client(*args: str):
@@ -40,9 +22,9 @@ def launch_client(*args: str):
 
 
 components.append(Component("A Hat in Time Client", "AHITClient", func=launch_client,
-                            component_type=Type.CLIENT, icon="yatta"))
+                            component_type=Type.CLIENT, icon='yatta'))
 
-icon_paths["yatta"] = local_path("data", "yatta.png")
+icon_paths['yatta'] = local_path('data', 'yatta.png')
 
 
 class AWebInTime(WebWorld):
@@ -74,26 +56,26 @@ class HatInTimeWorld(World):
 
     def __init__(self, multiworld: "MultiWorld", player: int):
         super().__init__(multiworld, player)
-        self.act_connections: dict[str, str] = {}
-        self.shop_locs: list[str] = []
+        self.act_connections: Dict[str, str] = {}
+        self.shop_locs: List[str] = []
 
-        self.hat_craft_order: list[HatType] = [HatType.SPRINT, HatType.BREWING, HatType.ICE,
+        self.hat_craft_order: List[HatType] = [HatType.SPRINT, HatType.BREWING, HatType.ICE,
                                                HatType.DWELLER, HatType.TIME_STOP]
 
-        self.hat_yarn_costs: dict[HatType, int] = {HatType.SPRINT: -1, HatType.BREWING: -1, HatType.ICE: -1,
+        self.hat_yarn_costs: Dict[HatType, int] = {HatType.SPRINT: -1, HatType.BREWING: -1, HatType.ICE: -1,
                                                    HatType.DWELLER: -1, HatType.TIME_STOP: -1}
 
-        self.chapter_timepiece_costs: dict[ChapterIndex, int] = {ChapterIndex.MAFIA: -1,
+        self.chapter_timepiece_costs: Dict[ChapterIndex, int] = {ChapterIndex.MAFIA: -1,
                                                                  ChapterIndex.BIRDS: -1,
                                                                  ChapterIndex.SUBCON: -1,
                                                                  ChapterIndex.ALPINE: -1,
                                                                  ChapterIndex.FINALE: -1,
                                                                  ChapterIndex.CRUISE: -1,
                                                                  ChapterIndex.METRO: -1}
-        self.excluded_dws: list[str] = []
-        self.excluded_bonuses: list[str] = []
-        self.dw_shuffle: list[str] = []
-        self.nyakuza_thug_items: dict[str, int] = {}
+        self.excluded_dws: List[str] = []
+        self.excluded_bonuses: List[str] = []
+        self.dw_shuffle: List[str] = []
+        self.nyakuza_thug_items: Dict[str, int] = {}
         self.badge_seller_count: int = 0
 
     def get_filler_item_name(self) -> str:
@@ -264,7 +246,7 @@ class HatInTimeWorld(World):
                 for i in range(len(shuffled_dws)):
                     slot_data[f"dw_{i}"] = dw_classes[shuffled_dws[i]]
 
-        shop_item_names: dict[str, str] = {}
+        shop_item_names: Dict[str, str] = {}
         for name in self.shop_locs:
             loc: Location = self.multiworld.get_location(name, self.player)
             assert loc.item
@@ -281,7 +263,7 @@ class HatInTimeWorld(World):
         slot_data.update(self.options.as_dict(*slot_data_options))
         return slot_data
 
-    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]):
+    def extend_hint_information(self, hint_data: Dict[int, Dict[int, str]]):
         if self.is_dw_only() or not self.options.ActRandomizer:
             return
 

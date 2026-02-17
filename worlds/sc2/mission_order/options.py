@@ -3,48 +3,33 @@ Contains the Custom Mission Order option. Also validates the option value, so ge
 """
 
 from __future__ import annotations
-
-import copy
 import random
-import typing
-from typing import Any, Dict, List, Set, Union
-
-from schema import And, Optional, Or, Schema
 
 from Options import OptionDict, Visibility
+from schema import Schema, Optional, And, Or
+import typing
+from typing import Any, Union, Dict, Set, List
+import copy
 
-from ..item.item_groups import item_name_groups
-from ..item.item_tables import item_table
-from ..mission_groups import mission_groups
 from ..mission_tables import lookup_name_to_mission
+from ..mission_groups import mission_groups
+from ..item.item_tables import item_table
+from ..item.item_groups import item_name_groups
 from . import layout_types
-from .layout_types import Blitz, Canvas, Column, Gauntlet, Grid, Hopscotch, LayoutType
+from .layout_types import LayoutType, Column, Grid, Hopscotch, Gauntlet, Blitz, Canvas
 from .mission_pools import Difficulty
-from .presets_scripted import make_golden_path
 from .presets_static import (
-    preset_hots,
-    preset_lotv,
-    preset_lotv_epilogue,
-    preset_lotv_prologue,
-    preset_mini_hots,
-    preset_mini_lotv,
-    preset_mini_lotv_epilogue,
-    preset_mini_lotv_prologue,
-    preset_mini_nco,
-    preset_mini_prophecy,
-    preset_mini_wol,
-    preset_mini_wol_with_prophecy,
-    preset_nco,
-    preset_prophecy,
-    preset_wol,
-    preset_wol_with_prophecy,
-    static_preset,
+    static_preset, preset_mini_wol_with_prophecy, preset_mini_wol, preset_mini_hots, preset_mini_prophecy,
+    preset_mini_lotv_prologue, preset_mini_lotv, preset_mini_lotv_epilogue, preset_mini_nco,
+    preset_wol_with_prophecy, preset_wol, preset_prophecy, preset_hots, preset_lotv_prologue,
+    preset_lotv_epilogue, preset_lotv, preset_nco
 )
+from .presets_scripted import make_golden_path
 
 GENERIC_KEY_NAME = "Key".casefold()
 GENERIC_PROGRESSIVE_KEY_NAME = "Progressive Key".casefold()
 
-STR_OPTION_VALUES: dict[str, dict[str, Any]] = {
+STR_OPTION_VALUES: Dict[str, Dict[str, Any]] = {
     "type": {
         "column": Column.__name__, "grid": Grid.__name__, "hopscotch": Hopscotch.__name__, "gauntlet": Gauntlet.__name__, "blitz": Blitz.__name__,
         "canvas": Canvas.__name__,
@@ -113,7 +98,7 @@ class CustomMissionOrder(OptionDict):
     """
     display_name = "Custom Mission Order"
     visibility = Visibility.template
-    value: dict[str, dict[str, Any]]
+    value: Dict[str, Dict[str, Any]]
     default = {
         "Default Campaign": {
             "display_name": "null",
@@ -186,11 +171,11 @@ class CustomMissionOrder(OptionDict):
             },
         }
     })
-
-    def __init__(self, yaml_value: dict[str, dict[str, Any]]) -> None:
+    
+    def __init__(self, yaml_value: Dict[str, Dict[str, Any]]) -> None:
         # This function constructs self.value by parts,
         # so the parent constructor isn't called
-        self.value: dict[str, dict[str, Any]] = {}
+        self.value: Dict[str, Dict[str, Any]] = {}
         yaml_value = copy.deepcopy(yaml_value) # Ensure that all the mutations are local to the world
 
         for campaign in yaml_value:
@@ -228,7 +213,7 @@ class CustomMissionOrder(OptionDict):
             preset_options = {key: yaml_value[campaign].pop(key) for key in preset_option_keys}
 
             # Resolve preset
-            preset: dict[str, Any] = _resolve_string_option_single("preset", preset_key)(preset_options)
+            preset: Dict[str, Any] = _resolve_string_option_single("preset", preset_key)(preset_options)
             # Preset global is resolved internally to avoid conflict with user global
             preset_global_dict = {}
             for name in preset:
@@ -270,13 +255,14 @@ class CustomMissionOrder(OptionDict):
     # Overloaded to remove pre-init schema validation
     # Schema is still validated after __init__
     @classmethod
-    def from_any(cls, data: dict[str, Any]) -> CustomMissionOrder:
+    def from_any(cls, data: Dict[str, Any]) -> CustomMissionOrder:
         if type(data) == dict:
             return cls(data)
-        raise NotImplementedError(f"Cannot Convert from non-dictionary, got {type(data)}")
+        else:
+            raise NotImplementedError(f"Cannot Convert from non-dictionary, got {type(data)}")
 
 
-def _resolve_special_options(data: dict[str, Any]):
+def _resolve_special_options(data: Dict[str, Any]):
     # Handle range values & string-to-value conversions
     for option in data:
         option_value = data[option]
@@ -285,7 +271,7 @@ def _resolve_special_options(data: dict[str, Any]):
 
     # Special case for canvas layouts determining their own size
     if "type" in data and data["type"] == Canvas.__name__:
-        canvas: list[str] = data["canvas"]
+        canvas: List[str] = data["canvas"]
         longest_line = max(len(line) for line in canvas)
         data["size"] = len(canvas) * longest_line
         data["width"] = longest_line
@@ -295,24 +281,25 @@ def _resolve_special_option(option: str, option_value: Any) -> Any:
     # Option values can be string representations of values
     if option in STR_OPTION_VALUES:
         return _resolve_string_option(option, option_value)
-
+    
     if option == "mission_pool":
         return _resolve_mission_pool(option_value)
-
+    
     if option == "entry_rules":
         rules = [_resolve_entry_rule(subrule) for subrule in option_value]
         return rules
-
+    
     if option == "display_name":
         # Make sure all the values are strings
         if type(option_value) == list:
             names = [str(value) for value in option_value]
             return names
-        if option_value == "null":
+        elif option_value == "null":
             # "null" means no custom display name
             return []
-        return [str(option_value)]
-
+        else:
+            return [str(option_value)]
+        
     if option in ["index", "next"]:
         # All index values could be ranges
         if type(option_value) == list:
@@ -321,8 +308,9 @@ def _resolve_special_option(option: str, option_value: Any) -> Any:
             indices = [_resolve_potential_range(index) for index in indices]
             indices = [idx if type(idx) == int else str(idx) for idx in indices]
             return indices
-        idx = _resolve_potential_range(option_value)
-        return [idx if type(idx) == int else str(idx)]
+        else:
+            idx = _resolve_potential_range(option_value)
+            return [idx if type(idx) == int else str(idx)]
 
     # Option values can be ranges
     return _resolve_potential_range(option_value)
@@ -338,15 +326,16 @@ def _resolve_string_option_single(option: str, option_value: str) -> Any:
     return STR_OPTION_VALUES[option][formatted_value]
 
 
-def _resolve_string_option(option: str, option_value: list[str] | str) -> Any:
+def _resolve_string_option(option: str, option_value: Union[List[str], str]) -> Any:
     if type(option_value) == list:
         return [_resolve_string_option_single(option, val) for val in option_value]
-    return _resolve_string_option_single(option, option_value)
+    else:
+        return _resolve_string_option_single(option, option_value)
 
 
-def _resolve_entry_rule(option_value: dict[str, Any]) -> dict[str, Any]:
-    resolved: dict[str, Any] = {}
-    mutually_exclusive: list[str] = []
+def _resolve_entry_rule(option_value: Dict[str, Any]) -> Dict[str, Any]:
+    resolved: Dict[str, Any] = {}
+    mutually_exclusive: List[str] = []
     if "amount" in option_value:
         resolved["amount"] = _resolve_potential_range(option_value["amount"])
     if "scope" in option_value:
@@ -364,7 +353,7 @@ def _resolve_entry_rule(option_value: dict[str, Any]) -> dict[str, Any]:
             resolved["amount"] = -1
     if "items" in option_value:
         mutually_exclusive.append("items")
-        option_items: dict[str, Any] = option_value["items"]
+        option_items: Dict[str, Any] = option_value["items"]
         resolved_items = {item: int(_resolve_potential_range(str(amount))) for (item, amount) in option_items.items()}
         resolved_items = _resolve_item_names(resolved_items)
         resolved["items"] = {}
@@ -392,22 +381,23 @@ def _resolve_entry_rule(option_value: dict[str, Any]) -> dict[str, Any]:
     return resolved
 
 
-def _resolve_potential_range(option_value: Any | str) -> Any | int:
+def _resolve_potential_range(option_value: Union[Any, str]) -> Union[Any, int]:
     # An option value may be a range
     if type(option_value) == str and option_value.startswith("random-range-"):
         resolved = _custom_range(option_value)
         return resolved
-    # As this is a catch-all function,
-    # assume non-range option values are handled elsewhere
-    # or intended to fall through
-    return option_value
+    else:
+        # As this is a catch-all function,
+        # assume non-range option values are handled elsewhere
+        # or intended to fall through
+        return option_value
 
 
-def _resolve_mission_pool(option_value: str | list[str]) -> set[int]:
+def _resolve_mission_pool(option_value: Union[str, List[str]]) -> Set[int]:
     if type(option_value) == str:
         pool = _get_target_missions(option_value)
     else:
-        pool: set[int] = set()
+        pool: Set[int] = set()
         for line in option_value:
             if line.startswith("~"):
                 if len(pool) == 0:
@@ -433,13 +423,15 @@ def _resolve_mission_pool(option_value: str | list[str]) -> set[int]:
     return pool
 
 
-def _get_target_missions(term: str) -> set[int]:
+def _get_target_missions(term: str) -> Set[int]:
     if term in lookup_name_to_mission:
         return {lookup_name_to_mission[term].id}
-    groups = [mission_groups[group] for group in mission_groups if group.casefold() == term.casefold()]
-    if len(groups) > 0:
-        return {lookup_name_to_mission[mission].id for mission in groups[0]}
-    raise ValueError(f"Mission pool term \"{term}\" did not resolve to any specific mission or mission group.")
+    else:
+        groups = [mission_groups[group] for group in mission_groups if group.casefold() == term.casefold()]
+        if len(groups) > 0:
+            return {lookup_name_to_mission[mission].id for mission in groups[0]}
+        else:
+            raise ValueError(f"Mission pool term \"{term}\" did not resolve to any specific mission or mission group.")
 
 
 # Class-agnostic version of AP Options.Range.custom_range
@@ -452,19 +444,20 @@ def _custom_range(text: str) -> int:
     random_range.sort()
     if text.startswith("random-range-low"):
         return _triangular(random_range[0], random_range[1], random_range[0])
-    if text.startswith("random-range-middle"):
+    elif text.startswith("random-range-middle"):
         return _triangular(random_range[0], random_range[1])
-    if text.startswith("random-range-high"):
+    elif text.startswith("random-range-high"):
         return _triangular(random_range[0], random_range[1], random_range[1])
-    return random.randint(random_range[0], random_range[1])
+    else:
+        return random.randint(random_range[0], random_range[1])
 
 
-def _triangular(lower: int, end: int, tri: int | None = None) -> int:
+def _triangular(lower: int, end: int, tri: typing.Optional[int] = None) -> int:
     return int(round(random.triangular(lower, end, tri), 0))
 
 
 # Version of options.Sc2ItemDict.verify without World
-def _resolve_item_names(value: dict[str, int]) -> dict[str, int]:
+def _resolve_item_names(value: Dict[str, int]) -> Dict[str, int]:
     new_value: dict[str, int] = {}
     case_insensitive_group_mapping = {
         group_name.casefold(): group_value for group_name, group_value in item_name_groups.items()
@@ -475,3 +468,4 @@ def _resolve_item_names(value: dict[str, int]) -> dict[str, int]:
         for item_name in item_names:
             new_value[item_name] = new_value.get(item_name, 0) + value[group_name]
     return new_value
+    

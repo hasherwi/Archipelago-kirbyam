@@ -1,5 +1,4 @@
-from worlds.generic.Rules import add_rule, forbid_items_for_player
-
+from worlds.generic.Rules import forbid_items_for_player, add_rule
 from .Options import Goal, GoldenFeatherProgression, MinShopCheckLogic, ShopCheckLogic
 
 
@@ -11,13 +10,13 @@ def create_rules(self, location_table):
     # Shovel Rules
     for loc in location_table:
         if loc["needsShovel"]:
-            forbid_items_for_player(multiworld.get_location(loc["name"], player), self.item_name_groups["Maps"], player)
+            forbid_items_for_player(multiworld.get_location(loc["name"], player), self.item_name_groups['Maps'], player)
             add_rule(multiworld.get_location(loc["name"], player),
                 lambda state: state.has("Shovel", player))
 
         # Shop Rules
         if loc["purchase"] and not options.coins_in_shops:
-            forbid_items_for_player(multiworld.get_location(loc["name"], player), self.item_name_groups["Coins"], player)
+            forbid_items_for_player(multiworld.get_location(loc["name"], player), self.item_name_groups['Coins'], player)
         if loc["purchase"] >= get_min_shop_logic_cost(self) and options.shop_check_logic != ShopCheckLogic.option_nothing:
             if options.shop_check_logic in {ShopCheckLogic.option_fishing_rod, ShopCheckLogic.option_fishing_rod_and_shovel}:
                 add_rule(multiworld.get_location(loc["name"], player),
@@ -74,7 +73,7 @@ def create_rules(self, location_table):
         lambda state: state.has("Stick", player))
     add_rule(multiworld.get_location("Beachstickball (30 Hits)", player),
         lambda state: state.has("Stick", player))
-
+    
     # Race Rules
     if options.easier_races:
         add_rule(multiworld.get_location("Lighthouse Race Reward", player),
@@ -101,7 +100,7 @@ def get_min_shop_logic_cost(self):
 
     if options.min_shop_check_logic == MinShopCheckLogic.option_40_coins:
         return 40
-    if options.min_shop_check_logic == MinShopCheckLogic.option_100_coins:
+    elif options.min_shop_check_logic == MinShopCheckLogic.option_100_coins:
         return 100
-    if options.min_shop_check_logic == MinShopCheckLogic.option_400_coins:
+    elif options.min_shop_check_logic == MinShopCheckLogic.option_400_coins:
         return 400

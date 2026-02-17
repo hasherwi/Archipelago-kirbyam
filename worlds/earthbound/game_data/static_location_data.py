@@ -488,7 +488,7 @@ location_ids = {
     "Deep Darkness - Businessman Slot 5": 0xEB113F,
     "Deep Darkness - Businessman Slot 6": 0xEB1140,
     "Deep Darkness - Businessman Slot 7": 0xEB1141,
-
+    
     "Saturn Valley Shop - Post-Belch Saturn Slot 1": 0xEB1157,
     "Saturn Valley Shop - Post-Belch Saturn Slot 2": 0xEB1158,
     "Saturn Valley Shop - Post-Belch Saturn Slot 3": 0xEB1159,
@@ -929,7 +929,7 @@ location_groups = {
         "Gold Mine - B1F Isolated Present",
         "Gold Mine - B1F Junction Present",
         "Gold Mine - B1F Junction Mole Present"
-
+        
     },
 
     "Monkey Caves West Wing": {
@@ -940,7 +940,7 @@ location_groups = {
         "Monkey Caves - West End Chest",
         "Monkey Caves - West End Trashcan",
 
-
+        
     },
 
     "Monkey Caves East Wing": {
@@ -952,7 +952,7 @@ location_groups = {
         "Monkey Caves - East End Chest",
         "Monkey Caves - East End Trashcan",
         "Monkey Caves - Bow Monkey Gift"
-
+        
     },
 
     "Monkey Caves Talah Rama Room": {
@@ -960,7 +960,7 @@ location_groups = {
         "Monkey Caves - Talah Rama Chest #2",
         "Monkey Caves - Talah Rama Gift",
         "Monkey Caves - Monkey Power"
-
+        
     },
 
     "Fourside": {
@@ -1034,7 +1034,7 @@ location_groups = {
         "Moonside Hotel - Shop Slot 3",
         "Moonside Hotel - Shop Slot 4",
         "Moonside Hotel - Shop Slot 5"
-
+        
     },
 
     "Magnet Hill": {
@@ -1044,7 +1044,7 @@ location_groups = {
         "Magnet Hill - Second Room Dead End Trashcan",
         "Magnet Hill - Final Room Door Trashcan",
         "Fourside - Magnet Hill Chest"
-
+        
     },
 
     "Monotoli Building": {
@@ -1053,7 +1053,7 @@ location_groups = {
         "Monotoli Building - Electra Gift",
         "Monotoli Building - Monotoli Gift",
         "Monotoli Building - Monotoli Character"
-
+        
     },
 
     "Summers": {
@@ -1097,7 +1097,7 @@ location_groups = {
         "Dalaam Restaurant - Slot 2",
         "Dalaam Restaurant - Slot 3",
         "Dalaam Restaurant - Slot 4"
-
+        
     },
 
     "Pink Cloud": {
@@ -1219,7 +1219,7 @@ location_groups = {
         "Lumine Hall - B1F Belly Button Present",
         "Lumine Hall - B1F West Alcove Present"
     },
-
+    
     "Lost Underworld": {
         "Lost Underworld - Talking Rock",
         "Lost Underworld - East Present",
@@ -1254,7 +1254,7 @@ location_groups = {
         "Magicant - Shop Slot 1",
         "Magicant - Shop Slot 2"
     },
-
+    
 
     "Sea of Eden": {
         "Magicant - Ness's Nightmare"
@@ -1268,7 +1268,7 @@ location_groups = {
     "Cave of the Past": {
         "Cave of the Past - Present"
     },
-
+    
     "Burglin Park": {
         "Burglin Park Junk Shop - Slot 1",
         "Burglin Park Junk Shop - Slot 2",
@@ -1338,7 +1338,7 @@ location_groups = {
         "Twoson Department Store Top Floor - Left Counter Slot 1",
         "Twoson Department Store Top Floor - Left Counter Slot 2"
     },
-
+    
     "the Fourside Department Store": {
         "Fourside Department Store - Tool Shop Slot 1",
         "Fourside Department Store - Tool Shop Slot 2",

@@ -2,13 +2,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from functools import cached_property, singledispatch
-from typing import List, Optional, Set, Tuple
-from collections.abc import Iterable
+from typing import Iterable, Set, Tuple, List, Optional
 
-from BaseClasses import CollectionState, Entrance, Location
+from BaseClasses import CollectionState, Location, Entrance
 from worlds.generic.Rules import CollectionRule
-
-from . import AggregatingStardewRule, Count, Has, Reach, Received, StardewRule, TotalReceived, true_
+from . import StardewRule, AggregatingStardewRule, Count, Has, TotalReceived, Received, Reach, true_
 
 
 @dataclass
@@ -17,7 +15,7 @@ class RuleExplanation:
     state: CollectionState = field(repr=False, hash=False)
     expected: bool
     sub_rules: Iterable[StardewRule] = field(default_factory=list)
-    explored_rules_key: set[tuple[str, str]] = field(default_factory=set, repr=False, hash=False)
+    explored_rules_key: Set[Tuple[str, str]] = field(default_factory=set, repr=False, hash=False)
     current_rule_explored: bool = False
 
     def __post_init__(self):
@@ -48,7 +46,7 @@ class RuleExplanation:
             return False
 
     @cached_property
-    def explained_sub_rules(self) -> list[RuleExplanation]:
+    def explained_sub_rules(self) -> List[RuleExplanation]:
         rule_key = _rule_key(self.rule)
         if rule_key is not None:
             self.explored_rules_key.add(rule_key)
@@ -76,7 +74,7 @@ class CountExplanation(RuleExplanation):
     rule: Count
 
     @cached_property
-    def explained_sub_rules(self) -> list[RuleExplanation]:
+    def explained_sub_rules(self) -> List[RuleExplanation]:
         return [
             CountSubRuleExplanation.from_explanation(_explain(rule, self.state, self.expected, self.explored_rules_key), count)
             for rule, count in self.rule.counter.items()
@@ -86,26 +84,27 @@ class CountExplanation(RuleExplanation):
 def explain(rule: CollectionRule, state: CollectionState, expected: bool = True) -> RuleExplanation:
     if isinstance(rule, StardewRule):
         return _explain(rule, state, expected, explored_spots=set())
-    return f"Value of rule {str(rule)} was not {str(expected)} in {str(state)}"  # noqa
+    else:
+        return f"Value of rule {str(rule)} was not {str(expected)} in {str(state)}"  # noqa
 
 
 @singledispatch
-def _explain(rule: StardewRule, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
+def _explain(rule: StardewRule, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
     return RuleExplanation(rule, state, expected, explored_rules_key=explored_spots)
 
 
 @_explain.register
-def _(rule: AggregatingStardewRule, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
+def _(rule: AggregatingStardewRule, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
     return RuleExplanation(rule, state, expected, rule.original_rules, explored_rules_key=explored_spots)
 
 
 @_explain.register
-def _(rule: Count, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
+def _(rule: Count, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
     return CountExplanation(rule, state, expected, rule.rules, explored_rules_key=explored_spots)
 
 
 @_explain.register
-def _(rule: Has, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
+def _(rule: Has, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
     try:
         return RuleExplanation(rule, state, expected, [rule.other_rules[rule.item]], explored_rules_key=explored_spots)
     except KeyError:
@@ -113,14 +112,14 @@ def _(rule: Has, state: CollectionState, expected: bool, explored_spots: set[tup
 
 
 @_explain.register
-def _(rule: TotalReceived, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
+def _(rule: TotalReceived, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
     return RuleExplanation(rule, state, expected, [Received(i, rule.player, 1) for i in rule.items], explored_rules_key=explored_spots)
 
 
 @_explain.register
-def _(rule: Reach, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
+def _(rule: Reach, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
     access_rules = None
-    if rule.resolution_hint == "Location":
+    if rule.resolution_hint == 'Location':
         spot = state.multiworld.get_location(rule.spot, rule.player)
 
         if isinstance(spot.access_rule, StardewRule):
@@ -133,7 +132,7 @@ def _(rule: Reach, state: CollectionState, expected: bool, explored_spots: set[t
             access_rules = [Reach(spot.parent_region.name, "Region", rule.player)]
 
 
-    elif rule.resolution_hint == "Entrance":
+    elif rule.resolution_hint == 'Entrance':
         spot = state.multiworld.get_entrance(rule.spot, rule.player)
 
         if isinstance(spot.access_rule, StardewRule):
@@ -156,7 +155,7 @@ def _(rule: Reach, state: CollectionState, expected: bool, explored_spots: set[t
 
 
 @_explain.register
-def _(rule: Received, state: CollectionState, expected: bool, explored_spots: set[tuple[str, str]]) -> RuleExplanation:
+def _(rule: Received, state: CollectionState, expected: bool, explored_spots: Set[Tuple[str, str]]) -> RuleExplanation:
     access_rules = None
     if rule.event:
         try:
@@ -175,17 +174,17 @@ def _(rule: Received, state: CollectionState, expected: bool, explored_spots: se
 
 
 @singledispatch
-def _rule_key(_: StardewRule) -> tuple[str, str] | None:
+def _rule_key(_: StardewRule) -> Optional[Tuple[str, str]]:
     return None
 
 
 @_rule_key.register
-def _(rule: Reach) -> tuple[str, str]:
+def _(rule: Reach) -> Tuple[str, str]:
     return rule.spot, rule.resolution_hint
 
 
 @_rule_key.register
-def _(rule: Received) -> tuple[str, str] | None:
+def _(rule: Received) -> Optional[Tuple[str, str]]:
     if not rule.event:
         return None
 

@@ -1,36 +1,24 @@
 import os
 import threading
-import typing
 from pkgutil import get_data
-from typing import Any, Dict, NamedTuple, Union
 
 import bsdiff4
-
-import settings
 import Utils
-from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
-from worlds.AutoWorld import WebWorld, World
-from worlds.generic.Rules import add_rule
+import settings
+import typing
 
-from .ItemPool import dangerous_weapon_locations, generate_itempool, starting_weapons
-from .Items import item_game_ids, item_prices, item_table
-from .Locations import (
-    all_level_locations,
-    food_locations,
-    level_locations,
-    location_ids,
-    location_table,
-    major_locations,
-    secret_money_ids,
-    shop_locations,
-    shop_price_location_ids,
-    standard_level_locations,
-    sword_cave_locations,
-    take_any_locations,
-)
+from typing import NamedTuple, Union, Dict, Any
+from BaseClasses import Item, Location, Region, Entrance, MultiWorld, ItemClassification, Tutorial
+from .ItemPool import generate_itempool, starting_weapons, dangerous_weapon_locations
+from .Items import item_table, item_prices, item_game_ids
+from .Locations import location_table, level_locations, major_locations, shop_locations, all_level_locations, \
+    standard_level_locations, shop_price_location_ids, secret_money_ids, location_ids, food_locations, \
+    take_any_locations, sword_cave_locations
 from .Options import TlozOptions
-from .Rom import TLoZDeltaPatch, first_quest_dungeon_items_early, first_quest_dungeon_items_late, get_base_rom_path
+from .Rom import TLoZDeltaPatch, get_base_rom_path, first_quest_dungeon_items_early, first_quest_dungeon_items_late
 from .Rules import set_rules
+from worlds.AutoWorld import World, WebWorld
+from worlds.generic.Rules import add_rule
 
 
 class TLoZSettings(settings.Group):
@@ -51,8 +39,8 @@ class TLoZSettings(settings.Group):
         """Display message inside of Bizhawk"""
 
     rom_file: RomFile = RomFile(RomFile.copy_to)
-    rom_start: RomStart | bool = True
-    display_msgs: DisplayMsgs | bool = True
+    rom_start: typing.Union[RomStart, bool] = True
+    display_msgs: typing.Union[DisplayMsgs, bool] = True
 
 
 class TLoZWeb(WebWorld):
@@ -88,8 +76,8 @@ class TLoZWorld(World):
     location_name_to_id = location_table
 
     item_name_groups = {
-        "weapons": starting_weapons,
-        "swords": {
+        'weapons': starting_weapons,
+        'swords': {
             "Sword", "White Sword", "Magical Sword"
         },
         "candles": {
@@ -243,26 +231,26 @@ class TLoZWorld(World):
         return rom_data
 
     def apply_randomizer(self):
-        with open(get_base_rom_path(), "rb") as rom:
+        with open(get_base_rom_path(), 'rb') as rom:
             rom_data = self.apply_base_patch(rom)
         # Write each location's new data in
         for location in self.multiworld.get_filled_locations(self.player):
             # Zelda and Ganon aren't real locations
             if location.name == "Ganon" or location.name == "Zelda":
                 continue
-
+        
             # Neither are boss defeat events
             if "Status" in location.name:
                 continue
-
+        
             item = location.item.name
             # Remote items are always going to look like Rupees.
             if location.item.player != self.player:
                 item = "Rupee"
-
+        
             item_id = item_game_ids[item]
             location_id = location_ids[location.name]
-
+        
             # Shop prices need to be set
             if location.name in shop_locations:
                 if location.name[-5:] == "Right":
@@ -285,7 +273,7 @@ class TLoZWorld(World):
                 # Same story as above: bit 6 is what makes this a Take Any cave
                 item_id = item_id | 0b01000000
             rom_data[location_id] = item_id
-
+        
         # We shuffle the tiers of rupee caves. Caves that shared a value before still will.
         secret_caves = self.random.sample(sorted(secret_money_ids), 3)
         secret_cave_money_amounts = [20, 50, 100]
@@ -300,20 +288,20 @@ class TLoZWorld(World):
     def generate_output(self, output_directory: str):
         try:
             patched_rom = self.apply_randomizer()
-            outfilebase = "AP_" + self.multiworld.seed_name
-            outfilepname = f"_P{self.player}"
+            outfilebase = 'AP_' + self.multiworld.seed_name
+            outfilepname = f'_P{self.player}'
             outfilepname += f"_{self.multiworld.get_file_safe_player_name(self.player).replace(' ', '_')}"
-            outputFilename = os.path.join(output_directory, f"{outfilebase}{outfilepname}.nes")
+            outputFilename = os.path.join(output_directory, f'{outfilebase}{outfilepname}.nes')
             self.rom_name_text = f'LOZ{Utils.__version__.replace(".", "")[0:3]}_{self.player}_{self.multiworld.seed:11}\0'
-            self.romName = bytearray(self.rom_name_text, "utf8")[:0x20]
+            self.romName = bytearray(self.rom_name_text, 'utf8')[:0x20]
             self.romName.extend([0] * (0x20 - len(self.romName)))
             self.rom_name = self.romName
             patched_rom[0x10:0x30] = self.romName
-            self.playerName = bytearray(self.multiworld.player_name[self.player], "utf8")[:0x20]
+            self.playerName = bytearray(self.multiworld.player_name[self.player], 'utf8')[:0x20]
             self.playerName.extend([0] * (0x20 - len(self.playerName)))
             patched_rom[0x30:0x50] = self.playerName
             patched_filename = os.path.join(output_directory, outputFilename)
-            with open(patched_filename, "wb") as patched_rom_file:
+            with open(patched_filename, 'wb') as patched_rom_file:
                 patched_rom_file.write(patched_rom)
             patch = TLoZDeltaPatch(os.path.splitext(outputFilename)[0] + TLoZDeltaPatch.patch_file_ending,
                                    player=self.player,
@@ -337,7 +325,7 @@ class TLoZWorld(World):
             self.filler_items = [item for item in item_table if item_table[item].classification == ItemClassification.filler]
         return self.random.choice(self.filler_items)
 
-    def fill_slot_data(self) -> dict[str, Any]:
+    def fill_slot_data(self) -> Dict[str, Any]:
         if self.options.ExpandedPool:
             take_any_left = self.multiworld.get_location("Take Any Item Left", self.player).item
             take_any_middle = self.multiworld.get_location("Take Any Item Middle", self.player).item
@@ -370,8 +358,8 @@ class TLoZWorld(World):
 
 
 class TLoZItem(Item):
-    game = "The Legend of Zelda"
+    game = 'The Legend of Zelda'
 
 
 class TLoZLocation(Location):
-    game = "The Legend of Zelda"
+    game = 'The Legend of Zelda'

@@ -1,8 +1,8 @@
-from typing import List
-
+from ..roomEditor import RoomEditor, Object, ObjectWarp, ObjectHorizontal
 from ..assembler import ASM
 from ..locations import constants
-from ..roomEditor import Object, ObjectHorizontal, ObjectWarp, RoomEditor
+from typing import List
+
 
 # Room containing the boss
 BOSS_ROOMS = [
@@ -143,7 +143,7 @@ def getCleanBossRoom(rom, dungeon_nr):
     return re
 
 
-def changeBosses(rom, mapping: list[int]):
+def changeBosses(rom, mapping: List[int]):
     # Fix the color dungeon not properly warping to room 0 with the boss.
     for addr in range(0x04E0, 0x04E0 + 64):
         if rom.banks[0x14][addr] == 0x00 and addr not in {0x04E0 + 1 + 3 * 8, 0x04E0 + 2 + 6 * 8}:

@@ -1,7 +1,6 @@
 import itertools
 import sys
-from typing import Any
-from collections.abc import Callable, Iterable
+from typing import Any, Callable, Iterable
 
 
 def classvar_matrix(**kwargs: Iterable[Any]) -> Callable[[type], None]:

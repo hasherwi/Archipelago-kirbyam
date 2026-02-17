@@ -1,9 +1,8 @@
 from unittest import TestCase
 
 from test.bases import WorldTestBase
-
 from .. import ShapezWorld
-from ..data.strings import CATEGORY, GOALS, ITEMS, LOCATIONS, OPTIONS, OTHER, SHAPESANITY
+from ..data.strings import GOALS, OTHER, ITEMS, LOCATIONS, CATEGORY, OPTIONS, SHAPESANITY
 from ..options import max_levels_and_upgrades, max_shapesanity
 
 

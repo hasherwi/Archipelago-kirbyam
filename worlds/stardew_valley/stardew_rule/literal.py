@@ -2,14 +2,13 @@ from abc import ABC
 from typing import Tuple
 
 from BaseClasses import CollectionState
-
 from .protocol import StardewRule
 
 
 class LiteralStardewRule(StardewRule, ABC):
     value: bool
 
-    def evaluate_while_simplifying(self, state: CollectionState) -> tuple[StardewRule, bool]:
+    def evaluate_while_simplifying(self, state: CollectionState) -> Tuple[StardewRule, bool]:
         return self, self.value
 
     def __call__(self, state: CollectionState) -> bool:
@@ -25,7 +24,7 @@ class True_(LiteralStardewRule):  # noqa
     def __new__(cls, _cache=[]):  # noqa
         # Only one single instance will be ever created.
         if not _cache:
-            _cache.append(super().__new__(cls))
+            _cache.append(super(True_, cls).__new__(cls))
         return _cache[0]
 
     def __or__(self, other) -> StardewRule:
@@ -41,7 +40,7 @@ class False_(LiteralStardewRule):  # noqa
     def __new__(cls, _cache=[]):  # noqa
         # Only one single instance will be ever created.
         if not _cache:
-            _cache.append(super().__new__(cls))
+            _cache.append(super(False_, cls).__new__(cls))
         return _cache[0]
 
     def __or__(self, other) -> StardewRule:

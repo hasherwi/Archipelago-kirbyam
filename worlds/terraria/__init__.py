@@ -1,35 +1,33 @@
 # Look at `Rules.dsv` first to get an idea for how this works
 
 import logging
-from typing import Dict, List, Set, Tuple, Union
-
-from BaseClasses import CollectionState, ItemClassification, Region, Tutorial
+from typing import Union, Tuple, List, Dict, Set
 from worlds.AutoWorld import WebWorld, World
-
+from BaseClasses import Region, ItemClassification, Tutorial, CollectionState
 from .Checks import (
-    COND_FN,
-    COND_GROUP,
-    COND_ITEM,
-    COND_LOC,
-    Condition,
     TerrariaItem,
     TerrariaLocation,
-    accessory_minions,
-    armor_minions,
+    Condition,
     goals,
-    hammers,
-    item_name_to_id,
+    rules,
+    rule_indices,
     labels,
+    rewards,
+    item_name_to_id,
     location_name_to_id,
-    mech_bosses,
+    COND_ITEM,
+    COND_LOC,
+    COND_FN,
+    COND_GROUP,
     npcs,
     pickaxes,
+    hammers,
+    mech_bosses,
     progression,
-    rewards,
-    rule_indices,
-    rules,
+    armor_minions,
+    accessory_minions,
 )
-from .Options import Goal, TerrariaOptions
+from .Options import TerrariaOptions, Goal
 
 
 class TerrariaWeb(WebWorld):
@@ -62,12 +60,12 @@ class TerrariaWorld(World):
     calamity = False
     getfixedboi = False
 
-    ter_items: list[str]
-    ter_locations: list[str]
+    ter_items: List[str]
+    ter_locations: List[str]
 
-    ter_goals: dict[str, str]
-    goal_items: set[str]
-    goal_locations: set[str]
+    ter_goals: Dict[str, str]
+    goal_items: Set[str]
+    goal_locations: Set[str]
 
     def generate_early(self) -> None:
         goal, goal_locations = goals[self.options.goal.value]
@@ -243,12 +241,12 @@ class TerrariaWorld(World):
                 name = condition.condition
 
             return condition.sign == state.has(name, self.player)
-        if condition.type == COND_LOC:
+        elif condition.type == COND_LOC:
             rule = rules[rule_indices[condition.condition]]
             return condition.sign == self.check_conditions(
                 state, rule.operator, rule.conditions
             )
-        if condition.type == COND_FN:
+        elif condition.type == COND_FN:
             if condition.condition == "npc":
                 if type(condition.argument) is not int:
                     raise Exception("@npc requires an integer argument")
@@ -261,11 +259,11 @@ class TerrariaWorld(World):
                             return condition.sign
 
                 return not condition.sign
-            if condition.condition == "calamity":
+            elif condition.condition == "calamity":
                 return condition.sign == self.options.calamity.value
-            if condition.condition == "grindy":
+            elif condition.condition == "grindy":
                 return condition.sign == self.options.grindy_achievements.value
-            if condition.condition == "pickaxe":
+            elif condition.condition == "pickaxe":
                 if type(condition.argument) is not int:
                     raise Exception("@pickaxe requires an integer argument")
 
@@ -274,7 +272,7 @@ class TerrariaWorld(World):
                         return condition.sign
 
                 return not condition.sign
-            if condition.condition == "hammer":
+            elif condition.condition == "hammer":
                 if type(condition.argument) is not int:
                     raise Exception("@hammer requires an integer argument")
 
@@ -283,7 +281,7 @@ class TerrariaWorld(World):
                         return condition.sign
 
                 return not condition.sign
-            if condition.condition == "mech_boss":
+            elif condition.condition == "mech_boss":
                 if type(condition.argument) is not int:
                     raise Exception("@mech_boss requires an integer argument")
 
@@ -295,7 +293,7 @@ class TerrariaWorld(World):
                             return condition.sign
 
                 return not condition.sign
-            if condition.condition == "minions":
+            elif condition.condition == "minions":
                 if type(condition.argument) is not int:
                     raise Exception("@minions requires an integer argument")
 
@@ -313,9 +311,10 @@ class TerrariaWorld(World):
                             return condition.sign
 
                 return not condition.sign
-            if condition.condition == "getfixedboi":
+            elif condition.condition == "getfixedboi":
                 return condition.sign == self.options.getfixedboi.value
-            raise Exception(f"Unknown function {condition.condition}")
+            else:
+                raise Exception(f"Unknown function {condition.condition}")
         elif condition.type == COND_GROUP:
             operator, conditions = condition.condition
             return condition.sign == self.check_conditions(state, operator, conditions)
@@ -323,13 +322,13 @@ class TerrariaWorld(World):
     def check_conditions(
         self,
         state,
-        operator: bool | None,
-        conditions: list[
-            tuple[
+        operator: Union[bool, None],
+        conditions: List[
+            Tuple[
                 bool,
                 int,
-                str | tuple[bool | None, list],
-                str | int | None,
+                Union[str, Tuple[Union[bool, None], list]],
+                Union[str, int, None],
             ]
         ],
     ) -> bool:
@@ -339,13 +338,14 @@ class TerrariaWorld(World):
             if len(conditions) > 1:
                 raise Exception("Found multiple conditions without an operator")
             return self.check_condition(state, conditions[0])
-        if operator:
+        elif operator:
             return any(
                 self.check_condition(state, condition) for condition in conditions
             )
-        return all(
-            self.check_condition(state, condition) for condition in conditions
-        )
+        else:
+            return all(
+                self.check_condition(state, condition) for condition in conditions
+            )
 
     def set_rules(self) -> None:
         for location in self.ter_locations:
@@ -360,7 +360,7 @@ class TerrariaWorld(World):
             self.goal_items, self.player
         )
 
-    def fill_slot_data(self) -> dict[str, object]:
+    def fill_slot_data(self) -> Dict[str, object]:
         return {
             "goal": list(self.goal_locations),
             "deathlink": bool(self.options.death_link),

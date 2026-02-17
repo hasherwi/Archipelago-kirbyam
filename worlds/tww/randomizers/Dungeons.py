@@ -24,7 +24,7 @@ class Dungeon:
     def __init__(
         self,
         name: str,
-        big_key: Item | None,
+        big_key: Optional[Item],
         small_keys: list[Item],
         dungeon_items: list[Item],
         player: int,
@@ -90,7 +90,7 @@ def create_dungeons(world: "TWWWorld") -> None:
     player = world.player
     options = world.options
 
-    def make_dungeon(name: str, big_key: Item | None, small_keys: list[Item], dungeon_items: list[Item]) -> Dungeon:
+    def make_dungeon(name: str, big_key: Optional[Item], small_keys: list[Item], dungeon_items: list[Item]) -> Dungeon:
         dungeon = Dungeon(name, big_key, small_keys, dungeon_items, player)
         for item in dungeon.all_items:
             item.dungeon = dungeon

@@ -57,7 +57,7 @@ class TestOptions(unittest.TestCase):
             link.verify(world, "tester", plando_options)
             self.assertIn("Hammer", link.value[0]["item_pool"])
             self.assertIn("Sword", link.value[0]["item_pool"])
-
+        
         # TODO test that the group created using these options has the items
 
     def test_item_links_resolve(self):
@@ -81,7 +81,7 @@ class TestOptions(unittest.TestCase):
                         restricted_dumps(option.from_any(option.default))
                         if issubclass(option, Choice) and option.default in option.name_lookup:
                             restricted_dumps(option.from_text(option.name_lookup[option.default]))
-
+    
     def test_pickle_dumps_plando(self):
         """Test that plando options using containers of a custom type can be pickled"""
         # The base PlandoConnections class can't be instantiated directly, create a subclass and then cast it

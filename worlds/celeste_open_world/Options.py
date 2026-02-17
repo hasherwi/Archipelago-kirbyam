@@ -1,17 +1,7 @@
-import random
 from dataclasses import dataclass
+import random
 
-from Options import (
-    Choice,
-    DeathLink,
-    DefaultOnToggle,
-    OptionError,
-    OptionGroup,
-    PerGameCommonOptions,
-    Range,
-    TextChoice,
-    Toggle,
-)
+from Options import Choice, Range, DefaultOnToggle, Toggle, TextChoice, DeathLink, OptionGroup, PerGameCommonOptions, OptionError
 from worlds.AutoWorld import World
 
 

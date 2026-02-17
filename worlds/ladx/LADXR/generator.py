@@ -1,70 +1,73 @@
 import binascii
-import importlib.machinery
 import importlib.util
-import pickle
+import importlib.machinery
 import random
+import pickle
+import Utils
 from collections import defaultdict
 from typing import Dict
 
-import Utils
-
-from .. import Options
-from . import assembler, hints, patches, utils
-from .patches import aesthetics as _
-from .patches import bank3e as _
-from .patches import bank3f as _
-from .patches import bank34
-from .patches import bingo as _
-from .patches import bomb as _
-from .patches import bowwow as _
-from .patches import chest as _
-from .patches import core as _
-from .patches import desert as _
-from .patches import droppedKey as _
-from .patches import dungeon as _
-from .patches import endscreen as _
-from .patches import enemies as _
-from .patches import entrances as _
-from .patches import fishingMinigame as _
-from .patches import goal as _
-from .patches import goldenLeaf as _
-from .patches import hardMode as _
-from .patches import health as _
-from .patches import heartPiece as _
-from .patches import instrument as _
-from .patches import inventory as _
-from .patches import madBatter as _
-from .patches import maptweaks as _
-from .patches import multiworld as _
-from .patches import music as _
+from .romTables import ROMWithTables
+from . import assembler
+from . import patches
 from .patches import overworld as _
-from .patches import owl as _
+from .patches import dungeon as _
+from .patches import entrances as _
+from .patches import enemies as _
+from .patches import titleScreen as _
+from .patches import aesthetics as _
+from .patches import music as _
+from .patches import core as _
 from .patches import phone as _
 from .patches import photographer as _
-from .patches import reduceRNG as _
-from .patches import rooster as _
-from .patches import save as _
-from .patches import seashell as _
-from .patches import shop as _
-from .patches import softlock as _
-from .patches import songs as _
-from .patches import tarin as _
-from .patches import titleScreen as _
-from .patches import tradeSequence as _
-from .patches import trendy as _
-from .patches import tunicFairy as _
-from .patches import weapons as _
+from .patches import owl as _
+from .patches import bank3e as _
+from .patches import bank3f as _
+from .patches import inventory as _
 from .patches import witch as _
-from .patches.aesthetics import bin_to_rgb, rgb_to_bin
-from .romTables import ROMWithTables
-from .roomEditor import Object, RoomEditor
+from .patches import tarin as _
+from .patches import fishingMinigame as _
+from .patches import softlock as _
+from .patches import maptweaks as _
+from .patches import chest as _
+from .patches import bomb as _
+from .patches import rooster as _
+from .patches import shop as _
+from .patches import trendy as _
+from .patches import goal as _
+from .patches import hardMode as _
+from .patches import weapons as _
+from .patches import health as _
+from .patches import heartPiece as _
+from .patches import droppedKey as _
+from .patches import goldenLeaf as _
+from .patches import songs as _
+from .patches import bowwow as _
+from .patches import desert as _
+from .patches import reduceRNG as _
+from .patches import madBatter as _
+from .patches import tunicFairy as _
+from .patches import seashell as _
+from .patches import instrument as _
+from .patches import endscreen as _
+from .patches import save as _
+from .patches import bingo as _
+from .patches import multiworld as _
+from .patches import tradeSequence as _
+from . import hints
+from . import utils
 
+from .patches import bank34
+from .roomEditor import RoomEditor, Object
+from .patches.aesthetics import rgb_to_bin, bin_to_rgb
+
+from .. import Options
 
 class VersionError(Exception):
     pass
 
 # Function to generate a final rom, this patches the rom with all required patches
-def generateRom(base_rom: bytes, args, patch_data: dict):
+def generateRom(base_rom: bytes, args, patch_data: Dict):
     from .. import LinksAwakeningWorld
     patcher_version = LinksAwakeningWorld.world_version
     generated_version = Utils.tuplize_version(patch_data.get("generated_world_version", "2.0.0"))
@@ -352,7 +355,7 @@ def generateRom(base_rom: bytes, args, patch_data: dict):
         random.seed(patch_data["seed"] + patch_data["player"])
         for n, data in enumerate(rom.texts._PointerTable__data):
             # Don't muck up which text boxes are questions and which are statements
-            if type(data) != int and data and data != b"\xFF" and data not in excluded_texts:
+            if type(data) != int and data and data != b'\xFF' and data not in excluded_texts:
                 buckets[(rom.texts._PointerTable__banks[n], data[len(data) - 1] == 0xfe)].append((n, data))
         for bucket in buckets.values():
             # For each bucket, make a copy and shuffle

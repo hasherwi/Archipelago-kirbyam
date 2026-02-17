@@ -1,7 +1,6 @@
-from typing import TYPE_CHECKING, Dict, Optional
+from typing import Dict, Optional, TYPE_CHECKING
 
 from BaseClasses import Entrance, ItemClassification, Region
-
 from .datatypes import EntranceType, Room, RoomAndDoor
 from .items import LingoItem
 from .locations import LingoLocation
@@ -39,8 +38,8 @@ def is_acceptable_pilgrimage_entrance(entrance_type: EntranceType, world: "Lingo
     return bool(entrance_type & allowed_entrance_types)
 
 
-def connect_entrance(regions: dict[str, Region], source_region: Region, target_region: Region, description: str,
-                     door: RoomAndDoor | None, entrance_type: EntranceType, pilgrimage: bool, world: "LingoWorld"):
+def connect_entrance(regions: Dict[str, Region], source_region: Region, target_region: Region, description: str,
+                     door: Optional[RoomAndDoor], entrance_type: EntranceType, pilgrimage: bool, world: "LingoWorld"):
     connection = Entrance(world.player, description, source_region)
     connection.access_rule = lambda state: lingo_can_use_entrance(state, target_region.name, door, world)
 
@@ -59,7 +58,7 @@ def connect_entrance(regions: dict[str, Region], source_region: Region, target_r
                 for mastery_req in world.player_logic.mastery_reqs:
                     for region in mastery_req.rooms:
                         world.multiworld.register_indirect_condition(regions[region], connection)
-
+    
     if not pilgrimage and world.options.enable_pilgrimage and is_acceptable_pilgrimage_entrance(entrance_type, world)\
             and source_region.name != "Menu":
         for part in range(1, 6):
@@ -76,7 +75,7 @@ def connect_entrance(regions: dict[str, Region], source_region: Region, target_r
                              f"{description}{pilgrimage_descriptor}", effective_door, entrance_type, True, world)
 
 
-def connect_painting(regions: dict[str, Region], warp_enter: str, warp_exit: str, world: "LingoWorld") -> None:
+def connect_painting(regions: Dict[str, Region], warp_enter: str, warp_exit: str, world: "LingoWorld") -> None:
     source_painting = PAINTINGS[warp_enter]
     target_painting = PAINTINGS[warp_exit]
 

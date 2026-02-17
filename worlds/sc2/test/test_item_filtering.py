@@ -2,25 +2,24 @@
 Unit tests for item filtering like pool_filter.py
 """
 
-from .. import options
-from ..item import item_groups, item_names
-from ..mission_tables import SC2Race
 from .test_base import Sc2SetupTestBase
-
+from ..item import item_groups, item_names
+from .. import options
+from ..mission_tables import SC2Race
 
 class ItemFilterTests(Sc2SetupTestBase):
     def test_excluding_all_barracks_units_excludes_infantry_upgrades(self) -> None:
         world_options = {
-            "excluded_items": {
+            'excluded_items': {
                 item_groups.ItemGroupNames.BARRACKS_UNITS: -1,
             },
-            "required_tactics": "standard",
-            "min_number_of_upgrades": 1,
+            'required_tactics': 'standard',
+            'min_number_of_upgrades': 1,
             **self.TERRAN_CAMPAIGNS,
-            "selected_races": {
+            'selected_races': {
                 SC2Race.TERRAN.get_title()
             },
-            "mission_order": "grid",
+            'mission_order': 'grid',
         }
         self.generate_world(world_options)
         self.assertTrue(self.multiworld.itempool)
@@ -38,11 +37,11 @@ class ItemFilterTests(Sc2SetupTestBase):
 
     def test_excluding_one_item_of_multi_parent_doesnt_filter_children(self) -> None:
         world_options = {
-            "locked_items": {
+            'locked_items': {
                 item_names.SENTINEL: 1,
                 item_names.CENTURION: 1,
             },
-            "excluded_items": {
+            'excluded_items': {
                 item_names.ZEALOT: 1,
                 # Exclude more items to make space
                 item_names.WRATHWALKER: 1,
@@ -54,14 +53,14 @@ class ItemFilterTests(Sc2SetupTestBase):
                 item_names.DESTROYER: 1,
                 item_names.DAWNBRINGER: 1,
             },
-            "min_number_of_upgrades": 2,
-            "required_tactics": "standard",
+            'min_number_of_upgrades': 2,
+            'required_tactics': 'standard',
             **self.ALL_CAMPAIGNS,
-            "selected_races": {
+            'selected_races': {
                 SC2Race.PROTOSS.get_title()
             },
-            "mission_order": "grid",
-            "enable_race_swap": options.EnableRaceSwapVariants.option_shuffle_all,
+            'mission_order': 'grid',
+            'enable_race_swap': options.EnableRaceSwapVariants.option_shuffle_all,
         }
         self.generate_world(world_options)
         self.assertTrue(self.multiworld.itempool)
@@ -71,18 +70,18 @@ class ItemFilterTests(Sc2SetupTestBase):
 
     def test_excluding_all_items_in_multiparent_excludes_child_items(self) -> None:
         world_options = {
-            "excluded_items": {
+            'excluded_items': {
                 item_names.ZEALOT: 1,
                 item_names.SENTINEL: 1,
                 item_names.CENTURION: 1,
             },
-            "min_number_of_upgrades": 2,
-            "required_tactics": "standard",
+            'min_number_of_upgrades': 2,
+            'required_tactics': 'standard',
             **self.PROTOSS_CAMPAIGNS,
-            "selected_races": {
+            'selected_races': {
                 SC2Race.PROTOSS.get_title()
             },
-            "mission_order": "grid",
+            'mission_order': 'grid',
         }
         self.generate_world(world_options)
         self.assertTrue(self.multiworld.itempool)

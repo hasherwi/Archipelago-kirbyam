@@ -1,10 +1,8 @@
 ﻿from typing import List
-
+from ...Region import Z3Region, RewardType
 from ...Config import Config, GameMode, KeyShuffle
-from ...Item import Item, ItemType, Progression
 from ...Location import Location, LocationType
-from ...Region import RewardType, Z3Region
-
+from ...Item import Item, Progression, ItemType
 
 class GanonsTower(Z3Region):
     Name = "Ganon's Tower"
@@ -113,10 +111,10 @@ class GanonsTower(Z3Region):
                 .Allow(lambda item, items: all(item.IsNot(type, self.world) for type in [ ItemType.KeyGT, ItemType.BigKeyGT ]))
             ]
 
-    def LeftSide(self, items: Progression, locations: list[Location]):
+    def LeftSide(self, items: Progression, locations: List[Location]):
         return items.Hammer and items.Hookshot and items.KeyGT >= (3 if any(l.ItemIs(ItemType.BigKeyGT, self.world) for l in locations) else 4)
 
-    def RightSide(self, items: Progression, locations: list[Location]):
+    def RightSide(self, items: Progression, locations: List[Location]):
         return items.Somaria and items.Firerod and items.KeyGT >= (3 if any(l.ItemIs(ItemType.BigKeyGT, self.world) for l in locations) else 4)
 
     def BigKeyRoom(self, items: Progression):
@@ -126,7 +124,7 @@ class GanonsTower(Z3Region):
 
     def TowerAscend(self, items: Progression):
         return items.BigKeyGT and items.KeyGT >= 3 and items.Bow and items.CanLightTorches()
-
+        
     def CanBeatArmos(self, items: Progression):
         return items.Sword or items.Hammer or items.Bow or \
             items.CanExtendMagic(2) and (items.Somaria or items.Byrna) or \

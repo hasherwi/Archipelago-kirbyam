@@ -6,7 +6,8 @@ from worlds.generic.Rules import set_rule
 
 from .constants import base_id
 from .er_rules import can_shop
-from .logic_helpers import has_melee, has_sword
+from .logic_helpers import has_sword, has_melee
+
 
 if TYPE_CHECKING:
     from . import TunicWorld

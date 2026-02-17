@@ -46,7 +46,7 @@ def hal_decompress(comp: bytes) -> bytes:
             offset = (comp[inpos] << 8) | comp[inpos + 1]
             if (offset + length) > 65536:
                 return bytes()
-            output.extend([int(f"{x:08b}"[::-1], 2) for x in output[offset:offset+length]])
+            output.extend([int('{:08b}'.format(x)[::-1], 2) for x in output[offset:offset+length]])
             inpos += 2
         elif command == 6:
             offset = (comp[inpos] << 8) | comp[inpos + 1]

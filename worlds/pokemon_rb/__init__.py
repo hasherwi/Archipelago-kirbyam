@@ -1,30 +1,31 @@
-import base64
 import os
-import random
-import threading
+import settings
 import typing
+import threading
+import base64
+import random
 from copy import deepcopy
 from typing import TextIO
 
-import settings
-from BaseClasses import Item, ItemClassification, LocationProgressType, MultiWorld, Tutorial
-from Fill import FillError, fill_restrictive, sweep_from_pool
 from Utils import __version__
-from worlds.AutoWorld import WebWorld, World
+from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification, LocationProgressType
+from Fill import fill_restrictive, FillError, sweep_from_pool
+from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import add_item_rule
-
-from . import client, logic, poke_data
-from .encounters import process_pokemon_locations, process_trainer_data
-from .items import item_groups, item_table
-from .level_scaling import level_scaling
-from .locations import PokemonRBLocation, location_data
-from .options import PokemonRBOptions
-from .pokemon import process_move_data, process_pokemon_data, verify_hm_moves
+from .items import item_table, item_groups
+from .locations import location_data, PokemonRBLocation
 from .regions import create_regions
-from .rom import PokemonBlueProcedurePatch, PokemonRedProcedurePatch, generate_output
+from .options import PokemonRBOptions
 from .rom_addresses import rom_addresses
-from .rules import set_rules
 from .text import encode_text
+from .rom import generate_output, PokemonRedProcedurePatch, PokemonBlueProcedurePatch
+from .pokemon import process_pokemon_data, process_move_data, verify_hm_moves
+from .encounters import process_pokemon_locations, process_trainer_data
+from .rules import set_rules
+from .level_scaling import level_scaling
+from . import logic
+from . import poke_data
+from . import client
 
 
 class PokemonSettings(settings.Group):
@@ -515,7 +516,7 @@ class PokemonRedBlueWorld(World):
                 loc.item = None
             loc.place_locked_item(self.pc_item)
 
-    def get_pre_fill_items(self) -> list["Item"]:
+    def get_pre_fill_items(self) -> typing.List["Item"]:
         pool = [self.create_item(mon) for mon in poke_data.pokemon_data]
         pool.append(self.pc_item)
         return pool
@@ -591,7 +592,7 @@ class PokemonRedBlueWorld(World):
 
     def modify_multidata(self, multidata: dict):
         rom_name = bytearray(f'AP{__version__.replace(".", "")[0:3]}_{self.player}_{self.multiworld.seed:11}\0',
-                             "utf8")[:21]
+                             'utf8')[:21]
         rom_name.extend([0] * (21 - len(rom_name)))
         new_name = base64.b64encode(bytes(rom_name)).decode()
         multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
@@ -736,7 +737,7 @@ class PokemonRBItem(Item):
 
     def __init__(self, name, player: int = None):
         item_data = item_table[name]
-        super().__init__(
+        super(PokemonRBItem, self).__init__(
             name,
             item_data.classification,
             item_data.id, player

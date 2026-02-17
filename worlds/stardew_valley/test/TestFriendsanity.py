@@ -2,9 +2,9 @@ import unittest
 from collections import Counter
 from typing import ClassVar, Set
 
+from .bases import SVTestBase
 from ..content.feature import friendsanity
 from ..options import Friendsanity, FriendsanityHeartSize
-from .bases import SVTestBase
 
 all_vanilla_bachelor = {
     "Harvey", "Elliott", "Sam", "Alex", "Shane", "Sebastian", "Emily", "Haley", "Leah", "Abigail", "Penny", "Maru"
@@ -23,10 +23,10 @@ all_vanilla_npc = {
 
 
 class SVFriendsanityTestBase(SVTestBase):
-    expected_npcs: ClassVar[set[str]] = set()
-    expected_pet_heart_size: ClassVar[set[str]] = set()
-    expected_bachelor_heart_size: ClassVar[set[str]] = set()
-    expected_other_heart_size: ClassVar[set[str]] = set()
+    expected_npcs: ClassVar[Set[str]] = set()
+    expected_pet_heart_size: ClassVar[Set[str]] = set()
+    expected_bachelor_heart_size: ClassVar[Set[str]] = set()
+    expected_other_heart_size: ClassVar[Set[str]] = set()
 
     @classmethod
     def setUpClass(cls) -> None:

@@ -1,6 +1,6 @@
-from ..options import Booksanity, ExcludeGingerIsland, Shipsanity
-from ..strings.book_names import Book, LostBook
 from .bases import SVTestBase
+from ..options import ExcludeGingerIsland, Booksanity, Shipsanity
+from ..strings.book_names import Book, LostBook
 
 power_books = [Book.animal_catalogue, Book.book_of_mysteries,
                Book.the_alleyway_buffet, Book.the_art_o_crabbing, Book.dwarvish_safety_manual,

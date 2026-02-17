@@ -1,5 +1,5 @@
-from typing import Any
-from collections.abc import Callable
+from typing import Any, Callable
+
 
 class And:
     def __init__(self, __type: type, __func: Callable[[Any], bool]) -> None: ...

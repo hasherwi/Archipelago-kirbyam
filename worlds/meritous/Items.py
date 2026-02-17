@@ -9,11 +9,11 @@ from BaseClasses import Item, ItemClassification
 
 
 class MeritousLttPText(typing.NamedTuple):
-    pedestal: str | None
-    sickkid: str | None
-    magicshop: str | None
-    zora: str | None
-    fluteboy: str | None
+    pedestal: typing.Optional[str]
+    sickkid: typing.Optional[str]
+    magicshop: typing.Optional[str]
+    zora: typing.Optional[str]
+    fluteboy: typing.Optional[str]
 
 
 LttPCreditsText = {
@@ -140,7 +140,7 @@ class MeritousItem(Item):
     type: str
 
     def __init__(self, name, advancement, code, player):
-        super().__init__(name,
+        super(MeritousItem, self).__init__(name,
                                            ItemClassification.progression if advancement else ItemClassification.filler,
                                            code, player)
         if code is None:

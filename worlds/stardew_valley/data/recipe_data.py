@@ -1,50 +1,33 @@
 from typing import Dict, List, Optional
 
+from .recipe_source import RecipeSource, FriendshipSource, SkillSource, QueenOfSauceSource, ShopSource, StarterSource, ShopTradeSource, ShopFriendshipSource
 from ..mods.mod_data import ModNames
 from ..strings.animal_product_names import AnimalProduct
 from ..strings.artisan_good_names import ArtisanGood
-from ..strings.craftable_names import Edible, ModEdible
-from ..strings.crop_names import DistantLandsCrop, Fruit, SVEFruit, Vegetable
-from ..strings.fish_names import DistantLandsFish, Fish, SVEFish, SVEWaterItem, WaterItem
+from ..strings.craftable_names import ModEdible, Edible
+from ..strings.crop_names import Fruit, Vegetable, SVEFruit, DistantLandsCrop
+from ..strings.fish_names import Fish, SVEFish, WaterItem, DistantLandsFish, SVEWaterItem
 from ..strings.flower_names import Flower
-from ..strings.food_names import (
-    ArchaeologyMeal,
-    Beverage,
-    BoardingHouseMeal,
-    DistantLandsMeal,
-    Meal,
-    SVEMeal,
-    TrashyMeal,
-)
-from ..strings.forageable_names import Forageable, Mushroom, SVEForage
+from ..strings.food_names import Meal, SVEMeal, Beverage, DistantLandsMeal, BoardingHouseMeal, ArchaeologyMeal, TrashyMeal
+from ..strings.forageable_names import Forageable, SVEForage, Mushroom
 from ..strings.ingredient_names import Ingredient
 from ..strings.material_names import Material
-from ..strings.metal_names import Artifact, Fossil
+from ..strings.metal_names import Fossil, Artifact
 from ..strings.monster_drop_names import Loot
 from ..strings.region_names import Region, SVERegion
 from ..strings.season_names import Season
 from ..strings.seed_names import Seed
-from ..strings.skill_names import ModSkill, Skill
+from ..strings.skill_names import Skill, ModSkill
 from ..strings.villager_names import NPC, ModNPC
-from .recipe_source import (
-    FriendshipSource,
-    QueenOfSauceSource,
-    RecipeSource,
-    ShopFriendshipSource,
-    ShopSource,
-    ShopTradeSource,
-    SkillSource,
-    StarterSource,
-)
 
 
 class CookingRecipe:
     meal: str
-    ingredients: dict[str, int]
+    ingredients: Dict[str, int]
     source: RecipeSource
-    mod_name: str | None = None
+    mod_name: Optional[str] = None
 
-    def __init__(self, meal: str, ingredients: dict[str, int], source: RecipeSource, mod_name: str | None = None):
+    def __init__(self, meal: str, ingredients: Dict[str, int], source: RecipeSource, mod_name: Optional[str] = None):
         self.meal = meal
         self.ingredients = ingredients
         self.source = source
@@ -55,46 +38,46 @@ class CookingRecipe:
                f" Ingredients: {self.ingredients})"
 
 
-all_cooking_recipes: list[CookingRecipe] = []
+all_cooking_recipes: List[CookingRecipe] = []
 
 
-def friendship_recipe(name: str, friend: str, hearts: int, ingredients: dict[str, int], mod_name: str | None = None) -> CookingRecipe:
+def friendship_recipe(name: str, friend: str, hearts: int, ingredients: Dict[str, int], mod_name: Optional[str] = None) -> CookingRecipe:
     source = FriendshipSource(friend, hearts)
     return create_recipe(name, ingredients, source, mod_name)
 
 
-def friendship_and_shop_recipe(name: str, friend: str, hearts: int, region: str, price: int, ingredients: dict[str, int],
-                               mod_name: str | None = None) -> CookingRecipe:
+def friendship_and_shop_recipe(name: str, friend: str, hearts: int, region: str, price: int, ingredients: Dict[str, int],
+                               mod_name: Optional[str] = None) -> CookingRecipe:
     source = ShopFriendshipSource(friend, hearts, region, price)
     return create_recipe(name, ingredients, source, mod_name)
 
 
-def skill_recipe(name: str, skill: str, level: int, ingredients: dict[str, int], mod_name: str | None = None) -> CookingRecipe:
+def skill_recipe(name: str, skill: str, level: int, ingredients: Dict[str, int], mod_name: Optional[str] = None) -> CookingRecipe:
     source = SkillSource(skill, level)
     return create_recipe(name, ingredients, source, mod_name)
 
 
-def shop_recipe(name: str, region: str, price: int, ingredients: dict[str, int], mod_name: str | None = None) -> CookingRecipe:
+def shop_recipe(name: str, region: str, price: int, ingredients: Dict[str, int], mod_name: Optional[str] = None) -> CookingRecipe:
     source = ShopSource(region, price)
     return create_recipe(name, ingredients, source, mod_name)
 
 
-def shop_trade_recipe(name: str, region: str, currency: str, price: int, ingredients: dict[str, int]) -> CookingRecipe:
+def shop_trade_recipe(name: str, region: str, currency: str, price: int, ingredients: Dict[str, int]) -> CookingRecipe:
     source = ShopTradeSource(region, currency, price)
     return create_recipe(name, ingredients, source)
 
 
-def queen_of_sauce_recipe(name: str, year: int, season: str, day: int, ingredients: dict[str, int]) -> CookingRecipe:
+def queen_of_sauce_recipe(name: str, year: int, season: str, day: int, ingredients: Dict[str, int]) -> CookingRecipe:
     source = QueenOfSauceSource(year, season, day)
     return create_recipe(name, ingredients, source)
 
 
-def starter_recipe(name: str, ingredients: dict[str, int]) -> CookingRecipe:
+def starter_recipe(name: str, ingredients: Dict[str, int]) -> CookingRecipe:
     source = StarterSource()
     return create_recipe(name, ingredients, source)
 
 
-def create_recipe(name: str, ingredients: dict[str, int], source: RecipeSource, mod_name: str | None = None) -> CookingRecipe:
+def create_recipe(name: str, ingredients: Dict[str, int], source: RecipeSource, mod_name: Optional[str] = None) -> CookingRecipe:
     recipe = CookingRecipe(name, ingredients, source, mod_name)
     all_cooking_recipes.append(recipe)
     return recipe

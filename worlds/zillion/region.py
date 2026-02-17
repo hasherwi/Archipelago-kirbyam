@@ -1,9 +1,10 @@
 from typing_extensions import override
-from zilliandomizer.logic_components.items import RESCUE
-from zilliandomizer.logic_components.locations import Location as ZzLocation
-from zilliandomizer.logic_components.regions import Region as ZzRegion
 
-from BaseClasses import CollectionState, Item, Location, MultiWorld, Region
+from zilliandomizer.logic_components.regions import Region as ZzRegion
+from zilliandomizer.logic_components.locations import Location as ZzLocation
+from zilliandomizer.logic_components.items import RESCUE
+
+from BaseClasses import MultiWorld, Region, Location, Item, CollectionState
 
 from .id_maps import loc_name_to_id
 from .item import ZillionItem

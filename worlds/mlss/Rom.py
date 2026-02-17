@@ -1,15 +1,14 @@
 import io
 import json
 import random
-from typing import TYPE_CHECKING, Optional
-
-from BaseClasses import Item, Location
-from settings import get_settings
-from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
 
 from . import Data
+from typing import TYPE_CHECKING, Optional
+from BaseClasses import Item, Location
+from settings import get_settings
+from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes, APPatchExtension
 from .Items import item_table
-from .Locations import all_locations, badge, location_table, pants, shop
+from .Locations import shop, badge, pants, location_table, all_locations
 
 if TYPE_CHECKING:
     from . import MLSSWorld
@@ -351,7 +350,7 @@ def write_tokens(world: "MLSSWorld", patch: MLSSProcedurePatch) -> None:
 
 
 def swap_colors(world: "MLSSWorld", patch: MLSSProcedurePatch, color: int, bro: int,
-                pants_option: bool | None = False):
+                pants_option: Optional[bool] = False):
     if not pants_option and color == bro:
         return
     chaos = False

@@ -1,8 +1,7 @@
-from Options import OptionDict, OptionSet, PerGameCommonOptions
-
+from Options import PerGameCommonOptions, OptionSet, OptionDict
+from ..bases import SVTestCase
 from ...options import StardewValleyOptions, TrapItems
 from ...options.presets import sv_options_presets
-from ..bases import SVTestCase
 
 
 class TestPresets(SVTestCase):

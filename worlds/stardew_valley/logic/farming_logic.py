@@ -1,15 +1,14 @@
 from functools import cached_property
-from typing import Tuple, Union
+from typing import Union, Tuple
 
 from Utils import cache_self1
-
+from .base_logic import BaseLogicMixin, BaseLogic
 from .. import options
 from ..stardew_rule import StardewRule, True_, false_
 from ..strings.fertilizer_names import Fertilizer
-from ..strings.region_names import LogicRegion, Region
+from ..strings.region_names import Region, LogicRegion
 from ..strings.season_names import Season
 from ..strings.tool_names import Tool
-from .base_logic import BaseLogic, BaseLogicMixin
 
 farming_region_by_season = {
     Season.spring: LogicRegion.spring_farming,
@@ -44,7 +43,7 @@ class FarmingLogic(BaseLogic):
         return self.logic.false_
 
     @cache_self1
-    def can_plant_and_grow_item(self, seasons: str | tuple[str]) -> StardewRule:
+    def can_plant_and_grow_item(self, seasons: Union[str, Tuple[str]]) -> StardewRule:
         if seasons == ():  # indoor farming
             return (self.logic.region.can_reach(Region.greenhouse) | self.logic.farming.has_island_farm()) & self.logic.farming.has_farming_tools
 

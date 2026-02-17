@@ -1,3 +1,5 @@
+from ..game_content import ContentPack, StardewContent
+from ..mod_registry import register_mod_content_pack
 from ...data.artisan import MachineSource
 from ...data.skill import Skill
 from ...mods.mod_data import ModNames
@@ -5,8 +7,6 @@ from ...strings.craftable_names import ModMachine
 from ...strings.fish_names import ModTrash
 from ...strings.metal_names import all_artifacts, all_fossils
 from ...strings.skill_names import ModSkill
-from ..game_content import ContentPack, StardewContent
-from ..mod_registry import register_mod_content_pack
 
 
 class ArchaeologyContentPack(ContentPack):

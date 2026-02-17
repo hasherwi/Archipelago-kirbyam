@@ -1,5 +1,4 @@
 import typing
-
 from ..generic.Rules import add_rule
 from .Regions import v6areas
 
@@ -11,7 +10,7 @@ def _has_trinket_range(state, player, start, end) -> bool:
     return True
 
 
-def set_rules(multiworld, options, player, area_connections: dict[int, int], area_cost_map: dict[int, int]):
+def set_rules(multiworld, options, player, area_connections: typing.Dict[int, int], area_cost_map: typing.Dict[int, int]):
     areashuffle = list(range(len(v6areas)))
     if options.area_rando:
         multiworld.random.shuffle(areashuffle)
@@ -31,16 +30,16 @@ def set_rules(multiworld, options, player, area_connections: dict[int, int], are
                                                                        options.door_cost * area_cost_map[i]))
 
     # Special Rule for V
-    add_rule(multiworld.get_location("V", player), lambda state: state.can_reach("Laboratory", "Region", player) and
-                                                            state.can_reach("The Tower", "Region", player) and
-                                                            state.can_reach("Space Station 2", "Region", player) and
-                                                            state.can_reach("Warp Zone", "Region", player))
+    add_rule(multiworld.get_location("V", player), lambda state: state.can_reach("Laboratory", 'Region', player) and
+                                                            state.can_reach("The Tower", 'Region', player) and
+                                                            state.can_reach("Space Station 2", 'Region', player) and
+                                                            state.can_reach("Warp Zone", 'Region', player))
 
     # Special Rule for NPC Trinket
     add_rule(multiworld.get_location("NPC Trinket", player),
-             lambda state: state.can_reach("Laboratory", "Region", player) or
-                           (state.can_reach("The Tower", "Region", player) and
-                            state.can_reach("Space Station 2", "Region", player) and
-                            state.can_reach("Warp Zone", "Region", player)))
+             lambda state: state.can_reach("Laboratory", 'Region', player) or
+                           (state.can_reach("The Tower", 'Region', player) and
+                            state.can_reach("Space Station 2", 'Region', player) and
+                            state.can_reach("Warp Zone", 'Region', player)))
 
-    multiworld.completion_condition[player] = lambda state: state.can_reach("V", "Location", player)
+    multiworld.completion_condition[player] = lambda state: state.can_reach("V", 'Location', player)

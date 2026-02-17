@@ -16,13 +16,12 @@ from queue import Queue
 
 import factorio_rcon
 
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger, server_loop
+from CommonClient import ClientCommandProcessor, CommonContext, logger, server_loop, gui_enabled, get_base_parser
 from MultiServer import mark_raw
-from NetUtils import ClientStatus, JSONMessagePart, JSONtoTextParser, NetworkItem
-from settings import get_settings
-from Utils import Version, async_start, format_SI_prefix, get_file_safe_name, get_text_between, is_windows
-
+from NetUtils import ClientStatus, NetworkItem, JSONtoTextParser, JSONMessagePart
+from Utils import async_start, get_file_safe_name, is_windows, Version, format_SI_prefix, get_text_between
 from .settings import FactorioSettings
+from settings import get_settings
 
 
 def check_stdin() -> None:
@@ -64,7 +63,7 @@ class FactorioCommandProcessor(ClientCommandProcessor):
     def _cmd_toggle_chat(self):
         """Toggle sending of chat messages from players on the Factorio server to Archipelago."""
         self.ctx.toggle_bridge_chat_out()
-
+        
     def _cmd_rcon_reconnect(self) -> bool:
         """Reconnect the RCON client if its disconnected."""
         try:
@@ -90,7 +89,7 @@ class FactorioContext(CommonContext):
     def __init__(self, server_address, password, filter_connection_changes: bool, filter_item_sends: bool, bridge_chat_out: bool,
                  rcon_port: int, rcon_password: str, server_settings_path: str | None,
                  factorio_server_args: tuple[str, ...]):
-        super().__init__(server_address, password)
+        super(FactorioContext, self).__init__(server_address, password)
         self.send_index: int = 0
         self.rcon_client = None
         self.awaiting_bridge = False
@@ -112,11 +111,12 @@ class FactorioContext(CommonContext):
     def energylink_key(self) -> str:
         if self.generator_version >= (0, 4, 2):
             return f"EnergyLink{self.team}"
-        return "EnergyLink"
+        else:
+            return "EnergyLink"
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super().server_auth(password_requested)
+            await super(FactorioContext, self).server_auth(password_requested)
 
         if self.rcon_client:
             await get_info(self, self.rcon_client)  # retrieve current auth code
@@ -127,10 +127,10 @@ class FactorioContext(CommonContext):
         await self.send_connect()
 
     def on_print(self, args: dict):
-        super().on_print(args)
+        super(FactorioContext, self).on_print(args)
         if self.rcon_client:
-            if not args["text"].startswith(self.player_names[self.slot] + ":"):
-                self.print_to_game(args["text"])
+            if not args['text'].startswith(self.player_names[self.slot] + ":"):
+                self.print_to_game(args['text'])
 
     def on_print_json(self, args: dict):
         if self.rcon_client:
@@ -141,7 +141,7 @@ class FactorioContext(CommonContext):
                 if not text.startswith(
                         self.player_names[self.slot] + ":"):  # TODO: Remove string heuristic in the future.
                     self.print_to_game(text)
-        super().on_print_json(args)
+        super(FactorioContext, self).on_print_json(args)
 
     @property
     def savegame_name(self) -> str:
@@ -159,27 +159,29 @@ class FactorioContext(CommonContext):
                 "--rcon-password", self.rcon_password,
                 "--server-settings", self.server_settings_path,
                 *self.additional_factorio_server_args)
-        return ("--rcon-port", str(self.rcon_port), "--rcon-password", self.rcon_password,
-                *self.additional_factorio_server_args)
+        else:
+            return ("--rcon-port", str(self.rcon_port), "--rcon-password", self.rcon_password,
+                    *self.additional_factorio_server_args)
 
     @property
     def energy_link_status(self) -> str:
         if not self.energy_link_increment:
             return "Disabled"
-        if self.current_energy_link_value is None:
+        elif self.current_energy_link_value is None:
             return "Standby"
-        return f"{format_SI_prefix(self.current_energy_link_value)}J"
+        else:
+            return f"{format_SI_prefix(self.current_energy_link_value)}J"
 
     def on_deathlink(self, data: dict):
         if self.rcon_client:
             self.rcon_client.send_command(f"/ap-deathlink {data['source']}")
-        super().on_deathlink(data)
+        super(FactorioContext, self).on_deathlink(data)
 
     def on_package(self, cmd: str, args: dict):
         if cmd in {"Connected", "RoomUpdate"}:
             # catch up sync anything that is already cleared.
             if "checked_locations" in args and args["checked_locations"]:
-                self.rcon_client.send_commands({item_name: f"/ap-get-technology ap-{item_name}-\t-1" for
+                self.rcon_client.send_commands({item_name: f'/ap-get-technology ap-{item_name}-\t-1' for
                                                 item_name in args["checked_locations"]})
             if cmd == "Connected" and self.energy_link_increment:
                 async_start(self.send_msgs([{
@@ -196,7 +198,7 @@ class FactorioContext(CommonContext):
                                      f"{format_SI_prefix(args['value'])}J remaining.")
                         self.rcon_client.send_command(f"/ap-energylink {gained}")
 
-    def on_user_say(self, text: str) -> str | None:
+    def on_user_say(self, text: str) -> typing.Optional[str]:
         # Mirror chat sent from the UI to the Factorio server.
         self.print_to_game(f"{self.player_names[self.slot]}: {text}")
         return text
@@ -584,13 +586,13 @@ def launch(*new_args: str):
     parser = get_base_parser(description="Optional arguments to Factorio Client follow. "
                                          "Remaining arguments get passed into bound Factorio instance. "
                                          "Refer to Factorio --help for those.")
-    parser.add_argument("--rcon-port", default="24242", type=int, help="Port to use to communicate with Factorio")
-    parser.add_argument("--rcon-password", help="Password to authenticate with RCON.")
-    parser.add_argument("--server-settings", help="Factorio server settings configuration file.")
+    parser.add_argument('--rcon-port', default='24242', type=int, help='Port to use to communicate with Factorio')
+    parser.add_argument('--rcon-password', help='Password to authenticate with RCON.')
+    parser.add_argument('--server-settings', help='Factorio server settings configuration file.')
 
     args, rest = parser.parse_known_args(args=new_args)
     rcon_port = args.rcon_port
-    rcon_password = args.rcon_password if args.rcon_password else "".join(
+    rcon_password = args.rcon_password if args.rcon_password else ''.join(
         random.choice(string.ascii_letters) for _ in range(32))
 
     server_settings = args.server_settings if args.server_settings \

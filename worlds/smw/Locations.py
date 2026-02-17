@@ -2,14 +2,12 @@ import typing
 
 from BaseClasses import Location
 from worlds.AutoWorld import World
-
 from .Names import LocationName
-
 
 class SMWLocation(Location):
     game: str = "Super Mario World"
 
-    def __init__(self, player: int, name: str = "", address: int = None, parent=None, prog_byte: int = None, prog_bit: int = None):
+    def __init__(self, player: int, name: str = '', address: int = None, parent=None, prog_byte: int = None, prog_bit: int = None):
         super().__init__(player, name, address, parent)
         self.progress_byte = prog_byte
         self.progress_bit  = prog_bit
@@ -1005,4 +1003,4 @@ def setup_locations(world: World):
     return location_table
 
 
-lookup_id_to_name: dict[int, str] = {id: name for name, _ in all_locations.items()}
+lookup_id_to_name: typing.Dict[int, str] = {id: name for name, _ in all_locations.items()}

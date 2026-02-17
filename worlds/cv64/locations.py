@@ -1,9 +1,8 @@
-from typing import Dict, List, Optional, Tuple, Union
-
 from BaseClasses import Location
+from .data import lname, iname
+from .options import CV64Options, SubWeaponShuffle, DraculasCondition, RenonFightCondition, VincentFightCondition
 
-from .data import iname, lname
-from .options import CV64Options, DraculasCondition, RenonFightCondition, SubWeaponShuffle, VincentFightCondition
+from typing import Dict, Optional, Union, List, Tuple
 
 base_id = 0xC64000
 
@@ -660,16 +659,16 @@ add_conds = {"carrie":  ("carrie_logic", True, True),
              "vincent": ("vincent_fight_condition", VincentFightCondition.option_never, False)}
 
 
-def get_location_info(location: str, info: str) -> int | str | list[str] | None:
+def get_location_info(location: str, info: str) -> Union[int, str, List[str], None]:
     return location_info[location].get(info, None)
 
 
-def get_location_names_to_ids() -> dict[str, int]:
+def get_location_names_to_ids() -> Dict[str, int]:
     return {name: get_location_info(name, "code")+base_id for name in location_info if get_location_info(name, "code")
             is not None}
 
 
-def verify_locations(options: CV64Options, locations: list[str]) -> tuple[dict[str, int | None], dict[str, str]]:
+def verify_locations(options: CV64Options, locations: List[str]) -> Tuple[Dict[str, Optional[int]], Dict[str, str]]:
 
     verified_locations = {}
     events = {}

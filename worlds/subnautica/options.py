@@ -4,16 +4,16 @@ from functools import cached_property
 
 from Options import (
     Choice,
+    Range,
     DeathLink,
+    Toggle,
     DefaultOnToggle,
+    StartInventoryPool,
     ItemDict,
     PerGameCommonOptions,
-    Range,
-    StartInventoryPool,
-    Toggle,
 )
 
-from .creatures import Definitions, all_creatures
+from .creatures import all_creatures, Definitions
 from .items import ItemType, item_names_by_type
 
 
@@ -100,14 +100,15 @@ class AggressiveScanLogic(Choice):
     option_none = 3
     option_removed = 4
 
-    def get_pool(self) -> list[str]:
+    def get_pool(self) -> typing.List[str]:
         if self == self.option_removed:
             return Definitions.all_creatures_presorted_without_aggressive_and_containment
-        if self == self.option_stasis:
+        elif self == self.option_stasis:
             return Definitions.all_creatures_presorted_without_containment
-        if self == self.option_containment:
+        elif self == self.option_containment:
             return Definitions.all_creatures_presorted_without_stasis
-        return Definitions.all_creatures_presorted
+        else:
+            return Definitions.all_creatures_presorted
 
 
 class SubnauticaDeathLink(DeathLink):
@@ -123,7 +124,7 @@ class FillerItemsDistribution(ItemDict):
     display_name = "Filler Items Distribution"
 
     @cached_property
-    def weights_pair(self) -> tuple[list[str], list[int]]:
+    def weights_pair(self) -> typing.Tuple[typing.List[str], typing.List[int]]:
         from itertools import accumulate
         return list(self.value.keys()), list(accumulate(self.value.values()))
 

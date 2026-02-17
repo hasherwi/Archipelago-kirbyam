@@ -1,6 +1,5 @@
-from typing import Dict, NamedTuple, Set
-
-from .ExtractedData import item_effects, items, logic_items
+from typing import Dict, Set, NamedTuple
+from .ExtractedData import items, logic_items, item_effects
 from .GodhomeData import godhome_event_names
 
 item_table = {}
@@ -19,12 +18,12 @@ for i, (item_name, item_type) in enumerate(items.items(), start=0x1000000):
 for item_name in godhome_event_names:
     item_table[item_name] = HKItemData(advancement=True, id=None, type=None)
 
-lookup_id_to_name: dict[int, str] = {data.id: item_name for item_name, data in item_table.items()}
-lookup_type_to_names: dict[str, set[str]] = {}
+lookup_id_to_name: Dict[int, str] = {data.id: item_name for item_name, data in item_table.items()}
+lookup_type_to_names: Dict[str, Set[str]] = {}
 for item, item_data in item_table.items():
     lookup_type_to_names.setdefault(item_data.type, set()).add(item)
 
-directionals = ("", "Left_", "Right_")
+directionals = ('', 'Left_', 'Right_')
 item_name_groups = ({
     "BossEssence": lookup_type_to_names["DreamWarrior"] | lookup_type_to_names["DreamBoss"],
     "BossGeo": lookup_type_to_names["Boss_Geo"],
@@ -64,6 +63,6 @@ item_name_groups = ({
     "WhiteFragments": {"Queen_Fragment", "King_Fragment", "Void_Heart"},
     "DreamNails": {"Dream_Nail", "Dream_Gate", "Awoken_Dream_Nail"},
 })
-item_name_groups["Horizontal"] = item_name_groups["Cloak"] | item_name_groups["CDash"]
-item_name_groups["Vertical"] = item_name_groups["Claw"] | {"Monarch_Wings"}
-item_name_groups["Skills"] |= item_name_groups["Vertical"] | item_name_groups["Horizontal"]
+item_name_groups['Horizontal'] = item_name_groups['Cloak'] | item_name_groups['CDash']
+item_name_groups['Vertical'] = item_name_groups['Claw'] | {'Monarch_Wings'}
+item_name_groups['Skills'] |= item_name_groups['Vertical'] | item_name_groups['Horizontal']

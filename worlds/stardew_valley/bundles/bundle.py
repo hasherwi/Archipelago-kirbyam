@@ -3,17 +3,17 @@ from dataclasses import dataclass
 from random import Random
 from typing import List, Tuple
 
-from ..content import StardewContent
-from ..options import BundlePrice, ExcludeGingerIsland, FestivalLocations, StardewValleyOptions
-from ..strings.currency_names import Currency
 from .bundle_item import BundleItem
+from ..content import StardewContent
+from ..options import BundlePrice, StardewValleyOptions, ExcludeGingerIsland, FestivalLocations
+from ..strings.currency_names import Currency
 
 
 @dataclass
 class Bundle:
     room: str
     name: str
-    items: list[BundleItem]
+    items: List[BundleItem]
     number_required: int
 
     def __repr__(self):
@@ -24,11 +24,11 @@ class Bundle:
 class BundleTemplate:
     room: str
     name: str
-    items: list[BundleItem]
+    items: List[BundleItem]
     number_possible_items: int
     number_required_items: int
 
-    def __init__(self, room: str, name: str, items: list[BundleItem], number_possible_items: int,
+    def __init__(self, room: str, name: str, items: List[BundleItem], number_possible_items: int,
                  number_required_items: int):
         self.room = room
         self.name = name
@@ -37,7 +37,7 @@ class BundleTemplate:
         self.number_required_items = number_required_items
 
     @staticmethod
-    def extend_from(template, items: list[BundleItem]):
+    def extend_from(template, items: List[BundleItem]):
         return BundleTemplate(template.room, template.name, items, template.number_possible_items,
                               template.number_required_items)
 
@@ -120,9 +120,9 @@ class FestivalBundleTemplate(BundleTemplate):
 
 
 class DeepBundleTemplate(BundleTemplate):
-    categories: list[list[BundleItem]]
+    categories: List[List[BundleItem]]
 
-    def __init__(self, room: str, name: str, categories: list[list[BundleItem]], number_possible_items: int,
+    def __init__(self, room: str, name: str, categories: List[List[BundleItem]], number_possible_items: int,
                  number_required_items: int):
         super().__init__(room, name, [], number_possible_items, number_required_items)
         self.categories = categories
@@ -149,7 +149,7 @@ class DeepBundleTemplate(BundleTemplate):
         return Bundle(self.room, self.name, chosen_items, number_required)
 
 
-def get_bundle_final_prices(bundle_price_option: BundlePrice, default_required_items: int, is_currency: bool) -> tuple[int, float]:
+def get_bundle_final_prices(bundle_price_option: BundlePrice, default_required_items: int, is_currency: bool) -> Tuple[int, float]:
     number_required_items = get_number_required_items(bundle_price_option, default_required_items)
     price_multiplier = get_price_multiplier(bundle_price_option, is_currency)
     return number_required_items, price_multiplier

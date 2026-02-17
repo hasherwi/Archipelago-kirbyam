@@ -22,7 +22,7 @@ class AquariaLocation(Location):
         :param code: the ID (or address) of the location (Event if None)
         :param parent: the Region that this location belongs to
         """
-        super().__init__(player, name, code, parent)
+        super(AquariaLocation, self).__init__(player, name, code, parent)
         self.event = code is None
 
 

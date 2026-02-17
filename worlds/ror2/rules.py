@@ -1,10 +1,8 @@
-from typing import TYPE_CHECKING, Set
-
+from worlds.generic.Rules import set_rule, add_rule
 from BaseClasses import MultiWorld
-from worlds.generic.Rules import add_rule, set_rule
-
 from .locations import get_locations
-from .ror2environments import environment_sotv_orderedstages_table, environment_vanilla_orderedstages_table
+from .ror2environments import environment_vanilla_orderedstages_table, environment_sotv_orderedstages_table
+from typing import Set, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from . import RiskOfRainWorld
@@ -24,7 +22,7 @@ def has_stage_access_rule(multiworld: MultiWorld, stage: str, amount: int, regio
         entrance.access_rule = rule
 
 
-def has_all_items(multiworld: MultiWorld, items: set[str], region: str, player: int) -> None:
+def has_all_items(multiworld: MultiWorld, items: Set[str], region: str, player: int) -> None:
     rule = lambda state: state.has_all(items, player) and state.has(region, player)
     for entrance in multiworld.get_region(region, player).entrances:
         entrance.access_rule = rule

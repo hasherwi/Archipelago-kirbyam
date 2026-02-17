@@ -1,6 +1,5 @@
 from dataclasses import dataclass
-from typing import Dict, List, Set, Tuple
-from collections.abc import Callable
+from typing import List, Tuple, Dict, Set, Callable
 
 from ..mods.mod_data import ModNames
 from ..mods.mod_monster_locations import modded_monsters_locations
@@ -13,7 +12,7 @@ from ..strings.region_names import Region
 class StardewMonster:
     name: str
     category: str
-    locations: tuple[str]
+    locations: Tuple[str]
     difficulty: str
 
     def __repr__(self):
@@ -37,11 +36,11 @@ tiger_slime_grove = (Region.island_west,)
 volcano = (Region.volcano_floor_5,)
 volcano_high = (Region.volcano_floor_10,)
 
-all_monsters: list[StardewMonster] = []
-monster_modifications_by_mod: dict[str, dict[str, Callable[[str, StardewMonster], StardewMonster]]] = {}
+all_monsters: List[StardewMonster] = []
+monster_modifications_by_mod: Dict[str, Dict[str, Callable[[str, StardewMonster], StardewMonster]]] = {}
 
 
-def create_monster(name: str, category: str, locations: tuple[str, ...], difficulty: str) -> StardewMonster:
+def create_monster(name: str, category: str, locations: Tuple[str, ...], difficulty: str) -> StardewMonster:
     monster = StardewMonster(name, category, locations, difficulty)
     all_monsters.append(monster)
     return monster
@@ -146,7 +145,7 @@ register_monster_modification(ModNames.boarding_house, grub, update_monster_loca
 register_monster_modification(ModNames.boarding_house, bug, update_monster_locations)
 
 
-def all_monsters_by_name_given_mods(mods: set[str]) -> dict[str, StardewMonster]:
+def all_monsters_by_name_given_mods(mods: Set[str]) -> Dict[str, StardewMonster]:
     monsters_by_name = {}
     for monster in all_monsters:
         current_monster = monster
@@ -159,7 +158,7 @@ def all_monsters_by_name_given_mods(mods: set[str]) -> dict[str, StardewMonster]
     return monsters_by_name
 
 
-def all_monsters_by_category_given_mods(mods: set[str]) -> dict[str, tuple[StardewMonster, ...]]:
+def all_monsters_by_category_given_mods(mods: Set[str]) -> Dict[str, Tuple[StardewMonster, ...]]:
     monsters_by_category = {}
     for monster in all_monsters:
         current_monster = monster

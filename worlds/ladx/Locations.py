@@ -1,11 +1,11 @@
+from BaseClasses import Region, Entrance, Location, CollectionState
 import typing
 
-from BaseClasses import CollectionState, Entrance, Location, Region
-from worlds.generic.Rules import add_item_rule
-
-from .Common import *
-from .Items import ladxr_item_to_la_item_name
 from .LADXR.checkMetadata import checkMetadataTable
+from .Common import *
+from worlds.generic.Rules import add_item_rule
+from .Items import ladxr_item_to_la_item_name
+
 
 prefilled_events = ["ANGLER_KEYHOLE", "RAFT", "MEDICINE2", "CASTLE_BUTTON"]
 
@@ -25,7 +25,7 @@ links_awakening_dungeon_names = [
 def meta_to_name(meta):
     return f"{meta.name} ({meta.area})"
 
-def get_location_name_groups() -> dict[str, set[str]]:
+def get_location_name_groups() -> typing.Dict[str, typing.Set[str]]:
     groups = {
         "Instrument Pedestals": {
             "Full Moon Cello (Tail Cave)",
@@ -146,9 +146,10 @@ class GameStateAdapater:
         # Don't allow any money usage if you can't get back wasted rupees
         if item == "RUPEES":
             return self.state.prog_items[self.player]["RUPEES"]
-        if item.endswith("_USED"):
+        elif item.endswith("_USED"):
             return 0
-        item = ladxr_item_to_la_item_name[item]
+        else:
+            item = ladxr_item_to_la_item_name[item]
         return self.state.prog_items[self.player].get(item, default)
 
 

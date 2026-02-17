@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, NamedTuple, Optional
+from typing import NamedTuple, Optional, TYPE_CHECKING
 
 from BaseClasses import Location, Region
 from worlds.generic.Rules import set_rule
@@ -21,7 +21,7 @@ class CelesteLocation(Location):
 
 class CelesteLocationData(NamedTuple):
     region: str
-    address: int | None = None
+    address: Optional[int] = None
 
 
 checkpoint_location_data_table: dict[str, CelesteLocationData] = {}

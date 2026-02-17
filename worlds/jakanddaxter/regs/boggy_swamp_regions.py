@@ -1,10 +1,7 @@
-from typing import TYPE_CHECKING
-
 from BaseClasses import CollectionState
-
-from ..options import EnableOrbsanity
 from .region_base import JakAndDaxterRegion
-
+from ..options import EnableOrbsanity
+from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .. import JakAndDaxterWorld
 from ..rules import can_fight, can_reach_orbs_level

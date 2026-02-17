@@ -5,29 +5,32 @@ import logging
 import os
 import subprocess
 import sys
+
 from asyncio import Task
 from datetime import datetime
 from logging import Logger
-from collections.abc import Awaitable
+from typing import Awaitable
 
 # Misc imports
 import colorama
 import pymem
+
 from pymem.exception import ProcessNotFound
 
 # Archipelago imports
 import ModuleUpdate
 import Utils
-from CommonClient import ClientCommandProcessor, CommonContext, gui_enabled, server_loop
-from NetUtils import ClientStatus
 
-from . import JakAndDaxterWorld
-from .agents.memory_reader import JakAndDaxterMemoryReader
-from .agents.repl_client import JakAndDaxterReplClient
+from CommonClient import ClientCommandProcessor, CommonContext, server_loop, gui_enabled
+from NetUtils import ClientStatus
 
 # Jak imports
 from .game_id import jak1_name
 from .options import EnableOrbsanity
+from .agents.memory_reader import JakAndDaxterMemoryReader
+from .agents.repl_client import JakAndDaxterReplClient
+from . import JakAndDaxterWorld
+
 
 ModuleUpdate.update()
 logger = logging.getLogger("JakClient")
@@ -127,14 +130,14 @@ class JakAndDaxterContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super().server_auth(password_requested)
+            await super(JakAndDaxterContext, self).server_auth(password_requested)
         await self.get_username()
         self.tags = set()
         await self.send_connect()
 
     async def disconnect(self, allow_autoreconnect: bool = False):
         self.locations_checked = set()  # Clear this set to gracefully handle server disconnects.
-        await super().disconnect(allow_autoreconnect)
+        await super(JakAndDaxterContext, self).disconnect(allow_autoreconnect)
 
     def on_package(self, cmd: str, args: dict):
 
@@ -249,7 +252,7 @@ class JakAndDaxterContext(CommonContext):
     # async tasks to speed up large releases of items.
     def on_print_json(self, args: dict) -> None:
         create_task_log_exception(self.json_to_game_text(args))
-        super().on_print_json(args)
+        super(JakAndDaxterContext, self).on_print_json(args)
 
     # We need to do a little more than just use CommonClient's on_deathlink.
     def on_deathlink(self, data: dict):

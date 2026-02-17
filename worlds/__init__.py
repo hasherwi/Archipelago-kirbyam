@@ -1,21 +1,20 @@
-import dataclasses
 import importlib
 import importlib.abc
 import importlib.machinery
 import importlib.util
-import json
 import logging
 import os
 import sys
-import time
 import zipimport
+import time
+import dataclasses
+import json
 from pathlib import Path
 from types import ModuleType
-from typing import List
-from collections.abc import Sequence
+from typing import List, Sequence
 
 from NetUtils import DataPackage
-from Utils import Version, local_path, tuplize_version, user_path, version_tuple
+from Utils import local_path, user_path, Version, version_tuple, tuplize_version
 
 local_folder = os.path.dirname(__file__)
 user_folder = user_path("worlds") if user_path() != local_path() else user_path("custom_worlds")
@@ -34,7 +33,7 @@ __all__ = {
 }
 
 
-failed_world_loads: list[str] = []
+failed_world_loads: List[str] = []
 
 
 @dataclasses.dataclass(order=True)
@@ -63,8 +62,8 @@ class WorldSource:
 
         except Exception:
             # A single world failing can still mean enough is working for the user, log and carry on
-            import io
             import traceback
+            import io
             file_like = io.StringIO()
             print(f"Could not load world {self}:", file=file_like)
             traceback.print_exc(file=file_like)
@@ -75,7 +74,7 @@ class WorldSource:
 
 
 # find potential world containers, currently folders and zip-importable .apworld's
-world_sources: list[WorldSource] = []
+world_sources: List[WorldSource] = []
 for folder in (folder for folder in (user_folder, local_folder) if folder):
     relative = folder == local_folder
     for entry in os.scandir(folder):
@@ -83,9 +82,9 @@ for folder in (folder for folder in (user_folder, local_folder) if folder):
         if not entry.name.startswith(("_", ".")):
             file_name = entry.name if relative else os.path.join(folder, entry.name)
             if entry.is_dir():
-                if os.path.isfile(os.path.join(entry.path, "__init__.py")):
+                if os.path.isfile(os.path.join(entry.path, '__init__.py')):
                     world_sources.append(WorldSource(file_name, relative=relative))
-                elif os.path.isfile(os.path.join(entry.path, "__init__.pyc")):
+                elif os.path.isfile(os.path.join(entry.path, '__init__.pyc')):
                     world_sources.append(WorldSource(file_name, relative=relative))
                 else:
                     logging.warning(f"excluding {entry.name} from world sources because it has no __init__.py")

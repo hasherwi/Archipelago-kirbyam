@@ -1,5 +1,4 @@
-import logging
-import sys
+import logging, sys
 
 # store the debug flag at module level
 debug = False

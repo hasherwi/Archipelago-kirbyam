@@ -1,7 +1,7 @@
 import argparse
-import logging
-import multiprocessing
 import os
+import multiprocessing
+import logging
 import typing
 
 import ModuleUpdate
@@ -10,8 +10,8 @@ ModuleUpdate.requirements_files.add(os.path.join("WebHostLib", "requirements.txt
 ModuleUpdate.update()
 
 # in case app gets imported by something like gunicorn
-import settings
 import Utils
+import settings
 from Utils import get_file_safe_name
 
 if typing.TYPE_CHECKING:
@@ -21,12 +21,11 @@ Utils.local_path.cached_path = os.path.dirname(__file__)
 settings.no_gui = True
 configpath = os.path.abspath("config.yaml")
 if not os.path.exists(configpath):  # fall back to config.yaml in home
-    configpath = os.path.abspath(Utils.user_path("config.yaml"))
+    configpath = os.path.abspath(Utils.user_path('config.yaml'))
 
 
 def get_app() -> "Flask":
-    from WebHostLib import app as raw_app
-    from WebHostLib import cache, register
+    from WebHostLib import register, cache, app as raw_app
     from WebHostLib.models import db
 
     app = raw_app
@@ -36,7 +35,7 @@ def get_app() -> "Flask":
         logging.info(f"Updated config from {configpath}")
     # inside get_app() so it's usable in systems like gunicorn, which do not run WebHost.py, but import it.
     parser = argparse.ArgumentParser(allow_abbrev=False)
-    parser.add_argument("--config_override", default=None,
+    parser.add_argument('--config_override', default=None,
                         help="Path to yaml config file that overrules config.yaml.")
     args = parser.parse_known_args()[0]
     if args.config_override:
@@ -58,7 +57,6 @@ def get_app() -> "Flask":
 def copy_tutorials_files_to_static() -> None:
     import shutil
     import zipfile
-
     from werkzeug.utils import secure_filename
 
     zfile: zipfile.ZipInfo
@@ -66,7 +64,7 @@ def copy_tutorials_files_to_static() -> None:
     from worlds.AutoWorld import AutoWorldRegister
     worlds = {}
     for game, world in AutoWorldRegister.world_types.items():
-        if hasattr(world.web, "tutorials") and (not world.hidden or game == "Archipelago"):
+        if hasattr(world.web, 'tutorials') and (not world.hidden or game == 'Archipelago'):
             worlds[game] = world
 
     base_target_path = Utils.local_path("WebHostLib", "static", "generated", "docs")
@@ -98,10 +96,10 @@ def copy_tutorials_files_to_static() -> None:
 
 if __name__ == "__main__":
     multiprocessing.freeze_support()
-    multiprocessing.set_start_method("spawn")
-    logging.basicConfig(format="[%(asctime)s] %(message)s", level=logging.INFO)
+    multiprocessing.set_start_method('spawn')
+    logging.basicConfig(format='[%(asctime)s] %(message)s', level=logging.INFO)
 
-    from WebHostLib.autolauncher import autogen, autohost, stop
+    from WebHostLib.autolauncher import autohost, autogen, stop
     from WebHostLib.options import create as create_options_files
 
     try:

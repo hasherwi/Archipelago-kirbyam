@@ -1,28 +1,27 @@
 import argparse
+import zipfile
+from io import BytesIO
+
+import bsdiff4
+from datetime import datetime
 import hashlib
 import json
 import logging
 import os
+import requests
 import secrets
 import shutil
 import subprocess
-import urllib
-import urllib.parse
-import zipfile
-from datetime import datetime
-from io import BytesIO
 from tkinter import messagebox
 from typing import Any, Dict, Set
-
-import bsdiff4
-import requests
+import urllib
+import urllib.parse
 
 import Utils
-
-from . import SavingPrincessWorld
 from .Constants import *
+from . import SavingPrincessWorld
 
-files_to_clean: set[str] = {
+files_to_clean: Set[str] = {
     "D3DX9_43.dll",
     "data.win",
     "m_boss.ogg",
@@ -50,7 +49,7 @@ files_to_clean: set[str] = {
     "versions.json",
 }
 
-file_hashes: dict[str, str] = {
+file_hashes: Dict[str, str] = {
     "D3DX9_43.dll": "86e39e9161c3d930d93822f1563c280d",
     "Saving Princess v0_8.exe": "cc3ad10c782e115d93c5b9fbc5675eaf",
     "original_data.win": "f97b80204bd9ae535faa5a8d1e5eb6ca",
@@ -174,7 +173,7 @@ def install() -> None:
         logging.info("Looking for cab archive inside exe.")
         cab_found: bool = False
         while not cab_found:
-            cab_found = exe.read(1) == b"M" and exe.read(1) == b"S" and exe.read(1) == b"C" and exe.read(1) == b"F"
+            cab_found = exe.read(1) == b'M' and exe.read(1) == b'S' and exe.read(1) == b'C' and exe.read(1) == b'F'
         exe.read(4)  # skip reserved1, always 0
         cab_size: int = int.from_bytes(exe.read(4), "little")  # read size in bytes
         exe.seek(-12, 1)  # move the cursor back to the start of the cab file

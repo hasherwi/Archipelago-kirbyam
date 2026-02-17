@@ -5,7 +5,6 @@ from NetUtils import ClientStatus, NetworkItem
 
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
-
 from . import item_to_index
 
 if TYPE_CHECKING:
@@ -16,9 +15,9 @@ class YuGiOh2006Client(BizHawkClient):
     game = "Yu-Gi-Oh! 2006"
     system = "GBA"
     patch_suffix = ".apygo06"
-    local_checked_locations: set[int]
+    local_checked_locations: Set[int]
     goal_flag: int
-    rom_slot_name: str | None
+    rom_slot_name: Optional[str]
 
     def __init__(self) -> None:
         super().__init__()
@@ -129,7 +128,7 @@ class YuGiOh2006Client(BizHawkClient):
 
 
 # Parses bit-map for local items and adds the received items to that bit-map
-def parse_items(local_items: bytearray, items: list[NetworkItem]) -> bytearray:
+def parse_items(local_items: bytearray, items: List[NetworkItem]) -> bytearray:
     array = local_items
     for item in items:
         index = item.item - 5730001

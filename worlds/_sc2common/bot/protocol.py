@@ -3,11 +3,10 @@ import sys
 from contextlib import suppress
 
 from aiohttp import ClientWebSocketResponse
-
 from worlds._sc2common.bot import logger
+from .proto import sc2api_pb2 as sc_pb
 
 from .data import Status
-from .proto import sc2api_pb2 as sc_pb
 
 
 class ProtocolError(Exception):

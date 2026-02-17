@@ -1,7 +1,7 @@
 import unittest
 from typing import ClassVar, Tuple
 
-from ...content import ContentPack, StardewContent, StardewFeatures, content_packs, feature, unpack_content
+from ...content import content_packs, ContentPack, StardewContent, unpack_content, StardewFeatures, feature
 from ...strings.building_names import Building
 
 default_features = StardewFeatures(
@@ -16,8 +16,8 @@ default_features = StardewFeatures(
 
 
 class SVContentPackTestBase(unittest.TestCase):
-    vanilla_packs: ClassVar[tuple[ContentPack]] = (content_packs.pelican_town, content_packs.the_desert, content_packs.the_farm, content_packs.the_mines)
-    mods: ClassVar[tuple[str]] = ()
+    vanilla_packs: ClassVar[Tuple[ContentPack]] = (content_packs.pelican_town, content_packs.the_desert, content_packs.the_farm, content_packs.the_mines)
+    mods: ClassVar[Tuple[str]] = ()
 
     content: ClassVar[StardewContent]
 

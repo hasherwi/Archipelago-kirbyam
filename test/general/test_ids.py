@@ -3,7 +3,6 @@ import unittest
 from Fill import distribute_items_restrictive
 from worlds import network_data_package
 from worlds.AutoWorld import AutoWorldRegister, call_all
-
 from . import setup_solo_multiworld
 
 
@@ -53,14 +52,14 @@ class TestIDs(unittest.TestCase):
 
                 if len_item_id_to_name != len_item_name_to_id:
                     self.assertCountEqual(
-                        world_type.item_id_to_name.values(),
+                        world_type.item_id_to_name.values(), 
                         world_type.item_name_to_id.keys(),
                         "\nThese items have overlapping ids with other items in its own world")
                     self.assertCountEqual(
-                        world_type.item_id_to_name.keys(),
+                        world_type.item_id_to_name.keys(), 
                         world_type.item_name_to_id.values(),
                         "\nThese items have overlapping names with other items in its own world")
-
+                    
                 self.assertEqual(len_item_id_to_name, len_item_name_to_id)
 
     def test_duplicate_location_ids(self):
@@ -72,11 +71,11 @@ class TestIDs(unittest.TestCase):
 
                 if len_location_id_to_name != len_location_name_to_id:
                     self.assertCountEqual(
-                        world_type.location_id_to_name.values(),
+                        world_type.location_id_to_name.values(), 
                         world_type.location_name_to_id.keys(),
                         "\nThese locations have overlapping ids with other locations in its own world")
                     self.assertCountEqual(
-                        world_type.location_id_to_name.keys(),
+                        world_type.location_id_to_name.keys(), 
                         world_type.location_name_to_id.values(),
                         "\nThese locations have overlapping names with other locations in its own world")
 

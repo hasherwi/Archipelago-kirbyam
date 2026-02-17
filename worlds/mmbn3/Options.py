@@ -1,6 +1,5 @@
 from dataclasses import dataclass
-
-from Options import Choice, DefaultOnToggle, PerGameCommonOptions, Range, Toggle
+from Options import Choice, Range, DefaultOnToggle, Toggle, PerGameCommonOptions
 
 
 class ExtraRanks(Range):
@@ -56,3 +55,4 @@ class MMBN3Options(PerGameCommonOptions):
     include_jobs: IncludeJobs
     include_secret: IncludeSecretArea
     trade_quest_hinting: TradeQuestHinting
+    

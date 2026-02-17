@@ -1,8 +1,8 @@
+from collections import namedtuple
 import random
 import re
-from collections import namedtuple
 
-Color = namedtuple("Color", "  R     G     B")
+Color = namedtuple('Color', '  R     G     B')
 
 tunic_colors = {
     "Kokiri Green":      Color(0x1E, 0x69, 0x1B),
@@ -263,7 +263,8 @@ def get_navi_colors():
 def get_navi_color_options(outer=False):
     if outer:
         return ["[Same as Inner]"] + meta_color_choices + get_navi_colors()
-    return meta_color_choices + get_navi_colors()
+    else:
+        return meta_color_choices + get_navi_colors()
 
 
 def get_sword_trail_colors():
@@ -273,7 +274,8 @@ def get_sword_trail_colors():
 def get_sword_trail_color_options(outer=False):
     if outer:
         return ["[Same as Inner]"] + meta_color_choices + get_sword_trail_colors()
-    return meta_color_choices + get_sword_trail_colors()
+    else:
+        return meta_color_choices + get_sword_trail_colors()
 
 
 def get_bombchu_trail_colors():
@@ -283,7 +285,8 @@ def get_bombchu_trail_colors():
 def get_bombchu_trail_color_options(outer=False):
     if outer:
         return ["[Same as Inner]"] + meta_color_choices + get_bombchu_trail_colors()
-    return meta_color_choices + get_bombchu_trail_colors()
+    else:
+        return meta_color_choices + get_bombchu_trail_colors()
 
 
 def get_boomerang_trail_colors():
@@ -293,7 +296,8 @@ def get_boomerang_trail_colors():
 def get_boomerang_trail_color_options(outer=False):
     if outer:
         return ["[Same as Inner]"] + meta_color_choices + get_boomerang_trail_colors()
-    return meta_color_choices + get_boomerang_trail_colors()
+    else:
+        return meta_color_choices + get_boomerang_trail_colors()
 
 
 def get_gauntlet_colors():
@@ -376,7 +380,8 @@ def lum_color_ratio(val):
     val /= 255
     if val <= 0.03928:
         return val / 12.92
-    return pow((val + 0.055) / 1.055, 2.4)
+    else:
+        return pow((val + 0.055) / 1.055, 2.4)
 
 
 def generate_random_color():
@@ -386,12 +391,13 @@ def generate_random_color():
 def hex_to_color(option):
     # build color from hex code
     option = option[1:] if option[0] == "#" else option
-    if not re.search(r"^(?:[0-9a-fA-F]{3}){1,2}$", option):
+    if not re.search(r'^(?:[0-9a-fA-F]{3}){1,2}$', option):
         raise Exception(f"Invalid color value provided: {option}")
     if len(option) > 3:
         return list(int(option[i:i + 2], 16) for i in (0, 2, 4))
-    return list(int(f"{option[i]}{option[i]}", 16) for i in (0, 1, 2))
+    else:
+        return list(int(f'{option[i]}{option[i]}', 16) for i in (0, 1, 2))
 
 
 def color_to_hex(color):
-    return "#" + "".join([f"{c:02X}" for c in color])
+    return '#' + ''.join(['{:02X}'.format(c) for c in color])

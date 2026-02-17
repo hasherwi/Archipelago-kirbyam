@@ -1,9 +1,9 @@
 import unittest
 
+from ..options.utils import fill_dataclass_with_default
 from ... import create_content, options
 from ...regions.entrance_rando import create_player_randomization_flag
-from ...regions.model import ConnectionData, RandomizationFlag
-from ..options.utils import fill_dataclass_with_default
+from ...regions.model import RandomizationFlag, ConnectionData
 
 
 class TestConnectionData(unittest.TestCase):

@@ -5,18 +5,17 @@ import threading
 import typing
 
 import settings
-from BaseClasses import Item, ItemClassification, MultiWorld, Tutorial
+from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification
 from Options import PerGameCommonOptions
 from worlds.AutoWorld import WebWorld, World
-
 from .Client import DKC3SNIClient
-from .Items import DKC3Item, ItemData, inventory_table, item_table, junk_table
+from .Items import DKC3Item, ItemData, item_table, inventory_table, junk_table
 from .Levels import level_list
 from .Locations import DKC3Location, all_locations, setup_locations
 from .Names import ItemName, LocationName
 from .Options import DKC3Options, dkc3_option_groups
-from .Regions import connect_regions, create_regions
-from .Rom import DKC3DeltaPatch, LocalRom, get_base_rom_path, patch_rom
+from .Regions import create_regions, connect_regions
+from .Rom import LocalRom, patch_rom, get_base_rom_path, DKC3DeltaPatch
 from .Rules import set_rules
 
 
@@ -65,9 +64,9 @@ class DKC3World(World):
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = all_locations
 
-    active_level_list: list[str]
+    active_level_list: typing.List[str]
     web = DKC3Web()
-
+    
     def __init__(self, world: MultiWorld, player: int):
         self.rom_name_available_event = threading.Event()
         super().__init__(world, player)
@@ -99,7 +98,7 @@ class DKC3World(World):
 
         # Not generate basic
         self.topology_present = self.options.level_shuffle.value
-        itempool: list[DKC3Item] = []
+        itempool: typing.List[DKC3Item] = []
 
         # Levels
         total_required_locations = 159
@@ -187,7 +186,7 @@ class DKC3World(World):
             new_name = base64.b64encode(bytes(self.rom_name)).decode()
             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
 
-    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]):
+    def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]):
         if self.topology_present:
             world_names = [
             LocationName.lake_orangatanga_region,

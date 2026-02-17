@@ -2,7 +2,6 @@
 
 import unittest
 from decimal import Decimal
-
 from Utils import format_SI_prefix
 
 

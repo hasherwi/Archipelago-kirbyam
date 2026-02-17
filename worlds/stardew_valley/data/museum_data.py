@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Optional, Tuple, Union
+from typing import List, Tuple, Union, Optional
 
 from ..strings.animal_product_names import AnimalProduct
 from ..strings.fish_names import WaterChest
 from ..strings.forageable_names import Forageable
 from ..strings.geode_names import Geode
-from ..strings.metal_names import Artifact, Fossil, Mineral
+from ..strings.metal_names import Mineral, Artifact, Fossil
 from ..strings.monster_names import Monster
 from ..strings.region_names import Region
 
@@ -15,17 +15,17 @@ from ..strings.region_names import Region
 @dataclass(frozen=True)
 class MuseumItem:
     item_name: str
-    locations: tuple[str, ...]
-    geodes: tuple[str, ...]
-    monsters: tuple[str, ...]
+    locations: Tuple[str, ...]
+    geodes: Tuple[str, ...]
+    monsters: Tuple[str, ...]
     difficulty: float
 
     @staticmethod
     def of(item_name: str,
            difficulty: float,
-           locations: str | tuple[str, ...],
-           geodes: str | tuple[str, ...],
-           monsters: str | tuple[str, ...]) -> MuseumItem:
+           locations: Union[str, Tuple[str, ...]],
+           geodes: Union[str, Tuple[str, ...]],
+           monsters: Union[str, Tuple[str, ...]]) -> MuseumItem:
         if isinstance(locations, str):
             locations = (locations,)
 
@@ -45,17 +45,17 @@ class MuseumItem:
 
 unlikely = ()
 
-all_museum_artifacts: list[MuseumItem] = []
-all_museum_minerals: list[MuseumItem] = []
+all_museum_artifacts: List[MuseumItem] = []
+all_museum_minerals: List[MuseumItem] = []
 
-all_museum_items: list[MuseumItem] = []
+all_museum_items: List[MuseumItem] = []
 
 
 def create_artifact(name: str,
                     difficulty: float,
-                    locations: str | tuple[str, ...] = (),
-                    geodes: str | tuple[str, ...] = (),
-                    monsters: str | tuple[str, ...] = ()) -> MuseumItem:
+                    locations: Union[str, Tuple[str, ...]] = (),
+                    geodes: Union[str, Tuple[str, ...]] = (),
+                    monsters: Union[str, Tuple[str, ...]] = ()) -> MuseumItem:
     artifact_item = MuseumItem.of(name, difficulty, locations, geodes, monsters)
     all_museum_artifacts.append(artifact_item)
     all_museum_items.append(artifact_item)
@@ -63,10 +63,10 @@ def create_artifact(name: str,
 
 
 def create_mineral(name: str,
-                   locations: str | tuple[str, ...] = (),
-                   geodes: str | tuple[str, ...] = (),
-                   monsters: str | tuple[str, ...] = (),
-                   difficulty: float | None = None) -> MuseumItem:
+                   locations: Union[str, Tuple[str, ...]] = (),
+                   geodes: Union[str, Tuple[str, ...]] = (),
+                   monsters: Union[str, Tuple[str, ...]] = (),
+                   difficulty: Optional[float] = None) -> MuseumItem:
     if difficulty is None:
         difficulty = 0
         if "Geode" in geodes:

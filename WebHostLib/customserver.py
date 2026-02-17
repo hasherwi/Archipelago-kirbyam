@@ -9,26 +9,21 @@ import multiprocessing
 import pickle
 import random
 import socket
-import sys
 import threading
 import time
 import typing
+import sys
 
 import websockets
 from pony.orm import commit, db_session, select
 
 import Utils
+
 from MultiServer import (
-    ClientMessageProcessor,
-    Context,
-    ServerCommandProcessor,
-    auto_shutdown,
-    load_server_cert,
-    server,
+    Context, server, auto_shutdown, ServerCommandProcessor, ClientMessageProcessor, load_server_cert,
     server_per_message_deflate_factory,
 )
-from Utils import cache_argsless, restricted_loads
-
+from Utils import restricted_loads, cache_argsless
 from .locker import Locker
 from .models import Command, GameDataPackage, Room, db
 
@@ -45,7 +40,7 @@ class CustomClientMessageProcessor(ClientMessageProcessor):
             self.ctx.save()
             self.output(f"Registered Twitch Stream https://www.twitch.tv/{user}")
             return True
-        if platform.lower().startswith("y"):  # youtube
+        elif platform.lower().startswith("y"):  # youtube
             self.ctx.video[self.client.team, self.client.slot] = "Youtube", user
             self.ctx.save()
             self.output(f"Registered Youtube Stream for {user}")
@@ -72,7 +67,7 @@ class WebHostContext(Context):
         # static server data is used during _load_game_data to load required data,
         # without needing to import worlds system, which takes quite a bit of memory
         self.static_server_data = static_server_data
-        super().__init__("", 0, "", "", 1,
+        super(WebHostContext, self).__init__("", 0, "", "", 1,
                                              40, True, "enabled", "enabled",
                                              "enabled", 0, 2, logger=logger)
         del self.static_server_data
@@ -83,7 +78,6 @@ class WebHostContext(Context):
     def __del__(self):
         try:
             import psutil
-
             from Utils import format_SI_prefix
             self.logger.debug(f"Context destroyed, Mem: {format_SI_prefix(psutil.Process().memory_info().rss, 1024)}iB")
         except ImportError:
@@ -177,7 +171,7 @@ class WebHostContext(Context):
         return True
 
     def get_save(self) -> dict:
-        d = super().get_save()
+        d = super(WebHostContext, self).get_save()
         d["video"] = [(tuple(playerslot), videodata) for playerslot, videodata in self.video.items()]
         return d
 
@@ -236,7 +230,7 @@ def set_up_logging(room_id) -> logging.Logger:
 
 
 def run_server_process(name: str, ponyconfig: dict, static_server_data: dict,
-                       cert_file: str | None, cert_key_file: str | None,
+                       cert_file: typing.Optional[str], cert_key_file: typing.Optional[str],
                        host: str, rooms_to_run: multiprocessing.Queue, rooms_shutting_down: multiprocessing.Queue):
     from setproctitle import setproctitle
 
@@ -314,7 +308,7 @@ def run_server_process(name: str, ponyconfig: dict, static_server_data: dict,
                     elif wssocket.family == socket.AF_INET:
                         port = socketname[1]
                 if port:
-                    ctx.logger.info(f"Hosting game at {host}:{port}")
+                    ctx.logger.info(f'Hosting game at {host}:{port}')
                     with db_session:
                         room = Room.get(id=ctx.room_id)
                         room.last_port = port
@@ -361,7 +355,7 @@ def run_server_process(name: str, ponyconfig: dict, static_server_data: dict,
                     rooms_shutting_down.put(room_id)
 
     class Starter(threading.Thread):
-        _tasks: list[asyncio.Future]
+        _tasks: typing.List[asyncio.Future]
 
         def __init__(self):
             super().__init__()
@@ -389,6 +383,6 @@ def run_server_process(name: str, ponyconfig: dict, static_server_data: dict,
     finally:
         # save all tasks that want to be saved during shutdown
         for task in asyncio.all_tasks(loop):
-            save: typing.Callable[[], typing.Any] | None = getattr(task, "save", None)
+            save: typing.Optional[typing.Callable[[], typing.Any]] = getattr(task, "save", None)
             if save:
                 save()

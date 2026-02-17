@@ -1,23 +1,17 @@
+import typing
+from pkgutil import get_data
+
+import Utils
+from typing import Optional, TYPE_CHECKING, Tuple, Dict, List
 import hashlib
 import os
 import struct
-import typing
-from pkgutil import get_data
-from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
 
-import bsdiff4
-
-import Utils
-from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
-
-from .aesthetics import (
-    get_gooey_palette,
-    get_kirby_palette,
-    get_palette_bytes,
-    gooey_target_palettes,
-    kirby_target_palettes,
-)
+from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes, APPatchExtension
+from .aesthetics import get_palette_bytes, kirby_target_palettes, get_kirby_palette, gooey_target_palettes, \
+    get_gooey_palette
 from .compression import hal_decompress
+import bsdiff4
 
 if TYPE_CHECKING:
     from . import KDL3World
@@ -262,7 +256,7 @@ ability_remap = {
 
 
 class RomData:
-    def __init__(self, file: bytes, name: str | None = None):
+    def __init__(self, file: bytes, name: typing.Optional[str] = None):
         self.file = bytearray(file)
         self.name = name
 
@@ -282,8 +276,8 @@ class RomData:
         return bytes(self.file)
 
 
-def handle_level_sprites(stages: list[tuple[int, ...]], sprites: list[bytearray], palettes: list[list[bytearray]]) \
-        -> tuple[list[bytearray], list[bytearray]]:
+def handle_level_sprites(stages: List[Tuple[int, ...]], sprites: List[bytearray], palettes: List[List[bytearray]]) \
+        -> Tuple[List[bytearray], List[bytearray]]:
     palette_by_level = list()
     for palette in palettes:
         palette_by_level.extend(palette[10:16])
@@ -300,7 +294,7 @@ def handle_level_sprites(stages: list[tuple[int, ...]], sprites: list[bytearray]
     out_sprites = list()
     for world in range(5):
         levels = [stages[world][x] for x in range(6)]
-        world_tiles: list[bytes] = [bytes() for _ in range(72)]
+        world_tiles: typing.List[bytes] = [bytes() for _ in range(72)]
         for i in range(6):
             for x in range(12):
                 world_tiles[stage_tiles[i][x]] = tiles_by_level[levels[i]][x]
@@ -555,7 +549,7 @@ def patch_rom(world: "KDL3World", patch: KDL3ProcedurePatch) -> None:
 
     from Utils import __version__
     patch_name = bytearray(
-        f'KDL3{__version__.replace(".", "")[0:3]}_{world.player}_{world.multiworld.seed:11}\0', "utf8")[:21]
+        f'KDL3{__version__.replace(".", "")[0:3]}_{world.player}_{world.multiworld.seed:11}\0', 'utf8')[:21]
     patch_name.extend([0] * (21 - len(patch_name)))
     patch.name = bytes(patch_name)
     patch.write_token(APTokenTypes.WRITE, 0x3C000, patch.name)
@@ -584,7 +578,7 @@ def patch_rom(world: "KDL3World", patch: KDL3ProcedurePatch) -> None:
 
 def get_base_rom_bytes() -> bytes:
     rom_file: str = get_base_rom_path()
-    base_rom_bytes: bytes | None = getattr(get_base_rom_bytes, "base_rom_bytes", None)
+    base_rom_bytes: Optional[bytes] = getattr(get_base_rom_bytes, "base_rom_bytes", None)
     if not base_rom_bytes:
         base_rom_bytes = bytes(Utils.read_snes_rom(open(rom_file, "rb")))
 

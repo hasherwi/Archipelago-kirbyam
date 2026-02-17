@@ -1,12 +1,11 @@
 import typing
 
 from BaseClasses import Item
-
 from .Names import ItemName
 
 
 class ItemData(typing.NamedTuple):
-    code: int | None
+    code: typing.Optional[int]
     progression: bool
     quantity: int = 1
     event: bool = False
@@ -50,4 +49,4 @@ item_table = {
     **event_table,
 }
 
-lookup_id_to_name: dict[int, str] = {data.code: item_name for item_name, data in item_table.items() if data.code}
+lookup_id_to_name: typing.Dict[int, str] = {data.code: item_name for item_name, data in item_table.items() if data.code}

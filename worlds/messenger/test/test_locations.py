@@ -1,5 +1,5 @@
-from ..subclasses import MessengerLocation
 from . import MessengerTestBase
+from ..subclasses import MessengerLocation
 
 
 class LocationsTest(MessengerTestBase):

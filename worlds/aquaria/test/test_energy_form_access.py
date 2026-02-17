@@ -5,10 +5,10 @@ Description: Unit test used to test accessibility of locations with and without 
              energy form option)
 """
 
+from . import AquariaTestBase
 from ..Items import ItemNames
 from ..Locations import AquariaLocationNames
 from ..Options import EarlyEnergyForm
-from . import AquariaTestBase
 
 
 class EnergyFormAccessTest(AquariaTestBase):

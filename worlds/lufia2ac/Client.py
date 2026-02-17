@@ -7,7 +7,6 @@ from typing import Dict, List, Optional
 
 from NetUtils import ClientStatus, NetworkItem
 from worlds.AutoSNIClient import SNIClient
-
 from .Enemies import enemy_id_to_name
 from .Items import start_id as items_start_id
 from .Locations import start_id as locations_start_id
@@ -36,7 +35,7 @@ class L2ACSNIClient(SNIClient):
     async def validate_rom(self, ctx: SNIContext) -> bool:
         from SNIClient import snes_read
 
-        rom_name: bytes | None = await snes_read(ctx, L2AC_ROMNAME_START, 0x15)
+        rom_name: Optional[bytes] = await snes_read(ctx, L2AC_ROMNAME_START, 0x15)
         if rom_name is None or rom_name[:4] != b"L2AC":
             return False
 
@@ -50,7 +49,7 @@ class L2ACSNIClient(SNIClient):
     async def game_watcher(self, ctx: SNIContext) -> None:
         from SNIClient import snes_buffered_write, snes_flush_writes, snes_read
 
-        rom: bytes | None = await snes_read(ctx, L2AC_ROMNAME_START, 0x15)
+        rom: Optional[bytes] = await snes_read(ctx, L2AC_ROMNAME_START, 0x15)
         if rom != ctx.rom:
             ctx.rom = None
             return
@@ -59,11 +58,11 @@ class L2ACSNIClient(SNIClient):
             # not successfully connected to a multiworld server, cannot process the game sending items
             return
 
-        signature: bytes | None = await snes_read(ctx, L2AC_SIGN_ADDR, 16)
+        signature: Optional[bytes] = await snes_read(ctx, L2AC_SIGN_ADDR, 16)
         if signature != b"ArchipelagoLufia":
             return
 
-        uuid_data: bytes | None = await snes_read(ctx, L2AC_TX_ADDR + 16, 16)
+        uuid_data: Optional[bytes] = await snes_read(ctx, L2AC_TX_ADDR + 16, 16)
         if uuid_data is None:
             return
 
@@ -77,13 +76,13 @@ class L2ACSNIClient(SNIClient):
 
         # Goal
         if not ctx.finished_game:
-            goal_data: bytes | None = await snes_read(ctx, L2AC_GOAL_ADDR, 10)
+            goal_data: Optional[bytes] = await snes_read(ctx, L2AC_GOAL_ADDR, 10)
             if goal_data is not None and goal_data[goal_data[0]] == 0x01:
                 await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
                 ctx.finished_game = True
 
         # DeathLink TX
-        death_data: bytes | None = await snes_read(ctx, L2AC_DEATH_ADDR, 3)
+        death_data: Optional[bytes] = await snes_read(ctx, L2AC_DEATH_ADDR, 3)
         if death_data is not None:
             await ctx.update_death_link(bool(death_data[0]))
             if death_data[1] != 0x00:
@@ -94,13 +93,13 @@ class L2ACSNIClient(SNIClient):
                     await ctx.send_death(f"{player_name} was totally defeated by {enemy_name}.")
 
         # TX
-        tx_data: bytes | None = await snes_read(ctx, L2AC_TX_ADDR, 12)
+        tx_data: Optional[bytes] = await snes_read(ctx, L2AC_TX_ADDR, 12)
         if tx_data is not None:
             snes_blue_chests_checked: int = int.from_bytes(tx_data[:2], "little")
             snes_ap_items_found: int = int.from_bytes(tx_data[6:8], "little")
             snes_other_locations_checked: int = int.from_bytes(tx_data[10:12], "little")
 
-            blue_chests_checked: dict[str, int] = ctx.stored_data.get(blue_chests_key) or {}
+            blue_chests_checked: Dict[str, int] = ctx.stored_data.get(blue_chests_key) or {}
             if blue_chests_checked.get(str(coop_uuid), 0) < snes_blue_chests_checked:
                 blue_chests_checked[str(coop_uuid)] = snes_blue_chests_checked
                 if blue_chests_key in ctx.stored_data:
@@ -117,10 +116,10 @@ class L2ACSNIClient(SNIClient):
 
             total_blue_chests_checked: int = min(sum(blue_chests_checked.values()), BlueChestCount.overall_max)
             snes_buffered_write(ctx, L2AC_TX_ADDR + 8, total_blue_chests_checked.to_bytes(2, "little"))
-            location_ids: list[int] = [locations_start_id + i for i in range(total_blue_chests_checked)]
+            location_ids: List[int] = [locations_start_id + i for i in range(total_blue_chests_checked)]
 
             if snes_other_locations_checked:
-                loc_data: bytes | None = await snes_read(ctx, L2AC_TX_ADDR + 32, snes_other_locations_checked * 2)
+                loc_data: Optional[bytes] = await snes_read(ctx, L2AC_TX_ADDR + 32, snes_other_locations_checked * 2)
                 if loc_data is not None:
                     location_ids.extend(locations_start_id + int.from_bytes(loc_data[2 * i:2 * i + 2], "little")
                                         for i in range(snes_other_locations_checked))
@@ -138,7 +137,7 @@ class L2ACSNIClient(SNIClient):
                 snes_buffered_write(ctx, L2AC_TX_ADDR + 4, client_ap_items_found.to_bytes(2, "little"))
 
         # RX
-        rx_data: bytes | None = await snes_read(ctx, L2AC_RX_ADDR, 4)
+        rx_data: Optional[bytes] = await snes_read(ctx, L2AC_RX_ADDR, 4)
         if rx_data is not None:
             snes_items_received = int.from_bytes(rx_data[:2], "little")
 

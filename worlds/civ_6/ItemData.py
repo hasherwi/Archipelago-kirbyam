@@ -17,7 +17,7 @@ class ExistingItemData(NewItemData):
 class CivVIBoostData:
     Type: str
     EraType: str
-    Prereq: list[str]
+    Prereq: List[str]
     PrereqRequiredCount: int
     Classification: str
     EraRequired: bool = False

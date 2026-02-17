@@ -2,21 +2,8 @@ import random
 from dataclasses import dataclass
 from typing import List
 
-from Options import (
-    Choice,
-    DeathLinkMixin,
-    DefaultOnToggle,
-    NamedRange,
-    OptionDict,
-    OptionGroup,
-    PerGameCommonOptions,
-    PlandoBosses,
-    PlandoConnections,
-    Range,
-    Toggle,
-    Visibility,
-)
-
+from Options import DeathLinkMixin, Choice, Toggle, OptionDict, Range, PlandoBosses, DefaultOnToggle, \
+    PerGameCommonOptions, Visibility, NamedRange, OptionGroup, PlandoConnections
 from .names import location_name
 
 
@@ -480,7 +467,7 @@ class KDL3Options(PerGameCommonOptions, DeathLinkMixin):
     total_heart_stars: TotalHeartStars  # remove in 2 versions
 
 
-kdl3_option_groups: list[OptionGroup] = [
+kdl3_option_groups: List[OptionGroup] = [
     OptionGroup("Goal Options", [Goal, GoalSpeed, MaxHeartStars, HeartStarsRequired, JumpingTarget, ]),
     OptionGroup("World Options", [RemoteItems, StrictBosses, OpenWorld, OpenWorldBossRequirement, ConsumableChecks,
                                   StarChecks, FillerPercentage, TrapPercentage, GooeyTrapPercentage,

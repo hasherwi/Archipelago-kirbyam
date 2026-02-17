@@ -1,13 +1,14 @@
-import asyncio
+from typing import TYPE_CHECKING, Optional, Set, List, Dict
 import struct
-from typing import TYPE_CHECKING, Dict, List, Optional, Set
+
+from NetUtils import ClientStatus
+from .Locations import roomCount, nonBlock, beanstones, roomException, shop, badge, pants, eReward
+from .Items import items_by_id
+
+import asyncio
 
 import worlds._bizhawk as bizhawk
-from NetUtils import ClientStatus
 from worlds._bizhawk.client import BizHawkClient
-
-from .Items import items_by_id
-from .Locations import badge, beanstones, eReward, nonBlock, pants, roomCount, roomException, shop
 
 if TYPE_CHECKING:
     from worlds._bizhawk.context import BizHawkClientContext
@@ -19,14 +20,14 @@ class MLSSClient(BizHawkClient):
     game = "Mario & Luigi Superstar Saga"
     system = "GBA"
     patch_suffix = ".apmlss"
-    local_checked_locations: set[int]
+    local_checked_locations: Set[int]
     goal_flag: int
-    rom_slot_name: str | None
-    eUsed: list[int]
+    rom_slot_name: Optional[str]
+    eUsed: List[int]
     room: int
-    local_events: list[int]
-    player_name: str | None
-    checked_flags: dict[int, list] = {}
+    local_events: List[int]
+    player_name: Optional[str]
+    checked_flags: Dict[int, list] = {}
 
     def __init__(self) -> None:
         super().__init__()

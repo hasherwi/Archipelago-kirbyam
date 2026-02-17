@@ -1,12 +1,11 @@
+from .tileset import entrance_tiles, solid_tiles, walkable_tiles
+from .map import Map
+from .util import xyrange
+from .locations.entrance import Entrance
+from .locations.chest import Chest, FloorItem
+from .locations.seashell import HiddenSeashell, DigSeashell, BonkSeashell
 import random
 from typing import List
-
-from .locations.chest import Chest, FloorItem
-from .locations.entrance import Entrance
-from .locations.seashell import BonkSeashell, DigSeashell, HiddenSeashell
-from .map import Map
-from .tileset import entrance_tiles, solid_tiles, walkable_tiles
-from .util import xyrange
 
 all_location_constructors = (Chest, FloorItem, HiddenSeashell, DigSeashell, BonkSeashell)
 
@@ -53,9 +52,9 @@ class Dijkstra:
             for x in range(self.map.w * 10):
                 n = self.area[x + y * self.map.w * 10]
                 if n < 0:
-                    print(" ", end="")
+                    print(' ', end='')
                 else:
-                    print(n, end="")
+                    print(n, end='')
             print()
 
 
@@ -78,7 +77,7 @@ class EntranceInfo:
 class LocationGenerator:
     def __init__(self, the_map: Map):
         # Find all entrances
-        entrances: list[EntranceInfo] = []
+        entrances: List[EntranceInfo] = []
         for room in the_map:
             # Prevent more then one chest or hole-entrance per map
             remove_duplicate_tile(room.tiles, 0xA0)

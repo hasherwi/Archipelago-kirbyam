@@ -1,6 +1,5 @@
 from dataclasses import dataclass
-
-from Options import Choice, DeathLink, DefaultOnToggle, PerGameCommonOptions, Range, Toggle
+from Options import Toggle, DefaultOnToggle, DeathLink, Choice, Range, PerGameCommonOptions
 
 
 class ExtrasEnabled(Toggle):

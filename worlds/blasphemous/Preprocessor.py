@@ -3,14 +3,11 @@
 # https://github.com/ArchipelagoMW-HollowKnight/APHKLogicExtractor
 
 
-import argparse
-import json
-from typing import Any, Dict, List
-
-import requests
+import json, requests, argparse
+from typing import List, Dict, Any
 
 
-def load_resource_local(file: str) -> list[dict[str, Any]]:
+def load_resource_local(file: str) -> List[Dict[str, Any]]:
     print(f"Reading from {file}")
     loaded = []
     with open(file, encoding="utf-8") as f:
@@ -20,11 +17,11 @@ def load_resource_local(file: str) -> list[dict[str, Any]]:
     return loaded
 
 
-def load_resource_from_web(url: str) -> list[dict[str, Any]]:
+def load_resource_from_web(url: str) -> List[Dict[str, Any]]:
     req = requests.get(url, timeout=1)
     print(f"Reading from {url}")
     req.encoding = "utf-8"
-    lines: list[str] = []
+    lines: List[str] = []
     for line in req.text.splitlines():
         while "\t" in line:
             line = line[1::]
@@ -33,7 +30,7 @@ def load_resource_from_web(url: str) -> list[dict[str, Any]]:
     return read_json(lines)
 
 
-def read_json(lines: list[str]) -> list[dict[str, Any]]:
+def read_json(lines: List[str]) -> List[Dict[str, Any]]:
     loaded = []
     creating_object: bool = False
     obj: str = ""
@@ -87,7 +84,7 @@ def preprocess_logic(is_door: bool, id: str, logic: str) -> str:
     while "<=" in logic:
         index: int = logic.find("<=")
         logic = logic[:index-1] + logic[index+3:]
-
+    
     while "<" in logic:
         index: int = logic.find("<")
         count = int(logic[index+2])
@@ -98,15 +95,15 @@ def preprocess_logic(is_door: bool, id: str, logic: str) -> str:
     return logic
 
 
-def build_logic_conditions(logic: str) -> list[list[str]]:
-    all_conditions: list[list[str]] = []
+def build_logic_conditions(logic: str) -> List[List[str]]:
+    all_conditions: List[List[str]] = []
 
     parts = logic.split()
     sub_part: str = ""
     current_index: int = 0
     parens: int = -1
-    current_condition: list[str] = []
-    parens_conditions: list[list[list[str]]] = []
+    current_condition: List[str] = []
+    parens_conditions: List[List[List[str]]] = []
 
     for index, part in enumerate(parts):
         #print(current_index, index, parens, part)
@@ -140,7 +137,7 @@ def build_logic_conditions(logic: str) -> list[list[str]]:
             for char in part:
                 if char == "(":
                     parens += 1
-
+            
             # add to sub part
             if sub_part == "":
                 sub_part = part
@@ -171,7 +168,7 @@ def build_logic_conditions(logic: str) -> list[list[str]]:
                         parens_conditions.append(build_logic_subconditions(current_condition, sub_part))
                         #print("PARENS:", parens_conditions)
 
-                        temp_conditions: list[list[str]] = []
+                        temp_conditions: List[List[str]] = []
 
                         for i in parens_conditions[0]:
                             for j in parens_conditions[1]:
@@ -186,7 +183,7 @@ def build_logic_conditions(logic: str) -> list[list[str]]:
                             for k in temp_conditions2:
                                 for l in parens_conditions[0]:
                                     temp_conditions.append(k + l)
-
+                            
                             parens_conditions.pop(0)
 
                         #print("TEMP:", remove_duplicates(temp_conditions))
@@ -203,7 +200,7 @@ def build_logic_conditions(logic: str) -> list[list[str]]:
                             parens_conditions.append(build_logic_subconditions(current_condition, sub_part))
                             #print("PARENS:", parens_conditions)
 
-                            temp_conditions: list[list[str]] = []
+                            temp_conditions: List[List[str]] = []
 
                             for i in parens_conditions[0]:
                                 for j in parens_conditions[1]:
@@ -218,7 +215,7 @@ def build_logic_conditions(logic: str) -> list[list[str]]:
                                 for k in temp_conditions2:
                                     for l in parens_conditions[0]:
                                         temp_conditions.append(k + l)
-
+                                
                                 parens_conditions.pop(0)
 
                             #print("TEMP:", remove_duplicates(temp_conditions))
@@ -227,10 +224,10 @@ def build_logic_conditions(logic: str) -> list[list[str]]:
                             all_conditions += build_logic_subconditions(current_condition, sub_part)
 
                     current_index = index+2
-
+                    
                     current_condition = []
                     sub_part = ""
-
+                    
             continue
 
         # collect all parts until reaching end of parentheses
@@ -244,7 +241,7 @@ def build_logic_conditions(logic: str) -> list[list[str]]:
         if parts[index+1] == "&&":
             current_index = index+2
             continue
-
+        
         # add condition to list and start new one
         elif parts[index+1] == "||":
             if len(parens_conditions) > 0:
@@ -252,16 +249,16 @@ def build_logic_conditions(logic: str) -> list[list[str]]:
                     for j in i:
                         all_conditions.append(j + current_condition)
                 parens_conditions = []
-            else:
+            else:    
                 all_conditions.append(current_condition)
             current_condition = []
             current_index = index+2
             continue
-
+        
     return remove_duplicates(all_conditions)
 
 
-def build_logic_subconditions(current_condition: list[str], subcondition: str) -> list[list[str]]:
+def build_logic_subconditions(current_condition: List[str], subcondition: str) -> List[List[str]]:
     #print("STARTED SUBCONDITION", current_condition, subcondition)
     subconditions = build_logic_conditions(subcondition[1:-1])
     final_conditions = []
@@ -275,82 +272,83 @@ def build_logic_subconditions(current_condition: list[str], subcondition: str) -
     return final_conditions
 
 
-def remove_duplicates(conditions: list[list[str]]) -> list[list[str]]:
-    final_conditions: list[list[str]] = []
+def remove_duplicates(conditions: List[List[str]]) -> List[List[str]]:
+    final_conditions: List[List[str]] = []
     for condition in conditions:
         final_conditions.append(list(dict.fromkeys(condition)))
 
     return final_conditions
 
 
-def handle_door_visibility(door: dict[str, Any]) -> dict[str, Any]:
+def handle_door_visibility(door: Dict[str, Any]) -> Dict[str, Any]:
     if door.get("visibilityFlags") == None:
         return door
-    flags: list[str] = str(door.get("visibilityFlags")).split(", ")
-    #print(flags)
-    temp_flags: list[str] = []
-    this_door: bool = False
-    #required_doors: str = ""
+    else:
+        flags: List[str] = str(door.get("visibilityFlags")).split(", ")
+        #print(flags)
+        temp_flags: List[str] = []
+        this_door: bool = False
+        #required_doors: str = ""
 
-    if "ThisDoor" in flags:
-        this_door = True
+        if "ThisDoor" in flags:
+            this_door = True
 
-    #if "requiredDoors" in flags:
-    #    required_doors: str = " || ".join(door.get("requiredDoors"))
+        #if "requiredDoors" in flags:
+        #    required_doors: str = " || ".join(door.get("requiredDoors"))
 
-    if "DoubleJump" in flags:
-        temp_flags.append("DoubleJump")
+        if "DoubleJump" in flags:
+            temp_flags.append("DoubleJump")
 
-    if "NormalLogic" in flags:
-        temp_flags.append("NormalLogic")
+        if "NormalLogic" in flags:
+            temp_flags.append("NormalLogic")
 
-    if "NormalLogicAndDoubleJump" in flags:
-        temp_flags.append("NormalLogicAndDoubleJump")
+        if "NormalLogicAndDoubleJump" in flags:
+            temp_flags.append("NormalLogicAndDoubleJump")
 
-    if "HardLogic" in flags:
-        temp_flags.append("HardLogic")
+        if "HardLogic" in flags:
+            temp_flags.append("HardLogic")
 
-    if "HardLogicAndDoubleJump" in flags:
-        temp_flags.append("HardLogicAndDoubleJump")
+        if "HardLogicAndDoubleJump" in flags:
+            temp_flags.append("HardLogicAndDoubleJump")
 
-    if "EnemySkips" in flags:
-        temp_flags.append("EnemySkips")
+        if "EnemySkips" in flags:
+            temp_flags.append("EnemySkips")
 
-    if "EnemySkipsAndDoubleJump" in flags:
-        temp_flags.append("EnemySkipsAndDoubleJump")
+        if "EnemySkipsAndDoubleJump" in flags:
+            temp_flags.append("EnemySkipsAndDoubleJump")
 
-    # remove duplicates
-    temp_flags = list(dict.fromkeys(temp_flags))
+        # remove duplicates
+        temp_flags = list(dict.fromkeys(temp_flags))
 
-    original_logic: str = door.get("logic")
-    temp_logic: str = ""
+        original_logic: str = door.get("logic")
+        temp_logic: str = ""
 
-    if this_door:
-        temp_logic = door.get("id")
+        if this_door:
+            temp_logic = door.get("id")
 
-    if temp_flags != []:
-        if temp_logic != "":
-            temp_logic += " || "
-        temp_logic += " && ".join(temp_flags)
+        if temp_flags != []:
+            if temp_logic != "":
+                temp_logic += " || "
+            temp_logic += ' && '.join(temp_flags)
 
-    if temp_logic != "" and original_logic != None:
-        if len(original_logic.split()) == 1:
-            if len(temp_logic.split()) == 1:
-                door["logic"] = f"{temp_logic} && {original_logic}"
+        if temp_logic != "" and original_logic != None:
+            if len(original_logic.split()) == 1:
+                if len(temp_logic.split()) == 1:
+                    door["logic"] = f"{temp_logic} && {original_logic}"
+                else:
+                    door["logic"] = f"({temp_logic}) && {original_logic}"
             else:
-                door["logic"] = f"({temp_logic}) && {original_logic}"
-        else:
-            if len(temp_logic.split()) == 1:
-                door["logic"] = f"{temp_logic} && ({original_logic})"
-            else:
-                door["logic"] = f"({temp_logic}) && ({original_logic})"
-    elif temp_logic != "" and original_logic == None:
-        door["logic"] = temp_logic
-
-    return door
+                if len(temp_logic.split()) == 1:
+                    door["logic"] = f"{temp_logic} && ({original_logic})"
+                else:
+                    door["logic"] = f"({temp_logic}) && ({original_logic})"
+        elif temp_logic != "" and original_logic == None:
+            door["logic"] = temp_logic
+        
+        return door
 
 
-def get_state_provider_for_condition(condition: list[str]) -> str:
+def get_state_provider_for_condition(condition: List[str]) -> str:
     for item in condition:
         if (item[0] == "D" and item[3] == "Z" and item[6] == "S")\
         or (item[0] == "D" and item[3] == "B" and item[4] == "Z" and item[7] == "S"):
@@ -360,7 +358,7 @@ def get_state_provider_for_condition(condition: list[str]) -> str:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("-l", "--local", action="store_true", help="Use local files in the same directory instead of reading resource files from the BrandenEK/Blasphemous-Randomizer repository.")
+    parser.add_argument('-l', '--local', action="store_true", help="Use local files in the same directory instead of reading resource files from the BrandenEK/Blasphemous-Randomizer repository.")
     args = parser.parse_args()
     return args
 
@@ -372,15 +370,15 @@ def main(args: argparse.Namespace):
     if (args.local):
         doors = load_resource_local("doors.json")
         locations = load_resource_local("locations_items.json")
-
+    
     else:
         doors = load_resource_from_web("https://raw.githubusercontent.com/BrandenEK/Blasphemous-Randomizer/main/resources/data/Randomizer/doors.json")
         locations = load_resource_from_web("https://raw.githubusercontent.com/BrandenEK/Blasphemous-Randomizer/main/resources/data/Randomizer/locations_items.json")
 
-    original_connections: dict[str, str] = {}
-    rooms: dict[str, list[str]] = {}
-    output: dict[str, Any] = {}
-    logic_objects: list[dict[str, Any]] = []
+    original_connections: Dict[str, str] = {}
+    rooms: Dict[str, List[str]] = {}
+    output: Dict[str, Any] = {}
+    logic_objects: List[Dict[str, Any]] = []
 
     for door in doors:
          if door.get("originalDoor") != None:
@@ -394,7 +392,7 @@ def main(args: argparse.Namespace):
             else:
                 rooms[room].append(door.get("id"))
 
-    def flip_doors_in_condition(condition: list[str]) -> list[str]:
+    def flip_doors_in_condition(condition: List[str]) -> List[str]:
         new_condition = []
         for item in condition:
             if item in original_connections:
@@ -403,7 +401,7 @@ def main(args: argparse.Namespace):
                 new_condition.append(item)
 
         return new_condition
-
+    
     for room in rooms.keys():
         obj = {
             "Name": room,
@@ -418,7 +416,7 @@ def main(args: argparse.Namespace):
                 "StateModifiers": []
             }
             obj["Logic"].append(logic)
-
+        
         logic_objects.append(obj)
 
     for door in doors:
@@ -434,14 +432,14 @@ def main(args: argparse.Namespace):
             "Handling": handling
         }
 
-        visibility_flags: list[str] = []
+        visibility_flags: List[str] = []
         if door.get("visibilityFlags") != None:
             visibility_flags = str(door.get("visibilityFlags")).split(", ")
             if "1" in visibility_flags:
                 visibility_flags.remove("1")
                 visibility_flags.append("ThisDoor")
 
-        required_doors: list[str] = []
+        required_doors: List[str] = []
         if door.get("requiredDoors"):
             required_doors = door.get("requiredDoors")
 
@@ -452,7 +450,7 @@ def main(args: argparse.Namespace):
 
                 if flag == "ThisDoor":
                     flag = original_connections[door.get("id")]
-
+                
                 if door.get("logic") != None:
                     logic: str = door.get("logic")
                     logic = f"{flag} && ({logic})"
@@ -479,7 +477,7 @@ def main(args: argparse.Namespace):
                         "StateModifiers": []
                     }
                     obj["Logic"].append(logic)
-
+            
             if "RequiredDoors" in visibility_flags:
                 for d in required_doors:
                     flipped = original_connections[d]
@@ -574,7 +572,7 @@ def main(args: argparse.Namespace):
         logic_objects.append(obj)
 
     output["LogicObjects"] = logic_objects
-
+        
     with open("StringWorldDefinition.json", "w") as file:
         print("Writing to StringWorldDefinition.json")
         file.write(json.dumps(output, indent=4))

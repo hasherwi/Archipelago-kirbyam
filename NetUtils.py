@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-import enum
-import typing
-import warnings
 from collections.abc import Mapping, Sequence
-from json import JSONDecoder, JSONEncoder
+import typing
+import enum
+import warnings
+from json import JSONEncoder, JSONDecoder
 
 if typing.TYPE_CHECKING:
     from websockets import WebSocketServerProtocol as ServerConnection
@@ -113,24 +113,25 @@ _base_types = str | int | bool | float | None | tuple["_base_types", ...] | dict
 def convert_to_base_types(obj: typing.Any) -> _base_types:
     if isinstance(obj, (tuple, list, set, frozenset)):
         return tuple(convert_to_base_types(o) for o in obj)
-    if isinstance(obj, dict):
+    elif isinstance(obj, dict):
         return {convert_to_base_types(key): convert_to_base_types(value) for key, value in obj.items()}
-    if obj is None or type(obj) in (str, int, float, bool):
+    elif obj is None or type(obj) in (str, int, float, bool):
         return obj
     # unwrap simple types to their base, such as StrEnum
-    if isinstance(obj, str):
+    elif isinstance(obj, str):
         return str(obj)
-    if isinstance(obj, int):
+    elif isinstance(obj, int):
         return int(obj)
-    if isinstance(obj, float):
+    elif isinstance(obj, float):
         return float(obj)
-    raise Exception(f"Cannot handle {type(obj)}")
+    else:
+        raise Exception(f"Cannot handle {type(obj)}")
 
 
 _encode = JSONEncoder(
     ensure_ascii=False,
     check_circular=False,
-    separators=(",", ":"),
+    separators=(',', ':'),
 ).encode
 
 
@@ -175,7 +176,7 @@ decode = JSONDecoder(object_hook=_object_hook).decode
 class Endpoint:
     __slots__ = ("socket",)
 
-    socket: ServerConnection
+    socket: "ServerConnection"
 
     def __init__(self, socket):
         self.socket = socket
@@ -190,10 +191,10 @@ class HandlerMeta(type):
         handlers.update({handler_name[len(trigger):]: method for handler_name, method in attrs.items() if
                          handler_name.startswith(trigger)})
 
-        orig_init = attrs.get("__init__", None)
+        orig_init = attrs.get('__init__', None)
         if not orig_init:
             for base in bases:
-                orig_init = getattr(base, "__init__", None)
+                orig_init = getattr(base, '__init__', None)
                 if orig_init:
                     break
 
@@ -204,8 +205,8 @@ class HandlerMeta(type):
             self.handlers = {name: method.__get__(self, type(self)) for name, method in
                              handlers.items()}
 
-        attrs["__init__"] = __init__
-        return super().__new__(mcs, name, bases, attrs)
+        attrs['__init__'] = __init__
+        return super(HandlerMeta, mcs).__new__(mcs, name, bases, attrs)
 
 
 class JSONTypes(str, enum.Enum):
@@ -241,7 +242,7 @@ class JSONtoTextParser(metaclass=HandlerMeta):
     def __init__(self, ctx):
         self.ctx = ctx
 
-    def __call__(self, input_object: list[JSONMessagePart]) -> str:
+    def __call__(self, input_object: typing.List[JSONMessagePart]) -> str:
         return "".join(self.handle_node(section) for section in input_object)
 
     def handle_node(self, node: JSONMessagePart):
@@ -259,27 +260,27 @@ class JSONtoTextParser(metaclass=HandlerMeta):
 
     def _handle_player_id(self, node: JSONMessagePart):
         player = int(node["text"])
-        node["color"] = "magenta" if self.ctx.slot_concerns_self(player) else "yellow"
+        node["color"] = 'magenta' if self.ctx.slot_concerns_self(player) else 'yellow'
         node["text"] = self.ctx.player_names[player]
         return self._handle_color(node)
 
     # for other teams, spectators etc.? Only useful if player isn't in the clientside mapping
     def _handle_player_name(self, node: JSONMessagePart):
-        node["color"] = "yellow"
+        node["color"] = 'yellow'
         return self._handle_color(node)
 
     def _handle_item_name(self, node: JSONMessagePart):
         flags = node.get("flags", 0)
         if flags == 0:
-            node["color"] = "cyan"
+            node["color"] = 'cyan'
         elif flags & 0b001:  # advancement
-            node["color"] = "plum"
+            node["color"] = 'plum'
         elif flags & 0b010:  # useful
-            node["color"] = "slateblue"
+            node["color"] = 'slateblue'
         elif flags & 0b100:  # trap
-            node["color"] = "salmon"
+            node["color"] = 'salmon'
         else:
-            node["color"] = "cyan"
+            node["color"] = 'cyan'
         return self._handle_color(node)
 
     def _handle_item_id(self, node: JSONMessagePart):
@@ -288,7 +289,7 @@ class JSONtoTextParser(metaclass=HandlerMeta):
         return self._handle_item_name(node)
 
     def _handle_location_name(self, node: JSONMessagePart):
-        node["color"] = "green"
+        node["color"] = 'green'
         return self._handle_color(node)
 
     def _handle_location_id(self, node: JSONMessagePart):
@@ -297,7 +298,7 @@ class JSONtoTextParser(metaclass=HandlerMeta):
         return self._handle_location_name(node)
 
     def _handle_entrance_name(self, node: JSONMessagePart):
-        node["color"] = "blue"
+        node["color"] = 'blue'
         return self._handle_color(node)
 
     def _handle_hint_status(self, node: JSONMessagePart):
@@ -310,18 +311,18 @@ class RawJSONtoTextParser(JSONtoTextParser):
         return self._handle_text(node)
 
 
-color_codes = {"reset": 0, "bold": 1, "underline": 4, "black": 30, "red": 31, "green": 32, "yellow": 33, "blue": 34,
-               "magenta": 35, "cyan": 36, "white": 37, "black_bg": 40, "red_bg": 41, "green_bg": 42, "yellow_bg": 43,
-               "blue_bg": 44, "magenta_bg": 45, "cyan_bg": 46, "white_bg": 47,
-               "plum": 35, "slateblue": 34, "salmon": 31,}  # convert ui colors to terminal colors
+color_codes = {'reset': 0, 'bold': 1, 'underline': 4, 'black': 30, 'red': 31, 'green': 32, 'yellow': 33, 'blue': 34,
+               'magenta': 35, 'cyan': 36, 'white': 37, 'black_bg': 40, 'red_bg': 41, 'green_bg': 42, 'yellow_bg': 43,
+               'blue_bg': 44, 'magenta_bg': 45, 'cyan_bg': 46, 'white_bg': 47,
+               'plum': 35, 'slateblue': 34, 'salmon': 31,}  # convert ui colors to terminal colors
 
 
 def color_code(*args):
-    return "\033[" + ";".join([str(color_codes[arg]) for arg in args]) + "m"
+    return '\033[' + ';'.join([str(color_codes[arg]) for arg in args]) + 'm'
 
 
 def color(text, *args):
-    return color_code(*args) + text + color_code("reset")
+    return color_code(*args) + text + color_code('reset')
 
 
 def add_json_text(parts: list, text: typing.Any, **kwargs) -> None:
@@ -336,14 +337,14 @@ def add_json_location(parts: list, location_id: int, player: int = 0, **kwargs) 
     parts.append({"text": str(location_id), "player": player, "type": JSONTypes.location_id, **kwargs})
 
 
-status_names: dict[HintStatus, str] = {
+status_names: typing.Dict[HintStatus, str] = {
     HintStatus.HINT_FOUND: "(found)",
     HintStatus.HINT_UNSPECIFIED: "(unspecified)",
     HintStatus.HINT_NO_PRIORITY: "(no priority)",
     HintStatus.HINT_AVOID: "(avoid)",
     HintStatus.HINT_PRIORITY: "(priority)",
 }
-status_colors: dict[HintStatus, str] = {
+status_colors: typing.Dict[HintStatus, str] = {
     HintStatus.HINT_FOUND: "green",
     HintStatus.HINT_UNSPECIFIED: "white",
     HintStatus.HINT_NO_PRIORITY: "slateblue",
@@ -352,7 +353,7 @@ status_colors: dict[HintStatus, str] = {
 }
 
 
-def add_json_hint_status(parts: list, hint_status: HintStatus, text: str | None = None, **kwargs):
+def add_json_hint_status(parts: list, hint_status: HintStatus, text: typing.Optional[str] = None, **kwargs):
     parts.append({"text": text if text != None else status_names.get(hint_status, "(unknown)"),
                   "hint_status": hint_status, "type": JSONTypes.hint_status, **kwargs})
 
@@ -374,7 +375,7 @@ class Hint(typing.NamedTuple):
         if found:
             return self._replace(found=found, status=HintStatus.HINT_FOUND)
         return self
-
+    
     def re_prioritize(self, ctx, status: HintStatus) -> Hint:
         if self.found and status != HintStatus.HINT_FOUND:
             status = HintStatus.HINT_FOUND
@@ -413,8 +414,8 @@ class Hint(typing.NamedTuple):
         return self.receiving_player == self.finding_player
 
 
-class _LocationStore(dict, typing.MutableMapping[int, dict[int, tuple[int, int, int]]]):
-    def __init__(self, values: typing.MutableMapping[int, dict[int, tuple[int, int, int]]]):
+class _LocationStore(dict, typing.MutableMapping[int, typing.Dict[int, typing.Tuple[int, int, int]]]):
+    def __init__(self, values: typing.MutableMapping[int, typing.Dict[int, typing.Tuple[int, int, int]]]):
         super().__init__(values)
 
         if not self:
@@ -426,24 +427,24 @@ class _LocationStore(dict, typing.MutableMapping[int, dict[int, tuple[int, int, 
         if len(self.get(0, {})):
             raise ValueError("Invalid player id 0 for location")
 
-    def find_item(self, slots: set[int], seeked_item_id: int
-                  ) -> typing.Generator[tuple[int, int, int, int, int], None, None]:
+    def find_item(self, slots: typing.Set[int], seeked_item_id: int
+                  ) -> typing.Generator[typing.Tuple[int, int, int, int, int], None, None]:
         for finding_player, check_data in self.items():
             for location_id, (item_id, receiving_player, item_flags) in check_data.items():
                 if receiving_player in slots and item_id == seeked_item_id:
                     yield finding_player, location_id, item_id, receiving_player, item_flags
 
-    def get_for_player(self, slot: int) -> dict[int, set[int]]:
+    def get_for_player(self, slot: int) -> typing.Dict[int, typing.Set[int]]:
         import collections
-        all_locations: dict[int, set[int]] = collections.defaultdict(set)
+        all_locations: typing.Dict[int, typing.Set[int]] = collections.defaultdict(set)
         for source_slot, location_data in self.items():
             for location_id, values in location_data.items():
                 if values[1] == slot:
                     all_locations[source_slot].add(location_id)
         return all_locations
 
-    def get_checked(self, state: dict[tuple[int, int], set[int]], team: int, slot: int
-                    ) -> list[int]:
+    def get_checked(self, state: typing.Dict[typing.Tuple[int, int], typing.Set[int]], team: int, slot: int
+                    ) -> typing.List[int]:
         checked = state[team, slot]
         if not checked:
             # This optimizes the case where everyone connects to a fresh game at the same time.
@@ -454,8 +455,8 @@ class _LocationStore(dict, typing.MutableMapping[int, dict[int, tuple[int, int, 
                 location_id in self[slot] if
                 location_id in checked]
 
-    def get_missing(self, state: dict[tuple[int, int], set[int]], team: int, slot: int
-                    ) -> list[int]:
+    def get_missing(self, state: typing.Dict[typing.Tuple[int, int], typing.Set[int]], team: int, slot: int
+                    ) -> typing.List[int]:
         checked = state[team, slot]
         if not checked:
             # This optimizes the case where everyone connects to a fresh game at the same time.
@@ -464,8 +465,8 @@ class _LocationStore(dict, typing.MutableMapping[int, dict[int, tuple[int, int, 
                 location_id in self[slot] if
                 location_id not in checked]
 
-    def get_remaining(self, state: dict[tuple[int, int], set[int]], team: int, slot: int
-                      ) -> list[tuple[int, int]]:
+    def get_remaining(self, state: typing.Dict[typing.Tuple[int, int], typing.Set[int]], team: int, slot: int
+                      ) -> typing.List[typing.Tuple[int, int]]:
         checked = state[team, slot]
         player_locations = self[slot]
         return sorted([(player_locations[location_id][1], player_locations[location_id][0]) for
@@ -513,10 +514,9 @@ if typing.TYPE_CHECKING:  # type-check with pure python implementation until we 
     LocationStore = _LocationStore
 else:
     try:
-        import os.path
-
-        import _speedups
         from _speedups import LocationStore
+        import _speedups
+        import os.path
         if os.path.isfile("_speedups.pyx") and os.path.getctime(_speedups.__file__) < os.path.getctime("_speedups.pyx"):
             warnings.warn(f"{_speedups.__file__} outdated! "
                           f"Please rebuild with `cythonize -b -i _speedups.pyx` or delete it!")

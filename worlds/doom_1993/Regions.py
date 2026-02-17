@@ -1,9 +1,7 @@
 # This file is auto generated. More info: https://github.com/Daivuk/apdoom
 
 from typing import List
-
 from BaseClasses import TypedDict
-
 
 class ConnectionDict(TypedDict, total=False):
     target: str
@@ -13,10 +11,10 @@ class RegionDict(TypedDict, total=False):
     name: str
     connects_to_hub: bool
     episode: int
-    connections: list[ConnectionDict]
+    connections: List[ConnectionDict]
 
 
-regions:list[RegionDict] = [
+regions:List[RegionDict] = [
     # Hangar (E1M1)
     {"name":"Hangar (E1M1) Main",
      "connects_to_hub":True,

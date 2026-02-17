@@ -4,16 +4,15 @@ import json
 import logging
 import multiprocessing
 import typing
-from datetime import datetime, timedelta
+from datetime import timedelta, datetime
 from threading import Event, Thread
 from typing import Any
 from uuid import UUID
 
-from pony.orm import PrimaryKey, commit, db_session, select
+from pony.orm import db_session, select, commit, PrimaryKey
 
 from Utils import restricted_loads
-
-from .locker import AlreadyRunningException, Locker
+from .locker import Locker, AlreadyRunningException
 
 _stop_event = Event()
 
@@ -183,7 +182,7 @@ def autogen(config: dict):
 class MultiworldInstance():
     def __init__(self, config: dict, id: int):
         self.room_ids = set()
-        self.process: multiprocessing.Process | None = None
+        self.process: typing.Optional[multiprocessing.Process] = None
         self.ponyconfig = config["PONY"]
         self.cert = config["SELFLAUNCHCERT"]
         self.key = config["SELFLAUNCHKEY"]
@@ -226,6 +225,6 @@ class MultiworldInstance():
         self.process = None
 
 
-from .customserver import get_static_server_data, run_server_process
+from .models import Room, Generation, STATE_QUEUED, STATE_STARTED, STATE_ERROR, db, Seed, Slot
+from .customserver import run_server_process, get_static_server_data
 from .generate import gen_game
-from .models import STATE_ERROR, STATE_QUEUED, STATE_STARTED, Generation, Room, Seed, Slot, db

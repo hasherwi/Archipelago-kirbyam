@@ -1,17 +1,17 @@
 from typing import Dict
 
-from ...logic.base_logic import BaseLogic, BaseLogicMixin
+from ..mod_data import ModNames
+from ...logic.base_logic import BaseLogicMixin, BaseLogic
 from ...stardew_rule import StardewRule
 from ...strings.artisan_good_names import ModArtisanGood
 from ...strings.craftable_names import ModCraftable
 from ...strings.ingredient_names import Ingredient
 from ...strings.material_names import Material
-from ...strings.metal_names import ModFossil, Ore, all_artifacts, all_fossils
+from ...strings.metal_names import all_fossils, all_artifacts, Ore, ModFossil
 from ...strings.monster_drop_names import Loot
 from ...strings.performance_names import Performance
-from ...strings.region_names import BoardingHouseRegion, DeepWoodsRegion, SVERegion
+from ...strings.region_names import SVERegion, DeepWoodsRegion, BoardingHouseRegion
 from ...strings.tool_names import Tool, ToolMaterial
-from ..mod_data import ModNames
 
 display_types = [ModCraftable.wooden_display, ModCraftable.hardwood_display]
 display_items = all_artifacts + all_fossils
@@ -25,20 +25,20 @@ class ModItemLogicMixin(BaseLogicMixin):
 
 class ModItemLogic(BaseLogic):
 
-    def get_modded_item_rules(self) -> dict[str, StardewRule]:
+    def get_modded_item_rules(self) -> Dict[str, StardewRule]:
         items = dict()
         if ModNames.boarding_house in self.options.mods:
             items.update(self.get_boarding_house_item_rules())
         return items
 
-    def modify_vanilla_item_rules_with_mod_additions(self, item_rule: dict[str, StardewRule]):
+    def modify_vanilla_item_rules_with_mod_additions(self, item_rule: Dict[str, StardewRule]):
         if ModNames.sve in self.options.mods:
             item_rule.update(self.get_modified_item_rules_for_sve(item_rule))
         if ModNames.deepwoods in self.options.mods:
             item_rule.update(self.get_modified_item_rules_for_deep_woods(item_rule))
         return item_rule
 
-    def get_modified_item_rules_for_sve(self, items: dict[str, StardewRule]):
+    def get_modified_item_rules_for_sve(self, items: Dict[str, StardewRule]):
         return {
             Loot.void_essence: items[Loot.void_essence] | self.logic.region.can_reach(SVERegion.highlands_cavern) | self.logic.region.can_reach(
                 SVERegion.crimson_badlands),
@@ -52,7 +52,7 @@ class ModItemLogic(BaseLogic):
 
         }
 
-    def get_modified_item_rules_for_deep_woods(self, items: dict[str, StardewRule]):
+    def get_modified_item_rules_for_deep_woods(self, items: Dict[str, StardewRule]):
         options_to_update = {
             Material.hardwood: items[Material.hardwood] | self.logic.tool.can_use_tool_at(Tool.axe, ToolMaterial.iron, DeepWoodsRegion.floor_10),
             Ingredient.sugar: items[Ingredient.sugar] | self.logic.tool.can_use_tool_at(Tool.axe, ToolMaterial.gold, DeepWoodsRegion.floor_50),

@@ -1,51 +1,24 @@
-import base64
 import hashlib
 import logging
+from copy import deepcopy
+from typing import Dict, Any, TYPE_CHECKING, Optional, Sequence, Tuple, ClassVar, List
+
+from BaseClasses import Tutorial, ItemClassification, MultiWorld, Item, Location
+from worlds.AutoWorld import World, WebWorld
+from .names import (dr_wily, heat_man_stage, air_man_stage, wood_man_stage, bubble_man_stage, quick_man_stage,
+                    flash_man_stage, metal_man_stage, crash_man_stage)
+from .items import (item_table, item_names, MM2Item, filler_item_weights, robot_master_weapon_table,
+                    stage_access_table, item_item_table, lookup_item_to_id)
+from .locations import (MM2Location, mm2_regions, MM2Region, energy_pickups, etank_1ups, lookup_location_to_id,
+                        location_groups)
+from .rom import patch_rom, MM2ProcedurePatch, MM2LCHASH, PROTEUSHASH, MM2VCHASH, MM2NESHASH
+from .options import MM2Options, Consumables
+from .client import MegaMan2Client
+from .rules import set_rules, weapon_damage, robot_masters, weapons_to_name, minimum_weakness_requirement
 import os
 import threading
-from copy import deepcopy
-from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Optional, Tuple
-from collections.abc import Sequence
-
+import base64
 import settings
-from BaseClasses import Item, ItemClassification, Location, MultiWorld, Tutorial
-from worlds.AutoWorld import WebWorld, World
-
-from .client import MegaMan2Client
-from .items import (
-    MM2Item,
-    filler_item_weights,
-    item_item_table,
-    item_names,
-    item_table,
-    lookup_item_to_id,
-    robot_master_weapon_table,
-    stage_access_table,
-)
-from .locations import (
-    MM2Location,
-    MM2Region,
-    energy_pickups,
-    etank_1ups,
-    location_groups,
-    lookup_location_to_id,
-    mm2_regions,
-)
-from .names import (
-    air_man_stage,
-    bubble_man_stage,
-    crash_man_stage,
-    dr_wily,
-    flash_man_stage,
-    heat_man_stage,
-    metal_man_stage,
-    quick_man_stage,
-    wood_man_stage,
-)
-from .options import Consumables, MM2Options
-from .rom import MM2LCHASH, MM2NESHASH, MM2VCHASH, PROTEUSHASH, MM2ProcedurePatch, patch_rom
-from .rules import minimum_weakness_requirement, robot_masters, set_rules, weapon_damage, weapons_to_name
-
 logger = logging.getLogger("Mega Man 2")
 
 if TYPE_CHECKING:
@@ -56,16 +29,17 @@ class MM2Settings(settings.Group):
     class RomFile(settings.UserFilePath):
         """File name of the MM2 EN rom"""
         description = "Mega Man 2 ROM File"
-        copy_to: str | None = "Mega Man 2 (USA).nes"
+        copy_to: Optional[str] = "Mega Man 2 (USA).nes"
         md5s = [MM2NESHASH, MM2VCHASH, MM2LCHASH, PROTEUSHASH]
 
         def browse(self: settings.T,
-                   filetypes: Sequence[tuple[str, Sequence[str]]] | None = None,
-                   **kwargs: Any) -> settings.T | None:
+                   filetypes: Optional[Sequence[Tuple[str, Sequence[str]]]] = None,
+                   **kwargs: Any) -> Optional[settings.T]:
             if not filetypes:
                 file_types = [("NES", [".nes"]), ("Program", [".exe"])]  # LC1 is only a windows executable, no linux
                 return super().browse(file_types, **kwargs)
-            return super().browse(filetypes, **kwargs)
+            else:
+                return super().browse(filetypes, **kwargs)
 
         @classmethod
         def validate(cls, path: str) -> None:
@@ -122,7 +96,7 @@ class MM2World(World):
     location_name_groups = location_groups
     web = MM2WebWorld()
     rom_name: bytearray
-    wily_5_weapons: dict[int, list[int]]
+    wily_5_weapons: Dict[int, List[int]]
 
     def __init__(self, multiworld: MultiWorld, player: int):
         self.rom_name = bytearray()
@@ -218,10 +192,10 @@ class MM2World(World):
                 f"{self.options.starting_robot_master.current_key.replace('_', ' ').title()}")
 
     def fill_hook(self,
-                  progitempool: list["Item"],
-                  usefulitempool: list["Item"],
-                  filleritempool: list["Item"],
-                  fill_locations: list["Location"]) -> None:
+                  progitempool: List["Item"],
+                  usefulitempool: List["Item"],
+                  filleritempool: List["Item"],
+                  fill_locations: List["Location"]) -> None:
         # on a solo gen, fill can try to force Wily into sphere 2, but for most generations this is impossible
         # since MM2 can have a 2 item sphere 1, and 3 items are required for Wily
         if self.multiworld.players > 1:
@@ -291,19 +265,19 @@ class MM2World(World):
         finally:
             self.rom_name_available_event.set()  # make sure threading continues and errors are collected
 
-    def fill_slot_data(self) -> dict[str, Any]:
+    def fill_slot_data(self) -> Dict[str, Any]:
         return {
             "death_link": self.options.death_link.value,
             "weapon_damage": self.weapon_damage,
             "wily_5_weapons": self.wily_5_weapons,
         }
 
-    def interpret_slot_data(self, slot_data: dict[str, Any]) -> dict[str, Any]:
+    def interpret_slot_data(self, slot_data: Dict[str, Any]) -> Dict[str, Any]:
         local_weapon = {int(key): value for key, value in slot_data["weapon_damage"].items()}
         local_wily = {int(key): value for key, value in slot_data["wily_5_weapons"].items()}
         return {"weapon_damage": local_weapon, "wily_5_weapons": local_wily}
 
-    def modify_multidata(self, multidata: dict[str, Any]) -> None:
+    def modify_multidata(self, multidata: Dict[str, Any]) -> None:
         # wait for self.rom_name to be available.
         self.rom_name_available_event.wait()
         rom_name = getattr(self, "rom_name", None)

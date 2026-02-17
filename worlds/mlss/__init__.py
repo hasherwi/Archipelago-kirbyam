@@ -2,18 +2,16 @@ import logging
 import os
 import pkgutil
 import typing
-from typing import Any, Dict, Set
-
 import settings
-from BaseClasses import ItemClassification, Tutorial
+from BaseClasses import Tutorial, ItemClassification
 from worlds.AutoWorld import WebWorld, World
-
-from .Client import MLSSClient
-from .Items import MLSSItem, item_frequencies, item_table, itemList, mlss_item_name_groups
-from .Locations import all_locations, bowsers, bowsersMini, coins, hidden, location_table
-from .Names.LocationName import LocationName
+from typing import Set, Dict, Any
+from .Locations import all_locations, location_table, bowsers, bowsersMini, hidden, coins
 from .Options import MLSSOptions
-from .Regions import connect_regions, create_regions
+from .Items import MLSSItem, itemList, item_frequencies, item_table, mlss_item_name_groups
+from .Names.LocationName import LocationName
+from .Client import MLSSClient
+from .Regions import create_regions, connect_regions
 from .Rom import MLSSProcedurePatch, write_tokens
 from .Rules import set_rules
 
@@ -61,7 +59,7 @@ class MLSSWorld(World):
     location_name_to_id = {loc_data.name: loc_data.id for loc_data in all_locations}
     required_client_version = (0, 5, 0)
 
-    disabled_locations: set[str]
+    disabled_locations: Set[str]
 
     def generate_early(self) -> None:
         self.disabled_locations = set()
@@ -103,7 +101,7 @@ class MLSSWorld(World):
         item = MLSSItem("Victory", ItemClassification.progression, None, self.player)
         self.get_location("Cackletta's Soul").place_locked_item(item)
 
-    def fill_slot_data(self) -> dict[str, Any]:
+    def fill_slot_data(self) -> Dict[str, Any]:
         return {
             "CastleSkip": self.options.castle_skip.value,
             "SkipMinecart": self.options.skip_minecart.value,

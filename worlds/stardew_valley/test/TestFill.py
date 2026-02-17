@@ -1,8 +1,8 @@
-from .. import options
-from ..mods.mod_data import ModNames
 from .assertion import WorldAssertMixin
 from .bases import SVTestBase
 from .options.presets import minimal_locations_maximal_items
+from .. import options
+from ..mods.mod_data import ModNames
 
 
 class TestMinLocationsMaxItems(WorldAssertMixin, SVTestBase):

@@ -1,8 +1,7 @@
-﻿from ....Config import Config, SMLogic
-from ....Item import Progression
+﻿from ....Region import SMRegion
+from ....Config import Config, SMLogic
 from ....Location import Location, LocationType
-from ....Region import SMRegion
-
+from ....Item import Progression
 
 class Outer(SMRegion):
     Name = "Maridia Outer"
@@ -15,7 +14,7 @@ class Outer(SMRegion):
                 lambda items: items.SpeedBooster if self.Logic == SMLogic.Normal else \
                 lambda items: items.Gravity and items.SpeedBooster),
             Location(self, 137, 0x8FC43D, LocationType.Visible, "Super Missile (green Maridia)"),
-            Location(self, 138, 0x8FC47D, LocationType.Visible, "Energy Tank, Mama turtle",
+            Location(self, 138, 0x8FC47D, LocationType.Visible, "Energy Tank, Mama turtle", 
                 lambda items: items.CanOpenRedDoors() and (items.CanFly() or items.SpeedBooster or items.Grapple) if self.Logic == SMLogic.Normal else \
                 lambda items: items.CanOpenRedDoors() and (
                     items.CanFly() or items.SpeedBooster or items.Grapple or
@@ -29,9 +28,10 @@ class Outer(SMRegion):
             return items.Gravity and (
                     self.world.CanEnter("Norfair Upper West", items) and items.CanUsePowerBombs() or
                     items.CanAccessMaridiaPortal(self.world) and items.CardMaridiaL1 and items.CardMaridiaL2 and (items.CanPassBombPassages() or items.ScrewAttack))
-        return self.world.CanEnter("Norfair Upper West", items) and items.CanUsePowerBombs() and (
-                items.Gravity or items.HiJump and (items.CanSpringBallJump() or items.Ice)) or (
-            items.CanAccessMaridiaPortal(self.world)) and items.CardMaridiaL1 and items.CardMaridiaL2 and (
-                items.CanPassBombPassages() or
-                items.Gravity and items.ScrewAttack or
-                items.Super and (items.Gravity or items.HiJump and (items.CanSpringBallJump() or items.Ice)))
+        else:
+            return self.world.CanEnter("Norfair Upper West", items) and items.CanUsePowerBombs() and (
+                    items.Gravity or items.HiJump and (items.CanSpringBallJump() or items.Ice)) or (
+                items.CanAccessMaridiaPortal(self.world)) and items.CardMaridiaL1 and items.CardMaridiaL2 and (
+                    items.CanPassBombPassages() or
+                    items.Gravity and items.ScrewAttack or
+                    items.Super and (items.Gravity or items.HiJump and (items.CanSpringBallJump() or items.Ice)))

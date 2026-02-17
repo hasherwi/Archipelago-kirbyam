@@ -2,7 +2,6 @@ import enum
 from typing import NamedTuple, Optional
 
 from BaseClasses import Item, ItemClassification
-
 from . import Constants
 
 
@@ -24,7 +23,7 @@ class ItemType(enum.Enum):
 
 
 class ItemData(NamedTuple):
-    code: int | None
+    code: Optional[int]
     type: ItemType
     classification: ItemClassification = ItemClassification.progression
 

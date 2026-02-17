@@ -1,5 +1,5 @@
-import datetime
 from dataclasses import dataclass
+import datetime
 
 from Options import Choice, DeathLink, NamedRange, PerGameCommonOptions
 

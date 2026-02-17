@@ -1,6 +1,5 @@
-from enum import Enum, IntEnum, IntFlag, auto
-from typing import Dict, List, Literal, NamedTuple, Optional, Set, Union
-from collections.abc import Iterable
+from typing import NamedTuple, Dict, List, Set, Union, Literal, Iterable, Optional
+from enum import IntEnum, Enum, IntFlag, auto
 
 
 class SC2Race(IntEnum):
@@ -111,9 +110,10 @@ class SC2Mission(Enum):
         self.flags = flags
 
     def get_short_name(self):
-        if self.mission_name.find(" (") == -1:
+        if self.mission_name.find(' (') == -1:
             return self.mission_name
-        return self.mission_name[:self.mission_name.find(" (")]
+        else:
+            return self.mission_name[:self.mission_name.find(' (')]
 
     # Wings of Liberty
     LIBERATION_DAY = 1, "Liberation Day", SC2Campaign.WOL, "Mar Sara", SC2Race.ANY, MissionPools.STARTER, "ap_liberation_day", MissionFlag.Terran|MissionFlag.NoBuild|MissionFlag.VsTerran
@@ -371,7 +371,7 @@ class MissionConnection:
 
 class MissionInfo(NamedTuple):
     mission: SC2Mission
-    required_world: list[MissionConnection | dict[Literal["campaign", "connect_to"], int]]
+    required_world: List[Union[MissionConnection, Dict[Literal["campaign", "connect_to"], int]]]
     category: str
     number: int = 0  # number of worlds need beaten
     completion_critical: bool = False  # missions needed to beat game
@@ -380,25 +380,25 @@ class MissionInfo(NamedTuple):
 
 
 
-lookup_id_to_mission: dict[int, SC2Mission] = {
+lookup_id_to_mission: Dict[int, SC2Mission] = {
     mission.id: mission for mission in SC2Mission
 }
 
-lookup_name_to_mission: dict[str, SC2Mission] = {
+lookup_name_to_mission: Dict[str, SC2Mission] = {
     mission.mission_name: mission for mission in SC2Mission
 }
 for mission in SC2Mission:
-    if MissionFlag.HasRaceSwap in mission.flags and " (" in mission.mission_name:
+    if MissionFlag.HasRaceSwap in mission.flags and ' (' in mission.mission_name:
         # Short names for non-race-swapped missions for client compatibility
         short_name = mission.get_short_name()
         lookup_name_to_mission[short_name] = mission
 
-lookup_id_to_campaign: dict[int, SC2Campaign] = {
+lookup_id_to_campaign: Dict[int, SC2Campaign] = {
     campaign.id: campaign for campaign in SC2Campaign
 }
 
 
-campaign_mission_table: dict[SC2Campaign, set[SC2Mission]] = {
+campaign_mission_table: Dict[SC2Campaign, Set[SC2Mission]] = {
     campaign: set() for campaign in SC2Campaign
 }
 for mission in SC2Mission:
@@ -428,19 +428,22 @@ def get_campaign_goal_priority(campaign: SC2Campaign, excluded_missions: Iterabl
     """
     if excluded_missions is None:
         return campaign.goal_priority
-    goal_missions = set(get_campaign_potential_goal_missions(campaign))
-    excluded_mission_set = set(excluded_missions)
-    remaining_goals = goal_missions.difference(excluded_mission_set)
-    if remaining_goals == set():
-        # All potential goals are excluded, the campaign can't be a goal
-        return SC2CampaignGoalPriority.NONE
-    if campaign.goal_priority == SC2CampaignGoalPriority.VERY_HARD:
-        # Check if a very hard campaign doesn't get rid of it's last very hard mission
-        difficulty = get_campaign_difficulty(campaign, excluded_missions)
-        if difficulty == MissionPools.VERY_HARD:
-            return SC2CampaignGoalPriority.VERY_HARD
-        return SC2CampaignGoalPriority.HARD
-    return campaign.goal_priority
+    else:
+        goal_missions = set(get_campaign_potential_goal_missions(campaign))
+        excluded_mission_set = set(excluded_missions)
+        remaining_goals = goal_missions.difference(excluded_mission_set)
+        if remaining_goals == set():
+            # All potential goals are excluded, the campaign can't be a goal
+            return SC2CampaignGoalPriority.NONE
+        elif campaign.goal_priority == SC2CampaignGoalPriority.VERY_HARD:
+            # Check if a very hard campaign doesn't get rid of it's last very hard mission
+            difficulty = get_campaign_difficulty(campaign, excluded_missions)
+            if difficulty == MissionPools.VERY_HARD:
+                return SC2CampaignGoalPriority.VERY_HARD
+            else:
+                return SC2CampaignGoalPriority.HARD
+        else:
+            return campaign.goal_priority
 
 
 class SC2CampaignGoal(NamedTuple):
@@ -448,90 +451,90 @@ class SC2CampaignGoal(NamedTuple):
     location: str
 
 
-campaign_final_mission_locations: dict[SC2Campaign, SC2CampaignGoal | None] = {
-    SC2Campaign.WOL: SC2CampaignGoal(SC2Mission.ALL_IN, f"{SC2Mission.ALL_IN.mission_name}: Victory"),
-    SC2Campaign.PROPHECY: SC2CampaignGoal(SC2Mission.IN_UTTER_DARKNESS, f"{SC2Mission.IN_UTTER_DARKNESS.mission_name}: Defeat"),
-    SC2Campaign.HOTS: SC2CampaignGoal(SC2Mission.THE_RECKONING, f"{SC2Mission.THE_RECKONING.mission_name}: Victory"),
-    SC2Campaign.PROLOGUE: SC2CampaignGoal(SC2Mission.EVIL_AWOKEN, f"{SC2Mission.EVIL_AWOKEN.mission_name}: Victory"),
-    SC2Campaign.LOTV: SC2CampaignGoal(SC2Mission.SALVATION, f"{SC2Mission.SALVATION.mission_name}: Victory"),
+campaign_final_mission_locations: Dict[SC2Campaign, Optional[SC2CampaignGoal]] = {
+    SC2Campaign.WOL: SC2CampaignGoal(SC2Mission.ALL_IN, f'{SC2Mission.ALL_IN.mission_name}: Victory'),
+    SC2Campaign.PROPHECY: SC2CampaignGoal(SC2Mission.IN_UTTER_DARKNESS, f'{SC2Mission.IN_UTTER_DARKNESS.mission_name}: Defeat'),
+    SC2Campaign.HOTS: SC2CampaignGoal(SC2Mission.THE_RECKONING, f'{SC2Mission.THE_RECKONING.mission_name}: Victory'),
+    SC2Campaign.PROLOGUE: SC2CampaignGoal(SC2Mission.EVIL_AWOKEN, f'{SC2Mission.EVIL_AWOKEN.mission_name}: Victory'),
+    SC2Campaign.LOTV: SC2CampaignGoal(SC2Mission.SALVATION, f'{SC2Mission.SALVATION.mission_name}: Victory'),
     SC2Campaign.EPILOGUE: None,
-    SC2Campaign.NCO: SC2CampaignGoal(SC2Mission.END_GAME, f"{SC2Mission.END_GAME.mission_name}: Victory"),
+    SC2Campaign.NCO: SC2CampaignGoal(SC2Mission.END_GAME, f'{SC2Mission.END_GAME.mission_name}: Victory'),
 }
 
-campaign_alt_final_mission_locations: dict[SC2Campaign, dict[SC2Mission, str]] = {
+campaign_alt_final_mission_locations: Dict[SC2Campaign, Dict[SC2Mission, str]] = {
     SC2Campaign.WOL: {
-        SC2Mission.MAW_OF_THE_VOID: f"{SC2Mission.MAW_OF_THE_VOID.mission_name}: Victory",
-        SC2Mission.ENGINE_OF_DESTRUCTION: f"{SC2Mission.ENGINE_OF_DESTRUCTION.mission_name}: Victory",
-        SC2Mission.SUPERNOVA: f"{SC2Mission.SUPERNOVA.mission_name}: Victory",
-        SC2Mission.GATES_OF_HELL: f"{SC2Mission.GATES_OF_HELL.mission_name}: Victory",
-        SC2Mission.SHATTER_THE_SKY: f"{SC2Mission.SHATTER_THE_SKY.mission_name}: Victory",
+        SC2Mission.MAW_OF_THE_VOID: f'{SC2Mission.MAW_OF_THE_VOID.mission_name}: Victory',
+        SC2Mission.ENGINE_OF_DESTRUCTION: f'{SC2Mission.ENGINE_OF_DESTRUCTION.mission_name}: Victory',
+        SC2Mission.SUPERNOVA: f'{SC2Mission.SUPERNOVA.mission_name}: Victory',
+        SC2Mission.GATES_OF_HELL: f'{SC2Mission.GATES_OF_HELL.mission_name}: Victory',
+        SC2Mission.SHATTER_THE_SKY: f'{SC2Mission.SHATTER_THE_SKY.mission_name}: Victory',
 
-        SC2Mission.MAW_OF_THE_VOID_Z: f"{SC2Mission.MAW_OF_THE_VOID_Z.mission_name}: Victory",
-        SC2Mission.ENGINE_OF_DESTRUCTION_Z: f"{SC2Mission.ENGINE_OF_DESTRUCTION_Z.mission_name}: Victory",
-        SC2Mission.SUPERNOVA_Z: f"{SC2Mission.SUPERNOVA_Z.mission_name}: Victory",
-        SC2Mission.GATES_OF_HELL_Z: f"{SC2Mission.GATES_OF_HELL_Z.mission_name}: Victory",
-        SC2Mission.SHATTER_THE_SKY_Z: f"{SC2Mission.SHATTER_THE_SKY_Z.mission_name}: Victory",
+        SC2Mission.MAW_OF_THE_VOID_Z: f'{SC2Mission.MAW_OF_THE_VOID_Z.mission_name}: Victory',
+        SC2Mission.ENGINE_OF_DESTRUCTION_Z: f'{SC2Mission.ENGINE_OF_DESTRUCTION_Z.mission_name}: Victory',
+        SC2Mission.SUPERNOVA_Z: f'{SC2Mission.SUPERNOVA_Z.mission_name}: Victory',
+        SC2Mission.GATES_OF_HELL_Z: f'{SC2Mission.GATES_OF_HELL_Z.mission_name}: Victory',
+        SC2Mission.SHATTER_THE_SKY_Z: f'{SC2Mission.SHATTER_THE_SKY_Z.mission_name}: Victory',
 
-        SC2Mission.MAW_OF_THE_VOID_P: f"{SC2Mission.MAW_OF_THE_VOID_P.mission_name}: Victory",
-        SC2Mission.ENGINE_OF_DESTRUCTION_P: f"{SC2Mission.ENGINE_OF_DESTRUCTION_P.mission_name}: Victory",
-        SC2Mission.SUPERNOVA_P: f"{SC2Mission.SUPERNOVA_P.mission_name}: Victory",
-        SC2Mission.GATES_OF_HELL_P: f"{SC2Mission.GATES_OF_HELL_P.mission_name}: Victory",
-        SC2Mission.SHATTER_THE_SKY_P: f"{SC2Mission.SHATTER_THE_SKY_P.mission_name}: Victory"
+        SC2Mission.MAW_OF_THE_VOID_P: f'{SC2Mission.MAW_OF_THE_VOID_P.mission_name}: Victory',
+        SC2Mission.ENGINE_OF_DESTRUCTION_P: f'{SC2Mission.ENGINE_OF_DESTRUCTION_P.mission_name}: Victory',
+        SC2Mission.SUPERNOVA_P: f'{SC2Mission.SUPERNOVA_P.mission_name}: Victory',
+        SC2Mission.GATES_OF_HELL_P: f'{SC2Mission.GATES_OF_HELL_P.mission_name}: Victory',
+        SC2Mission.SHATTER_THE_SKY_P: f'{SC2Mission.SHATTER_THE_SKY_P.mission_name}: Victory'
     },
     SC2Campaign.PROPHECY: {},
     SC2Campaign.HOTS: {
-        SC2Mission.THE_CRUCIBLE: f"{SC2Mission.THE_CRUCIBLE.mission_name}: Victory",
-        SC2Mission.HAND_OF_DARKNESS: f"{SC2Mission.HAND_OF_DARKNESS.mission_name}: Victory",
-        SC2Mission.PHANTOMS_OF_THE_VOID: f"{SC2Mission.PHANTOMS_OF_THE_VOID.mission_name}: Victory",
-        SC2Mission.PLANETFALL: f"{SC2Mission.PLANETFALL.mission_name}: Victory",
-        SC2Mission.DEATH_FROM_ABOVE: f"{SC2Mission.DEATH_FROM_ABOVE.mission_name}: Victory",
+        SC2Mission.THE_CRUCIBLE: f'{SC2Mission.THE_CRUCIBLE.mission_name}: Victory',
+        SC2Mission.HAND_OF_DARKNESS: f'{SC2Mission.HAND_OF_DARKNESS.mission_name}: Victory',
+        SC2Mission.PHANTOMS_OF_THE_VOID: f'{SC2Mission.PHANTOMS_OF_THE_VOID.mission_name}: Victory',
+        SC2Mission.PLANETFALL: f'{SC2Mission.PLANETFALL.mission_name}: Victory',
+        SC2Mission.DEATH_FROM_ABOVE: f'{SC2Mission.DEATH_FROM_ABOVE.mission_name}: Victory',
 
-        SC2Mission.THE_CRUCIBLE_T: f"{SC2Mission.THE_CRUCIBLE_T.mission_name}: Victory",
-        SC2Mission.HAND_OF_DARKNESS_T: f"{SC2Mission.HAND_OF_DARKNESS_T.mission_name}: Victory",
-        SC2Mission.PHANTOMS_OF_THE_VOID_T: f"{SC2Mission.PHANTOMS_OF_THE_VOID_T.mission_name}: Victory",
-        SC2Mission.PLANETFALL_T: f"{SC2Mission.PLANETFALL_T.mission_name}: Victory",
-        SC2Mission.DEATH_FROM_ABOVE_T: f"{SC2Mission.DEATH_FROM_ABOVE_T.mission_name}: Victory",
+        SC2Mission.THE_CRUCIBLE_T: f'{SC2Mission.THE_CRUCIBLE_T.mission_name}: Victory',
+        SC2Mission.HAND_OF_DARKNESS_T: f'{SC2Mission.HAND_OF_DARKNESS_T.mission_name}: Victory',
+        SC2Mission.PHANTOMS_OF_THE_VOID_T: f'{SC2Mission.PHANTOMS_OF_THE_VOID_T.mission_name}: Victory',
+        SC2Mission.PLANETFALL_T: f'{SC2Mission.PLANETFALL_T.mission_name}: Victory',
+        SC2Mission.DEATH_FROM_ABOVE_T: f'{SC2Mission.DEATH_FROM_ABOVE_T.mission_name}: Victory',
 
-        SC2Mission.THE_CRUCIBLE_P: f"{SC2Mission.THE_CRUCIBLE_P.mission_name}: Victory",
-        SC2Mission.HAND_OF_DARKNESS_P: f"{SC2Mission.HAND_OF_DARKNESS_P.mission_name}: Victory",
-        SC2Mission.PHANTOMS_OF_THE_VOID_P: f"{SC2Mission.PHANTOMS_OF_THE_VOID_P.mission_name}: Victory",
-        SC2Mission.PLANETFALL_P: f"{SC2Mission.PLANETFALL_P.mission_name}: Victory",
-        SC2Mission.DEATH_FROM_ABOVE_P: f"{SC2Mission.DEATH_FROM_ABOVE_P.mission_name}: Victory"
+        SC2Mission.THE_CRUCIBLE_P: f'{SC2Mission.THE_CRUCIBLE_P.mission_name}: Victory',
+        SC2Mission.HAND_OF_DARKNESS_P: f'{SC2Mission.HAND_OF_DARKNESS_P.mission_name}: Victory',
+        SC2Mission.PHANTOMS_OF_THE_VOID_P: f'{SC2Mission.PHANTOMS_OF_THE_VOID_P.mission_name}: Victory',
+        SC2Mission.PLANETFALL_P: f'{SC2Mission.PLANETFALL_P.mission_name}: Victory',
+        SC2Mission.DEATH_FROM_ABOVE_P: f'{SC2Mission.DEATH_FROM_ABOVE_P.mission_name}: Victory'
     },
     SC2Campaign.PROLOGUE: {
-        SC2Mission.GHOSTS_IN_THE_FOG: f"{SC2Mission.GHOSTS_IN_THE_FOG.mission_name}: Victory",
-        SC2Mission.GHOSTS_IN_THE_FOG_T: f"{SC2Mission.GHOSTS_IN_THE_FOG_T.mission_name}: Victory",
-        SC2Mission.GHOSTS_IN_THE_FOG_Z: f"{SC2Mission.GHOSTS_IN_THE_FOG_Z.mission_name}: Victory"
+        SC2Mission.GHOSTS_IN_THE_FOG: f'{SC2Mission.GHOSTS_IN_THE_FOG.mission_name}: Victory',
+        SC2Mission.GHOSTS_IN_THE_FOG_T: f'{SC2Mission.GHOSTS_IN_THE_FOG_T.mission_name}: Victory',
+        SC2Mission.GHOSTS_IN_THE_FOG_Z: f'{SC2Mission.GHOSTS_IN_THE_FOG_Z.mission_name}: Victory'
     },
     SC2Campaign.LOTV: {
-        SC2Mission.THE_HOST: f"{SC2Mission.THE_HOST.mission_name}: Victory",
-        SC2Mission.TEMPLAR_S_CHARGE: f"{SC2Mission.TEMPLAR_S_CHARGE.mission_name}: Victory",
+        SC2Mission.THE_HOST: f'{SC2Mission.THE_HOST.mission_name}: Victory',
+        SC2Mission.TEMPLAR_S_CHARGE: f'{SC2Mission.TEMPLAR_S_CHARGE.mission_name}: Victory',
 
-        SC2Mission.THE_HOST_T: f"{SC2Mission.THE_HOST_T.mission_name}: Victory",
-        SC2Mission.TEMPLAR_S_CHARGE_T: f"{SC2Mission.TEMPLAR_S_CHARGE_T.mission_name}: Victory",
+        SC2Mission.THE_HOST_T: f'{SC2Mission.THE_HOST_T.mission_name}: Victory',
+        SC2Mission.TEMPLAR_S_CHARGE_T: f'{SC2Mission.TEMPLAR_S_CHARGE_T.mission_name}: Victory',
 
-        SC2Mission.THE_HOST_Z: f"{SC2Mission.THE_HOST_Z.mission_name}: Victory",
-        SC2Mission.TEMPLAR_S_CHARGE_Z: f"{SC2Mission.TEMPLAR_S_CHARGE_Z.mission_name}: Victory"
+        SC2Mission.THE_HOST_Z: f'{SC2Mission.THE_HOST_Z.mission_name}: Victory',
+        SC2Mission.TEMPLAR_S_CHARGE_Z: f'{SC2Mission.TEMPLAR_S_CHARGE_Z.mission_name}: Victory'
     },
     SC2Campaign.EPILOGUE: {
-        SC2Mission.AMON_S_FALL: f"{SC2Mission.AMON_S_FALL.mission_name}: Victory",
-        SC2Mission.INTO_THE_VOID: f"{SC2Mission.INTO_THE_VOID.mission_name}: Victory",
-        SC2Mission.THE_ESSENCE_OF_ETERNITY: f"{SC2Mission.THE_ESSENCE_OF_ETERNITY.mission_name}: Victory",
+        SC2Mission.AMON_S_FALL: f'{SC2Mission.AMON_S_FALL.mission_name}: Victory',
+        SC2Mission.INTO_THE_VOID: f'{SC2Mission.INTO_THE_VOID.mission_name}: Victory',
+        SC2Mission.THE_ESSENCE_OF_ETERNITY: f'{SC2Mission.THE_ESSENCE_OF_ETERNITY.mission_name}: Victory',
     },
     SC2Campaign.NCO: {
-        SC2Mission.FLASHPOINT: f"{SC2Mission.FLASHPOINT.mission_name}: Victory",
-        SC2Mission.DARK_SKIES: f"{SC2Mission.DARK_SKIES.mission_name}: Victory",
-        SC2Mission.NIGHT_TERRORS: f"{SC2Mission.NIGHT_TERRORS.mission_name}: Victory",
-        SC2Mission.TROUBLE_IN_PARADISE: f"{SC2Mission.TROUBLE_IN_PARADISE.mission_name}: Victory"
+        SC2Mission.FLASHPOINT: f'{SC2Mission.FLASHPOINT.mission_name}: Victory',
+        SC2Mission.DARK_SKIES: f'{SC2Mission.DARK_SKIES.mission_name}: Victory',
+        SC2Mission.NIGHT_TERRORS: f'{SC2Mission.NIGHT_TERRORS.mission_name}: Victory',
+        SC2Mission.TROUBLE_IN_PARADISE: f'{SC2Mission.TROUBLE_IN_PARADISE.mission_name}: Victory'
     }
 }
 
-campaign_race_exceptions: dict[SC2Mission, SC2Race] = {
+campaign_race_exceptions: Dict[SC2Mission, SC2Race] = {
     SC2Mission.WITH_FRIENDS_LIKE_THESE: SC2Race.TERRAN
 }
 
 
-def get_goal_location(mission: SC2Mission) -> str | None:
+def get_goal_location(mission: SC2Mission) -> Union[str, None]:
     """
 
     :param mission:
@@ -552,13 +555,13 @@ def get_goal_location(mission: SC2Mission) -> str | None:
         else mission.mission_name + ": Victory"
 
 
-def get_campaign_potential_goal_missions(campaign: SC2Campaign) -> list[SC2Mission]:
+def get_campaign_potential_goal_missions(campaign: SC2Campaign) -> List[SC2Mission]:
     """
 
     :param campaign:
     :return: All missions that can be the campaign's goal
     """
-    missions: list[SC2Mission] = list()
+    missions: List[SC2Mission] = list()
     primary_goal_mission = campaign_final_mission_locations[campaign]
     if primary_goal_mission is not None:
         missions.append(primary_goal_mission.mission)
@@ -570,5 +573,5 @@ def get_campaign_potential_goal_missions(campaign: SC2Campaign) -> list[SC2Missi
     return missions
 
 
-def get_missions_with_any_flags_in_list(flags: MissionFlag) -> list[SC2Mission]:
+def get_missions_with_any_flags_in_list(flags: MissionFlag) -> List[SC2Mission]:
     return [mission for mission in SC2Mission if flags & mission.flags]

@@ -1,12 +1,12 @@
 import unittest
 
+from ..options.utils import fill_dataclass_with_default
 from ... import options
 from ...content import create_content
 from ...mods.region_data import region_data_by_content_pack
 from ...regions import vanilla_data
 from ...regions.model import MergeFlag
-from ...regions.regions import create_all_connections, create_all_regions
-from ..options.utils import fill_dataclass_with_default
+from ...regions.regions import create_all_regions, create_all_connections
 
 
 class TestVanillaRegionsConnectionsWithGingerIsland(unittest.TestCase):

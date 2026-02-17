@@ -8,8 +8,8 @@ from .game_item import Source
 @dataclass(frozen=True)
 class Building:
     name: str
-    sources: tuple[Source, ...] = field(kw_only=True)
-    upgrade_from: str | None = field(default=None, kw_only=True)
+    sources: Tuple[Source, ...] = field(kw_only=True)
+    upgrade_from: Optional[str] = field(default=None, kw_only=True)
 
     @cached_property
     def is_upgrade(self) -> bool:

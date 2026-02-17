@@ -1,13 +1,13 @@
 import argparse
 import json
 
-from ...options import EntranceRandomization, FarmType
 from ..bases import setup_solo_multiworld
 from ..options.presets import allsanity_mods_6_x_x_exclude_disabled
+from ...options import FarmType, EntranceRandomization
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--seed", help="Define seed number to generate.", type=int, required=True)
+    parser.add_argument('--seed', help='Define seed number to generate.', type=int, required=True)
 
     args = parser.parse_args()
     seed = args.seed

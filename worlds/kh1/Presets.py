@@ -2,7 +2,7 @@ from typing import Any, Dict
 
 from .Options import *
 
-kh1_option_presets: dict[str, dict[str, Any]] = {
+kh1_option_presets: Dict[str, Dict[str, Any]] = {
     # Standard playthrough where your goal is to defeat Ansem, reaching him by acquiring enough lucky emblems.
     "Final Ansem": {
         "final_rest_door_key": FinalRestDoorKey.option_lucky_emblems,
@@ -16,7 +16,7 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "day_2_materials": 4,
         "homecoming_materials": 10,
         "materials_in_pool": 13,
-
+        
         "super_bosses": False,
         "atlantica": False,
         "hundred_acre_wood": False,
@@ -24,7 +24,7 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "jungle_slider": False,
         "randomize_emblem_pieces": False,
         "randomize_postcards": RandomizePostcards.option_all,
-
+        
         "exp_multiplier": 64,
         "level_checks": 99,
         "slot_2_level_checks": 33,
@@ -37,7 +37,7 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "mp_increase": 7,
         "accessory_slot_increase": 1,
         "item_slot_increase": 3,
-
+        
         "keyblades_unlock_chests": False,
         "keyblade_stats": KeybladeStats.option_shuffle,
         "bad_starting_weapons": False,
@@ -51,16 +51,16 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "keyblade_min_recoil": 1,
         "keyblade_max_mp": 3,
         "keyblade_min_mp": -2,
-
+        
         "orichalcum_in_pool": 20,
         "orichalcum_price": 500,
         "mythril_in_pool": 20,
         "mythril_price": 500,
-
+        
         "randomize_ap_costs": RandomizeAPCosts.option_off,
         "max_ap_cost": 5,
         "min_ap_cost": 0,
-
+        
         "randomize_puppies": True,
         "puppy_value": 3,
         "starting_worlds": 4,
@@ -102,7 +102,7 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "day_2_materials": 4,
         "homecoming_materials": 10,
         "materials_in_pool": 13,
-
+        
         "super_bosses": False,
         "atlantica": False,
         "hundred_acre_wood": False,
@@ -110,7 +110,7 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "jungle_slider": False,
         "randomize_emblem_pieces": False,
         "randomize_postcards": RandomizePostcards.option_all,
-
+        
         "exp_multiplier": 64,
         "level_checks": 99,
         "slot_2_level_checks": 33,
@@ -123,7 +123,7 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "mp_increase": 7,
         "accessory_slot_increase": 1,
         "item_slot_increase": 3,
-
+        
         "keyblades_unlock_chests": False,
         "keyblade_stats": KeybladeStats.option_shuffle,
         "bad_starting_weapons": False,
@@ -137,16 +137,16 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "keyblade_min_recoil": 1,
         "keyblade_max_mp": 3,
         "keyblade_min_mp": -2,
-
+        
         "orichalcum_in_pool": 20,
         "orichalcum_price": 500,
         "mythril_in_pool": 20,
         "mythril_price": 500,
-
+        
         "randomize_ap_costs": RandomizeAPCosts.option_off,
         "max_ap_cost": 5,
         "min_ap_cost": 0,
-
+        
         "randomize_puppies": True,
         "puppy_value": 1,
         "starting_worlds": 0,
@@ -188,7 +188,7 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "day_2_materials": 4,
         "homecoming_materials": 10,
         "materials_in_pool": 13,
-
+        
         "super_bosses": True,
         "atlantica": True,
         "hundred_acre_wood": True,
@@ -196,7 +196,7 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "jungle_slider": True,
         "randomize_emblem_pieces": True,
         "randomize_postcards": RandomizePostcards.option_all,
-
+        
         "exp_multiplier": 64,
         "level_checks": 99,
         "slot_2_level_checks": 33,
@@ -209,7 +209,7 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "mp_increase": 7,
         "accessory_slot_increase": 1,
         "item_slot_increase": 3,
-
+        
         "keyblades_unlock_chests": True,
         "keyblade_stats": KeybladeStats.option_shuffle,
         "bad_starting_weapons": True,
@@ -223,16 +223,16 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "keyblade_min_recoil": 1,
         "keyblade_max_mp": 3,
         "keyblade_min_mp": -2,
-
+        
         "orichalcum_in_pool": 20,
         "orichalcum_price": 500,
         "mythril_in_pool": 20,
         "mythril_price": 500,
-
+        
         "randomize_ap_costs": RandomizeAPCosts.option_off,
         "max_ap_cost": 5,
         "min_ap_cost": 0,
-
+        
         "randomize_puppies": True,
         "puppy_value": 3,
         "starting_worlds": 0,
@@ -274,7 +274,7 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "day_2_materials": 4,
         "homecoming_materials": 10,
         "materials_in_pool": 13,
-
+        
         "super_bosses": False,
         "atlantica": False,
         "hundred_acre_wood": False,
@@ -282,7 +282,7 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "jungle_slider": False,
         "randomize_emblem_pieces": False,
         "randomize_postcards": RandomizePostcards.option_all,
-
+        
         "exp_multiplier": 16,
         "level_checks": 0,
         "slot_2_level_checks": 0,
@@ -294,7 +294,7 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "mp_increase": 0,
         "accessory_slot_increase": 6,
         "item_slot_increase": 5,
-
+        
         "keyblades_unlock_chests": False,
         "keyblade_stats": KeybladeStats.option_shuffle,
         "bad_starting_weapons": False,
@@ -308,16 +308,16 @@ kh1_option_presets: dict[str, dict[str, Any]] = {
         "keyblade_min_recoil": 1,
         "keyblade_max_mp": 3,
         "keyblade_min_mp": -2,
-
+        
         "orichalcum_in_pool": 20,
         "orichalcum_price": 500,
         "mythril_in_pool": 20,
         "mythril_price": 500,
-
+        
         "randomize_ap_costs": RandomizeAPCosts.option_off,
         "max_ap_cost": 5,
         "min_ap_cost": 0,
-
+        
         "randomize_puppies": True,
         "puppy_value": 3,
         "starting_worlds": 0,

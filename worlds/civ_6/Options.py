@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-
 from Options import (
     Choice,
     DefaultOnToggle,
@@ -9,7 +8,6 @@ from Options import (
     StartInventoryPool,
     Toggle,
 )
-
 from .Enum import CivVIHintClassification
 
 

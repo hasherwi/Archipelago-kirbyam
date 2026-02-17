@@ -1,16 +1,14 @@
-from typing import TYPE_CHECKING
-
-from .game_data.local_data import item_id_table
-from .game_data.text_data import eb_text_table, lumine_hall_text, text_encoder
-from .modules.boss_shuffle import initialize_bosses
-from .modules.dungeon_er import shuffle_dungeons
-from .modules.enemy_shuffler import shuffle_enemies
 from .modules.flavor_data import random_flavors
+from .game_data.text_data import lumine_hall_text, eb_text_table, text_encoder
+from .game_data.local_data import item_id_table
 from .modules.psi_shuffle import shuffle_psi
-
+from .modules.boss_shuffle import initialize_bosses
+from .modules.enemy_shuffler import shuffle_enemies
+from .modules.dungeon_er import shuffle_dungeons
+from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from . import EarthBoundWorld
-
+    
 def setup_gamevars(world: "EarthBoundWorld") -> None:
     """Initialize or roll most world variables"""
 
@@ -217,7 +215,7 @@ def setup_gamevars(world: "EarthBoundWorld") -> None:
     for i in range(world.options.total_photos):
         world.multiworld.itempool.append(world.create_item("Photograph"))
         world.event_count += 1
-
+        
     world.franklinbadge_elements = [
         "thunder",
         "fire",

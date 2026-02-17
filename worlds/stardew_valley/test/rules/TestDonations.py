@@ -1,8 +1,8 @@
+from ..bases import SVTestBase
 from ... import options
-from ...locations import LocationTags, location_table, locations_by_tag
+from ...locations import locations_by_tag, LocationTags, location_table
 from ...strings.entrance_names import Entrance
 from ...strings.region_names import Region
-from ..bases import SVTestBase
 
 
 class TestDonationLogicAll(SVTestBase):

@@ -1,6 +1,6 @@
+from . import SVContentPackTestBase
 from ...strings.fish_names import Fish
 from ...strings.villager_names import NPC
-from . import SVContentPackTestBase
 
 
 class TestPelicanTown(SVContentPackTestBase):

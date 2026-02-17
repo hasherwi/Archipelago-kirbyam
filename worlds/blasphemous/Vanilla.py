@@ -1,6 +1,6 @@
-from typing import Dict, Set
+from typing import Set, Dict
 
-unrandomized_dict: dict[str, str] = {
+unrandomized_dict: Dict[str, str] = {
     "CoOLotCV: Fountain of burning oil": "Golden Thimble Filled with Burning Oil",
     "MotED: Egg hatching": "Hatched Egg of Deformity",
     "BotSS: Crisanta's gift": "Holy Wound of Abnegation",
@@ -8,7 +8,7 @@ unrandomized_dict: dict[str, str] = {
 }
 
 
-junk_locations: set[str] = {
+junk_locations: Set[str] = {
     "Albero: Donate 50000 Tears",
     "Ossuary: 11th reward",
     "AtTotS: Miriam's gift",
@@ -16,7 +16,7 @@ junk_locations: set[str] = {
 }
 
 
-thorn_set: set[str] = {
+thorn_set: Set[str] = {
     "THL: Deogracias' gift",
     "Confessor Dungeon 1 main",
     "Confessor Dungeon 2 main",
@@ -28,7 +28,7 @@ thorn_set: set[str] = {
 }
 
 
-skill_dict: dict[str, str] = {
+skill_dict: Dict[str, str] = {
     "Skill 1, Tier 1": "Combo Skill",
     "Skill 1, Tier 2": "Combo Skill",
     "Skill 1, Tier 3": "Combo Skill",

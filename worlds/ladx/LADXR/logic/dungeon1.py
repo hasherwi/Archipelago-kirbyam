@@ -1,6 +1,6 @@
-from ..locations.all import *
-from .location import Location
 from .requirements import *
+from .location import Location
+from ..locations.all import *
 
 
 class Dungeon1:
@@ -24,18 +24,18 @@ class Dungeon1:
         dungeon1_boss = Location(dungeon=1).connect(dungeon1_miniboss, NIGHTMARE_KEY1)
         boss = Location(dungeon=1).add(HeartContainer(0x106), Instrument(0x102)).connect(dungeon1_boss, r.boss_requirements[world_setup.boss_mapping[0]])
 
-        if options.logic == "hard" or options.logic == "glitched" or options.logic == "hell":
+        if options.logic == 'hard' or options.logic == 'glitched' or options.logic == 'hell':
             stalfos_keese_room.connect(entrance, r.attack_hookshot_powder) # stalfos jump away when you press a button.
             dungeon1_3_of_a_kind.connect(dungeon1_right_side, BOMB) # use timed bombs to match the 3 of a kinds
-
-        if options.logic == "glitched" or options.logic == "hell":
+        
+        if options.logic == 'glitched' or options.logic == 'hell':
             boss_key.connect(entrance, r.super_jump_feather)  # super jump
             dungeon1_miniboss.connect(dungeon1_right_side, r.miniboss_requirements[world_setup.miniboss_mapping[0]]) # damage boost or buffer pause over the pit to cross or mushroom
-
-        if options.logic == "hell":
+        
+        if options.logic == 'hell':
             feather_chest.connect(dungeon1_upper_left, SWORD)  # keep slashing the spiked beetles until they keep moving 1 pixel close towards you and the pit, to get them to fall
             boss_key.connect(entrance, AND(r.damage_boost, FOUND(KEY1,3))) # damage boost off the hardhat to cross the pit
-
+            
         self.entrance = entrance
 
 

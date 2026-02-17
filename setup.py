@@ -17,11 +17,12 @@ from collections.abc import Iterable, Sequence
 from hashlib import sha3_512
 from pathlib import Path
 
+
 SNI_VERSION = "v0.0.100"  # change back to "latest" once tray icon issues are fixed
 
 
 # This is a bit jank. We need cx-Freeze to be able to run anything from this script, so install it
-requirement = "cx-Freeze==8.4.0"
+requirement = 'cx-Freeze==8.4.0'
 try:
     import pkg_resources
     try:
@@ -40,9 +41,9 @@ if install_cx_freeze:
     except ImportError:
         raise RuntimeError("pip not available. Please install pip.")
     # install and import cx_freeze
-    if "--yes" not in sys.argv and "-y" not in sys.argv:
-        input(f"Requirement {requirement} is not satisfied, press enter to install it")
-    subprocess.call([sys.executable, "-m", "pip", "install", requirement, "--upgrade"])
+    if '--yes' not in sys.argv and '-y' not in sys.argv:
+        input(f'Requirement {requirement} is not satisfied, press enter to install it')
+    subprocess.call([sys.executable, '-m', 'pip', 'install', requirement, '--upgrade'])
     import pkg_resources
 
 import cx_Freeze
@@ -56,10 +57,10 @@ if __name__ == "__main__":
     import ModuleUpdate
     ModuleUpdate.update(yes="--yes" in sys.argv or "-y" in sys.argv)
 
+from worlds.LauncherComponents import components, icon_paths
+from Utils import version_tuple, is_windows, is_linux
 from Cython.Build import cythonize
 
-from Utils import is_linux, is_windows, version_tuple
-from worlds.LauncherComponents import components, icon_paths
 
 non_apworlds: set[str] = {
     "A Link to the Past",
@@ -157,17 +158,18 @@ try:
     with urllib.request.urlopen(f"http://{sign_host}:{sign_port}/connector/status") as response:
         html = response.read()
     if b"status=OK\n" in html:
-        signtool = (r"signtool sign /sha1 6df76fe776b82869a5693ddcb1b04589cffa6faf /fd sha256 /td sha256 "
-                    r"/tr http://timestamp.digicert.com/ ")
+        signtool = (r'signtool sign /sha1 6df76fe776b82869a5693ddcb1b04589cffa6faf /fd sha256 /td sha256 '
+                    r'/tr http://timestamp.digicert.com/ ')
         print("Using signtool")
 except (ConnectionError, TimeoutError, urllib.error.URLError) as e:
     pass
 
 
 build_platform = sysconfig.get_platform()
-arch_folder = f"exe.{build_platform}-{sysconfig.get_python_version()}"
+arch_folder = "exe.{platform}-{version}".format(platform=build_platform,
+                                                version=sysconfig.get_python_version())
 buildfolder = Path("build", arch_folder)
-build_arch = build_platform.split("-")[-1] if "-" in build_platform else platform.machine()
+build_arch = build_platform.split('-')[-1] if '-' in build_platform else platform.machine()
 
 
 # see Launcher.py on how to add scripts to setup.py
@@ -178,7 +180,8 @@ def resolve_icon(icon_name: str):
         ico_file = path + ".ico"
         assert os.path.exists(ico_file), f"ico counterpart of {base_path} should exist."
         return ico_file
-    return base_path
+    else:
+        return base_path
 
 
 exes = [
@@ -219,7 +222,7 @@ def _threaded_hash(filepath: str | Path) -> str:
 # cx_Freeze's build command runs other commands. Override to accept --yes and store that.
 class BuildCommand(setuptools.command.build.build):
     user_options = [
-        ("yes", "y", 'Answer "yes" to all questions.'),
+        ('yes', 'y', 'Answer "yes" to all questions.'),
     ]
     yes: bool
     last_yes: bool = False  # used by sub commands of build
@@ -236,8 +239,8 @@ class BuildCommand(setuptools.command.build.build):
 # Override cx_Freeze's build_exe command for pre and post build steps
 class BuildExeCommand(cx_Freeze.command.build_exe.build_exe):
     user_options = cx_Freeze.command.build_exe.build_exe.user_options + [
-        ("yes", "y", 'Answer "yes" to all questions.'),
-        ("extra-data=", None, "Additional files to add."),
+        ('yes', 'y', 'Answer "yes" to all questions.'),
+        ('extra-data=', None, 'Additional files to add.'),
     ]
     yes: bool
     extra_data: Iterable[str]
@@ -264,7 +267,7 @@ class BuildExeCommand(cx_Freeze.command.build_exe.build_exe):
         folder = self.buildfolder
         if subpath:
             folder /= subpath
-        print("copying", path, "->", folder)
+        print('copying', path, '->', folder)
         if path.is_dir():
             folder /= path.name
             if folder.is_dir() and not keep_content:
@@ -273,7 +276,7 @@ class BuildExeCommand(cx_Freeze.command.build_exe.build_exe):
         elif path.is_file():
             shutil.copy(path, folder)
         else:
-            print("Warning,", path, "not found")
+            print('Warning,', path, 'not found')
 
     def create_manifest(self, create_hashes: bool = False) -> None:
         # Since the setup is now split into components and the manifest is not,
@@ -348,16 +351,15 @@ class BuildExeCommand(cx_Freeze.command.build_exe.build_exe):
 
         # post build steps
         if is_windows:  # kivy_deps is win32 only, linux picks them up automatically
-            from kivy_deps import glew, sdl2  # type: ignore
+            from kivy_deps import sdl2, glew  # type: ignore
             for folder in sdl2.dep_bins + glew.dep_bins:
                 shutil.copytree(folder, self.libfolder, dirs_exist_ok=True)
                 print(f"copying {folder} -> {self.libfolder}")
             # windows needs Visual Studio C++ Redistributable
             # Installer works for x64 and arm64
             print("Downloading VC Redist")
-            import ssl
-
             import certifi
+            import ssl
             context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH, cafile=certifi.where())
             with urllib.request.urlopen(r"https://aka.ms/vs/17/release/vc_redist.x64.exe",
                                         context=context) as download:
@@ -455,8 +457,8 @@ class BuildExeCommand(cx_Freeze.command.build_exe.build_exe):
                              for world_directory in folders_to_remove)
         else:
             # make sure extra programs are executable
-            enemizer_exe = self.buildfolder / "EnemizerCLI/EnemizerCLI.Core"
-            sni_exe = self.buildfolder / "SNI/sni"
+            enemizer_exe = self.buildfolder / 'EnemizerCLI/EnemizerCLI.Core'
+            sni_exe = self.buildfolder / 'SNI/sni'
             extra_exes = (enemizer_exe, sni_exe)
             for extra_exe in extra_exes:
                 if extra_exe.is_file():
@@ -485,22 +487,22 @@ class AppImageCommand(setuptools.Command):
     def write_desktop(self) -> None:
         assert self.app_dir, "Invalid app_dir"
         desktop_filename = self.app_dir / f"{self.app_id}.desktop"
-        with open(desktop_filename, "w", encoding="utf-8") as f:
+        with open(desktop_filename, 'w', encoding="utf-8") as f:
             f.write("\n".join((
                 "[Desktop Entry]",
-                f"Name={self.app_name}",
-                f"Exec={self.app_exec}",
+                f'Name={self.app_name}',
+                f'Exec={self.app_exec}',
                 "Type=Application",
                 "Categories=Game",
-                f"Icon={self.app_id}",
-                ""
+                f'Icon={self.app_id}',
+                ''
             )))
         desktop_filename.chmod(0o755)
 
     def write_launcher(self, default_exe: Path) -> None:
         assert self.app_dir, "Invalid app_dir"
         launcher_filename = self.app_dir / "AppRun"
-        with open(launcher_filename, "w", encoding="utf-8") as f:
+        with open(launcher_filename, 'w', encoding="utf-8") as f:
             f.write(f"""#!/bin/sh
 exe="{default_exe}"
 match="${{1#--executable=}}"
@@ -527,7 +529,7 @@ $APPDIR/$exe "$@"
         except ModuleNotFoundError:
             if not self.yes:
                 input("Requirement PIL is not satisfied, press enter to install it")
-            subprocess.call([sys.executable, "-m", "pip", "install", "Pillow", "--upgrade"])
+            subprocess.call([sys.executable, '-m', 'pip', 'install', 'Pillow', '--upgrade'])
             from PIL import Image
         im = Image.open(src)
         res, _ = im.size
@@ -535,9 +537,9 @@ $APPDIR/$exe "$@"
         if not name:
             name = src.stem
         ext = src.suffix
-        dest_dir = Path(self.app_dir / f"usr/share/icons/hicolor/{res}x{res}/apps")
+        dest_dir = Path(self.app_dir / f'usr/share/icons/hicolor/{res}x{res}/apps')
         dest_dir.mkdir(parents=True, exist_ok=True)
-        dest_file = dest_dir / f"{name}{ext}"
+        dest_file = dest_dir / f'{name}{ext}'
         shutil.copy(src, dest_file)
         if symlink:
             symlink.symlink_to(dest_file.relative_to(symlink.parent))
@@ -548,8 +550,13 @@ $APPDIR/$exe "$@"
         self.app_dir = None
         self.app_name = self.distribution.metadata.name
         self.app_icon = self.distribution.executables[0].icon
-        self.app_exec = Path(f"opt/{self.distribution.metadata.name}/{self.distribution.executables[0].target_name}")
-        self.dist_file = Path("dist", f"{self.distribution.metadata.name}_{self.distribution.metadata.version}_{sysconfig.get_platform()}.AppImage")
+        self.app_exec = Path('opt/{app_name}/{exe}'.format(
+            app_name=self.distribution.metadata.name, exe=self.distribution.executables[0].target_name
+        ))
+        self.dist_file = Path("dist", "{app_name}_{app_version}_{platform}.AppImage".format(
+            app_name=self.distribution.metadata.name, app_version=self.distribution.metadata.version,
+            platform=sysconfig.get_platform()
+        ))
         self.yes = False
 
     def finalize_options(self) -> None:
@@ -569,12 +576,12 @@ $APPDIR/$exe "$@"
         self.app_dir.mkdir(parents=True)
         opt_dir = self.app_dir / "opt" / self.app_name
         shutil.copytree(self.build_folder, opt_dir)
-        root_icon = self.app_dir / f"{self.app_id}{self.app_icon.suffix}"
+        root_icon = self.app_dir / f'{self.app_id}{self.app_icon.suffix}'
         self.install_icon(self.app_icon, self.app_id, symlink=root_icon)
-        shutil.copy(root_icon, self.app_dir / ".DirIcon")
+        shutil.copy(root_icon, self.app_dir / '.DirIcon')
         self.write_desktop()
         self.write_launcher(self.app_exec)
-        print(f"{self.app_dir} -> {self.dist_file}")
+        print(f'{self.app_dir} -> {self.dist_file}')
         subprocess.call(f'ARCH={build_arch} ./appimagetool -n "{self.app_dir}" "{self.dist_file}"', shell=True)
 
 
@@ -583,24 +590,24 @@ def find_libs(*args: str) -> Sequence[tuple[str, str]]:
     if not args:
         return []
 
-    arch = build_arch.replace("_", "-")
-    libc = "libc6"  # we currently don't support musl
+    arch = build_arch.replace('_', '-')
+    libc = 'libc6'  # we currently don't support musl
 
     def parse(line: str) -> tuple[tuple[str, str, str], str]:
-        lib, path = line.strip().split(" => ")
-        lib, typ = lib.split(" ", 1)
-        for test_arch in ("x86-64", "i386", "aarch64"):
+        lib, path = line.strip().split(' => ')
+        lib, typ = lib.split(' ', 1)
+        for test_arch in ('x86-64', 'i386', 'aarch64'):
             if test_arch in typ:
                 lib_arch = test_arch
                 break
         else:
-            lib_arch = ""
-        for test_libc in ("libc6",):
+            lib_arch = ''
+        for test_libc in ('libc6',):
             if test_libc in typ:
                 lib_libc = test_libc
                 break
         else:
-            lib_libc = ""
+            lib_libc = ''
         return (lib, lib_arch, lib_libc), path
 
     if not hasattr(find_libs, "cache"):
@@ -625,14 +632,14 @@ def find_libs(*args: str) -> Sequence[tuple[str, str]]:
     for arg in args:
         # try exact match, empty libc, empty arch, empty arch and libc
         file = find_lib(arg, arch, libc)
-        file = file or find_lib(arg, arch, "")
-        file = file or find_lib(arg, "", libc)
-        file = file or find_lib(arg, "", "")
+        file = file or find_lib(arg, arch, '')
+        file = file or find_lib(arg, '', libc)
+        file = file or find_lib(arg, '', '')
         if not file:
             raise ValueError(f"Could not find lib {arg}")
         # resolve symlinks
         for n in range(0, 5):
-            res.append((file, os.path.join("lib", os.path.basename(file))))
+            res.append((file, os.path.join('lib', os.path.basename(file))))
             if not os.path.islink(file):
                 break
             dirname = os.path.dirname(file)

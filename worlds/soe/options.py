@@ -1,26 +1,16 @@
 from dataclasses import dataclass, fields
 from datetime import datetime
-from typing import Any, ClassVar, Dict, List, Protocol, Tuple, cast
-from collections.abc import Iterator
+from typing import Any, ClassVar, cast, Dict, Iterator, List, Tuple, Protocol
 
-from Options import (
-    AssembleOptions,
-    Choice,
-    DeathLink,
-    DefaultOnToggle,
-    Option,
-    PerGameCommonOptions,
-    ProgressionBalancing,
-    Range,
-    Toggle,
-)
+from Options import AssembleOptions, Choice, DeathLink, DefaultOnToggle, Option, PerGameCommonOptions, \
+    ProgressionBalancing, Range, Toggle
 
 
 # typing boilerplate
 class FlagsProtocol(Protocol):
     value: int
     default: ClassVar[int]
-    flags: list[str]
+    flags: List[str]
 
 
 class FlagProtocol(Protocol):
@@ -31,7 +21,7 @@ class FlagProtocol(Protocol):
 
 # meta options
 class EvermizerFlags:
-    flags: list[str]
+    flags: List[str]
 
     def to_flag(self: FlagsProtocol) -> str:
         return self.flags[self.value]
@@ -41,7 +31,7 @@ class EvermizerFlag:
     flag: str
 
     def to_flag(self: FlagProtocol) -> str:
-        return self.flag if self.value != self.default else ""
+        return self.flag if self.value != self.default else ''
 
 
 class OffOnFullChoice(Choice):
@@ -67,7 +57,7 @@ class Difficulty(EvermizerFlags, Choice):
     option_mystery = 3  # 'random' is reserved
     alias_chaos = 3
     default = 1
-    flags = ["e", "n", "h", "x"]
+    flags = ['e', 'n', 'h', 'x']
 
 
 class EnergyCore(EvermizerFlags, Choice):
@@ -77,7 +67,7 @@ class EnergyCore(EvermizerFlags, Choice):
     option_shuffle = 1
     option_fragments = 2
     default = 1
-    flags = ["z", "", "Z"]
+    flags = ['z', '', 'Z']
 
 
 class RequiredFragments(Range):
@@ -116,57 +106,57 @@ class SequenceBreaks(EvermizerFlags, OffOnLogicChoice):
     """Disable, enable some sequence breaks or put them in logic"""
     display_name = "Sequence Breaks"
     default = 0
-    flags = ["", "j", "J"]
+    flags = ['', 'j', 'J']
 
 
 class OutOfBounds(EvermizerFlags, OffOnLogicChoice):
     """Disable, enable the out-of-bounds glitch or put it in logic"""
     display_name = "Out Of Bounds"
     default = 0
-    flags = ["", "u", "U"]
+    flags = ['', 'u', 'U']
 
 
 class FixCheats(EvermizerFlag, DefaultOnToggle):
     """Fix cheats left in by the devs (not desert skip)"""
     display_name = "Fix Cheats"
-    flag = "2"
+    flag = '2'
 
 
 class FixInfiniteAmmo(EvermizerFlag, Toggle):
     """Fix infinite ammo glitch"""
     display_name = "Fix Infinite Ammo"
-    flag = "5"
+    flag = '5'
 
 
 class FixAtlasGlitch(EvermizerFlag, Toggle):
     """Fix atlas underflowing stats"""
     display_name = "Fix Atlas Glitch"
-    flag = "6"
+    flag = '6'
 
 
 class FixWingsGlitch(EvermizerFlag, Toggle):
     """Fix wings making you invincible in some areas"""
     display_name = "Fix Wings Glitch"
-    flag = "7"
+    flag = '7'
 
 
 class ShorterDialogs(EvermizerFlag, DefaultOnToggle):
     """Cuts some dialogs"""
     display_name = "Shorter Dialogs"
-    flag = "9"
+    flag = '9'
 
 
 class ShortBossRush(EvermizerFlag, DefaultOnToggle):
     """Start boss rush at Metal Magmar, cut enemy HP in half"""
     display_name = "Short Boss Rush"
-    flag = "f"
+    flag = 'f'
 
 
 class Ingredienizer(EvermizerFlags, OffOnFullChoice):
     """On Shuffles, Full randomizes spell ingredients"""
     display_name = "Ingredienizer"
     default = 1
-    flags = ["i", "", "I"]
+    flags = ['i', '', 'I']
 
 
 class Sniffamizer(EvermizerFlags, Choice):
@@ -182,7 +172,7 @@ class Sniffamizer(EvermizerFlags, Choice):
         __doc__ = __doc__ + "    Everywhere: add sniff spots to multiworld pool"
     alias_true = 1
     default = 1
-    flags = ["s", "", "S"]
+    flags = ['s', '', 'S']
 
 
 class SniffIngredients(EvermizerFlag, Choice):
@@ -190,20 +180,20 @@ class SniffIngredients(EvermizerFlag, Choice):
     display_name = "Sniff Ingredients"
     option_vanilla_ingredients = 0
     option_random_ingredients = 1
-    flag = "v"
+    flag = 'v'
 
 
 class Callbeadamizer(EvermizerFlags, OffOnFullChoice):
     """On Shuffles call bead characters, Full shuffles individual spells"""
     display_name = "Callbeadamizer"
     default = 1
-    flags = ["c", "", "C"]
+    flags = ['c', '', 'C']
 
 
 class Musicmizer(EvermizerFlag, Toggle):
     """Randomize music for some rooms"""
     display_name = "Musicmizer"
-    flag = "m"
+    flag = 'm'
 
 
 class Doggomizer(EvermizerFlags, OffOnFullChoice):
@@ -211,13 +201,13 @@ class Doggomizer(EvermizerFlags, OffOnFullChoice):
     display_name = "Doggomizer"
     option_pupdunk = 3
     default = 0
-    flags = ["", "d", "D", "p"]
+    flags = ['', 'd', 'D', 'p']
 
 
 class TurdoMode(EvermizerFlag, Toggle):
     """Replace offensive spells by Turd Balls with varying strength and make weapons weak"""
     display_name = "Turdo Mode"
-    flag = "t"
+    flag = 't'
 
 
 class TrapCount(Range):
@@ -230,12 +220,12 @@ class TrapCount(Range):
 
 # more meta options
 class ItemChanceMeta(AssembleOptions):
-    def __new__(mcs, name: str, bases: tuple[type], attrs: dict[Any, Any]) -> "ItemChanceMeta":
-        if "item_name" in attrs:
+    def __new__(mcs, name: str, bases: Tuple[type], attrs: Dict[Any, Any]) -> "ItemChanceMeta":
+        if 'item_name' in attrs:
             attrs["display_name"] = f"{attrs['item_name']} Chance"
         attrs["range_start"] = 0
         attrs["range_end"] = 100
-        cls = super().__new__(mcs, name, bases, attrs)   # type: ignore[no-untyped-call]
+        cls = super(ItemChanceMeta, mcs).__new__(mcs, name, bases, attrs)   # type: ignore[no-untyped-call]
         return cast(ItemChanceMeta, cls)
 
 
@@ -319,7 +309,7 @@ class SoEOptions(PerGameCommonOptions):
 
     @property
     def flags(self) -> str:
-        flags = "AGBo"  # configures auto-tracker to AP's fill
+        flags = 'AGBo'  # configures auto-tracker to AP's fill
         for field in fields(self):
             option = getattr(self, field.name)
             if isinstance(option, (EvermizerFlag, EvermizerFlags)):

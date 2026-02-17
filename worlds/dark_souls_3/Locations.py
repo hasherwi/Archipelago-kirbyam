@@ -1,8 +1,7 @@
+from typing import cast, ClassVar, Optional, Dict, List, Set
 from dataclasses import dataclass
-from typing import ClassVar, Dict, List, Optional, Set, cast
 
 from BaseClasses import ItemClassification, Location, Region
-
 from .Items import DS3ItemCategory, item_dictionary
 
 # Regions in approximate order of reward, mostly measured by how high-quality the upgrade items are
@@ -53,7 +52,7 @@ class DS3LocationData:
 
     This needs to be unique within this world."""
 
-    default_item_name: str | None
+    default_item_name: Optional[str]
     """The name of the item that appears by default in this location.
 
     If this is None, that indicates that this location is an "event" that's
@@ -62,7 +61,7 @@ class DS3LocationData:
     that progression balancing and item smoothing is more accurate for DS3.
     """
 
-    ap_code: int | None = None
+    ap_code: Optional[int] = None
     """Archipelago's internal ID for this location (also known as its "address")."""
 
     region_value: int = 0
@@ -71,7 +70,7 @@ class DS3LocationData:
     This is used to sort locations when placing items like the base game.
     """
 
-    static: str | None = None
+    static: Optional[str] = None
     """The key in the static randomizer's Slots table that corresponds to this location.
 
     By default, the static randomizer chooses its location based on the region and the item name.
@@ -184,7 +183,7 @@ class DS3LocationData:
             DS3LocationData.__location_id += 1
         if self.miniboss or self.mimic or self.lizard or self.hostile_npc: self.drop = True
 
-    def location_groups(self) -> list[str]:
+    def location_groups(self) -> List[str]:
         """The names of location groups this location should appear in.
 
         This is computed from the properties assigned to this location."""
@@ -230,7 +229,7 @@ class DarkSouls3Location(Location):
             self,
             player: int,
             data: DS3LocationData,
-            parent: Region | None = None,
+            parent: Optional[Region] = None,
             event: bool = False):
         super().__init__(player, data.name, None if event else data.ap_code, parent)
         self.data = data
@@ -259,7 +258,7 @@ class DarkSouls3Location(Location):
 #   as part of their normal quest, "kill [name]" for items that require killing
 #   them even when they aren't hostile, and just "[name]" for items that are
 #   naturally available as part of their quest.
-location_tables: dict[str, list[DS3LocationData]] = {
+location_tables: Dict[str, List[DS3LocationData]] = {
     "Cemetery of Ash": [
         DS3LocationData("CA: Soul of a Deserted Corpse - right of spawn",
                         "Soul of a Deserted Corpse"),
@@ -304,16 +303,16 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("FS: White Sign Soapstone - shop", "White Sign Soapstone", shop=True),
         DS3LocationData("FS: Dried Finger - shop", "Dried Finger", shop=True),
         DS3LocationData("FS: Tower Key - shop", "Tower Key", progression=True, shop=True),
-        DS3LocationData("FS: Ember - shop", "Ember", static="99,0:-1:110000:", shop=True),
-        DS3LocationData("FS: Farron Dart - shop", "Farron Dart", static="99,0:-1:110000:",
+        DS3LocationData("FS: Ember - shop", "Ember", static='99,0:-1:110000:', shop=True),
+        DS3LocationData("FS: Farron Dart - shop", "Farron Dart", static='99,0:-1:110000:',
                         shop=True),
-        DS3LocationData("FS: Soul Arrow - shop", "Soul Arrow", static="99,0:-1:110000:",
+        DS3LocationData("FS: Soul Arrow - shop", "Soul Arrow", static='99,0:-1:110000:',
                         shop=True),
         DS3LocationData("FS: Heal Aid - shop", "Heal Aid", shop=True),
         DS3LocationData("FS: Alluring Skull - Mortician's Ashes", "Alluring Skull", shop=True,
                         conditional=True),
         DS3LocationData("FS: Ember - Mortician's Ashes", "Ember",
-                        static="99,0:-1:110000,70000100:", shop=True, conditional=True),
+                        static='99,0:-1:110000,70000100:', shop=True, conditional=True),
         DS3LocationData("FS: Grave Key - Mortician's Ashes", "Grave Key", shop=True,
                         conditional=True),
         DS3LocationData("FS: Life Ring - Dreamchaser's Ashes", "Life Ring", shop=True,
@@ -324,16 +323,16 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("FS: Lloyd's Shield Ring - Paladin's Ashes", "Lloyd's Shield Ring",
                         shop=True, conditional=True),
         DS3LocationData("FS: Ember - Grave Warden's Ashes", "Ember",
-                        static="99,0:-1:110000,70000103:", shop=True, conditional=True),
+                        static='99,0:-1:110000,70000103:', shop=True, conditional=True),
         # Prisoner Chief's Ashes
         DS3LocationData("FS: Karla's Pointed Hat - Prisoner Chief's Ashes", "Karla's Pointed Hat",
-                        static="99,0:-1:110000,70000105:", shop=True, conditional=True),
+                        static='99,0:-1:110000,70000105:', shop=True, conditional=True),
         DS3LocationData("FS: Karla's Coat - Prisoner Chief's Ashes", "Karla's Coat",
-                        static="99,0:-1:110000,70000105:", shop=True, conditional=True),
+                        static='99,0:-1:110000,70000105:', shop=True, conditional=True),
         DS3LocationData("FS: Karla's Gloves - Prisoner Chief's Ashes", "Karla's Gloves",
-                        static="99,0:-1:110000,70000105:", shop=True, conditional=True),
+                        static='99,0:-1:110000,70000105:', shop=True, conditional=True),
         DS3LocationData("FS: Karla's Trousers - Prisoner Chief's Ashes", "Karla's Trousers",
-                        static="99,0:-1:110000,70000105:", shop=True, conditional=True),
+                        static='99,0:-1:110000,70000105:', shop=True, conditional=True),
         DS3LocationData("FS: Xanthous Overcoat - Xanthous Ashes", "Xanthous Overcoat", shop=True,
                         conditional=True),
         DS3LocationData("FS: Xanthous Gloves - Xanthous Ashes", "Xanthous Gloves", shop=True,
@@ -341,7 +340,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("FS: Xanthous Trousers - Xanthous Ashes", "Xanthous Trousers", shop=True,
                         conditional=True),
         DS3LocationData("FS: Ember - Dragon Chaser's Ashes", "Ember",
-                        static="99,0:-1:110000,70000108:", shop=True, conditional=True),
+                        static='99,0:-1:110000,70000108:', shop=True, conditional=True),
         DS3LocationData("FS: Washing Pole - Easterner's Ashes", "Washing Pole", shop=True,
                         conditional=True),
         DS3LocationData("FS: Eastern Helm - Easterner's Ashes", "Eastern Helm", shop=True,
@@ -498,7 +497,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("FSBT: Hollow Gem - crow for Eleonora", "Hollow Gem",
                         missable=True),
         DS3LocationData("FSBT: Titanite Scale - crow for Blacksmith Hammer", "Titanite Scale x3",
-                        static="99,0:50004330::", missable=True),
+                        static='99,0:50004330::', missable=True),
         DS3LocationData("FSBT: Help me! Carving - crow for any sacred chime", "Help me! Carving",
                         missable=True),
         DS3LocationData("FSBT: Titanite Slab - crow for Coiled Sword Fragment", "Titanite Slab",
@@ -596,7 +595,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("HWL: Astora Straight Sword - fort walkway, drop down",
                         "Astora Straight Sword", hidden=True),  # Hidden fall
         DS3LocationData("HWL: Battle Axe - flame tower, mimic", "Battle Axe",
-                        static="01,0:53000960::", mimic=True),
+                        static='01,0:53000960::', mimic=True),
 
         # Only dropped after transformation
         DS3LocationData("HWL: Ember - fort roof, transforming hollow", "Ember", hidden=True),
@@ -624,11 +623,11 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("US: Old Sage's Blindfold - kill Cornyx", "Old Sage's Blindfold",
                         npc=True),
         DS3LocationData("US: Cornyx's Garb - kill Cornyx", "Cornyx's Garb",
-                        static="02,0:50006141::", npc=True),
+                        static='02,0:50006141::', npc=True),
         DS3LocationData("US: Cornyx's Wrap - kill Cornyx", "Cornyx's Wrap",
-                        static="02,0:50006141::", npc=True),
+                        static='02,0:50006141::', npc=True),
         DS3LocationData("US: Cornyx's Skirt - kill Cornyx", "Cornyx's Skirt",
-                        static="02,0:50006141::", npc=True),
+                        static='02,0:50006141::', npc=True),
         DS3LocationData("US: Tower Key - kill Irina", "Tower Key", missable=True, npc=True),
         DS3LocationData("US: Flynn's Ring - tower village, rooftop", "Flynn's Ring"),
         DS3LocationData("US: Undead Bone Shard - by white tree", "Undead Bone Shard"),
@@ -636,7 +635,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("US: Mortician's Ashes - graveyard by white tree", "Mortician's Ashes",
                         progression=True),
         DS3LocationData("US: Homeward Bone - tower village, jump from roof", "Homeward Bone x2",
-                        static="02,0:53100040::", hidden=True),  # Hidden fall
+                        static='02,0:53100040::', hidden=True),  # Hidden fall
         DS3LocationData("US: Caduceus Round Shield - right after stable exit",
                         "Caduceus Round Shield"),
         DS3LocationData("US: Ember - tower basement, miniboss", "Ember"),
@@ -644,7 +643,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
                         "Soul of an Unknown Traveler"),
         DS3LocationData("US: Repair Powder - first building, balcony", "Repair Powder x2"),
         DS3LocationData("US: Homeward Bone - stable roof", "Homeward Bone x2",
-                        static="02,0:53100090::"),
+                        static='02,0:53100090::'),
         DS3LocationData("US: Titanite Shard - back alley, side path", "Titanite Shard"),
         DS3LocationData("US: Wargod Wooden Shield - Pit of Hollows", "Wargod Wooden Shield"),
         DS3LocationData("US: Large Soul of a Deserted Corpse - on the way to tower, by well",
@@ -707,7 +706,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("US: Whip - back alley, behind wooden wall", "Whip", hidden=True),
         DS3LocationData("US: Great Scythe - building by white tree, balcony", "Great Scythe"),
         DS3LocationData("US: Homeward Bone - foot, drop overlook", "Homeward Bone",
-                        static="02,0:53100950::"),
+                        static='02,0:53100950::'),
         DS3LocationData("US: Large Soul of a Deserted Corpse - around corner by Cliff Underside",
                         "Large Soul of a Deserted Corpse", hidden=True),  # Hidden corner
         DS3LocationData("US: Ember - behind burning tree", "Ember"),
@@ -751,7 +750,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("US: Human Pine Resin - tower village building, chest upstairs",
                         "Human Pine Resin x4"),
         DS3LocationData("US: Homeward Bone - tower village, right at start", "Homeward Bone",
-                        static="02,0:53100540::"),
+                        static='02,0:53100540::'),
         DS3LocationData("US: Irithyll Straight Sword - miniboss drop, by Road of Sacrifices",
                         "Irithyll Straight Sword", miniboss=True),
         DS3LocationData("US: Fire Gem - tower village, miniboss drop", "Fire Gem", miniboss=True),
@@ -761,25 +760,25 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("US: Sharp Gem - lizard by Dilapidated Bridge", "Sharp Gem", lizard=True),
         DS3LocationData("US: Heavy Gem - chasm, lizard", "Heavy Gem", lizard=True),
         DS3LocationData("US: Siegbräu - Siegward", "Siegbräu", missable=True, npc=True),
-        DS3LocationData("US: Heavy Gem - Hawkwood", "Heavy Gem", static="00,0:50006070::",
+        DS3LocationData("US: Heavy Gem - Hawkwood", "Heavy Gem", static='00,0:50006070::',
                         missable=True, npc=True),  # Hawkwood (quest, after Greatwood or Sage)
         DS3LocationData("US -> RS", None),
 
         # Yoel/Yuria of Londor
         DS3LocationData("FS: Soul Arrow - Yoel/Yuria shop", "Soul Arrow",
-                        static="99,0:-1:50000,110000,70000116:", missable=True, npc=True,
+                        static='99,0:-1:50000,110000,70000116:', missable=True, npc=True,
                         shop=True),
         DS3LocationData("FS: Heavy Soul Arrow - Yoel/Yuria shop", "Heavy Soul Arrow",
-                        static="99,0:-1:50000,110000,70000116:",
+                        static='99,0:-1:50000,110000,70000116:',
                         missable=True, npc=True, shop=True),
         DS3LocationData("FS: Magic Weapon - Yoel/Yuria shop", "Magic Weapon",
-                        static="99,0:-1:50000,110000,70000116:", missable=True, npc=True,
+                        static='99,0:-1:50000,110000,70000116:', missable=True, npc=True,
                         shop=True),
         DS3LocationData("FS: Magic Shield - Yoel/Yuria shop", "Magic Shield",
-                        static="99,0:-1:50000,110000,70000116:", missable=True, npc=True,
+                        static='99,0:-1:50000,110000,70000116:', missable=True, npc=True,
                         shop=True),
         DS3LocationData("FS: Soul Greatsword - Yoel/Yuria shop", "Soul Greatsword",
-                        static="99,0:-1:50000,110000,70000450,70000475:", missable=True,
+                        static='99,0:-1:50000,110000,70000450,70000475:', missable=True,
                         npc=True, shop=True),
         DS3LocationData("FS: Dark Hand - Yuria shop", "Dark Hand", missable=True, npc=True),
         DS3LocationData("FS: Untrue White Ring - Yuria shop", "Untrue White Ring", missable=True,
@@ -787,7 +786,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("FS: Untrue Dark Ring - Yuria shop", "Untrue Dark Ring", missable=True,
                         npc=True),
         DS3LocationData("FS: Londor Braille Divine Tome - Yuria shop", "Londor Braille Divine Tome",
-                        static="99,0:-1:40000,110000,70000116:", missable=True, npc=True),
+                        static='99,0:-1:40000,110000,70000116:', missable=True, npc=True),
         DS3LocationData("FS: Darkdrift - kill Yuria", "Darkdrift", missable=True, drop=True,
                         npc=True),  # kill her or kill Soul of Cinder
 
@@ -934,34 +933,34 @@ location_tables: dict[str, list[DS3LocationData]] = {
                         missable=True, npc=True),  # Horace quest
         DS3LocationData("RS: Crystal Gem - stronghold, lizard", "Crystal Gem", lizard=True),
         DS3LocationData("RS: Fading Soul - woods by Crucifixion Woods bonfire", "Fading Soul",
-                        static="03,0:53300210::"),
+                        static='03,0:53300210::'),
 
         # Orbeck shop, all missable because he'll disappear if you don't talk to him for too long or
         # if you don't give him a scroll.
         DS3LocationData("FS: Farron Dart - Orbeck", "Farron Dart",
-                        static="99,0:-1:110000,130100,70000111:", missable=True, npc=True,
+                        static='99,0:-1:110000,130100,70000111:', missable=True, npc=True,
                         shop=True),
         DS3LocationData("FS: Soul Arrow - Orbeck", "Soul Arrow",
-                        static="99,0:-1:110000,130100,70000111:", missable=True, npc=True,
+                        static='99,0:-1:110000,130100,70000111:', missable=True, npc=True,
                         shop=True),
         DS3LocationData("FS: Great Soul Arrow - Orbeck", "Great Soul Arrow", missable=True,
                         npc=True, shop=True),
         DS3LocationData("FS: Heavy Soul Arrow - Orbeck", "Heavy Soul Arrow",
-                        static="99,0:-1:110000,130100,70000111:", missable=True, npc=True,
+                        static='99,0:-1:110000,130100,70000111:', missable=True, npc=True,
                         shop=True),
         DS3LocationData("FS: Great Heavy Soul Arrow - Orbeck", "Great Heavy Soul Arrow",
                         missable=True, npc=True, shop=True),
         DS3LocationData("FS: Magic Weapon - Orbeck", "Magic Weapon",
-                        static="99,0:-1:110000,130100,70000111:", missable=True, npc=True,
+                        static='99,0:-1:110000,130100,70000111:', missable=True, npc=True,
                         shop=True),
         DS3LocationData("FS: Magic Shield - Orbeck", "Magic Shield",
-                        static="99,0:-1:110000,130100,70000111:", missable=True, npc=True,
+                        static='99,0:-1:110000,130100,70000111:', missable=True, npc=True,
                         shop=True),
         DS3LocationData("FS: Spook - Orbeck", "Spook", missable=True, npc=True, shop=True),
         DS3LocationData("FS: Aural Decoy - Orbeck", "Aural Decoy", missable=True, npc=True,
                         shop=True),
         DS3LocationData("FS: Soul Greatsword - Orbeck", "Soul Greatsword",
-                        static="99,0:-1:110000,130100,70000111:", missable=True, npc=True),
+                        static='99,0:-1:110000,130100,70000111:', missable=True, npc=True),
         DS3LocationData("FS: Farron Flashsword - Orbeck", "Farron Flashsword", missable=True,
                         npc=True, shop=True),
         DS3LocationData("FS: Pestilent Mist - Orbeck for any scroll", "Pestilent Mist",
@@ -1166,7 +1165,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("CD: Rusted Coin - don't forgive Patches", "Rusted Coin",
                         missable=True, npc=True),
         DS3LocationData("FS: Rusted Gold Coin - don't forgive Patches", "Rusted Gold Coin",
-                        static="99,0:50006201::", missable=True,
+                        static='99,0:50006201::', missable=True,
                         npc=True),  # Don't forgive Patches
         DS3LocationData("CD: Shotel - Patches", "Shotel", missable=True, npc=True, shop=True),
         DS3LocationData("CD: Ember - Patches", "Ember", missable=True, npc=True, shop=True),
@@ -1492,12 +1491,12 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("US: Spotted Whip - by Cornyx's cage after Cuculus quest", "Spotted Whip",
                         missable=True, boss=True, npc=True),
         DS3LocationData("US: Cornyx's Garb - by Cornyx's cage after Cuculus quest",
-                        "Cornyx's Garb", static="02,0:53100100::", missable=True, boss=True,
+                        "Cornyx's Garb", static='02,0:53100100::', missable=True, boss=True,
                         npc=True),
         DS3LocationData("US: Cornyx's Wrap - by Cornyx's cage after Cuculus quest", "Cornyx's Wrap",
-                        static="02,0:53100100::", missable=True, boss=True, npc=True),
+                        static='02,0:53100100::', missable=True, boss=True, npc=True),
         DS3LocationData("US: Cornyx's Skirt - by Cornyx's cage after Cuculus quest",
-                        "Cornyx's Skirt", static="02,0:53100100::", missable=True, boss=True,
+                        "Cornyx's Skirt", static='02,0:53100100::', missable=True, boss=True,
                         npc=True),
     ],
     "Irithyll of the Boreal Valley": [
@@ -1629,7 +1628,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
 
         # Sirris quest after killing Creighton
         DS3LocationData("FS: Mail Breaker - Sirris for killing Creighton", "Mail Breaker",
-                        static="99,0:50006080::", missable=True, hostile_npc=True,
+                        static='99,0:50006080::', missable=True, hostile_npc=True,
                         npc=True),
         DS3LocationData("FS: Silvercat Ring - Sirris for killing Creighton", "Silvercat Ring",
                         missable=True, hostile_npc=True, npc=True),
@@ -1792,7 +1791,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
                         missable=True, npc=True),
 
         # Siegward drops (kill or quest)
-        DS3LocationData("PC: Storm Ruler - Siegward", "Storm Ruler", static="02,0:50006218::",
+        DS3LocationData("PC: Storm Ruler - Siegward", "Storm Ruler", static='02,0:50006218::',
                         missable=True, drop=True, npc=True),
         DS3LocationData("PC: Pierce Shield - Siegward", "Pierce Shield", missable=True,
                         drop=True, npc=True),
@@ -1803,7 +1802,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
     "Anor Londo": [
         DS3LocationData("AL: Soul of Aldrich", "Soul of Aldrich", boss=True),
         DS3LocationData("AL: Cinders of a Lord - Aldrich", "Cinders of a Lord - Aldrich",
-                        static="06,0:50002130::", prominent=True, progression=True,
+                        static='06,0:50002130::', prominent=True, progression=True,
                         boss=True),
         DS3LocationData("AL: Yorshka's Chime - kill Yorshka", "Yorshka's Chime", missable=True,
                         drop=True,
@@ -1842,10 +1841,10 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("AL: Deep Gem - water reserves", "Deep Gem"),
         DS3LocationData("AL: Titanite Scale - top of ladder up to buttresses", "Titanite Scale"),
         DS3LocationData("AL: Dragonslayer Greatarrow - drop from nearest buttress",
-                        "Dragonslayer Greatarrow x5", static="06,0:53700620::",
+                        "Dragonslayer Greatarrow x5", static='06,0:53700620::',
                         hidden=True),  # Hidden fall
         DS3LocationData("AL: Dragonslayer Greatbow - drop from nearest buttress",
-                        "Dragonslayer Greatbow", static="06,0:53700620::",
+                        "Dragonslayer Greatbow", static='06,0:53700620::',
                         hidden=True),  # Hidden fall
         DS3LocationData("AL: Easterner's Ashes - below top of furthest buttress",
                         "Easterner's Ashes", progression=True),
@@ -1893,7 +1892,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
                         hidden=True),  # Behind illusory wall
 
         DS3LocationData("FS: Budding Green Blossom - shop after killing Creighton and AL boss",
-                        "Budding Green Blossom", static="99,0:-1:110000,70000118:",
+                        "Budding Green Blossom", static='99,0:-1:110000,70000118:',
                         missable=True, npc=True,
                         shop=True),  # sold by Shrine Maiden after killing Aldrich and helping
         # Sirris defeat Creighton
@@ -2329,7 +2328,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
         # Yuria shop, or Shrine Handmaiden with Hollow's Ashes
         # This is here because this is where the ashes end up if you kill Yoel or Yuria
         DS3LocationData("FS: Ring of Sacrifice - Yuria shop", "Ring of Sacrifice",
-                        static="99,0:-1:40000,110000,70000107,70000116:", npc=True,
+                        static='99,0:-1:40000,110000,70000107,70000116:', npc=True,
                         shop=True),
 
         # Untended Graves Handmaid
@@ -2467,7 +2466,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
 
         # Shrine Handmaid after placing all Cinders of a Lord
         DS3LocationData("FS: Titanite Slab - shop after placing all Cinders", "Titanite Slab",
-                        static="99,0:-1:9210,110000:", hidden=True),
+                        static='99,0:-1:9210,110000:', hidden=True),
         DS3LocationData("FS: Firelink Helm - shop after placing all Cinders", "Firelink Helm",
                         boss=True, shop=True),
         DS3LocationData("FS: Firelink Armor - shop after placing all Cinders", "Firelink Armor",
@@ -2568,7 +2567,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("PW1: Ember - settlement, building near bonfire", "Ember"),
         DS3LocationData("PW1: Frozen Weapon - snowfield lower, egg zone", "Frozen Weapon"),
         DS3LocationData("PW1: Titanite Slab - depths, up secret ladder", "Titanite Slab",
-                        static="11,0:54500640::",
+                        static='11,0:54500640::',
                         hidden=True),  # Must kill normal-looking Tree Woman
         DS3LocationData("PW1: Homeward Bone - depths, up hill", "Homeward Bone x2"),
         DS3LocationData("PW1: Large Soul of an Unknown Traveler - below snowfield village overhang",
@@ -2599,7 +2598,7 @@ location_tables: dict[str, list[DS3LocationData]] = {
         DS3LocationData("PW2: Soul of Sister Friede", "Soul of Sister Friede", prominent=True,
                         boss=True),
         DS3LocationData("PW2: Titanite Slab - boss drop", "Titanite Slab",
-                        static="11,0:50004700::",
+                        static='11,0:50004700::',
                         boss=True),  # One-time drop after Friede Phase 2
         DS3LocationData("PW2: Floating Chaos - NPC drop", "Floating Chaos", hostile_npc=True,
                         hidden=True),  # Livid Pyromancer Dunnel drop (requires ember)
@@ -2939,35 +2938,35 @@ location_tables: dict[str, list[DS3LocationData]] = {
     # ashes.
     "Greirat's Shop": [
         DS3LocationData("FS: Blue Tearstone Ring - Greirat", "Blue Tearstone Ring",
-                        static="01,0:50006120::", npc=True),
+                        static='01,0:50006120::', npc=True),
         DS3LocationData("FS: Ember - Greirat", "Ember", static="99,0:-1:110000,120000,70000110:",
                         shop=True, npc=True),
 
         # Undead Settlement rewards
         DS3LocationData("FS: Divine Blessing - Greirat from US", "Divine Blessing",
-                        static="99,0:-1:110000,120000,70000150,70000175:", missable=True,
+                        static='99,0:-1:110000,120000,70000150,70000175:', missable=True,
                         shop=True, npc=True),
         DS3LocationData("FS: Ember - Greirat from US", "Ember",
-                        static="99,0:-1:110000,120000,70000150,70000175:", missable=True,
+                        static='99,0:-1:110000,120000,70000150,70000175:', missable=True,
                         shop=True, npc=True),
 
         # Irityhll rewards
         DS3LocationData("FS: Divine Blessing - Greirat from IBV", "Divine Blessing",
-                        static="99,0:-1:110000,120000,70000151,70000176:", missable=True,
+                        static='99,0:-1:110000,120000,70000151,70000176:', missable=True,
                         shop=True, npc=True),
         DS3LocationData("FS: Hidden Blessing - Greirat from IBV", "Hidden Blessing",
-                        static="99,0:-1:110000,120000,70000151,70000176:", missable=True,
+                        static='99,0:-1:110000,120000,70000151,70000176:', missable=True,
                         shop=True, npc=True),
         DS3LocationData("FS: Titanite Scale - Greirat from IBV", "Titanite Scale",
-                        static="99,0:-1:110000,120000,70000151,70000176:", missable=True,
+                        static='99,0:-1:110000,120000,70000151,70000176:', missable=True,
                         shop=True, npc=True),
         DS3LocationData("FS: Twinkling Titanite - Greirat from IBV", "Twinkling Titanite",
-                        static="99,0:-1:110000,120000,70000151,70000176:", missable=True,
+                        static='99,0:-1:110000,120000,70000151,70000176:', missable=True,
                         shop=True, npc=True),
 
         # Lothric rewards (from Shrine Handmaid)
         DS3LocationData("FS: Ember - shop for Greirat's Ashes", "Twinkling Titanite",
-                        static="99,0:-1:110000,120000,70000152,70000177:", missable=True,
+                        static='99,0:-1:110000,120000,70000152,70000177:', missable=True,
                         shop=True, npc=True),
     ],
     "Karla's Shop": [
@@ -3005,13 +3004,13 @@ location_tables: dict[str, list[DS3LocationData]] = {
         # Drops on death. Missable because the player would have to decide between killing her or
         # seeing everything she sells.
         DS3LocationData("FS: Karla's Pointed Hat - kill Karla", "Karla's Pointed Hat",
-                        static="07,0:50006150::", missable=True, drop=True, npc=True),
+                        static='07,0:50006150::', missable=True, drop=True, npc=True),
         DS3LocationData("FS: Karla's Coat - kill Karla", "Karla's Coat",
-                        static="07,0:50006150::", missable=True, drop=True, npc=True),
+                        static='07,0:50006150::', missable=True, drop=True, npc=True),
         DS3LocationData("FS: Karla's Gloves - kill Karla", "Karla's Gloves",
-                        static="07,0:50006150::", missable=True, drop=True, npc=True),
+                        static='07,0:50006150::', missable=True, drop=True, npc=True),
         DS3LocationData("FS: Karla's Trousers - kill Karla", "Karla's Trousers",
-                        static="07,0:50006150::", missable=True, drop=True, npc=True),
+                        static='07,0:50006150::', missable=True, drop=True, npc=True),
     ],
 }
 
@@ -3035,7 +3034,7 @@ for region in [
     for location in location_tables[region]:
         location.conditional = True
 
-location_name_groups: dict[str, set[str]] = {
+location_name_groups: Dict[str, Set[str]] = {
     # We could insert these locations automatically with setdefault(), but we set them up explicitly
     # instead so we can choose the ordering.
     "Prominent": set(),
@@ -3091,7 +3090,7 @@ location_descriptions = {
     "Spells": "Locations that contain spells in vanilla.",
 }
 
-location_dictionary: dict[str, DS3LocationData] = {}
+location_dictionary: Dict[str, DS3LocationData] = {}
 for location_name, location_table in location_tables.items():
     location_dictionary.update({location_data.name: location_data for location_data in location_table})
 

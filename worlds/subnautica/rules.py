@@ -1,17 +1,14 @@
-import math
-from typing import TYPE_CHECKING, Dict, Optional
-from collections.abc import Callable
+from typing import TYPE_CHECKING, Dict, Callable, Optional
 
-from worlds.generic.Rules import add_rule, set_rule
-
-from .creatures import aggressive, all_creatures, containment, hatchable, suffix
-from .locations import LocationDict, location_table
+from worlds.generic.Rules import set_rule, add_rule
+from .locations import location_table, LocationDict
+from .creatures import all_creatures, aggressive, suffix, hatchable, containment
 from .options import AggressiveScanLogic, SwimRule
+import math
 
 if TYPE_CHECKING:
-    from BaseClasses import CollectionState, Location
-
     from . import SubnauticaWorld
+    from BaseClasses import CollectionState, Location
 
 
 def has_seaglide(state: "CollectionState", player: int) -> bool:
@@ -180,34 +177,40 @@ def get_seamoth_max_depth(state: "CollectionState", player: int):
     if has_seamoth(state, player):
         if has_seamoth_depth_module_mk3(state, player):
             return 900
-        if has_seamoth_depth_module_mk2(state, player):  # Will never be the case, 3 is craftable
+        elif has_seamoth_depth_module_mk2(state, player):  # Will never be the case, 3 is craftable
             return 500
-        if has_seamoth_depth_module_mk1(state, player):
+        elif has_seamoth_depth_module_mk1(state, player):
             return 300
-        return 200
-    return 0
+        else:
+            return 200
+    else:
+        return 0
 
 
 def get_cyclops_max_depth(state: "CollectionState", player):
     if has_cyclops(state, player):
         if has_cyclops_depth_module_mk3(state, player):
             return 1700
-        if has_cyclops_depth_module_mk2(state, player):  # Will never be the case, 3 is craftable
+        elif has_cyclops_depth_module_mk2(state, player):  # Will never be the case, 3 is craftable
             return 1300
-        if has_cyclops_depth_module_mk1(state, player):
+        elif has_cyclops_depth_module_mk1(state, player):
             return 900
-        return 500
-    return 0
+        else:
+            return 500
+    else:
+        return 0
 
 
 def get_prawn_max_depth(state: "CollectionState", player):
     if has_prawn(state, player):
         if has_prawn_depth_module_mk2(state, player):
             return 1700
-        if has_prawn_depth_module_mk1(state, player):
+        elif has_prawn_depth_module_mk1(state, player):
             return 1300
-        return 900
-    return 0
+        else:
+            return 900
+    else:
+        return 0
 
 
 def get_max_depth(state: "CollectionState", player: int):
@@ -241,7 +244,7 @@ def can_access_location(state: "CollectionState", player: int, loc: LocationDict
     if need_radiation_suit and not state.has("Radiation Suit", player):
         return False
 
-    # Seaglide doesn't unlock anything specific, but just allows for faster movement.
+    # Seaglide doesn't unlock anything specific, but just allows for faster movement. 
     # Otherwise the game is painfully slow.
     map_center_dist = math.sqrt(pos_x ** 2 + pos_z ** 2)
     if (map_center_dist > 800 or pos_y < -200) and not has_seaglide(state, player):
@@ -269,7 +272,7 @@ def set_creature_rule(world: "SubnauticaWorld", player: int, creature_name: str)
 
 
 def get_aggression_rule(option: AggressiveScanLogic, creature_name: str) -> \
-        Callable[["CollectionState", int], bool] | None:
+        Optional[Callable[["CollectionState", int], bool]]:
     """Get logic rule for a creature scan location."""
     if creature_name not in hatchable and option != option.option_none:  # can only be done via stasis
         return has_stasis_rifle
@@ -277,7 +280,7 @@ def get_aggression_rule(option: AggressiveScanLogic, creature_name: str) -> \
     return aggression_rules.get(option.value, None)
 
 
-aggression_rules: dict[int, Callable[["CollectionState", int], bool]] = {
+aggression_rules: Dict[int, Callable[["CollectionState", int], bool]] = {
     AggressiveScanLogic.option_stasis: has_stasis_rifle,
     AggressiveScanLogic.option_containment: has_containment,
     AggressiveScanLogic.option_either: lambda state, player:

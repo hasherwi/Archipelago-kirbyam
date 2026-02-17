@@ -1,48 +1,25 @@
 from __future__ import annotations
 
-import itertools
 import logging
-import operator
 import typing
-from collections import Counter, defaultdict
 from copy import deepcopy
+import itertools
+import operator
+from collections import defaultdict, Counter
 
-from BaseClasses import (
-    CollectionState,
-    Item,
-    ItemClassification,
-    Location,
-    LocationProgressType,
-    MultiWorld,
-    Region,
-    Tutorial,
-)
-from settings import Bool, Group
-from worlds.AutoWorld import LogicMixin, WebWorld, World
-
+from .Items import item_table, item_name_groups
+from .Rules import set_rules, cost_terms, _hk_can_beat_thk, _hk_siblings_ending, _hk_can_beat_radiance
+from .Options import hollow_knight_options, hollow_knight_randomize_options, Goal, WhitePalace, CostSanity, \
+    shop_to_option, HKOptions, GrubHuntGoal
+from .ExtractedData import locations, starts, multi_locations, event_names, item_effects, connectors, \
+    vanilla_shop_costs, vanilla_location_costs
 from .Charms import names as charm_names
-from .ExtractedData import (
-    connectors,
-    event_names,
-    item_effects,
-    locations,
-    multi_locations,
-    starts,
-    vanilla_location_costs,
-    vanilla_shop_costs,
-)
-from .Items import item_name_groups, item_table
-from .Options import (
-    CostSanity,
-    Goal,
-    GrubHuntGoal,
-    HKOptions,
-    WhitePalace,
-    hollow_knight_options,
-    hollow_knight_randomize_options,
-    shop_to_option,
-)
-from .Rules import _hk_can_beat_radiance, _hk_can_beat_thk, _hk_siblings_ending, cost_terms, set_rules
+
+from BaseClasses import Region, Location, MultiWorld, Item, LocationProgressType, Tutorial, ItemClassification, \
+    CollectionState
+from worlds.AutoWorld import World, LogicMixin, WebWorld
+
+from settings import Group, Bool
 
 logger = logging.getLogger("Hollow Knight")
 
@@ -51,7 +28,7 @@ class HollowKnightSettings(Group):
     class DisableMapModSpoilers(Bool):
         """Disallows the APMapMod from showing spoiler placements."""
 
-    disable_spoilers: DisableMapModSpoilers | bool = False
+    disable_spoilers: typing.Union[DisableMapModSpoilers, bool] = False
 
 
 path_of_pain_locations = {
@@ -136,14 +113,14 @@ logicless_options = {
 }
 
 # Options that affect vanilla starting items
-randomizable_starting_items: dict[str, tuple[str, ...]] = {
+randomizable_starting_items: typing.Dict[str, typing.Tuple[str, ...]] = {
     "RandomizeFocus": ("Focus",),
     "RandomizeSwim": ("Swim",),
-    "RandomizeNail": ("Upslash", "Leftslash", "Rightslash")
+    "RandomizeNail": ('Upslash', 'Leftslash', 'Rightslash')
 }
 
 # Shop cost types.
-shop_cost_types: dict[str, tuple[str, ...]] = {
+shop_cost_types: typing.Dict[str, typing.Tuple[str, ...]] = {
     "Egg_Shop": ("RANCIDEGGS",),
     "Grubfather": ("GRUBS",),
     "Seer": ("ESSENCE",),
@@ -210,15 +187,15 @@ class HKWorld(World):
                            enumerate(locations, start=0x1000000)}
     item_name_groups = item_name_groups
 
-    ranges: dict[str, tuple[int, int]]
-    charm_costs: list[int]
+    ranges: typing.Dict[str, typing.Tuple[int, int]]
+    charm_costs: typing.List[int]
     cached_filler_items = {}
     grub_count: int
-    grub_player_count: dict[int, int]
+    grub_player_count: typing.Dict[int, int]
 
     def __init__(self, multiworld, player):
-        super().__init__(multiworld, player)
-        self.created_multi_locations: dict[str, list[HKLocation]] = {
+        super(HKWorld, self).__init__(multiworld, player)
+        self.created_multi_locations: typing.Dict[str, typing.List[HKLocation]] = {
             location: list() for location in multi_locations
         }
         self.ranges = {}
@@ -270,7 +247,7 @@ class HKWorld(World):
         return exclusions
 
     def create_regions(self):
-        menu_region: Region = create_region(self.multiworld, self.player, "Menu")
+        menu_region: Region = create_region(self.multiworld, self.player, 'Menu')
         self.multiworld.regions.append(menu_region)
 
         # check for any goal that godhome events are relevant to
@@ -298,9 +275,9 @@ class HKWorld(World):
     def create_items(self):
         unfilled_locations = 0
         # Generate item pool and associated locations (paired in HK)
-        pool: list[HKItem] = []
+        pool: typing.List[HKItem] = []
         wp_exclusions = self.white_palace_exclusions()
-        junk_replace: set[str] = set()
+        junk_replace: typing.Set[str] = set()
         if self.options.RemoveSpellUpgrades:
             junk_replace.update(("Abyss_Shriek", "Shade_Soul", "Descending_Dark"))
 
@@ -320,7 +297,7 @@ class HKWorld(World):
             excluded = False
 
             if not vanilla and location_name in wp_exclusions:
-                if location_name == "King_Fragment":
+                if location_name == 'King_Fragment':
                     excluded = True
                 else:
                     vanilla = True
@@ -399,7 +376,7 @@ class HKWorld(World):
         if additional_shop_items > 0:
             shops = [shop for shop, shop_locations in self.created_multi_locations.items() if len(shop_locations) < 16]
             if not self.options.EggShopSlots:  # No eggshop, so don't place items there
-                shops.remove("Egg_Shop")
+                shops.remove('Egg_Shop')
 
             if shops:
                 for _ in range(additional_shop_items):
@@ -433,7 +410,7 @@ class HKWorld(World):
         if not setting:
             return  # noop
 
-        def _compute_weights(weights: dict, desc: str) -> dict[str, int]:
+        def _compute_weights(weights: dict, desc: str) -> typing.Dict[str, int]:
             if all(x == 0 for x in weights.values()):
                 logger.warning(
                     f"All {desc} weights were zero for {self.multiworld.player_name[self.player]}."
@@ -479,7 +456,7 @@ class HKWorld(World):
                     continue
                 if setting == CostSanity.option_shopsonly and location.basename not in multi_locations:
                     continue
-                if location.basename in {"Grubfather", "Seer", "Egg_Shop"}:
+                if location.basename in {'Grubfather', 'Seer', 'Egg_Shop'}:
                     our_weights = dict(weights_geoless)
                 else:
                     our_weights = dict(weights)
@@ -528,7 +505,7 @@ class HKWorld(World):
         return all(state.has("Grub", owner, count) for owner, count in self.grub_player_count.items())
 
     @classmethod
-    def stage_pre_fill(cls, multiworld: MultiWorld):
+    def stage_pre_fill(cls, multiworld: "MultiWorld"):
         worlds = [world for world in multiworld.get_game_worlds(cls.game) if world.options.Goal in ["any", "grub_hunt"]]
         if worlds:
             grubs = [item for item in multiworld.get_items() if item.name == "Grub"]
@@ -662,19 +639,19 @@ class HKWorld(World):
         return location
 
     def collect(self, state, item: HKItem) -> bool:
-        change = super().collect(state, item)
+        change = super(HKWorld, self).collect(state, item)
         if change:
             for effect_name, effect_value in item_effects.get(item.name, {}).items():
                 state.prog_items[item.player][effect_name] += effect_value
             if item.name in {"Left_Mothwing_Cloak", "Right_Mothwing_Cloak"}:
-                if state.prog_items[item.player].get("RIGHTDASH", 0) and \
-                        state.prog_items[item.player].get("LEFTDASH", 0):
+                if state.prog_items[item.player].get('RIGHTDASH', 0) and \
+                        state.prog_items[item.player].get('LEFTDASH', 0):
                     (state.prog_items[item.player]["RIGHTDASH"], state.prog_items[item.player]["LEFTDASH"]) = \
                         ([max(state.prog_items[item.player]["RIGHTDASH"], state.prog_items[item.player]["LEFTDASH"])] * 2)
         return change
 
     def remove(self, state, item: HKItem) -> bool:
-        change = super().remove(state, item)
+        change = super(HKWorld, self).remove(state, item)
 
         if change:
             for effect_name, effect_value in item_effects.get(item.name, {}).items():
@@ -688,18 +665,18 @@ class HKWorld(World):
     @classmethod
     def stage_write_spoiler(cls, multiworld: MultiWorld, spoiler_handle):
         hk_players = multiworld.get_game_players(cls.game)
-        spoiler_handle.write("\n\nCharm Notches:")
+        spoiler_handle.write('\n\nCharm Notches:')
         for player in hk_players:
             name = multiworld.get_player_name(player)
-            spoiler_handle.write(f"\n{name}\n")
+            spoiler_handle.write(f'\n{name}\n')
             hk_world: HKWorld = multiworld.worlds[player]
             for charm_number, cost in enumerate(hk_world.charm_costs):
                 spoiler_handle.write(f"\n{charm_names[charm_number]}: {cost}")
 
-        spoiler_handle.write("\n\nShop Prices:")
+        spoiler_handle.write('\n\nShop Prices:')
         for player in hk_players:
             name = multiworld.get_player_name(player)
-            spoiler_handle.write(f"\n{name}\n")
+            spoiler_handle.write(f'\n{name}\n')
             hk_world: HKWorld = multiworld.worlds[player]
 
             if hk_world.options.CostSanity:
@@ -707,7 +684,7 @@ class HKWorld(World):
                     (
                         loc for loc in itertools.chain(*(region.locations for region in multiworld.get_regions(player)))
                         if loc.costs
-                    ), key=operator.attrgetter("name")
+                    ), key=operator.attrgetter('name')
                 ):
                     spoiler_handle.write(f"\n{loc}: {loc.item} costing {loc.cost_text()}")
             else:
@@ -715,7 +692,7 @@ class HKWorld(World):
                     for loc in shop_locations:
                         spoiler_handle.write(f"\n{loc}: {loc.item} costing {loc.cost_text()}")
 
-    def get_multi_location_name(self, base: str, i: int | None) -> str:
+    def get_multi_location_name(self, base: str, i: typing.Optional[int]) -> str:
         if i is None:
             i = len(self.created_multi_locations[base]) + 1
         assert 1 <= 16, "limited number of multi location IDs reserved."
@@ -726,8 +703,8 @@ class HKWorld(World):
             fillers = ["One_Geo", "Soul_Refill"]
             exclusions = self.white_palace_exclusions()
             for group in (
-                    "RandomizeGeoRocks", "RandomizeSoulTotems", "RandomizeLoreTablets", "RandomizeJunkPitChests",
-                    "RandomizeRancidEggs"
+                    'RandomizeGeoRocks', 'RandomizeSoulTotems', 'RandomizeLoreTablets', 'RandomizeJunkPitChests',
+                    'RandomizeRancidEggs'
             ):
                 if getattr(self.options, group):
                     fillers.extend(item for item in hollow_knight_randomize_options[group].items if item not in
@@ -748,8 +725,8 @@ def create_region(multiworld: MultiWorld, player: int, name: str, location_names
 
 class HKLocation(Location):
     game: str = "Hollow Knight"
-    costs: dict[str, int] = None
-    unit: str | None = None
+    costs: typing.Dict[str, int] = None
+    unit: typing.Optional[str] = None
     vanilla = False
     basename: str
 
@@ -760,10 +737,10 @@ class HKLocation(Location):
 
     def __init__(
             self, player: int, name: str, code=None, parent=None,
-            costs: dict[str, int] = None, vanilla: bool = False, basename: str = None
+            costs: typing.Dict[str, int] = None, vanilla: bool = False, basename: str = None
     ):
         self.basename = basename or name
-        super().__init__(player, name, code if code else None, parent)
+        super(HKLocation, self).__init__(player, name, code if code else None, parent)
         self.vanilla = vanilla
         if costs:
             self.costs = dict(costs)
@@ -799,7 +776,7 @@ class HKItem(Item):
             classification = ItemClassification.progression
         else:
             classification = ItemClassification.filler
-        super().__init__(name, classification, code if code else None, player)
+        super(HKItem, self).__init__(name, classification, code if code else None, player)
         self.type = type
 
 

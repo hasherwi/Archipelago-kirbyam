@@ -1,9 +1,9 @@
-from .ExtractedData import connectors, exits, region_names
+from .ExtractedData import region_names, exits, connectors
 
 
 def create_regions(world, player: int):
-    from . import HKItem, HKLocation, create_region
-    world.regions.append(create_region(world, player, "Menu", None, ["Hollow Nest S&Q"]))
+    from . import create_region, HKLocation, HKItem
+    world.regions.append(create_region(world, player, 'Menu', None, ['Hollow Nest S&Q']))
     for region in region_names:
         world.regions.append(create_region(world, player, region, [],
                                            exits.get(region, [])))

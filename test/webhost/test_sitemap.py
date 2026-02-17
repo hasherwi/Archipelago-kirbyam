@@ -1,11 +1,9 @@
+import urllib.parse
 import html
 import re
-import urllib.parse
-
 from flask import url_for
 
 import WebHost
-
 from . import TestBase
 
 
@@ -33,9 +31,9 @@ class TestSitemap(TestBase):
                 self.assertIn(b"Site Map", response.data)
 
             # Test using url_for with the function name
-            with self.client.open(url_for("get_sitemap")) as response:
+            with self.client.open(url_for('get_sitemap')) as response:
                 self.assertEqual(response.status_code, 200)
-                self.assertIn(b"Site Map", response.data)
+                self.assertIn(b'Site Map', response.data)
 
     def test_sitemap_links(self) -> None:
         """

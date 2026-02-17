@@ -3,9 +3,8 @@ from typing import Dict, List, Optional
 from BaseClasses import Item, ItemClassification, Location, Region, Tutorial
 from Fill import fill_restrictive
 from worlds.AutoWorld import WebWorld, World
-
 from . import Constants, Rules
-from .Items import SHIVERS_ITEM_ID_OFFSET, ItemType, ShiversItem, item_table
+from .Items import ItemType, SHIVERS_ITEM_ID_OFFSET, ShiversItem, item_table
 from .Options import ShiversOptions, shivers_option_groups
 from .Rules import set_rules
 
@@ -37,7 +36,7 @@ class ShiversWorld(World):
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = Constants.location_name_to_id
     storage_placements = []
-    pot_completed_list: list[int]
+    pot_completed_list: List[int]
 
     def generate_early(self):
         self.pot_completed_list = []
@@ -53,14 +52,14 @@ class ShiversWorld(World):
         # Ixupi captures priority locations:
         if self.options.ixupi_captures_priority:
             self.options.priority_locations.value |= (
-                {name for name in self.location_names if name.startswith("Ixupi Captured")}
+                {name for name in self.location_names if name.startswith('Ixupi Captured')}
             )
 
     def create_item(self, name: str) -> Item:
         data = item_table[name]
         return ShiversItem(name, data.classification, data.code, self.player)
 
-    def create_event_location(self, region_name: str, location_name: str, event_name: str | None = None) -> None:
+    def create_event_location(self, region_name: str, location_name: str, event_name: Optional[str] = None) -> None:
         region = self.get_region(region_name)
         loc = ShiversLocation(self.player, location_name, None, region)
         if event_name is not None:
@@ -83,7 +82,7 @@ class ShiversWorld(World):
             e = self.get_entrance(entr_name)
             r = self.get_region(region_name)
             e.connect(r)
-
+        
         # Locations
         # Build exclusion list
         removed_locations = set()
@@ -183,7 +182,7 @@ class ShiversWorld(World):
         else:
             item_pool.append(self.create_item("Heal"))
 
-        def set_lobby_access_keys(items: dict[str, int]):
+        def set_lobby_access_keys(items: Dict[str, int]):
             if lobby_access_keys == 0:
                 items["Key for Underground Lake"] = 1
                 items["Key for Office Elevator"] = 1
@@ -256,25 +255,26 @@ class ShiversWorld(World):
         self.storage_placements = {location.name.replace("Storage: ", ""): location.item.name.replace(" DUPE", "") for
                                    location in storage_locs}
 
-    def get_pre_fill_items(self) -> list[Item]:
+    def get_pre_fill_items(self) -> List[Item]:
         if self.options.full_pots == "pieces":
             return [self.create_item(name) for name, data in item_table.items() if
                     data.type == ItemType.POT_DUPLICATE]
-        if self.options.full_pots == "complete":
+        elif self.options.full_pots == "complete":
             return [self.create_item(name) for name, data in item_table.items() if
                     data.type == ItemType.POT_COMPLETE_DUPLICATE]
-        pool = []
-        pieces = [self.create_item(name) for name, data in item_table.items() if
-                  data.type == ItemType.POT_DUPLICATE]
-        complete = [self.create_item(name) for name, data in item_table.items() if
-                    data.type == ItemType.POT_COMPLETE_DUPLICATE]
-        for i in range(10):
-            if self.pot_completed_list[i] == 0:
-                pool.append(pieces[i])
-                pool.append(pieces[i + 10])
-            else:
-                pool.append(complete[i])
-        return pool
+        else:
+            pool = []
+            pieces = [self.create_item(name) for name, data in item_table.items() if
+                      data.type == ItemType.POT_DUPLICATE]
+            complete = [self.create_item(name) for name, data in item_table.items() if
+                        data.type == ItemType.POT_COMPLETE_DUPLICATE]
+            for i in range(10):
+                if self.pot_completed_list[i] == 0:
+                    pool.append(pieces[i])
+                    pool.append(pieces[i + 10])
+                else:
+                    pool.append(complete[i])
+            return pool
 
     def fill_slot_data(self) -> dict:
         return {

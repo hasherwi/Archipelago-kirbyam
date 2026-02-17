@@ -1,11 +1,10 @@
 from functools import cached_property
 
 from Utils import cache_self1
-
+from .base_logic import BaseLogic, BaseLogicMixin
 from ..stardew_rule import StardewRule, true_
 from ..strings.building_names import Building
 from ..strings.region_names import Region
-from .base_logic import BaseLogic, BaseLogicMixin
 
 AUTO_BUILDING_BUILDINGS = {Building.shipping_bin, Building.pet_bowl, Building.farm_house}
 

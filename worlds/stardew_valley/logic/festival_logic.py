@@ -1,3 +1,4 @@
+from .base_logic import BaseLogicMixin, BaseLogic
 from ..options import FestivalLocations
 from ..stardew_rule import StardewRule
 from ..strings.animal_product_names import AnimalProduct
@@ -11,7 +12,6 @@ from ..strings.generic_names import Generic
 from ..strings.machine_names import Machine
 from ..strings.monster_names import Monster
 from ..strings.region_names import Region
-from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class FestivalLogicMixin(BaseLogicMixin):
@@ -113,7 +113,8 @@ class FestivalLogic(BaseLogic):
     def has_squidfest_day_1_iridium_reward(self) -> StardewRule:
         if self.options.festival_locations == FestivalLocations.option_disabled:
             return self.logic.festival.can_squidfest_day_1_iridium_reward()
-        return self.logic.received(f"Book: {Book.the_art_o_crabbing}")
+        else:
+            return self.logic.received(f"Book: {Book.the_art_o_crabbing}")
 
     def can_win_egg_hunt(self) -> StardewRule:
         return self.logic.true_

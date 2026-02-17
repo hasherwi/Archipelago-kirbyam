@@ -1,7 +1,6 @@
-from ..rando.ItemLocContainer import ItemLocation
 from ..utils import log
-from ..utils.utils import chooseFromRange, getRangeDict
-
+from ..utils.utils import getRangeDict, chooseFromRange
+from ..rando.ItemLocContainer import ItemLocation
 
 # helper object to choose item/loc
 class Choice(object):
@@ -24,7 +23,7 @@ class Choice(object):
 # simple random choice, that chooses an item first, then a locatio to put it in
 class ItemThenLocChoice(Choice):
     def __init__(self, restrictions, random):
-        super().__init__(restrictions)
+        super(ItemThenLocChoice, self).__init__(restrictions)
         self.random = random
 
     def chooseItemLoc(self, itemLocDict, isProg):
@@ -43,7 +42,8 @@ class ItemThenLocChoice(Choice):
             return None
         if isProg:
             return self.chooseItemProg(itemList)
-        return self.chooseItemRandom(itemList)
+        else:
+            return self.chooseItemRandom(itemList)
 
     def chooseItemProg(self, itemList):
         return self.chooseItemRandom(itemList)
@@ -56,7 +56,8 @@ class ItemThenLocChoice(Choice):
             return None
         if isProg:
             return self.chooseLocationProg(locList, item)
-        return self.chooseLocationRandom(locList)
+        else:
+            return self.chooseLocationRandom(locList)
 
     def chooseLocationProg(self, locList, item):
         return self.chooseLocationRandom(locList)
@@ -67,19 +68,19 @@ class ItemThenLocChoice(Choice):
 # Choice specialization for prog speed based filler
 class ItemThenLocChoiceProgSpeed(ItemThenLocChoice):
     def __init__(self, restrictions, progSpeedParams, distanceProp, services, random):
-        super().__init__(restrictions, random)
+        super(ItemThenLocChoiceProgSpeed, self).__init__(restrictions, random)
         self.progSpeedParams = progSpeedParams
         self.distanceProp = distanceProp
         self.services = services
         self.chooseItemFuncs = {
-            "Random" : self.chooseItemRandom,
-            "MinProgression" : self.chooseItemMinProgression,
-            "MaxProgression" : self.chooseItemMaxProgression
+            'Random' : self.chooseItemRandom,
+            'MinProgression' : self.chooseItemMinProgression,
+            'MaxProgression' : self.chooseItemMaxProgression
         }
         self.chooseLocFuncs = {
-            "Random" : self.chooseLocationRandom,
-            "MinDiff" : self.chooseLocationMinDiff,
-            "MaxDiff" : self.chooseLocationMaxDiff
+            'Random' : self.chooseLocationRandom,
+            'MinDiff' : self.chooseLocationMinDiff,
+            'MaxDiff' : self.chooseLocationMaxDiff
         }
 
     def currentLocations(self, item=None):
@@ -88,11 +89,11 @@ class ItemThenLocChoiceProgSpeed(ItemThenLocChoice):
     def processLateDoors(self, itemLocDict, ap, container):
         doorBeams = self.restrictions.mandatoryBeams
         def canOpenExtendedDoors(item):
-            return item.Category == "Ammo" or item.Type in doorBeams
+            return item.Category == 'Ammo' or item.Type in doorBeams
         # exclude door items from itemLocDict
         noDoorsLocDict = {item:locList for item,locList in itemLocDict.items() if not canOpenExtendedDoors(item) or container.sm.haveItem(item.Type)}
         if len(noDoorsLocDict) > 0:
-            self.log.debug("processLateDoors. no doors")
+            self.log.debug('processLateDoors. no doors')
             itemLocDict.clear()
             itemLocDict.update(noDoorsLocDict)
 
@@ -102,7 +103,7 @@ class ItemThenLocChoiceProgSpeed(ItemThenLocChoice):
         canRollback = len(container.currentItems) > 0
         if self.restrictions.isLateMorph() and canRollback and len(itemLocDict) == 1:
             item, locList = list(itemLocDict.items())[0]
-            if item.Type == "Morph":
+            if item.Type == 'Morph':
                 morphLocs = self.restrictions.lateMorphCheck(container, locList, self.random)
                 if morphLocs is not None:
                     itemLocDict[item] = morphLocs
@@ -110,7 +111,7 @@ class ItemThenLocChoiceProgSpeed(ItemThenLocChoice):
                     return None
         # if a boss is available, choose it right away
         for item,locs in itemLocDict.items():
-            if item.Category == "Boss":
+            if item.Category == 'Boss':
                 assert len(locs) == 1 and locs[0].Name == item.Name
                 return ItemLocation(item, locs[0])
         # late doors check for random door colors
@@ -119,7 +120,7 @@ class ItemThenLocChoiceProgSpeed(ItemThenLocChoice):
         self.progressionItemLocs = progressionItemLocs
         self.ap = ap
         self.container = container
-        return super().chooseItemLoc(itemLocDict, isProg)
+        return super(ItemThenLocChoiceProgSpeed, self).chooseItemLoc(itemLocDict, isProg)
 
     def determineParameters(self, progSpeed=None, progDiff=None):
         self.chooseLocRanges = getRangeDict(self.getChooseLocs(progDiff))
@@ -139,14 +140,14 @@ class ItemThenLocChoiceProgSpeed(ItemThenLocChoice):
 
     def chooseItemProg(self, itemList):
         ret = self.getChooseFunc(self.chooseItemRanges, self.chooseItemFuncs)(itemList)
-        self.log.debug("chooseItemProg. ret="+ret.Type)
+        self.log.debug('chooseItemProg. ret='+ret.Type)
         return ret
 
     def chooseLocationProg(self, locs, item):
         locs = self.getLocsSpreadProgression(locs)
         self.random.shuffle(locs)
         ret = self.getChooseFunc(self.chooseLocRanges, self.chooseLocFuncs)(locs)
-        self.log.debug("chooseLocationProg. ret="+ret.Name)
+        self.log.debug('chooseLocationProg. ret='+ret.Name)
         return ret
 
     # get choose function from a weighted dict
@@ -180,12 +181,12 @@ class ItemThenLocChoiceProgSpeed(ItemThenLocChoice):
 
     def chooseLocationMaxDiff(self, availableLocations):
         self.log.debug("MAX")
-        self.log.debug(f"chooseLocationMaxDiff: {[(l.Name, l.difficulty) for l in availableLocations]}")
+        self.log.debug("chooseLocationMaxDiff: {}".format([(l.Name, l.difficulty) for l in availableLocations]))
         return max(availableLocations, key=lambda loc:loc.difficulty.difficulty)
 
     def chooseLocationMinDiff(self, availableLocations):
         self.log.debug("MIN")
-        self.log.debug(f"chooseLocationMinDiff: {[(l.Name, l.difficulty) for l in availableLocations]}")
+        self.log.debug("chooseLocationMinDiff: {}".format([(l.Name, l.difficulty) for l in availableLocations]))
         return min(availableLocations, key=lambda loc:loc.difficulty.difficulty)
 
     def areaDistance(self, loc, otherLocs):
@@ -200,7 +201,7 @@ class ItemThenLocChoiceProgSpeed(ItemThenLocChoice):
 
     def getLocsSpreadProgression(self, availableLocations):
         split = self.restrictions.split
-        cond = lambda item: ((split == "Full" and item.Class == "Major") or split == item.Class) and item.Category != "Energy"
+        cond = lambda item: ((split == 'Full' and item.Class == 'Major') or split == item.Class) and item.Category != "Energy"
         progLocs = [il.Location for il in self.progressionItemLocs if cond(il.Item)]
         distances = [self.areaDistance(loc, progLocs) for loc in availableLocations]
         maxDist = max(distances)

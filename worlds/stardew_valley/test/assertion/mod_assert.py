@@ -1,15 +1,13 @@
-from typing import Union
-from collections.abc import Iterable
+from typing import Union, Iterable
 from unittest import TestCase
 
 from BaseClasses import MultiWorld
-
 from ... import item_table, location_table
 from ...mods.mod_data import ModNames
 
 
 class ModAssertMixin(TestCase):
-    def assert_stray_mod_items(self, chosen_mods: Iterable[str] | str, multiworld: MultiWorld):
+    def assert_stray_mod_items(self, chosen_mods: Union[Iterable[str], str], multiworld: MultiWorld):
         if isinstance(chosen_mods, str):
             chosen_mods = [chosen_mods]
         else:

@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import typing
-from typing import Dict
-from collections.abc import Collection
+from typing import Dict, Collection
 
 from ..content.game_content import StardewContent
 from ..options import StardewValleyOptions
@@ -15,19 +14,19 @@ if typing.TYPE_CHECKING:
 class LogicRegistry:
 
     def __init__(self):
-        self.item_rules: dict[str, StardewRule] = {}
-        self.seed_rules: dict[str, StardewRule] = {}
-        self.cooking_rules: dict[str, StardewRule] = {}
-        self.crafting_rules: dict[str, StardewRule] = {}
-        self.crop_rules: dict[str, StardewRule] = {}
-        self.artisan_good_rules: dict[str, StardewRule] = {}
-        self.fish_rules: dict[str, StardewRule] = {}
-        self.museum_rules: dict[str, StardewRule] = {}
-        self.festival_rules: dict[str, StardewRule] = {}
-        self.quest_rules: dict[str, StardewRule] = {}
-        self.special_order_rules: dict[str, StardewRule] = {}
+        self.item_rules: Dict[str, StardewRule] = {}
+        self.seed_rules: Dict[str, StardewRule] = {}
+        self.cooking_rules: Dict[str, StardewRule] = {}
+        self.crafting_rules: Dict[str, StardewRule] = {}
+        self.crop_rules: Dict[str, StardewRule] = {}
+        self.artisan_good_rules: Dict[str, StardewRule] = {}
+        self.fish_rules: Dict[str, StardewRule] = {}
+        self.museum_rules: Dict[str, StardewRule] = {}
+        self.festival_rules: Dict[str, StardewRule] = {}
+        self.quest_rules: Dict[str, StardewRule] = {}
+        self.special_order_rules: Dict[str, StardewRule] = {}
 
-        self.sve_location_rules: dict[str, StardewRule] = {}
+        self.sve_location_rules: Dict[str, StardewRule] = {}
 
 
 class BaseLogicMixin:

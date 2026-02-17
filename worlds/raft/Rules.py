@@ -1,13 +1,12 @@
-from ..AutoWorld import LogicMixin
 from ..generic.Rules import set_rule
 from .Locations import location_table
 from .Regions import regionMap
-
+from ..AutoWorld import LogicMixin
 
 class RaftLogic(LogicMixin):
     def raft_paddleboard_mode_enabled(self, player):
         return bool(self.multiworld.worlds[player].options.paddleboard_mode)
-
+    
     def raft_big_islands_available(self, player):
         return bool(self.multiworld.worlds[player].options.big_island_early_crafting) or self.raft_can_access_radio_tower(player)
 
@@ -25,7 +24,7 @@ class RaftLogic(LogicMixin):
 
     def raft_can_craft_circuitBoard(self, player):
         return self.raft_can_smelt_items(player) and self.has("Circuit board", player)
-
+    
     def raft_can_craft_shovel(self, player):
         return self.raft_can_smelt_items(player) and self.has("Shovel", player) and self.raft_can_craft_bolt(player)
 
@@ -34,7 +33,7 @@ class RaftLogic(LogicMixin):
 
     def raft_can_craft_antenna(self, player):
         return self.raft_can_craft_circuitBoard(player) and self.raft_can_craft_bolt(player) and self.has("Antenna", player)
-
+    
     def raft_can_find_titanium(self, player):
         return (self.has("Metal detector", player) and self.raft_can_craft_battery(player)
             and self.raft_can_craft_shovel(player))

@@ -1,8 +1,7 @@
-﻿from ....Config import Config, SMLogic
-from ....Item import Progression
+﻿from ....Region import SMRegion
+from ....Config import Config, SMLogic
 from ....Location import Location, LocationType
-from ....Region import SMRegion
-
+from ....Item import Progression
 
 class East(SMRegion):
     Name = "Crateria East"
@@ -40,20 +39,21 @@ class East(SMRegion):
                     self.world.GetLocation("Space Jump").Available(items))) or (
                 # /*Through Maridia from Pipe*/
                 items.CanUsePowerBombs()) and items.Super and items.Gravity
-            # /* Ship -> Moat */
-        return (items.CardCrateriaL2 if self.Config.Keysanity else  items.CanUsePowerBombs()) and items.Super or (
-            # /* UN Portal -> Red Tower -> Moat */
-            items.CardCrateriaL2  if self.Config.Keysanity else  items.CanUsePowerBombs()) and items.CanAccessNorfairUpperPortal() and (
-                items.Ice or items.HiJump or items.CanFly() or items.CanSpringBallJump()) or (
-            # /*Through Maridia From Portal*/
-            items.CanAccessMaridiaPortal(self.world)) and (
-                # /* Oasis -> Forgotten Highway */
-                items.CardMaridiaL2 and items.Super and (
-                    items.HiJump and items.CanPassBombPassages() or
-                    items.Gravity and items.CanDestroyBombWalls()
-                ) or
-                # /* Draygon -> Cactus Alley -> Forgotten Highway */
-                items.Gravity and self.world.GetLocation("Space Jump").Available(items)) or (
-            # /*Through Maridia from Pipe*/
-            items.CanUsePowerBombs()) and items.Super and (items.Gravity or items.HiJump and (items.Ice or items.CanSpringBallJump())
-                                                        and items.Grapple and items.CardMaridiaL1)
+        else:
+                # /* Ship -> Moat */
+            return (items.CardCrateriaL2 if self.Config.Keysanity else  items.CanUsePowerBombs()) and items.Super or (
+                # /* UN Portal -> Red Tower -> Moat */
+                items.CardCrateriaL2  if self.Config.Keysanity else  items.CanUsePowerBombs()) and items.CanAccessNorfairUpperPortal() and (
+                    items.Ice or items.HiJump or items.CanFly() or items.CanSpringBallJump()) or (
+                # /*Through Maridia From Portal*/
+                items.CanAccessMaridiaPortal(self.world)) and (
+                    # /* Oasis -> Forgotten Highway */
+                    items.CardMaridiaL2 and items.Super and (
+                        items.HiJump and items.CanPassBombPassages() or
+                        items.Gravity and items.CanDestroyBombWalls()
+                    ) or
+                    # /* Draygon -> Cactus Alley -> Forgotten Highway */
+                    items.Gravity and self.world.GetLocation("Space Jump").Available(items)) or (
+                # /*Through Maridia from Pipe*/
+                items.CanUsePowerBombs()) and items.Super and (items.Gravity or items.HiJump and (items.Ice or items.CanSpringBallJump()) 
+                                                            and items.Grapple and items.CardMaridiaL1)

@@ -14,7 +14,7 @@ class MLSSItem(Item):
     game: str = "Mario & Luigi Superstar Saga"
 
 
-itemList: list[ItemData] = [
+itemList: typing.List[ItemData] = [
     ItemData(77771000, "5 Coins", ItemClassification.filler, 0x4),
     ItemData(77771001, "Mushroom", ItemClassification.filler, 0xA),
     ItemData(77771002, "Super Mushroom", ItemClassification.filler, 0xB),
@@ -163,7 +163,7 @@ itemList: list[ItemData] = [
     ItemData(77771145, "Beanstar Emblem", ItemClassification.progression, 0x3E),
 ]
 
-item_frequencies: dict[str, int] = {
+item_frequencies: typing.Dict[str, int] = {
     "5 Coins": 40,
     "Mushroom": 55,
     "Super Mushroom": 15,
@@ -194,5 +194,5 @@ mlss_item_name_groups = {
     "Chuckola Fruit": { "Red Chuckola Fruit", "Purple Chuckola Fruit", "White Chuckola Fruit"}
 }
 
-item_table: dict[str, ItemData] = {item.itemName: item for item in itemList}
-items_by_id: dict[int, ItemData] = {item.code: item for item in itemList}
+item_table: typing.Dict[str, ItemData] = {item.itemName: item for item in itemList}
+items_by_id: typing.Dict[int, ItemData] = {item.code: item for item in itemList}

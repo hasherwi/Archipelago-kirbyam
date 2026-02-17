@@ -4,15 +4,14 @@ def run_load_worlds_benchmark():
     Likely best used with isolated worlds to measure their time alone."""
     import logging
 
+    from Utils import init_logging
+
     # get some general imports cached, to prevent it from being attributed to one world.
     import orjson
-
-    from Utils import init_logging
     orjson.loads("{}")  # orjson runs initialization on first use
 
-    import BaseClasses
-    import Fill
-    import Launcher
+    import BaseClasses, Launcher, Fill
+
     from worlds import world_sources
 
     init_logging("Benchmark Runner")

@@ -1,11 +1,10 @@
 import typing
-
 from . import SoETestBase
 
 
 class AccessTest(SoETestBase):
     @staticmethod
-    def _resolveGourds(gourds: typing.Mapping[str, typing.Iterable[int]]) -> list[str]:
+    def _resolveGourds(gourds: typing.Mapping[str, typing.Iterable[int]]) -> typing.List[str]:
         return [f"{name} #{number}" for name, numbers in gourds.items() for number in numbers]
 
     def test_bronze_axe(self) -> None:

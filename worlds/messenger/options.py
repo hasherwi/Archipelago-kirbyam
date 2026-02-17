@@ -3,19 +3,10 @@ from dataclasses import dataclass
 from schema import And, Optional, Or, Schema
 
 from Options import (
-    Choice,
-    DeathLinkMixin,
-    DefaultOnToggle,
-    ItemsAccessibility,
-    OptionDict,
-    OptionGroup,
+    Choice, DeathLinkMixin, DefaultOnToggle, ItemsAccessibility, OptionDict, OptionGroup,
     PerGameCommonOptions,
-    PlandoConnections,
-    Range,
-    StartInventoryPool,
-    Toggle,
+    PlandoConnections, Range, StartInventoryPool, Toggle,
 )
-
 from . import RANDOMIZED_CONNECTIONS
 from .portals import CHECKPOINTS, PORTALS, SHOP_POINTS
 

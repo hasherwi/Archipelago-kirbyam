@@ -3,6 +3,7 @@ from collections import Counter, defaultdict
 from typing import List, Optional
 
 from BaseClasses import MultiWorld
+
 from worlds.generic.Rules import set_rule
 
 from .YachtWeights import yacht_weights
@@ -32,11 +33,11 @@ class Category:
 
 
 class ListState:
-    def __init__(self, state: list[str]):
+    def __init__(self, state: List[str]):
         self.state = state
         self.item_counts = Counter(state)
 
-    def count(self, item: str, player: str | None = None) -> int:
+    def count(self, item: str, player: Optional[str] = None) -> int:
         return self.item_counts[item]
 
 

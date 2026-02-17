@@ -1,15 +1,11 @@
-from collections.abc import Sequence
 from random import Random
 from typing import ClassVar, Optional
-
-from BaseClasses import Item
-from BaseClasses import ItemClassification as C
-
-from .CriticalPathCalculator import CriticalPathCalculator
+from collections.abc import Sequence
+from BaseClasses import Item, ItemClassification as C
 from .GameLogic import GameLogic
-from .ItemData import ItemData
-from .ItemData import ItemGroups as G
 from .Options import SatisfactoryOptions
+from .ItemData import ItemData, ItemGroups as G
+from .CriticalPathCalculator import CriticalPathCalculator
 
 
 class Items:
@@ -475,7 +471,7 @@ class Items:
         "Recipe: Jetpack": ItemData(G.Recipe | G.NeverExclude, 1338464, C.useful),
         "Recipe: Nobelisk Detonator": ItemData(G.Recipe, 1338465, C.progression),
         "Recipe: Portable Miner": ItemData(G.Recipe, 1338466, C.progression),
-#
+# 
         "Recipe: Dark Matter Residue": ItemData(G.Recipe, 1338467, C.progression),
 
         # 1338468 - 1338599 Reserved for future recipes
@@ -629,13 +625,13 @@ class Items:
         "Customizer: Number Patterns": ItemData(G.Customizer | G.Foundations, 1338764, C.filler, 0),
         "Customizer: Pathway Patterns": ItemData(G.Customizer | G.Foundations, 1338765, C.filler, 0),
         "Customizer: Factory Zone Patterns": ItemData(G.Customizer | G.Foundations, 1338766, C.filler, 0),
-        "Customizer: Steel-Framed Windows": ItemData(G.Customizer | G.Walls, 1338767, C.filler, 0),
-        "Customizer: Construction Fences": ItemData(G.Customizer, 1338768, C.filler, 0),
-        "Customizer: Unpainted Finish": ItemData(G.Customizer, 1338769, C.filler, 0),
-        "Customizer: Copper Paint Finish": ItemData(G.Customizer, 1338770, C.filler, 0),
-        "Customizer: Chrome Paint Finish": ItemData(G.Customizer, 1338771, C.filler, 0),
-        "Customizer: Carbon Steel Finish": ItemData(G.Customizer, 1338772, C.filler, 0),
-        "Customizer: Caterium Paint Finish": ItemData(G.Customizer, 1338773, C.filler, 0),
+        "Customizer: Steel-Framed Windows": ItemData(G.Customizer | G.Walls, 1338767, C.filler, 0), 
+        "Customizer: Construction Fences": ItemData(G.Customizer, 1338768, C.filler, 0), 
+        "Customizer: Unpainted Finish": ItemData(G.Customizer, 1338769, C.filler, 0), 
+        "Customizer: Copper Paint Finish": ItemData(G.Customizer, 1338770, C.filler, 0), 
+        "Customizer: Chrome Paint Finish": ItemData(G.Customizer, 1338771, C.filler, 0), 
+        "Customizer: Carbon Steel Finish": ItemData(G.Customizer, 1338772, C.filler, 0), 
+        "Customizer: Caterium Paint Finish": ItemData(G.Customizer, 1338773, C.filler, 0), 
 
         # 1338776 - 1338799 Reserved for Cosmetics
 
@@ -865,7 +861,7 @@ class Items:
     }
 
     item_names_and_ids: ClassVar[dict[str, int]] = {name: data.code for name, data in item_data.items()}
-    filler_items: ClassVar[tuple[str, ...]] = tuple(item for item, details in item_data.items()
+    filler_items: ClassVar[tuple[str, ...]] = tuple(item for item, details in item_data.items() 
                                                     if details.count > 0 and details.category & (G.Parts | G.Ammo))
 
     @classmethod
@@ -888,7 +884,7 @@ class Items:
             for category in data.category:
                 if category != G.NeverExclude:
                     groups.setdefault(category.name, set()).add(name)
-
+                
         return groups
 
     player: int
@@ -896,10 +892,10 @@ class Items:
     random: Random
     critical_path: CriticalPathCalculator
 
-    trap_chance: int
+    trap_chance: int 
     enabled_traps: tuple[str, ...]
 
-    def __init__(self, player: int | None, logic: GameLogic, random: Random,
+    def __init__(self, player: Optional[int], logic: GameLogic, random: Random,
                  options: SatisfactoryOptions, critical_path: CriticalPathCalculator):
         self.player = player
         self.logic = logic
@@ -933,13 +929,15 @@ class Items:
     def get_filler_item_name(self, random: Random, filler_items: Sequence[str] | None) -> str:
         if self.enabled_traps and random.random() < (self.trap_chance / 100):
             return random.choice(self.enabled_traps)
-        if filler_items:
-            return random.choice(filler_items)
-        return Items.get_filler_item_name_uninitialized(random)
+        else:
+            if filler_items:
+                return random.choice(filler_items)
+            else:
+                return Items.get_filler_item_name_uninitialized(random)
 
     def get_excluded_items(self, precollected_items: list[Item]) -> set[str]:
-        excluded_items: set[str] = {
-            item.name
+        excluded_items: set[str] = { 
+            item.name 
             for item in precollected_items
             if item.name in self.item_data and item.name not in self.options.start_inventory_from_pool.value
         }
@@ -975,8 +973,8 @@ class Items:
             and name not in excluded_from_pool
         ]
         pool: list[Item] = [
-            item
-            for item in pool_items
+            item 
+            for item in pool_items 
             if item.classification != C.filler or self.item_data[item.name].category & (G.Equipment | G.Ammo)
         ]
 

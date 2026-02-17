@@ -5,6 +5,7 @@ duplicate claims and give warnings for unused and unignored locations or warps.
 import logging
 from typing import List
 
+
 _IGNORABLE_LOCATIONS = frozenset({
     "HIDDEN_ITEM_TRICK_HOUSE_NUGGET",  # Is permanently mssiable and has special behavior that sets the flag early
 
@@ -265,11 +266,11 @@ def validate_regions() -> bool:
     regions/warps/locations. Meant to catch problems during development like
     forgetting to add a new location or incorrectly splitting a region.
     """
-    from .data import data, load_json_data
+    from .data import load_json_data, data
 
     extracted_data_json = load_json_data("extracted_data.json")
-    error_messages: list[str] = []
-    warn_messages: list[str] = []
+    error_messages: List[str] = []
+    warn_messages: List[str] = []
     failed = False
 
     def error(message: str) -> None:

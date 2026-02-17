@@ -7,11 +7,11 @@ from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 
 from . import poke_data
 from .items import item_table
+from .text import encode_text
 from .pokemon import set_mon_palettes
 from .regions import PokemonRBWarp, map_ids, town_map_coords
 from .rock_tunnel import randomize_rock_tunnel
 from .rom_addresses import rom_addresses
-from .text import encode_text
 
 if typing.TYPE_CHECKING:
     from . import PokemonRedBlueWorld
@@ -82,7 +82,7 @@ def write_quizzes(world: "PokemonRedBlueWorld", patch: PokemonBlueProcedurePatch
                     mon = random.choice(list(poke_data.pokemon_data.keys()))
 
             return encode_text(f"{text}was looking for<CONT>{mon}?<DONE>")
-        if q == 1:
+        elif q == 1:
             for location in world.multiworld.get_filled_locations():
                 if location.item.name == "Secret Key" and location.item.player == world.player:
                     break
@@ -100,19 +100,22 @@ def write_quizzes(world: "PokemonRedBlueWorld", patch: PokemonBlueProcedurePatch
                     player_name = "yourself"
                 player_name = encode_text(player_name, force=True, safety=True)
                 return encode_text(f"The Secret Key was<LINE>found by<CONT>") + player_name + encode_text("?<DONE>")
-            # Might not have found it yet
-            if player_name == world.multiworld.player_name[world.player]:
-                return encode_text(f"The Secret Key was<LINE>placed in<CONT>your own world?<DONE>")
-            player_name = encode_text(player_name, force=True, safety=True)
-            return (encode_text(f"The Secret Key was<LINE>placed in<CONT>") + player_name
-                    + encode_text("'s<CONT>world?<DONE>"))
-        if q == 2:
+            else:
+                # Might not have found it yet
+                if player_name == world.multiworld.player_name[world.player]:
+                    return encode_text(f"The Secret Key was<LINE>placed in<CONT>your own world?<DONE>")
+                player_name = encode_text(player_name, force=True, safety=True)
+                return (encode_text(f"The Secret Key was<LINE>placed in<CONT>") + player_name
+                        + encode_text("'s<CONT>world?<DONE>"))
+        elif q == 2:
             if a:
                 return encode_text(f"#mon is<LINE>pronounced<CONT>Po-kay-mon?<DONE>")
-            if random.randint(0, 1):
-                return encode_text(f"#mon is<LINE>pronounced<CONT>Po-key-mon?<DONE>")
-            return encode_text(f"#mon is<LINE>pronounced<CONT>Po-kuh-mon?<DONE>")
-        if q == 3:
+            else:
+                if random.randint(0, 1):
+                    return encode_text(f"#mon is<LINE>pronounced<CONT>Po-key-mon?<DONE>")
+                else:
+                    return encode_text(f"#mon is<LINE>pronounced<CONT>Po-kuh-mon?<DONE>")
+        elif q == 3:
             starters = [" ".join(world.multiworld.get_location(
                 f"Oak's Lab - Starter {i}", world.player).item.name.split(" ")[1:]) for i in range(1, 4)]
             mon = random.choice(starters)
@@ -131,7 +134,7 @@ def write_quizzes(world: "PokemonRedBlueWorld", patch: PokemonBlueProcedurePatch
                 nots -= i
             text += "a starter choice?<DONE>"
             return encode_text(text)
-        if q == 4:
+        elif q == 4:
             if a:
                 tm_text = world.local_tms[27]
             else:
@@ -142,17 +145,17 @@ def write_quizzes(world: "PokemonRedBlueWorld", patch: PokemonBlueProcedurePatch
                 else:
                     tm_text = "TOMBSTONER"
             return encode_text(f"TM28 contains<LINE>{tm_text.upper()}?<DONE>")
-        if q == 5:
+        elif q == 5:
             i = 8
             while not a and i in [1, 8]:
                 i = random.randint(0, int("99999999"[random.randint(0, 7):]))
             return encode_text(f"There are {i}<LINE>certified #MON<CONT>LEAGUE BADGEs?<DONE>")
-        if q == 6:
+        elif q == 6:
             i = 2
             while not a and i in [1, 2]:
                 i = random.randint(0, random.choice([9, 99]))
             return encode_text(f"POLIWAG evolves {i}<LINE>times?<DONE>")
-        if q == 7:
+        elif q == 7:
             q2 = random.randint(0, 2)
             if q2 == 0:
                 entity = "Motor Carrier"
@@ -161,7 +164,7 @@ def write_quizzes(world: "PokemonRedBlueWorld", patch: PokemonBlueProcedurePatch
                 return encode_text("Title 49 of the<LINE>U.S. Code of<CONT>Federal<CONT>Regulations part<CONT>397.67 "
                                    f"states<CONT>that the<CONT>{entity}<CONT>is responsible<CONT>for planning<CONT>"
                                    "routes when<CONT>hazardous<CONT>materials are<CONT>transported?<DONE>")
-            if q2 == 1:
+            elif q2 == 1:
                 if a:
                     state = random.choice(
                         ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
@@ -175,7 +178,7 @@ def write_quizzes(world: "PokemonRedBlueWorld", patch: PokemonBlueProcedurePatch
                     state = "New Hampshire"
                 return encode_text(
                     f"As of 2024,<LINE>{state}<CONT>has a law<CONT>requiring all<CONT>front seat vehicle<CONT>occupants to use<CONT>seatbelts?<DONE>")
-            if q2 == 2:
+            elif q2 == 2:
                 if a:
                     country = random.choice(["The United States", "Mexico", "Canada", "Germany", "France", "China",
                                              "Russia", "Spain", "Brazil", "Ukraine", "Saudi Arabia", "Egypt"])

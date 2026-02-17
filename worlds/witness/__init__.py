@@ -6,8 +6,8 @@ from logging import error, warning
 from typing import Any, Dict, List, Optional, cast
 
 from BaseClasses import CollectionState, Entrance, Location, LocationProgressType, Region, Tutorial
-from Options import OptionError, PerGameCommonOptions, Toggle
 
+from Options import OptionError, PerGameCommonOptions, Toggle
 from worlds.AutoWorld import WebWorld, World
 
 from .data import static_items as static_witness_items
@@ -88,15 +88,15 @@ class WitnessWorld(World):
     player_items: WitnessPlayerItems
     player_regions: WitnessPlayerRegions
 
-    log_ids_to_hints: dict[int, CompactHintData]
-    laser_ids_to_hints: dict[int, CompactHintData]
+    log_ids_to_hints: Dict[int, CompactHintData]
+    laser_ids_to_hints: Dict[int, CompactHintData]
 
-    items_placed_early: list[str]
-    own_itempool: list[WitnessItem]
+    items_placed_early: List[str]
+    own_itempool: List[WitnessItem]
 
     panel_hunt_required_count: int
 
-    def _get_slot_data(self) -> dict[str, Any]:
+    def _get_slot_data(self) -> Dict[str, Any]:
         return {
             "seed": self.options.puzzle_randomization_seed.value,
             "victory_location": int(self.player_logic.VICTORY_LOCATION, 16),
@@ -167,8 +167,8 @@ class WitnessWorld(World):
         )
         self.player_regions: WitnessPlayerRegions = WitnessPlayerRegions(self.player_locations, self)
 
-        self.log_ids_to_hints: dict[int, CompactHintData] = {}
-        self.laser_ids_to_hints: dict[int, CompactHintData] = {}
+        self.log_ids_to_hints: Dict[int, CompactHintData] = {}
+        self.laser_ids_to_hints: Dict[int, CompactHintData] = {}
 
         self.determine_sufficient_progression()
 
@@ -341,7 +341,7 @@ class WitnessWorld(World):
             self.own_itempool += new_items
             self.multiworld.itempool += new_items
 
-    def fill_slot_data(self) -> dict[str, Any]:
+    def fill_slot_data(self) -> Dict[str, Any]:
         already_hinted_locations = set()
 
         # Laser hints
@@ -430,12 +430,12 @@ class WitnessLocation(Location):
     """
     game: str = "The Witness"
 
-    def __init__(self, player: int, name: str, address: int | None, parent: Region) -> None:
+    def __init__(self, player: int, name: str, address: Optional[int], parent: Region) -> None:
         super().__init__(player, name, address, parent)
 
 
 def create_region(world: WitnessWorld, name: str, player_locations: WitnessPlayerLocations,
-                  region_locations: list[str] | None = None, exits: list[str] | None = None) -> Region:
+                  region_locations: Optional[List[str]] = None, exits: Optional[List[str]] = None) -> Region:
     """
     Create an Archipelago Region for The Witness
     """

@@ -1,15 +1,13 @@
-from typing import Dict, NamedTuple, Optional, Set, Tuple
-
+from typing import Dict, Set, Tuple, NamedTuple, Optional
 from BaseClasses import ItemClassification
-
 
 class ItemData(NamedTuple):
     category: str
-    code: int | None
+    code: Optional[int]
     classification: ItemClassification
-    amount: int | None = 1
+    amount: Optional[int] = 1
 
-item_table: dict[str, ItemData] = {
+item_table: Dict[str, ItemData] = {
     "! Switch": ItemData("Items", 0x302050, ItemClassification.progression),
     "Dashed Platform": ItemData("Items", 0x302051, ItemClassification.progression),
     "Dashed Stairs": ItemData("Items", 0x302052, ItemClassification.progression),
@@ -92,7 +90,7 @@ item_table: dict[str, ItemData] = {
     "Saved Baby Luigi": ItemData("Events", None, ItemClassification.progression, 0)
 }
 
-filler_items: tuple[str, ...] = (
+filler_items: Tuple[str, ...] = (
     "Anytime Egg",
     "Anywhere Pow",
     "Winged Cloud Maker",
@@ -107,15 +105,15 @@ filler_items: tuple[str, ...] = (
     "3-Up"
 )
 
-trap_items: tuple[str, ...] = (
+trap_items: Tuple[str, ...] = (
     "Fuzzy Trap",
     "Reversal Trap",
     "Darkness Trap",
     "Freeze Trap"
 )
 
-def get_item_names_per_category() -> dict[str, set[str]]:
-    categories: dict[str, set[str]] = {}
+def get_item_names_per_category() -> Dict[str, Set[str]]:
+    categories: Dict[str, Set[str]] = {}
 
     for name, data in item_table.items():
         if data.category != "Events":

@@ -1,12 +1,10 @@
 from typing import TYPE_CHECKING
 
 from BaseClasses import Location
-
 from .data.hint_source import HINT_SOURCES_JSON
 
 if TYPE_CHECKING:
     from random import Random
-
     from . import LandstalkerWorld
 
 

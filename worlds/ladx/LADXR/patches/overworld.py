@@ -1,9 +1,8 @@
-import json
-import os
-
-from .. import entityData
 from ..assembler import ASM
-from ..roomEditor import WARP_TYPE_IDS, Object, ObjectWarp, RoomEditor
+from ..roomEditor import RoomEditor, ObjectWarp, Object, WARP_TYPE_IDS
+from .. import entityData
+import os
+import json
 
 
 def patchOverworldTilesets(rom):

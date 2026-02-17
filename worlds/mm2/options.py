@@ -1,18 +1,8 @@
 from dataclasses import dataclass
 
-from schema import And, Optional, Schema, Use
-
-from Options import (
-    Choice,
-    DeathLink,
-    DefaultOnToggle,
-    OptionDict,
-    PerGameCommonOptions,
-    Range,
-    TextChoice,
-    Toggle,
-    Visibility,
-)
+from Options import (Choice, Toggle, DeathLink, DefaultOnToggle, TextChoice, Range, OptionDict, PerGameCommonOptions,
+                     Visibility)
+from schema import Schema, And, Use, Optional
 
 bosses = {
     "Heat Man": 0,

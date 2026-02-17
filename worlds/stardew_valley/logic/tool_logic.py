@@ -1,14 +1,12 @@
-from typing import Tuple, Union
-from collections.abc import Iterable
+from typing import Union, Iterable, Tuple
 
 from Utils import cache_self1
-
-from ..stardew_rule import False_, StardewRule, True_
+from .base_logic import BaseLogicMixin, BaseLogic
+from ..stardew_rule import StardewRule, True_, False_
 from ..strings.ap_names.skill_level_names import ModSkillLevel
-from ..strings.region_names import LogicRegion, Region
+from ..strings.region_names import Region, LogicRegion
 from ..strings.spells import MagicSpell
-from ..strings.tool_names import APTool, Tool, ToolMaterial
-from .base_logic import BaseLogic, BaseLogicMixin
+from ..strings.tool_names import ToolMaterial, Tool, APTool
 
 fishing_rod_prices = {
     3: 1800,
@@ -38,7 +36,7 @@ class ToolLogicMixin(BaseLogicMixin):
 
 class ToolLogic(BaseLogic):
 
-    def has_all_tools(self, tools: Iterable[tuple[str, str]]):
+    def has_all_tools(self, tools: Iterable[Tuple[str, str]]):
         return self.logic.and_(*(self.logic.tool.has_tool(tool, material) for tool, material in tools))
 
     # Should be cached
@@ -71,7 +69,8 @@ class ToolLogic(BaseLogic):
 
         if self.content.features.tool_progression.is_progressive:
             return self.logic.received(APTool.pickaxe, tool_materials[material])
-        return self.logic.tool._can_purchase_upgrade(material)
+        else:
+            return self.logic.tool._can_purchase_upgrade(material)
 
     @cache_self1
     def _can_purchase_upgrade(self, material: str) -> StardewRule:
@@ -94,7 +93,7 @@ class ToolLogic(BaseLogic):
         return self.logic.money.can_spend_at(Region.fish_shop, fishing_rod_prices[level])
 
     # Should be cached
-    def can_forage(self, season: str | Iterable[str], region: str = Region.forest, need_hoe: bool = False) -> StardewRule:
+    def can_forage(self, season: Union[str, Iterable[str]], region: str = Region.forest, need_hoe: bool = False) -> StardewRule:
         season_rule = False_()
         if isinstance(season, str):
             season_rule = self.logic.season.has(season)

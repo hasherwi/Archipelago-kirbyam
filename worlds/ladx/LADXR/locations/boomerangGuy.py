@@ -1,7 +1,7 @@
+from .itemInfo import ItemInfo
+from .constants import *
 from ..assembler import ASM
 from ..utils import formatText
-from .constants import *
-from .itemInfo import ItemInfo
 
 
 class BoomerangGuy(ItemInfo):
@@ -9,13 +9,13 @@ class BoomerangGuy(ItemInfo):
 
     def __init__(self):
         super().__init__(0x1F5)
-        self.setting = "trade"
+        self.setting = 'trade'
 
     def configure(self, options):
         self.MULTIWORLD = False
 
         self.setting = options.boomerang
-        if self.setting == "gift":
+        if self.setting == 'gift':
             self.MULTIWORLD = True
 
     # Cannot trade:
@@ -24,7 +24,7 @@ class BoomerangGuy(ItemInfo):
     # But SHIELD, BOMB and MAGIC_POWDER would most likely break things.
     # SWORD and POWER_BRACELET would most likely introduce the lv0 shield/bracelet issue
     def patch(self, rom, option, *, multiworld=None):
-        if self.setting == "trade":
+        if self.setting == 'trade':
             inv = INVENTORY_MAP[option]
             # Patch the check if you traded back the boomerang (so traded twice)
             rom.patch(0x19, 0x063F, ASM("cp $0D"), ASM("cp $%s" % (inv)))

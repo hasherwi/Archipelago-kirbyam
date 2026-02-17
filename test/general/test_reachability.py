@@ -2,8 +2,7 @@ import unittest
 
 from BaseClasses import CollectionState
 from worlds.AutoWorld import AutoWorldRegister
-
-from . import gen_steps, setup_solo_multiworld
+from . import setup_solo_multiworld, gen_steps
 
 
 class TestBase(unittest.TestCase):

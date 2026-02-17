@@ -9,7 +9,7 @@ class TestDisabledPilgrimage(LingoTestBase):
 
     def test_access(self):
         self.assertFalse(self.can_reach_location("Pilgrim Antechamber - PILGRIM"))
-
+        
         self.collect_by_name("Pilgrim Room - Sun Painting")
         self.assertTrue(self.can_reach_location("Pilgrim Antechamber - PILGRIM"))
 
@@ -31,7 +31,7 @@ class TestPilgrimageWithRoofAndPaintings(LingoTestBase):
         for door in doors:
             self.assertFalse(self.can_reach_location("Pilgrim Antechamber - PILGRIM"))
             self.collect_by_name(door)
-
+        
         self.assertTrue(self.can_reach_location("Pilgrim Antechamber - PILGRIM"))
 
 
@@ -54,7 +54,7 @@ class TestPilgrimageNoRoofYesPaintings(LingoTestBase):
         for door in doors:
             self.assertFalse(self.can_reach_location("Pilgrim Antechamber - PILGRIM"))
             self.collect_by_name(door)
-
+        
         self.assertTrue(self.can_reach_location("Pilgrim Antechamber - PILGRIM"))
 
 
@@ -81,7 +81,7 @@ class TestPilgrimageNoRoofNoPaintings(LingoTestBase):
         for door in doors:
             self.assertFalse(self.can_reach_location("Pilgrim Antechamber - PILGRIM"))
             self.collect_by_name(door)
-
+        
         self.assertTrue(self.can_reach_location("Pilgrim Antechamber - PILGRIM"))
 
 
@@ -134,5 +134,5 @@ class TestPilgrimageYesRoofNoPaintings(LingoTestBase):
         for door in doors:
             self.assertFalse(self.can_reach_location("Pilgrim Antechamber - PILGRIM"))
             self.collect_by_name(door)
-
+        
         self.assertTrue(self.can_reach_location("Pilgrim Antechamber - PILGRIM"))

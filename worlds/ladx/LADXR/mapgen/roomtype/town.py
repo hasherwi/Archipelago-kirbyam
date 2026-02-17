@@ -1,7 +1,6 @@
-import random
-
-from ..tileset import solid_tiles
 from .base import RoomType
+from ..tileset import solid_tiles
+import random
 
 
 class Town(RoomType):

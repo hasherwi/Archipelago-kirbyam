@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import Choice, DeathLink, DefaultOnToggle, OptionGroup, PerGameCommonOptions, Range, Toggle
+from Options import Choice, Range, Toggle, DeathLink, DefaultOnToggle, OptionGroup, PerGameCommonOptions
 
 
 class Goal(Choice):
@@ -263,14 +263,14 @@ class ReverseTrapWeight(BaseTrapWeight):
     Likelihood of a receiving a trap which causes the controls to be reversed in the current level
     """
     display_name = "Reverse Trap Weight"
-
-
+    
+    
 class ThwimpTrapWeight(BaseTrapWeight):
     """
     Likelihood of a receiving a trap which causes a Thwimp to spawn above the player
     """
     display_name = "Thwimp Trap Weight"
-
+    
 
 class Autosave(DefaultOnToggle):
     """

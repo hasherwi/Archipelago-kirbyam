@@ -8,7 +8,7 @@ class TestPrizes(WorldTestBase):
     game = "A Link to the Past"
 
     def test_item_rules(self):
-        prize_locations: list[Location] = [
+        prize_locations: List[Location] = [
             self.multiworld.get_location("Eastern Palace - Prize", 1),
             self.multiworld.get_location("Desert Palace - Prize", 1),
             self.multiworld.get_location("Tower of Hera - Prize", 1),
@@ -20,7 +20,7 @@ class TestPrizes(WorldTestBase):
             self.multiworld.get_location("Misery Mire - Prize", 1),
             self.multiworld.get_location("Turtle Rock - Prize", 1),
         ]
-        prize_items: list[Item] = [
+        prize_items: List[Item] = [
             self.get_item_by_name("Green Pendant"),
             self.get_item_by_name("Blue Pendant"),
             self.get_item_by_name("Red Pendant"),

@@ -1,16 +1,6 @@
 from dataclasses import dataclass
-
-from Options import (
-    Choice,
-    DeathLink,
-    FreeText,
-    ItemsAccessibility,
-    NamedRange,
-    PerGameCommonOptions,
-    Range,
-    TextChoice,
-    Toggle,
-)
+from Options import (PerGameCommonOptions, Toggle, Choice, Range, NamedRange, FreeText, TextChoice, DeathLink,
+                     ItemsAccessibility)
 
 
 class GameVersion(Choice):

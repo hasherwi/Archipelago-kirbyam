@@ -1,7 +1,6 @@
 import logging
 
 import Options as ap_options
-
 from . import options
 
 sv_option_groups = []

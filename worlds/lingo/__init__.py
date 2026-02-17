@@ -3,14 +3,13 @@ Archipelago init file for Lingo
 """
 from logging import warning
 
-from BaseClasses import CollectionState, Item, ItemClassification, Location, LocationProgressType, Tutorial
+from BaseClasses import CollectionState, Item, ItemClassification, Tutorial, Location, LocationProgressType
 from Options import OptionError
 from worlds.AutoWorld import WebWorld, World
-
 from .datatypes import Room, RoomEntrance
 from .items import ALL_ITEM_TABLE, ITEMS_BY_GROUP, TRAP_ITEMS, LingoItem
 from .locations import ALL_LOCATION_TABLE, LOCATIONS_BY_GROUP
-from .options import LingoOptions, SunwarpAccess, VictoryCondition, lingo_option_groups
+from .options import LingoOptions, lingo_option_groups, SunwarpAccess, VictoryCondition
 from .player_logic import LingoPlayerLogic
 from .regions import create_regions
 
@@ -209,5 +208,6 @@ class LingoWorld(World):
     def get_filler_item_name(self) -> str:
         if self.options.speed_boost_mode:
             return "Speed Boost"
-        filler_list = [":)", "The Feeling of Being Lost", "Wanderlust", "Empty White Hallways"]
-        return self.random.choice(filler_list)
+        else:
+            filler_list = [":)", "The Feeling of Being Lost", "Wanderlust", "Empty White Hallways"]
+            return self.random.choice(filler_list)

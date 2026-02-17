@@ -2,16 +2,15 @@ import asyncio
 import logging
 import os
 import traceback
-import zipfile
 from typing import Any, Dict, List, Optional
+import zipfile
 
-import Utils
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger, server_loop
-from NetUtils import ClientStatus
-
-from .CivVIInterface import CivVIInterface, ConnectionState
+from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
 from .Data import get_progressive_districts_data
 from .DeathLink import handle_check_deathlink
+from NetUtils import ClientStatus
+import Utils
+from .CivVIInterface import CivVIInterface, ConnectionState
 from .Enum import CivVICheckType
 from .Items import CivVIItemData, generate_item_table, get_item_by_civ_name
 from .Locations import CivVILocationData, generate_era_location_table
@@ -50,17 +49,17 @@ class CivVIContext(CommonContext):
     command_processor = CivVICommandProcessor
     game = "Civilization VI"
     items_handling = 0b111
-    tuner_sync_task: asyncio.Task[None] | None = None
+    tuner_sync_task: Optional[asyncio.Task[None]] = None
     game_interface: CivVIInterface
-    location_name_to_civ_location: dict[str, CivVILocationData] = {}
-    location_name_to_id: dict[str, int] = {}
-    item_id_to_civ_item: dict[int, CivVIItemData] = {}
-    item_table: dict[str, CivVIItemData] = {}
+    location_name_to_civ_location: Dict[str, CivVILocationData] = {}
+    location_name_to_id: Dict[str, int] = {}
+    item_id_to_civ_item: Dict[int, CivVIItemData] = {}
+    item_table: Dict[str, CivVIItemData] = {}
     processing_multiple_items = False
     received_death_link = False
     death_link_message = ""
     death_link_enabled = False
-    slot_data: dict[str, Any]
+    slot_data: Dict[str, Any]
 
     death_link_just_changed = False
     # Used to prevent the deathlink from triggering when someone re enables it
@@ -71,9 +70,9 @@ class CivVIContext(CommonContext):
         item.name: item.code for item in generate_item_table().values()}
     connection_state = ConnectionState.DISCONNECTED
 
-    def __init__(self, server_address: str | None, password: str | None, apcivvi_file: str | None = None):
+    def __init__(self, server_address: Optional[str], password: Optional[str], apcivvi_file: Optional[str] = None):
         super().__init__(server_address, password)
-        self.slot_data: dict[str, Any] = {}
+        self.slot_data: Dict[str, Any] = {}
         self.game_interface = CivVIInterface(logger)
         location_by_era = generate_era_location_table()
         self.item_table = generate_item_table()
@@ -109,7 +108,7 @@ class CivVIContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super().server_auth(password_requested)
+            await super(CivVIContext, self).server_auth(password_requested)
         await self.get_username()
         self.tags = set()
         await self.send_connect()
@@ -126,7 +125,7 @@ class CivVIContext(CommonContext):
         self.ui = CivVIManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
-    def on_package(self, cmd: str, args: dict[str, Any]):
+    def on_package(self, cmd: str, args: Dict[str, Any]):
         if cmd == "Connected":
             self.slot_data = args["slot_data"]
             if "death_link" in args["slot_data"]:
@@ -138,7 +137,7 @@ class CivVIContext(CommonContext):
 def update_connection_status(ctx: CivVIContext, status: ConnectionState):
     if ctx.connection_state == status:
         return
-    if status == ConnectionState.IN_GAME:
+    elif status == ConnectionState.IN_GAME:
         ctx.logger.info("Connected to Civ VI")
     elif status == ConnectionState.IN_MENU:
         ctx.logger.info("Connected to Civ VI, waiting for game to start")
@@ -204,14 +203,14 @@ async def handle_checked_location(ctx: CivVIContext):
     await ctx.send_msgs([{"cmd": "LocationChecks", "locations": checked_location_ids}])
 
 
-async def handle_receive_items(ctx: CivVIContext, last_received_index_override: int | None = None):
+async def handle_receive_items(ctx: CivVIContext, last_received_index_override: Optional[int] = None):
     try:
         last_received_index = last_received_index_override or await ctx.game_interface.get_last_received_index()
         if len(ctx.items_received) - last_received_index > 1:
             ctx.processing_multiple_items = True
 
-        progressive_districts: list[CivVIItemData] = []
-        progressive_eras: list[CivVIItemData] = []
+        progressive_districts: List[CivVIItemData] = []
+        progressive_eras: List[CivVIItemData] = []
         for index, network_item in enumerate(ctx.items_received):
 
             # Track these separately so if we replace "PROGRESSIVE_DISTRICT" with a specific tech, we can still check if need to add it to the list of districts
@@ -284,10 +283,10 @@ async def _handle_game_ready(ctx: CivVIContext):
         await asyncio.sleep(3)
 
 
-def main(connect: str | None = None, password: str | None = None, name: str | None = None):
+def main(connect: Optional[str] = None, password: Optional[str] = None, name: Optional[str] = None):
     Utils.init_logging("Civilization VI Client")
 
-    async def _main(connect: str | None, password: str | None, name: str | None):
+    async def _main(connect: Optional[str], password: Optional[str], name: Optional[str]):
         parser = get_base_parser()
         parser.add_argument("apcivvi_file", default="", type=str, nargs="?", help="Path to apcivvi file")
         args = parser.parse_args()

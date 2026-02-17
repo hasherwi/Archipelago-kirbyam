@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import ClassVar, Optional
-from collections.abc import Iterable
+from typing import ClassVar, Optional, Iterable
 
 from ...data.game_item import GameItem, ItemTag
 from ...strings.book_names import ordered_lost_books
@@ -17,7 +16,7 @@ def to_location_name(book: str) -> str:
     return location_prefix + book
 
 
-def extract_book_from_location_name(location_name: str) -> str | None:
+def extract_book_from_location_name(location_name: str) -> Optional[str]:
     if not location_name.startswith(location_prefix):
         return None
 

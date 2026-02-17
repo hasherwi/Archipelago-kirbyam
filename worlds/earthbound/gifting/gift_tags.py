@@ -153,7 +153,7 @@ gift_qualities = {
     "Coin of Silence": {"Armor": 1.25},
     "Mr. Saturn Coin": {"Armor": 1.30},
     "Diadem of Kngs": {"Armor": 0.50, "Fire": 0.25, "Ice": 0.25, "Light": 0.25, "AntiNumb": 0.25}
-}
+} 
 
 
 @dataclass
@@ -171,7 +171,8 @@ def make_trait(trait: str, name: str) -> dict[str, str | int]:
 
     if quality:
         return {"trait": trait, "quality": quality}
-    return {"trait": trait}
+    else:
+        return {"trait": trait}
 
 
 def make_default_traits(traits: list[str], name: str) -> list[dict[str, str | int]]:
@@ -269,7 +270,7 @@ gift_properties = {
     42: create_gift("Hyper Beam", 0, ["RangedWeapon", "Beam", "Weapon"]),
 
     43: create_gift("Crusher Beam", 0, ["RangedWeapon", "Beam", "Weapon"]),
-
+    
     44: create_gift("Spectrum Beam", 0, ["RangedWeapon", "Beam", "Weapon"]),
 
     45: create_gift("Death Ray", 0, ["RangedWeapon", "Beam", "Weapon"]),

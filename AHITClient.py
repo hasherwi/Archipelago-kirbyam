@@ -1,9 +1,7 @@
 import sys
-
-import ModuleUpdate
-import Utils
 from worlds.ahit.Client import launch
-
+import Utils
+import ModuleUpdate
 ModuleUpdate.update()
 
 if __name__ == "__main__":

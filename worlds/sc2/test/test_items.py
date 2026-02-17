@@ -40,7 +40,7 @@ class TestItems(unittest.TestCase):
         Checks if there are no bundles within bundles.
         """
         bundled_items = item_tables.upgrade_bundles.keys()
-        bundle_elements: list[str] = [item_name for values in item_tables.upgrade_bundles.values() for item_name in values]
+        bundle_elements: List[str] = [item_name for values in item_tables.upgrade_bundles.values() for item_name in values]
 
         for element in bundle_elements:
             self.assertNotIn(element, bundled_items)
@@ -58,7 +58,7 @@ class TestItems(unittest.TestCase):
         """
         Verifies if there are no duplicates of item ID.
         """
-        item_ids: set[int] = {item_tables.get_full_item_list()[item_name].code for item_name in item_tables.get_full_item_list()}
+        item_ids: Set[int] = {item_tables.get_full_item_list()[item_name].code for item_name in item_tables.get_full_item_list()}
 
         self.assertEqual(len(item_ids), len(item_tables.get_full_item_list()))
 
@@ -66,7 +66,7 @@ class TestItems(unittest.TestCase):
         """
         Tests if each item is distinct for sending into the mod.
         """
-        item_types: list[item_tables.ItemTypeEnum] = [
+        item_types: List[item_tables.ItemTypeEnum] = [
             *[item.value for item in item_tables.TerranItemType],
             *[item.value for item in item_tables.ZergItemType],
             *[item.value for item in item_tables.ProtossItemType],
@@ -76,12 +76,12 @@ class TestItems(unittest.TestCase):
         self.assertGreater(len(item_types), 0)
 
         for item_type in item_types:
-            item_names: list[str] = [
+            item_names: List[str] = [
                 item_name for item_name in item_tables.get_full_item_list()
                 if item_tables.get_full_item_list()[item_name].number >= 0  # Negative numbers have special meaning
                    and item_tables.get_full_item_list()[item_name].type == item_type
             ]
-            item_numbers: set[int] = {item_tables.get_full_item_list()[item_name] for item_name in item_names}
+            item_numbers: Set[int] = {item_tables.get_full_item_list()[item_name] for item_name in item_names}
 
             self.assertEqual(len(item_names), len(item_numbers))
 
@@ -89,14 +89,14 @@ class TestItems(unittest.TestCase):
         """
         :return:
         """
-        progressive_groups: list[item_tables.ItemTypeEnum] = [
+        progressive_groups: List[item_tables.ItemTypeEnum] = [
             item_tables.TerranItemType.Progressive,
             item_tables.TerranItemType.Progressive_2,
             item_tables.ProtossItemType.Progressive,
             item_tables.ZergItemType.Progressive
         ]
 
-        quantities: list[int] = [
+        quantities: List[int] = [
             item_tables.get_full_item_list()[item].quantity for item in item_tables.get_full_item_list()
             if item_tables.get_full_item_list()[item].type in progressive_groups
         ]
@@ -107,7 +107,7 @@ class TestItems(unittest.TestCase):
         """
         Check if non-progressive items have quantity at most 1.
         """
-        non_progressive_single_entity_groups: list[item_tables.ItemTypeEnum] = [
+        non_progressive_single_entity_groups: List[item_tables.ItemTypeEnum] = [
             # Terran
             item_tables.TerranItemType.Unit,
             item_tables.TerranItemType.Unit_2,
@@ -144,7 +144,7 @@ class TestItems(unittest.TestCase):
             item_tables.ProtossItemType.Spear_Of_Adun
         ]
 
-        quantities: list[int] = [
+        quantities: List[int] = [
             item_tables.get_full_item_list()[item].quantity for item in item_tables.get_full_item_list()
             if item_tables.get_full_item_list()[item].type in non_progressive_single_entity_groups
         ]
@@ -156,10 +156,10 @@ class TestItems(unittest.TestCase):
         """
         Checks if all item numbers are within bounds supported by game mod.
         """
-        not_checked_item_types: list[item_tables.ItemTypeEnum] = [
+        not_checked_item_types: List[item_tables.ItemTypeEnum] = [
             item_tables.ZergItemType.Level
         ]
-        items_to_check: list[str] = [
+        items_to_check: List[str] = [
             item for item in item_tables.get_full_item_list()
             if item_tables.get_full_item_list()[item].type not in not_checked_item_types
         ]

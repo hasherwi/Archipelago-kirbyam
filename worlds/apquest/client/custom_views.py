@@ -16,6 +16,7 @@ from CommonClient import logger
 
 from ..game.inputs import Input
 
+
 INPUT_MAP = {
     "up": Input.UP,
     "w": Input.UP,

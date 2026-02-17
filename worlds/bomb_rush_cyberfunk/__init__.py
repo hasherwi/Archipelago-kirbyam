@@ -1,13 +1,11 @@
 from typing import Any, Dict
-
-from BaseClasses import CollectionState, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
-from worlds.AutoWorld import WebWorld, World
-
-from .Items import BRCType, base_id, group_table, item_table
-from .Locations import event_table, location_table
-from .Options import BombRushCyberfunkOptions, StartStyle
+from BaseClasses import MultiWorld, Region, Location, Item, Tutorial, ItemClassification, CollectionState
+from worlds.AutoWorld import World, WebWorld
+from .Items import base_id, item_table, group_table, BRCType
+from .Locations import location_table, event_table
 from .Regions import region_exits
 from .Rules import rules
+from .Options import BombRushCyberfunkOptions, StartStyle
 
 
 class BombRushCyberfunkWeb(WebWorld):
@@ -38,8 +36,8 @@ class BombRushCyberfunkWorld(World):
     options: BombRushCyberfunkOptions
 
     def __init__(self, multiworld: MultiWorld, player: int):
-        super().__init__(multiworld, player)
-        self.item_classification: dict[BRCType, ItemClassification] = {
+        super(BombRushCyberfunkWorld, self).__init__(multiworld, player)
+        self.item_classification: Dict[BRCType, ItemClassification] = {
             BRCType.Music: ItemClassification.filler,
             BRCType.GraffitiM: ItemClassification.progression,
             BRCType.GraffitiL: ItemClassification.progression,
@@ -102,7 +100,7 @@ class BombRushCyberfunkWorld(World):
             self.item_classification[BRCType.InlineSkates] = ItemClassification.filler
         else:
             self.item_classification[BRCType.InlineSkates] = ItemClassification.progression
-
+        
         if self.options.starting_movestyle == StartStyle.option_bmx:
             self.item_classification[BRCType.BMX] = ItemClassification.filler
         else:
@@ -173,10 +171,10 @@ class BombRushCyberfunkWorld(World):
 
         multiworld.completion_condition[player] = lambda state: state.has("Victory", player)
 
-    def fill_slot_data(self) -> dict[str, Any]:
+    def fill_slot_data(self) -> Dict[str, Any]:
         options = self.options
 
-        slot_data: dict[str, Any] = {
+        slot_data: Dict[str, Any] = {
             "locations": {loc["game_id"]: (base_id + index) for index, loc in enumerate(location_table)},
             "logic": options.logic.value,
             "skip_intro": bool(options.skip_intro.value),

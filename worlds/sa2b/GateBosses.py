@@ -7,6 +7,7 @@ from worlds.AutoWorld import World
 from .Names import LocationName
 from .Options import GateBossPlando
 
+
 speed_characters_1 = "sonic vs shadow 1"
 speed_characters_2 = "sonic vs shadow 2"
 mech_characters_1 = "tails vs eggman 1"
@@ -78,12 +79,12 @@ def boss_has_requirement(boss: int):
 
 
 def get_gate_bosses(world: World):
-    selected_bosses: list[int] = []
-    boss_gates: list[int] = []
-    available_bosses: list[str] = list(gate_bosses_no_requirements_table.keys())
+    selected_bosses: typing.List[int] = []
+    boss_gates: typing.List[int] = []
+    available_bosses: typing.List[str] = list(gate_bosses_no_requirements_table.keys())
     world.random.shuffle(available_bosses)
 
-    gate_boss_plando: int | str = world.options.gate_boss_plando.value
+    gate_boss_plando: typing.Union[int, str] = world.options.gate_boss_plando.value
     plando_bosses = ["None", "None", "None", "None", "None"]
     if isinstance(gate_boss_plando, str):
         # boss plando
@@ -123,7 +124,7 @@ def get_gate_bosses(world: World):
         boss_gates.append(x + 1)
         available_bosses.remove(chosen_boss)
 
-    bosses: dict[int, int] = dict(zip(boss_gates, selected_bosses))
+    bosses: typing.Dict[int, int] = dict(zip(boss_gates, selected_bosses))
 
     return bosses
 
@@ -135,24 +136,25 @@ def get_boss_rush_bosses(world: World):
         boss_list_s = [5, 2, 0, 10, 8, 4, 3, 1, 6, 13, 7, 11, 9, 15, 14, 12]
 
         return dict(zip(boss_list_o, boss_list_s))
-    if world.options.boss_rush_shuffle == 1:
+    elif world.options.boss_rush_shuffle == 1:
         boss_list_o = list(range(0, 16))
         boss_list_s = boss_list_o.copy()
         world.random.shuffle(boss_list_s)
 
         return dict(zip(boss_list_o, boss_list_s))
-    if world.options.boss_rush_shuffle == 2:
+    elif world.options.boss_rush_shuffle == 2:
         boss_list_o = list(range(0, 16))
         boss_list_s = [world.random.choice(boss_list_o) for i in range(0, 16)]
         if 10 not in boss_list_s:
             boss_list_s[world.random.randint(0, 15)] = 10
 
         return dict(zip(boss_list_o, boss_list_s))
-    if world.options.boss_rush_shuffle == 3:
+    elif world.options.boss_rush_shuffle == 3:
         boss_list_o = list(range(0, 16))
         boss_list_s = [world.random.choice(boss_list_o)] * len(boss_list_o)
         if 10 not in boss_list_s:
             boss_list_s[world.random.randint(0, 15)] = 10
 
         return dict(zip(boss_list_o, boss_list_s))
-    return dict()
+    else:
+        return dict()

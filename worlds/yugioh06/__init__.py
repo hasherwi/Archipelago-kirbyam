@@ -3,14 +3,13 @@ import pkgutil
 from typing import Any, ClassVar, Dict, List, Set
 
 import settings
-import Utils
 from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
 
+import Utils
 from worlds.AutoWorld import WebWorld, World
 
 from .boosterpacks import booster_contents as booster_contents
 from .boosterpacks import get_booster_locations
-from .client_bh import YuGiOh2006Client
 from .items import (
     Banlist_Items,
     booster_packs,
@@ -18,12 +17,12 @@ from .items import (
     draft_opponents,
     excluded_items,
     item_to_index,
+    useful,
     tier_1_opponents,
     tier_2_opponents,
     tier_3_opponents,
     tier_4_opponents,
     tier_5_opponents,
-    useful,
 )
 from .items import challenges as challenges
 from .locations import (
@@ -47,6 +46,7 @@ from .rom_values import function_addresses as function_addresses
 from .rom_values import structure_deck_selection as structure_deck_selection
 from .rules import set_rules
 from .structure_deck import get_deck_content_locations
+from .client_bh import YuGiOh2006Client
 
 
 class Yugioh06Web(WebWorld):
@@ -111,7 +111,7 @@ class Yugioh06World(World):
     for k, v in Required_Cards.items():
         location_name_to_id[k] = v + start_id
 
-    item_name_groups: dict[str, set[str]] = {
+    item_name_groups: Dict[str, Set[str]] = {
         "Core Booster": set(core_booster),
         "Campaign Boss Beaten": {"Tier 1 Beaten", "Tier 2 Beaten", "Tier 3 Beaten", "Tier 4 Beaten", "Tier 5 Beaten"},
         "Challenge": set(challenges),
@@ -124,10 +124,10 @@ class Yugioh06World(World):
                              tier_4_opponents + tier_5_opponents)
     }
 
-    removed_challenges: list[str]
+    removed_challenges: List[str]
     starting_booster: str
     starting_opponent: str
-    campaign_opponents: list[OpponentData]
+    campaign_opponents: List[OpponentData]
     is_draft_mode: bool
 
     def __init__(self, world: MultiWorld, player: int):
@@ -423,8 +423,8 @@ class Yugioh06World(World):
         out_file_name = self.multiworld.get_out_file_name_base(self.player)
         patch.write(os.path.join(output_directory, f"{out_file_name}{patch.patch_file_ending}"))
 
-    def fill_slot_data(self) -> dict[str, Any]:
-        slot_data: dict[str, Any] = {
+    def fill_slot_data(self) -> Dict[str, Any]:
+        slot_data: Dict[str, Any] = {
             "structure_deck": self.options.structure_deck.value,
             "banlist": self.options.banlist.value,
             "final_campaign_boss_unlock_condition": self.options.final_campaign_boss_unlock_condition.value,
@@ -453,7 +453,7 @@ class Yugioh06World(World):
 
     # for the universal tracker, doesn't get called in standard gen
     @staticmethod
-    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
+    def interpret_slot_data(slot_data: Dict[str, Any]) -> Dict[str, Any]:
         # returning slot_data so it regens, giving it back in multiworld.re_gen_passthrough
         return slot_data
 

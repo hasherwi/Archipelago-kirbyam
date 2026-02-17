@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, TypeVar
-from collections.abc import Callable, Hashable
+from typing import TYPE_CHECKING, Callable, Hashable, TypeVar
 
 if TYPE_CHECKING:
     from .bot_ai import BotAI

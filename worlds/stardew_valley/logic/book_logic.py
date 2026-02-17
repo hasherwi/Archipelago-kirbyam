@@ -1,7 +1,6 @@
 from Utils import cache_self1
-
+from .base_logic import BaseLogicMixin, BaseLogic
 from ..stardew_rule import StardewRule
-from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class BookLogicMixin(BaseLogicMixin):
@@ -17,4 +16,5 @@ class BookLogic(BaseLogic):
         booksanity = self.content.features.booksanity
         if booksanity.is_included(self.content.game_items[book]):
             return self.logic.received(booksanity.to_item_name(book))
-        return self.logic.has(book)
+        else:
+            return self.logic.has(book)

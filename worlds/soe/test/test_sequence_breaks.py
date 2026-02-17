@@ -1,11 +1,10 @@
 import typing
-
 from . import SoETestBase
 
 
 class SequenceBreaksTest(SoETestBase):
     """Tests that 'on' doesn't put sequence breaks in logic. This is also the test base for in-logic."""
-    options: dict[str, typing.Any] = {"sequence_breaks": "on"}
+    options: typing.Dict[str, typing.Any] = {"sequence_breaks": "on"}
 
     def test_sequence_breaks_access(self) -> None:
         in_logic = self.options["sequence_breaks"] == "logic"
@@ -43,4 +42,4 @@ class SequenceBreaksTest(SoETestBase):
 
 class SequenceBreaksInLogicTest(SequenceBreaksTest):
     """Tests that stuff that should be reachable/unreachable with sequence breaks actually is."""
-    options: dict[str, typing.Any] = {"sequence_breaks": "logic"}
+    options: typing.Dict[str, typing.Any] = {"sequence_breaks": "logic"}

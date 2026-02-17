@@ -35,7 +35,7 @@ if TYPE_CHECKING:
 @dataclass
 class RallyTarget:
     point: Point2
-    tag: int | None = None
+    tag: Optional[int] = None
 
     @classmethod
     def from_proto(cls, proto: Any) -> RallyTarget:
@@ -48,12 +48,12 @@ class RallyTarget:
 @dataclass
 class UnitOrder:
     ability: AbilityData  # TODO: Should this be AbilityId instead?
-    target: int | Point2 | None = None
+    target: Optional[Union[int, Point2]] = None
     progress: float = 0
 
     @classmethod
     def from_proto(cls, proto: Any, bot_object: BotAI) -> UnitOrder:
-        target: int | Point2 | None = proto.target_unit_tag
+        target: Optional[Union[int, Point2]] = proto.target_unit_tag
         if proto.HasField("target_world_space_pos"):
             target = Point2.from_proto(proto.target_world_space_pos)
         elif proto.HasField("target_unit_tag"):
@@ -162,7 +162,7 @@ class Unit:
         return self._type_data._proto.weapons
 
     @cached_property
-    def bonus_damage(self) -> tuple[int, str] | None:
+    def bonus_damage(self) -> Optional[Tuple[int, str]]:
         """Returns a tuple of form '(bonus damage, armor type)' if unit does 'bonus damage' against 'armor type'.
         Possible armor typs are: 'Light', 'Armored', 'Biological', 'Mechanical', 'Psionic', 'Massive', 'Structure'."""
         # TODO: Consider units with ability attacks (Oracle, Baneling) or multiple attacks (Thor).
@@ -335,7 +335,7 @@ class Unit:
         return self._proto.owner
 
     @property
-    def position_tuple(self) -> tuple[float, float]:
+    def position_tuple(self) -> Tuple[float, float]:
         """ Returns the 2d position of the unit as tuple without conversion to Point2. """
         return self._proto.pos.x, self._proto.pos.y
 
@@ -349,7 +349,7 @@ class Unit:
         """ Returns the 3d position of the unit. """
         return Point3.from_proto(self._proto.pos)
 
-    def distance_to(self, p: Unit | Point2) -> float:
+    def distance_to(self, p: Union[Unit, Point2]) -> float:
         """Using the 2d distance between self and p.
         To calculate the 3d distance, use unit.position3d.distance_to(p)
 
@@ -359,7 +359,7 @@ class Unit:
             return self._bot_object._distance_squared_unit_to_unit(self, p)**0.5
         return self._bot_object.distance_math_hypot(self.position_tuple, p)
 
-    def distance_to_squared(self, p: Unit | Point2) -> float:
+    def distance_to_squared(self, p: Union[Unit, Point2]) -> float:
         """Using the 2d distance squared between self and p. Slightly faster than distance_to, so when filtering a lot of units, this function is recommended to be used.
         To calculate the 3d distance, use unit.position3d.distance_to(p)
 
@@ -390,7 +390,7 @@ class Unit:
         return angle_difference < angle_error
 
     @property
-    def footprint_radius(self) -> float | None:
+    def footprint_radius(self) -> Optional[float]:
         """For structures only.
         For townhalls this returns 2.5
         For barracks, spawning pool, gateway, this returns 1.5
@@ -532,13 +532,13 @@ class Unit:
     # PROPERTIES BELOW THIS COMMENT ARE NOT POPULATED FOR ENEMIES
 
     @cached_property
-    def orders(self) -> list[UnitOrder]:
+    def orders(self) -> List[UnitOrder]:
         """ Returns the a list of the current orders. """
         # TODO: add examples on how to use unit orders
         return [UnitOrder.from_proto(order, self._bot_object) for order in self._proto.orders]
 
     @cached_property
-    def order_target(self) -> int | Point2 | None:
+    def order_target(self) -> Optional[Union[int, Point2]]:
         """Returns the target tag (if it is a Unit) or Point2 (if it is a Position)
         from the first order, returns None if the unit is idle"""
         if self.orders:
@@ -596,12 +596,12 @@ class Unit:
         return self.position.offset(Point2((2.5, -0.5)))
 
     @cached_property
-    def passengers(self) -> set[Unit]:
+    def passengers(self) -> Set[Unit]:
         """ Returns the units inside a Bunker, CommandCenter, PlanetaryFortress, Medivac, Nydus, Overlord or WarpPrism. """
         return {Unit(unit, self._bot_object) for unit in self._proto.passengers}
 
     @cached_property
-    def passengers_tags(self) -> set[int]:
+    def passengers_tags(self) -> Set[int]:
         """ Returns the tags of the units inside a Bunker, CommandCenter, PlanetaryFortress, Medivac, Nydus, Overlord or WarpPrism. """
         return {unit.tag for unit in self._proto.passengers}
 
@@ -676,7 +676,7 @@ class Unit:
         return self._proto.engaged_target_tag
 
     @cached_property
-    def rally_targets(self) -> list[RallyTarget]:
+    def rally_targets(self) -> List[RallyTarget]:
         """ Returns the queue of rallytargets of the structure. """
         return [RallyTarget.from_proto(rally_target) for rally_target in self._proto.rally_targets]
 
@@ -685,7 +685,7 @@ class Unit:
     def __hash__(self) -> int:
         return self.tag
 
-    def __eq__(self, other: Unit | Any) -> bool:
+    def __eq__(self, other: Union[Unit, Any]) -> bool:
         """
         :param other:
         """

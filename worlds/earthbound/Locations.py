@@ -1,5 +1,4 @@
-from typing import TYPE_CHECKING, List, NamedTuple, Optional
-
+from typing import List, Optional, NamedTuple, TYPE_CHECKING
 from .Options import MagicantMode, ShopRandomizer
 
 if TYPE_CHECKING:
@@ -9,12 +8,12 @@ if TYPE_CHECKING:
 class LocationData(NamedTuple):
     region: str
     name: str
-    code: int | None
+    code: Optional[int]
 
 
-def get_locations(world: "EarthBoundWorld") -> list[LocationData]:
+def get_locations(world: "EarthBoundWorld") -> List[LocationData]:
 
-    location_table: list[LocationData] = [
+    location_table: List[LocationData] = [
         LocationData("Northern Onett", "Onett - Tracy Gift", 0xEB0000),
         LocationData("Northern Onett", "Onett - Tracy's Room Present", 0xEB0001),
         LocationData("Northern Onett", "Onett - Hilltop Present", 0xEB0002),

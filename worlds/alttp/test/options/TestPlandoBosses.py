@@ -1,5 +1,4 @@
 import unittest
-
 from BaseClasses import PlandoOptions
 from Options import PlandoBosses
 

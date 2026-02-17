@@ -1,52 +1,27 @@
-import base64
-import logging
 import os
 import typing
-
 import settings
-from BaseClasses import Item, ItemClassification, Region, Tutorial
+import base64
+import logging
+
+from BaseClasses import Item, Region, Tutorial, ItemClassification
+from .items import CVCotMItem, FILLER_ITEM_NAMES, ACTION_CARDS, ATTRIBUTE_CARDS, cvcotm_item_info, \
+    get_item_names_to_ids, get_item_counts
+from .locations import CVCotMLocation, get_location_names_to_ids, BASE_ID, get_named_locations_data, \
+    get_location_name_groups
+from .options import cvcotm_option_groups, CVCotMOptions, SubWeaponShuffle, IronMaidenBehavior, RequiredSkirmishes, \
+    CompletionGoal, EarlyEscapeItem
+from .regions import get_region_info, get_all_region_names
+from .rules import CVCotMRules
+from .data import iname, lname
+from .presets import cvcotm_options_presets
 from worlds.AutoWorld import WebWorld, World
 
-from .aesthetics import (
-    get_countdown_flags,
-    get_location_data,
-    get_start_inventory_data,
-    populate_enemy_drops,
-    shuffle_sub_weapons,
-)
-
-# CVCOTM_VC_US_HASH
+from .aesthetics import shuffle_sub_weapons, get_location_data, get_countdown_flags, populate_enemy_drops, \
+    get_start_inventory_data
+from .rom import RomData, patch_rom, get_base_rom_path, CVCotMProcedurePatch, CVCOTM_CT_US_HASH, CVCOTM_AC_US_HASH
+    # CVCOTM_VC_US_HASH
 from .client import CastlevaniaCotMClient
-from .data import iname, lname
-from .items import (
-    ACTION_CARDS,
-    ATTRIBUTE_CARDS,
-    FILLER_ITEM_NAMES,
-    CVCotMItem,
-    cvcotm_item_info,
-    get_item_counts,
-    get_item_names_to_ids,
-)
-from .locations import (
-    BASE_ID,
-    CVCotMLocation,
-    get_location_name_groups,
-    get_location_names_to_ids,
-    get_named_locations_data,
-)
-from .options import (
-    CompletionGoal,
-    CVCotMOptions,
-    EarlyEscapeItem,
-    IronMaidenBehavior,
-    RequiredSkirmishes,
-    SubWeaponShuffle,
-    cvcotm_option_groups,
-)
-from .presets import cvcotm_options_presets
-from .regions import get_all_region_names, get_region_info
-from .rom import CVCOTM_AC_US_HASH, CVCOTM_CT_US_HASH, CVCotMProcedurePatch, RomData, get_base_rom_path, patch_rom
-from .rules import CVCotMRules
 
 
 class CVCotMSettings(settings.Group):
@@ -175,7 +150,7 @@ class CVCotMWorld(World):
                 self.get_location(locked_loc).place_locked_item(self.create_item(locked_item,
                                                                                  ItemClassification.progression))
 
-    def create_item(self, name: str, force_classification: ItemClassification | None = None) -> Item:
+    def create_item(self, name: str, force_classification: typing.Optional[ItemClassification] = None) -> Item:
         if force_classification is not None:
             classification = force_classification
         else:
@@ -242,7 +217,7 @@ class CVCotMWorld(World):
     def get_filler_item_name(self) -> str:
         return self.random.choice(FILLER_ITEM_NAMES)
 
-    def modify_multidata(self, multidata: dict[str, typing.Any]):
+    def modify_multidata(self, multidata: typing.Dict[str, typing.Any]):
         # Put the player's unique authentication in connect_names.
         multidata["connect_names"][base64.b64encode(self.auth).decode("ascii")] = \
             multidata["connect_names"][self.player_name]

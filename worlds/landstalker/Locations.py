@@ -1,11 +1,10 @@
 from typing import Dict, Optional
 
-from BaseClasses import Item, ItemClassification, Location
-
+from BaseClasses import Location, ItemClassification, Item
 from .Constants import *
+from .Regions import LandstalkerRegion
 from .data.item_source import ITEM_SOURCES_JSON
 from .data.world_path import WORLD_PATHS_JSON
-from .Regions import LandstalkerRegion
 
 
 class LandstalkerLocation(Location):
@@ -13,13 +12,13 @@ class LandstalkerLocation(Location):
     type_string: str
     price: int = 0
 
-    def __init__(self, player: int, name: str, location_id: int | None, region: LandstalkerRegion, type_string: str):
+    def __init__(self, player: int, name: str, location_id: Optional[int], region: LandstalkerRegion, type_string: str):
         super().__init__(player, name, location_id, region)
         self.type_string = type_string
 
 
-def create_locations(player: int, regions_table: dict[str, LandstalkerRegion],
-                     name_to_id_table: dict[str, int], reach_kazalt_goal: bool):
+def create_locations(player: int, regions_table: Dict[str, LandstalkerRegion],
+                     name_to_id_table: Dict[str, int], reach_kazalt_goal: bool):
     # Create real locations from the data inside the corresponding JSON file
     for data in ITEM_SOURCES_JSON:
         region_id = data["nodeId"]
@@ -42,7 +41,7 @@ def create_locations(player: int, regions_table: dict[str, LandstalkerRegion],
     regions_with_entrance_checks = sorted(set(regions_with_entrance_checks))
     for region_id in regions_with_entrance_checks:
         region = regions_table[region_id]
-        location = LandstalkerLocation(player, "event_visited_" + region_id, None, region, "event")
+        location = LandstalkerLocation(player, 'event_visited_' + region_id, None, region, "event")
         location.place_locked_item(Item("event_visited_" + region_id, ItemClassification.progression, None, player))
         region.locations.append(location)
 

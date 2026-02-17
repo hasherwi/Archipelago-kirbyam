@@ -1,7 +1,6 @@
-from typing import TYPE_CHECKING, Dict, List, NamedTuple, Optional
+from typing import Dict, List, NamedTuple, Optional, TYPE_CHECKING
 
 from BaseClasses import MultiWorld, Region
-
 from .data.world_node import WORLD_NODES_JSON
 from .data.world_path import WORLD_PATHS_JSON
 from .data.world_region import WORLD_REGIONS_JSON
@@ -14,18 +13,18 @@ if TYPE_CHECKING:
 class LandstalkerRegion(Region):
     code: str
 
-    def __init__(self, code: str, name: str, player: int, multiworld: MultiWorld, hint: str | None = None):
+    def __init__(self, code: str, name: str, player: int, multiworld: MultiWorld, hint: Optional[str] = None):
         super().__init__(name, player, multiworld, hint)
         self.code = code
 
 
 class LandstalkerRegionData(NamedTuple):
-    locations: list[str] | None
-    region_exits: list[str] | None
+    locations: Optional[List[str]]
+    region_exits: Optional[List[str]]
 
 
 def create_regions(world: "LandstalkerWorld"):
-    regions_table: dict[str, LandstalkerRegion] = {}
+    regions_table: Dict[str, LandstalkerRegion] = {}
     multiworld = world.multiworld
     player = world.player
 
@@ -57,7 +56,7 @@ def create_regions(world: "LandstalkerWorld"):
     return regions_table
 
 
-def add_specific_paths(world: "LandstalkerWorld", regions_table: dict[str, LandstalkerRegion]):
+def add_specific_paths(world: "LandstalkerWorld", regions_table: Dict[str, LandstalkerRegion]):
     # If Gumi boulder is removed, add a path from "route_gumi_ryuma" to "gumi"
     if world.options.remove_gumi_boulder == 1:
         create_entrance("route_gumi_ryuma", "gumi", False, regions_table)
@@ -72,7 +71,7 @@ def add_specific_paths(world: "LandstalkerWorld", regions_table: dict[str, Lands
         create_entrance("greenmaze_post_whistle", "greenmaze_pre_whistle", False, regions_table)
 
 
-def create_entrance(from_id: str, to_id: str, two_way: bool, regions_table: dict[str, LandstalkerRegion]):
+def create_entrance(from_id: str, to_id: str, two_way: bool, regions_table: Dict[str, LandstalkerRegion]):
     created_entrances = []
 
     name = from_id + " -> " + to_id
@@ -88,14 +87,14 @@ def create_entrance(from_id: str, to_id: str, two_way: bool, regions_table: dict
     return created_entrances
 
 
-def get_starting_region(world: "LandstalkerWorld", regions_table: dict[str, LandstalkerRegion]):
+def get_starting_region(world: "LandstalkerWorld", regions_table: Dict[str, LandstalkerRegion]):
     # Most spawn locations have the same name as the region they are bound to, but a few vary.
     spawn_id = world.options.spawn_region.current_key
     if spawn_id == "waterfall":
         return regions_table["greenmaze_post_whistle"]
-    if spawn_id == "kado":
+    elif spawn_id == "kado":
         return regions_table["route_gumi_ryuma"]
-    if spawn_id == "greenmaze":
+    elif spawn_id == "greenmaze":
         return regions_table["greenmaze_pre_whistle"]
     return regions_table[spawn_id]
 
@@ -108,12 +107,12 @@ def load_teleport_trees():
     pairs = []
     for pair in WORLD_TELEPORT_TREES_JSON:
         first_tree = {
-            "name":   pair[0]["name"],
-            "region": pair[0]["nodeId"]
+            'name':   pair[0]["name"],
+            'region': pair[0]["nodeId"]
         }
         second_tree = {
-            "name":   pair[1]["name"],
-            "region": pair[1]["nodeId"]
+            'name':   pair[1]["name"],
+            'region': pair[1]["nodeId"]
         }
         pairs.append([first_tree, second_tree])
     return pairs

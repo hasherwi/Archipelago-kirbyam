@@ -1,6 +1,6 @@
+from .. import SVContentPackTestBase
 from ....mods.mod_data import ModNames
 from ....strings.villager_names import ModNPC
-from .. import SVContentPackTestBase
 
 
 class TestJasperWithoutSVE(SVContentPackTestBase):

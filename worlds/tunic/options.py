@@ -1,22 +1,10 @@
-import logging
 from dataclasses import dataclass
-from decimal import ROUND_HALF_UP, Decimal
-from typing import TYPE_CHECKING, Any
+from decimal import Decimal, ROUND_HALF_UP
+import logging
+from typing import Any, TYPE_CHECKING
 
-from Options import (
-    Choice,
-    DefaultOnToggle,
-    NamedRange,
-    OptionGroup,
-    PerGameCommonOptions,
-    PlandoConnections,
-    Range,
-    Removed,
-    StartInventoryPool,
-    TextChoice,
-    Toggle,
-    Visibility,
-)
+from Options import (DefaultOnToggle, Toggle, StartInventoryPool, Choice, Range, TextChoice, PlandoConnections,
+                     PerGameCommonOptions, OptionGroup, Removed, Visibility, NamedRange)
 
 from .er_data import portal_mapping
 

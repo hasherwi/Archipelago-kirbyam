@@ -1,11 +1,10 @@
-from typing import Any, Dict
+from typing import Dict, Any
 
-from BaseClasses import CollectionState, Item, MultiWorld, Region, Tutorial
+from BaseClasses import CollectionState, Item, MultiWorld, Tutorial, Region
 from Options import OptionError
-from worlds.AutoWorld import LogicMixin, WebWorld, World
-
-from .items import PaintItem, deathlink_traps, item_data_table, item_table, traps
-from .locations import PaintLocation, location_data_table, location_table
+from worlds.AutoWorld import LogicMixin, World, WebWorld
+from .items import item_table, PaintItem, item_data_table, traps, deathlink_traps
+from .locations import location_table, PaintLocation, location_data_table
 from .options import PaintOptions
 
 
@@ -46,9 +45,10 @@ class PaintWorld(World):
     def get_filler_item_name(self) -> str:
         if self.random.randint(0, 99) >= self.options.trap_count:
             return "Additional Palette Color"
-        if self.options.death_link:
+        elif self.options.death_link:
             return self.random.choice(deathlink_traps)
-        return self.random.choice(traps)
+        else:
+            return self.random.choice(traps)
 
     def create_item(self, name: str) -> PaintItem:
         item = PaintItem(name, item_data_table[name].type, item_data_table[name].code, self.player)
@@ -95,7 +95,7 @@ class PaintWorld(World):
         from .rules import set_completion_rules
         set_completion_rules(self, self.player)
 
-    def fill_slot_data(self) -> dict[str, Any]:
+    def fill_slot_data(self) -> Dict[str, Any]:
         return dict(self.options.as_dict("logic_percent", "goal_percent", "goal_image", "death_link",
                                          "canvas_size_increment"), version="0.5.2")
 

@@ -1,6 +1,6 @@
 import typing
 
-from BaseClasses import Item, Location
+from BaseClasses import Location, Item
 
 
 class KH2Location(Location):

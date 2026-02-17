@@ -2,7 +2,8 @@ from typing import List
 
 from ..ItemData import CivVIBoostData
 
-boosts: list[CivVIBoostData] = [
+
+boosts: List[CivVIBoostData] = [
     CivVIBoostData("BOOST_TECH_SAILING", "ERA_ANCIENT", [], 0, "DEFAULT"),
     CivVIBoostData(
         "BOOST_TECH_ASTROLOGY",

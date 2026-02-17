@@ -1,6 +1,6 @@
 from typing import Dict, Set
-
 from ..roomEditor import RoomEditor
+
 
 animated_tiles = {0x0E, 0x1B, 0x1E, 0x1F, 0x44, 0x91, 0xCF, 0xD0, 0xD1, 0xD2, 0xD9, 0xDC, 0xE9, 0xEB, 0xEC, 0xED, 0xEE, 0xEF}
 entrance_tiles = {0xE1, 0xE2, 0xE3, 0xBA, 0xC6}
@@ -52,7 +52,7 @@ class TileInfo:
             self.right.remove(tile_id)
             del self.right_freq[tile_id]
 
-    def update(self, other: "TileInfo", tile_filter: set[int]):
+    def update(self, other: "TileInfo", tile_filter: Set[int]):
         self.frequency += other.frequency
         self.up.update(other.up.intersection(tile_filter))
         self.down.update(other.down.intersection(tile_filter))
@@ -86,8 +86,8 @@ class TileSet:
         self.palette_id = None
         self.attr_bank = None
         self.attr_addr = None
-        self.tiles: dict[int, TileInfo] = {}
-        self.all: set[int] = set()
+        self.tiles: Dict[int, "TileInfo"] = {}
+        self.all: Set[int] = set()
 
     def copy(self) -> "TileSet":
         result = TileSet(main_id=self.main_id, animation_id=self.animation_id)
@@ -122,7 +122,7 @@ class TileSet:
         self.all.update(other.all)
 
 
-def loadTileInfo(rom) -> dict[str, TileSet]:
+def loadTileInfo(rom) -> Dict[str, TileSet]:
     for n in range(0x100):
         physics_flag = rom.banks[8][0x0AD4 + n]
         if n == 0xEF:
@@ -163,7 +163,7 @@ def loadTileInfo(rom) -> dict[str, TileSet]:
     # Fix up wrong tiles
     world_tiles[(150, 24)] = (0x2A, world_tiles[(150, 24)][1], world_tiles[(150, 24)][2])  # Left of the raft house, a tree has the wrong tile.
 
-    rom_tilesets: dict[int, TileSet] = {}
+    rom_tilesets: Dict[int, TileSet] = {}
     for (x, y), (key, tileset_id, animation_id) in world_tiles.items():
         if key in animated_tiles:
             if animation_id not in rom_tilesets:

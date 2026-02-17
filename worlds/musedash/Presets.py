@@ -1,6 +1,6 @@
 ﻿from typing import Any, Dict
 
-MuseDashPresets: dict[str, dict[str, Any]] = {
+MuseDashPresets: Dict[str, Dict[str, Any]] = {
     # An option to support Short Sync games. 40 songs.
     "No DLC - Short": {
         "dlc_packs": [],

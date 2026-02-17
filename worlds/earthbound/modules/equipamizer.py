@@ -1,12 +1,10 @@
-import copy
-import struct
 from dataclasses import dataclass
-from operator import attrgetter
-from typing import TYPE_CHECKING
-
-from ..game_data.text_data import calc_pixel_width, text_encoder
+import copy
+from ..game_data.text_data import text_encoder, calc_pixel_width
 from ..Options import Armorizer, Weaponizer
-
+from operator import attrgetter
+import struct
+from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .. import EarthBoundWorld
     from ..Rom import LocalRom
@@ -59,7 +57,7 @@ def price_weapons(world: "EarthBoundWorld", weapons: list[EBWeapon], rom: "Local
 
         if price > 300:
             price = price * 2
-
+        
         price += (20 * weapon.aux_stat)
         price -= (50 * weapon.miss_rate)
         price += world.random.randint(-20, 20)
@@ -76,7 +74,7 @@ def price_armors(world: "EarthBoundWorld", armor_pricing_list: list[EBArmor], ro
             price = 10 * armor.poo_def
         else:
             price = 10 * armor.defense
-
+        
         if price > 300:
             price = price * 2
         price += (20 * armor.aux_stat)
@@ -601,12 +599,12 @@ def randomize_armor(world: "EarthBoundWorld", rom: "LocalRom") -> None:
                 armor.name = front_name + " " + back_name
 
             pixel_length = calc_pixel_width(armor.name)
-
+            
         taken_names.append(armor.name)
         armor.total_resistance = (1 * armor.fire_res) + (4 * armor.freeze_res) + (16 * armor.flash_res) + (64 * armor.par_res)
         rom.write_bytes(armor.address + 28, bytearray([usage_bytes[armor.can_equip]]))
         rom.write_bytes(armor.address + 25, bytearray([type_bytes[armor.equip_type]]))
-
+    
     sortable_armor = copy.deepcopy(world.armor_list)
     sorted_armor = sorted(sortable_armor.values(), key=attrgetter("defense"))
 
@@ -624,7 +622,7 @@ def randomize_armor(world: "EarthBoundWorld", rom: "LocalRom") -> None:
         progressive_bracelets,
         progressive_others
     ]
-
+    
     if world.options.progressive_armor:
         for i in range(2):
             apply_progressive_armor(world, prog_armors[i], sorts[i], rom)
@@ -639,7 +637,7 @@ def randomize_armor(world: "EarthBoundWorld", rom: "LocalRom") -> None:
             armor.poo_def = 216  # defense is signed, all non-kings equipment has this value
         else:
             armor.poo_def = armor.defense
-
+        
         rom.write_bytes(armor.address + 31, bytearray([armor.defense, armor.poo_def, armor.aux_stat, armor.total_resistance]))
 
         item_name = text_encoder(armor.name, 25)
@@ -666,7 +664,7 @@ def randomize_armor(world: "EarthBoundWorld", rom: "LocalRom") -> None:
 
         if armor.freeze_res > 0:
             description += f"@Protects against Freeze attacks{res_strength[armor.freeze_res - 1]}.\n"
-
+        
         if armor.fire_res > 0:
             description += f"@Protects against Fire attacks{res_strength[armor.fire_res - 1]}.\n"
 
@@ -738,7 +736,7 @@ def randomize_weapons(world: "EarthBoundWorld", rom: "LocalRom") -> None:
         "Jeff": "Pop Gun",
         "Poo": "None"
     }
-
+    
     starting_weapon = starting_weapons[world.starting_character]
 
     world.weapon_list = {
@@ -799,7 +797,7 @@ def randomize_weapons(world: "EarthBoundWorld", rom: "LocalRom") -> None:
         "Magicant Bat",
         "Legendary Bat",
         "Gutsy Bat",
-
+        
         "Fry Pan",
         "Thick Fry Pan",
         "Deluxe Fry Pan",
@@ -963,7 +961,7 @@ def randomize_weapons(world: "EarthBoundWorld", rom: "LocalRom") -> None:
 
         item_name = text_encoder(weapon.name, 25)
         item_name.extend([0x00])
-
+        
         description = f" “{weapon.name}”\n"
         if weapon.can_equip != "All":
             description += f"@♪ can equip this weapon.\n"
@@ -971,7 +969,7 @@ def randomize_weapons(world: "EarthBoundWorld", rom: "LocalRom") -> None:
         description += f"@+{weapon.offense} Offense.\n"
         if weapon.aux_stat > 0:
             description += f"@+{weapon.aux_stat} Guts.\n"
-
+        
         if weapon.miss_rate == 12:
             description += "@If you use this, you might just whiff.\n"
 
@@ -993,4 +991,4 @@ def randomize_weapons(world: "EarthBoundWorld", rom: "LocalRom") -> None:
             rom.write_bytes(summers_addresses[item], item_name)
             rom.write_bytes((summers_addresses[item] + 35), struct.pack("I", (0xF10000 + world.description_pointer)))
         world.description_pointer += len(description)
-
+            

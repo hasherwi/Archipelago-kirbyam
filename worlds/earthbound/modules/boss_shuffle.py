@@ -1,7 +1,6 @@
-import struct
+from typing import NamedTuple, TYPE_CHECKING
 from logging import warning
-from typing import TYPE_CHECKING, NamedTuple
-
+import struct
 if TYPE_CHECKING:
     from .. import EarthBoundWorld
     from ..Rom import LocalRom
@@ -128,7 +127,7 @@ class BossData(NamedTuple):
 
 def initialize_bosses(world: "EarthBoundWorld") -> None:
     from ..Options import BossShuffle
-
+     
     world.boss_list = [
         "Frank",
         "Frankystein Mark II",
@@ -333,7 +332,7 @@ def write_bosses(world: "EarthBoundWorld", rom: "LocalRom") -> None:
         barf_adjust = 27
     else:
         barf_adjust = 20
-
+        
     rom.write_bytes(world.enemies[world.boss_list[barf_adjust]].address + 78, bytearray([0xF4, 0x00]))
     for i in range(1, world.enemies[world.boss_list[barf_adjust]].attack_extensions):
         enemy_new = f"{world.enemies[world.boss_list[barf_adjust]].name} ({i + 1})"
@@ -408,5 +407,5 @@ def write_bosses(world: "EarthBoundWorld", rom: "LocalRom") -> None:
         rom.write_bytes(0x2FFF16, bytearray([0xFF]))
     else:
         rom.write_bytes(0x2FFF16, bytearray([0xFF]))
-
+    
     # c2c505 sets the song

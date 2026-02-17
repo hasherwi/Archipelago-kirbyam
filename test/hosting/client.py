@@ -1,11 +1,10 @@
 import json
 import sys
-from threading import Thread
-from typing import Any, Dict, Optional
-from collections.abc import Collection, Iterable
-
+from typing import Any, Collection, Dict, Iterable, Optional
 from websockets import ConnectionClosed
-from websockets.sync.client import ClientConnection, connect
+from websockets.sync.client import connect, ClientConnection
+from threading import Thread
+
 
 __all__ = [
     "Client"
@@ -20,17 +19,17 @@ class Client:
     host: str
     game: str
     slot: str
-    password: str | None
+    password: Optional[str]
 
-    _ws: ClientConnection | None
+    _ws: Optional[ClientConnection]
 
     games: Iterable[str]
-    data_package_checksums: dict[str, Any]
-    games_packages: dict[str, Any]
+    data_package_checksums: Dict[str, Any]
+    games_packages: Dict[str, Any]
     missing_locations: Collection[int]
     checked_locations: Collection[int]
 
-    def __init__(self, host: str, game: str, slot: str, password: str | None = None) -> None:
+    def __init__(self, host: str, game: str, slot: str, password: Optional[str] = None) -> None:
         self.host = host
         self.game = game
         self.slot = slot

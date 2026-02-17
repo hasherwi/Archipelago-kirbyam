@@ -9,19 +9,18 @@ from Utils import restricted_dumps
 from WebHostLib import app
 from WebHostLib.check import get_yaml_data, roll_options
 from WebHostLib.generate import get_meta
-from WebHostLib.models import STATE_ERROR, STATE_QUEUED, Generation, Seed
-
+from WebHostLib.models import Generation, STATE_QUEUED, Seed, STATE_ERROR
 from . import api_endpoints
 
 
-@api_endpoints.route("/generate", methods=["POST"])
+@api_endpoints.route('/generate', methods=['POST'])
 def generate_api():
     try:
         options = {}
         race = False
         meta_options_source = {}
-        if "file" in request.files:
-            files = request.files.getlist("file")
+        if 'file' in request.files:
+            files = request.files.getlist('file')
             options = get_yaml_data(files)
             if isinstance(options, Markup):
                 return {"text": options.striptags()}, 400
@@ -37,7 +36,7 @@ def generate_api():
 
         if json_data:
             meta_options_source = json_data
-            if "weights" in json_data:
+            if 'weights' in json_data:
                 # example: options = {"player1weights" : {<weightsdata>}}
                 options = json_data["weights"]
             if "race" in json_data:
@@ -55,22 +54,23 @@ def generate_api():
         if any(type(result) == str for result in results.values()):
             return {"text": str(results),
                     "detail": results}, 400
-        gen = Generation(
-            options=restricted_dumps({name: vars(options) for name, options in gen_options.items()}),
-            # convert to json compatible
-            meta=json.dumps(meta), state=STATE_QUEUED,
-            owner=session["_id"])
-        commit()
-        return {"text": f"Generation of seed {gen.id} started successfully.",
-                "detail": gen.id,
-                "encoded": app.url_map.converters["suuid"].to_url(None, gen.id),
-                "wait_api_url": url_for("api.wait_seed_api", seed=gen.id, _external=True),
-                "url": url_for("wait_seed", seed=gen.id, _external=True)}, 201
+        else:
+            gen = Generation(
+                options=restricted_dumps({name: vars(options) for name, options in gen_options.items()}),
+                # convert to json compatible
+                meta=json.dumps(meta), state=STATE_QUEUED,
+                owner=session["_id"])
+            commit()
+            return {"text": f"Generation of seed {gen.id} started successfully.",
+                    "detail": gen.id,
+                    "encoded": app.url_map.converters["suuid"].to_url(None, gen.id),
+                    "wait_api_url": url_for("api.wait_seed_api", seed=gen.id, _external=True),
+                    "url": url_for("wait_seed", seed=gen.id, _external=True)}, 201
     except Exception as e:
         return {"text": "Uncaught Exception:" + str(e)}, 500
 
 
-@api_endpoints.route("/status/<suuid:seed>")
+@api_endpoints.route('/status/<suuid:seed>')
 def wait_seed_api(seed: UUID):
     seed_id = seed
     seed = Seed.get(id=seed_id)
@@ -80,6 +80,6 @@ def wait_seed_api(seed: UUID):
 
     if not generation:
         return {"text": "Generation not found"}, 404
-    if generation.state == STATE_ERROR:
+    elif generation.state == STATE_ERROR:
         return {"text": "Generation failed"}, 500
     return {"text": "Generation running"}, 202

@@ -136,8 +136,8 @@ class BotProcess(AbstractPlayer):
 
     def __init__(
         self,
-        path: str | Path,
-        launch_list: list[str],
+        path: Union[str, Path],
+        launch_list: List[str],
         race: Race,
         name=None,
         sc2port_arg="--GamePort",
@@ -164,10 +164,10 @@ class BotProcess(AbstractPlayer):
         return f"Bot({self.race.name} from {self.launch_list})"
 
     def cmd_line(self,
-                 sc2port: int | str,
-                 matchport: int | str,
+                 sc2port: Union[int, str],
+                 matchport: Union[int, str],
                  hostaddress: str,
-                 realtime: bool = False) -> list[str]:
+                 realtime: bool = False) -> List[str]:
         """
 
         :param sc2port: the port that the launched sc2 instance listens to

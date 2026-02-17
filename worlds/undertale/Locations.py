@@ -1,10 +1,9 @@
-import typing
-
 from BaseClasses import Location
+import typing
 
 
 class AdvData(typing.NamedTuple):
-    id: int | None
+    id: typing.Optional[int]
     region: str
 
 

@@ -2,25 +2,14 @@ from __future__ import annotations
 
 import abc
 import json
-import os
-import threading
 import zipfile
 from enum import IntEnum
+import os
+import threading
 from io import BytesIO
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    BinaryIO,
-    ClassVar,
-    Dict,
-    List,
-    Literal,
-    Optional,
-    Tuple,
-    Union,
-    overload,
-)
-from collections.abc import Sequence
+
+from typing import (ClassVar, Dict, List, Literal, Tuple, Any, Optional, Union, BinaryIO, overload, Sequence,
+                    TYPE_CHECKING)
 
 import bsdiff4
 
@@ -37,10 +26,10 @@ class ImproperlyConfiguredAutoPatchError(Exception):
 
 
 class AutoPatchRegister(abc.ABCMeta):
-    patch_types: ClassVar[dict[str, AutoPatchRegister]] = {}
-    file_endings: ClassVar[dict[str, AutoPatchRegister]] = {}
+    patch_types: ClassVar[Dict[str, AutoPatchRegister]] = {}
+    file_endings: ClassVar[Dict[str, AutoPatchRegister]] = {}
 
-    def __new__(mcs, name: str, bases: tuple[type, ...], dct: dict[str, Any]) -> AutoPatchRegister:
+    def __new__(mcs, name: str, bases: Tuple[type, ...], dct: Dict[str, Any]) -> AutoPatchRegister:
         # construct class
         new_class = super().__new__(mcs, name, bases, dct)
         if "game" in dct:
@@ -71,16 +60,16 @@ class AutoPatchRegister(abc.ABCMeta):
         return new_class
 
     @staticmethod
-    def get_handler(file: str) -> AutoPatchRegister | None:
+    def get_handler(file: str) -> Optional[AutoPatchRegister]:
         _, suffix = os.path.splitext(file)
         return AutoPatchRegister.file_endings.get(suffix, None)
 
 
 class AutoPatchExtensionRegister(abc.ABCMeta):
-    extension_types: ClassVar[dict[str, AutoPatchExtensionRegister]] = {}
-    required_extensions: tuple[str, ...] = ()
+    extension_types: ClassVar[Dict[str, AutoPatchExtensionRegister]] = {}
+    required_extensions: Tuple[str, ...] = ()
 
-    def __new__(mcs, name: str, bases: tuple[type, ...], dct: dict[str, Any]) -> AutoPatchExtensionRegister:
+    def __new__(mcs, name: str, bases: Tuple[type, ...], dct: Dict[str, Any]) -> AutoPatchExtensionRegister:
         # construct class
         new_class = super().__new__(mcs, name, bases, dct)
         if "game" in dct:
@@ -88,7 +77,7 @@ class AutoPatchExtensionRegister(abc.ABCMeta):
         return new_class
 
     @staticmethod
-    def get_handler(game: str | None) -> AutoPatchExtensionRegister | list[AutoPatchExtensionRegister]:
+    def get_handler(game: Optional[str]) -> Union[AutoPatchExtensionRegister, List[AutoPatchExtensionRegister]]:
         if not game:
             return APPatchExtension
         handler = AutoPatchExtensionRegister.extension_types.get(game, APPatchExtension)
@@ -100,7 +89,8 @@ class AutoPatchExtensionRegister(abc.ABCMeta):
                     raise NotImplementedError(f"No handler for {required}.")
                 handlers.append(ext)
             return handlers
-        return handler
+        else:
+            return handler
 
 
 container_version: int = 7
@@ -109,7 +99,7 @@ container_version: int = 7
 def is_ap_player_container(game: str, data: bytes, player: int):
     if not zipfile.is_zipfile(BytesIO(data)):
         return False
-    with zipfile.ZipFile(BytesIO(data), mode="r") as zf:
+    with zipfile.ZipFile(BytesIO(data), mode='r') as zf:
         if "archipelago.json" in zf.namelist():
             manifest = json.loads(zf.read("archipelago.json"))
             if "game" in manifest and "player" in manifest:
@@ -131,12 +121,12 @@ class APContainer:
     compression_level: ClassVar[int] = 9
     compression_method: ClassVar[int] = zipfile.ZIP_DEFLATED
     manifest_path: str = "archipelago.json"
-    path: str | None
+    path: Optional[str]
 
-    def __init__(self, path: str | None = None):
+    def __init__(self, path: Optional[str] = None):
         self.path = path
 
-    def write(self, file: str | BinaryIO | None = None) -> None:
+    def write(self, file: Optional[Union[str, BinaryIO]] = None) -> None:
         zip_file = file if file else self.path
         if not zip_file:
             raise FileNotFoundError(f"Cannot write {self.__class__.__name__} due to no path provided.")
@@ -156,7 +146,7 @@ class APContainer:
         else:
             opened_zipfile.writestr(self.manifest_path, manifest_str)
 
-    def read(self, file: str | BinaryIO | None = None) -> None:
+    def read(self, file: Optional[Union[str, BinaryIO]] = None) -> None:
         """Read data into patch object. file can be file-like, such as an outer zip file's stream."""
         zip_file = file if file else self.path
         if not zip_file:
@@ -174,7 +164,7 @@ class APContainer:
                         message = f"{arg0} - "
                 raise InvalidDataError(f"{message}This might be the incorrect world version for this file") from e
 
-    def read_contents(self, opened_zipfile: zipfile.ZipFile) -> dict[str, Any]:
+    def read_contents(self, opened_zipfile: zipfile.ZipFile) -> Dict[str, Any]:
         try:
             assert self.manifest_path.endswith("archipelago.json"), "Filename should be archipelago.json"
             manifest_info = opened_zipfile.getinfo(self.manifest_path)
@@ -193,7 +183,7 @@ class APContainer:
                             f"for this handler (version: {self.version})")
         return manifest
 
-    def get_manifest(self) -> dict[str, Any]:
+    def get_manifest(self) -> Dict[str, Any]:
         return {
             # minimum version of patch system expected for patching to be successful
             "compatible_version": 5,
@@ -204,11 +194,11 @@ class APContainer:
 class APWorldContainer(APContainer):
     """A zipfile containing a world implementation."""
     game: str | None = None
-    world_version: Version | None = None
-    minimum_ap_version: Version | None = None
-    maximum_ap_version: Version | None = None
+    world_version: "Version | None" = None
+    minimum_ap_version: "Version | None" = None
+    maximum_ap_version: "Version | None" = None
 
-    def read_contents(self, opened_zipfile: zipfile.ZipFile) -> dict[str, Any]:
+    def read_contents(self, opened_zipfile: zipfile.ZipFile) -> Dict[str, Any]:
         from Utils import tuplize_version
         manifest = super().read_contents(opened_zipfile)
         self.game = manifest["game"]
@@ -217,7 +207,7 @@ class APWorldContainer(APContainer):
                 setattr(self, version_key, tuplize_version(manifest[version_key]))
         return manifest
 
-    def get_manifest(self) -> dict[str, Any]:
+    def get_manifest(self) -> Dict[str, Any]:
         manifest = super().get_manifest()
         manifest["game"] = self.game
         manifest["compatible_version"] = 7
@@ -230,28 +220,28 @@ class APWorldContainer(APContainer):
 
 class APPlayerContainer(APContainer):
     """A zipfile containing at least archipelago.json meant for a player"""
-    game: ClassVar[str | None] = None
+    game: ClassVar[Optional[str]] = None
     patch_file_ending: str = ""
 
-    player: int | None
+    player: Optional[int]
     player_name: str
     server: str
 
-    def __init__(self, path: str | None = None, player: int | None = None,
+    def __init__(self, path: Optional[str] = None, player: Optional[int] = None,
                  player_name: str = "", server: str = ""):
         super().__init__(path)
         self.player = player
         self.player_name = player_name
         self.server = server
 
-    def read_contents(self, opened_zipfile: zipfile.ZipFile) -> dict[str, Any]:
+    def read_contents(self, opened_zipfile: zipfile.ZipFile) -> Dict[str, Any]:
         manifest = super().read_contents(opened_zipfile)
         self.player = manifest["player"]
         self.server = manifest["server"]
         self.player_name = manifest["player_name"]
         return manifest
 
-    def get_manifest(self) -> dict[str, Any]:
+    def get_manifest(self) -> Dict[str, Any]:
         manifest = super().get_manifest()
         manifest.update({
             "server": self.server,  # allow immediate connection to server in multiworld. Empty string otherwise
@@ -271,10 +261,10 @@ class APPatch(APPlayerContainer):
     Your implementation should inherit from this if your output file
     represents a patch file, but will not be applied with AP's `Patch.py`
     """
-    procedure: Literal["custom"] | list[tuple[str, list[Any]]] = "custom"
+    procedure: Union[Literal["custom"], List[Tuple[str, List[Any]]]] = "custom"
 
-    def get_manifest(self) -> dict[str, Any]:
-        manifest = super().get_manifest()
+    def get_manifest(self) -> Dict[str, Any]:
+        manifest = super(APPatch, self).get_manifest()
         manifest["procedure"] = self.procedure
         manifest["compatible_version"] = 6
         return manifest
@@ -296,9 +286,9 @@ class APProcedurePatch(APAutoPatchInterface):
     """
     An APPatch that defines a procedure to produce the desired file.
     """
-    hash: str | None  # base checksum of source file
+    hash: Optional[str]  # base checksum of source file
     source_data: bytes
-    files: dict[str, bytes]
+    files: Dict[str, bytes]
 
     @classmethod
     def get_source_data(cls) -> bytes:
@@ -312,11 +302,11 @@ class APProcedurePatch(APAutoPatchInterface):
         return cls.source_data
 
     def __init__(self, *args: Any, **kwargs: Any):
-        super().__init__(*args, **kwargs)
+        super(APProcedurePatch, self).__init__(*args, **kwargs)
         self.files = {}
 
-    def get_manifest(self) -> dict[str, Any]:
-        manifest = super().get_manifest()
+    def get_manifest(self) -> Dict[str, Any]:
+        manifest = super(APProcedurePatch, self).get_manifest()
         manifest["base_checksum"] = self.hash
         manifest["result_file_ending"] = self.result_file_ending
         manifest["procedure"] = self.procedure
@@ -324,8 +314,8 @@ class APProcedurePatch(APAutoPatchInterface):
             manifest["compatible_version"] = 5
         return manifest
 
-    def read_contents(self, opened_zipfile: zipfile.ZipFile) -> dict[str, Any]:
-        manifest = super().read_contents(opened_zipfile)
+    def read_contents(self, opened_zipfile: zipfile.ZipFile) -> Dict[str, Any]:
+        manifest = super(APProcedurePatch, self).read_contents(opened_zipfile)
         if "procedure" not in manifest:
             # support patching files made before moving to procedures
             self.procedure = [("apply_bsdiff4", ["delta.bsdiff4"])]
@@ -337,7 +327,7 @@ class APProcedurePatch(APAutoPatchInterface):
         return manifest
 
     def write_contents(self, opened_zipfile: zipfile.ZipFile) -> None:
-        super().write_contents(opened_zipfile)
+        super(APProcedurePatch, self).write_contents(opened_zipfile)
         for file in self.files:
             opened_zipfile.writestr(file, self.files[file],
                                     compress_type=zipfile.ZIP_STORED if file.endswith(".bsdiff4") else None)
@@ -367,7 +357,7 @@ class APProcedurePatch(APAutoPatchInterface):
                 base_data = extension(self, base_data, *args)
             else:
                 raise NotImplementedError(f"Unknown procedure {step} for {self.game}.")
-        with open(target, "wb") as f:
+        with open(target, 'wb') as f:
             f.write(base_data)
 
 
@@ -380,13 +370,13 @@ class APDeltaPatch(APProcedurePatch):
     ]
 
     def __init__(self, *args: Any, patched_path: str = "", **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
+        super(APDeltaPatch, self).__init__(*args, **kwargs)
         self.patched_path = patched_path
 
     def write_contents(self, opened_zipfile: zipfile.ZipFile) -> None:
         self.write_file("delta.bsdiff4",
                         bsdiff4.diff(self.get_source_data_with_cache(), open(self.patched_path, "rb").read()))
-        super().write_contents(opened_zipfile)
+        super(APDeltaPatch, self).write_contents(opened_zipfile)
 
 
 class APTokenTypes(IntEnum):
@@ -403,9 +393,9 @@ class APTokenMixin:
     A class that defines functions for generating a token binary, for use in patches.
     """
     _tokens: Sequence[
-        tuple[APTokenTypes, int, Union[
+        Tuple[APTokenTypes, int, Union[
             bytes,  # WRITE
-            tuple[int, int],  # COPY, RLE
+            Tuple[int, int],  # COPY, RLE
             int  # AND_8, OR_8, XOR_8
         ]]] = ()
 
@@ -447,7 +437,7 @@ class APTokenMixin:
     def write_token(self,
                     token_type: Literal[APTokenTypes.COPY, APTokenTypes.RLE],
                     offset: int,
-                    data: tuple[int, int]) -> None:
+                    data: Tuple[int, int]) -> None:
         ...
 
     @overload
@@ -457,7 +447,7 @@ class APTokenMixin:
                     data: bytes) -> None:
         ...
 
-    def write_token(self, token_type: APTokenTypes, offset: int, data: bytes | tuple[int, int] | int) -> None:
+    def write_token(self, token_type: APTokenTypes, offset: int, data: Union[bytes, Tuple[int, int], int]) -> None:
         """
         Stores a token to be used by patching.
         """
@@ -480,7 +470,7 @@ class APPatchExtension(metaclass=AutoPatchExtensionRegister):
     Patch extension functions must return the changed bytes.
     """
     game: str
-    required_extensions: ClassVar[tuple[str, ...]] = ()
+    required_extensions: ClassVar[Tuple[str, ...]] = ()
 
     @staticmethod
     def apply_bsdiff4(caller: APProcedurePatch, rom: bytes, patch: str) -> bytes:

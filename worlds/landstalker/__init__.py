@@ -2,7 +2,6 @@ from typing import ClassVar, Set
 
 from BaseClasses import LocationProgressType, Tutorial
 from worlds.AutoWorld import WebWorld, World
-
 from .Constants import *
 from .Hints import *
 from .Items import *
@@ -40,7 +39,7 @@ class LandstalkerWorld(World):
     item_name_to_id = build_item_name_to_id_table()
     location_name_to_id = build_location_name_to_id_table()
 
-    cached_spheres: List[set[Location]] = []
+    cached_spheres: List[Set[Location]] = []
 
     def __init__(self, multiworld, player):
         super().__init__(multiworld, player)
@@ -228,11 +227,12 @@ class LandstalkerWorld(World):
         spawn_id = self.options.spawn_region.current_key
         if spawn_id == "destel":
             return 20
-        if spawn_id == "verla":
+        elif spawn_id == "verla":
             return 16
-        if spawn_id in ["waterfall", "mercator", "greenmaze"]:
+        elif spawn_id in ["waterfall", "mercator", "greenmaze"]:
             return 10
-        return 4
+        else:
+            return 4
 
     @classmethod
     def stage_modify_multidata(cls, multiworld: MultiWorld, *_):

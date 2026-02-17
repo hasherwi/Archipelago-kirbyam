@@ -4,22 +4,13 @@ Date: Fri, 15 Mar 2024 18:41:40 +0000
 Description: Main module for Aquaria game multiworld randomizer
 """
 
-from typing import Any, ClassVar, Dict, List
-
-from BaseClasses import ItemClassification, MultiWorld, Tutorial
-from worlds.AutoWorld import WebWorld, World
-
-from .Items import AquariaItem, ItemGroup, ItemNames, ItemType, item_table
-from .Locations import AquariaLocationNames, location_table
-from .Options import (
-    AquariaOptions,
-    EarlyBindSong,
-    EarlyEnergyForm,
-    IngredientRandomizer,
-    Objective,
-    TurtleRandomizer,
-    UnconfineHomeWater,
-)
+from typing import List, Dict, ClassVar, Any
+from worlds.AutoWorld import World, WebWorld
+from BaseClasses import Tutorial, MultiWorld, ItemClassification
+from .Items import item_table, AquariaItem, ItemType, ItemGroup, ItemNames
+from .Locations import location_table, AquariaLocationNames
+from .Options import (AquariaOptions, IngredientRandomizer, TurtleRandomizer, EarlyBindSong, EarlyEnergyForm,
+                      UnconfineHomeWater, Objective)
 from .Regions import AquariaRegions
 
 
@@ -76,7 +67,7 @@ class AquariaWorld(World):
     web: WebWorld = AquariaWeb()
     "The web page generation informations"
 
-    item_name_to_id: ClassVar[dict[str, int]] = \
+    item_name_to_id: ClassVar[Dict[str, int]] = \
         {name: data.id for name, data in item_table.items()}
     "The name and associated ID of each item of the world"
 
@@ -94,7 +85,7 @@ class AquariaWorld(World):
     base_id = 698000
     "The starting ID of the items and locations of the world"
 
-    ingredients_substitution: list[int]
+    ingredients_substitution: List[int]
     "Used to randomize ingredient drop"
 
     options_dataclass = AquariaOptions
@@ -106,11 +97,11 @@ class AquariaWorld(World):
     regions: AquariaRegions | None
     "Used to manage Regions"
 
-    exclude: list[str]
+    exclude: List[str]
 
     def __init__(self, multiworld: MultiWorld, player: int):
         """Initialisation of the Aquaria World"""
-        super().__init__(multiworld, player)
+        super(AquariaWorld, self).__init__(multiworld, player)
         self.regions = None
         self.ingredients_substitution = []
         self.exclude = []
@@ -235,7 +226,7 @@ class AquariaWorld(World):
         self.ingredients_substitution.extend(simple_ingredients_substitution)
         self.ingredients_substitution.extend(dishes_substitution)
 
-    def fill_slot_data(self) -> dict[str, Any]:
+    def fill_slot_data(self) -> Dict[str, Any]:
         return {"ingredientReplacement": self.ingredients_substitution,
                 "aquarian_translate": bool(self.options.aquarian_translation.value),
                 "blind_goal": bool(self.options.blind_goal.value),

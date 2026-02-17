@@ -2,9 +2,8 @@ from argparse import Namespace
 
 from BaseClasses import PlandoOptions
 from Generate import handle_option
-
-from ..Options import CustomItemPool
 from .bases import L2ACTestBase
+from ..Options import CustomItemPool
 
 
 class TestEmpty(L2ACTestBase):

@@ -1,27 +1,23 @@
-import io
-import json
-import os
-import re
+import io, re, json
+import os, sys
 import subprocess
-import sys
+import Utils
 from functools import lru_cache
 
-import Utils
-
-__version__ = "7.1.0"
+__version__ = '7.1.0'
 
 
 def data_path(*args):
-    return os.path.join(os.path.dirname(__file__), "data", *args)
+    return os.path.join(os.path.dirname(__file__), 'data', *args)
 
 
 @lru_cache
 def read_json(file_path):
     json_string = ""
-    with open(file_path, "r") as file:
+    with io.open(file_path, 'r') as file:
         for line in file.readlines():
-            json_string += line.split("#")[0].replace("\n", " ")
-    json_string = re.sub(" +", " ", json_string)
+            json_string += line.split('#')[0].replace('\n', ' ')
+    json_string = re.sub(' +', ' ', json_string)
     try:
         return json.loads(json_string)
     except json.JSONDecodeError as error:
@@ -37,7 +33,7 @@ def read_json(file_path):
 #   subprocess.call(['program_to_run', 'arg_1'], **subprocess_args())
 def subprocess_args(include_stdout=True):
     # The following is true only on Windows.
-    if hasattr(subprocess, "STARTUPINFO"):
+    if hasattr(subprocess, 'STARTUPINFO'):
         # On Windows, subprocess calls will pop up a command window by default
         # when run from Pyinstaller with the ``--noconsole`` option. Avoid this
         # distraction.
@@ -53,7 +49,7 @@ def subprocess_args(include_stdout=True):
     # ``subprocess.check_output`` doesn't allow specifying ``stdout``::
     # So, add it only if it's needed.
     if include_stdout:
-        ret = {"stdout": subprocess.PIPE}
+        ret = {'stdout': subprocess.PIPE}
     else:
         ret = {}
 
@@ -61,10 +57,10 @@ def subprocess_args(include_stdout=True):
     # with the ``--noconsole`` option requires redirecting everything
     # (stdin, stdout, stderr) to avoid an OSError exception
     # "[Error 6] the handle is invalid."
-    ret.update({"stdin": subprocess.PIPE,
-                "stderr": subprocess.PIPE,
-                "startupinfo": si,
-                "env": env})
+    ret.update({'stdin': subprocess.PIPE,
+                'stderr': subprocess.PIPE,
+                'startupinfo': si,
+                'env': env})
     return ret
 
 
@@ -72,7 +68,7 @@ def get_version_bytes(a):
     version_bytes = [0x00, 0x00, 0x00]
     if not a:
         return version_bytes
-    sa = a.replace("v", "").replace(" ", ".").split(".")
+    sa = a.replace('v', '').replace(' ', '.').split('.')
 
     for i in range(0, 3):
         try:
@@ -87,9 +83,9 @@ def get_version_bytes(a):
 def compare_version(a, b):
     if not a and not b:
         return 0
-    if a and not b:
+    elif a and not b:
         return 1
-    if not a and b:
+    elif not a and b:
         return -1
 
     sa = get_version_bytes(a)

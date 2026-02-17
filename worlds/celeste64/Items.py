@@ -1,8 +1,8 @@
 from typing import Dict, NamedTuple, Optional
 
 from BaseClasses import Item, ItemClassification
-
 from .Names import ItemName
+
 
 celeste_64_base_id: int = 0xCA0000
 
@@ -12,16 +12,16 @@ class Celeste64Item(Item):
 
 
 class Celeste64ItemData(NamedTuple):
-    code: int | None = None
+    code: Optional[int] = None
     type: ItemClassification = ItemClassification.filler
 
 
-collectable_item_data_table: dict[str, Celeste64ItemData] = {
+collectable_item_data_table: Dict[str, Celeste64ItemData] = {
     ItemName.strawberry: Celeste64ItemData(celeste_64_base_id + 0x0, ItemClassification.progression_skip_balancing),
     ItemName.raspberry:  Celeste64ItemData(celeste_64_base_id + 0x9, ItemClassification.filler),
 }
 
-unlockable_item_data_table: dict[str, Celeste64ItemData] = {
+unlockable_item_data_table: Dict[str, Celeste64ItemData] = {
     ItemName.dash_refill:        Celeste64ItemData(celeste_64_base_id + 0x1, ItemClassification.progression),
     ItemName.double_dash_refill: Celeste64ItemData(celeste_64_base_id + 0x2, ItemClassification.progression),
     ItemName.feather:            Celeste64ItemData(celeste_64_base_id + 0x3, ItemClassification.progression),
@@ -32,14 +32,14 @@ unlockable_item_data_table: dict[str, Celeste64ItemData] = {
     ItemName.breakables:         Celeste64ItemData(celeste_64_base_id + 0x8, ItemClassification.progression),
 }
 
-move_item_data_table: dict[str, Celeste64ItemData] = {
+move_item_data_table: Dict[str, Celeste64ItemData] = {
     ItemName.ground_dash: Celeste64ItemData(celeste_64_base_id + 0xA, ItemClassification.progression),
     ItemName.air_dash:    Celeste64ItemData(celeste_64_base_id + 0xB, ItemClassification.progression),
     ItemName.skid_jump:   Celeste64ItemData(celeste_64_base_id + 0xC, ItemClassification.progression),
     ItemName.climb:       Celeste64ItemData(celeste_64_base_id + 0xD, ItemClassification.progression),
 }
 
-checkpoint_item_data_table: dict[str, Celeste64ItemData] = {
+checkpoint_item_data_table: Dict[str, Celeste64ItemData] = {
     ItemName.checkpoint_1:  Celeste64ItemData(celeste_64_base_id + 0x20, ItemClassification.progression),
     ItemName.checkpoint_2:  Celeste64ItemData(celeste_64_base_id + 0x21, ItemClassification.progression),
     ItemName.checkpoint_3:  Celeste64ItemData(celeste_64_base_id + 0x22, ItemClassification.progression),
@@ -52,7 +52,7 @@ checkpoint_item_data_table: dict[str, Celeste64ItemData] = {
     ItemName.checkpoint_10: Celeste64ItemData(celeste_64_base_id + 0x29, ItemClassification.progression),
 }
 
-item_data_table: dict[str, Celeste64ItemData] = {**collectable_item_data_table,
+item_data_table: Dict[str, Celeste64ItemData] = {**collectable_item_data_table,
                                                  **unlockable_item_data_table,
                                                  **move_item_data_table,
                                                  **checkpoint_item_data_table}

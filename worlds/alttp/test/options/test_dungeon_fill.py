@@ -4,7 +4,6 @@ from BaseClasses import MultiWorld
 from test.general import gen_steps, setup_multiworld
 from worlds.AutoWorld import call_all
 from worlds.generic.Rules import locality_rules
-
 from ... import ALTTPWorld
 from ...Options import DungeonItem
 

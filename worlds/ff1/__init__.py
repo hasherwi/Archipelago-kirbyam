@@ -1,14 +1,13 @@
-import typing
-from typing import Dict
-
 import settings
-from BaseClasses import Item, ItemClassification, Location, MultiWorld, Tutorial
+import typing
 
-from ..AutoWorld import WebWorld, World
-from .Client import FF1Client
-from .Items import FF1_BRIDGE, FF1_PROGRESSION_LIST, FF1_STARTER_ITEMS, FF1Items, ItemData
-from .Locations import CHAOS_TERMINATED_EVENT, EventId, FF1Locations, generate_rule
+from typing import Dict
+from BaseClasses import Item, Location, MultiWorld, Tutorial, ItemClassification
+from .Items import ItemData, FF1Items, FF1_STARTER_ITEMS, FF1_PROGRESSION_LIST, FF1_BRIDGE
+from .Locations import EventId, FF1Locations, generate_rule, CHAOS_TERMINATED_EVENT
 from .Options import FF1Options
+from ..AutoWorld import World, WebWorld
+from .Client import FF1Client
 
 
 class FF1Settings(settings.Group):
@@ -104,7 +103,7 @@ class FF1World(World):
                 progression_item = self.multiworld.random.choice(possible_early_items)
                 self._place_locked_item_in_sphere0(progression_item)
 
-        items = [self.create_item(name) for name, data in items.items() for x in range(data["count"]) if name not in
+        items = [self.create_item(name) for name, data in items.items() for x in range(data['count']) if name not in
                  self.locked_items]
 
         self.multiworld.itempool += items
@@ -121,8 +120,8 @@ class FF1World(World):
                 self.locked_items.append(progression_item)
                 self.locked_locations.append(locked_location.name)
 
-    def fill_slot_data(self) -> dict[str, object]:
-        slot_data: dict[str, object] = {}
+    def fill_slot_data(self) -> Dict[str, object]:
+        slot_data: Dict[str, object] = {}
 
         return slot_data
 

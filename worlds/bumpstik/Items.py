@@ -9,11 +9,11 @@ from BaseClasses import Item, ItemClassification
 
 
 class BumpStikLttPText(typing.NamedTuple):
-    pedestal: str | None
-    sickkid: str | None
-    magicshop: str | None
-    zora: str | None
-    fluteboy: str | None
+    pedestal: typing.Optional[str]
+    sickkid: typing.Optional[str]
+    magicshop: typing.Optional[str]
+    zora: typing.Optional[str]
+    fluteboy: typing.Optional[str]
 
 
 LttPCreditsText = {
@@ -92,7 +92,7 @@ class BumpStikItem(Item):
     type: str
 
     def __init__(self, name, classification, code, player):
-        super().__init__(
+        super(BumpStikItem, self).__init__(
             name, classification, code, player)
 
         if code is None:

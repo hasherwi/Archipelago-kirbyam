@@ -1,6 +1,5 @@
+from Options import Toggle, Choice, NamedRange, Range, PerGameCommonOptions, ItemsAccessibility
 from dataclasses import dataclass
-
-from Options import Choice, ItemsAccessibility, NamedRange, PerGameCommonOptions, Range, Toggle
 
 
 class ShuffleGoldenCoins(Choice):

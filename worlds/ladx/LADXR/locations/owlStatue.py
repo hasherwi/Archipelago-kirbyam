@@ -1,5 +1,5 @@
-from .constants import *
 from .itemInfo import ItemInfo
+from .constants import *
 
 
 class OwlStatue(ItemInfo):
@@ -33,8 +33,9 @@ class OwlStatue(ItemInfo):
     def __repr__(self):
         if self._location and self._location.dungeon:
             return "%s:%03x:%d" % (self.__class__.__name__, self.room, self._location.dungeon)
-        return "%s:%03x" % (self.__class__.__name__, self.room)
-
+        else:
+            return "%s:%03x" % (self.__class__.__name__, self.room)
+    
     @property
     def nameId(self):
         return "0x%03X-Owl" % self.room

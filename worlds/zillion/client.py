@@ -3,22 +3,23 @@ import base64
 import io
 import pkgutil
 import platform
-from typing import Any, ClassVar, Protocol, cast
-from collections.abc import Coroutine
+from typing import Any, ClassVar, Coroutine, Protocol, cast
 
-import colorama
-from typing_extensions import override
-from zilliandomizer.options import Chars
-from zilliandomizer.utils.loc_name_maps import id_to_loc
-from zilliandomizer.zri import events
-from zilliandomizer.zri.memory import Memory, RescueInfo
-
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger, server_loop
+from CommonClient import CommonContext, server_loop, gui_enabled, \
+    ClientCommandProcessor, logger, get_base_parser
 from NetUtils import ClientStatus
 from Utils import async_start
 
-from .config import base_id
+import colorama
+from typing_extensions import override
+
+from zilliandomizer.zri.memory import Memory, RescueInfo
+from zilliandomizer.zri import events
+from zilliandomizer.utils.loc_name_maps import id_to_loc
+from zilliandomizer.options import Chars
+
 from .id_maps import loc_name_to_id, make_id_to_others
+from .config import base_id
 
 
 class ZillionCommandProcessor(ClientCommandProcessor):
@@ -136,14 +137,13 @@ class ZillionContext(CommonContext):
 
     @override
     def run_gui(self) -> None:
-        from kivy.core.text import Label as CoreLabel
-        from kivy.graphics import Color, Ellipse, Rectangle
-        from kivy.graphics.texture import Texture
-        from kivy.uix.image import CoreImage
-        from kivy.uix.layout import Layout
-        from kivy.uix.widget import Widget
-
         from kvui import GameManager
+        from kivy.core.text import Label as CoreLabel
+        from kivy.graphics import Ellipse, Color, Rectangle
+        from kivy.graphics.texture import Texture
+        from kivy.uix.layout import Layout
+        from kivy.uix.image import CoreImage
+        from kivy.uix.widget import Widget
 
         class ZillionManager(GameManager):
             logging_pairs = [

@@ -1,9 +1,8 @@
-from typing import Any, Dict, List, Optional, Tuple
-from collections.abc import Iterable
-
 import orjson
+from typing import Any, Dict, List, Optional, Tuple, Iterable
 
 from .data import NATIONAL_ID_TO_SPECIES_ID, EncounterType, data
+
 
 CHARACTER_DECODING_MAP = {
     0x00: " ", 0x01: "À", 0x02: "Á", 0x03: "Â", 0x04: "Ç",
@@ -45,7 +44,7 @@ CHARACTER_ENCODING_MAP.update({
 
 ALLOWED_TRAINER_NAME_CHARACTERS = frozenset({
     " ", "0", "1", "2", "3", "4", "5", "6", "7", "8",
-    "9", "!", "?", ".", "-", "…", "“", "”", "‘", "’",
+    "9", "!", "?", ".", "-", "…", "“", "”", "‘", "’",    
     "♂", "♀", ",", "/", "A", "B", "C", "D", "E", "F",
     "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
     "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
@@ -55,7 +54,7 @@ ALLOWED_TRAINER_NAME_CHARACTERS = frozenset({
 })
 
 
-def encode_string(string: str, length: int | None = None) -> bytes:
+def encode_string(string: str, length: Optional[int] = None) -> bytes:
     arr = []
     length = len(string) if length is None else length
 
@@ -101,15 +100,15 @@ def get_encounter_type_label(encounter_type: EncounterType, slot: int) -> str:
             8: "Super Rod",
             9: "Super Rod",
         }[slot]
-
+    
     return {
-        EncounterType.LAND: "Land",
-        EncounterType.WATER: "Water",
-        EncounterType.ROCK_SMASH: "Rock Smash",
+        EncounterType.LAND: 'Land',
+        EncounterType.WATER: 'Water',
+        EncounterType.ROCK_SMASH: 'Rock Smash',
     }[encounter_type]
 
 
-def get_easter_egg(easter_egg: str) -> tuple[int, int]:
+def get_easter_egg(easter_egg: str) -> Tuple[int, int]:
     easter_egg = easter_egg.upper()
     result1 = 0
     result2 = 0
@@ -139,13 +138,13 @@ def location_name_to_label(name: str) -> str:
     return data.locations[name].label
 
 
-def int_to_bool_array(num: int) -> list[bool]:
+def int_to_bool_array(num: int) -> List[bool]:
     binary_string = format(num, "064b")
     bool_array = [bit == "1" for bit in reversed(binary_string)]
     return bool_array
 
 
-def bool_array_to_int(bool_array: list[bool]) -> int:
+def bool_array_to_int(bool_array: List[bool]) -> int:
     binary_string = "".join(["1" if bit else "0" for bit in reversed(bool_array)])
     num = int(binary_string, 2)
     return num
@@ -237,7 +236,7 @@ def pokemon_data_to_json(pokemon_data: Iterable[int]) -> str:
 
 
 def json_to_pokemon_data(json_str: str) -> bytearray:
-    pokemon_json: dict[str, Any] = orjson.loads(json_str)
+    pokemon_json: Dict[str, Any] = orjson.loads(json_str)
 
     # Default values to cover for optional or accidentally missed fields
     default_pokemon = {

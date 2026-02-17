@@ -1,6 +1,6 @@
-from ... import EntranceRandomization, SeasonRandomization
-from ...locations import LocationTags, location_table
 from ..bases import SVTestBase
+from ... import SeasonRandomization, EntranceRandomization
+from ...locations import location_table, LocationTags
 
 
 class TestTravelingMerchant(SVTestBase):

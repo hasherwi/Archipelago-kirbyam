@@ -1,20 +1,7 @@
 from dataclasses import dataclass
-
-from Options import (
-    Choice,
-    DeathLink,
-    DefaultOnToggle,
-    FreeText,
-    OptionGroup,
-    PerGameCommonOptions,
-    PlandoBosses,
-    Range,
-    StartInventoryPool,
-    Toggle,
-    Visibility,
-)
-
-from .modules.boss_shuffle import boss_plando_keys
+from Options import (Toggle, DefaultOnToggle, DeathLink, Choice, Range, PerGameCommonOptions, StartInventoryPool,
+                     OptionGroup, FreeText, Visibility, PlandoBosses)
+from .modules.boss_shuffle import boss_plando_keys 
 
 
 class GiygasRequired(DefaultOnToggle):
@@ -64,7 +51,7 @@ class MonkeyCavesMode(Choice):
     option_shop = 2
     option_solved = 3
     default = 1
-
+    
 
 class ShortenPrayers(DefaultOnToggle):
     """If enabled, the Prayer cutscenes while fighting Giygas will be skipped, excluding the final one."""
@@ -542,7 +529,7 @@ eb_option_groups = [
         SanctuariesRequired,
         SanctuaryAltGoal
     ]),
-
+    
     OptionGroup("Item Settings", [
         LocalTeleports,
         CharacterShuffle,

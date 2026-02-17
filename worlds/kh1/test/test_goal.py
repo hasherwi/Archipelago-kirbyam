@@ -1,6 +1,5 @@
 from . import KH1TestBase
 
-
 class TestDefault(KH1TestBase):
     options = {}
 

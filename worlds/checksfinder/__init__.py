@@ -1,10 +1,9 @@
-from BaseClasses import Entrance, ItemClassification, Region, Tutorial
-from Options import PerGameCommonOptions
-from worlds.AutoWorld import WebWorld, World
-
+from BaseClasses import Region, Entrance, Tutorial, ItemClassification
 from .Items import ChecksFinderItem, item_table
 from .Locations import ChecksFinderLocation, advancement_table
-from .Rules import set_completion_rules, set_rules
+from Options import PerGameCommonOptions
+from .Rules import set_rules, set_completion_rules
+from worlds.AutoWorld import World, WebWorld
 
 client_version = 7
 

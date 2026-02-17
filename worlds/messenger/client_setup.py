@@ -2,15 +2,12 @@ import argparse
 import io
 import logging
 import os.path
+import requests
 import subprocess
 import urllib.request
 from shutil import which
-from typing import TYPE_CHECKING, Any
-from collections.abc import Callable
+from typing import Any, Callable, TYPE_CHECKING
 from zipfile import ZipFile
-
-import requests
-
 from Utils import is_windows, messagebox, open_file, tuplize_version
 
 if TYPE_CHECKING:
@@ -62,12 +59,12 @@ def launch_game(*args) -> None:
         # can't use latest since courier uses pre-release tags
         courier_url = "https://api.github.com/repos/Brokemia/Courier/releases"
         latest_download = request_data(courier_url)[0]["assets"][-1]["browser_download_url"]
-
+    
         with urllib.request.urlopen(latest_download) as download:
             with ZipFile(io.BytesIO(download.read()), "r") as zf:
                 for member in zf.infolist():
                     zf.extract(member, path=game_folder)
-
+    
         os.chdir(game_folder)
         # linux and mac handling
         if not is_windows:
@@ -106,7 +103,7 @@ def launch_game(*args) -> None:
             os.chdir(working_directory)
             raise RuntimeError("Failed to install Courier")
         os.chdir(working_directory)
-
+    
         if courier_installed():
             messagebox("Success!", "Courier successfully installed!")
             return
@@ -228,9 +225,8 @@ def launch_game(*args) -> None:
     working_directory = os.getcwd()
     # setup ssl context
     try:
-        import ssl
-
         import certifi
+        import ssl
         context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH, cafile=certifi.where())
         context.set_alpn_protocols(["http/1.1"])
         https_handler = urllib.request.HTTPSHandler(context=context)
@@ -248,12 +244,13 @@ def launch_game(*args) -> None:
                                      "No randomizer mod detected. Would you like to install now?",
                                      after_mod_install_popup)
         return
-    latest = request_data(MOD_URL)["tag_name"]
-    if available_mod_update(latest):
-        prompt = create_yes_no_popup("Update Mod",
-                                     f"New mod version detected. Would you like to update to {latest} now?",
-                                     after_mod_update_popup)
-        return
+    else:
+        latest = request_data(MOD_URL)["tag_name"]
+        if available_mod_update(latest):
+            prompt = create_yes_no_popup("Update Mod",
+                                         f"New mod version detected. Would you like to update to {latest} now?",
+                                         after_mod_update_popup)
+            return
 
     if not args:
         prompt = create_yes_no_popup("Launch Game",

@@ -1,23 +1,19 @@
 import logging
 import math
 import typing
-
 from BaseClasses import CollectionState
 from Options import OptionError
-
-from .levels import level_table
-from .locations import location_table
+from .options import (EnableOrbsanity,
+                      GlobalOrbsanityBundleSize,
+                      PerLevelOrbsanityBundleSize,
+                      FireCanyonCellCount,
+                      MountainPassCellCount,
+                      LavaTubeCellCount,
+                      CitizenOrbTradeAmount,
+                      OracleOrbTradeAmount)
 from .locs import cell_locations as cells
-from .options import (
-    CitizenOrbTradeAmount,
-    EnableOrbsanity,
-    FireCanyonCellCount,
-    GlobalOrbsanityBundleSize,
-    LavaTubeCellCount,
-    MountainPassCellCount,
-    OracleOrbTradeAmount,
-    PerLevelOrbsanityBundleSize,
-)
+from .locations import location_table
+from .levels import level_table
 
 if typing.TYPE_CHECKING:
     from . import JakAndDaxterWorld
@@ -99,7 +95,7 @@ def can_trade_vanilla(state: CollectionState,
                       player: int,
                       world: "JakAndDaxterWorld",
                       required_orbs: int,
-                      required_previous_trade: int | None = None) -> bool:
+                      required_previous_trade: typing.Optional[int] = None) -> bool:
 
     # With Orbsanity Off, Reachable Orbs are in fact Tradeable Orbs.
     if not state.prog_items[player]["Reachable Orbs Fresh"]:
@@ -116,7 +112,7 @@ def can_trade_orbsanity(state: CollectionState,
                         player: int,
                         world: "JakAndDaxterWorld",
                         required_orbs: int,
-                        required_previous_trade: int | None = None) -> bool:
+                        required_previous_trade: typing.Optional[int] = None) -> bool:
 
     # Yes, even Orbsanity trades may unlock access to new Reachable Orbs.
     if not state.prog_items[player]["Reachable Orbs Fresh"]:

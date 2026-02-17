@@ -3,17 +3,17 @@ from typing import List, NamedTuple, Optional
 
 
 class RoomAndDoor(NamedTuple):
-    room: str | None
+    room: Optional[str]
     door: str
 
 
 class RoomAndPanel(NamedTuple):
-    room: str | None
+    room: Optional[str]
     panel: str
 
 
 class RoomAndPanelDoor(NamedTuple):
-    room: str | None
+    room: Optional[str]
     panel_door: str
 
 
@@ -28,13 +28,13 @@ class EntranceType(Flag):
 
 class RoomEntrance(NamedTuple):
     room: str  # source room
-    door: RoomAndDoor | None
+    door: Optional[RoomAndDoor]
     type: EntranceType
 
 
 class Room(NamedTuple):
     name: str
-    entrances: list[RoomEntrance]
+    entrances: List[RoomEntrance]
 
 
 class DoorType(Enum):
@@ -46,36 +46,36 @@ class DoorType(Enum):
 class Door(NamedTuple):
     name: str
     item_name: str
-    location_name: str | None
-    panels: list[RoomAndPanel] | None
+    location_name: Optional[str]
+    panels: Optional[List[RoomAndPanel]]
     skip_location: bool
     skip_item: bool
     has_doors: bool
-    painting_ids: list[str]
+    painting_ids: List[str]
     event: bool
-    door_group: str | None
+    door_group: Optional[str]
     include_reduce: bool
     type: DoorType
-    item_group: str | None
+    item_group: Optional[str]
 
 
 class Panel(NamedTuple):
-    required_rooms: list[str]
-    required_doors: list[RoomAndDoor]
-    required_panels: list[RoomAndPanel]
-    colors: list[str]
+    required_rooms: List[str]
+    required_doors: List[RoomAndDoor]
+    required_panels: List[RoomAndPanel]
+    colors: List[str]
     check: bool
     event: bool
     exclude_reduce: bool
     achievement: bool
     non_counting: bool
-    panel_door: RoomAndPanelDoor | None  # This will always be fully specified.
-    location_name: str | None
+    panel_door: Optional[RoomAndPanelDoor]  # This will always be fully specified.
+    location_name: Optional[str]
 
 
 class PanelDoor(NamedTuple):
     item_name: str
-    panel_group: str | None
+    panel_group: Optional[str]
 
 
 class Painting(NamedTuple):
@@ -85,7 +85,7 @@ class Painting(NamedTuple):
     exit_only: bool
     required: bool
     required_when_no_doors: bool
-    required_door: RoomAndDoor | None
+    required_door: Optional[RoomAndDoor]
     disable: bool
     req_blocked: bool
     req_blocked_when_no_doors: bool

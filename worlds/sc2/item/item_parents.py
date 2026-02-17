@@ -5,11 +5,9 @@ Rules have a `parent_items()` method which links rule -> parent items.
 Rules may be more complex than all or any items being present. Call them to determine if they are satisfied.
 """
 
+from typing import Dict, List, Iterable, Sequence, Optional, TYPE_CHECKING
 import abc
-from typing import TYPE_CHECKING, Dict, List, Optional
-from collections.abc import Iterable, Sequence
-
-from . import item_groups, item_names, item_tables, parent_names
+from . import item_names, parent_names, item_tables, item_groups
 
 if TYPE_CHECKING:
     from ..options import Starcraft2Options
@@ -17,12 +15,12 @@ if TYPE_CHECKING:
 
 class PresenceRule(abc.ABC):
     """Contract for a parent presence rule. This should be a protocol in Python 3.10+"""
-    constraint_group: str | None
+    constraint_group: Optional[str]
     """Identifies the group this item rule is a part of, subject to min/max upgrades per unit"""
     display_string: str
     """Main item to count as the parent for min/max upgrades per unit purposes"""
     @abc.abstractmethod
-    def __call__(self, inventory: Iterable[str], options: "Starcraft2Options") -> bool: ...
+    def __call__(self, inventory: Iterable[str], options: 'Starcraft2Options') -> bool: ...
     @abc.abstractmethod
     def parent_items(self) -> Sequence[str]: ...
 
@@ -33,36 +31,36 @@ class ItemPresent(PresenceRule):
         self.constraint_group = item_name
         self.display_string = item_name
 
-    def __call__(self, inventory: Iterable[str], options: "Starcraft2Options") -> bool:
+    def __call__(self, inventory: Iterable[str], options: 'Starcraft2Options') -> bool:
         return self.item_name in inventory
 
-    def parent_items(self) -> list[str]:
+    def parent_items(self) -> List[str]:
         return [self.item_name]
 
 
 class AnyOf(PresenceRule):
-    def __init__(self, group: Iterable[str], main_item: str | None = None, display_string: str | None = None) -> None:
+    def __init__(self, group: Iterable[str], main_item: Optional[str] = None, display_string: Optional[str] = None) -> None:
         self.group = set(group)
         self.constraint_group = main_item
-        self.display_string = display_string or main_item or " | ".join(group)
+        self.display_string = display_string or main_item or ' | '.join(group)
 
-    def __call__(self, inventory: Iterable[str], options: "Starcraft2Options") -> bool:
+    def __call__(self, inventory: Iterable[str], options: 'Starcraft2Options') -> bool:
         return len(self.group.intersection(inventory)) > 0
 
-    def parent_items(self) -> list[str]:
+    def parent_items(self) -> List[str]:
         return sorted(self.group)
 
 
 class AllOf(PresenceRule):
-    def __init__(self, group: Iterable[str], main_item: str | None = None) -> None:
+    def __init__(self, group: Iterable[str], main_item: Optional[str] = None) -> None:
         self.group = set(group)
         self.constraint_group = main_item
-        self.display_string = main_item or " & ".join(group)
+        self.display_string = main_item or ' & '.join(group)
 
-    def __call__(self, inventory: Iterable[str], options: "Starcraft2Options") -> bool:
+    def __call__(self, inventory: Iterable[str], options: 'Starcraft2Options') -> bool:
         return len(self.group.intersection(inventory)) == len(self.group)
 
-    def parent_items(self) -> list[str]:
+    def parent_items(self) -> List[str]:
         return sorted(self.group)
 
 
@@ -73,10 +71,10 @@ class AnyOfGroupAndOneOtherItem(PresenceRule):
         self.constraint_group = item_name
         self.display_string = item_name
 
-    def __call__(self, inventory: Iterable[str], options: "Starcraft2Options") -> bool:
+    def __call__(self, inventory: Iterable[str], options: 'Starcraft2Options') -> bool:
         return (len(self.group.intersection(inventory)) > 0) and self.item_name in inventory
 
-    def parent_items(self) -> list[str]:
+    def parent_items(self) -> List[str]:
         return sorted(self.group) + [self.item_name]
 
 
@@ -84,29 +82,29 @@ class MorphlingOrItem(PresenceRule):
     def __init__(self, item_name: str, has_parent: bool = True) -> None:
         self.item_name = item_name
         self.constraint_group = None  # Keep morphs from counting towards the parent unit's upgrade count
-        self.display_string = f"{item_name} Morphs"
+        self.display_string = f'{item_name} Morphs'
 
-    def __call__(self, inventory: Iterable[str], options: "Starcraft2Options") -> bool:
+    def __call__(self, inventory: Iterable[str], options: 'Starcraft2Options') -> bool:
         return (options.enable_morphling.value != 0) or self.item_name in inventory
 
-    def parent_items(self) -> list[str]:
+    def parent_items(self) -> List[str]:
         return [self.item_name]
 
 
 class MorphlingOrAnyOf(PresenceRule):
-    def __init__(self, group: Iterable[str], display_string: str, main_item: str | None = None) -> None:
+    def __init__(self, group: Iterable[str], display_string: str, main_item: Optional[str] = None) -> None:
         self.group = set(group)
         self.constraint_group = main_item
         self.display_string = display_string
 
-    def __call__(self, inventory: Iterable[str], options: "Starcraft2Options") -> bool:
+    def __call__(self, inventory: Iterable[str], options: 'Starcraft2Options') -> bool:
         return (options.enable_morphling.value != 0) or (len(self.group.intersection(inventory)) > 0)
 
-    def parent_items(self) -> list[str]:
+    def parent_items(self) -> List[str]:
         return sorted(self.group)
 
 
-parent_present: dict[str, PresenceRule] = {
+parent_present: Dict[str, PresenceRule] = {
     item_name: ItemPresent(item_name)
     for item_name in item_tables.item_table
 }
@@ -117,8 +115,8 @@ parent_present[parent_names.DOMINION_TROOPER_WEAPONS] = AnyOf([
     item_names.DOMINION_TROOPER_CPO7_SALAMANDER_FLAMETHROWER,
     item_names.DOMINION_TROOPER_HAILSTORM_LAUNCHER,
 ], main_item=item_names.DOMINION_TROOPER)
-parent_present[parent_names.INFANTRY_UNITS] = AnyOf(item_groups.barracks_units, display_string="Terran Infantry")
-parent_present[parent_names.INFANTRY_WEAPON_UNITS] = AnyOf(item_groups.barracks_wa_group, display_string="Terran Infantry")
+parent_present[parent_names.INFANTRY_UNITS] = AnyOf(item_groups.barracks_units, display_string='Terran Infantry')
+parent_present[parent_names.INFANTRY_WEAPON_UNITS] = AnyOf(item_groups.barracks_wa_group, display_string='Terran Infantry')
 parent_present[parent_names.ORBITAL_COMMAND_AND_PLANETARY] = AnyOfGroupAndOneOtherItem(
     item_groups.orbital_command_abilities,
     item_names.PLANETARY_FORTRESS,
@@ -128,12 +126,12 @@ parent_present[parent_names.SIEGE_TANK_AND_TRANSPORT] = AnyOfGroupAndOneOtherIte
     item_names.SIEGE_TANK,
 )
 parent_present[parent_names.SIEGE_TANK_AND_MEDIVAC] = AllOf((item_names.SIEGE_TANK, item_names.MEDIVAC), item_names.SIEGE_TANK)
-parent_present[parent_names.SPIDER_MINE_SOURCE] = AnyOf(item_groups.spider_mine_sources, display_string="Spider Mines")
-parent_present[parent_names.STARSHIP_UNITS] = AnyOf(item_groups.starport_units, display_string="Terran Starships")
-parent_present[parent_names.STARSHIP_WEAPON_UNITS] = AnyOf(item_groups.starport_wa_group, display_string="Terran Starships")
-parent_present[parent_names.VEHICLE_UNITS] = AnyOf(item_groups.factory_units, display_string="Terran Vehicles")
-parent_present[parent_names.VEHICLE_WEAPON_UNITS] = AnyOf(item_groups.factory_wa_group, display_string="Terran Vehicles")
-parent_present[parent_names.TERRAN_MERCENARIES] = AnyOf(item_groups.terran_mercenaries, display_string="Terran Mercenaries")
+parent_present[parent_names.SPIDER_MINE_SOURCE] = AnyOf(item_groups.spider_mine_sources, display_string='Spider Mines')
+parent_present[parent_names.STARSHIP_UNITS] = AnyOf(item_groups.starport_units, display_string='Terran Starships')
+parent_present[parent_names.STARSHIP_WEAPON_UNITS] = AnyOf(item_groups.starport_wa_group, display_string='Terran Starships')
+parent_present[parent_names.VEHICLE_UNITS] = AnyOf(item_groups.factory_units, display_string='Terran Vehicles')
+parent_present[parent_names.VEHICLE_WEAPON_UNITS] = AnyOf(item_groups.factory_wa_group, display_string='Terran Vehicles')
+parent_present[parent_names.TERRAN_MERCENARIES] = AnyOf(item_groups.terran_mercenaries, display_string='Terran Mercenaries')
 
 # Zerg
 parent_present[parent_names.ANY_NYDUS_WORM] = AnyOf((item_names.NYDUS_WORM, item_names.ECHIDNA_WORM), item_names.NYDUS_WORM)
@@ -141,7 +139,7 @@ parent_present[parent_names.BANELING_SOURCE] = AnyOf(
     (item_names.ZERGLING_BANELING_ASPECT, item_names.KERRIGAN_SPAWN_BANELINGS),
     item_names.ZERGLING_BANELING_ASPECT,
 )
-parent_present[parent_names.INFESTED_UNITS] = AnyOf(item_groups.infterr_units, display_string="Infested")
+parent_present[parent_names.INFESTED_UNITS] = AnyOf(item_groups.infterr_units, display_string='Infested')
 parent_present[parent_names.INFESTED_FACTORY_OR_STARPORT] = AnyOf(
     (item_names.INFESTED_DIAMONDBACK, item_names.INFESTED_SIEGE_TANK, item_names.INFESTED_LIBERATOR, item_names.INFESTED_BANSHEE, item_names.BULLFROG)
 )
@@ -153,11 +151,11 @@ parent_present[parent_names.MORPH_SOURCE_ULTRALISK] = MorphlingOrItem(item_names
 parent_present[parent_names.ZERG_UPROOTABLE_BUILDINGS] = AnyOf(
     (item_names.SPINE_CRAWLER, item_names.SPORE_CRAWLER, item_names.INFESTED_MISSILE_TURRET, item_names.INFESTED_BUNKER),
 )
-parent_present[parent_names.ZERG_MELEE_ATTACKER] = AnyOf(item_groups.zerg_melee_wa, display_string="Zerg Ground")
-parent_present[parent_names.ZERG_MISSILE_ATTACKER] = AnyOf(item_groups.zerg_ranged_wa, display_string="Zerg Ground")
-parent_present[parent_names.ZERG_CARAPACE_UNIT] = AnyOf(item_groups.zerg_ground_units, display_string="Zerg Flyers")
-parent_present[parent_names.ZERG_FLYING_UNIT] = AnyOf(item_groups.zerg_air_units, display_string="Zerg Flyers")
-parent_present[parent_names.ZERG_MERCENARIES] = AnyOf(item_groups.zerg_mercenaries, display_string="Zerg Mercenaries")
+parent_present[parent_names.ZERG_MELEE_ATTACKER] = AnyOf(item_groups.zerg_melee_wa, display_string='Zerg Ground')
+parent_present[parent_names.ZERG_MISSILE_ATTACKER] = AnyOf(item_groups.zerg_ranged_wa, display_string='Zerg Ground')
+parent_present[parent_names.ZERG_CARAPACE_UNIT] = AnyOf(item_groups.zerg_ground_units, display_string='Zerg Flyers')
+parent_present[parent_names.ZERG_FLYING_UNIT] = AnyOf(item_groups.zerg_air_units, display_string='Zerg Flyers')
+parent_present[parent_names.ZERG_MERCENARIES] = AnyOf(item_groups.zerg_mercenaries, display_string='Zerg Mercenaries')
 parent_present[parent_names.ZERG_OUROBOUROS_CONDITION] = AnyOfGroupAndOneOtherItem(
     (item_names.ZERGLING, item_names.ROACH, item_names.HYDRALISK, item_names.ABERRATION),
     item_names.ECHIDNA_WORM
@@ -238,16 +236,16 @@ parent_present[parent_names.PROTOSS_ATTACKING_BUILDING] = AnyOf(
 )
 
 
-parent_id_to_children: dict[str, Sequence[str]] = {}
+parent_id_to_children: Dict[str, Sequence[str]] = {}
 """Parent identifier to child items. Only contains parent rules with children."""
-child_item_to_parent_items: dict[str, Sequence[str]] = {}
+child_item_to_parent_items: Dict[str, Sequence[str]] = {}
 """Child item name to all parent items that can possibly affect its presence rule. Populated for all item names."""
 
-parent_item_to_ids: dict[str, Sequence[str]] = {}
+parent_item_to_ids: Dict[str, Sequence[str]] = {}
 """Parent item to parent identifiers it affects. Populated for all items and parent IDs."""
-parent_item_to_children: dict[str, Sequence[str]] = {}
+parent_item_to_children: Dict[str, Sequence[str]] = {}
 """Parent item to child item names. Populated for all items and parent IDs."""
-item_upgrade_groups: dict[str, Sequence[str]] = {}
+item_upgrade_groups: Dict[str, Sequence[str]] = {}
 """Mapping of upgradable item group -> child items. Only populated for groups with child items."""
 # Note(mm): "All items" promise satisfied by the basic ItemPresent auto-generated rules
 

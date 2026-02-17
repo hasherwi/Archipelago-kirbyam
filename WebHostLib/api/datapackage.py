@@ -3,18 +3,17 @@ from flask import abort
 from Utils import restricted_loads
 from WebHostLib import cache
 from WebHostLib.models import GameDataPackage
-
 from . import api_endpoints
 
 
-@api_endpoints.route("/datapackage")
+@api_endpoints.route('/datapackage')
 @cache.cached()
 def get_datapackage():
     from worlds import network_data_package
     return network_data_package
 
 
-@api_endpoints.route("/datapackage/<string:checksum>")
+@api_endpoints.route('/datapackage/<string:checksum>')
 @cache.memoize(timeout=3600)
 def get_datapackage_by_checksum(checksum: str):
     package = GameDataPackage.get(checksum=checksum)
@@ -23,7 +22,7 @@ def get_datapackage_by_checksum(checksum: str):
     return abort(404)
 
 
-@api_endpoints.route("/datapackage_checksum")
+@api_endpoints.route('/datapackage_checksum')
 @cache.cached()
 def get_datapackage_checksums():
     from worlds import network_data_package

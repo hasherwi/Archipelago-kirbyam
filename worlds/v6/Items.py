@@ -1,6 +1,5 @@
 from BaseClasses import Item
 
-
 class V6Item(Item):
     game: str = "VVVVVV"
 

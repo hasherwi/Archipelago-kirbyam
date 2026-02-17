@@ -1,16 +1,15 @@
 from typing import Union
 
-from BaseClasses import CollectionState, ItemClassification, Tutorial
+from BaseClasses import Tutorial, CollectionState, ItemClassification
 from worlds.AutoWorld import WebWorld, World
-
 from . import Options
-from .Items import DLCQuestItem, Group, ItemData, create_items, item_table, items_by_group
+from .Items import DLCQuestItem, ItemData, create_items, item_table, items_by_group, Group
 from .Locations import DLCQuestLocation, location_table
-from .option_groups import dlcq_option_groups
 from .Options import DLCQuestOptions
-from .presets import dlcq_options_presets
 from .Regions import create_regions
 from .Rules import set_rules
+from .presets import dlcq_options_presets
+from .option_groups import dlcq_option_groups
 
 client_version = 0
 
@@ -92,7 +91,7 @@ class DLCqworld(World):
             if self.options.coinsanity == Options.CoinSanity.option_coin and self.options.coinbundlequantity >= 5:
                 self.multiworld.push_precollected(self.create_item("DLC Quest: Coin Bundle"))
 
-    def create_item(self, item: str | ItemData, classification: ItemClassification = None) -> DLCQuestItem:
+    def create_item(self, item: Union[str, ItemData], classification: ItemClassification = None) -> DLCQuestItem:
         if isinstance(item, str):
             item = item_table[item]
         if classification is None:

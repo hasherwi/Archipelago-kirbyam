@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Dict, Any
 
 all_random = {
     "progression_balancing": "random",
@@ -51,7 +51,7 @@ beginner = {
 }
 
 
-kdl3_options_presets: dict[str, dict[str, Any]] = {
+kdl3_options_presets: Dict[str, Dict[str, Any]] = {
     "All Random": all_random,
     "Beginner": beginner,
 }

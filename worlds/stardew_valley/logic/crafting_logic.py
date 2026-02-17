@@ -1,26 +1,12 @@
 from Utils import cache_self1
-
+from .base_logic import BaseLogicMixin, BaseLogic
 from .. import options
 from ..data.craftable_data import CraftingRecipe
-from ..data.recipe_source import (
-    ArchipelagoSource,
-    CutsceneSource,
-    FestivalShopSource,
-    FriendshipSource,
-    LogicSource,
-    MasterySource,
-    QuestSource,
-    ShopSource,
-    ShopTradeSource,
-    SkillCraftsanitySource,
-    SkillSource,
-    SpecialOrderSource,
-    StarterSource,
-)
+from ..data.recipe_source import CutsceneSource, ShopTradeSource, ArchipelagoSource, LogicSource, SpecialOrderSource, \
+    FestivalShopSource, QuestSource, StarterSource, ShopSource, SkillSource, MasterySource, FriendshipSource, SkillCraftsanitySource
 from ..options import Craftsanity, SpecialOrderLocations
-from ..stardew_rule import False_, StardewRule, True_
+from ..stardew_rule import StardewRule, True_, False_
 from ..strings.region_names import Region
-from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class CraftingLogicMixin(BaseLogicMixin):
@@ -46,11 +32,13 @@ class CraftingLogic(BaseLogic):
         if isinstance(recipe.source, FestivalShopSource):
             if self.options.festival_locations == options.FestivalLocations.option_disabled:
                 return self.logic.crafting.can_learn_recipe(recipe)
-            return self.logic.crafting.received_recipe(recipe.item)
+            else:
+                return self.logic.crafting.received_recipe(recipe.item)
         if isinstance(recipe.source, QuestSource):
             if self.options.quest_locations.has_no_story_quests():
                 return self.logic.crafting.can_learn_recipe(recipe)
-            return self.logic.crafting.received_recipe(recipe.item)
+            else:
+                return self.logic.crafting.received_recipe(recipe.item)
         if self.options.craftsanity == Craftsanity.option_none:
             return self.logic.crafting.can_learn_recipe(recipe)
         if isinstance(recipe.source, (StarterSource, ShopTradeSource, ShopSource, SkillCraftsanitySource)):

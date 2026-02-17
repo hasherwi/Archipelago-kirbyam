@@ -46,9 +46,9 @@ class TWWItemData(NamedTuple):
 
     type: str
     classification: IC
-    code: int | None
+    code: Optional[int]
     quantity: int
-    item_id: int | None
+    item_id: Optional[int]
 
 
 class TWWItem(Item):
@@ -62,10 +62,10 @@ class TWWItem(Item):
     """
 
     game: str = "The Wind Waker"
-    type: str | None
+    type: Optional[str]
     dungeon: Optional["Dungeon"] = None
 
-    def __init__(self, name: str, player: int, data: TWWItemData, classification: IC | None = None) -> None:
+    def __init__(self, name: str, player: int, data: TWWItemData, classification: Optional[IC] = None) -> None:
         super().__init__(
             name,
             data.classification if classification is None else classification,
@@ -88,7 +88,7 @@ class TWWItem(Item):
         return base_id + code
 
     @property
-    def dungeon_item(self) -> str | None:
+    def dungeon_item(self) -> Optional[str]:
         """
         Determine if the item is a dungeon item and, if so, returns its type.
 

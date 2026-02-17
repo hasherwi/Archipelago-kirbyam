@@ -1,9 +1,9 @@
+from .bases import SVTestBase
 from .. import options
 from ..strings.ap_names.transport_names import Transportation
 from ..strings.building_names import Building
 from ..strings.region_names import Region
 from ..strings.seed_names import Seed
-from .bases import SVTestBase
 
 
 class TestCropsanityRules(SVTestBase):

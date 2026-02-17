@@ -1,4 +1,4 @@
-from typing import List, Tuple, Union
+from typing import Union, List, Tuple
 
 
 class RecipeSource:
@@ -14,9 +14,9 @@ class StarterSource(RecipeSource):
 
 
 class ArchipelagoSource(RecipeSource):
-    ap_item: tuple[str]
+    ap_item: Tuple[str]
 
-    def __init__(self, ap_item: str | list[str]):
+    def __init__(self, ap_item: Union[str, List[str]]):
         if isinstance(ap_item, str):
             ap_item = [ap_item]
         self.ap_item = tuple(ap_item)

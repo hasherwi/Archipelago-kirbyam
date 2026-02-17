@@ -2,7 +2,6 @@ from enum import Flag, auto
 from typing import Dict, List, NamedTuple
 
 from BaseClasses import Location
-
 from .datatypes import RoomAndPanel
 from .static_logic import DOORS_BY_ROOM, PANELS_BY_ROOM, get_door_location_id, get_panel_location_id
 
@@ -20,7 +19,7 @@ class LocationData(NamedTuple):
     """
     code: int
     room: str
-    panels: list[RoomAndPanel]
+    panels: List[RoomAndPanel]
     classification: LocationClassification
 
 
@@ -31,8 +30,8 @@ class LingoLocation(Location):
     game: str = "Lingo"
 
 
-ALL_LOCATION_TABLE: dict[str, LocationData] = {}
-LOCATIONS_BY_GROUP: dict[str, list[str]] = {}
+ALL_LOCATION_TABLE: Dict[str, LocationData] = {}
+LOCATIONS_BY_GROUP: Dict[str, List[str]] = {}
 
 
 def load_location_data():

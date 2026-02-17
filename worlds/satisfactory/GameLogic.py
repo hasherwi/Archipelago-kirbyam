@@ -1,6 +1,6 @@
+from typing import Optional
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import Optional
 
 
 class PowerInfrastructureLevel(IntEnum):
@@ -52,22 +52,22 @@ class Recipe:
     Not all recipes are Satisfactory FGRecipes - for example, Water has a Recipe, but it's not an FGRecipe
     """
     name: str
-    building: str | None
-    inputs: tuple[str, ...] | None
+    building: Optional[str]
+    inputs: Optional[tuple[str, ...]]
     minimal_belt_speed: int
     handcraftable: bool
     implicitly_unlocked: bool
     """No explicit location/item is needed to unlock this recipe, you have access as soon as dependencies are met 
     (ex. Water, Leaves, tutorial starting items)"""
-    additional_outputs: tuple[str, ...] | None
+    additional_outputs: Optional[tuple[str, ...]]
     minimal_phase: int
 
     needs_pipes: bool
     is_radio_active: bool
 
-    def __init__(self, name: str, building: str | None = None, inputs: tuple[str, ...] | None = None,
+    def __init__(self, name: str, building: Optional[str] = None, inputs: Optional[tuple[str, ...]] = None,
                 minimal_belt_speed: int = 1, handcraftable: bool = False, implicitly_unlocked: bool = False,
-                additional_outputs: tuple[str, ...] | None = None, minimal_phase: int | None = 1):
+                additional_outputs: Optional[tuple[str, ...]] = None, minimal_phase: Optional[int] = 1):
         self.name = "Recipe: " + name
         self.building = building
         self.inputs = inputs
@@ -88,11 +88,11 @@ class Recipe:
 
 
 class Building(Recipe):
-    power_requirement: PowerInfrastructureLevel | None
+    power_requirement: Optional[PowerInfrastructureLevel]
     can_produce: bool
 
-    def __init__(self, name: str, inputs: tuple[str, ...] | None = None,
-                 power_requirement: PowerInfrastructureLevel | None = None, can_produce: bool = True,
+    def __init__(self, name: str, inputs: Optional[tuple[str, ...]] = None,
+                 power_requirement: Optional[PowerInfrastructureLevel] = None, can_produce: bool = True,
                  implicitly_unlocked: bool = False):
         super().__init__(name, None, inputs, handcraftable=True, implicitly_unlocked=implicitly_unlocked)
         self.name = "Building: " + name
@@ -107,10 +107,10 @@ class MamNode:
     """All game items must be submitted to purchase this MamNode"""
     depends_on: tuple[str, ...]
     """At least one of these prerequisite MamNodes must be unlocked to purchase this MamNode"""
-    minimal_phase: int | None
+    minimal_phase: Optional[int]
 
     def __init__(self, name: str, unlock_cost: dict[str, int], depends_on: tuple[str, ...],
-                 minimal_phase: int | None = 1):
+                 minimal_phase: Optional[int] = 1):
         self.name = name
         self.unlock_cost = unlock_cost
         self.depends_on = depends_on
@@ -132,10 +132,10 @@ class DropPodData:
     x: int
     y: int
     z: int
-    item: str | None
+    item: Optional[str]
     power: int
-    gassed: bool | None = None
-    radioactive: bool | None = None
+    gassed: Optional[bool] = None
+    radioactive: Optional[bool] = None
 
 
 class GameLogic:
@@ -881,7 +881,7 @@ class GameLogic:
     }
 
     drop_pods: list[DropPodData] = [
-        # Regenerate via /Script/Engine.Blueprint'/Archipelago/Debug/CC_BuildDropPodLocations.CC_BuildDropPodLocations'
+        # Regenerate via /Script/Engine.Blueprint'/Archipelago/Debug/CC_BuildDropPodLocations.CC_BuildDropPodLocations' 
         DropPodData(-29068, -22640, 17384,  "Encased Industrial Beam", 0),  # Unlocks with: 4 x Desc_SteelPlateReinforced_C
         DropPodData(-33340, 5176,   23519,  "Crystal Oscillator", 0),  # Unlocks with: 5 x Desc_CrystalOscillator_C
         DropPodData(8680,   -41777, 13053,  "Steel Pipe", 0),  # Unlocks with: 7 x Desc_SteelPipe_C

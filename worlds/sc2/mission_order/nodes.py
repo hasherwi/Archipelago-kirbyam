@@ -4,20 +4,17 @@ Data in these structures is validated in .options.py and manipulated by .generat
 """
 
 from __future__ import annotations
-
-import logging
-from abc import ABC, abstractmethod
+from typing import Dict, Set, Callable, List, Any, Type, Optional, Union, TYPE_CHECKING
+from weakref import ref, ReferenceType
 from dataclasses import asdict
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Type, Union
-from collections.abc import Callable
-from weakref import ReferenceType, ref
+from abc import ABC, abstractmethod
+import logging
 
-from BaseClasses import CollectionState, Region
-
-from ..item import item_names
+from BaseClasses import Region, CollectionState
 from ..mission_tables import SC2Mission
-from .entry_rules import ItemEntryRule, SubRuleEntryRule
+from ..item import item_names
 from .layout_types import LayoutType
+from .entry_rules import SubRuleEntryRule, ItemEntryRule
 from .mission_pools import Difficulty
 from .slot_data import CampaignSlotData, LayoutSlotData, MissionSlotData
 
@@ -25,7 +22,7 @@ if TYPE_CHECKING:
     from .. import SC2World
 
 class MissionOrderNode(ABC):
-    parent: ReferenceType[MissionOrderNode] | None
+    parent: Optional[ReferenceType[MissionOrderNode]]
     important_beat_event: bool
 
     def get_parent(self, address_so_far: str, full_address: str) -> MissionOrderNode:
@@ -37,7 +34,7 @@ class MissionOrderNode(ABC):
         return self.parent()
 
     @abstractmethod
-    def search(self, term: str) -> list[MissionOrderNode] | None:
+    def search(self, term: str) -> Union[List[MissionOrderNode], None]:
         raise NotImplementedError
 
     @abstractmethod
@@ -45,25 +42,25 @@ class MissionOrderNode(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_missions(self) -> list[SC2MOGenMission]:
+    def get_missions(self) -> List[SC2MOGenMission]:
+        raise NotImplementedError
+    
+    @abstractmethod
+    def get_exits(self) -> List[SC2MOGenMission]:
         raise NotImplementedError
 
     @abstractmethod
-    def get_exits(self) -> list[SC2MOGenMission]:
+    def get_visual_requirement(self, start_node: MissionOrderNode) -> Union[str, SC2MOGenMission]:
         raise NotImplementedError
-
-    @abstractmethod
-    def get_visual_requirement(self, start_node: MissionOrderNode) -> str | SC2MOGenMission:
-        raise NotImplementedError
-
+    
     @abstractmethod
     def get_key_name(self) -> str:
         raise NotImplementedError
-
+    
     @abstractmethod
     def get_min_depth(self) -> int:
         raise NotImplementedError
-
+    
     @abstractmethod
     def get_address_to_node(self) -> str:
         raise NotImplementedError
@@ -73,17 +70,17 @@ class SC2MOGenMissionOrder(MissionOrderNode):
     """
     The top-level data structure for mission orders.
     """
-    campaigns: list[SC2MOGenCampaign]
-    sorted_missions: dict[Difficulty, list[SC2MOGenMission]]
+    campaigns: List[SC2MOGenCampaign]
+    sorted_missions: Dict[Difficulty, List[SC2MOGenMission]]
     """All mission slots in the mission order sorted by their difficulty, but not their depth."""
-    fixed_missions: list[SC2MOGenMission]
+    fixed_missions: List[SC2MOGenMission]
     """All mission slots that have a plando'd mission."""
-    items_to_lock: dict[str, int]
-    keys_to_resolve: dict[MissionOrderNode, list[ItemEntryRule]]
-    goal_missions: list[SC2MOGenMission]
+    items_to_lock: Dict[str, int]
+    keys_to_resolve: Dict[MissionOrderNode, List[ItemEntryRule]]
+    goal_missions: List[SC2MOGenMission]
     max_depth: int
 
-    def __init__(self, world: SC2World, data: dict[str, Any]):
+    def __init__(self, world: 'SC2World', data: Dict[str, Any]):
         self.campaigns = []
         self.sorted_missions = {diff: [] for diff in Difficulty if diff != Difficulty.RELATIVE}
         self.fixed_missions = []
@@ -115,7 +112,7 @@ class SC2MOGenMissionOrder(MissionOrderNode):
         if len(self.goal_missions) == 0:
             self.campaigns[-1].option_goal = True
             self.goal_missions.extend(mission for mission in self.campaigns[-1].exits)
-
+        
         # Apply victory cache option wherever the value has not yet been defined; must happen after goal missions are decided
         for mission in self.get_missions():
             if mission.option_victory_cache != -1:
@@ -127,7 +124,7 @@ class SC2MOGenMissionOrder(MissionOrderNode):
                 mission.option_victory_cache = world.options.victory_cache.value
 
         # Resolve names
-        used_names: set[str] = set()
+        used_names: Set[str] = set()
         for campaign in self.campaigns:
             names = [campaign.option_name] if len(campaign.option_display_name) == 0 else campaign.option_display_name
             if campaign.option_unique_name:
@@ -140,28 +137,28 @@ class SC2MOGenMissionOrder(MissionOrderNode):
                     names = [name for name in names if name not in used_names]
                 layout.display_name = world.random.choice(names)
                 used_names.add(layout.display_name)
-
-    def get_slot_data(self) -> list[dict[str, Any]]:
+    
+    def get_slot_data(self) -> List[Dict[str, Any]]:
         # [(campaign data, [(layout data, [[(mission data)]] )] )]
         return [asdict(campaign.get_slot_data()) for campaign in self.campaigns]
 
-    def search(self, term: str) -> list[MissionOrderNode] | None:
+    def search(self, term: str) -> Union[List[MissionOrderNode], None]:
         return [
             campaign.layouts[0] if campaign.option_single_layout_campaign else campaign
             for campaign in self.campaigns
             if campaign.option_name.casefold() == term.casefold()
         ]
-
+    
     def child_type_name(self) -> str:
         return "Campaign"
-
-    def get_missions(self) -> list[SC2MOGenMission]:
+    
+    def get_missions(self) -> List[SC2MOGenMission]:
         return [mission for campaign in self.campaigns for layout in campaign.layouts for mission in layout.missions]
-
-    def get_exits(self) -> list[SC2MOGenMission]:
+    
+    def get_exits(self) -> List[SC2MOGenMission]:
         return []
-
-    def get_visual_requirement(self, _start_node: MissionOrderNode) -> str | SC2MOGenMission:
+    
+    def get_visual_requirement(self, _start_node: MissionOrderNode) -> Union[str, SC2MOGenMission]:
         return "All Missions"
 
     def get_key_name(self) -> str:
@@ -169,16 +166,16 @@ class SC2MOGenMissionOrder(MissionOrderNode):
 
     def get_min_depth(self) -> int:
         return super().get_min_depth()  # type: ignore
-
+    
     def get_address_to_node(self):
         return self.campaigns[0].get_address_to_node() + "/.."
 
 
 class SC2MOGenCampaign(MissionOrderNode):
     option_name: str # name of this campaign
-    option_display_name: list[str]
+    option_display_name: List[str]
     option_unique_name: bool
-    option_entry_rules: list[dict[str, Any]]
+    option_entry_rules: List[Dict[str, Any]]
     option_unique_progression_track: int # progressive keys under this campaign and on this track will be changed to a unique track
     option_goal: bool # whether this campaign is required to beat the game
     # minimum difficulty of this campaign
@@ -190,15 +187,15 @@ class SC2MOGenCampaign(MissionOrderNode):
     option_single_layout_campaign: bool
 
     # layouts of this campaign in correct order
-    layouts: list[SC2MOGenLayout]
-    exits: list[SC2MOGenMission] # missions required to beat this campaign (missions marked "exit" in layouts marked "exit")
+    layouts: List[SC2MOGenLayout]
+    exits: List[SC2MOGenMission] # missions required to beat this campaign (missions marked "exit" in layouts marked "exit")
     entry_rule: SubRuleEntryRule
     display_name: str
 
     min_depth: int
     max_depth: int
 
-    def __init__(self, world: SC2World, parent: ReferenceType[SC2MOGenMissionOrder], name: str, data: dict[str, Any]):
+    def __init__(self, world: 'SC2World', parent: ReferenceType[SC2MOGenMissionOrder], name: str, data: Dict[str, Any]):
         self.parent = parent
         self.important_beat_event = False
         self.option_name = name
@@ -221,38 +218,38 @@ class SC2MOGenCampaign(MissionOrderNode):
                 # Collect required missions (marked layouts' exits)
                 if layout.option_exit:
                     self.exits.extend(layout.exits)
-
+                
         # If no exits are set, use the last defined layout
         if len(self.exits) == 0:
             self.layouts[-1].option_exit = True
             self.exits.extend(self.layouts[-1].exits)
-
-    def is_beaten(self, beaten_missions: set[SC2MOGenMission]) -> bool:
+        
+    def is_beaten(self, beaten_missions: Set[SC2MOGenMission]) -> bool:
         return beaten_missions.issuperset(self.exits)
 
     def is_always_unlocked(self, in_region_creation = False) -> bool:
         return self.entry_rule.is_always_fulfilled(in_region_creation)
 
-    def is_unlocked(self, beaten_missions: set[SC2MOGenMission], in_region_creation = False) -> bool:
+    def is_unlocked(self, beaten_missions: Set[SC2MOGenMission], in_region_creation = False) -> bool:
         return self.entry_rule.is_fulfilled(beaten_missions, in_region_creation)
 
-    def search(self, term: str) -> list[MissionOrderNode] | None:
+    def search(self, term: str) -> Union[List[MissionOrderNode], None]:
         return [
             layout
             for layout in self.layouts
             if layout.option_name.casefold() == term.casefold()
         ]
-
+    
     def child_type_name(self) -> str:
         return "Layout"
 
-    def get_missions(self) -> list[SC2MOGenMission]:
+    def get_missions(self) -> List[SC2MOGenMission]:
         return [mission for layout in self.layouts for mission in layout.missions]
 
-    def get_exits(self) -> list[SC2MOGenMission]:
+    def get_exits(self) -> List[SC2MOGenMission]:
         return self.exits
-
-    def get_visual_requirement(self, start_node: MissionOrderNode) -> str | SC2MOGenMission:
+    
+    def get_visual_requirement(self, start_node: MissionOrderNode) -> Union[str, SC2MOGenMission]:
         visual_name = self.get_visual_name()
         # Needs special handling for double-parent, which is valid for missions but errors for campaigns
         first_parent = start_node.get_parent("", "")
@@ -263,16 +260,16 @@ class SC2MOGenCampaign(MissionOrderNode):
         ) and visual_name == "":
             return "this campaign"
         return visual_name
-
+    
     def get_visual_name(self) -> str:
         return self.display_name
-
+    
     def get_key_name(self) -> str:
         return item_names._TEMPLATE_NAMED_CAMPAIGN_KEY.format(self.get_visual_name())
-
+    
     def get_min_depth(self) -> int:
         return self.min_depth
-
+    
     def get_address_to_node(self) -> str:
         return f"{self.option_name}"
 
@@ -292,16 +289,16 @@ class SC2MOGenCampaign(MissionOrderNode):
 
 class SC2MOGenLayout(MissionOrderNode):
     option_name: str # name of this layout
-    option_display_name: list[str] # visual name of this layout
+    option_display_name: List[str] # visual name of this layout
     option_unique_name: bool
-    option_type: type[LayoutType] # type of this layout
+    option_type: Type[LayoutType] # type of this layout
     option_size: int # amount of missions in this layout
     option_goal: bool # whether this layout is required to beat the game
     option_exit: bool # whether this layout is required to beat its parent campaign
-    option_mission_pool: list[int] # IDs of valid missions for this layout
-    option_missions: list[dict[str, Any]]
+    option_mission_pool: List[int] # IDs of valid missions for this layout
+    option_missions: List[Dict[str, Any]]
 
-    option_entry_rules: list[dict[str, Any]]
+    option_entry_rules: List[Dict[str, Any]]
     option_unique_progression_track: int # progressive keys under this layout and on this track will be changed to a unique track
 
     # minimum difficulty of this layout
@@ -311,17 +308,17 @@ class SC2MOGenLayout(MissionOrderNode):
     # 'relative': based on the median distance of the last mission
     option_max_difficulty: Difficulty
 
-    missions: list[SC2MOGenMission]
+    missions: List[SC2MOGenMission]
     layout_type: LayoutType
-    entrances: list[SC2MOGenMission]
-    exits: list[SC2MOGenMission]
+    entrances: List[SC2MOGenMission]
+    exits: List[SC2MOGenMission]
     entry_rule: SubRuleEntryRule
     display_name: str
 
     min_depth: int
     max_depth: int
 
-    def __init__(self, world: SC2World, parent: ReferenceType[SC2MOGenCampaign], name: str, data: dict):
+    def __init__(self, world: 'SC2World', parent: ReferenceType[SC2MOGenCampaign], name: str, data: Dict):
         self.parent: ReferenceType[SC2MOGenCampaign] = parent
         self.important_beat_event = False
         self.option_name = name
@@ -356,8 +353,8 @@ class SC2MOGenLayout(MissionOrderNode):
 
         # Update missions with user data
         for mission_data in self.option_missions:
-            indices: set[int] = set()
-            index_terms: list[int | str] = mission_data["index"]
+            indices: Set[int] = set()
+            index_terms: List[Union[int, str]] = mission_data["index"]
             for term in index_terms:
                 result = self.resolve_index_term(term)
                 indices.update(result)
@@ -379,7 +376,7 @@ class SC2MOGenLayout(MissionOrderNode):
         for mission in self.missions:
             for next_mission in mission.next:
                 next_mission.prev.append(mission)
-
+        
         # Remove empty missions from access data
         for mission in self.missions:
             if mission.option_empty:
@@ -389,7 +386,7 @@ class SC2MOGenLayout(MissionOrderNode):
                 for prev_mission in mission.prev:
                     prev_mission.next.remove(mission)
                 mission.prev.clear()
-
+        
         # Clean up data and options
         all_empty = True
         for mission in self.missions:
@@ -421,16 +418,16 @@ class SC2MOGenLayout(MissionOrderNode):
         if all_empty:
             raise Exception(f"Layout \"{self.option_name}\" only contains empty mission slots.")
 
-    def is_beaten(self, beaten_missions: set[SC2MOGenMission]) -> bool:
+    def is_beaten(self, beaten_missions: Set[SC2MOGenMission]) -> bool:
         return beaten_missions.issuperset(self.exits)
 
     def is_always_unlocked(self, in_region_creation = False) -> bool:
         return self.entry_rule.is_always_fulfilled(in_region_creation)
-
-    def is_unlocked(self, beaten_missions: set[SC2MOGenMission], in_region_creation = False) -> bool:
+    
+    def is_unlocked(self, beaten_missions: Set[SC2MOGenMission], in_region_creation = False) -> bool:
         return self.entry_rule.is_fulfilled(beaten_missions, in_region_creation)
 
-    def resolve_index_term(self, term: str | int, *, ignore_out_of_bounds: bool = True, reject_none: bool = True) -> set[int] | None:
+    def resolve_index_term(self, term: Union[str, int], *, ignore_out_of_bounds: bool = True, reject_none: bool = True) -> Union[Set[int], None]:
         try:
             result = {int(term)}
         except ValueError:
@@ -455,38 +452,38 @@ class SC2MOGenLayout(MissionOrderNode):
             parent = self.parent
         return parent()
 
-    def search(self, term: str) -> list[MissionOrderNode] | None:
+    def search(self, term: str) -> Union[List[MissionOrderNode], None]:
         indices = self.resolve_index_term(term, reject_none=False)
         if indices is None:
             # Let the address parser handle the fail case
             return []
         missions = [self.missions[index] for index in sorted(indices)]
         return missions
-
+    
     def child_type_name(self) -> str:
         return "Mission"
 
-    def get_missions(self) -> list[SC2MOGenMission]:
+    def get_missions(self) -> List[SC2MOGenMission]:
         return [mission for mission in self.missions]
 
-    def get_exits(self) -> list[SC2MOGenMission]:
+    def get_exits(self) -> List[SC2MOGenMission]:
         return self.exits
-
-    def get_visual_requirement(self, start_node: MissionOrderNode) -> str | SC2MOGenMission:
+    
+    def get_visual_requirement(self, start_node: MissionOrderNode) -> Union[str, SC2MOGenMission]:
         visual_name = self.get_visual_name()
         if start_node.get_parent("", "") is self and visual_name == "":
             return "this questline"
         return visual_name
-
+    
     def get_visual_name(self) -> str:
         return self.display_name
-
+    
     def get_key_name(self) -> str:
         return item_names._TEMPLATE_NAMED_LAYOUT_KEY.format(self.get_visual_name(), self.parent().get_visual_name())
-
+    
     def get_min_depth(self) -> int:
         return self.min_depth
-
+    
     def get_address_to_node(self) -> str:
         campaign = self.parent()
         if campaign.option_single_layout_campaign:
@@ -519,10 +516,10 @@ class SC2MOGenMission(MissionOrderNode):
     option_entrance: bool  # whether this mission is unlocked when the layout is unlocked
     option_exit: bool  # whether this mission is required to beat its parent layout
     option_empty: bool  # whether this slot contains a mission at all
-    option_next: None | list[int | str]  # indices of internally connected missions
-    option_entry_rules: list[dict[str, Any]]
+    option_next: Union[None, List[Union[int, str]]]  # indices of internally connected missions
+    option_entry_rules: List[Dict[str, Any]]
     option_difficulty: Difficulty  # difficulty pool this mission pulls from
-    option_mission_pool: set[int]  # Allowed mission IDs for this slot
+    option_mission_pool: Set[int]  # Allowed mission IDs for this slot
     option_victory_cache: int  # Number of victory cache locations tied to the mission name
 
     entry_rule: SubRuleEntryRule
@@ -531,10 +528,10 @@ class SC2MOGenMission(MissionOrderNode):
     mission: SC2Mission
     region: Region
 
-    next: list[SC2MOGenMission]
-    prev: list[SC2MOGenMission]
+    next: List[SC2MOGenMission]
+    prev: List[SC2MOGenMission]
 
-    def __init__(self, parent: ReferenceType[SC2MOGenLayout], parent_mission_pool: set[int]):
+    def __init__(self, parent: ReferenceType[SC2MOGenLayout], parent_mission_pool: Set[int]):
         self.parent: ReferenceType[SC2MOGenLayout] = parent
         self.important_beat_event = False
         self.option_mission_pool = parent_mission_pool
@@ -550,7 +547,7 @@ class SC2MOGenMission(MissionOrderNode):
         self.min_depth = -1
         self.option_victory_cache = -1
 
-    def update_with_data(self, data: dict):
+    def update_with_data(self, data: Dict):
         self.option_goal = data.get("goal", self.option_goal)
         self.option_entrance = data.get("entrance", self.option_entrance)
         self.option_exit = data.get("exit", self.option_exit)
@@ -560,40 +557,40 @@ class SC2MOGenMission(MissionOrderNode):
         self.option_difficulty = data.get("difficulty", self.option_difficulty)
         self.option_mission_pool = data.get("mission_pool", self.option_mission_pool)
         self.option_victory_cache = data.get("victory_cache", -1)
-
+    
     def is_always_unlocked(self, in_region_creation = False) -> bool:
         return self.entry_rule.is_always_fulfilled(in_region_creation)
-
-    def is_unlocked(self, beaten_missions: set[SC2MOGenMission], in_region_creation = False) -> bool:
+    
+    def is_unlocked(self, beaten_missions: Set[SC2MOGenMission], in_region_creation = False) -> bool:
         return self.entry_rule.is_fulfilled(beaten_missions, in_region_creation)
-
+    
     def beat_item(self) -> str:
         return f"Beat {self.mission.mission_name}"
-
+    
     def beat_rule(self, player) -> Callable[[CollectionState], bool]:
         return lambda state: state.has(self.beat_item(), player)
 
-    def search(self, term: str) -> list[MissionOrderNode] | None:
+    def search(self, term: str) -> Union[List[MissionOrderNode], None]:
         return None
-
+    
     def child_type_name(self) -> str:
         return ""
 
-    def get_missions(self) -> list[SC2MOGenMission]:
+    def get_missions(self) -> List[SC2MOGenMission]:
         return [self]
 
-    def get_exits(self) -> list[SC2MOGenMission]:
+    def get_exits(self) -> List[SC2MOGenMission]:
         return [self]
-
-    def get_visual_requirement(self, _start_node: MissionOrderNode) -> str | SC2MOGenMission:
+    
+    def get_visual_requirement(self, _start_node: MissionOrderNode) -> Union[str, SC2MOGenMission]:
         return self
-
+    
     def get_key_name(self) -> str:
         return item_names._TEMPLATE_MISSION_KEY.format(self.mission.mission_name)
-
+    
     def get_min_depth(self) -> int:
         return self.min_depth
-
+    
     def get_address_to_node(self) -> str:
         layout = self.parent()
         assert layout is not None

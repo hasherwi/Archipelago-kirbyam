@@ -1,24 +1,25 @@
-import io
-import json
 import logging
-import os
-import zipfile
-from typing import TYPE_CHECKING, Dict, List, Optional, cast
 
 import yaml
-
+import os
+import io
+from typing import TYPE_CHECKING, Dict, List, Optional, cast
 import Utils
-from worlds.Files import APPlayerContainer
+import zipfile
+import json
 
 from .Locations import KH1Location, location_table
 
+from worlds.Files import APPlayerContainer
+
+
 
 class KH1Container(APPlayerContainer):
-    game: str = "Kingdom Hearts"
+    game: str = 'Kingdom Hearts'
     patch_file_ending = ".zip"
 
-    def __init__(self, patch_data: dict[str, str] | io.BytesIO, base_path: str = "", output_directory: str = "",
-        player: int | None = None, player_name: str = "", server: str = ""):
+    def __init__(self, patch_data: Dict[str, str] | io.BytesIO, base_path: str = "", output_directory: str = "",
+        player: Optional[int] = None, player_name: str = "", server: str = ""):
         self.patch_data = patch_data
         self.file_path = base_path
         container_path = os.path.join(output_directory, base_path + ".zip")
@@ -33,10 +34,10 @@ class KH1Container(APPlayerContainer):
 def generate_json(world, output_directory):
     mod_name = f"AP-{world.multiworld.seed_name}-P{world.player}-{world.multiworld.get_file_safe_player_name(world.player)}"
     mod_dir = os.path.join(output_directory, mod_name + "_" + Utils.__version__)
-
+    
     item_location_map = get_item_location_map(world)
     settings = get_settings(world)
-
+    
     files = {
         "item_location_map.json":  json.dumps(item_location_map),
         "keyblade_stats.json":     json.dumps(world.get_keyblade_stats()),

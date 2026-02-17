@@ -1,9 +1,8 @@
-from typing import TYPE_CHECKING, NamedTuple
-
-from worlds.generic import Rules as GenericRules
+from typing import NamedTuple, TYPE_CHECKING
 
 from . import items, locations
 from .options import BossesAsChecks, VictoryCondition
+from worlds.generic import Rules as GenericRules
 
 if TYPE_CHECKING:
     from . import NoitaWorld

@@ -1,38 +1,14 @@
 import typing
 from enum import Enum
 
-from BaseClasses import Entrance, Location, MultiWorld, Region
-
-from .Locations import (
-    SM64Location,
-    location_table,
-    locBBH_table,
-    locBitDW_table,
-    locBitFS_table,
-    locBitS_table,
-    locBoB_table,
-    locCCM_table,
-    locCotMC_table,
-    locDDD_table,
-    locHMC_table,
-    locJRB_table,
-    locLLL_table,
-    locPSS_table,
-    locRR_table,
-    locSA_table,
-    locSL_table,
-    locSS_table,
-    locSSL_table,
-    locTHI_table,
-    locTotWC_table,
-    locTTC_table,
-    locTTM_table,
-    locVCutM_table,
-    locWDW_table,
-    locWhomp_table,
-    locWMotR_table,
-)
+from BaseClasses import MultiWorld, Region, Entrance, Location
 from .Options import SM64Options
+from .Locations import SM64Location, location_table, locBoB_table, locWhomp_table, locJRB_table, locCCM_table, \
+    locBBH_table, \
+    locHMC_table, locLLL_table, locSSL_table, locDDD_table, locSL_table, \
+    locWDW_table, locTTM_table, locTHI_table, locTTC_table, locRR_table, \
+    locPSS_table, locSA_table, locBitDW_table, locTotWC_table, locCotMC_table, \
+    locVCutM_table, locBitFS_table, locWMotR_table, locBitS_table, locSS_table
 
 
 class SM64Levels(int, Enum):
@@ -63,11 +39,11 @@ class SM64Levels(int, Enum):
 
 
 class SM64Region(Region):
-    subregions: list[Region] = []
+    subregions: typing.List[Region] = []
 
 
 # sm64paintings is a dict of entrances, format LEVEL | AREA
-sm64_level_to_paintings: dict[SM64Levels, str] = {
+sm64_level_to_paintings: typing.Dict[SM64Levels, str] = {
     SM64Levels.BOB_OMB_BATTLEFIELD: "Bob-omb Battlefield",
     SM64Levels.WHOMPS_FORTRESS: "Whomp's Fortress",
     SM64Levels.JOLLY_ROGER_BAY: "Jolly Roger Bay",
@@ -88,7 +64,7 @@ sm64_level_to_paintings: dict[SM64Levels, str] = {
 sm64_paintings_to_level = {painting: level for (level, painting) in sm64_level_to_paintings.items() }
 
 # sm64secrets is a dict of secret areas, same format as sm64paintings
-sm64_level_to_secrets: dict[SM64Levels, str] = {
+sm64_level_to_secrets: typing.Dict[SM64Levels, str] = {
     SM64Levels.THE_PRINCESS_SECRET_SLIDE: "The Princess's Secret Slide",
     SM64Levels.THE_SECRET_AQUARIUM: "The Secret Aquarium",
     SM64Levels.BOWSER_IN_THE_DARK_WORLD: "Bowser in the Dark World",
@@ -127,7 +103,7 @@ def create_regions(world: MultiWorld, options: SM64Options, player: int):
     regJRB = create_region("Jolly Roger Bay", player, world)
     create_locs(regJRB, "JRB: Plunder in the Sunken Ship", "JRB: Can the Eel Come Out to Play?", "JRB: Treasure of the Ocean Cave",
                         "JRB: Blast to the Stone Pillar", "JRB: Through the Jet Stream", "JRB: Bob-omb Buddy")
-    jrb_upper = create_subregion(regJRB, "JRB: Upper", "JRB: Red Coins on the Ship Afloat")
+    jrb_upper = create_subregion(regJRB, 'JRB: Upper', "JRB: Red Coins on the Ship Afloat")
     regJRB.subregions = [jrb_upper]
     if options.enable_coin_stars:
         create_locs(jrb_upper, "JRB: 100 Coins")

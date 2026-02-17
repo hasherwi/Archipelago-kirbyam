@@ -1,34 +1,33 @@
-import functools
-import logging
-import os
-import threading
-from collections import Counter, deque
+from collections import deque, Counter
 from contextlib import redirect_stdout
+import functools
+import settings
+import threading
 from typing import Any, ClassVar
+import os
+import logging
 
 from typing_extensions import override
-from zilliandomizer.logic_components.items import RESCUE
-from zilliandomizer.logic_components.items import Item as ZzItem
-from zilliandomizer.logic_components.items import items as zz_items
-from zilliandomizer.logic_components.locations import Location as ZzLocation
-from zilliandomizer.logic_components.locations import Req
-from zilliandomizer.map_gen.region_maker import DEAD_END_SUFFIX
-from zilliandomizer.options import Chars
-from zilliandomizer.system import System
 
-import settings
-from BaseClasses import CollectionState, Entrance, Item, LocationProgressType, MultiWorld, Tutorial
-from worlds.AutoWorld import WebWorld, World
+from BaseClasses import LocationProgressType, MultiWorld, Item, CollectionState, Entrance, Tutorial
 
 from .gen_data import GenData
-from .id_maps import ZillionSlotInfo, base_id, get_slot_info, make_id_to_others, zz_reg_name_to_reg_name
-from .id_maps import item_name_to_id as _item_name_to_id
-from .id_maps import loc_name_to_id as _loc_name_to_id
-from .item import ZillionItem, get_classification
 from .logic import ZillionLogicCache
-from .options import ZillionOptions, validate, z_option_groups
-from .patch import ZillionPatch
 from .region import ZillionLocation, ZillionRegion
+from .options import ZillionOptions, validate, z_option_groups
+from .id_maps import ZillionSlotInfo, get_slot_info, item_name_to_id as _item_name_to_id, \
+    loc_name_to_id as _loc_name_to_id, make_id_to_others, \
+    zz_reg_name_to_reg_name, base_id
+from .item import ZillionItem, get_classification
+from .patch import ZillionPatch
+
+from zilliandomizer.system import System
+from zilliandomizer.logic_components.items import RESCUE, items as zz_items, Item as ZzItem
+from zilliandomizer.logic_components.locations import Location as ZzLocation, Req
+from zilliandomizer.map_gen.region_maker import DEAD_END_SUFFIX
+from zilliandomizer.options import Chars
+
+from worlds.AutoWorld import World, WebWorld
 
 
 class ZillionSettings(settings.Group):

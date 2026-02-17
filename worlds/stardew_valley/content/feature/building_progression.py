@@ -15,16 +15,16 @@ progressive_house_by_upgrade_name = {
 }
 
 
-def to_progressive_item(building: str) -> tuple[str, int]:
+def to_progressive_item(building: str) -> Tuple[str, int]:
     """Return the name of the progressive item and its quantity required to unlock the building.
     """
     if building in [Building.coop, Building.barn, Building.shed]:
         return f"Progressive {building}", 1
-    if building.startswith("Big"):
+    elif building.startswith("Big"):
         return f"Progressive {building[building.index(' ') + 1:]}", 2
-    if building.startswith("Deluxe"):
+    elif building.startswith("Deluxe"):
         return f"Progressive {building[building.index(' ') + 1:]}", 3
-    if building in progressive_house_by_upgrade_name:
+    elif building in progressive_house_by_upgrade_name:
         return progressive_house, progressive_house_by_upgrade_name[building]
 
     return building, 1
@@ -37,7 +37,7 @@ def to_location_name(building: str) -> str:
 @dataclass(frozen=True)
 class BuildingProgressionFeature(ABC):
     is_progressive: ClassVar[bool]
-    starting_buildings: set[str]
+    starting_buildings: Set[str]
 
     to_progressive_item = staticmethod(to_progressive_item)
     progressive_house = progressive_house

@@ -1,7 +1,5 @@
 from dataclasses import dataclass
-
-from Options import Choice, DefaultOnToggle, OptionGroup, PerGameCommonOptions, Range, StartInventoryPool, Toggle
-
+from Options import Choice, OptionGroup, PerGameCommonOptions, Range, StartInventoryPool, Toggle, DefaultOnToggle
 
 class Goal(Choice):
     """Choose the end goal.

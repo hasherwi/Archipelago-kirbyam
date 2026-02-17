@@ -1,14 +1,13 @@
 import logging
 import time
-from base64 import b64encode
 from enum import IntEnum
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
-
-from NetUtils import ClientStatus, NetworkItem, color
+from base64 import b64encode
+from typing import TYPE_CHECKING, Dict, Tuple, List, Optional, Any
+from NetUtils import ClientStatus, color, NetworkItem
 from worlds._bizhawk.client import BizHawkClient
 
 if TYPE_CHECKING:
-    from worlds._bizhawk.context import BizHawkClientCommandProcessor, BizHawkClientContext
+    from worlds._bizhawk.context import BizHawkClientContext, BizHawkClientCommandProcessor
 
 nes_logger = logging.getLogger("NES")
 logger = logging.getLogger("Client")
@@ -34,7 +33,7 @@ MM2_CONSUMABLES = 0x780
 MM2_SFX_QUEUE = 0x580
 MM2_SFX_STROBE = 0x66
 
-MM2_CONSUMABLE_TABLE: dict[int, tuple[int, int]] = {
+MM2_CONSUMABLE_TABLE: Dict[int, Tuple[int, int]] = {
     # Item: (byte offset, bit mask)
     0x880201: (0, 8),
     0x880202: (16, 1),
@@ -102,7 +101,7 @@ class MM2EnergyLinkType(IntEnum):
     OneUP = 12
 
 
-request_to_name: dict[str, str] = {
+request_to_name: Dict[str, str] = {
     "HP": "health",
     "AF": "Atomic Fire energy",
     "AS": "Air Shooter energy",
@@ -149,7 +148,7 @@ def cmd_request(self: "BizHawkClientCommandProcessor", amount: str, target: str)
     if not self.ctx.server or not self.ctx.slot:
         logger.warning("You must be connected to a server to use this command.")
         return
-    valid_targets: dict[str, MM2EnergyLinkType] = {
+    valid_targets: Dict[str, MM2EnergyLinkType] = {
         "HP": MM2EnergyLinkType.Life,
         "AF": MM2EnergyLinkType.AtomicFire,
         "AS": MM2EnergyLinkType.AirShooter,
@@ -183,39 +182,39 @@ def cmd_autoheal(self) -> None:
     if not self.ctx.server or not self.ctx.slot:
         logger.warning("You must be connected to a server to use this command.")
         return
-    assert isinstance(self.ctx.client_handler, MegaMan2Client)
-    if self.ctx.client_handler.auto_heal:
-        self.ctx.client_handler.auto_heal = False
-        logger.info(f"Auto healing disabled.")
     else:
-        self.ctx.client_handler.auto_heal = True
-        logger.info(f"Auto healing enabled.")
+        assert isinstance(self.ctx.client_handler, MegaMan2Client)
+        if self.ctx.client_handler.auto_heal:
+            self.ctx.client_handler.auto_heal = False
+            logger.info(f"Auto healing disabled.")
+        else:
+            self.ctx.client_handler.auto_heal = True
+            logger.info(f"Auto healing enabled.")
 
 
-def get_sfx_writes(sfx: int) -> tuple[tuple[int, bytes, str], ...]:
-    return (MM2_SFX_QUEUE, sfx.to_bytes(1, "little"), "RAM"), (MM2_SFX_STROBE, 0x01.to_bytes(1, "little"), "RAM")
+def get_sfx_writes(sfx: int) -> Tuple[Tuple[int, bytes, str], ...]:
+    return (MM2_SFX_QUEUE, sfx.to_bytes(1, 'little'), "RAM"), (MM2_SFX_STROBE, 0x01.to_bytes(1, "little"), "RAM")
 
 
 class MegaMan2Client(BizHawkClient):
     game = "Mega Man 2"
     system = "NES"
     patch_suffix = ".apmm2"
-    item_queue: list[NetworkItem] = []
+    item_queue: List[NetworkItem] = []
     pending_death_link: bool = False
     # default to true, as we don't want to send a deathlink until Mega Man's HP is initialized once
     sending_death_link: bool = True
     death_link: bool = False
     energy_link: bool = False
-    rom: bytes | None = None
+    rom: Optional[bytes] = None
     weapon_energy: int = 0
     health_energy: int = 0
     auto_heal: bool = False
-    refill_queue: list[tuple[MM2EnergyLinkType, int]] = []
-    last_wily: int | None = None  # default to wily 1
+    refill_queue: List[Tuple[MM2EnergyLinkType, int]] = []
+    last_wily: Optional[int] = None  # default to wily 1
 
     async def validate_rom(self, ctx: "BizHawkClientContext") -> bool:
-        from worlds._bizhawk import RequestFailedError, get_memory_size, read
-
+        from worlds._bizhawk import RequestFailedError, read, get_memory_size
         from . import MM2World
 
         try:
@@ -274,7 +273,7 @@ class MegaMan2Client(BizHawkClient):
         if self.rom:
             ctx.auth = b64encode(self.rom).decode()
 
-    def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict[str, Any]) -> None:
+    def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: Dict[str, Any]) -> None:
         if cmd == "Bounced":
             if "tags" in args:
                 assert ctx.slot is not None
@@ -375,32 +374,32 @@ class MegaMan2Client(BizHawkClient):
         recv_amount = items_received[0]
         if recv_amount < len(ctx.items_received):
             item = ctx.items_received[recv_amount]
-            logging.info("Received %s from %s (%s) (%d/%d in list)" % (
-                color(ctx.item_names.lookup_in_game(item.item), "red", "bold"),
-                color(ctx.player_names[item.player], "yellow"),
+            logging.info('Received %s from %s (%s) (%d/%d in list)' % (
+                color(ctx.item_names.lookup_in_game(item.item), 'red', 'bold'),
+                color(ctx.player_names[item.player], 'yellow'),
                 ctx.location_names.lookup_in_slot(item.location, item.player), recv_amount, len(ctx.items_received)))
 
             if item.item & 0x130 == 0:
                 # Robot Master Weapon
                 new_weapons = weapons_unlocked[0] | (1 << ((item.item & 0xF) - 1))
-                writes.append((MM2_WEAPONS_UNLOCKED, new_weapons.to_bytes(1, "little"), "RAM"))
+                writes.append((MM2_WEAPONS_UNLOCKED, new_weapons.to_bytes(1, 'little'), "RAM"))
                 writes.extend(get_sfx_writes(0x21))
             elif item.item & 0x30 == 0:
                 # Robot Master Stage Access
                 new_stages = robot_masters_unlocked[0] & ~(1 << ((item.item & 0xF) - 1))
-                writes.append((MM2_ROBOT_MASTERS_UNLOCKED, new_stages.to_bytes(1, "little"), "RAM"))
+                writes.append((MM2_ROBOT_MASTERS_UNLOCKED, new_stages.to_bytes(1, 'little'), "RAM"))
                 writes.extend(get_sfx_writes(0x3a))
                 writes.append((MM2_RBM_STROBE, b"\x01", "RAM"))
             elif item.item & 0x20 == 0:
                 # Items
                 new_items = items_unlocked[0] | (1 << ((item.item & 0xF) - 1))
-                writes.append((MM2_ITEMS_UNLOCKED, new_items.to_bytes(1, "little"), "RAM"))
+                writes.append((MM2_ITEMS_UNLOCKED, new_items.to_bytes(1, 'little'), "RAM"))
                 writes.extend(get_sfx_writes(0x21))
             else:
                 # append to the queue, so we handle it later
                 self.item_queue.append(item)
             recv_amount += 1
-            writes.append((MM2_RECEIVED_ITEMS, recv_amount.to_bytes(1, "little"), "RAM"))
+            writes.append((MM2_RECEIVED_ITEMS, recv_amount.to_bytes(1, 'little'), "RAM"))
 
         if energy_link_packet[0]:
             pickup = energy_link_packet[0]
@@ -473,7 +472,7 @@ class MegaMan2Client(BizHawkClient):
                             [{"operation": "add", "value": -health_diff * HP_EXCHANGE_RATE},
                              {"operation": "max", "value": 0}]}])
                 current_health += health_diff
-                writes.append((MM2_HEALTH, current_health.to_bytes(1, "little"), "RAM"))
+                writes.append((MM2_HEALTH, current_health.to_bytes(1, 'little'), "RAM"))
 
         if self.refill_queue:
             refill_type, refill_amount = self.refill_queue.pop()
@@ -513,7 +512,7 @@ class MegaMan2Client(BizHawkClient):
                     self.item_queue.append(item)
                 else:
                     current_lives += 1
-                    writes.append((MM2_LIVES, current_lives.to_bytes(1, "little"), "RAM"))
+                    writes.append((MM2_LIVES, current_lives.to_bytes(1, 'little'), "RAM"))
                     writes.extend(get_sfx_writes(0x42))
             elif idx == 1:
                 self.weapon_energy += 0xE
@@ -527,7 +526,7 @@ class MegaMan2Client(BizHawkClient):
                 current_tanks = e_tanks[0]
                 if current_tanks < 9:
                     current_tanks += 1
-                    writes.append((MM2_E_TANKS, current_tanks.to_bytes(1, "little"), "RAM"))
+                    writes.append((MM2_E_TANKS, current_tanks.to_bytes(1, 'little'), "RAM"))
                     writes.extend(get_sfx_writes(0x42))
                 else:
                     self.item_queue.append(item)
@@ -567,6 +566,6 @@ class MegaMan2Client(BizHawkClient):
             ctx.locations_checked.add(new_check_id)
             location = ctx.location_names.lookup_in_game(new_check_id)
             nes_logger.info(
-                f"New Check: {location} ({len(ctx.locations_checked)}/"
-                f"{len(ctx.missing_locations) + len(ctx.checked_locations)})")
-            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": [new_check_id]}])
+                f'New Check: {location} ({len(ctx.locations_checked)}/'
+                f'{len(ctx.missing_locations) + len(ctx.checked_locations)})')
+            await ctx.send_msgs([{"cmd": 'LocationChecks', "locations": [new_check_id]}])

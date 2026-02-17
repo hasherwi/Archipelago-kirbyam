@@ -1,8 +1,7 @@
-﻿from ....Config import Config
-from ....Item import Progression
+﻿from ....Region import Z3Region
+from ....Config import Config
 from ....Location import Location, LocationType
-from ....Region import Z3Region
-
+from ....Item import Progression
 
 class Mire(Z3Region):
     Name = "Dark World Mire"

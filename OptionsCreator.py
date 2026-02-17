@@ -4,58 +4,32 @@ if __name__ == "__main__":
     ModuleUpdate.update()
 
 
-import re
-import typing
-import webbrowser
-from copy import deepcopy
-from textwrap import dedent
-from urllib.parse import urlparse
-
-from kivy.core.text.markup import MarkupLabel
-from kivy.lang.builder import Builder
-from kivy.properties import ObjectProperty
+from kvui import (ThemedApp, ScrollBox, MainLayout, ContainerLayout, dp, Widget, MDBoxLayout, TooltipLabel, MDLabel,
+                  ToggleButton, MarkupDropdown, ResizableTextField)
 from kivy.uix.behaviors.button import ButtonBehavior
-from kivy.utils import escape_markup
-from kivymd.uix.anchorlayout import MDAnchorLayout
 from kivymd.uix.behaviors import RotateBehavior
-from kivymd.uix.button import MDButton, MDButtonText, MDIconButton
-from kivymd.uix.dialog import MDDialog
+from kivymd.uix.anchorlayout import MDAnchorLayout
 from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelContent, MDExpansionPanelHeader
-from kivymd.uix.list import MDListItem, MDListItemSupportingText, MDListItemTrailingIcon
-from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.list import MDListItem, MDListItemTrailingIcon, MDListItemSupportingText
 from kivymd.uix.slider import MDSlider
 from kivymd.uix.snackbar import MDSnackbar, MDSnackbarText
-
+from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.button import MDButton, MDButtonText, MDIconButton
+from kivymd.uix.dialog import MDDialog
+from kivy.core.text.markup import MarkupLabel
+from kivy.utils import escape_markup
+from kivy.lang.builder import Builder
+from kivy.properties import ObjectProperty
+from textwrap import dedent
+from copy import deepcopy
 import Utils
-from kvui import (
-    ContainerLayout,
-    MainLayout,
-    MarkupDropdown,
-    MDBoxLayout,
-    MDLabel,
-    ResizableTextField,
-    ScrollBox,
-    ThemedApp,
-    ToggleButton,
-    TooltipLabel,
-    Widget,
-    dp,
-)
-from Options import (
-    Choice,
-    FreeText,
-    NamedRange,
-    Option,
-    OptionCounter,
-    OptionList,
-    OptionSet,
-    Range,
-    Removed,
-    TextChoice,
-    Toggle,
-    Visibility,
-)
+import typing
+import webbrowser
+import re
+from urllib.parse import urlparse
 from worlds.AutoWorld import AutoWorldRegister, World
+from Options import (Option, Toggle, TextChoice, Choice, FreeText, NamedRange, Range, OptionSet, OptionList, Removed,
+                     OptionCounter, Visibility)
 
 
 def validate_url(x):
@@ -76,11 +50,11 @@ def filter_tooltip(tooltip):
     return escape_markup(tooltip)
 
 
-def option_can_be_randomized(option: type[Option]):
+def option_can_be_randomized(option: typing.Type[Option]):
     # most options can be randomized, so we should just check for those that cannot
     if not option.supports_weighting:
         return False
-    if issubclass(option, FreeText) and not issubclass(option, TextChoice):
+    elif issubclass(option, FreeText) and not issubclass(option, TextChoice):
         return False
     return True
 
@@ -98,16 +72,16 @@ class TrailingPressedIconButton(ButtonBehavior, RotateBehavior, MDListItemTraili
 
 
 class WorldButton(ToggleButton):
-    world_cls: type[World]
+    world_cls: typing.Type[World]
 
 
 class VisualRange(MDBoxLayout):
-    option: type[Range]
+    option: typing.Type[Range]
     name: str
     tag: MDLabel = ObjectProperty(None)
     slider: MDSlider = ObjectProperty(None)
 
-    def __init__(self, *args, option: type[Range], name: str, **kwargs):
+    def __init__(self, *args, option: typing.Type[Range], name: str, **kwargs):
         self.option = option
         self.name = name
         super().__init__(*args, **kwargs)
@@ -119,23 +93,23 @@ class VisualRange(MDBoxLayout):
 
 
 class VisualChoice(MDButton):
-    option: type[Choice]
+    option: typing.Type[Choice]
     name: str
     text: MDButtonText = ObjectProperty(None)
 
-    def __init__(self, *args, option: type[Choice], name: str, **kwargs):
+    def __init__(self, *args, option: typing.Type[Choice], name: str, **kwargs):
         self.option = option
         self.name = name
         super().__init__(*args, **kwargs)
 
 
 class VisualNamedRange(MDBoxLayout):
-    option: type[NamedRange]
+    option: typing.Type[NamedRange]
     name: str
     range: VisualRange = ObjectProperty(None)
     choice: MDButton = ObjectProperty(None)
 
-    def __init__(self, *args, option: type[NamedRange], name: str, range_widget: VisualRange, **kwargs):
+    def __init__(self, *args, option: typing.Type[NamedRange], name: str, range_widget: VisualRange, **kwargs):
         self.option = option
         self.name = name
         super().__init__(*args, **kwargs)
@@ -144,22 +118,22 @@ class VisualNamedRange(MDBoxLayout):
 
 
 class VisualFreeText(ResizableTextField):
-    option: type[FreeText] | type[TextChoice]
+    option: typing.Type[FreeText] | typing.Type[TextChoice]
     name: str
 
-    def __init__(self, *args, option: type[FreeText] | type[TextChoice], name: str, **kwargs):
+    def __init__(self, *args, option: typing.Type[FreeText] | typing.Type[TextChoice], name: str, **kwargs):
         self.option = option
         self.name = name
         super().__init__(*args, **kwargs)
 
 
 class VisualTextChoice(MDBoxLayout):
-    option: type[TextChoice]
+    option: typing.Type[TextChoice]
     name: str
     choice: VisualChoice = ObjectProperty(None)
     text: VisualFreeText = ObjectProperty(None)
 
-    def __init__(self, *args, option: type[TextChoice], name: str, choice: VisualChoice,
+    def __init__(self, *args, option: typing.Type[TextChoice], name: str, choice: VisualChoice,
                  text: VisualFreeText, **kwargs):
         self.option = option
         self.name = name
@@ -172,17 +146,17 @@ class VisualTextChoice(MDBoxLayout):
 
 class VisualToggle(MDBoxLayout):
     button: MDIconButton = ObjectProperty(None)
-    option: type[Toggle]
+    option: typing.Type[Toggle]
     name: str
 
-    def __init__(self, *args, option: type[Toggle], name: str, **kwargs):
+    def __init__(self, *args, option: typing.Type[Toggle], name: str, **kwargs):
         self.option = option
         self.name = name
         super().__init__(*args, **kwargs)
 
 
 class CounterItemValue(ResizableTextField):
-    pat = re.compile("[^0-9]")
+    pat = re.compile('[^0-9]')
 
     def insert_text(self, substring, from_undo=False):
         return super().insert_text(re.sub(self.pat, "", substring), from_undo=from_undo)
@@ -190,7 +164,7 @@ class CounterItemValue(ResizableTextField):
 
 class VisualListSetCounter(MDDialog):
     button: MDIconButton = ObjectProperty(None)
-    option: type[OptionSet] | type[OptionList] | type[OptionCounter]
+    option: typing.Type[OptionSet] | typing.Type[OptionList] | typing.Type[OptionCounter]
     scrollbox: ScrollBox = ObjectProperty(None)
     add: MDIconButton = ObjectProperty(None)
     save: MDButton = ObjectProperty(None)
@@ -198,7 +172,7 @@ class VisualListSetCounter(MDDialog):
     dropdown: MDDropdownMenu
     valid_keys: typing.Iterable[str]
 
-    def __init__(self, *args, option: type[OptionSet] | type[OptionList],
+    def __init__(self, *args, option: typing.Type[OptionSet] | typing.Type[OptionList],
                  name: str, valid_keys: typing.Iterable[str], **kwargs):
         self.option = option
         self.name = name
@@ -286,7 +260,7 @@ class OptionsCreator(ThemedApp):
     name_input: ResizableTextField
     game_label: MDLabel
     current_game: str
-    options: dict[str, typing.Any]
+    options: typing.Dict[str, typing.Any]
 
     def __init__(self):
         self.title = self.base_title + " " + Utils.__version__
@@ -306,7 +280,7 @@ class OptionsCreator(ThemedApp):
                 self.current_game: {k: check_random(v) for k, v in self.options.items()}
             }
             try:
-                with open(file_name, "w") as f:
+                with open(file_name, 'w') as f:
                     f.write(Utils.dump(options, sort_keys=False))
                     f.close()
                     MDSnackbar(MDSnackbarText(text="File saved successfully."), y=dp(24), pos_hint={"center_x": 0.5},
@@ -324,7 +298,7 @@ class OptionsCreator(ThemedApp):
             MDSnackbar(MDSnackbarText(text="Name cannot be longer than 16 characters."), y=dp(24),
                        pos_hint={"center_x": 0.5}, size_hint_x=0.5).open()
 
-    def create_range(self, option: type[Range], name: str):
+    def create_range(self, option: typing.Type[Range], name: str):
         def update_text(range_box: VisualRange):
             self.options[name] = int(range_box.slider.value)
             range_box.tag.text = str(int(range_box.slider.value))
@@ -335,7 +309,7 @@ class OptionsCreator(ThemedApp):
         self.options[name] = option.default
         return box
 
-    def create_named_range(self, option: type[NamedRange], name: str):
+    def create_named_range(self, option: typing.Type[NamedRange], name: str):
         def set_to_custom(range_box: VisualNamedRange):
             if (not self.options[name] == range_box.range.slider.value) \
                     and (not self.options[name] in option.special_range_names or
@@ -380,7 +354,7 @@ class OptionsCreator(ThemedApp):
         self.options[name] = option.default
         return box
 
-    def create_free_text(self, option: type[FreeText] | type[TextChoice], name: str):
+    def create_free_text(self, option: typing.Type[FreeText] | typing.Type[TextChoice], name: str):
         text = VisualFreeText(option=option, name=name)
 
         def set_value(instance):
@@ -389,7 +363,7 @@ class OptionsCreator(ThemedApp):
         text.bind(on_text_validate=set_value)
         return text
 
-    def create_choice(self, option: type[Choice], name: str):
+    def create_choice(self, option: typing.Type[Choice], name: str):
         def set_button_text(button: VisualChoice, text: str):
             button.text.text = text
 
@@ -417,7 +391,7 @@ class OptionsCreator(ThemedApp):
         self.options[name] = option.name_lookup[option.default] if not default_string else option.default
         return main_button
 
-    def create_text_choice(self, option: type[TextChoice], name: str):
+    def create_text_choice(self, option: typing.Type[TextChoice], name: str):
         def set_button_text(button: MDButton, text: str):
             for child in button.children:
                 if isinstance(child, MDButtonText):
@@ -433,7 +407,7 @@ class OptionsCreator(ThemedApp):
         box.text.bind(on_text_validate=set_value)
         return box
 
-    def create_toggle(self, option: type[Toggle], name: str) -> Widget:
+    def create_toggle(self, option: typing.Type[Toggle], name: str) -> Widget:
         def set_value(instance: MDIconButton):
             if instance.icon == "checkbox-outline":
                 instance.icon = "checkbox-blank-outline"
@@ -447,8 +421,8 @@ class OptionsCreator(ThemedApp):
 
         return checkbox
 
-    def create_popup(self, option: type[OptionList] | type[OptionSet] | type[OptionCounter],
-                     name: str, world: type[World]):
+    def create_popup(self, option: typing.Type[OptionList] | typing.Type[OptionSet] | typing.Type[OptionCounter],
+                     name: str, world: typing.Type[World]):
 
         valid_keys = sorted(option.valid_keys)
         if option.verify_item_name:
@@ -494,12 +468,12 @@ class OptionsCreator(ThemedApp):
         dialog.save.bind(on_release=apply_changes)
         dialog.open()
 
-    def create_option_set_list_counter(self, option: type[OptionList] | type[OptionSet] |
-                                       type[OptionCounter], name: str, world: type[World]):
+    def create_option_set_list_counter(self, option: typing.Type[OptionList] | typing.Type[OptionSet] |
+                                       typing.Type[OptionCounter], name: str, world: typing.Type[World]):
         main_button = MDButton(MDButtonText(text="Edit"), on_release=lambda x: self.create_popup(option, name, world))
         return main_button
 
-    def create_option(self, option: type[Option], name: str, world: type[World]) -> Widget:
+    def create_option(self, option: typing.Type[Option], name: str, world: typing.Type[World]) -> Widget:
         option_base = MDBoxLayout(orientation="vertical", size_hint_y=None, padding=[0, 0, dp(5), dp(5)])
 
         tooltip = filter_tooltip(option.__doc__)
@@ -559,13 +533,13 @@ class OptionsCreator(ThemedApp):
     def create_options_panel(self, world_button: WorldButton):
         self.option_layout.clear_widgets()
         self.options.clear()
-        cls: type[World] = world_button.world_cls
+        cls: typing.Type[World] = world_button.world_cls
 
         self.current_game = cls.game
         if not cls.web.options_page:
             self.current_game = "None"
             return
-        if isinstance(cls.web.options_page, str):
+        elif isinstance(cls.web.options_page, str):
             self.current_game = "None"
             if validate_url(cls.web.options_page):
                 webbrowser.open(cls.web.options_page)
@@ -665,7 +639,7 @@ class OptionsCreator(ThemedApp):
             world_text = MDButtonText(text=world, size_hint_y=None, width=dp(150),
                                       pos_hint={"x": 0.03, "center_y": 0.5})
             world_text.text_size = (world_text.width, None)
-            world_text.bind(width=lambda *x, text=world_text: text.setter("text_size")(text, (text.width, None)),
+            world_text.bind(width=lambda *x, text=world_text: text.setter('text_size')(text, (text.width, None)),
                             texture_size=lambda *x, text=world_text: text.setter("height")(text,
                                                                                            world_text.texture_size[1]))
             world_button = WorldButton(world_text, size_hint_x=None, width=dp(150), theme_width="Custom",

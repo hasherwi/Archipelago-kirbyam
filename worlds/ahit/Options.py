@@ -1,17 +1,15 @@
+from typing import List, TYPE_CHECKING, Dict, Any
+from schema import Schema, Optional
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Dict, List
-
-from schema import Optional, Schema
-
-from Options import Choice, DeathLink, DefaultOnToggle, OptionDict, OptionGroup, Range, StartInventoryPool, Toggle
 from worlds.AutoWorld import PerGameCommonOptions
+from Options import Range, Toggle, DeathLink, Choice, OptionDict, DefaultOnToggle, OptionGroup, StartInventoryPool
 
 if TYPE_CHECKING:
     from . import HatInTimeWorld
 
 
-def create_option_groups() -> list[OptionGroup]:
-    option_group_list: list[OptionGroup] = []
+def create_option_groups() -> List[OptionGroup]:
+    option_group_list: List[OptionGroup] = []
     for name, options in ahit_option_groups.items():
         option_group_list.append(OptionGroup(name=name, options=options))
 
@@ -723,7 +721,7 @@ class AHITOptions(PerGameCommonOptions):
     dw_death_link_amnesty:    DWDeathLinkAmnesty
 
 
-ahit_option_groups: dict[str, list[Any]] = {
+ahit_option_groups: Dict[str, List[Any]] = {
     "General Options": [EndGoal, ShuffleStorybookPages, ShuffleAlpineZiplines, ShuffleSubconPaintings,
                         ShuffleActContracts, MinPonCost, MaxPonCost, BadgeSellerMinItems, BadgeSellerMaxItems,
                         LogicDifficulty, NoPaintingSkips, CTRLogic],
@@ -750,7 +748,7 @@ ahit_option_groups: dict[str, list[Any]] = {
 }
 
 
-slot_data_options: list[str] = [
+slot_data_options: List[str] = [
     "EndGoal",
     "ActRandomizer",
     "ShuffleAlpineZiplines",

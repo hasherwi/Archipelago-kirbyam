@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import Tuple
 
+from schema import And, Schema
+
 from Options import (
     Choice,
     DefaultOnToggle,
@@ -14,7 +16,6 @@ from Options import (
     Toggle,
     Visibility,
 )
-from schema import And, Schema
 
 from .data import static_logic as static_witness_logic
 from .data.item_definition_classes import ItemCategory, WeightedItemDefinition
@@ -178,7 +179,7 @@ class EasterEggHunt(Choice):
     option_extreme = 5
     default = 2 if is_easter_time() else 0
 
-    def get_step_and_logical_step(self) -> tuple[int, int]:
+    def get_step_and_logical_step(self) -> Tuple[int, int]:
         if self == "easy":
             return 3, 8
         if self == "normal":

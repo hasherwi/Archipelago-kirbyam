@@ -1,17 +1,16 @@
-from typing import Optional
-
-from ..assembler import ASM
-from ..rom import ROM
-from ..roomEditor import RoomEditor
 from .droppedKey import DroppedKey
 from .items import *
+from ..roomEditor import RoomEditor
+from ..assembler import ASM
+from typing import Optional
+from ..rom import ROM
 
 
 class BeachSword(DroppedKey):
     def __init__(self) -> None:
         super().__init__(0x0F2)
 
-    def patch(self, rom: ROM, option: str, *, multiworld: int | None = None) -> None:
+    def patch(self, rom: ROM, option: str, *, multiworld: Optional[int] = None) -> None:
         # Set the heart piece data
         super().patch(rom, option, multiworld=multiworld)
 

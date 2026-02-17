@@ -1,8 +1,8 @@
-from typing import Dict, List, Tuple, Union
-
 from .data import ename, iname, rname
-from .options import CV64Options
 from .stages import get_stage_info
+from .options import CV64Options
+
+from typing import Dict, List, Tuple, Union
 
 # # #    KEY    # # #
 # "connection" = The name of the Region the Entrance connects into. If it's a Tuple[str, str], we take the stage in
@@ -101,11 +101,11 @@ stage_connection_types = {"prev": "end region",
                           "alt": "start region"}
 
 
-def get_entrance_info(entrance: str, info: str) -> str | tuple[str, str] | list[str] | None:
+def get_entrance_info(entrance: str, info: str) -> Union[str, Tuple[str, str], List[str], None]:
     return entrance_info[entrance].get(info, None)
 
 
-def get_warp_entrances(active_warp_list: list[str]) -> dict[str, str]:
+def get_warp_entrances(active_warp_list: List[str]) -> Dict[str, str]:
     # Create the starting stage Entrance.
     warp_entrances = {get_stage_info(active_warp_list[0], "start region"): "Start stage"}
 
@@ -117,8 +117,8 @@ def get_warp_entrances(active_warp_list: list[str]) -> dict[str, str]:
     return warp_entrances
 
 
-def verify_entrances(options: CV64Options, entrances: list[str],
-                     active_stage_exits: dict[str, dict[str, str | int | None]]) -> dict[str, str]:
+def verify_entrances(options: CV64Options, entrances: List[str],
+                     active_stage_exits: Dict[str, Dict[str, Union[str, int, None]]]) -> Dict[str, str]:
     verified_entrances = {}
 
     for ent_name in entrances:

@@ -1,15 +1,14 @@
 """
 Logic rule definitions for Pokemon Emerald
 """
-from typing import TYPE_CHECKING, Dict
-from collections.abc import Callable
+from typing import TYPE_CHECKING, Callable, Dict
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, set_rule
 
-from .data import NATIONAL_ID_TO_SPECIES_ID, NUM_REAL_SPECIES, LocationCategory, data
+from .data import LocationCategory, NATIONAL_ID_TO_SPECIES_ID, NUM_REAL_SPECIES, data
 from .locations import PokemonEmeraldLocation
-from .options import DarkCavesRequireFlash, EliteFourRequirement, Goal, NormanRequirement
+from .options import DarkCavesRequireFlash, EliteFourRequirement, NormanRequirement, Goal
 
 if TYPE_CHECKING:
     from . import PokemonEmeraldWorld
@@ -18,7 +17,7 @@ if TYPE_CHECKING:
 # Rules are organized by town/route/dungeon and ordered approximately
 # by when you would first reach that place in a vanilla playthrough.
 def set_rules(world: "PokemonEmeraldWorld") -> None:
-    hm_rules: dict[str, Callable[[CollectionState], bool]] = {}
+    hm_rules: Dict[str, Callable[[CollectionState], bool]] = {}
     for hm, badges in world.hm_requirements.items():
         if isinstance(badges, list):
             hm_rules[hm] = lambda state, hm=hm, badges=badges: \

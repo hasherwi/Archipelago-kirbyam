@@ -1,75 +1,41 @@
 from typing import Dict, List, Optional
 
+from .recipe_source import RecipeSource, StarterSource, QueenOfSauceSource, ShopSource, SkillSource, FriendshipSource, ShopTradeSource, CutsceneSource, \
+    ArchipelagoSource, LogicSource, SpecialOrderSource, FestivalShopSource, QuestSource, MasterySource, SkillCraftsanitySource
 from ..mods.mod_data import ModNames
 from ..strings.animal_product_names import AnimalProduct
 from ..strings.artisan_good_names import ArtisanGood
-from ..strings.craftable_names import (
-    Bomb,
-    Consumable,
-    Craftable,
-    Edible,
-    Fence,
-    Fishing,
-    Floor,
-    Furniture,
-    Lighting,
-    ModConsumable,
-    ModCraftable,
-    ModEdible,
-    ModFloor,
-    ModMachine,
-    Ring,
-    Sign,
-    Sprinkler,
-    Statue,
-    Storage,
-    WildSeeds,
-)
+from ..strings.craftable_names import Bomb, Fence, Sprinkler, WildSeeds, Floor, Fishing, Ring, Consumable, Edible, Lighting, Storage, Furniture, Sign, \
+    Craftable, \
+    ModEdible, ModCraftable, ModMachine, ModFloor, ModConsumable, Statue
 from ..strings.crop_names import Fruit, Vegetable
 from ..strings.currency_names import Currency
 from ..strings.fertilizer_names import Fertilizer, RetainingSoil, SpeedGro
-from ..strings.fish_names import Fish, ModTrash, Trash, WaterItem
+from ..strings.fish_names import Fish, WaterItem, ModTrash, Trash
 from ..strings.flower_names import Flower
 from ..strings.food_names import Meal
-from ..strings.forageable_names import DistantLandsForageable, Forageable, Mushroom
+from ..strings.forageable_names import Forageable, DistantLandsForageable, Mushroom
 from ..strings.gift_names import Gift
 from ..strings.ingredient_names import Ingredient
 from ..strings.machine_names import Machine
 from ..strings.material_names import Material
-from ..strings.metal_names import Artifact, Fossil, MetalBar, Mineral, ModFossil, Ore
+from ..strings.metal_names import Ore, MetalBar, Fossil, Artifact, Mineral, ModFossil
 from ..strings.monster_drop_names import Loot, ModLoot
 from ..strings.quest_names import Quest
-from ..strings.region_names import LogicRegion, Region, SVERegion
+from ..strings.region_names import Region, SVERegion, LogicRegion
 from ..strings.seed_names import Seed, TreeSeed
-from ..strings.skill_names import ModSkill, Skill
+from ..strings.skill_names import Skill, ModSkill
 from ..strings.special_order_names import SpecialOrder
 from ..strings.villager_names import NPC, ModNPC
-from .recipe_source import (
-    ArchipelagoSource,
-    CutsceneSource,
-    FestivalShopSource,
-    FriendshipSource,
-    LogicSource,
-    MasterySource,
-    QueenOfSauceSource,
-    QuestSource,
-    RecipeSource,
-    ShopSource,
-    ShopTradeSource,
-    SkillCraftsanitySource,
-    SkillSource,
-    SpecialOrderSource,
-    StarterSource,
-)
 
 
 class CraftingRecipe:
     item: str
-    ingredients: dict[str, int]
+    ingredients: Dict[str, int]
     source: RecipeSource
-    mod_name: str | None
+    mod_name: Optional[str]
 
-    def __init__(self, item: str, ingredients: dict[str, int], source: RecipeSource, mod_name: str | None = None):
+    def __init__(self, item: str, ingredients: Dict[str, int], source: RecipeSource, mod_name: Optional[str] = None):
         self.item = item
         self.ingredients = ingredients
         self.source = source
@@ -80,82 +46,82 @@ class CraftingRecipe:
                f" Ingredients: {self.ingredients})"
 
 
-all_crafting_recipes: list[CraftingRecipe] = []
+all_crafting_recipes: List[CraftingRecipe] = []
 
 
-def friendship_recipe(name: str, friend: str, hearts: int, ingredients: dict[str, int], mod_name: str | None = None) -> CraftingRecipe:
+def friendship_recipe(name: str, friend: str, hearts: int, ingredients: Dict[str, int], mod_name: Optional[str] = None) -> CraftingRecipe:
     source = FriendshipSource(friend, hearts)
     return create_recipe(name, ingredients, source, mod_name)
 
 
-def cutscene_recipe(name: str, region: str, friend: str, hearts: int, ingredients: dict[str, int]) -> CraftingRecipe:
+def cutscene_recipe(name: str, region: str, friend: str, hearts: int, ingredients: Dict[str, int]) -> CraftingRecipe:
     source = CutsceneSource(region, friend, hearts)
     return create_recipe(name, ingredients, source)
 
 
-def skill_recipe(name: str, skill: str, level: int, ingredients: dict[str, int], mod_name: str | None = None) -> CraftingRecipe:
+def skill_recipe(name: str, skill: str, level: int, ingredients: Dict[str, int], mod_name: Optional[str] = None) -> CraftingRecipe:
     source = SkillSource(skill, level)
     return create_recipe(name, ingredients, source, mod_name)
 
 
-def skill_craftsanity_recipe(name: str, skill: str, level: int, ingredients: dict[str, int], mod_name: str | None = None) -> CraftingRecipe:
+def skill_craftsanity_recipe(name: str, skill: str, level: int, ingredients: Dict[str, int], mod_name: Optional[str] = None) -> CraftingRecipe:
     source = SkillCraftsanitySource(skill, level)
     return create_recipe(name, ingredients, source, mod_name)
 
 
-def mastery_recipe(name: str, skill: str, ingredients: dict[str, int], mod_name: str | None = None) -> CraftingRecipe:
+def mastery_recipe(name: str, skill: str, ingredients: Dict[str, int], mod_name: Optional[str] = None) -> CraftingRecipe:
     source = MasterySource(skill)
     return create_recipe(name, ingredients, source, mod_name)
 
 
-def shop_recipe(name: str, region: str, price: int, ingredients: dict[str, int], mod_name: str | None = None) -> CraftingRecipe:
+def shop_recipe(name: str, region: str, price: int, ingredients: Dict[str, int], mod_name: Optional[str] = None) -> CraftingRecipe:
     source = ShopSource(region, price)
     return create_recipe(name, ingredients, source, mod_name)
 
 
-def festival_shop_recipe(name: str, region: str, price: int, ingredients: dict[str, int]) -> CraftingRecipe:
+def festival_shop_recipe(name: str, region: str, price: int, ingredients: Dict[str, int]) -> CraftingRecipe:
     source = FestivalShopSource(region, price)
     return create_recipe(name, ingredients, source)
 
 
-def shop_trade_recipe(name: str, region: str, currency: str, price: int, ingredients: dict[str, int]) -> CraftingRecipe:
+def shop_trade_recipe(name: str, region: str, currency: str, price: int, ingredients: Dict[str, int]) -> CraftingRecipe:
     source = ShopTradeSource(region, currency, price)
     return create_recipe(name, ingredients, source)
 
 
-def queen_of_sauce_recipe(name: str, year: int, season: str, day: int, ingredients: dict[str, int]) -> CraftingRecipe:
+def queen_of_sauce_recipe(name: str, year: int, season: str, day: int, ingredients: Dict[str, int]) -> CraftingRecipe:
     source = QueenOfSauceSource(year, season, day)
     return create_recipe(name, ingredients, source)
 
 
-def quest_recipe(name: str, quest: str, ingredients: dict[str, int]) -> CraftingRecipe:
+def quest_recipe(name: str, quest: str, ingredients: Dict[str, int]) -> CraftingRecipe:
     source = QuestSource(quest)
     return create_recipe(name, ingredients, source)
 
 
-def special_order_recipe(name: str, special_order: str, ingredients: dict[str, int]) -> CraftingRecipe:
+def special_order_recipe(name: str, special_order: str, ingredients: Dict[str, int]) -> CraftingRecipe:
     source = SpecialOrderSource(special_order)
     return create_recipe(name, ingredients, source)
 
 
-def starter_recipe(name: str, ingredients: dict[str, int]) -> CraftingRecipe:
+def starter_recipe(name: str, ingredients: Dict[str, int]) -> CraftingRecipe:
     source = StarterSource()
     return create_recipe(name, ingredients, source)
 
 
-def ap_recipe(name: str, ingredients: dict[str, int], ap_item: str = None) -> CraftingRecipe:
+def ap_recipe(name: str, ingredients: Dict[str, int], ap_item: str = None) -> CraftingRecipe:
     if ap_item is None:
         ap_item = f"{name} Recipe"
     source = ArchipelagoSource(ap_item)
     return create_recipe(name, ingredients, source)
 
 
-def cellar_recipe(name: str, ingredients: dict[str, int]) -> CraftingRecipe:
+def cellar_recipe(name: str, ingredients: Dict[str, int]) -> CraftingRecipe:
     source = LogicSource("Cellar")
     return create_recipe(name, ingredients, source)
 
 
-def create_recipe(name: str, ingredients: dict[str, int], source: RecipeSource, mod_name: str | None = None) -> CraftingRecipe:
+def create_recipe(name: str, ingredients: Dict[str, int], source: RecipeSource, mod_name: Optional[str] = None) -> CraftingRecipe:
     recipe = CraftingRecipe(name, ingredients, source, mod_name)
     all_crafting_recipes.append(recipe)
     return recipe

@@ -1,25 +1,26 @@
-import base64
 import os
 import zipfile
+import base64
 from collections.abc import Set
 
-from flask import flash, redirect, render_template, request, url_for
+from flask import request, flash, redirect, url_for, render_template
 from markupsafe import Markup
 
-from Generate import PlandoOptions, roll_settings
-from Utils import parse_yamls
 from WebHostLib import app
 from WebHostLib.upload import allowed_options, allowed_options_extensions, banned_file
 
+from Generate import roll_settings, PlandoOptions
+from Utils import parse_yamls
 
-@app.route("/check", methods=["GET", "POST"])
+
+@app.route('/check', methods=['GET', 'POST'])
 def check():
-    if request.method == "POST":
+    if request.method == 'POST':
         # check if the post request has the file part
-        if "file" not in request.files:
-            flash("No file part")
+        if 'file' not in request.files:
+            flash('No file part')
         else:
-            files = request.files.getlist("file")
+            files = request.files.getlist('file')
             options = get_yaml_data(files)
             if isinstance(options, str):
                 flash(options)
@@ -37,7 +38,7 @@ def check():
     return render_template("check.html")
 
 
-@app.route("/mysterycheck")
+@app.route('/mysterycheck')
 def mysterycheck():
     return redirect(url_for("check"), 301)
 
@@ -49,11 +50,11 @@ def get_yaml_data(files) -> dict[str, str] | str | Markup:
             return ("Uploaded data contained a rom file, which is likely to contain copyrighted material. "
                     "Your file was deleted.")
         # If the user does not select file, the browser will still submit an empty string without a file name.
-        if uploaded_file.filename == "":
+        elif uploaded_file.filename == "":
             return "No selected file."
-        if uploaded_file.filename in options:
+        elif uploaded_file.filename in options:
             return f"Conflicting files named {uploaded_file.filename} submitted."
-        if uploaded_file and allowed_options(uploaded_file.filename):
+        elif uploaded_file and allowed_options(uploaded_file.filename):
             if uploaded_file.filename.endswith(".zip"):
                 if not zipfile.is_zipfile(uploaded_file):
                     return f"Uploaded file {uploaded_file.filename} is not a valid .zip file and cannot be opened."
@@ -67,13 +68,13 @@ def get_yaml_data(files) -> dict[str, str] | str | Markup:
                         if base_filename.endswith(".archipelago"):
                             return Markup("Error: Your .zip file contains an .archipelago file. "
                                           'Did you mean to <a href="/uploads">host a game</a>?')
-                        if base_filename.endswith(".zip"):
+                        elif base_filename.endswith(".zip"):
                             return "Nested .zip files inside a .zip are not supported."
-                        if banned_file(base_filename):
+                        elif banned_file(base_filename):
                             return ("Uploaded data contained a rom file, which is likely to contain copyrighted "
                                     "material. Your file was deleted.")
                         # Ignore dot-files.
-                        if not base_filename.startswith(".") and allowed_options(base_filename):
+                        elif not base_filename.startswith(".") and allowed_options(base_filename):
                             options[file.filename] = zfile.open(file, "r").read()
             else:
                 options[uploaded_file.filename] = uploaded_file.read()

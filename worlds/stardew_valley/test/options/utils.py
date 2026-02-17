@@ -1,12 +1,10 @@
 from argparse import Namespace
-from typing import Any
-from collections.abc import Iterable
+from typing import Any, Iterable
 
 from BaseClasses import PlandoOptions
 from Options import VerifyKeys
-
 from ... import StardewValleyWorld
-from ...options import StardewValleyOption, StardewValleyOptions
+from ...options import StardewValleyOptions, StardewValleyOption
 
 
 def parse_class_option_keys(test_options: dict[str | type[StardewValleyOption], Any] | None) -> dict:

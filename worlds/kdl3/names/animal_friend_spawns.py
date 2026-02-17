@@ -200,7 +200,7 @@ animal_friend_spawns = {
     iceberg_6_a6: "Nago Spawn",
 }
 
-problematic_sets: list[list[str]] = [
+problematic_sets: List[List[str]] = [
     # Animal groups that must be guaranteed unique. Potential for softlocks on future-ER if not.
     [ripple_field_4_a1, ripple_field_4_a2, ripple_field_4_a3],
     [sand_canyon_3_a1, sand_canyon_3_a2, sand_canyon_3_a3],

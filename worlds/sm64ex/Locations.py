@@ -1,6 +1,5 @@
 from BaseClasses import Location
 
-
 class SM64Location(Location):
     game: str = "Super Mario 64"
 

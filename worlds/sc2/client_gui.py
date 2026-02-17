@@ -1,33 +1,33 @@
-import asyncio
 import inspect
-import logging
 from typing import *
+import asyncio
+import logging
 
+from BaseClasses import ItemClassification
+from NetUtils import JSONMessagePart
+from kvui import GameManager, HoverBehavior, ServerToolTip, KivyJSONtoTextParser, LogtoUI
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.core.clipboard import Clipboard
+from kivy.uix.gridlayout import GridLayout
 from kivy.lang import Builder
 from kivy.metrics import dp
-from kivy.properties import BooleanProperty, NumericProperty, StringProperty
-from kivy.uix.button import Button
-from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
-from kivy.uix.scrollview import ScrollView
+from kivy.uix.button import Button
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.tooltip import MDTooltip
+from kivy.uix.scrollview import ScrollView
+from kivy.properties import StringProperty, BooleanProperty, NumericProperty
 
-from BaseClasses import ItemClassification
-from kvui import GameManager, HoverBehavior, KivyJSONtoTextParser, LogtoUI, ServerToolTip
-from NetUtils import JSONMessagePart
-
-from . import SC2World
-from .client import STARCRAFT2, SC2Context, calc_unfinished_nodes, compute_received_items, is_mission_available
-from .item.item_annotations import ITEM_NAME_ANNOTATIONS
+from .client import SC2Context, calc_unfinished_nodes, is_mission_available, compute_received_items, STARCRAFT2
 from .item.item_descriptions import item_descriptions
-from .locations import LocationType, lookup_location_id_to_flags, lookup_location_id_to_type
-from .mission_order.entry_rules import ItemRuleData, RuleData, SubRuleRuleData
-from .mission_tables import SC2Mission, SC2Race, campaign_race_exceptions, lookup_id_to_mission
+from .item.item_annotations import ITEM_NAME_ANNOTATIONS
+from .mission_order.entry_rules import RuleData, SubRuleRuleData, ItemRuleData
+from .mission_tables import lookup_id_to_mission, campaign_race_exceptions, \
+    SC2Mission, SC2Race
+from .locations import LocationType, lookup_location_id_to_type, lookup_location_id_to_flags
 from .options import LocationInclusion, MissionOrderScouting
+from . import SC2World
 
 
 class HoverableButton(HoverBehavior, Button):
@@ -54,11 +54,11 @@ class MissionButton(HoverableButton, MDTooltip):
 
     def on_leave(self):
         self.remove_tooltip()
-
+    
     def display_tooltip(self, *args):
         self.showing_tooltip = True
         return super().display_tooltip(*args)
-
+    
     def remove_tooltip(self, *args):
         self.showing_tooltip = False
         return super().remove_tooltip(*args)
@@ -124,7 +124,8 @@ class SC2JSONtoKivyParser(KivyJSONtoTextParser):
                 node["text"] = f"[ref={self.ref_count}|{ref}]{node['text']}[/ref]"
                 self.ref_count += 1
             return super(KivyJSONtoTextParser, self)._handle_text(node)
-        return super()._handle_text(node)
+        else:
+            return super()._handle_text(node)
 
 
 class SC2Manager(GameManager):
@@ -201,7 +202,7 @@ class SC2Manager(GameManager):
             if self.ctx.ui:
                 self.ctx.ui.clear_tooltip()
             return
-
+        
         sorted_items_received = sorted([item.item for item in self.ctx.items_received])
         shown_tooltip = self.shown_tooltip()
         hovering_tooltip = (
@@ -254,13 +255,13 @@ class SC2Manager(GameManager):
         # The MultiCampaignLayout widget needs a default height of 15 (set in the .kv) to display the above Labels correctly
         multi_campaign_layout_height = 15
 
-        # Fetching IDs of all the locations with hints
+        # Fetching IDs of all the locations with hints  
         self.hints_to_highlight = []
         hints = self.ctx.stored_data.get(f"_read_hints_{self.ctx.team}_{self.ctx.slot}")
         if hints:
             for hint in hints:
-                if hint["finding_player"] == self.ctx.slot and not hint["found"]:
-                    self.hints_to_highlight.append(hint["location"])
+                if hint['finding_player'] == self.ctx.slot and not hint['found']:
+                    self.hints_to_highlight.append(hint['location'])
 
         MISSION_BUTTON_HEIGHT = 50
         MISSION_BUTTON_PADDING = 6
@@ -284,13 +285,13 @@ class SC2Manager(GameManager):
 
                 for column in layout.missions:
                     category_panel = MissionCategory(padding=[3,MISSION_BUTTON_PADDING,3,MISSION_BUTTON_PADDING])
-
+                    
                     for mission in column:
                         mission_id = mission.mission_id
 
                         # Empty mission slots
                         if mission_id == -1:
-                            column_spacer = Label(text="", size_hint_y=None, height=MISSION_BUTTON_HEIGHT)
+                            column_spacer = Label(text='', size_hint_y=None, height=MISSION_BUTTON_HEIGHT)
                             category_panel.add_widget(column_spacer)
                             continue
 
@@ -481,7 +482,7 @@ class SC2Manager(GameManager):
                     victory_count = len([loc for loc in mission_remaining_locations if loc[0] in (LocationType.VICTORY, LocationType.VICTORY_CACHE)])
                     victory_loc = location_name.replace(":", f":[color={COLOR_VICTORY_LOCATION}]")
                     if victory_count > 1:
-                        victory_loc += f" ({victory_count})"
+                        victory_loc += f' ({victory_count})'
                     tooltip += f"\n- {victory_loc}[/color]"
                     victory_printed = True
                 else:
@@ -499,10 +500,10 @@ class SC2Manager(GameManager):
             text = "* " + text + " *"
 
         return text, tooltip
-
+        
 
     def mission_callback(self, button: MissionButton) -> None:
-        if button.last_touch.button == "right":
+        if button.last_touch.button == 'right':
             self.open_mission_menu(button)
             return
         if not self.launching:
@@ -532,8 +533,8 @@ class SC2Manager(GameManager):
         hints = self.ctx.stored_data.get(f"_read_hints_{self.ctx.team}_{self.ctx.slot}")
         if hints:
             for hint in hints:
-                if hint["receiving_player"] == self.ctx.slot and not hint["found"]:
-                    hinted_item_ids[hint["item"]] += 1
+                if hint['receiving_player'] == self.ctx.slot and not hint['found']:
+                    hinted_item_ids[hint['item']] += 1
 
         if not self.ctx.is_mission_completed(mission_id) and not is_mission_available(self.ctx, mission_id):
             # Uncompleted and inaccessible missions can have items hinted if they're needed
@@ -573,9 +574,10 @@ class SC2Manager(GameManager):
                     # Take max of each item across all sub-rules
                     all_items |= resolve_rule_to_items(sub_rule)
                 return all_items
-            if isinstance(rule, ItemRuleData):
+            elif isinstance(rule, ItemRuleData):
                 return Counter(rule.item_ids)
-            return Counter()
+            else:
+                return Counter()
 
         rules = self.ctx.mission_id_to_entry_rules[mission_id]
         # Take max value of each item across all rules using '|'
@@ -585,7 +587,7 @@ class SC2Manager(GameManager):
 
     def finish_launching(self, dt):
         self.launching = False
-
+    
     def sort_unfinished_locations(self, mission_id: int) -> Tuple[List[Tuple[LocationType, str, int]], List[str], int]:
         locations: List[Tuple[LocationType, str, int]] = []
         location_name_to_index: Dict[str, int] = {}
@@ -631,20 +633,21 @@ class SC2Manager(GameManager):
         else:
             title += ""
         return title
-
+    
     def is_scoutable(self, remaining_locations, mission_available: bool, layout_locked: bool, campaign_locked: bool) -> bool:
         if self.ctx.mission_order_scouting == MissionOrderScouting.option_all:
             return True
-        if self.ctx.mission_order_scouting == MissionOrderScouting.option_campaign and not campaign_locked:
+        elif self.ctx.mission_order_scouting == MissionOrderScouting.option_campaign and not campaign_locked:
             return True
-        if self.ctx.mission_order_scouting == MissionOrderScouting.option_layout and not layout_locked:
+        elif self.ctx.mission_order_scouting == MissionOrderScouting.option_layout and not layout_locked:
             return True
-        if self.ctx.mission_order_scouting == MissionOrderScouting.option_available and mission_available:
+        elif self.ctx.mission_order_scouting == MissionOrderScouting.option_available and mission_available:
             return True
-        if self.ctx.mission_order_scouting == MissionOrderScouting.option_completed and len([loc for loc in remaining_locations if loc[0] in (LocationType.VICTORY, LocationType.VICTORY_CACHE)]) == 0:
-            # Assuming that when a mission is completed, all victory location are removed
+        elif self.ctx.mission_order_scouting == MissionOrderScouting.option_completed and len([loc for loc in remaining_locations if loc[0] in (LocationType.VICTORY, LocationType.VICTORY_CACHE)]) == 0:
+            # Assuming that when a mission is completed, all victory location are removed 
             return True
-        return False
+        else:
+            return False
 
     def handle_scout_display(self, location_name: str) -> str:
         if self.ctx.mission_item_classification is None:

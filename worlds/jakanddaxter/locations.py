@@ -1,11 +1,10 @@
 from BaseClasses import Location
-
 from .game_id import jak1_name
-from .locs import cell_locations as cells
-from .locs import orb_cache_locations as caches
-from .locs import orb_locations as orbs
-from .locs import scout_locations as scouts
-from .locs import special_locations as specials
+from .locs import (orb_locations as orbs,
+                   cell_locations as cells,
+                   scout_locations as scouts,
+                   special_locations as specials,
+                   orb_cache_locations as caches)
 
 
 class JakAndDaxterLocation(Location):

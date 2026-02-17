@@ -16,7 +16,7 @@ class ItemCategory(Enum):
     EVENT = 7
 
 
-CATEGORY_NAME_MAPPINGS: dict[str, ItemCategory] = {
+CATEGORY_NAME_MAPPINGS: Dict[str, ItemCategory] = {
     "Symbols:": ItemCategory.SYMBOL,
     "Doors:": ItemCategory.DOOR,
     "Lasers:": ItemCategory.LASER,
@@ -35,12 +35,12 @@ class ItemDefinition:
 
 @dataclass(frozen=True)
 class ProgressiveItemDefinition(ItemDefinition):
-    child_item_names: list[str]
+    child_item_names: List[str]
 
 
 @dataclass(frozen=True)
 class DoorItemDefinition(ItemDefinition):
-    panel_id_hexes: list[str]
+    panel_id_hexes: List[str]
 
 
 @dataclass(frozen=True)
@@ -53,7 +53,7 @@ class ItemData:
     """
     ItemData for an item in The Witness
     """
-    ap_code: int | None
+    ap_code: Optional[int]
     definition: ItemDefinition
     classification: ItemClassification
     local_only: bool = False

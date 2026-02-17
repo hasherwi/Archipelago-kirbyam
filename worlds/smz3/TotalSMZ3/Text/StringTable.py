@@ -1,25 +1,22 @@
-﻿
-import copy
+﻿    
 from typing import Any, List
-
-from Utils import unsafe_parse_yaml
-
+import copy
 from ..Text.Dialog import Dialog
 from ..Text.Texts import openFile
-
+from Utils import unsafe_parse_yaml
 
 class StringTable:
 
     @staticmethod
     def ParseEntries(resource: str):
-        with openFile(resource, "rb") as f:
+        with openFile(resource, 'rb') as f:
             yaml = str(f.read(), "utf-8")
         content = unsafe_parse_yaml(yaml)
 
         result = []
         for entryValue in content:
             (key, value) = next(iter(entryValue.items()))
-            if isinstance(value, list):
+            if isinstance(value, List):
                 result.append((key, value))
             elif isinstance(value, str):
                 result.append((key, Dialog.Compiled(value)))

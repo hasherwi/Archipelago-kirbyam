@@ -1,11 +1,12 @@
-from typing import Dict, List
+from typing import List, Dict
 
-from BaseClasses import Entrance, MultiWorld, Region
+from BaseClasses import MultiWorld, Region, Entrance
 
 from . import Locations
 from .Constants import *
 
-region_dict: dict[str, list[str]] = {
+
+region_dict: Dict[str, List[str]] = {
     REGION_MENU: [],
     REGION_CAVE: [
         LOCATION_CAVE_AMMO,
@@ -66,7 +67,7 @@ region_dict: dict[str, list[str]] = {
 }
 
 
-def set_region_locations(region: Region, location_names: list[str], is_pool_expanded: bool):
+def set_region_locations(region: Region, location_names: List[str], is_pool_expanded: bool):
     location_pool = {**Locations.location_dict_base, **Locations.location_dict_events}
     if is_pool_expanded:
         location_pool = {**Locations.location_dict_expanded, **Locations.location_dict_event_expanded}

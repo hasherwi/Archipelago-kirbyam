@@ -5,22 +5,10 @@ import numbers
 import random
 from dataclasses import dataclass
 from itertools import accumulate, chain, combinations
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Tuple, Type, Union, cast
-from collections.abc import Iterator, Mapping
+from typing import Any, cast, Dict, Iterator, List, Mapping, Optional, Set, Tuple, Type, TYPE_CHECKING, Union
 
-from Options import (
-    AssembleOptions,
-    Choice,
-    DeathLink,
-    ItemDict,
-    NamedRange,
-    OptionDict,
-    PerGameCommonOptions,
-    Range,
-    TextChoice,
-    Toggle,
-)
-
+from Options import AssembleOptions, Choice, DeathLink, ItemDict, NamedRange, OptionDict, PerGameCommonOptions, Range, \
+    TextChoice, Toggle
 from .Enemies import enemy_name_to_sprite
 from .Items import ItemType, l2ac_item_table
 
@@ -30,7 +18,7 @@ if TYPE_CHECKING:
 
 
 class AssembleCustomizableChoices(AssembleOptions):
-    def __new__(mcs, name: str, bases: tuple[type, ...], attrs: dict[str, Any]) -> AssembleCustomizableChoices:
+    def __new__(mcs, name: str, bases: Tuple[type, ...], attrs: Dict[str, Any]) -> AssembleCustomizableChoices:
         cls: AssembleOptions = super().__new__(mcs, name, bases, attrs)
 
         if "extra_options" in attrs:
@@ -39,14 +27,15 @@ class AssembleCustomizableChoices(AssembleOptions):
 
 
 class RandomGroupsChoice(Choice, metaclass=AssembleCustomizableChoices):
-    extra_options: set[str] | None
-    random_groups: dict[str, list[str]]
+    extra_options: Optional[Set[str]]
+    random_groups: Dict[str, List[str]]
 
     @classmethod
     def get_option_name(cls, value: int) -> str:
         if value in cls.options.values():
             return next(k for k, v in cls.options.items() if v == value)
-        return super().get_option_name(value)
+        else:
+            return super().get_option_name(value)
 
     @classmethod
     def from_text(cls, text: str) -> Choice:
@@ -59,9 +48,9 @@ class RandomGroupsChoice(Choice, metaclass=AssembleCustomizableChoices):
 
 
 class EnemyChoice(TextChoice):
-    _valid_sprites: dict[str, int] = {enemy_name.lower(): sprite for enemy_name, sprite in enemy_name_to_sprite.items()}
+    _valid_sprites: Dict[str, int] = {enemy_name.lower(): sprite for enemy_name, sprite in enemy_name_to_sprite.items()}
 
-    def verify(self, world: type[World], player_name: str, plando_options: PlandoOptions) -> None:
+    def verify(self, world: Type[World], player_name: str, plando_options: PlandoOptions) -> None:
         if isinstance(self.value, int):
             return
         if str(self.value).lower() in self._valid_sprites:
@@ -70,12 +59,12 @@ class EnemyChoice(TextChoice):
                          f"{', '.join(self.options)}, {', '.join(enemy_name_to_sprite)}.")
 
     @property
-    def sprite(self) -> int | None:
+    def sprite(self) -> Optional[int]:
         return self._valid_sprites.get(str(self.value).lower())
 
 
 class LevelMixin:
-    xp_coefficients: list[int] = sorted([191, 65, 50, 32, 18, 14, 6, 3, 3, 2, 2, 2, 2] * 8, reverse=True)
+    xp_coefficients: List[int] = sorted([191, 65, 50, 32, 18, 14, 6, 3, 3, 2, 2, 2, 2] * 8, reverse=True)
 
     @classmethod
     def _to_xp(cls, level: int, *, capsule: bool) -> int:
@@ -113,7 +102,7 @@ class BlueChestChance(Range):
         ratio: float = (256 - self.value) / (256 - 5)
         # unmodified chances are: consumable (mostly non-restorative) = 36/256, consumable (restorative) = 58/256,
         # blue chest = 5/256, spell = 30/256, gear = 45/256 (and the remaining part, weapon = 82/256)
-        chest_type_chances: list[float] = [36 * ratio, 58 * ratio, float(self.value), 30 * ratio, 45 * ratio]
+        chest_type_chances: List[float] = [36 * ratio, 58 * ratio, float(self.value), 30 * ratio, 45 * ratio]
         return bytes(round(threshold) for threshold in reversed(tuple(accumulate(chest_type_chances))))
 
 
@@ -190,7 +179,7 @@ class Boss(RandomGroupsChoice):
     option_master = 0x26
     default = option_master
 
-    _sprite: dict[int, int] = {
+    _sprite: Dict[int, int] = {
         option_lizard_man: 0x9E,
         option_big_catfish: 0xC5,
         option_regal_goblin: 0x9D,
@@ -286,7 +275,8 @@ class CapsuleStartingForm(NamedRange):
     def unlock(self) -> int:
         if self.value == self.special_range_names["m"]:
             return 0x0B
-        return self.value - 1
+        else:
+            return self.value - 1
 
 
 class CapsuleStartingLevel(LevelMixin, NamedRange):
@@ -338,7 +328,7 @@ class CustomItemPool(ItemDict, Mapping[str, int]):
     """
 
     display_name = "Custom item pool"
-    value: dict[str, int]
+    value: Dict[str, int]
 
     @property
     def count(self) -> int:
@@ -389,8 +379,8 @@ class DefaultParty(RandomGroupsChoice, TextChoice):
     """
 
     display_name = "Default party lineup"
-    default: str | int = "M"
-    value: str | int
+    default: Union[str, int] = "M"
+    value: Union[str, int]
 
     random_groups = {
         "random-2p": ["M" + "".join(p) for p in combinations("ADGLST", 1)],
@@ -398,10 +388,10 @@ class DefaultParty(RandomGroupsChoice, TextChoice):
         "random-4p": ["M" + "".join(p) for p in combinations("ADGLST", 3)],
     }
     vars().update({f"option_{party}": party for party in (*random_groups, "M", *chain(*random_groups.values()))})
-    _valid_sorted_parties: list[list[str]] = [sorted(party) for party in ("M", *chain(*random_groups.values()))]
+    _valid_sorted_parties: List[List[str]] = [sorted(party) for party in ("M", *chain(*random_groups.values()))]
     _members_to_bytes: bytes = bytes.maketrans(b"MSGATDL", bytes(range(7)))
 
-    def verify(self, world: type[World], player_name: str, plando_options: PlandoOptions) -> None:
+    def verify(self, world: Type[World], player_name: str, plando_options: PlandoOptions) -> None:
         if str(self.value).lower() in self.random_groups:
             return
         if sorted(str(self.value).upper()) in self._valid_sorted_parties:
@@ -757,14 +747,14 @@ class ShopInventory(OptionDict):
     valid_keys = _special_keys | {item for item, data in l2ac_item_table.items()
                                   if data.type in {ItemType.BLUE_CHEST, ItemType.ENEMY_DROP, ItemType.ENTRANCE_CHEST,
                                                    ItemType.RED_CHEST, ItemType.RED_CHEST_PATCH}}
-    default: dict[str, int] = {
+    default: Dict[str, int] = {
         "spell": 30,
         "gear": 45,
         "weapon": 82,
     }
-    value: dict[str, int]
+    value: Dict[str, int]
 
-    def verify(self, world: type[World], player_name: str, plando_options: PlandoOptions) -> None:
+    def verify(self, world: Type[World], player_name: str, plando_options: PlandoOptions) -> None:
         super().verify(world, player_name, plando_options)
         for item, weight in self.value.items():
             if not isinstance(weight, numbers.Integral) or weight < 0:
@@ -800,7 +790,7 @@ class ShopInventory(OptionDict):
         return self.value.get("weapon", 0)
 
     @functools.cached_property
-    def custom(self) -> dict[int, int]:
+    def custom(self) -> Dict[int, int]:
         return {l2ac_item_table[item].code & 0x01FF: weight for item, weight in self.value.items()
                 if item not in self._special_keys}
 

@@ -1,37 +1,25 @@
 from enum import Enum
-from typing import TYPE_CHECKING, Dict, List, NamedTuple, Optional, Set, Tuple
+from typing import Dict, List, NamedTuple, Optional, Set, Tuple, TYPE_CHECKING
 
 from Options import OptionError
-
 from .datatypes import Door, DoorType, Painting, RoomAndDoor, RoomAndPanel
 from .items import ALL_ITEM_TABLE, ItemType
 from .locations import ALL_LOCATION_TABLE, LocationClassification
 from .options import LocationChecks, ShuffleDoors, SunwarpAccess, VictoryCondition
-from .static_logic import (
-    DOORS_BY_ROOM,
-    PAINTING_ENTRANCES,
-    PAINTING_EXITS,
-    PAINTINGS,
-    PANEL_DOORS_BY_ROOM,
-    PANELS_BY_ROOM,
-    PROGRESSIVE_DOORS_BY_ROOM,
-    PROGRESSIVE_PANELS_BY_ROOM,
-    REQUIRED_PAINTING_ROOMS,
-    REQUIRED_PAINTING_WHEN_NO_DOORS_ROOMS,
-    SUNWARP_ENTRANCES,
-    SUNWARP_EXITS,
-)
+from .static_logic import DOORS_BY_ROOM, PAINTINGS, PAINTING_ENTRANCES, PAINTING_EXITS, \
+    PANELS_BY_ROOM, REQUIRED_PAINTING_ROOMS, REQUIRED_PAINTING_WHEN_NO_DOORS_ROOMS, PROGRESSIVE_DOORS_BY_ROOM, \
+    PANEL_DOORS_BY_ROOM, PROGRESSIVE_PANELS_BY_ROOM, SUNWARP_ENTRANCES, SUNWARP_EXITS
 
 if TYPE_CHECKING:
     from . import LingoWorld
 
 
 class AccessRequirements:
-    rooms: set[str]
-    doors: set[RoomAndDoor]
-    colors: set[str]
-    items: set[str]
-    progression: dict[str, int]
+    rooms: Set[str]
+    doors: Set[RoomAndDoor]
+    colors: Set[str]
+    items: Set[str]
+    progression: Dict[str, int]
     the_master: bool
     postgame: bool
 
@@ -63,7 +51,7 @@ class AccessRequirements:
 
 class PlayerLocation(NamedTuple):
     name: str
-    code: int | None
+    code: Optional[int]
     access: AccessRequirements
 
 
@@ -77,11 +65,13 @@ def should_split_progression(progression_name: str, world: "LingoWorld") -> Prog
     if progression_name == "Progressive Orange Tower":
         if world.options.progressive_orange_tower:
             return ProgressiveItemBehavior.PROGRESSIVE
-        return ProgressiveItemBehavior.SPLIT
-    if progression_name == "Progressive Colorful":
+        else:
+            return ProgressiveItemBehavior.SPLIT
+    elif progression_name == "Progressive Colorful":
         if world.options.progressive_colorful:
             return ProgressiveItemBehavior.PROGRESSIVE
-        return ProgressiveItemBehavior.SPLIT
+        else:
+            return ProgressiveItemBehavior.SPLIT
 
     return ProgressiveItemBehavior.PROGRESSIVE
 
@@ -91,32 +81,32 @@ class LingoPlayerLogic:
     Defines logic after a player's options have been applied
     """
 
-    item_by_door: dict[str, dict[str, str]]
+    item_by_door: Dict[str, Dict[str, str]]
 
-    locations_by_room: dict[str, list[PlayerLocation]]
-    real_locations: list[str]
+    locations_by_room: Dict[str, List[PlayerLocation]]
+    real_locations: List[str]
 
-    event_loc_to_item: dict[str, str]
-    real_items: list[str]
+    event_loc_to_item: Dict[str, str]
+    real_items: List[str]
 
     victory_condition: str
     mastery_location: str
     level_2_location: str
 
-    painting_mapping: dict[str, str]
+    painting_mapping: Dict[str, str]
 
-    good_item_options: list[str]
+    good_item_options: List[str]
 
-    panel_reqs: dict[str, dict[str, AccessRequirements]]
-    door_reqs: dict[str, dict[str, AccessRequirements]]
-    mastery_reqs: list[AccessRequirements]
-    counting_panel_reqs: dict[str, list[tuple[AccessRequirements, int]]]
+    panel_reqs: Dict[str, Dict[str, AccessRequirements]]
+    door_reqs: Dict[str, Dict[str, AccessRequirements]]
+    mastery_reqs: List[AccessRequirements]
+    counting_panel_reqs: Dict[str, List[Tuple[AccessRequirements, int]]]
 
-    sunwarp_mapping: list[int]
-    sunwarp_entrances: list[str]
-    sunwarp_exits: list[str]
+    sunwarp_mapping: List[int]
+    sunwarp_entrances: List[str]
+    sunwarp_exits: List[str]
 
-    def add_location(self, room: str, name: str, code: int | None, panels: list[RoomAndPanel], world: "LingoWorld"):
+    def add_location(self, room: str, name: str, code: Optional[int], panels: List[RoomAndPanel], world: "LingoWorld"):
         """
         Creates a location. This function determines the access requirements for the location by combining and
         flattening the requirements for each of the given panels.
@@ -194,7 +184,7 @@ class LingoPlayerLogic:
                                       f" there would not be enough locations for all of the items.")
 
         # Create door items, where needed.
-        door_groups: set[str] = set()
+        door_groups: Set[str] = set()
         for room_name, room_data in DOORS_BY_ROOM.items():
             for door_name, door_data in room_data.items():
                 if door_data.skip_item is False and door_data.event is False:
@@ -224,7 +214,7 @@ class LingoPlayerLogic:
 
         # Create panel items, where needed.
         if world.options.shuffle_doors == ShuffleDoors.option_panels:
-            panel_groups: set[str] = set()
+            panel_groups: Set[str] = set()
 
             for room_name, room_data in PANEL_DOORS_BY_ROOM.items():
                 for panel_door_name, panel_door_data in room_data.items():
@@ -563,7 +553,7 @@ class LingoPlayerLogic:
         receive their own event.
         """
         for room_name, room_data in PANELS_BY_ROOM.items():
-            unhindered_panels_by_color: dict[str | None, int] = {}
+            unhindered_panels_by_color: dict[Optional[str], int] = {}
 
             for panel_name, panel_data in room_data.items():
                 # We won't count non-counting panels.

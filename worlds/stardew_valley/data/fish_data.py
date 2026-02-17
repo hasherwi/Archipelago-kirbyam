@@ -1,21 +1,21 @@
 from dataclasses import dataclass
-from typing import Optional, Tuple, Union
+from typing import Tuple, Union, Optional
 
-from ..mods.mod_data import ModNames
-from ..strings.fish_names import DistantLandsFish, Fish, SVEFish
-from ..strings.region_names import LogicRegion, Region, SVERegion
 from . import season_data as season
+from ..mods.mod_data import ModNames
+from ..strings.fish_names import Fish, SVEFish, DistantLandsFish
+from ..strings.region_names import Region, SVERegion, LogicRegion
 
 
 @dataclass(frozen=True)
 class FishItem:
     name: str
-    locations: tuple[str]
-    seasons: tuple[str]
+    locations: Tuple[str]
+    seasons: Tuple[str]
     difficulty: int
     legendary: bool
     extended_family: bool
-    mod_name: str | None = None
+    mod_name: Optional[str] = None
 
     def __repr__(self):
         return f"{self.name} (Locations: {self.locations} |" \
@@ -54,8 +54,8 @@ fable_reef = (SVERegion.fable_reef,)
 vineyard = (SVERegion.blue_moon_vineyard,)
 
 
-def create_fish(name: str, locations: tuple[str, ...], seasons: str | tuple[str, ...],
-                difficulty: int, legendary: bool = False, extended_family: bool = False, mod_name: str | None = None) -> FishItem:
+def create_fish(name: str, locations: Tuple[str, ...], seasons: Union[str, Tuple[str, ...]],
+                difficulty: int, legendary: bool = False, extended_family: bool = False, mod_name: Optional[str] = None) -> FishItem:
     if isinstance(seasons, str):
         seasons = (seasons,)
 

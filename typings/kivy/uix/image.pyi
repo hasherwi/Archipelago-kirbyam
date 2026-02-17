@@ -2,6 +2,7 @@ import io
 
 from kivy.graphics.texture import Texture
 
+
 class CoreImage:
     texture: Texture
 

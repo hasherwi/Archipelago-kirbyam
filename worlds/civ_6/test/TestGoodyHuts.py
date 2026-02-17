@@ -1,8 +1,6 @@
 from typing import Dict
-
 from BaseClasses import ItemClassification
 from Fill import distribute_items_restrictive
-
 from ..Items import FillerItemRarity, filler_data
 from . import CivVITestBase
 
@@ -59,7 +57,7 @@ class TestFillerItemsIncludedByRarity(CivVITestBase):
         self.world_setup()
         self.world.generate_early()
         distribute_items_restrictive(self.multiworld)
-        rarity_counts: dict[FillerItemRarity, int] = {
+        rarity_counts: Dict[FillerItemRarity, int] = {
             FillerItemRarity.COMMON: 0,
             FillerItemRarity.UNCOMMON: 0,
             FillerItemRarity.RARE: 0,
@@ -94,7 +92,7 @@ class TestFillerItemsIncludedByRarityWithoutBoostsanity(CivVITestBase):
         self.world_setup()
         self.world.generate_early()
         distribute_items_restrictive(self.multiworld)
-        rarity_counts: dict[FillerItemRarity, int] = {
+        rarity_counts: Dict[FillerItemRarity, int] = {
             FillerItemRarity.COMMON: 0,
             FillerItemRarity.UNCOMMON: 0,
             FillerItemRarity.RARE: 0,

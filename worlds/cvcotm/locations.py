@@ -1,9 +1,8 @@
-from typing import Dict, List, NamedTuple, Optional, Set, Tuple, Union
-
 from BaseClasses import Location
+from .data import lname, iname
+from .options import CVCotMOptions, CompletionGoal, IronMaidenBehavior, RequiredSkirmishes
 
-from .data import iname, lname
-from .options import CompletionGoal, CVCotMOptions, IronMaidenBehavior, RequiredSkirmishes
+from typing import Dict, List, Union, Tuple, Optional, Set, NamedTuple
 
 BASE_ID = 0xD55C0000
 
@@ -13,10 +12,10 @@ class CVCotMLocation(Location):
 
 
 class CVCotMLocationData(NamedTuple):
-    code: int | str
-    offset: int | None
-    countdown: int | None
-    type: str | None = None
+    code: Union[int, str]
+    offset: Optional[int]
+    countdown: Optional[int]
+    type: Optional[str] = None
 # code = The unique part of the Location's AP code attribute, as well as the in-game bitflag index starting from
 #        0x02025374 that indicates the Location has been checked. Add this + base_id to get the actual AP code.
 #        If we put an Item name string here instead of an int, then it is an event Location and that Item should be
@@ -29,7 +28,7 @@ class CVCotMLocationData(NamedTuple):
 # type = Anything special about this Location that should be considered, whether it be a boss Location, etc.
 
 
-cvcotm_location_info: dict[str, CVCotMLocationData] = {
+cvcotm_location_info: Dict[str, CVCotMLocationData] = {
     # Sealed Room
     lname.sr3:   CVCotMLocationData(0x35, 0xD0310,  0),
     # Catacombs
@@ -175,13 +174,13 @@ cvcotm_location_info: dict[str, CVCotMLocationData] = {
  }
 
 
-def get_location_names_to_ids() -> dict[str, int]:
+def get_location_names_to_ids() -> Dict[str, int]:
     return {name: cvcotm_location_info[name].code+BASE_ID for name in cvcotm_location_info
             if isinstance(cvcotm_location_info[name].code, int)}
 
 
-def get_location_name_groups() -> dict[str, set[str]]:
-    loc_name_groups: dict[str, set[str]] = {"Breakable Secrets": set(),
+def get_location_name_groups() -> Dict[str, Set[str]]:
+    loc_name_groups: Dict[str, Set[str]] = {"Breakable Secrets": set(),
                                             "Bosses": set()}
 
     for loc_name in cvcotm_location_info:
@@ -209,8 +208,8 @@ def get_location_name_groups() -> dict[str, set[str]]:
     return loc_name_groups
 
 
-def get_named_locations_data(locations: list[str], options: CVCotMOptions) -> \
-        tuple[dict[str, int | None], dict[str, str]]:
+def get_named_locations_data(locations: List[str], options: CVCotMOptions) -> \
+        Tuple[Dict[str, Optional[int]], Dict[str, str]]:
     locations_with_ids = {}
     locked_pairs = {}
     locked_key_types = []

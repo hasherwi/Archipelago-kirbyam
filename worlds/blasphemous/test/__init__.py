@@ -1,5 +1,4 @@
 from test.bases import WorldTestBase
-
 from .. import BlasphemousWorld
 
 

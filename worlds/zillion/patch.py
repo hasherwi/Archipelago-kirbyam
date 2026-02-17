@@ -1,12 +1,13 @@
 import os
-import zipfile
 from typing import Any, BinaryIO
+import zipfile
 
 from typing_extensions import override
-from zilliandomizer.patch import Patcher
 
 import Utils
 from worlds.Files import APAutoPatchInterface
+
+from zilliandomizer.patch import Patcher
 
 from .gen_data import GenData
 

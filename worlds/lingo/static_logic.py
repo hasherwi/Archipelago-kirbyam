@@ -1,40 +1,40 @@
 import os
-import pickle
 import pkgutil
+import pickle
 from io import BytesIO
 from typing import Dict, List, Set
 
 from .datatypes import Door, Painting, Panel, PanelDoor, Progression, Room
 
-ALL_ROOMS: list[Room] = []
-DOORS_BY_ROOM: dict[str, dict[str, Door]] = {}
-PANELS_BY_ROOM: dict[str, dict[str, Panel]] = {}
-PANEL_DOORS_BY_ROOM: dict[str, dict[str, PanelDoor]] = {}
-PAINTINGS: dict[str, Painting] = {}
+ALL_ROOMS: List[Room] = []
+DOORS_BY_ROOM: Dict[str, Dict[str, Door]] = {}
+PANELS_BY_ROOM: Dict[str, Dict[str, Panel]] = {}
+PANEL_DOORS_BY_ROOM: Dict[str, Dict[str, PanelDoor]] = {}
+PAINTINGS: Dict[str, Painting] = {}
 
-PROGRESSIVE_ITEMS: set[str] = set()
-PROGRESSIVE_DOORS_BY_ROOM: dict[str, dict[str, Progression]] = {}
-PROGRESSIVE_PANELS_BY_ROOM: dict[str, dict[str, Progression]] = {}
+PROGRESSIVE_ITEMS: Set[str] = set()
+PROGRESSIVE_DOORS_BY_ROOM: Dict[str, Dict[str, Progression]] = {}
+PROGRESSIVE_PANELS_BY_ROOM: Dict[str, Dict[str, Progression]] = {}
 
 PAINTING_ENTRANCES: int = 0
-PAINTING_EXIT_ROOMS: set[str] = set()
+PAINTING_EXIT_ROOMS: Set[str] = set()
 PAINTING_EXITS: int = 0
-REQUIRED_PAINTING_ROOMS: list[str] = []
-REQUIRED_PAINTING_WHEN_NO_DOORS_ROOMS: list[str] = []
+REQUIRED_PAINTING_ROOMS: List[str] = []
+REQUIRED_PAINTING_WHEN_NO_DOORS_ROOMS: List[str] = []
 
-SUNWARP_ENTRANCES: list[str] = []
-SUNWARP_EXITS: list[str] = []
+SUNWARP_ENTRANCES: List[str] = []
+SUNWARP_EXITS: List[str] = []
 
-SPECIAL_ITEM_IDS: dict[str, int] = {}
-PANEL_LOCATION_IDS: dict[str, dict[str, int]] = {}
-DOOR_LOCATION_IDS: dict[str, dict[str, int]] = {}
-DOOR_ITEM_IDS: dict[str, dict[str, int]] = {}
-DOOR_GROUP_ITEM_IDS: dict[str, int] = {}
-PANEL_DOOR_ITEM_IDS: dict[str, dict[str, int]] = {}
-PANEL_GROUP_ITEM_IDS: dict[str, int] = {}
-PROGRESSIVE_ITEM_IDS: dict[str, int] = {}
+SPECIAL_ITEM_IDS: Dict[str, int] = {}
+PANEL_LOCATION_IDS: Dict[str, Dict[str, int]] = {}
+DOOR_LOCATION_IDS: Dict[str, Dict[str, int]] = {}
+DOOR_ITEM_IDS: Dict[str, Dict[str, int]] = {}
+DOOR_GROUP_ITEM_IDS: Dict[str, int] = {}
+PANEL_DOOR_ITEM_IDS: Dict[str, Dict[str, int]] = {}
+PANEL_GROUP_ITEM_IDS: Dict[str, int] = {}
+PROGRESSIVE_ITEM_IDS: Dict[str, int] = {}
 
-HASHES: dict[str, str] = {}
+HASHES: Dict[str, str] = {}
 
 
 def get_special_item_id(name: str):
@@ -96,21 +96,20 @@ def get_progressive_item_id(name: str):
 def load_static_data_from_file():
     global PAINTING_ENTRANCES, PAINTING_EXITS
 
-    from Utils import safe_builtins
-
     from . import datatypes
+    from Utils import safe_builtins
 
     class RenameUnpickler(pickle.Unpickler):
         def find_class(self, module, name):
             if module in ("worlds.lingo.datatypes", "datatypes"):
                 return getattr(datatypes, name)
-            if module == "builtins" and name in safe_builtins:
+            elif module == "builtins" and name in safe_builtins:
                 return getattr(safe_builtins, name)
             raise pickle.UnpicklingError(f"global '{module}.{name}' is forbidden")
 
     file = pkgutil.get_data(__name__, "data/generated.dat")
     pickdata = RenameUnpickler(BytesIO(file)).load()
-
+        
     HASHES.update(pickdata["HASHES"])
     PAINTINGS.update(pickdata["PAINTINGS"])
     ALL_ROOMS.extend(pickdata["ALL_ROOMS"])

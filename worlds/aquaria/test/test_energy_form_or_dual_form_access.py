@@ -4,10 +4,10 @@ Date: Thu, 18 Apr 2024 18:45:56 +0000
 Description: Unit test used to test accessibility of locations with and without the energy form and dual form (and Li)
 """
 
+from . import AquariaTestBase
 from ..Items import ItemNames
 from ..Locations import AquariaLocationNames
 from ..Options import EarlyEnergyForm, TurtleRandomizer
-from . import AquariaTestBase
 
 
 class EnergyFormDualFormAccessTest(AquariaTestBase):

@@ -1,13 +1,18 @@
+from collections import defaultdict
 import math
 import os
-from collections import defaultdict
 from typing import Any, Dict, List, Set
 
-from BaseClasses import Item, ItemClassification, MultiWorld, Tutorial
-from worlds.AutoWorld import WebWorld, World
+from .ProgressiveDistricts import get_flat_progressive_districts
 from worlds.generic.Rules import forbid_item
-from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess  # type: ignore
 
+
+from .Data import (
+    get_boosts_data,
+    get_era_required_items_data,
+)
+
+from .Rules import create_boost_rules
 from .Container import (
     CivVIContainer,
     generate_goody_hut_sql,
@@ -15,20 +20,16 @@ from .Container import (
     generate_setup_file,
     generate_update_boosts_sql,
 )
-from .Data import (
-    get_boosts_data,
-    get_era_required_items_data,
-)
 from .Enum import CivVICheckType, CivVIHintClassification
 from .Items import (
     BOOSTSANITY_PROGRESSION_ITEMS,
     FILLER_DISTRIBUTION,
     CivVIEvent,
-    CivVIItem,
     CivVIItemData,
     FillerItemRarity,
     format_item_name,
     generate_item_table,
+    CivVIItem,
     get_item_by_civ_name,
     get_random_filler_by_rarity,
 )
@@ -40,9 +41,10 @@ from .Locations import (
     generate_flat_location_table,
 )
 from .Options import CivVIOptions
-from .ProgressiveDistricts import get_flat_progressive_districts
 from .Regions import create_regions
-from .Rules import create_boost_rules
+from BaseClasses import Item, ItemClassification, MultiWorld, Tutorial
+from worlds.AutoWorld import World, WebWorld
+from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess  # type: ignore
 
 
 def run_client(*args: Any):
@@ -94,20 +96,20 @@ class CivVIWorld(World):
         for location in generate_flat_location_table().values()
     }
 
-    item_table: dict[str, CivVIItemData] = {}
-    location_by_era: dict[str, dict[str, CivVILocationData]]
+    item_table: Dict[str, CivVIItemData] = {}
+    location_by_era: Dict[str, Dict[str, CivVILocationData]]
     required_client_version = (0, 4, 5)
-    location_table: dict[str, CivVILocationData]
-    era_required_non_progressive_items: dict[EraType, list[str]]
-    era_required_progressive_items_counts: dict[EraType, dict[str, int]]
-    era_required_progressive_era_counts: dict[EraType, int]
-    item_by_civ_name: dict[str, str]
+    location_table: Dict[str, CivVILocationData]
+    era_required_non_progressive_items: Dict[EraType, List[str]]
+    era_required_progressive_items_counts: Dict[EraType, Dict[str, int]]
+    era_required_progressive_era_counts: Dict[EraType, int]
+    item_by_civ_name: Dict[str, str]
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
         self.location_by_era = generate_era_location_table()
 
-        self.location_table: dict[str, CivVILocationData] = {}
+        self.location_table: Dict[str, CivVILocationData] = {}
         self.item_table = generate_item_table()
 
         self.era_required_non_progressive_items = {}
@@ -273,7 +275,7 @@ class CivVIWorld(World):
                 in self.options.pre_hint_items.value
             )
 
-        start_location_hints: set[str] = self.options.start_location_hints.value
+        start_location_hints: Set[str] = self.options.start_location_hints.value
         non_filler_flags = [
             CivVIHintClassification(flag).to_item_classification()
             for flag in self.options.pre_hint_items.value
@@ -296,7 +298,7 @@ class CivVIWorld(World):
             ):
                 start_location_hints.add(location_name)
 
-    def fill_slot_data(self) -> dict[str, Any]:
+    def fill_slot_data(self) -> Dict[str, Any]:
         return self.options.as_dict(
             "progression_style",
             "death_link",

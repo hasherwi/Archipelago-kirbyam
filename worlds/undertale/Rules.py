@@ -1,7 +1,6 @@
-from typing import TYPE_CHECKING
-
+from worlds.generic.Rules import set_rule, add_rule
 from BaseClasses import CollectionState
-from worlds.generic.Rules import add_rule, set_rule
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from . import UndertaleWorld
@@ -24,52 +23,52 @@ def _undertale_is_route(world: "UndertaleWorld", route: int):
 def _undertale_has_plot(state: CollectionState, player: int, item: str):
     if item == "Complete Skeleton":
         return state.has("Complete Skeleton", player)
-    if item == "Fish":
+    elif item == "Fish":
         return state.has("Fish", player)
-    if item == "Mettaton Plush":
+    elif item == "Mettaton Plush":
         return state.has("Mettaton Plush", player)
-    if item == "DT Extractor":
+    elif item == "DT Extractor":
         return state.has("DT Extractor", player)
 
 
 def _undertale_can_level(exp: int, lvl: int):
     if exp >= 10 and lvl == 1:
         return True
-    if exp >= 30 and lvl == 2:
+    elif exp >= 30 and lvl == 2:
         return True
-    if exp >= 70 and lvl == 3:
+    elif exp >= 70 and lvl == 3:
         return True
-    if exp >= 120 and lvl == 4:
+    elif exp >= 120 and lvl == 4:
         return True
-    if exp >= 200 and lvl == 5:
+    elif exp >= 200 and lvl == 5:
         return True
-    if exp >= 300 and lvl == 6:
+    elif exp >= 300 and lvl == 6:
         return True
-    if exp >= 500 and lvl == 7:
+    elif exp >= 500 and lvl == 7:
         return True
-    if exp >= 800 and lvl == 8:
+    elif exp >= 800 and lvl == 8:
         return True
-    if exp >= 1200 and lvl == 9:
+    elif exp >= 1200 and lvl == 9:
         return True
-    if exp >= 1700 and lvl == 10:
+    elif exp >= 1700 and lvl == 10:
         return True
-    if exp >= 2500 and lvl == 11:
+    elif exp >= 2500 and lvl == 11:
         return True
-    if exp >= 3500 and lvl == 12:
+    elif exp >= 3500 and lvl == 12:
         return True
-    if exp >= 5000 and lvl == 13:
+    elif exp >= 5000 and lvl == 13:
         return True
-    if exp >= 7000 and lvl == 14:
+    elif exp >= 7000 and lvl == 14:
         return True
-    if exp >= 10000 and lvl == 15:
+    elif exp >= 10000 and lvl == 15:
         return True
-    if exp >= 15000 and lvl == 16:
+    elif exp >= 15000 and lvl == 16:
         return True
-    if exp >= 25000 and lvl == 17:
+    elif exp >= 25000 and lvl == 17:
         return True
-    if exp >= 50000 and lvl == 18:
+    elif exp >= 50000 and lvl == 18:
         return True
-    if exp >= 99999 and lvl == 19:
+    elif exp >= 99999 and lvl == 19:
         return True
     return False
 

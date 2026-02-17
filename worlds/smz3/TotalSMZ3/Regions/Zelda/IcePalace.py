@@ -1,10 +1,8 @@
 ﻿from typing import List
-
+from ...Region import Z3Region, RewardType, IReward
 from ...Config import Config
-from ...Item import ItemType, Progression
 from ...Location import Location, LocationType
-from ...Region import IReward, RewardType, Z3Region
-
+from ...Item import Progression, ItemType
 
 class IcePalace(Z3Region, IReward):
     Name = "Ice Palace"
@@ -45,7 +43,7 @@ class IcePalace(Z3Region, IReward):
                     items.KeyIP >= (1 if items.Somaria else 2))
             ]
 
-    def CanNotWasteKeysBeforeAccessible(self, items: Progression, locations: list[Location]):
+    def CanNotWasteKeysBeforeAccessible(self, items: Progression, locations: List[Location]):
         return self.world.ForwardSearch or not items.BigKeyIP or any(l.ItemIs(ItemType.BigKeyIP, self.world) for l in locations)
 
     def CanEnter(self, items: Progression):

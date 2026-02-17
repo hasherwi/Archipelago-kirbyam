@@ -2,22 +2,15 @@ from copy import deepcopy
 from random import Random
 from typing import TYPE_CHECKING
 
-from BaseClasses import Item, ItemClassification, Location, Region
+from BaseClasses import Region, ItemClassification, Item, Location
 from Options import PlandoConnection
 
 from .breakables import create_breakable_exclusive_regions, set_breakable_location_rules
-from .er_data import (
-    DeadEnd,
-    Direction,
-    Portal,
-    RegionInfo,
-    get_portal_outlet_region,
-    portal_mapping,
-    traversal_requirements,
-)
+from .er_data import (Portal, portal_mapping, traversal_requirements, DeadEnd, Direction, RegionInfo,
+                      get_portal_outlet_region)
 from .er_rules import set_er_region_rules
 from .locations import all_locations
-from .options import EntranceLayout, EntranceRando
+from .options import EntranceRando, EntranceLayout
 
 if TYPE_CHECKING:
     from . import TunicWorld
@@ -876,15 +869,16 @@ def verify_plando_directions(connection: PlandoConnection) -> bool:
     if entrance_portal and exit_portal:
         return verify_direction_pair(entrance_portal, exit_portal)
     # this is two shop portals, they can never pair directions
-    if not entrance_portal and not exit_portal:
+    elif not entrance_portal and not exit_portal:
         return False
     # if one of them is none, it's a shop, which has two possible directions
-    if not entrance_portal:
+    elif not entrance_portal:
         return exit_portal.direction in [Direction.north, Direction.east]
-    if not exit_portal:
+    elif not exit_portal:
         return entrance_portal.direction in [Direction.north, Direction.east]
-    # shouldn't be reachable, more of a just in case
-    raise Exception("Something went very wrong with verify_plando_directions")
+    else:
+        # shouldn't be reachable, more of a just in case
+        raise Exception("Something went very wrong with verify_plando_directions")
 
 
 # sort the portal dict by the name of the first portal, referring to the portal order in the master portal list

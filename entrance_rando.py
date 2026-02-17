@@ -5,7 +5,7 @@ import time
 from collections import deque
 from collections.abc import Callable, Iterable
 
-from BaseClasses import CollectionState, Entrance, EntranceType, Region
+from BaseClasses import CollectionState, Entrance, Region, EntranceType
 from Options import Accessibility
 from worlds.AutoWorld import World
 
@@ -102,7 +102,7 @@ class EntranceLookup:
                         and exit_ in self._usable_exits):
                     self._expands_graph_cache[entrance] = True
                     return True
-                if exit_.connected_region and exit_.connected_region not in seen:
+                elif exit_.connected_region and exit_.connected_region not in seen:
                     seen.add(exit_.connected_region)
                     q.append(exit_.connected_region)
 

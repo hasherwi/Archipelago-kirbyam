@@ -1,17 +1,15 @@
+import settings
 import string
 import typing
 
-import settings
-from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
-from worlds.AutoWorld import WebWorld, World
-from worlds.LauncherComponents import Component, Type, components
-from worlds.LauncherComponents import launch as launch_component
-
-from .Items import faction_table, item_table
+from BaseClasses import Item, MultiWorld, Region, Location, Entrance, Tutorial, ItemClassification
+from .Items import item_table, faction_table
 from .Locations import location_table
-from .Options import WargrooveOptions, wargroove_option_groups
 from .Regions import create_regions
 from .Rules import set_rules
+from worlds.AutoWorld import World, WebWorld
+from .Options import WargrooveOptions, wargroove_option_groups
+from worlds.LauncherComponents import Component, components, Type, launch as launch_component
 
 
 def launch_client(*args: str):
@@ -78,24 +76,24 @@ class WargrooveWorld(World):
 
     def _get_slot_data(self):
         return {
-            "seed": "".join(self.random.choice(string.ascii_letters) for i in range(16)),
-            "income_boost": self.options.income_boost.value,
-            "commander_defense_boost": self.options.commander_defense_boost.value,
-            "can_choose_commander": self.options.commander_choice.value != 0,
-            "commander_choice": self.options.commander_choice.value,
-            "player_sacrifice_limit": self.options.player_sacrifice_limit.value,
-            "player_summon_limit": self.options.player_summon_limit.value,
-            "ai_sacrifice_limit": self.options.ai_sacrifice_limit.value,
-            "ai_summon_limit": self.options.ai_summon_limit.value,
-            "death_link": self.options.death_link.value,
-            "starting_groove_multiplier": 20  # Backwards compatibility in case this ever becomes an option
+            'seed': "".join(self.random.choice(string.ascii_letters) for i in range(16)),
+            'income_boost': self.options.income_boost.value,
+            'commander_defense_boost': self.options.commander_defense_boost.value,
+            'can_choose_commander': self.options.commander_choice.value != 0,
+            'commander_choice': self.options.commander_choice.value,
+            'player_sacrifice_limit': self.options.player_sacrifice_limit.value,
+            'player_summon_limit': self.options.player_summon_limit.value,
+            'ai_sacrifice_limit': self.options.ai_sacrifice_limit.value,
+            'ai_summon_limit': self.options.ai_summon_limit.value,
+            'death_link': self.options.death_link.value,
+            'starting_groove_multiplier': 20  # Backwards compatibility in case this ever becomes an option
         }
 
     def generate_early(self):
         # Selecting a random starting faction
         if self.options.commander_choice.value == 2:
             factions = [faction for faction in faction_table.keys() if faction != "Starter"]
-            starting_faction = WargrooveItem(self.multiworld.random.choice(factions) + " Commanders", self.player)
+            starting_faction = WargrooveItem(self.multiworld.random.choice(factions) + ' Commanders', self.player)
             self.multiworld.push_precollected(starting_faction)
 
     def create_items(self):
@@ -105,7 +103,7 @@ class WargrooveWorld(World):
         ignore_faction_items = self.options.commander_choice.value == 0
         for name, data in item_table.items():
             if data.code is not None and name not in precollected_item_names and not data.classification == ItemClassification.filler:
-                if name.endswith(" Commanders") and ignore_faction_items:
+                if name.endswith(' Commanders') and ignore_faction_items:
                     continue
                 item = WargrooveItem(name, self.player)
                 pool.append(item)
@@ -168,7 +166,7 @@ class WargrooveItem(Item):
 
     def __init__(self, name, player: int = None):
         item_data = item_table[name]
-        super().__init__(
+        super(WargrooveItem, self).__init__(
             name,
             item_data.classification,
             item_data.code,

@@ -1,6 +1,5 @@
 from dataclasses import dataclass
-
-from Options import Choice, DeathLink, DefaultOnToggle, PerGameCommonOptions, Toggle
+from Options import Choice, DeathLink, PerGameCommonOptions, Toggle, DefaultOnToggle
 
 
 class Calamity(Toggle):

@@ -1,16 +1,6 @@
 from dataclasses import dataclass
 
-from Options import (
-    Choice,
-    DeathLink,
-    DefaultOnToggle,
-    Option,
-    OptionGroup,
-    PerGameCommonOptions,
-    PlandoBosses,
-    Range,
-    Toggle,
-)
+from Options import Choice, Range, Option, OptionGroup, Toggle, DeathLink, DefaultOnToggle, PerGameCommonOptions, PlandoBosses
 
 from .Names import LocationName
 
@@ -53,9 +43,10 @@ class Goal(Choice):
     def get_option_name(cls, value) -> str:
         if cls.auto_display_name and value == 5:
             return "Cannon's Core Boss Rush"
-        if cls.auto_display_name:
+        elif cls.auto_display_name:
             return cls.name_lookup[value].replace("_", " ").title()
-        return cls.name_lookup[value]
+        else:
+            return cls.name_lookup[value]
 
 
 class MissionShuffle(Toggle):
@@ -1039,7 +1030,8 @@ class RingLoss(Choice):
     def get_option_name(cls, value) -> str:
         if cls.auto_display_name and value == 2:
             return cls.name_lookup[value].upper()
-        return cls.name_lookup[value]
+        else:
+            return cls.name_lookup[value]
 
 
 class RingLink(Toggle):
@@ -1081,7 +1073,8 @@ class SADXMusic(Choice):
     def get_option_name(cls, value) -> str:
         if cls.auto_display_name and value != 2:
             return cls.name_lookup[value].upper()
-        return cls.name_lookup[value]
+        else:
+            return cls.name_lookup[value]
 
 
 class MusicShuffle(Choice):

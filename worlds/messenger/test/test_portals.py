@@ -1,7 +1,6 @@
 from BaseClasses import CollectionState
-
-from ..portals import PORTALS
 from . import MessengerTestBase
+from ..portals import PORTALS
 
 
 class PortalTestBase(MessengerTestBase):

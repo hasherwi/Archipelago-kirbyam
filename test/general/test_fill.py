@@ -1,17 +1,12 @@
+from typing import List, Iterable
 import unittest
-from typing import List
-from collections.abc import Iterable
 
-from BaseClasses import Entrance, Item, ItemClassification, Location, LocationProgressType, MultiWorld, Region
-from Fill import (
-    FillError,
-    balance_multiworld_progression,
-    distribute_early_items,
-    distribute_items_restrictive,
-    fill_restrictive,
-)
 from Options import Accessibility
 from test.general import generate_items, generate_locations, generate_test_multiworld
+from Fill import FillError, balance_multiworld_progression, fill_restrictive, \
+    distribute_early_items, distribute_items_restrictive
+from BaseClasses import Entrance, LocationProgressType, MultiWorld, Region, Item, Location, \
+    ItemClassification
 from worlds.generic.Rules import CollectionRule, add_item_rule, locality_rules, set_rule
 
 
@@ -19,12 +14,12 @@ class PlayerDefinition(object):
     multiworld: MultiWorld
     id: int
     menu: Region
-    locations: list[Location]
-    prog_items: list[Item]
-    basic_items: list[Item]
-    regions: list[Region]
+    locations: List[Location]
+    prog_items: List[Item]
+    basic_items: List[Item]
+    regions: List[Region]
 
-    def __init__(self, multiworld: MultiWorld, id: int, menu: Region, locations: list[Location] = [], prog_items: list[Item] = [], basic_items: list[Item] = []):
+    def __init__(self, multiworld: MultiWorld, id: int, menu: Region, locations: List[Location] = [], prog_items: List[Item] = [], basic_items: List[Item] = []):
         self.multiworld = multiworld
         self.id = id
         self.menu = menu
@@ -50,7 +45,7 @@ class PlayerDefinition(object):
         return region
 
 
-def fill_region(multiworld: MultiWorld, region: Region, items: list[Item]) -> list[Item]:
+def fill_region(multiworld: MultiWorld, region: Region, items: List[Item]) -> List[Item]:
     items = items.copy()
     while len(items) > 0:
         location = region.locations.pop(0)

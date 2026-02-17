@@ -1,4 +1,4 @@
-from collections.abc import Iterable
+from typing import Iterable
 
 from .options import StardewValleyOptions
 

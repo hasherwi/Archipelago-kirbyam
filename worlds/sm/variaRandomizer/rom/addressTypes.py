@@ -1,5 +1,4 @@
-from .rom import pc_to_snes, snes_to_pc
-
+from .rom import snes_to_pc, pc_to_snes
 
 class Byte(object):
     def __init__(self, value):

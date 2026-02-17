@@ -1,11 +1,10 @@
 from unittest import TestCase
 
 from BaseClasses import MultiWorld
-
-from ... import Group, StardewValleyWorld, item_table, location_table, options
+from .world_assert import get_all_item_names, get_all_location_names
+from ... import StardewValleyWorld, options, item_table, Group, location_table
 from ...locations import LocationTags
 from ...strings.ap_names.transport_names import Transportation
-from .world_assert import get_all_item_names, get_all_location_names
 
 
 def get_stardew_world(multiworld: MultiWorld) -> StardewValleyWorld:

@@ -1,19 +1,19 @@
 from __future__ import annotations
-
-import asyncio
 import os
-import shutil
 import sys
+import asyncio
 import typing
-
 import bsdiff4
+import shutil
 
 import Utils
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger, server_loop
-from MultiServer import mark_raw
-from NetUtils import ClientStatus, NetworkItem
-from Utils import async_start
+
+from NetUtils import NetworkItem, ClientStatus
 from worlds import undertale
+from MultiServer import mark_raw
+from CommonClient import CommonContext, server_loop, \
+    gui_enabled, ClientCommandProcessor, logger, get_base_parser
+from Utils import async_start
 
 
 class UndertaleCommandProcessor(ClientCommandProcessor):
@@ -40,7 +40,7 @@ class UndertaleCommandProcessor(ClientCommandProcessor):
             self.output("Changed to the following directory: " + self.ctx.save_game_folder)
 
     @mark_raw
-    def _cmd_auto_patch(self, steaminstall: str | None = None):
+    def _cmd_auto_patch(self, steaminstall: typing.Optional[str] = None):
         """Patch the game automatically."""
         if isinstance(self.ctx, UndertaleContext):
             os.makedirs(name=Utils.user_path("Undertale"), exist_ok=True)
@@ -135,11 +135,11 @@ class UndertaleContext(CommonContext):
             for file in files:
                 if "check.spot" == file or "scout" == file:
                     os.remove(os.path.join(root, file))
-                elif file.endswith((".item", ".victory", ".route", ".playerspot", ".mad",
+                elif file.endswith((".item", ".victory", ".route", ".playerspot", ".mad", 
                                             ".youDied", ".LV", ".mine", ".flag", ".hint")):
                     os.remove(os.path.join(root, file))
 
-    async def connect(self, address: str | None = None):
+    async def connect(self, address: typing.Optional[str] = None):
         self.clear_undertale_files()
         await super().connect(address)
 
@@ -181,7 +181,7 @@ class UndertaleContext(CommonContext):
         self.ui = UTManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
-    def on_deathlink(self, data: dict[str, typing.Any]):
+    def on_deathlink(self, data: typing.Dict[str, typing.Any]):
         self.got_deathlink = True
         super().on_deathlink(data)
 
@@ -189,19 +189,19 @@ class UndertaleContext(CommonContext):
 def to_room_name(place_name: str):
     if place_name == "Old Home Exit":
         return "room_ruinsexit"
-    if place_name == "Snowdin Forest":
+    elif place_name == "Snowdin Forest":
         return "room_tundra1"
-    if place_name == "Snowdin Town Exit":
+    elif place_name == "Snowdin Town Exit":
         return "room_fogroom"
-    if place_name == "Waterfall":
+    elif place_name == "Waterfall":
         return "room_water1"
-    if place_name == "Waterfall Exit":
+    elif place_name == "Waterfall Exit":
         return "room_fire2"
-    if place_name == "Hotland":
+    elif place_name == "Hotland":
         return "room_fire_prelab"
-    if place_name == "Hotland Exit":
+    elif place_name == "Hotland Exit":
         return "room_fire_precore"
-    if place_name == "Core":
+    elif place_name == "Core":
         return "room_fire_core1"
 
 
@@ -434,7 +434,7 @@ async def game_watcher(ctx: UndertaleContext):
                             lines = f.readlines()
                         for l in lines:
                             if ctx.server_locations.__contains__(int(l)+12000):
-                                sending = sending + [int(l.rstrip("\n"))+12000]
+                                sending = sending + [int(l.rstrip('\n'))+12000]
                     finally:
                         await ctx.send_msgs([{"cmd": "LocationScouts", "locations": sending,
                                                           "create_as_hint": int(2)}])
@@ -445,7 +445,7 @@ async def game_watcher(ctx: UndertaleContext):
                         with open(os.path.join(root, file), "r") as f:
                             lines = f.readlines()
                         for l in lines:
-                            sending = sending+[(int(l.rstrip("\n")))+12000]
+                            sending = sending+[(int(l.rstrip('\n')))+12000]
                     finally:
                         await ctx.send_msgs([{"cmd": "LocationChecks", "locations": sending}])
                 if "victory" in file and str(ctx.route) in file:

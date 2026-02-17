@@ -1,16 +1,14 @@
 ﻿import io
-import os
-import random
-import sys
-import zipfile
 from pathlib import Path
+import sys
 from typing import Any, List
-
-from Utils import unsafe_parse_yaml
-
-from ..Item import Item, ItemType
+import zipfile
 from ..Region import Region
 from ..Regions.Zelda.GanonsTower import GanonsTower
+from ..Item import Item, ItemType
+from Utils import unsafe_parse_yaml
+import random
+import os
 
 text_folder = Path(__file__).parents[3]
 
@@ -22,29 +20,30 @@ def openFile(resource: str, mode: str = "r", encoding: str = None):
         zip_path = Path(filename[:filename.index(apworldExt) + len(apworldExt)])
         with zipfile.ZipFile(zip_path) as zf:
             zipFilePath = resource[resource.index(game):]
-            if mode == "rb":
-                return zf.open(zipFilePath, "r")
-            return io.TextIOWrapper(zf.open(zipFilePath, "r"), encoding)
+            if mode == 'rb':
+                return zf.open(zipFilePath, 'r')
+            else:
+                return io.TextIOWrapper(zf.open(zipFilePath, 'r'), encoding)
     else:
         return open(os.path.join(text_folder, resource), mode, encoding=encoding)
 
 class Texts:
     @staticmethod
     def ParseYamlScripts(resource: str):
-        with openFile(resource, "rb") as f:
+        with openFile(resource, 'rb') as f:
             yaml = str(f.read(), "utf-8")
         return unsafe_parse_yaml(yaml)
 
-    @staticmethod
+    @staticmethod        
     def ParseTextScript(resource: str):
-        with openFile(resource, "r", encoding="utf-8-sig") as file:
-            return [text.rstrip("\n") for text in file.read().replace("\r", "").split("---\n") if text]
+        with openFile(resource, 'r', encoding="utf-8-sig") as file:
+            return [text.rstrip('\n') for text in file.read().replace("\r", "").split("---\n") if text]
 
     scripts: Any = ParseYamlScripts.__func__("smz3/TotalSMZ3/Text/Scripts/General.yaml")
-    blind: list[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/Blind.txt")
-    ganon: list[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/Ganon.txt")
-    tavernMan: list[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/TavernMan.txt")
-    triforceRoom: list[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/TriforceRoom.txt")
+    blind: List[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/Blind.txt")
+    ganon: List[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/Ganon.txt")
+    tavernMan: List[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/TavernMan.txt")
+    triforceRoom: List[str] = ParseTextScript.__func__("smz3/TotalSMZ3/Text/Scripts/TriforceRoom.txt")
 
     @staticmethod
     def SahasrahlaReveal(dungeon: Region):
@@ -52,7 +51,7 @@ class Texts:
         return text.replace("<dungeon>", dungeon.Area)
 
     @staticmethod
-    def BombShopReveal(dungeons: list[Region]):
+    def BombShopReveal(dungeons: List[Region]):
         text = Texts.scripts["BombShopReveal"]
         return text.replace("<first>", dungeons[0].Area).replace("<second>", dungeons[1].Area)
 
@@ -114,4 +113,4 @@ class Texts:
     def TriforceRoom(rnd: random): return Texts.RandomLine(rnd, Texts.triforceRoom)
 
     @staticmethod
-    def RandomLine(rnd: random, lines: list[str]): return lines[rnd.randrange(0, len(lines))]
+    def RandomLine(rnd: random, lines: List[str]): return lines[rnd.randrange(0, len(lines))]

@@ -1,11 +1,11 @@
 from typing import Any, Dict, List
 
-from BaseClasses import Item, ItemClassification, Location, MultiWorld, Tutorial
+from BaseClasses import Item, Location, Tutorial, ItemClassification, MultiWorld
 from worlds.AutoWorld import WebWorld, World
-from worlds.generic.Rules import set_rule
-
 from . import Items, Locations, Regions, Rules
 from .Options import FaxanaduOptions
+from worlds.generic.Rules import set_rule
+
 
 DAXANADU_VERSION = "0.3.0"
 
@@ -44,7 +44,7 @@ class FaxanaduWorld(World):
     location_name_to_id = {loc.name: loc.id for loc in Locations.locations if loc.id is not None}
 
     def __init__(self, world: MultiWorld, player: int):
-        self.filler_ratios: dict[str, int] = {
+        self.filler_ratios: Dict[str, int] = {
             item.name: item.count
             for item in Items.items
             if item.classification in [ItemClassification.filler, ItemClassification.trap]
@@ -64,7 +64,7 @@ class FaxanaduWorld(World):
                 # In Faxanadu, Poison hurts you when picked up. It makes no sense to sell them in shops
                 if loc.type == Locations.LocationType.shop:
                     location.item_rule = lambda item, player=self.player: not (player == item.player and item.name == "Poison")
-
+                
                 region.locations.append(location)
 
     def set_rules(self):
@@ -105,13 +105,13 @@ class FaxanaduWorld(World):
     # Returns how many wingboots were prefilled into shops
     def prefill_shop_wingboots(self) -> int:
         # Collect shops
-        shops: dict[str, list[Locations.LocationDef]] = {}
+        shops: Dict[str, List[Locations.LocationDef]] = {}
         for loc in Locations.locations:
             if loc.type == Locations.LocationType.shop:
                 if self.options.keep_shop_red_potions and loc.original_item == Locations.ItemType.red_potion:
                     continue # Don't override our red potions
                 shops.setdefault(loc.region, []).append(loc)
-
+        
         shop_count = len(shops)
         wingboots_count = round(shop_count / 2.5) # On 10 shops, we should have about 4 shops with wingboots
 
@@ -127,7 +127,7 @@ class FaxanaduWorld(World):
         return wingboots_count
 
     def create_items(self) -> None:
-        itempool: list[FaxanaduItem] = []
+        itempool: List[FaxanaduItem] = []
 
         # Prefill red potions in shops if option is set
         red_potion_in_shop_count = self.prefill_shop_red_potions()
@@ -177,13 +177,13 @@ class FaxanaduWorld(World):
         filler_count = len(Locations.locations) - len(itempool) - prefilled_count
         for i in range(filler_count):
             itempool.append(self.create_item(self.get_filler_item_name()))
-
+                
         self.multiworld.itempool += itempool
 
     def get_filler_item_name(self) -> str:
         return self.random.choices(list(self.filler_ratios.keys()), weights=list(self.filler_ratios.values()))[0]
-
-    def fill_slot_data(self) -> dict[str, Any]:
+    
+    def fill_slot_data(self) -> Dict[str, Any]:
         slot_data = self.options.as_dict("keep_shop_red_potions", "random_musics", "random_sounds", "random_npcs", "random_monsters", "random_rewards")
         slot_data["daxanadu_version"] = DAXANADU_VERSION
         return slot_data

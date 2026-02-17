@@ -1,6 +1,6 @@
-from ...logic.base_logic import BaseLogic, BaseLogicMixin
+from ...logic.base_logic import BaseLogicMixin, BaseLogic
 from ...mods.mod_data import ModNames
-from ...stardew_rule import And, False_, StardewRule, True_
+from ...stardew_rule import StardewRule, False_, True_, And
 from ...strings.building_names import Building
 from ...strings.craftable_names import ModCraftable, ModMachine
 from ...strings.geode_names import Geode
@@ -87,7 +87,8 @@ class ModSkillLogic(BaseLogic):
         if level >= 6:
             return self.logic.cooking.can_cook() & self.logic.region.can_reach(Region.saloon) & \
                 self.logic.building.has_building(Building.coop) & self.logic.building.has_building(Building.barn)
-        return self.logic.cooking.can_cook()
+        else:
+            return self.logic.cooking.can_cook()
 
     def can_earn_binning_skill_level(self, level: int) -> StardewRule:
         if level <= 2:

@@ -1,7 +1,6 @@
 from math import sqrt
 
 from BaseClasses import CollectionState
-
 from . import PaintWorld
 
 

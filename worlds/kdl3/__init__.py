@@ -1,42 +1,30 @@
-import base64
 import logging
-import math
-import os
-import threading
-from typing import Any, ClassVar, Dict, List, Optional, TextIO, Type
-from collections.abc import Mapping
 
-import settings
-from BaseClasses import CollectionState, Item, ItemClassification, MultiWorld, Tutorial
+from BaseClasses import Tutorial, ItemClassification, MultiWorld, CollectionState, Item
 from Fill import fill_restrictive
 from Options import PerGameCommonOptions
-from worlds.AutoWorld import WebWorld, World
-
-from .client import KDL3SNIClient
-from .items import (
-    KDL3Item,
-    animal_friend_spawn_table,
-    animal_friend_table,
-    copy_ability_access_table,
-    copy_ability_table,
-    filler_item_weights,
-    item_names,
-    item_table,
-    lookup_item_to_id,
-    star_item_weights,
-    total_filler_weights,
-    trap_item_table,
-)
-from .locations import KDL3Location, consumable_locations, level_consumables, location_table, star_locations
-from .names import location_name
+from worlds.AutoWorld import World, WebWorld
+from .items import item_table, item_names, copy_ability_table, animal_friend_table, filler_item_weights, KDL3Item, \
+    trap_item_table, copy_ability_access_table, star_item_weights, total_filler_weights, animal_friend_spawn_table,\
+    lookup_item_to_id
+from .locations import location_table, KDL3Location, level_consumables, consumable_locations, star_locations
 from .names.animal_friend_spawns import animal_friend_spawns, problematic_sets
-from .names.enemy_abilities import enemy_mapping, enemy_restrictive, vanilla_enemies
+from .names.enemy_abilities import vanilla_enemies, enemy_mapping, enemy_restrictive
+from .regions import create_levels, default_levels
 from .options import KDL3Options, kdl3_option_groups
 from .presets import kdl3_options_presets
-from .regions import create_levels, default_levels
-from .rom import KDL3JHASH, KDL3UHASH, KDL3ProcedurePatch, get_base_rom_path, patch_rom
+from .names import location_name
 from .room import KDL3Room
 from .rules import set_rules
+from .rom import KDL3ProcedurePatch, get_base_rom_path, patch_rom, KDL3JHASH, KDL3UHASH
+from .client import KDL3SNIClient
+
+from typing import Dict, TextIO, Optional, List, Any, Mapping, ClassVar, Type
+import os
+import math
+import threading
+import base64
+import settings
 
 logger = logging.getLogger("Kirby's Dream Land 3")
 
@@ -74,7 +62,7 @@ class KDL3World(World):
     """
 
     game = "Kirby's Dream Land 3"
-    options_dataclass: ClassVar[type[PerGameCommonOptions]] = KDL3Options
+    options_dataclass: ClassVar[Type[PerGameCommonOptions]] = KDL3Options
     options: KDL3Options
     item_name_to_id = lookup_item_to_id
     location_name_to_id = {location_table[location]: location for location in location_table}
@@ -86,13 +74,13 @@ class KDL3World(World):
         self.rom_name: bytes = bytes()
         self.rom_name_available_event = threading.Event()
         super().__init__(multiworld, player)
-        self.copy_abilities: dict[str, str] = vanilla_enemies.copy()
+        self.copy_abilities: Dict[str, str] = vanilla_enemies.copy()
         self.required_heart_stars: int = 0  # we fill this during create_items
-        self.boss_requirements: list[int] = []
+        self.boss_requirements: List[int] = []
         self.player_levels = default_levels.copy()
         self.stage_shuffle_enabled = False
-        self.boss_butch_bosses: list[bool | None] = []
-        self.rooms: list[KDL3Room] = []
+        self.boss_butch_bosses: List[Optional[bool]] = []
+        self.rooms: List[KDL3Room] = []
 
     create_regions = create_levels
 
@@ -125,8 +113,8 @@ class KDL3World(World):
                                             self.options.slow_trap_weight.value,
                                             self.options.ability_trap_weight.value])[0]
 
-    def get_restrictive_copy_ability_placement(self, copy_ability: str, enemies_to_set: list[str],
-                                               level: int, stage: int) -> str | None:
+    def get_restrictive_copy_ability_placement(self, copy_ability: str, enemies_to_set: List[str],
+                                               level: int, stage: int) -> Optional[str]:
         valid_rooms = [room for room in self.rooms if (room.level < level)
                        or (room.level == level and room.stage < stage)]  # leave out the stage in question to avoid edge
         valid_enemies = set()
@@ -137,7 +125,7 @@ class KDL3World(World):
             return None  # a valid enemy got placed by a more restrictive placement
         return self.random.choice(sorted([enemy for enemy in valid_enemies if enemy not in placed_enemies]))
 
-    def get_pre_fill_items(self) -> list[Item]:
+    def get_pre_fill_items(self) -> List[Item]:
         return [self.create_item(item)
                 for item in [*copy_ability_access_table.keys(), *animal_friend_spawn_table.keys()]]
 
@@ -221,7 +209,7 @@ class KDL3World(World):
             else:
                 animal_pool.append("Kine Spawn")
             locations = [self.multiworld.get_location(spawn, self.player) for spawn in spawns]
-            items: list[Item] = [self.create_item(animal) for animal in animal_pool]
+            items: List[Item] = [self.create_item(animal) for animal in animal_pool]
             allstate = CollectionState(self.multiworld)
             for item in [*copy_ability_table, *animal_friend_table, *["Heart Star" for _ in range(99)]]:
                 self.collect(allstate, self.create_item(item))
@@ -345,7 +333,7 @@ class KDL3World(World):
         finally:
             self.rom_name_available_event.set()  # make sure threading continues and errors are collected
 
-    def modify_multidata(self, multidata: dict[str, Any]) -> None:
+    def modify_multidata(self, multidata: Dict[str, Any]) -> None:
         # wait for self.rom_name to be available.
         self.rom_name_available_event.wait()
         assert isinstance(self.rom_name, bytes)
@@ -387,7 +375,7 @@ class KDL3World(World):
             for enemy in self.copy_abilities:
                 spoiler_handle.write(f"{enemy}: {self.copy_abilities[enemy].replace('No Ability', 'None').replace(' Ability', '')}\n")
 
-    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]) -> None:
+    def extend_hint_information(self, hint_data: Dict[int, Dict[int, str]]) -> None:
         if self.stage_shuffle_enabled:
             regions = {location_name.level_names[level]: level for level in location_name.level_names}
             level_hint_data = {}

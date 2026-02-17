@@ -4,8 +4,8 @@ Date: Fri, 03 May 2024 14:07:35 +0000
 Description: Unit test used to test accessibility of region with the unconfined home water option via transturtle
 """
 
-from ..Options import EarlyEnergyForm, UnconfineHomeWater
 from . import AquariaTestBase
+from ..Options import UnconfineHomeWater, EarlyEnergyForm
 
 
 class UnconfineHomeWaterTransturtleAccessTest(AquariaTestBase):

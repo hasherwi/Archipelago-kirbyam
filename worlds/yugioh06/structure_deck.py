@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-structure_contents: dict[str, list[str]] = {
+structure_contents: Dict[str, List[str]] = {
     "dragons_roar": [
         "Luster Dragon",
         "Armed Dragon LV3",
@@ -80,7 +80,7 @@ structure_contents: dict[str, list[str]] = {
 }
 
 
-def get_deck_content_locations(deck: str) -> dict[str, str]:
+def get_deck_content_locations(deck: str) -> Dict[str, str]:
     return {
         f"{deck} {i}": content
         for i, content in enumerate(structure_contents[deck], 1)

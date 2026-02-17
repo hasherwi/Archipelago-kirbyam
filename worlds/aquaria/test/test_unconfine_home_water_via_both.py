@@ -5,8 +5,8 @@ Description: Unit test used to test accessibility of region with the unconfined 
              turtle and energy door
 """
 
-from ..Options import EarlyEnergyForm, UnconfineHomeWater
 from . import AquariaTestBase
+from ..Options import UnconfineHomeWater, EarlyEnergyForm
 
 
 class UnconfineHomeWaterBothAccessTest(AquariaTestBase):

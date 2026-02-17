@@ -5,7 +5,6 @@ import sys
 import unittest
 
 from BaseClasses import get_seed
-
 from ..bases import SVTestCase
 
 # <function Location.<lambda> at 0x102ca98a0>
@@ -22,8 +21,8 @@ class TestGenerationIsStable(SVTestCase):
 
         seed = get_seed()
 
-        output_a = subprocess.check_output([sys.executable, "-m", "worlds.stardew_valley.test.stability.StabilityOutputScript", "--seed", str(seed)])
-        output_b = subprocess.check_output([sys.executable, "-m", "worlds.stardew_valley.test.stability.StabilityOutputScript", "--seed", str(seed)])
+        output_a = subprocess.check_output([sys.executable, '-m', 'worlds.stardew_valley.test.stability.StabilityOutputScript', '--seed', str(seed)])
+        output_b = subprocess.check_output([sys.executable, '-m', 'worlds.stardew_valley.test.stability.StabilityOutputScript', '--seed', str(seed)])
 
         result_a = json.loads(output_a)
         result_b = json.loads(output_b)

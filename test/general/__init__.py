@@ -3,7 +3,7 @@ from typing import Any, List, Optional, Tuple, Type
 
 from BaseClasses import CollectionState, Item, ItemClassification, Location, MultiWorld, Region
 from worlds import network_data_package
-from worlds.AutoWorld import WebWorld, World, call_all
+from worlds.AutoWorld import World, WebWorld, call_all
 
 gen_steps = (
     "generate_early",
@@ -17,7 +17,7 @@ gen_steps = (
 
 
 def setup_solo_multiworld(
-        world_type: type[World], steps: tuple[str, ...] = gen_steps, seed: int | None = None
+        world_type: Type[World], steps: Tuple[str, ...] = gen_steps, seed: Optional[int] = None
 ) -> MultiWorld:
     """
     Creates a multiworld with a single player of `world_type`, sets default options, and calls provided gen steps.
@@ -98,8 +98,8 @@ def generate_test_multiworld(players: int = 1) -> MultiWorld:
     return multiworld
 
 
-def generate_locations(count: int, player_id: int, region: Region, address: int | None = None,
-                       tag: str = "") -> list[Location]:
+def generate_locations(count: int, player_id: int, region: Region, address: Optional[int] = None,
+                       tag: str = "") -> List[Location]:
     """
     Generates the specified amount of locations for the player and adds them to the specified region.
 
@@ -117,7 +117,7 @@ def generate_locations(count: int, player_id: int, region: Region, address: int 
     return locations
 
 
-def generate_items(count: int, player_id: int, advancement: bool = False, code: int = None) -> list[Item]:
+def generate_items(count: int, player_id: int, advancement: bool = False, code: int = None) -> List[Item]:
     """
     Generates the specified amount of items for the target player.
 

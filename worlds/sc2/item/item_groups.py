@@ -1,8 +1,7 @@
 import typing
-
-from ..mission_tables import SC2Campaign, SC2Mission, SC2Race, campaign_mission_table
-from . import item_names, item_tables
+from . import item_tables, item_names
 from .item_tables import key_item_table
+from ..mission_tables import campaign_mission_table, SC2Campaign, SC2Mission, SC2Race
 
 """
 Item name groups, given to Archipelago and used in YAMLs and /received filtering.
@@ -21,7 +20,7 @@ For non-developers the following will be useful:
 * Hand-crafted item groups can be found at the bottom of this file
 """
 
-item_name_groups: dict[str, list[str]] = {}
+item_name_groups: typing.Dict[str, typing.List[str]] = {}
 
 # Groups for use in world logic
 item_name_groups["Missions"] = ["Beat " + mission.mission_name for mission in SC2Mission]
@@ -41,10 +40,10 @@ unlisted_item_name_groups = {
 
 # Some item names only differ in bracketed parts
 # These items are ambiguous for short-hand name groups
-bracketless_duplicates: set[str]
+bracketless_duplicates: typing.Set[str]
 # This is a list of names in ItemNames with bracketed parts removed, for internal use
-_shortened_names = [(name[:name.find(" (")] if "(" in name else name)
-                    for name in [item_names.__dict__[name] for name in item_names.__dir__() if not name.startswith("_")]]
+_shortened_names = [(name[:name.find(' (')] if '(' in name else name)
+                    for name in [item_names.__dict__[name] for name in item_names.__dir__() if not name.startswith('_')]]
 # Remove the first instance of every short-name from the full item list
 bracketless_duplicates = set(_shortened_names)
 for name in bracketless_duplicates:
@@ -58,8 +57,8 @@ for item, data in item_tables.get_full_item_list().items():
     # Items get assigned to their flaggroup's display type
     item_name_groups.setdefault(data.type.display_name, []).append(item)
     # Items with a bracket get a short-hand name group for ease of use in YAMLs
-    if "(" in item:
-        short_name = item[:item.find(" (")]
+    if '(' in item:
+        short_name = item[:item.find(' (')]
         # Ambiguous short-names are dropped
         if short_name not in bracketless_duplicates:
             item_name_groups[short_name] = [item]
@@ -194,11 +193,11 @@ class ItemGroupNames:
     KEYS = "Keys"
 
     @classmethod
-    def get_all_group_names(cls) -> set[str]:
+    def get_all_group_names(cls) -> typing.Set[str]:
         return {
             name for identifier, name in cls.__dict__.items()
-            if not identifier.startswith("_")
-            and not identifier.startswith("get_")
+            if not identifier.startswith('_')
+            and not identifier.startswith('get_')
         }
 
 
@@ -485,8 +484,8 @@ item_name_groups[ItemGroupNames.NCO_UNIT_TECHNOLOGY] = nco_unit_technology = [
     item_names.LIBERATOR_SMART_SERVOS,
     item_names.LIBERATOR_OPTIMIZED_LOGISTICS,
     # Liberators can't get laser targeting system in NCO
-    item_names.RAVEN_SPIDER_MINES,
-    item_names.RAVEN_INTERNAL_TECH_MODULE,
+    item_names.RAVEN_SPIDER_MINES, 
+    item_names.RAVEN_INTERNAL_TECH_MODULE, 
     item_names.RAVEN_RAILGUN_TURRET,        # Raven Magrail Munitions
     item_names.RAVEN_HUNTER_SEEKER_WEAPON,  # Raven Special Ordnance
     item_names.BATTLECRUISER_INTERNAL_TECH_MODULE,

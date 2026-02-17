@@ -1,7 +1,7 @@
-from typing import Any
-from collections.abc import Sequence
+from typing import Any, Sequence
 
 from .widget import Widget
+
 
 class Layout(Widget):
     @property

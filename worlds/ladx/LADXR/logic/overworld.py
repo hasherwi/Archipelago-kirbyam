@@ -1,7 +1,7 @@
+from .requirements import *
+from .location import Location
 from ..locations.all import *
 from ..worldSetup import ENTRANCE_INFO
-from .location import Location
-from .requirements import *
 
 
 class World:
@@ -67,9 +67,9 @@ class World:
         banana_seller.connect(Location().add(TradeSequenceItem(0x2FE, TRADING_ITEM_BANANAS)), TRADING_ITEM_DOG_FOOD)
         self._addEntrance("banana_seller", sword_beach, banana_seller, r.bush)
         boomerang_cave = Location("Boomerang Cave")
-        if options.boomerang == "trade":
+        if options.boomerang == 'trade':
             Location().add(BoomerangGuy()).connect(boomerang_cave, AND(r.shuffled_magnifier, OR(BOOMERANG, HOOKSHOT, MAGIC_ROD, PEGASUS_BOOTS, FEATHER, SHOVEL)))
-        elif options.boomerang == "gift":
+        elif options.boomerang == 'gift':
             Location().add(BoomerangGuy()).connect(boomerang_cave, r.shuffled_magnifier)
         self._addEntrance("boomerang_cave", sword_beach, boomerang_cave, BOMB)
         self._addEntranceRequirementExit("boomerang_cave", None) # if exiting, you do not need bombs
@@ -488,7 +488,7 @@ class World:
         nightmare = Location("Nightmare")
         windfish = Location("Windfish").connect(nightmare, AND(MAGIC_POWDER, SWORD, OR(BOOMERANG, BOW)))
 
-        if options.logic == "hard" or options.logic == "glitched" or options.logic == "hell":
+        if options.logic == 'hard' or options.logic == 'glitched' or options.logic == 'hell':
             hookshot_cave.connect(hookshot_cave_chest, r.boots_jump) # boots jump the gap to the chest
             graveyard_cave_left.connect(graveyard_cave_right, r.hookshot_over_pit, one_way=True) # hookshot the block behind the stairs while over the pit
             swamp_chest.connect(swamp, r.wall_clip)  # Clip past the flower
@@ -516,7 +516,7 @@ class World:
             right_taltal_connector2.connect(right_taltal_connector3, ROOSTER, one_way=True) # jump off the ledge and grab rooster after landing on the pit
             fire_cave_bottom.connect(fire_cave_top, AND(r.damage_boost_special, PEGASUS_BOOTS), one_way=True) # flame skip
 
-        if options.logic == "glitched" or options.logic == "hell":
+        if options.logic == 'glitched' or options.logic == 'hell':
             papahl_house.connect(mamasha_trade, r.bomb_trigger) # use a bomb trigger to trade with mamasha without having yoshi doll
             #self._addEntranceRequirement("dream_hut", FEATHER) # text clip TODO: require nag messages
             self._addEntranceRequirementEnter("dream_hut", r.hookshot_clip) # clip past the rocks in front of dream hut
@@ -573,7 +573,7 @@ class World:
             obstacle_cave_inside.connect(mountain_heartpiece, r.bomb_trigger, one_way=True) # bomb trigger from boots crystal cave
             self._addEntranceRequirement("d8", OR(r.bomb_trigger, AND(OCARINA, SONG3))) # bomb trigger the head and walk through, or play the ocarina song 3 and walk through
 
-        if options.logic == "hell":
+        if options.logic == 'hell':
             dream_hut_right.connect(dream_hut, None) # alternate diagonal movement with orthogonal movement to control the mimics. Get them clipped into the walls to walk past
             swamp.connect(forest_toadstool, r.damage_boost) # damage boost from toadstool area across the pit
             swamp.connect(forest, AND(r.bush, OR(r.boots_bonk_pit, r.hookshot_spam_pit))) # boots bonk / hookshot spam over the pits right of forest_rear_chest
@@ -693,9 +693,9 @@ class DungeonDiveOverworld:
         start_house.add(DroppedKey(0xB2))  # Sword on the beach
         egg = Location().connect(start_house, AND(r.bush, BOMB))
         Location().add(MadBatter(0x1E1)).connect(start_house, MAGIC_POWDER)
-        if options.boomerang == "trade":
+        if options.boomerang == 'trade':
             Location().add(BoomerangGuy()).connect(start_house, AND(BOMB, OR(BOOMERANG, HOOKSHOT, MAGIC_ROD, PEGASUS_BOOTS, FEATHER, SHOVEL)))
-        elif options.boomerang == "gift":
+        elif options.boomerang == 'gift':
             Location().add(BoomerangGuy()).connect(start_house, BOMB)
 
         nightmare = Location("Nightmare")

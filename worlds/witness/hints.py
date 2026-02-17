@@ -12,8 +12,8 @@ from .player_items import WitnessItem
 if TYPE_CHECKING:
     from . import WitnessWorld
 
-CompactHintArgs = tuple[str | int, str | int]
-CompactHintData = tuple[str, str | int, str | int]
+CompactHintArgs = Tuple[Union[str, int], Union[str, int]]
+CompactHintData = Tuple[str, Union[str, int], Union[str, int]]
 
 
 @dataclass
@@ -34,14 +34,14 @@ class WitnessLocationHint:
 @dataclass
 class WitnessWordedHint:
     wording: str
-    location: Location | None = None
-    area: str | None = None
-    area_amount: int | None = None
-    area_hunt_panels: int | None = None
+    location: Optional[Location] = None
+    area: Optional[str] = None
+    area_amount: Optional[int] = None
+    area_hunt_panels: Optional[int] = None
     vague_location_hint: bool = False
 
 
-def get_always_hint_items(world: "WitnessWorld") -> list[str]:
+def get_always_hint_items(world: "WitnessWorld") -> List[str]:
     always = [
         "Boat",
         "Caves Shortcuts",
@@ -67,7 +67,7 @@ def get_always_hint_items(world: "WitnessWorld") -> list[str]:
     return always
 
 
-def get_always_hint_locations(world: "WitnessWorld") -> list[str]:
+def get_always_hint_locations(world: "WitnessWorld") -> List[str]:
     always = [
         "Challenge Vault Box",
         "Mountain Bottom Floor Discard",
@@ -89,7 +89,7 @@ def get_always_hint_locations(world: "WitnessWorld") -> list[str]:
     return always
 
 
-def get_priority_hint_items(world: "WitnessWorld") -> list[str]:
+def get_priority_hint_items(world: "WitnessWorld") -> List[str]:
     priority = {
         "Caves Mountain Shortcut (Door)",
         "Caves Swamp Shortcut (Door)",
@@ -140,7 +140,7 @@ def get_priority_hint_items(world: "WitnessWorld") -> list[str]:
     return sorted(priority)
 
 
-def get_priority_hint_locations(world: "WitnessWorld") -> list[str]:
+def get_priority_hint_locations(world: "WitnessWorld") -> List[str]:
     priority = [
         "Tutorial Patio Floor",
         "Tutorial Patio Flowers EP",
@@ -172,7 +172,7 @@ def get_priority_hint_locations(world: "WitnessWorld") -> list[str]:
     return priority
 
 
-def try_getting_location_group_for_location(world: "WitnessWorld", hint_loc: Location) -> tuple[str, str]:
+def try_getting_location_group_for_location(world: "WitnessWorld", hint_loc: Location) -> Tuple[str, str]:
     allow_regions = world.options.vague_hints == "experimental"
 
     possible_location_groups = {
@@ -185,7 +185,7 @@ def try_getting_location_group_for_location(world: "WitnessWorld", hint_loc: Loc
         location.name for location in world.multiworld.get_locations(hint_loc.player) if not location.is_event
     }
 
-    valid_location_groups: dict[str, int] = {}
+    valid_location_groups: Dict[str, int] = {}
 
     # Find valid location groups.
     for group, locations in possible_location_groups.items():
@@ -232,7 +232,7 @@ def word_direct_hint(world: "WitnessWorld", hint: WitnessLocationHint) -> Witnes
             item_name += " (" + world.multiworld.get_player_name(item.player) + ")"
 
     hint_text = ""
-    area: str | None = None
+    area: Optional[str] = None
 
     if world.options.vague_hints:
         chosen_group, group_type = try_getting_location_group_for_location(world, hint.location)
@@ -271,7 +271,7 @@ def word_direct_hint(world: "WitnessWorld", hint: WitnessLocationHint) -> Witnes
 
 
 def hint_from_item(world: "WitnessWorld", item_name: str,
-                   own_itempool: list["WitnessItem"]) -> WitnessLocationHint | None:
+                   own_itempool: List["WitnessItem"]) -> Optional[WitnessLocationHint]:
     def get_real_location(multiworld: MultiWorld, location: Location) -> Location:
         """If this location is from an item_link pseudo-world, get the location that the item_link item is on.
         Return the original location otherwise / as a fallback."""
@@ -298,12 +298,12 @@ def hint_from_item(world: "WitnessWorld", item_name: str,
     return WitnessLocationHint(location_obj, False)
 
 
-def hint_from_location(world: "WitnessWorld", location: str) -> WitnessLocationHint | None:
+def hint_from_location(world: "WitnessWorld", location: str) -> Optional[WitnessLocationHint]:
     return WitnessLocationHint(world.get_location(location), True)
 
 
 def get_item_and_location_names_in_random_order(world: "WitnessWorld",
-                                                own_itempool: list["WitnessItem"]) -> tuple[list[str], list[str]]:
+                                                own_itempool: List["WitnessItem"]) -> Tuple[List[str], List[str]]:
     progression_item_names_in_this_world = [
         item.name for item in own_itempool
         if item.advancement and item.code and item.location
@@ -324,9 +324,9 @@ def get_item_and_location_names_in_random_order(world: "WitnessWorld",
     return progression_item_names_in_this_world, location_names_in_this_world
 
 
-def make_always_and_priority_hints(world: "WitnessWorld", own_itempool: list["WitnessItem"],
-                                   already_hinted_locations: set[Location]
-                                   ) -> tuple[list[WitnessLocationHint], list[WitnessLocationHint]]:
+def make_always_and_priority_hints(world: "WitnessWorld", own_itempool: List["WitnessItem"],
+                                   already_hinted_locations: Set[Location]
+                                   ) -> Tuple[List[WitnessLocationHint], List[WitnessLocationHint]]:
 
     progression_items_in_this_world, locations_in_this_world = get_item_and_location_names_in_random_order(
         world, own_itempool
@@ -378,16 +378,16 @@ def make_always_and_priority_hints(world: "WitnessWorld", own_itempool: list["Wi
     return always_hints, priority_hints
 
 
-def make_extra_location_hints(world: "WitnessWorld", hint_amount: int, own_itempool: list["WitnessItem"],
-                              already_hinted_locations: set[Location], hints_to_use_first: list[WitnessLocationHint],
-                              unhinted_locations_for_hinted_areas: dict[str, set[Location]]) -> list[WitnessWordedHint]:
+def make_extra_location_hints(world: "WitnessWorld", hint_amount: int, own_itempool: List["WitnessItem"],
+                              already_hinted_locations: Set[Location], hints_to_use_first: List[WitnessLocationHint],
+                              unhinted_locations_for_hinted_areas: Dict[str, Set[Location]]) -> List[WitnessWordedHint]:
     progression_items_in_this_world, locations_in_this_world = get_item_and_location_names_in_random_order(
         world, own_itempool
     )
 
     next_random_hint_is_location = world.random.randrange(0, 2)
 
-    hints: list[WitnessWordedHint] = []
+    hints: List[WitnessWordedHint] = []
 
     # This is a way to reverse a Dict[a,List[b]] to a Dict[b,a]
     area_reverse_lookup = {
@@ -401,7 +401,7 @@ def make_extra_location_hints(world: "WitnessWorld", hint_amount: int, own_itemp
             logging.warning(f"Ran out of items/locations to hint for player {world.player_name}.")
             break
 
-        location_hint: WitnessLocationHint | None
+        location_hint: Optional[WitnessLocationHint]
         if hints_to_use_first:
             location_hint = hints_to_use_first.pop()
         elif next_random_hint_is_location and locations_in_this_world:
@@ -434,8 +434,8 @@ def make_extra_location_hints(world: "WitnessWorld", hint_amount: int, own_itemp
     return hints
 
 
-def choose_areas(world: "WitnessWorld", amount: int, locations_per_area: dict[str, list[Location]],
-                 already_hinted_locations: set[Location]) -> tuple[list[str], dict[str, set[Location]]]:
+def choose_areas(world: "WitnessWorld", amount: int, locations_per_area: Dict[str, List[Location]],
+                 already_hinted_locations: Set[Location]) -> Tuple[List[str], Dict[str, Set[Location]]]:
     """
     Choose areas to hint.
     This takes into account that some areas may already have had items hinted in them through location hints.
@@ -463,7 +463,7 @@ def choose_areas(world: "WitnessWorld", amount: int, locations_per_area: dict[st
     return hinted_areas, unhinted_locations_per_area
 
 
-def get_hintable_areas(world: "WitnessWorld") -> tuple[dict[str, list[Location]], dict[str, list[Item]]]:
+def get_hintable_areas(world: "WitnessWorld") -> Tuple[Dict[str, List[Location]], Dict[str, List[Item]]]:
     potential_areas = list(static_witness_logic.ALL_AREAS_BY_NAME.values())
 
     locations_per_area = {}
@@ -484,7 +484,7 @@ def get_hintable_areas(world: "WitnessWorld") -> tuple[dict[str, list[Location]]
     return locations_per_area, items_per_area
 
 
-def word_area_hint(world: "WitnessWorld", hinted_area: str, area_items: list[Item]) -> tuple[str, int, int | None]:
+def word_area_hint(world: "WitnessWorld", hinted_area: str, area_items: List[Item]) -> Tuple[str, int, Optional[int]]:
     """
     Word the hint for an area using natural sounding language.
     This takes into account how much progression there is, how much of it is local/non-local, and whether there are
@@ -588,8 +588,8 @@ def word_area_hint(world: "WitnessWorld", hinted_area: str, area_items: list[Ite
     return hint_string, total_progression, hunt_panels
 
 
-def make_area_hints(world: "WitnessWorld", amount: int, already_hinted_locations: set[Location]
-                    ) -> tuple[list[WitnessWordedHint], dict[str, set[Location]]]:
+def make_area_hints(world: "WitnessWorld", amount: int, already_hinted_locations: Set[Location]
+                    ) -> Tuple[List[WitnessWordedHint], Dict[str, Set[Location]]]:
     locs_per_area, items_per_area = get_hintable_areas(world)
 
     hinted_areas, unhinted_locations_per_area = choose_areas(world, amount, locs_per_area, already_hinted_locations)
@@ -611,8 +611,8 @@ def make_area_hints(world: "WitnessWorld", amount: int, already_hinted_locations
 
 
 def create_all_hints(world: "WitnessWorld", hint_amount: int, area_hints: int,
-                     already_hinted_locations: set[Location]) -> list[WitnessWordedHint]:
-    generated_hints: list[WitnessWordedHint] = []
+                     already_hinted_locations: Set[Location]) -> List[WitnessWordedHint]:
+    generated_hints: List[WitnessWordedHint] = []
 
     state = CollectionState(world.multiworld)
 
@@ -653,7 +653,7 @@ def create_all_hints(world: "WitnessWorld", hint_amount: int, area_hints: int,
 
     location_hints_created_in_round_1 = len(generated_hints)
 
-    unhinted_locations_per_area: dict[str, set[Location]] = {}
+    unhinted_locations_per_area: Dict[str, Set[Location]] = {}
 
     # Then, make area hints.
     if area_hints:
@@ -678,7 +678,7 @@ def create_all_hints(world: "WitnessWorld", hint_amount: int, area_hints: int,
         more_always_hints = always_hints_to_use - amt_of_used_always_hints
         more_priority_hints = priority_hints_to_use - amt_of_used_priority_hints
 
-        extra_always_and_priority_hints: list[WitnessLocationHint] = []
+        extra_always_and_priority_hints: List[WitnessLocationHint] = []
 
         for _ in range(more_always_hints):
             extra_always_and_priority_hints.append(always_hints.pop())
@@ -743,7 +743,7 @@ def make_compact_hint_data(hint: WitnessWordedHint, local_player_number: int) ->
     return hint.wording, compact_arg_1, compact_arg_2
 
 
-def make_laser_hints(world: "WitnessWorld", laser_names: list[str]) -> dict[str, WitnessWordedHint]:
+def make_laser_hints(world: "WitnessWorld", laser_names: List[str]) -> Dict[str, WitnessWordedHint]:
     laser_hints_by_name = {}
 
     for item_name in laser_names:

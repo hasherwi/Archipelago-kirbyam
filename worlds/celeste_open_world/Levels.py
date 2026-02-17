@@ -1,8 +1,8 @@
 from __future__ import annotations
-
 from enum import IntEnum
 
 from BaseClasses import CollectionState
+
 
 goal_area_option_to_name: dict[int, str] = {
     0: "7a",

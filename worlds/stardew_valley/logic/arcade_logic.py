@@ -1,7 +1,7 @@
+from .base_logic import BaseLogic, BaseLogicMixin
 from .. import options
 from ..stardew_rule import StardewRule, True_
 from ..strings.region_names import Region
-from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class ArcadeLogicMixin(BaseLogicMixin):

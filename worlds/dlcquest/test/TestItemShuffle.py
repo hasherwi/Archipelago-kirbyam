@@ -1,5 +1,5 @@
-from .. import Options
 from . import DLCQuestTestBase
+from .. import Options
 
 sword = "Sword"
 gun = "Gun"

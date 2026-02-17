@@ -1,29 +1,14 @@
 from enum import IntEnum
-from typing import Any, Dict, List, Optional, Set, TextIO
-from collections.abc import Callable
+from typing import Any, List, Dict, Set, Callable, Optional, TextIO
 
-from BaseClasses import CollectionState, Entrance, ItemClassification, Location, LocationProgressType, Region, Tutorial
-from worlds.AutoWorld import WebWorld, World
+from BaseClasses import ItemClassification, CollectionState, Region, Entrance, Location, Tutorial, LocationProgressType
+from worlds.AutoWorld import World, WebWorld
 
-from .Items import (
-    Overcooked2Item,
-    dlc_exclusives,
-    item_frequencies,
-    item_id_to_name,
-    item_name_to_id,
-    item_table,
-    item_to_unlock_event,
-)
-from .Locations import Overcooked2Location, oc2_location_id_to_name, oc2_location_name_to_id
-from .Logic import (
-    has_requirements_for_level_access,
-    has_requirements_for_level_star,
-    is_item_progression,
-    is_useful,
-    level_shuffle_factory,
-)
-from .Options import DeathLinkMode, LocationBalancingMode, OC2OnToggle, OC2Options
-from .Overcooked2Levels import Overcooked2Dlc, Overcooked2GenericLevel, Overcooked2Level
+from .Overcooked2Levels import Overcooked2Dlc, Overcooked2Level, Overcooked2GenericLevel
+from .Locations import Overcooked2Location, oc2_location_name_to_id, oc2_location_id_to_name
+from .Options import OC2Options, OC2OnToggle, LocationBalancingMode, DeathLinkMode
+from .Items import item_table, Overcooked2Item, item_name_to_id, item_id_to_name, item_to_unlock_event, item_frequencies, dlc_exclusives
+from .Logic import has_requirements_for_level_star, has_requirements_for_level_access, level_shuffle_factory, is_item_progression, is_useful
 
 
 class Overcooked2Web(WebWorld):
@@ -72,7 +57,7 @@ class Overcooked2World(World):
 
     options_dataclass = OC2Options
     options: OC2Options
-    itempool: list[Overcooked2Item]
+    itempool: List[Overcooked2Item]
 
     # Helper Functions
 
@@ -101,7 +86,7 @@ class Overcooked2World(World):
         )
         self.multiworld.regions.append(region)
 
-    def connect_regions(self, source: str, target: str, rule: Callable[[CollectionState], bool] | None = None):
+    def connect_regions(self, source: str, target: str, rule: Optional[Callable[[CollectionState], bool]] = None):
         sourceRegion = self.multiworld.get_region(source, self.player)
         targetRegion = self.multiworld.get_region(target, self.player)
         sourceRegion.connect(targetRegion, rule=rule)
@@ -151,7 +136,7 @@ class Overcooked2World(World):
             location
         )
 
-    def get_n_random_locations(self, n: int) -> list[int]:
+    def get_n_random_locations(self, n: int) -> List[int]:
         """Return a list of n random non-repeating level locations"""
         levels = list()
 
@@ -169,7 +154,7 @@ class Overcooked2World(World):
         self.multiworld.random.shuffle(levels)
         return levels[:n]
 
-    def get_priority_locations(self) -> list[int]:
+    def get_priority_locations(self) -> List[int]:
         """Randomly generate list of priority locations, thus insulating this game
         from the negative effects of being shuffled with games that contain large
         ammounts of filler"""
@@ -224,9 +209,9 @@ class Overcooked2World(World):
     # Helper Data
 
     player_name: str
-    level_unlock_counts: dict[int, int]  # level_id, stars to purchase
-    level_mapping: dict[int, Overcooked2GenericLevel]  # level_id, level
-    enabled_dlc: set[Overcooked2Dlc]
+    level_unlock_counts: Dict[int, int]  # level_id, stars to purchase
+    level_mapping: Dict[int, Overcooked2GenericLevel]  # level_id, level
+    enabled_dlc: Set[Overcooked2Dlc]
 
     # Autoworld Hooks
 
@@ -352,12 +337,12 @@ class Overcooked2World(World):
         # useful = list()
         # filler = list()
         # progression = list()
-        for item_name in item_table:
+        for item_name in item_table:            
             if item_name in item_frequencies:
                 freq = item_frequencies[item_name]
             else:
                 freq = 1
-
+            
             if freq <= 0:
                 # not used
                 continue
@@ -441,7 +426,7 @@ class Overcooked2World(World):
 
     # Items get distributed to locations
 
-    def fill_json_data(self) -> dict[str, Any]:
+    def fill_json_data(self) -> Dict[str, Any]:
         mod_name = f"AP-{self.multiworld.seed_name}-P{self.player}-{self.player_name}"
 
         # Serialize Level Order
@@ -480,7 +465,7 @@ class Overcooked2World(World):
 
         # Set Kevin Unlock Requirements
         if self.options.kevin_levels:
-            def kevin_level_to_keyholder_level_id(level_id: int) -> int | None:
+            def kevin_level_to_keyholder_level_id(level_id: int) -> Optional[int]:
                 location = self.multiworld.find_item(f"Kevin-{level_id-36}", self.player)
                 if location.player != self.player:
                     return None  # This kevin level will be unlocked by the server at runtime
@@ -493,7 +478,7 @@ class Overcooked2World(World):
                     level_unlock_requirements[str(level_id)] = keyholder_level_id
 
         # Place Items at Level Completion Screens (local only)
-        on_level_completed: dict[str, list[dict[str, str]]] = dict()
+        on_level_completed: Dict[str, list[Dict[str, str]]] = dict()
         locations = self.multiworld.get_filled_locations(self.player)
         for location in locations:
             if location.item.code is None:
@@ -592,7 +577,7 @@ class Overcooked2World(World):
 
         return base_data
 
-    def fill_slot_data(self) -> dict[str, Any]:
+    def fill_slot_data(self) -> Dict[str, Any]:
         return self.fill_json_data()
 
     def write_spoiler(self, spoiler_handle: TextIO) -> None:
@@ -604,10 +589,10 @@ class Overcooked2World(World):
         for overworld_id in world.level_mapping:
             overworld_name = Overcooked2GenericLevel(overworld_id).shortname.split("Story ")[1]
             kitchen_name = world.level_mapping[overworld_id].shortname
-            spoiler_handle.write(f"{overworld_name} | {kitchen_name}\n")
+            spoiler_handle.write(f'{overworld_name} | {kitchen_name}\n')
 
 
-def level_unlock_requirement_factory(stars_to_win: int) -> dict[int, int]:
+def level_unlock_requirement_factory(stars_to_win: int) -> Dict[int, int]:
     level_unlock_counts = dict()
     level = 1
     sublevel = 1

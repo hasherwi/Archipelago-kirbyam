@@ -4,22 +4,21 @@ import typing
 import uuid
 import zipfile
 import zlib
-from io import BytesIO
 
-import schema
-from flask import abort, flash, redirect, render_template, request, session, url_for
+from io import BytesIO
+from flask import request, flash, redirect, url_for, session, render_template, abort
 from markupsafe import Markup
-from pony.orm import commit, flush, rollback, select
+from pony.orm import commit, flush, select, rollback
 from pony.orm.core import TransactionIntegrityError
+import schema
 
 import MultiServer
 from NetUtils import GamesPackage, SlotType
 from Utils import VersionException, __version__
-from worlds.AutoWorld import data_package_checksum
 from worlds.Files import AutoPatchRegister
-
+from worlds.AutoWorld import data_package_checksum
 from . import app
-from .models import GameDataPackage, Room, Seed, Slot
+from .models import Seed, Room, Slot, GameDataPackage
 
 banned_extensions = (".sfc", ".z64", ".n64", ".nes", ".smc", ".sms", ".gb", ".gbc", ".gba")
 allowed_options_extensions = (".yaml", ".json", ".yml", ".txt", ".zip")
@@ -52,10 +51,10 @@ def process_multidata(compressed_multidata, files={}):
 
     decompressed_multidata = MultiServer.Context.decompress(compressed_multidata)
 
-    slots: set[Slot] = set()
+    slots: typing.Set[Slot] = set()
     if "datapackage" in decompressed_multidata:
         # strip datapackage from multidata, leaving only the checksums
-        game_data_packages: list[GameDataPackage] = []
+        game_data_packages: typing.List[GameDataPackage] = []
         for game, game_data in decompressed_multidata["datapackage"].items():
             if game_data.get("checksum"):
                 original_checksum = game_data.pop("checksum")
@@ -116,7 +115,7 @@ def upload_zip_to_db(zfile: zipfile.ZipFile, owner=None, meta={"race": False}, s
                    "Your file was deleted."
 
         # AP Container
-        if handler:
+        elif handler:
             data = zfile.open(file, "r").read()
             with zipfile.ZipFile(BytesIO(data)) as container:
                 player = json.loads(container.open("archipelago.json").read())["player"]
@@ -138,7 +137,7 @@ def upload_zip_to_db(zfile: zipfile.ZipFile, owner=None, meta={"race": False}, s
         # Factorio
         elif file.filename.endswith(".zip"):
             try:
-                _, _, slot_id, *_ = file.filename.split("_")[0].split("-", 3)
+                _, _, slot_id, *_ = file.filename.split('_')[0].split('-', 3)
             except ValueError:
                 flash("Error: Unexpected file found in .zip: " + file.filename)
                 return
@@ -148,7 +147,7 @@ def upload_zip_to_db(zfile: zipfile.ZipFile, owner=None, meta={"race": False}, s
         # All other files using the standard MultiWorld.get_out_file_name_base method
         else:
             try:
-                _, _, slot_id, *_ = file.filename.split(".")[0].split("_", 3)
+                _, _, slot_id, *_ = file.filename.split('.')[0].split('_', 3)
             except ValueError:
                 flash("Error: Unexpected file found in .zip: " + file.filename)
                 return
@@ -165,7 +164,8 @@ def upload_zip_to_db(zfile: zipfile.ZipFile, owner=None, meta={"race": False}, s
         for slot in slots:
             slot.seed = seed
         return seed
-    flash("No multidata was found in the zip file, which is required.")
+    else:
+        flash("No multidata was found in the zip file, which is required.")
 
 
 @app.route("/uploads", methods=["GET", "POST"])
@@ -191,7 +191,7 @@ def uploads():
                         else:
                             if res is str:
                                 return res
-                            if res:
+                            elif res:
                                 return redirect(url_for("view_seed", seed=res.id))
                 else:
                     uploaded_file.seek(0)  # offset from is_zipfile check
@@ -210,7 +210,7 @@ def uploads():
     return render_template("hostGame.html", version=__version__)
 
 
-@app.route("/user-content", methods=["GET"])
+@app.route('/user-content', methods=['GET'])
 def user_content():
     rooms = select(room for room in Room if room.owner == session["_id"])
     seeds = select(seed for seed in Seed if seed.owner == session["_id"])
@@ -224,7 +224,7 @@ def disown_seed(seed):
         return abort(404)
     if seed.owner !=  session["_id"]:
         return abort(403)
-
+    
     seed.owner = 0
 
     return redirect(url_for("user_content"))

@@ -1,23 +1,12 @@
 from __future__ import annotations
 
-import typing
 from dataclasses import dataclass
+import typing
 
-from schema import And, Optional, Or, Schema, SchemaError
+from schema import Schema, Optional, And, Or, SchemaError
 
-from Options import (
-    Choice,
-    DeathLink,
-    DefaultOnToggle,
-    NamedRange,
-    OptionDict,
-    OptionGroup,
-    OptionSet,
-    PerGameCommonOptions,
-    Range,
-    StartInventoryPool,
-    Toggle,
-)
+from Options import Choice, OptionDict, OptionSet, DefaultOnToggle, Range, DeathLink, Toggle, \
+    StartInventoryPool, PerGameCommonOptions, OptionGroup, NamedRange
 
 
 # schema helpers
@@ -482,7 +471,8 @@ class FactorioWorldGen(OptionDict):
     def from_any(cls, data: dict[str, typing.Any]) -> FactorioWorldGen:
         if type(data) == dict:
             return cls(data)
-        raise NotImplementedError(f"Cannot Convert from non-dictionary, got {type(data)}")
+        else:
+            raise NotImplementedError(f"Cannot Convert from non-dictionary, got {type(data)}")
 
 
 class ImportedBlueprint(DefaultOnToggle):

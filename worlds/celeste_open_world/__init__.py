@@ -1,39 +1,17 @@
-import math
 from copy import deepcopy
+import math
 from typing import TextIO
 
 from BaseClasses import ItemClassification, Location, MultiWorld, Region, Tutorial
 from Utils import visualize_regions
 from worlds.AutoWorld import WebWorld, World
 
-from .Items import (
-    CelesteItem,
-    cassette_item_data_table,
-    crystal_heart_item_data_table,
-    generate_item_data_table,
-    generate_item_groups,
-    generate_item_table,
-    level_cassette_items,
-    level_item_lists,
-    trap_item_data_table,
-)
-from .Levels import (
-    Level,
-    LocationType,
-    goal_area_option_to_display_name,
-    goal_area_option_to_name,
-    goal_area_to_location_name,
-    load_logic_data,
-)
-from .Locations import (
-    CelesteLocation,
-    checkpoint_location_data_table,
-    generate_location_groups,
-    location_data_table,
-    location_id_offsets,
-)
+from .Items import CelesteItem, generate_item_table, generate_item_data_table, generate_item_groups, level_item_lists, level_cassette_items,\
+                                cassette_item_data_table, crystal_heart_item_data_table, trap_item_data_table
+from .Locations import CelesteLocation, location_data_table, generate_location_groups, checkpoint_location_data_table, location_id_offsets
 from .Names import ItemName
 from .Options import CelesteOptions, celeste_option_groups, resolve_options
+from .Levels import Level, LocationType, load_logic_data, goal_area_option_to_name, goal_area_option_to_display_name, goal_area_to_location_name
 
 
 class CelesteOpenWebWorld(WebWorld):
@@ -131,9 +109,10 @@ class CelesteOpenWorld(World):
 
         if name == ItemName.strawberry and force_useful:
             return CelesteItem(name, ItemClassification.useful, item_data_table[name].code, self.player)
-        if name in item_data_table:
+        elif name in item_data_table:
             return CelesteItem(name, item_data_table[name].type, item_data_table[name].code, self.player)
-        return CelesteItem(name, ItemClassification.progression, None, self.player)
+        else:
+            return CelesteItem(name, ItemClassification.progression, None, self.player)
 
     def create_items(self) -> None:
         item_pool: list[CelesteItem] = []
@@ -348,15 +327,16 @@ class CelesteOpenWorld(World):
             self.random.shuffle(musiclist_s)
 
             return dict(zip(musiclist_o, musiclist_s))
-        if self.options.music_shuffle == "singularity":
+        elif self.options.music_shuffle == "singularity":
             musiclist_o = list(range(0, 48))
             musiclist_s = [self.random.choice(musiclist_o)] * len(musiclist_o)
 
             return dict(zip(musiclist_o, musiclist_s))
-        musiclist_o = list(range(0, 48))
-        musiclist_s = musiclist_o.copy()
+        else:
+            musiclist_o = list(range(0, 48))
+            musiclist_s = musiclist_o.copy()
 
-        return dict(zip(musiclist_o, musiclist_s))
+            return dict(zip(musiclist_o, musiclist_s))
 
 
     # Useful Debugging tools, kept around for later.

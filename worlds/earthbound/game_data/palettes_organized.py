@@ -226,7 +226,7 @@ nice_palettes = {
         155,
         156,
         159,
-        160
+        160    
     ],
     "Lost Underworld": [
         1,
@@ -241,7 +241,7 @@ nice_palettes = {
         134,
         141,
         154,
-        156
+        156    
     ],
     "Cave of the Past": [
         2,
@@ -257,7 +257,7 @@ nice_palettes = {
         140,
         142,
         146,
-        157
+        157    
     ],
     "Giygas's Lair": [
         0,
@@ -275,7 +275,7 @@ nice_palettes = {
         132,
         139,
         160,
-        164
+        164    
     ],
     "Onett": [
         4,
@@ -296,7 +296,7 @@ nice_palettes = {
         106,
         107,
         109,
-        116
+        116    
     ],
     "Twoson": [
         4,
@@ -313,7 +313,7 @@ nice_palettes = {
         62,
         63,
         107,
-        116
+        116    
     ],
     "Happy-Happy Village": [
         4,
@@ -330,7 +330,7 @@ nice_palettes = {
         42,
         47,
         59,
-        62
+        62    
     ],
     "Happy-Happy Clear": [
         4,
@@ -347,7 +347,7 @@ nice_palettes = {
         42,
         47,
         59,
-        62
+        62    
     ],
     "Tunnel Outdoors": [
         1,
@@ -383,7 +383,7 @@ nice_palettes = {
         109,
         116,
         141,
-        154
+        154    
     ],
     "Threed": [
         4,
@@ -396,7 +396,7 @@ nice_palettes = {
         14,
         42,
         62,
-        116
+        116    
     ],
     "Threed Daytime": [
         4,
@@ -409,7 +409,7 @@ nice_palettes = {
         14,
         42,
         62,
-        116
+        116    
     ],
     "Fourside": [
         4,
@@ -422,7 +422,7 @@ nice_palettes = {
         14,
         42,
         109,
-        116
+        116    
     ],
     "Moonside": [
         4,
@@ -438,7 +438,7 @@ nice_palettes = {
         42,
         63,
         109,
-        116
+        116    
     ],
     "Magicant": [
         15,
@@ -456,7 +456,7 @@ nice_palettes = {
         164,
         165,
         166,
-        167
+        167    
     ],
     "Tunnels": [
         0,
@@ -530,7 +530,7 @@ nice_palettes = {
         156,
         157,
         158,
-        159
+        159    
     ],
     "Magicant Interiors": [
         4,
@@ -597,7 +597,7 @@ nice_palettes = {
         164,
         165,
         166,
-        167
+        167    
     ],
     "Tents": [
         18,
@@ -613,7 +613,7 @@ nice_palettes = {
         116,
         146,
         147,
-        157
+        157    
     ],
     "Peaceful Rest Valley": [
         4,
@@ -627,7 +627,7 @@ nice_palettes = {
         62,
         63,
         82,
-        116
+        116    
     ],
     "Grapefruit Falls": [
         4,
@@ -652,7 +652,7 @@ nice_palettes = {
         101,
         109,
         112,
-        133
+        133    
     ],
     "Saturn Valley": [
         4,
@@ -668,7 +668,7 @@ nice_palettes = {
         42,
         59,
         63,
-        116
+        116    
     ],
     "Deep Darkness": [
         22,
@@ -676,7 +676,7 @@ nice_palettes = {
         47,
         62,
         112,
-        116
+        116    
     ],
     "Lilliput Steps Sanctuary": [
         4,
@@ -700,7 +700,7 @@ nice_palettes = {
         62,
         63,
         101,
-        112
+        112    
     ],
     "Milky Well": [
         4,
@@ -718,10 +718,10 @@ nice_palettes = {
         59,
         62,
         63,
-        116
+        116    
     ],
     "Deep Darkness Darkness": [
-        25
+        25    
     ],
     "Summers": [
         14,
@@ -738,7 +738,7 @@ nice_palettes = {
         112,
         115,
         116,
-        118
+        118    
     ],
     "Dusty Dunes Desert": [
         27,
@@ -769,7 +769,7 @@ nice_palettes = {
         120,
         130,
         133,
-        163
+        163    
     ],
     "The Sky": [
         0,
@@ -899,7 +899,7 @@ nice_palettes = {
         161,
         162,
         165,
-        166
+        166    
     ],
     "Dalaam": [
         14,
@@ -910,7 +910,7 @@ nice_palettes = {
         62,
         109,
         115,
-        116
+        116    
     ],
     "Dalaam Palace": [
         3,
@@ -918,11 +918,11 @@ nice_palettes = {
         30,
         31,
         132,
-        162
+        162    
     ],
     "Cave of the Present": [
         31,
-        72
+        72    
     ],
     "Pink Cloud Sanctuary": [
         9,
@@ -939,7 +939,7 @@ nice_palettes = {
         109,
         119,
         120,
-        130
+        130    
     ],
     "The Sea": [
         9,
@@ -950,7 +950,7 @@ nice_palettes = {
         109,
         112,
         116,
-        118
+        118    
     ],
     "Monotoli Offices": [
         35,
@@ -998,7 +998,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Threed Red-Wall House": [
         14,
@@ -1028,7 +1028,7 @@ nice_palettes = {
         104,
         112,
         116,
-        120
+        120    
     ],
     "Electra's Room": [
         14,
@@ -1071,7 +1071,7 @@ nice_palettes = {
         116,
         118,
         119,
-        120
+        120    
     ],
     "Threed Green-Wall House": [
         38,
@@ -1094,7 +1094,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Threed Blue-Wall House": [
         14,
@@ -1132,7 +1132,7 @@ nice_palettes = {
         112,
         116,
         118,
-        120
+        120    
     ],
     "Pokey's House": [
         14,
@@ -1150,7 +1150,7 @@ nice_palettes = {
         112,
         115,
         116,
-        120
+        120    
     ],
     "Moonside Hospital": [
         14,
@@ -1194,7 +1194,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Onett Green-Wall House": [
         38,
@@ -1222,7 +1222,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Onett Blue-Wall House": [
         38,
@@ -1242,7 +1242,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Onett Seafoam-Wall House": [
         42,
@@ -1258,7 +1258,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Onett Peach-Wall House": [
         36,
@@ -1279,7 +1279,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Onett Light Blue-Wall House": [
         38,
@@ -1313,7 +1313,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Onett Pink-Wall House": [
         38,
@@ -1353,7 +1353,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Onett White-Wall House": [
         38,
@@ -1392,7 +1392,7 @@ nice_palettes = {
         87,
         109,
         112,
-        116
+        116    
     ],
     "Hospitals": [
         41,
@@ -1452,7 +1452,7 @@ nice_palettes = {
         109,
         116,
         119,
-        120
+        120    
     ],
     "Tracy's Room": [
         38,
@@ -1479,7 +1479,7 @@ nice_palettes = {
         115,
         116,
         118,
-        120
+        120    
     ],
     "Orange Kid's House": [
         42,
@@ -1494,7 +1494,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Everdred's House": [
         36,
@@ -1531,7 +1531,7 @@ nice_palettes = {
         116,
         118,
         119,
-        120
+        120    
     ],
     "Twoson Green-Wall House": [
         38,
@@ -1589,7 +1589,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Police Station Backroom": [
         6,
@@ -1652,7 +1652,7 @@ nice_palettes = {
         120,
         128,
         131,
-        132
+        132    
     ],
     "Winters": [
         4,
@@ -1673,7 +1673,7 @@ nice_palettes = {
         82,
         109,
         116,
-        162
+        162    
     ],
     "Rainy Circle Sanctuary": [
         5,
@@ -1711,7 +1711,7 @@ nice_palettes = {
         116,
         118,
         123,
-        167
+        167    
     ],
     "Hospital Rooms": [
         38,
@@ -1739,7 +1739,7 @@ nice_palettes = {
         90,
         109,
         112,
-        116
+        116    
     ],
     "Twoson Peach-Wall House": [
         38,
@@ -1768,7 +1768,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Twoson Pink-Wall House": [
         38,
@@ -1801,7 +1801,7 @@ nice_palettes = {
         112,
         115,
         116,
-        120
+        120    
     ],
     "Twoson Gray-Wall House": [
         38,
@@ -1827,7 +1827,7 @@ nice_palettes = {
         81,
         109,
         112,
-        116
+        116    
     ],
     "Gold Office": [
         42,
@@ -1846,7 +1846,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Happy-Happy Guardhouse": [
         14,
@@ -1882,7 +1882,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Happy-Happy Hospital": [
         38,
@@ -1913,7 +1913,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Happy-Happy Hospital Clear": [
         38,
@@ -1944,7 +1944,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Onett Town Hall": [
         14,
@@ -1978,7 +1978,7 @@ nice_palettes = {
         112,
         116,
         118,
-        120
+        120    
     ],
     "Onett Hotel Bedrooms": [
         38,
@@ -2013,7 +2013,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Fourside Hotel Bedrooms": [
         38,
@@ -2053,7 +2053,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Happy-Happy Saturn House": [
         42,
@@ -2066,7 +2066,7 @@ nice_palettes = {
         112,
         116,
         119,
-        120
+        120    
     ],
     "Happy-Happy Hotel": [
         38,
@@ -2089,7 +2089,7 @@ nice_palettes = {
         90,
         109,
         112,
-        116
+        116    
     ],
     "Twoson Hotel Bedrooms": [
         38,
@@ -2179,7 +2179,7 @@ nice_palettes = {
         90,
         109,
         112,
-        116
+        116    
     ],
     "Monotoli Building": [
         38,
@@ -2203,7 +2203,7 @@ nice_palettes = {
         112,
         116,
         118,
-        120
+        120    
     ],
     "Paula's Room": [
         38,
@@ -2256,7 +2256,7 @@ nice_palettes = {
         90,
         109,
         112,
-        116
+        116    
     ],
     "Twoson Hotel": [
         38,
@@ -2282,7 +2282,7 @@ nice_palettes = {
         112,
         116,
         118,
-        120
+        120    
     ],
     "Threed Hotel": [
         39,
@@ -2346,7 +2346,7 @@ nice_palettes = {
         116,
         118,
         119,
-        120
+        120    
     ],
     "Monotoli Elevators": [
         6,
@@ -2401,7 +2401,7 @@ nice_palettes = {
         123,
         127,
         132,
-        160
+        160    
     ],
     "Fourside Dept. Store Office": [
         42,
@@ -2479,7 +2479,7 @@ nice_palettes = {
         112,
         116,
         119,
-        120
+        120    
     ],
     "Scaraba": [
         27,
@@ -2500,7 +2500,7 @@ nice_palettes = {
         116,
         118,
         120,
-        133
+        133    
     ],
     "Dalaam House": [
         42,
@@ -2547,7 +2547,7 @@ nice_palettes = {
         116,
         118,
         119,
-        120
+        120    
     ],
     "Fourside Cafe": [
         42,
@@ -2617,7 +2617,7 @@ nice_palettes = {
         98,
         104,
         109,
-        120
+        120    
     ],
     "Twoson Dept. Store": [
         13,
@@ -2639,7 +2639,7 @@ nice_palettes = {
         123,
         130,
         132,
-        160
+        160    
     ],
     "Fourside Dept. Store": [
         13,
@@ -2672,7 +2672,7 @@ nice_palettes = {
         50,
         102,
         109,
-        116
+        116    
     ],
     "Burger Shop": [
         42,
@@ -2685,7 +2685,7 @@ nice_palettes = {
         109,
         112,
         119,
-        120
+        120    
     ],
     "Onett Drugstore": [
         13,
@@ -2721,7 +2721,7 @@ nice_palettes = {
         106,
         109,
         122,
-        160
+        160    
     ],
     "Chaos Theater": [
         14,
@@ -2740,7 +2740,7 @@ nice_palettes = {
         118,
         119,
         120,
-        130
+        130    
     ],
     "Fourside Museum": [
         42,
@@ -2770,7 +2770,7 @@ nice_palettes = {
         115,
         116,
         118,
-        120
+        120    
     ],
     "Snow Wood Boarding School": [
         14,
@@ -2782,7 +2782,7 @@ nice_palettes = {
         109,
         112,
         116,
-        120
+        120    
     ],
     "Summers Harbor House": [
         42,
@@ -2810,7 +2810,7 @@ nice_palettes = {
         116,
         118,
         119,
-        120
+        120    
     ],
     "Moonside Museum": [
         42,
@@ -2818,7 +2818,7 @@ nice_palettes = {
         112,
         116,
         119,
-        120
+        120    
     ],
     "Stoic Club": [
         14,
@@ -2861,7 +2861,7 @@ nice_palettes = {
         116,
         118,
         119,
-        120
+        120    
     ],
     "Topolla Theater": [
         42,
@@ -2875,7 +2875,7 @@ nice_palettes = {
         115,
         116,
         119,
-        120
+        120    
     ],
     "Summers Museum": [
         42,
@@ -2893,7 +2893,7 @@ nice_palettes = {
         109,
         112,
         116,
-        121
+        121    
     ],
     "Twoson Bus Station": [
         42,
@@ -2906,7 +2906,7 @@ nice_palettes = {
         104,
         118,
         122,
-        123
+        123    
     ],
     "Twoson Bike Shop": [
         13,
@@ -2947,7 +2947,7 @@ nice_palettes = {
         122,
         124,
         133,
-        159
+        159    
     ],
     "Fourside Dept. Store Rooms": [
         62,
@@ -2994,7 +2994,7 @@ nice_palettes = {
         120,
         127,
         132,
-        133
+        133    
     ],
     "Lier's House": [
         38,
@@ -3025,7 +3025,7 @@ nice_palettes = {
         120,
         128,
         130,
-        132
+        132    
     ],
     "Run-down House": [
         14,
@@ -3059,7 +3059,7 @@ nice_palettes = {
         109,
         112,
         131,
-        132
+        132    
     ],
     "Dusty Dunes Miner Shack": [
         38,
@@ -3087,7 +3087,7 @@ nice_palettes = {
         112,
         116,
         120,
-        132
+        132    
     ],
     "Traveler's Shack": [
         42,
@@ -3100,7 +3100,7 @@ nice_palettes = {
     "Lumine Hall": [
         134,
         136,
-        140
+        140    
     ],
     "Connector Caves": [
         0,
@@ -3119,7 +3119,7 @@ nice_palettes = {
         153,
         154,
         156,
-        158
+        158    
     ],
     "Lumine Hall Sanctuary": [
         110,
@@ -3128,7 +3128,7 @@ nice_palettes = {
         137,
         140,
         150,
-        153
+        153    
     ],
     "Fire Spring": [
         134,
@@ -3146,7 +3146,7 @@ nice_palettes = {
         109,
         112,
         115,
-        138
+        138    
     ],
     "Monkey Caves Treasure Rooms": [
         139
@@ -3163,7 +3163,7 @@ nice_palettes = {
         134,
         136,
         140,
-        159
+        159    
     ],
     "Threed Underground": [
         1,
@@ -3330,7 +3330,7 @@ nice_palettes = {
         156,
         157,
         158,
-        159
+        159    
     ],
     "Rainy Circle": [
         42,
@@ -3371,7 +3371,7 @@ nice_palettes = {
         146,
         147,
         157,
-        160
+        160    
     ],
     "Milky Well Caves": [
         14,
@@ -3473,7 +3473,7 @@ nice_palettes = {
         151,
         153,
         157,
-        159
+        159    
     ],
     "Pink Cloud": [
         0,
@@ -3570,7 +3570,7 @@ nice_palettes = {
         150,
         151,
         153,
-        157
+        157    
     ],
     "Stonehenge Tunnels": [
         4,
@@ -3706,7 +3706,7 @@ nice_palettes = {
         157,
         158,
         160,
-        164
+        164    
     ],
     "Tenda Village": [
         21,
@@ -3726,7 +3726,7 @@ nice_palettes = {
         118,
         120,
         133,
-        159
+        159    
     ],
     "Fourside Dept. Store Blackout": [
         13,
@@ -3764,7 +3764,7 @@ nice_palettes = {
         164,
         165,
         166,
-        167
+        167    
     ],
     "Magicant Ness": [
         15,
@@ -3782,7 +3782,7 @@ nice_palettes = {
         164,
         165,
         166,
-        167
+        167    
     ],
     "Magicant Rabbit": [
         15,
@@ -3800,7 +3800,7 @@ nice_palettes = {
         164,
         165,
         166,
-        167
+        167    
     ],
     "Magicant Belch": [
         15,
@@ -3818,7 +3818,7 @@ nice_palettes = {
         164,
         165,
         166,
-        167
+        167    
     ],
     "Magicant Mom": [
         15,
@@ -3836,7 +3836,7 @@ nice_palettes = {
         164,
         165,
         166,
-        167
+        167    
     ]
 }
 
@@ -3881,7 +3881,7 @@ ugly_palettes = {
         126,
         127,
         134,
-        166
+        166    
     ],
     "Lost Underworld": [
         0,
@@ -3920,7 +3920,7 @@ ugly_palettes = {
         136,
         140,
         159,
-        160
+        160    
     ],
     "Cave of the Past": [
         4,
@@ -3958,7 +3958,7 @@ ugly_palettes = {
         150,
         153,
         156,
-        161
+        161    
     ],
     "Giygas's Lair": [
         5,
@@ -3981,7 +3981,7 @@ ugly_palettes = {
         124,
         129,
         131,
-        154
+        154    
     ],
     "Onett": [
         0,
@@ -4014,7 +4014,7 @@ ugly_palettes = {
         126,
         130,
         132,
-        133
+        133    
     ],
     "Twoson": [
         6,
@@ -4029,7 +4029,7 @@ ugly_palettes = {
         82,
         91,
         96,
-        104
+        104    
     ],
     "Happy-Happy Village": [
         10,
@@ -4044,7 +4044,7 @@ ugly_palettes = {
         116,
         124,
         130,
-        133
+        133    
     ],
     "Happy-Happy Clear": [
         10,
@@ -4059,7 +4059,7 @@ ugly_palettes = {
         116,
         124,
         130,
-        133
+        133    
     ],
     "Tunnel Outdoors": [
         0,
@@ -4096,7 +4096,7 @@ ugly_palettes = {
         140,
         156,
         160,
-        164
+        164    
     ],
     "Threed": [
         8,
@@ -4113,7 +4113,7 @@ ugly_palettes = {
         107,
         109,
         112,
-        133
+        133    
     ],
     "Threed Daytime": [
         8,
@@ -4130,7 +4130,7 @@ ugly_palettes = {
         107,
         109,
         112,
-        133
+        133    
     ],
     "Fourside": [
         7,
@@ -4149,7 +4149,7 @@ ugly_palettes = {
         131,
         132,
         133,
-        162
+        162    
     ],
     "Moonside": [
         8,
@@ -4165,7 +4165,7 @@ ugly_palettes = {
         107,
         132,
         163,
-        164
+        164    
     ],
     "Magicant": [
         4,
@@ -4208,7 +4208,7 @@ ugly_palettes = {
         109,
         120,
         130,
-        133
+        133    
     ],
     "Tunnels": [
         2,
@@ -4241,7 +4241,7 @@ ugly_palettes = {
         127,
         133,
         162,
-        164
+        164    
     ],
     "Magicant Interiors": [
         29,
@@ -4258,7 +4258,7 @@ ugly_palettes = {
         83,
         97,
         98,
-        126
+        126    
     ],
     "Tents": [
         4,
@@ -4312,7 +4312,7 @@ ugly_palettes = {
         126,
         128,
         133,
-        162
+        162    
     ],
     "Peaceful Rest Valley": [
         6,
@@ -4334,7 +4334,7 @@ ugly_palettes = {
         105,
         107,
         109,
-        112
+        112    
     ],
     "Grapefruit Falls": [
         2,
@@ -4354,7 +4354,7 @@ ugly_palettes = {
         99,
         107,
         108,
-        146
+        146    
     ],
     "Saturn Valley": [
         8,
@@ -4367,7 +4367,7 @@ ugly_palettes = {
         107,
         109,
         112,
-        164
+        164    
     ],
     "Deep Darkness": [
         4,
@@ -4392,7 +4392,7 @@ ugly_palettes = {
         107,
         109,
         115,
-        129
+        129    
     ],
     "Lilliput Steps Sanctuary": [
         10,
@@ -4403,7 +4403,7 @@ ugly_palettes = {
         92,
         94,
         107,
-        109
+        109    
     ],
     "Milky Well": [
         10,
@@ -4415,10 +4415,10 @@ ugly_palettes = {
         71,
         82,
         107,
-        146
+        146    
     ],
     "Deep Darkness Darkness": [
-        25
+        25    
     ],
     "Summers": [
         4,
@@ -4437,7 +4437,7 @@ ugly_palettes = {
         71,
         80,
         89,
-        104
+        104    
     ],
     "Dusty Dunes Desert": [
         5,
@@ -4465,14 +4465,14 @@ ugly_palettes = {
         118,
         164,
         165,
-        167
+        167    
     ],
     "The Sky": [
         30,
         63,
         64,
         136,
-        164
+        164    
     ],
     "Dalaam": [
         4,
@@ -4497,7 +4497,7 @@ ugly_palettes = {
         105,
         112,
         126,
-        160
+        160    
     ],
     "Dalaam Palace": [
         0,
@@ -4530,7 +4530,7 @@ ugly_palettes = {
         131,
         140,
         141,
-        160
+        160    
     ],
     "Cave of the Present": [
         14,
@@ -4543,7 +4543,7 @@ ugly_palettes = {
         105,
         106,
         110,
-        132
+        132    
     ],
     "Pink Cloud Sanctuary": [
         4,
@@ -4574,7 +4574,7 @@ ugly_palettes = {
         118,
         121,
         126,
-        129
+        129    
     ],
     "The Sea": [
         6,
@@ -4588,7 +4588,7 @@ ugly_palettes = {
         86,
         90,
         115,
-        120
+        120    
     ],
     "Monotoli Offices": [
         9,
@@ -4630,7 +4630,7 @@ ugly_palettes = {
         118,
         130,
         131,
-        132
+        132    
     ],
     "Onett Hotel": [
         13,
@@ -4663,7 +4663,7 @@ ugly_palettes = {
         88,
         89,
         100,
-        101
+        101    
     ],
     "Threed Red-Wall House": [
         47,
@@ -4675,7 +4675,7 @@ ugly_palettes = {
         102,
         105,
         106,
-        107
+        107    
     ],
     "Electra's Room": [
         21,
@@ -4693,7 +4693,7 @@ ugly_palettes = {
         103,
         104,
         107,
-        130
+        130    
     ],
     "Threed Green-Wall House": [
         14,
@@ -4703,7 +4703,7 @@ ugly_palettes = {
         67,
         88,
         107,
-        115
+        115    
     ],
     "Threed Blue-Wall House": [
         13,
@@ -4718,7 +4718,7 @@ ugly_palettes = {
         104,
         105,
         119,
-        130
+        130    
     ],
     "Pokey's House": [
         27,
@@ -4744,7 +4744,7 @@ ugly_palettes = {
         118,
         119,
         121,
-        130
+        130    
     ],
     "Moonside Hospital": [
         7,
@@ -4768,7 +4768,7 @@ ugly_palettes = {
         107,
         115,
         118,
-        119
+        119    
     ],
     "Onett Green-Wall House": [
         13,
@@ -4789,7 +4789,7 @@ ugly_palettes = {
         107,
         119,
         126,
-        130
+        130    
     ],
     "Onett Blue-Wall House": [
         27,
@@ -4809,7 +4809,7 @@ ugly_palettes = {
         89,
         90,
         91,
-        115
+        115    
     ],
     "Onett Seafoam-Wall House": [
         14,
@@ -4838,7 +4838,7 @@ ugly_palettes = {
         83,
         88,
         90,
-        91
+        91    
     ],
     "Onett Peach-Wall House": [
         14,
@@ -4873,7 +4873,7 @@ ugly_palettes = {
         91,
         102,
         104,
-        107
+        107    
     ],
     "Onett Light Blue-Wall House": [
         14,
@@ -4883,7 +4883,7 @@ ugly_palettes = {
         69,
         88,
         91,
-        115
+        115    
     ],
     "Onett Pink-Wall House": [
         14,
@@ -4900,7 +4900,7 @@ ugly_palettes = {
         104,
         105,
         106,
-        107
+        107    
     ],
     "Onett White-Wall House": [
         14,
@@ -4923,7 +4923,7 @@ ugly_palettes = {
         101,
         102,
         104,
-        107
+        107    
     ],
     "Hospitals": [
         9,
@@ -4969,7 +4969,7 @@ ugly_palettes = {
         107,
         112,
         115,
-        128
+        128    
     ],
     "Tracy's Room": [
         14,
@@ -4992,7 +4992,7 @@ ugly_palettes = {
         102,
         103,
         104,
-        105
+        105    
     ],
     "Orange Kid's House": [
         14,
@@ -5022,7 +5022,7 @@ ugly_palettes = {
         102,
         105,
         106,
-        115
+        115    
     ],
     "Everdred's House": [
         14,
@@ -5041,7 +5041,7 @@ ugly_palettes = {
         104,
         107,
         115,
-        121
+        121    
     ],
     "Twoson Green-Wall House": [
         13,
@@ -5076,7 +5076,7 @@ ugly_palettes = {
         102,
         107,
         115,
-        119
+        119    
     ],
     "Police Station Backroom": [
         2,
@@ -5109,7 +5109,7 @@ ugly_palettes = {
         106,
         115,
         121,
-        130
+        130    
     ],
     "Winters": [
         8,
@@ -5158,7 +5158,7 @@ ugly_palettes = {
         161,
         163,
         164,
-        166
+        166    
     ],
     "Rainy Circle Sanctuary": [
         4,
@@ -5202,7 +5202,7 @@ ugly_palettes = {
         98,
         104,
         111,
-        121
+        121    
     ],
     "Hospital Rooms": [
         14,
@@ -5223,7 +5223,7 @@ ugly_palettes = {
         105,
         106,
         115,
-        119
+        119    
     ],
     "Twoson Peach-Wall House": [
         14,
@@ -5246,7 +5246,7 @@ ugly_palettes = {
         89,
         91,
         98,
-        102
+        102    
     ],
     "Twoson Pink-Wall House": [
         14,
@@ -5263,7 +5263,7 @@ ugly_palettes = {
         89,
         91,
         107,
-        118
+        118    
     ],
     "Twoson Gray-Wall House": [
         14,
@@ -5281,7 +5281,7 @@ ugly_palettes = {
         104,
         106,
         118,
-        120
+        120    
     ],
     "Gold Office": [
         14,
@@ -5303,7 +5303,7 @@ ugly_palettes = {
         70,
         74,
         89,
-        107
+        107    
     ],
     "Happy-Happy Guardhouse": [
         36,
@@ -5321,7 +5321,7 @@ ugly_palettes = {
         102,
         105,
         106,
-        107
+        107    
     ],
     "Happy-Happy Hospital": [
         14,
@@ -5339,7 +5339,7 @@ ugly_palettes = {
         103,
         104,
         106,
-        130
+        130    
     ],
     "Happy-Happy Hospital Clear": [
         14,
@@ -5357,7 +5357,7 @@ ugly_palettes = {
         103,
         104,
         106,
-        130
+        130    
     ],
     "Onett Town Hall": [
         13,
@@ -5374,7 +5374,7 @@ ugly_palettes = {
         82,
         89,
         91,
-        103
+        103    
     ],
     "Onett Hotel Bedrooms": [
         14,
@@ -5392,7 +5392,7 @@ ugly_palettes = {
         90,
         91,
         104,
-        105
+        105    
     ],
     "Fourside Hotel Bedrooms": [
         9,
@@ -5408,7 +5408,7 @@ ugly_palettes = {
         107,
         115,
         128,
-        132
+        132    
     ],
     "Happy-Happy Saturn House": [
         38,
@@ -5436,7 +5436,7 @@ ugly_palettes = {
         102,
         103,
         107,
-        115
+        115    
     ],
     "Happy-Happy Hotel": [
         14,
@@ -5452,7 +5452,7 @@ ugly_palettes = {
         105,
         106,
         115,
-        120
+        120    
     ],
     "Twoson Hotel Bedrooms": [
         27,
@@ -5500,7 +5500,7 @@ ugly_palettes = {
         105,
         106,
         115,
-        120
+        120    
     ],
     "Monotoli Building": [
         14,
@@ -5575,7 +5575,7 @@ ugly_palettes = {
         103,
         104,
         107,
-        115
+        115    
     ],
     "Paula's Room": [
         14,
@@ -5622,7 +5622,7 @@ ugly_palettes = {
         82,
         88,
         104,
-        107
+        107    
     ],
     "Threed Hotel": [
         6,
@@ -5653,7 +5653,7 @@ ugly_palettes = {
         93,
         105,
         106,
-        107
+        107    
     ],
     "Monotoli Elevators": [
         4,
@@ -5697,7 +5697,7 @@ ugly_palettes = {
         131,
         163,
         164,
-        165
+        165    
     ],
     "Fourside Dept. Store Office": [
         14,
@@ -5803,7 +5803,7 @@ ugly_palettes = {
         114,
         115,
         117,
-        121
+        121    
     ],
     "Scaraba": [
         5,
@@ -5830,7 +5830,7 @@ ugly_palettes = {
         93,
         104,
         121,
-        130
+        130    
     ],
     "Dalaam House": [
         14,
@@ -5908,7 +5908,7 @@ ugly_palettes = {
         106,
         117,
         130,
-        133
+        133    
     ],
     "Fourside Cafe": [
         14,
@@ -5975,7 +5975,7 @@ ugly_palettes = {
         78,
         106,
         107,
-        116
+        116    
     ],
     "Twoson Dept. Store": [
         4,
@@ -6009,7 +6009,7 @@ ugly_palettes = {
         105,
         115,
         120,
-        163
+        163    
     ],
     "Fourside Dept. Store": [
         9,
@@ -6091,7 +6091,7 @@ ugly_palettes = {
         112,
         120,
         132,
-        160
+        160    
     ],
     "Burger Shop": [
         7,
@@ -6117,7 +6117,7 @@ ugly_palettes = {
         102,
         116,
         118,
-        132
+        132    
     ],
     "Onett Drugstore": [
         14,
@@ -6171,7 +6171,7 @@ ugly_palettes = {
         112,
         115,
         116,
-        123
+        123    
     ],
     "Chaos Theater": [
         38,
@@ -6181,7 +6181,7 @@ ugly_palettes = {
         88,
         114,
         121,
-        133
+        133    
     ],
     "Fourside Museum": [
         4,
@@ -6247,7 +6247,7 @@ ugly_palettes = {
         93,
         94,
         101,
-        133
+        133    
     ],
     "Snow Wood Boarding School": [
         26,
@@ -6261,7 +6261,7 @@ ugly_palettes = {
         78,
         115,
         118,
-        119
+        119    
     ],
     "Summers Harbor House": [
         22,
@@ -6288,7 +6288,7 @@ ugly_palettes = {
         103,
         111,
         130,
-        133
+        133    
     ],
     "Moonside Museum": [
         14,
@@ -6315,7 +6315,7 @@ ugly_palettes = {
         105,
         106,
         107,
-        115
+        115    
     ],
     "Stoic Club": [
         8,
@@ -6361,7 +6361,7 @@ ugly_palettes = {
         104,
         105,
         106,
-        121
+        121    
     ],
     "Topolla Theater": [
         14,
@@ -6376,7 +6376,7 @@ ugly_palettes = {
         74,
         91,
         96,
-        118
+        118    
     ],
     "Summers Museum": [
         8,
@@ -6408,7 +6408,7 @@ ugly_palettes = {
         104,
         106,
         107,
-        130
+        130    
     ],
     "Twoson Bus Station": [
         22,
@@ -6423,7 +6423,7 @@ ugly_palettes = {
         106,
         109,
         116,
-        119
+        119    
     ],
     "Twoson Bike Shop": [
         9,
@@ -6479,7 +6479,7 @@ ugly_palettes = {
         121,
         123,
         126,
-        134
+        134    
     ],
     "Fourside Dept. Store Rooms": [
         7,
@@ -6562,7 +6562,7 @@ ugly_palettes = {
         118,
         123,
         128,
-        131
+        131    
     ],
     "Lier's House": [
         11,
@@ -6592,7 +6592,7 @@ ugly_palettes = {
         103,
         104,
         105,
-        106
+        106    
     ],
     "Run-down House": [
         38,
@@ -6684,7 +6684,7 @@ ugly_palettes = {
         115,
         116,
         119,
-        120
+        120    
     ],
     "Dusty Dunes Miner Shack": [
         9,
@@ -6718,7 +6718,7 @@ ugly_palettes = {
         115,
         119,
         128,
-        130
+        130    
     ],
     "Traveler's Shack": [
         5,
@@ -6755,7 +6755,7 @@ ugly_palettes = {
         120,
 	    121,
         133,
-        159
+        159    
     ],
     "Connector Caves": [
         23,
@@ -6791,7 +6791,7 @@ ugly_palettes = {
         151,
         152,
         157,
-        159
+        159    
     ],
     "Lumine Hall Sanctuary": [
         0,
@@ -6816,7 +6816,7 @@ ugly_palettes = {
         147,
         149,
         156,
-        164
+        164    
     ],
     "Fire Spring": [
         26,
@@ -6853,7 +6853,7 @@ ugly_palettes = {
         118,
         120,
         163,
-        164
+        164    
     ],
     "Monkey Caves Treasure Rooms": [
         0,
@@ -6903,7 +6903,7 @@ ugly_palettes = {
         150,
         153,
         154,
-        157
+        157    
     ],
     "Threed Underground": [
         0,
@@ -7052,7 +7052,7 @@ ugly_palettes = {
         121,
         129,
         131,
-        164
+        164    
     ],
     "Rainy Circle": [
         14,
@@ -7102,7 +7102,7 @@ ugly_palettes = {
         105,
         106,
         108,
-        121
+        121    
     ],
     "Milky Well Caves": [
         44,
@@ -7187,7 +7187,7 @@ ugly_palettes = {
         97,
         108,
         114,
-        120
+        120    
     ],
     "Pink Cloud": [
         1,
@@ -7263,7 +7263,7 @@ ugly_palettes = {
         101,
         117,
         147,
-        159
+        159    
     ],
     "Stonehenge Tunnels": [
         0,
@@ -7367,7 +7367,7 @@ ugly_palettes = {
         135,
         156,
         162,
-        166
+        166    
     ],
     "Tenda Village": [
         5,
@@ -7398,7 +7398,7 @@ ugly_palettes = {
         129,
         130,
         160,
-        164
+        164    
     ],
     "Fourside Dept. Store Blackout": [
         9,
@@ -7487,7 +7487,7 @@ ugly_palettes = {
         109,
         120,
         130,
-        133
+        133    
     ],
     "Magicant Ness": [
         4,
@@ -7530,7 +7530,7 @@ ugly_palettes = {
         109,
         120,
         130,
-        133
+        133    
     ],
     "Magicant Rabbit": [
         4,
@@ -7573,7 +7573,7 @@ ugly_palettes = {
         109,
         120,
         130,
-        133
+        133    
     ],
     "Magicant Belch": [
         4,
@@ -7616,7 +7616,7 @@ ugly_palettes = {
         109,
         120,
         130,
-        133
+        133    
     ],
     "Magicant Mom": [
         4,
@@ -7659,9 +7659,9 @@ ugly_palettes = {
         109,
         120,
         130,
-        133
+        133    
     ]
-
+    
 }
 
 nonsense_palettes = {
@@ -7695,7 +7695,7 @@ nonsense_palettes = {
         154,
         162,
         164,
-        167
+        167    
     ],
     "Lost Underworld": [
         4,
@@ -7725,7 +7725,7 @@ nonsense_palettes = {
         119,
         163,
         164,
-        166
+        166    
     ],
     "Cave of the Past": [
         0,
@@ -7745,7 +7745,7 @@ nonsense_palettes = {
         94,
         126,
         159,
-        163
+        163    
     ],
     "Giygas's Lair": [
         4,
@@ -7768,7 +7768,7 @@ nonsense_palettes = {
         136,
         140,
         141,
-        156
+        156    
     ],
     "Onett": [
         34,
@@ -7792,7 +7792,7 @@ nonsense_palettes = {
         160,
         161,
         162,
-        164
+        164    
     ],
     "Twoson": [
         1,
@@ -7807,7 +7807,7 @@ nonsense_palettes = {
         89,
         90,
         93,
-        99
+        99    
     ],
     "Happy-Happy Village": [
         27,
@@ -7819,7 +7819,7 @@ nonsense_palettes = {
         91,
         106,
         121,
-        160
+        160    
     ],
     "Happy-Happy Clear": [
         27,
@@ -7831,7 +7831,7 @@ nonsense_palettes = {
         91,
         106,
         121,
-        160
+        160    
     ],
     "Tunnel Outdoors": [
         44,
@@ -7842,7 +7842,7 @@ nonsense_palettes = {
         94,
         114,
         128,
-        159
+        159    
     ],
     "Threed": [
         27,
@@ -7863,7 +7863,7 @@ nonsense_palettes = {
         121,
         126,
         160,
-        164
+        164    
     ],
     "Threed Daytime": [
         27,
@@ -7884,7 +7884,7 @@ nonsense_palettes = {
         121,
         126,
         160,
-        164
+        164    
     ],
     "Fourside": [
         19,
@@ -7914,7 +7914,7 @@ nonsense_palettes = {
         121,
         130,
         160,
-        163
+        163    
     ],
     "Moonside": [
         19,
@@ -7940,7 +7940,7 @@ nonsense_palettes = {
         126,
         130,
         133,
-        166
+        166    
     ],
     "Magicant": [
         7,
@@ -7964,14 +7964,14 @@ nonsense_palettes = {
         129,
         131,
         146,
-        160
+        160    
     ],
     "Tunnels": [
         6,
         15,
         17,
         126,
-        145
+        145    
     ],
     "Magicant Interiors": [
         61,
@@ -7980,7 +7980,7 @@ nonsense_palettes = {
         121,
         140,
         143,
-        144
+        144    
     ],
     "Tents": [
         7,
@@ -8003,7 +8003,7 @@ nonsense_palettes = {
         115,
         118,
         123,
-        130
+        130    
     ],
     "Peaceful Rest Valley": [
         2,
@@ -8026,7 +8026,7 @@ nonsense_palettes = {
         121,
         123,
         133,
-        160
+        160    
     ],
     "Grapefruit Falls": [
         38,
@@ -8049,7 +8049,7 @@ nonsense_palettes = {
         151,
         159,
         160,
-        164
+        164    
     ],
     "Saturn Valley": [
         26,
@@ -8075,7 +8075,7 @@ nonsense_palettes = {
         121,
         126,
         160,
-        161
+        161    
     ],
     "Deep Darkness": [
         7,
@@ -8100,7 +8100,7 @@ nonsense_palettes = {
         163,
         164,
         165,
-        167
+        167    
     ],
     "Lilliput Steps Sanctuary": [
         2,
@@ -8126,7 +8126,7 @@ nonsense_palettes = {
         133,
         160,
         164,
-        165
+        165    
     ],
     "Milky Well": [
         15,
@@ -8146,10 +8146,10 @@ nonsense_palettes = {
         109,
         126,
         131,
-        133
+        133    
     ],
     "Deep Darkness Darkness": [
-        25
+        25    
     ],
     "Summers": [
         7,
@@ -8168,7 +8168,7 @@ nonsense_palettes = {
         126,
         160,
         164,
-        165
+        165    
     ],
     "Dusty Dunes Desert": [
         4,
@@ -8194,10 +8194,10 @@ nonsense_palettes = {
         123,
         160,
         161,
-        166
+        166    
     ],
     "The Sky": [
-        135
+        135    
     ],
     "Dalaam": [
         7,
@@ -8225,7 +8225,7 @@ nonsense_palettes = {
         100,
         106,
         107,
-        121
+        121    
     ],
     "Dalaam Palace": [
         4,
@@ -8268,7 +8268,7 @@ nonsense_palettes = {
         118,
         119,
         120,
-        136
+        136    
     ],
     "Cave of the Present": [
         4,
@@ -8311,7 +8311,7 @@ nonsense_palettes = {
         107,
         109,
         112,
-        134
+        134    
     ],
     "Pink Cloud Sanctuary": [
         11,
@@ -8333,7 +8333,7 @@ nonsense_palettes = {
         59,
         65,
         66,
-        107
+        107    
     ],
     "The Sea": [
         4,
@@ -8369,7 +8369,7 @@ nonsense_palettes = {
         104,
         105,
         106,
-        121
+        121    
     ],
     "Monotoli Offices": [
         4,
@@ -8385,7 +8385,7 @@ nonsense_palettes = {
         112,
         113,
         121,
-        123
+        123    
     ],
     "Onett Hotel": [
         4,
@@ -8406,7 +8406,7 @@ nonsense_palettes = {
         99,
         104,
         105,
-        106
+        106    
     ],
     "Threed Red-Wall House": [
         52,
@@ -8417,7 +8417,7 @@ nonsense_palettes = {
         100,
         119,
         121,
-        130
+        130    
     ],
     "Electra's Room": [
         4,
@@ -8433,7 +8433,7 @@ nonsense_palettes = {
         22,
         26,
         96,
-        121
+        121    
     ],
     "Threed Green-Wall House": [
         37,
@@ -8445,7 +8445,7 @@ nonsense_palettes = {
         69,
         83,
         102,
-        121
+        121    
     ],
     "Threed Blue-Wall House": [
         4,
@@ -8466,7 +8466,7 @@ nonsense_palettes = {
         96,
         106,
         121,
-        126
+        126    
     ],
     "Pokey's House": [
         4,
@@ -8489,7 +8489,7 @@ nonsense_palettes = {
         114,
         117,
         126,
-        133
+        133    
     ],
     "Moonside Hospital": [
         4,
@@ -8508,7 +8508,7 @@ nonsense_palettes = {
         123,
         126,
         130,
-        133
+        133    
     ],
     "Onett Green-Wall House": [
         4,
@@ -8522,7 +8522,7 @@ nonsense_palettes = {
         26,
         52,
         59,
-        96
+        96    
     ],
     "Onett Blue-Wall House": [
         4,
@@ -8546,7 +8546,7 @@ nonsense_palettes = {
         103,
         104,
         105,
-        106
+        106    
     ],
     "Onett Seafoam-Wall House": [
         4,
@@ -8569,7 +8569,7 @@ nonsense_palettes = {
         102,
         104,
         105,
-        118
+        118    
     ],
     "Onett Peach-Wall House": [
         4,
@@ -8591,7 +8591,7 @@ nonsense_palettes = {
         100,
         103,
         105,
-        106
+        106    
     ],
     "Onett Light Blue-Wall House": [
         4,
@@ -8611,7 +8611,7 @@ nonsense_palettes = {
         100,
         102,
         103,
-        106
+        106    
     ],
     "Onett Pink-Wall House": [
         4,
@@ -8628,7 +8628,7 @@ nonsense_palettes = {
         99,
         100,
         102,
-        103
+        103    
     ],
     "Onett White-Wall House": [
         4,
@@ -8648,7 +8648,7 @@ nonsense_palettes = {
         100,
         105,
         106,
-        126
+        126    
     ],
     "Hospitals": [
         4,
@@ -8670,7 +8670,7 @@ nonsense_palettes = {
         22,
         26,
         68,
-        91
+        91    
     ],
     "Tracy's Room": [
         4,
@@ -8689,7 +8689,7 @@ nonsense_palettes = {
         37,
         52,
         54,
-        106
+        106    
     ],
     "Orange Kid's House": [
         4,
@@ -8708,7 +8708,7 @@ nonsense_palettes = {
         99,
         100,
         104,
-        118
+        118    
     ],
     "Everdred's House": [
         2,
@@ -8737,7 +8737,7 @@ nonsense_palettes = {
         103,
         105,
         106,
-        123
+        123    
     ],
     "Twoson Green-Wall House": [
         4,
@@ -8774,10 +8774,10 @@ nonsense_palettes = {
         52,
         69,
         91,
-        99
+        99    
     ],
     "Police Station Backroom": [
-        1
+        1    
     ],
     "Winters": [
         3,
@@ -8797,14 +8797,14 @@ nonsense_palettes = {
         133,
 	    148,
         157,
-        167
+        167    
     ],
     "Rainy Circle Sanctuary": [
         16,
         29,
         33,
         92,
-        93
+        93    
     ],
     "Hospital Rooms": [
         4,
@@ -8822,7 +8822,7 @@ nonsense_palettes = {
         26,
         98,
         99,
-        100
+        100    
     ],
     "Twoson Peach-Wall House": [
         4,
@@ -8844,7 +8844,7 @@ nonsense_palettes = {
         104,
         105,
         106,
-        107
+        107    
     ],
     "Twoson Pink-Wall House": [
         4,
@@ -8869,7 +8869,7 @@ nonsense_palettes = {
         103,
         104,
         105,
-        106
+        106    
     ],
     "Twoson Gray-Wall House": [
         4,
@@ -8890,7 +8890,7 @@ nonsense_palettes = {
         100,
         102,
         103,
-        105
+        105    
     ],
     "Gold Office": [
         4,
@@ -8916,7 +8916,7 @@ nonsense_palettes = {
         105,
         106,
         121,
-        126
+        126    
     ],
     "Happy-Happy Guardhouse": [
         4,
@@ -8937,7 +8937,7 @@ nonsense_palettes = {
         98,
         99,
         100,
-        104
+        104    
     ],
     "Happy-Happy Hospital": [
         4,
@@ -8954,7 +8954,7 @@ nonsense_palettes = {
         22,
         26,
         59,
-        91
+        91    
     ],
     "Happy-Happy Hospital Clear": [
         4,
@@ -8971,7 +8971,7 @@ nonsense_palettes = {
         22,
         26,
         59,
-        91
+        91    
     ],
     "Onett Town Hall": [
         4,
@@ -8991,7 +8991,7 @@ nonsense_palettes = {
         61,
         62,
         121,
-        133
+        133    
     ],
     "Onett Hotel Bedrooms": [
         4,
@@ -9011,7 +9011,7 @@ nonsense_palettes = {
         100,
         102,
         103,
-        106
+        106    
     ],
     "Fourside Hotel Bedrooms": [
         4,
@@ -9032,7 +9032,7 @@ nonsense_palettes = {
         99,
         100,
         103,
-        121
+        121    
     ],
     "Happy-Happy Saturn House": [
         4,
@@ -9055,7 +9055,7 @@ nonsense_palettes = {
         104,
         105,
         106,
-        126
+        126    
     ],
     "Happy-Happy Hotel": [
         4,
@@ -9076,7 +9076,7 @@ nonsense_palettes = {
         99,
         100,
         102,
-        103
+        103    
     ],
     "Twoson Hotel Bedrooms": [
         4,
@@ -9139,7 +9139,7 @@ nonsense_palettes = {
         99,
         100,
         102,
-        103
+        103    
     ],
     "Monotoli Building": [
         4,
@@ -9184,7 +9184,7 @@ nonsense_palettes = {
         100,
         105,
         106,
-        121
+        121    
     ],
     "Paula's Room": [
         4,
@@ -9229,7 +9229,7 @@ nonsense_palettes = {
         102,
         103,
         121,
-        123
+        123    
     ],
     "Twoson Hotel": [
         4,
@@ -9255,7 +9255,7 @@ nonsense_palettes = {
         105,
         106,
         126,
-        130
+        130    
     ],
     "Threed Hotel": [
         4,
@@ -9293,12 +9293,12 @@ nonsense_palettes = {
         99,
         100,
         102,
-        103
+        103    
     ],
     "Monotoli Elevators": [
         96,
         121,
-        126
+        126    
     ],
     "Fourside Dept. Store Office": [
         4,
@@ -9380,7 +9380,7 @@ nonsense_palettes = {
         52,
         59,
         126,
-        133
+        133    
     ],
     "Scaraba": [
         4,
@@ -9396,7 +9396,7 @@ nonsense_palettes = {
         107,
         126,
         129,
-        164
+        164    
     ],
     "Dalaam House": [
         4,
@@ -9476,7 +9476,7 @@ nonsense_palettes = {
         129,
         160,
         164,
-        166
+        166    
     ],
     "Fourside Cafe": [
         4,
@@ -9582,7 +9582,7 @@ nonsense_palettes = {
         102,
         103,
         112,
-        115
+        115    
     ],
     "Twoson Dept. Store": [
         56,
@@ -9593,7 +9593,7 @@ nonsense_palettes = {
         108,
         161,
         162,
-        164
+        164    
     ],
     "Fourside Dept. Store": [
         4,
@@ -9647,7 +9647,7 @@ nonsense_palettes = {
         88,
         98,
         99,
-        123
+        123    
     ],
     "Burger Shop": [
         4,
@@ -9663,7 +9663,7 @@ nonsense_palettes = {
         80,
         82,
         83,
-        89
+        89    
     ],
     "Onett Drugstore": [
         4,
@@ -9732,7 +9732,7 @@ nonsense_palettes = {
         83,
         91,
         121,
-        126
+        126    
     ],
     "Chaos Theater": [
         4,
@@ -9771,7 +9771,7 @@ nonsense_palettes = {
         104,
         105,
         106,
-        123
+        123    
     ],
     "Fourside Museum": [
         19,
@@ -9845,7 +9845,7 @@ nonsense_palettes = {
         99,
         100,
         105,
-        106
+        106    
     ],
     "Snow Wood Boarding School": [
         4,
@@ -9875,7 +9875,7 @@ nonsense_palettes = {
         99,
         100,
         105,
-        106
+        106    
     ],
     "Summers Harbor House": [
         4,
@@ -9948,7 +9948,7 @@ nonsense_palettes = {
         106,
         108,
         117,
-        126
+        126    
     ],
     "Moonside Museum": [
         4,
@@ -9974,7 +9974,7 @@ nonsense_palettes = {
         99,
         100,
         103,
-        104
+        104    
     ],
     "Stoic Club": [
         4,
@@ -9999,7 +9999,7 @@ nonsense_palettes = {
         40,
         68,
         99,
-        130
+        130    
     ],
     "Topolla Theater": [
         4,
@@ -10033,7 +10033,7 @@ nonsense_palettes = {
         100,
         104,
         105,
-        106
+        106    
     ],
     "Summers Museum": [
         4,
@@ -10094,7 +10094,7 @@ nonsense_palettes = {
         91,
         99,
         100,
-        103
+        103    
     ],
     "Twoson Bus Station": [
         22,
@@ -10110,7 +10110,7 @@ nonsense_palettes = {
         106,
         109,
         116,
-        119
+        119    
     ],
     "Twoson Bike Shop": [
         4,
@@ -10141,7 +10141,7 @@ nonsense_palettes = {
         50,
         53,
         82,
-        86
+        86    
     ],
     "Fourside Dept. Store Rooms": [
         2,
@@ -10195,7 +10195,7 @@ nonsense_palettes = {
         80,
         90,
         101,
-        130
+        130    
     ],
     "Lier's House": [
         4,
@@ -10215,7 +10215,7 @@ nonsense_palettes = {
         59,
         91,
         99,
-        100
+        100    
     ],
     "Run-down House": [
         4,
@@ -10281,7 +10281,7 @@ nonsense_palettes = {
         83,
         89,
         99,
-        100
+        100    
     ],
     "Dusty Dunes Miner Shack": [
         4,
@@ -10292,7 +10292,7 @@ nonsense_palettes = {
         12,
         13,
         19,
-        21
+        21    
     ],
     "Traveler's Shack": [
         4,
@@ -10344,7 +10344,7 @@ nonsense_palettes = {
         126,
         128,
         162,
-        164
+        164    
     ],
     "Connector Caves": [
         1,
@@ -10382,7 +10382,7 @@ nonsense_palettes = {
         122,
         123,
         126,
-        147
+        147    
     ],
     "Lumine Hall Sanctuary": [
         4,
@@ -10450,7 +10450,7 @@ nonsense_palettes = {
         121,
         126,
         128,
-        162
+        162    
     ],
     "Fire Spring": [
         4,
@@ -10496,7 +10496,7 @@ nonsense_palettes = {
         22,
         40,
         52,
-        126
+        126    
     ],
     "Monkey Caves Treasure Rooms": [
         1,
@@ -10572,7 +10572,7 @@ nonsense_palettes = {
         26,
         29,
         58,
-        93
+        93    
     ],
     "Threed Underground": [
         4,
@@ -10658,7 +10658,7 @@ nonsense_palettes = {
     "Brickroad Maze": [
         18,
         54,
-        58
+        58    
     ],
     "Rainy Circle": [
         4,
@@ -10708,7 +10708,7 @@ nonsense_palettes = {
         99,
         100,
         116,
-        126
+        126    
     ],
     "Milky Well Caves": [
         4,
@@ -10809,7 +10809,7 @@ nonsense_palettes = {
         43,
         45,
         47,
-        49
+        49    
     ],
     "Pink Cloud": [
         6,
@@ -10835,7 +10835,7 @@ nonsense_palettes = {
         56,
         71,
         78,
-        126
+        126    
     ],
     "Stonehenge Tunnels": [
         1,
@@ -10880,7 +10880,7 @@ nonsense_palettes = {
         74,
         79,
         80,
-        111
+        111    
     ],
     "Tenda Village": [
         4,
@@ -10905,7 +10905,7 @@ nonsense_palettes = {
         105,
         123,
         126,
-        162
+        162    
     ],
     "Fourside Dept. Store Blackout": [
         4,
@@ -10965,7 +10965,7 @@ nonsense_palettes = {
         129,
         131,
         146,
-        160
+        160    
     ],
     "Magicant Ness": [
         7,
@@ -10989,7 +10989,7 @@ nonsense_palettes = {
         129,
         131,
         146,
-        160
+        160    
     ],
     "Magicant Rabbit": [
         7,
@@ -11013,7 +11013,7 @@ nonsense_palettes = {
         129,
         131,
         146,
-        160
+        160    
     ],
     "Magicant Belch": [
         7,
@@ -11037,7 +11037,7 @@ nonsense_palettes = {
         129,
         131,
         146,
-        160
+        160    
     ],
     "Magicant Mom": [
         7,
@@ -11061,6 +11061,6 @@ nonsense_palettes = {
         129,
         131,
         146,
-        160
+        160    
     ]
 }

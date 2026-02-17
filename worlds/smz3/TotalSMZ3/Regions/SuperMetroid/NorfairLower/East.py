@@ -1,8 +1,7 @@
-﻿from ....Config import Config, SMLogic
-from ....Item import Progression
+﻿from ....Region import SMRegion, IReward, RewardType
+from ....Config import Config, SMLogic
 from ....Location import Location, LocationType
-from ....Region import IReward, RewardType, SMRegion
-
+from ....Item import Progression
 
 class East(SMRegion, IReward):
     Name = "Norfair Lower East"
@@ -36,24 +35,26 @@ class East(SMRegion, IReward):
                 items.Gravity) and items.Wave and (
                 # /*Spikey Acid Snakes and Croc Escape*/
                 items.Grapple or items.SpaceJump))
-        # /*Vanilla LN Escape*/
-        return (items.Morph and (items.CardNorfairL2 or # /*Bubble Mountain*/
-                                    (items.Missile or items.Super or items.Wave) and # /* Blue Gate */
-                                (items.SpeedBooster or items.CanFly() or items.Grapple or items.HiJump and
-                                (items.CanSpringBallJump() or items.Ice))) or # /*Frog Speedway or Croc Escape*/
-            # /*Reverse Amphitheater*/
-                items.HasEnergyReserves(5))
+        else:
+            # /*Vanilla LN Escape*/
+            return (items.Morph and (items.CardNorfairL2 or # /*Bubble Mountain*/ 
+                                        (items.Missile or items.Super or items.Wave) and # /* Blue Gate */
+                                    (items.SpeedBooster or items.CanFly() or items.Grapple or items.HiJump and 
+                                    (items.CanSpringBallJump() or items.Ice))) or # /*Frog Speedway or Croc Escape*/
+                # /*Reverse Amphitheater*/
+                    items.HasEnergyReserves(5))
 
     def CanEnter(self, items:Progression):
         if self.Logic == SMLogic.Normal:
             return items.Varia and items.CardLowerNorfairL1 and (
                     self.world.CanEnter("Norfair Upper East", items) and items.CanUsePowerBombs() and items.SpaceJump and items.Gravity or
                     items.CanAccessNorfairLowerPortal() and items.CanDestroyBombWalls() and items.Super and items.CanUsePowerBombs() and items.CanFly())
-        return items.Varia and items.CardLowerNorfairL1 and (
-                self.world.CanEnter("Norfair Upper East", items) and items.CanUsePowerBombs() and (items.HiJump or items.Gravity) or
-                items.CanAccessNorfairLowerPortal() and items.CanDestroyBombWalls() and items.Super and (items.CanFly() or items.CanSpringBallJump() or items.SpeedBooster)) and (
-            items.CanFly() or items.HiJump or items.CanSpringBallJump() or items.Ice and items.Charge) and (
-            items.CanPassBombPassages() or items.ScrewAttack and items.SpaceJump)
+        else:
+            return items.Varia and items.CardLowerNorfairL1 and (
+                    self.world.CanEnter("Norfair Upper East", items) and items.CanUsePowerBombs() and (items.HiJump or items.Gravity) or
+                    items.CanAccessNorfairLowerPortal() and items.CanDestroyBombWalls() and items.Super and (items.CanFly() or items.CanSpringBallJump() or items.SpeedBooster)) and (
+                items.CanFly() or items.HiJump or items.CanSpringBallJump() or items.Ice and items.Charge) and (
+                items.CanPassBombPassages() or items.ScrewAttack and items.SpaceJump)                     
 
     def CanComplete(self, items:Progression):
         return self.GetLocation("Energy Tank, Ridley").Available(items)

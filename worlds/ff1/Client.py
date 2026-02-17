@@ -2,8 +2,9 @@ import logging
 from collections import deque
 from typing import TYPE_CHECKING
 
-import worlds._bizhawk as bizhawk
 from NetUtils import ClientStatus
+
+import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
 if TYPE_CHECKING:
@@ -185,8 +186,8 @@ class FF1Client(BizHawkClient):
             ctx.locations_checked.add(location)
             location_name = ctx.location_names.lookup_in_game(location)
             logger.info(
-                f"New Check: {location_name} ({len(ctx.locations_checked)}/"
-                f"{len(ctx.missing_locations) + len(ctx.checked_locations)})")
+                f'New Check: {location_name} ({len(ctx.locations_checked)}/'
+                f'{len(ctx.missing_locations) + len(ctx.checked_locations)})')
 
 
     async def received_items_check(self, ctx: "BizHawkClientContext") -> None:

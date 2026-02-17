@@ -1,5 +1,4 @@
 from BaseClasses import ItemClassification
-
 from . import MessengerTestBase
 
 

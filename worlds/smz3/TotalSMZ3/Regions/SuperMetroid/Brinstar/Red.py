@@ -1,8 +1,7 @@
-﻿from ....Config import Config, SMLogic
-from ....Item import Progression
+﻿from ....Region import SMRegion
+from ....Config import Config, SMLogic
 from ....Location import Location, LocationType
-from ....Region import SMRegion
-
+from ....Item import Progression
 
 class Red(SMRegion):
     Name = "Brinstar Red"
@@ -24,7 +23,7 @@ class Red(SMRegion):
                 lambda items: items.Super),
             Location(self, 41, 0x8F8914, LocationType.Visible, "Missile (red Brinstar spike room)",
                 lambda items: items.CanUsePowerBombs() and items.Super),
-            Location(self, 42, 0x8F896E, LocationType.Chozo, "Spazer",
+            Location(self, 42, 0x8F896E, LocationType.Chozo, "Spazer", 
                 lambda items: items.CanPassBombPassages() and items.Super)
         ]
 
@@ -32,5 +31,6 @@ class Red(SMRegion):
         if self.Logic == SMLogic.Normal:
             return (items.CanDestroyBombWalls() or items.SpeedBooster) and items.Super and items.Morph or \
                 items.CanAccessNorfairUpperPortal() and (items.Ice or items.HiJump or items.SpaceJump)
-        return (items.CanDestroyBombWalls() or items.SpeedBooster) and items.Super and items.Morph or \
-            items.CanAccessNorfairUpperPortal() and (items.Ice or items.CanSpringBallJump() or items.HiJump or items.CanFly())
+        else:
+            return (items.CanDestroyBombWalls() or items.SpeedBooster) and items.Super and items.Morph or \
+                items.CanAccessNorfairUpperPortal() and (items.Ice or items.CanSpringBallJump() or items.HiJump or items.CanFly())

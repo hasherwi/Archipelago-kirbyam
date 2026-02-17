@@ -1,9 +1,10 @@
 # Tests that yaml wrappers in Utils.py do what they should
 
 import unittest
-from typing import Any, ClassVar, Dict, cast
+from typing import cast, Any, ClassVar, Dict
 
-from Utils import Dumper, dump, parse_yaml, parse_yamls, unsafe_parse_yaml  # type: ignore[attr-defined]
+from Utils import dump, Dumper  # type: ignore[attr-defined]
+from Utils import parse_yaml, parse_yamls, unsafe_parse_yaml
 
 
 class AClass:
@@ -12,12 +13,12 @@ class AClass:
 
 
 class TestYaml(unittest.TestCase):
-    safe_data: ClassVar[dict[str, Any]] = {
+    safe_data: ClassVar[Dict[str, Any]] = {
         "a": [1, 2, 3],
         "b": None,
         "c": True,
     }
-    unsafe_data: ClassVar[dict[str, Any]] = {
+    unsafe_data: ClassVar[Dict[str, Any]] = {
         "a": AClass()
     }
 

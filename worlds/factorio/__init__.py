@@ -5,49 +5,21 @@ import logging
 import typing
 
 import Utils
-from BaseClasses import Item, ItemClassification, Location, Region, Tutorial
-from worlds.AutoWorld import WebWorld, World
+from BaseClasses import Region, Location, Item, Tutorial, ItemClassification
+from worlds.AutoWorld import World, WebWorld
+from worlds.LauncherComponents import Component, components, Type, launch as launch_component
 from worlds.generic import Rules
-from worlds.LauncherComponents import Component, Type, components
-from worlds.LauncherComponents import launch as launch_component
-
-from .Locations import craftsanity_locations, location_pools, location_table
+from .Locations import location_pools, location_table, craftsanity_locations
 from .Mod import generate_mod
-from .Options import (
-    FactorioOptions,
-    Goal,
-    MaxSciencePack,
-    Satellite,
-    Silo,
-    TechCostDistribution,
-    TechTreeInformation,
-    option_groups,
-)
-from .settings import FactorioSettings
+from .Options import (FactorioOptions, MaxSciencePack, Silo, Satellite, TechTreeInformation, Goal,
+                      TechCostDistribution, option_groups)
 from .Shapes import get_shapes
-from .Technologies import (
-    Recipe,
-    all_product_sources,
-    base_tech_table,
-    base_technology_table,
-    common_tech_table,
-    factorio_base_id,
-    fluids,
-    get_rocket_requirements,
-    get_science_pack_pools,
-    progressive_rows,
-    progressive_tech_table,
-    progressive_technology_table,
-    recipe_sources,
-    recipes,
-    required_technologies,
-    stacking_items,
-    tech_table,
-    tech_to_progressive_lookup,
-    technology_table,
-    useless_technologies,
-    valid_ingredients,
-)
+from .Technologies import base_tech_table, recipe_sources, base_technology_table, \
+    all_product_sources, required_technologies, get_rocket_requirements, \
+    progressive_technology_table, common_tech_table, tech_to_progressive_lookup, progressive_tech_table, \
+    get_science_pack_pools, Recipe, recipes, technology_table, tech_table, factorio_base_id, useless_technologies, \
+    fluids, stacking_items, valid_ingredients, progressive_rows
+from .settings import FactorioSettings
 
 
 def launch_client(*args: str):
@@ -94,9 +66,9 @@ class Factorio(World):
     """
     game = "Factorio"
     special_nodes = {"automation", "logistics", "rocket-silo"}
-    custom_recipes: dict[str, Recipe]
-    location_pool: list[FactorioScienceLocation]
-    advancement_technologies: set[str]
+    custom_recipes: typing.Dict[str, Recipe]
+    location_pool: typing.List[FactorioScienceLocation]
+    advancement_technologies: typing.Set[str]
 
     web = FactorioWeb()
     options_dataclass = FactorioOptions
@@ -110,21 +82,21 @@ class Factorio(World):
     required_client_version = (0, 6, 0)
     if Utils.version_tuple < required_client_version:
         raise Exception(f"Update Archipelago to use this world ({game}).")
-    ordered_science_packs: list[str] = MaxSciencePack.get_ordered_science_packs()
-    tech_tree_layout_prerequisites: dict[FactorioScienceLocation, set[FactorioScienceLocation]]
+    ordered_science_packs: typing.List[str] = MaxSciencePack.get_ordered_science_packs()
+    tech_tree_layout_prerequisites: typing.Dict[FactorioScienceLocation, typing.Set[FactorioScienceLocation]]
     tech_mix: int = 0
     skip_silo: bool = False
     origin_region_name = "Nauvis"
-    science_locations: list[FactorioScienceLocation]
-    craftsanity_locations: list[FactorioCraftsanityLocation]
-    removed_technologies: set[str]
+    science_locations: typing.List[FactorioScienceLocation]
+    craftsanity_locations: typing.List[FactorioCraftsanityLocation]
+    removed_technologies: typing.Set[str]
     settings: typing.ClassVar[FactorioSettings]
     trap_names: tuple[str] = ("Evolution", "Attack", "Teleport", "Grenade", "Cluster Grenade", "Artillery",
                               "Atomic Rocket", "Atomic Cliff Remover", "Inventory Spill")
     want_progressives: dict[str, bool] = collections.defaultdict(lambda: False)
 
     def __init__(self, world, player: int):
-        super().__init__(world, player)
+        super(Factorio, self).__init__(world, player)
         self.removed_technologies = useless_technologies.copy()
         self.advancement_technologies = set()
         self.custom_recipes = {}
@@ -335,7 +307,7 @@ class Factorio(World):
         self.get_location("Rocket Launch").access_rule = lambda state: all(state.has(technology, player)
                                                                            for technology in
                                                                            victory_tech_names)
-        self.multiworld.completion_condition[player] = lambda state: state.has("Victory", player)
+        self.multiworld.completion_condition[player] = lambda state: state.has('Victory', player)
 
         if "Craft rocket-silo" in self.multiworld.regions.location_cache[self.player]:
             victory_tech_names_r = get_rocket_requirements(silo_recipe, None, None, None)
@@ -387,7 +359,7 @@ class Factorio(World):
             # 32 bit uint
             map_basic_settings["seed"] = self.random.randint(0, 2 ** 32 - 1)
 
-        start_location_hints: set[str] = self.options.start_location_hints.value
+        start_location_hints: typing.Set[str] = self.options.start_location_hints.value
 
         for loc in self.science_locations:
             # show start_location_hints ingame
@@ -409,12 +381,12 @@ class Factorio(World):
                     if not state.has(item_name, item.player):
                         return item_name
 
-        return super().collect_item(state, item, remove)
+        return super(Factorio, self).collect_item(state, item, remove)
 
     @classmethod
     def stage_write_spoiler(cls, world, spoiler_handle):
         factorio_players = world.get_game_players(cls.game)
-        spoiler_handle.write("\n\nFactorio Recipes:\n")
+        spoiler_handle.write('\n\nFactorio Recipes:\n')
         for player in factorio_players:
             name = world.get_player_name(player)
             for recipe in world.worlds[player].custom_recipes.values():
@@ -445,12 +417,12 @@ class Factorio(World):
         return Recipe(original.name, self.get_category(original.category, liquids_used), new_ingredients,
                       original.products, original.energy)
 
-    def make_balanced_recipe(self, original: Recipe, pool: set[str], factor: float = 1,
+    def make_balanced_recipe(self, original: Recipe, pool: typing.Set[str], factor: float = 1,
                              allow_liquids: int = 2, ingredients_offset: int = 0) -> Recipe:
         """Generate a recipe from pool with time and cost similar to original * factor"""
         new_ingredients = {}
         # have to first sort for determinism, while filtering out non-stacking items
-        pool: list[str] = sorted(pool & valid_ingredients)
+        pool: typing.List[str] = sorted(pool & valid_ingredients)
         # then sort with random data to shuffle
         self.random.shuffle(pool)
         target_raw = int(sum((count for ingredient, count in original.base_cost.items())) * factor)
@@ -648,7 +620,7 @@ class FactorioCraftsanityLocation(FactorioLocation):
     revealed = False
 
     def __init__(self, player: int, name: str, address: int, parent: Region):
-        super().__init__(player, name, address, parent)
+        super(FactorioCraftsanityLocation, self).__init__(player, name, address, parent)
 
     @property
     def crafted_item(self):
@@ -661,11 +633,11 @@ class FactorioScienceLocation(FactorioLocation):
     crafted_item = None
 
     # Factorio technology properties:
-    ingredients: dict[str, int]
+    ingredients: typing.Dict[str, int]
     count: int = 0
 
     def __init__(self, player: int, name: str, address: int, parent: Region):
-        super().__init__(player, name, address, parent)
+        super(FactorioScienceLocation, self).__init__(player, name, address, parent)
         # "AP-{Complexity}-{Cost}"
         self.complexity = int(self.name[3]) - 1
         self.rel_cost = int(self.name[5:])
@@ -677,5 +649,5 @@ class FactorioScienceLocation(FactorioLocation):
                 self.ingredients[Factorio.ordered_science_packs[complexity]] = 1
 
     @property
-    def factorio_ingredients(self) -> list[tuple[str, int]]:
+    def factorio_ingredients(self) -> typing.List[typing.Tuple[str, int]]:
         return [(name, count) for name, count in self.ingredients.items()]

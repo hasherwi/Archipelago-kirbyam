@@ -1,10 +1,10 @@
-from typing import TYPE_CHECKING, NamedTuple
+from typing import NamedTuple, TYPE_CHECKING
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import set_rule
 
 from .constants import *
-from .logic_helpers import fuse_activation_reqs, has_ability, has_sword
+from .logic_helpers import has_ability, has_sword, fuse_activation_reqs
 
 if TYPE_CHECKING:
     from . import TunicWorld

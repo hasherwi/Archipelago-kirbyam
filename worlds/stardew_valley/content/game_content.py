@@ -1,30 +1,21 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Set, Tuple, Type, Union
-from collections.abc import Iterable, Mapping
+from typing import Iterable, Set, Any, Mapping, Type, Tuple, Union
 
+from .feature import booksanity, cropsanity, fishsanity, friendsanity, skill_progression, building_progression, tool_progression
 from ..data.animal import Animal
 from ..data.building import Building
 from ..data.fish_data import FishItem
-from ..data.game_item import GameItem, ItemTag, Source
+from ..data.game_item import GameItem, Source, ItemTag
 from ..data.skill import Skill
 from ..data.villagers_data import Villager
-from .feature import (
-    booksanity,
-    building_progression,
-    cropsanity,
-    fishsanity,
-    friendsanity,
-    skill_progression,
-    tool_progression,
-)
 
 
 @dataclass(frozen=True)
 class StardewContent:
     features: StardewFeatures
-    registered_packs: set[str] = field(default_factory=set)
+    registered_packs: Set[str] = field(default_factory=set)
 
     # regions -> To be used with can reach rule
 
@@ -36,7 +27,7 @@ class StardewContent:
     skills: dict[str, Skill] = field(default_factory=dict)
     quests: dict[str, Any] = field(default_factory=dict)
 
-    def find_sources_of_type(self, types: type[Source] | tuple[type[Source]]) -> Iterable[Source]:
+    def find_sources_of_type(self, types: Union[Type[Source], Tuple[Type[Source]]]) -> Iterable[Source]:
         for item in self.game_items.values():
             for source in item.sources:
                 if isinstance(source, types):

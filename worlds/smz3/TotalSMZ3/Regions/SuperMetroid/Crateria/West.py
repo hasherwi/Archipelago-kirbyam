@@ -1,8 +1,7 @@
-﻿from ....Config import Config, SMLogic
-from ....Item import Progression
+﻿from ....Region import SMRegion
+from ....Config import Config, SMLogic
 from ....Location import Location, LocationType
-from ....Region import SMRegion
-
+from ....Item import Progression
 
 class West(SMRegion):
     Name = "Crateria West"
@@ -32,7 +31,8 @@ class West(SMRegion):
                     items.CanIbj() or
                     items.CanUsePowerBombs() and items.TwoPowerBombs or
                     items.ScrewAttack)
-        return items.CardCrateriaL1 and (
-                items.Morph and (items.Bombs or items.TwoPowerBombs) or
-                items.ScrewAttack or
-                items.SpeedBooster and items.CanUsePowerBombs() and items.HasEnergyReserves(2))
+        else:
+            return items.CardCrateriaL1 and (
+                    items.Morph and (items.Bombs or items.TwoPowerBombs) or
+                    items.ScrewAttack or
+                    items.SpeedBooster and items.CanUsePowerBombs() and items.HasEnergyReserves(2))

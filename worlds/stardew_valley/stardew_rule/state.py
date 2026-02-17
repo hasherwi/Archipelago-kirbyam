@@ -1,12 +1,10 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, List, Tuple, Union
-from collections.abc import Hashable, Iterable
+from typing import Iterable, Union, List, Tuple, Hashable, TYPE_CHECKING
 
 from BaseClasses import CollectionState
-
-from ..strings.ap_names.event_names import Event
 from .base import BaseStardewRule, CombinableStardewRule
 from .protocol import StardewRule
+from ..strings.ap_names.event_names import Event
 
 if TYPE_CHECKING:
     from .. import StardewValleyWorld
@@ -17,8 +15,8 @@ class TotalReceived(BaseStardewRule):
     items: Iterable[str]
     player: int
 
-    def __init__(self, count: int, items: str | Iterable[str], player: int):
-        items_list: list[str]
+    def __init__(self, count: int, items: Union[str, Iterable[str]], player: int):
+        items_list: List[str]
 
         if isinstance(items, Iterable):
             items_list = [*items]
@@ -37,7 +35,7 @@ class TotalReceived(BaseStardewRule):
                 return True
         return False
 
-    def evaluate_while_simplifying(self, state: CollectionState) -> tuple[StardewRule, bool]:
+    def evaluate_while_simplifying(self, state: CollectionState) -> Tuple[StardewRule, bool]:
         return self, self(state)
 
     def __repr__(self):
@@ -63,7 +61,7 @@ class Received(CombinableStardewRule):
     def __call__(self, state: CollectionState) -> bool:
         return state.has(self.item, self.player, self.count)
 
-    def evaluate_while_simplifying(self, state: CollectionState) -> tuple[StardewRule, bool]:
+    def evaluate_while_simplifying(self, state: CollectionState) -> Tuple[StardewRule, bool]:
         return self, self(state)
 
     def __repr__(self):
@@ -79,11 +77,11 @@ class Reach(BaseStardewRule):
     player: int
 
     def __call__(self, state: CollectionState) -> bool:
-        if self.resolution_hint == "Region" and self.spot not in state.multiworld.regions.region_cache[self.player]:
+        if self.resolution_hint == 'Region' and self.spot not in state.multiworld.regions.region_cache[self.player]:
             return False
         return state.can_reach(self.spot, self.resolution_hint, self.player)
 
-    def evaluate_while_simplifying(self, state: CollectionState) -> tuple[StardewRule, bool]:
+    def evaluate_while_simplifying(self, state: CollectionState) -> Tuple[StardewRule, bool]:
         return self, self(state)
 
     def __repr__(self):

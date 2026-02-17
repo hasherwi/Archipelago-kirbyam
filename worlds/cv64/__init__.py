@@ -1,41 +1,25 @@
-import base64
-import logging
 import os
 import typing
-
 import settings
-from BaseClasses import Item, ItemClassification, Region, Tutorial
-from worlds.AutoWorld import WebWorld, World
+import base64
+import logging
 
-from .aesthetics import (
-    get_countdown_numbers,
-    get_loading_zone_bytes,
-    get_location_data,
-    get_start_inventory_data,
-    randomize_lighting,
-    randomize_music,
-    randomize_shop_prices,
-    rom_empty_breakables_flags,
-    rom_sub_weapon_flags,
-    shuffle_sub_weapons,
-)
-from .client import Castlevania64Client
-from .data import ename, iname, rname
-from .entrances import get_warp_entrances, verify_entrances
-from .items import CV64Item, filler_item_names, get_item_counts, get_item_info, get_item_names_to_ids
-from .locations import CV64Location, base_id, get_location_info, get_location_names_to_ids, verify_locations
-from .options import CharacterStages, CV64Options, DraculasCondition, SubWeaponShuffle, cv64_option_groups
+from BaseClasses import Item, Region, Tutorial, ItemClassification
+from .items import CV64Item, filler_item_names, get_item_info, get_item_names_to_ids, get_item_counts
+from .locations import CV64Location, get_location_info, verify_locations, get_location_names_to_ids, base_id
+from .entrances import verify_entrances, get_warp_entrances
+from .options import CV64Options, cv64_option_groups, CharacterStages, DraculasCondition, SubWeaponShuffle
+from .stages import get_locations_from_stage, get_normal_stage_exits, vanilla_stage_order, \
+    shuffle_stages, generate_warps, get_region_names
 from .regions import get_region_info
-from .rom import CV64_US_10_HASH, CV64ProcedurePatch, RomData, get_base_rom_path, write_patch
 from .rules import CV64Rules
-from .stages import (
-    generate_warps,
-    get_locations_from_stage,
-    get_normal_stage_exits,
-    get_region_names,
-    shuffle_stages,
-    vanilla_stage_order,
-)
+from .data import iname, rname, ename
+from worlds.AutoWorld import WebWorld, World
+from .aesthetics import randomize_lighting, shuffle_sub_weapons, rom_empty_breakables_flags, rom_sub_weapon_flags, \
+    randomize_music, get_start_inventory_data, get_location_data, randomize_shop_prices, get_loading_zone_bytes, \
+    get_countdown_numbers
+from .rom import RomData, write_patch, get_base_rom_path, CV64ProcedurePatch, CV64_US_10_HASH
+from .client import Castlevania64Client
 
 
 class CV64Settings(settings.Group):
@@ -84,9 +68,9 @@ class CV64World(World):
     item_name_to_id = get_item_names_to_ids()
     location_name_to_id = get_location_names_to_ids()
 
-    active_stage_exits: dict[str, dict]
-    active_stage_list: list[str]
-    active_warp_list: list[str]
+    active_stage_exits: typing.Dict[str, typing.Dict]
+    active_stage_list: typing.List[str]
+    active_warp_list: typing.List[str]
 
     # Default values to possibly be updated in generate_early
     reinhardt_stages: bool = True
@@ -213,7 +197,7 @@ class CV64World(World):
                             f"setting: {self.options.bosses_required.value}. Lowering to: {self.required_s2s}")
             self.options.bosses_required.value = self.required_s2s
 
-    def create_item(self, name: str, force_classification: str | None = None) -> Item:
+    def create_item(self, name: str, force_classification: typing.Optional[str] = None) -> Item:
         if force_classification is not None:
             classification = getattr(ItemClassification, force_classification)
         else:
@@ -298,7 +282,7 @@ class CV64World(World):
     def get_filler_item_name(self) -> str:
         return self.random.choice(filler_item_names)
 
-    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]):
+    def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]):
         # Attach each location's stage's position to its hint information if Stage Shuffle is on.
         if not self.options.stage_shuffle:
             return
@@ -314,7 +298,7 @@ class CV64World(World):
                     stage_pos_data[loc.address] += path
         hint_data[self.player] = stage_pos_data
 
-    def modify_multidata(self, multidata: dict[str, typing.Any]):
+    def modify_multidata(self, multidata: typing.Dict[str, typing.Any]):
         # Put the player's unique authentication in connect_names.
         multidata["connect_names"][base64.b64encode(self.auth).decode("ascii")] = \
             multidata["connect_names"][self.multiworld.player_name[self.player]]

@@ -1,6 +1,6 @@
+from .data import lname, rname, ename
 from typing import List, Union
 
-from .data import ename, lname, rname
 
 # # #    KEY    # # #
 # "stage" = What stage the Region is a part of. The Region and its corresponding Locations and Entrances will only be
@@ -513,5 +513,5 @@ region_info = {
 }
 
 
-def get_region_info(region: str, info: str) -> str | list[str] | None:
+def get_region_info(region: str, info: str) -> Union[str, List[str], None]:
     return region_info[region].get(info, None)

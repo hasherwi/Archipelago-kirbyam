@@ -1,11 +1,11 @@
 from typing import Dict, List
 
-from .Options import MaxSciencePack
 from .Technologies import factorio_base_id, recipes
+from .Options import MaxSciencePack
 
 
-def make_pools() -> dict[str, list[str]]:
-    pools: dict[str, list[str]] = {}
+def make_pools() -> Dict[str, List[str]]:
+    pools: Dict[str, List[str]] = {}
     for i, pack in enumerate(MaxSciencePack.get_ordered_science_packs(), start=1):
         max_needed: int = 999
         prefix: str = f"AP-{i}-"
@@ -13,9 +13,9 @@ def make_pools() -> dict[str, list[str]]:
     return pools
 
 
-location_pools: dict[str, list[str]] = make_pools()
+location_pools: Dict[str, List[str]] = make_pools()
 
-location_table: dict[str, int] = {}
+location_table: Dict[str, int] = {}
 end_id: int = factorio_base_id
 for pool in location_pools.values():
     location_table.update({name: ap_id for ap_id, name in enumerate(pool, start=end_id)})

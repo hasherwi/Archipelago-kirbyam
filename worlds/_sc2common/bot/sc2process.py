@@ -12,7 +12,6 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import aiohttp
 import portpicker
-
 from worlds._sc2common.bot import logger
 
 from . import paths, wsl
@@ -22,7 +21,7 @@ from .versions import VERSIONS
 
 
 class kill_switch:
-    _to_kill: list[Any] = []
+    _to_kill: List[Any] = []
 
     @classmethod
     def add(cls, value):
@@ -60,11 +59,11 @@ class SC2Process:
 
     def __init__(
         self,
-        host: str | None = None,
-        port: int | None = None,
+        host: Optional[str] = None,
+        port: Optional[int] = None,
         fullscreen: bool = False,
-        resolution: list[int] | tuple[int, int] | None = None,
-        placement: list[int] | tuple[int, int] | None = None,
+        resolution: Optional[Union[List[int], Tuple[int, int]]] = None,
+        placement: Optional[Union[List[int], Tuple[int, int]]] = None,
         render: bool = False,
         sc2_version: str = None,
         base_build: str = None,
@@ -74,7 +73,7 @@ class SC2Process:
         assert isinstance(port, int) or port is None
 
         self._render = render
-        self._arguments: dict[str, str] = {"-displayMode": str(int(fullscreen))}
+        self._arguments: Dict[str, str] = {"-displayMode": str(int(fullscreen))}
         if not fullscreen:
             if resolution and len(resolution) == 2:
                 self._arguments["-windowwidth"] = str(resolution[0])
@@ -135,7 +134,7 @@ class SC2Process:
         https://github.com/Blizzard/s2client-proto/blob/master/buildinfo/versions.json"""
         return VERSIONS
 
-    def find_data_hash(self, target_sc2_version: str) -> str | None:
+    def find_data_hash(self, target_sc2_version: str) -> Optional[str]:
         """ Returns the data hash from the matching version string. """
         version: dict
         for version in self.versions:

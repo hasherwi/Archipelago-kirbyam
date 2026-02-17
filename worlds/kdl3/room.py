@@ -1,9 +1,7 @@
 import struct
-from typing import TYPE_CHECKING, Dict, List, Optional, Union
-
-from BaseClasses import ItemClassification, MultiWorld, Region
+from typing import Optional, Dict, TYPE_CHECKING, List, Union
+from BaseClasses import Region, ItemClassification, MultiWorld
 from worlds.Files import APTokenTypes
-
 from .client_addrs import consumable_addrs, star_addrs
 
 if TYPE_CHECKING:
@@ -25,18 +23,18 @@ class KDL3Room(Region):
     stage: int = 0
     room: int = 0
     music: int = 0
-    default_exits: list[dict[str, int | list[str]]]
-    animal_pointers: list[int]
-    enemies: list[str]
-    entity_load: list[list[int]]
-    consumables: list[dict[str, int | str]]
+    default_exits: List[Dict[str, Union[int, List[str]]]]
+    animal_pointers: List[int]
+    enemies: List[str]
+    entity_load: List[List[int]]
+    consumables: List[Dict[str, Union[int, str]]]
 
-    def __init__(self, name: str, player: int, multiworld: MultiWorld, hint: str | None, level: int,
+    def __init__(self, name: str, player: int, multiworld: MultiWorld, hint: Optional[str], level: int,
                  stage: int, room: int, pointer: int, music: int,
-                 default_exits: list[dict[str, list[str]]],
-                 animal_pointers: list[int], enemies: list[str],
-                 entity_load: list[list[int]],
-                 consumables: list[dict[str, int | str]], consumable_pointer: int) -> None:
+                 default_exits: List[Dict[str, List[str]]],
+                 animal_pointers: List[int], enemies: List[str],
+                 entity_load: List[List[int]],
+                 consumables: List[Dict[str, Union[int, str]]], consumable_pointer: int) -> None:
         super().__init__(name, player, multiworld, hint)
         self.level = level
         self.stage = stage

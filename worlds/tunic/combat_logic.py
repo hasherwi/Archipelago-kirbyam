@@ -5,7 +5,7 @@ from typing import NamedTuple
 from BaseClasses import CollectionState
 from worlds.AutoWorld import LogicMixin
 
-from .logic_helpers import has_melee, has_sword
+from .logic_helpers import has_sword, has_melee
 
 
 # the vanilla stats you are expected to have to get through an area, based on where they are in vanilla
@@ -176,33 +176,34 @@ def check_combat_reqs(area_name: str, state: CollectionState, player: int, alt_d
                                equipment, data.is_boss)
     if has_required_stats(modified_stats, state, player):
         return True
-    # we may need to check if you would have the required stats if you were missing a weapon
-    if sword_bool and "Sword" in equipment and has_magic:
-        # we need to check if you would have the required stats if you didn't have the sword
-        equip_list = [item for item in equipment if item != "Sword"]
-        if "Magic" not in equip_list:
-            equip_list.append("Magic")
-        more_modified_stats = AreaStats(modified_stats.att_level - 32, modified_stats.def_level,
-                                        modified_stats.potion_level, modified_stats.hp_level,
-                                        modified_stats.sp_level, modified_stats.mp_level + 4,
-                                        modified_stats.potion_count, equip_list, data.is_boss)
-        if check_combat_reqs("none", state, player, more_modified_stats):
-            return True
-
-    elif stick_bool and "Stick" in equipment and has_magic:
-        # we need to check if you would have the required stats if you didn't have the stick
-        equip_list = [item for item in equipment if item != "Stick"]
-        if "Magic" not in equip_list:
-            equip_list.append("Magic")
-        more_modified_stats = AreaStats(modified_stats.att_level - 32, modified_stats.def_level,
-                                        modified_stats.potion_level, modified_stats.hp_level,
-                                        modified_stats.sp_level, modified_stats.mp_level + 2,
-                                        modified_stats.potion_count, equip_list, data.is_boss)
-        if check_combat_reqs("none", state, player, more_modified_stats):
-            return True
     else:
+        # we may need to check if you would have the required stats if you were missing a weapon
+        if sword_bool and "Sword" in equipment and has_magic:
+            # we need to check if you would have the required stats if you didn't have the sword
+            equip_list = [item for item in equipment if item != "Sword"]
+            if "Magic" not in equip_list:
+                equip_list.append("Magic")
+            more_modified_stats = AreaStats(modified_stats.att_level - 32, modified_stats.def_level,
+                                            modified_stats.potion_level, modified_stats.hp_level,
+                                            modified_stats.sp_level, modified_stats.mp_level + 4,
+                                            modified_stats.potion_count, equip_list, data.is_boss)
+            if check_combat_reqs("none", state, player, more_modified_stats):
+                return True
+
+        elif stick_bool and "Stick" in equipment and has_magic:
+            # we need to check if you would have the required stats if you didn't have the stick
+            equip_list = [item for item in equipment if item != "Stick"]
+            if "Magic" not in equip_list:
+                equip_list.append("Magic")
+            more_modified_stats = AreaStats(modified_stats.att_level - 32, modified_stats.def_level,
+                                            modified_stats.potion_level, modified_stats.hp_level,
+                                            modified_stats.sp_level, modified_stats.mp_level + 2,
+                                            modified_stats.potion_count, equip_list, data.is_boss)
+            if check_combat_reqs("none", state, player, more_modified_stats):
+                return True
+        else:
+            return False
         return False
-    return False
 
 
 # check if you have the required stats, and the money to afford them
@@ -219,25 +220,27 @@ def has_required_stats(data: AreaStats, state: CollectionState, player: int) -> 
             player_mp, mp_offerings = get_mp_level(state, player)
             if player_mp < data.mp_level:
                 return False
-            extra_mp = player_mp - data.mp_level
-            paid_mp = max(0, mp_offerings - extra_mp)
-            # mp costs 300 for the first, +50 for each additional
-            money_per_mp = 300
-            for _ in range(paid_mp):
-                money_required += money_per_mp
-                money_per_mp += 50
+            else:
+                extra_mp = player_mp - data.mp_level
+                paid_mp = max(0, mp_offerings - extra_mp)
+                # mp costs 300 for the first, +50 for each additional
+                money_per_mp = 300
+                for _ in range(paid_mp):
+                    money_required += money_per_mp
+                    money_per_mp += 50
         else:
             att_required += 2
 
     if player_att < att_required:
         return False
-    extra_att = player_att - att_required
-    paid_att = max(0, att_offerings - extra_att)
-    # attack upgrades cost 100 for the first, +50 for each additional
-    money_per_att = 100
-    for _ in range(paid_att):
-        money_required += money_per_att
-        money_per_att += 50
+    else:
+        extra_att = player_att - att_required
+        paid_att = max(0, att_offerings - extra_att)
+        # attack upgrades cost 100 for the first, +50 for each additional
+        money_per_att = 100
+        for _ in range(paid_att):
+            money_required += money_per_att
+            money_per_att += 50
 
     # adding defense and sp together since they accomplish similar things: making you take less damage
     if data.def_level + data.sp_level > 2:
@@ -246,24 +249,25 @@ def has_required_stats(data: AreaStats, state: CollectionState, player: int) -> 
         req_stats = data.def_level + data.sp_level
         if player_def + player_sp < req_stats:
             return False
-        free_def = player_def - def_offerings
-        free_sp = player_sp - sp_offerings
-        if free_sp + free_def >= req_stats:
-            # you don't need to buy upgrades
-            pass
         else:
-            # we need to pick the cheapest option that gets us above the stats we need
-            # first number is def, second number is sp
-            upgrade_options: set[tuple[int, int]] = set()
-            stats_to_buy = req_stats - free_def - free_sp
-            for paid_def in range(0, min(def_offerings + 1, stats_to_buy + 1)):
-                sp_required = stats_to_buy - paid_def
-                if sp_offerings >= sp_required:
-                    if sp_required < 0:
-                        break
-                    upgrade_options.add((paid_def, stats_to_buy - paid_def))
-            costs = [calc_def_sp_cost(defense, sp) for defense, sp in upgrade_options]
-            money_required += min(costs)
+            free_def = player_def - def_offerings
+            free_sp = player_sp - sp_offerings
+            if free_sp + free_def >= req_stats:
+                # you don't need to buy upgrades
+                pass
+            else:
+                # we need to pick the cheapest option that gets us above the stats we need
+                # first number is def, second number is sp
+                upgrade_options: set[tuple[int, int]] = set()
+                stats_to_buy = req_stats - free_def - free_sp
+                for paid_def in range(0, min(def_offerings + 1, stats_to_buy + 1)):
+                    sp_required = stats_to_buy - paid_def
+                    if sp_offerings >= sp_required:
+                        if sp_required < 0:
+                            break
+                        upgrade_options.add((paid_def, stats_to_buy - paid_def))
+                costs = [calc_def_sp_cost(defense, sp) for defense, sp in upgrade_options]
+                money_required += min(costs)
 
     req_effective_hp = calc_effective_hp(data.hp_level, data.potion_level, data.potion_count)
     player_potion, potion_offerings = get_potion_level(state, player)
@@ -272,29 +276,30 @@ def has_required_stats(data: AreaStats, state: CollectionState, player: int) -> 
     player_effective_hp = calc_effective_hp(player_hp, player_potion, player_potion_count)
     if player_effective_hp < req_effective_hp:
         return False
-    # need a way to determine which of potion offerings or hp offerings you can reduce
-    free_potion = player_potion - potion_offerings
-    free_hp = player_hp - hp_offerings
-    if calc_effective_hp(free_hp, free_potion, player_potion_count) >= req_effective_hp:
-        # you don't need to buy upgrades
-        pass
     else:
-        # we need to pick the cheapest option that gets us above the amount of effective HP we need
-        # first number is hp, second number is potion
-        upgrade_options: set[tuple[int, int]] = set()
-        # filter out exclusively worse options
-        lowest_hp_added = hp_offerings + 1
-        for paid_potion in range(0, potion_offerings + 1):
-            # check quantities of hp offerings for each potion offering
-            for paid_hp in range(0, lowest_hp_added):
-                if (calc_effective_hp(free_hp + paid_hp, free_potion + paid_potion, player_potion_count)
-                        >= req_effective_hp):
-                    upgrade_options.add((paid_hp, paid_potion))
-                    lowest_hp_added = paid_hp
-                    break
+        # need a way to determine which of potion offerings or hp offerings you can reduce
+        free_potion = player_potion - potion_offerings
+        free_hp = player_hp - hp_offerings
+        if calc_effective_hp(free_hp, free_potion, player_potion_count) >= req_effective_hp:
+            # you don't need to buy upgrades
+            pass
+        else:
+            # we need to pick the cheapest option that gets us above the amount of effective HP we need
+            # first number is hp, second number is potion
+            upgrade_options: set[tuple[int, int]] = set()
+            # filter out exclusively worse options
+            lowest_hp_added = hp_offerings + 1
+            for paid_potion in range(0, potion_offerings + 1):
+                # check quantities of hp offerings for each potion offering
+                for paid_hp in range(0, lowest_hp_added):
+                    if (calc_effective_hp(free_hp + paid_hp, free_potion + paid_potion, player_potion_count)
+                            >= req_effective_hp):
+                        upgrade_options.add((paid_hp, paid_potion))
+                        lowest_hp_added = paid_hp
+                        break
 
-        costs = [calc_hp_potion_cost(hp, potion) for hp, potion in upgrade_options]
-        money_required += min(costs)
+            costs = [calc_hp_potion_cost(hp, potion) for hp, potion in upgrade_options]
+            money_required += min(costs)
 
     return get_money_count(state, player) >= money_required
 

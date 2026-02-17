@@ -3,8 +3,7 @@ from __future__ import annotations
 import itertools
 import math
 import random
-from typing import TYPE_CHECKING, List, Set, Tuple, Union
-from collections.abc import Iterable
+from typing import TYPE_CHECKING, Iterable, List, Set, Tuple, Union
 
 from .proto import common_pb2 as common_pb
 
@@ -25,14 +24,14 @@ class Pointlike(tuple):
     def position(self) -> Pointlike:
         return self
 
-    def distance_to(self, target: Unit | Point2) -> float:
+    def distance_to(self, target: Union[Unit, Point2]) -> float:
         """Calculate a single distance from a point or unit to another point or unit
 
         :param target:"""
         p = target.position
         return math.hypot(self[0] - p[0], self[1] - p[1])
 
-    def distance_to_point2(self, p: Point2 | tuple[float, float]) -> float:
+    def distance_to_point2(self, p: Union[Point2, Tuple[float, float]]) -> float:
         """Same as the function above, but should be a bit faster because of the dropped asserts
         and conversion.
 
@@ -46,7 +45,7 @@ class Pointlike(tuple):
         :param p2:"""
         return (self[0] - p2[0])**2 + (self[1] - p2[1])**2
 
-    def sort_by_distance(self, ps: Units | Iterable[Point2]) -> list[Point2]:
+    def sort_by_distance(self, ps: Union[Units, Iterable[Point2]]) -> List[Point2]:
         """This returns the target points sorted as list.
         You should not pass a set or dict since those are not sortable.
         If you want to sort your units towards a point, use 'units.sorted_by_distance_to(point)' instead.
@@ -54,7 +53,7 @@ class Pointlike(tuple):
         :param ps:"""
         return sorted(ps, key=lambda p: self.distance_to_point2(p.position))
 
-    def closest(self, ps: Units | Iterable[Point2]) -> Unit | Point2:
+    def closest(self, ps: Union[Units, Iterable[Point2]]) -> Union[Unit, Point2]:
         """This function assumes the 2d distance is meant
 
         :param ps:"""
@@ -62,7 +61,7 @@ class Pointlike(tuple):
         # pylint: disable=W0108
         return min(ps, key=lambda p: self.distance_to(p))
 
-    def distance_to_closest(self, ps: Units | Iterable[Point2]) -> float:
+    def distance_to_closest(self, ps: Union[Units, Iterable[Point2]]) -> float:
         """This function assumes the 2d distance is meant
         :param ps:"""
         assert ps, "ps is empty"
@@ -74,7 +73,7 @@ class Pointlike(tuple):
                 closest_distance = distance
         return closest_distance
 
-    def furthest(self, ps: Units | Iterable[Point2]) -> Unit | Pointlike:
+    def furthest(self, ps: Union[Units, Iterable[Point2]]) -> Union[Unit, Pointlike]:
         """This function assumes the 2d distance is meant
 
         :param ps: Units object, or iterable of Unit or Point2"""
@@ -82,7 +81,7 @@ class Pointlike(tuple):
         # pylint: disable=W0108
         return max(ps, key=lambda p: self.distance_to(p))
 
-    def distance_to_furthest(self, ps: Units | Iterable[Point2]) -> float:
+    def distance_to_furthest(self, ps: Union[Units, Iterable[Point2]]) -> float:
         """This function assumes the 2d distance is meant
 
         :param ps:"""
@@ -109,7 +108,7 @@ class Pointlike(tuple):
         """
         return self.__class__(_sign(b - a) for a, b in itertools.zip_longest(self, p[:len(self)], fillvalue=0))
 
-    def towards(self, p: Unit | Pointlike, distance: int | float = 1, limit: bool = False) -> Pointlike:
+    def towards(self, p: Union[Unit, Pointlike], distance: Union[int, float] = 1, limit: bool = False) -> Pointlike:
         """
 
         :param p:
@@ -210,16 +209,16 @@ class Point2(Pointlike):
 
     def towards_with_random_angle(
         self,
-        p: Point2 | Point3,
-        distance: int | float = 1,
-        max_difference: int | float = (math.pi / 4),
+        p: Union[Point2, Point3],
+        distance: Union[int, float] = 1,
+        max_difference: Union[int, float] = (math.pi / 4),
     ) -> Point2:
         tx, ty = self.to2.towards(p.to2, 1)
         angle = math.atan2(ty - self.y, tx - self.x)
         angle = (angle - max_difference) + max_difference * 2 * random.random()
         return Point2((self.x + math.cos(angle) * distance, self.y + math.sin(angle) * distance))
 
-    def circle_intersection(self, p: Point2, r: int | float) -> set[Point2]:
+    def circle_intersection(self, p: Point2, r: Union[int, float]) -> Set[Point2]:
         """self is point1, p is point2, r is the radius for circles originating in both points
         Used in ramp finding
 
@@ -284,16 +283,16 @@ class Point2(Pointlike):
             return True
         return False
 
-    def __mul__(self, other: int | float | Point2) -> Point2:
+    def __mul__(self, other: Union[int, float, Point2]) -> Point2:
         try:
             return self.__class__((self.x * other.x, self.y * other.y))
         except AttributeError:
             return self.__class__((self.x * other, self.y * other))
 
-    def __rmul__(self, other: int | float | Point2) -> Point2:
+    def __rmul__(self, other: Union[int, float, Point2]) -> Point2:
         return self.__mul__(other)
 
-    def __truediv__(self, other: int | float | Point2) -> Point2:
+    def __truediv__(self, other: Union[int, float, Point2]) -> Point2:
         if isinstance(other, self.__class__):
             return self.__class__((self.x / other.x, self.y / other.y))
         return self.__class__((self.x / other, self.y / other))
@@ -312,7 +311,7 @@ class Point2(Pointlike):
         return abs(other.x - self.x) + abs(other.y - self.y)
 
     @staticmethod
-    def center(points: list[Point2]) -> Point2:
+    def center(points: List[Point2]) -> Point2:
         """Returns the central point for points in list
 
         :param points:"""
@@ -347,7 +346,7 @@ class Point3(Point2):
     def to3(self) -> Point3:
         return Point3(self)
 
-    def __add__(self, other: Point2 | Point3) -> Point3:
+    def __add__(self, other: Union[Point2, Point3]) -> Point3:
         if not isinstance(other, Point3) and isinstance(other, Point2):
             return Point3((self.x + other.x, self.y + other.y, self.z))
         return Point3((self.x + other.x, self.y + other.y, self.z + other.z))

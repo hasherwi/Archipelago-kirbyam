@@ -6,36 +6,26 @@ import os
 import shutil
 import threading
 import zipfile
-from typing import TYPE_CHECKING, Any, List, Optional, Tuple, Union
-from collections.abc import Callable
+from typing import Optional, TYPE_CHECKING, Any, List, Callable, Tuple, Union
 
 import jinja2
 
 import Utils
 import worlds.Files
-
 from . import Options
-from .Technologies import (
-    base_tech_table,
-    fluids,
-    free_sample_exclusions,
-    progressive_technology_table,
-    recipes,
-    tech_table,
-    tech_to_progressive_lookup,
-    useless_technologies,
-)
+from .Technologies import tech_table, recipes, free_sample_exclusions, progressive_technology_table, \
+    base_tech_table, tech_to_progressive_lookup, fluids, useless_technologies
 
 if TYPE_CHECKING:
     from . import Factorio
 
-template_env: jinja2.Environment | None = None
+template_env: Optional[jinja2.Environment] = None
 
-data_template: jinja2.Template | None = None
-data_final_template: jinja2.Template | None = None
-locale_template: jinja2.Template | None = None
-control_template: jinja2.Template | None = None
-settings_template: jinja2.Template | None = None
+data_template: Optional[jinja2.Template] = None
+data_final_template: Optional[jinja2.Template] = None
+locale_template: Optional[jinja2.Template] = None
+control_template: Optional[jinja2.Template] = None
+settings_template: Optional[jinja2.Template] = None
 
 template_load_lock = threading.Lock()
 
@@ -76,7 +66,7 @@ recipe_time_ranges = {
 class FactorioModFile(worlds.Files.APPlayerContainer):
     game = "Factorio"
     compression_method = zipfile.ZIP_DEFLATED  # Factorio can't load LZMA archives
-    writing_tasks: list[Callable[[], tuple[str, str | bytes]]]
+    writing_tasks: List[Callable[[], Tuple[str, Union[str, bytes]]]]
     patch_file_ending = ".zip"
 
     def __init__(self, *args: Any, **kwargs: Any):
@@ -91,12 +81,12 @@ class FactorioModFile(worlds.Files.APPlayerContainer):
                 filename = os.path.join(root, file)
                 opened_zipfile.write(filename,
                                      os.path.relpath(filename,
-                                                     os.path.join(mod_dir, "..")))
+                                                     os.path.join(mod_dir, '..')))
         for task in self.writing_tasks:
             target, content = task()
             opened_zipfile.writestr(target, content)
         # now we can add extras.
-        super().write_contents(opened_zipfile)
+        super(FactorioModFile, self).write_contents(opened_zipfile)
 
 
 def generate_mod(world: "Factorio", output_directory: str):
@@ -112,7 +102,7 @@ def generate_mod(world: "Factorio", output_directory: str):
                 data = pkgutil.get_data(__name__, "data/mod_template/" + name).decode()
                 return data, name, lambda: False
 
-            template_env: jinja2.Environment | None = \
+            template_env: Optional[jinja2.Environment] = \
                 jinja2.Environment(loader=jinja2.FunctionLoader(load_template))
 
             data_template = template_env.get_template("data.lua")
@@ -132,7 +122,8 @@ def generate_mod(world: "Factorio", output_directory: str):
             distance = random.random()
             if random.randint(0, 1):
                 return base + (high - base) * distance
-            return base - (base - low) * distance
+            else:
+                return base - (base - low) * distance
         return random.uniform(low, high)
 
     template_data = {

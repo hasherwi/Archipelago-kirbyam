@@ -5,9 +5,8 @@ from importlib.metadata import metadata
 from pathlib import Path
 from typing import Any
 
-from .. import SoEWorld
-from .. import __author__ as world_author
-from .. import __version__ as world_version
+from .. import SoEWorld, __version__ as world_version, __author__ as world_author
+
 
 __all__ = ["make_manifest"]
 

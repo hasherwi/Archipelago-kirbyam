@@ -1,6 +1,6 @@
-from uuid import UUID, uuid4
+from uuid import uuid4, UUID
 
-from flask import render_template, session
+from flask import session, render_template
 
 from WebHostLib import app
 
@@ -12,14 +12,14 @@ def register_session():
         session["_id"] = uuid4()  # uniquely identify each session without needing a login
 
 
-@app.route("/session")
+@app.route('/session')
 def show_session():
     return render_template(
         "session.html",
     )
 
 
-@app.route("/session/<string:_id>")
+@app.route('/session/<string:_id>')
 def set_session(_id: str):
     new_id: UUID = UUID(_id, version=4)
     old_id: UUID = session["_id"]

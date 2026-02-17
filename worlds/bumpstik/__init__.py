@@ -3,14 +3,13 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-from BaseClasses import Item, ItemClassification, MultiWorld, Tutorial
-from worlds.AutoWorld import WebWorld, World
-from worlds.generic.Rules import forbid_item
-
-from .Items import BumpStikItem, item_groups, item_table
+from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification
+from .Items import BumpStikItem, item_table, item_groups
 from .Locations import location_table
 from .Options import *
 from .Regions import create_regions
+from worlds.AutoWorld import World, WebWorld
+from worlds.generic.Rules import forbid_item
 
 
 class BumpStikWeb(WebWorld):
@@ -46,7 +45,7 @@ class BumpStikWorld(World):
     options_dataclass = BumpstikOptions
 
     def __init__(self, multiworld: MultiWorld, player: int):
-        super().__init__(multiworld, player)
+        super(BumpStikWorld, self).__init__(multiworld, player)
         self.task_advances = TaskAdvances.default
         self.turners = Turners.default
         self.paint_cans = PaintCans.default
@@ -124,7 +123,7 @@ class BumpStikWorld(World):
                 lambda state, booster_held = booster_count: state.has("Booster Bumper", self.player, booster_held)
         self.multiworld.get_location("Level 5 - Cleared all Hazards", self.player).access_rule = \
             lambda state: state.has("Hazard Bumper", self.player, 25)
-
+            
         self.multiworld.completion_condition[self.player] = \
             lambda state: state.has_all_counts({"Booster Bumper": 5, "Treasure Bumper": 32, "Hazard Bumper": 25}, \
                 self.player)

@@ -1,18 +1,16 @@
+from typing import TextIO, ClassVar, Any
 from collections.abc import Iterable
-from typing import Any, ClassVar, TextIO
-
-from BaseClasses import CollectionState, Item, ItemClassification
+from BaseClasses import Item, ItemClassification, CollectionState
 from NetUtils import Hint
-
-from ..AutoWorld import World
-from .CriticalPathCalculator import CriticalPathCalculator
 from .GameLogic import GameLogic
 from .Items import Items
-from .Locations import LocationData, Locations
-from .Options import Placement, SatisfactoryOptions
-from .Regions import SatisfactoryLocation, create_regions_and_return_locations
+from .Locations import Locations, LocationData
 from .StateLogic import EventId, StateLogic
+from .Options import SatisfactoryOptions, Placement
+from .Regions import SatisfactoryLocation, create_regions_and_return_locations
+from .CriticalPathCalculator import CriticalPathCalculator
 from .Web import SatisfactoryWebWorld
+from ..AutoWorld import World
 
 
 class SatisfactoryWorld(World):
@@ -207,7 +205,7 @@ class SatisfactoryWorld(World):
 
     def write_spoiler_header(self, spoiler_handle: TextIO) -> None:
         if self.options.randomize_starter_recipes:
-            spoiler_handle.write(f"Starter Recipes:                 {sorted(self.critical_path.tier_0_recipes)}\n")
+            spoiler_handle.write(f'Starter Recipes:                 {sorted(self.critical_path.tier_0_recipes)}\n')
 
     def setup_events(self) -> None:
         location: SatisfactoryLocation
@@ -223,12 +221,14 @@ class SatisfactoryWorld(World):
     def get_filler_item_name(self) -> str:
         if self.items:
             return self.items.get_filler_item_name(self.random, None)
-        return Items.get_filler_item_name_uninitialized(self.random)
+        else:
+            return Items.get_filler_item_name_uninitialized(self.random)
 
     def create_item(self, name: str) -> Item:
         if self.items:
             return self.items.create_item(name, self.player)
-        return Items.create_item_uninitialized(name, self.player)
+        else:
+            return Items.create_item_uninitialized(name, self.player)
 
     def extend_hint_information(self, _: dict[int, dict[int, str]]):
         """

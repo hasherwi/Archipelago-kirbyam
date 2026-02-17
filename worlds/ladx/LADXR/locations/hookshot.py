@@ -1,5 +1,6 @@
 from .droppedKey import DroppedKey
 
+
 """
 The hookshot is dropped by the master stalfos.
 The master stalfos drops a "key" with, and modifies a bunch of properties:

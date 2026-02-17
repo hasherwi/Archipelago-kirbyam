@@ -1,7 +1,7 @@
-from typing import ClassVar
-from collections.abc import Callable
+from typing import Callable, ClassVar
 
 from kivy.event import EventDispatcher
+
 
 class WindowBase(EventDispatcher):
     width: ClassVar[int]  # readonly AliasProperty

@@ -1,3 +1,5 @@
+from .pelican_town import pelican_town as pelican_town_content_pack
+from ..game_content import ContentPack
 from ...data import fish_data, villagers_data
 from ...data.harvest import ForagingSource, HarvestCropSource
 from ...data.shop import ShopSource
@@ -6,8 +8,6 @@ from ...strings.forageable_names import Forageable, Mushroom
 from ...strings.region_names import Region
 from ...strings.season_names import Season
 from ...strings.seed_names import Seed
-from ..game_content import ContentPack
-from .pelican_town import pelican_town as pelican_town_content_pack
 
 the_desert = ContentPack(
     "The Desert (Vanilla)",

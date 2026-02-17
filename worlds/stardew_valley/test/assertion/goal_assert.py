@@ -1,9 +1,8 @@
 from unittest import TestCase
 
 from BaseClasses import MultiWorld
-
-from ... import options
 from .option_assert import get_stardew_options
+from ... import options
 
 
 def is_goal(multiworld: MultiWorld, goal: int) -> bool:

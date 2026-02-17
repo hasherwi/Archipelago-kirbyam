@@ -2,7 +2,7 @@ from typing import Any, Dict
 
 from .options import *
 
-witness_option_presets: dict[str, dict[str, Any]] = {
+witness_option_presets: Dict[str, Dict[str, Any]] = {
     # Best for beginners. This is just default options, but with a much easier goal that skips the Mountain puzzles.
     "Beginner Mode": {
         "victory_condition": VictoryCondition.option_mountain_box_short,
@@ -123,7 +123,7 @@ witness_option_presets: dict[str, dict[str, Any]] = {
         "trap_percentage": TrapPercentage.default,
         "puzzle_skip_amount": 15,
         "trap_weights": TrapWeights.default,
-
+        
         "hint_amount": HintAmount.default,
         "area_hint_percentage": AreaHintPercentage.default,
         "laser_hints": LaserHints.default,

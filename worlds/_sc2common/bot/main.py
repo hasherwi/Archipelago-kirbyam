@@ -14,8 +14,8 @@ from typing import Dict, List, Optional, Tuple, Union
 import mpyq
 import portpicker
 from aiohttp import ClientSession, ClientWebSocketResponse
-
 from worlds._sc2common.bot import logger
+from .proto import sc2api_pb2 as sc_pb
 
 from .bot_ai import BotAI
 from .client import Client
@@ -25,7 +25,6 @@ from .game_state import GameState
 from .maps import Map
 from .player import AbstractPlayer, Bot, BotProcess, Human
 from .portconfig import Portconfig
-from .proto import sc2api_pb2 as sc_pb
 from .protocol import ConnectionAlreadyClosed, ProtocolError
 from .proxy import Proxy
 from .sc2process import SC2Process, kill_switch
@@ -42,11 +41,11 @@ class GameMatch:
     """
 
     map_sc2: Map
-    players: list[AbstractPlayer]
+    players: List[AbstractPlayer]
     realtime: bool = False
     random_seed: int = None
     disable_fog: bool = None
-    sc2_config: list[dict] = None
+    sc2_config: List[Dict] = None
     game_time_limit: int = None
 
     def __post_init__(self):
@@ -68,7 +67,7 @@ class GameMatch:
         return sum(player.needs_sc2 for player in self.players)
 
     @property
-    def host_game_kwargs(self) -> dict:
+    def host_game_kwargs(self) -> Dict:
         return {
             "map_settings": self.map_sc2,
             "players": self.players,
@@ -101,11 +100,11 @@ async def _play_game_human(client, player_id, realtime, game_time_limit):
 
 # pylint: disable=R0912,R0911,R0914
 async def _play_game_ai(
-    client: Client, player_id: int, ai: BotAI, realtime: bool, game_time_limit: int | None
+    client: Client, player_id: int, ai: BotAI, realtime: bool, game_time_limit: Optional[int]
 ) -> Result:
     gs: GameState = None
 
-    async def initialize_first_step() -> Result | None:
+    async def initialize_first_step() -> Optional[Result]:
         nonlocal gs
         ai._initialize_variables()
 
@@ -351,8 +350,8 @@ async def _join_game(
         return result
 
 
-def get_replay_version(replay_path: str | Path) -> tuple[str, str]:
-    with open(replay_path, "rb") as f:
+def get_replay_version(replay_path: Union[str, Path]) -> Tuple[str, str]:
+    with open(replay_path, 'rb') as f:
         replay_data = f.read()
         replay_io = BytesIO()
         replay_io.write(replay_data)
@@ -363,7 +362,7 @@ def get_replay_version(replay_path: str | Path) -> tuple[str, str]:
 
 
 # TODO Deprecate run_game function in favor of run_multiple_games
-def run_game(map_settings, players, **kwargs) -> Result | list[Result | None]:
+def run_game(map_settings, players, **kwargs) -> Union[Result, List[Optional[Result]]]:
     """
     Returns a single Result enum if the game was against the built-in computer.
     Returns a list of two Result enums if the game was "Human vs Bot" or "Bot vs Bot".
@@ -381,7 +380,7 @@ def run_game(map_settings, players, **kwargs) -> Result | list[Result | None]:
                 return_exceptions=True
             )
 
-        result: list[Result] = asyncio.run(run_host_and_join())
+        result: List[Result] = asyncio.run(run_host_and_join())
         assert isinstance(result, list)
         assert all(isinstance(r, Result) for r in result)
     else:
@@ -391,7 +390,7 @@ def run_game(map_settings, players, **kwargs) -> Result | list[Result | None]:
 
 
 async def play_from_websocket(
-    ws_connection: str | ClientWebSocketResponse,
+    ws_connection: Union[str, ClientWebSocketResponse],
     player: AbstractPlayer,
     realtime: bool = False,
     portconfig: Portconfig = None,
@@ -428,7 +427,7 @@ async def play_from_websocket(
     return result
 
 
-async def run_match(controllers: list[Controller], match: GameMatch, close_ws=True):
+async def run_match(controllers: List[Controller], match: GameMatch, close_ws=True):
     await _setup_host_game(controllers[0], **match.host_game_kwargs)
 
     # Setup portconfig beforehand, so all players use the same ports
@@ -474,9 +473,9 @@ async def run_match(controllers: list[Controller], match: GameMatch, close_ws=Tr
     return process_results(match.players, async_results)
 
 
-def process_results(players: list[AbstractPlayer], async_results: list[Result]) -> dict[AbstractPlayer, Result]:
+def process_results(players: List[AbstractPlayer], async_results: List[Result]) -> Dict[AbstractPlayer, Result]:
     opp_res = {Result.Victory: Result.Defeat, Result.Defeat: Result.Victory, Result.Tie: Result.Tie}
-    result: dict[AbstractPlayer, Result] = {}
+    result: Dict[AbstractPlayer, Result] = {}
     i = 0
     for player in players:
         if player.needs_sc2:
@@ -495,7 +494,7 @@ def process_results(players: list[AbstractPlayer], async_results: list[Result]) 
 
 
 # pylint: disable=R0912
-async def maintain_SCII_count(count: int, controllers: list[Controller], proc_args: list[dict] = None):
+async def maintain_SCII_count(count: int, controllers: List[Controller], proc_args: List[Dict] = None):
     """Modifies the given list of controllers to reflect the desired amount of SCII processes"""
     # kill unhealthy ones.
     if controllers:
@@ -567,13 +566,13 @@ async def maintain_SCII_count(count: int, controllers: list[Controller], proc_ar
             kill_switch._to_kill.remove(proc)
 
 
-def run_multiple_games(matches: list[GameMatch]):
+def run_multiple_games(matches: List[GameMatch]):
     return asyncio.get_event_loop().run_until_complete(a_run_multiple_games(matches))
 
 
 # TODO Catching too general exception Exception (broad-except)
 # pylint: disable=W0703
-async def a_run_multiple_games(matches: list[GameMatch]) -> list[dict[AbstractPlayer, Result]]:
+async def a_run_multiple_games(matches: List[GameMatch]) -> List[Dict[AbstractPlayer, Result]]:
     """Run multiple matches.
     Non-python bots are supported.
     When playing bot vs bot, this is less likely to fatally crash than repeating run_game()
@@ -604,7 +603,7 @@ async def a_run_multiple_games(matches: list[GameMatch]) -> list[dict[AbstractPl
 
 # TODO Catching too general exception Exception (broad-except)
 # pylint: disable=W0703
-async def a_run_multiple_games_nokill(matches: list[GameMatch]) -> list[dict[AbstractPlayer, Result]]:
+async def a_run_multiple_games_nokill(matches: List[GameMatch]) -> List[Dict[AbstractPlayer, Result]]:
     """Run multiple matches while reusing SCII processes.
     Prone to crashes and stalls
     """

@@ -1,6 +1,6 @@
-from ...mods.mod_data import ModNames
-from ...options import BackpackProgression, Mods
 from ..bases import SVTestBase
+from ...mods.mod_data import ModNames
+from ...options import Mods, BackpackProgression
 
 
 class TestBiggerBackpackVanilla(SVTestBase):

@@ -1,8 +1,8 @@
 from typing import List
-
 from ..ItemData import NewItemData
 
-new_civics: list[NewItemData] = [
+
+new_civics: List[NewItemData] = [
     {
         "Type": "CIVIC_AP_ANCIENT_00",
         "Cost": 20,

@@ -12,7 +12,6 @@ class TestHostFakeRoom(TestBase):
 
     def setUp(self) -> None:
         from pony.orm import db_session
-
         from Utils import user_path
         from WebHostLib.models import Room, Seed
 
@@ -29,7 +28,6 @@ class TestHostFakeRoom(TestBase):
 
     def tearDown(self) -> None:
         from pony.orm import db_session, select
-
         from WebHostLib.models import Command, Room
 
         with db_session:
@@ -143,7 +141,6 @@ class TestHostFakeRoom(TestBase):
     def test_host_room_other(self) -> None:
         """Verify that non-own room gives the reduced output."""
         from pony.orm import db_session
-
         from WebHostLib.models import Room
 
         with db_session:
@@ -167,7 +164,6 @@ class TestHostFakeRoom(TestBase):
     def test_host_room_own_post(self) -> None:
         """Verify command from owner gets queued for the server and response is redirect."""
         from pony.orm import db_session, select
-
         from WebHostLib.models import Command
 
         with self.app.app_context(), self.app.test_request_context():
@@ -183,7 +179,6 @@ class TestHostFakeRoom(TestBase):
     def test_host_room_other_post(self) -> None:
         """Verify command from non-owner does not get queued for the server."""
         from pony.orm import db_session, select
-
         from WebHostLib.models import Command
 
         other_client = self.app.test_client()

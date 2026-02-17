@@ -1,14 +1,11 @@
-import os
-from copy import deepcopy
-from pkgutil import get_data
-from typing import TYPE_CHECKING, Dict, List, Optional, Union
-from collections.abc import Callable
-
 import orjson
+import os
+from pkgutil import get_data
+from copy import deepcopy
 
-from BaseClasses import CollectionState, Region
+from typing import TYPE_CHECKING, List, Dict, Optional, Union, Callable
+from BaseClasses import Region, CollectionState
 from worlds.generic.Rules import add_item_rule
-
 from .locations import KDL3Location
 from .names import location_name
 from .options import BossShuffle
@@ -44,13 +41,13 @@ first_world_limit = {
 
 
 def generate_valid_level(world: "KDL3World", level: int, stage: int,
-                         possible_stages: list[int], placed_stages: list[int | None]) -> int:
+                         possible_stages: List[int], placed_stages: List[Optional[int]]) -> int:
     new_stage = world.random.choice(possible_stages)
     if level == 1:
         if stage == 0 and new_stage in first_stage_blacklist:
             possible_stages.remove(new_stage)
             return generate_valid_level(world, level, stage, possible_stages, placed_stages)
-        if (not (world.multiworld.players > 1 or world.options.consumables or world.options.starsanity) and
+        elif (not (world.multiworld.players > 1 or world.options.consumables or world.options.starsanity) and
               new_stage in first_world_limit and
               sum(p_stage in first_world_limit for p_stage in placed_stages)
               >= (2 if world.options.open_world else 1)):
@@ -58,10 +55,10 @@ def generate_valid_level(world: "KDL3World", level: int, stage: int,
     return new_stage
 
 
-def generate_rooms(world: "KDL3World", level_regions: dict[int, Region]) -> None:
+def generate_rooms(world: "KDL3World", level_regions: Dict[int, Region]) -> None:
     level_names = {location_name.level_names[level]: level for level in location_name.level_names}
     room_data = orjson.loads(get_data(__name__, "data/Rooms.json"))
-    rooms: dict[str, KDL3Room] = dict()
+    rooms: Dict[str, KDL3Room] = dict()
     for room_entry in room_data:
         room = KDL3Room(room_entry["name"], world.player, world.multiworld, None, room_entry["level"],
                         room_entry["stage"], room_entry["room"], room_entry["pointer"], room_entry["music"],
@@ -82,14 +79,14 @@ def generate_rooms(world: "KDL3World", level_regions: dict[int, Region]) -> None
     world.rooms = list(rooms.values())
     world.multiworld.regions.extend(world.rooms)
 
-    first_rooms: dict[int, KDL3Room] = dict()
+    first_rooms: Dict[int, KDL3Room] = dict()
     for name, room in rooms.items():
         if room.room == 0:
             if room.stage == 7:
                 first_rooms[0x770200 + room.level - 1] = room
             else:
                 first_rooms[0x770000 + ((room.level - 1) * 6) + room.stage - 1] = room
-        exits: dict[str, Callable[[CollectionState], bool]] = dict()
+        exits: Dict[str, Callable[[CollectionState], bool]] = dict()
         for def_exit in room.default_exits:
             target = f"{level_names[room.level]} {room.stage} - {def_exit['room']}"
             access_rule = tuple(def_exit["access_rule"])
@@ -124,9 +121,9 @@ def generate_rooms(world: "KDL3World", level_regions: dict[int, Region]) -> None
                 .parent_region.add_exits([first_rooms[0x770200 + level - 1].name])
 
 
-def generate_valid_levels(world: "KDL3World", shuffle_mode: int) -> dict[int, list[int]]:
+def generate_valid_levels(world: "KDL3World", shuffle_mode: int) -> Dict[int, List[int]]:
     if shuffle_mode:
-        levels: dict[int, list[int | None]] = {
+        levels: Dict[int, List[Optional[int]]] = {
             1: [None] * 7,
             2: [None] * 7,
             3: [None] * 7,
@@ -169,7 +166,7 @@ def generate_valid_levels(world: "KDL3World", shuffle_mode: int) -> dict[int, li
         for level in levels:
             levels[level][6] = None
     # now handle bosses
-    boss_shuffle: int | str = world.options.boss_shuffle.value
+    boss_shuffle: Union[int, str] = world.options.boss_shuffle.value
     plando_bosses = []
     if isinstance(boss_shuffle, str):
         # boss plando

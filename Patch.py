@@ -2,22 +2,22 @@ from __future__ import annotations
 
 import os
 import sys
-from typing import Optional, Tuple, TypedDict
+from typing import Tuple, Optional, TypedDict
 
 if __name__ == "__main__":
     import ModuleUpdate
     ModuleUpdate.update()
 
-from worlds.Files import APAutoPatchInterface, AutoPatchRegister
+from worlds.Files import AutoPatchRegister, APAutoPatchInterface
 
 
 class RomMeta(TypedDict):
     server: str
-    player: int | None
+    player: Optional[int]
     player_name: str
 
 
-def create_rom_file(patch_file: str) -> tuple[RomMeta, str]:
+def create_rom_file(patch_file: str) -> Tuple[RomMeta, str]:
     auto_handler = AutoPatchRegister.get_handler(patch_file)
     if auto_handler:
         handler: APAutoPatchInterface = auto_handler(patch_file)

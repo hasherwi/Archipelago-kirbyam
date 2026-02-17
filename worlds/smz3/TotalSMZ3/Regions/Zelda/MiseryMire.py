@@ -1,10 +1,8 @@
 ﻿from typing import List
-
+from ...Region import Z3Region, RewardType, IReward, IMedallionAccess
 from ...Config import Config
-from ...Item import ItemType, Progression
 from ...Location import Location, LocationType
-from ...Region import IMedallionAccess, IReward, RewardType, Z3Region
-
+from ...Item import Progression, ItemType
 
 class MiseryMire(Z3Region, IReward, IMedallionAccess):
     Name = "Misery Mire"

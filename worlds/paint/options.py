@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import Choice, PerGameCommonOptions, Range, StartInventoryPool, Toggle, Visibility
+from Options import Range, PerGameCommonOptions, StartInventoryPool, Toggle, Choice, Visibility
 
 
 class LogicPercent(Range):

@@ -1,8 +1,13 @@
-from typing import TYPE_CHECKING, Union
+from typing import Union, TYPE_CHECKING
 
 from Utils import cache_self1
-
-from ..stardew_rule import HasProgressionPercent, StardewRule
+from .base_logic import BaseLogic, BaseLogicMixin
+from .book_logic import BookLogicMixin
+from .has_logic import HasLogicMixin
+from .received_logic import ReceivedLogicMixin
+from .region_logic import RegionLogicMixin
+from .time_logic import TimeLogicMixin
+from ..stardew_rule import StardewRule, HasProgressionPercent
 from ..strings.book_names import Book
 from ..strings.craftable_names import Consumable
 from ..strings.currency_names import Currency
@@ -11,12 +16,6 @@ from ..strings.geode_names import Geode
 from ..strings.material_names import Material
 from ..strings.region_names import Region
 from ..strings.tool_names import Tool
-from .base_logic import BaseLogic, BaseLogicMixin
-from .book_logic import BookLogicMixin
-from .has_logic import HasLogicMixin
-from .received_logic import ReceivedLogicMixin
-from .region_logic import RegionLogicMixin
-from .time_logic import TimeLogicMixin
 
 if TYPE_CHECKING:
     from .tool_logic import ToolLogicMixin
@@ -77,7 +76,8 @@ class GrindLogic(BaseLogic):
     def can_grind_item(self, quantity: int, item: str | None = None) -> StardewRule:
         if item in EASY_ITEMS:
             return self.logic.grind.can_grind_easy_item(quantity)
-        return self.logic.grind.can_grind_medium_item(quantity)
+        else:
+            return self.logic.grind.can_grind_medium_item(quantity)
 
     @cache_self1
     def can_grind_medium_item(self, quantity: int) -> StardewRule:

@@ -1,15 +1,15 @@
 from functools import cached_property
 
+from .base_logic import BaseLogic, BaseLogicMixin
 from ..options import ExcludeGingerIsland, Walnutsanity
-from ..stardew_rule import False_, StardewRule, True_
+from ..stardew_rule import StardewRule, False_, True_
 from ..strings.ap_names.ap_option_names import WalnutsanityOptionName
 from ..strings.ap_names.event_names import Event
 from ..strings.craftable_names import Furniture
 from ..strings.crop_names import Fruit
-from ..strings.metal_names import Fossil, Mineral
+from ..strings.metal_names import Mineral, Fossil
 from ..strings.region_names import Region
 from ..strings.seed_names import Seed
-from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class WalnutLogicMixin(BaseLogicMixin):

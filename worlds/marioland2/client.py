@@ -2,8 +2,8 @@ import base64
 import logging
 
 from NetUtils import ClientStatus
-from worlds._bizhawk import guarded_write, read, write
 from worlds._bizhawk.client import BizHawkClient
+from worlds._bizhawk import read, write, guarded_write
 
 from .rom_addresses import rom_addresses
 
@@ -40,7 +40,7 @@ class MarioLand2Client(BizHawkClient):
     async def game_watcher(self, ctx):
         from . import START_IDS
         from .items import items
-        from .locations import coins_coords, level_id_to_name, location_name_to_id, locations
+        from .locations import locations, level_id_to_name, coins_coords, location_name_to_id
 
         (game_loaded_check, level_data, music, auto_scroll_levels, current_level,
          midway_point, bcd_lives, num_items_received, coins, options) = \
@@ -99,7 +99,7 @@ class MarioLand2Client(BizHawkClient):
 
         # There is no music in the title screen demos, this is how we guard against anything in the demos registering.
         # There is also no music at the door to Mario's Castle, which is why the above is before this check.
-        if game_loaded_check != b"\x124Vx\xff\xff\xff\xff\xff\xff" or music == 0:
+        if game_loaded_check != b'\x124Vx\xff\xff\xff\xff\xff\xff' or music == 0:
             return
 
         locations_checked = []
@@ -236,7 +236,7 @@ class MarioLand2Client(BizHawkClient):
 
     def on_package(self, ctx, cmd: str, args: dict):
         super().on_package(ctx, cmd, args)
-        if cmd == "Connected":
+        if cmd == 'Connected':
             if ctx.slot_data["energy_link"]:
                 ctx.set_notify(f"EnergyLink{ctx.team}")
                 if ctx.ui:
@@ -246,5 +246,5 @@ class MarioLand2Client(BizHawkClient):
             if ctx.ui:
                 ctx.ui.energy_link_label.text = f"Lives: {int(args['value'] / BANK_EXCHANGE_RATE)}"
         elif cmd == "Retrieved":
-            if f"EnergyLink{ctx.team}" in args["keys"] and args["keys"][f"EnergyLink{ctx.team}"] and ctx.ui:
+            if f"EnergyLink{ctx.team}" in args["keys"] and args['keys'][f'EnergyLink{ctx.team}'] and ctx.ui:
                 ctx.ui.energy_link_label.text = f"Lives: {int(args['keys'][f'EnergyLink{ctx.team}'] / BANK_EXCHANGE_RATE)}"

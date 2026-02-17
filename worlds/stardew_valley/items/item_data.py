@@ -3,10 +3,9 @@ import enum
 from dataclasses import dataclass, field
 from functools import reduce
 from pathlib import Path
-from typing import Dict, List, Optional, Protocol, Set, Union
+from typing import Dict, List, Protocol, Union, Set, Optional
 
 from BaseClasses import Item, ItemClassification
-
 from .. import data
 from ..logic.logic_event import all_events
 
@@ -81,11 +80,11 @@ class Group(enum.Enum):
 
 @dataclass(frozen=True)
 class ItemData:
-    code_without_offset: int | None
+    code_without_offset: Optional[int]
     name: str
     classification: ItemClassification
-    mod_name: str | None = None
-    groups: set[Group] = field(default_factory=frozenset)
+    mod_name: Optional[str] = None
+    groups: Set[Group] = field(default_factory=frozenset)
 
     def __post_init__(self):
         if not isinstance(self.groups, frozenset):
@@ -101,7 +100,7 @@ class ItemData:
 
 
 class StardewItemFactory(Protocol):
-    def __call__(self, name: str | ItemData, override_classification: ItemClassification = None) -> Item:
+    def __call__(self, name: Union[str, ItemData], override_classification: ItemClassification = None) -> Item:
         raise NotImplementedError
 
 
@@ -125,9 +124,9 @@ events = [
     for e in sorted(all_events)
 ]
 
-all_items: list[ItemData] = load_item_csv() + events
-item_table: dict[str, ItemData] = {}
-items_by_group: dict[Group, list[ItemData]] = {}
+all_items: List[ItemData] = load_item_csv() + events
+item_table: Dict[str, ItemData] = {}
+items_by_group: Dict[Group, List[ItemData]] = {}
 
 
 def initialize_groups():

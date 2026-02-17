@@ -1,10 +1,9 @@
-from typing import List
-
 from . import MuseDashTestBase
+from typing import List
 
 
 class DifficultyRanges(MuseDashTestBase):
-    DIFF_OVERRIDES: list[str] = [
+    DIFF_OVERRIDES: List[str] = [
         "MuseDash ka nanika hi",
         "Rush-Hour",
         "Find this Month's Featured Playlist",

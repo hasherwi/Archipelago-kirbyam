@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import Choice, DefaultOnToggle, OptionGroup, PerGameCommonOptions, Range, Toggle
+from Options import Choice, Range, Toggle, DefaultOnToggle, OptionGroup, PerGameCommonOptions
 
 
 class Goal(Choice):
@@ -110,7 +110,8 @@ class Difficulty(Choice):
     def get_option_name(cls, value) -> str:
         if cls.auto_display_name:
             return cls.name_lookup[value].upper()
-        return cls.name_lookup[value]
+        else:
+            return cls.name_lookup[value]
 
 
 class Autosave(DefaultOnToggle):

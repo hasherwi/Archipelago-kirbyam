@@ -1,21 +1,20 @@
 from typing import Dict, List, NamedTuple, Optional
 
-from BaseClasses import Entrance, MultiWorld, Region
-
+from BaseClasses import MultiWorld, Region, Entrance
 from .Locations import KH1Location, location_table
 
 
 class KH1RegionData(NamedTuple):
-    locations: list[str]
-    region_exits: list[str] | None
+    locations: List[str]
+    region_exits: Optional[List[str]]
 
 
 def create_regions(kh1world):
     multiworld = kh1world.multiworld
     player     = kh1world.player
     options    = kh1world.options
-
-    regions: dict[str, KH1RegionData] = {
+    
+    regions: Dict[str, KH1RegionData] = {
         "Menu":             KH1RegionData([], ["Awakening", "Levels", "World Map"]),
         "Awakening":        KH1RegionData([],   []),
         "Destiny Islands":  KH1RegionData([],   []),
@@ -33,13 +32,13 @@ def create_regions(kh1world):
         "100 Acre Wood":    KH1RegionData([],   []),
         "Levels":           KH1RegionData([],   []),
         "Homecoming":       KH1RegionData([],   []),
-        "World Map":        KH1RegionData([],   ["Destiny Islands", "Traverse Town",
+        "World Map":        KH1RegionData([],   ["Destiny Islands", "Traverse Town", 
                                          "Wonderland", "Olympus Coliseum", "Deep Jungle",
                                          "Agrabah", "Monstro", "Atlantica",
                                          "Halloween Town", "Neverland", "Hollow Bastion",
                                          "End of the World", "100 Acre Wood", "Homecoming"])
     }
-
+    
     if not options.atlantica:
         del regions["Atlantica"]
         regions["World Map"].region_exits.remove("Atlantica")
@@ -547,9 +546,9 @@ def create_regions(kh1world):
         regions["Deep Jungle"].locations.append("Deep Jungle Jungle Slider 40 Fruits")
         regions["Deep Jungle"].locations.append("Deep Jungle Jungle Slider 50 Fruits")
     for i in range(1,options.level_checks+1):
-        regions["Levels"].locations.append("Level " + str(i+1).rjust(3, "0") + " (Slot 1)")
+        regions["Levels"].locations.append("Level " + str(i+1).rjust(3, '0') + " (Slot 1)")
         if i+1 in kh1world.get_slot_2_levels():
-            regions["Levels"].locations.append("Level " + str(i+1).rjust(3, "0") + " (Slot 2)")
+            regions["Levels"].locations.append("Level " + str(i+1).rjust(3, '0') + " (Slot 2)")
     if options.destiny_islands:
         regions["Destiny Islands"].locations.append("Destiny Islands Seashore Capture Fish 1 (Day 2)")
         regions["Destiny Islands"].locations.append("Destiny Islands Seashore Capture Fish 2 (Day 2)")
@@ -568,7 +567,7 @@ def create_regions(kh1world):
        #regions["Destiny Islands"].locations.append("Destiny Islands Cove Deliver Kairi Items (Day 2)")
         regions["Destiny Islands"].locations.append("Destiny Islands Chest")
     regions["Homecoming"].locations.append("Final Ansem")
-
+    
     for location in kh1world.get_starting_accessory_locations():
         regions[location_table[location].category].locations.append(location)
 
@@ -580,7 +579,7 @@ def connect_entrances(kh1world):
     multiworld = kh1world.multiworld
     player     = kh1world.player
     options    = kh1world.options
-
+    
     multiworld.get_entrance("Awakening", player).connect(multiworld.get_region("Awakening", player))
     if options.destiny_islands:
         multiworld.get_entrance("Destiny Islands", player).connect(multiworld.get_region("Destiny Islands", player))

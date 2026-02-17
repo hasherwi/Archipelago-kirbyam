@@ -1,6 +1,6 @@
+from . import CVCotMTestBase
 from ..data import iname, lname
 from ..options import IronMaidenBehavior
-from . import CVCotMTestBase
 
 
 class CatacombSphere1Test(CVCotMTestBase):

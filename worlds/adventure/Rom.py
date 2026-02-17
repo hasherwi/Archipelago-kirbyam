@@ -9,7 +9,6 @@ import bsdiff4
 import Utils
 from settings import get_settings
 from worlds.Files import APPatch
-
 from .Locations import LocationData
 
 ADVENTUREHASH: str = "157bddb7192754a45372be196797f284"
@@ -110,10 +109,10 @@ class AdventureDeltaPatch(APPatch):
             del kwargs["bat_logic"]
             del kwargs["bat_no_touch_locations"]
             del kwargs["rom_deltas"]
-        super().__init__(*args, **kwargs)
+        super(AdventureDeltaPatch, self).__init__(*args, **kwargs)
 
     def write_contents(self, opened_zipfile: zipfile.ZipFile):
-        super().write_contents(opened_zipfile)
+        super(AdventureDeltaPatch, self).write_contents(opened_zipfile)
         # write Delta
         opened_zipfile.writestr("zip_version",
                                 self.zip_version.to_bytes(1, "little"),
@@ -184,7 +183,7 @@ class AdventureDeltaPatch(APPatch):
                                     compress_type=zipfile.ZIP_LZMA)
 
     def read_contents(self, opened_zipfile: zipfile.ZipFile) -> dict[str, Any]:
-        manifest = super().read_contents(opened_zipfile)
+        manifest = super(AdventureDeltaPatch, self).read_contents(opened_zipfile)
         self.foreign_items = AdventureDeltaPatch.read_foreign_items(opened_zipfile)
         self.autocollect_items = AdventureDeltaPatch.read_autocollect_items(opened_zipfile)
         return manifest

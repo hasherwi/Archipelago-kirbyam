@@ -1,8 +1,8 @@
 import typing
 from dataclasses import fields
 
-from ..options import SoEOptions
 from . import SoETestBase
+from ..options import SoEOptions
 
 if typing.TYPE_CHECKING:
     from .. import SoEWorld
@@ -20,7 +20,7 @@ class Bases:
         def test_dataclass(self) -> None:
             """Test that the dataclass helper property returns the expected sequence"""
             self.assertGreater(len(self.option_name_to_item_name), 0, "Expected more than 0 trap types")
-            world: SoEWorld = typing.cast("SoEWorld", self.multiworld.worlds[1])
+            world: "SoEWorld" = typing.cast("SoEWorld", self.multiworld.worlds[1])
             item_name_to_rolled_option = {option.item_name: option for option in world.options.trap_chances}
             # compare that all fields are present - that is property in dataclass and selector code in test line up
             self.assertEqual(sorted(self.option_name_to_item_name.values()), sorted(item_name_to_rolled_option),
@@ -38,7 +38,7 @@ class Bases:
 
 class TestTrapAllZeroChance(Bases.TrapTestBase):
     """Tests all zero chances still gives traps if trap_count is set."""
-    options: dict[str, typing.Any] = {
+    options: typing.Dict[str, typing.Any] = {
         "trap_count": 1,
         **{name: 0 for name in Bases.TrapTestBase.option_name_to_item_name}
     }
@@ -46,7 +46,7 @@ class TestTrapAllZeroChance(Bases.TrapTestBase):
 
 class TestTrapNoConfound(Bases.TrapTestBase):
     """Tests that one zero chance does not give that trap."""
-    options: dict[str, typing.Any] = {
+    options: typing.Dict[str, typing.Any] = {
         "trap_count": 99,
         "trap_chance_confound": 0,
     }

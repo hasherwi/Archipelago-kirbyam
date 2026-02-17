@@ -1,46 +1,8 @@
 from __future__ import annotations
 
 import logging
-from collections.abc import Callable, Collection
+from typing import Collection, Callable
 
-from ..content.game_content import StardewContent
-from ..data.craftable_data import all_crafting_recipes
-from ..data.museum_data import all_museum_items
-from ..data.recipe_data import all_cooking_recipes
-from ..mods.logic.magic_logic import MagicLogicMixin
-from ..mods.logic.mod_logic import ModLogicMixin
-from ..options import ExcludeGingerIsland, StardewValleyOptions
-from ..stardew_rule import False_, StardewRule, True_
-from ..strings.animal_names import Animal
-from ..strings.animal_product_names import AnimalProduct
-from ..strings.ap_names.community_upgrade_names import CommunityUpgrade
-from ..strings.artisan_good_names import ArtisanGood
-from ..strings.building_names import Building
-from ..strings.craftable_names import Consumable, Fishing, Lighting, Ring, WildSeeds
-from ..strings.crop_names import Fruit, Vegetable
-from ..strings.currency_names import Currency
-from ..strings.decoration_names import Decoration
-from ..strings.fertilizer_names import Fertilizer, RetainingSoil, SpeedGro
-from ..strings.fish_names import Fish, Trash, WaterChest, WaterItem
-from ..strings.flower_names import Flower
-from ..strings.food_names import Beverage, Meal
-from ..strings.forageable_names import Forageable
-from ..strings.generic_names import Generic
-from ..strings.geode_names import Geode
-from ..strings.gift_names import Gift
-from ..strings.ingredient_names import Ingredient
-from ..strings.machine_names import Machine
-from ..strings.material_names import Material
-from ..strings.metal_names import Artifact, Fossil, MetalBar, Mineral, Ore
-from ..strings.monster_drop_names import Loot
-from ..strings.monster_names import Monster
-from ..strings.region_names import LogicRegion, Region
-from ..strings.season_names import Season
-from ..strings.seed_names import Seed, TreeSeed
-from ..strings.skill_names import Skill
-from ..strings.tool_names import Tool, ToolMaterial
-from ..strings.villager_names import NPC
-from ..strings.wallet_item_names import Wallet
 from .ability_logic import AbilityLogicMixin
 from .action_logic import ActionLogicMixin
 from .animal_logic import AnimalLogicMixin
@@ -83,6 +45,44 @@ from .tool_logic import ToolLogicMixin
 from .traveling_merchant_logic import TravelingMerchantLogicMixin
 from .wallet_logic import WalletLogicMixin
 from .walnut_logic import WalnutLogicMixin
+from ..content.game_content import StardewContent
+from ..data.craftable_data import all_crafting_recipes
+from ..data.museum_data import all_museum_items
+from ..data.recipe_data import all_cooking_recipes
+from ..mods.logic.magic_logic import MagicLogicMixin
+from ..mods.logic.mod_logic import ModLogicMixin
+from ..options import ExcludeGingerIsland, StardewValleyOptions
+from ..stardew_rule import False_, True_, StardewRule
+from ..strings.animal_names import Animal
+from ..strings.animal_product_names import AnimalProduct
+from ..strings.ap_names.community_upgrade_names import CommunityUpgrade
+from ..strings.artisan_good_names import ArtisanGood
+from ..strings.building_names import Building
+from ..strings.craftable_names import Consumable, Ring, Fishing, Lighting, WildSeeds
+from ..strings.crop_names import Fruit, Vegetable
+from ..strings.currency_names import Currency
+from ..strings.decoration_names import Decoration
+from ..strings.fertilizer_names import Fertilizer, SpeedGro, RetainingSoil
+from ..strings.fish_names import Fish, Trash, WaterItem, WaterChest
+from ..strings.flower_names import Flower
+from ..strings.food_names import Meal, Beverage
+from ..strings.forageable_names import Forageable
+from ..strings.generic_names import Generic
+from ..strings.geode_names import Geode
+from ..strings.gift_names import Gift
+from ..strings.ingredient_names import Ingredient
+from ..strings.machine_names import Machine
+from ..strings.material_names import Material
+from ..strings.metal_names import Ore, MetalBar, Mineral, Fossil, Artifact
+from ..strings.monster_drop_names import Loot
+from ..strings.monster_names import Monster
+from ..strings.region_names import Region, LogicRegion
+from ..strings.season_names import Season
+from ..strings.seed_names import Seed, TreeSeed
+from ..strings.skill_names import Skill
+from ..strings.tool_names import Tool, ToolMaterial
+from ..strings.villager_names import NPC
+from ..strings.wallet_item_names import Wallet
 
 logger = logging.getLogger(__name__)
 

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import Choice, PerGameCommonOptions, Range, Toggle
+from Options import Choice, Toggle, Range, PerGameCommonOptions
 
 MAX_COMBAT_TASKS = 17
 

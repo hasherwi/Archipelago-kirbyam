@@ -1,17 +1,8 @@
-from ..locations import (
-    energy_pickups,
-    etank_1ups,
-    heat_man_locations,
-    quick_man_locations,
-    wily_1_locations,
-    wily_2_locations,
-    wily_3_locations,
-    wily_4_locations,
-    wily_5_locations,
-    wily_6_locations,
-)
-from ..names import *
 from . import MM2TestBase
+from ..locations import (quick_man_locations, heat_man_locations, wily_1_locations, wily_2_locations,
+                         wily_3_locations, wily_4_locations, wily_5_locations, wily_6_locations,
+                         energy_pickups, etank_1ups)
+from ..names import *
 
 
 class TestAccess(MM2TestBase):

@@ -5,10 +5,10 @@ Description: Unit test used to test accessibility of locations with and without 
              under rock needing bind song option)
 """
 
+from . import AquariaTestBase, after_home_water_locations
 from ..Items import ItemNames
 from ..Locations import AquariaLocationNames
-from ..Options import EarlyBindSong, UnconfineHomeWater
-from . import AquariaTestBase, after_home_water_locations
+from ..Options import UnconfineHomeWater, EarlyBindSong
 
 
 class BindSongAccessTest(AquariaTestBase):

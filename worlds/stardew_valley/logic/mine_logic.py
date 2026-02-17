@@ -1,12 +1,11 @@
 from Utils import cache_self1
-
+from .base_logic import BaseLogicMixin, BaseLogic
 from .. import options
 from ..stardew_rule import StardewRule, True_
 from ..strings.performance_names import Performance
 from ..strings.region_names import Region
 from ..strings.skill_names import Skill
 from ..strings.tool_names import ToolMaterial
-from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class MineLogicMixin(BaseLogicMixin):

@@ -1,6 +1,5 @@
 from BaseClasses import ItemClassification
 from Fill import distribute_items_restrictive
-
 from ..Enum import CivVICheckType
 from . import CivVITestBase
 

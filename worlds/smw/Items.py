@@ -1,12 +1,11 @@
 import typing
 
 from BaseClasses import Item, ItemClassification
-
 from .Names import ItemName
 
 
 class ItemData(typing.NamedTuple):
-    code: int | None
+    code: typing.Optional[int]
     progression: bool
     trap: bool = False
     quantity: int = 1
@@ -75,10 +74,10 @@ item_table = {
     **event_table,
 }
 
-lookup_id_to_name: dict[int, str] = {data.code: item_name for item_name, data in item_table.items() if data.code}
+lookup_id_to_name: typing.Dict[int, str] = {data.code: item_name for item_name, data in item_table.items() if data.code}
 
 
-trap_value_to_name: dict[int, str] = {
+trap_value_to_name: typing.Dict[int, str] = {
     0xBC0013: ItemName.ice_trap,
     0xBC0014: ItemName.stun_trap,
     0xBC0015: ItemName.literature_trap,
@@ -87,7 +86,7 @@ trap_value_to_name: dict[int, str] = {
     0xBC001D: ItemName.thwimp_trap,
 }
 
-trap_name_to_value: dict[str, int] = {
+trap_name_to_value: typing.Dict[str, int] = {
     # Our native Traps
     ItemName.ice_trap:              0xBC0013,
     ItemName.stun_trap:             0xBC0014,

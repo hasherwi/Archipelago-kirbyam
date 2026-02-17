@@ -1,7 +1,5 @@
+from ..Options import RandomizeOverworldMusic, RandomizeFanfares
 from typing import TYPE_CHECKING
-
-from ..Options import RandomizeFanfares, RandomizeOverworldMusic
-
 if TYPE_CHECKING:
     from . import EarthBoundWorld
     from .Rom import LocalRom
@@ -246,7 +244,7 @@ def music_randomizer(world: "EarthBoundWorld", rom: "LocalRom") -> None:
         world.random.shuffle(shuffled_fanfares)
         for track_id, song in enumerate(fanfares):
             global_tracklist[song] = shuffled_fanfares[track_id]
-
+    
     if world.options.randomize_battle_music:
         shuffled_battle_songs = battle_songs.copy()
         world.random.shuffle(shuffled_battle_songs)

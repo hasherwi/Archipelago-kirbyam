@@ -1,5 +1,4 @@
 from Fill import distribute_items_restrictive
-
 from ..Data import get_boosts_data
 from . import CivVITestBase
 

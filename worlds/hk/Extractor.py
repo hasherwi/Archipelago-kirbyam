@@ -2,13 +2,14 @@
 Logic Extractor designed for "Randomizer 4".
 Place a Randomizer 4 compatible "Resources" folder next to this script, then run the script, to create AP data.
 """
-import ast
-import json
 import os
+import json
 import typing
-from ast import unparse
+import ast
 
 import jinja2
+
+from ast import unparse
 
 from Utils import get_text_between
 
@@ -71,7 +72,7 @@ class Absorber(ast.NodeTransformer):
         self.false_values = false_values
         self.false_values |= {"False", "NONE"}
 
-        super().__init__()
+        super(Absorber, self).__init__()
 
     def generic_visit(self, node: ast.AST) -> ast.AST:
         # Need to call super() in any case to visit child nodes of the current one.
@@ -102,7 +103,7 @@ class Absorber(ast.NodeTransformer):
             return ast.Constant(False, ctx=node.ctx)
         if node.id in logic_options:
             return ast.Call(
-                func=ast.Attribute(value=ast.Name(id="state", ctx=ast.Load()), attr="_hk_option", ctx=ast.Load()),
+                func=ast.Attribute(value=ast.Name(id='state', ctx=ast.Load()), attr='_hk_option', ctx=ast.Load()),
                 args=[ast.Name(id="player", ctx=ast.Load()), ast.Constant(value=logic_options[node.id])], keywords=[])
         if node.id in macros:
             return macros[node.id].body
@@ -122,7 +123,7 @@ class Absorber(ast.NodeTransformer):
         if type(node.value) == str:
             logic_items.add(node.value)
             return ast.Call(
-                func=ast.Attribute(value=ast.Name(id="state", ctx=ast.Load()), attr="count", ctx=ast.Load()),
+                func=ast.Attribute(value=ast.Name(id='state', ctx=ast.Load()), attr='count', ctx=ast.Load()),
                 args=[ast.Constant(value=node.value), ast.Name(id="player", ctx=ast.Load())], keywords=[])
 
         return node
@@ -131,34 +132,36 @@ class Absorber(ast.NodeTransformer):
         if node.value.id == "NotchCost":
             notches = [ast.Constant(value=notch.value - 1) for notch in node.slice.elts]  # apparently 1-indexed
             return ast.Call(
-                func=ast.Attribute(value=ast.Name(id="state", ctx=ast.Load()), attr="_hk_notches", ctx=ast.Load()),
+                func=ast.Attribute(value=ast.Name(id='state', ctx=ast.Load()), attr='_hk_notches', ctx=ast.Load()),
                 args=[ast.Name(id="player", ctx=ast.Load())] + notches, keywords=[])
-        if node.value.id == "StartLocation":
+        elif node.value.id == "StartLocation":
             node.slice.value = node.slice.value.replace(" ", "_").lower()
             if node.slice.value in removed_starts:
                 return ast.Constant(False, ctx=node.ctx)
             return ast.Call(
-                func=ast.Attribute(value=ast.Name(id="state", ctx=ast.Load()), attr="_hk_start", ctx=ast.Load()),
+                func=ast.Attribute(value=ast.Name(id='state', ctx=ast.Load()), attr='_hk_start', ctx=ast.Load()),
                 args=[ast.Name(id="player", ctx=ast.Load()), node.slice], keywords=[])
-        if node.value.id == "COMBAT":
+        elif node.value.id == "COMBAT":
             return macros[unparse(node)].body
-        name = unparse(node)
-        if name in self.additional_truths:
-            return ast.Constant(True, ctx=ast.Load())
-        if name in self.additional_falses:
-            return ast.Constant(False, ctx=ast.Load())
-        if name in macros:
-            # macro such as "COMBAT[White_Palace_Arenas]"
-            return macros[name].body
-        # assume Entrance
-        entrance = unparse(node)
-        assert entrance in connectors, entrance
-        return ast.Call(
-            func=ast.Attribute(value=ast.Name(id="state", ctx=ast.Load()), attr="can_reach", ctx=ast.Load()),
-            args=[ast.Constant(value=entrance),
-                  ast.Constant(value="Entrance"),
-                  ast.Name(id="player", ctx=ast.Load())],
-            keywords=[])
+        else:
+            name = unparse(node)
+            if name in self.additional_truths:
+                return ast.Constant(True, ctx=ast.Load())
+            elif name in self.additional_falses:
+                return ast.Constant(False, ctx=ast.Load())
+            elif name in macros:
+                # macro such as "COMBAT[White_Palace_Arenas]"
+                return macros[name].body
+            else:
+                # assume Entrance
+                entrance = unparse(node)
+                assert entrance in connectors, entrance
+                return ast.Call(
+                    func=ast.Attribute(value=ast.Name(id='state', ctx=ast.Load()), attr='can_reach', ctx=ast.Load()),
+                    args=[ast.Constant(value=entrance),
+                          ast.Constant(value="Entrance"),
+                          ast.Name(id="player", ctx=ast.Load())],
+                    keywords=[])
         return node
 
     def is_always_true(self, node):
@@ -174,12 +177,12 @@ class Absorber(ast.NodeTransformer):
             return True
 
 
-def get_parser(truths: set[str] = frozenset(), falses: set[str] = frozenset()):
+def get_parser(truths: typing.Set[str] = frozenset(), falses: typing.Set[str] = frozenset()):
     return Absorber(truths, falses)
 
 
-def ast_parse(parser, rule_text, truths: set[str] = frozenset(), falses: set[str] = frozenset()):
-    tree = ast.parse(hk_convert(rule_text), mode="eval")
+def ast_parse(parser, rule_text, truths: typing.Set[str] = frozenset(), falses: typing.Set[str] = frozenset()):
+    tree = ast.parse(hk_convert(rule_text), mode='eval')
     parser.additional_truths = truths
     parser.additional_falses = falses
     new_tree = parser.visit(tree)
@@ -193,11 +196,11 @@ world_folder = os.path.dirname(__file__)
 resources_source = os.path.join(world_folder, "Resources")
 data_folder = os.path.join(resources_source, "Data")
 logic_folder = os.path.join(resources_source, "Logic")
-logic_options: dict[str, str] = hk_loads(os.path.join(data_folder, "logic_settings.json"))
+logic_options: typing.Dict[str, str] = hk_loads(os.path.join(data_folder, "logic_settings.json"))
 for logic_key, logic_value in logic_options.items():
     logic_options[logic_key] = logic_value.split(".", 1)[-1]
 
-vanilla_cost_data: dict[str, dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "costs.json"))
+vanilla_cost_data: typing.Dict[str, typing.Dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "costs.json"))
 vanilla_location_costs = {
     key: {
         value["term"]: int(value["amount"])
@@ -216,44 +219,44 @@ salubra_geo_costs_by_charm_count = {
 
 # Can't extract this data, so supply it ourselves.  Source: the wiki
 vanilla_shop_costs = {
-    ("Sly", "Simple_Key"): [{"GEO": 950}],
-    ("Sly", "Rancid_Egg"): [{"GEO": 60}],
-    ("Sly", "Lumafly_Lantern"): [{"GEO": 1800}],
-    ("Sly", "Gathering_Swarm"): [{"GEO": 300}],
-    ("Sly", "Stalwart_Shell"): [{"GEO": 200}],
-    ("Sly", "Mask_Shard"): [
-        {"GEO": 150},
-        {"GEO": 500},
+    ('Sly', 'Simple_Key'): [{'GEO': 950}],
+    ('Sly', 'Rancid_Egg'): [{'GEO': 60}],
+    ('Sly', 'Lumafly_Lantern'): [{'GEO': 1800}],
+    ('Sly', 'Gathering_Swarm'): [{'GEO': 300}],
+    ('Sly', 'Stalwart_Shell'): [{'GEO': 200}],
+    ('Sly', 'Mask_Shard'): [
+        {'GEO': 150},
+        {'GEO': 500},
     ],
-    ("Sly", "Vessel_Fragment"): [{"GEO": 550}],
-    ("Sly_(Key)", "Heavy_Blow"): [{"GEO": 350}],
-    ("Sly_(Key)", "Elegant_Key"): [{"GEO": 800}],
-    ("Sly_(Key)", "Mask_Shard"): [
-        {"GEO": 800},
-        {"GEO": 1500},
+    ('Sly', 'Vessel_Fragment'): [{'GEO': 550}],
+    ('Sly_(Key)', 'Heavy_Blow'): [{'GEO': 350}],
+    ('Sly_(Key)', 'Elegant_Key'): [{'GEO': 800}],
+    ('Sly_(Key)', 'Mask_Shard'): [
+        {'GEO': 800},
+        {'GEO': 1500},
     ],
-    ("Sly_(Key)", "Vessel_Fragment"): [{"GEO": 900}],
-    ("Sly_(Key)", "Sprintmaster"): [{"GEO": 400}],
+    ('Sly_(Key)', 'Vessel_Fragment'): [{'GEO': 900}],
+    ('Sly_(Key)', 'Sprintmaster'): [{'GEO': 400}],
 
-    ("Iselda", "Wayward_Compass"): [{"GEO": 220}],
-    ("Iselda", "Quill"): [{"GEO": 120}],
+    ('Iselda', 'Wayward_Compass'): [{'GEO': 220}],
+    ('Iselda', 'Quill'): [{'GEO': 120}],
 
-    ("Salubra", "Lifeblood_Heart"): [{"GEO": 250}],
-    ("Salubra", "Longnail"): [{"GEO": 300}],
-    ("Salubra", "Steady_Body"): [{"GEO": 120}],
-    ("Salubra", "Shaman_Stone"): [{"GEO": 220}],
-    ("Salubra", "Quick_Focus"): [{"GEO": 800}],
+    ('Salubra', 'Lifeblood_Heart'): [{'GEO': 250}],
+    ('Salubra', 'Longnail'): [{'GEO': 300}],
+    ('Salubra', 'Steady_Body'): [{'GEO': 120}],
+    ('Salubra', 'Shaman_Stone'): [{'GEO': 220}],
+    ('Salubra', 'Quick_Focus'): [{'GEO': 800}],
 
-    ("Leg_Eater", "Fragile_Heart"): [{"GEO": 350}],
-    ("Leg_Eater", "Fragile_Greed"): [{"GEO": 250}],
-    ("Leg_Eater", "Fragile_Strength"): [{"GEO": 600}],
+    ('Leg_Eater', 'Fragile_Heart'): [{'GEO': 350}],
+    ('Leg_Eater', 'Fragile_Greed'): [{'GEO': 250}],
+    ('Leg_Eater', 'Fragile_Strength'): [{'GEO': 600}],
 }
-extra_pool_options: list[dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "pools.json"))
-pool_options: dict[str, tuple[list[str], list[str]]] = {}
+extra_pool_options: typing.List[typing.Dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "pools.json"))
+pool_options: typing.Dict[str, typing.Tuple[typing.List[str], typing.List[str]]] = {}
 for option in extra_pool_options:
     if option["Path"] != "False":
-        items: list[str] = []
-        locations: list[str] = []
+        items: typing.List[str] = []
+        locations: typing.List[str] = []
         for pairing in option["Vanilla"]:
             items.append(pairing["item"])
             location_name = pairing["location"]
@@ -266,10 +269,10 @@ for option in extra_pool_options:
                     entry["term"]: int(entry["amount"]) for entry in item_costs
                 }
                 # Rando4 doesn't include vanilla geo costs for Salubra charms, so dirty hardcode here.
-                if "CHARMS" in cost:
-                    geo = salubra_geo_costs_by_charm_count.get(cost["CHARMS"])
+                if 'CHARMS' in cost:
+                    geo = salubra_geo_costs_by_charm_count.get(cost['CHARMS'])
                     if geo:
-                        cost["GEO"] = geo
+                        cost['GEO'] = geo
 
                 key = (pairing["location"], pairing["item"])
                 vanilla_shop_costs.setdefault(key, []).append(cost)
@@ -295,16 +298,16 @@ vanilla_shop_costs = {
 }
 
 # items
-items: dict[str, dict] = hk_loads(os.path.join(data_folder, "items.json"))
-logic_items: set[str] = set()
+items: typing.Dict[str, typing.Dict] = hk_loads(os.path.join(data_folder, "items.json"))
+logic_items: typing.Set[str] = set()
 for item_name in sorted(items):
     item = items[item_name]
     items[item_name] = item["Pool"]
-items: dict[str, str]
+items: typing.Dict[str, str]
 
-extra_item_data: list[dict[str, typing.Any]] = hk_loads(os.path.join(logic_folder, "items.json"))
-item_effects: dict[str, dict[str, int]] = {}
-effect_names: set[str] = set()
+extra_item_data: typing.List[typing.Dict[str, typing.Any]] = hk_loads(os.path.join(logic_folder, "items.json"))
+item_effects: typing.Dict[str, typing.Dict[str, int]] = {}
+effect_names: typing.Set[str] = set()
 for item_data in extra_item_data:
     if "FalseItem" in item_data:
         item_data = item_data["FalseItem"]
@@ -319,10 +322,10 @@ for item_data in extra_item_data:
                effect["Term"] != item_data["Name"] and effect["Term"] not in {"GEO",
                                                                               "HALLOWNESTSEALS",
                                                                               "WANDERERSJOURNALS",
-                                                                              "HALLOWNESTSEALS",
+                                                                              'HALLOWNESTSEALS',
                                                                               "KINGSIDOLS",
-                                                                              "ARCANEEGGS",
-                                                                              "MAPS"
+                                                                              'ARCANEEGGS',
+                                                                              'MAPS'
                                                                               }}
 
     if effects:
@@ -331,13 +334,13 @@ for item_data in extra_item_data:
 del extra_item_data
 
 # locations
-original_locations: dict[str, dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "locations.json"))
+original_locations: typing.Dict[str, typing.Dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "locations.json"))
 del(original_locations["Start"])  # Starting Inventory works different in AP
 
-locations: list[str] = []
-locations_in_regions: dict[str, list[str]] = {}
-location_to_region_lookup: dict[str, str] = {}
-multi_locations: dict[str, list[str]] = {}
+locations: typing.List[str] = []
+locations_in_regions: typing.Dict[str, typing.List[str]] = {}
+location_to_region_lookup: typing.Dict[str, str] = {}
+multi_locations: typing.Dict[str, typing.List[str]] = {}
 for location_name, location_data in original_locations.items():
     region_name = location_data["SceneName"]
     if location_data["FlexibleCount"]:
@@ -352,12 +355,12 @@ for location_name, location_data in original_locations.items():
 del original_locations
 
 # regions
-region_names: set[str] = set(hk_loads(os.path.join(data_folder, "rooms.json")))
-connectors_data: dict[str, dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "transitions.json"))
-connectors_logic: list[dict[str, typing.Any]] = hk_loads(os.path.join(logic_folder, "transitions.json"))
-exits: dict[str, list[str]] = {}
-connectors: dict[str, str] = {}
-one_ways: set[str] = set()
+region_names: typing.Set[str] = set(hk_loads(os.path.join(data_folder, "rooms.json")))
+connectors_data: typing.Dict[str, typing.Dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "transitions.json"))
+connectors_logic: typing.List[typing.Dict[str, typing.Any]] = hk_loads(os.path.join(logic_folder, "transitions.json"))
+exits: typing.Dict[str, typing.List[str]] = {}
+connectors: typing.Dict[str, str] = {}
+one_ways: typing.Set[str] = set()
 for connector_name, connector_data in connectors_data.items():
     exits.setdefault(connector_data["SceneName"], []).append(connector_name)
     connectors[connector_name] = connector_data["VanillaTarget"]
@@ -366,25 +369,25 @@ for connector_name, connector_data in connectors_data.items():
 del connectors_data
 
 # starts
-starts: dict[str, dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "starts.json"))
+starts: typing.Dict[str, typing.Dict[str, typing.Any]] = hk_loads(os.path.join(data_folder, "starts.json"))
 
 # only allow always valid starts for now
-removed_starts: set[str] = {name.replace(" ", "_").lower() for name, data in starts.items() if
+removed_starts: typing.Set[str] = {name.replace(" ", "_").lower() for name, data in starts.items() if
                                    name != "King's Pass"}
 
-starts: dict[str, str] = {
+starts: typing.Dict[str, str] = {
     name.replace(" ", "_").lower(): data["sceneName"] for name, data in starts.items() if name == "King's Pass"}
 
 # logic
 falses = {"MAPAREARANDO", "FULLAREARANDO"}
-macros: dict[str, ast.AST] = {
+macros: typing.Dict[str, ast.AST] = {
 }
 parser = get_parser(set(), falses)
-extra_macros: dict[str, str] = hk_loads(os.path.join(logic_folder, "macros.json"))
-raw_location_rules: list[dict[str, str]] = hk_loads(os.path.join(logic_folder, "locations.json"))
-events: list[dict[str, typing.Any]] = hk_loads(os.path.join(logic_folder, "waypoints.json"))
+extra_macros: typing.Dict[str, str] = hk_loads(os.path.join(logic_folder, "macros.json"))
+raw_location_rules: typing.List[typing.Dict[str, str]] = hk_loads(os.path.join(logic_folder, "locations.json"))
+events: typing.List[typing.Dict[str, typing.Any]] = hk_loads(os.path.join(logic_folder, "waypoints.json"))
 
-event_names: set[str] = {event["name"] for event in events}
+event_names: typing.Set[str] = {event["name"] for event in events}
 
 for macro_name, rule in extra_macros.items():
     if macro_name not in macros:
@@ -400,7 +403,7 @@ for macro_name, rule in extra_macros.items():
                 macros[f"COMBAT['{name}']"] = rule
             macros[f'COMBAT["{name}"]'] = rule
 
-location_rules: dict[str, str] = {}
+location_rules: typing.Dict[str, str] = {}
 for loc_obj in raw_location_rules:
     loc_name = loc_obj["name"]
     rule = loc_obj["logic"]
@@ -409,7 +412,7 @@ for loc_obj in raw_location_rules:
         location_rules[loc_name] = unparse(rule)
 location_rules["Salubra_(Requires_Charms)"] = location_rules["Salubra"]
 
-connectors_rules: dict[str, str] = {}
+connectors_rules: typing.Dict[str, str] = {}
 for connector_obj in connectors_logic:
     name = connector_obj["Name"]
     rule = connector_obj["logic"]
@@ -418,7 +421,7 @@ for connector_obj in connectors_logic:
     if rule != "True":
         connectors_rules[name] = rule
 
-event_rules: dict[str, str] = {}
+event_rules: typing.Dict[str, str] = {}
 for event in events:
     rule = ast_parse(parser, event["logic"])
     rule = unparse(rule)
@@ -432,8 +435,8 @@ connectors_rules = {}
 
 # Apply some final fixes
 item_effects.update({
-    "Left_Mothwing_Cloak": {"LEFTDASH": 1},
-    "Right_Mothwing_Cloak": {"RIGHTDASH": 1},
+    'Left_Mothwing_Cloak': {'LEFTDASH': 1},
+    'Right_Mothwing_Cloak': {'RIGHTDASH': 1},
 })
 names = sorted({"logic_options", "starts", "pool_options", "locations", "multi_locations", "location_to_region_lookup",
                 "event_names", "item_effects", "items", "logic_items", "region_names",

@@ -9,14 +9,13 @@ from google.protobuf import descriptor_pool as _descriptor_pool
 from google.protobuf import runtime_version as _runtime_version
 from google.protobuf import symbol_database as _symbol_database
 from google.protobuf.internal import builder as _builder
-
 _runtime_version.ValidateProtobufRuntimeVersion(
     _runtime_version.Domain.PUBLIC,
     6,
     31,
     1,
-    "",
-    "s2clientprotocol/score.proto"
+    '',
+    's2clientprotocol/score.proto'
 )
 # @@protoc_insertion_point(imports)
 
@@ -29,17 +28,17 @@ DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1cs2clientprotoc
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, "s2clientprotocol.score_pb2", _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 's2clientprotocol.score_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals["_SCORE"]._serialized_start=49
-  _globals["_SCORE"]._serialized_end=217
-  _globals["_SCORE_SCORETYPE"]._serialized_start=179
-  _globals["_SCORE_SCORETYPE"]._serialized_end=217
-  _globals["_CATEGORYSCOREDETAILS"]._serialized_start=219
-  _globals["_CATEGORYSCOREDETAILS"]._serialized_end=323
-  _globals["_VITALSCOREDETAILS"]._serialized_start=325
-  _globals["_VITALSCOREDETAILS"]._serialized_end=391
-  _globals["_SCOREDETAILS"]._serialized_start=394
-  _globals["_SCOREDETAILS"]._serialized_end=1684
+  _globals['_SCORE']._serialized_start=49
+  _globals['_SCORE']._serialized_end=217
+  _globals['_SCORE_SCORETYPE']._serialized_start=179
+  _globals['_SCORE_SCORETYPE']._serialized_end=217
+  _globals['_CATEGORYSCOREDETAILS']._serialized_start=219
+  _globals['_CATEGORYSCOREDETAILS']._serialized_end=323
+  _globals['_VITALSCOREDETAILS']._serialized_start=325
+  _globals['_VITALSCOREDETAILS']._serialized_end=391
+  _globals['_SCOREDETAILS']._serialized_start=394
+  _globals['_SCOREDETAILS']._serialized_end=1684
 # @@protoc_insertion_point(module_scope)

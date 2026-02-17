@@ -1,7 +1,7 @@
 import struct
 from typing import TYPE_CHECKING
 
-from .Options import BabySound, LevelShuffle, YoshiColors
+from .Options import YoshiColors, BabySound, LevelShuffle
 
 if TYPE_CHECKING:
     from . import YoshisIslandWorld

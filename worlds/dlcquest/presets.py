@@ -1,15 +1,6 @@
 from typing import Any, Dict
 
-from .Options import (
-    Campaign,
-    CoinSanity,
-    CoinSanityRange,
-    DoubleJumpGlitch,
-    EndingChoice,
-    ItemShuffle,
-    PermanentCoins,
-    TimeIsMoney,
-)
+from .Options import DoubleJumpGlitch, CoinSanity, CoinSanityRange, PermanentCoins, TimeIsMoney, EndingChoice, Campaign, ItemShuffle
 
 all_random_settings = {
     DoubleJumpGlitch.internal_name:         "random",
@@ -68,7 +59,7 @@ hard_settings = {
 }
 
 
-dlcq_options_presets: dict[str, dict[str, Any]] = {
+dlcq_options_presets: Dict[str, Dict[str, Any]] = {
     "All random": all_random_settings,
     "Main campaign": main_campaign_settings,
     "LFOD campaign": lfod_campaign_settings,

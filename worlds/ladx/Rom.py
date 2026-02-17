@@ -1,22 +1,18 @@
-import binascii
-import hashlib
-import json
-import os
-import pickle
-import pkgutil
-from typing import TYPE_CHECKING
-
-import bsdiff4
-
-import Utils
 import worlds.Files
-
+import hashlib
+import Utils
+import os
+import json
+import pkgutil
+import bsdiff4
+import binascii
+import pickle
+from typing import TYPE_CHECKING
 from .Common import *
 from .LADXR import generator
+from .LADXR.main import get_parser
 from .LADXR.hints import generate_hint_texts
 from .LADXR.locations.keyLocation import KeyLocation
-from .LADXR.main import get_parser
-
 LADX_HASH = "07c211479386825042efb4ad31bb525f"
 
 if TYPE_CHECKING:
@@ -110,7 +106,7 @@ def write_patch_data(world: "LinksAwakeningWorld", patch: LADXProcedurePatch):
             "overworld",
         ),
     }
-    patch.write_file("data.json", json.dumps(data_dict).encode("utf-8"))
+    patch.write_file("data.json", json.dumps(data_dict).encode('utf-8'))
 
 
 def get_base_rom_bytes(file_name: str = "") -> bytes:
@@ -122,8 +118,8 @@ def get_base_rom_bytes(file_name: str = "") -> bytes:
         basemd5 = hashlib.md5()
         basemd5.update(base_rom_bytes)
         if LADX_HASH != basemd5.hexdigest():
-            raise Exception("Supplied Base Rom does not match known MD5 for USA release. "
-                            "Get the correct game and version, then dump it")
+            raise Exception('Supplied Base Rom does not match known MD5 for USA release. '
+                            'Get the correct game and version, then dump it')
         get_base_rom_bytes.base_rom_bytes = base_rom_bytes
     return base_rom_bytes
 

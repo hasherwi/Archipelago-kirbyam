@@ -1,27 +1,21 @@
 import typing
 
-from BaseClasses import Item, ItemClassification, MultiWorld, Region, Tutorial
-from Options import OptionError
+from BaseClasses import Item, Tutorial, ItemClassification, Region, MultiWorld
 from worlds.AutoWorld import WebWorld, World
+from Options import OptionError
+from .Items import OSRSItem, starting_area_dict, chunksanity_starting_chunks, QP_Items, ItemRow, \
+    chunksanity_special_region_names
+from .Locations import OSRSLocation, LocationRow, task_types
+from .Rules import *
+from .Options import OSRSOptions, StartingArea
+from .Names import LocationNames, ItemNames, RegionNames
 
-from .Items import (
-    ItemRow,
-    OSRSItem,
-    QP_Items,
-    chunksanity_special_region_names,
-    chunksanity_starting_chunks,
-    starting_area_dict,
-)
-from .Locations import LocationRow, OSRSLocation, task_types
+from .LogicCSV.LogicCSVToPython import data_csv_tag
 from .LogicCSV.items_generated import item_rows
 from .LogicCSV.locations_generated import location_rows
-from .LogicCSV.LogicCSVToPython import data_csv_tag
 from .LogicCSV.regions_generated import region_rows
 from .LogicCSV.resources_generated import resource_rows
-from .Names import ItemNames, LocationNames, RegionNames
-from .Options import OSRSOptions, StartingArea
 from .Regions import RegionRow, ResourceRow
-from .Rules import *
 
 
 class OSRSWeb(WebWorld):
@@ -58,18 +52,18 @@ class OSRSWorld(World):
     item_name_to_id = {item_rows[i].name: 0x070000 + i for i in range(len(item_rows))}
     location_name_to_id = {location_rows[i].name: 0x070000 + i for i in range(len(location_rows))}
 
-    region_name_to_data: dict[str, Region]
-    location_name_to_data: dict[str, OSRSLocation]
+    region_name_to_data: typing.Dict[str, Region]
+    location_name_to_data: typing.Dict[str, OSRSLocation]
 
-    location_rows_by_name: dict[str, LocationRow]
-    region_rows_by_name: dict[str, RegionRow]
-    resource_rows_by_name: dict[str, ResourceRow]
-    item_rows_by_name: dict[str, ItemRow]
+    location_rows_by_name: typing.Dict[str, LocationRow]
+    region_rows_by_name: typing.Dict[str, RegionRow]
+    resource_rows_by_name: typing.Dict[str, ResourceRow]
+    item_rows_by_name: typing.Dict[str, ItemRow]
 
     starting_area_item: str
 
-    locations_by_category: dict[str, list[LocationRow]]
-    available_QP_locations: list[str]
+    locations_by_category: typing.Dict[str, typing.List[LocationRow]]
+    available_QP_locations: typing.List[str]
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
@@ -139,7 +133,7 @@ class OSRSWorld(World):
         return data
 
     @staticmethod
-    def interpret_slot_data(slot_data: dict[str, typing.Any]) -> dict[str, typing.Any]:
+    def interpret_slot_data(slot_data: typing.Dict[str, typing.Any]) -> typing.Dict[str, typing.Any]:
         return slot_data
 
     def create_regions(self) -> None:
@@ -174,7 +168,7 @@ class OSRSWorld(World):
             region = self.region_name_to_data[region_row.name]
 
             for outbound_region_name in region_row.connections:
-                parsed_outbound = outbound_region_name.replace("*", "")
+                parsed_outbound = outbound_region_name.replace('*', '')
                 entrance = region.create_exit(f"{region_row.name}->{parsed_outbound}")
                 entrance.connect(self.region_name_to_data[parsed_outbound])
 
@@ -190,7 +184,7 @@ class OSRSWorld(World):
                 if "*" not in resource_region:
                     entrance.connect(self.region_name_to_data[resource_region])
                 else:
-                    entrance.connect(self.region_name_to_data[resource_region.replace("*", "")])
+                    entrance.connect(self.region_name_to_data[resource_region.replace('*', '')])
                 generate_special_rules_for(entrance, region_row, resource_region, self.player, self.options, self)
 
         self.roll_locations()
@@ -261,9 +255,9 @@ class OSRSWorld(World):
 
         general_weight = self.options.general_task_weight.value if len(general_tasks) > 0 else 0
 
-        tasks_per_task_type: dict[str, list[LocationRow]] = {}
-        weights_per_task_type: dict[str, int] = {}
-
+        tasks_per_task_type: typing.Dict[str, typing.List[LocationRow]] = {}
+        weights_per_task_type: typing.Dict[str, int] = {}
+        
         for task_type in task_types:
             max_amount_for_task_type = getattr(self.options, f"max_{task_type}_tasks")
             tasks_for_this_type = [task for task in self.locations_by_category[task_type]
@@ -352,9 +346,10 @@ class OSRSWorld(World):
     def get_filler_item_name(self) -> str:
         if self.options.enable_duds:
             return self.random.choice([item.name for item in item_rows if item.progression == ItemClassification.filler])
-        return self.random.choice([ItemNames.Progressive_Weapons, ItemNames.Progressive_Magic,
-                                   ItemNames.Progressive_Range_Weapon, ItemNames.Progressive_Armor,
-                                   ItemNames.Progressive_Range_Armor, ItemNames.Progressive_Tools])
+        else:
+            return self.random.choice([ItemNames.Progressive_Weapons, ItemNames.Progressive_Magic,
+                                       ItemNames.Progressive_Range_Weapon, ItemNames.Progressive_Armor,
+                                       ItemNames.Progressive_Range_Armor, ItemNames.Progressive_Tools])
 
     def create_and_add_location(self, row_index) -> None:
         location_row = location_rows[row_index]

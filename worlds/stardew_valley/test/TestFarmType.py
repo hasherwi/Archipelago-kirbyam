@@ -1,8 +1,8 @@
 from collections import Counter
 
-from .. import options
 from .assertion import WorldAssertMixin
 from .bases import SVTestBase
+from .. import options
 
 
 class TestStartInventoryStandardFarm(WorldAssertMixin, SVTestBase):
@@ -11,8 +11,8 @@ class TestStartInventoryStandardFarm(WorldAssertMixin, SVTestBase):
     }
 
     def test_start_inventory_progressive_coops(self):
-        start_items = Counter(i.name for i in self.multiworld.precollected_items[self.player])
-        items = Counter(i.name for i in self.multiworld.itempool)
+        start_items = Counter((i.name for i in self.multiworld.precollected_items[self.player]))
+        items = Counter((i.name for i in self.multiworld.itempool))
 
         self.assertIn("Progressive Coop", items)
         self.assertEqual(items["Progressive Coop"], 3)
@@ -29,8 +29,8 @@ class TestStartInventoryMeadowLandsProgressiveBuilding(WorldAssertMixin, SVTestB
     }
 
     def test_start_inventory_progressive_coops(self):
-        start_items = Counter(i.name for i in self.multiworld.precollected_items[self.player])
-        items = Counter(i.name for i in self.multiworld.itempool)
+        start_items = Counter((i.name for i in self.multiworld.precollected_items[self.player]))
+        items = Counter((i.name for i in self.multiworld.itempool))
 
         self.assertIn("Progressive Coop", items)
         self.assertEqual(items["Progressive Coop"], 2)
@@ -48,7 +48,7 @@ class TestStartInventoryMeadowLandsVanillaBuildings(WorldAssertMixin, SVTestBase
     }
 
     def test_start_inventory_has_no_coop(self):
-        start_items = Counter(i.name for i in self.multiworld.precollected_items[self.player])
+        start_items = Counter((i.name for i in self.multiworld.precollected_items[self.player]))
         self.assertNotIn("Progressive Coop", start_items)
 
     def test_coop_is_logically_available(self):

@@ -1,8 +1,8 @@
 import unittest
 
 from BaseClasses import PlandoOptions
-from Options import NamedRange, NumericOption, OptionCounter, OptionList, OptionSet, Visibility
 from worlds import AutoWorldRegister
+from Options import OptionCounter, NamedRange, NumericOption, OptionList, OptionSet, Visibility
 
 
 class TestOptionPresets(unittest.TestCase):

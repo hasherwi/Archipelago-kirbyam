@@ -1,18 +1,16 @@
-import hashlib
-import os
 import pkgutil
-from typing import TYPE_CHECKING, Dict, Optional
-from collections.abc import Iterable, Sequence
+from typing import Optional, TYPE_CHECKING, Iterable, Dict, Sequence
+import hashlib
+import Utils
+import os
 
 import settings
-import Utils
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
-
 from . import names
-from .color import get_colors_for_item, write_palette_shuffle
-from .options import Consumables, RandomMusic, ReduceFlashing
 from .rules import minimum_weakness_requirement
 from .text import MM2TextEntry
+from .color import get_colors_for_item, write_palette_shuffle
+from .options import Consumables, ReduceFlashing, RandomMusic
 
 if TYPE_CHECKING:
     from . import MM2World
@@ -22,7 +20,7 @@ PROTEUSHASH = "b69fff40212b80c94f19e786d1efbf61"
 MM2NESHASH = "0527a0ee512f69e08b8db6dc97964632"
 MM2VCHASH = "0c78dfe8e90fb8f3eed022ff01126ad3"
 
-enemy_weakness_ptrs: dict[int, int] = {
+enemy_weakness_ptrs: Dict[int, int] = {
     0: 0x3E9A8,
     1: 0x3EA24,
     2: 0x3EA9C,
@@ -33,7 +31,7 @@ enemy_weakness_ptrs: dict[int, int] = {
     7: 0x3ECF4,
 }
 
-enemy_addresses: dict[str, int] = {
+enemy_addresses: Dict[str, int] = {
     "Shrink": 0x00,
     "M-445": 0x04,
     "Claw": 0x08,
@@ -101,7 +99,7 @@ class RomData:
         self.file[offset:offset + len(values)] = values
 
     def write_to_file(self, file: str) -> None:
-        with open(file, "wb") as outfile:
+        with open(file, 'wb') as outfile:
             outfile.write(self.file)
 
 
@@ -184,7 +182,7 @@ def patch_rom(world: "MM2World", patch: MM2ProcedurePatch) -> None:
 
     write_palette_shuffle(world, patch)
 
-    enemy_weaknesses: dict[str, dict[int, int]] = {}
+    enemy_weaknesses: Dict[str, Dict[int, int]] = {}
 
     if world.options.strict_weakness or world.options.random_weakness or world.options.plando_weakness:
         # we need to write boss weaknesses
@@ -331,7 +329,7 @@ def patch_rom(world: "MM2World", patch: MM2ProcedurePatch) -> None:
 
     from Utils import __version__
     patch.name = bytearray(f'MM2{__version__.replace(".", "")[0:3]}_{world.player}_{world.multiworld.seed:11}\0',
-                           "utf8")[:21]
+                           'utf8')[:21]
     patch.name.extend([0] * (21 - len(patch.name)))
     patch.write_bytes(0x3FFC0, patch.name)
     deathlink_byte = world.options.death_link.value | (world.options.energy_link.value << 1)
@@ -370,11 +368,12 @@ header = b"\x4E\x45\x53\x1A\x10\x00\x10\x00\x00\x00\x00\x00\x00\x00\x00\x00"
 def read_headerless_nes_rom(rom: bytes) -> bytes:
     if rom[:4] == b"NES\x1A":
         return rom[16:]
-    return rom
+    else:
+        return rom
 
 
 def get_base_rom_bytes(file_name: str = "") -> bytes:
-    base_rom_bytes: bytes | None = getattr(get_base_rom_bytes, "base_rom_bytes", None)
+    base_rom_bytes: Optional[bytes] = getattr(get_base_rom_bytes, "base_rom_bytes", None)
     if not base_rom_bytes:
         file_name = get_base_rom_path(file_name)
         base_rom_bytes = read_headerless_nes_rom(bytes(open(file_name, "rb").read()))

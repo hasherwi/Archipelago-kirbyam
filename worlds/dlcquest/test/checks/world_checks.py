@@ -1,16 +1,15 @@
 from typing import List
 
 from BaseClasses import MultiWorld
-
-from ... import Options
 from .. import DLCQuestTestBase
+from ... import Options
 
 
-def get_all_item_names(multiworld: MultiWorld) -> list[str]:
+def get_all_item_names(multiworld: MultiWorld) -> List[str]:
     return [item.name for item in multiworld.itempool]
 
 
-def get_all_location_names(multiworld: MultiWorld) -> list[str]:
+def get_all_location_names(multiworld: MultiWorld) -> List[str]:
     return [location.name for location in multiworld.get_locations() if not location.advancement]
 
 

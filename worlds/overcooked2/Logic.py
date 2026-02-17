@@ -1,16 +1,7 @@
-from random import Random
-from typing import Dict, Set
-
 from BaseClasses import CollectionState
-
-from .Overcooked2Levels import (
-    Overcooked2Dlc,
-    Overcooked2GenericLevel,
-    Overcooked2Level,
-    OverworldRegion,
-    overworld_region_by_level,
-)
-
+from .Overcooked2Levels import Overcooked2GenericLevel, Overcooked2Dlc, Overcooked2Level, OverworldRegion, overworld_region_by_level
+from typing import Dict, Set
+from random import Random
 
 def has_requirements_for_level_access(state: CollectionState, level_name: str, previous_level_completed_event_name: str,
                                       required_star_count: int, allow_ramp_tricks: bool, player: int) -> bool:
@@ -138,9 +129,9 @@ def level_shuffle_factory(
     shuffle_prep_levels: bool,
     shuffle_horde_levels: bool,
     kevin_levels: bool,
-    enabled_dlc: set[Overcooked2Dlc],
+    enabled_dlc: Set[Overcooked2Dlc],
     player_name: str,
-) -> dict[int, Overcooked2GenericLevel]:  # return <story_level_id, level>
+) -> Dict[int, Overcooked2GenericLevel]:  # return <story_level_id, level>
 
     # Create a list of all valid levels for selection
     # (excludes tutorial, throne and sometimes horde/prep levels)
@@ -179,7 +170,7 @@ def level_shuffle_factory(
     # Sort the pool to eliminate risk
     pool.sort(key=lambda x: int(x.dlc)*1000 + x.level_id)
 
-    result: dict[int, Overcooked2GenericLevel] = dict()
+    result: Dict[int, Overcooked2GenericLevel] = dict()
     story = Overcooked2Dlc.STORY
 
     attempts = 0
@@ -217,7 +208,7 @@ def level_shuffle_factory(
 
 
 def meets_minimum_sphere_one_requirements(
-    levels: dict[int, Overcooked2GenericLevel],
+    levels: Dict[int, Overcooked2GenericLevel],
 ) -> bool:
 
     # 1-1, 2-1, and 4-1 are guaranteed to be accessible on
@@ -287,7 +278,7 @@ def can_reach_stonehenge_mountain(state: CollectionState, player: int, allow_tri
 
     if state.has("Blue Ramp", player):
         return True
-
+    
     if can_reach_out_of_bounds(state, player, allow_tricks, visited):
         return True
 
@@ -322,7 +313,7 @@ def can_reach_pink_island(state: CollectionState, player: int, allow_tricks: boo
 
     if allow_tricks and state.has("Progressive Dash", player) and can_reach_sky_shelf(state, player, allow_tricks, visited):
         return True
-
+    
     return False
 
 def can_reach_tip_of_the_map(state: CollectionState, player: int, allow_tricks: bool, visited: list) -> bool:
@@ -332,7 +323,7 @@ def can_reach_tip_of_the_map(state: CollectionState, player: int, allow_tricks: 
 
     if state.has_all({"5-1 Level Complete", "Purple Ramp"}, player):
         return True
-
+    
     if can_reach_out_of_bounds(state, player, allow_tricks, visited):
         return True
 

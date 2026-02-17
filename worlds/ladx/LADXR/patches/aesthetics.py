@@ -1,17 +1,14 @@
-import os
-import pkgutil
-
-import bsdiff4
-
-from .. import entityData
 from ..assembler import ASM
-from ..roomEditor import RoomEditor
 from ..utils import formatText, setReplacementName
-
+from ..roomEditor import RoomEditor
+from .. import entityData
+import os
+import bsdiff4
+import pkgutil
 
 def imageTo2bpp(filename):
     import PIL.Image
-    baseimg = PIL.Image.new("P", (1,1))
+    baseimg = PIL.Image.new('P', (1,1))
     baseimg.putpalette((
         128, 0, 128,
         0, 0, 0,
@@ -184,7 +181,7 @@ def noText(rom):
 def reduceMessageLengths(rom, rnd):
     # Into text from Marin. Got to go fast, so less text. (This intro text is very long)
     lines = pkgutil.get_data(__name__, "marin.txt").splitlines(keepends=True)
-    while lines and lines[-1].strip() == b"":
+    while lines and lines[-1].strip() == b'':
         lines.pop(-1)
     rom.texts[0x01] = formatText(rnd.choice(lines).strip().decode("unicode_escape"))
 
@@ -272,7 +269,7 @@ def allowColorDungeonSpritesEverywhere(rom):
     # Disable color dungeon specific tile load hacks
     rom.patch(0x00, 0x06A7, ASM("jr nz, $22"), ASM("jr $22"))
     rom.patch(0x00, 0x2E77, ASM("jr nz, $0B"), ASM("jr $0B"))
-
+    
     # Finally fill in the sprite data for the color dungeon
     for n in range(22):
         data = bytearray()

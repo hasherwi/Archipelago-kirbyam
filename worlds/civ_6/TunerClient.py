@@ -1,6 +1,6 @@
 import asyncio
-import socket
 from logging import Logger
+import socket
 from typing import Any
 
 ADDRESS = "127.0.0.1"
@@ -44,7 +44,7 @@ class TunerClient:
             start = split[1]
             end = start.split(CLIENT_POSTFIX)[0]
             return end
-        if "ERR:" in response:
+        elif "ERR:" in response:
             raise TunerErrorException(response.replace("?", ""))
         else:
             return ""

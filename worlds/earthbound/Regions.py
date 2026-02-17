@@ -1,10 +1,7 @@
-from typing import TYPE_CHECKING, Dict, List, Optional
-
-from BaseClasses import Location, Region
-
+from typing import List, Dict, TYPE_CHECKING, Optional
+from BaseClasses import Region, Location
 from .Locations import LocationData
 from .Options import MagicantMode
-
 if TYPE_CHECKING:
     from . import EarthBoundWorld
 
@@ -141,7 +138,7 @@ def connect_area_exits(world: "EarthBoundWorld"):
                                                                     {"Twoson": lambda state: state.has_any({"Pencil Eraser", "Valley Bridge Repair"}, player)})
 
     multiworld.get_region("Happy-Happy Village", player).add_exits(["Peaceful Rest Valley", lilliput_steps_connection, "Global ATM Access", happy_happy_hq_connection])
-
+    
     multiworld.get_region("Threed", player).add_exits(["Twoson", "Dusty Dunes Desert", "Andonuts Lab Area", "Threed Underground", "Boogey Tent", "Global ATM Access"],
                                                     {"Twoson": lambda state: state.has("Threed Tunnels Clear", player),
                                                     "Dusty Dunes Desert": lambda state: state.has("Threed Tunnels Clear", player),
@@ -236,7 +233,7 @@ def create_location(player: int, location_data: LocationData, region: Region) ->
     return location
 
 
-def create_region(world: "EarthBoundWorld", player: int, locations_per_region: dict[str, list[LocationData]], name: str) -> Region:
+def create_region(world: "EarthBoundWorld", player: int, locations_per_region: Dict[str, List[LocationData]], name: str) -> Region:
     region = Region(name, player, world.multiworld)
 
     if name in locations_per_region:
@@ -247,8 +244,8 @@ def create_region(world: "EarthBoundWorld", player: int, locations_per_region: d
     return region
 
 
-def get_locations_per_region(locations: list[LocationData]) -> dict[str, list[LocationData]]:
-    per_region: dict[str, list[LocationData]] = {}
+def get_locations_per_region(locations: List[LocationData]) -> Dict[str, List[LocationData]]:
+    per_region: Dict[str, List[LocationData]] = {}
 
     for location in locations:
         per_region.setdefault(location.region, []).append(location)
@@ -279,3 +276,4 @@ def connect_menu_region(world: "EarthBoundWorld") -> None:
     world.multiworld.get_region("Menu", world.player).add_exits([world.starting_region, "Ness's Mind"],
                           {"Ness's Mind": lambda state: state.has_any({"Ness", "Paula", "Jeff", "Poo"}, world.player),
                                 world.starting_region: lambda state: state.has_any({"Ness", "Paula", "Jeff", "Poo"}, world.player)})
+    

@@ -1,10 +1,10 @@
+from .. import SVContentPackTestBase
+from ...bases import SVTestBase
 from .... import options
 from ....content import content_packs
 from ....mods.mod_data import ModNames
 from ....strings.fish_names import SVEFish
-from ....strings.villager_names import NPC, ModNPC
-from ...bases import SVTestBase
-from .. import SVContentPackTestBase
+from ....strings.villager_names import ModNPC, NPC
 
 vanilla_villagers = 33
 vanilla_villagers_with_leo = 34

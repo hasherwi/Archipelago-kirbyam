@@ -1,34 +1,23 @@
-import hashlib
 import json
+import Utils
+
+from BaseClasses import Location
+from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes, APPatchExtension
+from typing import List, Dict, Union, Iterable, Collection, Optional, TYPE_CHECKING
+
+import hashlib
 import os
 import pkgutil
-from typing import TYPE_CHECKING, Dict, List, Optional, Union
-from collections.abc import Collection, Iterable
-
-import Utils
-from BaseClasses import Location
-from settings import get_settings
-from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
 
 from . import lzkn64
-from .aesthetics import get_item_text_color, renon_item_dialogue
 from .data import patches
-from .locations import get_location_info
-from .options import (
-    BadEndingCondition,
-    CharacterStages,
-    Countdown,
-    CV64DeathLink,
-    DraculasCondition,
-    InvisibleItems,
-    PantherDash,
-    PostBehemothBoss,
-    RenonFightCondition,
-    RoomOfClocksBoss,
-    VincentFightCondition,
-)
 from .stages import get_stage_info
 from .text import cv64_string_to_bytearray, cv64_text_truncate, cv64_text_wrap
+from .aesthetics import renon_item_dialogue, get_item_text_color
+from .locations import get_location_info
+from .options import CharacterStages, VincentFightCondition, RenonFightCondition, PostBehemothBoss, RoomOfClocksBoss, \
+    BadEndingCondition, CV64DeathLink, DraculasCondition, InvisibleItems, Countdown, PantherDash
+from settings import get_settings
 
 if TYPE_CHECKING:
     from . import CV64World
@@ -42,7 +31,7 @@ class RomData:
     orig_buffer: None
     buffer: bytearray
 
-    def __init__(self, file: bytes, name: str | None = None) -> None:
+    def __init__(self, file: bytes, name: Optional[str] = None) -> None:
         self.file = bytearray(file)
         self.name = name
 
@@ -66,7 +55,7 @@ class RomData:
         value = value & 0xFFFF
         self.write_bytes(address, [(value >> 8) & 0xFF, value & 0xFF])
 
-    def write_int16s(self, start_address: int, values: list[int]) -> None:
+    def write_int16s(self, start_address: int, values: List[int]) -> None:
         for i, value in enumerate(values):
             self.write_int16(start_address + (i * 2), value)
 
@@ -74,7 +63,7 @@ class RomData:
         value = value & 0xFFFFFF
         self.write_bytes(address, [(value >> 16) & 0xFF, (value >> 8) & 0xFF, value & 0xFF])
 
-    def write_int24s(self, start_address: int, values: list[int]) -> None:
+    def write_int24s(self, start_address: int, values: List[int]) -> None:
         for i, value in enumerate(values):
             self.write_int24(start_address + (i * 3), value)
 
@@ -905,8 +894,8 @@ class CV64ProcedurePatch(APProcedurePatch, APTokenMixin):
         return get_base_rom_bytes()
 
 
-def write_patch(world: "CV64World", patch: CV64ProcedurePatch, offset_data: dict[int, bytes], shop_name_list: list[str],
-                shop_desc_list: list[list[int | str | None]], shop_colors_list: list[bytearray],
+def write_patch(world: "CV64World", patch: CV64ProcedurePatch, offset_data: Dict[int, bytes], shop_name_list: List[str],
+                shop_desc_list: List[List[Union[int, str, None]]], shop_colors_list: List[bytearray],
                 active_locations: Iterable[Location]) -> None:
     active_warp_list = world.active_warp_list
     s1s_per_warp = world.s1s_per_warp
@@ -1029,7 +1018,7 @@ def write_patch(world: "CV64World", patch: CV64ProcedurePatch, offset_data: dict
         "window_color_a": world.options.window_color_a.value,
     }
 
-    patch.write_file("options.json", json.dumps(options_dict).encode("utf-8"))
+    patch.write_file("options.json", json.dumps(options_dict).encode('utf-8'))
 
 
 def get_base_rom_bytes(file_name: str = "") -> bytes:

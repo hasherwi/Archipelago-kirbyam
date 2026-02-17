@@ -1,16 +1,14 @@
 import asyncio
-import functools
 import time
-from copy import deepcopy
-from typing import Any, List
-from collections.abc import Iterable
-
-import websockets
 
 import Utils
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger
+import websockets
+import functools
+from copy import deepcopy
+from typing import List, Any, Iterable
+from NetUtils import decode, encode, JSONtoTextParser, JSONMessagePart, NetworkItem, NetworkPlayer
 from MultiServer import Endpoint
-from NetUtils import JSONMessagePart, JSONtoTextParser, NetworkItem, NetworkPlayer, decode, encode
+from CommonClient import CommonContext, gui_enabled, ClientCommandProcessor, logger, get_base_parser
 
 DEBUG = False
 
@@ -43,12 +41,12 @@ class AHITContext(CommonContext):
         self.connected_msg = None
         self.game_connected = False
         self.awaiting_info = False
-        self.full_inventory: list[Any] = []
-        self.server_msgs: list[Any] = []
+        self.full_inventory: List[Any] = []
+        self.server_msgs: List[Any] = []
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super().server_auth(password_requested)
+            await super(AHITContext, self).server_auth(password_requested)
 
         await self.get_username()
         await self.send_connect()

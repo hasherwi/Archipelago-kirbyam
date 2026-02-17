@@ -4,15 +4,16 @@ import typing
 import unittest
 from argparse import Namespace
 
-from BaseClasses import CollectionState, Item, Location, MultiWorld
 from Generate import get_seed_name
 from test.general import gen_steps
 from worlds import AutoWorld
 from worlds.AutoWorld import World, call_all
 
+from BaseClasses import Location, MultiWorld, CollectionState, Item
+
 
 class WorldTestBase(unittest.TestCase):
-    options: dict[str, typing.Any] = {}
+    options: typing.Dict[str, typing.Any] = {}
     """Define options that should be used when setting up this TestBase."""
     multiworld: MultiWorld
     """The constructed MultiWorld instance after setup."""
@@ -46,7 +47,7 @@ class WorldTestBase(unittest.TestCase):
             attr: object = typing.cast(object, getattr(self, attr_name))
             if type(attr) is MultiWorld or isinstance(attr, AutoWorld.World):
                 delattr(self, attr_name)
-        state_cache: dict[typing.Any, typing.Any] | None = getattr(self, "_state_cache", None)
+        state_cache: typing.Optional[typing.Dict[typing.Any, typing.Any]] = getattr(self, "_state_cache", None)
         if state_cache is not None:  # in case of multiple inheritance with TestBase, we need to clear its cache
             state_cache.clear()
         gc.collect()
@@ -54,7 +55,7 @@ class WorldTestBase(unittest.TestCase):
         self.assertFalse(weak(), f"World {getattr(self, 'game', '')} leaked MultiWorld object")
         super().tearDown()
 
-    def world_setup(self, seed: int | None = None) -> None:
+    def world_setup(self, seed: typing.Optional[int] = None) -> None:
         if type(self) is WorldTestBase or \
                 (hasattr(WorldTestBase, self._testMethodName)
                  and not self.run_default_tests and
@@ -81,8 +82,8 @@ class WorldTestBase(unittest.TestCase):
             call_all(self.multiworld, step)
 
     # methods that can be called within tests
-    def collect_all_but(self, item_names: str | typing.Iterable[str],
-                        state: CollectionState | None = None) -> None:
+    def collect_all_but(self, item_names: typing.Union[str, typing.Iterable[str]],
+                        state: typing.Optional[CollectionState] = None) -> None:
         """Collects all pre-placed items and items in the multiworld itempool except those provided"""
         if isinstance(item_names, str):
             item_names = (item_names,)
@@ -99,32 +100,32 @@ class WorldTestBase(unittest.TestCase):
                 return item
         raise ValueError("No such item")
 
-    def get_items_by_name(self, item_names: str | typing.Iterable[str]) -> list[Item]:
+    def get_items_by_name(self, item_names: typing.Union[str, typing.Iterable[str]]) -> typing.List[Item]:
         """Returns actual items from the itempool that match the provided name(s)"""
         if isinstance(item_names, str):
             item_names = (item_names,)
         return [item for item in self.multiworld.itempool if item.name in item_names]
 
-    def collect_by_name(self, item_names: str | typing.Iterable[str]) -> list[Item]:
+    def collect_by_name(self, item_names: typing.Union[str, typing.Iterable[str]]) -> typing.List[Item]:
         """ collect all of the items in the item pool that have the given names """
         items = self.get_items_by_name(item_names)
         self.collect(items)
         return items
 
-    def collect(self, items: Item | typing.Iterable[Item]) -> None:
+    def collect(self, items: typing.Union[Item, typing.Iterable[Item]]) -> None:
         """Collects the provided item(s) into state"""
         if isinstance(items, Item):
             items = (items,)
         for item in items:
             self.multiworld.state.collect(item)
-
-    def remove_by_name(self, item_names: str | typing.Iterable[str]) -> list[Item]:
+    
+    def remove_by_name(self, item_names: typing.Union[str, typing.Iterable[str]]) -> typing.List[Item]:
         """Remove all of the items in the item pool with the given names from state"""
         items = self.get_items_by_name(item_names)
         self.remove(items)
         return items
 
-    def remove(self, items: Item | typing.Iterable[Item]) -> None:
+    def remove(self, items: typing.Union[Item, typing.Iterable[Item]]) -> None:
         """Removes the provided item(s) from state"""
         if isinstance(items, Item):
             items = (items,)
@@ -140,7 +141,7 @@ class WorldTestBase(unittest.TestCase):
     def can_reach_entrance(self, entrance: str) -> bool:
         """Determines if the current state can reach the provided entrance name"""
         return self.multiworld.state.can_reach(entrance, "Entrance", self.player)
-
+    
     def can_reach_region(self, region: str) -> bool:
         """Determines if the current state can reach the provided region name"""
         return self.multiworld.state.can_reach(region, "Region", self.player)
@@ -150,7 +151,7 @@ class WorldTestBase(unittest.TestCase):
         return self.multiworld.state.count(item_name, self.player)
 
     def assertAccessDependency(self,
-                               locations: list[str],
+                               locations: typing.List[str],
                                possible_items: typing.Iterable[typing.Iterable[str]],
                                only_check_listed: bool = False) -> None:
         """Asserts that the provided locations can't be reached without the listed items but can be reached with any
@@ -231,7 +232,7 @@ class WorldTestBase(unittest.TestCase):
             locations = list(self.multiworld.get_locations(1))
             state = CollectionState(self.multiworld)
             while locations:
-                sphere: list[Location] = []
+                sphere: typing.List[Location] = []
                 for n in range(len(locations) - 1, -1, -1):
                     if locations[n].can_reach(state):
                         sphere.append(locations.pop(n))

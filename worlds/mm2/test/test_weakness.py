@@ -1,8 +1,8 @@
 from math import ceil
 
+from . import MM2TestBase
 from ..options import bosses
 from ..rules import minimum_weakness_requirement
-from . import MM2TestBase
 
 
 def validate_wily_5(base: MM2TestBase) -> None:

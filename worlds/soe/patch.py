@@ -4,7 +4,7 @@ from typing import BinaryIO, Optional
 import Utils
 from worlds.Files import APDeltaPatch
 
-USHASH = "6e9c94511d04fac6e0a1e582c170be3a"
+USHASH = '6e9c94511d04fac6e0a1e582c170be3a'
 
 
 class SoEDeltaPatch(APDeltaPatch):
@@ -18,7 +18,7 @@ class SoEDeltaPatch(APDeltaPatch):
             return read_rom(stream)
 
 
-def get_base_rom_path(file_name: str | None = None) -> str:
+def get_base_rom_path(file_name: Optional[str] = None) -> str:
     if not file_name:
         from . import SoEWorld
         file_name = SoEWorld.settings.rom_file
@@ -37,7 +37,7 @@ def read_rom(stream: BinaryIO, strip_header: bool = True) -> bytes:
     return data
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     import sys
-    print("Please use ../../patch.py", file=sys.stderr)
+    print('Please use ../../patch.py', file=sys.stderr)
     sys.exit(1)

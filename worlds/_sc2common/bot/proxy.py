@@ -7,13 +7,12 @@ import time
 import traceback
 
 from aiohttp import WSMsgType, web
-
 from worlds._sc2common.bot import logger
+from .proto import sc2api_pb2 as sc_pb
 
 from .controller import Controller
 from .data import Result, Status
 from .player import BotProcess
-from .proto import sc2api_pb2 as sc_pb
 
 
 class Proxy:

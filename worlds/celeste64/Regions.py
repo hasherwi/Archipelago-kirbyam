@@ -2,12 +2,11 @@ from typing import Dict, List, NamedTuple
 
 from .Names import RegionName
 
-
 class Celeste64RegionData(NamedTuple):
-    connecting_regions: list[str] = []
+    connecting_regions: List[str] = []
 
 
-region_data_table: dict[str, Celeste64RegionData] = {
+region_data_table: Dict[str, Celeste64RegionData] = {
     "Menu": Celeste64RegionData([RegionName.forsaken_city]),
 
     RegionName.forsaken_city: Celeste64RegionData([RegionName.intro_islands, RegionName.granny_island, RegionName.highway_island, RegionName.ne_feathers_island, RegionName.se_house_island, RegionName.badeline_tower_upper, RegionName.badeline_island]),

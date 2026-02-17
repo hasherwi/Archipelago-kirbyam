@@ -1,12 +1,11 @@
-import io
-import logging
 import os
-import pkgutil
-import re
+import logging
 import sys
 import typing
+import re
+import io
+import pkgutil
 from collections import deque
-
 assert "kivy" not in sys.modules, "kvui should be imported before kivy for frozen compatibility"
 
 if sys.platform == "win32":
@@ -27,7 +26,6 @@ if Utils.is_frozen():
     os.environ["KIVY_DATA_DIR"] = Utils.local_path("data")
 
 import platformdirs
-
 os.environ["KIVY_HOME"] = os.path.join(platformdirs.user_config_dir("Archipelago", False), "kivy")
 os.makedirs(os.environ["KIVY_HOME"], exist_ok=True)
 
@@ -39,10 +37,9 @@ Config.set("graphics", "multisamples", "0")  # multisamples crash old intel driv
 
 # Workaround for Kivy issue #9226.
 # caused by kivy by default using probesysfs,
-# which assumes all multi touch deviecs are touch screens.
+# which assumes all multi touch deviecs are touch screens. 
 # workaround provided by Snu of the kivy commmunity c:
 from kivy.utils import platform
-
 if platform == "linux":
     options = Config.options("input")
     for option in options:
@@ -54,55 +51,55 @@ if platform == "linux":
 # kivymd imports kivy.core.window, so we have to do this before the first kivymd import.
 # No longer necessary when we switch to kivy 3.0.0, which fixes this issue.
 from kivy.core.audio import SoundLoader
-
 for classobj in SoundLoader._classes:
     # The least invasive way to force a SoundLoader class to load its audio engine seems to be calling
     # .extensions(), which e.g. in audio_sdl2.pyx then calls a function called "mix_init()"
     classobj.extensions()
 
-from kivy.animation import Animation
+from kivymd.uix.divider import MDDivider
+from kivy.core.window import Window
+from kivy.core.clipboard import Clipboard
+from kivy.core.text.markup import MarkupLabel
+from kivy.core.image import ImageLoader, ImageLoaderBase, ImageData
 from kivy.base import ExceptionHandler, ExceptionManager
 from kivy.clock import Clock
-from kivy.core.clipboard import Clipboard
-from kivy.core.image import ImageData, ImageLoader, ImageLoaderBase
-from kivy.core.text.markup import MarkupLabel
-from kivy.core.window import Window
 from kivy.factory import Factory
-from kivy.lang import Builder
+from kivy.properties import BooleanProperty, ObjectProperty, NumericProperty, StringProperty
 from kivy.metrics import dp, sp
-from kivy.properties import BooleanProperty, NumericProperty, ObjectProperty, StringProperty
-from kivy.uix.behaviors import FocusBehavior, ToggleButtonBehavior
-from kivy.uix.image import AsyncImage
+from kivy.uix.widget import Widget
 from kivy.uix.layout import Layout
-from kivy.uix.popup import Popup
+from kivy.utils import escape_markup
+from kivy.lang import Builder
+from kivy.uix.recycleview.views import RecycleDataViewBehavior
+from kivy.uix.behaviors import FocusBehavior, ToggleButtonBehavior
 from kivy.uix.recycleboxlayout import RecycleBoxLayout
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
-from kivy.uix.recycleview.views import RecycleDataViewBehavior
-from kivy.uix.widget import Widget
-from kivy.utils import escape_markup
+from kivy.animation import Animation
+from kivy.uix.popup import Popup
+from kivy.uix.image import AsyncImage
 from kivymd.app import MDApp
-from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText, MDIconButton
-from kivymd.uix.dialog import MDDialog, MDDialogButtonContainer, MDDialogHeadlineText, MDDialogSupportingText
-from kivymd.uix.divider import MDDivider
-from kivymd.uix.dropdownitem import MDDropDownItem, MDDropDownItemText
-from kivymd.uix.floatlayout import MDFloatLayout
+from kivymd.uix.dialog import MDDialog, MDDialogHeadlineText, MDDialogSupportingText, MDDialogButtonContainer
 from kivymd.uix.gridlayout import MDGridLayout
-from kivymd.uix.label import MDIcon, MDLabel
-from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.menu.menu import MDDropdownTextItem
+from kivymd.uix.floatlayout import MDFloatLayout
+from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.navigationbar import MDNavigationBar, MDNavigationItem
-from kivymd.uix.progressindicator import MDLinearProgressIndicator
-from kivymd.uix.recycleview import MDRecycleView
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.screenmanager import MDScreenManager
-from kivymd.uix.scrollview import MDScrollView
+
+from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.menu.menu import MDDropdownTextItem
+from kivymd.uix.dropdownitem import MDDropDownItem, MDDropDownItemText
+from kivymd.uix.button import MDButton, MDButtonText, MDButtonIcon, MDIconButton
+from kivymd.uix.label import MDLabel, MDIcon
+from kivymd.uix.recycleview import MDRecycleView
 from kivymd.uix.textfield.textfield import MDTextField
+from kivymd.uix.progressindicator import MDLinearProgressIndicator
+from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.tooltip import MDTooltip, MDTooltipPlain
 
 fade_in_animation = Animation(opacity=0, duration=0) + Animation(opacity=1, duration=0.25)
 
-from NetUtils import HintStatus, JSONMessagePart, JSONtoTextParser, SlotType
+from NetUtils import JSONtoTextParser, JSONMessagePart, SlotType, HintStatus
 from Utils import async_start, get_input_text_from_response
 
 if typing.TYPE_CHECKING:
@@ -166,7 +163,7 @@ class ScrollBox(MDScrollView):
 # thanks kivymd
 class ToggleButton(MDButton, ToggleButtonBehavior):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(ToggleButton, self).__init__(*args, **kwargs)
         self.bind(state=self._update_bg)
         self._update_bg(self, self.state)
 
@@ -234,7 +231,7 @@ class HoverBehavior(object):
         self.register_event_type("on_leave")
         Window.bind(mouse_pos=self.on_mouse_pos)
         Window.bind(on_cursor_leave=self.on_cursor_leave)
-        super().__init__(**kwargs)
+        super(HoverBehavior, self).__init__(**kwargs)
 
     def on_mouse_pos(self, window, pos):
         if not self.get_root_window():
@@ -382,7 +379,8 @@ class ServerLabel(HoverBehavior, MDTooltip, MDBoxLayout):
 
             return text
 
-        return "No current server connection. \nPlease connect to an Archipelago server."
+        else:
+            return "No current server connection. \nPlease connect to an Archipelago server."
 
 
 class MainLayout(MDGridLayout):
@@ -406,7 +404,7 @@ class SelectableLabel(RecycleDataViewBehavior, TooltipLabel):
     def refresh_view_attrs(self, rv, index, data):
         """ Catch and handle the view changes """
         self.index = index
-        return super().refresh_view_attrs(
+        return super(SelectableLabel, self).refresh_view_attrs(
             rv, index, data)
 
     def on_size(self, instance_label, size: list) -> None:
@@ -416,7 +414,7 @@ class SelectableLabel(RecycleDataViewBehavior, TooltipLabel):
 
     def on_touch_down(self, touch):
         """ Add selection on touch down """
-        if super().on_touch_down(touch):
+        if super(SelectableLabel, self).on_touch_down(touch):
             return True
         if self.collide_point(*touch.pos):
             if self.selected:
@@ -584,7 +582,7 @@ class HintLabel(RecycleDataViewBehavior, MDBoxLayout):
     dropdown: MDDropdownMenu
 
     def __init__(self):
-        super().__init__()
+        super(HintLabel, self).__init__()
         self.receiving_text = ""
         self.item_text = ""
         self.finding_text = ""
@@ -628,11 +626,11 @@ class HintLabel(RecycleDataViewBehavior, MDBoxLayout):
         self.entrance_text = data["entrance"]["text"]
         self.status_text = data["status"]["text"]
         self.hint = data["status"]["hint"]
-        return super().refresh_view_attrs(rv, index, data)
+        return super(HintLabel, self).refresh_view_attrs(rv, index, data)
 
     def on_touch_down(self, touch):
         """ Add selection on touch down """
-        if super().on_touch_down(touch):
+        if super(HintLabel, self).on_touch_down(touch):
             return True
         if self.index:  # skip header
             if self.collide_point(*touch.pos):
@@ -686,7 +684,7 @@ class HintLabel(RecycleDataViewBehavior, MDBoxLayout):
 class ConnectBarTextInput(ResizableTextField):
     def insert_text(self, substring, from_undo=False):
         s = substring.replace("\n", "").replace("\r", "")
-        return super().insert_text(s, from_undo=from_undo)
+        return super(ConnectBarTextInput, self).insert_text(s, from_undo=from_undo)
 
 
 def is_command_input(string: str) -> bool:
@@ -699,7 +697,7 @@ class CommandPromptTextInput(ResizableTextField):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self._command_history_index = -1
-        self._command_history: deque[str] = deque(maxlen=CommandPromptTextInput.MAXIMUM_HISTORY_MESSAGES)
+        self._command_history: typing.Deque[str] = deque(maxlen=CommandPromptTextInput.MAXIMUM_HISTORY_MESSAGES)
 
     def update_history(self, new_entry: str) -> None:
         self._command_history_index = -1
@@ -709,9 +707,9 @@ class CommandPromptTextInput(ResizableTextField):
     def keyboard_on_key_down(
         self,
         window,
-        keycode: tuple[int, str],
-        text: str | None,
-        modifiers: list[str]
+        keycode: typing.Tuple[int, str],
+        text: typing.Optional[str],
+        modifiers: typing.List[str]
     ) -> bool:
         """
         :param window: The kivy window object
@@ -720,10 +718,10 @@ class CommandPromptTextInput(ResizableTextField):
                      Seems to pretty naively interpret the keycode as unicode, so numlock can return odd characters.
         :param modifiers: A list of string modifiers, like `ctrl` or `numlock`
         """
-        if keycode[1] == "up":
+        if keycode[1] == 'up':
             self._change_to_history_text_if_available(self._command_history_index + 1)
             return True
-        if keycode[1] == "down":
+        if keycode[1] == 'down':
             self._change_to_history_text_if_available(self._command_history_index - 1)
             return True
         return super().keyboard_on_key_down(window, keycode, text, modifiers)
@@ -862,7 +860,7 @@ class GameManager(ThemedApp):
         self.commandprocessor = ctx.command_processor(ctx)
         self.icon = r"data/icon.png"
         self.json_to_kivy_parser = KivyJSONtoTextParser(ctx)
-        self.log_panels: dict[str, Widget] = {}
+        self.log_panels: typing.Dict[str, Widget] = {}
 
         # keep track of last used command to autofill on click
         self.last_autofillable_command = "!hint"
@@ -880,7 +878,7 @@ class GameManager(ThemedApp):
 
         ctx.on_user_say = intercept_say
 
-        super().__init__()
+        super(GameManager, self).__init__()
 
     @property
     def tab_count(self):
@@ -1097,7 +1095,7 @@ class GameManager(ThemedApp):
         except Exception as e:
             logging.getLogger("Client").exception(e)
 
-    def print_json(self, data: list[JSONMessagePart]):
+    def print_json(self, data: typing.List[JSONMessagePart]):
         text = self.json_to_kivy_parser(data)
         self.log_panels["Archipelago"].on_message_markup(text)
         self.log_panels["All"].on_message_markup(text)
@@ -1129,7 +1127,7 @@ class GameManager(ThemedApp):
 
 class LogtoUI(logging.Handler):
     def __init__(self, on_log):
-        super().__init__(logging.INFO)
+        super(LogtoUI, self).__init__(logging.INFO)
         self.on_log = on_log
 
     @staticmethod
@@ -1152,7 +1150,7 @@ class UILog(MDRecycleView):
     adaptive_height = True
 
     def __init__(self, *loggers_to_handle, **kwargs):
-        super().__init__(**kwargs)
+        super(UILog, self).__init__(**kwargs)
         self.data = []
         for logger in loggers_to_handle:
             logger.addHandler(LogtoUI(self.on_log))
@@ -1194,14 +1192,14 @@ class HintLayout(MDBoxLayout):
                 fix_func()
 
 
-status_names: dict[HintStatus, str] = {
+status_names: typing.Dict[HintStatus, str] = {
     HintStatus.HINT_FOUND: "Found",
     HintStatus.HINT_UNSPECIFIED: "Unspecified",
     HintStatus.HINT_NO_PRIORITY: "No Priority",
     HintStatus.HINT_AVOID: "Avoid",
     HintStatus.HINT_PRIORITY: "Priority",
 }
-status_colors: dict[HintStatus, str] = {
+status_colors: typing.Dict[HintStatus, str] = {
     HintStatus.HINT_FOUND: "green",
     HintStatus.HINT_UNSPECIFIED: "white",
     HintStatus.HINT_NO_PRIORITY: "cyan",
@@ -1232,7 +1230,7 @@ class HintLog(MDRecycleView):
     reversed: bool = True
 
     def __init__(self, parser):
-        super().__init__()
+        super(HintLog, self).__init__()
         self.data = [self.header]
         self.parser = parser
 
@@ -1294,18 +1292,19 @@ class ApAsyncImage(AsyncImage):
     def is_uri(self, filename: str) -> bool:
         if filename.startswith("ap:"):
             return True
-        return super().is_uri(filename)
+        else:
+            return super().is_uri(filename)
 
 
 class ImageLoaderPkgutil(ImageLoaderBase):
-    def load(self, filename: str) -> list[ImageData]:
+    def load(self, filename: str) -> typing.List[ImageData]:
         # take off the "ap:" prefix
         module, path = filename[3:].split("/", 1)
         data = pkgutil.get_data(module, path)
         return self._bytes_to_data(data)
 
     @staticmethod
-    def _bytes_to_data(data: bytes | bytearray) -> list[ImageData]:
+    def _bytes_to_data(data: typing.Union[bytes, bytearray]) -> typing.List[ImageData]:
         loader = next(loader for loader in ImageLoader.loaders if loader.can_load_memory())
         return loader.load(loader, io.BytesIO(data))
 
@@ -1317,7 +1316,8 @@ _original_image_loader_load = ImageLoader.load
 def load_override(filename: str, default_load=_original_image_loader_load, **kwargs):
     if filename.startswith("ap:"):
         return ImageLoaderPkgutil(filename)
-    return default_load(filename, **kwargs)
+    else:
+        return default_load(filename, **kwargs)
 
 
 ImageLoader.load = load_override
@@ -1363,7 +1363,7 @@ class KivyJSONtoTextParser(JSONtoTextParser):
 
     def __call__(self, *args, **kwargs):
         self.ref_count = 0
-        return super().__call__(*args, **kwargs)
+        return super(KivyJSONtoTextParser, self).__call__(*args, **kwargs)
 
     def _handle_item_name(self, node: JSONMessagePart):
         flags = node.get("flags", 0)
@@ -1378,7 +1378,7 @@ class KivyJSONtoTextParser(JSONtoTextParser):
             item_types.append("normal")
 
         node.setdefault("refs", []).append("Item Class: " + ", ".join(item_types))
-        return super()._handle_item_name(node)
+        return super(KivyJSONtoTextParser, self)._handle_item_name(node)
 
     def _handle_player_id(self, node: JSONMessagePart):
         player = int(node["text"])
@@ -1392,7 +1392,7 @@ class KivyJSONtoTextParser(JSONtoTextParser):
                     for player in slot_info.group_members
                 )
             node.setdefault("refs", []).append(text)
-        return super()._handle_player_id(node)
+        return super(KivyJSONtoTextParser, self)._handle_player_id(node)
 
     def _handle_color(self, node: JSONMessagePart):
         colors = node["color"].split(";")
@@ -1412,7 +1412,7 @@ class KivyJSONtoTextParser(JSONtoTextParser):
         for ref in node.get("refs", []):
             node["text"] = f"[ref={self.ref_count}|{ref}]{node['text']}[/ref]"
             self.ref_count += 1
-        return super()._handle_text(node)
+        return super(KivyJSONtoTextParser, self)._handle_text(node)
 
 
 ExceptionManager.add_handler(E())

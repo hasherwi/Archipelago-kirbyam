@@ -1,12 +1,13 @@
 from typing import Dict
 
+from .base_logic import BaseLogicMixin, BaseLogic
 from ..content.vanilla.ginger_island import ginger_island_content_pack
 from ..content.vanilla.qi_board import qi_board_content_pack
-from ..stardew_rule import Has, StardewRule, false_
+from ..stardew_rule import StardewRule, Has, false_
 from ..strings.animal_product_names import AnimalProduct
 from ..strings.ap_names.transport_names import Transportation
 from ..strings.artisan_good_names import ArtisanGood
-from ..strings.crop_names import Fruit, Vegetable
+from ..strings.crop_names import Vegetable, Fruit
 from ..strings.fertilizer_names import Fertilizer
 from ..strings.fish_names import Fish
 from ..strings.forageable_names import Forageable
@@ -19,7 +20,6 @@ from ..strings.region_names import Region
 from ..strings.season_names import Season
 from ..strings.special_order_names import SpecialOrder
 from ..strings.villager_names import NPC
-from .base_logic import BaseLogic, BaseLogicMixin
 
 
 class SpecialOrderLogicMixin(BaseLogicMixin):
@@ -95,7 +95,7 @@ class SpecialOrderLogic(BaseLogic):
                                                    self.logic.money.can_spend(80000),  # I need this extra rule because money rules aren't additive...)
             })
 
-    def update_rules(self, new_rules: dict[str, StardewRule]):
+    def update_rules(self, new_rules: Dict[str, StardewRule]):
         self.registry.special_order_rules.update(new_rules)
 
     def can_complete_special_order(self, special_order: str) -> StardewRule:

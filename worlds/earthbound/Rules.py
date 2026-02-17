@@ -1,9 +1,6 @@
+from worlds.generic.Rules import set_rule, forbid_items_for_player, add_rule
 from typing import TYPE_CHECKING
-
-from worlds.generic.Rules import add_rule, forbid_items_for_player, set_rule
-
-from .Options import MonkeyCavesMode, ShopRandomizer
-
+from .Options import ShopRandomizer, MonkeyCavesMode
 if TYPE_CHECKING:
     from . import EarthBoundWorld
 
@@ -128,3 +125,4 @@ def set_location_rules(world: "EarthBoundWorld") -> None:
         set_rule(world.multiworld.get_location("Dalaam Restaurant - Slot 2", player), lambda state: state.has("ATM Access", player))
         set_rule(world.multiworld.get_location("Dalaam Restaurant - Slot 3", player), lambda state: state.has("ATM Access", player))
         set_rule(world.multiworld.get_location("Dalaam Restaurant - Slot 4", player), lambda state: state.has("ATM Access", player))
+        

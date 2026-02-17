@@ -3,8 +3,7 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-from BaseClasses import Entrance, MultiWorld, Region
-
+from BaseClasses import MultiWorld, Region, Entrance
 from .Locations import MeritousLocation, location_table
 
 meritous_regions = ["Meridian", "Ataraxia", "Merodach", "Endgame"]

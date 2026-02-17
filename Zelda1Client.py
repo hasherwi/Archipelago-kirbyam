@@ -12,20 +12,15 @@ from asyncio import StreamReader, StreamWriter
 from typing import List
 
 import Utils
-from CommonClient import (
-    ClientCommandProcessor,
-    CommonContext,
-    console_loop,
-    get_base_parser,
-    gui_enabled,
-    logger,
-    server_loop,
-)
-from settings import get_settings
 from Utils import async_start
-from worlds.tloz import Items, Locations, Rom
+from CommonClient import CommonContext, server_loop, gui_enabled, console_loop, ClientCommandProcessor, logger, \
+    get_base_parser
+
 from worlds.tloz.Items import item_game_ids
 from worlds.tloz.Locations import location_ids
+from worlds.tloz import Items, Locations, Rom
+
+from settings import get_settings
 
 SYSTEM_MESSAGE_ID = 0
 
@@ -73,7 +68,7 @@ class ZeldaContext(CommonContext):
         self.messages = {}
         self.locations_array = None
         self.nes_status = CONNECTION_INITIAL_STATUS
-        self.game = "The Legend of Zelda"
+        self.game = 'The Legend of Zelda'
         self.awaiting_rom = False
         self.shop_slots_left = 0
         self.shop_slots_middle = 0
@@ -83,10 +78,10 @@ class ZeldaContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super().server_auth(password_requested)
+            await super(ZeldaContext, self).server_auth(password_requested)
         if not self.auth:
             self.awaiting_rom = True
-            logger.info("Awaiting connection to NES to get Player information")
+            logger.info('Awaiting connection to NES to get Player information')
             return
 
         await self.send_connect()
@@ -96,12 +91,12 @@ class ZeldaContext(CommonContext):
             self.messages[(time.time(), msg_id)] = msg
 
     def on_package(self, cmd: str, args: dict):
-        if cmd == "Connected":
+        if cmd == 'Connected':
             self.slot_data = args.get("slot_data", {})
             asyncio.create_task(parse_locations(self.locations_array, self, True))
-        elif cmd == "Print":
-            msg = args["text"]
-            if ": !" not in msg:
+        elif cmd == 'Print':
+            msg = args['text']
+            if ': !' not in msg:
                 self._set_message(msg, SYSTEM_MESSAGE_ID)
 
     def on_print_json(self, args: dict):
@@ -146,7 +141,7 @@ def get_payload(ctx: ZeldaContext):
     return json.dumps(
         {
             "items": [item.item for item in ctx.items_received],
-            "messages": {f"{key[0]}:{key[1]}": value for key, value in ctx.messages.items()
+            "messages": {f'{key[0]}:{key[1]}': value for key, value in ctx.messages.items()
                          if key[0] > current_time - 10},
             "shops": {
                 "left": ctx.shop_slots_left,
@@ -175,15 +170,15 @@ def reconcile_shops(ctx: ZeldaContext):
 def get_shop_bit_from_name(location_name):
     if "Potion" in location_name:
         return Rom.potion_shop
-    if "Arrow" in location_name:
+    elif "Arrow" in location_name:
         return Rom.arrow_shop
-    if "Shield" in location_name:
+    elif "Shield" in location_name:
         return Rom.shield_shop
-    if "Ring" in location_name:
+    elif "Ring" in location_name:
         return Rom.ring_shop
-    if "Candle" in location_name:
+    elif "Candle" in location_name:
         return Rom.candle_shop
-    if "Take" in location_name:
+    elif "Take" in location_name:
         return Rom.take_any
     return 0  # this should never be hit
 
@@ -191,67 +186,68 @@ def get_shop_bit_from_name(location_name):
 async def parse_locations(locations_array, ctx: ZeldaContext, force: bool, zone="None"):
     if locations_array == ctx.locations_array and not force:
         return
-    # print("New values")
-    ctx.locations_array = locations_array
-    locations_checked = []
-    location = None
-    for location in ctx.missing_locations:
-        location_name = ctx.location_names.lookup_in_game(location)
+    else:
+        # print("New values")
+        ctx.locations_array = locations_array
+        locations_checked = []
+        location = None
+        for location in ctx.missing_locations:
+            location_name = ctx.location_names.lookup_in_game(location)
 
-        if location_name in Locations.overworld_locations and zone == "overworld":
-            status = locations_array[Locations.major_location_offsets[location_name]]
-            if location_name == "Ocean Heart Container":
-                status = locations_array[ctx.overworld_item]
-            if location_name == "Armos Knights":
-                status = locations_array[ctx.armos_item]
-            if status & 0x10:
-                ctx.locations_checked.add(location)
-                locations_checked.append(location)
-        elif location_name in Locations.underworld1_locations and zone == "underworld1":
-            status = locations_array[Locations.floor_location_game_offsets_early[location_name]]
-            if status & 0x10:
-                ctx.locations_checked.add(location)
-                locations_checked.append(location)
-        elif location_name in Locations.underworld2_locations and zone == "underworld2":
-            status = locations_array[Locations.floor_location_game_offsets_late[location_name]]
-            if status & 0x10:
-                ctx.locations_checked.add(location)
-                locations_checked.append(location)
-        elif (location_name in Locations.shop_locations or "Take" in location_name) and zone == "caves":
-            shop_bit = get_shop_bit_from_name(location_name)
-            slot = 0
-            context_slot = 0
-            if "Left" in location_name:
-                slot = "slot1"
+            if location_name in Locations.overworld_locations and zone == "overworld":
+                status = locations_array[Locations.major_location_offsets[location_name]]
+                if location_name == "Ocean Heart Container":
+                    status = locations_array[ctx.overworld_item]
+                if location_name == "Armos Knights":
+                    status = locations_array[ctx.armos_item]
+                if status & 0x10:
+                    ctx.locations_checked.add(location)
+                    locations_checked.append(location)
+            elif location_name in Locations.underworld1_locations and zone == "underworld1":
+                status = locations_array[Locations.floor_location_game_offsets_early[location_name]]
+                if status & 0x10:
+                    ctx.locations_checked.add(location)
+                    locations_checked.append(location)
+            elif location_name in Locations.underworld2_locations and zone == "underworld2":
+                status = locations_array[Locations.floor_location_game_offsets_late[location_name]]
+                if status & 0x10:
+                    ctx.locations_checked.add(location)
+                    locations_checked.append(location)
+            elif (location_name in Locations.shop_locations or "Take" in location_name) and zone == "caves":
+                shop_bit = get_shop_bit_from_name(location_name)
+                slot = 0
                 context_slot = 0
-            elif "Middle" in location_name:
-                slot = "slot2"
-                context_slot = 1
-            elif "Right" in location_name:
-                slot = "slot3"
-                context_slot = 2
-            if locations_array[slot] & shop_bit > 0:
-                locations_checked.append(location)
-                ctx.shop_slots[context_slot] |= shop_bit
-            if locations_array["takeAnys"] and locations_array["takeAnys"] >= 4:
-                if "Take Any" in location_name:
-                    short_name = None
-                    if "Left" in location_name:
-                        short_name = "TakeAnyLeft"
-                    elif "Middle" in location_name:
-                        short_name = "TakeAnyMiddle"
-                    elif "Right" in location_name:
-                        short_name = "TakeAnyRight"
-                    if short_name is not None:
-                        item_code = ctx.slot_data[short_name]
-                        if item_code > 0:
-                            ctx.bonus_items.append(item_code)
-                        locations_checked.append(location)
-    if locations_checked:
-        await ctx.send_msgs([
-            {"cmd": "LocationChecks",
-             "locations": locations_checked}
-        ])
+                if "Left" in location_name:
+                    slot = "slot1"
+                    context_slot = 0
+                elif "Middle" in location_name:
+                    slot = "slot2"
+                    context_slot = 1
+                elif "Right" in location_name:
+                    slot = "slot3"
+                    context_slot = 2
+                if locations_array[slot] & shop_bit > 0:
+                    locations_checked.append(location)
+                    ctx.shop_slots[context_slot] |= shop_bit
+                if locations_array["takeAnys"] and locations_array["takeAnys"] >= 4:
+                    if "Take Any" in location_name:
+                        short_name = None
+                        if "Left" in location_name:
+                            short_name = "TakeAnyLeft"
+                        elif "Middle" in location_name:
+                            short_name = "TakeAnyMiddle"
+                        elif "Right" in location_name:
+                            short_name = "TakeAnyRight"
+                        if short_name is not None:
+                            item_code = ctx.slot_data[short_name]
+                            if item_code > 0:
+                                ctx.bonus_items.append(item_code)
+                            locations_checked.append(location)
+        if locations_checked:
+            await ctx.send_msgs([
+                {"cmd": "LocationChecks",
+                 "locations": locations_checked}
+            ])
 
 
 async def nes_sync_task(ctx: ZeldaContext):
@@ -262,7 +258,7 @@ async def nes_sync_task(ctx: ZeldaContext):
             (reader, writer) = ctx.nes_streams
             msg = get_payload(ctx).encode()
             writer.write(msg)
-            writer.write(b"\n")
+            writer.write(b'\n')
             try:
                 await asyncio.wait_for(writer.drain(), timeout=1.5)
                 try:
@@ -275,24 +271,24 @@ async def nes_sync_task(ctx: ZeldaContext):
                         ctx.overworld_item = data_decoded["overworldHC"]
                     if data_decoded["overworldPB"] is not None:
                         ctx.armos_item = data_decoded["overworldPB"]
-                    if data_decoded["gameMode"] == 19 and ctx.finished_game == False:
+                    if data_decoded['gameMode'] == 19 and ctx.finished_game == False:
                         await ctx.send_msgs([
                             {"cmd": "StatusUpdate",
                              "status": 30}
                         ])
                         ctx.finished_game = True
-                    if ctx.game is not None and "overworld" in data_decoded:
+                    if ctx.game is not None and 'overworld' in data_decoded:
                         # Not just a keep alive ping, parse
-                        asyncio.create_task(parse_locations(data_decoded["overworld"], ctx, False, "overworld"))
-                    if ctx.game is not None and "underworld1" in data_decoded:
-                        asyncio.create_task(parse_locations(data_decoded["underworld1"], ctx, False, "underworld1"))
-                    if ctx.game is not None and "underworld2" in data_decoded:
-                        asyncio.create_task(parse_locations(data_decoded["underworld2"], ctx, False, "underworld2"))
-                    if ctx.game is not None and "caves" in data_decoded:
-                        asyncio.create_task(parse_locations(data_decoded["caves"], ctx, False, "caves"))
+                        asyncio.create_task(parse_locations(data_decoded['overworld'], ctx, False, "overworld"))
+                    if ctx.game is not None and 'underworld1' in data_decoded:
+                        asyncio.create_task(parse_locations(data_decoded['underworld1'], ctx, False, "underworld1"))
+                    if ctx.game is not None and 'underworld2' in data_decoded:
+                        asyncio.create_task(parse_locations(data_decoded['underworld2'], ctx, False, "underworld2"))
+                    if ctx.game is not None and 'caves' in data_decoded:
+                        asyncio.create_task(parse_locations(data_decoded['caves'], ctx, False, "caves"))
                     if not ctx.auth:
-                        ctx.auth = "".join([chr(i) for i in data_decoded["playerName"] if i != 0])
-                        if ctx.auth == "":
+                        ctx.auth = ''.join([chr(i) for i in data_decoded['playerName'] if i != 0])
+                        if ctx.auth == '':
                             logger.info("Invalid ROM detected. No player name built into the ROM. Please regenerate "
                                         "the ROM using the same link but adding your slot name")
                         if ctx.awaiting_rom:
@@ -343,7 +339,7 @@ async def nes_sync_task(ctx: ZeldaContext):
                 continue
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     # Text Mode to use !hint and such with games that have no text entry
     Utils.init_logging("ZeldaClient")
 
@@ -351,7 +347,7 @@ if __name__ == "__main__":
 
 
     async def run_game(romfile: str) -> None:
-        auto_start = typing.cast(bool | str,
+        auto_start = typing.cast(typing.Union[bool, str],
                                  get_settings()["tloz_options"].get("rom_start", True))
         if auto_start is True:
             import webbrowser
@@ -389,8 +385,8 @@ if __name__ == "__main__":
     import colorama
 
     parser = get_base_parser()
-    parser.add_argument("diff_file", default="", type=str, nargs="?",
-                        help="Path to a Archipelago Binary Patch file")
+    parser.add_argument('diff_file', default="", type=str, nargs="?",
+                        help='Path to a Archipelago Binary Patch file')
     args = parser.parse_args()
     colorama.just_fix_windows_console()
 

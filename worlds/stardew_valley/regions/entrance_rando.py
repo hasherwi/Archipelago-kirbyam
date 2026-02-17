@@ -1,9 +1,8 @@
 from BaseClasses import Region
 from entrance_rando import ERPlacementState
-
+from .model import ConnectionData, RandomizationFlag, reverse_connection_name, RegionData
 from ..content import StardewContent
 from ..options import EntranceRandomization
-from .model import ConnectionData, RandomizationFlag, RegionData, reverse_connection_name
 
 
 def create_player_randomization_flag(entrance_randomization_choice: EntranceRandomization, content: StardewContent):

@@ -1,10 +1,10 @@
 from dataclasses import dataclass
-from typing import Optional, Tuple
+from typing import Tuple, Optional
 
 from ..mods.mod_data import ModNames
 from ..strings.food_names import Beverage
 from ..strings.generic_names import Generic
-from ..strings.region_names import AlectoRegion, BoardingHouseRegion, LaceyRegion, LogicRegion, Region, SVERegion
+from ..strings.region_names import Region, SVERegion, AlectoRegion, BoardingHouseRegion, LaceyRegion, LogicRegion
 from ..strings.season_names import Season
 from ..strings.villager_names import NPC, ModNPC
 
@@ -13,9 +13,9 @@ from ..strings.villager_names import NPC, ModNPC
 class Villager:
     name: str
     bachelor: bool
-    locations: tuple[str, ...]
+    locations: Tuple[str, ...]
     birthday: str
-    gifts: tuple[str, ...]
+    gifts: Tuple[str, ...]
     available: bool
     mod_name: str
 
@@ -356,8 +356,8 @@ susan_loves = pancakes + chocolate_cake + pink_cake + ice_cream + cookie + pumpk
               blueberry_tart + blackberry_cobbler + cranberry_candy + red_plate
 
 
-def villager(name: str, bachelor: bool, locations: tuple[str, ...], birthday: str, gifts: tuple[str, ...],
-             available: bool, mod_name: str | None = None) -> Villager:
+def villager(name: str, bachelor: bool, locations: Tuple[str, ...], birthday: str, gifts: Tuple[str, ...],
+             available: bool, mod_name: Optional[str] = None) -> Villager:
     return Villager(name, bachelor, locations, birthday, gifts, available, mod_name)
 
 

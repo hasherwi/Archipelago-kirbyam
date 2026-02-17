@@ -1,5 +1,5 @@
-import typing
 import unittest
+import typing
 from uuid import uuid4
 
 from flask import Flask
@@ -12,8 +12,8 @@ class TestBase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        from WebHost import get_app
         from WebHostLib import app as raw_app
+        from WebHost import get_app
 
         raw_app.config["PONY"] = {
             "provider": "sqlite",

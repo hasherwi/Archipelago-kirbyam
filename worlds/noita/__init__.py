@@ -1,8 +1,6 @@
-from typing import Any, Dict
-
 from BaseClasses import Item, Tutorial
 from worlds.AutoWorld import WebWorld, World
-
+from typing import Dict, Any
 from . import events, items, locations, regions, rules
 from .options import NoitaOptions
 
@@ -44,7 +42,7 @@ class NoitaWorld(World):
             raise Exception("Noita yaml's slot name has invalid character(s).")
 
     # Returned items will be sent over to the client
-    def fill_slot_data(self) -> dict[str, Any]:
+    def fill_slot_data(self) -> Dict[str, Any]:
         return self.options.as_dict("death_link", "victory_condition", "path_option", "hidden_chests",
                                     "pedestal_checks", "orbs_as_checks", "bosses_as_checks", "extra_orbs", "shop_price")
 

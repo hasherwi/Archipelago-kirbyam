@@ -1,16 +1,6 @@
 from dataclasses import dataclass
-
-from Options import (
-    Choice,
-    DeathLink,
-    DefaultOnToggle,
-    ItemsAccessibility,
-    OptionGroup,
-    PerGameCommonOptions,
-    Range,
-    StartInventoryPool,
-    Toggle,
-)
+from Options import (OptionGroup, Choice, DefaultOnToggle, ItemsAccessibility, PerGameCommonOptions, Range, Toggle,
+                     StartInventoryPool, DeathLink)
 
 
 class CharacterStages(Choice):

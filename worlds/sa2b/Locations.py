@@ -2,9 +2,8 @@ import typing
 
 from BaseClasses import Location, MultiWorld
 from worlds.AutoWorld import World
-
-from .Missions import mission_orders, stage_name_prefixes
 from .Names import LocationName
+from .Missions import stage_name_prefixes, mission_orders
 
 
 class SA2BLocation(Location):
@@ -1584,7 +1583,7 @@ itembox_location_table = {
     LocationName.final_chase_itembox_8: 0xFF16FD,
 
     LocationName.cannon_core_itembox_8: 0xFF16FE,
-
+    
     LocationName.city_escape_itembox_9: 0xFF1700,
     LocationName.green_forest_itembox_9: 0xFF1704,
     LocationName.pumpkin_hill_itembox_9: 0xFF1705,
@@ -3967,7 +3966,7 @@ cannon_core_region_locations = [
 ]
 
 
-def setup_locations(world: World, player: int, mission_map: dict[int, int], mission_count_map: dict[int, int]):
+def setup_locations(world: World, player: int, mission_map: typing.Dict[int, int], mission_count_map: typing.Dict[int, int]):
     location_table = {}
     chao_location_table = {}
 
@@ -3982,7 +3981,7 @@ def setup_locations(world: World, player: int, mission_map: dict[int, int], miss
     else:
         for i in range(31):
             mission_count = mission_count_map[i]
-            mission_order: list[int] = mission_orders[mission_map[i]]
+            mission_order: typing.List[int] = mission_orders[mission_map[i]]
             stage_prefix: str = stage_name_prefixes[i]
 
             for j in range(mission_count):
@@ -4106,10 +4105,10 @@ def setup_locations(world: World, player: int, mission_map: dict[int, int], miss
     return location_table
 
 
-lookup_id_to_name: dict[int, str] = {id: name for name, _ in all_locations.items()}
+lookup_id_to_name: typing.Dict[int, str] = {id: name for name, _ in all_locations.items()}
 
 
-location_groups: dict[str, set[str]] = {
+location_groups: typing.Dict[str, typing.Set[str]] = {
     "Missions": set(mission_location_table),
     "Upgrades": set(upgrade_location_table),
     "Boss Gates": set(boss_gate_location_table),

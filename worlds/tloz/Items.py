@@ -1,7 +1,6 @@
+from BaseClasses import ItemClassification
 import typing
 from typing import Dict
-
-from BaseClasses import ItemClassification
 
 progression = ItemClassification.progression
 filler = ItemClassification.filler
@@ -10,11 +9,11 @@ trap = ItemClassification.trap
 
 
 class ItemData(typing.NamedTuple):
-    code: int | None
+    code: typing.Optional[int]
     classification: ItemClassification
 
 
-item_table: dict[str, ItemData] = {
+item_table: Dict[str, ItemData] = {
     "Boomerang": ItemData(100, useful),
     "Bow": ItemData(101, progression),
     "Magical Boomerang": ItemData(102, useful),

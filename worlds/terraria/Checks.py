@@ -1,8 +1,7 @@
-import pkgutil
-import string
-from typing import Dict, List, Set, Tuple, Union
-
 from BaseClasses import Item, Location
+from typing import Tuple, Union, Set, List, Dict
+import string
+import pkgutil
 
 
 class TerrariaItem(Item):
@@ -14,8 +13,8 @@ class TerrariaLocation(Location):
 
 
 def add_token(
-    tokens: list[tuple[int, int, str | int | None]],
-    token: str | int,
+    tokens: List[Tuple[int, int, Union[str, int, None]]],
+    token: Union[str, int],
     token_index: int,
 ):
     if token == "":
@@ -52,7 +51,7 @@ CHAR_TO_TOKEN_ID = {
 TOKEN_ID_TO_CHAR = {id: char for char, id in CHAR_TO_TOKEN_ID.items()}
 
 
-def tokens(rule: str) -> list[tuple[int, int, str | int | None]]:
+def tokens(rule: str) -> List[Tuple[int, int, Union[str, int, None]]]:
     token_list = []
     token = ""
     token_index = 0
@@ -166,8 +165,8 @@ class Condition:
         # See the `COND_*` constants
         type: int,
         # Condition name or list
-        condition: str | tuple[bool | None, list["Condition"]],
-        argument: str | int | None,
+        condition: Union[str, Tuple[Union[bool, None], List["Condition"]]],
+        argument: Union[str, int, None],
     ):
         self.sign = sign
         self.type = type
@@ -180,10 +179,10 @@ class Rule:
         self,
         name: str,
         # Name to arg
-        flags: dict[str, str | int | None],
+        flags: Dict[str, Union[str, int, None]],
         # True = or, False = and, None = N/A
-        operator: bool | None,
-        conditions: list[Condition],
+        operator: Union[bool, None],
+        conditions: List[Condition],
     ):
         self.name = name
         self.flags = flags
@@ -194,7 +193,7 @@ class Rule:
 def validate_conditions(
     rule: str,
     rule_indices: dict,
-    conditions: list[Condition],
+    conditions: List[Condition],
 ):
     for condition in conditions:
         if condition.type == COND_ITEM:
@@ -227,8 +226,8 @@ def validate_conditions(
 
 
 def mark_progression(
-    conditions: list[Condition],
-    progression: set[str],
+    conditions: List[Condition],
+    progression: Set[str],
     rules: list,
     rule_indices: dict,
     loc_to_item: dict,
@@ -261,37 +260,37 @@ def mark_progression(
             mark_progression(conditions, progression, rules, rule_indices, loc_to_item)
 
 
-def read_data() -> tuple[
+def read_data() -> Tuple[
     # Goal to rule index that ends that goal's range and the locations required
-    list[tuple[int, set[str]]],
+    List[Tuple[int, Set[str]]],
     # Rules
-    list[Rule],
+    List[Rule],
     # Rule to rule index
-    dict[str, int],
+    Dict[str, int],
     # Label to rewards
-    dict[str, list[str]],
+    Dict[str, List[str]],
     # Reward to flags
-    dict[str, set[str]],
+    Dict[str, Set[str]],
     # Item name to ID
-    dict[str, int],
+    Dict[str, int],
     # Location name to ID
-    dict[str, int],
+    Dict[str, int],
     # NPCs
-    list[str],
+    List[str],
     # Pickaxe to pick power
-    dict[str, int],
+    Dict[str, int],
     # Hammer to hammer power
-    dict[str, int],
+    Dict[str, int],
     # Mechanical bosses
-    list[str],
+    List[str],
     # Calamity final bosses
-    list[str],
+    List[str],
     # Progression rules
-    set[str],
+    Set[str],
     # Armor to minion count,
-    dict[str, int],
+    Dict[str, int],
     # Accessory to minion count,
-    dict[str, int],
+    Dict[str, int],
 ]:
     next_id = 0x7E0000
     item_name_to_id = {}

@@ -1,5 +1,5 @@
-import json
 from dataclasses import dataclass
+import json
 
 from zilliandomizer.game import Game as ZzGame
 

@@ -1,6 +1,6 @@
 """ FillType_* is not a real kivy type - just something to fill unknown typing. """
 
-from collections.abc import Sequence
+from typing import Sequence
 
 FillType_Vec = Sequence[int]
 

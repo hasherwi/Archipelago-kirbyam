@@ -1,16 +1,15 @@
 import typing
 
-from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
+from .Locations import location_table, lookup_name_to_id as locations_lookup_name_to_id
+from .Items import (createResourcePackName, item_table, progressive_table, progressive_item_list,
+    lookup_name_to_item, resourcepack_items as resourcePackItems, lookup_name_to_id as items_lookup_name_to_id)
 
-from ..AutoWorld import WebWorld, World
-from .Items import createResourcePackName, item_table, lookup_name_to_item, progressive_item_list, progressive_table
-from .Items import lookup_name_to_id as items_lookup_name_to_id
-from .Items import resourcepack_items as resourcePackItems
-from .Locations import location_table
-from .Locations import lookup_name_to_id as locations_lookup_name_to_id
-from .Options import RaftOptions
 from .Regions import create_regions, getConnectionName
 from .Rules import set_rules
+from .Options import RaftOptions
+
+from BaseClasses import Region, Entrance, Location, MultiWorld, Item, ItemClassification, Tutorial
+from ..AutoWorld import World, WebWorld
 
 
 class RaftWeb(WebWorld):
@@ -95,7 +94,7 @@ class RaftWorld(World):
             # Finally, add items as necessary
             for item in dupeItemPool:
                 self.extraItemNamePool.append(self.replace_item_name_as_necessary(item["name"]))
-
+            
         assert self.extraItemNamePool, f"Don't know what extra items to create for {self.player_name}."
 
         for randomItem in self.random.choices(self.extraItemNamePool, k=extras):
@@ -145,10 +144,10 @@ class RaftWorld(World):
         item = lookup_name_to_item[name]
         return RaftItem(name, ItemClassification.progression if item["progression"] else ItemClassification.filler,
                         self.item_name_to_id[name], player=self.player)
-
+    
     def create_resourcePack(self, rpName: str) -> Item:
         return RaftItem(rpName, ItemClassification.filler, self.item_name_to_id[rpName], player=self.player)
-
+    
     def collect_item(self, state, item, remove=False):
         if item.advancement is False:
             return None
@@ -163,7 +162,7 @@ class RaftWorld(World):
                     if not state.has(item_name, item.player):
                         return item_name
 
-        return super().collect_item(state, item, remove)
+        return super(RaftWorld, self).collect_item(state, item, remove)
 
     def place_frequencyItems(self, frequencyItems):
         def setLocationItem(location: str, itemName: str):
@@ -229,7 +228,7 @@ class RaftWorld(World):
                 elif self.options.island_frequency_locations == self.options.island_frequency_locations.option_random_on_island_random_order:
                     setLocationItemFromRegion(previousLocation, locationToFrequencyItemMap[currentLocation])
                 previousLocation = currentLocation
-
+    
     def fill_slot_data(self):
         return {
             "IslandGenerationDistance": self.options.island_generation_distance.value,

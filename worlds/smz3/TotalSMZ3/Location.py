@@ -1,10 +1,8 @@
 ﻿from enum import Enum
-from typing import List
-from collections.abc import Callable
-
-from . import Region, World
+from typing import List, Callable
 from .Item import Progression
-
+from . import Region
+from . import World
 
 class LocationType(Enum):
     Regular = 0
@@ -35,7 +33,7 @@ class Location:
     allow: Callable = lambda item, items: True
     weight: int
 
-    def ItemIs(self, type, world: World):
+    def ItemIs(self, type, world: World): 
         item = self.APLocation.item.item if self.APLocation.item is not None and self.APLocation.item.game == "SMZ3" else None
         return item.Is(type, world) if item != None else False
     def ItemIsNot(self, type, world: World): return not self.ItemIs(type, world)
@@ -95,7 +93,7 @@ class Location:
         [worldList.append(l.Region.World) for l in locations if l.Region.World not in worldList]
         for world in worldList:
             result += Location.AvailableGlobal([l for l in locations if l.Region.World == world], [i for i in items if i.World == world])
-        return result
+        return result  
 
     @staticmethod
     def AvailableGlobal(locations, items):

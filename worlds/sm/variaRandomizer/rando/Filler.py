@@ -1,16 +1,14 @@
 
-import copy
-import time
-
-from ..graph.graph_utils import GraphUtils
-from ..logic.cache import RequestCache
-from ..logic.helpers import diffValue2txt
-from ..rando.Choice import ItemThenLocChoice
-from ..rando.ItemLocContainer import ItemLocation, getItemLocationsStr
-from ..rando.RandoServices import ComebackCheckType, RandoServices
+import copy, time
 from ..utils import log
+from ..logic.cache import RequestCache
+from ..rando.RandoServices import RandoServices
+from ..rando.Choice import ItemThenLocChoice
+from ..rando.RandoServices import ComebackCheckType
+from ..rando.ItemLocContainer import ItemLocation, getItemLocationsStr
 from ..utils.parameters import infinity
-
+from ..logic.helpers import diffValue2txt
+from ..graph.graph_utils import GraphUtils
 
 # base class for fillers. a filler responsibility is to fill a given
 # ItemLocContainer while a certain condition is fulfilled (usually
@@ -27,7 +25,7 @@ class Filler(object):
         self.endDate = endDate
         self.baseContainer = emptyContainer
         self.maxDiff = self.settings.maxDiff
-        self.log = log.get("Filler")
+        self.log = log.get('Filler')
 
     # reinit algo state
     def initFiller(self):
@@ -75,9 +73,9 @@ class Filler(object):
         else:
             # check if some locations are above max diff and add relevant message
             locs = self.container.getUsedLocs(lambda loc: loc.difficulty.difficulty > self.maxDiff)
-            aboveMaxDiffStr = "[ " + " ; ".join([loc.Name + ": " + diffValue2txt(loc.difficulty.difficulty) for loc in locs]) + " ]"
-            if aboveMaxDiffStr != "[  ]":
-                self.errorMsg += f"\nMaximum difficulty could not be applied everywhere. Affected locations: {aboveMaxDiffStr}"
+            aboveMaxDiffStr = '[ ' + ' ; '.join([loc.Name + ': ' + diffValue2txt(loc.difficulty.difficulty) for loc in locs]) + ' ]'
+            if aboveMaxDiffStr != '[  ]':
+                self.errorMsg += "\nMaximum difficulty could not be applied everywhere. Affected locations: {}".format(aboveMaxDiffStr)
             isStuck = False
 
         if self.vcr != None:
@@ -111,7 +109,7 @@ class Filler(object):
 # very simple front fill algorithm with no rollback and no "softlock checks" (== dessy algorithm)
 class FrontFiller(Filler):
     def __init__(self, startAP, graph, restrictions, emptyContainer, endDate=infinity, *, random):
-        super().__init__(startAP, graph, restrictions, emptyContainer, endDate, random=random)
+        super(FrontFiller, self).__init__(startAP, graph, restrictions, emptyContainer, endDate, random=random)
         self.choice = ItemThenLocChoice(restrictions, random)
         self.stdStart = GraphUtils.isStandardStart(self.startAP)
 

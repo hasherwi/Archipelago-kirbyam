@@ -265,20 +265,20 @@ def _moblinSpriteData(room):
             return (2, 0x92)  # Knight
         # Everything else is pigs
         return (2, 0x83) # Pig
-    if room.room < 0x1DF: # Dungeons contain hooded stalfos
+    elif room.room < 0x1DF: # Dungeons contain hooded stalfos
         return (2, 0x9C)  # Hooded stalfos
-    if room.room < 0x200: # Caves contain moblins
+    elif room.room < 0x200: # Caves contain moblins
         return (2, 0x7C)  # Moblin
-    if room.room < 0x276: # Dungeons contain hooded stalfos
+    elif room.room < 0x276: # Dungeons contain hooded stalfos
         return (2, 0x9C)  # Hooded stalfos
-    if room.room < 0x300: # Caves contain moblins
+    elif room.room < 0x300: # Caves contain moblins
         x = room.room & 0x0F
         y = (room.room >> 4) & 0x0F
         if 2 <= x <= 6 and 0x0C <= y <= 0x0D: # Castle indoors
             return (2, 0x92)  # Knight
         return (2, 0x7C)  # Moblin
-    # Dungeon contains hooded stalfos
-    return (2, 0x9C)  # Hooded stalfos
+    else: # Dungeon contains hooded stalfos
+        return (2, 0x9C)  # Hooded stalfos
 
 _CAVES_B_ROOMS = {0x2B6, 0x2B7, 0x2B8, 0x2B9, 0x285, 0x286, 0x2FD, 0x2F3, 0x2ED, 0x2EE, 0x2EA, 0x2EB, 0x2EC, 0x287, 0x2F1, 0x2F2, 0x2FE, 0x2EF, 0x2BA, 0x2BB, 0x2BC, 0x28D, 0x2F9, 0x2FA, 0x280, 0x281, 0x282, 0x283, 0x284, 0x28C, 0x288, 0x28A, 0x290, 0x291, 0x292, 0x28E, 0x29A, 0x289, 0x28B, 0x297, 0x293, 0x294, 0x295, 0x296, 0x2AB, 0x2AC, 0x298, 0x27A, 0x27B, 0x2E6, 0x2E7, 0x2BD, 0x27C, 0x27D, 0x27E, 0x2F6, 0x2F7, 0x2DE, 0x2DF}
 
@@ -553,9 +553,8 @@ class EntityData:
 
 
 if __name__ == "__main__":
-    import sys
-
     from rom import ROM
+    import sys
     rom = ROM(sys.argv[1])
     ed = EntityData(rom)
     for e in ed.entities:

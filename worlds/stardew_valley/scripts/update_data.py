@@ -11,14 +11,14 @@ from pathlib import Path
 from typing import List
 
 from worlds.stardew_valley import LocationData
-from worlds.stardew_valley.items import Group, ItemData, load_item_csv
+from worlds.stardew_valley.items import load_item_csv, Group, ItemData
 from worlds.stardew_valley.locations import load_location_csv
 
 RESOURCE_PACK_CODE_OFFSET = 5000
 script_folder = Path(__file__)
 
 
-def write_item_csv(items: list[ItemData]):
+def write_item_csv(items: List[ItemData]):
     with open((script_folder.parent.parent / "data/items.csv").resolve(), "w", newline="") as file:
         writer = csv.DictWriter(file, ["id", "name", "classification", "groups"])
         writer.writeheader()
@@ -32,7 +32,7 @@ def write_item_csv(items: list[ItemData]):
             writer.writerow(item_dict)
 
 
-def write_location_csv(locations: list[LocationData]):
+def write_location_csv(locations: List[LocationData]):
     with open((script_folder.parent.parent / "data/locations.csv").resolve(), "w", newline="") as file:
         write = csv.DictWriter(file, ["id", "region", "name", "tags", "mod_name"])
         write.writeheader()

@@ -4,13 +4,12 @@ from typing import ClassVar
 
 from BaseClasses import get_seed
 from test.param import classvar_matrix
-
+from ..assertion import WorldAssertMixin, ModAssertMixin
+from ..bases import skip_long_tests, SVTestCase, solo_multiworld
+from ..options.option_names import all_option_choices
 from ... import options
 from ...mods.mod_data import ModNames
 from ...options.options import all_mods
-from ..assertion import ModAssertMixin, WorldAssertMixin
-from ..bases import SVTestCase, skip_long_tests, solo_multiworld
-from ..options.option_names import all_option_choices
 
 
 @unittest.skip

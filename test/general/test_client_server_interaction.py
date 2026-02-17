@@ -1,6 +1,6 @@
 import unittest
 
-from Utils import get_input_text_from_response, get_intended_text
+from Utils import get_intended_text, get_input_text_from_response
 
 
 class TestClient(unittest.TestCase):

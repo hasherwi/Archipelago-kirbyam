@@ -1,11 +1,10 @@
 from functools import cached_property
 
 from Utils import cache_self1
-
-from ..stardew_rule import False_, StardewRule
+from .base_logic import BaseLogicMixin, BaseLogic
+from ..stardew_rule import StardewRule, False_
 from ..strings.ap_names.ap_weapon_names import APWeapon
 from ..strings.performance_names import Performance
-from .base_logic import BaseLogic, BaseLogicMixin
 
 valid_weapons = (APWeapon.weapon, APWeapon.sword, APWeapon.club, APWeapon.dagger)
 

@@ -12,7 +12,7 @@ def to_location_name(fish: str) -> str:
     return location_prefix + fish
 
 
-def extract_fish_from_location_name(location_name: str) -> str | None:
+def extract_fish_from_location_name(location_name: str) -> Optional[str]:
     if not location_name.startswith(location_prefix):
         return None
 

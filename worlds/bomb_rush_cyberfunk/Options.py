@@ -1,7 +1,6 @@
-import typing
 from dataclasses import dataclass
-
-from Options import Choice, DeathLink, DefaultOnToggle, PerGameCommonOptions, Range, Toggle
+from Options import Choice, Toggle, DefaultOnToggle, Range, DeathLink, PerGameCommonOptions
+import typing
 
 if typing.TYPE_CHECKING:
     from random import Random
@@ -63,8 +62,8 @@ class TotalRep(Range):
             self.value = self.value - rem + 8
         else:
             self.value = self.value - rem
-
-    def get_rep_item_counts(self, random_source: Random, location_count: int) -> list[int]:
+    
+    def get_rep_item_counts(self, random_source: Random, location_count: int) -> typing.List[int]:
         def increment_item(item: int) -> int:
             if item >= 32:
                 item = 48
@@ -86,7 +85,7 @@ class TotalRep(Range):
             items[index] -= 8
 
         return [items.count(8), items.count(16), items.count(24), items.count(32), items.count(48)]
-
+    
 
 class EndingREP(Toggle):
     """

@@ -1,11 +1,10 @@
 from typing import Tuple
 
 from Utils import cache_self1
-
-from ..options import EntranceRandomization
-from ..stardew_rule import Reach, StardewRule, false_, true_
-from ..strings.region_names import Region
 from .base_logic import BaseLogic, BaseLogicMixin
+from ..options import EntranceRandomization
+from ..stardew_rule import StardewRule, Reach, false_, true_
+from ..strings.region_names import Region
 
 main_outside_area = {Region.menu, Region.stardew_valley, Region.farm_house, Region.farm, Region.town, Region.beach, Region.mountain, Region.forest,
                      Region.bus_stop, Region.backwoods, Region.bus_tunnel, Region.tunnel_entrance}
@@ -43,18 +42,18 @@ class RegionLogic(BaseLogic):
         return Reach(region_name, "Region", self.player)
 
     @cache_self1
-    def can_reach_any(self, region_names: tuple[str, ...]) -> StardewRule:
+    def can_reach_any(self, region_names: Tuple[str, ...]) -> StardewRule:
         if any(r in always_regions_by_setting[self.options.entrance_randomization] for r in region_names):
             return true_
 
         return self.logic.or_(*(self.logic.region.can_reach(spot) for spot in region_names))
 
     @cache_self1
-    def can_reach_all(self, region_names: tuple[str, ...]) -> StardewRule:
+    def can_reach_all(self, region_names: Tuple[str, ...]) -> StardewRule:
         return self.logic.and_(*(self.logic.region.can_reach(spot) for spot in region_names))
 
     @cache_self1
-    def can_reach_all_except_one(self, region_names: tuple[str, ...]) -> StardewRule:
+    def can_reach_all_except_one(self, region_names: Tuple[str, ...]) -> StardewRule:
         region_names = list(region_names)
         num_required = len(region_names) - 1
         if num_required <= 0:

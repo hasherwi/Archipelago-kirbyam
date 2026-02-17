@@ -1,21 +1,21 @@
 
-import hashlib
-import json
+import Utils
 import logging
+import json
+
+from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes, APPatchExtension
+from typing import Dict, Optional, Collection, TYPE_CHECKING
+
+import hashlib
 import os
 import pkgutil
-from typing import TYPE_CHECKING, Dict, Optional
-from collections.abc import Collection
 
-import Utils
-from settings import get_settings
-from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
-
-from .cvcotm_text import cvcotm_string_to_bytearray
 from .data import patches
 from .locations import cvcotm_location_info
-from .lz10 import decompress
+from .cvcotm_text import cvcotm_string_to_bytearray
 from .options import CompletionGoal, IronMaidenBehavior, RequiredSkirmishes
+from .lz10 import decompress
+from settings import get_settings
 
 if TYPE_CHECKING:
     from . import CVCotMWorld
@@ -37,7 +37,7 @@ BATTLE_ARENA_SONG_IDS = [0x01, 0x03, 0x12, 0x06, 0x08, 0x09, 0x07, 0x0A, 0x0B,
 
 
 class RomData:
-    def __init__(self, file: bytes, name: str | None = None) -> None:
+    def __init__(self, file: bytes, name: Optional[str] = None) -> None:
         self.file = bytearray(file)
         self.name = name
 
@@ -60,7 +60,7 @@ class RomData:
         # Try loading the IPS file.
         try:
             ips_file = pkgutil.get_data(__name__, "data/ips/" + filename)
-        except OSError:
+        except IOError:
             raise Exception(f"{filename} is not present in the ips folder. If it was removed, please replace it.")
 
         # Verify that the IPS patch is, indeed, an IPS patch.
@@ -534,7 +534,7 @@ class CVCotMProcedurePatch(APProcedurePatch, APTokenMixin):
         return get_base_rom_bytes()
 
 
-def patch_rom(world: "CVCotMWorld", patch: CVCotMProcedurePatch, offset_data: dict[int, bytes],
+def patch_rom(world: "CVCotMWorld", patch: CVCotMProcedurePatch, offset_data: Dict[int, bytes],
               start_with_detonator: bool) -> None:
 
     # Write all the new item values
@@ -573,7 +573,7 @@ def patch_rom(world: "CVCotMWorld", patch: CVCotMProcedurePatch, offset_data: di
         "compat_identifier": ARCHIPELAGO_IDENTIFIER
     }
 
-    patch.write_file("options.json", json.dumps(options_dict).encode("utf-8"))
+    patch.write_file("options.json", json.dumps(options_dict).encode('utf-8'))
 
 
 def get_base_rom_bytes(file_name: str = "") -> bytes:

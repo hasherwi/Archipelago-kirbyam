@@ -1,17 +1,7 @@
 import typing
+
+from Options import Choice, Option, PerGameCommonOptions, Toggle, DefaultOnToggle, Range, ItemsAccessibility, StartInventoryPool
 from dataclasses import dataclass
-
-from Options import (
-    Choice,
-    DefaultOnToggle,
-    ItemsAccessibility,
-    Option,
-    PerGameCommonOptions,
-    Range,
-    StartInventoryPool,
-    Toggle,
-)
-
 
 class SMLogic(Choice):
     """This option selects what kind of logic to use for item placement inside
@@ -57,7 +47,7 @@ class MorphLocation(Choice):
     option_Original = 2
     default = 0
 
-
+    
 class Goal(Choice):
     """This option decides what goal is required to finish the randomizer.
     Defeat Ganon and Mother Brain - Find the required crystals and boss tokens to kill both bosses.

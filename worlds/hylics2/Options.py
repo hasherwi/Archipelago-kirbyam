@@ -1,6 +1,5 @@
 from dataclasses import dataclass
-
-from Options import Choice, DeathLink, DefaultOnToggle, PerGameCommonOptions, Removed, Toggle
+from Options import Choice, Removed, Toggle, DefaultOnToggle, DeathLink, PerGameCommonOptions
 
 
 class PartyShuffle(Toggle):

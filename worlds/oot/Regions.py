@@ -1,7 +1,6 @@
-from enum import Enum, unique
+from enum import unique, Enum
 
-from BaseClasses import MultiWorld, Region
-
+from BaseClasses import Region, MultiWorld
 from .Hints import HintArea
 
 
@@ -34,7 +33,7 @@ class OOTRegion(Region):
     game: str = "Ocarina of Time"
 
     def __init__(self, name: str, player: int, multiworld: MultiWorld):
-        super().__init__(name, player, multiworld)
+        super(OOTRegion, self).__init__(name, player, multiworld)
         self._oot_hint = None
         self.alt_hint = None
         self.price = None
@@ -57,23 +56,24 @@ class OOTRegion(Region):
         self._oot_hint = value
 
     def get_scene(self):
-        if self.scene:
+        if self.scene: 
             return self.scene
-        if self.dungeon:
+        elif self.dungeon: 
             return self.dungeon.name
-        return None
+        else: 
+            return None
 
     def can_reach(self, state):
         if state._oot_stale[self.player]:
             stored_age = state.age[self.player]
             state._oot_update_age_reachable_regions(self.player)
             state.age[self.player] = stored_age
-        if state.age[self.player] == "child":
+        if state.age[self.player] == 'child': 
             return self in state.child_reachable_regions[self.player]
-        if state.age[self.player] == "adult":
+        elif state.age[self.player] == 'adult': 
             return self in state.adult_reachable_regions[self.player]
-        # we don't care about age
-        return self in state.child_reachable_regions[self.player] or self in state.adult_reachable_regions[self.player]
+        else: # we don't care about age
+            return self in state.child_reachable_regions[self.player] or self in state.adult_reachable_regions[self.player]
 
     def set_hint_data(self, hint):
         if self.dungeon:

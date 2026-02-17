@@ -2,8 +2,7 @@ import math
 
 from worlds.AutoWorld import World
 from worlds.generic.Rules import add_rule
-
-from .Names import ItemName, LocationName
+from .Names import LocationName, ItemName
 
 
 def set_rules(world: World):

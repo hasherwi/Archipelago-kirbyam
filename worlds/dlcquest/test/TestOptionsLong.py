@@ -3,7 +3,6 @@ from typing import Dict
 
 from BaseClasses import MultiWorld
 from Options import NamedRange
-
 from . import DLCQuestTestBase, setup_dlc_quest_solo_multiworld
 from .checks.world_checks import assert_can_win, assert_same_number_items_locations
 from .option_names import options_to_include
@@ -14,10 +13,10 @@ def basic_checks(tester: DLCQuestTestBase, multiworld: MultiWorld):
     assert_same_number_items_locations(tester, multiworld)
 
 
-def get_option_choices(option) -> dict[str, int]:
+def get_option_choices(option) -> Dict[str, int]:
     if issubclass(option, NamedRange):
         return option.special_range_names
-    if option.options:
+    elif option.options:
         return option.options
     return {}
 

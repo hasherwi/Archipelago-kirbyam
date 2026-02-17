@@ -3,9 +3,9 @@ from typing import List, NamedTuple
 
 class FusionData(NamedTuple):
     name: str
-    materials: list[str]
+    materials: List[str]
     replaceable: bool
-    additional_spells: list[str]
+    additional_spells: List[str]
 
 
 fusions = {
@@ -58,10 +58,11 @@ def has_all_materials(state, monster, player):
         return False
     if data is None:
         return True
-    materials = data.replaceable and state.has_any(fusion_subs, player)
-    for material in data.materials:
-        materials += has_all_materials(state, material, player)
-    return materials >= len(data.materials)
+    else:
+        materials = data.replaceable and state.has_any(fusion_subs, player)
+        for material in data.materials:
+            materials += has_all_materials(state, material, player)
+        return materials >= len(data.materials)
 
 
 def count_has_materials(state, monsters, player):

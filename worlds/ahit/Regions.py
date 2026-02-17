@@ -1,22 +1,10 @@
-from typing import TYPE_CHECKING, Dict, List, Optional
-
-from BaseClasses import Entrance, ItemClassification, Location, LocationProgressType, Region
-
-from .Locations import (
-    TASKSANITY_START_ID,
-    event_locs,
-    is_location_valid,
-    location_table,
-    shop_locations,
-    snatcher_coins,
-    storybook_pages,
-    zero_jumps,
-    zero_jumps_expert,
-    zero_jumps_hard,
-)
+from BaseClasses import Region, Entrance, ItemClassification, Location, LocationProgressType
+from .Types import ChapterIndex, Difficulty, HatInTimeLocation, HatInTimeItem
+from .Locations import location_table, storybook_pages, event_locs, is_location_valid, \
+    shop_locations, TASKSANITY_START_ID, snatcher_coins, zero_jumps, zero_jumps_expert, zero_jumps_hard
+from typing import TYPE_CHECKING, List, Dict, Optional
+from .Rules import set_rift_rules, get_difficulty
 from .Options import ActRandomizer, EndGoal
-from .Rules import get_difficulty, set_rift_rules
-from .Types import ChapterIndex, Difficulty, HatInTimeItem, HatInTimeLocation
 
 if TYPE_CHECKING:
     from . import HatInTimeWorld
@@ -490,11 +478,11 @@ def create_tasksanity_locations(world: "HatInTimeWorld"):
 
 
 def randomize_act_entrances(world: "HatInTimeWorld"):
-    region_list: list[Region] = get_shuffleable_act_regions(world)
+    region_list: List[Region] = get_shuffleable_act_regions(world)
     world.random.shuffle(region_list)
     region_list.sort(key=sort_acts)
-    candidate_list: list[Region] = region_list.copy()
-    rift_dict: dict[str, Region] = {}
+    candidate_list: List[Region] = region_list.copy()
+    rift_dict: Dict[str, Region] = {}
 
     # Check if Plando's are valid, if so, map them
     if world.options.ActPlando:
@@ -529,7 +517,7 @@ def randomize_act_entrances(world: "HatInTimeWorld"):
                       f"is an invalid or disallowed act plando combination!")
 
     # Decide what should be on the first few levels before randomizing the rest
-    first_acts: list[Region] = []
+    first_acts: List[Region] = []
     first_chapter_name = chapter_regions[ChapterIndex(world.options.StartingChapter)]
     first_acts.append(get_act_by_number(world, first_chapter_name, 1))
     # Chapter 3 and 4 only have one level accessible at the start
@@ -537,7 +525,7 @@ def randomize_act_entrances(world: "HatInTimeWorld"):
         first_acts.append(get_act_by_number(world, first_chapter_name, 2))
         first_acts.append(get_act_by_number(world, first_chapter_name, 3))
 
-    valid_first_acts: list[Region] = []
+    valid_first_acts: List[Region] = []
     for candidate in candidate_list:
         if is_valid_first_act(world, candidate):
             valid_first_acts.append(candidate)
@@ -579,7 +567,7 @@ def randomize_act_entrances(world: "HatInTimeWorld"):
     while len(region_list) > 0:
         region = region_list[0]
         candidate: Region
-        valid_candidates: list[Region] = []
+        valid_candidates: List[Region] = []
 
         # Look for candidates to map this act to
         for c in candidate_list:
@@ -636,7 +624,7 @@ def sort_acts(act: Region) -> int:
     return 0
 
 
-def connect_acts(world: "HatInTimeWorld", entrance_act: Region, exit_act: Region, rift_dict: dict[str, Region]):
+def connect_acts(world: "HatInTimeWorld", entrance_act: Region, exit_act: Region, rift_dict: Dict[str, Region]):
     # Vanilla
     if exit_act.name == entrance_act.name:
         if entrance_act.name in rift_access_regions.keys():
@@ -734,7 +722,7 @@ def is_valid_first_act(world: "HatInTimeWorld", act: Region) -> bool:
         # Needs to be at least moderate to cross the big dweller wall
         if act.name == "Queen Vanessa's Manor" and diff < Difficulty.MODERATE:
             return False
-        if act.name == "Heating Up Mafia Town":  # Straight up impossible
+        elif act.name == "Heating Up Mafia Town":  # Straight up impossible
             return False
 
     # Need to be able to hover
@@ -781,8 +769,8 @@ def connect_time_rift(world: "HatInTimeWorld", time_rift: Region, exit_region: R
             world.get_region(access_region).connect(exit_region, name)
 
 
-def get_shuffleable_act_regions(world: "HatInTimeWorld") -> list[Region]:
-    act_list: list[Region] = []
+def get_shuffleable_act_regions(world: "HatInTimeWorld") -> List[Region]:
+    act_list: List[Region] = []
     for region in world.multiworld.get_regions(world.player):
         if region.name in chapter_act_info.keys():
             if not is_act_blacklisted(world, region.name):
@@ -978,7 +966,8 @@ def get_region_shuffled_to(world: "HatInTimeWorld", region: str) -> str:
         shuffled_ci = world.act_connections[original_ci]
         return next(act_name for act_name, ci in chapter_act_info.items()
                     if ci == shuffled_ci)
-    return region
+    else:
+        return region
 
 
 def get_region_location_count(world: "HatInTimeWorld", region_name: str, included_only: bool = True) -> int:
@@ -993,7 +982,7 @@ def get_region_location_count(world: "HatInTimeWorld", region_name: str, include
 
 def get_act_by_number(world: "HatInTimeWorld", chapter_name: str, num: int) -> Region:
     chapter = world.multiworld.get_region(chapter_name, world.player)
-    act: Region | None = None
+    act: Optional[Region] = None
     for e in chapter.exits:
         if f"Act {num}" in e.name or num == 1 and "Free Roam" in e.name:
             act = e.connected_region
@@ -1006,7 +995,7 @@ def create_thug_shops(world: "HatInTimeWorld"):
     min_items: int = world.options.NyakuzaThugMinShopItems.value
     max_items: int = world.options.NyakuzaThugMaxShopItems.value
 
-    thug_location_counts: dict[str, int] = {}
+    thug_location_counts: Dict[str, int] = {}
 
     for key, data in shop_locations.items():
         thug_name = data.nyakuza_thug

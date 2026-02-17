@@ -9,25 +9,15 @@ import enum
 import subprocess
 from typing import Any
 
-import Patch
 import settings
+from CommonClient import CommonContext, ClientCommandProcessor, get_base_parser, server_loop, logger, gui_enabled
+import Patch
 import Utils
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger, server_loop
 
-from . import (
-    BizHawkContext,
-    ConnectionStatus,
-    NotConnectedError,
-    RequestFailedError,
-    connect,
-    disconnect,
-    display_message,
-    get_hash,
-    get_script_version,
-    get_system,
-    ping,
-)
-from .client import AutoBizHawkClientRegister, BizHawkClient
+from . import BizHawkContext, ConnectionStatus, NotConnectedError, RequestFailedError, connect, disconnect, get_hash, \
+    get_script_version, get_system, ping, display_message
+from .client import BizHawkClient, AutoBizHawkClientRegister
+
 
 EXPECTED_SCRIPT_VERSION = 1
 
@@ -103,7 +93,7 @@ class BizHawkClientCommandProcessor(ClientCommandProcessor):
             if value is None:
                 logger.info('Must specify "on" or "off" for category "all"')
                 return
-
+            
             if value:
                 self.ctx.text_passthrough_categories.update((
                     TextCategory.OTHER,
@@ -154,14 +144,15 @@ class BizHawkClientContext(CommonContext):
         if "type" not in args or args["type"] in {"Hint", "Join", "Part", "TagsChanged", "Goal", "Release", "Collect",
                                                   "Countdown", "ServerChat", "ItemCheat"}:
             return TextCategory.SERVER
-        if args["type"] == "Chat":
+        elif args["type"] == "Chat":
             return TextCategory.CHAT
-        if args["type"] == "ItemSend":
+        elif args["type"] == "ItemSend":
             if args["item"].player == self.slot:
                 return TextCategory.OUTGOING
-            if args["receiving"] == self.slot:
+            elif args["receiving"] == self.slot:
                 return TextCategory.INCOMING
-            return TextCategory.OTHER
+            else:
+                return TextCategory.OTHER
 
     def on_print_json(self, args: dict):
         super().on_print_json(args)
@@ -205,7 +196,7 @@ class BizHawkClientContext(CommonContext):
 
         if password_requested and not self.password:
             self.auth_status = AuthStatus.NEED_INFO
-            await super().server_auth(password_requested)
+            await super(BizHawkClientContext, self).server_auth(password_requested)
 
         await self.send_connect()
         self.auth_status = AuthStatus.PENDING

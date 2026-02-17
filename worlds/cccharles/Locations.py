@@ -1,5 +1,4 @@
 from BaseClasses import Location
-
 from .BaseID import base_id
 
 

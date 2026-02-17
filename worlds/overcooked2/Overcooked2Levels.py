@@ -56,13 +56,13 @@ class Overcooked2Dlc(Enum):
         return self.start_level_id + id
 
     # Tutorial + Horde Levels + Endgame
-    def excluded_levels(self) -> list[int]:
+    def excluded_levels(self) -> List[int]:
         if self == Overcooked2Dlc.STORY:
             return [0, 36]
 
         return []
 
-    def horde_levels(self) -> list[int]:
+    def horde_levels(self) -> List[int]:
         if self == Overcooked2Dlc.NIGHT_OF_THE_HANGRY_HORDE:
             return [12, 13, 14, 15, 16, 17, 18, 19]
         if self == Overcooked2Dlc.SEASONAL:
@@ -70,7 +70,7 @@ class Overcooked2Dlc(Enum):
 
         return []
 
-    def prep_levels(self) -> list[int]:
+    def prep_levels(self) -> List[int]:
         if self == Overcooked2Dlc.STORY:
             return [1, 2, 5, 10, 12, 13, 28, 31]
         if self == Overcooked2Dlc.SURF_N_TURF:

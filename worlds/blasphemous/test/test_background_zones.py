@@ -1,5 +1,5 @@
-from ..Locations import location_names
 from . import BlasphemousTestBase
+from ..Locations import location_names
 
 
 class BotSSGauntletTest(BlasphemousTestBase):
@@ -12,7 +12,7 @@ class BotSSGauntletTest(BlasphemousTestBase):
     @property
     def run_default_tests(self) -> bool:
         return False
-
+    
     def test_botss_gauntlet(self) -> None:
         self.assertAccessDependency([location_names["CO25"]], [["Dash Ability", "Wall Climb Ability"]], True)
 

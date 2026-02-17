@@ -1,12 +1,11 @@
 import typing
 
 from BaseClasses import Item, ItemClassification
-
 from .Names import ItemName
 
 
 class ItemData(typing.NamedTuple):
-    code: int | None
+    code: typing.Optional[int]
     progression: bool
     trap: bool = False
     quantity: int = 1
@@ -17,7 +16,7 @@ class SA2BItem(Item):
     game: str = "Sonic Adventure 2 Battle"
 
     def __init__(self, name, classification: ItemClassification, code: int = None, player: int = None):
-        super().__init__(name, classification, code, player)
+        super(SA2BItem, self).__init__(name, classification, code, player)
 
 
 # Separate tables for each type of item.
@@ -33,7 +32,7 @@ upgrades_table = {
     ItemName.sonic_bounce_bracelet: ItemData(0xFF0004, True),
     ItemName.sonic_flame_ring:      ItemData(0xFF0005, True),
     ItemName.sonic_mystic_melody:   ItemData(0xFF0006, True),
-
+    
     ItemName.tails_laser_blaster: ItemData(0xFF0007, False),
     ItemName.tails_booster:       ItemData(0xFF0008, True),
     ItemName.tails_mystic_melody: ItemData(0xFF0009, True),
@@ -44,12 +43,12 @@ upgrades_table = {
     ItemName.knuckles_air_necklace:  ItemData(0xFF000D, True),
     ItemName.knuckles_hammer_gloves: ItemData(0xFF000E, True),
     ItemName.knuckles_sunglasses:    ItemData(0xFF000F, True),
-
+    
     ItemName.shadow_flame_ring:    ItemData(0xFF0010, True),
     ItemName.shadow_air_shoes:     ItemData(0xFF0011, True),
     ItemName.shadow_ancient_light: ItemData(0xFF0012, False),
     ItemName.shadow_mystic_melody: ItemData(0xFF0013, True),
-
+    
     ItemName.eggman_laser_blaster:    ItemData(0xFF0014, False),
     ItemName.eggman_mystic_melody:    ItemData(0xFF0015, True),
     ItemName.eggman_jet_engine:       ItemData(0xFF0016, True),
@@ -271,9 +270,9 @@ item_table = {
     **chaos_drives_table,
 }
 
-lookup_id_to_name: dict[int, str] = {data.code: item_name for item_name, data in item_table.items() if data.code}
+lookup_id_to_name: typing.Dict[int, str] = {data.code: item_name for item_name, data in item_table.items() if data.code}
 
-item_groups: dict[str, str] = {
+item_groups: typing.Dict[str, str] = {
     "Chaos Emeralds": list(emeralds_table.keys()),
     "Eggs":           list(eggs_table.keys()),
     "Fruits":         list(fruits_table.keys()),

@@ -1,21 +1,20 @@
 import asyncio
 import copy
+import orjson
 import random
 import time
+from typing import TYPE_CHECKING, Optional, Dict, Set, Tuple
 import uuid
-from typing import TYPE_CHECKING, Dict, Optional, Set, Tuple
 
-import orjson
-
-import Utils
-import worlds._bizhawk as bizhawk
 from NetUtils import ClientStatus
 from Options import Toggle
+import Utils
+import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
 from .data import BASE_OFFSET, POKEDEX_OFFSET, data
 from .options import Goal, RemoteItems
-from .util import json_to_pokemon_data, pokemon_data_to_json
+from .util import pokemon_data_to_json, json_to_pokemon_data
 
 if TYPE_CHECKING:
     from worlds._bizhawk.context import BizHawkClientContext
@@ -129,23 +128,23 @@ class PokemonEmeraldClient(BizHawkClient):
     system = "GBA"
     patch_suffix = ".apemerald"
 
-    local_checked_locations: set[int]
-    local_set_events: dict[str, bool]
-    local_found_key_items: dict[str, bool]
-    local_defeated_legendaries: dict[str, bool]
-    goal_flag: int | None
+    local_checked_locations: Set[int]
+    local_set_events: Dict[str, bool]
+    local_found_key_items: Dict[str, bool]
+    local_defeated_legendaries: Dict[str, bool]
+    goal_flag: Optional[int]
 
     wonder_trade_update_event: asyncio.Event
     latest_wonder_trade_reply: dict
     wonder_trade_cooldown: int
     wonder_trade_cooldown_timer: int
-    queued_received_trade: str | None
+    queued_received_trade: Optional[str]
 
-    death_counter: int | None
+    death_counter: Optional[int]
     previous_death_link: float
     ignore_next_death_link: bool
 
-    current_map: int | None
+    current_map: Optional[int]
 
     def initialize_client(self):
         self.local_checked_locations = set()
@@ -227,7 +226,7 @@ class PokemonEmeraldClient(BizHawkClient):
             return
 
         try:
-            guards: dict[str, tuple[int, bytes, str]] = {}
+            guards: Dict[str, Tuple[int, bytes, str]] = {}
 
             # Checks that the player is in the overworld
             guards["IN OVERWORLD"] = (
@@ -411,7 +410,7 @@ class PokemonEmeraldClient(BizHawkClient):
             # Exit handler and return to main loop to reconnect
             pass
 
-    async def handle_tracker_info(self, ctx: "BizHawkClientContext", guards: dict[str, tuple[int, bytes, str]]) -> None:
+    async def handle_tracker_info(self, ctx: "BizHawkClientContext", guards: Dict[str, Tuple[int, bytes, str]]) -> None:
         # Current map
         sb1_address = int.from_bytes(guards["SAVE BLOCK 1"][1], "little")
 
@@ -440,7 +439,7 @@ class PokemonEmeraldClient(BizHawkClient):
                 },
             }])
 
-    async def handle_death_link(self, ctx: "BizHawkClientContext", guards: dict[str, tuple[int, bytes, str]]) -> None:
+    async def handle_death_link(self, ctx: "BizHawkClientContext", guards: Dict[str, Tuple[int, bytes, str]]) -> None:
         """
         Checks whether the player has died while connected and sends a death link if so. Queues a death link in the game
         if a new one has been received.
@@ -493,7 +492,7 @@ class PokemonEmeraldClient(BizHawkClient):
                     self.ignore_next_death_link = True
                     self.death_counter = times_whited_out
 
-    async def handle_received_items(self, ctx: "BizHawkClientContext", guards: dict[str, tuple[int, bytes, str]]) -> None:
+    async def handle_received_items(self, ctx: "BizHawkClientContext", guards: Dict[str, Tuple[int, bytes, str]]) -> None:
         """
         Checks the index of the most recently received item and whether the item queue is full. Writes the next item
         into the game if necessary.
@@ -528,7 +527,7 @@ class PokemonEmeraldClient(BizHawkClient):
                 (received_item_address + 5, [should_display], "System Bus"),
             ])
 
-    async def handle_wonder_trade(self, ctx: "BizHawkClientContext", guards: dict[str, tuple[int, bytes, str]]) -> None:
+    async def handle_wonder_trade(self, ctx: "BizHawkClientContext", guards: Dict[str, Tuple[int, bytes, str]]) -> None:
         """
         Read wonder trade status from save data and either send a queued pokemon to data storage or attempt to retrieve
         one from data storage and write it into the save.
@@ -589,7 +588,7 @@ class PokemonEmeraldClient(BizHawkClient):
                     # Very approximate "time since last loop", but extra delay is fine for this
                     self.wonder_trade_cooldown_timer -= int(ctx.watcher_timeout * 1000)
 
-    async def wonder_trade_acquire(self, ctx: "BizHawkClientContext", keep_trying: bool = False) -> dict | None:
+    async def wonder_trade_acquire(self, ctx: "BizHawkClientContext", keep_trying: bool = False) -> Optional[dict]:
         """
         Acquires a lock on the `pokemon_wonder_trades_{ctx.team}` key in
         datastorage. Locking the key means you have exclusive access
@@ -681,7 +680,7 @@ class PokemonEmeraldClient(BizHawkClient):
 
         logger.info("Wonder trade sent! We'll notify you here when a trade has been found.")
 
-    async def wonder_trade_receive(self, ctx: "BizHawkClientContext") -> str | None:
+    async def wonder_trade_receive(self, ctx: "BizHawkClientContext") -> Optional[str]:
         """
         Tries to pop a pokemon out of the wonder trades. Returns `None` if
         for some reason it can't immediately remove a compatible pokemon.

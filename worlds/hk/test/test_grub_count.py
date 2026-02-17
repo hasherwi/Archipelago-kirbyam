@@ -1,6 +1,5 @@
-from Options import ItemLinks
 from test.bases import WorldTestBase
-
+from Options import ItemLinks
 from . import linkedTestHK
 
 

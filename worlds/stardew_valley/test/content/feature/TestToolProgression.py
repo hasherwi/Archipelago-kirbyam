@@ -1,7 +1,7 @@
 import unittest
 
 from ....content import choose_tool_progression
-from ....options import SkillProgression, ToolProgression
+from ....options import ToolProgression, SkillProgression
 from ....strings.tool_names import Tool
 
 

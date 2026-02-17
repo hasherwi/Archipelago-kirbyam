@@ -1,31 +1,10 @@
 from typing import Any, Dict
 
 from Options import Accessibility, ProgressionBalancing
-
-from .options import (
-    AlwaysAllowSpeedDash,
-    AutoRun,
-    BattleArenaMusic,
-    BuffRangedFamiliars,
-    BuffShooterStrength,
-    BuffSubWeapons,
-    CompletionGoal,
-    Countdown,
-    CVCotMDeathLink,
-    DisableBattleArenaMPDrain,
-    DSSPatch,
-    EarlyEscapeItem,
-    HalveDSSCardsPlaced,
-    IgnoreCleansing,
-    IronMaidenBehavior,
-    ItemDropRandomization,
-    NerfRocWing,
-    PlutoGriffinAirSpeed,
-    RequiredSkirmishes,
-    SkipDialogues,
-    SkipTutorials,
-    SubWeaponShuffle,
-)
+from .options import IgnoreCleansing, AutoRun, DSSPatch, AlwaysAllowSpeedDash, IronMaidenBehavior, BuffRangedFamiliars,\
+    BuffSubWeapons, BuffShooterStrength, ItemDropRandomization, HalveDSSCardsPlaced, Countdown, SubWeaponShuffle,\
+    DisableBattleArenaMPDrain, RequiredSkirmishes, EarlyEscapeItem, CVCotMDeathLink, CompletionGoal, SkipDialogues,\
+    NerfRocWing, SkipTutorials, BattleArenaMusic, PlutoGriffinAirSpeed
 
 all_random_options = {
     "progression_balancing":         "random",
@@ -201,7 +180,7 @@ hardcore_mode_options = {
     "completion_goal":               CompletionGoal.option_battle_arena_and_dracula,
 }
 
-cvcotm_options_presets: dict[str, dict[str, Any]] = {
+cvcotm_options_presets: Dict[str, Dict[str, Any]] = {
     "All Random": all_random_options,
     "Beginner Mode": beginner_mode_options,
     "Standard Competitive": standard_competitive_options,

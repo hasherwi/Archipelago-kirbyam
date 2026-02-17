@@ -1,42 +1,41 @@
 import typing
 
-from BaseClasses import Entrance, Region
-
-from . import StateLogic
+from BaseClasses import Region, Entrance
 from .Locations import (
     MLSSLocation,
-    airport,
-    baseUltraRocks,
+    mainArea,
+    chucklehuck,
+    castleTown,
+    startingFlag,
+    chuckolatorFlag,
+    piranhaFlag,
+    kidnappedFlag,
     beanstarFlag,
     birdoFlag,
-    booStatue,
-    bowsers,
-    bowsersMini,
-    cacklettas_soul,
-    castleTown,
-    chucklehuck,
-    chuckolatorFlag,
-    coins,
+    surfable,
+    hooniversity,
+    gwarharEntrance,
+    gwarharMain,
     fungitown,
     fungitownBeanstar,
     fungitownBirdo,
-    gwarharEntrance,
-    gwarharMain,
-    hooniversity,
+    teeheeValley,
+    winkle,
+    sewers,
+    airport,
+    bowsers,
+    bowsersMini,
     jokesEntrance,
     jokesMain,
-    kidnappedFlag,
-    mainArea,
-    oasis,
-    piranhaFlag,
-    postJokes,
-    sewers,
-    startingFlag,
-    surfable,
-    teeheeValley,
     theater,
-    winkle,
+    booStatue,
+    oasis,
+    postJokes,
+    baseUltraRocks,
+    coins,
+    cacklettas_soul,
 )
+from . import StateLogic
 
 if typing.TYPE_CHECKING:
     from . import MLSSWorld
@@ -84,7 +83,7 @@ def create_regions(world: "MLSSWorld"):
 
 
 def connect_regions(world: "MLSSWorld"):
-    names: dict[str, int] = {}
+    names: typing.Dict[str, int] = {}
 
     connect(world, names, "Menu", "Main Area")
     if world.options.coins:
@@ -310,12 +309,12 @@ def create_region(world: "MLSSWorld", name, locations):
 
 def connect(
     world: "MLSSWorld",
-    used_names: dict[str, int],
+    used_names: typing.Dict[str, int],
     source: str,
     target: str,
-    rule: typing.Callable | None = None,
-    reach: bool | None = False,
-) -> Entrance | None:
+    rule: typing.Optional[typing.Callable] = None,
+    reach: typing.Optional[bool] = False,
+) -> typing.Optional[Entrance]:
     source_region = world.multiworld.get_region(source, world.player)
     target_region = world.multiworld.get_region(target, world.player)
 

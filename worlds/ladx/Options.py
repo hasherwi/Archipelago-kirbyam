@@ -1,21 +1,11 @@
-import logging
-import os.path
-import typing
-from collections import defaultdict
 from dataclasses import dataclass
 
+import os.path
+import typing
+import logging
+from Options import Choice, Toggle, DefaultOnToggle, Range, FreeText, PerGameCommonOptions, OptionGroup, Removed, StartInventoryPool
+from collections import defaultdict
 import Utils
-from Options import (
-    Choice,
-    DefaultOnToggle,
-    FreeText,
-    OptionGroup,
-    PerGameCommonOptions,
-    Range,
-    Removed,
-    StartInventoryPool,
-    Toggle,
-)
 
 DefaultOffToggle = Toggle
 
@@ -277,7 +267,8 @@ class Goal(Choice, LADXROption):
     def to_ladxr_option(self, all_options):
         if self.value == self.option_instruments:
             return ("goal", all_options["instrument_count"])
-        return LADXROption.to_ladxr_option(self, all_options)
+        else:
+            return LADXROption.to_ladxr_option(self, all_options)
 
 
 class InstrumentCount(Range, LADXROption):

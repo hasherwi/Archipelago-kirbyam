@@ -1,31 +1,23 @@
 import dataclasses
-import math
 import os
-import threading
 import typing
-
+import math
 import settings
-from BaseClasses import Item, ItemClassification, MultiWorld, Tutorial
+import threading
+
+from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from worlds.generic.Rules import add_rule, exclusion_rules
 
 from .Client import SMWSNIClient
-from .Items import ItemData, SMWItem, item_table, junk_table
+from .Items import SMWItem, ItemData, item_table, junk_table
 from .Levels import full_level_list, generate_level_list, location_id_to_level_id
-from .Locations import (
-    SMWLocation,
-    all_locations,
-    setup_locations,
-    special_zone_blocksanity_names,
-    special_zone_dragon_coin_names,
-    special_zone_hidden_1up_names,
-    special_zone_level_names,
-)
+from .Locations import SMWLocation, all_locations, setup_locations, special_zone_level_names, special_zone_dragon_coin_names, special_zone_hidden_1up_names, special_zone_blocksanity_names
 from .Names import ItemName, LocationName
 from .Options import SMWOptions, smw_option_groups
 from .Presets import smw_options_presets
-from .Regions import connect_regions, create_regions
-from .Rom import LocalRom, SMWDeltaPatch, get_base_rom_path, patch_rom
+from .Regions import create_regions, connect_regions
+from .Rom import LocalRom, patch_rom, get_base_rom_path, SMWDeltaPatch
 from .Rules import set_rules
 
 
@@ -76,9 +68,9 @@ class SMWWorld(World):
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = all_locations
 
-    active_level_dict: dict[int,int]
+    active_level_dict: typing.Dict[int,int]
     web = SMWWeb()
-
+    
     def __init__(self, multiworld: MultiWorld, player: int):
         self.rom_name_available_event = threading.Event()
         super().__init__(multiworld, player)
@@ -111,7 +103,7 @@ class SMWWorld(World):
         create_regions(self, location_table)
 
         # Not generate basic
-        itempool: list[SMWItem] = []
+        itempool: typing.List[SMWItem] = []
 
         self.active_level_dict = dict(zip(generate_level_list(self), full_level_list))
         self.topology_present = self.options.level_shuffle
@@ -164,7 +156,7 @@ class SMWWorld(World):
         itempool += [self.create_item(ItemName.red_switch_palace)]
         itempool += [self.create_item(ItemName.blue_switch_palace)]
         itempool += [self.create_item(ItemName.special_world_clear)]
-
+        
         if self.options.goal == "yoshi_egg_hunt":
             raw_egg_count = total_required_locations - len(itempool) - len(exclusion_pool)
             total_egg_count = min(raw_egg_count, self.options.max_yoshi_egg_cap.value)
@@ -208,7 +200,7 @@ class SMWWorld(World):
         junk_weights += ([ItemName.one_up_mushroom] * 20)
 
         junk_pool = [self.create_item(self.random.choice(junk_weights)) for _ in range(junk_count)]
-
+        
         itempool += junk_pool
 
         boss_location_names = [LocationName.yoshis_island_koopaling, LocationName.donut_plains_koopaling, LocationName.vanilla_dome_koopaling,
@@ -254,7 +246,7 @@ class SMWWorld(World):
             new_name = base64.b64encode(bytes(self.rom_name)).decode()
             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
 
-    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]):
+    def extend_hint_information(self, hint_data: typing.Dict[int, typing.Dict[int, str]]):
         if self.topology_present:
             world_names = [
                 LocationName.yoshis_island_region,

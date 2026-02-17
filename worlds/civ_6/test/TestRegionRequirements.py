@@ -1,12 +1,10 @@
-from typing import List
-from collections.abc import Callable
+from typing import Callable, List
 
 from BaseClasses import CollectionState
-
 from ..Data import get_era_required_items_data
 from ..Enum import EraType
-from ..Items import get_item_by_civ_name
 from ..ProgressiveDistricts import convert_items_to_progressive_items
+from ..Items import get_item_by_civ_name
 from . import CivVITestBase
 
 
@@ -135,7 +133,7 @@ class TestProgressiveEraRequirements(CivVITestBase):
         state = self.multiworld.state
         self.collect_all_but(["Progressive Era"])
 
-        def check_eras_accessible(eras: list[EraType]):
+        def check_eras_accessible(eras: List[EraType]):
             for era in EraType:
                 if era in eras:
                     self.assertTrue(state.can_reach(era.value, "Region", self.player))
@@ -188,7 +186,7 @@ class TestProgressiveEraRequirementsWithBoostsanity(CivVITestBase):
         state = self.multiworld.state
         self.collect_all_but(["Progressive Era"])
 
-        def check_eras_accessible(eras: list[EraType]):
+        def check_eras_accessible(eras: List[EraType]):
             for era in EraType:
                 if era in eras:
                     self.assertTrue(

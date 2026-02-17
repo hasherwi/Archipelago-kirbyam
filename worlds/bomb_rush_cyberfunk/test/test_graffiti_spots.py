@@ -1,15 +1,6 @@
-from ..Rules import (
-    build_access_cache,
-    spots_l_glitched,
-    spots_l_glitchless,
-    spots_m_glitched,
-    spots_m_glitchless,
-    spots_s_glitched,
-    spots_s_glitchless,
-    spots_xl_glitched,
-    spots_xl_glitchless,
-)
 from . import BombRushCyberfunkTestBase
+from ..Rules import build_access_cache, spots_s_glitchless, spots_s_glitched, spots_m_glitchless, spots_m_glitched, \
+    spots_l_glitchless, spots_l_glitched, spots_xl_glitched, spots_xl_glitchless
 
 
 class TestSpotsGlitchless(BombRushCyberfunkTestBase):
@@ -246,7 +237,7 @@ class TestSpotsGlitched(BombRushCyberfunkTestBase):
     @property
     def run_default_tests(self) -> bool:
         return False
-
+    
     def test_spots_glitched(self) -> None:
         player = self.player
 

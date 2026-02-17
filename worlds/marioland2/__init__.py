@@ -1,27 +1,21 @@
 import base64
+import Utils
+import settings
 from copy import deepcopy
 
-import settings
-import Utils
-from BaseClasses import Item, ItemClassification, Location, Region, Tutorial
-from worlds.AutoWorld import WebWorld, World
+from worlds.AutoWorld import World, WebWorld
+from BaseClasses import Region, Location, Item, ItemClassification, Tutorial
 
-from . import client, logic
-from .items import items
-from .locations import (
-    START_IDS,
-    auto_scroll_max,
-    coins_coords,
-    level_id_to_name,
-    level_name_to_id,
-    location_name_to_id,
-    locations,
-)
-from .logic import has_level_progression, has_pipe_down, has_pipe_left, has_pipe_right, has_pipe_up, is_auto_scroll
+from . import client
+from .rom import generate_output, SuperMarioLand2ProcedurePatch
 from .options import SML2Options
-from .rom import SuperMarioLand2ProcedurePatch, generate_output
-from .sprite_randomizer import randomize_enemies, randomize_platforms
+from .locations import (locations, location_name_to_id, level_name_to_id, level_id_to_name, START_IDS, coins_coords,
+                        auto_scroll_max)
+from .items import items
 from .sprites import level_sprites
+from .sprite_randomizer import randomize_enemies, randomize_platforms
+from .logic import has_pipe_up, has_pipe_down, has_pipe_left, has_pipe_right, has_level_progression, is_auto_scroll
+from . import logic
 
 
 class MarioLand2Settings(settings.Group):
@@ -441,7 +435,7 @@ class MarioLand2World(World):
 
     def modify_multidata(self, multidata: dict):
         rom_name = bytearray(f'AP{Utils.__version__.replace(".", "")[0:3]}_{self.player}_{self.multiworld.seed:11}\0',
-                             "utf8")[:21]
+                             'utf8')[:21]
         rom_name.extend([0] * (21 - len(rom_name)))
         new_name = base64.b64encode(bytes(rom_name)).decode()
         multidata["connect_names"][new_name] = multidata["connect_names"][self.player_name]

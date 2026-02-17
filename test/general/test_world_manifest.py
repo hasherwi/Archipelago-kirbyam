@@ -8,8 +8,8 @@ from typing import Any, ClassVar
 import test
 from Utils import home_path, local_path
 from worlds.AutoWorld import AutoWorldRegister
-
 from ..param import classvar_matrix
+
 
 test_path = Path(test.__file__).parent
 worlds_paths = [
@@ -69,7 +69,7 @@ class TestWorldManifest(unittest.TestCase):
         )
 
     def test_world_version(self) -> None:
-        """Test that world_version matches the requirements in apworld specification.md"""
+        """Test that world_version matches the requirements in apworld specification.md""" 
         if "world_version" in self.manifest:
             world_version: str = self.manifest["world_version"]
             self.assertIsInstance(

@@ -1,19 +1,18 @@
 from typing import List
 from unittest import TestCase
 
-from BaseClasses import ItemClassification, MultiWorld
-
-from ... import StardewItem
-from ...items import Group, items_by_group
-from ...locations import LocationTags, locations_by_tag
+from BaseClasses import MultiWorld, ItemClassification
 from .rule_assert import RuleAssertMixin
+from ... import StardewItem
+from ...items import items_by_group, Group
+from ...locations import LocationTags, locations_by_tag
 
 
-def get_all_item_names(multiworld: MultiWorld) -> list[str]:
+def get_all_item_names(multiworld: MultiWorld) -> List[str]:
     return [item.name for item in multiworld.itempool]
 
 
-def get_all_location_names(multiworld: MultiWorld) -> list[str]:
+def get_all_location_names(multiworld: MultiWorld) -> List[str]:
     return [location.name for location in multiworld.get_locations() if location.address is not None]
 
 

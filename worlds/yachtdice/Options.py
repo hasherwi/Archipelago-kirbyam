@@ -321,11 +321,11 @@ yd_option_groups = [
         ],
     ),
     OptionGroup(
-        "Other items",
+        "Other items", 
         [
-            MinimizeExtraItems,
-            AddExtraPoints,
-            AddStoryChapters,
+            MinimizeExtraItems, 
+            AddExtraPoints, 
+            AddStoryChapters, 
             WhichStory
         ],
     ),

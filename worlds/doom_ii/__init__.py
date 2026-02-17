@@ -2,9 +2,8 @@ import functools
 import logging
 from typing import Any, Dict, List
 
-from BaseClasses import CollectionState, Entrance, Item, Location, MultiWorld, Region, Tutorial
+from BaseClasses import Entrance, CollectionState, Item, Location, MultiWorld, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
-
 from . import Items, Locations, Maps, Regions, Rules
 from .Options import DOOM2Options
 
@@ -52,7 +51,7 @@ class DOOM2World(World):
     location_name_to_id = {data["name"]: loc_id for loc_id, data in Locations.location_table.items()}
     location_name_groups = Locations.location_name_groups
 
-    starting_level_for_episode: dict[int, str] = {
+    starting_level_for_episode: Dict[int, str] = {
         1: "Entryway (MAP01)",
         2: "The Factory (MAP12)",
         3: "Nirvana (MAP21)"
@@ -60,7 +59,7 @@ class DOOM2World(World):
 
     # Item ratio that scales depending on episode count. These are the ratio for 3 episode. In DOOM1.
     # The ratio have been tweaked seem, and feel good.
-    items_ratio: dict[str, float] = {
+    items_ratio: Dict[str, float] = {
         "Armor": 39,
         "Mega Armor": 23,
         "Berserk": 11,
@@ -139,7 +138,7 @@ class DOOM2World(World):
                 if connection_dict["pro"] and not pro:
                     continue
                 connections.append((region, connection_dict["target"]))
-
+        
         # Connect main regions to Hub
         hub_region.add_exits(main_regions)
 
@@ -159,7 +158,7 @@ class DOOM2World(World):
         for map_name in Maps.map_names:
             if map_name + " - Exit" not in self.location_name_to_id:
                 continue
-
+            
             # Exit location names are in form: Entryway (MAP01) - Exit
             loc = Locations.location_table[self.location_name_to_id[map_name + " - Exit"]]
             if not self.included_episodes[loc["episode"] - 1]:
@@ -168,7 +167,7 @@ class DOOM2World(World):
             # Map complete item names are in form: Entryway (MAP01) - Complete
             if not state.has(map_name + " - Complete", self.player, 1):
                 return False
-
+            
         return True
 
     def set_rules(self):
@@ -183,13 +182,13 @@ class DOOM2World(World):
         if not allow_death_logic:
             for death_logic_location in Locations.death_logic_locations:
                 self.options.exclude_locations.value.add(death_logic_location)
-
+    
     def create_item(self, name: str) -> DOOM2Item:
         item_id: int = self.item_name_to_id[name]
         return DOOM2Item(name, Items.item_table[item_id]["classification"], item_id, self.player)
 
     def create_items(self):
-        itempool: list[DOOM2Item] = []
+        itempool: List[DOOM2Item] = []
         start_with_computer_area_maps: bool = self.options.start_with_computer_area_maps.value
 
         # Items
@@ -236,7 +235,7 @@ class DOOM2World(World):
         # Give starting levels right away
         for map_name in self.starting_levels:
             self.multiworld.push_precollected(self.create_item(map_name))
-
+        
         # Give Computer area maps if option selected
         if start_with_computer_area_maps:
             for item_id, item_dict in Items.item_table.items():
@@ -269,7 +268,7 @@ class DOOM2World(World):
             "Energy cell pack"
         ])
 
-    def create_ratioed_items(self, item_name: str, itempool: list[DOOM2Item]):
+    def create_ratioed_items(self, item_name: str, itempool: List[DOOM2Item]):
         remaining_loc = self.location_count - len(itempool)
         ep_count = self.get_episode_count()
 
@@ -282,7 +281,7 @@ class DOOM2World(World):
         for i in range(count):
             itempool.append(self.create_item(item_name))
 
-    def fill_slot_data(self) -> dict[str, Any]:
+    def fill_slot_data(self) -> Dict[str, Any]:
         slot_data = self.options.as_dict("difficulty", "random_monsters", "random_pickups", "random_music", "flip_levels", "allow_death_logic", "pro", "death_link", "reset_level_on_death", "episode1", "episode2", "episode3", "episode4")
 
         # Send slot data for ammo capacity values; this must be generic because Heretic uses it too

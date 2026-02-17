@@ -1,9 +1,9 @@
+from ..bases import SVTestBase
 from ... import options
 from ...mods.mod_data import ModNames
 from ...strings.ap_names.mods.mod_items import SVEQuestItem
 from ...strings.quest_names import ModQuest
 from ...strings.region_names import SVERegion
-from ..bases import SVTestBase
 
 
 class TestAuroraVineyard(SVTestBase):

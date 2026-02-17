@@ -1,21 +1,10 @@
 import functools
-from collections.abc import Iterable
+from typing import Iterable
 
+from .base_logic import BaseLogicMixin, BaseLogic
 from ..data.game_item import Requirement
-from ..data.requirement import (
-    BookRequirement,
-    CombatRequirement,
-    FishingRequirement,
-    QuestRequirement,
-    RegionRequirement,
-    RelationshipRequirement,
-    SeasonRequirement,
-    SkillRequirement,
-    ToolRequirement,
-    WalnutRequirement,
-    YearRequirement,
-)
-from .base_logic import BaseLogic, BaseLogicMixin
+from ..data.requirement import ToolRequirement, BookRequirement, SkillRequirement, SeasonRequirement, YearRequirement, CombatRequirement, QuestRequirement, \
+    RelationshipRequirement, FishingRequirement, WalnutRequirement, RegionRequirement
 
 
 class RequirementLogicMixin(BaseLogicMixin):

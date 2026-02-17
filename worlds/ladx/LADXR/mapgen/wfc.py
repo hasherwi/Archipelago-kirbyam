@@ -1,8 +1,7 @@
-import random
-from typing import Set
-
+from .tileset import TileSet, solid_tiles, open_tiles, vertical_edge_tiles, horizontal_edge_tiles
 from .map import Map
-from .tileset import TileSet, horizontal_edge_tiles, open_tiles, solid_tiles, vertical_edge_tiles
+from typing import Set
+import random
 
 
 class ContradictionException(Exception):
@@ -12,7 +11,7 @@ class ContradictionException(Exception):
 
 
 class Cell:
-    def __init__(self, x, y, tileset: TileSet, options: set[int]):
+    def __init__(self, x, y, tileset: TileSet, options: Set[int]):
         self.x = x
         self.y = y
         self.tileset = tileset

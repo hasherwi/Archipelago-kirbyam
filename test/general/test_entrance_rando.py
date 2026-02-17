@@ -1,18 +1,12 @@
+from typing import Callable
 import unittest
 from enum import IntEnum
-from collections.abc import Callable
 
-from BaseClasses import Entrance, EntranceType, MultiWorld, Region
-from entrance_rando import (
-    EntranceLookup,
-    EntranceRandomizationError,
-    ERPlacementState,
-    bake_target_group_lookup,
-    disconnect_entrance_for_randomization,
-    randomize_entrances,
-)
+from BaseClasses import Region, EntranceType, MultiWorld, Entrance
+from entrance_rando import disconnect_entrance_for_randomization, randomize_entrances, EntranceRandomizationError, \
+    ERPlacementState, EntranceLookup, bake_target_group_lookup
 from Options import Accessibility
-from test.general import generate_items, generate_locations, generate_test_multiworld
+from test.general import generate_test_multiworld, generate_locations, generate_items
 from worlds.generic.Rules import set_rule
 
 

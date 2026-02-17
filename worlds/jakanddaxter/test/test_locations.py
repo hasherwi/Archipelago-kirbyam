@@ -1,12 +1,12 @@
 import typing
 
-from ..game_id import jak1_id
-from ..locs import orb_cache_locations as caches
-from ..locs import orb_locations as orbs
-from ..locs import scout_locations as scouts
-from ..locs import special_locations as specials
-from ..regs.region_base import JakAndDaxterRegion
 from .bases import JakAndDaxterTestBase
+from ..game_id import jak1_id
+from ..regs.region_base import JakAndDaxterRegion
+from ..locs import (scout_locations as scouts,
+                    special_locations as specials,
+                    orb_cache_locations as caches,
+                    orb_locations as orbs)
 
 
 class LocationsTest(JakAndDaxterTestBase):
@@ -15,7 +15,7 @@ class LocationsTest(JakAndDaxterTestBase):
         return [typing.cast(JakAndDaxterRegion, reg) for reg in self.multiworld.get_regions(self.player)]
 
     def test_count_cells(self):
-
+        
         for level in self.level_info:
             cell_count = 0
             sublevels = [reg for reg in self.get_regions() if reg.level_name == level]

@@ -1,7 +1,7 @@
 import logging
 import struct
-import time
 import typing
+import time
 from struct import pack
 
 from NetUtils import ClientStatus, color
@@ -88,9 +88,9 @@ class YoshisIslandSNIClient(SNIClient):
         if game_mode is None:
             return
 
-        if game_mode[0] not in VALID_GAME_STATES:
+        elif game_mode[0] not in VALID_GAME_STATES:
             return
-        if item_received[0] > 0x00:
+        elif item_received[0] > 0x00:
             return
 
         from .Rom import item_values

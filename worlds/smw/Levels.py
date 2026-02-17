@@ -1,6 +1,5 @@
 
 from worlds.AutoWorld import World
-
 from .Names import LocationName
 
 
@@ -407,7 +406,7 @@ hard_double_levels = [
     0x3E,
     0x3C,
     0x2D,
-    0x0F,
+    0x0F, 
     0x44,
     0x47,
     0x41,

@@ -1,8 +1,8 @@
-from BaseClasses import ItemClassification
-
-from ..Locations import LinksAwakeningLocation
 from .locations.items import *
 from .utils import formatText
+from BaseClasses import ItemClassification
+from ..Locations import LinksAwakeningLocation
+
 
 hint_text_ids = [
     # Overworld owl statues
@@ -82,7 +82,7 @@ def generate_hint_texts(world):
         chance = world.random.uniform(0, 1)
         if chance < JUNK_HINT:
             return None
-        if chance < RANDOM_HINT:
+        elif chance < RANDOM_HINT:
             location = world.random.choice(our_items).location
         else: # USEFUL_HINT
             location = world.random.choice(our_useful_items).location

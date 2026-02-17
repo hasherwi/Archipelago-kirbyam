@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-booster_contents: dict[str, list[str]] = {
+booster_contents: Dict[str, List[str]] = {
     "LEGEND OF B.E.W.D.": [
         "Exodia",
         "Dark Magician",
@@ -916,7 +916,7 @@ booster_contents: dict[str, list[str]] = {
 }
 
 
-def get_booster_locations(booster: str) -> dict[str, str]:
+def get_booster_locations(booster: str) -> Dict[str, str]:
     return {
         f"{booster} {i}": content
         for i, content in enumerate(booster_contents[booster], 1)

@@ -1,8 +1,7 @@
-﻿from ....Config import Config, SMLogic
-from ....Item import Progression
+﻿from ....Region import SMRegion
+from ....Config import Config, SMLogic
 from ....Location import Location, LocationType
-from ....Region import SMRegion
-
+from ....Item import Progression
 
 class West(SMRegion):
     Name = "Norfair Lower West"
@@ -23,22 +22,22 @@ class West(SMRegion):
             Location(self, 79, 0x8F9110, LocationType.Chozo, "Screw Attack",
                 lambda items: items.CanDestroyBombWalls() and (items.CanAccessNorfairLowerPortal() or items.CanUsePowerBombs() and items.SpaceJump) if self.Logic == SMLogic.Normal else \
                 lambda items: items.CanDestroyBombWalls() and (items.CanAccessNorfairLowerPortal() or items.Varia)),
-            Location(self, 73, 0x8F8F30, LocationType.Visible, "Missile (Mickey Mouse room)",
+            Location(self, 73, 0x8F8F30, LocationType.Visible, "Missile (Mickey Mouse room)", 
                 lambda items: items.Morph and items.Super and items.CanFly() and items.CanUsePowerBombs() and (
                     # /*Exit to Upper Norfair*/
-                    (items.CardLowerNorfairL1 or
+                    (items.CardLowerNorfairL1 or 
                     # /*Vanilla or Reverse Lava Dive*/
-                    items.Gravity) and
+                    items.Gravity) and 
                     # /*Bubble Mountain*/
                     items.CardNorfairL2 or
                     # /* Volcano Room and Blue Gate */
-                    items.Gravity and items.Wave and
+                    items.Gravity and items.Wave and 
                     # /*Spikey Acid Snakes and Croc Escape*/
                     (items.Grapple or items.SpaceJump) or
                     # /*Exit via GT fight and Portal*/
                     items.CanUsePowerBombs() and items.SpaceJump and (items.Super or items.Charge)) if self.Logic == SMLogic.Normal else \
                 lambda items:
-                        items.Varia and items.Morph and items.Super and
+                        items.Varia and items.Morph and items.Super and 
                         #/* Climb worst room (from LN East CanEnter) */
                         (items.CanFly() or items.HiJump or items.CanSpringBallJump() or items.Ice and items.Charge) and
                         (items.CanPassBombPassages() or items.ScrewAttack and items.SpaceJump) and (
@@ -62,9 +61,10 @@ class West(SMRegion):
                     ) or
                     items.CanAccessNorfairLowerPortal() and items.CanDestroyBombWalls()
                 )
-        return self.world.CanEnter("Norfair Upper East", items) and items.CanUsePowerBombs() and items.Varia and (items.HiJump or items.Gravity) and (
-                # /* Trivial case, Bubble Mountain access */
-                items.CardNorfairL2 or
-                # /* Frog Speedway -> UN Farming Room gate */
-                items.SpeedBooster and (items.Missile or items.Super or items.Wave) # /* Blue Gate */
-            ) or items.CanAccessNorfairLowerPortal() and items.CanDestroyBombWalls()
+        else:
+            return self.world.CanEnter("Norfair Upper East", items) and items.CanUsePowerBombs() and items.Varia and (items.HiJump or items.Gravity) and (
+                    # /* Trivial case, Bubble Mountain access */
+                    items.CardNorfairL2 or
+                    # /* Frog Speedway -> UN Farming Room gate */
+                    items.SpeedBooster and (items.Missile or items.Super or items.Wave) # /* Blue Gate */
+                ) or items.CanAccessNorfairLowerPortal() and items.CanDestroyBombWalls()

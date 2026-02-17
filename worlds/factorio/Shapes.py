@@ -1,5 +1,5 @@
+from typing import Dict, List, Set, TYPE_CHECKING
 from collections import deque
-from typing import TYPE_CHECKING, Dict, List, Set
 
 from .Options import TechTreeLayout
 
@@ -19,10 +19,10 @@ def _sorter(location: "FactorioScienceLocation"):
     return location.complexity, location.rel_cost
 
 
-def get_shapes(world: "Factorio") -> dict["FactorioScienceLocation", set["FactorioScienceLocation"]]:
-    prerequisites: dict[FactorioScienceLocation, set[FactorioScienceLocation]] = {}
+def get_shapes(world: "Factorio") -> Dict["FactorioScienceLocation", Set["FactorioScienceLocation"]]:
+    prerequisites: Dict["FactorioScienceLocation", Set["FactorioScienceLocation"]] = {}
     layout = world.options.tech_tree_layout.value
-    locations: list[FactorioScienceLocation] = sorted(world.science_locations, key=lambda loc: loc.name)
+    locations: List["FactorioScienceLocation"] = sorted(world.science_locations, key=lambda loc: loc.name)
     world.random.shuffle(locations)
 
     if layout == TechTreeLayout.option_single:

@@ -1,6 +1,5 @@
+from Options import Choice, Toggle, Range, PerGameCommonOptions
 from dataclasses import dataclass
-
-from Options import Choice, PerGameCommonOptions, Range, Toggle
 
 
 class RouteRequired(Choice):

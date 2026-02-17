@@ -1,33 +1,17 @@
 from math import ceil
 from typing import TYPE_CHECKING, Dict, List
-
+from . import names
+from .locations import heat_man_locations, air_man_locations, wood_man_locations, bubble_man_locations, \
+    quick_man_locations, flash_man_locations, metal_man_locations, crash_man_locations, wily_1_locations, \
+    wily_2_locations, wily_3_locations, wily_4_locations, wily_5_locations, wily_6_locations
+from .options import bosses, weapons_to_id, Consumables, RandomWeaknesses
 from worlds.generic.Rules import add_rule
 
-from . import names
-from .locations import (
-    air_man_locations,
-    bubble_man_locations,
-    crash_man_locations,
-    flash_man_locations,
-    heat_man_locations,
-    metal_man_locations,
-    quick_man_locations,
-    wily_1_locations,
-    wily_2_locations,
-    wily_3_locations,
-    wily_4_locations,
-    wily_5_locations,
-    wily_6_locations,
-    wood_man_locations,
-)
-from .options import Consumables, RandomWeaknesses, bosses, weapons_to_id
-
 if TYPE_CHECKING:
+    from . import MM2World
     from BaseClasses import CollectionState
 
-    from . import MM2World
-
-weapon_damage: dict[int, list[int]] = {
+weapon_damage: Dict[int, List[int]] = {
     0: [2,  2,  1,   1,  2,   2,  1,   1,   1,  7,  1,  0,    1,   -1],  # Mega Buster
     1: [-1, 6,  0xE, 0,  0xA, 6,  4,   6,   8,  13, 8,  0,    0xE, -1],  # Atomic Fire
     2: [2,  0,  4,   0,  2,   0,  0,   0xA, 0,  0,  0,  0,    1,   -1],  # Air Shooter
@@ -39,7 +23,7 @@ weapon_damage: dict[int, list[int]] = {
     8: [0,  0,  0,   0,  2,   0,  0,   0,   0,  0,  0,  0,    0,    0],  # Time Stopper
 }
 
-weapons_to_name: dict[int, str] = {
+weapons_to_name: Dict[int, str] = {
     1: names.atomic_fire,
     2: names.air_shooter,
     3: names.leaf_shield,
@@ -50,7 +34,7 @@ weapons_to_name: dict[int, str] = {
     8: names.time_stopper
 }
 
-minimum_weakness_requirement: dict[int, int] = {
+minimum_weakness_requirement: Dict[int, int] = {
     0: 1,  # Mega Buster is free
     1: 14,  # 2 shots of Atomic Fire
     2: 2,  # 14 shots of Air Shooter
@@ -62,7 +46,7 @@ minimum_weakness_requirement: dict[int, int] = {
     8: 4,  # 1 use of Time Stopper, but setting to 4 means we shave the entire HP bar
 }
 
-robot_masters: dict[int, str] = {
+robot_masters: Dict[int, str] = {
     0: "Heat Man Defeated",
     1: "Air Man Defeated",
     2: "Wood Man Defeated",
@@ -87,7 +71,7 @@ weapon_costs = {
 
 
 def can_defeat_enough_rbms(state: "CollectionState", player: int,
-                           required: int, boss_requirements: dict[int, list[int]]):
+                           required: int, boss_requirements: Dict[int, List[int]]):
     can_defeat = 0
     for boss, reqs in boss_requirements.items():
         if boss in robot_masters:
