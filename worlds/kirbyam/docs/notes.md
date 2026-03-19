@@ -106,113 +106,66 @@ Current proof-of-concept mapping:
 
 \- bit 0 → `SHARD\_1` location checked
 
-\- bit 1 → `SHARD\_2` location checked
+# Kirby & The Amazing Mirror (GBA) - Address Policy Notes
 
-\- …
+## POC baseline
 
-\- bit 7 → `SHARD\_8` location checked
+- Baseline ROM for the POC is `Kirby & The Amazing Mirror (USA).gba` only.
+- Multi-ROM parity (EU/JP/VC) is out of scope for this phase.
+- Non-USA testing issues remain tracked separately (`#99`, `#100`, `#101`, `#102`).
 
+## Address domain separation (locked policy)
 
+Do not mix these two domains:
 
-\*\*Client behavior:\*\*
+1. AP transport/mailbox addresses
+- Purpose: client/ROM communication contract.
+- Source of truth: `worlds/kirbyam/data/addresses.json` under `ram.transport`.
+- Examples: `incoming_item_flag`, `incoming_item_id`, `delivered_item_index`.
 
-\- Polls `shard\_bitfield` each tick.
+2. Native game-state addresses
+- Purpose: actual in-game progression/check/goal state.
+- Source of truth: `worlds/kirbyam/data/native_address_policy.json` and `ram.native` entries in `worlds/kirbyam/data/addresses.json`.
+- Current verified native signal: `shard_bitfield_native` at `0x02038970`.
 
-\- When a new bit transitions from `0 → 1`, sends a `LocationChecks` message to the server.
+Rule: AP transport fields must never be treated as native gameplay truth.
 
+## Candidate vs verified statuses
 
+- `candidate`: Derived from workbook/cheat/reverse-engineering source and needs live confirmation in BizHawk.
+- `verified`: Confirmed by repeatable live memory observation on USA ROM.
 
-\*\*ROM behavior:\*\*
+Current high-level status:
 
-\- When the player completes a shard location, set the corresponding bit.
+| Signal type | Candidate exists | Verified exists |
+| --- | --- | --- |
+| Shard progression | Yes | Yes |
+| Dungeon boss defeat | Yes | Not yet |
+| Final boss defeat | Yes | Not yet |
 
-\- Bits should only ever be set, never cleared.
+Detailed signal registry lives in `worlds/kirbyam/data/native_address_policy.json`.
 
+## Promotion criteria: candidate -> verified
 
+All criteria below must be met before a signal can be marked `verified`:
 
----
+1. Observed on USA ROM in BizHawk memory viewer during real gameplay action.
+2. Before/after transition recorded with exact address, width, and expected semantic meaning.
+3. Reproduced in at least 3 independent attempts with consistent transition behavior.
+4. Persistence checked across room transitions and save/reload as applicable.
+5. Cross-domain sanity check confirms no AP mailbox field is being used as native source.
+6. Registry and matrix updated together:
+- `worlds/kirbyam/data/native_address_policy.json`
+- `worlds/kirbyam/ADDRESS_VERIFICATION_MATRIX.md`
 
+## Implementation notes
 
-
-\## Incoming item mailbox
-
-
-
-This is a \*\*single-slot mailbox\*\* used to deliver AP items from the client to the ROM.
-
-
-
-\### Fields
-
-
-
-\- `incoming\_item\_flag` (u32)
-
-&nbsp; - `0` = mailbox empty (client may write)
-
-&nbsp; - `1` = mailbox full (ROM must consume)
-
-\- `incoming\_item\_id` (u32)
-
-&nbsp; - AP item id (world-defined; opaque to the ROM except for effect mapping)
-
-\- `incoming\_item\_player` (u32)
-
-&nbsp; - Slot id of the sending player (informational; optional to use)
-
-
-
+- Transport contract details remain documented in `worlds/kirbyam/PROTOCOL.md`.
+- Verification workflow remains documented in `worlds/kirbyam/docs/BIZHAWK_TESTING_GUIDE.md`.
 \### Client behavior
 
 
 
-\- Maintains a local queue of newly received AP items.
-
-\- When `incoming\_item\_flag == 0`:
-
-&nbsp; 1. Writes `incoming\_item\_id`
-
-&nbsp; 2. Writes `incoming\_item\_player`
-
-&nbsp; 3. Sets `incoming\_item\_flag = 1`
-
-\- Does not overwrite the mailbox while the flag is `1`.
-
-
-
-\### ROM behavior (implemented in the base patch)
-
-
-
-\- Poll `incoming\_item\_flag` periodically (e.g., once per frame).
-
-\- When `incoming\_item\_flag == 1`:
-
-&nbsp; 1. Read `incoming\_item\_id` (and optionally `incoming\_item\_player`)
-
-&nbsp; 2. Grant the item’s in-game effect
-
-&nbsp; 3. Clear `incoming\_item\_flag` back to `0`
-
-
-
-For initial playability, item effects may be implemented in a minimal or placeholder manner (e.g., shard items directly advancing shard progress).
-
-
-
----
-
-
-
-\## Notes
-
-
-
-\- This RAM contract is intentionally minimal and designed for early playability.
-
-\- Future revisions may replace the single-slot mailbox with a ring buffer or add save persistence.
-
-\- All addresses may be relocated if conflicts with game memory are discovered, but must remain consistent between ROM patch and client.
 
 
 

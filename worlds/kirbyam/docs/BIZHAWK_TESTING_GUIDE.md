@@ -2,6 +2,10 @@
 
 ## Quick Reference: Known Candidates
 
+Policy references:
+- `worlds/kirbyam/docs/notes.md`
+- `worlds/kirbyam/data/native_address_policy.json`
+
 From `KirbyAM Data.xlsx` and cheat codes:
 
 ```
