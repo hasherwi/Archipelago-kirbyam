@@ -3,5 +3,6 @@ name: KirbyAM Test
 game: Kirby & The Amazing Mirror
 
 Kirby & The Amazing Mirror:
-  goal: defeat_dark_mind
+  goal: dark_mind
   shards: shuffle
+
