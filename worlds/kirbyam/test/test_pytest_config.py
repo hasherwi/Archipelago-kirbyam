@@ -9,3 +9,7 @@ def test_pytest_config_supports_kirbyam_discovery(pytestconfig) -> None:
     assert "worlds" in testpaths
     assert "test" in testpaths
     assert pytestconfig.getini("asyncio_mode") == "auto"
+    assert (
+        pytestconfig.pluginmanager.hasplugin("pytest_asyncio")
+        or pytestconfig.pluginmanager.hasplugin("asyncio")
+    )

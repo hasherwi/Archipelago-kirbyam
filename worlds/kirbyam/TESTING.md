@@ -78,6 +78,10 @@ Run KirbyAM world tests directly:
 
 - `python -m pytest worlds/kirbyam/test/`
 
+Required dependencies for this command:
+
+- `pytest` and `pytest-asyncio` (both listed in `requirements.txt`)
+
 Expected behavior:
 
 - KirbyAM tests are discovered under `worlds/kirbyam/test/`
