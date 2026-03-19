@@ -11,7 +11,7 @@ async def test_poll_locations_empty_bitfield(mock_bizhawk_context):
     client.initialize_client()
     
     # Mock empty shard bitfield (0x0202C000 = 0x00)
-    with patch('worlds._bizhawk.read', new_callable=AsyncMock) as mock_read:
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
         mock_read.return_value = [(0).to_bytes(4, 'little')]
         
         await client._poll_locations(mock_bizhawk_context)
@@ -27,7 +27,7 @@ async def test_poll_locations_single_shard(mock_bizhawk_context):
     client.initialize_client()
     
     # Mock shard bitfield with bit 0 set (first shard)
-    with patch('worlds._bizhawk.read', new_callable=AsyncMock) as mock_read:
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
         mock_read.return_value = [(0x01).to_bytes(4, 'little')]
         
         await client._poll_locations(mock_bizhawk_context)
@@ -43,7 +43,7 @@ async def test_poll_locations_multiple_shards(mock_bizhawk_context, shard_bitfie
     client.initialize_client()
     
     # Test with shard_1_2_3 pattern (bits 0, 1, 2 set)
-    with patch('worlds._bizhawk.read', new_callable=AsyncMock) as mock_read:
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
         mock_read.return_value = [shard_bitfield_fixtures["shard_1_2_3"].to_bytes(4, 'little')]
         
         await client._poll_locations(mock_bizhawk_context)
@@ -64,7 +64,7 @@ async def test_location_check_sent_on_new_shard(mock_bizhawk_context):
     mock_bizhawk_context.checked_locations = set()
     
     # Mock read returning bit 0 set (first new shard)
-    with patch('worlds._bizhawk.read', new_callable=AsyncMock) as mock_read, \
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
         
         mock_read.return_value = [(0x01).to_bytes(4, 'little')]

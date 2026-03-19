@@ -1,6 +1,10 @@
 """Pytest fixtures for Kirby AM client and world testing."""
 import logging
 import pytest
+try:
+    import pytest_asyncio
+except ImportError:
+    pytest_asyncio = None
 from typing import Dict, Any, Generator
 from unittest.mock import Mock, MagicMock, AsyncMock, patch
 from argparse import Namespace
@@ -24,6 +28,8 @@ def mock_bizhawk_context() -> Mock:
     - state: mock game state
     - slot_data: mock slot-specific world data
     - checked_locations: set of checked location IDs
+    - items_received: list of items received from server
+    - send_msgs: async method mock for sending AP commands
     """
     ctx = Mock()
     ctx.bizhawk_ctx = Mock()
@@ -37,9 +43,11 @@ def mock_bizhawk_context() -> Mock:
         "randomize_shard_locations": True,
     }
     ctx.checked_locations = set()
+    ctx.items_received = []  # List of NetworkItem objects delivered to player
     ctx.slot = 1
     ctx.team = 0
     ctx.auth = "test_auth_token"
+    ctx.send_msgs = AsyncMock()  # Mock the async send_msgs method
     return ctx
 
 
@@ -70,7 +78,7 @@ def mock_ram_read_write() -> Generator[Dict[str, bytes], None, None]:
 
 
 @pytest.fixture
-async def mock_bizhawk_read(mock_ram_read_write: Dict[int, bytes]):
+def mock_bizhawk_read(mock_ram_read_write: Dict[int, bytes]):
     """
     Create an async mock for bizhawk.read() that returns RAM values.
     
@@ -91,7 +99,7 @@ async def mock_bizhawk_read(mock_ram_read_write: Dict[int, bytes]):
 
 
 @pytest.fixture
-async def mock_bizhawk_write(mock_ram_read_write: Dict[int, bytes]):
+def mock_bizhawk_write(mock_ram_read_write: Dict[int, bytes]):
     """
     Create an async mock for bizhawk.write() that updates RAM state.
     
