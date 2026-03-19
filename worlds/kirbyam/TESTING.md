@@ -112,7 +112,7 @@ The repository includes a dedicated GitHub Actions workflow at `.github/workflow
 
 Behavior:
 
-- On pull requests and pushes touching `worlds/kirbyam/**`, it builds `kirbyam.apworld` and uploads it as a workflow artifact.
+- On pull requests touching `worlds/kirbyam/**`, and on pushes to `main`, it builds `kirbyam.apworld` and uploads it as a workflow artifact.
 - On tags matching `kirbyam-v*`, it also creates/updates a draft GitHub release with the built `.apworld` asset attached.
 
 Tag format for release builds:

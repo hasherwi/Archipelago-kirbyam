@@ -6,9 +6,6 @@ on:
       - main
     tags:
       - "kirbyam-v*"
-    paths:
-      - ".github/workflows/kirbyam-apworld.yml"
-      - "worlds/kirbyam/**"
   pull_request:
     paths:
       - ".github/workflows/kirbyam-apworld.yml"
