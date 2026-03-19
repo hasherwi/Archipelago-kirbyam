@@ -30,6 +30,11 @@ class KirbyAmClient(BizHawkClient):
         self._all_location_ids_sorted: list[int] = [
             loc.location_id for loc in sorted(data.locations.values(), key=lambda l: l.location_id)
         ]
+        self._location_ids_by_bit: dict[int, list[int]] = {}
+        for loc in data.locations.values():
+            if loc.bit_index is None:
+                continue
+            self._location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
 
         # One-time RAM state load
         self._ram_state_loaded: bool = False
@@ -171,19 +176,14 @@ class KirbyAmClient(BizHawkClient):
         shard_bits = self._u32_le(raw.ljust(4, b"\x00"))
 
         # Track only mapped bits so reserved bits do not pollute checked state.
-        mapped_bits = sorted({
-            loc.bit_index for loc in data.locations.values()
-            if loc.bit_index is not None
-        })
+        mapped_bits = sorted(self._location_ids_by_bit.keys())
 
         newly_checked = []
         for bit in mapped_bits:
             if (shard_bits >> bit) & 1:
                 if bit not in self._checked_location_bits:
                     self._checked_location_bits.add(bit)
-                    for loc in data.locations.values():
-                        if loc.bit_index == bit:
-                            newly_checked.append(loc.location_id)
+                    newly_checked.extend(self._location_ids_by_bit.get(bit, []))
 
         if newly_checked:
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": newly_checked}])
