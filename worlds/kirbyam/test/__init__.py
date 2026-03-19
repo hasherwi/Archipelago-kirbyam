@@ -1,6 +1,4 @@
 """Kirby AM test base classes and fixtures."""
-import typing
-from argparse import Namespace
 from test.bases import WorldTestBase
 from .. import KirbyAmWorld
 

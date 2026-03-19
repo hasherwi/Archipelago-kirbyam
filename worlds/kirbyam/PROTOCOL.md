@@ -23,7 +23,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 
 | Offset | Addr     | Size | Name                  | Type | Direction   | Purpose |
 |--------|----------|------|----------------------|------|-------------|---------|
-| 0x00   | 0x0202C000 | 4B | shard_bitfield        | u32  | ROM → Client | Mirror of native shard flags (bits 0-7) |
+| 0x00   | 0x0202C000 | 4B | shard_bitfield        | u32  | ROM → Client | Mirror of native shard flags (bits 0-7 currently used, bits 8-31 reserved) |
 | 0x04   | 0x0202C004 | 4B | incoming_item_flag    | u32  | ROM ← Client | Write 1 to request delivery, ROM clears to 0 on ACK |
 | 0x08   | 0x0202C008 | 4B | incoming_item_id      | u32  | ROM ← Client | Item ID to apply (BASE_OFFSET + item index) |
 | 0x0C   | 0x0202C00C | 4B | incoming_item_player  | u32  | ROM ← Client | Player ID that sent this item |
@@ -82,13 +82,15 @@ Server → Client: ConnectionRefused | Connected
 # Read shard_bitfield from 0x0202C000
 bitfield = RAM[0x0202C000] as u32
 
-# For each set bit (0-7):
-for bit in range(8):
+# For each set bit in the 32-bit mailbox mirror:
+for bit in range(32):
     if (bitfield >> bit) & 1:
-        if bit not previously seen:
+        if bit not previously seen and bit maps to a known location:
             location_id = 3860100 + bit + 1
             send LocationChecks([location_id])
 ```
+
+Bits 8-31 are reserved for future expansion and must be ignored until they are assigned to concrete location mappings.
 
 ### 3. Item Delivery (Mailbox Protocol)
 

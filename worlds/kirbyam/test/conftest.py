@@ -1,19 +1,7 @@
 """Pytest fixtures for Kirby AM client and world testing."""
-import logging
 import pytest
-try:
-    import pytest_asyncio
-except ImportError:
-    pytest_asyncio = None
-from typing import Dict, Any, Generator
-from unittest.mock import Mock, MagicMock, AsyncMock, patch
-from argparse import Namespace
-
-# Configure logging for tests
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+from typing import Dict, Generator
+from unittest.mock import AsyncMock, Mock
 
 
 @pytest.fixture
@@ -83,7 +71,7 @@ def mock_bizhawk_read(mock_ram_read_write: Dict[int, bytes]):
     Create an async mock for bizhawk.read() that returns RAM values.
     
     Usage:
-        with patch('worlds._bizhawk.read', mock_bizhawk_read):
+        with patch('worlds.kirbyam.client.bizhawk.read', mock_bizhawk_read):
             result = await bizhawk.read(ctx, reads)
     """
     async def read_func(bizhawk_ctx, reads):

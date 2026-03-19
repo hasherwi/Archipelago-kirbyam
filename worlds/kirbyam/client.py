@@ -13,11 +13,18 @@ if TYPE_CHECKING:
 
 EXPECTED_ROM_NAME_PREFIX = "kirby amazing mirror"  # loosen while you iterate
 
+
+def _env_flag(name: str) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return False
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
 # DEBUG: Temporary development aid.
 # Simulate the player earning one new location every N emulated frames.
 # Set KIRBYAM_DEBUG_SIMULATION=1 to enable simulation (falls back to RAM-driven polling by default).
 # TODO: Remove simulated location mode entirely once real ROM polling is verified to work correctly.
-SIMULATED_LOCATION_EVERY_N_FRAMES = 10000 if os.getenv("KIRBYAM_DEBUG_SIMULATION") else 0
+SIMULATED_LOCATION_EVERY_N_FRAMES = 10000 if _env_flag("KIRBYAM_DEBUG_SIMULATION") else 0
 
 
 class KirbyAmClient(BizHawkClient):

@@ -1,6 +1,8 @@
 """Integration tests for client polling and delivery logic."""
 import pytest
-from unittest.mock import AsyncMock, patch, Mock
+from unittest.mock import AsyncMock, patch
+
+from ..data import data
 from ..client import KirbyAmClient
 
 
@@ -70,9 +72,10 @@ async def test_location_check_sent_on_new_shard(mock_bizhawk_context):
         mock_read.return_value = [(0x01).to_bytes(4, 'little')]
         
         await client._poll_locations(mock_bizhawk_context)
-        
-        # send_msgs should be called with LocationChecks (already checked means nothing sent in this impl)
-        # This test documents the expected behavior
+
+        mock_send.assert_awaited_once_with([
+            {"cmd": "LocationChecks", "locations": [data.locations["SHARD_1"].location_id]}
+        ])
 
 
 def test_client_initialization():
