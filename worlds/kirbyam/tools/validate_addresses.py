@@ -25,7 +25,7 @@ class AddressValidator:
     def __init__(self, repo_root: Optional[Path] = None, strict_native_usage: bool = False):
         """Initialize validator with paths."""
         if repo_root is None:
-            # worlds/kirbyam/tools/validate_addresses.py -> go up 3 levels to kirbyam
+            # worlds/kirbyam/tools/validate_addresses.py -> go up 2 levels to kirbyam
             repo_root = Path(__file__).parent.parent
         
         self.repo_root = repo_root
