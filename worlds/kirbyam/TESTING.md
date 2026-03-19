@@ -72,6 +72,18 @@ Run focused mypy validation for the KirbyAM client typing surface:
 
 The client's expected BizHawk context shape is documented in `worlds/kirbyam/types.py` as `KirbyAmBizHawkClientContext`.
 
+## Pytest Configuration Verification (Issue 144)
+
+Run KirbyAM world tests directly:
+
+- `python -m pytest worlds/kirbyam/test/`
+
+Expected behavior:
+
+- KirbyAM tests are discovered under `worlds/kirbyam/test/`
+- Async tests run with `asyncio_mode = auto`
+- Failure summaries include extra context (`-ra`) for actionable triage
+
 ## Protocol Fuzzing (Issue 150)
 
 Run targeted protocol-fuzzing coverage for malformed `ReceivedItems` payloads and unexpected command sequences:
