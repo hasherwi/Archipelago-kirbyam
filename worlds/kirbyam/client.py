@@ -1,4 +1,3 @@
-import os
 from typing import TYPE_CHECKING, List, Optional, Set, Tuple, Any, Dict
 
 import worlds._bizhawk as bizhawk
@@ -14,19 +13,6 @@ if TYPE_CHECKING:
 EXPECTED_ROM_NAME_PREFIX = "kirby amazing mirror"  # loosen while you iterate
 
 
-def _env_flag(name: str) -> bool:
-    value = os.getenv(name)
-    if value is None:
-        return False
-    return value.strip().lower() in {"1", "true", "yes", "on"}
-
-# DEBUG: Temporary development aid.
-# Simulate the player earning one new location every N emulated frames.
-# Set KIRBYAM_DEBUG_SIMULATION=1 to enable simulation (falls back to RAM-driven polling by default).
-# TODO: Remove simulated location mode entirely once real ROM polling is verified to work correctly.
-SIMULATED_LOCATION_EVERY_N_FRAMES = 10000 if _env_flag("KIRBYAM_DEBUG_SIMULATION") else 0
-
-
 class KirbyAmClient(BizHawkClient):
     game = "Kirby & The Amazing Mirror"
     system = "GBA"
@@ -39,10 +25,6 @@ class KirbyAmClient(BizHawkClient):
         # Item delivery state
         self._delivered_item_index: int = 0
         self._delivery_pending: bool = False  # True after writing mailbox until ROM clears flag
-
-        # Simulation state (frame-based cadence + persistent cursor)
-        self._last_simulated_frame: int = 0
-        self._simulated_location_index: int = 0
 
         # Deterministic location ordering
         self._all_location_ids_sorted: list[int] = [
@@ -102,11 +84,8 @@ class KirbyAmClient(BizHawkClient):
             await self._load_persistent_state(ctx)
             self._ram_state_loaded = True
 
-        # Location checks (real RAM polling; simulation gated behind debug flag)
-        if SIMULATED_LOCATION_EVERY_N_FRAMES > 0:
-            await self._simulate_locations(ctx)
-        else:
-            await self._poll_locations(ctx)
+        # Location checks (real RAM polling)
+        await self._poll_locations(ctx)
 
         # Item delivery (mailbox protocol)
         await self._deliver_items(ctx)
@@ -149,11 +128,8 @@ class KirbyAmClient(BizHawkClient):
         reads = []
         keys_in_order = []
 
-        # Your addresses.json defines:
-        # - delivered_item_index
-        # - sim_last_frame
-        # - sim_next_index  (we will treat this as "simulated next location index cursor")
-        for key in ("delivered_item_index", "sim_last_frame", "sim_next_index"):
+        # Your addresses.json defines delivered_item_index.
+        for key in ("delivered_item_index",):
             addr = self._transport_addr(key)
             if addr is not None:
                 reads.append((addr, 4, "System Bus"))
@@ -168,66 +144,10 @@ class KirbyAmClient(BizHawkClient):
             val = self._u32_le(raw)
             if key == "delivered_item_index":
                 self._delivered_item_index = val
-            elif key == "sim_last_frame":
-                self._last_simulated_frame = val
-            elif key == "sim_next_index":
-                # Interpreted as "next simulated location index cursor"
-                if self._all_location_ids_sorted:
-                    self._simulated_location_index = min(val, len(self._all_location_ids_sorted))
-                else:
-                    self._simulated_location_index = 0
 
     # --------------------------
     # Location checking
     # --------------------------
-
-    async def _simulate_locations(self, ctx: "BizHawkClientContext") -> None:
-        """
-        Development fallback: send one new LocationChecks every N emulated frames.
-        
-        Behavior:
-        - Uses frame_counter from addresses.json if present
-        - Deterministic ordering: ascending location_id
-        - Reconnect-safe: skips already checked locations
-        - Persists last_simulated_frame and cursor (sim_next_index)
-        
-        NOTE: Disabled by default. Set KIRBYAM_DEBUG_SIMULATION=1 to enable.
-        """
-        if not self._all_location_ids_sorted:
-            return
-
-        frame_addr = self._transport_addr("frame_counter")
-        if frame_addr is None:
-            current_frame = (self._last_simulated_frame + 1) & 0xFFFFFFFF
-        else:
-            raw = (await bizhawk.read(ctx.bizhawk_ctx, [(frame_addr, 4, "System Bus")]))[0]
-            current_frame = self._u32_le(raw)
-
-        # Wrap-safe u32 delta
-        delta = (current_frame - self._last_simulated_frame) & 0xFFFFFFFF
-        if delta < SIMULATED_LOCATION_EVERY_N_FRAMES:
-            return
-
-        # Keep cadence stable even if watcher ticks slip
-        self._last_simulated_frame = (self._last_simulated_frame + SIMULATED_LOCATION_EVERY_N_FRAMES) & 0xFFFFFFFF
-        await self._persist_u32(ctx, "sim_last_frame", self._last_simulated_frame)
-
-        # Find next unchecked location, starting from persisted cursor
-        n = len(self._all_location_ids_sorted)
-        while self._simulated_location_index < n:
-            loc_id = self._all_location_ids_sorted[self._simulated_location_index]
-            self._simulated_location_index += 1
-
-            # Persist cursor after moving it, so restarts continue from the same place
-            await self._persist_u32(ctx, "sim_next_index", self._simulated_location_index)
-
-            if loc_id in ctx.checked_locations:
-                continue
-
-            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": [loc_id]}])
-            return
-
-        # If we ran out, nothing to do (goal reporting will handle completion)
 
     async def _poll_locations(self, ctx: "BizHawkClientContext") -> None:
         """
