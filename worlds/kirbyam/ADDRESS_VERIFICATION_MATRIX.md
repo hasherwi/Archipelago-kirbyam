@@ -163,7 +163,7 @@ This document serves as a testing checklist. Use BizHawk's memory viewer to conf
 ### From Workbook (KirbyAM Data.xlsx)
 | Signal | Workbook Address | Status | Notes |
 |--------|------------------|--------|-------|
-| Mirror Shards Bitfield | `0x02038970` | Verified for current POC path | Tracked in `addresses.json` as `shard_bitfield_native` |
+| Mirror Shards Bitfield | `0x02038970` | Integrated (pending live verification) | Tracked in `addresses.json` as `shard_bitfield_native` |
 | Chest/Switch Blocks | `0x02038960`–`0x0203896A` | TBD | Supporting data |
 | Boss/Mirror table region | `0x02028C14+` | Candidate | Candidate source from protocol reverse-engineering; needs live confirmation |
 | Dark Mind signal | `0x02028C14+` (offset TBD) | Candidate | Needs live mapping and confirmation |
@@ -175,7 +175,7 @@ This document serves as a testing checklist. Use BizHawk's memory viewer to conf
 
 ## 5. VERIFICATION CHECKLIST
 
-- [x] At least one shard progression address is integrated as verified for current POC path (`0x02038970`)
+- [x] At least one shard progression address is integrated for current POC path (`0x02038970`)
 - [x] At least one dungeon boss signal candidate is documented (`0x02028C14+` region)
 - [x] At least one final boss signal candidate is documented (`0x02028C14+` region, offset TBD)
 - [ ] Live verification complete for dungeon boss candidate(s)

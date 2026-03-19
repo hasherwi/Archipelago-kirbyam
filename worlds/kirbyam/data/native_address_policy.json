@@ -17,14 +17,14 @@
   },
   "signals": {
     "shard_progression": {
-      "status": "verified",
+      "status": "integrated",
       "entries": [
         {
           "name": "shard_bitfield_native",
           "address": "0x02038970",
           "width": "u8",
           "source": "Workbook + cheat cross-reference + ROM payload integration",
-          "verification": "Integrated and used by polling path; continue live confirmation in matrix"
+          "verification": "Integrated and used by polling path; pending repeatable BizHawk confirmation per promotion_criteria"
         }
       ]
     },
@@ -33,7 +33,8 @@
       "entries": [
         {
           "name": "boss_mirror_table_region",
-          "address": "0x02028C14+",
+          "base_address": "0x02028C14",
+          "offset": "TBD",
           "width": "TBD",
           "source": "Protocol reverse-engineering candidate",
           "verification": "Needs live memory observation before production use"
@@ -45,7 +46,8 @@
       "entries": [
         {
           "name": "dark_mind_defeat_flag",
-          "address": "0x02028C14+ (offset TBD)",
+          "base_address": "0x02028C14",
+          "offset": "TBD",
           "width": "TBD",
           "source": "Protocol reverse-engineering candidate",
           "verification": "Needs live memory observation before production use"
