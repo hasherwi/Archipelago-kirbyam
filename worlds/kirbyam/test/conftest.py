@@ -122,7 +122,7 @@ def shard_bitfield_fixtures() -> Dict[str, int]:
     Each fixture represents a different game state:
     - empty: no shards collected (0x00)
     - shard_1: first shard only (0x01)
-    - shard_2_3: shards 1 and 2 (0x03)
+    - shard_1_2: shards 1 and 2 (0x03)
     - all_8_shards: all 8 mirror shards (0xFF)
     """
     payload = _load_fixture_json("shard_bitfields.json")
@@ -153,7 +153,7 @@ def item_delivery_fixtures() -> Dict[str, Dict[str, Any]]:
     scenarios = payload.get("scenarios", {})
     if not isinstance(scenarios, dict):
         raise TypeError("item_delivery_sequences.json scenarios must be an object")
-    result: Dict[str, Dict[str, int]] = {}
+    result: Dict[str, Dict[str, Any]] = {}
     for scenario_name, scenario_data in scenarios.items():
         if not isinstance(scenario_name, str) or not isinstance(scenario_data, dict):
             continue
