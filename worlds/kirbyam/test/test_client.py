@@ -204,3 +204,33 @@ async def test_deliver_items_resyncs_forward_after_reconnect(mock_bizhawk_contex
         assert client._delivery_pending is True
         written = mock_write.await_args.args[1]
         assert written[0][1] == int(3860003).to_bytes(4, 'little')
+
+
+@pytest.mark.asyncio
+async def test_deliver_items_waits_when_rom_counter_ahead_but_items_partial(mock_bizhawk_context):
+    """Do not write items while ReceivedItems list is still behind ROM counter."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._delivered_item_index = 0
+    client._delivery_pending = False
+
+    mock_bizhawk_context.items_received = [
+        Mock(item=3860001, player=1),
+    ]
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        mock_read.return_value = [
+            (0).to_bytes(4, 'little'),
+            (2).to_bytes(4, 'little'),
+        ]
+
+        await client._deliver_items(mock_bizhawk_context)
+
+        assert client._delivered_item_index == len(mock_bizhawk_context.items_received)
+        assert client._delivery_pending is False
+        mock_write.assert_awaited_once()
+        persisted = mock_write.await_args.args[1]
+        assert persisted == [
+            (data.transport_ram_addresses["delivered_item_index"], (1).to_bytes(4, 'little'), "System Bus")
+        ]

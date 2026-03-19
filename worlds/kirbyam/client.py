@@ -227,6 +227,12 @@ class KirbyAmClient(BizHawkClient):
         # Auto-resync delivery cursor if ROM item state moved backward (save-loss)
         # or forward (reconnect after stale client state).
         if rom_received_count is not None:
+            if rom_received_count > len(ctx.items_received):
+                if self._delivered_item_index != len(ctx.items_received):
+                    self._delivered_item_index = len(ctx.items_received)
+                    await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
+                self._delivery_pending = False
+                return
             if rom_received_count < self._delivered_item_index:
                 self._delivered_item_index = rom_received_count
                 self._delivery_pending = False
