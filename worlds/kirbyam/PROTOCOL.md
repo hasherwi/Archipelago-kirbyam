@@ -78,8 +78,10 @@ Server → Client: ConnectionRefused | Connected
 
 ```python
 # Prefer native shard bitfield, fallback to mailbox mirror
-bitfield = RAM[0x02038970] as u32  # native shard_bitfield_native
-# Fallback: RAM[0x0202C000] mailbox mirror when native address is unavailable
+if has_address("shard_bitfield_native"):
+    bitfield = RAM[0x02038970] as u8  # native shard_bitfield_native (bits 0-7)
+else:
+    bitfield = RAM[0x0202C000] as u32  # transport mailbox mirror
 
 # For each set bit in the 32-bit shard bitfield:
 for bit in range(32):

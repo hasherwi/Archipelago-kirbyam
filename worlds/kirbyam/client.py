@@ -160,16 +160,24 @@ class KirbyAmClient(BizHawkClient):
         - New bits tracked in _checked_location_bits
         - Sends LocationChecks for all newly set bits
         """
+        read_size = 1
         shard_addr = self._native_addr("shard_bitfield_native")
         if shard_addr is None:
+            read_size = 4
             shard_addr = self._transport_addr("shard_bitfield")
         if shard_addr is None:
             return
-        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(shard_addr, 4, "System Bus")]))[0]
-        shard_bits = self._u32_le(raw)
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(shard_addr, read_size, "System Bus")]))[0]
+        shard_bits = self._u32_le(raw.ljust(4, b"\x00"))
+
+        # Track only mapped bits so reserved bits do not pollute checked state.
+        mapped_bits = sorted({
+            loc.bit_index for loc in data.locations.values()
+            if loc.bit_index is not None
+        })
 
         newly_checked = []
-        for bit in range(32):
+        for bit in mapped_bits:
             if (shard_bits >> bit) & 1:
                 if bit not in self._checked_location_bits:
                     self._checked_location_bits.add(bit)
