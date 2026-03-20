@@ -122,10 +122,17 @@ The repository includes a dedicated GitHub Actions workflow at `.github/workflow
 Behavior:
 
 - On pull requests touching `worlds/kirbyam/**`, and on pushes to `main`, it builds `kirbyam.apworld` and uploads it as a workflow artifact.
-- On valid tags matching `kirbyam-vMAJOR.MINOR.PATCH`, it also creates or updates a draft GitHub release with the built `.apworld` asset attached.
+- On valid tags matching `kirbyam-vMAJOR.MINOR.PATCH`, it creates or updates the matching tagged GitHub release and uploads the built `kirbyam.apworld` asset to that exact release.
 - The release workflow never publishes releases for branch pushes or pull requests.
 - If a tag begins with `kirbyam-v` but does not match the required three-part version format, the metadata step fails fast instead of publishing a malformed release.
-- Re-running the same release workflow updates the existing draft release asset for that tag instead of creating a second release.
+- Re-running the same release workflow replaces the existing `kirbyam.apworld` asset on that same tag instead of creating a second release.
+
+Release build modes:
+
+- Branch and pull-request builds remain lightweight and use `python build.py --skip-patch` to validate APWorld packaging only.
+- Tag-driven releases require a repository secret named `KIRBYAM_BASE_ROM_B64` containing the clean USA `kirby.gba` bytes as base64.
+- Tagged release builds decode that secret into `worlds/kirbyam/kirby_ap_payload/kirby.gba`, run full patch generation, refresh `worlds/kirbyam/data/base_patch.bsdiff4`, then package `kirbyam.apworld`.
+- If `KIRBYAM_BASE_ROM_B64` is missing on a tag build, the workflow fails immediately instead of silently publishing an unpatched APWorld.
 
 Tag format for release builds:
 
@@ -145,6 +152,7 @@ Maintainer release steps:
 5. Open the draft GitHub release and verify:
    - release title is `KirbyAM APWorld v0.0.1`
    - attached asset name is `kirbyam.apworld`
+   - the packaged APWorld was built from a refreshed `base_patch.bsdiff4`
    - the asset downloads and loads as an APWorld
 6. Publish the draft release manually when ready.
 
@@ -152,6 +160,7 @@ Release validation checklist:
 
 - Confirm release tag uses canonical format `kirbyam-vMAJOR.MINOR.PATCH`; the workflow injects this semver into `worlds/kirbyam/archipelago.json` during tagged release builds.
 - Run `python -m pytest worlds/kirbyam/test/test_release_metadata.py` locally.
-- Run `python build.py --skip-patch` from `worlds/kirbyam/` and confirm `kirbyam.apworld` is produced.
+- Confirm repository secret `KIRBYAM_BASE_ROM_B64` is populated with the clean USA ROM bytes before pushing a release tag.
+- Run `python build.py --source-type arg --rom <path-to-clean-kirby.gba>` from `worlds/kirbyam/` and confirm both `data/base_patch.bsdiff4` and `kirbyam.apworld` are refreshed.
 - Push a valid `kirbyam-vMAJOR.MINOR.PATCH` tag and confirm a draft release is created or updated.
 - Confirm a non-tag branch push only uploads artifacts and does not create a release.
