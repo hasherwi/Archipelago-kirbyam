@@ -369,6 +369,14 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_pending = False
                 self._delivery_pending_frame = None
                 await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
+                if flag != 0:
+                    logger.warning(
+                        "KirbyAM: Clearing stale mailbox flag after fast-forward to item index %s",
+                        self._delivered_item_index,
+                    )
+                    await bizhawk.write(ctx.bizhawk_ctx, [
+                        (flag_addr, (0).to_bytes(4, "little"), "System Bus"),
+                    ])
 
         # If an item is pending, wait for ROM to clear the flag (ACK)
         if self._delivery_pending:

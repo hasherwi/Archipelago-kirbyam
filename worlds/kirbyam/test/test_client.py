@@ -272,7 +272,7 @@ async def test_deliver_items_skips_malformed_entries_and_logs_warning(mock_bizha
         Mock(item=3860001, player=1),
     ]
 
-    caplog.set_level(logging.WARNING, logger="Archipelago")
+    caplog.set_level(logging.WARNING, logger="Client")
 
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
@@ -304,7 +304,7 @@ async def test_deliver_items_clears_stuck_mailbox_after_timeout(mock_bizhawk_con
         Mock(item=3860001, player=1),
     ]
 
-    caplog.set_level(logging.WARNING, logger="Archipelago")
+    caplog.set_level(logging.WARNING, logger="Client")
 
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
