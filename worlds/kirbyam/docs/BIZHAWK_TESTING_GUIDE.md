@@ -14,7 +14,7 @@ From `KirbyAM Data.xlsx` and cheat codes:
 
 ```
 EWRAM Mailbox / Game State Region:
-0x02038970 - Mirror Shards Bitfield (candidate) ← START HERE
+0x02038970 - Mirror Shards Bitfield (integrated) ← START HERE
 0x02038960-0x0203896A - Chest/Switch blocks (supporting)
 0x02028C14 - Boss/Mirror candidate table base (integrated probe)
 ```
