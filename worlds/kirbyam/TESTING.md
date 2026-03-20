@@ -129,10 +129,9 @@ Behavior:
 
 Release build modes:
 
-- Branch and pull-request builds remain lightweight and use `python build.py --skip-patch` to validate APWorld packaging only.
-- Tag-driven releases require a repository secret named `KIRBYAM_BASE_ROM_B64` containing the clean USA `kirby.gba` bytes as base64.
-- Tagged release builds decode that secret into `worlds/kirbyam/kirby_ap_payload/kirby.gba`, run full patch generation, refresh `worlds/kirbyam/data/base_patch.bsdiff4`, then package `kirbyam.apworld`.
-- If `KIRBYAM_BASE_ROM_B64` is missing on a tag build, the workflow fails immediately instead of silently publishing an unpatched APWorld.
+- Branch, pull-request, and tag builds use `python build.py --skip-patch` and package the committed `worlds/kirbyam/data/base_patch.bsdiff4`.
+- Maintainers must refresh `worlds/kirbyam/data/base_patch.bsdiff4` locally from the clean USA ROM before pushing the release commit or tag.
+- The release workflow fails immediately if the committed `base_patch.bsdiff4` is missing or empty, rather than publishing a broken APWorld.
 
 Tag format for release builds:
 
@@ -152,7 +151,7 @@ Maintainer release steps:
 5. Open the draft GitHub release and verify:
    - release title is `KirbyAM APWorld v0.0.1`
    - attached asset name is `kirbyam.apworld`
-   - the packaged APWorld was built from a refreshed `base_patch.bsdiff4`
+   - the packaged APWorld contains the committed refreshed `base_patch.bsdiff4`
    - the asset downloads and loads as an APWorld
 6. Publish the draft release manually when ready.
 
@@ -160,7 +159,6 @@ Release validation checklist:
 
 - Confirm release tag uses canonical format `kirbyam-vMAJOR.MINOR.PATCH`; the workflow injects this semver into `worlds/kirbyam/archipelago.json` during tagged release builds.
 - Run `python -m pytest worlds/kirbyam/test/test_release_metadata.py` locally.
-- Confirm repository secret `KIRBYAM_BASE_ROM_B64` is populated with the clean USA ROM bytes before pushing a release tag.
-- Run `python build.py --source-type arg --rom <path-to-clean-kirby.gba>` from `worlds/kirbyam/` and confirm both `data/base_patch.bsdiff4` and `kirbyam.apworld` are refreshed.
+- Run `python build.py --source-type arg --rom <path-to-clean-kirby.gba>` from `worlds/kirbyam/` and commit the refreshed `data/base_patch.bsdiff4` before pushing a release tag.
 - Push a valid `kirbyam-vMAJOR.MINOR.PATCH` tag and confirm a draft release is created or updated.
 - Confirm a non-tag branch push only uploads artifacts and does not create a release.

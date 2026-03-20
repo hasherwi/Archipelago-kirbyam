@@ -100,15 +100,13 @@ Tag-driven KirbyAM releases drifted from the actual shipping contract in two way
 
 ### Solution
 Updated `.github/workflows/kirbyam-apworld.yml` so valid `kirbyam-v*` tags now:
-- install ARM toolchain and `bsdiff4`
-- decode a clean USA ROM from repository secret `KIRBYAM_BASE_ROM_B64`
-- run `python build.py --source-type arg --rom ...` to refresh `base_patch.bsdiff4`
+- package the committed `worlds/kirbyam/data/base_patch.bsdiff4` with `python build.py --skip-patch`
 - ensure the matching tagged GitHub release exists, prune stale non-APWorld assets, and upload `kirbyam.apworld` directly to that tagged release via `gh release upload --clobber`
 
 ### Release ROM Input Policy
-- Branch and PR artifact builds still use `--skip-patch` for fast packaging-only validation.
-- Tagged release builds require the clean USA ROM to be stored securely as repository secret `KIRBYAM_BASE_ROM_B64`.
-- Release builds fail fast if that secret is missing, rather than silently publishing an unpatched APWorld.
+- Branch, PR, and tag artifact builds all use `--skip-patch` for packaging and release publication.
+- Maintainers refresh `worlds/kirbyam/data/base_patch.bsdiff4` locally from the clean USA ROM, then commit that artifact before creating the release tag.
+- Release builds fail fast if the committed `base_patch.bsdiff4` is missing or empty, rather than silently publishing an unpatched APWorld.
 
 ## Issue #109: Reset-Safe Mirror Shard Grant Handling
 
