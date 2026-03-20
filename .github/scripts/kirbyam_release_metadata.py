@@ -30,6 +30,15 @@ def _normalize_ref_name(github_ref: str) -> str:
 
 
 def build_release_metadata(github_ref: str) -> ReleaseMetadata:
+    if not github_ref.startswith("refs/tags/"):
+        return ReleaseMetadata(
+            apworld_name="kirbyam.apworld",
+            release_name="",
+            release_tag="",
+            version="",
+            release_enabled=False,
+        )
+
     ref_name = _normalize_ref_name(github_ref)
     match = TAG_PATTERN.fullmatch(ref_name)
     if match:

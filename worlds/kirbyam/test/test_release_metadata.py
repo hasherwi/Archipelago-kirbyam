@@ -36,6 +36,16 @@ def test_build_release_metadata_for_branch_ref_disables_release() -> None:
     assert metadata.apworld_name == "kirbyam.apworld"
 
 
+def test_build_release_metadata_for_branch_ref_matching_tag_pattern_disables_release() -> None:
+    metadata = MODULE.build_release_metadata("refs/heads/kirbyam-v0.0.1")
+
+    assert metadata.release_enabled is False
+    assert metadata.version == ""
+    assert metadata.release_tag == ""
+    assert metadata.release_name == ""
+    assert metadata.apworld_name == "kirbyam.apworld"
+
+
 def test_build_release_metadata_rejects_malformed_release_tag() -> None:
     with pytest.raises(ValueError, match="Malformed KirbyAM release tag"):
         MODULE.build_release_metadata("refs/tags/kirbyam-v0.0")
