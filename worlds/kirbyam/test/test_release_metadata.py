@@ -78,3 +78,66 @@ def test_inject_world_version_noop_when_already_matching(tmp_path: Path) -> None
 
     assert changed is False
     assert result["world_version"] == "0.0.2"
+
+
+def test_inject_world_version_adds_missing_key(tmp_path: Path) -> None:
+    manifest_path = tmp_path / "archipelago.json"
+    manifest_path.write_text(
+        json.dumps({"game": "Kirby & The Amazing Mirror"}, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+    changed = MODULE.inject_world_version(manifest_path, "1.2.3")
+    result = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    assert changed is True
+    assert result["world_version"] == "1.2.3"
+    assert result["game"] == "Kirby & The Amazing Mirror"
+
+
+def test_main_injects_world_version_on_release_tag(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    manifest_path = tmp_path / "archipelago.json"
+    manifest_path.write_text(
+        json.dumps({"game": "Kirby & The Amazing Mirror", "world_version": "0.0.1"}, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    output_path = tmp_path / "github_output"
+    output_path.write_text("")
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "kirbyam_release_metadata.py",
+            "--github-ref", "refs/tags/kirbyam-v1.2.3",
+            "--world-manifest", str(manifest_path),
+            "--github-output", str(output_path),
+        ],
+    )
+
+    MODULE.main()
+    result = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    assert result["world_version"] == "1.2.3"
+
+
+def test_main_skips_inject_world_version_on_branch_ref(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    manifest_path = tmp_path / "archipelago.json"
+    manifest_path.write_text(
+        json.dumps({"game": "Kirby & The Amazing Mirror", "world_version": "0.0.1"}, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    output_path = tmp_path / "github_output"
+    output_path.write_text("")
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "kirbyam_release_metadata.py",
+            "--github-ref", "refs/heads/main",
+            "--world-manifest", str(manifest_path),
+            "--github-output", str(output_path),
+        ],
+    )
+
+    MODULE.main()
+    result = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    assert result["world_version"] == "0.0.1"
