@@ -26,7 +26,7 @@ bits at `boss_mirror_table_native` (`0x02028C14`, width `32` bytes).
 
 Behavior:
 - Baseline snapshot is captured on the first poll after probe/client handler initialization.
-- BizHawk reconnects trigger probe re-baselining automatically via stream-identity change detection.
+- BizHawk reconnects trigger probe re-baselining automatically via streams object-reference change detection.
 - Only rising-edge transitions (`0 -> 1`) are logged.
 - Log format includes absolute address and bit index, for example:
    - `0x02028C14[bit3]`
