@@ -1,5 +1,6 @@
 """Tests for KirbyAM APWorld release metadata generation."""
 
+import json
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
 import sys
@@ -49,3 +50,31 @@ def test_build_release_metadata_for_branch_ref_matching_tag_pattern_disables_rel
 def test_build_release_metadata_rejects_malformed_release_tag() -> None:
     with pytest.raises(ValueError, match="Malformed KirbyAM release tag"):
         MODULE.build_release_metadata("refs/tags/kirbyam-v0.0")
+
+
+def test_inject_world_version_updates_manifest(tmp_path: Path) -> None:
+    manifest_path = tmp_path / "archipelago.json"
+    manifest_path.write_text(
+        json.dumps({"game": "Kirby & The Amazing Mirror", "world_version": "0.0.1"}, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+    changed = MODULE.inject_world_version(manifest_path, "0.0.2")
+    result = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    assert changed is True
+    assert result["world_version"] == "0.0.2"
+
+
+def test_inject_world_version_noop_when_already_matching(tmp_path: Path) -> None:
+    manifest_path = tmp_path / "archipelago.json"
+    manifest_path.write_text(
+        json.dumps({"game": "Kirby & The Amazing Mirror", "world_version": "0.0.2"}, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+    changed = MODULE.inject_world_version(manifest_path, "0.0.2")
+    result = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    assert changed is False
+    assert result["world_version"] == "0.0.2"
