@@ -38,6 +38,13 @@ jobs:
         run: |
           python --version
 
+      - name: Prepare release metadata
+        id: meta
+        run: |
+          python .github/scripts/kirbyam_release_metadata.py \
+            --github-ref "${GITHUB_REF}" \
+            --github-output "${GITHUB_OUTPUT}"
+
       - name: Build kirbyam.apworld
         working-directory: worlds/kirbyam
         run: |
@@ -47,13 +54,6 @@ jobs:
             exit 1
           fi
           ls -lh kirbyam.apworld
-
-      - name: Prepare release metadata
-        id: meta
-        run: |
-          python .github/scripts/kirbyam_release_metadata.py \
-            --github-ref "${GITHUB_REF}" \
-            --github-output "${GITHUB_OUTPUT}"
 
       - name: Stage artifact
         id: package
