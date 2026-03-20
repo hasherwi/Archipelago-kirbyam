@@ -67,6 +67,28 @@ jobs:
           fi
 
           printf '%s' "${KIRBYAM_BASE_ROM_B64}" | base64 --decode > worlds/kirbyam/kirby_ap_payload/kirby.gba
+
+          if [ ! -s worlds/kirbyam/kirby_ap_payload/kirby.gba ]; then
+            echo "Decoded ROM file worlds/kirbyam/kirby_ap_payload/kirby.gba is missing or empty." >&2
+            exit 1
+          fi
+
+          expected_size=16777216
+          actual_size=$(stat -c%s worlds/kirbyam/kirby_ap_payload/kirby.gba)
+          if [ "${actual_size}" -ne "${expected_size}" ]; then
+            echo "Decoded ROM has unexpected size: ${actual_size} bytes (expected ${expected_size} bytes)." >&2
+            echo "Ensure KIRBYAM_BASE_ROM_B64 contains the clean USA kirby.gba encoded as base64." >&2
+            exit 1
+          fi
+
+          expected_md5='DF5EFE075B35859529EBF82A4D824458'
+          actual_md5=$(md5sum worlds/kirbyam/kirby_ap_payload/kirby.gba | awk '{print toupper($1)}')
+          if [ "${actual_md5}" != "${expected_md5}" ]; then
+            echo "Decoded ROM has unexpected MD5: ${actual_md5} (expected ${expected_md5})." >&2
+            echo "Ensure KIRBYAM_BASE_ROM_B64 contains the clean USA kirby.gba encoded as base64." >&2
+            exit 1
+          fi
+
           ls -lh worlds/kirbyam/kirby_ap_payload/kirby.gba
 
       - name: Build kirbyam.apworld for branch and PR validation
@@ -147,7 +169,6 @@ jobs:
               --repo "${GITHUB_REPOSITORY}" \
               --title "${RELEASE_NAME}" \
               --draft \
-              --prerelease \
               --notes-file release_notes.md
           fi
 
