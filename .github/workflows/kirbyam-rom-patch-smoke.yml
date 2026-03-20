@@ -38,7 +38,7 @@ jobs:
 
       - name: Create deterministic dummy base ROM for CI smoke
         run: |
-          truncate -s 16777216 worlds/kirbyam/kirby_ap_payload/kirby.gba
+            truncate -s 2097152 worlds/kirbyam/kirby_ap_payload/kirby.gba
 
       - name: Build payload and generate ROM patch
         run: |
