@@ -7,6 +7,7 @@ import argparse
 import json
 import os
 import re
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -113,7 +114,11 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    metadata = build_release_metadata(args.github_ref)
+    try:
+        metadata = build_release_metadata(args.github_ref)
+    except ValueError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
 
     if args.world_manifest and metadata.release_enabled:
         updated = inject_world_version(args.world_manifest, metadata.version)

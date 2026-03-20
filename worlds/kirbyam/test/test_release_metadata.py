@@ -78,3 +78,56 @@ def test_inject_world_version_noop_when_already_matching(tmp_path: Path) -> None
 
     assert changed is False
     assert result["world_version"] == "0.0.2"
+
+
+def test_build_release_metadata_rejects_leading_zero_version() -> None:
+    with pytest.raises(ValueError, match="Malformed KirbyAM release tag"):
+        MODULE.build_release_metadata("refs/tags/kirbyam-v01.2.3")
+
+
+def test_build_release_metadata_for_pr_ref_disables_release() -> None:
+    metadata = MODULE.build_release_metadata("refs/pull/1/head")
+
+    assert metadata.release_enabled is False
+    assert metadata.version == ""
+    assert metadata.release_tag == ""
+    assert metadata.release_name == ""
+    assert metadata.apworld_name == "kirbyam.apworld"
+
+
+def test_write_github_output(tmp_path: Path) -> None:
+    metadata = MODULE.ReleaseMetadata(
+        apworld_name="kirbyam.apworld",
+        release_name="KirbyAM APWorld v1.2.3",
+        release_tag="kirbyam-v1.2.3",
+        version="1.2.3",
+        release_enabled=True,
+    )
+    output_path = tmp_path / "github_output"
+    output_path.write_text("", encoding="utf-8")
+
+    MODULE.write_github_output(metadata, output_path)
+    lines = output_path.read_text(encoding="utf-8").splitlines()
+
+    assert "apworld_name=kirbyam.apworld" in lines
+    assert "release_name=KirbyAM APWorld v1.2.3" in lines
+    assert "release_tag=kirbyam-v1.2.3" in lines
+    assert "version=1.2.3" in lines
+    assert "release_enabled=true" in lines
+
+
+def test_write_github_output_release_disabled(tmp_path: Path) -> None:
+    metadata = MODULE.ReleaseMetadata(
+        apworld_name="kirbyam.apworld",
+        release_name="",
+        release_tag="",
+        version="",
+        release_enabled=False,
+    )
+    output_path = tmp_path / "github_output"
+    output_path.write_text("", encoding="utf-8")
+
+    MODULE.write_github_output(metadata, output_path)
+    lines = output_path.read_text(encoding="utf-8").splitlines()
+
+    assert "release_enabled=false" in lines
