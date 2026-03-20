@@ -1,7 +1,5 @@
 local DEBUG = false
 
-require("common")
-
 local function log_info(message)
     print("[KirbyAM Connector] " .. message)
 end

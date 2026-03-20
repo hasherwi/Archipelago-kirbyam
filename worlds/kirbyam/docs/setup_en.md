@@ -3,7 +3,7 @@
 ## Required Software
 
 - [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases)
-- An English Pokémon Emerald ROM. The Archipelago community cannot provide this.
+- A Kirby & The Amazing Mirror GBA ROM. The Archipelago community cannot provide this.
 - [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) 2.7 or later
 
 ### Configuring BizHawk
@@ -23,7 +23,7 @@ clear it.
 
 1. Create your options file (YAML).
 2. Follow the general Archipelago instructions for [generating a game](/tutorial/Archipelago/setup_en#generating-a-game).
-This will generate an output file for you. Your patch file will have the `.apemerald` file extension.
+This will generate an output file for you. Your patch file will have the `.apkirbyam` file extension.
 3. Open `ArchipelagoLauncher.exe`
 4. Select "Open Patch" on the left side and select your patch file.
 5. If this is your first time patching, you will be prompted to locate your vanilla ROM.
