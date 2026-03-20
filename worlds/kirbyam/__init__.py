@@ -14,7 +14,15 @@ from worlds.AutoWorld import WebWorld, World
 from .client import KirbyAmClient  # type: ignore  # Required to register BizHawk client
 from .data import LocationCategory
 from .data import data as kirby_data
-from .generation_logging import generation_stage, log_generation_complete, log_generation_error, log_generation_start, log_items_created, log_regions_created, log_rules_set, log_slot_data, logger
+from .generation_logging import (
+    generation_stage,
+    log_generation_complete,
+    log_generation_error,
+    log_generation_start,
+    log_items_created,
+    log_regions_created,
+    logger,
+)
 from .groups import ITEM_GROUPS, LOCATION_GROUPS
 from .items import KirbyAmItem, create_item_label_to_code_map, get_item_classification
 from .locations import KirbyAmLocation, create_location_label_to_id_map
@@ -183,8 +191,8 @@ class KirbyAmWorld(World):
             # Add to AP pool
             self.multiworld.itempool += itempool
 
-            # Log item creation (total = itempool items + shards handled separately)
-            log_items_created(self.player, len(itempool) + shard_count, shard_count, len(itempool))
+            # Log item creation (pool size as total; shards counted separately)
+            log_items_created(self.player, len(itempool), shard_count, len(itempool))
 
             # If shards are vanilla, convert shard locations to events so logic can see them without randomization.
             if self.options.shards.value == RandomizeShards.option_vanilla:
@@ -218,23 +226,30 @@ class KirbyAmWorld(World):
         self.auth = self.random.randbytes(16)
 
     def generate_output(self, output_directory: str) -> None:
+        try:
+            # Load base patch data from package resources
+            patch_data = pkgutil.get_data(__name__, "data/base_patch.bsdiff4")
+            if patch_data is None:
+                raise FileNotFoundError(
+                    "Missing resource 'data/base_patch.bsdiff4' in the kirbyam package/apworld. "
+                    "Ensure it is included when packaging."
+                )
 
-        # Load base patch data from package resources
-        patch_data = pkgutil.get_data(__name__, "data/base_patch.bsdiff4")
-        if patch_data is None:
-            raise FileNotFoundError(
-                "Missing resource 'data/base_patch.bsdiff4' in the kirbyam package/apworld. "
-                "Ensure it is included when packaging."
-            )
+            # Create procedure patch
+            patch = KirbyAmProcedurePatch(player=self.player, player_name=self.player_name)
+            patch.write_file("base_patch.bsdiff4", patch_data)
+            write_tokens(self, patch)
 
-        # Create procedure patch
-        patch = KirbyAmProcedurePatch(player=self.player, player_name=self.player_name)
-        patch.write_file("base_patch.bsdiff4", patch_data)
-        write_tokens(self, patch)
+            # Write the patch file
+            out_file_name = self.multiworld.get_out_file_name_base(self.player)
+            patch.write(os.path.join(output_directory, f"{out_file_name}{patch.patch_file_ending}"))
 
-        # Write the patch file
-        out_file_name = self.multiworld.get_out_file_name_base(self.player)
-        patch.write(os.path.join(output_directory, f"{out_file_name}{patch.patch_file_ending}"))
+            if hasattr(self, "_generation_start_time"):
+                elapsed = time.time() - self._generation_start_time
+                log_generation_complete(self.player, self.player_name, elapsed)
+        except Exception as exc:
+            log_generation_error(self.player, self.player_name, str(exc))
+            raise
 
     def modify_multidata(self, multidata: dict[str, Any]) -> None:
         # Register auth token -> player name mapping for BizHawk

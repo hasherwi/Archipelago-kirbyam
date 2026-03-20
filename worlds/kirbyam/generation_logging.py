@@ -1,12 +1,12 @@
 """Structured logging utilities for KirbyAM generation."""
 
 import logging
-import time
+from time import perf_counter
 from contextlib import contextmanager
 from typing import Iterator, Optional
 
-# Get or create logger for KirbyAM
-logger = logging.getLogger("KirbyAM")
+# Get or create logger for Kirby & The Amazing Mirror
+logger = logging.getLogger("Kirby & The Amazing Mirror")
 
 
 class GenerationStageLogger:
@@ -21,7 +21,7 @@ class GenerationStageLogger:
 
     def __enter__(self) -> "GenerationStageLogger":
         """Log stage start."""
-        self.start_time = time.time()
+        self.start_time = perf_counter()
         logger.info(
             f"[P{self.player}] Generation stage: {self.stage_name} (player: {self.player_name})"
         )
@@ -32,11 +32,12 @@ class GenerationStageLogger:
         if self.start_time is None:
             return
 
-        elapsed = time.time() - self.start_time
+        elapsed = perf_counter() - self.start_time
 
         if exc_type is not None:
             logger.error(
-                f"[P{self.player}] Generation stage '{self.stage_name}' failed after {elapsed:.2f}s: {exc_type.__name__}"
+                f"[P{self.player}] Generation stage '{self.stage_name}' failed after {elapsed:.2f}s: {exc_type.__name__}: {exc_val}",
+                exc_info=(exc_type, exc_val, exc_tb),
             )
         else:
             logger.info(
@@ -70,14 +71,14 @@ def log_generation_start(player: int, player_name: str, options: dict) -> None:
 
 def log_generation_complete(player: int, player_name: str, elapsed: float) -> None:
     """Log successful generation completion."""
-    logger.info(f"[P{player}] === KirbyAM Generation Complete ===")
+    logger.info(f"[P{player}] === KirbyAM Generation Complete for player {player_name} ===")
     logger.info(f"[P{player}] Total generation time: {elapsed:.2f}s")
 
 
 def log_generation_error(player: int, player_name: str, error: str) -> None:
     """Log generation error."""
-    logger.error(f"[P{player}] === KirbyAM Generation Failed ===")
-    logger.error(f"[P{player}] Error: {error}")
+    logger.error(f"[P{player}] === KirbyAM Generation Failed for player {player_name} ===")
+    logger.error(f"[P{player}] Error for player {player_name}: {error}")
 
 
 def log_regions_created(player: int, region_count: int, item_count: int) -> None:
@@ -87,7 +88,7 @@ def log_regions_created(player: int, region_count: int, item_count: int) -> None
 
 def log_items_created(player: int, item_count: int, shard_count: int, other_count: int) -> None:
     """Log item pool creation."""
-    logger.info(f"[P{player}] Item pool created: {item_count} total items")
+    logger.info(f"[P{player}] Item pool created: {item_count} randomized items")
     logger.debug(f"[P{player}]   - Shards: {shard_count}")
     logger.debug(f"[P{player}]   - Other items: {other_count}")
 
