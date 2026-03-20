@@ -46,53 +46,7 @@ jobs:
             --world-manifest "worlds/kirbyam/archipelago.json" \
             --github-output "${GITHUB_OUTPUT}"
 
-      - name: Install release patch build dependencies
-        if: steps.meta.outputs.release_enabled == 'true'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y make gcc-arm-none-eabi binutils-arm-none-eabi
-          python -m pip install --upgrade pip
-          python -m pip install bsdiff4
-
-      - name: Materialize clean release ROM from secret
-        if: steps.meta.outputs.release_enabled == 'true'
-        shell: bash
-        env:
-          KIRBYAM_BASE_ROM_B64: ${{ secrets.KIRBYAM_BASE_ROM_B64 }}
-        run: |
-          if [ -z "${KIRBYAM_BASE_ROM_B64}" ]; then
-            echo "Missing required GitHub secret KIRBYAM_BASE_ROM_B64 for tag-driven KirbyAM releases." >&2
-            echo "Store the clean USA kirby.gba bytes as a base64-encoded repository secret." >&2
-            exit 1
-          fi
-
-          printf '%s' "${KIRBYAM_BASE_ROM_B64}" | base64 --decode > worlds/kirbyam/kirby_ap_payload/kirby.gba
-
-          if [ ! -s worlds/kirbyam/kirby_ap_payload/kirby.gba ]; then
-            echo "Decoded ROM file worlds/kirbyam/kirby_ap_payload/kirby.gba is missing or empty." >&2
-            exit 1
-          fi
-
-          expected_size=16777216
-          actual_size=$(stat -c%s worlds/kirbyam/kirby_ap_payload/kirby.gba)
-          if [ "${actual_size}" -ne "${expected_size}" ]; then
-            echo "Decoded ROM has unexpected size: ${actual_size} bytes (expected ${expected_size} bytes)." >&2
-            echo "Ensure KIRBYAM_BASE_ROM_B64 contains the clean USA kirby.gba encoded as base64." >&2
-            exit 1
-          fi
-
-          expected_md5='DF5EFE075B35859529EBF82A4D824458'
-          actual_md5=$(md5sum worlds/kirbyam/kirby_ap_payload/kirby.gba | awk '{print toupper($1)}')
-          if [ "${actual_md5}" != "${expected_md5}" ]; then
-            echo "Decoded ROM has unexpected MD5: ${actual_md5} (expected ${expected_md5})." >&2
-            echo "Ensure KIRBYAM_BASE_ROM_B64 contains the clean USA kirby.gba encoded as base64." >&2
-            exit 1
-          fi
-
-          ls -lh worlds/kirbyam/kirby_ap_payload/kirby.gba
-
-      - name: Build kirbyam.apworld for branch and PR validation
-        if: steps.meta.outputs.release_enabled != 'true'
+      - name: Build kirbyam.apworld from committed patch data
         working-directory: worlds/kirbyam
         run: |
           python build.py --skip-patch
@@ -100,22 +54,11 @@ jobs:
             echo "kirbyam.apworld was not created" >&2
             exit 1
           fi
-          ls -lh kirbyam.apworld
-
-      - name: Build kirbyam.apworld for tagged release with refreshed patch
-        if: steps.meta.outputs.release_enabled == 'true'
-        working-directory: worlds/kirbyam
-        run: |
-          python build.py --source-type arg --rom "$(pwd)/kirby_ap_payload/kirby.gba"
-          if [ ! -f kirbyam.apworld ]; then
-            echo "kirbyam.apworld was not created" >&2
+          if [ ! -s data/base_patch.bsdiff4 ]; then
+            echo "Committed data/base_patch.bsdiff4 is missing or empty" >&2
             exit 1
           fi
-          if [ ! -f data/base_patch.bsdiff4 ]; then
-            echo "base_patch.bsdiff4 was not refreshed" >&2
-            exit 1
-          fi
-          ls -lh kirbyam.apworld data/base_patch.bsdiff4 kirby_ap_payload/patch_rom.log
+          ls -lh kirbyam.apworld data/base_patch.bsdiff4
           sha256sum kirbyam.apworld data/base_patch.bsdiff4
 
       - name: Stage artifact
