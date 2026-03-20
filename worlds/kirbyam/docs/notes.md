@@ -18,7 +18,7 @@ Do not mix these two domains:
 2. Native game-state addresses
 - Purpose: in-game progression/check/goal state.
 - Source of truth: `worlds/kirbyam/data/native_address_policy.json` and `ram.native` in `worlds/kirbyam/data/addresses.json`.
-- Current integrated native signal: `shard_bitfield_native` at `0x02038970`.
+- Current integrated native signals: `shard_bitfield_native` (`0x02038970`), `boss_mirror_table_native` (`0x02028C14`, probe-only), `ai_kirby_state_native` (`0x0203AD2C`, goal polling).
 
 Rule: AP transport fields must never be treated as native gameplay truth.
 
