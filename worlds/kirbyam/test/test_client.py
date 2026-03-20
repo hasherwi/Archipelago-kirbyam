@@ -399,6 +399,29 @@ async def test_goal_location_check_sent_once_before_ack(mock_bizhawk_context):
 
 
 @pytest.mark.asyncio
+async def test_goal_location_uses_locations_checked_for_reconnect_safe_dedup(mock_bizhawk_context):
+    """Goal location checks should dedupe via ctx.locations_checked when available."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    goal_id = data.locations["GOAL_DARK_MIND"].location_id
+    mock_bizhawk_context.slot_data["goal"] = 0
+    mock_bizhawk_context.locations_checked = set()
+
+    with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.return_value = [(9999).to_bytes(4, 'little')]
+
+        await client._maybe_report_goal(mock_bizhawk_context)
+        await client._maybe_report_goal(mock_bizhawk_context)
+
+    assert goal_id in mock_bizhawk_context.locations_checked
+    mock_bizhawk_context.send_msgs.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [goal_id]}
+    ])
+
+
+@pytest.mark.asyncio
 async def test_probe_boss_candidates_no_address_no_read(mock_bizhawk_context):
     """Boss probe should no-op when native candidate address is not configured."""
     client = KirbyAmClient()

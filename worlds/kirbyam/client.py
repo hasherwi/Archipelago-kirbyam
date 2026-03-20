@@ -446,9 +446,20 @@ class KirbyAmClient(BizHawkClient):
             return
 
         if goal_location_id not in ctx.checked_locations:
-            if not self._goal_location_reported:
+            locations_checked = getattr(ctx, "locations_checked", None)
+            if not isinstance(locations_checked, set):
+                locations_checked = None
+
+            # Prefer reconnect-safe tracking when available.
+            if locations_checked is not None:
+                if goal_location_id in locations_checked:
+                    return
                 await ctx.send_msgs([{"cmd": "LocationChecks", "locations": [goal_location_id]}])
-                self._goal_location_reported = True
+                locations_checked.add(goal_location_id)
+            else:
+                if not self._goal_location_reported:
+                    await ctx.send_msgs([{"cmd": "LocationChecks", "locations": [goal_location_id]}])
+                    self._goal_location_reported = True
             return
 
         if goal_location_id in ctx.checked_locations:
