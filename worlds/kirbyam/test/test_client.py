@@ -361,3 +361,30 @@ async def test_probe_boss_candidates_logs_rising_edges(mock_bizhawk_context):
         logged_args = mock_logger.info.call_args.args
         assert "KirbyAM boss candidate probe detected rising bits" in logged_args[0]
         assert "0x02028C14[bit3]" in logged_args[1]
+
+
+@pytest.mark.asyncio
+async def test_probe_boss_candidates_resets_baseline_on_stream_change(mock_bizhawk_context):
+    """Changing BizHawk stream identity should re-baseline probe snapshots."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    first_stream = object()
+    second_stream = object()
+    mock_bizhawk_context.bizhawk_ctx.streams = first_stream
+
+    with patch.dict(data.native_ram_addresses, {"boss_mirror_table_native": 0x02028C14}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        # Baseline with first stream.
+        mock_read.return_value = [bytes(32)]
+        await client._probe_boss_defeat_candidates(mock_bizhawk_context)
+
+        # Switch stream identity and present non-zero state; should be treated as new baseline.
+        mock_bizhawk_context.bizhawk_ctx.streams = second_stream
+        payload = bytearray(32)
+        payload[0] = 0x08
+        mock_read.return_value = [bytes(payload)]
+        await client._probe_boss_defeat_candidates(mock_bizhawk_context)
+
+        mock_logger.info.assert_not_called()

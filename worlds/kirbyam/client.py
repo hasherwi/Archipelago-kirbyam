@@ -57,6 +57,7 @@ class KirbyAmClient(BizHawkClient):
 
         # Boss candidate probing state
         self._last_boss_probe_snapshot: bytes | None = None
+        self._boss_probe_stream_marker: int | None = None
 
     async def validate_rom(self, ctx: "BizHawkClientContext") -> bool:
         """Validate ROM is Kirby & The Amazing Mirror and initialize client."""
@@ -238,6 +239,14 @@ class KirbyAmClient(BizHawkClient):
         base_addr = self._native_addr("boss_mirror_table_native")
         if base_addr is None:
             return
+
+        # Re-baseline on BizHawk reconnect by tracking the stream object identity.
+        stream_marker = id(getattr(ctx.bizhawk_ctx, "streams", None))
+        if self._boss_probe_stream_marker is None:
+            self._boss_probe_stream_marker = stream_marker
+        elif stream_marker != self._boss_probe_stream_marker:
+            self._boss_probe_stream_marker = stream_marker
+            self._last_boss_probe_snapshot = None
 
         raw = (await bizhawk.read(
             ctx.bizhawk_ctx,

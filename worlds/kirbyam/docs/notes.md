@@ -137,3 +137,9 @@ Added observational boss-candidate probing in `worlds/kirbyam/client.py`:
 - Tests in `worlds/kirbyam/test/test_client.py` verify:
   - probe is skipped when native address is missing
   - rising-edge transitions produce expected log entries
+
+### Scope note
+This change is instrumentation groundwork for Issue #110 address identification.
+It does not yet convert boss candidate transitions into authoritative AP location
+checks or implement shard-undo behavior until concrete verified mappings are
+confirmed through manual BizHawk validation.
