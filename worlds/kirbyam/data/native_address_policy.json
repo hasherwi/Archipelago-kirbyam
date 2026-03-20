@@ -32,7 +32,7 @@
       "status": "integrated",
       "entries": [
         {
-          "name": "boss_mirror_table_region",
+          "name": "boss_mirror_table_native",
           "base_address": "0x02028C14",
           "offset": "0x00",
           "width": "u8[32]",

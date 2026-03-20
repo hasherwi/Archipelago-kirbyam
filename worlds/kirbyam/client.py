@@ -260,7 +260,7 @@ class KirbyAmClient(BizHawkClient):
         for byte_index in range(width):
             prev_byte = old[byte_index]
             new_byte = raw[byte_index]
-            rising_mask = (~prev_byte) & new_byte
+            rising_mask = (~prev_byte & 0xFF) & new_byte
             if rising_mask == 0:
                 continue
 
