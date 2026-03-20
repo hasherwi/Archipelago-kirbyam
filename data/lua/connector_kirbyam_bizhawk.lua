@@ -1,7 +1,5 @@
 local DEBUG = false
 
-require("common")
-
 local function log_info(message)
     print("[KirbyAM Connector] " .. message)
 end
@@ -22,6 +20,11 @@ end
 
 local function validate_environment()
     local system = emu.getsystemid()
+    if system == "NULL" then
+        log_info("No ROM appears to be loaded. Load Kirby & The Amazing Mirror and rerun this script.")
+        return false
+    end
+
     if system ~= "GBA" then
         log_info("Expected GBA system, got " .. tostring(system) .. ". Load Kirby & The Amazing Mirror and rerun this script.")
         return false
