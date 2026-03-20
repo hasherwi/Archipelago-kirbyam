@@ -21,11 +21,9 @@ class ReleaseMetadata:
     release_enabled: bool
 
 
-def _normalize_ref_name(github_ref: str) -> str:
+def _tag_name_from_ref(github_ref: str) -> str:
     if github_ref.startswith("refs/tags/"):
         return github_ref.removeprefix("refs/tags/")
-    if github_ref.startswith("refs/heads/"):
-        return github_ref.removeprefix("refs/heads/")
     return github_ref
 
 
@@ -39,7 +37,7 @@ def build_release_metadata(github_ref: str) -> ReleaseMetadata:
             release_enabled=False,
         )
 
-    ref_name = _normalize_ref_name(github_ref)
+    ref_name = _tag_name_from_ref(github_ref)
     match = TAG_PATTERN.fullmatch(ref_name)
     if match:
         version = match.group("version")
