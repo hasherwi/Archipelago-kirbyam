@@ -1,6 +1,6 @@
 PREFIX  :=
-CC      ?= arm-none-eabi-gcc
-OBJCOPY ?= arm-none-eabi-objcopy
+CC      := arm-none-eabi-gcc
+OBJCOPY := arm-none-eabi-objcopy
 
 # Preserve existing local devkitPro defaults when installed at the historical path.
 ifneq ("$(wildcard C:/devkitPro/devkitARM/bin/arm-none-eabi-gcc.exe)","")
