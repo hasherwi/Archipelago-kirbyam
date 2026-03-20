@@ -34,7 +34,7 @@ Current high-level status:
 | --- | --- | --- | --- |
 | Shard progression | Yes | Yes | Not yet policy-promoted |
 | Dungeon boss defeat | Yes | No | No |
-| Final boss defeat | Yes | No | No |
+| Final boss defeat | Yes | Yes | Not yet policy-promoted |
 
 Detailed signal registry: `worlds/kirbyam/data/native_address_policy.json`
 

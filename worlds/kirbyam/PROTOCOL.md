@@ -42,6 +42,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x02038970 | 1B | KIRBY_SHARD_FLAGS       | Native mirror shard bitfield (bits 0-7) |
 | 0x02038960 - 0x0203896A | 10B | Chest/Switch state    | Native chest and switch flags |
 | 0x02028C14+ |  -  | Boss/Mirror table       | Native location flags (TBD - not yet mapped) |
+| 0x0203AD2C | 4B | ai_kirby_state_native   | AI/game-state integer; 9999 = Dark Mind clear, 10000 = 100% clear |
 
 ## Item ID Ranges
 

@@ -451,7 +451,6 @@ class KirbyAmClient(BizHawkClient):
                 self._goal_location_reported = True
             return
 
-        if goal_location_id in ctx.checked_locations:
-            from NetUtils import ClientStatus
-            await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
-            self._goal_reported = True
+        from NetUtils import ClientStatus
+        await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+        self._goal_reported = True
