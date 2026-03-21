@@ -797,6 +797,7 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
          patch.object(client, '_poll_locations', new_callable=AsyncMock) as mock_poll_locations, \
          patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock) as mock_poll_boss, \
          patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock) as mock_probe, \
+         patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock) as mock_probe_unsafe, \
          patch.object(client, '_deliver_items', new_callable=AsyncMock) as mock_deliver, \
          patch.object(client, '_maybe_report_goal', new_callable=AsyncMock) as mock_goal:
         mock_gate.return_value = (False, "non_gameplay_cutscene", 200)
@@ -807,6 +808,7 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
     mock_poll_locations.assert_not_awaited()
     mock_poll_boss.assert_not_awaited()
     mock_probe.assert_not_awaited()
+    mock_probe_unsafe.assert_not_awaited()
     mock_deliver.assert_awaited_once_with(mock_bizhawk_context, allow_new_writes=False)
     mock_goal.assert_awaited_once_with(mock_bizhawk_context, ai_state_override=200)
 
