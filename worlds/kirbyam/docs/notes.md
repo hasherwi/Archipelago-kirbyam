@@ -595,6 +595,10 @@ Added a first-pass useful item tier without introducing new progression rules:
   - `Map - Moonlight Mansion`
   - `Map - Candy Constellation`
   - `Map - Olive Ocean`
+  - `Map - Peppermint Palace`
+  - `Map - Cabbage Cavern`
+  - `Map - Carrot Castle`
+  - `Map - Radish Ruins`
 - vitality useful items:
   - `Vitality Counter I`
   - `Vitality Counter II`
