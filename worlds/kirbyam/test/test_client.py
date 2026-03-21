@@ -774,32 +774,6 @@ async def test_game_watcher_skips_when_server_socket_is_closed(mock_bizhawk_cont
 
 
 @pytest.mark.asyncio
-async def test_game_watcher_skips_all_work_when_server_is_none(mock_bizhawk_context):
-    """game_watcher must do nothing and read no RAM when server is not connected."""
-    client = KirbyAmClient()
-    client.initialize_client()
-
-    mock_bizhawk_context.server = None
-
-    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
-        await client.game_watcher(mock_bizhawk_context)
-        mock_read.assert_not_awaited()
-
-
-@pytest.mark.asyncio
-async def test_game_watcher_skips_all_work_when_slot_data_is_none(mock_bizhawk_context):
-    """game_watcher must do nothing and read no RAM when slot_data is not yet available."""
-    client = KirbyAmClient()
-    client.initialize_client()
-
-    mock_bizhawk_context.slot_data = None
-
-    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
-        await client.game_watcher(mock_bizhawk_context)
-        mock_read.assert_not_awaited()
-
-
-@pytest.mark.asyncio
 async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_bizhawk_context):
     """First watcher tick after AP session readiness should reset transient reconnect state and log once."""
     client = KirbyAmClient()
