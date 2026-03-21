@@ -294,9 +294,24 @@ class KirbyAmClient(BizHawkClient):
         # Reconnect-safe behavior: if server state is missing RAM-derived checks,
         # resend them until the server acknowledges and reflects them.
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
+        already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
 
         if missing_on_server:
+            from CommonClient import logger
+
+            logger.info(
+                "KirbyAM: resending RAM-derived LocationChecks missing on server (missing=%s, acked=%s)",
+                missing_on_server,
+                already_acknowledged,
+            )
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
+        elif mapped_checked_locations:
+            from CommonClient import logger
+
+            logger.debug(
+                "KirbyAM: dedupe suppressed LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                already_acknowledged,
+            )
 
     async def _poll_boss_defeat_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """

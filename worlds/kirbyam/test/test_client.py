@@ -147,7 +147,8 @@ async def test_location_check_resent_when_server_missing_location(mock_bizhawk_c
     mock_bizhawk_context.checked_locations = {first_loc}
 
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
+         patch('CommonClient.logger') as mock_logger:
 
         mock_read.return_value = [(0x03).to_bytes(4, 'little')]
 
@@ -156,6 +157,8 @@ async def test_location_check_resent_when_server_missing_location(mock_bizhawk_c
         mock_send.assert_awaited_once_with([
             {"cmd": "LocationChecks", "locations": [second_loc]}
         ])
+        assert mock_logger.info.called
+        assert "resending RAM-derived LocationChecks missing on server" in mock_logger.info.call_args.args[0]
 
 
 @pytest.mark.asyncio
@@ -169,13 +172,16 @@ async def test_no_location_checks_sent_when_all_already_server_acknowledged(mock
     mock_bizhawk_context.checked_locations = {shard1, shard2}
 
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
+         patch('CommonClient.logger') as mock_logger:
 
         mock_read.return_value = [(0x03).to_bytes(4, 'little')]  # bits 0 and 1 set
 
         await client._poll_locations(mock_bizhawk_context)
 
         mock_send.assert_not_awaited()
+        assert mock_logger.debug.called
+        assert "dedupe suppressed LocationChecks" in mock_logger.debug.call_args.args[0]
 
 
 def test_client_initialization():
