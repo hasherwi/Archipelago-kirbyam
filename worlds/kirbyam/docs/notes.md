@@ -571,6 +571,7 @@ actions to Node 24 by default. Existing workflows still referenced
 Updated all affected workflows to current major versions:
 - `actions/checkout@v4` -> `actions/checkout@v6`
 - `actions/setup-python@v5` -> `actions/setup-python@v6`
+- `actions/labeler@v5` -> `actions/labeler@v6`
 
 Added temporary workflow-level early opt-in for migration confidence:
 - `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true`
