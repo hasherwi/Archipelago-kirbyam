@@ -654,6 +654,56 @@ async def test_runtime_gameplay_state_non_gameplay_on_cutscene_state(mock_bizhaw
 
 
 @pytest.mark.asyncio
+async def test_runtime_gameplay_state_non_gameplay_on_tutorial_or_menu_state(mock_bizhawk_context):
+    """AI state below cutscene threshold should be classified as tutorial/menu non-gameplay."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.return_value = [(100).to_bytes(4, 'little')]
+
+        active, reason, ai_state = await client._runtime_gameplay_state(mock_bizhawk_context)
+
+    assert active is False
+    assert reason == "non_gameplay_tutorial_or_menu"
+    assert ai_state == 100
+
+
+@pytest.mark.asyncio
+async def test_runtime_gameplay_state_non_gameplay_on_post_normal_state(mock_bizhawk_context):
+    """AI state above normal gameplay should be classified as non-gameplay post-normal."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.return_value = [(9999).to_bytes(4, 'little')]
+
+        active, reason, ai_state = await client._runtime_gameplay_state(mock_bizhawk_context)
+
+    assert active is False
+    assert reason == "non_gameplay_post_normal"
+    assert ai_state == 9999
+
+
+@pytest.mark.asyncio
+async def test_runtime_gameplay_state_fail_open_when_signal_unavailable(mock_bizhawk_context):
+    """Missing ai_kirby_state_native should fail open for compatibility."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    with patch.dict(data.native_ram_addresses, {}, clear=True), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        active, reason, ai_state = await client._runtime_gameplay_state(mock_bizhawk_context)
+
+    assert active is True
+    assert reason == "gate_signal_unavailable"
+    assert ai_state is None
+    mock_read.assert_not_awaited()
+
+
+@pytest.mark.asyncio
 async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock_bizhawk_context):
     """In non-gameplay state, watcher defers location/boss polling and new mailbox writes."""
     client = KirbyAmClient()

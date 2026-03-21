@@ -141,7 +141,7 @@ class KirbyAmClient(BizHawkClient):
             await self._deliver_items(ctx, allow_new_writes=False)
             # Goal detection remains active because native goal signals may only
             # be observable in post-clear non-gameplay phases.
-            await self._maybe_report_goal(ctx)
+            await self._maybe_report_goal(ctx, ai_state_override=ai_state)
             return
 
         if self._last_runtime_gate_reason is not None:
@@ -538,14 +538,22 @@ class KirbyAmClient(BizHawkClient):
     # Goal completion condition
     # --------------------------
 
-    async def _native_goal_signal_active(self, ctx: KirbyAmBizHawkClientContext, slot_goal: int) -> bool:
+    async def _native_goal_signal_active(
+        self,
+        ctx: KirbyAmBizHawkClientContext,
+        slot_goal: int,
+        ai_state_override: int | None = None,
+    ) -> bool:
         """Return whether native goal signal is active for the selected goal mode."""
-        ai_state_addr = self._native_addr("ai_kirby_state_native")
-        if ai_state_addr is None:
-            return False
+        if ai_state_override is not None:
+            ai_state = ai_state_override
+        else:
+            ai_state_addr = self._native_addr("ai_kirby_state_native")
+            if ai_state_addr is None:
+                return False
 
-        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(ai_state_addr, _AI_STATE_ADDR_WIDTH, "System Bus")]))[0]
-        ai_state = self._u32_le(raw)
+            raw = (await bizhawk.read(ctx.bizhawk_ctx, [(ai_state_addr, _AI_STATE_ADDR_WIDTH, "System Bus")]))[0]
+            ai_state = self._u32_le(raw)
 
         if slot_goal == Goal.option_dark_mind:
             # Dark Mind clear is anchored to 9999. The 10000 state is post-clear progression
@@ -557,7 +565,11 @@ class KirbyAmClient(BizHawkClient):
 
         return False
 
-    async def _maybe_report_goal(self, ctx: KirbyAmBizHawkClientContext) -> None:
+    async def _maybe_report_goal(
+        self,
+        ctx: KirbyAmBizHawkClientContext,
+        ai_state_override: int | None = None,
+    ) -> None:
         """
         Goal reporting from native signal polling.
 
@@ -583,7 +595,11 @@ class KirbyAmClient(BizHawkClient):
             return
 
         if not self._native_goal_signal_seen:
-            self._native_goal_signal_seen = await self._native_goal_signal_active(ctx, slot_goal)
+            self._native_goal_signal_seen = await self._native_goal_signal_active(
+                ctx,
+                slot_goal,
+                ai_state_override=ai_state_override,
+            )
 
         if not self._native_goal_signal_seen:
             return
