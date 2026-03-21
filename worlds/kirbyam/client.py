@@ -160,8 +160,8 @@ class KirbyAmClient(BizHawkClient):
         # Item delivery (mailbox protocol)
         await self._deliver_items(ctx)
 
-        # Goal reporting
-        await self._maybe_report_goal(ctx)
+        # Goal reporting (reuse ai_state already read above to avoid a second RAM read)
+        await self._maybe_report_goal(ctx, ai_state_override=ai_state)
 
     async def _runtime_gameplay_state(self, ctx: KirbyAmBizHawkClientContext) -> tuple[bool, str, int | None]:
         """

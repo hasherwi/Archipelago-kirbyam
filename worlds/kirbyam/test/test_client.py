@@ -725,7 +725,27 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
     mock_poll_boss.assert_not_awaited()
     mock_probe.assert_not_awaited()
     mock_deliver.assert_awaited_once_with(mock_bizhawk_context, allow_new_writes=False)
-    mock_goal.assert_awaited_once()
+    mock_goal.assert_awaited_once_with(mock_bizhawk_context, ai_state_override=200)
+
+
+@pytest.mark.asyncio
+async def test_game_watcher_passes_ai_state_override_in_gameplay_active_path(mock_bizhawk_context):
+    """In gameplay-active state, watcher passes the already-read ai_state to _maybe_report_goal."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
+         patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
+         patch.object(client, '_poll_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock), \
+         patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock), \
+         patch.object(client, '_deliver_items', new_callable=AsyncMock), \
+         patch.object(client, '_maybe_report_goal', new_callable=AsyncMock) as mock_goal:
+        mock_gate.return_value = (True, "gameplay_active", 300)
+
+        await client.game_watcher(mock_bizhawk_context)
+
+    mock_goal.assert_awaited_once_with(mock_bizhawk_context, ai_state_override=300)
 
 
 @pytest.mark.asyncio
