@@ -1346,7 +1346,6 @@ async def test_poll_boss_defeat_skips_when_address_missing(mock_bizhawk_context)
     client = KirbyAmClient()
     client.initialize_client()
 
-    native_backup = dict(data.transport_ram_addresses)
     transport_without_boss = {k: v for k, v in data.transport_ram_addresses.items() if k != "boss_defeat_flags"}
 
     with patch.dict(data.transport_ram_addresses, transport_without_boss, clear=True), \
