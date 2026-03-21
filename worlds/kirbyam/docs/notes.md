@@ -352,6 +352,8 @@ reconnect-safe behavior:
 
 - Log resend reason when RAM-derived checks are missing from server state.
 - Log dedupe suppression when all RAM-derived checks are already acknowledged.
+- Apply the same resend/dedupe diagnostics pattern to boss-defeat polling.
+- Make diagnostics transition-based so unchanged states do not spam logs each tick.
 
 This keeps canonical dedupe boundaries at AP location ID level while making
 reconnect behavior easier to debug.

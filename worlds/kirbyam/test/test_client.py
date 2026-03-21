@@ -159,6 +159,8 @@ async def test_location_check_resent_when_server_missing_location(mock_bizhawk_c
         ])
         assert mock_logger.info.called
         assert "resending RAM-derived LocationChecks missing on server" in mock_logger.info.call_args.args[0]
+        assert mock_logger.info.call_args.args[1] == [second_loc]
+        assert mock_logger.info.call_args.args[2] == [first_loc]
 
 
 @pytest.mark.asyncio
@@ -182,6 +184,7 @@ async def test_no_location_checks_sent_when_all_already_server_acknowledged(mock
         mock_send.assert_not_awaited()
         assert mock_logger.debug.called
         assert "dedupe suppressed LocationChecks" in mock_logger.debug.call_args.args[0]
+        assert mock_logger.debug.call_args.args[1] == [shard1, shard2]
 
 
 def test_client_initialization():
@@ -770,7 +773,8 @@ async def test_poll_boss_defeat_sends_location_checks_for_set_bits(mock_bizhawk_
 
     with patch.dict(data.transport_ram_addresses, {"boss_defeat_flags": 0x0202C024}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
+         patch('CommonClient.logger') as mock_logger:
         # Bit 0 set — Mustard Mountain boss defeated
         mock_read.return_value = [(0x01).to_bytes(4, 'little')]
 
@@ -779,6 +783,9 @@ async def test_poll_boss_defeat_sends_location_checks_for_set_bits(mock_bizhawk_
         mock_send.assert_awaited_once_with([
             {"cmd": "LocationChecks", "locations": [boss1_loc]}
         ])
+        assert mock_logger.info.called
+        assert "resending boss-defeat LocationChecks missing on server" in mock_logger.info.call_args.args[0]
+        assert mock_logger.info.call_args.args[1] == [boss1_loc]
 
 
 @pytest.mark.asyncio
@@ -792,12 +799,16 @@ async def test_poll_boss_defeat_skips_already_server_acknowledged(mock_bizhawk_c
 
     with patch.dict(data.transport_ram_addresses, {"boss_defeat_flags": 0x0202C024}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
+         patch('CommonClient.logger') as mock_logger:
         mock_read.return_value = [(0x01).to_bytes(4, 'little')]
 
         await client._poll_boss_defeat_locations(mock_bizhawk_context)
 
         mock_send.assert_not_awaited()
+        assert mock_logger.debug.called
+        assert "dedupe suppressed boss-defeat LocationChecks" in mock_logger.debug.call_args.args[0]
+        assert mock_logger.debug.call_args.args[1] == [boss1_loc]
 
 
 @pytest.mark.asyncio
