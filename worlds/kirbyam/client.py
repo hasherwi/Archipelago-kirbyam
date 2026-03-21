@@ -161,7 +161,7 @@ class KirbyAmClient(BizHawkClient):
         await self._deliver_items(ctx)
 
         # Goal reporting
-        await self._maybe_report_goal(ctx)
+        await self._maybe_report_goal(ctx, ai_state_override=ai_state)
 
     async def _runtime_gameplay_state(self, ctx: KirbyAmBizHawkClientContext) -> tuple[bool, str, int | None]:
         """

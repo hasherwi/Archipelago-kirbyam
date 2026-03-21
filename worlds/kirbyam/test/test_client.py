@@ -725,7 +725,7 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
     mock_poll_boss.assert_not_awaited()
     mock_probe.assert_not_awaited()
     mock_deliver.assert_awaited_once_with(mock_bizhawk_context, allow_new_writes=False)
-    mock_goal.assert_awaited_once()
+    mock_goal.assert_awaited_once_with(mock_bizhawk_context, ai_state_override=200)
 
 
 @pytest.mark.asyncio
