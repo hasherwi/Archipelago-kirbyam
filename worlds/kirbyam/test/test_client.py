@@ -526,19 +526,6 @@ async def test_probe_boss_candidates_no_address_no_read(mock_bizhawk_context):
 
 
 @pytest.mark.asyncio
-async def test_probe_boss_candidates_no_address_no_read(mock_bizhawk_context):
-    """Boss probe should no-op when native candidate address is not configured."""
-    client = KirbyAmClient()
-    client.initialize_client()
-
-    with patch.dict(data.native_ram_addresses, {}, clear=True), \
-         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
-        await client._probe_boss_defeat_candidates(mock_bizhawk_context)
-
-        mock_read.assert_not_awaited()
-
-
-@pytest.mark.asyncio
 async def test_goal_reporting_logs_native_signal_seen(mock_bizhawk_context):
     """Info log should fire exactly once when native goal signal is first observed."""
     client = KirbyAmClient()
