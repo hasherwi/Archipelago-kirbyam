@@ -149,6 +149,10 @@ class KirbyAmClient(BizHawkClient):
     def _coerce_bool(value: object, default: bool) -> bool:
         if isinstance(value, bool):
             return value
+        if isinstance(value, int):
+            if value in {0, 1}:
+                return bool(value)
+            return default
         if isinstance(value, str):
             lowered = value.strip().lower()
             if lowered in {"1", "true", "yes", "on"}:

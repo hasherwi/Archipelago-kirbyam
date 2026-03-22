@@ -342,6 +342,7 @@ class KirbyAmWorld(World):
             "enemy_copy_ability_randomization",
             "randomize_boss_spawned_ability_grants",
             "randomize_miniboss_ability_grants",
+            toggles_as_bools=True,
         )
         policy = getattr(self, "_enemy_copy_ability_policy", None)
         assert policy is not None, (

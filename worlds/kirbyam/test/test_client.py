@@ -1378,7 +1378,7 @@ async def test_game_watcher_syncs_death_link_enabled_from_slot_data(mock_bizhawk
     """DeathLink tag state should be enabled when slot_data.death_link is true."""
     client = KirbyAmClient()
     client.initialize_client()
-    mock_bizhawk_context.slot_data["death_link"] = True
+    mock_bizhawk_context.slot_data["death_link"] = 1
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
