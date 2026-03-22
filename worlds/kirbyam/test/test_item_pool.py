@@ -40,6 +40,7 @@ def test_filler_catalog_includes_multiple_life_items() -> None:
 
     assert {"1 Up", "2 Up", "3 Up"}.issubset(filler_labels)
     assert all("Filler" in item.tags for item in filler_items)
+    assert all("Life" in item.tags for item in filler_items)
 
 
 def test_weighted_filler_selection_is_seed_stable() -> None:

@@ -185,12 +185,13 @@ class KirbyAmWorld(World):
                 # During early iteration it's easy to have a location without a default_item.
                 # Avoid hard crashes and fall back to the world's configured filler.
                 if loc.default_item_code is None:
+                    filler_name = self.get_filler_item_name()
                     self.logger.warning(
                         "Location '%s' has no default_item; using filler '%s' instead.",
                         loc.name,
-                        self.get_filler_item_name(),
+                        filler_name,
                     )
-                    itempool.append(self.create_item(self.get_filler_item_name()))
+                    itempool.append(self.create_item(filler_name))
                 else:
                     itempool.append(self.create_item_by_code(loc.default_item_code))
 

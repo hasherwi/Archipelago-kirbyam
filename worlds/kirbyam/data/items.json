@@ -2,7 +2,7 @@
   "1_UP": {
     "label": "1 Up",
     "classification": "FILLER",
-    "tags": ["Filler"]
+    "tags": ["Filler", "Life"]
   },
   "2_UP": {
     "label": "2 Up",
