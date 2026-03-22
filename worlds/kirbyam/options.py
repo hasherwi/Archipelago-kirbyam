@@ -36,6 +36,20 @@ class RandomizeShards(Choice):
     option_completely_random = 2
 
 
+class EnemyCopyAbilityRandomization(Choice):
+        """
+        Controls randomization of enemy-granted copy abilities.
+
+        - Vanilla: Enemy copy abilities stay at native defaults.
+        - Shuffle Whitelist: Enemy copy abilities are remapped deterministically
+            within a validated whitelist.
+        """
+        display_name = "Enemy Copy-Ability Randomization"
+        default = 0
+        option_vanilla = 0
+        option_shuffle_whitelist = 1
+
+
 class KirbyAmDeathLink(DeathLink):
     __doc__ = (DeathLink.__doc__ or "") + "\n\n    NOT READY YET: In Kirby & The Amazing Mirror, dying sets your current health to zero."
 
@@ -45,6 +59,8 @@ class KirbyAmOptions(PerGameCommonOptions):
     goal: Goal
 
     shards: RandomizeShards
+
+    enemy_copy_ability_randomization: EnemyCopyAbilityRandomization
 
     death_link: KirbyAmDeathLink
 
