@@ -45,6 +45,9 @@ def _normalize_whitelist(values: Iterable[str]) -> list[str]:
     forbidden = FORBIDDEN_ENEMY_COPY_ABILITIES.intersection(normalized)
     if forbidden:
         raise ValueError(f"forbidden enemy copy abilities present: {sorted(forbidden)}")
+    unknown = set(normalized).difference(VALID_ENEMY_COPY_ABILITIES)
+    if unknown:
+        raise ValueError(f"unknown enemy copy abilities present: {sorted(unknown)}")
     return normalized
 
 
@@ -153,11 +156,9 @@ def build_enemy_copy_ability_remap(
         return {name: name for name in ordered}
 
     if mode == EnemyCopyAbilityRandomization.option_shuffled:
-        seed = rng.getrandbits(64)
-        mapping: dict[str, str] = {}
-        for source in ordered:
-            mapping[source] = ordered[_stable_index(seed, source, len(ordered))]
-        return mapping
+        shuffled = list(ordered)
+        random.Random(rng.getrandbits(64)).shuffle(shuffled)
+        return {source: target for source, target in zip(ordered, shuffled)}
 
     if mode == EnemyCopyAbilityRandomization.option_completely_random:
         # Snapshot remap for compatibility only; runtime per-event behavior uses

@@ -343,17 +343,11 @@ class KirbyAmWorld(World):
             "randomize_miniboss_ability_grants",
         )
         policy = getattr(self, "_enemy_copy_ability_policy", None)
-        if policy is None:
-            mode = int(self.options.enemy_copy_ability_randomization.value)
-            randomize_boss_spawned = bool(self.options.randomize_boss_spawned_ability_grants.value)
-            randomize_miniboss = bool(self.options.randomize_miniboss_ability_grants.value)
-            policy = build_enemy_copy_ability_policy(
-                self.random,
-                mode,
-                randomize_boss_spawned,
-                randomize_miniboss,
-            )
-        slot_data["enemy_copy_ability_whitelist"] = list(VALID_ENEMY_COPY_ABILITIES)
+        assert policy is not None, (
+            "Enemy copy ability policy must be initialized before fill_slot_data is called."
+        )
+        allowed_abilities = policy.get("allowed_abilities", VALID_ENEMY_COPY_ABILITIES)
+        slot_data["enemy_copy_ability_whitelist"] = list(allowed_abilities)
         slot_data["enemy_copy_ability_policy"] = dict(policy)
         return slot_data
 

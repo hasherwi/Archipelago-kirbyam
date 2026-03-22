@@ -54,15 +54,15 @@ class EnemyCopyAbilityRandomization(Choice):
 
 
 class RandomizeBossSpawnedAbilityGrants(Toggle):
-        """Whether ability-granting objects spawned by bosses are randomized."""
-        display_name = "Randomize Boss-Spawned Ability Grants"
-        default = 1
+    """Whether ability-granting objects spawned by bosses are randomized."""
+    display_name = "Randomize Boss-Spawned Ability Grants"
+    default = 1
 
 
 class RandomizeMiniBossAbilityGrants(Toggle):
-        """Whether mini-boss ability grants are randomized."""
-        display_name = "Randomize Mini-Boss Ability Grants"
-        default = 1
+    """Whether mini-boss ability grants are randomized."""
+    display_name = "Randomize Mini-Boss Ability Grants"
+    default = 1
 
 
 class KirbyAmDeathLink(DeathLink):

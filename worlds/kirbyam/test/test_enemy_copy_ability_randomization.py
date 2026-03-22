@@ -98,3 +98,35 @@ def test_forbidden_abilities_in_custom_whitelist_raise() -> None:
             True,
             whitelist=["Sword", "Crash"],
         )
+
+
+def test_unknown_abilities_in_custom_whitelist_raise() -> None:
+    with pytest.raises(ValueError, match="unknown enemy copy abilities present"):
+        build_enemy_copy_ability_policy(
+            random.Random(10),
+            EnemyCopyAbilityRandomization.option_shuffled,
+            True,
+            True,
+            whitelist=["Sword", "TotallyFakeAbility"],
+        )
+
+
+def test_build_policy_is_deterministic_for_same_seed_and_options() -> None:
+    rng_seed = 20260322
+    policy1 = build_enemy_copy_ability_policy(
+        random.Random(rng_seed),
+        EnemyCopyAbilityRandomization.option_shuffled,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=True,
+    )
+    policy2 = build_enemy_copy_ability_policy(
+        random.Random(rng_seed),
+        EnemyCopyAbilityRandomization.option_shuffled,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=True,
+    )
+
+    assert policy1 == policy2
+    enemies = ["WADDLE_DEE", "BLADE_KNIGHT", "HOT_HEAD"]
+    for enemy in enemies:
+        assert ability_for_enemy_type(policy1, enemy) == ability_for_enemy_type(policy2, enemy)
