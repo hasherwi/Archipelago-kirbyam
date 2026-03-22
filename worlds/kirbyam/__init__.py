@@ -191,9 +191,9 @@ class KirbyAmWorld(World):
             # Add to AP pool
             self.multiworld.itempool += itempool
 
-            useful_count = sum(1 for item in itempool if item.classification & ItemClassification.useful)
-            filler_count = sum(1 for item in itempool if item.classification & ItemClassification.filler)
-            progression_count = sum(1 for item in itempool if item.classification & ItemClassification.progression)
+            useful_count = sum(1 for item in itempool if item.useful)
+            filler_count = sum(1 for item in itempool if item.filler)
+            progression_count = sum(1 for item in itempool if item.advancement)
             logger.info(
                 "[P%s] Item pool classification summary: useful=%s filler=%s progression=%s",
                 self.player,
