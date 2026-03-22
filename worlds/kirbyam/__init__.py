@@ -14,7 +14,7 @@ from worlds.AutoWorld import WebWorld, World
 from .client import KirbyAmClient  # type: ignore  # Required to register BizHawk client
 from .ability_randomization import (
     VALID_ENEMY_COPY_ABILITIES,
-    build_enemy_copy_ability_remap,
+    build_enemy_copy_ability_policy,
 )
 from .data import LocationCategory
 from .data import data as kirby_data
@@ -108,7 +108,7 @@ class KirbyAmWorld(World):
 
     # Track generation timing
     _generation_start_time: float
-    _enemy_copy_ability_remap: dict[str, str]
+    _enemy_copy_ability_policy: dict[str, Any]
 
     # Generation stages
     _FILLER_ITEM_WEIGHTS: ClassVar[tuple[tuple[str, int], ...]] = (
@@ -145,23 +145,36 @@ class KirbyAmWorld(World):
                 logger.info(f"[P{self.player}] Shards mode: {self.options.shards.current_key}")
 
             mode = int(self.options.enemy_copy_ability_randomization.value)
-            self._enemy_copy_ability_remap = build_enemy_copy_ability_remap(self.random, mode)
+            randomize_boss_spawned = bool(self.options.randomize_boss_spawned_ability_grants.value)
+            randomize_miniboss = bool(self.options.randomize_miniboss_ability_grants.value)
+            self._enemy_copy_ability_policy = build_enemy_copy_ability_policy(
+                self.random,
+                mode,
+                randomize_boss_spawned,
+                randomize_miniboss,
+            )
             if mode == EnemyCopyAbilityRandomization.option_vanilla:
                 logger.info(
                     "[P%s] Enemy copy-ability randomization: vanilla (%s whitelist entries)",
                     self.player,
                     len(VALID_ENEMY_COPY_ABILITIES),
                 )
+            elif mode == EnemyCopyAbilityRandomization.option_shuffled:
+                logger.info(
+                    "[P%s] Enemy copy-ability randomization: shuffled (%s whitelist entries)",
+                    self.player,
+                    len(VALID_ENEMY_COPY_ABILITIES),
+                )
             else:
                 logger.info(
-                    "[P%s] Enemy copy-ability randomization: shuffle_whitelist (%s whitelist entries)",
+                    "[P%s] Enemy copy-ability randomization: completely_random (%s whitelist entries)",
                     self.player,
                     len(VALID_ENEMY_COPY_ABILITIES),
                 )
                 logger.debug(
-                    "[P%s] Enemy copy-ability remap table: %s",
+                    "[P%s] Enemy copy-ability policy: %s",
                     self.player,
-                    self._enemy_copy_ability_remap,
+                    self._enemy_copy_ability_policy,
                 )
 
     # Create world regions
@@ -326,13 +339,22 @@ class KirbyAmWorld(World):
             "goal",
             "shards",
             "enemy_copy_ability_randomization",
+            "randomize_boss_spawned_ability_grants",
+            "randomize_miniboss_ability_grants",
         )
-        remap = getattr(self, "_enemy_copy_ability_remap", None)
-        if remap is None:
+        policy = getattr(self, "_enemy_copy_ability_policy", None)
+        if policy is None:
             mode = int(self.options.enemy_copy_ability_randomization.value)
-            remap = build_enemy_copy_ability_remap(self.random, mode)
+            randomize_boss_spawned = bool(self.options.randomize_boss_spawned_ability_grants.value)
+            randomize_miniboss = bool(self.options.randomize_miniboss_ability_grants.value)
+            policy = build_enemy_copy_ability_policy(
+                self.random,
+                mode,
+                randomize_boss_spawned,
+                randomize_miniboss,
+            )
         slot_data["enemy_copy_ability_whitelist"] = list(VALID_ENEMY_COPY_ABILITIES)
-        slot_data["enemy_copy_ability_remap"] = dict(remap)
+        slot_data["enemy_copy_ability_policy"] = dict(policy)
         return slot_data
 
     # Helper methods to create items and events

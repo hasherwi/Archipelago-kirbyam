@@ -713,15 +713,20 @@ consume safely. We also needed a conservative whitelist boundary so generation
 never emits unknown or invalid ability names.
 
 ### Solution
-Added deterministic enemy copy-ability remap generation in
-`worlds/kirbyam/ability_randomization.py` with two modes:
+Added deterministic enemy copy-ability policy generation in
+`worlds/kirbyam/ability_randomization.py` with three modes:
 - `vanilla`: identity mapping
-- `shuffle_whitelist`: seeded permutation inside a validated whitelist
+- `shuffled`: deterministic per-enemy-type assignment
+- `completely_random`: deterministic per-grant-event assignment
+
+The validated whitelist explicitly excludes `Crash` and `Wait`.
 
 The world now emits the following slot-data contract:
 - `enemy_copy_ability_randomization`
+- `randomize_boss_spawned_ability_grants`
+- `randomize_miniboss_ability_grants`
 - `enemy_copy_ability_whitelist`
-- `enemy_copy_ability_remap`
+- `enemy_copy_ability_policy`
 
 ### Deliberate Scope Limit
 This issue establishes generation-time mapping and protocol exposure only. It

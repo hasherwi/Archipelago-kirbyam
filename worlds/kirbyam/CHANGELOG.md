@@ -2,11 +2,13 @@
 
 ## Unreleased
 
-- Add enemy copy-ability randomization option with deterministic whitelist mode.
-- Emit enemy ability whitelist and seed-locked remap table in slot-data for
-	client/payload integration work.
-- Add deterministic/whitelist validation tests for enemy copy-ability remap
-	generation.
+- Add enemy copy-ability randomization options for vanilla, shuffled, and
+	completely-random enemy grant behavior.
+- Add scope toggles for boss-spawned ability grants and mini-boss ability
+	grants.
+- Emit validated ability whitelist (excluding `Crash`/`Wait`) and deterministic
+	enemy randomization policy in slot-data.
+- Add deterministic/safety validation tests for enemy randomization policy.
 
 ## v0.0.1
 
