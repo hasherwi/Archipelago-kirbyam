@@ -1382,6 +1382,8 @@ async def test_game_watcher_syncs_death_link_enabled_from_slot_data(mock_bizhawk
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
+         patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
+         patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_major_chest_locations', new_callable=AsyncMock), \
@@ -1404,6 +1406,8 @@ async def test_game_watcher_death_link_sync_is_deduped_until_value_changes(mock_
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
+         patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
+         patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_major_chest_locations', new_callable=AsyncMock), \
@@ -1508,6 +1512,27 @@ async def test_incoming_death_link_suppresses_echo_send(mock_bizhawk_context):
     mock_write.assert_awaited_once()
     mock_bizhawk_context.send_death.assert_not_awaited()
     assert client._suppress_next_local_death_send is False
+
+
+@pytest.mark.asyncio
+async def test_apply_pending_death_link_already_dead_does_not_suppress(mock_bizhawk_context):
+    """Receiving DeathLink while already dead must not suppress a future legitimate death send."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._death_link_enabled = True
+    client._incoming_death_link_pending = True
+    client._last_local_alive_state = False  # Kirby is already dead
+
+    with patch.dict(data.native_ram_addresses, {"kirby_hp_native": 0x02020FE0}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        mock_read.return_value = [(0).to_bytes(1, 'little')]  # HP is already 0
+
+        await client._apply_pending_death_link(mock_bizhawk_context)
+
+    mock_write.assert_not_awaited()
+    assert client._incoming_death_link_pending is False
+    assert client._suppress_next_local_death_send is False  # must NOT be set when already dead
 
 
 @pytest.mark.asyncio

@@ -495,7 +495,6 @@ class KirbyAmClient(BizHawkClient):
         current_hp = self._s8(current_hp_raw)
         if current_hp <= 0:
             self._incoming_death_link_pending = False
-            self._suppress_next_local_death_send = True
             self._last_local_alive_state = False
             return
 
