@@ -341,15 +341,22 @@ def _ensure_kirbyam_base_rom_valid(patch_file: str) -> None:
         return
 
     cfg = settings.get_settings()
-    kirby_settings = cfg.kirby_am_settings
-    rom_cls = kirby_settings.__class__.KirbyAmRomFile
+    kirby_settings = getattr(cfg, "kirby_am_settings", None)
+    if kirby_settings is None:
+        logger.debug("KirbyAM settings not found in configuration; skipping KirbyAM base ROM preflight.")
+        return
+
+    rom_cls = getattr(kirby_settings.__class__, "KirbyAmRomFile", None)
+    if rom_cls is None:
+        logger.debug("KirbyAmRomFile handler not found on KirbyAM settings class; skipping base ROM preflight.")
+        return
 
     # Accessing rom_file triggers existing required-file prompt behavior for missing paths.
     rom_path = str(kirby_settings.rom_file)
 
     try:
         rom_cls.validate(rom_path)
-    except Exception as exc:
+    except (ValueError, FileNotFoundError, OSError) as exc:
         if settings.no_gui:
             raise
 
