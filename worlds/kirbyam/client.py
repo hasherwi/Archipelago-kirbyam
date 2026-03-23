@@ -375,11 +375,15 @@ class KirbyAmClient(BizHawkClient):
             return False
 
         if not any(auth_raw):
-            logger.info(
-                "ERROR: KirbyAM patch metadata was missing from the loaded ROM. "
-                "Regenerate the patch and recreate the patched ROM before opening the BizHawk client."
-            )
+            if not getattr(self, "_logged_missing_patch_metadata", False):
+                logger.info(
+                    "ERROR: KirbyAM patch metadata was missing from the loaded ROM. "
+                    "Regenerate the patch and recreate the patched ROM before opening the BizHawk client."
+                )
+                self._logged_missing_patch_metadata = True
             return False
+
+        self._logged_missing_patch_metadata = False
 
         # Minimal AP settings
         ctx.game = self.game

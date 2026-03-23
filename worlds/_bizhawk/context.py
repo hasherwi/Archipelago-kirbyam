@@ -335,8 +335,45 @@ async def _run_game(rom: str):
         )
 
 
+def _ensure_kirbyam_base_rom_valid(patch_file: str) -> None:
+    """Preflight-validate KirbyAM base ROM and reprompt in GUI mode on hash/path mismatch."""
+    if not patch_file.lower().endswith(".apkirbyam"):
+        return
+
+    cfg = settings.get_settings()
+    kirby_settings = cfg.kirby_am_settings
+    rom_cls = kirby_settings.__class__.KirbyAmRomFile
+
+    # Accessing rom_file triggers existing required-file prompt behavior for missing paths.
+    rom_path = str(kirby_settings.rom_file)
+
+    try:
+        rom_cls.validate(rom_path)
+    except Exception as exc:
+        if settings.no_gui:
+            raise
+
+        logger.info(
+            "KirbyAM: configured base ROM failed validation (%s). Prompting for ROM selection.",
+            exc,
+        )
+
+        replacement = rom_cls(rom_path).browse()
+        if replacement is None:
+            raise FileNotFoundError(
+                "KirbyAM base ROM validation failed and no replacement ROM was selected."
+            )
+
+        kirby_settings.rom_file = replacement
+        cfg.save()
+
+        # Ensure replacement passes the same hash/path checks.
+        rom_cls.validate(str(kirby_settings.rom_file))
+
+
 def _patch_and_run_game(patch_file: str):
     try:
+        _ensure_kirbyam_base_rom_valid(patch_file)
         metadata, output_file = Patch.create_rom_file(patch_file)
         Utils.async_start(_run_game(output_file))
         return metadata
