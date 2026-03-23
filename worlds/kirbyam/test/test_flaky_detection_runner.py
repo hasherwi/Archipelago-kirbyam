@@ -6,7 +6,7 @@ import importlib.util
 from pathlib import Path
 
 
-RUNNER_PATH = Path(__file__).resolve().parents[1] / "test" / "flaky_detection_runner.py"
+RUNNER_PATH = Path(__file__).resolve().parent / "flaky_detection_runner.py"
 RUNNER_SPEC = importlib.util.spec_from_file_location("kirbyam_flaky_runner", RUNNER_PATH)
 if RUNNER_SPEC is None or RUNNER_SPEC.loader is None:
     raise RuntimeError(f"Failed to load flaky detection runner from {RUNNER_PATH}")
