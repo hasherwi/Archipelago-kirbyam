@@ -41,7 +41,8 @@ async def test_validate_rom_rejects_unpatched_kirby_rom(mock_bizhawk_context, ca
 
 
 @pytest.mark.asyncio
-async def test_validate_rom_rejects_missing_auth_block_read(mock_bizhawk_context, caplog):
+async def test_validate_rom_transport_failure_no_unpatched_message(mock_bizhawk_context, caplog):
+    """A transient RequestFailedError on the auth read must not print the unpatched-ROM guidance."""
     client = KirbyAmClient()
 
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
@@ -53,7 +54,7 @@ async def test_validate_rom_rejects_missing_auth_block_read(mock_bizhawk_context
         with caplog.at_level(logging.INFO):
             assert await client.validate_rom(mock_bizhawk_context) is False
 
-    assert "unpatched Kirby & The Amazing Mirror ROM" in caplog.text
+    assert "unpatched Kirby & The Amazing Mirror ROM" not in caplog.text
 
 
 @pytest.mark.asyncio

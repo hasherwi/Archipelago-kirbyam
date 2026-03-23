@@ -354,11 +354,11 @@ class KirbyAmClient(BizHawkClient):
 
         try:
             auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
-        except Exception:
-            logger.info(
-                "ERROR: You appear to be running an unpatched Kirby & The Amazing Mirror ROM. "
-                "Generate a patch file and use it to create a patched ROM before opening the BizHawk client."
-            )
+        except (bizhawk.RequestFailedError, bizhawk.NotConnectedError):
+            # Transient connection issue — not evidence of an unpatched ROM.
+            return False
+        except Exception as exc:
+            logger.error("KirbyAM: unexpected error during ROM auth validation", exc_info=exc)
             return False
 
         if not any(auth_raw):
