@@ -36,10 +36,13 @@ jobs:
           python Launcher.py --update_settings
 
       - name: Run flaky detection mode
+        env:
+          INPUT_RUNS: ${{ github.event.inputs.runs }}
+          INPUT_PYTEST_ARG: ${{ github.event.inputs.pytest_arg }}
         run: |
-          CMD=(python worlds/kirbyam/test/flaky_detection_runner.py --runs "${{ github.event.inputs.runs }}" --json-out test-output/kirbyam/flaky-detection-summary.json --junit-dir test-output/kirbyam/flaky-junit)
-          if [ -n "${{ github.event.inputs.pytest_arg }}" ]; then
-            CMD+=(--pytest-arg "${{ github.event.inputs.pytest_arg }}")
+          CMD=(python worlds/kirbyam/test/flaky_detection_runner.py --runs "$INPUT_RUNS" --json-out test-output/kirbyam/flaky-detection-summary.json --junit-dir test-output/kirbyam/flaky-junit)
+          if [ -n "$INPUT_PYTEST_ARG" ]; then
+            CMD+=(--pytest-arg "$INPUT_PYTEST_ARG")
           fi
           echo "Running: ${CMD[*]}"
           "${CMD[@]}"

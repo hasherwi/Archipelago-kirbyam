@@ -134,15 +134,13 @@ def main(argv: list[str] | None = None) -> int:
 
     failures_by_test: dict[str, list[int]] = defaultdict(list)
     failing_runs: list[int] = []
-    run_outputs: dict[int, str] = {}
 
     try:
         for run_index in range(1, args.runs + 1):
             junit_path = junit_dir / f"run-{run_index}.xml"
-            rc, failed_tests, output = _run_once(run_index, args.targets, junit_path, args.pytest_args)
+            rc, failed_tests, _output = _run_once(run_index, args.targets, junit_path, args.pytest_args)
             if rc != 0:
                 failing_runs.append(run_index)
-                run_outputs[run_index] = output
             for test_name in failed_tests:
                 failures_by_test[test_name].append(run_index)
     finally:
