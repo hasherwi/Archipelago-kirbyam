@@ -33,7 +33,8 @@ on:
 
 concurrency:
   # Keep one in-flight unittests run per PR or branch and cancel stale runs.
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  # For push events, include commit SHA so main-branch runs are not cancelled by newer pushes.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name == 'push' && github.sha || '' }}
   cancel-in-progress: true
 
 env:
