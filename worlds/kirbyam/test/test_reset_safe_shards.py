@@ -92,13 +92,17 @@ def test_ap_hook_returns_without_clobbering_r4():
     with open(hook_path, 'r') as f:
         content = f.read()
 
-    # Normalize runs of spaces/tabs to a single space so formatting changes
-    # in the assembly source do not cause false failures.
-    normalized = re.sub(r'[ \t]+', ' ', content)
+    # Strip // line comments so comment text cannot trigger false positives/negatives.
+    code_only = re.sub(r'//[^\n]*', '', content)
+    # Normalize runs of spaces/tabs to a single space.
+    normalized = re.sub(r'[ \t]+', ' ', code_only)
 
-    assert "push {r0-r3, lr}" in normalized, "Hook should save r0-r3 and lr"
-    assert "pop {r0-r3}" in normalized, "Hook should restore r0-r3 before replaying instructions"
-    assert "pop {pc}" in normalized, "Hook should return by popping the saved lr into pc"
+    assert re.search(r'\bpush\s*\{r0-r3,\s*lr\}', normalized), \
+        "Hook should save r0-r3 and lr"
+    assert re.search(r'\bpop\s*\{r0-r3\}', normalized), \
+        "Hook should restore r0-r3 before replaying instructions"
+    assert re.search(r'\bpop\s*\{pc\}', normalized), \
+        "Hook should return by popping the saved lr into pc"
     assert not re.search(r'\bpop\s*\{[^}]*\br4\b[^}]*\}', normalized, re.IGNORECASE), \
         "Hook must not use r4 as a temporary restore register"
     assert not re.search(r'\bmov\s+lr\s*,\s*r4\b', normalized, re.IGNORECASE), \
