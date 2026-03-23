@@ -16,6 +16,14 @@ Mutation testing focuses on logic-heavy modules with deterministic behavior:
 
 ### Installation
 
+Install Cosmic Ray and dependencies from the dedicated requirements file:
+
+```bash
+pip install -r mutation-testing-requirements.txt
+```
+
+Alternatively, install directly:
+
 ```bash
 pip install cosmic-ray>=8.0
 ```
@@ -29,7 +37,7 @@ Mutation test configuration is defined in `worlds/kirbyam/test/mutation.cosmic.t
 module-path = ["worlds/kirbyam/ability_randomization.py", "worlds/kirbyam/data.py"]
 timeout = 20.0
 excluded-modules = ["**/test/**"]
-test-command = ".venv/Scripts/python.exe -m pytest worlds/kirbyam/test/test_enemy_copy_ability_randomization.py worlds/kirbyam/test/test_fixture_data.py -q"
+test-command = "python -m pytest worlds/kirbyam/test/test_enemy_copy_ability_randomization.py worlds/kirbyam/test/test_fixture_data.py -q"
 
 [cosmic-ray.distributor]
 name = "local"

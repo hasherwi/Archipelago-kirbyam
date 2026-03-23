@@ -135,12 +135,12 @@ Implemented repeatable mutation testing workflow using Cosmic Ray:
 - Per-operator mutation categories documented in cr-report output
 
 ### Baseline Mutation Score
-To be established during first full local run. Current status: workflow validated, ready for baseline capture.
+This PR establishes the mutation-testing workflow only. Baseline mutation score capture will be performed in a follow-up task and documented once the first full local run has been completed.
 
-### Next Steps (Future Sessions)
-1. Run full mutation execution to capture baseline score
+### Next Steps (In Follow-Up PRs)
+1. Run full mutation execution to capture baseline score (tracked in issue comment once PR merges)
 2. Investigate surviving mutants for test gap patterns
-3. Create optional CI workflow for periodic automated mutation scoring
+3. Optionally create CI workflow for periodic automated mutation scoring
 
 ## POC baseline
 
