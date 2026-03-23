@@ -5,6 +5,8 @@ name: unittests
 
 on:
   push:
+    branches:
+      - main
     paths:
       - '**'
       - '!docs/**'
@@ -28,6 +30,11 @@ on:
       - '!.dockerignore'
       - '!.github/workflows/**'
       - '.github/workflows/unittests.yml'
+
+concurrency:
+  # Keep one in-flight unittests run per PR or branch and cancel stale runs.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
