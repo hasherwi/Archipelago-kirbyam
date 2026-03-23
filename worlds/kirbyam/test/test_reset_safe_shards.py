@@ -99,8 +99,10 @@ def test_ap_hook_returns_without_clobbering_r4():
     assert "push {r0-r3, lr}" in normalized, "Hook should save r0-r3 and lr"
     assert "pop {r0-r3}" in normalized, "Hook should restore r0-r3 before replaying instructions"
     assert "pop {pc}" in normalized, "Hook should return by popping the saved lr into pc"
-    assert "pop {r4}" not in normalized, "Hook must not use r4 as a temporary restore register"
-    assert "mov lr, r4" not in normalized, "Hook must not rebuild lr through r4"
+    assert not re.search(r'\bpop\s*\{[^}]*\br4\b[^}]*\}', normalized, re.IGNORECASE), \
+        "Hook must not use r4 as a temporary restore register"
+    assert not re.search(r'\bmov\s+lr\s*,\s*r4\b', normalized, re.IGNORECASE), \
+        "Hook must not rebuild lr through r4"
 
 
 if __name__ == "__main__":
