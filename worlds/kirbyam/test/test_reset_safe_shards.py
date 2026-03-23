@@ -1,5 +1,6 @@
 """Test reset-safe mirror shard grant handling (Issue #109)."""
 
+import re
 import sys
 import os
 import importlib.util
@@ -86,15 +87,20 @@ def test_issue_109_addresses_documented():
 def test_ap_hook_returns_without_clobbering_r4():
     """Verify the payload hook keeps LR on the stack instead of using r4 as a temp."""
     hook_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_hook.s")
+    assert os.path.exists(hook_path), "ap_hook.s should exist in kirby_ap_payload"
 
     with open(hook_path, 'r') as f:
         content = f.read()
 
-    assert "push {r0-r3, lr}" in content, "Hook should save r0-r3 and lr"
-    assert "pop  {r0-r3}" in content, "Hook should restore r0-r3 before replaying instructions"
-    assert "pop  {pc}" in content, "Hook should return by popping the saved lr into pc"
-    assert "pop  {r4}" not in content, "Hook must not use r4 as a temporary restore register"
-    assert "mov  lr, r4" not in content, "Hook must not rebuild lr through r4"
+    # Normalize runs of spaces/tabs to a single space so formatting changes
+    # in the assembly source do not cause false failures.
+    normalized = re.sub(r'[ \t]+', ' ', content)
+
+    assert "push {r0-r3, lr}" in normalized, "Hook should save r0-r3 and lr"
+    assert "pop {r0-r3}" in normalized, "Hook should restore r0-r3 before replaying instructions"
+    assert "pop {pc}" in normalized, "Hook should return by popping the saved lr into pc"
+    assert "pop {r4}" not in normalized, "Hook must not use r4 as a temporary restore register"
+    assert "mov lr, r4" not in normalized, "Hook must not rebuild lr through r4"
 
 
 if __name__ == "__main__":
