@@ -296,6 +296,11 @@ class KirbyAmWorld(World):
                         shard_codes_for_bosses = list(shard_item_codes)
                         self.random.shuffle(shard_codes_for_bosses)
 
+                    if len(shard_chest_locations) != len(shard_codes_for_bosses):
+                        raise ValueError(
+                            "KirbyAM shard placement mismatch: %d shard chest locations vs %d shard items"
+                            % (len(shard_chest_locations), len(shard_codes_for_bosses))
+                        )
                     for chest_loc, shard_code in zip(shard_chest_locations, shard_codes_for_bosses):
                         chest_loc.place_locked_item(self.create_item_by_code(shard_code))
                         chest_loc.progress_type = LocationProgressType.DEFAULT

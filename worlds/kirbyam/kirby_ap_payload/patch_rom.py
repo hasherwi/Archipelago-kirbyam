@@ -128,20 +128,35 @@ def _find_arm_binutil(tool_name: str) -> str:
     attempted: list[str] = []
     for env_var in ("DEVKITARM", "DEVKITPRO"):
         env_val = os.environ.get(env_var)
-        if env_val:
-            candidate = Path(env_val) / "bin" / f"{tool_name}.exe"
+        if not env_val:
+            continue
+
+        # DEVKITARM points directly at the devkitARM prefix; its binaries live in <DEVKITARM>/bin.
+        # DEVKITPRO is the devkitPro root; the standard layout is <DEVKITPRO>/devkitARM/bin.
+        # Also check <DEVKITPRO>/bin in case of a non-standard installation.
+        if env_var == "DEVKITARM":
+            base_paths = [Path(env_val) / "bin"]
+        else:
+            base_paths = [
+                Path(env_val) / "devkitARM" / "bin",
+                Path(env_val) / "bin",
+            ]
+
+        for base in base_paths:
+            candidate = base / f"{tool_name}.exe"
             attempted.append(str(candidate))
             if candidate.exists():
                 return str(candidate)
-            candidate_no_ext = Path(env_val) / "bin" / tool_name
+            candidate_no_ext = base / tool_name
             attempted.append(str(candidate_no_ext))
             if candidate_no_ext.exists():
                 return str(candidate_no_ext)
 
-    fallback = Path("C:/devkitPro/devkitARM/bin") / f"{tool_name}.exe"
-    attempted.append(str(fallback))
-    if fallback.exists():
-        return str(fallback)
+    if os.name == "nt":
+        fallback = Path("C:/devkitPro/devkitARM/bin") / f"{tool_name}.exe"
+        attempted.append(str(fallback))
+        if fallback.exists():
+            return str(fallback)
 
     raise SystemExit(
         f"Error: required tool '{tool_name}' was not found on PATH or at any of the following locations:\n"
