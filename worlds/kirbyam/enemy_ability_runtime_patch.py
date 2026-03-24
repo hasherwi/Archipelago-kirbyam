@@ -53,6 +53,11 @@ _ABILITY_NAME_TO_ID: dict[str, int] = {
     "Missile": 25,
 }
 
+_LEGACY_ABILITY_ALIASES: dict[str, str] = {
+    # Legacy policy/snapshot compatibility: historical name "Needle" maps to Beam.
+    "Needle": "Beam",
+}
+
 _MISSING_RUNTIME_ABILITY_NAMES = set(VALID_ENEMY_COPY_ABILITIES) - set(_ABILITY_NAME_TO_ID)
 
 
@@ -133,9 +138,10 @@ _ABILITY_SOURCES: tuple[_AbilitySource, ...] = (
 
 
 def _ability_name_to_id(name: str) -> int:
-    if name not in _ABILITY_NAME_TO_ID:
+    normalized_name = _LEGACY_ABILITY_ALIASES.get(name, name)
+    if normalized_name not in _ABILITY_NAME_TO_ID:
         raise ValueError(f"unsupported runtime enemy ability name in policy: {name}")
-    return _ABILITY_NAME_TO_ID[name]
+    return _ABILITY_NAME_TO_ID[normalized_name]
 
 
 def _is_source_enabled(source: _AbilitySource, policy: dict[str, Any]) -> bool:
