@@ -291,17 +291,17 @@ class KirbyAmWorld(World):
                 # Place shards onto major-chest locations in vanilla/shuffle modes.
                 if self.options.shards.value in {RandomizeShards.option_vanilla, RandomizeShards.option_shuffle}:
                     if self.options.shards.value == RandomizeShards.option_vanilla:
-                        shard_codes_for_bosses = shard_item_codes
+                        shard_codes_for_chests = shard_item_codes
                     else:
-                        shard_codes_for_bosses = list(shard_item_codes)
-                        self.random.shuffle(shard_codes_for_bosses)
+                        shard_codes_for_chests = list(shard_item_codes)
+                        self.random.shuffle(shard_codes_for_chests)
 
-                    if len(shard_chest_locations) != len(shard_codes_for_bosses):
+                    if len(shard_chest_locations) != len(shard_codes_for_chests):
                         raise ValueError(
                             "KirbyAM shard placement mismatch: %d shard chest locations vs %d shard items"
-                            % (len(shard_chest_locations), len(shard_codes_for_bosses))
+                            % (len(shard_chest_locations), len(shard_codes_for_chests))
                         )
-                    for chest_loc, shard_code in zip(shard_chest_locations, shard_codes_for_bosses):
+                    for chest_loc, shard_code in zip(shard_chest_locations, shard_codes_for_chests):
                         chest_loc.place_locked_item(self.create_item_by_code(shard_code))
                         chest_loc.progress_type = LocationProgressType.DEFAULT
                         locked_shard_count += 1

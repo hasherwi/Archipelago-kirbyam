@@ -26,7 +26,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from BaseClasses import CollectionState
-from worlds.generic.Rules import forbid_items, set_rule
+from worlds.generic.Rules import forbid_items_for_player, set_rule
 
 from .data import LocationCategory, data
 from .generation_logging import logger
@@ -132,7 +132,7 @@ def set_rules(world: KirbyAmWorld) -> None:
             loc_meta = data.locations.get(key)
             if loc_meta is None or loc_meta.category != LocationCategory.BOSS_DEFEAT:
                 continue
-            forbid_items(location, shard_items)
+            forbid_items_for_player(location, shard_items, world.player)
 
     # Completion condition
     if world.options.goal.value == Goal.option_debug:

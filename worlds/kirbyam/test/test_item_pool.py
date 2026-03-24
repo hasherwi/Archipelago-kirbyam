@@ -169,7 +169,11 @@ def test_vanilla_shards_are_locked_to_major_chests_not_boss_defeats() -> None:
     locked_chest_shards = [loc.item.name for loc in chest_locations if loc.item is not None]
     assert len(locked_chest_shards) == 8
     assert all("Mirror Shard" in item_name for item_name in locked_chest_shards)
-    assert len(world.multiworld.itempool) == 9
+    _boss_defeat_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.BOSS_DEFEAT)
+    _shard_chest_count = len(KirbyAmWorld._SHARD_CHEST_KEY_ORDER)
+    _total_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MAJOR_CHEST)
+    _expected_pool_size = _boss_defeat_count + (_total_chest_count - _shard_chest_count)
+    assert len(world.multiworld.itempool) == _expected_pool_size
     assert all("Mirror Shard" not in item.name for item in world.multiworld.itempool)
 
 
@@ -182,5 +186,10 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
     assert all(loc.item is None for loc in boss_locations)
 
     shard_items = [item for item in world.multiworld.itempool if "Shard" in item.tags]
-    assert len(world.multiworld.itempool) == 17
-    assert len(shard_items) == 8
+    _boss_defeat_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.BOSS_DEFEAT)
+    _shard_chest_count = len(KirbyAmWorld._SHARD_CHEST_KEY_ORDER)
+    _total_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MAJOR_CHEST)
+    _shard_item_count = len(KirbyAmWorld._SHARD_ITEM_LABEL_ORDER)
+    _expected_pool_size = _boss_defeat_count + (_total_chest_count - _shard_chest_count) + _shard_item_count
+    assert len(world.multiworld.itempool) == _expected_pool_size
+    assert len(shard_items) == _shard_item_count

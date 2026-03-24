@@ -27,8 +27,6 @@ PAYLOAD_OFFSET = 0x0015E000
 MAIN_HOOK_OFFSET = 0x00152696
 BOSS_COLLECT_SHARD_CALL_OFFSET = 0x001D950
 
-# Thumb BL to 0x0815E000 from 0x08152696 (already computed)
-MAIN_HOOK_BL_BYTES = bytes.fromhex("0B F0 B3 FC")
 
 ROM_PATH_TMP = "rom_path.tmp"
 INTERMEDIARY_ROM = "baseline_patched.tmp.gba"
@@ -182,6 +180,10 @@ def thumb_bl_bytes(src_rom_addr: int, dst_rom_addr: int) -> bytes:
     hi = 0xF000 | ((imm >> 11) & 0x7FF)
     lo = 0xF800 | (imm & 0x7FF)
     return hi.to_bytes(2, "little") + lo.to_bytes(2, "little")
+
+
+# Computed from offsets rather than hard-coded to avoid drift if offsets change.
+MAIN_HOOK_BL_BYTES = thumb_bl_bytes(0x08000000 + MAIN_HOOK_OFFSET, 0x08000000 + PAYLOAD_OFFSET)
 
 
 def resolve_elf_symbol_address(elf_path: str | Path, symbol_name: str) -> int:
