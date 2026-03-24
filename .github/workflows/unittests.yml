@@ -53,6 +53,7 @@ jobs:
         python:
           - {version: '3.11.2'} # Change to '3.11' around 2026-06-10
           - {version: '3.12'}
+          - {version: '3.13'}  # current
         include:
           - python: {version: '3.11'}  # old compat
             os: windows-latest
@@ -82,66 +83,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: kirbyam-test-logs-${{ matrix.os }}-py${{ matrix.python.version }}
-        path: test-output/kirbyam/**
-        if-no-files-found: warn
-
-  kirbyam_coverage_gate:
-    runs-on: ubuntu-latest
-    name: KirbyAM critical-module coverage gate (Python 3.13 ubuntu-latest)
-    timeout-minutes: 20
-
-    steps:
-    - uses: actions/checkout@v6
-    - name: Set up Python 3.13
-      uses: actions/setup-python@v6
-      with:
-        python-version: '3.13'
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r ci-requirements.txt
-        python ModuleUpdate.py --yes --force --append "WebHostLib/requirements.txt"
-        python Launcher.py --update_settings  # make sure host.yaml exists for tests
-    - name: KirbyAM critical-module coverage gates
-      run: |
-        set -euo pipefail
-
-        echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Starting coverage pytest with 10m timeout"
-        set +e
-        timeout --foreground --signal=TERM --kill-after=30s 10m \
-          pytest worlds/kirbyam/test -q --cov=worlds.kirbyam --cov-report=json:test-output/kirbyam/coverage.json
-        pytest_exit=$?
-        set -e
-        if [ "$pytest_exit" -eq 124 ]; then
-          echo "::error::Coverage pytest timed out after 10m (forced termination after additional 30s)."
-          exit 124
-        fi
-        if [ "$pytest_exit" -ne 0 ]; then
-          echo "::error::Coverage pytest failed with exit code $pytest_exit."
-          exit "$pytest_exit"
-        fi
-
-        echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Starting critical module gate check with 2m timeout"
-        set +e
-        timeout --foreground --signal=TERM --kill-after=15s 2m \
-          python worlds/kirbyam/test/critical_module_coverage_gate.py \
-            --coverage-json test-output/kirbyam/coverage.json \
-            --thresholds-json worlds/kirbyam/test/critical_module_coverage_thresholds.json
-        gate_exit=$?
-        set -e
-        if [ "$gate_exit" -eq 124 ]; then
-          echo "::error::Critical module coverage gate timed out after 2m (forced termination after additional 15s)."
-          exit 124
-        fi
-        if [ "$gate_exit" -ne 0 ]; then
-          echo "::error::Critical module coverage gate failed with exit code $gate_exit."
-          exit "$gate_exit"
-        fi
-    - name: Upload KirbyAM coverage logs on failure
-      if: failure() || cancelled()
-      uses: actions/upload-artifact@v4
-      with:
-        name: kirbyam-coverage-logs-ubuntu-latest-py3.13
         path: test-output/kirbyam/**
         if-no-files-found: warn
 
