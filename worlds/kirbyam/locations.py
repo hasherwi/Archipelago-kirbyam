@@ -12,8 +12,6 @@ LocationData in data.py and thread them through here.
 
 from __future__ import annotations
 
-from typing import Dict, Optional
-
 from BaseClasses import Location, Region
 
 from .data import LocationCategory, data

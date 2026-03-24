@@ -28,7 +28,6 @@ _LOCATION_GROUP_MAPS: dict[str, set[str]] = {
 }
 
 _LOCATION_CATEGORY_TO_GROUP_NAME = {
-    LocationCategory.GOAL: "Goals",
     LocationCategory.MAJOR_CHEST: "Major Chests",
 }
 
