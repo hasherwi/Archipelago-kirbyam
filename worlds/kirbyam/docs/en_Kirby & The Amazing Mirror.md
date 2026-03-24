@@ -14,7 +14,7 @@ You can read through all the options and generate a YAML here.
 
 
 
-This randomizer handles shard randomization for when bosses get defeated. Additional randomization will be added in future updates.
+This randomizer handles item randomization for shards and big chests collected throughout the game. Abilities can be randomized as well (for example, you might get the Sword ability from a Noddy who would typically give you the Sleep ability). Additional randomization options will be added in future updates.
 
 
 
@@ -22,7 +22,7 @@ This randomizer handles shard randomization for when bosses get defeated. Additi
 
 
 
-Shards will be randomized between different bosses. Ex: If you defeat Gobbler you may receive the shard you'd normally get from defeating Dark Meta Knight.
+The locations of Shards, Maps, and the Sound Player are all randomized. For example, the big chest in Moonlight Mansion might contain the mirror shard that normally drops from defeating Wiz.
 
 
 
@@ -38,7 +38,7 @@ Additional changes planned, none currently implemented.
 
 
 
-When you find an item that is not your own, you will be able to see what it was and who it was sent to the client window.
+When you find an item that is not your own, you will be able to see what it was and who it was sent to in the client window. The item in the game will still appear as the vanilla item.
 
 
 
@@ -64,5 +64,5 @@ you're playing a multiworld game, the client will sync your game with the server
 
 
 
-\[jiangzhengwenjz](https://github.com/jiangzhengwenjz) — creator of the \[Kirby \& The Amazing Mirror disassembly](https://github.com/jiangzhengwenjz/katam), which was instrumental in understanding ROM internals for this integration.
+\[jiangzhengwenjz](https://github.com/jiangzhengwenjz) and other contributors — creators of the \[Kirby \& The Amazing Mirror disassembly](https://github.com/jiangzhengwenjz/katam), which was instrumental in understanding ROM internals for this integration.
 
