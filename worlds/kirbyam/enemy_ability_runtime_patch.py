@@ -4,7 +4,7 @@ This module converts slot-data policy into deterministic byte writes against
 known enemy/object ability table addresses in the Kirby AM ROM.
 
 Address evidence source:
-- d:/kirbyam-extras/kamrandomizer/kamrandomizer.py
+- kamrandomizer enemy/object ability tables (kamrandomizer.py)
 
 Notes:
 - We only patch entries that natively grant a non-zero ability.
@@ -93,7 +93,6 @@ _ABILITY_SOURCES: tuple[_AbilitySource, ...] = (
     # Boss-spawned / special spawned objects
     _AbilitySource("BOMBAR_BOMB", (0x3526FE,), 0x09, "boss_spawned"),
     _AbilitySource("BOMBAR_MISSILE", (0x352716,), 0x19, "boss_spawned"),
-    _AbilitySource("BOXY_PRESENT", (0x3626CE,), 0x00, "boss_spawned"),
     _AbilitySource("DARK_MIND_BLUE_STAR", (0x35296E,), 0x02, "boss_spawned"),
     _AbilitySource("DARK_MIND_BOMB", (0x351ACE,), 0x18, "boss_spawned"),
     _AbilitySource("DARK_MIND_PURPLE_STAR", (0x352986,), 0x0F, "boss_spawned"),
@@ -132,6 +131,10 @@ def build_enemy_copy_runtime_patch_writes(policy: dict[str, Any]) -> dict[int, i
     """Return deterministic ROM writes for enemy copy-ability randomization.
 
     Returns a dict of ROM file offsets -> byte value (ability id).
+
+    Note: `option_completely_random` is implemented as deterministic
+    per-ability-source variation (each patched source entry can map differently),
+    not per-live-grant re-roll at runtime.
     """
     mode = int(policy.get("mode", EnemyCopyAbilityRandomization.option_vanilla))
     if mode == EnemyCopyAbilityRandomization.option_vanilla:

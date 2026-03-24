@@ -1299,7 +1299,7 @@ Implemented deterministic runtime ROM writes derived from
 Mode behavior after fix:
 - `vanilla`: emits no ability remap writes.
 - `shuffled`: deterministic per-enemy-type remap.
-- `completely_random`: deterministic per-grant-event remap.
+- `completely_random`: deterministic per-source-entry remap.
 
 Feature toggles are honored in runtime writes:
 - `randomize_miniboss_ability_grants`

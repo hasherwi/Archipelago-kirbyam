@@ -76,3 +76,47 @@ def test_boss_spawned_toggle_excludes_object_runtime_writes() -> None:
     assert 0x352686 not in writes
     # Miniboss entry still present.
     assert 0x351BA6 in writes
+
+
+def test_completely_random_mode_emits_deterministic_runtime_writes() -> None:
+    policy_1 = build_enemy_copy_ability_policy(
+        random.Random(777),
+        EnemyCopyAbilityRandomization.option_completely_random,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=True,
+    )
+    policy_2 = build_enemy_copy_ability_policy(
+        random.Random(777),
+        EnemyCopyAbilityRandomization.option_completely_random,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=True,
+    )
+
+    writes_1 = build_enemy_copy_runtime_patch_writes(policy_1)
+    writes_2 = build_enemy_copy_runtime_patch_writes(policy_2)
+
+    assert writes_1 == writes_2
+    assert writes_1
+
+
+def test_completely_random_differs_from_shuffled_for_known_address() -> None:
+    shuffled_policy = build_enemy_copy_ability_policy(
+        random.Random(20260324),
+        EnemyCopyAbilityRandomization.option_shuffled,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=True,
+    )
+    random_policy = build_enemy_copy_ability_policy(
+        random.Random(20260324),
+        EnemyCopyAbilityRandomization.option_completely_random,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=True,
+    )
+
+    shuffled_writes = build_enemy_copy_runtime_patch_writes(shuffled_policy)
+    random_writes = build_enemy_copy_runtime_patch_writes(random_policy)
+
+    # Waddle Doo ability source address.
+    assert 0x3517FE in shuffled_writes
+    assert 0x3517FE in random_writes
+    assert shuffled_writes[0x3517FE] != random_writes[0x3517FE]
