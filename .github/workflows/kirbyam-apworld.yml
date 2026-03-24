@@ -201,7 +201,7 @@ jobs:
             --head "${sync_branch}" \
             --state open \
             --json number \
-            --jq '.[0].number')"
+            --jq '.[0].number // empty')"
 
           if [ -n "${existing_pr_number}" ]; then
             echo "world_version sync PR #${existing_pr_number} already open for ${sync_branch}"
