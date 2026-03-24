@@ -127,15 +127,26 @@ def test_boss_defeat_hook_preserves_native_shard_state():
         content = f.read()
 
     # The hook must still record the AP boss-defeat flag.
-    assert "ap_set_boss_defeat_flag(boss_index)" in content, \
+    # Restrict all checks to the ap_on_boss_defeat_collect_shard body so the
+    # test cannot pass by matching the same strings in ap_apply_item or any
+    # other function.
+    match = re.search(
+        r"void\s+ap_on_boss_defeat_collect_shard[^{]*\{(?P<body>.*?)^}",
+        content,
+        flags=re.DOTALL | re.MULTILINE,
+    )
+    assert match is not None, "ap_on_boss_defeat_collect_shard definition must exist in ap_payload.c"
+    hook_body = match.group(0)
+
+    assert "ap_set_boss_defeat_flag(boss_index)" in hook_body, \
         "Boss hook must call ap_set_boss_defeat_flag to signal the AP location check"
 
     # The hook must also replicate CollectShard: write the native EWRAM shard bitfield.
-    assert "KIRBY_SHARD_FLAGS = new_shard_flags" in content, \
+    assert "KIRBY_SHARD_FLAGS = new_shard_flags" in hook_body, \
         "Boss hook must write KIRBY_SHARD_FLAGS so post-cutscene state machine sees valid shard state"
 
     # The hook must persist to SRAM (same as the AP shard-grant path).
-    assert "persist_shard_to_sram(new_shard_flags)" in content, \
+    assert "persist_shard_to_sram(new_shard_flags)" in hook_body, \
         "Boss hook must persist shard flags to SRAM for reset-safe behaviour"
 
 
