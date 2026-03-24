@@ -1179,7 +1179,10 @@ Added deterministic enemy copy-ability policy generation in
 - `shuffled`: deterministic per-enemy-type assignment
 - `completely_random`: deterministic per-grant-event assignment
 
-The validated whitelist explicitly excludes `Wait`.
+The validated whitelist explicitly excludes `Wait`. The initial release pool was
+later expanded to include additional abilities (`Beam`, `Bomb`, `Cook`, `Crash`,
+`Cupid`, `Fighter`, `Ice`, `Magic`, `Smash`, `Sword`, `Throw`); the historical
+name `Needle` was renamed to `Beam` and is normalised as a legacy alias.
 
 The world now emits the following slot-data contract:
 - `enemy_copy_ability_randomization`
