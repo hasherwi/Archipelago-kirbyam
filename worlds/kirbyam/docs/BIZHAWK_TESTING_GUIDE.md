@@ -289,9 +289,9 @@ Validate that each shipped filler item can be received and applied safely.
 
 1. Connect a patched KirbyAM ROM to Archipelago with BizHawk logs visible.
 2. Deliver each filler item at least once through the mailbox path:
-   - `1 Up` (`3860001`)
-   - `2 Up` (`3860022`)
-   - `3 Up` (`3860023`)
+   - `1 Up` (`3860001`) — active filler in Phase 1
+   - `2 Up` (`3860022`) — dormant, retained for payload compatibility (Issue #372)
+   - `3 Up` (`3860023`) — dormant, retained for payload compatibility (Issue #372)
 3. After each delivery, confirm:
    - mailbox ACK completes normally
    - `debug_last_item_id` matches the delivered filler

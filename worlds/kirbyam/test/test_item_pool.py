@@ -103,8 +103,23 @@ def test_weighted_filler_selection_is_seed_stable() -> None:
     picks_b = [world_b.get_filler_item_name() for _ in range(16)]
 
     assert picks_a == picks_b
-    assert set(picks_a).issubset({"1 Up", "2 Up", "3 Up"})
-    assert len(set(picks_a)) >= 2, "Expected weighted filler pool to produce more than one filler item"
+    assert set(picks_a) == {"1 Up"}, "Phase 1 active filler pool contains only 1 Up"
+    assert all(pick == "1 Up" for pick in picks_a), "All filler picks should be 1 Up in Phase 1"
+
+
+def test_filler_selection_respects_active_pool() -> None:
+    """Verify that all filler picks are from the configured active filler pool."""
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+    world.random = random.Random(12345)
+
+    picks = [world.get_filler_item_name() for _ in range(50)]
+
+    # All picks must be from the active pool
+    assert all(pick in KirbyAmWorld.ACTIVE_FILLER_POOL for pick in picks), \
+        f"Filler picks must be from ACTIVE_FILLER_POOL, got {set(picks)}"
+    # Phase 1 pool should only contain 1 Up
+    assert KirbyAmWorld.ACTIVE_FILLER_POOL == ("1 Up",), \
+        "Phase 1 active pool should only contain '1 Up'"
 
 
 def test_payload_supports_weighted_life_fillers() -> None:
