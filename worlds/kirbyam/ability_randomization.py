@@ -16,25 +16,35 @@ from typing import Any, Iterable
 
 from .options import EnemyCopyAbilityRandomization
 
-# Crash/Wait are intentionally excluded by design (issue #111).
-FORBIDDEN_ENEMY_COPY_ABILITIES: frozenset[str] = frozenset({"Crash", "Wait"})
+# Wait is intentionally excluded by design (issue #111).
+FORBIDDEN_ENEMY_COPY_ABILITIES: frozenset[str] = frozenset({"Wait"})
 
 VALID_ENEMY_COPY_ABILITIES: tuple[str, ...] = (
+    "Beam",
+    "Bomb",
     "Burning",
+    "Cook",
+    "Crash",
     "Cutter",
+    "Cupid",
+    "Fighter",
     "Fire",
     "Hammer",
+    "Ice",
     "Laser",
+    "Magic",
     "Mini",
     "Missile",
-    "Needle",
     "Parasol",
+    "Smash",
     "Sleep",
     "Spark",
     "Stone",
     "Sword",
+    "Throw",
     "Tornado",
     "UFO",
+    "Wheel",
 )
 
 

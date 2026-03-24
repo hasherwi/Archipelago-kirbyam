@@ -8,9 +8,7 @@ Address evidence source:
 
 Notes:
 - We only patch entries that natively grant a non-zero ability.
-- Crash and Wait remain excluded via the existing policy whitelist.
-- The policy uses the existing string name "Needle"; native KatAM constants do
-  not define Needle, so this is mapped to KIRBY_ABILITY_BEAM (id 7).
+- Wait remains excluded via the existing policy whitelist.
 """
 
 from __future__ import annotations
@@ -28,11 +26,20 @@ from .options import EnemyCopyAbilityRandomization
 
 # Native ability IDs (katam/include/constants/kirby.h)
 _ABILITY_NAME_TO_ID: dict[str, int] = {
+    "Beam": 7,
+    "Bomb": 9,
+    "Cook": 12,
+    "Crash": 24,
+    "Cupid": 19,
+    "Fighter": 20,
     "Fire": 1,
     "Burning": 3,
+    "Ice": 2,
+    "Magic": 21,
     "Parasol": 5,
     "Cutter": 6,
-    "Needle": 7,  # Alias to native BEAM for compatibility with existing policy naming.
+    "Throw": 10,
+    "Wheel": 4,
     "Stone": 8,
     "Sleep": 11,
     "Laser": 13,
@@ -41,6 +48,7 @@ _ABILITY_NAME_TO_ID: dict[str, int] = {
     "Tornado": 16,
     "Hammer": 17,
     "Sword": 18,
+    "Smash": 22,
     "Mini": 23,
     "Missile": 25,
 }
