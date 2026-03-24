@@ -3,7 +3,7 @@
 Issue #111 defines three enemy randomization modes:
 - vanilla
 - shuffled (enemy type deterministic)
-- completely random (per grant event)
+- completely random (deterministic per source/event key)
 
 Enemy statues are intentionally out of scope (issue #209).
 """
@@ -62,7 +62,7 @@ def build_enemy_copy_ability_policy(
     """Build deterministic slot-data policy for enemy copy-ability randomization.
 
     For shuffled mode, enemy types can be mapped with `ability_for_enemy_type`.
-    For completely random mode, grant events can be mapped with
+    For completely random mode, source/event keys can be mapped with
     `ability_for_enemy_grant_event`.
     """
     ordered = _normalize_whitelist(whitelist)
