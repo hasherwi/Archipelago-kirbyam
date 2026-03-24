@@ -141,9 +141,7 @@ def build_enemy_copy_runtime_patch_writes(policy: dict[str, Any]) -> dict[int, i
         return {}
 
     writes: dict[int, int] = {}
-    event_index = 0
-
-    for source in _ABILITY_SOURCES:
+    for source_index, source in enumerate(_ABILITY_SOURCES):
         # Preserve vanilla no-ability entries.
         if source.default_ability_id == 0:
             continue
@@ -153,8 +151,9 @@ def build_enemy_copy_runtime_patch_writes(policy: dict[str, Any]) -> dict[int, i
         if mode == EnemyCopyAbilityRandomization.option_shuffled:
             ability_name = ability_for_enemy_type(policy, source.key)
         elif mode == EnemyCopyAbilityRandomization.option_completely_random:
-            event_index += 1
-            ability_name = ability_for_enemy_grant_event(policy, event_index, source.key)
+            # Keep mapping stable per source independent of category toggles.
+            source_event_index = source_index + 1
+            ability_name = ability_for_enemy_grant_event(policy, source_event_index, source.key)
         else:
             raise ValueError(f"unsupported enemy copy-ability randomization mode: {mode}")
 

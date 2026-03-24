@@ -1290,7 +1290,7 @@ Implemented deterministic runtime ROM writes derived from
 `enemy_copy_ability_policy`:
 - Added `enemy_ability_runtime_patch.py` with a curated enemy/miniboss/
   boss-spawned ability-source table (address evidence from
-  `d:/kirbyam-extras/kamrandomizer/kamrandomizer.py`).
+  upstream `kamrandomizer.py` enemy/object ability tables).
 - `build_enemy_copy_runtime_patch_writes(policy)` now produces ROM byte writes
   (offset -> native ability id) for non-vanilla modes.
 - `write_tokens(...)` in `rom.py` now injects these writes into `token_data.bin`
