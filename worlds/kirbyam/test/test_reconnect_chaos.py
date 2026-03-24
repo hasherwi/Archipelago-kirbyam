@@ -11,7 +11,7 @@ from ..data import data
 
 
 @pytest.mark.asyncio
-async def test_reconnect_chaos_location_polling_resends_once_then_dedupes(mock_bizhawk_context):
+async def test_reconnect_chaos_boss_defeat_polling_resends_once_then_dedupes(mock_bizhawk_context):
     """Reconnect cycles should not duplicate boss-defeat LocationChecks after server acknowledgement."""
     client = KirbyAmClient()
     client.initialize_client()

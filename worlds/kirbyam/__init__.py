@@ -126,6 +126,19 @@ class KirbyAmWorld(World):
         "MAJOR_CHEST_CARROT_CASTLE",
         "MAJOR_CHEST_RADISH_RUINS",
     )
+    # Shard item labels in the same positional order as _SHARD_CHEST_KEY_ORDER.
+    # Using labels (stable identifiers from items.json) rather than sorted item IDs
+    # keeps the vanilla chest→shard mapping correct even if item IDs are reorganised.
+    _SHARD_ITEM_LABEL_ORDER: ClassVar[tuple[str, ...]] = (
+        "Mustard Mountain - Mirror Shard",
+        "Moonlight Mansion - Mirror Shard",
+        "Candy Constellation - Mirror Shard",
+        "Olive Ocean - Mirror Shard",
+        "Peppermint Palace - Mirror Shard",
+        "Cabbage Cavern - Mirror Shard",
+        "Carrot Castle - Mirror Shard",
+        "Radish Ruins - Mirror Shard",
+    )
     _RAINBOW_ROUTE_CHEST_KEY: ClassVar[str] = "MAJOR_CHEST_RAINBOW_ROUTE"
 
     @classmethod
@@ -239,9 +252,14 @@ class KirbyAmWorld(World):
             locked_shard_count = 0
             randomized_item_codes: list[int] = []
             if boss_locations or major_chest_locations:
-                shard_item_codes = sorted(
-                    item.item_id for item in kirby_data.items.values() if "Shard" in item.tags
-                )
+                shard_label_to_code = {
+                    item.label: item.item_id
+                    for item in kirby_data.items.values()
+                    if "Shard" in item.tags
+                }
+                shard_item_codes = [
+                    shard_label_to_code[label] for label in self._SHARD_ITEM_LABEL_ORDER
+                ]
 
                 shard_chest_locations: list[KirbyAmLocation] = []
                 for chest_key in self._SHARD_CHEST_KEY_ORDER:

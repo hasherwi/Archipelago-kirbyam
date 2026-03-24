@@ -621,6 +621,10 @@ def main():
             raise SystemExit("Error: payload.elf not found after build; cannot resolve boss hook symbol.")
 
         boss_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_boss_defeat_collect_shard")
+        # arm-none-eabi-nm may encode Thumb function symbols with bit 0 set.
+        # Clear the Thumb state bit before passing to thumb_bl_bytes(), which
+        # requires a halfword-aligned target address.
+        boss_hook_target &= ~1
         boss_hook_bl_bytes = thumb_bl_bytes(0x08000000 + BOSS_COLLECT_SHARD_CALL_OFFSET, boss_hook_target)
 
         # 3) Load ROM
