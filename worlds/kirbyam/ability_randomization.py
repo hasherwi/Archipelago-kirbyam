@@ -51,6 +51,23 @@ def _normalize_whitelist(values: Iterable[str]) -> list[str]:
     return normalized
 
 
+def assert_enemy_copy_ability_runtime_supported(mode: int) -> None:
+    """Fail fast for modes that are not yet wired into live ROM runtime hooks.
+
+    Issue #338 found that shuffled/completely_random policy generation was
+    exported to slot_data but gameplay still stayed vanilla because no shipped
+    runtime consumer exists yet.
+    """
+    if mode == EnemyCopyAbilityRandomization.option_vanilla:
+        return
+
+    raise ValueError(
+        "enemy_copy_ability_randomization modes shuffled/completely_random are "
+        "not yet runtime-integrated in shipped KirbyAM hook paths; use vanilla "
+        "for now (tracking issue #338)"
+    )
+
+
 def build_enemy_copy_ability_policy(
     rng: random.Random,
     mode: int,

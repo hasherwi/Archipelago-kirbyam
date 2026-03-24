@@ -117,7 +117,7 @@ Server → Client: ConnectionRefused | Connected
 - `randomize_boss_spawned_ability_grants` (bool): include/exclude ability-granting boss-spawned objects.
 - `randomize_miniboss_ability_grants` (bool): include/exclude mini-boss ability grants.
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Crash` and `Wait`).
-- `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.
+- `enemy_copy_ability_policy` (dict): deterministic policy payload generated for contract stability; non-vanilla runtime hook consumption is currently not shipped (issue #338).
 
 DeathLink runtime behavior contract:
 - Incoming DeathLink packets (`Bounced` with `DeathLink` tag) are queued and only applied when gameplay-active gate is true.

@@ -1272,6 +1272,36 @@ AP-delivered vitality items now apply native persistent vitality semantics in pa
 - Added/updated tests for vitality chest location data, client polling, item pool sizing,
   patch callsite constants, and payload vitality signaling/apply behavior.
 
+## Issue #338: Enemy Copy-Ability Non-Vanilla Modes Must Not Silently Ship as Vanilla
+
+### Problem
+`enemy_copy_ability_randomization` accepted `shuffled` and `completely_random`, and
+generation exported deterministic policy payloads into `slot_data`. However, shipped
+runtime connector/payload paths do not currently consume this policy in live gameplay,
+so in-game behavior stayed vanilla.
+
+### Root Cause
+Issue #111 intentionally scoped enemy-copy work to generation-time policy + protocol
+exposure. Later protocol wording implied runtime hooks were active, creating a
+contract mismatch.
+
+### Fix
+Added a fail-fast generation guard:
+- `assert_enemy_copy_ability_runtime_supported(mode)` now allows only `vanilla`.
+- Selecting `shuffled` or `completely_random` raises a `ValueError` during
+  `generate_early` with explicit issue #338 messaging.
+- Generation logs now include a clear error line with selected mode key.
+
+This prevents silently producing seeds whose runtime gameplay behavior does not match
+selected options.
+
+### Validation
+- Added unit tests for runtime-support guard behavior:
+  - vanilla accepted
+  - shuffled/completely_random rejected with explicit error text
+- Updated protocol wording to reflect that non-vanilla runtime hook consumption is not
+  currently shipped.
+
 ## Issue #380: Fix Boss-Defeat Hook — Preserve Native Shard State to Prevent White Screen
 
 ### Problem

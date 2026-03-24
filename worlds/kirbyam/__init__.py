@@ -14,6 +14,7 @@ from worlds.AutoWorld import WebWorld, World
 from .client import KirbyAmClient  # type: ignore  # Required to register BizHawk client
 from .ability_randomization import (
     VALID_ENEMY_COPY_ABILITIES,
+    assert_enemy_copy_ability_runtime_supported,
     build_enemy_copy_ability_policy,
 )
 from .data import LocationCategory
@@ -166,6 +167,17 @@ class KirbyAmWorld(World):
                 logger.info(f"[P{self.player}] Shards mode: {self.options.shards.current_key}")
 
             mode = int(self.options.enemy_copy_ability_randomization.value)
+            try:
+                assert_enemy_copy_ability_runtime_supported(mode)
+            except ValueError as exc:
+                logger.error(
+                    "[P%s] Enemy copy-ability randomization mode '%s' is currently generation-blocked: %s",
+                    self.player,
+                    self.options.enemy_copy_ability_randomization.current_key,
+                    exc,
+                )
+                raise
+
             randomize_boss_spawned = bool(self.options.randomize_boss_spawned_ability_grants.value)
             randomize_miniboss = bool(self.options.randomize_miniboss_ability_grants.value)
             self._enemy_copy_ability_policy = build_enemy_copy_ability_policy(

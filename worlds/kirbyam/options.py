@@ -41,11 +41,10 @@ class EnemyCopyAbilityRandomization(Choice):
         """
         Controls randomization of enemy-granted copy abilities.
 
-        - Vanilla: Enemy copy abilities stay at native defaults.
-        - Shuffled: Enemy types are remapped deterministically so all enemies of
-            the same type grant the same ability.
-        - Completely Random: Each eligible enemy ability grant can roll a different
-            ability.
+        Current shipped runtime support:
+        - Vanilla: Supported. Enemy copy abilities stay at native defaults.
+        - Shuffled: Reserved; generation is blocked until runtime hooks ship.
+        - Completely Random: Reserved; generation is blocked until runtime hooks ship.
         """
         display_name = "Enemy Copy-Ability Randomization"
         default = 0
