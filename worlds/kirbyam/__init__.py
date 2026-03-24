@@ -257,6 +257,17 @@ class KirbyAmWorld(World):
                     for item in kirby_data.items.values()
                     if "Shard" in item.tags
                 }
+                missing_shard_labels = [
+                    label for label in self._SHARD_ITEM_LABEL_ORDER
+                    if label not in shard_label_to_code
+                ]
+                if missing_shard_labels:
+                    available_labels = sorted(shard_label_to_code.keys())
+                    raise ValueError(
+                        "KirbyAM shard item configuration error: missing shard labels in items data: "
+                        f"{missing_shard_labels}. "
+                        f"Available shard-tagged item labels: {available_labels}"
+                    )
                 shard_item_codes = [
                     shard_label_to_code[label] for label in self._SHARD_ITEM_LABEL_ORDER
                 ]
@@ -319,6 +330,12 @@ class KirbyAmWorld(World):
                         "KirbyAM item pool mismatch: open physical locations=%s randomized item count=%s"
                         % (needed_pool_size, len(randomized_item_codes))
                     )
+
+            if (boss_locations or major_chest_locations) and not randomized_item_codes:
+                raise ValueError(
+                    "KirbyAM item pool build failed: no randomized items were produced. "
+                    "This likely indicates a problem with boss/major chest locations or region data."
+                )
 
             itempool: list[KirbyAmItem] = [
                 self.create_item_by_code(code) for code in randomized_item_codes

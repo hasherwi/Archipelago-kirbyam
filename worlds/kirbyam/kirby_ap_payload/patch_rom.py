@@ -124,12 +124,29 @@ def _find_arm_binutil(tool_name: str) -> str:
     if exe:
         return exe
 
+    # Check devkitPro environment variables before falling back to a hardcoded path.
+    attempted: list[str] = []
+    for env_var in ("DEVKITARM", "DEVKITPRO"):
+        env_val = os.environ.get(env_var)
+        if env_val:
+            candidate = Path(env_val) / "bin" / f"{tool_name}.exe"
+            attempted.append(str(candidate))
+            if candidate.exists():
+                return str(candidate)
+            candidate_no_ext = Path(env_val) / "bin" / tool_name
+            attempted.append(str(candidate_no_ext))
+            if candidate_no_ext.exists():
+                return str(candidate_no_ext)
+
     fallback = Path("C:/devkitPro/devkitARM/bin") / f"{tool_name}.exe"
+    attempted.append(str(fallback))
     if fallback.exists():
         return str(fallback)
 
     raise SystemExit(
-        f"Error: required tool '{tool_name}' was not found on PATH or in C:/devkitPro/devkitARM/bin."
+        f"Error: required tool '{tool_name}' was not found on PATH or at any of the following locations:\n"
+        + "\n".join(f"  {p}" for p in attempted)
+        + "\nEnsure devkitARM is installed and DEVKITARM or DEVKITPRO is set, or add the bin directory to PATH."
     )
 
 
