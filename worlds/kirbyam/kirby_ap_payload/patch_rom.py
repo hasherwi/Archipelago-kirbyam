@@ -659,7 +659,17 @@ def main():
         # Clear the Thumb state bit before passing to thumb_bl_bytes(), which
         # requires a halfword-aligned target address.
         boss_hook_target &= ~1
-        boss_hook_bl_bytes = thumb_bl_bytes(0x08000000 + BOSS_COLLECT_SHARD_CALL_OFFSET, boss_hook_target)
+        rom_base = 0x08000000
+        payload_rom_start = rom_base + PAYLOAD_OFFSET
+        payload_rom_end = payload_rom_start + len(payload)
+        if not (payload_rom_start <= boss_hook_target < payload_rom_end):
+            raise SystemExit(
+                "Error: boss hook target address out of expected payload range.\n"
+                f"Resolved address: 0x{boss_hook_target:08X}, expected within "
+                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
+                "Check your payload.elf link address and PAYLOAD_OFFSET."
+            )
+        boss_hook_bl_bytes = thumb_bl_bytes(rom_base + BOSS_COLLECT_SHARD_CALL_OFFSET, boss_hook_target)
 
         # 3) Load ROM
         try:

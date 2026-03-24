@@ -285,8 +285,15 @@ class KirbyAmWorld(World):
                         f"KirbyAM non-shard chest location missing from region graph: {self._RAINBOW_ROUTE_CHEST_KEY}"
                     )
 
-                if len(boss_locations) != 8:
-                    raise ValueError(f"KirbyAM expected 8 boss-defeat locations, found {len(boss_locations)}")
+                expected_boss_defeat_count = sum(
+                    1 for m in kirby_data.locations.values()
+                    if m.category == LocationCategory.BOSS_DEFEAT
+                )
+                if len(boss_locations) != expected_boss_defeat_count:
+                    raise ValueError(
+                        f"KirbyAM expected {expected_boss_defeat_count} boss-defeat locations,"
+                        f" found {len(boss_locations)}"
+                    )
 
                 # Place shards onto major-chest locations in vanilla/shuffle modes.
                 if self.options.shards.value in {RandomizeShards.option_vanilla, RandomizeShards.option_shuffle}:
