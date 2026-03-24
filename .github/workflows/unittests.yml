@@ -74,6 +74,7 @@ jobs:
         python ModuleUpdate.py --yes --force --append "WebHostLib/requirements.txt"
         python Launcher.py --update_settings  # make sure host.yaml exists for tests
     - name: Unittests
+      timeout-minutes: 15
       run: |
         pytest worlds/kirbyam/test -n auto --dist worksteal
     - name: Upload KirbyAM test logs on failure
