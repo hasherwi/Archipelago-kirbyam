@@ -140,8 +140,8 @@ Validate that the transport major-chest bitfield drives the currently shipped ma
 5. Confirm `0x0203897C` does not flip for that area unless the corresponding AP map item is actually delivered.
 6. Confirm the client logs a resend only if the server has not yet acknowledged the mapped location:
    - `KirbyAM: resending major-chest LocationChecks missing on server (...)`
-6. Reconnect the AP client and confirm already-acknowledged major-chest checks are not replay-spammed.
-7. Save/reload or change rooms and confirm the bit remains set.
+7. Reconnect the AP client and confirm already-acknowledged major-chest checks are not replay-spammed.
+8. Save/reload or change rooms and confirm the bit remains set.
 
 Expected current mapping:
 - `bit 1` -> `MAJOR_CHEST_RAINBOW_ROUTE`
