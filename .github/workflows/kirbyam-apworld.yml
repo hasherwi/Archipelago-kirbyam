@@ -170,7 +170,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Persist world_version to main
+      - name: Create PR to sync world_version
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
