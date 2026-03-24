@@ -16,7 +16,7 @@ from typing import Dict, Optional
 
 from BaseClasses import Location, Region
 
-from .data import data
+from .data import LocationCategory, data
 
 
 class KirbyAmLocation(Location):
@@ -42,8 +42,10 @@ class KirbyAmLocation(Location):
 
 
 def create_location_label_to_id_map() -> dict[str, int]:
-    """Map human-readable location labels -> AP location id."""
+    """Map datapackage-visible location labels -> AP location id."""
     label_to_id_map: dict[str, int] = {}
     for loc in data.locations.values():
+        if loc.category == LocationCategory.GOAL:
+            continue
         label_to_id_map[loc.label] = loc.location_id
     return label_to_id_map
