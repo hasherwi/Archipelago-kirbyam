@@ -24,10 +24,11 @@ from datetime import datetime
 from pathlib import Path
 
 PAYLOAD_OFFSET = 0x0015E000
-HOOK_OFFSET    = 0x00152696
+MAIN_HOOK_OFFSET = 0x00152696
+BOSS_COLLECT_SHARD_CALL_OFFSET = 0x001D950
 
 # Thumb BL to 0x0815E000 from 0x08152696 (already computed)
-BL_BYTES = bytes.fromhex("0B F0 B3 FC")
+MAIN_HOOK_BL_BYTES = bytes.fromhex("0B F0 B3 FC")
 
 ROM_PATH_TMP = "rom_path.tmp"
 INTERMEDIARY_ROM = "baseline_patched.tmp.gba"
@@ -113,6 +114,70 @@ def run_make():
                 f"Error: command failed: {' '.join(cmd)}\n"
                 f"{output}"
             ) from e
+
+
+def _find_arm_binutil(tool_name: str) -> str:
+    direct = shutil.which(tool_name)
+    if direct:
+        return direct
+    exe = shutil.which(f"{tool_name}.exe")
+    if exe:
+        return exe
+
+    fallback = Path("C:/devkitPro/devkitARM/bin") / f"{tool_name}.exe"
+    if fallback.exists():
+        return str(fallback)
+
+    raise SystemExit(
+        f"Error: required tool '{tool_name}' was not found on PATH or in C:/devkitPro/devkitARM/bin."
+    )
+
+
+def thumb_bl_bytes(src_rom_addr: int, dst_rom_addr: int) -> bytes:
+    diff = dst_rom_addr - (src_rom_addr + 4)
+    if diff % 2 != 0:
+        raise SystemExit(
+            f"Error: cannot encode Thumb BL from {src_rom_addr:#010x} to {dst_rom_addr:#010x}: target is not halfword aligned."
+        )
+
+    imm = diff >> 1
+    if not (-(1 << 21) <= imm < (1 << 21)):
+        raise SystemExit(
+            f"Error: cannot encode Thumb BL from {src_rom_addr:#010x} to {dst_rom_addr:#010x}: branch out of range."
+        )
+
+    imm &= (1 << 22) - 1
+    hi = 0xF000 | ((imm >> 11) & 0x7FF)
+    lo = 0xF800 | (imm & 0x7FF)
+    return hi.to_bytes(2, "little") + lo.to_bytes(2, "little")
+
+
+def resolve_elf_symbol_address(elf_path: str | Path, symbol_name: str) -> int:
+    nm = _find_arm_binutil("arm-none-eabi-nm")
+    try:
+        result = subprocess.run(
+            [nm, str(elf_path)],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+    except FileNotFoundError as e:
+        raise SystemExit(f"Error: failed to execute {nm}") from e
+    except subprocess.CalledProcessError as e:
+        raise SystemExit(
+            f"Error: failed to inspect ELF symbols in {elf_path}:\n{(e.stdout or '').rstrip()}"
+        ) from e
+
+    for line in result.stdout.splitlines():
+        parts = line.strip().split()
+        if len(parts) >= 3 and parts[-1] == symbol_name:
+            try:
+                return int(parts[0], 16)
+            except ValueError:
+                break
+
+    raise SystemExit(f"Error: symbol '{symbol_name}' not found in ELF {elf_path}")
 
 
 def require_bsdiff4():
@@ -551,6 +616,13 @@ def main():
         if len(payload) > 0x16A0:
             raise SystemExit(f"payload.bin too large: {len(payload)} bytes (max 0x16A0)")
 
+        payload_elf_path = Path("payload.elf")
+        if not payload_elf_path.exists():
+            raise SystemExit("Error: payload.elf not found after build; cannot resolve boss hook symbol.")
+
+        boss_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_boss_defeat_collect_shard")
+        boss_hook_bl_bytes = thumb_bl_bytes(0x08000000 + BOSS_COLLECT_SHARD_CALL_OFFSET, boss_hook_target)
+
         # 3) Load ROM
         try:
             with open(in_path, "rb") as f:
@@ -565,8 +637,9 @@ def main():
         # 4) Insert payload
         rom[PAYLOAD_OFFSET:PAYLOAD_OFFSET + len(payload)] = payload
 
-        # 5) Patch hook site with BL
-        rom[HOOK_OFFSET:HOOK_OFFSET + 4] = BL_BYTES
+        # 5) Patch hook sites with BL
+        rom[MAIN_HOOK_OFFSET:MAIN_HOOK_OFFSET + 4] = MAIN_HOOK_BL_BYTES
+        rom[BOSS_COLLECT_SHARD_CALL_OFFSET:BOSS_COLLECT_SHARD_CALL_OFFSET + 4] = boss_hook_bl_bytes
 
         # 6) Write the intermediary patched ROM
         with open(INTERMEDIARY_ROM, "wb") as f:
@@ -588,7 +661,15 @@ def main():
 
         print("Intermediary patched ROM written:", INTERMEDIARY_ROM)
         print("Payload inserted at file offset:", hex(PAYLOAD_OFFSET))
-        print("Hook patched at file offset:", hex(HOOK_OFFSET), "with bytes:", BL_BYTES.hex(" "))
+        print("Main hook patched at file offset:", hex(MAIN_HOOK_OFFSET), "with bytes:", MAIN_HOOK_BL_BYTES.hex(" "))
+        print(
+            "Boss shard call patched at file offset:",
+            hex(BOSS_COLLECT_SHARD_CALL_OFFSET),
+            "with bytes:",
+            boss_hook_bl_bytes.hex(" "),
+            "target=",
+            hex(boss_hook_target),
+        )
 
         # 7) Generate base_patch.bsdiff4: clean base -> intermediary patched ROM
         print("Starting bsdiff generation...")

@@ -65,6 +65,12 @@ def pytest_unconfigure(config: pytest.Config) -> None:
 
 
 def pytest_runtest_setup(item: pytest.Item) -> None:
+    handler = getattr(item.config, "_kirbyam_test_log_handler", None)
+    root_logger = logging.getLogger()
+    if handler is not None and handler not in root_logger.handlers:
+        # Some tests may reconfigure root logging; keep the session file handler attached.
+        root_logger.addHandler(handler)
+    root_logger.setLevel(logging.DEBUG)
     TEST_LOGGER.info("START test=%s", item.nodeid)
 
 
