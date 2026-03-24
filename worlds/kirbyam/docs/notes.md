@@ -1179,7 +1179,7 @@ Added deterministic enemy copy-ability policy generation in
 - `shuffled`: deterministic per-enemy-type assignment
 - `completely_random`: deterministic per-grant-event assignment
 
-The validated whitelist explicitly excludes `Crash` and `Wait`.
+The validated whitelist explicitly excludes `Wait`.
 
 The world now emits the following slot-data contract:
 - `enemy_copy_ability_randomization`

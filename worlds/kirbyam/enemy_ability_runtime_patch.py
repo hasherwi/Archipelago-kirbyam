@@ -53,12 +53,15 @@ _ABILITY_NAME_TO_ID: dict[str, int] = {
     "Missile": 25,
 }
 
-_MISSING_RUNTIME_ABILITY_IDS = set(VALID_ENEMY_COPY_ABILITIES) - set(_ABILITY_NAME_TO_ID)
-if _MISSING_RUNTIME_ABILITY_IDS:
-    raise ValueError(
-        "runtime ability ID mapping missing for whitelist entries: "
-        f"{sorted(_MISSING_RUNTIME_ABILITY_IDS)}"
-    )
+_MISSING_RUNTIME_ABILITY_NAMES = set(VALID_ENEMY_COPY_ABILITIES) - set(_ABILITY_NAME_TO_ID)
+
+
+def _validate_runtime_ability_ids() -> None:
+    if _MISSING_RUNTIME_ABILITY_NAMES:
+        raise ValueError(
+            "runtime ability ID mapping missing for whitelist entries (by name): "
+            f"{sorted(_MISSING_RUNTIME_ABILITY_NAMES)}"
+        )
 
 
 @dataclass(frozen=True)
@@ -155,6 +158,8 @@ def build_enemy_copy_runtime_patch_writes(policy: dict[str, Any]) -> dict[int, i
     mode = int(policy.get("mode", EnemyCopyAbilityRandomization.option_vanilla))
     if mode == EnemyCopyAbilityRandomization.option_vanilla:
         return {}
+
+    _validate_runtime_ability_ids()
 
     writes: dict[int, int] = {}
     for source_index, source in enumerate(_ABILITY_SOURCES):
