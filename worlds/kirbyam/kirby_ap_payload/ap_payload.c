@@ -154,7 +154,8 @@ __attribute__((used)) void ap_on_collect_vitality_chest(void) {
 static void ap_sync_active_kirby_health_from_vitality(void) {
     uint8_t player = KIRBY_CURRENT_PLAYER;
     uint32_t kirby_addr = KIRBY_STRUCTS_ADDR + ((uint32_t)player * KIRBY_STRUCT_STRIDE);
-    uint8_t vitality_total = (uint8_t)(KIRBY_VITALITY_COUNTER + 6u);
+    uint16_t vitality_total_u16 = (uint16_t)(KIRBY_VITALITY_COUNTER + 6u);
+    uint8_t vitality_total = (vitality_total_u16 > 0xFFu) ? 0xFFu : (uint8_t)vitality_total_u16;
 
     *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) = vitality_total;
     *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_MAX_HP_OFFSET) = vitality_total;

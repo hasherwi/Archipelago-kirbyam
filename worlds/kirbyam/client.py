@@ -478,7 +478,7 @@ class KirbyAmClient(BizHawkClient):
         # Boss defeat location polling via transport register
         await self._poll_boss_defeat_locations(ctx)
 
-        # Major chest location polling via native big_chest_bitfield_native
+        # Major chest location polling via dedicated major_chest_flags transport register
         await self._poll_major_chest_locations(ctx)
 
         # Vitality chest location polling via dedicated vitality_chest_flags transport register
