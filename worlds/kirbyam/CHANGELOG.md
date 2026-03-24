@@ -8,7 +8,7 @@
 - Add dedicated vitality chest AP location family and transport register (`vitality_chest_flags` at `0x0202C02C`), plus payload interception so native vitality chest rewards become AP checks.
 - Apply AP-delivered vitality items through native persistent vitality state (`gTreasures.unk20`) and immediate HP/max HP sync for the active Kirby.
 - Fix boss-defeat hook (`ap_on_boss_defeat_collect_shard`) to preserve native shard state by updating `KIRBY_SHARD_FLAGS`, mirroring to `AP_SHARD_BITFIELD`, and calling `persist_shard_to_sram`; prevents permanent white-screen soft-lock after the Moonlight Mansion boss shard-to-hub-mirror cutscene.
-- Add a fail-fast generation guard for enemy copy-ability randomization non-vanilla modes: until runtime hook consumption is shipped, selecting `shuffled` or `completely_random` now errors during generation instead of silently producing vanilla gameplay behavior (Issue #338).
+- Fix enemy copy-ability randomization runtime integration by applying deterministic non-vanilla remaps through ROM token writes at known enemy/miniboss/boss-spawned ability source addresses; `vanilla` remains unchanged and non-vanilla modes now affect live gameplay as expected (Issue #338).
 
 ## v0.0.10
 

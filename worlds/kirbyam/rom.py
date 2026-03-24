@@ -14,6 +14,7 @@ from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 
 from .data import data
+from .enemy_ability_runtime_patch import build_enemy_copy_runtime_patch_writes
 
 if TYPE_CHECKING:
     from . import KirbyAmWorld
@@ -45,5 +46,11 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
     auth_addr = data.rom_addresses.get("auth_token") or data.rom_addresses.get("gArchipelagoInfo")
     if auth_addr is not None:
         patch.write_token(APTokenTypes.WRITE, auth_addr, world.auth)
+
+    policy = getattr(world, "_enemy_copy_ability_policy", None)
+    if isinstance(policy, dict):
+        ability_writes = build_enemy_copy_runtime_patch_writes(policy)
+        for rom_offset, ability_id in sorted(ability_writes.items()):
+            patch.write_token(APTokenTypes.WRITE, rom_offset, bytes([ability_id]))
 
     patch.write_file("token_data.bin", patch.get_token_binary())

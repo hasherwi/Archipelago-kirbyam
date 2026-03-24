@@ -11,7 +11,6 @@ from ..ability_randomization import (
     VALID_ENEMY_COPY_ABILITIES,
     ability_for_enemy_grant_event,
     ability_for_enemy_type,
-    assert_enemy_copy_ability_runtime_supported,
     build_enemy_copy_ability_policy,
     remap_is_whitelist_preserving,
 )
@@ -131,19 +130,3 @@ def test_build_policy_is_deterministic_for_same_seed_and_options() -> None:
     enemies = ["WADDLE_DEE", "BLADE_KNIGHT", "HOT_HEAD"]
     for enemy in enemies:
         assert ability_for_enemy_type(policy1, enemy) == ability_for_enemy_type(policy2, enemy)
-
-
-def test_runtime_support_guard_allows_vanilla() -> None:
-    assert_enemy_copy_ability_runtime_supported(EnemyCopyAbilityRandomization.option_vanilla)
-
-
-@pytest.mark.parametrize(
-    "mode",
-    [
-        EnemyCopyAbilityRandomization.option_shuffled,
-        EnemyCopyAbilityRandomization.option_completely_random,
-    ],
-)
-def test_runtime_support_guard_rejects_non_vanilla_modes(mode: int) -> None:
-    with pytest.raises(ValueError, match="not yet runtime-integrated"):
-        assert_enemy_copy_ability_runtime_supported(mode)
