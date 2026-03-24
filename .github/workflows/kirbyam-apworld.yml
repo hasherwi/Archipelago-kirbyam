@@ -51,19 +51,18 @@ jobs:
             --github-output "${GITHUB_OUTPUT}"
 
       - name: Build kirbyam.apworld from source
-        working-directory: worlds/kirbyam
         run: |
-          python build.py --skip-patch
-          if [ ! -f kirbyam.apworld ]; then
+          python worlds/kirbyam/build.py --skip-patch --skip-install
+          if [ ! -f worlds/kirbyam/kirbyam.apworld ]; then
             echo "kirbyam.apworld was not created" >&2
             exit 1
           fi
-          if [ ! -s data/base_patch.bsdiff4 ]; then
+          if [ ! -s worlds/kirbyam/data/base_patch.bsdiff4 ]; then
             echo "Committed data/base_patch.bsdiff4 is missing or empty" >&2
             exit 1
           fi
-          ls -lh kirbyam.apworld data/base_patch.bsdiff4
-          sha256sum kirbyam.apworld data/base_patch.bsdiff4
+          ls -lh worlds/kirbyam/kirbyam.apworld worlds/kirbyam/data/base_patch.bsdiff4
+          sha256sum worlds/kirbyam/kirbyam.apworld worlds/kirbyam/data/base_patch.bsdiff4
 
       - name: Stage artifact
         id: package
