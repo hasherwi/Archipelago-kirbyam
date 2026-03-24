@@ -19,6 +19,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from .ability_randomization import (
+    VALID_ENEMY_COPY_ABILITIES,
     ability_for_enemy_grant_event,
     ability_for_enemy_type,
 )
@@ -43,6 +44,13 @@ _ABILITY_NAME_TO_ID: dict[str, int] = {
     "Mini": 23,
     "Missile": 25,
 }
+
+_MISSING_RUNTIME_ABILITY_IDS = set(VALID_ENEMY_COPY_ABILITIES) - set(_ABILITY_NAME_TO_ID)
+if _MISSING_RUNTIME_ABILITY_IDS:
+    raise ValueError(
+        "runtime ability ID mapping missing for whitelist entries: "
+        f"{sorted(_MISSING_RUNTIME_ABILITY_IDS)}"
+    )
 
 
 @dataclass(frozen=True)

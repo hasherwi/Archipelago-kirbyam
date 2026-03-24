@@ -1,10 +1,11 @@
 """ROM patch support for Kirby & The Amazing Mirror.
 
-At this stage, patching is kept minimal: we only produce a valid AP procedure
-patch file so the world can generate. Full ROM integration (writing the auth
-token, location tables, incoming item queue, etc.) should be added once
-addresses.json contains the required ROM symbols and the injected base patch is
-Kirby-specific.
+The world emits AP procedure patches that apply:
+- the shipped KirbyAM base bsdiff patch artifact
+- per-seed token writes (auth token and selected runtime feature writes)
+
+Issue #338 adds deterministic enemy copy-ability remap token writes for
+non-vanilla enemy randomization modes.
 """
 
 import os
