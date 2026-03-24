@@ -92,7 +92,7 @@ def test_filler_catalog_includes_multiple_life_items() -> None:
     assert all("Life" in item.tags for item in filler_items)
 
 
-def test_weighted_filler_selection_is_seed_stable() -> None:
+def test_active_filler_selection_is_seed_stable() -> None:
     world_a = KirbyAmWorld.__new__(KirbyAmWorld)
     world_a.random = random.Random(41)
 
@@ -114,12 +114,15 @@ def test_filler_selection_respects_active_pool() -> None:
 
     picks = [world.get_filler_item_name() for _ in range(50)]
 
-    # All picks must be from the active pool
-    assert all(pick in KirbyAmWorld.ACTIVE_FILLER_POOL for pick in picks), \
+    # All picks must be from the active pool, regardless of specific pool contents.
+    assert all(pick in KirbyAmWorld.ACTIVE_FILLER_POOL for pick in picks), (
         f"Filler picks must be from ACTIVE_FILLER_POOL, got {set(picks)}"
-    # Phase 1 pool should only contain 1 Up
-    assert KirbyAmWorld.ACTIVE_FILLER_POOL == ("1 Up",), \
-        "Phase 1 active pool should only contain '1 Up'"
+    )
+
+
+def test_phase1_active_filler_pool_contents() -> None:
+    """Phase 1: active filler generation is intentionally limited to 1 Up."""
+    assert KirbyAmWorld.ACTIVE_FILLER_POOL == ("1 Up",)
 
 
 def test_payload_supports_weighted_life_fillers() -> None:
