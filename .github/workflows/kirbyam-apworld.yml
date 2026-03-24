@@ -157,3 +157,35 @@ jobs:
             --repo "${GITHUB_REPOSITORY}" \
             --json assets \
             --jq '.assets[].name' | grep -Fx "${APWORLD_NAME}"
+
+      - name: Check out main for manifest version sync
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python for manifest version sync
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Persist world_version to main
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ needs.build-apworld.outputs.release_tag }}
+          RELEASE_VERSION: ${{ needs.build-apworld.outputs.version }}
+        run: |
+          python .github/scripts/kirbyam_release_metadata.py \
+            --github-ref "refs/tags/${RELEASE_TAG}" \
+            --world-manifest "worlds/kirbyam/archipelago.json"
+
+          if git diff --quiet -- worlds/kirbyam/archipelago.json; then
+            echo "worlds/kirbyam/archipelago.json already has world_version ${RELEASE_VERSION}; no sync commit needed"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add worlds/kirbyam/archipelago.json
+          git commit -m "KirbyAM: sync world_version to ${RELEASE_VERSION}"
+          git push origin HEAD:main
