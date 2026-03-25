@@ -3,16 +3,14 @@ Option definitions for Kirby & The Amazing Mirror
 """
 from dataclasses import dataclass
 
-from Options import Choice, DeathLink, PerGameCommonOptions, Toggle
+from Options import Choice, DeathLink, PerGameCommonOptions, Removed, Toggle
 
 
 class Goal(Choice):
     """
     Determines what your goal is to consider the game beaten.
 
-    - Dark Mind: Defeat Dark Mind and beat the game
-    - 100% Save File: Reserved for future player-template exposure
-    - DEBUG: Testing-only goal
+    - Dark Mind: Defeat Dark Mind and beat the game.
     """
     display_name = "Goal"
     default = 0
@@ -24,16 +22,14 @@ class Goal(Choice):
 
 class RandomizeShards(Choice):
     """
-    Adds Shards to the pool without letting boss defeats grant them directly.
+    Controls where Mirror Shards can appear.
 
-    - Vanilla: Each area's big chest holds its matching shard
-    - Shuffle: The eight area big chests hold a shuffled set of shards
-    - Completely Random: Shards can appear at any non-boss physical check
+    - Vanilla: Each area's boss defeat location contains its matching shard.
+    - Completely Random: Shards can appear at any physical check (boss and non-boss).
     """
     display_name = "Randomize Shards"
     default = 2
     option_vanilla = 0
-    option_shuffle = 1
     option_completely_random = 2
 
 
@@ -42,39 +38,48 @@ class EnemyCopyAbilityRandomization(Choice):
         Controls randomization of enemy-granted copy abilities.
 
         - Vanilla: Enemy copy abilities stay at native defaults.
-        - Shuffled: Enemy types are remapped deterministically so all enemies of
-            the same type grant the same ability.
-        - Completely Random: Eligible enemy ability sources are remapped
-            independently (deterministic per source entry).
+        - Shuffled: Experimental. Enemy types are remapped deterministically so
+            all enemies of the same type grant the same ability.
+        - Completely Random: Experimental. Eligible enemy ability sources are
+            remapped independently (deterministic per source entry). Hidden
+            from the generated player template for the first public build.
         """
         display_name = "Enemy Copy-Ability Randomization"
         default = 0
         option_vanilla = 0
         option_shuffled = 1
         option_completely_random = 2
+        template_excluded_choices = frozenset({"completely_random"})
 
 
 class RandomizeBossSpawnedAbilityGrants(Toggle):
-    """Whether ability-granting objects spawned by bosses are randomized."""
+    """Only applies when Enemy Copy-Ability Randomization is not Vanilla."""
     display_name = "Randomize Boss-Spawned Ability Grants"
     default = 1
 
 
 class RandomizeMiniBossAbilityGrants(Toggle):
-    """Whether mini-boss ability grants are randomized."""
+    """Only applies when Enemy Copy-Ability Randomization is not Vanilla."""
     display_name = "Randomize Mini-Boss Ability Grants"
     default = 1
 
 
 class KirbyAmDeathLink(DeathLink):
-    __doc__ = (DeathLink.__doc__ or "") + (
-        "\n\n    KirbyAM DeathLink uses native Kirby HP semantics: incoming DeathLink queues a gameplay-gated"
-        " local defeat, and local alive-to-dead transitions send one outgoing DeathLink event."
-    )
+    __doc__ = DeathLink.__doc__
 
 
 @dataclass
 class KirbyAmOptions(PerGameCommonOptions):
+    local_items: Removed
+    non_local_items: Removed
+    start_inventory: Removed
+    start_hints: Removed
+    start_location_hints: Removed
+    exclude_locations: Removed
+    priority_locations: Removed
+    item_links: Removed
+    plando_items: Removed
+
     goal: Goal
 
     shards: RandomizeShards
