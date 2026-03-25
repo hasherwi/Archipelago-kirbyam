@@ -68,13 +68,13 @@ class EnemyCopyAbilityRandomization(Choice):
 
 
 class RandomizeBossSpawnedAbilityGrants(Toggle):
-    """Only applies when Enemy Copy-Ability Randomization is not Vanilla."""
+    """Whether boss-spawned ability grants are randomized. Only applies when Enemy Copy-Ability Randomization is not Vanilla."""
     display_name = "Randomize Boss-Spawned Ability Grants"
     default = 1
 
 
 class RandomizeMiniBossAbilityGrants(Toggle):
-    """Only applies when Enemy Copy-Ability Randomization is not Vanilla."""
+    """Whether mini-boss ability grants are randomized. Only applies when Enemy Copy-Ability Randomization is not Vanilla."""
     display_name = "Randomize Mini-Boss Ability Grants"
     default = 1
 
@@ -84,6 +84,8 @@ class KirbyAmDeathLink(DeathLink):
 
 
 class _HiddenOptionMixin:
+    # Hide unsupported common options from KirbyAM templates/UI while preserving
+    # the underlying option types so external configs still parse consistently.
     visibility = Visibility.none
 
 

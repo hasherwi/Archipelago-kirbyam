@@ -14,7 +14,7 @@ You can read through all the options and generate a YAML here.
 
 
 
-This randomizer currently treats boss defeats and major chests as the main AP checks. In vanilla shard mode, each area's boss defeat check awards that area's shard as the AP item. In completely random shard mode, shards can appear at any physical check.
+This randomizer currently treats boss defeats, major chests, vitality chests, and sound player chests as primary AP checks. In vanilla shard mode, each area's boss defeat check awards that area's shard as the AP item. In completely random shard mode, shards can appear at any physical check.
 
 
 
