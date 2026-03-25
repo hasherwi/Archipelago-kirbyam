@@ -3,7 +3,22 @@ Option definitions for Kirby & The Amazing Mirror
 """
 from dataclasses import dataclass
 
-from Options import Choice, DeathLink, PerGameCommonOptions, Removed, Toggle
+from Options import (
+    Choice,
+    DeathLink,
+    ExcludeLocations,
+    ItemLinks,
+    LocalItems,
+    NonLocalItems,
+    PerGameCommonOptions,
+    PlandoItems,
+    PriorityLocations,
+    StartHints,
+    StartInventory,
+    StartLocationHints,
+    Toggle,
+    Visibility,
+)
 
 
 class Goal(Choice):
@@ -68,17 +83,53 @@ class KirbyAmDeathLink(DeathLink):
     __doc__ = DeathLink.__doc__
 
 
+class HiddenLocalItems(LocalItems):
+    visibility = Visibility.none
+
+
+class HiddenNonLocalItems(NonLocalItems):
+    visibility = Visibility.none
+
+
+class HiddenStartInventory(StartInventory):
+    visibility = Visibility.none
+
+
+class HiddenStartHints(StartHints):
+    visibility = Visibility.none
+
+
+class HiddenStartLocationHints(StartLocationHints):
+    visibility = Visibility.none
+
+
+class HiddenExcludeLocations(ExcludeLocations):
+    visibility = Visibility.none
+
+
+class HiddenPriorityLocations(PriorityLocations):
+    visibility = Visibility.none
+
+
+class HiddenItemLinks(ItemLinks):
+    visibility = Visibility.none
+
+
+class HiddenPlandoItems(PlandoItems):
+    visibility = Visibility.none
+
+
 @dataclass
 class KirbyAmOptions(PerGameCommonOptions):
-    local_items: Removed
-    non_local_items: Removed
-    start_inventory: Removed
-    start_hints: Removed
-    start_location_hints: Removed
-    exclude_locations: Removed
-    priority_locations: Removed
-    item_links: Removed
-    plando_items: Removed
+    local_items: HiddenLocalItems
+    non_local_items: HiddenNonLocalItems
+    start_inventory: HiddenStartInventory
+    start_hints: HiddenStartHints
+    start_location_hints: HiddenStartLocationHints
+    exclude_locations: HiddenExcludeLocations
+    priority_locations: HiddenPriorityLocations
+    item_links: HiddenItemLinks
+    plando_items: HiddenPlandoItems
 
     goal: Goal
 

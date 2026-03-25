@@ -124,6 +124,16 @@ class KirbyAmWorld(World):
         "MAJOR_CHEST_CARROT_CASTLE",
         "MAJOR_CHEST_RADISH_RUINS",
     )
+    _BOSS_DEFEAT_KEY_ORDER: ClassVar[tuple[str, ...]] = (
+        "BOSS_DEFEAT_1",
+        "BOSS_DEFEAT_2",
+        "BOSS_DEFEAT_3",
+        "BOSS_DEFEAT_4",
+        "BOSS_DEFEAT_5",
+        "BOSS_DEFEAT_6",
+        "BOSS_DEFEAT_7",
+        "BOSS_DEFEAT_8",
+    )
     # Shard item labels in the same positional order as _SHARD_CHEST_KEY_ORDER.
     # Using labels (stable identifiers from items.json) rather than sorted item IDs
     # keeps the vanilla chest→shard mapping correct even if item IDs are reorganised.
@@ -290,12 +300,24 @@ class KirbyAmWorld(World):
                 # In vanilla shard mode, each area's boss defeat location awards
                 # that area's matching shard (fixed AP placement).
                 if self.options.shards.value == RandomizeShards.option_vanilla:
-                    if len(boss_locations) != len(shard_item_codes):
+                    boss_locations_by_key = {
+                        loc.key: loc for loc in boss_locations if loc.key is not None
+                    }
+                    ordered_boss_locations: list[KirbyAmLocation] = []
+                    for boss_key in self._BOSS_DEFEAT_KEY_ORDER:
+                        boss_loc = boss_locations_by_key.get(boss_key)
+                        if boss_loc is None:
+                            raise ValueError(
+                                f"KirbyAM boss-defeat location missing from region graph: {boss_key}"
+                            )
+                        ordered_boss_locations.append(boss_loc)
+
+                    if len(ordered_boss_locations) != len(shard_item_codes):
                         raise ValueError(
-                            "KirbyAM shard placement mismatch: %d boss locations vs %d shard items"
-                            % (len(boss_locations), len(shard_item_codes))
+                            "KirbyAM shard placement mismatch: %d ordered boss locations vs %d shard items"
+                            % (len(ordered_boss_locations), len(shard_item_codes))
                         )
-                    for boss_loc, shard_code in zip(boss_locations, shard_item_codes):
+                    for boss_loc, shard_code in zip(ordered_boss_locations, shard_item_codes):
                         boss_loc.place_locked_item(self.create_item_by_code(shard_code))
                         boss_loc.progress_type = LocationProgressType.DEFAULT
                         locked_shard_count += 1
@@ -307,8 +329,10 @@ class KirbyAmWorld(World):
                         self.options.shards.current_key,
                     )
 
-                # Build the non-shard pool from boss rewards, vitality chest rewards,
-                # and Rainbow Route's big chest reward.
+                # Build the non-shard pool from mode-specific default items.
+                # - completely_random: retain legacy non-shard defaults
+                #   (boss + vitality + sound player + Rainbow Route), then add shard items.
+                # - vanilla: use defaults for all still-open physical locations.
                 base_non_shard_codes: list[int] = []
                 if self.options.shards.value == RandomizeShards.option_completely_random:
                     base_non_shard_locations = boss_locations + vitality_chest_locations + sound_player_chest_locations + [
