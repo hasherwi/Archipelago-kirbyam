@@ -148,8 +148,6 @@ class KirbyAmWorld(World):
         "Carrot Castle - Mirror Shard",
         "Radish Ruins - Mirror Shard",
     )
-    _RAINBOW_ROUTE_CHEST_KEY: ClassVar[str] = "MAJOR_CHEST_RAINBOW_ROUTE"
-
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
         # If you don't have sanity_check.py yet, comment these out for now.
@@ -293,12 +291,6 @@ class KirbyAmWorld(World):
                 shard_item_codes = [
                     shard_label_to_code[label] for label in self._SHARD_ITEM_LABEL_ORDER
                 ]
-
-                rainbow_route_chest = location_by_key.get(self._RAINBOW_ROUTE_CHEST_KEY)
-                if rainbow_route_chest is None:
-                    raise ValueError(
-                        f"KirbyAM non-shard chest location missing from region graph: {self._RAINBOW_ROUTE_CHEST_KEY}"
-                    )
 
                 expected_boss_defeat_count = sum(
                     1 for m in kirby_data.locations.values()
