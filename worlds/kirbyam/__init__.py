@@ -349,11 +349,12 @@ class KirbyAmWorld(World):
                             "KirbyAM shard pool mismatch: shard item count %d exceeds open physical locations %d"
                             % (len(shard_item_codes), len(base_non_shard_codes))
                         )
-                    randomized_item_codes = list(base_non_shard_codes)
-                    replacement_indices = list(range(len(randomized_item_codes)))
+                    codes_for_open_locations = list(base_non_shard_codes)
+                    replacement_indices = list(range(len(codes_for_open_locations)))
                     self.random.shuffle(replacement_indices)
                     for replacement_index, shard_code in zip(replacement_indices, shard_item_codes):
-                        randomized_item_codes[replacement_index] = shard_code
+                        codes_for_open_locations[replacement_index] = shard_code
+                    randomized_item_codes.extend(codes_for_open_locations)
                 else:
                     randomized_item_codes.extend(base_non_shard_codes)
 
