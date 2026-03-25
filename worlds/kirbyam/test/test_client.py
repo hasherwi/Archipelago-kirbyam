@@ -1785,27 +1785,30 @@ async def test_shard_poll_does_not_trigger_boss_defeat_locations(mock_bizhawk_co
 
 def test_vitality_chest_locations_defined_in_regions():
     """Regression test: all VITALITY_CHEST locations must be registered in their regions.
-    
+
     Issue #428 occurred because vitality chest locations were defined in locations.json
     but not referenced in areas.json. This test prevents that regression from silently
     recurring during future region edits.
     """
-    vitality_chest_keys = [
-        "VITALITY_CHEST_CARROT_CASTLE",
-        "VITALITY_CHEST_OLIVE_OCEAN",
-        "VITALITY_CHEST_RADISH_RUINS",
-        "VITALITY_CHEST_CANDY_CONSTELLATION",
-    ]
-    
+    # Derive vitality chest keys from locations data to keep this test future-proof.
+    location_category_enum = getattr(data, "LocationCategory", None)
+    vitality_category = getattr(location_category_enum, "VITALITY_CHEST", None) if location_category_enum else None
+    vitality_chest_keys = {
+        key
+        for key, loc in data.locations.items()
+        if key.startswith("VITALITY_CHEST_")
+        or (vitality_category is not None and getattr(loc, "category", None) == vitality_category)
+    }
+
     # Verify each vitality chest key exists in locations.json
     for key in vitality_chest_keys:
         assert key in data.locations, f"VITALITY_CHEST location key '{key}' missing from locations.json"
-    
+
     # Verify each vitality chest is registered in a region
     all_region_locations = set()
     for region_data in data.regions.values():
         all_region_locations.update(region_data.locations)
-    
+
     for key in vitality_chest_keys:
         assert key in all_region_locations, \
             f"VITALITY_CHEST location '{key}' defined in locations.json but not registered in any region in areas.json"
