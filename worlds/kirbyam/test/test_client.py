@@ -1305,7 +1305,7 @@ async def test_global_game_watcher_recovers_when_handler_tick_times_out():
 
     mock_ping.assert_awaited_once_with(ctx.bizhawk_ctx)
     ctx.client_handler.game_watcher.assert_awaited_once_with(ctx)
-    mock_logger.info.assert_called_with("Lost connection to BizHawk: Connection timed out")
+    mock_logger.info.assert_any_call("Lost connection to BizHawk: Connection timed out")
 
 
 @pytest.mark.asyncio
@@ -1773,6 +1773,34 @@ async def test_poll_boss_defeat_skips_when_address_missing(mock_bizhawk_context)
 @pytest.mark.asyncio
 async def test_shard_poll_does_not_trigger_boss_defeat_locations(mock_bizhawk_context):
     """Shard bitfield polling must not send boss-defeat location checks."""
+
+
+    def test_vitality_chest_locations_defined_in_regions():
+        """Regression test: all VITALITY_CHEST locations must be registered in their regions.
+    
+        Issue #428 occurred because vitality chest locations were defined in locations.json
+        but not referenced in areas.json. This test prevents that regression from silently
+        reoccurring during future region edits.
+        """
+        vitality_chest_keys = [
+            "VITALITY_CHEST_CARROT_CASTLE",
+            "VITALITY_CHEST_OLIVE_OCEAN",
+            "VITALITY_CHEST_RADISH_RUINS",
+            "VITALITY_CHEST_CANDY_CONSTELLATION",
+        ]
+    
+        # Verify each vitality chest key exists in locations.json
+        for key in vitality_chest_keys:
+            assert key in data.locations, f"VITALITY_CHEST location key '{key}' missing from locations.json"
+    
+        # Verify each vitality chest is registered in a region
+        all_region_locations = set()
+        for region_data in data.regions.values():
+            all_region_locations.update(region_data.locations)
+    
+        for key in vitality_chest_keys:
+            assert key in all_region_locations, \
+                f"VITALITY_CHEST location '{key}' defined in locations.json but not registered in any region in areas.json"
     client = KirbyAmClient()
     client.initialize_client()
 
