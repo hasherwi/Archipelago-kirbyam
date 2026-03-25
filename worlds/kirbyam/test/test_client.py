@@ -1069,7 +1069,8 @@ def test_send_notification_dedupes_outgoing_printjson_events(mock_bizhawk_contex
     assert mock_async_start.call_count == 1
     assert mock_display.call_count == 1
     display_args = mock_display.call_args.args
-    assert display_args[1] == "Sent Mirror Shard to PlayerTwo"
+    # New format includes sender and location context
+    assert display_args[1] == "Player 1 sent Mirror Shard to PlayerTwo (Location 123)"
 
 
 def test_send_notification_ignores_unrelated_itemsend_traffic(mock_bizhawk_context):

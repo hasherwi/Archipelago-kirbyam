@@ -293,7 +293,16 @@ Send-specific contract (Issue #74):
     - additional sends in the same window are suppressed
     - a summary message reports suppressed count when the window rolls over
 
-### 4. Goal Reporting
+Send notification message format (Issue #432):
+- If location is available: `"<sender_name> sent <item_name> to <receiver_name> (<location_name>)"`
+- If location unavailable: `"<sender_name> sent <item_name> to <receiver_name>"`
+- Item names resolved from KirbyAM world item data, with fallback to `"Item <id>"`.
+- Location names resolved from AP location address mappings, with fallback to `"Location <id>"`.
+- Player names resolved from AP `player_names` context, with fallbacks: Archipelago (player 0), or `"Player <id>"`.
+
+Receive notification message format:
+- Format: `"Received <item_name> from <sender_name>"`
+- Item and player names use same resolution as send notifications above.
 
 **Current Implementation (native AI-state polling):**
 ```python

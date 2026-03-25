@@ -232,7 +232,22 @@ class KirbyAmClient(BizHawkClient):
                     return resolved
             except Exception:
                 pass
+        # Fallback: try direct lookup from KirbyAM data
+        item_data = data.items.get(item_id)
+        if item_data is not None:
+            return item_data.label
         return f"Item {item_id}"
+
+    @staticmethod
+    def _location_name(location_id: int) -> str:
+        """Get location display name from AP location ID (address)."""
+        if location_id is None:
+            return ""
+        # Reverse-lookup: find location key by location_id
+        for location_key, location_data in data.locations.items():
+            if location_data.location_id == location_id:
+                return location_data.label
+        return f"Location {location_id}"
 
     async def _emit_receive_notification(self, ctx: "BizHawkClientContext", delivered_index: int) -> None:
         # ACK-gated + index-deduped to avoid replay spam during reconnect
@@ -296,8 +311,15 @@ class KirbyAmClient(BizHawkClient):
         self._notified_send_keys.add(send_key)
 
         item_name = self._item_name(ctx, item_id, sender_id)
+        sender_name = self._player_name(ctx, sender_id)
         receiver_name = self._player_name(ctx, receiver_id)
-        message = f"Sent {item_name} to {receiver_name}"
+        location_name = self._location_name(location_id)
+        
+        # Build message with location context if available
+        if location_name:
+            message = f"{sender_name} sent {item_name} to {receiver_name} ({location_name})"
+        else:
+            message = f"{sender_name} sent {item_name} to {receiver_name}"
 
         from CommonClient import logger
 
@@ -321,8 +343,9 @@ class KirbyAmClient(BizHawkClient):
         if self._send_notify_window_count >= _SEND_NOTIFY_MAX_PER_WINDOW:
             self._send_notify_window_suppressed += 1
             logger.debug(
-                "KirbyAM: send notification suppressed by rate limit (item=%s, receiver=%s)",
+                "KirbyAM: send notification suppressed by rate limit (item=%s, sender=%s, receiver=%s)",
                 item_name,
+                sender_name,
                 receiver_name,
             )
             return
@@ -330,9 +353,11 @@ class KirbyAmClient(BizHawkClient):
         self._send_notify_window_count += 1
 
         logger.info(
-            "KirbyAM: send notification queued (item=%s, receiver=%s)",
+            "KirbyAM: send notification queued (item=%s, sender=%s, receiver=%s, location=%s)",
             item_name,
+            sender_name,
             receiver_name,
+            location_name,
         )
         Utils.async_start(bizhawk.display_message(ctx.bizhawk_ctx, message))
 
