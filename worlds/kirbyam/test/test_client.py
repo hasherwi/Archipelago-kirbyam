@@ -1800,11 +1800,10 @@ def test_vitality_chest_locations_defined_in_regions():
         or (vitality_category is not None and getattr(loc, "category", None) == vitality_category)
     }
 
-    # Verify each vitality chest key exists in locations.json
-    for key in vitality_chest_keys:
-        assert key in data.locations, f"VITALITY_CHEST location key '{key}' missing from locations.json"
+    # Verify vitality chests were found (derivation logic sanity check).
+    assert vitality_chest_keys, "No VITALITY_CHEST locations found in locations.json"
 
-    # Verify each vitality chest is registered in a region
+    # Verify each vitality chest is registered in a region.
     all_region_locations = set()
     for region_data in data.regions.values():
         all_region_locations.update(region_data.locations)
