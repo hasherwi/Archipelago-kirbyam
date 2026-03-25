@@ -83,40 +83,44 @@ class KirbyAmDeathLink(DeathLink):
     __doc__ = DeathLink.__doc__
 
 
-class HiddenLocalItems(LocalItems):
+class _HiddenOptionMixin:
     visibility = Visibility.none
 
 
-class HiddenNonLocalItems(NonLocalItems):
-    visibility = Visibility.none
+class HiddenLocalItems(_HiddenOptionMixin, LocalItems):
+    pass
 
 
-class HiddenStartInventory(StartInventory):
-    visibility = Visibility.none
+class HiddenNonLocalItems(_HiddenOptionMixin, NonLocalItems):
+    pass
 
 
-class HiddenStartHints(StartHints):
-    visibility = Visibility.none
+class HiddenStartInventory(_HiddenOptionMixin, StartInventory):
+    pass
 
 
-class HiddenStartLocationHints(StartLocationHints):
-    visibility = Visibility.none
+class HiddenStartHints(_HiddenOptionMixin, StartHints):
+    pass
 
 
-class HiddenExcludeLocations(ExcludeLocations):
-    visibility = Visibility.none
+class HiddenStartLocationHints(_HiddenOptionMixin, StartLocationHints):
+    pass
 
 
-class HiddenPriorityLocations(PriorityLocations):
-    visibility = Visibility.none
+class HiddenExcludeLocations(_HiddenOptionMixin, ExcludeLocations):
+    pass
 
 
-class HiddenItemLinks(ItemLinks):
-    visibility = Visibility.none
+class HiddenPriorityLocations(_HiddenOptionMixin, PriorityLocations):
+    pass
 
 
-class HiddenPlandoItems(PlandoItems):
-    visibility = Visibility.none
+class HiddenItemLinks(_HiddenOptionMixin, ItemLinks):
+    pass
+
+
+class HiddenPlandoItems(_HiddenOptionMixin, PlandoItems):
+    pass
 
 
 @dataclass

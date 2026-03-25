@@ -134,9 +134,10 @@ class KirbyAmWorld(World):
         "BOSS_DEFEAT_7",
         "BOSS_DEFEAT_8",
     )
-    # Shard item labels in the same positional order as _SHARD_CHEST_KEY_ORDER.
-    # Using labels (stable identifiers from items.json) rather than sorted item IDs
-    # keeps the vanilla chest→shard mapping correct even if item IDs are reorganised.
+    # Shard item labels in the same positional order as _BOSS_DEFEAT_KEY_ORDER.
+    # Vanilla placement follows boss-defeat index -> shard label. This order also
+    # matches the legacy shard-chest ordering, but boss-defeat ordering is the
+    # authoritative mapping for the current contract.
     _SHARD_ITEM_LABEL_ORDER: ClassVar[tuple[str, ...]] = (
         "Mustard Mountain - Mirror Shard",
         "Moonlight Mansion - Mirror Shard",
