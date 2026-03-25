@@ -330,21 +330,13 @@ class KirbyAmWorld(World):
                         self.options.shards.current_key,
                     )
 
-                # Build the non-shard pool from mode-specific default items.
-                # - completely_random: retain legacy non-shard defaults
-                #   (boss + vitality + sound player + Rainbow Route), then add shard items.
-                # - vanilla: use defaults for all still-open physical locations.
+                # Build default items for all still-open physical locations.
                 base_non_shard_codes: list[int] = []
-                if self.options.shards.value == RandomizeShards.option_completely_random:
-                    base_non_shard_locations = boss_locations + vitality_chest_locations + sound_player_chest_locations + [
-                        rainbow_route_chest
-                    ]
-                else:
-                    base_non_shard_locations = [
-                        loc
-                        for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations
-                        if loc.item is None
-                    ]
+                base_non_shard_locations = [
+                    loc
+                    for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations
+                    if loc.item is None
+                ]
 
                 for loc in base_non_shard_locations:
                     if loc.default_item_code is None:
@@ -352,8 +344,18 @@ class KirbyAmWorld(World):
                     base_non_shard_codes.append(loc.default_item_code)
 
                 if self.options.shards.value == RandomizeShards.option_completely_random:
-                    randomized_item_codes.extend(shard_item_codes)
-                randomized_item_codes.extend(base_non_shard_codes)
+                    if len(shard_item_codes) > len(base_non_shard_codes):
+                        raise ValueError(
+                            "KirbyAM shard pool mismatch: shard item count %d exceeds open physical locations %d"
+                            % (len(shard_item_codes), len(base_non_shard_codes))
+                        )
+                    randomized_item_codes = list(base_non_shard_codes)
+                    replacement_indices = list(range(len(randomized_item_codes)))
+                    self.random.shuffle(replacement_indices)
+                    for replacement_index, shard_code in zip(replacement_indices, shard_item_codes):
+                        randomized_item_codes[replacement_index] = shard_code
+                else:
+                    randomized_item_codes.extend(base_non_shard_codes)
 
                 open_physical_locations = [
                     loc for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations
