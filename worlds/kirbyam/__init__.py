@@ -161,6 +161,18 @@ class KirbyAmWorld(World):
     def get_filler_item_name(self) -> str:
         return self.random.choice(self.ACTIVE_FILLER_POOL)
 
+    def _ordered_boss_defeat_locations(self, boss_locations: list[KirbyAmLocation]) -> list[KirbyAmLocation]:
+        boss_locations_by_key = {
+            loc.key: loc for loc in boss_locations if loc.key is not None
+        }
+        ordered_boss_locations: list[KirbyAmLocation] = []
+        for boss_key in self._BOSS_DEFEAT_KEY_ORDER:
+            boss_loc = boss_locations_by_key.get(boss_key)
+            if boss_loc is None:
+                raise ValueError(f"KirbyAM boss-defeat location missing from region graph: {boss_key}")
+            ordered_boss_locations.append(boss_loc)
+        return ordered_boss_locations
+
     # Pre-generation adjustments
     def generate_early(self) -> None:
         # Track generation start
@@ -301,17 +313,7 @@ class KirbyAmWorld(World):
                 # In vanilla shard mode, each area's boss defeat location awards
                 # that area's matching shard (fixed AP placement).
                 if self.options.shards.value == RandomizeShards.option_vanilla:
-                    boss_locations_by_key = {
-                        loc.key: loc for loc in boss_locations if loc.key is not None
-                    }
-                    ordered_boss_locations: list[KirbyAmLocation] = []
-                    for boss_key in self._BOSS_DEFEAT_KEY_ORDER:
-                        boss_loc = boss_locations_by_key.get(boss_key)
-                        if boss_loc is None:
-                            raise ValueError(
-                                f"KirbyAM boss-defeat location missing from region graph: {boss_key}"
-                            )
-                        ordered_boss_locations.append(boss_loc)
+                    ordered_boss_locations = self._ordered_boss_defeat_locations(boss_locations)
 
                     if len(ordered_boss_locations) != len(shard_item_codes):
                         raise ValueError(
