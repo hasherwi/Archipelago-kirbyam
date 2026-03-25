@@ -22,7 +22,7 @@ This randomizer handles item randomization for shards and big chests collected t
 
 
 
-The locations of Shards, Maps, and the Sound Player are all randomized. For example, the big chest in Moonlight Mansion might contain the mirror shard that normally drops from defeating Wiz.
+The locations of Shards, Maps, Vitality Counters, and the Sound Player are all randomized. For example, the big chest in Moonlight Mansion might contain the mirror shard that normally drops from defeating Wiz.
 
 
 
@@ -38,7 +38,7 @@ Additional changes planned, none currently implemented.
 
 
 
-When you find an item that is not your own, you will be able to see what it was and who it was sent to in the client window. The item in the game will still appear as the vanilla item.
+When you find an item that is not your own, you will be able to see what it was and who it was sent to in the client window. The sprite for the item will still appear, but you will need to receive it via Archipelago before it's usable.
 
 
 
