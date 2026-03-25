@@ -18,6 +18,7 @@ tabbed out of EmuHawk.
 `Controllers…`, load any `.gba` ROM first.
 - Consider clearing keybinds in `Config > Hotkeys…` if you don't intend to use them. Select the keybind and press Esc to
 clear it.
+- Kirby & The Amazing Mirror uses Bizhawks Message system to indicate items sent & received in addition to the Archipelago Bizhawk client. As a result of this we recommend increasing the amount of time these messages stay on screen for you to read to your preferred duration. This can be updated by going to Config > Messages within Bizhawk and changing the setting for "Messages fade after X seconds."
 
 ## Generating and Patching a Game
 
