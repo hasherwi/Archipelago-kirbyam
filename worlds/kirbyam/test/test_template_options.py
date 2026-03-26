@@ -24,7 +24,7 @@ def test_kirbyam_template_surface_options_visibility() -> None:
                 content = f.read()
                 data = parse_yaml(content)
 
-            requires_game_version = data["requires"]["game"]["Kirby & The Amazing Mirror"]
+            requires_game_version = data["requires"]["game"][KirbyAmWorld.game]
             game_block = data["Kirby & The Amazing Mirror"]
             goal_weights = game_block["goal"]
             shard_weights = game_block["shards"]
@@ -46,7 +46,7 @@ def test_kirbyam_template_surface_options_visibility() -> None:
             assert "DEBUG: Testing-only goal" not in content
             assert "KirbyAM DeathLink uses native Kirby HP semantics" not in content
             assert "Item & Location Options" not in content
-            assert requires_game_version == "0.0.12"
+            assert requires_game_version == KirbyAmWorld.world_version.as_simple_string()
 
             assert "local_items" not in game_block
             assert "non_local_items" not in game_block
