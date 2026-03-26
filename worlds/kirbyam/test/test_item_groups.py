@@ -18,27 +18,22 @@ from ..groups import ITEM_GROUPS
 # Canonical item group names that must exist and be non-empty.
 # These form the stable API contract for users working with groups.
 CANONICAL_ITEM_GROUPS = {
-    "Shard",      # Mirror shard items (one per area)
-    "Unique",     # Unique progression items (e.g., maps, shards)
-    "Map",        # Area map items
+    "Shards",     # Mirror shard items (one per area)
+    "Unique",     # Unique progression items (e.g., maps, shards, sound player, vitality counters)
+    "Maps",       # Area map items
     "Vitality",   # Vitality counter items
     "Useful",     # Useful but non-critical progression items
     "Filler",     # Filler items (1-Up, 2-Up, 3-Up)
 }
 
-# Aliases that should map to canonical group names.
-EXPECTED_ALIASES = {
-    "Shards": "Shard",  # plural form
-}
-
 # Expected members in canonical groups (representative samples for validation).
 EXPECTED_GROUP_MEMBERS = {
-    "Shard": {
+    "Shards": {
         "Mustard Mountain - Mirror Shard",
         "Moonlight Mansion - Mirror Shard",
         "Candy Constellation - Mirror Shard",
     },
-    "Map": {
+    "Maps": {
         "Map - Rainbow Route",
         "Map - Mustard Mountain",
         "Map - Moonlight Mansion",
@@ -47,6 +42,11 @@ EXPECTED_GROUP_MEMBERS = {
         "Vitality Counter I",
         "Vitality Counter II",
         "Vitality Counter III",
+    },
+    "Unique": {
+        "Mustard Mountain - Mirror Shard",  # Shards are also Unique
+        "Sound Player",
+        "Vitality Counter I",  # Vitality counters are also Unique
     },
     "Filler": {
         "1 Up",
@@ -68,15 +68,6 @@ class TestItemGroupsExist:
         """Canonical groups must not be empty."""
         empty_groups = {name for name in CANONICAL_ITEM_GROUPS if not ITEM_GROUPS.get(name)}
         assert not empty_groups, f"Empty canonical item groups: {empty_groups}"
-
-    def test_aliases_are_resolvable(self):
-        """Aliases must resolve to non-empty canonical groups."""
-        for alias, canonical in EXPECTED_ALIASES.items():
-            assert alias in ITEM_GROUPS, f"Alias '{alias}' not found in ITEM_GROUPS"
-            assert canonical in ITEM_GROUPS, f"Canonical group '{canonical}' not found"
-            # Aliases should reference the same set object
-            assert ITEM_GROUPS[alias] is ITEM_GROUPS[canonical], \
-                f"Alias '{alias}' does not reference the same set as canonical '{canonical}'"
 
 
 class TestItemGroupMembership:
@@ -101,15 +92,15 @@ class TestItemGroupMembership:
 
     def test_canonical_groups_have_expected_item_count(self):
         """Canonical groups should have reasonable item counts."""
-        # Shard: 8 items (one per area)
-        assert len(ITEM_GROUPS.get("Shard", set())) == 8, \
-            "Shard group should have 8 items (one per area)"
-        # Map: 9 items (one per area map in areas.json)
-        assert len(ITEM_GROUPS.get("Map", set())) == 9, \
-            "Map group should have 9 items"
-        # Vitality: 4 items (I, II, III, and possibly IV)
-        assert len(ITEM_GROUPS.get("Vitality", set())) >= 3, \
-            "Vitality group should have at least 3 items"
+        # Shards: 8 items (one per area)
+        assert len(ITEM_GROUPS.get("Shards", set())) == 8, \
+            "Shards group should have 8 items (one per area)"
+        # Maps: 9 items (one per area map in areas.json)
+        assert len(ITEM_GROUPS.get("Maps", set())) == 9, \
+            "Maps group should have 9 items"
+        # Vitality: 4 items (I, II, III, IV)
+        assert len(ITEM_GROUPS.get("Vitality", set())) == 4, \
+            "Vitality group should have 4 items"
         # Filler: 3 items (1-Up, 2-Up, 3-Up)
         assert len(ITEM_GROUPS.get("Filler", set())) == 3, \
             "Filler group should have 3 items (1-Up, 2-Up, 3-Up)"
@@ -140,10 +131,19 @@ class TestItemGroupContracts:
     """Test stability of item group contracts for users."""
 
     def test_shard_group_remains_stable(self):
-        """The 'Shard' group is used by world logic and must not break."""
-        # The world uses item_name_groups.get("Shard", set()) for pool accounting
-        shard_items = ITEM_GROUPS.get("Shard", set())
-        assert shard_items, "Shard group must exist and be non-empty for world logic"
+        """The 'Shards' group is used by world logic and must not break."""
+        # The world uses item_name_groups.get("Shards", set()) for pool accounting
+        shards_items = ITEM_GROUPS.get("Shards", set())
+        assert shards_items, "Shards group must exist and be non-empty for world logic"
+
+    def test_sound_player_and_vitality_in_unique(self):
+        """Sound Player and Vitality Counters must be in Unique group."""
+        unique_items = ITEM_GROUPS.get("Unique", set())
+        assert "Sound Player" in unique_items, "Sound Player should be in Unique group"
+        assert "Vitality Counter I" in unique_items, "Vitality Counter I should be in Unique group"
+        assert "Vitality Counter II" in unique_items, "Vitality Counter II should be in Unique group"
+        assert "Vitality Counter III" in unique_items, "Vitality Counter III should be in Unique group"
+        assert "Vitality Counter IV" in unique_items, "Vitality Counter IV should be in Unique group"
 
     def test_no_life_group_in_canonical(self):
         """The 'Life' group should not be in canonical (was removed from contract)."""
@@ -155,9 +155,9 @@ class TestItemGroupContracts:
     def test_all_canonical_groups_have_use_case(self):
         """Each canonical group should have a documented use case."""
         use_cases = {
-            "Shard": "Boss-defeat progression items",
-            "Unique": "One-of-a-kind progression items (maps, shards)",
-            "Map": "Area map items",
+            "Shards": "Boss-defeat progression items (Mirror Shards)",
+            "Unique": "One-of-a-kind progression items (Shards, Sound Player, Vitality Counters, Maps)",
+            "Maps": "Area map items",
             "Vitality": "Vitality counter increase items",
             "Useful": "Non-critical progression enhancers (e.g., copy ability upgrades)",
             "Filler": "Generic filler items (1-Up, 2-Up, 3-Up)",

@@ -275,7 +275,7 @@ class KirbyAmWorld(World):
                 shard_label_to_code = {
                     item.label: item.item_id
                     for item in kirby_data.items.values()
-                    if "Shard" in item.tags
+                    if "Shards" in item.tags
                 }
                 missing_shard_labels = [
                     label for label in self._SHARD_ITEM_LABEL_ORDER
@@ -380,7 +380,7 @@ class KirbyAmWorld(World):
             useful_count = sum(1 for item in itempool if item.useful)
             filler_count = sum(1 for item in itempool if item.filler)
             progression_count = sum(1 for item in itempool if item.advancement)
-            pool_shard_count = sum(1 for item in itempool if item.name in self.item_name_groups.get("Shard", set()))
+            pool_shard_count = sum(1 for item in itempool if item.name in self.item_name_groups.get("Shards", set()))
             logger.info(
                 "[P%s] Item pool classification summary: useful=%s filler=%s progression=%s",
                 self.player,
