@@ -385,7 +385,7 @@ class KirbyAmWorld(World):
             elif "Shard" in self.item_name_groups:
                 shard_group = self.item_name_groups["Shard"]
             else:
-                shard_group = set()
+                shard_group = set(self._SHARD_ITEM_LABEL_ORDER)
             pool_shard_count = sum(1 for item in itempool if item.name in shard_group)
             logger.info(
                 "[P%s] Item pool classification summary: useful=%s filler=%s progression=%s",

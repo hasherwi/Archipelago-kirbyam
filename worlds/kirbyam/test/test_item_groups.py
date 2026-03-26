@@ -107,12 +107,24 @@ class TestItemGroupMembership:
 
     def test_canonical_groups_have_expected_item_count(self):
         """Canonical groups should have reasonable item counts."""
-        # Shards: 8 items (one per area)
-        assert len(ITEM_GROUPS.get("Shards", set())) == 8, \
-            "Shards group should have 8 items (one per area)"
-        # Maps: 9 items (one per area map in areas.json)
-        assert len(ITEM_GROUPS.get("Maps", set())) == 9, \
-            "Maps group should have 9 items"
+        expected_shards = {
+            item.label for item in data.items.values()
+            if "Shards" in item.tags
+        }
+        shards_group = ITEM_GROUPS.get("Shards", set())
+        assert shards_group, "Shards group should not be empty"
+        assert len(shards_group) == len(expected_shards), \
+            "Shards group size should match shard items in data"
+
+        expected_maps = {
+            item.label for item in data.items.values()
+            if "Maps" in item.tags
+        }
+        maps_group = ITEM_GROUPS.get("Maps", set())
+        assert maps_group, "Maps group should not be empty"
+        assert len(maps_group) == len(expected_maps), \
+            "Maps group size should match map items in data"
+
         # Vitality: 4 items (I, II, III, IV)
         assert len(ITEM_GROUPS.get("Vitality", set())) == 4, \
             "Vitality group should have 4 items"
