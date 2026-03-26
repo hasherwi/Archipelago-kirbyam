@@ -10,6 +10,17 @@ for item in data.items.values():
     for tag in item.tags:
         ITEM_GROUPS.setdefault(tag, set()).add(item.label)
 
+# Backward-compatible aliases for legacy YAML filters.
+_ITEM_GROUP_ALIASES = {
+    "Shard": "Shards",
+    "Map": "Maps",
+}
+
+for alias, canonical in _ITEM_GROUP_ALIASES.items():
+    canonical_members = ITEM_GROUPS.get(canonical)
+    if canonical_members is not None:
+        ITEM_GROUPS[alias] = canonical_members
+
 
 # Location Groups
 # These map groups are based on location tags. Each group collects all location labels

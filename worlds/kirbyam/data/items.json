@@ -60,55 +60,55 @@
     "label": "Map - Rainbow Route",
     "classification": "USEFUL",
     "item_id": 3860024,
-    "tags": ["Maps", "Useful"]
+    "tags": ["Maps", "Useful", "Unique"]
   },
   "MAP_MUSTARD_MOUNTAIN": {
     "label": "Map - Mustard Mountain",
     "classification": "USEFUL",
     "item_id": 3860010,
-    "tags": ["Maps", "Useful"]
+    "tags": ["Maps", "Useful", "Unique"]
   },
   "MAP_MOONLIGHT_MANSION": {
     "label": "Map - Moonlight Mansion",
     "classification": "USEFUL",
     "item_id": 3860011,
-    "tags": ["Maps", "Useful"]
+    "tags": ["Maps", "Useful", "Unique"]
   },
   "MAP_CANDY_CONSTELLATION": {
     "label": "Map - Candy Constellation",
     "classification": "USEFUL",
     "item_id": 3860012,
-    "tags": ["Maps", "Useful"]
+    "tags": ["Maps", "Useful", "Unique"]
   },
   "MAP_OLIVE_OCEAN": {
     "label": "Map - Olive Ocean",
     "classification": "USEFUL",
     "item_id": 3860013,
-    "tags": ["Maps", "Useful"]
+    "tags": ["Maps", "Useful", "Unique"]
   },
   "MAP_PEPPERMINT_PALACE": {
     "label": "Map - Peppermint Palace",
     "classification": "USEFUL",
     "item_id": 3860014,
-    "tags": ["Maps", "Useful"]
+    "tags": ["Maps", "Useful", "Unique"]
   },
   "MAP_CABBAGE_CAVERN": {
     "label": "Map - Cabbage Cavern",
     "classification": "USEFUL",
     "item_id": 3860015,
-    "tags": ["Maps", "Useful"]
+    "tags": ["Maps", "Useful", "Unique"]
   },
   "MAP_CARROT_CASTLE": {
     "label": "Map - Carrot Castle",
     "classification": "USEFUL",
     "item_id": 3860016,
-    "tags": ["Maps", "Useful"]
+    "tags": ["Maps", "Useful", "Unique"]
   },
   "MAP_RADISH_RUINS": {
     "label": "Map - Radish Ruins",
     "classification": "USEFUL",
     "item_id": 3860017,
-    "tags": ["Maps", "Useful"]
+    "tags": ["Maps", "Useful", "Unique"]
   },
   "VITALITY_COUNTER_1": {
     "label": "Vitality Counter I",

@@ -3,7 +3,7 @@ Tests for KirbyAM item groups.
 
 Validates that:
 - Canonical item groups are defined and properly populated.
-- Group aliases work as expected.
+- Legacy aliases resolve to the canonical groups.
 - All grouped items exist in the item data.
 - No empty groups are exposed (AP requirement).
 """
@@ -26,6 +26,11 @@ CANONICAL_ITEM_GROUPS = {
     "Filler",     # Filler items (1-Up, 2-Up, 3-Up)
 }
 
+EXPECTED_ALIASES = {
+    "Shard": "Shards",
+    "Map": "Maps",
+}
+
 # Expected members in canonical groups (representative samples for validation).
 EXPECTED_GROUP_MEMBERS = {
     "Shards": {
@@ -45,6 +50,7 @@ EXPECTED_GROUP_MEMBERS = {
     },
     "Unique": {
         "Mustard Mountain - Mirror Shard",  # Shards are also Unique
+        "Map - Rainbow Route",
         "Sound Player",
         "Vitality Counter I",  # Vitality counters are also Unique
     },
@@ -68,6 +74,14 @@ class TestItemGroupsExist:
         """Canonical groups must not be empty."""
         empty_groups = {name for name in CANONICAL_ITEM_GROUPS if not ITEM_GROUPS.get(name)}
         assert not empty_groups, f"Empty canonical item groups: {empty_groups}"
+
+    def test_legacy_aliases_expose_same_members(self):
+        """Legacy aliases must resolve to the same members as their canonical groups."""
+        for alias, canonical in EXPECTED_ALIASES.items():
+            assert alias in ITEM_GROUPS, f"Alias '{alias}' not found in ITEM_GROUPS"
+            assert canonical in ITEM_GROUPS, f"Canonical group '{canonical}' not found in ITEM_GROUPS"
+            assert ITEM_GROUPS[alias] == ITEM_GROUPS[canonical], \
+                f"Alias '{alias}' does not expose the same members as canonical '{canonical}'"
 
 
 class TestItemGroupMembership:
@@ -101,6 +115,8 @@ class TestItemGroupMembership:
         # Vitality: 4 items (I, II, III, IV)
         assert len(ITEM_GROUPS.get("Vitality", set())) == 4, \
             "Vitality group should have 4 items"
+        assert "Vitality Counter IV" in ITEM_GROUPS.get("Vitality", set()), \
+            "Vitality group should include Vitality Counter IV"
         # Filler: 3 items (1-Up, 2-Up, 3-Up)
         assert len(ITEM_GROUPS.get("Filler", set())) == 3, \
             "Filler group should have 3 items (1-Up, 2-Up, 3-Up)"
