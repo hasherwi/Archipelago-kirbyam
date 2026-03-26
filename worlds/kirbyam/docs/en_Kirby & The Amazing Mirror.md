@@ -33,9 +33,9 @@ The KirbyAM world defines the following item groups for use in YAML-based item/l
 
 | Group Name | Also Known As | Items Included | Use Case |
 |---|---|---|---|
-| `Shards` | Mirror Shard | One shard per area (8 total) | Boss-defeat progression items; use in `local_items` if you want local shard discovery |
+| `Shards` | `Shard` | One shard per area (8 total) | Boss-defeat progression items; use in `local_items` if you want local shard discovery |
 | `Unique` | — | Mirror shards + maps + Sound Player + vitality counters | One-of-a-kind progression items; often treated as important progression |
-| `Maps` | Area Maps | Area map items (9 total) | Area maps; non-critical but helpful for navigation |
+| `Maps` | `Map` | Area map items (9 total) | Area maps; non-critical but helpful for navigation |
 | `Vitality` | Vitality Counters | Vitality counter upgrades (I, II, III, IV) | Life upgrades; use in plando to guarantee health increases |
 | `Useful` | — | Maps + vitality counters + Sound Player | Non-critical progression enhancers; useful for strategic item placement |
 | `Filler` | — | 1-Up, 2-Up, 3-Up | Generic filler items; often used as low-priority junk |

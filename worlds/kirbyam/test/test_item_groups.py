@@ -47,6 +47,7 @@ EXPECTED_GROUP_MEMBERS = {
         "Vitality Counter I",
         "Vitality Counter II",
         "Vitality Counter III",
+        "Vitality Counter IV",
     },
     "Unique": {
         "Mustard Mountain - Mirror Shard",  # Shards are also Unique
@@ -139,7 +140,8 @@ class TestItemGroupsInWorldContext:
 
     def test_no_empty_groups_exposed(self):
         """AP requirement: no empty groups should be exposed."""
-        empty_groups = {name for name, members in ITEM_GROUPS.items() if not members}
+        groups = KirbyAmWorld.item_name_groups
+        empty_groups = {name for name, members in groups.items() if not members}
         assert not empty_groups, f"Empty groups exposed: {empty_groups}"
 
 
