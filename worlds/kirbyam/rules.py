@@ -122,11 +122,12 @@ def set_rules(world: KirbyAmWorld) -> None:
     shard_gate_rule = lambda state: _has_all_shards(state, world.player)
 
     item_name_groups = getattr(world, "item_name_groups", {})
-    shard_items = (
-        item_name_groups.get("Shards")
-        or item_name_groups.get("Shard")
-        or set(_SHARD_ITEM_LABELS)
-    )
+    if "Shards" in item_name_groups:
+        shard_items = item_name_groups["Shards"]
+    elif "Shard" in item_name_groups:
+        shard_items = item_name_groups["Shard"]
+    else:
+        shard_items = set(_SHARD_ITEM_LABELS)
     get_locations = getattr(world.multiworld, "get_locations", None)
     if callable(get_locations):
         for location in get_locations(world.player):

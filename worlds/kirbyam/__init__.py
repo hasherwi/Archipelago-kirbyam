@@ -380,7 +380,12 @@ class KirbyAmWorld(World):
             useful_count = sum(1 for item in itempool if item.useful)
             filler_count = sum(1 for item in itempool if item.filler)
             progression_count = sum(1 for item in itempool if item.advancement)
-            shard_group = self.item_name_groups.get("Shards") or self.item_name_groups.get("Shard") or set()
+            if "Shards" in self.item_name_groups:
+                shard_group = self.item_name_groups["Shards"]
+            elif "Shard" in self.item_name_groups:
+                shard_group = self.item_name_groups["Shard"]
+            else:
+                shard_group = set()
             pool_shard_count = sum(1 for item in itempool if item.name in shard_group)
             logger.info(
                 "[P%s] Item pool classification summary: useful=%s filler=%s progression=%s",

@@ -19,7 +19,7 @@ _ITEM_GROUP_ALIASES = {
 for alias, canonical in _ITEM_GROUP_ALIASES.items():
     canonical_members = ITEM_GROUPS.get(canonical)
     if canonical_members is not None:
-        ITEM_GROUPS[alias] = canonical_members
+        ITEM_GROUPS[alias] = set(canonical_members)
 
 
 # Location Groups
