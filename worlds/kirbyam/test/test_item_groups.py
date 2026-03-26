@@ -91,7 +91,7 @@ class TestItemGroupMembership:
     @pytest.mark.parametrize("group_name,expected_members", [
         (group_name, members) for group_name, members in EXPECTED_GROUP_MEMBERS.items()
     ])
-    def test_group_contains_expected_members(self, group_name: str, expected_members: set):
+    def test_group_contains_expected_members(self, group_name: str, expected_members: set[str]):
         """Each group must contain expected representative members."""
         group_items = ITEM_GROUPS.get(group_name, set())
         missing = expected_members - group_items
