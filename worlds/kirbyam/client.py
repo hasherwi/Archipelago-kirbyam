@@ -33,6 +33,11 @@ _OPTIONAL_UNSAFE_DELIVERY_COUNTERS = (
 )
 _SEND_NOTIFY_WINDOW_SECONDS = 2.0
 _SEND_NOTIFY_MAX_PER_WINDOW = 5
+_LOCATION_ID_TO_LABEL: dict[int, str] = {
+    loc.location_id: loc.label
+    for loc in data.locations.values()
+    if loc.location_id is not None
+}
 
 
 def _normalize_gba_rom_address(value: int) -> int:
@@ -239,15 +244,12 @@ class KirbyAmClient(BizHawkClient):
         return f"Item {item_id}"
 
     @staticmethod
-    def _location_name(location_id: int) -> str:
+    def _location_name(location_id: Optional[int]) -> str:
         """Get location display name from AP location ID (address)."""
         if location_id is None:
             return ""
-        # Reverse-lookup: find location key by location_id
-        for _, location_data in data.locations.items():
-            if location_data.location_id == location_id:
-                return location_data.label
-        return f"Location {location_id}"
+        label = _LOCATION_ID_TO_LABEL.get(location_id)
+        return label if label is not None else f"Location {location_id}"
 
     async def _emit_receive_notification(self, ctx: "BizHawkClientContext", delivered_index: int) -> None:
         # ACK-gated + index-deduped to avoid replay spam during reconnect
@@ -314,7 +316,7 @@ class KirbyAmClient(BizHawkClient):
         sender_name = self._player_name(ctx, sender_id)
         receiver_name = self._player_name(ctx, receiver_id)
         location_name = self._location_name(location_id)
-        
+
         # Build message with location context if available
         if location_name:
             message = f"Sent {item_name} to {receiver_name} ({location_name})"

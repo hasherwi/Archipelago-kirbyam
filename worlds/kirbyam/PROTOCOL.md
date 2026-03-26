@@ -297,7 +297,7 @@ Send notification message format (Issue #432):
 - If location is available: `"Sent <item_name> to <receiver_name> (<location_name>)"`
 - If location unavailable: `"Sent <item_name> to <receiver_name>"`
 - Sender name is omitted: the local player already knows who sent the item.
-- Item names resolved from KirbyAM world item data, with fallback to `"Item <id>"`.
+- Item names resolved from AP item-name context for the relevant slot; if unavailable, from KirbyAM world item data; finally falling back to `"Item <id>"`.
 - Location names resolved from AP location address mappings, with fallback to `"Location <id>"`.
 - Receiver names resolved from AP `player_names` context, with fallbacks: Archipelago (player 0), or `"Player <id>"`.
 
@@ -305,6 +305,8 @@ Receive notification message format:
 - Format: `"<item_name> received from <sender_name>"`
 - Item name is placed first to prioritise readability within BizHawk's short display window.
 - Item and player names use same resolution as send notifications above.
+
+### 4. Goal Reporting
 
 **Current Implementation (native AI-state polling):**
 ```python
