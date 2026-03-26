@@ -12,6 +12,10 @@ from BaseClasses import ItemClassification, LocationProgressType, MultiWorld, Tu
 from worlds.AutoWorld import WebWorld, World
 
 from .client import KirbyAmClient  # type: ignore  # Required to register BizHawk client
+from .ability_randomization import (
+    VALID_ENEMY_COPY_ABILITIES,
+    build_enemy_copy_ability_policy,
+)
 from .data import LocationCategory
 from .data import data as kirby_data
 from .generation_logging import (
@@ -26,7 +30,13 @@ from .generation_logging import (
 from .groups import ITEM_GROUPS, LOCATION_GROUPS
 from .items import KirbyAmItem, create_item_label_to_code_map, get_item_classification
 from .locations import KirbyAmLocation, create_location_label_to_id_map
-from .options import OPTION_GROUPS, Goal, KirbyAmOptions, RandomizeShards
+from .options import (
+    OPTION_GROUPS,
+    EnemyCopyAbilityRandomization,
+    Goal,
+    KirbyAmOptions,
+    RandomizeShards,
+)
 from .rom import KirbyAmProcedurePatch, write_tokens
 
 if TYPE_CHECKING:
@@ -98,14 +108,46 @@ class KirbyAmWorld(World):
 
     # Track generation timing
     _generation_start_time: float
+    _enemy_copy_ability_policy: dict[str, Any]
 
     # Generation stages
-    _FILLER_ITEM_WEIGHTS: ClassVar[tuple[tuple[str, int], ...]] = (
-        ("1 Up", 6),
-        ("2 Up", 3),
-        ("3 Up", 1),
+    # Phase 1: Active filler pool for random selection.
+    # Contains only "1 Up" for Phase 1 balance; supports future expansion.
+    ACTIVE_FILLER_POOL: ClassVar[tuple[str, ...]] = ("1 Up",)
+    _SHARD_CHEST_KEY_ORDER: ClassVar[tuple[str, ...]] = (
+        "MAJOR_CHEST_MUSTARD_MOUNTAIN",
+        "MAJOR_CHEST_MOONLIGHT_MANSION",
+        "MAJOR_CHEST_CANDY_CONSTELLATION",
+        "MAJOR_CHEST_OLIVE_OCEAN",
+        "MAJOR_CHEST_PEPPERMINT_PALACE",
+        "MAJOR_CHEST_CABBAGE_CAVERN",
+        "MAJOR_CHEST_CARROT_CASTLE",
+        "MAJOR_CHEST_RADISH_RUINS",
     )
-
+    _BOSS_DEFEAT_KEY_ORDER: ClassVar[tuple[str, ...]] = (
+        "BOSS_DEFEAT_1",
+        "BOSS_DEFEAT_2",
+        "BOSS_DEFEAT_3",
+        "BOSS_DEFEAT_4",
+        "BOSS_DEFEAT_5",
+        "BOSS_DEFEAT_6",
+        "BOSS_DEFEAT_7",
+        "BOSS_DEFEAT_8",
+    )
+    # Shard item labels in the same positional order as _BOSS_DEFEAT_KEY_ORDER.
+    # Vanilla placement follows boss-defeat index -> shard label. This order also
+    # matches the legacy shard-chest ordering, but boss-defeat ordering is the
+    # authoritative mapping for the current contract.
+    _SHARD_ITEM_LABEL_ORDER: ClassVar[tuple[str, ...]] = (
+        "Mustard Mountain - Mirror Shard",
+        "Moonlight Mansion - Mirror Shard",
+        "Candy Constellation - Mirror Shard",
+        "Olive Ocean - Mirror Shard",
+        "Peppermint Palace - Mirror Shard",
+        "Cabbage Cavern - Mirror Shard",
+        "Carrot Castle - Mirror Shard",
+        "Radish Ruins - Mirror Shard",
+    )
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
         # If you don't have sanity_check.py yet, comment these out for now.
@@ -115,23 +157,61 @@ class KirbyAmWorld(World):
 
     # Filler item name
     def get_filler_item_name(self) -> str:
-        filler_names, filler_weights = zip(*self._FILLER_ITEM_WEIGHTS)
-        return self.random.choices(filler_names, weights=filler_weights, k=1)[0]
+        return self.random.choice(self.ACTIVE_FILLER_POOL)
+
+    def _ordered_boss_defeat_locations(self, boss_locations: list[KirbyAmLocation]) -> list[KirbyAmLocation]:
+        boss_locations_by_key = {
+            loc.key: loc for loc in boss_locations if loc.key is not None
+        }
+        ordered_boss_locations: list[KirbyAmLocation] = []
+        for boss_key in self._BOSS_DEFEAT_KEY_ORDER:
+            boss_loc = boss_locations_by_key.get(boss_key)
+            if boss_loc is None:
+                raise ValueError(f"KirbyAM boss-defeat location missing from region graph: {boss_key}")
+            ordered_boss_locations.append(boss_loc)
+        return ordered_boss_locations
 
     # Pre-generation adjustments
     def generate_early(self) -> None:
         # Track generation start
         self._generation_start_time = time.time()
-        log_generation_start(self.player, self.player_name, self.options.as_dict("goal", "shards"))
+        log_generation_start(self.player, self.player_name, self.options.as_dict("goal", "shards", "death_link"))
 
         with generation_stage("generate_early", self.player, self.player_name):
-            # If shards are shuffled as items, they must be local to the ROM unless you implement remote shard handling.
-            if self.options.shards.value == RandomizeShards.option_shuffle:
-                self.logger.debug("Shards are shuffled; marking them as local items.")
-                self.options.local_items.value.update(self.item_name_groups.get("Shard", set()))
-                logger.info(f"[P{self.player}] Shards marked as local items (shuffle mode)")
+            logger.info(f"[P{self.player}] Shards mode: {self.options.shards.current_key}")
+
+            mode = int(self.options.enemy_copy_ability_randomization.value)
+            randomize_boss_spawned = bool(self.options.randomize_boss_spawned_ability_grants.value)
+            randomize_miniboss = bool(self.options.randomize_miniboss_ability_grants.value)
+            self._enemy_copy_ability_policy = build_enemy_copy_ability_policy(
+                self.random,
+                mode,
+                randomize_boss_spawned,
+                randomize_miniboss,
+            )
+            if mode == EnemyCopyAbilityRandomization.option_vanilla:
+                logger.info(
+                    "[P%s] Enemy copy-ability randomization: vanilla (%s whitelist entries)",
+                    self.player,
+                    len(VALID_ENEMY_COPY_ABILITIES),
+                )
+            elif mode == EnemyCopyAbilityRandomization.option_shuffled:
+                logger.info(
+                    "[P%s] Enemy copy-ability randomization: shuffled (%s whitelist entries)",
+                    self.player,
+                    len(VALID_ENEMY_COPY_ABILITIES),
+                )
             else:
-                logger.info(f"[P{self.player}] Shards mode: {self.options.shards.current_key}")
+                logger.info(
+                    "[P%s] Enemy copy-ability randomization: completely_random (%s whitelist entries)",
+                    self.player,
+                    len(VALID_ENEMY_COPY_ABILITIES),
+                )
+                logger.debug(
+                    "[P%s] Enemy copy-ability policy: %s",
+                    self.player,
+                    self._enemy_copy_ability_policy,
+                )
 
     # Create world regions
     def create_regions(self) -> None:
@@ -162,38 +242,137 @@ class KirbyAmWorld(World):
                 if isinstance(loc, KirbyAmLocation) and loc.address is not None
             ]
 
-            # Filter categories that should not be randomized into the pool.
-            filtered_categories = {LocationCategory.GOAL}
-            if self.options.shards.value in {RandomizeShards.option_vanilla, RandomizeShards.option_shuffle}:
-                filtered_categories.add(LocationCategory.SHARD)
-
-            # Build the default item pool from each location's default item.
-            itempool: list[KirbyAmItem] = []
-            shard_count = 0
+            # Resolve fillable physical locations by category.
+            boss_locations: list[KirbyAmLocation] = []
+            major_chest_locations: list[KirbyAmLocation] = []
+            vitality_chest_locations: list[KirbyAmLocation] = []
+            sound_player_chest_locations: list[KirbyAmLocation] = []
+            location_by_key: dict[str, KirbyAmLocation] = {}
             for loc in fill_locations:
                 if loc.key is None:
                     continue
+                location_by_key[loc.key] = loc
                 loc_meta = kirby_data.locations.get(loc.key)
                 if loc_meta is None:
                     continue
+                if loc_meta.category == LocationCategory.BOSS_DEFEAT:
+                    boss_locations.append(loc)
+                elif loc_meta.category == LocationCategory.MAJOR_CHEST:
+                    major_chest_locations.append(loc)
+                elif loc_meta.category == LocationCategory.VITALITY_CHEST:
+                    vitality_chest_locations.append(loc)
+                elif loc_meta.category == LocationCategory.SOUND_PLAYER_CHEST:
+                    sound_player_chest_locations.append(loc)
 
-                if loc_meta.category in filtered_categories:
-                    if loc_meta.category == LocationCategory.SHARD:
-                        shard_count += 1
-                    continue
+            boss_locations.sort(key=lambda loc: loc.key or "")
+            major_chest_locations.sort(key=lambda loc: loc.key or "")
+            vitality_chest_locations.sort(key=lambda loc: loc.key or "")
+            sound_player_chest_locations.sort(key=lambda loc: loc.key or "")
 
-                # During early iteration it's easy to have a location without a default_item.
-                # Avoid hard crashes and fall back to the world's configured filler.
-                if loc.default_item_code is None:
-                    filler_name = self.get_filler_item_name()
-                    self.logger.warning(
-                        "Location '%s' has no default_item; using filler '%s' instead.",
-                        loc.name,
-                        filler_name,
+            locked_shard_count = 0
+            randomized_item_codes: list[int] = []
+            if boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations:
+                shard_label_to_code = {
+                    item.label: item.item_id
+                    for item in kirby_data.items.values()
+                    if "Shard" in item.tags
+                }
+                missing_shard_labels = [
+                    label for label in self._SHARD_ITEM_LABEL_ORDER
+                    if label not in shard_label_to_code
+                ]
+                if missing_shard_labels:
+                    available_labels = sorted(shard_label_to_code.keys())
+                    raise ValueError(
+                        "KirbyAM shard item configuration error: missing shard labels in items data: "
+                        f"{missing_shard_labels}. "
+                        f"Available shard-tagged item labels: {available_labels}"
                     )
-                    itempool.append(self.create_item(filler_name))
+                shard_item_codes = [
+                    shard_label_to_code[label] for label in self._SHARD_ITEM_LABEL_ORDER
+                ]
+
+                expected_boss_defeat_count = sum(
+                    1 for m in kirby_data.locations.values()
+                    if m.category == LocationCategory.BOSS_DEFEAT
+                )
+                if len(boss_locations) != expected_boss_defeat_count:
+                    raise ValueError(
+                        f"KirbyAM expected {expected_boss_defeat_count} boss-defeat locations,"
+                        f" found {len(boss_locations)}"
+                    )
+
+                # In vanilla shard mode, each area's boss defeat location awards
+                # that area's matching shard (fixed AP placement).
+                if self.options.shards.value == RandomizeShards.option_vanilla:
+                    ordered_boss_locations = self._ordered_boss_defeat_locations(boss_locations)
+
+                    if len(ordered_boss_locations) != len(shard_item_codes):
+                        raise ValueError(
+                            "KirbyAM shard placement mismatch: %d ordered boss locations vs %d shard items"
+                            % (len(ordered_boss_locations), len(shard_item_codes))
+                        )
+                    for boss_loc, shard_code in zip(ordered_boss_locations, shard_item_codes):
+                        boss_loc.place_locked_item(self.create_item_by_code(shard_code))
+                        boss_loc.progress_type = LocationProgressType.DEFAULT
+                        locked_shard_count += 1
+
+                    logger.info(
+                        "[P%s] Locked %s shard items onto boss-defeat locations (mode=%s)",
+                        self.player,
+                        locked_shard_count,
+                        self.options.shards.current_key,
+                    )
+
+                # Build default items for all still-open physical locations.
+                base_non_shard_codes: list[int] = []
+                base_non_shard_locations = [
+                    loc
+                    for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations
+                    if loc.item is None
+                ]
+
+                for loc in base_non_shard_locations:
+                    if loc.default_item_code is None:
+                        raise ValueError(f"KirbyAM location '{loc.name}' is missing a default item code")
+                    base_non_shard_codes.append(loc.default_item_code)
+
+                if self.options.shards.value == RandomizeShards.option_completely_random:
+                    if len(shard_item_codes) > len(base_non_shard_codes):
+                        raise ValueError(
+                            "KirbyAM shard pool mismatch: shard item count %d exceeds open physical locations %d"
+                            % (len(shard_item_codes), len(base_non_shard_codes))
+                        )
+                    codes_for_open_locations = list(base_non_shard_codes)
+                    replacement_indices = list(range(len(codes_for_open_locations)))
+                    self.random.shuffle(replacement_indices)
+                    for replacement_index, shard_code in zip(replacement_indices, shard_item_codes):
+                        codes_for_open_locations[replacement_index] = shard_code
+                    randomized_item_codes.extend(codes_for_open_locations)
                 else:
-                    itempool.append(self.create_item_by_code(loc.default_item_code))
+                    randomized_item_codes.extend(base_non_shard_codes)
+
+                open_physical_locations = [
+                    loc for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations
+                    if loc.item is None
+                ]
+                needed_pool_size = len(open_physical_locations)
+
+                if len(randomized_item_codes) != needed_pool_size:
+                    raise ValueError(
+                        "KirbyAM item pool mismatch: open physical locations=%s randomized item count=%s"
+                        % (needed_pool_size, len(randomized_item_codes))
+                    )
+
+            if (boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations) and not randomized_item_codes:
+                raise ValueError(
+                    "KirbyAM item pool build failed: no randomized items were produced. "
+                    "This likely indicates a problem with boss/major/vitality chest locations or region data."
+                )
+
+            itempool: list[KirbyAmItem] = [
+                self.create_item_by_code(code) for code in randomized_item_codes
+            ]
 
             # Add to AP pool
             self.multiworld.itempool += itempool
@@ -201,6 +380,7 @@ class KirbyAmWorld(World):
             useful_count = sum(1 for item in itempool if item.useful)
             filler_count = sum(1 for item in itempool if item.filler)
             progression_count = sum(1 for item in itempool if item.advancement)
+            pool_shard_count = sum(1 for item in itempool if item.name in self.item_name_groups.get("Shard", set()))
             logger.info(
                 "[P%s] Item pool classification summary: useful=%s filler=%s progression=%s",
                 self.player,
@@ -217,32 +397,20 @@ class KirbyAmWorld(World):
                 if loc_meta and loc_meta.category == LocationCategory.GOAL:
                     loc.place_locked_item(self.create_event(loc.name))
                     loc.progress_type = LocationProgressType.DEFAULT
+                    # Goal checks are runtime events, not host-fillable AP locations.
+                    # Keep address=None so multidata does not serialize a None item
+                    # for a numeric location entry (host LocationStore requires ints).
+                    loc.address = None
                     goal_event_count += 1
 
-            # Log item creation (pool size as total; shards counted separately)
-            log_items_created(self.player, len(itempool), shard_count, len(itempool))
+            # Log item creation (randomized pool + fixed shard placements)
+            log_items_created(
+                self.player,
+                len(itempool),
+                locked_shard_count + pool_shard_count,
+                len(itempool) - pool_shard_count,
+            )
             logger.debug(f"[P{self.player}] Converted {goal_event_count} goal locations to locked events")
-
-            # If shards are vanilla, convert shard locations to events so logic can see them without randomization.
-            if self.options.shards.value == RandomizeShards.option_vanilla:
-                event_count = 0
-                for loc in self.multiworld.get_locations(self.player):
-                    if not isinstance(loc, KirbyAmLocation) or loc.key is None:
-                        continue
-                    loc_meta = kirby_data.locations.get(loc.key)
-                    if loc_meta and loc_meta.category == LocationCategory.SHARD:
-                        if loc.default_item_code is None:
-                            self.logger.warning(
-                                "Shard location '%s' is missing default_item; leaving it randomized.",
-                                loc.name,
-                            )
-                            continue
-                        # Lock the vanilla shard item here as an event.
-                        loc.place_locked_item(self.create_event(self.item_id_to_name[loc.default_item_code]))
-                        loc.progress_type = LocationProgressType.DEFAULT
-                        loc.address = None
-                        event_count += 1
-                logger.debug(f"[P{self.player}] Converted {event_count} shard locations to events (vanilla mode)")
 
     # Set world rules
     def set_rules(self) -> None:
@@ -281,20 +449,31 @@ class KirbyAmWorld(World):
             raise
 
     def modify_multidata(self, multidata: dict[str, Any]) -> None:
-        # Register auth token -> player name mapping for BizHawk
+        # Register auth token using the same (team, slot) tuple shape as player names.
         key = base64.b64encode(self.auth).decode("ascii")
-        connect_names = multidata.setdefault("connect_names", {})
-        # connect_names is used as an auth-token to player-name mapping.
-        # The player's name should always be the value.
-        connect_names[key] = self.player_name
+        connect_names = multidata["connect_names"]
+        connect_names[key] = connect_names[self.player_name]
 
     # Helper method to fill slot data
     def fill_slot_data(self) -> dict[str, Any]:
         # Slot data needed by client. Keep minimal while you iterate.
-        return self.options.as_dict(
+        slot_data = self.options.as_dict(
             "goal",
             "shards",
+            "death_link",
+            "enemy_copy_ability_randomization",
+            "randomize_boss_spawned_ability_grants",
+            "randomize_miniboss_ability_grants",
+            toggles_as_bools=True,
         )
+        policy = getattr(self, "_enemy_copy_ability_policy", None)
+        assert policy is not None, (
+            "Enemy copy ability policy must be initialized before fill_slot_data is called."
+        )
+        allowed_abilities = policy.get("allowed_abilities", VALID_ENEMY_COPY_ABILITIES)
+        slot_data["enemy_copy_ability_whitelist"] = list(allowed_abilities)
+        slot_data["enemy_copy_ability_policy"] = dict(policy)
+        return slot_data
 
     # Helper methods to create items and events
     def create_item(self, name: str) -> KirbyAmItem:

@@ -13,11 +13,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
   
   0x02000000 - 0x02040000   EWRAM Region (256 KB)
     ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0202C000 - 0x0202C027   AP Mailbox (reserved, 40 bytes)
-        └─ 0x0202C028 - 0x02040000   Rest of RAM (unused by AP)
+        ├─ 0x0202C000 - 0x0202C033   AP Mailbox (reserved, 52 bytes)
+        └─ 0x0202C034 - 0x02040000   Rest of RAM (unused by AP)
 ```
 
-### AP Mailbox Block (0x0202C000 - 0x0202C027)
+### AP Mailbox Block (0x0202C000 - 0x0202C033)
 
 **Transport Layer: Client ↔ ROM Communication**
 
@@ -33,18 +33,23 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x1C   | 0x0202C01C | 4B | frame_counter         | u32  | ROM → Client | Monotonic frame count (incremented every hook call) |
 | 0x20   | 0x0202C020 | 4B | delivered_item_index  | u32  | Client ↔ ROM | Next item to deliver index (persisted in RAM) |
 
-| 0x24   | 0x0202C024 | 4B | boss_defeat_flags     | u32  | ROM → Client | Bits 0–7 set when each area boss is defeated (same bit ordering as shard_bitfield) |
+| 0x24   | 0x0202C024 | 4B | boss_defeat_flags     | u32  | ROM → Client | Bits 0–7 set when each area boss is defeated; recorded by a hook that replaces the native `CollectShard` call (same bit ordering as shard_bitfield) |
+| 0x28   | 0x0202C028 | 4B | major_chest_flags     | u32  | ROM → Client | Bits set when a native big chest is opened; bit N = area ID N. This drives AP major-chest checks independently of native map ownership. |
+| 0x2C   | 0x0202C02C | 4B | vitality_chest_flags  | u32  | ROM → Client | Bits set when a native vitality big chest is opened; bits 0..3 map to the four vitality chest room IDs (Carrot 5-23, Olive 6-21, Radish 8-4, Candy 9-8). |
+| 0x30   | 0x0202C030 | 4B | sound_player_chest_flags | u32 | ROM → Client | Bits set when the native Sound Player chest is opened; bit 0 maps to `SOUND_PLAYER_CHEST`. Native Sound Player unlock is intentionally deferred until AP item receipt. |
 
-**Total: 40 bytes (0x0202C000 - 0x0202C027)**
+**Total: 52 bytes (0x0202C000 - 0x0202C033)**
 
 ### Native Game State (Referenced but not Managed by AP)
 
 | Addr     | Size | Name                    | Description |
-|----------|------|-------------------------|-------------|
+|----------|------|-------------------------|-----------|
 | 0x02038970 | 1B | KIRBY_SHARD_FLAGS       | Native mirror shard bitfield (bits 0-7) |
+| 0x0203897C | 4B | big_chest_bitfield_native | gTreasures.bigChestField; bit N = area ID N (enum AreaId): bit 1=Rainbow Route, 2=Moonlight Mansion, 3=Cabbage Cavern, 4=Mustard Mountain, 5=Carrot Castle, 6=Olive Ocean, 7=Peppermint Palace, 8=Radish Ruins, 9=Candy Constellation. This now reflects native map ownership only; AP major-chest checks use `major_chest_flags` in the transport block. |
 | 0x02038960 - 0x0203896A | 10B | Chest/Switch state    | Native chest and switch flags |
 | 0x02028C14+ |  -  | Boss/Mirror table       | Native location flags (TBD - not yet mapped) |
 | 0x0203AD2C | 4B | AI_KIRBY_STATE          | Runtime phase classifier (Issue #56 gameplay gate) |
+| 0x02020FE0 | 1B | KIRBY_HP                | Kirby HP (`s8`) used for DeathLink runtime receive/apply and local death transition detection |
 
 ## Item ID Ranges
 
@@ -56,31 +61,47 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | SHARD_1 .. SHARD_8 | 3860002 - 3860009 | Mirror shards (8 items) |
 | MAP_MUSTARD_MOUNTAIN .. MAP_RADISH_RUINS | 3860010 - 3860017 | Useful map rewards |
 | VITALITY_COUNTER_1 .. VITALITY_COUNTER_4 | 3860018 - 3860021 | Useful vitality rewards |
-| 2_UP, 3_UP        | 3860022 - 3860023 | Weighted filler extra-life rewards |
-| *Reserved*        | 3860024+ | Future items (doors, abilities, consumables, etc.) |
+| 2_UP, 3_UP        | 3860022 - 3860023 | Dormant compatibility extra-life rewards (not active in Phase 1 filler generation) |
+| MAP_RAINBOW_ROUTE | 3860024 | Useful map reward |
+| SOUND_PLAYER      | 3860025 | Useful unlock reward (applies native Sound Player unlock on receipt) |
+| *Reserved*        | 3860026+ | Future items (doors, abilities, consumables, etc.) |
 
 ### Current filler effect contract
 
-Phase 1 filler delivery remains intentionally conservative:
+Phase 1 filler generation remains intentionally conservative:
 
 | Item | Effect |
 |------|--------|
-| `1 Up` | Grant 1 life, saturating at 255 |
-| `2 Up` | Grant 2 lives, saturating at 255 |
-| `3 Up` | Grant 3 lives, saturating at 255 |
+| `1 Up` | Active filler generation item. Grants 1 life, saturating at 255 |
+| `2 Up` | Dormant compatibility item. Grants 2 lives, saturating at 255 |
+| `3 Up` | Dormant compatibility item. Grants 3 lives, saturating at 255 |
 
 Health-restoring and battery-style consumables remain out of the shipped payload
 contract until their native apply semantics are verified on the USA ROM.
 
 ## Location ID Ranges
 
-All location IDs use **BASE_OFFSET = 3860100**.
+All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3,960,000).
 
 | Location Type | ID Range | Description |
 |---------------|----------|-------------|
-| SHARD_1 .. SHARD_8 | 3860101 - 3860108 | Mirror shard check locations (8 items) |
+| GOAL_DARK_MIND / GOAL_100_PERCENT | auto-assigned | Goal locations (runtime-reported completion checks) |
 | BOSS_DEFEAT_1 .. BOSS_DEFEAT_8 | auto-assigned | Area boss defeat locations (8 locations) |
-| *TBD*         | — | Chest locations, door locations, etc. |
+| MAJOR_CHEST_CABBAGE_CAVERN | 3960200 | Cabbage Cavern big chest (bit 3, gTreasures.bigChestField) |
+| MAJOR_CHEST_OLIVE_OCEAN | 3960201 | Olive Ocean big chest (bit 6, gTreasures.bigChestField) |
+| MAJOR_CHEST_PEPPERMINT_PALACE | 3960202 | Peppermint Palace big chest (bit 7, gTreasures.bigChestField) |
+| MAJOR_CHEST_RAINBOW_ROUTE | 3960203 | Rainbow Route big chest (bit 1, gTreasures.bigChestField) |
+| MAJOR_CHEST_MOONLIGHT_MANSION | 3960204 | Moonlight Mansion big chest (bit 2, gTreasures.bigChestField) |
+| MAJOR_CHEST_MUSTARD_MOUNTAIN | 3960205 | Mustard Mountain big chest (bit 4, gTreasures.bigChestField) |
+| MAJOR_CHEST_CARROT_CASTLE | 3960206 | Carrot Castle big chest (bit 5, gTreasures.bigChestField) |
+| MAJOR_CHEST_RADISH_RUINS | 3960207 | Radish Ruins big chest (bit 8, gTreasures.bigChestField) |
+| MAJOR_CHEST_CANDY_CONSTELLATION | 3960208 | Candy Constellation big chest (bit 9, gTreasures.bigChestField) |
+| VITALITY_CHEST_CARROT_CASTLE | 3960300 | Carrot Castle 5-23 vitality big chest (transport vitality bit 0) |
+| VITALITY_CHEST_OLIVE_OCEAN | 3960301 | Olive Ocean 6-21 vitality big chest (transport vitality bit 1) |
+| VITALITY_CHEST_RADISH_RUINS | 3960302 | Radish Ruins 8-4 vitality big chest (transport vitality bit 2) |
+| VITALITY_CHEST_CANDY_CONSTELLATION | 3960303 | Candy Constellation 9-8 vitality big chest (transport vitality bit 3) |
+| SOUND_PLAYER_CHEST | 3960304 | Candy Constellation Sound Player chest (transport sound_player_chest bit 0) |
+| *Reserved*    | 3960305+ | Future location families |
 
 ## Client Protocol
 
@@ -90,6 +111,22 @@ All location IDs use **BASE_OFFSET = 3860100**.
 Client → Server: Connect with game="Kirby & The Amazing Mirror", slot="<player>"
 Server → Client: ConnectionRefused | Connected
                  (with items_received, checked_locations, slot_data)
+
+`slot_data` currently includes:
+- `goal` (int): selected goal option.
+- `shards` (int): shard randomization mode.
+- `death_link` (bool): enables/disables AP DeathLink tag synchronization in the client.
+- `enemy_copy_ability_randomization` (int): enemy copy-ability mode (`0=vanilla`, `1=shuffled`, `2=completely_random`).
+- `randomize_boss_spawned_ability_grants` (bool): include/exclude ability-granting boss-spawned objects.
+- `randomize_miniboss_ability_grants` (bool): include/exclude mini-boss ability grants.
+- `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
+- `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.
+
+DeathLink runtime behavior contract:
+- Incoming DeathLink packets (`Bounced` with `DeathLink` tag) are queued and only applied when gameplay-active gate is true.
+- Application writes `kirby_hp_native` to `0` to trigger local defeat.
+- Outgoing DeathLink uses alive->dead transitions on `kirby_hp_native` and sends once per transition.
+- Incoming-application echo suppression prevents immediate re-broadcast loops.
 ```
 
 **Preconditions before gameplay watchers run:**
@@ -116,13 +153,14 @@ Primary signal:
 - `ai_kirby_state_native` (`0x0203AD2C`, u32)
 
 POC classification contract:
-- Gameplay-active: `ai_state == 300`
 - Non-gameplay tutorial/menu: `ai_state < 200`
 - Non-gameplay cutscene band: `200 <= ai_state < 300`
-- Non-gameplay post-normal band: `ai_state > 300`
+- Non-gameplay goal-clear states: `ai_state in {9999, 10000}`
+- Gameplay-active: all other observed states (including `300` and unknown post-300 values)
 
 Fail-open behavior:
 - If `ai_kirby_state_native` is unavailable in address mappings, watcher defaults to gameplay-active behavior for compatibility.
+- Unknown post-300 states fail open as gameplay-active to avoid blocking mailbox item receipt (Issue #419).
 
 **On initial (or re-)connection, the following resync occurs automatically:**
 
@@ -146,18 +184,29 @@ every watcher tick.
 ```python
 # Run only when gameplay-active gate is true.
 
-# Prefer native shard bitfield, fallback to mailbox mirror
-if has_address("shard_bitfield_native"):
-    bitfield = RAM[0x02038970] as u8  # native shard_bitfield_native (bits 0-7)
-else:
-    bitfield = RAM[0x0202C000] as u32  # transport mailbox mirror
+# Boss-defeat checks (transport mailbox bitfield)
+boss_bits = RAM[0x0202C024] as u32
+for bit in mapped_boss_bits:
+    if (boss_bits >> bit) & 1:
+        mapped_checked.add(boss_location_id_for_bit(bit))
 
-# Collect all locations whose corresponding bit is set in the bitfield.
-# Only consider bits that map to a known location; reserved/unmapped bits are ignored.
-mapped_checked = set()
-for bit in mapped_location_bits:  # only explicitly mapped bits
-    if (bitfield >> bit) & 1:
-        mapped_checked.add(location_id_for_bit(bit))
+# Major-chest checks (transport major_chest_flags)
+chest_bits = RAM[0x0202C028] as u32
+for bit in mapped_major_chest_bits:
+    if (chest_bits >> bit) & 1:
+        mapped_checked.add(major_chest_location_id_for_bit(bit))
+
+# Vitality-chest checks (transport vitality_chest_flags)
+vitality_bits = RAM[0x0202C02C] as u32
+for bit in mapped_vitality_chest_bits:
+    if (vitality_bits >> bit) & 1:
+        mapped_checked.add(vitality_chest_location_id_for_bit(bit))
+
+# Sound Player chest checks (transport sound_player_chest_flags)
+sound_player_bits = RAM[0x0202C030] as u32
+for bit in mapped_sound_player_chest_bits:
+    if (sound_player_bits >> bit) & 1:
+        mapped_checked.add(sound_player_chest_location_id_for_bit(bit))
 
 # Level-based, reconnect-safe resend:
 # Send only checks that RAM reports as collected but the server has not acknowledged.
@@ -168,15 +217,14 @@ if missing_on_server:
     send LocationChecks(missing_on_server)
 ```
 
-Bits 8-31 are reserved for future expansion and must be ignored until they are assigned to concrete location mappings.
+Mirror shard bitfields (`shard_bitfield_native` / `shard_bitfield`) are progression-state signals only. Boss defeats are reported through `boss_defeat_flags`, major chest openings are reported through `major_chest_flags`, vitality chest openings are reported through `vitality_chest_flags`, and Sound Player chest openings are reported through `sound_player_chest_flags`. Native boss shard / native big-chest map / native vitality grants are intercepted so progression, map ownership, and vitality growth come only from AP item delivery, and native Sound Player unlock is similarly intercepted so unlock ownership comes only from AP `SOUND_PLAYER` receipt.
 
 **Behavior notes:**
 - Detection is **level-based** (current bitfield state), not edge-based, to be reconnect-safe.
 - No checks are sent for bits already in `server_checked_locations`.
 - No checks are sent for reserved/unmapped bits even when set.
-- Client logs resend reasons when RAM-derived checks are missing on server and logs dedupe suppression when all RAM-derived checks are already acknowledged.
+- Boss-defeat, major-chest, vitality-chest, and sound-player-chest polling follow the same resend/dedupe diagnostic contract.
 - Diagnostics are transition-based to avoid per-tick log spam when mapped state is unchanged.
-- Boss-defeat polling follows the same level-based resend/dedupe diagnostic contract.
 
 ### 3. Item Delivery (Mailbox Protocol)
 

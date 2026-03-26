@@ -15,19 +15,27 @@ for path_entry in list(sys.path):
 import argparse
 import hashlib
 import importlib.util
+import multiprocessing as mp
+import shutil
 import subprocess
+import tempfile
+import time
 from datetime import datetime
 from pathlib import Path
 
 PAYLOAD_OFFSET = 0x0015E000
-HOOK_OFFSET    = 0x00152696
+MAIN_HOOK_OFFSET = 0x00152696
+BOSS_COLLECT_SHARD_CALL_OFFSET = 0x001D950
+BIG_CHEST_COLLECT_CALL_OFFSET = 0x0000B144
+VITALITY_CHEST_COLLECT_CALL_OFFSET = 0x0000B0CC
+SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET = 0x0000B264
 
-# Thumb BL to 0x0815E000 from 0x08152696 (already computed)
-BL_BYTES = bytes.fromhex("0B F0 B3 FC")
 
 ROM_PATH_TMP = "rom_path.tmp"
 INTERMEDIARY_ROM = "baseline_patched.tmp.gba"
 EXPECTED_BASE_ROM_SIZE = 0x1000000
+BSDIFF_TIMEOUT_SECONDS = int(os.environ.get("KIRBYAM_BSDIFF_TIMEOUT_SECONDS", "0"))
+BSDIFF_HEARTBEAT_SECONDS = int(os.environ.get("KIRBYAM_BSDIFF_HEARTBEAT_SECONDS", "30"))
 
 
 # ----------------------------
@@ -109,6 +117,106 @@ def run_make():
             ) from e
 
 
+def _find_arm_binutil(tool_name: str) -> str:
+    direct = shutil.which(tool_name)
+    if direct:
+        return direct
+    exe = shutil.which(f"{tool_name}.exe")
+    if exe:
+        return exe
+
+    # Check devkitPro environment variables before falling back to a hardcoded path.
+    attempted: list[str] = []
+    for env_var in ("DEVKITARM", "DEVKITPRO"):
+        env_val = os.environ.get(env_var)
+        if not env_val:
+            continue
+
+        # DEVKITARM points directly at the devkitARM prefix; its binaries live in <DEVKITARM>/bin.
+        # DEVKITPRO is the devkitPro root; the standard layout is <DEVKITPRO>/devkitARM/bin.
+        # Also check <DEVKITPRO>/bin in case of a non-standard installation.
+        if env_var == "DEVKITARM":
+            base_paths = [Path(env_val) / "bin"]
+        else:
+            base_paths = [
+                Path(env_val) / "devkitARM" / "bin",
+                Path(env_val) / "bin",
+            ]
+
+        for base in base_paths:
+            candidate = base / f"{tool_name}.exe"
+            attempted.append(str(candidate))
+            if candidate.exists():
+                return str(candidate)
+            candidate_no_ext = base / tool_name
+            attempted.append(str(candidate_no_ext))
+            if candidate_no_ext.exists():
+                return str(candidate_no_ext)
+
+    if os.name == "nt":
+        fallback = Path("C:/devkitPro/devkitARM/bin") / f"{tool_name}.exe"
+        attempted.append(str(fallback))
+        if fallback.exists():
+            return str(fallback)
+
+    raise SystemExit(
+        f"Error: required tool '{tool_name}' was not found on PATH or at any of the following locations:\n"
+        + "\n".join(f"  {p}" for p in attempted)
+        + "\nEnsure devkitARM is installed and DEVKITARM or DEVKITPRO is set, or add the bin directory to PATH."
+    )
+
+
+def thumb_bl_bytes(src_rom_addr: int, dst_rom_addr: int) -> bytes:
+    diff = dst_rom_addr - (src_rom_addr + 4)
+    if diff % 2 != 0:
+        raise SystemExit(
+            f"Error: cannot encode Thumb BL from {src_rom_addr:#010x} to {dst_rom_addr:#010x}: target is not halfword aligned."
+        )
+
+    imm = diff >> 1
+    if not (-(1 << 21) <= imm < (1 << 21)):
+        raise SystemExit(
+            f"Error: cannot encode Thumb BL from {src_rom_addr:#010x} to {dst_rom_addr:#010x}: branch out of range."
+        )
+
+    imm &= (1 << 22) - 1
+    hi = 0xF000 | ((imm >> 11) & 0x7FF)
+    lo = 0xF800 | (imm & 0x7FF)
+    return hi.to_bytes(2, "little") + lo.to_bytes(2, "little")
+
+
+# Computed from offsets rather than hard-coded to avoid drift if offsets change.
+MAIN_HOOK_BL_BYTES = thumb_bl_bytes(0x08000000 + MAIN_HOOK_OFFSET, 0x08000000 + PAYLOAD_OFFSET)
+
+
+def resolve_elf_symbol_address(elf_path: str | Path, symbol_name: str) -> int:
+    nm = _find_arm_binutil("arm-none-eabi-nm")
+    try:
+        result = subprocess.run(
+            [nm, str(elf_path)],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+    except FileNotFoundError as e:
+        raise SystemExit(f"Error: failed to execute {nm}") from e
+    except subprocess.CalledProcessError as e:
+        raise SystemExit(
+            f"Error: failed to inspect ELF symbols in {elf_path}:\n{(e.stdout or '').rstrip()}"
+        ) from e
+
+    for line in result.stdout.splitlines():
+        parts = line.strip().split()
+        if len(parts) >= 3 and parts[-1] == symbol_name:
+            try:
+                return int(parts[0], 16)
+            except ValueError:
+                break
+
+    raise SystemExit(f"Error: symbol '{symbol_name}' not found in ELF {elf_path}")
+
+
 def require_bsdiff4():
     try:
         import bsdiff4  # noqa: F401
@@ -149,6 +257,130 @@ def safe_unlink(path: str) -> None:
         return
     except Exception as e:
         print(f"Warning: failed to delete intermediary ROM '{path}': {e}")
+
+
+def _lock_pid_from_file(lock_path: Path) -> int | None:
+    try:
+        text = lock_path.read_text(encoding="utf-8", errors="replace")
+    except FileNotFoundError:
+        return None
+    except Exception:
+        return None
+
+    for line in text.splitlines():
+        if line.startswith("pid="):
+            raw = line.split("=", 1)[1].strip()
+            if raw.isdigit():
+                return int(raw)
+    return None
+
+
+def _pid_is_running(pid: int) -> bool:
+    if pid <= 0:
+        return False
+    try:
+        os.kill(pid, 0)
+    except OSError:
+        return False
+    return True
+
+
+def acquire_run_lock(lock_path: Path) -> None:
+    try:
+        # O_EXCL guarantees only one patch_rom.py run can hold the lock at a time.
+        fd = os.open(str(lock_path), os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(f"pid={os.getpid()}\n")
+            f.write(f"started={datetime.now().isoformat(timespec='seconds')}\n")
+        return
+    except FileExistsError:
+        existing_pid = _lock_pid_from_file(lock_path)
+        if existing_pid is not None and not _pid_is_running(existing_pid):
+            print(f"Stale lock detected for exited pid={existing_pid}; reclaiming lock.")
+            try:
+                lock_path.unlink()
+            except Exception as e:
+                raise SystemExit(
+                    f"Error: found stale lock but failed to remove it: {lock_path}\n{e}"
+                ) from e
+            return acquire_run_lock(lock_path)
+
+        raise SystemExit(
+            f"Error: another patch generation appears to be running (lock file exists): {lock_path}\n"
+            "If no patch job is active, delete the lock file and retry."
+        )
+
+
+def release_run_lock(lock_path: Path) -> None:
+    try:
+        lock_path.unlink()
+    except FileNotFoundError:
+        pass
+    except Exception as e:
+        print(f"Warning: failed to remove lock file '{lock_path}': {e}")
+
+
+def _bsdiff_worker(in_path: str, intermediary_rom: str, tmp_patch_path: str, result_queue: mp.Queue) -> None:
+    try:
+        bsdiff4 = require_bsdiff4()
+        bsdiff4.file_diff(in_path, intermediary_rom, tmp_patch_path)
+        result_queue.put("")
+    except Exception as e:  # pragma: no cover - exercised only on worker failure
+        result_queue.put(str(e))
+
+
+def generate_bsdiff_with_timeout(in_path: str, intermediary_rom: str, patch_path: str) -> None:
+    with tempfile.TemporaryDirectory(prefix="kirbyam-bsdiff-") as tmpdir:
+        tmpdir_path = Path(tmpdir)
+        local_in = tmpdir_path / "clean_base.gba"
+        local_out = tmpdir_path / "patched_base.gba"
+        local_patch = tmpdir_path / "base_patch.bsdiff4"
+
+        print(f"Preparing local temp workspace for bsdiff: {tmpdir_path}")
+        shutil.copy2(in_path, local_in)
+        shutil.copy2(intermediary_rom, local_out)
+
+        result_queue: mp.Queue = mp.Queue()
+        proc = mp.Process(
+            target=_bsdiff_worker,
+            args=(str(local_in), str(local_out), str(local_patch), result_queue),
+            daemon=True,
+        )
+        proc.start()
+
+        start = time.monotonic()
+        last_heartbeat = start
+
+        while proc.is_alive():
+            now = time.monotonic()
+            elapsed = int(now - start)
+            if BSDIFF_TIMEOUT_SECONDS > 0 and elapsed >= BSDIFF_TIMEOUT_SECONDS:
+                proc.terminate()
+                proc.join(timeout=5)
+                raise SystemExit(
+                    "Error: bsdiff generation timed out.\n"
+                    f"Elapsed: {elapsed}s, timeout: {BSDIFF_TIMEOUT_SECONDS}s\n"
+                    "You can raise the timeout with KIRBYAM_BSDIFF_TIMEOUT_SECONDS, "
+                    "or investigate system load/IO contention."
+                )
+
+            if BSDIFF_HEARTBEAT_SECONDS > 0 and now - last_heartbeat >= BSDIFF_HEARTBEAT_SECONDS:
+                print(f"BSdiff still running... {elapsed}s elapsed")
+                last_heartbeat = now
+
+            proc.join(timeout=1)
+
+        proc.join(timeout=5)
+
+        worker_error = ""
+        if not result_queue.empty():
+            worker_error = result_queue.get_nowait()
+
+        if proc.exitcode not in (0, None) or worker_error:
+            msg = worker_error or f"worker exited with code {proc.exitcode}"
+            raise SystemExit(f"Error generating bsdiff patch '{patch_path}': {msg}")
+
+        shutil.move(local_patch, patch_path)
 
 
 def md5_file(path: str, chunk_size: int = 1024 * 1024) -> str:
@@ -378,6 +610,9 @@ def main():
 
     print("Patch output (fixed):", Path(patch_path).resolve())
 
+    lock_path = Path(patch_path).with_suffix(Path(patch_path).suffix + ".lock")
+    acquire_run_lock(lock_path)
+
     source_type = args["source_type"]
     legacy_ignored_out = args.get("legacy_ignored_out")
     hash_debug = bool(args.get("hash_debug"))
@@ -402,74 +637,160 @@ def main():
         print("      Your canonical clean ROM is 'kirby.gba'.")
         print("      For consistency, consider using a file named 'kirby.gba' as the clean base.")
 
-    # 1) Build step: make clean; make
-    run_make()
-
-    # 2) Load payload
     try:
-        with open("payload.bin", "rb") as f:
-            payload = f.read()
-    except FileNotFoundError as e:
-        raise SystemExit(
-            "Error: payload.bin not found. Ensure your build produces payload.bin in the current directory."
-        ) from e
+        # 1) Build step: make clean; make
+        run_make()
 
-    if len(payload) > 0x16A0:
-        raise SystemExit(f"payload.bin too large: {len(payload)} bytes (max 0x16A0)")
-
-    # 3) Load ROM
-    try:
-        with open(in_path, "rb") as f:
-            rom = bytearray(f.read())
-    except FileNotFoundError as e:
-        raise SystemExit(f"Error: input ROM not found: {in_path}") from e
-
-    warning = get_rom_size_warning(len(rom))
-    if warning is not None:
-        print(warning)
-
-    # 4) Insert payload
-    rom[PAYLOAD_OFFSET:PAYLOAD_OFFSET + len(payload)] = payload
-
-    # 5) Patch hook site with BL
-    rom[HOOK_OFFSET:HOOK_OFFSET + 4] = BL_BYTES
-
-    # 6) Write the intermediary patched ROM
-    with open(INTERMEDIARY_ROM, "wb") as f:
-        f.write(rom)
-
-    # Optional: hash debug of intermediary patched ROM
-    if hash_debug:
+        # 2) Load payload
         try:
-            patched_md5 = md5_file(INTERMEDIARY_ROM)
-            print("")
-            print("=== HASH DEBUG (PATCHED ROM OUTPUT) ===")
-            print(f"Computed MD5 (expected base ROM):               {load_expected_rom_md5_from_rom_py()}")
-            print(f"Computed MD5 (intermediary patched ROM output): {patched_md5}")
-            print("Note: These are expected to differ (patched ROM is modified).")
-            print("=== HASH DEBUG END ===")
-            print("")
-        except Exception as e:
-            print(f"Warning: failed to compute intermediary patched ROM MD5: {e}")
+            with open("payload.bin", "rb") as f:
+                payload = f.read()
+        except FileNotFoundError as e:
+            raise SystemExit(
+                "Error: payload.bin not found. Ensure your build produces payload.bin in the current directory."
+            ) from e
 
+        if len(payload) > 0x16A0:
+            raise SystemExit(f"payload.bin too large: {len(payload)} bytes (max 0x16A0)")
 
-    print("Intermediary patched ROM written:", INTERMEDIARY_ROM)
-    print("Payload inserted at file offset:", hex(PAYLOAD_OFFSET))
-    print("Hook patched at file offset:", hex(HOOK_OFFSET), "with bytes:", BL_BYTES.hex(" "))
+        payload_elf_path = Path("payload.elf")
+        if not payload_elf_path.exists():
+            raise SystemExit("Error: payload.elf not found after build; cannot resolve boss hook symbol.")
 
-    # 7) Generate base_patch.bsdiff4: clean base -> intermediary patched ROM
-    bsdiff4 = require_bsdiff4()
-    try:
-        bsdiff4.file_diff(in_path, INTERMEDIARY_ROM, patch_path)
-    except Exception as e:
-        raise SystemExit(f"Error generating bsdiff patch '{patch_path}': {e}") from e
+        boss_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_boss_defeat_collect_shard")
+        big_chest_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_collect_big_chest")
+        vitality_chest_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_collect_vitality_chest")
+        sound_player_chest_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_collect_sound_player_chest")
+        # arm-none-eabi-nm may encode Thumb function symbols with bit 0 set.
+        # Clear the Thumb state bit before passing to thumb_bl_bytes(), which
+        # requires a halfword-aligned target address.
+        boss_hook_target &= ~1
+        big_chest_hook_target &= ~1
+        vitality_chest_hook_target &= ~1
+        sound_player_chest_hook_target &= ~1
+        rom_base = 0x08000000
+        payload_rom_start = rom_base + PAYLOAD_OFFSET
+        payload_rom_end = payload_rom_start + len(payload)
+        if not (payload_rom_start <= boss_hook_target < payload_rom_end):
+            raise SystemExit(
+                "Error: boss hook target address out of expected payload range.\n"
+                f"Resolved address: 0x{boss_hook_target:08X}, expected within "
+                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
+                "Check your payload.elf link address and PAYLOAD_OFFSET."
+            )
+        if not (payload_rom_start <= big_chest_hook_target < payload_rom_end):
+            raise SystemExit(
+                "Error: big chest hook target address out of expected payload range.\n"
+                f"Resolved address: 0x{big_chest_hook_target:08X}, expected within "
+                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
+                "Check your payload.elf link address and PAYLOAD_OFFSET."
+            )
+        if not (payload_rom_start <= vitality_chest_hook_target < payload_rom_end):
+            raise SystemExit(
+                "Error: vitality chest hook target address out of expected payload range.\n"
+                f"Resolved address: 0x{vitality_chest_hook_target:08X}, expected within "
+                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
+                "Check your payload.elf link address and PAYLOAD_OFFSET."
+            )
+        if not (payload_rom_start <= sound_player_chest_hook_target < payload_rom_end):
+            raise SystemExit(
+                "Error: sound player chest hook target address out of expected payload range.\n"
+                f"Resolved address: 0x{sound_player_chest_hook_target:08X}, expected within "
+                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
+                "Check your payload.elf link address and PAYLOAD_OFFSET."
+            )
+        boss_hook_bl_bytes = thumb_bl_bytes(rom_base + BOSS_COLLECT_SHARD_CALL_OFFSET, boss_hook_target)
+        big_chest_hook_bl_bytes = thumb_bl_bytes(rom_base + BIG_CHEST_COLLECT_CALL_OFFSET, big_chest_hook_target)
+        vitality_chest_hook_bl_bytes = thumb_bl_bytes(rom_base + VITALITY_CHEST_COLLECT_CALL_OFFSET, vitality_chest_hook_target)
+        sound_player_chest_hook_bl_bytes = thumb_bl_bytes(rom_base + SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET, sound_player_chest_hook_target)
 
-    print("BSdiff patch generated:", patch_path)
-    print("Patch source (clean):", in_path)
-    print("Patch target (baseline):", INTERMEDIARY_ROM)
+        # 3) Load ROM
+        try:
+            with open(in_path, "rb") as f:
+                rom = bytearray(f.read())
+        except FileNotFoundError as e:
+            raise SystemExit(f"Error: input ROM not found: {in_path}") from e
 
-    # 8) Delete intermediary ROM now that patch exists
-    safe_unlink(INTERMEDIARY_ROM)
+        warning = get_rom_size_warning(len(rom))
+        if warning is not None:
+            print(warning)
+
+        # 4) Insert payload
+        rom[PAYLOAD_OFFSET:PAYLOAD_OFFSET + len(payload)] = payload
+
+        # 5) Patch hook sites with BL
+        rom[MAIN_HOOK_OFFSET:MAIN_HOOK_OFFSET + 4] = MAIN_HOOK_BL_BYTES
+        rom[BOSS_COLLECT_SHARD_CALL_OFFSET:BOSS_COLLECT_SHARD_CALL_OFFSET + 4] = boss_hook_bl_bytes
+        rom[BIG_CHEST_COLLECT_CALL_OFFSET:BIG_CHEST_COLLECT_CALL_OFFSET + 4] = big_chest_hook_bl_bytes
+        rom[VITALITY_CHEST_COLLECT_CALL_OFFSET:VITALITY_CHEST_COLLECT_CALL_OFFSET + 4] = vitality_chest_hook_bl_bytes
+        rom[SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET:SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET + 4] = sound_player_chest_hook_bl_bytes
+
+        # 6) Write the intermediary patched ROM
+        with open(INTERMEDIARY_ROM, "wb") as f:
+            f.write(rom)
+
+        # Optional: hash debug of intermediary patched ROM
+        if hash_debug:
+            try:
+                patched_md5 = md5_file(INTERMEDIARY_ROM)
+                print("")
+                print("=== HASH DEBUG (PATCHED ROM OUTPUT) ===")
+                print(f"Computed MD5 (expected base ROM):               {load_expected_rom_md5_from_rom_py()}")
+                print(f"Computed MD5 (intermediary patched ROM output): {patched_md5}")
+                print("Note: These are expected to differ (patched ROM is modified).")
+                print("=== HASH DEBUG END ===")
+                print("")
+            except Exception as e:
+                print(f"Warning: failed to compute intermediary patched ROM MD5: {e}")
+
+        print("Intermediary patched ROM written:", INTERMEDIARY_ROM)
+        print("Payload inserted at file offset:", hex(PAYLOAD_OFFSET))
+        print("Main hook patched at file offset:", hex(MAIN_HOOK_OFFSET), "with bytes:", MAIN_HOOK_BL_BYTES.hex(" "))
+        print(
+            "Boss shard call patched at file offset:",
+            hex(BOSS_COLLECT_SHARD_CALL_OFFSET),
+            "with bytes:",
+            boss_hook_bl_bytes.hex(" "),
+            "target=",
+            hex(boss_hook_target),
+        )
+        print(
+            "Big chest call patched at file offset:",
+            hex(BIG_CHEST_COLLECT_CALL_OFFSET),
+            "with bytes:",
+            big_chest_hook_bl_bytes.hex(" "),
+            "target=",
+            hex(big_chest_hook_target),
+        )
+        print(
+            "Vitality chest call patched at file offset:",
+            hex(VITALITY_CHEST_COLLECT_CALL_OFFSET),
+            "with bytes:",
+            vitality_chest_hook_bl_bytes.hex(" "),
+            "target=",
+            hex(vitality_chest_hook_target),
+        )
+        print(
+            "Sound Player chest call patched at file offset:",
+            hex(SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET),
+            "with bytes:",
+            sound_player_chest_hook_bl_bytes.hex(" "),
+            "target=",
+            hex(sound_player_chest_hook_target),
+        )
+
+        # 7) Generate base_patch.bsdiff4: clean base -> intermediary patched ROM
+        print("Starting bsdiff generation...")
+        generate_bsdiff_with_timeout(in_path, INTERMEDIARY_ROM, patch_path)
+
+        print("BSdiff patch generated:", patch_path)
+        print("Patch source (clean):", in_path)
+        print("Patch target (baseline):", INTERMEDIARY_ROM)
+
+        # 8) Delete intermediary ROM now that patch exists
+        safe_unlink(INTERMEDIARY_ROM)
+    finally:
+        release_run_lock(lock_path)
 
 
 if __name__ == "__main__":

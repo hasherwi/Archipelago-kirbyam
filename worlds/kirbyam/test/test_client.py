@@ -1,190 +1,396 @@
 """Integration tests for client polling and delivery logic."""
+import asyncio
 import pytest
 import logging
 from unittest.mock import AsyncMock, Mock, patch
 
+import worlds._bizhawk as bizhawk
+from worlds._bizhawk.context import _game_watcher, AuthStatus
+
 from ..data import data
 from ..client import KirbyAmClient
+from ..rom import KirbyAmProcedurePatch
 
 
 @pytest.mark.asyncio
-async def test_poll_locations_empty_bitfield(mock_bizhawk_context):
-    """Test _poll_locations with no shards collected."""
+async def test_validate_rom_accepts_patched_kirby_header(mock_bizhawk_context):
     client = KirbyAmClient()
-    client.initialize_client()
-    
-    # Mock empty shard bitfield (0x0202C000 = 0x00)
+
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
-        mock_read.return_value = [(0).to_bytes(4, 'little')]
-        
-        await client._poll_locations(mock_bizhawk_context)
-        
-        # No new locations should be checked
-        assert len(client._checked_location_bits) == 0
+        mock_read.side_effect = [
+            [b'AGB KIRBY AM', b'B8KE', b'01'],
+            [b'\x01' + (b'\x00' * 15)],
+        ]
+
+        assert await client.validate_rom(mock_bizhawk_context) is True
+        assert mock_bizhawk_context.game == client.game
+        assert mock_bizhawk_context.want_slot_data is True
 
 
 @pytest.mark.asyncio
-async def test_poll_locations_single_shard(mock_bizhawk_context):
-    """Test _poll_locations when one shard is collected."""
+async def test_validate_rom_reads_auth_from_rom_domain_offset(mock_bizhawk_context):
     client = KirbyAmClient()
-    client.initialize_client()
-    
-    # Mock shard bitfield with bit 0 set (first shard)
-    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
-        mock_read.return_value = [(0x01).to_bytes(4, 'little')]
-        
-        await client._poll_locations(mock_bizhawk_context)
-        
-        # Bit 0 should be marked as checked
-        assert 0 in client._checked_location_bits
 
+    original_auth_addr = data.rom_addresses.get("gArchipelagoInfo")
+    data.rom_addresses["gArchipelagoInfo"] = 0x08F00000
+    try:
+        with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+            mock_read.side_effect = [
+                [b'AGB KIRBY AM', b'B8KE', b'01'],
+                [b'\x01' + (b'\x00' * 15)],
+            ]
 
-@pytest.mark.asyncio
-async def test_poll_locations_prefers_native_shard_address(mock_bizhawk_context):
-    """Test _poll_locations reads the native shard bitfield when available."""
-    client = KirbyAmClient()
-    client.initialize_client()
+            assert await client.validate_rom(mock_bizhawk_context) is True
 
-    with patch.dict(data.native_ram_addresses, {"shard_bitfield_native": 0x02038970}, clear=False), \
-         patch.dict(data.transport_ram_addresses, {"shard_bitfield": 0x0202C000}, clear=False), \
-         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
-        mock_read.return_value = [(0x01).to_bytes(1, 'little')]
-
-        await client._poll_locations(mock_bizhawk_context)
-
-        mock_read.assert_awaited_once_with(
+        mock_read.assert_any_await(
             mock_bizhawk_context.bizhawk_ctx,
-            [(0x02038970, 1, 'System Bus')]
+            [(0x00F00000, 16, "ROM")],
         )
+    finally:
+        if original_auth_addr is None:
+            data.rom_addresses.pop("gArchipelagoInfo", None)
+        else:
+            data.rom_addresses["gArchipelagoInfo"] = original_auth_addr
 
 
 @pytest.mark.asyncio
-async def test_poll_locations_falls_back_to_transport_shard_address(mock_bizhawk_context):
-    """Test _poll_locations falls back to transport shard bitfield when native key is missing."""
+async def test_validate_rom_rejects_unpatched_kirby_rom(mock_bizhawk_context, caplog):
     client = KirbyAmClient()
-    client.initialize_client()
+    mock_bizhawk_context.rom_hash = KirbyAmProcedurePatch.hash
 
-    with patch.dict(data.native_ram_addresses, {}, clear=True), \
-         patch.dict(data.transport_ram_addresses, {"shard_bitfield": 0x0202C000}, clear=False), \
-         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
-        mock_read.return_value = [(0x01).to_bytes(4, 'little')]
-
-        await client._poll_locations(mock_bizhawk_context)
-
-        mock_read.assert_awaited_once_with(
-            mock_bizhawk_context.bizhawk_ctx,
-            [(0x0202C000, 4, 'System Bus')]
-        )
-
-
-@pytest.mark.asyncio
-async def test_poll_locations_multiple_shards(mock_bizhawk_context, shard_bitfield_fixtures):
-    """Test _poll_locations with multiple shards."""
-    client = KirbyAmClient()
-    client.initialize_client()
-    
-    # Test with shard_1_2_3 pattern (bits 0, 1, 2 set)
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
-        mock_read.return_value = [shard_bitfield_fixtures["shard_1_2_3"].to_bytes(4, 'little')]
-        
-        await client._poll_locations(mock_bizhawk_context)
-        
-        # Bits 0, 1, 2 should be marked as checked
-        assert 0 in client._checked_location_bits
-        assert 1 in client._checked_location_bits
-        assert 2 in client._checked_location_bits
+        with caplog.at_level(logging.INFO):
+            assert await client.validate_rom(mock_bizhawk_context) is False
+
+    mock_read.assert_not_awaited()
+    assert "unpatched Kirby & The Amazing Mirror ROM" in caplog.text
 
 
 @pytest.mark.asyncio
-async def test_poll_locations_ignores_unmapped_reserved_bits(mock_bizhawk_context):
-    """Test reserved/high bits are ignored when they do not map to any location."""
+async def test_validate_rom_rejects_missing_auth_block_read(mock_bizhawk_context, caplog):
     client = KirbyAmClient()
-    client.initialize_client()
 
-    with patch.dict(data.native_ram_addresses, {}, clear=True), \
-         patch.dict(data.transport_ram_addresses, {"shard_bitfield": 0x0202C000}, clear=False), \
-         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
-        # Bits 0 and 31 set; only bit 0 maps to current shard locations.
-        mock_read.return_value = [(0x80000001).to_bytes(4, 'little')]
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.side_effect = [
+            [b'AGB KIRBY AM', b'B8KE', b'01'],
+            bizhawk.RequestFailedError("Connection closed"),
+        ]
 
-        await client._poll_locations(mock_bizhawk_context)
+        with caplog.at_level(logging.INFO):
+            assert await client.validate_rom(mock_bizhawk_context) is False
 
-        assert 0 in client._checked_location_bits
-        assert 31 not in client._checked_location_bits
+    assert "unpatched Kirby & The Amazing Mirror ROM" not in caplog.text
+    assert "ROM auth read failed during validation" in caplog.text
 
 
 @pytest.mark.asyncio
-async def test_location_check_sent_on_new_shard(mock_bizhawk_context):
-    """Test that LocationChecks is sent when a new shard is detected."""
+async def test_validate_rom_rejects_non_kirby_header(mock_bizhawk_context, caplog):
+    client = KirbyAmClient()
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.side_effect = [
+            [b'POKEMON EMER', b'BPEE', b'01'],
+        ]
+
+        with caplog.at_level(logging.INFO):
+            assert await client.validate_rom(mock_bizhawk_context) is False
+
+    assert "ROM validation failed" in caplog.text
+
+
+@pytest.mark.asyncio
+async def test_validate_rom_rejects_empty_patch_metadata(mock_bizhawk_context, caplog):
+    client = KirbyAmClient()
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.side_effect = [
+            [b'AGB KIRBY AM', b'B8KE', b'01'],
+            [b'\x00' * 16],
+        ]
+
+        with caplog.at_level(logging.INFO):
+            assert await client.validate_rom(mock_bizhawk_context) is False
+
+    assert "KirbyAM patch metadata was missing" in caplog.text
+
+
+@pytest.mark.asyncio
+async def test_validate_rom_rejects_empty_patch_metadata_logs_once(mock_bizhawk_context, caplog):
+    client = KirbyAmClient()
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.side_effect = [
+            [b'AGB KIRBY AM', b'B8KE', b'01'],
+            [b'\x00' * 16],
+            [b'AGB KIRBY AM', b'B8KE', b'01'],
+            [b'\x00' * 16],
+        ]
+
+        with caplog.at_level(logging.INFO):
+            assert await client.validate_rom(mock_bizhawk_context) is False
+            assert await client.validate_rom(mock_bizhawk_context) is False
+
+    assert caplog.text.count("KirbyAM patch metadata was missing") == 1
+
+
+@pytest.mark.asyncio
+async def test_poll_locations_is_noop_and_does_not_read_ram(mock_bizhawk_context):
+    """Shard polling is disabled for AP checks and should no-op without RAM reads."""
     client = KirbyAmClient()
     client.initialize_client()
-    
-    # Pre-populate bizhawk context checked locations
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        await client._poll_locations(mock_bizhawk_context)
+        mock_read.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_poll_locations_does_not_send_location_checks(mock_bizhawk_context):
+    """No LocationChecks should ever be emitted by shard polling."""
+    client = KirbyAmClient()
+    client.initialize_client()
     mock_bizhawk_context.checked_locations = set()
-    
-    # Mock read returning bit 0 set (first new shard)
-    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+
+    with patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        await client._poll_locations(mock_bizhawk_context)
+    mock_send.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_poll_major_chest_sends_location_checks_for_set_bits(mock_bizhawk_context):
+    """Set transport major-chest bits should map to major-chest LocationChecks."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    cabbage = data.locations["MAJOR_CHEST_CABBAGE_CAVERN"].location_id
+    olive = data.locations["MAJOR_CHEST_OLIVE_OCEAN"].location_id
+    peppermint = data.locations["MAJOR_CHEST_PEPPERMINT_PALACE"].location_id
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.dict(data.transport_ram_addresses, {"major_chest_flags": 0x0202C028}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
-        
-        mock_read.return_value = [(0x01).to_bytes(4, 'little')]
-        
-        await client._poll_locations(mock_bizhawk_context)
+        # Bits 3, 6, 7 set => Cabbage, Olive, Peppermint major chests.
+        mock_read.return_value = [((1 << 3) | (1 << 6) | (1 << 7)).to_bytes(4, 'little')]
 
-        mock_send.assert_awaited_once_with([
-            {"cmd": "LocationChecks", "locations": [data.locations["SHARD_1"].location_id]}
-        ])
+        await client._poll_major_chest_locations(mock_bizhawk_context)
 
-
-@pytest.mark.asyncio
-async def test_location_check_resent_when_server_missing_location(mock_bizhawk_context):
-    """RAM-derived checks should be resent if server checked_locations is missing them."""
-    client = KirbyAmClient()
-    client.initialize_client()
-
-    first_loc = data.locations["SHARD_1"].location_id
-    second_loc = data.locations["SHARD_2"].location_id
-    # Simulate server knowing only shard 1 while RAM reports shards 1+2.
-    mock_bizhawk_context.checked_locations = {first_loc}
-
-    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
-         patch('CommonClient.logger') as mock_logger:
-
-        mock_read.return_value = [(0x03).to_bytes(4, 'little')]
-
-        await client._poll_locations(mock_bizhawk_context)
-
-        mock_send.assert_awaited_once_with([
-            {"cmd": "LocationChecks", "locations": [second_loc]}
-        ])
-        assert mock_logger.info.called
-        assert "resending RAM-derived LocationChecks missing on server" in mock_logger.info.call_args.args[0]
-        assert mock_logger.info.call_args.args[1] == [second_loc]
-        assert mock_logger.info.call_args.args[2] == [first_loc]
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [cabbage, olive, peppermint]}
+    ])
 
 
 @pytest.mark.asyncio
-async def test_no_location_checks_sent_when_all_already_server_acknowledged(mock_bizhawk_context):
-    """No LocationChecks message should be sent when all RAM-derived checks are already on the server."""
+async def test_poll_major_chest_skips_already_server_acknowledged(mock_bizhawk_context):
+    """No major-chest resend when server already acknowledges all mapped transport checks."""
     client = KirbyAmClient()
     client.initialize_client()
 
-    shard1 = data.locations["SHARD_1"].location_id
-    shard2 = data.locations["SHARD_2"].location_id
-    mock_bizhawk_context.checked_locations = {shard1, shard2}
+    olive = data.locations["MAJOR_CHEST_OLIVE_OCEAN"].location_id
+    mock_bizhawk_context.checked_locations = {olive}
 
-    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+    with patch.dict(data.transport_ram_addresses, {"major_chest_flags": 0x0202C028}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
          patch('CommonClient.logger') as mock_logger:
+        mock_read.return_value = [((1 << 6)).to_bytes(4, 'little')]
 
-        mock_read.return_value = [(0x03).to_bytes(4, 'little')]  # bits 0 and 1 set
+        await client._poll_major_chest_locations(mock_bizhawk_context)
 
+    mock_send.assert_not_awaited()
+    assert mock_logger.debug.called
+    assert "dedupe suppressed major-chest LocationChecks" in mock_logger.debug.call_args.args[0]
+    assert mock_logger.debug.call_args.args[1] == [olive]
+
+
+@pytest.mark.asyncio
+async def test_poll_major_chest_skips_when_address_missing(mock_bizhawk_context):
+    """Missing transport major chest address should no-op safely."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    transport_without_chests = {k: v for k, v in data.transport_ram_addresses.items() if k != "major_chest_flags"}
+    ram_without_chests = {k: v for k, v in data.ram_addresses.items() if k != "major_chest_flags"}
+
+    with patch.dict(data.transport_ram_addresses, transport_without_chests, clear=True), \
+         patch.dict(data.ram_addresses, ram_without_chests, clear=True), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        await client._poll_major_chest_locations(mock_bizhawk_context)
+
+    mock_read.assert_not_awaited()
+    mock_send.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_shard_poll_does_not_trigger_major_chest_locations(mock_bizhawk_context):
+    """Shard polling should not emit major-chest location IDs."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
         await client._poll_locations(mock_bizhawk_context)
 
-        mock_send.assert_not_awaited()
-        assert mock_logger.debug.called
-        assert "dedupe suppressed LocationChecks" in mock_logger.debug.call_args.args[0]
-        assert mock_logger.debug.call_args.args[1] == [shard1, shard2]
+    mock_send.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_poll_vitality_chest_sends_location_checks_for_set_bits(mock_bizhawk_context):
+    """Set transport vitality-chest bits should map to vitality-chest LocationChecks."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    carrot = data.locations["VITALITY_CHEST_CARROT_CASTLE"].location_id
+    olive = data.locations["VITALITY_CHEST_OLIVE_OCEAN"].location_id
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.dict(data.transport_ram_addresses, {"vitality_chest_flags": 0x0202C02C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        # Bits 0 and 1 set => Carrot Castle and Olive Ocean vitality chests.
+        mock_read.return_value = [((1 << 0) | (1 << 1)).to_bytes(4, 'little')]
+
+        await client._poll_vitality_chest_locations(mock_bizhawk_context)
+
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [carrot, olive]}
+    ])
+
+
+@pytest.mark.asyncio
+async def test_poll_vitality_chest_skips_already_server_acknowledged(mock_bizhawk_context):
+    """No vitality-chest resend when server already acknowledges all mapped transport checks."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    carrot = data.locations["VITALITY_CHEST_CARROT_CASTLE"].location_id
+    mock_bizhawk_context.checked_locations = {carrot}
+
+    with patch.dict(data.transport_ram_addresses, {"vitality_chest_flags": 0x0202C02C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.return_value = [((1 << 0)).to_bytes(4, 'little')]
+
+        await client._poll_vitality_chest_locations(mock_bizhawk_context)
+
+    mock_send.assert_not_awaited()
+    assert mock_logger.debug.called
+    assert "dedupe suppressed vitality-chest LocationChecks" in mock_logger.debug.call_args.args[0]
+    assert mock_logger.debug.call_args.args[1] == [carrot]
+
+
+@pytest.mark.asyncio
+async def test_poll_vitality_chest_skips_when_address_missing(mock_bizhawk_context):
+    """Missing transport vitality chest address should no-op safely."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    transport_without_chests = {k: v for k, v in data.transport_ram_addresses.items() if k != "vitality_chest_flags"}
+    ram_without_chests = {k: v for k, v in data.ram_addresses.items() if k != "vitality_chest_flags"}
+
+    with patch.dict(data.transport_ram_addresses, transport_without_chests, clear=True), \
+         patch.dict(data.ram_addresses, ram_without_chests, clear=True), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        await client._poll_vitality_chest_locations(mock_bizhawk_context)
+
+    mock_read.assert_not_awaited()
+    mock_send.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_poll_sound_player_chest_sends_location_checks_for_set_bits(mock_bizhawk_context):
+    """Set transport sound-player bit should map to Sound Player chest LocationChecks."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    sound_player = data.locations["SOUND_PLAYER_CHEST"].location_id
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.dict(data.transport_ram_addresses, {"sound_player_chest_flags": 0x0202C030}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        mock_read.return_value = [((1 << 0)).to_bytes(4, 'little')]
+
+        await client._poll_sound_player_chest_locations(mock_bizhawk_context)
+
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [sound_player]}
+    ])
+
+
+@pytest.mark.asyncio
+async def test_poll_sound_player_chest_skips_when_address_missing(mock_bizhawk_context):
+    """Missing transport Sound Player chest address should no-op safely."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    transport_without_chests = {
+        k: v for k, v in data.transport_ram_addresses.items() if k != "sound_player_chest_flags"
+    }
+    ram_without_chests = {k: v for k, v in data.ram_addresses.items() if k != "sound_player_chest_flags"}
+
+    with patch.dict(data.transport_ram_addresses, transport_without_chests, clear=True), \
+         patch.dict(data.ram_addresses, ram_without_chests, clear=True), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        await client._poll_sound_player_chest_locations(mock_bizhawk_context)
+
+    mock_read.assert_not_awaited()
+    mock_send.assert_not_awaited()
+
+
+def test_major_chest_data_sanity():
+    """Major-chest entries should have explicit unique IDs and unique mapped bits."""
+    major_chests = [
+        loc for loc in data.locations.values()
+        if loc.category.name == "MAJOR_CHEST"
+    ]
+
+    assert major_chests
+
+    ids = [loc.location_id for loc in major_chests]
+    assert all(loc_id is not None for loc_id in ids)
+    assert len(ids) == len(set(ids))
+
+    bits = [loc.bit_index for loc in major_chests]
+    assert all(bit is not None for bit in bits)
+    assert len(bits) == len(set(bits))
+
+
+def test_vitality_chest_data_sanity():
+    """Vitality-chest entries should have explicit unique IDs and unique mapped bits."""
+    vitality_chests = [
+        loc for loc in data.locations.values()
+        if loc.category.name == "VITALITY_CHEST"
+    ]
+
+    assert len(vitality_chests) == 4
+
+    ids = [loc.location_id for loc in vitality_chests]
+    assert all(loc_id is not None for loc_id in ids)
+    assert len(ids) == len(set(ids))
+
+    bits = [loc.bit_index for loc in vitality_chests]
+    assert all(bit is not None for bit in bits)
+    assert len(bits) == len(set(bits))
+
+
+def test_sound_player_chest_data_sanity():
+    """Sound Player chest entry should have explicit unique ID and mapped transport bit."""
+    sound_player_chests = [
+        loc for loc in data.locations.values()
+        if loc.category.name == "SOUND_PLAYER_CHEST"
+    ]
+
+    assert len(sound_player_chests) == 1
+
+    sound_player = sound_player_chests[0]
+    assert sound_player.location_id is not None
+    assert sound_player.bit_index == 0
 
 
 def test_client_initialization():
@@ -1070,6 +1276,39 @@ async def test_game_watcher_skips_when_server_is_none(mock_bizhawk_context):
 
 
 @pytest.mark.asyncio
+async def test_global_game_watcher_recovers_when_handler_tick_times_out():
+    """A RequestFailedError in handler game_watcher should not crash the global watcher loop."""
+    ctx = Mock()
+    ctx.watcher_timeout = 0.01
+    ctx.watcher_event = asyncio.Event()
+    ctx.watcher_event.set()
+    ctx.exit_event = asyncio.Event()
+    ctx.bizhawk_ctx = Mock()
+    ctx.bizhawk_ctx.connection_status = bizhawk.ConnectionStatus.CONNECTED
+    ctx.client_handler = Mock()
+    ctx.server = None
+    ctx.auth_status = AuthStatus.NOT_AUTHENTICATED
+    ctx.rom_hash = "test_rom_hash"
+
+    async def raise_timeout(*_args, **_kwargs):
+        ctx.exit_event.set()
+        raise bizhawk.RequestFailedError("Connection timed out")
+
+    ctx.client_handler.game_watcher = AsyncMock(side_effect=raise_timeout)
+
+    with patch('worlds._bizhawk.context.ping', new_callable=AsyncMock) as mock_ping, \
+         patch('worlds._bizhawk.context.get_hash', new_callable=AsyncMock) as mock_get_hash, \
+         patch('worlds._bizhawk.context.logger') as mock_logger:
+        mock_get_hash.return_value = "test_rom_hash"
+
+        await asyncio.wait_for(_game_watcher(ctx), timeout=0.2)
+
+    mock_ping.assert_awaited_once_with(ctx.bizhawk_ctx)
+    ctx.client_handler.game_watcher.assert_awaited_once_with(ctx)
+    mock_logger.info.assert_any_call("Lost connection to BizHawk: Connection timed out")
+
+
+@pytest.mark.asyncio
 async def test_game_watcher_skips_when_slot_data_is_none(mock_bizhawk_context):
     """game_watcher should do nothing when ctx.slot_data is None (handshake not complete)."""
     client = KirbyAmClient()
@@ -1115,6 +1354,9 @@ async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_biz
     client._last_runtime_gate_reason = "non_gameplay_cutscene"
     client._last_shard_poll_log = ("resend", (1,), ())
     client._last_boss_poll_log = ("resend", (2,), ())
+    client._last_major_chest_poll_log = ("resend", (3,), ())
+    client._last_vitality_chest_poll_log = ("resend", (4,), ())
+    client._last_sound_player_chest_poll_log = ("resend", (5,), ())
     client._last_boss_probe_snapshot = bytes(32)
     client._boss_probe_stream_marker = object()
     client._unsafe_delivery_probe_stream_marker = object()
@@ -1125,6 +1367,9 @@ async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_biz
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock) as mock_load, \
          patch.object(client, '_poll_locations', new_callable=AsyncMock) as mock_poll_locations, \
          patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock) as mock_poll_boss, \
+            patch.object(client, '_poll_major_chest_locations', new_callable=AsyncMock) as mock_poll_major_chests, \
+            patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock) as mock_poll_vitality_chests, \
+            patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock) as mock_poll_sound_player_chests, \
          patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock) as mock_probe, \
          patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock) as mock_probe_unsafe, \
          patch.object(client, '_deliver_items', new_callable=AsyncMock) as mock_deliver, \
@@ -1137,14 +1382,20 @@ async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_biz
         assert client._last_runtime_gate_reason is None
         assert client._last_shard_poll_log is None
         assert client._last_boss_poll_log is None
+        assert client._last_major_chest_poll_log is None
+        assert client._last_vitality_chest_poll_log is None
+        assert client._last_sound_player_chest_poll_log is None
         assert client._last_boss_probe_snapshot is None
         assert client._boss_probe_stream_marker is None
         assert client._unsafe_delivery_probe_stream_marker is None
         assert client._last_unsafe_delivery_counter_values == {}
         mock_logger.info.assert_any_call("KirbyAM: AP session ready; reconnect-safe reconciliation active")
         mock_load.assert_awaited_once()
-        mock_poll_locations.assert_awaited_once()
+        mock_poll_locations.assert_not_awaited()
         mock_poll_boss.assert_awaited_once()
+        mock_poll_major_chests.assert_awaited_once()
+        mock_poll_vitality_chests.assert_awaited_once()
+        mock_poll_sound_player_chests.assert_awaited_once()
         mock_probe.assert_awaited_once()
         mock_probe_unsafe.assert_awaited_once()
         mock_deliver.assert_awaited_once_with(mock_bizhawk_context)
@@ -1207,20 +1458,38 @@ async def test_runtime_gameplay_state_non_gameplay_on_tutorial_or_menu_state(moc
 
 
 @pytest.mark.asyncio
-async def test_runtime_gameplay_state_non_gameplay_on_post_normal_state(mock_bizhawk_context):
-    """AI state above normal gameplay should be classified as non-gameplay post-normal."""
+@pytest.mark.parametrize("goal_clear_state", [9999, 10000])
+async def test_runtime_gameplay_state_non_gameplay_on_goal_clear_state(mock_bizhawk_context, goal_clear_state):
+    """Goal-clear AI states should remain classified as non-gameplay."""
     client = KirbyAmClient()
     client.initialize_client()
 
     with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
-        mock_read.return_value = [(9999).to_bytes(4, 'little')]
+        mock_read.return_value = [(goal_clear_state).to_bytes(4, 'little')]
 
         active, reason, ai_state = await client._runtime_gameplay_state(mock_bizhawk_context)
 
     assert active is False
-    assert reason == "non_gameplay_post_normal"
-    assert ai_state == 9999
+    assert reason == "non_gameplay_goal_clear"
+    assert ai_state == goal_clear_state
+
+
+@pytest.mark.asyncio
+async def test_runtime_gameplay_state_fail_open_on_unknown_post_normal_state(mock_bizhawk_context):
+    """Unknown post-300 AI states should fail open so item delivery is not blocked."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.return_value = [(301).to_bytes(4, 'little')]
+
+        active, reason, ai_state = await client._runtime_gameplay_state(mock_bizhawk_context)
+
+    assert active is True
+    assert reason == "gameplay_active"
+    assert ai_state == 301
 
 
 @pytest.mark.asyncio
@@ -1264,6 +1533,171 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
     mock_probe_unsafe.assert_not_awaited()
     mock_deliver.assert_awaited_once_with(mock_bizhawk_context, allow_new_writes=False)
     mock_goal.assert_awaited_once_with(mock_bizhawk_context, ai_state_override=200)
+
+
+@pytest.mark.asyncio
+async def test_game_watcher_syncs_death_link_enabled_from_slot_data(mock_bizhawk_context):
+    """DeathLink tag state should be enabled when slot_data.death_link is true."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["death_link"] = 1
+
+    with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
+         patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
+            patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
+            patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
+         patch.object(client, '_poll_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_major_chest_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock), \
+         patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock), \
+         patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock), \
+         patch.object(client, '_deliver_items', new_callable=AsyncMock), \
+         patch.object(client, '_maybe_report_goal', new_callable=AsyncMock):
+        mock_gate.return_value = (True, "gameplay_active", 300)
+        await client.game_watcher(mock_bizhawk_context)
+
+    mock_bizhawk_context.update_death_link.assert_awaited_once_with(True)
+
+
+@pytest.mark.asyncio
+async def test_game_watcher_death_link_sync_is_deduped_until_value_changes(mock_bizhawk_context):
+    """DeathLink tag update should not repeat every frame when slot_data value is unchanged."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["death_link"] = False
+
+    with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
+         patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
+            patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
+            patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
+         patch.object(client, '_poll_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_major_chest_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock), \
+         patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock), \
+         patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock), \
+         patch.object(client, '_deliver_items', new_callable=AsyncMock), \
+         patch.object(client, '_maybe_report_goal', new_callable=AsyncMock):
+        mock_gate.return_value = (True, "gameplay_active", 300)
+        await client.game_watcher(mock_bizhawk_context)
+        await client.game_watcher(mock_bizhawk_context)
+
+        # Change slot_data runtime value and ensure one additional sync call.
+        mock_bizhawk_context.slot_data["death_link"] = True
+        await client.game_watcher(mock_bizhawk_context)
+
+    assert mock_bizhawk_context.update_death_link.await_count == 2
+    mock_bizhawk_context.update_death_link.assert_any_await(False)
+    mock_bizhawk_context.update_death_link.assert_any_await(True)
+
+
+def test_on_package_queues_incoming_death_link_when_enabled(mock_bizhawk_context):
+    """DeathLink Bounced packets should queue one pending incoming kill event."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._death_link_enabled = True
+
+    client.on_package(
+        mock_bizhawk_context,
+        "Bounced",
+        {"tags": ["DeathLink"], "data": {"time": 123.0, "source": "Other Player"}},
+    )
+
+    assert client._incoming_death_link_pending is True
+    assert client._last_incoming_death_link_time == 123.0
+
+
+@pytest.mark.asyncio
+async def test_apply_pending_death_link_writes_zero_hp(mock_bizhawk_context):
+    """Incoming DeathLink should write Kirby HP to zero when gameplay is active."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._death_link_enabled = True
+    client._incoming_death_link_pending = True
+
+    with patch.dict(data.native_ram_addresses, {"kirby_hp_native": 0x02020FE0}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        mock_read.return_value = [(5).to_bytes(1, 'little')]
+
+        await client._apply_pending_death_link(mock_bizhawk_context)
+
+    mock_write.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        [(0x02020FE0, (0).to_bytes(1, 'little'), 'System Bus')]
+    )
+    assert client._incoming_death_link_pending is False
+    assert client._suppress_next_local_death_send is True
+
+
+@pytest.mark.asyncio
+async def test_local_death_transition_sends_death_link_once(mock_bizhawk_context):
+    """Outgoing DeathLink should send once on an alive->dead transition."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._death_link_enabled = True
+
+    with patch.dict(data.native_ram_addresses, {"kirby_hp_native": 0x02020FE0}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.side_effect = [
+            [(5).to_bytes(1, 'little')],
+            [(0).to_bytes(1, 'little')],
+            [(0).to_bytes(1, 'little')],
+        ]
+
+        await client._poll_and_send_local_death_link(mock_bizhawk_context)
+        await client._poll_and_send_local_death_link(mock_bizhawk_context)
+        await client._poll_and_send_local_death_link(mock_bizhawk_context)
+
+    mock_bizhawk_context.send_death.assert_awaited_once_with("Kirby was defeated.")
+
+
+@pytest.mark.asyncio
+async def test_incoming_death_link_suppresses_echo_send(mock_bizhawk_context):
+    """Applying incoming DeathLink should not immediately re-send an outgoing DeathLink."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._death_link_enabled = True
+    client._incoming_death_link_pending = True
+    client._last_local_alive_state = True
+
+    with patch.dict(data.native_ram_addresses, {"kirby_hp_native": 0x02020FE0}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        mock_read.side_effect = [
+            [(5).to_bytes(1, 'little')],
+            [(0).to_bytes(1, 'little')],
+        ]
+
+        await client._apply_pending_death_link(mock_bizhawk_context)
+        await client._poll_and_send_local_death_link(mock_bizhawk_context)
+
+    mock_write.assert_awaited_once()
+    mock_bizhawk_context.send_death.assert_not_awaited()
+    assert client._suppress_next_local_death_send is False
+
+
+@pytest.mark.asyncio
+async def test_apply_pending_death_link_already_dead_does_not_suppress(mock_bizhawk_context):
+    """Receiving DeathLink while already dead should not suppress the next real local death."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._death_link_enabled = True
+    client._incoming_death_link_pending = True
+
+    with patch.dict(data.native_ram_addresses, {"kirby_hp_native": 0x02020FE0}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        mock_read.return_value = [(0).to_bytes(1, 'little')]
+
+        await client._apply_pending_death_link(mock_bizhawk_context)
+
+    mock_write.assert_not_awaited()
+    assert client._incoming_death_link_pending is False
+    assert client._suppress_next_local_death_send is False
 
 
 @pytest.mark.asyncio
@@ -1360,20 +1794,38 @@ async def test_shard_poll_does_not_trigger_boss_defeat_locations(mock_bizhawk_co
     client = KirbyAmClient()
     client.initialize_client()
 
-    boss1_loc = data.locations["BOSS_DEFEAT_1"].location_id
     mock_bizhawk_context.checked_locations = set()
 
-    with patch.dict(data.native_ram_addresses, {}, clear=True), \
-         patch.dict(data.transport_ram_addresses, {"shard_bitfield": 0x0202C000}, clear=False), \
-         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
-        # bit 0 set in shard bitfield
-        mock_read.return_value = [(0x01).to_bytes(4, 'little')]
-
+    with patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
         await client._poll_locations(mock_bizhawk_context)
+        mock_send.assert_not_awaited()
 
-        # Should only send SHARD_1, not BOSS_DEFEAT_1
-        calls = mock_send.await_args_list
-        assert len(calls) == 1
-        sent_locations = calls[0].args[0][0]["locations"]
-        assert boss1_loc not in sent_locations
+
+def test_vitality_chest_locations_defined_in_regions():
+    """Regression test: all VITALITY_CHEST locations must be registered in their regions.
+
+    Issue #428 occurred because vitality chest locations were defined in locations.json
+    but not referenced in areas.json. This test prevents that regression from silently
+    recurring during future region edits.
+    """
+    # Derive vitality chest keys from locations data to keep this test future-proof.
+    location_category_enum = getattr(data, "LocationCategory", None)
+    vitality_category = getattr(location_category_enum, "VITALITY_CHEST", None) if location_category_enum else None
+    vitality_chest_keys = {
+        key
+        for key, loc in data.locations.items()
+        if key.startswith("VITALITY_CHEST_")
+        or (vitality_category is not None and getattr(loc, "category", None) == vitality_category)
+    }
+
+    # Verify vitality chests were found (derivation logic sanity check).
+    assert vitality_chest_keys, "No VITALITY_CHEST locations found in locations.json"
+
+    # Verify each vitality chest is registered in a region.
+    all_region_locations = set()
+    for region_data in data.regions.values():
+        all_region_locations.update(region_data.locations)
+
+    for key in vitality_chest_keys:
+        assert key in all_region_locations, \
+            f"VITALITY_CHEST location '{key}' defined in locations.json but not registered in any region in areas.json"

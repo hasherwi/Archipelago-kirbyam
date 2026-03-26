@@ -47,22 +47,22 @@ jobs:
           python .github/scripts/kirbyam_release_metadata.py \
             --github-ref "${GITHUB_REF}" \
             --world-manifest "worlds/kirbyam/archipelago.json" \
+            --changelog "worlds/kirbyam/CHANGELOG.md" \
             --github-output "${GITHUB_OUTPUT}"
 
-      - name: Build kirbyam.apworld from committed patch data
-        working-directory: worlds/kirbyam
+      - name: Build kirbyam.apworld from source
         run: |
-          python build.py --skip-patch
-          if [ ! -f kirbyam.apworld ]; then
+          python worlds/kirbyam/build.py --skip-patch --skip-install
+          if [ ! -f worlds/kirbyam/kirbyam.apworld ]; then
             echo "kirbyam.apworld was not created" >&2
             exit 1
           fi
-          if [ ! -s data/base_patch.bsdiff4 ]; then
+          if [ ! -s worlds/kirbyam/data/base_patch.bsdiff4 ]; then
             echo "Committed data/base_patch.bsdiff4 is missing or empty" >&2
             exit 1
           fi
-          ls -lh kirbyam.apworld data/base_patch.bsdiff4
-          sha256sum kirbyam.apworld data/base_patch.bsdiff4
+          ls -lh worlds/kirbyam/kirbyam.apworld worlds/kirbyam/data/base_patch.bsdiff4
+          sha256sum worlds/kirbyam/kirbyam.apworld worlds/kirbyam/data/base_patch.bsdiff4
 
       - name: Stage artifact
         id: package
@@ -87,6 +87,7 @@ jobs:
     needs: build-apworld
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - name: Download built artifact
         uses: actions/download-artifact@v4
@@ -157,3 +158,58 @@ jobs:
             --repo "${GITHUB_REPOSITORY}" \
             --json assets \
             --jq '.assets[].name' | grep -Fx "${APWORLD_NAME}"
+
+      - name: Check out main for manifest version sync
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python for manifest version sync
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Create PR to sync world_version
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ needs.build-apworld.outputs.release_tag }}
+          RELEASE_VERSION: ${{ needs.build-apworld.outputs.version }}
+        run: |
+          python .github/scripts/kirbyam_release_metadata.py \
+            --github-ref "refs/tags/${RELEASE_TAG}" \
+            --world-manifest "worlds/kirbyam/archipelago.json"
+
+          if git diff --quiet -- worlds/kirbyam/archipelago.json; then
+            echo "worlds/kirbyam/archipelago.json already has world_version ${RELEASE_VERSION}; no sync commit needed"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          sync_branch="automation/kirbyam-world-version-${RELEASE_VERSION}"
+
+          git checkout -B "${sync_branch}"
+          git add worlds/kirbyam/archipelago.json
+          git commit -m "KirbyAM: sync world_version to ${RELEASE_VERSION}"
+          git push --force-with-lease origin "${sync_branch}:${sync_branch}"
+
+          existing_pr_number="$(gh pr list \
+            --repo "${GITHUB_REPOSITORY}" \
+            --base main \
+            --head "${sync_branch}" \
+            --state open \
+            --json number \
+            --jq '.[0].number // empty')"
+
+          if [ -n "${existing_pr_number}" ]; then
+            echo "world_version sync PR #${existing_pr_number} already open for ${sync_branch}"
+          else
+            gh pr create \
+              --repo "${GITHUB_REPOSITORY}" \
+              --base main \
+              --head "${sync_branch}" \
+              --title "KirbyAM: sync world_version to ${RELEASE_VERSION}" \
+              --body "Automated sync after tag ${RELEASE_TAG} to keep worlds/kirbyam/archipelago.json world_version current."
+          fi

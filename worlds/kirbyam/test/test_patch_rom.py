@@ -3,7 +3,11 @@
 from __future__ import annotations
 
 import importlib.util
+import os
+import tempfile
 from pathlib import Path
+
+import pytest
 
 
 PATCH_ROM_PATH = Path(__file__).resolve().parents[1] / "kirby_ap_payload" / "patch_rom.py"
@@ -21,3 +25,68 @@ def test_patch_rom_accepts_expected_usa_rom_size() -> None:
 def test_patch_rom_warns_for_unexpected_rom_size() -> None:
     warning = patch_rom.get_rom_size_warning(0x400000)
     assert warning == "Warning: ROM size is 0x400000, expected 0x1000000. Proceeding anyway."
+
+
+def test_thumb_bl_bytes_matches_existing_main_hook_patch() -> None:
+    assert patch_rom.thumb_bl_bytes(0x08152696, 0x0815E000) == bytes.fromhex("0B F0 B3 FC")
+
+
+def test_boss_collect_shard_call_offset_matches_verified_hook_site() -> None:
+    # sub_0801D948 at ROM addr 0x0801D948 (file offset 0x1D948); BL CollectShard
+    # is 8 bytes into the function (after push/mov/load prologue) → 0x1D948 + 8.
+    # Source: d:\kirbyam-extras\katam\src\code_0801C6F8.c line 703-705.
+    assert patch_rom.BOSS_COLLECT_SHARD_CALL_OFFSET == 0x001D950
+
+
+def test_big_chest_collect_call_offset_matches_verified_hook_site() -> None:
+    assert patch_rom.BIG_CHEST_COLLECT_CALL_OFFSET == 0x0000B144
+
+
+def test_vitality_chest_collect_call_offset_matches_verified_hook_site() -> None:
+    assert patch_rom.VITALITY_CHEST_COLLECT_CALL_OFFSET == 0x0000B0CC
+
+
+def test_sound_player_chest_collect_call_offset_matches_verified_hook_site() -> None:
+    assert patch_rom.SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET == 0x0000B264
+
+
+# ── Negative-path tests: parse_args ──────────────────────────────────────────
+
+def test_parse_args_source_type_arg_missing_rom_positional() -> None:
+    """--source-type arg with no positional args should raise SystemExit."""
+    with pytest.raises(SystemExit, match="Usage with --source-type arg"):
+        patch_rom.parse_args(["patch_rom.py", "--source-type", "arg"])
+
+
+def test_parse_args_source_type_arg_too_many_positionals() -> None:
+    """--source-type arg with 3+ positionals should raise SystemExit."""
+    with pytest.raises(SystemExit, match="Usage with --source-type arg"):
+        patch_rom.parse_args(["patch_rom.py", "--source-type", "arg", "a.gba", "b.gba", "c.gba"])
+
+
+def test_parse_args_source_type_file_too_many_positionals() -> None:
+    """--source-type file with 2+ positionals should raise SystemExit."""
+    with pytest.raises(SystemExit, match="Usage"):
+        patch_rom.parse_args(["patch_rom.py", "--source-type", "file", "a.gba", "b.gba"])
+
+
+# ── Negative-path tests: read_rom_path_from_tmp ───────────────────────────────
+
+def test_read_rom_path_from_tmp_missing_file() -> None:
+    """Missing rom_path.tmp should raise SystemExit with an actionable message."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        missing = os.path.join(tmpdir, "rom_path.tmp")
+        with pytest.raises(SystemExit) as exc_info:
+            patch_rom.read_rom_path_from_tmp(missing)
+        assert "not found" in str(exc_info.value)
+
+
+def test_read_rom_path_from_tmp_empty_file() -> None:
+    """Empty rom_path.tmp (whitespace only) should raise SystemExit with an actionable message."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmp_file = os.path.join(tmpdir, "rom_path.tmp")
+        with open(tmp_file, "w") as f:
+            f.write("   \n\n")
+        with pytest.raises(SystemExit) as exc_info:
+            patch_rom.read_rom_path_from_tmp(tmp_file)
+        assert "no usable ROM path" in str(exc_info.value)

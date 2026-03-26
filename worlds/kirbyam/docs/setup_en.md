@@ -59,7 +59,8 @@ Healthy startup indicators:
 
 First troubleshooting checks:
 - Confirm BizHawk is running a Kirby & The Amazing Mirror GBA ROM before launching the connector
-- If the Lua Console reports the wrong ROM/system, reload the correct ROM and rerun `connector_bizhawk_generic.lua`
+- If the BizHawk Client says no handler was found, make sure you opened the patched KirbyAM ROM rather than the clean base ROM
+- If the Lua Console reports the wrong ROM/system, reload the correct ROM and rerun `connector_kirbyam_bizhawk.lua`
 - If the connector starts but the BizHawk Client does not attach, verify the Lua Console window remains open
 
 You should now be able to receive and send items. You'll need to do these steps every time you want to reconnect. It is

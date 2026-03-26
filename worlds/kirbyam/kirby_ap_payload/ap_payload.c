@@ -20,11 +20,24 @@
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
 // Bit N set <=> boss of area N was defeated (same bit ordering as shard_bitfield, bits 0-7 used).
-// TODO: Call ap_set_boss_defeat_flag(boss_index) from the hook at sub_0801D948 (ROM addr 0x0801D948)
-//       once the exact patch-site byte offset is confirmed via Issue #110 address verification.
+// Hook site: BL CollectShard inside sub_0801D948 (ROM addr 0x0801D948, callsite file offset 0x001D950).
 #define AP_BOSS_DEFEAT_FLAGS    (*(volatile uint32_t*)(AP_BASE + 0x24u))
+#define AP_MAJOR_CHEST_FLAGS    (*(volatile uint32_t*)(AP_BASE + 0x28u))
+#define AP_VITALITY_CHEST_FLAGS (*(volatile uint32_t*)(AP_BASE + 0x2Cu))
+#define AP_SOUND_PLAYER_CHEST_FLAGS (*(volatile uint32_t*)(AP_BASE + 0x30u))
 #define KIRBY_SHARD_FLAGS_ADDR  0x02038970u
 #define KIRBY_SHARD_FLAGS       (*(volatile uint8_t*)(KIRBY_SHARD_FLAGS_ADDR))
+#define KIRBY_BIG_CHEST_FLAGS_ADDR 0x0203897Cu
+#define KIRBY_BIG_CHEST_FLAGS   (*(volatile uint32_t*)(KIRBY_BIG_CHEST_FLAGS_ADDR))
+#define KIRBY_VITALITY_COUNTER_ADDR 0x02038980u
+#define KIRBY_VITALITY_COUNTER  (*(volatile uint16_t*)(KIRBY_VITALITY_COUNTER_ADDR))
+
+#define KIRBY_STRUCTS_ADDR       0x02020EE0u
+#define KIRBY_CURRENT_PLAYER_ADDR 0x0203AD3Cu
+#define KIRBY_CURRENT_PLAYER     (*(volatile uint8_t*)(KIRBY_CURRENT_PLAYER_ADDR))
+#define KIRBY_STRUCT_STRIDE      0x1A8u
+#define KIRBY_STRUCT_HP_OFFSET   0x100u
+#define KIRBY_STRUCT_MAX_HP_OFFSET 0x101u
 
 // Player lives is a single byte in EWRAM
 #define KIRBY_LIVES_ADDR        0x02020FE2u
@@ -71,12 +84,124 @@ static void persist_shard_to_sram(uint8_t new_shard_bitfield) {
 // This function is the intended hook target for sub_0801D948 (ROM address 0x0801D948):
 //   intercept the CollectShard(var->unk218) call site, call this instead, and let AP
 //   item delivery (SHARD_N) grant the actual shard progression.
-// Until the ROM hook is installed, AP_BOSS_DEFEAT_FLAGS stays at zero; the Python
-// client will receive no boss-defeat checks but will not regress any existing behavior.
 static void ap_set_boss_defeat_flag(uint32_t boss_index) {
     if (boss_index < 8u) {
         AP_BOSS_DEFEAT_FLAGS |= (1u << boss_index);
     }
+}
+
+static void ap_set_major_chest_flag(uint32_t area_id) {
+    if (area_id < 32u) {
+        AP_MAJOR_CHEST_FLAGS |= (1u << area_id);
+    }
+}
+
+static void ap_set_vitality_chest_flag(uint32_t chest_index) {
+    if (chest_index < 32u) {
+        AP_VITALITY_CHEST_FLAGS |= (1u << chest_index);
+    }
+}
+
+static void ap_set_sound_player_chest_flag(uint32_t chest_index) {
+    if (chest_index < 32u) {
+        AP_SOUND_PLAYER_CHEST_FLAGS |= (1u << chest_index);
+    }
+}
+
+static void ap_set_vitality_chest_flag_for_room(uint16_t room_id) {
+    switch (room_id) {
+        case 739u: // Carrot Castle 5-23 Big Chest Vitality
+            ap_set_vitality_chest_flag(0u);
+            break;
+        case 815u: // Olive Ocean 6-21 Big Chest Vitality
+            ap_set_vitality_chest_flag(1u);
+            break;
+        case 610u: // Radish Ruins 8-4 Big Chest Vitality
+            ap_set_vitality_chest_flag(2u);
+            break;
+        case 403u: // Candy Constellation 9-8 Big Chest Vitality
+            ap_set_vitality_chest_flag(3u);
+            break;
+        default:
+            break;
+    }
+}
+
+static void ap_unlock_area_map(uint32_t area_id) {
+    if (area_id < 32u) {
+        KIRBY_BIG_CHEST_FLAGS |= (1u << area_id);
+    }
+}
+
+// Hook target for the original boss shard grant call. The game passes the boss's
+// shard index in r0 (same value passed to CollectShard(var->unk218) in sub_0801D948).
+// Records the AP boss-defeat transport flag for client polling AND replicates the
+// native CollectShard behavior (writing KIRBY_SHARD_FLAGS + SRAM persistence) so
+// that the post-cutscene state machine can continue the screen transition correctly.
+// AP SHARD_N delivery (ap_apply_item) performs the same KIRBY_SHARD_FLAGS write,
+// making native and AP grants idempotent when both occur on the same shard index.
+// Fixes Issue #380: native shard state left stale caused a permanent white screen
+// after the shard-to-hub-mirror cutscene.
+__attribute__((used)) void ap_on_boss_defeat_collect_shard(uint32_t boss_index) {
+    ap_set_boss_defeat_flag(boss_index);
+    // Replicate CollectShard(boss_index): update native EWRAM shard bitfield and
+    // persist to SRAM so the game's post-cutscene transition sees valid shard state.
+    if (boss_index < 8u) {
+        uint8_t mask = (uint8_t)(1u << boss_index);
+        uint8_t new_shard_flags = (uint8_t)(KIRBY_SHARD_FLAGS | mask);
+        KIRBY_SHARD_FLAGS = new_shard_flags;
+        AP_SHARD_BITFIELD |= (uint32_t)mask;
+        persist_shard_to_sram(new_shard_flags);
+    }
+}
+
+// Hook target for native big chest reward collection. The game passes the area ID
+// in r0; record the major chest AP check and intentionally do not unlock the
+// native map here. Native maps are granted only when the corresponding AP map
+// item is delivered through ap_apply_item().
+__attribute__((used)) void ap_on_collect_big_chest(uint32_t area_id) {
+    ap_set_major_chest_flag(area_id);
+}
+
+// Hook target for native vitality big chest reward collection. This callsite does
+// not pass a stable argument in r0, so read the live chest object from r5 and
+// map its roomId to a dedicated vitality-chest transport bit.
+__attribute__((used)) void ap_on_collect_vitality_chest(void) {
+    register uint32_t chest_obj_ptr asm("r5");
+    uint16_t room_id = *(volatile uint16_t*)(chest_obj_ptr + 0x60u);
+    ap_set_vitality_chest_flag_for_room(room_id);
+}
+
+typedef void (*KirbyCollectSoundPlayerFn)(uint32_t reward_index);
+#define KIRBY_COLLECT_SOUND_PLAYER_FN ((KirbyCollectSoundPlayerFn)0x08019E69u)
+
+// Hook target for native Sound Player chest reward collection. Reward index 0 is
+// the Sound Player unlock and should become AP-owned; all other native rewards on
+// this call path should keep vanilla behavior.
+__attribute__((used)) void ap_on_collect_sound_player_chest(uint32_t reward_index) {
+    if (reward_index == 0u) {
+        ap_set_sound_player_chest_flag(0u);
+        return;
+    }
+
+    KIRBY_COLLECT_SOUND_PLAYER_FN(reward_index);
+}
+
+static void ap_sync_active_kirby_health_from_vitality(void) {
+    uint8_t player = KIRBY_CURRENT_PLAYER;
+    uint32_t kirby_addr = KIRBY_STRUCTS_ADDR + ((uint32_t)player * KIRBY_STRUCT_STRIDE);
+    uint16_t vitality_total_u16 = (uint16_t)(KIRBY_VITALITY_COUNTER + 6u);
+    uint8_t vitality_total = (vitality_total_u16 > 0xFFu) ? 0xFFu : (uint8_t)vitality_total_u16;
+
+    *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) = vitality_total;
+    *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_MAX_HP_OFFSET) = vitality_total;
+}
+
+static void ap_grant_vitality_counter(void) {
+    if (KIRBY_VITALITY_COUNTER < 0xFFFFu) {
+        KIRBY_VITALITY_COUNTER = (uint16_t)(KIRBY_VITALITY_COUNTER + 1u);
+    }
+    ap_sync_active_kirby_health_from_vitality();
 }
 
 static void ap_grant_lives(uint8_t amount) {
@@ -129,6 +254,30 @@ static void ap_apply_item(uint32_t ap_item_id) {
         // Issue #109: Persist to SRAM to survive reset without room change
         persist_shard_to_sram(new_shard_flags);
 
+        return;
+    }
+
+    if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 24u)) {
+        ap_unlock_area_map(1u);
+        return;
+    }
+
+    if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 10u) && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 17u)) {
+        static const uint8_t map_area_ids[8] = {4u, 2u, 9u, 6u, 7u, 3u, 5u, 8u};
+        uint32_t map_index = ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 10u);
+        ap_unlock_area_map(map_area_ids[map_index]);
+        return;
+    }
+
+    // VITALITY_COUNTER_1..VITALITY_COUNTER_4 = BASE+18 .. BASE+21
+    if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 18u) && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 21u)) {
+        ap_grant_vitality_counter();
+        return;
+    }
+
+    // SOUND_PLAYER = BASE+25
+    if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 25u)) {
+        KIRBY_COLLECT_SOUND_PLAYER_FN(0u);
         return;
     }
 

@@ -1,5 +1,211 @@
 # Kirby & The Amazing Mirror (GBA) - Address Policy Notes
 
+## Issue #367: KirbyAM Integration Testing for Generation/Hosting/BizHawk Connector
+
+### Problem
+KirbyAM had strong unit coverage for many runtime paths but lacked explicit
+integration tests for:
+- fixture-driven YAML generation,
+- local hosting connectivity with a generated KirbyAM archive,
+- BizHawk connector protocol transport + ROM validation in an end-to-end request path.
+
+### Solution
+Added three integration test modules under `worlds/kirbyam/test`:
+
+- `test_generate_integration.py`
+  - Generates from `server/kirbyam_test_player.yaml` and validates decoded multidata slot metadata.
+- `test_hosting_integration.py`
+  - Spins up local MultiServer on generated KirbyAM archive and verifies AP client connect/datapackage behavior.
+- `test_bizhawk_connector_integration.py`
+  - Uses fake connector harness `support/fake_bizhawk_connector.py` with real `worlds._bizhawk` transport calls.
+  - Confirms KirbyAM handler selection for patched signals and rejection for unpatched base-ROM hash.
+
+Support helper added:
+- `support/integration_generation.py` for fixture-based generation and `.archipelago` multidata decoding.
+
+Fixture correction:
+- `server/kirbyam_test_player.yaml` `goal` value updated from `defeat_dark_mind` to `dark_mind`
+  so generation matches current option names.
+
+### CI strategy
+- PR/default test runs include these integration tests via existing
+  `pytest worlds/kirbyam/test ...` execution.
+- Optional true emulator runtime smoke is provided via
+  `.github/workflows/kirbyam-bizhawk-runtime-smoke.yml`
+  for self-hosted Windows runners with BizHawk + ROM provisioning.
+
+### Validation
+- Added dedicated tests for all three surfaces listed above.
+- Verified fake connector path covers protocol requests used by ROM validation
+  and auth extraction (`SYSTEM`, `HASH`, `READ`, `PING`).
+
+## Issue #290: Generation Failure from Global bit_index Collision Check
+
+## Issue #308: Critical-Module Coverage Gates
+
+### Problem
+Global test coverage can look healthy while coverage of protocol/runtime-critical
+KirbyAM modules regresses unnoticed.
+
+### Solution
+Added module-level coverage gates for critical files:
+
+- Threshold definitions (versioned):
+  `worlds/kirbyam/test/critical_module_coverage_thresholds.json`
+- Gate evaluator:
+  `worlds/kirbyam/test/critical_module_coverage_gate.py`
+- CI enforcement in `.github/workflows/unittests.yml`:
+  - Runs once on `ubuntu-latest` / Python `3.13`
+  - Generates coverage JSON from KirbyAM tests
+  - Fails CI if any critical module falls below its threshold
+
+Current gated modules:
+- `worlds/kirbyam/client.py`
+- `worlds/kirbyam/data.py`
+- `worlds/kirbyam/generation_logging.py`
+- `worlds/kirbyam/ability_randomization.py`
+- `worlds/kirbyam/rules.py`
+
+### Validation
+- Added `worlds/kirbyam/test/test_critical_module_coverage_gate.py`.
+- Tests cover pass/fail behavior for threshold misses and missing module entries.
+
+### Problem
+KirbyAM generation failed in `stage_assert_generate` because `validate_regions()` treated
+all location `bit_index` values as one global namespace. That rule incorrectly rejected
+valid cross-category reuse such as:
+- SHARD bit `0`
+- BOSS_DEFEAT bit `0`
+
+These locations are polled from different bitfield domains, so shared numeric bit indices
+across categories are expected and valid.
+
+### Solution
+Updated `worlds/kirbyam/sanity_check.py` so bit-index uniqueness is enforced per location
+category instead of globally.
+
+The validator now:
+- allows cross-category bit index reuse
+- still fails on duplicate bit indices inside the same category
+- logs category-specific collision messages for easier triage
+
+### Validation
+- Added `worlds/kirbyam/test/test_sanity_check.py`.
+- New tests verify:
+  - cross-category bit index reuse passes validation
+  - same-category bit index collisions fail validation
+
+## Issue #292: VS Code Build Tasks Must Use Payload Directory CWD
+
+### Problem
+The `Build payload` and `Patch Kirby ROM` VS Code tasks relied on implicit working
+directory behavior. Running from repository root could fail because `make` and
+`patch_rom.py` expect `worlds/kirbyam/kirby_ap_payload` as the current directory.
+
+### Solution
+Added explicit `options.cwd` values to task definitions:
+- root workspace tasks now run from `${workspaceFolder}/worlds/kirbyam/kirby_ap_payload`
+- payload-local workspace tasks now run from `${workspaceFolder}`
+
+### Validation
+- Root `Build payload` task now resolves the payload `Makefile` deterministically.
+- Root `Patch Kirby ROM` task now resolves `patch_rom.py` and local ROM filenames
+  without depending on active editor file location.
+
+## Issue #310: Flaky-Test Detection Mode for Reconnect-Sensitive Tests
+
+### Problem
+Reconnect and timing-sensitive tests can fail intermittently, but single-pass CI
+runs do not reliably expose those failures.
+
+### Solution
+Added a repeat-run flaky detection mode that can be executed both locally and in
+CI:
+
+- Local runner: `worlds/kirbyam/test/flaky_detection_runner.py`
+  - Repeats selected reconnect-sensitive pytest targets for `N` runs.
+  - Emits per-run JUnit XML.
+  - Aggregates failures by test name with explicit run indices.
+  - Exits non-zero when any run fails.
+- CI entry point: `.github/workflows/kirbyam-flaky-detection.yml`
+  - Triggered via `workflow_dispatch`.
+  - Accepts configurable run count and optional extra pytest arg.
+  - Uploads JSON summary + JUnit artifacts for triage.
+
+### Local usage
+
+```bash
+python worlds/kirbyam/test/flaky_detection_runner.py --runs 20
+```
+
+Optional output and args:
+
+```bash
+python worlds/kirbyam/test/flaky_detection_runner.py \
+  --runs 30 \
+  --json-out test-output/kirbyam/flaky-detection-summary.json \
+  --junit-dir test-output/kirbyam/flaky-junit \
+  --pytest-arg -k reconnect
+```
+
+### Validation
+- Added `worlds/kirbyam/test/test_flaky_detection_runner.py`.
+- Tests cover argument validation, default target selection, JUnit failure extraction,
+  and malformed XML handling.
+
+## Issue #309: Mutation Testing Evaluation for Logic-Heavy Modules
+
+### Problem
+KirbyAM has logic-heavy modules (ability randomization, data mapping) where weak test assertions could allow regressions to slip past CI.
+
+### Solution
+Implemented repeatable mutation testing workflow using Cosmic Ray:
+
+- Configuration: `worlds/kirbyam/test/mutation.cosmic.toml`
+  - Targets `ability_randomization.py` and `data.py`
+  - Focuses on test-backed modules with deterministic, verifiable behavior
+- Documentation: `worlds/kirbyam/docs/MUTATION_TESTING.md`
+  - Local usage: baseline, init, exec, report cycle
+  - CI integration roadmap for automated mutation scoring
+
+### Validation
+- Cosmic Ray baseline passes on unmutated code
+- Session initialization detects 100+ mutation opportunities across target modules
+- Per-operator mutation categories documented in cr-report output
+
+### Baseline Mutation Score
+This PR establishes the mutation-testing workflow only. Baseline mutation score capture will be performed in a follow-up task and documented once the first full local run has been completed.
+
+### Next Steps (In Follow-Up PRs)
+1. Run full mutation execution to capture baseline score (tracked in issue comment once PR merges)
+2. Investigate surviving mutants for test gap patterns
+3. Optionally create CI workflow for periodic automated mutation scoring
+
+## Issue #353: Open Patch Base-ROM Reprompt and Metadata Error Spam
+
+### Problem
+KirbyAM Open Patch could launch BizHawk using a stale/invalid configured base ROM path
+without forcing a replacement prompt when the file existed but failed ROM hash validation.
+
+When the resulting loaded ROM had an all-zero `gArchipelagoInfo` auth block, the client
+logged the same metadata-missing error repeatedly, creating log spam during validation retries.
+
+### Solution
+- Added KirbyAM-specific preflight validation in BizHawk Open Patch flow:
+  - validates configured base ROM for `.apkirbyam` before patching
+  - prompts for ROM re-selection in GUI mode on hash/path mismatch
+  - saves replacement path and revalidates before continuing
+- Added duplicate-log suppression in KirbyAM ROM validation:
+  - metadata-missing error now logs once per persistent failure condition
+  - repeated retries no longer flood logs with identical messages
+
+### Validation
+- Added `worlds/kirbyam/test/test_bizhawk_patch_preflight.py`
+  - non-Kirby patch: no-op preflight
+  - Kirby patch hash mismatch: browse/save/revalidate path exercised
+- Added `worlds/kirbyam/test/test_client.py::test_validate_rom_rejects_empty_patch_metadata_logs_once`
+  - repeated empty-metadata validation attempts emit one user-facing error
+
 ## POC baseline
 
 - Baseline ROM for the POC is `Kirby & The Amazing Mirror (USA).gba` only.
@@ -18,7 +224,9 @@ Do not mix these two domains:
 2. Native game-state addresses
 - Purpose: in-game progression/check/goal state.
 - Source of truth: `worlds/kirbyam/data/native_address_policy.json` and `ram.native` in `worlds/kirbyam/data/addresses.json`.
-- Current integrated native signal: `shard_bitfield_native` at `0x02038970`.
+- Current integrated native signals:
+  - `shard_bitfield_native` at `0x02038970`
+  - `big_chest_bitfield_native` at `0x0203897C`
 
 Rule: AP transport fields must never be treated as native gameplay truth.
 
@@ -33,6 +241,7 @@ Current high-level status:
 | Signal type | Candidate | Integrated | Verified |
 | --- | --- | --- | --- |
 | Shard progression | Yes | Yes | Not yet policy-promoted |
+| Major chest checks | Yes | Yes | No |
 | Dungeon boss defeat | Yes | Yes (probe-only) | No |
 | Final boss defeat | Yes | Yes | No |
 | 100% completion | Yes | Yes | No |
@@ -52,18 +261,22 @@ All criteria below must be met:
 - `worlds/kirbyam/data/native_address_policy.json`
 - `worlds/kirbyam/ADDRESS_VERIFICATION_MATRIX.md`
 
-## POC shard mapping reference
+## Shard progression mapping reference
 
-Current proof-of-concept shard bit mapping:
+Current shard bit mapping remains valid for progression state:
 
-- bit 0 -> `SHARD_1`
-- bit 1 -> `SHARD_2`
-- bit 2 -> `SHARD_3`
-- bit 3 -> `SHARD_4`
-- bit 4 -> `SHARD_5`
-- bit 5 -> `SHARD_6`
-- bit 6 -> `SHARD_7`
-- bit 7 -> `SHARD_8`
+- bit 0 -> Mustard Mountain shard obtained
+- bit 1 -> Moonlight Mansion shard obtained
+- bit 2 -> Candy Constellation shard obtained
+- bit 3 -> Olive Ocean shard obtained
+- bit 4 -> Peppermint Palace shard obtained
+- bit 5 -> Cabbage Cavern shard obtained
+- bit 6 -> Carrot Castle shard obtained
+- bit 7 -> Radish Ruins shard obtained
+
+Issue #369 contract note:
+- Mirror shard bits are progression-state signals only.
+- AP location checks are emitted from boss-defeat and major-chest polling.
 
 ## Implementation notes
 
@@ -438,11 +651,11 @@ Implemented the AP-side transport infrastructure for boss-defeat locations:
 
 **ROM payload**
 - Added `AP_BOSS_DEFEAT_FLAGS` macro in `ap_payload.c`.
-- Added `ap_set_boss_defeat_flag(uint32_t boss_index)` stub with a TODO comment
-  directing the caller to install the hook at `sub_0801D948` (ROM address
-  `0x0801D948`, the function that calls `CollectShard(var->unk218)` after a boss
-  collection cutscene). Until the hook is installed the register stays at zero;
-  shard polling and delivery are unaffected.
+- Added `ap_set_boss_defeat_flag(uint32_t boss_index)` and a dedicated
+  `ap_on_boss_defeat_collect_shard(uint32_t boss_index)` hook target.
+- `patch_rom.py` now patches the `BL CollectShard` call inside `sub_0801D948`
+  (ROM address `0x0801D948`, callsite file offset `0x001D950`) so boss defeat
+  sets the AP boss flag and does not grant the shard natively.
 
 **Locations**
 - Added 8 `BOSS_DEFEAT_N` locations (bit_index 0–7) to `locations.json`, one per
@@ -459,17 +672,262 @@ Implemented the AP-side transport infrastructure for boss-defeat locations:
 - **Claim**: beating a boss runs `sub_0801D948` which calls `CollectShard(var->unk218)`.
 - **Source**: `d:\kirbyam-extras\katam\src\code_0801C6F8.c` lines 703–705;
   `CollectShard` definition at `d:\kirbyam-extras\katam\src\treasures.c` line 41.
-- **Adaptation**: ROM hook (replacing the `BL CollectShard` with `BL ap_set_boss_defeat_flag`)
-  is deferred pending patch-site byte verification via Issue #110. The transport
-  register, AP locations, and client polling are fully wired so no client-side
-  change is required when the hook is eventually installed.
-- **Validation**: 2 new tests (boss defeat send + no-resend), 29+ tests passing.
+- **Adaptation**: patch the `BL CollectShard` call in `sub_0801D948` to branch
+  into `ap_on_boss_defeat_collect_shard`, which records boss defeat without
+  mutating native shard progression.
+- **Validation**: focused client polling tests, item-pool tests, and patch tool
+  tests covering the new Thumb BL encoder.
 
 ### Remaining work (post-#35)
-- Install the `sub_0801D948` ROM hook in `patch_rom.py` once the exact BL
-  instruction byte offset inside the function is confirmed via live BizHawk
-  inspection.  That step decouples the shard grant and enables real boss-defeat
-  location checks in gameplay.
+- Live BizHawk verification of the patched boss-defeat hook against the clean USA
+  ROM remains advisable before release patch promotion, but the hook is now wired
+  in the shipped patch generator.
+
+## Issue #75: DeathLink Runtime Receive/Apply and Local Death Send
+
+### Problem
+KirbyAM had DeathLink tag synchronization wired from slot-data, but runtime
+behavior was incomplete: incoming DeathLink events were not applied to gameplay,
+and local alive->dead transitions were not sent.
+
+### Solution
+Implemented full runtime DeathLink flow in `worlds/kirbyam/client.py`:
+- Queue incoming `Bounced` packets tagged `DeathLink`.
+- Apply incoming DeathLink only while gameplay-active by writing
+  `kirby_hp_native` to zero.
+- Detect local alive->dead transitions from `kirby_hp_native` and send one
+  outgoing DeathLink per transition.
+- Suppress immediate outgoing echo after applying incoming DeathLink.
+
+### Address evidence
+- `d:\kirbyam-extras\katam\linker.ld`: `gKirbys = 0x02020EE0`
+- `d:\kirbyam-extras\katam\include\kirby.h`: `struct Kirby` contains `s8 hp`
+- Selected native signal address: `kirby_hp_native = 0x02020FE0`
+
+### Validation
+- Added DeathLink runtime tests in `worlds/kirbyam/test/test_client.py`:
+  - incoming queue behavior
+  - incoming HP-zero apply behavior
+  - local alive->dead send exactly once
+  - incoming-apply echo suppression
+
+## Issue #333: Host Upload Crash (`TypeError: an integer is required`)
+
+### Problem
+Uploading KirbyAM seeds to `archipelago.gg` failed while loading room multidata:
+`_speedups.LocationStore.init` raised `TypeError: an integer is required`.
+
+### Root cause
+Goal locations were converted to locked event items (`item.code is None`) in
+`create_items()`, but their AP location address remained numeric. During host
+load, `LocationStore` attempted to deserialize these numeric location entries
+with a non-integer item value, causing the crash.
+
+### Solution
+- When converting goal locations to runtime events, set `loc.address = None`.
+  This keeps goal checks as event-only (non-host-fillable) locations and avoids
+  serializing `None` item codes into numeric location entries.
+- Added regression test in `test_item_pool.py` ensuring goal locations become
+  addressless events.
+
+### Validation
+- Targeted pytest for `test_item_pool.py`, including the new regression test.
+
+## Issue #312: Standardize Manual Test Templates into Machine-Checkable Checklists
+
+### Problem
+Manual testing issues were readable, but result comments were not standardized
+enough for reliable parsing/reporting.
+
+### Solution
+- Added a dedicated GitHub issue template:
+  `.github/ISSUE_TEMPLATE/manual_testing_checklist.yaml`
+  with required fields and a structured result-comment block.
+- Added parser utility:
+  `.github/scripts/manual_test_checklist_parser.py`
+  that extracts and validates manual test result blocks from issue comments.
+- Added parser tests:
+  `worlds/kirbyam/test/test_manual_test_checklist_parser.py`.
+- Added manual result block guidance to
+  `worlds/kirbyam/docs/BIZHAWK_TESTING_GUIDE.md`.
+
+### Result block contract
+- Delimiters:
+  `<!-- MANUAL_TEST_RESULT:START -->` and
+  `<!-- MANUAL_TEST_RESULT:END -->`
+- Required fields:
+  `RESULT_SCHEMA_VERSION`, `TEST_CASE_ID`, `STATUS`, `BUILD_REF`, `PLATFORM`,
+  `BIZHAWK_VERSION`, `ROM_REGION`, `EXPECTED_RESULT`, `OBSERVED_RESULT`,
+  `EVIDENCE`, `NOTES`
+- Allowed status values: `PASS`, `FAIL`, `BLOCKED`
+
+### Validation
+- Targeted pytest on the new parser test module.
+
+## Issue #373: Fix BizHawk Connect Crash from connect_names Value Shape
+
+### Problem
+KirbyAM registered BizHawk auth tokens in `connect_names` as player-name
+strings. The server expects every `connect_names` value to be a `(team, slot)`
+tuple, so connection attempts could crash with a tuple-unpack `ValueError`.
+
+### Solution
+- Updated `KirbyAmWorld.modify_multidata` to copy the existing `(team, slot)`
+  tuple from the player-name entry instead of storing the player name string.
+- Added regression test module
+  `worlds/kirbyam/test/test_multidata_connect_names.py` to assert auth token
+  registration preserves tuple shape.
+
+### Validation
+- `pytest worlds/kirbyam/test/test_multidata_connect_names.py`
+- `pytest worlds/kirbyam/test/test_hosting_integration.py`
+
+## Issue #371: Hide Goal/Event Objective Checks from `/locations`
+
+### Problem
+KirbyAM exported goal labels like `Defeat Dark Mind` and `100% Save File` in
+the datapackage `location_name_to_id` map even though generation later converts
+those checks into runtime events. That made `/locations` show goal/event-style
+objective checks as if they were normal AP locations.
+
+### Solution
+- Excluded `LocationCategory.GOAL` entries from KirbyAM's exported
+  `location_name_to_id` map.
+- Excluded the same goal labels from KirbyAM location groups so datapackage
+  group listings stay consistent with hidden objective checks.
+- Added regression coverage to assert goal labels are hidden from datapackage
+  exports while remaining present in generated worlds as addressless runtime
+  events.
+
+### Validation
+- `pytest worlds/kirbyam/test/test_location_visibility.py`
+- `pytest worlds/kirbyam/test/test_spoiler_event_visibility.py`
+
+## Issue #311: Golden Snapshot Tests for slot_data and Generated Artifacts
+
+### Problem
+The test suite had contract and behavior checks, but no committed golden
+snapshots for deterministic outputs. That made it harder to review exact payload
+or mapping drift in PRs.
+
+### Solution
+- Added `worlds/kirbyam/test/test_snapshot_outputs.py` with two snapshot tests:
+  - representative `slot_data` payload emitted from `KirbyAmWorld.fill_slot_data`
+  - deterministic generated enemy mapping artifacts for fixed seeds
+- Added committed snapshot fixtures in
+  `worlds/kirbyam/test/data/snapshots/`:
+  - `slot_data_representative.json`
+  - `enemy_mapping_seed_20260322.json`
+- Added snapshot fixture update guidance in
+  `worlds/kirbyam/test/data/snapshots/README.md`.
+- Updated `worlds/kirbyam/test/test_fixture_data.py` to assert the
+  `snapshots/` fixture directory exists.
+
+### Snapshot update workflow
+1. Set `KIRBYAM_UPDATE_SNAPSHOTS=1`.
+2. Run `pytest worlds/kirbyam/test/test_snapshot_outputs.py`.
+3. Review generated diff under `worlds/kirbyam/test/data/snapshots/`.
+4. Unset `KIRBYAM_UPDATE_SNAPSHOTS` and rerun tests in strict mode.
+
+### Validation
+- `pytest worlds/kirbyam/test/test_snapshot_outputs.py`
+- `pytest worlds/kirbyam/test/test_fixture_data.py`
+- `pytest worlds/kirbyam/test/test_slot_data_contract.py`
+
+## Issue #313: Remove Circular Committed kirbyam.apworld Artifact
+
+### Problem
+`worlds/kirbyam/kirbyam.apworld` was tracked in git as a 10 MB renamed ZIP of the `worlds/kirbyam/` directory itself, creating circular/redundant storage. CI already rebuilds the artifact fresh on every run via `build.py --skip-patch`, so the committed copy was never consumed by CI.
+
+### Solution
+- Removed `worlds/kirbyam/kirbyam.apworld` from git tracking via `git rm --cached`.
+- Added `*.apworld` to `worlds/kirbyam/.gitignore` to prevent it from being accidentally re-committed.
+- Updated the `kirbyam-apworld.yml` CI step name from "Build kirbyam.apworld from committed patch data" to "Build kirbyam.apworld from source" (no logic change — CI was already building fresh).
+- `kirbyam-rom-patch-smoke.yml` was already correct: it calls `build.py` before checking for the artifact.
+
+### Validation
+- `git ls-files '*.apworld'` returns empty after the change.
+- CI workflows untouched in logic; the step in `kirbyam-apworld.yml` still builds and validates the artifact.
+
+## Issue #307: Release Integrity Checks (Changelog/Tag/Apworld Coherence)
+
+### Problem
+No automated check verified that a CHANGELOG section existed for the tagged release version, creating risk that a tag could be pushed without a matching changelog entry.
+
+### Solution
+- Added `check_changelog_has_version(changelog_path, version)` to `.github/scripts/kirbyam_release_metadata.py`. Raises `ValueError` with a clear message if the `## v{version}` heading is absent.
+- Added `--changelog` argument to the same script; when provided and `release_enabled` is True, the check is run before metadata outputs are written.
+- Updated `kirbyam-apworld.yml` CI step to pass `--changelog worlds/kirbyam/CHANGELOG.md`, so release tags that lack a changelog section fail the CI step explicitly.
+- Added 8 new tests in `worlds/kirbyam/test/test_release_metadata.py` covering: section-found, section-missing, Unreleased not treated as version, partial-match guard, real-CHANGELOG smoke, main integration (pass and fail), and branch-ref skip.
+
+### Validation
+- `pytest worlds/kirbyam/test/test_release_metadata.py` — 16 passed.
+
+## Issue #300: slot_data Protocol Contract Parity Tests
+
+### Problem
+`slot_data` fields are defined in both implementation (`fill_slot_data`) and
+protocol docs (`PROTOCOL.md`). Without a parity gate, those can drift silently.
+
+### Solution
+Added `worlds/kirbyam/test/test_slot_data_contract.py` with contract tests that:
+- parse documented `slot_data` keys from `PROTOCOL.md`
+- emit slot_data via `KirbyAmWorld.fill_slot_data(...)`
+- assert exact key parity between documentation and emitted payload
+- assert enemy randomization contract field shapes are present
+
+### Validation
+- Targeted local pytest run on the new contract tests.
+- These tests are part of the standard KirbyAM test suite and therefore covered
+  by existing CI test jobs.
+
+## Issue #302: Reconnect Chaos Tests for BizHawk Client Idempotency
+
+### Problem
+Reconnect behavior is safety-critical for live sessions but prior coverage was
+mostly per-subsystem unit checks rather than stateful multi-cycle chaos tests.
+
+### Solution
+Added dedicated reconnect chaos tests in
+`worlds/kirbyam/test/test_reconnect_chaos.py` that simulate repeated
+connect/disconnect cycles during:
+- location polling
+- mailbox item delivery
+- goal reporting
+
+The tests assert:
+- no duplicate location sends after server acknowledgement
+- item delivery resumes correctly after reconnect without replaying already-
+  pending first-item writes
+- goal location/status flow remains idempotent across reconnect cycles
+
+### Validation
+- Targeted local pytest for `test_reconnect_chaos.py`.
+- Additional local run including existing reconnect-related client tests.
+
+## Issue #82: DeathLink End-to-End Closure
+
+### Problem
+After #76 and #75 landed, the remaining parent-level gaps were contract cleanup
+and manual validation guidance: the option surface still claimed DeathLink was
+not ready, and the BizHawk guide did not define an end-to-end smoke pass.
+
+### Solution
+- Updated the DeathLink option description to describe the shipped behavior.
+- Added a BizHawk DeathLink smoke checklist covering:
+  - tag sync state
+  - incoming receive/apply
+  - gameplay-gated deferred application
+  - outgoing send exactly once per death
+  - echo suppression
+  - reconnect safety
+
+### Validation
+- Touched files remain diagnostics-clean in VS Code.
+- Manual BizHawk validation remains the authoritative next step for parent-issue
+  closure because local pytest execution on this machine is blocked by the repo
+  Python-version gate (`3.11.9` through `3.13.x`, current interpreter `3.14`).
+
 
 ## Issue #56: Gameplay-Active Foundation Gate for Polling and Delivery
 
@@ -482,8 +940,8 @@ continue in menu/cutscene/post-clear phases where state may be unstable.
 Implemented a runtime gate in `KirbyAmClient.game_watcher` based on
 `ai_kirby_state_native` (`0x0203AD2C`, u32):
 
-- gameplay-active when `ai_state == 300`
-- defer polling/write behavior for all other bands
+- defer polling/write behavior for known non-gameplay states (`ai_state < 300`, and goal-clear `9999`/`10000`)
+- fail open as gameplay-active for unknown post-300 states so item delivery is not blocked (Issue #419)
 
 When non-gameplay is detected, watcher now:
 - defers shard and boss-defeat location polling
@@ -532,6 +990,55 @@ reconnect behavior easier to debug.
 ### Validation
 - Added tests that assert resend logging and dedupe suppression logging.
 - Full client test file passes after update.
+
+## Issue #337: Startup 99-Lives Follow-up Hook Hardening
+
+### Problem
+Startup-state corruption could still appear as a 99-lives symptom despite the
+earlier fix that removed an explicit `r4` temporary restore pattern.
+
+The remaining risk was the hook boundary itself: calling `ap_poll_mailbox_c`
+from a sensitive site while preserving only part of the live register context.
+
+### Solution
+Hardened `ap_hook_entry` in `ap_hook.s` to preserve a stronger context envelope:
+- save/restore `r0-r7` and `lr`
+- explicitly mirror and restore `r8-r11` through `r0-r3` around the C call
+- keep replayed overwritten instructions (`mov r7, r9` / `mov r6, r8`) intact
+
+This reduces the chance of hook-boundary context drift affecting startup state.
+
+### Validation
+- Updated `test_reset_safe_shards.py` hook regression to assert:
+  - low-register + LR preservation (`push/pop {r0-r7, lr}` / `{r0-r7}`)
+  - explicit high-register mirror/restore (`r8-r11` via `r0-r3`)
+  - no `r4`-based LR reconstruction pattern
+
+## Issue #381: Suppress Native Big Chest Map Grants
+
+### Problem
+Major chest checks were polled from native `gTreasures.bigChestField` at
+`0x0203897C`. Opening a big chest therefore both sent the AP check and unlocked
+the native area map immediately, even when the chest's actual AP reward was not
+that map.
+
+### Solution
+Split major chest checks from native map ownership:
+- added transport `major_chest_flags` at `0x0202C028` for AP check polling
+- patched the native `CollectBigChest` call site to invoke payload hook
+  `ap_on_collect_big_chest(area_id)`
+- preserved AP check signaling by setting `major_chest_flags` when the chest is opened
+- suppressed native map unlock at chest-open time
+- granted native area maps only when the corresponding AP `MAP_*` item is delivered
+
+### Native Evidence
+- chest reward dispatcher: `katam/asm/chest.s`, `sub_0800AFC8`
+- `CollectBigChest` caller block at ROM `0x0800B144`
+- native map bitfield: `gTreasures.bigChestField` / `0x0203897C`
+
+### Validation
+- client major chest polling tests updated to use the transport register
+- payload tests assert separate major chest transport signaling and native map unlock handling
 
 ## Issue #223: In-Gameplay Unsafe-State Delivery Policy (Research-First Mode)
 
@@ -657,7 +1164,41 @@ This issue only establishes naming and evidence scaffolding. Ability items are
 still absent from the pool, so all five helpers intentionally resolve to true
 until a later issue introduces actual ability acquisition logic.
 
+## Issue #111: Enemy Copy-Ability Randomization with Whitelist
+
+### Problem
+Enemy copy abilities were still fully vanilla/static, and there was no
+seed-deterministic mapping artifact that downstream client/payload work could
+consume safely. We also needed a conservative whitelist boundary so generation
+never emits unknown or invalid ability names.
+
+### Solution
+Added deterministic enemy copy-ability policy generation in
+`worlds/kirbyam/ability_randomization.py` with three modes:
+- `vanilla`: identity mapping
+- `shuffled`: deterministic per-enemy-type assignment
+- `completely_random`: deterministic per-grant-event assignment
+
+The validated whitelist explicitly excludes `Wait`. The initial release pool was
+later expanded to include additional abilities (`Beam`, `Bomb`, `Cook`, `Crash`,
+`Cupid`, `Fighter`, `Ice`, `Magic`, `Smash`, `Sword`, `Throw`); the historical
+name `Needle` was renamed to `Beam` and is normalised as a legacy alias.
+
+The world now emits the following slot-data contract:
+- `enemy_copy_ability_randomization`
+- `randomize_boss_spawned_ability_grants`
+- `randomize_miniboss_ability_grants`
+- `enemy_copy_ability_whitelist`
+- `enemy_copy_ability_policy`
+
+### Deliberate Scope Limit
+This issue establishes generation-time mapping and protocol exposure only. It
+does not patch statue randomization paths (#209) and does not yet introduce
+ability-item ownership gating (#84).
+
 ## Issue #41: Multi-Item Filler Pool (Phase 1)
+
+Status: Historical context only. Superseded by Issue #372 for current Phase 1 shipped behavior.
 
 ### Problem
 KirbyAM filler fallback still always returned `1 Up`, so any future randomized
@@ -670,7 +1211,7 @@ Expanded the shipped filler catalog to a conservative extra-life family:
 - `2 Up`
 - `3 Up`
 
-Generation now uses a deterministic weighted filler table in
+At the time of Issue #41, generation used a deterministic weighted filler table in
 `KirbyAmWorld.get_filler_item_name()`:
 - `1 Up`: weight 6
 - `2 Up`: weight 3
@@ -683,3 +1224,169 @@ of lives and saturates safely at 255 lives.
 Health-restore and battery-style consumables were considered during issue
 research, but they remain deferred until their native apply semantics are
 verified well enough to ship without risky mailbox-side side effects.
+
+## Issue #372: Phase 1 – Restrict Filler Pool to 1_UP
+
+### Problem
+While Issue #41 introduced a weighted multi-filler pool (`1 Up`, `2 Up`, `3 Up`), Phase 1 gameplay balance requires a single filler item to keep rewards simple and predictable.
+The multi-filler pool introduced unnecessary complexity for the initial release.
+
+### Solution
+Replaced the weighted filler selection table with an explicit **active filler pool** abstraction:
+- Introduced `KirbyAmWorld.ACTIVE_FILLER_POOL: ClassVar[tuple[str, ...]]` on `KirbyAmWorld` (class scope).
+- Phase 1 pool contains only `("1 Up",)`.
+- Generation calls `self.random.choice(self.ACTIVE_FILLER_POOL)` instead of weighted selection.
+- Pool structure supports future expansion without code changes (only data update).
+
+Catalog items `2 Up` and `3 Up` remain defined and dormant:
+- Not selected by active filler generation.
+- Payload handlers remain intact for compatibility.
+- Documented as reserved/inactive for Phase 1.
+
+### Validation
+- `test_active_filler_selection_is_seed_stable()` updated to assert only `1 Up` is selected.
+- New pool-based logic remains deterministic under fixed seeds (RNG behavior unchanged).
+- Updated `test_item_pool.py` to match Phase 1 expectations.
+
+## Issue #388: Vitality Chest Locations and AP-Delivered Vitality
+
+### Problem
+Native vitality big chest rewards granted vitality directly in-game. That bypassed
+AP location check ownership and made vitality progression diverge from AP item delivery.
+
+### Solution
+Implemented a dedicated vitality chest location family and transport signal path:
+- Added `vitality_chest_flags` at `0x0202C02C` in the mailbox transport block.
+- Added payload hook target `ap_on_collect_vitality_chest` and patched native vitality
+  reward callsite (`0x0000B0CC`) to set transport bits instead of granting native vitality.
+- Added four vitality chest AP locations:
+  - Carrot Castle 5-23 (`3960300`, bit 0)
+  - Olive Ocean 6-21 (`3960301`, bit 1)
+  - Radish Ruins 8-4 (`3960302`, bit 2)
+  - Candy Constellation 9-8 (`3960303`, bit 3)
+- Added client polling for `vitality_chest_flags` with the same resend/dedupe contract as
+  boss and major chest checks.
+
+AP-delivered vitality items now apply native persistent vitality semantics in payload:
+- `VITALITY_COUNTER_1..4` (`BASE+18..BASE+21`) increment `gTreasures.unk20` at `0x02038980`.
+- Active Kirby HP and max HP are synced immediately from the updated vitality total.
+
+### Validation
+- Added/updated tests for vitality chest location data, client polling, item pool sizing,
+  patch callsite constants, and payload vitality signaling/apply behavior.
+
+## Issue #408: Sound Player Chest AP Check with AP-Owned Unlock
+
+### Problem
+The native Sound Player chest unlocks the Sound Player immediately on open. That bypasses
+AP item ownership semantics when the chest is modeled as an AP location.
+
+### Solution
+Added a dedicated Sound Player chest AP location family and transport signal path:
+- Added `sound_player_chest_flags` at `0x0202C030` in the mailbox transport block.
+- Added payload hook target `ap_on_collect_sound_player_chest` and patched the native
+  `sub_08019E68` callsite (`0x0000B264`) to intercept Sound Player chest reward index `0`.
+- Hook behavior:
+  - reward index `0`: set AP transport bit 0 and suppress native immediate unlock.
+  - non-zero reward indices on this native path: preserve vanilla behavior via tail-call
+    to native `sub_08019E68`.
+- Added AP location `SOUND_PLAYER_CHEST` (`3960304`, bit 0) and AP item `SOUND_PLAYER`
+  (`3860025`).
+- AP-delivered `SOUND_PLAYER` now applies native unlock by invoking `sub_08019E68(0)`.
+
+### Validation
+- Added/updated tests for Sound Player data sanity, client polling, payload hook/apply
+  semantics, and patch callsite constant coverage.
+
+## Issue #338: Enemy Copy-Ability Non-Vanilla Modes Must Not Silently Ship as Vanilla
+
+### Problem
+`enemy_copy_ability_randomization` accepted `shuffled` and `completely_random`, and
+generation exported deterministic policy payloads into `slot_data`. However, shipped
+runtime connector/payload paths did not consume this policy in live gameplay, so
+in-game behavior stayed vanilla.
+
+### Root Cause
+Issue #111 intentionally scoped enemy-copy work to generation-time policy + protocol
+exposure. Later protocol wording implied runtime hooks were active, creating a
+contract mismatch.
+
+### Fix
+Implemented deterministic runtime ROM writes derived from
+`enemy_copy_ability_policy`:
+- Added `enemy_ability_runtime_patch.py` with a curated enemy/miniboss/
+  boss-spawned ability-source table (address evidence from
+  upstream `kamrandomizer.py` enemy/object ability tables).
+- `build_enemy_copy_runtime_patch_writes(policy)` now produces ROM byte writes
+  (offset -> native ability id) for non-vanilla modes.
+- `write_tokens(...)` in `rom.py` now injects these writes into `token_data.bin`
+  via AP token patching so each generated seed applies the deterministic remap.
+
+Mode behavior after fix:
+- `vanilla`: emits no ability remap writes.
+- `shuffled`: deterministic per-enemy-type remap.
+- `completely_random`: deterministic per-source-entry remap.
+
+Feature toggles are honored in runtime writes:
+- `randomize_miniboss_ability_grants`
+- `randomize_boss_spawned_ability_grants`
+
+### Validation
+- Added runtime patch tests in `test_enemy_copy_ability_runtime_patch.py`:
+  - vanilla emits no writes
+  - shuffled writes are deterministic
+  - miniboss toggle excludes miniboss addresses
+  - boss-spawned toggle excludes object addresses
+- Full KirbyAM suite passed after runtime patch integration.
+
+## Issue #380: Fix Boss-Defeat Hook — Preserve Native Shard State to Prevent White Screen
+
+### Problem
+After defeating the Moonlight Mansion boss and watching the shard-to-hub-mirror cutscene, the
+game soft-locked with a permanently white screen (audio still playing).
+
+### Root Cause
+`sub_0801D584` (state machine step in `code_0801C6F8.c`) sets BG palette entry 0 to `RGB_WHITE`
+as the intended cutscene flash effect, then transitions through `sub_0801D8C8` (32-frame wait) to
+`sub_0801D948`. The subsequent cleanup function `sub_08039670` (ROM 0x08039670) CpuSets 64 KB of
+tile VRAM from `0x06000000` to zero but does **not** restore palette. After `TaskDestroy`, palette
+entry 0 remains white permanently — the screen never recovers.
+
+In the original game, `sub_0801D948` calls `CollectShard(var->unk218)` first, updating
+`gTreasures.shardField`. The post-cutscene state machine transitions correctly because native shard
+state is valid.
+
+The AP-patched version replaced `BL CollectShard` (at file offset `0x001D950`, 8 bytes into
+`sub_0801D948`) with `BL ap_on_boss_defeat_collect_shard`. The old hook only set the AP
+boss-defeat transport flag and returned without updating `gTreasures.shardField`. The
+post-cutscene state machine encountered stale shard state and could not complete the screen
+transition — permanent white screen.
+
+**Evidence**:
+- `d:\kirbyam-extras\katam\src\code_0801C6F8.c` lines 703-705: `sub_0801D948` calls
+  `CollectShard(var->unk218)` then saves, calls `sub_080027A8`, `sub_08039670`, `TaskDestroy`.
+- `d:\kirbyam-extras\katam\src\code_0801C6F8.c` lines 533-547: `sub_0801D584` sets palette white,
+  transitions → `sub_0801D8C8` → `sub_0801D948`.
+- `d:\kirbyam-extras\katam\asm\code_08032E98.s` line 13579: `sub_08039670` does CpuSet fill to
+  `0x06000000` (VRAM), not palette (`0x05000000`/`0x05004000`).
+
+### Fix
+`ap_on_boss_defeat_collect_shard` now replicates native `CollectShard` semantics in addition to
+setting the AP boss-defeat transport flag:
+- `KIRBY_SHARD_FLAGS |= (1u << boss_index)` — EWRAM shard bitfield
+- `AP_SHARD_BITFIELD |= (1u << boss_index)` — AP mirror bitfield
+- `persist_shard_to_sram(new_shard_flags)` — SRAM persistence for reset safety
+
+AP `SHARD_N` item delivery performs the same `KIRBY_SHARD_FLAGS` write, making both paths
+idempotent — no double-grant effect.
+
+Hook callsite: `BOSS_COLLECT_SHARD_CALL_OFFSET = 0x001D950` (8 bytes into `sub_0801D948`,
+ROM addr `0x0801D948`).
+
+### Validation
+- `test_boss_collect_shard_call_offset_matches_verified_hook_site` in `test_patch_rom.py`:
+  pins `BOSS_COLLECT_SHARD_CALL_OFFSET == 0x001D950`.
+- `test_boss_defeat_hook_preserves_native_shard_state` in `test_reset_safe_shards.py`:
+  asserts AP flag write, `KIRBY_SHARD_FLAGS` update, and `persist_shard_to_sram` call all
+  present in `ap_on_boss_defeat_collect_shard`.
+- ROM patch rebuild required after this payload change.

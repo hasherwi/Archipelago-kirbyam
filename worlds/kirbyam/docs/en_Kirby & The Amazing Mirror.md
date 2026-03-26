@@ -14,7 +14,7 @@ You can read through all the options and generate a YAML here.
 
 
 
-This randomizer handles item randomization for shards and big chests collected throughout the game. Abilities can be randomized as well (for example, you might get the Sword ability from a Noddy who would typically give you the Sleep ability). Additional randomization options will be added in future updates.
+This randomizer currently treats boss defeats, major chests, vitality chests, and sound player chests as primary AP checks. In vanilla shard mode, each area's boss defeat check awards that area's shard as the AP item. In completely random shard mode, shards can appear at any physical check.
 
 
 
@@ -23,6 +23,7 @@ This randomizer handles item randomization for shards and big chests collected t
 
 
 The locations of Shards, Maps, Vitality Counters, and the Sound Player are all randomized. For example, the big chest in Moonlight Mansion might contain the mirror shard that normally drops from defeating Wiz.
+Boss defeats are separate checks from shard progression. Shards are delivered through Archipelago item placement instead of being granted directly by boss defeats.
 
 
 

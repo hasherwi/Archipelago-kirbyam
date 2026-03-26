@@ -14,13 +14,19 @@ if TYPE_CHECKING:
     from worlds.generic.shared_utils import NetworkItem
 
 
-EXPECTED_ROM_NAME_PREFIX = "kirby amazing mirror"  # loosen while you iterate
+EXPECTED_ROM_HEADER_TITLE = "agb kirby am"
+EXPECTED_ROM_GAME_CODE = "b8ke"
+EXPECTED_ROM_MAKER_CODE = "01"
+_AUTH_TOKEN_SIZE = 16
 _BOSS_MIRROR_TABLE_PROBE_BYTES = 32
 _AI_STATE_ADDR_WIDTH = 4
 _GOAL_STATE_DARK_MIND_CLEAR = 9999
 _GOAL_STATE_FULL_CLEAR = 10000
 _MAILBOX_ACK_TIMEOUT_FRAMES = 30
+_AI_STATE_CUTSCENE_THRESHOLD = 200
 _AI_STATE_NORMAL = 300
+_KIRBY_HP_ADDR_KEY = "kirby_hp_native"
+_KIRBY_HP_READ_WIDTH = 1
 _OPTIONAL_UNSAFE_DELIVERY_COUNTERS = (
     ("shadow_kirby_encounters_native", "shadow_kirby_encounters"),
     ("mirra_encounters_native", "mirra_encounters"),
@@ -29,13 +35,21 @@ _SEND_NOTIFY_WINDOW_SECONDS = 2.0
 _SEND_NOTIFY_MAX_PER_WINDOW = 5
 
 
+def _normalize_gba_rom_address(value: int) -> int:
+    if 0x08000000 <= value < 0x0A000000:
+        return value - 0x08000000
+    if 0x0A000000 <= value < 0x0C000000:
+        return value - 0x0A000000
+    return value
+
+
 class KirbyAmClient(BizHawkClient):
     game = "Kirby & The Amazing Mirror"
     system = "GBA"
     patch_suffix = ".apkirbyam"
 
     def initialize_client(self) -> None:
-        # Real polling state (shards)
+        # Compatibility state retained for tests and reconnect diagnostics.
         self._checked_location_bits: set[int] = set()
 
         # Item delivery state
@@ -58,19 +72,34 @@ class KirbyAmClient(BizHawkClient):
                     self._goal_location_ids_by_option[Goal.option_100] = loc.location_id
             else:
                 self._non_goal_location_ids_sorted.append(loc.location_id)
-        # Shard bitfield → location IDs (SHARD category only; BOSS_DEFEAT uses separate bitfield)
-        self._location_ids_by_bit: dict[int, list[int]] = {}
-        for loc in data.locations.values():
-            if loc.bit_index is None or loc.category != LocationCategory.SHARD:
-                continue
-            self._location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
-
         # Boss defeat bitfield → location IDs (BOSS_DEFEAT category; polled from boss_defeat_flags)
         self._boss_location_ids_by_bit: dict[int, list[int]] = {}
         for loc in data.locations.values():
             if loc.bit_index is None or loc.category != LocationCategory.BOSS_DEFEAT:
                 continue
             self._boss_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+
+        # Major chest bitfield → location IDs (MAJOR_CHEST category; polled from major_chest_flags)
+        # Bit N corresponds to area ID N in enum AreaId (e.g. bit 3 = AREA_CABBAGE_CAVERN).
+        self._major_chest_location_ids_by_bit: dict[int, list[int]] = {}
+        for loc in data.locations.values():
+            if loc.bit_index is None or loc.category != LocationCategory.MAJOR_CHEST:
+                continue
+            self._major_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+
+        # Vitality chest bitfield → location IDs (VITALITY_CHEST category; dedicated transport register)
+        self._vitality_chest_location_ids_by_bit: dict[int, list[int]] = {}
+        for loc in data.locations.values():
+            if loc.bit_index is None or loc.category != LocationCategory.VITALITY_CHEST:
+                continue
+            self._vitality_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+
+        # Sound Player chest bitfield → location IDs (SOUND_PLAYER_CHEST category).
+        self._sound_player_chest_location_ids_by_bit: dict[int, list[int]] = {}
+        for loc in data.locations.values():
+            if loc.bit_index is None or loc.category != LocationCategory.SOUND_PLAYER_CHEST:
+                continue
+            self._sound_player_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
 
         # One-time RAM state load
         self._ram_state_loaded: bool = False
@@ -91,6 +120,9 @@ class KirbyAmClient(BizHawkClient):
         # Poll diagnostics de-duplication (avoid per-tick log spam)
         self._last_shard_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_boss_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+        self._last_major_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+        self._last_vitality_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+        self._last_sound_player_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
 
         # Notification pipeline state (Issue #83)
         self._notification_settings_loaded: bool = False
@@ -101,6 +133,13 @@ class KirbyAmClient(BizHawkClient):
         self._send_notify_window_start: float = 0.0
         self._send_notify_window_count: int = 0
         self._send_notify_window_suppressed: int = 0
+
+        # DeathLink runtime tag synchronization state
+        self._death_link_enabled: bool | None = None
+        self._incoming_death_link_pending: bool = False
+        self._last_incoming_death_link_time: float | None = None
+        self._last_local_alive_state: bool | None = None
+        self._suppress_next_local_death_send: bool = False
 
         # Research-first unsafe-delivery candidate probing state (Issue #223)
         self._unsafe_delivery_probe_stream_marker: object = None
@@ -127,15 +166,26 @@ class KirbyAmClient(BizHawkClient):
         self._last_runtime_gate_reason = None
         self._last_shard_poll_log = None
         self._last_boss_poll_log = None
+        self._last_major_chest_poll_log = None
+        self._last_vitality_chest_poll_log = None
+        self._last_sound_player_chest_poll_log = None
         self._last_boss_probe_snapshot = None
         self._boss_probe_stream_marker = None
         self._unsafe_delivery_probe_stream_marker = None
         self._last_unsafe_delivery_counter_values = {}
+        self._incoming_death_link_pending = False
+        self._last_incoming_death_link_time = None
+        self._last_local_alive_state = None
+        self._suppress_next_local_death_send = False
 
     @staticmethod
     def _coerce_bool(value: object, default: bool) -> bool:
         if isinstance(value, bool):
             return value
+        if isinstance(value, int):
+            if value in {0, 1}:
+                return bool(value)
+            return default
         if isinstance(value, str):
             lowered = value.strip().lower()
             if lowered in {"1", "true", "yes", "on"}:
@@ -289,14 +339,75 @@ class KirbyAmClient(BizHawkClient):
     async def validate_rom(self, ctx: "BizHawkClientContext") -> bool:
         """Validate ROM is Kirby & The Amazing Mirror and initialize client."""
         from CommonClient import logger
+        from .rom import KirbyAmProcedurePatch
+
+        def _fail(reason: str) -> bool:
+            self._last_validation_failure_reason = reason
+            return False
+
+        auth_addr = data.rom_addresses.get("gArchipelagoInfo")
+        if auth_addr is None:
+            logger.error("KirbyAM: missing rom address 'gArchipelagoInfo' in worlds/kirbyam/data/addresses.json")
+            return _fail("missing_auth_address")
+        auth_addr = _normalize_gba_rom_address(auth_addr)
+
+        rom_hash = getattr(ctx, "rom_hash", None)
+        if isinstance(rom_hash, str) and rom_hash.lower() == KirbyAmProcedurePatch.hash.lower():
+            logger.info(
+                "ERROR: You appear to be running an unpatched Kirby & The Amazing Mirror ROM. "
+                "Generate a patch file and use it to create a patched ROM before opening the BizHawk client."
+            )
+            return _fail("unpatched_base_rom")
 
         try:
-            rom_name_bytes = (await bizhawk.read(ctx.bizhawk_ctx, [(0x108, 32, "ROM")]))[0]
-            rom_name = bytes([b for b in rom_name_bytes if b != 0]).decode("ascii", errors="ignore").lower()
-            if not rom_name.startswith(EXPECTED_ROM_NAME_PREFIX):
-                return False
-        except Exception:
-            return False
+            title_bytes, game_code_bytes, maker_code_bytes = await bizhawk.read(
+                ctx.bizhawk_ctx,
+                [
+                    (0xA0, 12, "ROM"),
+                    (0xAC, 4, "ROM"),
+                    (0xB0, 2, "ROM"),
+                ],
+            )
+            rom_title = bytes(title_bytes).decode("ascii", errors="ignore").rstrip("\0").lower()
+            game_code = bytes(game_code_bytes).decode("ascii", errors="ignore").rstrip("\0").lower()
+            maker_code = bytes(maker_code_bytes).decode("ascii", errors="ignore").rstrip("\0")
+            if (
+                rom_title != EXPECTED_ROM_HEADER_TITLE
+                or game_code != EXPECTED_ROM_GAME_CODE
+                or maker_code != EXPECTED_ROM_MAKER_CODE
+            ):
+                logger.info(
+                    "KirbyAM: ROM validation failed (title=%r, game_code=%r, maker=%r)",
+                    rom_title,
+                    game_code,
+                    maker_code,
+                )
+                return _fail("header_mismatch")
+        except bizhawk.RequestFailedError as exc:
+            logger.info("KirbyAM: ROM header read failed during validation: %s", exc)
+            return _fail("header_read_failed")
+        except Exception as exc:
+            logger.error("KirbyAM: unexpected error during ROM header validation", exc_info=exc)
+            return _fail("header_validation_exception")
+
+        try:
+            auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
+        except bizhawk.RequestFailedError as exc:
+            logger.info("KirbyAM: ROM auth read failed during validation: %s", exc)
+            return _fail("auth_read_failed")
+        except Exception as exc:
+            logger.error("KirbyAM: unexpected error during ROM auth validation", exc_info=exc)
+            return _fail("auth_validation_exception")
+
+        if not any(auth_raw):
+            if getattr(self, "_last_validation_failure_reason", None) != "missing_patch_metadata":
+                logger.info(
+                    "ERROR: KirbyAM patch metadata was missing from the loaded ROM. "
+                    "Regenerate the patch and recreate the patched ROM before opening the BizHawk client."
+                )
+            return _fail("missing_patch_metadata")
+
+        self._last_validation_failure_reason = None
 
         # Minimal AP settings
         ctx.game = self.game
@@ -318,8 +429,9 @@ class KirbyAmClient(BizHawkClient):
         auth_addr = data.rom_addresses.get("gArchipelagoInfo")
         if auth_addr is None:
             raise Exception("Missing rom address 'gArchipelagoInfo' in worlds/kirbyam/data/addresses.json")
+        auth_addr = _normalize_gba_rom_address(auth_addr)
 
-        auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, 16, "ROM")]))[0]
+        auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
         ctx.auth = base64.b64encode(auth_raw).decode("utf-8")
 
     async def game_watcher(self, ctx: "BizHawkClientContext") -> None:
@@ -329,9 +441,15 @@ class KirbyAmClient(BizHawkClient):
         # Only run when connected and slot_data is ready
         if not self._server_session_ready(ctx):
             self._watcher_server_ready = False
+            self._death_link_enabled = None
+            self._incoming_death_link_pending = False
+            self._last_incoming_death_link_time = None
+            self._last_local_alive_state = None
+            self._suppress_next_local_death_send = False
             return
 
         self._load_notification_settings(ctx)
+        await self._sync_death_link_setting(ctx)
 
         if not self._watcher_server_ready:
             logger.info("KirbyAM: AP session ready; reconnect-safe reconciliation active")
@@ -364,11 +482,20 @@ class KirbyAmClient(BizHawkClient):
             logger.info("KirbyAM: gameplay-active state restored; resuming normal watcher flow")
             self._last_runtime_gate_reason = None
 
-        # Location checks (real RAM polling)
-        await self._poll_locations(ctx)
+        await self._apply_pending_death_link(ctx)
+        await self._poll_and_send_local_death_link(ctx)
 
         # Boss defeat location polling via transport register
         await self._poll_boss_defeat_locations(ctx)
+
+        # Major chest location polling via dedicated major_chest_flags transport register
+        await self._poll_major_chest_locations(ctx)
+
+        # Vitality chest location polling via dedicated vitality_chest_flags transport register
+        await self._poll_vitality_chest_locations(ctx)
+
+        # Sound Player chest location polling via dedicated sound_player_chest_flags register
+        await self._poll_sound_player_chest_locations(ctx)
 
         # Candidate discovery for non-shard boss defeat signals.
         await self._probe_boss_defeat_candidates(ctx)
@@ -382,13 +509,122 @@ class KirbyAmClient(BizHawkClient):
         # Goal reporting
         await self._maybe_report_goal(ctx, ai_state_override=ai_state)
 
+    async def _sync_death_link_setting(self, ctx: "BizHawkClientContext") -> None:
+        """Mirror slot_data death_link into AP DeathLink tag state with de-dupe."""
+        from CommonClient import logger
+
+        slot_data = getattr(ctx, "slot_data", None)
+        enabled = False
+        if isinstance(slot_data, dict):
+            enabled = self._coerce_bool(slot_data.get("death_link", False), False)
+
+        if self._death_link_enabled is enabled:
+            return
+
+        await ctx.update_death_link(enabled)
+        self._death_link_enabled = enabled
+        if not enabled:
+            self._incoming_death_link_pending = False
+            self._last_incoming_death_link_time = None
+            self._last_local_alive_state = None
+            self._suppress_next_local_death_send = False
+        logger.info("KirbyAM: DeathLink %s", "enabled" if enabled else "disabled")
+
+    @staticmethod
+    def _s8(value: bytes) -> int:
+        if not value:
+            return 0
+        return int.from_bytes(value[:1], "little", signed=True)
+
+    def _queue_incoming_death_link(self, args: dict) -> None:
+        """Queue an incoming DeathLink event for safe application during gameplay-active ticks."""
+        if self._death_link_enabled is not True:
+            return
+
+        tags = args.get("tags")
+        if not isinstance(tags, (list, tuple, set)) or "DeathLink" not in tags:
+            return
+
+        payload = args.get("data")
+        if not isinstance(payload, dict):
+            return
+
+        event_time_raw = payload.get("time")
+        event_time: float | None = None
+        if isinstance(event_time_raw, (int, float)):
+            event_time = float(event_time_raw)
+        elif isinstance(event_time_raw, str):
+            try:
+                event_time = float(event_time_raw)
+            except ValueError:
+                event_time = None
+
+        if (
+            event_time is not None
+            and self._last_incoming_death_link_time is not None
+            and event_time <= self._last_incoming_death_link_time
+        ):
+            return
+
+        if event_time is not None:
+            self._last_incoming_death_link_time = event_time
+        self._incoming_death_link_pending = True
+
+    async def _apply_pending_death_link(self, ctx: "BizHawkClientContext") -> None:
+        """Apply queued DeathLink by zeroing Kirby HP once gameplay is active."""
+        if self._death_link_enabled is not True or not self._incoming_death_link_pending:
+            return
+
+        hp_addr = self._native_addr(_KIRBY_HP_ADDR_KEY)
+        if hp_addr is None:
+            return
+
+        current_hp_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(hp_addr, _KIRBY_HP_READ_WIDTH, "System Bus")]))[0]
+        current_hp = self._s8(current_hp_raw)
+        if current_hp <= 0:
+            self._incoming_death_link_pending = False
+            self._last_local_alive_state = False
+            return
+
+        from CommonClient import logger
+
+        await bizhawk.write(ctx.bizhawk_ctx, [(hp_addr, (0).to_bytes(1, "little"), "System Bus")])
+        self._incoming_death_link_pending = False
+        self._suppress_next_local_death_send = True
+        logger.info("KirbyAM: applied incoming DeathLink (hp_addr=0x%08X)", hp_addr)
+
+    async def _poll_and_send_local_death_link(self, ctx: "BizHawkClientContext") -> None:
+        """Send DeathLink once per alive->dead transition, with loop suppression for received links."""
+        if self._death_link_enabled is not True:
+            return
+
+        hp_addr = self._native_addr(_KIRBY_HP_ADDR_KEY)
+        if hp_addr is None:
+            return
+
+        hp_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(hp_addr, _KIRBY_HP_READ_WIDTH, "System Bus")]))[0]
+        hp_value = self._s8(hp_raw)
+        alive_now = hp_value > 0
+
+        if self._last_local_alive_state is None:
+            self._last_local_alive_state = alive_now
+            return
+
+        if self._last_local_alive_state and not alive_now:
+            if self._suppress_next_local_death_send:
+                self._suppress_next_local_death_send = False
+            else:
+                await ctx.send_death("Kirby was defeated.")
+
+        self._last_local_alive_state = alive_now
+
     async def _runtime_gameplay_state(self, ctx: KirbyAmBizHawkClientContext) -> tuple[bool, str, int | None]:
         """
         Classify whether gameplay-active polling/delivery is safe for this frame.
 
-        POC contract for Issue #56:
-        - gameplay-active when ai_kirby_state_native == 300
-        - non-gameplay for all other known states
+        Contract update for Issue #419:
+        - known non-gameplay states remain deferred (tutorial/menu, cutscene, goal-clear states)
+        - unknown post-300 states fail open to avoid blocking mailbox item delivery
         - fail open when native address is unavailable
         """
         ai_state_addr = self._native_addr("ai_kirby_state_native")
@@ -398,13 +634,13 @@ class KirbyAmClient(BizHawkClient):
         raw = (await bizhawk.read(ctx.bizhawk_ctx, [(ai_state_addr, _AI_STATE_ADDR_WIDTH, "System Bus")]))[0]
         ai_state = self._u32_le(raw)
 
-        if ai_state == _AI_STATE_NORMAL:
-            return True, "gameplay_active", ai_state
-        if ai_state < 200:
+        if ai_state < _AI_STATE_CUTSCENE_THRESHOLD:
             return False, "non_gameplay_tutorial_or_menu", ai_state
         if ai_state < _AI_STATE_NORMAL:
             return False, "non_gameplay_cutscene", ai_state
-        return False, "non_gameplay_post_normal", ai_state
+        if ai_state in (_GOAL_STATE_DARK_MIND_CLEAR, _GOAL_STATE_FULL_CLEAR):
+            return False, "non_gameplay_goal_clear", ai_state
+        return True, "gameplay_active", ai_state
 
     # --------------------------
     # Helpers / persistence
@@ -480,67 +716,9 @@ class KirbyAmClient(BizHawkClient):
     # Location checking
     # --------------------------
 
-    async def _poll_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
-        """
-        Primary location polling: read shard bitfield and map set bits to locations.
-        
-        Behavior:
-        - Reads shard_bitfield_native from native RAM when available
-        - Falls back to shard_bitfield transport mirror for compatibility
-        - Each mapped bit can correspond to one or more AP location ids
-        - RAM state is authoritative for local checks
-        - Sends LocationChecks for any RAM-derived checks missing from server checked state
-        """
-        read_size = 1
-        shard_addr = self._native_addr("shard_bitfield_native")
-        if shard_addr is None:
-            read_size = 4
-            shard_addr = self._transport_addr("shard_bitfield")
-        if shard_addr is None:
-            return
-        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(shard_addr, read_size, "System Bus")]))[0]
-        shard_bits = self._u32_le(raw.ljust(4, b"\x00"))
-
-        # Track only mapped bits so reserved bits do not pollute checked state.
-        mapped_bits = sorted(self._location_ids_by_bit.keys())
-
-        mapped_checked_locations: set[int] = set()
-        for bit in mapped_bits:
-            if (shard_bits >> bit) & 1:
-                self._checked_location_bits.add(bit)
-                mapped_checked_locations.update(self._location_ids_by_bit.get(bit, []))
-
-        # Reconnect-safe behavior: if server state is missing RAM-derived checks,
-        # resend them until the server acknowledges and reflects them.
-        missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
-        already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
-
-        if missing_on_server:
-            from CommonClient import logger
-
-            shard_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
-            if shard_log_state != self._last_shard_poll_log:
-                logger.info(
-                    "KirbyAM: resending RAM-derived LocationChecks missing on server (missing=%s, acked=%s)",
-                    missing_on_server,
-                    already_acknowledged,
-                )
-                self._last_shard_poll_log = shard_log_state
-
-            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
-        elif mapped_checked_locations:
-            from CommonClient import logger
-
-            shard_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
-            if shard_log_state != self._last_shard_poll_log:
-                logger.debug(
-                    "KirbyAM: dedupe suppressed LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                    already_acknowledged,
-                )
-                self._last_shard_poll_log = shard_log_state
-
-        else:
-            self._last_shard_poll_log = None
+    async def _poll_locations(self, _ctx: KirbyAmBizHawkClientContext) -> None:
+        """Mirror shard bits are progression state only; they no longer emit AP location checks."""
+        return
 
     async def _poll_boss_defeat_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
@@ -588,6 +766,156 @@ class KirbyAmClient(BizHawkClient):
                 self._last_boss_poll_log = boss_log_state
         else:
             self._last_boss_poll_log = None
+
+    async def _poll_major_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """
+        Read transport major_chest_flags and map set bits to major-chest locations.
+
+        Bit N corresponds to area ID N (enum AreaId): bit 3 = AREA_CABBAGE_CAVERN,
+        bit 6 = AREA_OLIVE_OCEAN, bit 7 = AREA_PEPPERMINT_PALACE, etc.
+        Multiple physical chest rooms in one area map to the same area-ID bit.
+
+        Mirrors shard/boss polling semantics: RAM-derived checks are resent until
+        the server acknowledges them in ctx.checked_locations.
+
+        Source: transport major_chest_flags written by the ROM payload's big chest hook.
+        Native gTreasures.bigChestField still reflects in-game map ownership and is no
+        longer used as the AP check signal.
+        """
+        chest_addr = self._transport_addr("major_chest_flags")
+        if chest_addr is None:
+            return
+
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(chest_addr, 4, "System Bus")]))[0]
+        chest_bits = self._u32_le(raw)
+
+        mapped_checked_locations: set[int] = set()
+        for bit in sorted(self._major_chest_location_ids_by_bit.keys()):
+            if (chest_bits >> bit) & 1:
+                mapped_checked_locations.update(self._major_chest_location_ids_by_bit.get(bit, []))
+
+        missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
+        already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
+        if missing_on_server:
+            from CommonClient import logger
+
+            chest_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
+            if chest_log_state != self._last_major_chest_poll_log:
+                logger.info(
+                    "KirbyAM: resending major-chest LocationChecks missing on server (missing=%s, acked=%s)",
+                    missing_on_server,
+                    already_acknowledged,
+                )
+                self._last_major_chest_poll_log = chest_log_state
+
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
+        elif mapped_checked_locations:
+            from CommonClient import logger
+
+            chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
+            if chest_log_state != self._last_major_chest_poll_log:
+                logger.debug(
+                    "KirbyAM: dedupe suppressed major-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                    already_acknowledged,
+                )
+                self._last_major_chest_poll_log = chest_log_state
+        else:
+            self._last_major_chest_poll_log = None
+
+    async def _poll_vitality_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """
+        Read transport vitality_chest_flags and map set bits to vitality-chest locations.
+
+        This register is written by the ROM payload's vitality chest hook, keyed by
+        room ID (not area ID). Mirrors shard/boss/major polling semantics: resend
+        RAM-derived checks until the server acknowledges them in ctx.checked_locations.
+        """
+        chest_addr = self._transport_addr("vitality_chest_flags")
+        if chest_addr is None:
+            return
+
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(chest_addr, 4, "System Bus")]))[0]
+        chest_bits = self._u32_le(raw)
+
+        mapped_checked_locations: set[int] = set()
+        for bit in sorted(self._vitality_chest_location_ids_by_bit.keys()):
+            if (chest_bits >> bit) & 1:
+                mapped_checked_locations.update(self._vitality_chest_location_ids_by_bit.get(bit, []))
+
+        missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
+        already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
+        if missing_on_server:
+            from CommonClient import logger
+
+            chest_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
+            if chest_log_state != self._last_vitality_chest_poll_log:
+                logger.info(
+                    "KirbyAM: resending vitality-chest LocationChecks missing on server (missing=%s, acked=%s)",
+                    missing_on_server,
+                    already_acknowledged,
+                )
+                self._last_vitality_chest_poll_log = chest_log_state
+
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
+        elif mapped_checked_locations:
+            from CommonClient import logger
+
+            chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
+            if chest_log_state != self._last_vitality_chest_poll_log:
+                logger.debug(
+                    "KirbyAM: dedupe suppressed vitality-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                    already_acknowledged,
+                )
+                self._last_vitality_chest_poll_log = chest_log_state
+        else:
+            self._last_vitality_chest_poll_log = None
+
+    async def _poll_sound_player_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """
+        Read transport sound_player_chest_flags and map set bits to Sound Player chest locations.
+
+        This register is written by the ROM payload's Sound Player chest hook and mirrors
+        the same resend/dedupe semantics used by boss, major, and vitality polling.
+        """
+        chest_addr = self._transport_addr("sound_player_chest_flags")
+        if chest_addr is None:
+            return
+
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(chest_addr, 4, "System Bus")]))[0]
+        chest_bits = self._u32_le(raw)
+
+        mapped_checked_locations: set[int] = set()
+        for bit in sorted(self._sound_player_chest_location_ids_by_bit.keys()):
+            if (chest_bits >> bit) & 1:
+                mapped_checked_locations.update(self._sound_player_chest_location_ids_by_bit.get(bit, []))
+
+        missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
+        already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
+        if missing_on_server:
+            from CommonClient import logger
+
+            chest_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
+            if chest_log_state != self._last_sound_player_chest_poll_log:
+                logger.info(
+                    "KirbyAM: resending sound-player-chest LocationChecks missing on server (missing=%s, acked=%s)",
+                    missing_on_server,
+                    already_acknowledged,
+                )
+                self._last_sound_player_chest_poll_log = chest_log_state
+
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
+        elif mapped_checked_locations:
+            from CommonClient import logger
+
+            chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
+            if chest_log_state != self._last_sound_player_chest_poll_log:
+                logger.debug(
+                    "KirbyAM: dedupe suppressed sound-player-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                    already_acknowledged,
+                )
+                self._last_sound_player_chest_poll_log = chest_log_state
+        else:
+            self._last_sound_player_chest_poll_log = None
 
     async def _probe_boss_defeat_candidates(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
@@ -973,5 +1301,7 @@ class KirbyAmClient(BizHawkClient):
     def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict) -> None:
         if not self._notification_settings_loaded:
             self._load_notification_settings(ctx)
+        if cmd == "Bounced":
+            self._queue_incoming_death_link(args)
         if cmd == "PrintJSON":
             self._maybe_emit_send_notification(ctx, args)

@@ -1,5 +1,6 @@
 """Test reset-safe mirror shard grant handling (Issue #109)."""
 
+import re
 import sys
 import os
 import importlib.util
@@ -49,6 +50,48 @@ def test_shard_persistence_function_exists():
         "persist_shard_to_sram should be called when granting shards"
 
 
+def test_payload_tracks_major_chest_checks_separately_from_native_maps():
+    """Verify big chest openings feed transport checks while AP map items unlock native maps."""
+    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+
+    with open(payload_path, 'r') as f:
+        content = f.read()
+
+    assert "AP_MAJOR_CHEST_FLAGS" in content, "Major chest transport register should be defined"
+    assert "ap_on_collect_big_chest" in content, "Big chest hook target should exist"
+    assert "ap_set_major_chest_flag(area_id)" in content, "Big chest hook should set transport check flags"
+    assert "ap_unlock_area_map" in content, "Payload should unlock native maps on AP item receipt"
+    assert "KIRBY_BIG_CHEST_FLAGS" in content, "Native big chest map bitfield should still be addressable"
+
+
+def test_payload_tracks_vitality_chest_checks_and_ap_vitality_apply():
+    """Verify vitality chest checks and AP vitality grants use dedicated payload paths."""
+    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+
+    with open(payload_path, 'r') as f:
+        content = f.read()
+
+    assert "AP_VITALITY_CHEST_FLAGS" in content, "Vitality chest transport register should be defined"
+    assert "ap_on_collect_vitality_chest" in content, "Vitality chest hook target should exist"
+    assert "ap_set_vitality_chest_flag_for_room" in content, "Vitality chest room mapping helper should exist"
+    assert "ap_grant_vitality_counter" in content, "AP vitality grant helper should exist"
+    assert "KIRBY_ITEM_ID_BASE_OFFSET + 18u" in content, "Vitality AP item IDs should be handled"
+
+
+def test_payload_tracks_sound_player_chest_checks_and_ap_unlock_apply():
+    """Verify Sound Player chest checks are AP-owned and unlock only on AP item receipt."""
+    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+
+    with open(payload_path, 'r') as f:
+        content = f.read()
+
+    assert "AP_SOUND_PLAYER_CHEST_FLAGS" in content, "Sound Player chest transport register should be defined"
+    assert "ap_on_collect_sound_player_chest" in content, "Sound Player chest hook target should exist"
+    assert "ap_set_sound_player_chest_flag(0u)" in content, "Sound Player chest hook should set AP check bit"
+    assert "KIRBY_COLLECT_SOUND_PLAYER_FN(0u)" in content, "AP Sound Player item should apply native unlock"
+    assert "KIRBY_ITEM_ID_BASE_OFFSET + 25u" in content, "Sound Player AP item ID should be handled"
+
+
 def test_sram_checksum_fields_updated():
     """Verify that checksum fields are updated alongside shard persistence."""
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
@@ -81,6 +124,81 @@ def test_issue_109_addresses_documented():
     assert "0x18" in content or "24" in content, "SRAM offset 0x18 should be defined"
     assert "0x1A" in content or "26" in content, "SRAM offset 0x1A should be defined"
     assert "0x1C" in content or "28" in content, "SRAM offset 0x1C should be defined"
+
+
+def test_boss_defeat_hook_preserves_native_shard_state():
+    """Verify ap_on_boss_defeat_collect_shard records AP flag AND updates native shard state.
+
+    Issue #380: suppressing native CollectShard left gTreasures.shardField stale,
+    causing the post-cutscene game-state machine to leave the screen permanently
+    white.  The hook must replicate CollectShard semantics (write KIRBY_SHARD_FLAGS
+    and persist to SRAM) in addition to setting the AP boss-defeat transport flag.
+    Source: d:\\kirbyam-extras\\katam\\src\\code_0801C6F8.c (sub_0801D948 / sub_0801D584).
+    """
+    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+
+    with open(payload_path, "r") as f:
+        content = f.read()
+
+    # The hook must still record the AP boss-defeat flag.
+    # Restrict all checks to the ap_on_boss_defeat_collect_shard body so the
+    # test cannot pass by matching the same strings in ap_apply_item or any
+    # other function.
+    match = re.search(
+        r"void\s+ap_on_boss_defeat_collect_shard[^{]*\{(?P<body>.*?)^}",
+        content,
+        flags=re.DOTALL | re.MULTILINE,
+    )
+    assert match is not None, "ap_on_boss_defeat_collect_shard definition must exist in ap_payload.c"
+    hook_body = match.group(0)
+
+    assert "ap_set_boss_defeat_flag(boss_index)" in hook_body, \
+        "Boss hook must call ap_set_boss_defeat_flag to signal the AP location check"
+
+    # The hook must also replicate CollectShard: write the native EWRAM shard bitfield.
+    assert "KIRBY_SHARD_FLAGS = new_shard_flags" in hook_body, \
+        "Boss hook must write KIRBY_SHARD_FLAGS so post-cutscene state machine sees valid shard state"
+
+    # The hook must persist to SRAM (same as the AP shard-grant path).
+    assert "persist_shard_to_sram(new_shard_flags)" in hook_body, \
+        "Boss hook must persist shard flags to SRAM for reset-safe behaviour"
+
+
+def test_ap_hook_preserves_register_context_without_r4_temp_restore():
+    """Verify the hook preserves full context and does not rebuild LR through r4."""
+    hook_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_hook.s")
+    assert os.path.exists(hook_path), "ap_hook.s should exist in kirby_ap_payload"
+
+    with open(hook_path, 'r') as f:
+        content = f.read()
+
+    # Strip // line comments so comment text cannot trigger false positives/negatives.
+    code_only = re.sub(r'//[^\n]*', '', content)
+    # Normalize runs of spaces/tabs to a single space.
+    normalized = re.sub(r'[ \t]+', ' ', code_only)
+
+    assert re.search(r'\bpush\s*\{r0-r7,\s*lr\}', normalized), \
+        "Hook should save r0-r7 and lr"
+    assert re.search(r'\bpush\s*\{r0-r3\}', normalized), \
+        "Hook should save high-register mirrors through r0-r3"
+    assert re.search(r'\bpop\s*\{r0-r3\}', normalized), \
+        "Hook should restore high-register mirrors before low-register restore"
+    assert re.search(r'\bmov\s+r8\s*,\s*r0\b', normalized), \
+        "Hook should restore r8 from mirrored low register"
+    assert re.search(r'\bmov\s+r9\s*,\s*r1\b', normalized), \
+        "Hook should restore r9 from mirrored low register"
+    assert re.search(r'\bmov\s+r10\s*,\s*r2\b', normalized), \
+        "Hook should restore r10 from mirrored low register"
+    assert re.search(r'\bmov\s+r11\s*,\s*r3\b', normalized), \
+        "Hook should restore r11 from mirrored low register"
+    assert re.search(r'\bpop\s*\{r0-r7\}', normalized), \
+        "Hook should restore r0-r7 before replaying overwritten instructions"
+    assert re.search(r'\bpop\s*\{pc\}', normalized), \
+        "Hook should return by popping the saved lr into pc"
+    assert not re.search(r'\bpop\s*\{[^}]*\br4\b[^}]*\}', normalized, re.IGNORECASE), \
+        "Hook must not use r4 as a temporary restore register"
+    assert not re.search(r'\bmov\s+lr\s*,\s*r4\b', normalized, re.IGNORECASE), \
+        "Hook must not rebuild lr through r4"
 
 
 if __name__ == "__main__":

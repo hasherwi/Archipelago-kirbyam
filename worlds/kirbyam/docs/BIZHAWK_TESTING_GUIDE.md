@@ -1,5 +1,50 @@
 # BizHawk Testing Guide for Address Verification
 
+## Automated Integration Coverage (Issue #367)
+
+Three integration surfaces now have automated coverage split by runtime cost:
+
+1. Fast PR CI coverage (normal `pytest worlds/kirbyam/test ...` runs)
+    - `worlds/kirbyam/test/test_generate_integration.py`
+    - `worlds/kirbyam/test/test_hosting_integration.py`
+    - `worlds/kirbyam/test/test_bizhawk_connector_integration.py`
+
+2. Optional runtime smoke coverage (self-hosted BizHawk)
+    - `.github/workflows/kirbyam-bizhawk-runtime-smoke.yml`
+    - Trigger via `workflow_dispatch` or nightly schedule on a prepared self-hosted Windows runner.
+
+### What each automated integration test validates
+
+- `test_generate_integration.py`
+   - Generates a KirbyAM archive from `worlds/kirbyam/test/server/kirbyam_test_player.yaml`.
+   - Verifies generated multidata contains a KirbyAM slot with expected game/player metadata.
+
+- `test_hosting_integration.py`
+   - Starts local MultiServer with generated KirbyAM archive.
+   - Connects a minimal AP websocket client and validates successful `Connected` flow and sane location arrays.
+
+- `test_bizhawk_connector_integration.py`
+   - Uses a fake BizHawk connector TCP server that speaks the generic connector protocol.
+   - Exercises real `worlds._bizhawk` transport calls (`connect`, `ping`, `get_system`, `get_hash`, `read`).
+   - Validates KirbyAM handler selection + patched ROM auth-path read behavior.
+   - Validates unpatched base-ROM hash rejection path.
+
+### Local command examples
+
+Run only the new issue #367 integration tests:
+
+```bash
+pytest worlds/kirbyam/test/test_generate_integration.py \
+          worlds/kirbyam/test/test_hosting_integration.py \
+          worlds/kirbyam/test/test_bizhawk_connector_integration.py -q
+```
+
+Run all KirbyAM tests (includes these integration tests):
+
+```bash
+pytest worlds/kirbyam/test -q
+```
+
 ## Client Log Reference
 
 ### Log levels
@@ -15,7 +60,7 @@
 | `KirbyAM: AP session ready; reconnect-safe reconciliation active` | First watcher tick after AP server/socket/slot_data readiness; transient reconnect caches were reset. |
 | `KirbyAM: deferring location polling/new item writes (...)` | Non-gameplay state detected; polling suspended. Fires once per state transition. |
 | `KirbyAM: gameplay-active state restored; resuming normal watcher flow` | Returned to gameplay-active state. |
-| `KirbyAM: resending RAM-derived LocationChecks missing on server (missing=..., acked=...)` | Shard bits found in RAM but not yet acknowledged by server; resending. |
+| `KirbyAM: resending major-chest LocationChecks missing on server (missing=..., acked=...)` | Big-chest area bits found in RAM but not yet acknowledged by server; resending. |
 | `KirbyAM: resending boss-defeat LocationChecks missing on server (missing=..., acked=...)` | Boss-defeat bits found in RAM but not yet acknowledged by server; resending. |
 | `KirbyAM: Writing mailbox item index N (item=..., player=...)` | Beginning delivery of the Nth received item. |
 | `KirbyAM: Mailbox ACK observed at item index N` | ROM cleared the flag; delivery confirmed. |
@@ -38,7 +83,9 @@
 
 ### Debug-level diagnostics
 Enable debug logging in your AP client to see these:
-- `dedupe suppressed LocationChecks` — shard/boss checks already acknowledged (per-tick spam suppressed at info level).
+- `KirbyAM: dedupe suppressed boss-defeat LocationChecks (...)` — boss-defeat checks already acknowledged (per-tick spam suppressed at info level).
+- `dedupe suppressed major-chest LocationChecks` — major-chest checks already acknowledged (per-tick spam suppressed at info level).
+- `dedupe suppressed vitality-chest LocationChecks` — vitality-chest checks already acknowledged (per-tick spam suppressed at info level).
 - `KirbyAM: boss candidate probe rising bits: ...` — rising-edge transitions detected in the boss mirror table probe. Useful during boss fights for address mapping.
 - `KirbyAM: unsafe-delivery candidate probe: X changed Y -> Z` — miniboss counter candidate changed. Research-only probe (Issue #223).
 
@@ -71,7 +118,85 @@ Validate that non-gameplay states defer location polling and new mailbox writes.
 
 Expected signal source for this gate:
 - ai_kirby_state_native at 0x0203AD2C (u32)
-- gameplay-active only when value == 300
+- known non-gameplay: value < 300, and goal-clear states 9999/10000
+- gameplay-active: value 300 and unknown post-300 values (fail-open safety)
+
+## Moonlight Mansion AP Check Contract (Issue #379)
+
+Current shipped behavior is transport-flag based, not shard-check based:
+- `BOSS_DEFEAT_2` is emitted from `boss_defeat_flags` bit `1` (`0x0202C024`).
+- `MAJOR_CHEST_MOONLIGHT_MANSION` is emitted from `major_chest_flags` bit `2` (`0x0202C028`).
+- Mirror shard collection is progression-state only and does not directly emit AP `LocationChecks`.
+
+## Major Chest Checks (All Areas)
+
+Validate that the transport major-chest bitfield drives the currently shipped major-chest locations while native map ownership stays item-delivery driven.
+
+1. Connect AP + BizHawk session with KirbyAM client logs visible.
+2. Open BizHawk Memory Viewer and watch `0x0202C028` as a 32-bit value.
+3. Open one of the currently integrated big chests (repeat for each):
+   - Rainbow Route (`bit 1`)
+   - Moonlight Mansion (`bit 2`)
+   - Cabbage Cavern (`bit 3`)
+   - Mustard Mountain (`bit 4`)
+   - Carrot Castle (`bit 5`)
+   - Olive Ocean (`bit 6`)
+   - Peppermint Palace (`bit 7`)
+   - Radish Ruins (`bit 8`)
+   - Candy Constellation (`bit 9`)
+4. Confirm the corresponding bit flips from `0` to `1` when the chest reward is claimed.
+5. Confirm `0x0203897C` does not flip for that area unless the corresponding AP map item is actually delivered.
+6. Confirm the client logs a resend only if the server has not yet acknowledged the mapped location:
+   - `KirbyAM: resending major-chest LocationChecks missing on server (...)`
+7. Reconnect the AP client and confirm already-acknowledged major-chest checks are not replay-spammed.
+8. Save/reload or change rooms and confirm the bit remains set.
+
+Expected current mapping:
+- `bit 1` -> `MAJOR_CHEST_RAINBOW_ROUTE`
+- `bit 2` -> `MAJOR_CHEST_MOONLIGHT_MANSION`
+- `bit 3` -> `MAJOR_CHEST_CABBAGE_CAVERN`
+- `bit 4` -> `MAJOR_CHEST_MUSTARD_MOUNTAIN`
+- `bit 5` -> `MAJOR_CHEST_CARROT_CASTLE`
+- `bit 6` -> `MAJOR_CHEST_OLIVE_OCEAN`
+- `bit 7` -> `MAJOR_CHEST_PEPPERMINT_PALACE`
+- `bit 8` -> `MAJOR_CHEST_RADISH_RUINS`
+- `bit 9` -> `MAJOR_CHEST_CANDY_CONSTELLATION`
+
+## Vitality Chest Checks (Dedicated Room-Mapped Bits)
+
+Validate that native vitality chest openings drive AP vitality-chest checks through the dedicated transport register.
+
+1. Connect AP + BizHawk session with KirbyAM client logs visible.
+2. Open BizHawk Memory Viewer and watch `0x0202C02C` as a 32-bit value.
+3. Open each native vitality big chest and claim the reward:
+   - Carrot Castle 5-23 (`bit 0`)
+   - Olive Ocean 6-21 (`bit 1`)
+   - Radish Ruins 8-4 (`bit 2`)
+   - Candy Constellation 9-8 (`bit 3`)
+4. Confirm the corresponding transport bit flips from `0` to `1` when the chest reward is claimed.
+5. Confirm the client emits `LocationChecks` for the mapped vitality location IDs and dedupes acknowledged ones.
+6. Reconnect AP client and verify no replay spam for already acknowledged vitality checks.
+
+Expected current mapping:
+- `bit 0` -> `VITALITY_CHEST_CARROT_CASTLE`
+- `bit 1` -> `VITALITY_CHEST_OLIVE_OCEAN`
+- `bit 2` -> `VITALITY_CHEST_RADISH_RUINS`
+- `bit 3` -> `VITALITY_CHEST_CANDY_CONSTELLATION`
+
+## Sound Player Chest Check (Issue #408)
+
+Validate that the native Sound Player chest emits only an AP location check and does not
+perform immediate native unlock.
+
+1. Connect AP + BizHawk session with KirbyAM client logs visible.
+2. Open BizHawk Memory Viewer and watch `0x0202C030` as a 32-bit value.
+3. Open the native Sound Player chest.
+4. Confirm `bit 0` flips from `0` to `1` and client emits `SOUND_PLAYER_CHEST` check.
+5. Confirm native Sound Player remains locked until AP `SOUND_PLAYER` item is delivered.
+6. Deliver AP `SOUND_PLAYER` and confirm native Sound Player unlock applies at receipt.
+
+Expected current mapping:
+- `bit 0` -> `SOUND_PLAYER_CHEST`
 
 ## Notification Pipeline Check (Issue #83)
 
@@ -99,6 +224,54 @@ Issue #74 send-focused checks:
 - ItemSend traffic between other players should not emit local send notifications.
 - During rapid send bursts, notifications should rate-limit (max 5 per 2s) and
    later report a suppression summary message.
+
+## DeathLink Smoke Check (Issue #82)
+
+Validate the shipped end-to-end DeathLink contract across AP tag sync, incoming
+receive/apply, outgoing send, and reconnect safety.
+
+### Setup
+1. Generate a seed with DeathLink enabled for at least two connected players.
+2. Launch the KirbyAM BizHawk client with logs visible.
+3. Confirm the client logs one of these on connect:
+   - `KirbyAM: DeathLink enabled`
+   - `KirbyAM: DeathLink disabled`
+4. If DeathLink is disabled in slot-data, confirm no incoming kill apply or
+   outgoing send occurs during the remaining checks.
+
+### Incoming DeathLink
+1. Put Kirby in normal gameplay (not menu/cutscene/transition).
+2. Trigger a DeathLink from another player.
+3. Confirm one local defeat occurs.
+4. Confirm the client logs:
+   - `KirbyAM: applied incoming DeathLink (hp_addr=0x02020FE0)`
+5. Repeat while Kirby is already dead and confirm no extra HP write loop or
+   repeated forced-death behavior occurs.
+
+### Gameplay gate safety
+1. Open a menu or trigger a non-gameplay transition.
+2. Trigger a DeathLink from another player during that state.
+3. Confirm no immediate death occurs during the non-gameplay window.
+4. Return to gameplay-active state and confirm the queued DeathLink applies once.
+
+### Outgoing DeathLink
+1. Restore Kirby to a live gameplay state.
+2. Take one normal in-game death locally.
+3. Confirm exactly one outgoing DeathLink is observed by the linked player.
+4. Confirm repeated frames while already dead do not send duplicates.
+
+### Echo suppression and reconnect
+1. Trigger an incoming DeathLink and confirm the resulting forced death does not
+   immediately echo back as a second outgoing DeathLink.
+2. Reconnect the AP client after a recent DeathLink event.
+3. Confirm the client does not replay a stale forced death on reconnect.
+4. Take one fresh local death after reconnect and confirm outgoing DeathLink
+   still works normally.
+
+### Native address reference
+- `kirby_hp_native`: `0x02020FE0` (`s8`)
+- Evidence: `gKirbys = 0x02020EE0` from `katam/linker.ld`, with `hp` field in
+  `katam/include/kirby.h`
 
 ## Unsafe Delivery Candidate Research (Issue #223)
 
@@ -155,15 +328,16 @@ When validating AP item receipt behavior in BizHawk, also watch for mailbox time
 
 This behavior is intended to avoid deadlock while still preferring exactly-once ROM outcomes.
 
-## Multi-Filler Receipt Smoke (Issue #41)
+## Filler Receipt Compatibility Smoke (Issues #41, #372)
 
 Validate that each shipped filler item can be received and applied safely.
+Only `1 Up` is generated as active filler in Phase 1; `2 Up` and `3 Up` checks below are payload-compatibility validation.
 
 1. Connect a patched KirbyAM ROM to Archipelago with BizHawk logs visible.
 2. Deliver each filler item at least once through the mailbox path:
-   - `1 Up` (`3860001`)
-   - `2 Up` (`3860022`)
-   - `3 Up` (`3860023`)
+   - `1 Up` (`3860001`) — active filler in Phase 1
+   - `2 Up` (`3860022`) — dormant, retained for payload compatibility (Issue #372)
+   - `3 Up` (`3860023`) — dormant, retained for payload compatibility (Issue #372)
 3. After each delivery, confirm:
    - mailbox ACK completes normally
    - `debug_last_item_id` matches the delivered filler
@@ -182,11 +356,11 @@ Validate that both BizHawk and AP server reconnect scenarios work correctly:
 
 ### BizHawk disconnect/reconnect
 1. Connect AP client + patched ROM normally.
-2. Trigger at least one shard location check (collect a shard in-game) and receive at least one AP item.
+2. Trigger at least one boss-defeat or major-chest location check and receive at least one AP item.
 3. Close and re-open BizHawk (or restart the Lua script).
 4. Confirm:
-   - Shard check is **not resent** as a duplicate (already in server `checked_locations`).
-   - When RAM-derived checks are present but server is missing them (e.g., server also restarted), the client **does** resend them.
+   - The acknowledged boss/major check is **not resent** as a duplicate (already in server `checked_locations`).
+   - When boss-defeat/major-chest/vitality transport checks are present in RAM but server is missing them (e.g., server also restarted), the client **does** resend them.
    - Item delivery cursor resumes from the correct index (no re-delivery of already-applied items).
    - No mailbox deadlock: `incoming_item_flag` is clear after normal reattach.
 
@@ -377,6 +551,29 @@ For each signal, copy this template:
 - [ ] Confidence: 🟢 High / 🟡 Medium / 🔴 Low
 - [ ] Status: ✅ Verified / ⚠️ Needs work / ❌ Rejected
 ```
+
+### Machine-Checkable Result Comment Template
+
+When reporting manual results on a GitHub issue, paste this block into a
+comment and fill all fields exactly once:
+
+```text
+<!-- MANUAL_TEST_RESULT:START -->
+RESULT_SCHEMA_VERSION: 1
+TEST_CASE_ID: case-001
+STATUS: PASS
+BUILD_REF: <commit/pr/tag>
+PLATFORM: <windows/linux/macos>
+BIZHAWK_VERSION: <version>
+ROM_REGION: USA
+EXPECTED_RESULT: <short expected outcome>
+OBSERVED_RESULT: <short observed outcome>
+EVIDENCE: <link/screenshot/log excerpt>
+NOTES: <optional>
+<!-- MANUAL_TEST_RESULT:END -->
+```
+
+Allowed `STATUS` values: `PASS`, `FAIL`, `BLOCKED`.
 
 ---
 
