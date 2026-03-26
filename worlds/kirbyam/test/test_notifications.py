@@ -1,6 +1,7 @@
 """Tests for item notification formatting and location name resolution."""
+from unittest.mock import Mock, patch
+
 import pytest
-from unittest.mock import Mock, patch, AsyncMock
 
 from ..data import data
 from ..client import KirbyAmClient
@@ -11,12 +12,14 @@ def test_item_name_resolves_from_data_items():
     client = KirbyAmClient()
     ctx = Mock()
     ctx.item_names = None  # No AP context item names
-    
+
     # Pick a real item from data.items to test
     if data.items:
         item_id, item_data = next(iter(data.items.items()))
         name = client._item_name(ctx, item_id, 1)
         assert name == item_data.label, f"Expected {item_data.label}, got {name}"
+    else:
+        pytest.skip("No items in data.items available for test")
 
 
 def test_item_name_fallback_unknown_item():
@@ -48,14 +51,18 @@ def test_item_name_prefers_context_item_names():
 def test_location_name_resolves_from_data():
     """_location_name should resolve location labels from data.locations."""
     client = KirbyAmClient()
-    
+
     # Pick a real location from data.locations
-    if data.locations:
-        location_key, location_data = next(iter(data.locations.items()))
-        if location_data.location_id is not None:
-            name = client._location_name(location_data.location_id)
-            assert name == location_data.label, \
-                f"Expected {location_data.label} for location_id {location_data.location_id}, got {name}"
+    location_data = next(
+        (loc for loc in data.locations.values() if loc.location_id is not None),
+        None,
+    )
+    if location_data is None:
+        pytest.skip("No locations with non-None location_id available for test")
+
+    name = client._location_name(location_data.location_id)
+    assert name == location_data.label, \
+        f"Expected {location_data.label} for location_id {location_data.location_id}, got {name}"
 
 
 def test_location_name_fallback_unknown_location():
@@ -113,11 +120,12 @@ def test_send_notification_includes_sender_and_location():
         assert mock_display.called, "display_message should be called"
         message = mock_display.call_args[0][1]
         
-        # Message should contain sender, item name, receiver, and location
-        assert "Player 1" in message or "Archipelago" in message
+        # Format: "Sent <item> to <receiver> (<location>)"  -- sender is omitted (player knows who they are)
+        assert "Sent" in message
         assert "OtherPlayer" in message or "Player 2" in message
-        # Should NOT be just "Sent Unknown Item"
-        assert "Unknown Item" not in message or "Item " in message  # Allow "Item {id}" fallback
+        # Item name should be resolved, not a generic fallback
+        assert not ("Unknown Item" in message and "Item " not in message), \
+            f"Message should not show 'Unknown Item' generic label: {message}"
 
 
 def test_send_notification_deduplicates_by_key():

@@ -244,7 +244,7 @@ class KirbyAmClient(BizHawkClient):
         if location_id is None:
             return ""
         # Reverse-lookup: find location key by location_id
-        for location_key, location_data in data.locations.items():
+        for _, location_data in data.locations.items():
             if location_data.location_id == location_id:
                 return location_data.label
         return f"Location {location_id}"
@@ -268,7 +268,7 @@ class KirbyAmClient(BizHawkClient):
         item_id, player_id = item_fields
         item_name = self._item_name(ctx, item_id, player_id)
         sender_name = self._player_name(ctx, player_id)
-        message = f"Received {item_name} from {sender_name}"
+        message = f"{item_name} received from {sender_name}"
 
         from CommonClient import logger
 
@@ -317,9 +317,9 @@ class KirbyAmClient(BizHawkClient):
         
         # Build message with location context if available
         if location_name:
-            message = f"{sender_name} sent {item_name} to {receiver_name} ({location_name})"
+            message = f"Sent {item_name} to {receiver_name} ({location_name})"
         else:
-            message = f"{sender_name} sent {item_name} to {receiver_name}"
+            message = f"Sent {item_name} to {receiver_name}"
 
         from CommonClient import logger
 
