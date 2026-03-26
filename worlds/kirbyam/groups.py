@@ -3,11 +3,22 @@ from typing import Dict, Set
 from .data import LocationCategory, data
 
 # Item Groups
+# Built from item tags in data.items. Each tag becomes a group containing all items with that tag.
+# Aliases are added for common plural forms (e.g., both "Shard" and "Shards" refer to the same set).
 ITEM_GROUPS: dict[str, set[str]] = {}
 
 for item in data.items.values():
     for tag in item.tags:
         ITEM_GROUPS.setdefault(tag, set()).add(item.label)
+
+# Add canonical aliases for improved UX (both singular and plural forms where applicable)
+_ITEM_GROUP_ALIASES = {
+    "Shards": "Shard",  # plural alias for "Shard"
+}
+
+for alias, canonical in _ITEM_GROUP_ALIASES.items():
+    if canonical in ITEM_GROUPS:
+        ITEM_GROUPS[alias] = ITEM_GROUPS[canonical]
 
 
 # Location Groups

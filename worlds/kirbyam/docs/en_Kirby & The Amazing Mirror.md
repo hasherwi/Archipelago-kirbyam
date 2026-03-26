@@ -27,6 +27,30 @@ Boss defeats are separate checks from shard progression. Shards are delivered th
 
 
 
+\## Item Groups
+
+
+
+The KirbyAM world defines the following item groups for use in YAML-based item/location filters (e.g., `local_items`, plando, multiworld hints):
+
+| Group Name | Also Known As | Items Included | Use Case |
+|---|---|---|---|
+| `Shard` or `Shards` | Mirror Shard | One shard per area (8 total) | Boss-defeat progression items; use in `local_items` if you want local shard discovery |
+| `Unique` | — | Mirrors shards + maps | One-of-a-kind progression items; often treated as important progression |
+| `Map` | Maps | Area map items (9 total) | Area maps; non-critical but helpful for navigation |
+| `Vitality` | Vitality Counters | Vitality counter upgrades (I, II, III, IV) | Life upgrades; use in plando to guarantee health increases |
+| `Useful` | — | Maps + vitality counters + Sound Player | Non-critical progression enhancers; useful for strategic item placement |
+| `Filler` | — | 1-Up, 2-Up, 3-Up | Generic filler items; often used as low-priority junk |
+| `SoundPlayer` | — | Sound Player item | The Sound Player unlock item |
+
+**Example Usage:**
+
+- To require all shards to be found locally (not in other worlds): Add `Shards: all` to `local_items` in your YAML.
+- To exclude maps from consideration as progression in a difficult plando: Use `!include_group items: [Filler, Vitality]` to seed only filler + vitality items.
+- To ensure you get at least one helpful item early: Plando the first chest to require an item from the `Useful` group.
+
+
+
 \## What other changes are made to the game?
 
 
