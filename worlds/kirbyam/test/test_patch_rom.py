@@ -59,6 +59,12 @@ def test_validate_thumb_bl_callsite_rejects_out_of_bounds_offset() -> None:
         patch_rom.validate_thumb_bl_callsite(rom, 6, "boss shard")
 
 
+def test_validate_thumb_bl_callsite_rejects_odd_offset() -> None:
+    rom = bytearray(b"\x00" * 16)
+    with pytest.raises(SystemExit, match="not halfword aligned"):
+        patch_rom.validate_thumb_bl_callsite(rom, 5, "boss shard")
+
+
 def test_boss_collect_shard_call_offset_matches_verified_hook_site() -> None:
     # sub_0801D948 at ROM addr 0x0801D948 (file offset 0x1D948); BL CollectShard
     # follows the `ldr r0, [r0]` setup and starts at +0xA → 0x1D948 + 0xA.

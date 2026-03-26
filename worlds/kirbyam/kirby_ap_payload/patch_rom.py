@@ -205,6 +205,11 @@ def validate_thumb_bl_callsite(rom: bytes | bytearray, offset: int, label: str) 
             f"Error: {label} callsite offset {offset:#x} is out of ROM bounds "
             f"(size={len(rom):#x})."
         )
+    if offset % 2 != 0:
+        raise SystemExit(
+            f"Error: {label} callsite offset {offset:#x} is not halfword aligned for Thumb "
+            "(must be 2-byte aligned)."
+        )
     original = bytes(rom[offset:offset + 4])
     if not is_thumb_bl_instruction(original):
         raise SystemExit(
