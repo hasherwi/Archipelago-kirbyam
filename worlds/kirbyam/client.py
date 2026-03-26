@@ -270,7 +270,7 @@ class KirbyAmClient(BizHawkClient):
         item_id, player_id = item_fields
         item_name = self._item_name(ctx, item_id, player_id)
         sender_name = self._player_name(ctx, player_id)
-        message = f"{item_name} received from {sender_name}"
+        message = f"Received {item_name} from {sender_name}"
 
         from CommonClient import logger
 
