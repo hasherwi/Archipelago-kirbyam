@@ -940,7 +940,7 @@ async def test_receive_notification_emits_once_per_delivery_index(mock_bizhawk_c
 
     mock_display.assert_awaited_once_with(
         mock_bizhawk_context.bizhawk_ctx,
-        "Received Mirror Shard from PlayerTwo",
+        "Mirror Shard received from PlayerTwo",
     )
 
 
