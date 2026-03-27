@@ -31,6 +31,15 @@ class Goal(Choice):
     default = 0
     option_dark_mind = 0
 
+    @classmethod
+    def from_any(cls, data: object) -> "Goal":
+        """Coerce legacy goal values (removed in v0.0.12) to Dark Mind."""
+        if isinstance(data, int) and data in {1, 2}:
+            return cls(cls.option_dark_mind)
+        if isinstance(data, str) and data.lower() in {"100", "debug"}:
+            return cls(cls.option_dark_mind)
+        return super().from_any(data)  # type: ignore[return-value]
+
 
 class RandomizeShards(Choice):
     """
