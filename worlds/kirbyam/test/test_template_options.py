@@ -72,6 +72,8 @@ def test_goal_from_any_coerces_legacy_values() -> None:
     assert Goal.from_any(100).value == Goal.option_dark_mind
 
     # Legacy string template keys
+    assert Goal.from_any("1").value == Goal.option_dark_mind
+    assert Goal.from_any("2").value == Goal.option_dark_mind
     assert Goal.from_any("100").value == Goal.option_dark_mind
     assert Goal.from_any("debug").value == Goal.option_dark_mind
     assert Goal.from_any("DEBUG").value == Goal.option_dark_mind

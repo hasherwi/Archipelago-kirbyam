@@ -1324,25 +1324,27 @@ class KirbyAmClient(BizHawkClient):
             return
 
         slot_goal_raw = ctx.slot_data.get("goal", Goal.option_dark_mind)
+        parsed_slot_goal: Optional[int] = None
+        clamped_goal = False
         try:
-            slot_goal = int(slot_goal_raw)
+            parsed_slot_goal = int(slot_goal_raw)
         except (TypeError, ValueError):
-            from CommonClient import logger
-            logger.warning(
-                "KirbyAM: unexpected slot goal value '%s'; clamping to Dark Mind. "
-                "This may indicate mismatched configs or world versions.",
-                slot_goal_raw,
-            )
-            slot_goal = Goal.option_dark_mind
+            clamped_goal = True
 
-        if slot_goal != Goal.option_dark_mind:
+        if parsed_slot_goal == Goal.option_dark_mind:
+            slot_goal = parsed_slot_goal
+        else:
+            slot_goal = Goal.option_dark_mind
+            clamped_goal = True
+
+        if clamped_goal:
             from CommonClient import logger
             logger.warning(
-                "KirbyAM: unexpected slot goal value '%s'; clamping to Dark Mind. "
+                "KirbyAM: unexpected slot goal value '%s' (parsed=%s); clamping to Dark Mind. "
                 "This may indicate mismatched configs or world versions.",
                 slot_goal_raw,
+                parsed_slot_goal,
             )
-            slot_goal = Goal.option_dark_mind
 
         goal_location_id = self._goal_location_ids_by_option.get(slot_goal)
         if goal_location_id is None:

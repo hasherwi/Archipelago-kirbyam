@@ -34,9 +34,9 @@ class Goal(Choice):
     @classmethod
     def from_any(cls, data: object) -> "Goal":
         """Coerce legacy goal values (removed in v0.0.12) to Dark Mind."""
-        if isinstance(data, int) and data in {1, 2, 100}:
+        if type(data) is int and data in {1, 2, 100}:
             return cls(cls.option_dark_mind)
-        if isinstance(data, str) and data.lower() in {"100", "debug"}:
+        if isinstance(data, str) and data.lower() in {"1", "2", "100", "debug"}:
             return cls(cls.option_dark_mind)
         return super().from_any(data)  # type: ignore[return-value]
 
