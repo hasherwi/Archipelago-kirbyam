@@ -614,7 +614,7 @@ async def test_deliver_items_clears_stuck_mailbox_after_wall_clock_timeout(mock_
 
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write, \
-         patch('worlds.kirbyam.client.time.time', return_value=101.1):
+         patch('worlds.kirbyam.client.time.monotonic', return_value=101.1):
         mock_read.return_value = [
             (1).to_bytes(4, 'little'),
             (0).to_bytes(4, 'little'),

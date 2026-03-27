@@ -301,10 +301,6 @@ void ap_poll_mailbox_c(void) {
     uint32_t flag = AP_IN_FLAG;
     if (flag != 1u) return;
 
-    // Flag-detection heartbeat: whenever we see flag==1, pulse heartbeat
-    // as another diagnostic signal
-    AP_HOOK_HEARTBEAT++;
-
     // Receive an item from a player - read IMMEDIATELY after confirming flag
     uint32_t item = AP_IN_ITEM_ID;
     uint32_t from = AP_IN_PLAYER;

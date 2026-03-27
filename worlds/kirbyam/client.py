@@ -53,6 +53,8 @@ def _normalize_gba_rom_address(value: int) -> int:
 
 
 def _is_thumb_bl_instruction(opcode: bytes) -> bool:
+    # Parallel implementation of is_thumb_bl_instruction in kirby_ap_payload/patch_rom.py;
+    # kept separate because patch_rom.py is a standalone build script that cannot be imported here.
     if len(opcode) != 4:
         return False
     hi = int.from_bytes(opcode[0:2], "little")
@@ -73,7 +75,7 @@ class KirbyAmClient(BizHawkClient):
         self._delivered_item_index: int = 0
         self._delivery_pending: bool = False  # True after writing mailbox until ROM clears flag
         self._delivery_pending_frame: int | None = None
-        self._delivery_pending_time: float | None = None  # Wall-clock time for timeout fallback
+        self._delivery_pending_time: float | None = None  # Monotonic time recorded when mailbox write issued
         self._delivery_pending_item_index: int | None = None
         self._delivery_timeout_streak: int = 0
         self._delivery_retry_not_before: float = 0.0
@@ -1280,7 +1282,7 @@ class KirbyAmClient(BizHawkClient):
 
             # Fallback: wall-clock timeout if frame counter not advancing
             if not timeout_triggered and self._delivery_pending_time is not None:
-                elapsed_seconds = time.time() - self._delivery_pending_time
+                elapsed_seconds = time.monotonic() - self._delivery_pending_time
                 if elapsed_seconds >= _MAILBOX_ACK_TIMEOUT_SECONDS:
                     timeout_triggered = True
                     timeout_reason = f"time timeout ({elapsed_seconds:.1f}s >= {_MAILBOX_ACK_TIMEOUT_SECONDS}s)"
@@ -1323,7 +1325,7 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_pending_frame = None
                 self._delivery_pending_time = None
                 self._delivery_pending_item_index = None
-                self._delivery_retry_not_before = time.time() + _MAILBOX_ACK_RETRY_BACKOFF_SECONDS
+                self._delivery_retry_not_before = time.monotonic() + _MAILBOX_ACK_RETRY_BACKOFF_SECONDS
             return
 
         # No pending item; mailbox must be empty to write
@@ -1334,7 +1336,7 @@ class KirbyAmClient(BizHawkClient):
         if not allow_new_writes:
             return
 
-        if self._delivery_retry_not_before > 0.0 and time.time() < self._delivery_retry_not_before:
+        if self._delivery_retry_not_before > 0.0 and time.monotonic() < self._delivery_retry_not_before:
             return
 
         # Nothing to deliver
@@ -1385,7 +1387,7 @@ class KirbyAmClient(BizHawkClient):
             ])
             self._delivery_pending = True
             self._delivery_pending_frame = current_frame
-            self._delivery_pending_time = time.time()  # Record for wall-clock timeout fallback
+            self._delivery_pending_time = time.monotonic()  # Record monotonic time for timeout fallback
             self._delivery_pending_item_index = self._delivered_item_index
             return
 

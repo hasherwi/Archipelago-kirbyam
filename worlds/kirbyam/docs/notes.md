@@ -1043,17 +1043,18 @@ That hook hardening was later superseded after Issue #437 hook-liveness diagnosi
 The current diagnostic main hook targets the `VBlankIntr` tail callsite at ROM
 `0x08152696`, overwriting the `mov r7, r9` / `mov r6, r8` pair immediately after native
 `gFrameCount++`.
-The hook body stays minimal:
+The hook entry point (`ap_hook_entry`) stays minimal:
 - save/restore scratch registers and `lr`
-- increment `hook_heartbeat` and `frame_counter` in EWRAM
+- branch to the AP mailbox C routine (`ap_poll_mailbox_c`)
+  - the C routine increments `hook_heartbeat` and `frame_counter` in EWRAM and processes any pending items
 - replay the two overwritten register moves before returning to `VBlankIntr`
 
 Root-cause correction:
 - the main hook patch must branch to `ap_hook_entry`, not to the payload base at `0x0815E000`
 - non-main hooks already resolved their symbol addresses correctly from `payload.elf`
 
-This tests a provably live per-frame interrupt path without calling the full AP
-mailbox C routine from a timing-sensitive site.
+This tests a provably live per-frame interrupt path that exercises the full AP
+mailbox C routine (including counter increments and item handling) from the main hook site.
 
 ### Validation
 - Retest target: `frame_counter` / `hook_heartbeat` should advance during active gameplay
