@@ -37,7 +37,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x28   | 0x0202C028 | 4B | major_chest_flags     | u32  | ROM → Client | Bits set when a native big chest is opened; bit N = area ID N. This drives AP major-chest checks independently of native map ownership. |
 | 0x2C   | 0x0202C02C | 4B | vitality_chest_flags  | u32  | ROM → Client | Bits set when a native vitality big chest is opened; bits 0..3 map to the four vitality chest room IDs (Carrot 5-23, Olive 6-21, Radish 8-4, Candy 9-8). |
 | 0x30   | 0x0202C030 | 4B | sound_player_chest_flags | u32 | ROM → Client | Bits set when the native Sound Player chest is opened; bit 0 maps to `SOUND_PLAYER_CHEST`. Native Sound Player unlock is intentionally deferred until AP item receipt. |
-| 0x34   | 0x0202C034 | 4B | hook_heartbeat        | u32  | ROM → Client | Increments on every AP main hook entry. Diagnostic signal for hook liveness. |
+| 0x34   | 0x0202C034 | 4B | hook_heartbeat        | u32  | ROM → Client | Increments once on every AP main hook entry. Diagnostic signal for hook liveness. |
 
 **Total: 56 bytes (0x0202C000 - 0x0202C037)**
 
