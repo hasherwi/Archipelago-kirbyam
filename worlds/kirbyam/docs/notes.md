@@ -1041,11 +1041,12 @@ from a sensitive site while preserving only part of the live register context.
 ### Solution
 That hook hardening was later superseded after Issue #437 hook-liveness diagnosis.
 The current diagnostic main hook targets the `VBlankIntr` tail callsite at ROM
-`0x08152596`, replacing the `REG_IF` setup pair after native `gFrameCount++`.
+`0x08152696`, overwriting the `mov r7, r9` / `mov r6, r8` pair immediately after native
+`gFrameCount++`.
 The hook body stays minimal:
 - save/restore scratch registers and `lr`
 - increment `hook_heartbeat` and `frame_counter` in EWRAM
-- recreate the overwritten `REG_IF` write setup (`ldr r1, =0x04000202; movs r0, #1`)
+- replay the two overwritten register moves before returning to `VBlankIntr`
 
 Root-cause correction:
 - the main hook patch must branch to `ap_hook_entry`, not to the payload base at `0x0815E000`

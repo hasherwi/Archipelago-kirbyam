@@ -222,9 +222,6 @@ static void ap_grant_lives(uint8_t amount) {
 
 // Returns 1 if item was successfully processed, 0 if unrecognized
 static uint8_t ap_apply_item(uint32_t ap_item_id) {
-    // Temporary debug: log to shard flags to confirm we're entering this function
-    AP_SHARD_BITFIELD = ap_item_id & 0xFFu;  // Write bottom byte for debugging
-    
     // 1_UP = BASE+1
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 1u)) {
         ap_grant_lives(1u);
@@ -308,9 +305,6 @@ void ap_poll_mailbox_c(void) {
     // as another diagnostic signal
     AP_HOOK_HEARTBEAT++;
 
-    // Debug count times mailbox items received
-    AP_ITEM_RCVD_COUNTER++;
-
     // Receive an item from a player - read IMMEDIATELY after confirming flag
     uint32_t item = AP_IN_ITEM_ID;
     uint32_t from = AP_IN_PLAYER;
@@ -328,6 +322,7 @@ void ap_poll_mailbox_c(void) {
     // If the item was unrecognized (item_was_processed==0), the flag is NOT cleared,
     // allowing the client to detect a protocol mismatch and retry/stall appropriately.
     if (item_was_processed) {
+        AP_ITEM_RCVD_COUNTER++;
         AP_IN_FLAG = 0u;
     }
 }

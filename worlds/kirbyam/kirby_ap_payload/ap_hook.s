@@ -13,9 +13,6 @@ ap_hook_entry:
     bl ap_poll_mailbox_c
 
     pop  {r0-r3}
-    pop  {r4}
-    mov  lr, r4
-
     mov  r7, r9
     mov  r6, r8
-    bx   lr
+    pop  {pc}

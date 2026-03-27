@@ -52,21 +52,6 @@ def _normalize_gba_rom_address(value: int) -> int:
     return value
 
 
-def _thumb_bl_bytes(src_rom_addr: int, dst_rom_addr: int) -> bytes:
-    diff = dst_rom_addr - (src_rom_addr + 4)
-    if diff % 2 != 0:
-        raise ValueError("Thumb BL target is not halfword aligned")
-
-    imm = diff >> 1
-    if not (-(1 << 21) <= imm < (1 << 21)):
-        raise ValueError("Thumb BL target out of range")
-
-    imm &= (1 << 22) - 1
-    hi = 0xF000 | ((imm >> 11) & 0x7FF)
-    lo = 0xF800 | (imm & 0x7FF)
-    return hi.to_bytes(2, "little") + lo.to_bytes(2, "little")
-
-
 def _is_thumb_bl_instruction(opcode: bytes) -> bool:
     if len(opcode) != 4:
         return False
@@ -1167,8 +1152,6 @@ class KirbyAmClient(BizHawkClient):
         if flag_addr is None or id_addr is None or player_addr is None:
             return
 
-        from CommonClient import logger
-
         frame_addr = self._transport_addr("frame_counter")
         heartbeat_addr = self._transport_addr("hook_heartbeat")
         reads: list[tuple[int, int, str]] = [(flag_addr, 4, "System Bus")]
@@ -1288,20 +1271,20 @@ class KirbyAmClient(BizHawkClient):
             # Check for timeout via frame counter OR wall-clock time (fallback if frame_counter stuck)
             timeout_triggered = False
             timeout_reason = ""
-            
+
             if current_frame is not None and self._delivery_pending_frame is not None:
                 elapsed_frames = (current_frame - self._delivery_pending_frame) & 0xFFFFFFFF
                 if elapsed_frames >= _MAILBOX_ACK_TIMEOUT_FRAMES:
                     timeout_triggered = True
                     timeout_reason = f"frame timeout ({elapsed_frames} frames >= {_MAILBOX_ACK_TIMEOUT_FRAMES})"
-            
+
             # Fallback: wall-clock timeout if frame counter not advancing
             if not timeout_triggered and self._delivery_pending_time is not None:
                 elapsed_seconds = time.time() - self._delivery_pending_time
                 if elapsed_seconds >= _MAILBOX_ACK_TIMEOUT_SECONDS:
                     timeout_triggered = True
                     timeout_reason = f"time timeout ({elapsed_seconds:.1f}s >= {_MAILBOX_ACK_TIMEOUT_SECONDS}s)"
-            
+
             if timeout_triggered:
                 self._delivery_timeout_streak += 1
                 logger.warning(

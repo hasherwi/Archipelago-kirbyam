@@ -681,7 +681,7 @@ def main():
 
         payload_elf_path = Path("payload.elf")
         if not payload_elf_path.exists():
-            raise SystemExit("Error: payload.elf not found after build; cannot resolve boss hook symbol.")
+            raise SystemExit("Error: payload.elf not found after build; cannot resolve payload hook symbols.")
 
         main_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_hook_entry")
         boss_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_boss_defeat_collect_shard")
