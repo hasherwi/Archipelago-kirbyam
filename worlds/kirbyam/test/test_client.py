@@ -640,6 +640,38 @@ async def test_deliver_items_clears_stuck_mailbox_after_wall_clock_timeout(mock_
 
 
 @pytest.mark.asyncio
+async def test_deliver_items_does_not_use_time_fallback_when_frame_advances(mock_bizhawk_context):
+    """Monotonic timeout fallback should not trigger while frame_counter advances."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._delivery_pending = True
+    client._delivery_pending_frame = 100
+    client._delivery_pending_time = 100.0
+    client._delivered_item_index = 0
+
+    mock_bizhawk_context.items_received = [
+        Mock(item=3860001, player=1),
+    ]
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write, \
+         patch('worlds.kirbyam.client.time.monotonic', return_value=101.5):
+        mock_read.return_value = [
+            (1).to_bytes(4, 'little'),
+            (0).to_bytes(4, 'little'),
+            (101).to_bytes(4, 'little'),
+            (1).to_bytes(4, 'little'),
+        ]
+
+        await client._deliver_items(mock_bizhawk_context)
+
+        mock_write.assert_not_awaited()
+        assert client._delivery_pending is True
+        assert client._delivery_pending_frame == 100
+        assert client._delivery_pending_time == 100.0
+
+
+@pytest.mark.asyncio
 async def test_deliver_items_records_pending_frame_when_writing(mock_bizhawk_context):
     """Writing a mailbox item should capture the current frame for timeout tracking."""
     client = KirbyAmClient()

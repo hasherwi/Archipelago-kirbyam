@@ -27,8 +27,19 @@ def test_patch_rom_warns_for_unexpected_rom_size() -> None:
     assert warning == "Warning: ROM size is 0x400000, expected 0x1000000. Proceeding anyway."
 
 
-def test_thumb_bl_bytes_matches_existing_main_hook_patch() -> None:
-    assert patch_rom.thumb_bl_bytes(0x08152696, 0x0815E2A8) == bytes.fromhex("0B F0 07 FE")
+def test_thumb_bl_bytes_round_trips_synthetic_pair() -> None:
+    src = 0x08100000
+    dst = 0x08101234
+    opcode = patch_rom.thumb_bl_bytes(src, dst)
+    assert patch_rom.is_thumb_bl_instruction(opcode)
+
+    hi = int.from_bytes(opcode[0:2], "little")
+    lo = int.from_bytes(opcode[2:4], "little")
+    imm = ((hi & 0x07FF) << 11) | (lo & 0x07FF)
+    if imm & (1 << 21):
+        imm -= (1 << 22)
+    decoded_dst = src + 4 + (imm << 1)
+    assert decoded_dst == dst
 
 
 def test_is_thumb_bl_instruction_accepts_bl_opcode() -> None:

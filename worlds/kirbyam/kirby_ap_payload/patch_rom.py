@@ -23,6 +23,21 @@ import time
 from datetime import datetime
 from pathlib import Path
 
+try:
+    from .thumb_branch import is_thumb_bl_instruction as shared_is_thumb_bl_instruction
+    from .thumb_branch import thumb_bl_bytes as shared_thumb_bl_bytes
+except ImportError:
+    _thumb_spec = importlib.util.spec_from_file_location(
+        "kirbyam_thumb_branch",
+        Path(__file__).resolve().with_name("thumb_branch.py"),
+    )
+    if _thumb_spec is None or _thumb_spec.loader is None:
+        raise SystemExit("Error: unable to load thumb_branch.py helper module")
+    _thumb_module = importlib.util.module_from_spec(_thumb_spec)
+    _thumb_spec.loader.exec_module(_thumb_module)
+    shared_is_thumb_bl_instruction = _thumb_module.is_thumb_bl_instruction
+    shared_thumb_bl_bytes = _thumb_module.thumb_bl_bytes
+
 PAYLOAD_OFFSET = 0x0015E000
 MAIN_HOOK_OFFSET = 0x00152696
 BOSS_COLLECT_SHARD_CALL_OFFSET = 0x001D952
@@ -167,31 +182,12 @@ def _find_arm_binutil(tool_name: str) -> str:
 
 
 def thumb_bl_bytes(src_rom_addr: int, dst_rom_addr: int) -> bytes:
-    diff = dst_rom_addr - (src_rom_addr + 4)
-    if diff % 2 != 0:
-        raise SystemExit(
-            f"Error: cannot encode Thumb BL from {src_rom_addr:#010x} to {dst_rom_addr:#010x}: target is not halfword aligned."
-        )
-
-    imm = diff >> 1
-    if not (-(1 << 21) <= imm < (1 << 21)):
-        raise SystemExit(
-            f"Error: cannot encode Thumb BL from {src_rom_addr:#010x} to {dst_rom_addr:#010x}: branch out of range."
-        )
-
-    imm &= (1 << 22) - 1
-    hi = 0xF000 | ((imm >> 11) & 0x7FF)
-    lo = 0xF800 | (imm & 0x7FF)
-    return hi.to_bytes(2, "little") + lo.to_bytes(2, "little")
+    return shared_thumb_bl_bytes(src_rom_addr, dst_rom_addr)
 
 
 def is_thumb_bl_instruction(opcode: bytes) -> bool:
     """Return True when <opcode> encodes a 32-bit Thumb BL instruction."""
-    if len(opcode) != 4:
-        return False
-    hi = int.from_bytes(opcode[0:2], "little")
-    lo = int.from_bytes(opcode[2:4], "little")
-    return (hi & 0xF800) == 0xF000 and (lo & 0xF800) == 0xF800
+    return shared_is_thumb_bl_instruction(opcode)
 
 
 def validate_thumb_bl_callsite(rom: bytes | bytearray, offset: int, label: str) -> bytes:

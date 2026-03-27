@@ -6,6 +6,7 @@ import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
 from .data import LocationCategory, data
+from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
 from .options import Goal
 from .types import KirbyAmBizHawkClientContext
 
@@ -50,16 +51,6 @@ def _normalize_gba_rom_address(value: int) -> int:
     if 0x0A000000 <= value < 0x0C000000:
         return value - 0x0A000000
     return value
-
-
-def _is_thumb_bl_instruction(opcode: bytes) -> bool:
-    # Parallel implementation of is_thumb_bl_instruction in kirby_ap_payload/patch_rom.py;
-    # kept separate because patch_rom.py is a standalone build script that cannot be imported here.
-    if len(opcode) != 4:
-        return False
-    hi = int.from_bytes(opcode[0:2], "little")
-    lo = int.from_bytes(opcode[2:4], "little")
-    return (hi & 0xF800) == 0xF000 and (lo & 0xF800) == 0xF800
 
 
 class KirbyAmClient(BizHawkClient):
@@ -481,7 +472,7 @@ class KirbyAmClient(BizHawkClient):
         # Diagnostics: verify the loaded ROM has a patched Thumb BL at the main hook site.
         try:
             hook_bytes = (await bizhawk.read(ctx.bizhawk_ctx, [(_MAIN_HOOK_OFFSET, 4, "ROM")]))[0]
-            if not _is_thumb_bl_instruction(bytes(hook_bytes)):
+            if not is_thumb_bl_instruction(bytes(hook_bytes)):
                 logger.warning(
                     "KirbyAM: main hook callsite at 0x%06X is not patched with a Thumb BL "
                     "(found=%s). Loaded ROM may be incompatible with this payload build.",
@@ -1280,8 +1271,14 @@ class KirbyAmClient(BizHawkClient):
                     timeout_triggered = True
                     timeout_reason = f"frame timeout ({elapsed_frames} frames >= {_MAILBOX_ACK_TIMEOUT_FRAMES})"
 
-            # Fallback: wall-clock timeout if frame counter not advancing
-            if not timeout_triggered and self._delivery_pending_time is not None:
+            frame_counter_stuck = (
+                current_frame is None
+                or self._delivery_pending_frame is None
+                or current_frame == self._delivery_pending_frame
+            )
+
+            # Fallback: monotonic timeout only when frame counter is unavailable/stuck.
+            if not timeout_triggered and frame_counter_stuck and self._delivery_pending_time is not None:
                 elapsed_seconds = time.monotonic() - self._delivery_pending_time
                 if elapsed_seconds >= _MAILBOX_ACK_TIMEOUT_SECONDS:
                     timeout_triggered = True
