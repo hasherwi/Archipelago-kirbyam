@@ -170,7 +170,7 @@ def set_rules(world: KirbyAmWorld) -> None:
             set_rule(goal_location, dmk_rule)
         except KeyError:
             logger.warning(
-                "[P%s] Goal location %s not found; shard gate not applied to this goal",
+                "[P%s] Goal location %s not found; Dark Meta Knight requirement not applied to this goal",
                 world.player,
                 goal_location_name,
             )
