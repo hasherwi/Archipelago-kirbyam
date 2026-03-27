@@ -1327,6 +1327,12 @@ class KirbyAmClient(BizHawkClient):
         try:
             slot_goal = int(slot_goal_raw)
         except (TypeError, ValueError):
+            from CommonClient import logger
+            logger.warning(
+                "KirbyAM: unexpected slot goal value '%s'; clamping to Dark Mind. "
+                "This may indicate mismatched configs or world versions.",
+                slot_goal_raw,
+            )
             slot_goal = Goal.option_dark_mind
 
         if slot_goal != Goal.option_dark_mind:

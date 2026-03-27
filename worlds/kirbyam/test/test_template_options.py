@@ -68,6 +68,8 @@ def test_goal_from_any_coerces_legacy_values() -> None:
     # Legacy integer option values (option_100=1, option_debug=2)
     assert Goal.from_any(1).value == Goal.option_dark_mind
     assert Goal.from_any(2).value == Goal.option_dark_mind
+    # Unquoted YAML `100:` is parsed as int(100) by ruamel/pyyaml; must also coerce
+    assert Goal.from_any(100).value == Goal.option_dark_mind
 
     # Legacy string template keys
     assert Goal.from_any("100").value == Goal.option_dark_mind
