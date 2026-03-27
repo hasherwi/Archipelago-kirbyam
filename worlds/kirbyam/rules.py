@@ -9,9 +9,9 @@ Current rules:
   - Within the Dimension Mirror:
       * Defeat Dark Meta Knight (Dimension Mirror) is an event available once
         the region is entered (no additional items required beyond the shards gate).
-            * Defeat Dark Mind goal location requires: all 8 shards + DMK event.
+      * Defeat Dark Mind goal location requires: all 8 shards + DMK event.
   - Completion conditions:
-                * Dark Mind: collect Defeat Dark Mind.
+      * Dark Mind: collect Defeat Dark Mind.
 
 NOTE: Dark Mind is modeled as an explicit AP goal location.
 The client reports this goal location from native AI-state signals and sends

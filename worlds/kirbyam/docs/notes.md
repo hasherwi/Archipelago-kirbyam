@@ -443,9 +443,9 @@ entire built-in group.
 
 ### Validation
 - Extended `worlds/kirbyam/test/test_template_options.py` to assert:
-  - hidden/non-shipping option choices remain excluded
+  - non-shipping option choices remain excluded from the generated template
   - `Item & Location Options` header is absent when KirbyAM has no visible options in that group
-  - generated template `requires.game` world version remains `0.0.12`
+  - generated template `requires.game` world version matches `KirbyAmWorld.world_version`
 
 ## Issue #83: In-Game Notification Pipeline (Receive + Send)
 
