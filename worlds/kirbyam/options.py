@@ -30,9 +30,6 @@ class Goal(Choice):
     display_name = "Goal"
     default = 0
     option_dark_mind = 0
-    option_100 = 1
-    option_debug = 2
-    template_excluded_choices = frozenset({"100", "debug"})
 
 
 class RandomizeShards(Choice):
