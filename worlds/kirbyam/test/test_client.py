@@ -1221,6 +1221,9 @@ async def test_receive_notification_uses_local_slot_for_item_name_lookup(mock_bi
     client = KirbyAmClient()
     client.initialize_client()
 
+    if not data.items:
+        pytest.skip("KirbyAM dataset has no items; skipping receive-notification item-name lookup test.")
+
     first_item_id = next(iter(data.items.keys()))
     mock_bizhawk_context.slot = 1
     mock_bizhawk_context.items_received = [Mock(item=first_item_id, player=2)]

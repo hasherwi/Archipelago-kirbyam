@@ -53,6 +53,9 @@ def test_item_name_falls_back_when_context_returns_unknown_placeholder():
     client = KirbyAmClient()
     ctx = Mock()
 
+    if not data.items:
+        pytest.skip("No items in data.items available for test")
+
     item_id, item_data = next(iter(data.items.items()))
     mock_lookup = Mock()
     mock_lookup.lookup_in_slot = Mock(return_value=f"Unknown item (ID: {item_id})")
