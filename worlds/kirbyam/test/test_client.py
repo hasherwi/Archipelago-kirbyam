@@ -1295,7 +1295,7 @@ def test_send_notification_rate_limit_suppresses_burst(mock_bizhawk_context):
     # 5 visible in first window, 1 summary on rollover, 1 visible after rollover.
     assert mock_async_start.call_count == 7
     summary_call = mock_display.call_args_list[-2].args
-    assert summary_call[1] == "Skipped 1 send popup to reduce spam"
+    assert summary_call[1] == "Skipped 1 send popups to reduce spam"
 
 
 @pytest.mark.asyncio

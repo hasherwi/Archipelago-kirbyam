@@ -369,8 +369,7 @@ class KirbyAmClient(BizHawkClient):
         if elapsed >= _SEND_NOTIFY_WINDOW_SECONDS:
             if self._send_notify_window_suppressed > 0:
                 suppressed_count = self._send_notify_window_suppressed
-                popup_word = "popup" if suppressed_count == 1 else "popups"
-                summary = f"Skipped {suppressed_count} send {popup_word} to reduce spam"
+                summary = f"Skipped {suppressed_count} send popups to reduce spam"
                 logger.info(
                     "KirbyAM: send notification burst suppression summary (suppressed=%s)",
                     suppressed_count,

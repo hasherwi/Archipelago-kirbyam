@@ -459,7 +459,7 @@ less natural than expected for normal gameplay.
   - `You sent <item> to <player> at <location>` (location available)
   - `You sent <item> to <player>` (location unavailable)
 - Reworded send-burst summary text to:
-  - `Skipped N send popup(s) to reduce spam`
+  - `Skipped N send popups to reduce spam`
 - Reworded AP client mailbox/counter logs to be less technical while keeping
   troubleshooting context (item/sender names plus raw IDs and counter values).
 

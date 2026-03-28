@@ -221,7 +221,7 @@ Expected behavior:
 - Reconnect-safe dedupe prevents repeats for previously shown events.
 - Receive text format: `Received <item_name> from <sender_name>`.
 - Send text format: `You sent <item_name> to <receiver_name> at <location_name>` (or without location when unavailable).
-- Burst summary text: `Skipped N send popup(s) to reduce spam`.
+- Burst summary text: `Skipped N send popups to reduce spam`.
 
 Issue #73 receive-focused checks:
 - Skipped malformed items should not produce receive notification text.
