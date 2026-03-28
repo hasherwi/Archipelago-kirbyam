@@ -126,6 +126,10 @@ def test_send_notification_omits_sender_includes_receiver_and_location():
         assert " at " in message
         expected_location = client._location_name(test_location_id)
         assert expected_location in message
+        assert (
+            f"Location {test_location_id}" in message
+            or expected_location != f"Location {test_location_id}"
+        )
         assert "OtherPlayer" in message or "Player 2" in message
         assert test_item_data is not None and test_item_data.label in message, \
             f"Expected resolved item label {test_item_data.label!r} in message: {message}"
