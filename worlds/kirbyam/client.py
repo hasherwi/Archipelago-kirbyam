@@ -1388,12 +1388,10 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_counter_ahead_resume_logged = True
 
             logger.info(
-                "KirbyAM: Delivering mailbox item index %s (%s from %s; item=%s, player=%s)",
+                "KirbyAM: Delivering mailbox item index %s (%s from %s)",
                 self._delivered_item_index,
                 self._item_name(ctx, item_id, player_id),
                 self._player_name(ctx, player_id),
-                item_id,
-                player_id,
             )
             await bizhawk.write(ctx.bizhawk_ctx, [
                 (id_addr, item_id.to_bytes(4, "little"), "System Bus"),

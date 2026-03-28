@@ -63,7 +63,7 @@ pytest worlds/kirbyam/test -q
 | `KirbyAM: gameplay-active state restored; resuming normal watcher flow` | Returned to gameplay-active state. |
 | `KirbyAM: resending major-chest LocationChecks missing on server (missing=..., acked=...)` | Big-chest area bits found in RAM but not yet acknowledged by server; resending. |
 | `KirbyAM: resending boss-defeat LocationChecks missing on server (missing=..., acked=...)` | Boss-defeat bits found in RAM but not yet acknowledged by server; resending. |
-| `KirbyAM: Delivering mailbox item index N (<item_name> from <sender_name>; item=..., player=...)` | Beginning delivery of the Nth received item with readable item/sender context plus raw IDs. |
+| `KirbyAM: Delivering mailbox item index N (<item_name> from <sender_name>)` | Beginning delivery of the Nth received item with readable item/sender context. |
 | `KirbyAM: Mailbox delivery confirmed at item index N` | ROM cleared the flag; delivery confirmed. |
 | `KirbyAM: ROM delivery counter moved backward from X to Y; rewinding client delivery cursor` | ROM reported fewer items received than expected; cursor rewound. |
 | `KirbyAM: ROM delivery counter moved forward from X to Y; fast-forwarding client delivery cursor` | ROM is ahead of client cursor; cursor fast-forwarded. |

@@ -461,7 +461,7 @@ less natural than expected for normal gameplay.
 - Reworded send-burst summary text to:
   - `Skipped N send popups to reduce spam`
 - Reworded AP client mailbox/counter logs to be less technical while keeping
-  troubleshooting context (item/sender names plus raw IDs and counter values).
+  troubleshooting context (item/sender names and counter values).
 
 ### Validation
 - Updated notification assertions in:
