@@ -1471,11 +1471,11 @@ class KirbyAmClient(BizHawkClient):
         """
         Goal reporting from native signal polling.
 
-                Behavior:
-                - For addressless runtime goal events, sends CLIENT_GOAL directly.
-                - If a future world version exposes a numeric server goal location, sends
-                    LocationChecks first and CLIENT_GOAL after server acknowledgement.
-                - Falls back to no-op when native addresses are unavailable.
+        Behavior:
+        - For addressless runtime goal events, sends CLIENT_GOAL directly.
+        - If a future world version exposes a numeric server goal location, sends
+          LocationChecks first and CLIENT_GOAL after server acknowledgement.
+        - Falls back to no-op when native addresses are unavailable.
         """
         if self._goal_reported:
             return
