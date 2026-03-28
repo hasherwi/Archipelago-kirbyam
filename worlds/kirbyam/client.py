@@ -1,7 +1,7 @@
-from typing import TYPE_CHECKING, Optional
-
 import logging
 import time
+from typing import TYPE_CHECKING, Optional
+
 import Utils
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
@@ -422,7 +422,7 @@ class KirbyAmClient(BizHawkClient):
         auth_addr = data.rom_addresses.get("gArchipelagoInfo")
         if auth_addr is None:
             logger.error("KirbyAM: missing rom address 'gArchipelagoInfo' in worlds/kirbyam/data/addresses.json")
-            await self._display_client_message(ctx, "Unable to load ROM: patch metadata address is missing")
+            await self._display_client_message(ctx, "Unable to load ROM: patch metadata address is missing.")
             return _fail("missing_auth_address")
         auth_addr = _normalize_gba_rom_address(auth_addr)
 
