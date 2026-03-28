@@ -447,6 +447,28 @@ entire built-in group.
   - `Item & Location Options` header is absent when KirbyAM has no visible options in that group
   - generated template `requires.game` world version matches `KirbyAmWorld.world_version`
 
+## Issue #457: Core - Improve Client Messaging
+
+### Problem
+Player-facing BizHawk notification text was functional but still technical and
+less natural than expected for normal gameplay.
+
+### Solution
+- Reworded receive notification text to: `Received <item> from <player>`.
+- Reworded send notification text to:
+  - `You sent <item> to <player> at <location>` (location available)
+  - `You sent <item> to <player>` (location unavailable)
+- Reworded send-burst summary text to:
+  - `Skipped N send popups to reduce spam`
+
+### Validation
+- Updated notification assertions in:
+  - `worlds/kirbyam/test/test_client.py`
+  - `worlds/kirbyam/test/test_notifications.py`
+- Updated protocol/manual-testing docs in:
+  - `worlds/kirbyam/PROTOCOL.md`
+  - `worlds/kirbyam/docs/BIZHAWK_TESTING_GUIDE.md`
+
 ## Issue #83: In-Game Notification Pipeline (Receive + Send)
 
 ### Problem

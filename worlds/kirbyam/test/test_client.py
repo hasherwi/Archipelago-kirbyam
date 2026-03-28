@@ -1029,7 +1029,7 @@ async def test_receive_notification_emits_once_per_delivery_index(mock_bizhawk_c
 
     mock_display.assert_awaited_once_with(
         mock_bizhawk_context.bizhawk_ctx,
-        "Mirror Shard received from PlayerTwo",
+        "Received Mirror Shard from PlayerTwo",
     )
 
 
@@ -1161,7 +1161,7 @@ async def test_receive_notification_emits_via_counter_advance_ack(mock_bizhawk_c
 
     mock_display.assert_awaited_once_with(
         mock_bizhawk_context.bizhawk_ctx,
-        'Mirror Shard received from PlayerTwo',
+        'Received Mirror Shard from PlayerTwo',
     )
 
 
@@ -1222,9 +1222,9 @@ def test_send_notification_dedupes_outgoing_printjson_events(mock_bizhawk_contex
     assert mock_async_start.call_count == 1
     assert mock_display.call_count == 1
     display_args = mock_display.call_args.args
-    # Format: "Sent <item> to <receiver> (<location>)"
+    # Format: "You sent <item> to <receiver> at <location>"
     message = display_args[1]
-    assert "Sent" in message and "Mirror Shard" in message and "PlayerTwo" in message and "Location 123" in message, \
+    assert "You sent" in message and "Mirror Shard" in message and "PlayerTwo" in message and "Location 123" in message, \
         f"Expected message to contain item, receiver, and location: {message}"
 
 
@@ -1290,7 +1290,7 @@ def test_send_notification_rate_limit_suppresses_burst(mock_bizhawk_context):
     # 5 visible in first window, 1 summary on rollover, 1 visible after rollover.
     assert mock_async_start.call_count == 7
     summary_call = mock_display.call_args_list[-2].args
-    assert summary_call[1] == "Suppressed 1 send notifications"
+    assert summary_call[1] == "Skipped 1 send popups to reduce spam"
 
 
 @pytest.mark.asyncio

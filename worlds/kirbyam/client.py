@@ -305,7 +305,7 @@ class KirbyAmClient(BizHawkClient):
         item_id, player_id = item_fields
         item_name = self._item_name(ctx, item_id, player_id)
         sender_name = self._player_name(ctx, player_id)
-        message = f"{item_name} received from {sender_name}"
+        message = f"Received {item_name} from {sender_name}"
 
         from CommonClient import logger
 
@@ -354,9 +354,9 @@ class KirbyAmClient(BizHawkClient):
 
         # Build message with location context if available
         if location_name:
-            message = f"Sent {item_name} to {receiver_name} ({location_name})"
+            message = f"You sent {item_name} to {receiver_name} at {location_name}"
         else:
-            message = f"Sent {item_name} to {receiver_name}"
+            message = f"You sent {item_name} to {receiver_name}"
 
         from CommonClient import logger
 
@@ -367,7 +367,7 @@ class KirbyAmClient(BizHawkClient):
         elapsed = now - self._send_notify_window_start
         if elapsed >= _SEND_NOTIFY_WINDOW_SECONDS:
             if self._send_notify_window_suppressed > 0:
-                summary = f"Suppressed {self._send_notify_window_suppressed} send notifications"
+                summary = f"Skipped {self._send_notify_window_suppressed} send popups to reduce spam"
                 logger.info(
                     "KirbyAM: send notification burst suppression summary (suppressed=%s)",
                     self._send_notify_window_suppressed,
