@@ -63,10 +63,10 @@ pytest worlds/kirbyam/test -q
 | `KirbyAM: gameplay-active state restored; resuming normal watcher flow` | Returned to gameplay-active state. |
 | `KirbyAM: resending major-chest LocationChecks missing on server (missing=..., acked=...)` | Big-chest area bits found in RAM but not yet acknowledged by server; resending. |
 | `KirbyAM: resending boss-defeat LocationChecks missing on server (missing=..., acked=...)` | Boss-defeat bits found in RAM but not yet acknowledged by server; resending. |
-| `KirbyAM: Writing mailbox item index N (item=..., player=...)` | Beginning delivery of the Nth received item. |
-| `KirbyAM: Mailbox ACK observed at item index N` | ROM cleared the flag; delivery confirmed. |
-| `KirbyAM: ROM item counter regressed from X to Y; rewinding delivery cursor` | ROM reported fewer items received than expected; cursor rewound. |
-| `KirbyAM: ROM item counter advanced from X to Y; fast-forwarding delivery cursor` | ROM is ahead of client cursor; cursor fast-forwarded. |
+| `KirbyAM: Delivering mailbox item index N (<item_name> from <sender_name>; item=..., player=...)` | Beginning delivery of the Nth received item with readable item/sender context plus raw IDs. |
+| `KirbyAM: Mailbox delivery confirmed at item index N` | ROM cleared the flag; delivery confirmed. |
+| `KirbyAM: ROM delivery counter moved backward from X to Y; rewinding client delivery cursor` | ROM reported fewer items received than expected; cursor rewound. |
+| `KirbyAM: ROM delivery counter moved forward from X to Y; fast-forwarding client delivery cursor` | ROM is ahead of client cursor; cursor fast-forwarded. |
 | `KirbyAM: ROM counter ahead fallback active; continuing mailbox write at item index N (...)` | ROM `debug_item_counter` is ahead of the current `ReceivedItems` list, so the client is ignoring that stale/debug counter and continuing mailbox delivery to avoid starvation. |
 | `KirbyAM: receive notification queued (index=N, item=..., sender=...)` | Receive notification was queued after mailbox ACK for delivered index `N`. |
 | `KirbyAM: send notification queued (item=..., receiver=...)` | Outgoing ItemSend notification was queued for local sender traffic. |
@@ -85,7 +85,7 @@ pytest worlds/kirbyam/test -q
 | `KirbyAM: Repeated mailbox ACK timeouts with frame_counter stuck at 0; payload hook may be inactive in the loaded ROM patch` | Frame-based liveness signal is unavailable; verify loaded ROM patch and hook callsite. |
 | `KirbyAM: Clearing stale mailbox flag after fast-forward to item index N` | Residual flag found after cursor fast-forward; cleared proactively. |
 | `KirbyAM: Skipping malformed ReceivedItems entry at index N` | A received item entry had invalid fields; skipped and cursor advanced. |
-| `KirbyAM: ROM item counter ahead of ReceivedItems (rom=X, received=Y); ignoring counter to avoid mailbox starvation` | ROM `debug_item_counter` is stale/high relative to the AP `ReceivedItems` backlog. The client will no longer pin the cursor and return forever; it falls back to normal mailbox writes once safe. |
+| `KirbyAM: ROM delivery counter is ahead of received items (rom=X, received=Y); ignoring ROM counter and continuing mailbox delivery` | ROM `debug_item_counter` is stale/high relative to the AP `ReceivedItems` backlog. The client will no longer pin the cursor and return forever; it falls back to normal mailbox writes once safe. |
 
 ### Debug-level diagnostics
 Enable debug logging in your AP client to see these:

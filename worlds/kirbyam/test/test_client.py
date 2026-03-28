@@ -501,8 +501,8 @@ async def test_deliver_items_continues_when_rom_counter_ahead_of_received_items(
             (data.transport_ram_addresses["incoming_item_flag"], (1).to_bytes(4, 'little'), "System Bus"),
         ]
 
-    assert "ROM item counter ahead of ReceivedItems" in caplog.text
-    assert "ROM counter ahead fallback active; continuing mailbox write" in caplog.text
+    assert "ROM delivery counter is ahead of received items" in caplog.text
+    assert "ROM counter fallback active; continuing mailbox delivery" in caplog.text
 
 
 @pytest.mark.asyncio
@@ -527,7 +527,7 @@ async def test_deliver_items_logs_when_rom_counter_returns_in_range(mock_bizhawk
 
     assert client._delivery_counter_ahead_fallback_active is False
     assert client._delivery_counter_ahead_resume_logged is False
-    assert "ROM item counter back in range" in caplog.text
+    assert "ROM delivery counter is back in range" in caplog.text
 
 
 @pytest.mark.asyncio
@@ -1290,7 +1290,7 @@ def test_send_notification_rate_limit_suppresses_burst(mock_bizhawk_context):
     # 5 visible in first window, 1 summary on rollover, 1 visible after rollover.
     assert mock_async_start.call_count == 7
     summary_call = mock_display.call_args_list[-2].args
-    assert summary_call[1] == "Skipped 1 send popups to reduce spam"
+    assert summary_call[1] == "Skipped 1 send popup to reduce spam"
 
 
 @pytest.mark.asyncio

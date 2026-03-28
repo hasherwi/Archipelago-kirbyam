@@ -320,7 +320,7 @@ Send notification message format (Issue #432):
 
 Receive notification message format:
 - Format: `"Received <item_name> from <sender_name>"`
-- Item name is placed first to prioritise readability within BizHawk's short display window.
+- Phrasing is optimized for readability within BizHawk's short display window.
 - Item and player names use same resolution as send notifications above.
 
 ### 4. Goal Reporting

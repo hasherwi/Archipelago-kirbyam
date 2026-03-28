@@ -2,13 +2,9 @@
 
 ## Unreleased
 
-
-
 - Fix KirbyAM BizHawk receive notifications silently dropped when the ROM processes a mailbox item and clears the flag and increments debug_item_counter in the same GBA frame: the fast-forward reconciliation branch now captures pending delivery state before clearing it and emits the receive notification when the counter-advance is the ACK signal (Issue #269).
 
 - Improve KirbyAM player-facing BizHawk messaging readability by rewording receive/send notifications and send-burst summaries in plain language while preserving existing notification timing, dedupe, and rate-limit behavior (Issue #457).
-
-
 
 ## v0.0.12
 
