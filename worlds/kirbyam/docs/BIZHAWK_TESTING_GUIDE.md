@@ -222,6 +222,12 @@ Expected behavior:
 - Receive text format: `Received <item_name> from <sender_name>`.
 - Send text format: `You sent <item_name> to <receiver_name> at <location_name>` (or without location when unavailable).
 - Burst summary text: `Skipped N send popup(s) to reduce spam`.
+- Runtime gate state popups appear on transitions only:
+  - `Item sending paused by game state`
+  - `Item sending resumed`
+- Goal completion popup appears when CLIENT_GOAL is sent:
+  - `Goal complete`
+- ROM load failures show concise popup error text matching the validation failure reason.
 
 Issue #73 receive-focused checks:
 - Skipped malformed items should not produce receive notification text.

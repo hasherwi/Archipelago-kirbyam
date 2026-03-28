@@ -322,7 +322,16 @@ Receive notification message format:
 - Format: `"Received <item_name> from <sender_name>"`
 - Phrasing is optimized for readability within BizHawk's short display window.
 - Item and player names use same resolution as send notifications above.
-
+Other player-visible client popups:
+- ROM validation failures show concise load errors, for example:
+  - `Unable to load ROM: base ROM detected. Please use a patched ROM.`
+  - `Unable to load ROM: invalid Kirby and the Amazing Mirror ROM.`
+  - `Unable to load ROM: missing patch metadata. Rebuild your patched ROM.`
+- Runtime gate transitions:
+  - `Item sending paused by game state`
+  - `Item sending resumed`
+- Goal completion status:
+  - `Goal complete`
 ### 4. Goal Reporting
 
 **Current Implementation (native AI-state polling):**

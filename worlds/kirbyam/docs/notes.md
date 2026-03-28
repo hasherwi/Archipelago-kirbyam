@@ -460,8 +460,11 @@ less natural than expected for normal gameplay.
   - `You sent <item> to <player>` (location unavailable)
 - Reworded send-burst summary text to:
   - `Skipped N send popup(s) to reduce spam`
-- Reworded AP client mailbox/counter logs to be less technical while keeping
-  troubleshooting context (item/sender names and counter values).
+- Added concise player popups for non-item client state changes:
+  - ROM load failures now show plain-language `Unable to load ROM: ...` messages.
+  - Runtime gameplay gates show `Item sending paused by game state` and `Item sending resumed` on transitions.
+  - CLIENT_GOAL status send now shows `Goal complete`.
+- Kept technical logs detailed for diagnosis while minimizing player-facing popup verbosity.
 
 ### Validation
 - Updated notification assertions in:

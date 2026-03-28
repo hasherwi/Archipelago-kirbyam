@@ -401,6 +401,15 @@ class KirbyAmClient(BizHawkClient):
         )
         Utils.async_start(bizhawk.display_message(ctx.bizhawk_ctx, message))
 
+    async def _display_client_message(self, ctx: "BizHawkClientContext", message: str) -> None:
+        """Best-effort popup helper for player-facing messages."""
+        from CommonClient import logger
+
+        try:
+            await bizhawk.display_message(ctx.bizhawk_ctx, message)
+        except Exception as exc:
+            logger.debug("KirbyAM: failed to display client popup (%s)", exc)
+
     async def validate_rom(self, ctx: "BizHawkClientContext") -> bool:
         """Validate ROM is Kirby & The Amazing Mirror and initialize client."""
         from CommonClient import logger
@@ -413,6 +422,7 @@ class KirbyAmClient(BizHawkClient):
         auth_addr = data.rom_addresses.get("gArchipelagoInfo")
         if auth_addr is None:
             logger.error("KirbyAM: missing rom address 'gArchipelagoInfo' in worlds/kirbyam/data/addresses.json")
+            await self._display_client_message(ctx, "Unable to load ROM: patch metadata address is missing")
             return _fail("missing_auth_address")
         auth_addr = _normalize_gba_rom_address(auth_addr)
 
@@ -421,6 +431,10 @@ class KirbyAmClient(BizHawkClient):
             logger.info(
                 "ERROR: You appear to be running an unpatched Kirby & The Amazing Mirror ROM. "
                 "Generate a patch file and use it to create a patched ROM before opening the BizHawk client."
+            )
+            await self._display_client_message(
+                ctx,
+                "Unable to load ROM: base ROM detected. Please use a patched ROM.",
             )
             return _fail("unpatched_base_rom")
 
@@ -447,21 +461,29 @@ class KirbyAmClient(BizHawkClient):
                     game_code,
                     maker_code,
                 )
+                await self._display_client_message(
+                    ctx,
+                    "Unable to load ROM: invalid Kirby and the Amazing Mirror ROM.",
+                )
                 return _fail("header_mismatch")
         except bizhawk.RequestFailedError as exc:
             logger.info("KirbyAM: ROM header read failed during validation: %s", exc)
+            await self._display_client_message(ctx, "Unable to load ROM: could not read ROM header data.")
             return _fail("header_read_failed")
         except Exception as exc:
             logger.error("KirbyAM: unexpected error during ROM header validation", exc_info=exc)
+            await self._display_client_message(ctx, "Unable to load ROM: ROM header validation failed.")
             return _fail("header_validation_exception")
 
         try:
             auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
         except bizhawk.RequestFailedError as exc:
             logger.info("KirbyAM: ROM auth read failed during validation: %s", exc)
+            await self._display_client_message(ctx, "Unable to load ROM: could not read patch metadata.")
             return _fail("auth_read_failed")
         except Exception as exc:
             logger.error("KirbyAM: unexpected error during ROM auth validation", exc_info=exc)
+            await self._display_client_message(ctx, "Unable to load ROM: patch metadata validation failed.")
             return _fail("auth_validation_exception")
 
         if not any(auth_raw):
@@ -470,6 +492,10 @@ class KirbyAmClient(BizHawkClient):
                     "ERROR: KirbyAM patch metadata was missing from the loaded ROM. "
                     "Regenerate the patch and recreate the patched ROM before opening the BizHawk client."
                 )
+            await self._display_client_message(
+                ctx,
+                "Unable to load ROM: missing patch metadata. Rebuild your patched ROM.",
+            )
             return _fail("missing_patch_metadata")
 
         # Diagnostics: verify the loaded ROM has a patched Thumb BL at the main hook site.
@@ -554,6 +580,7 @@ class KirbyAmClient(BizHawkClient):
                         defer_reason,
                         ai_state if ai_state is not None else "unavailable",
                     )
+                    await self._display_client_message(ctx, "Item sending paused by game state")
                     self._last_runtime_gate_reason = defer_reason
 
                 # Preserve mailbox ACK handling while deferring new writes.
@@ -566,6 +593,7 @@ class KirbyAmClient(BizHawkClient):
 
             if self._last_runtime_gate_reason is not None:
                 logger.info("KirbyAM: gameplay-active state restored; resuming normal watcher flow")
+                await self._display_client_message(ctx, "Item sending resumed")
                 self._last_runtime_gate_reason = None
 
             await self._apply_pending_death_link(ctx)
@@ -1527,6 +1555,7 @@ class KirbyAmClient(BizHawkClient):
             from CommonClient import logger
             from NetUtils import ClientStatus
             logger.info("KirbyAM: goal complete; sending CLIENT_GOAL status (goal_option=%s)", slot_goal)
+            await self._display_client_message(ctx, "Goal complete")
             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
             self._goal_reported = True
 
