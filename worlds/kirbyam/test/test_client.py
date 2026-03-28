@@ -854,6 +854,8 @@ async def test_goal_dark_mind_native_signal_reports_client_goal_for_addressless_
 
     mock_bizhawk_context.slot_data["goal"] = 0
     mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = set()
+    mock_bizhawk_context.finished_game = False
 
     with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
@@ -917,6 +919,8 @@ async def test_goal_dark_mind_falls_back_to_10000_when_9999_was_missed(mock_bizh
 
     mock_bizhawk_context.slot_data["goal"] = 0
     mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = set()
+    mock_bizhawk_context.finished_game = False
 
     with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
@@ -1036,6 +1040,8 @@ async def test_goal_reporting_logs_native_signal_seen(mock_bizhawk_context):
 
     mock_bizhawk_context.slot_data["goal"] = 0
     mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = set()
+    mock_bizhawk_context.finished_game = False
 
     with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
@@ -1113,6 +1119,8 @@ async def test_goal_reporting_logs_direct_client_goal_for_addressless_event(mock
 
     mock_bizhawk_context.slot_data["goal"] = 0
     mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = set()
+    mock_bizhawk_context.finished_game = False
 
     with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \

@@ -378,7 +378,7 @@ Goal completion used temporary client-side aggregation logic instead of native g
 
 ### Solution
 Integrated native AI-state goal polling from `ai_kirby_state_native` (`0x0203AD2C`):
-- Goal=Dark Mind: trigger selected goal location when value is `9999`
+- Goal=Dark Mind: treat value `9999` as the native completion transition and trigger goal completion/status reporting
 - `10000` is treated as post-clear progression, but is accepted as a fallback completion signal when the live client misses the transient `9999` state
 
 For shipped worlds where the goal location is addressless, the client sends `CLIENT_GOAL` directly and relies on `ctx.finished_game` for reconnect-safe re-sync. A compatibility path still exists for future numeric goal-location worlds.

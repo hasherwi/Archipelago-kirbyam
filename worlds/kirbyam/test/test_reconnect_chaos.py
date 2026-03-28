@@ -120,6 +120,8 @@ async def test_reconnect_chaos_goal_reporting_is_idempotent_across_cycles(mock_b
     mock_bizhawk_context.slot_data["goal"] = 0
     mock_bizhawk_context.checked_locations = set()
     mock_bizhawk_context.locations_checked = set()
+    mock_bizhawk_context.server_locations = set()
+    mock_bizhawk_context.finished_game = False
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
