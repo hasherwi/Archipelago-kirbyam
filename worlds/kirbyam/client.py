@@ -407,8 +407,12 @@ class KirbyAmClient(BizHawkClient):
 
         try:
             await bizhawk.display_message(ctx.bizhawk_ctx, message)
-        except Exception as exc:
-            logger.debug("KirbyAM: failed to display client popup (%s)", exc)
+        except Exception:
+            logger.warning(
+                "KirbyAM: failed to display client popup (message=%r)",
+                message,
+                exc_info=True,
+            )
 
     async def validate_rom(self, ctx: "BizHawkClientContext") -> bool:
         """Validate ROM is Kirby & The Amazing Mirror and initialize client."""
@@ -428,8 +432,8 @@ class KirbyAmClient(BizHawkClient):
 
         rom_hash = getattr(ctx, "rom_hash", None)
         if isinstance(rom_hash, str) and rom_hash.lower() == KirbyAmProcedurePatch.hash.lower():
-            logger.info(
-                "ERROR: You appear to be running an unpatched Kirby & The Amazing Mirror ROM. "
+            logger.error(
+                "You appear to be running an unpatched Kirby & The Amazing Mirror ROM. "
                 "Generate a patch file and use it to create a patched ROM before opening the BizHawk client."
             )
             await self._display_client_message(
@@ -488,8 +492,8 @@ class KirbyAmClient(BizHawkClient):
 
         if not any(auth_raw):
             if getattr(self, "_last_validation_failure_reason", None) != "missing_patch_metadata":
-                logger.info(
-                    "ERROR: KirbyAM patch metadata was missing from the loaded ROM. "
+                logger.error(
+                    "KirbyAM patch metadata was missing from the loaded ROM. "
                     "Regenerate the patch and recreate the patched ROM before opening the BizHawk client."
                 )
             await self._display_client_message(
