@@ -171,7 +171,10 @@ async def test_validate_rom_rejects_empty_patch_metadata_logs_once(mock_bizhawk_
             assert await client.validate_rom(mock_bizhawk_context) is False
             assert await client.validate_rom(mock_bizhawk_context) is False
 
-    assert mock_display.await_count == 2
+    mock_display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "Unable to load ROM: missing patch metadata. Rebuild your patched ROM.",
+    )
     assert caplog.text.count("KirbyAM patch metadata was missing") == 1
 
 

@@ -419,15 +419,16 @@ class KirbyAmClient(BizHawkClient):
         from CommonClient import logger
         from .rom import KirbyAmProcedurePatch
 
-        def _fail(reason: str) -> bool:
+        async def _fail(reason: str, popup_message: str | None = None) -> bool:
+            if popup_message is not None and getattr(self, "_last_validation_failure_reason", None) != reason:
+                await self._display_client_message(ctx, popup_message)
             self._last_validation_failure_reason = reason
             return False
 
         auth_addr = data.rom_addresses.get("gArchipelagoInfo")
         if auth_addr is None:
             logger.error("KirbyAM: missing rom address 'gArchipelagoInfo' in worlds/kirbyam/data/addresses.json")
-            await self._display_client_message(ctx, "Unable to load ROM: patch metadata address is missing.")
-            return _fail("missing_auth_address")
+            return await _fail("missing_auth_address", "Unable to load ROM: patch metadata address is missing.")
         auth_addr = _normalize_gba_rom_address(auth_addr)
 
         rom_hash = getattr(ctx, "rom_hash", None)
@@ -436,11 +437,10 @@ class KirbyAmClient(BizHawkClient):
                 "You appear to be running an unpatched Kirby & The Amazing Mirror ROM. "
                 "Generate a patch file and use it to create a patched ROM before opening the BizHawk client."
             )
-            await self._display_client_message(
-                ctx,
+            return await _fail(
+                "unpatched_base_rom",
                 "Unable to load ROM: base ROM detected. Please use a patched ROM.",
             )
-            return _fail("unpatched_base_rom")
 
         try:
             title_bytes, game_code_bytes, maker_code_bytes = await bizhawk.read(
@@ -465,30 +465,28 @@ class KirbyAmClient(BizHawkClient):
                     game_code,
                     maker_code,
                 )
-                await self._display_client_message(
-                    ctx,
+                return await _fail(
+                    "header_mismatch",
                     "Unable to load ROM: invalid Kirby and the Amazing Mirror ROM.",
                 )
-                return _fail("header_mismatch")
         except bizhawk.RequestFailedError as exc:
             logger.info("KirbyAM: ROM header read failed during validation: %s", exc)
-            await self._display_client_message(ctx, "Unable to load ROM: could not read ROM header data.")
-            return _fail("header_read_failed")
+            return await _fail("header_read_failed", "Unable to load ROM: could not read ROM header data.")
         except Exception as exc:
             logger.error("KirbyAM: unexpected error during ROM header validation", exc_info=exc)
-            await self._display_client_message(ctx, "Unable to load ROM: ROM header validation failed.")
-            return _fail("header_validation_exception")
+            return await _fail("header_validation_exception", "Unable to load ROM: ROM header validation failed.")
 
         try:
             auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
         except bizhawk.RequestFailedError as exc:
             logger.info("KirbyAM: ROM auth read failed during validation: %s", exc)
-            await self._display_client_message(ctx, "Unable to load ROM: could not read patch metadata.")
-            return _fail("auth_read_failed")
+            return await _fail("auth_read_failed", "Unable to load ROM: could not read patch metadata.")
         except Exception as exc:
             logger.error("KirbyAM: unexpected error during ROM auth validation", exc_info=exc)
-            await self._display_client_message(ctx, "Unable to load ROM: patch metadata validation failed.")
-            return _fail("auth_validation_exception")
+            return await _fail(
+                "auth_validation_exception",
+                "Unable to load ROM: patch metadata validation failed.",
+            )
 
         if not any(auth_raw):
             if getattr(self, "_last_validation_failure_reason", None) != "missing_patch_metadata":
@@ -496,11 +494,10 @@ class KirbyAmClient(BizHawkClient):
                     "KirbyAM patch metadata was missing from the loaded ROM. "
                     "Regenerate the patch and recreate the patched ROM before opening the BizHawk client."
                 )
-            await self._display_client_message(
-                ctx,
+            return await _fail(
+                "missing_patch_metadata",
                 "Unable to load ROM: missing patch metadata. Rebuild your patched ROM.",
             )
-            return _fail("missing_patch_metadata")
 
         # Diagnostics: verify the loaded ROM has a patched Thumb BL at the main hook site.
         try:
