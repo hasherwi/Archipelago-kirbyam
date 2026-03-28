@@ -31,6 +31,8 @@ _MAIN_HOOK_OFFSET = 0x00152696
 _PAYLOAD_OFFSET = 0x0015E000
 _AI_STATE_CUTSCENE_THRESHOLD = 200
 _AI_STATE_NORMAL = 300
+_DEMO_PLAYBACK_FLAGS_ADDR = 0x0203AD10
+_DEMO_PLAYBACK_ACTIVE_FLAG = 0x10
 _KIRBY_HP_ADDR_KEY = "kirby_hp_native"
 _KIRBY_HP_READ_WIDTH = 1
 _OPTIONAL_UNSAFE_DELIVERY_COUNTERS = (
@@ -265,6 +267,17 @@ class KirbyAmClient(BizHawkClient):
                     debug_config.get("gameplay_state_logging", False),
                     False,
                 )
+
+    async def _is_title_demo_playback_active(self, ctx: KirbyAmBizHawkClientContext) -> bool:
+        """Return whether the title-screen demo playback flag is active.
+
+        katam decomp evidence:
+        - demo.c initializes gUnk_0203AD10 = 0x10 before setting gAIKirbyState = AI_KIRBY_STATE_NORMAL
+        - gameplay transitions clear/avoid this bit in normal play paths
+        """
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(_DEMO_PLAYBACK_FLAGS_ADDR, 4, "System Bus")]))[0]
+        demo_flags = self._u32_le(raw)
+        return bool(demo_flags & _DEMO_PLAYBACK_ACTIVE_FLAG)
 
     @staticmethod
     def _player_name(ctx: "BizHawkClientContext", player_id: int) -> str:
@@ -785,6 +798,9 @@ class KirbyAmClient(BizHawkClient):
         - known non-gameplay states remain deferred (tutorial/menu, cutscene, goal-clear states)
         - unknown post-300 states fail open to avoid blocking mailbox item delivery
         - fail open when native address is unavailable
+
+        Issue #477 narrowing:
+        - title-screen demo playback can also report AI state 300; treat demo playback as non-gameplay
         """
         ai_state_addr = self._native_addr("ai_kirby_state_native")
         if ai_state_addr is None:
@@ -797,6 +813,8 @@ class KirbyAmClient(BizHawkClient):
             return False, "non_gameplay_tutorial_or_menu", ai_state
         if ai_state < _AI_STATE_NORMAL:
             return False, "non_gameplay_cutscene", ai_state
+        if ai_state == _AI_STATE_NORMAL and await self._is_title_demo_playback_active(ctx):
+            return False, "non_gameplay_title_demo", ai_state
         if ai_state in (_GOAL_STATE_DARK_MIND_CLEAR, _GOAL_STATE_FULL_CLEAR):
             return False, "non_gameplay_goal_clear", ai_state
         return True, "gameplay_active", ai_state
