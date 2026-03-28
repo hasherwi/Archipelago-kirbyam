@@ -489,7 +489,7 @@ notification contract, which made receive/send events opaque in normal play.
 
 ### Problem
 BizHawk receive notifications were never displayed despite items being delivered
-correctly.  Root cause: the ROM's p_poll_mailbox_c clears the mailbox flag
+correctly.  Root cause: the ROM's ap_poll_mailbox_c clears the mailbox flag
 (incoming_item_flag) AND increments debug_item_counter in the same frame when
 it processes a mailbox item.
 
@@ -507,23 +507,23 @@ delivery state in the fast-forward branch.  After advancing the cursor and clear
 state, if _ff_was_pending and flag == 0, treat this counter-advance as the ACK
 signal and call _emit_receive_notification with the pending index.
 
-The lag != 0 guard ensures we do not falsely notify on abnormal states where
+The flag != 0 guard ensures we do not falsely notify on abnormal states where
 the counter advanced but the flag is still set (save-state interference).
 
 Also added the missing self._hook_heartbeat_stale_ticks = 0 reset to the
 fast-forward path, which was present in the normal ACK path but absent here.
 
 ### Affected files
-- worlds/kirbyam/client.py: fast-forward lif branch in _deliver_items()
+- worlds/kirbyam/client.py: fast-forward elif branch in _deliver_items()
 - worlds/kirbyam/PROTOCOL.md: updated receive-specific contract clause
 - worlds/kirbyam/docs/BIZHAWK_TESTING_GUIDE.md: added Issue #269 test scenario
 
 ### Validation
-- Added 	est_receive_notification_emits_via_counter_advance_ack — counter advance
+- Added test_receive_notification_emits_via_counter_advance_ack — counter advance
   + flag==0 + delivery pending → notification emitted.
-- Added 	est_receive_notification_not_emitted_on_fast_forward_stale_flag — counter
+- Added test_receive_notification_not_emitted_on_fast_forward_stale_flag — counter
   advance + flag==1 (abnormal) + delivery pending → no notification.
-- Existing test 	est_receive_notification_not_emitted_on_fast_forward_only still
+- Existing test test_receive_notification_not_emitted_on_fast_forward_only still
   covers the reconnect fast-forward (no pending delivery) case.
 - Full suite: 266 passed.
 

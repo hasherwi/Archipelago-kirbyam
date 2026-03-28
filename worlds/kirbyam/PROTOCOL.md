@@ -288,10 +288,10 @@ Receive-specific contract (Issue #73):
 - Malformed/skipped `ReceivedItems` entries do not emit notifications.
 - Cursor fast-forward/rewind reconciliation without a pending delivery does not emit notifications.
 - Exception (Issue #269): when the ROM counter advances while a delivery is pending and the mailbox
-  flag is already cleared (lag == 0), this simultaneous counter-advance is treated as the ACK
+  flag is already cleared (flag == 0), this simultaneous counter-advance is treated as the ACK
   signal and does emit a notification.  This covers the common hardware case where the ROM clears
   the flag and increments debug_item_counter in the same frame, so the fast-forward reconciliation
-  path runs before the normal lag == 0 polling path on the next client tick.
+  path runs before the normal flag == 0 polling path on the next client tick.
 
 Optional slot-data toggles (default: enabled when absent):
 - `enable_receive_notifications`
