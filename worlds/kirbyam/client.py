@@ -347,7 +347,8 @@ class KirbyAmClient(BizHawkClient):
             return
         self._notified_send_keys.add(send_key)
 
-        item_name = self._item_name(ctx, item_id, sender_id)
+        # ItemSend packets should resolve item names in the receiving slot context.
+        item_name = self._item_name(ctx, item_id, receiver_id)
         sender_name = self._player_name(ctx, sender_id)
         receiver_name = self._player_name(ctx, receiver_id)
         location_name = self._location_name(location_id)
@@ -1260,7 +1261,7 @@ class KirbyAmClient(BizHawkClient):
                 delivered_index = self._delivery_pending_item_index
                 if delivered_index is None:
                     delivered_index = self._delivered_item_index
-                logger.info("KirbyAM: Mailbox delivery confirmed at item index %s", self._delivered_item_index)
+                logger.info("KirbyAM: Mailbox delivery confirmed at item index %s", delivered_index)
                 self._delivery_pending = False
                 self._delivery_pending_frame = None
                 self._delivery_pending_time = None

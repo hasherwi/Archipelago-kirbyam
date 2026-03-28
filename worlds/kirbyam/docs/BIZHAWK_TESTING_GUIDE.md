@@ -67,7 +67,7 @@ pytest worlds/kirbyam/test -q
 | `KirbyAM: Mailbox delivery confirmed at item index N` | ROM cleared the flag; delivery confirmed. |
 | `KirbyAM: ROM delivery counter moved backward from X to Y; rewinding client delivery cursor` | ROM reported fewer items received than expected; cursor rewound. |
 | `KirbyAM: ROM delivery counter moved forward from X to Y; fast-forwarding client delivery cursor` | ROM is ahead of client cursor; cursor fast-forwarded. |
-| `KirbyAM: ROM counter ahead fallback active; continuing mailbox write at item index N (...)` | ROM `debug_item_counter` is ahead of the current `ReceivedItems` list, so the client is ignoring that stale/debug counter and continuing mailbox delivery to avoid starvation. |
+| `KirbyAM: ROM counter fallback active; continuing mailbox delivery at item index N (...)` | ROM `debug_item_counter` is ahead of the current `ReceivedItems` list, so the client is ignoring that stale/debug counter and continuing mailbox delivery to avoid starvation. |
 | `KirbyAM: receive notification queued (index=N, item=..., sender=...)` | Receive notification was queued after mailbox ACK for delivered index `N`. |
 | `KirbyAM: send notification queued (item=..., receiver=...)` | Outgoing ItemSend notification was queued for local sender traffic. |
 | `KirbyAM: send notification burst suppression summary (suppressed=N)` | A send burst exceeded policy; `N` notifications were suppressed in the previous window. |
@@ -221,7 +221,7 @@ Expected behavior:
 - Reconnect-safe dedupe prevents repeats for previously shown events.
 - Receive text format: `Received <item_name> from <sender_name>`.
 - Send text format: `You sent <item_name> to <receiver_name> at <location_name>` (or without location when unavailable).
-- Burst summary text: `Skipped N send popups to reduce spam`.
+- Burst summary text: `Skipped N send popup(s) to reduce spam`.
 
 Issue #73 receive-focused checks:
 - Skipped malformed items should not produce receive notification text.

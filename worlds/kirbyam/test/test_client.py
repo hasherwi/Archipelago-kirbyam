@@ -1226,6 +1226,11 @@ def test_send_notification_dedupes_outgoing_printjson_events(mock_bizhawk_contex
     message = display_args[1]
     assert "You sent" in message and "Mirror Shard" in message and "PlayerTwo" in message and "Location 123" in message, \
         f"Expected message to contain item, receiver, and location: {message}"
+    # Ensure ItemSend item-name lookup uses the receiving slot context.
+    mock_bizhawk_context.item_names.lookup_in_slot.assert_called_once_with(
+        item_payload.item,
+        printjson_payload["receiving"],
+    )
 
 
 def test_send_notification_ignores_unrelated_itemsend_traffic(mock_bizhawk_context):
