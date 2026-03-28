@@ -87,10 +87,10 @@ This document serves as a testing checklist. Use BizHawk's memory viewer to conf
 | Moonlight Mansion 2-1 - Big Chest | 2 | ⬜ | | |
 | Cabbage Cavern 3-7 - Big Chest | 3 | ⬜ | | |
 | Mustard Mountain 4-25 - Big Chest | 4 | ⬜ | | |
-| Carrot Castle 732 - Big Chest | 5 | ⬜ | | |
+| Carrot Castle 5-15 - Big Chest | 5 | ⬜ | | |
 | Olive Ocean 6-15 - Big Chest | 6 | ⬜ | | |
 | Peppermint Palace 7-4 - Big Chest | 7 | ⬜ | | |
-| Radish Ruins 617 - Big Chest | 8 | ⬜ | | |
+| Radish Ruins 8-29 - Big Chest | 8 | ⬜ | | |
 | Candy Constellation 9-18 - Big Chest | 9 | ⬜ | | |
 
 **Testing Steps for Each Major Chest**:

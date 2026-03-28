@@ -124,7 +124,7 @@
     "location_id": 3960205
   },
   "MAJOR_CHEST_CARROT_CASTLE": {
-    "label": "Carrot Castle 732 - Big Chest",
+    "label": "Carrot Castle 5-15 - Big Chest",
     "parent_region": "REGION_CARROT_CASTLE/MAIN",
     "default_item": "MAP_CARROT_CASTLE",
     "tags": ["BigChest", "MAP_CARROT_CASTLE"],
@@ -133,7 +133,7 @@
     "location_id": 3960206
   },
   "MAJOR_CHEST_RADISH_RUINS": {
-    "label": "Radish Ruins 617 - Big Chest",
+    "label": "Radish Ruins 8-29 - Big Chest",
     "parent_region": "REGION_RADISH_RUINS/MAIN",
     "default_item": "MAP_RADISH_RUINS",
     "tags": ["BigChest", "MAP_RADISH_RUINS"],
