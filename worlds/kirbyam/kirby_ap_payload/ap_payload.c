@@ -307,8 +307,6 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
 
 void ap_poll_mailbox_c(void) {
 
-    static uint8_t s_shard_scrub_initialized = 0u;
-
     // Hook liveness diagnostic counter; increments on every AP hook entry.
     AP_HOOK_HEARTBEAT++;
 
@@ -316,29 +314,22 @@ void ap_poll_mailbox_c(void) {
     // deterministic, frame-based testing without relying on wall-clock time.
     AP_FRAME_COUNTER++;
 
-    // Cold-boot guard: KIRBY_SHARD_FLAGS may be restored from SRAM before AP
-    // has replayed item history, leaving AP_DELIVERED_SHARD_BITFIELD at 0.
-    // Seed AP_DELIVERED_SHARD_BITFIELD once from native saved flags so the
-    // scrub cannot erase legitimate persisted progress on startup/reconnect.
-    if (!s_shard_scrub_initialized) {
-        uint8_t ap_delivered = (uint8_t)(AP_DELIVERED_SHARD_BITFIELD & 0xFFu);
-        uint8_t native_shards = KIRBY_SHARD_FLAGS;
-        if (ap_delivered == 0u && native_shards != 0u) {
+    uint8_t ap_delivered = (uint8_t)(AP_DELIVERED_SHARD_BITFIELD & 0xFFu);
+    uint8_t native_shards = KIRBY_SHARD_FLAGS;
+
+    // Cold-boot/soft-reset guard: before any local boss-defeat hook activity,
+    // align AP-delivered authority to the current native shard save state.
+    // This prevents scrub from acting on stale/uninitialized transport values.
+    if (AP_BOSS_DEFEAT_FLAGS == 0u && AP_SHARD_SCRUB_DELAY == 0u) {
+        if (ap_delivered != native_shards) {
             AP_DELIVERED_SHARD_BITFIELD = (uint32_t)native_shards;
         }
-        s_shard_scrub_initialized = 1u;
-    }
-
-    // Issue #478: Enforce AP-delivered shard authority.
-    // After a boss defeat the hook sets AP_SHARD_SCRUB_DELAY to give the
-    // post-cutscene state machine time to read the temporary native write.
-    // Once the delay expires, clamp KIRBY_SHARD_FLAGS to only the bits that
-    // ap_apply_item() has legitimately delivered; boss-defeat-only bits are scrubbed.
-    if (AP_SHARD_SCRUB_DELAY > 0u) {
-        AP_SHARD_SCRUB_DELAY--;
     } else {
-        uint8_t ap_delivered = (uint8_t)(AP_DELIVERED_SHARD_BITFIELD & 0xFFu);
-        if (KIRBY_SHARD_FLAGS != ap_delivered) {
+        // Issue #478: Enforce AP-delivered shard authority after local boss
+        // defeat activity is observed.
+        if (AP_SHARD_SCRUB_DELAY > 0u) {
+            AP_SHARD_SCRUB_DELAY--;
+        } else if (native_shards != ap_delivered) {
             KIRBY_SHARD_FLAGS = ap_delivered;
             persist_shard_to_sram(ap_delivered);
         }

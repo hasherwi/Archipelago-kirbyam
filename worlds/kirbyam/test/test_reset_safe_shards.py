@@ -248,10 +248,10 @@ def test_ap_poll_mailbox_contains_shard_scrub_logic():
         "ap_poll_mailbox_c must reference AP_SHARD_SCRUB_DELAY for the scrub countdown"
     assert "AP_DELIVERED_SHARD_BITFIELD" in poll_body, \
         "ap_poll_mailbox_c must read AP_DELIVERED_SHARD_BITFIELD to clamp KIRBY_SHARD_FLAGS"
-    assert "s_shard_scrub_initialized" in poll_body, \
-        "ap_poll_mailbox_c must initialize shard scrub guard state on cold boot"
-    assert "if (ap_delivered == 0u && native_shards != 0u)" in poll_body, \
-        "ap_poll_mailbox_c must seed AP_DELIVERED_SHARD_BITFIELD from native saved shards when unset"
+    assert re.search(r"AP_BOSS_DEFEAT_FLAGS\s*==\s*0u", poll_body), \
+        "ap_poll_mailbox_c must guard bootstrap behavior before local boss-defeat activity"
+    assert re.search(r"AP_DELIVERED_SHARD_BITFIELD\s*=\s*\(uint32_t\)native_shards", poll_body), \
+        "ap_poll_mailbox_c must be able to seed AP_DELIVERED_SHARD_BITFIELD from native saved shards"
     assert "persist_shard_to_sram" in poll_body, \
         "ap_poll_mailbox_c scrub must persist the clamped state to SRAM"
 
