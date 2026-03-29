@@ -18,6 +18,16 @@
 
 // Shard State Registers
 #define AP_SHARD_BITFIELD       (*(volatile uint32_t*)(AP_BASE + 0x00u))
+// Issue #478: AP-delivery-only shard authority register.
+// Written only by ap_apply_item() shard path; never by boss-defeat hook.
+// ap_poll_mailbox_c() clamps KIRBY_SHARD_FLAGS to this value once the
+// post-boss cutscene grace window (AP_SHARD_SCRUB_DELAY) reaches zero.
+#define AP_DELIVERED_SHARD_BITFIELD  (*(volatile uint32_t*)(AP_BASE + 0x38u))
+// Issue #478: Frames remaining before the shard scrub is allowed to run.
+// Set to SHARD_BOSS_CUTSCENE_FRAMES by the boss-defeat hook so the
+// post-cutscene state machine has time to observe the temporary native write.
+#define AP_SHARD_SCRUB_DELAY         (*(volatile uint32_t*)(AP_BASE + 0x3Cu))
+#define SHARD_BOSS_CUTSCENE_FRAMES   600u  // ~10 s at 60 fps; covers post-boss shard cutscene
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
 // Bit N set <=> boss of area N was defeated (same bit ordering as shard_bitfield, bits 0-7 used).
@@ -153,6 +163,9 @@ __attribute__((used)) void ap_on_boss_defeat_collect_shard(uint32_t boss_index) 
         KIRBY_SHARD_FLAGS = new_shard_flags;
         AP_SHARD_BITFIELD |= (uint32_t)mask;
         persist_shard_to_sram(new_shard_flags);
+        // Issue #478: Hold off the per-frame shard scrub so the post-cutscene
+        // state machine can read the temporary native write without white-screening.
+        AP_SHARD_SCRUB_DELAY = SHARD_BOSS_CUTSCENE_FRAMES;
     }
 }
 
@@ -246,6 +259,10 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         uint32_t shard_index = ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 2u); // 0..7
         uint8_t mask = (uint8_t)(1u << shard_index);
 
+        // Issue #478: Record AP-delivered authority so the per-frame scrub knows
+        // which shard bits are legitimately AP-owned.
+        AP_DELIVERED_SHARD_BITFIELD |= (uint32_t)mask;
+
         // Update EWRAM (volatile, temporary)
         uint8_t new_shard_flags = (uint8_t)(KIRBY_SHARD_FLAGS | mask);
         KIRBY_SHARD_FLAGS = new_shard_flags;
@@ -296,6 +313,21 @@ void ap_poll_mailbox_c(void) {
     // Always tick a monotonic frame counter so the Python client can perform
     // deterministic, frame-based testing without relying on wall-clock time.
     AP_FRAME_COUNTER++;
+
+    // Issue #478: Enforce AP-delivered shard authority.
+    // After a boss defeat the hook sets AP_SHARD_SCRUB_DELAY to give the
+    // post-cutscene state machine time to read the temporary native write.
+    // Once the delay expires, clamp KIRBY_SHARD_FLAGS to only the bits that
+    // ap_apply_item() has legitimately delivered; boss-defeat-only bits are scrubbed.
+    if (AP_SHARD_SCRUB_DELAY > 0u) {
+        AP_SHARD_SCRUB_DELAY--;
+    } else {
+        uint8_t ap_delivered = (uint8_t)(AP_DELIVERED_SHARD_BITFIELD & 0xFFu);
+        if (KIRBY_SHARD_FLAGS != ap_delivered) {
+            KIRBY_SHARD_FLAGS = ap_delivered;
+            persist_shard_to_sram(ap_delivered);
+        }
+    }
 
     // Check if there's an item to process
     uint32_t flag = AP_IN_FLAG;
