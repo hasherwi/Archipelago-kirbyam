@@ -159,7 +159,7 @@ Primary signal:
 POC classification contract:
 - Non-gameplay tutorial/menu: `ai_state < 200`
 - Non-gameplay cutscene band: `200 <= ai_state < 300`
-- Non-gameplay title demo: `ai_state == 300` when native demo playback flag `gUnk_0203AD10 & 0x10` is set
+- Non-gameplay title demo: `ai_state == 300` when native demo playback flag `demo_playback_flags_native` (underlying symbol `gUnk_0203AD10`, bit `0x10`) is set
 - Non-gameplay goal-clear states: `ai_state in {9999, 10000}`
 - Gameplay-active: all other observed states (including non-demo `300` and unknown post-300 values)
 

@@ -33,6 +33,7 @@ _AI_STATE_CUTSCENE_THRESHOLD = 200
 _AI_STATE_NORMAL = 300
 _DEMO_PLAYBACK_FLAGS_ADDR_KEY = "demo_playback_flags_native"
 _DEMO_PLAYBACK_ACTIVE_FLAG = 0x10
+_DEMO_PLAYBACK_FLAGS_WIDTH = 4
 _KIRBY_HP_ADDR_KEY = "kirby_hp_native"
 _KIRBY_HP_READ_WIDTH = 1
 _OPTIONAL_UNSAFE_DELIVERY_COUNTERS = (
@@ -798,7 +799,7 @@ class KirbyAmClient(BizHawkClient):
         demo_flags_addr = self._native_addr(_DEMO_PLAYBACK_FLAGS_ADDR_KEY)
         reads: list[tuple[int, int, str]] = [(ai_state_addr, _AI_STATE_ADDR_WIDTH, "System Bus")]
         if demo_flags_addr is not None:
-            reads.append((demo_flags_addr, 4, "System Bus"))
+            reads.append((demo_flags_addr, _DEMO_PLAYBACK_FLAGS_WIDTH, "System Bus"))
 
         raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
         ai_state = self._u32_le(raw_values[0])
