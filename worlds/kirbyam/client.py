@@ -31,7 +31,7 @@ _MAIN_HOOK_OFFSET = 0x00152696
 _PAYLOAD_OFFSET = 0x0015E000
 _AI_STATE_CUTSCENE_THRESHOLD = 200
 _AI_STATE_NORMAL = 300
-_DEMO_PLAYBACK_FLAGS_ADDR = 0x0203AD10
+_DEMO_PLAYBACK_FLAGS_ADDR_KEY = "demo_playback_flags_native"
 _DEMO_PLAYBACK_ACTIVE_FLAG = 0x10
 _KIRBY_HP_ADDR_KEY = "kirby_hp_native"
 _KIRBY_HP_READ_WIDTH = 1
@@ -267,17 +267,6 @@ class KirbyAmClient(BizHawkClient):
                     debug_config.get("gameplay_state_logging", False),
                     False,
                 )
-
-    async def _is_title_demo_playback_active(self, ctx: KirbyAmBizHawkClientContext) -> bool:
-        """Return whether the title-screen demo playback flag is active.
-
-        katam decomp evidence:
-        - demo.c initializes gUnk_0203AD10 = 0x10 before setting gAIKirbyState = AI_KIRBY_STATE_NORMAL
-        - gameplay transitions clear/avoid this bit in normal play paths
-        """
-        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(_DEMO_PLAYBACK_FLAGS_ADDR, 4, "System Bus")]))[0]
-        demo_flags = self._u32_le(raw)
-        return bool(demo_flags & _DEMO_PLAYBACK_ACTIVE_FLAG)
 
     @staticmethod
     def _player_name(ctx: "BizHawkClientContext", player_id: int) -> str:
@@ -806,15 +795,25 @@ class KirbyAmClient(BizHawkClient):
         if ai_state_addr is None:
             return True, "gate_signal_unavailable", None
 
-        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(ai_state_addr, _AI_STATE_ADDR_WIDTH, "System Bus")]))[0]
-        ai_state = self._u32_le(raw)
+        demo_flags_addr = self._native_addr(_DEMO_PLAYBACK_FLAGS_ADDR_KEY)
+        reads: list[tuple[int, int, str]] = [(ai_state_addr, _AI_STATE_ADDR_WIDTH, "System Bus")]
+        if demo_flags_addr is not None:
+            reads.append((demo_flags_addr, 4, "System Bus"))
+
+        raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
+        ai_state = self._u32_le(raw_values[0])
 
         if ai_state < _AI_STATE_CUTSCENE_THRESHOLD:
             return False, "non_gameplay_tutorial_or_menu", ai_state
         if ai_state < _AI_STATE_NORMAL:
             return False, "non_gameplay_cutscene", ai_state
-        if ai_state == _AI_STATE_NORMAL and await self._is_title_demo_playback_active(ctx):
-            return False, "non_gameplay_title_demo", ai_state
+        if ai_state == _AI_STATE_NORMAL:
+            demo_playback_active = False
+            if demo_flags_addr is not None and len(raw_values) > 1:
+                demo_flags = self._u32_le(raw_values[1])
+                demo_playback_active = bool(demo_flags & _DEMO_PLAYBACK_ACTIVE_FLAG)
+            if demo_playback_active:
+                return False, "non_gameplay_title_demo", ai_state
         if ai_state in (_GOAL_STATE_DARK_MIND_CLEAR, _GOAL_STATE_FULL_CLEAR):
             return False, "non_gameplay_goal_clear", ai_state
         return True, "gameplay_active", ai_state
