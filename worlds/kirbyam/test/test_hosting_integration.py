@@ -12,7 +12,7 @@ from .support.integration_generation import generate_archive_from_fixture, load_
 FIXTURE_YAML = Path(__file__).resolve().parent / "server" / "kirbyam_test_player.yaml"
 
 
-def test_hosting_generated_kirbyam_archive_supports_client_connect(tmp_path: Path) -> None:
+def test_hosting_generated_kirbyam_archive_exposes_room_info_and_datapackage(tmp_path: Path) -> None:
     archive = generate_archive_from_fixture(FIXTURE_YAML, tmp_path, seed=367)
     connect_names = load_multidata_from_archive(archive)["connect_names"]
     assert "KirbyAM Test" in connect_names
