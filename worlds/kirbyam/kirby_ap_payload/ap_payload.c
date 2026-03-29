@@ -307,12 +307,27 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
 
 void ap_poll_mailbox_c(void) {
 
+    static uint8_t s_shard_scrub_initialized = 0u;
+
     // Hook liveness diagnostic counter; increments on every AP hook entry.
     AP_HOOK_HEARTBEAT++;
 
     // Always tick a monotonic frame counter so the Python client can perform
     // deterministic, frame-based testing without relying on wall-clock time.
     AP_FRAME_COUNTER++;
+
+    // Cold-boot guard: KIRBY_SHARD_FLAGS may be restored from SRAM before AP
+    // has replayed item history, leaving AP_DELIVERED_SHARD_BITFIELD at 0.
+    // Seed AP_DELIVERED_SHARD_BITFIELD once from native saved flags so the
+    // scrub cannot erase legitimate persisted progress on startup/reconnect.
+    if (!s_shard_scrub_initialized) {
+        uint8_t ap_delivered = (uint8_t)(AP_DELIVERED_SHARD_BITFIELD & 0xFFu);
+        uint8_t native_shards = KIRBY_SHARD_FLAGS;
+        if (ap_delivered == 0u && native_shards != 0u) {
+            AP_DELIVERED_SHARD_BITFIELD = (uint32_t)native_shards;
+        }
+        s_shard_scrub_initialized = 1u;
+    }
 
     // Issue #478: Enforce AP-delivered shard authority.
     // After a boss defeat the hook sets AP_SHARD_SCRUB_DELAY to give the
