@@ -54,15 +54,40 @@ async def test_validate_rom_reads_auth_from_rom_domain_offset(mock_bizhawk_conte
 
 
 @pytest.mark.asyncio
+async def test_validate_rom_rejects_missing_auth_address(mock_bizhawk_context, caplog):
+    client = KirbyAmClient()
+
+    original_auth_addr = data.rom_addresses.pop("gArchipelagoInfo", None)
+    try:
+        with patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
+            with caplog.at_level(logging.ERROR):
+                assert await client.validate_rom(mock_bizhawk_context) is False
+
+        mock_display.assert_awaited_once_with(
+            mock_bizhawk_context.bizhawk_ctx,
+            "Unable to load ROM: patch metadata address is missing.",
+        )
+        assert "missing rom address 'gArchipelagoInfo'" in caplog.text
+    finally:
+        if original_auth_addr is not None:
+            data.rom_addresses["gArchipelagoInfo"] = original_auth_addr
+
+
+@pytest.mark.asyncio
 async def test_validate_rom_rejects_unpatched_kirby_rom(mock_bizhawk_context, caplog):
     client = KirbyAmClient()
     mock_bizhawk_context.rom_hash = KirbyAmProcedurePatch.hash
 
-    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
         with caplog.at_level(logging.INFO):
             assert await client.validate_rom(mock_bizhawk_context) is False
 
     mock_read.assert_not_awaited()
+    mock_display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "Unable to load ROM: base ROM detected. Please use a patched ROM.",
+    )
     assert "unpatched Kirby & The Amazing Mirror ROM" in caplog.text
 
 
@@ -70,7 +95,8 @@ async def test_validate_rom_rejects_unpatched_kirby_rom(mock_bizhawk_context, ca
 async def test_validate_rom_rejects_missing_auth_block_read(mock_bizhawk_context, caplog):
     client = KirbyAmClient()
 
-    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
         mock_read.side_effect = [
             [b'AGB KIRBY AM', b'B8KE', b'01'],
             bizhawk.RequestFailedError("Connection closed"),
@@ -79,6 +105,10 @@ async def test_validate_rom_rejects_missing_auth_block_read(mock_bizhawk_context
         with caplog.at_level(logging.INFO):
             assert await client.validate_rom(mock_bizhawk_context) is False
 
+    mock_display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "Unable to load ROM: could not read patch metadata.",
+    )
     assert "unpatched Kirby & The Amazing Mirror ROM" not in caplog.text
     assert "ROM auth read failed during validation" in caplog.text
 
@@ -87,7 +117,8 @@ async def test_validate_rom_rejects_missing_auth_block_read(mock_bizhawk_context
 async def test_validate_rom_rejects_non_kirby_header(mock_bizhawk_context, caplog):
     client = KirbyAmClient()
 
-    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
         mock_read.side_effect = [
             [b'POKEMON EMER', b'BPEE', b'01'],
         ]
@@ -95,6 +126,10 @@ async def test_validate_rom_rejects_non_kirby_header(mock_bizhawk_context, caplo
         with caplog.at_level(logging.INFO):
             assert await client.validate_rom(mock_bizhawk_context) is False
 
+    mock_display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "Unable to load ROM: invalid Kirby and the Amazing Mirror ROM.",
+    )
     assert "ROM validation failed" in caplog.text
 
 
@@ -102,7 +137,8 @@ async def test_validate_rom_rejects_non_kirby_header(mock_bizhawk_context, caplo
 async def test_validate_rom_rejects_empty_patch_metadata(mock_bizhawk_context, caplog):
     client = KirbyAmClient()
 
-    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
         mock_read.side_effect = [
             [b'AGB KIRBY AM', b'B8KE', b'01'],
             [b'\x00' * 16],
@@ -111,6 +147,10 @@ async def test_validate_rom_rejects_empty_patch_metadata(mock_bizhawk_context, c
         with caplog.at_level(logging.INFO):
             assert await client.validate_rom(mock_bizhawk_context) is False
 
+    mock_display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "Unable to load ROM: missing patch metadata. Rebuild your patched ROM.",
+    )
     assert "KirbyAM patch metadata was missing" in caplog.text
 
 
@@ -118,7 +158,8 @@ async def test_validate_rom_rejects_empty_patch_metadata(mock_bizhawk_context, c
 async def test_validate_rom_rejects_empty_patch_metadata_logs_once(mock_bizhawk_context, caplog):
     client = KirbyAmClient()
 
-    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
         mock_read.side_effect = [
             [b'AGB KIRBY AM', b'B8KE', b'01'],
             [b'\x00' * 16],
@@ -130,6 +171,10 @@ async def test_validate_rom_rejects_empty_patch_metadata_logs_once(mock_bizhawk_
             assert await client.validate_rom(mock_bizhawk_context) is False
             assert await client.validate_rom(mock_bizhawk_context) is False
 
+    mock_display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "Unable to load ROM: missing patch metadata. Rebuild your patched ROM.",
+    )
     assert caplog.text.count("KirbyAM patch metadata was missing") == 1
 
 
@@ -501,8 +546,8 @@ async def test_deliver_items_continues_when_rom_counter_ahead_of_received_items(
             (data.transport_ram_addresses["incoming_item_flag"], (1).to_bytes(4, 'little'), "System Bus"),
         ]
 
-    assert "ROM item counter ahead of ReceivedItems" in caplog.text
-    assert "ROM counter ahead fallback active; continuing mailbox write" in caplog.text
+    assert "ROM delivery counter is ahead of received items" in caplog.text
+    assert "ROM counter fallback active; continuing mailbox delivery" in caplog.text
 
 
 @pytest.mark.asyncio
@@ -527,7 +572,7 @@ async def test_deliver_items_logs_when_rom_counter_returns_in_range(mock_bizhawk
 
     assert client._delivery_counter_ahead_fallback_active is False
     assert client._delivery_counter_ahead_resume_logged is False
-    assert "ROM item counter back in range" in caplog.text
+    assert "ROM delivery counter is back in range" in caplog.text
 
 
 @pytest.mark.asyncio
@@ -594,6 +639,81 @@ async def test_deliver_items_clears_stuck_mailbox_after_timeout(mock_bizhawk_con
         assert client._delivered_item_index == 0
 
     assert "Mailbox ACK timeout" in caplog.text
+
+
+@pytest.mark.asyncio
+async def test_deliver_items_clears_stuck_mailbox_after_wall_clock_timeout(mock_bizhawk_context, caplog):
+    """A stuck mailbox flag should time out via wall-clock fallback when frame_counter is stuck."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._delivery_pending = True
+    client._delivery_pending_frame = 0
+    client._delivery_pending_time = 100.0
+    client._delivered_item_index = 0
+
+    mock_bizhawk_context.items_received = [
+        Mock(item=3860001, player=1),
+    ]
+
+    caplog.set_level(logging.WARNING, logger="Client")
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write, \
+         patch('worlds.kirbyam.client.time.monotonic', return_value=101.1):
+        mock_read.return_value = [
+            (1).to_bytes(4, 'little'),
+            (0).to_bytes(4, 'little'),
+            (0).to_bytes(4, 'little'),
+            (1).to_bytes(4, 'little'),
+        ]
+
+        await client._deliver_items(mock_bizhawk_context)
+
+        mock_write.assert_awaited_once_with(
+            mock_bizhawk_context.bizhawk_ctx,
+            [(data.transport_ram_addresses["incoming_item_flag"], (0).to_bytes(4, 'little'), 'System Bus')]
+        )
+        assert client._delivery_pending is False
+        assert client._delivery_pending_frame is None
+        assert client._delivery_pending_time is None
+        assert client._delivery_pending_item_index is None
+        assert client._delivered_item_index == 0
+        assert client._delivery_retry_not_before == pytest.approx(101.6)
+
+    assert "Mailbox ACK timeout" in caplog.text
+    assert "time timeout (1.1s >= 1.0s)" in caplog.text
+
+
+@pytest.mark.asyncio
+async def test_deliver_items_does_not_use_time_fallback_when_frame_advances(mock_bizhawk_context):
+    """Monotonic timeout fallback should not trigger while frame_counter advances."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._delivery_pending = True
+    client._delivery_pending_frame = 100
+    client._delivery_pending_time = 100.0
+    client._delivered_item_index = 0
+
+    mock_bizhawk_context.items_received = [
+        Mock(item=3860001, player=1),
+    ]
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write, \
+         patch('worlds.kirbyam.client.time.monotonic', return_value=101.5):
+        mock_read.return_value = [
+            (1).to_bytes(4, 'little'),
+            (0).to_bytes(4, 'little'),
+            (101).to_bytes(4, 'little'),
+            (1).to_bytes(4, 'little'),
+        ]
+
+        await client._deliver_items(mock_bizhawk_context)
+
+        mock_write.assert_not_awaited()
+        assert client._delivery_pending is True
+        assert client._delivery_pending_frame == 100
+        assert client._delivery_pending_time == 100.0
 
 
 @pytest.mark.asyncio
@@ -725,8 +845,34 @@ async def test_deliver_items_skips_entry_missing_player_and_continues(mock_bizha
 
 
 @pytest.mark.asyncio
-async def test_goal_dark_mind_native_signal_reports_location_then_goal_status(mock_bizhawk_context):
-    """Dark Mind goal should use native 9999 signal and report status after server ack."""
+async def test_goal_dark_mind_native_signal_reports_client_goal_for_addressless_event(mock_bizhawk_context):
+    """Dark Mind goal should send CLIENT_GOAL directly when the goal is an addressless runtime event."""
+    from NetUtils import ClientStatus
+
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    mock_bizhawk_context.slot_data["goal"] = 0
+    mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = set()
+    mock_bizhawk_context.finished_game = False
+
+    with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.return_value = [(9999).to_bytes(4, 'little')]
+
+        await client._maybe_report_goal(mock_bizhawk_context)
+
+    mock_bizhawk_context.send_msgs.assert_awaited_once_with([
+        {"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}
+    ])
+    assert mock_bizhawk_context.finished_game is True
+    assert client._goal_reported is True
+
+
+@pytest.mark.asyncio
+async def test_goal_dark_mind_server_exposed_goal_reports_location_then_goal_status(mock_bizhawk_context):
+    """Dark Mind goal should preserve legacy location-check flow when the server exposes a numeric goal location."""
     from NetUtils import ClientStatus
 
     client = KirbyAmClient()
@@ -735,6 +881,7 @@ async def test_goal_dark_mind_native_signal_reports_location_then_goal_status(mo
     dark_mind_goal_id = data.locations["GOAL_DARK_MIND"].location_id
     mock_bizhawk_context.slot_data["goal"] = 0
     mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = {dark_mind_goal_id}
 
     with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
@@ -758,16 +905,22 @@ async def test_goal_dark_mind_native_signal_reports_location_then_goal_status(mo
     mock_bizhawk_context.send_msgs.assert_awaited_once_with([
         {"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}
     ])
+    assert mock_bizhawk_context.finished_game is True
     assert client._goal_reported is True
 
 
 @pytest.mark.asyncio
-async def test_goal_dark_mind_does_not_trigger_on_10000(mock_bizhawk_context):
-    """Dark Mind goal mode must not treat 10000 as first-clear trigger."""
+async def test_goal_dark_mind_falls_back_to_10000_when_9999_was_missed(mock_bizhawk_context):
+    """Dark Mind goal mode should accept 10000 as a fallback post-clear goal signal."""
+    from NetUtils import ClientStatus
+
     client = KirbyAmClient()
     client.initialize_client()
 
     mock_bizhawk_context.slot_data["goal"] = 0
+    mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = set()
+    mock_bizhawk_context.finished_game = False
 
     with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
@@ -775,7 +928,36 @@ async def test_goal_dark_mind_does_not_trigger_on_10000(mock_bizhawk_context):
 
         await client._maybe_report_goal(mock_bizhawk_context)
 
-    mock_bizhawk_context.send_msgs.assert_not_awaited()
+    mock_bizhawk_context.send_msgs.assert_awaited_once_with([
+        {"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}
+    ])
+    assert mock_bizhawk_context.finished_game is True
+
+
+@pytest.mark.asyncio
+async def test_goal_dark_mind_reports_client_goal_after_10000_fallback_ack(mock_bizhawk_context):
+    """Dark Mind goal mode should still send CLIENT_GOAL after a 10000 fallback goal check is acknowledged."""
+    from NetUtils import ClientStatus
+
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    goal_id = data.locations["GOAL_DARK_MIND"].location_id
+    mock_bizhawk_context.slot_data["goal"] = 0
+    mock_bizhawk_context.checked_locations = {goal_id}
+    mock_bizhawk_context.server_locations = {goal_id}
+
+    with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.return_value = [(10000).to_bytes(4, 'little')]
+
+        await client._maybe_report_goal(mock_bizhawk_context)
+
+    mock_bizhawk_context.send_msgs.assert_awaited_once_with([
+        {"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}
+    ])
+    assert mock_bizhawk_context.finished_game is True
+    assert client._goal_reported is True
 
 
 @pytest.mark.asyncio
@@ -800,6 +982,7 @@ async def test_goal_location_check_sent_once_before_ack(mock_bizhawk_context):
 
     goal_id = data.locations["GOAL_DARK_MIND"].location_id
     mock_bizhawk_context.slot_data["goal"] = 0
+    mock_bizhawk_context.server_locations = {goal_id}
 
     with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
@@ -821,6 +1004,7 @@ async def test_goal_location_uses_locations_checked_for_reconnect_safe_dedup(moc
     goal_id = data.locations["GOAL_DARK_MIND"].location_id
     mock_bizhawk_context.slot_data["goal"] = 0
     mock_bizhawk_context.locations_checked = set()
+    mock_bizhawk_context.server_locations = {goal_id}
 
     with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
@@ -856,6 +1040,8 @@ async def test_goal_reporting_logs_native_signal_seen(mock_bizhawk_context):
 
     mock_bizhawk_context.slot_data["goal"] = 0
     mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = set()
+    mock_bizhawk_context.finished_game = False
 
     with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
@@ -880,6 +1066,7 @@ async def test_goal_reporting_logs_location_check_sent(mock_bizhawk_context):
     goal_id = data.locations["GOAL_DARK_MIND"].location_id
     mock_bizhawk_context.slot_data["goal"] = 0
     mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = {goal_id}
 
     with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
@@ -904,6 +1091,7 @@ async def test_goal_reporting_logs_client_goal_status(mock_bizhawk_context):
     goal_id = data.locations["GOAL_DARK_MIND"].location_id
     mock_bizhawk_context.slot_data["goal"] = 0
     mock_bizhawk_context.checked_locations = {goal_id}
+    mock_bizhawk_context.server_locations = {goal_id}
 
     with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
@@ -919,6 +1107,55 @@ async def test_goal_reporting_logs_client_goal_status(mock_bizhawk_context):
     ]
     assert len(complete_calls) == 1
     assert complete_calls[0].args[1:] == (0,)  # goal_option=0
+
+
+@pytest.mark.asyncio
+async def test_goal_reporting_logs_direct_client_goal_for_addressless_event(mock_bizhawk_context):
+    """Info log should explain direct CLIENT_GOAL reporting when the goal is addressless."""
+    from NetUtils import ClientStatus
+
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    mock_bizhawk_context.slot_data["goal"] = 0
+    mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = set()
+    mock_bizhawk_context.finished_game = False
+
+    with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.return_value = [(9999).to_bytes(4, 'little')]
+        await client._maybe_report_goal(mock_bizhawk_context)
+
+    mock_bizhawk_context.send_msgs.assert_awaited_once_with([
+        {"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}
+    ])
+    direct_calls = [
+        c for c in mock_logger.info.call_args_list
+        if "goal location is addressless in this world" in c.args[0]
+    ]
+    assert len(direct_calls) == 1
+    assert direct_calls[0].args[1:] == (0,)
+
+
+@pytest.mark.asyncio
+async def test_goal_reporting_emits_goal_complete_popup(mock_bizhawk_context):
+    """CLIENT_GOAL status send should also emit a concise player popup."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    mock_bizhawk_context.slot_data["goal"] = 0
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
+        mock_read.return_value = [(9999).to_bytes(4, 'little')]
+
+        await client._maybe_report_goal(mock_bizhawk_context)
+
+    mock_display.assert_awaited_once_with(mock_bizhawk_context.bizhawk_ctx, "Goal complete")
 
 
 @pytest.mark.asyncio
@@ -954,7 +1191,7 @@ async def test_receive_notification_emits_once_per_delivery_index(mock_bizhawk_c
 
     mock_display.assert_awaited_once_with(
         mock_bizhawk_context.bizhawk_ctx,
-        "Mirror Shard received from PlayerTwo",
+        "Received Mirror Shard from PlayerTwo",
     )
 
 
@@ -976,6 +1213,32 @@ async def test_receive_notification_honors_slot_data_toggle(mock_bizhawk_context
         await client._emit_receive_notification(mock_bizhawk_context, 0)
 
     mock_display.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_receive_notification_uses_local_slot_for_item_name_lookup(mock_bizhawk_context):
+    """Receive item-name lookup should use the local slot context, not sender slot."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    if not data.items:
+        pytest.skip("KirbyAM dataset has no items; skipping receive-notification item-name lookup test.")
+
+    first_item_id = next(iter(data.items.keys()))
+    mock_bizhawk_context.slot = 1
+    mock_bizhawk_context.items_received = [Mock(item=first_item_id, player=2)]
+    mock_bizhawk_context.player_names = {2: "PlayerTwo"}
+    mock_bizhawk_context.item_names = Mock()
+    mock_bizhawk_context.item_names.lookup_in_slot.return_value = "Mirror Shard"
+
+    with patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
+        await client._emit_receive_notification(mock_bizhawk_context, 0)
+
+    mock_bizhawk_context.item_names.lookup_in_slot.assert_called_once_with(first_item_id, 1)
+    mock_display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "Received Mirror Shard from PlayerTwo",
+    )
 
 
 @pytest.mark.asyncio
@@ -1056,6 +1319,70 @@ async def test_receive_notification_not_emitted_on_fast_forward_only(mock_bizhaw
     mock_display.assert_not_awaited()
 
 
+@pytest.mark.asyncio
+async def test_receive_notification_emits_via_counter_advance_ack(mock_bizhawk_context):
+    # Realistic ACK path: ROM clears flag AND advances counter in the same frame.
+    # The fast-forward branch runs before the delivery_pending check, so without the
+    # fix the notification was silently dropped.  Captures _ff_was_pending before
+    # clearing and emits notification when _ff_was_pending and flag == 0.
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    mock_bizhawk_context.items_received = [Mock(item=3860001, player=2)]
+    mock_bizhawk_context.player_names = {2: 'PlayerTwo'}
+    mock_bizhawk_context.item_names = Mock()
+    mock_bizhawk_context.item_names.lookup_in_slot.return_value = 'Mirror Shard'
+
+    client._delivery_pending = True
+    client._delivery_pending_item_index = 0
+    client._delivered_item_index = 0
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock), \
+         patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
+        # flag == 0 (cleared by ROM), counter == 1 (incremented by ROM - ACK signal)
+        mock_read.return_value = [
+            (0).to_bytes(4, 'little'),   # incoming_item_flag = 0
+            (1).to_bytes(4, 'little'),   # debug_item_counter = 1
+        ]
+        await client._deliver_items(mock_bizhawk_context)
+
+    mock_display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        'Received Mirror Shard from PlayerTwo',
+    )
+
+
+@pytest.mark.asyncio
+async def test_receive_notification_not_emitted_on_fast_forward_stale_flag(mock_bizhawk_context):
+    # Abnormal fast-forward: counter advanced but flag is still set (save-state
+    # interference).  Client clears the stale flag but must not emit a notification
+    # because the normal flag-clear ACK was not observed.
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    mock_bizhawk_context.items_received = [Mock(item=3860001, player=2)]
+    mock_bizhawk_context.player_names = {2: 'PlayerTwo'}
+    mock_bizhawk_context.item_names = Mock()
+    mock_bizhawk_context.item_names.lookup_in_slot.return_value = 'Mirror Shard'
+
+    client._delivery_pending = True
+    client._delivery_pending_item_index = 0
+    client._delivered_item_index = 0
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock), \
+         patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
+        # flag = 1 (stale, not cleared), counter = 1 (advanced - abnormal state)
+        mock_read.return_value = [
+            (1).to_bytes(4, 'little'),   # incoming_item_flag = 1 (stale)
+            (1).to_bytes(4, 'little'),   # debug_item_counter = 1
+        ]
+        await client._deliver_items(mock_bizhawk_context)
+
+    mock_display.assert_not_awaited()
+
+
 def test_send_notification_dedupes_outgoing_printjson_events(mock_bizhawk_context):
     """Outgoing ItemSend PrintJSON should notify once and dedupe reconnect echoes."""
     client = KirbyAmClient()
@@ -1083,10 +1410,15 @@ def test_send_notification_dedupes_outgoing_printjson_events(mock_bizhawk_contex
     assert mock_async_start.call_count == 1
     assert mock_display.call_count == 1
     display_args = mock_display.call_args.args
-    # Format: "Sent <item> to <receiver> (<location>)"
+    # Format: "You sent <item> to <receiver> at <location>"
     message = display_args[1]
-    assert "Sent" in message and "Mirror Shard" in message and "PlayerTwo" in message and "Location 123" in message, \
+    assert "You sent" in message and "Mirror Shard" in message and "PlayerTwo" in message and "Location 123" in message, \
         f"Expected message to contain item, receiver, and location: {message}"
+    # Ensure ItemSend item-name lookup uses the receiving slot context.
+    mock_bizhawk_context.item_names.lookup_in_slot.assert_called_once_with(
+        item_payload.item,
+        printjson_payload["receiving"],
+    )
 
 
 def test_send_notification_ignores_unrelated_itemsend_traffic(mock_bizhawk_context):
@@ -1151,7 +1483,7 @@ def test_send_notification_rate_limit_suppresses_burst(mock_bizhawk_context):
     # 5 visible in first window, 1 summary on rollover, 1 visible after rollover.
     assert mock_async_start.call_count == 7
     summary_call = mock_display.call_args_list[-2].args
-    assert summary_call[1] == "Suppressed 1 send notifications"
+    assert summary_call[1] == "Skipped 1 send popup(s) to reduce spam"
 
 
 @pytest.mark.asyncio
@@ -1278,6 +1610,57 @@ async def test_probe_unsafe_delivery_candidates_rebaseline_on_stream_change(mock
         await client._probe_unsafe_delivery_candidates(mock_bizhawk_context)
 
     mock_logger.info.assert_not_called()
+
+
+def test_load_debug_settings_defaults_to_disabled(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    client._load_debug_settings(mock_bizhawk_context)
+
+    assert client._debug_gameplay_state_logging_enabled is False
+
+
+def test_load_debug_settings_honors_slot_data_toggle_true(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["debug"] = {"gameplay_state_logging": True}
+
+    client._load_debug_settings(mock_bizhawk_context)
+
+    assert client._debug_gameplay_state_logging_enabled is True
+
+
+@pytest.mark.asyncio
+async def test_game_watcher_logs_unique_gameplay_state_once_per_session(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["debug"] = {"gameplay_state_logging": True}
+
+    with patch('CommonClient.logger') as mock_logger, \
+         patch.object(client, '_sync_death_link_setting', new_callable=AsyncMock), \
+         patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
+         patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
+         patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
+         patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
+         patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_major_chest_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock), \
+         patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock), \
+         patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock), \
+         patch.object(client, '_deliver_items', new_callable=AsyncMock), \
+         patch.object(client, '_maybe_report_goal', new_callable=AsyncMock):
+        mock_gate.return_value = (True, "gameplay_active", 300)
+
+        await client.game_watcher(mock_bizhawk_context)
+        await client.game_watcher(mock_bizhawk_context)
+
+    debug_calls = [
+        c for c in mock_logger.info.call_args_list
+        if c.args and isinstance(c.args[0], str) and "KirbyAM debug: observed unique gameplay state" in c.args[0]
+    ]
+    assert len(debug_calls) == 1
 
 
 @pytest.mark.asyncio
@@ -1520,6 +1903,52 @@ async def test_runtime_gameplay_state_active_on_normal_state(mock_bizhawk_contex
 
     with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.return_value = [
+            (300).to_bytes(4, 'little'),
+            (0).to_bytes(4, 'little'),
+        ]
+
+        active, reason, ai_state = await client._runtime_gameplay_state(mock_bizhawk_context)
+
+    assert active is True
+    assert reason == "gameplay_active"
+    assert ai_state == 300
+
+
+@pytest.mark.asyncio
+async def test_runtime_gameplay_state_non_gameplay_on_title_demo_state(mock_bizhawk_context):
+    """AI state 300 should defer polling when the title-demo playback flag is active."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.return_value = [
+            (300).to_bytes(4, 'little'),
+            (0x10).to_bytes(4, 'little'),
+        ]
+
+        active, reason, ai_state = await client._runtime_gameplay_state(mock_bizhawk_context)
+
+    assert active is False
+    assert reason == "non_gameplay_title_demo"
+    assert ai_state == 300
+
+
+@pytest.mark.asyncio
+async def test_runtime_gameplay_state_fail_open_when_demo_signal_unavailable(mock_bizhawk_context):
+    """Missing demo_playback_flags_native should fail open for state 300."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    with patch.dict(
+        data.native_ram_addresses,
+        {
+            "ai_kirby_state_native": 0x0203AD2C,
+            "demo_playback_flags_native": None,
+        },
+        clear=False,
+    ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
         mock_read.return_value = [(300).to_bytes(4, 'little')]
 
         active, reason, ai_state = await client._runtime_gameplay_state(mock_bizhawk_context)
@@ -1627,7 +2056,8 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
          patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock) as mock_probe, \
             patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock) as mock_probe_unsafe, \
          patch.object(client, '_deliver_items', new_callable=AsyncMock) as mock_deliver, \
-         patch.object(client, '_maybe_report_goal', new_callable=AsyncMock) as mock_goal:
+            patch.object(client, '_maybe_report_goal', new_callable=AsyncMock) as mock_goal, \
+            patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
         mock_gate.return_value = (False, "non_gameplay_cutscene", 200)
 
         await client.game_watcher(mock_bizhawk_context)
@@ -1639,6 +2069,39 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
     mock_probe_unsafe.assert_not_awaited()
     mock_deliver.assert_awaited_once_with(mock_bizhawk_context, allow_new_writes=False)
     mock_goal.assert_awaited_once_with(mock_bizhawk_context, ai_state_override=200)
+    mock_display.assert_awaited_once_with(mock_bizhawk_context.bizhawk_ctx, "Item sending paused by game state")
+
+
+@pytest.mark.asyncio
+async def test_game_watcher_emits_pause_then_resume_popups_on_transition(mock_bizhawk_context):
+    """Watcher should emit one pause and one resume popup across gameplay gate transitions."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
+         patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
+         patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
+         patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
+         patch.object(client, '_poll_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_major_chest_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock), \
+         patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock), \
+         patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock), \
+         patch.object(client, '_deliver_items', new_callable=AsyncMock), \
+         patch.object(client, '_maybe_report_goal', new_callable=AsyncMock), \
+         patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
+        mock_gate.side_effect = [
+            (False, "non_gameplay_cutscene", 200),
+            (True, "gameplay_active", 300),
+        ]
+
+        await client.game_watcher(mock_bizhawk_context)
+        await client.game_watcher(mock_bizhawk_context)
+
+    mock_display.assert_any_await(mock_bizhawk_context.bizhawk_ctx, "Item sending paused by game state")
+    mock_display.assert_any_await(mock_bizhawk_context.bizhawk_ctx, "Item sending resumed")
 
 
 @pytest.mark.asyncio

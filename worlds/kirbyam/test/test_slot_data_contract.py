@@ -42,6 +42,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "enemy_copy_ability_randomization": 1,
         "randomize_boss_spawned_ability_grants": True,
         "randomize_miniboss_ability_grants": False,
+        "room_sanity": False,
     }
 
     world.options = options
@@ -73,3 +74,10 @@ def test_enemy_randomization_contract_fields_present_with_expected_shapes() -> N
     assert isinstance(slot_data["enemy_copy_ability_whitelist"], list)
     assert slot_data["enemy_copy_ability_whitelist"]
     assert isinstance(slot_data["enemy_copy_ability_policy"], dict)
+
+
+def test_debug_settings_contract_fields_present_with_expected_shapes() -> None:
+    slot_data = _emit_slot_data_for_contract_test()
+
+    assert isinstance(slot_data["debug"], dict)
+    assert isinstance(slot_data["debug"]["gameplay_state_logging"], bool)

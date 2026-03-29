@@ -16,6 +16,8 @@ As this is a custom AP world you will need to first install Kirby & The Amazing 
 Items which the player would normally acquire throughout the game have been moved around. (Maps, Vitality, Sound Player)
 Abilities enemies provide can be randomized to give another copy ability.
 
+An optional Room Sanity mode is also available (`room_sanity`). When enabled, room visits become AP checks using labels like `Room 1-01` and `Room 9-27`. Room Sanity is disabled by default because it adds 257 checks.
+
 
 
 ## What items and locations get randomized?

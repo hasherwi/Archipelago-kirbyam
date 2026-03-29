@@ -85,6 +85,18 @@ class RandomizeMiniBossAbilityGrants(Toggle):
     default = 1
 
 
+class EnableGameplayStateDebugLogging(Toggle):
+    """Enable gameplay state debug logging in the BizHawk client. When enabled, unique gameplay state values are logged once per session."""
+    display_name = "Enable Gameplay State Debug Logging"
+    default = 0
+
+
+class RoomSanity(Toggle):
+    """Adds room-visit checks (Room X-YY). Disabled by default because it adds 257 locations."""
+    display_name = "Room Sanity"
+    default = 0
+
+
 class KirbyAmDeathLink(DeathLink):
     __doc__ = DeathLink.__doc__
 
@@ -155,6 +167,10 @@ class KirbyAmOptions(PerGameCommonOptions):
     randomize_boss_spawned_ability_grants: RandomizeBossSpawnedAbilityGrants
 
     randomize_miniboss_ability_grants: RandomizeMiniBossAbilityGrants
+
+    room_sanity: RoomSanity
+
+    enable_gameplay_state_debug_logging: EnableGameplayStateDebugLogging
 
     death_link: KirbyAmDeathLink
 

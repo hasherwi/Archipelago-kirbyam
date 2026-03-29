@@ -1,11 +1,14 @@
+import logging
+import time
+from struct import unpack_from
 from typing import TYPE_CHECKING, Optional
 
-import time
 import Utils
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
 from .data import LocationCategory, data
+from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
 from .options import Goal
 from .types import KirbyAmBizHawkClientContext
 
@@ -23,10 +26,20 @@ _AI_STATE_ADDR_WIDTH = 4
 _GOAL_STATE_DARK_MIND_CLEAR = 9999
 _GOAL_STATE_FULL_CLEAR = 10000
 _MAILBOX_ACK_TIMEOUT_FRAMES = 30
+_MAILBOX_ACK_TIMEOUT_SECONDS = 1.0  # Fallback when frame_counter is stuck
+_MAILBOX_ACK_RETRY_BACKOFF_SECONDS = 0.5
+_MAIN_HOOK_OFFSET = 0x00152696
+_PAYLOAD_OFFSET = 0x0015E000
 _AI_STATE_CUTSCENE_THRESHOLD = 200
 _AI_STATE_NORMAL = 300
+_DEMO_PLAYBACK_FLAGS_ADDR_KEY = "demo_playback_flags_native"
+_DEMO_PLAYBACK_ACTIVE_FLAG = 0x10
+_DEMO_PLAYBACK_FLAGS_WIDTH = 4
 _KIRBY_HP_ADDR_KEY = "kirby_hp_native"
 _KIRBY_HP_READ_WIDTH = 1
+_ROOM_VISIT_FLAGS_ADDR_KEY = "room_visit_flags_native"
+_ROOM_VISIT_FLAGS_ENTRY_COUNT = 0x120
+_ROOM_VISIT_FLAGS_BIT_MASK = 0x8000
 _OPTIONAL_UNSAFE_DELIVERY_COUNTERS = (
     ("shadow_kirby_encounters_native", "shadow_kirby_encounters"),
     ("mirra_encounters_native", "mirra_encounters"),
@@ -61,7 +74,13 @@ class KirbyAmClient(BizHawkClient):
         self._delivered_item_index: int = 0
         self._delivery_pending: bool = False  # True after writing mailbox until ROM clears flag
         self._delivery_pending_frame: int | None = None
+        self._delivery_pending_time: float | None = None  # Monotonic time recorded when mailbox write issued
         self._delivery_pending_item_index: int | None = None
+        self._delivery_timeout_streak: int = 0
+        self._delivery_retry_not_before: float = 0.0
+        self._delivery_payload_stall_warned: bool = False
+        self._last_hook_heartbeat: int | None = None
+        self._hook_heartbeat_stale_ticks: int = 0
         self._delivery_counter_ahead_fallback_active: bool = False
         self._delivery_counter_ahead_resume_logged: bool = False
 
@@ -106,6 +125,14 @@ class KirbyAmClient(BizHawkClient):
                 continue
             self._sound_player_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
 
+        # Room-sanity bitfield index (doorsIdx) → location IDs.
+        self._room_sanity_location_ids_by_bit: dict[int, list[int]] = {}
+        for loc in data.locations.values():
+            if loc.bit_index is None or loc.category != LocationCategory.ROOM_SANITY:
+                continue
+            self._room_sanity_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+        self._room_sanity_bits_sorted: list[int] = sorted(self._room_sanity_location_ids_by_bit.keys())
+
         # One-time RAM state load
         self._ram_state_loaded: bool = False
 
@@ -130,6 +157,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_major_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_vitality_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_sound_player_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+        self._last_room_sanity_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
 
         # Notification pipeline state (Issue #83)
         self._notification_settings_loaded: bool = False
@@ -151,6 +179,10 @@ class KirbyAmClient(BizHawkClient):
         # Research-first unsafe-delivery candidate probing state (Issue #223)
         self._unsafe_delivery_probe_stream_marker: object = None
         self._last_unsafe_delivery_counter_values: dict[str, int] = {}
+
+        # Gameplay-state logging diagnostics (Issue #477)
+        self._debug_gameplay_state_logging_enabled: bool = False
+        self._debug_gameplay_states_seen: set[int] = set()
 
     @staticmethod
     def _server_session_ready(ctx: "BizHawkClientContext") -> bool:
@@ -176,6 +208,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_major_chest_poll_log = None
         self._last_vitality_chest_poll_log = None
         self._last_sound_player_chest_poll_log = None
+        self._last_room_sanity_poll_log = None
         self._last_boss_probe_snapshot = None
         self._boss_probe_stream_marker = None
         self._unsafe_delivery_probe_stream_marker = None
@@ -193,7 +226,13 @@ class KirbyAmClient(BizHawkClient):
         self._ram_state_loaded = False
         self._delivery_pending = False
         self._delivery_pending_frame = None
+        self._delivery_pending_time = None
         self._delivery_pending_item_index = None
+        self._delivery_timeout_streak = 0
+        self._delivery_retry_not_before = 0.0
+        self._delivery_payload_stall_warned = False
+        self._last_hook_heartbeat = None
+        self._hook_heartbeat_stale_ticks = 0
 
         if self._last_watcher_transport_error == reason:
             return False
@@ -234,6 +273,16 @@ class KirbyAmClient(BizHawkClient):
 
         self._notification_settings_loaded = True
 
+    def _load_debug_settings(self, ctx: "BizHawkClientContext") -> None:
+        slot_data = getattr(ctx, "slot_data", None)
+        if isinstance(slot_data, dict):
+            debug_config = slot_data.get("debug", {})
+            if isinstance(debug_config, dict):
+                self._debug_gameplay_state_logging_enabled = self._coerce_bool(
+                    debug_config.get("gameplay_state_logging", False),
+                    False,
+                )
+
     @staticmethod
     def _player_name(ctx: "BizHawkClientContext", player_id: int) -> str:
         if player_id == 0:
@@ -251,7 +300,11 @@ class KirbyAmClient(BizHawkClient):
         if lookup is not None:
             try:
                 resolved = lookup.lookup_in_slot(item_id, item_player)
-                if isinstance(resolved, str) and resolved:
+                if (
+                    isinstance(resolved, str)
+                    and resolved
+                    and not resolved.startswith("Unknown item (ID:")
+                ):
                     return resolved
             except Exception:
                 pass
@@ -286,17 +339,20 @@ class KirbyAmClient(BizHawkClient):
 
         self._notified_receive_indices.add(delivered_index)
         item_id, player_id = item_fields
-        item_name = self._item_name(ctx, item_id, player_id)
+        receiver_slot = self._coerce_u32(getattr(ctx, "slot", None))
+        lookup_slot = receiver_slot if receiver_slot is not None else player_id
+        item_name = self._item_name(ctx, item_id, lookup_slot)
         sender_name = self._player_name(ctx, player_id)
-        message = f"{item_name} received from {sender_name}"
+        message = f"Received {item_name} from {sender_name}"
 
         from CommonClient import logger
 
         logger.info(
-            "KirbyAM: receive notification queued (index=%s, item=%s, sender=%s)",
+            "KirbyAM: receive notification queued (index=%s, item=%s, sender=%s, lookup_slot=%s)",
             delivered_index,
             item_name,
             sender_name,
+            lookup_slot,
         )
         try:
             await bizhawk.display_message(ctx.bizhawk_ctx, message)
@@ -330,16 +386,17 @@ class KirbyAmClient(BizHawkClient):
             return
         self._notified_send_keys.add(send_key)
 
-        item_name = self._item_name(ctx, item_id, sender_id)
+        # ItemSend packets should resolve item names in the receiving slot context.
+        item_name = self._item_name(ctx, item_id, receiver_id)
         sender_name = self._player_name(ctx, sender_id)
         receiver_name = self._player_name(ctx, receiver_id)
         location_name = self._location_name(location_id)
 
         # Build message with location context if available
         if location_name:
-            message = f"Sent {item_name} to {receiver_name} ({location_name})"
+            message = f"You sent {item_name} to {receiver_name} at {location_name}"
         else:
-            message = f"Sent {item_name} to {receiver_name}"
+            message = f"You sent {item_name} to {receiver_name}"
 
         from CommonClient import logger
 
@@ -350,10 +407,11 @@ class KirbyAmClient(BizHawkClient):
         elapsed = now - self._send_notify_window_start
         if elapsed >= _SEND_NOTIFY_WINDOW_SECONDS:
             if self._send_notify_window_suppressed > 0:
-                summary = f"Suppressed {self._send_notify_window_suppressed} send notifications"
+                suppressed_count = self._send_notify_window_suppressed
+                summary = f"Skipped {suppressed_count} send popup(s) to reduce spam"
                 logger.info(
                     "KirbyAM: send notification burst suppression summary (suppressed=%s)",
-                    self._send_notify_window_suppressed,
+                    suppressed_count,
                 )
                 Utils.async_start(bizhawk.display_message(ctx.bizhawk_ctx, summary))
             self._send_notify_window_start = now
@@ -381,28 +439,46 @@ class KirbyAmClient(BizHawkClient):
         )
         Utils.async_start(bizhawk.display_message(ctx.bizhawk_ctx, message))
 
+    async def _display_client_message(self, ctx: "BizHawkClientContext", message: str) -> None:
+        """Best-effort popup helper for player-facing messages."""
+        from CommonClient import logger
+
+        try:
+            await bizhawk.display_message(ctx.bizhawk_ctx, message)
+        except Exception:
+            logger.warning(
+                "KirbyAM: failed to display client popup (message=%r)",
+                message,
+                exc_info=True,
+            )
+
     async def validate_rom(self, ctx: "BizHawkClientContext") -> bool:
         """Validate ROM is Kirby & The Amazing Mirror and initialize client."""
         from CommonClient import logger
         from .rom import KirbyAmProcedurePatch
 
-        def _fail(reason: str) -> bool:
+        async def _fail(reason: str, popup_message: str | None = None) -> bool:
+            if popup_message is not None and getattr(self, "_last_validation_failure_reason", None) != reason:
+                await self._display_client_message(ctx, popup_message)
             self._last_validation_failure_reason = reason
             return False
 
         auth_addr = data.rom_addresses.get("gArchipelagoInfo")
         if auth_addr is None:
             logger.error("KirbyAM: missing rom address 'gArchipelagoInfo' in worlds/kirbyam/data/addresses.json")
-            return _fail("missing_auth_address")
+            return await _fail("missing_auth_address", "Unable to load ROM: patch metadata address is missing.")
         auth_addr = _normalize_gba_rom_address(auth_addr)
 
         rom_hash = getattr(ctx, "rom_hash", None)
         if isinstance(rom_hash, str) and rom_hash.lower() == KirbyAmProcedurePatch.hash.lower():
-            logger.info(
-                "ERROR: You appear to be running an unpatched Kirby & The Amazing Mirror ROM. "
+            logger.error(
+                "You appear to be running an unpatched Kirby & The Amazing Mirror ROM. "
                 "Generate a patch file and use it to create a patched ROM before opening the BizHawk client."
             )
-            return _fail("unpatched_base_rom")
+            return await _fail(
+                "unpatched_base_rom",
+                "Unable to load ROM: base ROM detected. Please use a patched ROM.",
+            )
 
         try:
             title_bytes, game_code_bytes, maker_code_bytes = await bizhawk.read(
@@ -427,30 +503,52 @@ class KirbyAmClient(BizHawkClient):
                     game_code,
                     maker_code,
                 )
-                return _fail("header_mismatch")
+                return await _fail(
+                    "header_mismatch",
+                    "Unable to load ROM: invalid Kirby and the Amazing Mirror ROM.",
+                )
         except bizhawk.RequestFailedError as exc:
             logger.info("KirbyAM: ROM header read failed during validation: %s", exc)
-            return _fail("header_read_failed")
+            return await _fail("header_read_failed", "Unable to load ROM: could not read ROM header data.")
         except Exception as exc:
             logger.error("KirbyAM: unexpected error during ROM header validation", exc_info=exc)
-            return _fail("header_validation_exception")
+            return await _fail("header_validation_exception", "Unable to load ROM: ROM header validation failed.")
 
         try:
             auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
         except bizhawk.RequestFailedError as exc:
             logger.info("KirbyAM: ROM auth read failed during validation: %s", exc)
-            return _fail("auth_read_failed")
+            return await _fail("auth_read_failed", "Unable to load ROM: could not read patch metadata.")
         except Exception as exc:
             logger.error("KirbyAM: unexpected error during ROM auth validation", exc_info=exc)
-            return _fail("auth_validation_exception")
+            return await _fail(
+                "auth_validation_exception",
+                "Unable to load ROM: patch metadata validation failed.",
+            )
 
         if not any(auth_raw):
             if getattr(self, "_last_validation_failure_reason", None) != "missing_patch_metadata":
-                logger.info(
-                    "ERROR: KirbyAM patch metadata was missing from the loaded ROM. "
+                logger.error(
+                    "KirbyAM patch metadata was missing from the loaded ROM. "
                     "Regenerate the patch and recreate the patched ROM before opening the BizHawk client."
                 )
-            return _fail("missing_patch_metadata")
+            return await _fail(
+                "missing_patch_metadata",
+                "Unable to load ROM: missing patch metadata. Rebuild your patched ROM.",
+            )
+
+        # Diagnostics: verify the loaded ROM has a patched Thumb BL at the main hook site.
+        try:
+            hook_bytes = (await bizhawk.read(ctx.bizhawk_ctx, [(_MAIN_HOOK_OFFSET, 4, "ROM")]))[0]
+            if not is_thumb_bl_instruction(bytes(hook_bytes)):
+                logger.warning(
+                    "KirbyAM: main hook callsite at 0x%06X is not patched with a Thumb BL "
+                    "(found=%s). Loaded ROM may be incompatible with this payload build.",
+                    _MAIN_HOOK_OFFSET,
+                    bytes(hook_bytes).hex(" "),
+                )
+        except Exception as exc:
+            logger.info("KirbyAM: main hook opcode probe failed during validation: %s", exc)
 
         self._last_validation_failure_reason = None
 
@@ -496,6 +594,7 @@ class KirbyAmClient(BizHawkClient):
             return
 
         self._load_notification_settings(ctx)
+        self._load_debug_settings(ctx)
         await self._sync_death_link_setting(ctx)
 
         if not self._watcher_server_ready:
@@ -514,6 +613,15 @@ class KirbyAmClient(BizHawkClient):
                 self._ram_state_loaded = True
 
             gameplay_active, defer_reason, ai_state = await self._runtime_gameplay_state(ctx)
+            if self._debug_gameplay_state_logging_enabled and ai_state is not None:
+                if ai_state not in self._debug_gameplay_states_seen:
+                    self._debug_gameplay_states_seen.add(ai_state)
+                    logger.info(
+                        "KirbyAM debug: observed unique gameplay state (ai_state=%s, gameplay_active=%s, reason=%s)",
+                        ai_state,
+                        gameplay_active,
+                        defer_reason,
+                    )
             if not gameplay_active:
                 if self._last_runtime_gate_reason != defer_reason:
                     logger.info(
@@ -521,6 +629,7 @@ class KirbyAmClient(BizHawkClient):
                         defer_reason,
                         ai_state if ai_state is not None else "unavailable",
                     )
+                    await self._display_client_message(ctx, "Item sending paused by game state")
                     self._last_runtime_gate_reason = defer_reason
 
                 # Preserve mailbox ACK handling while deferring new writes.
@@ -533,6 +642,7 @@ class KirbyAmClient(BizHawkClient):
 
             if self._last_runtime_gate_reason is not None:
                 logger.info("KirbyAM: gameplay-active state restored; resuming normal watcher flow")
+                await self._display_client_message(ctx, "Item sending resumed")
                 self._last_runtime_gate_reason = None
 
             await self._apply_pending_death_link(ctx)
@@ -549,6 +659,9 @@ class KirbyAmClient(BizHawkClient):
 
             # Sound Player chest location polling via dedicated sound_player_chest_flags register
             await self._poll_sound_player_chest_locations(ctx)
+
+            # Room-sanity location polling via native gVisitedDoors bit 15.
+            await self._poll_room_sanity_locations(ctx)
 
             # Candidate discovery for non-shard boss defeat signals.
             await self._probe_boss_defeat_candidates(ctx)
@@ -692,18 +805,33 @@ class KirbyAmClient(BizHawkClient):
         - known non-gameplay states remain deferred (tutorial/menu, cutscene, goal-clear states)
         - unknown post-300 states fail open to avoid blocking mailbox item delivery
         - fail open when native address is unavailable
+
+        Issue #477 narrowing:
+        - title-screen demo playback can also report AI state 300; treat demo playback as non-gameplay
         """
         ai_state_addr = self._native_addr("ai_kirby_state_native")
         if ai_state_addr is None:
             return True, "gate_signal_unavailable", None
 
-        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(ai_state_addr, _AI_STATE_ADDR_WIDTH, "System Bus")]))[0]
-        ai_state = self._u32_le(raw)
+        demo_flags_addr = self._native_addr(_DEMO_PLAYBACK_FLAGS_ADDR_KEY)
+        reads: list[tuple[int, int, str]] = [(ai_state_addr, _AI_STATE_ADDR_WIDTH, "System Bus")]
+        if demo_flags_addr is not None:
+            reads.append((demo_flags_addr, _DEMO_PLAYBACK_FLAGS_WIDTH, "System Bus"))
+
+        raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
+        ai_state = self._u32_le(raw_values[0])
 
         if ai_state < _AI_STATE_CUTSCENE_THRESHOLD:
             return False, "non_gameplay_tutorial_or_menu", ai_state
         if ai_state < _AI_STATE_NORMAL:
             return False, "non_gameplay_cutscene", ai_state
+        if ai_state == _AI_STATE_NORMAL:
+            demo_playback_active = False
+            if demo_flags_addr is not None and len(raw_values) > 1:
+                demo_flags = self._u32_le(raw_values[1])
+                demo_playback_active = bool(demo_flags & _DEMO_PLAYBACK_ACTIVE_FLAG)
+            if demo_playback_active:
+                return False, "non_gameplay_title_demo", ai_state
         if ai_state in (_GOAL_STATE_DARK_MIND_CLEAR, _GOAL_STATE_FULL_CLEAR):
             return False, "non_gameplay_goal_clear", ai_state
         return True, "gameplay_active", ai_state
@@ -983,6 +1111,78 @@ class KirbyAmClient(BizHawkClient):
         else:
             self._last_sound_player_chest_poll_log = None
 
+    async def _poll_room_sanity_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """
+        Read native gVisitedDoors[doorsIdx] entries and map visit bit (bit 15) to room-sanity locations.
+
+        The room-sanity location bit_index field stores the native doorsIdx value.
+        Polling is level-based and reconnect-safe: checks are resent until the server
+        acknowledges them in ctx.checked_locations.
+        """
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            return
+        if not self._coerce_bool(slot_data.get("room_sanity", False), False):
+            return
+
+        if not self._room_sanity_location_ids_by_bit:
+            return
+
+        room_visit_addr = self._native_addr(_ROOM_VISIT_FLAGS_ADDR_KEY)
+        if room_visit_addr is None:
+            return
+
+        read_width = _ROOM_VISIT_FLAGS_ENTRY_COUNT * 2
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(room_visit_addr, read_width, "System Bus")]))[0]
+
+        if len(raw) != read_width:
+            from CommonClient import logger
+
+            logger.warning(
+                "KirbyAM: room-sanity poll expected %s bytes from gVisitedDoors, got %s; skipping tick",
+                read_width,
+                len(raw),
+            )
+            return
+
+        raw_view = memoryview(raw)
+
+        mapped_checked_locations: set[int] = set()
+        for doors_idx in self._room_sanity_bits_sorted:
+            if doors_idx < 0 or doors_idx >= _ROOM_VISIT_FLAGS_ENTRY_COUNT:
+                continue
+            entry_value = unpack_from("<H", raw_view, doors_idx * 2)[0]
+            if entry_value & _ROOM_VISIT_FLAGS_BIT_MASK:
+                mapped_checked_locations.update(self._room_sanity_location_ids_by_bit.get(doors_idx, []))
+
+        missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
+        already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
+        if missing_on_server:
+            from CommonClient import logger
+
+            room_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
+            if room_log_state != self._last_room_sanity_poll_log:
+                logger.info(
+                    "KirbyAM: resending room-sanity LocationChecks missing on server (missing=%s, acked=%s)",
+                    missing_on_server,
+                    already_acknowledged,
+                )
+                self._last_room_sanity_poll_log = room_log_state
+
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
+        elif mapped_checked_locations:
+            from CommonClient import logger
+
+            room_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
+            if room_log_state != self._last_room_sanity_poll_log:
+                logger.debug(
+                    "KirbyAM: dedupe suppressed room-sanity LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                    already_acknowledged,
+                )
+                self._last_room_sanity_poll_log = room_log_state
+        else:
+            self._last_room_sanity_poll_log = None
+
     async def _probe_boss_defeat_candidates(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
         Probe native candidate boss table bytes and log rising-edge bit transitions.
@@ -1106,6 +1306,8 @@ class KirbyAmClient(BizHawkClient):
         - If flag=0 and items available: write next item (set flag -> 1)
         - Otherwise: wait
         """
+        from CommonClient import logger
+
         flag_addr = self._transport_addr("incoming_item_flag")
         counter_addr = self._transport_addr("debug_item_counter")
         id_addr = self._transport_addr("incoming_item_id")
@@ -1113,14 +1315,15 @@ class KirbyAmClient(BizHawkClient):
         if flag_addr is None or id_addr is None or player_addr is None:
             return
 
-        from CommonClient import logger
-
         frame_addr = self._transport_addr("frame_counter")
+        heartbeat_addr = self._transport_addr("hook_heartbeat")
         reads: list[tuple[int, int, str]] = [(flag_addr, 4, "System Bus")]
         if counter_addr is not None:
             reads.append((counter_addr, 4, "System Bus"))
         if frame_addr is not None:
             reads.append((frame_addr, 4, "System Bus"))
+        if heartbeat_addr is not None:
+            reads.append((heartbeat_addr, 4, "System Bus"))
         raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
 
         flag = self._u32_le(raw_values[0])
@@ -1132,6 +1335,16 @@ class KirbyAmClient(BizHawkClient):
         current_frame: Optional[int] = None
         if frame_addr is not None and len(raw_values) > next_read_index:
             current_frame = self._u32_le(raw_values[next_read_index])
+            next_read_index += 1
+
+        hook_heartbeat: Optional[int] = None
+        if heartbeat_addr is not None and len(raw_values) > next_read_index:
+            hook_heartbeat = self._u32_le(raw_values[next_read_index])
+            if self._last_hook_heartbeat is None or hook_heartbeat != self._last_hook_heartbeat:
+                self._hook_heartbeat_stale_ticks = 0
+            else:
+                self._hook_heartbeat_stale_ticks += 1
+            self._last_hook_heartbeat = hook_heartbeat
 
         # Auto-resync delivery cursor if ROM item state moved backward (save-loss)
         # or forward (reconnect after stale client state).
@@ -1139,8 +1352,8 @@ class KirbyAmClient(BizHawkClient):
             if rom_received_count > len(ctx.items_received):
                 if not self._delivery_counter_ahead_fallback_active:
                     logger.warning(
-                        "KirbyAM: ROM item counter ahead of ReceivedItems (rom=%s, received=%s); "
-                        "ignoring counter to avoid mailbox starvation",
+                        "KirbyAM: ROM delivery counter is ahead of received items (rom=%s, received=%s); "
+                        "ignoring ROM counter and continuing mailbox delivery",
                         rom_received_count,
                         len(ctx.items_received),
                     )
@@ -1148,8 +1361,8 @@ class KirbyAmClient(BizHawkClient):
             else:
                 if self._delivery_counter_ahead_fallback_active:
                     logger.info(
-                        "KirbyAM: ROM item counter back in range (rom=%s, received=%s); "
-                        "restoring normal reconciliation",
+                        "KirbyAM: ROM delivery counter is back in range (rom=%s, received=%s); "
+                        "restoring normal mailbox synchronization",
                         rom_received_count,
                         len(ctx.items_received),
                     )
@@ -1158,25 +1371,37 @@ class KirbyAmClient(BizHawkClient):
 
             if rom_received_count < self._delivered_item_index:
                 logger.info(
-                    "KirbyAM: ROM item counter regressed from %s to %s; rewinding delivery cursor",
+                    "KirbyAM: ROM delivery counter moved backward from %s to %s; rewinding client delivery cursor",
                     self._delivered_item_index,
                     rom_received_count,
                 )
                 self._delivered_item_index = rom_received_count
                 self._delivery_pending = False
                 self._delivery_pending_frame = None
+                self._delivery_pending_time = None
                 self._delivery_pending_item_index = None
+                self._delivery_timeout_streak = 0
+                self._delivery_retry_not_before = 0.0
+                self._delivery_payload_stall_warned = False
                 await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
             elif rom_received_count > self._delivered_item_index and rom_received_count <= len(ctx.items_received):
+                # Capture pending state before clearing — this counter advance may be the ACK signal.
+                _ff_was_pending = self._delivery_pending
+                _ff_pending_item_index = self._delivery_pending_item_index
                 logger.info(
-                    "KirbyAM: ROM item counter advanced from %s to %s; fast-forwarding delivery cursor",
+                    "KirbyAM: ROM delivery counter moved forward from %s to %s; fast-forwarding client delivery cursor",
                     self._delivered_item_index,
                     rom_received_count,
                 )
                 self._delivered_item_index = rom_received_count
                 self._delivery_pending = False
                 self._delivery_pending_frame = None
+                self._delivery_pending_time = None
                 self._delivery_pending_item_index = None
+                self._delivery_timeout_streak = 0
+                self._delivery_retry_not_before = 0.0
+                self._delivery_payload_stall_warned = False
+                self._hook_heartbeat_stale_ticks = 0
                 await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
                 if flag != 0:
                     logger.warning(
@@ -1186,6 +1411,16 @@ class KirbyAmClient(BizHawkClient):
                     await bizhawk.write(ctx.bizhawk_ctx, [
                         (flag_addr, (0).to_bytes(4, "little"), "System Bus"),
                     ])
+                # When the ROM counter advances while a delivery was pending and flag == 0,
+                # this IS the ACK: the ROM processed our mailbox item and incremented the
+                # counter in the same frame as clearing the flag.  Emit the receive
+                # notification here so it is not silently dropped by the fast-forward path
+                # taking precedence over the 'if self._delivery_pending' block below.
+                if _ff_was_pending and flag == 0:
+                    _notify_index = _ff_pending_item_index
+                    if _notify_index is None:
+                        _notify_index = self._delivered_item_index - 1
+                    await self._emit_receive_notification(ctx, _notify_index)
 
         # If an item is pending, wait for ROM to clear the flag (ACK)
         if self._delivery_pending:
@@ -1193,10 +1428,15 @@ class KirbyAmClient(BizHawkClient):
                 delivered_index = self._delivery_pending_item_index
                 if delivered_index is None:
                     delivered_index = self._delivered_item_index
-                logger.info("KirbyAM: Mailbox ACK observed at item index %s", self._delivered_item_index)
+                logger.info("KirbyAM: Mailbox delivery confirmed at item index %s", delivered_index)
                 self._delivery_pending = False
                 self._delivery_pending_frame = None
+                self._delivery_pending_time = None
                 self._delivery_pending_item_index = None
+                self._delivery_timeout_streak = 0
+                self._delivery_retry_not_before = 0.0
+                self._delivery_payload_stall_warned = False
+                self._hook_heartbeat_stale_ticks = 0
                 if rom_received_count is not None and rom_received_count <= len(ctx.items_received):
                     self._delivered_item_index = rom_received_count
                 else:
@@ -1205,20 +1445,68 @@ class KirbyAmClient(BizHawkClient):
                 await self._emit_receive_notification(ctx, delivered_index)
                 return
 
+            # Check for timeout via frame counter OR wall-clock time (fallback if frame_counter stuck)
+            timeout_triggered = False
+            timeout_reason = ""
+
             if current_frame is not None and self._delivery_pending_frame is not None:
                 elapsed_frames = (current_frame - self._delivery_pending_frame) & 0xFFFFFFFF
                 if elapsed_frames >= _MAILBOX_ACK_TIMEOUT_FRAMES:
-                    logger.warning(
-                        "KirbyAM: Mailbox ACK timeout after %s frames at item index %s; clearing flag and retrying",
-                        elapsed_frames,
-                        self._delivered_item_index,
-                    )
-                    await bizhawk.write(ctx.bizhawk_ctx, [
-                        (flag_addr, (0).to_bytes(4, "little"), "System Bus"),
-                    ])
-                    self._delivery_pending = False
-                    self._delivery_pending_frame = None
-                    self._delivery_pending_item_index = None
+                    timeout_triggered = True
+                    timeout_reason = f"frame timeout ({elapsed_frames} frames >= {_MAILBOX_ACK_TIMEOUT_FRAMES})"
+
+            frame_counter_stuck = (
+                current_frame is None
+                or self._delivery_pending_frame is None
+                or current_frame == self._delivery_pending_frame
+            )
+
+            # Fallback: monotonic timeout only when frame counter is unavailable/stuck.
+            if not timeout_triggered and frame_counter_stuck and self._delivery_pending_time is not None:
+                elapsed_seconds = time.monotonic() - self._delivery_pending_time
+                if elapsed_seconds >= _MAILBOX_ACK_TIMEOUT_SECONDS:
+                    timeout_triggered = True
+                    timeout_reason = f"time timeout ({elapsed_seconds:.1f}s >= {_MAILBOX_ACK_TIMEOUT_SECONDS}s)"
+
+            if timeout_triggered:
+                self._delivery_timeout_streak += 1
+                logger.warning(
+                    "KirbyAM: Mailbox ACK timeout at item index %s; clearing flag and retrying (%s)",
+                    self._delivered_item_index,
+                    timeout_reason,
+                )
+                if (
+                    not self._delivery_payload_stall_warned
+                    and self._delivery_timeout_streak >= 3
+                    and current_frame == 0
+                    and (self._delivery_pending_frame in (None, 0))
+                ):
+                    if hook_heartbeat is not None and self._hook_heartbeat_stale_ticks >= 3:
+                        logger.warning(
+                            "KirbyAM: Repeated mailbox ACK timeouts with frame_counter stuck at 0 and "
+                            "hook_heartbeat not advancing (value=%s); payload hook appears inactive",
+                            hook_heartbeat,
+                        )
+                    elif hook_heartbeat is not None:
+                        logger.warning(
+                            "KirbyAM: Repeated mailbox ACK timeouts with frame_counter stuck at 0 while "
+                            "hook_heartbeat advances (value=%s); frame_counter slot may be unstable",
+                            hook_heartbeat,
+                        )
+                    else:
+                        logger.warning(
+                            "KirbyAM: Repeated mailbox ACK timeouts with frame_counter stuck at 0; "
+                            "payload hook may be inactive in the loaded ROM patch"
+                        )
+                    self._delivery_payload_stall_warned = True
+                await bizhawk.write(ctx.bizhawk_ctx, [
+                    (flag_addr, (0).to_bytes(4, "little"), "System Bus"),
+                ])
+                self._delivery_pending = False
+                self._delivery_pending_frame = None
+                self._delivery_pending_time = None
+                self._delivery_pending_item_index = None
+                self._delivery_retry_not_before = time.monotonic() + _MAILBOX_ACK_RETRY_BACKOFF_SECONDS
             return
 
         # No pending item; mailbox must be empty to write
@@ -1227,6 +1515,9 @@ class KirbyAmClient(BizHawkClient):
 
         # Gameplay-state gate can defer new writes while still allowing ACK/recovery handling.
         if not allow_new_writes:
+            return
+
+        if self._delivery_retry_not_before > 0.0 and time.monotonic() < self._delivery_retry_not_before:
             return
 
         # Nothing to deliver
@@ -1244,7 +1535,11 @@ class KirbyAmClient(BizHawkClient):
                 )
                 self._delivered_item_index += 1
                 self._delivery_pending = False
+                self._delivery_pending_time = None
                 self._delivery_pending_item_index = None
+                self._delivery_timeout_streak = 0
+                self._delivery_retry_not_before = 0.0
+                self._delivery_payload_stall_warned = False
                 await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
                 continue
 
@@ -1252,7 +1547,7 @@ class KirbyAmClient(BizHawkClient):
 
             if self._delivery_counter_ahead_fallback_active and not self._delivery_counter_ahead_resume_logged:
                 logger.info(
-                    "KirbyAM: ROM counter ahead fallback active; continuing mailbox write at item index %s "
+                    "KirbyAM: ROM counter fallback active; continuing mailbox delivery at item index %s "
                     "(rom=%s, received=%s)",
                     self._delivered_item_index,
                     rom_received_count,
@@ -1260,12 +1555,13 @@ class KirbyAmClient(BizHawkClient):
                 )
                 self._delivery_counter_ahead_resume_logged = True
 
-            logger.info(
-                "KirbyAM: Writing mailbox item index %s (item=%s, player=%s)",
-                self._delivered_item_index,
-                item_id,
-                player_id,
-            )
+            if logger.isEnabledFor(logging.INFO):
+                logger.info(
+                    "KirbyAM: Delivering mailbox item index %s (%s from %s)",
+                    self._delivered_item_index,
+                    self._item_name(ctx, item_id, player_id),
+                    self._player_name(ctx, player_id),
+                )
             await bizhawk.write(ctx.bizhawk_ctx, [
                 (id_addr, item_id.to_bytes(4, "little"), "System Bus"),
                 (player_addr, player_id.to_bytes(4, "little"), "System Bus"),
@@ -1273,6 +1569,7 @@ class KirbyAmClient(BizHawkClient):
             ])
             self._delivery_pending = True
             self._delivery_pending_frame = current_frame
+            self._delivery_pending_time = time.monotonic()  # Record monotonic time for timeout fallback
             self._delivery_pending_item_index = self._delivered_item_index
             return
 
@@ -1300,9 +1597,9 @@ class KirbyAmClient(BizHawkClient):
         if slot_goal != Goal.option_dark_mind:
             return False
 
-        # Dark Mind clear is anchored to 9999. The 10000 state is post-clear progression
-        # and should not be used as the first-clear trigger.
-        return ai_state == _GOAL_STATE_DARK_MIND_CLEAR
+        # Dark Mind clear is ideally observed at 9999, but live sessions can miss that
+        # transient state and only see the subsequent post-clear 10000 signal.
+        return ai_state in (_GOAL_STATE_DARK_MIND_CLEAR, _GOAL_STATE_FULL_CLEAR)
 
     async def _maybe_report_goal(
         self,
@@ -1313,8 +1610,9 @@ class KirbyAmClient(BizHawkClient):
         Goal reporting from native signal polling.
 
         Behavior:
-        - Reports selected goal location when the corresponding native signal is active.
-        - Sends CLIENT_GOAL once server acknowledges the selected goal location.
+        - For addressless runtime goal events, sends CLIENT_GOAL directly.
+        - If a future world version exposes a numeric server goal location, sends
+          LocationChecks first and CLIENT_GOAL after server acknowledgement.
         - Falls back to no-op when native addresses are unavailable.
         """
         if self._goal_reported:
@@ -1350,6 +1648,11 @@ class KirbyAmClient(BizHawkClient):
         if goal_location_id is None:
             return
 
+        server_locations = getattr(ctx, "server_locations", None)
+        goal_location_exposed_by_server = (
+            isinstance(server_locations, set) and goal_location_id in server_locations
+        )
+
         if not self._native_goal_signal_seen:
             self._native_goal_signal_seen = await self._native_goal_signal_active(
                 ctx,
@@ -1364,6 +1667,28 @@ class KirbyAmClient(BizHawkClient):
                 )
 
         if not self._native_goal_signal_seen:
+            return
+
+        if not goal_location_exposed_by_server:
+            from CommonClient import logger
+            from NetUtils import ClientStatus
+
+            finished_game = getattr(ctx, "finished_game", False)
+            if not isinstance(finished_game, bool):
+                finished_game = False
+
+            if finished_game:
+                self._goal_reported = True
+                return
+
+            logger.info(
+                "KirbyAM: goal location is addressless in this world; sending CLIENT_GOAL directly (goal_option=%s)",
+                slot_goal,
+            )
+            await self._display_client_message(ctx, "Goal complete")
+            await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+            ctx.finished_game = True
+            self._goal_reported = True
             return
 
         if goal_location_id not in ctx.checked_locations:
@@ -1397,7 +1722,9 @@ class KirbyAmClient(BizHawkClient):
             from CommonClient import logger
             from NetUtils import ClientStatus
             logger.info("KirbyAM: goal complete; sending CLIENT_GOAL status (goal_option=%s)", slot_goal)
+            await self._display_client_message(ctx, "Goal complete")
             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+            ctx.finished_game = True
             self._goal_reported = True
 
     def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict) -> None:

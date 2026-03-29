@@ -367,7 +367,7 @@ Completion logic was still tied directly to "all shard items collected" and used
 Goal handling now uses explicit goal locations:
 - Goal=Dark Mind -> requires `Defeat Dark Mind`
 - Goal locations live in `REGION_DIMENSION_MIRROR/MAIN` and are locked progression events, not randomized pool entries
-- The BizHawk client reports the selected goal location from native AI-state polling (`ai_kirby_state_native`), then sends goal status after the server acknowledges that goal location
+- World generation converts those goal locations into addressless runtime events (`loc.address = None`), so the BizHawk client reports completion with `CLIENT_GOAL` directly from native AI-state polling instead of sending numeric `LocationChecks`
 
 Dimension Mirror access remains shard-gated, so this preserves current progression while ensuring completion is represented by a dedicated AP goal location instead of an auto-collected region event.
 
@@ -378,10 +378,10 @@ Goal completion used temporary client-side aggregation logic instead of native g
 
 ### Solution
 Integrated native AI-state goal polling from `ai_kirby_state_native` (`0x0203AD2C`):
-- Goal=Dark Mind: trigger selected goal location when value is `9999`
-- `10000` is treated as post-clear progression and is not used as first-clear trigger
+- Goal=Dark Mind: treat value `9999` as the native completion transition and trigger goal completion/status reporting
+- `10000` is treated as post-clear progression, but is accepted as a fallback completion signal when the live client misses the transient `9999` state
 
-Client continues to send `CLIENT_GOAL` only after server acknowledgement of the selected goal location check, preserving idempotent AP completion reporting.
+For shipped worlds where the goal location is addressless, the client sends `CLIENT_GOAL` directly and relies on `ctx.finished_game` for reconnect-safe re-sync. A compatibility path still exists for future numeric goal-location worlds.
 
 ## Issue #62: Deterministic Disconnect/Reconnect Resynchronization
 
@@ -447,6 +447,33 @@ entire built-in group.
   - `Item & Location Options` header is absent when KirbyAM has no visible options in that group
   - generated template `requires.game` world version matches `KirbyAmWorld.world_version`
 
+## Issue #457: Core - Improve Client Messaging
+
+### Problem
+Player-facing BizHawk notification text was functional but still technical and
+less natural than expected for normal gameplay.
+
+### Solution
+- Reworded receive notification text to: `Received <item> from <player>`.
+- Reworded send notification text to:
+  - `You sent <item> to <player> at <location>` (location available)
+  - `You sent <item> to <player>` (location unavailable)
+- Reworded send-burst summary text to:
+  - `Skipped N send popup(s) to reduce spam`
+- Added concise player popups for non-item client state changes:
+  - ROM load failures now show plain-language `Unable to load ROM: ...` messages.
+  - Runtime gameplay gates show `Item sending paused by game state` and `Item sending resumed` on transitions.
+  - CLIENT_GOAL status send now shows `Goal complete`.
+- Kept technical logs detailed for diagnosis while minimizing player-facing popup verbosity.
+
+### Validation
+- Updated notification assertions in:
+  - `worlds/kirbyam/test/test_client.py`
+  - `worlds/kirbyam/test/test_notifications.py`
+- Updated protocol/manual-testing docs in:
+  - `worlds/kirbyam/PROTOCOL.md`
+  - `worlds/kirbyam/docs/BIZHAWK_TESTING_GUIDE.md`
+
 ## Issue #83: In-Game Notification Pipeline (Receive + Send)
 
 ### Problem
@@ -484,6 +511,48 @@ notification contract, which made receive/send events opaque in normal play.
 - Manual BizHawk:
   - verify readable receive/send notifications
   - verify reconnect does not replay old notifications
+
+## Issue #269: Receive Notifications Silent Drop on Fast-Forward ACK Path
+
+### Problem
+BizHawk receive notifications were never displayed despite items being delivered
+correctly.  Root cause: the ROM's ap_poll_mailbox_c clears the mailbox flag
+(incoming_item_flag) AND increments debug_item_counter in the same frame when
+it processes a mailbox item.
+
+On the Python client's next watcher tick, the reconciliation path detects
+
+om_received_count > _delivered_item_index (counter already advanced), enters
+the fast-forward branch, and sets _delivery_pending = False.  The subsequent
+if self._delivery_pending: block is now False, so _emit_receive_notification
+is never called.
+
+### Solution
+Capture _ff_was_pending = self._delivery_pending and
+_ff_pending_item_index = self._delivery_pending_item_index **before** clearing
+delivery state in the fast-forward branch.  After advancing the cursor and clearing
+state, if _ff_was_pending and flag == 0, treat this counter-advance as the ACK
+signal and call _emit_receive_notification with the pending index.
+
+The flag != 0 guard ensures we do not falsely notify on abnormal states where
+the counter advanced but the flag is still set (save-state interference).
+
+Also added the missing self._hook_heartbeat_stale_ticks = 0 reset to the
+fast-forward path, which was present in the normal ACK path but absent here.
+
+### Affected files
+- worlds/kirbyam/client.py: fast-forward elif branch in _deliver_items()
+- worlds/kirbyam/PROTOCOL.md: updated receive-specific contract clause
+- worlds/kirbyam/docs/BIZHAWK_TESTING_GUIDE.md: added Issue #269 test scenario
+
+### Validation
+- Added test_receive_notification_emits_via_counter_advance_ack — counter advance
+  + flag==0 + delivery pending → notification emitted.
+- Added test_receive_notification_not_emitted_on_fast_forward_stale_flag — counter
+  advance + flag==1 (abnormal) + delivery pending → no notification.
+- Existing test test_receive_notification_not_emitted_on_fast_forward_only still
+  covers the reconnect fast-forward (no pending delivery) case.
+- Full suite: 266 passed.
 
 ## Issue #73: Receive Notifications (Exactly-Once Per Delivered Item)
 
@@ -1039,18 +1108,26 @@ The remaining risk was the hook boundary itself: calling `ap_poll_mailbox_c`
 from a sensitive site while preserving only part of the live register context.
 
 ### Solution
-Hardened `ap_hook_entry` in `ap_hook.s` to preserve a stronger context envelope:
-- save/restore `r0-r7` and `lr`
-- explicitly mirror and restore `r8-r11` through `r0-r3` around the C call
-- keep replayed overwritten instructions (`mov r7, r9` / `mov r6, r8`) intact
+That hook hardening was later superseded after Issue #437 hook-liveness diagnosis.
+The current diagnostic main hook targets the `VBlankIntr` tail callsite at ROM
+`0x08152696`, overwriting the `mov r7, r9` / `mov r6, r8` pair immediately after native
+`gFrameCount++`.
+The hook entry point (`ap_hook_entry`) stays minimal:
+- save/restore scratch registers and `lr`
+- branch to the AP mailbox C routine (`ap_poll_mailbox_c`)
+  - the C routine increments `hook_heartbeat` and `frame_counter` in EWRAM and processes any pending items
+- replay the two overwritten register moves before returning to `VBlankIntr`
 
-This reduces the chance of hook-boundary context drift affecting startup state.
+Root-cause correction:
+- the main hook patch must branch to `ap_hook_entry`, not to the payload base at `0x0815E000`
+- non-main hooks already resolved their symbol addresses correctly from `payload.elf`
+
+This tests a provably live per-frame interrupt path that exercises the full AP
+mailbox C routine (including counter increments and item handling) from the main hook site.
 
 ### Validation
-- Updated `test_reset_safe_shards.py` hook regression to assert:
-  - low-register + LR preservation (`push/pop {r0-r7, lr}` / `{r0-r7}`)
-  - explicit high-register mirror/restore (`r8-r11` via `r0-r3`)
-  - no `r4`-based LR reconstruction pattern
+- Retest target: `frame_counter` / `hook_heartbeat` should advance during active gameplay
+- `test_patch_rom.py` updated for the new main hook callsite and BL encoding
 
 ## Issue #381: Suppress Native Big Chest Map Grants
 
@@ -1136,19 +1213,19 @@ progression remained concentrated in mirror shards.
 ### Solution
 Added a first-pass useful item tier without introducing new progression rules:
 - map useful items:
-  - `Map - Mustard Mountain`
-  - `Map - Moonlight Mansion`
-  - `Map - Candy Constellation`
-  - `Map - Olive Ocean`
-  - `Map - Peppermint Palace`
-  - `Map - Cabbage Cavern`
-  - `Map - Carrot Castle`
-  - `Map - Radish Ruins`
+  - `Mustard Mountain - Map`
+  - `Moonlight Mansion - Map`
+  - `Candy Constellation - Map`
+  - `Olive Ocean - Map`
+  - `Peppermint Palace - Map`
+  - `Cabbage Cavern - Map`
+  - `Carrot Castle - Map`
+  - `Radish Ruins - Map`
 - vitality useful items:
-  - `Vitality Counter I`
-  - `Vitality Counter II`
-  - `Vitality Counter III`
-  - `Vitality Counter IV`
+  - `Carrot Castle - Vitality Counter`
+  - `Olive Ocean - Vitality Counter`
+  - `Radish Ruins - Vitality Counter`
+  - `Candy Constellation - Vitality Counter`
 
 Pool composition wiring for practical quantities:
 - `BOSS_DEFEAT_1..8` locations now have explicit `default_item` values that map
@@ -1306,7 +1383,7 @@ Implemented a dedicated vitality chest location family and transport signal path
   boss and major chest checks.
 
 AP-delivered vitality items now apply native persistent vitality semantics in payload:
-- `VITALITY_COUNTER_1..4` (`BASE+18..BASE+21`) increment `gTreasures.unk20` at `0x02038980`.
+- `VITALITY_COUNTER_1..4` (`BASE+18..BASE+21`) increment `gTreasures.vitalityField` at `0x02038980`.
 - Active Kirby HP and max HP are synced immediately from the updated vitality total.
 
 ### Validation
@@ -1323,14 +1400,14 @@ AP item ownership semantics when the chest is modeled as an AP location.
 Added a dedicated Sound Player chest AP location family and transport signal path:
 - Added `sound_player_chest_flags` at `0x0202C030` in the mailbox transport block.
 - Added payload hook target `ap_on_collect_sound_player_chest` and patched the native
-  `sub_08019E68` callsite (`0x0000B264`) to intercept Sound Player chest reward index `0`.
+  `CollectMusicPlayerOrSheet` callsite (`0x0000B264`) to intercept Sound Player chest reward index `0`.
 - Hook behavior:
   - reward index `0`: set AP transport bit 0 and suppress native immediate unlock.
   - non-zero reward indices on this native path: preserve vanilla behavior via tail-call
-    to native `sub_08019E68`.
+    to native `CollectMusicPlayerOrSheet`.
 - Added AP location `SOUND_PLAYER_CHEST` (`3960304`, bit 0) and AP item `SOUND_PLAYER`
   (`3860025`).
-- AP-delivered `SOUND_PLAYER` now applies native unlock by invoking `sub_08019E68(0)`.
+- AP-delivered `SOUND_PLAYER` now applies native unlock by invoking `CollectMusicPlayerOrSheet(0)`.
 
 ### Validation
 - Added/updated tests for Sound Player data sanity, client polling, payload hook/apply

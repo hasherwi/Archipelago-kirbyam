@@ -14,9 +14,24 @@
 
 // Monotonic counter incremented every AP hook call (typically once per frame).
 #define AP_FRAME_COUNTER        (*(volatile uint32_t*)(AP_BASE + 0x1Cu))
+#define AP_HOOK_HEARTBEAT       (*(volatile uint32_t*)(AP_BASE + 0x34u))
 
 // Shard State Registers
 #define AP_SHARD_BITFIELD       (*(volatile uint32_t*)(AP_BASE + 0x00u))
+// Issue #478: AP shard authority register.
+// Bits are set by ap_apply_item() shard delivery; never by boss-defeat hook.
+// ap_poll_mailbox_c() may initialize/seed this from native save state when
+// mailbox init cookie is absent, then clamps KIRBY_SHARD_FLAGS to this value
+// once AP_SHARD_SCRUB_DELAY reaches zero after boss activity.
+#define AP_DELIVERED_SHARD_BITFIELD  (*(volatile uint32_t*)(AP_BASE + 0x38u))
+// Issue #478: Frames remaining before the shard scrub is allowed to run.
+// Set to SHARD_BOSS_CUTSCENE_FRAMES by the boss-defeat hook so the
+// post-cutscene state machine has time to observe the temporary native write.
+#define AP_SHARD_SCRUB_DELAY         (*(volatile uint32_t*)(AP_BASE + 0x3Cu))
+#define SHARD_BOSS_CUTSCENE_FRAMES   600u  // ~10 s at 60 fps; covers post-boss shard cutscene
+// Mailbox initialization cookie to protect against stale EWRAM on cold/soft reset.
+#define AP_MAILBOX_INIT_COOKIE       (*(volatile uint32_t*)(AP_BASE + 0x40u))
+#define AP_MAILBOX_INIT_COOKIE_VALUE 0x4B41504Du  // "KAPM"
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
 // Bit N set <=> boss of area N was defeated (same bit ordering as shard_bitfield, bits 0-7 used).
@@ -110,16 +125,16 @@ static void ap_set_sound_player_chest_flag(uint32_t chest_index) {
 
 static void ap_set_vitality_chest_flag_for_room(uint16_t room_id) {
     switch (room_id) {
-        case 739u: // Carrot Castle 5-23 Big Chest Vitality
+        case 739u: // Carrot Castle 5-23 Big Chest
             ap_set_vitality_chest_flag(0u);
             break;
-        case 815u: // Olive Ocean 6-21 Big Chest Vitality
+        case 815u: // Olive Ocean 6-21 Big Chest
             ap_set_vitality_chest_flag(1u);
             break;
-        case 610u: // Radish Ruins 8-4 Big Chest Vitality
+        case 610u: // Radish Ruins 8-4 Big Chest
             ap_set_vitality_chest_flag(2u);
             break;
-        case 403u: // Candy Constellation 9-8 Big Chest Vitality
+        case 403u: // Candy Constellation 9-8 Big Chest
             ap_set_vitality_chest_flag(3u);
             break;
         default:
@@ -152,6 +167,9 @@ __attribute__((used)) void ap_on_boss_defeat_collect_shard(uint32_t boss_index) 
         KIRBY_SHARD_FLAGS = new_shard_flags;
         AP_SHARD_BITFIELD |= (uint32_t)mask;
         persist_shard_to_sram(new_shard_flags);
+        // Issue #478: Hold off the per-frame shard scrub so the post-cutscene
+        // state machine can read the temporary native write without white-screening.
+        AP_SHARD_SCRUB_DELAY = SHARD_BOSS_CUTSCENE_FRAMES;
     }
 }
 
@@ -219,23 +237,24 @@ static void ap_grant_lives(uint8_t amount) {
     KIRBY_LIVES = (uint8_t)(lives + amount);
 }
 
-static void ap_apply_item(uint32_t ap_item_id) {
+// Returns 1 if item was successfully processed, 0 if unrecognized
+static uint8_t ap_apply_item(uint32_t ap_item_id) {
     // 1_UP = BASE+1
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 1u)) {
         ap_grant_lives(1u);
-        return;
+        return 1u;
     }
 
     // 2_UP = BASE+22
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 22u)) {
         ap_grant_lives(2u);
-        return;
+        return 1u;
     }
 
     // 3_UP = BASE+23
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 23u)) {
         ap_grant_lives(3u);
-        return;
+        return 1u;
     }
 
     // SHARD_1..SHARD_8 = BASE+2 .. BASE+9
@@ -243,6 +262,10 @@ static void ap_apply_item(uint32_t ap_item_id) {
 
         uint32_t shard_index = ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 2u); // 0..7
         uint8_t mask = (uint8_t)(1u << shard_index);
+
+        // Issue #478: Record AP-delivered authority so the per-frame scrub knows
+        // which shard bits are legitimately AP-owned.
+        AP_DELIVERED_SHARD_BITFIELD |= (uint32_t)mask;
 
         // Update EWRAM (volatile, temporary)
         uint8_t new_shard_flags = (uint8_t)(KIRBY_SHARD_FLAGS | mask);
@@ -254,50 +277,83 @@ static void ap_apply_item(uint32_t ap_item_id) {
         // Issue #109: Persist to SRAM to survive reset without room change
         persist_shard_to_sram(new_shard_flags);
 
-        return;
+        return 1u;
     }
 
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 24u)) {
         ap_unlock_area_map(1u);
-        return;
+        return 1u;
     }
 
     if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 10u) && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 17u)) {
         static const uint8_t map_area_ids[8] = {4u, 2u, 9u, 6u, 7u, 3u, 5u, 8u};
         uint32_t map_index = ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 10u);
         ap_unlock_area_map(map_area_ids[map_index]);
-        return;
+        return 1u;
     }
 
     // VITALITY_COUNTER_1..VITALITY_COUNTER_4 = BASE+18 .. BASE+21
     if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 18u) && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 21u)) {
         ap_grant_vitality_counter();
-        return;
+        return 1u;
     }
 
     // SOUND_PLAYER = BASE+25
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 25u)) {
         KIRBY_COLLECT_SOUND_PLAYER_FN(0u);
-        return;
+        return 1u;
     }
 
-    // Unhandled item
+    // Unhandled item - return 0 to signal that the flag should NOT be cleared
+    return 0u;
 }
 
 
 void ap_poll_mailbox_c(void) {
 
+    // Hook liveness diagnostic counter; increments on every AP hook entry.
+    AP_HOOK_HEARTBEAT++;
+
     // Always tick a monotonic frame counter so the Python client can perform
     // deterministic, frame-based testing without relying on wall-clock time.
     AP_FRAME_COUNTER++;
 
+    // Initialize mailbox-owned shard scrub state once per fresh EWRAM session.
+    // This avoids acting on stale/garbage transport values after soft reset.
+    if (AP_MAILBOX_INIT_COOKIE != AP_MAILBOX_INIT_COOKIE_VALUE) {
+        uint8_t native_shards_boot = KIRBY_SHARD_FLAGS;
+        AP_DELIVERED_SHARD_BITFIELD = (uint32_t)native_shards_boot;
+        AP_SHARD_SCRUB_DELAY = 0u;
+        AP_BOSS_DEFEAT_FLAGS = 0u;
+        AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
+    }
+
+    uint8_t ap_delivered = (uint8_t)(AP_DELIVERED_SHARD_BITFIELD & 0xFFu);
+    uint8_t native_shards = KIRBY_SHARD_FLAGS;
+
+    // Cold-boot/soft-reset guard: before any local boss-defeat hook activity,
+    // align AP-delivered authority to the current native shard save state.
+    // This prevents scrub from acting on stale/uninitialized transport values.
+    if (AP_BOSS_DEFEAT_FLAGS == 0u && AP_SHARD_SCRUB_DELAY == 0u) {
+        if (ap_delivered != native_shards) {
+            AP_DELIVERED_SHARD_BITFIELD = (uint32_t)native_shards;
+        }
+    } else {
+        // Issue #478: Enforce AP-delivered shard authority after local boss
+        // defeat activity is observed.
+        if (AP_SHARD_SCRUB_DELAY > 0u) {
+            AP_SHARD_SCRUB_DELAY--;
+        } else if (native_shards != ap_delivered) {
+            KIRBY_SHARD_FLAGS = ap_delivered;
+            persist_shard_to_sram(ap_delivered);
+        }
+    }
+
     // Check if there's an item to process
-    if (AP_IN_FLAG != 1u) return;
+    uint32_t flag = AP_IN_FLAG;
+    if (flag != 1u) return;
 
-    // Debug count times mailbox items received
-    AP_ITEM_RCVD_COUNTER++;
-
-    // Receive an item from a player
+    // Receive an item from a player - read IMMEDIATELY after confirming flag
     uint32_t item = AP_IN_ITEM_ID;
     uint32_t from = AP_IN_PLAYER;
 
@@ -306,8 +362,15 @@ void ap_poll_mailbox_c(void) {
     AP_DEBUG_LAST_FROM = from;
 
     // Apply the received item
-    ap_apply_item(item);
+    // Returns 1 if item was recognized and processed, 0 if unrecognized.
+    uint8_t item_was_processed = ap_apply_item(item);
 
-    // Acknowledge / consume
-    AP_IN_FLAG = 0u;
+    // Acknowledge / consume: clear flag to signal completion.
+    // We ONLY clear the flag after successfully processing a valid item.
+    // If the item was unrecognized (item_was_processed==0), the flag is NOT cleared,
+    // allowing the client to detect a protocol mismatch and retry/stall appropriately.
+    if (item_was_processed) {
+        AP_ITEM_RCVD_COUNTER++;
+        AP_IN_FLAG = 0u;
+    }
 }

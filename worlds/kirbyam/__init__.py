@@ -247,6 +247,7 @@ class KirbyAmWorld(World):
             major_chest_locations: list[KirbyAmLocation] = []
             vitality_chest_locations: list[KirbyAmLocation] = []
             sound_player_chest_locations: list[KirbyAmLocation] = []
+            room_sanity_locations: list[KirbyAmLocation] = []
             location_by_key: dict[str, KirbyAmLocation] = {}
             for loc in fill_locations:
                 if loc.key is None:
@@ -263,15 +264,18 @@ class KirbyAmWorld(World):
                     vitality_chest_locations.append(loc)
                 elif loc_meta.category == LocationCategory.SOUND_PLAYER_CHEST:
                     sound_player_chest_locations.append(loc)
+                elif loc_meta.category == LocationCategory.ROOM_SANITY:
+                    room_sanity_locations.append(loc)
 
             boss_locations.sort(key=lambda loc: loc.key or "")
             major_chest_locations.sort(key=lambda loc: loc.key or "")
             vitality_chest_locations.sort(key=lambda loc: loc.key or "")
             sound_player_chest_locations.sort(key=lambda loc: loc.key or "")
+            room_sanity_locations.sort(key=lambda loc: loc.key or "")
 
             locked_shard_count = 0
             randomized_item_codes: list[int] = []
-            if boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations:
+            if boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or room_sanity_locations:
                 shard_label_to_code = {
                     item.label: item.item_id
                     for item in kirby_data.items.values()
@@ -324,39 +328,46 @@ class KirbyAmWorld(World):
                         self.options.shards.current_key,
                     )
 
-                # Build default items for all still-open physical locations.
-                base_non_shard_codes: list[int] = []
-                base_non_shard_locations = [
-                    loc
-                    for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations
-                    if loc.item is None
-                ]
-
-                for loc in base_non_shard_locations:
-                    if loc.default_item_code is None:
-                        raise ValueError(f"KirbyAM location '{loc.name}' is missing a default item code")
-                    base_non_shard_codes.append(loc.default_item_code)
-
-                if self.options.shards.value == RandomizeShards.option_completely_random:
-                    if len(shard_item_codes) > len(base_non_shard_codes):
-                        raise ValueError(
-                            "KirbyAM shard pool mismatch: shard item count %d exceeds open physical locations %d"
-                            % (len(shard_item_codes), len(base_non_shard_codes))
-                        )
-                    codes_for_open_locations = list(base_non_shard_codes)
-                    replacement_indices = list(range(len(codes_for_open_locations)))
-                    self.random.shuffle(replacement_indices)
-                    for replacement_index, shard_code in zip(replacement_indices, shard_item_codes):
-                        codes_for_open_locations[replacement_index] = shard_code
-                    randomized_item_codes.extend(codes_for_open_locations)
-                else:
-                    randomized_item_codes.extend(base_non_shard_codes)
-
                 open_physical_locations = [
-                    loc for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations
+                    loc for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations + room_sanity_locations
                     if loc.item is None
                 ]
                 needed_pool_size = len(open_physical_locations)
+
+                non_filler_item_codes = [
+                    item.item_id
+                    for item in kirby_data.items.values()
+                    if item.classification != ItemClassification.filler
+                ]
+                if self.options.shards.value == RandomizeShards.option_vanilla:
+                    shard_code_set = set(shard_item_codes)
+                    non_filler_item_codes = [
+                        code for code in non_filler_item_codes if code not in shard_code_set
+                    ]
+
+                if len(non_filler_item_codes) > needed_pool_size:
+                    raise ValueError(
+                        "KirbyAM item pool mismatch: non-filler item count %d exceeds open physical locations %d"
+                        % (len(non_filler_item_codes), needed_pool_size)
+                    )
+
+                filler_needed = needed_pool_size - len(non_filler_item_codes)
+                randomized_item_codes.extend(non_filler_item_codes)
+                randomized_item_codes.extend(
+                    self.item_name_to_id[self.get_filler_item_name()]
+                    for _ in range(filler_needed)
+                )
+                self.random.shuffle(randomized_item_codes)
+
+                non_filler_pool_codes = [
+                    code
+                    for code in randomized_item_codes
+                    if get_item_classification(code) != ItemClassification.filler
+                ]
+                if sorted(non_filler_pool_codes) != sorted(non_filler_item_codes):
+                    raise ValueError(
+                        "KirbyAM item pool invariant failed: randomized non-filler item set does not match expected set"
+                    )
 
                 if len(randomized_item_codes) != needed_pool_size:
                     raise ValueError(
@@ -364,10 +375,11 @@ class KirbyAmWorld(World):
                         % (needed_pool_size, len(randomized_item_codes))
                     )
 
-            if (boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations) and not randomized_item_codes:
+            if (boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or room_sanity_locations) and not randomized_item_codes:
                 raise ValueError(
                     "KirbyAM item pool build failed: no randomized items were produced. "
-                    "This likely indicates a problem with boss/major/vitality chest locations or region data."
+                    "This likely indicates a problem with boss/major/vitality or sound-player chest locations, "
+                    "room-sanity locations, or region/location data."
                 )
 
             itempool: list[KirbyAmItem] = [
@@ -470,6 +482,7 @@ class KirbyAmWorld(World):
             "enemy_copy_ability_randomization",
             "randomize_boss_spawned_ability_grants",
             "randomize_miniboss_ability_grants",
+            "room_sanity",
             toggles_as_bools=True,
         )
         policy = getattr(self, "_enemy_copy_ability_policy", None)
@@ -479,6 +492,11 @@ class KirbyAmWorld(World):
         allowed_abilities = policy.get("allowed_abilities", VALID_ENEMY_COPY_ABILITIES)
         slot_data["enemy_copy_ability_whitelist"] = list(allowed_abilities)
         slot_data["enemy_copy_ability_policy"] = dict(policy)
+
+        # Debug settings are grouped under one key to keep slot_data extensible.
+        slot_data["debug"] = {
+            "gameplay_state_logging": bool(self.options.enable_gameplay_state_debug_logging.value),
+        }
         return slot_data
 
     # Helper methods to create items and events

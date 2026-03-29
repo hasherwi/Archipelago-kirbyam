@@ -1,5 +1,8 @@
 {
   "death_link": true,
+  "debug": {
+    "gameplay_state_logging": true
+  },
   "enemy_copy_ability_policy": {
     "allowed_abilities": [
       "Beam",
@@ -65,5 +68,6 @@
   "goal": 0,
   "randomize_boss_spawned_ability_grants": true,
   "randomize_miniboss_ability_grants": false,
+  "room_sanity": false,
   "shards": 2
 }

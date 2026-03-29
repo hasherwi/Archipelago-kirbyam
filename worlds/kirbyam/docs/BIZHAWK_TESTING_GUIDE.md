@@ -63,11 +63,12 @@ pytest worlds/kirbyam/test -q
 | `KirbyAM: gameplay-active state restored; resuming normal watcher flow` | Returned to gameplay-active state. |
 | `KirbyAM: resending major-chest LocationChecks missing on server (missing=..., acked=...)` | Big-chest area bits found in RAM but not yet acknowledged by server; resending. |
 | `KirbyAM: resending boss-defeat LocationChecks missing on server (missing=..., acked=...)` | Boss-defeat bits found in RAM but not yet acknowledged by server; resending. |
-| `KirbyAM: Writing mailbox item index N (item=..., player=...)` | Beginning delivery of the Nth received item. |
-| `KirbyAM: Mailbox ACK observed at item index N` | ROM cleared the flag; delivery confirmed. |
-| `KirbyAM: ROM item counter regressed from X to Y; rewinding delivery cursor` | ROM reported fewer items received than expected; cursor rewound. |
-| `KirbyAM: ROM item counter advanced from X to Y; fast-forwarding delivery cursor` | ROM is ahead of client cursor; cursor fast-forwarded. |
-| `KirbyAM: ROM counter ahead fallback active; continuing mailbox write at item index N (...)` | ROM `debug_item_counter` is ahead of the current `ReceivedItems` list, so the client is ignoring that stale/debug counter and continuing mailbox delivery to avoid starvation. |
+| `KirbyAM: resending room-sanity LocationChecks missing on server (missing=..., acked=...)` | Room-visit (`gVisitedDoors`) checks found in RAM but not yet acknowledged by server; resending. |
+| `KirbyAM: Delivering mailbox item index N (<item_name> from <sender_name>)` | Beginning delivery of the Nth received item with readable item/sender context. |
+| `KirbyAM: Mailbox delivery confirmed at item index N` | ROM cleared the flag; delivery confirmed. |
+| `KirbyAM: ROM delivery counter moved backward from X to Y; rewinding client delivery cursor` | ROM reported fewer items received than expected; cursor rewound. |
+| `KirbyAM: ROM delivery counter moved forward from X to Y; fast-forwarding client delivery cursor` | ROM is ahead of client cursor; cursor fast-forwarded. |
+| `KirbyAM: ROM counter fallback active; continuing mailbox delivery at item index N (...)` | ROM `debug_item_counter` is ahead of the current `ReceivedItems` list, so the client is ignoring that stale/debug counter and continuing mailbox delivery to avoid starvation. |
 | `KirbyAM: receive notification queued (index=N, item=..., sender=...)` | Receive notification was queued after mailbox ACK for delivered index `N`. |
 | `KirbyAM: send notification queued (item=..., receiver=...)` | Outgoing ItemSend notification was queued for local sender traffic. |
 | `KirbyAM: send notification burst suppression summary (suppressed=N)` | A send burst exceeded policy; `N` notifications were suppressed in the previous window. |
@@ -79,16 +80,20 @@ pytest worlds/kirbyam/test -q
 
 | Message pattern | Meaning |
 |---|---|
-| `KirbyAM: Mailbox ACK timeout after N frames at item index M; clearing flag and retrying` | ROM did not clear flag within ~30 frames; flag force-cleared and delivery retried. |
+| `KirbyAM: Mailbox ACK timeout at item index M; clearing flag and retrying (...)` | ROM did not clear flag before timeout; client force-cleared and retried the same index. Timeout reason includes frame-based and/or wall-clock fallback details. |
+| `KirbyAM: Repeated mailbox ACK timeouts with frame_counter stuck at 0 and hook_heartbeat not advancing (...)` | Main payload hook likely inactive; both liveness counters are stale. |
+| `KirbyAM: Repeated mailbox ACK timeouts with frame_counter stuck at 0 while hook_heartbeat advances (...)` | Hook is alive but `frame_counter` slot appears unstable; use heartbeat as liveness signal. |
+| `KirbyAM: Repeated mailbox ACK timeouts with frame_counter stuck at 0; payload hook may be inactive in the loaded ROM patch` | Frame-based liveness signal is unavailable; verify loaded ROM patch and hook callsite. |
 | `KirbyAM: Clearing stale mailbox flag after fast-forward to item index N` | Residual flag found after cursor fast-forward; cleared proactively. |
 | `KirbyAM: Skipping malformed ReceivedItems entry at index N` | A received item entry had invalid fields; skipped and cursor advanced. |
-| `KirbyAM: ROM item counter ahead of ReceivedItems (rom=X, received=Y); ignoring counter to avoid mailbox starvation` | ROM `debug_item_counter` is stale/high relative to the AP `ReceivedItems` backlog. The client will no longer pin the cursor and return forever; it falls back to normal mailbox writes once safe. |
+| `KirbyAM: ROM delivery counter is ahead of received items (rom=X, received=Y); ignoring ROM counter and continuing mailbox delivery` | ROM `debug_item_counter` is stale/high relative to the AP `ReceivedItems` backlog. The client will no longer pin the cursor and return forever; it falls back to normal mailbox writes once safe. |
 
 ### Debug-level diagnostics
 Enable debug logging in your AP client to see these:
 - `KirbyAM: dedupe suppressed boss-defeat LocationChecks (...)` — boss-defeat checks already acknowledged (per-tick spam suppressed at info level).
-- `dedupe suppressed major-chest LocationChecks` — major-chest checks already acknowledged (per-tick spam suppressed at info level).
-- `dedupe suppressed vitality-chest LocationChecks` — vitality-chest checks already acknowledged (per-tick spam suppressed at info level).
+- `KirbyAM: dedupe suppressed major-chest LocationChecks (...)` — major-chest checks already acknowledged (per-tick spam suppressed at info level).
+- `KirbyAM: dedupe suppressed vitality-chest LocationChecks (...)` — vitality-chest checks already acknowledged (per-tick spam suppressed at info level).
+- `KirbyAM: dedupe suppressed room-sanity LocationChecks (...)` — room-visit checks already acknowledged (per-tick spam suppressed at info level).
 - `KirbyAM: boss candidate probe rising bits: ...` — rising-edge transitions detected in the boss mirror table probe. Useful during boss fights for address mapping.
 - `KirbyAM: unsafe-delivery candidate probe: X changed Y -> Z` — miniboss counter candidate changed. Research-only probe (Issue #223).
 
@@ -201,6 +206,25 @@ perform immediate native unlock.
 Expected current mapping:
 - `bit 0` -> `SOUND_PLAYER_CHEST`
 
+## Room Sanity Checks (Issue #480)
+
+Validate that native room-visit flags in `gVisitedDoors` drive `Room X-YY` AP checks when the `room_sanity` option is enabled.
+
+1. Generate a seed with `room_sanity: true` and connect AP + BizHawk with KirbyAM client logs visible.
+2. Open BizHawk Memory Viewer and watch `0x02028CA0` as `u16[0x120]` (`gVisitedDoors`).
+3. Enter a not-yet-visited room that corresponds to a Room Sanity location.
+4. Confirm that the room's `doorsIdx` entry in `gVisitedDoors` has bit `15` set (`value & 0x8000 != 0`).
+5. Confirm client emits `LocationChecks` for the mapped room-sanity location and logs resend only when the server has not yet acknowledged it:
+   - `KirbyAM: resending room-sanity LocationChecks missing on server (...)`
+6. Reconnect AP client and verify already acknowledged room-sanity checks are deduped (no replay spam).
+7. Save/reload or room transition and confirm visited-state bit remains set.
+
+Expected current mapping contract:
+- Location key `ROOM_SANITY_X_YY` corresponds to AP label `Room X-YY`.
+- `bit_index` stores native `doorsIdx`.
+- Polling rule: `gVisitedDoors[doorsIdx] & 0x8000` => location considered checked.
+- Scope: 257 eligible NORMAL/BIG rooms (special STAR/UNKNOWN rooms are excluded).
+
 ## Notification Pipeline Check (Issue #83)
 
 Validate receive/send notifications and reconnect dedupe behavior.
@@ -216,10 +240,22 @@ Expected behavior:
 - Receive notification trigger: mailbox ACK for newly delivered index.
 - Send notification trigger: local-sender `PrintJSON` ItemSend packet.
 - Reconnect-safe dedupe prevents repeats for previously shown events.
+- Receive text format: `Received <item_name> from <sender_name>`.
+- Send text format: `You sent <item_name> to <receiver_name> at <location_name>` (or without location when unavailable).
+- Burst summary text: `Skipped N send popup(s) to reduce spam`.
+- Runtime gate state popups appear on transitions only:
+  - `Item sending paused by game state`
+  - `Item sending resumed`
+- Goal completion popup appears when CLIENT_GOAL is sent:
+  - `Goal complete`
+- ROM load failures show concise popup error text matching the validation failure reason.
 
 Issue #73 receive-focused checks:
 - Skipped malformed items should not produce receive notification text.
-- Cursor fast-forward/rewind reconciliation should not replay old receive notifications.
+- Cursor fast-forward/rewind reconciliation without a pending delivery should not replay old receive notifications.
+- Issue #269 ACK path: if the ROM clears the flag and increments the counter in the same frame (common hardware
+  case), a receive notification should still appear exactly once.  Verify by watching the BizHawk OSD while an
+  item is delivered — the notification must appear even though the flag is already 0 when the client next polls.
 - New ACK-completed deliveries after reconnect should still notify exactly once.
 
 Issue #74 send-focused checks:
@@ -326,7 +362,7 @@ If this smoke test fails, fix connector startup/ROM context problems before trus
 When validating AP item receipt behavior in BizHawk, also watch for mailbox timeout recovery:
 
 - Normal path: item write -> ROM clears `incoming_item_flag` -> client logs ACK and advances cursor.
-- Recovery path: if `incoming_item_flag` remains high for roughly 30 frames with no ACK, client logs a timeout warning, clears the flag, and retries the same delivery index conservatively.
+- Recovery path: if `incoming_item_flag` remains high with no ACK, client logs a timeout warning (frame or wall-clock fallback), clears the flag, and retries the same delivery index conservatively.
 - Counter reconciliation remains authoritative when `debug_item_counter` proves the ROM has already applied the item.
 
 This behavior is intended to avoid deadlock while still preferring exactly-once ROM outcomes.

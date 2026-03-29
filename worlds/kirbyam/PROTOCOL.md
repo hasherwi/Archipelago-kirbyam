@@ -13,18 +13,18 @@ EWRAM Layout (0x02000000 - 0x02040000):
   
   0x02000000 - 0x02040000   EWRAM Region (256 KB)
     ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0202C000 - 0x0202C033   AP Mailbox (reserved, 52 bytes)
-        └─ 0x0202C034 - 0x02040000   Rest of RAM (unused by AP)
+    ├─ 0x0202C000 - 0x0202C043   AP Mailbox (reserved, 68 bytes)
+    └─ 0x0202C044 - 0x02040000   Rest of RAM (unused by AP)
 ```
 
-### AP Mailbox Block (0x0202C000 - 0x0202C033)
+### AP Mailbox Block (0x0202C000 - 0x0202C043)
 
 **Transport Layer: Client ↔ ROM Communication**
 
 | Offset | Addr     | Size | Name                  | Type | Direction   | Purpose |
 |--------|----------|------|----------------------|------|-------------|---------|
 | 0x00   | 0x0202C000 | 4B | shard_bitfield        | u32  | ROM → Client | Mirror of native shard flags (bits 0-7 currently used, bits 8-31 reserved) |
-| 0x04   | 0x0202C004 | 4B | incoming_item_flag    | u32  | ROM ← Client | Write 1 to request delivery, ROM clears to 0 on ACK |
+| 0x04   | 0x0202C004 | 4B | incoming_item_flag    | u32  | ROM ← Client | Write 1 to request delivery; ROM clears to 0 after recognized item apply (ACK) |
 | 0x08   | 0x0202C008 | 4B | incoming_item_id      | u32  | ROM ← Client | Item ID to apply (BASE_OFFSET + item index) |
 | 0x0C   | 0x0202C00C | 4B | incoming_item_player  | u32  | ROM ← Client | Player ID that sent this item |
 | 0x10   | 0x0202C010 | 4B | debug_item_counter    | u32  | ROM → Client | Counter of items received (debug only) |
@@ -37,8 +37,12 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x28   | 0x0202C028 | 4B | major_chest_flags     | u32  | ROM → Client | Bits set when a native big chest is opened; bit N = area ID N. This drives AP major-chest checks independently of native map ownership. |
 | 0x2C   | 0x0202C02C | 4B | vitality_chest_flags  | u32  | ROM → Client | Bits set when a native vitality big chest is opened; bits 0..3 map to the four vitality chest room IDs (Carrot 5-23, Olive 6-21, Radish 8-4, Candy 9-8). |
 | 0x30   | 0x0202C030 | 4B | sound_player_chest_flags | u32 | ROM → Client | Bits set when the native Sound Player chest is opened; bit 0 maps to `SOUND_PLAYER_CHEST`. Native Sound Player unlock is intentionally deferred until AP item receipt. |
+| 0x34   | 0x0202C034 | 4B | hook_heartbeat        | u32  | ROM → Client | Increments once on every AP main hook entry. Diagnostic signal for hook liveness. |
+| 0x38   | 0x0202C038 | 4B | delivered_shard_bitfield | u32 | ROM → Client | Bits 0–7 represent shard ownership authority. On mailbox initialization (`mailbox_init_cookie` absent/mismatched), `ap_poll_mailbox_c()` seeds this from current native shard save state; after init, shard delivery in `ap_apply_item()` sets additional bits. Never set by boss-defeat hook. Used by per-frame scrub (Issue #478) to clamp `KIRBY_SHARD_FLAGS`. |
+| 0x3C   | 0x0202C03C | 4B | shard_scrub_delay_frames | u32 | ROM internal | Countdown timer (frames). Set to 600 by boss-defeat hook to hold off `KIRBY_SHARD_FLAGS` scrub during post-boss cutscene; decremented to 0 by `ap_poll_mailbox_c()`, then scrub runs. |
+| 0x40   | 0x0202C040 | 4B | mailbox_init_cookie | u32 | ROM internal | Initialization cookie (`0x4B41504D`). If absent/mismatched, payload seeds `delivered_shard_bitfield` from native shard state, clears scrub delay + boss-defeat flags, and stores the cookie to prevent stale EWRAM transport values from triggering scrub writes. |
 
-**Total: 52 bytes (0x0202C000 - 0x0202C033)**
+**Total: 68 bytes (0x0202C000 - 0x0202C043)**
 
 ### Native Game State (Referenced but not Managed by AP)
 
@@ -48,7 +52,9 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x0203897C | 4B | big_chest_bitfield_native | gTreasures.bigChestField; bit N = area ID N (enum AreaId): bit 1=Rainbow Route, 2=Moonlight Mansion, 3=Cabbage Cavern, 4=Mustard Mountain, 5=Carrot Castle, 6=Olive Ocean, 7=Peppermint Palace, 8=Radish Ruins, 9=Candy Constellation. This now reflects native map ownership only; AP major-chest checks use `major_chest_flags` in the transport block. |
 | 0x02038960 - 0x0203896A | 10B | Chest/Switch state    | Native chest and switch flags |
 | 0x02028C14+ |  -  | Boss/Mirror table       | Native location flags (TBD - not yet mapped) |
+| 0x02028CA0 | 576B | gVisitedDoors (`room_visit_flags_native`) | Native room-visit array (`u16[0x120]`); bit 15 marks visited state by `doorsIdx` |
 | 0x0203AD2C | 4B | AI_KIRBY_STATE          | Runtime phase classifier (Issue #56 gameplay gate) |
+| 0x0203AD10 | 4B | DEMO_PLAYBACK_FLAGS     | Native title-demo discriminator (`demo_playback_flags_native`; bit `0x10` indicates title-screen demo playback) |
 | 0x02020FE0 | 1B | KIRBY_HP                | Kirby HP (`s8`) used for DeathLink runtime receive/apply and local death transition detection |
 
 ## Item ID Ranges
@@ -85,7 +91,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 
 | Location Type | ID Range | Description |
 |---------------|----------|-------------|
-| GOAL_DARK_MIND | auto-assigned | Goal location (runtime-reported completion check) |
+| GOAL_DARK_MIND | auto-assigned | Internal goal metadata entry. Current shipped worlds convert this to an addressless runtime event, so the client reports `CLIENT_GOAL` directly instead of sending a numeric `LocationChecks` entry. |
 | BOSS_DEFEAT_1 .. BOSS_DEFEAT_8 | auto-assigned | Area boss defeat locations (8 locations) |
 | MAJOR_CHEST_CABBAGE_CAVERN | 3960200 | Cabbage Cavern big chest (bit 3, gTreasures.bigChestField) |
 | MAJOR_CHEST_OLIVE_OCEAN | 3960201 | Olive Ocean big chest (bit 6, gTreasures.bigChestField) |
@@ -101,6 +107,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | VITALITY_CHEST_RADISH_RUINS | 3960302 | Radish Ruins 8-4 vitality big chest (transport vitality bit 2) |
 | VITALITY_CHEST_CANDY_CONSTELLATION | 3960303 | Candy Constellation 9-8 vitality big chest (transport vitality bit 3) |
 | SOUND_PLAYER_CHEST | 3960304 | Candy Constellation Sound Player chest (transport sound_player_chest bit 0) |
+| ROOM_SANITY_1_01 .. ROOM_SANITY_9_27 | 3961000+ | Room visit checks (`Room X-YY`) keyed by native `doorsIdx` and polled from `gVisitedDoors[doorsIdx]` bit 15 |
 | *Reserved*    | 3960305+ | Future location families |
 
 ## Client Protocol
@@ -119,8 +126,11 @@ Server → Client: ConnectionRefused | Connected
 - `enemy_copy_ability_randomization` (int): enemy copy-ability mode (`0=vanilla`, `1=shuffled`, `2=completely_random`).
 - `randomize_boss_spawned_ability_grants` (bool): include/exclude ability-granting boss-spawned objects.
 - `randomize_miniboss_ability_grants` (bool): include/exclude mini-boss ability grants.
+- `room_sanity` (bool): enables/disables room-visit locations (`Room X-YY`, 257 checks).
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
 - `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.
+- `debug` (dict): debug settings payload.
+    - `gameplay_state_logging` (bool): when true, client logs each newly observed `ai_kirby_state_native` value once per session with gate classification context.
 
 DeathLink runtime behavior contract:
 - Incoming DeathLink packets (`Bounced` with `DeathLink` tag) are queued and only applied when gameplay-active gate is true.
@@ -155,12 +165,15 @@ Primary signal:
 POC classification contract:
 - Non-gameplay tutorial/menu: `ai_state < 200`
 - Non-gameplay cutscene band: `200 <= ai_state < 300`
+- Non-gameplay title demo: `ai_state == 300` when native demo playback flag `demo_playback_flags_native` (underlying symbol `gUnk_0203AD10`, bit `0x10`) is set
 - Non-gameplay goal-clear states: `ai_state in {9999, 10000}`
-- Gameplay-active: all other observed states (including `300` and unknown post-300 values)
+- Gameplay-active: all other observed states (including non-demo `300` and unknown post-300 values)
 
 Fail-open behavior:
 - If `ai_kirby_state_native` is unavailable in address mappings, watcher defaults to gameplay-active behavior for compatibility.
 - Unknown post-300 states fail open as gameplay-active to avoid blocking mailbox item receipt (Issue #419).
+- Demo discrimination uses the mapped native key `demo_playback_flags_native` (`0x0203AD10`, bit `0x10`) based on katam decomp evidence that title-screen demos set this flag before forcing `gAIKirbyState = AI_KIRBY_STATE_NORMAL`.
+- Runtime gate batches AI/demo native reads in one BizHawk call and treats missing `demo_playback_flags_native` as inactive (fail open).
 
 **On initial (or re-)connection, the following resync occurs automatically:**
 
@@ -168,7 +181,7 @@ Fail-open behavior:
 |---|---|
 | Location checks | Level-based poll resends any RAM-derived checks missing from `checked_locations`. |
 | Item delivery | Cursor is reconciled against ROM's `debug_item_counter`; delivery resumes from the correct index. |
-| Goal reporting | Idempotent: goal location and CLIENT_GOAL are skipped when already reflected in `checked_locations`. |
+| Goal reporting | Idempotent: for current shipped worlds, the client re-sends `CLIENT_GOAL` on reconnect when `finished_game` is set. If a future world exposes a numeric goal location, the client falls back to goal-location acknowledgement before `CLIENT_GOAL`. |
 | Boss probe | Probe snapshot re-baselines on BizHawk stream-identity change (reconnect safe). |
 | Watcher transient state | On first tick after AP session becomes ready (`server/socket/slot_data`), reconnect diagnostics/probe caches are reset to clean baselines. |
 
@@ -208,6 +221,12 @@ for bit in mapped_sound_player_chest_bits:
     if (sound_player_bits >> bit) & 1:
         mapped_checked.add(sound_player_chest_location_id_for_bit(bit))
 
+# Room sanity checks (native gVisitedDoors)
+room_visits = RAM[0x02028CA0 : 0x02028CA0 + 0x240] as u16[0x120]
+for doors_idx in mapped_room_sanity_doors_indices:
+    if room_visits[doors_idx] & 0x8000:
+        mapped_checked.add(room_sanity_location_id_for_doors_idx(doors_idx))
+
 # Level-based, reconnect-safe resend:
 # Send only checks that RAM reports as collected but the server has not acknowledged.
 # This means checks are re-sent on reconnect until the server reflects them back,
@@ -217,13 +236,13 @@ if missing_on_server:
     send LocationChecks(missing_on_server)
 ```
 
-Mirror shard bitfields (`shard_bitfield_native` / `shard_bitfield`) are progression-state signals only. Boss defeats are reported through `boss_defeat_flags`, major chest openings are reported through `major_chest_flags`, vitality chest openings are reported through `vitality_chest_flags`, and Sound Player chest openings are reported through `sound_player_chest_flags`. Native boss shard / native big-chest map / native vitality grants are intercepted so progression, map ownership, and vitality growth come only from AP item delivery, and native Sound Player unlock is similarly intercepted so unlock ownership comes only from AP `SOUND_PLAYER` receipt.
+Mirror shard bitfields (`shard_bitfield_native` / `shard_bitfield`) are progression-state signals only. `delivered_shard_bitfield` is the authority used by the per-frame scrub to enforce that `KIRBY_SHARD_FLAGS` (and therefore all `HasShard()` / `NumShardsCollected()` gate checks) reflects AP-owned shard state (Issue #478): it is seeded from native shard save state on mailbox init, then extended by AP `SHARD_N` item delivery. Boss defeats are reported through `boss_defeat_flags`, major chest openings are reported through `major_chest_flags`, vitality chest openings are reported through `vitality_chest_flags`, and Sound Player chest openings are reported through `sound_player_chest_flags`. Native boss shard / native big-chest map / native vitality grants are intercepted so progression, map ownership, and vitality growth come only from AP item delivery, and native Sound Player unlock is similarly intercepted so unlock ownership comes only from AP `SOUND_PLAYER` receipt.
 
 **Behavior notes:**
 - Detection is **level-based** (current bitfield state), not edge-based, to be reconnect-safe.
 - No checks are sent for bits already in `server_checked_locations`.
 - No checks are sent for reserved/unmapped bits even when set.
-- Boss-defeat, major-chest, vitality-chest, and sound-player-chest polling follow the same resend/dedupe diagnostic contract.
+- Boss-defeat, major-chest, vitality-chest, sound-player-chest, and room-sanity polling follow the same resend/dedupe diagnostic contract.
 - Diagnostics are transition-based to avoid per-tick log spam when mapped state is unchanged.
 
 ### 3. Item Delivery (Mailbox Protocol)
@@ -242,10 +261,15 @@ await ROM clears RAM[0x0202C004] to 0
 delivered_item_index += 1
 ```
 
+Behavior note:
+- If `incoming_item_id` is not recognized by the shipped payload handler, ROM does not ACK by clearing the flag.
+- Client timeout recovery then clears/retries conservatively and logs the timeout reason.
+
 **State Machine:**
 1. **Idle** (flag == 0): wait
 2. **Pending** (flag == 1): ROM is processing, poll for flag == 0
 3. **Acknowledged** (flag cleared): advance index, return to Idle
+4. **Recovery** (pending too long): client timeout path clears stale flag and retries same delivery index
 
 `debug_item_counter` reconciliation contract:
 - If `debug_item_counter < delivered_item_index`, rewind cursor to the ROM count.
@@ -280,7 +304,12 @@ Reconnect-safe dedupe:
 Receive-specific contract (Issue #73):
 - Receive notification is emitted only after mailbox ACK for the pending index.
 - Malformed/skipped `ReceivedItems` entries do not emit notifications.
-- Cursor fast-forward/rewind reconciliation alone does not emit notifications.
+- Cursor fast-forward/rewind reconciliation without a pending delivery does not emit notifications.
+- Exception (Issue #269): when the ROM counter advances while a delivery is pending and the mailbox
+  flag is already cleared (flag == 0), this simultaneous counter-advance is treated as the ACK
+  signal and does emit a notification.  This covers the common hardware case where the ROM clears
+  the flag and increments debug_item_counter in the same frame, so the fast-forward reconciliation
+  path runs before the normal flag == 0 polling path on the next client tick.
 
 Optional slot-data toggles (default: enabled when absent):
 - `enable_receive_notifications`
@@ -300,18 +329,27 @@ Send-specific contract (Issue #74):
     - a summary message reports suppressed count when the window rolls over
 
 Send notification message format (Issue #432):
-- If location is available: `"Sent <item_name> to <receiver_name> (<location_name>)"`
-- If location unavailable: `"Sent <item_name> to <receiver_name>"`
+- If location is available: `"You sent <item_name> to <receiver_name> at <location_name>"`
+- If location unavailable: `"You sent <item_name> to <receiver_name>"`
 - Sender name is omitted: the local player already knows who sent the item.
 - Item names resolved from AP item-name context for the relevant slot; if unavailable, from KirbyAM world item data; finally falling back to `"Item <id>"`.
 - Location names resolved from AP location address mappings, with fallback to `"Location <id>"`.
 - Receiver names resolved from AP `player_names` context, with fallbacks: Archipelago (player 0), or `"Player <id>"`.
 
 Receive notification message format:
-- Format: `"<item_name> received from <sender_name>"`
-- Item name is placed first to prioritise readability within BizHawk's short display window.
+- Format: `"Received <item_name> from <sender_name>"`
+- Phrasing is optimized for readability within BizHawk's short display window.
 - Item and player names use same resolution as send notifications above.
-
+Other player-visible client popups:
+- ROM validation failures show concise load errors, for example:
+  - `Unable to load ROM: base ROM detected. Please use a patched ROM.`
+  - `Unable to load ROM: invalid Kirby and the Amazing Mirror ROM.`
+  - `Unable to load ROM: missing patch metadata. Rebuild your patched ROM.`
+- Runtime gate transitions:
+  - `Item sending paused by game state`
+  - `Item sending resumed`
+- Goal completion status:
+  - `Goal complete`
 ### 4. Goal Reporting
 
 **Current Implementation (native AI-state polling):**
@@ -321,17 +359,23 @@ Receive notification message format:
 
 # Native signal source:
 # ai_kirby_state_native @ 0x0203AD2C (u32)
-# - Trigger goal location check on value 9999
+# - Trigger goal completion on value 9999
+# - Accept 10000 as a fallback post-clear signal if 9999 was missed live
 #
-# Note: 10000 is post-clear progression and must not be treated as first-clear
-# trigger.
+# Note: 10000 remains post-clear progression, but the client accepts it as a
+# fallback completion signal to avoid missing goal reporting when 9999 is transient.
 ```
 
 **Client StatusUpdate:**
 ```python
-# Report selected goal location when native signal is active,
-# then send CLIENT_GOAL after server acknowledges that location check.
-if native_signal_active_for_selected_goal:
+# Current shipped worlds convert the goal location into an addressless runtime
+# event, so the client sends CLIENT_GOAL directly.
+if native_signal_active_for_selected_goal and goal_location_is_addressless:
+    send StatusUpdate(status=CLIENT_GOAL)
+
+# Compatibility path for future world versions that expose a numeric goal
+# location to the server.
+if native_signal_active_for_selected_goal and goal_location_is_numeric:
     send LocationChecks([goal_location_id])
 
 if goal_location_id in checked_locations:

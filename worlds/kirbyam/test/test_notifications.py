@@ -48,6 +48,24 @@ def test_item_name_prefers_context_item_names():
     mock_lookup.lookup_in_slot.assert_called_once_with(123456, 1)
 
 
+def test_item_name_falls_back_when_context_returns_unknown_placeholder():
+    """_item_name should continue to KirbyAM fallback when AP lookup returns Unknown item placeholder."""
+    client = KirbyAmClient()
+    ctx = Mock()
+
+    if not data.items:
+        pytest.skip("No items in data.items available for test")
+
+    item_id, item_data = next(iter(data.items.items()))
+    mock_lookup = Mock()
+    mock_lookup.lookup_in_slot = Mock(return_value=f"Unknown item (ID: {item_id})")
+    ctx.item_names = mock_lookup
+
+    name = client._item_name(ctx, item_id, 1)
+    assert name == item_data.label
+    mock_lookup.lookup_in_slot.assert_called_once_with(item_id, 1)
+
+
 def test_location_name_resolves_from_data():
     """_location_name should resolve location labels from data.locations."""
     client = KirbyAmClient()
@@ -121,8 +139,11 @@ def test_send_notification_omits_sender_includes_receiver_and_location():
         assert mock_display.called, "display_message should be called"
         message = mock_display.call_args[0][1]
 
-        # Format: "Sent <item> to <receiver> (<location>)"  -- sender is omitted (player already knows)
-        assert "Sent" in message
+        # Format: "You sent <item> to <receiver> at <location>".
+        assert "You sent" in message
+        assert " at " in message
+        expected_location = client._location_name(test_location_id)
+        assert expected_location in message
         assert "OtherPlayer" in message or "Player 2" in message
         assert test_item_data is not None and test_item_data.label in message, \
             f"Expected resolved item label {test_item_data.label!r} in message: {message}"
