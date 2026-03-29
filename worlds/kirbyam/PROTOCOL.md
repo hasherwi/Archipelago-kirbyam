@@ -13,11 +13,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
   
   0x02000000 - 0x02040000   EWRAM Region (256 KB)
     ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0202C000 - 0x0202C03F   AP Mailbox (reserved, 64 bytes)
-        └─ 0x0202C040 - 0x02040000   Rest of RAM (unused by AP)
+        ├─ 0x0202C000 - 0x0202C043   AP Mailbox (reserved, 68 bytes)
+        └─ 0x0202C044 - 0x02040000   Rest of RAM (unused by AP)
 ```
 
-### AP Mailbox Block (0x0202C000 - 0x0202C03F)
+### AP Mailbox Block (0x0202C000 - 0x0202C043)
 
 **Transport Layer: Client ↔ ROM Communication**
 
@@ -38,10 +38,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x2C   | 0x0202C02C | 4B | vitality_chest_flags  | u32  | ROM → Client | Bits set when a native vitality big chest is opened; bits 0..3 map to the four vitality chest room IDs (Carrot 5-23, Olive 6-21, Radish 8-4, Candy 9-8). |
 | 0x30   | 0x0202C030 | 4B | sound_player_chest_flags | u32 | ROM → Client | Bits set when the native Sound Player chest is opened; bit 0 maps to `SOUND_PLAYER_CHEST`. Native Sound Player unlock is intentionally deferred until AP item receipt. |
 | 0x34   | 0x0202C034 | 4B | hook_heartbeat        | u32  | ROM → Client | Increments once on every AP main hook entry. Diagnostic signal for hook liveness. |
-| 0x38   | 0x0202C038 | 4B | delivered_shard_bitfield | u32 | ROM → Client | Bits 0–7 set only when `ap_apply_item()` delivers a SHARD_N item. Never set by boss-defeat hook. Used by the per-frame scrub (Issue #478) to clamp `KIRBY_SHARD_FLAGS` to AP-owned state once the post-boss cutscene grace window expires. |
+| 0x38   | 0x0202C038 | 4B | delivered_shard_bitfield | u32 | ROM → Client | Bits 0–7 represent shard ownership authority. On mailbox initialization (`mailbox_init_cookie` absent/mismatched), `ap_poll_mailbox_c()` seeds this from current native shard save state; after init, shard delivery in `ap_apply_item()` sets additional bits. Never set by boss-defeat hook. Used by per-frame scrub (Issue #478) to clamp `KIRBY_SHARD_FLAGS`. |
 | 0x3C   | 0x0202C03C | 4B | shard_scrub_delay_frames | u32 | ROM internal | Countdown timer (frames). Set to 600 by boss-defeat hook to hold off `KIRBY_SHARD_FLAGS` scrub during post-boss cutscene; decremented to 0 by `ap_poll_mailbox_c()`, then scrub runs. |
+| 0x40   | 0x0202C040 | 4B | mailbox_init_cookie | u32 | ROM internal | Initialization cookie (`0x4B41504D`). If absent/mismatched, payload seeds `delivered_shard_bitfield` from native shard state, clears scrub delay + boss-defeat flags, and stores the cookie to prevent stale EWRAM transport values from triggering scrub writes. |
 
-**Total: 64 bytes (0x0202C000 - 0x0202C03F)**
+**Total: 68 bytes (0x0202C000 - 0x0202C043)**
 
 ### Native Game State (Referenced but not Managed by AP)
 

@@ -18,16 +18,20 @@
 
 // Shard State Registers
 #define AP_SHARD_BITFIELD       (*(volatile uint32_t*)(AP_BASE + 0x00u))
-// Issue #478: AP-delivery-only shard authority register.
-// Written only by ap_apply_item() shard path; never by boss-defeat hook.
-// ap_poll_mailbox_c() clamps KIRBY_SHARD_FLAGS to this value once the
-// post-boss cutscene grace window (AP_SHARD_SCRUB_DELAY) reaches zero.
+// Issue #478: AP shard authority register.
+// Bits are set by ap_apply_item() shard delivery; never by boss-defeat hook.
+// ap_poll_mailbox_c() may initialize/seed this from native save state when
+// mailbox init cookie is absent, then clamps KIRBY_SHARD_FLAGS to this value
+// once AP_SHARD_SCRUB_DELAY reaches zero after boss activity.
 #define AP_DELIVERED_SHARD_BITFIELD  (*(volatile uint32_t*)(AP_BASE + 0x38u))
 // Issue #478: Frames remaining before the shard scrub is allowed to run.
 // Set to SHARD_BOSS_CUTSCENE_FRAMES by the boss-defeat hook so the
 // post-cutscene state machine has time to observe the temporary native write.
 #define AP_SHARD_SCRUB_DELAY         (*(volatile uint32_t*)(AP_BASE + 0x3Cu))
 #define SHARD_BOSS_CUTSCENE_FRAMES   600u  // ~10 s at 60 fps; covers post-boss shard cutscene
+// Mailbox initialization cookie to protect against stale EWRAM on cold/soft reset.
+#define AP_MAILBOX_INIT_COOKIE       (*(volatile uint32_t*)(AP_BASE + 0x40u))
+#define AP_MAILBOX_INIT_COOKIE_VALUE 0x4B41504Du  // "KAPM"
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
 // Bit N set <=> boss of area N was defeated (same bit ordering as shard_bitfield, bits 0-7 used).
@@ -313,6 +317,16 @@ void ap_poll_mailbox_c(void) {
     // Always tick a monotonic frame counter so the Python client can perform
     // deterministic, frame-based testing without relying on wall-clock time.
     AP_FRAME_COUNTER++;
+
+    // Initialize mailbox-owned shard scrub state once per fresh EWRAM session.
+    // This avoids acting on stale/garbage transport values after soft reset.
+    if (AP_MAILBOX_INIT_COOKIE != AP_MAILBOX_INIT_COOKIE_VALUE) {
+        uint8_t native_shards_boot = KIRBY_SHARD_FLAGS;
+        AP_DELIVERED_SHARD_BITFIELD = (uint32_t)native_shards_boot;
+        AP_SHARD_SCRUB_DELAY = 0u;
+        AP_BOSS_DEFEAT_FLAGS = 0u;
+        AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
+    }
 
     uint8_t ap_delivered = (uint8_t)(AP_DELIVERED_SHARD_BITFIELD & 0xFFu);
     uint8_t native_shards = KIRBY_SHARD_FLAGS;

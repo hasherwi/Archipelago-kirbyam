@@ -248,6 +248,12 @@ def test_ap_poll_mailbox_contains_shard_scrub_logic():
         "ap_poll_mailbox_c must reference AP_SHARD_SCRUB_DELAY for the scrub countdown"
     assert "AP_DELIVERED_SHARD_BITFIELD" in poll_body, \
         "ap_poll_mailbox_c must read AP_DELIVERED_SHARD_BITFIELD to clamp KIRBY_SHARD_FLAGS"
+    assert "AP_MAILBOX_INIT_COOKIE" in poll_body, \
+        "ap_poll_mailbox_c must validate mailbox init cookie before shard scrub logic"
+    assert "AP_MAILBOX_INIT_COOKIE_VALUE" in poll_body, \
+        "ap_poll_mailbox_c must compare against AP_MAILBOX_INIT_COOKIE_VALUE"
+    assert "AP_DELIVERED_SHARD_BITFIELD = (uint32_t)native_shards_boot" in poll_body, \
+        "ap_poll_mailbox_c must seed AP_DELIVERED_SHARD_BITFIELD from native shard state on init"
     assert re.search(r"AP_BOSS_DEFEAT_FLAGS\s*==\s*0u", poll_body), \
         "ap_poll_mailbox_c must guard bootstrap behavior before local boss-defeat activity"
     assert re.search(r"AP_DELIVERED_SHARD_BITFIELD\s*=\s*\(uint32_t\)native_shards", poll_body), \
