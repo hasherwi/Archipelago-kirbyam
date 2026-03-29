@@ -244,21 +244,25 @@ def test_ap_poll_mailbox_contains_shard_scrub_logic():
     assert match is not None, "ap_poll_mailbox_c definition must exist in ap_payload.c"
     poll_body = match.group(0)
 
-    assert "AP_SHARD_SCRUB_DELAY" in poll_body, \
+    # Strip line comments and normalize whitespace to reduce formatting brittleness.
+    poll_body_code_only = re.sub(r'//[^\n]*', '', poll_body)
+    poll_body_norm = re.sub(r'\s+', ' ', poll_body_code_only)
+
+    assert "AP_SHARD_SCRUB_DELAY" in poll_body_norm, \
         "ap_poll_mailbox_c must reference AP_SHARD_SCRUB_DELAY for the scrub countdown"
-    assert "AP_DELIVERED_SHARD_BITFIELD" in poll_body, \
+    assert "AP_DELIVERED_SHARD_BITFIELD" in poll_body_norm, \
         "ap_poll_mailbox_c must read AP_DELIVERED_SHARD_BITFIELD to clamp KIRBY_SHARD_FLAGS"
-    assert "AP_MAILBOX_INIT_COOKIE" in poll_body, \
+    assert "AP_MAILBOX_INIT_COOKIE" in poll_body_norm, \
         "ap_poll_mailbox_c must validate mailbox init cookie before shard scrub logic"
-    assert "AP_MAILBOX_INIT_COOKIE_VALUE" in poll_body, \
+    assert "AP_MAILBOX_INIT_COOKIE_VALUE" in poll_body_norm, \
         "ap_poll_mailbox_c must compare against AP_MAILBOX_INIT_COOKIE_VALUE"
-    assert "AP_DELIVERED_SHARD_BITFIELD = (uint32_t)native_shards_boot" in poll_body, \
+    assert re.search(r"AP_DELIVERED_SHARD_BITFIELD\s*=\s*\(uint32_t\)\s*native_shards_boot", poll_body_norm), \
         "ap_poll_mailbox_c must seed AP_DELIVERED_SHARD_BITFIELD from native shard state on init"
-    assert re.search(r"AP_BOSS_DEFEAT_FLAGS\s*==\s*0u", poll_body), \
+    assert re.search(r"AP_BOSS_DEFEAT_FLAGS\s*==\s*0u", poll_body_norm), \
         "ap_poll_mailbox_c must guard bootstrap behavior before local boss-defeat activity"
-    assert re.search(r"AP_DELIVERED_SHARD_BITFIELD\s*=\s*\(uint32_t\)native_shards", poll_body), \
+    assert re.search(r"AP_DELIVERED_SHARD_BITFIELD\s*=\s*\(uint32_t\)\s*native_shards", poll_body_norm), \
         "ap_poll_mailbox_c must be able to seed AP_DELIVERED_SHARD_BITFIELD from native saved shards"
-    assert "persist_shard_to_sram" in poll_body, \
+    assert re.search(r"persist_shard_to_sram\s*\(", poll_body_norm), \
         "ap_poll_mailbox_c scrub must persist the clamped state to SRAM"
 
 
