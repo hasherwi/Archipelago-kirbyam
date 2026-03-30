@@ -1043,47 +1043,62 @@ class KirbyAmClient(BizHawkClient):
         if not self._debug_logging_enabled:
             return
 
-        boss_flags_addr = self._transport_addr("boss_defeat_flags")
         delay_addr = self._transport_addr("shard_scrub_delay_frames")
+        temp_shard_addr = self._transport_addr("boss_temp_shard_bitfield")
+        preflight_reads: list[tuple[int, int, str]] = []
+        preflight_labels: list[str] = []
+        for label, addr in (("delay", delay_addr), ("temp_shards", temp_shard_addr)):
+            if addr is None:
+                continue
+            preflight_reads.append((addr, 4, "System Bus"))
+            preflight_labels.append(label)
+
+        if not preflight_reads:
+            return
+
+        values: dict[str, int] = {}
+        raw_preflight = await bizhawk.read(ctx.bizhawk_ctx, preflight_reads)
+        for label, raw in zip(preflight_labels, raw_preflight):
+            values[label] = self._u32_le(raw)
+
+        scrub_delay = values.get("delay", 0)
+        temp_shards = values.get("temp_shards", 0)
+        window_active = (scrub_delay > 0) or ((temp_shards & 0xFF) != 0)
+        completion_pending = self._boss_shard_debug_window_active and gameplay_active
+
+        if not window_active and not completion_pending:
+            return
+
+        boss_flags_addr = self._transport_addr("boss_defeat_flags")
         delivered_addr = self._transport_addr("delivered_shard_bitfield")
         mirror_addr = self._transport_addr("shard_bitfield")
         heartbeat_addr = self._transport_addr("hook_heartbeat")
-        temp_shard_addr = self._transport_addr("boss_temp_shard_bitfield")
         native_shard_addr = self._native_addr("shard_bitfield_native")
 
-        reads: list[tuple[int, int, str]] = []
-        labels: list[str] = []
+        detail_reads: list[tuple[int, int, str]] = []
+        detail_labels: list[str] = []
         for label, addr, width in (
             ("boss_flags", boss_flags_addr, 4),
-            ("delay", delay_addr, 4),
             ("delivered", delivered_addr, 4),
             ("mirror", mirror_addr, 4),
             ("heartbeat", heartbeat_addr, 4),
-            ("temp_shards", temp_shard_addr, 4),
             ("native_shards", native_shard_addr, 1),
         ):
             if addr is None:
                 continue
-            reads.append((addr, width, "System Bus"))
-            labels.append(label)
+            detail_reads.append((addr, width, "System Bus"))
+            detail_labels.append(label)
 
-        if not reads:
-            return
-
-        raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
-        values: dict[str, int] = {}
-        for label, raw in zip(labels, raw_values):
-            values[label] = self._u32_le(raw) if len(raw) >= 4 else int.from_bytes(raw, "little")
+        if detail_reads:
+            raw_details = await bizhawk.read(ctx.bizhawk_ctx, detail_reads)
+            for label, raw in zip(detail_labels, raw_details):
+                values[label] = self._u32_le(raw) if len(raw) >= 4 else int.from_bytes(raw, "little")
 
         boss_flags = values.get("boss_flags", 0)
-        scrub_delay = values.get("delay", 0)
         delivered = values.get("delivered", 0)
         mirror = values.get("mirror", 0)
         heartbeat = values.get("heartbeat")
-        temp_shards = values.get("temp_shards", 0)
         native_shards = values.get("native_shards")
-
-        window_active = (scrub_delay > 0) or ((temp_shards & 0xFF) != 0)
         from CommonClient import logger
 
         if window_active:

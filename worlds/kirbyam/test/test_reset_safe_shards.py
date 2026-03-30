@@ -264,6 +264,8 @@ def test_ap_poll_mailbox_contains_shard_scrub_logic():
         "ap_poll_mailbox_c must track temporary boss shard bits"
     assert "AI_KIRBY_STATE" in poll_body_norm, \
         "ap_poll_mailbox_c must gate scrub release on gameplay-state resume"
+    assert "DEMO_PLAYBACK_FLAGS" in poll_body_norm, \
+        "ap_poll_mailbox_c gameplay gate must account for title-demo playback"
     assert re.search(r"AP_DELIVERED_SHARD_BITFIELD\s*=\s*\(uint32_t\)\s*native_shards", poll_body_norm), \
         "ap_poll_mailbox_c must be able to seed AP_DELIVERED_SHARD_BITFIELD from native saved shards"
     assert re.search(r"persist_shard_to_sram\s*\(", poll_body_norm), \

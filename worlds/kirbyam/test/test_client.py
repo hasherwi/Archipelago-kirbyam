@@ -1779,21 +1779,25 @@ async def test_log_boss_shard_debug_window_emits_per_frame_while_active(mock_biz
          patch('CommonClient.logger') as mock_logger:
         mock_read.side_effect = [
             [
-                (1).to_bytes(4, 'little'),
                 (5).to_bytes(4, 'little'),
-                (0).to_bytes(4, 'little'),
                 (0x02).to_bytes(4, 'little'),
-                (100).to_bytes(4, 'little'),
-                (0x02).to_bytes(4, 'little'),
-                (0x02).to_bytes(1, 'little'),
             ],
             [
                 (1).to_bytes(4, 'little'),
+                (0).to_bytes(4, 'little'),
+                (0x02).to_bytes(4, 'little'),
+                (100).to_bytes(4, 'little'),
+                (0x02).to_bytes(1, 'little'),
+            ],
+            [
                 (4).to_bytes(4, 'little'),
+                (0x02).to_bytes(4, 'little'),
+            ],
+            [
+                (1).to_bytes(4, 'little'),
                 (0).to_bytes(4, 'little'),
                 (0x02).to_bytes(4, 'little'),
                 (101).to_bytes(4, 'little'),
-                (0x02).to_bytes(4, 'little'),
                 (0x02).to_bytes(1, 'little'),
             ],
         ]
@@ -1844,20 +1848,24 @@ async def test_log_boss_shard_debug_window_logs_completion_on_resume(mock_bizhaw
         mock_read.side_effect = [
             [
                 (1).to_bytes(4, 'little'),
-                (1).to_bytes(4, 'little'),
-                (0).to_bytes(4, 'little'),
                 (0x02).to_bytes(4, 'little'),
-                (200).to_bytes(4, 'little'),
-                (0x02).to_bytes(4, 'little'),
-                (0x02).to_bytes(1, 'little'),
             ],
             [
                 (1).to_bytes(4, 'little'),
                 (0).to_bytes(4, 'little'),
+                (0x02).to_bytes(4, 'little'),
+                (200).to_bytes(4, 'little'),
+                (0x02).to_bytes(1, 'little'),
+            ],
+            [
+                (0).to_bytes(4, 'little'),
+                (0x00).to_bytes(4, 'little'),
+            ],
+            [
+                (1).to_bytes(4, 'little'),
                 (0).to_bytes(4, 'little'),
                 (0x00).to_bytes(4, 'little'),
                 (201).to_bytes(4, 'little'),
-                (0x00).to_bytes(4, 'little'),
                 (0x00).to_bytes(1, 'little'),
             ],
         ]

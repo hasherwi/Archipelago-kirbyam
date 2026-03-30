@@ -48,6 +48,9 @@
 #define KIRBY_SHARD_FLAGS       (*(volatile uint8_t*)(KIRBY_SHARD_FLAGS_ADDR))
 #define AI_KIRBY_STATE_ADDR     0x0203AD2Cu
 #define AI_KIRBY_STATE          (*(volatile uint32_t*)(AI_KIRBY_STATE_ADDR))
+#define DEMO_PLAYBACK_FLAGS_ADDR 0x0203AD10u
+#define DEMO_PLAYBACK_FLAGS     (*(volatile uint32_t*)(DEMO_PLAYBACK_FLAGS_ADDR))
+#define DEMO_PLAYBACK_ACTIVE_FLAG 0x10u
 #define AI_STATE_CUTSCENE_THRESHOLD 200u
 #define AI_STATE_NORMAL         300u
 #define AI_STATE_DARK_MIND_CLEAR 9999u
@@ -439,6 +442,12 @@ void ap_poll_mailbox_c(void) {
             && ai_state != AI_STATE_DARK_MIND_CLEAR
             && ai_state != AI_STATE_FULL_CLEAR) {
             gameplay_active = 1u;
+        }
+        if (gameplay_active && ai_state == AI_STATE_NORMAL) {
+            uint32_t demo_flags = DEMO_PLAYBACK_FLAGS;
+            if ((demo_flags & DEMO_PLAYBACK_ACTIVE_FLAG) != 0u) {
+                gameplay_active = 0u;
+            }
         }
 
         if (!gameplay_active) {
