@@ -11,8 +11,8 @@ This document defines the contract between the Archipelago server, the Python cl
 ```
 EWRAM Layout (0x02000000 - 0x02040000):
   
-  0x02000000 - 0x02040000   EWRAM Region (256 KB)
-    ├─ 0x02000000 - 0x0202BFFF   Native game state
+    0x02000000 - 0x02040000   EWRAM Region (256 KB)
+        ├─ 0x02000000 - 0x0202BFFF   Native game state
         ├─ 0x0202C000 - 0x0202C047   AP Mailbox (reserved, 72 bytes)
         └─ 0x0202C048 - 0x02040000   Rest of RAM (unused by AP)
 ```
