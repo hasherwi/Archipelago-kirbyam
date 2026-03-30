@@ -185,7 +185,8 @@ class KirbyAmClient(BizHawkClient):
 
         # Debug diagnostics (Issue #477 and Issue #510)
         self._debug_logging_enabled: bool = False
-        self._debug_gameplay_states_seen: set[int] = set()
+        self._last_logged_ai_state: int | None = None
+        self._last_logged_demo_flags: int | None = None
         self._last_delivery_debug_snapshot: tuple[int, int, int, int, bool, bool, int] | None = None
 
     @staticmethod
@@ -224,6 +225,8 @@ class KirbyAmClient(BizHawkClient):
         self._delivery_counter_ahead_fallback_active = False
         self._delivery_counter_ahead_resume_logged = False
         self._self_send_fallback_keys.clear()
+        self._last_logged_ai_state = None
+        self._last_logged_demo_flags = None
         self._last_delivery_debug_snapshot = None
 
     @staticmethod
@@ -740,15 +743,6 @@ class KirbyAmClient(BizHawkClient):
                 self._ram_state_loaded = True
 
             gameplay_active, defer_reason, ai_state = await self._runtime_gameplay_state(ctx)
-            if self._debug_logging_enabled and ai_state is not None:
-                if ai_state not in self._debug_gameplay_states_seen:
-                    self._debug_gameplay_states_seen.add(ai_state)
-                    logger.info(
-                        "KirbyAM debug: observed unique gameplay state (ai_state=%s, gameplay_active=%s, reason=%s)",
-                        ai_state,
-                        gameplay_active,
-                        defer_reason,
-                    )
             if not gameplay_active:
                 if self._last_runtime_gate_reason != defer_reason:
                     logger.info(
@@ -1009,24 +1003,65 @@ class KirbyAmClient(BizHawkClient):
         reads: list[tuple[int, int, str]] = [(ai_state_addr, _AI_STATE_ADDR_WIDTH, "System Bus")]
         if demo_flags_addr is not None:
             reads.append((demo_flags_addr, _DEMO_PLAYBACK_FLAGS_WIDTH, "System Bus"))
+        heartbeat_addr = self._transport_addr("hook_heartbeat")
+        if self._debug_logging_enabled and heartbeat_addr is not None:
+            reads.append((heartbeat_addr, 4, "System Bus"))
 
         raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
         ai_state = self._u32_le(raw_values[0])
+        next_read_index = 1
+
+        demo_flags: int | None = None
+        if demo_flags_addr is not None and len(raw_values) > next_read_index:
+            demo_flags = self._u32_le(raw_values[next_read_index])
+            next_read_index += 1
+
+        heartbeat_counter: int | None = None
+        if self._debug_logging_enabled and heartbeat_addr is not None and len(raw_values) > next_read_index:
+            heartbeat_counter = self._u32_le(raw_values[next_read_index])
+
+        reason: str
+        gameplay_active: bool
 
         if ai_state < _AI_STATE_CUTSCENE_THRESHOLD:
-            return False, "non_gameplay_tutorial_or_menu", ai_state
-        if ai_state < _AI_STATE_NORMAL:
-            return False, "non_gameplay_cutscene", ai_state
-        if ai_state == _AI_STATE_NORMAL:
-            demo_playback_active = False
-            if demo_flags_addr is not None and len(raw_values) > 1:
-                demo_flags = self._u32_le(raw_values[1])
-                demo_playback_active = bool(demo_flags & _DEMO_PLAYBACK_ACTIVE_FLAG)
-            if demo_playback_active:
-                return False, "non_gameplay_title_demo", ai_state
-        if ai_state in (_GOAL_STATE_DARK_MIND_CLEAR, _GOAL_STATE_FULL_CLEAR):
-            return False, "non_gameplay_goal_clear", ai_state
-        return True, "gameplay_active", ai_state
+            reason = "non_gameplay_tutorial_or_menu"
+            gameplay_active = False
+        elif ai_state < _AI_STATE_NORMAL:
+            reason = "non_gameplay_cutscene"
+            gameplay_active = False
+        elif ai_state == _AI_STATE_NORMAL and demo_flags is not None and bool(demo_flags & _DEMO_PLAYBACK_ACTIVE_FLAG):
+            reason = "non_gameplay_title_demo"
+            gameplay_active = False
+        elif ai_state in (_GOAL_STATE_DARK_MIND_CLEAR, _GOAL_STATE_FULL_CLEAR):
+            reason = "non_gameplay_goal_clear"
+            gameplay_active = False
+        else:
+            reason = "gameplay_active"
+            gameplay_active = True
+
+        if self._debug_logging_enabled:
+            from CommonClient import logger
+
+            if ai_state != self._last_logged_ai_state:
+                logger.info(
+                    "KirbyAM debug: ai_kirby_state_native changed (ai_state=%s, gameplay_active=%s, reason=%s, hook_heartbeat=%s)",
+                    ai_state,
+                    gameplay_active,
+                    reason,
+                    heartbeat_counter,
+                )
+                self._last_logged_ai_state = ai_state
+
+            if demo_flags is not None and demo_flags != self._last_logged_demo_flags:
+                logger.info(
+                    "KirbyAM debug: demo_playback_flags_native changed (demo_flags=0x%08X, demo_active=%s, hook_heartbeat=%s)",
+                    demo_flags,
+                    bool(demo_flags & _DEMO_PLAYBACK_ACTIVE_FLAG),
+                    heartbeat_counter,
+                )
+                self._last_logged_demo_flags = demo_flags
+
+        return gameplay_active, reason, ai_state
 
     # --------------------------
     # Helpers / persistence
