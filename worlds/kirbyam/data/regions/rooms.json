@@ -3,53 +3,67 @@
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_04",
-      "REGION_RAINBOW_ROUTE/ROOM_1_50"
+      "REGION_RAINBOW_ROUTE/ROOM_1_04"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961000,
       "bit_index": 0
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Rainbow_Route_-_Room_1",
+      "wikirby_name": "Rainbow Route - Room 1",
+      "logic_mapped": true,
+      "room_type": "NORMAL",
+      "gRoom-id": 101,
+      "AMR-slot-id": 20
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_02": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_03",
-      "REGION_RAINBOW_ROUTE/ROOM_1_18",
-      "REGION_RAINBOW_ROUTE/ROOM_1_41",
-      "REGION_RAINBOW_ROUTE/ROOM_1_51"
+      "REGION_RAINBOW_ROUTE/ROOM_1_20"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961001,
       "bit_index": 10
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 103,
+      "AMR-slot-id": 21
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_03": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_02",
-      "REGION_RAINBOW_ROUTE/ROOM_1_05",
-      "REGION_RAINBOW_ROUTE/ROOM_1_06",
-      "REGION_RAINBOW_ROUTE/ROOM_1_39"
+      "REGION_RAINBOW_ROUTE/ROOM_1_02"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961002,
       "bit_index": 11
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 104,
+      "AMR-slot-id": 22
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_04": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_01",
       "REGION_RAINBOW_ROUTE/ROOM_1_05"
     ],
     "room_sanity": {
@@ -57,31 +71,43 @@
       "location_id": 3961003,
       "bit_index": 12
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Rainbow_Route_-_Room_2",
+      "wikirby_name": "Rainbow Route - Room 2",
+      "logic_mapped": true,
+      "room_type": "NORMAL",
+      "gRoom-id": 106,
+      "AMR-slot-id": 23
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_05": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_03",
-      "REGION_RAINBOW_ROUTE/ROOM_1_04",
-      "REGION_RAINBOW_ROUTE/ROOM_1_06",
-      "REGION_RAINBOW_ROUTE/ROOM_1_32",
-      "REGION_RAINBOW_ROUTE/ROOM_1_38"
+      "REGION_RAINBOW_ROUTE/ROOM_1_06"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961004,
       "bit_index": 13
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Rainbow_Route_-_Room_3",
+      "wikirby_name": "Rainbow Route - Room 3",
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 107,
+      "AMR-slot-id": 24
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_06": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_02",
-      "REGION_RAINBOW_ROUTE/ROOM_1_03",
       "REGION_RAINBOW_ROUTE/ROOM_1_07",
       "REGION_RAINBOW_ROUTE/ROOM_1_18"
     ],
@@ -90,37 +116,57 @@
       "location_id": 3961005,
       "bit_index": 14
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 108,
+      "AMR-slot-id": 25
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_07": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_06",
-      "REGION_RAINBOW_ROUTE/ROOM_1_32",
-      "REGION_RAINBOW_ROUTE/ROOM_1_43"
+      "REGION_RAINBOW_ROUTE/ROOM_1_33",
+      "REGION_RAINBOW_ROUTE/ROOM_1_44"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961006,
       "bit_index": 15
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 110,
+      "AMR-slot-id": 26
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_08": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_17",
-      "REGION_RAINBOW_ROUTE/ROOM_1_28",
-      "REGION_RAINBOW_ROUTE/ROOM_1_30"
+      "REGION_RAINBOW_ROUTE/ROOM_1_31"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961007,
       "bit_index": 16
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 115,
+      "AMR-slot-id": 44
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_09": {
     "locations": [],
@@ -128,324 +174,438 @@
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_01",
       "REGION_RAINBOW_ROUTE/ROOM_1_10",
-      "REGION_RAINBOW_ROUTE/ROOM_1_21",
-      "REGION_RAINBOW_ROUTE/ROOM_1_30"
+      "REGION_RAINBOW_ROUTE/ROOM_1_31"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961008,
       "bit_index": 17
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 117,
+      "AMR-slot-id": 45
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_10": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_09",
-      "REGION_RAINBOW_ROUTE/ROOM_1_11",
-      "REGION_RAINBOW_ROUTE/ROOM_1_21",
-      "REGION_RAINBOW_ROUTE/ROOM_1_23",
-      "REGION_RAINBOW_ROUTE/ROOM_1_30"
+      "REGION_RAINBOW_ROUTE/ROOM_1_11"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961009,
       "bit_index": 18
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 118,
+      "AMR-slot-id": 46
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_11": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_10",
-      "REGION_RAINBOW_ROUTE/ROOM_1_12",
-      "REGION_RAINBOW_ROUTE/ROOM_1_24",
-      "REGION_RAINBOW_ROUTE/ROOM_1_33"
+      "REGION_RAINBOW_ROUTE/ROOM_1_34"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961010,
       "bit_index": 19
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 119,
+      "AMR-slot-id": 47
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_12": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_11",
-      "REGION_RAINBOW_ROUTE/ROOM_1_14"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961011,
       "bit_index": 20
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 126,
+      "AMR-slot-id": 43
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_13": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_05",
-      "REGION_RAINBOW_ROUTE/ROOM_1_31",
-      "REGION_RAINBOW_ROUTE/ROOM_1_33"
+      "REGION_RAINBOW_ROUTE/ROOM_1_32",
+      "REGION_RAINBOW_ROUTE/ROOM_1_34"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961012,
       "bit_index": 21
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 127,
+      "AMR-slot-id": 32
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_14": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_12",
-      "REGION_RAINBOW_ROUTE/ROOM_1_31",
-      "REGION_RAINBOW_ROUTE/ROOM_1_33"
+      "REGION_RAINBOW_ROUTE/ROOM_1_12"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961013,
       "bit_index": 22
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 136,
+      "AMR-slot-id": 33
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_15": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_14",
-      "REGION_RAINBOW_ROUTE/ROOM_1_31",
-      "REGION_RAINBOW_ROUTE/ROOM_1_34"
+      "REGION_RAINBOW_ROUTE/ROOM_1_32",
+      "REGION_RAINBOW_ROUTE/ROOM_1_35"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961014,
       "bit_index": 23
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 137,
+      "AMR-slot-id": 34
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_16": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_17",
-      "REGION_RAINBOW_ROUTE/ROOM_1_28",
-      "REGION_RAINBOW_ROUTE/ROOM_1_35"
+      "REGION_RAINBOW_ROUTE/ROOM_1_29",
+      "REGION_RAINBOW_ROUTE/ROOM_1_36"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961015,
       "bit_index": 24
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 138,
+      "AMR-slot-id": 48
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_17": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_08",
-      "REGION_RAINBOW_ROUTE/ROOM_1_16",
-      "REGION_RAINBOW_ROUTE/ROOM_1_35"
+      "REGION_RAINBOW_ROUTE/ROOM_1_36"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961016,
       "bit_index": 25
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 139,
+      "AMR-slot-id": 49
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_18": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_02",
       "REGION_RAINBOW_ROUTE/ROOM_1_06",
-      "REGION_RAINBOW_ROUTE/ROOM_1_29",
-      "REGION_RAINBOW_ROUTE/ROOM_1_43"
+      "REGION_RAINBOW_ROUTE/ROOM_1_30"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961017,
       "bit_index": 26
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 140,
+      "AMR-slot-id": 27
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_19": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_MOONLIGHT_MANSION/ROOM_2_01",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_22",
-      "REGION_RAINBOW_ROUTE/ROOM_1_20",
-      "REGION_RAINBOW_ROUTE/ROOM_1_42",
-      "REGION_RAINBOW_ROUTE/ROOM_1_51"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_23",
+      "REGION_RAINBOW_ROUTE/ROOM_1_21",
+      "REGION_RAINBOW_ROUTE/ROOM_1_43"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961018,
       "bit_index": 27
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 141,
+      "AMR-slot-id": 28
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_20": {
     "locations": [
       "MINOR_CHEST_RAINBOW_ROUTE_3"
     ],
     "events": [],
-    "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_02",
-      "REGION_RAINBOW_ROUTE/ROOM_1_19",
-      "REGION_RAINBOW_ROUTE/ROOM_1_29"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961019,
       "bit_index": 28
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 142,
+      "AMR-slot-id": 29
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_21": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_03",
-      "REGION_RAINBOW_ROUTE/ROOM_1_09",
-      "REGION_RAINBOW_ROUTE/ROOM_1_10",
-      "REGION_RAINBOW_ROUTE/ROOM_1_22"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_02",
+      "REGION_RAINBOW_ROUTE/ROOM_1_19",
+      "REGION_RAINBOW_ROUTE/ROOM_1_30"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961020,
       "bit_index": 29
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 143,
+      "AMR-slot-id": 30
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_22": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_21",
-      "REGION_RAINBOW_ROUTE/ROOM_1_23",
-      "REGION_RAINBOW_ROUTE/ROOM_1_25"
+      "REGION_CARROT_CASTLE/ROOM_5_03",
+      "REGION_RAINBOW_ROUTE/ROOM_1_23"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961021,
       "bit_index": 31
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 171,
+      "AMR-slot-id": 50
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_23": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_04",
-      "REGION_RAINBOW_ROUTE/ROOM_1_10",
       "REGION_RAINBOW_ROUTE/ROOM_1_22",
-      "REGION_RAINBOW_ROUTE/ROOM_1_24",
-      "REGION_RAINBOW_ROUTE/ROOM_1_25"
+      "REGION_RAINBOW_ROUTE/ROOM_1_24"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961022,
       "bit_index": 32
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 172,
+      "AMR-slot-id": 51
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_24": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_11",
+      "REGION_CABBAGE_CAVERN/ROOM_3_04",
       "REGION_RAINBOW_ROUTE/ROOM_1_23",
-      "REGION_RAINBOW_ROUTE/ROOM_1_33"
+      "REGION_RAINBOW_ROUTE/ROOM_1_26"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961023,
       "bit_index": 33
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 173,
+      "AMR-slot-id": 52
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_25": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_22",
-      "REGION_RAINBOW_ROUTE/ROOM_1_26"
+      "REGION_RAINBOW_ROUTE/ROOM_1_24",
+      "REGION_RAINBOW_ROUTE/ROOM_1_34"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961024,
       "bit_index": 34
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 174,
+      "AMR-slot-id": 53
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_26": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_18",
-      "REGION_RAINBOW_ROUTE/ROOM_1_25"
+      "REGION_RAINBOW_ROUTE/ROOM_1_27"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961025,
       "bit_index": 35
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 175,
+      "AMR-slot-id": 54
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_27": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_18",
-      "REGION_RAINBOW_ROUTE/ROOM_1_28"
+      "REGION_DIMENSION_MIRROR/ROOM_10_18"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961026,
       "bit_index": 36
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 176,
+      "AMR-slot-id": 55
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_28": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_08",
-      "REGION_RAINBOW_ROUTE/ROOM_1_16",
-      "REGION_RAINBOW_ROUTE/ROOM_1_27"
+      "REGION_DIMENSION_MIRROR/ROOM_10_18"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961027,
       "bit_index": 37
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 177,
+      "AMR-slot-id": 56
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_29": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_18",
-      "REGION_RAINBOW_ROUTE/ROOM_1_20",
-      "REGION_RAINBOW_ROUTE/ROOM_1_44",
-      "REGION_RAINBOW_ROUTE/ROOM_1_50",
-      "REGION_RAINBOW_ROUTE/ROOM_1_51"
+      "REGION_RAINBOW_ROUTE/ROOM_1_28"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961028,
       "bit_index": 38
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 178,
+      "AMR-slot-id": 57
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_30": {
     "locations": [
@@ -453,106 +613,141 @@
     ],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_06",
-      "REGION_RAINBOW_ROUTE/ROOM_1_08",
-      "REGION_RAINBOW_ROUTE/ROOM_1_09",
-      "REGION_RAINBOW_ROUTE/ROOM_1_10",
-      "REGION_RAINBOW_ROUTE/ROOM_1_50"
+      "REGION_RAINBOW_ROUTE/ROOM_1_18",
+      "REGION_RAINBOW_ROUTE/ROOM_1_21",
+      "REGION_RAINBOW_ROUTE/ROOM_1_51"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961029,
       "bit_index": 39
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Rainbow_Route_-_Hub_1",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 190,
+      "AMR-slot-id": 31
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_31": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_20",
-      "REGION_RAINBOW_ROUTE/ROOM_1_13",
-      "REGION_RAINBOW_ROUTE/ROOM_1_14",
-      "REGION_RAINBOW_ROUTE/ROOM_1_15",
-      "REGION_RAINBOW_ROUTE/ROOM_1_50"
+      "REGION_CARROT_CASTLE/ROOM_5_06",
+      "REGION_RAINBOW_ROUTE/ROOM_1_08",
+      "REGION_RAINBOW_ROUTE/ROOM_1_09",
+      "REGION_RAINBOW_ROUTE/ROOM_1_51"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961030,
       "bit_index": 40
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Rainbow_Route_-_Hub_3",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 192,
+      "AMR-slot-id": 58
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_32": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_05",
-      "REGION_RAINBOW_ROUTE/ROOM_1_07",
-      "REGION_RAINBOW_ROUTE/ROOM_1_34",
-      "REGION_RAINBOW_ROUTE/ROOM_1_44"
+      "REGION_CABBAGE_CAVERN/ROOM_3_20",
+      "REGION_RAINBOW_ROUTE/ROOM_1_13",
+      "REGION_RAINBOW_ROUTE/ROOM_1_15",
+      "REGION_RAINBOW_ROUTE/ROOM_1_51"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961031,
       "bit_index": 41
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Rainbow_Route_-_Hub_2",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 194,
+      "AMR-slot-id": 35
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_33": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_11",
-      "REGION_RAINBOW_ROUTE/ROOM_1_13",
-      "REGION_RAINBOW_ROUTE/ROOM_1_14",
-      "REGION_RAINBOW_ROUTE/ROOM_1_24"
+      "REGION_RAINBOW_ROUTE/ROOM_1_07",
+      "REGION_RAINBOW_ROUTE/ROOM_1_35"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961032,
       "bit_index": 42
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 503,
+      "AMR-slot-id": 40
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_34": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_08",
-      "REGION_RAINBOW_ROUTE/ROOM_1_15",
-      "REGION_RAINBOW_ROUTE/ROOM_1_32"
+      "REGION_RAINBOW_ROUTE/ROOM_1_11",
+      "REGION_RAINBOW_ROUTE/ROOM_1_13",
+      "REGION_RAINBOW_ROUTE/ROOM_1_25"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961033,
       "bit_index": 43
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 504,
+      "AMR-slot-id": 36
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_35": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_16",
-      "REGION_RAINBOW_ROUTE/ROOM_1_17",
-      "REGION_RAINBOW_ROUTE/ROOM_1_48"
+      "REGION_CABBAGE_CAVERN/ROOM_3_08",
+      "REGION_RAINBOW_ROUTE/ROOM_1_15",
+      "REGION_RAINBOW_ROUTE/ROOM_1_33"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961034,
       "bit_index": 44
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 507,
+      "AMR-slot-id": 37
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_36": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_04",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_17",
-      "REGION_RAINBOW_ROUTE/ROOM_1_37",
-      "REGION_RAINBOW_ROUTE/ROOM_1_39",
+      "REGION_RAINBOW_ROUTE/ROOM_1_16",
+      "REGION_RAINBOW_ROUTE/ROOM_1_17",
       "REGION_RAINBOW_ROUTE/ROOM_1_49"
     ],
     "room_sanity": {
@@ -560,28 +755,43 @@
       "location_id": 3961035,
       "bit_index": 45
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 532,
+      "AMR-slot-id": 9
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_37": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_36",
-      "REGION_RAINBOW_ROUTE/ROOM_1_40"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_04",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
+      "REGION_RAINBOW_ROUTE/ROOM_1_38",
+      "REGION_RAINBOW_ROUTE/ROOM_1_50"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961036,
       "bit_index": 46
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 534,
+      "AMR-slot-id": 10
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_38": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_05",
-      "REGION_RAINBOW_ROUTE/ROOM_1_39",
+      "REGION_RAINBOW_ROUTE/ROOM_1_37",
       "REGION_RAINBOW_ROUTE/ROOM_1_41"
     ],
     "room_sanity": {
@@ -589,30 +799,40 @@
       "location_id": 3961037,
       "bit_index": 47
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 535,
+      "AMR-slot-id": 11
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_39": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_03",
-      "REGION_RAINBOW_ROUTE/ROOM_1_36",
-      "REGION_RAINBOW_ROUTE/ROOM_1_38",
-      "REGION_RAINBOW_ROUTE/ROOM_1_40"
+      "REGION_RAINBOW_ROUTE/ROOM_1_40",
+      "REGION_RAINBOW_ROUTE/ROOM_1_42"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961038,
       "bit_index": 48
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 536,
+      "AMR-slot-id": 12
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_40": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
-      "REGION_RAINBOW_ROUTE/ROOM_1_37",
       "REGION_RAINBOW_ROUTE/ROOM_1_39",
       "REGION_RAINBOW_ROUTE/ROOM_1_41"
     ],
@@ -621,13 +841,20 @@
       "location_id": 3961039,
       "bit_index": 49
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 537,
+      "AMR-slot-id": 13
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_41": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_02",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
       "REGION_RAINBOW_ROUTE/ROOM_1_38",
       "REGION_RAINBOW_ROUTE/ROOM_1_40",
       "REGION_RAINBOW_ROUTE/ROOM_1_42"
@@ -637,43 +864,63 @@
       "location_id": 3961040,
       "bit_index": 50
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 538,
+      "AMR-slot-id": 14
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_42": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_19",
-      "REGION_RAINBOW_ROUTE/ROOM_1_41"
+      "REGION_RAINBOW_ROUTE/ROOM_1_39",
+      "REGION_RAINBOW_ROUTE/ROOM_1_41",
+      "REGION_RAINBOW_ROUTE/ROOM_1_43"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961041,
       "bit_index": 51
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 542,
+      "AMR-slot-id": 15
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_43": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_07",
-      "REGION_RAINBOW_ROUTE/ROOM_1_18",
-      "REGION_RAINBOW_ROUTE/ROOM_1_44"
+      "REGION_RAINBOW_ROUTE/ROOM_1_19",
+      "REGION_RAINBOW_ROUTE/ROOM_1_42"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961042,
       "bit_index": 52
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 543,
+      "AMR-slot-id": 16
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_44": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_29",
-      "REGION_RAINBOW_ROUTE/ROOM_1_32",
+      "REGION_RAINBOW_ROUTE/ROOM_1_07",
       "REGION_RAINBOW_ROUTE/ROOM_1_45"
     ],
     "room_sanity": {
@@ -681,13 +928,19 @@
       "location_id": 3961043,
       "bit_index": 53
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 554,
+      "AMR-slot-id": 38
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_45": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_44",
       "REGION_RAINBOW_ROUTE/ROOM_1_46"
     ],
     "room_sanity": {
@@ -695,110 +948,155 @@
       "location_id": 3961044,
       "bit_index": 54
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 555,
+      "AMR-slot-id": 39
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_46": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_18",
-      "REGION_RAINBOW_ROUTE/ROOM_1_45"
+      "REGION_RAINBOW_ROUTE/ROOM_1_47"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961045,
       "bit_index": 55
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 556,
+      "AMR-slot-id": 41
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_47": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_48",
-      "REGION_RAINBOW_ROUTE/ROOM_1_49"
+      "REGION_DIMENSION_MIRROR/ROOM_10_18"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961046,
       "bit_index": 56
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 557,
+      "AMR-slot-id": 42
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_48": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_35",
-      "REGION_RAINBOW_ROUTE/ROOM_1_47"
+      "REGION_RAINBOW_ROUTE/ROOM_1_49",
+      "REGION_RAINBOW_ROUTE/ROOM_1_50"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961047,
       "bit_index": 57
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 570,
+      "AMR-slot-id": 17
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_49": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
       "REGION_RAINBOW_ROUTE/ROOM_1_36",
-      "REGION_RAINBOW_ROUTE/ROOM_1_47",
-      "REGION_RAINBOW_ROUTE/ROOM_1_50"
+      "REGION_RAINBOW_ROUTE/ROOM_1_48"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961048,
       "bit_index": 58
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 571,
+      "AMR-slot-id": 18
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_50": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_01",
-      "REGION_CABBAGE_CAVERN/ROOM_3_21",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_27",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_25",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_29",
-      "REGION_RAINBOW_ROUTE/ROOM_1_01",
-      "REGION_RAINBOW_ROUTE/ROOM_1_29",
-      "REGION_RAINBOW_ROUTE/ROOM_1_30",
-      "REGION_RAINBOW_ROUTE/ROOM_1_31",
-      "REGION_RAINBOW_ROUTE/ROOM_1_49"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_17",
+      "REGION_RAINBOW_ROUTE/ROOM_1_37",
+      "REGION_RAINBOW_ROUTE/ROOM_1_48",
+      "REGION_RAINBOW_ROUTE/ROOM_1_51"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961049,
       "bit_index": 59
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Rainbow_Route_-_Hub_4",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 590,
+      "AMR-slot-id": 19
+    },
+    "gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_51": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_02",
-      "REGION_RAINBOW_ROUTE/ROOM_1_19",
-      "REGION_RAINBOW_ROUTE/ROOM_1_29"
+      "REGION_CABBAGE_CAVERN/ROOM_3_01",
+      "REGION_CABBAGE_CAVERN/ROOM_3_21",
+      "REGION_CANDY_CONSTELLATION/ROOM_9_28",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_26",
+      "REGION_PEPPERMINT_PALACE/ROOM_7_30",
+      "REGION_RAINBOW_ROUTE/ROOM_1_01",
+      "REGION_RAINBOW_ROUTE/ROOM_1_30",
+      "REGION_RAINBOW_ROUTE/ROOM_1_31",
+      "REGION_RAINBOW_ROUTE/ROOM_1_32",
+      "REGION_RAINBOW_ROUTE/ROOM_1_50"
     ],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Rainbow_Route_-_Central_Circle",
+      "wikirby_name": "Rainbow Route - Central Circle",
+      "logic_mapped": false,
+      "room_type": "CENTRAL_HUB",
+      "gRoom-id": 801,
+      "AMR-slot-id": 0
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_01": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_02",
       "REGION_MOONLIGHT_MANSION/ROOM_2_03",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_04",
       "REGION_RAINBOW_ROUTE/ROOM_1_19"
     ],
     "room_sanity": {
@@ -806,22 +1104,35 @@
       "location_id": 3961050,
       "bit_index": 8
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 144,
+      "AMR-slot-id": 59
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_02": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01",
       "REGION_MOONLIGHT_MANSION/ROOM_2_03",
-      "REGION_RAINBOW_ROUTE/ROOM_1_20"
+      "REGION_RAINBOW_ROUTE/ROOM_1_21"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961051,
       "bit_index": 60
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 145,
+      "AMR-slot-id": 60
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_03": {
     "locations": [],
@@ -837,13 +1148,19 @@
       "location_id": 3961052,
       "bit_index": 61
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 146,
+      "AMR-slot-id": 61
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_04": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01",
       "REGION_MOONLIGHT_MANSION/ROOM_2_05"
     ],
     "room_sanity": {
@@ -851,15 +1168,20 @@
       "location_id": 3961053,
       "bit_index": 62
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 147,
+      "AMR-slot-id": 62
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_05": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_19",
       "REGION_MOONLIGHT_MANSION/ROOM_2_03",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_04",
       "REGION_MOONLIGHT_MANSION/ROOM_2_06"
     ],
     "room_sanity": {
@@ -867,7 +1189,14 @@
       "location_id": 3961054,
       "bit_index": 63
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 148,
+      "AMR-slot-id": 63
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_06": {
     "locations": [],
@@ -881,14 +1210,20 @@
       "location_id": 3961055,
       "bit_index": 64
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 149,
+      "AMR-slot-id": 64
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_07": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_22",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_24",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_23",
       "REGION_OLIVE_OCEAN/ROOM_6_20"
     ],
     "room_sanity": {
@@ -896,7 +1231,14 @@
       "location_id": 3961056,
       "bit_index": 65
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_12",
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 180,
+      "AMR-slot-id": 7
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_08": {
     "locations": [
@@ -904,53 +1246,69 @@
     ],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_06",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_14"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_15"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961057,
       "bit_index": 66
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 195,
+      "AMR-slot-id": 65
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_09": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_16",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_17",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_23"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_17"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961058,
       "bit_index": 67
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 700,
+      "AMR-slot-id": 66
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_10": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_12",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_15",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_22",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_23"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_13",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_24"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961059,
       "bit_index": 68
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 702,
+      "AMR-slot-id": 80
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_11": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_15",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_17",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_16",
       "REGION_MOONLIGHT_MANSION/ROOM_2_18"
     ],
     "room_sanity": {
@@ -958,114 +1316,159 @@
       "location_id": 3961060,
       "bit_index": 70
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 704,
+      "AMR-slot-id": 67
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_12": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_10",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_13",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_14",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_25"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961061,
       "bit_index": 71
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 705,
+      "AMR-slot-id": 68
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_13": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_11",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_12",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_10",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_14",
       "REGION_MOONLIGHT_MANSION/ROOM_2_15",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_18"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_26"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961062,
       "bit_index": 72
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 706,
+      "AMR-slot-id": 69
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_14": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_08",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_12",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_19",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_22"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_19"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961063,
       "bit_index": 73
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 707,
+      "AMR-slot-id": 70
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_15": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_10",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_11",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_13",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_23"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961064,
       "bit_index": 74
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 708,
+      "AMR-slot-id": 71
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_16": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_09",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_24"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_10",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_14"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961065,
       "bit_index": 75
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 709,
+      "AMR-slot-id": 72
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_17": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_09",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_11",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_20"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961066,
       "bit_index": 76
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 710,
+      "AMR-slot-id": 73
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_18": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_11",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_20",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_21"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_09"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961067,
       "bit_index": 77
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 711,
+      "AMR-slot-id": 74
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_19": {
     "locations": [
@@ -1073,118 +1476,166 @@
     ],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_14",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_25"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_21"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961068,
       "bit_index": 78
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 712,
+      "AMR-slot-id": 75
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_20": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_17",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_21"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_26"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961069,
       "bit_index": 79
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 740,
+      "AMR-slot-id": 76
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_21": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_18",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_20",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_26"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_22"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961070,
       "bit_index": 80
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 741,
+      "AMR-slot-id": 77
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_22": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_07",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_10",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_14"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_12",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_21"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961071,
       "bit_index": 81
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 742,
+      "AMR-slot-id": 78
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_23": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_09",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_10",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_24"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_07",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_15"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961072,
       "bit_index": 82
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_11",
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 743,
+      "AMR-slot-id": 81
+    },
+    "gates": {
+      "lever": {}
+    }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_24": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_20",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_07",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_16",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_23"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_25"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961073,
       "bit_index": 83
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 744,
+      "AMR-slot-id": 82
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_25": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_12",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_19",
-      "REGION_RAINBOW_ROUTE/ROOM_1_50"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961074,
       "bit_index": 84
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 745,
+      "AMR-slot-id": 83
+    },
+    "gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_26": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_21"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_13",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+      "REGION_RAINBOW_ROUTE/ROOM_1_51"
     ],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Moonlight_Mansion_-_Hub",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 790,
+      "AMR-slot-id": 79
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_01": {
     "locations": [],
@@ -1193,20 +1644,26 @@
       "REGION_CABBAGE_CAVERN/ROOM_3_14",
       "REGION_OLIVE_OCEAN/ROOM_6_01",
       "REGION_OLIVE_OCEAN/ROOM_6_29",
-      "REGION_RAINBOW_ROUTE/ROOM_1_50"
+      "REGION_RAINBOW_ROUTE/ROOM_1_51"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961075,
       "bit_index": 170
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Cabbage_Cavern_-_Hub_1",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 191,
+      "AMR-slot-id": 188
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_02": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_11",
       "REGION_CABBAGE_CAVERN/ROOM_3_12"
     ],
     "room_sanity": {
@@ -1214,7 +1671,14 @@
       "location_id": 3961076,
       "bit_index": 171
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 500,
+      "AMR-slot-id": 169
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_03": {
     "locations": [],
@@ -1229,7 +1693,14 @@
       "location_id": 3961077,
       "bit_index": 172
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 501,
+      "AMR-slot-id": 175
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_04": {
     "locations": [],
@@ -1243,7 +1714,14 @@
       "location_id": 3961078,
       "bit_index": 173
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 508,
+      "AMR-slot-id": 170
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_05": {
     "locations": [],
@@ -1251,7 +1729,6 @@
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_04",
       "REGION_CABBAGE_CAVERN/ROOM_3_06",
-      "REGION_CABBAGE_CAVERN/ROOM_3_09",
       "REGION_RAINBOW_ROUTE/ROOM_1_13"
     ],
     "room_sanity": {
@@ -1259,7 +1736,14 @@
       "location_id": 3961079,
       "bit_index": 174
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 509,
+      "AMR-slot-id": 171
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_06": {
     "locations": [],
@@ -1273,7 +1757,14 @@
       "location_id": 3961080,
       "bit_index": 175
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 510,
+      "AMR-slot-id": 172
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_07": {
     "locations": [
@@ -1281,8 +1772,6 @@
     ],
     "events": [],
     "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_08",
-      "REGION_CABBAGE_CAVERN/ROOM_3_18",
       "REGION_CABBAGE_CAVERN/ROOM_3_19"
     ],
     "room_sanity": {
@@ -1290,7 +1779,14 @@
       "location_id": 3961081,
       "bit_index": 176
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 511,
+      "AMR-slot-id": 176
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_08": {
     "locations": [],
@@ -1298,14 +1794,21 @@
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_07",
       "REGION_CABBAGE_CAVERN/ROOM_3_17",
-      "REGION_RAINBOW_ROUTE/ROOM_1_34"
+      "REGION_RAINBOW_ROUTE/ROOM_1_35"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961082,
       "bit_index": 177
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 512,
+      "AMR-slot-id": 177
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_09": {
     "locations": [],
@@ -1321,7 +1824,14 @@
       "location_id": 3961083,
       "bit_index": 178
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 513,
+      "AMR-slot-id": 178
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_10": {
     "locations": [],
@@ -1335,7 +1845,14 @@
       "location_id": 3961084,
       "bit_index": 179
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 514,
+      "AMR-slot-id": 179
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_11": {
     "locations": [
@@ -1344,38 +1861,47 @@
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_02",
-      "REGION_CABBAGE_CAVERN/ROOM_3_09",
-      "REGION_CABBAGE_CAVERN/ROOM_3_13",
-      "REGION_CABBAGE_CAVERN/ROOM_3_15"
+      "REGION_CABBAGE_CAVERN/ROOM_3_09"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961085,
       "bit_index": 180
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 515,
+      "AMR-slot-id": 180
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_12": {
     "locations": [
       "BOSS_DEFEAT_6"
     ],
     "events": [],
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_02"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961086,
       "bit_index": 181
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 516,
+      "AMR-slot-id": 173
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_13": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_10",
-      "REGION_CABBAGE_CAVERN/ROOM_3_11",
       "REGION_CABBAGE_CAVERN/ROOM_3_20"
     ],
     "room_sanity": {
@@ -1383,7 +1909,14 @@
       "location_id": 3961087,
       "bit_index": 182
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 517,
+      "AMR-slot-id": 181
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_14": {
     "locations": [],
@@ -1398,7 +1931,14 @@
       "location_id": 3961088,
       "bit_index": 183
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 523,
+      "AMR-slot-id": 182
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_15": {
     "locations": [],
@@ -1412,7 +1952,14 @@
       "location_id": 3961089,
       "bit_index": 184
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 527,
+      "AMR-slot-id": 183
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_16": {
     "locations": [],
@@ -1428,7 +1975,14 @@
       "location_id": 3961090,
       "bit_index": 185
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 528,
+      "AMR-slot-id": 174
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_17": {
     "locations": [],
@@ -1442,13 +1996,19 @@
       "location_id": 3961091,
       "bit_index": 186
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 529,
+      "AMR-slot-id": 184
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_18": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_07",
       "REGION_CABBAGE_CAVERN/ROOM_3_14",
       "REGION_CABBAGE_CAVERN/ROOM_3_20"
     ],
@@ -1457,24 +2017,34 @@
       "location_id": 3961092,
       "bit_index": 187
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 530,
+      "AMR-slot-id": 185
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_19": {
     "locations": [
       "MAJOR_CHEST_CABBAGE_CAVERN"
     ],
     "events": [],
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_07",
-      "REGION_CABBAGE_CAVERN/ROOM_3_20",
-      "REGION_DIMENSION_MIRROR/ROOM_10_19"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961093,
       "bit_index": 188
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 531,
+      "AMR-slot-id": 186
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_20": {
     "locations": [],
@@ -1482,75 +2052,105 @@
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_13",
       "REGION_CABBAGE_CAVERN/ROOM_3_18",
-      "REGION_CABBAGE_CAVERN/ROOM_3_19",
-      "REGION_RAINBOW_ROUTE/ROOM_1_31"
+      "REGION_RAINBOW_ROUTE/ROOM_1_32"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961094,
       "bit_index": 189
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Cabbage_Cavern_-_Hub_2",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 591,
+      "AMR-slot-id": 187
+    },
+    "gates": {}
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_21": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_16",
-      "REGION_RADISH_RUINS/ROOM_8_25",
-      "REGION_RADISH_RUINS/ROOM_8_29",
-      "REGION_RAINBOW_ROUTE/ROOM_1_50"
+      "REGION_RADISH_RUINS/ROOM_8_26",
+      "REGION_RADISH_RUINS/ROOM_8_30",
+      "REGION_RAINBOW_ROUTE/ROOM_1_51"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961095,
       "bit_index": 219
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Cabbage_Cavern_-_Hub_3",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 592,
+      "AMR-slot-id": 218
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_01": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_13"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_14"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961096,
       "bit_index": 117
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 300,
+      "AMR-slot-id": 124
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_02": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_18"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_11",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_17"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961097,
       "bit_index": 118
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 304,
+      "AMR-slot-id": 125
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_03": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_10"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_08"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961098,
       "bit_index": 119
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 308,
+      "AMR-slot-id": 126
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_04": {
     "locations": [
@@ -1558,31 +2158,42 @@
     ],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
-      "REGION_RAINBOW_ROUTE/ROOM_1_36"
+      "REGION_RAINBOW_ROUTE/ROOM_1_37"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961099,
       "bit_index": 120
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 310,
+      "AMR-slot-id": 127
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_05": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_25"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_10"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961100,
       "bit_index": 121
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 312,
+      "AMR-slot-id": 128
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_06": {
     "locations": [
@@ -1590,106 +2201,142 @@
     ],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_09",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_15"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_16"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961101,
       "bit_index": 122
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 313,
+      "AMR-slot-id": 129
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_07": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_02",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_11",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_12"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_13"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961102,
       "bit_index": 123
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 315,
+      "AMR-slot-id": 130
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_08": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_11"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_12"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961103,
       "bit_index": 124
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 316,
+      "AMR-slot-id": 131
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_09": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_17"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961104,
       "bit_index": 125
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 317,
+      "AMR-slot-id": 132
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_10": {
     "locations": [
       "MINOR_CHEST_MUSTARD_MOUNTAIN_8"
     ],
     "events": [],
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_03",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_21",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_23"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961105,
       "bit_index": 126
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 318,
+      "AMR-slot-id": 133
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_11": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_08"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_03",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_22"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961106,
       "bit_index": 127
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 321,
+      "AMR-slot-id": 134
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_12": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_25"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_07"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961107,
       "bit_index": 128
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 322,
+      "AMR-slot-id": 135
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_13": {
     "locations": [],
@@ -1702,103 +2349,138 @@
       "location_id": 3961108,
       "bit_index": 129
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 323,
+      "AMR-slot-id": 136
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_14": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_04",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_09"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961109,
       "bit_index": 130
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 324,
+      "AMR-slot-id": 137
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_15": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_19",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_04",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_12"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_09"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961110,
       "bit_index": 131
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 325,
+      "AMR-slot-id": 138
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_16": {
     "locations": [
       "MINOR_CHEST_MUSTARD_MOUNTAIN_13"
     ],
     "events": [],
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_02",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_20",
-      "REGION_RAINBOW_ROUTE/ROOM_1_49"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961111,
       "bit_index": 132
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 326,
+      "AMR-slot-id": 139
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_17": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_09",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
-      "REGION_RAINBOW_ROUTE/ROOM_1_36"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_02",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_21",
+      "REGION_RAINBOW_ROUTE/ROOM_1_50"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961112,
       "bit_index": 133
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Mustard_Mountain_-_Hub",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 390,
+      "AMR-slot-id": 140
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_18": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_02",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
-      "REGION_RAINBOW_ROUTE/ROOM_1_40"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_09",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+      "REGION_RAINBOW_ROUTE/ROOM_1_37"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961113,
       "bit_index": 135
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 533,
+      "AMR-slot-id": 116
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_19": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
       "REGION_MUSTARD_MOUNTAIN/ROOM_4_20",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_21"
+      "REGION_RAINBOW_ROUTE/ROOM_1_41"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961114,
       "bit_index": 136
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 539,
+      "AMR-slot-id": 117
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_20": {
     "locations": [
@@ -1806,15 +2488,22 @@
     ],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_19"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_21"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961115,
       "bit_index": 137
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 540,
+      "AMR-slot-id": 118
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_21": {
     "locations": [
@@ -1822,78 +2511,105 @@
     ],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_22",
-      "REGION_RAINBOW_ROUTE/ROOM_1_42"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_17",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_20"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961116,
       "bit_index": 138
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 541,
+      "AMR-slot-id": 119
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_22": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_21",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_22",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_23",
-      "REGION_RAINBOW_ROUTE/ROOM_1_19"
+      "REGION_RAINBOW_ROUTE/ROOM_1_43"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961117,
       "bit_index": 139
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 544,
+      "AMR-slot-id": 120
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_23": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_22",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_24"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_23",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_24",
+      "REGION_RAINBOW_ROUTE/ROOM_1_19"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961118,
       "bit_index": 140
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 545,
+      "AMR-slot-id": 121
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_24": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_19",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_23"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_11",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_25"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961119,
       "bit_index": 141
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 546,
+      "AMR-slot-id": 122
+    },
+    "gates": {}
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_25": {
     "locations": [
-      "BOSS_DEFEAT_1",
-      "MINOR_CHEST_MUSTARD_MOUNTAIN_25"
+      "BOSS_DEFEAT_1"
     ],
     "events": [],
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_12"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "null",
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 547,
+      "AMR-slot-id": 123
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_01": {
     "locations": [],
@@ -1908,7 +2624,14 @@
       "location_id": 3961120,
       "bit_index": 9
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 120,
+      "AMR-slot-id": 248
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_02": {
     "locations": [],
@@ -1922,23 +2645,36 @@
       "location_id": 3961121,
       "bit_index": 97
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 121,
+      "AMR-slot-id": 249
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_03": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_01",
       "REGION_CARROT_CASTLE/ROOM_5_02",
       "REGION_CARROT_CASTLE/ROOM_5_06",
-      "REGION_RAINBOW_ROUTE/ROOM_1_21"
+      "REGION_RAINBOW_ROUTE/ROOM_1_22"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961122,
       "bit_index": 249
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 122,
+      "AMR-slot-id": 250
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_04": {
     "locations": [],
@@ -1953,21 +2689,37 @@
       "location_id": 3961123,
       "bit_index": 250
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Carrot_Castle_-_Room_5",
+      "logic_mapped": true,
+      "room_type": "NORMAL",
+      "gRoom-id": 170,
+      "AMR-slot-id": 251
+    },
+    "gates": {
+      "lever": {}
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_05": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_04",
-      "REGION_RADISH_RUINS/ROOM_8_24"
+      "REGION_RADISH_RUINS/ROOM_8_25"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961124,
       "bit_index": 251
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Carrot_Castle_-_Room_6",
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 181,
+      "AMR-slot-id": 8
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_06": {
     "locations": [],
@@ -1975,22 +2727,27 @@
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_03",
       "REGION_CARROT_CASTLE/ROOM_5_04",
-      "REGION_CARROT_CASTLE/ROOM_5_07",
-      "REGION_RAINBOW_ROUTE/ROOM_1_30"
+      "REGION_RAINBOW_ROUTE/ROOM_1_31"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961125,
       "bit_index": 252
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Carrot_Castle_-_Hub",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 193,
+      "AMR-slot-id": 252
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_07": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_02",
-      "REGION_CARROT_CASTLE/ROOM_5_06",
       "REGION_PEPPERMINT_PALACE/ROOM_7_10",
       "REGION_PEPPERMINT_PALACE/ROOM_7_20"
     ],
@@ -1999,132 +2756,182 @@
       "location_id": 3961126,
       "bit_index": 253
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Carrot_Castle_-_Room_4",
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 226,
+      "AMR-slot-id": 96
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_08": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_15",
-      "REGION_CARROT_CASTLE/ROOM_5_20",
-      "REGION_CARROT_CASTLE/ROOM_5_21"
+      "REGION_CARROT_CASTLE/ROOM_5_22"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961127,
       "bit_index": 254
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 600,
+      "AMR-slot-id": 253
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_09": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_09",
-      "REGION_CARROT_CASTLE/ROOM_5_17",
-      "REGION_CARROT_CASTLE/ROOM_5_18"
+      "REGION_CARROT_CASTLE/ROOM_5_19"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961128,
       "bit_index": 255
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 714,
+      "AMR-slot-id": 254
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_10": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_14",
-      "REGION_CARROT_CASTLE/ROOM_5_15",
-      "REGION_CARROT_CASTLE/ROOM_5_20",
-      "REGION_CARROT_CASTLE/ROOM_5_23"
+      "REGION_CARROT_CASTLE/ROOM_5_15"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961129,
       "bit_index": 256
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 716,
+      "AMR-slot-id": 255
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_11": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_10",
-      "REGION_CARROT_CASTLE/ROOM_5_16",
-      "REGION_CARROT_CASTLE/ROOM_5_19"
+      "REGION_CARROT_CASTLE/ROOM_5_10"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961130,
       "bit_index": 257
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 717,
+      "AMR-slot-id": 256
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_12": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_04",
       "REGION_CARROT_CASTLE/ROOM_5_09",
       "REGION_CARROT_CASTLE/ROOM_5_12",
       "REGION_CARROT_CASTLE/ROOM_5_13",
-      "REGION_CARROT_CASTLE/ROOM_5_17"
+      "REGION_CARROT_CASTLE/ROOM_5_18"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961131,
       "bit_index": 258
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 719,
+      "AMR-slot-id": 257
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_13": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_14",
-      "REGION_CARROT_CASTLE/ROOM_5_17"
+      "REGION_CARROT_CASTLE/ROOM_5_18"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961132,
       "bit_index": 259
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 720,
+      "AMR-slot-id": 266
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_14": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_10",
       "REGION_CARROT_CASTLE/ROOM_5_11",
-      "REGION_CARROT_CASTLE/ROOM_5_13",
       "REGION_CARROT_CASTLE/ROOM_5_14",
-      "REGION_CARROT_CASTLE/ROOM_5_16",
-      "REGION_CARROT_CASTLE/ROOM_5_19"
+      "REGION_CARROT_CASTLE/ROOM_5_17"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961133,
       "bit_index": 260
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 730,
+      "AMR-slot-id": 267
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_15": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_08",
-      "REGION_CARROT_CASTLE/ROOM_5_10",
-      "REGION_CARROT_CASTLE/ROOM_5_23"
+      "REGION_CARROT_CASTLE/ROOM_5_16",
+      "REGION_PEPPERMINT_PALACE/ROOM_7_20"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961134,
       "bit_index": 261
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Carrot_Castle_-_Warp",
+      "logic_mapped": false,
+      "room_type": "WARP",
+      "gRoom-id": 731,
+      "AMR-slot-id": 268
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_16": {
     "locations": [
@@ -2132,81 +2939,105 @@
     ],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_11",
-      "REGION_CARROT_CASTLE/ROOM_5_16",
-      "REGION_CARROT_CASTLE/ROOM_5_17",
-      "REGION_CARROT_CASTLE/ROOM_5_18"
+      "REGION_CARROT_CASTLE/ROOM_5_08"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961135,
       "bit_index": 262
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Carrot_Castle_-_Chest_2",
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 732,
+      "AMR-slot-id": 258
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_17": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_09",
-      "REGION_CARROT_CASTLE/ROOM_5_12",
-      "REGION_CARROT_CASTLE/ROOM_5_13",
-      "REGION_CARROT_CASTLE/ROOM_5_16"
+      "REGION_CARROT_CASTLE/ROOM_5_17",
+      "REGION_CARROT_CASTLE/ROOM_5_19"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961136,
       "bit_index": 263
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 733,
+      "AMR-slot-id": 259
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_18": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_09",
-      "REGION_CARROT_CASTLE/ROOM_5_16",
-      "REGION_CARROT_CASTLE/ROOM_5_19"
+      "REGION_CARROT_CASTLE/ROOM_5_12",
+      "REGION_CARROT_CASTLE/ROOM_5_13"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961137,
       "bit_index": 264
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 734,
+      "AMR-slot-id": 260
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_19": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_11",
-      "REGION_CARROT_CASTLE/ROOM_5_14",
-      "REGION_CARROT_CASTLE/ROOM_5_18",
-      "REGION_CARROT_CASTLE/ROOM_5_19",
-      "REGION_CARROT_CASTLE/ROOM_5_20",
-      "REGION_CARROT_CASTLE/ROOM_5_22"
+      "REGION_CARROT_CASTLE/ROOM_5_20"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961138,
       "bit_index": 265
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 735,
+      "AMR-slot-id": 261
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_20": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_08",
-      "REGION_CARROT_CASTLE/ROOM_5_10",
-      "REGION_CARROT_CASTLE/ROOM_5_19"
+      "REGION_CARROT_CASTLE/ROOM_5_20",
+      "REGION_CARROT_CASTLE/ROOM_5_21",
+      "REGION_CARROT_CASTLE/ROOM_5_23"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961139,
       "bit_index": 266
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 736,
+      "AMR-slot-id": 262
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_21": {
     "locations": [],
@@ -2219,22 +3050,34 @@
       "location_id": 3961140,
       "bit_index": 267
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 737,
+      "AMR-slot-id": 263
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_22": {
     "locations": [
       "BOSS_DEFEAT_7"
     ],
     "events": [],
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_19"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961141,
       "bit_index": 268
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 738,
+      "AMR-slot-id": 264
+    },
+    "gates": {}
   },
   "REGION_CARROT_CASTLE/ROOM_5_23": {
     "locations": [
@@ -2242,14 +3085,21 @@
     ],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_15"
+      "REGION_CARROT_CASTLE/ROOM_5_20"
     ],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 739,
+      "AMR-slot-id": 265
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_01": {
     "locations": [],
@@ -2263,7 +3113,14 @@
       "location_id": 3961142,
       "bit_index": 190
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 130,
+      "AMR-slot-id": 189
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_02": {
     "locations": [],
@@ -2278,13 +3135,19 @@
       "location_id": 3961143,
       "bit_index": 191
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 131,
+      "AMR-slot-id": 190
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_03": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_02",
       "REGION_OLIVE_OCEAN/ROOM_6_03",
       "REGION_OLIVE_OCEAN/ROOM_6_04"
     ],
@@ -2293,13 +3156,19 @@
       "location_id": 3961144,
       "bit_index": 192
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 132,
+      "AMR-slot-id": 191
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_04": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_03",
       "REGION_OLIVE_OCEAN/ROOM_6_05",
       "REGION_OLIVE_OCEAN/ROOM_6_23"
     ],
@@ -2308,58 +3177,77 @@
       "location_id": 3961145,
       "bit_index": 193
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 133,
+      "AMR-slot-id": 192
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_05": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_04",
-      "REGION_OLIVE_OCEAN/ROOM_6_06",
-      "REGION_OLIVE_OCEAN/ROOM_6_24"
+      "REGION_OLIVE_OCEAN/ROOM_6_06"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961146,
       "bit_index": 194
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 134,
+      "AMR-slot-id": 193
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_06": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_19",
-      "REGION_OLIVE_OCEAN/ROOM_6_05",
-      "REGION_OLIVE_OCEAN/ROOM_6_29"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961147,
       "bit_index": 195
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 135,
+      "AMR-slot-id": 194
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_07": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_10",
-      "REGION_OLIVE_OCEAN/ROOM_6_14",
-      "REGION_OLIVE_OCEAN/ROOM_6_26"
+      "REGION_OLIVE_OCEAN/ROOM_6_14"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961148,
       "bit_index": 196
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 551,
+      "AMR-slot-id": 195
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_08": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_16",
       "REGION_OLIVE_OCEAN/ROOM_6_28"
     ],
     "room_sanity": {
@@ -2367,13 +3255,19 @@
       "location_id": 3961149,
       "bit_index": 197
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 553,
+      "AMR-slot-id": 196
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_09": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_17",
       "REGION_OLIVE_OCEAN/ROOM_6_18"
     ],
     "room_sanity": {
@@ -2381,13 +3275,19 @@
       "location_id": 3961150,
       "bit_index": 198
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 800,
+      "AMR-slot-id": 211
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_10": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_07",
       "REGION_OLIVE_OCEAN/ROOM_6_15"
     ],
     "room_sanity": {
@@ -2395,21 +3295,34 @@
       "location_id": 3961151,
       "bit_index": 199
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 802,
+      "AMR-slot-id": 212
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_11": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_10",
-      "REGION_OLIVE_OCEAN/ROOM_6_26"
+      "REGION_OLIVE_OCEAN/ROOM_6_10"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961152,
       "bit_index": 200
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 810,
+      "AMR-slot-id": 213
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_12": {
     "locations": [],
@@ -2425,7 +3338,14 @@
       "location_id": 3961153,
       "bit_index": 201
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 811,
+      "AMR-slot-id": 197
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_13": {
     "locations": [],
@@ -2441,7 +3361,14 @@
       "location_id": 3961154,
       "bit_index": 202
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Olive_Ocean_-_Room_12",
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 814,
+      "AMR-slot-id": 198
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_14": {
     "locations": [
@@ -2449,17 +3376,21 @@
     ],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_07",
-      "REGION_OLIVE_OCEAN/ROOM_6_08",
-      "REGION_OLIVE_OCEAN/ROOM_6_15",
-      "REGION_OLIVE_OCEAN/ROOM_6_25"
+      "REGION_OLIVE_OCEAN/ROOM_6_08"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961155,
       "bit_index": 203
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 815,
+      "AMR-slot-id": 199
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_15": {
     "locations": [
@@ -2467,8 +3398,6 @@
     ],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_10",
-      "REGION_OLIVE_OCEAN/ROOM_6_14",
       "REGION_OLIVE_OCEAN/ROOM_6_16"
     ],
     "room_sanity": {
@@ -2476,14 +3405,19 @@
       "location_id": 3961156,
       "bit_index": 204
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 816,
+      "AMR-slot-id": 214
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_16": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_08",
-      "REGION_OLIVE_OCEAN/ROOM_6_15",
       "REGION_OLIVE_OCEAN/ROOM_6_17"
     ],
     "room_sanity": {
@@ -2491,37 +3425,54 @@
       "location_id": 3961157,
       "bit_index": 205
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 819,
+      "AMR-slot-id": 215
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_17": {
     "locations": [],
-    "events": [],
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_09",
-      "REGION_OLIVE_OCEAN/ROOM_6_16",
-      "REGION_OLIVE_OCEAN/ROOM_6_28"
-    ],
-    "room_sanity": {
-      "included": true,
-      "location_id": 3961158,
-      "bit_index": 206
-    },
-    "ability_gates": {}
-  },
-  "REGION_OLIVE_OCEAN/ROOM_6_18": {
-    "locations": [
-      "BOSS_DEFEAT_4"
-    ],
     "events": [],
     "exits": [
       "REGION_OLIVE_OCEAN/ROOM_6_09"
     ],
     "room_sanity": {
       "included": true,
+      "location_id": 3961158,
+      "bit_index": 206
+    },
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 821,
+      "AMR-slot-id": 216
+    },
+    "gates": {}
+  },
+  "REGION_OLIVE_OCEAN/ROOM_6_18": {
+    "locations": [
+      "BOSS_DEFEAT_4"
+    ],
+    "events": [],
+    "exits": [],
+    "room_sanity": {
+      "included": true,
       "location_id": 3961159,
       "bit_index": 207
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 822,
+      "AMR-slot-id": 217
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_19": {
     "locations": [],
@@ -2535,58 +3486,80 @@
       "location_id": 3961160,
       "bit_index": 208
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 823,
+      "AMR-slot-id": 200
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_20": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_MOONLIGHT_MANSION/ROOM_2_07",
-      "REGION_OLIVE_OCEAN/ROOM_6_13",
-      "REGION_OLIVE_OCEAN/ROOM_6_21"
+      "REGION_OLIVE_OCEAN/ROOM_6_13"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961161,
       "bit_index": 209
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Olive_Ocean_-_Room_13",
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 824,
+      "AMR-slot-id": 201
+    },
+    "gates": {
+      "lever": {}
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_21": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_20",
-      "REGION_OLIVE_OCEAN/ROOM_6_20",
-      "REGION_OLIVE_OCEAN/ROOM_6_27"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961162,
       "bit_index": 210
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 825,
+      "AMR-slot-id": 202
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_22": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_02",
-      "REGION_OLIVE_OCEAN/ROOM_6_23"
+      "REGION_OLIVE_OCEAN/ROOM_6_02"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961163,
       "bit_index": 211
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 826,
+      "AMR-slot-id": 203
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_23": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_04",
-      "REGION_OLIVE_OCEAN/ROOM_6_22",
       "REGION_OLIVE_OCEAN/ROOM_6_24"
     ],
     "room_sanity": {
@@ -2594,13 +3567,19 @@
       "location_id": 3961164,
       "bit_index": 212
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 827,
+      "AMR-slot-id": 204
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_24": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_05",
       "REGION_OLIVE_OCEAN/ROOM_6_19",
       "REGION_OLIVE_OCEAN/ROOM_6_23"
     ],
@@ -2609,43 +3588,60 @@
       "location_id": 3961165,
       "bit_index": 213
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 828,
+      "AMR-slot-id": 205
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_25": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_OLIVE_OCEAN/ROOM_6_12",
-      "REGION_OLIVE_OCEAN/ROOM_6_13",
-      "REGION_OLIVE_OCEAN/ROOM_6_14"
+      "REGION_OLIVE_OCEAN/ROOM_6_13"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961166,
       "bit_index": 214
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 829,
+      "AMR-slot-id": 206
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_26": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_07",
-      "REGION_OLIVE_OCEAN/ROOM_6_11",
-      "REGION_OLIVE_OCEAN/ROOM_6_12"
+      "REGION_OLIVE_OCEAN/ROOM_6_11"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961167,
       "bit_index": 215
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 830,
+      "AMR-slot-id": 207
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_27": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_13",
       "REGION_OLIVE_OCEAN/ROOM_6_21"
     ],
     "room_sanity": {
@@ -2653,13 +3649,19 @@
       "location_id": 3961168,
       "bit_index": 216
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 831,
+      "AMR-slot-id": 208
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_28": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_08",
       "REGION_OLIVE_OCEAN/ROOM_6_13",
       "REGION_OLIVE_OCEAN/ROOM_6_17"
     ],
@@ -2668,14 +3670,20 @@
       "location_id": 3961169,
       "bit_index": 217
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 832,
+      "AMR-slot-id": 209
+    },
+    "gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_29": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_01",
-      "REGION_OLIVE_OCEAN/ROOM_6_06",
       "REGION_OLIVE_OCEAN/ROOM_6_12",
       "REGION_OLIVE_OCEAN/ROOM_6_19"
     ],
@@ -2684,13 +3692,19 @@
       "location_id": 3961170,
       "bit_index": 218
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Olive_Ocean_-_Hub",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 890,
+      "AMR-slot-id": 210
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_01": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_16",
       "REGION_PEPPERMINT_PALACE/ROOM_7_17"
     ],
     "room_sanity": {
@@ -2698,37 +3712,56 @@
       "location_id": 3961171,
       "bit_index": 85
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 200,
+      "AMR-slot-id": 84
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_02": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_07",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_10",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_20"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_10"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961172,
       "bit_index": 86
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 202,
+      "AMR-slot-id": 85
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_03": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_04",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_05",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_24"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_05"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961173,
       "bit_index": 87
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 203,
+      "AMR-slot-id": 86
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_04": {
     "locations": [],
@@ -2743,7 +3776,14 @@
       "location_id": 3961174,
       "bit_index": 88
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 204,
+      "AMR-slot-id": 87
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_05": {
     "locations": [],
@@ -2760,23 +3800,34 @@
       "location_id": 3961175,
       "bit_index": 89
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 205,
+      "AMR-slot-id": 88
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_06": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_05",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_08",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_12",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_31"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_12"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961176,
       "bit_index": 90
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 206,
+      "AMR-slot-id": 89
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_07": {
     "locations": [],
@@ -2784,14 +3835,21 @@
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_02",
       "REGION_PEPPERMINT_PALACE/ROOM_7_08",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_29"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_30"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961177,
       "bit_index": 91
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 208,
+      "AMR-slot-id": 90
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_08": {
     "locations": [
@@ -2800,7 +3858,6 @@
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_05",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_06",
       "REGION_PEPPERMINT_PALACE/ROOM_7_07",
       "REGION_PEPPERMINT_PALACE/ROOM_7_09"
     ],
@@ -2809,7 +3866,14 @@
       "location_id": 3961178,
       "bit_index": 92
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 209,
+      "AMR-slot-id": 91
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_09": {
     "locations": [],
@@ -2818,14 +3882,21 @@
       "REGION_PEPPERMINT_PALACE/ROOM_7_05",
       "REGION_PEPPERMINT_PALACE/ROOM_7_08",
       "REGION_PEPPERMINT_PALACE/ROOM_7_24",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_29"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_30"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961179,
       "bit_index": 93
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 210,
+      "AMR-slot-id": 92
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_10": {
     "locations": [],
@@ -2839,7 +3910,14 @@
       "location_id": 3961180,
       "bit_index": 94
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 211,
+      "AMR-slot-id": 93
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_11": {
     "locations": [],
@@ -2853,36 +3931,53 @@
       "location_id": 3961181,
       "bit_index": 95
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 212,
+      "AMR-slot-id": 104
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_12": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_19",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_06"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961182,
       "bit_index": 96
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 214,
+      "AMR-slot-id": 94
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_13": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_11",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_27",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_30"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_31"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961183,
       "bit_index": 98
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 215,
+      "AMR-slot-id": 105
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_14": {
     "locations": [],
@@ -2896,7 +3991,14 @@
       "location_id": 3961184,
       "bit_index": 99
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 216,
+      "AMR-slot-id": 106
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_15": {
     "locations": [],
@@ -2911,51 +4013,75 @@
       "location_id": 3961185,
       "bit_index": 100
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 217,
+      "AMR-slot-id": 107
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_16": {
     "locations": [],
-    "events": [],
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_01",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_19",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_22"
-    ],
-    "room_sanity": {
-      "included": true,
-      "location_id": 3961186,
-      "bit_index": 102
-    },
-    "ability_gates": {}
-  },
-  "REGION_PEPPERMINT_PALACE/ROOM_7_17": {
-    "locations": [
-      "BOSS_DEFEAT_5"
-    ],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_01"
     ],
     "room_sanity": {
       "included": true,
+      "location_id": 3961186,
+      "bit_index": 102
+    },
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 218,
+      "AMR-slot-id": 108
+    },
+    "gates": {}
+  },
+  "REGION_PEPPERMINT_PALACE/ROOM_7_17": {
+    "locations": [
+      "BOSS_DEFEAT_5"
+    ],
+    "events": [],
+    "exits": [],
+    "room_sanity": {
+      "included": true,
       "location_id": 3961187,
       "bit_index": 103
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 219,
+      "AMR-slot-id": 109
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_18": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_04",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_28"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_29"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961188,
       "bit_index": 104
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 220,
+      "AMR-slot-id": 95
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_19": {
     "locations": [],
@@ -2970,28 +4096,40 @@
       "location_id": 3961189,
       "bit_index": 105
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 221,
+      "AMR-slot-id": 110
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_20": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_07",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_02",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_30"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_31"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961190,
       "bit_index": 106
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_4",
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 222,
+      "AMR-slot-id": 111
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_21": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_15",
       "REGION_PEPPERMINT_PALACE/ROOM_7_22"
     ],
     "room_sanity": {
@@ -2999,58 +4137,79 @@
       "location_id": 3961191,
       "bit_index": 107
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 223,
+      "AMR-slot-id": 112
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_22": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_20",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_16",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_21"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961192,
       "bit_index": 108
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 224,
+      "AMR-slot-id": 113
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_23": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_19",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_28"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_29"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961193,
       "bit_index": 109
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 225,
+      "AMR-slot-id": 114
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_24": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_03",
       "REGION_PEPPERMINT_PALACE/ROOM_7_04",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_09",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_29"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_09"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961194,
       "bit_index": 110
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 227,
+      "AMR-slot-id": 97
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_25": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_05",
       "REGION_PEPPERMINT_PALACE/ROOM_7_26"
     ],
     "room_sanity": {
@@ -3058,140 +4217,198 @@
       "location_id": 3961195,
       "bit_index": 111
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 228,
+      "AMR-slot-id": 98
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_26": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_25",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_31"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_27"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961196,
       "bit_index": 112
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 229,
+      "AMR-slot-id": 99
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_27": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_13",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_28"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961197,
       "bit_index": 113
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 230,
+      "AMR-slot-id": 100
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_28": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_18",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_23",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_27",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_28"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_13"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961198,
       "bit_index": 114
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 231,
+      "AMR-slot-id": 101
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_29": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_07",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_09",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_24",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_30",
-      "REGION_RAINBOW_ROUTE/ROOM_1_50"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_18",
+      "REGION_PEPPERMINT_PALACE/ROOM_7_23",
+      "REGION_PEPPERMINT_PALACE/ROOM_7_28",
+      "REGION_PEPPERMINT_PALACE/ROOM_7_29"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961199,
       "bit_index": 115
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 232,
+      "AMR-slot-id": 102
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_30": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_13",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_20",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_29"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+      "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+      "REGION_PEPPERMINT_PALACE/ROOM_7_31",
+      "REGION_RAINBOW_ROUTE/ROOM_1_51"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961200,
       "bit_index": 116
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Peppermint_Palace_-_Hub_1",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 290,
+      "AMR-slot-id": 103
+    },
+    "gates": {}
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_31": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_06",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_26"
+      "REGION_PEPPERMINT_PALACE/ROOM_7_13",
+      "REGION_PEPPERMINT_PALACE/ROOM_7_20",
+      "REGION_PEPPERMINT_PALACE/ROOM_7_30"
     ],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Peppermint_Palace_-_Hub_2",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 291,
+      "AMR-slot-id": 115
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_01": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_02",
-      "REGION_RADISH_RUINS/ROOM_8_03"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961201,
       "bit_index": 220
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 100,
+      "AMR-slot-id": 65534
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_02": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_01",
-      "REGION_RADISH_RUINS/ROOM_8_06",
-      "REGION_RADISH_RUINS/ROOM_8_23"
+      "REGION_RADISH_RUINS/ROOM_8_04"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961202,
       "bit_index": 221
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 102,
+      "AMR-slot-id": 244
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_03": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_01",
-      "REGION_RADISH_RUINS/ROOM_8_04"
+      "REGION_RADISH_RUINS/ROOM_8_02"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961203,
       "bit_index": 222
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 113,
+      "AMR-slot-id": 245
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_04": {
     "locations": [
@@ -3199,198 +4416,269 @@
     ],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_03"
+      "REGION_RADISH_RUINS/ROOM_8_05"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961204,
       "bit_index": 223
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 114,
+      "AMR-slot-id": 246
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_05": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_06",
-      "REGION_RADISH_RUINS/ROOM_8_07",
-      "REGION_RADISH_RUINS/ROOM_8_22"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961205,
       "bit_index": 224
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 129,
+      "AMR-slot-id": 247
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_06": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_02",
-      "REGION_RADISH_RUINS/ROOM_8_05",
-      "REGION_RADISH_RUINS/ROOM_8_21"
+      "REGION_RADISH_RUINS/ROOM_8_08",
+      "REGION_RADISH_RUINS/ROOM_8_23"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961206,
       "bit_index": 225
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 502,
+      "AMR-slot-id": 240
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_07": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_05",
-      "REGION_RADISH_RUINS/ROOM_8_08"
+      "REGION_RADISH_RUINS/ROOM_8_06"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961207,
       "bit_index": 226
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 524,
+      "AMR-slot-id": 241
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_08": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_20",
-      "REGION_RADISH_RUINS/ROOM_8_07"
+      "REGION_RADISH_RUINS/ROOM_8_09"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961208,
       "bit_index": 227
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 525,
+      "AMR-slot-id": 242
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_09": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_12",
-      "REGION_RADISH_RUINS/ROOM_8_16",
-      "REGION_RADISH_RUINS/ROOM_8_17",
-      "REGION_RADISH_RUINS/ROOM_8_28"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961209,
       "bit_index": 228
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 526,
+      "AMR-slot-id": 243
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_10": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_11",
-      "REGION_RADISH_RUINS/ROOM_8_14",
-      "REGION_RADISH_RUINS/ROOM_8_17",
-      "REGION_RADISH_RUINS/ROOM_8_24",
-      "REGION_RADISH_RUINS/ROOM_8_28"
+      "REGION_RADISH_RUINS/ROOM_8_13",
+      "REGION_RADISH_RUINS/ROOM_8_18",
+      "REGION_RADISH_RUINS/ROOM_8_29"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961210,
       "bit_index": 229
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 601,
+      "AMR-slot-id": 219
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_11": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_10",
-      "REGION_RADISH_RUINS/ROOM_8_13",
-      "REGION_RADISH_RUINS/ROOM_8_27",
-      "REGION_RADISH_RUINS/ROOM_8_28"
+      "REGION_RADISH_RUINS/ROOM_8_12",
+      "REGION_RADISH_RUINS/ROOM_8_18"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961211,
       "bit_index": 230
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 603,
+      "AMR-slot-id": 220
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_12": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_09",
-      "REGION_RADISH_RUINS/ROOM_8_13",
-      "REGION_RADISH_RUINS/ROOM_8_16",
-      "REGION_RADISH_RUINS/ROOM_8_26"
+      "REGION_RADISH_RUINS/ROOM_8_11",
+      "REGION_RADISH_RUINS/ROOM_8_14",
+      "REGION_RADISH_RUINS/ROOM_8_28",
+      "REGION_RADISH_RUINS/ROOM_8_29"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961212,
       "bit_index": 231
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 604,
+      "AMR-slot-id": 221
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_13": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_11",
-      "REGION_RADISH_RUINS/ROOM_8_12",
-      "REGION_RADISH_RUINS/ROOM_8_27",
-      "REGION_RADISH_RUINS/ROOM_8_28"
+      "REGION_RADISH_RUINS/ROOM_8_10",
+      "REGION_RADISH_RUINS/ROOM_8_14",
+      "REGION_RADISH_RUINS/ROOM_8_17"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961213,
       "bit_index": 232
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 605,
+      "AMR-slot-id": 222
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_14": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_10",
-      "REGION_RADISH_RUINS/ROOM_8_18",
-      "REGION_RADISH_RUINS/ROOM_8_19",
-      "REGION_RADISH_RUINS/ROOM_8_24"
+      "REGION_RADISH_RUINS/ROOM_8_12",
+      "REGION_RADISH_RUINS/ROOM_8_13"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961214,
       "bit_index": 233
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 606,
+      "AMR-slot-id": 223
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_15": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_18",
       "REGION_RADISH_RUINS/ROOM_8_19",
-      "REGION_RADISH_RUINS/ROOM_8_20"
+      "REGION_RADISH_RUINS/ROOM_8_20",
+      "REGION_RADISH_RUINS/ROOM_8_25"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961215,
       "bit_index": 234
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 608,
+      "AMR-slot-id": 230
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_16": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_09",
-      "REGION_RADISH_RUINS/ROOM_8_17"
+      "REGION_RADISH_RUINS/ROOM_8_21"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961216,
       "bit_index": 235
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 609,
+      "AMR-slot-id": 231
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_17": {
     "locations": [
@@ -3398,69 +4686,90 @@
     ],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_09",
-      "REGION_RADISH_RUINS/ROOM_8_10",
-      "REGION_RADISH_RUINS/ROOM_8_29"
+      "REGION_RADISH_RUINS/ROOM_8_18"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961217,
       "bit_index": 236
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 610,
+      "AMR-slot-id": 224
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_18": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_14",
-      "REGION_RADISH_RUINS/ROOM_8_15",
-      "REGION_RADISH_RUINS/ROOM_8_29"
+      "REGION_RADISH_RUINS/ROOM_8_10",
+      "REGION_RADISH_RUINS/ROOM_8_11",
+      "REGION_RADISH_RUINS/ROOM_8_30"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961218,
       "bit_index": 237
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 611,
+      "AMR-slot-id": 225
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_19": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_14",
       "REGION_RADISH_RUINS/ROOM_8_15",
-      "REGION_RADISH_RUINS/ROOM_8_20",
-      "REGION_RADISH_RUINS/ROOM_8_21"
+      "REGION_RADISH_RUINS/ROOM_8_30"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961219,
       "bit_index": 238
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 612,
+      "AMR-slot-id": 232
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_20": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_19",
-      "REGION_RADISH_RUINS/ROOM_8_23"
+      "REGION_RADISH_RUINS/ROOM_8_16",
+      "REGION_RADISH_RUINS/ROOM_8_22"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961220,
       "bit_index": 239
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 613,
+      "AMR-slot-id": 233
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_21": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_06",
-      "REGION_RADISH_RUINS/ROOM_8_19",
-      "REGION_RADISH_RUINS/ROOM_8_23",
       "REGION_RADISH_RUINS/ROOM_8_24"
     ],
     "room_sanity": {
@@ -3468,21 +4777,34 @@
       "location_id": 3961221,
       "bit_index": 240
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 614,
+      "AMR-slot-id": 234
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_22": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_05",
-      "REGION_RADISH_RUINS/ROOM_8_24"
+      "REGION_RADISH_RUINS/ROOM_8_07"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961222,
       "bit_index": 241
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 616,
+      "AMR-slot-id": 235
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_23": {
     "locations": [
@@ -3490,68 +4812,90 @@
     ],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_02",
-      "REGION_RADISH_RUINS/ROOM_8_20",
-      "REGION_RADISH_RUINS/ROOM_8_21"
+      "REGION_RADISH_RUINS/ROOM_8_06"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961223,
       "bit_index": 242
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 617,
+      "AMR-slot-id": 236
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_24": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_05",
-      "REGION_RADISH_RUINS/ROOM_8_10",
-      "REGION_RADISH_RUINS/ROOM_8_14",
-      "REGION_RADISH_RUINS/ROOM_8_21",
-      "REGION_RADISH_RUINS/ROOM_8_22"
+      "REGION_RADISH_RUINS/ROOM_8_03"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961224,
       "bit_index": 243
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 618,
+      "AMR-slot-id": 237
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_25": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_21",
-      "REGION_RADISH_RUINS/ROOM_8_26"
+      "REGION_CARROT_CASTLE/ROOM_5_05",
+      "REGION_RADISH_RUINS/ROOM_8_15"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961225,
       "bit_index": 244
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 619,
+      "AMR-slot-id": 238
+    },
+    "gates": {
+      "lever": {}
+    }
   },
   "REGION_RADISH_RUINS/ROOM_8_26": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_12",
-      "REGION_RADISH_RUINS/ROOM_8_25"
+      "REGION_CABBAGE_CAVERN/ROOM_3_21",
+      "REGION_RADISH_RUINS/ROOM_8_27"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961226,
       "bit_index": 245
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 620,
+      "AMR-slot-id": 226
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_27": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_19",
-      "REGION_RADISH_RUINS/ROOM_8_11",
       "REGION_RADISH_RUINS/ROOM_8_13"
     ],
     "room_sanity": {
@@ -3559,63 +4903,95 @@
       "location_id": 3961227,
       "bit_index": 246
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 621,
+      "AMR-slot-id": 227
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_28": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_09",
-      "REGION_RADISH_RUINS/ROOM_8_10",
-      "REGION_RADISH_RUINS/ROOM_8_11",
-      "REGION_RADISH_RUINS/ROOM_8_13"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961228,
       "bit_index": 247
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 622,
+      "AMR-slot-id": 228
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_29": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_21",
-      "REGION_RADISH_RUINS/ROOM_8_17",
-      "REGION_RADISH_RUINS/ROOM_8_18"
+      "REGION_RADISH_RUINS/ROOM_8_10",
+      "REGION_RADISH_RUINS/ROOM_8_14"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961229,
       "bit_index": 248
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 623,
+      "AMR-slot-id": 229
+    },
+    "gates": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_30": {
     "locations": [],
     "events": [],
-    "exits": [],
+    "exits": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_21",
+      "REGION_RADISH_RUINS/ROOM_8_18",
+      "REGION_RADISH_RUINS/ROOM_8_19"
+    ],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Radish_Ruins_-_Hub",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 690,
+      "AMR-slot-id": 239
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_01": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_15",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_16"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_17"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961230,
       "bit_index": 142
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 400,
+      "AMR-slot-id": 141
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_02": {
     "locations": [],
@@ -3623,29 +4999,41 @@
     "exits": [
       "REGION_CANDY_CONSTELLATION/ROOM_9_07",
       "REGION_CANDY_CONSTELLATION/ROOM_9_08",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_09",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_11"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_09"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961231,
       "bit_index": 143
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 401,
+      "AMR-slot-id": 142
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_03": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_17",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_18"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_19"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961232,
       "bit_index": 144
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 402,
+      "AMR-slot-id": 143
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_04": {
     "locations": [
@@ -3661,7 +5049,14 @@
       "location_id": 3961233,
       "bit_index": 145
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 403,
+      "AMR-slot-id": 144
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_05": {
     "locations": [],
@@ -3669,30 +5064,42 @@
     "exits": [
       "REGION_CANDY_CONSTELLATION/ROOM_9_04",
       "REGION_CANDY_CONSTELLATION/ROOM_9_08",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_26"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_27"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961234,
       "bit_index": 146
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 404,
+      "AMR-slot-id": 145
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_06": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_CANDY_CONSTELLATION/ROOM_9_04",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_11",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_13",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_27"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_11"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961235,
       "bit_index": 147
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 405,
+      "AMR-slot-id": 146
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_07": {
     "locations": [
@@ -3700,15 +5107,21 @@
     ],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_02",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_27"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_02"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961236,
       "bit_index": 148
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 406,
+      "AMR-slot-id": 147
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_08": {
     "locations": [],
@@ -3716,14 +5129,21 @@
     "exits": [
       "REGION_CANDY_CONSTELLATION/ROOM_9_02",
       "REGION_CANDY_CONSTELLATION/ROOM_9_05",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_27"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_28"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961237,
       "bit_index": 149
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 407,
+      "AMR-slot-id": 148
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_09": {
     "locations": [],
@@ -3737,94 +5157,133 @@
       "location_id": 3961238,
       "bit_index": 150
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 408,
+      "AMR-slot-id": 149
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_10": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_CANDY_CONSTELLATION/ROOM_9_09",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_26"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_27"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961239,
       "bit_index": 151
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 409,
+      "AMR-slot-id": 150
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_11": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_02",
       "REGION_CANDY_CONSTELLATION/ROOM_9_06",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_17",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_25",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_27"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_18",
+      "REGION_CANDY_CONSTELLATION/ROOM_9_28"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961240,
       "bit_index": 152
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 411,
+      "AMR-slot-id": 151
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_12": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_13",
-      "REGION_DIMENSION_MIRROR/ROOM_10_20"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961241,
       "bit_index": 154
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 412,
+      "AMR-slot-id": 152
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_13": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_06",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_12"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961242,
       "bit_index": 155
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 413,
+      "AMR-slot-id": 153
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_14": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_21",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_28"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_13"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961243,
       "bit_index": 156
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 414,
+      "AMR-slot-id": 154
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_15": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_01",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_20"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_22"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961244,
       "bit_index": 157
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 415,
+      "AMR-slot-id": 155
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_16": {
     "locations": [],
@@ -3837,97 +5296,136 @@
       "location_id": 3961245,
       "bit_index": 158
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 416,
+      "AMR-slot-id": 156
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_17": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_03",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_11",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_13"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961246,
       "bit_index": 159
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 417,
+      "AMR-slot-id": 157
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_18": {
     "locations": [],
     "events": [],
     "exits": [
       "REGION_CANDY_CONSTELLATION/ROOM_9_03",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_25",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_28"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_11",
+      "REGION_CANDY_CONSTELLATION/ROOM_9_14"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961247,
       "bit_index": 160
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 418,
+      "AMR-slot-id": 158
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_19": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_25",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_28",
-      "REGION_DIMENSION_MIRROR/ROOM_10_20"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_12",
+      "REGION_CANDY_CONSTELLATION/ROOM_9_26"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961248,
       "bit_index": 161
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 419,
+      "AMR-slot-id": 159
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_20": {
     "locations": [
       "BOSS_DEFEAT_3"
     ],
     "events": [],
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_15",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_22"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961249,
       "bit_index": 162
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 420,
+      "AMR-slot-id": 160
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_21": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_14",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_22",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_23"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_16"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961250,
       "bit_index": 163
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 421,
+      "AMR-slot-id": 161
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_22": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_20",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_21"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_23",
+      "REGION_CANDY_CONSTELLATION/ROOM_9_24"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961251,
       "bit_index": 164
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 422,
+      "AMR-slot-id": 162
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_23": {
     "locations": [],
@@ -3940,28 +5438,39 @@
       "location_id": 3961252,
       "bit_index": 165
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 423,
+      "AMR-slot-id": 163
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_24": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_26"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_22"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961253,
       "bit_index": 166
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 424,
+      "AMR-slot-id": 164
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_25": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_11",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_18",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_19",
       "REGION_CANDY_CONSTELLATION/ROOM_9_27"
     ],
     "room_sanity": {
@@ -3969,7 +5478,14 @@
       "location_id": 3961254,
       "bit_index": 167
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 425,
+      "AMR-slot-id": 165
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_26": {
     "locations": [
@@ -3977,309 +5493,425 @@
     ],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_05",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_10",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_24"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_20"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961255,
       "bit_index": 168
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "BIG",
+      "gRoom-id": 426,
+      "AMR-slot-id": 166
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_27": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_06",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_07",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_08",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_11",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_25",
-      "REGION_RAINBOW_ROUTE/ROOM_1_50"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_05",
+      "REGION_CANDY_CONSTELLATION/ROOM_9_10",
+      "REGION_CANDY_CONSTELLATION/ROOM_9_25"
     ],
     "room_sanity": {
       "included": true,
       "location_id": 3961256,
       "bit_index": 169
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "NORMAL",
+      "gRoom-id": 427,
+      "AMR-slot-id": 167
+    },
+    "gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_28": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_14",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_18",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_19"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_08",
+      "REGION_CANDY_CONSTELLATION/ROOM_9_11",
+      "REGION_RAINBOW_ROUTE/ROOM_1_51"
     ],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Candy_Constellation_-_Hub",
+      "logic_mapped": false,
+      "room_type": "HUB",
+      "gRoom-id": 490,
+      "AMR-slot-id": 168
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_01": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 806,
+      "AMR-slot-id": 65534
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_02": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 909,
+      "AMR-slot-id": 269
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_03": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 910,
+      "AMR-slot-id": 270
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_04": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 911,
+      "AMR-slot-id": 271
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_05": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 912,
+      "AMR-slot-id": 272
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_06": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 913,
+      "AMR-slot-id": 273
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_07": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 914,
+      "AMR-slot-id": 274
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_08": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 915,
+      "AMR-slot-id": 275
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_09": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 916,
+      "AMR-slot-id": 276
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_10": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 918,
+      "AMR-slot-id": 277
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_11": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 919,
+      "AMR-slot-id": 278
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_12": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Copy_Ability_Room",
+      "logic_mapped": false,
+      "room_type": "ABILITY_TESTING",
+      "gRoom-id": 950,
+      "AMR-slot-id": 279
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_13": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 951,
+      "AMR-slot-id": 280
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_14": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 955,
+      "AMR-slot-id": 281
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_15": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 956,
+      "AMR-slot-id": 282
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_16": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 957,
+      "AMR-slot-id": 283
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_17": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 969,
+      "AMR-slot-id": 284
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_18": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 980,
+      "AMR-slot-id": 4
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_19": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 981,
+      "AMR-slot-id": 5
+    },
+    "gates": {}
   },
   "REGION_DIMENSION_MIRROR/ROOM_10_20": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": null,
+      "logic_mapped": false,
+      "room_type": "other",
+      "gRoom-id": 982,
+      "AMR-slot-id": 6
+    },
+    "gates": {}
   },
   "REGION_TUTORIAL/ROOM_0_01": {
     "locations": [],
@@ -4292,13 +5924,20 @@
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Labyrinth_Entrance_Stage",
+      "wikirby_name": "Labyrinth Entrance Stage",
+      "logic_mapped": true,
+      "room_type": "TUTORIAL",
+      "gRoom-id": 803,
+      "AMR-slot-id": 1
+    },
+    "gates": {}
   },
   "REGION_TUTORIAL/ROOM_0_02": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_TUTORIAL/ROOM_0_01",
       "REGION_TUTORIAL/ROOM_0_03"
     ],
     "room_sanity": {
@@ -4306,20 +5945,36 @@
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Labyrinth_Entrance_Stage",
+      "wikirby_name": "Labyrinth Entrance Stage",
+      "logic_mapped": true,
+      "room_type": "TUTORIAL",
+      "gRoom-id": 804,
+      "AMR-slot-id": 2
+    },
+    "gates": {}
   },
   "REGION_TUTORIAL/ROOM_0_03": {
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_GAME_START",
-      "REGION_TUTORIAL/ROOM_0_02"
+      "REGION_TUTORIAL/ROOM_0_02",
+      "REGION_RAINBOW_ROUTE/ROOM_1_51"
     ],
     "room_sanity": {
       "included": false,
       "location_id": null,
       "bit_index": null
     },
-    "ability_gates": {}
+    "metadata": {
+      "wikirby_link": "https://wikirby.com/wiki/Labyrinth_Entrance_Stage",
+      "wikirby_name": "Labyrinth Entrance Stage",
+      "logic_mapped": true,
+      "room_type": "TUTORIAL",
+      "gRoom-id": 805,
+      "AMR-slot-id": 3
+    },
+    "gates": {}
   }
 }
