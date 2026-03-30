@@ -1079,8 +1079,8 @@
     ],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961257,
+      "bit_index": 0
     },
     "metadata": {
       "wikirby_link": "https://wikirby.com/wiki/Rainbow_Route_-_Central_Circle",
@@ -1624,9 +1624,9 @@
       "REGION_RAINBOW_ROUTE/ROOM_1_51"
     ],
     "room_sanity": {
-      "included": false,
-      "location_id": null,
-      "bit_index": null
+      "included": true,
+      "location_id": 3961258,
+      "bit_index": 80
     },
     "metadata": {
       "wikirby_link": "https://wikirby.com/wiki/Moonlight_Mansion_-_Hub",
@@ -2598,9 +2598,9 @@
     "events": [],
     "exits": [],
     "room_sanity": {
-      "included": false,
-      "location_id": null,
-      "bit_index": null
+      "included": true,
+      "location_id": 3961259,
+      "bit_index": 124
     },
     "metadata": {
       "wikirby_link": "null",
@@ -3088,9 +3088,9 @@
       "REGION_CARROT_CASTLE/ROOM_5_20"
     ],
     "room_sanity": {
-      "included": false,
-      "location_id": null,
-      "bit_index": null
+      "included": true,
+      "location_id": 3961260,
+      "bit_index": 266
     },
     "metadata": {
       "wikirby_link": null,
@@ -4339,9 +4339,9 @@
       "REGION_PEPPERMINT_PALACE/ROOM_7_30"
     ],
     "room_sanity": {
-      "included": false,
-      "location_id": null,
-      "bit_index": null
+      "included": true,
+      "location_id": 3961261,
+      "bit_index": 116
     },
     "metadata": {
       "wikirby_link": "https://wikirby.com/wiki/Peppermint_Palace_-_Hub_2",
@@ -4960,9 +4960,9 @@
       "REGION_RADISH_RUINS/ROOM_8_19"
     ],
     "room_sanity": {
-      "included": false,
-      "location_id": null,
-      "bit_index": null
+      "included": true,
+      "location_id": 3961262,
+      "bit_index": 240
     },
     "metadata": {
       "wikirby_link": "https://wikirby.com/wiki/Radish_Ruins_-_Hub",
@@ -5540,9 +5540,9 @@
       "REGION_RAINBOW_ROUTE/ROOM_1_51"
     ],
     "room_sanity": {
-      "included": false,
-      "location_id": null,
-      "bit_index": null
+      "included": true,
+      "location_id": 3961263,
+      "bit_index": 169
     },
     "metadata": {
       "wikirby_link": "https://wikirby.com/wiki/Candy_Constellation_-_Hub",
@@ -5559,7 +5559,7 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
+      "location_id": 3961264,
       "bit_index": null
     },
     "metadata": {
@@ -5577,8 +5577,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961265,
+      "bit_index": 270
     },
     "metadata": {
       "wikirby_link": null,
@@ -5595,8 +5595,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961266,
+      "bit_index": 271
     },
     "metadata": {
       "wikirby_link": null,
@@ -5613,8 +5613,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961267,
+      "bit_index": 272
     },
     "metadata": {
       "wikirby_link": null,
@@ -5631,8 +5631,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961268,
+      "bit_index": 273
     },
     "metadata": {
       "wikirby_link": null,
@@ -5649,8 +5649,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961269,
+      "bit_index": 274
     },
     "metadata": {
       "wikirby_link": null,
@@ -5667,8 +5667,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961270,
+      "bit_index": 275
     },
     "metadata": {
       "wikirby_link": null,
@@ -5685,8 +5685,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961271,
+      "bit_index": 276
     },
     "metadata": {
       "wikirby_link": null,
@@ -5703,8 +5703,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961272,
+      "bit_index": 277
     },
     "metadata": {
       "wikirby_link": null,
@@ -5721,8 +5721,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961273,
+      "bit_index": 278
     },
     "metadata": {
       "wikirby_link": null,
@@ -5739,8 +5739,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961274,
+      "bit_index": 279
     },
     "metadata": {
       "wikirby_link": null,
@@ -5757,8 +5757,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961275,
+      "bit_index": 280
     },
     "metadata": {
       "wikirby_link": "https://wikirby.com/wiki/Copy_Ability_Room",
@@ -5775,8 +5775,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961276,
+      "bit_index": 281
     },
     "metadata": {
       "wikirby_link": null,
@@ -5793,8 +5793,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961277,
+      "bit_index": 282
     },
     "metadata": {
       "wikirby_link": null,
@@ -5811,8 +5811,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961278,
+      "bit_index": 283
     },
     "metadata": {
       "wikirby_link": null,
@@ -5829,8 +5829,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961279,
+      "bit_index": 284
     },
     "metadata": {
       "wikirby_link": null,
@@ -5847,8 +5847,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961280,
+      "bit_index": 285
     },
     "metadata": {
       "wikirby_link": null,
@@ -5865,8 +5865,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961281,
+      "bit_index": 5
     },
     "metadata": {
       "wikirby_link": null,
@@ -5883,8 +5883,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961282,
+      "bit_index": 6
     },
     "metadata": {
       "wikirby_link": null,
@@ -5901,8 +5901,8 @@
     "exits": [],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961283,
+      "bit_index": 7
     },
     "metadata": {
       "wikirby_link": null,
@@ -5921,8 +5921,8 @@
     ],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961284,
+      "bit_index": 1
     },
     "metadata": {
       "wikirby_link": "https://wikirby.com/wiki/Labyrinth_Entrance_Stage",
@@ -5942,8 +5942,8 @@
     ],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961285,
+      "bit_index": 2
     },
     "metadata": {
       "wikirby_link": "https://wikirby.com/wiki/Labyrinth_Entrance_Stage",
@@ -5964,8 +5964,8 @@
     ],
     "room_sanity": {
       "included": false,
-      "location_id": null,
-      "bit_index": null
+      "location_id": 3961286,
+      "bit_index": 3
     },
     "metadata": {
       "wikirby_link": "https://wikirby.com/wiki/Labyrinth_Entrance_Stage",
