@@ -43,6 +43,10 @@ _SMALL_CHEST_FLAGS_BYTE_COUNT = 0x10
 _ROOM_VISIT_FLAGS_ADDR_KEY = "room_visit_flags_native"
 _ROOM_VISIT_FLAGS_ENTRY_COUNT = 0x120
 _ROOM_VISIT_FLAGS_BIT_MASK = 0x8000
+_CURRENT_KIRBY_INDEX_ADDR_KEY = "current_kirby_index_native"
+_KIRBYS_BASE_ADDR_KEY = "kirbys_native"
+_KIRBY_STRUCT_SIZE = 0x1A8
+_KIRBY_ROOM_ID_OFFSET = 0x106
 _OPTIONAL_UNSAFE_DELIVERY_COUNTERS = (
     ("shadow_kirby_encounters_native", "shadow_kirby_encounters"),
     ("mirra_encounters_native", "mirra_encounters"),
@@ -140,6 +144,20 @@ class KirbyAmClient(BizHawkClient):
             self._room_sanity_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
         self._room_sanity_bits_sorted: list[int] = sorted(self._room_sanity_location_ids_by_bit.keys())
 
+        # Native roomId -> room region key mapping loaded from rooms metadata for debug logs.
+        self._room_region_by_groom_id: dict[int, str] = {}
+        room_defs = load_json_data("regions/rooms.json")
+        if isinstance(room_defs, dict):
+            for region_name, region_def in room_defs.items():
+                if not isinstance(region_name, str) or not isinstance(region_def, dict):
+                    continue
+                metadata = region_def.get("metadata")
+                if not isinstance(metadata, dict):
+                    continue
+                g_room_id = metadata.get("gRoom-id")
+                if isinstance(g_room_id, int):
+                    self._room_region_by_groom_id[g_room_id] = region_name
+
         # One-time RAM state load
         self._ram_state_loaded: bool = False
 
@@ -194,6 +212,8 @@ class KirbyAmClient(BizHawkClient):
         self._debug_logging_enabled: bool = False
         self._last_logged_ai_state: int | None = None
         self._last_logged_demo_flags: int | None = None
+        self._last_logged_room_id: int | None = None
+        self._last_logged_room_player_index: int | None = None
         self._boss_shard_debug_window_active: bool = False
 
     @staticmethod
@@ -235,6 +255,8 @@ class KirbyAmClient(BizHawkClient):
         self._self_send_fallback_keys.clear()
         self._last_logged_ai_state = None
         self._last_logged_demo_flags = None
+        self._last_logged_room_id = None
+        self._last_logged_room_player_index = None
         self._boss_shard_debug_window_active = False
 
     @staticmethod
@@ -421,6 +443,66 @@ class KirbyAmClient(BizHawkClient):
             return ""
         label = _LOCATION_ID_TO_LABEL.get(location_id)
         return label if label is not None else f"Location {location_id}"
+
+    def _room_region_name(self, room_id: int | None) -> str:
+        if room_id is None:
+            return "unknown"
+        region = self._room_region_by_groom_id.get(int(room_id))
+        if region is not None:
+            return region
+        return f"room_id_{int(room_id)}"
+
+    async def _log_room_entry_debug(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """Emit debug logs when the local player enters a room, including revisits."""
+        if not self._debug_logging_enabled:
+            return
+
+        player_index_addr = self._native_addr(_CURRENT_KIRBY_INDEX_ADDR_KEY)
+        kirbys_addr = self._native_addr(_KIRBYS_BASE_ADDR_KEY)
+        if player_index_addr is None or kirbys_addr is None:
+            return
+
+        heartbeat_addr = self._transport_addr("hook_heartbeat")
+        reads: list[tuple[int, int, str]] = [(player_index_addr, 1, "System Bus")]
+        if heartbeat_addr is not None:
+            reads.append((heartbeat_addr, 4, "System Bus"))
+
+        raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
+        player_raw = raw_values[0] if raw_values else b"\x00"
+        player_index = int.from_bytes(player_raw[:1] or b"\x00", "little")
+
+        heartbeat_counter: int | None = None
+        if heartbeat_addr is not None and len(raw_values) > 1:
+            heartbeat_counter = self._u32_le(raw_values[1])
+
+        if player_index < 0 or player_index >= 4:
+            return
+
+        room_addr = kirbys_addr + (player_index * _KIRBY_STRUCT_SIZE) + _KIRBY_ROOM_ID_OFFSET
+        room_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(room_addr, 2, "System Bus")]))[0]
+        room_id = int.from_bytes(room_raw[:2], "little")
+
+        previous_room_id = self._last_logged_room_id
+        previous_player_index = self._last_logged_room_player_index
+
+        if previous_room_id == room_id and previous_player_index == player_index:
+            return
+
+        from CommonClient import logger
+
+        logger.info(
+            "KirbyAM debug: room entry detected (room_id=%s, room=%s, player_index=%s, previous_room_id=%s, previous_room=%s, previous_player_index=%s, hook_heartbeat=%s)",
+            room_id,
+            self._room_region_name(room_id),
+            player_index,
+            previous_room_id,
+            self._room_region_name(previous_room_id),
+            previous_player_index,
+            heartbeat_counter,
+        )
+
+        self._last_logged_room_id = room_id
+        self._last_logged_room_player_index = player_index
 
     async def _emit_receive_notification(self, ctx: "BizHawkClientContext", delivered_index: int) -> None:
         # ACK-gated + index-deduped to avoid replay spam during reconnect
@@ -744,6 +826,7 @@ class KirbyAmClient(BizHawkClient):
 
             await self._apply_pending_death_link(ctx)
             await self._poll_and_send_local_death_link(ctx)
+            await self._log_room_entry_debug(ctx)
 
             # Boss defeat location polling via transport register
             await self._poll_boss_defeat_locations(ctx)

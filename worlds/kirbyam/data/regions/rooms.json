@@ -980,9 +980,7 @@
   "REGION_RAINBOW_ROUTE/ROOM_1_47": {
     "locations": [],
     "events": [],
-    "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_18"
-    ],
+    "exits": [],
     "room_sanity": {
       "included": true,
       "location_id": 3961046,
@@ -1075,7 +1073,8 @@
       "REGION_RAINBOW_ROUTE/ROOM_1_30",
       "REGION_RAINBOW_ROUTE/ROOM_1_31",
       "REGION_RAINBOW_ROUTE/ROOM_1_32",
-      "REGION_RAINBOW_ROUTE/ROOM_1_50"
+      "REGION_RAINBOW_ROUTE/ROOM_1_50",
+      "REGION_DIMENSION_MIRROR/ROOM_10_12"
     ],
     "room_sanity": {
       "included": false,
@@ -1086,7 +1085,7 @@
       "wikirby_link": "https://wikirby.com/wiki/Rainbow_Route_-_Central_Circle",
       "wikirby_name": "Rainbow Route - Central Circle",
       "logic_mapped": false,
-      "room_type": "CENTRAL_HUB",
+      "room_type": "CENTRAL_CIRCLE",
       "gRoom-id": 801,
       "AMR-slot-id": 0
     },
@@ -2593,7 +2592,8 @@
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_25": {
     "locations": [
-      "BOSS_DEFEAT_1"
+      "BOSS_DEFEAT_1",
+      "MINOR_CHEST_MUSTARD_MOUNTAIN_25"
     ],
     "events": [],
     "exits": [],
@@ -5754,7 +5754,9 @@
   "REGION_DIMENSION_MIRROR/ROOM_10_12": {
     "locations": [],
     "events": [],
-    "exits": [],
+    "exits": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_51"
+    ],
     "room_sanity": {
       "included": false,
       "location_id": 3961275,

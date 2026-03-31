@@ -28,6 +28,8 @@
       "room_visit_flags_native": "0x02028CA0",
       "ai_kirby_state_native": "0x0203AD2C",
       "demo_playback_flags_native": "0x0203AD10",
+      "current_kirby_index_native": "0x0203AD3C",
+      "kirbys_native": "0x02020EE0",
       "kirby_hp_native": "0x02020FE0"
     }
   },
