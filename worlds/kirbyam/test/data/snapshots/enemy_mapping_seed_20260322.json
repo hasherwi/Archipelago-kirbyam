@@ -1,27 +1,27 @@
 {
   "random_enemy_event_mapping": {
     "BLADE_KNIGHT": {
-      "1": "Normal",
-      "2": "Normal",
+      "1": "Stone",
+      "2": "Ice",
       "3": "Sword"
     },
     "HOT_HEAD": {
-      "1": "Normal",
-      "2": "Normal",
-      "3": "Fighter"
+      "1": "Bomb",
+      "2": "Wheel",
+      "3": "Normal"
     },
     "SIR_KIBBLE": {
       "1": "Laser",
-      "2": "Normal",
+      "2": "Burning",
       "3": "UFO"
     },
     "SPARKY": {
       "1": "Smash",
-      "2": "Normal",
-      "3": "Stone"
+      "2": "Stone",
+      "3": "Normal"
     },
     "WADDLE_DEE": {
-      "1": "Normal",
+      "1": "Magic",
       "2": "Normal",
       "3": "Normal"
     }
@@ -64,9 +64,9 @@
   },
   "shuffled_enemy_mapping": {
     "BLADE_KNIGHT": "Normal",
-    "HOT_HEAD": "Normal",
-    "SIR_KIBBLE": "Normal",
-    "SPARKY": "Normal",
+    "HOT_HEAD": "Bomb",
+    "SIR_KIBBLE": "Laser",
+    "SPARKY": "Tornado",
     "WADDLE_DEE": "Normal"
   },
   "shuffled_policy": {
