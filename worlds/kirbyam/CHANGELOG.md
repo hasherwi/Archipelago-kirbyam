@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Add `Randomize Non-Ability Enemies` world option (`randomize_non_ability_enemies`) that, when enabled alongside non-vanilla enemy copy-ability randomization, allows enemies that normally grant no copy ability (e.g. Waddle Dee, Bronto Burt, Batty) to receive a randomized ability from the whitelist. Includes 16 additional enemies and a split Waddle Dee mini-boss entry (`WADDLE_DEE_MINI`) gated by the existing mini-boss toggle; legacy behavior is preserved by default (option off) (Issue #398).
+- Add `Randomize Non-Ability Enemies` world option (`ability_randomization_passive_enemies`) that, when enabled alongside non-vanilla enemy copy-ability randomization, allows enemies that normally grant no copy ability (e.g. Waddle Dee, Bronto Burt, Batty) to receive a randomized ability from the whitelist. Includes 16 additional enemies and a split Waddle Dee mini-boss entry (`WADDLE_DEE_MINI`) gated by the existing mini-boss toggle (Issue #398).
 
 ## v0.0.16
 

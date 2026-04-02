@@ -212,7 +212,7 @@ class KirbyAmWorld(World):
                 )
             else:
                 logger.info(
-                    "[P%s] Enemy copy-ability randomization: random (%s whitelist entries, non_ability=%s)",
+                    "[P%s] Enemy copy-ability randomization: completely_random (%s whitelist entries, non_ability=%s)",
                     self.player,
                     len(VALID_ENEMY_COPY_ABILITIES),
                     randomize_non_ability,

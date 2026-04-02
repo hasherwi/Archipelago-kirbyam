@@ -7,7 +7,8 @@ Address evidence source:
 - kamrandomizer enemy/object ability tables (kamrandomizer.py)
 
 Notes:
-- We only patch entries that natively grant a non-zero ability.
+- We patch entries that natively grant a non-zero ability, plus zero-id
+    sources when `ability_randomization_passive_enemies` is enabled.
 - Wait remains excluded via the existing policy whitelist.
 """
 
@@ -54,6 +55,11 @@ def _is_source_enabled(source: AbilitySource, policy: dict[str, Any]) -> bool:
     return True
 
 
+def _source_event_key(source: AbilitySource) -> str:
+    address_fragment = ",".join(f"{address:06X}" for address in source.addresses)
+    return f"{source.kind}:{source.key}:{address_fragment}"
+
+
 def build_enemy_copy_runtime_patch_writes(policy: dict[str, Any]) -> dict[int, int]:
     """Return deterministic ROM writes for enemy copy-ability randomization.
 
@@ -72,7 +78,7 @@ def build_enemy_copy_runtime_patch_writes(policy: dict[str, Any]) -> dict[int, i
     randomize_non_ability = bool(policy.get("ability_randomization_passive_enemies", False))
 
     writes: dict[int, int] = {}
-    for source_index, source in enumerate(ABILITY_SOURCES):
+    for source in ABILITY_SOURCES:
         # Preserve vanilla no-ability entries unless the option explicitly enables them.
         if source.default_ability_id == 0 and not randomize_non_ability:
             continue
@@ -82,9 +88,8 @@ def build_enemy_copy_runtime_patch_writes(policy: dict[str, Any]) -> dict[int, i
         if mode == AbilityRandomizationMode.option_shuffled:
             ability_name = ability_for_enemy_type(policy, source.key)
         elif mode == AbilityRandomizationMode.option_completely_random:
-            # Keep mapping stable per source independent of category toggles.
-            source_event_index = source_index + 1
-            ability_name = ability_for_enemy_grant_event(policy, source_event_index, source.key)
+            # Keep mapping stable per source independent of list ordering and toggles.
+            ability_name = ability_for_enemy_grant_event(policy, _source_event_key(source), source.key)
         else:
             raise ValueError(f"unsupported enemy copy-ability randomization mode: {mode}")
 

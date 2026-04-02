@@ -93,7 +93,7 @@ def ability_for_enemy_type(policy: dict[str, Any], enemy_type_key: str) -> str:
     return abilities[index]
 
 
-def ability_for_enemy_grant_event(policy: dict[str, Any], event_index: int, enemy_type_key: str) -> str:
+def ability_for_enemy_grant_event(policy: dict[str, Any], event_index: int | str, enemy_type_key: str) -> str:
     """Return the deterministic per-event ability for completely random mode."""
     if int(policy.get("mode", -1)) != AbilityRandomizationMode.option_completely_random:
         raise ValueError("ability_for_enemy_grant_event requires completely random mode policy")

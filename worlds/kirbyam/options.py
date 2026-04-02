@@ -62,7 +62,7 @@ class AbilityRandomizationMode(Choice):
     - Vanilla: Enemy copy abilities stay at native defaults.
     - Shuffled: Experimental. Enemy types are remapped deterministically so
         all enemies of the same type grant the same ability.
-    - Random: Experimental. Eligible enemy ability sources are remapped
+    - Completely Random: Experimental. Eligible enemy ability sources are remapped
         independently (deterministic per source entry). Hidden from the
         generated player template for the first public build.
     """

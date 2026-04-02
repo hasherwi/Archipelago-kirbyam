@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import random
 
+import worlds.kirbyam.enemy_ability_runtime_patch as runtime_patch_module
+
 from ..ability_randomization import build_enemy_copy_ability_policy
+from ..enemy_ability_data import AbilitySource
 from ..enemy_ability_runtime_patch import build_enemy_copy_runtime_patch_writes
 from ..options import AbilityRandomizationMode
 
@@ -122,7 +125,7 @@ def test_completely_random_differs_from_shuffled_for_known_address() -> None:
 
 
 def test_non_ability_option_off_excludes_zero_id_entries() -> None:
-    """With randomize_non_ability_enemies=False, no-ability enemies must not be patched."""
+    """With include_passive_enemies=False, no-ability enemies must not be patched."""
     policy = build_enemy_copy_ability_policy(
         random.Random(55),
         AbilityRandomizationMode.option_shuffled,
@@ -138,7 +141,7 @@ def test_non_ability_option_off_excludes_zero_id_entries() -> None:
 
 
 def test_non_ability_option_on_includes_zero_id_enemy_entries() -> None:
-    """With randomize_non_ability_enemies=True, no-ability enemies must receive patch writes."""
+    """With include_passive_enemies=True, no-ability enemies must receive patch writes."""
     policy = build_enemy_copy_ability_policy(
         random.Random(99),
         AbilityRandomizationMode.option_shuffled,
@@ -183,7 +186,7 @@ def test_non_ability_option_on_with_miniboss_toggle_off_excludes_mini_waddle_dee
     )
     writes = build_enemy_copy_runtime_patch_writes(policy)
 
-    # WADDLE_DEE_MINI (0x351B76) is kind:miniboss; excluded by randomize_miniboss_ability_grants=False.
+    # WADDLE_DEE_MINI (0x351B76) is kind:miniboss; excluded by include_minibosses=False.
     assert 0x351B76 not in writes
     # Regular no-ability enemy WADDLE_DEE (0x35164E) must still be patched.
     assert 0x35164E in writes
@@ -202,3 +205,38 @@ def test_non_ability_option_on_with_miniboss_toggle_on_includes_mini_waddle_dee(
 
     assert 0x351B76 in writes
     assert writes[0x351B76] != 0
+
+
+def test_completely_random_mapping_is_stable_when_skipped_zero_id_sources_are_added(monkeypatch) -> None:
+    baseline_policy = build_enemy_copy_ability_policy(
+        random.Random(20260324),
+        AbilityRandomizationMode.option_completely_random,
+        include_boss_spawns=True,
+        include_minibosses=True,
+        include_passive_enemies=False,
+    )
+    baseline_writes = build_enemy_copy_runtime_patch_writes(baseline_policy)
+
+    injected_source = AbilitySource(
+        key="TEST_ZERO_ID_ENEMY",
+        addresses=(0x35FFFF,),
+        default_ability_name="Normal",
+        default_ability_id=0,
+        kind="enemy",
+    )
+    monkeypatch.setattr(
+        runtime_patch_module,
+        "ABILITY_SOURCES",
+        (injected_source,) + runtime_patch_module.ABILITY_SOURCES,
+    )
+
+    shifted_policy = build_enemy_copy_ability_policy(
+        random.Random(20260324),
+        AbilityRandomizationMode.option_completely_random,
+        include_boss_spawns=True,
+        include_minibosses=True,
+        include_passive_enemies=False,
+    )
+    shifted_writes = build_enemy_copy_runtime_patch_writes(shifted_policy)
+
+    assert shifted_writes == baseline_writes
