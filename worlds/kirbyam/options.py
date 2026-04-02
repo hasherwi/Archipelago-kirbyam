@@ -75,7 +75,9 @@ class AbilityRandomizationMode(Choice):
 
 
 # The following three options only apply when Ability Randomization Mode is not Vanilla.
-# Enemies that normally grant a copy ability are always included regardless of these settings.
+# Regular enemy sources (kind: enemy) with a non-zero native copy ability are always included
+# regardless of these settings; miniboss and boss-spawn ability sources are controlled by the
+# toggles below.
 
 class AbilityRandomizationBossSpawns(Toggle):
     """Include boss-spawned ability grants in randomization. Only applies when Ability Randomization Mode is not Vanilla."""
