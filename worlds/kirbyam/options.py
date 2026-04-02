@@ -18,7 +18,6 @@ from Options import (
     StartInventory,
     StartLocationHints,
     Toggle,
-    Visibility,
 )
 
 
@@ -116,62 +115,17 @@ class KirbyAmDeathLink(DeathLink):
     __doc__ = DeathLink.__doc__
 
 
-class _HiddenOptionMixin:
-    # Hide unsupported common options from KirbyAM templates/UI while preserving
-    # the underlying option types so external configs still parse consistently.
-    # Visibility.none (not the "Removed" mechanism) is intentional: external
-    # YAML configs that set these keys still parse without error rather than
-    # failing fast, which keeps forward compatibility for shared multiworld configs.
-    visibility = Visibility.none
-
-
-class HiddenLocalItems(_HiddenOptionMixin, LocalItems):
-    pass
-
-
-class HiddenNonLocalItems(_HiddenOptionMixin, NonLocalItems):
-    pass
-
-
-class HiddenStartInventory(_HiddenOptionMixin, StartInventory):
-    pass
-
-
-class HiddenStartHints(_HiddenOptionMixin, StartHints):
-    pass
-
-
-class HiddenStartLocationHints(_HiddenOptionMixin, StartLocationHints):
-    pass
-
-
-class HiddenExcludeLocations(_HiddenOptionMixin, ExcludeLocations):
-    pass
-
-
-class HiddenPriorityLocations(_HiddenOptionMixin, PriorityLocations):
-    pass
-
-
-class HiddenItemLinks(_HiddenOptionMixin, ItemLinks):
-    pass
-
-
-class HiddenPlandoItems(_HiddenOptionMixin, PlandoItems):
-    pass
-
-
 @dataclass
 class KirbyAmOptions(PerGameCommonOptions):
-    local_items: HiddenLocalItems
-    non_local_items: HiddenNonLocalItems
-    start_inventory: HiddenStartInventory
-    start_hints: HiddenStartHints
-    start_location_hints: HiddenStartLocationHints
-    exclude_locations: HiddenExcludeLocations
-    priority_locations: HiddenPriorityLocations
-    item_links: HiddenItemLinks
-    plando_items: HiddenPlandoItems
+    local_items: LocalItems
+    non_local_items: NonLocalItems
+    start_inventory: StartInventory
+    start_hints: StartHints
+    start_location_hints: StartLocationHints
+    exclude_locations: ExcludeLocations
+    priority_locations: PriorityLocations
+    item_links: ItemLinks
+    plando_items: PlandoItems
 
     goal: Goal
 
