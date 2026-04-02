@@ -110,7 +110,9 @@ def ability_for_enemy_type(policy: dict[str, Any], enemy_type_key: str) -> str:
         raise ValueError("policy allowed_abilities cannot be empty")
 
     seed = int(policy.get("seed", 0))
-    no_ability_weight = _normalize_no_ability_weight(policy.get("ability_randomization_no_ability_weight", 0))
+    no_ability_weight = _normalize_no_ability_weight(
+        policy.get("ability_randomization_no_ability_weight", 0)
+    )
     if _selects_no_ability(seed, enemy_type_key, no_ability_weight):
         return NO_ABILITY_NAME
     index = _stable_index(seed, enemy_type_key, len(abilities))
@@ -128,7 +130,9 @@ def ability_for_enemy_grant_event(policy: dict[str, Any], event_index: int | str
 
     seed = int(policy.get("seed", 0))
     event_key = f"{enemy_type_key}:{event_index}"
-    no_ability_weight = _normalize_no_ability_weight(policy.get("ability_randomization_no_ability_weight", 0))
+    no_ability_weight = _normalize_no_ability_weight(
+        policy.get("ability_randomization_no_ability_weight", 0)
+    )
     if _selects_no_ability(seed, event_key, no_ability_weight):
         return NO_ABILITY_NAME
     index = _stable_index(seed, event_key, len(abilities))

@@ -208,7 +208,8 @@ class KirbyAmWorld(World):
                 )
             elif mode == AbilityRandomizationMode.option_shuffled:
                 logger.info(
-                    "[P%s] Enemy copy-ability randomization: shuffled (%s whitelist entries, passive_enemies=%s, no_ability_weight=%s)",
+                    "[P%s] Enemy copy-ability randomization: shuffled "
+                    "(%s whitelist entries, passive_enemies=%s, no_ability_weight=%s)",
                     self.player,
                     len(VALID_ENEMY_COPY_ABILITIES),
                     randomize_non_ability,
@@ -216,7 +217,8 @@ class KirbyAmWorld(World):
                 )
             else:
                 logger.info(
-                    "[P%s] Enemy copy-ability randomization: completely_random (%s whitelist entries, passive_enemies=%s, no_ability_weight=%s)",
+                    "[P%s] Enemy copy-ability randomization: completely_random "
+                    "(%s whitelist entries, passive_enemies=%s, no_ability_weight=%s)",
                     self.player,
                     len(VALID_ENEMY_COPY_ABILITIES),
                     randomize_non_ability,
