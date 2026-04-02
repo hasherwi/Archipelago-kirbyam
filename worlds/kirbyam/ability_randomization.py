@@ -97,7 +97,7 @@ def _selects_no_ability(seed: int, key: str, weight: int) -> bool:
         return False
     if weight >= 100:
         return True
-    return _stable_index(seed, key, 100) < weight
+    return _stable_index(seed, f"{key}:no_ability", 100) < weight
 
 
 def ability_for_enemy_type(policy: dict[str, Any], enemy_type_key: str) -> str:
