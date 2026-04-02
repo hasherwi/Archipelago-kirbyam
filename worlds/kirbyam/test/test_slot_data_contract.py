@@ -42,6 +42,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "enemy_copy_ability_randomization": 1,
         "randomize_boss_spawned_ability_grants": True,
         "randomize_miniboss_ability_grants": False,
+        "randomize_non_ability_enemies": False,
         "room_sanity": False,
     }
 
@@ -52,6 +53,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "identity_map": {"Sword": "Beam", "Beam": "Burning", "Burning": "Sword"},
         "randomize_boss_spawned_ability_grants": True,
         "randomize_miniboss_ability_grants": False,
+        "randomize_non_ability_enemies": False,
     }
 
     return KirbyAmWorld.fill_slot_data(world)

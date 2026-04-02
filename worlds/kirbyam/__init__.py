@@ -189,11 +189,13 @@ class KirbyAmWorld(World):
             mode = int(self.options.enemy_copy_ability_randomization.value)
             randomize_boss_spawned = bool(self.options.randomize_boss_spawned_ability_grants.value)
             randomize_miniboss = bool(self.options.randomize_miniboss_ability_grants.value)
+            randomize_non_ability = bool(self.options.randomize_non_ability_enemies.value)
             self._enemy_copy_ability_policy = build_enemy_copy_ability_policy(
                 self.random,
                 mode,
                 randomize_boss_spawned,
                 randomize_miniboss,
+                randomize_non_ability_enemies=randomize_non_ability,
             )
             if mode == EnemyCopyAbilityRandomization.option_vanilla:
                 logger.info(
@@ -203,15 +205,17 @@ class KirbyAmWorld(World):
                 )
             elif mode == EnemyCopyAbilityRandomization.option_shuffled:
                 logger.info(
-                    "[P%s] Enemy copy-ability randomization: shuffled (%s whitelist entries)",
+                    "[P%s] Enemy copy-ability randomization: shuffled (%s whitelist entries, non_ability=%s)",
                     self.player,
                     len(VALID_ENEMY_COPY_ABILITIES),
+                    randomize_non_ability,
                 )
             else:
                 logger.info(
-                    "[P%s] Enemy copy-ability randomization: completely_random (%s whitelist entries)",
+                    "[P%s] Enemy copy-ability randomization: completely_random (%s whitelist entries, non_ability=%s)",
                     self.player,
                     len(VALID_ENEMY_COPY_ABILITIES),
+                    randomize_non_ability,
                 )
                 logger.debug(
                     "[P%s] Enemy copy-ability policy: %s",
@@ -488,6 +492,7 @@ class KirbyAmWorld(World):
             "enemy_copy_ability_randomization",
             "randomize_boss_spawned_ability_grants",
             "randomize_miniboss_ability_grants",
+            "randomize_non_ability_enemies",
             "room_sanity",
             toggles_as_bools=True,
         )

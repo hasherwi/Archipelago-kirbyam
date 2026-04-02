@@ -119,3 +119,86 @@ def test_completely_random_differs_from_shuffled_for_known_address() -> None:
     common_addrs = set(shuffled_writes) & set(random_writes)
     assert common_addrs
     assert any(shuffled_writes[a] != random_writes[a] for a in common_addrs)
+
+
+def test_non_ability_option_off_excludes_zero_id_entries() -> None:
+    """With randomize_non_ability_enemies=False, no-ability enemies must not be patched."""
+    policy = build_enemy_copy_ability_policy(
+        random.Random(55),
+        EnemyCopyAbilityRandomization.option_shuffled,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=True,
+        randomize_non_ability_enemies=False,
+    )
+    writes = build_enemy_copy_runtime_patch_writes(policy)
+
+    # WADDLE_DEE (0x35164E) and BRONTO_BURT (0x351666): no-ability regular enemies.
+    assert 0x35164E not in writes
+    assert 0x351666 not in writes
+
+
+def test_non_ability_option_on_includes_zero_id_enemy_entries() -> None:
+    """With randomize_non_ability_enemies=True, no-ability enemies must receive patch writes."""
+    policy = build_enemy_copy_ability_policy(
+        random.Random(99),
+        EnemyCopyAbilityRandomization.option_shuffled,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=True,
+        randomize_non_ability_enemies=True,
+    )
+    writes = build_enemy_copy_runtime_patch_writes(policy)
+
+    # WADDLE_DEE (0x35164E) and BRONTO_BURT (0x351666): no-ability regular enemies.
+    assert 0x35164E in writes
+    assert 0x351666 in writes
+    assert writes[0x35164E] != 0  # must not stay Normal
+    assert writes[0x351666] != 0
+
+
+def test_non_ability_option_on_patches_both_droppy_addresses() -> None:
+    """DROPPY has two ROM addresses; both must be patched when the option is on."""
+    policy = build_enemy_copy_ability_policy(
+        random.Random(77),
+        EnemyCopyAbilityRandomization.option_shuffled,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=True,
+        randomize_non_ability_enemies=True,
+    )
+    writes = build_enemy_copy_runtime_patch_writes(policy)
+
+    # Both DROPPY addresses must be present and identical (same enemy type -> same shuffle slot).
+    assert 0x351AFE in writes
+    assert 0x3527D6 in writes
+    assert writes[0x351AFE] == writes[0x3527D6]
+
+
+def test_non_ability_option_on_with_miniboss_toggle_off_excludes_mini_waddle_dee() -> None:
+    """WADDLE_DEE_MINI is kind:miniboss; miniboss toggle gates it even when non-ability option is on."""
+    policy = build_enemy_copy_ability_policy(
+        random.Random(11),
+        EnemyCopyAbilityRandomization.option_shuffled,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=False,
+        randomize_non_ability_enemies=True,
+    )
+    writes = build_enemy_copy_runtime_patch_writes(policy)
+
+    # WADDLE_DEE_MINI (0x351B76) is kind:miniboss; excluded by randomize_miniboss_ability_grants=False.
+    assert 0x351B76 not in writes
+    # Regular no-ability enemy WADDLE_DEE (0x35164E) must still be patched.
+    assert 0x35164E in writes
+
+
+def test_non_ability_option_on_with_miniboss_toggle_on_includes_mini_waddle_dee() -> None:
+    """WADDLE_DEE_MINI is patched when both the non-ability option and miniboss toggle are on."""
+    policy = build_enemy_copy_ability_policy(
+        random.Random(22),
+        EnemyCopyAbilityRandomization.option_shuffled,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=True,
+        randomize_non_ability_enemies=True,
+    )
+    writes = build_enemy_copy_runtime_patch_writes(policy)
+
+    assert 0x351B76 in writes
+    assert writes[0x351B76] != 0

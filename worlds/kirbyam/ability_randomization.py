@@ -37,6 +37,7 @@ def build_enemy_copy_ability_policy(
     randomize_boss_spawned_ability_grants: bool,
     randomize_miniboss_ability_grants: bool,
     whitelist: Iterable[str] = VALID_ENEMY_COPY_ABILITIES,
+    randomize_non_ability_enemies: bool = False,
 
 ) -> dict[str, Any]:
     """Build deterministic slot-data policy for enemy copy-ability randomization.
@@ -52,6 +53,7 @@ def build_enemy_copy_ability_policy(
         "allowed_abilities": ordered,
         "randomize_boss_spawned_ability_grants": bool(randomize_boss_spawned_ability_grants),
         "randomize_miniboss_ability_grants": bool(randomize_miniboss_ability_grants),
+        "randomize_non_ability_enemies": bool(randomize_non_ability_enemies),
     }
 
     if mode == EnemyCopyAbilityRandomization.option_vanilla:

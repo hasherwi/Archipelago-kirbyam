@@ -145,6 +145,7 @@ Server → Client: ConnectionRefused | Connected
 - `enemy_copy_ability_randomization` (int): enemy copy-ability mode (`0=vanilla`, `1=shuffled`, `2=completely_random`).
 - `randomize_boss_spawned_ability_grants` (bool): include/exclude ability-granting boss-spawned objects.
 - `randomize_miniboss_ability_grants` (bool): include/exclude mini-boss ability grants.
+- `randomize_non_ability_enemies` (bool): when true, enemies that natively grant no ability participate in copy-ability randomization.
 - `room_sanity` (bool): enables/disables room-visit locations (`Room X-YY`, 257 checks).
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
 - `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.

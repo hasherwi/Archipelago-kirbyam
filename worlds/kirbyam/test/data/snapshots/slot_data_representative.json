@@ -35,6 +35,7 @@
     "mode": 1,
     "randomize_boss_spawned_ability_grants": true,
     "randomize_miniboss_ability_grants": false,
+    "randomize_non_ability_enemies": false,
     "seed": 7437834127177459305
   },
   "enemy_copy_ability_randomization": 1,

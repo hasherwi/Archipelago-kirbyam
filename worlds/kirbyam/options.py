@@ -85,6 +85,16 @@ class RandomizeMiniBossAbilityGrants(Toggle):
     default = 1
 
 
+class RandomizeNonAbilityEnemies(Toggle):
+    """
+    When enabled, enemies that normally do not grant a copy ability can receive a
+    randomized ability. Only applies when Enemy Copy-Ability Randomization is not
+    Vanilla.
+    """
+    display_name = "Randomize Non-Ability Enemies"
+    default = 0
+
+
 class EnableDebugLogging(Toggle):
     """Enable extra BizHawk client diagnostics for gameplay-state and mailbox delivery troubleshooting."""
     display_name = "Enable Debug Logging"
@@ -167,6 +177,8 @@ class KirbyAmOptions(PerGameCommonOptions):
     randomize_boss_spawned_ability_grants: RandomizeBossSpawnedAbilityGrants
 
     randomize_miniboss_ability_grants: RandomizeMiniBossAbilityGrants
+
+    randomize_non_ability_enemies: RandomizeNonAbilityEnemies
 
     room_sanity: RoomSanity
 

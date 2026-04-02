@@ -130,3 +130,35 @@ def test_build_policy_is_deterministic_for_same_seed_and_options() -> None:
     enemies = ["WADDLE_DEE", "BLADE_KNIGHT", "HOT_HEAD"]
     for enemy in enemies:
         assert ability_for_enemy_type(policy1, enemy) == ability_for_enemy_type(policy2, enemy)
+
+
+def test_non_ability_enemies_flag_defaults_to_false_in_policy() -> None:
+    policy = build_enemy_copy_ability_policy(
+        random.Random(1),
+        EnemyCopyAbilityRandomization.option_shuffled,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=True,
+    )
+    assert policy["randomize_non_ability_enemies"] is False
+
+
+def test_non_ability_enemies_flag_true_stored_in_policy() -> None:
+    policy = build_enemy_copy_ability_policy(
+        random.Random(1),
+        EnemyCopyAbilityRandomization.option_shuffled,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=True,
+        randomize_non_ability_enemies=True,
+    )
+    assert policy["randomize_non_ability_enemies"] is True
+
+
+def test_vanilla_mode_stores_non_ability_flag_in_policy() -> None:
+    policy = build_enemy_copy_ability_policy(
+        random.Random(1),
+        EnemyCopyAbilityRandomization.option_vanilla,
+        randomize_boss_spawned_ability_grants=True,
+        randomize_miniboss_ability_grants=True,
+        randomize_non_ability_enemies=True,
+    )
+    assert policy["randomize_non_ability_enemies"] is True

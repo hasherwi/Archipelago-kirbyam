@@ -69,10 +69,12 @@ def build_enemy_copy_runtime_patch_writes(policy: dict[str, Any]) -> dict[int, i
 
     _validate_runtime_ability_ids()
 
+    randomize_non_ability = bool(policy.get("randomize_non_ability_enemies", False))
+
     writes: dict[int, int] = {}
     for source_index, source in enumerate(ABILITY_SOURCES):
-        # Preserve vanilla no-ability entries.
-        if source.default_ability_id == 0:
+        # Preserve vanilla no-ability entries unless the option explicitly enables them.
+        if source.default_ability_id == 0 and not randomize_non_ability:
             continue
         if not _is_source_enabled(source, policy):
             continue

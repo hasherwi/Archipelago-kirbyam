@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `Randomize Non-Ability Enemies` world option (`randomize_non_ability_enemies`) that, when enabled alongside non-vanilla enemy copy-ability randomization, allows enemies that normally grant no copy ability (e.g. Waddle Dee, Bronto Burt, Batty) to receive a randomized ability from the whitelist. Includes 16 additional enemies and a split Waddle Dee mini-boss entry (`WADDLE_DEE_MINI`) gated by the existing mini-boss toggle; legacy behavior is preserved by default (option off) (Issue #398).
+
 ## v0.0.16
 
 - Fix boss shard AP-ownership semantics by keeping temporary native shard writes only during post-boss cutscene safety windows, then scrubbing non-AP-owned boss-temp shard bits on gameplay resume (instead of relying solely on fixed-frame delay), while preserving already AP-owned shard bits and adding debug-only per-frame post-boss shard telemetry gated by `enable_debug_logging` (Issue #505).

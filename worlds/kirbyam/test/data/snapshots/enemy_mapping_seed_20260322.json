@@ -58,6 +58,7 @@
     "mode": 2,
     "randomize_boss_spawned_ability_grants": true,
     "randomize_miniboss_ability_grants": true,
+    "randomize_non_ability_enemies": false,
     "seed": 7437834127177459305
   },
   "shuffled_enemy_mapping": {
@@ -99,6 +100,7 @@
     "mode": 1,
     "randomize_boss_spawned_ability_grants": false,
     "randomize_miniboss_ability_grants": false,
+    "randomize_non_ability_enemies": false,
     "seed": 7437834127177459305
   }
 }
