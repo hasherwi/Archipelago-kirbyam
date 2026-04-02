@@ -27,6 +27,9 @@
     }
   },
   "random_policy": {
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_passive_enemies": false,
     "allowed_abilities": [
       "Beam",
       "Bomb",
@@ -56,9 +59,6 @@
     ],
     "mapping_style": "per_grant_event",
     "mode": 2,
-    "randomize_boss_spawned_ability_grants": true,
-    "randomize_miniboss_ability_grants": true,
-    "randomize_non_ability_enemies": false,
     "seed": 7437834127177459305
   },
   "shuffled_enemy_mapping": {
@@ -69,6 +69,9 @@
     "WADDLE_DEE": "Magic"
   },
   "shuffled_policy": {
+    "ability_randomization_boss_spawns": false,
+    "ability_randomization_minibosses": false,
+    "ability_randomization_passive_enemies": false,
     "allowed_abilities": [
       "Beam",
       "Bomb",
@@ -98,9 +101,6 @@
     ],
     "mapping_style": "per_enemy_type",
     "mode": 1,
-    "randomize_boss_spawned_ability_grants": false,
-    "randomize_miniboss_ability_grants": false,
-    "randomize_non_ability_enemies": false,
     "seed": 7437834127177459305
   }
 }

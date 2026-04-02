@@ -26,7 +26,7 @@ from .enemy_ability_data import (
     LEGACY_ABILITY_ALIASES,
     VALID_ENEMY_COPY_ABILITIES,
 )
-from .options import EnemyCopyAbilityRandomization
+from .options import AbilityRandomizationMode
 
 _MISSING_RUNTIME_ABILITY_NAMES = set(VALID_ENEMY_COPY_ABILITIES) - set(ABILITY_NAME_TO_ID)
 
@@ -47,9 +47,9 @@ def _ability_name_to_id(name: str) -> int:
 
 
 def _is_source_enabled(source: AbilitySource, policy: dict[str, Any]) -> bool:
-    if source.kind == "miniboss" and not bool(policy.get("randomize_miniboss_ability_grants", True)):
+    if source.kind == "miniboss" and not bool(policy.get("ability_randomization_minibosses", True)):
         return False
-    if source.kind == "boss_spawned" and not bool(policy.get("randomize_boss_spawned_ability_grants", True)):
+    if source.kind == "boss_spawned" and not bool(policy.get("ability_randomization_boss_spawns", True)):
         return False
     return True
 
@@ -63,13 +63,13 @@ def build_enemy_copy_runtime_patch_writes(policy: dict[str, Any]) -> dict[int, i
     per-ability-source variation (each patched source entry can map differently),
     not per-live-grant re-roll at runtime.
     """
-    mode = int(policy.get("mode", EnemyCopyAbilityRandomization.option_vanilla))
-    if mode == EnemyCopyAbilityRandomization.option_vanilla:
+    mode = int(policy.get("mode", AbilityRandomizationMode.option_vanilla))
+    if mode == AbilityRandomizationMode.option_vanilla:
         return {}
 
     _validate_runtime_ability_ids()
 
-    randomize_non_ability = bool(policy.get("randomize_non_ability_enemies", False))
+    randomize_non_ability = bool(policy.get("ability_randomization_passive_enemies", False))
 
     writes: dict[int, int] = {}
     for source_index, source in enumerate(ABILITY_SOURCES):
@@ -79,9 +79,9 @@ def build_enemy_copy_runtime_patch_writes(policy: dict[str, Any]) -> dict[int, i
         if not _is_source_enabled(source, policy):
             continue
 
-        if mode == EnemyCopyAbilityRandomization.option_shuffled:
+        if mode == AbilityRandomizationMode.option_shuffled:
             ability_name = ability_for_enemy_type(policy, source.key)
-        elif mode == EnemyCopyAbilityRandomization.option_completely_random:
+        elif mode == AbilityRandomizationMode.option_completely_random:
             # Keep mapping stable per source independent of category toggles.
             source_event_index = source_index + 1
             ability_name = ability_for_enemy_grant_event(policy, source_event_index, source.key)

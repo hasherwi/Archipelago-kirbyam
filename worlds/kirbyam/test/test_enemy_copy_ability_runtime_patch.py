@@ -6,15 +6,15 @@ import random
 
 from ..ability_randomization import build_enemy_copy_ability_policy
 from ..enemy_ability_runtime_patch import build_enemy_copy_runtime_patch_writes
-from ..options import EnemyCopyAbilityRandomization
+from ..options import AbilityRandomizationMode
 
 
 def test_vanilla_mode_emits_no_runtime_writes() -> None:
     policy = build_enemy_copy_ability_policy(
         random.Random(123),
-        EnemyCopyAbilityRandomization.option_vanilla,
-        randomize_boss_spawned_ability_grants=True,
-        randomize_miniboss_ability_grants=True,
+        AbilityRandomizationMode.option_vanilla,
+        include_boss_spawns=True,
+        include_minibosses=True,
     )
 
     writes = build_enemy_copy_runtime_patch_writes(policy)
@@ -24,15 +24,15 @@ def test_vanilla_mode_emits_no_runtime_writes() -> None:
 def test_shuffled_mode_emits_deterministic_runtime_writes() -> None:
     policy_1 = build_enemy_copy_ability_policy(
         random.Random(20260324),
-        EnemyCopyAbilityRandomization.option_shuffled,
-        randomize_boss_spawned_ability_grants=True,
-        randomize_miniboss_ability_grants=True,
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=True,
+        include_minibosses=True,
     )
     policy_2 = build_enemy_copy_ability_policy(
         random.Random(20260324),
-        EnemyCopyAbilityRandomization.option_shuffled,
-        randomize_boss_spawned_ability_grants=True,
-        randomize_miniboss_ability_grants=True,
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=True,
+        include_minibosses=True,
     )
 
     writes_1 = build_enemy_copy_runtime_patch_writes(policy_1)
@@ -49,9 +49,9 @@ def test_shuffled_mode_emits_deterministic_runtime_writes() -> None:
 def test_miniboss_toggle_excludes_miniboss_runtime_writes() -> None:
     policy = build_enemy_copy_ability_policy(
         random.Random(42),
-        EnemyCopyAbilityRandomization.option_shuffled,
-        randomize_boss_spawned_ability_grants=True,
-        randomize_miniboss_ability_grants=False,
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=True,
+        include_minibosses=False,
     )
 
     writes = build_enemy_copy_runtime_patch_writes(policy)
@@ -65,9 +65,9 @@ def test_miniboss_toggle_excludes_miniboss_runtime_writes() -> None:
 def test_boss_spawned_toggle_excludes_object_runtime_writes() -> None:
     policy = build_enemy_copy_ability_policy(
         random.Random(84),
-        EnemyCopyAbilityRandomization.option_shuffled,
-        randomize_boss_spawned_ability_grants=False,
-        randomize_miniboss_ability_grants=True,
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=False,
+        include_minibosses=True,
     )
 
     writes = build_enemy_copy_runtime_patch_writes(policy)
@@ -81,15 +81,15 @@ def test_boss_spawned_toggle_excludes_object_runtime_writes() -> None:
 def test_completely_random_mode_emits_deterministic_runtime_writes() -> None:
     policy_1 = build_enemy_copy_ability_policy(
         random.Random(777),
-        EnemyCopyAbilityRandomization.option_completely_random,
-        randomize_boss_spawned_ability_grants=True,
-        randomize_miniboss_ability_grants=True,
+        AbilityRandomizationMode.option_completely_random,
+        include_boss_spawns=True,
+        include_minibosses=True,
     )
     policy_2 = build_enemy_copy_ability_policy(
         random.Random(777),
-        EnemyCopyAbilityRandomization.option_completely_random,
-        randomize_boss_spawned_ability_grants=True,
-        randomize_miniboss_ability_grants=True,
+        AbilityRandomizationMode.option_completely_random,
+        include_boss_spawns=True,
+        include_minibosses=True,
     )
 
     writes_1 = build_enemy_copy_runtime_patch_writes(policy_1)
@@ -102,15 +102,15 @@ def test_completely_random_mode_emits_deterministic_runtime_writes() -> None:
 def test_completely_random_differs_from_shuffled_for_known_address() -> None:
     shuffled_policy = build_enemy_copy_ability_policy(
         random.Random(20260324),
-        EnemyCopyAbilityRandomization.option_shuffled,
-        randomize_boss_spawned_ability_grants=True,
-        randomize_miniboss_ability_grants=True,
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=True,
+        include_minibosses=True,
     )
     random_policy = build_enemy_copy_ability_policy(
         random.Random(20260324),
-        EnemyCopyAbilityRandomization.option_completely_random,
-        randomize_boss_spawned_ability_grants=True,
-        randomize_miniboss_ability_grants=True,
+        AbilityRandomizationMode.option_completely_random,
+        include_boss_spawns=True,
+        include_minibosses=True,
     )
 
     shuffled_writes = build_enemy_copy_runtime_patch_writes(shuffled_policy)
@@ -125,10 +125,10 @@ def test_non_ability_option_off_excludes_zero_id_entries() -> None:
     """With randomize_non_ability_enemies=False, no-ability enemies must not be patched."""
     policy = build_enemy_copy_ability_policy(
         random.Random(55),
-        EnemyCopyAbilityRandomization.option_shuffled,
-        randomize_boss_spawned_ability_grants=True,
-        randomize_miniboss_ability_grants=True,
-        randomize_non_ability_enemies=False,
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=True,
+        include_minibosses=True,
+        include_passive_enemies=False,
     )
     writes = build_enemy_copy_runtime_patch_writes(policy)
 
@@ -141,10 +141,10 @@ def test_non_ability_option_on_includes_zero_id_enemy_entries() -> None:
     """With randomize_non_ability_enemies=True, no-ability enemies must receive patch writes."""
     policy = build_enemy_copy_ability_policy(
         random.Random(99),
-        EnemyCopyAbilityRandomization.option_shuffled,
-        randomize_boss_spawned_ability_grants=True,
-        randomize_miniboss_ability_grants=True,
-        randomize_non_ability_enemies=True,
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=True,
+        include_minibosses=True,
+        include_passive_enemies=True,
     )
     writes = build_enemy_copy_runtime_patch_writes(policy)
 
@@ -159,10 +159,10 @@ def test_non_ability_option_on_patches_both_droppy_addresses() -> None:
     """DROPPY has two ROM addresses; both must be patched when the option is on."""
     policy = build_enemy_copy_ability_policy(
         random.Random(77),
-        EnemyCopyAbilityRandomization.option_shuffled,
-        randomize_boss_spawned_ability_grants=True,
-        randomize_miniboss_ability_grants=True,
-        randomize_non_ability_enemies=True,
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=True,
+        include_minibosses=True,
+        include_passive_enemies=True,
     )
     writes = build_enemy_copy_runtime_patch_writes(policy)
 
@@ -176,10 +176,10 @@ def test_non_ability_option_on_with_miniboss_toggle_off_excludes_mini_waddle_dee
     """WADDLE_DEE_MINI is kind:miniboss; miniboss toggle gates it even when non-ability option is on."""
     policy = build_enemy_copy_ability_policy(
         random.Random(11),
-        EnemyCopyAbilityRandomization.option_shuffled,
-        randomize_boss_spawned_ability_grants=True,
-        randomize_miniboss_ability_grants=False,
-        randomize_non_ability_enemies=True,
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=True,
+        include_minibosses=False,
+        include_passive_enemies=True,
     )
     writes = build_enemy_copy_runtime_patch_writes(policy)
 
@@ -193,10 +193,10 @@ def test_non_ability_option_on_with_miniboss_toggle_on_includes_mini_waddle_dee(
     """WADDLE_DEE_MINI is patched when both the non-ability option and miniboss toggle are on."""
     policy = build_enemy_copy_ability_policy(
         random.Random(22),
-        EnemyCopyAbilityRandomization.option_shuffled,
-        randomize_boss_spawned_ability_grants=True,
-        randomize_miniboss_ability_grants=True,
-        randomize_non_ability_enemies=True,
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=True,
+        include_minibosses=True,
+        include_passive_enemies=True,
     )
     writes = build_enemy_copy_runtime_patch_writes(policy)
 
