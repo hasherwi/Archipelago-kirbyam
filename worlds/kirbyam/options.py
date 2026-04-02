@@ -6,17 +6,8 @@ from dataclasses import dataclass
 from Options import (
     Choice,
     DeathLink,
-    ExcludeLocations,
-    ItemLinks,
-    LocalItems,
-    NonLocalItems,
     OptionGroup,
     PerGameCommonOptions,
-    PlandoItems,
-    PriorityLocations,
-    StartHints,
-    StartInventory,
-    StartLocationHints,
     Toggle,
 )
 
@@ -117,16 +108,6 @@ class KirbyAmDeathLink(DeathLink):
 
 @dataclass
 class KirbyAmOptions(PerGameCommonOptions):
-    local_items: LocalItems
-    non_local_items: NonLocalItems
-    start_inventory: StartInventory
-    start_hints: StartHints
-    start_location_hints: StartLocationHints
-    exclude_locations: ExcludeLocations
-    priority_locations: PriorityLocations
-    item_links: ItemLinks
-    plando_items: PlandoItems
-
     goal: Goal
 
     shards: RandomizeShards
