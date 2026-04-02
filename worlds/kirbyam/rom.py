@@ -59,10 +59,6 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
 
     if isinstance(policy, dict):
         ability_writes = build_enemy_copy_runtime_patch_writes(policy)
-        if mode != AbilityRandomizationMode.option_vanilla and not ability_writes:
-            raise ValueError(
-                "non-vanilla enemy copy-ability mode produced no runtime patch writes"
-            )
         for rom_offset, ability_id in sorted(ability_writes.items()):
             patch.write_token(APTokenTypes.WRITE, rom_offset, bytes([ability_id]))
 

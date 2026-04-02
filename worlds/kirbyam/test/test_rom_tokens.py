@@ -6,6 +6,7 @@ import random
 from types import SimpleNamespace
 
 import pytest
+import worlds.kirbyam.rom as rom_module
 
 from worlds.Files import APTokenTypes
 
@@ -64,4 +65,25 @@ def test_write_tokens_emits_runtime_enemy_writes_for_non_vanilla_mode() -> None:
         if w[0] == APTokenTypes.WRITE and len(w[2]) == 1
     ]
     assert single_byte_writes
+    assert "token_data.bin" in patch.files
+
+
+def test_write_tokens_allows_non_vanilla_mode_with_no_runtime_writes(monkeypatch) -> None:
+    world = _make_world(AbilityRandomizationMode.option_shuffled)
+    world._enemy_copy_ability_policy = build_enemy_copy_ability_policy(
+        random.Random(20260324),
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=True,
+        include_minibosses=True,
+    )
+    monkeypatch.setattr(rom_module, "build_enemy_copy_runtime_patch_writes", lambda policy: {})
+
+    patch = _DummyPatch()
+    write_tokens(world, patch)
+
+    single_byte_writes = [
+        w for w in patch.token_writes
+        if w[0] == APTokenTypes.WRITE and len(w[2]) == 1
+    ]
+    assert not single_byte_writes
     assert "token_data.bin" in patch.files
