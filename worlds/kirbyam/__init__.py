@@ -484,7 +484,9 @@ class KirbyAmWorld(World):
 
     # Helper method to fill slot data
     def fill_slot_data(self) -> dict[str, Any]:
-        # Slot data needed by client. Keep minimal while you iterate.
+        # Slot data needed by client.
+        # Pre-v0.1.0 policy: emit only canonical ability_randomization_* keys.
+        # Legacy key aliases are intentionally not emitted before first public release.
         slot_data = self.options.as_dict(
             "goal",
             "shards",

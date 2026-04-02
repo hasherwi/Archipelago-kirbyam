@@ -152,6 +152,11 @@ Server → Client: ConnectionRefused | Connected
 - `debug` (dict): debug settings payload.
     - `logging` (bool): when true, client emits diagnostics for gameplay-state/demo-flag transitions (including `hook_heartbeat`) and self-ItemSend fallback decisions.
 
+Compatibility note (Issue #398 option-key reorganization):
+- Legacy keys `enemy_copy_ability_randomization`, `randomize_boss_spawned_ability_grants`, and `randomize_miniboss_ability_grants` are intentionally not emitted in `slot_data` during the pre-public (`< v0.1.0`) phase.
+- Canonical keys are `ability_randomization_mode`, `ability_randomization_boss_spawns`, `ability_randomization_minibosses`, and `ability_randomization_passive_enemies`.
+- If compatibility aliases are needed after public release, this section will be updated with an explicit deprecation/removal timeline.
+
 DeathLink runtime behavior contract:
 - Incoming DeathLink packets (`Bounced` with `DeathLink` tag) are queued and only applied when gameplay-active gate is true.
 - Application writes `kirby_hp_native` to `0` to trigger local defeat.
