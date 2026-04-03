@@ -1,5 +1,4 @@
 import sys
-import time
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -20,7 +19,6 @@ class ServeGame:
 
 def _launch_multiserver(multidata: Path, ready: "Event", stop: "Event") -> None:
     import os
-    import socket
     import warnings
 
     original_argv = sys.argv
@@ -35,17 +33,8 @@ def _launch_multiserver(multidata: Path, ready: "Event", stop: "Event") -> None:
         sys.stdin = os.fdopen(r, "r")
 
         async def set_ready() -> None:
-            """Signal readiness only after the websocket listener is accepting TCP connections."""
-            deadline = time.monotonic() + 30.0
-            while time.monotonic() < deadline:
-                try:
-                    with socket.create_connection(("127.0.0.1", 38281), timeout=0.2):
-                        ready.set()
-                        return
-                except OSError:
-                    await asyncio.sleep(0.05)
-
-            # Let the parent fail with its own wait timeout if startup never succeeds.
+            await asyncio.sleep(.01)  # switch back to other task once more
+            ready.set()  # server should be up, set ready state
 
         async def wait_stop() -> None:
             await asyncio.get_event_loop().run_in_executor(None, stop.wait)
