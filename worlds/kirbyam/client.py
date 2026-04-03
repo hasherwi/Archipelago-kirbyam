@@ -898,11 +898,12 @@ class KirbyAmClient(BizHawkClient):
                     parts.append(f"max_hp {current_max_hp}->{desired_max_hp}")
                 if clamped_hp:
                     parts.append(f"hp {current_hp}->{desired_max_hp}")
-                logger.info(
-                    "KirbyAM debug: one-hit mode clamped %s (vitality_count=%s)",
-                    ", ".join(parts),
-                    vitality_count,
-                )
+                if parts:
+                    logger.info(
+                        "KirbyAM debug: one-hit mode clamped %s (vitality_count=%s)",
+                        ", ".join(parts),
+                        vitality_count,
+                    )
 
     @staticmethod
     def _s8(value: bytes) -> int:
