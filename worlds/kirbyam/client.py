@@ -891,10 +891,16 @@ class KirbyAmClient(BizHawkClient):
             if self._debug_logging_enabled:
                 from CommonClient import logger
 
+                clamped_max_hp = current_max_hp > desired_max_hp
+                clamped_hp = current_hp > 0 and current_hp > desired_max_hp
+                parts = []
+                if clamped_max_hp:
+                    parts.append(f"max_hp {current_max_hp}->{desired_max_hp}")
+                if clamped_hp:
+                    parts.append(f"hp {current_hp}->{desired_max_hp}")
                 logger.info(
-                    "KirbyAM debug: one-hit mode clamped max_hp from %s to %s (vitality_count=%s)",
-                    current_max_hp,
-                    desired_max_hp,
+                    "KirbyAM debug: one-hit mode clamped %s (vitality_count=%s)",
+                    ", ".join(parts),
                     vitality_count,
                 )
 
