@@ -889,6 +889,8 @@ class KirbyAmClient(BizHawkClient):
             await bizhawk.write(ctx.bizhawk_ctx, writes)
 
             if self._debug_logging_enabled:
+                from CommonClient import logger
+
                 logger.info(
                     "KirbyAM debug: one-hit mode clamped max_hp from %s to %s (vitality_count=%s)",
                     current_max_hp,
