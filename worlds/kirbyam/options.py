@@ -8,7 +8,6 @@ from Options import (
     DeathLink,
     OptionGroup,
     PerGameCommonOptions,
-    Range,
     Toggle,
 )
 
@@ -91,23 +90,30 @@ class AbilityRandomizationPassiveEnemies(Toggle):
     default = 0
 
 
-class AbilityRandomizationNoAbilityWeight(Range):
+class AbilityRandomizationNoAbilityWeight(Choice):
     """
-    Sets the percentage chance that an included randomized enemy grant resolves to
-    no ability instead of a copy ability.
+    Sets the likelihood that an included randomized enemy grant resolves to no ability
+    instead of a copy ability.
 
-    - 0: Included randomized enemies always grant a copy ability.
-    - 100: Included randomized enemies always grant no ability.
+    - Off: Included randomized enemies always grant a copy ability (0%).
+    - Low: Included randomized enemies have a low chance of granting no ability (~25%).
+    - Medium: Included randomized enemies match vanilla no-ability frequency (~55%).
+    - High: Included randomized enemies have a high chance of granting no ability (~75%).
+    - Full: Included randomized enemies always grant no ability (100%).
 
     This only affects enemies already included by the ability randomization mode and
     the boss/miniboss/passive-enemy toggles.
+
+    Medium is based on 827 / 1510 = 54.77% vanilla no-ability regular-enemy placements
+    in the USA ROM across the current randomized-enemy dataset.
     """
     display_name = "Ability Randomization: No Ability Weight"
-    range_start = 0
-    range_end = 100
-    # Rounded from 827 / 1510 = 54.77% vanilla no-ability regular-enemy placements
-    # in the USA ROM across the current randomized-enemy dataset.
-    default = 55
+    default = 2
+    option_off = 0
+    option_low = 1
+    option_medium = 2
+    option_high = 3
+    option_full = 4
 
 
 class EnableDebugLogging(Toggle):

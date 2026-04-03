@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Clean up player options YAML: Convert `Ability Randomization: No Ability Weight` (`ability_randomization_no_ability_weight`) from a Range (0-100) to a Choice (`off`, `low`, `medium`, `high`, `full`) with named percentages (0%, 25%, 55%, 75%, 100%), where Medium matches the vanilla no-ability frequency and is the new default (Issue #561).
 - Add `One-Hit Mode` (`one_hit_mode`) to the `Make the game harder` option group. Selecting `exclude_vitality_counters` removes all four Vitality Counter items from the item pool (replaced by filler) and enforces a maximum HP of 1 throughout the run. Selecting `include_vitality_counters` keeps Vitality Counters in the pool but still starts Kirby at maximum 1 HP; each Vitality Counter item received raises the cap by 1 (up to 5 with all four). The BizHawk client enforces the cap every gameplay tick by clamping `kirby_max_hp_native` and `kirby_hp_native` (player 0) to `vitality_counter + 1`, with dead/negative HP states preserved (Issue #549).
 
 ## v0.0.17
