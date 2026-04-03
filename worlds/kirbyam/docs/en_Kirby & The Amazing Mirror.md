@@ -81,6 +81,14 @@ You will not see an indicator in the game, instead you'll see you received an it
 
 
 
+## Trackers
+
+
+
+Currently a tracker is not available, however with the current version the only logic is that you need all 8 mirror shards to goal the game. Everything else is considered to always be in logic.
+
+
+
 \# Can I play offline?
 
 
