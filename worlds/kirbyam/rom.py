@@ -51,7 +51,7 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
 
     mode = int(world.options.ability_randomization_mode.value)
     policy = getattr(world, "_enemy_copy_ability_policy", None)
-    if mode != AbilityRandomizationMode.option_vanilla and not isinstance(policy, dict):
+    if mode != AbilityRandomizationMode.option_off and not isinstance(policy, dict):
         raise ValueError(
             "enemy_copy_ability_policy must be initialized before writing non-vanilla "
             "enemy copy-ability runtime patch tokens"
