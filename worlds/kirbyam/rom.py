@@ -5,7 +5,7 @@ The world emits AP procedure patches that apply:
 - per-seed token writes (auth token and selected runtime feature writes)
 
 Issue #338 adds deterministic enemy copy-ability remap token writes for
-non-vanilla enemy randomization modes.
+non-off enemy randomization modes.
 """
 
 import os
@@ -53,7 +53,7 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
     policy = getattr(world, "_enemy_copy_ability_policy", None)
     if mode != AbilityRandomizationMode.option_off and not isinstance(policy, dict):
         raise ValueError(
-            "enemy_copy_ability_policy must be initialized before writing non-vanilla "
+            "enemy_copy_ability_policy must be initialized before writing non-off "
             "enemy copy-ability runtime patch tokens"
         )
 
