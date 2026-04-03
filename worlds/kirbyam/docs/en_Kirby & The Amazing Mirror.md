@@ -18,8 +18,7 @@
 - Progression & useful items which the player would normally acquire throughout the game have been moved around. (Mirror Shards, Maps, Vitality, Sound Player)
 - Normal copy ability enemies can be randomized to give a different copy ability.
 - Enemies which typically do not give abilities can be randomized to give abilities.
-
-An optional Room Sanity mode is also available (`room_sanity`). When enabled, room visits become AP checks using labels like `Room 1-01` and `Room 9-27`. Room Sanity is disabled by default because it adds 257 checks.
+- The chance for an enemy to not have a random ability can be controlled via the `ability_randomization_no_ability_weight`
 
 
 
@@ -30,7 +29,7 @@ An optional Room Sanity mode is also available (`room_sanity`). When enabled, ro
 Locations in which items can be found:
 - All Big Chests
 - All Mirror Shards
-- All Rooms
+- All Rooms (Optional, not enabled by default)
 Items that can be shuffled:
 - All Mirror Shards
 - All Maps
@@ -61,7 +60,8 @@ Use exact item/location names from this world (or the item groups listed above) 
 
 
 
-- There is an optional setting to enable one-life mode (no_extra_lives). If you die you are instantly sent back to the Hub and any 1Ups you receive will be immediately removed.
+- There is an optional setting to enable one-life mode (no_extra_lives). If you die you are instantly sent back to the Hub, and any 1Ups you receive will be immediately removed.
+- There is an optional setting to enable one-hit mode. If you get hit at all, you will immediately die and be sent back to the Hub, and any food items or 1Ups you receive will be immediately removed upon collecting them.
 
 
 
