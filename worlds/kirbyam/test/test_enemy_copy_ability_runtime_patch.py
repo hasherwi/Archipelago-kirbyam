@@ -12,7 +12,7 @@ from ..enemy_ability_runtime_patch import build_enemy_copy_runtime_patch_writes
 from ..options import AbilityRandomizationMode
 
 
-def test_vanilla_mode_emits_no_runtime_writes() -> None:
+def test_off_mode_emits_no_runtime_writes() -> None:
     policy = build_enemy_copy_ability_policy(
         random.Random(123),
         AbilityRandomizationMode.option_off,

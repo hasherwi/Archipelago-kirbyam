@@ -17,7 +17,7 @@ from ..ability_randomization import (
 from ..options import AbilityRandomizationMode
 
 
-def test_vanilla_mode_returns_identity_mapping_policy() -> None:
+def test_off_mode_returns_identity_mapping_policy() -> None:
     policy = build_enemy_copy_ability_policy(
         random.Random(12345),
         AbilityRandomizationMode.option_off,
@@ -169,7 +169,7 @@ def test_non_ability_enemies_flag_true_stored_in_policy() -> None:
     assert policy["ability_randomization_no_ability_weight"] == 55
 
 
-def test_vanilla_mode_stores_non_ability_flag_in_policy() -> None:
+def test_off_mode_stores_non_ability_flag_in_policy() -> None:
     policy = build_enemy_copy_ability_policy(
         random.Random(1),
         AbilityRandomizationMode.option_off,
