@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import random
 
 import worlds.kirbyam.enemy_ability_runtime_patch as runtime_patch_module
@@ -327,7 +328,7 @@ def test_unswallowable_enemy_exclusion_is_logged(caplog) -> None:
         no_ability_weight=0,
     )
 
-    with caplog.at_level("INFO", logger="worlds.kirbyam.enemy_ability_runtime_patch"):
+    with caplog.at_level(logging.INFO, logger="worlds.kirbyam.enemy_ability_runtime_patch"):
         build_enemy_copy_runtime_patch_writes(policy)
 
     assert "Excluded unswallowable enemies from copy-ability randomization pool: GLUNK" in caplog.text
