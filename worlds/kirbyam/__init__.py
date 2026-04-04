@@ -382,6 +382,14 @@ class KirbyAmWorld(World):
                     for item in kirby_data.items.values()
                     if item.classification != ItemClassification.filler
                 ]
+                vitality_item_codes = getattr(self, "_vitality_item_codes", None)
+                if vitality_item_codes is None:
+                    vitality_item_codes = {
+                        item.item_id
+                        for item in kirby_data.items.values()
+                        if "Vitality" in item.tags
+                    }
+                    self._vitality_item_codes = vitality_item_codes
                 if self.options.shards.value == RandomizeShards.option_vanilla:
                     shard_code_set = set(shard_item_codes)
                     non_filler_item_codes = [
@@ -389,19 +397,11 @@ class KirbyAmWorld(World):
                     ]
 
                 if self._one_hit_mode_value() == OneHitMode.option_exclude_vitality_counters:
-                    vitality_code_set = getattr(self, "_vitality_item_codes", None)
-                    if vitality_code_set is None:
-                        vitality_code_set = {
-                            item.item_id
-                            for item in kirby_data.items.values()
-                            if "Vitality" in item.tags
-                        }
-                        self._vitality_item_codes = vitality_code_set
                     excluded_vitality_count = sum(
-                        1 for code in non_filler_item_codes if code in vitality_code_set
+                        1 for code in non_filler_item_codes if code in vitality_item_codes
                     )
                     non_filler_item_codes = [
-                        code for code in non_filler_item_codes if code not in vitality_code_set
+                        code for code in non_filler_item_codes if code not in vitality_item_codes
                     ]
                     logger.info(
                         "[P%s] One-hit mode (exclude_vitality_counters): removed %s vitality counter item(s) from non-filler pool",
@@ -439,14 +439,6 @@ class KirbyAmWorld(World):
                         % (needed_pool_size, len(randomized_item_codes))
                     )
 
-                vitality_item_codes = getattr(self, "_vitality_item_codes", None)
-                if vitality_item_codes is None:
-                    vitality_item_codes = {
-                        item.item_id
-                        for item in kirby_data.items.values()
-                        if "Vitality" in item.tags
-                    }
-                    self._vitality_item_codes = vitality_item_codes
                 vitality_code_counts = Counter(
                     code for code in randomized_item_codes if code in vitality_item_codes
                 )
