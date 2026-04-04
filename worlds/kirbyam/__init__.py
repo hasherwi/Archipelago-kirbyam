@@ -389,11 +389,14 @@ class KirbyAmWorld(World):
                     ]
 
                 if self._one_hit_mode_value() == OneHitMode.option_exclude_vitality_counters:
-                    vitality_code_set = {
-                        item.item_id
-                        for item in kirby_data.items.values()
-                        if "Vitality" in item.tags
-                    }
+                    vitality_code_set = getattr(self, "_vitality_item_codes", None)
+                    if vitality_code_set is None:
+                        vitality_code_set = {
+                            item.item_id
+                            for item in kirby_data.items.values()
+                            if "Vitality" in item.tags
+                        }
+                        self._vitality_item_codes = vitality_code_set
                     excluded_vitality_count = sum(
                         1 for code in non_filler_item_codes if code in vitality_code_set
                     )
@@ -436,11 +439,14 @@ class KirbyAmWorld(World):
                         % (needed_pool_size, len(randomized_item_codes))
                     )
 
-                vitality_item_codes = {
-                    item.item_id
-                    for item in kirby_data.items.values()
-                    if "Vitality" in item.tags
-                }
+                vitality_item_codes = getattr(self, "_vitality_item_codes", None)
+                if vitality_item_codes is None:
+                    vitality_item_codes = {
+                        item.item_id
+                        for item in kirby_data.items.values()
+                        if "Vitality" in item.tags
+                    }
+                    self._vitality_item_codes = vitality_item_codes
                 vitality_code_counts = Counter(
                     code for code in randomized_item_codes if code in vitality_item_codes
                 )
