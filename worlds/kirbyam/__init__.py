@@ -5,6 +5,7 @@ import base64
 import os
 import pkgutil
 import time
+from collections import Counter
 from typing import TYPE_CHECKING, Any, ClassVar, Dict, List
 
 import settings
@@ -434,6 +435,40 @@ class KirbyAmWorld(World):
                         "KirbyAM item pool mismatch: open physical locations=%s randomized item count=%s"
                         % (needed_pool_size, len(randomized_item_codes))
                     )
+
+                vitality_item_codes = {
+                    item.item_id
+                    for item in kirby_data.items.values()
+                    if "Vitality" in item.tags
+                }
+                vitality_code_counts = Counter(
+                    code for code in randomized_item_codes if code in vitality_item_codes
+                )
+                if self._one_hit_mode_value() == OneHitMode.option_exclude_vitality_counters:
+                    if vitality_code_counts:
+                        raise ValueError(
+                            "KirbyAM vitality pool invariant failed in exclude_vitality_counters mode: "
+                            f"expected zero vitality items, got counts={dict(vitality_code_counts)}"
+                        )
+                else:
+                    missing_vitality_codes = sorted(
+                        code for code in vitality_item_codes if vitality_code_counts.get(code, 0) == 0
+                    )
+                    duplicate_vitality_codes = {
+                        code: count
+                        for code, count in vitality_code_counts.items()
+                        if count > 1
+                    }
+                    if missing_vitality_codes or duplicate_vitality_codes:
+                        raise ValueError(
+                            "KirbyAM vitality pool invariant failed: each vitality counter must appear exactly once. "
+                            f"missing={missing_vitality_codes} duplicates={duplicate_vitality_codes}"
+                        )
+                logger.info(
+                    "[P%s] Vitality counter pool multiplicity: %s",
+                    self.player,
+                    dict(sorted(vitality_code_counts.items())),
+                )
 
             if (boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or room_sanity_locations) and not randomized_item_codes:
                 raise ValueError(
