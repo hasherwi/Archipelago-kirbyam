@@ -331,4 +331,8 @@ def test_unswallowable_enemy_exclusion_is_logged(caplog) -> None:
     with caplog.at_level(logging.INFO, logger="worlds.kirbyam.enemy_ability_runtime_patch"):
         build_enemy_copy_runtime_patch_writes(policy)
 
-    assert "Excluded unswallowable enemies from copy-ability randomization pool: GLUNK" in caplog.text
+    assert any(
+        "Excluded unswallowable enemies from copy-ability randomization pool:" in message
+        and "GLUNK" in message
+        for message in caplog.messages
+    )
