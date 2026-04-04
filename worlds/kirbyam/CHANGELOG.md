@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `Ability Randomization: Minny` (`ability_randomization_minny`) so Minny can be excluded from enemy copy-ability randomization and kept at vanilla behavior while other enemy ability sources remain randomized (Issue #572).
+
 ## v0.1.1
 
 - Harden `One-Hit Mode` (`one_hit_mode`) `exclude_vitality_counters` behavior by removing health-restoring filler (`Small Food`, `Max Tomato`) from filler selection in that mode; when combined with `No Extra Lives`, `1 Up` is also excluded from the already-reduced filler pool.
