@@ -2685,7 +2685,7 @@ async def auto_shutdown(ctx, to_cancel=None):
         await asyncio.wait_for(ctx.exit_event.wait(), ctx.auto_shutdown)
 
     def inactivity_shutdown():
-        _close_ws_server(self.ctx.server)
+        _close_ws_server(ctx.server)
         ctx.exit_event.set()
         if to_cancel:
             for task in to_cancel:
