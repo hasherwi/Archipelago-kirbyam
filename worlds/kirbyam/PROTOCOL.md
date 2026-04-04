@@ -32,17 +32,17 @@ EWRAM Layout (0x02000000 - 0x02040000):
   
     0x02000000 - 0x02040000   EWRAM Region (256 KB)
         ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0202C000 - 0x0202C047   AP Mailbox (reserved, 72 bytes)
+        ├─ 0x0203B000 - 0x0202C047   AP Mailbox (reserved, 72 bytes)
         └─ 0x0202C048 - 0x02040000   Rest of RAM (unused by AP)
 ```
 
-### AP Mailbox Block (0x0202C000 - 0x0202C047)
+### AP Mailbox Block (0x0203B000 - 0x0202C047)
 
 **Transport Layer: Client ↔ ROM Communication**
 
 | Offset | Addr     | Size | Name                  | Type | Direction   | Purpose |
 |--------|----------|------|----------------------|------|-------------|---------|
-| 0x00   | 0x0202C000 | 4B | shard_bitfield        | u32  | ROM → Client | Mirror of native shard flags (bits 0-7 currently used, bits 8-31 reserved) |
+| 0x00   | 0x0203B000 | 4B | shard_bitfield        | u32  | ROM → Client | Mirror of native shard flags (bits 0-7 currently used, bits 8-31 reserved) |
 | 0x04   | 0x0202C004 | 4B | incoming_item_flag    | u32  | ROM ← Client | Write 1 to request delivery; ROM clears to 0 after recognized item apply (ACK) |
 | 0x08   | 0x0202C008 | 4B | incoming_item_id      | u32  | ROM ← Client | Item ID to apply (BASE_OFFSET + item index) |
 | 0x0C   | 0x0202C00C | 4B | incoming_item_player  | u32  | ROM ← Client | Player ID that sent this item |
@@ -62,7 +62,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x40   | 0x0202C040 | 4B | mailbox_init_cookie | u32 | ROM internal | Initialization cookie (`0x4B41504D`). If absent/mismatched, payload seeds `delivered_shard_bitfield` from native shard state, clears scrub delay + boss-defeat flags + boss temp shard mask, and stores the cookie to prevent stale EWRAM transport values from triggering scrub writes. |
 | 0x44   | 0x0202C044 | 4B | boss_temp_shard_bitfield | u32 | ROM internal | Bits 0-7 track shard bits temporarily written by boss-defeat hook for cutscene safety. On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, then clears this mask. |
 
-**Total: 72 bytes (0x0202C000 - 0x0202C047)**
+**Total: 72 bytes (0x0203B000 - 0x0202C047)**
 
 ### Native Game State (Referenced but not Managed by AP)
 
@@ -485,7 +485,7 @@ if goal_location_id in checked_locations:
 
 ```bash
 # BizHawk LUA script or address watch:
-for addr in [0x0202C000, 0x0202C004, 0x0202C008]:
+for addr in [0x0203B000, 0x0202C004, 0x0202C008]:
     print(f"RAM[{hex(addr)}] = {read(addr)}")
 ```
 

@@ -3,7 +3,7 @@
   "address_ranges": [
     {
       "name": "ap_mailbox_transport",
-      "start": "0x0202C000",
+      "start": "0x0203B000",
       "end": "0x0202C033",
       "bus": "System Bus",
       "notes": "Transport mirror block used by client mailbox protocol and shard fallback polling."
@@ -15,7 +15,7 @@
     "notes": "RAM snapshot models a single watcher tick before writes."
   },
   "ram_u32": {
-    "0x0202C000": 0,
+    "0x0203B000": 0,
     "0x0202C004": 0,
     "0x0202C008": 0,
     "0x0202C00C": 0,
@@ -30,7 +30,7 @@
     "0x0202C030": 0
   },
   "fields": {
-    "0x0202C000": "shard_bitfield_transport",
+    "0x0203B000": "shard_bitfield_transport",
     "0x0202C004": "incoming_item_flag",
     "0x0202C008": "incoming_item_id",
     "0x0202C00C": "incoming_item_player",
