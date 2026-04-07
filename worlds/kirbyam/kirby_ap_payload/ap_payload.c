@@ -51,8 +51,12 @@
 #define AP_STARTING_KIRBY_COLOR_ID (*(volatile uint32_t*)(AP_BASE + 0x50u))
 #define KIRBY_SHARD_FLAGS_ADDR  0x02038970u
 #define KIRBY_SHARD_FLAGS       (*(volatile uint8_t*)(KIRBY_SHARD_FLAGS_ADDR))
-#define KIRBY_ACTIVE_COLOR_ADDR 0x0203ADE0u
-#define KIRBY_ACTIVE_COLOR      (*(volatile uint8_t*)(KIRBY_ACTIVE_COLOR_ADDR))
+#define KIRBY_ACTIVE_COLOR_ADDR    0x0203ADE0u
+#define KIRBY_ACTIVE_COLOR          (*(volatile uint8_t*)(KIRBY_ACTIVE_COLOR_ADDR))
+// gUnk_0203ADE0 only takes effect before the game's graphics system initialises (boot-time).
+// KIRBY_TRANSITION_COLOR is the variable the game applies on every screen transition (runtime).
+#define KIRBY_TRANSITION_COLOR_ADDR 0x02020FBFu
+#define KIRBY_TRANSITION_COLOR      (*(volatile uint8_t*)(KIRBY_TRANSITION_COLOR_ADDR))
 #define AI_KIRBY_STATE_ADDR     0x0203AD2Cu
 #define AI_KIRBY_STATE          (*(volatile uint32_t*)(AI_KIRBY_STATE_ADDR))
 #define DEMO_PLAYBACK_FLAGS_ADDR 0x0203AD10u
@@ -271,7 +275,7 @@ static uint8_t ap_starting_kirby_color_applied = 0u;
 
 static void ap_apply_starting_kirby_color_config(void) {
     uint32_t desired_color;
-    uint8_t current_color;
+    uint8_t current_transition_color;
 
     if (ap_starting_kirby_color_applied != 0u) {
         return;
@@ -293,19 +297,25 @@ static void ap_apply_starting_kirby_color_config(void) {
         return;
     }
 
-    current_color = KIRBY_ACTIVE_COLOR;
+    // KIRBY_TRANSITION_COLOR (0x02020FBF) is the variable the game reads on each screen
+    // transition to apply the active palette. If it already equals our desired color we
+    // are done. If it is already non-zero (Pink=0 is default) then a game mechanic or the
+    // collection room has overridden it; respect that choice and stop trying.
+    current_transition_color = KIRBY_TRANSITION_COLOR;
 
-    if ((uint32_t)current_color == desired_color) {
+    if ((uint32_t)current_transition_color == desired_color) {
         ap_starting_kirby_color_applied = 1u;
         return;
     }
 
-    // Only apply once while Kirby is still on the default pink palette.
-    if (current_color != 0u) {
+    if (current_transition_color != 0u) {
         ap_starting_kirby_color_applied = 1u;
         return;
     }
 
+    // Write to the transition variable so the color takes effect on the next screen change,
+    // and also to the boot-time state variable in case this hook fires early enough.
+    KIRBY_TRANSITION_COLOR = (uint8_t)desired_color;
     KIRBY_ACTIVE_COLOR = (uint8_t)desired_color;
     ap_starting_kirby_color_applied = 1u;
 }

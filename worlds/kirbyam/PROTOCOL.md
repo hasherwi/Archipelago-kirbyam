@@ -78,7 +78,8 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x02028CA0 | 576B | gVisitedDoors (`room_visit_flags_native`) | Native room-visit array (`u16[0x120]`); bit 15 marks visited state by `doorsIdx` |
 | 0x0203AD2C | 4B | AI_KIRBY_STATE          | Runtime phase classifier (Issue #56 gameplay gate) |
 | 0x0203AD10 | 4B | DEMO_PLAYBACK_FLAGS     | Native title-demo discriminator (`demo_playback_flags_native`; bit `0x10` indicates title-screen demo playback) |
-| 0x0203ADE0 | 1B | KIRBY_ACTIVE_COLOR      | Native currently selected Kirby palette index (`0..13`) |
+| 0x0203ADE0 | 1B | KIRBY_ACTIVE_COLOR      | Native currently selected Kirby palette index (`0..13`). **Boot-time only**: updates only if written before the game's graphics system initialises; writing during gameplay has no visual effect. |
+| 0x02020FBF | 1B | KIRBY_TRANSITION_COLOR  | Kirby palette index applied by the game engine on each screen transition (`0..13`). Writing here takes effect on the next room/area transition; HUD elements (lives, health bar) reflect the new color after the player pauses. |
 | 0x02020FE0 | 1B | KIRBY_HP                | Kirby HP (`s8`) used for DeathLink runtime receive/apply and local death transition detection |
 | 0x02020FE1 | 1B | KIRBY_MAX_HP            | Kirby max HP (`s8`) used for one-hit mode enforcement (player 0 struct) |
 | 0x02020FE2 | 1B | KIRBY_LIVES             | Native extra-life counter (`u8`) used for `no_extra_lives` enforcement |
