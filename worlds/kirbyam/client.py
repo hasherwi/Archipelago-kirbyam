@@ -798,11 +798,15 @@ class KirbyAmClient(BizHawkClient):
                 logger.info(
                     "KirbyAM: BizHawk request failed during watcher tick; waiting for reconnect (%s)",
                     reason,
+                    extra={"NoStream": not self._debug_logging_enabled},
                 )
             return
         except bizhawk.NotConnectedError:
             if self._mark_bizhawk_watcher_transport_error("not_connected"):
-                logger.info("KirbyAM: BizHawk disconnected during watcher tick; waiting for reconnect")
+                logger.info(
+                    "KirbyAM: BizHawk disconnected during watcher tick; waiting for reconnect",
+                    extra={"NoStream": not self._debug_logging_enabled},
+                )
             return
 
     async def _sync_death_link_setting(self, ctx: "BizHawkClientContext") -> None:
@@ -1356,6 +1360,7 @@ class KirbyAmClient(BizHawkClient):
                     "KirbyAM: resending boss-defeat LocationChecks missing on server (missing=%s, acked=%s)",
                     missing_on_server,
                     already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
                 )
                 self._last_boss_poll_log = boss_log_state
 
@@ -1411,6 +1416,7 @@ class KirbyAmClient(BizHawkClient):
                     "KirbyAM: resending major-chest LocationChecks missing on server (missing=%s, acked=%s)",
                     missing_on_server,
                     already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
                 )
                 self._last_major_chest_poll_log = chest_log_state
 
@@ -1459,6 +1465,7 @@ class KirbyAmClient(BizHawkClient):
                     "KirbyAM: resending vitality-chest LocationChecks missing on server (missing=%s, acked=%s)",
                     missing_on_server,
                     already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
                 )
                 self._last_vitality_chest_poll_log = chest_log_state
 
@@ -1506,6 +1513,7 @@ class KirbyAmClient(BizHawkClient):
                     "KirbyAM: resending sound-player-chest LocationChecks missing on server (missing=%s, acked=%s)",
                     missing_on_server,
                     already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
                 )
                 self._last_sound_player_chest_poll_log = chest_log_state
 
