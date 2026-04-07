@@ -659,7 +659,7 @@ class KirbyAmWorld(World):
                 "label": loc_data.label,
                 "location_id": loc_data.location_id,
                 "category": loc_data.category.name,
-                "tags": list(loc_data.tags),
+                "tags": sorted(loc_data.tags),
             }
             for loc_key, loc_data in kirby_data.locations.items()
         }
@@ -683,6 +683,7 @@ class KirbyAmWorld(World):
             for item_code, item_data in kirby_data.items.items()
             if "Unique" in item_data.tags
         ]
+        slot_data["unique_items"].sort()
 
         # Debug settings are grouped under one key to keep slot_data extensible.
         slot_data["debug"] = {
