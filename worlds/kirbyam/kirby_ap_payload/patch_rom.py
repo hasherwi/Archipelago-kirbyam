@@ -850,9 +850,6 @@ def main():
         rom[BIG_SWITCH_UNLOCK_CALL_OFFSET:BIG_SWITCH_UNLOCK_CALL_OFFSET + 4] = hub_switch_hook_bl_bytes
         for offset in ability_transition_callsites:
             rom[offset:offset + 4] = thumb_bl_bytes(rom_base + offset, ability_transition_hook_target)
-        rom[BIG_SWITCH_UNLOCK_CALL_OFFSET:BIG_SWITCH_UNLOCK_CALL_OFFSET + 4] = hub_switch_hook_bl_bytes
-        for offset in ability_transition_callsites:
-            rom[offset:offset + 4] = thumb_bl_bytes(rom_base + offset, ability_transition_hook_target)
 
         # 6) Write the intermediary patched ROM
         with open(INTERMEDIARY_ROM, "wb") as f:

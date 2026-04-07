@@ -212,7 +212,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_logged_ai_state: int | None = None
         self._last_logged_demo_flags: int | None = None
         self._boss_shard_debug_window_active: bool = False
-        self._last_ability_runtime_config_signature: tuple[int, int, int, int] | None = None
+        self._last_ability_runtime_config_signature: tuple[int, int, int, int, int] | None = None
         self._last_ability_reroll_event_counter: int | None = None
 
     @staticmethod
@@ -256,6 +256,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_logged_ai_state = None
         self._last_logged_demo_flags = None
         self._boss_shard_debug_window_active = False
+        self._last_ability_runtime_config_signature = None
         self._last_ability_reroll_event_counter = None
 
     def _no_extra_lives_enabled(self, ctx: "BizHawkClientContext") -> bool:
