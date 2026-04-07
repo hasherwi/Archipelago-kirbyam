@@ -299,8 +299,9 @@ static void ap_apply_starting_kirby_color_config(void) {
 
     // KIRBY_TRANSITION_COLOR (0x02020FBF) is the variable the game reads on each screen
     // transition to apply the active palette. If it already equals our desired color we
-    // are done. If it is already non-zero (Pink=0 is default) then a game mechanic or the
-    // collection room has overridden it; respect that choice and stop trying.
+    // are done. If it holds a valid non-Pink palette ID (1..13) that differs from what
+    // we want, a game mechanic or the collection room has overridden it; respect that.
+    // Out-of-range values (e.g., uninitialised EWRAM garbage) are not treated as overrides.
     current_transition_color = KIRBY_TRANSITION_COLOR;
 
     if ((uint32_t)current_transition_color == desired_color) {
@@ -308,7 +309,7 @@ static void ap_apply_starting_kirby_color_config(void) {
         return;
     }
 
-    if (current_transition_color != 0u) {
+    if (current_transition_color != 0u && (uint32_t)current_transition_color <= 13u) {
         ap_starting_kirby_color_applied = 1u;
         return;
     }

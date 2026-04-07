@@ -18,7 +18,7 @@ from .ability_randomization import (
     VALID_ENEMY_COPY_ABILITIES,
     build_enemy_copy_ability_policy,
 )
-from .colors import resolve_kirby_color
+from .colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, resolve_kirby_color
 from .data import LocationCategory, load_json_data, data as kirby_data
 from .generation_logging import (
     generation_stage,
@@ -200,8 +200,11 @@ class KirbyAmWorld(World):
         except (TypeError, ValueError):
             choice_value = 0
         rng = getattr(self, "random", None)
-        if not isinstance(rng, random.Random):
-            rng = random.Random(0)
+        if choice_value == STARTING_KIRBY_COLOR_RANDOM_OPTION and not isinstance(rng, random.Random):
+            raise RuntimeError(
+                "KirbyAM starting Kirby color could not be resolved from the world RNG. "
+                "Expected a valid seeded random.Random on self.random or a cached resolved color."
+            )
         color = resolve_kirby_color(choice_value, rng)
         return color.color_id, color.display_name
 
