@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Add `Start With All Maps` (`start_with_all_maps`) option to the `Make the game easier` option group. When enabled, all nine area maps are precollected at generation time and removed from the randomized item pool (replaced with filler), so the player begins with every map already acquired (Issue #584).
+- Fix missing boss-defeat LocationChecks when the matching shard is already owned by adding a conservative client fallback: rising-edge bits from `boss_mirror_table_native` byte 0 (bits 0-7) now backfill boss checks when `boss_defeat_flags` is absent for that fight (Issue #573).
 
 ## v0.1.2
 
