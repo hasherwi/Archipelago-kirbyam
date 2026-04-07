@@ -31,16 +31,6 @@ from .enemy_ability_data import (
 from .options import AbilityRandomizationMode
 
 _MISSING_RUNTIME_ABILITY_NAMES = set(VALID_ENEMY_COPY_ABILITIES) - set(ABILITY_NAME_TO_ID)
-_UNSWALLOWABLE_ENEMY_SOURCE_KEYS = frozenset({
-    "BLOCKIN",
-    "GLUNK",
-    "GORDO",
-    "JACK",
-    "MIRRA",
-    "SCARFY",
-    "SHOTZO",
-    "SQUISHY",
-})
 
 logger = logging.getLogger(__name__)
 
@@ -84,7 +74,7 @@ def _included_randomizable_sources(policy: dict[str, Any]) -> tuple[list[Ability
         if source.default_ability_id == 0 and not randomize_non_ability:
             continue
 
-        if source.kind == "enemy" and source.key in _UNSWALLOWABLE_ENEMY_SOURCE_KEYS:
+        if source.kind == "enemy" and not source.can_be_swallowed:
             excluded_unswallowable_sources.add(source.key)
             continue
         if not _is_source_enabled(source, policy):
