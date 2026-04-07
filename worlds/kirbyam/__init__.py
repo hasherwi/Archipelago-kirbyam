@@ -17,7 +17,6 @@ from .ability_randomization import (
     VALID_ENEMY_COPY_ABILITIES,
     build_enemy_copy_ability_policy,
 )
-from .data import LocationCategory
 from .data import LocationCategory, load_json_data, data as kirby_data
 from .generation_logging import (
     generation_stage,
