@@ -15,7 +15,7 @@ endif
 
 
 CFLAGS  := -mthumb -mcpu=arm7tdmi -Os -ffreestanding -fno-builtin -fno-jump-tables -fno-tree-switch-conversion -nostdlib -Wall -Wextra
-LDFLAGS := -T linker.ld -nostdlib
+LDFLAGS := -T linker.ld -nostdlib -lgcc
 
 all: payload.bin
 
