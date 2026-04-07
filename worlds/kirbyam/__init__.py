@@ -38,7 +38,6 @@ from .options import (
     KirbyAmOptions,
     OneHitMode,
     RandomizeShards,
-    StartWithAllMaps,
 )
 from .rom import KirbyAmProcedurePatch, write_tokens
 
