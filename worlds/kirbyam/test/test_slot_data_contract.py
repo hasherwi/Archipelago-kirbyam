@@ -38,6 +38,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
     options.as_dict.return_value = {
         "goal": 0,
         "shards": 2,
+        "start_with_all_maps": False,
         "no_extra_lives": False,
         "one_hit_mode": 0,
         "death_link": True,
@@ -48,6 +49,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "ability_randomization_passive_enemies": False,
         "ability_randomization_no_ability_weight": 55,
         "room_sanity": False,
+        "enable_debug_logging": False,
     }
 
     world.options = options

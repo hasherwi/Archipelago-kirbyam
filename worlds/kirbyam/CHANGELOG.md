@@ -5,6 +5,8 @@
 - Updated `Ability Randomization: Minny` (`ability_randomization_minny`) so that it's off by default (Issue #583).
 - Add `Start With All Maps` (`start_with_all_maps`) option to the `Make the game easier` option group. When enabled, all nine area maps are precollected at generation time and removed from the randomized item pool (replaced with filler), so the player begins with every map already acquired (Issue #584).
 - Hide additional KirbyAM reconnect/resend diagnostics from the live client output unless `Enable Debug Logging` is enabled, while still writing those diagnostics to log files unconditionally (`NoStream`-filtered stream suppression only); includes watcher transport reconnect messages and resend diagnostics for boss/major/vitality/sound-player LocationChecks polling (Issue #582).
+- Expand tracker integration surface to expose all locations, all rooms (visited and unvisited, including those outside Room Sanity), current room, ability, health, max health, battery, lives, and all received unique items via expanded `fill_slot_data()` for use in tracker templates and generic player/multiworld trackers (Issue #114).
+- Expose all configured seed options in KirbyAM `slot_data`, including `start_with_all_maps` and `enable_debug_logging`, so tracker/game-specific surfaces can render the exact seed configuration without inferring from partial fields (Issue #114).
 
 ## v0.1.2
 
