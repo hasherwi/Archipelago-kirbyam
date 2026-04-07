@@ -1624,6 +1624,7 @@ class KirbyAmClient(BizHawkClient):
         elif stream_marker is not self._boss_probe_stream_marker:
             self._boss_probe_stream_marker = stream_marker
             self._last_boss_probe_snapshot = None
+            self._boss_probe_fallback_bits.clear()
 
         raw = (await bizhawk.read(
             ctx.bizhawk_ctx,
