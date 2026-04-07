@@ -18,7 +18,6 @@ import logging
 from typing import Any
 
 from .ability_randomization import (
-    NO_ABILITY_NAME,
     build_shuffled_enemy_type_assignments,
     ability_for_enemy_grant_event,
 )
@@ -107,7 +106,7 @@ def build_enemy_copy_spoiler_rows(policy: dict[str, Any]) -> list[tuple[str, str
         elif mode == AbilityRandomizationMode.option_completely_random:
             ability_name = ability_for_enemy_grant_event(policy, _source_event_key(source), source.key)
         else:
-            ability_name = NO_ABILITY_NAME
+            raise ValueError(f"unsupported enemy ability randomization mode: {mode}")
         rows.append((source.kind, source.key, ability_name))
 
     rows.sort(key=lambda row: (row[0], row[1]))

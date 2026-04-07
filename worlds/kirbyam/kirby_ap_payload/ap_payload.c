@@ -263,7 +263,7 @@ static uint32_t ap_next_rng_u32(void) {
     if (state == 0u) {
         uint32_t seed_lo = AP_ABILITY_RANDOMIZATION_SEED_LO;
         uint32_t seed_hi = AP_ABILITY_RANDOMIZATION_SEED_HI;
-        state = ap_mix_u32(seed_lo ^ (seed_hi * 0x9E3779B9u) ^ AP_FRAME_COUNTER ^ 0xA5C39E21u);
+        state = ap_mix_u32(seed_lo ^ (seed_hi * 0x9E3779B9u) ^ 0xA5C39E21u);
         if (state == 0u) {
             state = 0x6D2B79F5u;
         }
