@@ -891,7 +891,7 @@ class KirbyAmClient(BizHawkClient):
 
         seed_lo = seed & 0xFFFFFFFF
         seed_hi = (seed >> 32) & 0xFFFFFFFF
-        signature = (mode, seed_lo ^ seed_hi, no_ability_weight, allowed_mask)
+        signature = (mode, seed_lo, seed_hi, no_ability_weight, allowed_mask)
         if self._last_ability_runtime_config_signature == signature:
             return
 

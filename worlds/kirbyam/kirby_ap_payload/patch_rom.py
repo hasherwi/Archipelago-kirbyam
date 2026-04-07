@@ -207,27 +207,23 @@ def is_thumb_bl_instruction(opcode: bytes) -> bool:
 
 
 def decode_thumb_bl_target(src_rom_addr: int, opcode: bytes) -> int:
-    """Decode absolute target address from a 32-bit Thumb BL instruction."""
+    """Decode absolute target address from a 32-bit Thumb-1 BL instruction."""
     if len(opcode) != 4 or not is_thumb_bl_instruction(opcode):
         raise ValueError("opcode is not a 32-bit Thumb BL instruction")
 
     first = int.from_bytes(opcode[:2], "little")
     second = int.from_bytes(opcode[2:], "little")
 
-    s = (first >> 10) & 0x1
-    j1 = (second >> 13) & 0x1
-    j2 = (second >> 11) & 0x1
-    imm10 = first & 0x03FF
-    imm11 = second & 0x07FF
-    i1 = (~(j1 ^ s)) & 0x1
-    i2 = (~(j2 ^ s)) & 0x1
-
-    imm32 = (s << 24) | (i1 << 23) | (i2 << 22) | (imm10 << 12) | (imm11 << 1)
-    if s:
-        imm32 -= 1 << 25
+    # Thumb-1 BL as encoded by thumb_branch.thumb_bl_bytes():
+    #   first halfword:  11110 <imm11_hi>
+    #   second halfword: 11111 <imm11_lo>
+    # signed immediate is 22 bits, byte offset is (imm22 << 1).
+    imm22 = ((first & 0x07FF) << 11) | (second & 0x07FF)
+    if imm22 & (1 << 21):
+        imm22 -= 1 << 22
 
     next_addr = src_rom_addr + 4
-    return (next_addr + imm32) & 0xFFFFFFFF
+    return (next_addr + (imm22 << 1)) & 0xFFFFFFFF
 
 
 def validate_thumb_bl_callsite(rom: bytes | bytearray, offset: int, label: str) -> bytes:
