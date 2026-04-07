@@ -10,6 +10,8 @@ from .. import KirbyAmWorld
 from ..client import KirbyAmClient
 from ..colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, load_kirby_colors
 from ..data import data
+
+
 def test_world_helper_resolves_starting_kirby_color_random_choice() -> None:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
     world.random = Random(0)
@@ -36,10 +38,17 @@ async def test_client_syncs_starting_kirby_color_runtime_config_once(mock_bizhaw
         "starting_kirby_color_name": "Sapphire",
     }
 
-    with patch.dict(data.transport_ram_addresses, {"starting_kirby_color_id": 0x0203B050}, clear=False), patch(
-        "worlds.kirbyam.client.bizhawk.write",
-        new_callable=AsyncMock,
-    ) as mock_write:
+    with (
+        patch.dict(
+            data.transport_ram_addresses,
+            {"starting_kirby_color_id": 0x0203B050},
+            clear=False,
+        ),
+        patch(
+            "worlds.kirbyam.client.bizhawk.write",
+            new_callable=AsyncMock,
+        ) as mock_write,
+    ):
         client._load_debug_settings(mock_bizhawk_context)
         await client._sync_starting_kirby_color_runtime_config(mock_bizhawk_context)
         await client._sync_starting_kirby_color_runtime_config(mock_bizhawk_context)

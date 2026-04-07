@@ -267,18 +267,47 @@ static void ap_sync_active_kirby_health_from_vitality(void) {
     *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_MAX_HP_OFFSET) = vitality_total;
 }
 
-static void ap_apply_starting_kirby_color_config(void) {
-    uint32_t desired_color = AP_STARTING_KIRBY_COLOR_ID & 0xFFu;
+static uint8_t ap_starting_kirby_color_applied = 0u;
 
-    // Supported native color IDs: 0..13. Value 0 (Pink) is intentionally a no-op.
-    if (desired_color > 13u || desired_color == 0u) {
+static void ap_apply_starting_kirby_color_config(void) {
+    uint32_t desired_color;
+    uint8_t current_color;
+
+    if (ap_starting_kirby_color_applied != 0u) {
         return;
     }
 
-    uint8_t current_color = KIRBY_ACTIVE_COLOR;
-    if ((uint32_t)current_color != desired_color) {
-        KIRBY_ACTIVE_COLOR = (uint8_t)desired_color;
+    desired_color = AP_STARTING_KIRBY_COLOR_ID;
+
+    // 0xFFFFFFFF means client has not synced the runtime config yet.
+    if (desired_color == 0xFFFFFFFFu) {
+        return;
     }
+
+    // Supported native color IDs: 0..13. Value 0 (Pink) is intentionally a no-op.
+    if (desired_color > 13u) {
+        return;
+    }
+    if (desired_color == 0u) {
+        ap_starting_kirby_color_applied = 1u;
+        return;
+    }
+
+    current_color = KIRBY_ACTIVE_COLOR;
+
+    if ((uint32_t)current_color == desired_color) {
+        ap_starting_kirby_color_applied = 1u;
+        return;
+    }
+
+    // Only apply once while Kirby is still on the default pink palette.
+    if (current_color != 0u) {
+        ap_starting_kirby_color_applied = 1u;
+        return;
+    }
+
+    KIRBY_ACTIVE_COLOR = (uint8_t)desired_color;
+    ap_starting_kirby_color_applied = 1u;
 }
 
 static uint32_t ap_get_active_kirby_addr(void) {
@@ -464,7 +493,8 @@ void ap_poll_mailbox_c(void) {
         AP_BOSS_TEMP_SHARD_BITFIELD = 0u;
         AP_DELIVERED_VITALITY_ITEM_BITS = 0u;
         AP_HUB_SWITCH_FLAGS = 0u;
-        AP_STARTING_KIRBY_COLOR_ID = 0u;
+        AP_STARTING_KIRBY_COLOR_ID = 0xFFFFFFFFu;
+        ap_starting_kirby_color_applied = 0u;
         AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     }
 
