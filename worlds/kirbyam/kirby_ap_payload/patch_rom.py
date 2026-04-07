@@ -842,7 +842,8 @@ def main():
 
         if not ability_transition_callsites:
             raise SystemExit(
-                "Error: no callsites found for ability transition function 0x080547C4. "
+                f"Error: no callsites found for ability transition function "
+                f"0x{ORIGINAL_ABILITY_TRANSITION_FN_ADDR:08X}. "
                 "Refusing to continue without a validated runtime reroll hook site."
             )
 

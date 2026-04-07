@@ -930,11 +930,9 @@ class KirbyAmClient(BizHawkClient):
         if None in (counter_addr, source_addr_addr, ability_id_addr):
             return
 
-        counter_raw, source_raw, ability_raw = await bizhawk.read(ctx.bizhawk_ctx, [
+        counter_raw = (await bizhawk.read(ctx.bizhawk_ctx, [
             (counter_addr, 4, "System Bus"),
-            (source_addr_addr, 4, "System Bus"),
-            (ability_id_addr, 4, "System Bus"),
-        ])
+        ]))[0]
         event_counter = self._u32_le(counter_raw)
         if self._last_ability_reroll_event_counter is None:
             self._last_ability_reroll_event_counter = event_counter
@@ -942,6 +940,10 @@ class KirbyAmClient(BizHawkClient):
         if event_counter == self._last_ability_reroll_event_counter:
             return
 
+        source_raw, ability_raw = await bizhawk.read(ctx.bizhawk_ctx, [
+            (source_addr_addr, 4, "System Bus"),
+            (ability_id_addr, 4, "System Bus"),
+        ])
         delta = (event_counter - self._last_ability_reroll_event_counter) & 0xFFFFFFFF
         source_addr = self._u32_le(source_raw)
         ability_id = self._u32_le(ability_raw) & 0x1F
