@@ -30,7 +30,16 @@ from .enemy_ability_data import (
 from .options import AbilityRandomizationMode
 
 _MISSING_RUNTIME_ABILITY_NAMES = set(VALID_ENEMY_COPY_ABILITIES) - set(ABILITY_NAME_TO_ID)
-_UNSWALLOWABLE_ENEMY_SOURCE_KEYS = frozenset({"GLUNK", "SCARFY", "SHOTZO"})
+_UNSWALLOWABLE_ENEMY_SOURCE_KEYS = frozenset({
+    "BLOCKIN",
+    "GLUNK",
+    "GORDO",
+    "JACK",
+    "MIRRA",
+    "SCARFY",
+    "SHOTZO",
+    "SQUISHY",
+})
 
 logger = logging.getLogger(__name__)
 
