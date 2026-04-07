@@ -195,10 +195,14 @@ class KirbyAmWorld(World):
 
         option = getattr(getattr(self, "options", None), "starting_kirby_color", None)
         option_value = getattr(option, "value", option)
+        try:
+            choice_value = int(option_value) if option_value is not None else 0
+        except (TypeError, ValueError):
+            choice_value = 0
         rng = getattr(self, "random", None)
         if not isinstance(rng, random.Random):
             rng = random.Random(0)
-        color = resolve_kirby_color(int(option_value) if option_value is not None else 0, rng)
+        color = resolve_kirby_color(choice_value, rng)
         return color.color_id, color.display_name
 
     def _active_filler_pool(self) -> tuple[str, ...]:
