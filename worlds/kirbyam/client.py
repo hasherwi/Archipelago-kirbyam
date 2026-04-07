@@ -9,6 +9,7 @@ import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
 from .data import LocationCategory, data, load_json_data
+from .enemy_ability_data import ABILITY_NAME_TO_ID
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
 from .options import Goal, OneHitMode
 from .types import KirbyAmBizHawkClientContext
@@ -201,6 +202,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_logged_ai_state: int | None = None
         self._last_logged_demo_flags: int | None = None
         self._boss_shard_debug_window_active: bool = False
+        self._last_ability_runtime_config_signature: tuple[int, int, int, int] | None = None
 
     @staticmethod
     def _server_session_ready(ctx: "BizHawkClientContext") -> bool:
@@ -720,6 +722,7 @@ class KirbyAmClient(BizHawkClient):
         self._load_notification_settings(ctx)
         self._load_debug_settings(ctx)
         await self._sync_death_link_setting(ctx)
+        await self._sync_enemy_copy_ability_runtime_config(ctx)
 
         if not self._watcher_server_ready:
             if self._debug_logging_enabled:
@@ -841,6 +844,61 @@ class KirbyAmClient(BizHawkClient):
             self._last_local_alive_state = None
             self._suppress_next_local_death_send = False
         logger.info("KirbyAM: DeathLink %s", "enabled" if enabled else "disabled")
+
+    async def _sync_enemy_copy_ability_runtime_config(self, ctx: "BizHawkClientContext") -> None:
+        """Write enemy copy-ability runtime config into payload mailbox fields."""
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            return
+
+        policy = slot_data.get("enemy_copy_ability_policy")
+        if not isinstance(policy, dict):
+            return
+
+        try:
+            mode = int(policy.get("mode", 0)) & 0xFFFFFFFF
+            seed = int(policy.get("seed", 0)) & 0xFFFFFFFFFFFFFFFF
+            no_ability_weight = int(policy.get("ability_randomization_no_ability_weight", 0)) & 0xFFFFFFFF
+        except (TypeError, ValueError):
+            return
+
+        allowed_mask = 0
+        allowed_abilities = policy.get("allowed_abilities", [])
+        if isinstance(allowed_abilities, list):
+            for ability_name in allowed_abilities:
+                if not isinstance(ability_name, str):
+                    continue
+                ability_id = ABILITY_NAME_TO_ID.get(ability_name)
+                if ability_id is None:
+                    continue
+                if 0 < ability_id <= 31:
+                    allowed_mask |= 1 << ability_id
+
+        seed_lo = seed & 0xFFFFFFFF
+        seed_hi = (seed >> 32) & 0xFFFFFFFF
+        signature = (mode, seed_lo ^ seed_hi, no_ability_weight, allowed_mask)
+        if self._last_ability_runtime_config_signature == signature:
+            return
+
+        mode_addr = self._transport_addr("ability_randomization_mode_runtime")
+        seed_lo_addr = self._transport_addr("ability_randomization_seed_lo_runtime")
+        seed_hi_addr = self._transport_addr("ability_randomization_seed_hi_runtime")
+        weight_addr = self._transport_addr("ability_randomization_no_ability_weight_runtime")
+        mask_addr = self._transport_addr("ability_randomization_allowed_mask_runtime")
+        rng_state_addr = self._transport_addr("ability_randomization_rng_state_runtime")
+        if None in (mode_addr, seed_lo_addr, seed_hi_addr, weight_addr, mask_addr, rng_state_addr):
+            return
+
+        await bizhawk.write(ctx.bizhawk_ctx, [
+            (mode_addr, int(mode).to_bytes(4, "little"), "System Bus"),
+            (seed_lo_addr, int(seed_lo).to_bytes(4, "little"), "System Bus"),
+            (seed_hi_addr, int(seed_hi).to_bytes(4, "little"), "System Bus"),
+            (weight_addr, int(no_ability_weight).to_bytes(4, "little"), "System Bus"),
+            (mask_addr, int(allowed_mask & 0xFFFFFFFF).to_bytes(4, "little"), "System Bus"),
+            # Force deterministic reseed when config changes.
+            (rng_state_addr, (0).to_bytes(4, "little"), "System Bus"),
+        ])
+        self._last_ability_runtime_config_signature = signature
 
     async def _enforce_no_extra_lives(self, ctx: "BizHawkClientContext") -> None:
         if not self._no_extra_lives_enabled(ctx):

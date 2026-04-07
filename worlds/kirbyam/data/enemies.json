@@ -105,6 +105,13 @@
     ],
     "default_ability": "Normal"
   },
+  "GOLEM": {
+    "kind": "enemy",
+    "addresses": [
+      "0x351966"
+    ],
+    "default_ability": "Stone"
+  },
   "HALEY": {
     "kind": "enemy",
     "addresses": [
@@ -174,6 +181,13 @@
       "0x35185E"
     ],
     "default_ability": "Ice"
+  },
+  "PRANK": {
+    "kind": "enemy",
+    "addresses": [
+      "0x351B16"
+    ],
+    "default_ability": "Normal"
   },
   "ROCKY": {
     "kind": "enemy",
@@ -384,6 +398,13 @@
       "0x352956"
     ],
     "default_ability": "Fire"
+  },
+  "MASTER_CRAZY_HAND_BULLET": {
+    "kind": "boss_spawned",
+    "addresses": [
+      "0x35290E"
+    ],
+    "default_ability": "Burning"
   },
   "MOLEY_BOMB": {
     "kind": "boss_spawned",

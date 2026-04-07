@@ -18,8 +18,9 @@ import logging
 from typing import Any
 
 from .ability_randomization import (
+    NO_ABILITY_NAME,
+    build_shuffled_enemy_type_assignments,
     ability_for_enemy_grant_event,
-    ability_for_enemy_type,
 )
 from .enemy_ability_data import (
     AbilitySource,
@@ -73,6 +74,56 @@ def _source_event_key(source: AbilitySource) -> str:
     return f"{source.kind}:{source.key}:{address_fragment}"
 
 
+def _included_randomizable_sources(policy: dict[str, Any]) -> tuple[list[AbilitySource], set[str]]:
+    randomize_non_ability = bool(policy.get("ability_randomization_passive_enemies", False))
+
+    included_sources: list[AbilitySource] = []
+    excluded_unswallowable_sources: set[str] = set()
+    for source in ABILITY_SOURCES:
+        # Preserve vanilla no-ability entries unless the option explicitly enables them.
+        if source.default_ability_id == 0 and not randomize_non_ability:
+            continue
+
+        if source.kind == "enemy" and source.key in _UNSWALLOWABLE_ENEMY_SOURCE_KEYS:
+            excluded_unswallowable_sources.add(source.key)
+            continue
+        if not _is_source_enabled(source, policy):
+            continue
+
+        included_sources.append(source)
+
+    return included_sources, excluded_unswallowable_sources
+
+
+def build_enemy_copy_spoiler_rows(policy: dict[str, Any]) -> list[tuple[str, str, str]]:
+    """Return deterministic spoiler rows: (source_kind, source_key, assigned_ability)."""
+    mode = int(policy.get("mode", AbilityRandomizationMode.option_off))
+    if mode == AbilityRandomizationMode.option_off:
+        return []
+
+    included_sources, _ = _included_randomizable_sources(policy)
+
+    shuffled_assignments: dict[str, str] = {}
+    if mode == AbilityRandomizationMode.option_shuffled:
+        shuffled_assignments = build_shuffled_enemy_type_assignments(
+            policy,
+            (source.key for source in included_sources),
+        )
+
+    rows: list[tuple[str, str, str]] = []
+    for source in included_sources:
+        if mode == AbilityRandomizationMode.option_shuffled:
+            ability_name = shuffled_assignments[source.key]
+        elif mode == AbilityRandomizationMode.option_completely_random:
+            ability_name = ability_for_enemy_grant_event(policy, _source_event_key(source), source.key)
+        else:
+            ability_name = NO_ABILITY_NAME
+        rows.append((source.kind, source.key, ability_name))
+
+    rows.sort(key=lambda row: (row[0], row[1]))
+    return rows
+
+
 def build_enemy_copy_runtime_patch_writes(policy: dict[str, Any]) -> dict[int, int]:
     """Return deterministic ROM writes for enemy copy-ability randomization.
 
@@ -88,23 +139,20 @@ def build_enemy_copy_runtime_patch_writes(policy: dict[str, Any]) -> dict[int, i
 
     _validate_runtime_ability_ids()
 
-    randomize_non_ability = bool(policy.get("ability_randomization_passive_enemies", False))
+    included_sources, excluded_unswallowable_sources = _included_randomizable_sources(policy)
+
+    shuffled_assignments: dict[str, str] = {}
+    if mode == AbilityRandomizationMode.option_shuffled:
+        shuffled_assignments = build_shuffled_enemy_type_assignments(
+            policy,
+            (source.key for source in included_sources),
+        )
 
     writes: dict[int, int] = {}
-    excluded_unswallowable_sources: set[str] = set()
-    for source in ABILITY_SOURCES:
-        # Preserve vanilla no-ability entries unless the option explicitly enables them.
-        if source.default_ability_id == 0 and not randomize_non_ability:
-            continue
-
-        if source.kind == "enemy" and source.key in _UNSWALLOWABLE_ENEMY_SOURCE_KEYS:
-            excluded_unswallowable_sources.add(source.key)
-            continue
-        if not _is_source_enabled(source, policy):
-            continue
+    for source in included_sources:
 
         if mode == AbilityRandomizationMode.option_shuffled:
-            ability_name = ability_for_enemy_type(policy, source.key)
+            ability_name = shuffled_assignments[source.key]
         elif mode == AbilityRandomizationMode.option_completely_random:
             # Keep mapping stable per source independent of list ordering and toggles.
             ability_name = ability_for_enemy_grant_event(policy, _source_event_key(source), source.key)

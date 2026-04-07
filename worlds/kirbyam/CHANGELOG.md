@@ -3,6 +3,9 @@
 ## Unreleased
 
 - Add 15 decomp-aligned world-map big-switch AP checks (`HUB_SWITCH_*`) with a dedicated ROM transport register (`hub_switch_flags` at `0x0203B04C`), BizHawk resend/dedupe polling, payload hook integration at the world-map unlock dispatcher callsite (`sub_08039ED4`), protocol/address contract updates, and regression coverage for data/polling/patch offsets/region binding (Issue #481).
+- Fix enemy copy-ability shuffled-mode source coverage gaps by adding missing known US-ROM ability sources (`GOLEM`, `PRANK`, `MASTER_CRAZY_HAND_BULLET`) so same-type enemy grants no longer diverge between patched and unpatched table entries across rooms (Issue #420).
+- Improve shuffled enemy copy-ability mapping to guarantee full allowed-ability representation across included enemy types when key cardinality permits (`no_ability_weight < 100`), while preserving explicit `no_ability_weight=100` semantics (all included sources resolve to no ability).
+- Add shuffled enemy copy-ability spoiler output listing each randomized source and resulting copy ability (`kind | source_key -> ability`) so seed analysis can verify enemy mappings and full allowed-ability representation (Issue #586).
 - Expand tracker integration surface by exporting all locations, all rooms (including those outside Room Sanity), and all received unique items via expanded KirbyAM `slot_data` for use in tracker templates and generic player/multiworld trackers (Issue #114).
 - Expose all configured KirbyAM seed options in `slot_data` (including `start_with_all_maps` and `enable_debug_logging`) so tracker surfaces can render the exact seed configuration from slot data without inferring from partial fields (Issue #114).
 - Updated `Ability Randomization: Minny` (`ability_randomization_minny`) so that it's off by default (Issue #583).
