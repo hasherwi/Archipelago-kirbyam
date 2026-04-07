@@ -677,13 +677,15 @@ class KirbyAmWorld(World):
             for room_key, room_data in rooms.items()
         }
 
-        # Unique items for tracker display (items tagged as "Unique")
-        slot_data["unique_items"] = [
-            item_data.label
-            for item_code, item_data in kirby_data.items.items()
-            if "Unique" in item_data.tags
-        ]
-        slot_data["unique_items"].sort()
+        # Unique items for tracker display (items tagged as "Unique").
+        # Emit in stable deduplicated order for tracker/cache determinism.
+        slot_data["unique_items"] = sorted(
+            {
+                item_data.label
+                for item_data in kirby_data.items.values()
+                if "Unique" in item_data.tags
+            }
+        )
 
         # Debug settings are grouped under one key to keep slot_data extensible.
         slot_data["debug"] = {
