@@ -815,12 +815,20 @@ def main():
         print(f"  hub switch unlock @ {BIG_SWITCH_UNLOCK_CALL_OFFSET:#x}: {original_hub_switch_hook.hex(' ')}")
 
         # Find and patch all Thumb BL callsites targeting Kirby's ability-transition function.
+        # The ability-transition function is called from many sites throughout the game code,
+        # so auto-discovery is used instead of a single hardcoded offset.
+        # Scan bounds: start past the GBA ROM header (first 0xC0 bytes contain exception
+        # vectors and the Nintendo logo bitmap, never game code callsites); end at
+        # PAYLOAD_OFFSET, which was chosen to be a zero/free-space region of the original
+        # ROM so no game callsites appear at or after that offset.
+        _GBA_ROM_CODE_START = 0xC0
         ability_transition_target_candidates = {
             ORIGINAL_ABILITY_TRANSITION_FN_ADDR,
             ORIGINAL_ABILITY_TRANSITION_FN_ADDR | 1,
         }
         ability_transition_callsites: list[int] = []
-        for offset in range(0, len(rom) - 3, 2):
+        scan_end = min(PAYLOAD_OFFSET, len(rom) - 3)
+        for offset in range(_GBA_ROM_CODE_START, scan_end, 2):
             opcode = bytes(rom[offset:offset + 4])
             if not is_thumb_bl_instruction(opcode):
                 continue

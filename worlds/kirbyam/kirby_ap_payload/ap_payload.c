@@ -321,7 +321,7 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
 
         rewritten_flags = (ability_flags & ~KIRBY_ABILITY_MASK) | (uint32_t)(selected_ability & KIRBY_ABILITY_MASK);
 
-        if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x03000000u) {
+        if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x02040000u) {
             uint16_t source_type = *(volatile uint16_t*)(source_obj_ptr + 0u);
             source_addr = ENEMY_ABILITY_TABLE_BASE_ADDR + ((uint32_t)source_type * ENEMY_ABILITY_TABLE_STRIDE);
         }
