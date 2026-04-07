@@ -1,0 +1,49 @@
+from __future__ import annotations
+
+from random import Random
+from types import SimpleNamespace
+from unittest.mock import AsyncMock, patch
+
+import pytest
+
+from .. import KirbyAmWorld
+from ..client import KirbyAmClient
+from ..colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, load_kirby_colors
+from ..data import data
+def test_world_helper_resolves_starting_kirby_color_random_choice() -> None:
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+    world.random = Random(0)
+    world.options = SimpleNamespace(
+        starting_kirby_color=SimpleNamespace(
+            current_key="random_color",
+            value=STARTING_KIRBY_COLOR_RANDOM_OPTION,
+        ),
+    )
+    resolved_color_id, resolved_color_name = KirbyAmWorld._get_resolved_starting_kirby_color(world)
+
+    supported = {color.color_id: color.display_name for color in load_kirby_colors()}
+    assert resolved_color_id in supported
+    assert resolved_color_name == supported[resolved_color_id]
+
+
+@pytest.mark.asyncio
+async def test_client_syncs_starting_kirby_color_runtime_config_once(mock_bizhawk_context) -> None:
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data = {
+        "debug": {"logging": False},
+        "starting_kirby_color": 7,
+        "starting_kirby_color_name": "Sapphire",
+    }
+
+    with patch.dict(data.transport_ram_addresses, {"starting_kirby_color_id": 0x0203B050}, clear=False), patch(
+        "worlds.kirbyam.client.bizhawk.write",
+        new_callable=AsyncMock,
+    ) as mock_write:
+        client._load_debug_settings(mock_bizhawk_context)
+        await client._sync_starting_kirby_color_runtime_config(mock_bizhawk_context)
+        await client._sync_starting_kirby_color_runtime_config(mock_bizhawk_context)
+
+    assert mock_write.await_count == 1
+    write_payload = mock_write.await_args_list[0].args[1]
+    assert write_payload == [(0x0203B050, (7).to_bytes(4, "little"), "System Bus")]

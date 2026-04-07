@@ -48,8 +48,11 @@
 #define AP_VITALITY_CHEST_FLAGS (*(volatile uint32_t*)(AP_BASE + 0x2Cu))
 #define AP_SOUND_PLAYER_CHEST_FLAGS (*(volatile uint32_t*)(AP_BASE + 0x30u))
 #define AP_HUB_SWITCH_FLAGS (*(volatile uint32_t*)(AP_BASE + 0x4Cu))
+#define AP_STARTING_KIRBY_COLOR_ID (*(volatile uint32_t*)(AP_BASE + 0x50u))
 #define KIRBY_SHARD_FLAGS_ADDR  0x02038970u
 #define KIRBY_SHARD_FLAGS       (*(volatile uint8_t*)(KIRBY_SHARD_FLAGS_ADDR))
+#define KIRBY_ACTIVE_COLOR_ADDR 0x0203ADE0u
+#define KIRBY_ACTIVE_COLOR      (*(volatile uint8_t*)(KIRBY_ACTIVE_COLOR_ADDR))
 #define AI_KIRBY_STATE_ADDR     0x0203AD2Cu
 #define AI_KIRBY_STATE          (*(volatile uint32_t*)(AI_KIRBY_STATE_ADDR))
 #define DEMO_PLAYBACK_FLAGS_ADDR 0x0203AD10u
@@ -264,6 +267,20 @@ static void ap_sync_active_kirby_health_from_vitality(void) {
     *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_MAX_HP_OFFSET) = vitality_total;
 }
 
+static void ap_apply_starting_kirby_color_config(void) {
+    uint32_t desired_color = AP_STARTING_KIRBY_COLOR_ID & 0xFFu;
+
+    // Supported native color IDs: 0..13. Value 0 (Pink) is intentionally a no-op.
+    if (desired_color > 13u || desired_color == 0u) {
+        return;
+    }
+
+    uint8_t current_color = KIRBY_ACTIVE_COLOR;
+    if ((uint32_t)current_color != desired_color) {
+        KIRBY_ACTIVE_COLOR = (uint8_t)desired_color;
+    }
+}
+
 static uint32_t ap_get_active_kirby_addr(void) {
     return KIRBY_STRUCTS_ADDR + ((uint32_t)KIRBY_CURRENT_PLAYER * KIRBY_STRUCT_STRIDE);
 }
@@ -447,6 +464,7 @@ void ap_poll_mailbox_c(void) {
         AP_BOSS_TEMP_SHARD_BITFIELD = 0u;
         AP_DELIVERED_VITALITY_ITEM_BITS = 0u;
         AP_HUB_SWITCH_FLAGS = 0u;
+        AP_STARTING_KIRBY_COLOR_ID = 0u;
         AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     }
 
@@ -493,6 +511,8 @@ void ap_poll_mailbox_c(void) {
             AP_SHARD_SCRUB_DELAY = 0u;
         }
     }
+
+    ap_apply_starting_kirby_color_config();
 
     // Check if there's an item to process
     uint32_t flag = AP_IN_FLAG;
