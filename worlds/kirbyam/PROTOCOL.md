@@ -32,11 +32,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
   
     0x02000000 - 0x02040000   EWRAM Region (256 KB)
         ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0203B000 - 0x0203B04F   AP Mailbox (reserved, 80 bytes)
+        ├─ 0x0203B000 - 0x0203B087   AP Mailbox (reserved, 136 bytes)
         └─ Remaining EWRAM (excluding AP mailbox block)
 ```
 
-### AP Mailbox Block (0x0203B000 - 0x0203B04F)
+### AP Mailbox Block (0x0203B000 - 0x0203B087)
 
 **Transport Layer: Client ↔ ROM Communication**
 
@@ -63,8 +63,18 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x44   | 0x0203B044 | 4B | boss_temp_shard_bitfield | u32 | ROM internal | Bits 0-7 track shard bits temporarily written by boss-defeat hook for cutscene safety. On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, then clears this mask. |
 | 0x48   | 0x0203B048 | 4B | delivered_vitality_item_bits | u32 | ROM internal | Replay guard for vitality counter items. Bit N marks that `VITALITY_COUNTER_(N+1)` has already been applied, preventing duplicate vitality grants if an item is resent during reconnect/reset recovery. |
 | 0x4C   | 0x0203B04C | 4B | hub_switch_flags | u32 | ROM → Client | Bits 0–14 set when world-map big-switch door unlock callbacks fire (`WorldMapDoor` order: Moonlight, RR East, RR South, Cabbage Center, RR West, Carrot, RR North, Mustard, Cabbage West, Radish, Peppermint East, Peppermint West, Cabbage East, Olive, Candy). |
+| 0x50–0x63 | 0x0203B050–0x0203B063 | 20B | *(reserved)* | — | — | Reserved; not currently used. |
+| 0x64   | 0x0203B064 | 4B | ability_randomization_mode_runtime | u32 | ROM ← Client | Enemy copy-ability randomization mode (`0`=off, `1`=shuffled, `2`=completely_random). Written once per connection by the Python client from `slot_data`. |
+| 0x68   | 0x0203B068 | 4B | ability_randomization_seed_lo_runtime | u32 | ROM ← Client | Low 32 bits of the 64-bit seed used for per-swallow completely-random rerolls. |
+| 0x6C   | 0x0203B06C | 4B | ability_randomization_seed_hi_runtime | u32 | ROM ← Client | High 32 bits of the 64-bit seed used for per-swallow completely-random rerolls. |
+| 0x70   | 0x0203B070 | 4B | ability_randomization_no_ability_weight_runtime | u32 | ROM ← Client | 0–100 weight for no-ability outcomes in completely-random reroll mode. |
+| 0x74   | 0x0203B074 | 4B | ability_randomization_allowed_mask_runtime | u32 | ROM ← Client | Bitmask of allowed ability IDs (bit N = ability ID N, bits 1–31). |
+| 0x78   | 0x0203B078 | 4B | ability_randomization_rng_state_runtime | u32 | ROM internal | Running xorshift RNG state for per-swallow completely-random rerolls. Reset to 0 by the client when config changes to force a deterministic reseed. |
+| 0x7C   | 0x0203B07C | 4B | ability_reroll_event_counter_runtime | u32 | ROM → Client | Incremented by the payload each time a per-swallow reroll fires. Client polls for rising-edge events to emit telemetry log lines. |
+| 0x80   | 0x0203B080 | 4B | ability_reroll_source_addr_runtime | u32 | ROM → Client | ROM address of the ability-source byte that was rerolled (last event). Used by the client to map source to enemy name in telemetry. |
+| 0x84   | 0x0203B084 | 4B | ability_reroll_ability_id_runtime | u32 | ROM → Client | Ability ID selected by the last per-swallow reroll event. |
 
-**Total: 80 bytes (0x0203B000 - 0x0203B04F)**
+**Total: 136 bytes (0x0203B000 - 0x0203B087)**
 
 ### Native Game State (Referenced but not Managed by AP)
 

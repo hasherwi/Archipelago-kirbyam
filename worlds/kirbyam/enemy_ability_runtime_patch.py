@@ -129,9 +129,19 @@ def build_enemy_copy_runtime_patch_writes(policy: dict[str, Any]) -> dict[int, i
 
     Returns a dict of ROM file offsets -> byte value (ability id).
 
-    Note: `option_completely_random` is implemented as deterministic
-    per-ability-source variation (each patched source entry can map differently),
-    not per-live-grant re-roll at runtime.
+    This function handles the static ROM-patch path: each included enemy ability
+    source address is overwritten with a deterministic ability ID at patch time.
+
+    For ``option_shuffled`` mode, each enemy type maps to a fixed ability chosen
+    deterministically from the allowed pool.
+
+    For ``option_completely_random`` mode, each patched source entry maps
+    independently to a deterministic ability (per source, not per live grant).
+    At runtime, the payload's per-swallow reroll hook overrides these static
+    values with a fresh random roll on every swallow event using the runtime
+    config written by the client (``ability_randomization_*_runtime`` mailbox
+    fields); the static writes here serve as a safe fallback when the runtime
+    hook has not yet fired.
     """
     mode = int(policy.get("mode", AbilityRandomizationMode.option_off))
     if mode == AbilityRandomizationMode.option_off:
