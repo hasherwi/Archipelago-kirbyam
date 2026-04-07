@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Updated `Ability Randomization: Minny` (`ability_randomization_minny`) so that it's off by default (Issue #583).
+
 ## v0.1.2
 
 - Add `Ability Randomization: Minny` (`ability_randomization_minny`) so Minny can be excluded from enemy copy-ability randomization and kept at vanilla behavior while other enemy ability sources remain randomized (Issue #572).
