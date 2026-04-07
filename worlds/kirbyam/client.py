@@ -942,6 +942,7 @@ class KirbyAmClient(BizHawkClient):
         if event_counter == self._last_ability_reroll_event_counter:
             return
 
+        delta = (event_counter - self._last_ability_reroll_event_counter) & 0xFFFFFFFF
         source_addr = self._u32_le(source_raw)
         ability_id = self._u32_le(ability_raw) & 0x1F
         enemy_name = _ABILITY_SOURCE_ADDR_TO_KEY.get(source_addr, f"UNKNOWN_0x{source_addr:06X}")
@@ -949,6 +950,12 @@ class KirbyAmClient(BizHawkClient):
 
         from CommonClient import logger
 
+        if delta > 1:
+            logger.info(
+                "KirbyAM: %d reroll event(s) occurred between polls; only the most recent is available.",
+                delta - 1,
+                extra={"NoStream": not self._debug_logging_enabled},
+            )
         logger.info(
             "Kirby swallowed a %s. Ability was rerolled to %s.",
             enemy_name,

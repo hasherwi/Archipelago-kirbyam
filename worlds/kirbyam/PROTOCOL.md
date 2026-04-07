@@ -70,9 +70,9 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x70   | 0x0203B070 | 4B | ability_randomization_no_ability_weight_runtime | u32 | ROM ← Client | 0–100 weight for no-ability outcomes in completely-random reroll mode. |
 | 0x74   | 0x0203B074 | 4B | ability_randomization_allowed_mask_runtime | u32 | ROM ← Client | Bitmask of allowed ability IDs (bit N = ability ID N, bits 1–31). |
 | 0x78   | 0x0203B078 | 4B | ability_randomization_rng_state_runtime | u32 | ROM internal | Running xorshift RNG state for per-swallow completely-random rerolls. Reset to 0 by the client when config changes to force a deterministic reseed. |
-| 0x7C   | 0x0203B07C | 4B | ability_reroll_event_counter_runtime | u32 | ROM → Client | Incremented by the payload each time a per-swallow reroll fires. Client polls for rising-edge events to emit telemetry log lines. |
-| 0x80   | 0x0203B080 | 4B | ability_reroll_source_addr_runtime | u32 | ROM → Client | ROM address of the ability-source byte that was rerolled (last event). Used by the client to map source to enemy name in telemetry. |
-| 0x84   | 0x0203B084 | 4B | ability_reroll_ability_id_runtime | u32 | ROM → Client | Ability ID selected by the last per-swallow reroll event. |
+| 0x7C   | 0x0203B07C | 4B | ability_reroll_event_counter_runtime | u32 | ROM → Client | Incremented by the payload each time a per-swallow reroll fires. Client polls for rises in this counter to detect that one or more rerolls occurred since the previous poll. |
+| 0x80   | 0x0203B080 | 4B | ability_reroll_source_addr_runtime | u32 | ROM → Client | ROM address of the ability-source byte for the **most recent** per-swallow reroll event only. This is a single-slot mailbox field; if multiple rerolls happen between client polls, earlier source addresses are overwritten and cannot be reconstructed. Used by the client to map the most recent source to an enemy name in telemetry (best-effort). |
+| 0x84   | 0x0203B084 | 4B | ability_reroll_ability_id_runtime | u32 | ROM → Client | Ability ID selected by the **most recent** per-swallow reroll event only. Pairs with `ability_reroll_source_addr_runtime` as a best-effort snapshot; if multiple rerolls happen between polls, intermediate ability IDs are overwritten. The client logs how many events were missed when `ability_reroll_event_counter_runtime` advances by more than 1. |
 
 **Total: 136 bytes (0x0203B000 - 0x0203B087)**
 
