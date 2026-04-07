@@ -15,12 +15,12 @@ endif
 
 
 CFLAGS  := -mthumb -mcpu=arm7tdmi -Os -ffreestanding -fno-builtin -fno-jump-tables -fno-tree-switch-conversion -nostdlib -Wall -Wextra
-LDFLAGS := -T linker.ld -nostdlib -lgcc
+LDFLAGS := -T linker.ld -nostdlib
 
 all: payload.bin
 
 payload.elf: ap_payload.o ap_hook.o
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ -lgcc
 
 ap_payload.o: ap_payload.c
 	$(CC) $(CFLAGS) -c -o $@ $<
