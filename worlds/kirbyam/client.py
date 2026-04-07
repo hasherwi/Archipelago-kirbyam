@@ -9,6 +9,7 @@ import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
 from .data import LocationCategory, data, load_json_data
+from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
 from .options import Goal, OneHitMode
@@ -56,6 +57,15 @@ _LOCATION_ID_TO_LABEL: dict[int, str] = {
     loc.location_id: loc.label
     for loc in data.locations.values()
     if loc.location_id is not None
+}
+_ABILITY_ID_TO_NAME: dict[int, str] = {
+    ability_id: ability_name
+    for ability_name, ability_id in ABILITY_NAME_TO_ID.items()
+}
+_ABILITY_SOURCE_ADDR_TO_KEY: dict[int, str] = {
+    address: source.key
+    for source in ABILITY_SOURCES
+    for address in source.addresses
 }
 
 
@@ -203,6 +213,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_logged_demo_flags: int | None = None
         self._boss_shard_debug_window_active: bool = False
         self._last_ability_runtime_config_signature: tuple[int, int, int, int] | None = None
+        self._last_ability_reroll_event_counter: int | None = None
 
     @staticmethod
     def _server_session_ready(ctx: "BizHawkClientContext") -> bool:
@@ -245,6 +256,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_logged_ai_state = None
         self._last_logged_demo_flags = None
         self._boss_shard_debug_window_active = False
+        self._last_ability_reroll_event_counter = None
 
     def _no_extra_lives_enabled(self, ctx: "BizHawkClientContext") -> bool:
         slot_data = getattr(ctx, "slot_data", None)
@@ -801,6 +813,9 @@ class KirbyAmClient(BizHawkClient):
             # Research-first observational probes for in-game unsafe delivery windows.
             await self._probe_unsafe_delivery_candidates(ctx)
 
+            # Completely-random reroll telemetry logging from runtime swallow hook.
+            await self._poll_enemy_ability_reroll_events(ctx)
+
             # Item delivery (mailbox protocol)
             await self._deliver_items(ctx)
 
@@ -899,6 +914,47 @@ class KirbyAmClient(BizHawkClient):
             (rng_state_addr, (0).to_bytes(4, "little"), "System Bus"),
         ])
         self._last_ability_runtime_config_signature = signature
+
+    async def _poll_enemy_ability_reroll_events(self, ctx: "BizHawkClientContext") -> None:
+        """Log per-swallow completely-random reroll events from runtime telemetry."""
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            return
+        if int(slot_data.get("ability_randomization_mode", 0)) != 2:
+            return
+
+        counter_addr = self._transport_addr("ability_reroll_event_counter_runtime")
+        source_addr_addr = self._transport_addr("ability_reroll_source_addr_runtime")
+        ability_id_addr = self._transport_addr("ability_reroll_ability_id_runtime")
+        if None in (counter_addr, source_addr_addr, ability_id_addr):
+            return
+
+        counter_raw, source_raw, ability_raw = await bizhawk.read(ctx.bizhawk_ctx, [
+            (counter_addr, 4, "System Bus"),
+            (source_addr_addr, 4, "System Bus"),
+            (ability_id_addr, 4, "System Bus"),
+        ])
+        event_counter = self._u32_le(counter_raw)
+        if self._last_ability_reroll_event_counter is None:
+            self._last_ability_reroll_event_counter = event_counter
+            return
+        if event_counter == self._last_ability_reroll_event_counter:
+            return
+
+        source_addr = self._u32_le(source_raw)
+        ability_id = self._u32_le(ability_raw) & 0x1F
+        enemy_name = _ABILITY_SOURCE_ADDR_TO_KEY.get(source_addr, f"UNKNOWN_0x{source_addr:06X}")
+        ability_name = _ABILITY_ID_TO_NAME.get(ability_id, f"Ability_{ability_id}")
+
+        from CommonClient import logger
+
+        logger.info(
+            "Kirby swallowed a %s. Ability was rerolled to %s.",
+            enemy_name,
+            ability_name,
+            extra={"NoStream": not self._debug_logging_enabled},
+        )
+        self._last_ability_reroll_event_counter = event_counter
 
     async def _enforce_no_extra_lives(self, ctx: "BizHawkClientContext") -> None:
         if not self._no_extra_lives_enabled(ctx):

@@ -26,7 +26,10 @@
       "ability_randomization_seed_hi_runtime": "0x0203B06C",
       "ability_randomization_no_ability_weight_runtime": "0x0203B070",
       "ability_randomization_allowed_mask_runtime": "0x0203B074",
-      "ability_randomization_rng_state_runtime": "0x0203B078"
+      "ability_randomization_rng_state_runtime": "0x0203B078",
+      "ability_reroll_event_counter_runtime": "0x0203B07C",
+      "ability_reroll_source_addr_runtime": "0x0203B080",
+      "ability_reroll_ability_id_runtime": "0x0203B084"
     },
     "native": {
       "shard_bitfield_native": "0x02038970",

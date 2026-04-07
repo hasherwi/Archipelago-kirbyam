@@ -46,6 +46,9 @@
 #define AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT (*(volatile uint32_t*)(AP_BASE + 0x70u))
 #define AP_ABILITY_RANDOMIZATION_ALLOWED_MASK (*(volatile uint32_t*)(AP_BASE + 0x74u))
 #define AP_ABILITY_RANDOMIZATION_RNG_STATE (*(volatile uint32_t*)(AP_BASE + 0x78u))
+#define AP_ABILITY_REROLL_EVENT_COUNTER (*(volatile uint32_t*)(AP_BASE + 0x7Cu))
+#define AP_ABILITY_REROLL_SOURCE_ADDR (*(volatile uint32_t*)(AP_BASE + 0x80u))
+#define AP_ABILITY_REROLL_ABILITY_ID (*(volatile uint32_t*)(AP_BASE + 0x84u))
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
 // Bit N set <=> boss of area N was defeated (same bit ordering as shard_bitfield, bits 0-7 used).
@@ -243,6 +246,8 @@ typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM 2u
 #define KIRBY_ABILITY_MASK 0x1Fu
 #define KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR 0x20u
+#define ENEMY_ABILITY_TABLE_BASE_ADDR 0x35164Eu
+#define ENEMY_ABILITY_TABLE_STRIDE 0x18u
 
 static uint32_t ap_mix_u32(uint32_t x) {
     x ^= x >> 16;
@@ -299,10 +304,12 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
 
     if (mode == ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM
         && (ability_flags & KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR) == 0u) {
+        register uint32_t source_obj_ptr asm("r5");
         uint32_t no_ability_weight = AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT;
         uint32_t allowed_mask = AP_ABILITY_RANDOMIZATION_ALLOWED_MASK;
         uint32_t random_roll = ap_next_rng_u32();
         uint8_t selected_ability;
+        uint32_t source_addr = 0u;
 
         if (no_ability_weight >= 100u) {
             selected_ability = 0u;
@@ -313,6 +320,15 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
         }
 
         rewritten_flags = (ability_flags & ~KIRBY_ABILITY_MASK) | (uint32_t)(selected_ability & KIRBY_ABILITY_MASK);
+
+        if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x03000000u) {
+            uint16_t source_type = *(volatile uint16_t*)(source_obj_ptr + 0u);
+            source_addr = ENEMY_ABILITY_TABLE_BASE_ADDR + ((uint32_t)source_type * ENEMY_ABILITY_TABLE_STRIDE);
+        }
+
+        AP_ABILITY_REROLL_SOURCE_ADDR = source_addr;
+        AP_ABILITY_REROLL_ABILITY_ID = (uint32_t)(selected_ability & KIRBY_ABILITY_MASK);
+        AP_ABILITY_REROLL_EVENT_COUNTER++;
     }
 
     KIRBY_REQUEST_ABILITY_TRANSITION_FN(kirby, rewritten_flags);
@@ -536,6 +552,9 @@ void ap_poll_mailbox_c(void) {
         AP_DELIVERED_VITALITY_ITEM_BITS = 0u;
         AP_HUB_SWITCH_FLAGS = 0u;
         AP_ABILITY_RANDOMIZATION_RNG_STATE = 0u;
+        AP_ABILITY_REROLL_EVENT_COUNTER = 0u;
+        AP_ABILITY_REROLL_SOURCE_ADDR = 0u;
+        AP_ABILITY_REROLL_ABILITY_ID = 0u;
         AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     }
 

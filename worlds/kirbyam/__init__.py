@@ -250,6 +250,20 @@ class KirbyAmWorld(World):
                     randomize_non_ability,
                     no_ability_weight,
                 )
+                spoiler_rows = build_enemy_copy_spoiler_rows(self._enemy_copy_ability_policy)
+                if spoiler_rows:
+                    logger.info(
+                        "[P%s] Enemy copy-ability shuffled assignments (kind | source -> ability):",
+                        self.player,
+                    )
+                    for source_kind, source_key, ability_name in spoiler_rows:
+                        logger.info(
+                            "[P%s]   %s | %s -> %s",
+                            self.player,
+                            source_kind,
+                            source_key,
+                            ability_name,
+                        )
             else:
                 logger.info(
                     "[P%s] Enemy copy-ability randomization: completely_random "

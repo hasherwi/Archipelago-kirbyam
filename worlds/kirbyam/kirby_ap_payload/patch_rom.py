@@ -778,10 +778,6 @@ def main():
             raise SystemExit(
                 "Error: hub switch hook target address out of expected payload range.\n"
                 f"Resolved address: 0x{hub_switch_hook_target:08X}, expected within "
-        if not (payload_rom_start <= ability_transition_hook_target < payload_rom_end):
-            raise SystemExit(
-                "Error: ability transition hook target address out of expected payload range.\n"
-                f"Resolved address: 0x{ability_transition_hook_target:08X}, expected within "
                 f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
                 "Check your payload.elf link address and PAYLOAD_OFFSET."
             )
