@@ -457,7 +457,15 @@ class KirbyAmClient(BizHawkClient):
         if color_transport_addr is None:
             return
 
-        if self._starting_kirby_color_synced_id == color_id:
+        # Read back the current mailbox value so soft resets are handled correctly.
+        # A GBA soft reset clears EWRAM and reinstates the sentinel 0xFFFFFFFF even
+        # while BizHawk stays connected, so _starting_kirby_color_synced_id alone
+        # would not trigger a re-sync after a reset.
+        current_raw = (
+            await bizhawk.read(ctx.bizhawk_ctx, [(color_transport_addr, 4, "System Bus")])
+        )[0]
+        if int.from_bytes(current_raw, "little") == color_id:
+            self._starting_kirby_color_synced_id = color_id
             return
 
         await bizhawk.write(

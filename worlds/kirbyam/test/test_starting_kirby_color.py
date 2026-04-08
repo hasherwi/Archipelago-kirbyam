@@ -45,6 +45,15 @@ async def test_client_syncs_starting_kirby_color_runtime_config_once(mock_bizhaw
             clear=False,
         ),
         patch(
+            "worlds.kirbyam.client.bizhawk.read",
+            new_callable=AsyncMock,
+            # First call: mailbox holds sentinel (unsynced); second call: holds the synced value.
+            side_effect=[
+                [(0xFFFFFFFF).to_bytes(4, "little")],
+                [(7).to_bytes(4, "little")],
+            ],
+        ) as mock_read,
+        patch(
             "worlds.kirbyam.client.bizhawk.write",
             new_callable=AsyncMock,
         ) as mock_write,
@@ -53,6 +62,7 @@ async def test_client_syncs_starting_kirby_color_runtime_config_once(mock_bizhaw
         await client._sync_starting_kirby_color_runtime_config(mock_bizhawk_context)
         await client._sync_starting_kirby_color_runtime_config(mock_bizhawk_context)
 
+    assert mock_read.await_count == 2
     assert mock_write.await_count == 1
     write_payload = mock_write.await_args_list[0].args[1]
     assert write_payload == [(0x0203B050, (7).to_bytes(4, "little"), "System Bus")]
