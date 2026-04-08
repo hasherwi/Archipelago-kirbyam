@@ -3269,6 +3269,67 @@ async def test_shard_poll_does_not_trigger_boss_defeat_locations(mock_bizhawk_co
         mock_send.assert_not_awaited()
 
 
+@pytest.mark.asyncio
+async def test_poll_enemy_ability_reroll_events_treats_counter_rollback_as_reset(mock_bizhawk_context):
+    """Counter rollback after mailbox reset must not produce a false missed-events log."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+    mock_bizhawk_context.slot_data = {"ability_randomization_mode": 2}
+
+    counter_addr = data.transport_ram_addresses["ability_reroll_event_counter_runtime"]
+    source_addr_addr = data.transport_ram_addresses["ability_reroll_source_addr_runtime"]
+    ability_id_addr = data.transport_ram_addresses["ability_reroll_ability_id_runtime"]
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(5).to_bytes(4, 'little')],
+            [(0).to_bytes(4, 'little')],
+            [(1).to_bytes(4, 'little')],
+            [(0x00123456).to_bytes(4, 'little'), (3).to_bytes(4, 'little')],
+        ]
+
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+
+    assert client._last_ability_reroll_event_counter == 1
+    assert len(mock_read.await_args_list) == 4
+    assert mock_read.await_args_list[0].args == (
+        mock_bizhawk_context.bizhawk_ctx,
+        [(counter_addr, 4, "System Bus")],
+    )
+    assert mock_read.await_args_list[1].args == (
+        mock_bizhawk_context.bizhawk_ctx,
+        [(counter_addr, 4, "System Bus")],
+    )
+    assert mock_read.await_args_list[2].args == (
+        mock_bizhawk_context.bizhawk_ctx,
+        [(counter_addr, 4, "System Bus")],
+    )
+    assert mock_read.await_args_list[3].args == (
+        mock_bizhawk_context.bizhawk_ctx,
+        [
+            (source_addr_addr, 4, "System Bus"),
+            (ability_id_addr, 4, "System Bus"),
+        ],
+    )
+
+    unexpected_missed_event_logs = [
+        call
+        for call in mock_logger.info.call_args_list
+        if call.args and isinstance(call.args[0], str) and "occurred between polls" in call.args[0]
+    ]
+    assert unexpected_missed_event_logs == []
+    mock_logger.info.assert_any_call(
+        "Kirby swallowed a %s. Ability was rerolled to %s.",
+        "UNKNOWN_0x123456",
+        "Burning",
+        extra={"NoStream": False},
+    )
+
+
 def test_vitality_chest_locations_defined_in_regions():
     """Regression test: all VITALITY_CHEST locations must be registered in their regions.
 

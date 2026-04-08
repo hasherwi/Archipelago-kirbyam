@@ -939,6 +939,9 @@ class KirbyAmClient(BizHawkClient):
             return
         if event_counter == self._last_ability_reroll_event_counter:
             return
+        if event_counter < self._last_ability_reroll_event_counter:
+            self._last_ability_reroll_event_counter = event_counter
+            return
 
         source_raw, ability_raw = await bizhawk.read(ctx.bizhawk_ctx, [
             (source_addr_addr, 4, "System Bus"),
