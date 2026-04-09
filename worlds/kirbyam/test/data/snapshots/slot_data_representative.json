@@ -76,5 +76,2855 @@
   "goal": 0,
   "no_extra_lives": false,
   "room_sanity": false,
+<<<<<<< Updated upstream
   "shards": 2
+=======
+  "rooms": {
+    "REGION_CABBAGE_CAVERN/ROOM_3_16": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_01",
+        "REGION_OLIVE_OCEAN/ROOM_6_BOSS",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_16",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961075
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_11": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_07",
+        "REGION_CABBAGE_CAVERN/ROOM_3_15"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_11",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961076
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_10": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_12",
+        "REGION_CABBAGE_CAVERN/ROOM_3_04",
+        "REGION_CABBAGE_CAVERN/ROOM_3_13"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_10",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961077
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_09": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_BOSS"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_09",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961078
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_BOSS": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_09",
+        "REGION_CABBAGE_CAVERN/ROOM_3_12",
+        "REGION_CABBAGE_CAVERN/ROOM_3_04",
+        "REGION_RAINBOW_ROUTE/ROOM_1_01"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_BOSS",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961079
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_12": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_10",
+        "REGION_CABBAGE_CAVERN/ROOM_3_BOSS"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_12",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961080
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_08": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_05",
+        "REGION_CABBAGE_CAVERN/ROOM_3_GOAL",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_08",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961081
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_05": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_08",
+        "REGION_CABBAGE_CAVERN/ROOM_3_02",
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_05",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961082
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_04": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_10",
+        "REGION_CABBAGE_CAVERN/ROOM_3_BOSS",
+        "REGION_CABBAGE_CAVERN/ROOM_3_07"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_04",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961083
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_13": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_10",
+        "REGION_CABBAGE_CAVERN/ROOM_3_06"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_13",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961084
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_07": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_11",
+        "REGION_CABBAGE_CAVERN/ROOM_3_04",
+        "REGION_CABBAGE_CAVERN/ROOM_3_06",
+        "REGION_CABBAGE_CAVERN/ROOM_3_14"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_07",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961085
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_15": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_11"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_15",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961086
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_06": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_13",
+        "REGION_CABBAGE_CAVERN/ROOM_3_07",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_06",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961087
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_01": { 
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_16",
+        "REGION_CABBAGE_CAVERN/ROOM_3_02",
+        "REGION_CABBAGE_CAVERN/ROOM_3_GOAL"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_01",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961088
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_14": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_07"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_14",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961089
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_03": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_09",
+        "REGION_CABBAGE_CAVERN/ROOM_3_04",
+        "REGION_CABBAGE_CAVERN/ROOM_3_14",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_03",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961090
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_02": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_05"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_02",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961091
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_GOAL": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_08",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_GOAL",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961092
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_08",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1",
+        "REGION_DIMENSION_MIRROR/ROOM_10_19"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961093
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_06",
+        "REGION_CABBAGE_CAVERN/ROOM_3_GOAL",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2",
+        "REGION_RAINBOW_ROUTE/ROOM_1_10"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961094
+    },
+    "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_2",
+        "REGION_RADISH_RUINS/ROOM_8_BOSS",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+      ],
+      "label": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
+      "parent_region": "REGION_CABBAGE_CAVERN",
+      "room_sanity_location_id": 3961095
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_20": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_19",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_BOSS"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_20",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961230
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_06": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_07",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_05",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_08"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_06",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961231
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_12": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_10",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_12",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961232
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_01",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_09"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961233
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_01": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_07",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_02"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_01",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961234
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_09": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_08",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_11",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_09",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961235
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_06",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961236
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_07": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_06",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_01",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_07",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961237
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_05": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_06",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_04"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_05",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961238
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_04": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_05",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_02"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_04",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961239
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_08": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_06",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_09",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_10",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_08",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961240
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_1": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_11",
+        "REGION_DIMENSION_MIRROR/ROOM_10_20"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_1",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961241
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_11": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_09",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_1"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_11",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961242
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_14": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_15",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_WARP"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_14",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961243
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_19": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_20",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_18"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_19",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961244
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_BOSS": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_20"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_BOSS",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961245
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_10": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_12",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_08",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_11"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_10",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961246
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_13": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_12",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_WARP"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_13",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961247
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_WARP",
+        "REGION_DIMENSION_MIRROR/ROOM_10_20"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961248
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_18": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_19",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_17"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_18",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961249
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_15": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_14",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_17",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_16"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_15",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961250
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_17": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_18",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_15"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_17",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961251
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_16": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_15"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_16",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961252
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_03": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_02"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_03",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961253
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_08",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961254
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_02": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_01",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_04",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_03"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_02",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961255
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_HUB": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_09",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_07",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_08",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_HUB",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": 3961256
+    },
+    "REGION_CANDY_CONSTELLATION/ROOM_9_WARP": {
+      "exits": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_14",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2"
+      ],
+      "label": "REGION_CANDY_CONSTELLATION/ROOM_9_WARP",
+      "parent_region": "REGION_CANDY_CONSTELLATION",
+      "room_sanity_location_id": null
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_06": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_04",
+        "REGION_CARROT_CASTLE/ROOM_5_02",
+        "REGION_RAINBOW_ROUTE/ROOM_1_40"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_06",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961120
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_04": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_02",
+        "REGION_CARROT_CASTLE/ROOM_5_HUB"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_04",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961121
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_02": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_06",
+        "REGION_CARROT_CASTLE/ROOM_5_04",
+        "REGION_CARROT_CASTLE/ROOM_5_05",
+        "REGION_RAINBOW_ROUTE/ROOM_1_41"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_02",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961122
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_03": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_01",
+        "REGION_CARROT_CASTLE/ROOM_5_05",
+        "REGION_CARROT_CASTLE/ROOM_5_07"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_03",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961123
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_01": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_03",
+        "REGION_RADISH_RUINS/ROOM_8_17"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_01",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961124
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_05": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_02",
+        "REGION_CARROT_CASTLE/ROOM_5_03",
+        "REGION_CARROT_CASTLE/ROOM_5_HUB",
+        "REGION_RAINBOW_ROUTE/ROOM_1_09"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_05",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961125
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_HUB": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_04",
+        "REGION_CARROT_CASTLE/ROOM_5_05",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_01",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_17"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_HUB",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961126
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_12": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_13",
+        "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
+        "REGION_CARROT_CASTLE/ROOM_5_14"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_12",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961127
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_08": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_08",
+        "REGION_CARROT_CASTLE/ROOM_5_10",
+        "REGION_CARROT_CASTLE/ROOM_5_11"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_08",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961128
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_18": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_16",
+        "REGION_CARROT_CASTLE/ROOM_5_13",
+        "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
+        "REGION_CARROT_CASTLE/ROOM_5_WARP"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_18",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961129
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_17": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_18",
+        "REGION_CARROT_CASTLE/ROOM_5_09",
+        "REGION_CARROT_CASTLE/ROOM_5_BOSS"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_17",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961130
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_07": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_03",
+        "REGION_CARROT_CASTLE/ROOM_5_08",
+        "REGION_CARROT_CASTLE/ROOM_5_07",
+        "REGION_CARROT_CASTLE/ROOM_5_CHEST_2",
+        "REGION_CARROT_CASTLE/ROOM_5_10"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_07",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961131
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_CHEST_2": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_16",
+        "REGION_CARROT_CASTLE/ROOM_5_10"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_CHEST_2",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961132
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_16": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_18",
+        "REGION_CARROT_CASTLE/ROOM_5_17",
+        "REGION_CARROT_CASTLE/ROOM_5_CHEST_2",
+        "REGION_CARROT_CASTLE/ROOM_5_16",
+        "REGION_CARROT_CASTLE/ROOM_5_09",
+        "REGION_CARROT_CASTLE/ROOM_5_BOSS"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_16",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961133
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_13": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_12",
+        "REGION_CARROT_CASTLE/ROOM_5_18",
+        "REGION_CARROT_CASTLE/ROOM_5_WARP"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_13",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961134
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_09": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_17",
+        "REGION_CARROT_CASTLE/ROOM_5_09",
+        "REGION_CARROT_CASTLE/ROOM_5_10",
+        "REGION_CARROT_CASTLE/ROOM_5_11"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_09",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961135
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_10": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_08",
+        "REGION_CARROT_CASTLE/ROOM_5_07",
+        "REGION_CARROT_CASTLE/ROOM_5_CHEST_2",
+        "REGION_CARROT_CASTLE/ROOM_5_09"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_10",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961136
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_11": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_08",
+        "REGION_CARROT_CASTLE/ROOM_5_09",
+        "REGION_CARROT_CASTLE/ROOM_5_BOSS"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_11",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961137
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_BOSS": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_17",
+        "REGION_CARROT_CASTLE/ROOM_5_16",
+        "REGION_CARROT_CASTLE/ROOM_5_11",
+        "REGION_CARROT_CASTLE/ROOM_5_BOSS",
+        "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
+        "REGION_CARROT_CASTLE/ROOM_5_15"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_BOSS",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961138
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_CHEST_1": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_12",
+        "REGION_CARROT_CASTLE/ROOM_5_18",
+        "REGION_CARROT_CASTLE/ROOM_5_BOSS"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961139
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_14": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_12"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_14",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961140
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_15": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_BOSS"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_15",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": 3961141
+    },
+    "REGION_CARROT_CASTLE/ROOM_5_WARP": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_13"
+      ],
+      "label": "REGION_CARROT_CASTLE/ROOM_5_WARP",
+      "parent_region": "REGION_CARROT_CASTLE",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_01": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_01",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_02": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_02",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_03": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_03",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_04": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_04",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_05": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_05",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_06": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_06",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_07": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_07",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_08": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_08",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_09": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_09",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_10": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_10",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_11": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_11",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_12": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_12",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_13": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_13",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_14": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_14",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_15": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_15",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_16": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_16",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_17": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_17",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_18": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_18",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_19": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_19",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_DIMENSION_MIRROR/ROOM_10_20": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/MAIN"
+      ],
+      "label": "REGION_DIMENSION_MIRROR/ROOM_10_20",
+      "parent_region": "REGION_DIMENSION_MIRROR",
+      "room_sanity_location_id": null
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_12": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_17",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+        "REGION_RAINBOW_ROUTE/ROOM_1_08"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_12",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961050
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_16": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_12",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_17",
+        "REGION_RAINBOW_ROUTE/ROOM_1_07"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961051
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_17": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_12",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_17",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961052
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_18": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_12",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961053
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_19": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/ROOM_10_19",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_17",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_19",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961054
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961055
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_20": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_06",
+        "REGION_OLIVE_OCEAN/ROOM_6_14"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961056
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961057
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_10": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_09",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_13",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_10",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961058
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_08": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961059
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_03": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_13",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_03",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961060
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_04": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961061
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_01": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_03",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961062
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_07": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_14",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_07",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961063
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_03",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961064
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_09": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_10",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_06"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_09",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961065
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_13": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_10",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_03",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_13",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961066
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_02": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_03",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_HUB"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_02",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961067
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_14": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_14",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961068
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_15": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_13",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_HUB"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961069
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_HUB": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_WARP"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_HUB",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961070
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_05": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961071
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_11": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_10",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_06"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961072
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_06": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/ROOM_10_20",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_09",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_06",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961073
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_14",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": 3961074
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_WARP": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_HUB"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_WARP",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_15": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_18"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961096
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_01": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_04",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961097
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_02": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_04"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_02",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961098
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_03": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
+        "REGION_RAINBOW_ROUTE/ROOM_1_25"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_03",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961099
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_06": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961100
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_07": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_12"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961101
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_08": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_09",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961102
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_09"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961103
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_14": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_17"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961104
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_04": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_02",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_04",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961105
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_09": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_09",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961106
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961107
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_18": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_15"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961108
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_19": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_03",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_14"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961109
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_12": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/ROOM_10_19",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_03",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961110
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_10": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
+        "REGION_RAINBOW_ROUTE/ROOM_1_29"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961111
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_17": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
+        "REGION_RAINBOW_ROUTE/ROOM_1_25"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_17",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961112
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_05": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_11",
+        "REGION_RAINBOW_ROUTE/ROOM_1_28"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961113
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_11": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_11",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961114
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_13": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_11"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961115
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_04",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_11",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+        "REGION_RAINBOW_ROUTE/ROOM_1_21"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961116
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_16": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2",
+        "REGION_RAINBOW_ROUTE/ROOM_1_08"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961117
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_04",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961118
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/ROOM_10_19",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": 3961119
+    },
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
+      ],
+      "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN",
+      "room_sanity_location_id": null
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_01": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_16",
+        "REGION_OLIVE_OCEAN/ROOM_6_02"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_01",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961142
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_02": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_01",
+        "REGION_OLIVE_OCEAN/ROOM_6_04",
+        "REGION_OLIVE_OCEAN/ROOM_6_HUB"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_02",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961143
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_04": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_02",
+        "REGION_OLIVE_OCEAN/ROOM_6_04",
+        "REGION_OLIVE_OCEAN/ROOM_6_05"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_04",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961144
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_05": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_04",
+        "REGION_OLIVE_OCEAN/ROOM_6_06",
+        "REGION_OLIVE_OCEAN/ROOM_6_23"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_05",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961145
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_06": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_05",
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1",
+        "REGION_OLIVE_OCEAN/ROOM_6_20"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_06",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961146
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/ROOM_10_19",
+        "REGION_OLIVE_OCEAN/ROOM_6_06",
+        "REGION_OLIVE_OCEAN/ROOM_6_BOSS"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961147
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_15": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_12",
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2",
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_15",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961148
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_16": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_07",
+        "REGION_OLIVE_OCEAN/ROOM_6_22"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_16",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961149
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_10": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_08",
+        "REGION_OLIVE_OCEAN/ROOM_6_11"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_10",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961150
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_12": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_15",
+        "REGION_OLIVE_OCEAN/ROOM_6_03"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_12",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961151
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_12",
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961152
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_09": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_15",
+        "REGION_OLIVE_OCEAN/ROOM_6_19",
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
+        "REGION_OLIVE_OCEAN/ROOM_6_BOSS"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_09",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961153
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_13": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_14",
+        "REGION_OLIVE_OCEAN/ROOM_6_19",
+        "REGION_OLIVE_OCEAN/ROOM_6_21",
+        "REGION_OLIVE_OCEAN/ROOM_6_22"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_13",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961154
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_15",
+        "REGION_OLIVE_OCEAN/ROOM_6_16",
+        "REGION_OLIVE_OCEAN/ROOM_6_03",
+        "REGION_OLIVE_OCEAN/ROOM_6_19"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961155
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_03": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_12",
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2",
+        "REGION_OLIVE_OCEAN/ROOM_6_07"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_03",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961156
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_07": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_16",
+        "REGION_OLIVE_OCEAN/ROOM_6_03",
+        "REGION_OLIVE_OCEAN/ROOM_6_08"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_07",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961157
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_08": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_10",
+        "REGION_OLIVE_OCEAN/ROOM_6_07",
+        "REGION_OLIVE_OCEAN/ROOM_6_22"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_08",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961158
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_11": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_10"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_11",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961159
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_18": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_20",
+        "REGION_OLIVE_OCEAN/ROOM_6_BOSS"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_18",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961160
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_14": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+        "REGION_OLIVE_OCEAN/ROOM_6_13",
+        "REGION_OLIVE_OCEAN/ROOM_6_17"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_14",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961161
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_17": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/ROOM_10_20",
+        "REGION_OLIVE_OCEAN/ROOM_6_14",
+        "REGION_OLIVE_OCEAN/ROOM_6_21"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_17",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961162
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_HUB": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_02",
+        "REGION_OLIVE_OCEAN/ROOM_6_23"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_HUB",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961163
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_23": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_05",
+        "REGION_OLIVE_OCEAN/ROOM_6_HUB",
+        "REGION_OLIVE_OCEAN/ROOM_6_20"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_23",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961164
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_20": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_06",
+        "REGION_OLIVE_OCEAN/ROOM_6_18",
+        "REGION_OLIVE_OCEAN/ROOM_6_23"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_20",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961165
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_19": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_09",
+        "REGION_OLIVE_OCEAN/ROOM_6_13",
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_19",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961166
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_15",
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1",
+        "REGION_OLIVE_OCEAN/ROOM_6_09"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961167
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_21": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_13",
+        "REGION_OLIVE_OCEAN/ROOM_6_17"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_21",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961168
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_22": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_16",
+        "REGION_OLIVE_OCEAN/ROOM_6_13",
+        "REGION_OLIVE_OCEAN/ROOM_6_08"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_22",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961169
+    },
+    "REGION_OLIVE_OCEAN/ROOM_6_BOSS": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_16",
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1",
+        "REGION_OLIVE_OCEAN/ROOM_6_09",
+        "REGION_OLIVE_OCEAN/ROOM_6_18"
+      ],
+      "label": "REGION_OLIVE_OCEAN/ROOM_6_BOSS",
+      "parent_region": "REGION_OLIVE_OCEAN",
+      "room_sanity_location_id": 3961170
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_24": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_16",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_14"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_24",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961171
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_02": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_03",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_01",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_17"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_02",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961172
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_11": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_12",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_11",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961173
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_12": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_11",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_12",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961174
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_07": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_11",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_08",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_22"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961175
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_08": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_13",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_WARP"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_08",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961176
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_03": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_02",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_15"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_03",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961177
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_08",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_03",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_05"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961178
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_05": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_15"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961179
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_01": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_HUB",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_02"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_01",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961180
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_09"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961181
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_13": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/ROOM_10_19",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_08"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_13",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961182
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_06": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_21",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961183
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_09": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961184
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_10": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_18",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_19"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961185
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_16": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_24",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_18",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_20"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_16",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961186
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_14": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_24"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_14",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961187
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_12",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961188
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_18": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_16",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_23"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_18",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961189
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_17": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_HUB",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_02",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_17",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961190
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_19": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_20"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_19",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961191
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_20": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/ROOM_10_20",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_16",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_19"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_20",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961192
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_23": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_18",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_23",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961193
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_11",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_12",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_15"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961194
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_22": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_04"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_22",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961195
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_04": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_22",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_WARP"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_04",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961196
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_21": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_21",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961197
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_23",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_21",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961198
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_15": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_03",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_15",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961199
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_17",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_15"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": 3961200
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_WARP": {
+      "exits": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_08",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_04"
+      ],
+      "label": "REGION_PEPPERMINT_PALACE/ROOM_7_WARP",
+      "parent_region": "REGION_PEPPERMINT_PALACE",
+      "room_sanity_location_id": null
+    },
+    "REGION_RADISH_RUINS/ROOM_8_04": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_06",
+        "REGION_RADISH_RUINS/ROOM_8_09"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_04",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961201
+    },
+    "REGION_RADISH_RUINS/ROOM_8_06": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_04",
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_1",
+        "REGION_RADISH_RUINS/ROOM_8_15"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_06",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961202
+    },
+    "REGION_RADISH_RUINS/ROOM_8_09": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_04",
+        "REGION_RADISH_RUINS/ROOM_8_03"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_09",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961203
+    },
+    "REGION_RADISH_RUINS/ROOM_8_03": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_09"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_03",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961204
+    },
+    "REGION_RADISH_RUINS/ROOM_8_08": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_1",
+        "REGION_RADISH_RUINS/ROOM_8_05",
+        "REGION_RADISH_RUINS/ROOM_8_16"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_08",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961205
+    },
+    "REGION_RADISH_RUINS/ROOM_8_CHEST_1": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_06",
+        "REGION_RADISH_RUINS/ROOM_8_08",
+        "REGION_RADISH_RUINS/ROOM_8_HUB"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_CHEST_1",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961206
+    },
+    "REGION_RADISH_RUINS/ROOM_8_05": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_08",
+        "REGION_RADISH_RUINS/ROOM_8_01"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_05",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961207
+    },
+    "REGION_RADISH_RUINS/ROOM_8_01": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/ROOM_10_20",
+        "REGION_RADISH_RUINS/ROOM_8_05"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_01",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961208
+    },
+    "REGION_RADISH_RUINS/ROOM_8_02": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_11",
+        "REGION_RADISH_RUINS/ROOM_8_19",
+        "REGION_RADISH_RUINS/ROOM_8_14",
+        "REGION_RADISH_RUINS/ROOM_8_23"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_02",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961209
+    },
+    "REGION_RADISH_RUINS/ROOM_8_GOAL_1": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_07",
+        "REGION_RADISH_RUINS/ROOM_8_10",
+        "REGION_RADISH_RUINS/ROOM_8_14",
+        "REGION_RADISH_RUINS/ROOM_8_17",
+        "REGION_RADISH_RUINS/ROOM_8_23"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_GOAL_1",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961210
+    },
+    "REGION_RADISH_RUINS/ROOM_8_07": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_1",
+        "REGION_RADISH_RUINS/ROOM_8_18",
+        "REGION_RADISH_RUINS/ROOM_8_21",
+        "REGION_RADISH_RUINS/ROOM_8_23"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_07",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961211
+    },
+    "REGION_RADISH_RUINS/ROOM_8_11": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_02",
+        "REGION_RADISH_RUINS/ROOM_8_18",
+        "REGION_RADISH_RUINS/ROOM_8_19",
+        "REGION_RADISH_RUINS/ROOM_8_22"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_11",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961212
+    },
+    "REGION_RADISH_RUINS/ROOM_8_18": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_07",
+        "REGION_RADISH_RUINS/ROOM_8_11",
+        "REGION_RADISH_RUINS/ROOM_8_21",
+        "REGION_RADISH_RUINS/ROOM_8_23"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_18",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961213
+    },
+    "REGION_RADISH_RUINS/ROOM_8_10": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_1",
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_2",
+        "REGION_RADISH_RUINS/ROOM_8_20",
+        "REGION_RADISH_RUINS/ROOM_8_17"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_10",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961214
+    },
+    "REGION_RADISH_RUINS/ROOM_8_13": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_2",
+        "REGION_RADISH_RUINS/ROOM_8_20",
+        "REGION_RADISH_RUINS/ROOM_8_12"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_13",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961215
+    },
+    "REGION_RADISH_RUINS/ROOM_8_19": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_02",
+        "REGION_RADISH_RUINS/ROOM_8_14"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_19",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961216
+    },
+    "REGION_RADISH_RUINS/ROOM_8_14": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_02",
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_1",
+        "REGION_RADISH_RUINS/ROOM_8_BOSS"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_14",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961217
+    },
+    "REGION_RADISH_RUINS/ROOM_8_CHEST_2": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_10",
+        "REGION_RADISH_RUINS/ROOM_8_13",
+        "REGION_RADISH_RUINS/ROOM_8_BOSS"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_CHEST_2",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961218
+    },
+    "REGION_RADISH_RUINS/ROOM_8_20": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_10",
+        "REGION_RADISH_RUINS/ROOM_8_13",
+        "REGION_RADISH_RUINS/ROOM_8_12",
+        "REGION_RADISH_RUINS/ROOM_8_HUB"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_20",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961219
+    },
+    "REGION_RADISH_RUINS/ROOM_8_12": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_20",
+        "REGION_RADISH_RUINS/ROOM_8_15"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_12",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961220
+    },
+    "REGION_RADISH_RUINS/ROOM_8_HUB": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_1",
+        "REGION_RADISH_RUINS/ROOM_8_20",
+        "REGION_RADISH_RUINS/ROOM_8_15",
+        "REGION_RADISH_RUINS/ROOM_8_17"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_HUB",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961221
+    },
+    "REGION_RADISH_RUINS/ROOM_8_16": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_08",
+        "REGION_RADISH_RUINS/ROOM_8_17"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_16",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961222
+    },
+    "REGION_RADISH_RUINS/ROOM_8_15": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_06",
+        "REGION_RADISH_RUINS/ROOM_8_12",
+        "REGION_RADISH_RUINS/ROOM_8_HUB"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_15",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961223
+    },
+    "REGION_RADISH_RUINS/ROOM_8_17": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_01",
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_1",
+        "REGION_RADISH_RUINS/ROOM_8_10",
+        "REGION_RADISH_RUINS/ROOM_8_HUB",
+        "REGION_RADISH_RUINS/ROOM_8_16"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_17",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961224
+    },
+    "REGION_RADISH_RUINS/ROOM_8_GOAL_2": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
+        "REGION_RADISH_RUINS/ROOM_8_22"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_GOAL_2",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961225
+    },
+    "REGION_RADISH_RUINS/ROOM_8_22": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_11",
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_2"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_22",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961226
+    },
+    "REGION_RADISH_RUINS/ROOM_8_21": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/ROOM_10_19",
+        "REGION_RADISH_RUINS/ROOM_8_07",
+        "REGION_RADISH_RUINS/ROOM_8_18"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_21",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961227
+    },
+    "REGION_RADISH_RUINS/ROOM_8_23": {
+      "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_02",
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_1",
+        "REGION_RADISH_RUINS/ROOM_8_07",
+        "REGION_RADISH_RUINS/ROOM_8_18"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_23",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961228
+    },
+    "REGION_RADISH_RUINS/ROOM_8_BOSS": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
+        "REGION_RADISH_RUINS/ROOM_8_14",
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_2"
+      ],
+      "label": "REGION_RADISH_RUINS/ROOM_8_BOSS",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": 3961229
+    },
+    "REGION_RADISH_RUINS/ROOM_8_30": {
+      "exits": [],
+      "label": "REGION_RADISH_RUINS/ROOM_8_30",
+      "parent_region": "REGION_RADISH_RUINS",
+      "room_sanity_location_id": null
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_35",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961000
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_27": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_34",
+        "REGION_RAINBOW_ROUTE/ROOM_1_06",
+        "REGION_RAINBOW_ROUTE/ROOM_1_26",
+        "REGION_RAINBOW_ROUTE/ROOM_1_WARP"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_27",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961001
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_34": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_27",
+        "REGION_RAINBOW_ROUTE/ROOM_1_38",
+        "REGION_RAINBOW_ROUTE/ROOM_1_39",
+        "REGION_RAINBOW_ROUTE/ROOM_1_22"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_34",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961002
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_35": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE",
+        "REGION_RAINBOW_ROUTE/ROOM_1_38"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_35",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961003
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_38": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_34",
+        "REGION_RAINBOW_ROUTE/ROOM_1_35",
+        "REGION_RAINBOW_ROUTE/ROOM_1_39",
+        "REGION_RAINBOW_ROUTE/ROOM_1_12",
+        "REGION_RAINBOW_ROUTE/ROOM_1_23"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_38",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961004
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_39": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_27",
+        "REGION_RAINBOW_ROUTE/ROOM_1_34",
+        "REGION_RAINBOW_ROUTE/ROOM_1_36",
+        "REGION_RAINBOW_ROUTE/ROOM_1_06"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_39",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961005
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_36": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_39",
+        "REGION_RAINBOW_ROUTE/ROOM_1_12",
+        "REGION_RAINBOW_ROUTE/ROOM_1_20"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_36",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961006
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_37": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_03",
+        "REGION_RAINBOW_ROUTE/ROOM_1_16",
+        "REGION_RAINBOW_ROUTE/ROOM_1_09"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_37",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961007
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_40": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_06",
+        "REGION_RAINBOW_ROUTE/ROOM_1_33",
+        "REGION_RAINBOW_ROUTE/ROOM_1_41",
+        "REGION_RAINBOW_ROUTE/ROOM_1_09"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_40",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961008
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_33": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_40",
+        "REGION_RAINBOW_ROUTE/ROOM_1_30",
+        "REGION_RAINBOW_ROUTE/ROOM_1_41",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
+        "REGION_RAINBOW_ROUTE/ROOM_1_09"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_33",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961009
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_30": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_33",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4",
+        "REGION_RAINBOW_ROUTE/ROOM_1_15",
+        "REGION_RAINBOW_ROUTE/ROOM_1_11"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_30",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961010
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_30",
+        "REGION_RAINBOW_ROUTE/ROOM_1_05"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961011
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_01": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_BOSS",
+        "REGION_RAINBOW_ROUTE/ROOM_1_10",
+        "REGION_RAINBOW_ROUTE/ROOM_1_11"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_01",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961012
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_05": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4",
+        "REGION_RAINBOW_ROUTE/ROOM_1_10",
+        "REGION_RAINBOW_ROUTE/ROOM_1_11"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_05",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961013
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_04": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_05",
+        "REGION_RAINBOW_ROUTE/ROOM_1_10",
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_04",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961014
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_02": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_03",
+        "REGION_RAINBOW_ROUTE/ROOM_1_16",
+        "REGION_RAINBOW_ROUTE/ROOM_1_32"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_02",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961015
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_03": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_37",
+        "REGION_RAINBOW_ROUTE/ROOM_1_02",
+        "REGION_RAINBOW_ROUTE/ROOM_1_32"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_03",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961016
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_06": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_27",
+        "REGION_RAINBOW_ROUTE/ROOM_1_39",
+        "REGION_RAINBOW_ROUTE/ROOM_1_13",
+        "REGION_RAINBOW_ROUTE/ROOM_1_20"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_06",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961017
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_08": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_12",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+        "REGION_RAINBOW_ROUTE/ROOM_1_07",
+        "REGION_RAINBOW_ROUTE/ROOM_1_21",
+        "REGION_RAINBOW_ROUTE/ROOM_1_WARP"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_08",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961018
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_07": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+        "REGION_RAINBOW_ROUTE/ROOM_1_08",
+        "REGION_RAINBOW_ROUTE/ROOM_1_13"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_07",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961019
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_41": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_02",
+        "REGION_RAINBOW_ROUTE/ROOM_1_40",
+        "REGION_RAINBOW_ROUTE/ROOM_1_33",
+        "REGION_RAINBOW_ROUTE/ROOM_1_42"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_41",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961020
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_42": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_41",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
+        "REGION_RAINBOW_ROUTE/ROOM_1_31"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_42",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961021
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_09",
+        "REGION_RAINBOW_ROUTE/ROOM_1_33",
+        "REGION_RAINBOW_ROUTE/ROOM_1_42",
+        "REGION_RAINBOW_ROUTE/ROOM_1_15",
+        "REGION_RAINBOW_ROUTE/ROOM_1_31"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961022
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_15": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_30",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
+        "REGION_RAINBOW_ROUTE/ROOM_1_11"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_15",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961023
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_31": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_42",
+        "REGION_RAINBOW_ROUTE/ROOM_1_14"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_31",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961024
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_14": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/ROOM_10_18",
+        "REGION_RAINBOW_ROUTE/ROOM_1_31"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_14",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961025
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/ROOM_10_18",
+        "REGION_RAINBOW_ROUTE/ROOM_1_16"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961026
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_16": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_37",
+        "REGION_RAINBOW_ROUTE/ROOM_1_02",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_16",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961027
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_13": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_06",
+        "REGION_RAINBOW_ROUTE/ROOM_1_07",
+        "REGION_RAINBOW_ROUTE/ROOM_1_18",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3",
+        "REGION_RAINBOW_ROUTE/ROOM_1_WARP"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_13",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961028
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_09": {
+      "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_05",
+        "REGION_RAINBOW_ROUTE/ROOM_1_37",
+        "REGION_RAINBOW_ROUTE/ROOM_1_40",
+        "REGION_RAINBOW_ROUTE/ROOM_1_33",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_09",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961029
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_10": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1",
+        "REGION_RAINBOW_ROUTE/ROOM_1_01",
+        "REGION_RAINBOW_ROUTE/ROOM_1_05",
+        "REGION_RAINBOW_ROUTE/ROOM_1_04",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_10",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961030
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_12": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_38",
+        "REGION_RAINBOW_ROUTE/ROOM_1_36",
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1",
+        "REGION_RAINBOW_ROUTE/ROOM_1_18"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_12",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961031
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_11": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_30",
+        "REGION_RAINBOW_ROUTE/ROOM_1_01",
+        "REGION_RAINBOW_ROUTE/ROOM_1_05",
+        "REGION_RAINBOW_ROUTE/ROOM_1_15"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_11",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961032
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_05",
+        "REGION_RAINBOW_ROUTE/ROOM_1_04",
+        "REGION_RAINBOW_ROUTE/ROOM_1_12"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961033
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_32": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_02",
+        "REGION_RAINBOW_ROUTE/ROOM_1_03",
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_32",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961034
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_25": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_03",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_17",
+        "REGION_RAINBOW_ROUTE/ROOM_1_24",
+        "REGION_RAINBOW_ROUTE/ROOM_1_22",
+        "REGION_RAINBOW_ROUTE/ROOM_1_29"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_25",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961035
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_24": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_25",
+        "REGION_RAINBOW_ROUTE/ROOM_1_28"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_24",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961036
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_23": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_38",
+        "REGION_RAINBOW_ROUTE/ROOM_1_22",
+        "REGION_RAINBOW_ROUTE/ROOM_1_26"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_23",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961037
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_22": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_34",
+        "REGION_RAINBOW_ROUTE/ROOM_1_25",
+        "REGION_RAINBOW_ROUTE/ROOM_1_23",
+        "REGION_RAINBOW_ROUTE/ROOM_1_28"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_22",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961038
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_28": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+        "REGION_RAINBOW_ROUTE/ROOM_1_24",
+        "REGION_RAINBOW_ROUTE/ROOM_1_22",
+        "REGION_RAINBOW_ROUTE/ROOM_1_26"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_28",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961039
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_26": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_27",
+        "REGION_RAINBOW_ROUTE/ROOM_1_23",
+        "REGION_RAINBOW_ROUTE/ROOM_1_28",
+        "REGION_RAINBOW_ROUTE/ROOM_1_21"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_26",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961040
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_21": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_08",
+        "REGION_RAINBOW_ROUTE/ROOM_1_26"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_21",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961041
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_20": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_36",
+        "REGION_RAINBOW_ROUTE/ROOM_1_06",
+        "REGION_RAINBOW_ROUTE/ROOM_1_18"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_20",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961042
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_18": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_13",
+        "REGION_RAINBOW_ROUTE/ROOM_1_12",
+        "REGION_RAINBOW_ROUTE/ROOM_1_17"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_18",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961043
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_17": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_18",
+        "REGION_RAINBOW_ROUTE/ROOM_1_19"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_17",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961044
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_19": {
+      "exits": [
+        "REGION_DIMENSION_MIRROR/ROOM_10_18",
+        "REGION_RAINBOW_ROUTE/ROOM_1_17"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_19",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961045
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3",
+        "REGION_RAINBOW_ROUTE/ROOM_1_29"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961046
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_32",
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961047
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_29": {
+      "exits": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
+        "REGION_RAINBOW_ROUTE/ROOM_1_25",
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_29",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961048
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": {
+      "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_16",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_HUB",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_15",
+        "REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE",
+        "REGION_RAINBOW_ROUTE/ROOM_1_13",
+        "REGION_RAINBOW_ROUTE/ROOM_1_09",
+        "REGION_RAINBOW_ROUTE/ROOM_1_10",
+        "REGION_RAINBOW_ROUTE/ROOM_1_29"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": 3961049
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_WARP": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_27",
+        "REGION_RAINBOW_ROUTE/ROOM_1_08",
+        "REGION_RAINBOW_ROUTE/ROOM_1_13"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_WARP",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": null
+    },
+    "REGION_TUTORIAL/ROOM_0_01": {
+      "exits": [
+        "REGION_TUTORIAL/ROOM_0_02"
+      ],
+      "label": "REGION_TUTORIAL/ROOM_0_01",
+      "parent_region": "REGION_TUTORIAL",
+      "room_sanity_location_id": null
+    },
+    "REGION_TUTORIAL/ROOM_0_02": {
+      "exits": [
+        "REGION_TUTORIAL/ROOM_0_01",
+        "REGION_TUTORIAL/ROOM_0_03"
+      ],
+      "label": "REGION_TUTORIAL/ROOM_0_02",
+      "parent_region": "REGION_TUTORIAL",
+      "room_sanity_location_id": null
+    },
+    "REGION_TUTORIAL/ROOM_0_03": {
+      "exits": [
+        "REGION_GAME_START",
+        "REGION_TUTORIAL/ROOM_0_02"
+      ],
+      "label": "REGION_TUTORIAL/ROOM_0_03",
+      "parent_region": "REGION_TUTORIAL",
+      "room_sanity_location_id": null
+    }
+  },
+  "shards": 2,
+  "unique_items": [
+    "Cabbage Cavern - Map",
+    "Cabbage Cavern - Mirror Shard",
+    "Candy Constellation - Map",
+    "Candy Constellation - Mirror Shard",
+    "Candy Constellation - Vitality Counter",
+    "Carrot Castle - Map",
+    "Carrot Castle - Mirror Shard",
+    "Carrot Castle - Vitality Counter",
+    "Moonlight Mansion - Map",
+    "Moonlight Mansion - Mirror Shard",
+    "Mustard Mountain - Map",
+    "Mustard Mountain - Mirror Shard",
+    "Olive Ocean - Map",
+    "Olive Ocean - Mirror Shard",
+    "Olive Ocean - Vitality Counter",
+    "Peppermint Palace - Map",
+    "Peppermint Palace - Mirror Shard",
+    "Radish Ruins - Map",
+    "Radish Ruins - Mirror Shard",
+    "Radish Ruins - Vitality Counter",
+    "Rainbow Route - Map",
+    "Sound Player"
+  ]
+>>>>>>> Stashed changes
 }
