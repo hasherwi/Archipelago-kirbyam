@@ -69,7 +69,7 @@ def _load_room_sanity_locations_from_room_subareas() -> dict[str, dict[str, Any]
         return {}
 
     generated_locations: dict[str, dict[str, Any]] = {}
-    room_key_pattern = re.compile(r"^REGION_[A-Z_]+/ROOM_[A-Z0-9_]+$")
+    room_key_pattern = re.compile(r"^REGION_[A-Z_]+/ROOM_(\d+)_[A-Z0-9_]+$")
 
     for region_name, region_def in room_subareas.items():
         if not isinstance(region_name, str) or not isinstance(region_def, dict):
