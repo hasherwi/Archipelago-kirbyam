@@ -17,8 +17,7 @@ from .ability_randomization import (
     VALID_ENEMY_COPY_ABILITIES,
     build_enemy_copy_ability_policy,
 )
-from .data import LocationCategory
-from .data import data as kirby_data
+from .data import LocationCategory, load_json_data, data as kirby_data
 from .generation_logging import (
     generation_stage,
     log_generation_complete,
@@ -179,6 +178,11 @@ class KirbyAmWorld(World):
         value = getattr(option, "value", option)
         return int(value) if value is not None else 0
 
+    def _start_with_all_maps_enabled(self) -> bool:
+        option = getattr(getattr(self, "options", None), "start_with_all_maps", None)
+        value = getattr(option, "value", option)
+        return bool(value)
+
     def _active_filler_pool(self) -> tuple[str, ...]:
         pool = self.ACTIVE_FILLER_POOL
         if self._one_hit_mode_value() == OneHitMode.option_exclude_vitality_counters:
@@ -261,6 +265,19 @@ class KirbyAmWorld(World):
                     self._enemy_copy_ability_policy,
                 )
 
+            if self._start_with_all_maps_enabled():
+                map_items = [
+                    item for item in kirby_data.items.values()
+                    if "Maps" in item.tags
+                ]
+                for map_item in map_items:
+                    self.push_precollected(self.create_item(map_item.label))
+                logger.info(
+                    "[P%s] start_with_all_maps: precollected %s map item(s)",
+                    self.player,
+                    len(map_items),
+                )
+
     # Create world regions
     def create_regions(self) -> None:
         with generation_stage("create_regions", self.player, self.player_name):
@@ -295,6 +312,7 @@ class KirbyAmWorld(World):
             major_chest_locations: list[KirbyAmLocation] = []
             vitality_chest_locations: list[KirbyAmLocation] = []
             sound_player_chest_locations: list[KirbyAmLocation] = []
+            hub_switch_locations: list[KirbyAmLocation] = []
             room_sanity_locations: list[KirbyAmLocation] = []
             location_by_key: dict[str, KirbyAmLocation] = {}
             for loc in fill_locations:
@@ -312,6 +330,8 @@ class KirbyAmWorld(World):
                     vitality_chest_locations.append(loc)
                 elif loc_meta.category == LocationCategory.SOUND_PLAYER_CHEST:
                     sound_player_chest_locations.append(loc)
+                elif loc_meta.category == LocationCategory.HUB_SWITCH:
+                    hub_switch_locations.append(loc)
                 elif loc_meta.category == LocationCategory.ROOM_SANITY:
                     room_sanity_locations.append(loc)
 
@@ -319,11 +339,12 @@ class KirbyAmWorld(World):
             major_chest_locations.sort(key=lambda loc: loc.key or "")
             vitality_chest_locations.sort(key=lambda loc: loc.key or "")
             sound_player_chest_locations.sort(key=lambda loc: loc.key or "")
+            hub_switch_locations.sort(key=lambda loc: loc.key or "")
             room_sanity_locations.sort(key=lambda loc: loc.key or "")
 
             locked_shard_count = 0
             randomized_item_codes: list[int] = []
-            if boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or room_sanity_locations:
+            if boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or hub_switch_locations or room_sanity_locations:
                 shard_label_to_code = {
                     item.label: item.item_id
                     for item in kirby_data.items.values()
@@ -377,7 +398,7 @@ class KirbyAmWorld(World):
                     )
 
                 open_physical_locations = [
-                    loc for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations + room_sanity_locations
+                    loc for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations + hub_switch_locations + room_sanity_locations
                     if loc.item is None
                 ]
                 needed_pool_size = len(open_physical_locations)
@@ -395,6 +416,14 @@ class KirbyAmWorld(World):
                         if "Vitality" in item.tags
                     }
                     self._vitality_item_codes = vitality_item_codes
+                map_item_codes = getattr(self, "_map_item_codes", None)
+                if map_item_codes is None:
+                    map_item_codes = {
+                        item.item_id
+                        for item in kirby_data.items.values()
+                        if "Maps" in item.tags
+                    }
+                    self._map_item_codes = map_item_codes
                 if self.options.shards.value == RandomizeShards.option_vanilla:
                     shard_code_set = set(shard_item_codes)
                     non_filler_item_codes = [
@@ -412,6 +441,19 @@ class KirbyAmWorld(World):
                         "[P%s] One-hit mode (exclude_vitality_counters): removed %s vitality counter item(s) from non-filler pool",
                         self.player,
                         excluded_vitality_count,
+                    )
+
+                if self._start_with_all_maps_enabled():
+                    excluded_map_count = sum(
+                        1 for code in non_filler_item_codes if code in map_item_codes
+                    )
+                    non_filler_item_codes = [
+                        code for code in non_filler_item_codes if code not in map_item_codes
+                    ]
+                    logger.info(
+                        "[P%s] start_with_all_maps: removed %s map item(s) from non-filler pool",
+                        self.player,
+                        excluded_map_count,
                     )
 
                 if len(non_filler_item_codes) > needed_pool_size:
@@ -473,10 +515,24 @@ class KirbyAmWorld(World):
                     dict(sorted(vitality_code_counts.items())),
                 )
 
-            if (boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or room_sanity_locations) and not randomized_item_codes:
+                if self._start_with_all_maps_enabled():
+                    map_code_counts = Counter(
+                        code for code in randomized_item_codes if code in map_item_codes
+                    )
+                    if map_code_counts:
+                        raise ValueError(
+                            "KirbyAM map pool invariant failed in start_with_all_maps mode: "
+                            f"expected zero map items in pool, got counts={dict(map_code_counts)}"
+                        )
+                    logger.info(
+                        "[P%s] start_with_all_maps: confirmed no map items in randomized pool",
+                        self.player,
+                    )
+
+            if (boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or hub_switch_locations or room_sanity_locations) and not randomized_item_codes:
                 raise ValueError(
                     "KirbyAM item pool build failed: no randomized items were produced. "
-                    "This likely indicates a problem with boss/major/vitality or sound-player chest locations, "
+                    "This likely indicates a problem with boss/major/vitality/sound-player/hub-switch locations, "
                     "room-sanity locations, or region/location data."
                 )
 
@@ -577,6 +633,7 @@ class KirbyAmWorld(World):
         slot_data = self.options.as_dict(
             "goal",
             "shards",
+            "start_with_all_maps",
             "no_extra_lives",
             "one_hit_mode",
             "death_link",
@@ -587,6 +644,7 @@ class KirbyAmWorld(World):
             "ability_randomization_passive_enemies",
             "ability_randomization_no_ability_weight",
             "room_sanity",
+            "enable_debug_logging",
             toggles_as_bools=True,
         )
         policy = getattr(self, "_enemy_copy_ability_policy", None)
@@ -596,6 +654,41 @@ class KirbyAmWorld(World):
         allowed_abilities = policy.get("allowed_abilities", VALID_ENEMY_COPY_ABILITIES)
         slot_data["enemy_copy_ability_whitelist"] = list(allowed_abilities)
         slot_data["enemy_copy_ability_policy"] = dict(policy)
+
+        # Tracker surface integration (Issue #114)
+        # Expose all locations and rooms for tracker display
+        slot_data["locations"] = {
+            loc_key: {
+                "label": loc_data.label,
+                "location_id": loc_data.location_id,
+                "category": loc_data.category.name,
+                "tags": sorted(loc_data.tags),
+            }
+            for loc_key, loc_data in kirby_data.locations.items()
+        }
+
+        # All rooms (visited and unvisited), including those not in Room Sanity
+        rooms_payload = load_json_data("regions/rooms.json")
+        rooms = rooms_payload if isinstance(rooms_payload, dict) else {}
+        slot_data["rooms"] = {
+            room_key: {
+                "label": room_data.get("label", room_key),
+                "exits": room_data.get("exits", []),
+                "parent_region": room_key.split("/")[0] if "/" in room_key else "",
+                "room_sanity_location_id": room_data.get("room_sanity", {}).get("location_id"),
+            }
+            for room_key, room_data in rooms.items()
+        }
+
+        # Unique items for tracker display (items tagged as "Unique").
+        # Emit in stable deduplicated order for tracker/cache determinism.
+        slot_data["unique_items"] = sorted(
+            {
+                item_data.label
+                for item_data in kirby_data.items.values()
+                if "Unique" in item_data.tags
+            }
+        )
 
         # Debug settings are grouped under one key to keep slot_data extensible.
         slot_data["debug"] = {

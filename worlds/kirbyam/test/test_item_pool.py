@@ -47,6 +47,7 @@ def _build_fill_locations() -> list[KirbyAmLocation]:
 def _build_world_for_create_items(
     shard_mode: int,
     one_hit_mode: int = OneHitMode.option_off,
+    start_with_all_maps: int = 0,
 ) -> tuple[KirbyAmWorld, list[KirbyAmLocation]]:
     locations = _build_fill_locations()
     world = KirbyAmWorld.__new__(KirbyAmWorld)
@@ -60,6 +61,7 @@ def _build_world_for_create_items(
         }[shard_mode]),
         no_extra_lives=SimpleNamespace(value=False),
         one_hit_mode=SimpleNamespace(value=one_hit_mode),
+        start_with_all_maps=SimpleNamespace(value=start_with_all_maps),
     )
     return world, locations
 
@@ -339,8 +341,9 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
     _major_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MAJOR_CHEST)
     _vitality_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.VITALITY_CHEST)
     _sound_player_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.SOUND_PLAYER_CHEST)
+    _hub_switch_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.HUB_SWITCH)
     _room_sanity_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.ROOM_SANITY)
-    _expected_pool_size = _major_chest_count + _vitality_chest_count + _sound_player_chest_count + _room_sanity_count
+    _expected_pool_size = _major_chest_count + _vitality_chest_count + _sound_player_chest_count + _hub_switch_count + _room_sanity_count
     assert len(world.multiworld.itempool) == _expected_pool_size
     assert all("Mirror Shard" not in item.name for item in world.multiworld.itempool)
 
@@ -358,6 +361,7 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
     _major_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MAJOR_CHEST)
     _vitality_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.VITALITY_CHEST)
     _sound_player_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.SOUND_PLAYER_CHEST)
+    _hub_switch_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.HUB_SWITCH)
     _room_sanity_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.ROOM_SANITY)
     _shard_item_count = len(KirbyAmWorld._SHARD_ITEM_LABEL_ORDER)
     _open_non_goal_location_count = (
@@ -365,6 +369,7 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
         + _major_chest_count
         + _vitality_chest_count
         + _sound_player_chest_count
+        + _hub_switch_count
         + _room_sanity_count
     )
     _expected_pool_size = _open_non_goal_location_count
@@ -576,3 +581,72 @@ def test_one_hit_mode_exclude_vitality_counters_vitality_chest_locations_exist()
     assert len(world.multiworld.itempool) == open_count, (
         "Pool size should equal the number of open non-goal locations"
     )
+
+
+# ── Start-With-All-Maps item pool tests ─────────────────────────────────────
+
+
+def _map_item_codes() -> set[int]:
+    return {item.item_id for item in data.items.values() if "Maps" in item.tags}
+
+
+def test_start_with_all_maps_excludes_map_items_from_pool() -> None:
+    world, _locations = _build_world_for_create_items(
+        RandomizeShards.option_completely_random,
+        start_with_all_maps=1,
+    )
+    world.create_items()
+
+    map_codes = _map_item_codes()
+    pool_codes = {item.code for item in world.multiworld.itempool if item.code is not None}
+    assert map_codes.isdisjoint(pool_codes), (
+        "start_with_all_maps mode should have no map items in the randomized pool"
+    )
+
+
+def test_start_with_all_maps_pool_size_unchanged() -> None:
+    """Total pool size should not change; filler fills the slots vacated by map items."""
+    world_baseline, _locs_b = _build_world_for_create_items(
+        RandomizeShards.option_completely_random,
+        start_with_all_maps=0,
+    )
+    world_baseline.create_items()
+
+    world_maps, _locs_m = _build_world_for_create_items(
+        RandomizeShards.option_completely_random,
+        start_with_all_maps=1,
+    )
+    world_maps.create_items()
+
+    assert len(world_maps.multiworld.itempool) == len(world_baseline.multiworld.itempool), (
+        "Pool size should be the same with start_with_all_maps enabled as without"
+    )
+
+
+def test_start_with_all_maps_vanilla_shards_excludes_map_items_from_pool() -> None:
+    world, _locations = _build_world_for_create_items(
+        RandomizeShards.option_vanilla,
+        start_with_all_maps=1,
+    )
+    world.create_items()
+
+    map_codes = _map_item_codes()
+    pool_codes = {item.code for item in world.multiworld.itempool if item.code is not None}
+    assert map_codes.isdisjoint(pool_codes), (
+        "start_with_all_maps mode should have no map items in the pool (vanilla shard mode)"
+    )
+
+
+def test_start_with_all_maps_off_includes_all_map_items_in_pool() -> None:
+    world, _locations = _build_world_for_create_items(
+        RandomizeShards.option_completely_random,
+        start_with_all_maps=0,
+    )
+    world.create_items()
+
+    map_codes = _map_item_codes()
+    pool_codes = {item.code for item in world.multiworld.itempool if item.code is not None}
+    assert map_codes.issubset(pool_codes), (
+        "When start_with_all_maps is off, all map items should remain in the pool"
+    )
+
