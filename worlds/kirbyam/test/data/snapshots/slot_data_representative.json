@@ -76,9 +76,6 @@
   "goal": 0,
   "no_extra_lives": false,
   "room_sanity": false,
-<<<<<<< Updated upstream
-  "shards": 2
-=======
   "rooms": {
     "REGION_CABBAGE_CAVERN/ROOM_3_16": {
       "exits": [
@@ -2926,5 +2923,4 @@
     "Rainbow Route - Map",
     "Sound Player"
   ]
->>>>>>> Stashed changes
 }
