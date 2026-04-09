@@ -119,7 +119,7 @@ def test_area_topology_routes_start_through_rainbow_route_anchor() -> None:
     # the room-level transition data. Olive Ocean and Radish Ruins have no hub
     # mirror to Rainbow Route (they are reached via adjacent areas instead).
     assert set(regions["REGION_RAINBOW_ROUTE/MAIN"]["exits"]) == {
-        "REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
         "REGION_MUSTARD_MOUNTAIN/MAIN",
         "REGION_MOONLIGHT_MANSION/MAIN",
         "REGION_CANDY_CONSTELLATION/MAIN",
@@ -210,8 +210,8 @@ def test_room_subareas_preserve_two_way_and_one_way_transitions() -> None:
 
     room_regions = load_json_data("regions/rooms.json")
 
-    assert "REGION_RAINBOW_ROUTE/ROOM_1_35" in room_regions["REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE"]["exits"]
-    assert "REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE" in room_regions["REGION_RAINBOW_ROUTE/ROOM_1_35"]["exits"]
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_35" in room_regions["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]["exits"]
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE" in room_regions["REGION_RAINBOW_ROUTE/ROOM_1_35"]["exits"]
 
     assert "REGION_RAINBOW_ROUTE/ROOM_1_39" in room_regions["REGION_RAINBOW_ROUTE/ROOM_1_38"]["exits"]
     assert "REGION_RAINBOW_ROUTE/ROOM_1_38" not in room_regions["REGION_RAINBOW_ROUTE/ROOM_1_39"]["exits"]
@@ -220,10 +220,10 @@ def test_room_subareas_preserve_two_way_and_one_way_transitions() -> None:
 def test_room_reachability_from_start() -> None:
     from ..rules import _reachable_rooms_from
 
-    reachable = _reachable_rooms_from("REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE")
+    reachable = _reachable_rooms_from("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE")
 
     assert len(reachable) == 266
-    assert "REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE" in reachable
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE" in reachable
     assert "REGION_RAINBOW_ROUTE/ROOM_1_35" in reachable
     assert "REGION_CANDY_CONSTELLATION/ROOM_9_20" in reachable
 
@@ -240,10 +240,10 @@ def test_room_sanity_binding_optional() -> None:
     }
     
     _bind_room_sanity_locations(room_regions, enable_room_sanity=False)
-    assert room_regions["REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE"]["locations"] == regions_before["REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE"]
+    assert room_regions["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]["locations"] == regions_before["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]
     
     _bind_room_sanity_locations(room_regions, enable_room_sanity=True)
-    assert "ROOM_SANITY_1_01" in room_regions["REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE"]["locations"]
+    assert "ROOM_SANITY_1_01" in room_regions["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]["locations"]
     assert "ROOM_SANITY_10_01" not in room_regions["REGION_DIMENSION_MIRROR/ROOM_10_01"]["locations"]
     assert "ROOM_SANITY_0_01" not in room_regions["REGION_TUTORIAL/ROOM_0_01"]["locations"]
 

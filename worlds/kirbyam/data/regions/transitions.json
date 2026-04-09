@@ -16061,7 +16061,7 @@
       "friendly_name": "Radish Ruins 8-29 to 8-18"
     },
     {
-      "source_room": "REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE",
+      "source_room": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
       "destination_room": "REGION_RAINBOW_ROUTE/ROOM_1_35",
       "source_coordinates": {
         "tile": {
@@ -16087,7 +16087,7 @@
       "friendly_name": "Rainbow Route 1-01 to 1-04"
     },
     {
-      "source_room": "REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE",
+      "source_room": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
       "destination_room": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3",
       "source_coordinates": {
         "tile": {
@@ -16322,7 +16322,7 @@
     },
     {
       "source_room": "REGION_RAINBOW_ROUTE/ROOM_1_35",
-      "destination_room": "REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE",
+      "destination_room": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
       "source_coordinates": {
         "tile": {
           "x": 38,
@@ -20456,7 +20456,7 @@
     },
     {
       "source_room": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3",
-      "destination_room": "REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE",
+      "destination_room": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
       "source_coordinates": {
         "tile": {
           "x": 29,

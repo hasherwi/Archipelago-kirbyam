@@ -202,7 +202,7 @@ def _reachable_rooms_from(
     BFS to find all rooms reachable from a given start region.
     
     Args:
-        start_region: The starting room region name (e.g., "REGION_RAINBOW_ROUTE/ROOM_CENTRAL_CIRCLE").
+        start_region: The starting room region name (e.g., "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE").
         graph: The room graph dict. If None, loads from data.
     
     Returns:
