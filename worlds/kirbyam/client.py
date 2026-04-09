@@ -130,6 +130,13 @@ class KirbyAmClient(BizHawkClient):
                 continue
             self._sound_player_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
 
+        # Hub switch bitfield → location IDs (HUB_SWITCH category).
+        self._hub_switch_location_ids_by_bit: dict[int, list[int]] = {}
+        for loc in data.locations.values():
+            if loc.bit_index is None or loc.category != LocationCategory.HUB_SWITCH:
+                continue
+            self._hub_switch_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+
         # Room-sanity bitfield index (doorsIdx) → location IDs.
         self._room_sanity_location_ids_by_bit: dict[int, list[int]] = {}
         for loc in data.locations.values():
@@ -149,6 +156,7 @@ class KirbyAmClient(BizHawkClient):
         # Boss candidate probing state
         self._last_boss_probe_snapshot: bytes | None = None
         self._boss_probe_stream_marker: object = None
+        self._boss_probe_fallback_bits: set[int] = set()
 
         # Runtime gameplay-state gate tracking
         self._last_runtime_gate_reason: str | None = None
@@ -162,6 +170,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_major_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_vitality_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_sound_player_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+        self._last_hub_switch_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_room_sanity_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
 
         # Notification pipeline state (Issue #83)
@@ -217,9 +226,11 @@ class KirbyAmClient(BizHawkClient):
         self._last_major_chest_poll_log = None
         self._last_vitality_chest_poll_log = None
         self._last_sound_player_chest_poll_log = None
+        self._last_hub_switch_poll_log = None
         self._last_room_sanity_poll_log = None
         self._last_boss_probe_snapshot = None
         self._boss_probe_stream_marker = None
+        self._boss_probe_fallback_bits.clear()
         self._unsafe_delivery_probe_stream_marker = None
         self._last_unsafe_delivery_counter_values = {}
         self._incoming_death_link_pending = False
@@ -775,6 +786,9 @@ class KirbyAmClient(BizHawkClient):
             # Sound Player chest location polling via dedicated sound_player_chest_flags register
             await self._poll_sound_player_chest_locations(ctx)
 
+            # Hub switch location polling via dedicated hub_switch_flags register
+            await self._poll_hub_switch_locations(ctx)
+
             # Room-sanity location polling via native gVisitedDoors bit 15.
             await self._poll_room_sanity_locations(ctx)
 
@@ -796,11 +810,15 @@ class KirbyAmClient(BizHawkClient):
                 logger.info(
                     "KirbyAM: BizHawk request failed during watcher tick; waiting for reconnect (%s)",
                     reason,
+                    extra={"NoStream": not self._debug_logging_enabled},
                 )
             return
         except bizhawk.NotConnectedError:
             if self._mark_bizhawk_watcher_transport_error("not_connected"):
-                logger.info("KirbyAM: BizHawk disconnected during watcher tick; waiting for reconnect")
+                logger.info(
+                    "KirbyAM: BizHawk disconnected during watcher tick; waiting for reconnect",
+                    extra={"NoStream": not self._debug_logging_enabled},
+                )
             return
 
     async def _sync_death_link_setting(self, ctx: "BizHawkClientContext") -> None:
@@ -1337,6 +1355,12 @@ class KirbyAmClient(BizHawkClient):
             if (boss_bits >> bit) & 1:
                 mapped_checked_locations.update(self._boss_location_ids_by_bit.get(bit, []))
 
+        # Fallback source for Issue #573: if boss_defeat_flags does not rise because
+        # native CollectShard() was skipped (already-owned shard), use rising-edge
+        # observations from boss_mirror_table_native collected by probe polling.
+        for bit in sorted(self._boss_probe_fallback_bits):
+            mapped_checked_locations.update(self._boss_location_ids_by_bit.get(bit, []))
+
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
@@ -1348,6 +1372,7 @@ class KirbyAmClient(BizHawkClient):
                     "KirbyAM: resending boss-defeat LocationChecks missing on server (missing=%s, acked=%s)",
                     missing_on_server,
                     already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
                 )
                 self._last_boss_poll_log = boss_log_state
 
@@ -1403,6 +1428,7 @@ class KirbyAmClient(BizHawkClient):
                     "KirbyAM: resending major-chest LocationChecks missing on server (missing=%s, acked=%s)",
                     missing_on_server,
                     already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
                 )
                 self._last_major_chest_poll_log = chest_log_state
 
@@ -1451,6 +1477,7 @@ class KirbyAmClient(BizHawkClient):
                     "KirbyAM: resending vitality-chest LocationChecks missing on server (missing=%s, acked=%s)",
                     missing_on_server,
                     already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
                 )
                 self._last_vitality_chest_poll_log = chest_log_state
 
@@ -1498,6 +1525,7 @@ class KirbyAmClient(BizHawkClient):
                     "KirbyAM: resending sound-player-chest LocationChecks missing on server (missing=%s, acked=%s)",
                     missing_on_server,
                     already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
                 )
                 self._last_sound_player_chest_poll_log = chest_log_state
 
@@ -1514,6 +1542,55 @@ class KirbyAmClient(BizHawkClient):
                 self._last_sound_player_chest_poll_log = chest_log_state
         else:
             self._last_sound_player_chest_poll_log = None
+
+    async def _poll_hub_switch_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """
+        Read transport hub_switch_flags and map set bits to hub-switch locations.
+
+        This register is written by the ROM payload when world-map big switches
+        trigger a hub-door unlock callback. Polling mirrors existing resend/dedupe
+        semantics used by other transport-backed location families.
+        """
+        switch_addr = self._transport_addr("hub_switch_flags")
+        if switch_addr is None:
+            return
+
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(switch_addr, 4, "System Bus")]))[0]
+        switch_bits = self._u32_le(raw)
+
+        mapped_checked_locations: set[int] = set()
+        for bit in sorted(self._hub_switch_location_ids_by_bit.keys()):
+            if (switch_bits >> bit) & 1:
+                mapped_checked_locations.update(self._hub_switch_location_ids_by_bit.get(bit, []))
+
+        missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
+        already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
+        if missing_on_server:
+            from CommonClient import logger
+
+            switch_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
+            if switch_log_state != self._last_hub_switch_poll_log:
+                logger.info(
+                    "KirbyAM: resending hub-switch LocationChecks missing on server (missing=%s, acked=%s)",
+                    missing_on_server,
+                    already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
+                )
+                self._last_hub_switch_poll_log = switch_log_state
+
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
+        elif mapped_checked_locations:
+            from CommonClient import logger
+
+            switch_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
+            if switch_log_state != self._last_hub_switch_poll_log:
+                logger.debug(
+                    "KirbyAM: dedupe suppressed hub-switch LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                    already_acknowledged,
+                )
+                self._last_hub_switch_poll_log = switch_log_state
+        else:
+            self._last_hub_switch_poll_log = None
 
     async def _poll_room_sanity_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
@@ -1608,6 +1685,7 @@ class KirbyAmClient(BizHawkClient):
         elif stream_marker is not self._boss_probe_stream_marker:
             self._boss_probe_stream_marker = stream_marker
             self._last_boss_probe_snapshot = None
+            self._boss_probe_fallback_bits.clear()
 
         raw = (await bizhawk.read(
             ctx.bizhawk_ctx,
@@ -1646,6 +1724,25 @@ class KirbyAmClient(BizHawkClient):
                 "KirbyAM: boss candidate probe rising bits: %s",
                 ", ".join(rising_edges),
             )
+
+        # Conservative fallback mapping: only byte 0 bits 0-7 are considered,
+        # and only when observed as rising edges. This preserves probe behavior
+        # while providing a low-risk backup for boss check signaling.
+        supported_bits = set(self._boss_location_ids_by_bit.keys())
+        if not supported_bits:
+            return
+
+        prev_byte0 = old[0] if old else 0
+        new_byte0 = raw[0] if raw else 0
+        rising_mask = (~prev_byte0 & 0xFF) & new_byte0
+        if rising_mask == 0:
+            return
+
+        for bit in supported_bits:
+            if bit < 0 or bit > 7:
+                continue
+            if (rising_mask >> bit) & 1:
+                self._boss_probe_fallback_bits.add(bit)
 
     async def _probe_unsafe_delivery_candidates(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """

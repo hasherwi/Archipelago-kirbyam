@@ -248,6 +248,7 @@ def test_completely_random_mapping_is_stable_when_skipped_zero_id_sources_are_ad
         default_ability_name="Normal",
         default_ability_id=0,
         kind="enemy",
+        can_be_swallowed=True,
     )
     monkeypatch.setattr(
         runtime_patch_module,
@@ -314,8 +315,10 @@ def test_unswallowable_enemy_sources_are_excluded_from_runtime_pool() -> None:
 
     writes = build_enemy_copy_runtime_patch_writes(policy)
 
-    # GLUNK is currently represented by this source address and should never be randomized.
-    assert 0x351696 not in writes
+    # Enemies that cannot be swallowed should never appear in the randomized write set.
+    assert 0x351696 not in writes  # GLUNK
+    assert 0x3517CE not in writes  # JACK
+    assert 0x3516AE not in writes  # SQUISHY
 
 
 def test_unswallowable_enemy_exclusion_is_logged(caplog) -> None:
@@ -334,5 +337,37 @@ def test_unswallowable_enemy_exclusion_is_logged(caplog) -> None:
     assert any(
         "Excluded unswallowable enemies from copy-ability randomization pool:" in message
         and "GLUNK" in message
+        and "JACK" in message
+        and "SQUISHY" in message
         for message in caplog.messages
     )
+
+
+def test_unswallowable_enemy_exclusion_uses_source_metadata(monkeypatch) -> None:
+    policy = build_enemy_copy_ability_policy(
+        random.Random(20260404),
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=True,
+        include_minibosses=True,
+        include_passive_enemies=True,
+        no_ability_weight=0,
+    )
+
+    injected_source = AbilitySource(
+        key="TEST_UNSWALLOWABLE",
+        addresses=(0x35FFEE,),
+        default_ability_name="Beam",
+        default_ability_id=5,
+        kind="enemy",
+        can_be_swallowed=False,
+    )
+
+    monkeypatch.setattr(
+        runtime_patch_module,
+        "ABILITY_SOURCES",
+        (injected_source,) + runtime_patch_module.ABILITY_SOURCES,
+    )
+
+    writes = build_enemy_copy_runtime_patch_writes(policy)
+
+    assert 0x35FFEE not in writes
