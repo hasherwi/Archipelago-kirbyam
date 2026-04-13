@@ -10,11 +10,11 @@ Contract for `## Unreleased` and all post-public `## v...` sections:
 
 ### New Features
 
-- Add `Starting Kirby Color` (`starting_kirby_color`) with canonical color definitions in `data/colors.json`, generation-time deterministic `random_color` resolution, resolved color emission in `slot_data` (`starting_kirby_color` + `starting_kirby_color_name`), and runtime payload synchronization via new mailbox register `starting_kirby_color_id` (`0x0203B050`) that applies non-Pink palettes while keeping Pink as no-op behavior. Non-Pink color changes become visible after the first room/area transition. Generation/client logs now always record the selected color in log files and only stream those messages when `enable_debug_logging` is enabled. Follow-up hardening validates `colors.json` keys as safe option identifiers and IDs within `0..13`, and reduces per-tick runtime sync reads via cached sync state plus periodic revalidation for reset recovery (Issue #597).
-- Add 15 decomp-aligned world-map big-switch AP checks (`HUB_SWITCH_*`) with a dedicated ROM transport register (`hub_switch_flags` at `0x0203B04C`), BizHawk resend/dedupe polling, payload hook integration at the world-map unlock dispatcher callsite (`sub_08039ED4`), protocol/address contract updates, and regression coverage for data/polling/patch offsets/region binding (Issue #481).
-- Expand tracker integration surface by exporting all locations, all rooms (including those outside Room Sanity), and all received unique items via expanded KirbyAM `slot_data` for use in tracker templates and generic player/multiworld trackers (Issue #114).
-- Add `Start With All Maps` (`start_with_all_maps`) option to the `Make the game easier` option group. When enabled, all nine area maps are precollected at generation time and removed from the randomized item pool (replaced with filler), so the player begins with every map already acquired (Issue #584).
-- Updated room names to match the names that Wikirby uses. (Issue #587)
+- `Starting Kirby Color` lets players begin a seed with a chosen Kirby palette instead of default Pink, including a random-color option for runs that want a surprise look (Issue #597).
+- World-map big switches now count as Archipelago checks, so more of Amazing Mirror's shortcut and unlock progression is tracked as part of the randomizer (Issue #481).
+- Tracker support is broader, making it easier for players to follow room progress, location progress, and unique-item progress in tracker tools (Issue #114).
+- `Start With All Maps` lets players begin with every area map already unlocked for a more guided and readable playthrough (Issue #584).
+- Room names have been updated to match familiar Wikirby naming, making navigation and communication clearer for players (Issue #587).
 
 ### Bug Fixes
 
@@ -33,7 +33,7 @@ Contract for `## Unreleased` and all post-public `## v...` sections:
 
 ### New Features
 
-- Add `Ability Randomization: Minny` (`ability_randomization_minny`) so Minny can be excluded from enemy copy-ability randomization and kept at vanilla behavior while other enemy ability sources remain randomized (Issue #572).
+- `Ability Randomization: Minny` lets players keep Minny at vanilla behavior even when other enemy ability sources are randomized (Issue #572).
 
 ### Bug Fixes
 
@@ -65,11 +65,13 @@ First Public Build!
 
 ### New Features
 
-- Add `One-Hit Mode` (`one_hit_mode`) with both `exclude_vitality_counters` and `include_vitality_counters` behaviors, keeping the HP cap tied to vitality progression and supporting the public gameplay contract for the mode (Issue #549).
-- Add `No Extra Lives` (`no_extra_lives`) and `DeathLink`, including native runtime enforcement, outgoing/incoming DeathLink flow, slot-data support, flavor text, and end-to-end gameplay validation guidance (Issue #491).
-- Add the public enemy copy-ability randomization feature set, including shuffled/completely-random logic, boss/miniboss controls, passive-enemy support, and `No Ability Weight` configuration for included randomized sources (Issues #338, #398, #399).
-- Add major AP location families and gameplay checks for boss defeats, major chests, vitality chests, Sound Player chest, and optional Room Sanity, along with the supporting room/region topology needed for those checks (Issues #32, #35, #428, #480).
-- Add player-facing quality-of-life features and content for the public release line, including stable item groups, unhidden supported common AP options, shipped consumable filler effects, clearer sent/received item messaging, and standardized item/location naming (Issues #295, #370, #432, #460, #546).
+- First public playable release of Kirby & The Amazing Mirror for Archipelago: seeds can be generated, patched, connected through BizHawk, and played through with working item delivery, location checks, and goal completion.
+- Mirror Shards, maps, Vitality, Sound Player, boss rewards, major chests, and vitality chests are fully integrated into the randomizer so the core Amazing Mirror progression loop is part of normal Archipelago play.
+- Optional `Room Sanity` adds room-discovery checks throughout the game for players who want denser exploration and more location coverage.
+- `One-Hit Mode`, `No Extra Lives`, and `DeathLink` add extra challenge settings for harsher playthroughs and multiworld punishment runs.
+- Enemy copy-ability randomization is available for players who want enemy abilities shuffled or fully randomized, with additional controls over bosses, minibosses, and non-ability enemies.
+- Filler and utility rewards are more interesting in moment-to-moment play, with working consumable effects, clearer sent/received item notifications, and cleaner player-facing item/location names.
+- Standard Archipelago item/location options and stable KirbyAM item groups are available for filters, YAML setup, hints, plando, and other normal AP workflows.
 
 ### Bug Fixes
 
