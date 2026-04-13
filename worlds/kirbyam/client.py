@@ -458,6 +458,9 @@ class KirbyAmClient(BizHawkClient):
             return
 
         self._starting_kirby_color_logged_signature = config
+        if not self._debug_logging_enabled:
+            return
+
         color_id, color_name = config
 
         from CommonClient import logger
@@ -501,6 +504,9 @@ class KirbyAmClient(BizHawkClient):
             [(color_transport_addr, int(color_id).to_bytes(4, "little"), "System Bus")],
         )
         self._starting_kirby_color_synced_id = color_id
+
+        if not self._debug_logging_enabled:
+            return
 
         from CommonClient import logger
 
