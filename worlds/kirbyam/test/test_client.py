@@ -538,6 +538,7 @@ async def test_poll_hub_switch_suppresses_pre_session_stale_bits(mock_bizhawk_co
     """First hub-switch poll with non-zero transport bits should baseline and suppress them."""
     client = KirbyAmClient()
     client.initialize_client()
+    client._debug_logging_enabled = True
 
     mock_bizhawk_context.checked_locations = {1, 2, 3}  # Other checks already acknowledged
 
@@ -560,6 +561,7 @@ async def test_poll_hub_switch_skips_already_server_acknowledged(mock_bizhawk_co
     """No hub-switch resend when server already acknowledges all mapped transport checks."""
     client = KirbyAmClient()
     client.initialize_client()
+    client._debug_logging_enabled = True
 
     moonlight = data.locations["HUB_SWITCH_MOONLIGHT"].location_id
     mock_bizhawk_context.checked_locations = {moonlight}
