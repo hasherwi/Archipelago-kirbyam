@@ -376,16 +376,16 @@ class KirbyAmClient(BizHawkClient):
             [(map_addr, desired_bits.to_bytes(4, "little"), "System Bus")],
         )
 
-        from CommonClient import logger
+        if self._debug_logging_enabled:
+            from CommonClient import logger
 
-        logger.info(
-            "KirbyAM: reconciled native map ownership (current=0x%08X, desired=0x%08X, start_with_all_maps=%s, delivered_item_index=%s)",
-            current_bits,
-            desired_bits,
-            self._start_with_all_maps_enabled(ctx),
-            self._delivered_item_index,
-            extra={"NoStream": not self._debug_logging_enabled},
-        )
+            logger.info(
+                "KirbyAM: reconciled native map ownership (current=0x%08X, desired=0x%08X, start_with_all_maps=%s, delivered_item_index=%s)",
+                current_bits,
+                desired_bits,
+                self._start_with_all_maps_enabled(ctx),
+                self._delivered_item_index,
+            )
 
     @staticmethod
     def _item_signature(item: object) -> tuple[int, int, int, int] | None:
@@ -568,7 +568,6 @@ class KirbyAmClient(BizHawkClient):
             "KirbyAM: configured starting Kirby color is %s (%s)",
             color_name,
             color_id,
-            extra={"NoStream": not self._debug_logging_enabled},
         )
 
     async def _sync_starting_kirby_color_runtime_config(self, ctx: "BizHawkClientContext") -> None:
@@ -613,7 +612,6 @@ class KirbyAmClient(BizHawkClient):
             "KirbyAM: synced starting Kirby color runtime config (%s / %s)",
             color_name,
             color_id,
-            extra={"NoStream": not self._debug_logging_enabled},
         )
 
     @staticmethod
@@ -1724,28 +1722,29 @@ class KirbyAmClient(BizHawkClient):
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
-            from CommonClient import logger
-
             boss_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
             if boss_log_state != self._last_boss_poll_log:
-                logger.info(
-                    "KirbyAM: resending boss-defeat LocationChecks missing on server (missing=%s, acked=%s)",
-                    missing_on_server,
-                    already_acknowledged,
-                    extra={"NoStream": not self._debug_logging_enabled},
-                )
+                if self._debug_logging_enabled:
+                    from CommonClient import logger
+
+                    logger.info(
+                        "KirbyAM: resending boss-defeat LocationChecks missing on server (missing=%s, acked=%s)",
+                        missing_on_server,
+                        already_acknowledged,
+                    )
                 self._last_boss_poll_log = boss_log_state
 
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
-            from CommonClient import logger
-
             boss_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if boss_log_state != self._last_boss_poll_log:
-                logger.debug(
-                    "KirbyAM: dedupe suppressed boss-defeat LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                    already_acknowledged,
-                )
+                if self._debug_logging_enabled:
+                    from CommonClient import logger
+
+                    logger.debug(
+                        "KirbyAM: dedupe suppressed boss-defeat LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                        already_acknowledged,
+                    )
                 self._last_boss_poll_log = boss_log_state
         else:
             self._last_boss_poll_log = None
@@ -1780,28 +1779,29 @@ class KirbyAmClient(BizHawkClient):
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
-            from CommonClient import logger
-
             chest_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
             if chest_log_state != self._last_major_chest_poll_log:
-                logger.info(
-                    "KirbyAM: resending major-chest LocationChecks missing on server (missing=%s, acked=%s)",
-                    missing_on_server,
-                    already_acknowledged,
-                    extra={"NoStream": not self._debug_logging_enabled},
-                )
+                if self._debug_logging_enabled:
+                    from CommonClient import logger
+
+                    logger.info(
+                        "KirbyAM: resending major-chest LocationChecks missing on server (missing=%s, acked=%s)",
+                        missing_on_server,
+                        already_acknowledged,
+                    )
                 self._last_major_chest_poll_log = chest_log_state
 
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
-            from CommonClient import logger
-
             chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if chest_log_state != self._last_major_chest_poll_log:
-                logger.debug(
-                    "KirbyAM: dedupe suppressed major-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                    already_acknowledged,
-                )
+                if self._debug_logging_enabled:
+                    from CommonClient import logger
+
+                    logger.debug(
+                        "KirbyAM: dedupe suppressed major-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                        already_acknowledged,
+                    )
                 self._last_major_chest_poll_log = chest_log_state
         else:
             self._last_major_chest_poll_log = None
@@ -1829,28 +1829,29 @@ class KirbyAmClient(BizHawkClient):
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
-            from CommonClient import logger
-
             chest_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
             if chest_log_state != self._last_vitality_chest_poll_log:
-                logger.info(
-                    "KirbyAM: resending vitality-chest LocationChecks missing on server (missing=%s, acked=%s)",
-                    missing_on_server,
-                    already_acknowledged,
-                    extra={"NoStream": not self._debug_logging_enabled},
-                )
+                if self._debug_logging_enabled:
+                    from CommonClient import logger
+
+                    logger.info(
+                        "KirbyAM: resending vitality-chest LocationChecks missing on server (missing=%s, acked=%s)",
+                        missing_on_server,
+                        already_acknowledged,
+                    )
                 self._last_vitality_chest_poll_log = chest_log_state
 
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
-            from CommonClient import logger
-
             chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if chest_log_state != self._last_vitality_chest_poll_log:
-                logger.debug(
-                    "KirbyAM: dedupe suppressed vitality-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                    already_acknowledged,
-                )
+                if self._debug_logging_enabled:
+                    from CommonClient import logger
+
+                    logger.debug(
+                        "KirbyAM: dedupe suppressed vitality-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                        already_acknowledged,
+                    )
                 self._last_vitality_chest_poll_log = chest_log_state
         else:
             self._last_vitality_chest_poll_log = None
@@ -1877,28 +1878,29 @@ class KirbyAmClient(BizHawkClient):
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
-            from CommonClient import logger
-
             chest_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
             if chest_log_state != self._last_sound_player_chest_poll_log:
-                logger.info(
-                    "KirbyAM: resending sound-player-chest LocationChecks missing on server (missing=%s, acked=%s)",
-                    missing_on_server,
-                    already_acknowledged,
-                    extra={"NoStream": not self._debug_logging_enabled},
-                )
+                if self._debug_logging_enabled:
+                    from CommonClient import logger
+
+                    logger.info(
+                        "KirbyAM: resending sound-player-chest LocationChecks missing on server (missing=%s, acked=%s)",
+                        missing_on_server,
+                        already_acknowledged,
+                    )
                 self._last_sound_player_chest_poll_log = chest_log_state
 
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
-            from CommonClient import logger
-
             chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if chest_log_state != self._last_sound_player_chest_poll_log:
-                logger.debug(
-                    "KirbyAM: dedupe suppressed sound-player-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                    already_acknowledged,
-                )
+                if self._debug_logging_enabled:
+                    from CommonClient import logger
+
+                    logger.debug(
+                        "KirbyAM: dedupe suppressed sound-player-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                        already_acknowledged,
+                    )
                 self._last_sound_player_chest_poll_log = chest_log_state
         else:
             self._last_sound_player_chest_poll_log = None
@@ -1933,13 +1935,13 @@ class KirbyAmClient(BizHawkClient):
                 if stale_mapped_locations:
                     # Only suppress bits for unmapped/stale locations on first poll
                     self._hub_switch_baseline_mask = switch_bits
-                    from CommonClient import logger
+                    if self._debug_logging_enabled:
+                        from CommonClient import logger
 
-                    logger.info(
-                        "KirbyAM: hub-switch baseline initialized from pre-session transport state; suppressing stale resend candidates (baseline=0x%08X)",
-                        switch_bits,
-                        extra={"NoStream": not self._debug_logging_enabled},
-                    )
+                        logger.info(
+                            "KirbyAM: hub-switch baseline initialized from pre-session transport state; suppressing stale resend candidates (baseline=0x%08X)",
+                            switch_bits,
+                        )
 
         effective_switch_bits = switch_bits & ~(self._hub_switch_baseline_mask or 0)
 
@@ -1951,28 +1953,29 @@ class KirbyAmClient(BizHawkClient):
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
-            from CommonClient import logger
-
             switch_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
             if switch_log_state != self._last_hub_switch_poll_log:
-                logger.info(
-                    "KirbyAM: resending hub-switch LocationChecks missing on server (missing=%s, acked=%s)",
-                    missing_on_server,
-                    already_acknowledged,
-                    extra={"NoStream": not self._debug_logging_enabled},
-                )
+                if self._debug_logging_enabled:
+                    from CommonClient import logger
+
+                    logger.info(
+                        "KirbyAM: resending hub-switch LocationChecks missing on server (missing=%s, acked=%s)",
+                        missing_on_server,
+                        already_acknowledged,
+                    )
                 self._last_hub_switch_poll_log = switch_log_state
 
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
-            from CommonClient import logger
-
             switch_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if switch_log_state != self._last_hub_switch_poll_log:
-                logger.debug(
-                    "KirbyAM: dedupe suppressed hub-switch LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                    already_acknowledged,
-                )
+                if self._debug_logging_enabled:
+                    from CommonClient import logger
+
+                    logger.debug(
+                        "KirbyAM: dedupe suppressed hub-switch LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                        already_acknowledged,
+                    )
                 self._last_hub_switch_poll_log = switch_log_state
         else:
             self._last_hub_switch_poll_log = None
@@ -2024,11 +2027,11 @@ class KirbyAmClient(BizHawkClient):
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
-            from CommonClient import logger
-
             room_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
             if room_log_state != self._last_room_sanity_poll_log:
                 if self._debug_logging_enabled:
+                    from CommonClient import logger
+
                     logger.info(
                         "KirbyAM: resending room-sanity LocationChecks missing on server (missing=%s, acked=%s)",
                         missing_on_server,
@@ -2038,14 +2041,15 @@ class KirbyAmClient(BizHawkClient):
 
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
-            from CommonClient import logger
-
             room_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if room_log_state != self._last_room_sanity_poll_log:
-                logger.debug(
-                    "KirbyAM: dedupe suppressed room-sanity LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                    already_acknowledged,
-                )
+                if self._debug_logging_enabled:
+                    from CommonClient import logger
+
+                    logger.debug(
+                        "KirbyAM: dedupe suppressed room-sanity LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                        already_acknowledged,
+                    )
                 self._last_room_sanity_poll_log = room_log_state
         else:
             self._last_room_sanity_poll_log = None
@@ -2238,33 +2242,33 @@ class KirbyAmClient(BizHawkClient):
         if rom_received_count is not None:
             if rom_received_count > len(ctx.items_received):
                 if not self._delivery_counter_ahead_fallback_active:
-                    logger.info(
-                        "KirbyAM: ROM delivery counter is ahead of received items (rom=%s, received=%s); "
-                        "ignoring ROM counter and continuing mailbox delivery",
-                        rom_received_count,
-                        len(ctx.items_received),
-                        extra={"NoStream": not self._debug_logging_enabled},
-                    )
+                    if self._debug_logging_enabled:
+                        logger.info(
+                            "KirbyAM: ROM delivery counter is ahead of received items (rom=%s, received=%s); "
+                            "ignoring ROM counter and continuing mailbox delivery",
+                            rom_received_count,
+                            len(ctx.items_received),
+                        )
                 self._delivery_counter_ahead_fallback_active = True
             else:
                 if self._delivery_counter_ahead_fallback_active:
-                    logger.info(
-                        "KirbyAM: ROM delivery counter is back in range (rom=%s, received=%s); "
-                        "restoring normal mailbox synchronization",
-                        rom_received_count,
-                        len(ctx.items_received),
-                        extra={"NoStream": not self._debug_logging_enabled},
-                    )
+                    if self._debug_logging_enabled:
+                        logger.info(
+                            "KirbyAM: ROM delivery counter is back in range (rom=%s, received=%s); "
+                            "restoring normal mailbox synchronization",
+                            rom_received_count,
+                            len(ctx.items_received),
+                        )
                 self._delivery_counter_ahead_fallback_active = False
                 self._delivery_counter_ahead_resume_logged = False
 
             if rom_received_count < self._delivered_item_index:
-                logger.info(
-                    "KirbyAM: ROM delivery counter moved backward from %s to %s; rewinding client delivery cursor",
-                    self._delivered_item_index,
-                    rom_received_count,
-                    extra={"NoStream": not self._debug_logging_enabled},
-                )
+                if self._debug_logging_enabled:
+                    logger.info(
+                        "KirbyAM: ROM delivery counter moved backward from %s to %s; rewinding client delivery cursor",
+                        self._delivered_item_index,
+                        rom_received_count,
+                    )
                 self._delivered_item_index = rom_received_count
                 self._delivery_pending = False
                 self._delivery_pending_frame = None
@@ -2283,12 +2287,12 @@ class KirbyAmClient(BizHawkClient):
                 # Treat forward counter movement as authoritative only for a pending
                 # delivery ACK. This avoids stale ROM counters skipping deliveries.
                 _ff_pending_item_index = self._delivery_pending_item_index
-                logger.info(
-                    "KirbyAM: ROM delivery counter moved forward from %s to %s on pending ACK; fast-forwarding client delivery cursor",
-                    self._delivered_item_index,
-                    rom_received_count,
-                    extra={"NoStream": not self._debug_logging_enabled},
-                )
+                if self._debug_logging_enabled:
+                    logger.info(
+                        "KirbyAM: ROM delivery counter moved forward from %s to %s on pending ACK; fast-forwarding client delivery cursor",
+                        self._delivered_item_index,
+                        rom_received_count,
+                    )
                 self._delivered_item_index = rom_received_count
                 self._delivery_pending = False
                 self._delivery_pending_frame = None
@@ -2433,23 +2437,23 @@ class KirbyAmClient(BizHawkClient):
             item_id, player_id = item_fields
 
             if self._delivery_counter_ahead_fallback_active and not self._delivery_counter_ahead_resume_logged:
-                logger.info(
-                    "KirbyAM: ROM counter fallback active; continuing mailbox delivery at item index %s "
-                    "(rom=%s, received=%s)",
-                    self._delivered_item_index,
-                    rom_received_count,
-                    len(ctx.items_received),
-                    extra={"NoStream": not self._debug_logging_enabled},
-                )
+                if self._debug_logging_enabled:
+                    logger.info(
+                        "KirbyAM: ROM counter fallback active; continuing mailbox delivery at item index %s "
+                        "(rom=%s, received=%s)",
+                        self._delivered_item_index,
+                        rom_received_count,
+                        len(ctx.items_received),
+                    )
                 self._delivery_counter_ahead_resume_logged = True
 
-            logger.info(
-                "KirbyAM: Delivering mailbox item index %s (%s from %s)",
-                self._delivered_item_index,
-                self._item_name(ctx, item_id, player_id),
-                self._player_name(ctx, player_id),
-                extra={"NoStream": not self._debug_logging_enabled},
-            )
+            if self._debug_logging_enabled:
+                logger.info(
+                    "KirbyAM: Delivering mailbox item index %s (%s from %s)",
+                    self._delivered_item_index,
+                    self._item_name(ctx, item_id, player_id),
+                    self._player_name(ctx, player_id),
+                )
             await bizhawk.write(ctx.bizhawk_ctx, [
                 (id_addr, item_id.to_bytes(4, "little"), "System Bus"),
                 (player_addr, player_id.to_bytes(4, "little"), "System Bus"),
