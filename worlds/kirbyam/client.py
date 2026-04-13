@@ -454,13 +454,12 @@ class KirbyAmClient(BizHawkClient):
         config = self._get_starting_kirby_color_config(ctx)
         if config is None:
             return
+        if not self._debug_logging_enabled:
+            return
         if config == self._starting_kirby_color_logged_signature:
             return
 
         self._starting_kirby_color_logged_signature = config
-        if not self._debug_logging_enabled:
-            return
-
         color_id, color_name = config
 
         from CommonClient import logger
@@ -831,7 +830,6 @@ class KirbyAmClient(BizHawkClient):
 
         self._load_notification_settings(ctx)
         self._load_debug_settings(ctx)
-        self._log_starting_kirby_color_config_once(ctx)
         await self._sync_death_link_setting(ctx)
         await self._sync_enemy_copy_ability_runtime_config(ctx)
 
@@ -845,6 +843,8 @@ class KirbyAmClient(BizHawkClient):
             if self._watcher_requires_bizhawk_resync:
                 self._reset_reconnect_transient_state()
                 self._watcher_requires_bizhawk_resync = False
+
+            self._log_starting_kirby_color_config_once(ctx)
 
             # Load persisted state from RAM once per session (after bizhawk_ctx is valid)
             if not self._ram_state_loaded:
