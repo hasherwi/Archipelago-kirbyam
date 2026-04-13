@@ -262,9 +262,6 @@ OPTION_GROUPS = [
     OptionGroup("Make the game easier", [
         StartWithAllMaps,
     ]),
-    OptionGroup("Cosmetics", [
-        StartingKirbyColor,
-    ]),
     OptionGroup("Make the game last longer", [
         RoomSanity,
     ]),
@@ -280,5 +277,8 @@ OPTION_GROUPS = [
         AbilityRandomizationMinny,
         AbilityRandomizationPassiveEnemies,
         AbilityRandomizationNoAbilityWeight,
+    ]),
+    OptionGroup("Cosmetics", [
+        StartingKirbyColor,
     ]),
 ]

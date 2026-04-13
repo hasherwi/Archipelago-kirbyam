@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from functools import lru_cache
 from random import Random
@@ -9,6 +10,9 @@ from random import Random
 from .data import load_json_data
 
 STARTING_KIRBY_COLOR_RANDOM_OPTION = 255
+_KIRBY_COLOR_ID_MIN = 0
+_KIRBY_COLOR_ID_MAX = 13
+_COLOR_KEY_PATTERN = re.compile(r"^[a-z_][a-z0-9_]*$")
 
 
 @dataclass(frozen=True)
@@ -39,11 +43,21 @@ def load_kirby_colors() -> tuple[KirbyColor, ...]:
         key = str(entry.get("key", "")).strip().lower()
         if not key:
             raise ValueError("Kirby color entry is missing a non-empty 'key'.")
+        if _COLOR_KEY_PATTERN.fullmatch(key) is None:
+            raise ValueError(
+                f"Kirby color '{key}' has an invalid key format. "
+                "Expected [a-z_][a-z0-9_]*."
+            )
 
         color_id_raw = entry.get("id")
         if not isinstance(color_id_raw, int):
             raise ValueError(f"Kirby color '{key}' has a non-integer id: {color_id_raw!r}")
         color_id = int(color_id_raw)
+        if color_id < _KIRBY_COLOR_ID_MIN or color_id > _KIRBY_COLOR_ID_MAX:
+            raise ValueError(
+                f"Kirby color '{key}' id {color_id} is out of supported range "
+                f"{_KIRBY_COLOR_ID_MIN}..{_KIRBY_COLOR_ID_MAX}."
+            )
 
         display_name = str(entry.get("name", "")).strip()
         if not display_name:

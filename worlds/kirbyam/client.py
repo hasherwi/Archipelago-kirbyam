@@ -47,6 +47,7 @@ _ROOM_VISIT_FLAGS_ENTRY_COUNT = 0x120
 _ROOM_VISIT_FLAGS_BIT_MASK = 0x8000
 _STARTING_KIRBY_COLOR_MIN = 0
 _STARTING_KIRBY_COLOR_MAX = 13
+_STARTING_KIRBY_COLOR_REVALIDATE_TICKS = 300
 _OPTIONAL_UNSAFE_DELIVERY_COUNTERS = (
     ("shadow_kirby_encounters_native", "shadow_kirby_encounters"),
     ("mirra_encounters_native", "mirra_encounters"),
@@ -205,6 +206,7 @@ class KirbyAmClient(BizHawkClient):
         self._boss_shard_debug_window_active: bool = False
         self._starting_kirby_color_synced_id: int | None = None
         self._starting_kirby_color_logged_signature: tuple[int, str] | None = None
+        self._starting_kirby_color_revalidate_counter: int = 0
 
     @staticmethod
     def _server_session_ready(ctx: "BizHawkClientContext") -> bool:
@@ -248,6 +250,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_logged_demo_flags = None
         self._boss_shard_debug_window_active = False
         self._starting_kirby_color_synced_id = None
+        self._starting_kirby_color_revalidate_counter = 0
 
     def _no_extra_lives_enabled(self, ctx: "BizHawkClientContext") -> bool:
         slot_data = getattr(ctx, "slot_data", None)
@@ -456,6 +459,12 @@ class KirbyAmClient(BizHawkClient):
         color_transport_addr = self._transport_addr("starting_kirby_color_id")
         if color_transport_addr is None:
             return
+
+        if self._starting_kirby_color_synced_id == color_id:
+            self._starting_kirby_color_revalidate_counter += 1
+            if self._starting_kirby_color_revalidate_counter < _STARTING_KIRBY_COLOR_REVALIDATE_TICKS:
+                return
+        self._starting_kirby_color_revalidate_counter = 0
 
         # Read back the current mailbox value so soft resets are handled correctly.
         # A GBA soft reset clears EWRAM and reinstates the sentinel 0xFFFFFFFF even
