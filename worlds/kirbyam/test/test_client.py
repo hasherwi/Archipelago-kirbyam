@@ -2597,7 +2597,7 @@ async def test_game_watcher_reloads_state_after_transport_recovery(mock_bizhawk_
 
     with patch.object(client, '_reset_reconnect_transient_state') as mock_reset, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock) as mock_load, \
-            patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock) as mock_reconcile_maps, \
+         patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock) as mock_reconcile_maps, \
          patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock) as mock_apply_death_link, \
          patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock) as mock_send_death_link, \
@@ -2725,7 +2725,7 @@ async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_biz
     with patch('CommonClient.logger') as mock_logger, \
          patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock) as mock_load, \
-            patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock) as mock_reconcile_maps, \
+         patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock) as mock_reconcile_maps, \
             patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_poll_locations', new_callable=AsyncMock) as mock_poll_locations, \
          patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock) as mock_poll_boss, \
@@ -2780,7 +2780,7 @@ async def test_game_watcher_reconnect_entry_suppresses_session_ready_log_when_de
     with patch('CommonClient.logger') as mock_logger, \
          patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
-            patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
+         patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
          patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
@@ -2989,7 +2989,7 @@ async def test_game_watcher_emits_pause_then_resume_popups_on_transition(mock_bi
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
-            patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
+         patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
          patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_locations', new_callable=AsyncMock), \
@@ -3046,7 +3046,7 @@ async def test_game_watcher_emits_runtime_gate_logs_when_debug_enabled(mock_bizh
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
-            patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
+         patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
             patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
@@ -3089,7 +3089,7 @@ async def test_game_watcher_syncs_death_link_enabled_from_slot_data(mock_bizhawk
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
-            patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
+         patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
             patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
             patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_locations', new_callable=AsyncMock), \
@@ -3117,7 +3117,7 @@ async def test_game_watcher_death_link_sync_is_deduped_until_value_changes(mock_
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
-            patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
+         patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
             patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
             patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_locations', new_callable=AsyncMock), \
