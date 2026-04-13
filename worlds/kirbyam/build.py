@@ -330,7 +330,7 @@ def _prepare_args_for_patch(args: argparse.Namespace, world_root: Path) -> argpa
             print("--source-type arg requires a base ROM path.")
             args.rom = _prompt_existing_file("Enter path to the base ROM (.gba): ")
 
-    elif not args.skip_patch and args.source_type == "file":
+    elif args.source_type == "file":
         rom_path_tmp = world_root / "kirby_ap_payload" / "rom_path.tmp"
         rom_path_text = ""
         if rom_path_tmp.exists():
