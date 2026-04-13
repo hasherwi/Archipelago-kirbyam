@@ -220,6 +220,8 @@ That means `rooms.json` is doing double duty:
 - topology source for room graph traversal
 - optional generator for `Room X-YY` AP locations
 
+Room region naming in `rooms.json` is intentionally aligned with Wikirby.com room naming (for example, hub/goal labels) so cross-referencing map documentation and world data stays consistent.
+
 ### Region Loading
 
 All region JSON files under `data/regions/` are merged. Each region records:
@@ -599,6 +601,8 @@ Important details:
 - it can skip patch rebuild with `--skip-patch`
 - it installs the `.apworld` into Archipelago's custom worlds directory by default on Windows
 - it packages the world in place without a staging directory
+- when required patch inputs are missing, it prompts interactively (for example, missing `--rom` with `--source-type arg`)
+- automation can disable prompts with `--non-interactive` so CI fails fast with actionable messages
 
 So the world's distributable artifact is the `.apworld`, while the player's actual game artifact is the `.apkirbyam` patch generated from world output.
 

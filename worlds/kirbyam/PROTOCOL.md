@@ -63,7 +63,8 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x44   | 0x0203B044 | 4B | boss_temp_shard_bitfield | u32 | ROM internal | Bits 0-7 track shard bits temporarily written by boss-defeat hook for cutscene safety. On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, then clears this mask. |
 | 0x48   | 0x0203B048 | 4B | delivered_vitality_item_bits | u32 | ROM internal | Replay guard for vitality counter items. Bit N marks that `VITALITY_COUNTER_(N+1)` has already been applied, preventing duplicate vitality grants if an item is resent during reconnect/reset recovery. |
 | 0x4C   | 0x0203B04C | 4B | hub_switch_flags | u32 | ROM → Client | Bits 0–14 set when world-map big-switch door unlock callbacks fire (`WorldMapDoor` order: Moonlight, RR East, RR South, Cabbage Center, RR West, Carrot, RR North, Mustard, Cabbage West, Radish, Peppermint East, Peppermint West, Cabbage East, Olive, Candy). |
-| 0x50–0x63 | 0x0203B050–0x0203B063 | 20B | *(reserved)* | — | — | Reserved; not currently used. |
+| 0x50   | 0x0203B050 | 4B | starting_kirby_color_id | u32 | ROM ← Client | Runtime config payload for starting Kirby color. Valid values are `0..13`; `0` (Pink) is intentionally treated as a no-op by payload logic. Non-Pink values are applied through `KIRBY_TRANSITION_COLOR`, so the color becomes visible on the next room/area transition (typically the first transition after game start). |
+| 0x54–0x63 | 0x0203B054–0x0203B063 | 16B | *(reserved)* | — | — | Reserved; not currently used. |
 | 0x64   | 0x0203B064 | 4B | ability_randomization_mode_runtime | u32 | ROM ← Client | Enemy copy-ability randomization mode (`0`=off, `1`=shuffled, `2`=completely_random). Written once per connection by the Python client from `slot_data`. |
 | 0x68   | 0x0203B068 | 4B | ability_randomization_seed_lo_runtime | u32 | ROM ← Client | Low 32 bits of the 64-bit seed used for per-swallow completely-random rerolls. |
 | 0x6C   | 0x0203B06C | 4B | ability_randomization_seed_hi_runtime | u32 | ROM ← Client | High 32 bits of the 64-bit seed used for per-swallow completely-random rerolls. |
@@ -87,10 +88,12 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x02028CA0 | 576B | gVisitedDoors (`room_visit_flags_native`) | Native room-visit array (`u16[0x120]`); bit 15 marks visited state by `doorsIdx` |
 | 0x0203AD2C | 4B | AI_KIRBY_STATE          | Runtime phase classifier (Issue #56 gameplay gate) |
 | 0x0203AD10 | 4B | DEMO_PLAYBACK_FLAGS     | Native title-demo discriminator (`demo_playback_flags_native`; bit `0x10` indicates title-screen demo playback) |
+| 0x0203ADE0 | 1B | KIRBY_ACTIVE_COLOR      | Native currently selected Kirby palette index (`0..13`). **Boot-time only**: updates only if written before the game's graphics system initialises; writing during gameplay has no visual effect. |
+| 0x02020FBF | 1B | KIRBY_TRANSITION_COLOR  | Kirby palette index applied by the game engine on each screen transition (`0..13`). Writing here takes effect on the next room/area transition; HUD elements (lives, health bar) reflect the new color after the player pauses. |
 | 0x02020FE0 | 1B | KIRBY_HP                | Kirby HP (`s8`) used for DeathLink runtime receive/apply and local death transition detection |
 | 0x02020FE1 | 1B | KIRBY_MAX_HP            | Kirby max HP (`s8`) used for one-hit mode enforcement (player 0 struct) |
 | 0x02020FE2 | 1B | KIRBY_LIVES             | Native extra-life counter (`u8`) used for `no_extra_lives` enforcement |
-| 0x02038980 | 2B | KIRBY_VITALITY_COUNTER  | Native vitality counter (`u16`); incremented by ROM payload on Vitality Counter item delivery; read by one-hit mode enforcement |
+| 0x02038980 | 2B | KIRBY_VITALITY_COUNTER  | Native vitality counter (`u16`); incremented by ROM payload on Vitality Counter item delivery and clamped to 4 (the shipped AP vitality item count) to prevent reset/replay over-grants; read by one-hit mode enforcement |
 
 ## Item ID Ranges
 
@@ -158,6 +161,8 @@ Server → Client: ConnectionRefused | Connected
 - `goal` (int): selected goal option.
 - `shards` (int): shard randomization mode.
 - `start_with_all_maps` (bool): when true, all map items are precollected and removed from randomized placement.
+- `starting_kirby_color` (int): resolved Kirby starting color ID (`0..13`) after generation-time random resolution. Non-Pink colors become visible after the next room/area transition.
+- `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
 - `one_hit_mode` (int): one-hit mode selection (`0=off`, `1=exclude_vitality_counters`, `2=include_vitality_counters`). When non-zero, Kirby's max HP is clamped to `vitality_counter + 1` during gameplay. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool (replaced by filler) so the cap stays at 1. In `include_vitality_counters` mode, Vitality Counter items remain in the pool and each one received raises the cap by 1.
 - `death_link` (bool): enables/disables AP DeathLink tag synchronization in the client.
@@ -199,7 +204,7 @@ DeathLink runtime behavior contract:
 - Generation removes all four Vitality Counter items from the non-filler item pool (replaced by filler) when `one_hit_mode == exclude_vitality_counters` (1). Vitality Chest locations are kept, but this mode does not guarantee location-specific filler placement on those chests.
 - In `exclude_vitality_counters` mode, filler selection also removes health-restoring filler (`Small Food`, `Max Tomato`) so randomized filler does not counteract the 1 HP challenge. If `no_extra_lives` is also enabled, `1 Up` is removed from that reduced filler pool as well.
 - Generation leaves the item pool unchanged when `one_hit_mode == include_vitality_counters` (2).
-- During gameplay, when `one_hit_mode != vanilla`, the BizHawk client reads `kirby_vitality_counter_native` (`u16`) and enforces `desired_max_hp = vitality_counter + 1` (capped to `0x7F`) onto `kirby_max_hp_native` and `kirby_hp_native` for player 0's struct.
+- During gameplay, when `one_hit_mode != off`, the BizHawk client reads `kirby_vitality_counter_native` (`u16`) and enforces `desired_max_hp = vitality_counter + 1` (capped to `0x7F`) onto `kirby_max_hp_native` and `kirby_hp_native` for player 0's struct. In `exclude_vitality_counters` mode it additionally scrubs `kirby_vitality_counter_native` back to `0` every gameplay tick so AP vitality grants cannot persist.
 - Dead/negative HP states (`current_hp <= 0`) are preserved; only alive Kirby's HP is clamped.
 - Any `one_hit_mode` runtime diagnostics must remain gated behind `debug.logging`.
 ```
