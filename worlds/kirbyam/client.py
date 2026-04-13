@@ -2167,14 +2167,6 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_payload_stall_warned = False
                 self._hook_heartbeat_stale_ticks = 0
                 await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
-                if flag != 0:
-                    logger.warning(
-                        "KirbyAM: Clearing stale mailbox flag after fast-forward to item index %s",
-                        self._delivered_item_index,
-                    )
-                    await bizhawk.write(ctx.bizhawk_ctx, [
-                        (flag_addr, (0).to_bytes(4, "little"), "System Bus"),
-                    ])
                 # When the ROM counter advances while a delivery was pending and flag == 0,
                 # this IS the ACK: the ROM processed our mailbox item and incremented the
                 # counter in the same frame as clearing the flag.  Emit the receive
