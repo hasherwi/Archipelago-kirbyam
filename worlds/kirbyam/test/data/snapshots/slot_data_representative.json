@@ -759,7 +759,7 @@
     "ROOM_SANITY_1_WARP": {
       "category": "ROOM_SANITY",
       "label": "Room 1-WARP",
-      "location_id": 3961008,
+      "location_id": 3961257,
       "tags": [
         "RoomSanity"
       ]
@@ -959,7 +959,7 @@
     "ROOM_SANITY_2_WARP": {
       "category": "ROOM_SANITY",
       "label": "Room 2-WARP",
-      "location_id": 3961056,
+      "location_id": 3961258,
       "tags": [
         "RoomSanity"
       ]
@@ -1319,7 +1319,7 @@
     "ROOM_SANITY_4_WARP": {
       "category": "ROOM_SANITY",
       "label": "Room 4-WARP",
-      "location_id": 3961102,
+      "location_id": 3961259,
       "tags": [
         "RoomSanity"
       ]
@@ -1495,7 +1495,7 @@
     "ROOM_SANITY_5_WARP": {
       "category": "ROOM_SANITY",
       "label": "Room 5-WARP",
-      "location_id": 3961125,
+      "location_id": 3961260,
       "tags": [
         "RoomSanity"
       ]
@@ -1967,7 +1967,7 @@
     "ROOM_SANITY_7_WARP": {
       "category": "ROOM_SANITY",
       "label": "Room 7-WARP",
-      "location_id": 3961178,
+      "location_id": 3961261,
       "tags": [
         "RoomSanity"
       ]
@@ -2415,7 +2415,7 @@
     "ROOM_SANITY_9_WARP": {
       "category": "ROOM_SANITY",
       "label": "Room 9-WARP",
-      "location_id": 3961237,
+      "location_id": 3961262,
       "tags": [
         "RoomSanity"
       ]
@@ -2943,7 +2943,7 @@
       ],
       "label": "REGION_CANDY_CONSTELLATION/ROOM_9_WARP",
       "parent_region": "REGION_CANDY_CONSTELLATION",
-      "room_sanity_location_id": 3961237
+      "room_sanity_location_id": 3961262
     },
     "REGION_CARROT_CASTLE/ROOM_5_01": {
       "exits": [
@@ -3178,7 +3178,7 @@
       ],
       "label": "REGION_CARROT_CASTLE/ROOM_5_WARP",
       "parent_region": "REGION_CARROT_CASTLE",
-      "room_sanity_location_id": 3961125
+      "room_sanity_location_id": 3961260
     },
     "REGION_DIMENSION_MIRROR/ROOM_10_01": {
       "exits": [
@@ -3598,7 +3598,7 @@
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_WARP",
       "parent_region": "REGION_MOONLIGHT_MANSION",
-      "room_sanity_location_id": 3961056
+      "room_sanity_location_id": 3961258
     },
     "REGION_MUSTARD_MOUNTAIN/ROOM_4_01": {
       "exits": [
@@ -3845,7 +3845,7 @@
       ],
       "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP",
       "parent_region": "REGION_MUSTARD_MOUNTAIN",
-      "room_sanity_location_id": 3961102
+      "room_sanity_location_id": 3961259
     },
     "REGION_OLIVE_OCEAN/ROOM_6_01": {
       "exits": [
@@ -4432,7 +4432,7 @@
       ],
       "label": "REGION_PEPPERMINT_PALACE/ROOM_7_WARP",
       "parent_region": "REGION_PEPPERMINT_PALACE",
-      "room_sanity_location_id": 3961178
+      "room_sanity_location_id": 3961261
     },
     "REGION_RADISH_RUINS/ROOM_8_01": {
       "exits": [
@@ -5256,7 +5256,7 @@
       ],
       "label": "REGION_RAINBOW_ROUTE/ROOM_1_WARP",
       "parent_region": "REGION_RAINBOW_ROUTE",
-      "room_sanity_location_id": 3961008
+      "room_sanity_location_id": 3961257
     },
     "REGION_TUTORIAL/ROOM_0_01": {
       "exits": [
