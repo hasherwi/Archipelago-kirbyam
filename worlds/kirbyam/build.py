@@ -291,7 +291,7 @@ def _prompt_yes_no(prompt: str, *, default: bool) -> bool:
 
 def _prompt_existing_file(prompt: str) -> str:
     while True:
-        raw = input(prompt).strip().strip('"')
+        raw = input(prompt).strip().strip("'\"")
         if not raw:
             print("A file path is required.")
             continue
