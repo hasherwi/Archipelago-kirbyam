@@ -676,6 +676,14 @@
         "RoomSanity"
       ]
     },
+    "ROOM_SANITY_1_40": {
+      "category": "ROOM_SANITY",
+      "label": "Room 1-40",
+      "location_id": 3961008,
+      "tags": [
+        "RoomSanity"
+      ]
+    },
     "ROOM_SANITY_1_41": {
       "category": "ROOM_SANITY",
       "label": "Room 1-41",
@@ -912,6 +920,14 @@
       "category": "ROOM_SANITY",
       "label": "Room 2-19",
       "location_id": 3961054,
+      "tags": [
+        "RoomSanity"
+      ]
+    },
+    "ROOM_SANITY_2_20": {
+      "category": "ROOM_SANITY",
+      "label": "Room 2-20",
+      "location_id": 3961056,
       "tags": [
         "RoomSanity"
       ]
@@ -1188,6 +1204,14 @@
         "RoomSanity"
       ]
     },
+    "ROOM_SANITY_4_08": {
+      "category": "ROOM_SANITY",
+      "label": "Room 4-08",
+      "location_id": 3961102,
+      "tags": [
+        "RoomSanity"
+      ]
+    },
     "ROOM_SANITY_4_09": {
       "category": "ROOM_SANITY",
       "label": "Room 4-09",
@@ -1352,6 +1376,14 @@
       "category": "ROOM_SANITY",
       "label": "Room 5-04",
       "location_id": 3961121,
+      "tags": [
+        "RoomSanity"
+      ]
+    },
+    "ROOM_SANITY_5_05": {
+      "category": "ROOM_SANITY",
+      "label": "Room 5-05",
+      "location_id": 3961125,
       "tags": [
         "RoomSanity"
       ]
@@ -1932,6 +1964,14 @@
         "RoomSanity"
       ]
     },
+    "ROOM_SANITY_7_CHEST": {
+      "category": "ROOM_SANITY",
+      "label": "Room 7-CHEST",
+      "location_id": 3961178,
+      "tags": [
+        "RoomSanity"
+      ]
+    },
     "ROOM_SANITY_7_GOAL_1": {
       "category": "ROOM_SANITY",
       "label": "Room 7-GOAL_1",
@@ -2248,6 +2288,14 @@
       "category": "ROOM_SANITY",
       "label": "Room 9-06",
       "location_id": 3961231,
+      "tags": [
+        "RoomSanity"
+      ]
+    },
+    "ROOM_SANITY_9_07": {
+      "category": "ROOM_SANITY",
+      "label": "Room 9-07",
+      "location_id": 3961237,
       "tags": [
         "RoomSanity"
       ]
@@ -2740,7 +2788,7 @@
       ],
       "label": "REGION_CANDY_CONSTELLATION/ROOM_9_07",
       "parent_region": "REGION_CANDY_CONSTELLATION",
-      "room_sanity_location_id": null
+      "room_sanity_location_id": 3961237
     },
     "REGION_CANDY_CONSTELLATION/ROOM_9_08": {
       "exits": [
@@ -2993,7 +3041,7 @@
       ],
       "label": "REGION_CARROT_CASTLE/ROOM_5_05",
       "parent_region": "REGION_CARROT_CASTLE",
-      "room_sanity_location_id": null
+      "room_sanity_location_id": 3961125
     },
     "REGION_CARROT_CASTLE/ROOM_5_06": {
       "exits": [
@@ -3542,7 +3590,7 @@
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_20",
       "parent_region": "REGION_MOONLIGHT_MANSION",
-      "room_sanity_location_id": null
+      "room_sanity_location_id": 3961056
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS": {
       "exits": [
@@ -3680,7 +3728,7 @@
       ],
       "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
       "parent_region": "REGION_MUSTARD_MOUNTAIN",
-      "room_sanity_location_id": null
+      "room_sanity_location_id": 3961102
     },
     "REGION_MUSTARD_MOUNTAIN/ROOM_4_09": {
       "exits": [
@@ -4384,7 +4432,7 @@
       ],
       "label": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
       "parent_region": "REGION_PEPPERMINT_PALACE",
-      "room_sanity_location_id": null
+      "room_sanity_location_id": 3961178
     },
     "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1": {
       "exits": [
@@ -5142,7 +5190,7 @@
       ],
       "label": "REGION_RAINBOW_ROUTE/ROOM_1_40",
       "parent_region": "REGION_RAINBOW_ROUTE",
-      "room_sanity_location_id": null
+      "room_sanity_location_id": 3961008
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_41": {
       "exits": [
