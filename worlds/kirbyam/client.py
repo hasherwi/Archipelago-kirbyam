@@ -47,6 +47,10 @@ _KIRBY_VITALITY_COUNTER_READ_WIDTH = 2
 _ROOM_VISIT_FLAGS_ADDR_KEY = "room_visit_flags_native"
 _ROOM_VISIT_FLAGS_ENTRY_COUNT = 0x120
 _ROOM_VISIT_FLAGS_BIT_MASK = 0x8000
+_CURRENT_ROOM_ADDR_KEY = "current_room_native"
+_ROOM_PROPS_ROM_BASE = 0x009331AC  # gRoomProps[] — ROM domain offset (GBA ROM 0x089331AC)
+_ROOM_PROPS_STRIDE = 0x28  # sizeof(struct RoomProps)
+_ROOM_PROPS_DOORS_IDX_OFFSET = 0x24  # offsetof(struct RoomProps, doorsIdx)
 _STARTING_KIRBY_COLOR_MIN = 0
 _STARTING_KIRBY_COLOR_MAX = 13
 _STARTING_KIRBY_COLOR_REVALIDATE_TICKS = 4
@@ -246,6 +250,10 @@ class KirbyAmClient(BizHawkClient):
         self._starting_kirby_color_synced_id: int | None = None
         self._starting_kirby_color_logged_signature: tuple[int, str] | None = None
         self._starting_kirby_color_revalidate_counter: int = 0
+
+        # Room entry logging (always to file; client display gated by debug flag)
+        self._last_native_room_id: int | None = None
+        self._room_label_by_doors_idx: dict[int, str] = self._build_room_label_lookup()
 
     @staticmethod
     def _server_session_ready(ctx: "BizHawkClientContext") -> bool:
@@ -1007,6 +1015,9 @@ class KirbyAmClient(BizHawkClient):
             # Room-sanity location polling via native gVisitedDoors bit 15.
             await self._poll_room_sanity_locations(ctx)
 
+            # Room entry logging (always to file; client display gated by debug flag).
+            await self._poll_room_entry_logging(ctx)
+
             # Candidate discovery for non-shard boss defeat signals.
             await self._probe_boss_defeat_candidates(ctx)
 
@@ -1637,6 +1648,20 @@ class KirbyAmClient(BizHawkClient):
         return None
 
     @staticmethod
+    def _build_room_label_lookup() -> "dict[int, str]":
+        """Build a doorsIdx → region_key mapping from all rooms in rooms.json."""
+        rooms_json = load_json_data("regions/rooms.json")
+        result: dict[int, str] = {}
+        for region_key, room in rooms_json.items():
+            rs = room.get("room_sanity")
+            if not isinstance(rs, dict):
+                continue
+            bit_index = rs.get("bit_index")
+            if bit_index is not None:
+                result[int(bit_index)] = str(region_key)
+        return result
+
+    @staticmethod
     def _coerce_u32(value: object) -> int | None:
         try:
             parsed = int(value)
@@ -2053,6 +2078,59 @@ class KirbyAmClient(BizHawkClient):
                 self._last_room_sanity_poll_log = room_log_state
         else:
             self._last_room_sanity_poll_log = None
+
+    async def _poll_room_entry_logging(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """
+        Detect native room changes and log the current room on every entry.
+
+        Reads gCurLevelInfo[0].currentRoom (u16 at current_room_native). When the
+        value changes, resolves the native room ID to a doorsIdx via gRoomProps[] in
+        ROM, then maps doorsIdx to a region key from rooms.json.
+
+        Always written to the log file; shown in the client only when debug logging
+        is enabled.
+        """
+        from CommonClient import logger
+
+        current_room_addr = self._native_addr(_CURRENT_ROOM_ADDR_KEY)
+        if current_room_addr is None:
+            return
+
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(current_room_addr, 2, "System Bus")]))[0]
+        if len(raw) != 2:
+            return
+
+        native_room_id = unpack_from("<H", raw)[0]
+
+        if native_room_id == self._last_native_room_id:
+            return
+
+        self._last_native_room_id = native_room_id
+
+        # Resolve doorsIdx via gRoomProps[native_room_id].doorsIdx (ROM read).
+        rom_doors_idx_addr = _ROOM_PROPS_ROM_BASE + native_room_id * _ROOM_PROPS_STRIDE + _ROOM_PROPS_DOORS_IDX_OFFSET
+        try:
+            doors_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(rom_doors_idx_addr, 2, "ROM")]))[0]
+        except bizhawk.RequestFailedError:
+            logger.info(
+                "KirbyAM: room entry — native=0x%04x (doorsIdx lookup failed)",
+                native_room_id,
+                extra={"NoStream": not self._debug_logging_enabled},
+            )
+            return
+
+        if len(doors_raw) != 2:
+            return
+
+        doors_idx = unpack_from("<H", doors_raw)[0]
+        room_label = self._room_label_by_doors_idx.get(doors_idx, f"<unknown doorsIdx={doors_idx}>")
+        logger.info(
+            "KirbyAM: entered room %s (native=0x%04x, doorsIdx=%d)",
+            room_label,
+            native_room_id,
+            doors_idx,
+            extra={"NoStream": not self._debug_logging_enabled},
+        )
 
     async def _probe_boss_defeat_candidates(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """

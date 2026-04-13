@@ -349,6 +349,7 @@ async def test_poll_major_chest_skips_already_server_acknowledged(mock_bizhawk_c
     """No major-chest resend when server already acknowledges all mapped transport checks."""
     client = KirbyAmClient()
     client.initialize_client()
+    client._debug_logging_enabled = True
 
     olive = data.locations["MAJOR_CHEST_OLIVE_OCEAN"].location_id
     mock_bizhawk_context.checked_locations = {olive}
@@ -428,6 +429,7 @@ async def test_poll_vitality_chest_skips_already_server_acknowledged(mock_bizhaw
     """No vitality-chest resend when server already acknowledges all mapped transport checks."""
     client = KirbyAmClient()
     client.initialize_client()
+    client._debug_logging_enabled = True
 
     carrot = data.locations["VITALITY_CHEST_CARROT_CASTLE"].location_id
     mock_bizhawk_context.checked_locations = {carrot}
@@ -522,14 +524,14 @@ async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_c
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
         mock_read.side_effect = [
             [(0).to_bytes(4, 'little')],
-            [((1 << 0) | (1 << 1)).to_bytes(4, 'little')],
+            [((1 << 11) | (1 << 1)).to_bytes(4, 'little')],
         ]
 
         await client._poll_hub_switch_locations(mock_bizhawk_context)
         await client._poll_hub_switch_locations(mock_bizhawk_context)
 
     mock_send.assert_awaited_once_with([
-        {"cmd": "LocationChecks", "locations": [moonlight, rainbow_east]}
+        {"cmd": "LocationChecks", "locations": [rainbow_east, moonlight]}
     ])
 
 
@@ -570,7 +572,7 @@ async def test_poll_hub_switch_skips_already_server_acknowledged(mock_bizhawk_co
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
          patch('CommonClient.logger') as mock_logger:
-        mock_read.return_value = [((1 << 0)).to_bytes(4, 'little')]
+        mock_read.return_value = [((1 << 11)).to_bytes(4, 'little')]
 
         await client._poll_hub_switch_locations(mock_bizhawk_context)
 
@@ -3398,6 +3400,7 @@ async def test_poll_boss_defeat_skips_already_server_acknowledged(mock_bizhawk_c
     """No LocationChecks sent when boss defeat bit is set but server already acknowledged it."""
     client = KirbyAmClient()
     client.initialize_client()
+    client._debug_logging_enabled = True
 
     boss1_loc = data.locations["BOSS_DEFEAT_1"].location_id
     mock_bizhawk_context.checked_locations = {boss1_loc}
