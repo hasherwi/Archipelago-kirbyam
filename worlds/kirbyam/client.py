@@ -77,12 +77,12 @@ _MAP_ITEM_LABEL_TO_AREA_ID: dict[str, int] = {
     "Radish Ruins - Map": 8,
     "Candy Constellation - Map": 9,
 }
-_MAP_ITEM_IDS_TO_AREA_ID: dict[int, int] = {
+_MAP_ITEM_ID_TO_AREA_ID: dict[int, int] = {
     item.item_id: _MAP_ITEM_LABEL_TO_AREA_ID[item.label]
     for item in data.items.values()
     if item.label in _MAP_ITEM_LABEL_TO_AREA_ID
 }
-_MANAGED_NATIVE_MAP_BITMASK = sum(1 << area_id for area_id in _MAP_ITEM_IDS_TO_AREA_ID.values())
+_MANAGED_NATIVE_MAP_BITMASK = sum(1 << area_id for area_id in _MAP_ITEM_ID_TO_AREA_ID.values())
 _ABILITY_SOURCE_ADDR_TO_KEY: dict[int, str] = {
     address: source.key
     for source in ABILITY_SOURCES
@@ -318,7 +318,7 @@ class KirbyAmClient(BizHawkClient):
             if item_fields is None:
                 continue
             item_id, _player_id = item_fields
-            area_id = _MAP_ITEM_IDS_TO_AREA_ID.get(item_id)
+            area_id = _MAP_ITEM_ID_TO_AREA_ID.get(item_id)
             if area_id is not None:
                 owned_bits |= 1 << area_id
         return owned_bits
