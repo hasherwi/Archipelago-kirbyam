@@ -662,7 +662,7 @@ async def test_deliver_items_logs_when_rom_counter_returns_in_range(mock_bizhawk
 
 
 @pytest.mark.asyncio
-async def test_deliver_items_rom_counter_logs_suppressed_when_debug_disabled(mock_bizhawk_context):
+async def test_deliver_items_rom_counter_logs_hidden_from_stream_when_debug_disabled(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
     client._delivered_item_index = 0
@@ -683,13 +683,20 @@ async def test_deliver_items_rom_counter_logs_suppressed_when_debug_disabled(moc
 
         await client._deliver_items(mock_bizhawk_context)
 
-    assert not any(
+    assert any(
         call.args and isinstance(call.args[0], str) and "ROM delivery counter" in call.args[0]
         for call in mock_logger.info.call_args_list
     )
-    assert not any(
+    assert any(
         call.args and isinstance(call.args[0], str) and "ROM counter fallback active" in call.args[0]
         for call in mock_logger.info.call_args_list
+    )
+    assert all(
+        call.kwargs.get("extra", {}).get("NoStream") is True
+        for call in mock_logger.info.call_args_list
+        if call.args and isinstance(call.args[0], str) and (
+            "ROM delivery counter" in call.args[0] or "ROM counter fallback active" in call.args[0]
+        )
     )
 
 
@@ -962,10 +969,13 @@ async def test_deliver_items_fast_forward_log_gated_by_debug(mock_bizhawk_contex
 
         await client._deliver_items(mock_bizhawk_context)
 
-    assert not any(
-        call.args and isinstance(call.args[0], str) and "ROM delivery counter moved forward" in call.args[0]
+    matching_disabled = [
+        call
         for call in mock_logger.info.call_args_list
-    )
+        if call.args and isinstance(call.args[0], str) and "ROM delivery counter moved forward" in call.args[0]
+    ]
+    assert matching_disabled
+    assert all(call.kwargs.get("extra", {}).get("NoStream") is True for call in matching_disabled)
 
     client = KirbyAmClient()
     client.initialize_client()
@@ -988,6 +998,7 @@ async def test_deliver_items_fast_forward_log_gated_by_debug(mock_bizhawk_contex
         "KirbyAM: ROM delivery counter moved forward from %s to %s on pending ACK; fast-forwarding client delivery cursor",
         0,
         2,
+        extra={"NoStream": False},
     )
 
 
@@ -1011,10 +1022,13 @@ async def test_deliver_items_mailbox_write_log_gated_by_debug(mock_bizhawk_conte
 
         await client._deliver_items(mock_bizhawk_context)
 
-    assert not any(
-        call.args and isinstance(call.args[0], str) and "Delivering mailbox item index" in call.args[0]
+    matching_disabled = [
+        call
         for call in mock_logger.info.call_args_list
-    )
+        if call.args and isinstance(call.args[0], str) and "Delivering mailbox item index" in call.args[0]
+    ]
+    assert matching_disabled
+    assert all(call.kwargs.get("extra", {}).get("NoStream") is True for call in matching_disabled)
 
     client = KirbyAmClient()
     client.initialize_client()
@@ -1039,6 +1053,7 @@ async def test_deliver_items_mailbox_write_log_gated_by_debug(mock_bizhawk_conte
         0,
         "1 Up",
         "Player 1",
+        extra={"NoStream": False},
     )
 
 
