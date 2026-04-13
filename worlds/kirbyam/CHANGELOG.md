@@ -21,13 +21,13 @@ Contract for `## Unreleased` and all post-public `## v...` sections:
 - Updated `Ability Randomization: Minny` (`ability_randomization_minny`) so that it's off by default (Issue #583).
 - Harden vitality delivery against transition/reset replay by clamping native vitality counter grants to the shipped AP vitality item cardinality (4), and in `one_hit_mode=exclude_vitality_counters` scrub native vitality back to `0` during gameplay so vitality receipts cannot persist in that mode (Issue #571).
 - Fix missing boss-defeat LocationChecks when the matching shard is already owned by adding a conservative client fallback: rising-edge bits from `boss_mirror_table_native` byte 0 (bits 0-7) now backfill boss checks when `boss_defeat_flags` is absent for that fight (Issue #573).
+- Hide additional KirbyAM reconnect/resend diagnostics from the live client output unless `Enable Debug Logging` is enabled, while still writing those diagnostics to log files unconditionally (`NoStream`-filtered stream suppression only); includes watcher transport reconnect messages and resend diagnostics for boss/major/vitality/sound-player LocationChecks polling (Issue #582).
 
 ### Internal Changes
 
 - Improve `worlds/kirbyam/build.py` usability for non-author machines by prompting for missing required patch inputs in interactive runs (including missing `--rom` when `--source-type arg` is selected), adding `--source-type file` fallback guidance when `rom_path.tmp` is invalid, and introducing `--non-interactive` fail-fast behavior for automation/CI (Issue #607).
 - Expose all configured KirbyAM seed options in `slot_data` (including `start_with_all_maps` and `enable_debug_logging`) so tracker surfaces can render the exact seed configuration from slot data without inferring from partial fields (Issue #114).
 - Move unswallowable enemy exclusion policy from a static runtime list into `data/enemies.json` source metadata (`can_be_swallowed`) and represent the currently configured non-swallowable enemies there: `GLUNK`, `JACK`, and `SQUISHY` (Issue #570).
-- Hide additional KirbyAM reconnect/resend diagnostics from the live client output unless `Enable Debug Logging` is enabled, while still writing those diagnostics to log files unconditionally (`NoStream`-filtered stream suppression only); includes watcher transport reconnect messages and resend diagnostics for boss/major/vitality/sound-player LocationChecks polling (Issue #582).
 
 ## v0.1.2
 
@@ -60,6 +60,8 @@ Contract for `## Unreleased` and all post-public `## v...` sections:
 - Add regression coverage for the one-hit/no-extra-lives filler-pool interaction and one-hit HP clamp behavior, plus debug-log gating coverage for runtime gameplay-gate, notification queue, room-sanity resend, mailbox delivery, and AP session-ready diagnostics.
 
 ## v0.1.0
+
+First public build!
 
 ### New Features
 
