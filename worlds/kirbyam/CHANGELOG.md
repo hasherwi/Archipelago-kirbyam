@@ -61,7 +61,7 @@ Contract for `## Unreleased` and all post-public `## v...` sections:
 
 ## v0.1.0
 
-First public build!
+First Public Build!
 
 ### New Features
 
