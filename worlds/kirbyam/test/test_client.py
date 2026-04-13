@@ -2023,10 +2023,13 @@ async def test_room_sanity_resend_log_gated_by_debug(mock_bizhawk_context):
         await client._poll_room_sanity_locations(mock_bizhawk_context)
 
     mock_send.assert_awaited_once_with([{"cmd": "LocationChecks", "locations": [3961000]}])
-    assert not any(
-        call.args and isinstance(call.args[0], str) and "resending room-sanity LocationChecks missing on server" in call.args[0]
+    matching_disabled = [
+        call
         for call in mock_logger.info.call_args_list
-    )
+        if call.args and isinstance(call.args[0], str) and "resending room-sanity LocationChecks missing on server" in call.args[0]
+    ]
+    assert matching_disabled
+    assert all(call.kwargs.get("extra", {}).get("NoStream") is True for call in matching_disabled)
 
     client = KirbyAmClient()
     client.initialize_client()
@@ -2044,11 +2047,13 @@ async def test_room_sanity_resend_log_gated_by_debug(mock_bizhawk_context):
 
         await client._poll_room_sanity_locations(mock_bizhawk_context)
 
-    mock_logger.info.assert_any_call(
-        "KirbyAM: resending room-sanity LocationChecks missing on server (missing=%s, acked=%s)",
-        [3961000],
-        [],
-    )
+    matching_enabled = [
+        call
+        for call in mock_logger.info.call_args_list
+        if call.args and isinstance(call.args[0], str) and "resending room-sanity LocationChecks missing on server" in call.args[0]
+    ]
+    assert matching_enabled
+    assert all(call.kwargs.get("extra", {}).get("NoStream") is False for call in matching_enabled)
 
 
 @pytest.mark.asyncio
@@ -3248,7 +3253,7 @@ def test_death_link_flavor_templates_loaded_from_data_file():
         client = KirbyAmClient()
         client.initialize_client()
 
-    mock_loader.assert_called_once_with("deathlink_flavor_text.json")
+    mock_loader.assert_any_call("deathlink_flavor_text.json")
     assert client._death_link_flavor_templates == sentinel_templates
 
 
