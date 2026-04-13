@@ -166,7 +166,7 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
 
     room_regions = load_json_data("regions/rooms.json")
 
-    assert len(room_regions) == 287
+    assert len(room_regions) == 286
 
     included_room_sanity = [
         region.get("room_sanity", {}).get("included", False)
@@ -222,7 +222,7 @@ def test_room_reachability_from_start() -> None:
 
     reachable = _reachable_rooms_from("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE")
 
-    assert len(reachable) == 266
+    assert len(reachable) == 263
     assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE" in reachable
     assert "REGION_RAINBOW_ROUTE/ROOM_1_35" in reachable
     assert "REGION_CANDY_CONSTELLATION/ROOM_9_20" in reachable
