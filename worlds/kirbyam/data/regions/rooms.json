@@ -752,9 +752,9 @@
       "REGION_RAINBOW_ROUTE/ROOM_1_09"
     ],
     "room_sanity": {
-      "included": true,
-      "location_id": 3961008,
-      "bit_index": 17
+      "included": false,
+      "location_id": null,
+      "bit_index": null
     },
     "ability_gates": {}
   },
@@ -1177,9 +1177,9 @@
       "REGION_OLIVE_OCEAN/ROOM_6_14"
     ],
     "room_sanity": {
-      "included": true,
-      "location_id": 3961056,
-      "bit_index": 65
+      "included": false,
+      "location_id": null,
+      "bit_index": null
     },
     "ability_gates": {}
   },
@@ -1700,9 +1700,9 @@
       "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
     ],
     "room_sanity": {
-      "included": true,
-      "location_id": 3961102,
-      "bit_index": 123
+      "included": false,
+      "location_id": null,
+      "bit_index": null
     },
     "ability_gates": {}
   },
@@ -2016,9 +2016,9 @@
       "REGION_RAINBOW_ROUTE/ROOM_1_09"
     ],
     "room_sanity": {
-      "included": true,
-      "location_id": 3961125,
-      "bit_index": 252
+      "included": false,
+      "location_id": null,
+      "bit_index": null
     },
     "ability_gates": {}
   },
@@ -2699,9 +2699,9 @@
       "REGION_PEPPERMINT_PALACE/ROOM_7_05"
     ],
     "room_sanity": {
-      "included": true,
-      "location_id": 3961178,
-      "bit_index": 92
+      "included": false,
+      "location_id": null,
+      "bit_index": null
     },
     "ability_gates": {}
   },
@@ -3784,9 +3784,9 @@
       "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
     ],
     "room_sanity": {
-      "included": true,
-      "location_id": 3961237,
-      "bit_index": 149
+      "included": false,
+      "location_id": null,
+      "bit_index": null
     },
     "ability_gates": {}
   },

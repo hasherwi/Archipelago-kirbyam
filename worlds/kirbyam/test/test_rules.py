@@ -172,7 +172,7 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
         region.get("room_sanity", {}).get("included", False)
         for region in room_regions.values()
     ]
-    assert sum(1 for included in included_room_sanity if included) == 263
+    assert sum(1 for included in included_room_sanity if included) == 257
 
     expected_warp_room_sanity = {
         "REGION_RAINBOW_ROUTE/ROOM_1_WARP",
@@ -187,6 +187,20 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
         assert room_meta["included"] is True
         assert isinstance(room_meta["location_id"], int)
         assert isinstance(room_meta["bit_index"], int)
+
+    expected_legacy_room_sanity_disabled = {
+        "REGION_RAINBOW_ROUTE/ROOM_1_40",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
+        "REGION_CARROT_CASTLE/ROOM_5_05",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_07",
+    }
+    for region_key in expected_legacy_room_sanity_disabled:
+        room_meta = room_regions[region_key]["room_sanity"]
+        assert room_meta["included"] is False
+        assert room_meta["location_id"] is None
+        assert room_meta["bit_index"] is None
     
     # Rooms may carry location data where the actual in-game pickup occurs.
     # Exactly the rooms with boss defeats and big chests should have locations;
