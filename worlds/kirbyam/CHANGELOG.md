@@ -11,7 +11,6 @@ Contract for `## Unreleased` and all post-public `## v...` sections:
 ### New Features
 
 - `Starting Kirby Color` lets players begin a seed with a chosen Kirby palette instead of default Pink, including a random-color option for runs that want a surprise look (Issue #597).
-- World-map big switches now count as Archipelago checks, so more of Amazing Mirror's shortcut and unlock progression is tracked as part of the randomizer (Issue #481).
 - Tracker support is broader, making it easier for players to follow room progress, location progress, and unique-item progress in tracker tools (Issue #114).
 - `Start With All Maps` lets players begin with every area map already unlocked for a more guided and readable playthrough (Issue #584).
 - Room names have been updated to match familiar Wikirby naming, making navigation and communication clearer for players (Issue #587).

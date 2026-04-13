@@ -50,6 +50,7 @@ _ROOM_VISIT_FLAGS_BIT_MASK = 0x8000
 _STARTING_KIRBY_COLOR_MIN = 0
 _STARTING_KIRBY_COLOR_MAX = 13
 _STARTING_KIRBY_COLOR_REVALIDATE_TICKS = 4
+_ABILITY_RUNTIME_CONFIG_REVALIDATE_TICKS = 4
 _OPTIONAL_UNSAFE_DELIVERY_COUNTERS = (
     ("shadow_kirby_encounters_native", "shadow_kirby_encounters"),
     ("mirra_encounters_native", "mirra_encounters"),
@@ -216,6 +217,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_logged_demo_flags: int | None = None
         self._boss_shard_debug_window_active: bool = False
         self._last_ability_runtime_config_signature: tuple[int, int, int, int, int] | None = None
+        self._ability_runtime_config_revalidate_counter: int = 0
         self._last_ability_reroll_event_counter: int | None = None
         self._starting_kirby_color_synced_id: int | None = None
         self._starting_kirby_color_logged_signature: tuple[int, str] | None = None
@@ -263,6 +265,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_logged_demo_flags = None
         self._boss_shard_debug_window_active = False
         self._last_ability_runtime_config_signature = None
+        self._ability_runtime_config_revalidate_counter = 0
         self._last_ability_reroll_event_counter = None
         self._starting_kirby_color_synced_id = None
         self._starting_kirby_color_logged_signature = None
@@ -984,9 +987,6 @@ class KirbyAmClient(BizHawkClient):
         seed_lo = seed & 0xFFFFFFFF
         seed_hi = (seed >> 32) & 0xFFFFFFFF
         signature = (mode, seed_lo, seed_hi, no_ability_weight, allowed_mask)
-        if self._last_ability_runtime_config_signature == signature:
-            return
-
         mode_addr = self._transport_addr("ability_randomization_mode_runtime")
         seed_lo_addr = self._transport_addr("ability_randomization_seed_lo_runtime")
         seed_hi_addr = self._transport_addr("ability_randomization_seed_hi_runtime")
@@ -995,6 +995,30 @@ class KirbyAmClient(BizHawkClient):
         rng_state_addr = self._transport_addr("ability_randomization_rng_state_runtime")
         if None in (mode_addr, seed_lo_addr, seed_hi_addr, weight_addr, mask_addr, rng_state_addr):
             return
+
+        if self._last_ability_runtime_config_signature == signature:
+            self._ability_runtime_config_revalidate_counter += 1
+            if self._ability_runtime_config_revalidate_counter < _ABILITY_RUNTIME_CONFIG_REVALIDATE_TICKS:
+                return
+            self._ability_runtime_config_revalidate_counter = 0
+
+            mode_raw, seed_lo_raw, seed_hi_raw, weight_raw, mask_raw = await bizhawk.read(ctx.bizhawk_ctx, [
+                (mode_addr, 4, "System Bus"),
+                (seed_lo_addr, 4, "System Bus"),
+                (seed_hi_addr, 4, "System Bus"),
+                (weight_addr, 4, "System Bus"),
+                (mask_addr, 4, "System Bus"),
+            ])
+            if (
+                self._u32_le(mode_raw) == mode
+                and self._u32_le(seed_lo_raw) == seed_lo
+                and self._u32_le(seed_hi_raw) == seed_hi
+                and self._u32_le(weight_raw) == no_ability_weight
+                and self._u32_le(mask_raw) == (allowed_mask & 0xFFFFFFFF)
+            ):
+                return
+
+        self._ability_runtime_config_revalidate_counter = 0
 
         await bizhawk.write(ctx.bizhawk_ctx, [
             (mode_addr, int(mode).to_bytes(4, "little"), "System Bus"),

@@ -3362,6 +3362,70 @@ async def test_poll_enemy_ability_reroll_events_treats_counter_rollback_as_reset
     )
 
 
+@pytest.mark.asyncio
+async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation_detects_mailbox_drift(mock_bizhawk_context):
+    """When signature is unchanged, periodic read-back should still rewrite drifted mailbox state."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    policy = {
+        "mode": 2,
+        "seed": 0x0000000100000002,
+        "ability_randomization_no_ability_weight": 55,
+        "allowed_abilities": [],
+    }
+    mock_bizhawk_context.slot_data = {"enemy_copy_ability_policy": policy}
+
+    mode = 2
+    seed_lo = 2
+    seed_hi = 1
+    no_ability_weight = 55
+    allowed_mask = 0
+    client._last_ability_runtime_config_signature = (mode, seed_lo, seed_hi, no_ability_weight, allowed_mask)
+    client._ability_runtime_config_revalidate_counter = 999
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        mock_read.return_value = [
+            (0).to_bytes(4, 'little'),
+            (0).to_bytes(4, 'little'),
+            (0).to_bytes(4, 'little'),
+            (0).to_bytes(4, 'little'),
+            (0).to_bytes(4, 'little'),
+        ]
+
+        await client._sync_enemy_copy_ability_runtime_config(mock_bizhawk_context)
+
+    mode_addr = data.transport_ram_addresses["ability_randomization_mode_runtime"]
+    seed_lo_addr = data.transport_ram_addresses["ability_randomization_seed_lo_runtime"]
+    seed_hi_addr = data.transport_ram_addresses["ability_randomization_seed_hi_runtime"]
+    weight_addr = data.transport_ram_addresses["ability_randomization_no_ability_weight_runtime"]
+    mask_addr = data.transport_ram_addresses["ability_randomization_allowed_mask_runtime"]
+    rng_state_addr = data.transport_ram_addresses["ability_randomization_rng_state_runtime"]
+
+    mock_read.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        [
+            (mode_addr, 4, "System Bus"),
+            (seed_lo_addr, 4, "System Bus"),
+            (seed_hi_addr, 4, "System Bus"),
+            (weight_addr, 4, "System Bus"),
+            (mask_addr, 4, "System Bus"),
+        ],
+    )
+    mock_write.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        [
+            (mode_addr, (mode).to_bytes(4, "little"), "System Bus"),
+            (seed_lo_addr, (seed_lo).to_bytes(4, "little"), "System Bus"),
+            (seed_hi_addr, (seed_hi).to_bytes(4, "little"), "System Bus"),
+            (weight_addr, (no_ability_weight).to_bytes(4, "little"), "System Bus"),
+            (mask_addr, (allowed_mask).to_bytes(4, "little"), "System Bus"),
+            (rng_state_addr, (0).to_bytes(4, "little"), "System Bus"),
+        ],
+    )
+
+
 def test_vitality_chest_locations_defined_in_regions():
     """Regression test: all VITALITY_CHEST locations must be registered in their regions.
 
