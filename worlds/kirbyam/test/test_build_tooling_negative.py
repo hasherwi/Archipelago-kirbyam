@@ -247,3 +247,37 @@ def test_prepare_args_file_source_prompts_for_arg_fallback(tmp_path: Path, monke
     prepared = build_mod._prepare_args_for_patch(args, tmp_path)
     assert prepared.source_type == "arg"
     assert prepared.rom == str(rom_path)
+
+
+def test_prepare_args_skip_patch_does_not_require_rom(tmp_path: Path) -> None:
+    args = build_mod.argparse.Namespace(
+        source_type="arg",
+        rom=None,
+        skip_patch=True,
+        non_interactive=True,
+    )
+
+    prepared = build_mod._prepare_args_for_patch(args, tmp_path)
+    assert prepared.rom is None
+
+
+def test_prepare_args_file_source_accepts_relative_rom_path_tmp(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    payload_dir = tmp_path / "kirby_ap_payload"
+    payload_dir.mkdir()
+    rom_path = payload_dir / "base.gba"
+    rom_path.write_bytes(b"rom")
+    (payload_dir / "rom_path.tmp").write_text("'base.gba'\n", encoding="utf-8")
+
+    args = build_mod.argparse.Namespace(
+        source_type="file",
+        rom=None,
+        skip_patch=False,
+        non_interactive=True,
+    )
+
+    # Non-interactive mode should accept valid rom_path.tmp without prompting/fallback.
+    monkeypatch.setattr(build_mod, "_can_prompt", lambda _non_interactive: False)
+
+    prepared = build_mod._prepare_args_for_patch(args, tmp_path)
+    assert prepared.source_type == "file"
+    assert prepared.rom is None

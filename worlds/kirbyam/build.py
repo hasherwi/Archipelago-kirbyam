@@ -304,6 +304,9 @@ def _prompt_existing_file(prompt: str) -> str:
 
 
 def _prepare_args_for_patch(args: argparse.Namespace, world_root: Path) -> argparse.Namespace:
+    if args.skip_patch:
+        return args
+
     can_prompt = _can_prompt(bool(args.non_interactive))
 
     if args.source_type == "arg":
@@ -332,11 +335,17 @@ def _prepare_args_for_patch(args: argparse.Namespace, world_root: Path) -> argpa
         rom_path_text = ""
         if rom_path_tmp.exists():
             try:
-                rom_path_text = rom_path_tmp.read_text(encoding="utf-8").strip().strip('"')
+                rom_path_text = rom_path_tmp.read_text(encoding="utf-8").strip().strip("'\"")
             except OSError:
                 rom_path_text = ""
 
-        rom_path_ok = bool(rom_path_text) and Path(rom_path_text).expanduser().is_file()
+        rom_path_ok = False
+        if rom_path_text:
+            rom_candidate = Path(rom_path_text).expanduser()
+            if not rom_candidate.is_absolute():
+                rom_candidate = rom_path_tmp.parent / rom_candidate
+            rom_path_ok = rom_candidate.is_file()
+
         if not rom_path_ok:
             guidance = (
                 "--source-type file requires kirby_ap_payload/rom_path.tmp to contain a valid ROM path. "
