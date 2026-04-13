@@ -20,6 +20,7 @@ Contract for `## Unreleased` and all post-public `## v...` sections:
 - Add shuffled enemy copy-ability spoiler output listing each randomized source and resulting copy ability (`kind | source_key -> ability`) so seed analysis can verify enemy mappings and full allowed-ability representation (Issue #586).
 - Add generation-log shuffled assignment table output (`kind | source -> ability`) so seed build logs show deterministic enemy copy-ability grants for shuffled mode.
 - Add completely-random per-swallow reroll telemetry logging (`Kirby swallowed a <EnemyName>. Ability was rerolled to <AbilityName>.`) based on the latest observed runtime swallow event (best-effort; earlier events between polls are noted as missed), while only streaming that line to the live client when `enable_debug_logging` is enabled.
+- Updated big chest labels to be consistent and no longer uses room names. Also updated location parent regions to be accurate. (Issue #603)
 
 ### Bug Fixes
 
