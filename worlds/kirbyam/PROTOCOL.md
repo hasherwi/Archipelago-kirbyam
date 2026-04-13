@@ -83,7 +83,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x02020FE0 | 1B | KIRBY_HP                | Kirby HP (`s8`) used for DeathLink runtime receive/apply and local death transition detection |
 | 0x02020FE1 | 1B | KIRBY_MAX_HP            | Kirby max HP (`s8`) used for one-hit mode enforcement (player 0 struct) |
 | 0x02020FE2 | 1B | KIRBY_LIVES             | Native extra-life counter (`u8`) used for `no_extra_lives` enforcement |
-| 0x02038980 | 2B | KIRBY_VITALITY_COUNTER  | Native vitality counter (`u16`); incremented by ROM payload on Vitality Counter item delivery; read by one-hit mode enforcement |
+| 0x02038980 | 2B | KIRBY_VITALITY_COUNTER  | Native vitality counter (`u16`); incremented by ROM payload on Vitality Counter item delivery and clamped to 4 (the shipped AP vitality item count) to prevent reset/replay over-grants; read by one-hit mode enforcement |
 
 ## Item ID Ranges
 
