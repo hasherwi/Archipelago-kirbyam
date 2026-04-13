@@ -122,6 +122,9 @@ class KirbyAmClient(BizHawkClient):
         self._hook_heartbeat_stale_ticks: int = 0
         self._delivery_counter_ahead_fallback_active: bool = False
         self._delivery_counter_ahead_resume_logged: bool = False
+        self._cached_delivered_map_bits: int = 0
+        self._cached_map_bits_index: int = 0
+        self._cached_map_bits_items_len: int = 0
 
         # Deterministic location ordering
         self._all_location_ids_sorted: list[int] = [
@@ -289,6 +292,9 @@ class KirbyAmClient(BizHawkClient):
         self._starting_kirby_color_synced_id = None
         self._starting_kirby_color_logged_signature = None
         self._starting_kirby_color_revalidate_counter = 0
+        self._cached_delivered_map_bits = 0
+        self._cached_map_bits_index = 0
+        self._cached_map_bits_items_len = 0
 
     def _no_extra_lives_enabled(self, ctx: "BizHawkClientContext") -> bool:
         slot_data = getattr(ctx, "slot_data", None)
@@ -313,16 +319,33 @@ class KirbyAmClient(BizHawkClient):
         return self._coerce_bool(slot_data.get("start_with_all_maps", False), False)
 
     def _ap_owned_native_map_bits(self, ctx: "BizHawkClientContext") -> int:
-        owned_bits = _MANAGED_NATIVE_MAP_BITMASK if self._start_with_all_maps_enabled(ctx) else 0
-        delivered_count = min(self._delivered_item_index, len(getattr(ctx, "items_received", ())))
-        for network_item in getattr(ctx, "items_received", ())[:delivered_count]:
-            item_fields = self._extract_delivery_item_fields(network_item)
+        delivered_items = getattr(ctx, "items_received", ())
+        delivered_count = min(self._delivered_item_index, len(delivered_items))
+
+        # Rebuild cache on reconnect rewinds or when the received-item list shrinks.
+        if (
+            self._cached_map_bits_index > delivered_count
+            or self._cached_map_bits_items_len > len(delivered_items)
+        ):
+            self._cached_delivered_map_bits = 0
+            self._cached_map_bits_index = 0
+
+        # Apply only newly delivered entries so per-tick reconciliation stays O(1) after catch-up.
+        for item_index in range(self._cached_map_bits_index, delivered_count):
+            item_fields = self._extract_delivery_item_fields(delivered_items[item_index])
             if item_fields is None:
                 continue
             item_id, _player_id = item_fields
             area_id = _MAP_ITEM_ID_TO_AREA_ID.get(item_id)
             if area_id is not None:
-                owned_bits |= 1 << area_id
+                self._cached_delivered_map_bits |= 1 << area_id
+
+        self._cached_map_bits_index = delivered_count
+        self._cached_map_bits_items_len = len(delivered_items)
+
+        owned_bits = self._cached_delivered_map_bits
+        if self._start_with_all_maps_enabled(ctx):
+            owned_bits |= _MANAGED_NATIVE_MAP_BITMASK
         return owned_bits
 
     async def _reconcile_native_map_ownership(self, ctx: "BizHawkClientContext") -> None:

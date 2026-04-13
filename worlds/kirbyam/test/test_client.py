@@ -8,7 +8,7 @@ import worlds._bizhawk as bizhawk
 from worlds._bizhawk.context import _game_watcher, AuthStatus
 
 from ..data import data
-from ..client import KirbyAmClient
+from ..client import KirbyAmClient, _MAP_ITEM_ID_TO_AREA_ID
 from ..options import OneHitMode
 from ..rom import KirbyAmProcedurePatch
 
@@ -269,6 +269,55 @@ async def test_reconcile_native_map_ownership_skips_write_when_native_bits_match
         await client._reconcile_native_map_ownership(mock_bizhawk_context)
 
     mock_write.assert_not_awaited()
+
+
+def test_ap_owned_native_map_bits_updates_cache_incrementally(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.items_received = [
+        Mock(item=3860010, player=1),
+        Mock(item=3860024, player=1),
+        Mock(item=3860017, player=1),
+    ]
+    client._delivered_item_index = 2
+
+    with patch.object(client, '_extract_delivery_item_fields', wraps=client._extract_delivery_item_fields) as wrapped_extract:
+        first_bits = client._ap_owned_native_map_bits(mock_bizhawk_context)
+        first_call_count = wrapped_extract.call_count
+
+        second_bits = client._ap_owned_native_map_bits(mock_bizhawk_context)
+
+        client._delivered_item_index = 3
+        third_bits = client._ap_owned_native_map_bits(mock_bizhawk_context)
+
+    first_expected = (
+        (1 << _MAP_ITEM_ID_TO_AREA_ID[3860010])
+        | (1 << _MAP_ITEM_ID_TO_AREA_ID[3860024])
+    )
+    third_expected = first_expected | (1 << _MAP_ITEM_ID_TO_AREA_ID[3860017])
+    assert first_bits == first_expected
+    assert second_bits == first_bits
+    assert third_bits == third_expected
+    assert first_call_count == 2
+    assert wrapped_extract.call_count == 3
+
+
+def test_ap_owned_native_map_bits_rebuilds_after_delivered_index_rewind(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.items_received = [
+        Mock(item=3860010, player=1),
+        Mock(item=3860024, player=1),
+        Mock(item=3860017, player=1),
+    ]
+
+    client._delivered_item_index = 3
+    _ = client._ap_owned_native_map_bits(mock_bizhawk_context)
+
+    client._delivered_item_index = 1
+    rewound_bits = client._ap_owned_native_map_bits(mock_bizhawk_context)
+
+    assert rewound_bits == (1 << _MAP_ITEM_ID_TO_AREA_ID[3860010])
 
 
 @pytest.mark.asyncio
