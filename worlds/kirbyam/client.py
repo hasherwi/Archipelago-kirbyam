@@ -1024,7 +1024,7 @@ class KirbyAmClient(BizHawkClient):
                     parts.append(f"hp {current_hp}->{desired_max_hp}")
                 if parts:
                     logger.info(
-                        "KirbyAM debug: one-hit mode clamped %s (vitality_count=%s)",
+                        "KirbyAM debug: one-hit mode clamped %s (desired_vitality_count=%s)",
                         ", ".join(parts),
                         desired_vitality_count,
                     )

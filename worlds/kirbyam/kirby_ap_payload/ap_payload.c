@@ -377,12 +377,16 @@ static void ap_grant_invincibility_candy(void) {
 }
 
 static void ap_grant_vitality_counter(void) {
-    if (KIRBY_VITALITY_COUNTER > KIRBY_MAX_VITALITY_COUNTERS) {
-        KIRBY_VITALITY_COUNTER = KIRBY_MAX_VITALITY_COUNTERS;
+    uint16_t vitality_counter = KIRBY_VITALITY_COUNTER;
+
+    if (vitality_counter > KIRBY_MAX_VITALITY_COUNTERS) {
+        vitality_counter = KIRBY_MAX_VITALITY_COUNTERS;
     }
-    if (KIRBY_VITALITY_COUNTER < KIRBY_MAX_VITALITY_COUNTERS) {
-        KIRBY_VITALITY_COUNTER = (uint16_t)(KIRBY_VITALITY_COUNTER + 1u);
+    if (vitality_counter < KIRBY_MAX_VITALITY_COUNTERS) {
+        vitality_counter = (uint16_t)(vitality_counter + 1u);
     }
+
+    KIRBY_VITALITY_COUNTER = vitality_counter;
     ap_sync_active_kirby_health_from_vitality();
 }
 
