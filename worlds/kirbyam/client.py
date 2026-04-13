@@ -82,7 +82,9 @@ _MAP_ITEM_ID_TO_AREA_ID: dict[int, int] = {
     for item in data.items.values()
     if item.label in _MAP_ITEM_LABEL_TO_AREA_ID
 }
-_MANAGED_NATIVE_MAP_BITMASK = sum(1 << area_id for area_id in _MAP_ITEM_ID_TO_AREA_ID.values())
+_MANAGED_NATIVE_MAP_BITMASK = 0
+for area_id in _MAP_ITEM_ID_TO_AREA_ID.values():
+    _MANAGED_NATIVE_MAP_BITMASK |= 1 << area_id
 _ABILITY_SOURCE_ADDR_TO_KEY: dict[int, str] = {
     address: source.key
     for source in ABILITY_SOURCES
