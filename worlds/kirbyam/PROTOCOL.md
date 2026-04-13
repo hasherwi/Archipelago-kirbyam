@@ -145,7 +145,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | VITALITY_CHEST_CANDY_CONSTELLATION | 3960303 | Candy Constellation 9-8 vitality big chest (transport vitality bit 3) |
 | SOUND_PLAYER_CHEST | 3960304 | Candy Constellation Sound Player chest (transport sound_player_chest bit 0) |
 | HUB_SWITCH_MOONLIGHT .. HUB_SWITCH_CANDY | 3960400 - 3960414 | Hub big-switch checks mapped to `hub_switch_flags` bits 0..14 |
-| ROOM_SANITY_* | 3961000+ | Room visit checks (`Room X-YY`) keyed by native `doorsIdx` and polled from `gVisitedDoors[doorsIdx]` bit 15; includes designed goal/warp rooms |
+| ROOM_SANITY_* | 3961000+ | Room visit checks (`Room X-<room_code>`) keyed by native `doorsIdx` and polled from `gVisitedDoors[doorsIdx]` bit 15; includes designed goal/warp rooms |
 | *Reserved*    | 3960415+ | Future location families |
 
 ## Client Protocol
