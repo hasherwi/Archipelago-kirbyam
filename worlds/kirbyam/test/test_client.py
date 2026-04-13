@@ -509,7 +509,7 @@ async def test_poll_sound_player_chest_skips_when_address_missing(mock_bizhawk_c
 
 @pytest.mark.asyncio
 async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_context):
-    """Set transport hub-switch bits should map to hub-switch LocationChecks."""
+    """Set transport hub-switch bits after baseline should map to LocationChecks."""
     client = KirbyAmClient()
     client.initialize_client()
 
@@ -520,14 +520,39 @@ async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_c
     with patch.dict(data.transport_ram_addresses, {"hub_switch_flags": 0x0203B04C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
-        # Bits 0 and 1 set => Moonlight and Rainbow Route East hub switch checks.
-        mock_read.return_value = [((1 << 0) | (1 << 1)).to_bytes(4, 'little')]
+        mock_read.side_effect = [
+            [(0).to_bytes(4, 'little')],
+            [((1 << 0) | (1 << 1)).to_bytes(4, 'little')],
+        ]
 
+        await client._poll_hub_switch_locations(mock_bizhawk_context)
         await client._poll_hub_switch_locations(mock_bizhawk_context)
 
     mock_send.assert_awaited_once_with([
         {"cmd": "LocationChecks", "locations": [moonlight, rainbow_east]}
     ])
+
+
+@pytest.mark.asyncio
+async def test_poll_hub_switch_suppresses_pre_session_stale_bits(mock_bizhawk_context):
+    """First non-empty read with empty server state should be treated as baseline."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.dict(data.transport_ram_addresses, {"hub_switch_flags": 0x0203B04C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.return_value = [((1 << 0)).to_bytes(4, 'little')]
+
+        await client._poll_hub_switch_locations(mock_bizhawk_context)
+        await client._poll_hub_switch_locations(mock_bizhawk_context)
+
+    mock_send.assert_not_awaited()
+    assert mock_logger.info.called
+    assert "hub-switch baseline initialized" in mock_logger.info.call_args.args[0]
 
 
 @pytest.mark.asyncio

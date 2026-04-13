@@ -293,8 +293,12 @@ for bit in mapped_sound_player_chest_bits:
 
 # Hub switch checks (transport hub_switch_flags)
 hub_switch_bits = RAM[0x0203B04C] as u32
+if first_hub_switch_poll and server_checked_locations is empty and hub_switch_bits != 0:
+    # Treat pre-existing transport bits as baseline to avoid stale cross-session resend.
+    hub_switch_baseline = hub_switch_bits
+effective_hub_switch_bits = hub_switch_bits & ~hub_switch_baseline
 for bit in mapped_hub_switch_bits:
-    if (hub_switch_bits >> bit) & 1:
+    if (effective_hub_switch_bits >> bit) & 1:
         mapped_checked.add(hub_switch_location_id_for_bit(bit))
 
 # Room sanity checks (native gVisitedDoors)
@@ -321,6 +325,7 @@ Boss shard scrub timing contract (Issue #505):
 
 **Behavior notes:**
 - Detection is **level-based** (current bitfield state), not edge-based, to be reconnect-safe.
+- Hub-switch polling suppresses only pre-session baseline bits on first poll when server state is empty, preventing stale EWRAM bits from being resent as fresh checks.
 - No checks are sent for bits already in `server_checked_locations`.
 - No checks are sent for reserved/unmapped bits even when set.
 - Boss-defeat, major-chest, vitality-chest, sound-player-chest, hub-switch, and room-sanity polling follow the same resend/dedupe diagnostic contract.

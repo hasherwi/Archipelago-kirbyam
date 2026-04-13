@@ -208,6 +208,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_vitality_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_sound_player_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_hub_switch_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+        self._hub_switch_baseline_mask: int | None = None
         self._last_room_sanity_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
 
         # Notification pipeline state (Issue #83)
@@ -270,6 +271,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_vitality_chest_poll_log = None
         self._last_sound_player_chest_poll_log = None
         self._last_hub_switch_poll_log = None
+        self._hub_switch_baseline_mask = None
         self._last_room_sanity_poll_log = None
         self._last_boss_probe_snapshot = None
         self._boss_probe_stream_marker = None
@@ -1914,9 +1916,24 @@ class KirbyAmClient(BizHawkClient):
         raw = (await bizhawk.read(ctx.bizhawk_ctx, [(switch_addr, 4, "System Bus")]))[0]
         switch_bits = self._u32_le(raw)
 
+        if self._hub_switch_baseline_mask is None:
+            baseline_mask = 0
+            if not ctx.checked_locations and switch_bits:
+                baseline_mask = switch_bits
+                from CommonClient import logger
+
+                logger.info(
+                    "KirbyAM: hub-switch baseline initialized from pre-session transport state; suppressing stale resend candidates (baseline=0x%08X)",
+                    baseline_mask,
+                    extra={"NoStream": not self._debug_logging_enabled},
+                )
+            self._hub_switch_baseline_mask = baseline_mask
+
+        effective_switch_bits = switch_bits & ~(self._hub_switch_baseline_mask or 0)
+
         mapped_checked_locations: set[int] = set()
         for bit in sorted(self._hub_switch_location_ids_by_bit.keys()):
-            if (switch_bits >> bit) & 1:
+            if (effective_switch_bits >> bit) & 1:
                 mapped_checked_locations.update(self._hub_switch_location_ids_by_bit.get(bit, []))
 
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
