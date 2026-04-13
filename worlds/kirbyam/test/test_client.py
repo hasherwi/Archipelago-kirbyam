@@ -524,7 +524,7 @@ async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_c
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
         mock_read.side_effect = [
             [(0).to_bytes(4, 'little')],
-            [((1 << 11) | (1 << 1)).to_bytes(4, 'little')],
+            [((1 << 10) | (1 << 1)).to_bytes(4, 'little')],
         ]
 
         await client._poll_hub_switch_locations(mock_bizhawk_context)
@@ -572,7 +572,7 @@ async def test_poll_hub_switch_skips_already_server_acknowledged(mock_bizhawk_co
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
          patch('CommonClient.logger') as mock_logger:
-        mock_read.return_value = [((1 << 11)).to_bytes(4, 'little')]
+        mock_read.return_value = [((1 << 10)).to_bytes(4, 'little')]
 
         await client._poll_hub_switch_locations(mock_bizhawk_context)
 
