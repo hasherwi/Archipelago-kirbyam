@@ -1,9 +1,9 @@
 # KirbyAM APWorld Changelog
 
-Contract for `## Unreleased` and all post-public `## v...` sections:
+Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 - `### New Features`
-- `### Improvements`
+- `### Improvements` (optional for older post-public sections)
 - `### Bug Fixes`
 - `### Internal Changes`
 
