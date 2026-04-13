@@ -28,6 +28,22 @@ def test_world_helper_resolves_starting_kirby_color_random_choice() -> None:
     assert resolved_color_name == supported[resolved_color_id]
 
 
+def test_world_helper_caches_resolved_starting_kirby_color_random_choice() -> None:
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+    world.random = Random(0)
+    world.options = SimpleNamespace(
+        starting_kirby_color=SimpleNamespace(
+            current_key="random_color",
+            value=STARTING_KIRBY_COLOR_RANDOM_OPTION,
+        ),
+    )
+
+    first = KirbyAmWorld._get_resolved_starting_kirby_color(world)
+    second = KirbyAmWorld._get_resolved_starting_kirby_color(world)
+
+    assert first == second
+
+
 @pytest.mark.asyncio
 async def test_client_syncs_starting_kirby_color_runtime_config_once(mock_bizhawk_context) -> None:
     client = KirbyAmClient()

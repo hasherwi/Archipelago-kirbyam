@@ -206,7 +206,9 @@ class KirbyAmWorld(World):
                 "Expected a valid seeded random.Random on self.random or a cached resolved color."
             )
         color = resolve_kirby_color(choice_value, rng)
-        return color.color_id, color.display_name
+        self._resolved_starting_kirby_color_id = color.color_id
+        self._resolved_starting_kirby_color_name = color.display_name
+        return self._resolved_starting_kirby_color_id, self._resolved_starting_kirby_color_name
 
     def _active_filler_pool(self) -> tuple[str, ...]:
         pool = self.ACTIVE_FILLER_POOL
