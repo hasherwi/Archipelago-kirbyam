@@ -250,6 +250,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_logged_demo_flags = None
         self._boss_shard_debug_window_active = False
         self._starting_kirby_color_synced_id = None
+        self._starting_kirby_color_logged_signature = None
         self._starting_kirby_color_revalidate_counter = 0
 
     def _no_extra_lives_enabled(self, ctx: "BizHawkClientContext") -> bool:

@@ -127,3 +127,13 @@ def test_load_kirby_colors_rejects_out_of_range_id() -> None:
         with pytest.raises(ValueError, match="out of supported range"):
             load_kirby_colors()
     load_kirby_colors.cache_clear()
+
+
+def test_reset_reconnect_transient_state_clears_starting_color_log_signature() -> None:
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._starting_kirby_color_logged_signature = (7, "Sapphire")
+
+    client._reset_reconnect_transient_state()
+
+    assert client._starting_kirby_color_logged_signature is None
