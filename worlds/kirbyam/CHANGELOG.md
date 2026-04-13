@@ -23,7 +23,6 @@ Contract for `## Unreleased` and all post-public `## v...` sections:
 
 ### Bug Fixes
 
-- Make `start_with_all_maps` reliable in gameplay by having the BizHawk client reassert AP-owned native map bits from `slot_data` and confirmed delivered map items, so all starting maps survive reconnect/save-state drift and later map receipts restore correctly (Issue #650).
 - Restore room-sanity coverage for designed warp rooms by re-enabling their `room_sanity` metadata mappings (Issue #605).
 - Updated `Ability Randomization: Minny` (`ability_randomization_minny`) so that it's off by default (Issue #583).
 - Prevent skipped in-game item delivery when stale `debug_item_counter` values jump ahead of the client cursor by only trusting forward counter reconciliation for pending mailbox ACKs (`incoming_item_flag == 0` while a delivery is pending), while keeping rewind recovery for true counter rollback.
