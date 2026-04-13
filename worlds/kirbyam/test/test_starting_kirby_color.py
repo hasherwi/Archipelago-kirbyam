@@ -121,6 +121,34 @@ def test_load_kirby_colors_rejects_invalid_key_format() -> None:
     from .. import colors as colors_module
 
     load_kirby_colors.cache_clear()
+
+
+def test_load_kirby_colors_rejects_non_string_key() -> None:
+    from .. import colors as colors_module
+
+    load_kirby_colors.cache_clear()
+    with patch.object(
+        colors_module,
+        "load_json_data",
+        return_value={"colors": [{"key": None, "id": 0, "name": "Pink"}]},
+    ):
+        with pytest.raises(ValueError, match="non-string key"):
+            load_kirby_colors()
+    load_kirby_colors.cache_clear()
+
+
+def test_load_kirby_colors_rejects_non_string_name() -> None:
+    from .. import colors as colors_module
+
+    load_kirby_colors.cache_clear()
+    with patch.object(
+        colors_module,
+        "load_json_data",
+        return_value={"colors": [{"key": "pink", "id": 0, "name": None}]},
+    ):
+        with pytest.raises(ValueError, match="non-string display name"):
+            load_kirby_colors()
+    load_kirby_colors.cache_clear()
     with patch.object(
         colors_module,
         "load_json_data",

@@ -40,7 +40,10 @@ def load_kirby_colors() -> tuple[KirbyColor, ...]:
         if not isinstance(entry, dict):
             raise ValueError("Each Kirby color entry must be a JSON object.")
 
-        key = str(entry.get("key", "")).strip().lower()
+        key_raw = entry.get("key")
+        if not isinstance(key_raw, str):
+            raise ValueError(f"Kirby color entry has non-string key: {key_raw!r}")
+        key = key_raw.strip().lower()
         if not key:
             raise ValueError("Kirby color entry is missing a non-empty 'key'.")
         if _COLOR_KEY_PATTERN.fullmatch(key) is None:
@@ -59,7 +62,10 @@ def load_kirby_colors() -> tuple[KirbyColor, ...]:
                 f"{_KIRBY_COLOR_ID_MIN}..{_KIRBY_COLOR_ID_MAX}."
             )
 
-        display_name = str(entry.get("name", "")).strip()
+        display_name_raw = entry.get("name")
+        if not isinstance(display_name_raw, str):
+            raise ValueError(f"Kirby color '{key}' has non-string display name: {display_name_raw!r}")
+        display_name = display_name_raw.strip()
         if not display_name:
             raise ValueError(f"Kirby color '{key}' is missing a display name.")
 
