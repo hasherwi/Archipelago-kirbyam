@@ -377,6 +377,9 @@ static void ap_grant_invincibility_candy(void) {
 }
 
 static void ap_grant_vitality_counter(void) {
+    if (KIRBY_VITALITY_COUNTER > KIRBY_MAX_VITALITY_COUNTERS) {
+        KIRBY_VITALITY_COUNTER = KIRBY_MAX_VITALITY_COUNTERS;
+    }
     if (KIRBY_VITALITY_COUNTER < KIRBY_MAX_VITALITY_COUNTERS) {
         KIRBY_VITALITY_COUNTER = (uint16_t)(KIRBY_VITALITY_COUNTER + 1u);
     }
