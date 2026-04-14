@@ -3845,3 +3845,50 @@ def test_hub_switch_locations_defined_in_regions():
     for key in hub_switch_keys:
         assert key in all_region_locations, \
             f"HUB_SWITCH location '{key}' defined in locations.json but not registered in any region in areas.json"
+
+
+def test_minor_chest_locations_defined_in_regions_when_present():
+    """All MINOR_CHEST locations (when enabled) must be registered in regions/rooms."""
+    location_category_enum = getattr(data, "LocationCategory", None)
+    minor_chest_category = getattr(location_category_enum, "MINOR_CHEST", None) if location_category_enum else None
+    if minor_chest_category is None:
+        return
+
+    minor_chest_keys = {
+        key
+        for key, loc in data.locations.items()
+        if key.startswith("MINOR_CHEST_")
+        or (getattr(loc, "category", None) == minor_chest_category)
+    }
+
+    if not minor_chest_keys:
+        return
+
+    all_region_locations = set()
+    for region_data in data.regions.values():
+        all_region_locations.update(region_data.locations)
+
+    for key in minor_chest_keys:
+        assert key in all_region_locations, \
+            f"MINOR_CHEST location '{key}' defined in locations.json but not registered in any region in rooms.json"
+
+
+def test_minor_chest_locations_have_unique_bit_indices_when_present():
+    """Enabled MINOR_CHEST locations must not reuse native bit indices."""
+    location_category_enum = getattr(data, "LocationCategory", None)
+    minor_chest_category = getattr(location_category_enum, "MINOR_CHEST", None) if location_category_enum else None
+    if minor_chest_category is None:
+        return
+
+    minor_chest_with_bits = [
+        loc for loc in data.locations.values()
+        if getattr(loc, "category", None) == minor_chest_category and getattr(loc, "bit_index", None) is not None
+    ]
+    if not minor_chest_with_bits:
+        return
+
+    bit_indices = [loc.bit_index for loc in minor_chest_with_bits if loc.bit_index is not None]
+    assert len(bit_indices) == len(set(bit_indices)), (
+        "MINOR_CHEST locations must use unique bit_index values to avoid duplicate AP checks: "
+        f"{bit_indices}"
+    )
