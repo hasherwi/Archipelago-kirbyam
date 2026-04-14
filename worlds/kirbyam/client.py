@@ -234,7 +234,7 @@ class KirbyAmClient(BizHawkClient):
         self._hub_switch_stream_marker: object = None
         self._last_room_sanity_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
 
-        # Room entry logging (always to file; client display gated by debug flag)
+        # Room entry logging (always file-only via NoStream=True).
         self._last_native_room_id: int | None = None
         self._last_sent_room_update_native_room_id: int | None = None
         room_label_lookup, room_region_key_lookup = self._build_room_lookup_maps()
@@ -475,7 +475,11 @@ class KirbyAmClient(BizHawkClient):
 
         self._log_verbose(
             "info",
-            "KirbyAM: reconciled native map ownership (current=0x%08X, desired=0x%08X, start_with_all_maps=%s, delivered_item_index=%s)" % (current_bits, desired_bits, self._start_with_all_maps_enabled(ctx), self._delivered_item_index)
+            "KirbyAM: reconciled native map ownership (current=0x%08X, desired=0x%08X, start_with_all_maps=%s, delivered_item_index=%s)",
+            current_bits,
+            desired_bits,
+            self._start_with_all_maps_enabled(ctx),
+            self._delivered_item_index,
         )
 
     @staticmethod
@@ -613,14 +617,24 @@ class KirbyAmClient(BizHawkClient):
         self._notification_settings_loaded = True
 
     def _load_debug_settings(self, ctx: "BizHawkClientContext") -> None:
-        slot_data = getattr(ctx, "slot_data", None)
-        if isinstance(slot_data, dict):
-            debug_config = slot_data.get("debug", {})
-            if isinstance(debug_config, dict):
-                self._debug_logging_enabled = self._coerce_bool(
-                    debug_config.get("logging", False),
-                    False,
-                )
+        # Debug diagnostics are no longer configured via slot_data.
+        # Keep this hook so existing call sites remain stable while relying on
+        # standard logger configuration for verbose diagnostic gating.
+        _ = ctx
+        logger_obj = self._get_logger()
+        logger_level = getattr(logger_obj, "level", logging.NOTSET)
+        if isinstance(logger_level, int):
+            self._debug_logging_enabled = (
+                logger_level != logging.NOTSET
+                and logger_level <= logging.DEBUG
+            )
+            return
+
+        try:
+            enabled = logger_obj.isEnabledFor(logging.DEBUG)
+            self._debug_logging_enabled = enabled if isinstance(enabled, bool) else False
+        except Exception:
+            self._debug_logging_enabled = False
 
     def _get_starting_kirby_color_config(self, ctx: "BizHawkClientContext") -> tuple[int, str] | None:
         slot_data = getattr(ctx, "slot_data", None)
@@ -779,7 +793,8 @@ class KirbyAmClient(BizHawkClient):
         except Exception:
             self._log_client(
                 "warning",
-                "KirbyAM: failed to emit receive notification (index=%s)" % (delivered_index,)
+                "KirbyAM: failed to emit receive notification (index=%s)",
+                delivered_index,
             )
 
     def _maybe_emit_send_notification(self, ctx: "BizHawkClientContext", args: dict) -> None:
@@ -920,7 +935,10 @@ class KirbyAmClient(BizHawkClient):
             ):
                 self._log_verbose(
                     "info",
-                    "KirbyAM: ROM validation failed (title=%r, game_code=%r, maker=%r)" % (rom_title, game_code, maker_code,)
+                    "KirbyAM: ROM validation failed (title=%r, game_code=%r, maker=%r)",
+                    rom_title,
+                    game_code,
+                    maker_code,
                 )
                 return await _fail(
                     "header_mismatch",
@@ -1095,7 +1113,7 @@ class KirbyAmClient(BizHawkClient):
             # Room-sanity location polling via native gVisitedDoors bit 15.
             await self._poll_room_sanity_locations(ctx)
 
-            # Room entry logging (always to file; client display gated by debug flag).
+            # Room entry logging (always file-only via NoStream=True).
             await self._poll_room_entry_logging(ctx)
 
             # Candidate discovery for non-shard boss defeat signals.
@@ -1463,7 +1481,8 @@ class KirbyAmClient(BizHawkClient):
         if skipped_without_placeholder:
             self._log_client(
                 "warning",
-                "KirbyAM: skipped %d DeathLink flavor text template(s) without '{player}' placeholder" % (skipped_without_placeholder,)
+                "KirbyAM: skipped %d DeathLink flavor text template(s) without '{player}' placeholder",
+                skipped_without_placeholder,
             )
 
         if not valid_templates:
@@ -2159,9 +2178,9 @@ class KirbyAmClient(BizHawkClient):
         value changes, resolves the native room ID to a doorsIdx via gRoomProps[] in
         ROM, then maps doorsIdx to room metadata from rooms.json.
 
-        Room changes are written to the log file (shown in the client only when
-        debug logging is enabled). On room change, emits a typed Bounce payload to
-        this slot for tracker consumers.
+        Room changes are written as file-only diagnostics (never shown in the
+        AP client stream). On room change, emits a typed Bounce payload to this
+        slot for tracker consumers.
         """
         from CommonClient import logger
 
@@ -2265,7 +2284,9 @@ class KirbyAmClient(BizHawkClient):
         if len(raw) != read_width:
             self._log_client(
                 "warning",
-                "KirbyAM: room-sanity poll expected %s bytes from gVisitedDoors, got %s; skipping tick" % (read_width, len(raw))
+                "KirbyAM: room-sanity poll expected %s bytes from gVisitedDoors, got %s; skipping tick",
+                read_width,
+                len(raw),
             )
             return
 
@@ -2610,7 +2631,9 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_timeout_streak += 1
                 self._log_client(
                     "warning",
-                    "KirbyAM: Mailbox ACK timeout at item index %s; clearing flag and retrying (%s)" % (self._delivered_item_index, timeout_reason)
+                    "KirbyAM: Mailbox ACK timeout at item index %s; clearing flag and retrying (%s)",
+                    self._delivered_item_index,
+                    timeout_reason,
                 )
                 if (
                     not self._delivery_payload_stall_warned
@@ -2621,12 +2644,14 @@ class KirbyAmClient(BizHawkClient):
                     if hook_heartbeat is not None and self._hook_heartbeat_stale_ticks >= 3:
                         self._log_client(
                             "warning",
-                            "KirbyAM: Repeated mailbox ACK timeouts with frame_counter stuck at 0 and hook_heartbeat not advancing (value=%s); payload hook appears inactive" % (hook_heartbeat,)
+                            "KirbyAM: Repeated mailbox ACK timeouts with frame_counter stuck at 0 and hook_heartbeat not advancing (value=%s); payload hook appears inactive",
+                            hook_heartbeat,
                         )
                     elif hook_heartbeat is not None:
                         self._log_client(
                             "warning",
-                            "KirbyAM: Repeated mailbox ACK timeouts with frame_counter stuck at 0 while hook_heartbeat advances (value=%s); frame_counter slot may be unstable" % (hook_heartbeat,)
+                            "KirbyAM: Repeated mailbox ACK timeouts with frame_counter stuck at 0 while hook_heartbeat advances (value=%s); frame_counter slot may be unstable",
+                            hook_heartbeat,
                         )
                     else:
                         self._log_client(
@@ -2665,7 +2690,9 @@ class KirbyAmClient(BizHawkClient):
             if item_fields is None:
                 self._log_client(
                     "warning",
-                    "KirbyAM: Skipping malformed ReceivedItems entry at index %s: %r" % (self._delivered_item_index, itm)
+                    "KirbyAM: Skipping malformed ReceivedItems entry at index %s: %r",
+                    self._delivered_item_index,
+                    itm,
                 )
                 self._delivered_item_index += 1
                 self._delivery_pending = False

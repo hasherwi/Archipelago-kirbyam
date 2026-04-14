@@ -9,8 +9,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ## Unreleased
 
-- Removed the `Enable Debug Logging` / `enable_debug_logging` world option and corresponding slot_data debug toggle. Client diagnostics that were previously controlled by that option are now file-only logs and are never emitted to the AP client stream.
-
 ### New Features
 
 - Added trap item support: `Enable Traps` and `Trap Fill Percentage` options let players include trap items in the randomized item pool.
@@ -19,6 +17,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - `Bomb Trap`: sets Kirby's current HP to 0.
   - `Battery Drain Trap`: empties the cell phone battery to 0.
   - Trap receive notifications are prefixed with "Received trap:" to distinguish them from regular items.
+- Added two new filler consumables with tiered healing: `Energy Drink` (HP +2) and `Hunk of Meat` (HP +3), alongside existing `Small Food` (HP +1).
+- Enabled the first concrete `MINOR_CHEST` AP checks (Rainbow Route 1-20, 1-22, 1-38).
 
 ### Improvements
 
@@ -30,7 +30,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Internal Changes
 
-- None.
+- Removed the `Enable Debug Logging` / `enable_debug_logging` world option and corresponding slot_data debug toggle. Client diagnostics that were previously controlled by that option are now file-only logs and are never emitted to the AP client stream.
 
 ## v0.2.0
 
