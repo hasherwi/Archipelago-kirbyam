@@ -242,6 +242,116 @@ def classify_reward_profile(native_group: str, chest_flag_index: int, treasure_i
     return "unknown", False, []
 
 
+def compute_multi_chest_disambiguation(
+    entries: list[dict],
+) -> tuple[dict[int, dict], list[dict]]:
+    """
+    For each AP room whose candidate_ap_room_keys resolves to exactly one key and that room
+    contains two or more chest entries, determine whether the chests can be distinguished by
+    native_in_game_item (gameplay-observable reward) or by ROM-level fields (chest_index /
+    item_id bytes).
+
+    Disambiguation status strings:
+      "disambiguated_by_native_in_game_item":
+          This entry's native_in_game_item is unique among chests in the room.
+          Flag-to-chest mapping is verifiable by observing the in-game reward.
+      "ambiguous_native_item_rom_field_unique":
+          Chests in the room share the same native_in_game_item, but this entry's
+          chest_index or item_id byte is unique in the room.  Weaker evidence;
+          mapping deferred until gameplay verification.
+      "ambiguous_indistinguishable":
+          No ROM field or native reward distinguishes this chest from at least one
+          other chest in the same room.  Fully deferred.
+
+    Returns:
+        per_entry: dict[entry_index → disambiguation record]
+        room_summary: list of per-room disambiguation summary records, sorted by room_key
+    """
+    room_to_entries: dict[str, list[dict]] = defaultdict(list)
+    for e in entries:
+        keys = e.get("candidate_ap_room_keys") or []
+        if len(keys) == 1:
+            room_to_entries[keys[0]].append(e)
+
+    per_entry: dict[int, dict] = {}
+    room_summary: list[dict] = []
+
+    for room_key, room_entries in sorted(room_to_entries.items()):
+        chest_count = len(room_entries)
+        if chest_count < 2:
+            continue
+
+        native_items = [e["native_in_game_item"] for e in room_entries]
+        chest_indices = [e["chest_index"] for e in room_entries]
+        item_ids = [e["item_id"] for e in room_entries]
+        flag_indices = sorted(e["native_chest_flag_index"] for e in room_entries)
+
+        native_items_all_distinct = len(set(native_items)) == len(native_items)
+        chest_indices_all_distinct = len(set(chest_indices)) == len(chest_indices)
+        item_ids_all_distinct = len(set(item_ids)) == len(item_ids)
+
+        if native_items_all_distinct:
+            room_status = "disambiguated_by_native_in_game_item"
+        elif chest_indices_all_distinct or item_ids_all_distinct:
+            room_status = "ambiguous_by_native_item_rom_fields_distinct"
+        elif len(set(chest_indices)) > 1 or len(set(item_ids)) > 1:
+            room_status = "ambiguous_by_native_item_rom_fields_partially_distinct"
+        else:
+            room_status = "ambiguous_by_native_item_indistinguishable"
+
+        for e in room_entries:
+            entry_idx = e["entry_index"]
+            if native_items_all_distinct:
+                others = [x["native_in_game_item"] for x in room_entries if x["entry_index"] != entry_idx]
+                per_entry[entry_idx] = {
+                    "room_key": room_key,
+                    "disambiguation_status": "disambiguated_by_native_in_game_item",
+                    "native_in_game_item": e["native_in_game_item"],
+                    "other_native_in_game_items_in_room": others,
+                }
+            else:
+                chest_idx_unique = chest_indices.count(e["chest_index"]) == 1
+                item_id_unique = item_ids.count(e["item_id"]) == 1
+                if chest_idx_unique or item_id_unique:
+                    distinguishing_rom_fields: dict[str, str | int] = {}
+                    if chest_idx_unique:
+                        distinguishing_rom_fields["chest_index"] = e["chest_index_hex"]
+                    if item_id_unique:
+                        distinguishing_rom_fields["item_id"] = e["item_id_hex"]
+                        distinguishing_rom_fields["item_id_name"] = e["native_item_name"]
+                    per_entry[entry_idx] = {
+                        "room_key": room_key,
+                        "disambiguation_status": "ambiguous_native_item_rom_field_unique",
+                        "distinguishing_rom_fields": distinguishing_rom_fields,
+                        "deferred": True,
+                        "deferral_reason": (
+                            "native_in_game_item not distinct between chests; "
+                            "rom byte fields differ but require gameplay verification"
+                        ),
+                    }
+                else:
+                    per_entry[entry_idx] = {
+                        "room_key": room_key,
+                        "disambiguation_status": "ambiguous_indistinguishable",
+                        "deferred": True,
+                        "deferral_reason": "no distinguishing field found between chests in this room",
+                    }
+
+        room_summary.append(
+            {
+                "room_key": room_key,
+                "chest_count": chest_count,
+                "native_chest_flag_indices": flag_indices,
+                "native_in_game_items": native_items,
+                "chest_indices_hex": [f"0x{ci:02X}" for ci in chest_indices],
+                "item_ids_hex": [f"0x{ii:02X}" for ii in item_ids],
+                "disambiguation_status": room_status,
+            }
+        )
+
+    return per_entry, room_summary
+
+
 def metadata_path(path: Path, repo_root: Path) -> str:
     resolved_path = path.resolve()
     resolved_repo_root = repo_root.resolve()
@@ -435,8 +545,19 @@ def main() -> int:
                 "candidate_native_room_ids": native_room_ids,
                 "candidate_doors_idx": doors_idx_candidates,
                 "candidate_ap_room_keys": ap_room_key_candidates,
+                "native_item_disambiguation": None,
             }
         )
+
+    per_entry_disambiguation, multi_chest_room_disambiguation = compute_multi_chest_disambiguation(manifest_entries)
+    for entry in manifest_entries:
+        entry["native_item_disambiguation"] = per_entry_disambiguation.get(entry["entry_index"])
+
+    disambiguated_multi_chest_rooms = sum(
+        1 for r in multi_chest_room_disambiguation
+        if r["disambiguation_status"] == "disambiguated_by_native_in_game_item"
+    )
+    deferred_multi_chest_rooms = len(multi_chest_room_disambiguation) - disambiguated_multi_chest_rooms
 
     slot_resolution_summary = []
     for slot in sorted(slot_counts.keys()):
@@ -489,6 +610,9 @@ def main() -> int:
             "identified_entries": len(manifest_entries) - sum(unresolved_counts.values()),
             "unresolved_entries": sum(unresolved_counts.values()),
             "modeled_non_collection_pool_entries": modeled_non_collection_pool_entries,
+            "multi_chest_rooms_total": len(multi_chest_room_disambiguation),
+            "multi_chest_rooms_disambiguated_by_native_item": disambiguated_multi_chest_rooms,
+            "multi_chest_rooms_deferred": deferred_multi_chest_rooms,
             "respawn_reopen_policy": {
                 "conclusion": "no_repeatable_minor_chest_reopen_path_confirmed",
                 "ap_handling": (
@@ -510,6 +634,7 @@ def main() -> int:
         "item_summary": item_summary,
         "unresolved_summary": unresolved_summary,
         "slot_resolution_summary": slot_resolution_summary,
+        "multi_chest_room_disambiguation": multi_chest_room_disambiguation,
     }
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
