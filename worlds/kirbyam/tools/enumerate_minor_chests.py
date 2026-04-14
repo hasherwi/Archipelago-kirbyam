@@ -34,6 +34,22 @@ ROM_ENTRY_READ_SIZE = max(AMR_SMALL_CHEST_ITEM_OFFSET, AMR_SMALL_CHEST_INDEX_OFF
 
 NATIVE_ITEM_NAME_BY_ID = {
     0x00: "None",
+    0x01: "Bronto Burt",
+    0x06: "Gordo",
+    0x04: "Squishy",
+    0x05: "Scarfy",
+    0x0B: "Roly Poly",
+    0x0C: "Cupie",
+    0x0D: "Blockin",
+    0x12: "Waddle Doo",
+    0x18: "Sir Kibble",
+    0x27: "Minny",
+    0x2A: "Giant Rocky",
+    0x2B: "Metal Guardian",
+    0x44: "Empty Object Slot 0x44",
+    0x46: "King Golem",
+    0x52: "Dark Meta Knight W8",
+    0x55: "Empty Object Slot 0x55",
     0x5E: "Small Food",
     0x5F: "Energy Drink",
     0x60: "Hunk of Meat",
@@ -42,6 +58,15 @@ NATIVE_ITEM_NAME_BY_ID = {
     0x63: "1-Up",
     0x64: "Invincibility Candy",
     0x65: "Mirror Shard",
+    0x69: "Goal Game Bonus",
+    0x80: "Small Chest",
+    0x81: "Big Chest",
+    0x82: "Unknown Object Type 0x82",
+    0x83: "Unknown Object Type 0x83",
+    0x84: "Warp Star",
+    0x87: "Unknown Object Type 0x87",
+    0xA9: "Bonkers Nut Large",
+    0xFF: "No Direct Item (0xFF)",
 }
 
 

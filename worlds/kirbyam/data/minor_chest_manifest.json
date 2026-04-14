@@ -43,7 +43,7 @@
       "entry_aux_lo": 1,
       "item_id": 169,
       "item_id_hex": "0xA9",
-      "native_item_name": "Unknown (0xA9)",
+      "native_item_name": "Bonkers Nut Large",
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -82,7 +82,7 @@
       "entry_aux_lo": 2,
       "item_id": 128,
       "item_id_hex": "0x80",
-      "native_item_name": "Unknown (0x80)",
+      "native_item_name": "Small Chest",
       "chest_index": 13,
       "chest_index_hex": "0x0D",
       "candidate_native_room_ids": [
@@ -129,7 +129,7 @@
       "entry_aux_lo": 3,
       "item_id": 128,
       "item_id_hex": "0x80",
-      "native_item_name": "Unknown (0x80)",
+      "native_item_name": "Small Chest",
       "chest_index": 76,
       "chest_index_hex": "0x4C",
       "candidate_native_room_ids": [
@@ -176,7 +176,7 @@
       "entry_aux_lo": 4,
       "item_id": 12,
       "item_id_hex": "0x0C",
-      "native_item_name": "Unknown (0x0C)",
+      "native_item_name": "Cupie",
       "chest_index": 1,
       "chest_index_hex": "0x01",
       "candidate_native_room_ids": [
@@ -215,7 +215,7 @@
       "entry_aux_lo": 6,
       "item_id": 13,
       "item_id_hex": "0x0D",
-      "native_item_name": "Unknown (0x0D)",
+      "native_item_name": "Blockin",
       "chest_index": 128,
       "chest_index_hex": "0x80",
       "candidate_native_room_ids": [
@@ -254,7 +254,7 @@
       "entry_aux_lo": 7,
       "item_id": 129,
       "item_id_hex": "0x81",
-      "native_item_name": "Unknown (0x81)",
+      "native_item_name": "Big Chest",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -332,7 +332,7 @@
       "entry_aux_lo": 9,
       "item_id": 18,
       "item_id_hex": "0x12",
-      "native_item_name": "Unknown (0x12)",
+      "native_item_name": "Waddle Doo",
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -379,7 +379,7 @@
       "entry_aux_lo": 10,
       "item_id": 129,
       "item_id_hex": "0x81",
-      "native_item_name": "Unknown (0x81)",
+      "native_item_name": "Big Chest",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -457,7 +457,7 @@
       "entry_aux_lo": 12,
       "item_id": 13,
       "item_id_hex": "0x0D",
-      "native_item_name": "Unknown (0x0D)",
+      "native_item_name": "Blockin",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -496,7 +496,7 @@
       "entry_aux_lo": 13,
       "item_id": 13,
       "item_id_hex": "0x0D",
-      "native_item_name": "Unknown (0x0D)",
+      "native_item_name": "Blockin",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -543,7 +543,7 @@
       "entry_aux_lo": 14,
       "item_id": 130,
       "item_id_hex": "0x82",
-      "native_item_name": "Unknown (0x82)",
+      "native_item_name": "Unknown Object Type 0x82",
       "chest_index": 13,
       "chest_index_hex": "0x0D",
       "candidate_native_room_ids": [
@@ -582,7 +582,7 @@
       "entry_aux_lo": 16,
       "item_id": 135,
       "item_id_hex": "0x87",
-      "native_item_name": "Unknown (0x87)",
+      "native_item_name": "Unknown Object Type 0x87",
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -621,7 +621,7 @@
       "entry_aux_lo": 17,
       "item_id": 13,
       "item_id_hex": "0x0D",
-      "native_item_name": "Unknown (0x0D)",
+      "native_item_name": "Blockin",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -668,7 +668,7 @@
       "entry_aux_lo": 19,
       "item_id": 5,
       "item_id_hex": "0x05",
-      "native_item_name": "Unknown (0x05)",
+      "native_item_name": "Scarfy",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -707,7 +707,7 @@
       "entry_aux_lo": 20,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Unknown (0x01)",
+      "native_item_name": "Bronto Burt",
       "chest_index": 147,
       "chest_index_hex": "0x93",
       "candidate_native_room_ids": [
@@ -785,7 +785,7 @@
       "entry_aux_lo": 23,
       "item_id": 85,
       "item_id_hex": "0x55",
-      "native_item_name": "Unknown (0x55)",
+      "native_item_name": "Empty Object Slot 0x55",
       "chest_index": 135,
       "chest_index_hex": "0x87",
       "candidate_native_room_ids": [
@@ -824,7 +824,7 @@
       "entry_aux_lo": 24,
       "item_id": 11,
       "item_id_hex": "0x0B",
-      "native_item_name": "Unknown (0x0B)",
+      "native_item_name": "Roly Poly",
       "chest_index": 85,
       "chest_index_hex": "0x55",
       "candidate_native_room_ids": [
@@ -863,7 +863,7 @@
       "entry_aux_lo": 25,
       "item_id": 4,
       "item_id_hex": "0x04",
-      "native_item_name": "Unknown (0x04)",
+      "native_item_name": "Squishy",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -902,7 +902,7 @@
       "entry_aux_lo": 26,
       "item_id": 130,
       "item_id_hex": "0x82",
-      "native_item_name": "Unknown (0x82)",
+      "native_item_name": "Unknown Object Type 0x82",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1066,7 +1066,7 @@
       "entry_aux_lo": 30,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Unknown (0x01)",
+      "native_item_name": "Bronto Burt",
       "chest_index": 136,
       "chest_index_hex": "0x88",
       "candidate_native_room_ids": [
@@ -1105,7 +1105,7 @@
       "entry_aux_lo": 31,
       "item_id": 129,
       "item_id_hex": "0x81",
-      "native_item_name": "Unknown (0x81)",
+      "native_item_name": "Big Chest",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1144,7 +1144,7 @@
       "entry_aux_lo": 32,
       "item_id": 70,
       "item_id_hex": "0x46",
-      "native_item_name": "Unknown (0x46)",
+      "native_item_name": "King Golem",
       "chest_index": 2,
       "chest_index_hex": "0x02",
       "candidate_native_room_ids": [
@@ -1183,7 +1183,7 @@
       "entry_aux_lo": 33,
       "item_id": 39,
       "item_id_hex": "0x27",
-      "native_item_name": "Unknown (0x27)",
+      "native_item_name": "Minny",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1222,7 +1222,7 @@
       "entry_aux_lo": 34,
       "item_id": 43,
       "item_id_hex": "0x2B",
-      "native_item_name": "Unknown (0x2B)",
+      "native_item_name": "Metal Guardian",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1261,7 +1261,7 @@
       "entry_aux_lo": 35,
       "item_id": 128,
       "item_id_hex": "0x80",
-      "native_item_name": "Unknown (0x80)",
+      "native_item_name": "Small Chest",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1308,7 +1308,7 @@
       "entry_aux_lo": 36,
       "item_id": 13,
       "item_id_hex": "0x0D",
-      "native_item_name": "Unknown (0x0D)",
+      "native_item_name": "Blockin",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1347,7 +1347,7 @@
       "entry_aux_lo": 37,
       "item_id": 6,
       "item_id_hex": "0x06",
-      "native_item_name": "Unknown (0x06)",
+      "native_item_name": "Gordo",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1386,7 +1386,7 @@
       "entry_aux_lo": 38,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Unknown (0x01)",
+      "native_item_name": "Bronto Burt",
       "chest_index": 36,
       "chest_index_hex": "0x24",
       "candidate_native_room_ids": [
@@ -1425,7 +1425,7 @@
       "entry_aux_lo": 40,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Unknown (0x01)",
+      "native_item_name": "Bronto Burt",
       "chest_index": 9,
       "chest_index_hex": "0x09",
       "candidate_native_room_ids": [
@@ -1472,7 +1472,7 @@
       "entry_aux_lo": 41,
       "item_id": 255,
       "item_id_hex": "0xFF",
-      "native_item_name": "Unknown (0xFF)",
+      "native_item_name": "No Direct Item (0xFF)",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1558,7 +1558,7 @@
       "entry_aux_lo": 43,
       "item_id": 255,
       "item_id_hex": "0xFF",
-      "native_item_name": "Unknown (0xFF)",
+      "native_item_name": "No Direct Item (0xFF)",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1644,7 +1644,7 @@
       "entry_aux_lo": 45,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Unknown (0x01)",
+      "native_item_name": "Bronto Burt",
       "chest_index": 11,
       "chest_index_hex": "0x0B",
       "candidate_native_room_ids": [
@@ -1683,7 +1683,7 @@
       "entry_aux_lo": 48,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Unknown (0x01)",
+      "native_item_name": "Bronto Burt",
       "chest_index": 17,
       "chest_index_hex": "0x11",
       "candidate_native_room_ids": [
@@ -1847,7 +1847,7 @@
       "entry_aux_lo": 53,
       "item_id": 42,
       "item_id_hex": "0x2A",
-      "native_item_name": "Unknown (0x2A)",
+      "native_item_name": "Giant Rocky",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1925,7 +1925,7 @@
       "entry_aux_lo": 55,
       "item_id": 68,
       "item_id_hex": "0x44",
-      "native_item_name": "Unknown (0x44)",
+      "native_item_name": "Empty Object Slot 0x44",
       "chest_index": 1,
       "chest_index_hex": "0x01",
       "candidate_native_room_ids": [
@@ -1972,7 +1972,7 @@
       "entry_aux_lo": 56,
       "item_id": 105,
       "item_id_hex": "0x69",
-      "native_item_name": "Unknown (0x69)",
+      "native_item_name": "Goal Game Bonus",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -2050,7 +2050,7 @@
       "entry_aux_lo": 58,
       "item_id": 18,
       "item_id_hex": "0x12",
-      "native_item_name": "Unknown (0x12)",
+      "native_item_name": "Waddle Doo",
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -2089,7 +2089,7 @@
       "entry_aux_lo": 60,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Unknown (0x01)",
+      "native_item_name": "Bronto Burt",
       "chest_index": 3,
       "chest_index_hex": "0x03",
       "candidate_native_room_ids": [
@@ -2128,7 +2128,7 @@
       "entry_aux_lo": 61,
       "item_id": 131,
       "item_id_hex": "0x83",
-      "native_item_name": "Unknown (0x83)",
+      "native_item_name": "Unknown Object Type 0x83",
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -2175,7 +2175,7 @@
       "entry_aux_lo": 62,
       "item_id": 132,
       "item_id_hex": "0x84",
-      "native_item_name": "Unknown (0x84)",
+      "native_item_name": "Warp Star",
       "chest_index": 50,
       "chest_index_hex": "0x32",
       "candidate_native_room_ids": [
@@ -2253,7 +2253,7 @@
       "entry_aux_lo": 66,
       "item_id": 255,
       "item_id_hex": "0xFF",
-      "native_item_name": "Unknown (0xFF)",
+      "native_item_name": "No Direct Item (0xFF)",
       "chest_index": 4,
       "chest_index_hex": "0x04",
       "candidate_native_room_ids": [
@@ -2292,7 +2292,7 @@
       "entry_aux_lo": 67,
       "item_id": 82,
       "item_id_hex": "0x52",
-      "native_item_name": "Unknown (0x52)",
+      "native_item_name": "Dark Meta Knight W8",
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -2331,7 +2331,7 @@
       "entry_aux_lo": 70,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Unknown (0x01)",
+      "native_item_name": "Bronto Burt",
       "chest_index": 7,
       "chest_index_hex": "0x07",
       "candidate_native_room_ids": [
@@ -2370,7 +2370,7 @@
       "entry_aux_lo": 71,
       "item_id": 18,
       "item_id_hex": "0x12",
-      "native_item_name": "Unknown (0x12)",
+      "native_item_name": "Waddle Doo",
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -2417,7 +2417,7 @@
       "entry_aux_lo": 72,
       "item_id": 18,
       "item_id_hex": "0x12",
-      "native_item_name": "Unknown (0x12)",
+      "native_item_name": "Waddle Doo",
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -2456,7 +2456,7 @@
       "entry_aux_lo": 75,
       "item_id": 255,
       "item_id_hex": "0xFF",
-      "native_item_name": "Unknown (0xFF)",
+      "native_item_name": "No Direct Item (0xFF)",
       "chest_index": 29,
       "chest_index_hex": "0x1D",
       "candidate_native_room_ids": [
@@ -2534,7 +2534,7 @@
       "entry_aux_lo": 78,
       "item_id": 24,
       "item_id_hex": "0x18",
-      "native_item_name": "Unknown (0x18)",
+      "native_item_name": "Sir Kibble",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -2573,7 +2573,7 @@
       "entry_aux_lo": 80,
       "item_id": 132,
       "item_id_hex": "0x84",
-      "native_item_name": "Unknown (0x84)",
+      "native_item_name": "Warp Star",
       "chest_index": 18,
       "chest_index_hex": "0x12",
       "candidate_native_room_ids": [
@@ -2675,151 +2675,151 @@
     {
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Unknown (0x01)",
+      "native_item_name": "Bronto Burt",
       "count": 8
     },
     {
       "item_id": 4,
       "item_id_hex": "0x04",
-      "native_item_name": "Unknown (0x04)",
+      "native_item_name": "Squishy",
       "count": 1
     },
     {
       "item_id": 5,
       "item_id_hex": "0x05",
-      "native_item_name": "Unknown (0x05)",
+      "native_item_name": "Scarfy",
       "count": 1
     },
     {
       "item_id": 6,
       "item_id_hex": "0x06",
-      "native_item_name": "Unknown (0x06)",
+      "native_item_name": "Gordo",
       "count": 1
     },
     {
       "item_id": 11,
       "item_id_hex": "0x0B",
-      "native_item_name": "Unknown (0x0B)",
+      "native_item_name": "Roly Poly",
       "count": 1
     },
     {
       "item_id": 12,
       "item_id_hex": "0x0C",
-      "native_item_name": "Unknown (0x0C)",
+      "native_item_name": "Cupie",
       "count": 1
     },
     {
       "item_id": 13,
       "item_id_hex": "0x0D",
-      "native_item_name": "Unknown (0x0D)",
+      "native_item_name": "Blockin",
       "count": 5
     },
     {
       "item_id": 18,
       "item_id_hex": "0x12",
-      "native_item_name": "Unknown (0x12)",
+      "native_item_name": "Waddle Doo",
       "count": 4
     },
     {
       "item_id": 24,
       "item_id_hex": "0x18",
-      "native_item_name": "Unknown (0x18)",
+      "native_item_name": "Sir Kibble",
       "count": 1
     },
     {
       "item_id": 39,
       "item_id_hex": "0x27",
-      "native_item_name": "Unknown (0x27)",
+      "native_item_name": "Minny",
       "count": 1
     },
     {
       "item_id": 42,
       "item_id_hex": "0x2A",
-      "native_item_name": "Unknown (0x2A)",
+      "native_item_name": "Giant Rocky",
       "count": 1
     },
     {
       "item_id": 43,
       "item_id_hex": "0x2B",
-      "native_item_name": "Unknown (0x2B)",
+      "native_item_name": "Metal Guardian",
       "count": 1
     },
     {
       "item_id": 68,
       "item_id_hex": "0x44",
-      "native_item_name": "Unknown (0x44)",
+      "native_item_name": "Empty Object Slot 0x44",
       "count": 1
     },
     {
       "item_id": 70,
       "item_id_hex": "0x46",
-      "native_item_name": "Unknown (0x46)",
+      "native_item_name": "King Golem",
       "count": 1
     },
     {
       "item_id": 82,
       "item_id_hex": "0x52",
-      "native_item_name": "Unknown (0x52)",
+      "native_item_name": "Dark Meta Knight W8",
       "count": 1
     },
     {
       "item_id": 85,
       "item_id_hex": "0x55",
-      "native_item_name": "Unknown (0x55)",
+      "native_item_name": "Empty Object Slot 0x55",
       "count": 1
     },
     {
       "item_id": 105,
       "item_id_hex": "0x69",
-      "native_item_name": "Unknown (0x69)",
+      "native_item_name": "Goal Game Bonus",
       "count": 1
     },
     {
       "item_id": 128,
       "item_id_hex": "0x80",
-      "native_item_name": "Unknown (0x80)",
+      "native_item_name": "Small Chest",
       "count": 3
     },
     {
       "item_id": 129,
       "item_id_hex": "0x81",
-      "native_item_name": "Unknown (0x81)",
+      "native_item_name": "Big Chest",
       "count": 3
     },
     {
       "item_id": 130,
       "item_id_hex": "0x82",
-      "native_item_name": "Unknown (0x82)",
+      "native_item_name": "Unknown Object Type 0x82",
       "count": 2
     },
     {
       "item_id": 131,
       "item_id_hex": "0x83",
-      "native_item_name": "Unknown (0x83)",
+      "native_item_name": "Unknown Object Type 0x83",
       "count": 1
     },
     {
       "item_id": 132,
       "item_id_hex": "0x84",
-      "native_item_name": "Unknown (0x84)",
+      "native_item_name": "Warp Star",
       "count": 2
     },
     {
       "item_id": 135,
       "item_id_hex": "0x87",
-      "native_item_name": "Unknown (0x87)",
+      "native_item_name": "Unknown Object Type 0x87",
       "count": 1
     },
     {
       "item_id": 169,
       "item_id_hex": "0xA9",
-      "native_item_name": "Unknown (0xA9)",
+      "native_item_name": "Bonkers Nut Large",
       "count": 1
     },
     {
       "item_id": 255,
       "item_id_hex": "0xFF",
-      "native_item_name": "Unknown (0xFF)",
+      "native_item_name": "No Direct Item (0xFF)",
       "count": 4
     }
   ],
