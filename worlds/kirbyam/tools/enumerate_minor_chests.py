@@ -61,10 +61,10 @@ NATIVE_ITEM_NAME_BY_ID = {
     0x69: "Goal Game Bonus",
     0x80: "Small Chest",
     0x81: "Big Chest",
-    0x82: "Unknown Object Type 0x82",
-    0x83: "Unknown Object Type 0x83",
+    0x82: "Large Block Controller 0x82",
+    0x83: "Respawn Point Marker",
     0x84: "Warp Star",
-    0x87: "Unknown Object Type 0x87",
+    0x87: "Large Block State Marker 0x87",
     0xA9: "Bonkers Nut Large",
     0xFF: "No Direct Item (0xFF)",
 }

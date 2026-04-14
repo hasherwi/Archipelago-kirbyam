@@ -543,7 +543,7 @@
       "entry_aux_lo": 14,
       "item_id": 130,
       "item_id_hex": "0x82",
-      "native_item_name": "Unknown Object Type 0x82",
+      "native_item_name": "Large Block Controller 0x82",
       "chest_index": 13,
       "chest_index_hex": "0x0D",
       "candidate_native_room_ids": [
@@ -582,7 +582,7 @@
       "entry_aux_lo": 16,
       "item_id": 135,
       "item_id_hex": "0x87",
-      "native_item_name": "Unknown Object Type 0x87",
+      "native_item_name": "Large Block State Marker 0x87",
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -902,7 +902,7 @@
       "entry_aux_lo": 26,
       "item_id": 130,
       "item_id_hex": "0x82",
-      "native_item_name": "Unknown Object Type 0x82",
+      "native_item_name": "Large Block Controller 0x82",
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -2128,7 +2128,7 @@
       "entry_aux_lo": 61,
       "item_id": 131,
       "item_id_hex": "0x83",
-      "native_item_name": "Unknown Object Type 0x83",
+      "native_item_name": "Respawn Point Marker",
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -2789,13 +2789,13 @@
     {
       "item_id": 130,
       "item_id_hex": "0x82",
-      "native_item_name": "Unknown Object Type 0x82",
+      "native_item_name": "Large Block Controller 0x82",
       "count": 2
     },
     {
       "item_id": 131,
       "item_id_hex": "0x83",
-      "native_item_name": "Unknown Object Type 0x83",
+      "native_item_name": "Respawn Point Marker",
       "count": 1
     },
     {
@@ -2807,7 +2807,7 @@
     {
       "item_id": 135,
       "item_id_hex": "0x87",
-      "native_item_name": "Unknown Object Type 0x87",
+      "native_item_name": "Large Block State Marker 0x87",
       "count": 1
     },
     {
