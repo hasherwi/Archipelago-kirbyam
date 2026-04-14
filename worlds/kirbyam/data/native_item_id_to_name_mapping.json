@@ -1,7 +1,7 @@
 {
   "0x00": {
     "item_id": 0,
-    "name": "None",
+    "name": "Waddle Dee",
     "source_symbol": "OBJ_WADDLE_DEE_1",
     "room_usage": {
       "total_count_all_rooms": 128,
