@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -31,7 +32,42 @@ OBJECT_TYPE_OFFSET = 0x0C
 ROOT = Path(__file__).resolve().parents[3]
 MAPPING_PATH = ROOT / "worlds" / "kirbyam" / "data" / "native_item_id_to_name_mapping.json"
 ROOMS_PATH = ROOT / "worlds" / "kirbyam" / "data" / "regions" / "rooms.json"
-ROM_PATH = ROOT.parents[0] / "local-files" / "ROMs" / "Kirby & The Amazing Mirror (USA).gba"
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Enrich native object mapping with per-room usage counts from KatAM ROM data.",
+    )
+    parser.add_argument(
+        "--rom",
+        type=Path,
+        required=True,
+        help="Path to Kirby & The Amazing Mirror ROM (required).",
+    )
+    parser.add_argument(
+        "--mapping",
+        type=Path,
+        default=MAPPING_PATH,
+        help=f"Path to native object mapping JSON (default: {MAPPING_PATH}).",
+    )
+    parser.add_argument(
+        "--rooms",
+        type=Path,
+        default=ROOMS_PATH,
+        help=f"Path to AP rooms JSON (default: {ROOMS_PATH}).",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=None,
+        help="Output path (default: <mapping>.enriched.json). Ignored when --in-place is used.",
+    )
+    parser.add_argument(
+        "--in-place",
+        action="store_true",
+        help="Overwrite the mapping file in place.",
+    )
+    return parser.parse_args()
 
 
 def gba_addr_to_offset(addr: int) -> int:
@@ -108,9 +144,22 @@ def parse_object_types_for_list(rom: bytes, list_ptr_addr: int) -> List[int]:
 
 
 def main() -> None:
-    mapping = json.loads(MAPPING_PATH.read_text(encoding="utf-8"))
-    rooms_data = json.loads(ROOMS_PATH.read_text(encoding="utf-8"))
-    rom = ROM_PATH.read_bytes()
+    args = parse_args()
+
+    mapping_path = args.mapping.resolve()
+    rooms_path = args.rooms.resolve()
+    rom_path = args.rom.resolve()
+
+    if not rom_path.is_file():
+        raise FileNotFoundError(f"ROM file not found: {rom_path}")
+    if not mapping_path.is_file():
+        raise FileNotFoundError(f"Mapping file not found: {mapping_path}")
+    if not rooms_path.is_file():
+        raise FileNotFoundError(f"Rooms file not found: {rooms_path}")
+
+    mapping = json.loads(mapping_path.read_text(encoding="utf-8"))
+    rooms_data = json.loads(rooms_path.read_text(encoding="utf-8"))
+    rom = rom_path.read_bytes()
 
     level_obj_list_ptrs = parse_level_obj_list_ptrs(rom)
     room_props = parse_room_props(rom)
@@ -174,8 +223,14 @@ def main() -> None:
             "rooms": rooms_payload,
         }
 
-    MAPPING_PATH.write_text(json.dumps(mapping, indent=2) + "\n", encoding="utf-8", newline="\n")
+    if args.in_place:
+        output_path = mapping_path
+    else:
+        output_path = args.output.resolve() if args.output else mapping_path.with_name(f"{mapping_path.stem}.enriched.json")
+
+    output_path.write_text(json.dumps(mapping, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"Updated mapping with room usage: {len(mapping)} object IDs")
+    print(f"Wrote output to: {output_path}")
 
 
 if __name__ == "__main__":

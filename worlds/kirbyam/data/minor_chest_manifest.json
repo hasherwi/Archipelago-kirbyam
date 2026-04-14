@@ -8,7 +8,7 @@
     "rooms_sha256": "cd1df1420687f6fe261caace2a5419d6433ff82a87faea9adcbf34eb637c01a9",
     "total_minor_chests": 65,
     "total_unique_amr_room_slots": 55,
-    "ambiguous_entries": 0,
+    "ambiguous_entries": 65,
     "identified_entries": 65,
     "unresolved_entries": 0,
     "modeled_non_collection_pool_entries": 14,
@@ -16,7 +16,8 @@
       "rom_offset": "0x009331AC",
       "size": "0x9998",
       "stride": "0x28",
-      "object_list_idx_offset": "0x20",
+      "object_list2_idx_offset": "0x20",
+      "object_list_idx_offset": "0x22",
       "doors_idx_offset": "0x24"
     }
   },
@@ -53,6 +54,7 @@
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
+        536,
         536
       ],
       "candidate_doors_idx": [
@@ -94,6 +96,7 @@
       "chest_index": 13,
       "chest_index_hex": "0x0D",
       "candidate_native_room_ids": [
+        543,
         543
       ],
       "candidate_doors_idx": [
@@ -143,6 +146,7 @@
       "chest_index": 76,
       "chest_index_hex": "0x4C",
       "candidate_native_room_ids": [
+        104,
         104
       ],
       "candidate_doors_idx": [
@@ -192,6 +196,7 @@
       "chest_index": 1,
       "chest_index_hex": "0x01",
       "candidate_native_room_ids": [
+        107,
         107
       ],
       "candidate_doors_idx": [
@@ -233,6 +238,7 @@
       "chest_index": 128,
       "chest_index_hex": "0x80",
       "candidate_native_room_ids": [
+        556,
         556
       ],
       "candidate_doors_idx": [
@@ -274,6 +280,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        119,
         119
       ],
       "candidate_doors_idx": [
@@ -315,6 +322,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        172,
         172
       ],
       "candidate_doors_idx": [
@@ -356,6 +364,7 @@
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
+        175,
         175
       ],
       "candidate_doors_idx": [
@@ -405,6 +414,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        176,
         176
       ],
       "candidate_doors_idx": [
@@ -446,6 +456,7 @@
       "chest_index": 2,
       "chest_index_hex": "0x02",
       "candidate_native_room_ids": [
+        144,
         144
       ],
       "candidate_doors_idx": [
@@ -487,6 +498,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        147,
         147
       ],
       "candidate_doors_idx": [
@@ -528,6 +540,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        147,
         147
       ],
       "candidate_doors_idx": [
@@ -577,6 +590,7 @@
       "chest_index": 13,
       "chest_index_hex": "0x0D",
       "candidate_native_room_ids": [
+        148,
         148
       ],
       "candidate_doors_idx": [
@@ -618,6 +632,7 @@
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
+        708,
         708
       ],
       "candidate_doors_idx": [
@@ -659,6 +674,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        741,
         741
       ],
       "candidate_doors_idx": [
@@ -708,6 +724,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        200,
         200
       ],
       "candidate_doors_idx": [
@@ -749,6 +766,7 @@
       "chest_index": 147,
       "chest_index_hex": "0x93",
       "candidate_native_room_ids": [
+        200,
         200
       ],
       "candidate_doors_idx": [
@@ -790,6 +808,7 @@
       "chest_index": 240,
       "chest_index_hex": "0xF0",
       "candidate_native_room_ids": [
+        205,
         205
       ],
       "candidate_doors_idx": [
@@ -831,6 +850,7 @@
       "chest_index": 135,
       "chest_index_hex": "0x87",
       "candidate_native_room_ids": [
+        208,
         208
       ],
       "candidate_doors_idx": [
@@ -872,6 +892,7 @@
       "chest_index": 85,
       "chest_index_hex": "0x55",
       "candidate_native_room_ids": [
+        208,
         208
       ],
       "candidate_doors_idx": [
@@ -913,6 +934,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        209,
         209
       ],
       "candidate_doors_idx": [
@@ -954,6 +976,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        214,
         214
       ],
       "candidate_doors_idx": [
@@ -995,6 +1018,7 @@
       "chest_index": 128,
       "chest_index_hex": "0x80",
       "candidate_native_room_ids": [
+        226,
         226
       ],
       "candidate_doors_idx": [
@@ -1036,6 +1060,7 @@
       "chest_index": 128,
       "chest_index_hex": "0x80",
       "candidate_native_room_ids": [
+        226,
         226
       ],
       "candidate_doors_idx": [
@@ -1077,6 +1102,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        226,
         226
       ],
       "candidate_doors_idx": [
@@ -1126,6 +1152,7 @@
       "chest_index": 136,
       "chest_index_hex": "0x88",
       "candidate_native_room_ids": [
+        227,
         227
       ],
       "candidate_doors_idx": [
@@ -1167,6 +1194,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        227,
         227
       ],
       "candidate_doors_idx": [
@@ -1208,6 +1236,7 @@
       "chest_index": 2,
       "chest_index_hex": "0x02",
       "candidate_native_room_ids": [
+        228,
         228
       ],
       "candidate_doors_idx": [
@@ -1249,6 +1278,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        228,
         228
       ],
       "candidate_doors_idx": [
@@ -1290,6 +1320,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        228,
         228
       ],
       "candidate_doors_idx": [
@@ -1331,6 +1362,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        231,
         231
       ],
       "candidate_doors_idx": [
@@ -1380,6 +1412,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        215,
         215
       ],
       "candidate_doors_idx": [
@@ -1421,6 +1454,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        219,
         219
       ],
       "candidate_doors_idx": [
@@ -1462,6 +1496,7 @@
       "chest_index": 36,
       "chest_index_hex": "0x24",
       "candidate_native_room_ids": [
+        223,
         223
       ],
       "candidate_doors_idx": [
@@ -1503,6 +1538,7 @@
       "chest_index": 9,
       "chest_index_hex": "0x09",
       "candidate_native_room_ids": [
+        315,
         315
       ],
       "candidate_doors_idx": [
@@ -1552,6 +1588,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        318,
         318
       ],
       "candidate_doors_idx": [
@@ -1601,6 +1638,7 @@
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
+        321,
         321
       ],
       "candidate_doors_idx": [
@@ -1642,6 +1680,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        325,
         325
       ],
       "candidate_doors_idx": [
@@ -1691,6 +1730,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        401,
         401
       ],
       "candidate_doors_idx": [
@@ -1732,6 +1772,7 @@
       "chest_index": 11,
       "chest_index_hex": "0x0B",
       "candidate_native_room_ids": [
+        402,
         402
       ],
       "candidate_doors_idx": [
@@ -1773,6 +1814,7 @@
       "chest_index": 17,
       "chest_index_hex": "0x11",
       "candidate_native_room_ids": [
+        417,
         417
       ],
       "candidate_doors_idx": [
@@ -1814,6 +1856,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        423,
         423
       ],
       "candidate_doors_idx": [
@@ -1855,6 +1898,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        424,
         424
       ],
       "candidate_doors_idx": [
@@ -1896,6 +1940,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        426,
         426
       ],
       "candidate_doors_idx": [
@@ -1945,6 +1990,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        509,
         509
       ],
       "candidate_doors_idx": [
@@ -1986,6 +2032,7 @@
       "chest_index": 13,
       "chest_index_hex": "0x0D",
       "candidate_native_room_ids": [
+        516,
         516
       ],
       "candidate_doors_idx": [
@@ -2027,6 +2074,7 @@
       "chest_index": 1,
       "chest_index_hex": "0x01",
       "candidate_native_room_ids": [
+        501,
         501
       ],
       "candidate_doors_idx": [
@@ -2076,6 +2124,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        514,
         514
       ],
       "candidate_doors_idx": [
@@ -2117,6 +2166,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        515,
         515
       ],
       "candidate_doors_idx": [
@@ -2158,6 +2208,7 @@
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
+        523,
         523
       ],
       "candidate_doors_idx": [
@@ -2199,6 +2250,7 @@
       "chest_index": 3,
       "chest_index_hex": "0x03",
       "candidate_native_room_ids": [
+        530,
         530
       ],
       "candidate_doors_idx": [
@@ -2240,6 +2292,7 @@
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
+        133,
         133
       ],
       "candidate_doors_idx": [
@@ -2289,6 +2342,7 @@
       "chest_index": 50,
       "chest_index_hex": "0x32",
       "candidate_native_room_ids": [
+        551,
         551
       ],
       "candidate_doors_idx": [
@@ -2330,6 +2384,7 @@
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
+        815,
         815
       ],
       "candidate_doors_idx": [
@@ -2371,6 +2426,7 @@
       "chest_index": 4,
       "chest_index_hex": "0x04",
       "candidate_native_room_ids": [
+        824,
         824
       ],
       "candidate_doors_idx": [
@@ -2412,6 +2468,7 @@
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
+        825,
         825
       ],
       "candidate_doors_idx": [
@@ -2453,6 +2510,7 @@
       "chest_index": 7,
       "chest_index_hex": "0x07",
       "candidate_native_room_ids": [
+        621,
         621
       ],
       "candidate_doors_idx": [
@@ -2494,6 +2552,7 @@
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
+        622,
         622
       ],
       "candidate_doors_idx": [
@@ -2543,6 +2602,7 @@
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
+        623,
         623
       ],
       "candidate_doors_idx": [
@@ -2584,6 +2644,7 @@
       "chest_index": 29,
       "chest_index_hex": "0x1D",
       "candidate_native_room_ids": [
+        526,
         526
       ],
       "candidate_doors_idx": [
@@ -2625,6 +2686,7 @@
       "chest_index": 13,
       "chest_index_hex": "0x0D",
       "candidate_native_room_ids": [
+        526,
         526
       ],
       "candidate_doors_idx": [
@@ -2666,6 +2728,7 @@
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
+        717,
         717
       ],
       "candidate_doors_idx": [
@@ -2707,6 +2770,7 @@
       "chest_index": 18,
       "chest_index_hex": "0x12",
       "candidate_native_room_ids": [
+        732,
         732
       ],
       "candidate_doors_idx": [
@@ -2748,6 +2812,7 @@
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
+        733,
         733
       ],
       "candidate_doors_idx": [
@@ -2789,6 +2854,7 @@
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
+        733,
         733
       ],
       "candidate_doors_idx": [
@@ -2963,6 +3029,7 @@
       "amr_room_slot": 13,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        536,
         536
       ],
       "candidate_doors_idx": [
@@ -2976,6 +3043,7 @@
       "amr_room_slot": 17,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        543,
         543
       ],
       "candidate_doors_idx": [
@@ -2989,6 +3057,7 @@
       "amr_room_slot": 23,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        104,
         104
       ],
       "candidate_doors_idx": [
@@ -3002,6 +3071,7 @@
       "amr_room_slot": 25,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        107,
         107
       ],
       "candidate_doors_idx": [
@@ -3015,6 +3085,7 @@
       "amr_room_slot": 42,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        556,
         556
       ],
       "candidate_doors_idx": [
@@ -3028,6 +3099,7 @@
       "amr_room_slot": 48,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        119,
         119
       ],
       "candidate_doors_idx": [
@@ -3041,6 +3113,7 @@
       "amr_room_slot": 52,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        172,
         172
       ],
       "candidate_doors_idx": [
@@ -3054,6 +3127,7 @@
       "amr_room_slot": 55,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        175,
         175
       ],
       "candidate_doors_idx": [
@@ -3067,6 +3141,7 @@
       "amr_room_slot": 56,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        176,
         176
       ],
       "candidate_doors_idx": [
@@ -3080,6 +3155,7 @@
       "amr_room_slot": 60,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        144,
         144
       ],
       "candidate_doors_idx": [
@@ -3093,6 +3169,7 @@
       "amr_room_slot": 63,
       "chest_count": 2,
       "candidate_native_room_ids": [
+        147,
         147
       ],
       "candidate_doors_idx": [
@@ -3106,6 +3183,7 @@
       "amr_room_slot": 64,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        148,
         148
       ],
       "candidate_doors_idx": [
@@ -3119,6 +3197,7 @@
       "amr_room_slot": 72,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        708,
         708
       ],
       "candidate_doors_idx": [
@@ -3132,6 +3211,7 @@
       "amr_room_slot": 78,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        741,
         741
       ],
       "candidate_doors_idx": [
@@ -3145,6 +3225,7 @@
       "amr_room_slot": 85,
       "chest_count": 2,
       "candidate_native_room_ids": [
+        200,
         200
       ],
       "candidate_doors_idx": [
@@ -3158,6 +3239,7 @@
       "amr_room_slot": 89,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        205,
         205
       ],
       "candidate_doors_idx": [
@@ -3171,6 +3253,7 @@
       "amr_room_slot": 91,
       "chest_count": 2,
       "candidate_native_room_ids": [
+        208,
         208
       ],
       "candidate_doors_idx": [
@@ -3184,6 +3267,7 @@
       "amr_room_slot": 92,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        209,
         209
       ],
       "candidate_doors_idx": [
@@ -3197,6 +3281,7 @@
       "amr_room_slot": 95,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        214,
         214
       ],
       "candidate_doors_idx": [
@@ -3210,6 +3295,7 @@
       "amr_room_slot": 97,
       "chest_count": 3,
       "candidate_native_room_ids": [
+        226,
         226
       ],
       "candidate_doors_idx": [
@@ -3223,6 +3309,7 @@
       "amr_room_slot": 98,
       "chest_count": 2,
       "candidate_native_room_ids": [
+        227,
         227
       ],
       "candidate_doors_idx": [
@@ -3236,6 +3323,7 @@
       "amr_room_slot": 99,
       "chest_count": 3,
       "candidate_native_room_ids": [
+        228,
         228
       ],
       "candidate_doors_idx": [
@@ -3249,6 +3337,7 @@
       "amr_room_slot": 102,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        231,
         231
       ],
       "candidate_doors_idx": [
@@ -3262,6 +3351,7 @@
       "amr_room_slot": 106,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        215,
         215
       ],
       "candidate_doors_idx": [
@@ -3275,6 +3365,7 @@
       "amr_room_slot": 110,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        219,
         219
       ],
       "candidate_doors_idx": [
@@ -3288,6 +3379,7 @@
       "amr_room_slot": 113,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        223,
         223
       ],
       "candidate_doors_idx": [
@@ -3301,6 +3393,7 @@
       "amr_room_slot": 131,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        315,
         315
       ],
       "candidate_doors_idx": [
@@ -3314,6 +3407,7 @@
       "amr_room_slot": 134,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        318,
         318
       ],
       "candidate_doors_idx": [
@@ -3327,6 +3421,7 @@
       "amr_room_slot": 135,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        321,
         321
       ],
       "candidate_doors_idx": [
@@ -3340,6 +3435,7 @@
       "amr_room_slot": 139,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        325,
         325
       ],
       "candidate_doors_idx": [
@@ -3353,6 +3449,7 @@
       "amr_room_slot": 143,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        401,
         401
       ],
       "candidate_doors_idx": [
@@ -3366,6 +3463,7 @@
       "amr_room_slot": 144,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        402,
         402
       ],
       "candidate_doors_idx": [
@@ -3379,6 +3477,7 @@
       "amr_room_slot": 158,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        417,
         417
       ],
       "candidate_doors_idx": [
@@ -3392,6 +3491,7 @@
       "amr_room_slot": 164,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        423,
         423
       ],
       "candidate_doors_idx": [
@@ -3405,6 +3505,7 @@
       "amr_room_slot": 165,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        424,
         424
       ],
       "candidate_doors_idx": [
@@ -3418,6 +3519,7 @@
       "amr_room_slot": 167,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        426,
         426
       ],
       "candidate_doors_idx": [
@@ -3431,6 +3533,7 @@
       "amr_room_slot": 172,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        509,
         509
       ],
       "candidate_doors_idx": [
@@ -3444,6 +3547,7 @@
       "amr_room_slot": 174,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        516,
         516
       ],
       "candidate_doors_idx": [
@@ -3457,6 +3561,7 @@
       "amr_room_slot": 176,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        501,
         501
       ],
       "candidate_doors_idx": [
@@ -3470,6 +3575,7 @@
       "amr_room_slot": 180,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        514,
         514
       ],
       "candidate_doors_idx": [
@@ -3483,6 +3589,7 @@
       "amr_room_slot": 181,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        515,
         515
       ],
       "candidate_doors_idx": [
@@ -3496,6 +3603,7 @@
       "amr_room_slot": 183,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        523,
         523
       ],
       "candidate_doors_idx": [
@@ -3509,6 +3617,7 @@
       "amr_room_slot": 186,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        530,
         530
       ],
       "candidate_doors_idx": [
@@ -3522,6 +3631,7 @@
       "amr_room_slot": 193,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        133,
         133
       ],
       "candidate_doors_idx": [
@@ -3535,6 +3645,7 @@
       "amr_room_slot": 196,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        551,
         551
       ],
       "candidate_doors_idx": [
@@ -3548,6 +3659,7 @@
       "amr_room_slot": 200,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        815,
         815
       ],
       "candidate_doors_idx": [
@@ -3561,6 +3673,7 @@
       "amr_room_slot": 202,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        824,
         824
       ],
       "candidate_doors_idx": [
@@ -3574,6 +3687,7 @@
       "amr_room_slot": 203,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        825,
         825
       ],
       "candidate_doors_idx": [
@@ -3587,6 +3701,7 @@
       "amr_room_slot": 228,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        621,
         621
       ],
       "candidate_doors_idx": [
@@ -3600,6 +3715,7 @@
       "amr_room_slot": 229,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        622,
         622
       ],
       "candidate_doors_idx": [
@@ -3613,6 +3729,7 @@
       "amr_room_slot": 230,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        623,
         623
       ],
       "candidate_doors_idx": [
@@ -3626,6 +3743,7 @@
       "amr_room_slot": 244,
       "chest_count": 2,
       "candidate_native_room_ids": [
+        526,
         526
       ],
       "candidate_doors_idx": [
@@ -3639,6 +3757,7 @@
       "amr_room_slot": 257,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        717,
         717
       ],
       "candidate_doors_idx": [
@@ -3652,6 +3771,7 @@
       "amr_room_slot": 259,
       "chest_count": 1,
       "candidate_native_room_ids": [
+        732,
         732
       ],
       "candidate_doors_idx": [
@@ -3665,6 +3785,7 @@
       "amr_room_slot": 260,
       "chest_count": 2,
       "candidate_native_room_ids": [
+        733,
         733
       ],
       "candidate_doors_idx": [

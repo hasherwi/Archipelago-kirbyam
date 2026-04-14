@@ -29,7 +29,12 @@ from pathlib import Path
 ROOM_PROPS_ROM_BASE = 0x009331AC
 ROOM_PROPS_SIZE = 0x00009998
 ROOM_PROPS_STRIDE = 0x28
-ROOM_PROPS_OBJECT_LIST_IDX_OFFSET = 0x20
+# gRoomProps layout:
+#   0x20 -> object_list2_idx
+#   0x22 -> object_list_idx
+#   0x24 -> doors_idx
+ROOM_PROPS_OBJECT_LIST2_IDX_OFFSET = 0x20
+ROOM_PROPS_OBJECT_LIST_IDX_OFFSET = 0x22
 ROOM_PROPS_DOORS_IDX_OFFSET = 0x24
 AMR_SMALL_CHEST_ITEM_OFFSET = 0x0E
 AMR_SMALL_CHEST_INDEX_OFFSET = 0x11
@@ -94,11 +99,13 @@ def parse_groomprops(rom_bytes: bytes) -> list[dict[str, int]]:
     room_props_entries: list[dict[str, int]] = []
     for entry_offset in range(0, ROOM_PROPS_SIZE, ROOM_PROPS_STRIDE):
         base = ROOM_PROPS_ROM_BASE + entry_offset
+        object_list2_idx = read_u16(rom_bytes, base + ROOM_PROPS_OBJECT_LIST2_IDX_OFFSET)
         object_list_idx = read_u16(rom_bytes, base + ROOM_PROPS_OBJECT_LIST_IDX_OFFSET)
         doors_idx = read_u16(rom_bytes, base + ROOM_PROPS_DOORS_IDX_OFFSET)
         room_props_entries.append(
             {
                 "native_room_id": entry_offset // ROOM_PROPS_STRIDE,
+                "object_list2_idx": object_list2_idx,
                 "object_list_idx": object_list_idx,
                 "doors_idx": doors_idx,
             }
@@ -320,6 +327,7 @@ def main() -> int:
 
     native_by_object_list_idx: dict[int, list[dict[str, int]]] = defaultdict(list)
     for entry in room_props:
+        native_by_object_list_idx[entry["object_list2_idx"]].append(entry)
         native_by_object_list_idx[entry["object_list_idx"]].append(entry)
 
     manifest_entries: list[dict] = []
@@ -479,6 +487,7 @@ def main() -> int:
                 "rom_offset": f"0x{ROOM_PROPS_ROM_BASE:08X}",
                 "size": f"0x{ROOM_PROPS_SIZE:04X}",
                 "stride": f"0x{ROOM_PROPS_STRIDE:02X}",
+                "object_list2_idx_offset": f"0x{ROOM_PROPS_OBJECT_LIST2_IDX_OFFSET:02X}",
                 "object_list_idx_offset": f"0x{ROOM_PROPS_OBJECT_LIST_IDX_OFFSET:02X}",
                 "doors_idx_offset": f"0x{ROOM_PROPS_DOORS_IDX_OFFSET:02X}",
             },
