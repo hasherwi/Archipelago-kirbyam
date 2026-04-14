@@ -3223,7 +3223,7 @@ async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_biz
 
 
 @pytest.mark.asyncio
-async def test_game_watcher_reconnect_entry_suppresses_session_ready_log_when_debug_disabled(mock_bizhawk_context):
+async def test_game_watcher_reconnect_entry_emits_file_only_session_ready_log(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
 
@@ -3249,9 +3249,9 @@ async def test_game_watcher_reconnect_entry_suppresses_session_ready_log_when_de
 
         await client.game_watcher(mock_bizhawk_context)
 
-    assert not any(
-        call.args and call.args[0] == "KirbyAM: AP session ready; reconnect-safe reconciliation active"
-        for call in mock_logger.info.call_args_list
+    mock_logger.info.assert_any_call(
+        "KirbyAM: AP session ready; reconnect-safe reconciliation active",
+        extra={"NoStream": True},
     )
 
 
@@ -3468,7 +3468,7 @@ async def test_game_watcher_emits_pause_then_resume_popups_on_transition(mock_bi
 
 
 @pytest.mark.asyncio
-async def test_game_watcher_suppresses_runtime_gate_logs_when_debug_disabled(mock_bizhawk_context):
+async def test_game_watcher_emits_file_only_runtime_gate_logs(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
 
@@ -3482,12 +3482,12 @@ async def test_game_watcher_suppresses_runtime_gate_logs_when_debug_disabled(moc
 
         await client.game_watcher(mock_bizhawk_context)
 
-    defer_logs = [
-        call for call in mock_logger.info.call_args_list
-        if call.args and isinstance(call.args[0], str)
-        and "deferring location polling/new item writes" in call.args[0]
-    ]
-    assert defer_logs == []
+    mock_logger.info.assert_any_call(
+        "KirbyAM: deferring location polling/new item writes (%s, ai_state=%s)",
+        "non_gameplay_tutorial_or_menu",
+        0,
+        extra={"NoStream": True},
+    )
 
 
 @pytest.mark.asyncio

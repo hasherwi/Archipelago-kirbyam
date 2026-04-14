@@ -517,13 +517,21 @@ class KirbyAmClient(BizHawkClient):
 
         self._log_verbose(
             "info",
-            "KirbyAM debug: self ItemSend observed (item=%s, location=%s, player=%s, queue_len=%s, delivered_index=%s)" % (item_id, location_id, player_id, len(ctx.items_received), self._delivered_item_index)
+            "KirbyAM debug: self ItemSend observed (item=%s, location=%s, player=%s, queue_len=%s, delivered_index=%s)",
+            item_id,
+            location_id,
+            player_id,
+            len(ctx.items_received),
+            self._delivered_item_index,
         )
 
         if signature in self._self_send_fallback_keys:
             self._log_verbose(
                 "info",
-                "KirbyAM debug: self ItemSend fallback skipped (already queued signature item=%s location=%s player=%s)" % (item_id, location_id, player_id)
+                "KirbyAM debug: self ItemSend fallback skipped (already queued signature item=%s location=%s player=%s)",
+                item_id,
+                location_id,
+                player_id,
             )
             return
 
@@ -531,7 +539,10 @@ class KirbyAmClient(BizHawkClient):
             if self._item_signature(existing) == signature:
                 self._log_verbose(
                     "info",
-                    "KirbyAM debug: self ItemSend already present in items_received (item=%s, location=%s, player=%s)" % (item_id, location_id, player_id)
+                    "KirbyAM debug: self ItemSend already present in items_received (item=%s, location=%s, player=%s)",
+                    item_id,
+                    location_id,
+                    player_id,
                 )
                 return
 
@@ -542,7 +553,10 @@ class KirbyAmClient(BizHawkClient):
         ctx.watcher_event.set()
         self._log_verbose(
             "info",
-            "KirbyAM debug: queued self-send fallback item from ItemSend (item=%s, location=%s, player=%s)" % (item_id, location_id, player_id)
+            "KirbyAM debug: queued self-send fallback item from ItemSend (item=%s, location=%s, player=%s)",
+            item_id,
+            location_id,
+            player_id,
         )
 
     def _mark_bizhawk_watcher_transport_error(self, reason: str) -> bool:
@@ -1007,8 +1021,7 @@ class KirbyAmClient(BizHawkClient):
         await self._sync_challenge_runtime_config(ctx)
 
         if not self._watcher_server_ready:
-            if self._debug_logging_enabled:
-                self._log_verbose("info", "KirbyAM: AP session ready; reconnect-safe reconciliation active")
+            self._log_verbose("info", "KirbyAM: AP session ready; reconnect-safe reconciliation active")
             self._watcher_server_ready = True
             self._reset_reconnect_transient_state()
 
@@ -1035,13 +1048,12 @@ class KirbyAmClient(BizHawkClient):
             )
             if not gameplay_active:
                 if self._last_runtime_gate_reason != defer_reason:
-                    if self._debug_logging_enabled:
-                        self._log_verbose(
-                            "info",
-                            "KirbyAM: deferring location polling/new item writes (%s, ai_state=%s)",
-                            defer_reason,
-                            ai_state if ai_state is not None else "unavailable",
-                        )
+                    self._log_verbose(
+                        "info",
+                        "KirbyAM: deferring location polling/new item writes (%s, ai_state=%s)",
+                        defer_reason,
+                        ai_state if ai_state is not None else "unavailable",
+                    )
                     await self._display_client_message(ctx, "Item sending paused by game state")
                     self._last_runtime_gate_reason = defer_reason
 
@@ -1054,8 +1066,7 @@ class KirbyAmClient(BizHawkClient):
                 return
 
             if self._last_runtime_gate_reason is not None:
-                if self._debug_logging_enabled:
-                    self._log_verbose("info", "KirbyAM: gameplay-active state restored; resuming normal watcher flow")
+                self._log_verbose("info", "KirbyAM: gameplay-active state restored; resuming normal watcher flow")
                 await self._display_client_message(ctx, "Item sending resumed")
                 self._last_runtime_gate_reason = None
 
@@ -1284,12 +1295,11 @@ class KirbyAmClient(BizHawkClient):
 
         await bizhawk.write(ctx.bizhawk_ctx, [(lives_addr, (0).to_bytes(1, "little"), "System Bus")])
 
-        if self._debug_logging_enabled:
-            self._log_verbose(
-                "info",
-                "KirbyAM debug: no-extra-lives clamped native lives from %s to 0",
-                current_lives,
-            )
+        self._log_verbose(
+            "info",
+            "KirbyAM debug: no-extra-lives clamped native lives from %s to 0",
+            current_lives,
+        )
 
     async def _enforce_one_hit_mode(self, ctx: "BizHawkClientContext") -> None:
         """Clamp Kirby's max HP (and current HP) to vitality_counter + 1 while one-hit mode is active.
@@ -1354,11 +1364,12 @@ class KirbyAmClient(BizHawkClient):
                 parts.append(f"max_hp {current_max_hp}->{desired_max_hp}")
             if clamped_hp:
                 parts.append(f"hp {current_hp}->{desired_max_hp}")
-            if self._debug_logging_enabled and parts:
+            if parts:
                 self._log_verbose(
                     "info",
-                    "KirbyAM debug: one-hit mode clamped %s (desired_vitality_count=%s)"
-                    % (", ".join(parts), desired_vitality_count)
+                    "KirbyAM debug: one-hit mode clamped %s (desired_vitality_count=%s)",
+                    ", ".join(parts),
+                    desired_vitality_count,
                 )
 
     @staticmethod

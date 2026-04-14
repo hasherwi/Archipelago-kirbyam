@@ -13,6 +13,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 
+- Added trap item support: `Enable Traps` and `Trap Fill Percentage` options let players include trap items in the randomized item pool.
   - `Health Down Trap`: reduces Kirby's current HP by 2 (but won't kill).
   - `Life Down Trap`: removes one extra life (if any remain).
   - `Bomb Trap`: sets Kirby's current HP to 0.
