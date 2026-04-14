@@ -11,14 +11,14 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 
-- Added trap item support: `Enable Traps` and `Trap Fill Percentage` options let players include negative trap items in the randomized item pool. Traps are sampled with replacement from an available pool (Issues #77, #78, #79, #81).
-  - `Health Down Trap`: reduces Kirby's current HP by 2 (minimum 1).
+- Added trap item support: `Enable Traps` and `Trap Fill Percentage` options let players include trap items in the randomized item pool.
+  - `Health Down Trap`: reduces Kirby's current HP by 2 (but won't kill).
   - `Life Down Trap`: removes one extra life (if any remain).
-  - `Bomb Trap`: deals 4 HP damage (minimum 1).
-  - `Battery Drain Trap`: empties the copy ability battery to 0.
+  - `Bomb Trap`: sets Kirby's current HP to 0.
+  - `Battery Drain Trap`: empties the cell phone battery to 0.
   - Trap receive notifications are prefixed with "Received trap:" to distinguish them from regular items.
-- Added two new filler consumables with tiered healing: `Energy Drink` (HP +2) and `Hunk of Meat` (HP +3), alongside existing `Small Food` (HP +1) (Issues #684, #685, #686).
-- Enabled the first concrete `MINOR_CHEST` AP checks (Rainbow Route 1-20, 1-22, 1-38) using native small-chest flag polling, with stable location IDs and room topology wiring (Issue #129).
+- Added two new filler consumables with tiered healing: `Energy Drink` (HP +2) and `Hunk of Meat` (HP +3), alongside existing `Small Food` (HP +1).
+- Enabled the first concrete `MINOR_CHEST` AP checks (Rainbow Route 1-20, 1-22, 1-38).
 
 ### Improvements
 
