@@ -3848,7 +3848,7 @@ def test_hub_switch_locations_defined_in_regions():
 
 
 def test_minor_chest_locations_defined_in_regions_when_present():
-    """All MINOR_CHEST locations (when enabled) must be registered in regions/rooms."""
+    """All MINOR_CHEST locations (when enabled) must be registered in some data/regions entry."""
     minor_chest_keys = {
         key
         for key, loc in data.locations.items()
@@ -3865,7 +3865,7 @@ def test_minor_chest_locations_defined_in_regions_when_present():
 
     for key in minor_chest_keys:
         assert key in all_region_locations, \
-            f"MINOR_CHEST location '{key}' defined in locations.json but not registered in any region in rooms.json"
+            f"MINOR_CHEST location '{key}' defined in locations.json but not registered in any data/regions/*.json entry"
 
 
 def test_minor_chest_locations_have_unique_bit_indices_when_present():
