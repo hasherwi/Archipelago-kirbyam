@@ -143,9 +143,9 @@ def build_collection_code_by_chest_flag_index() -> dict[int, int]:
     }
 
 
-def build_major_chest_label_by_index(repo_root: Path) -> dict[int, str]:
-    locations_path = repo_root / "data" / "locations.json"
-    items_path = repo_root / "data" / "items.json"
+def build_major_chest_label_by_index(kirbyam_dir: Path) -> dict[int, str]:
+    locations_path = kirbyam_dir / "data" / "locations.json"
+    items_path = kirbyam_dir / "data" / "items.json"
     locations = load_json(locations_path)
     items = load_json(items_path)
 
@@ -235,9 +235,6 @@ def metadata_path(path: Path, repo_root: Path) -> str:
     try:
         return str(resolved_path.relative_to(resolved_repo_root)).replace("\\", "/")
     except ValueError:
-        parent_name = resolved_path.parent.name
-        if parent_name:
-            return f"external:{parent_name}/{resolved_path.name}"
         return f"external:{resolved_path.name}"
 
 
