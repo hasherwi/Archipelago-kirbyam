@@ -40,6 +40,7 @@ AMR_SMALL_CHEST_ITEM_OFFSET = 0x0E
 AMR_SMALL_CHEST_INDEX_OFFSET = 0x11
 AMR_PACKED_ITEM_SIZE = 6
 ROM_ENTRY_READ_SIZE = max(AMR_SMALL_CHEST_ITEM_OFFSET, AMR_SMALL_CHEST_INDEX_OFFSET) + 1
+AMR_JP_TO_US_ROM_SHIFT = 0x2FE74
 RESPAWN_POLICY_EVIDENCE = [
     "katam/src/treasures.c: CollectChest(u8) only sets chestFields bit; no clear/reset helper exists",
     "katam/src/treasures.c: HasChest(u8) reads persisted chestFields bit",
@@ -379,19 +380,49 @@ def normalize_rom_address(addr: int) -> int:
     return addr
 
 
+def resolve_amr_entry_rom_offset(raw_address: int, rom_bytes: bytes, amr_entry_payload: bytes) -> tuple[int, str]:
+    """
+    Resolve an AMR SmallChest address to an offset in the current ROM.
+
+    AMR items data is JP-ROM scoped. In USA ROM workflows, addresses are shifted.
+    We prove which offset is valid by matching the 6-byte AMR payload prefix.
+
+    Returns:
+        (resolved_offset, resolution_mode)
+        resolution_mode is one of: "direct", "jp_to_us_shift"
+    """
+    raw_offset = normalize_rom_address(raw_address)
+    payload_len = len(amr_entry_payload)
+
+    if raw_offset + payload_len <= len(rom_bytes):
+        if rom_bytes[raw_offset:raw_offset + payload_len] == amr_entry_payload:
+            return raw_offset, "direct"
+
+    translated_offset = raw_offset + AMR_JP_TO_US_ROM_SHIFT
+    if translated_offset + payload_len <= len(rom_bytes):
+        if rom_bytes[translated_offset:translated_offset + payload_len] == amr_entry_payload:
+            return translated_offset, "jp_to_us_shift"
+
+    raise ValueError(
+        "Unable to resolve AMR SmallChest address in ROM: "
+        f"raw_address=0x{raw_address:08X}, raw_offset=0x{raw_offset:08X}, "
+        f"jp_to_us_shift=0x{AMR_JP_TO_US_ROM_SHIFT:X}"
+    )
+
+
 def native_item_name(item_id: int, native_item_name_by_id: dict[int, str]) -> str:
     return native_item_name_by_id.get(item_id, f"Unknown (0x{item_id:02X})")
 
 
 def item_field_semantics(item_id: int, reward_path: str, native_item_name_by_id: dict[int, str]) -> tuple[str, bool]:
     base_name = native_item_name(item_id, native_item_name_by_id)
+    if reward_path == "collection_reward":
+        # This byte is not a grantable chest reward in collection-reward entries.
+        # Treat it as ROM evidence only, not as an object/enemy type or reward mapping.
+        # The actual reward is fully determined by native_in_game_item / native_collection_code.
+        return f"ROM-byte=0x{item_id:02X} (not grantable; see native_in_game_item)", False
     if item_id == 0x00:
         return f"{base_name} (sentinel/no direct chest grant)", False
-    if reward_path == "collection_reward":
-        # The byte at ROM offset +0x0E is read from JP-ROM-derived AMR addresses, which in the USA
-        # ROM point to unrelated game data — the value is unreliable and is NOT an object/enemy type.
-        # The actual reward is fully determined by native_in_game_item / native_collection_code.
-        return f"ROM-byte=0x{item_id:02X} (JP-ROM address; not grantable — see native_in_game_item)", False
     if reward_path == "non_collection_consumable_pool" and item_id in {0x80, 0x81, 0x82, 0x83, 0x87, 0xFF}:
         return f"{base_name} (controller/object reference, not direct chest grant)", False
     return base_name, True
@@ -465,18 +496,19 @@ def main() -> int:
     ambiguous_entries = 0
     unresolved_counts: dict[tuple[int, int], int] = defaultdict(int)
     modeled_non_collection_pool_entries = 0
+    address_resolution_counts: dict[str, int] = defaultdict(int)
 
     for index, (packed_item_value, raw_address, amr_room_slot) in enumerate(
         zip(chest_item_values, chest_addresses, amr_room_slots)
     ):
-        rom_offset = normalize_rom_address(int(raw_address))
+        amr_entry_payload = int(packed_item_value).to_bytes(AMR_PACKED_ITEM_SIZE, "big")
+        rom_offset, address_resolution = resolve_amr_entry_rom_offset(int(raw_address), rom_bytes, amr_entry_payload)
         if rom_offset + ROM_ENTRY_READ_SIZE > len(rom_bytes):
             raise ValueError(
                 f"Chest entry out of ROM bounds: index={index}, address=0x{int(raw_address):08X}, "
                 f"required_end=0x{rom_offset + ROM_ENTRY_READ_SIZE:08X}, rom_size=0x{len(rom_bytes):08X}"
             )
 
-        amr_entry_payload = int(packed_item_value).to_bytes(AMR_PACKED_ITEM_SIZE, "big")
         payload_b0 = amr_entry_payload[0]
         payload_b1 = amr_entry_payload[1]
         payload_b2 = amr_entry_payload[2]
@@ -517,6 +549,7 @@ def main() -> int:
             modeled_non_collection_pool_entries += 1
         if native_group == "unknown" and reward_path == "unknown":
             unresolved_counts[(payload_b2, payload_b3)] += 1
+        address_resolution_counts[address_resolution] += 1
 
         slot_counts[int(amr_room_slot)] += 1
         item_counts[item_id] += 1
@@ -527,6 +560,8 @@ def main() -> int:
                 "amr_room_slot": int(amr_room_slot),
                 "raw_address": f"0x{int(raw_address):08X}",
                 "rom_offset": f"0x{rom_offset:08X}",
+                "resolved_rom_offset": f"0x{rom_offset:08X}",
+                "address_resolution": address_resolution,
                 "amr_packed_item": int(packed_item_value),
                 "amr_packed_item_hex": amr_entry_payload.hex(),
                 "rom_slice_length": len(rom_payload),
@@ -623,6 +658,14 @@ def main() -> int:
             "identified_entries": len(manifest_entries) - sum(unresolved_counts.values()),
             "unresolved_entries": sum(unresolved_counts.values()),
             "modeled_non_collection_pool_entries": modeled_non_collection_pool_entries,
+            "address_resolution_counts": dict(sorted(address_resolution_counts.items())),
+            "amr_address_resolution": {
+                "jp_to_us_shift_hex": f"0x{AMR_JP_TO_US_ROM_SHIFT:X}",
+                "notes": [
+                    "AMR items.json addresses are JP-ROM scoped.",
+                    "This tool resolves each entry by payload-prefix match in the target ROM.",
+                ],
+            },
             "multi_chest_rooms_total": len(multi_chest_room_disambiguation),
             "multi_chest_rooms_disambiguated_by_native_item": disambiguated_multi_chest_rooms,
             "multi_chest_rooms_deferred": deferred_multi_chest_rooms,
