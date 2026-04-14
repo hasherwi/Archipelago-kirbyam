@@ -2194,6 +2194,30 @@ class KirbyAmClient(BizHawkClient):
         doors_idx = unpack_from("<H", doors_raw)[0]
         room_label = self._room_label_by_doors_idx.get(doors_idx, f"<unknown doorsIdx={doors_idx}>")
         room_region_key = self._room_region_key_by_doors_idx.get(doors_idx, "")
+        if ctx.slot is not None:
+            try:
+                await ctx.send_msgs([{
+                    "cmd": "Bounce",
+                    "slots": [ctx.slot],
+                    "data": {
+                        "type": _ROOM_UPDATE_BOUNCE_TYPE,
+                        "nativeRoomId": native_room_id,
+                        "doorsIdx": doors_idx,
+                        "roomRegionKey": room_region_key,
+                        "roomLabel": room_label,
+                    },
+                }])
+            except Exception as exc:
+                # Tracker room updates are best-effort and must not break watcher progression.
+                self._log_verbose(
+                    "warning",
+                    "KirbyAM: failed to send room update bounce (native=0x%04x, doorsIdx=%d): %s",
+                    native_room_id,
+                    doors_idx,
+                    exc,
+                )
+                return
+
         self._last_native_room_id = native_room_id
         logger.info(
             "KirbyAM: entered room %s (native=0x%04x, doorsIdx=%d)",
@@ -2202,18 +2226,6 @@ class KirbyAmClient(BizHawkClient):
             doors_idx,
             extra={"NoStream": not self._debug_logging_enabled},
         )
-        if ctx.slot is not None:
-            await ctx.send_msgs([{
-                "cmd": "Bounce",
-                "slots": [ctx.slot],
-                "data": {
-                    "type": _ROOM_UPDATE_BOUNCE_TYPE,
-                    "nativeRoomId": native_room_id,
-                    "doorsIdx": doors_idx,
-                    "roomRegionKey": room_region_key,
-                    "roomLabel": room_label,
-                },
-            }])
 
     async def _poll_room_sanity_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """

@@ -884,6 +884,40 @@ async def test_poll_room_entry_logging_re_emits_on_reconnect_state_reset(mock_bi
 
 
 @pytest.mark.asyncio
+async def test_poll_room_entry_logging_retries_after_bounce_send_failure(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._room_label_by_doors_idx = {12: "REGION_SEND_RETRY_ROOM"}
+    client._room_region_key_by_doors_idx = {12: "ROOM_SANITY_5_10"}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(0x0020).to_bytes(2, 'little')],
+            [(12).to_bytes(2, 'little')],
+            [(0x0020).to_bytes(2, 'little')],
+            [(12).to_bytes(2, 'little')],
+        ]
+        mock_send.side_effect = [RuntimeError("socket down"), None]
+
+        await client._poll_room_entry_logging(mock_bizhawk_context)
+        assert client._last_native_room_id is None
+
+        await client._poll_room_entry_logging(mock_bizhawk_context)
+
+    assert client._last_native_room_id == 0x0020
+    assert mock_send.await_count == 2
+    mock_logger.info.assert_called_once_with(
+        "KirbyAM: entered room %s (native=0x%04x, doorsIdx=%d)",
+        "REGION_SEND_RETRY_ROOM",
+        0x0020,
+        12,
+        extra={"NoStream": True},
+    )
+
+
+@pytest.mark.asyncio
 async def test_poll_room_entry_logging_nostream_gating_respects_debug_flag(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
