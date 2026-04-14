@@ -69,6 +69,13 @@ def read_u16(data: bytes, offset: int) -> int:
 
 
 def parse_groomprops(rom_bytes: bytes) -> list[dict[str, int]]:
+    room_props_end = ROOM_PROPS_ROM_BASE + ROOM_PROPS_SIZE
+    if room_props_end > len(rom_bytes):
+        raise ValueError(
+            "ROM too small for gRoomProps table: "
+            f"need end offset 0x{room_props_end:08X}, got ROM size 0x{len(rom_bytes):08X}"
+        )
+
     room_props_entries: list[dict[str, int]] = []
     for entry_offset in range(0, ROOM_PROPS_SIZE, ROOM_PROPS_STRIDE):
         base = ROOM_PROPS_ROM_BASE + entry_offset
@@ -84,11 +91,17 @@ def parse_groomprops(rom_bytes: bytes) -> list[dict[str, int]]:
     return room_props_entries
 
 
-def resolve_default_paths(repo_root: Path) -> tuple[Path, Path, Path]:
-    amr_items_default = repo_root.parent / "Amazing-Mirror-Randomizer" / "JSON" / "items.json"
+def resolve_default_paths(repo_root: Path) -> tuple[Path, Path]:
     rooms_default = repo_root / "worlds" / "kirbyam" / "data" / "regions" / "rooms.json"
     output_default = repo_root / "worlds" / "kirbyam" / "data" / "minor_chest_manifest.json"
-    return amr_items_default, rooms_default, output_default
+    return rooms_default, output_default
+
+
+def metadata_path(path: Path, repo_root: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(repo_root.resolve())).replace("\\", "/")
+    except ValueError:
+        return path.name
 
 
 def normalize_rom_address(addr: int) -> int:
@@ -107,11 +120,11 @@ def native_treasure_name(treasure_id: int) -> str:
 
 def main() -> int:
     repo_root = Path(__file__).resolve().parents[3]
-    amr_items_default, rooms_default, output_default = resolve_default_paths(repo_root)
+    rooms_default, output_default = resolve_default_paths(repo_root)
 
     parser = argparse.ArgumentParser(description="Enumerate KirbyAM minor chest evidence from ROM")
     parser.add_argument("--rom", required=True, help="Path to vanilla Kirby & The Amazing Mirror ROM")
-    parser.add_argument("--amr-items", default=str(amr_items_default), help="Path to AMR items.json")
+    parser.add_argument("--amr-items", required=True, help="Path to AMR items.json")
     parser.add_argument("--rooms", default=str(rooms_default), help="Path to KirbyAM rooms.json")
     parser.add_argument("--output", default=str(output_default), help="Output manifest JSON path")
     args = parser.parse_args()
@@ -197,7 +210,7 @@ def main() -> int:
             {
                 "entry_index": index,
                 "amr_room_slot": int(amr_room_slot),
-                "rom_address": f"0x{int(raw_address):08X}",
+                "raw_address": f"0x{int(raw_address):08X}",
                 "rom_offset": f"0x{rom_offset:08X}",
                 "amr_packed_item": int(packed_item_value),
                 "amr_packed_item_hex": amr_entry_payload.hex(),
@@ -254,9 +267,9 @@ def main() -> int:
 
     manifest = {
         "metadata": {
-            "rom": str(rom_path),
-            "amr_items": str(amr_items_path),
-            "rooms": str(rooms_path),
+            "rom": metadata_path(rom_path, repo_root),
+            "amr_items": metadata_path(amr_items_path, repo_root),
+            "rooms": metadata_path(rooms_path, repo_root),
             "total_minor_chests": len(manifest_entries),
             "total_unique_amr_room_slots": len(slot_counts),
             "ambiguous_entries": ambiguous_entries,
