@@ -372,7 +372,7 @@
     "location_id": 3960409
   },
   "HUB_SWITCH_PEPPERMINT_EAST": {
-    "label": "Peppermint Palace East - Big Switch",
+    "label": "Moonlight Mansion East - Big Switch",
     "parent_region": "REGION_PEPPERMINT_PALACE/MAIN",
     "tags": [
       "HubSwitch",
