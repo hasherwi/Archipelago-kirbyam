@@ -239,8 +239,8 @@ def test_client_starting_color_config_log_emits_after_debug_toggle_on(mock_bizha
 async def test_client_starting_color_sync_log_hidden_when_debug_disabled(mock_bizhawk_context) -> None:
     client = KirbyAmClient()
     client.initialize_client()
+    client._debug_logging_enabled = False
     mock_bizhawk_context.slot_data = {
-        "debug": {"logging": False},
         "starting_kirby_color": 7,
         "starting_kirby_color_name": "Sapphire",
     }
@@ -262,7 +262,6 @@ async def test_client_starting_color_sync_log_hidden_when_debug_disabled(mock_bi
         ),
         patch("CommonClient.logger.info") as mock_info,
     ):
-        client._load_debug_settings(mock_bizhawk_context)
         await client._sync_starting_kirby_color_runtime_config(mock_bizhawk_context)
 
     assert mock_info.call_count == 0

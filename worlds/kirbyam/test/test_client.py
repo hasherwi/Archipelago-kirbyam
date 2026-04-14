@@ -2435,7 +2435,7 @@ def test_load_debug_settings_defaults_to_disabled(mock_bizhawk_context):
     client.initialize_client()
 
     with patch('CommonClient.logger') as mock_logger:
-        mock_logger.level = logging.NOTSET
+        mock_logger.getEffectiveLevel.return_value = logging.INFO
         client._load_debug_settings(mock_bizhawk_context)
 
     assert client._debug_logging_enabled is False
@@ -2446,21 +2446,28 @@ def test_load_debug_settings_honors_logger_debug_level(mock_bizhawk_context):
     client.initialize_client()
 
     with patch('CommonClient.logger') as mock_logger:
-        mock_logger.level = logging.DEBUG
+        mock_logger.getEffectiveLevel.return_value = logging.DEBUG
         client._load_debug_settings(mock_bizhawk_context)
 
     assert client._debug_logging_enabled is True
 
 
-def test_load_debug_settings_ignores_inherited_root_level(mock_bizhawk_context):
+def test_load_debug_settings_honors_inherited_root_debug_level(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
+    inherited_logger = logging.getLogger("worlds.kirbyam.test.inherited_debug")
+    inherited_logger.setLevel(logging.NOTSET)
 
-    with patch('CommonClient.logger') as mock_logger:
-        mock_logger.level = logging.NOTSET
-        client._load_debug_settings(mock_bizhawk_context)
+    root_logger = logging.getLogger()
+    original_root_level = root_logger.level
+    try:
+        root_logger.setLevel(logging.DEBUG)
+        with patch.object(client, '_get_logger', return_value=inherited_logger):
+            client._load_debug_settings(mock_bizhawk_context)
+    finally:
+        root_logger.setLevel(original_root_level)
 
-    assert client._debug_logging_enabled is False
+    assert client._debug_logging_enabled is True
 
 
 def test_no_extra_lives_enabled_defaults_to_false(mock_bizhawk_context):
@@ -2932,6 +2939,7 @@ async def test_game_watcher_reloads_state_after_transport_recovery(mock_bizhawk_
     with patch.object(client, '_reset_reconnect_transient_state') as mock_reset, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock) as mock_load, \
          patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock) as mock_reconcile_maps, \
+            patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock) as mock_apply_death_link, \
          patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock) as mock_send_death_link, \
@@ -3308,6 +3316,7 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock) as mock_load, \
+            patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_poll_locations', new_callable=AsyncMock) as mock_poll_locations, \
          patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock) as mock_poll_boss, \
          patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock) as mock_probe, \
@@ -3337,6 +3346,7 @@ async def test_game_watcher_emits_pause_then_resume_popups_on_transition(mock_bi
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
+            patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
          patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
@@ -3440,6 +3450,7 @@ async def test_game_watcher_syncs_death_link_enabled_from_slot_data(mock_bizhawk
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
+            patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
             patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
             patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
@@ -3469,6 +3480,7 @@ async def test_game_watcher_death_link_sync_is_deduped_until_value_changes(mock_
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
+            patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
             patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
             patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \

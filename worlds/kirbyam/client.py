@@ -622,15 +622,12 @@ class KirbyAmClient(BizHawkClient):
         # standard logger configuration for verbose diagnostic gating.
         _ = ctx
         logger_obj = self._get_logger()
-        logger_level = getattr(logger_obj, "level", logging.NOTSET)
-        if isinstance(logger_level, int):
-            self._debug_logging_enabled = (
-                logger_level != logging.NOTSET
-                and logger_level <= logging.DEBUG
-            )
-            return
-
         try:
+            effective_level = logger_obj.getEffectiveLevel()
+            if isinstance(effective_level, int):
+                self._debug_logging_enabled = effective_level <= logging.DEBUG
+                return
+
             enabled = logger_obj.isEnabledFor(logging.DEBUG)
             self._debug_logging_enabled = enabled if isinstance(enabled, bool) else False
         except Exception:
