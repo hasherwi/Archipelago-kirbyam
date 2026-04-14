@@ -97,6 +97,120 @@ def resolve_default_paths(repo_root: Path) -> tuple[Path, Path]:
     return rooms_default, output_default
 
 
+def build_collection_code_by_treasure_id() -> dict[int, int]:
+    # Source: katam/src/collection_room.c gUnk_08386A50 entries ({unk0, unk2, unk3}).
+    raw_entries = [
+        (0x100, 0x4), (0x101, 0x5), (0x102, 0x6), (0x103, 0x7), (0x104, 0x8),
+        (0x406, 0x13), (0x401, 0x14), (0x403, 0x15), (0x402, 0x16), (0x400, 0x17),
+        (0x105, 0x9), (0x106, 0xA), (0x107, 0xB), (0x108, 0xC), (0x109, 0xD),
+        (0x409, 0x18), (0x408, 0x19), (0x405, 0x1A), (0x404, 0x1B), (0x407, 0x1C),
+        (0x10A, 0xE), (0x10B, 0xF), (0x10C, 0x10), (0x10D, 0x11), (0x10E, 0x12),
+        (0x200, 0x1D), (0x201, 0x1E), (0x204, 0x1F), (0x202, 0x20), (0x207, 0x21),
+        (0x1000, 0x28), (0x800, 0x27), (0x801, 0x27), (0x802, 0x27), (0x803, 0x27),
+        (0x206, 0x22), (0x209, 0x23), (0x208, 0x24), (0x205, 0x25), (0x203, 0x26),
+    ]
+    mapping: dict[int, int] = {}
+    for collection_code, treasure_id in raw_entries:
+        mapping[treasure_id] = collection_code
+    return mapping
+
+
+def build_collection_code_by_chest_flag_index() -> dict[int, int]:
+    # Source: katam/src/collection_room.c gUnk_08386B28 entries ({unk_first, collection_code}).
+    return {
+        0x01: 0x400, 0x02: 0x404, 0x03: 0x401, 0x04: 0x400, 0x05: 0x402, 0x06: 0x402,
+        0x07: 0x401, 0x08: 0x402, 0x09: 0x401, 0x0A: 0x402, 0x0B: 0x401, 0x0C: 0x403,
+        0x0D: 0x403, 0x0E: 0x405, 0x0F: 0x403, 0x10: 0x405, 0x11: 0x405, 0x12: 0x405,
+        0x13: 0x400, 0x14: 0x404, 0x15: 0x401, 0x16: 0x404, 0x17: 0x404, 0x18: 0x403,
+        0x19: 0x400, 0x1A: 0x403, 0x1B: 0x402, 0x1C: 0x402, 0x1D: 0x401, 0x1E: 0x404,
+        0x1F: 0x404, 0x20: 0x404, 0x21: 0x404, 0x22: 0x404, 0x23: 0x401, 0x24: 0x400,
+        0x25: 0x404, 0x26: 0x404, 0x27: 0x404, 0x28: 0x403, 0x29: 0x401, 0x2A: 0x402,
+    }
+
+
+def build_major_chest_label_by_index(repo_root: Path) -> dict[int, str]:
+    locations_path = repo_root / "worlds" / "kirbyam" / "data" / "locations.json"
+    items_path = repo_root / "worlds" / "kirbyam" / "data" / "items.json"
+    locations = load_json(locations_path)
+    items = load_json(items_path)
+
+    major_labels: dict[int, str] = {}
+    for location in locations.values():
+        if location.get("category") != "MAJOR_CHEST":
+            continue
+        bit_index = location.get("bit_index")
+        default_item = location.get("default_item")
+        if not isinstance(bit_index, int) or not isinstance(default_item, str):
+            continue
+        item_data = items.get(default_item)
+        if not isinstance(item_data, dict):
+            continue
+        item_label = item_data.get("label")
+        if isinstance(item_label, str):
+            major_labels[bit_index] = item_label
+    return major_labels
+
+
+def resolve_native_collection_item(
+    treasure_id: int,
+    chest_flag_index: int,
+    collection_code_by_treasure_id: dict[int, int],
+    collection_code_by_chest_flag_index: dict[int, int],
+    major_chest_label_by_index: dict[int, str],
+) -> tuple[str, str, int | None]:
+    collection_code = collection_code_by_treasure_id.get(treasure_id)
+    if collection_code is None:
+        collection_code = collection_code_by_chest_flag_index.get(chest_flag_index)
+    if collection_code is None:
+        return "unknown", f"Collection Treasure #{treasure_id:02d}", None
+
+    if collection_code == 0x1000:
+        return "sound_player", "Sound Player", collection_code
+
+    high = collection_code >> 8
+    low = collection_code & 0xFF
+
+    if high == 0x1:
+        if low == 0:
+            return "spray_paint", "Spray Paint Hub", collection_code
+        return "spray_paint", f"Spray Paint #{low}", collection_code
+    if high == 0x2:
+        major_label = major_chest_label_by_index.get(low)
+        if major_label is not None:
+            return "major_chest", major_label, collection_code
+        return "major_chest", f"Big Chest Flag #{low}", collection_code
+    if high == 0x4:
+        return "music_sheet", f"Music Sheet #{low + 1}", collection_code
+    if high == 0x8:
+        return "vitality", f"Vitality Counter #{low + 1}", collection_code
+
+    return "unknown", f"Collection Treasure #{treasure_id:02d}", collection_code
+
+
+def classify_reward_profile(native_group: str, chest_flag_index: int, treasure_id: int) -> tuple[str, bool, list[str]]:
+    # Source-backed decode paths:
+    # - collection_room.c tables map tracked collection rewards (spray/music/vitality/map/sound)
+    # - unresolved 0x80 entries with (flag=0, treasure=0) are non-collection chest rewards.
+    #   These are modeled as a consumable reward pool where 1-Up is a possible outcome.
+    if native_group in {"spray_paint", "music_sheet", "vitality", "major_chest", "sound_player"}:
+        return "collection_reward", False, []
+    if native_group == "unknown" and chest_flag_index == 0 and treasure_id == 0:
+        return (
+            "non_collection_consumable_pool",
+            True,
+            [
+                "Small Food",
+                "Energy Drink",
+                "Hunk of Meat",
+                "Max Tomato",
+                "Cell Phone Battery",
+                "1-Up",
+                "Invincibility Candy",
+            ],
+        )
+    return "unknown", False, []
+
+
 def metadata_path(path: Path, repo_root: Path) -> str:
     try:
         return str(path.resolve().relative_to(repo_root.resolve())).replace("\\", "/")
@@ -159,6 +273,9 @@ def main() -> int:
 
     doors_idx_to_room_keys = build_doors_idx_to_room_keys(rooms)
     room_props = parse_groomprops(rom_bytes)
+    collection_code_by_treasure_id = build_collection_code_by_treasure_id()
+    collection_code_by_chest_flag_index = build_collection_code_by_chest_flag_index()
+    major_chest_label_by_index = build_major_chest_label_by_index(repo_root)
 
     native_by_object_list_idx: dict[int, list[dict[str, int]]] = defaultdict(list)
     for entry in room_props:
@@ -168,6 +285,7 @@ def main() -> int:
     slot_counts: dict[int, int] = defaultdict(int)
     item_counts: dict[int, int] = defaultdict(int)
     ambiguous_entries = 0
+    unresolved_counts: dict[tuple[int, int], int] = defaultdict(int)
 
     for index, (packed_item_value, raw_address, amr_room_slot) in enumerate(
         zip(chest_item_values, chest_addresses, amr_room_slots)
@@ -190,6 +308,18 @@ def main() -> int:
         item_id = rom_bytes[rom_offset + AMR_SMALL_CHEST_ITEM_OFFSET]
         item_name = native_item_name(item_id)
         chest_index = rom_bytes[rom_offset + AMR_SMALL_CHEST_INDEX_OFFSET]
+        native_group, native_item_label, native_collection_code = resolve_native_collection_item(
+            payload_b3,
+            payload_b2,
+            collection_code_by_treasure_id,
+            collection_code_by_chest_flag_index,
+            major_chest_label_by_index,
+        )
+        reward_path, can_yield_1up, possible_rewards = classify_reward_profile(
+            native_group,
+            payload_b2,
+            payload_b3,
+        )
 
         native_candidates = native_by_object_list_idx.get(int(amr_room_slot), [])
         native_room_ids = [candidate["native_room_id"] for candidate in native_candidates]
@@ -202,6 +332,9 @@ def main() -> int:
 
         if len(native_room_ids) > 1:
             ambiguous_entries += 1
+
+        if native_group == "unknown":
+            unresolved_counts[(payload_b2, payload_b3)] += 1
 
         slot_counts[int(amr_room_slot)] += 1
         item_counts[item_id] += 1
@@ -223,7 +356,14 @@ def main() -> int:
                 "native_chest_flag_index_hex": f"0x{payload_b2:02X}",
                 "native_treasure_id": payload_b3,
                 "native_treasure_id_hex": f"0x{payload_b3:02X}",
-                "native_in_game_item": native_treasure_name(payload_b3),
+                "native_collection_group": native_group,
+                "native_collection_code": (
+                    f"0x{native_collection_code:03X}" if native_collection_code is not None else None
+                ),
+                "native_in_game_item": native_item_label,
+                "native_reward_path": reward_path,
+                "can_yield_1up": can_yield_1up,
+                "possible_native_rewards": possible_rewards,
                 "entry_aux_hi": payload_b4,
                 "entry_aux_lo": payload_b5,
                 "item_id": item_id,
@@ -265,6 +405,15 @@ def main() -> int:
         for item_id, count in sorted(item_counts.items())
     ]
 
+    unresolved_summary = [
+        {
+            "native_chest_flag_index": chest_flag_index,
+            "native_treasure_id": treasure_id,
+            "count": count,
+        }
+        for (chest_flag_index, treasure_id), count in sorted(unresolved_counts.items())
+    ]
+
     manifest = {
         "metadata": {
             "rom": metadata_path(rom_path, repo_root),
@@ -273,6 +422,8 @@ def main() -> int:
             "total_minor_chests": len(manifest_entries),
             "total_unique_amr_room_slots": len(slot_counts),
             "ambiguous_entries": ambiguous_entries,
+            "identified_entries": len(manifest_entries) - sum(unresolved_counts.values()),
+            "unresolved_entries": sum(unresolved_counts.values()),
             "room_props": {
                 "rom_offset": f"0x{ROOM_PROPS_ROM_BASE:08X}",
                 "size": f"0x{ROOM_PROPS_SIZE:04X}",
@@ -283,6 +434,7 @@ def main() -> int:
         },
         "entries": manifest_entries,
         "item_summary": item_summary,
+        "unresolved_summary": unresolved_summary,
         "slot_resolution_summary": slot_resolution_summary,
     }
 
