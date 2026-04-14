@@ -554,15 +554,7 @@ static void ap_trap_life_down(void) {
 
 static void ap_trap_bomb(void) {
     uint32_t kirby_addr = ap_get_active_kirby_addr();
-    int8_t hp = *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET);
-    if (hp <= 1) {
-        return;
-    }
-    int8_t new_hp = (int8_t)((uint8_t)hp - 4u);
-    if (new_hp < 1) {
-        new_hp = 1;
-    }
-    *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) = new_hp;
+    *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) = 0;
 }
 
 static void ap_trap_battery_drain(void) {
