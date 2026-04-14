@@ -29,7 +29,8 @@ ROOM_PROPS_OBJECT_LIST_IDX_OFFSET = 0x20
 ROOM_PROPS_DOORS_IDX_OFFSET = 0x24
 AMR_SMALL_CHEST_ITEM_OFFSET = 0x0E
 AMR_SMALL_CHEST_INDEX_OFFSET = 0x11
-AMR_CHEST_ENTRY_SIZE = 6
+AMR_PACKED_ITEM_SIZE = 6
+ROM_ENTRY_READ_SIZE = max(AMR_SMALL_CHEST_ITEM_OFFSET, AMR_SMALL_CHEST_INDEX_OFFSET) + 1
 
 NATIVE_ITEM_NAME_BY_ID = {
     0x00: "None",
@@ -219,8 +220,10 @@ def metadata_path(path: Path, repo_root: Path) -> str:
 
 
 def normalize_rom_address(addr: int) -> int:
-    if addr >= GBA_ROM_BASE:
-        return addr - GBA_ROM_BASE
+    if 0x08000000 <= addr < 0x0A000000:
+        return addr - 0x08000000
+    if 0x0A000000 <= addr < 0x0C000000:
+        return addr - 0x0A000000
     return addr
 
 
@@ -291,19 +294,20 @@ def main() -> int:
         zip(chest_item_values, chest_addresses, amr_room_slots)
     ):
         rom_offset = normalize_rom_address(int(raw_address))
-        if rom_offset + AMR_CHEST_ENTRY_SIZE > len(rom_bytes):
+        if rom_offset + ROM_ENTRY_READ_SIZE > len(rom_bytes):
             raise ValueError(
-                f"Chest entry out of ROM bounds: index={index}, address=0x{int(raw_address):08X}"
+                f"Chest entry out of ROM bounds: index={index}, address=0x{int(raw_address):08X}, "
+                f"required_end=0x{rom_offset + ROM_ENTRY_READ_SIZE:08X}, rom_size=0x{len(rom_bytes):08X}"
             )
 
-        amr_entry_payload = int(packed_item_value).to_bytes(6, "big")
+        amr_entry_payload = int(packed_item_value).to_bytes(AMR_PACKED_ITEM_SIZE, "big")
         payload_b0 = amr_entry_payload[0]
         payload_b1 = amr_entry_payload[1]
         payload_b2 = amr_entry_payload[2]
         payload_b3 = amr_entry_payload[3]
         payload_b4 = amr_entry_payload[4]
         payload_b5 = amr_entry_payload[5]
-        rom_payload = rom_bytes[rom_offset:rom_offset + AMR_CHEST_ENTRY_SIZE]
+        rom_payload = rom_bytes[rom_offset:rom_offset + ROM_ENTRY_READ_SIZE]
 
         item_id = rom_bytes[rom_offset + AMR_SMALL_CHEST_ITEM_OFFSET]
         item_name = native_item_name(item_id)
