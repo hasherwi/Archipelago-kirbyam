@@ -766,15 +766,14 @@ class KirbyAmClient(BizHawkClient):
         message = f"{prefix}{item_name} from {sender_name}"
 
 
-        if self._debug_logging_enabled:
-            self._log_verbose(
-                "info",
-                "KirbyAM: receive notification queued (index=%s, item=%s, sender=%s, lookup_slot=%s)",
-                delivered_index,
-                item_name,
-                sender_name,
-                lookup_slot,
-            )
+        self._log_verbose(
+            "info",
+            "KirbyAM: receive notification queued (index=%s, item=%s, sender=%s, lookup_slot=%s)",
+            delivered_index,
+            item_name,
+            sender_name,
+            lookup_slot,
+        )
         try:
             await bizhawk.display_message(ctx.bizhawk_ctx, message)
         except Exception:
@@ -852,15 +851,14 @@ class KirbyAmClient(BizHawkClient):
 
         self._send_notify_window_count += 1
 
-        if self._debug_logging_enabled:
-            self._log_verbose(
-                "info",
-                "KirbyAM: send notification queued (item=%s, sender=%s, receiver=%s, location=%s)",
-                item_name,
-                sender_name,
-                receiver_name,
-                location_name,
-            )
+        self._log_verbose(
+            "info",
+            "KirbyAM: send notification queued (item=%s, sender=%s, receiver=%s, location=%s)",
+            item_name,
+            sender_name,
+            receiver_name,
+            location_name,
+        )
         Utils.async_start(bizhawk.display_message(ctx.bizhawk_ctx, message))
 
     async def _display_client_message(self, ctx: "BizHawkClientContext", message: str) -> None:

@@ -1982,7 +1982,7 @@ async def test_receive_notification_uses_local_slot_for_item_name_lookup(mock_bi
 
 
 @pytest.mark.asyncio
-async def test_receive_notification_queue_log_gated_by_debug(mock_bizhawk_context):
+async def test_receive_notification_queue_log_emitted_file_only(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
 
@@ -1991,20 +1991,6 @@ async def test_receive_notification_queue_log_gated_by_debug(mock_bizhawk_contex
     mock_bizhawk_context.player_names = {2: "PlayerTwo"}
     mock_bizhawk_context.item_names = Mock()
     mock_bizhawk_context.item_names.lookup_in_slot.return_value = "Mirror Shard"
-
-    with patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock), \
-         patch('CommonClient.logger') as mock_logger:
-        await client._emit_receive_notification(mock_bizhawk_context, 0)
-
-    assert not any(
-        call.args and isinstance(call.args[0], str) and "receive notification queued" in call.args[0]
-        for call in mock_logger.info.call_args_list
-    )
-
-    client = KirbyAmClient()
-    client.initialize_client()
-    client._debug_logging_enabled = True
-    mock_bizhawk_context.items_received = [Mock(item=3860001, player=2)]
 
     with patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock), \
          patch('CommonClient.logger') as mock_logger:
@@ -2311,7 +2297,7 @@ def test_send_notification_rate_limit_suppresses_burst(mock_bizhawk_context):
     assert mock_async_start.call_count == 7
 
 
-def test_send_notification_queue_log_gated_by_debug(mock_bizhawk_context):
+def test_send_notification_queue_log_emitted_file_only(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
 
@@ -2325,20 +2311,6 @@ def test_send_notification_queue_log_gated_by_debug(mock_bizhawk_context):
         "receiving": 2,
     }
 
-    with patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock), \
-         patch('worlds.kirbyam.client.Utils.async_start') as mock_async_start, \
-         patch('CommonClient.logger') as mock_logger:
-        mock_async_start.side_effect = lambda coro: coro.close()
-        client.on_package(mock_bizhawk_context, "PrintJSON", payload)
-
-    assert not any(
-        call.args and isinstance(call.args[0], str) and "send notification queued" in call.args[0]
-        for call in mock_logger.info.call_args_list
-    )
-
-    client = KirbyAmClient()
-    client.initialize_client()
-    client._debug_logging_enabled = True
     with patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock), \
          patch('worlds.kirbyam.client.Utils.async_start') as mock_async_start, \
          patch('CommonClient.logger') as mock_logger:
