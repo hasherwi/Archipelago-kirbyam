@@ -378,7 +378,10 @@ def item_field_semantics(item_id: int, reward_path: str, native_item_name_by_id:
     if item_id == 0x00:
         return f"{base_name} (sentinel/no direct chest grant)", False
     if reward_path == "collection_reward":
-        return f"{base_name} (script/object reference, not grantable chest reward)", False
+        # The byte at ROM offset +0x0E is read from JP-ROM-derived AMR addresses, which in the USA
+        # ROM point to unrelated game data — the value is unreliable and is NOT an object/enemy type.
+        # The actual reward is fully determined by native_in_game_item / native_collection_code.
+        return f"ROM-byte=0x{item_id:02X} (JP-ROM address; not grantable — see native_in_game_item)", False
     if reward_path == "non_collection_consumable_pool" and item_id in {0x80, 0x81, 0x82, 0x83, 0x87, 0xFF}:
         return f"{base_name} (controller/object reference, not direct chest grant)", False
     return base_name, True
