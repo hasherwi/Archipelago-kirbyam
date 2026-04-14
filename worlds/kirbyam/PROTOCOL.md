@@ -119,9 +119,9 @@ Current shipped filler generation uses a uniform active filler pool:
 | Item | Effect |
 |------|--------|
 | `1 Up` | Grants 1 life, saturating at 255 |
-| `Small Food` | Increments active Kirby HP by 1 if Kirby is alive (`hp > 0`) and below max HP; no effect for `hp <= 0` |
-| `Energy Drink` | Increments active Kirby HP by 2 if Kirby is alive (`hp > 0`) and below max HP; clamps at max HP and has no effect for `hp <= 0` |
-| `Hunk of Meat` | Increments active Kirby HP by 3 if Kirby is alive (`hp > 0`) and below max HP; clamps at max HP and has no effect for `hp <= 0` |
+| `Small Food` | If Kirby is alive (`hp > 0`), normalizes `hp > max_hp` down to `max_hp` and then increments active Kirby HP by 1, capped at `max_hp`; no effect for `hp <= 0` |
+| `Energy Drink` | If Kirby is alive (`hp > 0`), normalizes `hp > max_hp` down to `max_hp` and then increments active Kirby HP by 2, capped at `max_hp`; no effect for `hp <= 0` |
+| `Hunk of Meat` | If Kirby is alive (`hp > 0`), normalizes `hp > max_hp` down to `max_hp` and then increments active Kirby HP by 3, capped at `max_hp`; no effect for `hp <= 0` |
 | `Cell Phone Battery` | Increments active Kirby battery by 1 if below 3 |
 | `Max Tomato` | Sets active Kirby HP to max HP if Kirby is alive (`hp > 0`); no effect for `hp <= 0` |
 | `Invincibility Candy` | Applies the native invincibility state using the decomp-backed 1000-tick helper path |
