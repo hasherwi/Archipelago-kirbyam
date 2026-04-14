@@ -1917,10 +1917,9 @@ class KirbyAmClient(BizHawkClient):
         if len(raw) != _MINOR_CHEST_FLAGS_READ_WIDTH:
             self._log_client(
                 "warning",
-                "KirbyAM: minor-chest poll expected %s bytes from native chest flags, got %s; skipping tick" % (
-                    _MINOR_CHEST_FLAGS_READ_WIDTH,
-                    len(raw),
-                ),
+                "KirbyAM: minor-chest poll expected %s bytes from native chest flags, got %s; skipping tick",
+                _MINOR_CHEST_FLAGS_READ_WIDTH,
+                len(raw),
             )
             return
 

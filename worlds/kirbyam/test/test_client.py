@@ -450,6 +450,30 @@ async def test_poll_minor_chest_skips_when_address_missing(mock_bizhawk_context)
 
 
 @pytest.mark.asyncio
+async def test_poll_minor_chest_skips_already_server_acknowledged(mock_bizhawk_context):
+    """No minor-chest resend when server already acknowledges all mapped checks."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+
+    room_1_20 = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_20"].location_id
+    mock_bizhawk_context.checked_locations = {room_1_20}
+
+    with patch.dict(data.native_ram_addresses, {"small_chest_flags_native": 0x02038960}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.return_value = [((1 << 1)).to_bytes(10, 'little')]
+
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+
+    mock_send.assert_not_awaited()
+    assert mock_logger.debug.called
+    assert "dedupe suppressed minor-chest LocationChecks" in mock_logger.debug.call_args.args[0]
+    assert mock_logger.debug.call_args.args[1] == [room_1_20]
+
+
+@pytest.mark.asyncio
 async def test_poll_vitality_chest_sends_location_checks_for_set_bits(mock_bizhawk_context):
     """Set transport vitality-chest bits should map to vitality-chest LocationChecks."""
     client = KirbyAmClient()
