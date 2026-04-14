@@ -87,7 +87,7 @@ _MAP_ITEM_ID_TO_AREA_ID: dict[int, int] = {
 _TRAP_ITEM_IDS: frozenset[int] = frozenset(
     item.item_id
     for item in data.items.values()
-    if item.classification.name == "trap" and item.item_id is not None
+    if type(item.classification).trap in item.classification and item.item_id is not None
 )
 _ROOM_PROPS_ROM_BASE = 0x009331AC  # gRoomProps[] — ROM domain offset (GBA ROM 0x089331AC)
 _ROOM_PROPS_STRIDE = 0x28  # sizeof(struct RoomProps)
