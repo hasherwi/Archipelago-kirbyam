@@ -122,12 +122,16 @@ class KirbyAmWorld(World):
     ACTIVE_FILLER_POOL: ClassVar[tuple[str, ...]] = (
         "1 Up",
         "Small Food",
+        "Energy Drink",
+        "Hunk of Meat",
         "Cell Phone Battery",
         "Max Tomato",
         "Invincibility Candy",
     )
     ACTIVE_FILLER_POOL_NO_FOOD: ClassVar[tuple[str, ...]] = tuple(
-        item_name for item_name in ACTIVE_FILLER_POOL if item_name not in {"Small Food", "Max Tomato"}
+        item_name
+        for item_name in ACTIVE_FILLER_POOL
+        if item_name not in {"Small Food", "Energy Drink", "Hunk of Meat", "Max Tomato"}
     )
     ACTIVE_FILLER_POOL_NO_1UP: ClassVar[tuple[str, ...]] = tuple(
         item_name for item_name in ACTIVE_FILLER_POOL if item_name != "1 Up"

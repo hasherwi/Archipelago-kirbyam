@@ -11,6 +11,18 @@
     "item_id": 3860026,
     "tags": ["Filler", "Consumable", "Health"]
   },
+  "ENERGY_DRINK": {
+    "label": "Energy Drink",
+    "classification": "FILLER",
+    "item_id": 3860030,
+    "tags": ["Filler", "Consumable", "Health"]
+  },
+  "HUNK_OF_MEAT": {
+    "label": "Hunk of Meat",
+    "classification": "FILLER",
+    "item_id": 3860031,
+    "tags": ["Filler", "Consumable", "Health"]
+  },
   "BATTERY": {
     "label": "Cell Phone Battery",
     "classification": "FILLER",

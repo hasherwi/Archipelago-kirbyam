@@ -108,8 +108,9 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | VITALITY_COUNTER_1 .. VITALITY_COUNTER_4 | 3860018 - 3860021 | Useful vitality rewards |
 | MAP_RAINBOW_ROUTE | 3860024 | Useful map reward |
 | SOUND_PLAYER      | 3860025 | Useful unlock reward (applies native Sound Player unlock on receipt) |
-| FOOD, BATTERY, MAX_TOMATO, INVINCIBILITY_CANDY | 3860026 - 3860029 | Filler consumable rewards |
-| *Reserved*        | 3860030+ | Future items (doors, abilities, additional consumables, etc.) |
+| SMALL_FOOD, BATTERY, MAX_TOMATO, INVINCIBILITY_CANDY | 3860026 - 3860029 | Filler consumable rewards |
+| ENERGY_DRINK, HUNK_OF_MEAT | 3860030 - 3860031 | Filler consumable health rewards |
+| *Reserved*        | 3860032+ | Future items (doors, abilities, additional consumables, etc.) |
 
 ### Current filler effect contract
 
@@ -119,6 +120,8 @@ Current shipped filler generation uses a uniform active filler pool:
 |------|--------|
 | `1 Up` | Grants 1 life, saturating at 255 |
 | `Small Food` | Increments active Kirby HP by 1 if Kirby is alive (`hp > 0`) and below max HP; no effect for `hp <= 0` |
+| `Energy Drink` | Increments active Kirby HP by 2 if Kirby is alive (`hp > 0`) and below max HP; clamps at max HP and has no effect for `hp <= 0` |
+| `Hunk of Meat` | Increments active Kirby HP by 3 if Kirby is alive (`hp > 0`) and below max HP; clamps at max HP and has no effect for `hp <= 0` |
 | `Cell Phone Battery` | Increments active Kirby battery by 1 if below 3 |
 | `Max Tomato` | Sets active Kirby HP to max HP if Kirby is alive (`hp > 0`); no effect for `hp <= 0` |
 | `Invincibility Candy` | Applies the native invincibility state using the decomp-backed 1000-tick helper path |
