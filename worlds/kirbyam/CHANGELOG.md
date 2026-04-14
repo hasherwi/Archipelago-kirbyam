@@ -11,6 +11,12 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 
+- Added trap item support: `Enable Traps` and `Trap Fill Percentage` options let players include negative trap items in the randomized item pool. Traps are sampled with replacement from an available pool (Issues #77, #78, #79, #81).
+  - `Health Down Trap`: reduces Kirby's current HP by 2 (minimum 1).
+  - `Life Down Trap`: removes one extra life (if any remain).
+  - `Bomb Trap`: deals 4 HP damage (minimum 1).
+  - `Battery Drain Trap`: empties the copy ability battery to 0.
+  - Trap receive notifications are prefixed with "Received trap:" to distinguish them from regular items.
 - Added two new filler consumables with tiered healing: `Energy Drink` (HP +2) and `Hunk of Meat` (HP +3), alongside existing `Small Food` (HP +1) (Issues #684, #685, #686).
 
 ### Improvements
