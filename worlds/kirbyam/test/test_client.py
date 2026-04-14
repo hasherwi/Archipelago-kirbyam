@@ -788,7 +788,7 @@ async def test_poll_room_entry_logging_reads_doors_idx_from_rom_lookup(mock_bizh
         "REGION_LOOKUP_ROOM",
         native_room_id,
         7,
-        extra={"NoStream": False},
+        extra={"NoStream": True},
     )
 
 
@@ -948,7 +948,7 @@ async def test_poll_room_entry_logging_nostream_gating_respects_debug_flag(mock_
         await client._poll_room_entry_logging(mock_bizhawk_context)
 
     mock_logger.info.assert_called_once()
-    assert mock_logger.info.call_args.kwargs.get("extra", {}).get("NoStream") is False
+    assert mock_logger.info.call_args.kwargs.get("extra", {}).get("NoStream") is True
 
 
 def test_major_chest_data_sanity():
@@ -1495,7 +1495,7 @@ async def test_deliver_items_fast_forward_log_gated_by_debug(mock_bizhawk_contex
         "KirbyAM: ROM delivery counter moved forward from %s to %s on pending ACK; fast-forwarding client delivery cursor",
         0,
         2,
-        extra={"NoStream": False},
+        extra={"NoStream": True},
     )
 
 
@@ -1550,7 +1550,7 @@ async def test_deliver_items_mailbox_write_log_gated_by_debug(mock_bizhawk_conte
         0,
         "1 Up",
         "Player 1",
-        extra={"NoStream": False},
+        extra={"NoStream": True},
     )
 
 
@@ -2016,6 +2016,7 @@ async def test_receive_notification_queue_log_gated_by_debug(mock_bizhawk_contex
         "Mirror Shard",
         "PlayerTwo",
         1,
+        extra={"NoStream": True},
     )
 
 
@@ -2350,6 +2351,7 @@ def test_send_notification_queue_log_gated_by_debug(mock_bizhawk_context):
         "Player 1",
         "PlayerTwo",
         "Location 123",
+        extra={"NoStream": True},
     )
 
 
@@ -2403,7 +2405,7 @@ async def test_room_sanity_resend_log_gated_by_debug(mock_bizhawk_context):
         if call.args and isinstance(call.args[0], str) and "resending room-sanity LocationChecks missing on server" in call.args[0]
     ]
     assert matching_enabled
-    assert all(call.kwargs.get("extra", {}).get("NoStream") is False for call in matching_enabled)
+    assert all(call.kwargs.get("extra", {}).get("NoStream") is True for call in matching_enabled)
 
 
 @pytest.mark.asyncio
@@ -2630,6 +2632,7 @@ async def test_enforce_no_extra_lives_logs_only_when_debug_enabled(mock_bizhawk_
     mock_logger.info.assert_any_call(
         "KirbyAM debug: no-extra-lives clamped native lives from %s to 0",
         1,
+        extra={"NoStream": True},
     )
 
 
@@ -3196,7 +3199,10 @@ async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_biz
         assert client._boss_probe_stream_marker is None
         assert client._unsafe_delivery_probe_stream_marker is None
         assert client._last_unsafe_delivery_counter_values == {}
-        mock_logger.info.assert_any_call("KirbyAM: AP session ready; reconnect-safe reconciliation active")
+        mock_logger.info.assert_any_call(
+            "KirbyAM: AP session ready; reconnect-safe reconciliation active",
+            extra={"NoStream": True},
+        )
         mock_load.assert_awaited_once()
         mock_reconcile_maps.assert_awaited()
         mock_poll_locations.assert_not_awaited()
@@ -3521,9 +3527,11 @@ async def test_game_watcher_emits_runtime_gate_logs_when_debug_enabled(mock_bizh
         "KirbyAM: deferring location polling/new item writes (%s, ai_state=%s)",
         "non_gameplay_tutorial_or_menu",
         0,
+        extra={"NoStream": True},
     )
     mock_logger.info.assert_any_call(
-        "KirbyAM: gameplay-active state restored; resuming normal watcher flow"
+        "KirbyAM: gameplay-active state restored; resuming normal watcher flow",
+        extra={"NoStream": True},
     )
 
 
@@ -3909,7 +3917,7 @@ async def test_poll_enemy_ability_reroll_events_treats_counter_rollback_as_reset
         "Kirby swallowed a %s. Ability was rerolled to %s.",
         "UNKNOWN_0x123456",
         "Burning",
-        extra={"NoStream": False},
+        extra={"NoStream": True},
     )
 
 
