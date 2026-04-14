@@ -236,9 +236,10 @@ class KirbyAmClient(BizHawkClient):
 
         # Room entry logging (always to file; client display gated by debug flag)
         self._last_native_room_id: int | None = None
+        self._last_sent_room_update_native_room_id: int | None = None
         room_label_lookup, room_region_key_lookup = self._build_room_lookup_maps()
-        self._room_label_by_doors_idx = room_label_lookup
-        self._room_region_key_by_doors_idx = room_region_key_lookup
+        self._room_label_by_doors_idx: dict[int, str] = room_label_lookup
+        self._room_region_key_by_doors_idx: dict[int, str] = room_region_key_lookup
 
         # Notification pipeline state (Issue #83)
         self._notification_settings_loaded: bool = False
@@ -355,6 +356,7 @@ class KirbyAmClient(BizHawkClient):
         """Reset transient watcher diagnostics/probes so reconnect starts from clean baselines."""
         self._last_runtime_gate_reason = None
         self._last_native_room_id = None
+        self._last_sent_room_update_native_room_id = None
         self._last_shard_poll_log = None
         self._last_boss_poll_log = None
         self._last_major_chest_poll_log = None
@@ -2172,8 +2174,10 @@ class KirbyAmClient(BizHawkClient):
             return
 
         native_room_id = unpack_from("<H", raw)[0]
+        room_changed = native_room_id != self._last_native_room_id
+        send_pending = native_room_id != self._last_sent_room_update_native_room_id
 
-        if native_room_id == self._last_native_room_id:
+        if not room_changed and not send_pending:
             return
 
         # Resolve doorsIdx via gRoomProps[native_room_id].doorsIdx (ROM read).
@@ -2194,7 +2198,18 @@ class KirbyAmClient(BizHawkClient):
         doors_idx = unpack_from("<H", doors_raw)[0]
         room_label = self._room_label_by_doors_idx.get(doors_idx, f"<unknown doorsIdx={doors_idx}>")
         room_region_key = self._room_region_key_by_doors_idx.get(doors_idx, "")
-        if ctx.slot is not None:
+
+        if room_changed:
+            self._last_native_room_id = native_room_id
+            logger.info(
+                "KirbyAM: entered room %s (native=0x%04x, doorsIdx=%d)",
+                room_label,
+                native_room_id,
+                doors_idx,
+                extra={"NoStream": not self._debug_logging_enabled},
+            )
+
+        if ctx.slot is not None and send_pending:
             try:
                 await ctx.send_msgs([{
                     "cmd": "Bounce",
@@ -2217,15 +2232,7 @@ class KirbyAmClient(BizHawkClient):
                     exc,
                 )
                 return
-
-        self._last_native_room_id = native_room_id
-        logger.info(
-            "KirbyAM: entered room %s (native=0x%04x, doorsIdx=%d)",
-            room_label,
-            native_room_id,
-            doors_idx,
-            extra={"NoStream": not self._debug_logging_enabled},
-        )
+            self._last_sent_room_update_native_room_id = native_room_id
 
     async def _poll_room_sanity_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """

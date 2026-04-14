@@ -902,11 +902,13 @@ async def test_poll_room_entry_logging_retries_after_bounce_send_failure(mock_bi
         mock_send.side_effect = [RuntimeError("socket down"), None]
 
         await client._poll_room_entry_logging(mock_bizhawk_context)
-        assert client._last_native_room_id is None
+        assert client._last_native_room_id == 0x0020
+        assert client._last_sent_room_update_native_room_id is None
 
         await client._poll_room_entry_logging(mock_bizhawk_context)
 
     assert client._last_native_room_id == 0x0020
+    assert client._last_sent_room_update_native_room_id == 0x0020
     assert mock_send.await_count == 2
     mock_logger.info.assert_called_once_with(
         "KirbyAM: entered room %s (native=0x%04x, doorsIdx=%d)",
