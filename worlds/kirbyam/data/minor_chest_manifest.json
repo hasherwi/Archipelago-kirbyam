@@ -1,0 +1,1971 @@
+{
+  "metadata": {
+    "rom": "d:\\KirbyProject\\local-files\\ROMs\\Kirby & The Amazing Mirror (USA).gba",
+    "amr_items": "D:\\KirbyProject\\Amazing-Mirror-Randomizer\\JSON\\items.json",
+    "rooms": "D:\\KirbyProject\\Archipelago-kirbyam\\worlds\\kirbyam\\data\\regions\\rooms.json",
+    "total_minor_chests": 65,
+    "total_unique_amr_room_slots": 55,
+    "ambiguous_entries": 0,
+    "room_props": {
+      "rom_offset": "0x009331AC",
+      "size": "0x9998",
+      "stride": "0x28",
+      "object_list_idx_offset": "0x20",
+      "doors_idx_offset": "0x24"
+    }
+  },
+  "entries": [
+    {
+      "entry_index": 0,
+      "amr_room_slot": 13,
+      "rom_address": "0x00886140",
+      "rom_offset": "0x00886140",
+      "item_id": 169,
+      "item_id_hex": "0xA9",
+      "chest_index": 255,
+      "chest_index_hex": "0xFF",
+      "candidate_native_room_ids": [
+        536
+      ],
+      "candidate_doors_idx": [
+        13
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_38"
+      ]
+    },
+    {
+      "entry_index": 1,
+      "amr_room_slot": 17,
+      "rom_address": "0x008866A8",
+      "rom_offset": "0x008866A8",
+      "item_id": 128,
+      "item_id_hex": "0x80",
+      "chest_index": 13,
+      "chest_index_hex": "0x0D",
+      "candidate_native_room_ids": [
+        543
+      ],
+      "candidate_doors_idx": [
+        17
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_40"
+      ]
+    },
+    {
+      "entry_index": 2,
+      "amr_room_slot": 23,
+      "rom_address": "0x0088704C",
+      "rom_offset": "0x0088704C",
+      "item_id": 128,
+      "item_id_hex": "0x80",
+      "chest_index": 76,
+      "chest_index_hex": "0x4C",
+      "candidate_native_room_ids": [
+        104
+      ],
+      "candidate_doors_idx": [
+        23
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_04"
+      ]
+    },
+    {
+      "entry_index": 3,
+      "amr_room_slot": 25,
+      "rom_address": "0x00887420",
+      "rom_offset": "0x00887420",
+      "item_id": 12,
+      "item_id_hex": "0x0C",
+      "chest_index": 1,
+      "chest_index_hex": "0x01",
+      "candidate_native_room_ids": [
+        107
+      ],
+      "candidate_doors_idx": [
+        25
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_03"
+      ]
+    },
+    {
+      "entry_index": 4,
+      "amr_room_slot": 42,
+      "rom_address": "0x00889418",
+      "rom_offset": "0x00889418",
+      "item_id": 13,
+      "item_id_hex": "0x0D",
+      "chest_index": 128,
+      "chest_index_hex": "0x80",
+      "candidate_native_room_ids": [
+        556
+      ],
+      "candidate_doors_idx": [
+        42
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_11"
+      ]
+    },
+    {
+      "entry_index": 5,
+      "amr_room_slot": 48,
+      "rom_address": "0x0088A170",
+      "rom_offset": "0x0088A170",
+      "item_id": 129,
+      "item_id_hex": "0x81",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        119
+      ],
+      "candidate_doors_idx": [
+        48
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_22"
+      ]
+    },
+    {
+      "entry_index": 6,
+      "amr_room_slot": 52,
+      "rom_address": "0x0088A93C",
+      "rom_offset": "0x0088A93C",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        172
+      ],
+      "candidate_doors_idx": [
+        52
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_20"
+      ]
+    },
+    {
+      "entry_index": 7,
+      "amr_room_slot": 55,
+      "rom_address": "0x0088B078",
+      "rom_offset": "0x0088B078",
+      "item_id": 18,
+      "item_id_hex": "0x12",
+      "chest_index": 255,
+      "chest_index_hex": "0xFF",
+      "candidate_native_room_ids": [
+        175
+      ],
+      "candidate_doors_idx": [
+        55
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_19"
+      ]
+    },
+    {
+      "entry_index": 8,
+      "amr_room_slot": 56,
+      "rom_address": "0x0088B254",
+      "rom_offset": "0x0088B254",
+      "item_id": 129,
+      "item_id_hex": "0x81",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        176
+      ],
+      "candidate_doors_idx": [
+        56
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2"
+      ]
+    },
+    {
+      "entry_index": 9,
+      "amr_room_slot": 60,
+      "rom_address": "0x0088BC90",
+      "rom_offset": "0x0088BC90",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 2,
+      "chest_index_hex": "0x02",
+      "candidate_native_room_ids": [
+        144
+      ],
+      "candidate_doors_idx": [
+        60
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_16"
+      ]
+    },
+    {
+      "entry_index": 10,
+      "amr_room_slot": 63,
+      "rom_address": "0x0088C1B0",
+      "rom_offset": "0x0088C1B0",
+      "item_id": 13,
+      "item_id_hex": "0x0D",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        147
+      ],
+      "candidate_doors_idx": [
+        63
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19"
+      ]
+    },
+    {
+      "entry_index": 11,
+      "amr_room_slot": 63,
+      "rom_address": "0x0088C2AC",
+      "rom_offset": "0x0088C2AC",
+      "item_id": 13,
+      "item_id_hex": "0x0D",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        147
+      ],
+      "candidate_doors_idx": [
+        63
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19"
+      ]
+    },
+    {
+      "entry_index": 12,
+      "amr_room_slot": 64,
+      "rom_address": "0x0088C638",
+      "rom_offset": "0x0088C638",
+      "item_id": 130,
+      "item_id_hex": "0x82",
+      "chest_index": 13,
+      "chest_index_hex": "0x0D",
+      "candidate_native_room_ids": [
+        148
+      ],
+      "candidate_doors_idx": [
+        64
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2"
+      ]
+    },
+    {
+      "entry_index": 13,
+      "amr_room_slot": 72,
+      "rom_address": "0x0088D348",
+      "rom_offset": "0x0088D348",
+      "item_id": 135,
+      "item_id_hex": "0x87",
+      "chest_index": 255,
+      "chest_index_hex": "0xFF",
+      "candidate_native_room_ids": [
+        708
+      ],
+      "candidate_doors_idx": [
+        72
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01"
+      ]
+    },
+    {
+      "entry_index": 14,
+      "amr_room_slot": 78,
+      "rom_address": "0x0088DEA8",
+      "rom_offset": "0x0088DEA8",
+      "item_id": 13,
+      "item_id_hex": "0x0D",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        741
+      ],
+      "candidate_doors_idx": [
+        78
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_14"
+      ]
+    },
+    {
+      "entry_index": 15,
+      "amr_room_slot": 85,
+      "rom_address": "0x0088E778",
+      "rom_offset": "0x0088E778",
+      "item_id": 5,
+      "item_id_hex": "0x05",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        200
+      ],
+      "candidate_doors_idx": [
+        85
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_24"
+      ]
+    },
+    {
+      "entry_index": 16,
+      "amr_room_slot": 85,
+      "rom_address": "0x0088E8BC",
+      "rom_offset": "0x0088E8BC",
+      "item_id": 1,
+      "item_id_hex": "0x01",
+      "chest_index": 147,
+      "chest_index_hex": "0x93",
+      "candidate_native_room_ids": [
+        200
+      ],
+      "candidate_doors_idx": [
+        85
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_24"
+      ]
+    },
+    {
+      "entry_index": 17,
+      "amr_room_slot": 89,
+      "rom_address": "0x0088F11C",
+      "rom_offset": "0x0088F11C",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 240,
+      "chest_index_hex": "0xF0",
+      "candidate_native_room_ids": [
+        205
+      ],
+      "candidate_doors_idx": [
+        89
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+      ]
+    },
+    {
+      "entry_index": 18,
+      "amr_room_slot": 91,
+      "rom_address": "0x0088F560",
+      "rom_offset": "0x0088F560",
+      "item_id": 85,
+      "item_id_hex": "0x55",
+      "chest_index": 135,
+      "chest_index_hex": "0x87",
+      "candidate_native_room_ids": [
+        208
+      ],
+      "candidate_doors_idx": [
+        91
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_03"
+      ]
+    },
+    {
+      "entry_index": 19,
+      "amr_room_slot": 91,
+      "rom_address": "0x0088F584",
+      "rom_offset": "0x0088F584",
+      "item_id": 11,
+      "item_id_hex": "0x0B",
+      "chest_index": 85,
+      "chest_index_hex": "0x55",
+      "candidate_native_room_ids": [
+        208
+      ],
+      "candidate_doors_idx": [
+        91
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_03"
+      ]
+    },
+    {
+      "entry_index": 20,
+      "amr_room_slot": 92,
+      "rom_address": "0x0088F7A8",
+      "rom_offset": "0x0088F7A8",
+      "item_id": 4,
+      "item_id_hex": "0x04",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        209
+      ],
+      "candidate_doors_idx": [
+        92
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST"
+      ]
+    },
+    {
+      "entry_index": 21,
+      "amr_room_slot": 95,
+      "rom_address": "0x0088FF10",
+      "rom_offset": "0x0088FF10",
+      "item_id": 130,
+      "item_id_hex": "0x82",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        214
+      ],
+      "candidate_doors_idx": [
+        95
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1"
+      ]
+    },
+    {
+      "entry_index": 22,
+      "amr_room_slot": 97,
+      "rom_address": "0x00890404",
+      "rom_offset": "0x00890404",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 128,
+      "chest_index_hex": "0x80",
+      "candidate_native_room_ids": [
+        226
+      ],
+      "candidate_doors_idx": [
+        97
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_04"
+      ]
+    },
+    {
+      "entry_index": 23,
+      "amr_room_slot": 97,
+      "rom_address": "0x00890428",
+      "rom_offset": "0x00890428",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 128,
+      "chest_index_hex": "0x80",
+      "candidate_native_room_ids": [
+        226
+      ],
+      "candidate_doors_idx": [
+        97
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_04"
+      ]
+    },
+    {
+      "entry_index": 24,
+      "amr_room_slot": 97,
+      "rom_address": "0x0089044C",
+      "rom_offset": "0x0089044C",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        226
+      ],
+      "candidate_doors_idx": [
+        97
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_04"
+      ]
+    },
+    {
+      "entry_index": 25,
+      "amr_room_slot": 98,
+      "rom_address": "0x00890604",
+      "rom_offset": "0x00890604",
+      "item_id": 1,
+      "item_id_hex": "0x01",
+      "chest_index": 136,
+      "chest_index_hex": "0x88",
+      "candidate_native_room_ids": [
+        227
+      ],
+      "candidate_doors_idx": [
+        98
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06"
+      ]
+    },
+    {
+      "entry_index": 26,
+      "amr_room_slot": 98,
+      "rom_address": "0x00890670",
+      "rom_offset": "0x00890670",
+      "item_id": 129,
+      "item_id_hex": "0x81",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        227
+      ],
+      "candidate_doors_idx": [
+        98
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06"
+      ]
+    },
+    {
+      "entry_index": 27,
+      "amr_room_slot": 99,
+      "rom_address": "0x008907E0",
+      "rom_offset": "0x008907E0",
+      "item_id": 70,
+      "item_id_hex": "0x46",
+      "chest_index": 2,
+      "chest_index_hex": "0x02",
+      "candidate_native_room_ids": [
+        228
+      ],
+      "candidate_doors_idx": [
+        99
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_09"
+      ]
+    },
+    {
+      "entry_index": 28,
+      "amr_room_slot": 99,
+      "rom_address": "0x0089084C",
+      "rom_offset": "0x0089084C",
+      "item_id": 39,
+      "item_id_hex": "0x27",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        228
+      ],
+      "candidate_doors_idx": [
+        99
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_09"
+      ]
+    },
+    {
+      "entry_index": 29,
+      "amr_room_slot": 99,
+      "rom_address": "0x00890870",
+      "rom_offset": "0x00890870",
+      "item_id": 43,
+      "item_id_hex": "0x2B",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        228
+      ],
+      "candidate_doors_idx": [
+        99
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_09"
+      ]
+    },
+    {
+      "entry_index": 30,
+      "amr_room_slot": 102,
+      "rom_address": "0x00890FD0",
+      "rom_offset": "0x00890FD0",
+      "item_id": 128,
+      "item_id_hex": "0x80",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        231
+      ],
+      "candidate_doors_idx": [
+        102
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_16"
+      ]
+    },
+    {
+      "entry_index": 31,
+      "amr_room_slot": 106,
+      "rom_address": "0x00891518",
+      "rom_offset": "0x00891518",
+      "item_id": 13,
+      "item_id_hex": "0x0D",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        215
+      ],
+      "candidate_doors_idx": [
+        106
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_17"
+      ]
+    },
+    {
+      "entry_index": 32,
+      "amr_room_slot": 110,
+      "rom_address": "0x00891C74",
+      "rom_offset": "0x00891C74",
+      "item_id": 6,
+      "item_id_hex": "0x06",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        219
+      ],
+      "candidate_doors_idx": [
+        110
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS"
+      ]
+    },
+    {
+      "entry_index": 33,
+      "amr_room_slot": 113,
+      "rom_address": "0x00892344",
+      "rom_offset": "0x00892344",
+      "item_id": 1,
+      "item_id_hex": "0x01",
+      "chest_index": 36,
+      "chest_index_hex": "0x24",
+      "candidate_native_room_ids": [
+        223
+      ],
+      "candidate_doors_idx": [
+        113
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_21"
+      ]
+    },
+    {
+      "entry_index": 34,
+      "amr_room_slot": 131,
+      "rom_address": "0x00894930",
+      "rom_offset": "0x00894930",
+      "item_id": 1,
+      "item_id_hex": "0x01",
+      "chest_index": 9,
+      "chest_index_hex": "0x09",
+      "candidate_native_room_ids": [
+        315
+      ],
+      "candidate_doors_idx": [
+        131
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_12"
+      ]
+    },
+    {
+      "entry_index": 35,
+      "amr_room_slot": 134,
+      "rom_address": "0x00894F94",
+      "rom_offset": "0x00894F94",
+      "item_id": 255,
+      "item_id_hex": "0xFF",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        318
+      ],
+      "candidate_doors_idx": [
+        134
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP"
+      ]
+    },
+    {
+      "entry_index": 36,
+      "amr_room_slot": 135,
+      "rom_address": "0x008950BC",
+      "rom_offset": "0x008950BC",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 255,
+      "chest_index_hex": "0xFF",
+      "candidate_native_room_ids": [
+        321
+      ],
+      "candidate_doors_idx": [
+        135
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05"
+      ]
+    },
+    {
+      "entry_index": 37,
+      "amr_room_slot": 139,
+      "rom_address": "0x00895648",
+      "rom_offset": "0x00895648",
+      "item_id": 255,
+      "item_id_hex": "0xFF",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        325
+      ],
+      "candidate_doors_idx": [
+        139
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_16"
+      ]
+    },
+    {
+      "entry_index": 38,
+      "amr_room_slot": 143,
+      "rom_address": "0x00895D3C",
+      "rom_offset": "0x00895D3C",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        401
+      ],
+      "candidate_doors_idx": [
+        143
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_06"
+      ]
+    },
+    {
+      "entry_index": 39,
+      "amr_room_slot": 144,
+      "rom_address": "0x00896038",
+      "rom_offset": "0x00896038",
+      "item_id": 1,
+      "item_id_hex": "0x01",
+      "chest_index": 11,
+      "chest_index_hex": "0x0B",
+      "candidate_native_room_ids": [
+        402
+      ],
+      "candidate_doors_idx": [
+        144
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_12"
+      ]
+    },
+    {
+      "entry_index": 40,
+      "amr_room_slot": 158,
+      "rom_address": "0x00897A90",
+      "rom_offset": "0x00897A90",
+      "item_id": 1,
+      "item_id_hex": "0x01",
+      "chest_index": 17,
+      "chest_index_hex": "0x11",
+      "candidate_native_room_ids": [
+        417
+      ],
+      "candidate_doors_idx": [
+        158
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_BOSS"
+      ]
+    },
+    {
+      "entry_index": 41,
+      "amr_room_slot": 164,
+      "rom_address": "0x00898850",
+      "rom_offset": "0x00898850",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        423
+      ],
+      "candidate_doors_idx": [
+        164
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_17"
+      ]
+    },
+    {
+      "entry_index": 42,
+      "amr_room_slot": 165,
+      "rom_address": "0x00898904",
+      "rom_offset": "0x00898904",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        424
+      ],
+      "candidate_doors_idx": [
+        165
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_16"
+      ]
+    },
+    {
+      "entry_index": 43,
+      "amr_room_slot": 167,
+      "rom_address": "0x00898C44",
+      "rom_offset": "0x00898C44",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        426
+      ],
+      "candidate_doors_idx": [
+        167
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3"
+      ]
+    },
+    {
+      "entry_index": 44,
+      "amr_room_slot": 172,
+      "rom_address": "0x008992AC",
+      "rom_offset": "0x008992AC",
+      "item_id": 42,
+      "item_id_hex": "0x2A",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        509
+      ],
+      "candidate_doors_idx": [
+        172
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_10"
+      ]
+    },
+    {
+      "entry_index": 45,
+      "amr_room_slot": 174,
+      "rom_address": "0x00899610",
+      "rom_offset": "0x00899610",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 13,
+      "chest_index_hex": "0x0D",
+      "candidate_native_room_ids": [
+        516
+      ],
+      "candidate_doors_idx": [
+        174
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_BOSS"
+      ]
+    },
+    {
+      "entry_index": 46,
+      "amr_room_slot": 176,
+      "rom_address": "0x00899880",
+      "rom_offset": "0x00899880",
+      "item_id": 68,
+      "item_id_hex": "0x44",
+      "chest_index": 1,
+      "chest_index_hex": "0x01",
+      "candidate_native_room_ids": [
+        501
+      ],
+      "candidate_doors_idx": [
+        176
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_08"
+      ]
+    },
+    {
+      "entry_index": 47,
+      "amr_room_slot": 180,
+      "rom_address": "0x0089A194",
+      "rom_offset": "0x0089A194",
+      "item_id": 105,
+      "item_id_hex": "0x69",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        514
+      ],
+      "candidate_doors_idx": [
+        180
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_07"
+      ]
+    },
+    {
+      "entry_index": 48,
+      "amr_room_slot": 181,
+      "rom_address": "0x0089A250",
+      "rom_offset": "0x0089A250",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        515
+      ],
+      "candidate_doors_idx": [
+        181
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_15"
+      ]
+    },
+    {
+      "entry_index": 49,
+      "amr_room_slot": 183,
+      "rom_address": "0x0089A6B8",
+      "rom_offset": "0x0089A6B8",
+      "item_id": 18,
+      "item_id_hex": "0x12",
+      "chest_index": 255,
+      "chest_index_hex": "0xFF",
+      "candidate_native_room_ids": [
+        523
+      ],
+      "candidate_doors_idx": [
+        183
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_01"
+      ]
+    },
+    {
+      "entry_index": 50,
+      "amr_room_slot": 186,
+      "rom_address": "0x0089B0A0",
+      "rom_offset": "0x0089B0A0",
+      "item_id": 1,
+      "item_id_hex": "0x01",
+      "chest_index": 3,
+      "chest_index_hex": "0x03",
+      "candidate_native_room_ids": [
+        530
+      ],
+      "candidate_doors_idx": [
+        186
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_02"
+      ]
+    },
+    {
+      "entry_index": 51,
+      "amr_room_slot": 193,
+      "rom_address": "0x0089BF44",
+      "rom_offset": "0x0089BF44",
+      "item_id": 131,
+      "item_id_hex": "0x83",
+      "chest_index": 255,
+      "chest_index_hex": "0xFF",
+      "candidate_native_room_ids": [
+        133
+      ],
+      "candidate_doors_idx": [
+        193
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_05"
+      ]
+    },
+    {
+      "entry_index": 52,
+      "amr_room_slot": 196,
+      "rom_address": "0x0089C5F0",
+      "rom_offset": "0x0089C5F0",
+      "item_id": 132,
+      "item_id_hex": "0x84",
+      "chest_index": 50,
+      "chest_index_hex": "0x32",
+      "candidate_native_room_ids": [
+        551
+      ],
+      "candidate_doors_idx": [
+        196
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_15"
+      ]
+    },
+    {
+      "entry_index": 53,
+      "amr_room_slot": 200,
+      "rom_address": "0x0089D094",
+      "rom_offset": "0x0089D094",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 255,
+      "chest_index_hex": "0xFF",
+      "candidate_native_room_ids": [
+        815
+      ],
+      "candidate_doors_idx": [
+        200
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+      ]
+    },
+    {
+      "entry_index": 54,
+      "amr_room_slot": 202,
+      "rom_address": "0x0089D48C",
+      "rom_offset": "0x0089D48C",
+      "item_id": 255,
+      "item_id_hex": "0xFF",
+      "chest_index": 4,
+      "chest_index_hex": "0x04",
+      "candidate_native_room_ids": [
+        824
+      ],
+      "candidate_doors_idx": [
+        202
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_13"
+      ]
+    },
+    {
+      "entry_index": 55,
+      "amr_room_slot": 203,
+      "rom_address": "0x0089D5FC",
+      "rom_offset": "0x0089D5FC",
+      "item_id": 82,
+      "item_id_hex": "0x52",
+      "chest_index": 255,
+      "chest_index_hex": "0xFF",
+      "candidate_native_room_ids": [
+        825
+      ],
+      "candidate_doors_idx": [
+        203
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2"
+      ]
+    },
+    {
+      "entry_index": 56,
+      "amr_room_slot": 228,
+      "rom_address": "0x008A0458",
+      "rom_offset": "0x008A0458",
+      "item_id": 1,
+      "item_id_hex": "0x01",
+      "chest_index": 7,
+      "chest_index_hex": "0x07",
+      "candidate_native_room_ids": [
+        621
+      ],
+      "candidate_doors_idx": [
+        228
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_02"
+      ]
+    },
+    {
+      "entry_index": 57,
+      "amr_room_slot": 229,
+      "rom_address": "0x008A0534",
+      "rom_offset": "0x008A0534",
+      "item_id": 18,
+      "item_id_hex": "0x12",
+      "chest_index": 255,
+      "chest_index_hex": "0xFF",
+      "candidate_native_room_ids": [
+        622
+      ],
+      "candidate_doors_idx": [
+        229
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_1"
+      ]
+    },
+    {
+      "entry_index": 58,
+      "amr_room_slot": 230,
+      "rom_address": "0x008A057C",
+      "rom_offset": "0x008A057C",
+      "item_id": 18,
+      "item_id_hex": "0x12",
+      "chest_index": 255,
+      "chest_index_hex": "0xFF",
+      "candidate_native_room_ids": [
+        623
+      ],
+      "candidate_doors_idx": [
+        230
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_07"
+      ]
+    },
+    {
+      "entry_index": 59,
+      "amr_room_slot": 244,
+      "rom_address": "0x008A23CC",
+      "rom_offset": "0x008A23CC",
+      "item_id": 255,
+      "item_id_hex": "0xFF",
+      "chest_index": 29,
+      "chest_index_hex": "0x1D",
+      "candidate_native_room_ids": [
+        526
+      ],
+      "candidate_doors_idx": [
+        244
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_2"
+      ]
+    },
+    {
+      "entry_index": 60,
+      "amr_room_slot": 244,
+      "rom_address": "0x008A24A4",
+      "rom_offset": "0x008A24A4",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 13,
+      "chest_index_hex": "0x0D",
+      "candidate_native_room_ids": [
+        526
+      ],
+      "candidate_doors_idx": [
+        244
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_2"
+      ]
+    },
+    {
+      "entry_index": 61,
+      "amr_room_slot": 257,
+      "rom_address": "0x008A3B94",
+      "rom_offset": "0x008A3B94",
+      "item_id": 24,
+      "item_id_hex": "0x18",
+      "chest_index": 0,
+      "chest_index_hex": "0x00",
+      "candidate_native_room_ids": [
+        717
+      ],
+      "candidate_doors_idx": [
+        257
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_17"
+      ]
+    },
+    {
+      "entry_index": 62,
+      "amr_room_slot": 259,
+      "rom_address": "0x008A3F68",
+      "rom_offset": "0x008A3F68",
+      "item_id": 132,
+      "item_id_hex": "0x84",
+      "chest_index": 18,
+      "chest_index_hex": "0x12",
+      "candidate_native_room_ids": [
+        732
+      ],
+      "candidate_doors_idx": [
+        259
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_CHEST_2"
+      ]
+    },
+    {
+      "entry_index": 63,
+      "amr_room_slot": 260,
+      "rom_address": "0x008A3FFC",
+      "rom_offset": "0x008A3FFC",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 255,
+      "chest_index_hex": "0xFF",
+      "candidate_native_room_ids": [
+        733
+      ],
+      "candidate_doors_idx": [
+        260
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_16"
+      ]
+    },
+    {
+      "entry_index": 64,
+      "amr_room_slot": 260,
+      "rom_address": "0x008A4020",
+      "rom_offset": "0x008A4020",
+      "item_id": 0,
+      "item_id_hex": "0x00",
+      "chest_index": 255,
+      "chest_index_hex": "0xFF",
+      "candidate_native_room_ids": [
+        733
+      ],
+      "candidate_doors_idx": [
+        260
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_16"
+      ]
+    }
+  ],
+  "slot_resolution_summary": [
+    {
+      "amr_room_slot": 13,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        536
+      ],
+      "candidate_doors_idx": [
+        13
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_38"
+      ]
+    },
+    {
+      "amr_room_slot": 17,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        543
+      ],
+      "candidate_doors_idx": [
+        17
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_40"
+      ]
+    },
+    {
+      "amr_room_slot": 23,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        104
+      ],
+      "candidate_doors_idx": [
+        23
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_04"
+      ]
+    },
+    {
+      "amr_room_slot": 25,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        107
+      ],
+      "candidate_doors_idx": [
+        25
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_03"
+      ]
+    },
+    {
+      "amr_room_slot": 42,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        556
+      ],
+      "candidate_doors_idx": [
+        42
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_11"
+      ]
+    },
+    {
+      "amr_room_slot": 48,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        119
+      ],
+      "candidate_doors_idx": [
+        48
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_22"
+      ]
+    },
+    {
+      "amr_room_slot": 52,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        172
+      ],
+      "candidate_doors_idx": [
+        52
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_20"
+      ]
+    },
+    {
+      "amr_room_slot": 55,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        175
+      ],
+      "candidate_doors_idx": [
+        55
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_19"
+      ]
+    },
+    {
+      "amr_room_slot": 56,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        176
+      ],
+      "candidate_doors_idx": [
+        56
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2"
+      ]
+    },
+    {
+      "amr_room_slot": 60,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        144
+      ],
+      "candidate_doors_idx": [
+        60
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_16"
+      ]
+    },
+    {
+      "amr_room_slot": 63,
+      "chest_count": 2,
+      "candidate_native_room_ids": [
+        147
+      ],
+      "candidate_doors_idx": [
+        63
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19"
+      ]
+    },
+    {
+      "amr_room_slot": 64,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        148
+      ],
+      "candidate_doors_idx": [
+        64
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2"
+      ]
+    },
+    {
+      "amr_room_slot": 72,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        708
+      ],
+      "candidate_doors_idx": [
+        72
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01"
+      ]
+    },
+    {
+      "amr_room_slot": 78,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        741
+      ],
+      "candidate_doors_idx": [
+        78
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_14"
+      ]
+    },
+    {
+      "amr_room_slot": 85,
+      "chest_count": 2,
+      "candidate_native_room_ids": [
+        200
+      ],
+      "candidate_doors_idx": [
+        85
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_24"
+      ]
+    },
+    {
+      "amr_room_slot": 89,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        205
+      ],
+      "candidate_doors_idx": [
+        89
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+      ]
+    },
+    {
+      "amr_room_slot": 91,
+      "chest_count": 2,
+      "candidate_native_room_ids": [
+        208
+      ],
+      "candidate_doors_idx": [
+        91
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_03"
+      ]
+    },
+    {
+      "amr_room_slot": 92,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        209
+      ],
+      "candidate_doors_idx": [
+        92
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST"
+      ]
+    },
+    {
+      "amr_room_slot": 95,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        214
+      ],
+      "candidate_doors_idx": [
+        95
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1"
+      ]
+    },
+    {
+      "amr_room_slot": 97,
+      "chest_count": 3,
+      "candidate_native_room_ids": [
+        226
+      ],
+      "candidate_doors_idx": [
+        97
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_04"
+      ]
+    },
+    {
+      "amr_room_slot": 98,
+      "chest_count": 2,
+      "candidate_native_room_ids": [
+        227
+      ],
+      "candidate_doors_idx": [
+        98
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06"
+      ]
+    },
+    {
+      "amr_room_slot": 99,
+      "chest_count": 3,
+      "candidate_native_room_ids": [
+        228
+      ],
+      "candidate_doors_idx": [
+        99
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_09"
+      ]
+    },
+    {
+      "amr_room_slot": 102,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        231
+      ],
+      "candidate_doors_idx": [
+        102
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_16"
+      ]
+    },
+    {
+      "amr_room_slot": 106,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        215
+      ],
+      "candidate_doors_idx": [
+        106
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_17"
+      ]
+    },
+    {
+      "amr_room_slot": 110,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        219
+      ],
+      "candidate_doors_idx": [
+        110
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS"
+      ]
+    },
+    {
+      "amr_room_slot": 113,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        223
+      ],
+      "candidate_doors_idx": [
+        113
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_21"
+      ]
+    },
+    {
+      "amr_room_slot": 131,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        315
+      ],
+      "candidate_doors_idx": [
+        131
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_12"
+      ]
+    },
+    {
+      "amr_room_slot": 134,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        318
+      ],
+      "candidate_doors_idx": [
+        134
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP"
+      ]
+    },
+    {
+      "amr_room_slot": 135,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        321
+      ],
+      "candidate_doors_idx": [
+        135
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05"
+      ]
+    },
+    {
+      "amr_room_slot": 139,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        325
+      ],
+      "candidate_doors_idx": [
+        139
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_16"
+      ]
+    },
+    {
+      "amr_room_slot": 143,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        401
+      ],
+      "candidate_doors_idx": [
+        143
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_06"
+      ]
+    },
+    {
+      "amr_room_slot": 144,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        402
+      ],
+      "candidate_doors_idx": [
+        144
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_12"
+      ]
+    },
+    {
+      "amr_room_slot": 158,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        417
+      ],
+      "candidate_doors_idx": [
+        158
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_BOSS"
+      ]
+    },
+    {
+      "amr_room_slot": 164,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        423
+      ],
+      "candidate_doors_idx": [
+        164
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_17"
+      ]
+    },
+    {
+      "amr_room_slot": 165,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        424
+      ],
+      "candidate_doors_idx": [
+        165
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_16"
+      ]
+    },
+    {
+      "amr_room_slot": 167,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        426
+      ],
+      "candidate_doors_idx": [
+        167
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3"
+      ]
+    },
+    {
+      "amr_room_slot": 172,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        509
+      ],
+      "candidate_doors_idx": [
+        172
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_10"
+      ]
+    },
+    {
+      "amr_room_slot": 174,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        516
+      ],
+      "candidate_doors_idx": [
+        174
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_BOSS"
+      ]
+    },
+    {
+      "amr_room_slot": 176,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        501
+      ],
+      "candidate_doors_idx": [
+        176
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_08"
+      ]
+    },
+    {
+      "amr_room_slot": 180,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        514
+      ],
+      "candidate_doors_idx": [
+        180
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_07"
+      ]
+    },
+    {
+      "amr_room_slot": 181,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        515
+      ],
+      "candidate_doors_idx": [
+        181
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_15"
+      ]
+    },
+    {
+      "amr_room_slot": 183,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        523
+      ],
+      "candidate_doors_idx": [
+        183
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_01"
+      ]
+    },
+    {
+      "amr_room_slot": 186,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        530
+      ],
+      "candidate_doors_idx": [
+        186
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_02"
+      ]
+    },
+    {
+      "amr_room_slot": 193,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        133
+      ],
+      "candidate_doors_idx": [
+        193
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_05"
+      ]
+    },
+    {
+      "amr_room_slot": 196,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        551
+      ],
+      "candidate_doors_idx": [
+        196
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_15"
+      ]
+    },
+    {
+      "amr_room_slot": 200,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        815
+      ],
+      "candidate_doors_idx": [
+        200
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+      ]
+    },
+    {
+      "amr_room_slot": 202,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        824
+      ],
+      "candidate_doors_idx": [
+        202
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_13"
+      ]
+    },
+    {
+      "amr_room_slot": 203,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        825
+      ],
+      "candidate_doors_idx": [
+        203
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2"
+      ]
+    },
+    {
+      "amr_room_slot": 228,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        621
+      ],
+      "candidate_doors_idx": [
+        228
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_02"
+      ]
+    },
+    {
+      "amr_room_slot": 229,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        622
+      ],
+      "candidate_doors_idx": [
+        229
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_1"
+      ]
+    },
+    {
+      "amr_room_slot": 230,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        623
+      ],
+      "candidate_doors_idx": [
+        230
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_07"
+      ]
+    },
+    {
+      "amr_room_slot": 244,
+      "chest_count": 2,
+      "candidate_native_room_ids": [
+        526
+      ],
+      "candidate_doors_idx": [
+        244
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_2"
+      ]
+    },
+    {
+      "amr_room_slot": 257,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        717
+      ],
+      "candidate_doors_idx": [
+        257
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_17"
+      ]
+    },
+    {
+      "amr_room_slot": 259,
+      "chest_count": 1,
+      "candidate_native_room_ids": [
+        732
+      ],
+      "candidate_doors_idx": [
+        259
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_CHEST_2"
+      ]
+    },
+    {
+      "amr_room_slot": 260,
+      "chest_count": 2,
+      "candidate_native_room_ids": [
+        733
+      ],
+      "candidate_doors_idx": [
+        260
+      ],
+      "candidate_ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_16"
+      ]
+    }
+  ]
+}
