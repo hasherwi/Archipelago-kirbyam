@@ -2112,8 +2112,6 @@ class KirbyAmClient(BizHawkClient):
         if native_room_id == self._last_native_room_id:
             return
 
-        self._last_native_room_id = native_room_id
-
         # Resolve doorsIdx via gRoomProps[native_room_id].doorsIdx (ROM read).
         rom_doors_idx_addr = _ROOM_PROPS_ROM_BASE + native_room_id * _ROOM_PROPS_STRIDE + _ROOM_PROPS_DOORS_IDX_OFFSET
         try:
@@ -2131,6 +2129,7 @@ class KirbyAmClient(BizHawkClient):
 
         doors_idx = unpack_from("<H", doors_raw)[0]
         room_label = self._room_label_by_doors_idx.get(doors_idx, f"<unknown doorsIdx={doors_idx}>")
+        self._last_native_room_id = native_room_id
         logger.info(
             "KirbyAM: entered room %s (native=0x%04x, doorsIdx=%d)",
             room_label,

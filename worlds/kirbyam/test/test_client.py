@@ -719,6 +719,34 @@ async def test_poll_room_entry_logging_handles_rom_lookup_failure(mock_bizhawk_c
 
 
 @pytest.mark.asyncio
+async def test_poll_room_entry_logging_retries_after_short_rom_read(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._room_label_by_doors_idx = {11: "REGION_RETRY_ROOM"}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(0x0008).to_bytes(2, 'little')],
+            [b'\x0b'],
+            [(0x0008).to_bytes(2, 'little')],
+            [(11).to_bytes(2, 'little')],
+        ]
+
+        await client._poll_room_entry_logging(mock_bizhawk_context)
+        await client._poll_room_entry_logging(mock_bizhawk_context)
+
+    assert client._last_native_room_id == 0x0008
+    mock_logger.info.assert_called_once_with(
+        "KirbyAM: entered room %s (native=0x%04x, doorsIdx=%d)",
+        "REGION_RETRY_ROOM",
+        0x0008,
+        11,
+        extra={"NoStream": True},
+    )
+
+
+@pytest.mark.asyncio
 async def test_poll_room_entry_logging_nostream_gating_respects_debug_flag(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
