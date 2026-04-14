@@ -37,7 +37,7 @@ Items that can be shuffled:
 - All Maps
 - All Vitality
 - Sound Player
-- All consumable items (Small Food, Energy Drink, Hunk of Meat, Battery, Maximum Tomato, Invincibility Candy)
+- All consumable items (Small Food, Energy Drink, Hunk of Meat, Cell Phone Battery, Max Tomato, Invincibility Candy)
 
 
 ## Common Item/Location Options

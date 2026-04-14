@@ -5,7 +5,7 @@
     "item_id": 3860001,
     "tags": ["Filler", "Life"]
   },
-  "FOOD": {
+  "SMALL_FOOD": {
     "label": "Small Food",
     "classification": "FILLER",
     "item_id": 3860026,
