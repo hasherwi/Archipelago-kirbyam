@@ -236,8 +236,9 @@ class KirbyAmClient(BizHawkClient):
 
         # Room entry logging (always to file; client display gated by debug flag)
         self._last_native_room_id: int | None = None
-        self._room_label_by_doors_idx: dict[int, str] = self._build_room_label_lookup()
-        self._room_region_key_by_doors_idx: dict[int, str] = self._build_room_region_key_lookup()
+        room_label_lookup, room_region_key_lookup = self._build_room_lookup_maps()
+        self._room_label_by_doors_idx = room_label_lookup
+        self._room_region_key_by_doors_idx = room_region_key_lookup
 
         # Notification pipeline state (Issue #83)
         self._notification_settings_loaded: bool = False
@@ -332,36 +333,23 @@ class KirbyAmClient(BizHawkClient):
         return common_logger
 
     @staticmethod
-    def _build_room_label_lookup() -> "dict[int, str]":
-        """Build a doorsIdx → room label mapping from all rooms in rooms.json."""
+    def _build_room_lookup_maps() -> "tuple[dict[int, str], dict[int, str]]":
+        """Build doorsIdx keyed room label and region-key maps from rooms.json in one pass."""
         rooms_json = load_json_data("regions/rooms.json")
-        result: dict[int, str] = {}
+        label_result: dict[int, str] = {}
+        region_result: dict[int, str] = {}
         if not isinstance(rooms_json, dict):
-            return result
+            return label_result, region_result
         for region_key, room in rooms_json.items():
             rs = room.get("room_sanity")
             if not isinstance(rs, dict):
                 continue
             bit_index = rs.get("bit_index")
             if bit_index is not None:
-                result[int(bit_index)] = format_room_region_label(str(region_key))
-        return result
-
-    @staticmethod
-    def _build_room_region_key_lookup() -> "dict[int, str]":
-        """Build a doorsIdx → room region key mapping from all rooms in rooms.json."""
-        rooms_json = load_json_data("regions/rooms.json")
-        result: dict[int, str] = {}
-        if not isinstance(rooms_json, dict):
-            return result
-        for region_key, room in rooms_json.items():
-            rs = room.get("room_sanity")
-            if not isinstance(rs, dict):
-                continue
-            bit_index = rs.get("bit_index")
-            if bit_index is not None:
-                result[int(bit_index)] = str(region_key)
-        return result
+                doors_idx = int(bit_index)
+                label_result[doors_idx] = format_room_region_label(str(region_key))
+                region_result[doors_idx] = str(region_key)
+        return label_result, region_result
 
     def _reset_reconnect_transient_state(self) -> None:
         """Reset transient watcher diagnostics/probes so reconnect starts from clean baselines."""
