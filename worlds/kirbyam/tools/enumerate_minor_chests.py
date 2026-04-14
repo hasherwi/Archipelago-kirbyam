@@ -265,6 +265,8 @@ def native_item_name(item_id: int) -> str:
 
 def item_field_semantics(item_id: int, reward_path: str) -> tuple[str, bool]:
     base_name = native_item_name(item_id)
+    if item_id == 0x00:
+        return f"{base_name} (sentinel/no direct chest grant)", False
     if reward_path == "collection_reward":
         return f"{base_name} (script/object reference, not grantable chest reward)", False
     if reward_path == "non_collection_consumable_pool" and item_id in {0x80, 0x81, 0x82, 0x83, 0x87, 0xFF}:
@@ -327,6 +329,7 @@ def main() -> int:
     item_counts: dict[int, int] = defaultdict(int)
     ambiguous_entries = 0
     unresolved_counts: dict[tuple[int, int], int] = defaultdict(int)
+    modeled_non_collection_pool_entries = 0
 
     for index, (packed_item_value, raw_address, amr_room_slot) in enumerate(
         zip(chest_item_values, chest_addresses, amr_room_slots)
@@ -375,7 +378,9 @@ def main() -> int:
         if len(native_room_ids) > 1:
             ambiguous_entries += 1
 
-        if native_group == "unknown":
+        if reward_path == "non_collection_consumable_pool":
+            modeled_non_collection_pool_entries += 1
+        if native_group == "unknown" and reward_path == "unknown":
             unresolved_counts[(payload_b2, payload_b3)] += 1
 
         slot_counts[int(amr_room_slot)] += 1
@@ -463,12 +468,15 @@ def main() -> int:
             "rom": metadata_path(rom_path, repo_root),
             "rom_sha256": hashlib.sha256(rom_bytes).hexdigest(),
             "amr_items": metadata_path(amr_items_path, repo_root),
+            "amr_items_sha256": hashlib.sha256(amr_items_path.read_bytes()).hexdigest(),
             "rooms": metadata_path(rooms_path, repo_root),
+            "rooms_sha256": hashlib.sha256(rooms_path.read_bytes()).hexdigest(),
             "total_minor_chests": len(manifest_entries),
             "total_unique_amr_room_slots": len(slot_counts),
             "ambiguous_entries": ambiguous_entries,
             "identified_entries": len(manifest_entries) - sum(unresolved_counts.values()),
             "unresolved_entries": sum(unresolved_counts.values()),
+            "modeled_non_collection_pool_entries": modeled_non_collection_pool_entries,
             "room_props": {
                 "rom_offset": f"0x{ROOM_PROPS_ROM_BASE:08X}",
                 "size": f"0x{ROOM_PROPS_SIZE:04X}",
