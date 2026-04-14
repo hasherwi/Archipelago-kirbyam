@@ -86,6 +86,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x02038960 - 0x0203896A | 10B | Chest/Switch state    | Native chest and switch flags |
 | 0x02028C14+ |  -  | Boss/Mirror table       | Native location flags (TBD - not yet mapped) |
 | 0x02028CA0 | 576B | gVisitedDoors (`room_visit_flags_native`) | Native room-visit array (`u16[0x120]`); bit 15 marks visited state by `doorsIdx` |
+| 0x02023B28 | 2B | current_room_native | Current native room ID (`gCurLevelInfo[0].currentRoom`) used for room-entry diagnostics |
 | 0x0203AD2C | 4B | AI_KIRBY_STATE          | Runtime phase classifier (Issue #56 gameplay gate) |
 | 0x0203AD10 | 4B | DEMO_PLAYBACK_FLAGS     | Native title-demo discriminator (`demo_playback_flags_native`; bit `0x10` indicates title-screen demo playback) |
 | 0x0203ADE0 | 1B | KIRBY_ACTIVE_COLOR      | Native currently selected Kirby palette index (`0..13`). **Boot-time only**: updates only if written before the game's graphics system initialises; writing during gameplay has no visual effect. |
@@ -307,6 +308,13 @@ room_visits = RAM[0x02028CA0 : 0x02028CA0 + 0x240] as u16[0x120]
 for doors_idx in mapped_room_sanity_doors_indices:
     if room_visits[doors_idx] & 0x8000:
         mapped_checked.add(room_sanity_location_id_for_doors_idx(doors_idx))
+
+# Room-entry diagnostics (best-effort; logging only)
+current_room_native = RAM[0x02023B28] as u16
+if current_room_native changed:
+    doors_idx = ROM[gRoomProps + current_room_native * gRoomPropsStride + doorsIdxOffset] as u16
+    room_label = rooms_json_label_for_doors_idx(doors_idx)
+    log_room_entry(room_label, current_room_native, doors_idx)
 
 # Level-based, reconnect-safe resend:
 # Send only checks that RAM reports as collected but the server has not acknowledged.

@@ -214,6 +214,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_hub_switch_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._hub_switch_baseline_mask: int | None = None
         self._hub_switch_session_initialized: bool = False
+        self._hub_switch_stream_marker: object = None
         self._last_room_sanity_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
 
         # Notification pipeline state (Issue #83)
@@ -305,9 +306,6 @@ class KirbyAmClient(BizHawkClient):
         self._cached_delivered_map_bits = 0
         self._cached_map_bits_index = 0
         self._cached_map_bits_items_len = 0
-        # Reset hub-switch baseline on reconnect so new session can re-capture baseline from current ROM state
-        self._hub_switch_session_initialized = False
-        self._hub_switch_baseline_mask = None
 
     def _no_extra_lives_enabled(self, ctx: "BizHawkClientContext") -> bool:
         slot_data = getattr(ctx, "slot_data", None)
@@ -1809,27 +1807,27 @@ class KirbyAmClient(BizHawkClient):
         if missing_on_server:
             chest_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
             if chest_log_state != self._last_major_chest_poll_log:
-                if self._debug_logging_enabled:
-                    from CommonClient import logger
+                from CommonClient import logger
 
-                    logger.info(
-                        "KirbyAM: resending major-chest LocationChecks missing on server (missing=%s, acked=%s)",
-                        missing_on_server,
-                        already_acknowledged,
-                    )
+                logger.info(
+                    "KirbyAM: resending major-chest LocationChecks missing on server (missing=%s, acked=%s)",
+                    missing_on_server,
+                    already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
+                )
                 self._last_major_chest_poll_log = chest_log_state
 
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
             chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if chest_log_state != self._last_major_chest_poll_log:
-                if self._debug_logging_enabled:
-                    from CommonClient import logger
+                from CommonClient import logger
 
-                    logger.debug(
-                        "KirbyAM: dedupe suppressed major-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                        already_acknowledged,
-                    )
+                logger.debug(
+                    "KirbyAM: dedupe suppressed major-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                    already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
+                )
                 self._last_major_chest_poll_log = chest_log_state
         else:
             self._last_major_chest_poll_log = None
@@ -1859,27 +1857,27 @@ class KirbyAmClient(BizHawkClient):
         if missing_on_server:
             chest_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
             if chest_log_state != self._last_vitality_chest_poll_log:
-                if self._debug_logging_enabled:
-                    from CommonClient import logger
+                from CommonClient import logger
 
-                    logger.info(
-                        "KirbyAM: resending vitality-chest LocationChecks missing on server (missing=%s, acked=%s)",
-                        missing_on_server,
-                        already_acknowledged,
-                    )
+                logger.info(
+                    "KirbyAM: resending vitality-chest LocationChecks missing on server (missing=%s, acked=%s)",
+                    missing_on_server,
+                    already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
+                )
                 self._last_vitality_chest_poll_log = chest_log_state
 
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
             chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if chest_log_state != self._last_vitality_chest_poll_log:
-                if self._debug_logging_enabled:
-                    from CommonClient import logger
+                from CommonClient import logger
 
-                    logger.debug(
-                        "KirbyAM: dedupe suppressed vitality-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                        already_acknowledged,
-                    )
+                logger.debug(
+                    "KirbyAM: dedupe suppressed vitality-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                    already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
+                )
                 self._last_vitality_chest_poll_log = chest_log_state
         else:
             self._last_vitality_chest_poll_log = None
@@ -1908,27 +1906,27 @@ class KirbyAmClient(BizHawkClient):
         if missing_on_server:
             chest_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
             if chest_log_state != self._last_sound_player_chest_poll_log:
-                if self._debug_logging_enabled:
-                    from CommonClient import logger
+                from CommonClient import logger
 
-                    logger.info(
-                        "KirbyAM: resending sound-player-chest LocationChecks missing on server (missing=%s, acked=%s)",
-                        missing_on_server,
-                        already_acknowledged,
-                    )
+                logger.info(
+                    "KirbyAM: resending sound-player-chest LocationChecks missing on server (missing=%s, acked=%s)",
+                    missing_on_server,
+                    already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
+                )
                 self._last_sound_player_chest_poll_log = chest_log_state
 
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
             chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if chest_log_state != self._last_sound_player_chest_poll_log:
-                if self._debug_logging_enabled:
-                    from CommonClient import logger
+                from CommonClient import logger
 
-                    logger.debug(
-                        "KirbyAM: dedupe suppressed sound-player-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                        already_acknowledged,
-                    )
+                logger.debug(
+                    "KirbyAM: dedupe suppressed sound-player-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                    already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
+                )
                 self._last_sound_player_chest_poll_log = chest_log_state
         else:
             self._last_sound_player_chest_poll_log = None
@@ -1947,6 +1945,16 @@ class KirbyAmClient(BizHawkClient):
 
         raw = (await bizhawk.read(ctx.bizhawk_ctx, [(switch_addr, 4, "System Bus")]))[0]
         switch_bits = self._u32_le(raw)
+
+        # Keep baseline across AP reconnects, but re-baseline on BizHawk/ROM stream
+        # identity changes (transport reconnect, core swap, or ROM resync).
+        stream_marker = getattr(ctx.bizhawk_ctx, "streams", None)
+        if self._hub_switch_stream_marker is None:
+            self._hub_switch_stream_marker = stream_marker
+        elif stream_marker is not self._hub_switch_stream_marker:
+            self._hub_switch_stream_marker = stream_marker
+            self._hub_switch_session_initialized = False
+            self._hub_switch_baseline_mask = None
 
         # Capture baseline only on first hub-switch poll of a session when the server
         # has not yet acknowledged any locations. This suppresses pre-session stale
@@ -1975,27 +1983,27 @@ class KirbyAmClient(BizHawkClient):
         if missing_on_server:
             switch_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
             if switch_log_state != self._last_hub_switch_poll_log:
-                if self._debug_logging_enabled:
-                    from CommonClient import logger
+                from CommonClient import logger
 
-                    logger.info(
-                        "KirbyAM: resending hub-switch LocationChecks missing on server (missing=%s, acked=%s)",
-                        missing_on_server,
-                        already_acknowledged,
-                    )
+                logger.info(
+                    "KirbyAM: resending hub-switch LocationChecks missing on server (missing=%s, acked=%s)",
+                    missing_on_server,
+                    already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
+                )
                 self._last_hub_switch_poll_log = switch_log_state
 
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
             switch_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if switch_log_state != self._last_hub_switch_poll_log:
-                if self._debug_logging_enabled:
-                    from CommonClient import logger
+                from CommonClient import logger
 
-                    logger.debug(
-                        "KirbyAM: dedupe suppressed hub-switch LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                        already_acknowledged,
-                    )
+                logger.debug(
+                    "KirbyAM: dedupe suppressed hub-switch LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                    already_acknowledged,
+                    extra={"NoStream": not self._debug_logging_enabled},
+                )
                 self._last_hub_switch_poll_log = switch_log_state
         else:
             self._last_hub_switch_poll_log = None
