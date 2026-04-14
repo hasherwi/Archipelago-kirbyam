@@ -261,7 +261,7 @@ def test_one_hit_mode_exclude_vitality_counters_and_no_extra_lives_stack_filler_
     )
 
 
-def test_one_hit_mode_exclude_vitality_counters_filler_selection_never_picks_food() -> None:
+def test_one_hit_mode_exclude_vitality_counters_filler_selection_never_picks_healing_fillers() -> None:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
     world.random = random.Random(12345)
     world.options = SimpleNamespace(
