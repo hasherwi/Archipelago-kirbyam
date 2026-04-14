@@ -12,7 +12,7 @@ candidate native room IDs, doorsIdx values, and AP room-sanity keys.
 Usage:
     python worlds/kirbyam/tools/enumerate_minor_chests.py \
         --rom path/to/katam.gba \
-        --amr-items path/to/amr_items.json \
+        [--amr-items path/to/amr_items.json] \
         [--rooms worlds/kirbyam/data/regions/rooms.json] \
         [--output worlds/kirbyam/data/minor_chest_manifest.json]
 """
@@ -265,10 +265,15 @@ def main() -> int:
     kirbyam_dir = Path(__file__).resolve().parent.parent
     repo_root = kirbyam_dir.parents[1]
     rooms_default, output_default = resolve_default_paths(kirbyam_dir)
+    amr_items_default = repo_root.parent / "Amazing-Mirror-Randomizer" / "JSON" / "items.json"
 
     parser = argparse.ArgumentParser(description="Enumerate KirbyAM minor chest evidence from ROM")
     parser.add_argument("--rom", required=True, help="Path to vanilla Kirby & The Amazing Mirror ROM")
-    parser.add_argument("--amr-items", required=True, help="Path to AMR items.json")
+    parser.add_argument(
+        "--amr-items",
+        default=str(amr_items_default),
+        help="Path to AMR items.json (defaults to ../Amazing-Mirror-Randomizer/JSON/items.json)",
+    )
     parser.add_argument("--rooms", default=str(rooms_default), help="Path to KirbyAM rooms.json")
     parser.add_argument("--output", default=str(output_default), help="Output manifest JSON path")
     args = parser.parse_args()
@@ -288,6 +293,11 @@ def main() -> int:
     rom_bytes = rom_path.read_bytes()
     amr_items = load_json(amr_items_path)
     rooms = load_json(rooms_path)
+
+    if not isinstance(amr_items, dict):
+        raise ValueError(f"AMR items JSON must contain a top-level object: {amr_items_path}")
+    if not isinstance(rooms, dict):
+        raise ValueError(f"rooms.json must contain a top-level object: {rooms_path}")
 
     small_chest_data = amr_items.get("SmallChest")
     if not isinstance(small_chest_data, dict):
