@@ -8,7 +8,7 @@ import Utils
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
-from .data import LocationCategory, data, load_json_data
+from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
@@ -44,6 +44,8 @@ _KIRBY_MAX_HP_ADDR_KEY = "kirby_max_hp_native"
 _KIRBY_MAX_HP_READ_WIDTH = 1
 _KIRBY_VITALITY_COUNTER_ADDR_KEY = "kirby_vitality_counter_native"
 _KIRBY_VITALITY_COUNTER_READ_WIDTH = 2
+_MINOR_CHEST_FLAGS_ADDR_KEY = "small_chest_flags_native"
+_MINOR_CHEST_FLAGS_READ_WIDTH = 10
 _ROOM_VISIT_FLAGS_ADDR_KEY = "room_visit_flags_native"
 _ROOM_VISIT_FLAGS_ENTRY_COUNT = 0x120
 _ROOM_VISIT_FLAGS_BIT_MASK = 0x8000
@@ -163,6 +165,13 @@ class KirbyAmClient(BizHawkClient):
                 continue
             self._major_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
 
+        # Minor chest native bitfield → location IDs (MINOR_CHEST category; polled from native chest flags).
+        self._minor_chest_location_ids_by_bit: dict[int, list[int]] = {}
+        for loc in data.locations.values():
+            if loc.bit_index is None or loc.category != LocationCategory.MINOR_CHEST:
+                continue
+            self._minor_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+
         # Vitality chest bitfield → location IDs (VITALITY_CHEST category; dedicated transport register)
         self._vitality_chest_location_ids_by_bit: dict[int, list[int]] = {}
         for loc in data.locations.values():
@@ -215,6 +224,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_shard_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_boss_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_major_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+        self._last_minor_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_vitality_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_sound_player_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_hub_switch_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
@@ -321,7 +331,7 @@ class KirbyAmClient(BizHawkClient):
 
     @staticmethod
     def _build_room_label_lookup() -> "dict[int, str]":
-        """Build a doorsIdx → region_key mapping from all rooms in rooms.json."""
+        """Build a doorsIdx → room label mapping from all rooms in rooms.json."""
         rooms_json = load_json_data("regions/rooms.json")
         result: dict[int, str] = {}
         if not isinstance(rooms_json, dict):
@@ -332,7 +342,7 @@ class KirbyAmClient(BizHawkClient):
                 continue
             bit_index = rs.get("bit_index")
             if bit_index is not None:
-                result[int(bit_index)] = str(region_key)
+                result[int(bit_index)] = format_room_region_label(str(region_key))
         return result
 
     def _reset_reconnect_transient_state(self) -> None:
@@ -341,6 +351,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_shard_poll_log = None
         self._last_boss_poll_log = None
         self._last_major_chest_poll_log = None
+        self._last_minor_chest_poll_log = None
         self._last_vitality_chest_poll_log = None
         self._last_sound_player_chest_poll_log = None
         self._last_hub_switch_poll_log = None
@@ -1060,6 +1071,9 @@ class KirbyAmClient(BizHawkClient):
 
             # Major chest location polling via dedicated major_chest_flags transport register
             await self._poll_major_chest_locations(ctx)
+
+            # Minor chest location polling via native small chest flag bitfield
+            await self._poll_minor_chest_locations(ctx)
 
             # Vitality chest location polling via dedicated vitality_chest_flags transport register
             await self._poll_vitality_chest_locations(ctx)
@@ -1951,6 +1965,65 @@ class KirbyAmClient(BizHawkClient):
                 self._last_vitality_chest_poll_log = chest_log_state
         else:
             self._last_vitality_chest_poll_log = None
+
+    async def _poll_minor_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """
+        Read native small-chest flags and map set bits to MINOR_CHEST locations.
+
+        This path uses native chest-state semantics directly (Issue #129). Polling mirrors
+        existing resend/dedupe behavior: RAM-derived checks are resent until the server
+        acknowledges them in ctx.checked_locations.
+        """
+        if not self._minor_chest_location_ids_by_bit:
+            return
+
+        chest_addr = self._native_addr(_MINOR_CHEST_FLAGS_ADDR_KEY)
+        if chest_addr is None:
+            return
+
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(chest_addr, _MINOR_CHEST_FLAGS_READ_WIDTH, "System Bus")]))[0]
+        if len(raw) != _MINOR_CHEST_FLAGS_READ_WIDTH:
+            self._log_client(
+                "warning",
+                "KirbyAM: minor-chest poll expected %s bytes from native chest flags, got %s; skipping tick",
+                _MINOR_CHEST_FLAGS_READ_WIDTH,
+                len(raw),
+            )
+            return
+
+        mapped_checked_locations: set[int] = set()
+        for bit in sorted(self._minor_chest_location_ids_by_bit.keys()):
+            byte_index = bit // 8
+            if byte_index >= len(raw):
+                continue
+            if raw[byte_index] & (1 << (bit % 8)):
+                mapped_checked_locations.update(self._minor_chest_location_ids_by_bit.get(bit, []))
+
+        missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
+        already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
+        if missing_on_server:
+            chest_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
+            if chest_log_state != self._last_minor_chest_poll_log:
+                self._log_verbose(
+                    "info",
+                    "KirbyAM: resending minor-chest LocationChecks missing on server (missing=%s, acked=%s)",
+                    missing_on_server,
+                    already_acknowledged,
+                )
+                self._last_minor_chest_poll_log = chest_log_state
+
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
+        elif mapped_checked_locations:
+            chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
+            if chest_log_state != self._last_minor_chest_poll_log:
+                self._log_verbose(
+                    "debug",
+                    "KirbyAM: dedupe suppressed minor-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                    already_acknowledged,
+                )
+                self._last_minor_chest_poll_log = chest_log_state
+        else:
+            self._last_minor_chest_poll_log = None
 
     async def _poll_sound_player_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """

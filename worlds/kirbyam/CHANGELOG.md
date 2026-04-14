@@ -18,6 +18,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - `Battery Drain Trap`: empties the copy ability battery to 0.
   - Trap receive notifications are prefixed with "Received trap:" to distinguish them from regular items.
 - Added two new filler consumables with tiered healing: `Energy Drink` (HP +2) and `Hunk of Meat` (HP +3), alongside existing `Small Food` (HP +1) (Issues #684, #685, #686).
+- Enabled the first concrete `MINOR_CHEST` AP checks (Rainbow Route 1-20, 1-22, 1-38) using native small-chest flag polling, with stable location IDs and room topology wiring (Issue #129).
 
 ### Improvements
 

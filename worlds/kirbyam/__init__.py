@@ -19,7 +19,7 @@ from .ability_randomization import (
     build_enemy_copy_ability_policy,
 )
 from .colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, resolve_kirby_color
-from .data import LocationCategory, load_json_data, data as kirby_data
+from .data import LocationCategory, format_room_region_label, load_json_data, data as kirby_data
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
 from .generation_logging import (
     generation_stage,
@@ -392,6 +392,7 @@ class KirbyAmWorld(World):
             vitality_chest_locations: list[KirbyAmLocation] = []
             sound_player_chest_locations: list[KirbyAmLocation] = []
             hub_switch_locations: list[KirbyAmLocation] = []
+            minor_chest_locations: list[KirbyAmLocation] = []
             room_sanity_locations: list[KirbyAmLocation] = []
             location_by_key: dict[str, KirbyAmLocation] = {}
             for loc in fill_locations:
@@ -411,6 +412,8 @@ class KirbyAmWorld(World):
                     sound_player_chest_locations.append(loc)
                 elif loc_meta.category == LocationCategory.HUB_SWITCH:
                     hub_switch_locations.append(loc)
+                elif loc_meta.category == LocationCategory.MINOR_CHEST:
+                    minor_chest_locations.append(loc)
                 elif loc_meta.category == LocationCategory.ROOM_SANITY:
                     room_sanity_locations.append(loc)
 
@@ -419,11 +422,12 @@ class KirbyAmWorld(World):
             vitality_chest_locations.sort(key=lambda loc: loc.key or "")
             sound_player_chest_locations.sort(key=lambda loc: loc.key or "")
             hub_switch_locations.sort(key=lambda loc: loc.key or "")
+            minor_chest_locations.sort(key=lambda loc: loc.key or "")
             room_sanity_locations.sort(key=lambda loc: loc.key or "")
 
             locked_shard_count = 0
             randomized_item_codes: list[int] = []
-            if boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or hub_switch_locations or room_sanity_locations:
+            if boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or hub_switch_locations or minor_chest_locations or room_sanity_locations:
                 shard_label_to_code = {
                     item.label: item.item_id
                     for item in kirby_data.items.values()
@@ -477,7 +481,7 @@ class KirbyAmWorld(World):
                     )
 
                 open_physical_locations = [
-                    loc for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations + hub_switch_locations + room_sanity_locations
+                    loc for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations + hub_switch_locations + minor_chest_locations + room_sanity_locations
                     if loc.item is None
                 ]
                 needed_pool_size = len(open_physical_locations)
@@ -625,10 +629,10 @@ class KirbyAmWorld(World):
                         self.player,
                     )
 
-            if (boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or hub_switch_locations or room_sanity_locations) and not randomized_item_codes:
+            if (boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or hub_switch_locations or minor_chest_locations or room_sanity_locations) and not randomized_item_codes:
                 raise ValueError(
                     "KirbyAM item pool build failed: no randomized items were produced. "
-                    "This likely indicates a problem with boss/major/vitality/sound-player/hub-switch locations, "
+                    "This likely indicates a problem with boss/major/vitality/sound-player/hub-switch/minor-chest locations, "
                     "room-sanity locations, or region/location data."
                 )
 
@@ -793,7 +797,7 @@ class KirbyAmWorld(World):
         rooms = rooms_payload if isinstance(rooms_payload, dict) else {}
         slot_data["rooms"] = {
             room_key: {
-                "label": room_data.get("label", room_key),
+                "label": room_data.get("label") or format_room_region_label(room_key),
                 "exits": room_data.get("exits", []),
                 "parent_region": room_key.split("/")[0] if "/" in room_key else "",
                 "room_sanity_location_id": room_data.get("room_sanity", {}).get("location_id"),
