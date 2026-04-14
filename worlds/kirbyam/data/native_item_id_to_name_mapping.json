@@ -1,879 +1,1098 @@
 {
   "0x00": {
     "item_id": 0,
-    "name": "None"
+    "name": "None",
+    "source_symbol": "OBJ_WADDLE_DEE_1"
   },
   "0x01": {
     "item_id": 1,
-    "name": "Bronto Burt"
+    "name": "Bronto Burt",
+    "source_symbol": "OBJ_BRONTO_BURT"
   },
   "0x02": {
     "item_id": 2,
-    "name": "Blipper"
+    "name": "Blipper",
+    "source_symbol": "OBJ_BLIPPER"
   },
   "0x03": {
     "item_id": 3,
-    "name": "Glunk"
+    "name": "Glunk",
+    "source_symbol": "OBJ_GLUNK"
   },
   "0x04": {
     "item_id": 4,
-    "name": "Squishy"
+    "name": "Squishy",
+    "source_symbol": "OBJ_SQUISHY"
   },
   "0x05": {
     "item_id": 5,
-    "name": "Scarfy"
+    "name": "Scarfy",
+    "source_symbol": "OBJ_SCARFY"
   },
   "0x06": {
     "item_id": 6,
-    "name": "Gordo"
+    "name": "Gordo",
+    "source_symbol": "OBJ_GORDO"
   },
   "0x07": {
     "item_id": 7,
-    "name": "Snooter 1"
+    "name": "Snooter 1",
+    "source_symbol": "OBJ_SNOOTER_1"
   },
   "0x08": {
     "item_id": 8,
-    "name": "Chip"
+    "name": "Chip",
+    "source_symbol": "OBJ_CHIP"
   },
   "0x09": {
     "item_id": 9,
-    "name": "Soarar"
+    "name": "Soarar",
+    "source_symbol": "OBJ_SOARAR"
   },
   "0x0A": {
     "item_id": 10,
-    "name": "Haley"
+    "name": "Haley",
+    "source_symbol": "OBJ_HALEY"
   },
   "0x0B": {
     "item_id": 11,
-    "name": "Roly Poly"
+    "name": "Roly Poly",
+    "source_symbol": "OBJ_ROLYPOLY"
   },
   "0x0C": {
     "item_id": 12,
-    "name": "Cupie"
+    "name": "Cupie",
+    "source_symbol": "OBJ_CUPIE"
   },
   "0x0D": {
     "item_id": 13,
-    "name": "Blockin"
+    "name": "Blockin",
+    "source_symbol": "OBJ_BLOCKIN"
   },
   "0x0E": {
     "item_id": 14,
-    "name": "Snooter 2"
+    "name": "Snooter 2",
+    "source_symbol": "OBJ_SNOOTER_2"
   },
   "0x0F": {
     "item_id": 15,
-    "name": "Leap"
+    "name": "Leap",
+    "source_symbol": "OBJ_LEAP"
   },
   "0x10": {
     "item_id": 16,
-    "name": "Jack"
+    "name": "Jack",
+    "source_symbol": "OBJ_JACK"
   },
   "0x11": {
     "item_id": 17,
-    "name": "Big Waddle Dee"
+    "name": "Big Waddle Dee",
+    "source_symbol": "OBJ_BIG_WADDLE_DEE"
   },
   "0x12": {
     "item_id": 18,
-    "name": "Waddle Doo"
+    "name": "Waddle Doo",
+    "source_symbol": "OBJ_WADDLE_DOO"
   },
   "0x13": {
     "item_id": 19,
-    "name": "Flamer"
+    "name": "Flamer",
+    "source_symbol": "OBJ_FLAMER"
   },
   "0x14": {
     "item_id": 20,
-    "name": "Hot Head"
+    "name": "Hot Head",
+    "source_symbol": "OBJ_HOT_HEAD"
   },
   "0x15": {
     "item_id": 21,
-    "name": "Laser Ball"
+    "name": "Laser Ball",
+    "source_symbol": "OBJ_LASER_BALL"
   },
   "0x16": {
     "item_id": 22,
-    "name": "Pengy"
+    "name": "Pengy",
+    "source_symbol": "OBJ_PENGY"
   },
   "0x17": {
     "item_id": 23,
-    "name": "Rocky"
+    "name": "Rocky",
+    "source_symbol": "OBJ_ROCKY"
   },
   "0x18": {
     "item_id": 24,
-    "name": "Sir Kibble"
+    "name": "Sir Kibble",
+    "source_symbol": "OBJ_SIR_KIBBLE"
   },
   "0x19": {
     "item_id": 25,
-    "name": "Sparky"
+    "name": "Sparky",
+    "source_symbol": "OBJ_SPARKY"
   },
   "0x1A": {
     "item_id": 26,
-    "name": "Sword Knight"
+    "name": "Sword Knight",
+    "source_symbol": "OBJ_SWORD_KNIGHT"
   },
   "0x1B": {
     "item_id": 27,
-    "name": "UFO"
+    "name": "UFO",
+    "source_symbol": "OBJ_UFO"
   },
   "0x1C": {
     "item_id": 28,
-    "name": "Twister"
+    "name": "Twister",
+    "source_symbol": "OBJ_TWISTER"
   },
   "0x1D": {
     "item_id": 29,
-    "name": "Wheelie"
+    "name": "Wheelie",
+    "source_symbol": "OBJ_WHEELIE"
   },
   "0x1E": {
     "item_id": 30,
-    "name": "Noddy"
+    "name": "Noddy",
+    "source_symbol": "OBJ_NODDY"
   },
   "0x1F": {
     "item_id": 31,
-    "name": "Golem 1"
+    "name": "Golem 1",
+    "source_symbol": "OBJ_GOLEM_1"
   },
   "0x20": {
     "item_id": 32,
-    "name": "Golem 2"
+    "name": "Golem 2",
+    "source_symbol": "OBJ_GOLEM_2"
   },
   "0x21": {
     "item_id": 33,
-    "name": "Golem 3"
+    "name": "Golem 3",
+    "source_symbol": "OBJ_GOLEM_3"
   },
   "0x22": {
     "item_id": 34,
-    "name": "Foley 1"
+    "name": "Foley 1",
+    "source_symbol": "OBJ_FOLEY_1"
   },
   "0x23": {
     "item_id": 35,
-    "name": "Shooty"
+    "name": "Shooty",
+    "source_symbol": "OBJ_SHOOTY"
   },
   "0x24": {
     "item_id": 36,
-    "name": "Scarfy Falling"
+    "name": "Scarfy Falling",
+    "source_symbol": "OBJ_SCARFY_FALLING"
   },
   "0x25": {
     "item_id": 37,
-    "name": "Boxin"
+    "name": "Boxin",
+    "source_symbol": "OBJ_BOXIN"
   },
   "0x26": {
     "item_id": 38,
-    "name": "Cookin"
+    "name": "Cookin",
+    "source_symbol": "OBJ_COOKIN"
   },
   "0x27": {
     "item_id": 39,
-    "name": "Minny"
+    "name": "Minny",
+    "source_symbol": "OBJ_MINNY"
   },
   "0x28": {
     "item_id": 40,
-    "name": "Bomber"
+    "name": "Bomber",
+    "source_symbol": "OBJ_BOMBER"
   },
   "0x29": {
     "item_id": 41,
-    "name": "Heavy Knight"
+    "name": "Heavy Knight",
+    "source_symbol": "OBJ_HEAVY_KNIGHT"
   },
   "0x2A": {
     "item_id": 42,
-    "name": "Giant Rocky"
+    "name": "Giant Rocky",
+    "source_symbol": "OBJ_GIANT_ROCKY"
   },
   "0x2B": {
     "item_id": 43,
-    "name": "Metal Guardian"
+    "name": "Metal Guardian",
+    "source_symbol": "OBJ_METAL_GUARDIAN"
   },
   "0x2C": {
     "item_id": 44,
-    "name": "Empty 2C"
+    "name": "Empty 2C",
+    "source_symbol": "OBJ_EMPTY_2C"
   },
   "0x2D": {
     "item_id": 45,
-    "name": "Batty"
+    "name": "Batty",
+    "source_symbol": "OBJ_BATTY"
   },
   "0x2E": {
     "item_id": 46,
-    "name": "Foley 2"
+    "name": "Foley 2",
+    "source_symbol": "OBJ_FOLEY_2"
   },
   "0x2F": {
     "item_id": 47,
-    "name": "Bang Bang"
+    "name": "Bang Bang",
+    "source_symbol": "OBJ_BANG_BANG"
   },
   "0x30": {
     "item_id": 48,
-    "name": "Dark Mind Bomb"
+    "name": "Dark Mind Bomb",
+    "source_symbol": "OBJ_DARK_MIND_BOMB"
   },
   "0x31": {
     "item_id": 49,
-    "name": "Empty 31"
+    "name": "Empty 31",
+    "source_symbol": "OBJ_EMPTY_31"
   },
   "0x32": {
     "item_id": 50,
-    "name": "Droppy"
+    "name": "Droppy",
+    "source_symbol": "OBJ_DROPPY"
   },
   "0x33": {
     "item_id": 51,
-    "name": "Prank"
+    "name": "Prank",
+    "source_symbol": "OBJ_PRANK"
   },
   "0x34": {
     "item_id": 52,
-    "name": "Mirra"
+    "name": "Mirra",
+    "source_symbol": "OBJ_MIRRA"
   },
   "0x35": {
     "item_id": 53,
-    "name": "Shotzo 1"
+    "name": "Shotzo 1",
+    "source_symbol": "OBJ_SHOTZO_1"
   },
   "0x36": {
     "item_id": 54,
-    "name": "Shadow Kirby"
+    "name": "Shadow Kirby",
+    "source_symbol": "OBJ_SHADOW_KIRBY"
   },
   "0x37": {
     "item_id": 55,
-    "name": "Waddle Dee 2"
+    "name": "Waddle Dee 2",
+    "source_symbol": "OBJ_WADDLE_DEE_2"
   },
   "0x38": {
     "item_id": 56,
-    "name": "Mr Frosty"
+    "name": "Mr Frosty",
+    "source_symbol": "OBJ_MR_FROSTY"
   },
   "0x39": {
     "item_id": 57,
-    "name": "Bonkers"
+    "name": "Bonkers",
+    "source_symbol": "OBJ_BONKERS"
   },
   "0x3A": {
     "item_id": 58,
-    "name": "Phan Phan"
+    "name": "Phan Phan",
+    "source_symbol": "OBJ_PHAN_PHAN"
   },
   "0x3B": {
     "item_id": 59,
-    "name": "Batafire"
+    "name": "Batafire",
+    "source_symbol": "OBJ_BATAFIRE"
   },
   "0x3C": {
     "item_id": 60,
-    "name": "Box Boxer"
+    "name": "Box Boxer",
+    "source_symbol": "OBJ_BOX_BOXER"
   },
   "0x3D": {
     "item_id": 61,
-    "name": "Boxy"
+    "name": "Boxy",
+    "source_symbol": "OBJ_BOXY"
   },
   "0x3E": {
     "item_id": 62,
-    "name": "Master Hand"
+    "name": "Master Hand",
+    "source_symbol": "OBJ_MASTER_HAND"
   },
   "0x3F": {
     "item_id": 63,
-    "name": "Bombar"
+    "name": "Bombar",
+    "source_symbol": "OBJ_BOMBAR"
   },
   "0x40": {
     "item_id": 64,
-    "name": "Empty 40"
+    "name": "Empty 40",
+    "source_symbol": "OBJ_EMPTY_40"
   },
   "0x41": {
     "item_id": 65,
-    "name": "Empty 41"
+    "name": "Empty 41",
+    "source_symbol": "OBJ_EMPTY_41"
   },
   "0x42": {
     "item_id": 66,
-    "name": "Empty 42"
+    "name": "Empty 42",
+    "source_symbol": "OBJ_EMPTY_42"
   },
   "0x43": {
     "item_id": 67,
-    "name": "Empty 43"
+    "name": "Empty 43",
+    "source_symbol": "OBJ_EMPTY_43"
   },
   "0x44": {
     "item_id": 68,
-    "name": "Empty Object Slot 0x44"
+    "name": "Empty Object Slot 0x44",
+    "source_symbol": "OBJ_EMPTY_44"
   },
   "0x45": {
     "item_id": 69,
-    "name": "Kracko"
+    "name": "Kracko",
+    "source_symbol": "OBJ_KRACKO"
   },
   "0x46": {
     "item_id": 70,
-    "name": "King Golem"
+    "name": "King Golem",
+    "source_symbol": "OBJ_KING_GOLEM"
   },
   "0x47": {
     "item_id": 71,
-    "name": "Crazy Hand 1"
+    "name": "Crazy Hand 1",
+    "source_symbol": "OBJ_CRAZY_HAND_1"
   },
   "0x48": {
     "item_id": 72,
-    "name": "Gobbler"
+    "name": "Gobbler",
+    "source_symbol": "OBJ_GOBBLER"
   },
   "0x49": {
     "item_id": 73,
-    "name": "Wiz"
+    "name": "Wiz",
+    "source_symbol": "OBJ_WIZ"
   },
   "0x4A": {
     "item_id": 74,
-    "name": "Moley"
+    "name": "Moley",
+    "source_symbol": "OBJ_MOLEY"
   },
   "0x4B": {
     "item_id": 75,
-    "name": "Mega Titan"
+    "name": "Mega Titan",
+    "source_symbol": "OBJ_MEGA_TITAN"
   },
   "0x4C": {
     "item_id": 76,
-    "name": "Titan Head"
+    "name": "Titan Head",
+    "source_symbol": "OBJ_TITAN_HEAD"
   },
   "0x4D": {
     "item_id": 77,
-    "name": "Crazy Hand 2"
+    "name": "Crazy Hand 2",
+    "source_symbol": "OBJ_CRAZY_HAND_2"
   },
   "0x4E": {
     "item_id": 78,
-    "name": "Dark Meta Knight"
+    "name": "Dark Meta Knight",
+    "source_symbol": "OBJ_DARK_META_KNIGHT"
   },
   "0x4F": {
     "item_id": 79,
-    "name": "Dark Mind Form 1"
+    "name": "Dark Mind Form 1",
+    "source_symbol": "OBJ_DARK_MIND_FORM_1"
   },
   "0x50": {
     "item_id": 80,
-    "name": "Dark Mind Form 2"
+    "name": "Dark Mind Form 2",
+    "source_symbol": "OBJ_DARK_MIND_FORM_2"
   },
   "0x51": {
     "item_id": 81,
-    "name": "Dark Mind Form 3 Trigger"
+    "name": "Dark Mind Form 3 Trigger",
+    "source_symbol": "OBJ_DARK_MIND_FORM_3_TRIGGER"
   },
   "0x52": {
     "item_id": 82,
-    "name": "Dark Meta Knight W8"
+    "name": "Dark Meta Knight W8",
+    "source_symbol": "OBJ_DARK_META_KNIGHT_W8"
   },
   "0x53": {
     "item_id": 83,
-    "name": "Empty 53"
+    "name": "Empty 53",
+    "source_symbol": "OBJ_EMPTY_53"
   },
   "0x54": {
     "item_id": 84,
-    "name": "Empty 54"
+    "name": "Empty 54",
+    "source_symbol": "OBJ_EMPTY_54"
   },
   "0x55": {
     "item_id": 85,
-    "name": "Empty Object Slot 0x55"
+    "name": "Empty Object Slot 0x55",
+    "source_symbol": "OBJ_EMPTY_55"
   },
   "0x56": {
     "item_id": 86,
-    "name": "Empty 56"
+    "name": "Empty 56",
+    "source_symbol": "OBJ_EMPTY_56"
   },
   "0x57": {
     "item_id": 87,
-    "name": "Empty 57"
+    "name": "Empty 57",
+    "source_symbol": "OBJ_EMPTY_57"
   },
   "0x58": {
     "item_id": 88,
-    "name": "Empty 58"
+    "name": "Empty 58",
+    "source_symbol": "OBJ_EMPTY_58"
   },
   "0x59": {
     "item_id": 89,
-    "name": "Empty 59"
+    "name": "Empty 59",
+    "source_symbol": "OBJ_EMPTY_59"
   },
   "0x5A": {
     "item_id": 90,
-    "name": "Empty 5A"
+    "name": "Empty 5A",
+    "source_symbol": "OBJ_EMPTY_5A"
   },
   "0x5B": {
     "item_id": 91,
-    "name": "Empty 5B"
+    "name": "Empty 5B",
+    "source_symbol": "OBJ_EMPTY_5B"
   },
   "0x5C": {
     "item_id": 92,
-    "name": "Empty 5C"
+    "name": "Empty 5C",
+    "source_symbol": "OBJ_EMPTY_5C"
   },
   "0x5D": {
     "item_id": 93,
-    "name": "Empty 5D"
+    "name": "Empty 5D",
+    "source_symbol": "OBJ_EMPTY_5D"
   },
   "0x5E": {
     "item_id": 94,
-    "name": "Small Food"
+    "name": "Small Food",
+    "source_symbol": "OBJ_SMALL_FOOD"
   },
   "0x5F": {
     "item_id": 95,
-    "name": "Energy Drink"
+    "name": "Energy Drink",
+    "source_symbol": "OBJ_POP_SODA"
   },
   "0x60": {
     "item_id": 96,
-    "name": "Hunk of Meat"
+    "name": "Hunk of Meat",
+    "source_symbol": "OBJ_MEAT"
   },
   "0x61": {
     "item_id": 97,
-    "name": "Max Tomato"
+    "name": "Max Tomato",
+    "source_symbol": "OBJ_TOMATO"
   },
   "0x62": {
     "item_id": 98,
-    "name": "Cell Phone Battery"
+    "name": "Cell Phone Battery",
+    "source_symbol": "OBJ_BATTERY"
   },
   "0x63": {
     "item_id": 99,
-    "name": "1-Up"
+    "name": "1-Up",
+    "source_symbol": "OBJ_1UP"
   },
   "0x64": {
     "item_id": 100,
-    "name": "Invincibility Candy"
+    "name": "Invincibility Candy",
+    "source_symbol": "OBJ_INVINCIBLE_CANDY"
   },
   "0x65": {
     "item_id": 101,
-    "name": "Mirror Shard"
+    "name": "Mirror Shard",
+    "source_symbol": "OBJ_MIRROR_SHARD"
   },
   "0x66": {
     "item_id": 102,
-    "name": "Empty 66"
+    "name": "Empty 66",
+    "source_symbol": "OBJ_EMPTY_66"
   },
   "0x67": {
     "item_id": 103,
-    "name": "Empty 67"
+    "name": "Empty 67",
+    "source_symbol": "OBJ_EMPTY_67"
   },
   "0x68": {
     "item_id": 104,
-    "name": "Empty 68"
+    "name": "Empty 68",
+    "source_symbol": "OBJ_EMPTY_68"
   },
   "0x69": {
     "item_id": 105,
-    "name": "Goal Game Bonus"
+    "name": "Goal Game Bonus",
+    "source_symbol": "OBJ_GOAL_GAME_BONUS"
   },
   "0x6A": {
     "item_id": 106,
-    "name": "Empty 6A"
+    "name": "Empty 6A",
+    "source_symbol": "OBJ_EMPTY_6A"
   },
   "0x6B": {
     "item_id": 107,
-    "name": "Empty 6B"
+    "name": "Empty 6B",
+    "source_symbol": "OBJ_EMPTY_6B"
   },
   "0x6C": {
     "item_id": 108,
-    "name": "Empty 6C"
+    "name": "Empty 6C",
+    "source_symbol": "OBJ_EMPTY_6C"
   },
   "0x6D": {
     "item_id": 109,
-    "name": "Small Button"
+    "name": "Small Button",
+    "source_symbol": "OBJ_SMALL_BUTTON"
   },
   "0x6E": {
     "item_id": 110,
-    "name": "Flame"
+    "name": "Flame",
+    "source_symbol": "OBJ_FLAME"
   },
   "0x6F": {
     "item_id": 111,
-    "name": "Door"
+    "name": "Door",
+    "source_symbol": "OBJ_DOOR"
   },
   "0x70": {
     "item_id": 112,
-    "name": "Shotzo 2"
+    "name": "Shotzo 2",
+    "source_symbol": "OBJ_SHOTZO_2"
   },
   "0x71": {
     "item_id": 113,
-    "name": "Vertical Sliding Door"
+    "name": "Vertical Sliding Door",
+    "source_symbol": "OBJ_VERTICAL_SLIDING_DOOR"
   },
   "0x72": {
     "item_id": 114,
-    "name": "Boss Challenge Door"
+    "name": "Boss Challenge Door",
+    "source_symbol": "OBJ_BOSS_CHALLENGE_DOOR"
   },
   "0x73": {
     "item_id": 115,
-    "name": "Object Spawner"
+    "name": "Object Spawner",
+    "source_symbol": "OBJ_OBJECT_SPAWNER"
   },
   "0x74": {
     "item_id": 116,
-    "name": "Destroyable Rock Block"
+    "name": "Destroyable Rock Block",
+    "source_symbol": "OBJ_DESTROYABLE_ROCK_BLOCK"
   },
   "0x75": {
     "item_id": 117,
-    "name": "Unknown 75"
+    "name": "Unknown 75",
+    "source_symbol": "OBJ_UNKNOWN_75"
   },
   "0x76": {
     "item_id": 118,
-    "name": "Lava Wall"
+    "name": "Lava Wall",
+    "source_symbol": "OBJ_LAVA_WALL"
   },
   "0x77": {
     "item_id": 119,
-    "name": "Scroll Lock"
+    "name": "Scroll Lock",
+    "source_symbol": "OBJ_SCROLL_LOCK"
   },
   "0x78": {
     "item_id": 120,
-    "name": "Cannon Fuse"
+    "name": "Cannon Fuse",
+    "source_symbol": "OBJ_CANNON_FUSE"
   },
   "0x79": {
     "item_id": 121,
-    "name": "Star Stone Block"
+    "name": "Star Stone Block",
+    "source_symbol": "OBJ_STAR_STONE_BLOCK"
   },
   "0x7A": {
     "item_id": 122,
-    "name": "Unknown 7A"
+    "name": "Unknown 7A",
+    "source_symbol": "OBJ_UNKNOWN_7A"
   },
   "0x7B": {
     "item_id": 123,
-    "name": "Star Platform"
+    "name": "Star Platform",
+    "source_symbol": "OBJ_STAR_PLATFORM"
   },
   "0x7C": {
     "item_id": 124,
-    "name": "Flame Column"
+    "name": "Flame Column",
+    "source_symbol": "OBJ_FLAME_COLUMN"
   },
   "0x7D": {
     "item_id": 125,
-    "name": "Large Star Stone Block 7D"
+    "name": "Large Star Stone Block 7D",
+    "source_symbol": "OBJ_LARGE_STAR_STONE_BLOCK_7D"
   },
   "0x7E": {
     "item_id": 126,
-    "name": "Large Star Stone Block 7E"
+    "name": "Large Star Stone Block 7E",
+    "source_symbol": "OBJ_LARGE_STAR_STONE_BLOCK_7E"
   },
   "0x7F": {
     "item_id": 127,
-    "name": "CPU Kirby Trigger"
+    "name": "CPU Kirby Trigger",
+    "source_symbol": "OBJ_CPU_KIRBY_TRIGGER"
   },
   "0x80": {
     "item_id": 128,
-    "name": "Small Chest"
+    "name": "Small Chest",
+    "source_symbol": "OBJ_SMALL_CHEST"
   },
   "0x81": {
     "item_id": 129,
-    "name": "Big Chest"
+    "name": "Big Chest",
+    "source_symbol": "OBJ_BIG_CHEST"
   },
   "0x82": {
     "item_id": 130,
-    "name": "Large Block Controller 0x82"
+    "name": "Large Block Controller 0x82",
+    "source_symbol": "OBJ_UNKNOWN_82"
   },
   "0x83": {
     "item_id": 131,
-    "name": "Respawn Point Marker"
+    "name": "Respawn Point Marker",
+    "source_symbol": "OBJ_UNKNOWN_83"
   },
   "0x84": {
     "item_id": 132,
-    "name": "Warp Star"
+    "name": "Warp Star",
+    "source_symbol": "OBJ_WARP_STAR"
   },
   "0x85": {
     "item_id": 133,
-    "name": "Goal Star"
+    "name": "Goal Star",
+    "source_symbol": "OBJ_GOAL_STAR"
   },
   "0x86": {
     "item_id": 134,
-    "name": "Big Button"
+    "name": "Big Button",
+    "source_symbol": "OBJ_BIG_BUTTON"
   },
   "0x87": {
     "item_id": 135,
-    "name": "Large Block State Marker 0x87"
+    "name": "Large Block State Marker 0x87",
+    "source_symbol": "OBJ_UNKNOWN_87"
   },
   "0x88": {
     "item_id": 136,
-    "name": "Large Star Stone Block 88"
+    "name": "Large Star Stone Block 88",
+    "source_symbol": "OBJ_LARGE_STAR_STONE_BLOCK_88"
   },
   "0x89": {
     "item_id": 137,
-    "name": "Large Star Stone Block 89"
+    "name": "Large Star Stone Block 89",
+    "source_symbol": "OBJ_LARGE_STAR_STONE_BLOCK_89"
   },
   "0x8A": {
     "item_id": 138,
-    "name": "Cannon"
+    "name": "Cannon",
+    "source_symbol": "OBJ_CANNON"
   },
   "0x8B": {
     "item_id": 139,
-    "name": "8 Dir Cannon"
+    "name": "8 Dir Cannon",
+    "source_symbol": "OBJ_8_DIR_CANNON"
   },
   "0x8C": {
     "item_id": 140,
-    "name": "Hub Mirror"
+    "name": "Hub Mirror",
+    "source_symbol": "OBJ_HUB_MIRROR"
   },
   "0x8D": {
     "item_id": 141,
-    "name": "Hammer Peg"
+    "name": "Hammer Peg",
+    "source_symbol": "OBJ_HAMMER_PEG"
   },
   "0x8E": {
     "item_id": 142,
-    "name": "Cutscene Trigger"
+    "name": "Cutscene Trigger",
+    "source_symbol": "OBJ_CUTSCENE_TRIGGER"
   },
   "0x8F": {
     "item_id": 143,
-    "name": "Master Sword Unobtainable"
+    "name": "Master Sword Unobtainable",
+    "source_symbol": "OBJ_MASTER_SWORD_UNOBTAINABLE"
   },
   "0x90": {
     "item_id": 144,
-    "name": "Wind Effect"
+    "name": "Wind Effect",
+    "source_symbol": "OBJ_WIND_EFFECT"
   },
   "0x91": {
     "item_id": 145,
-    "name": "Triggerable Wall"
+    "name": "Triggerable Wall",
+    "source_symbol": "OBJ_TRIGGERABLE_WALL"
   },
   "0x92": {
     "item_id": 146,
-    "name": "Ability Statue 1"
+    "name": "Ability Statue 1",
+    "source_symbol": "OBJ_ABILITY_STATUE_1"
   },
   "0x93": {
     "item_id": 147,
-    "name": "Ability Statue 2"
+    "name": "Ability Statue 2",
+    "source_symbol": "OBJ_ABILITY_STATUE_2"
   },
   "0x94": {
     "item_id": 148,
-    "name": "Ability Statue 3"
+    "name": "Ability Statue 3",
+    "source_symbol": "OBJ_ABILITY_STATUE_3"
   },
   "0x95": {
     "item_id": 149,
-    "name": "Ability Statue 4"
+    "name": "Ability Statue 4",
+    "source_symbol": "OBJ_ABILITY_STATUE_4"
   },
   "0x96": {
     "item_id": 150,
-    "name": "Ability Statue Random"
+    "name": "Ability Statue Random",
+    "source_symbol": "OBJ_ABILITY_STATUE_RANDOM"
   },
   "0x97": {
     "item_id": 151,
-    "name": "Door To Hub"
+    "name": "Door To Hub",
+    "source_symbol": "OBJ_DOOR_TO_HUB"
   },
   "0x98": {
     "item_id": 152,
-    "name": "Master Sword Stand"
+    "name": "Master Sword Stand",
+    "source_symbol": "OBJ_MASTER_SWORD_STAND"
   },
   "0x99": {
     "item_id": 153,
-    "name": "Area Door"
+    "name": "Area Door",
+    "source_symbol": "OBJ_AREA_DOOR"
   },
   "0x9A": {
     "item_id": 154,
-    "name": "Empty 9A"
+    "name": "Empty 9A",
+    "source_symbol": "OBJ_EMPTY_9A"
   },
   "0x9B": {
     "item_id": 155,
-    "name": "King Golem Rock"
+    "name": "King Golem Rock",
+    "source_symbol": "OBJ_KING_GOLEM_ROCK"
   },
   "0x9C": {
     "item_id": 156,
-    "name": "King Golem Gordo"
+    "name": "King Golem Gordo",
+    "source_symbol": "OBJ_KING_GOLEM_GORDO"
   },
   "0x9D": {
     "item_id": 157,
-    "name": "Foley Leaves"
+    "name": "Foley Leaves",
+    "source_symbol": "OBJ_FOLEY_LEAVES"
   },
   "0x9E": {
     "item_id": 158,
-    "name": "Cookin Pan"
+    "name": "Cookin Pan",
+    "source_symbol": "OBJ_COOKIN_PAN"
   },
   "0x9F": {
     "item_id": 159,
-    "name": "Gobbler Baby"
+    "name": "Gobbler Baby",
+    "source_symbol": "OBJ_GOBBLER_BABY"
   },
   "0xA0": {
     "item_id": 160,
-    "name": "Unknown A0"
+    "name": "Unknown A0",
+    "source_symbol": "OBJ_UNKNOWN_A0"
   },
   "0xA1": {
     "item_id": 161,
-    "name": "Batafire Fireball"
+    "name": "Batafire Fireball",
+    "source_symbol": "OBJ_BATAFIRE_FIREBALL"
   },
   "0xA2": {
     "item_id": 162,
-    "name": "Parasol"
+    "name": "Parasol",
+    "source_symbol": "OBJ_PARASOL"
   },
   "0xA3": {
     "item_id": 163,
-    "name": "Ability Star 1"
+    "name": "Ability Star 1",
+    "source_symbol": "OBJ_ABILITY_STAR_1"
   },
   "0xA4": {
     "item_id": 164,
-    "name": "Ability Star 2"
+    "name": "Ability Star 2",
+    "source_symbol": "OBJ_ABILITY_STAR_2"
   },
   "0xA5": {
     "item_id": 165,
-    "name": "Inhalable Star"
+    "name": "Inhalable Star",
+    "source_symbol": "OBJ_INHALABLE_STAR"
   },
   "0xA6": {
     "item_id": 166,
-    "name": "Mr Frosty Ice Cube Small"
+    "name": "Mr Frosty Ice Cube Small",
+    "source_symbol": "OBJ_MR_FROSTY_ICE_CUBE_SMALL"
   },
   "0xA7": {
     "item_id": 167,
-    "name": "Mr Frosty Ice Cube Large"
+    "name": "Mr Frosty Ice Cube Large",
+    "source_symbol": "OBJ_MR_FROSTY_ICE_CUBE_LARGE"
   },
   "0xA8": {
     "item_id": 168,
-    "name": "Bonkers Nut Small"
+    "name": "Bonkers Nut Small",
+    "source_symbol": "OBJ_BONKERS_NUT_SMALL"
   },
   "0xA9": {
     "item_id": 169,
-    "name": "Bonkers Nut Large"
+    "name": "Bonkers Nut Large",
+    "source_symbol": "OBJ_BONKERS_NUT_LARGE"
   },
   "0xAA": {
     "item_id": 170,
-    "name": "Apple"
+    "name": "Apple",
+    "source_symbol": "OBJ_APPLE"
   },
   "0xAB": {
     "item_id": 171,
-    "name": "Prank Fire"
+    "name": "Prank Fire",
+    "source_symbol": "OBJ_PRANK_FIRE"
   },
   "0xAC": {
     "item_id": 172,
-    "name": "Prank Ice"
+    "name": "Prank Ice",
+    "source_symbol": "OBJ_PRANK_ICE"
   },
   "0xAD": {
     "item_id": 173,
-    "name": "Prank Bomb"
+    "name": "Prank Bomb",
+    "source_symbol": "OBJ_PRANK_BOMB"
   },
   "0xAE": {
     "item_id": 174,
-    "name": "Prank Pan"
+    "name": "Prank Pan",
+    "source_symbol": "OBJ_PRANK_PAN"
   },
   "0xAF": {
     "item_id": 175,
-    "name": "Banana Peel"
+    "name": "Banana Peel",
+    "source_symbol": "OBJ_BANANA_PEEL"
   },
   "0xB0": {
     "item_id": 176,
-    "name": "Boxy Box"
+    "name": "Boxy Box",
+    "source_symbol": "OBJ_BOXY_BOX"
   },
   "0xB1": {
     "item_id": 177,
-    "name": "Shooting Enemy Star"
+    "name": "Shooting Enemy Star",
+    "source_symbol": "OBJ_SHOOTING_ENEMY_STAR"
   },
   "0xB2": {
     "item_id": 178,
-    "name": "Bombar Bomb"
+    "name": "Bombar Bomb",
+    "source_symbol": "OBJ_BOMBAR_BOMB"
   },
   "0xB3": {
     "item_id": 179,
-    "name": "Bombar Missile"
+    "name": "Bombar Missile",
+    "source_symbol": "OBJ_BOMBAR_MISSILE"
   },
   "0xB4": {
     "item_id": 180,
-    "name": "Box Boxer Energy Ball"
+    "name": "Box Boxer Energy Ball",
+    "source_symbol": "OBJ_BOX_BOXER_ENERGY_BALL"
   },
   "0xB5": {
     "item_id": 181,
-    "name": "Wiz Football"
+    "name": "Wiz Football",
+    "source_symbol": "OBJ_WIZ_FOOTBALL"
   },
   "0xB6": {
     "item_id": 182,
-    "name": "Wiz Car"
+    "name": "Wiz Car",
+    "source_symbol": "OBJ_WIZ_CAR"
   },
   "0xB7": {
     "item_id": 183,
-    "name": "Wiz Balloon"
+    "name": "Wiz Balloon",
+    "source_symbol": "OBJ_WIZ_BALLOON"
   },
   "0xB8": {
     "item_id": 184,
-    "name": "Wiz Bomb"
+    "name": "Wiz Bomb",
+    "source_symbol": "OBJ_WIZ_BOMB"
   },
   "0xB9": {
     "item_id": 185,
-    "name": "Wiz Cloud"
+    "name": "Wiz Cloud",
+    "source_symbol": "OBJ_WIZ_CLOUD"
   },
   "0xBA": {
     "item_id": 186,
-    "name": "Wiz Apple"
+    "name": "Wiz Apple",
+    "source_symbol": "OBJ_WIZ_APPLE"
   },
   "0xBB": {
     "item_id": 187,
-    "name": "Wiz Droppy"
+    "name": "Wiz Droppy",
+    "source_symbol": "OBJ_WIZ_DROPPY"
   },
   "0xBC": {
     "item_id": 188,
-    "name": "Titan Arm 1"
+    "name": "Titan Arm 1",
+    "source_symbol": "OBJ_TITAN_ARM_1"
   },
   "0xBD": {
     "item_id": 189,
-    "name": "Titan Arm 2"
+    "name": "Titan Arm 2",
+    "source_symbol": "OBJ_TITAN_ARM_2"
   },
   "0xBE": {
     "item_id": 190,
-    "name": "Titan Arm 3"
+    "name": "Titan Arm 3",
+    "source_symbol": "OBJ_TITAN_ARM_3"
   },
   "0xBF": {
     "item_id": 191,
-    "name": "Titan Arm 4"
+    "name": "Titan Arm 4",
+    "source_symbol": "OBJ_TITAN_ARM_4"
   },
   "0xC0": {
     "item_id": 192,
-    "name": "Titan Head Missile"
+    "name": "Titan Head Missile",
+    "source_symbol": "OBJ_TITAN_HEAD_MISSILE"
   },
   "0xC1": {
     "item_id": 193,
-    "name": "Moley Rock"
+    "name": "Moley Rock",
+    "source_symbol": "OBJ_MOLEY_ROCK"
   },
   "0xC2": {
     "item_id": 194,
-    "name": "Moley Screw"
+    "name": "Moley Screw",
+    "source_symbol": "OBJ_MOLEY_SCREW"
   },
   "0xC3": {
     "item_id": 195,
-    "name": "Moley Tire"
+    "name": "Moley Tire",
+    "source_symbol": "OBJ_MOLEY_TIRE"
   },
   "0xC4": {
     "item_id": 196,
-    "name": "Moley Bomb"
+    "name": "Moley Bomb",
+    "source_symbol": "OBJ_MOLEY_BOMB"
   },
   "0xC5": {
     "item_id": 197,
-    "name": "Moley Big Rock"
+    "name": "Moley Big Rock",
+    "source_symbol": "OBJ_MOLEY_BIG_ROCK"
   },
   "0xC6": {
     "item_id": 198,
-    "name": "Moley Barrel"
+    "name": "Moley Barrel",
+    "source_symbol": "OBJ_MOLEY_BARREL"
   },
   "0xC7": {
     "item_id": 199,
-    "name": "Moley Spike Ball"
+    "name": "Moley Spike Ball",
+    "source_symbol": "OBJ_MOLEY_SPIKE_BALL"
   },
   "0xC8": {
     "item_id": 200,
-    "name": "Master Hand Bullet"
+    "name": "Master Hand Bullet",
+    "source_symbol": "OBJ_MASTER_HAND_BULLET"
   },
   "0xC9": {
     "item_id": 201,
-    "name": "Thrown Bomb 2"
+    "name": "Thrown Bomb 2",
+    "source_symbol": "OBJ_THROWN_BOMB_2"
   },
   "0xCA": {
     "item_id": 202,
-    "name": "Shadow Kirby Bomb"
+    "name": "Shadow Kirby Bomb",
+    "source_symbol": "OBJ_SHADOW_KIRBY_BOMB"
   },
   "0xCB": {
     "item_id": 203,
-    "name": "Dark Mind Star Fire"
+    "name": "Dark Mind Star Fire",
+    "source_symbol": "OBJ_DARK_MIND_STAR_FIRE"
   },
   "0xCC": {
     "item_id": 204,
-    "name": "Dark Mind Star Ice"
+    "name": "Dark Mind Star Ice",
+    "source_symbol": "OBJ_DARK_MIND_STAR_ICE"
   },
   "0xCD": {
     "item_id": 205,
-    "name": "Dark Mind Star Spark"
+    "name": "Dark Mind Star Spark",
+    "source_symbol": "OBJ_DARK_MIND_STAR_SPARK"
   },
   "0xCE": {
     "item_id": 206,
-    "name": "Dark Mind Star Mix"
+    "name": "Dark Mind Star Mix",
+    "source_symbol": "OBJ_DARK_MIND_STAR_MIX"
   },
   "0xCF": {
     "item_id": 207,
-    "name": "Unknown Cf"
+    "name": "Unknown Cf",
+    "source_symbol": "OBJ_UNKNOWN_CF"
   },
   "0xD0": {
     "item_id": 208,
-    "name": "Unknown D0"
+    "name": "Unknown D0",
+    "source_symbol": "OBJ_UNKNOWN_D0"
   },
   "0xD1": {
     "item_id": 209,
-    "name": "Dark Mind Laser"
+    "name": "Dark Mind Laser",
+    "source_symbol": "OBJ_DARK_MIND_LASER"
   },
   "0xD2": {
     "item_id": 210,
-    "name": "Dark Mind Laser Shower"
+    "name": "Dark Mind Laser Shower",
+    "source_symbol": "OBJ_DARK_MIND_LASER_SHOWER"
   },
   "0xD3": {
     "item_id": 211,
-    "name": "Dark Mind Mirror Cutter"
+    "name": "Dark Mind Mirror Cutter",
+    "source_symbol": "OBJ_DARK_MIND_MIRROR_CUTTER"
   },
   "0xD4": {
     "item_id": 212,
-    "name": "Unknown D4"
+    "name": "Unknown D4",
+    "source_symbol": "OBJ_UNKNOWN_D4"
   },
   "0xD5": {
     "item_id": 213,
-    "name": "Sir Kibble Cutter"
+    "name": "Sir Kibble Cutter",
+    "source_symbol": "OBJ_SIR_KIBBLE_CUTTER"
   },
   "0xD6": {
     "item_id": 214,
-    "name": "Glunk Bullet"
+    "name": "Glunk Bullet",
+    "source_symbol": "OBJ_GLUNK_BULLET"
   },
   "0xD7": {
     "item_id": 215,
-    "name": "Shotzo Bullet"
+    "name": "Shotzo Bullet",
+    "source_symbol": "OBJ_SHOTZO_BULLET"
   },
   "0xD8": {
     "item_id": 216,
-    "name": "Cupie Arrow"
+    "name": "Cupie Arrow",
+    "source_symbol": "OBJ_CUPIE_ARROW"
   },
   "0xD9": {
     "item_id": 217,
-    "name": "Jack Star"
+    "name": "Jack Star",
+    "source_symbol": "OBJ_JACK_STAR"
   },
   "0xDA": {
     "item_id": 218,
-    "name": "Shooty Bomb"
+    "name": "Shooty Bomb",
+    "source_symbol": "OBJ_SHOOTY_BOMB"
   },
   "0xDB": {
     "item_id": 219,
