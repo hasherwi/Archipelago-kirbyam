@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "rom": "Kirby & The Amazing Mirror (USA).gba",
+    "rom": "external:ROMs/Kirby & The Amazing Mirror (USA).gba",
     "rom_sha256": "cfb194cd0cb373787094a962852e3e564fb2ecdb0609fe065afdd8de3f4e11f1",
-    "amr_items": "items.json",
+    "amr_items": "external:JSON/items.json",
     "amr_items_sha256": "ba82ef182efcef45a3031720e9e1980d8bf4b92d0ede636de50973d70d01a368",
     "rooms": "worlds/kirbyam/data/regions/rooms.json",
     "rooms_sha256": "cd1df1420687f6fe261caace2a5419d6433ff82a87faea9adcbf34eb637c01a9",

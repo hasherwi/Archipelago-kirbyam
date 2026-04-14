@@ -230,10 +230,15 @@ def classify_reward_profile(native_group: str, chest_flag_index: int, treasure_i
 
 
 def metadata_path(path: Path, repo_root: Path) -> str:
+    resolved_path = path.resolve()
+    resolved_repo_root = repo_root.resolve()
     try:
-        return str(path.resolve().relative_to(repo_root.resolve())).replace("\\", "/")
+        return str(resolved_path.relative_to(resolved_repo_root)).replace("\\", "/")
     except ValueError:
-        return path.name
+        parent_name = resolved_path.parent.name
+        if parent_name:
+            return f"external:{parent_name}/{resolved_path.name}"
+        return f"external:{resolved_path.name}"
 
 
 def normalize_rom_address(addr: int) -> int:
