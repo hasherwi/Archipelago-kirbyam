@@ -531,7 +531,27 @@ static void ap_grant_lives(uint8_t amount) {
 
 // --- Trap effect helpers ---
 
+static uint8_t ap_one_hit_mode_runtime_enabled(void) {
+    uint32_t mode = AP_ONE_HIT_MODE_RUNTIME;
+    if (mode == 0xFFFFFFFFu) {
+        return 0u;
+    }
+    return mode != 0u;
+}
+
+static uint8_t ap_no_extra_lives_runtime_enabled(void) {
+    uint32_t enabled = AP_NO_EXTRA_LIVES_RUNTIME;
+    if (enabled == 0xFFFFFFFFu) {
+        return 0u;
+    }
+    return enabled != 0u;
+}
+
 static void ap_trap_health_down(void) {
+    if (ap_one_hit_mode_runtime_enabled() != 0u) {
+        return;
+    }
+
     uint32_t kirby_addr = ap_get_active_kirby_addr();
     int8_t hp = *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET);
     if (hp <= 1) {
@@ -545,6 +565,10 @@ static void ap_trap_health_down(void) {
 }
 
 static void ap_trap_life_down(void) {
+    if (ap_no_extra_lives_runtime_enabled() != 0u) {
+        return;
+    }
+
     uint8_t lives = KIRBY_LIVES;
     if (lives == 0u) {
         return;

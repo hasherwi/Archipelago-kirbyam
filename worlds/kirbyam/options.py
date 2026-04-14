@@ -159,8 +159,8 @@ class NoExtraLives(Toggle):
 class EnableTraps(Toggle):
     """
     Allow negative trap items to appear in the randomized item pool.
-        Off by default.
-        When disabled, no KirbyAM traps are placed.
+    Off by default.
+    When disabled, no KirbyAM traps are placed.
     """
     display_name = "Enable Traps"
     default = 0

@@ -399,12 +399,6 @@ class KirbyAmClient(BizHawkClient):
         except (TypeError, ValueError):
             return OneHitMode.option_off
 
-    def _traps_enabled(self, ctx: "BizHawkClientContext") -> bool:
-        slot_data = getattr(ctx, "slot_data", None)
-        if not isinstance(slot_data, dict):
-            return False
-        return self._coerce_bool(slot_data.get("enable_traps", False), False)
-
     @staticmethod
     def _is_trap_item(item_id: int) -> bool:
         """Return True if item_id is a trap item."""
@@ -1375,16 +1369,17 @@ class KirbyAmClient(BizHawkClient):
         if not isinstance(slot_data, dict):
             return
 
+        # Legacy/minimal test contexts may not include these slot keys.
+        # Real KirbyAM slot_data always includes both keys explicitly.
+        if "one_hit_mode" not in slot_data and "no_extra_lives" not in slot_data:
+            return
+
         one_hit_mode = self._one_hit_mode_value(ctx)
         no_extra_lives = 1 if self._no_extra_lives_enabled(ctx) else 0
         signature = (one_hit_mode, no_extra_lives)
 
-        # When both challenge modes are off, no ROM write is needed:
-        # the payload initializes AP_ONE_HIT_MODE_RUNTIME and AP_NO_EXTRA_LIVES_RUNTIME
-        # to 0xFFFFFFFF (the "not synced / treat as off" sentinel) on cold boot.
-        if one_hit_mode == 0 and no_extra_lives == 0:
-            self._last_challenge_runtime_config_signature = signature
-            return
+        # Always synchronize explicit off values to prevent stale non-zero mailbox
+        # values from previous sessions affecting runtime trap behavior.
 
         one_hit_addr = self._transport_addr("one_hit_mode_runtime")
         no_extra_lives_addr = self._transport_addr("no_extra_lives_runtime")
