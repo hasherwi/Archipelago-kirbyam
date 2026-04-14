@@ -157,30 +157,30 @@ class NoExtraLives(Toggle):
 
 
 class EnableTraps(Toggle):
-        """
-        Allow negative trap items to appear in the randomized item pool.
-            Off by default.
-            When disabled, no KirbyAM traps are placed.
-        """
-        display_name = "Enable Traps"
-        default = 0
+    """
+    Allow negative trap items to appear in the randomized item pool.
+        Off by default.
+        When disabled, no KirbyAM traps are placed.
+    """
+    display_name = "Enable Traps"
+    default = 0
 
 
 class TrapFillPercentage(Range):
-        """
-        Sets what percentage of eligible filler slots become traps when `Enable Traps` is on.
+    """
+    Sets what percentage of eligible filler slots become traps when `Enable Traps` is on.
 
-        Eligible filler slots are the locations left after all progression/useful items are placed.
-        Trap items are sampled with replacement, so duplicate traps are allowed when the pool is large enough.
+    Eligible filler slots are the locations left after all progression/useful items are placed.
+    Trap items are sampled with replacement, so duplicate traps are allowed when the pool is large enough.
 
-        - 0: No filler slots become traps.
-        - 25: One quarter of eligible filler slots become traps. Default.
-        - 100: Every eligible filler slot becomes a trap.
-        """
-        display_name = "Trap Fill Percentage"
-        range_start = 0
-        range_end = 100
-        default = 25
+    - 0: No filler slots become traps.
+    - 25: One quarter of eligible filler slots become traps. Default.
+    - 100: Every eligible filler slot becomes a trap.
+    """
+    display_name = "Trap Fill Percentage"
+    range_start = 0
+    range_end = 100
+    default = 25
 
 
 class OneHitMode(Choice):
