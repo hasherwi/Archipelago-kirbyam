@@ -29,6 +29,19 @@ ROOM_PROPS_OBJECT_LIST_IDX_OFFSET = 0x20
 ROOM_PROPS_DOORS_IDX_OFFSET = 0x24
 AMR_SMALL_CHEST_ITEM_OFFSET = 0x0E
 AMR_SMALL_CHEST_INDEX_OFFSET = 0x11
+AMR_CHEST_ENTRY_SIZE = 6
+
+NATIVE_ITEM_NAME_BY_ID = {
+    0x00: "None",
+    0x5E: "Small Food",
+    0x5F: "Energy Drink",
+    0x60: "Hunk of Meat",
+    0x61: "Max Tomato",
+    0x62: "Cell Phone Battery",
+    0x63: "1-Up",
+    0x64: "Invincibility Candy",
+    0x65: "Mirror Shard",
+}
 
 
 def load_json(path: Path) -> dict:
@@ -84,6 +97,14 @@ def normalize_rom_address(addr: int) -> int:
     return addr
 
 
+def native_item_name(item_id: int) -> str:
+    return NATIVE_ITEM_NAME_BY_ID.get(item_id, f"Unknown (0x{item_id:02X})")
+
+
+def native_treasure_name(treasure_id: int) -> str:
+    return f"Collection Treasure #{treasure_id:02d}"
+
+
 def main() -> int:
     repo_root = Path(__file__).resolve().parents[3]
     amr_items_default, rooms_default, output_default = resolve_default_paths(repo_root)
@@ -115,12 +136,13 @@ def main() -> int:
     if not isinstance(small_chest_data, dict):
         raise ValueError("AMR items.json missing SmallChest block")
 
+    chest_item_values = small_chest_data.get("item")
     chest_addresses = small_chest_data.get("address")
     amr_room_slots = small_chest_data.get("room")
-    if not isinstance(chest_addresses, list) or not isinstance(amr_room_slots, list):
-        raise ValueError("AMR SmallChest.address and SmallChest.room must be lists")
-    if len(chest_addresses) != len(amr_room_slots):
-        raise ValueError("AMR SmallChest.address and SmallChest.room length mismatch")
+    if not isinstance(chest_item_values, list) or not isinstance(chest_addresses, list) or not isinstance(amr_room_slots, list):
+        raise ValueError("AMR SmallChest.item, SmallChest.address, and SmallChest.room must be lists")
+    if len(chest_item_values) != len(chest_addresses) or len(chest_addresses) != len(amr_room_slots):
+        raise ValueError("AMR SmallChest.item/address/room length mismatch")
 
     doors_idx_to_room_keys = build_doors_idx_to_room_keys(rooms)
     room_props = parse_groomprops(rom_bytes)
@@ -131,16 +153,29 @@ def main() -> int:
 
     manifest_entries: list[dict] = []
     slot_counts: dict[int, int] = defaultdict(int)
+    item_counts: dict[int, int] = defaultdict(int)
     ambiguous_entries = 0
 
-    for index, (raw_address, amr_room_slot) in enumerate(zip(chest_addresses, amr_room_slots)):
+    for index, (packed_item_value, raw_address, amr_room_slot) in enumerate(
+        zip(chest_item_values, chest_addresses, amr_room_slots)
+    ):
         rom_offset = normalize_rom_address(int(raw_address))
-        if rom_offset + AMR_SMALL_CHEST_INDEX_OFFSET >= len(rom_bytes):
+        if rom_offset + AMR_CHEST_ENTRY_SIZE > len(rom_bytes):
             raise ValueError(
                 f"Chest entry out of ROM bounds: index={index}, address=0x{int(raw_address):08X}"
             )
 
+        amr_entry_payload = int(packed_item_value).to_bytes(6, "big")
+        payload_b0 = amr_entry_payload[0]
+        payload_b1 = amr_entry_payload[1]
+        payload_b2 = amr_entry_payload[2]
+        payload_b3 = amr_entry_payload[3]
+        payload_b4 = amr_entry_payload[4]
+        payload_b5 = amr_entry_payload[5]
+        rom_payload = rom_bytes[rom_offset:rom_offset + AMR_CHEST_ENTRY_SIZE]
+
         item_id = rom_bytes[rom_offset + AMR_SMALL_CHEST_ITEM_OFFSET]
+        item_name = native_item_name(item_id)
         chest_index = rom_bytes[rom_offset + AMR_SMALL_CHEST_INDEX_OFFSET]
 
         native_candidates = native_by_object_list_idx.get(int(amr_room_slot), [])
@@ -156,6 +191,7 @@ def main() -> int:
             ambiguous_entries += 1
 
         slot_counts[int(amr_room_slot)] += 1
+        item_counts[item_id] += 1
 
         manifest_entries.append(
             {
@@ -163,8 +199,23 @@ def main() -> int:
                 "amr_room_slot": int(amr_room_slot),
                 "rom_address": f"0x{int(raw_address):08X}",
                 "rom_offset": f"0x{rom_offset:08X}",
+                "amr_packed_item": int(packed_item_value),
+                "amr_packed_item_hex": amr_entry_payload.hex(),
+                "rom_bytes_at_address_hex": rom_payload.hex(),
+                "entry_type": payload_b0,
+                "entry_type_hex": f"0x{payload_b0:02X}",
+                "entry_marker": payload_b1,
+                "entry_marker_hex": f"0x{payload_b1:02X}",
+                "native_chest_flag_index": payload_b2,
+                "native_chest_flag_index_hex": f"0x{payload_b2:02X}",
+                "native_treasure_id": payload_b3,
+                "native_treasure_id_hex": f"0x{payload_b3:02X}",
+                "native_in_game_item": native_treasure_name(payload_b3),
+                "entry_aux_hi": payload_b4,
+                "entry_aux_lo": payload_b5,
                 "item_id": item_id,
                 "item_id_hex": f"0x{item_id:02X}",
+                "native_item_name": item_name,
                 "chest_index": chest_index,
                 "chest_index_hex": f"0x{chest_index:02X}",
                 "candidate_native_room_ids": native_room_ids,
@@ -191,6 +242,16 @@ def main() -> int:
             }
         )
 
+    item_summary = [
+        {
+            "item_id": item_id,
+            "item_id_hex": f"0x{item_id:02X}",
+            "native_item_name": native_item_name(item_id),
+            "count": count,
+        }
+        for item_id, count in sorted(item_counts.items())
+    ]
+
     manifest = {
         "metadata": {
             "rom": str(rom_path),
@@ -208,6 +269,7 @@ def main() -> int:
             },
         },
         "entries": manifest_entries,
+        "item_summary": item_summary,
         "slot_resolution_summary": slot_resolution_summary,
     }
 
