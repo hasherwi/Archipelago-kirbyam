@@ -284,7 +284,7 @@ def compute_multi_chest_disambiguation(
         native_items = [e["native_in_game_item"] for e in room_entries]
         chest_indices = [e["chest_index"] for e in room_entries]
         item_ids = [e["item_id"] for e in room_entries]
-        flag_indices = sorted(e["native_chest_flag_index"] for e in room_entries)
+        flag_indices = [e["native_chest_flag_index"] for e in room_entries]
 
         native_items_all_distinct = len(set(native_items)) == len(native_items)
         chest_indices_all_distinct = len(set(chest_indices)) == len(chest_indices)
@@ -301,7 +301,8 @@ def compute_multi_chest_disambiguation(
 
         for e in room_entries:
             entry_idx = e["entry_index"]
-            if native_items_all_distinct:
+            native_item_unique = native_items.count(e["native_in_game_item"]) == 1
+            if native_item_unique:
                 others = [x["native_in_game_item"] for x in room_entries if x["entry_index"] != entry_idx]
                 per_entry[entry_idx] = {
                     "room_key": room_key,
@@ -345,6 +346,15 @@ def compute_multi_chest_disambiguation(
                 "native_in_game_items": native_items,
                 "chest_indices_hex": [f"0x{ci:02X}" for ci in chest_indices],
                 "item_ids_hex": [f"0x{ii:02X}" for ii in item_ids],
+                "per_chest": [
+                    {
+                        "native_chest_flag_index": e["native_chest_flag_index"],
+                        "native_in_game_item": e["native_in_game_item"],
+                        "chest_index_hex": e["chest_index_hex"],
+                        "item_id_hex": e["item_id_hex"],
+                    }
+                    for e in room_entries
+                ],
                 "disambiguation_status": room_status,
             }
         )
