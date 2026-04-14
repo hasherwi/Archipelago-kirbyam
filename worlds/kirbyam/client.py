@@ -1374,8 +1374,8 @@ class KirbyAmClient(BizHawkClient):
         if "one_hit_mode" not in slot_data and "no_extra_lives" not in slot_data:
             return
 
-        one_hit_mode = self._one_hit_mode_value(ctx)
-        no_extra_lives = 1 if self._no_extra_lives_enabled(ctx) else 0
+        one_hit_mode = self._one_hit_mode_value(ctx) & 0xFFFFFFFF
+        no_extra_lives = (1 if self._no_extra_lives_enabled(ctx) else 0) & 0xFFFFFFFF
         signature = (one_hit_mode, no_extra_lives)
 
         # Always synchronize explicit off values to prevent stale non-zero mailbox
@@ -1404,8 +1404,8 @@ class KirbyAmClient(BizHawkClient):
 
         self._challenge_runtime_config_revalidate_counter = 0
         await bizhawk.write(ctx.bizhawk_ctx, [
-            (one_hit_addr, int(one_hit_mode).to_bytes(4, "little"), "System Bus"),
-            (no_extra_lives_addr, int(no_extra_lives).to_bytes(4, "little"), "System Bus"),
+            (one_hit_addr, one_hit_mode.to_bytes(4, "little"), "System Bus"),
+            (no_extra_lives_addr, no_extra_lives.to_bytes(4, "little"), "System Bus"),
         ])
         self._last_challenge_runtime_config_signature = signature
 

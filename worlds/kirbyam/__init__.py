@@ -606,7 +606,7 @@ class KirbyAmWorld(World):
                     dict(sorted(vitality_code_counts.items())),
                 )
                 logger.info(
-                    "[P%s] Trap pool summary: enabled=%s percentage=%s eligible_filler_slots=%s selected_traps=%s filler_replacements=%s",
+                    "[P%s] Trap pool summary: enabled=%s percentage=%s eligible_filler_slots=%s selected_traps=%s filler_remaining=%s",
                     self.player,
                     self._traps_enabled(),
                     self._trap_fill_percentage(),
