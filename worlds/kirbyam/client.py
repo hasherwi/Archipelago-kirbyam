@@ -305,6 +305,9 @@ class KirbyAmClient(BizHawkClient):
         self._cached_delivered_map_bits = 0
         self._cached_map_bits_index = 0
         self._cached_map_bits_items_len = 0
+        # Reset hub-switch baseline on reconnect so new session can re-capture baseline from current ROM state
+        self._hub_switch_session_initialized = False
+        self._hub_switch_baseline_mask = None
 
     def _no_extra_lives_enabled(self, ctx: "BizHawkClientContext") -> bool:
         slot_data = getattr(ctx, "slot_data", None)
