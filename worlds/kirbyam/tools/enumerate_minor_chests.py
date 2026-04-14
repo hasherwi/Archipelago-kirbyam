@@ -36,47 +36,32 @@ AMR_SMALL_CHEST_INDEX_OFFSET = 0x11
 AMR_PACKED_ITEM_SIZE = 6
 ROM_ENTRY_READ_SIZE = max(AMR_SMALL_CHEST_ITEM_OFFSET, AMR_SMALL_CHEST_INDEX_OFFSET) + 1
 
-NATIVE_ITEM_NAME_BY_ID = {
-    0x00: "None",
-    0x01: "Bronto Burt",
-    0x06: "Gordo",
-    0x04: "Squishy",
-    0x05: "Scarfy",
-    0x0B: "Roly Poly",
-    0x0C: "Cupie",
-    0x0D: "Blockin",
-    0x12: "Waddle Doo",
-    0x18: "Sir Kibble",
-    0x27: "Minny",
-    0x2A: "Giant Rocky",
-    0x2B: "Metal Guardian",
-    0x44: "Empty Object Slot 0x44",
-    0x46: "King Golem",
-    0x52: "Dark Meta Knight W8",
-    0x55: "Empty Object Slot 0x55",
-    0x5E: "Small Food",
-    0x5F: "Energy Drink",
-    0x60: "Hunk of Meat",
-    0x61: "Max Tomato",
-    0x62: "Cell Phone Battery",
-    0x63: "1-Up",
-    0x64: "Invincibility Candy",
-    0x65: "Mirror Shard",
-    0x69: "Goal Game Bonus",
-    0x80: "Small Chest",
-    0x81: "Big Chest",
-    0x82: "Large Block Controller 0x82",
-    0x83: "Respawn Point Marker",
-    0x84: "Warp Star",
-    0x87: "Large Block State Marker 0x87",
-    0xA9: "Bonkers Nut Large",
-    0xFF: "No Direct Item (0xFF)",
-}
-
 
 def load_json(path: Path) -> dict:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def load_native_item_name_by_id(kirbyam_dir: Path) -> dict[int, str]:
+    mapping_path = kirbyam_dir / "data" / "native_item_id_to_name_mapping.json"
+    mapping_data = load_json(mapping_path)
+    if not isinstance(mapping_data, dict):
+        raise ValueError(f"Native item mapping must be a JSON object: {mapping_path}")
+
+    parsed: dict[int, str] = {}
+    for key, value in mapping_data.items():
+        if not isinstance(key, str):
+            raise ValueError(f"Invalid native item mapping key: {key!r}")
+
+        if isinstance(value, str):
+            name = value
+        elif isinstance(value, dict) and isinstance(value.get("name"), str):
+            name = value["name"]
+        else:
+            raise ValueError(f"Invalid native item mapping entry: key={key!r}, value={value!r}")
+
+        parsed[int(key, 16)] = name
+    return parsed
 
 
 def build_doors_idx_to_room_keys(rooms: dict) -> dict[int, list[str]]:
@@ -259,12 +244,12 @@ def normalize_rom_address(addr: int) -> int:
     return addr
 
 
-def native_item_name(item_id: int) -> str:
-    return NATIVE_ITEM_NAME_BY_ID.get(item_id, f"Unknown (0x{item_id:02X})")
+def native_item_name(item_id: int, native_item_name_by_id: dict[int, str]) -> str:
+    return native_item_name_by_id.get(item_id, f"Unknown (0x{item_id:02X})")
 
 
-def item_field_semantics(item_id: int, reward_path: str) -> tuple[str, bool]:
-    base_name = native_item_name(item_id)
+def item_field_semantics(item_id: int, reward_path: str, native_item_name_by_id: dict[int, str]) -> tuple[str, bool]:
+    base_name = native_item_name(item_id, native_item_name_by_id)
     if item_id == 0x00:
         return f"{base_name} (sentinel/no direct chest grant)", False
     if reward_path == "collection_reward":
@@ -319,6 +304,7 @@ def main() -> int:
     collection_codes_by_treasure_id = build_collection_codes_by_treasure_id()
     collection_code_by_chest_flag_index = build_collection_code_by_chest_flag_index()
     major_chest_label_by_index = build_major_chest_label_by_index(kirbyam_dir)
+    native_item_name_by_id = load_native_item_name_by_id(kirbyam_dir)
 
     native_by_object_list_idx: dict[int, list[dict[str, int]]] = defaultdict(list)
     for entry in room_props:
@@ -364,7 +350,7 @@ def main() -> int:
             payload_b2,
             payload_b3,
         )
-        item_name, item_id_is_direct_reward = item_field_semantics(item_id, reward_path)
+        item_name, item_id_is_direct_reward = item_field_semantics(item_id, reward_path, native_item_name_by_id)
 
         native_candidates = native_by_object_list_idx.get(int(amr_room_slot), [])
         native_room_ids = [candidate["native_room_id"] for candidate in native_candidates]
@@ -448,7 +434,7 @@ def main() -> int:
         {
             "item_id": item_id,
             "item_id_hex": f"0x{item_id:02X}",
-            "native_item_name": native_item_name(item_id),
+            "native_item_name": native_item_name(item_id, native_item_name_by_id),
             "count": count,
         }
         for item_id, count in sorted(item_counts.items())
