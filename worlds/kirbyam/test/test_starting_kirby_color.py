@@ -285,7 +285,11 @@ async def test_client_game_watcher_logs_starting_color_once_after_initial_ready_
     with (
         patch.object(client, "_sync_death_link_setting", new=AsyncMock()),
         patch.object(client, "_sync_enemy_copy_ability_runtime_config", new=AsyncMock()),
-        patch.object(client, "_load_debug_settings", side_effect=lambda _ctx: setattr(client, "_debug_logging_enabled", True)),
+        patch.object(
+            client,
+            "_load_debug_settings",
+            side_effect=lambda _ctx: setattr(client, "_debug_logging_enabled", True),
+        ),
         patch.object(client, "_sync_starting_kirby_color_runtime_config", new=AsyncMock()),
         patch.object(client, "_runtime_gameplay_state", new=AsyncMock(return_value=(False, "menu", None))),
         patch.object(client, "_log_boss_shard_debug_window", new=AsyncMock()),
