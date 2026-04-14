@@ -82,6 +82,9 @@ _MAP_ITEM_ID_TO_AREA_ID: dict[int, int] = {
     for item in data.items.values()
     if item.label in _MAP_ITEM_LABEL_TO_AREA_ID
 }
+_ROOM_PROPS_ROM_BASE = 0x009331AC  # gRoomProps[] — ROM domain offset (GBA ROM 0x089331AC)
+_ROOM_PROPS_STRIDE = 0x28  # sizeof(struct RoomProps)
+_ROOM_PROPS_DOORS_IDX_OFFSET = 0x24  # offsetof(struct RoomProps, doorsIdx)
 _MANAGED_NATIVE_MAP_BITMASK = 0
 for area_id in _MAP_ITEM_ID_TO_AREA_ID.values():
     _MANAGED_NATIVE_MAP_BITMASK |= 1 << area_id
@@ -856,7 +859,7 @@ class KirbyAmClient(BizHawkClient):
                     "Unable to load ROM: invalid Kirby and the Amazing Mirror ROM.",
                 )
         except bizhawk.RequestFailedError as exc:
-            self._log_verbose("info", "KirbyAM: ROM header read failed during validation: %s" % (exc,))
+            self._log_verbose("info", "KirbyAM: ROM header read failed during validation: %s", exc)
             return await _fail("header_read_failed", "Unable to load ROM: could not read ROM header data.")
         except Exception:
             self._log_client("error", "KirbyAM: unexpected error during ROM header validation", exc_info=True)
@@ -865,7 +868,7 @@ class KirbyAmClient(BizHawkClient):
         try:
             auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
         except bizhawk.RequestFailedError as exc:
-            self._log_verbose("info", "KirbyAM: ROM auth read failed during validation: %s" % (exc,))
+            self._log_verbose("info", "KirbyAM: ROM auth read failed during validation: %s", exc)
             return await _fail("auth_read_failed", "Unable to load ROM: could not read patch metadata.")
         except Exception:
             self._log_client("error", "KirbyAM: unexpected error during ROM auth validation", exc_info=True)
@@ -892,11 +895,12 @@ class KirbyAmClient(BizHawkClient):
             if not is_thumb_bl_instruction(bytes(hook_bytes)):
                 self._log_client(
                     "warning",
-                    "KirbyAM: main hook callsite at 0x%06X is not patched with a Thumb BL "
-                    "(found=%s). Loaded ROM may be incompatible with this payload build." % (_MAIN_HOOK_OFFSET, bytes(hook_bytes).hex(" "))
+                    "KirbyAM: main hook callsite at 0x%06X is not patched with a Thumb BL (found=%s). Loaded ROM may be incompatible with this payload build.",
+                    _MAIN_HOOK_OFFSET,
+                    bytes(hook_bytes).hex(" ")
                 )
         except Exception as exc:
-            self._log_verbose("info", "KirbyAM: main hook opcode probe failed during validation: %s" % (exc,))
+            self._log_verbose("info", "KirbyAM: main hook opcode probe failed during validation: %s", exc)
 
         self._last_validation_failure_reason = None
 
@@ -1072,7 +1076,7 @@ class KirbyAmClient(BizHawkClient):
             self._last_incoming_death_link_time = None
             self._last_local_alive_state = None
             self._suppress_next_local_death_send = False
-        self._log_client("info", "KirbyAM: DeathLink %s" % ("enabled" if enabled else "disabled",))
+        self._log_client("info", "KirbyAM: DeathLink %s", "enabled" if enabled else "disabled")
 
     async def _sync_enemy_copy_ability_runtime_config(self, ctx: "BizHawkClientContext") -> None:
         """Write enemy copy-ability runtime config into payload mailbox fields."""
@@ -1415,7 +1419,7 @@ class KirbyAmClient(BizHawkClient):
         await bizhawk.write(ctx.bizhawk_ctx, [(hp_addr, (0).to_bytes(1, "little"), "System Bus")])
         self._incoming_death_link_pending = False
         self._suppress_next_local_death_send = True
-        self._log_verbose("info", "KirbyAM: applied incoming DeathLink (hp_addr=0x%08X)" % (hp_addr,))
+        self._log_verbose("info", "KirbyAM: applied incoming DeathLink (hp_addr=0x%08X)", hp_addr)
 
     async def _poll_and_send_local_death_link(self, ctx: "BizHawkClientContext") -> None:
         """Send DeathLink once per alive->dead transition, with loop suppression for received links."""
