@@ -43,7 +43,8 @@
       "entry_aux_lo": 1,
       "item_id": 169,
       "item_id_hex": "0xA9",
-      "native_item_name": "Bonkers Nut Large",
+      "native_item_name": "Bonkers Nut Large (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -82,7 +83,8 @@
       "entry_aux_lo": 2,
       "item_id": 128,
       "item_id_hex": "0x80",
-      "native_item_name": "Small Chest",
+      "native_item_name": "Small Chest (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 13,
       "chest_index_hex": "0x0D",
       "candidate_native_room_ids": [
@@ -129,7 +131,8 @@
       "entry_aux_lo": 3,
       "item_id": 128,
       "item_id_hex": "0x80",
-      "native_item_name": "Small Chest",
+      "native_item_name": "Small Chest (controller/object reference, not direct chest grant)",
+      "item_id_is_direct_reward": false,
       "chest_index": 76,
       "chest_index_hex": "0x4C",
       "candidate_native_room_ids": [
@@ -177,6 +180,7 @@
       "item_id": 12,
       "item_id_hex": "0x0C",
       "native_item_name": "Cupie",
+      "item_id_is_direct_reward": true,
       "chest_index": 1,
       "chest_index_hex": "0x01",
       "candidate_native_room_ids": [
@@ -215,7 +219,8 @@
       "entry_aux_lo": 6,
       "item_id": 13,
       "item_id_hex": "0x0D",
-      "native_item_name": "Blockin",
+      "native_item_name": "Blockin (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 128,
       "chest_index_hex": "0x80",
       "candidate_native_room_ids": [
@@ -254,7 +259,8 @@
       "entry_aux_lo": 7,
       "item_id": 129,
       "item_id_hex": "0x81",
-      "native_item_name": "Big Chest",
+      "native_item_name": "Big Chest (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -293,7 +299,8 @@
       "entry_aux_lo": 8,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -332,7 +339,8 @@
       "entry_aux_lo": 9,
       "item_id": 18,
       "item_id_hex": "0x12",
-      "native_item_name": "Waddle Doo",
+      "native_item_name": "Waddle Doo (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -379,7 +387,8 @@
       "entry_aux_lo": 10,
       "item_id": 129,
       "item_id_hex": "0x81",
-      "native_item_name": "Big Chest",
+      "native_item_name": "Big Chest (controller/object reference, not direct chest grant)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -418,7 +427,8 @@
       "entry_aux_lo": 11,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 2,
       "chest_index_hex": "0x02",
       "candidate_native_room_ids": [
@@ -457,7 +467,8 @@
       "entry_aux_lo": 12,
       "item_id": 13,
       "item_id_hex": "0x0D",
-      "native_item_name": "Blockin",
+      "native_item_name": "Blockin (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -496,7 +507,8 @@
       "entry_aux_lo": 13,
       "item_id": 13,
       "item_id_hex": "0x0D",
-      "native_item_name": "Blockin",
+      "native_item_name": "Blockin (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -543,7 +555,8 @@
       "entry_aux_lo": 14,
       "item_id": 130,
       "item_id_hex": "0x82",
-      "native_item_name": "Large Block Controller 0x82",
+      "native_item_name": "Large Block Controller 0x82 (controller/object reference, not direct chest grant)",
+      "item_id_is_direct_reward": false,
       "chest_index": 13,
       "chest_index_hex": "0x0D",
       "candidate_native_room_ids": [
@@ -582,7 +595,8 @@
       "entry_aux_lo": 16,
       "item_id": 135,
       "item_id_hex": "0x87",
-      "native_item_name": "Large Block State Marker 0x87",
+      "native_item_name": "Large Block State Marker 0x87 (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -621,7 +635,8 @@
       "entry_aux_lo": 17,
       "item_id": 13,
       "item_id_hex": "0x0D",
-      "native_item_name": "Blockin",
+      "native_item_name": "Blockin (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -669,6 +684,7 @@
       "item_id": 5,
       "item_id_hex": "0x05",
       "native_item_name": "Scarfy",
+      "item_id_is_direct_reward": true,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -707,7 +723,8 @@
       "entry_aux_lo": 20,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Bronto Burt",
+      "native_item_name": "Bronto Burt (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 147,
       "chest_index_hex": "0x93",
       "candidate_native_room_ids": [
@@ -746,7 +763,8 @@
       "entry_aux_lo": 21,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 240,
       "chest_index_hex": "0xF0",
       "candidate_native_room_ids": [
@@ -785,7 +803,8 @@
       "entry_aux_lo": 23,
       "item_id": 85,
       "item_id_hex": "0x55",
-      "native_item_name": "Empty Object Slot 0x55",
+      "native_item_name": "Empty Object Slot 0x55 (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 135,
       "chest_index_hex": "0x87",
       "candidate_native_room_ids": [
@@ -824,7 +843,8 @@
       "entry_aux_lo": 24,
       "item_id": 11,
       "item_id_hex": "0x0B",
-      "native_item_name": "Roly Poly",
+      "native_item_name": "Roly Poly (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 85,
       "chest_index_hex": "0x55",
       "candidate_native_room_ids": [
@@ -863,7 +883,8 @@
       "entry_aux_lo": 25,
       "item_id": 4,
       "item_id_hex": "0x04",
-      "native_item_name": "Squishy",
+      "native_item_name": "Squishy (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -902,7 +923,8 @@
       "entry_aux_lo": 26,
       "item_id": 130,
       "item_id_hex": "0x82",
-      "native_item_name": "Large Block Controller 0x82",
+      "native_item_name": "Large Block Controller 0x82 (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -941,7 +963,8 @@
       "entry_aux_lo": 27,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 128,
       "chest_index_hex": "0x80",
       "candidate_native_room_ids": [
@@ -980,7 +1003,8 @@
       "entry_aux_lo": 28,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 128,
       "chest_index_hex": "0x80",
       "candidate_native_room_ids": [
@@ -1019,7 +1043,8 @@
       "entry_aux_lo": 29,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1067,6 +1092,7 @@
       "item_id": 1,
       "item_id_hex": "0x01",
       "native_item_name": "Bronto Burt",
+      "item_id_is_direct_reward": true,
       "chest_index": 136,
       "chest_index_hex": "0x88",
       "candidate_native_room_ids": [
@@ -1105,7 +1131,8 @@
       "entry_aux_lo": 31,
       "item_id": 129,
       "item_id_hex": "0x81",
-      "native_item_name": "Big Chest",
+      "native_item_name": "Big Chest (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1144,7 +1171,8 @@
       "entry_aux_lo": 32,
       "item_id": 70,
       "item_id_hex": "0x46",
-      "native_item_name": "King Golem",
+      "native_item_name": "King Golem (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 2,
       "chest_index_hex": "0x02",
       "candidate_native_room_ids": [
@@ -1183,7 +1211,8 @@
       "entry_aux_lo": 33,
       "item_id": 39,
       "item_id_hex": "0x27",
-      "native_item_name": "Minny",
+      "native_item_name": "Minny (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1222,7 +1251,8 @@
       "entry_aux_lo": 34,
       "item_id": 43,
       "item_id_hex": "0x2B",
-      "native_item_name": "Metal Guardian",
+      "native_item_name": "Metal Guardian (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1261,7 +1291,8 @@
       "entry_aux_lo": 35,
       "item_id": 128,
       "item_id_hex": "0x80",
-      "native_item_name": "Small Chest",
+      "native_item_name": "Small Chest (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1309,6 +1340,7 @@
       "item_id": 13,
       "item_id_hex": "0x0D",
       "native_item_name": "Blockin",
+      "item_id_is_direct_reward": true,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1347,7 +1379,8 @@
       "entry_aux_lo": 37,
       "item_id": 6,
       "item_id_hex": "0x06",
-      "native_item_name": "Gordo",
+      "native_item_name": "Gordo (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1386,7 +1419,8 @@
       "entry_aux_lo": 38,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Bronto Burt",
+      "native_item_name": "Bronto Burt (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 36,
       "chest_index_hex": "0x24",
       "candidate_native_room_ids": [
@@ -1425,7 +1459,8 @@
       "entry_aux_lo": 40,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Bronto Burt",
+      "native_item_name": "Bronto Burt (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 9,
       "chest_index_hex": "0x09",
       "candidate_native_room_ids": [
@@ -1472,7 +1507,8 @@
       "entry_aux_lo": 41,
       "item_id": 255,
       "item_id_hex": "0xFF",
-      "native_item_name": "No Direct Item (0xFF)",
+      "native_item_name": "No Direct Item (0xFF) (controller/object reference, not direct chest grant)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1520,6 +1556,7 @@
       "item_id": 0,
       "item_id_hex": "0x00",
       "native_item_name": "None",
+      "item_id_is_direct_reward": true,
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -1558,7 +1595,8 @@
       "entry_aux_lo": 43,
       "item_id": 255,
       "item_id_hex": "0xFF",
-      "native_item_name": "No Direct Item (0xFF)",
+      "native_item_name": "No Direct Item (0xFF) (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1606,6 +1644,7 @@
       "item_id": 0,
       "item_id_hex": "0x00",
       "native_item_name": "None",
+      "item_id_is_direct_reward": true,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1644,7 +1683,8 @@
       "entry_aux_lo": 45,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Bronto Burt",
+      "native_item_name": "Bronto Burt (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 11,
       "chest_index_hex": "0x0B",
       "candidate_native_room_ids": [
@@ -1683,7 +1723,8 @@
       "entry_aux_lo": 48,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Bronto Burt",
+      "native_item_name": "Bronto Burt (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 17,
       "chest_index_hex": "0x11",
       "candidate_native_room_ids": [
@@ -1722,7 +1763,8 @@
       "entry_aux_lo": 49,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1761,7 +1803,8 @@
       "entry_aux_lo": 50,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1800,7 +1843,8 @@
       "entry_aux_lo": 52,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1848,6 +1892,7 @@
       "item_id": 42,
       "item_id_hex": "0x2A",
       "native_item_name": "Giant Rocky",
+      "item_id_is_direct_reward": true,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -1886,7 +1931,8 @@
       "entry_aux_lo": 54,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 13,
       "chest_index_hex": "0x0D",
       "candidate_native_room_ids": [
@@ -1925,7 +1971,8 @@
       "entry_aux_lo": 55,
       "item_id": 68,
       "item_id_hex": "0x44",
-      "native_item_name": "Empty Object Slot 0x44",
+      "native_item_name": "Empty Object Slot 0x44 (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 1,
       "chest_index_hex": "0x01",
       "candidate_native_room_ids": [
@@ -1973,6 +2020,7 @@
       "item_id": 105,
       "item_id_hex": "0x69",
       "native_item_name": "Goal Game Bonus",
+      "item_id_is_direct_reward": true,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -2011,7 +2059,8 @@
       "entry_aux_lo": 57,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -2050,7 +2099,8 @@
       "entry_aux_lo": 58,
       "item_id": 18,
       "item_id_hex": "0x12",
-      "native_item_name": "Waddle Doo",
+      "native_item_name": "Waddle Doo (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -2089,7 +2139,8 @@
       "entry_aux_lo": 60,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Bronto Burt",
+      "native_item_name": "Bronto Burt (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 3,
       "chest_index_hex": "0x03",
       "candidate_native_room_ids": [
@@ -2128,7 +2179,8 @@
       "entry_aux_lo": 61,
       "item_id": 131,
       "item_id_hex": "0x83",
-      "native_item_name": "Respawn Point Marker",
+      "native_item_name": "Respawn Point Marker (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -2176,6 +2228,7 @@
       "item_id": 132,
       "item_id_hex": "0x84",
       "native_item_name": "Warp Star",
+      "item_id_is_direct_reward": true,
       "chest_index": 50,
       "chest_index_hex": "0x32",
       "candidate_native_room_ids": [
@@ -2214,7 +2267,8 @@
       "entry_aux_lo": 64,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -2253,7 +2307,8 @@
       "entry_aux_lo": 66,
       "item_id": 255,
       "item_id_hex": "0xFF",
-      "native_item_name": "No Direct Item (0xFF)",
+      "native_item_name": "No Direct Item (0xFF) (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 4,
       "chest_index_hex": "0x04",
       "candidate_native_room_ids": [
@@ -2292,7 +2347,8 @@
       "entry_aux_lo": 67,
       "item_id": 82,
       "item_id_hex": "0x52",
-      "native_item_name": "Dark Meta Knight W8",
+      "native_item_name": "Dark Meta Knight W8 (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -2331,7 +2387,8 @@
       "entry_aux_lo": 70,
       "item_id": 1,
       "item_id_hex": "0x01",
-      "native_item_name": "Bronto Burt",
+      "native_item_name": "Bronto Burt (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 7,
       "chest_index_hex": "0x07",
       "candidate_native_room_ids": [
@@ -2370,7 +2427,8 @@
       "entry_aux_lo": 71,
       "item_id": 18,
       "item_id_hex": "0x12",
-      "native_item_name": "Waddle Doo",
+      "native_item_name": "Waddle Doo (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -2418,6 +2476,7 @@
       "item_id": 18,
       "item_id_hex": "0x12",
       "native_item_name": "Waddle Doo",
+      "item_id_is_direct_reward": true,
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -2456,7 +2515,8 @@
       "entry_aux_lo": 75,
       "item_id": 255,
       "item_id_hex": "0xFF",
-      "native_item_name": "No Direct Item (0xFF)",
+      "native_item_name": "No Direct Item (0xFF) (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 29,
       "chest_index_hex": "0x1D",
       "candidate_native_room_ids": [
@@ -2495,7 +2555,8 @@
       "entry_aux_lo": 76,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 13,
       "chest_index_hex": "0x0D",
       "candidate_native_room_ids": [
@@ -2534,7 +2595,8 @@
       "entry_aux_lo": 78,
       "item_id": 24,
       "item_id_hex": "0x18",
-      "native_item_name": "Sir Kibble",
+      "native_item_name": "Sir Kibble (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 0,
       "chest_index_hex": "0x00",
       "candidate_native_room_ids": [
@@ -2573,7 +2635,8 @@
       "entry_aux_lo": 80,
       "item_id": 132,
       "item_id_hex": "0x84",
-      "native_item_name": "Warp Star",
+      "native_item_name": "Warp Star (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 18,
       "chest_index_hex": "0x12",
       "candidate_native_room_ids": [
@@ -2612,7 +2675,8 @@
       "entry_aux_lo": 81,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [
@@ -2651,7 +2715,8 @@
       "entry_aux_lo": 82,
       "item_id": 0,
       "item_id_hex": "0x00",
-      "native_item_name": "None",
+      "native_item_name": "None (script/object reference, not grantable chest reward)",
+      "item_id_is_direct_reward": false,
       "chest_index": 255,
       "chest_index_hex": "0xFF",
       "candidate_native_room_ids": [

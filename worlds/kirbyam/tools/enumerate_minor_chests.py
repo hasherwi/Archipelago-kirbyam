@@ -256,6 +256,15 @@ def native_item_name(item_id: int) -> str:
     return NATIVE_ITEM_NAME_BY_ID.get(item_id, f"Unknown (0x{item_id:02X})")
 
 
+def item_field_semantics(item_id: int, reward_path: str) -> tuple[str, bool]:
+    base_name = native_item_name(item_id)
+    if reward_path == "collection_reward":
+        return f"{base_name} (script/object reference, not grantable chest reward)", False
+    if reward_path == "non_collection_consumable_pool" and item_id in {0x80, 0x81, 0x82, 0x83, 0x87, 0xFF}:
+        return f"{base_name} (controller/object reference, not direct chest grant)", False
+    return base_name, True
+
+
 def native_treasure_name(treasure_id: int) -> str:
     return f"Collection Treasure #{treasure_id:02d}"
 
@@ -335,7 +344,6 @@ def main() -> int:
         rom_payload = rom_bytes[rom_offset:rom_offset + ROM_ENTRY_READ_SIZE]
 
         item_id = rom_bytes[rom_offset + AMR_SMALL_CHEST_ITEM_OFFSET]
-        item_name = native_item_name(item_id)
         chest_index = rom_bytes[rom_offset + AMR_SMALL_CHEST_INDEX_OFFSET]
         native_group, native_item_label, native_collection_code = resolve_native_collection_item(
             payload_b3,
@@ -349,6 +357,7 @@ def main() -> int:
             payload_b2,
             payload_b3,
         )
+        item_name, item_id_is_direct_reward = item_field_semantics(item_id, reward_path)
 
         native_candidates = native_by_object_list_idx.get(int(amr_room_slot), [])
         native_room_ids = [candidate["native_room_id"] for candidate in native_candidates]
@@ -398,6 +407,7 @@ def main() -> int:
                 "item_id": item_id,
                 "item_id_hex": f"0x{item_id:02X}",
                 "native_item_name": item_name,
+                "item_id_is_direct_reward": item_id_is_direct_reward,
                 "chest_index": chest_index,
                 "chest_index_hex": f"0x{chest_index:02X}",
                 "candidate_native_room_ids": native_room_ids,
