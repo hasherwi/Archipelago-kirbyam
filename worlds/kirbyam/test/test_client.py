@@ -7,7 +7,7 @@ from unittest.mock import AsyncMock, Mock, patch
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.context import _game_watcher, AuthStatus
 
-from ..data import data
+from ..data import LocationCategory, data
 from ..client import (
     KirbyAmClient,
     _MAP_ITEM_ID_TO_AREA_ID,
@@ -3849,16 +3849,11 @@ def test_hub_switch_locations_defined_in_regions():
 
 def test_minor_chest_locations_defined_in_regions_when_present():
     """All MINOR_CHEST locations (when enabled) must be registered in regions/rooms."""
-    location_category_enum = getattr(data, "LocationCategory", None)
-    minor_chest_category = getattr(location_category_enum, "MINOR_CHEST", None) if location_category_enum else None
-    if minor_chest_category is None:
-        return
-
     minor_chest_keys = {
         key
         for key, loc in data.locations.items()
         if key.startswith("MINOR_CHEST_")
-        or (getattr(loc, "category", None) == minor_chest_category)
+        or (getattr(loc, "category", None) == LocationCategory.MINOR_CHEST)
     }
 
     if not minor_chest_keys:
@@ -3875,14 +3870,10 @@ def test_minor_chest_locations_defined_in_regions_when_present():
 
 def test_minor_chest_locations_have_unique_bit_indices_when_present():
     """Enabled MINOR_CHEST locations must not reuse native bit indices."""
-    location_category_enum = getattr(data, "LocationCategory", None)
-    minor_chest_category = getattr(location_category_enum, "MINOR_CHEST", None) if location_category_enum else None
-    if minor_chest_category is None:
-        return
-
     minor_chest_with_bits = [
         loc for loc in data.locations.values()
-        if getattr(loc, "category", None) == minor_chest_category and getattr(loc, "bit_index", None) is not None
+        if getattr(loc, "category", None) == LocationCategory.MINOR_CHEST
+        and getattr(loc, "bit_index", None) is not None
     ]
     if not minor_chest_with_bits:
         return
