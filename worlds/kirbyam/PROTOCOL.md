@@ -293,6 +293,7 @@ for bit in mapped_sound_player_chest_bits:
 
 # Hub switch checks (transport hub_switch_flags)
 hub_switch_bits = RAM[0x0203B04C] as u32
+hub_switch_baseline = 0
 if first_hub_switch_poll and server_checked_locations is empty and hub_switch_bits != 0:
     # Treat pre-existing transport bits as baseline to avoid stale cross-session resend.
     hub_switch_baseline = hub_switch_bits

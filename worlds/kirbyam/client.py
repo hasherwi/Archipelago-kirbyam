@@ -280,8 +280,6 @@ class KirbyAmClient(BizHawkClient):
         self._last_vitality_chest_poll_log = None
         self._last_sound_player_chest_poll_log = None
         self._last_hub_switch_poll_log = None
-        self._hub_switch_baseline_mask = None
-        self._hub_switch_session_initialized = False
         self._last_room_sanity_poll_log = None
         self._last_boss_probe_snapshot = None
         self._boss_probe_stream_marker = None
@@ -1947,28 +1945,20 @@ class KirbyAmClient(BizHawkClient):
         raw = (await bizhawk.read(ctx.bizhawk_ctx, [(switch_addr, 4, "System Bus")]))[0]
         switch_bits = self._u32_le(raw)
 
-        # Map all set bits to location IDs to determine which are pre-session stale.
-        all_mapped_locations: set[int] = set()
-        for bit in sorted(self._hub_switch_location_ids_by_bit.keys()):
-            if (switch_bits >> bit) & 1:
-                all_mapped_locations.update(self._hub_switch_location_ids_by_bit.get(bit, []))
-
-        # Capture baseline on first poll of this session to suppress pre-session stale bits.
-        # Only suppress bits that are NOT already acknowledged by the server (those are legitimate).
+        # Capture baseline only on first hub-switch poll of a session when the server
+        # has not yet acknowledged any locations. This suppresses pre-session stale
+        # transport bits while avoiding suppression when the session is already active.
         if not self._hub_switch_session_initialized:
             self._hub_switch_session_initialized = True
-            if self._hub_switch_baseline_mask is None:
-                stale_mapped_locations = all_mapped_locations - ctx.checked_locations
-                if stale_mapped_locations:
-                    # Only suppress bits for unmapped/stale locations on first poll
-                    self._hub_switch_baseline_mask = switch_bits
-                    if self._debug_logging_enabled:
-                        from CommonClient import logger
+            if self._hub_switch_baseline_mask is None and switch_bits != 0 and not ctx.checked_locations:
+                self._hub_switch_baseline_mask = switch_bits
+                if self._debug_logging_enabled:
+                    from CommonClient import logger
 
-                        logger.info(
-                            "KirbyAM: hub-switch baseline initialized from pre-session transport state; suppressing stale resend candidates (baseline=0x%08X)",
-                            switch_bits,
-                        )
+                    logger.info(
+                        "KirbyAM: hub-switch baseline initialized from first-poll transport state before any server acknowledgements (baseline=0x%08X)",
+                        switch_bits,
+                    )
 
         effective_switch_bits = switch_bits & ~(self._hub_switch_baseline_mask or 0)
 
@@ -2100,7 +2090,7 @@ class KirbyAmClient(BizHawkClient):
 
         try:
             raw = (await bizhawk.read(ctx.bizhawk_ctx, [(current_room_addr, 2, "System Bus")]))[0]
-        except (bizhawk.RequestFailedError, TypeError, AttributeError):
+        except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
             # Room-entry diagnostics are best-effort and must never block watcher progress.
             return
         if len(raw) != 2:
@@ -2117,7 +2107,7 @@ class KirbyAmClient(BizHawkClient):
         rom_doors_idx_addr = _ROOM_PROPS_ROM_BASE + native_room_id * _ROOM_PROPS_STRIDE + _ROOM_PROPS_DOORS_IDX_OFFSET
         try:
             doors_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(rom_doors_idx_addr, 2, "ROM")]))[0]
-        except (bizhawk.RequestFailedError, TypeError, AttributeError):
+        except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
             logger.info(
                 "KirbyAM: room entry — native=0x%04x (doorsIdx lookup failed)",
                 native_room_id,

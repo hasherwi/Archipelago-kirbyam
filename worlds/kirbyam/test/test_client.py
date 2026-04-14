@@ -537,12 +537,12 @@ async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_c
 
 @pytest.mark.asyncio
 async def test_poll_hub_switch_suppresses_pre_session_stale_bits(mock_bizhawk_context):
-    """First hub-switch poll with non-zero transport bits should baseline and suppress them."""
+    """First hub-switch poll with empty checked_locations should baseline and suppress stale bits."""
     client = KirbyAmClient()
     client.initialize_client()
     client._debug_logging_enabled = True
 
-    mock_bizhawk_context.checked_locations = {1, 2, 3}  # Other checks already acknowledged
+    mock_bizhawk_context.checked_locations = set()
 
     with patch.dict(data.transport_ram_addresses, {"hub_switch_flags": 0x0203B04C}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
