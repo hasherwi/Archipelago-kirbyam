@@ -10,18 +10,22 @@ It also resolves AMR room slots through native gRoomProps metadata to capture
 candidate native room IDs, doorsIdx values, and AP room-sanity keys.
 
 Usage:
-    python worlds/kirbyam/tools/enumerate_minor_chests.py --rom path/to/katam.gba
+    python worlds/kirbyam/tools/enumerate_minor_chests.py \
+        --rom path/to/katam.gba \
+        --amr-items path/to/amr_items.json \
+        [--rooms worlds/kirbyam/data/regions/rooms.json] \
+        [--output worlds/kirbyam/data/minor_chest_manifest.json]
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from collections import defaultdict
 from pathlib import Path
 
 
-GBA_ROM_BASE = 0x08000000
 ROOM_PROPS_ROM_BASE = 0x009331AC
 ROOM_PROPS_SIZE = 0x00009998
 ROOM_PROPS_STRIDE = 0x28
@@ -117,13 +121,13 @@ def parse_groomprops(rom_bytes: bytes) -> list[dict[str, int]]:
     return room_props_entries
 
 
-def resolve_default_paths(repo_root: Path) -> tuple[Path, Path]:
-    rooms_default = repo_root / "worlds" / "kirbyam" / "data" / "regions" / "rooms.json"
-    output_default = repo_root / "worlds" / "kirbyam" / "data" / "minor_chest_manifest.json"
+def resolve_default_paths(kirbyam_dir: Path) -> tuple[Path, Path]:
+    rooms_default = kirbyam_dir / "data" / "regions" / "rooms.json"
+    output_default = kirbyam_dir / "data" / "minor_chest_manifest.json"
     return rooms_default, output_default
 
 
-def build_collection_code_by_treasure_id() -> dict[int, int]:
+def build_collection_codes_by_treasure_id() -> dict[int, list[int]]:
     # Source: katam/src/collection_room.c gUnk_08386A50 entries ({unk0, unk2, unk3}).
     raw_entries = [
         (0x100, 0x4), (0x101, 0x5), (0x102, 0x6), (0x103, 0x7), (0x104, 0x8),
@@ -135,10 +139,10 @@ def build_collection_code_by_treasure_id() -> dict[int, int]:
         (0x1000, 0x28), (0x800, 0x27), (0x801, 0x27), (0x802, 0x27), (0x803, 0x27),
         (0x206, 0x22), (0x209, 0x23), (0x208, 0x24), (0x205, 0x25), (0x203, 0x26),
     ]
-    mapping: dict[int, int] = {}
+    mapping: dict[int, list[int]] = defaultdict(list)
     for collection_code, treasure_id in raw_entries:
-        mapping[treasure_id] = collection_code
-    return mapping
+        mapping[treasure_id].append(collection_code)
+    return {treasure_id: sorted(set(codes)) for treasure_id, codes in mapping.items()}
 
 
 def build_collection_code_by_chest_flag_index() -> dict[int, int]:
@@ -155,8 +159,8 @@ def build_collection_code_by_chest_flag_index() -> dict[int, int]:
 
 
 def build_major_chest_label_by_index(repo_root: Path) -> dict[int, str]:
-    locations_path = repo_root / "worlds" / "kirbyam" / "data" / "locations.json"
-    items_path = repo_root / "worlds" / "kirbyam" / "data" / "items.json"
+    locations_path = repo_root / "data" / "locations.json"
+    items_path = repo_root / "data" / "items.json"
     locations = load_json(locations_path)
     items = load_json(items_path)
 
@@ -180,11 +184,14 @@ def build_major_chest_label_by_index(repo_root: Path) -> dict[int, str]:
 def resolve_native_collection_item(
     treasure_id: int,
     chest_flag_index: int,
-    collection_code_by_treasure_id: dict[int, int],
+    collection_codes_by_treasure_id: dict[int, list[int]],
     collection_code_by_chest_flag_index: dict[int, int],
     major_chest_label_by_index: dict[int, str],
 ) -> tuple[str, str, int | None]:
-    collection_code = collection_code_by_treasure_id.get(treasure_id)
+    collection_code: int | None = None
+    treasure_codes = collection_codes_by_treasure_id.get(treasure_id, [])
+    if len(treasure_codes) == 1:
+        collection_code = treasure_codes[0]
     if collection_code is None:
         collection_code = collection_code_by_chest_flag_index.get(chest_flag_index)
     if collection_code is None:
@@ -265,13 +272,10 @@ def item_field_semantics(item_id: int, reward_path: str) -> tuple[str, bool]:
     return base_name, True
 
 
-def native_treasure_name(treasure_id: int) -> str:
-    return f"Collection Treasure #{treasure_id:02d}"
-
-
 def main() -> int:
-    repo_root = Path(__file__).resolve().parents[3]
-    rooms_default, output_default = resolve_default_paths(repo_root)
+    kirbyam_dir = Path(__file__).resolve().parent.parent
+    repo_root = kirbyam_dir.parents[1]
+    rooms_default, output_default = resolve_default_paths(kirbyam_dir)
 
     parser = argparse.ArgumentParser(description="Enumerate KirbyAM minor chest evidence from ROM")
     parser.add_argument("--rom", required=True, help="Path to vanilla Kirby & The Amazing Mirror ROM")
@@ -310,9 +314,9 @@ def main() -> int:
 
     doors_idx_to_room_keys = build_doors_idx_to_room_keys(rooms)
     room_props = parse_groomprops(rom_bytes)
-    collection_code_by_treasure_id = build_collection_code_by_treasure_id()
+    collection_codes_by_treasure_id = build_collection_codes_by_treasure_id()
     collection_code_by_chest_flag_index = build_collection_code_by_chest_flag_index()
-    major_chest_label_by_index = build_major_chest_label_by_index(repo_root)
+    major_chest_label_by_index = build_major_chest_label_by_index(kirbyam_dir)
 
     native_by_object_list_idx: dict[int, list[dict[str, int]]] = defaultdict(list)
     for entry in room_props:
@@ -348,7 +352,7 @@ def main() -> int:
         native_group, native_item_label, native_collection_code = resolve_native_collection_item(
             payload_b3,
             payload_b2,
-            collection_code_by_treasure_id,
+            collection_codes_by_treasure_id,
             collection_code_by_chest_flag_index,
             major_chest_label_by_index,
         )
@@ -385,7 +389,8 @@ def main() -> int:
                 "rom_offset": f"0x{rom_offset:08X}",
                 "amr_packed_item": int(packed_item_value),
                 "amr_packed_item_hex": amr_entry_payload.hex(),
-                "rom_bytes_at_address_hex": rom_payload.hex(),
+                "rom_slice_length": len(rom_payload),
+                "rom_slice_sha256": hashlib.sha256(rom_payload).hexdigest(),
                 "entry_type": payload_b0,
                 "entry_type_hex": f"0x{payload_b0:02X}",
                 "entry_marker": payload_b1,
@@ -456,6 +461,7 @@ def main() -> int:
     manifest = {
         "metadata": {
             "rom": metadata_path(rom_path, repo_root),
+            "rom_sha256": hashlib.sha256(rom_bytes).hexdigest(),
             "amr_items": metadata_path(amr_items_path, repo_root),
             "rooms": metadata_path(rooms_path, repo_root),
             "total_minor_chests": len(manifest_entries),
