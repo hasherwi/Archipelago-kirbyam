@@ -2155,9 +2155,9 @@ class KirbyAmClient(BizHawkClient):
         value changes, resolves the native room ID to a doorsIdx via gRoomProps[] in
         ROM, then maps doorsIdx to room metadata from rooms.json.
 
-        Always written to the log file; shown in the client only when debug logging
-        is enabled. On room change, emits a typed Bounce payload to this slot for
-        tracker consumers.
+        Room changes are written to the log file (shown in the client only when
+        debug logging is enabled). On room change, emits a typed Bounce payload to
+        this slot for tracker consumers.
         """
         from CommonClient import logger
 
