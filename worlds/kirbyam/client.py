@@ -1050,6 +1050,9 @@ class KirbyAmClient(BizHawkClient):
             # Room-sanity location polling via native gVisitedDoors bit 15.
             await self._poll_room_sanity_locations(ctx)
 
+            # Room entry logging (always to file; client display gated by debug flag).
+            await self._poll_room_entry_logging(ctx)
+
             # Candidate discovery for non-shard boss defeat signals.
             await self._probe_boss_defeat_candidates(ctx)
 
