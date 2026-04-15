@@ -403,7 +403,6 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
         + _hub_switch_count
         + _room_sanity_count
         + _area_visit_count
-        - 1  # Moonlight Mansion - Area Key is now a fixed lock on AREA_VISIT_1.
     )
     assert len(world.multiworld.itempool) == _expected_pool_size
     assert all("Mirror Shard" not in item.name for item in world.multiworld.itempool)
@@ -436,7 +435,6 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
         + _hub_switch_count
         + _room_sanity_count
         + _area_visit_count
-        - 1  # Moonlight Mansion - Area Key is now a fixed lock on AREA_VISIT_1.
     )
     _expected_pool_size = _open_non_goal_location_count
     assert len(world.multiworld.itempool) == _expected_pool_size
@@ -775,15 +773,14 @@ def test_area_visit_locations_are_attached_to_parent_regions() -> None:
         assert location_key in data.regions[location.parent_region].locations
 
 
-def test_moonlight_area_key_is_locked_to_rainbow_first_visit() -> None:
+def test_rainbow_first_visit_has_no_hardcoded_item_lock() -> None:
     world, locations = _build_world_for_create_items(RandomizeShards.option_completely_random)
 
     world.create_items()
 
     rainbow_first_visit = next(loc for loc in locations if loc.key == "AREA_VISIT_1_RAINBOW_ROUTE")
-    assert rainbow_first_visit.item is not None
-    assert rainbow_first_visit.item.name == "Moonlight Mansion - Area Key"
+    assert rainbow_first_visit.item is None
 
-    pool_names = {item.name for item in world.multiworld.itempool}
-    assert "Moonlight Mansion - Area Key" not in pool_names
+    moonlight_key_count = sum(1 for item in world.multiworld.itempool if item.name == "Moonlight Mansion - Area Key")
+    assert moonlight_key_count == 1
 

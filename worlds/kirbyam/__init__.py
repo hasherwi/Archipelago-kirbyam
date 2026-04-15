@@ -20,9 +20,6 @@ from .ability_randomization import (
 )
 from .area_keys import (
     AREA_KEY_LABEL_BY_AREA_ID,
-    EARLY_REACHABLE_CHECK_THRESHOLD,
-    FALLBACK_STARTING_AREA_ID,
-    early_reachable_location_count,
 )
 from .colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, resolve_kirby_color
 from .data import LocationCategory, format_room_region_label, load_json_data, data as kirby_data
@@ -364,34 +361,6 @@ class KirbyAmWorld(World):
                     len(map_items),
                 )
 
-            early_check_count = early_reachable_location_count(bool(self.options.room_sanity.value))
-            if early_check_count < EARLY_REACHABLE_CHECK_THRESHOLD:
-                fallback_area_id = FALLBACK_STARTING_AREA_ID
-                fallback_item_label = AREA_KEY_LABEL_BY_AREA_ID[fallback_area_id]
-                existing_precollected_codes = {
-                    item.code
-                    for item in self.multiworld.precollected_items.get(self.player, [])
-                    if item.code is not None
-                }
-                fallback_item_code = self.item_name_to_id[fallback_item_label]
-                if fallback_item_code not in existing_precollected_codes:
-                    self.push_precollected(self.create_item(fallback_item_label))
-                self._starting_area_key_bitfield |= 1 << fallback_area_id
-                logger.info(
-                    "[P%s] Area Key fallback activated: early reachable checks=%s threshold=%s; precollected %s",
-                    self.player,
-                    early_check_count,
-                    EARLY_REACHABLE_CHECK_THRESHOLD,
-                    fallback_item_label,
-                )
-            else:
-                logger.info(
-                    "[P%s] Area Key fallback not needed: early reachable checks=%s threshold=%s",
-                    self.player,
-                    early_check_count,
-                    EARLY_REACHABLE_CHECK_THRESHOLD,
-                )
-
     # Create world regions
     def create_regions(self) -> None:
         with generation_stage("create_regions", self.player, self.player_name):
@@ -430,11 +399,9 @@ class KirbyAmWorld(World):
             minor_chest_locations: list[KirbyAmLocation] = []
             room_sanity_locations: list[KirbyAmLocation] = []
             area_visit_locations: list[KirbyAmLocation] = []
-            location_by_key: dict[str, KirbyAmLocation] = {}
             for loc in fill_locations:
                 if loc.key is None:
                     continue
-                location_by_key[loc.key] = loc
                 loc_meta = kirby_data.locations.get(loc.key)
                 if loc_meta is None:
                     continue
@@ -469,22 +436,6 @@ class KirbyAmWorld(World):
                 for item in self.multiworld.precollected_items.get(self.player, [])
                 if item.code is not None
             }
-
-            # Keep Area 2 progression deterministic in low-access starts by locking
-            # Moonlight Mansion's Area Key onto Rainbow Route's first-area check.
-            moonlight_area_key_code = self.item_name_to_id[AREA_KEY_LABEL_BY_AREA_ID[2]]
-            rainbow_first_visit_loc = location_by_key.get("AREA_VISIT_1_RAINBOW_ROUTE")
-            if (
-                rainbow_first_visit_loc is not None
-                and rainbow_first_visit_loc.item is None
-                and moonlight_area_key_code not in precollected_codes
-            ):
-                rainbow_first_visit_loc.place_locked_item(self.create_item_by_code(moonlight_area_key_code))
-                rainbow_first_visit_loc.progress_type = LocationProgressType.DEFAULT
-                logger.info(
-                    "[P%s] Locked Moonlight Mansion - Area Key onto Rainbow Route - First Visit",
-                    self.player,
-                )
 
             locked_shard_count = 0
             randomized_item_codes: list[int] = []
