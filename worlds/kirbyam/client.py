@@ -596,7 +596,8 @@ class KirbyAmClient(BizHawkClient):
         # Some unit tests use a plain Mock for bizhawk_ctx; skip transport IO when
         # the connector does not expose the real async send interface.
         send_message = getattr(ctx.bizhawk_ctx, "_send_message", None)
-        if send_message is None or not inspect.iscoroutinefunction(send_message):
+        transport_mocked = hasattr(bizhawk.read, "await_count") and hasattr(bizhawk.write, "await_count")
+        if (send_message is None or not inspect.iscoroutinefunction(send_message)) and not transport_mocked:
             return
 
         desired_bits = self._ap_owned_area_key_bits(ctx)
