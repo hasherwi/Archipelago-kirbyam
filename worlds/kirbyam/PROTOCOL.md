@@ -66,7 +66,8 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x50   | 0x0203B050 | 4B | starting_kirby_color_id | u32 | ROM ← Client | Runtime config payload for starting Kirby color. Valid values are `0..13`; `0` (Pink) is intentionally treated as a no-op by payload logic. Non-Pink values are applied through `KIRBY_TRANSITION_COLOR`, so the color becomes visible on the next room/area transition or when an enemy-hit path refreshes Kirby's runtime color state (typically the first transition after game start). |
 | 0x54   | 0x0203B054 | 4B | one_hit_mode_runtime | u32 | ROM ← Client | Challenge-mode runtime config: one-hit mode value (`0`=off, `1`=exclude_vitality_counters, `2`=include_vitality_counters). Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
 | 0x58   | 0x0203B058 | 4B | no_extra_lives_runtime | u32 | ROM ← Client | Challenge-mode runtime config: no-extra-lives flag (`0`=off, `1`=on). Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
-| 0x5C–0x63 | 0x0203B05C–0x0203B063 | 8B | *(reserved)* | — | — | Reserved; not currently used. |
+| 0x5C   | 0x0203B05C | 4B | area_key_bitfield_runtime | u32 | ROM ← Client | Owned Area Key bitfield. Bits `2..9` correspond to Moonlight Mansion through Candy Constellation. The client writes both precollected start keys and confirmed delivered Area Key items here so mirror-door gating can survive reconnects, savestates, and soft resets. |
+| 0x60–0x63 | 0x0203B060–0x0203B063 | 4B | *(reserved)* | — | — | Reserved; not currently used. |
 | 0x64   | 0x0203B064 | 4B | ability_randomization_mode_runtime | u32 | ROM ← Client | Enemy copy-ability randomization mode (`0`=off, `1`=shuffled, `2`=completely_random). Written once per connection by the Python client from `slot_data`. |
 | 0x68   | 0x0203B068 | 4B | ability_randomization_seed_lo_runtime | u32 | ROM ← Client | Low 32 bits of the 64-bit seed used for per-swallow completely-random rerolls. |
 | 0x6C   | 0x0203B06C | 4B | ability_randomization_seed_hi_runtime | u32 | ROM ← Client | High 32 bits of the 64-bit seed used for per-swallow completely-random rerolls. |
@@ -112,7 +113,9 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | SOUND_PLAYER      | 3860025 | Useful unlock reward (applies native Sound Player unlock on receipt) |
 | SMALL_FOOD, BATTERY, MAX_TOMATO, INVINCIBILITY_CANDY | 3860026 - 3860029 | Filler consumable rewards |
 | ENERGY_DRINK, HUNK_OF_MEAT | 3860030 - 3860031 | Filler consumable health rewards |
-| *Reserved*        | 3860032+ | Future items (doors, abilities, additional consumables, etc.) |
+| TRAP_HEALTH_DOWN .. TRAP_BATTERY_DRAIN | 3860032 - 3860035 | Trap items |
+| AREA_KEY_2 .. AREA_KEY_9 | 3860036 - 3860043 | Progression items that unlock inter-area mirrors for Moonlight Mansion through Candy Constellation |
+| *Reserved*        | 3860044+ | Future items (doors, abilities, additional consumables, etc.) |
 
 ### Current filler effect contract
 
@@ -180,6 +183,7 @@ Server → Client: ConnectionRefused | Connected
 - `start_with_all_maps` (bool): when true, all map items are precollected and removed from randomized placement, and the BizHawk client reasserts all native area-map bits during gameplay reconciliation.
 - `starting_kirby_color` (int): resolved Kirby starting color ID (`0..13`) after generation-time random resolution. Non-Pink colors become visible after the next room/area transition or after an enemy-hit runtime refresh.
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
+- `starting_area_key_bitfield` (int): precollected Area Key bitfield written to the ROM on connect. Bit `2` is Moonlight Mansion, then Cabbage, Mustard, Carrot, Olive, Peppermint, Radish, and Candy through bit `9`. Currently this is used for the early-check fallback that can grant the Moonlight Mansion key at game start.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
 - `one_hit_mode` (int): one-hit mode selection (`0=off`, `1=exclude_vitality_counters`, `2=include_vitality_counters`). When non-zero, Kirby's max HP is clamped to `vitality_counter + 1` during gameplay. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool (replaced by filler) so the cap stays at 1. In `include_vitality_counters` mode, Vitality Counter items remain in the pool and each one received raises the cap by 1.
 - `enable_traps` (bool): when true, trap items may appear in the randomized item pool.
@@ -223,6 +227,12 @@ DeathLink runtime behavior contract:
 - During gameplay, when `one_hit_mode != off`, the BizHawk client reads `kirby_vitality_counter_native` (`u16`) and enforces `desired_max_hp = vitality_counter + 1` (capped to `0x7F`) onto `kirby_max_hp_native` and `kirby_hp_native` for player 0's struct. In `exclude_vitality_counters` mode it additionally scrubs `kirby_vitality_counter_native` back to `0` every gameplay tick so AP vitality grants cannot persist.
 - Dead/negative HP states (`current_hp <= 0`) are preserved; only alive Kirby's HP is clamped.
 - Any `one_hit_mode` runtime diagnostics are emitted as file-only logs (`NoStream=True`).
+
+`starting_area_key_bitfield` / Area Key runtime behavior contract:
+- Generation may precollect the Moonlight Mansion Area Key at game start when the early reachable check count would otherwise fall below the configured threshold.
+- The Python client combines that starting bitfield with delivered Area Key items and continuously mirrors the result into `area_key_bitfield_runtime`.
+- The ROM payload intercepts native special-door and mirror state queries, preserves the vanilla boarded-up mirror visuals when access is denied, and returns locked state for cross-area mirrors whose destination area key bit is not owned.
+- Intra-area mirrors keep vanilla behavior; Dimension Mirror and shard gating remain outside this Area Key bitfield contract.
 ```
 
 **Preconditions before gameplay watchers run:**

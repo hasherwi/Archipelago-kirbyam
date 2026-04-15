@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from random import Random
 from types import SimpleNamespace
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
@@ -290,6 +290,7 @@ async def test_client_game_watcher_logs_starting_color_once_after_initial_ready_
             "_load_debug_settings",
             side_effect=lambda _ctx: setattr(client, "_debug_logging_enabled", True),
         ),
+        patch.object(client, "_sync_area_key_runtime_config", new=AsyncMock()),
         patch.object(client, "_sync_starting_kirby_color_runtime_config", new=AsyncMock()),
         patch.object(client, "_runtime_gameplay_state", new=AsyncMock(return_value=(False, "menu", None))),
         patch.object(client, "_log_boss_shard_debug_window", new=AsyncMock()),
@@ -306,3 +307,41 @@ async def test_client_game_watcher_logs_starting_color_once_after_initial_ready_
         if call.args and call.args[0] == "KirbyAM: configured starting Kirby color is %s (%s)"
     ]
     assert len(matching) == 1
+
+
+@pytest.mark.asyncio
+async def test_client_syncs_area_key_runtime_config_once(mock_bizhawk_context) -> None:
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._delivered_item_index = 1
+    mock_bizhawk_context.slot_data = {
+        "debug": {"logging": False},
+        "starting_area_key_bitfield": 1 << 2,
+    }
+    mock_bizhawk_context.items_received = [Mock(item=3860037, player=1)]
+
+    with (
+        patch.dict(
+            data.transport_ram_addresses,
+            {"area_key_bitfield_runtime": 0x0203B05C},
+            clear=False,
+        ),
+        patch(
+            "worlds.kirbyam.client.bizhawk.read",
+            new_callable=AsyncMock,
+            side_effect=[[(0).to_bytes(4, "little")]],
+        ) as mock_read,
+        patch(
+            "worlds.kirbyam.client.bizhawk.write",
+            new_callable=AsyncMock,
+        ) as mock_write,
+    ):
+        await client._sync_area_key_runtime_config(mock_bizhawk_context)
+        await client._sync_area_key_runtime_config(mock_bizhawk_context)
+
+    assert mock_read.await_count == 1
+    assert mock_write.await_count == 1
+    write_payload = mock_write.await_args_list[0].args[1]
+    assert write_payload == [
+        (0x0203B05C, ((1 << 2) | (1 << 3)).to_bytes(4, "little"), "System Bus")
+    ]

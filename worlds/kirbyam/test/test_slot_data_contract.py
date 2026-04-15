@@ -96,6 +96,7 @@ def test_starting_kirby_color_contract_fields_present_with_expected_shapes() -> 
     assert isinstance(slot_data["starting_kirby_color"], int)
     assert isinstance(slot_data["starting_kirby_color_name"], str)
     assert slot_data["starting_kirby_color_name"]
+    assert isinstance(slot_data["starting_area_key_bitfield"], int)
 
 
 def test_tracker_surface_contract_fields_present_with_expected_shapes() -> None:

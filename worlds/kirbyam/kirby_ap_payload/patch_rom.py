@@ -45,7 +45,9 @@ BIG_CHEST_COLLECT_CALL_OFFSET = 0x0000B144
 VITALITY_CHEST_COLLECT_CALL_OFFSET = 0x0000B0CC
 SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET = 0x0000B264
 BIG_SWITCH_UNLOCK_CALL_OFFSET = 0x00039EEE
+ORIGINAL_SPECIAL_DOOR_STATE_FN_ADDR = 0x08002BA8
 ORIGINAL_ABILITY_TRANSITION_FN_ADDR = 0x080547C4
+_GBA_ROM_CODE_START = 0xC0
 
 
 ROM_PATH_TMP = "rom_path.tmp"
@@ -245,6 +247,34 @@ def validate_thumb_bl_callsite(rom: bytes | bytearray, offset: int, label: str) 
             f"Found bytes: {original.hex(' ')}. Refusing to patch unknown site."
         )
     return original
+
+
+def find_thumb_bl_callsites_for_targets(
+    rom: bytes | bytearray,
+    target_candidates: set[int],
+    *,
+    scan_start: int = _GBA_ROM_CODE_START,
+    scan_end: int | None = None,
+    rom_base: int = 0x08000000,
+) -> list[int]:
+    if scan_end is None:
+        scan_end = min(PAYLOAD_OFFSET, len(rom) - 3)
+    else:
+        scan_end = min(scan_end, len(rom) - 3)
+
+    callsites: list[int] = []
+    for offset in range(scan_start, scan_end, 2):
+        opcode = bytes(rom[offset:offset + 4])
+        if not is_thumb_bl_instruction(opcode):
+            continue
+        src_addr = rom_base + offset
+        try:
+            dst_addr = decode_thumb_bl_target(src_addr, opcode)
+        except ValueError:
+            continue
+        if dst_addr in target_candidates:
+            callsites.append(offset)
+    return callsites
 
 
 def resolve_elf_symbol_address(elf_path: str | Path, symbol_name: str) -> int:
@@ -721,6 +751,7 @@ def main():
         vitality_chest_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_collect_vitality_chest")
         sound_player_chest_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_collect_sound_player_chest")
         hub_switch_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_world_map_unlock_call")
+        special_door_state_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_query_special_door_state")
         ability_transition_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_request_copy_ability_transition")
         # arm-none-eabi-nm may encode Thumb function symbols with bit 0 set.
         # Clear the Thumb state bit before passing to thumb_bl_bytes(), which
@@ -731,6 +762,7 @@ def main():
         vitality_chest_hook_target &= ~1
         sound_player_chest_hook_target &= ~1
         hub_switch_hook_target &= ~1
+        special_door_state_hook_target &= ~1
         ability_transition_hook_target &= ~1
         rom_base = 0x08000000
         payload_rom_start = rom_base + PAYLOAD_OFFSET
@@ -777,6 +809,13 @@ def main():
                 f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
                 "Check your payload.elf link address and PAYLOAD_OFFSET."
             )
+        if not (payload_rom_start <= special_door_state_hook_target < payload_rom_end):
+            raise SystemExit(
+                "Error: special door hook target address out of expected payload range.\n"
+                f"Resolved address: 0x{special_door_state_hook_target:08X}, expected within "
+                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
+                "Check your payload.elf link address and PAYLOAD_OFFSET."
+            )
         if not (payload_rom_start <= ability_transition_hook_target < payload_rom_end):
             raise SystemExit(
                 "Error: ability transition hook target address out of expected payload range.\n"
@@ -814,31 +853,33 @@ def main():
         print(f"  sound player chest @ {SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET:#x}: {original_sound_player_hook.hex(' ')}")
         print(f"  hub switch unlock @ {BIG_SWITCH_UNLOCK_CALL_OFFSET:#x}: {original_hub_switch_hook.hex(' ')}")
 
-        # Find and patch all Thumb BL callsites targeting Kirby's ability-transition function.
-        # The ability-transition function is called from many sites throughout the game code,
-        # so auto-discovery is used instead of a single hardcoded offset.
-        # Scan bounds: start past the GBA ROM header (first 0xC0 bytes contain exception
-        # vectors and the Nintendo logo bitmap, never game code callsites); end at
-        # PAYLOAD_OFFSET, which was chosen to be a zero/free-space region of the original
-        # ROM so no game callsites appear at or after that offset.
-        _GBA_ROM_CODE_START = 0xC0
+        # Find and patch all Thumb BL callsites targeting the native special-door
+        # state check and Kirby's ability-transition function. Both are invoked from
+        # many sites throughout game code, so auto-discovery is safer than pinning a
+        # single hardcoded offset.
+        special_door_state_target_candidates = {
+            ORIGINAL_SPECIAL_DOOR_STATE_FN_ADDR,
+            ORIGINAL_SPECIAL_DOOR_STATE_FN_ADDR | 1,
+        }
         ability_transition_target_candidates = {
             ORIGINAL_ABILITY_TRANSITION_FN_ADDR,
             ORIGINAL_ABILITY_TRANSITION_FN_ADDR | 1,
         }
-        ability_transition_callsites: list[int] = []
-        scan_end = min(PAYLOAD_OFFSET, len(rom) - 3)
-        for offset in range(_GBA_ROM_CODE_START, scan_end, 2):
-            opcode = bytes(rom[offset:offset + 4])
-            if not is_thumb_bl_instruction(opcode):
-                continue
-            src_addr = rom_base + offset
-            try:
-                dst_addr = decode_thumb_bl_target(src_addr, opcode)
-            except ValueError:
-                continue
-            if dst_addr in ability_transition_target_candidates:
-                ability_transition_callsites.append(offset)
+        special_door_state_callsites = find_thumb_bl_callsites_for_targets(
+            rom,
+            special_door_state_target_candidates,
+        )
+        ability_transition_callsites = find_thumb_bl_callsites_for_targets(
+            rom,
+            ability_transition_target_candidates,
+        )
+
+        if not special_door_state_callsites:
+            raise SystemExit(
+                f"Error: no callsites found for special door function "
+                f"0x{ORIGINAL_SPECIAL_DOOR_STATE_FN_ADDR:08X}. "
+                "Refusing to continue without a validated Area Key mirror hook site."
+            )
 
         if not ability_transition_callsites:
             raise SystemExit(
@@ -857,6 +898,8 @@ def main():
         rom[VITALITY_CHEST_COLLECT_CALL_OFFSET:VITALITY_CHEST_COLLECT_CALL_OFFSET + 4] = vitality_chest_hook_bl_bytes
         rom[SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET:SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET + 4] = sound_player_chest_hook_bl_bytes
         rom[BIG_SWITCH_UNLOCK_CALL_OFFSET:BIG_SWITCH_UNLOCK_CALL_OFFSET + 4] = hub_switch_hook_bl_bytes
+        for offset in special_door_state_callsites:
+            rom[offset:offset + 4] = thumb_bl_bytes(rom_base + offset, special_door_state_hook_target)
         for offset in ability_transition_callsites:
             rom[offset:offset + 4] = thumb_bl_bytes(rom_base + offset, ability_transition_hook_target)
 
@@ -927,6 +970,12 @@ def main():
             hub_switch_hook_bl_bytes.hex(" "),
             "target=",
             hex(hub_switch_hook_target),
+        )
+        print(
+            "Special door state callsites patched:",
+            len(special_door_state_callsites),
+            "target=",
+            hex(special_door_state_hook_target),
         )
         print(
             "Ability transition callsites patched:",

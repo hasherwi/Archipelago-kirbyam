@@ -28,6 +28,7 @@ from typing import TYPE_CHECKING
 from BaseClasses import CollectionState
 from worlds.generic.Rules import forbid_items_for_player, set_rule
 
+from .area_keys import AREA_KEY_LABEL_BY_AREA_ID, gated_area_main_entrance_area_ids, gated_room_entrance_area_ids
 from .data import LocationCategory, data
 from .generation_logging import logger
 from .groups import resolve_item_group
@@ -72,6 +73,13 @@ def _has_all_shards(state: CollectionState, player: int) -> bool:
 
 def _allow_pending_ability_gate(_state: CollectionState, _player: int, _gate_name: str) -> bool:
     return True
+
+
+def _has_area_key(state: CollectionState, player: int, area_id: int) -> bool:
+    area_key_label = AREA_KEY_LABEL_BY_AREA_ID.get(area_id)
+    if area_key_label is None:
+        return True
+    return state.has(area_key_label, player)
 
 
 def can_cut_ropes(state: CollectionState, player: int) -> bool:
@@ -161,6 +169,36 @@ def set_rules(world: KirbyAmWorld) -> None:
             world.player,
             entrance_name,
         )
+
+    for gated_entrance_name, area_id in gated_area_main_entrance_area_ids().items():
+        try:
+            entrance = world.multiworld.get_entrance(gated_entrance_name, world.player)
+            set_rule(
+                entrance,
+                lambda state, required_area_id=area_id: _has_area_key(state, world.player, required_area_id),
+            )
+        except KeyError:
+            logger.debug(
+                "[P%s] Entrance %r not found; skipping Area Key gate for area %s",
+                world.player,
+                gated_entrance_name,
+                area_id,
+            )
+
+    for gated_entrance_name, area_id in gated_room_entrance_area_ids().items():
+        try:
+            entrance = world.multiworld.get_entrance(gated_entrance_name, world.player)
+            set_rule(
+                entrance,
+                lambda state, required_area_id=area_id: _has_area_key(state, world.player, required_area_id),
+            )
+        except KeyError:
+            logger.debug(
+                "[P%s] Entrance %r not found; skipping room-level Area Key gate for area %s",
+                world.player,
+                gated_entrance_name,
+                area_id,
+            )
 
     for goal_location_name in _GOAL_LOCATION_LABELS.values():
         try:

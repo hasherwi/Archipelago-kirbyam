@@ -23,6 +23,7 @@ SystemID GBA
 0203B050	d	u	0	System Bus	starting_kirby_color_id (Client->ROM; 0=Pink no-op, 1-13=color; 0xFFFFFFFF=not synced)
 0203B054	d	u	0	System Bus	one_hit_mode_runtime (Client->ROM; 0=off, 1=excl_vitality, 2=incl_vitality; 0xFFFFFFFF=not synced)
 0203B058	d	u	0	System Bus	no_extra_lives_runtime (Client->ROM; 0=off, 1=on; 0xFFFFFFFF=not synced)
+0203B05C	d	h	0	System Bus	area_key_bitfield_runtime (Client->ROM; bits 2-9 = owned Area Keys for Moonlight..Candy)
 0	S	_	1		=== Native Gameplay Addresses (from worlds/kirbyam/data/addresses.json) ===
 02038960	d	h	0	System Bus	small_chest_flags_native[0:31] (native chest/switch state block)
 02038964	d	h	0	System Bus	small_chest_flags_native[32:63]

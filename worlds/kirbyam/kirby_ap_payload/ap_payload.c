@@ -63,6 +63,7 @@
 // 0xFFFFFFFF means client has not synced yet (treat as off/0).
 #define AP_ONE_HIT_MODE_RUNTIME    (*(volatile uint32_t*)(AP_BASE + 0x54u))
 #define AP_NO_EXTRA_LIVES_RUNTIME  (*(volatile uint32_t*)(AP_BASE + 0x58u))
+#define AP_AREA_KEY_BITFIELD       (*(volatile uint32_t*)(AP_BASE + 0x5Cu))
 #define KIRBY_SHARD_FLAGS_ADDR  0x02038970u
 #define KIRBY_SHARD_FLAGS       (*(volatile uint8_t*)(KIRBY_SHARD_FLAGS_ADDR))
 #define KIRBY_ACTIVE_COLOR_ADDR    0x0203ADE0u
@@ -204,6 +205,78 @@ static void ap_unlock_area_map(uint32_t area_id) {
     if (area_id < 32u) {
         KIRBY_BIG_CHEST_FLAGS |= (1u << area_id);
     }
+}
+
+typedef uint32_t (*KirbySpecialDoorVisitedFn)(uint16_t, uint16_t, uint8_t, uint8_t);
+#define KIRBY_SPECIAL_DOOR_VISITED_FN ((KirbySpecialDoorVisitedFn)0x08002BA9u)
+#define ROOM_PROPS_BASE_ADDR 0x089331ACu
+#define ROOM_PROPS_STRIDE 0x28u
+#define ROOM_PROPS_DOORS_IDX_OFFSET 0x24u
+
+static const uint8_t gApDoorsIdxAreaIds[0x120] = {
+    /* 0x00 */  1,  0,  0,  0,  0,  0,  0,  0,  2,  5,  1,  1,  1,  1,  1,  1,
+    /* 0x10 */  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+    /* 0x20 */  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+    /* 0x30 */  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  2,  2,  2,
+    /* 0x40 */  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,
+    /* 0x50 */  2,  2,  2,  2,  2,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,
+    /* 0x60 */  7,  5,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,
+    /* 0x70 */  7,  7,  7,  7,  7,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,
+    /* 0x80 */  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  9,  9,
+    /* 0x90 */  9,  9,  9,  9,  9,  9,  9,  9,  9,  9,  9,  9,  9,  9,  9,  9,
+    /* 0xA0 */  9,  9,  9,  9,  9,  9,  9,  9,  9,  9,  3,  3,  3,  3,  3,  3,
+    /* 0xB0 */  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  6,  6,
+    /* 0xC0 */  6,  6,  6,  6,  6,  6,  6,  6,  6,  6,  6,  6,  6,  6,  6,  6,
+    /* 0xD0 */  6,  6,  6,  6,  6,  6,  6,  6,  6,  6,  6,  3,  8,  8,  8,  8,
+    /* 0xE0 */  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,
+    /* 0xF0 */  8,  8,  8,  8,  8,  8,  8,  8,  8,  5,  5,  5,  5,  5,  5,  5,
+    /* 0x100 */  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  0,  0,
+    /* 0x110 */  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+};
+
+static uint16_t ap_room_doors_idx(uint16_t room_id) {
+    return *(volatile uint16_t*)(ROOM_PROPS_BASE_ADDR + ((uint32_t)room_id * ROOM_PROPS_STRIDE) + ROOM_PROPS_DOORS_IDX_OFFSET);
+}
+
+static uint8_t ap_room_area_id(uint16_t room_id) {
+    uint16_t doors_idx = ap_room_doors_idx(room_id);
+    if (doors_idx >= 0x120u) {
+        return 0u;
+    }
+    return gApDoorsIdxAreaIds[doors_idx];
+}
+
+static uint8_t ap_has_area_key(uint8_t area_id) {
+    if (area_id < 2u || area_id > 9u) {
+        return 1u;
+    }
+    return (uint8_t)((AP_AREA_KEY_BITFIELD >> area_id) & 1u);
+}
+
+__attribute__((used)) uint32_t ap_on_query_special_door_state(uint16_t room_id, uint16_t arg1, uint8_t arg2, uint8_t arg3) {
+    uint32_t native_result = KIRBY_SPECIAL_DOOR_VISITED_FN(room_id, arg1, arg2, arg3);
+    uint8_t destination_area;
+    uint8_t source_area;
+
+    if (native_result == 0u) {
+        return 0u;
+    }
+
+    destination_area = ap_room_area_id(arg1);
+    if (destination_area < 2u || destination_area > 9u) {
+        return native_result;
+    }
+
+    source_area = ap_room_area_id(room_id);
+    if (source_area == destination_area) {
+        return native_result;
+    }
+
+    if (ap_has_area_key(destination_area) == 0u) {
+        return 0u;
+    }
+
+    return native_result;
 }
 
 // Hook target for the original boss shard grant call. The game passes the boss's
@@ -702,6 +775,13 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         return 1u;
     }
 
+    // AREA_KEY_2..AREA_KEY_9 = BASE+36 .. BASE+43
+    if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 36u) && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 43u)) {
+        uint32_t area_id = 2u + (ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 36u));
+        AP_AREA_KEY_BITFIELD |= (1u << area_id);
+        return 1u;
+    }
+
     // Unhandled item - return 0 to signal that the flag should NOT be cleared
     return 0u;
 }
@@ -729,6 +809,7 @@ void ap_poll_mailbox_c(void) {
         AP_STARTING_KIRBY_COLOR_ID = 0xFFFFFFFFu;
         AP_ONE_HIT_MODE_RUNTIME = 0xFFFFFFFFu;
         AP_NO_EXTRA_LIVES_RUNTIME = 0xFFFFFFFFu;
+        AP_AREA_KEY_BITFIELD = 0u;
         ap_starting_kirby_color_applied = 0u;
         AP_ABILITY_RANDOMIZATION_MODE = 0u;
         AP_ABILITY_RANDOMIZATION_SEED_LO = 0u;

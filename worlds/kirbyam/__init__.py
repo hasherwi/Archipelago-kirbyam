@@ -18,6 +18,12 @@ from .ability_randomization import (
     VALID_ENEMY_COPY_ABILITIES,
     build_enemy_copy_ability_policy,
 )
+from .area_keys import (
+    AREA_KEY_LABEL_BY_AREA_ID,
+    EARLY_REACHABLE_CHECK_THRESHOLD,
+    FALLBACK_STARTING_AREA_ID,
+    early_reachable_location_count,
+)
 from .colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, resolve_kirby_color
 from .data import LocationCategory, format_room_region_label, load_json_data, data as kirby_data
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
@@ -106,7 +112,7 @@ class KirbyAmWorld(World):
     item_name_groups = ITEM_GROUPS
     location_name_groups = LOCATION_GROUPS
 
-    required_client_version = (0, 4, 6)
+    required_client_version = (0, 4, 7)
 
     # Per-seed auth token used by BizHawk client connection
     auth: bytes
@@ -344,6 +350,7 @@ class KirbyAmWorld(World):
                     self._enemy_copy_ability_policy,
                 )
 
+            self._starting_area_key_bitfield = 0
             if self._start_with_all_maps_enabled():
                 map_items = [
                     item for item in kirby_data.items.values()
@@ -355,6 +362,27 @@ class KirbyAmWorld(World):
                     "[P%s] start_with_all_maps: precollected %s map item(s)",
                     self.player,
                     len(map_items),
+                )
+
+            early_check_count = early_reachable_location_count(bool(self.options.room_sanity.value))
+            if early_check_count < EARLY_REACHABLE_CHECK_THRESHOLD:
+                fallback_area_id = FALLBACK_STARTING_AREA_ID
+                fallback_item_label = AREA_KEY_LABEL_BY_AREA_ID[fallback_area_id]
+                self.push_precollected(self.create_item(fallback_item_label))
+                self._starting_area_key_bitfield |= 1 << fallback_area_id
+                logger.info(
+                    "[P%s] Area Key fallback activated: early reachable checks=%s threshold=%s; precollected %s",
+                    self.player,
+                    early_check_count,
+                    EARLY_REACHABLE_CHECK_THRESHOLD,
+                    fallback_item_label,
+                )
+            else:
+                logger.info(
+                    "[P%s] Area Key fallback not needed: early reachable checks=%s threshold=%s",
+                    self.player,
+                    early_check_count,
+                    EARLY_REACHABLE_CHECK_THRESHOLD,
                 )
 
     # Create world regions
@@ -541,6 +569,25 @@ class KirbyAmWorld(World):
                         "[P%s] start_with_all_maps: removed %s map item(s) from non-filler pool",
                         self.player,
                         excluded_map_count,
+                    )
+
+                starting_area_key_bitfield = int(getattr(self, "_starting_area_key_bitfield", 0))
+                if starting_area_key_bitfield:
+                    precollected_area_key_codes = {
+                        self.item_name_to_id[label]
+                        for area_id, label in AREA_KEY_LABEL_BY_AREA_ID.items()
+                        if starting_area_key_bitfield & (1 << area_id)
+                    }
+                    excluded_area_key_count = sum(
+                        1 for code in non_filler_item_codes if code in precollected_area_key_codes
+                    )
+                    non_filler_item_codes = [
+                        code for code in non_filler_item_codes if code not in precollected_area_key_codes
+                    ]
+                    logger.info(
+                        "[P%s] start-with-area-key fallback: removed %s precollected Area Key item(s) from non-filler pool",
+                        self.player,
+                        excluded_area_key_count,
                     )
 
                 if len(non_filler_item_codes) > needed_pool_size:
@@ -775,6 +822,7 @@ class KirbyAmWorld(World):
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
         slot_data["starting_kirby_color"] = resolved_color_id
         slot_data["starting_kirby_color_name"] = resolved_color_name
+        slot_data["starting_area_key_bitfield"] = int(getattr(self, "_starting_area_key_bitfield", 0))
         policy = getattr(self, "_enemy_copy_ability_policy", None)
         assert policy is not None, (
             "Enemy copy ability policy must be initialized before fill_slot_data is called."

@@ -230,3 +230,23 @@ def test_ability_transition_callsite_scan_skips_gba_header_region() -> None:
             found.append(offset)
 
     assert found == []  # BL in header region must not be picked up by the code-region scan
+
+
+def test_find_thumb_bl_callsites_for_targets_finds_special_door_callsites() -> None:
+    rom_base = 0x08000000
+    target = patch_rom.ORIGINAL_SPECIAL_DOOR_STATE_FN_ADDR
+    rom = bytearray(patch_rom._GBA_ROM_CODE_START + 12)
+    off_a = patch_rom._GBA_ROM_CODE_START
+    off_b = patch_rom._GBA_ROM_CODE_START + 4
+    off_c = patch_rom._GBA_ROM_CODE_START + 8
+
+    rom[off_a:off_a + 4] = patch_rom.thumb_bl_bytes(rom_base + off_a, target)
+    rom[off_b:off_b + 4] = patch_rom.thumb_bl_bytes(rom_base + off_b, target)
+    rom[off_c:off_c + 4] = patch_rom.thumb_bl_bytes(rom_base + off_c, 0x08001000)
+
+    found = patch_rom.find_thumb_bl_callsites_for_targets(
+        rom,
+        {target, target | 1},
+    )
+
+    assert found == [off_a, off_b]

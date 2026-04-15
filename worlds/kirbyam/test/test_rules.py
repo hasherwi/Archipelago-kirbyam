@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from unittest.mock import patch
 
+from ..area_keys import EARLY_REACHABLE_CHECK_THRESHOLD, early_reachable_location_count
 from ..data import data
 from ..options import Goal
 from ..rules import ABILITY_GATE_RULES, _ABILITY_GATE_STATUS_VALUES, get_region_ability_gate_annotations, set_rules
@@ -365,4 +366,40 @@ def test_region_ability_gate_annotations_load_for_future_big_chest_rollout() -> 
         assert "ability_gates" not in area_def, (
             f"Area {area_name} should not have ability_gates (belongs in rooms.json)"
         )
+
+
+def test_area_main_entrance_requires_destination_area_key() -> None:
+    world = _FakeWorld(Goal.option_dark_mind)
+    set_rules(world)
+
+    entrance = world.multiworld.get_entrance(
+        "REGION_RAINBOW_ROUTE/MAIN -> REGION_MOONLIGHT_MANSION/MAIN",
+        world.player,
+    )
+
+    assert callable(entrance.access_rule)
+    assert not entrance.access_rule(_FakeState())
+    assert entrance.access_rule(_FakeState({"Moonlight Mansion - Area Key"}))
+
+
+def test_room_level_mirror_entrance_requires_destination_area_key() -> None:
+    world = _FakeWorld(Goal.option_dark_mind)
+    set_rules(world)
+
+    entrance = world.multiworld.get_entrance(
+        "REGION_CABBAGE_CAVERN/ROOM_3_16 -> REGION_OLIVE_OCEAN/ROOM_6_01",
+        world.player,
+    )
+
+    assert callable(entrance.access_rule)
+    assert not entrance.access_rule(_FakeState())
+    assert entrance.access_rule(_FakeState({"Olive Ocean - Area Key"}))
+
+
+def test_early_reachable_count_requires_moonlight_fallback_key() -> None:
+    without_key = early_reachable_location_count(False)
+    with_moonlight_key = early_reachable_location_count(False, 1 << 2)
+
+    assert with_moonlight_key >= EARLY_REACHABLE_CHECK_THRESHOLD
+    assert with_moonlight_key > without_key
 

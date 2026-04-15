@@ -64,6 +64,7 @@ def _build_representative_slot_data() -> dict[str, object]:
     }
 
     world.options = options
+    world._starting_area_key_bitfield = 0
     world._enemy_copy_ability_policy = build_enemy_copy_ability_policy(
         random.Random(20260322),
         AbilityRandomizationMode.option_shuffled,

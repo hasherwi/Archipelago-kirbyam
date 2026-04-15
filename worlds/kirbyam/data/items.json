@@ -65,6 +65,54 @@
     "item_id": 3860035,
     "tags": ["Trap"]
   },
+  "AREA_KEY_2": {
+    "label": "Moonlight Mansion - Area Key",
+    "classification": "PROGRESSION",
+    "item_id": 3860036,
+    "tags": ["AreaKeys", "Unique"]
+  },
+  "AREA_KEY_3": {
+    "label": "Cabbage Cavern - Area Key",
+    "classification": "PROGRESSION",
+    "item_id": 3860037,
+    "tags": ["AreaKeys", "Unique"]
+  },
+  "AREA_KEY_4": {
+    "label": "Mustard Mountain - Area Key",
+    "classification": "PROGRESSION",
+    "item_id": 3860038,
+    "tags": ["AreaKeys", "Unique"]
+  },
+  "AREA_KEY_5": {
+    "label": "Carrot Castle - Area Key",
+    "classification": "PROGRESSION",
+    "item_id": 3860039,
+    "tags": ["AreaKeys", "Unique"]
+  },
+  "AREA_KEY_6": {
+    "label": "Olive Ocean - Area Key",
+    "classification": "PROGRESSION",
+    "item_id": 3860040,
+    "tags": ["AreaKeys", "Unique"]
+  },
+  "AREA_KEY_7": {
+    "label": "Peppermint Palace - Area Key",
+    "classification": "PROGRESSION",
+    "item_id": 3860041,
+    "tags": ["AreaKeys", "Unique"]
+  },
+  "AREA_KEY_8": {
+    "label": "Radish Ruins - Area Key",
+    "classification": "PROGRESSION",
+    "item_id": 3860042,
+    "tags": ["AreaKeys", "Unique"]
+  },
+  "AREA_KEY_9": {
+    "label": "Candy Constellation - Area Key",
+    "classification": "PROGRESSION",
+    "item_id": 3860043,
+    "tags": ["AreaKeys", "Unique"]
+  },
   "SHARD_1": {
     "label": "Mustard Mountain - Mirror Shard",
     "classification": "PROGRESSION",

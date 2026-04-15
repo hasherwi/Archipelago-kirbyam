@@ -163,6 +163,8 @@ def test_consumable_filler_item_ids_are_stable() -> None:
     assert labels_to_ids["Life Down Trap"] == 3860033
     assert labels_to_ids["Bomb Trap"] == 3860034
     assert labels_to_ids["Battery Drain Trap"] == 3860035
+    assert labels_to_ids["Moonlight Mansion - Area Key"] == 3860036
+    assert labels_to_ids["Candy Constellation - Area Key"] == 3860043
     assert "2 Up" not in labels_to_ids
     assert "3 Up" not in labels_to_ids
 
@@ -711,4 +713,15 @@ def test_start_with_all_maps_off_includes_all_map_items_in_pool() -> None:
     assert map_codes.issubset(pool_codes), (
         "When start_with_all_maps is off, all map items should remain in the pool"
     )
+
+
+def test_starting_area_key_fallback_excludes_precollected_key_from_pool() -> None:
+    world, _locations = _build_world_for_create_items(RandomizeShards.option_completely_random)
+    world._starting_area_key_bitfield = 1 << 2
+
+    world.create_items()
+
+    pool_names = {item.name for item in world.multiworld.itempool}
+    assert "Moonlight Mansion - Area Key" not in pool_names
+    assert "Cabbage Cavern - Area Key" in pool_names
 

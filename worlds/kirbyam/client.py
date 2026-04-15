@@ -99,6 +99,21 @@ _MAP_ITEM_ID_TO_AREA_ID: dict[int, int] = {
     for item in data.items.values()
     if item.label in _MAP_ITEM_LABEL_TO_AREA_ID
 }
+_AREA_KEY_ITEM_LABEL_TO_AREA_ID: dict[str, int] = {
+    "Moonlight Mansion - Area Key": 2,
+    "Cabbage Cavern - Area Key": 3,
+    "Mustard Mountain - Area Key": 4,
+    "Carrot Castle - Area Key": 5,
+    "Olive Ocean - Area Key": 6,
+    "Peppermint Palace - Area Key": 7,
+    "Radish Ruins - Area Key": 8,
+    "Candy Constellation - Area Key": 9,
+}
+_AREA_KEY_ITEM_ID_TO_AREA_ID: dict[int, int] = {
+    item.item_id: _AREA_KEY_ITEM_LABEL_TO_AREA_ID[item.label]
+    for item in data.items.values()
+    if item.label in _AREA_KEY_ITEM_LABEL_TO_AREA_ID
+}
 _TRAP_ITEM_IDS: frozenset[int] = frozenset(
     item.item_id
     for item in data.items.values()
@@ -111,6 +126,9 @@ _ROOM_UPDATE_BOUNCE_TYPE = "RoomUpdate"
 _MANAGED_NATIVE_MAP_BITMASK = 0
 for area_id in _MAP_ITEM_ID_TO_AREA_ID.values():
     _MANAGED_NATIVE_MAP_BITMASK |= 1 << area_id
+_MANAGED_AREA_KEY_BITMASK = 0
+for area_id in _AREA_KEY_ITEM_ID_TO_AREA_ID.values():
+    _MANAGED_AREA_KEY_BITMASK |= 1 << area_id
 _ABILITY_SOURCE_ADDR_TO_KEY: dict[int, str] = {
     address: source.key
     for source in ABILITY_SOURCES
@@ -151,6 +169,9 @@ class KirbyAmClient(BizHawkClient):
         self._cached_delivered_map_bits: int = 0
         self._cached_map_bits_index: int = 0
         self._cached_map_bits_items_len: int = 0
+        self._cached_delivered_area_key_bits: int = 0
+        self._cached_area_key_bits_index: int = 0
+        self._cached_area_key_bits_items_len: int = 0
 
         # Deterministic location ordering
         self._all_location_ids_sorted: list[int] = [
@@ -301,6 +322,8 @@ class KirbyAmClient(BizHawkClient):
         self._starting_kirby_color_synced_id: int | None = None
         self._starting_kirby_color_logged_signature: tuple[int, str] | None = None
         self._starting_kirby_color_revalidate_counter: int = 0
+        self._last_area_key_runtime_bitfield: int | None = None
+        self._area_key_runtime_revalidate_counter: int = 0
         self._last_challenge_runtime_config_signature: tuple[int, int] | None = None
         self._challenge_runtime_config_revalidate_counter: int = 0
 
@@ -443,11 +466,16 @@ class KirbyAmClient(BizHawkClient):
         self._starting_kirby_color_synced_id = None
         self._starting_kirby_color_logged_signature = None
         self._starting_kirby_color_revalidate_counter = 0
+        self._last_area_key_runtime_bitfield = None
+        self._area_key_runtime_revalidate_counter = 0
         self._last_challenge_runtime_config_signature = None
         self._challenge_runtime_config_revalidate_counter = 0
         self._cached_delivered_map_bits = 0
         self._cached_map_bits_index = 0
         self._cached_map_bits_items_len = 0
+        self._cached_delivered_area_key_bits = 0
+        self._cached_area_key_bits_index = 0
+        self._cached_area_key_bits_items_len = 0
         self._cached_room_visit_flags_view = None
 
     async def _get_room_visit_flags_view(self, ctx: KirbyAmBizHawkClientContext) -> memoryview | None:
@@ -530,6 +558,65 @@ class KirbyAmClient(BizHawkClient):
         if self._start_with_all_maps_enabled(ctx):
             owned_bits |= _MANAGED_NATIVE_MAP_BITMASK
         return owned_bits
+
+    def _starting_area_key_bitfield(self, ctx: "BizHawkClientContext") -> int:
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            return 0
+
+        value = self._coerce_u32(slot_data.get("starting_area_key_bitfield", 0))
+        if value is None:
+            return 0
+        return value & _MANAGED_AREA_KEY_BITMASK
+
+    def _ap_owned_area_key_bits(self, ctx: "BizHawkClientContext") -> int:
+        delivered_items = getattr(ctx, "items_received", ())
+        delivered_count = min(self._delivered_item_index, len(delivered_items))
+
+        if (
+            self._cached_area_key_bits_index > delivered_count
+            or self._cached_area_key_bits_items_len > len(delivered_items)
+        ):
+            self._cached_delivered_area_key_bits = 0
+            self._cached_area_key_bits_index = 0
+
+        for item_index in range(self._cached_area_key_bits_index, delivered_count):
+            item_fields = self._extract_delivery_item_fields(delivered_items[item_index])
+            if item_fields is None:
+                continue
+            item_id, _player_id = item_fields
+            area_id = _AREA_KEY_ITEM_ID_TO_AREA_ID.get(item_id)
+            if area_id is not None:
+                self._cached_delivered_area_key_bits |= 1 << area_id
+
+        self._cached_area_key_bits_index = delivered_count
+        self._cached_area_key_bits_items_len = len(delivered_items)
+        return (self._cached_delivered_area_key_bits | self._starting_area_key_bitfield(ctx)) & _MANAGED_AREA_KEY_BITMASK
+
+    async def _sync_area_key_runtime_config(self, ctx: "BizHawkClientContext") -> None:
+        area_key_addr = self._transport_addr("area_key_bitfield_runtime")
+        if area_key_addr is None:
+            return
+
+        desired_bits = self._ap_owned_area_key_bits(ctx)
+        if self._last_area_key_runtime_bitfield == desired_bits:
+            self._area_key_runtime_revalidate_counter += 1
+            if self._area_key_runtime_revalidate_counter < _CHALLENGE_RUNTIME_CONFIG_REVALIDATE_TICKS:
+                return
+        self._area_key_runtime_revalidate_counter = 0
+
+        current_raw = (
+            await bizhawk.read(ctx.bizhawk_ctx, [(area_key_addr, 4, "System Bus")])
+        )[0]
+        if self._u32_le(current_raw) == desired_bits:
+            self._last_area_key_runtime_bitfield = desired_bits
+            return
+
+        await bizhawk.write(
+            ctx.bizhawk_ctx,
+            [(area_key_addr, int(desired_bits).to_bytes(4, "little"), "System Bus")],
+        )
+        self._last_area_key_runtime_bitfield = desired_bits
 
     async def _reconcile_native_map_ownership(self, ctx: "BizHawkClientContext") -> None:
         """
@@ -1132,6 +1219,7 @@ class KirbyAmClient(BizHawkClient):
                 await self._load_persistent_state(ctx)
                 self._ram_state_loaded = True
 
+            await self._sync_area_key_runtime_config(ctx)
             await self._sync_starting_kirby_color_runtime_config(ctx)
 
             gameplay_active, defer_reason, ai_state = await self._runtime_gameplay_state(ctx)
