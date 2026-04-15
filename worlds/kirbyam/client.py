@@ -2414,6 +2414,9 @@ class KirbyAmClient(BizHawkClient):
                 ", ".join(rising_edges),
             )
 
+        if not rising_edges:
+            return
+
         boss_location_ids = self._boss_location_ids_by_room_region.get(self._last_room_region_key, [])
         if not boss_location_ids:
             self._log_verbose(

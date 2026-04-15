@@ -3779,6 +3779,40 @@ async def test_poll_boss_defeat_ignores_probe_fallback_outside_boss_room(mock_bi
 
 
 @pytest.mark.asyncio
+async def test_poll_boss_defeat_does_not_stage_probe_fallback_without_rising_edge_in_boss_room(mock_bizhawk_context):
+    """Issue #708: no probe rise in a boss room must not stage fallback checks."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    mock_bizhawk_context.checked_locations = set()
+    client._last_room_region_key = "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP"
+
+    with patch.dict(
+        data.transport_ram_addresses,
+        {"boss_defeat_flags": 0x0203B024},
+        clear=False,
+    ), patch.dict(
+        data.native_ram_addresses,
+        {"boss_mirror_table_native": 0x02028C14},
+        clear=False,
+    ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        # Probe baseline, then unchanged snapshot while in a boss room (no rising edge).
+        mock_read.side_effect = [
+            [bytes(32)],
+            [bytes(32)],
+            [(0x00).to_bytes(4, 'little')],
+        ]
+
+        await client._probe_boss_defeat_candidates(mock_bizhawk_context)
+        await client._probe_boss_defeat_candidates(mock_bizhawk_context)
+        await client._poll_boss_defeat_locations(mock_bizhawk_context)
+
+    assert client._boss_probe_fallback_location_ids == set()
+    mock_send.assert_not_awaited()
+
+
+@pytest.mark.asyncio
 async def test_poll_boss_defeat_skips_when_address_missing(mock_bizhawk_context):
     """When boss_defeat_flags address is not in addresses.json the method should no-op."""
     client = KirbyAmClient()
