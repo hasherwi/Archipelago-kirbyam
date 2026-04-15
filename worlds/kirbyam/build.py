@@ -93,7 +93,12 @@ def inject_apcontainer_fields(manifest_path: Path, apcontainer_version: int) -> 
         write_pretty_json(manifest_path, manifest)
 
 
-def run_patch_rom(world_root: Path, source_type: str, rom_arg: str | None) -> None:
+def run_patch_rom(
+    world_root: Path,
+    source_type: str,
+    rom_arg: str | None,
+    allow_missing_special_door_hook: bool = False,
+) -> None:
     """
     Calls patch_rom.py from kirby_ap_payload/ and runs it with cwd set to kirby_ap_payload/
     so it can find Makefile/payload.bin as expected.
@@ -125,6 +130,8 @@ def run_patch_rom(world_root: Path, source_type: str, rom_arg: str | None) -> No
     print(f"  Source:     {source_type}")
 
     cmd: list[str] = [sys.executable, str(patch_script), "--source-type", source_type]
+    if allow_missing_special_door_hook:
+        cmd.append("--allow-missing-special-door-hook")
 
     if source_type == "arg":
         if not rom_arg:
@@ -243,6 +250,14 @@ def parse_args() -> argparse.Namespace:
         "--rom",
         default=None,
         help="Path to base ROM when using --source-type arg. Ignored for --source-type file.",
+    )
+    p.add_argument(
+        "--allow-missing-special-door-hook",
+        action="store_true",
+        help=(
+            "Pass --allow-missing-special-door-hook to patch_rom.py. "
+            "Use only for synthetic smoke ROM runs."
+        ),
     )
     p.add_argument(
         "--install-path",
@@ -384,7 +399,12 @@ def main() -> None:
     if not args.skip_patch:
         patch_out = world_root / "data" / "base_patch.bsdiff4"
         try:
-            run_patch_rom(world_root, source_type=args.source_type, rom_arg=args.rom)
+            run_patch_rom(
+                world_root,
+                source_type=args.source_type,
+                rom_arg=args.rom,
+                allow_missing_special_door_hook=bool(args.allow_missing_special_door_hook),
+            )
         except SystemExit as e:
             message = str(e)
             toolchain_missing = (

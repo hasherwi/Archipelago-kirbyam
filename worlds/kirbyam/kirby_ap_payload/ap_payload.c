@@ -213,6 +213,10 @@ typedef uint32_t (*KirbySpecialDoorVisitedFn)(uint16_t, uint16_t, uint8_t, uint8
 #define ROOM_PROPS_STRIDE 0x28u
 #define ROOM_PROPS_DOORS_IDX_OFFSET 0x24u
 
+// doorsIdx -> area ID lookup for native room metadata.
+// Provenance: derived from the same gRoomProps.doorsIdx + room-region attribution
+// contract used by the Python client and documented in PROTOCOL.md.
+// Keep this table synchronized with world data when updating room manifests.
 static const uint8_t gApDoorsIdxAreaIds[0x120] = {
     /* 0x00 */  1,  0,  0,  0,  0,  0,  0,  0,  2,  5,  1,  1,  1,  1,  1,  1,
     /* 0x10 */  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
@@ -240,10 +244,16 @@ static uint16_t ap_room_doors_idx(uint16_t room_id) {
 
 static uint8_t ap_room_area_id(uint16_t room_id) {
     uint16_t doors_idx = ap_room_doors_idx(room_id);
+    uint8_t area_id;
     if (doors_idx >= 0x120u) {
         return 0u;
     }
-    return gApDoorsIdxAreaIds[doors_idx];
+    area_id = gApDoorsIdxAreaIds[doors_idx];
+    // Guard against stale mapping data: valid area IDs are 0..9 in this payload.
+    if (area_id > 9u) {
+        return 0u;
+    }
+    return area_id;
 }
 
 static uint8_t ap_has_area_key(uint8_t area_id) {

@@ -632,6 +632,14 @@ def parse_args(argv):
         action="store_true",
         help="Compute and print MD5 of selected base ROM and compare to KirbyAmProcedurePatch.hash from rom.py.",
     )
+    parser.add_argument(
+        "--allow-missing-special-door-hook",
+        action="store_true",
+        help=(
+            "Allow continuing when no callsites are found for the native special-door "
+            "function. Intended only for synthetic ROM smoke tests."
+        ),
+    )
     # Keep accepting optional PATH args for backwards compatibility, but they are ignored for patch output.
     parser.add_argument(
         "paths",
@@ -676,6 +684,7 @@ def parse_args(argv):
         "patch_path": fixed_patch,
         "legacy_ignored_out": legacy_ignored_out,
         "hash_debug": bool(ns.hash_debug),
+        "allow_missing_special_door_hook": bool(ns.allow_missing_special_door_hook),
     }
 
 
@@ -704,6 +713,7 @@ def main():
     source_type = args["source_type"]
     legacy_ignored_out = args.get("legacy_ignored_out")
     hash_debug = bool(args.get("hash_debug"))
+    allow_missing_special_door_hook = bool(args.get("allow_missing_special_door_hook"))
 
     if legacy_ignored_out is not None:
         print("Warning: legacy invocation detected (<in> <out> [patch]).")
@@ -875,16 +885,17 @@ def main():
         )
 
         if not special_door_state_callsites:
-            if len(rom) == EXPECTED_BASE_ROM_SIZE:
+            if not allow_missing_special_door_hook:
                 raise SystemExit(
                     f"Error: no callsites found for special door function "
                     f"0x{ORIGINAL_SPECIAL_DOOR_STATE_FN_ADDR:08X}. "
-                    "Refusing to continue without a validated Area Key mirror hook site."
+                    "Refusing to continue without a validated Area Key mirror hook site. "
+                    "Use --allow-missing-special-door-hook only for synthetic smoke ROMs."
                 )
             print(
                 "Warning: no special door callsites found for"
                 f" 0x{ORIGINAL_SPECIAL_DOOR_STATE_FN_ADDR:08X};"
-                " continuing because input ROM size does not match canonical base ROM."
+                " continuing due to --allow-missing-special-door-hook."
             )
 
         if not ability_transition_callsites:

@@ -71,7 +71,7 @@ jobs:
 
       - name: Build payload and generate ROM patch
         run: |
-          python worlds/kirbyam/build.py --source-type arg --rom "$PWD/worlds/kirbyam/kirby_ap_payload/kirby.gba" --skip-install --non-interactive
+          python worlds/kirbyam/build.py --source-type arg --rom "$PWD/worlds/kirbyam/kirby_ap_payload/kirby.gba" --allow-missing-special-door-hook --skip-install --non-interactive
 
       - name: Validate expected outputs exist
         run: |

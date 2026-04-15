@@ -112,6 +112,11 @@ def mock_bizhawk_context() -> Mock:
     """
     ctx = Mock()
     ctx.bizhawk_ctx = Mock()
+
+    async def _send_message_stub(*args, **kwargs):
+        return None
+
+    ctx.bizhawk_ctx._send_message = _send_message_stub
     ctx.server = Mock()
     ctx.server.socket = Mock()
     ctx.server.socket.closed = False
