@@ -9,6 +9,7 @@ import Utils
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
+from .area_keys import AREA_KEY_LABEL_BY_AREA_ID
 from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
@@ -100,14 +101,7 @@ _MAP_ITEM_ID_TO_AREA_ID: dict[int, int] = {
     if item.label in _MAP_ITEM_LABEL_TO_AREA_ID
 }
 _AREA_KEY_ITEM_LABEL_TO_AREA_ID: dict[str, int] = {
-    "Moonlight Mansion - Area Key": 2,
-    "Cabbage Cavern - Area Key": 3,
-    "Mustard Mountain - Area Key": 4,
-    "Carrot Castle - Area Key": 5,
-    "Olive Ocean - Area Key": 6,
-    "Peppermint Palace - Area Key": 7,
-    "Radish Ruins - Area Key": 8,
-    "Candy Constellation - Area Key": 9,
+    label: area_id for area_id, label in AREA_KEY_LABEL_BY_AREA_ID.items()
 }
 _AREA_KEY_ITEM_ID_TO_AREA_ID: dict[int, int] = {
     item.item_id: _AREA_KEY_ITEM_LABEL_TO_AREA_ID[item.label]
