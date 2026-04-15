@@ -1,5 +1,4 @@
 import logging
-import inspect
 import random
 import re
 import time
@@ -594,10 +593,9 @@ class KirbyAmClient(BizHawkClient):
         if area_key_addr is None:
             return
 
-        # Some unit tests use a plain Mock for bizhawk_ctx; skip transport IO when
-        # the connector does not expose the real async send interface.
-        send_message = getattr(ctx.bizhawk_ctx, "_send_message", None)
-        if send_message is None or not inspect.iscoroutinefunction(send_message):
+        # Runtime area-key sync depends on BizHawk connector transport state. Skip
+        # mocked test contexts that do not carry a real connector session.
+        if not isinstance(ctx.bizhawk_ctx, bizhawk.BizHawkContext):
             return
 
         desired_bits = self._ap_owned_area_key_bits(ctx)

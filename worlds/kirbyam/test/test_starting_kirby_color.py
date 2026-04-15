@@ -6,6 +6,8 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
+import worlds._bizhawk as bizhawk
+
 from .. import KirbyAmWorld
 from ..client import KirbyAmClient
 from ..colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, load_kirby_colors
@@ -314,6 +316,7 @@ async def test_client_syncs_area_key_runtime_config_once(mock_bizhawk_context) -
     client = KirbyAmClient()
     client.initialize_client()
     client._delivered_item_index = 1
+    mock_bizhawk_context.bizhawk_ctx = bizhawk.BizHawkContext()
     mock_bizhawk_context.slot_data = {
         "debug": {"logging": False},
         "starting_area_key_bitfield": 1 << 2,
