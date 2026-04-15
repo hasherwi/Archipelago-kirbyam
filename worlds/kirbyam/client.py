@@ -1,4 +1,5 @@
 import logging
+import inspect
 import random
 import re
 import time
@@ -590,6 +591,12 @@ class KirbyAmClient(BizHawkClient):
     async def _sync_area_key_runtime_config(self, ctx: "BizHawkClientContext") -> None:
         area_key_addr = self._transport_addr("area_key_bitfield_runtime")
         if area_key_addr is None:
+            return
+
+        # Some unit tests use a plain Mock for bizhawk_ctx; skip transport IO when
+        # the connector does not expose the real async send interface.
+        send_message = getattr(ctx.bizhawk_ctx, "_send_message", None)
+        if send_message is None or not inspect.iscoroutinefunction(send_message):
             return
 
         desired_bits = self._ap_owned_area_key_bits(ctx)

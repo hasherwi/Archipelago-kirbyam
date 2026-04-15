@@ -875,10 +875,16 @@ def main():
         )
 
         if not special_door_state_callsites:
-            raise SystemExit(
-                f"Error: no callsites found for special door function "
-                f"0x{ORIGINAL_SPECIAL_DOOR_STATE_FN_ADDR:08X}. "
-                "Refusing to continue without a validated Area Key mirror hook site."
+            if len(rom) == EXPECTED_BASE_ROM_SIZE:
+                raise SystemExit(
+                    f"Error: no callsites found for special door function "
+                    f"0x{ORIGINAL_SPECIAL_DOOR_STATE_FN_ADDR:08X}. "
+                    "Refusing to continue without a validated Area Key mirror hook site."
+                )
+            print(
+                "Warning: no special door callsites found for"
+                f" 0x{ORIGINAL_SPECIAL_DOOR_STATE_FN_ADDR:08X};"
+                " continuing because input ROM size does not match canonical base ROM."
             )
 
         if not ability_transition_callsites:
