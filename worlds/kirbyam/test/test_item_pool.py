@@ -351,6 +351,7 @@ def test_goal_locations_are_converted_to_addressless_events() -> None:
         def __init__(self, locations):
             self._locations = locations
             self.itempool = []
+            self.precollected_items = {1: []}
 
         def get_locations(self, player):
             return self._locations
@@ -402,6 +403,7 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
         + _hub_switch_count
         + _room_sanity_count
         + _area_visit_count
+        - 1  # Moonlight Mansion - Area Key is now a fixed lock on AREA_VISIT_1.
     )
     assert len(world.multiworld.itempool) == _expected_pool_size
     assert all("Mirror Shard" not in item.name for item in world.multiworld.itempool)
@@ -434,6 +436,7 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
         + _hub_switch_count
         + _room_sanity_count
         + _area_visit_count
+        - 1  # Moonlight Mansion - Area Key is now a fixed lock on AREA_VISIT_1.
     )
     _expected_pool_size = _open_non_goal_location_count
     assert len(world.multiworld.itempool) == _expected_pool_size
@@ -441,14 +444,20 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
 
 
 def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> None:
-    world, _locations = _build_world_for_create_items(RandomizeShards.option_completely_random)
+    world, locations = _build_world_for_create_items(RandomizeShards.option_completely_random)
 
     world.create_items()
 
+    locked_codes = {
+        loc.item.code
+        for loc in locations
+        if loc.item is not None and loc.item.code is not None
+    }
     expected_non_filler_codes = {
         item.item_id
         for item in data.items.values()
         if item.classification not in (ItemClassification.filler, ItemClassification.trap)
+        and item.item_id not in locked_codes
     }
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
@@ -459,17 +468,24 @@ def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> 
 
 
 def test_vanilla_pool_contains_each_non_shard_non_filler_item_exactly_once() -> None:
-    world, _locations = _build_world_for_create_items(RandomizeShards.option_vanilla)
+    world, locations = _build_world_for_create_items(RandomizeShards.option_vanilla)
 
     world.create_items()
 
     shard_codes = {
         item.item_id for item in data.items.values() if "Shards" in item.tags
     }
+    locked_codes = {
+        loc.item.code
+        for loc in locations
+        if loc.item is not None and loc.item.code is not None
+    }
     expected_non_filler_codes = {
         item.item_id
         for item in data.items.values()
-        if item.classification not in (ItemClassification.filler, ItemClassification.trap) and item.item_id not in shard_codes
+        if item.classification not in (ItemClassification.filler, ItemClassification.trap)
+        and item.item_id not in shard_codes
+        and item.item_id not in locked_codes
     }
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
@@ -744,4 +760,30 @@ def test_precollected_area_key_from_other_sources_is_excluded_from_pool() -> Non
     assert area_key_counts["Moonlight Mansion - Area Key"] == 0
     for area_key_name in area_key_names - {"Moonlight Mansion - Area Key"}:
         assert area_key_counts[area_key_name] == 1
+
+
+def test_area_visit_locations_are_attached_to_parent_regions() -> None:
+    area_visit_locations = [
+        (key, loc)
+        for key, loc in data.locations.items()
+        if loc.category == LocationCategory.AREA_VISIT
+    ]
+    assert area_visit_locations
+
+    for location_key, location in area_visit_locations:
+        assert location.parent_region in data.regions
+        assert location_key in data.regions[location.parent_region].locations
+
+
+def test_moonlight_area_key_is_locked_to_rainbow_first_visit() -> None:
+    world, locations = _build_world_for_create_items(RandomizeShards.option_completely_random)
+
+    world.create_items()
+
+    rainbow_first_visit = next(loc for loc in locations if loc.key == "AREA_VISIT_1_RAINBOW_ROUTE")
+    assert rainbow_first_visit.item is not None
+    assert rainbow_first_visit.item.name == "Moonlight Mansion - Area Key"
+
+    pool_names = {item.name for item in world.multiworld.itempool}
+    assert "Moonlight Mansion - Area Key" not in pool_names
 

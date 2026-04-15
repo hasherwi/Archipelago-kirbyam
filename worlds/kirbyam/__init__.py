@@ -464,6 +464,28 @@ class KirbyAmWorld(World):
             room_sanity_locations.sort(key=lambda loc: loc.key or "")
             area_visit_locations.sort(key=lambda loc: loc.key or "")
 
+            precollected_codes = {
+                item.code
+                for item in self.multiworld.precollected_items.get(self.player, [])
+                if item.code is not None
+            }
+
+            # Keep Area 2 progression deterministic in low-access starts by locking
+            # Moonlight Mansion's Area Key onto Rainbow Route's first-area check.
+            moonlight_area_key_code = self.item_name_to_id[AREA_KEY_LABEL_BY_AREA_ID[2]]
+            rainbow_first_visit_loc = location_by_key.get("AREA_VISIT_1_RAINBOW_ROUTE")
+            if (
+                rainbow_first_visit_loc is not None
+                and rainbow_first_visit_loc.item is None
+                and moonlight_area_key_code not in precollected_codes
+            ):
+                rainbow_first_visit_loc.place_locked_item(self.create_item_by_code(moonlight_area_key_code))
+                rainbow_first_visit_loc.progress_type = LocationProgressType.DEFAULT
+                logger.info(
+                    "[P%s] Locked Moonlight Mansion - Area Key onto Rainbow Route - First Visit",
+                    self.player,
+                )
+
             locked_shard_count = 0
             randomized_item_codes: list[int] = []
             if boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or hub_switch_locations or minor_chest_locations or room_sanity_locations or area_visit_locations:
@@ -587,12 +609,17 @@ class KirbyAmWorld(World):
                     }
                     self._area_key_item_codes = area_key_item_codes
 
-                precollected_codes = {
-                    item.code
-                    for item in self.multiworld.precollected_items.get(self.player, [])
-                    if item.code is not None
+                locked_item_codes = {
+                    loc.item.code
+                    for loc in fill_locations
+                    if loc.item is not None and loc.item.code is not None
                 }
-                precollected_area_key_codes = precollected_codes & area_key_item_codes
+                if locked_item_codes:
+                    non_filler_item_codes = [
+                        code for code in non_filler_item_codes if code not in locked_item_codes
+                    ]
+
+                precollected_area_key_codes = (precollected_codes | locked_item_codes) & area_key_item_codes
                 if precollected_area_key_codes:
                     excluded_precollected_area_key_count = sum(
                         1 for code in non_filler_item_codes if code in precollected_area_key_codes

@@ -585,22 +585,39 @@ def _init() -> None:
 
         data.regions[region_name] = region
 
-    # Auto-claim generated room-sanity locations by their parent region.
-    # This keeps data integrity checks complete while runtime region creation can
-    # still option-gate these locations off.
+    # Auto-claim generated room-sanity and area-first-visit locations by their
+    # parent region. This keeps data integrity checks complete while runtime
+    # region creation can still option-gate room-sanity locations off.
     room_sanity_by_region: dict[str, list[str]] = {}
+    area_visit_by_region: dict[str, list[str]] = {}
     for loc_key, loc in data.locations.items():
-        if loc.category != LocationCategory.ROOM_SANITY:
-            continue
         if loc_key in claimed_locations:
             continue
+        if loc.category not in (LocationCategory.ROOM_SANITY, LocationCategory.AREA_VISIT):
+            continue
         if loc.parent_region not in data.regions:
+            category_name = "Room-sanity" if loc.category == LocationCategory.ROOM_SANITY else "Area-visit"
             raise ValueError(
-                f"Room-sanity location [{loc_key}] references missing parent region [{loc.parent_region}]"
+                f"{category_name} location [{loc_key}] references missing parent region [{loc.parent_region}]"
             )
-        room_sanity_by_region.setdefault(loc.parent_region, []).append(loc_key)
+        if loc.category == LocationCategory.ROOM_SANITY:
+            room_sanity_by_region.setdefault(loc.parent_region, []).append(loc_key)
+        else:
+            area_visit_by_region.setdefault(loc.parent_region, []).append(loc_key)
 
     for region_name, loc_keys in sorted(room_sanity_by_region.items()):
+        region = data.regions[region_name]
+        for loc_key in sorted(
+            loc_keys,
+            key=lambda key: (
+                data.locations[key].bit_index if data.locations[key].bit_index is not None else -1,
+                key,
+            ),
+        ):
+            region.locations.append(loc_key)
+            claimed_locations.add(loc_key)
+
+    for region_name, loc_keys in sorted(area_visit_by_region.items()):
         region = data.regions[region_name]
         for loc_key in sorted(
             loc_keys,

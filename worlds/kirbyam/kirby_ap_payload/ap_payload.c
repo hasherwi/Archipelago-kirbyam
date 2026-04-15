@@ -212,6 +212,8 @@ typedef uint32_t (*KirbySpecialDoorVisitedFn)(uint16_t, uint16_t, uint8_t, uint8
 #define ROOM_PROPS_BASE_ADDR 0x089331ACu
 #define ROOM_PROPS_STRIDE 0x28u
 #define ROOM_PROPS_DOORS_IDX_OFFSET 0x24u
+#define KIRBY_CURRENT_ROOM_ADDR 0x02023B28u
+#define KIRBY_CURRENT_ROOM      (*(volatile uint16_t*)(KIRBY_CURRENT_ROOM_ADDR))
 
 // doorsIdx -> area ID lookup for native room metadata.
 // Provenance: derived from the same gRoomProps.doorsIdx + room-region attribution
@@ -265,20 +267,30 @@ static uint8_t ap_has_area_key(uint8_t area_id) {
 
 __attribute__((used)) uint32_t ap_on_query_special_door_state(uint16_t room_id, uint16_t arg1, uint8_t arg2, uint8_t arg3) {
     uint32_t native_result = KIRBY_SPECIAL_DOOR_VISITED_FN(room_id, arg1, arg2, arg3);
-    uint8_t destination_area;
-    uint8_t source_area;
+    uint8_t runtime_source_area;
+    uint8_t room_id_area;
+    uint8_t arg1_area;
+    uint8_t destination_area = 0u;
 
     if (native_result == 0u) {
         return 0u;
     }
 
-    destination_area = ap_room_area_id(arg1);
-    if (destination_area < 2u || destination_area > 9u) {
-        return native_result;
+    runtime_source_area = ap_room_area_id(KIRBY_CURRENT_ROOM);
+    room_id_area = ap_room_area_id(room_id);
+    arg1_area = ap_room_area_id(arg1);
+
+    // Callers are not guaranteed to pass (source_room, destination_room) in a
+    // stable argument order across all transition sites. Derive the destination
+    // as whichever candidate differs from the runtime current area.
+    if (room_id_area >= 2u && room_id_area <= 9u && room_id_area != runtime_source_area) {
+        destination_area = room_id_area;
+    }
+    if (arg1_area >= 2u && arg1_area <= 9u && arg1_area != runtime_source_area) {
+        destination_area = arg1_area;
     }
 
-    source_area = ap_room_area_id(room_id);
-    if (source_area == destination_area) {
+    if (destination_area < 2u || destination_area > 9u) {
         return native_result;
     }
 
