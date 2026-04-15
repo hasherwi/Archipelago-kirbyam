@@ -57,14 +57,18 @@ class _FakeMultiWorld:
 
 
 class _FakeState:
-    def __init__(self, owned: set[str] | None = None) -> None:
+    def __init__(self, owned: set[str] | None = None, reachable_locations: set[str] | None = None) -> None:
         self._owned = owned or set()
+        self._reachable_locations = reachable_locations or set()
 
     def has(self, name: str, _player: int) -> bool:
         return name in self._owned
 
     def has_from_list_unique(self, names: list[str], _player: int, amount: int) -> bool:
         return len(set(names).intersection(self._owned)) >= amount
+
+    def can_reach_location(self, spot: str, _player: int) -> bool:
+        return spot in self._reachable_locations
 
 
 class _FakeWorld:
@@ -394,6 +398,67 @@ def test_room_level_mirror_entrance_requires_destination_area_key() -> None:
     assert callable(entrance.access_rule)
     assert not entrance.access_rule(_FakeState())
     assert entrance.access_rule(_FakeState({"Olive Ocean - Area Key"}))
+
+
+def test_hub_mirror_transition_requires_associated_big_switch() -> None:
+    world = _FakeWorld(Goal.option_dark_mind)
+    set_rules(world)
+
+    entrance = world.multiworld.get_entrance(
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1 -> REGION_RAINBOW_ROUTE/ROOM_1_HUB_3",
+        world.player,
+    )
+
+    assert callable(entrance.access_rule)
+    assert not entrance.access_rule(_FakeState())
+    assert entrance.access_rule(_FakeState(reachable_locations={"Moonlight Mansion - Big Switch"}))
+
+
+def test_copy_ability_room_requires_all_big_switches() -> None:
+    world = _FakeWorld(Goal.option_dark_mind)
+    set_rules(world)
+
+    entrance = world.multiworld.get_entrance(
+        "REGION_RAINBOW_ROUTE/ROOM_1_30 -> REGION_RAINBOW_ROUTE/ROOM_1_HUB_4",
+        world.player,
+    )
+
+    all_switches = {
+        "Peppermint Palace West - Big Switch",
+        "Rainbow Route East - Big Switch",
+        "Rainbow Route South - Big Switch",
+        "Cabbage Cavern Center - Big Switch",
+        "Rainbow Route West - Big Switch",
+        "Carrot Castle - Big Switch",
+        "Rainbow Route North - Big Switch",
+        "Mustard Mountain - Big Switch",
+        "Cabbage Cavern West - Big Switch",
+        "Radish Ruins - Big Switch",
+        "Moonlight Mansion - Big Switch",
+        "Peppermint Palace East - Big Switch",
+        "Cabbage Cavern East - Big Switch",
+        "Olive Ocean - Big Switch",
+        "Candy Constellation - Big Switch",
+    }
+    partial = set(list(all_switches)[:14])
+
+    assert callable(entrance.access_rule)
+    assert not entrance.access_rule(_FakeState(reachable_locations=partial))
+    assert entrance.access_rule(_FakeState(reachable_locations=all_switches))
+
+
+def test_lever_gated_transition_requires_lever_event() -> None:
+    world = _FakeWorld(Goal.option_dark_mind)
+    set_rules(world)
+
+    entrance = world.multiworld.get_entrance(
+        "REGION_OLIVE_OCEAN/ROOM_6_13 -> REGION_OLIVE_OCEAN/ROOM_6_14",
+        world.player,
+    )
+
+    assert callable(entrance.access_rule)
+    assert not entrance.access_rule(_FakeState())
+    assert entrance.access_rule(_FakeState({"EVENT_LEVER_OLIVE_OCEAN_ROOM_13"}))
 
 
 def test_early_reachable_count_requires_moonlight_fallback_key() -> None:

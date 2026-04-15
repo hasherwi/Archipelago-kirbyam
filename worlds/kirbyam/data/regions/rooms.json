@@ -1039,7 +1039,9 @@
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_11": {
     "locations": [],
-    "events": [],
+    "events": [
+      "EVENT_LEVER_MOONLIGHT_ROOM_11"
+    ],
     "exits": [
       "REGION_MOONLIGHT_MANSION/ROOM_2_10",
       "REGION_MOONLIGHT_MANSION/ROOM_2_08",
@@ -2014,7 +2016,9 @@
   },
   "REGION_CARROT_CASTLE/ROOM_5_05": {
     "locations": [],
-    "events": [],
+    "events": [
+      "EVENT_LEVER_CARROT_CASTLE_ROOM_5"
+    ],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_02",
       "REGION_CARROT_CASTLE/ROOM_5_03",
@@ -2503,7 +2507,9 @@
   },
   "REGION_OLIVE_OCEAN/ROOM_6_13": {
     "locations": [],
-    "events": [],
+    "events": [
+      "EVENT_LEVER_OLIVE_OCEAN_ROOM_13"
+    ],
     "exits": [
       "REGION_OLIVE_OCEAN/ROOM_6_14",
       "REGION_OLIVE_OCEAN/ROOM_6_19",
@@ -3386,7 +3392,9 @@
   },
   "REGION_RADISH_RUINS/ROOM_8_12": {
     "locations": [],
-    "events": [],
+    "events": [
+      "EVENT_LEVER_RADISH_RUINS_ROOM_12"
+    ],
     "exits": [
       "REGION_RADISH_RUINS/ROOM_8_20",
       "REGION_RADISH_RUINS/ROOM_8_15"

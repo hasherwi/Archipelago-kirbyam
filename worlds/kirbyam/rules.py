@@ -60,6 +60,40 @@ _GOAL_LOCATION_LABELS = {
 _DMK_DIMENSION_MIRROR_EVENT = "Defeat Dark Meta Knight (Dimension Mirror)"
 _ABILITY_GATE_STATUS_VALUES = frozenset({"confirmed", "semantic_candidate", "unconfirmed"})
 
+_HUB_SWITCH_LOCATION_LABELS = [
+    "Peppermint Palace West - Big Switch",
+    "Rainbow Route East - Big Switch",
+    "Rainbow Route South - Big Switch",
+    "Cabbage Cavern Center - Big Switch",
+    "Rainbow Route West - Big Switch",
+    "Carrot Castle - Big Switch",
+    "Rainbow Route North - Big Switch",
+    "Mustard Mountain - Big Switch",
+    "Cabbage Cavern West - Big Switch",
+    "Radish Ruins - Big Switch",
+    "Moonlight Mansion - Big Switch",
+    "Peppermint Palace East - Big Switch",
+    "Cabbage Cavern East - Big Switch",
+    "Olive Ocean - Big Switch",
+    "Candy Constellation - Big Switch",
+]
+
+# Hub mirrors that become available only after the corresponding big switch has
+# been pressed in that area.
+_BIG_SWITCH_GATED_HUB_TRANSITIONS = {
+    "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1 -> REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": "Moonlight Mansion - Big Switch",
+    "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3 -> REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": "Cabbage Cavern Center - Big Switch",
+    "REGION_CANDY_CONSTELLATION/ROOM_9_HUB -> REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": "Candy Constellation - Big Switch",
+    "REGION_PEPPERMINT_PALACE/ROOM_7_15 -> REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": "Peppermint Palace East - Big Switch",
+}
+
+_LEVER_EVENTS_BY_TRANSITION = {
+    "REGION_MOONLIGHT_MANSION/ROOM_2_11 -> REGION_MOONLIGHT_MANSION/ROOM_2_06": "EVENT_LEVER_MOONLIGHT_ROOM_11",
+    "REGION_OLIVE_OCEAN/ROOM_6_13 -> REGION_OLIVE_OCEAN/ROOM_6_14": "EVENT_LEVER_OLIVE_OCEAN_ROOM_13",
+    "REGION_CARROT_CASTLE/ROOM_5_05 -> REGION_CARROT_CASTLE/ROOM_5_02": "EVENT_LEVER_CARROT_CASTLE_ROOM_5",
+    "REGION_RADISH_RUINS/ROOM_8_12 -> REGION_RADISH_RUINS/ROOM_8_15": "EVENT_LEVER_RADISH_RUINS_ROOM_12",
+}
+
 # These gates intentionally default to True until ability items/statues become
 # part of the item pool. The names match the planned logic categories from #37.
 _ABILITY_GATE_PLACEHOLDER_SOURCES = {
@@ -84,6 +118,14 @@ def _has_area_key(state: CollectionState, player: int, area_id: int) -> bool:
     if area_key_label is None:
         return True
     return state.has(area_key_label, player)
+
+
+def _has_checked_location(state: CollectionState, player: int, location_label: str) -> bool:
+    return state.can_reach_location(location_label, player)
+
+
+def _all_big_switches_pressed(state: CollectionState, player: int) -> bool:
+    return all(_has_checked_location(state, player, label) for label in _HUB_SWITCH_LOCATION_LABELS)
 
 
 def can_cut_ropes(state: CollectionState, player: int) -> bool:
@@ -221,6 +263,62 @@ def set_rules(world: KirbyAmWorld) -> None:
                 world.player,
                 gated_entrance_name,
                 area_id,
+            )
+
+    for gated_entrance_name, switch_location_label in _BIG_SWITCH_GATED_HUB_TRANSITIONS.items():
+        try:
+            entrance = world.multiworld.get_entrance(gated_entrance_name, world.player)
+            set_rule(
+                entrance,
+                lambda state, required_switch=switch_location_label: _has_checked_location(
+                    state,
+                    world.player,
+                    required_switch,
+                ),
+            )
+        except KeyError:
+            logger.debug(
+                "[P%s] Entrance %r not found; skipping big-switch gate %s",
+                world.player,
+                gated_entrance_name,
+                switch_location_label,
+            )
+
+    # Copy Ability Room unlocks only when all big switches are pressed.
+    copy_ability_gate_entrances = sorted(
+        f"{region_name} -> {exit_name}"
+        for region_name, region_data in data.regions.items()
+        for exit_name in region_data.exits
+        if region_name == "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+        or exit_name == "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+    )
+    for entrance_name in copy_ability_gate_entrances:
+        try:
+            entrance = world.multiworld.get_entrance(entrance_name, world.player)
+            set_rule(
+                entrance,
+                lambda state: _all_big_switches_pressed(state, world.player),
+            )
+        except KeyError:
+            logger.debug(
+                "[P%s] Entrance %r not found; skipping Copy Ability Room all-switch gate",
+                world.player,
+                entrance_name,
+            )
+
+    for gated_entrance_name, lever_event_name in _LEVER_EVENTS_BY_TRANSITION.items():
+        try:
+            entrance = world.multiworld.get_entrance(gated_entrance_name, world.player)
+            set_rule(
+                entrance,
+                lambda state, required_event=lever_event_name: state.has(required_event, world.player),
+            )
+        except KeyError:
+            logger.debug(
+                "[P%s] Entrance %r not found; skipping lever gate %s",
+                world.player,
+                gated_entrance_name,
+                lever_event_name,
             )
 
     for goal_location_name in _GOAL_LOCATION_LABELS.values():
