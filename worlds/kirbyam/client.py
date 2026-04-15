@@ -70,6 +70,7 @@ _STARTING_KIRBY_COLOR_MAX = 13
 _STARTING_KIRBY_COLOR_REVALIDATE_TICKS = 4
 _ABILITY_RUNTIME_CONFIG_REVALIDATE_TICKS = 4
 _CHALLENGE_RUNTIME_CONFIG_REVALIDATE_TICKS = 4
+_AREA_KEY_RUNTIME_CONFIG_REVALIDATE_TICKS = 4
 _OPTIONAL_UNSAFE_DELIVERY_COUNTERS = (
     ("shadow_kirby_encounters_native", "shadow_kirby_encounters"),
     ("mirra_encounters_native", "mirra_encounters"),
@@ -603,7 +604,7 @@ class KirbyAmClient(BizHawkClient):
         desired_bits = self._ap_owned_area_key_bits(ctx)
         if self._last_area_key_runtime_bitfield == desired_bits:
             self._area_key_runtime_revalidate_counter += 1
-            if self._area_key_runtime_revalidate_counter < _CHALLENGE_RUNTIME_CONFIG_REVALIDATE_TICKS:
+            if self._area_key_runtime_revalidate_counter < _AREA_KEY_RUNTIME_CONFIG_REVALIDATE_TICKS:
                 return
         self._area_key_runtime_revalidate_counter = 0
 

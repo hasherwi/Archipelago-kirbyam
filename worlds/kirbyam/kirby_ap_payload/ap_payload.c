@@ -63,7 +63,7 @@
 // 0xFFFFFFFF means client has not synced yet (treat as off/0).
 #define AP_ONE_HIT_MODE_RUNTIME    (*(volatile uint32_t*)(AP_BASE + 0x54u))
 #define AP_NO_EXTRA_LIVES_RUNTIME  (*(volatile uint32_t*)(AP_BASE + 0x58u))
-#define AP_AREA_KEY_BITFIELD       (*(volatile uint32_t*)(AP_BASE + 0x5Cu))
+#define AP_AREA_KEY_BITFIELD_RUNTIME (*(volatile uint32_t*)(AP_BASE + 0x5Cu))
 #define KIRBY_SHARD_FLAGS_ADDR  0x02038970u
 #define KIRBY_SHARD_FLAGS       (*(volatile uint8_t*)(KIRBY_SHARD_FLAGS_ADDR))
 #define KIRBY_ACTIVE_COLOR_ADDR    0x0203ADE0u
@@ -250,7 +250,7 @@ static uint8_t ap_has_area_key(uint8_t area_id) {
     if (area_id < 2u || area_id > 9u) {
         return 1u;
     }
-    return (uint8_t)((AP_AREA_KEY_BITFIELD >> area_id) & 1u);
+    return (uint8_t)((AP_AREA_KEY_BITFIELD_RUNTIME >> area_id) & 1u);
 }
 
 __attribute__((used)) uint32_t ap_on_query_special_door_state(uint16_t room_id, uint16_t arg1, uint8_t arg2, uint8_t arg3) {
@@ -778,7 +778,7 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
     // AREA_KEY_2..AREA_KEY_9 = BASE+36 .. BASE+43
     if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 36u) && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 43u)) {
         uint32_t area_id = 2u + (ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 36u));
-        AP_AREA_KEY_BITFIELD |= (1u << area_id);
+        AP_AREA_KEY_BITFIELD_RUNTIME |= (1u << area_id);
         return 1u;
     }
 
@@ -809,7 +809,7 @@ void ap_poll_mailbox_c(void) {
         AP_STARTING_KIRBY_COLOR_ID = 0xFFFFFFFFu;
         AP_ONE_HIT_MODE_RUNTIME = 0xFFFFFFFFu;
         AP_NO_EXTRA_LIVES_RUNTIME = 0xFFFFFFFFu;
-        AP_AREA_KEY_BITFIELD = 0u;
+        AP_AREA_KEY_BITFIELD_RUNTIME = 0u;
         ap_starting_kirby_color_applied = 0u;
         AP_ABILITY_RANDOMIZATION_MODE = 0u;
         AP_ABILITY_RANDOMIZATION_SEED_LO = 0u;
