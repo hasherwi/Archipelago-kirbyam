@@ -18,6 +18,7 @@ class _DummyMultiWorld:
     def __init__(self, locations):
         self._locations = locations
         self.itempool = []
+        self.precollected_items = {1: []}
 
     def get_locations(self, player):
         return self._locations
@@ -724,4 +725,23 @@ def test_starting_area_key_fallback_excludes_precollected_key_from_pool() -> Non
     pool_names = {item.name for item in world.multiworld.itempool}
     assert "Moonlight Mansion - Area Key" not in pool_names
     assert "Cabbage Cavern - Area Key" in pool_names
+
+
+def test_precollected_area_key_from_other_sources_is_excluded_from_pool() -> None:
+    world, _locations = _build_world_for_create_items(RandomizeShards.option_completely_random)
+    precollected_key = world.create_item("Moonlight Mansion - Area Key")
+    world.multiworld.precollected_items[world.player].append(precollected_key)
+
+    world.create_items()
+
+    area_key_names = {
+        item.label
+        for item in data.items.values()
+        if "AreaKeys" in item.tags
+    }
+    area_key_counts = Counter(item.name for item in world.multiworld.itempool if item.name in area_key_names)
+
+    assert area_key_counts["Moonlight Mansion - Area Key"] == 0
+    for area_key_name in area_key_names - {"Moonlight Mansion - Area Key"}:
+        assert area_key_counts[area_key_name] == 1
 

@@ -368,7 +368,14 @@ class KirbyAmWorld(World):
             if early_check_count < EARLY_REACHABLE_CHECK_THRESHOLD:
                 fallback_area_id = FALLBACK_STARTING_AREA_ID
                 fallback_item_label = AREA_KEY_LABEL_BY_AREA_ID[fallback_area_id]
-                self.push_precollected(self.create_item(fallback_item_label))
+                existing_precollected_codes = {
+                    item.code
+                    for item in self.multiworld.precollected_items.get(self.player, [])
+                    if item.code is not None
+                }
+                fallback_item_code = self.item_name_to_id[fallback_item_label]
+                if fallback_item_code not in existing_precollected_codes:
+                    self.push_precollected(self.create_item(fallback_item_label))
                 self._starting_area_key_bitfield |= 1 << fallback_area_id
                 logger.info(
                     "[P%s] Area Key fallback activated: early reachable checks=%s threshold=%s; precollected %s",
@@ -571,19 +578,48 @@ class KirbyAmWorld(World):
                         excluded_map_count,
                     )
 
-                starting_area_key_bitfield = int(getattr(self, "_starting_area_key_bitfield", 0))
-                if starting_area_key_bitfield:
-                    precollected_area_key_codes = {
-                        self.item_name_to_id[label]
-                        for area_id, label in AREA_KEY_LABEL_BY_AREA_ID.items()
-                        if starting_area_key_bitfield & (1 << area_id)
+                area_key_item_codes = getattr(self, "_area_key_item_codes", None)
+                if area_key_item_codes is None:
+                    area_key_item_codes = {
+                        item.item_id
+                        for item in kirby_data.items.values()
+                        if "AreaKeys" in item.tags
                     }
-                    excluded_area_key_count = sum(
+                    self._area_key_item_codes = area_key_item_codes
+
+                precollected_codes = {
+                    item.code
+                    for item in self.multiworld.precollected_items.get(self.player, [])
+                    if item.code is not None
+                }
+                precollected_area_key_codes = precollected_codes & area_key_item_codes
+                if precollected_area_key_codes:
+                    excluded_precollected_area_key_count = sum(
                         1 for code in non_filler_item_codes if code in precollected_area_key_codes
                     )
                     non_filler_item_codes = [
                         code for code in non_filler_item_codes if code not in precollected_area_key_codes
                     ]
+                    logger.info(
+                        "[P%s] Area Key uniqueness: removed %s precollected Area Key item(s) from non-filler pool",
+                        self.player,
+                        excluded_precollected_area_key_count,
+                    )
+
+                starting_area_key_bitfield = int(getattr(self, "_starting_area_key_bitfield", 0))
+                if starting_area_key_bitfield:
+                    fallback_precollected_area_key_codes = {
+                        self.item_name_to_id[label]
+                        for area_id, label in AREA_KEY_LABEL_BY_AREA_ID.items()
+                        if starting_area_key_bitfield & (1 << area_id)
+                    }
+                    excluded_area_key_count = sum(
+                        1 for code in non_filler_item_codes if code in fallback_precollected_area_key_codes
+                    )
+                    non_filler_item_codes = [
+                        code for code in non_filler_item_codes if code not in fallback_precollected_area_key_codes
+                    ]
+                    precollected_area_key_codes |= fallback_precollected_area_key_codes
                     logger.info(
                         "[P%s] start-with-area-key fallback: removed %s precollected Area Key item(s) from non-filler pool",
                         self.player,
@@ -656,6 +692,31 @@ class KirbyAmWorld(World):
                     self.player,
                     dict(sorted(vitality_code_counts.items())),
                 )
+
+                area_key_code_counts = Counter(
+                    code for code in randomized_item_codes if code in area_key_item_codes
+                )
+                missing_area_key_codes = sorted(
+                    code
+                    for code in area_key_item_codes
+                    if code not in precollected_area_key_codes and area_key_code_counts.get(code, 0) == 0
+                )
+                duplicate_area_key_codes = {
+                    code: count
+                    for code, count in area_key_code_counts.items()
+                    if count > 1
+                }
+                if missing_area_key_codes or duplicate_area_key_codes:
+                    raise ValueError(
+                        "KirbyAM area key pool invariant failed: each non-precollected Area Key must appear exactly once. "
+                        f"missing={missing_area_key_codes} duplicates={duplicate_area_key_codes}"
+                    )
+                logger.info(
+                    "[P%s] Area Key pool multiplicity: %s",
+                    self.player,
+                    dict(sorted(area_key_code_counts.items())),
+                )
+
                 logger.info(
                     "[P%s] Trap pool summary: enabled=%s percentage=%s eligible_filler_slots=%s selected_traps=%s filler_remaining=%s",
                     self.player,
