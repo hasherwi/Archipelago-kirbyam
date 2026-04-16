@@ -5,7 +5,7 @@ import logging
 from unittest.mock import AsyncMock, Mock, patch
 
 import worlds._bizhawk as bizhawk
-from worlds._bizhawk.context import _game_watcher, AuthStatus
+from worlds._bizhawk.context import _game_watcher, AuthStatus, BizHawkClientCommandProcessor
 
 from ..data import LocationCategory, data
 from ..client import (
@@ -24,6 +24,7 @@ from ..rom import KirbyAmProcedurePatch
 @pytest.mark.asyncio
 async def test_validate_rom_accepts_patched_kirby_header(mock_bizhawk_context):
     client = KirbyAmClient()
+    mock_bizhawk_context.command_processor = BizHawkClientCommandProcessor
 
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
         mock_read.side_effect = [
