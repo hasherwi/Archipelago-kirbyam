@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import os
+import re
 import tempfile
 from pathlib import Path
 
@@ -11,11 +13,69 @@ import pytest
 
 
 PATCH_ROM_PATH = Path(__file__).resolve().parents[1] / "kirby_ap_payload" / "patch_rom.py"
+AP_PAYLOAD_C_PATH = Path(__file__).resolve().parents[1] / "kirby_ap_payload" / "ap_payload.c"
+ROOMS_JSON_PATH = Path(__file__).resolve().parents[1] / "data" / "regions" / "rooms.json"
 PATCH_ROM_SPEC = importlib.util.spec_from_file_location("kirbyam_patch_rom", PATCH_ROM_PATH)
 if PATCH_ROM_SPEC is None or PATCH_ROM_SPEC.loader is None:
     raise RuntimeError(f"Failed to load patch_rom module from {PATCH_ROM_PATH}")
 patch_rom = importlib.util.module_from_spec(PATCH_ROM_SPEC)
 PATCH_ROM_SPEC.loader.exec_module(patch_rom)
+
+
+def _parse_doors_idx_area_table_from_ap_payload() -> list[int]:
+    source = AP_PAYLOAD_C_PATH.read_text(encoding="utf-8")
+    match = re.search(
+        r"static\s+const\s+uint8_t\s+gApDoorsIdxAreaIds\[0x120\]\s*=\s*\{(.*?)\};",
+        source,
+        flags=re.DOTALL,
+    )
+    assert match is not None, "gApDoorsIdxAreaIds table not found in ap_payload.c"
+
+    body = re.sub(r"/\*.*?\*/", "", match.group(1), flags=re.DOTALL)
+    values = [int(token) for token in re.findall(r"\b\d+\b", body)]
+    assert len(values) == 0x120, (
+        f"Expected 0x120 doorsIdx entries in gApDoorsIdxAreaIds, got {len(values)}"
+    )
+    return values
+
+
+def _room_area_id_mapping_from_rooms_json() -> dict[int, int]:
+    with ROOMS_JSON_PATH.open("r", encoding="utf-8") as handle:
+        rooms_json = json.load(handle)
+    area_token_to_area_id = {
+        "RAINBOW_ROUTE": 1,
+        "MOONLIGHT_MANSION": 2,
+        "CABBAGE_CAVERN": 3,
+        "MUSTARD_MOUNTAIN": 4,
+        "CARROT_CASTLE": 5,
+        "OLIVE_OCEAN": 6,
+        "PEPPERMINT_PALACE": 7,
+        "RADISH_RUINS": 8,
+        "CANDY_CONSTELLATION": 9,
+        "DIMENSION_MIRROR": 10,
+    }
+
+    result: dict[int, int] = {}
+    for region_key, room_data in rooms_json.items():
+        if not isinstance(region_key, str) or not isinstance(room_data, dict):
+            continue
+        room_sanity = room_data.get("room_sanity")
+        if not isinstance(room_sanity, dict):
+            continue
+        bit_index = room_sanity.get("bit_index")
+        if bit_index is None:
+            continue
+
+        area_match = re.match(r"^REGION_([A-Z_]+)/", region_key)
+        if area_match is None:
+            continue
+        area_id = area_token_to_area_id.get(area_match.group(1))
+        if area_id is None:
+            continue
+
+        result[int(bit_index)] = area_id
+
+    return result
 
 
 def test_patch_rom_accepts_expected_usa_rom_size() -> None:
@@ -250,3 +310,15 @@ def test_find_thumb_bl_callsites_for_targets_finds_special_door_callsites() -> N
     )
 
     assert found == [off_a, off_b]
+
+
+def test_doors_idx_area_table_matches_rooms_json_mapping() -> None:
+    table = _parse_doors_idx_area_table_from_ap_payload()
+    expected_mapping = _room_area_id_mapping_from_rooms_json()
+
+    assert expected_mapping, "Expected at least one room-derived doorsIdx->area mapping"
+    for doors_idx, expected_area_id in expected_mapping.items():
+        assert table[doors_idx] == expected_area_id, (
+            f"gApDoorsIdxAreaIds drift at doors_idx={doors_idx}: "
+            f"table={table[doors_idx]} expected={expected_area_id}"
+        )

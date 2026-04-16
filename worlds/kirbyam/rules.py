@@ -60,23 +60,21 @@ _GOAL_LOCATION_LABELS = {
 _DMK_DIMENSION_MIRROR_EVENT = "Defeat Dark Meta Knight (Dimension Mirror)"
 _ABILITY_GATE_STATUS_VALUES = frozenset({"confirmed", "semantic_candidate", "unconfirmed"})
 
-_HUB_SWITCH_LOCATION_LABELS = [
-    "Peppermint Palace West - Big Switch",
-    "Rainbow Route East - Big Switch",
-    "Rainbow Route South - Big Switch",
-    "Cabbage Cavern Center - Big Switch",
-    "Rainbow Route West - Big Switch",
-    "Carrot Castle - Big Switch",
-    "Rainbow Route North - Big Switch",
-    "Mustard Mountain - Big Switch",
-    "Cabbage Cavern West - Big Switch",
-    "Radish Ruins - Big Switch",
-    "Moonlight Mansion - Big Switch",
-    "Peppermint Palace East - Big Switch",
-    "Cabbage Cavern East - Big Switch",
-    "Olive Ocean - Big Switch",
-    "Candy Constellation - Big Switch",
-]
+_HUB_SWITCH_LOCATION_LABELS = tuple(
+    location.label
+    for location in sorted(
+        (
+            location
+            for location in data.locations.values()
+            if location.category == LocationCategory.HUB_SWITCH
+        ),
+        key=lambda location: (
+            location.bit_index is None,
+            location.bit_index if location.bit_index is not None else -1,
+            location.label,
+        ),
+    )
+)
 
 # Hub mirrors that become available only after the corresponding big switch has
 # been pressed in that area. Gate return direction only to avoid progression
@@ -121,12 +119,12 @@ def _has_area_key(state: CollectionState, player: int, area_id: int) -> bool:
     return state.has(area_key_label, player)
 
 
-def _has_checked_location(state: CollectionState, player: int, location_label: str) -> bool:
+def _can_reach_location(state: CollectionState, player: int, location_label: str) -> bool:
     return state.can_reach_location(location_label, player)
 
 
 def _all_big_switches_pressed(state: CollectionState, player: int) -> bool:
-    return all(_has_checked_location(state, player, label) for label in _HUB_SWITCH_LOCATION_LABELS)
+    return all(_can_reach_location(state, player, label) for label in _HUB_SWITCH_LOCATION_LABELS)
 
 
 def can_cut_ropes(state: CollectionState, player: int) -> bool:
@@ -270,7 +268,7 @@ def set_rules(world: KirbyAmWorld) -> None:
     for gated_entrance_name, switch_location_label in _BIG_SWITCH_GATED_HUB_TRANSITIONS.items():
         try:
             entrance = world.multiworld.get_entrance(gated_entrance_name, world.player)
-            # If this hub mirror is also gate in room_gated_entrances, combine the rules
+            # If this hub mirror is also gated in room_gated_entrances, combine the rules
             # to require BOTH the Area Key and the big switch.
             if gated_entrance_name in room_gated_entrances:
                 required_area_id = room_gated_entrances[gated_entrance_name]
@@ -278,14 +276,14 @@ def set_rules(world: KirbyAmWorld) -> None:
                     entrance,
                     lambda state, required_area_id=required_area_id, required_switch=switch_location_label: (
                         _has_area_key(state, world.player, required_area_id)
-                        and _has_checked_location(state, world.player, required_switch)
+                        and _can_reach_location(state, world.player, required_switch)
                     ),
                 )
             else:
                 # Hub mirror not in room gates - just require big switch
                 set_rule(
                     entrance,
-                    lambda state, required_switch=switch_location_label: _has_checked_location(
+                    lambda state, required_switch=switch_location_label: _can_reach_location(
                         state,
                         world.player,
                         required_switch,
