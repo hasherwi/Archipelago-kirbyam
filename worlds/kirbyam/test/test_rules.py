@@ -392,3 +392,18 @@ def test_stake_gated_transitions_cover_cross_region_stake_rooms() -> None:
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_04 -> REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1" in stake_entrances
     assert "REGION_CANDY_CONSTELLATION/ROOM_9_HUB -> REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3" in stake_entrances
 
+
+def test_stake_gated_transitions_come_from_transition_path_annotations() -> None:
+    from ..data import load_json_data
+
+    transitions_payload = load_json_data("regions/transitions.json")
+    transitions = transitions_payload.get("transitions", [])
+    annotated = {
+        f"{transition['source_room']} -> {transition['destination_room']}"
+        for transition in transitions
+        if isinstance(transition, dict) and transition.get("ability_gate") == "CanPoundPegs"
+    }
+
+    assert annotated
+    assert set(get_stake_gated_transition_entrance_names()) == annotated
+

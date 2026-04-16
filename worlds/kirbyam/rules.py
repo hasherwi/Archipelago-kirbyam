@@ -65,14 +65,7 @@ _ABILITY_GATE_PLACEHOLDER_SOURCES = {
     "CanPoundPegs": frozenset({"Hammer", "Stone", "Smash", "Master"}),
 }
 
-_STAKE_GATED_DESTINATION_ROOMS = frozenset(
-    {
-        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
-        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
-        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
-    }
-)
+_STAKE_TRANSITION_GATE_NAME = "CanPoundPegs"
 
 
 def _has_all_shards(state: CollectionState, player: int) -> bool:
@@ -125,7 +118,10 @@ def get_stake_breaking_abilities() -> tuple[str, ...]:
 
 
 def get_stake_gated_transition_entrance_names() -> tuple[str, ...]:
-    """Return directional entrance names that require the shared stake gate."""
+    """Return directional entrance names that require the shared stake gate.
+
+    Source of truth is regions/transitions.json path-level annotations.
+    """
     transitions_payload = load_json_data("regions/transitions.json")
     transitions = transitions_payload.get("transitions", []) if isinstance(transitions_payload, dict) else []
 
@@ -135,9 +131,10 @@ def get_stake_gated_transition_entrance_names() -> tuple[str, ...]:
             continue
         source_room = transition.get("source_room")
         destination_room = transition.get("destination_room")
+        ability_gate = transition.get("ability_gate")
         if not isinstance(source_room, str) or not isinstance(destination_room, str):
             continue
-        if destination_room not in _STAKE_GATED_DESTINATION_ROOMS:
+        if ability_gate != _STAKE_TRANSITION_GATE_NAME:
             continue
         entrance_names.add(f"{source_room} -> {destination_room}")
 
