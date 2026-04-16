@@ -52,6 +52,7 @@
 #define AP_ABILITY_REROLL_SOURCE_KIND (*(volatile uint32_t*)(AP_BASE + 0x5Cu))
 #define AP_ABILITY_REROLL_CALLSITE_PC (*(volatile uint32_t*)(AP_BASE + 0x60u))
 #define AP_ABILITY_REROLL_KIRBY_INDEX (*(volatile uint32_t*)(AP_BASE + 0x88u))
+#define AP_AREA_KEY_BITFIELD_RUNTIME (*(volatile uint32_t*)(AP_BASE + 0x8Cu))
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
 // Bit N set <=> boss of area N was defeated (same bit ordering as shard_bitfield, bits 0-7 used).
@@ -66,8 +67,6 @@
 // 0xFFFFFFFF means client has not synced yet (treat as off/0).
 #define AP_ONE_HIT_MODE_RUNTIME    (*(volatile uint32_t*)(AP_BASE + 0x54u))
 #define AP_NO_EXTRA_LIVES_RUNTIME  (*(volatile uint32_t*)(AP_BASE + 0x58u))
-static volatile uint32_t gApAreaKeyBitfieldRuntime = 0xFFFFFFFFu;
-#define AP_AREA_KEY_BITFIELD_RUNTIME (gApAreaKeyBitfieldRuntime)
 #define KIRBY_SHARD_FLAGS_ADDR  0x02038970u
 #define KIRBY_SHARD_FLAGS       (*(volatile uint8_t*)(KIRBY_SHARD_FLAGS_ADDR))
 #define KIRBY_ACTIVE_COLOR_ADDR    0x0203ADE0u
