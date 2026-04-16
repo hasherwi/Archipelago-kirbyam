@@ -212,6 +212,7 @@ typedef uint32_t (*KirbySpecialDoorVisitedFn)(uint16_t, uint16_t, uint8_t, uint8
 #define ROOM_PROPS_BASE_ADDR 0x089331ACu
 #define ROOM_PROPS_STRIDE 0x28u
 #define ROOM_PROPS_DOORS_IDX_OFFSET 0x24u
+#define ROOM_PROPS_ROOM_ID_LIMIT 0x400u
 #define KIRBY_CURRENT_ROOM_ADDR 0x02023B28u
 #define KIRBY_CURRENT_ROOM      (*(volatile uint16_t*)(KIRBY_CURRENT_ROOM_ADDR))
 
@@ -262,21 +263,26 @@ static const uint8_t gApDoorsIdxAreaIds[0x120] = {
 };
 
 static uint16_t ap_room_doors_idx(uint16_t room_id) {
+    if ((uint32_t)room_id >= ROOM_PROPS_ROOM_ID_LIMIT) {
+        return 0xFFFFu;
+    }
     return *(volatile uint16_t*)(ROOM_PROPS_BASE_ADDR + ((uint32_t)room_id * ROOM_PROPS_STRIDE) + ROOM_PROPS_DOORS_IDX_OFFSET);
 }
 
-static uint8_t ap_room_area_id(uint16_t room_id) {
-    uint16_t doors_idx = ap_room_doors_idx(room_id);
+static uint8_t ap_doors_idx_area_id(uint16_t doors_idx) {
     uint8_t area_id;
     if (doors_idx >= 0x120u) {
         return 0u;
     }
     area_id = gApDoorsIdxAreaIds[doors_idx];
-    // Guard against stale mapping data: valid area IDs are 0..9 in this payload.
     if (area_id > 9u) {
         return 0u;
     }
     return area_id;
+}
+
+static uint8_t ap_room_area_id(uint16_t room_id) {
+    return ap_doors_idx_area_id(ap_room_doors_idx(room_id));
 }
 
 static uint8_t ap_has_area_key(uint8_t area_id) {
@@ -306,6 +312,8 @@ __attribute__((used)) uint32_t ap_on_query_special_door_state(uint16_t room_id, 
     uint8_t runtime_source_area;
     uint8_t room_id_area;
     uint8_t arg1_area;
+    uint8_t room_id_doors_area;
+    uint8_t arg1_doors_area;
     uint8_t destination_area = 0u;
     uint16_t runtime_source_doors_idx;
 
@@ -323,6 +331,8 @@ __attribute__((used)) uint32_t ap_on_query_special_door_state(uint16_t room_id, 
     runtime_source_area = ap_room_area_id(KIRBY_CURRENT_ROOM);
     room_id_area = ap_room_area_id(room_id);
     arg1_area = ap_room_area_id(arg1);
+    room_id_doors_area = ap_doors_idx_area_id(room_id);
+    arg1_doors_area = ap_doors_idx_area_id(arg1);
 
     // Callers are not guaranteed to pass (source_room, destination_room) in a
     // stable argument order across all transition sites. Derive the destination
@@ -332,6 +342,14 @@ __attribute__((used)) uint32_t ap_on_query_special_door_state(uint16_t room_id, 
     }
     if (arg1_area >= 2u && arg1_area <= 9u && arg1_area != runtime_source_area) {
         destination_area = arg1_area;
+    }
+    // Some callsites appear to pass doorsIdx-like values instead of canonical
+    // room IDs; treat those as fallback area candidates for regular mirrors.
+    if (room_id_doors_area >= 2u && room_id_doors_area <= 9u && room_id_doors_area != runtime_source_area) {
+        destination_area = room_id_doors_area;
+    }
+    if (arg1_doors_area >= 2u && arg1_doors_area <= 9u && arg1_doors_area != runtime_source_area) {
+        destination_area = arg1_doors_area;
     }
 
     if (destination_area < 2u || destination_area > 9u) {
