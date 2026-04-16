@@ -225,8 +225,8 @@ typedef uint32_t (*KirbySpecialDoorVisitedFn)(uint16_t, uint16_t, uint8_t, uint8
 // DERIVATION AND SYNCHRONIZATION:
 // This table maps each gRoomProps.doorsIdx value to its corresponding area ID (0-9).
 // The mapping is derived from:
-//  1. worlds/kirbyam/data/regions/rooms.json - room definitions and region assignments
-//  2. worlds/kirbyam/area_keys.py - room-to-area derivation logic (gated_room_entrance_area_ids)
+//  1. worlds/kirbyam/data/regions/rooms.json - room definitions and area assignments
+//  2. worlds/kirbyam/client.py - runtime rooms.json metadata lookups keyed by doorsIdx
 //  3. Matching each room's doorsIdx field against gRoomProps in the ROM
 //
 // DRIFT RISK:
@@ -236,15 +236,17 @@ typedef uint32_t (*KirbySpecialDoorVisitedFn)(uint16_t, uint16_t, uint8_t, uint8
 // payload: mirrors to gated areas may be incorrectly allowed/denied.
 //
 // VALIDATION/REGENERATION:
-// - During AP world build: Python-side validation in worlds/kirbyam/area_keys.py
-//   checks that all room areas are correctly gated in rules.py.
+// - During AP validation: Python-side checks in worlds/kirbyam/client.py and
+//   worlds/kirbyam/test/test_area_first_visit_polling.py verify doorsIdx-driven
+//   room metadata and area visit behavior remain consistent with rooms.json.
 // - During ROM patch: patch_rom.py could generate a checksum of this table and
 //   embed it in the ROM payload, then have runtime code validate on cold boot.
 // - Manual inspection: Compare table entries against current gRoomProps definitions
 //   in the active ROM base, then against the Python-side rooms.json definitions.
 //
 // TODO: Implement table generation as a build artifact (C header generated from
-// Python area_keys data) or add compile-time/runtime checksum validation to detect drift.
+// rooms.json plus native-room metadata tooling) or add compile-time/runtime
+// checksum validation to detect drift.
 static const uint8_t gApDoorsIdxAreaIds[0x120] = {
     /* 0x00 */  1,  0,  0,  0,  0,  0,  0,  0,  2,  5,  1,  1,  1,  1,  1,  1,
     /* 0x10 */  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
@@ -495,7 +497,10 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
         uint32_t kirby_index = (uint32_t)KIRBY_CURRENT_PLAYER;
 
         __asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));
-        caller_pc = caller_lr_snapshot;
+        caller_pc = caller_lr_snapshot & ~1u;
+        if (caller_pc >= 4u) {
+            caller_pc -= 4u;
+        }
 
         if (no_ability_weight >= 100u) {
             selected_ability = 0u;
@@ -921,6 +926,9 @@ void ap_poll_mailbox_c(void) {
         AP_ABILITY_RANDOMIZATION_RNG_STATE = 0u;
         AP_ABILITY_REROLL_EVENT_COUNTER = 0u;
         AP_ABILITY_REROLL_SOURCE_ADDR = 0u;
+        AP_ABILITY_REROLL_SOURCE_KIND = 0u;
+        AP_ABILITY_REROLL_CALLSITE_PC = 0u;
+        AP_ABILITY_REROLL_KIRBY_INDEX = 0u;
         AP_ABILITY_REROLL_ABILITY_ID = 0u;
         AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     }
