@@ -202,13 +202,14 @@ def set_rules(world: KirbyAmWorld) -> None:
         lambda state, required_goal=goal_label: state.has(required_goal, world.player)
     )
 
-    # Region gating: require all shards for every graph entrance into
-    # REGION_DIMENSION_MIRROR/MAIN (area graph and room graph).
+    # Region gating: require all shards for every graph entrance into the
+    # Dimension Mirror namespace (area graph and room graph), including
+    # direct room-level destinations (for example ROOM_10_*).
     dimension_mirror_gate_entrances = sorted(
         f"{region_name} -> {exit_name}"
         for region_name, region_data in data.regions.items()
         for exit_name in region_data.exits
-        if exit_name == "REGION_DIMENSION_MIRROR/MAIN"
+        if exit_name.startswith("REGION_DIMENSION_MIRROR/")
     )
     for entrance_name in dimension_mirror_gate_entrances:
         try:

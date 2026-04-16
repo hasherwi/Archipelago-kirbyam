@@ -65,13 +65,26 @@ jobs:
           second_hw = 0xF800 | imm11_lo
           bl_bytes = first_hw.to_bytes(2, "little") + second_hw.to_bytes(2, "little")
           rom[0x20000:0x20004] = bl_bytes
+
+          # Also embed a valid special-door BL callsite so patch_rom.py validates and
+          # patches the Area Key hook path in smoke CI without bypass flags.
+          src_abs = 0x08000000 + 0x20010
+          dst_abs = 0x08002BA8             # ORIGINAL_SPECIAL_DOOR_STATE_FN_ADDR (even)
+          diff = dst_abs - (src_abs + 4)
+          imm22 = diff >> 1
+          imm11_hi = (imm22 >> 11) & 0x7FF
+          imm11_lo = imm22 & 0x7FF
+          first_hw = 0xF000 | imm11_hi
+          second_hw = 0xF800 | imm11_lo
+          bl_bytes = first_hw.to_bytes(2, "little") + second_hw.to_bytes(2, "little")
+          rom[0x20010:0x20014] = bl_bytes
           
           rom_path.write_bytes(rom)
           PY
 
       - name: Build payload and generate ROM patch
         run: |
-          python worlds/kirbyam/build.py --source-type arg --rom "$PWD/worlds/kirbyam/kirby_ap_payload/kirby.gba" --allow-missing-special-door-hook --skip-install --non-interactive
+          python worlds/kirbyam/build.py --source-type arg --rom "$PWD/worlds/kirbyam/kirby_ap_payload/kirby.gba" --skip-install --non-interactive
 
       - name: Validate expected outputs exist
         run: |

@@ -461,6 +461,20 @@ def test_lever_gated_transition_requires_lever_event() -> None:
     assert entrance.access_rule(_FakeState({"EVENT_LEVER_OLIVE_OCEAN_ROOM_13"}))
 
 
+def test_dimension_mirror_room_entrance_requires_all_shards() -> None:
+    world = _FakeWorld(Goal.option_dark_mind)
+    set_rules(world)
+
+    entrance = world.multiworld.get_entrance(
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2 -> REGION_DIMENSION_MIRROR/ROOM_10_18",
+        world.player,
+    )
+
+    assert callable(entrance.access_rule)
+    assert not entrance.access_rule(_FakeState())
+    assert entrance.access_rule(_FakeState(ALL_SHARDS))
+
+
 def test_early_reachable_count_requires_moonlight_fallback_key() -> None:
     without_key = early_reachable_location_count(False)
     with_moonlight_key = early_reachable_location_count(False, 1 << 2)
