@@ -135,6 +135,46 @@ def test_locations_command_falls_back_to_datapackage_without_server_state(mock_b
     assert room_sanity_location.label in outputs
 
 
+def test_locations_command_supports_name_lookup_dict_style_access(mock_bizhawk_context):
+    class BaseCommandProcessor:
+        def __init__(self, ctx):
+            self.ctx = ctx
+
+        def _cmd_locations(self):
+            return False
+
+        def output(self, text):
+            return None
+
+    class NameLookupStub:
+        def __init__(self, mapping):
+            self._mapping = mapping
+
+        def __getitem__(self, key):
+            return self._mapping[key]
+
+    processor_cls = _build_kirbyam_command_processor(BaseCommandProcessor)
+    processor = processor_cls(mock_bizhawk_context)
+    active_location = next(
+        loc
+        for loc in data.locations.values()
+        if loc.location_id is not None and loc.category == LocationCategory.BOSS_DEFEAT
+    )
+    mock_bizhawk_context.game = KirbyAmClient.game
+    mock_bizhawk_context.server_locations = {active_location.location_id}
+    mock_bizhawk_context.location_names = NameLookupStub({
+        KirbyAmClient.game: {active_location.location_id: active_location.label}
+    })
+    mock_bizhawk_context.slot_data = {"locations": {}}
+
+    with patch.object(processor, "output") as mock_output:
+        assert processor._cmd_locations() is True
+
+    outputs = [call.args[0] for call in mock_output.call_args_list]
+    assert outputs[0] == f"Active Locations for {KirbyAmClient.game}"
+    assert active_location.label in outputs
+
+
 @pytest.mark.asyncio
 async def test_validate_rom_reads_auth_from_rom_domain_offset(mock_bizhawk_context):
     client = KirbyAmClient()

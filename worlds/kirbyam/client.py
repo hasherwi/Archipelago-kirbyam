@@ -146,7 +146,11 @@ def _kirbyam_cmd_locations(self) -> bool:
     if not server_locations:
         return super(type(self), self)._cmd_locations()
 
-    location_names = getattr(self.ctx, "location_names", {}).get(self.ctx.game, {})
+    location_names_lookup = getattr(self.ctx, "location_names", None)
+    try:
+        location_names = location_names_lookup[self.ctx.game] if location_names_lookup is not None else {}
+    except (KeyError, TypeError):
+        location_names = {}
     active_location_labels: dict[int, str] = {}
     for location_meta in slot_locations.values():
         if not isinstance(location_meta, dict):
