@@ -286,14 +286,36 @@ static uint8_t ap_has_area_key(uint8_t area_id) {
     return (uint8_t)((AP_AREA_KEY_BITFIELD_RUNTIME >> area_id) & 1u);
 }
 
+static uint8_t ap_is_warp_room_doors_idx(uint16_t doors_idx) {
+    switch (doors_idx) {
+        case 30u:   // REGION_RAINBOW_ROUTE/ROOM_1_WARP
+        case 69u:   // REGION_MOONLIGHT_MANSION/ROOM_2_WARP
+        case 101u:  // REGION_PEPPERMINT_PALACE/ROOM_7_WARP
+        case 134u:  // REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP
+        case 153u:  // REGION_CANDY_CONSTELLATION/ROOM_9_WARP
+        case 269u:  // REGION_CARROT_CASTLE/ROOM_5_WARP
+            return 1u;
+        default:
+            return 0u;
+    }
+}
+
 __attribute__((used)) uint32_t ap_on_query_special_door_state(uint16_t room_id, uint16_t arg1, uint8_t arg2, uint8_t arg3) {
     uint32_t native_result = KIRBY_SPECIAL_DOOR_VISITED_FN(room_id, arg1, arg2, arg3);
     uint8_t runtime_source_area;
     uint8_t room_id_area;
     uint8_t arg1_area;
     uint8_t destination_area = 0u;
+    uint16_t runtime_source_doors_idx;
 
     if (native_result == 0u) {
+        return 0u;
+    }
+
+    // Warp Star access is intentionally disabled in AP mode because these
+    // transitions bypass Area Key sequencing and can cause progression leaks.
+    runtime_source_doors_idx = ap_room_doors_idx(KIRBY_CURRENT_ROOM);
+    if (ap_is_warp_room_doors_idx(runtime_source_doors_idx)) {
         return 0u;
     }
 
