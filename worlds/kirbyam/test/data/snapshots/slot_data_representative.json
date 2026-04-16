@@ -239,7 +239,7 @@
     "HUB_SWITCH_CABBAGE_CAVERN_EAST": {
       "category": "HUB_SWITCH",
       "label": "Cabbage Cavern East - Big Switch",
-      "location_id": 3960412,
+      "location_id": 3960402,
       "tags": [
         "HubSwitch",
         "MAP_CABBAGE_CAVERN"
@@ -347,7 +347,7 @@
     "HUB_SWITCH_RAINBOW_ROUTE_SOUTH": {
       "category": "HUB_SWITCH",
       "label": "Rainbow Route South - Big Switch",
-      "location_id": 3960402,
+      "location_id": 3960412,
       "tags": [
         "HubSwitch",
         "MAP_RAINBOW_ROUTE"

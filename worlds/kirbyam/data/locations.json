@@ -389,9 +389,9 @@
       "HubSwitch",
       "MAP_RAINBOW_ROUTE"
     ],
-    "bit_index": 2,
+    "bit_index": 12,
     "category": "HUB_SWITCH",
-    "location_id": 3960402
+    "location_id": 3960412
   },
   "HUB_SWITCH_CABBAGE_CAVERN_CENTER": {
     "label": "Cabbage Cavern Center - Big Switch",
@@ -499,9 +499,9 @@
       "HubSwitch",
       "MAP_CABBAGE_CAVERN"
     ],
-    "bit_index": 12,
+    "bit_index": 2,
     "category": "HUB_SWITCH",
-    "location_id": 3960412
+    "location_id": 3960402
   },
   "HUB_SWITCH_OLIVE": {
     "label": "Olive Ocean - Big Switch",
