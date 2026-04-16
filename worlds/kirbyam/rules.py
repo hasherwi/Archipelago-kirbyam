@@ -155,14 +155,6 @@ def get_stake_gated_transition_entrance_names() -> tuple[str, ...]:
     return tuple(sorted(entrance_names))
 
 
-def get_region_ability_gate_annotations() -> dict[str, dict[str, dict[str, object]]]:
-    annotations: dict[str, dict[str, dict[str, object]]] = {}
-    for region_name, region_data in data.regions.items():
-        if region_data.ability_gates:
-            annotations[region_name] = region_data.ability_gates
-    return annotations
-
-
 def set_rules(world: KirbyAmWorld) -> None:
     shard_gate_rule = lambda state: _has_all_shards(state, world.player)
 

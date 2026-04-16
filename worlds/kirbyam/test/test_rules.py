@@ -10,7 +10,6 @@ from ..options import Goal
 from ..rules import (
     ABILITY_GATE_RULES,
     _ABILITY_GATE_STATUS_VALUES,
-    get_region_ability_gate_annotations,
     get_stake_breaking_abilities,
     get_stake_gated_transition_entrance_names,
     set_rules,
@@ -353,24 +352,23 @@ def test_ability_gate_helpers_default_true_without_ability_items() -> None:
         assert gate_rule(state, 1), f"{gate_name} should default to True until ability items exist"
 
 
-def test_region_ability_gate_annotations_load_for_future_big_chest_rollout() -> None:
-    # ability_gates has moved from areas.json /MAIN regions to rooms.json room entries.
-    # Each room carries an ability_gates dict (empty by default; populated when gate
-    # evidence is confirmed for that specific room).  Areas no longer carry this metadata.
+def test_room_transition_overrides_are_room_local_only() -> None:
+    # Transition-level gate metadata belongs in rooms.json under each room's
+    # transitions list. areas.json should not carry that room graph detail.
     from ..data import load_json_data
 
     rooms = load_json_data("regions/rooms.json")
     areas = load_json_data("regions/areas.json")
 
     for room_name, room_def in rooms.items():
-        assert "ability_gates" in room_def, f"Room {room_name} missing ability_gates key"
-        assert isinstance(room_def["ability_gates"], dict), (
-            f"Room {room_name} ability_gates must be a dict"
+        assert "transitions" in room_def, f"Room {room_name} missing transitions key"
+        assert isinstance(room_def["transitions"], list), (
+            f"Room {room_name} transitions must be a list"
         )
 
     for area_name, area_def in areas.items():
-        assert "ability_gates" not in area_def, (
-            f"Area {area_name} should not have ability_gates (belongs in rooms.json)"
+        assert "transitions" not in area_def, (
+            f"Area {area_name} should not have room transitions (belongs in rooms.json)"
         )
 
 
