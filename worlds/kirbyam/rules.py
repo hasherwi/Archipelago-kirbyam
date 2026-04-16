@@ -120,23 +120,37 @@ def get_stake_breaking_abilities() -> tuple[str, ...]:
 def get_stake_gated_transition_entrance_names() -> tuple[str, ...]:
     """Return directional entrance names that require the shared stake gate.
 
-    Source of truth is regions/transitions.json path-level annotations.
+    Source of truth is regions/rooms.json path-level transition overrides.
     """
-    transitions_payload = load_json_data("regions/transitions.json")
-    transitions = transitions_payload.get("transitions", []) if isinstance(transitions_payload, dict) else []
+    rooms_payload = load_json_data("regions/rooms.json")
+    rooms = rooms_payload if isinstance(rooms_payload, dict) else {}
 
     entrance_names: set[str] = set()
-    for transition in transitions:
-        if not isinstance(transition, dict):
+    for source_room, room_data in rooms.items():
+        if not isinstance(source_room, str) or not isinstance(room_data, dict):
             continue
-        source_room = transition.get("source_room")
-        destination_room = transition.get("destination_room")
-        ability_gate = transition.get("ability_gate")
-        if not isinstance(source_room, str) or not isinstance(destination_room, str):
+        exits = room_data.get("exits", [])
+        transitions = room_data.get("transitions", [])
+        if not isinstance(transitions, list):
             continue
-        if ability_gate != _STAKE_TRANSITION_GATE_NAME:
-            continue
-        entrance_names.add(f"{source_room} -> {destination_room}")
+        exit_set = {room for room in exits if isinstance(room, str)}
+        for transition in transitions:
+            if not isinstance(transition, dict):
+                continue
+            destination_room = transition.get("destination_room")
+            ability_gate = transition.get("ability_gate")
+            if not isinstance(destination_room, str):
+                continue
+            if destination_room not in exit_set:
+                logger.warning(
+                    "Stake transition override references non-exit edge: %s -> %s",
+                    source_room,
+                    destination_room,
+                )
+                continue
+            if ability_gate != _STAKE_TRANSITION_GATE_NAME:
+                continue
+            entrance_names.add(f"{source_room} -> {destination_room}")
 
     return tuple(sorted(entrance_names))
 

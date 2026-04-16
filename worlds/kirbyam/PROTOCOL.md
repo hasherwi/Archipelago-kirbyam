@@ -197,7 +197,7 @@ Server → Client: ConnectionRefused | Connected
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
 - `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.
 - `stake_breaking_abilities` (list[str]): reusable hammer-peg/stake ability group used by transition logic (currently `Hammer`, `Master`, `Smash`, `Stone`).
-- `stake_gated_transitions` (list[str]): directional entrance names that require the shared hammer-peg/stake gate, derived from path-level `ability_gate` annotations in `data/regions/transitions.json`.
+- `stake_gated_transitions` (list[str]): directional entrance names that require the shared hammer-peg/stake gate, derived from room-level `transitions` overrides in `data/regions/rooms.json`.
 - `locations` (dict): tracker-facing location metadata keyed by KirbyAM location key.
 - `rooms` (dict): tracker-facing room metadata keyed by room region key, exported regardless of `room_sanity` option.
 - `unique_items` (list[str]): tracker-facing list of KirbyAM unique item labels.

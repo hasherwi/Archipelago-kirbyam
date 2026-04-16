@@ -63,6 +63,12 @@
       "location_id": 3961049,
       "bit_index": 59
     },
+    "transitions": [
+      {
+        "destination_room": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
+        "ability_gate": "CanPoundPegs"
+      }
+    ],
     "ability_gates": {}
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4": {
@@ -943,6 +949,12 @@
       "location_id": 3961061,
       "bit_index": 71
     },
+    "transitions": [
+      {
+        "destination_room": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
+        "ability_gate": "CanPoundPegs"
+      }
+    ],
     "ability_gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_05": {
@@ -1097,6 +1109,12 @@
       "location_id": 3961068,
       "bit_index": 78
     },
+    "transitions": [
+      {
+        "destination_room": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
+        "ability_gate": "CanPoundPegs"
+      }
+    ],
     "ability_gates": {}
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_15": {
@@ -2257,6 +2275,12 @@
       "location_id": 3961152,
       "bit_index": 200
     },
+    "transitions": [
+      {
+        "destination_room": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
+        "ability_gate": "CanPoundPegs"
+      }
+    ],
     "ability_gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2": {
@@ -2456,6 +2480,12 @@
       "location_id": 3961153,
       "bit_index": 201
     },
+    "transitions": [
+      {
+        "destination_room": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
+        "ability_gate": "CanPoundPegs"
+      }
+    ],
     "ability_gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_10": {
@@ -2545,6 +2575,12 @@
       "location_id": 3961148,
       "bit_index": 196
     },
+    "transitions": [
+      {
+        "destination_room": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
+        "ability_gate": "CanPoundPegs"
+      }
+    ],
     "ability_gates": {}
   },
   "REGION_OLIVE_OCEAN/ROOM_6_16": {
@@ -3585,6 +3621,16 @@
       "location_id": 3961256,
       "bit_index": 169
     },
+    "transitions": [
+      {
+        "destination_room": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
+        "ability_gate": "CanPoundPegs"
+      },
+      {
+        "destination_room": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
+        "ability_gate": "CanPoundPegs"
+      }
+    ],
     "ability_gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1": {
@@ -3662,6 +3708,12 @@
       "location_id": 3961248,
       "bit_index": 161
     },
+    "transitions": [
+      {
+        "destination_room": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
+        "ability_gate": "CanPoundPegs"
+      }
+    ],
     "ability_gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_WARP": {
@@ -3779,6 +3831,12 @@
       "location_id": 3961231,
       "bit_index": 143
     },
+    "transitions": [
+      {
+        "destination_room": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
+        "ability_gate": "CanPoundPegs"
+      }
+    ],
     "ability_gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_07": {
@@ -3811,6 +3869,12 @@
       "location_id": 3961240,
       "bit_index": 152
     },
+    "transitions": [
+      {
+        "destination_room": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
+        "ability_gate": "CanPoundPegs"
+      }
+    ],
     "ability_gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_09": {
@@ -3885,6 +3949,12 @@
       "location_id": 3961247,
       "bit_index": 160
     },
+    "transitions": [
+      {
+        "destination_room": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
+        "ability_gate": "CanPoundPegs"
+      }
+    ],
     "ability_gates": {}
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_14": {

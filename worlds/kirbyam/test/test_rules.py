@@ -393,16 +393,26 @@ def test_stake_gated_transitions_cover_cross_region_stake_rooms() -> None:
     assert "REGION_CANDY_CONSTELLATION/ROOM_9_HUB -> REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3" in stake_entrances
 
 
-def test_stake_gated_transitions_come_from_transition_path_annotations() -> None:
+def test_stake_gated_transitions_come_from_room_transition_overrides() -> None:
     from ..data import load_json_data
 
-    transitions_payload = load_json_data("regions/transitions.json")
-    transitions = transitions_payload.get("transitions", [])
-    annotated = {
-        f"{transition['source_room']} -> {transition['destination_room']}"
-        for transition in transitions
-        if isinstance(transition, dict) and transition.get("ability_gate") == "CanPoundPegs"
-    }
+    rooms_payload = load_json_data("regions/rooms.json")
+    rooms = rooms_payload if isinstance(rooms_payload, dict) else {}
+    annotated: set[str] = set()
+    for source_room, room_data in rooms.items():
+        if not isinstance(source_room, str) or not isinstance(room_data, dict):
+            continue
+        transitions = room_data.get("transitions", [])
+        if not isinstance(transitions, list):
+            continue
+        for transition in transitions:
+            if not isinstance(transition, dict):
+                continue
+            if transition.get("ability_gate") != "CanPoundPegs":
+                continue
+            destination_room = transition.get("destination_room")
+            if isinstance(destination_room, str):
+                annotated.add(f"{source_room} -> {destination_room}")
 
     assert annotated
     assert set(get_stake_gated_transition_entrance_names()) == annotated

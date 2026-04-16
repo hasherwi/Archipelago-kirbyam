@@ -1706,7 +1706,6 @@
         }
       },
       "transport_type": "other",
-      "ability_gate": "CanPoundPegs",
       "friendly_name": "Candy Constellation 9-02 to 9-07"
     },
     {
@@ -2409,7 +2408,6 @@
         }
       },
       "transport_type": "other",
-      "ability_gate": "CanPoundPegs",
       "friendly_name": "Candy Constellation 9-11 to 9-25"
     },
     {
@@ -2800,7 +2798,6 @@
         }
       },
       "transport_type": "other",
-      "ability_gate": "CanPoundPegs",
       "friendly_name": "Candy Constellation 9-18 to 9-25"
     },
     {
@@ -2853,7 +2850,6 @@
         }
       },
       "transport_type": "other",
-      "ability_gate": "CanPoundPegs",
       "friendly_name": "Candy Constellation 9-19 to 9-25"
     },
     {
@@ -3374,7 +3370,6 @@
         }
       },
       "transport_type": "other",
-      "ability_gate": "CanPoundPegs",
       "friendly_name": "Candy Constellation 9-27 to 9-07"
     },
     {
@@ -3453,7 +3448,6 @@
         }
       },
       "transport_type": "other",
-      "ability_gate": "CanPoundPegs",
       "friendly_name": "Candy Constellation 9-27 to 9-25"
     },
     {
@@ -6470,7 +6464,6 @@
         }
       },
       "transport_type": "other",
-      "ability_gate": "CanPoundPegs",
       "friendly_name": "Moonlight Mansion 2-12 to 2-25"
     },
     {
@@ -7017,7 +7010,6 @@
         }
       },
       "transport_type": "other",
-      "ability_gate": "CanPoundPegs",
       "friendly_name": "Moonlight Mansion 2-19 to 2-25"
     },
     {
@@ -9904,7 +9896,6 @@
         }
       },
       "transport_type": "other",
-      "ability_gate": "CanPoundPegs",
       "friendly_name": "Olive Ocean 6-07 to 6-26"
     },
     {
@@ -10113,7 +10104,6 @@
         }
       },
       "transport_type": "other",
-      "ability_gate": "CanPoundPegs",
       "friendly_name": "Olive Ocean 6-11 to 6-26"
     },
     {
@@ -10192,7 +10182,6 @@
         }
       },
       "transport_type": "other",
-      "ability_gate": "CanPoundPegs",
       "friendly_name": "Olive Ocean 6-12 to 6-26"
     },
     {
@@ -20437,7 +20426,6 @@
         }
       },
       "transport_type": "hub mirror",
-      "ability_gate": "CanPoundPegs",
       "friendly_name": "Rainbow Route 1-50 to Moonlight Mansion 2-25"
     },
     {
