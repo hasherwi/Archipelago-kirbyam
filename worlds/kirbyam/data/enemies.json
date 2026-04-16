@@ -461,6 +461,13 @@
     ],
     "default_ability": "Parasol"
   },
+  "BOXY_SPAWNED_OBJECT": {
+    "kind": "boss_spawned",
+    "addresses": [
+      "0x3526CE"
+    ],
+    "default_ability": "Parasol"
+  },
   "PRANK_BOMB": {
     "kind": "boss_spawned",
     "addresses": [

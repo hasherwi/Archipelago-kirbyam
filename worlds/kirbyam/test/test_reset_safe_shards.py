@@ -364,6 +364,20 @@ def test_copy_ability_reroll_hook_reads_object2_type_field() -> None:
         "Reroll hook must load source_type as an 8-bit object type"
     assert "source_obj_ptr + OBJECT2_TYPE_OFFSET" in hook_body, \
         "Reroll hook must read source type from Object2.type field"
+    assert "AP_ABILITY_REROLL_SOURCE_KIND" in content, \
+        "Payload must expose reroll source-kind telemetry register"
+    assert "AP_ABILITY_REROLL_CALLSITE_PC" in content, \
+        "Payload must expose reroll callsite telemetry register"
+    assert "AP_ABILITY_REROLL_KIRBY_INDEX" in content, \
+        "Payload must expose reroll Kirby-index telemetry register"
+    assert "AP_ABILITY_REROLL_SOURCE_KIND = source_kind" in hook_body, \
+        "Reroll hook must write source-kind discriminator telemetry"
+    assert "AP_ABILITY_REROLL_CALLSITE_PC = caller_pc" in hook_body, \
+        "Reroll hook must write caller PC discriminator telemetry"
+    assert "AP_ABILITY_REROLL_KIRBY_INDEX = kirby_index" in hook_body, \
+        "Reroll hook must write Kirby index telemetry"
+    assert "ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE" in content, \
+        "Payload should define explicit source-kind enum values"
     assert "uint16_t source_type = *(volatile uint16_t*)(source_obj_ptr + 0u);" not in hook_body, \
         "Reroll hook must not read source_type from ObjectBase header at +0"
 
