@@ -3975,6 +3975,60 @@ async def test_poll_enemy_ability_reroll_events_resolves_rom_domain_source_addre
 
 
 @pytest.mark.asyncio
+async def test_poll_enemy_ability_reroll_events_resolves_alternate_golem_form_address(mock_bizhawk_context):
+    """Alternate Golem form source addresses should resolve to the canonical GOLEM key."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+    mock_bizhawk_context.slot_data = {"ability_randomization_mode": 2}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(1).to_bytes(4, 'little')],
+            [(2).to_bytes(4, 'little')],
+            [(0x08351936).to_bytes(4, 'little'), (4).to_bytes(4, 'little')],
+        ]
+
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+
+    mock_logger.info.assert_any_call(
+        "Kirby swallowed a %s. Ability was rerolled to %s.",
+        "GOLEM",
+        "Wheel",
+        extra={"NoStream": True},
+    )
+
+
+@pytest.mark.asyncio
+async def test_poll_enemy_ability_reroll_events_resolves_large_mr_frosty_ice_cube(mock_bizhawk_context):
+    """Large Mr. Frosty ice-cube source addresses should resolve to the canonical spawned-object key."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+    mock_bizhawk_context.slot_data = {"ability_randomization_mode": 2}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(1).to_bytes(4, 'little')],
+            [(2).to_bytes(4, 'little')],
+            [(0x083525F6).to_bytes(4, 'little'), (0).to_bytes(4, 'little')],
+        ]
+
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+
+    mock_logger.info.assert_any_call(
+        "Kirby swallowed a %s. Ability was rerolled to %s.",
+        "MR_FROSTY_ICE_CUBE",
+        "Normal",
+        extra={"NoStream": True},
+    )
+
+
+@pytest.mark.asyncio
 async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation_detects_mailbox_drift(mock_bizhawk_context):
     """When signature is unchanged, periodic read-back should still rewrite drifted mailbox state."""
     client = KirbyAmClient()
