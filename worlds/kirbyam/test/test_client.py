@@ -23,8 +23,11 @@ from ..rom import KirbyAmProcedurePatch
 
 @pytest.mark.asyncio
 async def test_validate_rom_accepts_patched_kirby_header(mock_bizhawk_context):
+    class TestBizHawkClientCommandProcessor(BizHawkClientCommandProcessor):
+        pass
+
     client = KirbyAmClient()
-    mock_bizhawk_context.command_processor = BizHawkClientCommandProcessor
+    mock_bizhawk_context.command_processor = TestBizHawkClientCommandProcessor
 
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
         mock_read.side_effect = [
@@ -35,7 +38,8 @@ async def test_validate_rom_accepts_patched_kirby_header(mock_bizhawk_context):
         assert await client.validate_rom(mock_bizhawk_context) is True
         assert mock_bizhawk_context.game == client.game
         assert mock_bizhawk_context.want_slot_data is True
-        assert mock_bizhawk_context.command_processor.__name__ == "KirbyAmCommandProcessor"
+        assert mock_bizhawk_context.command_processor is TestBizHawkClientCommandProcessor
+        assert getattr(mock_bizhawk_context.command_processor, "_kirbyam_runtime_patched", False) is True
 
 
 def test_locations_command_lists_only_active_server_locations_for_kirbyam(mock_bizhawk_context):

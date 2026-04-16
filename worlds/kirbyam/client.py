@@ -186,6 +186,26 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
     )
 
 
+def _patch_kirbyam_command_processor(base_command_processor: type) -> type:
+    if getattr(base_command_processor, "_kirbyam_runtime_patched", False):
+        return base_command_processor
+
+    wrapped_command_processor = _build_kirbyam_command_processor(base_command_processor)
+    for attr_name, attr_value in wrapped_command_processor.__dict__.items():
+        if attr_name in {"__dict__", "__doc__", "__module__", "__weakref__"}:
+            continue
+        if attr_name == "_is_kirbyam_wrapper":
+            continue
+        if hasattr(base_command_processor, attr_name):
+            original_attr_name = f"_kirbyam_original_{attr_name}"
+            if not hasattr(base_command_processor, original_attr_name):
+                setattr(base_command_processor, original_attr_name, getattr(base_command_processor, attr_name))
+        setattr(base_command_processor, attr_name, attr_value)
+
+    setattr(base_command_processor, "_kirbyam_runtime_patched", True)
+    return base_command_processor
+
+
 def _normalize_gba_rom_address(value: int) -> int:
     if 0x08000000 <= value < 0x0A000000:
         return value - 0x08000000
@@ -1146,8 +1166,7 @@ class KirbyAmClient(BizHawkClient):
         if base_command_processor is not None:
             if not isinstance(base_command_processor, type):
                 base_command_processor = base_command_processor.__class__
-            if not getattr(base_command_processor, "_is_kirbyam_wrapper", False):
-                ctx.command_processor = _build_kirbyam_command_processor(base_command_processor)
+            ctx.command_processor = _patch_kirbyam_command_processor(base_command_processor)
 
         self.initialize_client()
         self._log_client("info", "KirbyAM: ROM validated.")
