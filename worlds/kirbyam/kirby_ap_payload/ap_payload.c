@@ -49,6 +49,9 @@
 #define AP_ABILITY_REROLL_EVENT_COUNTER (*(volatile uint32_t*)(AP_BASE + 0x7Cu))
 #define AP_ABILITY_REROLL_SOURCE_ADDR (*(volatile uint32_t*)(AP_BASE + 0x80u))
 #define AP_ABILITY_REROLL_ABILITY_ID (*(volatile uint32_t*)(AP_BASE + 0x84u))
+#define AP_ABILITY_REROLL_SOURCE_KIND (*(volatile uint32_t*)(AP_BASE + 0x88u))
+#define AP_ABILITY_REROLL_CALLSITE_PC (*(volatile uint32_t*)(AP_BASE + 0x8Cu))
+#define AP_ABILITY_REROLL_KIRBY_INDEX (*(volatile uint32_t*)(AP_BASE + 0x90u))
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
 // Bit N set <=> boss of area N was defeated (same bit ordering as shard_bitfield, bits 0-7 used).
@@ -418,8 +421,11 @@ typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM 2u
 #define KIRBY_ABILITY_MASK 0x1Fu
 #define KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR 0x20u
+#define ABILITY_REROLL_SOURCE_KIND_NONE 0u
+#define ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE 1u
 #define ENEMY_ABILITY_TABLE_BASE_ADDR 0x35164Eu
 #define ENEMY_ABILITY_TABLE_STRIDE 0x18u
+#define OBJECT2_TYPE_OFFSET 0x82u
 
 static uint32_t ap_mix_u32(uint32_t x) {
     x ^= x >> 16;
@@ -482,6 +488,13 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
         uint32_t random_roll = ap_next_rng_u32();
         uint8_t selected_ability;
         uint32_t source_addr = 0u;
+        uint32_t source_kind = ABILITY_REROLL_SOURCE_KIND_NONE;
+        uint32_t caller_lr_snapshot = 0u;
+        uint32_t caller_pc = 0u;
+        uint32_t kirby_index = (uint32_t)KIRBY_CURRENT_PLAYER;
+
+        __asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));
+        caller_pc = caller_lr_snapshot;
 
         if (no_ability_weight >= 100u) {
             selected_ability = 0u;
@@ -494,12 +507,16 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
         rewritten_flags = (ability_flags & ~KIRBY_ABILITY_MASK) | (uint32_t)(selected_ability & KIRBY_ABILITY_MASK);
 
         if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x02040000u) {
-            uint16_t source_type = *(volatile uint16_t*)(source_obj_ptr + 0u);
+            uint8_t source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
+            source_kind = ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE;
             source_addr = ENEMY_ABILITY_TABLE_BASE_ADDR + ((uint32_t)source_type * ENEMY_ABILITY_TABLE_STRIDE);
         }
 
         AP_ABILITY_REROLL_SOURCE_ADDR = source_addr;
         AP_ABILITY_REROLL_ABILITY_ID = (uint32_t)(selected_ability & KIRBY_ABILITY_MASK);
+        AP_ABILITY_REROLL_SOURCE_KIND = source_kind;
+        AP_ABILITY_REROLL_CALLSITE_PC = caller_pc;
+        AP_ABILITY_REROLL_KIRBY_INDEX = kirby_index;
         AP_ABILITY_REROLL_EVENT_COUNTER++;
     }
 
