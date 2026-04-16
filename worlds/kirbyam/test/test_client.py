@@ -3949,7 +3949,7 @@ async def test_poll_enemy_ability_reroll_events_treats_counter_rollback_as_reset
 
 @pytest.mark.asyncio
 async def test_poll_enemy_ability_reroll_events_resolves_rom_domain_source_address(mock_bizhawk_context):
-    """ROM-domain source pointers should resolve to canonical enemy keys in telemetry logs."""
+    """ROM-bus source addresses should resolve to canonical enemy keys in telemetry logs."""
     client = KirbyAmClient()
     client.initialize_client()
     client._debug_logging_enabled = True

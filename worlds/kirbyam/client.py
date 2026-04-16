@@ -1364,10 +1364,11 @@ class KirbyAmClient(BizHawkClient):
         source_addr = self._u32_le(source_raw)
         ability_id = self._u32_le(ability_raw) & 0x1F
         normalized_source_addr = _normalize_gba_rom_address(source_addr)
-        enemy_name = _ABILITY_SOURCE_ADDR_TO_KEY.get(
-            source_addr,
-            _ABILITY_SOURCE_ADDR_TO_KEY.get(normalized_source_addr, f"UNKNOWN_0x{source_addr:06X}"),
-        )
+        enemy_name = _ABILITY_SOURCE_ADDR_TO_KEY.get(source_addr)
+        if enemy_name is None:
+            enemy_name = _ABILITY_SOURCE_ADDR_TO_KEY.get(normalized_source_addr)
+        if enemy_name is None:
+            enemy_name = f"UNKNOWN_0x{source_addr:06X}"
         ability_name = _ABILITY_ID_TO_NAME.get(ability_id, f"Ability_{ability_id}")
 
 
