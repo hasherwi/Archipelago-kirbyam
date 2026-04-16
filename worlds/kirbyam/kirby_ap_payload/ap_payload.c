@@ -49,9 +49,9 @@
 #define AP_ABILITY_REROLL_EVENT_COUNTER (*(volatile uint32_t*)(AP_BASE + 0x7Cu))
 #define AP_ABILITY_REROLL_SOURCE_ADDR (*(volatile uint32_t*)(AP_BASE + 0x80u))
 #define AP_ABILITY_REROLL_ABILITY_ID (*(volatile uint32_t*)(AP_BASE + 0x84u))
-#define AP_ABILITY_REROLL_SOURCE_KIND (*(volatile uint32_t*)(AP_BASE + 0x88u))
-#define AP_ABILITY_REROLL_CALLSITE_PC (*(volatile uint32_t*)(AP_BASE + 0x8Cu))
-#define AP_ABILITY_REROLL_KIRBY_INDEX (*(volatile uint32_t*)(AP_BASE + 0x90u))
+#define AP_ABILITY_REROLL_SOURCE_KIND (*(volatile uint32_t*)(AP_BASE + 0x5Cu))
+#define AP_ABILITY_REROLL_CALLSITE_PC (*(volatile uint32_t*)(AP_BASE + 0x60u))
+#define AP_ABILITY_REROLL_KIRBY_INDEX (*(volatile uint32_t*)(AP_BASE + 0x88u))
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
 // Bit N set <=> boss of area N was defeated (same bit ordering as shard_bitfield, bits 0-7 used).
@@ -66,7 +66,8 @@
 // 0xFFFFFFFF means client has not synced yet (treat as off/0).
 #define AP_ONE_HIT_MODE_RUNTIME    (*(volatile uint32_t*)(AP_BASE + 0x54u))
 #define AP_NO_EXTRA_LIVES_RUNTIME  (*(volatile uint32_t*)(AP_BASE + 0x58u))
-#define AP_AREA_KEY_BITFIELD_RUNTIME (*(volatile uint32_t*)(AP_BASE + 0x94u))
+static volatile uint32_t gApAreaKeyBitfieldRuntime = 0xFFFFFFFFu;
+#define AP_AREA_KEY_BITFIELD_RUNTIME (gApAreaKeyBitfieldRuntime)
 #define KIRBY_SHARD_FLAGS_ADDR  0x02038970u
 #define KIRBY_SHARD_FLAGS       (*(volatile uint8_t*)(KIRBY_SHARD_FLAGS_ADDR))
 #define KIRBY_ACTIVE_COLOR_ADDR    0x0203ADE0u
@@ -240,7 +241,7 @@ typedef uint32_t (*KirbySpecialDoorVisitedFn)(uint16_t, uint16_t, uint8_t, uint8
 // - During ROM patch: patch_rom.py could generate a checksum of this table and
 //   embed it in the ROM payload, then have runtime code validate on cold boot.
 // - Manual inspection: Compare table entries against current gRoomProps definitions
-//   in the active ROM base, then against the Python-side room.json definitions.
+//   in the active ROM base, then against the Python-side rooms.json definitions.
 //
 // TODO: Implement table generation as a build artifact (C header generated from
 // Python area_keys data) or add compile-time/runtime checksum validation to detect drift.
