@@ -256,7 +256,8 @@ def set_rules(world: KirbyAmWorld) -> None:
                 area_id,
             )
 
-    for gated_entrance_name, area_id in gated_room_entrance_area_ids().items():
+    room_gated_entrances = gated_room_entrance_area_ids()
+    for gated_entrance_name, area_id in room_gated_entrances.items():
         try:
             entrance = world.multiworld.get_entrance(gated_entrance_name, world.player)
             set_rule(
@@ -274,14 +275,27 @@ def set_rules(world: KirbyAmWorld) -> None:
     for gated_entrance_name, switch_location_label in _BIG_SWITCH_GATED_HUB_TRANSITIONS.items():
         try:
             entrance = world.multiworld.get_entrance(gated_entrance_name, world.player)
-            set_rule(
-                entrance,
-                lambda state, required_switch=switch_location_label: _has_checked_location(
-                    state,
-                    world.player,
-                    required_switch,
-                ),
-            )
+            # If this hub mirror is also gate in room_gated_entrances, combine the rules
+            # to require BOTH the Area Key and the big switch.
+            if gated_entrance_name in room_gated_entrances:
+                required_area_id = room_gated_entrances[gated_entrance_name]
+                set_rule(
+                    entrance,
+                    lambda state, required_area_id=required_area_id, required_switch=switch_location_label: (
+                        _has_area_key(state, world.player, required_area_id)
+                        and _has_checked_location(state, world.player, required_switch)
+                    ),
+                )
+            else:
+                # Hub mirror not in room gates - just require big switch
+                set_rule(
+                    entrance,
+                    lambda state, required_switch=switch_location_label: _has_checked_location(
+                        state,
+                        world.player,
+                        required_switch,
+                    ),
+                )
         except KeyError:
             logger.debug(
                 "[P%s] Entrance %r not found; skipping big-switch gate %s",
