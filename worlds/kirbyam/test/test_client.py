@@ -10,7 +10,7 @@ from worlds._bizhawk.context import _game_watcher, AuthStatus
 from ..data import LocationCategory, data
 from ..client import (
     KirbyAmClient,
-    KirbyAmCommandProcessor,
+    _build_kirbyam_command_processor,
     _MAP_ITEM_ID_TO_AREA_ID,
     _ROOM_PROPS_DOORS_IDX_OFFSET,
     _ROOM_PROPS_ROM_BASE,
@@ -34,11 +34,22 @@ async def test_validate_rom_accepts_patched_kirby_header(mock_bizhawk_context):
         assert await client.validate_rom(mock_bizhawk_context) is True
         assert mock_bizhawk_context.game == client.game
         assert mock_bizhawk_context.want_slot_data is True
-        assert mock_bizhawk_context.command_processor is KirbyAmCommandProcessor
+        assert mock_bizhawk_context.command_processor.__name__ == "KirbyAmCommandProcessor"
 
 
 def test_locations_command_lists_only_active_server_locations_for_kirbyam(mock_bizhawk_context):
-    processor = KirbyAmCommandProcessor(mock_bizhawk_context)
+    class BaseCommandProcessor:
+        def __init__(self, ctx):
+            self.ctx = ctx
+
+        def _cmd_locations(self):
+            return False
+
+        def output(self, text):
+            return None
+
+    processor_cls = _build_kirbyam_command_processor(BaseCommandProcessor)
+    processor = processor_cls(mock_bizhawk_context)
     room_sanity_location = next(
         loc for loc in data.locations.values() if loc.category == LocationCategory.ROOM_SANITY
     )
@@ -82,7 +93,21 @@ def test_locations_command_lists_only_active_server_locations_for_kirbyam(mock_b
 
 
 def test_locations_command_falls_back_to_datapackage_without_server_state(mock_bizhawk_context):
-    processor = KirbyAmCommandProcessor(mock_bizhawk_context)
+    class BaseCommandProcessor:
+        def __init__(self, ctx):
+            self.ctx = ctx
+
+        def _cmd_locations(self):
+            self.output(f"Location Names for {self.ctx.game}")
+            for name in self.ctx.location_names[self.ctx.game].values():
+                self.output(name)
+            return True
+
+        def output(self, text):
+            return None
+
+    processor_cls = _build_kirbyam_command_processor(BaseCommandProcessor)
+    processor = processor_cls(mock_bizhawk_context)
     room_sanity_location = next(
         loc for loc in data.locations.values() if loc.category == LocationCategory.ROOM_SANITY
     )
