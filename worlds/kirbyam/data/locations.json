@@ -411,9 +411,9 @@
       "HubSwitch",
       "MAP_RAINBOW_ROUTE"
     ],
-    "bit_index": 4,
+    "bit_index": 14,
     "category": "HUB_SWITCH",
-    "location_id": 3960404
+    "location_id": 3960414
   },
   "HUB_SWITCH_CARROT": {
     "label": "Carrot Castle - Big Switch",
@@ -521,9 +521,9 @@
       "HubSwitch",
       "MAP_CANDY_CONSTELLATION"
     ],
-    "bit_index": 14,
+    "bit_index": 4,
     "category": "HUB_SWITCH",
-    "location_id": 3960414
+    "location_id": 3960404
   },
   "MINOR_CHEST_RAINBOW_ROUTE_1_20": {
     "label": "Rainbow Route 1-20 - Small Chest",
