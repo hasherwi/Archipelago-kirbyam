@@ -263,6 +263,7 @@ typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR 0x20u
 #define ENEMY_ABILITY_TABLE_BASE_ADDR 0x35164Eu
 #define ENEMY_ABILITY_TABLE_STRIDE 0x18u
+#define OBJECT2_TYPE_OFFSET 0x82u
 
 static uint32_t ap_mix_u32(uint32_t x) {
     x ^= x >> 16;
@@ -337,7 +338,8 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
         rewritten_flags = (ability_flags & ~KIRBY_ABILITY_MASK) | (uint32_t)(selected_ability & KIRBY_ABILITY_MASK);
 
         if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x02040000u) {
-            uint16_t source_type = *(volatile uint16_t*)(source_obj_ptr + 0u);
+            // source_obj_ptr points at Object2 in this hook path; type is a u8 at +0x82.
+            uint8_t source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
             source_addr = ENEMY_ABILITY_TABLE_BASE_ADDR + ((uint32_t)source_type * ENEMY_ABILITY_TABLE_STRIDE);
         }
 
