@@ -416,6 +416,55 @@ def test_stake_gated_transitions_come_from_room_transition_overrides() -> None:
     assert set(get_stake_gated_transition_entrance_names()) == annotated
 
 
+def test_stake_gated_transitions_ignore_non_stake_non_exit_mismatch_warning() -> None:
+    rooms_payload = {
+        "REGION_TEST/ROOM_A": {
+            "exits": ["REGION_TEST/ROOM_B"],
+            "transitions": [
+                {
+                    "destination_room": "REGION_TEST/ROOM_MISSING",
+                    "ability_gate": "CanCutRopes",
+                },
+                {
+                    "destination_room": "REGION_TEST/ROOM_MISSING",
+                    "ability_gate": "CanPoundPegs",
+                },
+            ],
+        }
+    }
+
+    with patch("worlds.kirbyam.rules.load_json_data", return_value=rooms_payload), \
+         patch("worlds.kirbyam.rules.logger.warning") as warning_log:
+        assert get_stake_gated_transition_entrance_names() == ()
+        warning_log.assert_called_once_with(
+            "Stake transition override references non-exit edge: %s -> %s",
+            "REGION_TEST/ROOM_A",
+            "REGION_TEST/ROOM_MISSING",
+        )
+
+
+def test_stake_gated_transitions_handles_non_list_exits() -> None:
+    rooms_payload = {
+        "REGION_TEST/ROOM_A": {
+            "exits": None,
+            "transitions": [
+                {
+                    "destination_room": "REGION_TEST/ROOM_B",
+                    "ability_gate": "CanPoundPegs",
+                }
+            ],
+        }
+    }
+
+    with patch("worlds.kirbyam.rules.load_json_data", return_value=rooms_payload), \
+         patch("worlds.kirbyam.rules.logger.warning") as warning_log:
+        assert get_stake_gated_transition_entrance_names() == ()
+        warning_log.assert_any_call(
+            "Room exits payload has unexpected type for %s; treating as empty list",
+            "REGION_TEST/ROOM_A",
+        )
+
+
 def test_lever_rooms_define_four_lever_events() -> None:
     from ..data import load_json_data
 

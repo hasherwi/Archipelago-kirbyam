@@ -131,6 +131,12 @@ def get_stake_gated_transition_entrance_names() -> tuple[str, ...]:
             continue
         exits = room_data.get("exits", [])
         transitions = room_data.get("transitions", [])
+        if not isinstance(exits, list):
+            logger.warning(
+                "Room exits payload has unexpected type for %s; treating as empty list",
+                source_room,
+            )
+            exits = []
         if not isinstance(transitions, list):
             continue
         exit_set = {room for room in exits if isinstance(room, str)}
@@ -141,14 +147,14 @@ def get_stake_gated_transition_entrance_names() -> tuple[str, ...]:
             ability_gate = transition.get("ability_gate")
             if not isinstance(destination_room, str):
                 continue
+            if ability_gate != _STAKE_TRANSITION_GATE_NAME:
+                continue
             if destination_room not in exit_set:
                 logger.warning(
                     "Stake transition override references non-exit edge: %s -> %s",
                     source_room,
                     destination_room,
                 )
-                continue
-            if ability_gate != _STAKE_TRANSITION_GATE_NAME:
                 continue
             entrance_names.add(f"{source_room} -> {destination_room}")
 
