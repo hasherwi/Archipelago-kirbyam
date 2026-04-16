@@ -10,6 +10,7 @@ from worlds._bizhawk.context import _game_watcher, AuthStatus
 from ..data import LocationCategory, data
 from ..client import (
     KirbyAmClient,
+    KirbyAmCommandProcessor,
     _MAP_ITEM_ID_TO_AREA_ID,
     _ROOM_PROPS_DOORS_IDX_OFFSET,
     _ROOM_PROPS_ROM_BASE,
@@ -33,6 +34,80 @@ async def test_validate_rom_accepts_patched_kirby_header(mock_bizhawk_context):
         assert await client.validate_rom(mock_bizhawk_context) is True
         assert mock_bizhawk_context.game == client.game
         assert mock_bizhawk_context.want_slot_data is True
+        assert mock_bizhawk_context.command_processor is KirbyAmCommandProcessor
+
+
+def test_locations_command_lists_only_active_server_locations_for_kirbyam(mock_bizhawk_context):
+    processor = KirbyAmCommandProcessor(mock_bizhawk_context)
+    room_sanity_location = next(
+        loc for loc in data.locations.values() if loc.category == LocationCategory.ROOM_SANITY
+    )
+    active_location = next(
+        loc
+        for loc in data.locations.values()
+        if loc.location_id is not None and loc.category == LocationCategory.BOSS_DEFEAT
+    )
+    mock_bizhawk_context.game = KirbyAmClient.game
+    mock_bizhawk_context.server_locations = {active_location.location_id}
+    mock_bizhawk_context.location_names = {
+        KirbyAmClient.game: {
+            active_location.location_id: active_location.label,
+            room_sanity_location.location_id: room_sanity_location.label,
+        }
+    }
+    mock_bizhawk_context.slot_data = {
+        "locations": {
+            "active": {
+                "label": active_location.label,
+                "location_id": active_location.location_id,
+                "category": active_location.category.name,
+                "tags": [],
+            },
+            "inactive_room": {
+                "label": room_sanity_location.label,
+                "location_id": room_sanity_location.location_id,
+                "category": room_sanity_location.category.name,
+                "tags": [],
+            },
+        }
+    }
+
+    with patch.object(processor, "output") as mock_output:
+        assert processor._cmd_locations() is True
+
+    outputs = [call.args[0] for call in mock_output.call_args_list]
+    assert outputs[0] == f"Active Locations for {KirbyAmClient.game}"
+    assert active_location.label in outputs
+    assert room_sanity_location.label not in outputs
+
+
+def test_locations_command_falls_back_to_datapackage_without_server_state(mock_bizhawk_context):
+    processor = KirbyAmCommandProcessor(mock_bizhawk_context)
+    room_sanity_location = next(
+        loc for loc in data.locations.values() if loc.category == LocationCategory.ROOM_SANITY
+    )
+    active_location = next(
+        loc
+        for loc in data.locations.values()
+        if loc.location_id is not None and loc.category == LocationCategory.BOSS_DEFEAT
+    )
+    mock_bizhawk_context.game = KirbyAmClient.game
+    mock_bizhawk_context.server_locations = set()
+    mock_bizhawk_context.location_names = {
+        KirbyAmClient.game: {
+            active_location.location_id: active_location.label,
+            room_sanity_location.location_id: room_sanity_location.label,
+        }
+    }
+    mock_bizhawk_context.slot_data = {"locations": {}}
+
+    with patch.object(processor, "output") as mock_output:
+        assert processor._cmd_locations() is True
+
+    outputs = [call.args[0] for call in mock_output.call_args_list]
+    assert outputs[0] == f"Location Names for {KirbyAmClient.game}"
+    assert active_location.label in outputs
+    assert room_sanity_location.label in outputs
 
 
 @pytest.mark.asyncio
