@@ -7,7 +7,14 @@ from unittest.mock import patch
 
 from ..data import data
 from ..options import Goal
-from ..rules import ABILITY_GATE_RULES, _ABILITY_GATE_STATUS_VALUES, get_region_ability_gate_annotations, set_rules
+from ..rules import (
+    ABILITY_GATE_RULES,
+    _ABILITY_GATE_STATUS_VALUES,
+    get_region_ability_gate_annotations,
+    get_stake_breaking_abilities,
+    get_stake_gated_transition_entrance_names,
+    set_rules,
+)
 
 
 @dataclass
@@ -365,4 +372,23 @@ def test_region_ability_gate_annotations_load_for_future_big_chest_rollout() -> 
         assert "ability_gates" not in area_def, (
             f"Area {area_name} should not have ability_gates (belongs in rooms.json)"
         )
+
+
+def test_stake_breaking_abilities_are_shared_and_expected() -> None:
+    assert get_stake_breaking_abilities() == ("Hammer", "Master", "Smash", "Stone")
+
+
+def test_stake_gated_transitions_include_candy_one_way_gate() -> None:
+    stake_entrances = set(get_stake_gated_transition_entrance_names())
+
+    assert "REGION_CANDY_CONSTELLATION/ROOM_9_06 -> REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1" in stake_entrances
+    assert "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1 -> REGION_CANDY_CONSTELLATION/ROOM_9_06" not in stake_entrances
+
+
+def test_stake_gated_transitions_cover_cross_region_stake_rooms() -> None:
+    stake_entrances = set(get_stake_gated_transition_entrance_names())
+
+    assert "REGION_OLIVE_OCEAN/ROOM_6_15 -> REGION_OLIVE_OCEAN/ROOM_6_CHEST_2" in stake_entrances
+    assert "REGION_MOONLIGHT_MANSION/ROOM_2_04 -> REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1" in stake_entrances
+    assert "REGION_CANDY_CONSTELLATION/ROOM_9_HUB -> REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3" in stake_entrances
 
