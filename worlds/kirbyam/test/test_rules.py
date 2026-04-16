@@ -151,7 +151,7 @@ def test_area_topology_routes_start_through_rainbow_route_anchor() -> None:
     assert "REGION_RAINBOW_ROUTE/MAIN" not in regions["REGION_OLIVE_OCEAN/MAIN"]["exits"]
     assert "REGION_RAINBOW_ROUTE/MAIN" not in regions["REGION_RADISH_RUINS/MAIN"]["exits"]
 
-    # Cross-area mirror connections derived from transitions.json.
+    # Cross-area mirror connections derived from rooms.json transitions data.
     assert set(regions["REGION_CABBAGE_CAVERN/MAIN"]["exits"]) >= {
         "REGION_OLIVE_OCEAN/MAIN", "REGION_RADISH_RUINS/MAIN",
     }
