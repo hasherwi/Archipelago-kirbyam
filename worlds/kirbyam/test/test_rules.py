@@ -404,25 +404,14 @@ def test_hub_mirror_transition_requires_associated_big_switch() -> None:
     world = _FakeWorld(Goal.option_dark_mind)
     set_rules(world)
 
-    # Test return direction (area hub → Rainbow hub)
-    entrance_return = world.multiworld.get_entrance(
+    entrance = world.multiworld.get_entrance(
         "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1 -> REGION_RAINBOW_ROUTE/ROOM_1_HUB_3",
         world.player,
     )
 
-    assert callable(entrance_return.access_rule)
-    assert not entrance_return.access_rule(_FakeState())
-    assert entrance_return.access_rule(_FakeState(reachable_locations={"Moonlight Mansion - Big Switch"}))
-
-    # Test forward direction (Rainbow hub → area hub)
-    entrance_forward = world.multiworld.get_entrance(
-        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3 -> REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
-        world.player,
-    )
-
-    assert callable(entrance_forward.access_rule)
-    assert not entrance_forward.access_rule(_FakeState())
-    assert entrance_forward.access_rule(_FakeState(reachable_locations={"Moonlight Mansion - Big Switch"}))
+    assert callable(entrance.access_rule)
+    assert not entrance.access_rule(_FakeState())
+    assert entrance.access_rule(_FakeState(reachable_locations={"Moonlight Mansion - Big Switch"}))
 
 
 def test_copy_ability_room_requires_all_big_switches() -> None:

@@ -79,14 +79,9 @@ _HUB_SWITCH_LOCATION_LABELS = [
 ]
 
 # Hub mirrors that become available only after the corresponding big switch has
-# been pressed in that area. Both directions are gated (forward and return).
+# been pressed in that area. Gate return direction only to avoid progression
+# deadlocks in the current graph topology.
 _BIG_SWITCH_GATED_HUB_TRANSITIONS = {
-    # Forward: Rainbow hub → area hub
-    "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3 -> REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1": "Moonlight Mansion - Big Switch",
-    "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3 -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": "Cabbage Cavern Center - Big Switch",
-    "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3 -> REGION_CANDY_CONSTELLATION/ROOM_9_HUB": "Candy Constellation - Big Switch",
-    "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3 -> REGION_PEPPERMINT_PALACE/ROOM_7_15": "Peppermint Palace East - Big Switch",
-    # Return: area hub → Rainbow hub
     "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1 -> REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": "Moonlight Mansion - Big Switch",
     "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3 -> REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": "Cabbage Cavern Center - Big Switch",
     "REGION_CANDY_CONSTELLATION/ROOM_9_HUB -> REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": "Candy Constellation - Big Switch",
