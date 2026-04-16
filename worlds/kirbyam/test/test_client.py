@@ -3948,6 +3948,33 @@ async def test_poll_enemy_ability_reroll_events_treats_counter_rollback_as_reset
 
 
 @pytest.mark.asyncio
+async def test_poll_enemy_ability_reroll_events_resolves_rom_domain_source_address(mock_bizhawk_context):
+    """ROM-domain source pointers should resolve to canonical enemy keys in telemetry logs."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+    mock_bizhawk_context.slot_data = {"ability_randomization_mode": 2}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(1).to_bytes(4, 'little')],
+            [(2).to_bytes(4, 'little')],
+            [(0x08351816).to_bytes(4, 'little'), (3).to_bytes(4, 'little')],
+        ]
+
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+
+    mock_logger.info.assert_any_call(
+        "Kirby swallowed a %s. Ability was rerolled to %s.",
+        "FLAMER",
+        "Burning",
+        extra={"NoStream": True},
+    )
+
+
+@pytest.mark.asyncio
 async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation_detects_mailbox_drift(mock_bizhawk_context):
     """When signature is unchanged, periodic read-back should still rewrite drifted mailbox state."""
     client = KirbyAmClient()
