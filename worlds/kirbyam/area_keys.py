@@ -8,7 +8,7 @@ from .data import LocationCategory, data, load_json_data
 
 EARLY_REACHABLE_CHECK_THRESHOLD = 4
 FALLBACK_STARTING_AREA_ID = 2
-DIMENSION_MIRROR_SHARD_GATE_ENTRANCE = "REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN"
+DIMENSION_MIRROR_MAIN_REGION = "REGION_DIMENSION_MIRROR/MAIN"
 
 AREA_KEY_LABEL_BY_AREA_ID: dict[int, str] = {
     2: "Moonlight Mansion - Area Key",
@@ -127,7 +127,7 @@ def early_reachable_location_count(room_sanity_enabled: bool, starting_area_key_
 
         for exit_name in region_data.exits:
             entrance_name = f"{current_region} -> {exit_name}"
-            if entrance_name == DIMENSION_MIRROR_SHARD_GATE_ENTRANCE:
+            if exit_name == DIMENSION_MIRROR_MAIN_REGION:
                 continue
 
             gated_area_id = gated_entrances.get(entrance_name)

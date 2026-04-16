@@ -20,6 +20,9 @@ from .ability_randomization import (
 )
 from .area_keys import (
     AREA_KEY_LABEL_BY_AREA_ID,
+    EARLY_REACHABLE_CHECK_THRESHOLD,
+    FALLBACK_STARTING_AREA_ID,
+    early_reachable_location_count,
 )
 from .colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, resolve_kirby_color
 from .data import LocationCategory, format_room_region_label, load_json_data, data as kirby_data
@@ -210,6 +213,33 @@ class KirbyAmWorld(World):
         value = getattr(option, "value", option)
         return bool(value)
 
+    def _room_sanity_enabled(self) -> bool:
+        option = getattr(getattr(self, "options", None), "room_sanity", None)
+        value = getattr(option, "value", option)
+        return bool(value)
+
+    def _precollected_area_key_bitfield(self) -> int:
+        bitfield = 0
+        multiworld = getattr(self, "multiworld", None)
+        if multiworld is None:
+            return bitfield
+        precollected_by_player = getattr(multiworld, "precollected_items", {})
+        precollected_items = precollected_by_player.get(self.player, [])
+        if not precollected_items:
+            return bitfield
+
+        area_id_by_label = {
+            label: area_id for area_id, label in AREA_KEY_LABEL_BY_AREA_ID.items()
+        }
+        for item in precollected_items:
+            item_name = getattr(item, "name", None)
+            if not isinstance(item_name, str):
+                continue
+            area_id = area_id_by_label.get(item_name)
+            if area_id is not None:
+                bitfield |= 1 << area_id
+        return bitfield
+
     def _get_resolved_starting_kirby_color(self) -> tuple[int, str]:
         resolved_id = getattr(self, "_resolved_starting_kirby_color_id", None)
         resolved_name = getattr(self, "_resolved_starting_kirby_color_name", None)
@@ -348,6 +378,29 @@ class KirbyAmWorld(World):
                 )
 
             self._starting_area_key_bitfield = 0
+            early_check_count = early_reachable_location_count(self._room_sanity_enabled())
+            if early_check_count < EARLY_REACHABLE_CHECK_THRESHOLD:
+                fallback_area_id = FALLBACK_STARTING_AREA_ID
+                fallback_label = AREA_KEY_LABEL_BY_AREA_ID.get(fallback_area_id)
+                if fallback_label is not None:
+                    fallback_bit = 1 << fallback_area_id
+                    self._starting_area_key_bitfield |= fallback_bit
+
+                    existing_precollect_names = {
+                        getattr(item, "name", None)
+                        for item in self.multiworld.precollected_items.get(self.player, [])
+                    }
+                    if fallback_label not in existing_precollect_names:
+                        self.push_precollected(self.create_item(fallback_label))
+                    logger.info(
+                        "[P%s] Early progression fallback: precollected %s "
+                        "(reachable_checks=%s threshold=%s)",
+                        self.player,
+                        fallback_label,
+                        early_check_count,
+                        EARLY_REACHABLE_CHECK_THRESHOLD,
+                    )
+
             if self._start_with_all_maps_enabled():
                 map_items = [
                     item for item in kirby_data.items.values()
@@ -861,7 +914,10 @@ class KirbyAmWorld(World):
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
         slot_data["starting_kirby_color"] = resolved_color_id
         slot_data["starting_kirby_color_name"] = resolved_color_name
-        slot_data["starting_area_key_bitfield"] = int(getattr(self, "_starting_area_key_bitfield", 0))
+        slot_data["starting_area_key_bitfield"] = (
+            int(getattr(self, "_starting_area_key_bitfield", 0))
+            | self._precollected_area_key_bitfield()
+        )
         policy = getattr(self, "_enemy_copy_ability_policy", None)
         assert policy is not None, (
             "Enemy copy ability policy must be initialized before fill_slot_data is called."

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import Mock
 
 from .. import KirbyAmWorld
@@ -122,3 +123,50 @@ def test_tracker_surface_contract_fields_present_with_expected_shapes() -> None:
     assert isinstance(slot_data["unique_items"], list)
     assert slot_data["unique_items"]
     assert all(isinstance(item, str) for item in slot_data["unique_items"])
+
+
+def test_starting_area_key_bitfield_includes_precollected_area_keys() -> None:
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+
+    options = Mock()
+    options.as_dict.return_value = {
+        "goal": 0,
+        "shards": 2,
+        "start_with_all_maps": False,
+        "starting_kirby_color": 7,
+        "no_extra_lives": False,
+        "enable_traps": False,
+        "trap_fill_percentage": 25,
+        "one_hit_mode": 0,
+        "death_link": True,
+        "ability_randomization_mode": 1,
+        "ability_randomization_boss_spawns": True,
+        "ability_randomization_minibosses": False,
+        "ability_randomization_minny": False,
+        "ability_randomization_passive_enemies": False,
+        "ability_randomization_no_ability_weight": 55,
+        "room_sanity": False,
+    }
+    world.options = options
+    world.player = 1
+    world.multiworld = SimpleNamespace(
+        precollected_items={
+            1: [SimpleNamespace(name="Moonlight Mansion - Area Key")],
+        }
+    )
+    world._resolved_starting_kirby_color_id = 7
+    world._resolved_starting_kirby_color_name = "Sapphire"
+    world._starting_area_key_bitfield = 0
+    world._enemy_copy_ability_policy = {
+        "mode": "shuffled",
+        "allowed_abilities": ["Sword", "Beam", "Burning"],
+        "identity_map": {"Sword": "Beam", "Beam": "Burning", "Burning": "Sword"},
+        "ability_randomization_boss_spawns": True,
+        "ability_randomization_minibosses": False,
+        "ability_randomization_minny": False,
+        "ability_randomization_passive_enemies": False,
+        "ability_randomization_no_ability_weight": 55,
+    }
+
+    slot_data = KirbyAmWorld.fill_slot_data(world)
+    assert slot_data["starting_area_key_bitfield"] & (1 << 2)
