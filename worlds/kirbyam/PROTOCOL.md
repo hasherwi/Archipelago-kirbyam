@@ -32,11 +32,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
   
     0x02000000 - 0x02040000   EWRAM Region (256 KB)
         ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0203B000 - 0x0203B087   AP Mailbox (reserved, 136 bytes)
+        ├─ 0x0203B000 - 0x0203B08B   AP Mailbox (reserved, 140 bytes)
         └─ Remaining EWRAM (excluding AP mailbox block)
 ```
 
-### AP Mailbox Block (0x0203B000 - 0x0203B087)
+### AP Mailbox Block (0x0203B000 - 0x0203B08B)
 
 **Transport Layer: Client ↔ ROM Communication**
 

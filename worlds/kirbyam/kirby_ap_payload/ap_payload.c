@@ -330,16 +330,19 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
     if (mode == ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM
         && (ability_flags & KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR) == 0u) {
         register uint32_t source_obj_ptr asm("r5");
-        register uint32_t caller_lr asm("lr");
+        uint32_t caller_lr_snapshot;
         uint32_t no_ability_weight = AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT;
         uint32_t allowed_mask = AP_ABILITY_RANDOMIZATION_ALLOWED_MASK;
-        uint32_t random_roll = ap_next_rng_u32();
+        uint32_t random_roll;
         uint8_t selected_ability;
         uint32_t source_addr = 0u;
         uint32_t source_kind = ABILITY_REROLL_SOURCE_KIND_UNSPECIFIED;
-        uint32_t caller_pc = (caller_lr & ~1u);
+        uint32_t caller_pc;
         uint32_t kirby_index = AP_REROLL_KIRBY_INDEX_UNKNOWN;
         uint32_t kirby_addr = (uint32_t)kirby;
+
+        __asm__ volatile ("mov %0, lr" : "=r" (caller_lr_snapshot));
+        caller_pc = (caller_lr_snapshot & ~1u);
 
         if (caller_pc >= 4u) {
             caller_pc -= 4u;
@@ -352,6 +355,8 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
                 kirby_index = kirby_offset / KIRBY_STRUCT_STRIDE;
             }
         }
+
+        random_roll = ap_next_rng_u32();
 
         if (no_ability_weight >= 100u) {
             selected_ability = 0u;

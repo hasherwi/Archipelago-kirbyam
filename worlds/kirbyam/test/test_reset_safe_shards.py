@@ -376,6 +376,10 @@ def test_copy_ability_reroll_hook_reads_object2_type_field() -> None:
         "Reroll hook must write caller PC discriminator telemetry"
     assert "AP_ABILITY_REROLL_KIRBY_INDEX = kirby_index" in hook_body, \
         "Reroll hook must write Kirby index telemetry"
+    assert "mov %0, lr" in hook_body, \
+        "Reroll hook must snapshot lr before any BL clobbers the caller return address"
+    assert "caller_lr_snapshot" in hook_body, \
+        "Reroll hook should capture caller lr into a normal variable before helper calls"
     assert "ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE" in content, \
         "Payload should define explicit source-kind enum values"
     assert "uint16_t source_type = *(volatile uint16_t*)(source_obj_ptr + 0u);" not in hook_body, \

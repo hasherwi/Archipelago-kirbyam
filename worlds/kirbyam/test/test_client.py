@@ -3954,7 +3954,7 @@ async def test_poll_enemy_ability_reroll_events_treats_counter_rollback_as_reset
     mock_logger.info.assert_any_call(
         "%s swallowed a %s. Ability was rerolled to %s.",
         "Kirby P3",
-        "UNKNOWN_NULL_SRC_0x123456",
+        "UNKNOWN_NULL_SRC_0x00123456",
         "Burning",
         extra={"NoStream": True},
     )

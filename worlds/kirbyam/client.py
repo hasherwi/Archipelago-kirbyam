@@ -1401,11 +1401,11 @@ class KirbyAmClient(BizHawkClient):
             enemy_name = _ABILITY_SOURCE_ADDR_TO_KEY.get(normalized_source_addr)
         if enemy_name is None:
             if source_kind == 2:
-                enemy_name = f"UNKNOWN_NULL_SRC_0x{source_addr:06X}"
+                enemy_name = f"UNKNOWN_NULL_SRC_0x{source_addr:08X}"
             elif source_kind == 3:
-                enemy_name = f"UNKNOWN_NON_EWRAM_SRC_0x{source_addr:06X}"
+                enemy_name = f"UNKNOWN_NON_EWRAM_SRC_0x{source_addr:08X}"
             else:
-                enemy_name = f"UNKNOWN_0x{source_addr:06X}"
+                enemy_name = f"UNKNOWN_0x{source_addr:08X}"
         ability_name = _ABILITY_ID_TO_NAME.get(ability_id, f"Ability_{ability_id}")
         kirby_label = "Kirby"
         if kirby_index <= 3:
