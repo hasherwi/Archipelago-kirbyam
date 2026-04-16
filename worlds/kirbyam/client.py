@@ -124,64 +124,65 @@ _ABILITY_REROLL_SOURCE_KIND_TO_LABEL: dict[int, str] = {
 }
 
 
-def _kirbyam_cmd_locations(self) -> bool:
-    """List active location names for theanales current KirbyAM seed when available."""
-    if getattr(self.ctx, "game", None) != KirbyAmClient.game:
-        return super(type(self), self)._cmd_locations()
+def _build_kirbyam_command_processor(base_command_processor: type) -> type:
+    _base_cls = base_command_processor
 
-    slot_data = getattr(self.ctx, "slot_data", None)
-    slot_locations = slot_data.get("locations") if isinstance(slot_data, dict) else None
-    if not isinstance(slot_locations, dict):
-        return super(type(self), self)._cmd_locations()
+    def _cmd_locations(self) -> bool:
+        """List active location names for the current KirbyAM seed when available."""
+        if getattr(self.ctx, "game", None) != KirbyAmClient.game:
+            return _base_cls._cmd_locations(self)
 
-    server_locations = getattr(self.ctx, "server_locations", None)
-    if not isinstance(server_locations, set):
-        missing_locations = getattr(self.ctx, "missing_locations", None)
-        checked_locations = getattr(self.ctx, "checked_locations", None)
-        if isinstance(missing_locations, set) and isinstance(checked_locations, set):
-            server_locations = missing_locations | checked_locations
-        else:
-            server_locations = None
+        slot_data = getattr(self.ctx, "slot_data", None)
+        slot_locations = slot_data.get("locations") if isinstance(slot_data, dict) else None
+        if not isinstance(slot_locations, dict):
+            return _base_cls._cmd_locations(self)
 
-    if not server_locations:
-        return super(type(self), self)._cmd_locations()
+        server_locations = getattr(self.ctx, "server_locations", None)
+        if not isinstance(server_locations, set):
+            missing_locations = getattr(self.ctx, "missing_locations", None)
+            checked_locations = getattr(self.ctx, "checked_locations", None)
+            if isinstance(missing_locations, set) and isinstance(checked_locations, set):
+                server_locations = missing_locations | checked_locations
+            else:
+                server_locations = None
 
-    location_names_lookup = getattr(self.ctx, "location_names", None)
-    try:
-        location_names = location_names_lookup[self.ctx.game] if location_names_lookup is not None else {}
-    except (KeyError, TypeError):
-        location_names = {}
-    active_location_labels: dict[int, str] = {}
-    for location_meta in slot_locations.values():
-        if not isinstance(location_meta, dict):
-            continue
-        location_id = location_meta.get("location_id")
-        label = location_meta.get("label")
-        if isinstance(location_id, int) and location_id in server_locations and isinstance(label, str):
-            active_location_labels[location_id] = label
+        if not server_locations:
+            return _base_cls._cmd_locations(self)
 
-    if not active_location_labels:
-        for location_id in server_locations:
-            if location_id < 0:
+        location_names_lookup = getattr(self.ctx, "location_names", None)
+        try:
+            location_names = location_names_lookup[self.ctx.game] if location_names_lookup is not None else {}
+        except (KeyError, TypeError):
+            location_names = {}
+        active_location_labels: dict[int, str] = {}
+        for location_meta in slot_locations.values():
+            if not isinstance(location_meta, dict):
                 continue
-            label = location_names.get(location_id)
-            if isinstance(label, str):
+            location_id = location_meta.get("location_id")
+            label = location_meta.get("label")
+            if isinstance(location_id, int) and location_id in server_locations and isinstance(label, str):
                 active_location_labels[location_id] = label
 
-    if not active_location_labels:
-        return super(type(self), self)._cmd_locations()
+        if not active_location_labels:
+            for location_id in server_locations:
+                if location_id < 0:
+                    continue
+                label = location_names.get(location_id)
+                if isinstance(label, str):
+                    active_location_labels[location_id] = label
 
-    self.output(f"Active Locations for {self.ctx.game}")
-    for location_id in sorted(active_location_labels):
-        self.output(active_location_labels[location_id])
-    return True
+        if not active_location_labels:
+            return _base_cls._cmd_locations(self)
 
+        self.output(f"Active Locations for {self.ctx.game}")
+        for location_id in sorted(active_location_labels):
+            self.output(active_location_labels[location_id])
+        return True
 
-def _build_kirbyam_command_processor(base_command_processor: type) -> type:
     return type(
         "KirbyAmCommandProcessor",
         (base_command_processor,),
-        {"_cmd_locations": _kirbyam_cmd_locations},
+        {"_cmd_locations": _cmd_locations, "_is_kirbyam_wrapper": True},
     )
 
 
@@ -1141,12 +1142,12 @@ class KirbyAmClient(BizHawkClient):
         ctx.items_handling = 0b001
         ctx.want_slot_data = True
         ctx.watcher_timeout = 0.125
-        base_command_processor = ctx.command_processor
-        if not isinstance(base_command_processor, type):
-            from worlds._bizhawk.context import BizHawkClientCommandProcessor
-
-            base_command_processor = BizHawkClientCommandProcessor
-        ctx.command_processor = _build_kirbyam_command_processor(base_command_processor)
+        base_command_processor = getattr(ctx, "command_processor", None)
+        if base_command_processor is not None:
+            if not isinstance(base_command_processor, type):
+                base_command_processor = base_command_processor.__class__
+            if not getattr(base_command_processor, "_is_kirbyam_wrapper", False):
+                ctx.command_processor = _build_kirbyam_command_processor(base_command_processor)
 
         self.initialize_client()
         self._log_client("info", "KirbyAM: ROM validated.")
