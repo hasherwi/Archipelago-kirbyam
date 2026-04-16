@@ -216,9 +216,30 @@ typedef uint32_t (*KirbySpecialDoorVisitedFn)(uint16_t, uint16_t, uint8_t, uint8
 #define KIRBY_CURRENT_ROOM      (*(volatile uint16_t*)(KIRBY_CURRENT_ROOM_ADDR))
 
 // doorsIdx -> area ID lookup for native room metadata.
-// Provenance: derived from the same gRoomProps.doorsIdx + room-region attribution
-// contract used by the Python client and documented in PROTOCOL.md.
-// Keep this table synchronized with world data when updating room manifests.
+//
+// DERIVATION AND SYNCHRONIZATION:
+// This table maps each gRoomProps.doorsIdx value to its corresponding area ID (0-9).
+// The mapping is derived from:
+//  1. worlds/kirbyam/data/regions/rooms.json - room definitions and region assignments
+//  2. worlds/kirbyam/area_keys.py - room-to-area derivation logic (gated_room_entrance_area_ids)
+//  3. Matching each room's doorsIdx field against gRoomProps in the ROM
+//
+// DRIFT RISK:
+// If the native gRoomProps structure or doorsIdx assignments change between ROM
+// versions (or if room definitions are updated on the Python side), this table
+// can silently become stale. Stale entries cause incorrect Area Key gating in the
+// payload: mirrors to gated areas may be incorrectly allowed/denied.
+//
+// VALIDATION/REGENERATION:
+// - During AP world build: Python-side validation in worlds/kirbyam/area_keys.py
+//   checks that all room areas are correctly gated in rules.py.
+// - During ROM patch: patch_rom.py could generate a checksum of this table and
+//   embed it in the ROM payload, then have runtime code validate on cold boot.
+// - Manual inspection: Compare table entries against current gRoomProps definitions
+//   in the active ROM base, then against the Python-side room.json definitions.
+//
+// TODO: Implement table generation as a build artifact (C header generated from
+// Python area_keys data) or add compile-time/runtime checksum validation to detect drift.
 static const uint8_t gApDoorsIdxAreaIds[0x120] = {
     /* 0x00 */  1,  0,  0,  0,  0,  0,  0,  0,  2,  5,  1,  1,  1,  1,  1,  1,
     /* 0x10 */  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
