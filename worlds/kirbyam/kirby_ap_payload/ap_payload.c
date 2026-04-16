@@ -289,6 +289,7 @@ static uint8_t ap_has_area_key(uint8_t area_id) {
 static uint8_t ap_is_warp_room_doors_idx(uint16_t doors_idx) {
     switch (doors_idx) {
         case 30u:   // REGION_RAINBOW_ROUTE/ROOM_1_WARP
+        case 38u:   // REGION_RAINBOW_ROUTE/ROOM_1_13 (Warp Star launch room)
         case 69u:   // REGION_MOONLIGHT_MANSION/ROOM_2_WARP
         case 101u:  // REGION_PEPPERMINT_PALACE/ROOM_7_WARP
         case 134u:  // REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP
