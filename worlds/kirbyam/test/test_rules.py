@@ -415,3 +415,55 @@ def test_stake_gated_transitions_come_from_room_transition_overrides() -> None:
     assert annotated
     assert set(get_stake_gated_transition_entrance_names()) == annotated
 
+
+def test_lever_rooms_define_four_lever_events() -> None:
+    from ..data import load_json_data
+
+    rooms = load_json_data("regions/rooms.json")
+
+    assert "Activate Lever - Moonlight Mansion 2-11" in rooms["REGION_MOONLIGHT_MANSION/ROOM_2_11"]["events"]
+    assert "Activate Lever - Carrot Castle 5-12" in rooms["REGION_CARROT_CASTLE/ROOM_5_12"]["events"]
+    assert "Activate Lever - Olive Ocean 6-13" in rooms["REGION_OLIVE_OCEAN/ROOM_6_13"]["events"]
+    assert "Activate Lever - Radish Ruins 8-12" in rooms["REGION_RADISH_RUINS/ROOM_8_12"]["events"]
+
+
+def test_hub_switch_locations_have_matching_big_switch_events() -> None:
+    from ..data import load_json_data
+
+    areas = load_json_data("regions/areas.json")
+
+    expected_events_by_hub_switch = {
+        "HUB_SWITCH_MUSTARD": "Activate Big Switch - Mustard Mountain",
+        "HUB_SWITCH_MOONLIGHT": "Activate Big Switch - Moonlight Mansion",
+        "HUB_SWITCH_CANDY": "Activate Big Switch - Candy Constellation",
+        "HUB_SWITCH_OLIVE": "Activate Big Switch - Olive Ocean",
+        "HUB_SWITCH_PEPPERMINT_EAST": "Activate Big Switch - Peppermint Palace East",
+        "HUB_SWITCH_PEPPERMINT_WEST": "Activate Big Switch - Peppermint Palace West",
+        "HUB_SWITCH_CABBAGE_CAVERN_CENTER": "Activate Big Switch - Cabbage Cavern Center",
+        "HUB_SWITCH_CABBAGE_CAVERN_EAST": "Activate Big Switch - Cabbage Cavern East",
+        "HUB_SWITCH_CABBAGE_CAVERN_WEST": "Activate Big Switch - Cabbage Cavern West",
+        "HUB_SWITCH_CARROT": "Activate Big Switch - Carrot Castle",
+        "HUB_SWITCH_RADISH": "Activate Big Switch - Radish Ruins",
+        "HUB_SWITCH_RAINBOW_ROUTE_EAST": "Activate Big Switch - Rainbow Route East",
+        "HUB_SWITCH_RAINBOW_ROUTE_NORTH": "Activate Big Switch - Rainbow Route North",
+        "HUB_SWITCH_RAINBOW_ROUTE_SOUTH": "Activate Big Switch - Rainbow Route South",
+        "HUB_SWITCH_RAINBOW_ROUTE_WEST": "Activate Big Switch - Rainbow Route West",
+    }
+
+    found_events: set[str] = set()
+    for area_data in areas.values():
+        if not isinstance(area_data, dict):
+            continue
+        locations = area_data.get("locations", [])
+        events = area_data.get("events", [])
+        if not isinstance(locations, list) or not isinstance(events, list):
+            continue
+        location_set = {location for location in locations if isinstance(location, str)}
+        event_set = {event for event in events if isinstance(event, str)}
+        for hub_switch_key, expected_event in expected_events_by_hub_switch.items():
+            if hub_switch_key in location_set:
+                assert expected_event in event_set
+                found_events.add(expected_event)
+
+    assert found_events == set(expected_events_by_hub_switch.values())
+

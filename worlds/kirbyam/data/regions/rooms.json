@@ -6733,7 +6733,9 @@
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_11": {
     "locations": [],
-    "events": [],
+    "events": [
+      "Activate Lever - Moonlight Mansion 2-11"
+    ],
     "exits": [
       "REGION_MOONLIGHT_MANSION/ROOM_2_10",
       "REGION_MOONLIGHT_MANSION/ROOM_2_08",
@@ -13318,7 +13320,9 @@
   },
   "REGION_CARROT_CASTLE/ROOM_5_12": {
     "locations": [],
-    "events": [],
+    "events": [
+      "Activate Lever - Carrot Castle 5-12"
+    ],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_13",
       "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
@@ -15497,7 +15501,9 @@
   },
   "REGION_OLIVE_OCEAN/ROOM_6_13": {
     "locations": [],
-    "events": [],
+    "events": [
+      "Activate Lever - Olive Ocean 6-13"
+    ],
     "exits": [
       "REGION_OLIVE_OCEAN/ROOM_6_14",
       "REGION_OLIVE_OCEAN/ROOM_6_19",
@@ -20690,7 +20696,9 @@
   },
   "REGION_RADISH_RUINS/ROOM_8_12": {
     "locations": [],
-    "events": [],
+    "events": [
+      "Activate Lever - Radish Ruins 8-12"
+    ],
     "exits": [
       "REGION_RADISH_RUINS/ROOM_8_20",
       "REGION_RADISH_RUINS/ROOM_8_15"

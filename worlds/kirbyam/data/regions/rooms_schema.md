@@ -39,7 +39,7 @@ Example:
           "world": {"x": 187, "y": 32}
         },
         "transport_type": "other",
-        "friendly_name": "Candy Constellation 9-02 to 9-07",
+        "friendly_name": "Candy Constellation 9-06 to 9-Chest 1",
         "ability_gate": "CanPoundPegs"
       }
     ]
@@ -63,8 +63,8 @@ Each room object contains:
   - Type: `list[str]`
   - Meaning: event names associated with this room.
   - Examples:
-    - Current room dataset: `"events": []`
-    - Future/possible shape: `"events": ["Some Room Event"]`
+    - Empty room: `"events": []`
+    - Lever room: `"events": ["Activate Lever - Moonlight Mansion 2-11"]`
 
 - `exits`:
   - Type: `list[str]`

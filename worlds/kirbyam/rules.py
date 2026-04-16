@@ -114,7 +114,7 @@ ABILITY_GATE_RULES = {
 
 def get_stake_breaking_abilities() -> tuple[str, ...]:
     """Return the reusable hammer peg/stake ability group in deterministic order."""
-    return tuple(sorted(_ABILITY_GATE_PLACEHOLDER_SOURCES["CanPoundPegs"]))
+    return tuple(sorted(_ABILITY_GATE_PLACEHOLDER_SOURCES[_STAKE_TRANSITION_GATE_NAME]))
 
 
 def get_stake_gated_transition_entrance_names() -> tuple[str, ...]:
