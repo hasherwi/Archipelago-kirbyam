@@ -351,10 +351,14 @@ __attribute__((used)) uint32_t ap_on_query_special_door_state(uint16_t room_id, 
     }
     // Some callsites appear to pass doorsIdx-like values instead of canonical
     // room IDs; treat those as fallback area candidates for regular mirrors.
-    if (room_id_doors_area >= 2u && room_id_doors_area <= 9u && room_id_doors_area != runtime_source_area) {
+    if ((destination_area < 2u || destination_area > 9u)
+        && room_id_doors_area >= 2u && room_id_doors_area <= 9u
+        && room_id_doors_area != runtime_source_area) {
         destination_area = room_id_doors_area;
     }
-    if (arg1_doors_area >= 2u && arg1_doors_area <= 9u && arg1_doors_area != runtime_source_area) {
+    if ((destination_area < 2u || destination_area > 9u)
+        && arg1_doors_area >= 2u && arg1_doors_area <= 9u
+        && arg1_doors_area != runtime_source_area) {
         destination_area = arg1_doors_area;
     }
 
@@ -426,6 +430,8 @@ typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR 0x20u
 #define ABILITY_REROLL_SOURCE_KIND_NONE 0u
 #define ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE 1u
+#define ABILITY_REROLL_SOURCE_KIND_NULL_SOURCE_PTR 2u
+#define ABILITY_REROLL_SOURCE_KIND_NON_EWRAM_SOURCE_PTR 3u
 #define ENEMY_ABILITY_TABLE_BASE_ADDR 0x35164Eu
 #define ENEMY_ABILITY_TABLE_STRIDE 0x18u
 #define OBJECT2_TYPE_OFFSET 0x82u
@@ -512,10 +518,14 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
 
         rewritten_flags = (ability_flags & ~KIRBY_ABILITY_MASK) | (uint32_t)(selected_ability & KIRBY_ABILITY_MASK);
 
-        if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x02040000u) {
+        if (source_obj_ptr == 0u) {
+            source_kind = ABILITY_REROLL_SOURCE_KIND_NULL_SOURCE_PTR;
+        } else if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x02040000u) {
             uint8_t source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
             source_kind = ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE;
             source_addr = ENEMY_ABILITY_TABLE_BASE_ADDR + ((uint32_t)source_type * ENEMY_ABILITY_TABLE_STRIDE);
+        } else {
+            source_kind = ABILITY_REROLL_SOURCE_KIND_NON_EWRAM_SOURCE_PTR;
         }
 
         AP_ABILITY_REROLL_SOURCE_ADDR = source_addr;
