@@ -893,9 +893,10 @@ class KirbyAmClient(BizHawkClient):
         )
 
     def _build_delivered_area_key_bitfield(self, ctx: "BizHawkClientContext") -> int:
-        delivered_count = min(self._max_delivered_item_index_seen, len(getattr(ctx, "items_received", [])))
+        delivered_items = getattr(ctx, "items_received", ())
+        delivered_count = min(self._max_delivered_item_index_seen, len(delivered_items))
         area_key_bits = 0
-        for item in ctx.items_received[:delivered_count]:
+        for item in delivered_items[:delivered_count]:
             item_fields = self._extract_delivery_item_fields(item)
             if item_fields is None:
                 continue
