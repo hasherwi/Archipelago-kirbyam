@@ -1126,7 +1126,7 @@ class KirbyAmClient(BizHawkClient):
         auth_addr = data.rom_addresses.get("gArchipelagoInfo")
         if auth_addr is None:
             self._log_client("error", "KirbyAM: missing rom address 'gArchipelagoInfo' in worlds/kirbyam/data/addresses.json")
-            return await _fail("missing_auth_address", "Unable to load ROM: patch metadata address is missing.")
+            return await _fail("missing_auth_address")
         auth_addr = _normalize_gba_rom_address(auth_addr)
 
         rom_hash = getattr(ctx, "rom_hash", None)
@@ -1165,16 +1165,13 @@ class KirbyAmClient(BizHawkClient):
                     game_code,
                     maker_code,
                 )
-                return await _fail(
-                    "header_mismatch",
-                    "Unable to load ROM: invalid Kirby and the Amazing Mirror ROM.",
-                )
+                return await _fail("header_mismatch")
         except bizhawk.RequestFailedError as exc:
             self._log_verbose("info", "KirbyAM: ROM header read failed during validation: %s", exc)
-            return await _fail("header_read_failed", "Unable to load ROM: could not read ROM header data.")
+            return await _fail("header_read_failed")
         except Exception:
             self._log_client("error", "KirbyAM: unexpected error during ROM header validation", exc_info=True)
-            return await _fail("header_validation_exception", "Unable to load ROM: ROM header validation failed.")
+            return await _fail("header_validation_exception")
 
         try:
             auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
