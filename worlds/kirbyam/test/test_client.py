@@ -2347,19 +2347,20 @@ async def test_deliver_items_replays_already_acked_trap_when_rom_counter_not_adv
     assert client._delivered_item_index == 0
     assert client._delivery_pending is True
     mock_display.assert_not_awaited()
-    writes = mock_write.await_args_list
-    assert writes[0] == call(
-        mock_bizhawk_context.bizhawk_ctx,
-        [(data.transport_ram_addresses["delivered_item_index"], (0).to_bytes(4, 'little'), 'System Bus')],
-    )
-    assert writes[1] == call(
-        mock_bizhawk_context.bizhawk_ctx,
-        [
-            (data.transport_ram_addresses["incoming_item_id"], int(3860032).to_bytes(4, 'little'), 'System Bus'),
-            (data.transport_ram_addresses["incoming_item_player"], int(2).to_bytes(4, 'little'), 'System Bus'),
-            (data.transport_ram_addresses["incoming_item_flag"], (1).to_bytes(4, 'little'), 'System Bus'),
-        ],
-    )
+    assert mock_write.await_args_list == [
+        call(
+            mock_bizhawk_context.bizhawk_ctx,
+            [(data.transport_ram_addresses["delivered_item_index"], (0).to_bytes(4, 'little'), 'System Bus')],
+        ),
+        call(
+            mock_bizhawk_context.bizhawk_ctx,
+            [
+                (data.transport_ram_addresses["incoming_item_id"], int(3860032).to_bytes(4, 'little'), 'System Bus'),
+                (data.transport_ram_addresses["incoming_item_player"], int(2).to_bytes(4, 'little'), 'System Bus'),
+                (data.transport_ram_addresses["incoming_item_flag"], (1).to_bytes(4, 'little'), 'System Bus'),
+            ],
+        ),
+    ]
 
 
 @pytest.mark.asyncio
