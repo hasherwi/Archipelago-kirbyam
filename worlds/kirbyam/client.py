@@ -3184,6 +3184,15 @@ class KirbyAmClient(BizHawkClient):
                         self._item_name(ctx, item_id, player_id),
                         self._player_name(ctx, player_id),
                     )
+                elif self._delivery_counter_ahead_fallback_active or rom_received_count > len(ctx.items_received):
+                    self._log_verbose(
+                        "info",
+                        "KirbyAM: replaying session-ACKed trap at item index %s (%s from %s) because ROM counter=%s is unreliable/out-of-range",
+                        self._delivered_item_index,
+                        self._item_name(ctx, item_id, player_id),
+                        self._player_name(ctx, player_id),
+                        rom_received_count,
+                    )
                 else:
                     self._log_verbose(
                         "info",
