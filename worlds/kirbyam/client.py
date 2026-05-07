@@ -1155,10 +1155,7 @@ class KirbyAmClient(BizHawkClient):
                     game_code,
                     maker_code,
                 )
-                return await _fail(
-                    "header_mismatch",
-                    "Unable to load ROM: invalid Kirby and the Amazing Mirror ROM.",
-                )
+                return await _fail("header_mismatch")
         except bizhawk.RequestFailedError as exc:
             self._log_verbose("info", "KirbyAM: ROM header read failed during validation: %s", exc)
             return await _fail("header_read_failed", "Unable to load ROM: could not read ROM header data.")
