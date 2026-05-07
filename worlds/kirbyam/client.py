@@ -1200,18 +1200,32 @@ class KirbyAmClient(BizHawkClient):
                 "Unable to load ROM: missing patch metadata. Rebuild your patched ROM.",
             )
 
-        # Diagnostics: verify the loaded ROM has a patched Thumb BL at the main hook site.
+        # Require the expected patched callsite so we only claim explicitly KirbyAM-patched ROMs.
         try:
             hook_bytes = (await bizhawk.read(ctx.bizhawk_ctx, [(_MAIN_HOOK_OFFSET, 4, "ROM")]))[0]
             if not is_thumb_bl_instruction(bytes(hook_bytes)):
                 self._log_client(
-                    "warning",
-                    "KirbyAM: main hook callsite at 0x%06X is not patched with a Thumb BL (found=%s). Loaded ROM may be incompatible with this payload build.",
+                    "error",
+                    "KirbyAM: main hook callsite at 0x%06X is not patched with a Thumb BL (found=%s). Refusing to claim this ROM.",
                     _MAIN_HOOK_OFFSET,
                     bytes(hook_bytes).hex(" ")
                 )
-        except Exception as exc:
+                return await _fail(
+                    "main_hook_mismatch",
+                    "Unable to load ROM: this is not a compatible KirbyAM patched ROM.",
+                )
+        except bizhawk.RequestFailedError as exc:
             self._log_verbose("info", "KirbyAM: main hook opcode probe failed during validation: %s", exc)
+            return await _fail(
+                "main_hook_probe_failed",
+                "Unable to load ROM: could not verify patch compatibility.",
+            )
+        except Exception:
+            self._log_client("error", "KirbyAM: unexpected error during main hook probe", exc_info=True)
+            return await _fail(
+                "main_hook_probe_exception",
+                "Unable to load ROM: patch compatibility validation failed.",
+            )
 
         self._last_validation_failure_reason = None
 

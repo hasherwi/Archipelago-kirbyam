@@ -322,10 +322,35 @@ async def test_validate_rom_rejects_missing_main_hook_patch(mock_bizhawk_context
         ]
 
         with caplog.at_level(logging.INFO):
-            assert await client.validate_rom(mock_bizhawk_context) is True
+            assert await client.validate_rom(mock_bizhawk_context) is False
 
-    mock_display.assert_not_awaited()
+    mock_display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "Unable to load ROM: this is not a compatible KirbyAM patched ROM.",
+    )
     assert "main hook callsite" in caplog.text
+
+
+@pytest.mark.asyncio
+async def test_validate_rom_rejects_main_hook_probe_read_failure(mock_bizhawk_context, caplog):
+    client = KirbyAmClient()
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
+        mock_read.side_effect = [
+            [b'AGB KIRBY AM', b'B8KE', b'01'],
+            [b'\x01' + (b'\x00' * 15)],
+            bizhawk.RequestFailedError("Connection closed"),
+        ]
+
+        with caplog.at_level(logging.INFO):
+            assert await client.validate_rom(mock_bizhawk_context) is False
+
+    mock_display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "Unable to load ROM: could not verify patch compatibility.",
+    )
+    assert "main hook opcode probe failed during validation" in caplog.text
 
 
 @pytest.mark.asyncio
