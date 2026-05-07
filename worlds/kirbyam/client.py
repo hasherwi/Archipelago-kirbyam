@@ -447,6 +447,8 @@ class KirbyAmClient(BizHawkClient):
         logger_func = getattr(logger_obj, level, logger_obj.info)
         extra = dict(kwargs.pop("extra", {}))
         extra["NoStream"] = True
+        # Keep verbose diagnostics out of the live GUI log panel as well.
+        extra["skip_gui"] = True
         kwargs["extra"] = extra
         logger_func(msg, *args, **kwargs)
 
@@ -2465,7 +2467,7 @@ class KirbyAmClient(BizHawkClient):
             logger.info(
                 "KirbyAM: room entry — native=0x%04x (doorsIdx lookup failed)",
                 native_room_id,
-                extra={"NoStream": True},
+                extra={"NoStream": True, "skip_gui": True},
             )
             return
 
@@ -2484,7 +2486,7 @@ class KirbyAmClient(BizHawkClient):
                 room_label,
                 native_room_id,
                 doors_idx,
-                extra={"NoStream": True},
+                extra={"NoStream": True, "skip_gui": True},
             )
 
         if ctx.slot is not None and send_pending:
@@ -2756,13 +2758,13 @@ class KirbyAmClient(BizHawkClient):
     async def _deliver_items(self, ctx: KirbyAmBizHawkClientContext, allow_new_writes: bool = True) -> None:
         """
         Deliver items via mailbox protocol.
-        
+
         Protocol:
         1. Client writes item_id + player to mailbox
         2. Client sets flag=1 to signal ROM
         3. ROM reads mailbox, applies item, clears flag=0 (ACK)
         4. Client observes flag=0, advances index
-        
+
         State machine:
         - If _delivery_pending: wait for ROM to ACK (flag -> 0)
         - If flag=0 and items available: write next item (set flag -> 1)

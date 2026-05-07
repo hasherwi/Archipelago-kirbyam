@@ -19,7 +19,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Bug Fixes
 
-- None.
+- Fixed file-only KirbyAM verbose diagnostics still appearing in the live client log panel by marking verbose messages as GUI-hidden while keeping them in the log file output (Issue #751).
 
 ### Internal Changes
 
