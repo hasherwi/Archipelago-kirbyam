@@ -159,6 +159,27 @@ def test_payload_tracks_hub_switch_checks_from_world_map_unlocks() -> None:
         "Hook should set AP hub-switch bit only after successful door-index translation"
     )
 
+    mapper_match = re.search(
+        r"uint8_t\s+ap_try_map_worldmap_door_to_hub_switch_bit[^{]*\{(?P<body>.*?)^}",
+        content,
+        flags=re.DOTALL | re.MULTILINE,
+    )
+    assert mapper_match is not None, "ap_try_map_worldmap_door_to_hub_switch_bit definition must exist"
+    mapper_body = mapper_match.group("body")
+
+    assert "case 1u:  // WORLDMAP_MOONLIGHT_MANSION" in mapper_body, (
+        "Mapper should include Moonlight world-map door case"
+    )
+    assert "*out_bit = 11u;" in mapper_body, (
+        "Moonlight world-map door should map to AP hub-switch bit 11"
+    )
+    assert "case 11u: // WORLDMAP_PEPPERMINT_PALACE_EAST" in mapper_body, (
+        "Mapper should include Peppermint East world-map door case"
+    )
+    assert "*out_bit = 10u;" in mapper_body, (
+        "Peppermint East world-map door should map to AP hub-switch bit 10"
+    )
+
 
 def test_sram_checksum_fields_updated():
     """Verify that checksum fields are updated alongside shard persistence."""

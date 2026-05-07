@@ -194,7 +194,7 @@ static uint8_t ap_try_map_worldmap_door_to_hub_switch_bit(uint16_t door_index, u
 
     switch (door_index) {
         case 1u:  // WORLDMAP_MOONLIGHT_MANSION
-            *out_bit = 10u;
+            *out_bit = 11u;
             return 1u;
         case 2u:  // WORLDMAP_RAINBOW_ROUTE_EAST
             *out_bit = 1u;
@@ -224,7 +224,7 @@ static uint8_t ap_try_map_worldmap_door_to_hub_switch_bit(uint16_t door_index, u
             *out_bit = 9u;
             return 1u;
         case 11u: // WORLDMAP_PEPPERMINT_PALACE_EAST
-            *out_bit = 11u;
+            *out_bit = 10u;
             return 1u;
         case 12u: // WORLDMAP_PEPPERMINT_PALACE_WEST
             *out_bit = 0u;
