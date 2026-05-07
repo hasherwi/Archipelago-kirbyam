@@ -1123,12 +1123,6 @@ class KirbyAmClient(BizHawkClient):
             self._last_validation_failure_reason = reason
             return False
 
-        auth_addr = data.rom_addresses.get("gArchipelagoInfo")
-        if auth_addr is None:
-            self._log_client("error", "KirbyAM: missing rom address 'gArchipelagoInfo' in worlds/kirbyam/data/addresses.json")
-            return await _fail("missing_auth_address")
-        auth_addr = _normalize_gba_rom_address(auth_addr)
-
         rom_hash = getattr(ctx, "rom_hash", None)
         if isinstance(rom_hash, str) and rom_hash.lower() == KirbyAmProcedurePatch.hash.lower():
             self._log_client(
@@ -1172,6 +1166,12 @@ class KirbyAmClient(BizHawkClient):
         except Exception:
             self._log_client("error", "KirbyAM: unexpected error during ROM header validation", exc_info=True)
             return await _fail("header_validation_exception")
+
+        auth_addr = data.rom_addresses.get("gArchipelagoInfo")
+        if auth_addr is None:
+            self._log_client("error", "KirbyAM: missing rom address 'gArchipelagoInfo' in worlds/kirbyam/data/addresses.json")
+            return await _fail("missing_auth_address", "Unable to load ROM: patch metadata address is missing.")
+        auth_addr = _normalize_gba_rom_address(auth_addr)
 
         try:
             auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]

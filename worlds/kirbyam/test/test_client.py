@@ -214,11 +214,19 @@ async def test_validate_rom_rejects_missing_auth_address(mock_bizhawk_context, c
 
     original_auth_addr = data.rom_addresses.pop("gArchipelagoInfo", None)
     try:
-        with patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
+        with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+             patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
+            mock_read.side_effect = [
+                [b'AGB KIRBY AM', b'B8KE', b'01'],
+            ]
+
             with caplog.at_level(logging.ERROR):
                 assert await client.validate_rom(mock_bizhawk_context) is False
 
-            mock_display.assert_not_awaited()
+            mock_display.assert_awaited_once_with(
+                mock_bizhawk_context.bizhawk_ctx,
+                "Unable to load ROM: patch metadata address is missing.",
+            )
         assert "missing rom address 'gArchipelagoInfo'" in caplog.text
     finally:
         if original_auth_addr is not None:
