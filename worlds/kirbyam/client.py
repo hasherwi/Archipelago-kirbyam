@@ -9,7 +9,7 @@ import Utils
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
-from .data import LocationCategory, data, format_room_region_label, load_json_data
+from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
@@ -69,8 +69,8 @@ _STARTING_KIRBY_COLOR_REVALIDATE_TICKS = 4
 _ABILITY_RUNTIME_CONFIG_REVALIDATE_TICKS = 4
 _CHALLENGE_RUNTIME_CONFIG_REVALIDATE_TICKS = 4
 _AREA_KEY_RUNTIME_REVALIDATE_TICKS = 4
-_AREA_KEY_FIRST_ITEM_ID = 3860036
-_AREA_KEY_LAST_ITEM_ID = 3860043
+_AREA_KEY_FIRST_ITEM_ID = BASE_OFFSET + 36
+_AREA_KEY_LAST_ITEM_ID = BASE_OFFSET + 43
 _AREA_KEY_FIRST_AREA_ID = 2
 _OPTIONAL_UNSAFE_DELIVERY_COUNTERS = (
     ("shadow_kirby_encounters_native", "shadow_kirby_encounters"),
@@ -299,6 +299,16 @@ class KirbyAmClient(BizHawkClient):
             if loc.bit_index is None or loc.category != LocationCategory.HUB_SWITCH:
                 continue
             self._hub_switch_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+
+        # Compatibility fallback for Issue #733:
+        # Some payload builds can emit Rainbow Route North on bit 15 instead of
+        # the canonical bit from locations.json. Mirror that bit to the same AP
+        # location id so the check is still reported.
+        rr_north = data.locations.get("HUB_SWITCH_RAINBOW_ROUTE_NORTH")
+        if rr_north is not None:
+            fallback_ids = self._hub_switch_location_ids_by_bit.setdefault(15, [])
+            if rr_north.location_id not in fallback_ids:
+                fallback_ids.append(rr_north.location_id)
 
         # Room-sanity bitfield index (doorsIdx) → location IDs.
         self._room_sanity_location_ids_by_bit: dict[int, list[int]] = {}
@@ -1155,7 +1165,10 @@ class KirbyAmClient(BizHawkClient):
                     game_code,
                     maker_code,
                 )
-                return await _fail("header_mismatch")
+                return await _fail(
+                    "header_mismatch",
+                    "Unable to load ROM: invalid Kirby and the Amazing Mirror ROM.",
+                )
         except bizhawk.RequestFailedError as exc:
             self._log_verbose("info", "KirbyAM: ROM header read failed during validation: %s", exc)
             return await _fail("header_read_failed", "Unable to load ROM: could not read ROM header data.")
@@ -1187,26 +1200,18 @@ class KirbyAmClient(BizHawkClient):
                 "Unable to load ROM: missing patch metadata. Rebuild your patched ROM.",
             )
 
-        # Require the expected patched callsite so we only claim explicitly KirbyAM-patched ROMs.
+        # Diagnostics: verify the loaded ROM has a patched Thumb BL at the main hook site.
         try:
             hook_bytes = (await bizhawk.read(ctx.bizhawk_ctx, [(_MAIN_HOOK_OFFSET, 4, "ROM")]))[0]
             if not is_thumb_bl_instruction(bytes(hook_bytes)):
                 self._log_client(
-                    "error",
-                    "KirbyAM: main hook callsite at 0x%06X is not patched with a Thumb BL (found=%s). Refusing to claim this ROM.",
+                    "warning",
+                    "KirbyAM: main hook callsite at 0x%06X is not patched with a Thumb BL (found=%s). Loaded ROM may be incompatible with this payload build.",
                     _MAIN_HOOK_OFFSET,
-                    bytes(hook_bytes).hex(" "),
-                )
-                return await _fail(
-                    "main_hook_mismatch",
-                    "Unable to load ROM: this is not a compatible KirbyAM patched ROM.",
+                    bytes(hook_bytes).hex(" ")
                 )
         except Exception as exc:
             self._log_verbose("info", "KirbyAM: main hook opcode probe failed during validation: %s", exc)
-            return await _fail(
-                "main_hook_probe_failed",
-                "Unable to load ROM: could not verify KirbyAM patch hook.",
-            )
 
         self._last_validation_failure_reason = None
 

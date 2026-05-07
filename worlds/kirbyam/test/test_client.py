@@ -777,6 +777,31 @@ async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_c
 
 
 @pytest.mark.asyncio
+async def test_poll_hub_switch_bit15_fallback_sends_rainbow_route_north(mock_bizhawk_context):
+    """Compatibility: transport bit 15 should still register Rainbow Route North."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    rr_north = data.locations["HUB_SWITCH_RAINBOW_ROUTE_NORTH"].location_id
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.dict(data.transport_ram_addresses, {"hub_switch_flags": 0x0203B04C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        mock_read.side_effect = [
+            [(0).to_bytes(4, 'little')],
+            [((1 << 15)).to_bytes(4, 'little')],
+        ]
+
+        await client._poll_hub_switch_locations(mock_bizhawk_context)
+        await client._poll_hub_switch_locations(mock_bizhawk_context)
+
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [rr_north]}
+    ])
+
+
+@pytest.mark.asyncio
 async def test_poll_hub_switch_suppresses_pre_session_stale_bits(mock_bizhawk_context):
     """First hub-switch poll with empty checked_locations should baseline and suppress stale bits."""
     client = KirbyAmClient()
