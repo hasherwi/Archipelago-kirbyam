@@ -9,7 +9,7 @@ import Utils
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
-from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
+from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
@@ -69,8 +69,8 @@ _STARTING_KIRBY_COLOR_REVALIDATE_TICKS = 4
 _ABILITY_RUNTIME_CONFIG_REVALIDATE_TICKS = 4
 _CHALLENGE_RUNTIME_CONFIG_REVALIDATE_TICKS = 4
 _AREA_KEY_RUNTIME_REVALIDATE_TICKS = 4
-_AREA_KEY_FIRST_ITEM_ID = BASE_OFFSET + 36
-_AREA_KEY_LAST_ITEM_ID = BASE_OFFSET + 43
+_AREA_KEY_FIRST_ITEM_ID = 3860036
+_AREA_KEY_LAST_ITEM_ID = 3860043
 _AREA_KEY_FIRST_AREA_ID = 2
 _OPTIONAL_UNSAFE_DELIVERY_COUNTERS = (
     ("shadow_kirby_encounters_native", "shadow_kirby_encounters"),

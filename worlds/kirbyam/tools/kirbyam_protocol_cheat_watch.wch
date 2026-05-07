@@ -47,7 +47,7 @@ SystemID GBA
 0203B028	d	h	0	System Bus	CHEAT: force major_chest_flags bits for AP checks
 0203B02C	d	h	0	System Bus	CHEAT: force vitality_chest_flags bits for AP checks
 0203B030	d	h	0	System Bus	CHEAT: force sound_player_chest_flags bit0
-0203B04C	d	h	0	System Bus	CHEAT: force hub_switch_flags bits (bit0=PeppermintW, bit10=Moonlight, bit11=PeppermintE, bits0-14)
+0203B04C	d	h	0	System Bus	CHEAT: force hub_switch_flags bits (bit0=PeppermintW, bit10=Moonlight, bit11=PeppermintE, bits0-15; bit15=RRNorth compatibility)
 0	S	_	1		=== Internet Cheat Notes (USA Gameshark source: almarsguides.com) ===
 0	S	_	1		GS Master: 34165F72 B08D117B / 25982608 B17B6C25
 0	S	_	1		GS Invulnerability: 771681C5 6954AFCA
