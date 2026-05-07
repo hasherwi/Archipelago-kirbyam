@@ -49,7 +49,7 @@ repos:
 
       - id: kirbyam-pytest
         name: kirbyam unit tests
-        entry: .venv/Scripts/python.exe -m pytest worlds/kirbyam/test -n auto --dist worksteal --ignore worlds/kirbyam/test/test_generate_integration.py --ignore worlds/kirbyam/test/test_hosting_integration.py --ignore worlds/kirbyam/test/test_bizhawk_connector_integration.py
+        entry: python -m pytest worlds/kirbyam/test -n auto --dist worksteal --ignore worlds/kirbyam/test/test_generate_integration.py --ignore worlds/kirbyam/test/test_hosting_integration.py --ignore worlds/kirbyam/test/test_bizhawk_connector_integration.py
         language: system
         pass_filenames: false
         stages: [manual]
