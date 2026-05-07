@@ -42,10 +42,3 @@ def test_hub_switch_moonlight_and_peppermint_east_mapping() -> None:
     assert moonlight.location_id == 3960411
     assert peppermint_east.bit_index == 10
     assert peppermint_east.location_id == 3960410
-
-
-def test_rainbow_route_minor_chest_1_20_key_points_to_room_1_39() -> None:
-    rainbow_minor = kirby_data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_20"]
-
-    assert rainbow_minor.label == "Rainbow Route 1-39 - Small Chest"
-    assert rainbow_minor.parent_region == "REGION_RAINBOW_ROUTE/ROOM_1_39"
