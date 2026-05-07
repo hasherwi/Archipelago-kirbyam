@@ -673,26 +673,19 @@ async def test_poll_minor_chest_skips_already_server_acknowledged(mock_bizhawk_c
 
 @pytest.mark.asyncio
 async def test_poll_minor_chest_respects_active_slot_locations(mock_bizhawk_context):
-    """Minor-chest polling should only send checks active in slot_data locations."""
+    """Minor-chest polling should only send checks active in server locations."""
     client = KirbyAmClient()
     client.initialize_client()
 
     room_1_39 = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_39"].location_id
     room_1_22 = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_22"].location_id
     mock_bizhawk_context.checked_locations = set()
-    mock_bizhawk_context.slot_data = {
-        "locations": {
-            "MINOR_CHEST_RAINBOW_ROUTE_1_39": {
-                "location_id": room_1_39,
-                "label": "Rainbow Route 1-39 - Small Chest",
-            }
-        }
-    }
+    mock_bizhawk_context.server_locations = {room_1_39}
 
     with patch.dict(data.native_ram_addresses, {"small_chest_flags_native": 0x02038960}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
-        # Bits 1 and 23 set; only bit 1 location is active in slot_data.
+        # Bits 1 and 23 set; only bit 1 location is active in server_locations.
         mock_read.return_value = [((1 << 1) | (1 << 23)).to_bytes(10, 'little')]
 
         await client._poll_minor_chest_locations(mock_bizhawk_context)

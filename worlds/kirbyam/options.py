@@ -245,8 +245,13 @@ class UnmappedMinorChestReportLocations(Toggle):
     Include provisional minor-chest report locations with labels like
     `Unmapped Minor Chest X-N (Report Location)`.
 
-    These locations are intended for mapping/discovery runs and can share native
-    chest bits while mappings are unresolved. Off by default.
+    Experimental: these locations are intended for mapping/discovery runs and
+    can share native chest bits while mappings are unresolved.
+
+    If you enable this option, please report which room each chest is in to the
+    KirbyAM developers.
+
+    Off by default.
     """
     display_name = "Unmapped Minor Chest Report Locations"
     default = 0
