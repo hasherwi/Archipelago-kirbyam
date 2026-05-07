@@ -5,11 +5,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from unittest.mock import patch
 
-from ..data import data
 from ..options import Goal
 from ..rules import (
     ABILITY_GATE_RULES,
-    _ABILITY_GATE_STATUS_VALUES,
     get_stake_breaking_abilities,
     get_stake_gated_transition_entrance_names,
     set_rules,
@@ -224,8 +222,9 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
                 f"Room {room_key} claims unknown location key {loc_key!r}"
             )
     # Exactly 40 rooms now carry AP location entries after MINOR_CHEST expansion.
+    room_keys = list(rooms_with_locations.keys())
     assert len(rooms_with_locations) == 40, (
-        f"Expected 40 rooms with locations, got {len(rooms_with_locations)}: {list(rooms_with_locations.keys())}"
+        f"Expected 40 rooms with locations, got {len(rooms_with_locations)}: {room_keys}"
     )
 
     # Topology includes all rooms, but Room Sanity remains optional metadata.
@@ -273,7 +272,10 @@ def test_room_sanity_binding_optional() -> None:
     }
 
     _bind_room_sanity_locations(room_regions, enable_room_sanity=False)
-    assert room_regions["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]["locations"] == regions_before["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]
+    assert (
+        room_regions["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]["locations"]
+        == regions_before["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]
+    )
 
     _bind_room_sanity_locations(room_regions, enable_room_sanity=True)
     assert "ROOM_SANITY_1_CENTRAL_CIRCLE" in room_regions["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]["locations"]
