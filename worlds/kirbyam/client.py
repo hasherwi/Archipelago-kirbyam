@@ -371,6 +371,7 @@ class KirbyAmClient(BizHawkClient):
         self._receive_notifications_enabled: bool = True
         self._send_notifications_enabled: bool = True
         self._notified_receive_indices: set[int] = set()
+        self._acknowledged_trap_indices: set[int] = set()
         self._notified_send_keys: set[tuple[int, int, int, int]] = set()
         self._self_send_fallback_keys: set[tuple[int, int, int, int]] = set()
         self._send_notify_window_start: float = 0.0
@@ -595,6 +596,31 @@ class KirbyAmClient(BizHawkClient):
     def _is_trap_item(item_id: int) -> bool:
         """Return True if item_id is a trap item."""
         return item_id in _TRAP_ITEM_IDS
+
+    def _record_acknowledged_trap_index(self, ctx: "BizHawkClientContext", delivered_index: int) -> None:
+        if delivered_index < 0 or delivered_index >= len(ctx.items_received):
+            return
+
+        item_fields = self._extract_delivery_item_fields(ctx.items_received[delivered_index])
+        if item_fields is None:
+            return
+
+        item_id, _player_id = item_fields
+        if self._is_trap_item(item_id):
+            self._acknowledged_trap_indices.add(delivered_index)
+
+    def _is_acknowledged_trap_index(self, ctx: "BizHawkClientContext", delivered_index: int) -> bool:
+        if delivered_index not in self._acknowledged_trap_indices:
+            return False
+        if delivered_index < 0 or delivered_index >= len(ctx.items_received):
+            return False
+
+        item_fields = self._extract_delivery_item_fields(ctx.items_received[delivered_index])
+        if item_fields is None:
+            return False
+
+        item_id, _player_id = item_fields
+        return self._is_trap_item(item_id)
 
     def _start_with_all_maps_enabled(self, ctx: "BizHawkClientContext") -> bool:
         slot_data = getattr(ctx, "slot_data", None)
@@ -2085,6 +2111,9 @@ class KirbyAmClient(BizHawkClient):
             if key == "delivered_item_index":
                 self._delivered_item_index = val
                 self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, val)
+                delivered_count = min(val, len(ctx.items_received))
+                for delivered_index in range(delivered_count):
+                    self._record_acknowledged_trap_index(ctx, delivered_index)
 
     # --------------------------
     # Location checking
@@ -2883,6 +2912,7 @@ class KirbyAmClient(BizHawkClient):
                 _notify_index = _ff_pending_item_index
                 if _notify_index is None:
                     _notify_index = self._delivered_item_index - 1
+                self._record_acknowledged_trap_index(ctx, _notify_index)
                 await self._emit_receive_notification(ctx, _notify_index)
 
         # If an item is pending, wait for ROM to clear the flag (ACK)
@@ -2906,6 +2936,7 @@ class KirbyAmClient(BizHawkClient):
                     self._delivered_item_index += 1
                 self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
                 await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
+                self._record_acknowledged_trap_index(ctx, delivered_index)
                 await self._emit_receive_notification(ctx, delivered_index)
                 return
 
@@ -3010,6 +3041,24 @@ class KirbyAmClient(BizHawkClient):
                 continue
 
             item_id, player_id = item_fields
+
+            if self._is_acknowledged_trap_index(ctx, self._delivered_item_index):
+                self._log_verbose(
+                    "info",
+                    "KirbyAM: skipping already-ACKed trap replay at item index %s (%s from %s)",
+                    self._delivered_item_index,
+                    self._item_name(ctx, item_id, player_id),
+                    self._player_name(ctx, player_id),
+                )
+                self._delivered_item_index += 1
+                self._delivery_pending = False
+                self._delivery_pending_time = None
+                self._delivery_pending_item_index = None
+                self._delivery_timeout_streak = 0
+                self._delivery_retry_not_before = 0.0
+                self._delivery_payload_stall_warned = False
+                await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
+                continue
 
             if self._delivery_counter_ahead_fallback_active and not self._delivery_counter_ahead_resume_logged:
                 self._log_verbose(
