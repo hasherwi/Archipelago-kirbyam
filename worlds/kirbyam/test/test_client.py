@@ -1719,6 +1719,7 @@ async def test_deliver_items_fast_forward_log_is_file_only(mock_bizhawk_context)
     ]
     assert matching_disabled
     assert all(call.kwargs.get("extra", {}).get("NoStream") is True for call in matching_disabled)
+    assert all(call.kwargs.get("extra", {}).get("skip_gui") is True for call in matching_disabled)
     mock_logger.info.assert_any_call(
         "KirbyAM: ROM delivery counter moved forward from %s to %s on pending ACK; fast-forwarding client delivery cursor",
         0,
@@ -2604,6 +2605,7 @@ async def test_room_sanity_resend_log_is_file_only(mock_bizhawk_context):
     ]
     assert matching_disabled
     assert all(call.kwargs.get("extra", {}).get("NoStream") is True for call in matching_disabled)
+    assert all(call.kwargs.get("extra", {}).get("skip_gui") is True for call in matching_disabled)
 
 
 @pytest.mark.asyncio

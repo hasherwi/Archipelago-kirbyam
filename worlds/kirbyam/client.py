@@ -2582,7 +2582,7 @@ class KirbyAmClient(BizHawkClient):
                     "KirbyAM: resending room-sanity LocationChecks missing on server (missing=%s, acked=%s)",
                     missing_on_server,
                     already_acknowledged,
-                    extra={"NoStream": True},
+                    extra={"NoStream": True, "skip_gui": True},
                 )
                 self._last_room_sanity_poll_log = room_log_state
 
