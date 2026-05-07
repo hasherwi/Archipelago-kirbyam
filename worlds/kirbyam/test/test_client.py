@@ -281,7 +281,10 @@ async def test_validate_rom_rejects_non_kirby_header(mock_bizhawk_context, caplo
         with caplog.at_level(logging.INFO):
             assert await client.validate_rom(mock_bizhawk_context) is False
 
-    mock_display.assert_not_awaited()
+    mock_display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "Unable to load ROM: invalid Kirby and the Amazing Mirror ROM.",
+    )
     assert "ROM validation failed" in caplog.text
 
 
@@ -319,12 +322,9 @@ async def test_validate_rom_rejects_missing_main_hook_patch(mock_bizhawk_context
         ]
 
         with caplog.at_level(logging.INFO):
-            assert await client.validate_rom(mock_bizhawk_context) is False
+            assert await client.validate_rom(mock_bizhawk_context) is True
 
-    mock_display.assert_awaited_once_with(
-        mock_bizhawk_context.bizhawk_ctx,
-        "Unable to load ROM: this is not a compatible KirbyAM patched ROM.",
-    )
+    mock_display.assert_not_awaited()
     assert "main hook callsite" in caplog.text
 
 
