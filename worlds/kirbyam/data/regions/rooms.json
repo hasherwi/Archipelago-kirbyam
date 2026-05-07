@@ -8186,9 +8186,7 @@
     ]
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_01": {
-    "locations": [
-      "MINOR_CHEST_CABBAGE_CAVERN_3_01"
-    ],
+    "locations": [],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_02",

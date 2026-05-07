@@ -633,18 +633,6 @@
     "category": "MINOR_CHEST",
     "location_id": 3960508
   },
-  "MINOR_CHEST_CABBAGE_CAVERN_3_01": {
-    "label": "Cabbage Cavern 3-01 - Small Chest",
-    "parent_region": "REGION_CABBAGE_CAVERN/ROOM_3_01",
-    "default_item": "SMALL_FOOD",
-    "tags": [
-      "SmallChest",
-      "MAP_CABBAGE_CAVERN"
-    ],
-    "bit_index": 27,
-    "category": "MINOR_CHEST",
-    "location_id": 3960509
-  },
   "MINOR_CHEST_RADISH_RUINS_8_02": {
     "label": "Radish Ruins 8-02 - Small Chest",
     "parent_region": "REGION_RADISH_RUINS/ROOM_8_02",

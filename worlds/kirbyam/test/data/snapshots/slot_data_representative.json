@@ -443,15 +443,6 @@
         "MAP_RAINBOW_ROUTE"
       ]
     },
-    "MINOR_CHEST_CABBAGE_CAVERN_3_01": {
-      "category": "MINOR_CHEST",
-      "label": "Cabbage Cavern 3-01 - Small Chest",
-      "location_id": 3960509,
-      "tags": [
-        "MAP_CABBAGE_CAVERN",
-        "SmallChest"
-      ]
-    },
     "MINOR_CHEST_CABBAGE_CAVERN_3_08": {
       "category": "MINOR_CHEST",
       "label": "Cabbage Cavern 3-08 - Small Chest",

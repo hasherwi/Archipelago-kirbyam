@@ -163,7 +163,6 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST | 3960506 | Peppermint Palace 7-Chest small chest (native small_chest_flags_native bit 24) |
 | MINOR_CHEST_CANDY_CONSTELLATION_9_12 | 3960507 | Candy Constellation 9-12 small chest (native small_chest_flags_native bit 25) |
 | MINOR_CHEST_OLIVE_OCEAN_6_05 | 3960508 | Olive Ocean 6-05 small chest (native small_chest_flags_native bit 26) |
-| MINOR_CHEST_CABBAGE_CAVERN_3_01 | 3960509 | Cabbage Cavern 3-01 small chest (native small_chest_flags_native bit 27) |
 | MINOR_CHEST_RADISH_RUINS_8_02 | 3960510 | Radish Ruins 8-02 small chest (native small_chest_flags_native bit 29) |
 | MINOR_CHEST_MOONLIGHT_MANSION_2_01 | 3960511 | Moonlight Mansion 2-01 small chest (native small_chest_flags_native bit 30) |
 | MINOR_CHEST_CABBAGE_CAVERN_3_15 | 3960512 | Cabbage Cavern 3-15 small chest (native small_chest_flags_native bit 31) |
