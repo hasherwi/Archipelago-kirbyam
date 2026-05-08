@@ -839,6 +839,36 @@ def test_minor_chest_source_ptr_map_includes_room_1_02_report_entry():
 
 
 @pytest.mark.asyncio
+async def test_poll_minor_chest_event_normalizes_full_gba_rom_source_ptr(mock_bizhawk_context):
+    """Event-ring pointers may include 0x08 ROM base and should still resolve."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    report_location = data.locations["MINOR_CHEST_UNMAPPED_X_26_REPORT"].location_id
+    source_ptr = next(
+        source
+        for source, location_id in client._minor_chest_location_id_by_source_ptr.items()
+        if location_id == report_location
+    )
+    ring = bytearray(32)
+    ring[0:4] = (source_ptr + 0x08000000).to_bytes(4, 'little')
+
+    client._last_minor_chest_event_counter = 0
+    mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = {report_location}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        mock_read.return_value = [(1).to_bytes(4, 'little'), bytes(ring)]
+
+        await client._poll_minor_chest_event_locations(mock_bizhawk_context)
+
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [report_location]}
+    ])
+
+
+@pytest.mark.asyncio
 async def test_poll_vitality_chest_sends_location_checks_for_set_bits(mock_bizhawk_context):
     """Set transport vitality-chest bits should map to vitality-chest LocationChecks."""
     client = KirbyAmClient()

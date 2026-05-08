@@ -2614,18 +2614,26 @@ class KirbyAmClient(BizHawkClient):
         for sequence in range(first_sequence, event_counter):
             slot_index = sequence & (_MINOR_CHEST_EVENT_RING_SLOT_COUNT - 1)
             offset = slot_index * 4
-            source_ptr = self._u32_le(raw_ring[offset:offset + 4])
+            source_ptr_raw = self._u32_le(raw_ring[offset:offset + 4])
+            source_ptr = _normalize_gba_rom_address(source_ptr_raw)
             location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr)
             if location_id is None:
-                if source_ptr not in self._logged_unknown_minor_chest_source_ptrs:
+                # Live payload events can point at nearby fields within the same object
+                # row (for example +/- 0xC). Try these aliases before declaring unknown.
+                location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr + 0xC)
+            if location_id is None and source_ptr >= 0xC:
+                location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr - 0xC)
+            if location_id is None:
+                if source_ptr_raw not in self._logged_unknown_minor_chest_source_ptrs:
                     self._log_verbose(
                         "warning",
-                        "KirbyAM: exact minor-chest source ptr 0x%08X is not mapped in minor_chest_manifest.json (sequence=%s slot=%s).",
+                        "KirbyAM: exact minor-chest source ptr raw=0x%08X normalized=0x%08X is not mapped in minor_chest_manifest.json (sequence=%s slot=%s).",
+                        source_ptr_raw,
                         source_ptr,
                         sequence,
                         slot_index,
                     )
-                    self._logged_unknown_minor_chest_source_ptrs.add(source_ptr)
+                    self._logged_unknown_minor_chest_source_ptrs.add(source_ptr_raw)
                 continue
 
             exact_checked_locations.add(location_id)
