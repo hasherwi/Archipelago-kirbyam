@@ -276,7 +276,7 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     start_with_all_maps: StartWithAllMaps
 
-    starting_kirby_color: StartingKirbyColor
+    starting_kirby_color: StartingKirbyColor  # type: ignore[valid-type]
 
     no_extra_lives: NoExtraLives
 
