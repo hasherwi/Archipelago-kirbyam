@@ -66,4 +66,3 @@ SystemID GBA
 0	S	_	1		GS Unlimited Energy: EEDEF930 E6D64031
 0	S	_	1		NOTE: Internet GS/CB codes are region/version dependent (USA listed). Verify against your ROM build.
 0	S	_	1		WARNING: Freezing AP transport fields can desync server/client/ROM state; use in offline testing only.
-

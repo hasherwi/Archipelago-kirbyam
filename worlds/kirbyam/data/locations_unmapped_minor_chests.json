@@ -12,19 +12,6 @@
     "category": "MINOR_CHEST",
     "location_id": 3960520
   },
-  "MINOR_CHEST_UNMAPPED_X_02_REPORT": {
-    "label": "Unmapped Minor Chest X-2 (Report Location)",
-    "parent_region": "REGION_GAME_START",
-    "default_item": "SMALL_FOOD",
-    "tags": [
-      "SmallChest",
-      "ReportLocation",
-      "UnmappedMinorChest"
-    ],
-    "bit_index": 0,
-    "category": "MINOR_CHEST",
-    "location_id": 3960521
-  },
   "MINOR_CHEST_UNMAPPED_X_03_REPORT": {
     "label": "Unmapped Minor Chest X-3 (Report Location)",
     "parent_region": "REGION_GAME_START",

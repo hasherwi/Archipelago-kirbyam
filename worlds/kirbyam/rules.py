@@ -266,34 +266,34 @@ def _reachable_rooms_from(
 ) -> set[str]:
     """
     BFS to find all rooms reachable from a given start region.
-    
+
     Args:
         start_region: The starting room region name (e.g., "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE").
         graph: The room graph dict. If None, loads from data.
-    
+
     Returns:
         Set of all reachable room region names.
     """
     if graph is None:
         graph = _get_room_graph()
-    
+
     visited = set()
     queued = {start_region}
     queue = deque([start_region])
-    
+
     while queue:
         current = queue.popleft()
         if current in visited:
             continue
         if current not in graph:
             continue
-        
+
         visited.add(current)
         for next_room in graph[current].get("exits", []):
             if next_room not in visited and next_room not in queued:
                 queue.append(next_room)
                 queued.add(next_room)
-    
+
     return visited
 
 
@@ -303,20 +303,20 @@ def _bind_room_sanity_locations(
 ) -> None:
     """
     Optionally bind room-sanity locations to room regions.
-    
+
     Room topology may include non-room-sanity locations; this function selectively
     attaches ROOM_SANITY_* locations to their corresponding room regions.
-    
+
     Args:
         world_regions: The regions dict loaded from data files.
         enable_room_sanity: If True, load and bind room-sanity locations to rooms.
     """
     if not enable_room_sanity:
         return
-    
+
     from .data import load_json_data
     import re
-    
+
     room_regions_topology = load_json_data("regions/rooms.json")
 
     # Bind each room_sanity-enabled room region to its ROOM_SANITY_* location key.

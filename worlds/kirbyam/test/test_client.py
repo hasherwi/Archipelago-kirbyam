@@ -777,9 +777,9 @@ async def test_poll_minor_chest_excludes_unmapped_report_locations(mock_bizhawk_
     client.initialize_client()
 
     room_1_39 = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_39"].location_id
-    unmapped_report = data.locations["MINOR_CHEST_UNMAPPED_X_02_REPORT"].location_id
+    room_1_02_report = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"].location_id
     mock_bizhawk_context.checked_locations = set()
-    mock_bizhawk_context.server_locations = {room_1_39, unmapped_report}
+    mock_bizhawk_context.server_locations = {room_1_39, room_1_02_report}
 
     with patch.dict(data.native_ram_addresses, {"small_chest_flags_native": 0x02038960}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
@@ -803,7 +803,7 @@ async def test_poll_minor_chest_event_sends_exact_report_location(mock_bizhawk_c
     client = KirbyAmClient()
     client.initialize_client()
 
-    report_location = data.locations["MINOR_CHEST_UNMAPPED_X_02_REPORT"].location_id
+    report_location = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"].location_id
     sibling_location = data.locations["MINOR_CHEST_UNMAPPED_X_03_REPORT"].location_id
     source_ptr = next(
         source

@@ -711,4 +711,3 @@ def test_start_with_all_maps_off_includes_all_map_items_in_pool() -> None:
     assert map_codes.issubset(pool_codes), (
         "When start_with_all_maps is off, all map items should remain in the pool"
     )
-
