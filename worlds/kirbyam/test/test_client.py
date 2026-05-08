@@ -622,7 +622,10 @@ async def test_poll_minor_chest_sends_location_checks_for_set_bits(mock_bizhawk_
     with patch.dict(data.native_ram_addresses, {"small_chest_flags_native": 0x02038960}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
-        mock_read.return_value = [bits.to_bytes(10, 'little')]
+        mock_read.side_effect = [
+            [b'\x00\x00\x00\x00', b'\x00' * 32],
+            [bits.to_bytes(10, 'little')],
+        ]
 
         await client._poll_minor_chest_locations(mock_bizhawk_context)
 
@@ -644,7 +647,7 @@ async def test_poll_minor_chest_skips_when_address_missing(mock_bizhawk_context)
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
         await client._poll_minor_chest_locations(mock_bizhawk_context)
 
-    mock_read.assert_not_awaited()
+    mock_read.assert_awaited_once()
     mock_send.assert_not_awaited()
 
 
@@ -662,7 +665,10 @@ async def test_poll_minor_chest_skips_already_server_acknowledged(mock_bizhawk_c
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
          patch('CommonClient.logger') as mock_logger:
-        mock_read.return_value = [((1 << 1)).to_bytes(10, 'little')]
+        mock_read.side_effect = [
+            [b'\x00\x00\x00\x00', b'\x00' * 32],
+            [((1 << 1)).to_bytes(10, 'little')],
+        ]
 
         await client._poll_minor_chest_locations(mock_bizhawk_context)
 
@@ -687,7 +693,10 @@ async def test_poll_minor_chest_respects_active_slot_locations(mock_bizhawk_cont
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
         # Bits 1 and 23 set; only bit 1 location is active in server_locations.
-        mock_read.return_value = [((1 << 1) | (1 << 23)).to_bytes(10, 'little')]
+        mock_read.side_effect = [
+            [b'\x00\x00\x00\x00', b'\x00' * 32],
+            [((1 << 1) | (1 << 23)).to_bytes(10, 'little')],
+        ]
 
         await client._poll_minor_chest_locations(mock_bizhawk_context)
 
@@ -712,13 +721,48 @@ async def test_poll_minor_chest_excludes_unmapped_report_locations(mock_bizhawk_
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
         # Bits 0 and 1 set; bit 0 is used by unmapped report entries and must be ignored.
-        mock_read.return_value = [((1 << 0) | (1 << 1)).to_bytes(10, 'little')]
+        mock_read.side_effect = [
+            [b'\x00\x00\x00\x00', b'\x00' * 32],
+            [((1 << 0) | (1 << 1)).to_bytes(10, 'little')],
+        ]
 
         await client._poll_minor_chest_locations(mock_bizhawk_context)
 
     mock_send.assert_awaited_once_with([
         {"cmd": "LocationChecks", "locations": [room_1_39]}
     ])
+
+
+@pytest.mark.asyncio
+async def test_poll_minor_chest_event_sends_exact_report_location(mock_bizhawk_context):
+    """Exact minor chest events should send only the matched report location, not all shared-bit siblings."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    report_location = data.locations["MINOR_CHEST_UNMAPPED_X_02_REPORT"].location_id
+    sibling_location = data.locations["MINOR_CHEST_UNMAPPED_X_03_REPORT"].location_id
+    source_ptr = next(
+        source
+        for source, location_id in client._minor_chest_location_id_by_source_ptr.items()
+        if location_id == report_location
+    )
+    ring = bytearray(32)
+    ring[0:4] = source_ptr.to_bytes(4, 'little')
+
+    client._last_minor_chest_event_counter = 0
+    mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = {report_location, sibling_location}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        mock_read.return_value = [(1).to_bytes(4, 'little'), bytes(ring)]
+
+        await client._poll_minor_chest_event_locations(mock_bizhawk_context)
+
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [report_location]}
+    ])
+    assert sibling_location not in mock_send.await_args.args[0][0]["locations"]
 
 
 @pytest.mark.asyncio

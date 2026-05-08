@@ -47,6 +47,10 @@ _KIRBY_VITALITY_COUNTER_ADDR_KEY = "kirby_vitality_counter_native"
 _KIRBY_VITALITY_COUNTER_READ_WIDTH = 2
 _MINOR_CHEST_FLAGS_ADDR_KEY = "small_chest_flags_native"
 _MINOR_CHEST_FLAGS_READ_WIDTH = 10
+_MINOR_CHEST_EVENT_COUNTER_ADDR_KEY = "minor_chest_event_counter"
+_MINOR_CHEST_EVENT_RING_BASE_ADDR_KEY = "minor_chest_event_ring_base"
+_MINOR_CHEST_EVENT_RING_SLOT_COUNT = 8
+_MINOR_CHEST_EVENT_RING_READ_WIDTH = _MINOR_CHEST_EVENT_RING_SLOT_COUNT * 4
 _ROOM_VISIT_FLAGS_ADDR_KEY = "room_visit_flags_native"
 _ROOM_VISIT_FLAGS_ENTRY_COUNT = 0x120
 _ROOM_VISIT_FLAGS_BIT_MASK = 0x8000
@@ -270,14 +274,14 @@ class KirbyAmClient(BizHawkClient):
 
         # Minor chest native bitfield → location IDs (MINOR_CHEST category; polled from native chest flags).
         self._minor_chest_location_ids_by_bit: dict[int, list[int]] = {}
-        self._minor_chest_report_location_ids: set[int] = set()
         for loc in data.locations.values():
             if loc.bit_index is None or loc.category != LocationCategory.MINOR_CHEST:
                 continue
             if "ReportLocation" in loc.tags:
-                self._minor_chest_report_location_ids.add(loc.location_id)
                 continue
             self._minor_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+        self._minor_chest_location_id_by_source_ptr = self._build_minor_chest_source_ptr_map()
+        self._last_minor_chest_event_counter: int | None = None
 
         # Vitality chest bitfield → location IDs (VITALITY_CHEST category; dedicated transport register)
         self._vitality_chest_location_ids_by_bit: dict[int, list[int]] = {}
@@ -362,7 +366,6 @@ class KirbyAmClient(BizHawkClient):
         self._last_boss_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_major_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_minor_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
-        self._minor_chest_report_poll_exclusion_warned: bool = False
         self._last_vitality_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_sound_player_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_hub_switch_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
@@ -565,6 +568,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_runtime_gate_reason = None
         self._last_native_room_id = None
         self._last_sent_room_update_native_room_id = None
+        self._last_minor_chest_event_counter = None
         self._last_shard_poll_log = None
         self._last_boss_poll_log = None
         self._last_major_chest_poll_log = None
@@ -578,6 +582,7 @@ class KirbyAmClient(BizHawkClient):
         self._boss_probe_stream_marker = None
         self._boss_probe_fallback_location_ids.clear()
         self._last_room_region_key = ""
+
         self._unsafe_delivery_probe_stream_marker = None
         self._last_unsafe_delivery_counter_values = {}
         self._incoming_death_link_pending = False
@@ -602,6 +607,72 @@ class KirbyAmClient(BizHawkClient):
         self._cached_map_bits_index = 0
         self._cached_map_bits_items_len = 0
         self._cached_room_visit_flags_view = None
+
+    @staticmethod
+    def _parse_manifest_int(value: object) -> int | None:
+        if isinstance(value, int):
+            return value
+        if isinstance(value, str):
+            try:
+                return int(value, 0)
+            except ValueError:
+                return None
+        return None
+
+    def _build_minor_chest_source_ptr_map(self) -> dict[int, int]:
+        """Map manifest ROM source pointers to exact report-only MINOR_CHEST location IDs."""
+        try:
+            manifest = load_json_data("minor_chest_manifest.json")
+        except (FileNotFoundError, TypeError, ValueError):
+            return {}
+
+        if not isinstance(manifest, dict):
+            return {}
+        entries = manifest.get("entries")
+        if not isinstance(entries, list):
+            return {}
+
+        report_location_ids = [
+            loc.location_id
+            for loc in sorted(data.locations.values(), key=lambda loc: loc.location_id)
+            if loc.category == LocationCategory.MINOR_CHEST and "ReportLocation" in loc.tags
+        ]
+        report_index = 0
+        source_ptr_to_location_id: dict[int, int] = {}
+
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+
+            source_ptr = self._parse_manifest_int(entry.get("resolved_rom_offset"))
+            if source_ptr is None:
+                continue
+            bit_index = self._parse_manifest_int(entry.get("native_chest_flag_index"))
+            candidate_room_keys = {
+                room_key
+                for room_key in entry.get("candidate_ap_room_keys", [])
+                if isinstance(room_key, str)
+            }
+
+            matched_named_location = False
+            for loc in data.locations.values():
+                if loc.category != LocationCategory.MINOR_CHEST or "ReportLocation" in loc.tags:
+                    continue
+                if bit_index != loc.bit_index:
+                    continue
+                if loc.parent_region in candidate_room_keys:
+                    matched_named_location = True
+                    break
+
+            if matched_named_location:
+                continue
+            if report_index >= len(report_location_ids):
+                continue
+
+            source_ptr_to_location_id[source_ptr] = report_location_ids[report_index]
+            report_index += 1
+
+        return source_ptr_to_location_id
 
     async def _get_room_visit_flags_view(self, ctx: KirbyAmBizHawkClientContext) -> memoryview | None:
         """Read gVisitedDoors once per watcher tick and return a shared memory view."""
@@ -2333,6 +2404,8 @@ class KirbyAmClient(BizHawkClient):
         existing resend/dedupe behavior: RAM-derived checks are resent until the server
         acknowledges them in ctx.checked_locations.
         """
+        await self._poll_minor_chest_event_locations(ctx)
+
         if not self._minor_chest_location_ids_by_bit:
             return
 
@@ -2360,17 +2433,6 @@ class KirbyAmClient(BizHawkClient):
 
         active_location_ids = self._active_location_id_set(ctx)
         if active_location_ids is not None:
-            if (
-                not self._minor_chest_report_poll_exclusion_warned
-                and self._minor_chest_report_location_ids
-                and (active_location_ids & self._minor_chest_report_location_ids)
-            ):
-                self._log_client(
-                    "warning",
-                    "KirbyAM: skipping unmapped minor-chest report locations in native bit polling "
-                    "to avoid false-positive checks from shared unresolved bits.",
-                )
-                self._minor_chest_report_poll_exclusion_warned = True
             mapped_checked_locations.intersection_update(active_location_ids)
 
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
@@ -2398,6 +2460,75 @@ class KirbyAmClient(BizHawkClient):
                 self._last_minor_chest_poll_log = chest_log_state
         else:
             self._last_minor_chest_poll_log = None
+
+    async def _poll_minor_chest_event_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """
+        Read exact minor-chest collection events from the ROM payload event ring.
+
+        This path disambiguates report-only minor chest locations whose native chest bits
+        are shared by multiple chests. The payload records the exact ROM source pointer for
+        each collected chest so the client can map it back to a single AP location.
+        """
+        if not self._minor_chest_location_id_by_source_ptr:
+            return
+
+        counter_addr = self._transport_addr(_MINOR_CHEST_EVENT_COUNTER_ADDR_KEY)
+        ring_addr = self._transport_addr(_MINOR_CHEST_EVENT_RING_BASE_ADDR_KEY)
+        if counter_addr is None or ring_addr is None:
+            return
+
+        raw_values = await bizhawk.read(
+            ctx.bizhawk_ctx,
+            [
+                (counter_addr, 4, "System Bus"),
+                (ring_addr, _MINOR_CHEST_EVENT_RING_READ_WIDTH, "System Bus"),
+            ],
+        )
+        if len(raw_values) != 2:
+            return
+        raw_counter, raw_ring = raw_values
+        if len(raw_counter) != 4 or len(raw_ring) != _MINOR_CHEST_EVENT_RING_READ_WIDTH:
+            return
+
+        event_counter = self._u32_le(raw_counter)
+        if self._last_minor_chest_event_counter is None:
+            self._last_minor_chest_event_counter = event_counter
+            return
+
+        if event_counter == self._last_minor_chest_event_counter:
+            return
+
+        delta = (event_counter - self._last_minor_chest_event_counter) & 0xFFFFFFFF
+        if delta > _MINOR_CHEST_EVENT_RING_SLOT_COUNT:
+            self._log_client(
+                "warning",
+                "KirbyAM: dropped %s exact minor-chest events because the payload ring buffer overflowed.",
+                delta - _MINOR_CHEST_EVENT_RING_SLOT_COUNT,
+            )
+            delta = _MINOR_CHEST_EVENT_RING_SLOT_COUNT
+
+        first_sequence = event_counter - delta
+        exact_checked_locations: set[int] = set()
+        for sequence in range(first_sequence, event_counter):
+            slot_index = sequence & (_MINOR_CHEST_EVENT_RING_SLOT_COUNT - 1)
+            offset = slot_index * 4
+            source_ptr = self._u32_le(raw_ring[offset:offset + 4])
+            location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr)
+            if location_id is not None:
+                exact_checked_locations.add(location_id)
+
+        self._last_minor_chest_event_counter = event_counter
+        if not exact_checked_locations:
+            return
+
+        active_location_ids = self._active_location_id_set(ctx)
+        if active_location_ids is not None:
+            exact_checked_locations.intersection_update(active_location_ids)
+        missing_on_server = sorted(exact_checked_locations - ctx.checked_locations)
+        if not missing_on_server:
+            return
+
+        await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
 
     async def _poll_sound_player_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
