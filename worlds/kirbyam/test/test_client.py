@@ -869,6 +869,25 @@ async def test_poll_minor_chest_event_normalizes_full_gba_rom_source_ptr(mock_bi
 
 
 @pytest.mark.asyncio
+async def test_poll_minor_chest_event_counter_regression_resets_baseline(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    client._last_minor_chest_event_counter = 5
+    mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = set()
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        mock_read.return_value = [(3).to_bytes(4, 'little'), b'\x00' * 32]
+
+        await client._poll_minor_chest_event_locations(mock_bizhawk_context)
+
+    assert client._last_minor_chest_event_counter == 3
+    mock_send.assert_not_awaited()
+
+
+@pytest.mark.asyncio
 async def test_poll_vitality_chest_sends_location_checks_for_set_bits(mock_bizhawk_context):
     """Set transport vitality-chest bits should map to vitality-chest LocationChecks."""
     client = KirbyAmClient()

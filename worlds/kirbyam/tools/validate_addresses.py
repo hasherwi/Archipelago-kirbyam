@@ -150,7 +150,10 @@ class AddressValidator:
             for name2, start2, end2 in ranges[i+1:]:
                 if start1 < start2 < end1 or start2 < start1 < end2:
                     overlap_addr = max(start1, start2)
-                    issue = f"Overlap: {name1} (${start1:08X}-${end1:08X}) overlaps {name2} (${start2:08X}-${end2:08X}) at ${overlap_addr:08X}"
+                    issue = (
+                        f"Overlap: {name1} (${start1:08X}-${end1:08X}) overlaps "
+                        f"{name2} (${start2:08X}-${end2:08X}) at ${overlap_addr:08X}"
+                    )
                     issues.append(issue)
                     print(f"  ⚠ {issue}")
 

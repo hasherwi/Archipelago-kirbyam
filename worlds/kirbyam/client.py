@@ -2600,9 +2600,19 @@ class KirbyAmClient(BizHawkClient):
         if event_counter == self._last_minor_chest_event_counter:
             return
 
-        delta = (event_counter - self._last_minor_chest_event_counter) & 0xFFFFFFFF
+        if event_counter < self._last_minor_chest_event_counter:
+            self._log_verbose(
+                "info",
+                "KirbyAM: exact minor-chest event counter regressed from %s to %s; resetting baseline (savestate/load).",
+                self._last_minor_chest_event_counter,
+                event_counter,
+            )
+            self._last_minor_chest_event_counter = event_counter
+            return
+
+        delta = event_counter - self._last_minor_chest_event_counter
         if delta > _MINOR_CHEST_EVENT_RING_SLOT_COUNT:
-            self._log_client(
+            self._log_verbose(
                 "warning",
                 "KirbyAM: dropped %s exact minor-chest events because the payload ring buffer overflowed.",
                 delta - _MINOR_CHEST_EVENT_RING_SLOT_COUNT,

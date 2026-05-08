@@ -161,8 +161,9 @@ def get_stake_gated_transition_entrance_names() -> tuple[str, ...]:
     return tuple(sorted(entrance_names))
 
 
-def set_rules(world: KirbyAmWorld) -> None:
-    shard_gate_rule = lambda state: _has_all_shards(state, world.player)
+def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
+    def shard_gate_rule(state):
+        return _has_all_shards(state, world.player)
 
     item_name_groups = getattr(world, "item_name_groups", {})
     shard_items = resolve_item_group(item_name_groups, "Shards", default=_SHARD_ITEM_LABELS)
@@ -206,7 +207,8 @@ def set_rules(world: KirbyAmWorld) -> None:
         )
 
     # Shared stake-gate model (hammer peg) for directional room transitions.
-    stake_gate_rule = lambda state: can_pound_pegs(state, world.player)
+    def stake_gate_rule(state):
+        return can_pound_pegs(state, world.player)
     stake_entrance_names = get_stake_gated_transition_entrance_names()
     applied_stake_gates = 0
     for stake_entrance_name in stake_entrance_names:
@@ -232,10 +234,12 @@ def set_rules(world: KirbyAmWorld) -> None:
         try:
             goal_location = world.multiworld.get_location(goal_location_name, world.player)
             # Sequenced after Dark Meta Knight within the Dimension Mirror.
-            dmk_rule = lambda state: (
-                _has_all_shards(state, world.player)
-                and state.has(_DMK_DIMENSION_MIRROR_EVENT, world.player)
-            )
+
+            def dmk_rule(state):
+                return (
+                    _has_all_shards(state, world.player)
+                    and state.has(_DMK_DIMENSION_MIRROR_EVENT, world.player)
+                )
             set_rule(goal_location, dmk_rule)
         except KeyError:
             logger.warning(

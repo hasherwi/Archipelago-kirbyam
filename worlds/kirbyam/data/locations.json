@@ -564,7 +564,7 @@
   "MINOR_CHEST_RAINBOW_ROUTE_1_02": {
     "label": "Rainbow Route 1-02 - Small Chest",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_02",
-    "default_item": "SMALL_FOOD",
+    "default_item": "1_UP",
     "tags": [
       "SmallChest",
       "ReportLocation",
