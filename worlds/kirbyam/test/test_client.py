@@ -733,10 +733,7 @@ async def test_poll_minor_chest_skips_already_server_acknowledged(mock_bizhawk_c
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send, \
          patch('CommonClient.logger') as mock_logger:
-        mock_read.side_effect = [
-            [b'\x00\x00\x00\x00', b'\x00' * 32],
-            [((1 << 1)).to_bytes(10, 'little')],
-        ]
+        mock_read.return_value = [((1 << 1)).to_bytes(10, 'little')]
 
         await client._poll_minor_chest_locations(mock_bizhawk_context)
 
@@ -761,10 +758,7 @@ async def test_poll_minor_chest_respects_active_slot_locations(mock_bizhawk_cont
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
         # Bits 1 and 23 set; only bit 1 location is active in server_locations.
-        mock_read.side_effect = [
-            [b'\x00\x00\x00\x00', b'\x00' * 32],
-            [((1 << 1) | (1 << 23)).to_bytes(10, 'little')],
-        ]
+        mock_read.return_value = [((1 << 1) | (1 << 23)).to_bytes(10, 'little')]
 
         await client._poll_minor_chest_locations(mock_bizhawk_context)
 
@@ -789,10 +783,7 @@ async def test_poll_minor_chest_excludes_unmapped_report_locations(mock_bizhawk_
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
         # Bits 0 and 1 set; bit 0 is used by unmapped report entries and must be ignored.
-        mock_read.side_effect = [
-            [b'\x00\x00\x00\x00', b'\x00' * 32],
-            [((1 << 0) | (1 << 1)).to_bytes(10, 'little')],
-        ]
+        mock_read.return_value = [((1 << 0) | (1 << 1)).to_bytes(10, 'little')]
 
         await client._poll_minor_chest_locations(mock_bizhawk_context)
 

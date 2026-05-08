@@ -298,6 +298,12 @@ class KirbyAmClient(BizHawkClient):
             if "ReportLocation" in loc.tags:
                 continue
             self._minor_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+        self._report_only_minor_chest_location_ids: set[int] = {
+            loc.location_id
+            for loc in data.locations.values()
+            if loc.category == LocationCategory.MINOR_CHEST and "ReportLocation" in loc.tags
+        }
+        self._minor_chest_report_manifest_source_ptrs: set[int] = set()
         self._minor_chest_location_id_by_source_ptr = self._build_minor_chest_source_ptr_map()
         report_only_minor_count = sum(
             1
@@ -673,6 +679,7 @@ class KirbyAmClient(BizHawkClient):
         ]
         report_index = 0
         source_ptr_to_location_id: dict[int, int] = {}
+        report_manifest_source_ptrs: set[int] = set()
         skipped_unassigned_entries = 0
 
         for entry in entries:
@@ -701,6 +708,7 @@ class KirbyAmClient(BizHawkClient):
 
             if matched_named_location:
                 continue
+            report_manifest_source_ptrs.add(source_ptr)
             if report_index >= len(report_location_ids):
                 skipped_unassigned_entries += 1
                 continue
@@ -722,6 +730,7 @@ class KirbyAmClient(BizHawkClient):
                 skipped_unassigned_entries,
             )
 
+        self._minor_chest_report_manifest_source_ptrs = report_manifest_source_ptrs
         return source_ptr_to_location_id
 
     async def _get_room_visit_flags_view(self, ctx: KirbyAmBizHawkClientContext) -> memoryview | None:
@@ -2529,7 +2538,13 @@ class KirbyAmClient(BizHawkClient):
         existing resend/dedupe behavior: RAM-derived checks are resent until the server
         acknowledges them in ctx.checked_locations.
         """
-        await self._poll_minor_chest_event_locations(ctx)
+        active_location_ids = self._active_location_id_set(ctx)
+        if self._report_only_minor_chest_location_ids:
+            should_poll_exact_events = active_location_ids is None or bool(
+                self._report_only_minor_chest_location_ids & active_location_ids
+            )
+            if should_poll_exact_events:
+                await self._poll_minor_chest_event_locations(ctx)
 
         if not self._minor_chest_location_ids_by_bit:
             return
@@ -2556,7 +2571,6 @@ class KirbyAmClient(BizHawkClient):
             if raw[byte_index] & (1 << (bit % 8)):
                 mapped_checked_locations.update(self._minor_chest_location_ids_by_bit.get(bit, []))
 
-        active_location_ids = self._active_location_id_set(ctx)
         if active_location_ids is not None:
             mapped_checked_locations.intersection_update(active_location_ids)
 
@@ -2630,7 +2644,9 @@ class KirbyAmClient(BizHawkClient):
                 if location_id is None and source_ptr >= 0xC:
                     location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr - 0xC)
                 if location_id is None:
-                    if source_ptr_raw not in self._logged_unknown_minor_chest_source_ptrs:
+                    if source_ptr not in self._minor_chest_report_manifest_source_ptrs:
+                        continue
+                    if source_ptr not in self._logged_unknown_minor_chest_source_ptrs:
                         self._log_verbose(
                             "warning",
                             "KirbyAM: exact minor-chest source ptr raw=0x%08X normalized=0x%08X is not mapped in minor_chest_manifest.json (sequence=%s slot=%s).",
@@ -2639,7 +2655,7 @@ class KirbyAmClient(BizHawkClient):
                             sequence,
                             slot_index,
                         )
-                        self._logged_unknown_minor_chest_source_ptrs.add(source_ptr_raw)
+                        self._logged_unknown_minor_chest_source_ptrs.add(source_ptr)
                     continue
                 exact_checked_locations_local.add(location_id)
             return exact_checked_locations_local

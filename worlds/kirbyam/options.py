@@ -250,7 +250,7 @@ class RoomSanity(Toggle):
 class UnmappedMinorChestReportLocations(Toggle):
     """
     Include provisional minor-chest report locations with labels like
-    `Uncertain Minor Chest X-N (Report This)`.
+    `Uncertain Minor Chest 1-40 (Report This)`.
 
     Experimental: these locations are intended for mapping/discovery runs and
     can share native chest bits while mappings are unresolved.
