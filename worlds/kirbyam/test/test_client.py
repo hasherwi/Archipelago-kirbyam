@@ -1,7 +1,10 @@
+# mypy: ignore-errors
+
 """Integration tests for client polling and delivery logic."""
 import asyncio
 import pytest
 import logging
+from contextlib import ExitStack
 from unittest.mock import AsyncMock, Mock, call, patch
 
 import worlds._bizhawk as bizhawk
@@ -3531,6 +3534,7 @@ async def test_game_watcher_reloads_state_after_transport_recovery(mock_bizhawk_
     with patch.object(client, '_reset_reconnect_transient_state') as mock_reset, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock) as mock_load, \
          patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock) as mock_reconcile_maps, \
+            patch.object(client, '_reconcile_native_shard_ownership', new_callable=AsyncMock), \
             patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock) as mock_apply_death_link, \
@@ -3667,6 +3671,7 @@ async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_biz
          patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock) as mock_load, \
          patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock) as mock_reconcile_maps, \
+            patch.object(client, '_reconcile_native_shard_ownership', new_callable=AsyncMock), \
             patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_poll_locations', new_callable=AsyncMock) as mock_poll_locations, \
          patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock) as mock_poll_boss, \
@@ -3732,6 +3737,7 @@ async def test_game_watcher_reconnect_entry_emits_file_only_session_ready_log(mo
          patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
          patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
+            patch.object(client, '_reconcile_native_shard_ownership', new_callable=AsyncMock), \
          patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
@@ -3945,6 +3951,7 @@ async def test_game_watcher_emits_pause_then_resume_popups_on_transition(mock_bi
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
             patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
+            patch.object(client, '_reconcile_native_shard_ownership', new_callable=AsyncMock), \
          patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_locations', new_callable=AsyncMock), \
@@ -4000,26 +4007,30 @@ async def test_game_watcher_emits_runtime_gate_logs_file_only(mock_bizhawk_conte
     client = KirbyAmClient()
     client.initialize_client()
 
-    with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
-         patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
-         patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
-            patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
-         patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
-         patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
-         patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock), \
-         patch.object(client, '_poll_major_chest_locations', new_callable=AsyncMock), \
-         patch.object(client, '_poll_minor_chest_locations', new_callable=AsyncMock), \
-         patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock), \
-         patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock), \
-         patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock), \
-         patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock), \
-         patch.object(client, '_poll_room_sanity_locations', new_callable=AsyncMock), \
-         patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock), \
-         patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock), \
-         patch.object(client, '_deliver_items', new_callable=AsyncMock), \
-         patch.object(client, '_maybe_report_goal', new_callable=AsyncMock), \
-         patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock), \
-         patch('CommonClient.logger') as mock_logger:
+    with ExitStack() as stack:
+        mock_gate = stack.enter_context(
+            patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock)
+        )
+        stack.enter_context(patch.object(client, '_load_persistent_state', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_reconcile_native_shard_ownership', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_major_chest_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_minor_chest_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_room_sanity_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_deliver_items', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_maybe_report_goal', new_callable=AsyncMock))
+        stack.enter_context(patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock))
+        mock_logger = stack.enter_context(patch('CommonClient.logger'))
         mock_gate.side_effect = [
             (False, "non_gameplay_tutorial_or_menu", 0),
             (True, "gameplay_active", 300),
@@ -4051,6 +4062,7 @@ async def test_game_watcher_syncs_death_link_enabled_from_slot_data(mock_bizhawk
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
             patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
+            patch.object(client, '_reconcile_native_shard_ownership', new_callable=AsyncMock), \
             patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
             patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_locations', new_callable=AsyncMock), \
@@ -4082,6 +4094,7 @@ async def test_game_watcher_death_link_sync_is_deduped_until_value_changes(mock_
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
             patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock), \
          patch.object(client, '_reconcile_native_map_ownership', new_callable=AsyncMock), \
+            patch.object(client, '_reconcile_native_shard_ownership', new_callable=AsyncMock), \
             patch.object(client, '_apply_pending_death_link', new_callable=AsyncMock), \
             patch.object(client, '_poll_and_send_local_death_link', new_callable=AsyncMock), \
          patch.object(client, '_poll_locations', new_callable=AsyncMock), \

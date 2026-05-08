@@ -587,6 +587,16 @@
         "SmallChest"
       ]
     },
+    "MINOR_CHEST_RAINBOW_ROUTE_1_02": {
+      "category": "MINOR_CHEST",
+      "label": "Rainbow Route 1-02 - Small Chest",
+      "location_id": 3960521,
+      "tags": [
+        "MAP_RAINBOW_ROUTE",
+        "ReportLocation",
+        "SmallChest"
+      ]
+    },
     "MINOR_CHEST_RAINBOW_ROUTE_1_22": {
       "category": "MINOR_CHEST",
       "label": "Rainbow Route 1-22 - Small Chest",
@@ -622,16 +632,6 @@
         "ReportLocation",
         "SmallChest",
         "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_RAINBOW_ROUTE_1_02": {
-      "category": "MINOR_CHEST",
-      "label": "Rainbow Route 1-02 - Small Chest",
-      "location_id": 3960521,
-      "tags": [
-        "MAP_RAINBOW_ROUTE",
-        "ReportLocation",
-        "SmallChest"
       ]
     },
     "MINOR_CHEST_UNMAPPED_X_03_REPORT": {
