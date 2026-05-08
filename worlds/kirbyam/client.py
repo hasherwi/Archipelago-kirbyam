@@ -270,8 +270,12 @@ class KirbyAmClient(BizHawkClient):
 
         # Minor chest native bitfield → location IDs (MINOR_CHEST category; polled from native chest flags).
         self._minor_chest_location_ids_by_bit: dict[int, list[int]] = {}
+        self._minor_chest_report_location_ids: set[int] = set()
         for loc in data.locations.values():
             if loc.bit_index is None or loc.category != LocationCategory.MINOR_CHEST:
+                continue
+            if "ReportLocation" in loc.tags:
+                self._minor_chest_report_location_ids.add(loc.location_id)
                 continue
             self._minor_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
 
@@ -358,6 +362,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_boss_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_major_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_minor_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+        self._minor_chest_report_poll_exclusion_warned: bool = False
         self._last_vitality_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_sound_player_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_hub_switch_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
@@ -2355,6 +2360,17 @@ class KirbyAmClient(BizHawkClient):
 
         active_location_ids = self._active_location_id_set(ctx)
         if active_location_ids is not None:
+            if (
+                not self._minor_chest_report_poll_exclusion_warned
+                and self._minor_chest_report_location_ids
+                and (active_location_ids & self._minor_chest_report_location_ids)
+            ):
+                self._log_client(
+                    "warning",
+                    "KirbyAM: skipping unmapped minor-chest report locations in native bit polling "
+                    "to avoid false-positive checks from shared unresolved bits.",
+                )
+                self._minor_chest_report_poll_exclusion_warned = True
             mapped_checked_locations.intersection_update(active_location_ids)
 
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)

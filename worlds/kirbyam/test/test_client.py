@@ -610,6 +610,7 @@ async def test_poll_minor_chest_sends_location_checks_for_set_bits(mock_bizhawk_
     minor_with_bits = [
         loc for loc in data.locations.values()
         if getattr(loc, "category", None) == LocationCategory.MINOR_CHEST and loc.bit_index is not None
+        and "ReportLocation" not in getattr(loc, "tags", frozenset())
     ]
     expected_locations = sorted(loc.location_id for loc in minor_with_bits)
     bits = 0
@@ -694,6 +695,30 @@ async def test_poll_minor_chest_respects_active_slot_locations(mock_bizhawk_cont
         {"cmd": "LocationChecks", "locations": [room_1_39]}
     ])
     assert room_1_22 not in mock_send.await_args.args[0][0]["locations"]
+
+
+@pytest.mark.asyncio
+async def test_poll_minor_chest_excludes_unmapped_report_locations(mock_bizhawk_context):
+    """Report-location minor chests should not be auto-sent from shared unresolved native bits."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    room_1_39 = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_39"].location_id
+    unmapped_report = data.locations["MINOR_CHEST_UNMAPPED_X_02_REPORT"].location_id
+    mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = {room_1_39, unmapped_report}
+
+    with patch.dict(data.native_ram_addresses, {"small_chest_flags_native": 0x02038960}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        # Bits 0 and 1 set; bit 0 is used by unmapped report entries and must be ignored.
+        mock_read.return_value = [((1 << 0) | (1 << 1)).to_bytes(10, 'little')]
+
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [room_1_39]}
+    ])
 
 
 @pytest.mark.asyncio
