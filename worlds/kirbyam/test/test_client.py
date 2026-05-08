@@ -471,6 +471,70 @@ async def test_reconcile_native_map_ownership_skips_write_when_native_bits_match
     mock_write.assert_not_awaited()
 
 
+@pytest.mark.asyncio
+async def test_reconcile_native_shard_ownership_restores_bits_after_save_loss(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    shard_items = sorted(
+        (item.item_id, item.label)
+        for item in data.items.values()
+        if "Shards" in item.tags
+    )
+    assert len(shard_items) >= 2
+
+    client._delivered_item_index = 2
+    mock_bizhawk_context.items_received = [
+        Mock(item=shard_items[0][0], player=1),
+        Mock(item=shard_items[1][0], player=1),
+    ]
+
+    expected_bits = client._ap_owned_native_shard_bits(mock_bizhawk_context)
+    assert expected_bits != 0
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        # Native + delivered shard transport are both zeroed (fresh SaveRAM style state).
+        mock_read.return_value = [b'\x00', (0).to_bytes(4, 'little')]
+
+        await client._reconcile_native_shard_ownership(mock_bizhawk_context)
+
+    mock_write.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        [
+            (
+                data.native_ram_addresses["shard_bitfield_native"],
+                bytes([expected_bits & 0xFF]),
+                "System Bus",
+            ),
+            (
+                data.transport_ram_addresses["delivered_shard_bitfield"],
+                int(expected_bits).to_bytes(4, 'little'),
+                "System Bus",
+            ),
+        ],
+    )
+
+
+@pytest.mark.asyncio
+async def test_reconcile_native_shard_ownership_skips_when_state_matches(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    shard_item = next(item.item_id for item in data.items.values() if "Shards" in item.tags)
+    client._delivered_item_index = 1
+    mock_bizhawk_context.items_received = [Mock(item=shard_item, player=1)]
+    expected_bits = client._ap_owned_native_shard_bits(mock_bizhawk_context)
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        mock_read.return_value = [bytes([expected_bits & 0xFF]), int(expected_bits).to_bytes(4, 'little')]
+
+        await client._reconcile_native_shard_ownership(mock_bizhawk_context)
+
+    mock_write.assert_not_awaited()
+
+
 def test_ap_owned_native_map_bits_updates_cache_incrementally(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
