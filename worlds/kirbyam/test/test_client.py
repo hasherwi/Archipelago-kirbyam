@@ -765,6 +765,15 @@ async def test_poll_minor_chest_event_sends_exact_report_location(mock_bizhawk_c
     assert sibling_location not in mock_send.await_args.args[0][0]["locations"]
 
 
+def test_minor_chest_source_ptr_map_includes_room_1_02_report_entry():
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    assert client._minor_chest_location_id_by_source_ptr[0x008C138C] == (
+        data.locations["MINOR_CHEST_UNMAPPED_X_26_REPORT"].location_id
+    )
+
+
 @pytest.mark.asyncio
 async def test_poll_vitality_chest_sends_location_checks_for_set_bits(mock_bizhawk_context):
     """Set transport vitality-chest bits should map to vitality-chest LocationChecks."""
