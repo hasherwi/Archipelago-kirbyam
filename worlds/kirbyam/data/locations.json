@@ -567,7 +567,6 @@
     "default_item": "1_UP",
     "tags": [
       "SmallChest",
-      "ReportLocation",
       "MAP_RAINBOW_ROUTE"
     ],
     "bit_index": 0,

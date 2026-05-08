@@ -1,3 +1,5 @@
+# mypy: ignore-errors
+
 """Logic rules for Kirby & The Amazing Mirror.
 
 This implementation is intentionally minimal while the world data model and

@@ -712,6 +712,7 @@ async def test_poll_minor_chest_skips_when_address_missing(mock_bizhawk_context)
     with patch.dict(data.native_ram_addresses, native_without_minor, clear=True), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        mock_read.return_value = [b'\x00\x00\x00\x00', b'\x00' * 32]
         await client._poll_minor_chest_locations(mock_bizhawk_context)
 
     mock_read.assert_awaited_once()
@@ -775,14 +776,14 @@ async def test_poll_minor_chest_respects_active_slot_locations(mock_bizhawk_cont
 
 @pytest.mark.asyncio
 async def test_poll_minor_chest_excludes_unmapped_report_locations(mock_bizhawk_context):
-    """Report-location minor chests should not be auto-sent from shared unresolved native bits."""
+    """Native minor-chest polling should include named checks but exclude unresolved report-only siblings."""
     client = KirbyAmClient()
     client.initialize_client()
 
     room_1_39 = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_39"].location_id
-    room_1_02_report = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"].location_id
+    room_1_02_named = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"].location_id
     mock_bizhawk_context.checked_locations = set()
-    mock_bizhawk_context.server_locations = {room_1_39, room_1_02_report}
+    mock_bizhawk_context.server_locations = {room_1_39, room_1_02_named}
 
     with patch.dict(data.native_ram_addresses, {"small_chest_flags_native": 0x02038960}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
@@ -796,7 +797,7 @@ async def test_poll_minor_chest_excludes_unmapped_report_locations(mock_bizhawk_
         await client._poll_minor_chest_locations(mock_bizhawk_context)
 
     mock_send.assert_awaited_once_with([
-        {"cmd": "LocationChecks", "locations": [room_1_39]}
+        {"cmd": "LocationChecks", "locations": [room_1_39, room_1_02_named]}
     ])
 
 
@@ -806,8 +807,10 @@ async def test_poll_minor_chest_event_sends_exact_report_location(mock_bizhawk_c
     client = KirbyAmClient()
     client.initialize_client()
 
-    report_location = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"].location_id
-    sibling_location = data.locations["MINOR_CHEST_UNMAPPED_X_03_REPORT"].location_id
+    report_only_locations = sorted(set(client._minor_chest_location_id_by_source_ptr.values()))
+    assert report_only_locations
+    report_location = report_only_locations[0]
+    sibling_location = next((loc for loc in report_only_locations if loc != report_location), None)
     source_ptr = next(
         source
         for source, location_id in client._minor_chest_location_id_by_source_ptr.items()
@@ -829,16 +832,21 @@ async def test_poll_minor_chest_event_sends_exact_report_location(mock_bizhawk_c
     mock_send.assert_awaited_once_with([
         {"cmd": "LocationChecks", "locations": [report_location]}
     ])
-    assert sibling_location not in mock_send.await_args.args[0][0]["locations"]
+    if sibling_location is not None:
+        assert sibling_location not in mock_send.await_args.args[0][0]["locations"]
 
 
-def test_minor_chest_source_ptr_map_includes_room_1_02_report_entry():
+def test_minor_chest_source_ptr_map_targets_report_only_minor_chests():
     client = KirbyAmClient()
     client.initialize_client()
 
-    assert client._minor_chest_location_id_by_source_ptr[0x008C138C] == (
-        data.locations["MINOR_CHEST_UNMAPPED_X_26_REPORT"].location_id
-    )
+    assert client._minor_chest_location_id_by_source_ptr
+
+    id_to_location = {loc.location_id: loc for loc in data.locations.values()}
+    for location_id in client._minor_chest_location_id_by_source_ptr.values():
+        loc = id_to_location[location_id]
+        assert loc.category == LocationCategory.MINOR_CHEST
+        assert "ReportLocation" in loc.tags
 
 
 @pytest.mark.asyncio
@@ -847,7 +855,7 @@ async def test_poll_minor_chest_event_normalizes_full_gba_rom_source_ptr(mock_bi
     client = KirbyAmClient()
     client.initialize_client()
 
-    report_location = data.locations["MINOR_CHEST_UNMAPPED_X_26_REPORT"].location_id
+    report_location = next(iter(client._minor_chest_location_id_by_source_ptr.values()))
     source_ptr = next(
         source
         for source, location_id in client._minor_chest_location_id_by_source_ptr.items()

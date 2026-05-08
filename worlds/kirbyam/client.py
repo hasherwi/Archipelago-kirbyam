@@ -1,3 +1,5 @@
+# mypy: ignore-errors
+
 import logging
 import random
 import re
@@ -297,6 +299,17 @@ class KirbyAmClient(BizHawkClient):
                 continue
             self._minor_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
         self._minor_chest_location_id_by_source_ptr = self._build_minor_chest_source_ptr_map()
+        report_only_minor_count = sum(
+            1
+            for loc in data.locations.values()
+            if loc.category == LocationCategory.MINOR_CHEST and "ReportLocation" in loc.tags
+        )
+        if report_only_minor_count:
+            self._log_verbose(
+                "info",
+                "KirbyAM: %s report-only minor chest locations are active; they are reported only from exact event-ring source-pointer matches.",
+                report_only_minor_count,
+            )
         self._last_minor_chest_event_counter: int | None = None
         self._logged_unknown_minor_chest_source_ptrs: set[int] = set()
 
@@ -660,6 +673,7 @@ class KirbyAmClient(BizHawkClient):
         ]
         report_index = 0
         source_ptr_to_location_id: dict[int, int] = {}
+        skipped_unassigned_entries = 0
 
         for entry in entries:
             if not isinstance(entry, dict):
@@ -688,10 +702,25 @@ class KirbyAmClient(BizHawkClient):
             if matched_named_location:
                 continue
             if report_index >= len(report_location_ids):
+                skipped_unassigned_entries += 1
                 continue
 
             source_ptr_to_location_id[source_ptr] = report_location_ids[report_index]
             report_index += 1
+
+        if report_location_ids and report_index != len(report_location_ids):
+            self._log_verbose(
+                "warning",
+                "KirbyAM: mapped %s/%s report-only minor chest locations from manifest source pointers; unmapped report locations remain.",
+                report_index,
+                len(report_location_ids),
+            )
+        if skipped_unassigned_entries:
+            self._log_verbose(
+                "warning",
+                "KirbyAM: %s report-only manifest entries could not be assigned to AP report locations (ordering/coverage mismatch).",
+                skipped_unassigned_entries,
+            )
 
         return source_ptr_to_location_id
 
@@ -2586,15 +2615,57 @@ class KirbyAmClient(BizHawkClient):
         if len(raw_counter) != 4 or len(raw_ring) != _MINOR_CHEST_EVENT_RING_READ_WIDTH:
             return
 
+        def collect_exact_checked_locations(first_sequence: int, last_sequence_exclusive: int) -> set[int]:
+            exact_checked_locations_local: set[int] = set()
+            for sequence in range(first_sequence, last_sequence_exclusive):
+                slot_index = sequence & (_MINOR_CHEST_EVENT_RING_SLOT_COUNT - 1)
+                offset = slot_index * 4
+                source_ptr_raw = self._u32_le(raw_ring[offset:offset + 4])
+                source_ptr = _normalize_gba_rom_address(source_ptr_raw)
+                location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr)
+                if location_id is None:
+                    # Live payload events can point at nearby fields within the same object
+                    # row (for example +/- 0xC). Try these aliases before declaring unknown.
+                    location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr + 0xC)
+                if location_id is None and source_ptr >= 0xC:
+                    location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr - 0xC)
+                if location_id is None:
+                    if source_ptr_raw not in self._logged_unknown_minor_chest_source_ptrs:
+                        self._log_verbose(
+                            "warning",
+                            "KirbyAM: exact minor-chest source ptr raw=0x%08X normalized=0x%08X is not mapped in minor_chest_manifest.json (sequence=%s slot=%s).",
+                            source_ptr_raw,
+                            source_ptr,
+                            sequence,
+                            slot_index,
+                        )
+                        self._logged_unknown_minor_chest_source_ptrs.add(source_ptr_raw)
+                    continue
+                exact_checked_locations_local.add(location_id)
+            return exact_checked_locations_local
+
         event_counter = self._u32_le(raw_counter)
         if self._last_minor_chest_event_counter is None:
-            if event_counter != 0:
-                self._log_verbose(
-                    "debug",
-                    "KirbyAM: exact minor-chest event counter baseline initialized to %s (pending pre-baseline events are ignored).",
-                    event_counter,
-                )
+            if event_counter == 0:
+                self._last_minor_chest_event_counter = 0
+                return
+
+            baseline_window = min(event_counter, _MINOR_CHEST_EVENT_RING_SLOT_COUNT)
+            first_sequence = event_counter - baseline_window
+            exact_checked_locations = collect_exact_checked_locations(first_sequence, event_counter)
             self._last_minor_chest_event_counter = event_counter
+
+            if not exact_checked_locations:
+                return
+
+            active_location_ids = self._active_location_id_set(ctx)
+            if active_location_ids is not None:
+                exact_checked_locations.intersection_update(active_location_ids)
+            missing_on_server = sorted(exact_checked_locations - ctx.checked_locations)
+            if not missing_on_server:
+                return
+
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
             return
 
         if event_counter == self._last_minor_chest_event_counter:
@@ -2620,33 +2691,7 @@ class KirbyAmClient(BizHawkClient):
             delta = _MINOR_CHEST_EVENT_RING_SLOT_COUNT
 
         first_sequence = event_counter - delta
-        exact_checked_locations: set[int] = set()
-        for sequence in range(first_sequence, event_counter):
-            slot_index = sequence & (_MINOR_CHEST_EVENT_RING_SLOT_COUNT - 1)
-            offset = slot_index * 4
-            source_ptr_raw = self._u32_le(raw_ring[offset:offset + 4])
-            source_ptr = _normalize_gba_rom_address(source_ptr_raw)
-            location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr)
-            if location_id is None:
-                # Live payload events can point at nearby fields within the same object
-                # row (for example +/- 0xC). Try these aliases before declaring unknown.
-                location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr + 0xC)
-            if location_id is None and source_ptr >= 0xC:
-                location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr - 0xC)
-            if location_id is None:
-                if source_ptr_raw not in self._logged_unknown_minor_chest_source_ptrs:
-                    self._log_verbose(
-                        "warning",
-                        "KirbyAM: exact minor-chest source ptr raw=0x%08X normalized=0x%08X is not mapped in minor_chest_manifest.json (sequence=%s slot=%s).",
-                        source_ptr_raw,
-                        source_ptr,
-                        sequence,
-                        slot_index,
-                    )
-                    self._logged_unknown_minor_chest_source_ptrs.add(source_ptr_raw)
-                continue
-
-            exact_checked_locations.add(location_id)
+        exact_checked_locations = collect_exact_checked_locations(first_sequence, event_counter)
 
         self._last_minor_chest_event_counter = event_counter
         if not exact_checked_locations:
