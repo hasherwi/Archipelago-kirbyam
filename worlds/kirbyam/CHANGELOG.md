@@ -43,14 +43,11 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Fixed a delivery issue that could cause items to be skipped when the client and game counters got out of sync.
 - Fixed debug-only delivery diagnostics so they still go to the log file even when they are hidden from the live client output (Issue #601).
 - Fixed vitality counter replays caused by transitions or resets, and prevented vitality counters from lingering in `One-Hit Mode` when that mode excludes them (Issue #571).
-- Fixed some boss checks not being sent when the matching shard was already owned (Issue #573).
+- Fixed boss-defeat AP checks when the matching shard was already owned, including follow-up hardening for departure fallback and authoritative `boss_defeat_flags` handling across already-owned reward paths (Issues #573, #754).
 - Fixed extra reconnect and resend diagnostics showing up in the live client unless debug logging was enabled, while still keeping them in the log file (Issue #582).
 - Updated big chest labels to be consistent and no longer uses room names. Also updated location parent regions to be accurate. (Issue #603)
-- Fixed a redelivery regression where session-ACKed traps and filler could replay after reload/reconnect mailbox rewinds; acknowledged traps and filler are now treated as non-redeliverable one-time deliveries, while all other item classes remain replayable for rewind recovery (Issue #753, regression after v0.2.2 behavior).
-- Fixed remaining missed boss-defeat AP checks when a shard was already AP-owned before the fight by making `boss_defeat_flags` authoritative from both native boss outcomes (CollectShard path and already-owned reward path) and removing the client's room/probe fallback staging dependency (Issue #754).
-- Fixed an infinite mailbox rewind loop after BizHawk disconnect/ROM reset when the last replayed item is a session-ACKed trap by replaying that trap to ROM only when the ROM counter shows the slot is still unapplied (Issue #766).
+- Fixed trap and filler mailbox rewind regressions after reload, reconnect, and ROM reset so session-ACKed traps and filler no longer redeliver or loop when the ROM counter shows the slot is already applied (Issues #753, #766).
 - Fixed false `Peppermint Palace West - Big Switch` AP checks by translating native world-map door enum values to the AP hub-switch bit contract and ignoring `WORLDMAP_NO_UNLOCK` dispatches (Issue #750).
-- Hardened the Issue #754 boss-departure fallback so boss-defeat checks still stage when destination room resolution reuses the same room key or temporarily fails doorsIdx lookup during transition (Issue #754).
 
 ### Internal Changes
 
