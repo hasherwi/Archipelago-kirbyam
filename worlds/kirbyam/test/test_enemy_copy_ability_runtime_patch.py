@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import random
+from typing import Any, cast
 
 import worlds.kirbyam.enemy_ability_runtime_patch as runtime_patch_module
 
@@ -233,7 +234,7 @@ def test_minny_toggle_excludes_minny_runtime_writes_only() -> None:
     assert 0x3518BE in writes
 
 
-def test_completely_random_mapping_is_stable_when_skipped_zero_id_sources_are_added(monkeypatch) -> None:
+def test_completely_random_mapping_is_stable_when_skipped_zero_id_sources_are_added(monkeypatch: Any) -> None:
     baseline_policy = build_enemy_copy_ability_policy(
         random.Random(20260324),
         AbilityRandomizationMode.option_completely_random,
@@ -251,10 +252,14 @@ def test_completely_random_mapping_is_stable_when_skipped_zero_id_sources_are_ad
         kind="enemy",
         can_be_swallowed=True,
     )
+    existing_sources = cast(
+        tuple[AbilitySource, ...],
+        getattr(runtime_patch_module, "ABILITY_SOURCES"),
+    )
     monkeypatch.setattr(
         runtime_patch_module,
         "ABILITY_SOURCES",
-        (injected_source,) + runtime_patch_module.ABILITY_SOURCES,
+        (injected_source,) + existing_sources,
     )
 
     shifted_policy = build_enemy_copy_ability_policy(
@@ -322,7 +327,7 @@ def test_unswallowable_enemy_sources_are_excluded_from_runtime_pool() -> None:
     assert 0x3516AE not in writes  # SQUISHY
 
 
-def test_unswallowable_enemy_exclusion_is_logged(caplog) -> None:
+def test_unswallowable_enemy_exclusion_is_logged(caplog: Any) -> None:
     policy = build_enemy_copy_ability_policy(
         random.Random(20260404),
         AbilityRandomizationMode.option_completely_random,
@@ -344,7 +349,7 @@ def test_unswallowable_enemy_exclusion_is_logged(caplog) -> None:
     )
 
 
-def test_unswallowable_enemy_exclusion_uses_source_metadata(monkeypatch) -> None:
+def test_unswallowable_enemy_exclusion_uses_source_metadata(monkeypatch: Any) -> None:
     policy = build_enemy_copy_ability_policy(
         random.Random(20260404),
         AbilityRandomizationMode.option_shuffled,
@@ -363,10 +368,14 @@ def test_unswallowable_enemy_exclusion_uses_source_metadata(monkeypatch) -> None
         can_be_swallowed=False,
     )
 
+    existing_sources = cast(
+        tuple[AbilitySource, ...],
+        getattr(runtime_patch_module, "ABILITY_SOURCES"),
+    )
     monkeypatch.setattr(
         runtime_patch_module,
         "ABILITY_SOURCES",
-        (injected_source,) + runtime_patch_module.ABILITY_SOURCES,
+        (injected_source,) + existing_sources,
     )
 
     writes = build_enemy_copy_runtime_patch_writes(policy)
