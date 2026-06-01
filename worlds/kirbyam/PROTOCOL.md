@@ -51,7 +51,6 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x18   | 0x0203B018 | 4B | debug_last_from       | u32  | ROM → Client | Last player ID (debug only) |
 | 0x1C   | 0x0203B01C | 4B | frame_counter         | u32  | ROM → Client | Monotonic frame count (incremented every hook call) |
 | 0x20   | 0x0203B020 | 4B | delivered_item_index  | u32  | Client ↔ ROM | Next item to deliver index (persisted in RAM) |
-
 | 0x24   | 0x0203B024 | 4B | boss_defeat_flags     | u32  | ROM → Client | Bits 0–7 set when each area boss is defeated (same bit ordering as shard_bitfield). Transport is set by both native boss outcomes: (1) CollectShard call path and (2) HasShard==true already-owned reward path. |
 | 0x28   | 0x0203B028 | 4B | major_chest_flags     | u32  | ROM → Client | Bits set when a native big chest is opened; bit N = area ID N. This drives AP major-chest checks independently of native map ownership. |
 | 0x2C   | 0x0203B02C | 4B | vitality_chest_flags  | u32  | ROM → Client | Bits set when a native vitality big chest is opened; bits 0..3 map to the four vitality chest room IDs (Carrot 5-23, Olive 6-21, Radish 8-4, Candy 9-8). |
