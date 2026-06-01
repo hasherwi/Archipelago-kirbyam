@@ -782,7 +782,7 @@ async def test_poll_minor_chest_excludes_unmapped_report_locations(mock_bizhawk_
     with patch.dict(data.native_ram_addresses, {"small_chest_flags_native": 0x02038960}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
-        # Bits 0 and 1 set; bit 0 is used by unmapped report entries and must be ignored.
+        # Bits 0 and 1 set; keep named locations on bit 0, but exclude report-only siblings that share it.
         mock_read.return_value = [((1 << 0) | (1 << 1)).to_bytes(10, 'little')]
 
         await client._poll_minor_chest_locations(mock_bizhawk_context)

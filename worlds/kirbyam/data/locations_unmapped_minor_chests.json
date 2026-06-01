@@ -104,7 +104,7 @@
     "location_id": 3960528
   },
   "MINOR_CHEST_UNMAPPED_X_10_REPORT": {
-    "label": "Uncertain Minor Chest 2-19 (Report This)",
+    "label": "Uncertain Minor Chest 2-19 B (Report This)",
     "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_19",
     "default_item": "SMALL_FOOD",
     "tags": [

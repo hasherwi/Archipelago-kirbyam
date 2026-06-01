@@ -86,7 +86,7 @@ def test_boss_collect_shard_call_offset_matches_verified_hook_site() -> None:
 def test_minor_chest_collect_call_offset_matches_verified_hook_site() -> None:
     # sub_0800AFC8 at ROM addr 0x0800AFC8 (file offset 0xAFC8); BL CollectChest
     # follows the `ldrb r0, [r0]` setup and starts at +0x24 → 0xAFC8 + 0x24.
-    # Source: d:\KirbyProject\katam\asm\chest.s lines 345-353.
+    # Source: katam/asm/chest.s (CollectChest callsite sequence).
     assert patch_rom.MINOR_CHEST_COLLECT_CALL_OFFSET == 0x0000AFEC
 
 

@@ -1,4 +1,6 @@
 # mypy: ignore-errors
+# TODO(typing): retain strict checks in CI while this rules module transitions
+# from dynamic rule construction helpers to precise static types.
 
 """Logic rules for Kirby & The Amazing Mirror.
 

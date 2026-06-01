@@ -1,4 +1,6 @@
 # mypy: ignore-errors
+# TODO(typing): keep mypy enabled for CI overall while this legacy client module
+# is incrementally migrated from dynamic AP/BizHawk structures to strict types.
 
 import logging
 import random
