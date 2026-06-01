@@ -46,7 +46,7 @@ Items that can be shuffled:
 KirbyAM supports the standard Archipelago common options for item and location control:
 
 - `local_items`: force selected item names/groups to stay in your world.
-- `non_local_items`: force selected item names/groups out of your world.
+-`non_local_items`: force selected item names/groups out of your world.
 - `start_inventory`: begin with selected items precollected.
 - `start_hints`: begin with hints for selected item names/groups.
 - `start_location_hints`: begin with hints for selected location names.
@@ -70,6 +70,7 @@ Use exact item/location names from this world (or the item groups listed above) 
   - `dark_mind`: Defeat Dark Mind to complete the seed.
   - `defeat_any_area_boss`: Defeat any one `* - Boss Defeat` location (Mustard Mountain, Moonlight Mansion, Candy Constellation, Olive Ocean, Peppermint Palace, Cabbage Cavern, Carrot Castle, or Radish Ruins). In this mode, collecting all Mirror Shards is not required by the goal mode itself.
     - Candy Constellation's Master Hand + Crazy Hand fight is treated as one pooled boss target (`BOSS_DEFEAT_3`).
+  - `defeat_random_hidden_area_boss`: Defeat one seed-selected hidden area boss. The selected target is carried in slot data as an internal boss-defeat key; normal player-facing output does not reveal the boss name, but spoiler output may.
 
 
 
@@ -93,7 +94,7 @@ You will not see an indicator in the game, instead you'll see you received an it
 
 
 
-Currently a tracker is not available. Goal logic depends on the selected mode: either defeat Dark Mind, or defeat any one area boss in `defeat_any_area_boss` mode.
+Currently a tracker is not available. Goal logic depends on the selected mode: either defeat Dark Mind, defeat any one area boss in `defeat_any_area_boss` mode, or defeat the seed-selected hidden area boss in `defeat_random_hidden_area_boss` mode.
 
 
 

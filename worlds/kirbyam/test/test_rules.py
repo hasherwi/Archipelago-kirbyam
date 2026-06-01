@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import random
 from dataclasses import dataclass
+from types import SimpleNamespace
 from unittest.mock import patch
 
+from .. import KirbyAmWorld
 from ..options import Goal
 from ..rules import (
     ABILITY_GATE_RULES,
@@ -90,6 +93,35 @@ def test_dark_mind_goal_requires_dark_mind_event() -> None:
     completion_fn = _get_completion_fn(world)
     assert not completion_fn(_FakeState())
     assert completion_fn(_FakeState({"Defeat Dark Mind"}))
+
+
+def test_hidden_random_area_boss_goal_key_resolves_deterministically_from_seed() -> None:
+    def _build_world(seed: int):
+        world = KirbyAmWorld.__new__(KirbyAmWorld)
+        world.options = SimpleNamespace(goal=SimpleNamespace(value=Goal.option_defeat_random_hidden_area_boss))
+        world.random = random.Random(seed)
+        return world
+
+    first_world = _build_world(20260601)
+    second_world = _build_world(20260601)
+
+    first_key = KirbyAmWorld._get_resolved_hidden_area_boss_goal_key(first_world)
+    second_key = KirbyAmWorld._get_resolved_hidden_area_boss_goal_key(second_world)
+
+    assert first_key == second_key
+    assert first_key in {
+        "BOSS_DEFEAT_1",
+        "BOSS_DEFEAT_2",
+        "BOSS_DEFEAT_3",
+        "BOSS_DEFEAT_4",
+        "BOSS_DEFEAT_5",
+        "BOSS_DEFEAT_6",
+        "BOSS_DEFEAT_7",
+        "BOSS_DEFEAT_8",
+    }
+
+    cached_key = KirbyAmWorld._get_resolved_hidden_area_boss_goal_key(first_world)
+    assert cached_key == first_key
 
 
 def test_unknown_goal_value_defaults_to_dark_mind_completion() -> None:
