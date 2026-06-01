@@ -87,8 +87,9 @@ class AbilityRandomizationMinibosses(Toggle):
 
 class AbilityRandomizationMinny(Toggle):
     """
-    Include Minny in enemy copy-ability randomization.
+        Include Minny in copy-ability randomization.
       Only applies when Ability Randomization Mode is not Off.
+            If ability statue randomization is enabled, statues also respect this toggle.
       Off by Default.
     """
     display_name = "Ability Randomization: Minny"
@@ -154,6 +155,7 @@ class AbilityRandomizationStatues(Toggle):
     Randomized statues always grant an ability and do not use
     `ability_randomization_no_ability_weight` or
     `ability_randomization_passive_enemies`.
+    Randomized statues do respect `ability_randomization_minny`.
 
     Off by default.
     """

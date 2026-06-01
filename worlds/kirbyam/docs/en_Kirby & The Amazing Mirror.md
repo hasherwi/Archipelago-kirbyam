@@ -22,7 +22,7 @@
 - Enemies that cannot be swallowed are excluded from the enemy copy-ability randomization pool.
 - The chance for an enemy to not have a copy ability can be controlled via the `ability_randomization_no_ability_weight`
 - Ability statues (sometimes called ability trophies or ability stands) have a dedicated boolean toggle (`ability_randomization_statues`) that controls inclusion only. When enabled, included statues inherit the selected `ability_randomization_mode` (`off`, `shuffled`, or `completely_random`).
-- Randomized ability statues always grant an ability. They are not affected by `ability_randomization_no_ability_weight` or `ability_randomization_passive_enemies`.
+- Randomized ability statues always grant an ability. They are not affected by `ability_randomization_no_ability_weight` or `ability_randomization_passive_enemies`, but they do respect `ability_randomization_minny`.
 
 
 
