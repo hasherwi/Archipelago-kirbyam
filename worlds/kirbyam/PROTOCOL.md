@@ -98,7 +98,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x02020FBF | 1B | KIRBY_TRANSITION_COLOR  | Kirby palette index applied by the game engine on each screen transition (`0..13`). Writing here takes effect on the next room/area transition, and can also become visible when an enemy-hit path refreshes Kirby's runtime color state; HUD elements (lives, health bar) reflect the new color after the player pauses. |
 | 0x02020FE0 | 1B | KIRBY_HP                | Kirby HP (`s8`) used for DeathLink runtime receive/apply and local death transition detection |
 | 0x02020FE1 | 1B | KIRBY_MAX_HP            | Kirby max HP (`s8`) used for one-hit mode enforcement (player 0 struct) |
-| 0x02020FE2 | 1B | KIRBY_LIVES             | Native extra-life counter (`u8`) used for`no_extra_lives` enforcement |
+| 0x02020FE2 | 1B | KIRBY_LIVES             | Native extra-life counter (`u8`) used for `no_extra_lives` enforcement |
 | 0x02038980 | 2B | KIRBY_VITALITY_COUNTER  | Native vitality counter (`u16`); incremented by ROM payload on Vitality Counter item delivery and clamped to 4 (the shipped AP vitality item count) to prevent reset/replay over-grants; read by one-hit mode enforcement |
 
 ## Item ID Ranges
@@ -216,7 +216,7 @@ Server → Client: ConnectionRefused | Connected
 - `start_with_all_maps` (bool): when true, all map items are precollected and removed from randomized placement, and the BizHawk client reasserts all native area-map bits during gameplay reconciliation.
 - `starting_kirby_color` (int): resolved Kirby starting color ID (`0..13`) after generation-time random resolution. Non-Pink colors become visible after the next room/area transition or after an enemy-hit runtime refresh.
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
--`no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
+- `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
 - `one_hit_mode` (int): one-hit mode selection (`0=off`, `1=exclude_vitality_counters`, `2=include_vitality_counters`). When non-zero, Kirby's max HP is clamped to `vitality_counter + 1` during gameplay. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool (replaced by filler) so the cap stays at 1. In `include_vitality_counters` mode, Vitality Counter items remain in the pool and each one received raises the cap by 1.
 - `enable_traps` (bool): when true, trap items may appear in the randomized item pool.
 - `trap_fill_percentage` (int): percentage (`0..100`) of eligible filler slots that are replaced by trap items when `enable_traps` is true.
@@ -258,11 +258,11 @@ DeathLink runtime behavior contract:
 `no_extra_lives` runtime behavior contract:
 - Generation removes `1 Up` from the active filler pool when the option is enabled.
 - During gameplay, the BizHawk client clamps `kirby_lives_native` to `0` so the player starts with zero extra lives and native/in-game life gains are overwritten.
-- Any`no_extra_lives` runtime diagnostics are emitted as file-only logs (`NoStream=True`).
+- Any `no_extra_lives` runtime diagnostics are emitted as file-only logs (`NoStream=True`).
 
 `one_hit_mode` runtime behavior contract:
 - Generation removes all four Vitality Counter items from the non-filler item pool (replaced by filler) when `one_hit_mode == exclude_vitality_counters` (1). Vitality Chest locations are kept, but this mode does not guarantee location-specific filler placement on those chests.
-- In `exclude_vitality_counters` mode, filler selection also removes health-restoring filler (`Small Food`, `Energy Drink`, `Hunk of Meat`, `Max Tomato`) so randomized filler does not counteract the 1 HP challenge. If`no_extra_lives` is also enabled, `1 Up` is removed from that reduced filler pool as well.
+- In `exclude_vitality_counters` mode, filler selection also removes health-restoring filler (`Small Food`, `Energy Drink`, `Hunk of Meat`, `Max Tomato`) so randomized filler does not counteract the 1 HP challenge. If `no_extra_lives` is also enabled, `1 Up` is removed from that reduced filler pool as well.
 - Generation leaves the item pool unchanged when `one_hit_mode == include_vitality_counters` (2).
 - During gameplay, when `one_hit_mode != off`, the BizHawk client reads `kirby_vitality_counter_native` (`u16`) and enforces `desired_max_hp = vitality_counter + 1` (capped to `0x7F`) onto `kirby_max_hp_native` and `kirby_hp_native` for player 0's struct. In `exclude_vitality_counters` mode it additionally scrubs `kirby_vitality_counter_native` back to `0` every gameplay tick so AP vitality grants cannot persist.
 - Dead/negative HP states (`current_hp <= 0`) are preserved; only alive Kirby's HP is clamped.
@@ -420,11 +420,11 @@ Tracker room update contract:
 - The BizHawk client sends a slot-targeted `Bounce` packet when `current_room_native` changes.
 - `data.type` is `RoomUpdate`.
 - Payload fields are:
-    -`nativeRoomId` (`u16` widened to int): current native room ID from `gCurLevelInfo[0].currentRoom`.
+    - `nativeRoomId` (`u16` widened to int): current native room ID from `gCurLevelInfo[0].currentRoom`.
     - `doorsIdx` (`u16` widened to int): room index read from `gRoomProps[current_room].doorsIdx`.
     - `roomRegionKey` (`str`): KirbyAM room key from `rooms.json` for the resolved `doorsIdx` (empty string when unknown).
     - `roomLabel` (`str`): formatted tracker-facing room label for the resolved `doorsIdx` (fallback `<unknown doorsIdx=N>` when unknown).
-- De-dupe rule: unchanged`nativeRoomId` does not emit additional `Bounce` packets.
+- De-dupe rule: unchanged `nativeRoomId` does not emit additional `Bounce` packets.
 - Reconnect/session-reset rule: client reconnect transient reset clears the last-seen room so the first post-reconnect watcher tick re-emits the current room.
 
 ### 3. Item Delivery (Mailbox Protocol)

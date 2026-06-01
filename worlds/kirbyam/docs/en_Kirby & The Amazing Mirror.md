@@ -46,7 +46,7 @@ Items that can be shuffled:
 KirbyAM supports the standard Archipelago common options for item and location control:
 
 - `local_items`: force selected item names/groups to stay in your world.
--`non_local_items`: force selected item names/groups out of your world.
+- `non_local_items`: force selected item names/groups out of your world.
 - `start_inventory`: begin with selected items precollected.
 - `start_hints`: begin with hints for selected item names/groups.
 - `start_location_hints`: begin with hints for selected location names.

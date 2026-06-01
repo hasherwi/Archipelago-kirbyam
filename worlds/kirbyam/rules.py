@@ -229,7 +229,7 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
             )
         else:
             world.multiworld.completion_condition[world.player] = (
-                lambda state, required_goal=hidden_goal.label: state.has(required_goal, world.player)
+                lambda state, required_goal=hidden_goal.label: state.can_reach_location(required_goal, world.player)
             )
     else:
         world.multiworld.completion_condition[world.player] = (

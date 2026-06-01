@@ -63,14 +63,18 @@ class _FakeMultiWorld:
 
 
 class _FakeState:
-    def __init__(self, owned: set[str] | None = None) -> None:
+    def __init__(self, owned: set[str] | None = None, reachable_locations: set[str] | None = None) -> None:
         self._owned = owned or set()
+        self._reachable_locations = reachable_locations or set()
 
     def has(self, name: str, _player: int) -> bool:
         return name in self._owned
 
     def has_from_list_unique(self, names: list[str], _player: int, amount: int) -> bool:
         return len(set(names).intersection(self._owned)) >= amount
+
+    def can_reach_location(self, location_name: str, _player: int) -> bool:
+        return location_name in self._reachable_locations
 
 
 class _FakeWorld:
@@ -122,6 +126,17 @@ def test_hidden_random_area_boss_goal_key_resolves_deterministically_from_seed()
 
     cached_key = KirbyAmWorld._get_resolved_hidden_area_boss_goal_key(first_world)
     assert cached_key == first_key
+
+
+def test_hidden_random_area_boss_goal_requires_selected_location() -> None:
+    world = _FakeWorld(Goal.option_defeat_random_hidden_area_boss)
+    world._resolved_hidden_area_boss_goal_key = "BOSS_DEFEAT_3"
+    set_rules(world)
+
+    completion_fn = _get_completion_fn(world)
+    assert not completion_fn(_FakeState())
+    assert not completion_fn(_FakeState(reachable_locations={"Mustard Mountain - Boss Defeat"}))
+    assert completion_fn(_FakeState(reachable_locations={"Candy Constellation - Boss Defeat"}))
 
 
 def test_unknown_goal_value_defaults_to_dark_mind_completion() -> None:
