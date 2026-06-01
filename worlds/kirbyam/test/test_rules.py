@@ -221,10 +221,11 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
             assert loc_key in known_locations, (
                 f"Room {room_key} claims unknown location key {loc_key!r}"
             )
-    # Exactly 40 rooms now carry AP location entries after MINOR_CHEST expansion.
+    # Canonical room entries carry 39 AP locations; additional location ownership
+    # can live in logical_subregions for disconnected chamber modeling.
     room_keys = list(rooms_with_locations.keys())
-    assert len(rooms_with_locations) == 40, (
-        f"Expected 40 rooms with locations, got {len(rooms_with_locations)}: {room_keys}"
+    assert len(rooms_with_locations) == 39, (
+        f"Expected 39 canonical rooms with locations, got {len(rooms_with_locations)}: {room_keys}"
     )
 
     # Topology includes all rooms, but Room Sanity remains optional metadata.
@@ -404,6 +405,23 @@ def test_moonlight_rooms_define_logical_subregion_metadata() -> None:
         "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2": "ENTRY_FROM_2_ENTRY"
     }
 
+    room_9_chest_2 = rooms["REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2"]
+    assert room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_01"]["exits"] == [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_01"
+    ]
+    assert room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_09"]["exits"] == [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_09"
+    ]
+    assert room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_09"]["locations"] == [
+        "SOUND_PLAYER_CHEST"
+    ]
+    assert rooms["REGION_CANDY_CONSTELLATION/ROOM_9_01"]["logical_exit_overrides"] == {
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": "ENTRY_FROM_9_01"
+    }
+    assert rooms["REGION_CANDY_CONSTELLATION/ROOM_9_09"]["logical_exit_overrides"] == {
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": "ENTRY_FROM_9_09"
+    }
+
 
 def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     from ..data import data as kirby_data
@@ -412,6 +430,8 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     room_2_17_upper = "REGION_MOONLIGHT_MANSION/ROOM_2_17__LOGIC__UPPER_HALL"
     room_2_17_lower = "REGION_MOONLIGHT_MANSION/ROOM_2_17__LOGIC__LOWER_HALL"
     room_2_goal_2_from_entry = "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2__LOGIC__ENTRY_FROM_2_ENTRY"
+    room_9_chest_2_from_9_01 = "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_01"
+    room_9_chest_2_from_9_09 = "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_09"
 
     assert room_2_07_from_2_04 in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_04"].exits
     assert kirby_data.regions[room_2_07_from_2_04].exits == ["REGION_MOONLIGHT_MANSION/ROOM_2_04"]
@@ -420,6 +440,8 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     assert room_2_17_upper in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_16"].exits
     assert room_2_17_lower in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_19"].exits
     assert room_2_goal_2_from_entry in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"].exits
+    assert room_9_chest_2_from_9_01 in kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_01"].exits
+    assert room_9_chest_2_from_9_09 in kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_09"].exits
 
     assert set(kirby_data.regions[room_2_17_upper].exits) == {
         "REGION_MOONLIGHT_MANSION/ROOM_2_16",
@@ -430,6 +452,9 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
         "REGION_MOONLIGHT_MANSION/ROOM_2_19",
     }
     assert kirby_data.regions[room_2_goal_2_from_entry].exits == ["REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"]
+    assert kirby_data.regions[room_9_chest_2_from_9_01].exits == ["REGION_CANDY_CONSTELLATION/ROOM_9_01"]
+    assert kirby_data.regions[room_9_chest_2_from_9_09].exits == ["REGION_CANDY_CONSTELLATION/ROOM_9_09"]
+    assert kirby_data.regions[room_9_chest_2_from_9_09].locations == ["SOUND_PLAYER_CHEST"]
 
 
 def test_stake_breaking_abilities_are_shared_and_expected() -> None:

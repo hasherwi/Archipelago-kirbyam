@@ -22134,14 +22134,30 @@
     ]
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": {
-    "locations": [
-      "SOUND_PLAYER_CHEST"
-    ],
+    "locations": [],
     "events": [],
     "exits": [
       "REGION_CANDY_CONSTELLATION/ROOM_9_01",
       "REGION_CANDY_CONSTELLATION/ROOM_9_09"
     ],
+    "logical_subregions": {
+      "ENTRY_FROM_9_01": {
+        "exits": [
+          "REGION_CANDY_CONSTELLATION/ROOM_9_01"
+        ],
+        "locations": [],
+        "events": []
+      },
+      "ENTRY_FROM_9_09": {
+        "exits": [
+          "REGION_CANDY_CONSTELLATION/ROOM_9_09"
+        ],
+        "locations": [
+          "SOUND_PLAYER_CHEST"
+        ],
+        "events": []
+      }
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961233,
@@ -22614,6 +22630,9 @@
       "REGION_CANDY_CONSTELLATION/ROOM_9_07",
       "REGION_CANDY_CONSTELLATION/ROOM_9_02"
     ],
+    "logical_exit_overrides": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": "ENTRY_FROM_9_01"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961234,
@@ -23321,6 +23340,9 @@
       "REGION_CANDY_CONSTELLATION/ROOM_9_11",
       "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
     ],
+    "logical_exit_overrides": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": "ENTRY_FROM_9_09"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961235,
