@@ -43,14 +43,14 @@ class RandomizeShards(Choice):
 
 class AbilityRandomizationMode(Choice):
     """
-    Controls randomization of enemy-granted copy abilities. Does not affect ability statues.
+    Controls randomization of enemy-granted copy abilities.
+    If statue randomization is enabled, statues inherit this same mode.
 
     - Off: Enemy copy abilities stay at native defaults. Default.
-    - Shuffled: Experimental. Enemy types are remapped deterministically so
-        all enemies of the same type grant the same ability. Bugs are expected.
-    - Completely Random: Experimental. Eligible enemy ability sources are remapped
-        independently (deterministic per source entry). Hidden from the
-        generated player template for the first public build. Bugs are expected.
+    - Shuffled: Enemy types are remapped deterministically so all enemies of the
+        same type grant the same ability.
+    - Completely Random: Eligible enemy ability grants are remapped independently
+        (deterministic per grant event).
     """
     display_name = "Ability Randomization Mode"
     default = 0
@@ -139,6 +139,20 @@ class AbilityRandomizationNoAbilityWeight(Range):
     # 55% is rounded from 827 / 1510 = 54.77% vanilla no-ability regular-enemy placements
     # in the USA ROM across the current randomized-enemy dataset.
     default = 55
+
+
+class AbilityRandomizationStatues(Toggle):
+    """
+    Include ability statues/stands in copy-ability randomization.
+
+    This toggle only controls whether statues participate at all.
+    Participating statues use the currently selected Ability Randomization Mode
+    (Off, Shuffled, or Completely Random).
+
+    Off by default.
+    """
+    display_name = "Ability Randomization: Statues"
+    default = 0
 
 
 class NoExtraLives(Toggle):
@@ -298,6 +312,8 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     ability_randomization_no_ability_weight: AbilityRandomizationNoAbilityWeight
 
+    ability_randomization_statues: AbilityRandomizationStatues
+
     room_sanity: RoomSanity
 
     unmapped_minor_chest_report_locations: UnmappedMinorChestReportLocations
@@ -327,6 +343,7 @@ OPTION_GROUPS = [
         AbilityRandomizationMinny,
         AbilityRandomizationPassiveEnemies,
         AbilityRandomizationNoAbilityWeight,
+        AbilityRandomizationStatues,
     ]),
     OptionGroup("Cosmetics", [
         StartingKirbyColor,

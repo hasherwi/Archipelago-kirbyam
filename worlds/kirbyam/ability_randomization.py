@@ -5,7 +5,8 @@ Issue #111 defines three enemy randomization modes:
 - shuffled (enemy type deterministic)
 - completely random (deterministic per source/event key)
 
-Enemy statues are intentionally out of scope (issue #209).
+Ability statue/stand randomization is intentionally out of scope for this
+module (issue #209); this module covers enemy-granted copy abilities only.
 """
 
 from __future__ import annotations
