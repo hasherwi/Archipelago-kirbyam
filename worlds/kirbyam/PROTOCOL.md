@@ -226,7 +226,7 @@ Server → Client: ConnectionRefused | Connected
 - `ability_randomization_minny` (bool): include/exclude Minny from enemy copy-ability randomization.
 - `ability_randomization_passive_enemies` (bool): when true, enemies that natively grant no ability participate in copy-ability randomization. Default: `true`.
 - `ability_randomization_no_ability_weight` (int): percentage chance from `0` to `100` that an included randomized enemy grant resolves to no ability instead of a copy ability. Default: `55`.
-- `ability_randomization_statues` (bool): include/exclude ability statues (sometimes called ability trophies or ability stands) from copy-ability randomization. This option controls inclusion only; included statues inherit `ability_randomization_mode` (`off`, `shuffled`, `completely_random`).
+- `ability_randomization_statues` (bool): include/exclude ability statues (sometimes called ability trophies or ability stands) from copy-ability randomization. This option controls inclusion only; included statues inherit `ability_randomization_mode` (`off`, `shuffled`, `completely_random`) and always grant an ability (statues ignore `ability_randomization_no_ability_weight` and `ability_randomization_passive_enemies`).
 - `room_sanity` (bool): enables/disables room-visit locations (`Room X-<room code>`, 263 checks).
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
 - `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.

@@ -368,7 +368,7 @@ class KirbyAmWorld(World):
 
             if randomize_statues:
                 logger.info(
-                    "[P%s] Statue copy-ability randomization enabled (inherits mode=%s)",
+                    "[P%s] Statue copy-ability randomization enabled (inherits mode=%s; always grants ability; ignores passive/no-ability enemy toggles)",
                     self.player,
                     self.options.ability_randomization_mode.current_key,
                 )

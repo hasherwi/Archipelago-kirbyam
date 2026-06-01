@@ -100,6 +100,7 @@ class AbilityRandomizationPassiveEnemies(Toggle):
     When enabled, enemies that normally do not grant a copy ability can receive a
     randomized ability.
       Only applies when Ability Randomization Mode is not Off.
+            Enemy sources only. Ability statues are not affected by this toggle.
       On by Default, but ability_randomization_mode is Off by Default.
     """
     display_name = "Ability Randomization: Passive Enemies"
@@ -119,6 +120,7 @@ class AbilityRandomizationNoAbilityWeight(Range):
 
     This only affects enemies already included by the ability randomization mode and
     the boss/miniboss/passive-enemy toggles.
+    Ability statues are not affected; randomized statues always grant an ability.
 
         You can set a custom percentage by adding a custom number as the subkey,
         then supply the "percentage" chance for generation to roll that value.
@@ -149,6 +151,9 @@ class AbilityRandomizationStatues(Toggle):
     This toggle only controls whether statues participate at all.
     Participating statues use the currently selected Ability Randomization Mode
     (Off, Shuffled, or Completely Random).
+    Randomized statues always grant an ability and do not use
+    `ability_randomization_no_ability_weight` or
+    `ability_randomization_passive_enemies`.
 
     Off by default.
     """
