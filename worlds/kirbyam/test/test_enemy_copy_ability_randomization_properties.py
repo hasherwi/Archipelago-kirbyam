@@ -1,23 +1,23 @@
 """Property-based tests for enemy copy-ability randomization invariants (Issue #301)."""
+# mypy: disable-error-code=untyped-decorator
 
 from __future__ import annotations
 
 import random
 
-from hypothesis import given
-from hypothesis import settings
-from hypothesis import strategies as st
+from hypothesis import given  # type: ignore[import-not-found]
+from hypothesis import settings  # type: ignore[import-not-found]
+from hypothesis import strategies as st  # type: ignore[import-not-found]
 
 from ..ability_randomization import (
-    FORBIDDEN_ENEMY_COPY_ABILITIES,
     NO_ABILITY_NAME,
-    VALID_ENEMY_COPY_ABILITIES,
     ability_for_enemy_grant_event,
     ability_for_enemy_type,
     build_enemy_copy_ability_policy,
     build_shuffled_enemy_type_assignments,
     policy_is_whitelist_preserving,
 )
+from ..enemy_ability_data import FORBIDDEN_ENEMY_COPY_ABILITIES, VALID_ENEMY_COPY_ABILITIES
 from ..options import AbilityRandomizationMode
 
 
