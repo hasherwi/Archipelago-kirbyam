@@ -374,7 +374,7 @@ def test_room_transition_overrides_are_room_local_only() -> None:
         )
 
 
-def test_moonlight_rooms_define_logical_subregion_metadata() -> None:
+def test_split_rooms_define_logical_subregion_metadata() -> None:
     from ..data import load_json_data
 
     rooms = load_json_data("regions/rooms.json")
