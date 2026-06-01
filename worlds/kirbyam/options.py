@@ -87,10 +87,10 @@ class AbilityRandomizationMinibosses(Toggle):
 
 class AbilityRandomizationMinny(Toggle):
     """
-    Include Minny in copy-ability randomization.
-      Only applies when Ability Randomization Mode is not Off.
-      If ability statue randomization is enabled, statues also respect this toggle.
-      Off by Default.
+    Include Minny in copy-ability randomization.
+            Only applies when Ability Randomization Mode is not Off.
+            If ability statue randomization is enabled, statues also respect this toggle.
+            Off by Default.
     """
     display_name = "Ability Randomization: Minny"
     default = 0
