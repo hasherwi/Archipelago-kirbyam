@@ -101,7 +101,7 @@ class AbilityRandomizationPassiveEnemies(Toggle):
     When enabled, enemies that normally do not grant a copy ability can receive a
     randomized ability.
       Only applies when Ability Randomization Mode is not Off.
-            Enemy sources only. Ability statues are not affected by this toggle.
+      Enemy sources only. Ability statues are not affected by this toggle.
       On by Default, but ability_randomization_mode is Off by Default.
     """
     display_name = "Ability Randomization: Passive Enemies"
