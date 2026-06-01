@@ -1,5 +1,5 @@
-"""Property-based tests for enemy copy-ability randomization invariants (Issue #301)."""
 # mypy: disable-error-code=untyped-decorator
+"""Property-based tests for enemy copy-ability randomization invariants (Issue #301)."""
 
 from __future__ import annotations
 
