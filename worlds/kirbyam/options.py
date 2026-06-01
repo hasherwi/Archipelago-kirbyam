@@ -150,6 +150,7 @@ class AbilityRandomizationStatues(Toggle):
     in copy-ability randomization.
 
     This toggle only controls whether statues participate at all.
+    Only applies when Ability Randomization Mode is not Off.
     Participating statues use the currently selected Ability Randomization Mode
     (Off, Shuffled, or Completely Random).
     Randomized statues always grant an ability and do not use

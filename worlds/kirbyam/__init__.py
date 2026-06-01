@@ -366,11 +366,16 @@ class KirbyAmWorld(World):
                     self._enemy_copy_ability_policy,
                 )
 
-            if randomize_statues:
+            if randomize_statues and mode != AbilityRandomizationMode.option_off:
                 logger.info(
                     "[P%s] Statue copy-ability randomization enabled (inherits mode=%s; always grants ability; ignores passive/no-ability enemy toggles; respects Minny toggle)",
                     self.player,
                     self.options.ability_randomization_mode.current_key,
+                )
+            elif randomize_statues:
+                logger.info(
+                    "[P%s] Statue copy-ability toggle enabled, but Ability Randomization Mode is off so statue randomization is inactive.",
+                    self.player,
                 )
 
             if self._start_with_all_maps_enabled():
