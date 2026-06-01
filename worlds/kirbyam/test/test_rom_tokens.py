@@ -34,7 +34,8 @@ def _make_world(mode: int) -> SimpleNamespace:
     return SimpleNamespace(
         auth=b"0123456789ABCDEF",
         options=SimpleNamespace(
-            ability_randomization_mode=SimpleNamespace(value=mode)
+            ability_randomization_mode=SimpleNamespace(value=mode),
+            ability_randomization_statues=SimpleNamespace(value=False),
         ),
     )
 
@@ -76,7 +77,11 @@ def test_write_tokens_allows_non_vanilla_mode_with_no_runtime_writes(monkeypatch
         include_boss_spawns=True,
         include_minibosses=True,
     )
-    monkeypatch.setattr(rom_module, "build_enemy_copy_runtime_patch_writes", lambda policy: {})
+    monkeypatch.setattr(
+        rom_module,
+        "build_enemy_copy_runtime_patch_writes",
+        lambda policy, include_statues=False: {},
+    )
 
     patch = _DummyPatch()
     write_tokens(world, patch)
