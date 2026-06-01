@@ -5,9 +5,7 @@ from __future__ import annotations
 
 import random
 
-from hypothesis import given
-from hypothesis import settings
-from hypothesis import strategies as st
+from hypothesis import given, settings, strategies as st  # type: ignore[import-not-found]
 
 from ..ability_randomization import (
     NO_ABILITY_NAME,
