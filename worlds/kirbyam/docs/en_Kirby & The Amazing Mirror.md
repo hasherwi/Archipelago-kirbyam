@@ -23,6 +23,7 @@
 - The chance for an enemy to not have a copy ability can be controlled via the `ability_randomization_no_ability_weight`
 - Ability statues (sometimes called ability trophies or ability stands) have a dedicated boolean toggle (`ability_randomization_statues`) that controls inclusion only. When enabled, included statues inherit the selected `ability_randomization_mode` (`off`, `shuffled`, or `completely_random`).
 - Randomized ability statues always grant an ability. They are not affected by `ability_randomization_no_ability_weight` or `ability_randomization_passive_enemies`, but they do respect `ability_randomization_minny`.
+- When statue randomization is enabled, the shuffled spoiler log includes the statue assignments as separate entries so the log matches what the statues actually grant.
 
 
 

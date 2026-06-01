@@ -335,12 +335,15 @@ class KirbyAmWorld(World):
                     randomize_statues,
                     no_ability_weight,
                 )
-                spoiler_rows = build_enemy_copy_spoiler_rows(self._enemy_copy_ability_policy)
+                spoiler_rows = build_enemy_copy_spoiler_rows(
+                    self._enemy_copy_ability_policy,
+                    include_statues=randomize_statues,
+                )
                 if spoiler_rows:
-                    logger.info(
-                        "[P%s] Enemy copy-ability shuffled assignments (kind | source -> ability):",
-                        self.player,
-                    )
+                    spoiler_header = "Enemy copy-ability shuffled assignments"
+                    if randomize_statues:
+                        spoiler_header = "Enemy and statue copy-ability shuffled assignments"
+                    logger.info("[P%s] %s (kind | source -> ability):", self.player, spoiler_header)
                     for source_kind, source_key, ability_name in spoiler_rows:
                         logger.info(
                             "[P%s]   %s | %s -> %s",
