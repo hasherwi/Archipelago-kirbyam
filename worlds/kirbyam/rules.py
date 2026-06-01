@@ -57,6 +57,8 @@ _GOAL_LOCATION_LABELS = {
     Goal.option_dark_mind: "Defeat Dark Mind",
     Goal.option_defeat_any_area_boss: "Defeat Any Area Boss",
 }
+_DARK_MIND_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_dark_mind]
+_ANY_AREA_BOSS_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_defeat_any_area_boss]
 
 _BOSS_DEFEAT_LOCATION_LABELS = [
     "Mustard Mountain - Boss Defeat",
@@ -251,7 +253,7 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
         try:
             goal_location = world.multiworld.get_location(goal_location_name, world.player)
 
-            if goal_location_name == "Defeat Dark Mind":
+            if goal_location_name == _DARK_MIND_GOAL_LABEL:
                 # Sequenced after Dark Meta Knight within the Dimension Mirror.
                 def dmk_rule(state):
                     return (
@@ -259,7 +261,7 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
                         and state.has(_DMK_DIMENSION_MIRROR_EVENT, world.player)
                     )
                 set_rule(goal_location, dmk_rule)
-            elif goal_location_name == "Defeat Any Area Boss":
+            elif goal_location_name == _ANY_AREA_BOSS_GOAL_LABEL:
                 def any_area_boss_rule(state):
                     return any(
                         state.can_reach_location(location_name, world.player)

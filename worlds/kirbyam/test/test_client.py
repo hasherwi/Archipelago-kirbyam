@@ -2167,11 +2167,7 @@ async def test_goal_any_area_boss_server_exposed_goal_reports_location_then_goal
     client.initialize_client()
 
     any_boss_goal_id = data.locations["GOAL_ANY_AREA_BOSS"].location_id
-    first_boss_id = next(
-        loc.location_id
-        for loc in data.locations.values()
-        if loc.category == LocationCategory.BOSS_DEFEAT and loc.location_id is not None
-    )
+    first_boss_id = data.locations["BOSS_DEFEAT_1"].location_id
 
     mock_bizhawk_context.slot_data["goal"] = 1
     mock_bizhawk_context.checked_locations = {first_boss_id}
