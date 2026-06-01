@@ -374,6 +374,29 @@ def test_room_transition_overrides_are_room_local_only() -> None:
         )
 
 
+def test_logical_exit_overrides_reference_declared_exits() -> None:
+    from ..data import load_json_data
+
+    rooms = load_json_data("regions/rooms.json")
+
+    for room_name, room_def in rooms.items():
+        exits = room_def.get("exits", [])
+        assert isinstance(exits, list), f"Room {room_name} exits must be a list"
+        exit_set = {exit_name for exit_name in exits if isinstance(exit_name, str)}
+
+        logical_exit_overrides = room_def.get("logical_exit_overrides", {})
+        if logical_exit_overrides is None:
+            logical_exit_overrides = {}
+        assert isinstance(logical_exit_overrides, dict), (
+            f"Room {room_name} logical_exit_overrides must be a dict when present"
+        )
+
+        missing = sorted(str(destination) for destination in logical_exit_overrides if destination not in exit_set)
+        assert not missing, (
+            f"Room {room_name} logical_exit_overrides includes destinations missing from exits: {missing}"
+        )
+
+
 def test_split_rooms_define_logical_subregion_metadata() -> None:
     from ..data import load_json_data
 

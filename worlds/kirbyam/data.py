@@ -596,9 +596,15 @@ def _init() -> None:
                 f"Region [{region_name}] logical_exit_overrides must be an object mapping destination rooms to logical subregion keys"
             )
 
-        for exit_name in region_def.get("exits", []):
+        exits_raw = region_def.get("exits", [])
+        if not isinstance(exits_raw, list):
+            raise TypeError(f"Region [{region_name}] exits must be a list")
+
+        exit_destinations: set[str] = set()
+        for exit_name in exits_raw:
             if not isinstance(exit_name, str):
                 continue
+            exit_destinations.add(exit_name)
 
             overridden_exit = exit_name
             override_target = logical_exit_overrides.get(exit_name)
@@ -617,6 +623,17 @@ def _init() -> None:
                 overridden_exit = logical_region_name
 
             region.exits.append(overridden_exit)
+
+        for override_destination in logical_exit_overrides:
+            if not isinstance(override_destination, str) or not override_destination:
+                raise TypeError(
+                    f"Region [{region_name}] logical_exit_overrides keys must be non-empty strings"
+                )
+            if override_destination not in exit_destinations:
+                raise ValueError(
+                    "logical_exit_overrides references destination not present in exits "
+                    f"(region={region_name}, destination={override_destination})"
+                )
 
         # Locations
         for loc_key in region_def.get("locations", []):
