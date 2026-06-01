@@ -218,10 +218,19 @@
         "Boss"
       ]
     },
+    "GOAL_ANY_AREA_BOSS": {
+      "category": "GOAL",
+      "label": "Defeat Any Area Boss",
+      "location_id": 3960008,
+      "tags": [
+        "Goal",
+        "MAP_RAINBOW_ROUTE"
+      ]
+    },
     "GOAL_DARK_MIND": {
       "category": "GOAL",
       "label": "Defeat Dark Mind",
-      "location_id": 3960008,
+      "location_id": 3960009,
       "tags": [
         "Goal",
         "MAP_DIMENSION_MIRROR"
