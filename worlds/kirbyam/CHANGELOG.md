@@ -54,10 +54,9 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Tracker support now gives trackers a clearer view of room progress, location progress, and unique-item progress (Issue #114).
 - Reduce duplicate CI runs on feature branches by limiting push-triggered workflow execution to `main` for native static analysis and other PR-validated checks (`scan-build`, `ctest`, `type check`, `build`, and `analyze-modified-files`), while keeping `pull_request` validation behavior unchanged.
 - Improve `worlds/kirbyam/build.py` usability for non-author machines by prompting for missing required patch inputs in interactive runs (including missing `--rom` when `--source-type arg` is selected), adding `--source-type file` fallback guidance when `rom_path.tmp` is invalid, and introducing `--non-interactive` fail-fast behavior for automation/CI (Issue #607).
-- Expose all configured KirbyAM seed options in `slot_data` (including `start_with_all_maps` and `enable_debug_logging`) so tracker surfaces can render the exact seed configuration from slot data without inferring from partial fields (Issue #114).
+- Expose KirbyAM seed options in `slot_data` so tracker surfaces can render the exact seed configuration from slot data without inferring from partial fields, including newly added option surfaces such as `start_with_all_maps` (Issue #114).
 - Move unswallowable enemy exclusion policy from a static runtime list into `data/enemies.json` source metadata (`can_be_swallowed`) and represent the currently configured non-swallowable enemies there: `GLUNK`, `JACK`, and `SQUISHY` (Issue #570).
-- When debug logging is enabled, completely random swallow abilities now log what Kirby got from the latest swallow event.
-- Removed the `Enable Debug Logging` / `enable_debug_logging` world option and corresponding slot_data debug toggle; client diagnostics that were previously controlled by that option are now file-only logs and are never emitted to the AP client stream.
+- Completely random swallow abilities now emit file-only diagnostics describing what Kirby got from the latest swallow event, and the old `Enable Debug Logging` / `enable_debug_logging` toggle has been removed so those diagnostics are no longer part of the player-facing option surface.
 
 ## v0.2.4
 
