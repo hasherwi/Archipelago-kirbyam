@@ -8,6 +8,15 @@
     ],
     "category": "GOAL"
   },
+  "GOAL_ANY_AREA_BOSS": {
+    "label": "Defeat Any Area Boss",
+    "parent_region": "REGION_RAINBOW_ROUTE/MAIN",
+    "tags": [
+      "Goal",
+      "MAP_RAINBOW_ROUTE"
+    ],
+    "category": "GOAL"
+  },
   "BOSS_DEFEAT_1": {
     "label": "Mustard Mountain - Boss Defeat",
     "parent_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
