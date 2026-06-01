@@ -848,6 +848,7 @@ def main():
         warning = get_rom_size_warning(len(rom))
         if warning is not None:
             print(warning)
+        is_standard_rom_size = warning is None
 
         original_boss_hook = validate_thumb_bl_callsite(rom, BOSS_COLLECT_SHARD_CALL_OFFSET, "boss shard")
         original_minor_chest_hook = validate_thumb_bl_callsite(rom, MINOR_CHEST_COLLECT_CALL_OFFSET, "minor chest")
@@ -878,10 +879,18 @@ def main():
             scan_end=scan_end,
         )
         if len(boss_already_owned_callsites) != EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES:
-            raise SystemExit(
-                "Error: expected exactly "
+            if is_standard_rom_size:
+                raise SystemExit(
+                    "Error: expected exactly "
+                    f"{EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES} callsites to 0x{ORIGINAL_BOSS_ALREADY_OWNED_REWARD_FN_ADDR:08X}, "
+                    f"found {len(boss_already_owned_callsites)} at {', '.join(hex(x) for x in boss_already_owned_callsites)}."
+                )
+
+            print(
+                "Warning: expected exactly "
                 f"{EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES} callsites to 0x{ORIGINAL_BOSS_ALREADY_OWNED_REWARD_FN_ADDR:08X}, "
-                f"found {len(boss_already_owned_callsites)} at {', '.join(hex(x) for x in boss_already_owned_callsites)}."
+                f"found {len(boss_already_owned_callsites)} at {', '.join(hex(x) for x in boss_already_owned_callsites) or '<none>'}. "
+                "Continuing because ROM size is non-standard; already-owned reward hook patching may be incomplete."
             )
 
         boss_already_owned_hook_bl_by_offset = {
