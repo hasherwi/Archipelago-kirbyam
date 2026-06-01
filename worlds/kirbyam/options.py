@@ -143,7 +143,8 @@ class AbilityRandomizationNoAbilityWeight(Range):
 
 class AbilityRandomizationStatues(Toggle):
     """
-    Include ability statues/stands in copy-ability randomization.
+    Include ability statues (sometimes called ability trophies or ability stands)
+    in copy-ability randomization.
 
     This toggle only controls whether statues participate at all.
     Participating statues use the currently selected Ability Randomization Mode
