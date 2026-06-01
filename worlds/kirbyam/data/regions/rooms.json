@@ -12075,6 +12075,9 @@
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_13"
     ],
+    "logical_exit_overrides": {
+      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_18_OR_5_WARP"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961260,
@@ -13394,6 +13397,9 @@
       "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
       "REGION_CARROT_CASTLE/ROOM_5_14"
     ],
+    "logical_exit_overrides": {
+      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_12"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961127,
@@ -13485,6 +13491,23 @@
       "REGION_CARROT_CASTLE/ROOM_5_18",
       "REGION_CARROT_CASTLE/ROOM_5_WARP"
     ],
+    "logical_subregions": {
+      "ENTRY_FROM_5_12": {
+        "exits": [
+          "REGION_CARROT_CASTLE/ROOM_5_12"
+        ],
+        "locations": [],
+        "events": []
+      },
+      "ENTRY_FROM_5_18_OR_5_WARP": {
+        "exits": [
+          "REGION_CARROT_CASTLE/ROOM_5_18",
+          "REGION_CARROT_CASTLE/ROOM_5_WARP"
+        ],
+        "locations": [],
+        "events": []
+      }
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961134,
@@ -13917,6 +13940,9 @@
       "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
       "REGION_CARROT_CASTLE/ROOM_5_WARP"
     ],
+    "logical_exit_overrides": {
+      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_18_OR_5_WARP"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961129,
@@ -14829,6 +14855,9 @@
       "REGION_OLIVE_OCEAN/ROOM_6_04",
       "REGION_OLIVE_OCEAN/ROOM_6_05"
     ],
+    "logical_exit_overrides": {
+      "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_04_OR_6_06"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961144,
@@ -14922,6 +14951,23 @@
       "REGION_OLIVE_OCEAN/ROOM_6_06",
       "REGION_OLIVE_OCEAN/ROOM_6_23"
     ],
+    "logical_subregions": {
+      "ENTRY_FROM_6_04_OR_6_06": {
+        "exits": [
+          "REGION_OLIVE_OCEAN/ROOM_6_04",
+          "REGION_OLIVE_OCEAN/ROOM_6_06"
+        ],
+        "locations": [],
+        "events": []
+      },
+      "ENTRY_FROM_6_23": {
+        "exits": [
+          "REGION_OLIVE_OCEAN/ROOM_6_23"
+        ],
+        "locations": [],
+        "events": []
+      }
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961145,
@@ -15013,6 +15059,9 @@
       "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1",
       "REGION_OLIVE_OCEAN/ROOM_6_20"
     ],
+    "logical_exit_overrides": {
+      "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_04_OR_6_06"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961146,
@@ -16438,6 +16487,9 @@
       "REGION_OLIVE_OCEAN/ROOM_6_HUB",
       "REGION_OLIVE_OCEAN/ROOM_6_20"
     ],
+    "logical_exit_overrides": {
+      "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_23"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961164,
@@ -19529,6 +19581,9 @@
       "REGION_RADISH_RUINS/ROOM_8_17",
       "REGION_RADISH_RUINS/ROOM_8_23"
     ],
+    "logical_exit_overrides": {
+      "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_GOAL_1"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961210,
@@ -20010,6 +20065,9 @@
     "exits": [
       "REGION_RADISH_RUINS/ROOM_8_09"
     ],
+    "logical_exit_overrides": {
+      "REGION_RADISH_RUINS/ROOM_8_09": "ENTRY_FROM_8_03"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961204,
@@ -20050,6 +20108,9 @@
       "REGION_RADISH_RUINS/ROOM_8_06",
       "REGION_RADISH_RUINS/ROOM_8_09"
     ],
+    "logical_exit_overrides": {
+      "REGION_RADISH_RUINS/ROOM_8_09": "ENTRY_FROM_8_04"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961201,
@@ -20273,6 +20334,24 @@
       "REGION_RADISH_RUINS/ROOM_8_21",
       "REGION_RADISH_RUINS/ROOM_8_23"
     ],
+    "logical_subregions": {
+      "ENTRY_FROM_8_GOAL_1": {
+        "exits": [
+          "REGION_RADISH_RUINS/ROOM_8_GOAL_1"
+        ],
+        "locations": [],
+        "events": []
+      },
+      "ENTRY_FROM_8_18_OR_8_21_OR_8_23": {
+        "exits": [
+          "REGION_RADISH_RUINS/ROOM_8_18",
+          "REGION_RADISH_RUINS/ROOM_8_21",
+          "REGION_RADISH_RUINS/ROOM_8_23"
+        ],
+        "locations": [],
+        "events": []
+      }
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961211,
@@ -20479,6 +20558,22 @@
       "REGION_RADISH_RUINS/ROOM_8_04",
       "REGION_RADISH_RUINS/ROOM_8_03"
     ],
+    "logical_subregions": {
+      "ENTRY_FROM_8_03": {
+        "exits": [
+          "REGION_RADISH_RUINS/ROOM_8_03"
+        ],
+        "locations": [],
+        "events": []
+      },
+      "ENTRY_FROM_8_04": {
+        "exits": [
+          "REGION_RADISH_RUINS/ROOM_8_04"
+        ],
+        "locations": [],
+        "events": []
+      }
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961203,
@@ -21332,6 +21427,9 @@
       "REGION_RADISH_RUINS/ROOM_8_21",
       "REGION_RADISH_RUINS/ROOM_8_23"
     ],
+    "logical_exit_overrides": {
+      "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_18_OR_8_21_OR_8_23"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961213,
@@ -21630,6 +21728,9 @@
       "REGION_RADISH_RUINS/ROOM_8_07",
       "REGION_RADISH_RUINS/ROOM_8_18"
     ],
+    "logical_exit_overrides": {
+      "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_18_OR_8_21_OR_8_23"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961227,
@@ -21787,6 +21888,9 @@
       "REGION_RADISH_RUINS/ROOM_8_07",
       "REGION_RADISH_RUINS/ROOM_8_18"
     ],
+    "logical_exit_overrides": {
+      "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_18_OR_8_21_OR_8_23"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961228,
