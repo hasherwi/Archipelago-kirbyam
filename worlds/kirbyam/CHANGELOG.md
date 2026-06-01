@@ -35,6 +35,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Fixed delivery synchronization and logging issues that could skip items when client and game counters drifted, while ensuring debug-only delivery diagnostics still go to the log file even when hidden from the live client output (Issue #601).
 - Fixed vitality counter replays caused by transitions or resets, and prevented vitality counters from lingering in `One-Hit Mode` when that mode excludes them (Issue #571).
 - Fixed extra reconnect and resend diagnostics showing up in the live client when they should have remained file-only (Issue #582).
+- Fixed tracker room storage updates for PopTracker map switching by publishing the current native room id under a team/slot-scoped KirbyAM data-storage key when room changes are detected (Issue #801).
 
 ### Internal Changes
 
