@@ -440,3 +440,69 @@ def test_shuffled_spoiler_rows_cover_all_allowed_abilities_when_possible() -> No
     assigned_abilities = {ability_name for _, _, ability_name in rows}
 
     assert set(VALID_ENEMY_COPY_ABILITIES).issubset(assigned_abilities)
+
+
+def test_statue_toggle_off_emits_no_statue_runtime_writes() -> None:
+    policy = build_enemy_copy_ability_policy(
+        random.Random(20260412),
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=True,
+        include_minibosses=True,
+        include_minny=True,
+    )
+
+    writes = build_enemy_copy_runtime_patch_writes(policy, include_statues=False)
+
+    assert 0x3538FC not in writes
+    assert 0x35390E not in writes
+
+
+def test_statue_toggle_on_emits_statue_runtime_writes() -> None:
+    policy = build_enemy_copy_ability_policy(
+        random.Random(20260412),
+        AbilityRandomizationMode.option_shuffled,
+        include_boss_spawns=True,
+        include_minibosses=True,
+        include_minny=True,
+    )
+
+    writes = build_enemy_copy_runtime_patch_writes(policy, include_statues=True)
+
+    # First and last known entries from the four statue lookup tables.
+    assert 0x3538FC in writes
+    assert 0x35390E in writes
+
+
+def test_statues_always_grant_ability_even_with_full_no_ability_weight() -> None:
+    policy = build_enemy_copy_ability_policy(
+        random.Random(20260412),
+        AbilityRandomizationMode.option_completely_random,
+        include_boss_spawns=True,
+        include_minibosses=True,
+        include_minny=True,
+        include_passive_enemies=False,
+        no_ability_weight=100,
+    )
+
+    writes = build_enemy_copy_runtime_patch_writes(policy, include_statues=True)
+
+    statue_values = [writes[address] for address in range(0x3538FC, 0x35390F)]
+    assert all(value != ABILITY_NAME_TO_ID["Normal"] for value in statue_values)
+
+
+def test_statues_respect_minny_toggle() -> None:
+    policy = build_enemy_copy_ability_policy(
+        random.Random(20260412),
+        AbilityRandomizationMode.option_completely_random,
+        include_boss_spawns=True,
+        include_minibosses=True,
+        include_minny=False,
+        include_passive_enemies=False,
+        no_ability_weight=0,
+    )
+
+    writes = build_enemy_copy_runtime_patch_writes(policy, include_statues=True)
+
+    mini_id = ABILITY_NAME_TO_ID["Mini"]
+    statue_values = [writes[address] for address in range(0x3538FC, 0x35390F)]
+    assert all(value != mini_id for value in statue_values)
