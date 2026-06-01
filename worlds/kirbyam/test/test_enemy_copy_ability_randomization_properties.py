@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import random
 
-from hypothesis import given, settings, strategies as st  # type: ignore[import-not-found]
+import pytest
 
 from ..ability_randomization import (
     NO_ABILITY_NAME,
@@ -17,6 +17,14 @@ from ..ability_randomization import (
 )
 from ..enemy_ability_data import FORBIDDEN_ENEMY_COPY_ABILITIES, VALID_ENEMY_COPY_ABILITIES
 from ..options import AbilityRandomizationMode
+
+hypothesis = pytest.importorskip(
+    "hypothesis",
+    reason="Hypothesis is required for property-based KirbyAM enemy randomization tests.",
+)
+given = hypothesis.given
+settings = hypothesis.settings
+st = hypothesis.strategies
 
 
 _ABILITY_POOL = sorted(VALID_ENEMY_COPY_ABILITIES)
