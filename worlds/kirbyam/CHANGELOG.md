@@ -12,6 +12,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### New Features
 
 - Added a new `goal` mode, `defeat_any_area_boss`, which completes the seed after the first acknowledged area-boss defeat check (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`) while preserving goal-location acknowledgement before `CLIENT_GOAL` when the server exposes a numeric goal location (Issue #205).
+- Implemented weighted filler generation so filler items are no longer equally likely. Current whole-number weights are: Cell Phone Battery 25, Energy Drink 17, 1 Up 15, Max Tomato 15, Small Food 14, Hunk of Meat 9, Invincibility Candy 5 (Issue #688).
 
 ### Improvements
 
