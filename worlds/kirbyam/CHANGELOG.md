@@ -11,50 +11,36 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 
-- `Starting Kirby Color` lets players begin with a chosen Kirby color instead of always starting as Pink, including a random option for surprise runs (Issue #597).
-- `Start With All Maps` lets players begin with every area map already unlocked for a more guided playthrough (Issue #584).
-- Room names now match familiar Wikirby names, making the game easier to navigate and discuss (Issue #587).
+- Added several player-facing quality-of-life features: `Starting Kirby Color` lets players begin with a chosen Kirby color instead of always starting as Pink, including a random option for surprise runs; `Start With All Maps` lets players begin with every area map already unlocked for a more guided playthrough; and room names now match familiar Wikirby names, making the game easier to navigate and discuss (Issues #597, #584, #587).
 - Hub big switches are now full Archipelago checks (Issue #481).
 - Spoiler output and generation logs now show shuffled enemy ability assignments, making seeds easier to review (Issue #586).
-- Added trap item support: `Enable Traps` and `Trap Fill Percentage` options let players include trap items in the randomized item pool.
+- Expanded the filler and hazard pool with both new trap controls and weighted filler generation: `Enable Traps` and `Trap Fill Percentage` let players include trap items in the randomized item pool, added two new filler consumables with tiered healing (`Energy Drink` (HP +2) and `Hunk of Meat` (HP +3), alongside existing `Small Food` (HP +1)), and made filler items no longer equally likely. Base whole-number weights are Cell Phone Battery 25, Energy Drink 17, 1 Up 15, Max Tomato 15, Small Food 14, Hunk of Meat 9, Invincibility Candy 5. In one-hit mode (`exclude_vitality_counters`), healing filler (`Small Food`, `Energy Drink`, `Hunk of Meat`, `Max Tomato`) is removed and the remaining weights (`Cell Phone Battery`, `1 Up`, `Invincibility Candy`) are preserved proportionally. In no-lives mode, `1 Up` is removed and remaining filler keeps configured relative weights. When both modes are enabled together, only `Cell Phone Battery` and `Invincibility Candy` remain in weighted selection (Issue #688).
   - `Health Down Trap`: reduces Kirby's current HP by 2 (but won't kill).
   - `Life Down Trap`: removes one extra life (if any remain).
   - `Bomb Trap`: sets Kirby's current HP to 0.
   - `Battery Drain Trap`: empties the cell phone battery to 0.
   - Trap receive notifications are prefixed with "Received trap:" to distinguish them from regular items.
-- Added two new filler consumables with tiered healing: `Energy Drink` (HP +2) and `Hunk of Meat` (HP +3), alongside existing `Small Food` (HP +1).
-- Enabled the first concrete `MINOR_CHEST` AP checks (Rainbow Route 1-20, 1-22, 1-38).
-- Added area-first-visit checks for all nine gameplay areas so the first room entry in each area grants one AP location check (Issue #606).
 - Added a new `goal` mode, `defeat_any_area_boss`, which completes the seed after the first acknowledged area-boss defeat check (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`) while preserving goal-location acknowledgement before `CLIENT_GOAL` when the server exposes a numeric goal location (Issue #205).
-- Implemented weighted filler generation so filler items are no longer equally likely. Base whole-number weights are: Cell Phone Battery 25, Energy Drink 17, 1 Up 15, Max Tomato 15, Small Food 14, Hunk of Meat 9, Invincibility Candy 5. In one-hit mode (`exclude_vitality_counters`), healing filler (`Small Food`, `Energy Drink`, `Hunk of Meat`, `Max Tomato`) is removed and the remaining weights (`Cell Phone Battery`, `1 Up`, `Invincibility Candy`) are preserved proportionally. In no-lives mode, `1 Up` is removed and remaining filler keeps configured relative weights. When both modes are enabled together, only `Cell Phone Battery` and `Invincibility Candy` remain in weighted selection (Issue #688).
 - Added a dedicated boolean option surface for ability statues (sometimes called ability trophies or ability stands) via `ability_randomization_statues`; it controls inclusion only, enabled statues inherit the selected enemy copy-ability mode (`off`, `shuffled`, `completely_random`), and statues always grant an ability (ignoring `ability_randomization_no_ability_weight` and `ability_randomization_passive_enemies`, while respecting `ability_randomization_minny` just like enemy randomization) (Issue #209).
-- Added provisional unmapped minor chest report locations (`Unmapped Minor Chest X-N (Report Location)`) for the remaining manifest entries, gated behind a new `Unmapped Minor Chest Report Locations` option so standard seeds remain unchanged by default.
+- Expanded exploration check coverage with the first concrete `MINOR_CHEST` AP checks (Rainbow Route 1-20, 1-22, 1-38), area-first-visit checks for all nine gameplay areas, and provisional unmapped minor chest report locations (`Unmapped Minor Chest X-N (Report Location)`) gated behind a new `Unmapped Minor Chest Report Locations` option so standard seeds remain unchanged by default (Issue #606).
 
 ### Improvements
 
-- Enemy Ability Shuffle now covers more enemies, so shuffled abilities stay consistent in more rooms (Issue #420).
-- Enemy Ability Shuffle now spreads allowed abilities more evenly across enemies when possible, while still respecting settings that force no ability.
-- `Ability Randomization: Minny` is now off by default, fixing seeds that changed Minny unexpectedly unless players opted in (Issue #583).
+- Enemy Ability Shuffle now covers more enemies, spreads allowed abilities more evenly across enemies when possible while still respecting settings that force no ability, and keeps `Ability Randomization: Minny` off by default unless players opt in (Issues #420, #583).
 
 ### Bug Fixes
 
 - Enemy Ability Randomization: Completely random now rerolls abilities per swallow, not per room (Issue #420).
 - Warp rooms that were missing Room Sanity checks now have them again (Issue #605).
-- Fixed a delivery issue that could cause items to be skipped when the client and game counters got out of sync.
-- Fixed debug-only delivery diagnostics so they still go to the log file even when they are hidden from the live client output (Issue #601).
+- Fixed delivery synchronization and logging issues that could skip items when client and game counters drifted, while ensuring debug-only delivery diagnostics still go to the log file even when hidden from the live client output (Issue #601).
 - Fixed vitality counter replays caused by transitions or resets, and prevented vitality counters from lingering in `One-Hit Mode` when that mode excludes them (Issue #571).
-- Fixed boss-defeat AP checks when the matching shard was already owned, including follow-up hardening for departure fallback and authoritative `boss_defeat_flags` handling across already-owned reward paths (Issues #573, #754).
-- Fixed extra reconnect and resend diagnostics showing up in the live client unless debug logging was enabled, while still keeping them in the log file (Issue #582).
-- Updated big chest labels to be consistent and no longer uses room names. Also updated location parent regions to be accurate. (Issue #603)
-- Fixed trap and filler mailbox rewind regressions after reload, reconnect, and ROM reset so session-ACKed traps and filler no longer redeliver or loop when the ROM counter shows the slot is already applied (Issues #753, #766).
-- Fixed false `Peppermint Palace West - Big Switch` AP checks by translating native world-map door enum values to the AP hub-switch bit contract and ignoring `WORLDMAP_NO_UNLOCK` dispatches (Issue #750).
+- Fixed extra reconnect and resend diagnostics showing up in the live client when they should have remained file-only (Issue #582).
 
 ### Internal Changes
 
-- Tracker support now gives trackers a clearer view of room progress, location progress, and unique-item progress (Issue #114).
+- Tracker support now gives trackers a clearer view of room progress, location progress, and unique-item progress, and KirbyAM seed options are exposed in `slot_data` so tracker surfaces can render the exact seed configuration from slot data without inferring from partial fields, including newly added option surfaces such as `start_with_all_maps` (Issue #114).
 - Reduce duplicate CI runs on feature branches by limiting push-triggered workflow execution to `main` for native static analysis and other PR-validated checks (`scan-build`, `ctest`, `type check`, `build`, and `analyze-modified-files`), while keeping `pull_request` validation behavior unchanged.
 - Improve `worlds/kirbyam/build.py` usability for non-author machines by prompting for missing required patch inputs in interactive runs (including missing `--rom` when `--source-type arg` is selected), adding `--source-type file` fallback guidance when `rom_path.tmp` is invalid, and introducing `--non-interactive` fail-fast behavior for automation/CI (Issue #607).
-- Expose KirbyAM seed options in `slot_data` so tracker surfaces can render the exact seed configuration from slot data without inferring from partial fields, including newly added option surfaces such as `start_with_all_maps` (Issue #114).
 - Move unswallowable enemy exclusion policy from a static runtime list into `data/enemies.json` source metadata (`can_be_swallowed`) and represent the currently configured non-swallowable enemies there: `GLUNK`, `JACK`, and `SQUISHY` (Issue #570).
 - Completely random swallow abilities now emit file-only diagnostics describing what Kirby got from the latest swallow event, and the old `Enable Debug Logging` / `enable_debug_logging` toggle has been removed so those diagnostics are no longer part of the player-facing option surface.
 
