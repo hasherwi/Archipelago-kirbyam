@@ -14942,9 +14942,7 @@
     ]
   },
   "REGION_OLIVE_OCEAN/ROOM_6_05": {
-    "locations": [
-      "MINOR_CHEST_OLIVE_OCEAN_6_05"
-    ],
+    "locations": [],
     "events": [],
     "exits": [
       "REGION_OLIVE_OCEAN/ROOM_6_04",
@@ -14957,7 +14955,9 @@
           "REGION_OLIVE_OCEAN/ROOM_6_04",
           "REGION_OLIVE_OCEAN/ROOM_6_06"
         ],
-        "locations": [],
+        "locations": [
+          "MINOR_CHEST_OLIVE_OCEAN_6_05"
+        ],
         "events": []
       },
       "ENTRY_FROM_6_23": {
@@ -20561,14 +20561,14 @@
     "logical_subregions": {
       "ENTRY_FROM_8_03": {
         "exits": [
-          "REGION_RADISH_RUINS/ROOM_8_03"
+          "REGION_RADISH_RUINS/ROOM_8_04"
         ],
         "locations": [],
         "events": []
       },
       "ENTRY_FROM_8_04": {
         "exits": [
-          "REGION_RADISH_RUINS/ROOM_8_04"
+          "REGION_RADISH_RUINS/ROOM_8_03"
         ],
         "locations": [],
         "events": []

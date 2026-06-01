@@ -221,11 +221,11 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
             assert loc_key in known_locations, (
                 f"Room {room_key} claims unknown location key {loc_key!r}"
             )
-    # Canonical room entries carry 39 AP locations; additional location ownership
+    # Canonical room entries carry 38 AP locations; additional location ownership
     # can live in logical_subregions for disconnected chamber modeling.
     room_keys = list(rooms_with_locations.keys())
-    assert len(rooms_with_locations) == 39, (
-        f"Expected 39 canonical rooms with locations, got {len(rooms_with_locations)}: {room_keys}"
+    assert len(rooms_with_locations) == 38, (
+        f"Expected 38 canonical rooms with locations, got {len(rooms_with_locations)}: {room_keys}"
     )
 
     # Topology includes all rooms, but Room Sanity remains optional metadata.
@@ -437,10 +437,10 @@ def test_moonlight_rooms_define_logical_subregion_metadata() -> None:
 
     room_8_09 = rooms["REGION_RADISH_RUINS/ROOM_8_09"]
     assert room_8_09["logical_subregions"]["ENTRY_FROM_8_03"]["exits"] == [
-        "REGION_RADISH_RUINS/ROOM_8_03"
+        "REGION_RADISH_RUINS/ROOM_8_04"
     ]
     assert room_8_09["logical_subregions"]["ENTRY_FROM_8_04"]["exits"] == [
-        "REGION_RADISH_RUINS/ROOM_8_04"
+        "REGION_RADISH_RUINS/ROOM_8_03"
     ]
     assert rooms["REGION_RADISH_RUINS/ROOM_8_03"]["logical_exit_overrides"] == {
         "REGION_RADISH_RUINS/ROOM_8_09": "ENTRY_FROM_8_03"
@@ -472,6 +472,9 @@ def test_moonlight_rooms_define_logical_subregion_metadata() -> None:
         "REGION_OLIVE_OCEAN/ROOM_6_04",
         "REGION_OLIVE_OCEAN/ROOM_6_06",
     }
+    assert room_6_05["logical_subregions"]["ENTRY_FROM_6_04_OR_6_06"]["locations"] == [
+        "MINOR_CHEST_OLIVE_OCEAN_6_05"
+    ]
     assert room_6_05["logical_subregions"]["ENTRY_FROM_6_23"]["exits"] == [
         "REGION_OLIVE_OCEAN/ROOM_6_23"
     ]
@@ -544,8 +547,8 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
         "REGION_RADISH_RUINS/ROOM_8_21",
         "REGION_RADISH_RUINS/ROOM_8_23",
     }
-    assert kirby_data.regions[room_8_09_from_8_03].exits == ["REGION_RADISH_RUINS/ROOM_8_03"]
-    assert kirby_data.regions[room_8_09_from_8_04].exits == ["REGION_RADISH_RUINS/ROOM_8_04"]
+    assert kirby_data.regions[room_8_09_from_8_03].exits == ["REGION_RADISH_RUINS/ROOM_8_04"]
+    assert kirby_data.regions[room_8_09_from_8_04].exits == ["REGION_RADISH_RUINS/ROOM_8_03"]
     assert kirby_data.regions[room_5_13_from_5_12].exits == ["REGION_CARROT_CASTLE/ROOM_5_12"]
     assert set(kirby_data.regions[room_5_13_from_5_18_or_5_warp].exits) == {
         "REGION_CARROT_CASTLE/ROOM_5_18",
@@ -555,6 +558,7 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
         "REGION_OLIVE_OCEAN/ROOM_6_04",
         "REGION_OLIVE_OCEAN/ROOM_6_06",
     }
+    assert kirby_data.regions[room_6_05_from_6_04_or_6_06].locations == ["MINOR_CHEST_OLIVE_OCEAN_6_05"]
     assert kirby_data.regions[room_6_05_from_6_23].exits == ["REGION_OLIVE_OCEAN/ROOM_6_23"]
 
 
