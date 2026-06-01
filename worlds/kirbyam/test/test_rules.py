@@ -373,6 +373,65 @@ def test_room_transition_overrides_are_room_local_only() -> None:
         )
 
 
+def test_moonlight_rooms_define_logical_subregion_metadata() -> None:
+    from ..data import load_json_data
+
+    rooms = load_json_data("regions/rooms.json")
+
+    room_2_07 = rooms["REGION_MOONLIGHT_MANSION/ROOM_2_07"]
+    assert room_2_07["logical_subregions"]["ENTRY_FROM_2_04"]["exits"] == [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04"
+    ]
+    assert rooms["REGION_MOONLIGHT_MANSION/ROOM_2_04"]["logical_exit_overrides"] == {
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07": "ENTRY_FROM_2_04"
+    }
+
+    room_2_17 = rooms["REGION_MOONLIGHT_MANSION/ROOM_2_17"]
+    assert set(room_2_17["logical_subregions"]["UPPER_HALL"]["exits"]) == {
+        "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+    }
+    assert set(room_2_17["logical_subregions"]["LOWER_HALL"]["exits"]) == {
+        "REGION_MOONLIGHT_MANSION/ROOM_2_12",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19",
+    }
+
+    room_2_goal_2 = rooms["REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2"]
+    assert room_2_goal_2["logical_subregions"]["ENTRY_FROM_2_ENTRY"]["exits"] == [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
+    ]
+    assert rooms["REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"]["logical_exit_overrides"] == {
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2": "ENTRY_FROM_2_ENTRY"
+    }
+
+
+def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
+    from ..data import data as kirby_data
+
+    room_2_07_from_2_04 = "REGION_MOONLIGHT_MANSION/ROOM_2_07__LOGIC__ENTRY_FROM_2_04"
+    room_2_17_upper = "REGION_MOONLIGHT_MANSION/ROOM_2_17__LOGIC__UPPER_HALL"
+    room_2_17_lower = "REGION_MOONLIGHT_MANSION/ROOM_2_17__LOGIC__LOWER_HALL"
+    room_2_goal_2_from_entry = "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2__LOGIC__ENTRY_FROM_2_ENTRY"
+
+    assert room_2_07_from_2_04 in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_04"].exits
+    assert kirby_data.regions[room_2_07_from_2_04].exits == ["REGION_MOONLIGHT_MANSION/ROOM_2_04"]
+
+    assert room_2_17_lower in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_12"].exits
+    assert room_2_17_upper in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_16"].exits
+    assert room_2_17_lower in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_19"].exits
+    assert room_2_goal_2_from_entry in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"].exits
+
+    assert set(kirby_data.regions[room_2_17_upper].exits) == {
+        "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+    }
+    assert set(kirby_data.regions[room_2_17_lower].exits) == {
+        "REGION_MOONLIGHT_MANSION/ROOM_2_12",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19",
+    }
+    assert kirby_data.regions[room_2_goal_2_from_entry].exits == ["REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"]
+
+
 def test_stake_breaking_abilities_are_shared_and_expected() -> None:
     abilities = get_stake_breaking_abilities()
 

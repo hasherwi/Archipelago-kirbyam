@@ -5283,6 +5283,9 @@
       "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
       "REGION_MOONLIGHT_MANSION/ROOM_2_07"
     ],
+    "logical_exit_overrides": {
+      "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2": "ENTRY_FROM_2_ENTRY"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961057,
@@ -5530,6 +5533,15 @@
       "REGION_MOONLIGHT_MANSION/ROOM_2_19",
       "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
     ],
+    "logical_subregions": {
+      "ENTRY_FROM_2_ENTRY": {
+        "exits": [
+          "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
+        ],
+        "locations": [],
+        "events": []
+      }
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961055,
@@ -6028,6 +6040,9 @@
       "REGION_MOONLIGHT_MANSION/ROOM_2_07",
       "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1"
     ],
+    "logical_exit_overrides": {
+      "REGION_MOONLIGHT_MANSION/ROOM_2_07": "ENTRY_FROM_2_04"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961061,
@@ -6354,6 +6369,15 @@
       "REGION_MOONLIGHT_MANSION/ROOM_2_14",
       "REGION_MOONLIGHT_MANSION/ROOM_2_05"
     ],
+    "logical_subregions": {
+      "ENTRY_FROM_2_04": {
+        "exits": [
+          "REGION_MOONLIGHT_MANSION/ROOM_2_04"
+        ],
+        "locations": [],
+        "events": []
+      }
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961063,
@@ -6837,6 +6861,9 @@
       "REGION_MOONLIGHT_MANSION/ROOM_2_18",
       "REGION_RAINBOW_ROUTE/ROOM_1_08"
     ],
+    "logical_exit_overrides": {
+      "REGION_MOONLIGHT_MANSION/ROOM_2_17": "LOWER_HALL"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961050,
@@ -7179,6 +7206,9 @@
       "REGION_MOONLIGHT_MANSION/ROOM_2_17",
       "REGION_RAINBOW_ROUTE/ROOM_1_07"
     ],
+    "logical_exit_overrides": {
+      "REGION_MOONLIGHT_MANSION/ROOM_2_17": "UPPER_HALL"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961051,
@@ -7271,6 +7301,24 @@
       "REGION_MOONLIGHT_MANSION/ROOM_2_18",
       "REGION_MOONLIGHT_MANSION/ROOM_2_19"
     ],
+    "logical_subregions": {
+      "UPPER_HALL": {
+        "exits": [
+          "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+          "REGION_MOONLIGHT_MANSION/ROOM_2_18"
+        ],
+        "locations": [],
+        "events": []
+      },
+      "LOWER_HALL": {
+        "exits": [
+          "REGION_MOONLIGHT_MANSION/ROOM_2_12",
+          "REGION_MOONLIGHT_MANSION/ROOM_2_19"
+        ],
+        "locations": [],
+        "events": []
+      }
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961052,
@@ -7453,6 +7501,9 @@
       "REGION_MOONLIGHT_MANSION/ROOM_2_18",
       "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2"
     ],
+    "logical_exit_overrides": {
+      "REGION_MOONLIGHT_MANSION/ROOM_2_17": "LOWER_HALL"
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961054,
