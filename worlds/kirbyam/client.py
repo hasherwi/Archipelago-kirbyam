@@ -247,6 +247,7 @@ class KirbyAmClient(BizHawkClient):
     game = "Kirby & The Amazing Mirror"
     system = "GBA"
     patch_suffix = ".apkirbyam"
+    current_room_key: str = ""
 
     def initialize_client(self) -> None:
         # Compatibility state retained for tests and reconnect diagnostics.
@@ -2976,6 +2977,25 @@ class KirbyAmClient(BizHawkClient):
                     native_room_id,
                     exc,
                 )
+                                     
+        # Send mapid to tracker
+        
+        if not self.current_room_key:
+            self.current_room_key = f"KirbyAM_{ctx.team}_{ctx.slot}" # Needs team slot
+            ctx.set_notify(self.current_room_key)
+        
+        if ctx.stored_data.get(self.current_room_key, "") != native_room_id:
+            await ctx.send_msgs([
+                {
+                    "cmd": "Set",
+                    "key": self.current_room_key,
+                    "default": "0_S",
+                    "want_reply": False,
+                    "operations": [
+                        {"operation": "replace", "value": native_room_id}
+                    ]
+                }
+            ])
 
     def _get_current_room_key(self, ctx: KirbyAmBizHawkClientContext) -> str:
         team = getattr(ctx, "team", None)
