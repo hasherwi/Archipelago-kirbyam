@@ -244,7 +244,8 @@ def _normalize_gba_rom_address(value: int) -> int:
 
 
 def _is_exact_minor_chest_location(loc) -> bool:
-    return "ReportLocation" in loc.tags or "ExactEventLocation" in loc.tags
+    tags = getattr(loc, "tags", ()) or ()
+    return "ReportLocation" in tags or "ExactEventLocation" in tags
 
 
 class KirbyAmClient(BizHawkClient):
