@@ -3,9 +3,11 @@ Looks through data object to double-check it makes sense. Will fail for missing 
 duplicate claims and give warnings for unused and unignored locations.
 """
 import logging
+from collections.abc import Callable
+from typing import Any
 
 
-def _validate_unique_bit_indices(data, error) -> None:
+def _validate_unique_bit_indices(data: Any, error: Callable[[str], None]) -> None:
     """Validate bit-index uniqueness within each location category."""
     bit_to_loc_by_category: dict[str, dict[int, str]] = {}
     for loc_key, loc in data.locations.items():
