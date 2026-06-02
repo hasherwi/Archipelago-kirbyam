@@ -12,8 +12,8 @@ def _validate_unique_bit_indices(data, error) -> None:
         if loc.bit_index is None:
             continue
         tags = getattr(loc, "tags", ()) or ()
-        if "ReportLocation" in tags:
-            # Provisional report-only locations intentionally reuse native bits.
+        if "ReportLocation" in tags or "ExactEventLocation" in tags:
+            # Event-driven minor chest locations intentionally reuse native bits.
             continue
         category_name = getattr(loc.category, "name", str(loc.category))
         category_bit_map = bit_to_loc_by_category.setdefault(category_name, {})

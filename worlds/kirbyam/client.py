@@ -243,6 +243,10 @@ def _normalize_gba_rom_address(value: int) -> int:
     return value
 
 
+def _is_exact_minor_chest_location(loc) -> bool:
+    return "ReportLocation" in loc.tags or "ExactEventLocation" in loc.tags
+
+
 class KirbyAmClient(BizHawkClient):
     game = "Kirby & The Amazing Mirror"
     system = "GBA"
@@ -312,20 +316,20 @@ class KirbyAmClient(BizHawkClient):
         for loc in data.locations.values():
             if loc.bit_index is None or loc.category != LocationCategory.MINOR_CHEST:
                 continue
-            if "ReportLocation" in loc.tags:
+            if _is_exact_minor_chest_location(loc):
                 continue
             self._minor_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
         self._report_only_minor_chest_location_ids: set[int] = {
             loc.location_id
             for loc in data.locations.values()
-            if loc.category == LocationCategory.MINOR_CHEST and "ReportLocation" in loc.tags
+            if loc.category == LocationCategory.MINOR_CHEST and _is_exact_minor_chest_location(loc)
         }
         self._minor_chest_report_manifest_source_ptrs: set[int] = set()
         self._minor_chest_location_id_by_source_ptr = self._build_minor_chest_source_ptr_map()
         report_only_minor_count = sum(
             1
             for loc in data.locations.values()
-            if loc.category == LocationCategory.MINOR_CHEST and "ReportLocation" in loc.tags
+            if loc.category == LocationCategory.MINOR_CHEST and _is_exact_minor_chest_location(loc)
         )
         if report_only_minor_count:
             self._log_verbose(
@@ -687,9 +691,10 @@ class KirbyAmClient(BizHawkClient):
         report_location_ids = [
             loc.location_id
             for loc in sorted(data.locations.values(), key=lambda loc: loc.location_id)
-            if loc.category == LocationCategory.MINOR_CHEST and "ReportLocation" in loc.tags
+            if loc.category == LocationCategory.MINOR_CHEST and _is_exact_minor_chest_location(loc)
         ]
         report_index = 0
+        assigned_report_location_ids: set[int] = set()
         source_ptr_to_location_id: dict[int, int] = {}
         report_manifest_source_ptrs: set[int] = set()
         skipped_unassigned_entries = 0
@@ -710,7 +715,7 @@ class KirbyAmClient(BizHawkClient):
 
             matched_named_location = False
             for loc in data.locations.values():
-                if loc.category != LocationCategory.MINOR_CHEST or "ReportLocation" in loc.tags:
+                if loc.category != LocationCategory.MINOR_CHEST or _is_exact_minor_chest_location(loc):
                     continue
                 if bit_index != loc.bit_index:
                     continue
@@ -721,11 +726,33 @@ class KirbyAmClient(BizHawkClient):
             if matched_named_location:
                 continue
             report_manifest_source_ptrs.add(source_ptr)
+
+            matched_report_location_id = next(
+                (
+                    loc.location_id
+                    for loc in sorted(data.locations.values(), key=lambda loc: loc.location_id)
+                    if loc.category == LocationCategory.MINOR_CHEST
+                    and _is_exact_minor_chest_location(loc)
+                    and loc.location_id not in assigned_report_location_ids
+                    and bit_index == loc.bit_index
+                    and loc.parent_region in candidate_room_keys
+                ),
+                None,
+            )
+            if matched_report_location_id is not None:
+                source_ptr_to_location_id[source_ptr] = matched_report_location_id
+                assigned_report_location_ids.add(matched_report_location_id)
+                continue
+
+            while report_index < len(report_location_ids) and report_location_ids[report_index] in assigned_report_location_ids:
+                report_index += 1
             if report_index >= len(report_location_ids):
                 skipped_unassigned_entries += 1
                 continue
 
-            source_ptr_to_location_id[source_ptr] = report_location_ids[report_index]
+            fallback_location_id = report_location_ids[report_index]
+            source_ptr_to_location_id[source_ptr] = fallback_location_id
+            assigned_report_location_ids.add(fallback_location_id)
             report_index += 1
 
         if report_location_ids and report_index != len(report_location_ids):
