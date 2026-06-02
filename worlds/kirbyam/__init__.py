@@ -116,6 +116,7 @@ class KirbyAmWorld(World):
     _enemy_copy_ability_policy: dict[str, Any]
     _resolved_starting_kirby_color_id: int
     _resolved_starting_kirby_color_name: str
+    _resolved_hidden_area_boss_goal_key: str | None
 
     # Generation stages
     # Active filler pool for random selection.
@@ -241,6 +242,27 @@ class KirbyAmWorld(World):
         self._resolved_starting_kirby_color_name = color.display_name
         return self._resolved_starting_kirby_color_id, self._resolved_starting_kirby_color_name
 
+    def _get_resolved_hidden_area_boss_goal_key(self) -> str | None:
+        resolved_key = getattr(self, "_resolved_hidden_area_boss_goal_key", None)
+        if isinstance(resolved_key, str) and resolved_key:
+            return resolved_key
+
+        option = getattr(getattr(self, "options", None), "goal", None)
+        value = getattr(option, "value", option)
+        if value != Goal.option_defeat_random_hidden_area_boss:
+            self._resolved_hidden_area_boss_goal_key = None
+            return None
+
+        rng = getattr(self, "random", None)
+        if not isinstance(rng, random.Random):
+            raise RuntimeError(
+                "KirbyAM hidden area-boss goal could not be resolved from the world RNG. "
+                "Expected a valid seeded random.Random on self.random."
+            )
+
+        self._resolved_hidden_area_boss_goal_key = rng.choice(self._BOSS_DEFEAT_KEY_ORDER)
+        return self._resolved_hidden_area_boss_goal_key
+
     def _active_filler_pool(self) -> tuple[str, ...]:
         pool = self.ACTIVE_FILLER_POOL
         if self._one_hit_mode_value() == OneHitMode.option_exclude_vitality_counters:
@@ -291,6 +313,7 @@ class KirbyAmWorld(World):
             resolved_color = resolve_kirby_color(int(self.options.starting_kirby_color.value), self.random)
             self._resolved_starting_kirby_color_id = resolved_color.color_id
             self._resolved_starting_kirby_color_name = resolved_color.display_name
+            self._get_resolved_hidden_area_boss_goal_key()
             logger.info(
                 "[P%s] Starting Kirby color option: %s -> %s (%s)",
                 self.player,
@@ -335,12 +358,15 @@ class KirbyAmWorld(World):
                     randomize_statues,
                     no_ability_weight,
                 )
-                spoiler_rows = build_enemy_copy_spoiler_rows(self._enemy_copy_ability_policy)
+                spoiler_rows = build_enemy_copy_spoiler_rows(
+                    self._enemy_copy_ability_policy,
+                    include_statues=randomize_statues,
+                )
                 if spoiler_rows:
-                    logger.info(
-                        "[P%s] Enemy copy-ability shuffled assignments (kind | source -> ability):",
-                        self.player,
-                    )
+                    spoiler_header = "Enemy copy-ability shuffled assignments"
+                    if randomize_statues:
+                        spoiler_header = "Enemy and statue copy-ability shuffled assignments"
+                    logger.info("[P%s] %s (kind | source -> ability):", self.player, spoiler_header)
                     for source_kind, source_key, ability_name in spoiler_rows:
                         logger.info(
                             "[P%s]   %s | %s -> %s",
@@ -783,11 +809,15 @@ class KirbyAmWorld(World):
         if not isinstance(policy, dict):
             return
 
-        spoiler_rows = build_enemy_copy_spoiler_rows(policy)
+        randomize_statues = bool(self.options.ability_randomization_statues.value)
+        spoiler_rows = build_enemy_copy_spoiler_rows(policy, include_statues=randomize_statues)
         if not spoiler_rows:
             return
 
-        spoiler_handle.write(f"\n\n{self.player_name}'s Enemy Copy Ability Shuffle:\n\n")
+        spoiler_title = "Enemy Copy Ability Shuffle"
+        if randomize_statues:
+            spoiler_title = "Enemy and Statue Copy Ability Shuffle"
+        spoiler_handle.write(f"\n\n{self.player_name}'s {spoiler_title}:\n\n")
         for source_kind, source_key, ability_name in spoiler_rows:
             spoiler_handle.write(f"{source_kind:12s} | {source_key:28s} -> {ability_name}\n")
 
@@ -819,6 +849,7 @@ class KirbyAmWorld(World):
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
         slot_data["starting_kirby_color"] = resolved_color_id
         slot_data["starting_kirby_color_name"] = resolved_color_name
+        slot_data["goal_hidden_area_boss_key"] = self._get_resolved_hidden_area_boss_goal_key()
         policy = getattr(self, "_enemy_copy_ability_policy", None)
         assert policy is not None, (
             "Enemy copy ability policy must be initialized before fill_slot_data is called."

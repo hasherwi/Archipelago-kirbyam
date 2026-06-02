@@ -21,6 +21,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - `Battery Drain Trap`: empties the cell phone battery to 0.
   - Trap receive notifications are prefixed with "Received trap:" to distinguish them from regular items.
 - Added a new `goal` mode, `defeat_any_area_boss`, which completes the seed after the first acknowledged area-boss defeat check (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`) while preserving goal-location acknowledgement before `CLIENT_GOAL` when the server exposes a numeric goal location (Issue #205).
+- Added a new `goal` mode, `defeat_random_hidden_area_boss`, which selects one eligible area boss per seed, stores only an internal hidden boss-defeat key in slot data, and completes the seed when that exact boss is defeated while keeping the target out of normal player-facing output (Issue #206).
 - Added a dedicated boolean option surface for ability statues (sometimes called ability trophies or ability stands) via `ability_randomization_statues`; it controls inclusion only, enabled statues inherit the selected enemy copy-ability mode (`off`, `shuffled`, `completely_random`), and statues always grant an ability (ignoring `ability_randomization_no_ability_weight` and `ability_randomization_passive_enemies`, while respecting `ability_randomization_minny` just like enemy randomization) (Issue #209).
 - Expanded exploration check coverage with the first concrete `MINOR_CHEST` AP checks (Rainbow Route 1-20, 1-22, 1-38), area-first-visit checks for all nine gameplay areas, and provisional unmapped minor chest report locations (`Unmapped Minor Chest X-N (Report Location)`) gated behind a new `Unmapped Minor Chest Report Locations` option so standard seeds remain unchanged by default (Issue #606).
 
@@ -30,6 +31,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Bug Fixes
 
+- Fixed the shuffled copy-ability spoiler output so enabled ability statues are listed alongside enemy assignments instead of only showing the enemy-side source, keeping the spoiler log aligned with statue randomization behavior (Issue #804).
 - Enemy Ability Randomization: Completely random now rerolls abilities per swallow, not per room (Issue #420).
 - Warp rooms that were missing Room Sanity checks now have them again (Issue #605).
 - Fixed delivery synchronization and logging issues that could skip items when client and game counters drifted, while ensuring debug-only delivery diagnostics still go to the log file even when hidden from the live client output (Issue #601).
