@@ -770,7 +770,7 @@ async def test_poll_minor_chest_respects_active_slot_locations(mock_bizhawk_cont
 
 
 @pytest.mark.asyncio
-async def test_poll_minor_chest_excludes_unmapped_report_locations(mock_bizhawk_context):
+async def test_poll_minor_chest_excludes_exact_event_locations_from_bit_poll(mock_bizhawk_context):
     """Native minor-chest polling should exclude exact-event chests that share a native bit."""
     client = KirbyAmClient()
     client.initialize_client()
@@ -859,7 +859,7 @@ async def test_poll_minor_chest_event_sends_exact_report_location(mock_bizhawk_c
         assert sibling_location not in mock_send.await_args.args[0][0]["locations"]
 
 
-def test_minor_chest_source_ptr_map_targets_report_only_minor_chests():
+def test_minor_chest_source_ptr_map_targets_exact_event_minor_chests():
     client = KirbyAmClient()
     client.initialize_client()
 

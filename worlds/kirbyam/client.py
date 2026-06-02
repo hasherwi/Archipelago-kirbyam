@@ -327,16 +327,16 @@ class KirbyAmClient(BizHawkClient):
         }
         self._minor_chest_report_manifest_source_ptrs: set[int] = set()
         self._minor_chest_location_id_by_source_ptr = self._build_minor_chest_source_ptr_map()
-        report_only_minor_count = sum(
+        exact_event_minor_count = sum(
             1
             for loc in data.locations.values()
             if loc.category == LocationCategory.MINOR_CHEST and _is_exact_minor_chest_location(loc)
         )
-        if report_only_minor_count:
+        if exact_event_minor_count:
             self._log_verbose(
                 "info",
-                "KirbyAM: %s report-only minor chest locations are active; they are reported only from exact event-ring source-pointer matches.",
-                report_only_minor_count,
+                "KirbyAM: %s exact-event minor chest locations are active; they are reported only from exact event-ring source-pointer matches.",
+                exact_event_minor_count,
             )
         self._last_minor_chest_event_counter: int | None = None
         self._logged_unknown_minor_chest_source_ptrs: set[int] = set()
@@ -759,14 +759,14 @@ class KirbyAmClient(BizHawkClient):
         if report_location_ids and report_index != len(report_location_ids):
             self._log_verbose(
                 "warning",
-                "KirbyAM: mapped %s/%s report-only minor chest locations from manifest source pointers; unmapped report locations remain.",
+                "KirbyAM: mapped %s/%s exact-event minor chest locations from manifest source pointers; some exact-event locations remain unmapped.",
                 report_index,
                 len(report_location_ids),
             )
         if skipped_unassigned_entries:
             self._log_verbose(
                 "warning",
-                "KirbyAM: %s report-only manifest entries could not be assigned to AP report locations (ordering/coverage mismatch).",
+                "KirbyAM: %s exact-event manifest entries could not be assigned to AP locations (ordering/coverage mismatch).",
                 skipped_unassigned_entries,
             )
 
