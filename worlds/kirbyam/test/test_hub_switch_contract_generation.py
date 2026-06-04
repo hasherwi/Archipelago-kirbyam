@@ -3,8 +3,6 @@ from pathlib import Path
 
 from ..generated_hub_switch_contract import (
     HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY,
-    HUB_SWITCH_LOCATION_KEY_BY_AP_BIT,
-    HUB_SWITCH_WORLD_MAP_DOOR_TO_AP_BIT,
 )
 
 
@@ -14,22 +12,12 @@ def test_generated_hub_switch_contract_matches_canonical_json() -> None:
     contract = json.loads(contract_path.read_text(encoding="utf-8"))
 
     entries = contract["entries"]
-    expected_door_to_bit = {
-        int(entry["native_world_map_door_index"]): int(entry["ap_bit_index"])
-        for entry in entries
-    }
-    expected_bit_to_location = {
-        int(entry["ap_bit_index"]): str(entry["location_key"])
-        for entry in entries
-    }
     expected_compat = {
         str(entry["location_key"]): tuple(int(v) for v in entry.get("compatibility_ap_bits", []))
         for entry in entries
         if entry.get("compatibility_ap_bits")
     }
 
-    assert HUB_SWITCH_WORLD_MAP_DOOR_TO_AP_BIT == expected_door_to_bit
-    assert HUB_SWITCH_LOCATION_KEY_BY_AP_BIT == expected_bit_to_location
     assert HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY == expected_compat
 
 

@@ -141,13 +141,14 @@ def test_payload_tracks_sound_player_chest_checks_and_ap_unlock_apply() -> None:
 
 
 def test_payload_tracks_hub_switch_checks_from_world_map_unlocks() -> None:
-    """Verify world-map unlock hook translates world-map door indices into AP bits.
+    """Verify hub-switch transport is driven by persisted world-props unlock bits.
 
     Decomp reference (katam): `sub_08039ED4` dispatches unlock callbacks from
     `gUnk_0834BD94` using `ldrh [task, #8]`. The AP hook must read the same
     halfword and map enum WorldMapDoor values to AP hub-switch bit order while
-    ignoring non-unlock values (e.g., `WORLDMAP_NO_UNLOCK` = 0). The AP flag
-    should be raised only after the native unlock callback returns.
+    ignoring non-unlock values (e.g., `WORLDMAP_NO_UNLOCK` = 0). Canonical state
+    must come from persisted world-props unlock bits (`sub_08002888(..., 2, ...)`) as
+    written by WorldMapUnlockSave, not from callback dispatch timing alone.
     """
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
 
@@ -157,9 +158,14 @@ def test_payload_tracks_hub_switch_checks_from_world_map_unlocks() -> None:
     assert "AP_HUB_SWITCH_FLAGS" in content, "Hub switch transport register should be defined"
     assert "ap_set_hub_switch_flag" in content, "Hub switch flag helper should exist"
     assert "ap_try_map_worldmap_door_to_hub_switch_bit" in content, "Hub switch door-to-bit mapper should exist"
+    assert "ap_is_hub_unlock_persisted" in content, "Payload should probe persisted world-props unlock state"
+    assert "ap_sync_hub_switch_flags_from_world_props" in content, (
+        "Payload should continuously sync hub-switch flags from persisted world-props unlock bits"
+    )
     assert "ap_on_world_map_unlock_call" in content, "World-map unlock hook target should exist"
     assert "task_ptr + 0x08u" in content, "Hook should read the world-map unlock task index at +0x08"
     assert "unlock_fn();" in content, "Hook should preserve native unlock callback behavior"
+    assert "KIRBY_WORLD_PROPS_ENTRY_FN" in content, "Payload should reference sub_08002888 world-props accessor"
     assert "#include \"generated_hub_switch_worldmap_cases.inc\"" in content, (
         "Hub switch world-map mapping should come from generated contract include"
     )
@@ -175,12 +181,15 @@ def test_payload_tracks_hub_switch_checks_from_world_map_unlocks() -> None:
     assert "door_index = *(volatile uint16_t*)(task_ptr + 0x08u);" in hook_body, (
         "Hook should read world-map unlock index from task +0x08"
     )
-    assert "ap_try_map_worldmap_door_to_hub_switch_bit(door_index, &ap_hub_switch_bit)" in hook_body, (
+    assert "ap_try_map_worldmap_door_to_hub_switch_bit(" in hook_body, (
         "Hook should translate world-map door index before setting AP hub-switch bit"
     )
     assert "unlock_fn();" in hook_body, "Hook should call the native unlock callback"
     assert hook_body.index("unlock_fn();") < hook_body.index("ap_set_hub_switch_flag(ap_hub_switch_bit);")
-    assert "if (ap_try_map_worldmap_door_to_hub_switch_bit(door_index, &ap_hub_switch_bit) != 0u)" in hook_body, (
+    assert "ap_is_hub_unlock_persisted(world_props_unlock_index)" in hook_body, (
+        "Hook should only fast-path set AP hub-switch bit when persisted world-props state is visible"
+    )
+    assert "if (ap_try_map_worldmap_door_to_hub_switch_bit(" in hook_body, (
         "Hook should ignore NO_UNLOCK/unknown world-map door indices"
     )
     assert "ap_set_hub_switch_flag(ap_hub_switch_bit);" in hook_body, (
@@ -198,6 +207,9 @@ def test_payload_tracks_hub_switch_checks_from_world_map_unlocks() -> None:
     )
     assert "*out_bit = 11u;" in include_content, (
         "Generated include should map Moonlight world-map door to AP bit 11"
+    )
+    assert "*out_world_props_unlock_index = 2u;" in include_content, (
+        "Generated include should map Moonlight world-map door to persisted world-props unlock index 2"
     )
     assert "case 11u: /* WORLDMAP_PEPPERMINT_PALACE_EAST */" in include_content, (
         "Generated include should include Peppermint East world-map door case"

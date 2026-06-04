@@ -10,44 +10,6 @@ from __future__ import annotations
 from typing import Final
 
 
-HUB_SWITCH_WORLD_MAP_DOOR_TO_AP_BIT: Final[dict[int, int]] = {
-    1: 11,
-    2: 1,
-    3: 2,
-    4: 3,
-    5: 4,
-    6: 5,
-    7: 6,
-    8: 7,
-    9: 8,
-    10: 9,
-    11: 10,
-    12: 0,
-    13: 12,
-    14: 13,
-    15: 14,
-}
-
-
-HUB_SWITCH_LOCATION_KEY_BY_AP_BIT: Final[dict[int, str]] = {
-    11: "HUB_SWITCH_MOONLIGHT",
-    1: "HUB_SWITCH_RAINBOW_ROUTE_EAST",
-    2: "HUB_SWITCH_RAINBOW_ROUTE_SOUTH",
-    3: "HUB_SWITCH_CABBAGE_CAVERN_CENTER",
-    4: "HUB_SWITCH_RAINBOW_ROUTE_WEST",
-    5: "HUB_SWITCH_CARROT",
-    6: "HUB_SWITCH_RAINBOW_ROUTE_NORTH",
-    7: "HUB_SWITCH_MUSTARD",
-    8: "HUB_SWITCH_CABBAGE_CAVERN_WEST",
-    9: "HUB_SWITCH_RADISH",
-    10: "HUB_SWITCH_PEPPERMINT_EAST",
-    0: "HUB_SWITCH_PEPPERMINT_WEST",
-    12: "HUB_SWITCH_CABBAGE_CAVERN_EAST",
-    13: "HUB_SWITCH_OLIVE",
-    14: "HUB_SWITCH_CANDY",
-}
-
-
 HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY: Final[dict[str, tuple[int, ...]]] = {
     "HUB_SWITCH_RAINBOW_ROUTE_NORTH": (15,),
 }

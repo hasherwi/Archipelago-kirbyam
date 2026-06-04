@@ -33,6 +33,7 @@ def _validate_contract(contract: dict[str, Any], locations: dict[str, Any]) -> l
 
     seen_door_indices: set[int] = set()
     seen_ap_bits: set[int] = set()
+    seen_world_props_unlock_indices: set[int] = set()
 
     normalized: list[dict[str, Any]] = []
     for raw in entries:
@@ -40,6 +41,7 @@ def _validate_contract(contract: dict[str, Any], locations: dict[str, Any]) -> l
         door_index = int(raw["native_world_map_door_index"])
         door_name = str(raw["native_world_map_door_name"])
         ap_bit = int(raw["ap_bit_index"])
+        world_props_unlock_index = int(raw["world_props_unlock_index"])
         compatibility_bits = tuple(int(v) for v in raw.get("compatibility_ap_bits", []))
 
         if location_key not in locations:
@@ -58,15 +60,21 @@ def _validate_contract(contract: dict[str, Any], locations: dict[str, Any]) -> l
             raise ValueError(f"Duplicate native_world_map_door_index in contract: {door_index}")
         if ap_bit in seen_ap_bits:
             raise ValueError(f"Duplicate ap_bit_index in contract: {ap_bit}")
+        if world_props_unlock_index in seen_world_props_unlock_indices:
+            raise ValueError(
+                f"Duplicate world_props_unlock_index in contract: {world_props_unlock_index}"
+            )
 
         seen_door_indices.add(door_index)
         seen_ap_bits.add(ap_bit)
+        seen_world_props_unlock_indices.add(world_props_unlock_index)
         normalized.append(
             {
                 "location_key": location_key,
                 "native_world_map_door_index": door_index,
                 "native_world_map_door_name": door_name,
                 "ap_bit_index": ap_bit,
+                "world_props_unlock_index": world_props_unlock_index,
                 "compatibility_ap_bits": compatibility_bits,
             }
         )
@@ -86,18 +94,6 @@ def _build_python_output(entries: list[dict[str, Any]]) -> str:
     lines.append("from __future__ import annotations")
     lines.append("")
     lines.append("from typing import Final")
-    lines.append("")
-    lines.append("")
-    lines.append("HUB_SWITCH_WORLD_MAP_DOOR_TO_AP_BIT: Final[dict[int, int]] = {")
-    for entry in entries:
-        lines.append(f"    {entry['native_world_map_door_index']}: {entry['ap_bit_index']},")
-    lines.append("}")
-    lines.append("")
-    lines.append("")
-    lines.append("HUB_SWITCH_LOCATION_KEY_BY_AP_BIT: Final[dict[int, str]] = {")
-    for entry in entries:
-        lines.append(f"    {entry['ap_bit_index']}: \"{entry['location_key']}\",")
-    lines.append("}")
     lines.append("")
     lines.append("")
     lines.append("HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY: Final[dict[str, tuple[int, ...]]] = {")
@@ -125,8 +121,10 @@ def _build_c_include_output(entries: list[dict[str, Any]]) -> str:
         door_index = entry["native_world_map_door_index"]
         door_name = entry["native_world_map_door_name"]
         ap_bit = entry["ap_bit_index"]
+        world_props_unlock_index = entry["world_props_unlock_index"]
         lines.append(f"case {door_index}u: /* {door_name} */")
         lines.append(f"    *out_bit = {ap_bit}u;")
+        lines.append(f"    *out_world_props_unlock_index = {world_props_unlock_index}u;")
         lines.append("    return 1u;")
     lines.append("default:")
     lines.append("    return 0u;")

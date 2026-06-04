@@ -212,16 +212,56 @@ static void ap_set_hub_switch_flag(uint32_t door_index) {
     }
 }
 
+typedef uint32_t *(*KirbyWorldPropsEntryFn)(uint32_t, uint8_t, uint8_t);
+#define KIRBY_WORLD_PROPS_ENTRY_FN ((KirbyWorldPropsEntryFn)0x08002889u)
+#define KIRBY_WORLD_PROPS_HUB_UNLOCK_KIND 2u
+
 // sub_08039ED4 dispatches using enum WorldMapDoor where 0 = NO_UNLOCK.
 // AP hub-switch bits use a different stable ordering contract, so translate
 // explicitly and ignore non-unlock/unknown indices.
-static uint8_t ap_try_map_worldmap_door_to_hub_switch_bit(uint16_t door_index, uint32_t *out_bit) {
-    if (out_bit == 0) {
+static uint8_t ap_try_map_worldmap_door_to_hub_switch_bit(
+    uint16_t door_index,
+    uint32_t *out_bit,
+    uint8_t *out_world_props_unlock_index
+) {
+    if (out_bit == 0 || out_world_props_unlock_index == 0) {
         return 0u;
     }
 
     switch (door_index) {
 #include "generated_hub_switch_worldmap_cases.inc"
+    }
+}
+
+static uint8_t ap_is_hub_unlock_persisted(uint8_t world_props_unlock_index) {
+    volatile uint32_t *world_props_entry =
+        (volatile uint32_t*)KIRBY_WORLD_PROPS_ENTRY_FN(
+            KIRBY_WORLD_PROPS_HUB_UNLOCK_KIND,
+            world_props_unlock_index,
+            0u
+        );
+    if (world_props_entry == 0) {
+        return 0u;
+    }
+    return ((*world_props_entry) != 0u) ? 1u : 0u;
+}
+
+static void ap_sync_hub_switch_flags_from_world_props(void) {
+    uint16_t door_index;
+    for (door_index = 1u; door_index <= 15u; door_index++) {
+        uint32_t ap_hub_switch_bit;
+        uint8_t world_props_unlock_index;
+        if (ap_try_map_worldmap_door_to_hub_switch_bit(
+                door_index,
+                &ap_hub_switch_bit,
+                &world_props_unlock_index
+            ) == 0u) {
+            continue;
+        }
+
+        if (ap_is_hub_unlock_persisted(world_props_unlock_index) != 0u) {
+            ap_set_hub_switch_flag(ap_hub_switch_bit);
+        }
     }
 }
 
@@ -517,10 +557,15 @@ __attribute__((used)) void ap_on_world_map_unlock_call(WorldMapUnlockFn unlock_f
     register uint32_t task_ptr asm("r4");
     uint16_t door_index = *(volatile uint16_t*)(task_ptr + 0x08u);
     uint32_t ap_hub_switch_bit;
+    uint8_t world_props_unlock_index;
 
     unlock_fn();
 
-    if (ap_try_map_worldmap_door_to_hub_switch_bit(door_index, &ap_hub_switch_bit) != 0u) {
+    if (ap_try_map_worldmap_door_to_hub_switch_bit(
+            door_index,
+            &ap_hub_switch_bit,
+            &world_props_unlock_index
+        ) != 0u && ap_is_hub_unlock_persisted(world_props_unlock_index) != 0u) {
         ap_set_hub_switch_flag(ap_hub_switch_bit);
     }
 }
@@ -903,6 +948,10 @@ void ap_poll_mailbox_c(void) {
         }
         AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     }
+
+    // Canonical source: persisted world-props hub unlock bits set by WorldMapUnlockSave.
+    // Keep AP hub-switch transport latched from that source every frame.
+    ap_sync_hub_switch_flags_from_world_props();
 
     uint8_t ap_delivered = (uint8_t)(AP_DELIVERED_SHARD_BITFIELD & 0xFFu);
     uint8_t native_shards = KIRBY_SHARD_FLAGS;
