@@ -15,7 +15,7 @@ for path_entry in list(sys.path):
 import pytest  # noqa: E402
 
 
-def test_shard_persistence_addresses_defined():
+def test_shard_persistence_addresses_defined() -> None:
     """Verify that SRAM addresses for shard persistence are correctly defined in payload."""
     # Payload should define:
     # - SRAM_BASE (0x0E000000)
@@ -37,7 +37,7 @@ def test_shard_persistence_addresses_defined():
     assert "SRAM_CHECKSUM" in content, "Checksum fields should be defined"
 
 
-def test_shard_persistence_function_exists():
+def test_shard_persistence_function_exists() -> None:
     """Verify persist_shard_to_sram function is called when granting shards."""
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
 
@@ -49,7 +49,7 @@ def test_shard_persistence_function_exists():
         "persist_shard_to_sram should be called when granting shards"
 
 
-def test_payload_tracks_major_chest_checks_separately_from_native_maps():
+def test_payload_tracks_major_chest_checks_separately_from_native_maps() -> None:
     """Verify big chest openings feed transport checks while AP map items unlock native maps."""
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
 
@@ -63,7 +63,7 @@ def test_payload_tracks_major_chest_checks_separately_from_native_maps():
     assert "KIRBY_BIG_CHEST_FLAGS" in content, "Native big chest map bitfield should still be addressable"
 
 
-def test_payload_tracks_vitality_chest_checks_and_ap_vitality_apply():
+def test_payload_tracks_vitality_chest_checks_and_ap_vitality_apply() -> None:
     """Verify vitality chest checks and AP vitality grants use dedicated payload paths."""
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
 
@@ -122,7 +122,7 @@ def test_payload_vitality_items_are_replay_guarded_per_unique_item() -> None:
     )
 
 
-def test_payload_tracks_sound_player_chest_checks_and_ap_unlock_apply():
+def test_payload_tracks_sound_player_chest_checks_and_ap_unlock_apply() -> None:
     """Verify Sound Player chest checks are AP-owned and unlock only on AP item receipt."""
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
 
@@ -220,7 +220,7 @@ def test_hub_switch_contract_generator_uses_canonical_source() -> None:
     assert os.path.exists(contract_path), "Canonical hub_switch_contract.json should exist"
 
 
-def test_sram_checksum_fields_updated():
+def test_sram_checksum_fields_updated() -> None:
     """Verify that checksum fields are updated alongside shard persistence."""
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
 
@@ -236,7 +236,7 @@ def test_sram_checksum_fields_updated():
     assert "new_shard_bitfield" in content, "Checksums should be derived from shard bitfield"
 
 
-def test_issue_109_addresses_documented():
+def test_issue_109_addresses_documented() -> None:
     """Verify Issue #109 addresses are documented in the payload."""
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
 
@@ -254,7 +254,7 @@ def test_issue_109_addresses_documented():
     assert "0x1C" in content or "28" in content, "SRAM offset 0x1C should be defined"
 
 
-def test_boss_defeat_hook_preserves_native_shard_state():
+def test_boss_defeat_hook_preserves_native_shard_state() -> None:
     """Verify ap_on_boss_defeat_collect_shard records AP flag AND updates native shard state.
 
     Issue #380: suppressing native CollectShard left gTreasures.shardField stale,
@@ -292,7 +292,7 @@ def test_boss_defeat_hook_preserves_native_shard_state():
         "Boss hook must persist shard flags to SRAM for reset-safe behaviour"
 
 
-def test_boss_defeat_hook_sets_scrub_delay():
+def test_boss_defeat_hook_sets_scrub_delay() -> None:
     """Verify ap_on_boss_defeat_collect_shard sets AP_SHARD_SCRUB_DELAY (Issue #478).
 
     The scrub delay holds off the per-frame KIRBY_SHARD_FLAGS clamp so the
@@ -320,7 +320,7 @@ def test_boss_defeat_hook_sets_scrub_delay():
         "Boss hook must mark temporary boss shard bits for state-driven scrub"
 
 
-def test_ap_apply_item_shard_path_writes_delivered_bitfield():
+def test_ap_apply_item_shard_path_writes_delivered_bitfield() -> None:
     """Verify ap_apply_item shard path writes AP_DELIVERED_SHARD_BITFIELD (Issue #478).
 
     AP_DELIVERED_SHARD_BITFIELD is the authority for which shard bits are
@@ -354,7 +354,7 @@ def test_ap_apply_item_shard_path_writes_delivered_bitfield():
         "Boss hook must NOT write AP_DELIVERED_SHARD_BITFIELD; it is AP-delivery-only"
 
 
-def test_ap_poll_mailbox_contains_shard_scrub_logic():
+def test_ap_poll_mailbox_contains_shard_scrub_logic() -> None:
     """Verify ap_poll_mailbox_c contains the per-frame KIRBY_SHARD_FLAGS scrub (Issue #478).
 
     Once AP_SHARD_SCRUB_DELAY reaches 0, the scrub clamps KIRBY_SHARD_FLAGS to
@@ -400,7 +400,7 @@ def test_ap_poll_mailbox_contains_shard_scrub_logic():
         "ap_poll_mailbox_c scrub must persist the clamped state to SRAM"
 
 
-def test_ap_hook_preserves_register_context_without_r4_temp_restore():
+def test_ap_hook_preserves_register_context_without_r4_temp_restore() -> None:
     """Verify the hook preserves full context and does not rebuild LR through r4."""
     hook_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_hook.s")
     assert os.path.exists(hook_path), "ap_hook.s should exist in kirby_ap_payload"

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any, cast
 
 
 WORLD_DIR = Path(__file__).resolve().parents[1]
@@ -14,11 +15,14 @@ PY_OUT_PATH = WORLD_DIR / "generated_hub_switch_contract.py"
 C_INC_OUT_PATH = WORLD_DIR / "kirby_ap_payload" / "generated_hub_switch_worldmap_cases.inc"
 
 
-def _load_json(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
+def _load_json(path: Path) -> dict[str, Any]:
+    loaded = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(loaded, dict):
+        raise TypeError(f"Expected JSON object in {path}")
+    return cast(dict[str, Any], loaded)
 
 
-def _validate_contract(contract: dict, locations: dict) -> list[dict]:
+def _validate_contract(contract: dict[str, Any], locations: dict[str, Any]) -> list[dict[str, Any]]:
     schema_version = int(contract.get("schema_version", 0))
     if schema_version != 1:
         raise ValueError(f"Unsupported hub_switch_contract schema_version: {schema_version}")
@@ -30,7 +34,7 @@ def _validate_contract(contract: dict, locations: dict) -> list[dict]:
     seen_door_indices: set[int] = set()
     seen_ap_bits: set[int] = set()
 
-    normalized: list[dict] = []
+    normalized: list[dict[str, Any]] = []
     for raw in entries:
         location_key = str(raw["location_key"])
         door_index = int(raw["native_world_map_door_index"])
@@ -70,7 +74,7 @@ def _validate_contract(contract: dict, locations: dict) -> list[dict]:
     return normalized
 
 
-def _build_python_output(entries: list[dict]) -> str:
+def _build_python_output(entries: list[dict[str, Any]]) -> str:
     lines: list[str] = []
     lines.append('"""Generated hub-switch mapping contract.')
     lines.append("")
@@ -109,7 +113,7 @@ def _build_python_output(entries: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def _build_c_include_output(entries: list[dict]) -> str:
+def _build_c_include_output(entries: list[dict[str, Any]]) -> str:
     lines: list[str] = []
     lines.append("/*")
     lines.append(" * Generated hub-switch world-map door mapping.")
