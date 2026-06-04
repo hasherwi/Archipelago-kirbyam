@@ -249,6 +249,7 @@ class KirbyAmData:
     regions: dict[str, RegionData]
     locations: dict[str, LocationData]
     items: dict[int, ItemData]
+    item_key_to_id: dict[str, int]
     available_trap_item_labels: tuple[str, ...]
 
     def __init__(self) -> None:
@@ -259,6 +260,7 @@ class KirbyAmData:
         self.regions = {}
         self.locations = {}
         self.items = {}
+        self.item_key_to_id = {}
         self.available_trap_item_labels = tuple()
 
 
@@ -368,6 +370,7 @@ def _init() -> None:
         if classification == ItemClassification.trap:
             available_traps.append(label)
 
+    data.item_key_to_id = dict(item_key_to_id)
     data.available_trap_item_labels = tuple(available_traps)
 
     # Load locations.json (+ optional locations_*.json fragments)

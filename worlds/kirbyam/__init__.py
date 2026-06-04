@@ -148,9 +148,9 @@ class KirbyAmWorld(World):
     ACTIVE_FILLER_POOL_NO_1UP: ClassVar[tuple[str, ...]] = tuple(
         item_name for item_name in ACTIVE_FILLER_POOL if item_name != "1 Up"
     )
-    _HEALTH_DOWN_TRAP_LABEL: ClassVar[str] = "Health Down Trap"
-    _LIFE_DOWN_TRAP_LABEL: ClassVar[str] = "Life Down Trap"
-    _LIFE_WIPEOUT_TRAP_LABEL: ClassVar[str] = "Life Wipeout Trap"
+    _HEALTH_DOWN_TRAP_KEY: ClassVar[str] = "TRAP_HEALTH_DOWN"
+    _LIFE_DOWN_TRAP_KEY: ClassVar[str] = "TRAP_LIFE_DOWN"
+    _LIFE_WIPEOUT_TRAP_KEY: ClassVar[str] = "TRAP_LIFE_WIPEOUT"
     _SHARD_CHEST_KEY_ORDER: ClassVar[tuple[str, ...]] = (
         "MAJOR_CHEST_MUSTARD_MOUNTAIN",
         "MAJOR_CHEST_MOONLIGHT_MANSION",
@@ -294,11 +294,22 @@ class KirbyAmWorld(World):
         return self.random.choice(trap_labels)
 
     def _active_trap_pool(self) -> tuple[str, ...]:
+        def _label_for_item_key(item_key: str) -> str:
+            item_id = kirby_data.item_key_to_id.get(item_key)
+            if item_id is None:
+                raise ValueError(f"KirbyAM trap key missing from items.json: {item_key}")
+            return kirby_data.items[item_id].label
+
         excluded_traps: set[str] = set()
         if self._no_extra_lives_enabled():
-            excluded_traps.update({self._LIFE_DOWN_TRAP_LABEL, self._LIFE_WIPEOUT_TRAP_LABEL})
+            excluded_traps.update(
+                {
+                    _label_for_item_key(self._LIFE_DOWN_TRAP_KEY),
+                    _label_for_item_key(self._LIFE_WIPEOUT_TRAP_KEY),
+                }
+            )
         if self._one_hit_mode_value() != OneHitMode.option_off:
-            excluded_traps.add(self._HEALTH_DOWN_TRAP_LABEL)
+            excluded_traps.add(_label_for_item_key(self._HEALTH_DOWN_TRAP_KEY))
 
         if not excluded_traps:
             return kirby_data.available_trap_item_labels
