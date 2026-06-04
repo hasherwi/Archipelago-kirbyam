@@ -1039,6 +1039,8 @@ async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_c
     moonlight_bit = data.locations["HUB_SWITCH_MOONLIGHT"].bit_index
     assert moonlight_bit is not None
     rainbow_east = data.locations["HUB_SWITCH_RAINBOW_ROUTE_EAST"].location_id
+    rainbow_east_bit = data.locations["HUB_SWITCH_RAINBOW_ROUTE_EAST"].bit_index
+    assert rainbow_east_bit is not None
     mock_bizhawk_context.checked_locations = set()
 
     with patch.dict(data.transport_ram_addresses, {"hub_switch_flags": 0x0203B04C}, clear=False), \
@@ -1046,7 +1048,7 @@ async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_c
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
         mock_read.side_effect = [
             [(0).to_bytes(4, 'little')],
-            [((1 << moonlight_bit) | (1 << 1)).to_bytes(4, 'little')],
+            [((1 << moonlight_bit) | (1 << rainbow_east_bit)).to_bytes(4, 'little')],
         ]
 
         await client._poll_hub_switch_locations(mock_bizhawk_context)
@@ -1182,6 +1184,8 @@ async def test_poll_hub_switch_rebaselines_on_stream_marker_change(mock_bizhawk_
     client.initialize_client()
 
     rainbow_east = data.locations["HUB_SWITCH_RAINBOW_ROUTE_EAST"].location_id
+    rainbow_east_bit = data.locations["HUB_SWITCH_RAINBOW_ROUTE_EAST"].bit_index
+    assert rainbow_east_bit is not None
     mock_bizhawk_context.checked_locations = set()
     mock_bizhawk_context.bizhawk_ctx.streams = object()
 
@@ -1191,7 +1195,7 @@ async def test_poll_hub_switch_rebaselines_on_stream_marker_change(mock_bizhawk_
         mock_read.side_effect = [
             [((1 << 10)).to_bytes(4, 'little')],
             [((1 << 10)).to_bytes(4, 'little')],
-            [((1 << 10) | (1 << 1)).to_bytes(4, 'little')],
+            [((1 << 10) | (1 << rainbow_east_bit)).to_bytes(4, 'little')],
         ]
 
         await client._poll_hub_switch_locations(mock_bizhawk_context)
