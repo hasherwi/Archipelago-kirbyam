@@ -50,7 +50,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Bug Fixes
 
-- Fixed an issue where having both Pokemon FRLG and KirbyAM installed as custom worlds at the same time caused issues.
+- Fixed an issue where having other custom GBA worlds installed with KirbyAM at the same time caused issues (Issue #742).
 - Enemy Ability Randomization: Completely random now rerolls abilities per swallow, not per room (Issue #420).
 - Warp rooms that were missing Room Sanity checks now have them (Issue #605).
 - Fixed delivery synchronization and logging issues that could skip items when client and game counters drifted, while ensuring debug-only delivery diagnostics still go to the log file even when hidden from the live client output (Issue #601).
