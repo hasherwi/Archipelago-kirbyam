@@ -287,7 +287,7 @@ class KirbyAmWorld(World):
         trap_labels = self._active_trap_pool()
         if not trap_labels:
             raise ValueError(
-                "KirbyAM trap pool is empty. Mark at least one trap item as available in worlds/kirbyam/data/items.json"
+                "KirbyAM trap pool is empty. Add at least one trap item to worlds/kirbyam/data/items.json"
             )
         return self.random.choice(trap_labels)
 

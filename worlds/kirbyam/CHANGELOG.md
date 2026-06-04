@@ -7,21 +7,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## v0.2.0-rc7
-
-### New Features
-
-- None.
-
-### Bug Fixes
-
-- Fix missing AP checks for spray-paint and music small chests so these checks now send reliably (Issue #807).
-- Fix hub-switch check handling by moving to a single-source mapping pipeline so check labels and sent checks stay aligned (Issue #806).
-- Fix statue naming in enemy-ability spoiler output so statue entries use the expected display names (Issue #821).
-
-### Internal Changes
-
-- Refine the `v0.2.0` changelog section wording to match shipped behavior and issue scope without changing runtime game behavior (Issue #817, Issue #818).
+## v0.3.0
+- Adds a new trap item: `Life Wipeout Trap` which sets Kirby's lives count to 0. This trap item is removed from the pool if `No Extra Lives` is enabled.
 
 ## v0.2.0
 
@@ -40,7 +27,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - `Life Down Trap`: removes one extra life (if any remain).
   - `Bomb Trap`: sets Kirby's current HP to 0.
   - `Battery Drain Trap`: empties the cell phone battery to 0.
-  - `Life Wipeout Trap`: sets Kirby's lives count to 0.
   - Trap item receive notifications are prefixed with "Received trap:" to distinguish them from regular items.
 - Added two new goal modes:
   - `defeat_any_area_boss` completes the seed after the first acknowledged area-boss defeat check (Issue #205).
