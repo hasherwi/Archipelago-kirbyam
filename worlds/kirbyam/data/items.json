@@ -43,30 +43,35 @@
   },
   "TRAP_HEALTH_DOWN": {
     "label": "Health Down Trap",
+    "_comment": "This trap reduces the player's health by 1, if they're above 1.",
     "classification": "TRAP",
     "item_id": 3860032,
     "tags": ["Trap"]
   },
   "TRAP_LIFE_DOWN": {
     "label": "Life Down Trap",
+    "_comment": "This trap reduces the player's life by 1, if lives > 0.",
     "classification": "TRAP",
     "item_id": 3860033,
     "tags": ["Trap"]
   },
   "TRAP_BOMB": {
     "label": "Bomb Trap",
+    "_comment": "This trap sets the player's health to 0, killing them.",
     "classification": "TRAP",
     "item_id": 3860034,
     "tags": ["Trap"]
   },
   "TRAP_BATTERY_DRAIN": {
     "label": "Battery Drain Trap",
+    "_comment": "This trap drains the player's battery by 1.",
     "classification": "TRAP",
     "item_id": 3860035,
     "tags": ["Trap"]
   },
   "TRAP_LIFE_WIPEOUT": {
     "label": "Life Wipeout Trap",
+    "_comment": "This trap sets the player's lives to 0.",
     "classification": "TRAP",
     "item_id": 3860036,
     "tags": ["Trap"]

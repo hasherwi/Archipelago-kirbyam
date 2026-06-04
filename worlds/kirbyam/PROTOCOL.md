@@ -162,7 +162,7 @@ Current shipped trap generation uses a weighted active trap pool.
 | `Battery Drain Trap` | Empties the cell phone battery to 0 |
 | `Life Wipeout Trap` | Sets Kirby's lives count to 0 |
 
-When `no_extra_lives` is enabled, the active trap pool also includes `Life Wipeout Trap` in addition to the base trap labels above.
+All trap items are sourced directly from `worlds/kirbyam/data/items.json` and are part of the active trap pool.
 
 ## Location ID Ranges
 
@@ -236,7 +236,6 @@ Server → Client: ConnectionRefused | Connected
 - `starting_kirby_color` (int): resolved Kirby starting color ID (`0..13`) after generation-time random resolution. Non-Pink colors become visible after the next room/area transition or after an enemy-hit runtime refresh.
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
-- When `no_extra_lives` is enabled, the active trap pool also includes `Life Wipeout Trap`, which sets the lives counter to `0`.
 - `one_hit_mode` (int): one-hit mode selection (`0=off`, `1=exclude_vitality_counters`, `2=include_vitality_counters`). When non-zero, Kirby's max HP is clamped to `vitality_counter + 1` during gameplay. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool (replaced by filler) so the cap stays at 1. In `include_vitality_counters` mode, Vitality Counter items remain in the pool and each one received raises the cap by 1.
 - `enable_traps` (bool): when true, trap items may appear in the randomized item pool.
 - `trap_fill_percentage` (int): percentage (`0..100`) of eligible filler slots that are replaced by trap items when `enable_traps` is true.

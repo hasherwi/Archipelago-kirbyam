@@ -287,15 +287,12 @@ class KirbyAmWorld(World):
         trap_labels = self._active_trap_pool()
         if not trap_labels:
             raise ValueError(
-                "KirbyAM trap pool is empty. Configure at least one available trap in worlds/kirbyam/data/traps.json"
+                "KirbyAM trap pool is empty. Mark at least one trap item as available in worlds/kirbyam/data/items.json"
             )
         return self.random.choice(trap_labels)
 
     def _active_trap_pool(self) -> tuple[str, ...]:
-        pool = kirby_data.available_trap_item_labels
-        if self._no_extra_lives_enabled() and self._LIFE_WIPEOUT_TRAP_LABEL not in pool:
-            pool = pool + (self._LIFE_WIPEOUT_TRAP_LABEL,)
-        return pool
+        return kirby_data.available_trap_item_labels
 
     def _ordered_boss_defeat_locations(self, boss_locations: list[KirbyAmLocation]) -> list[KirbyAmLocation]:
         boss_locations_by_key = {

@@ -10,7 +10,7 @@ import pytest
 from BaseClasses import ItemClassification
 
 from .. import KirbyAmWorld
-from ..data import LocationCategory, data
+from ..data import LocationCategory, data, load_json_data
 from ..items import get_item_classification
 from ..locations import KirbyAmLocation
 from ..options import OneHitMode, RandomizeShards
@@ -173,23 +173,22 @@ def test_consumable_filler_item_ids_are_stable() -> None:
     assert "3 Up" not in labels_to_ids
 
 
-def test_available_trap_item_labels_are_driven_by_traps_json() -> None:
+def test_trap_metadata_is_embedded_in_items_json() -> None:
+    items_json = load_json_data("items.json")
+
+    assert items_json["TRAP_HEALTH_DOWN"]["_comment"] == (
+        "This trap reduces the player's health by 1, if they're above 1."
+    )
+    assert items_json["TRAP_LIFE_DOWN"]["_comment"] == (
+        "This trap reduces the player's life by 1, if lives > 0."
+    )
+    assert items_json["TRAP_BOMB"]["_comment"] == "This trap sets the player's health to 0, killing them."
+    assert items_json["TRAP_BATTERY_DRAIN"]["_comment"] == "This trap drains the player's battery by 1."
+    assert items_json["TRAP_LIFE_WIPEOUT"]["_comment"] == "This trap sets the player's lives to 0."
+
+
+def test_available_trap_item_labels_include_all_traps_from_items_json() -> None:
     assert data.available_trap_item_labels == (
-        "Health Down Trap",
-        "Life Down Trap",
-        "Bomb Trap",
-        "Battery Drain Trap",
-    )
-
-
-def test_no_extra_lives_adds_life_wipeout_trap_to_active_trap_pool() -> None:
-    world = KirbyAmWorld.__new__(KirbyAmWorld)
-    world.options = SimpleNamespace(
-        no_extra_lives=SimpleNamespace(value=True),
-        one_hit_mode=SimpleNamespace(value=OneHitMode.option_off),
-    )
-
-    assert world._active_trap_pool() == (
         "Health Down Trap",
         "Life Down Trap",
         "Bomb Trap",
@@ -198,7 +197,7 @@ def test_no_extra_lives_adds_life_wipeout_trap_to_active_trap_pool() -> None:
     )
 
 
-def test_get_trap_item_name_uses_life_wipeout_trap_in_no_extra_lives_mode() -> None:
+def test_get_trap_item_name_can_return_life_wipeout_trap() -> None:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
     seen_pool: dict[str, tuple[str, ...]] = {}
 
@@ -208,7 +207,7 @@ def test_get_trap_item_name_uses_life_wipeout_trap_in_no_extra_lives_mode() -> N
 
     world.random = SimpleNamespace(choice=_choose)
     world.options = SimpleNamespace(
-        no_extra_lives=SimpleNamespace(value=True),
+        no_extra_lives=SimpleNamespace(value=False),
         one_hit_mode=SimpleNamespace(value=OneHitMode.option_off),
     )
 
