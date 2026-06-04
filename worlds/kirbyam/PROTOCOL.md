@@ -164,6 +164,10 @@ Current shipped trap generation uses a weighted active trap pool.
 
 All trap items are sourced directly from `worlds/kirbyam/data/items.json` and are part of the active trap pool.
 
+Seed-time trap pool filtering:
+- When `no_extra_lives` is enabled, `Life Down Trap` and `Life Wipeout Trap` are removed from trap selection.
+- When one-hit mode is enabled (`one_hit_mode != 0`), `Health Down Trap` is removed from trap selection.
+
 ## Location ID Ranges
 
 All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3,960,000).

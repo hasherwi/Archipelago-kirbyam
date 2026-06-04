@@ -148,6 +148,8 @@ class KirbyAmWorld(World):
     ACTIVE_FILLER_POOL_NO_1UP: ClassVar[tuple[str, ...]] = tuple(
         item_name for item_name in ACTIVE_FILLER_POOL if item_name != "1 Up"
     )
+    _HEALTH_DOWN_TRAP_LABEL: ClassVar[str] = "Health Down Trap"
+    _LIFE_DOWN_TRAP_LABEL: ClassVar[str] = "Life Down Trap"
     _LIFE_WIPEOUT_TRAP_LABEL: ClassVar[str] = "Life Wipeout Trap"
     _SHARD_CHEST_KEY_ORDER: ClassVar[tuple[str, ...]] = (
         "MAJOR_CHEST_MUSTARD_MOUNTAIN",
@@ -292,7 +294,20 @@ class KirbyAmWorld(World):
         return self.random.choice(trap_labels)
 
     def _active_trap_pool(self) -> tuple[str, ...]:
-        return kirby_data.available_trap_item_labels
+        excluded_traps: set[str] = set()
+        if self._no_extra_lives_enabled():
+            excluded_traps.update({self._LIFE_DOWN_TRAP_LABEL, self._LIFE_WIPEOUT_TRAP_LABEL})
+        if self._one_hit_mode_value() != OneHitMode.option_off:
+            excluded_traps.add(self._HEALTH_DOWN_TRAP_LABEL)
+
+        if not excluded_traps:
+            return kirby_data.available_trap_item_labels
+
+        return tuple(
+            trap_label
+            for trap_label in kirby_data.available_trap_item_labels
+            if trap_label not in excluded_traps
+        )
 
     def _ordered_boss_defeat_locations(self, boss_locations: list[KirbyAmLocation]) -> list[KirbyAmLocation]:
         boss_locations_by_key = {

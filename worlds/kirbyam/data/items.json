@@ -43,14 +43,14 @@
   },
   "TRAP_HEALTH_DOWN": {
     "label": "Health Down Trap",
-    "_comment": "This trap reduces the player's health by 1, if they're above 1.",
+    "_comment": "This trap reduces the player's health by 2, but never kills Kirby (minimum HP is 1). Disabled by one-hit mode runtime.",
     "classification": "TRAP",
     "item_id": 3860032,
     "tags": ["Trap"]
   },
   "TRAP_LIFE_DOWN": {
     "label": "Life Down Trap",
-    "_comment": "This trap reduces the player's life by 1, if lives > 0.",
+    "_comment": "This trap reduces the player's life by 1 if lives > 0. Disabled by no-extra-lives runtime.",
     "classification": "TRAP",
     "item_id": 3860033,
     "tags": ["Trap"]
@@ -64,7 +64,7 @@
   },
   "TRAP_BATTERY_DRAIN": {
     "label": "Battery Drain Trap",
-    "_comment": "This trap drains the player's battery by 1.",
+    "_comment": "This trap sets the player's battery to 0.",
     "classification": "TRAP",
     "item_id": 3860035,
     "tags": ["Trap"]

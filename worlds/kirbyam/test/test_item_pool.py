@@ -177,13 +177,14 @@ def test_trap_metadata_is_embedded_in_items_json() -> None:
     items_json = load_json_data("items.json")
 
     assert items_json["TRAP_HEALTH_DOWN"]["_comment"] == (
-        "This trap reduces the player's health by 1, if they're above 1."
+        "This trap reduces the player's health by 2, but never kills Kirby (minimum HP is 1). "
+        "Disabled by one-hit mode runtime."
     )
     assert items_json["TRAP_LIFE_DOWN"]["_comment"] == (
-        "This trap reduces the player's life by 1, if lives > 0."
+        "This trap reduces the player's life by 1 if lives > 0. Disabled by no-extra-lives runtime."
     )
     assert items_json["TRAP_BOMB"]["_comment"] == "This trap sets the player's health to 0, killing them."
-    assert items_json["TRAP_BATTERY_DRAIN"]["_comment"] == "This trap drains the player's battery by 1."
+    assert items_json["TRAP_BATTERY_DRAIN"]["_comment"] == "This trap sets the player's battery to 0."
     assert items_json["TRAP_LIFE_WIPEOUT"]["_comment"] == "This trap sets the player's lives to 0."
 
 
@@ -213,6 +214,48 @@ def test_get_trap_item_name_can_return_life_wipeout_trap() -> None:
 
     assert world.get_trap_item_name() == "Life Wipeout Trap"
     assert seen_pool["pool"] == world._active_trap_pool()
+
+
+def test_no_extra_lives_removes_life_traps_from_active_trap_pool() -> None:
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+    world.options = SimpleNamespace(
+        no_extra_lives=SimpleNamespace(value=True),
+        one_hit_mode=SimpleNamespace(value=OneHitMode.option_off),
+    )
+
+    assert world._active_trap_pool() == (
+        "Health Down Trap",
+        "Bomb Trap",
+        "Battery Drain Trap",
+    )
+
+
+def test_one_hit_mode_removes_health_down_from_active_trap_pool() -> None:
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+    world.options = SimpleNamespace(
+        no_extra_lives=SimpleNamespace(value=False),
+        one_hit_mode=SimpleNamespace(value=OneHitMode.option_include_vitality_counters),
+    )
+
+    assert world._active_trap_pool() == (
+        "Life Down Trap",
+        "Bomb Trap",
+        "Battery Drain Trap",
+        "Life Wipeout Trap",
+    )
+
+
+def test_combined_modes_remove_life_and_health_traps_from_active_trap_pool() -> None:
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+    world.options = SimpleNamespace(
+        no_extra_lives=SimpleNamespace(value=True),
+        one_hit_mode=SimpleNamespace(value=OneHitMode.option_include_vitality_counters),
+    )
+
+    assert world._active_trap_pool() == (
+        "Bomb Trap",
+        "Battery Drain Trap",
+    )
 
 
 def test_trap_filler_percentage_replaces_eligible_filler_slots() -> None:

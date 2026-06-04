@@ -8,7 +8,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Internal Changes`
 
 ## v0.3.0
-- Adds a new trap item: `Life Wipeout Trap` which sets Kirby's lives count to 0. This trap item is removed from the pool if `No Extra Lives` is enabled.
+- Adds a new trap item: `Life Wipeout Trap` which sets Kirby's lives count to 0.
+- Trap pool filtering now removes `Life Down Trap` and `Life Wipeout Trap` when `No Extra Lives` is enabled, and removes `Health Down Trap` when one-hit mode is enabled.
 
 ## v0.2.0
 
