@@ -231,6 +231,8 @@ static uint8_t ap_try_map_worldmap_door_to_hub_switch_bit(
     switch (door_index) {
 #include "generated_hub_switch_worldmap_cases.inc"
     }
+
+    return 0u;
 }
 
 static uint8_t ap_is_hub_unlock_persisted(uint8_t world_props_unlock_index) {
