@@ -15,6 +15,7 @@ import io
 import collections
 import importlib
 import logging
+import re
 import warnings
 
 from argparse import Namespace
@@ -40,7 +41,11 @@ if typing.TYPE_CHECKING:
 
 
 def tuplize_version(version: str) -> Version:
-    return Version(*(int(piece) for piece in version.split(".")))
+    # Accept prerelease/build suffixes (e.g. 0.6.0-rc7) when parsing manifest versions.
+    numeric_parts = [int(match.group(0)) for match in re.finditer(r"\d+", version)]
+    while len(numeric_parts) < 3:
+        numeric_parts.append(0)
+    return Version(*numeric_parts[:3])
 
 
 class Version(typing.NamedTuple):
@@ -768,7 +773,7 @@ def _mp_save_filename(res: "multiprocessing.Queue[typing.Optional[str]]", *args:
     if is_kivy_running():
         raise RuntimeError("kivy should not be running in multiprocess")
     res.put(save_filename(*args))
-    
+
 def _run_for_stdout(*args: str):
     env = os.environ
     if "LD_LIBRARY_PATH" in env:
