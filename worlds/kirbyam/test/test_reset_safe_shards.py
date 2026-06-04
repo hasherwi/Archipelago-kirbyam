@@ -160,6 +160,9 @@ def test_payload_tracks_hub_switch_checks_from_world_map_unlocks() -> None:
     assert "ap_on_world_map_unlock_call" in content, "World-map unlock hook target should exist"
     assert "task_ptr + 0x08u" in content, "Hook should read the world-map unlock task index at +0x08"
     assert "unlock_fn();" in content, "Hook should preserve native unlock callback behavior"
+    assert "#include \"generated_hub_switch_worldmap_cases.inc\"" in content, (
+        "Hub switch world-map mapping should come from generated contract include"
+    )
 
     hook_match = re.search(
         r"void\s+ap_on_world_map_unlock_call[^{]*\{(?P<body>.*?)^}",
@@ -184,26 +187,37 @@ def test_payload_tracks_hub_switch_checks_from_world_map_unlocks() -> None:
         "Hook should set AP hub-switch bit only after successful door-index translation"
     )
 
-    mapper_match = re.search(
-        r"uint8_t\s+ap_try_map_worldmap_door_to_hub_switch_bit[^{]*\{(?P<body>.*?)^}",
-        content,
-        flags=re.DOTALL | re.MULTILINE,
-    )
-    assert mapper_match is not None, "ap_try_map_worldmap_door_to_hub_switch_bit definition must exist"
-    mapper_body = mapper_match.group("body")
+    include_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "generated_hub_switch_worldmap_cases.inc")
+    assert os.path.exists(include_path), "Generated hub-switch include should exist"
 
-    assert "case 1u:  // WORLDMAP_MOONLIGHT_MANSION" in mapper_body, (
-        "Mapper should include Moonlight world-map door case"
+    with open(include_path, "r") as f:
+        include_content = f.read()
+
+    assert "case 1u: /* WORLDMAP_MOONLIGHT_MANSION */" in include_content, (
+        "Generated include should include Moonlight world-map door case"
     )
-    assert "*out_bit = 11u;" in mapper_body, (
-        "Moonlight world-map door should map to AP hub-switch bit 11"
+    assert "*out_bit = 11u;" in include_content, (
+        "Generated include should map Moonlight world-map door to AP bit 11"
     )
-    assert "case 11u: // WORLDMAP_PEPPERMINT_PALACE_EAST" in mapper_body, (
-        "Mapper should include Peppermint East world-map door case"
+    assert "case 11u: /* WORLDMAP_PEPPERMINT_PALACE_EAST */" in include_content, (
+        "Generated include should include Peppermint East world-map door case"
     )
-    assert "*out_bit = 10u;" in mapper_body, (
-        "Peppermint East world-map door should map to AP hub-switch bit 10"
+    assert "*out_bit = 10u;" in include_content, (
+        "Generated include should map Peppermint East world-map door to AP bit 10"
     )
+
+
+def test_hub_switch_contract_generator_uses_canonical_source() -> None:
+    generator_path = os.path.join(_WORLD_DIR, "tools", "generate_hub_switch_contract.py")
+    contract_path = os.path.join(_WORLD_DIR, "data", "hub_switch_contract.json")
+
+    with open(generator_path, "r") as f:
+        generator_content = f.read()
+
+    assert "hub_switch_contract.json" in generator_content, (
+        "Hub-switch generator must source mappings from canonical hub_switch_contract.json"
+    )
+    assert os.path.exists(contract_path), "Canonical hub_switch_contract.json should exist"
 
 
 def test_sram_checksum_fields_updated():

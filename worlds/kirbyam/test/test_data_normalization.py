@@ -1,6 +1,11 @@
 import pytest
 
 from ..data import _normalize_gba_rom_address, data as kirby_data, format_room_region_label
+from ..generated_hub_switch_contract import (
+    HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY,
+    HUB_SWITCH_LOCATION_KEY_BY_AP_BIT,
+    HUB_SWITCH_WORLD_MAP_DOOR_TO_AP_BIT,
+)
 
 
 @pytest.mark.parametrize(
@@ -95,3 +100,21 @@ def test_all_hub_switches_have_expected_unique_transport_mapping() -> None:
     assert len({location.bit_index for location in hub_switches.values()}) == len(hub_switches)
     assert {location.location_id for location in hub_switches.values()} == set(range(3960400, 3960415))
     assert {location.bit_index for location in hub_switches.values()} == set(range(15))
+
+
+def test_generated_hub_switch_contract_matches_locations_data() -> None:
+    assert len(HUB_SWITCH_WORLD_MAP_DOOR_TO_AP_BIT) == 15
+    assert set(HUB_SWITCH_WORLD_MAP_DOOR_TO_AP_BIT.keys()) == set(range(1, 16))
+    assert set(HUB_SWITCH_WORLD_MAP_DOOR_TO_AP_BIT.values()) == set(range(15))
+
+    for ap_bit, location_key in HUB_SWITCH_LOCATION_KEY_BY_AP_BIT.items():
+        location = kirby_data.locations[location_key]
+        assert location.bit_index == ap_bit
+
+
+def test_generated_hub_switch_contract_compatibility_aliases_are_disjoint() -> None:
+    canonical_bits = set(HUB_SWITCH_LOCATION_KEY_BY_AP_BIT.keys())
+    for location_key, compatibility_bits in HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY.items():
+        assert location_key in kirby_data.locations
+        for bit in compatibility_bits:
+            assert bit not in canonical_bits

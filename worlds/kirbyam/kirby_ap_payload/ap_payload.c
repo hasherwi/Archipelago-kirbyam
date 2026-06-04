@@ -221,53 +221,7 @@ static uint8_t ap_try_map_worldmap_door_to_hub_switch_bit(uint16_t door_index, u
     }
 
     switch (door_index) {
-        case 1u:  // WORLDMAP_MOONLIGHT_MANSION
-            *out_bit = 11u;
-            return 1u;
-        case 2u:  // WORLDMAP_RAINBOW_ROUTE_EAST
-            *out_bit = 1u;
-            return 1u;
-        case 3u:  // WORLDMAP_RAINBOW_ROUTE_SOUTH
-            *out_bit = 2u;
-            return 1u;
-        case 4u:  // WORLDMAP_CABBAGE_CAVERN_CENTER
-            *out_bit = 3u;
-            return 1u;
-        case 5u:  // WORLDMAP_RAINBOW_ROUTE_WEST
-            *out_bit = 4u;
-            return 1u;
-        case 6u:  // WORLDMAP_CARROT_CASTLE
-            *out_bit = 5u;
-            return 1u;
-        case 7u:  // WORLDMAP_RAINBOW_ROUTE_NORTH
-            *out_bit = 6u;
-            return 1u;
-        case 8u:  // WORLDMAP_MUSTARD_MOUNTAIN
-            *out_bit = 7u;
-            return 1u;
-        case 9u:  // WORLDMAP_CABBAGE_CAVERN_WEST
-            *out_bit = 8u;
-            return 1u;
-        case 10u: // WORLDMAP_RADISH_RUINS
-            *out_bit = 9u;
-            return 1u;
-        case 11u: // WORLDMAP_PEPPERMINT_PALACE_EAST
-            *out_bit = 10u;
-            return 1u;
-        case 12u: // WORLDMAP_PEPPERMINT_PALACE_WEST
-            *out_bit = 0u;
-            return 1u;
-        case 13u: // WORLDMAP_CABBAGE_CAVERN_EAST
-            *out_bit = 12u;
-            return 1u;
-        case 14u: // WORLDMAP_OLIVE_OCEAN
-            *out_bit = 13u;
-            return 1u;
-        case 15u: // WORLDMAP_CANDY_CONSTELLATION
-            *out_bit = 14u;
-            return 1u;
-        default:
-            return 0u;
+#include "generated_hub_switch_worldmap_cases.inc"
     }
 }
 
