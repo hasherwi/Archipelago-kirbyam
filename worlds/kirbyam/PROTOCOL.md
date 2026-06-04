@@ -115,7 +115,12 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | SOUND_PLAYER      | 3860025 | Useful unlock reward (applies native Sound Player unlock on receipt) |
 | SMALL_FOOD, BATTERY, MAX_TOMATO, INVINCIBILITY_CANDY | 3860026 - 3860029 | Filler consumable rewards |
 | ENERGY_DRINK, HUNK_OF_MEAT | 3860030 - 3860031 | Filler consumable health rewards |
-| *Reserved*        | 3860032+ | Future items (doors, abilities, additional consumables, etc.) |
+| TRAP_HEALTH_DOWN | 3860032 | Trap item: reduces Kirby's current HP by 2 |
+| TRAP_LIFE_DOWN | 3860033 | Trap item: removes one extra life if any remain |
+| TRAP_BOMB | 3860034 | Trap item: sets Kirby's current HP to 0 |
+| TRAP_BATTERY_DRAIN | 3860035 | Trap item: empties the cell phone battery to 0 |
+| TRAP_LIFE_WIPEOUT | 3860036 | Trap item: sets Kirby's lives count to 0 |
+| *Reserved*        | 3860037+ | Future items (doors, abilities, additional consumables, etc.) |
 
 ### Current filler effect contract
 
@@ -144,6 +149,20 @@ generation preserves these relative weights across the remaining labels.
 | `Cell Phone Battery` | Increments active Kirby battery by 1 if below 3 |
 | `Max Tomato` | Sets active Kirby HP to max HP if Kirby is alive (`hp > 0`); no effect for `hp <= 0` |
 | `Invincibility Candy` | Applies the native invincibility state using the decomp-backed 1000-tick helper path |
+
+### Current trap effect contract
+
+Current shipped trap generation uses a weighted active trap pool.
+
+| Item | Effect |
+|------|--------|
+| `Health Down Trap` | Reduces Kirby's current HP by 2, but never kills Kirby (minimum HP stays at 1) |
+| `Life Down Trap` | Removes one extra life if any remain |
+| `Bomb Trap` | Sets Kirby's current HP to 0 |
+| `Battery Drain Trap` | Empties the cell phone battery to 0 |
+| `Life Wipeout Trap` | Sets Kirby's lives count to 0 |
+
+When `no_extra_lives` is enabled, the active trap pool also includes `Life Wipeout Trap` in addition to the base trap labels above.
 
 ## Location ID Ranges
 
@@ -217,6 +236,7 @@ Server → Client: ConnectionRefused | Connected
 - `starting_kirby_color` (int): resolved Kirby starting color ID (`0..13`) after generation-time random resolution. Non-Pink colors become visible after the next room/area transition or after an enemy-hit runtime refresh.
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
+- When `no_extra_lives` is enabled, the active trap pool also includes `Life Wipeout Trap`, which sets the lives counter to `0`.
 - `one_hit_mode` (int): one-hit mode selection (`0=off`, `1=exclude_vitality_counters`, `2=include_vitality_counters`). When non-zero, Kirby's max HP is clamped to `vitality_counter + 1` during gameplay. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool (replaced by filler) so the cap stays at 1. In `include_vitality_counters` mode, Vitality Counter items remain in the pool and each one received raises the cap by 1.
 - `enable_traps` (bool): when true, trap items may appear in the randomized item pool.
 - `trap_fill_percentage` (int): percentage (`0..100`) of eligible filler slots that are replaced by trap items when `enable_traps` is true.

@@ -168,6 +168,7 @@ def test_consumable_filler_item_ids_are_stable() -> None:
     assert labels_to_ids["Life Down Trap"] == 3860033
     assert labels_to_ids["Bomb Trap"] == 3860034
     assert labels_to_ids["Battery Drain Trap"] == 3860035
+    assert labels_to_ids["Life Wipeout Trap"] == 3860036
     assert "2 Up" not in labels_to_ids
     assert "3 Up" not in labels_to_ids
 
@@ -179,6 +180,40 @@ def test_available_trap_item_labels_are_driven_by_traps_json() -> None:
         "Bomb Trap",
         "Battery Drain Trap",
     )
+
+
+def test_no_extra_lives_adds_life_wipeout_trap_to_active_trap_pool() -> None:
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+    world.options = SimpleNamespace(
+        no_extra_lives=SimpleNamespace(value=True),
+        one_hit_mode=SimpleNamespace(value=OneHitMode.option_off),
+    )
+
+    assert world._active_trap_pool() == (
+        "Health Down Trap",
+        "Life Down Trap",
+        "Bomb Trap",
+        "Battery Drain Trap",
+        "Life Wipeout Trap",
+    )
+
+
+def test_get_trap_item_name_uses_life_wipeout_trap_in_no_extra_lives_mode() -> None:
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+    seen_pool: dict[str, tuple[str, ...]] = {}
+
+    def _choose(pool: tuple[str, ...]) -> str:
+        seen_pool["pool"] = pool
+        return pool[-1]
+
+    world.random = SimpleNamespace(choice=_choose)
+    world.options = SimpleNamespace(
+        no_extra_lives=SimpleNamespace(value=True),
+        one_hit_mode=SimpleNamespace(value=OneHitMode.option_off),
+    )
+
+    assert world.get_trap_item_name() == "Life Wipeout Trap"
+    assert seen_pool["pool"] == world._active_trap_pool()
 
 
 def test_trap_filler_percentage_replaces_eligible_filler_slots() -> None:
@@ -373,12 +408,14 @@ def test_payload_supports_consumable_and_life_fillers() -> None:
     assert "static void ap_grant_battery(void)" in payload
     assert "static void ap_grant_max_tomato(void)" in payload
     assert "static void ap_grant_invincibility_candy(void)" in payload
+    assert "static void ap_trap_lives_wipeout(void)" in payload
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 26u" in payload
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 27u" in payload
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 28u" in payload
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 29u" in payload
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 30u" in payload
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 31u" in payload
+    assert "KIRBY_ITEM_ID_BASE_OFFSET + 36u" in payload
     assert "KIRBY_GIVE_INVINCIBILITY_FN" in payload
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 22u" not in payload
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 23u" not in payload

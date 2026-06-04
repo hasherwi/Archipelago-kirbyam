@@ -65,6 +65,12 @@
     "item_id": 3860035,
     "tags": ["Trap"]
   },
+  "TRAP_LIFE_WIPEOUT": {
+    "label": "Life Wipeout Trap",
+    "classification": "TRAP",
+    "item_id": 3860036,
+    "tags": ["Trap"]
+  },
   "SHARD_1": {
     "label": "Mustard Mountain - Mirror Shard",
     "classification": "PROGRESSION",

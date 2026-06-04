@@ -148,6 +148,7 @@ class KirbyAmWorld(World):
     ACTIVE_FILLER_POOL_NO_1UP: ClassVar[tuple[str, ...]] = tuple(
         item_name for item_name in ACTIVE_FILLER_POOL if item_name != "1 Up"
     )
+    _LIFE_WIPEOUT_TRAP_LABEL: ClassVar[str] = "Life Wipeout Trap"
     _SHARD_CHEST_KEY_ORDER: ClassVar[tuple[str, ...]] = (
         "MAJOR_CHEST_MUSTARD_MOUNTAIN",
         "MAJOR_CHEST_MOONLIGHT_MANSION",
@@ -283,11 +284,18 @@ class KirbyAmWorld(World):
         return self.random.choices(filler_labels, weights=filler_weights, k=1)[0]
 
     def get_trap_item_name(self) -> str:
-        if not kirby_data.available_trap_item_labels:
+        trap_labels = self._active_trap_pool()
+        if not trap_labels:
             raise ValueError(
                 "KirbyAM trap pool is empty. Configure at least one available trap in worlds/kirbyam/data/traps.json"
             )
-        return self.random.choice(kirby_data.available_trap_item_labels)
+        return self.random.choice(trap_labels)
+
+    def _active_trap_pool(self) -> tuple[str, ...]:
+        pool = kirby_data.available_trap_item_labels
+        if self._no_extra_lives_enabled() and self._LIFE_WIPEOUT_TRAP_LABEL not in pool:
+            pool = pool + (self._LIFE_WIPEOUT_TRAP_LABEL,)
+        return pool
 
     def _ordered_boss_defeat_locations(self, boss_locations: list[KirbyAmLocation]) -> list[KirbyAmLocation]:
         boss_locations_by_key = {
@@ -615,6 +623,7 @@ class KirbyAmWorld(World):
                     trap_count = (eligible_filler_slots * self._trap_fill_percentage()) // 100
                 filler_needed = eligible_filler_slots - trap_count
                 active_filler_labels, active_filler_weights = self._active_filler_weighted_pool()
+                active_trap_labels = self._active_trap_pool()
                 randomized_item_codes.extend(non_filler_item_codes)
                 randomized_item_codes.extend(
                     self.item_name_to_id[self.get_trap_item_name()]
@@ -671,7 +680,8 @@ class KirbyAmWorld(World):
                     dict(sorted(vitality_code_counts.items())),
                 )
                 logger.info(
-                    "[P%s] Trap pool summary: enabled=%s percentage=%s eligible_filler_slots=%s selected_traps=%s filler_remaining=%s",
+                    "[P%s] Trap pool summary: enabled=%s percentage=%s "
+                    "eligible_filler_slots=%s selected_traps=%s filler_remaining=%s",
                     self.player,
                     self._traps_enabled(),
                     self._trap_fill_percentage(),
@@ -679,6 +689,12 @@ class KirbyAmWorld(World):
                     trap_count,
                     filler_needed,
                 )
+                if self._traps_enabled() and self._no_extra_lives_enabled():
+                    logger.info(
+                        "[P%s] no_extra_lives: added %s to the active trap pool",
+                        self.player,
+                        self._LIFE_WIPEOUT_TRAP_LABEL,
+                    )
                 logger.info(
                     "[P%s] Filler weights (active pool): %s",
                     self.player,
@@ -686,6 +702,11 @@ class KirbyAmWorld(World):
                         label: weight
                         for label, weight in zip(active_filler_labels, active_filler_weights)
                     },
+                )
+                logger.info(
+                    "[P%s] Trap labels (active pool): %s",
+                    self.player,
+                    active_trap_labels,
                 )
 
                 if self._start_with_all_maps_enabled():

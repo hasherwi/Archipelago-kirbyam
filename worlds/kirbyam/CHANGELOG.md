@@ -40,6 +40,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - `Life Down Trap`: removes one extra life (if any remain).
   - `Bomb Trap`: sets Kirby's current HP to 0.
   - `Battery Drain Trap`: empties the cell phone battery to 0.
+  - `Life Wipeout Trap`: sets Kirby's lives count to 0.
   - Trap item receive notifications are prefixed with "Received trap:" to distinguish them from regular items.
 - Added two new goal modes:
   - `defeat_any_area_boss` completes the seed after the first acknowledged area-boss defeat check (Issue #205).
