@@ -1,17 +1,18 @@
 {
   "TRAP_HEALTH_DOWN": {
+    "_comment": "This trap reduces the player's health by 1, if they're above 1.",
     "available": true
   },
   "TRAP_LIFE_DOWN": {
+    "_comment": "This trap reduces the player's life by 1, if lives > 0.",
     "available": true
   },
   "TRAP_BOMB": {
+    "_comment": "This trap sets the player's health to 0, killing them.",
     "available": true
   },
   "TRAP_BATTERY_DRAIN": {
+    "_comment": "This trap drains the player's battery by 1.",
     "available": true
-  },
-  "TRAP_SLOWDOWN": {
-    "available": false
   }
 }
