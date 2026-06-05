@@ -599,31 +599,33 @@ def _init() -> None:
 
         data.regions[region_name] = region
 
-    # Claim locations from their parent_region metadata in locations.json before
-    # logical subregions are synthesized. This keeps locations.json authoritative
-    # for canonical room membership and prevents synthetic routing slices from
-    # stealing ownership of room-owned pickups.
-    locations_by_parent_region: dict[str, list[str]] = {}
-    for loc_key, loc in data.locations.items():
-        if loc.category == LocationCategory.ROOM_SANITY:
-            continue
-        if loc.parent_region not in data.regions:
-            continue
-        locations_by_parent_region.setdefault(loc.parent_region, []).append(loc_key)
-
-    for region_name, loc_keys in sorted(locations_by_parent_region.items()):
-        region = data.regions[region_name]
-        for loc_key in sorted(
-            loc_keys,
-            key=lambda key: (
-                data.locations[key].bit_index if data.locations[key].bit_index is not None else -1,
-                key,
-            ),
-        ):
-            if loc_key in claimed_locations:
+    def claim_locations_from_parent_regions() -> None:
+        # Claim locations from their parent_region metadata in locations.json.
+        # Direct rooms are available immediately; logical subregions become
+        # available after the synthetic-region pass below.
+        locations_by_parent_region: dict[str, list[str]] = {}
+        for loc_key, loc in data.locations.items():
+            if loc.category == LocationCategory.ROOM_SANITY:
                 continue
-            region.locations.append(loc_key)
-            claimed_locations.add(loc_key)
+            if loc.parent_region not in data.regions:
+                continue
+            locations_by_parent_region.setdefault(loc.parent_region, []).append(loc_key)
+
+        for region_name, loc_keys in sorted(locations_by_parent_region.items()):
+            region = data.regions[region_name]
+            for loc_key in sorted(
+                loc_keys,
+                key=lambda key: (
+                    data.locations[key].bit_index if data.locations[key].bit_index is not None else -1,
+                    key,
+                ),
+            ):
+                if loc_key in claimed_locations:
+                    continue
+                region.locations.append(loc_key)
+                claimed_locations.add(loc_key)
+
+    claim_locations_from_parent_regions()
 
     for region in data.regions.values():
         region.locations.sort()
@@ -657,10 +659,7 @@ def _init() -> None:
                     raise ValueError(
                         f"Logical subregion [{logical_region_name}] references unknown location key [{loc_key}]"
                     )
-                if loc_key in claimed_locations:
-                    continue
                 logical_region.locations.append(loc_key)
-                claimed_locations.add(loc_key)
 
             logical_region.locations.sort()
 
@@ -675,6 +674,8 @@ def _init() -> None:
                     logical_region.events.append(EventData(ev, logical_region_name))
 
             data.regions[logical_region_name] = logical_region
+
+    claim_locations_from_parent_regions()
 
     # Auto-claim generated room-sanity locations by their parent region.
     # This keeps data integrity checks complete while runtime region creation can

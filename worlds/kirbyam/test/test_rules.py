@@ -498,16 +498,17 @@ def test_split_rooms_define_logical_subregion_metadata() -> None:
         "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2": "ENTRY_FROM_2_ENTRY"
     }
 
+    room_9_chest_1 = rooms["REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1"]
     room_9_chest_2 = rooms["REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2"]
+    assert "locations" not in room_9_chest_1
     assert room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_01"]["exits"] == [
         "REGION_CANDY_CONSTELLATION/ROOM_9_01"
     ]
     assert room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_09"]["exits"] == [
         "REGION_CANDY_CONSTELLATION/ROOM_9_09"
     ]
-    assert room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_09"]["locations"] == [
-        "SOUND_PLAYER_CHEST"
-    ]
+    assert "locations" not in room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_01"]
+    assert "locations" not in room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_09"]
     assert rooms["REGION_CANDY_CONSTELLATION/ROOM_9_01"]["logical_exit_overrides"] == {
         "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": "ENTRY_FROM_9_01"
     }
@@ -563,9 +564,7 @@ def test_split_rooms_define_logical_subregion_metadata() -> None:
         "REGION_OLIVE_OCEAN/ROOM_6_04",
         "REGION_OLIVE_OCEAN/ROOM_6_06",
     }
-    assert room_6_05["logical_subregions"]["ENTRY_FROM_6_04_OR_6_06"]["locations"] == [
-        "MINOR_CHEST_OLIVE_OCEAN_6_05"
-    ]
+    assert "locations" not in room_6_05["logical_subregions"]["ENTRY_FROM_6_04_OR_6_06"]
     assert room_6_05["logical_subregions"]["ENTRY_FROM_6_23"]["exits"] == [
         "REGION_OLIVE_OCEAN/ROOM_6_23"
     ]
@@ -631,7 +630,13 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     assert kirby_data.regions[room_2_goal_2_from_entry].exits == ["REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"]
     assert kirby_data.regions[room_9_chest_2_from_9_01].exits == ["REGION_CANDY_CONSTELLATION/ROOM_9_01"]
     assert kirby_data.regions[room_9_chest_2_from_9_09].exits == ["REGION_CANDY_CONSTELLATION/ROOM_9_09"]
-    assert kirby_data.regions[room_9_chest_2_from_9_09].locations == ["SOUND_PLAYER_CHEST"]
+    assert kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1"].locations == [
+        "SOUND_PLAYER_CHEST",
+        "ROOM_SANITY_9_CHEST_1",
+    ]
+    assert kirby_data.regions[room_9_chest_2_from_9_01].locations == ["MINOR_CHEST_CANDY_CONSTELLATION_9_12"]
+    assert kirby_data.regions[room_9_chest_2_from_9_09].locations == ["VITALITY_CHEST_CANDY_CONSTELLATION"]
+    assert kirby_data.locations["MINOR_CHEST_CANDY_CONSTELLATION_9_12"].default_item == kirby_data.item_key_to_id["1_UP"]
     assert kirby_data.regions[room_8_07_from_goal_1].exits == ["REGION_RADISH_RUINS/ROOM_8_GOAL_1"]
     assert set(kirby_data.regions[room_8_07_from_8_18_8_21_8_23].exits) == {
         "REGION_RADISH_RUINS/ROOM_8_18",
@@ -649,6 +654,7 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
         "REGION_OLIVE_OCEAN/ROOM_6_04",
         "REGION_OLIVE_OCEAN/ROOM_6_06",
     }
+    assert kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_05"].locations == ["ROOM_SANITY_6_05"]
     assert kirby_data.regions[room_6_05_from_6_04_or_6_06].locations == ["MINOR_CHEST_OLIVE_OCEAN_6_05"]
     assert kirby_data.regions[room_6_05_from_6_23].exits == ["REGION_OLIVE_OCEAN/ROOM_6_23"]
 

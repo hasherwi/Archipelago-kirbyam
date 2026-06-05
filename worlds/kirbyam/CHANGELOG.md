@@ -19,7 +19,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Internal Changes
 - Traps are now stored in data/items.json, instead of a separate data/traps.json (PR #833).
-- Room-owned location membership is now derived from `locations.json` parent-region metadata so `rooms.json` no longer acts as a second source of truth.
+- Room-owned location membership is now derived from `locations.json` parent-region metadata so `rooms.json` no longer acts as a second source of truth (Issue #840).
+- Improvements to logic mapping (PR #844).
 
 ## v0.2.0
 
