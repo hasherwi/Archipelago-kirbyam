@@ -48,7 +48,7 @@ def build_release_metadata(github_ref: str) -> ReleaseMetadata:
     match = TAG_PATTERN.fullmatch(ref_name)
     if match:
         version = match.group("version")
-        manifest_version = version
+        manifest_version = version.split("-", 1)[0]
         return ReleaseMetadata(
             apworld_name="kirbyam.apworld",
             release_name=f"KirbyAM APWorld v{version}",

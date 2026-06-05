@@ -781,6 +781,10 @@ static void ap_trap_life_down(void) {
     KIRBY_LIVES = (uint8_t)(lives - 1u);
 }
 
+static void ap_trap_lives_wipeout(void) {
+    KIRBY_LIVES = 0u;
+}
+
 static void ap_trap_bomb(void) {
     uint32_t kirby_addr = ap_get_active_kirby_addr();
     *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) = 0;
@@ -904,6 +908,12 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
     // TRAP_BATTERY_DRAIN = BASE+35
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 35u)) {
         ap_trap_battery_drain();
+        return 1u;
+    }
+
+    // TRAP_LIFE_WIPEOUT = BASE+36
+    if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 36u)) {
+        ap_trap_lives_wipeout();
         return 1u;
     }
 

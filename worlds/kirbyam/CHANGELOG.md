@@ -9,8 +9,16 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ## Unreleased
 
+### New Features
+
+- Adds a new trap item: `Life Wipeout Trap` which sets Kirby's lives count to 0 (Issue #693).
+
 ### Improvements
 - Bump Archipelago Minimum version to 0.6.7 (PR #843).
+- Trap pool filtering now removes `Life Down Trap` and `Life Wipeout Trap` when `No Extra Lives` is enabled, and removes `Health Down Trap` when one-hit mode is enabled (PR #833).
+
+### Internal Changes
+- Traps are now stored in data/items.json, instead of a separate data/traps.json (PR #833).
 
 ## v0.2.0
 

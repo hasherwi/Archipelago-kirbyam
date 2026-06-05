@@ -87,8 +87,6 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | Addr     | Size | Name                    | Description |
 |----------|------|-------------------------|-----------|
 | 0x02038970 | 1B | KIRBY_SHARD_FLAGS       | Native mirror shard bitfield (bits 0-7) |
-| 0x02038974 | 4B | spray_paint_bitfield_native | Native `gTreasures.sprayPaintField` ownership bits (`HasSprayPaint`). Integrated as a temporary fallback signal for mapped spray-paint MINOR_CHEST checks. |
-| 0x02038978 | 4B | music_player_and_sheets_bitfield_native | Native `gTreasures.musicPlayerAndSheetsField` ownership bits (`HasMusicPlayerOrSheet`). Integrated as a temporary fallback signal for mapped music-sheet MINOR_CHEST checks. |
 | 0x0203897C | 4B | big_chest_bitfield_native | gTreasures.bigChestField; bit N = area ID N (enum AreaId): bit 1=Rainbow Route, 2=Moonlight Mansion, 3=Cabbage Cavern, 4=Mustard Mountain, 5=Carrot Castle, 6=Olive Ocean, 7=Peppermint Palace, 8=Radish Ruins, 9=Candy Constellation. This is the native map-ownership field. AP major-chest checks use `major_chest_flags` in the transport block, and the BizHawk client may reassert AP-owned map bits here from `start_with_all_maps` plus confirmed delivered map items to recover from reconnect/save-state drift. |
 | 0x02038960 - 0x02038969 | 10B | small_chest_flags_native | Native small-chest/switch bitfield block. Unique MINOR_CHEST AP checks still use this bitfield as a resend/fallback signal, while report-only ambiguous minor chest locations use `minor_chest_event_ring` for exact disambiguation. |
 | 0x02028C14+ |  -  | Boss/Mirror table       | Native location flags (TBD - not yet mapped). The BizHawk client may probe rising edges here for diagnostics, but boss-defeat AP checks are transport-authoritative via `boss_defeat_flags`. |
@@ -117,7 +115,12 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | SOUND_PLAYER      | 3860025 | Useful unlock reward (applies native Sound Player unlock on receipt) |
 | SMALL_FOOD, BATTERY, MAX_TOMATO, INVINCIBILITY_CANDY | 3860026 - 3860029 | Filler consumable rewards |
 | ENERGY_DRINK, HUNK_OF_MEAT | 3860030 - 3860031 | Filler consumable health rewards |
-| *Reserved*        | 3860032+ | Future items (doors, abilities, additional consumables, etc.) |
+| TRAP_HEALTH_DOWN | 3860032 | Trap item: reduces Kirby's current HP by 2 |
+| TRAP_LIFE_DOWN | 3860033 | Trap item: removes one extra life if any remain |
+| TRAP_BOMB | 3860034 | Trap item: sets Kirby's current HP to 0 |
+| TRAP_BATTERY_DRAIN | 3860035 | Trap item: empties the cell phone battery to 0 |
+| TRAP_LIFE_WIPEOUT | 3860036 | Trap item: sets Kirby's lives count to 0 |
+| *Reserved*        | 3860037+ | Future items (doors, abilities, additional consumables, etc.) |
 
 ### Current filler effect contract
 
@@ -146,6 +149,24 @@ generation preserves these relative weights across the remaining labels.
 | `Cell Phone Battery` | Increments active Kirby battery by 1 if below 3 |
 | `Max Tomato` | Sets active Kirby HP to max HP if Kirby is alive (`hp > 0`); no effect for `hp <= 0` |
 | `Invincibility Candy` | Applies the native invincibility state using the decomp-backed 1000-tick helper path |
+
+### Current trap effect contract
+
+Current shipped trap generation uses a weighted active trap pool.
+
+| Item | Effect |
+|------|--------|
+| `Health Down Trap` | Reduces Kirby's current HP by 2, but never kills Kirby (minimum HP stays at 1) |
+| `Life Down Trap` | Removes one extra life if any remain |
+| `Bomb Trap` | Sets Kirby's current HP to 0 |
+| `Battery Drain Trap` | Empties the cell phone battery to 0 |
+| `Life Wipeout Trap` | Sets Kirby's lives count to 0 |
+
+All trap items are sourced directly from `worlds/kirbyam/data/items.json` and are part of the active trap pool.
+
+Seed-time trap pool filtering:
+- When `no_extra_lives` is enabled, `Life Down Trap` and `Life Wipeout Trap` are removed from trap selection.
+- When one-hit mode is enabled (`one_hit_mode != 0`), `Health Down Trap` is removed from trap selection.
 
 ## Location ID Ranges
 
@@ -198,7 +219,6 @@ Minor chest status (Issue #540):
 - Expanded MINOR_CHEST AP checks are active for unique native chest-bit mappings in Rainbow Route, Cabbage Cavern, Mustard Mountain, Carrot Castle, Olive Ocean, Peppermint Palace, Radish Ruins, Moonlight Mansion, and Candy Constellation.
 - Report-only `Unmapped Minor Chest X-N` locations are no longer inferred from shared native chest bits. They are reported only from the exact `minor_chest_event_ring` source-pointer hook, which preserves one-to-one chest identity for ambiguous rooms.
 - Active MINOR_CHEST checks are polled from native `small_chest_flags_native` and use direct native chest bit semantics.
-- Temporary fallback: mapped spray-paint and music-sheet MINOR_CHEST checks can also be inferred from native collectible ownership bitfields (`spray_paint_bitfield_native`, `music_player_and_sheets_bitfield_native`) when chest-bit signaling is missing.
 - Respawn/reopen policy is documented as non-repeatable (single-fire chest state) based on decomp evidence in `katam/src/treasures.c` and `katam/asm/chest.s`.
 - Multi-chest room index disambiguation remains deferred (tracked in Issue #542).
 - See `worlds/kirbyam/docs/dev-docs/minor-chest-respawn-policy.md` and `worlds/kirbyam/data/minor_chest_manifest.json` metadata (`respawn_reopen_policy`).
