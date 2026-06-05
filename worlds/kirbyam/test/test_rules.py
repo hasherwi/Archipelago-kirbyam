@@ -252,28 +252,16 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
         assert isinstance(room_meta["location_id"], int)
         assert isinstance(room_meta["bit_index"], int)
 
-    # Room membership is derived from locations.json parent_region metadata.
-    # Exactly the rooms with boss defeats and big chests should have locations;
-    # all other rooms remain topology-only with empty lists.
-    from ..data import load_json_data as _load
-    known_locations = set(_load("locations.json").keys())
-    rooms_with_locations = {
-        key: region["locations"]
+    # rooms.json remains topology-only; location ownership is derived at runtime
+    # from locations.json parent_region metadata.
+    rooms_with_locations = [
+        key
         for key, region in room_regions.items()
-        if region.get("locations")
-    }
-    # Every location claimed by a room must be a known location key
-    for room_key, loc_list in rooms_with_locations.items():
-        for loc_key in loc_list:
-            assert loc_key in known_locations, (
-                f"Room {room_key} claims unknown location key {loc_key!r}"
-            )
-    # Canonical room entries carry at least 38 legacy AP locations plus 15
-    # room-owned HUB_SWITCH locations. Additional room-owned report locations
-    # are valid and can increase this count.
-    room_keys = list(rooms_with_locations.keys())
-    assert len(rooms_with_locations) >= 53, (
-        f"Expected at least 53 canonical rooms with locations, got {len(rooms_with_locations)}: {room_keys}"
+        if "locations" in region
+    ]
+    assert rooms_with_locations == [], (
+        "rooms.json must not carry locations keys; found: "
+        f"{rooms_with_locations}"
     )
 
     # Topology includes all rooms, but Room Sanity remains optional metadata.
@@ -344,7 +332,7 @@ def test_room_sanity_binding_optional() -> None:
 
     _bind_room_sanity_locations(room_regions, enable_room_sanity=False)
     assert (
-        room_regions["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]["locations"]
+        room_regions["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"].get("locations", [])
         == regions_before["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]
     )
 
@@ -356,8 +344,8 @@ def test_room_sanity_binding_optional() -> None:
     assert "ROOM_SANITY_5_WARP" in room_regions["REGION_CARROT_CASTLE/ROOM_5_WARP"]["locations"]
     assert "ROOM_SANITY_7_WARP" in room_regions["REGION_PEPPERMINT_PALACE/ROOM_7_WARP"]["locations"]
     assert "ROOM_SANITY_9_WARP" in room_regions["REGION_CANDY_CONSTELLATION/ROOM_9_WARP"]["locations"]
-    assert "ROOM_SANITY_10_01" not in room_regions["REGION_DIMENSION_MIRROR/ROOM_10_01"]["locations"]
-    assert "ROOM_SANITY_0_01" not in room_regions["REGION_TUTORIAL/ROOM_0_01"]["locations"]
+    assert "ROOM_SANITY_10_01" not in room_regions["REGION_DIMENSION_MIRROR/ROOM_10_01"].get("locations", [])
+    assert "ROOM_SANITY_0_01" not in room_regions["REGION_TUTORIAL/ROOM_0_01"].get("locations", [])
 
 
 ALL_SHARDS = {
@@ -634,9 +622,17 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
         "SOUND_PLAYER_CHEST",
         "ROOM_SANITY_9_CHEST_1",
     ]
-    assert kirby_data.regions[room_9_chest_2_from_9_01].locations == ["MINOR_CHEST_CANDY_CONSTELLATION_9_12"]
+    assert "MINOR_CHEST_CANDY_CONSTELLATION_9_12" not in (
+        kirby_data.regions[room_9_chest_2_from_9_01].locations
+    )
+    assert "MINOR_CHEST_CANDY_CONSTELLATION_9_12" in (
+        kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_12"].locations
+    )
     assert kirby_data.regions[room_9_chest_2_from_9_09].locations == ["VITALITY_CHEST_CANDY_CONSTELLATION"]
-    assert kirby_data.locations["MINOR_CHEST_CANDY_CONSTELLATION_9_12"].default_item == kirby_data.item_key_to_id["1_UP"]
+    assert (
+        kirby_data.locations["MINOR_CHEST_CANDY_CONSTELLATION_9_12"].default_item
+        == kirby_data.item_key_to_id["1_UP"]
+    )
     assert kirby_data.regions[room_8_07_from_goal_1].exits == ["REGION_RADISH_RUINS/ROOM_8_GOAL_1"]
     assert set(kirby_data.regions[room_8_07_from_8_18_8_21_8_23].exits) == {
         "REGION_RADISH_RUINS/ROOM_8_18",
