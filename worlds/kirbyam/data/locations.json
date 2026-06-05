@@ -842,26 +842,6 @@
     "category": "MINOR_CHEST",
     "location_id": 3960523
   },
-  "OTHER_CHEST_00": {
-    "label": "Other Chest #01",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 0,
-    "category": "OTHER_CHEST",
-    "location_id": 3960524
-  },
-  "OTHER_CHEST_01": {
-    "label": "Other Chest #02",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 1,
-    "category": "OTHER_CHEST",
-    "location_id": 3960525
-  },
   "OTHER_CHEST_02": {
     "label": "Other Chest #03",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
@@ -871,36 +851,6 @@
     "bit_index": 2,
     "category": "OTHER_CHEST",
     "location_id": 3960526
-  },
-  "OTHER_CHEST_03": {
-    "label": "Other Chest #04",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 3,
-    "category": "OTHER_CHEST",
-    "location_id": 3960527
-  },
-  "OTHER_CHEST_04": {
-    "label": "Other Chest #05",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 4,
-    "category": "OTHER_CHEST",
-    "location_id": 3960528
-  },
-  "OTHER_CHEST_05": {
-    "label": "Other Chest #06",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 5,
-    "category": "OTHER_CHEST",
-    "location_id": 3960529
   },
   "OTHER_CHEST_06": {
     "label": "Other Chest #07",
@@ -912,96 +862,6 @@
     "category": "OTHER_CHEST",
     "location_id": 3960530
   },
-  "OTHER_CHEST_07": {
-    "label": "Other Chest #08",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 7,
-    "category": "OTHER_CHEST",
-    "location_id": 3960531
-  },
-  "OTHER_CHEST_08": {
-    "label": "Other Chest #09",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 8,
-    "category": "OTHER_CHEST",
-    "location_id": 3960532
-  },
-  "OTHER_CHEST_09": {
-    "label": "Other Chest #10",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 9,
-    "category": "OTHER_CHEST",
-    "location_id": 3960533
-  },
-  "OTHER_CHEST_10": {
-    "label": "Other Chest #11",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 10,
-    "category": "OTHER_CHEST",
-    "location_id": 3960534
-  },
-  "OTHER_CHEST_11": {
-    "label": "Other Chest #12",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 11,
-    "category": "OTHER_CHEST",
-    "location_id": 3960535
-  },
-  "OTHER_CHEST_12": {
-    "label": "Other Chest #13",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 12,
-    "category": "OTHER_CHEST",
-    "location_id": 3960536
-  },
-  "OTHER_CHEST_13": {
-    "label": "Other Chest #14",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 13,
-    "category": "OTHER_CHEST",
-    "location_id": 3960537
-  },
-  "OTHER_CHEST_14": {
-    "label": "Other Chest #15",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 14,
-    "category": "OTHER_CHEST",
-    "location_id": 3960538
-  },
-  "OTHER_CHEST_15": {
-    "label": "Other Chest #16",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 15,
-    "category": "OTHER_CHEST",
-    "location_id": 3960539
-  },
   "OTHER_CHEST_16": {
     "label": "Other Chest #17",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
@@ -1011,26 +871,6 @@
     "bit_index": 16,
     "category": "OTHER_CHEST",
     "location_id": 3960540
-  },
-  "OTHER_CHEST_17": {
-    "label": "Other Chest #18",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 17,
-    "category": "OTHER_CHEST",
-    "location_id": 3960541
-  },
-  "OTHER_CHEST_18": {
-    "label": "Other Chest #19",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 18,
-    "category": "OTHER_CHEST",
-    "location_id": 3960542
   },
   "OTHER_CHEST_19": {
     "label": "Other Chest #20",
@@ -1042,16 +882,6 @@
     "category": "OTHER_CHEST",
     "location_id": 3960543
   },
-  "OTHER_CHEST_20": {
-    "label": "Other Chest #21",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 20,
-    "category": "OTHER_CHEST",
-    "location_id": 3960544
-  },
   "OTHER_CHEST_21": {
     "label": "Other Chest #22",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
@@ -1061,16 +891,6 @@
     "bit_index": 21,
     "category": "OTHER_CHEST",
     "location_id": 3960545
-  },
-  "OTHER_CHEST_22": {
-    "label": "Other Chest #23",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 22,
-    "category": "OTHER_CHEST",
-    "location_id": 3960546
   },
   "OTHER_CHEST_23": {
     "label": "Other Chest #24",
@@ -1111,36 +931,6 @@
     "bit_index": 26,
     "category": "OTHER_CHEST",
     "location_id": 3960550
-  },
-  "OTHER_CHEST_27": {
-    "label": "Other Chest #28",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 27,
-    "category": "OTHER_CHEST",
-    "location_id": 3960551
-  },
-  "OTHER_CHEST_28": {
-    "label": "Other Chest #29",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 28,
-    "category": "OTHER_CHEST",
-    "location_id": 3960552
-  },
-  "OTHER_CHEST_29": {
-    "label": "Other Chest #30",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 29,
-    "category": "OTHER_CHEST",
-    "location_id": 3960553
   },
   "OTHER_CHEST_30": {
     "label": "Other Chest #31",
@@ -1192,16 +982,6 @@
     "category": "OTHER_CHEST",
     "location_id": 3960558
   },
-  "OTHER_CHEST_35": {
-    "label": "Other Chest #36",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 35,
-    "category": "OTHER_CHEST",
-    "location_id": 3960559
-  },
   "OTHER_CHEST_36": {
     "label": "Other Chest #37",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
@@ -1212,36 +992,6 @@
     "category": "OTHER_CHEST",
     "location_id": 3960560
   },
-  "OTHER_CHEST_37": {
-    "label": "Other Chest #38",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 37,
-    "category": "OTHER_CHEST",
-    "location_id": 3960561
-  },
-  "OTHER_CHEST_38": {
-    "label": "Other Chest #39",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 38,
-    "category": "OTHER_CHEST",
-    "location_id": 3960562
-  },
-  "OTHER_CHEST_39": {
-    "label": "Other Chest #40",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 39,
-    "category": "OTHER_CHEST",
-    "location_id": 3960563
-  },
   "OTHER_CHEST_40": {
     "label": "Other Chest #41",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
@@ -1251,16 +1001,6 @@
     "bit_index": 40,
     "category": "OTHER_CHEST",
     "location_id": 3960564
-  },
-  "OTHER_CHEST_41": {
-    "label": "Other Chest #42",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 41,
-    "category": "OTHER_CHEST",
-    "location_id": 3960565
   },
   "OTHER_CHEST_42": {
     "label": "Other Chest #43",
@@ -1302,36 +1042,6 @@
     "category": "OTHER_CHEST",
     "location_id": 3960569
   },
-  "OTHER_CHEST_46": {
-    "label": "Other Chest #47",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 46,
-    "category": "OTHER_CHEST",
-    "location_id": 3960570
-  },
-  "OTHER_CHEST_47": {
-    "label": "Other Chest #48",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 47,
-    "category": "OTHER_CHEST",
-    "location_id": 3960571
-  },
-  "OTHER_CHEST_48": {
-    "label": "Other Chest #49",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 48,
-    "category": "OTHER_CHEST",
-    "location_id": 3960572
-  },
   "OTHER_CHEST_49": {
     "label": "Other Chest #50",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
@@ -1352,26 +1062,6 @@
     "category": "OTHER_CHEST",
     "location_id": 3960574
   },
-  "OTHER_CHEST_51": {
-    "label": "Other Chest #52",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 51,
-    "category": "OTHER_CHEST",
-    "location_id": 3960575
-  },
-  "OTHER_CHEST_52": {
-    "label": "Other Chest #53",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 52,
-    "category": "OTHER_CHEST",
-    "location_id": 3960576
-  },
   "OTHER_CHEST_53": {
     "label": "Other Chest #54",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
@@ -1382,16 +1072,6 @@
     "category": "OTHER_CHEST",
     "location_id": 3960577
   },
-  "OTHER_CHEST_54": {
-    "label": "Other Chest #55",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 54,
-    "category": "OTHER_CHEST",
-    "location_id": 3960578
-  },
   "OTHER_CHEST_55": {
     "label": "Other Chest #56",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
@@ -1401,16 +1081,6 @@
     "bit_index": 55,
     "category": "OTHER_CHEST",
     "location_id": 3960579
-  },
-  "OTHER_CHEST_56": {
-    "label": "Other Chest #57",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 56,
-    "category": "OTHER_CHEST",
-    "location_id": 3960580
   },
   "OTHER_CHEST_57": {
     "label": "Other Chest #58",
@@ -1432,36 +1102,6 @@
     "category": "OTHER_CHEST",
     "location_id": 3960582
   },
-  "OTHER_CHEST_59": {
-    "label": "Other Chest #60",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 59,
-    "category": "OTHER_CHEST",
-    "location_id": 3960583
-  },
-  "OTHER_CHEST_60": {
-    "label": "Other Chest #61",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 60,
-    "category": "OTHER_CHEST",
-    "location_id": 3960584
-  },
-  "OTHER_CHEST_61": {
-    "label": "Other Chest #62",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 61,
-    "category": "OTHER_CHEST",
-    "location_id": 3960585
-  },
   "OTHER_CHEST_62": {
     "label": "Other Chest #63",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
@@ -1472,16 +1112,6 @@
     "category": "OTHER_CHEST",
     "location_id": 3960586
   },
-  "OTHER_CHEST_63": {
-    "label": "Other Chest #64",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 63,
-    "category": "OTHER_CHEST",
-    "location_id": 3960587
-  },
   "OTHER_CHEST_64": {
     "label": "Other Chest #65",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
@@ -1491,16 +1121,6 @@
     "bit_index": 64,
     "category": "OTHER_CHEST",
     "location_id": 3960588
-  },
-  "OTHER_CHEST_65": {
-    "label": "Other Chest #66",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 65,
-    "category": "OTHER_CHEST",
-    "location_id": 3960589
   },
   "OTHER_CHEST_66": {
     "label": "Other Chest #67",
@@ -1522,46 +1142,6 @@
     "category": "OTHER_CHEST",
     "location_id": 3960591
   },
-  "OTHER_CHEST_68": {
-    "label": "Other Chest #69",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 68,
-    "category": "OTHER_CHEST",
-    "location_id": 3960592
-  },
-  "OTHER_CHEST_69": {
-    "label": "Other Chest #70",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 69,
-    "category": "OTHER_CHEST",
-    "location_id": 3960593
-  },
-  "OTHER_CHEST_70": {
-    "label": "Other Chest #71",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 70,
-    "category": "OTHER_CHEST",
-    "location_id": 3960594
-  },
-  "OTHER_CHEST_71": {
-    "label": "Other Chest #72",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 71,
-    "category": "OTHER_CHEST",
-    "location_id": 3960595
-  },
   "OTHER_CHEST_72": {
     "label": "Other Chest #73",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
@@ -1571,26 +1151,6 @@
     "bit_index": 72,
     "category": "OTHER_CHEST",
     "location_id": 3960596
-  },
-  "OTHER_CHEST_73": {
-    "label": "Other Chest #74",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 73,
-    "category": "OTHER_CHEST",
-    "location_id": 3960597
-  },
-  "OTHER_CHEST_74": {
-    "label": "Other Chest #75",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 74,
-    "category": "OTHER_CHEST",
-    "location_id": 3960598
   },
   "OTHER_CHEST_75": {
     "label": "Other Chest #76",
@@ -1602,26 +1162,6 @@
     "category": "OTHER_CHEST",
     "location_id": 3960599
   },
-  "OTHER_CHEST_76": {
-    "label": "Other Chest #77",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 76,
-    "category": "OTHER_CHEST",
-    "location_id": 3960600
-  },
-  "OTHER_CHEST_77": {
-    "label": "Other Chest #78",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 77,
-    "category": "OTHER_CHEST",
-    "location_id": 3960601
-  },
   "OTHER_CHEST_78": {
     "label": "Other Chest #79",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
@@ -1631,26 +1171,6 @@
     "bit_index": 78,
     "category": "OTHER_CHEST",
     "location_id": 3960602
-  },
-  "OTHER_CHEST_79": {
-    "label": "Other Chest #80",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 79,
-    "category": "OTHER_CHEST",
-    "location_id": 3960603
-  },
-  "OTHER_CHEST_80": {
-    "label": "Other Chest #81",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 80,
-    "category": "OTHER_CHEST",
-    "location_id": 3960604
   },
   "OTHER_CHEST_81": {
     "label": "Other Chest #82",
@@ -1671,15 +1191,5 @@
     "bit_index": 82,
     "category": "OTHER_CHEST",
     "location_id": 3960606
-  },
-  "OTHER_CHEST_83": {
-    "label": "Other Chest #84",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "tags": [
-      "OtherChest"
-    ],
-    "bit_index": 83,
-    "category": "OTHER_CHEST",
-    "location_id": 3960607
   }
 }
