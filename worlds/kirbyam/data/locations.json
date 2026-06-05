@@ -389,23 +389,23 @@
     "category": "SOUND_PLAYER_CHEST",
     "location_id": 3960304
   },
-  "HUB_SWITCH_MOONLIGHT": {
+  "HUB_SWITCH_RAINBOW_ROUTE_EAST": {
     "label": "Rainbow Route East - Big Switch",
-    "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_HUB",
+    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
     "tags": [
       "HubSwitch",
-      "MAP_MOONLIGHT_MANSION"
+      "MAP_RAINBOW_ROUTE"
     ],
     "bit_index": 11,
     "category": "HUB_SWITCH",
     "location_id": 3960411
   },
-  "HUB_SWITCH_RAINBOW_ROUTE_EAST": {
+  "HUB_SWITCH_MOONLIGHT": {
     "label": "Moonlight Mansion - Big Switch",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
+    "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_HUB",
     "tags": [
       "HubSwitch",
-      "MAP_RAINBOW_ROUTE"
+      "MAP_MOONLIGHT_MANSION"
     ],
     "bit_index": 1,
     "category": "HUB_SWITCH",
