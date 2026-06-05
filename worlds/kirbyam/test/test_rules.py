@@ -313,7 +313,7 @@ def test_room_reachability_from_start() -> None:
 
     reachable = _reachable_rooms_from("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE")
 
-    assert len(reachable) == 265
+    assert len(reachable) == 266
     assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE" in reachable
     assert "REGION_RAINBOW_ROUTE/ROOM_1_35" in reachable
     assert "REGION_CANDY_CONSTELLATION/ROOM_9_20" in reachable
