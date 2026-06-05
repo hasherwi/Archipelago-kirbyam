@@ -252,7 +252,7 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
         assert isinstance(room_meta["location_id"], int)
         assert isinstance(room_meta["bit_index"], int)
 
-    # Rooms may carry location data where the actual in-game pickup occurs.
+    # Room membership is derived from locations.json parent_region metadata.
     # Exactly the rooms with boss defeats and big chests should have locations;
     # all other rooms remain topology-only with empty lists.
     from ..data import load_json_data as _load
@@ -284,6 +284,28 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
     assert all(
         "exits" in region for region in room_regions.values()
     ), "All room regions must have exits defined"
+
+
+def test_room_locations_are_derived_from_locations_json() -> None:
+    from ..data import LocationCategory, data
+
+    canonical_room_locations: dict[str, list[str]] = {}
+    for loc_key, loc in data.locations.items():
+        if loc.category == LocationCategory.ROOM_SANITY:
+            continue
+        canonical_room_locations.setdefault(loc.parent_region, []).append(loc_key)
+
+    for room_key, expected_locations in canonical_room_locations.items():
+        if not room_key.startswith("REGION_") or "/ROOM_" not in room_key or "__LOGIC__" in room_key:
+            continue
+        actual_locations = [
+            loc_key
+            for loc_key in data.regions[room_key].locations
+            if data.locations[loc_key].category != LocationCategory.ROOM_SANITY
+        ]
+        assert sorted(actual_locations) == sorted(expected_locations), (
+            f"Room {room_key} locations must be derived from locations.json parent_region metadata"
+        )
 
 
 def test_room_subareas_preserve_two_way_and_one_way_transitions() -> None:

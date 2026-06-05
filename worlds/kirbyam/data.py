@@ -592,25 +592,41 @@ def _init() -> None:
                     f"(region={region_name}, destination={override_destination})"
                 )
 
-        # Locations
-        for loc_key in region_def.get("locations", []):
-            if not isinstance(loc_key, str):
-                continue
-            if loc_key in claimed_locations:
-                raise ValueError(f"Location [{loc_key}] was claimed by multiple regions")
-            if loc_key not in data.locations:
-                raise ValueError(f"Region [{region_name}] references unknown location key [{loc_key}]")
-            region.locations.append(loc_key)
-            claimed_locations.add(loc_key)
-
-        region.locations.sort()
-
         # Events (strings)
         for ev in region_def.get("events", []):
             if isinstance(ev, str):
                 region.events.append(EventData(ev, region_name))
 
         data.regions[region_name] = region
+
+    # Claim locations from their parent_region metadata in locations.json before
+    # logical subregions are synthesized. This keeps locations.json authoritative
+    # for canonical room membership and prevents synthetic routing slices from
+    # stealing ownership of room-owned pickups.
+    locations_by_parent_region: dict[str, list[str]] = {}
+    for loc_key, loc in data.locations.items():
+        if loc.category == LocationCategory.ROOM_SANITY:
+            continue
+        if loc.parent_region not in data.regions:
+            continue
+        locations_by_parent_region.setdefault(loc.parent_region, []).append(loc_key)
+
+    for region_name, loc_keys in sorted(locations_by_parent_region.items()):
+        region = data.regions[region_name]
+        for loc_key in sorted(
+            loc_keys,
+            key=lambda key: (
+                data.locations[key].bit_index if data.locations[key].bit_index is not None else -1,
+                key,
+            ),
+        ):
+            if loc_key in claimed_locations:
+                continue
+            region.locations.append(loc_key)
+            claimed_locations.add(loc_key)
+
+    for region in data.regions.values():
+        region.locations.sort()
 
     # Create synthetic logical room-subregions referenced by logical_exit_overrides.
     for parent_region_name, logical_subregions in logical_subregions_by_parent.items():
@@ -637,12 +653,12 @@ def _init() -> None:
             for loc_key in locations_raw:
                 if not isinstance(loc_key, str):
                     continue
-                if loc_key in claimed_locations:
-                    raise ValueError(f"Location [{loc_key}] was claimed by multiple regions")
                 if loc_key not in data.locations:
                     raise ValueError(
                         f"Logical subregion [{logical_region_name}] references unknown location key [{loc_key}]"
                     )
+                if loc_key in claimed_locations:
+                    continue
                 logical_region.locations.append(loc_key)
                 claimed_locations.add(loc_key)
 

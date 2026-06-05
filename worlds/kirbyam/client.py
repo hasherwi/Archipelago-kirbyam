@@ -614,16 +614,11 @@ class KirbyAmClient(BizHawkClient):
                     if area_id is not None:
                         room_area_result[doors_idx] = area_id
 
-            locations = room.get("locations")
-            if not isinstance(locations, list):
-                continue
-
             boss_location_ids: list[int] = []
-            for location_key in locations:
-                if not isinstance(location_key, str):
+            for loc_meta in data.locations.values():
+                if loc_meta.parent_region != region_key:
                     continue
-                loc_meta = data.locations.get(location_key)
-                if loc_meta is None or loc_meta.category != LocationCategory.BOSS_DEFEAT:
+                if loc_meta.category != LocationCategory.BOSS_DEFEAT:
                     continue
                 boss_location_ids.append(loc_meta.location_id)
 

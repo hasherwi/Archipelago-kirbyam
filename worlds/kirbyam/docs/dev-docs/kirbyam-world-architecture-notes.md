@@ -215,12 +215,14 @@ This is where the world defines whether something is a boss defeat, major chest,
 
 Room-sanity is not maintained as a giant hand-authored location list. Instead, `data.py` synthesizes room-sanity locations from metadata embedded in `data/regions/rooms.json`.
 
-That means `rooms.json` is doing double duty:
+That means `rooms.json` is doing double duty for topology and room-sanity metadata, while `locations.json` remains the source of truth for ordinary room-owned locations:
 
 - topology source for room graph traversal
 - optional generator for `Room X-YY` AP locations
 
 Room region naming in `rooms.json` is intentionally aligned with Wikirby.com room naming (for example, hub/goal labels) so cross-referencing map documentation and world data stays consistent.
+
+Regular room-owned location membership is derived from each location's `parent_region` in `locations.json`, so room topology and room membership do not drift apart.
 
 For reference, `REGION_MOONLIGHT_MANSION/ROOM_2_10` corresponds to the Area 2 Boss Antechamber.
 
