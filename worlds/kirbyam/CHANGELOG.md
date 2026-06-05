@@ -12,8 +12,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### New Features
 
 - Expanded exploration location check coverage:
-  - Minor chests are now implemented as location checks (Issue #129). We expect some bug with this that we haven't found. The chests' content are planned to be implemented as AP items later. See the Known Limitations section.
-  - Hub switches are now implemented as location checks (Issue #481). We expect some bug with this that we haven't found. Using the connection itself as an AP item is planned for later.
+  - Minor chests are now implemented as location checks (Issue #129). We expect some bugs with this that we haven't found. The chests' content are planned to be implemented as AP items later. See the Known Limitations section.
+  - Hub switches are now implemented as location checks (Issue #481). We expect some bugs with this that we haven't found. Using the connection itself as an AP item is planned for later.
   - The first time you visit each area is now a location check (Issue #606). These nine new location checks give us room to add progression gating items later. This is not a toggleable feature and is separate from Room Sanity.
 - Added several player-facing quality-of-life features:
   - `Starting Kirby Color` lets players begin with a chosen Kirby color instead of always starting as Pink, including a random option for surprise runs (Issue #597). See the Known Limitations section.
