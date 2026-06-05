@@ -185,6 +185,32 @@ def test_locations_command_supports_name_lookup_dict_style_access(mock_bizhawk_c
     assert active_location.label in outputs
 
 
+def test_build_location_ids_by_bit_filters_exact_minor_chest_locations():
+    filtered_map = KirbyAmClient._build_location_ids_by_bit(
+        LocationCategory.MINOR_CHEST,
+        include_predicate=lambda loc: not _is_exact_minor_chest_location(loc),
+    )
+
+    filtered_ids = {location_id for location_ids in filtered_map.values() for location_id in location_ids}
+    report_only_ids = {
+        loc.location_id
+        for loc in data.locations.values()
+        if loc.category == LocationCategory.MINOR_CHEST and _is_exact_minor_chest_location(loc)
+    }
+
+    assert filtered_ids
+    assert report_only_ids
+    assert filtered_ids.isdisjoint(report_only_ids)
+
+
+def test_build_room_metadata_maps_returns_sorted_boss_location_lists():
+    _, _, _, boss_room_lookup = KirbyAmClient._build_room_metadata_maps()
+
+    assert boss_room_lookup
+    for location_ids in boss_room_lookup.values():
+        assert location_ids == sorted(location_ids)
+
+
 @pytest.mark.asyncio
 async def test_validate_rom_reads_auth_from_rom_domain_offset(mock_bizhawk_context):
     client = KirbyAmClient()
