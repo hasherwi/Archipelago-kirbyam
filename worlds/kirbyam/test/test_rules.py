@@ -303,7 +303,7 @@ def test_room_reachability_from_start() -> None:
 
     reachable = _reachable_rooms_from("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE")
 
-    assert len(reachable) == 263
+    assert len(reachable) == 265
     assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE" in reachable
     assert "REGION_RAINBOW_ROUTE/ROOM_1_35" in reachable
     assert "REGION_CANDY_CONSTELLATION/ROOM_9_20" in reachable
@@ -502,9 +502,7 @@ def test_split_rooms_define_logical_subregion_metadata() -> None:
         "REGION_RADISH_RUINS/ROOM_8_21",
         "REGION_RADISH_RUINS/ROOM_8_23",
     }
-    assert rooms["REGION_RADISH_RUINS/ROOM_8_GOAL_1"]["logical_exit_overrides"] == {
-        "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_GOAL_1"
-    }
+    assert "logical_exit_overrides" not in rooms["REGION_RADISH_RUINS/ROOM_8_GOAL_1"]
 
     room_8_09 = rooms["REGION_RADISH_RUINS/ROOM_8_09"]
     assert room_8_09["logical_subregions"]["ENTRY_FROM_8_03"]["exits"] == [
@@ -587,10 +585,10 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     assert room_2_goal_2_from_entry in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"].exits
     assert room_9_chest_2_from_9_01 in kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_01"].exits
     assert room_9_chest_2_from_9_09 in kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_09"].exits
-    assert room_8_07_from_goal_1 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_GOAL_1"].exits
-    assert room_8_07_from_8_18_8_21_8_23 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_18"].exits
-    assert room_8_07_from_8_18_8_21_8_23 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_21"].exits
-    assert room_8_07_from_8_18_8_21_8_23 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_23"].exits
+    assert "REGION_RADISH_RUINS/ROOM_8_07" in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_GOAL_1"].exits
+    assert "REGION_RADISH_RUINS/ROOM_8_07" in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_18"].exits
+    assert "REGION_RADISH_RUINS/ROOM_8_07" in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_21"].exits
+    assert "REGION_RADISH_RUINS/ROOM_8_07" in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_23"].exits
     assert room_8_09_from_8_03 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_03"].exits
     assert room_8_09_from_8_04 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_04"].exits
     assert room_5_13_from_5_12 in kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_12"].exits

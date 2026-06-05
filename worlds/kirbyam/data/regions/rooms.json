@@ -8068,6 +8068,7 @@
     ],
     "events": [],
     "exits": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_01",
       "REGION_CABBAGE_CAVERN/ROOM_3_08",
       "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
     ],
@@ -8280,6 +8281,7 @@
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_02",
+      "REGION_CABBAGE_CAVERN/ROOM_3_16",
       "REGION_CABBAGE_CAVERN/ROOM_3_GOAL"
     ],
     "room_sanity": {
@@ -8371,6 +8373,7 @@
     ],
     "events": [],
     "exits": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_01",
       "REGION_CABBAGE_CAVERN/ROOM_3_05"
     ],
     "room_sanity": {
@@ -9520,6 +9523,7 @@
     "locations": [],
     "events": [],
     "exits": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_01",
       "REGION_OLIVE_OCEAN/ROOM_6_01",
       "REGION_OLIVE_OCEAN/ROOM_6_BOSS",
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
@@ -19675,9 +19679,6 @@
       "REGION_RADISH_RUINS/ROOM_8_17",
       "REGION_RADISH_RUINS/ROOM_8_23"
     ],
-    "logical_exit_overrides": {
-      "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_GOAL_1"
-    },
     "room_sanity": {
       "included": true,
       "location_id": 3961210,
@@ -21526,9 +21527,6 @@
       "REGION_RADISH_RUINS/ROOM_8_21",
       "REGION_RADISH_RUINS/ROOM_8_23"
     ],
-    "logical_exit_overrides": {
-      "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_18_OR_8_21_OR_8_23"
-    },
     "room_sanity": {
       "included": true,
       "location_id": 3961213,
@@ -21827,9 +21825,6 @@
       "REGION_RADISH_RUINS/ROOM_8_07",
       "REGION_RADISH_RUINS/ROOM_8_18"
     ],
-    "logical_exit_overrides": {
-      "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_18_OR_8_21_OR_8_23"
-    },
     "room_sanity": {
       "included": true,
       "location_id": 3961227,
@@ -21987,9 +21982,6 @@
       "REGION_RADISH_RUINS/ROOM_8_07",
       "REGION_RADISH_RUINS/ROOM_8_18"
     ],
-    "logical_exit_overrides": {
-      "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_18_OR_8_21_OR_8_23"
-    },
     "room_sanity": {
       "included": true,
       "location_id": 3961228,
