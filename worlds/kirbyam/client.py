@@ -7,7 +7,7 @@ import random
 import re
 import time
 from struct import unpack_from
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Callable, Optional
 
 import Utils
 from BaseClasses import ItemClassification
@@ -297,34 +297,23 @@ class KirbyAmClient(BizHawkClient):
                     self._goal_location_ids_by_option[Goal.option_defeat_random_hidden_area_boss] = loc.location_id
             else:
                 self._non_goal_location_ids_sorted.append(loc.location_id)
-        # Boss defeat bitfield → location IDs (BOSS_DEFEAT category; polled from boss_defeat_flags)
-        self._boss_location_ids_by_bit: dict[int, list[int]] = {}
-        for loc in data.locations.values():
-            if loc.bit_index is None or loc.category != LocationCategory.BOSS_DEFEAT:
-                continue
-            self._boss_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+        # Boss defeat bitfield -> location IDs (BOSS_DEFEAT category; polled from boss_defeat_flags)
+        self._boss_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.BOSS_DEFEAT)
         self._boss_location_ids_all: set[int] = {
             location_id
             for location_ids in self._boss_location_ids_by_bit.values()
             for location_id in location_ids
         }
 
-        # Major chest bitfield → location IDs (MAJOR_CHEST category; polled from major_chest_flags)
+        # Major chest bitfield -> location IDs (MAJOR_CHEST category; polled from major_chest_flags)
         # Bit N corresponds to area ID N in enum AreaId (e.g. bit 3 = AREA_CABBAGE_CAVERN).
-        self._major_chest_location_ids_by_bit: dict[int, list[int]] = {}
-        for loc in data.locations.values():
-            if loc.bit_index is None or loc.category != LocationCategory.MAJOR_CHEST:
-                continue
-            self._major_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+        self._major_chest_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.MAJOR_CHEST)
 
-        # Minor chest native bitfield → location IDs (MINOR_CHEST category; polled from native chest flags).
-        self._minor_chest_location_ids_by_bit: dict[int, list[int]] = {}
-        for loc in data.locations.values():
-            if loc.bit_index is None or loc.category != LocationCategory.MINOR_CHEST:
-                continue
-            if _is_exact_minor_chest_location(loc):
-                continue
-            self._minor_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+        # Minor chest native bitfield -> location IDs (MINOR_CHEST category; polled from native chest flags).
+        self._minor_chest_location_ids_by_bit = self._build_location_ids_by_bit(
+            LocationCategory.MINOR_CHEST,
+            include_predicate=lambda loc: not _is_exact_minor_chest_location(loc),
+        )
         self._report_only_minor_chest_location_ids: set[int] = {
             loc.location_id
             for loc in data.locations.values()
@@ -350,26 +339,14 @@ class KirbyAmClient(BizHawkClient):
         self._last_minor_chest_event_counter: int | None = None
         self._logged_unknown_minor_chest_source_ptrs: set[int] = set()
 
-        # Vitality chest bitfield → location IDs (VITALITY_CHEST category; dedicated transport register)
-        self._vitality_chest_location_ids_by_bit: dict[int, list[int]] = {}
-        for loc in data.locations.values():
-            if loc.bit_index is None or loc.category != LocationCategory.VITALITY_CHEST:
-                continue
-            self._vitality_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+        # Vitality chest bitfield -> location IDs (VITALITY_CHEST category; dedicated transport register)
+        self._vitality_chest_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.VITALITY_CHEST)
 
-        # Sound Player chest bitfield → location IDs (SOUND_PLAYER_CHEST category).
-        self._sound_player_chest_location_ids_by_bit: dict[int, list[int]] = {}
-        for loc in data.locations.values():
-            if loc.bit_index is None or loc.category != LocationCategory.SOUND_PLAYER_CHEST:
-                continue
-            self._sound_player_chest_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+        # Sound Player chest bitfield -> location IDs (SOUND_PLAYER_CHEST category).
+        self._sound_player_chest_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.SOUND_PLAYER_CHEST)
 
-        # Hub switch bitfield → location IDs (HUB_SWITCH category).
-        self._hub_switch_location_ids_by_bit: dict[int, list[int]] = {}
-        for loc in data.locations.values():
-            if loc.bit_index is None or loc.category != LocationCategory.HUB_SWITCH:
-                continue
-            self._hub_switch_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+        # Hub switch bitfield -> location IDs (HUB_SWITCH category).
+        self._hub_switch_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.HUB_SWITCH)
 
         # Compatibility aliases sourced from the generated hub-switch contract.
         # This keeps fallback bits synchronized with payload/client mapping rules.
@@ -393,20 +370,12 @@ class KirbyAmClient(BizHawkClient):
             for location_id in location_ids
         }
 
-        # Room-sanity bitfield index (doorsIdx) → location IDs.
-        self._room_sanity_location_ids_by_bit: dict[int, list[int]] = {}
-        for loc in data.locations.values():
-            if loc.bit_index is None or loc.category != LocationCategory.ROOM_SANITY:
-                continue
-            self._room_sanity_location_ids_by_bit.setdefault(loc.bit_index, []).append(loc.location_id)
+        # Room-sanity bitfield index (doorsIdx) -> location IDs.
+        self._room_sanity_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.ROOM_SANITY)
         self._room_sanity_bits_sorted: list[int] = sorted(self._room_sanity_location_ids_by_bit.keys())
 
         # Area-first-visit location map keyed by area id (1..9).
-        self._area_visit_location_ids_by_area_id: dict[int, list[int]] = {}
-        for loc in data.locations.values():
-            if loc.bit_index is None or loc.category != LocationCategory.AREA_VISIT:
-                continue
-            self._area_visit_location_ids_by_area_id.setdefault(loc.bit_index, []).append(loc.location_id)
+        self._area_visit_location_ids_by_area_id = self._build_location_ids_by_bit(LocationCategory.AREA_VISIT)
         self._area_visit_area_ids_sorted: list[int] = sorted(self._area_visit_location_ids_by_area_id.keys())
 
         # One-time RAM state load
@@ -585,6 +554,21 @@ class KirbyAmClient(BizHawkClient):
         return common_logger
 
     @staticmethod
+    def _build_location_ids_by_bit(
+        category: LocationCategory,
+        include_predicate: Callable[[object], bool] | None = None,
+    ) -> dict[int, list[int]]:
+        """Build a bit-index map for locations in the requested category."""
+        result: dict[int, list[int]] = {}
+        for loc in data.locations.values():
+            if loc.bit_index is None or loc.category != category:
+                continue
+            if include_predicate is not None and not include_predicate(loc):
+                continue
+            result.setdefault(loc.bit_index, []).append(loc.location_id)
+        return result
+
+    @staticmethod
     def _build_room_metadata_maps() -> "tuple[dict[int, str], dict[int, str], dict[int, int], dict[str, list[int]]]":
         """Build all room-derived lookup maps from a single rooms.json pass."""
         rooms_json = load_json_data("regions/rooms.json")
@@ -594,6 +578,15 @@ class KirbyAmClient(BizHawkClient):
         boss_room_result: dict[str, list[int]] = {}
         if not isinstance(rooms_json, dict):
             return room_label_result, room_region_result, room_area_result, boss_room_result
+
+        for loc_meta in data.locations.values():
+            if loc_meta.category != LocationCategory.BOSS_DEFEAT:
+                continue
+            if not isinstance(loc_meta.parent_region, str) or loc_meta.parent_region not in rooms_json:
+                continue
+            boss_room_result.setdefault(loc_meta.parent_region, []).append(loc_meta.location_id)
+        for location_ids in boss_room_result.values():
+            location_ids.sort()
 
         for region_key, room in rooms_json.items():
             if not isinstance(region_key, str) or not isinstance(room, dict):
@@ -613,17 +606,6 @@ class KirbyAmClient(BizHawkClient):
                     area_id = _AREA_REGION_TOKEN_TO_AREA_ID.get(match.group(1))
                     if area_id is not None:
                         room_area_result[doors_idx] = area_id
-
-            boss_location_ids: list[int] = []
-            for loc_meta in data.locations.values():
-                if loc_meta.parent_region != region_key:
-                    continue
-                if loc_meta.category != LocationCategory.BOSS_DEFEAT:
-                    continue
-                boss_location_ids.append(loc_meta.location_id)
-
-            if boss_location_ids:
-                boss_room_result[region_key] = sorted(boss_location_ids)
 
         return room_label_result, room_region_result, room_area_result, boss_room_result
 

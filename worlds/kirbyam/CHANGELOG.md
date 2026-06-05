@@ -18,6 +18,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Trap pool filtering now removes `Life Down Trap` and `Life Wipeout Trap` when `No Extra Lives` is enabled, and removes `Health Down Trap` when one-hit mode is enabled (PR #833).
 
 ### Internal Changes
+- Simplified repeated client location-map initialization paths in `worlds/kirbyam/client.py`, added focused regression coverage for the refactor, and added concise runtime developer docs for location polling and item/native-reward interception flows (Issue #811).
 - Traps are now stored in data/items.json, instead of a separate data/traps.json (PR #833).
 - Room-owned location membership is now derived from `locations.json` parent-region metadata so `rooms.json` no longer acts as a second source of truth (Issue #840).
 - Improvements to logic mapping (PR #844).
