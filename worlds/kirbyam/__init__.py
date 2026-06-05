@@ -714,9 +714,8 @@ class KirbyAmWorld(World):
                 )
                 if self._traps_enabled() and self._no_extra_lives_enabled():
                     logger.info(
-                        "[P%s] no_extra_lives: added %s to the active trap pool",
+                        "[P%s] no_extra_lives: removed life-based traps from the active trap pool",
                         self.player,
-                        self._LIFE_WIPEOUT_TRAP_LABEL,
                     )
                 logger.info(
                     "[P%s] Filler weights (active pool): %s",
