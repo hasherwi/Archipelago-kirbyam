@@ -7,22 +7,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## Unreleased
-
-### New Features
-
-- Adds a new trap item: `Life Wipeout Trap` which sets Kirby's lives count to 0 (Issue #693).
-
-### Improvements
-- Bump Archipelago Minimum version to 0.6.7 (PR #843).
-- Trap pool filtering now removes `Life Down Trap` and `Life Wipeout Trap` when `No Extra Lives` is enabled, and removes `Health Down Trap` when one-hit mode is enabled (PR #833).
-
-### Internal Changes
-- Simplified repeated client location-map initialization paths in `worlds/kirbyam/client.py`, added focused regression coverage for the refactor, and added concise runtime developer docs for location polling and item/native-reward interception flows (Issue #811).
-- Traps are now stored in data/items.json, instead of a separate data/traps.json (PR #833).
-- Room-owned location membership is now derived from `locations.json` parent-region metadata so `rooms.json` no longer acts as a second source of truth (Issue #840).
-- Improvements to logic mapping (PR #844).
-
 ## v0.2.0
 
 ### New Features
@@ -35,12 +19,14 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - `Starting Kirby Color` lets players begin with a chosen Kirby color instead of always starting as Pink, including a random option for surprise runs (Issue #597). See the Known Limitations section.
   - `Start With All Maps` lets players begin with every area map already unlocked for a more guided playthrough (Issue #584).
   - Room names now match Wikirby names, making the game easier to navigate and discuss (Issue #587).
-- Added trap items (Issue #81), which are disabled by default. They are controlled by the options `Enable Traps` and `Trap Fill Percentage`:
+- Added trap items (Issue #81), which are disabled by default. They are controlled by the options `Enable Traps` and `Trap Fill Percentage` (Issue #81):
   - `Health Down Trap`: reduces Kirby's current HP by 2 (but won't kill Kirby).
   - `Life Down Trap`: removes one extra life (if any remain).
   - `Bomb Trap`: sets Kirby's current HP to 0.
   - `Battery Drain Trap`: empties the cell phone battery to 0.
+  - `Life Wipeout Trap`: sets Kirby's lives to 0 (Issue #693).
   - Trap item receive notifications are prefixed with "Received trap:" to distinguish them from regular items.
+  - Trap pool filtering removes `Life Down Trap` and `Life Wipeout Trap` when `No Extra Lives` is enabled, and removes `Health Down Trap` when one-hit mode is enabled (PR #833).
 - Added two new goal modes:
   - `defeat_any_area_boss` completes the seed after the first acknowledged area-boss defeat check (Issue #205).
   - `defeat_random_hidden_area_boss` selects one eligible area boss per seed, stores only an internal hidden boss-defeat key in slot data, and completes the seed when that exact boss is defeated while keeping the target out of normal player-facing output (Issue #206).
@@ -51,6 +37,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Improvements
 
+- Bump Archipelago Minimum version to 0.6.7 (PR #843).
 - Enemy Ability Shuffle now covers more enemies, spreads allowed abilities more evenly across enemies when possible while still respecting settings that force no ability, and keeps `Ability Randomization: Minny` off by default unless players opt in (Issues #420, #583).
 - DeathLink got flavor text (Issue #409).
 - Spoiler output and generation logs now show shuffled enemy ability assignments, making seeds easier to review (Issue #586). This includes ability statues (Issue #804). For statues, see the Known Limitations section.
@@ -81,6 +68,9 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Improve `worlds/kirbyam/build.py` usability for non-author machines by prompting for missing required patch inputs in interactive runs (including missing `--rom` when `--source-type arg` is selected), adding `--source-type file` fallback guidance when `rom_path.tmp` is invalid, and introducing `--non-interactive` fail-fast behavior for automation/CI (Issue #607).
 - Move unswallowable enemy exclusion policy from a static runtime list into `data/enemies.json` source metadata (`can_be_swallowed`) and represent the currently configured non-swallowable enemies there: `GLUNK`, `JACK`, and `SQUISHY` (Issue #570).
 - Completely random swallow abilities now emit file-only diagnostics describing what Kirby got from the latest swallow event, and the old `Enable Debug Logging` / `enable_debug_logging` toggle has been removed so those diagnostics are no longer part of the player-facing option surface.
+- Simplified repeated client location-map initialization paths in `worlds/kirbyam/client.py`, added focused regression coverage for the refactor, and added concise runtime developer docs for location polling and item/native-reward interception flows (Issue #811).
+- Room-owned location membership is now derived from `locations.json` parent-region metadata so `rooms.json` no longer acts as a second source of truth (Issue #840).
+- Numerous improvements to logic mapping.
 
 ## v0.1.2
 
