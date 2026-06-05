@@ -687,6 +687,9 @@ class KirbyAmClient(BizHawkClient):
             for loc in sorted(data.locations.values(), key=lambda loc: loc.location_id)
             if loc.category == LocationCategory.MINOR_CHEST and _is_exact_minor_chest_location(loc)
         ]
+        if not report_location_ids:
+            self._minor_chest_report_manifest_source_ptrs = set()
+            return {}
         report_index = 0
         assigned_report_location_ids: set[int] = set()
         source_ptr_to_location_id: dict[int, int] = {}
@@ -784,6 +787,36 @@ class KirbyAmClient(BizHawkClient):
         entries = manifest.get("entries")
         if not isinstance(entries, list):
             return {}, {}
+
+        # Preferred synthetic wiring for simplified spray/music-only location checks:
+        # - MINOR_CHEST_SPRAY_PAINT_01..14 map to spray bits 0..13
+        # - MINOR_CHEST_MUSIC_NOTE_01..10 map to music bits 1..10
+        spray_direct: dict[int, list[int]] = {}
+        music_direct: dict[int, list[int]] = {}
+        for location_key, loc in data.locations.items():
+            if loc.category != LocationCategory.MINOR_CHEST:
+                continue
+            if _is_exact_minor_chest_location(loc):
+                continue
+
+            if location_key.startswith("MINOR_CHEST_SPRAY_PAINT_"):
+                suffix = location_key.removeprefix("MINOR_CHEST_SPRAY_PAINT_")
+                if suffix.isdigit():
+                    ordinal = int(suffix)
+                    if 1 <= ordinal <= 14:
+                        spray_direct[ordinal - 1] = [loc.location_id]
+                        continue
+
+            if location_key.startswith("MINOR_CHEST_MUSIC_NOTE_"):
+                suffix = location_key.removeprefix("MINOR_CHEST_MUSIC_NOTE_")
+                if suffix.isdigit():
+                    ordinal = int(suffix)
+                    if 1 <= ordinal <= 10:
+                        music_direct[ordinal] = [loc.location_id]
+                        continue
+
+        if spray_direct or music_direct:
+            return spray_direct, music_direct
 
         named_minor_location_id_by_room_and_bit: dict[tuple[str, int], int] = {}
         for loc in data.locations.values():
@@ -2653,67 +2686,46 @@ class KirbyAmClient(BizHawkClient):
 
     async def _poll_minor_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
-        Read native small-chest flags and map set bits to MINOR_CHEST locations.
+        Read spray-paint and music-sheet collected bits and map set bits to MINOR_CHEST locations.
 
-        This path uses native chest-state semantics directly (Issue #129). Polling mirrors
-        existing resend/dedupe behavior: RAM-derived checks are resent until the server
-        acknowledges them in ctx.checked_locations.
+        Small chest flag indices are heavily shared across many physical chests, which makes
+        native chest-bit only reporting ambiguous. To keep location checks deterministic,
+        this path treats collectible ownership bits as the source for minor chest checks.
         """
         active_location_ids = self._active_location_id_set(ctx)
-        if self._report_only_minor_chest_location_ids:
-            should_poll_exact_events = active_location_ids is None or bool(
-                self._report_only_minor_chest_location_ids & active_location_ids
-            )
-            if should_poll_exact_events:
-                await self._poll_minor_chest_event_locations(ctx)
 
-        if not self._minor_chest_location_ids_by_bit:
+        has_spray_map = bool(self._minor_chest_spray_fallback_location_ids_by_bit)
+        has_music_map = bool(self._minor_chest_music_sheet_fallback_location_ids_by_bit)
+        if not has_spray_map and not has_music_map:
             return
 
-        chest_addr = self._native_addr(_MINOR_CHEST_FLAGS_ADDR_KEY)
-        if chest_addr is None:
-            return
-
-        reads: list[tuple[int, int, str]] = [(chest_addr, _MINOR_CHEST_FLAGS_READ_WIDTH, "System Bus")]
         spray_addr = self._native_addr(_SPRAY_PAINT_BITFIELD_ADDR_KEY)
         music_addr = self._native_addr(_MUSIC_PLAYER_AND_SHEETS_BITFIELD_ADDR_KEY)
-        include_spray_fallback = bool(self._minor_chest_spray_fallback_location_ids_by_bit) and spray_addr is not None
-        include_music_fallback = bool(self._minor_chest_music_sheet_fallback_location_ids_by_bit) and music_addr is not None
-        if include_spray_fallback:
-            reads.append((spray_addr, 4, "System Bus"))
-        if include_music_fallback:
-            reads.append((music_addr, 4, "System Bus"))
+        read_specs: list[tuple[int, int, str]] = []
+        if has_spray_map and spray_addr is not None:
+            read_specs.append((spray_addr, 4, "System Bus"))
+        if has_music_map and music_addr is not None:
+            read_specs.append((music_addr, 4, "System Bus"))
+        if not read_specs:
+            return
 
-        raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
-        raw = raw_values[0]
-        if len(raw) != _MINOR_CHEST_FLAGS_READ_WIDTH:
-            self._log_verbose(
-                "warning",
-                "KirbyAM: minor-chest poll expected %s bytes from native chest flags, got %s; skipping tick",
-                _MINOR_CHEST_FLAGS_READ_WIDTH,
-                len(raw),
-            )
+        raw_values = await bizhawk.read(ctx.bizhawk_ctx, read_specs)
+        if len(raw_values) != len(read_specs):
             return
 
         mapped_checked_locations: set[int] = set()
-        for bit in sorted(self._minor_chest_location_ids_by_bit.keys()):
-            byte_index = bit // 8
-            if byte_index >= len(raw):
-                continue
-            if raw[byte_index] & (1 << (bit % 8)):
-                mapped_checked_locations.update(self._minor_chest_location_ids_by_bit.get(bit, []))
-
-        next_idx = 1
-        if include_spray_fallback and len(raw_values) > next_idx:
-            spray_raw = raw_values[next_idx]
-            next_idx += 1
+        read_idx = 0
+        if has_spray_map and spray_addr is not None:
+            spray_raw = raw_values[read_idx]
+            read_idx += 1
             if len(spray_raw) == 4:
                 spray_bits = self._u32_le(spray_raw)
                 for bit in sorted(self._minor_chest_spray_fallback_location_ids_by_bit.keys()):
                     if (spray_bits >> bit) & 1:
                         mapped_checked_locations.update(self._minor_chest_spray_fallback_location_ids_by_bit.get(bit, []))
-        if include_music_fallback and len(raw_values) > next_idx:
-            music_raw = raw_values[next_idx]
+
+        if has_music_map and music_addr is not None:
+            music_raw = raw_values[read_idx]
             if len(music_raw) == 4:
                 music_bits = self._u32_le(music_raw)
                 for bit in sorted(self._minor_chest_music_sheet_fallback_location_ids_by_bit.keys()):
