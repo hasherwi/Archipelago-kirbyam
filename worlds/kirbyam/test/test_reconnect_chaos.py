@@ -138,7 +138,6 @@ async def test_reconnect_chaos_goal_reporting_is_idempotent_across_cycles(mock_b
         stack.enter_context(patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_major_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_minor_chest_locations', new_callable=AsyncMock))
-        stack.enter_context(patch.object(client, '_poll_chest_field_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock))

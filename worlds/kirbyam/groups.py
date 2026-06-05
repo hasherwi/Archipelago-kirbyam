@@ -43,7 +43,6 @@ _LOCATION_GROUP_MAPS: dict[str, set[str]] = {
 
 _LOCATION_CATEGORY_TO_GROUP_NAME = {
     LocationCategory.MAP_CHEST: "Major Chests",
-    LocationCategory.OTHER_CHEST: "Other Chests",
     LocationCategory.HUB_SWITCH: "Hub Switches",
     LocationCategory.MINOR_CHEST: "Minor Chests",
     LocationCategory.AREA_VISIT: "Area First Visits",

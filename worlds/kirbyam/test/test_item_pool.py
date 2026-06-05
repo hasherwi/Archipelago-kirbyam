@@ -523,7 +523,6 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
         if m.category == LocationCategory.SOUND_PLAYER_CHEST
     )
     _minor_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MINOR_CHEST)
-    _other_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.OTHER_CHEST)
     _hub_switch_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.HUB_SWITCH)
     _room_sanity_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.ROOM_SANITY)
     _area_visit_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.AREA_VISIT)
@@ -532,7 +531,6 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
         + _vitality_chest_count
         + _sound_player_chest_count
         + _minor_chest_count
-        + _other_chest_count
         + _hub_switch_count
         + _room_sanity_count
         + _area_visit_count
@@ -558,7 +556,6 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
         if m.category == LocationCategory.SOUND_PLAYER_CHEST
     )
     _minor_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MINOR_CHEST)
-    _other_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.OTHER_CHEST)
     _hub_switch_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.HUB_SWITCH)
     _room_sanity_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.ROOM_SANITY)
     _area_visit_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.AREA_VISIT)
@@ -569,7 +566,6 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
         + _vitality_chest_count
         + _sound_player_chest_count
         + _minor_chest_count
-        + _other_chest_count
         + _hub_switch_count
         + _room_sanity_count
         + _area_visit_count
