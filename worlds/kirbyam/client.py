@@ -293,6 +293,8 @@ class KirbyAmClient(BizHawkClient):
                     self._goal_location_ids_by_option[Goal.option_dark_mind] = loc.location_id
                 elif loc.name == "GOAL_ANY_AREA_BOSS":
                     self._goal_location_ids_by_option[Goal.option_defeat_any_area_boss] = loc.location_id
+                elif loc.name == "GOAL_HIDDEN_AREA_BOSS":
+                    self._goal_location_ids_by_option[Goal.option_defeat_random_hidden_area_boss] = loc.location_id
             else:
                 self._non_goal_location_ids_sorted.append(loc.location_id)
         # Boss defeat bitfield → location IDs (BOSS_DEFEAT category; polled from boss_defeat_flags)
@@ -3796,7 +3798,6 @@ class KirbyAmClient(BizHawkClient):
                 hidden_goal = data.locations.get(hidden_goal_key_raw)
                 if hidden_goal is not None and hidden_goal.location_id is not None:
                     hidden_goal_key = hidden_goal_key_raw
-                    goal_location_id = self._goal_location_ids_by_option.get(Goal.option_defeat_any_area_boss)
             if goal_location_id is None or hidden_goal_key is None:
                 self._log_client(
                     "warning",

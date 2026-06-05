@@ -238,6 +238,15 @@
         "MAP_DIMENSION_MIRROR"
       ]
     },
+    "GOAL_HIDDEN_AREA_BOSS": {
+      "category": "GOAL",
+      "label": "Defeat a Hidden Area Boss",
+      "location_id": 3960010,
+      "tags": [
+        "Goal",
+        "MAP_RAINBOW_ROUTE"
+      ]
+    },
     "HUB_SWITCH_CABBAGE_CAVERN_CENTER": {
       "category": "HUB_SWITCH",
       "label": "Cabbage Cavern Center - Big Switch",
@@ -647,12 +656,12 @@
     },
     "MINOR_CHEST_UNMAPPED_X_03_REPORT": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 1-04 (Report This)",
+      "label": "Uncertain Minor Chest 1-02 (Report This)",
       "location_id": 3960522,
       "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
+        "ExactEventLocation",
+        "MAP_RAINBOW_ROUTE",
+        "SmallChest"
       ]
     },
     "MINOR_CHEST_UNMAPPED_X_04_REPORT": {
@@ -757,7 +766,7 @@
     },
     "MINOR_CHEST_UNMAPPED_X_14_REPORT": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-24 (Report This)",
+      "label": "Uncertain Minor Chest 7-24 B (Report This)",
       "location_id": 3960533,
       "tags": [
         "ReportLocation",
@@ -777,7 +786,7 @@
     },
     "MINOR_CHEST_UNMAPPED_X_16_REPORT": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-03 (Report This)",
+      "label": "Uncertain Minor Chest 7-03 B (Report This)",
       "location_id": 3960535,
       "tags": [
         "ReportLocation",
@@ -837,7 +846,7 @@
     },
     "MINOR_CHEST_UNMAPPED_X_22_REPORT": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-06 (Report This)",
+      "label": "Uncertain Minor Chest 7-06 B (Report This)",
       "location_id": 3960541,
       "tags": [
         "ReportLocation",
@@ -3247,6 +3256,7 @@
     "REGION_CABBAGE_CAVERN/ROOM_3_01": {
       "exits": [
         "REGION_CABBAGE_CAVERN/ROOM_3_02",
+        "REGION_CABBAGE_CAVERN/ROOM_3_16",
         "REGION_CABBAGE_CAVERN/ROOM_3_GOAL"
       ],
       "label": "REGION_CABBAGE_CAVERN/ROOM_3_01",
@@ -3255,6 +3265,7 @@
     },
     "REGION_CABBAGE_CAVERN/ROOM_3_02": {
       "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_01",
         "REGION_CABBAGE_CAVERN/ROOM_3_05"
       ],
       "label": "REGION_CABBAGE_CAVERN/ROOM_3_02",
@@ -3386,6 +3397,7 @@
     },
     "REGION_CABBAGE_CAVERN/ROOM_3_16": {
       "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_01",
         "REGION_OLIVE_OCEAN/ROOM_6_01",
         "REGION_OLIVE_OCEAN/ROOM_6_BOSS",
         "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
@@ -3407,6 +3419,7 @@
     },
     "REGION_CABBAGE_CAVERN/ROOM_3_GOAL": {
       "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_01",
         "REGION_CABBAGE_CAVERN/ROOM_3_08",
         "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
       ],

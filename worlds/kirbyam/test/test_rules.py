@@ -268,11 +268,12 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
             assert loc_key in known_locations, (
                 f"Room {room_key} claims unknown location key {loc_key!r}"
             )
-    # Canonical room entries carry 38 AP locations; additional location ownership
-    # can live in logical_subregions for disconnected chamber modeling.
+    # Canonical room entries carry at least 38 legacy AP locations plus 15
+    # room-owned HUB_SWITCH locations. Additional room-owned report locations
+    # are valid and can increase this count.
     room_keys = list(rooms_with_locations.keys())
-    assert len(rooms_with_locations) == 38, (
-        f"Expected 38 canonical rooms with locations, got {len(rooms_with_locations)}: {room_keys}"
+    assert len(rooms_with_locations) >= 53, (
+        f"Expected at least 53 canonical rooms with locations, got {len(rooms_with_locations)}: {room_keys}"
     )
 
     # Topology includes all rooms, but Room Sanity remains optional metadata.
@@ -302,7 +303,7 @@ def test_room_reachability_from_start() -> None:
 
     reachable = _reachable_rooms_from("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE")
 
-    assert len(reachable) == 263
+    assert len(reachable) == 265
     assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE" in reachable
     assert "REGION_RAINBOW_ROUTE/ROOM_1_35" in reachable
     assert "REGION_CANDY_CONSTELLATION/ROOM_9_20" in reachable
@@ -501,9 +502,7 @@ def test_split_rooms_define_logical_subregion_metadata() -> None:
         "REGION_RADISH_RUINS/ROOM_8_21",
         "REGION_RADISH_RUINS/ROOM_8_23",
     }
-    assert rooms["REGION_RADISH_RUINS/ROOM_8_GOAL_1"]["logical_exit_overrides"] == {
-        "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_GOAL_1"
-    }
+    assert "logical_exit_overrides" not in rooms["REGION_RADISH_RUINS/ROOM_8_GOAL_1"]
 
     room_8_09 = rooms["REGION_RADISH_RUINS/ROOM_8_09"]
     assert room_8_09["logical_subregions"]["ENTRY_FROM_8_03"]["exits"] == [
@@ -586,10 +585,10 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     assert room_2_goal_2_from_entry in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"].exits
     assert room_9_chest_2_from_9_01 in kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_01"].exits
     assert room_9_chest_2_from_9_09 in kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_09"].exits
-    assert room_8_07_from_goal_1 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_GOAL_1"].exits
-    assert room_8_07_from_8_18_8_21_8_23 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_18"].exits
-    assert room_8_07_from_8_18_8_21_8_23 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_21"].exits
-    assert room_8_07_from_8_18_8_21_8_23 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_23"].exits
+    assert "REGION_RADISH_RUINS/ROOM_8_07" in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_GOAL_1"].exits
+    assert "REGION_RADISH_RUINS/ROOM_8_07" in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_18"].exits
+    assert "REGION_RADISH_RUINS/ROOM_8_07" in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_21"].exits
+    assert "REGION_RADISH_RUINS/ROOM_8_07" in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_23"].exits
     assert room_8_09_from_8_03 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_03"].exits
     assert room_8_09_from_8_04 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_04"].exits
     assert room_5_13_from_5_12 in kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_12"].exits
@@ -746,6 +745,7 @@ def test_hub_switch_locations_have_matching_big_switch_events() -> None:
     from ..data import load_json_data
 
     areas = load_json_data("regions/areas.json")
+    locations = load_json_data("locations.json")
 
     expected_events_by_hub_switch = {
         "HUB_SWITCH_MUSTARD": "Activate Big Switch - Mustard Mountain",
@@ -766,18 +766,21 @@ def test_hub_switch_locations_have_matching_big_switch_events() -> None:
     }
 
     found_events: set[str] = set()
-    for area_data in areas.values():
-        if not isinstance(area_data, dict):
-            continue
-        locations = area_data.get("locations", [])
+    for hub_switch_key, expected_event in expected_events_by_hub_switch.items():
+        loc_meta = locations.get(hub_switch_key)
+        assert isinstance(loc_meta, dict), f"Missing location metadata for {hub_switch_key}"
+        parent_region = str(loc_meta.get("parent_region", ""))
+        assert "/" in parent_region, f"Invalid parent region for {hub_switch_key}: {parent_region}"
+
+        area_region = parent_region.split("/", 1)[0] + "/MAIN"
+        area_data = areas.get(area_region)
+        assert isinstance(area_data, dict), f"Missing area region {area_region} for {hub_switch_key}"
+
         events = area_data.get("events", [])
-        if not isinstance(locations, list) or not isinstance(events, list):
-            continue
-        location_set = {location for location in locations if isinstance(location, str)}
+        assert isinstance(events, list), f"Invalid events list for area {area_region}"
         event_set = {event for event in events if isinstance(event, str)}
-        for hub_switch_key, expected_event in expected_events_by_hub_switch.items():
-            if hub_switch_key in location_set:
-                assert expected_event in event_set
-                found_events.add(expected_event)
+
+        assert expected_event in event_set
+        found_events.add(expected_event)
 
     assert found_events == set(expected_events_by_hub_switch.values())

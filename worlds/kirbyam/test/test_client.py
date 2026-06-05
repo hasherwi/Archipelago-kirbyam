@@ -2402,12 +2402,12 @@ async def test_goal_hidden_random_area_boss_server_exposed_goal_reports_location
     client.initialize_client()
 
     hidden_goal_key = "BOSS_DEFEAT_3"
-    generic_goal_id = data.locations["GOAL_ANY_AREA_BOSS"].location_id
+    hidden_goal_id = data.locations["GOAL_HIDDEN_AREA_BOSS"].location_id
 
     mock_bizhawk_context.slot_data["goal"] = 2
     mock_bizhawk_context.slot_data["goal_hidden_area_boss_key"] = hidden_goal_key
     mock_bizhawk_context.checked_locations = set()
-    mock_bizhawk_context.server_locations = {generic_goal_id}
+    mock_bizhawk_context.server_locations = {hidden_goal_id}
     mock_bizhawk_context.finished_game = False
 
     client._native_goal_signal_seen = True
@@ -2415,11 +2415,11 @@ async def test_goal_hidden_random_area_boss_server_exposed_goal_reports_location
     await client._maybe_report_goal(mock_bizhawk_context)
 
     mock_bizhawk_context.send_msgs.assert_awaited_once_with([
-        {"cmd": "LocationChecks", "locations": [generic_goal_id]}
+        {"cmd": "LocationChecks", "locations": [hidden_goal_id]}
     ])
 
     mock_bizhawk_context.send_msgs.reset_mock()
-    mock_bizhawk_context.checked_locations.add(generic_goal_id)
+    mock_bizhawk_context.checked_locations.add(hidden_goal_id)
 
     await client._maybe_report_goal(mock_bizhawk_context)
 
@@ -2438,12 +2438,12 @@ async def test_goal_hidden_random_area_boss_does_not_trigger_for_non_target_boss
 
     hidden_goal_key = "BOSS_DEFEAT_3"
     non_target_key = "BOSS_DEFEAT_1"
-    generic_goal_id = data.locations["GOAL_ANY_AREA_BOSS"].location_id
+    hidden_goal_id = data.locations["GOAL_HIDDEN_AREA_BOSS"].location_id
 
     mock_bizhawk_context.slot_data["goal"] = 2
     mock_bizhawk_context.slot_data["goal_hidden_area_boss_key"] = hidden_goal_key
     mock_bizhawk_context.checked_locations = {data.locations[non_target_key].location_id}
-    mock_bizhawk_context.server_locations = {generic_goal_id}
+    mock_bizhawk_context.server_locations = {hidden_goal_id}
     mock_bizhawk_context.finished_game = False
 
     await client._maybe_report_goal(mock_bizhawk_context)
