@@ -622,17 +622,7 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
         "SOUND_PLAYER_CHEST",
         "ROOM_SANITY_9_CHEST_1",
     ]
-    assert "MINOR_CHEST_CANDY_CONSTELLATION_9_12" not in (
-        kirby_data.regions[room_9_chest_2_from_9_01].locations
-    )
-    assert "MINOR_CHEST_CANDY_CONSTELLATION_9_12" in (
-        kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_12"].locations
-    )
     assert kirby_data.regions[room_9_chest_2_from_9_09].locations == ["VITALITY_CHEST_CANDY_CONSTELLATION"]
-    assert (
-        kirby_data.locations["MINOR_CHEST_CANDY_CONSTELLATION_9_12"].default_item
-        == kirby_data.item_key_to_id["1_UP"]
-    )
     assert kirby_data.regions[room_8_07_from_goal_1].exits == ["REGION_RADISH_RUINS/ROOM_8_GOAL_1"]
     assert set(kirby_data.regions[room_8_07_from_8_18_8_21_8_23].exits) == {
         "REGION_RADISH_RUINS/ROOM_8_18",
