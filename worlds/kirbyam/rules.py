@@ -275,6 +275,12 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
         try:
             goal_location = world.multiworld.get_location(goal_location_name, world.player)
 
+            # Non-selected goal locations remain as inert runtime events and
+            # must not gate accessibility for seeds using a different goal mode.
+            if goal_location_name != goal_label:
+                set_rule(goal_location, lambda _state: True)
+                continue
+
             if goal_location_name == _DARK_MIND_GOAL_LABEL:
                 # Sequenced after Dark Meta Knight within the Dimension Mirror.
                 def dmk_rule(state):

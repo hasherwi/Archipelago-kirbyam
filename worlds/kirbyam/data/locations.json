@@ -809,7 +809,7 @@
     "location_id": 3960520
   },
   "MINOR_CHEST_UNMAPPED_X_03_REPORT": {
-    "label": "Rainbow Route 1-02 - Small Chest",
+    "label": "Uncertain Minor Chest 1-02 (Report This)",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_02",
     "default_item": "1_UP",
     "tags": [
@@ -952,7 +952,7 @@
     "location_id": 3960532
   },
   "MINOR_CHEST_UNMAPPED_X_14_REPORT": {
-    "label": "Uncertain Minor Chest 7-24 (Report This)",
+    "label": "Uncertain Minor Chest 7-24 B (Report This)",
     "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_24",
     "default_item": "SMALL_FOOD",
     "tags": [
@@ -978,7 +978,7 @@
     "location_id": 3960534
   },
   "MINOR_CHEST_UNMAPPED_X_16_REPORT": {
-    "label": "Uncertain Minor Chest 7-03 (Report This)",
+    "label": "Uncertain Minor Chest 7-03 B (Report This)",
     "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_03",
     "default_item": "MAP_MOONLIGHT_MANSION",
     "tags": [
@@ -1056,7 +1056,7 @@
     "location_id": 3960540
   },
   "MINOR_CHEST_UNMAPPED_X_22_REPORT": {
-    "label": "Uncertain Minor Chest 7-06 (Report This)",
+    "label": "Uncertain Minor Chest 7-06 B (Report This)",
     "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_06",
     "default_item": "SMALL_FOOD",
     "tags": [

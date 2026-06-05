@@ -656,7 +656,7 @@
     },
     "MINOR_CHEST_UNMAPPED_X_03_REPORT": {
       "category": "MINOR_CHEST",
-      "label": "Rainbow Route 1-02 - Small Chest",
+      "label": "Uncertain Minor Chest 1-02 (Report This)",
       "location_id": 3960522,
       "tags": [
         "ExactEventLocation",
@@ -766,7 +766,7 @@
     },
     "MINOR_CHEST_UNMAPPED_X_14_REPORT": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-24 (Report This)",
+      "label": "Uncertain Minor Chest 7-24 B (Report This)",
       "location_id": 3960533,
       "tags": [
         "ReportLocation",
@@ -786,7 +786,7 @@
     },
     "MINOR_CHEST_UNMAPPED_X_16_REPORT": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-03 (Report This)",
+      "label": "Uncertain Minor Chest 7-03 B (Report This)",
       "location_id": 3960535,
       "tags": [
         "ReportLocation",
@@ -846,7 +846,7 @@
     },
     "MINOR_CHEST_UNMAPPED_X_22_REPORT": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-06 (Report This)",
+      "label": "Uncertain Minor Chest 7-06 B (Report This)",
       "location_id": 3960541,
       "tags": [
         "ReportLocation",
