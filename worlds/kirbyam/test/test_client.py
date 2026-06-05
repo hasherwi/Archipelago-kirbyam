@@ -1155,7 +1155,7 @@ async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_c
         await client._poll_hub_switch_locations(mock_bizhawk_context)
 
     mock_send.assert_awaited_once_with([
-        {"cmd": "LocationChecks", "locations": [rainbow_east, moonlight]}
+        {"cmd": "LocationChecks", "locations": [moonlight, rainbow_east]}
     ])
 
 
