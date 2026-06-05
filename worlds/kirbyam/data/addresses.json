@@ -40,7 +40,7 @@
       "minor_chest_event_ring_base": "0x0203B090"
     },
     "native": {
-      "small_chest_flags_native": "0x02038960",
+      "other_chest_flags_native": "0x02038960",
       "shard_bitfield_native": "0x02038970",
       "spray_paint_bitfield_native": "0x02038974",
       "music_player_and_sheets_bitfield_native": "0x02038978",

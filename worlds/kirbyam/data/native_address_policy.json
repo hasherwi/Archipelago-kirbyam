@@ -44,7 +44,7 @@
       "status": "integrated",
       "entries": [
         {
-          "name": "small_chest_flags_native",
+          "name": "other_chest_flags_native",
           "address": "0x02038960",
           "width": "u8[10]",
           "source": "Native gTreasures chest/switch state block; chest bits interpreted by minor-chest manifest mapping",

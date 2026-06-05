@@ -763,6 +763,36 @@ async def test_poll_minor_chest_skips_when_address_missing(mock_bizhawk_context)
 
 
 @pytest.mark.asyncio
+async def test_poll_other_chest_sends_location_checks_for_set_bits(mock_bizhawk_context):
+    """Set native small-chest bits should map to OTHER_CHEST LocationChecks."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    target_location = next(
+        loc.location_id
+        for loc in data.locations.values()
+        if loc.category == LocationCategory.OTHER_CHEST and loc.bit_index == 0
+    )
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.dict(
+        data.native_ram_addresses,
+        {
+            "other_chest_flags_native": 0x02038960,
+        },
+        clear=False,
+    ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        mock_read.return_value = [(1).to_bytes(10, 'little')]
+
+        await client._poll_chest_field_locations(mock_bizhawk_context)
+
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [target_location]}
+    ])
+
+
+@pytest.mark.asyncio
 async def test_poll_minor_chest_skips_already_server_acknowledged(mock_bizhawk_context):
     """No minor-chest resend when server already acknowledges all mapped checks."""
     client = KirbyAmClient()
@@ -1637,7 +1667,7 @@ def test_major_chest_data_sanity():
     """Major-chest entries should have explicit unique IDs and unique mapped bits."""
     major_chests = [
         loc for loc in data.locations.values()
-        if loc.category.name == "MAJOR_CHEST"
+        if loc.category.name == "MAP_CHEST"
     ]
 
     assert major_chests
@@ -1681,6 +1711,25 @@ def test_sound_player_chest_data_sanity():
     sound_player = sound_player_chests[0]
     assert sound_player.location_id is not None
     assert sound_player.bit_index == 0
+
+
+def test_other_chest_data_sanity():
+    """Other-chest entries should have explicit unique IDs and unique mapped bits."""
+    other_chests = [
+        loc for loc in data.locations.values()
+        if loc.category.name == "OTHER_CHEST"
+    ]
+
+    assert len(other_chests) == 0x54
+
+    ids = [loc.location_id for loc in other_chests]
+    assert all(loc_id is not None for loc_id in ids)
+    assert len(ids) == len(set(ids))
+
+    bits = [loc.bit_index for loc in other_chests]
+    assert all(bit is not None for bit in bits)
+    assert len(bits) == len(set(bits))
+    assert sorted(bit for bit in bits if bit is not None) == list(range(0x54))
 
 
 def test_hub_switch_data_sanity():
@@ -5169,6 +5218,26 @@ def test_minor_chest_locations_defined_in_regions_when_present():
     for key in minor_chest_keys:
         assert key in all_region_locations, \
             f"MINOR_CHEST location '{key}' defined in locations.json but not registered in any data/regions/*.json entry"
+
+
+def test_other_chest_locations_defined_in_regions():
+    """All OTHER_CHEST locations must be registered in the catch-all region."""
+    other_chest_keys = {
+        key
+        for key, loc in data.locations.items()
+        if key.startswith("OTHER_CHEST_")
+        or (getattr(loc, "category", None) == LocationCategory.OTHER_CHEST)
+    }
+
+    assert other_chest_keys, "No OTHER_CHEST locations found in locations.json"
+
+    all_region_locations = set()
+    for region_data in data.regions.values():
+        all_region_locations.update(region_data.locations)
+
+    for key in other_chest_keys:
+        assert key in all_region_locations, \
+            f"OTHER_CHEST location '{key}' defined in locations.json but not registered in any data/regions/*.json entry"
 
 
 def test_minor_chest_locations_have_unique_bit_indices_when_present():

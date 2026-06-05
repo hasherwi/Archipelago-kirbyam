@@ -479,11 +479,12 @@ class KirbyAmWorld(World):
 
             # Resolve fillable physical locations by category.
             boss_locations: list[KirbyAmLocation] = []
-            major_chest_locations: list[KirbyAmLocation] = []
+            map_chest_locations: list[KirbyAmLocation] = []
             vitality_chest_locations: list[KirbyAmLocation] = []
             sound_player_chest_locations: list[KirbyAmLocation] = []
             hub_switch_locations: list[KirbyAmLocation] = []
             minor_chest_locations: list[KirbyAmLocation] = []
+            other_chest_locations: list[KirbyAmLocation] = []
             room_sanity_locations: list[KirbyAmLocation] = []
             area_visit_locations: list[KirbyAmLocation] = []
             location_by_key: dict[str, KirbyAmLocation] = {}
@@ -496,8 +497,8 @@ class KirbyAmWorld(World):
                     continue
                 if loc_meta.category == LocationCategory.BOSS_DEFEAT:
                     boss_locations.append(loc)
-                elif loc_meta.category == LocationCategory.MAJOR_CHEST:
-                    major_chest_locations.append(loc)
+                elif loc_meta.category == LocationCategory.MAP_CHEST:
+                    map_chest_locations.append(loc)
                 elif loc_meta.category == LocationCategory.VITALITY_CHEST:
                     vitality_chest_locations.append(loc)
                 elif loc_meta.category == LocationCategory.SOUND_PLAYER_CHEST:
@@ -506,23 +507,26 @@ class KirbyAmWorld(World):
                     hub_switch_locations.append(loc)
                 elif loc_meta.category == LocationCategory.MINOR_CHEST:
                     minor_chest_locations.append(loc)
+                elif loc_meta.category == LocationCategory.OTHER_CHEST:
+                    other_chest_locations.append(loc)
                 elif loc_meta.category == LocationCategory.ROOM_SANITY:
                     room_sanity_locations.append(loc)
                 elif loc_meta.category == LocationCategory.AREA_VISIT:
                     area_visit_locations.append(loc)
 
             boss_locations.sort(key=lambda loc: loc.key or "")
-            major_chest_locations.sort(key=lambda loc: loc.key or "")
+            map_chest_locations.sort(key=lambda loc: loc.key or "")
             vitality_chest_locations.sort(key=lambda loc: loc.key or "")
             sound_player_chest_locations.sort(key=lambda loc: loc.key or "")
             hub_switch_locations.sort(key=lambda loc: loc.key or "")
             minor_chest_locations.sort(key=lambda loc: loc.key or "")
+            other_chest_locations.sort(key=lambda loc: loc.key or "")
             room_sanity_locations.sort(key=lambda loc: loc.key or "")
             area_visit_locations.sort(key=lambda loc: loc.key or "")
 
             locked_shard_count = 0
             randomized_item_codes: list[int] = []
-            if boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or hub_switch_locations or minor_chest_locations or room_sanity_locations or area_visit_locations:
+            if boss_locations or map_chest_locations or vitality_chest_locations or sound_player_chest_locations or hub_switch_locations or minor_chest_locations or other_chest_locations or room_sanity_locations or area_visit_locations:
                 shard_label_to_code = {
                     item.label: item.item_id
                     for item in kirby_data.items.values()
@@ -576,7 +580,7 @@ class KirbyAmWorld(World):
                     )
 
                 open_physical_locations = [
-                    loc for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations + hub_switch_locations + minor_chest_locations + room_sanity_locations + area_visit_locations
+                    loc for loc in boss_locations + map_chest_locations + vitality_chest_locations + sound_player_chest_locations + hub_switch_locations + minor_chest_locations + other_chest_locations + room_sanity_locations + area_visit_locations
                     if loc.item is None
                 ]
                 needed_pool_size = len(open_physical_locations)
@@ -745,10 +749,10 @@ class KirbyAmWorld(World):
                         self.player,
                     )
 
-            if (boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or hub_switch_locations or minor_chest_locations or room_sanity_locations or area_visit_locations) and not randomized_item_codes:
+            if (boss_locations or map_chest_locations or vitality_chest_locations or sound_player_chest_locations or hub_switch_locations or minor_chest_locations or other_chest_locations or room_sanity_locations or area_visit_locations) and not randomized_item_codes:
                 raise ValueError(
                     "KirbyAM item pool build failed: no randomized items were produced. "
-                    "This likely indicates a problem with boss/major/vitality/sound-player/hub-switch/minor-chest locations, "
+                    "This likely indicates a problem with boss/major/vitality/sound-player/hub-switch/minor-chest/other-chest locations, "
                     "room-sanity/area-visit locations, or region/location data."
                 )
 

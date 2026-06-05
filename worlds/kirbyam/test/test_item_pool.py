@@ -507,7 +507,7 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
     world.create_items()
 
     boss_locations = [loc for loc in locations if data.locations[loc.key].category == LocationCategory.BOSS_DEFEAT]
-    chest_locations = [loc for loc in locations if data.locations[loc.key].category == LocationCategory.MAJOR_CHEST]
+    chest_locations = [loc for loc in locations if data.locations[loc.key].category == LocationCategory.MAP_CHEST]
 
     key_to_boss_location = {loc.key: loc for loc in boss_locations}
     ordered_boss_locations = [key_to_boss_location[key] for key in KirbyAmWorld._BOSS_DEFEAT_KEY_ORDER]
@@ -516,21 +516,23 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
     assert all("Mirror Shard" in item_name for item_name in locked_boss_shards)
     assert locked_boss_shards == list(KirbyAmWorld._SHARD_ITEM_LABEL_ORDER)
     assert all(loc.item is None for loc in chest_locations)
-    _major_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MAJOR_CHEST)
+    _map_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MAP_CHEST)
     _vitality_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.VITALITY_CHEST)
     _sound_player_chest_count = sum(
         1 for m in data.locations.values()
         if m.category == LocationCategory.SOUND_PLAYER_CHEST
     )
     _minor_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MINOR_CHEST)
+    _other_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.OTHER_CHEST)
     _hub_switch_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.HUB_SWITCH)
     _room_sanity_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.ROOM_SANITY)
     _area_visit_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.AREA_VISIT)
     _expected_pool_size = (
-        _major_chest_count
+        _map_chest_count
         + _vitality_chest_count
         + _sound_player_chest_count
         + _minor_chest_count
+        + _other_chest_count
         + _hub_switch_count
         + _room_sanity_count
         + _area_visit_count
@@ -549,13 +551,14 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
 
     shard_items = [item for item in world.multiworld.itempool if "Shards" in item.tags]
     _boss_defeat_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.BOSS_DEFEAT)
-    _major_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MAJOR_CHEST)
+    _major_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MAP_CHEST)
     _vitality_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.VITALITY_CHEST)
     _sound_player_chest_count = sum(
         1 for m in data.locations.values()
         if m.category == LocationCategory.SOUND_PLAYER_CHEST
     )
     _minor_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MINOR_CHEST)
+    _other_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.OTHER_CHEST)
     _hub_switch_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.HUB_SWITCH)
     _room_sanity_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.ROOM_SANITY)
     _area_visit_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.AREA_VISIT)
@@ -566,6 +569,7 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
         + _vitality_chest_count
         + _sound_player_chest_count
         + _minor_chest_count
+        + _other_chest_count
         + _hub_switch_count
         + _room_sanity_count
         + _area_visit_count
