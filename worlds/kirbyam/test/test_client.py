@@ -767,12 +767,11 @@ async def test_poll_minor_chest_skips_when_address_missing(mock_bizhawk_context)
 
 @pytest.mark.asyncio
 async def test_poll_other_chest_sends_location_checks_for_set_bits(mock_bizhawk_context):
-    """Set native small-chest bits should map to OTHER_CHEST LocationChecks."""
+    """With no OTHER_CHEST locations configured, native other-chest polling should no-op."""
     client = KirbyAmClient()
     client.initialize_client()
 
-    target_bit = next(iter(client._chest_field_location_ids_by_bit))
-    target_location = client._chest_field_location_ids_by_bit[target_bit][0]
+    assert not client._chest_field_location_ids_by_bit
     mock_bizhawk_context.checked_locations = set()
 
     with patch.dict(
@@ -783,13 +782,10 @@ async def test_poll_other_chest_sends_location_checks_for_set_bits(mock_bizhawk_
         clear=False,
     ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
-        mock_read.return_value = [(1 << target_bit).to_bytes(10, 'little')]
-
         await client._poll_chest_field_locations(mock_bizhawk_context)
 
-    mock_send.assert_awaited_once_with([
-        {"cmd": "LocationChecks", "locations": [target_location]}
-    ])
+    mock_read.assert_awaited_once()
+    mock_send.assert_not_awaited()
 
 
 @pytest.mark.asyncio
@@ -1764,28 +1760,12 @@ def test_sound_player_chest_data_sanity():
 
 
 def test_other_chest_data_sanity():
-    """Other-chest entries should have explicit unique IDs and unique mapped bits."""
+    """Other-chest entries are currently disabled and should be absent."""
     other_chests = [
         loc for loc in data.locations.values()
         if loc.category.name == "OTHER_CHEST"
     ]
-
-    expected_bits = {
-        2, 6, 16, 19, 21, 23, 24, 25, 26, 30, 31, 32, 33, 34, 36,
-        40, 42, 43, 44, 45, 49, 50, 53, 55, 57, 58, 62, 64, 66, 67,
-        72, 75, 78, 81, 82,
-    }
-
-    assert len(other_chests) == len(expected_bits)
-
-    ids = [loc.location_id for loc in other_chests]
-    assert all(loc_id is not None for loc_id in ids)
-    assert len(ids) == len(set(ids))
-
-    bits = [loc.bit_index for loc in other_chests]
-    assert all(bit is not None for bit in bits)
-    assert len(bits) == len(set(bits))
-    assert set(bit for bit in bits if bit is not None) == expected_bits
+    assert other_chests == []
 
 
 def test_hub_switch_data_sanity():
@@ -5295,7 +5275,7 @@ def test_minor_chest_locations_defined_in_regions_when_present():
 
 
 def test_other_chest_locations_defined_in_regions():
-    """All OTHER_CHEST locations must be registered in the catch-all region."""
+    """OTHER_CHEST locations may be absent; when present they must be region-registered."""
     other_chest_keys = {
         key
         for key, loc in data.locations.items()
@@ -5303,7 +5283,8 @@ def test_other_chest_locations_defined_in_regions():
         or (getattr(loc, "category", None) == LocationCategory.OTHER_CHEST)
     }
 
-    assert other_chest_keys, "No OTHER_CHEST locations found in locations.json"
+    if not other_chest_keys:
+        return
 
     all_region_locations = set()
     for region_data in data.regions.values():
