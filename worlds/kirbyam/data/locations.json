@@ -390,7 +390,7 @@
     "location_id": 3960304
   },
   "HUB_SWITCH_MOONLIGHT": {
-    "label": "Moonlight Mansion - Big Switch",
+    "label": "Rainbow Route East - Big Switch",
     "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_HUB",
     "tags": [
       "HubSwitch",
@@ -401,7 +401,7 @@
     "location_id": 3960411
   },
   "HUB_SWITCH_RAINBOW_ROUTE_EAST": {
-    "label": "Rainbow Route East - Big Switch",
+    "label": "Moonlight Mansion - Big Switch",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
     "tags": [
       "HubSwitch",
