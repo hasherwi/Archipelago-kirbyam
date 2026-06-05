@@ -65,7 +65,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_RAINBOW_ROUTE_EAST"
+    ],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_09",
@@ -208,7 +210,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_RAINBOW_ROUTE_SOUTH"
+    ],
     "events": [],
     "exits": [
       "REGION_DIMENSION_MIRROR/ROOM_10_18",
@@ -273,7 +277,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_RAINBOW_ROUTE_WEST"
+    ],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
@@ -546,7 +552,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_RAINBOW_ROUTE_NORTH"
+    ],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_30",
@@ -5345,7 +5353,9 @@
     ]
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_HUB": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_MOONLIGHT"
+    ],
     "events": [],
     "exits": [
       "REGION_MOONLIGHT_MANSION/ROOM_2_02",
@@ -7704,7 +7714,9 @@
     ]
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_CABBAGE_CAVERN_EAST"
+    ],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_06",
@@ -7822,7 +7834,7 @@
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2": {
     "locations": [
-      "MAJOR_CHEST_CABBAGE_CAVERN"
+      "HUB_SWITCH_CABBAGE_CAVERN_CENTER"
     ],
     "events": [],
     "exits": [
@@ -7914,7 +7926,9 @@
     ]
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_CABBAGE_CAVERN_WEST"
+    ],
     "events": [],
     "exits": [
       "REGION_RADISH_RUINS/ROOM_8_GOAL_2",
@@ -8030,7 +8044,9 @@
     ]
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_GOAL": {
-    "locations": [],
+    "locations": [
+      "MAJOR_CHEST_CABBAGE_CAVERN"
+    ],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_08",
@@ -9590,7 +9606,9 @@
     ]
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_MUSTARD"
+    ],
     "events": [],
     "exits": [
       "REGION_DIMENSION_MIRROR/ROOM_10_19",
@@ -11793,7 +11811,9 @@
     ]
   },
   "REGION_CARROT_CASTLE/ROOM_5_HUB": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_CARROT"
+    ],
     "events": [],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_04",
@@ -14052,7 +14072,9 @@
     ]
   },
   "REGION_OLIVE_OCEAN/ROOM_6_HUB": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_OLIVE"
+    ],
     "events": [],
     "exits": [
       "REGION_OLIVE_OCEAN/ROOM_6_02",
@@ -16574,7 +16596,9 @@
     ]
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_PEPPERMINT_EAST"
+    ],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_12",
@@ -16639,7 +16663,9 @@
     ]
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_PEPPERMINT_WEST"
+    ],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_06",
@@ -19273,7 +19299,9 @@
     ]
   },
   "REGION_RADISH_RUINS/ROOM_8_HUB": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_RADISH"
+    ],
     "events": [],
     "exits": [
       "REGION_RADISH_RUINS/ROOM_8_CHEST_1",
@@ -22000,7 +22028,9 @@
     ]
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_HUB": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_CANDY"
+    ],
     "events": [],
     "exits": [
       "REGION_CANDY_CONSTELLATION/ROOM_9_09",

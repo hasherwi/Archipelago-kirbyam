@@ -2,7 +2,7 @@
 Functions related to AP regions for Kirby & The Amazing Mirror
 (see ./data/regions for region definitions)
 """
-from typing import TYPE_CHECKING, Dict, List, Tuple
+from typing import TYPE_CHECKING
 
 from BaseClasses import ItemClassification, Region
 
@@ -35,12 +35,6 @@ def create_regions(world: "KirbyAmWorld") -> dict[str, Region]:
             if (
                 loc_meta.category == LocationCategory.ROOM_SANITY
                 and not world.options.room_sanity.value
-            ):
-                continue
-            if (
-                loc_meta.category == LocationCategory.MINOR_CHEST
-                and "ReportLocation" in loc_meta.tags
-                and not world.options.unmapped_minor_chest_report_locations.value
             ):
                 continue
             region.locations.append(

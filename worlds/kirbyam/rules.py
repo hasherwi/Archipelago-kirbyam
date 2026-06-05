@@ -56,10 +56,11 @@ _SHARD_ITEM_LABELS = [
 _GOAL_LOCATION_LABELS = {
     Goal.option_dark_mind: "Defeat Dark Mind",
     Goal.option_defeat_any_area_boss: "Defeat Any Area Boss",
+    Goal.option_defeat_random_hidden_area_boss: "Defeat a Hidden Area Boss",
 }
 _DARK_MIND_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_dark_mind]
 _ANY_AREA_BOSS_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_defeat_any_area_boss]
-_HIDDEN_RANDOM_AREA_BOSS_GOAL_LABEL = "Defeat Random Hidden Area Boss"
+_HIDDEN_RANDOM_AREA_BOSS_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_defeat_random_hidden_area_boss]
 
 _BOSS_DEFEAT_LOCATION_LABELS = [
     "Mustard Mountain - Boss Defeat",
@@ -200,12 +201,9 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
 
     # Completion condition
     goal_value = world.options.goal.value
-    if goal_value == Goal.option_defeat_random_hidden_area_boss:
-        goal_label = _HIDDEN_RANDOM_AREA_BOSS_GOAL_LABEL
-    else:
-        goal_label = _GOAL_LOCATION_LABELS.get(goal_value, "Defeat Dark Mind")
+    goal_label = _GOAL_LOCATION_LABELS.get(goal_value, "Defeat Dark Mind")
 
-    if goal_value not in _GOAL_LOCATION_LABELS and goal_value != Goal.option_defeat_random_hidden_area_boss:
+    if goal_value not in _GOAL_LOCATION_LABELS:
         logger.warning(
             "[P%s] Unknown goal value %s; defaulting to %s",
             world.player,
@@ -292,6 +290,17 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
                         for location_name in _BOSS_DEFEAT_LOCATION_LABELS
                     )
                 set_rule(goal_location, any_area_boss_rule)
+            elif goal_location_name == _HIDDEN_RANDOM_AREA_BOSS_GOAL_LABEL:
+                def hidden_area_boss_rule(state):
+                    hidden_goal_key = getattr(world, "_resolved_hidden_area_boss_goal_key", None)
+                    hidden_goal = data.locations.get(hidden_goal_key) if isinstance(hidden_goal_key, str) else None
+                    return bool(
+                        hidden_goal is not None
+                        and isinstance(hidden_goal.label, str)
+                        and state.can_reach_location(hidden_goal.label, world.player)
+                    )
+
+                set_rule(goal_location, hidden_area_boss_rule)
         except KeyError:
             logger.warning(
                 "[P%s] Goal location %s not found; goal-specific rule was not applied",

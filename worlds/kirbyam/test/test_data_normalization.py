@@ -130,3 +130,19 @@ def test_generated_hub_switch_contract_compatibility_aliases_are_disjoint() -> N
         assert location_key in kirby_data.locations
         for bit in compatibility_bits:
             assert bit not in canonical_bits
+
+
+def test_all_goal_locations_are_explicitly_region_claimed() -> None:
+    claimed_locations = {
+        location_key
+        for region in kirby_data.regions.values()
+        for location_key in region.locations
+    }
+    goal_location_keys = {
+        location_key
+        for location_key, location in kirby_data.locations.items()
+        if location.category == LocationCategory.GOAL
+    }
+
+    assert goal_location_keys
+    assert goal_location_keys.issubset(claimed_locations)
