@@ -42,6 +42,8 @@
     "native": {
       "small_chest_flags_native": "0x02038960",
       "shard_bitfield_native": "0x02038970",
+      "spray_paint_bitfield_native": "0x02038974",
+      "music_player_and_sheets_bitfield_native": "0x02038978",
       "big_chest_bitfield_native": "0x0203897C",
       "boss_mirror_table_native": "0x02028C14",
       "room_visit_flags_native": "0x02028CA0",

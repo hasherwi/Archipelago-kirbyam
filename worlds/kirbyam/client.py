@@ -54,6 +54,8 @@ _KIRBY_VITALITY_COUNTER_ADDR_KEY = "kirby_vitality_counter_native"
 _KIRBY_VITALITY_COUNTER_READ_WIDTH = 2
 _MINOR_CHEST_FLAGS_ADDR_KEY = "small_chest_flags_native"
 _MINOR_CHEST_FLAGS_READ_WIDTH = 10
+_SPRAY_PAINT_BITFIELD_ADDR_KEY = "spray_paint_bitfield_native"
+_MUSIC_PLAYER_AND_SHEETS_BITFIELD_ADDR_KEY = "music_player_and_sheets_bitfield_native"
 _MINOR_CHEST_EVENT_COUNTER_ADDR_KEY = "minor_chest_event_counter"
 _MINOR_CHEST_EVENT_RING_BASE_ADDR_KEY = "minor_chest_event_ring_base"
 _MINOR_CHEST_EVENT_RING_SLOT_COUNT = 8
@@ -328,6 +330,10 @@ class KirbyAmClient(BizHawkClient):
         }
         self._minor_chest_report_manifest_source_ptrs: set[int] = set()
         self._minor_chest_location_id_by_source_ptr = self._build_minor_chest_source_ptr_map()
+        (
+            self._minor_chest_spray_fallback_location_ids_by_bit,
+            self._minor_chest_music_sheet_fallback_location_ids_by_bit,
+        ) = self._build_minor_chest_collection_bit_fallback_maps()
         exact_event_minor_count = sum(
             1
             for loc in data.locations.values()
@@ -780,6 +786,86 @@ class KirbyAmClient(BizHawkClient):
 
         self._minor_chest_report_manifest_source_ptrs = report_manifest_source_ptrs
         return source_ptr_to_location_id
+
+    def _build_minor_chest_collection_bit_fallback_maps(self) -> tuple[dict[int, list[int]], dict[int, list[int]]]:
+        """
+        Build native collectible-bit fallback maps for mapped MINOR_CHEST locations.
+
+        These maps are used as a temporary fallback for spray paint and music sheet
+        small chest checks when native chest bit signaling is missing.
+        """
+        try:
+            manifest = load_json_data("minor_chest_manifest.json")
+        except (FileNotFoundError, TypeError, ValueError):
+            return {}, {}
+
+        if not isinstance(manifest, dict):
+            return {}, {}
+
+        entries = manifest.get("entries")
+        if not isinstance(entries, list):
+            return {}, {}
+
+        named_minor_location_id_by_room_and_bit: dict[tuple[str, int], int] = {}
+        for loc in data.locations.values():
+            if loc.category != LocationCategory.MINOR_CHEST or _is_exact_minor_chest_location(loc):
+                continue
+            if loc.bit_index is None:
+                continue
+            named_minor_location_id_by_room_and_bit[(loc.parent_region, loc.bit_index)] = loc.location_id
+
+        spray_location_ids_by_bit: dict[int, set[int]] = {}
+        music_sheet_location_ids_by_bit: dict[int, set[int]] = {}
+
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+
+            group = entry.get("native_collection_group")
+            if group not in {"spray_paint", "music_sheet"}:
+                continue
+
+            collection_code = self._parse_manifest_int(entry.get("native_collection_code"))
+            if collection_code is None:
+                continue
+
+            if group == "spray_paint":
+                collection_bit = collection_code & 0xFF
+                if not (0 <= collection_bit <= 13):
+                    continue
+                target_map = spray_location_ids_by_bit
+            else:
+                # Music sheets are stored in HasMusicPlayerOrSheet bits 1..10.
+                collection_bit = (collection_code & 0xFF) + 1
+                if not (1 <= collection_bit <= 10):
+                    continue
+                target_map = music_sheet_location_ids_by_bit
+
+            entry_bit_index = self._parse_manifest_int(entry.get("native_chest_flag_index"))
+            if entry_bit_index is None:
+                continue
+
+            candidate_room_keys = entry.get("candidate_ap_room_keys", [])
+            if not isinstance(candidate_room_keys, list):
+                continue
+
+            for room_key in candidate_room_keys:
+                if not isinstance(room_key, str):
+                    continue
+                location_id = named_minor_location_id_by_room_and_bit.get((room_key, entry_bit_index))
+                if location_id is None:
+                    continue
+                target_map.setdefault(collection_bit, set()).add(location_id)
+
+        spray_result = {
+            bit: sorted(location_ids)
+            for bit, location_ids in spray_location_ids_by_bit.items()
+        }
+        music_result = {
+            bit: sorted(location_ids)
+            for bit, location_ids in music_sheet_location_ids_by_bit.items()
+        }
+        return spray_result, music_result
 
     async def _get_room_visit_flags_view(self, ctx: KirbyAmBizHawkClientContext) -> memoryview | None:
         """Read gVisitedDoors once per watcher tick and return a shared memory view."""
@@ -2609,7 +2695,18 @@ class KirbyAmClient(BizHawkClient):
         if chest_addr is None:
             return
 
-        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(chest_addr, _MINOR_CHEST_FLAGS_READ_WIDTH, "System Bus")]))[0]
+        reads: list[tuple[int, int, str]] = [(chest_addr, _MINOR_CHEST_FLAGS_READ_WIDTH, "System Bus")]
+        spray_addr = self._native_addr(_SPRAY_PAINT_BITFIELD_ADDR_KEY)
+        music_addr = self._native_addr(_MUSIC_PLAYER_AND_SHEETS_BITFIELD_ADDR_KEY)
+        include_spray_fallback = bool(self._minor_chest_spray_fallback_location_ids_by_bit) and spray_addr is not None
+        include_music_fallback = bool(self._minor_chest_music_sheet_fallback_location_ids_by_bit) and music_addr is not None
+        if include_spray_fallback:
+            reads.append((spray_addr, 4, "System Bus"))
+        if include_music_fallback:
+            reads.append((music_addr, 4, "System Bus"))
+
+        raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
+        raw = raw_values[0]
         if len(raw) != _MINOR_CHEST_FLAGS_READ_WIDTH:
             self._log_verbose(
                 "warning",
@@ -2626,6 +2723,23 @@ class KirbyAmClient(BizHawkClient):
                 continue
             if raw[byte_index] & (1 << (bit % 8)):
                 mapped_checked_locations.update(self._minor_chest_location_ids_by_bit.get(bit, []))
+
+        next_idx = 1
+        if include_spray_fallback and len(raw_values) > next_idx:
+            spray_raw = raw_values[next_idx]
+            next_idx += 1
+            if len(spray_raw) == 4:
+                spray_bits = self._u32_le(spray_raw)
+                for bit in sorted(self._minor_chest_spray_fallback_location_ids_by_bit.keys()):
+                    if (spray_bits >> bit) & 1:
+                        mapped_checked_locations.update(self._minor_chest_spray_fallback_location_ids_by_bit.get(bit, []))
+        if include_music_fallback and len(raw_values) > next_idx:
+            music_raw = raw_values[next_idx]
+            if len(music_raw) == 4:
+                music_bits = self._u32_le(music_raw)
+                for bit in sorted(self._minor_chest_music_sheet_fallback_location_ids_by_bit.keys()):
+                    if (music_bits >> bit) & 1:
+                        mapped_checked_locations.update(self._minor_chest_music_sheet_fallback_location_ids_by_bit.get(bit, []))
 
         if active_location_ids is not None:
             mapped_checked_locations.intersection_update(active_location_ids)

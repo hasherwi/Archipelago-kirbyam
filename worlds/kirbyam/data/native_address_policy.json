@@ -48,7 +48,21 @@
           "address": "0x02038960",
           "width": "u8[10]",
           "source": "Native gTreasures chest/switch state block; chest bits interpreted by minor-chest manifest mapping",
-          "verification": "Integrated and used by client polling path for enabled MINOR_CHEST AP checks; bits are treated as single-fire check state"
+          "verification": "Integrated and used by client polling path for enabled MINOR_CHEST AP checks; bits are treated as single-fire check state. Spray/music fallbacks also read native collectible ownership bits when available."
+        },
+        {
+          "name": "spray_paint_bitfield_native",
+          "address": "0x02038974",
+          "width": "u32",
+          "source": "katam gTreasures.sprayPaintField (`CollectSprayPaint` / `HasSprayPaint`)",
+          "verification": "Integrated as a temporary fallback signal for mapped spray-paint small chest checks when native chest bits are not observed"
+        },
+        {
+          "name": "music_player_and_sheets_bitfield_native",
+          "address": "0x02038978",
+          "width": "u32",
+          "source": "katam gTreasures.musicPlayerAndSheetsField (`CollectMusicPlayerOrSheet` / `HasMusicPlayerOrSheet`)",
+          "verification": "Integrated as a temporary fallback signal for mapped music-sheet small chest checks when native chest bits are not observed"
         }
       ]
     },
