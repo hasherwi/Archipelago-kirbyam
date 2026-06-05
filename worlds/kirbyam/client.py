@@ -678,7 +678,7 @@ class KirbyAmClient(BizHawkClient):
         """Map manifest ROM source pointers to exact report-only MINOR_CHEST location IDs."""
         try:
             manifest = load_json_data("minor_chest_manifest.json")
-        except (FileNotFoundError, TypeError, ValueError):
+        except (FileNotFoundError, OSError, TypeError, ValueError):
             return {}
 
         if not isinstance(manifest, dict):
@@ -783,7 +783,7 @@ class KirbyAmClient(BizHawkClient):
         """
         try:
             manifest = load_json_data("minor_chest_manifest.json")
-        except (FileNotFoundError, TypeError, ValueError):
+        except (FileNotFoundError, OSError, TypeError, ValueError):
             return {}, {}
 
         if not isinstance(manifest, dict):

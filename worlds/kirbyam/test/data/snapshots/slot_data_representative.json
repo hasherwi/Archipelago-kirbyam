@@ -679,50 +679,10 @@
         "SprayPaint"
       ]
     },
-    "OTHER_CHEST_00": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #01",
-      "location_id": 3960524,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_01": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #02",
-      "location_id": 3960525,
-      "tags": [
-        "OtherChest"
-      ]
-    },
     "OTHER_CHEST_02": {
       "category": "OTHER_CHEST",
       "label": "Other Chest #03",
       "location_id": 3960526,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_03": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #04",
-      "location_id": 3960527,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_04": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #05",
-      "location_id": 3960528,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_05": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #06",
-      "location_id": 3960529,
       "tags": [
         "OtherChest"
       ]
@@ -735,98 +695,10 @@
         "OtherChest"
       ]
     },
-    "OTHER_CHEST_07": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #08",
-      "location_id": 3960531,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_08": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #09",
-      "location_id": 3960532,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_09": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #10",
-      "location_id": 3960533,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_10": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #11",
-      "location_id": 3960534,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_11": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #12",
-      "location_id": 3960535,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_12": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #13",
-      "location_id": 3960536,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_13": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #14",
-      "location_id": 3960537,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_14": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #15",
-      "location_id": 3960538,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_15": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #16",
-      "location_id": 3960539,
-      "tags": [
-        "OtherChest"
-      ]
-    },
     "OTHER_CHEST_16": {
       "category": "OTHER_CHEST",
       "label": "Other Chest #17",
       "location_id": 3960540,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_17": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #18",
-      "location_id": 3960541,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_18": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #19",
-      "location_id": 3960542,
       "tags": [
         "OtherChest"
       ]
@@ -839,26 +711,10 @@
         "OtherChest"
       ]
     },
-    "OTHER_CHEST_20": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #21",
-      "location_id": 3960544,
-      "tags": [
-        "OtherChest"
-      ]
-    },
     "OTHER_CHEST_21": {
       "category": "OTHER_CHEST",
       "label": "Other Chest #22",
       "location_id": 3960545,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_22": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #23",
-      "location_id": 3960546,
       "tags": [
         "OtherChest"
       ]
@@ -891,30 +747,6 @@
       "category": "OTHER_CHEST",
       "label": "Other Chest #27",
       "location_id": 3960550,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_27": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #28",
-      "location_id": 3960551,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_28": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #29",
-      "location_id": 3960552,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_29": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #30",
-      "location_id": 3960553,
       "tags": [
         "OtherChest"
       ]
@@ -959,14 +791,6 @@
         "OtherChest"
       ]
     },
-    "OTHER_CHEST_35": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #36",
-      "location_id": 3960559,
-      "tags": [
-        "OtherChest"
-      ]
-    },
     "OTHER_CHEST_36": {
       "category": "OTHER_CHEST",
       "label": "Other Chest #37",
@@ -975,42 +799,10 @@
         "OtherChest"
       ]
     },
-    "OTHER_CHEST_37": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #38",
-      "location_id": 3960561,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_38": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #39",
-      "location_id": 3960562,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_39": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #40",
-      "location_id": 3960563,
-      "tags": [
-        "OtherChest"
-      ]
-    },
     "OTHER_CHEST_40": {
       "category": "OTHER_CHEST",
       "label": "Other Chest #41",
       "location_id": 3960564,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_41": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #42",
-      "location_id": 3960565,
       "tags": [
         "OtherChest"
       ]
@@ -1047,30 +839,6 @@
         "OtherChest"
       ]
     },
-    "OTHER_CHEST_46": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #47",
-      "location_id": 3960570,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_47": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #48",
-      "location_id": 3960571,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_48": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #49",
-      "location_id": 3960572,
-      "tags": [
-        "OtherChest"
-      ]
-    },
     "OTHER_CHEST_49": {
       "category": "OTHER_CHEST",
       "label": "Other Chest #50",
@@ -1087,22 +855,6 @@
         "OtherChest"
       ]
     },
-    "OTHER_CHEST_51": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #52",
-      "location_id": 3960575,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_52": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #53",
-      "location_id": 3960576,
-      "tags": [
-        "OtherChest"
-      ]
-    },
     "OTHER_CHEST_53": {
       "category": "OTHER_CHEST",
       "label": "Other Chest #54",
@@ -1111,26 +863,10 @@
         "OtherChest"
       ]
     },
-    "OTHER_CHEST_54": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #55",
-      "location_id": 3960578,
-      "tags": [
-        "OtherChest"
-      ]
-    },
     "OTHER_CHEST_55": {
       "category": "OTHER_CHEST",
       "label": "Other Chest #56",
       "location_id": 3960579,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_56": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #57",
-      "location_id": 3960580,
       "tags": [
         "OtherChest"
       ]
@@ -1151,30 +887,6 @@
         "OtherChest"
       ]
     },
-    "OTHER_CHEST_59": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #60",
-      "location_id": 3960583,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_60": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #61",
-      "location_id": 3960584,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_61": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #62",
-      "location_id": 3960585,
-      "tags": [
-        "OtherChest"
-      ]
-    },
     "OTHER_CHEST_62": {
       "category": "OTHER_CHEST",
       "label": "Other Chest #63",
@@ -1183,26 +895,10 @@
         "OtherChest"
       ]
     },
-    "OTHER_CHEST_63": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #64",
-      "location_id": 3960587,
-      "tags": [
-        "OtherChest"
-      ]
-    },
     "OTHER_CHEST_64": {
       "category": "OTHER_CHEST",
       "label": "Other Chest #65",
       "location_id": 3960588,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_65": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #66",
-      "location_id": 3960589,
       "tags": [
         "OtherChest"
       ]
@@ -1223,58 +919,10 @@
         "OtherChest"
       ]
     },
-    "OTHER_CHEST_68": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #69",
-      "location_id": 3960592,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_69": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #70",
-      "location_id": 3960593,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_70": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #71",
-      "location_id": 3960594,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_71": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #72",
-      "location_id": 3960595,
-      "tags": [
-        "OtherChest"
-      ]
-    },
     "OTHER_CHEST_72": {
       "category": "OTHER_CHEST",
       "label": "Other Chest #73",
       "location_id": 3960596,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_73": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #74",
-      "location_id": 3960597,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_74": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #75",
-      "location_id": 3960598,
       "tags": [
         "OtherChest"
       ]
@@ -1287,42 +935,10 @@
         "OtherChest"
       ]
     },
-    "OTHER_CHEST_76": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #77",
-      "location_id": 3960600,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_77": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #78",
-      "location_id": 3960601,
-      "tags": [
-        "OtherChest"
-      ]
-    },
     "OTHER_CHEST_78": {
       "category": "OTHER_CHEST",
       "label": "Other Chest #79",
       "location_id": 3960602,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_79": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #80",
-      "location_id": 3960603,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_80": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #81",
-      "location_id": 3960604,
       "tags": [
         "OtherChest"
       ]
@@ -1339,14 +955,6 @@
       "category": "OTHER_CHEST",
       "label": "Other Chest #83",
       "location_id": 3960606,
-      "tags": [
-        "OtherChest"
-      ]
-    },
-    "OTHER_CHEST_83": {
-      "category": "OTHER_CHEST",
-      "label": "Other Chest #84",
-      "location_id": 3960607,
       "tags": [
         "OtherChest"
       ]
