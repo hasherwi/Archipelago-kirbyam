@@ -322,7 +322,6 @@ class KirbyAmClient(BizHawkClient):
             for loc in data.locations.values()
             if loc.category == LocationCategory.MINOR_CHEST and _is_exact_minor_chest_location(loc)
         }
-        self._minor_chest_report_manifest_source_ptrs: set[int] = set()
         self._minor_chest_location_id_by_source_ptr = self._build_minor_chest_source_ptr_map()
         (
             self._minor_chest_spray_fallback_location_ids_by_bit,
@@ -663,116 +662,9 @@ class KirbyAmClient(BizHawkClient):
         self._cached_shard_bits_items_len = 0
         self._cached_room_visit_flags_view = None
 
-    @staticmethod
-    def _parse_manifest_int(value: object) -> int | None:
-        if isinstance(value, int):
-            return value
-        if isinstance(value, str):
-            try:
-                return int(value, 0)
-            except ValueError:
-                return None
-        return None
-
     def _build_minor_chest_source_ptr_map(self) -> dict[int, int]:
-        """Map manifest ROM source pointers to exact report-only MINOR_CHEST location IDs."""
-        try:
-            manifest = load_json_data("minor_chest_manifest.json")
-        except (FileNotFoundError, OSError, TypeError, ValueError):
-            return {}
-
-        if not isinstance(manifest, dict):
-            return {}
-        entries = manifest.get("entries")
-        if not isinstance(entries, list):
-            return {}
-
-        report_location_ids = [
-            loc.location_id
-            for loc in sorted(data.locations.values(), key=lambda loc: loc.location_id)
-            if loc.category == LocationCategory.MINOR_CHEST and _is_exact_minor_chest_location(loc)
-        ]
-        if not report_location_ids:
-            self._minor_chest_report_manifest_source_ptrs = set()
-            return {}
-        report_index = 0
-        assigned_report_location_ids: set[int] = set()
-        source_ptr_to_location_id: dict[int, int] = {}
-        report_manifest_source_ptrs: set[int] = set()
-        skipped_unassigned_entries = 0
-
-        for entry in entries:
-            if not isinstance(entry, dict):
-                continue
-
-            source_ptr = self._parse_manifest_int(entry.get("resolved_rom_offset"))
-            if source_ptr is None:
-                continue
-            bit_index = self._parse_manifest_int(entry.get("native_chest_flag_index"))
-            candidate_room_keys = {
-                room_key
-                for room_key in entry.get("candidate_ap_room_keys", [])
-                if isinstance(room_key, str)
-            }
-
-            matched_named_location = False
-            for loc in data.locations.values():
-                if loc.category != LocationCategory.MINOR_CHEST or _is_exact_minor_chest_location(loc):
-                    continue
-                if bit_index != loc.bit_index:
-                    continue
-                if loc.parent_region in candidate_room_keys:
-                    matched_named_location = True
-                    break
-
-            if matched_named_location:
-                continue
-            report_manifest_source_ptrs.add(source_ptr)
-
-            matched_report_location_id = next(
-                (
-                    loc.location_id
-                    for loc in sorted(data.locations.values(), key=lambda loc: loc.location_id)
-                    if loc.category == LocationCategory.MINOR_CHEST
-                    and _is_exact_minor_chest_location(loc)
-                    and loc.location_id not in assigned_report_location_ids
-                    and bit_index == loc.bit_index
-                    and loc.parent_region in candidate_room_keys
-                ),
-                None,
-            )
-            if matched_report_location_id is not None:
-                source_ptr_to_location_id[source_ptr] = matched_report_location_id
-                assigned_report_location_ids.add(matched_report_location_id)
-                continue
-
-            while report_index < len(report_location_ids) and report_location_ids[report_index] in assigned_report_location_ids:
-                report_index += 1
-            if report_index >= len(report_location_ids):
-                skipped_unassigned_entries += 1
-                continue
-
-            fallback_location_id = report_location_ids[report_index]
-            source_ptr_to_location_id[source_ptr] = fallback_location_id
-            assigned_report_location_ids.add(fallback_location_id)
-            report_index += 1
-
-        if report_location_ids and report_index != len(report_location_ids):
-            self._log_verbose(
-                "warning",
-                "KirbyAM: mapped %s/%s exact-event minor chest locations from manifest source pointers; some exact-event locations remain unmapped.",
-                report_index,
-                len(report_location_ids),
-            )
-        if skipped_unassigned_entries:
-            self._log_verbose(
-                "warning",
-                "KirbyAM: %s exact-event manifest entries could not be assigned to AP locations (ordering/coverage mismatch).",
-                skipped_unassigned_entries,
-            )
-
-        self._minor_chest_report_manifest_source_ptrs = report_manifest_source_ptrs
-        return source_ptr_to_location_id
+        """Exact event-ring source-pointer mapping is currently disabled."""
+        return {}
 
     def _build_minor_chest_collection_bit_fallback_maps(self) -> tuple[dict[int, list[int]], dict[int, list[int]]]:
         """
@@ -781,108 +673,7 @@ class KirbyAmClient(BizHawkClient):
         These maps are used as a temporary fallback for spray paint and music sheet
         small chest checks when native chest bit signaling is missing.
         """
-        try:
-            manifest = load_json_data("minor_chest_manifest.json")
-        except (FileNotFoundError, OSError, TypeError, ValueError):
-            return {}, {}
-
-        if not isinstance(manifest, dict):
-            return {}, {}
-
-        entries = manifest.get("entries")
-        if not isinstance(entries, list):
-            return {}, {}
-
-        # Preferred synthetic wiring for simplified spray/music-only location checks:
-        # - MINOR_CHEST_SPRAY_PAINT_01..14 map to spray bits 0..13
-        # - MINOR_CHEST_MUSIC_NOTE_01..10 map to music bits 1..10
-        spray_direct: dict[int, list[int]] = {}
-        music_direct: dict[int, list[int]] = {}
-        for location_key, loc in data.locations.items():
-            if loc.category != LocationCategory.MINOR_CHEST:
-                continue
-            if _is_exact_minor_chest_location(loc):
-                continue
-
-            if location_key.startswith("MINOR_CHEST_SPRAY_PAINT_"):
-                suffix = location_key.removeprefix("MINOR_CHEST_SPRAY_PAINT_")
-                if suffix.isdigit():
-                    ordinal = int(suffix)
-                    if 1 <= ordinal <= 14:
-                        spray_direct[ordinal - 1] = [loc.location_id]
-                        continue
-
-            if location_key.startswith("MINOR_CHEST_MUSIC_NOTE_"):
-                suffix = location_key.removeprefix("MINOR_CHEST_MUSIC_NOTE_")
-                if suffix.isdigit():
-                    ordinal = int(suffix)
-                    if 1 <= ordinal <= 10:
-                        music_direct[ordinal] = [loc.location_id]
-                        continue
-
-        if spray_direct or music_direct:
-            return spray_direct, music_direct
-
-        named_minor_location_id_by_room_and_bit: dict[tuple[str, int], int] = {}
-        for loc in data.locations.values():
-            if loc.category != LocationCategory.MINOR_CHEST or _is_exact_minor_chest_location(loc):
-                continue
-            if loc.bit_index is None:
-                continue
-            named_minor_location_id_by_room_and_bit[(loc.parent_region, loc.bit_index)] = loc.location_id
-
-        spray_location_ids_by_bit: dict[int, set[int]] = {}
-        music_sheet_location_ids_by_bit: dict[int, set[int]] = {}
-
-        for entry in entries:
-            if not isinstance(entry, dict):
-                continue
-
-            group = entry.get("native_collection_group")
-            if group not in {"spray_paint", "music_sheet"}:
-                continue
-
-            collection_code = self._parse_manifest_int(entry.get("native_collection_code"))
-            if collection_code is None:
-                continue
-
-            if group == "spray_paint":
-                collection_bit = collection_code & 0xFF
-                if not (0 <= collection_bit <= 13):
-                    continue
-                target_map = spray_location_ids_by_bit
-            else:
-                # Music sheets are stored in HasMusicPlayerOrSheet bits 1..10.
-                collection_bit = (collection_code & 0xFF) + 1
-                if not (1 <= collection_bit <= 10):
-                    continue
-                target_map = music_sheet_location_ids_by_bit
-
-            entry_bit_index = self._parse_manifest_int(entry.get("native_chest_flag_index"))
-            if entry_bit_index is None:
-                continue
-
-            candidate_room_keys = entry.get("candidate_ap_room_keys", [])
-            if not isinstance(candidate_room_keys, list):
-                continue
-
-            for room_key in candidate_room_keys:
-                if not isinstance(room_key, str):
-                    continue
-                location_id = named_minor_location_id_by_room_and_bit.get((room_key, entry_bit_index))
-                if location_id is None:
-                    continue
-                target_map.setdefault(collection_bit, set()).add(location_id)
-
-        spray_result = {
-            bit: sorted(location_ids)
-            for bit, location_ids in spray_location_ids_by_bit.items()
-        }
-        music_result = {
-            bit: sorted(location_ids)
-            for bit, location_ids in music_sheet_location_ids_by_bit.items()
-        }
-        return spray_result, music_result
+        return {}, {}
 
     async def _get_room_visit_flags_view(self, ctx: KirbyAmBizHawkClientContext) -> memoryview | None:
         """Read gVisitedDoors once per watcher tick and return a shared memory view."""
@@ -2865,12 +2656,10 @@ class KirbyAmClient(BizHawkClient):
                 if location_id is None and source_ptr >= 0xC:
                     location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr - 0xC)
                 if location_id is None:
-                    if source_ptr not in self._minor_chest_report_manifest_source_ptrs:
-                        continue
                     if source_ptr not in self._logged_unknown_minor_chest_source_ptrs:
                         self._log_verbose(
                             "warning",
-                            "KirbyAM: exact minor-chest source ptr raw=0x%08X normalized=0x%08X is not mapped in minor_chest_manifest.json (sequence=%s slot=%s).",
+                            "KirbyAM: exact minor-chest source ptr raw=0x%08X normalized=0x%08X is not mapped to an AP location (sequence=%s slot=%s).",
                             source_ptr_raw,
                             source_ptr,
                             sequence,
