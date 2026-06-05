@@ -34,7 +34,7 @@ def test_build_release_metadata_for_rc_tag_ref() -> None:
 
     assert metadata.release_enabled is True
     assert metadata.version == "0.2.0-rc5"
-    assert metadata.manifest_version == "0.2.0-rc5"
+    assert metadata.manifest_version == "0.2.0"
     assert metadata.release_tag == "kirbyam-v0.2.0-rc5"
     assert metadata.release_name == "KirbyAM APWorld v0.2.0-rc5"
     assert metadata.apworld_name == "kirbyam.apworld"
@@ -79,7 +79,7 @@ def test_write_github_output_includes_prerelease(tmp_path: Path) -> None:
     output_text = output_path.read_text(encoding="utf-8")
 
     assert "prerelease=true" in output_text
-    assert "manifest_version=0.2.0-rc5" in output_text
+    assert "manifest_version=0.2.0" in output_text
 
 
 def test_inject_world_version_updates_manifest(tmp_path: Path) -> None:
@@ -169,9 +169,9 @@ def test_main_injects_manifest_version_for_rc_tag(tmp_path: Path, monkeypatch: p
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     output_text = output_path.read_text(encoding="utf-8")
 
-    assert manifest["world_version"] == "0.2.0-rc5"
+    assert manifest["world_version"] == "0.2.0"
     assert "version=0.2.0-rc5" in output_text
-    assert "manifest_version=0.2.0-rc5" in output_text
+    assert "manifest_version=0.2.0" in output_text
     assert "prerelease=true" in output_text
 
 
