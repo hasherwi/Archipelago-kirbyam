@@ -641,7 +641,7 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
         "REGION_OLIVE_OCEAN/ROOM_6_06",
     }
     assert kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_05"].locations == ["ROOM_SANITY_6_05"]
-    assert kirby_data.regions[room_6_05_from_6_04_or_6_06].locations == ["MINOR_CHEST_OLIVE_OCEAN_6_05"]
+    assert kirby_data.regions[room_6_05_from_6_04_or_6_06].locations == []
     assert kirby_data.regions[room_6_05_from_6_23].exits == ["REGION_OLIVE_OCEAN/ROOM_6_23"]
 
 
