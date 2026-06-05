@@ -386,7 +386,7 @@
       "HubSwitch",
       "MAP_MOONLIGHT_MANSION"
     ],
-    "bit_index": 1,
+    "bit_index": 11,
     "category": "HUB_SWITCH",
     "location_id": 3960411
   },
@@ -397,7 +397,7 @@
       "HubSwitch",
       "MAP_RAINBOW_ROUTE"
     ],
-    "bit_index": 11,
+    "bit_index": 1,
     "category": "HUB_SWITCH",
     "location_id": 3960401
   },

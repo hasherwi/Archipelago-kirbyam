@@ -647,12 +647,12 @@
     },
     "MINOR_CHEST_UNMAPPED_X_03_REPORT": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 1-04 (Report This)",
+      "label": "Rainbow Route 1-02 - Small Chest",
       "location_id": 3960522,
       "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
+        "ExactEventLocation",
+        "MAP_RAINBOW_ROUTE",
+        "SmallChest"
       ]
     },
     "MINOR_CHEST_UNMAPPED_X_04_REPORT": {

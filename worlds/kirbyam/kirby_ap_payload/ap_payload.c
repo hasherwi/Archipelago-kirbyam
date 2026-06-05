@@ -473,16 +473,18 @@ static uint8_t ap_select_random_allowed_ability(uint32_t allowed_mask, uint32_t 
 }
 
 // Hook target for all callsites that request Kirby ability transition.
-// In completely-random mode, this rerolls a fresh ability for each request.
+// In completely-random mode, this rerolls a fresh ability for each request,
+// including ability-star transitions used by statues.
 __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, uint32_t ability_flags) {
     uint32_t mode = AP_ABILITY_RANDOMIZATION_MODE;
     uint32_t rewritten_flags = ability_flags;
 
-    if (mode == ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM
-        && (ability_flags & KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR) == 0u) {
+    if (mode == ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM) {
         register uint32_t source_obj_ptr asm("r5");
         uint32_t no_ability_weight = AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT;
         uint32_t allowed_mask = AP_ABILITY_RANDOMIZATION_ALLOWED_MASK;
+        uint8_t is_ability_star =
+            ((ability_flags & KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR) != 0u) ? 1u : 0u;
         uint32_t random_roll = ap_next_rng_u32();
         uint8_t selected_ability;
         uint32_t source_addr = 0u;
@@ -495,6 +497,10 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
         caller_pc = caller_lr_snapshot & ~1u;
         if (caller_pc >= 4u) {
             caller_pc -= 4u;
+        }
+
+        if (is_ability_star != 0u) {
+            no_ability_weight = 0u;
         }
 
         if (no_ability_weight >= 100u) {

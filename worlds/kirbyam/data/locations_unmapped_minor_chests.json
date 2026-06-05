@@ -13,13 +13,13 @@
     "location_id": 3960520
   },
   "MINOR_CHEST_UNMAPPED_X_03_REPORT": {
-    "label": "Uncertain Minor Chest 1-04 (Report This)",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_04",
-    "default_item": "SMALL_FOOD",
+    "label": "Rainbow Route 1-02 - Small Chest",
+    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_02",
+    "default_item": "1_UP",
     "tags": [
       "SmallChest",
-      "ReportLocation",
-      "UnmappedMinorChest"
+      "ExactEventLocation",
+      "MAP_RAINBOW_ROUTE"
     ],
     "bit_index": 0,
     "category": "MINOR_CHEST",

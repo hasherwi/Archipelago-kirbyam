@@ -44,7 +44,7 @@ def test_hub_switch_moonlight_and_peppermint_east_mapping() -> None:
     moonlight = kirby_data.locations["HUB_SWITCH_MOONLIGHT"]
     peppermint_east = kirby_data.locations["HUB_SWITCH_PEPPERMINT_EAST"]
 
-    assert moonlight.bit_index == 1
+    assert moonlight.bit_index == 11
     assert moonlight.location_id == 3960411
     assert peppermint_east.bit_index == 10
     assert peppermint_east.location_id == 3960410
