@@ -5,14 +5,14 @@
       "location_key": "HUB_SWITCH_RAINBOW_ROUTE_EAST",
       "native_world_map_door_index": 1,
       "native_world_map_door_name": "WORLDMAP_RAINBOW_ROUTE_EAST",
-      "ap_bit_index": 11,
+      "ap_bit_index": 1,
       "world_props_unlock_index": 2
     },
     {
       "location_key": "HUB_SWITCH_MOONLIGHT",
       "native_world_map_door_index": 2,
       "native_world_map_door_name": "WORLDMAP_MOONLIGHT_MANSION",
-      "ap_bit_index": 1,
+      "ap_bit_index": 11,
       "world_props_unlock_index": 1
     },
     {
