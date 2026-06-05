@@ -191,7 +191,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | VITALITY_CHEST_RADISH_RUINS | 3960302 | Radish Ruins 8-4 vitality big chest (transport vitality bit 2) |
 | VITALITY_CHEST_CANDY_CONSTELLATION | 3960303 | Candy Constellation 9-8 vitality big chest (transport vitality bit 3) |
 | SOUND_PLAYER_CHEST | 3960304 | Candy Constellation Sound Player chest (transport sound_player_chest bit 0) |
-| HUB_SWITCH_* | 3960400 - 3960414 | Hub big-switch checks mapped to `hub_switch_flags` bits 0..14 (bit 0 = Peppermint West, bit 10 = Moonlight; others sequential) |
+| HUB_SWITCH_* | 3960400 - 3960414 | Hub big-switch checks mapped to `hub_switch_flags` bits 0..14 (bit 0 = Peppermint West, bit 11 = Moonlight; others sequential) |
 | AREA_VISIT_* | 3960451 - 3960459 | First-visit checks for gameplay areas 1..9 (Rainbow Route through Candy Constellation), derived from first visited room per area via native `gVisitedDoors` |
 | MINOR_CHEST_RAINBOW_ROUTE_1_39 | 3960500 | Rainbow Route 1-39 small chest (native small_chest_flags_native bit 1) |
 | MINOR_CHEST_RAINBOW_ROUTE_1_22 | 3960501 | Rainbow Route 1-22 small chest (native small_chest_flags_native bit 23) |
