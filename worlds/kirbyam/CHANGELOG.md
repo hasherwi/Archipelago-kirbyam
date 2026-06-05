@@ -7,6 +7,11 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## Unreleased
+
+### Improvements
+- Bump Archipelago Minimum version to 0.6.7 (PR #843).
+
 ## v0.2.0
 
 ### New Features
