@@ -1,52 +1,6 @@
 {
   "REGION_GAME_START": {
-    "locations": [
-      "MINOR_CHEST_UNMAPPED_X_01_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_03_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_04_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_05_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_06_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_07_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_08_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_09_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_10_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_11_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_12_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_13_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_14_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_15_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_16_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_17_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_18_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_19_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_20_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_21_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_22_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_23_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_24_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_25_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_26_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_27_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_28_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_29_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_30_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_31_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_32_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_33_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_34_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_35_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_36_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_37_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_38_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_39_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_40_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_41_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_42_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_43_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_44_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_45_REPORT",
-      "MINOR_CHEST_UNMAPPED_X_46_REPORT"
-    ],
+    "locations": [],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/MAIN"
@@ -54,7 +8,7 @@
   },
   "REGION_MUSTARD_MOUNTAIN/MAIN": {
     "locations": [
-      "HUB_SWITCH_MUSTARD"
+      "AREA_VISIT_4_MUSTARD_MOUNTAIN"
     ],
     "events": [
       "Activate Big Switch - Mustard Mountain"
@@ -65,7 +19,7 @@
   },
   "REGION_MOONLIGHT_MANSION/MAIN": {
     "locations": [
-      "HUB_SWITCH_MOONLIGHT"
+      "AREA_VISIT_2_MOONLIGHT_MANSION"
     ],
     "events": [
       "Activate Big Switch - Moonlight Mansion"
@@ -77,7 +31,7 @@
   },
   "REGION_CANDY_CONSTELLATION/MAIN": {
     "locations": [
-      "HUB_SWITCH_CANDY"
+      "AREA_VISIT_9_CANDY_CONSTELLATION"
     ],
     "events": [
       "Activate Big Switch - Candy Constellation"
@@ -88,7 +42,7 @@
   },
   "REGION_OLIVE_OCEAN/MAIN": {
     "locations": [
-      "HUB_SWITCH_OLIVE"
+      "AREA_VISIT_6_OLIVE_OCEAN"
     ],
     "events": [
       "Activate Big Switch - Olive Ocean"
@@ -100,8 +54,7 @@
   },
   "REGION_PEPPERMINT_PALACE/MAIN": {
     "locations": [
-      "HUB_SWITCH_PEPPERMINT_EAST",
-      "HUB_SWITCH_PEPPERMINT_WEST"
+      "AREA_VISIT_7_PEPPERMINT_PALACE"
     ],
     "events": [
       "Activate Big Switch - Peppermint Palace East",
@@ -114,9 +67,7 @@
   },
   "REGION_CABBAGE_CAVERN/MAIN": {
     "locations": [
-      "HUB_SWITCH_CABBAGE_CAVERN_CENTER",
-      "HUB_SWITCH_CABBAGE_CAVERN_EAST",
-      "HUB_SWITCH_CABBAGE_CAVERN_WEST"
+      "AREA_VISIT_3_CABBAGE_CAVERN"
     ],
     "events": [
       "Activate Big Switch - Cabbage Cavern Center",
@@ -131,7 +82,7 @@
   },
   "REGION_CARROT_CASTLE/MAIN": {
     "locations": [
-      "HUB_SWITCH_CARROT"
+      "AREA_VISIT_5_CARROT_CASTLE"
     ],
     "events": [
       "Activate Big Switch - Carrot Castle"
@@ -144,7 +95,7 @@
   },
   "REGION_RADISH_RUINS/MAIN": {
     "locations": [
-      "HUB_SWITCH_RADISH"
+      "AREA_VISIT_8_RADISH_RUINS"
     ],
     "events": [
       "Activate Big Switch - Radish Ruins"
@@ -156,11 +107,9 @@
   },
   "REGION_RAINBOW_ROUTE/MAIN": {
     "locations": [
+      "AREA_VISIT_1_RAINBOW_ROUTE",
       "GOAL_ANY_AREA_BOSS",
-      "HUB_SWITCH_RAINBOW_ROUTE_EAST",
-      "HUB_SWITCH_RAINBOW_ROUTE_NORTH",
-      "HUB_SWITCH_RAINBOW_ROUTE_SOUTH",
-      "HUB_SWITCH_RAINBOW_ROUTE_WEST"
+      "GOAL_HIDDEN_AREA_BOSS"
     ],
     "events": [
       "Activate Big Switch - Rainbow Route East",

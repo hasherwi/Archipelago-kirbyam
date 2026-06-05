@@ -7,6 +7,11 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## Unreleased
+
+### Improvements
+- Bump Archipelago Minimum version to 0.6.7 (PR #843).
+
 ## v0.3.0
 
 ### New Features
@@ -22,8 +27,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### New Features
 
 - Expanded exploration location check coverage:
-  - Minor chests are now implemented as location checks (Issue #129). We expect some bug with this that we haven't found. The chests' content are planned to be implemented as AP items later. See the Known Limitations section.
-  - Hub switches are now implemented as location checks (Issue #481). We expect some bug with this that we haven't found. Using the connection itself as an AP item is planned for later.
+  - Minor chests are now implemented as location checks (Issue #129). We expect some bugs with this that we haven't found. The chests' content are planned to be implemented as AP items later. See the Known Limitations section.
+  - Hub switches are now implemented as location checks (Issue #481). We expect some bugs with this that we haven't found. Using the connection itself as an AP item is planned for later.
   - The first time you visit each area is now a location check (Issue #606). These nine new location checks give us room to add progression gating items later. This is not a toggleable feature and is separate from Room Sanity.
 - Added several player-facing quality-of-life features:
   - `Starting Kirby Color` lets players begin with a chosen Kirby color instead of always starting as Pink, including a random option for surprise runs (Issue #597). See the Known Limitations section.
@@ -38,27 +43,30 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Added two new goal modes:
   - `defeat_any_area_boss` completes the seed after the first acknowledged area-boss defeat check (Issue #205).
   - `defeat_random_hidden_area_boss` selects one eligible area boss per seed, stores only an internal hidden boss-defeat key in slot data, and completes the seed when that exact boss is defeated while keeping the target out of normal player-facing output (Issue #206).
-- Made improvements to non-trap filler items:
+- Made changes to non-trap filler items:
   - Added two new filler consumables with tiered healing (`Energy Drink` (HP +2) and `Hunk of Meat` (HP +3), alongside existing `Small Food` (HP +1) which was renamed) (Issues #684, #685, #686).
   - Made filler items no longer equally likely. They each has preset weight loosely based on their likelihood in the original game. Base whole-number weights are Cell Phone Battery 25, Energy Drink 17, 1 Up 15, Max Tomato 15, Small Food 14, Hunk of Meat 9, Invincibility Candy 5. In one-hit mode (`exclude_vitality_counters`), healing filler (`Small Food`, `Energy Drink`, `Hunk of Meat`, `Max Tomato`) is removed and the remaining weights (`Cell Phone Battery`, `1 Up`, `Invincibility Candy`) are preserved proportionally. In no-lives mode, `1 Up` is removed and remaining filler keeps configured relative weights. When both modes are enabled together, only `Cell Phone Battery` and `Invincibility Candy` remain in weighted selection (Issue #688).
-- Added the option to randomize Ability Statues with `ability_randomization_statues`. Defaults to off. It controls inclusion only: enabled statues inherit the selected copy-ability mode (`off`, `shuffled`, `completely_random`), and statues always grant an ability (ignoring `ability_randomization_no_ability_weight` and `ability_randomization_passive_enemies`, while respecting `ability_randomization_minny` just like enemy randomization) (Issue #209).
+- Added the option to randomize Ability Statues with `ability_randomization_statues`. Defaults to off. It controls inclusion only and is only ever `shuffled`. Statues always grant an ability (ignoring `ability_randomization_no_ability_weight` and `ability_randomization_passive_enemies`, while respecting `ability_randomization_minny` just like enemy randomization) (Issue #209). See the Known Limitations section.
 
 ### Improvements
 
 - Enemy Ability Shuffle now covers more enemies, spreads allowed abilities more evenly across enemies when possible while still respecting settings that force no ability, and keeps `Ability Randomization: Minny` off by default unless players opt in (Issues #420, #583).
 - DeathLink got flavor text (Issue #409).
-- Spoiler output and generation logs now show shuffled enemy ability assignments, making seeds easier to review (Issue #586). This includes ability statues (Issue #804).
+- Spoiler output and generation logs now show shuffled enemy ability assignments, making seeds easier to review (Issue #586). This includes ability statues (Issue #804). For statues, see the Known Limitations section.
 
 ### Known Limitations
+- Localization: Only the North American ROM is supported. All AP notifications are in English.
 - Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
 - Chests:
-  - Minor (small) chests are labelled very poorly right now. We need the community to help us label them correctly because no mapping currently exists for which "bit" maps to which chest and which item is inside.
+  - Some minor (small) chests are labelled very poorly right now. We need the community to help us label them correctly because no mapping currently exists for which "bit" maps to which chest and which item is inside.
   - The items inside minor (small) chests are not AP given items right now. If you open a chest with a spray paint, the game will give you that spray paint AND AP sends a location check. This is expected. We want to get the locations working before we start interrupting game item delivery.
   - Major (big) chests *DO* have item delivery interrupted. If you open the chest with Sound Player in it, you probably won't get the Sound Player. However, the animation for getting the sound player and the sprite for it will still show on your screen. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or a custom sprite if it's not a KirbyAM item.
+- When `ability_randomization_mode` is set to `completely_random` ability statues are actually shuffled. This is known and incorrect, but we decided to release anyway and fix it later. You can always play with this feature off.
 - `Starting Kirby Color`: The color is not immediately applied. It might take a room transition or a hit for it to apply, but it will eventually apply. Hopefully we can improve this later, but the feature does work.
 
 ### Bug Fixes
 
+- Fixed an issue where having other custom GBA worlds installed with KirbyAM at the same time caused issues (Issue #742).
 - Enemy Ability Randomization: Completely random now rerolls abilities per swallow, not per room (Issue #420).
 - Warp rooms that were missing Room Sanity checks now have them (Issue #605).
 - Fixed delivery synchronization and logging issues that could skip items when client and game counters drifted, while ensuring debug-only delivery diagnostics still go to the log file even when hidden from the live client output (Issue #601).

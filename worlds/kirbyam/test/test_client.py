@@ -795,6 +795,80 @@ async def test_poll_minor_chest_excludes_exact_event_locations_from_bit_poll(moc
 
 
 @pytest.mark.asyncio
+async def test_poll_minor_chest_fallback_spray_bitfield_sends_location_checks(mock_bizhawk_context):
+    """Spray-paint ownership bits should fallback-send mapped minor chest checks when chest bits are absent."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    target_location = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_22"].location_id
+    spray_bit = next(
+        bit
+        for bit, location_ids in client._minor_chest_spray_fallback_location_ids_by_bit.items()
+        if target_location in location_ids
+    )
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.dict(
+        data.native_ram_addresses,
+        {
+            "small_chest_flags_native": 0x02038960,
+            "spray_paint_bitfield_native": 0x02038974,
+            "music_player_and_sheets_bitfield_native": 0x02038978,
+        },
+        clear=False,
+    ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        mock_read.return_value = [
+            (0).to_bytes(10, 'little'),
+            (1 << spray_bit).to_bytes(4, 'little'),
+            (0).to_bytes(4, 'little'),
+        ]
+
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [target_location]}
+    ])
+
+
+@pytest.mark.asyncio
+async def test_poll_minor_chest_fallback_music_sheet_bitfield_sends_location_checks(mock_bizhawk_context):
+    """Music-sheet ownership bits should fallback-send mapped minor chest checks when chest bits are absent."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    target_location = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_38"].location_id
+    music_bit = next(
+        bit
+        for bit, location_ids in client._minor_chest_music_sheet_fallback_location_ids_by_bit.items()
+        if target_location in location_ids
+    )
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.dict(
+        data.native_ram_addresses,
+        {
+            "small_chest_flags_native": 0x02038960,
+            "spray_paint_bitfield_native": 0x02038974,
+            "music_player_and_sheets_bitfield_native": 0x02038978,
+        },
+        clear=False,
+    ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        mock_read.return_value = [
+            (0).to_bytes(10, 'little'),
+            (0).to_bytes(4, 'little'),
+            (1 << music_bit).to_bytes(4, 'little'),
+        ]
+
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [target_location]}
+    ])
+
+
+@pytest.mark.asyncio
 async def test_poll_minor_chest_event_sends_named_exact_location(mock_bizhawk_context):
     """Exact minor chest events should also support named locations moved off shared native bits."""
     client = KirbyAmClient()
@@ -1039,6 +1113,8 @@ async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_c
     moonlight_bit = data.locations["HUB_SWITCH_MOONLIGHT"].bit_index
     assert moonlight_bit is not None
     rainbow_east = data.locations["HUB_SWITCH_RAINBOW_ROUTE_EAST"].location_id
+    rainbow_east_bit = data.locations["HUB_SWITCH_RAINBOW_ROUTE_EAST"].bit_index
+    assert rainbow_east_bit is not None
     mock_bizhawk_context.checked_locations = set()
 
     with patch.dict(data.transport_ram_addresses, {"hub_switch_flags": 0x0203B04C}, clear=False), \
@@ -1046,7 +1122,7 @@ async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_c
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
         mock_read.side_effect = [
             [(0).to_bytes(4, 'little')],
-            [((1 << moonlight_bit) | (1 << 1)).to_bytes(4, 'little')],
+            [((1 << moonlight_bit) | (1 << rainbow_east_bit)).to_bytes(4, 'little')],
         ]
 
         await client._poll_hub_switch_locations(mock_bizhawk_context)
@@ -1182,6 +1258,8 @@ async def test_poll_hub_switch_rebaselines_on_stream_marker_change(mock_bizhawk_
     client.initialize_client()
 
     rainbow_east = data.locations["HUB_SWITCH_RAINBOW_ROUTE_EAST"].location_id
+    rainbow_east_bit = data.locations["HUB_SWITCH_RAINBOW_ROUTE_EAST"].bit_index
+    assert rainbow_east_bit is not None
     mock_bizhawk_context.checked_locations = set()
     mock_bizhawk_context.bizhawk_ctx.streams = object()
 
@@ -1191,7 +1269,7 @@ async def test_poll_hub_switch_rebaselines_on_stream_marker_change(mock_bizhawk_
         mock_read.side_effect = [
             [((1 << 10)).to_bytes(4, 'little')],
             [((1 << 10)).to_bytes(4, 'little')],
-            [((1 << 10) | (1 << 1)).to_bytes(4, 'little')],
+            [((1 << 10) | (1 << rainbow_east_bit)).to_bytes(4, 'little')],
         ]
 
         await client._poll_hub_switch_locations(mock_bizhawk_context)
@@ -2324,12 +2402,12 @@ async def test_goal_hidden_random_area_boss_server_exposed_goal_reports_location
     client.initialize_client()
 
     hidden_goal_key = "BOSS_DEFEAT_3"
-    generic_goal_id = data.locations["GOAL_ANY_AREA_BOSS"].location_id
+    hidden_goal_id = data.locations["GOAL_HIDDEN_AREA_BOSS"].location_id
 
     mock_bizhawk_context.slot_data["goal"] = 2
     mock_bizhawk_context.slot_data["goal_hidden_area_boss_key"] = hidden_goal_key
     mock_bizhawk_context.checked_locations = set()
-    mock_bizhawk_context.server_locations = {generic_goal_id}
+    mock_bizhawk_context.server_locations = {hidden_goal_id}
     mock_bizhawk_context.finished_game = False
 
     client._native_goal_signal_seen = True
@@ -2337,11 +2415,11 @@ async def test_goal_hidden_random_area_boss_server_exposed_goal_reports_location
     await client._maybe_report_goal(mock_bizhawk_context)
 
     mock_bizhawk_context.send_msgs.assert_awaited_once_with([
-        {"cmd": "LocationChecks", "locations": [generic_goal_id]}
+        {"cmd": "LocationChecks", "locations": [hidden_goal_id]}
     ])
 
     mock_bizhawk_context.send_msgs.reset_mock()
-    mock_bizhawk_context.checked_locations.add(generic_goal_id)
+    mock_bizhawk_context.checked_locations.add(hidden_goal_id)
 
     await client._maybe_report_goal(mock_bizhawk_context)
 
@@ -2360,12 +2438,12 @@ async def test_goal_hidden_random_area_boss_does_not_trigger_for_non_target_boss
 
     hidden_goal_key = "BOSS_DEFEAT_3"
     non_target_key = "BOSS_DEFEAT_1"
-    generic_goal_id = data.locations["GOAL_ANY_AREA_BOSS"].location_id
+    hidden_goal_id = data.locations["GOAL_HIDDEN_AREA_BOSS"].location_id
 
     mock_bizhawk_context.slot_data["goal"] = 2
     mock_bizhawk_context.slot_data["goal_hidden_area_boss_key"] = hidden_goal_key
     mock_bizhawk_context.checked_locations = {data.locations[non_target_key].location_id}
-    mock_bizhawk_context.server_locations = {generic_goal_id}
+    mock_bizhawk_context.server_locations = {hidden_goal_id}
     mock_bizhawk_context.finished_game = False
 
     await client._maybe_report_goal(mock_bizhawk_context)

@@ -273,23 +273,6 @@ class RoomSanity(Toggle):
     default = 0
 
 
-class UnmappedMinorChestReportLocations(Toggle):
-    """
-    Include provisional minor-chest report locations with labels like
-    `Uncertain Minor Chest 1-40 (Report This)`.
-
-    Experimental: these locations are intended for mapping/discovery runs and
-    can share native chest bits while mappings are unresolved.
-
-    If you enable this option, please report which room each chest is in to the
-    KirbyAM developers.
-
-    Off by default.
-    """
-    display_name = "Unmapped Minor Chest Report Locations"
-    default = 0
-
-
 class KirbyAmDeathLink(DeathLink):
     __doc__ = DeathLink.__doc__
 
@@ -328,8 +311,6 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     room_sanity: RoomSanity
 
-    unmapped_minor_chest_report_locations: UnmappedMinorChestReportLocations
-
     death_link: KirbyAmDeathLink
 
 
@@ -339,7 +320,6 @@ OPTION_GROUPS = [
     ]),
     OptionGroup("Make the game last longer", [
         RoomSanity,
-        UnmappedMinorChestReportLocations,
     ]),
     OptionGroup("Make the game harder", [
         EnableTraps,
@@ -350,12 +330,12 @@ OPTION_GROUPS = [
     ]),
     OptionGroup("Ability Randomization", [
         AbilityRandomizationMode,
+        AbilityRandomizationStatues,
+        AbilityRandomizationPassiveEnemies,
+        AbilityRandomizationNoAbilityWeight,
         AbilityRandomizationBossSpawns,
         AbilityRandomizationMinibosses,
         AbilityRandomizationMinny,
-        AbilityRandomizationPassiveEnemies,
-        AbilityRandomizationNoAbilityWeight,
-        AbilityRandomizationStatues,
     ]),
     OptionGroup("Cosmetics", [
         StartingKirbyColor,

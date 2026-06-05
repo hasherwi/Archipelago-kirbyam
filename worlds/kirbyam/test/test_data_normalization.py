@@ -52,14 +52,14 @@ def test_hub_switch_moonlight_and_peppermint_east_mapping() -> None:
 
 def test_hub_switch_labels_match_expected_location_ids() -> None:
     expected_labels_by_location_id = {
-        3960401: "Peppermint Palace East - Big Switch",
-        3960402: "Cabbage Cavern East - Big Switch",
-        3960404: "Candy Constellation - Big Switch",
-        3960409: "Rainbow Route East - Big Switch",
-        3960410: "Moonlight Mansion - Big Switch",
-        3960411: "Radish Ruins - Big Switch",
-        3960412: "Rainbow Route South - Big Switch",
-        3960414: "Rainbow Route West - Big Switch",
+        3960401: "Rainbow Route East - Big Switch",
+        3960402: "Rainbow Route South - Big Switch",
+        3960404: "Rainbow Route West - Big Switch",
+        3960409: "Radish Ruins - Big Switch",
+        3960410: "Peppermint Palace East - Big Switch",
+        3960411: "Moonlight Mansion - Big Switch",
+        3960412: "Cabbage Cavern East - Big Switch",
+        3960414: "Candy Constellation - Big Switch",
     }
 
     labels_by_location_id = {
@@ -130,3 +130,19 @@ def test_generated_hub_switch_contract_compatibility_aliases_are_disjoint() -> N
         assert location_key in kirby_data.locations
         for bit in compatibility_bits:
             assert bit not in canonical_bits
+
+
+def test_all_goal_locations_are_explicitly_region_claimed() -> None:
+    claimed_locations = {
+        location_key
+        for region in kirby_data.regions.values()
+        for location_key in region.locations
+    }
+    goal_location_keys = {
+        location_key
+        for location_key, location in kirby_data.locations.items()
+        if location.category == LocationCategory.GOAL
+    }
+
+    assert goal_location_keys
+    assert goal_location_keys.issubset(claimed_locations)

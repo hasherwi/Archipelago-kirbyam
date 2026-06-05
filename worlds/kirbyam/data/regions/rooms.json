@@ -65,7 +65,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_RAINBOW_ROUTE_EAST"
+    ],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_09",
@@ -208,7 +210,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_RAINBOW_ROUTE_SOUTH"
+    ],
     "events": [],
     "exits": [
       "REGION_DIMENSION_MIRROR/ROOM_10_18",
@@ -273,7 +277,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_RAINBOW_ROUTE_WEST"
+    ],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
@@ -546,7 +552,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_RAINBOW_ROUTE_NORTH"
+    ],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_30",
@@ -702,7 +710,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_08_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3",
@@ -1015,7 +1025,8 @@
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_02": {
     "locations": [
-      "MINOR_CHEST_RAINBOW_ROUTE_1_02"
+      "MINOR_CHEST_RAINBOW_ROUTE_1_02",
+      "MINOR_CHEST_UNMAPPED_X_03_REPORT"
     ],
     "events": [],
     "exits": [
@@ -1107,7 +1118,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_03": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_04_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_37",
@@ -2019,7 +2032,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_11": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_05_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_30",
@@ -2799,7 +2814,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_19": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_07_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_DIMENSION_MIRROR/ROOM_10_18",
@@ -2864,7 +2881,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_20": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_06_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_36",
@@ -4950,7 +4969,9 @@
     ]
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_40": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_01_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_06",
@@ -5345,7 +5366,9 @@
     ]
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_HUB": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_MOONLIGHT"
+    ],
     "events": [],
     "exits": [
       "REGION_MOONLIGHT_MANSION/ROOM_2_02",
@@ -5527,7 +5550,9 @@
     ]
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_11_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_MOONLIGHT_MANSION/ROOM_2_19",
@@ -7065,7 +7090,8 @@
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_14": {
     "locations": [
-      "BOSS_DEFEAT_2"
+      "BOSS_DEFEAT_2",
+      "MINOR_CHEST_UNMAPPED_X_12_REPORT"
     ],
     "events": [],
     "exits": [
@@ -7493,7 +7519,10 @@
     ]
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_19": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_09_REPORT",
+      "MINOR_CHEST_UNMAPPED_X_10_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_DIMENSION_MIRROR/ROOM_10_19",
@@ -7704,7 +7733,9 @@
     ]
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_CABBAGE_CAVERN_EAST"
+    ],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_06",
@@ -7822,7 +7853,7 @@
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2": {
     "locations": [
-      "MAJOR_CHEST_CABBAGE_CAVERN"
+      "HUB_SWITCH_CABBAGE_CAVERN_CENTER"
     ],
     "events": [],
     "exits": [
@@ -7914,7 +7945,9 @@
     ]
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_CABBAGE_CAVERN_WEST"
+    ],
     "events": [],
     "exits": [
       "REGION_RADISH_RUINS/ROOM_8_GOAL_2",
@@ -8030,9 +8063,12 @@
     ]
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_GOAL": {
-    "locations": [],
+    "locations": [
+      "MAJOR_CHEST_CABBAGE_CAVERN"
+    ],
     "events": [],
     "exits": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_01",
       "REGION_CABBAGE_CAVERN/ROOM_3_08",
       "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
     ],
@@ -8239,10 +8275,13 @@
     ]
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_01": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_36_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_02",
+      "REGION_CABBAGE_CAVERN/ROOM_3_16",
       "REGION_CABBAGE_CAVERN/ROOM_3_GOAL"
     ],
     "room_sanity": {
@@ -8329,9 +8368,12 @@
     ]
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_02": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_37_REPORT"
+    ],
     "events": [],
     "exits": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_01",
       "REGION_CABBAGE_CAVERN/ROOM_3_05"
     ],
     "room_sanity": {
@@ -8808,7 +8850,9 @@
     ]
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_07": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_35_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_11",
@@ -9082,7 +9126,9 @@
     ]
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_10": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_34_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_12",
@@ -9477,6 +9523,7 @@
     "locations": [],
     "events": [],
     "exits": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_01",
       "REGION_OLIVE_OCEAN/ROOM_6_01",
       "REGION_OLIVE_OCEAN/ROOM_6_BOSS",
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
@@ -9590,7 +9637,9 @@
     ]
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_MUSTARD"
+    ],
     "events": [],
     "exits": [
       "REGION_DIMENSION_MIRROR/ROOM_10_19",
@@ -9903,7 +9952,8 @@
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP": {
     "locations": [
-      "BOSS_DEFEAT_1"
+      "BOSS_DEFEAT_1",
+      "MINOR_CHEST_UNMAPPED_X_29_REPORT"
     ],
     "events": [],
     "exits": [
@@ -10426,7 +10476,9 @@
     ]
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_05": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_30_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
@@ -11115,7 +11167,9 @@
     ]
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_12": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_28_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_DIMENSION_MIRROR/ROOM_10_19",
@@ -11793,7 +11847,9 @@
     ]
   },
   "REGION_CARROT_CASTLE/ROOM_5_HUB": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_CARROT"
+    ],
     "events": [],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_04",
@@ -12554,7 +12610,11 @@
     ]
   },
   "REGION_CARROT_CASTLE/ROOM_5_04": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_18_REPORT",
+      "MINOR_CHEST_UNMAPPED_X_19_REPORT",
+      "MINOR_CHEST_UNMAPPED_X_20_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_02",
@@ -13672,7 +13732,9 @@
     ]
   },
   "REGION_CARROT_CASTLE/ROOM_5_16": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_46_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_18",
@@ -13841,7 +13903,9 @@
     ]
   },
   "REGION_CARROT_CASTLE/ROOM_5_17": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_45_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_18",
@@ -14052,7 +14116,9 @@
     ]
   },
   "REGION_OLIVE_OCEAN/ROOM_6_HUB": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_OLIVE"
+    ],
     "events": [],
     "exits": [
       "REGION_OLIVE_OCEAN/ROOM_6_02",
@@ -14117,7 +14183,9 @@
     ]
   },
   "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_39_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_OLIVE_OCEAN/ROOM_6_12",
@@ -14366,7 +14434,8 @@
   },
   "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2": {
     "locations": [
-      "VITALITY_CHEST_OLIVE_OCEAN"
+      "VITALITY_CHEST_OLIVE_OCEAN",
+      "MINOR_CHEST_UNMAPPED_X_40_REPORT"
     ],
     "events": [],
     "exits": [
@@ -15829,7 +15898,9 @@
     ]
   },
   "REGION_OLIVE_OCEAN/ROOM_6_15": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_38_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_OLIVE_OCEAN/ROOM_6_12",
@@ -16574,7 +16645,9 @@
     ]
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_PEPPERMINT_EAST"
+    ],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_12",
@@ -16639,7 +16712,9 @@
     ]
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_PEPPERMINT_WEST"
+    ],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_06",
@@ -16850,7 +16925,9 @@
     ]
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_17_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_06",
@@ -17372,7 +17449,10 @@
     ]
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_03": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_15_REPORT",
+      "MINOR_CHEST_UNMAPPED_X_16_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_02",
@@ -17645,7 +17725,10 @@
     ]
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_06": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_21_REPORT",
+      "MINOR_CHEST_UNMAPPED_X_22_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1",
@@ -17998,7 +18081,11 @@
     ]
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_09": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_23_REPORT",
+      "MINOR_CHEST_UNMAPPED_X_24_REPORT",
+      "MINOR_CHEST_UNMAPPED_X_25_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1",
@@ -18584,7 +18671,9 @@
     ]
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_16": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_26_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_24",
@@ -19013,7 +19102,9 @@
     ]
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_21": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_27_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_06",
@@ -19208,7 +19299,10 @@
     ]
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_24": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_13_REPORT",
+      "MINOR_CHEST_UNMAPPED_X_14_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_PEPPERMINT_PALACE/ROOM_7_16",
@@ -19273,7 +19367,9 @@
     ]
   },
   "REGION_RADISH_RUINS/ROOM_8_HUB": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_RADISH"
+    ],
     "events": [],
     "exits": [
       "REGION_RADISH_RUINS/ROOM_8_CHEST_1",
@@ -19572,7 +19668,9 @@
     ]
   },
   "REGION_RADISH_RUINS/ROOM_8_GOAL_1": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_41_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_RADISH_RUINS/ROOM_8_07",
@@ -19581,9 +19679,6 @@
       "REGION_RADISH_RUINS/ROOM_8_17",
       "REGION_RADISH_RUINS/ROOM_8_23"
     ],
-    "logical_exit_overrides": {
-      "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_GOAL_1"
-    },
     "room_sanity": {
       "included": true,
       "location_id": 3961210,
@@ -19718,7 +19813,10 @@
     ]
   },
   "REGION_RADISH_RUINS/ROOM_8_GOAL_2": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_43_REPORT",
+      "MINOR_CHEST_UNMAPPED_X_44_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
@@ -20326,7 +20424,9 @@
     ]
   },
   "REGION_RADISH_RUINS/ROOM_8_07": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_42_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_RADISH_RUINS/ROOM_8_GOAL_1",
@@ -21427,9 +21527,6 @@
       "REGION_RADISH_RUINS/ROOM_8_21",
       "REGION_RADISH_RUINS/ROOM_8_23"
     ],
-    "logical_exit_overrides": {
-      "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_18_OR_8_21_OR_8_23"
-    },
     "room_sanity": {
       "included": true,
       "location_id": 3961213,
@@ -21728,9 +21825,6 @@
       "REGION_RADISH_RUINS/ROOM_8_07",
       "REGION_RADISH_RUINS/ROOM_8_18"
     ],
-    "logical_exit_overrides": {
-      "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_18_OR_8_21_OR_8_23"
-    },
     "room_sanity": {
       "included": true,
       "location_id": 3961227,
@@ -21888,9 +21982,6 @@
       "REGION_RADISH_RUINS/ROOM_8_07",
       "REGION_RADISH_RUINS/ROOM_8_18"
     ],
-    "logical_exit_overrides": {
-      "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_18_OR_8_21_OR_8_23"
-    },
     "room_sanity": {
       "included": true,
       "location_id": 3961228,
@@ -22000,7 +22091,9 @@
     ]
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_HUB": {
-    "locations": [],
+    "locations": [
+      "HUB_SWITCH_CANDY"
+    ],
     "events": [],
     "exits": [
       "REGION_CANDY_CONSTELLATION/ROOM_9_09",
@@ -22688,7 +22781,9 @@
     ]
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_BOSS": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_32_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_CANDY_CONSTELLATION/ROOM_9_20"
@@ -23083,7 +23178,9 @@
     ]
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_06": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_31_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
@@ -24027,7 +24124,9 @@
     ]
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_16": {
-    "locations": [],
+    "locations": [
+      "MINOR_CHEST_UNMAPPED_X_33_REPORT"
+    ],
     "events": [],
     "exits": [
       "REGION_CANDY_CONSTELLATION/ROOM_9_15"
