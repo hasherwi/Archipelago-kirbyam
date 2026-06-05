@@ -37,6 +37,8 @@ SystemID GBA
 02038964	d	h	0	System Bus	small_chest_flags_native[32:63]
 02038968	w	h	0	System Bus	small_chest_flags_native[64:79]
 02038970	b	h	0	System Bus	shard_bitfield_native (KIRBY_SHARD_FLAGS)
+02038974	d	h	0	System Bus	spray_paint_bitfield_native (gTreasures.sprayPaintField)
+02038978	d	h	0	System Bus	music_player_and_sheets_bitfield_native (gTreasures.musicPlayerAndSheetsField)
 0203897C	d	h	0	System Bus	big_chest_bitfield_native (gTreasures.bigChestField)
 02028C14	d	h	0	System Bus	boss_mirror_table_native [probe]
 02028CA0	w	h	0	System Bus	room_visit_flags_native[0] (gVisitedDoors base)

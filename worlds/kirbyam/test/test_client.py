@@ -795,6 +795,80 @@ async def test_poll_minor_chest_excludes_exact_event_locations_from_bit_poll(moc
 
 
 @pytest.mark.asyncio
+async def test_poll_minor_chest_fallback_spray_bitfield_sends_location_checks(mock_bizhawk_context):
+    """Spray-paint ownership bits should fallback-send mapped minor chest checks when chest bits are absent."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    target_location = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_22"].location_id
+    spray_bit = next(
+        bit
+        for bit, location_ids in client._minor_chest_spray_fallback_location_ids_by_bit.items()
+        if target_location in location_ids
+    )
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.dict(
+        data.native_ram_addresses,
+        {
+            "small_chest_flags_native": 0x02038960,
+            "spray_paint_bitfield_native": 0x02038974,
+            "music_player_and_sheets_bitfield_native": 0x02038978,
+        },
+        clear=False,
+    ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        mock_read.return_value = [
+            (0).to_bytes(10, 'little'),
+            (1 << spray_bit).to_bytes(4, 'little'),
+            (0).to_bytes(4, 'little'),
+        ]
+
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [target_location]}
+    ])
+
+
+@pytest.mark.asyncio
+async def test_poll_minor_chest_fallback_music_sheet_bitfield_sends_location_checks(mock_bizhawk_context):
+    """Music-sheet ownership bits should fallback-send mapped minor chest checks when chest bits are absent."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    target_location = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_38"].location_id
+    music_bit = next(
+        bit
+        for bit, location_ids in client._minor_chest_music_sheet_fallback_location_ids_by_bit.items()
+        if target_location in location_ids
+    )
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.dict(
+        data.native_ram_addresses,
+        {
+            "small_chest_flags_native": 0x02038960,
+            "spray_paint_bitfield_native": 0x02038974,
+            "music_player_and_sheets_bitfield_native": 0x02038978,
+        },
+        clear=False,
+    ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        mock_read.return_value = [
+            (0).to_bytes(10, 'little'),
+            (0).to_bytes(4, 'little'),
+            (1 << music_bit).to_bytes(4, 'little'),
+        ]
+
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [target_location]}
+    ])
+
+
+@pytest.mark.asyncio
 async def test_poll_minor_chest_event_sends_named_exact_location(mock_bizhawk_context):
     """Exact minor chest events should also support named locations moved off shared native bits."""
     client = KirbyAmClient()
