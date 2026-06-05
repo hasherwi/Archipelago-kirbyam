@@ -238,6 +238,15 @@
         "MAP_DIMENSION_MIRROR"
       ]
     },
+    "GOAL_HIDDEN_AREA_BOSS": {
+      "category": "GOAL",
+      "label": "Defeat a Hidden Area Boss",
+      "location_id": 3960010,
+      "tags": [
+        "Goal",
+        "MAP_RAINBOW_ROUTE"
+      ]
+    },
     "HUB_SWITCH_CABBAGE_CAVERN_CENTER": {
       "category": "HUB_SWITCH",
       "label": "Cabbage Cavern Center - Big Switch",
