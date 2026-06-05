@@ -37,6 +37,11 @@ def create_regions(world: "KirbyAmWorld") -> dict[str, Region]:
                 and not world.options.room_sanity.value
             ):
                 continue
+            if loc_meta.label in world.multiworld.regions.location_cache[world.player]:
+                # Logical subregions can mirror a location already owned by the
+                # canonical room. AP locations are still singletons, so only
+                # materialize the first instance.
+                continue
             region.locations.append(
                 KirbyAmLocation(
                     world.player,

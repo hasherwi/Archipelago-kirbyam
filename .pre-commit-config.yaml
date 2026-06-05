@@ -43,7 +43,10 @@ repos:
         name: pyright strict targeted files (CI parity)
         entry: pyright -p .github/pyright-config.json
         language: python
-        additional_dependencies: [pyright==1.1.392.post0]
+        additional_dependencies:
+          - pyright==1.1.392.post0
+          - flask==3.1.3
+          - werkzeug==3.1.6
         pass_filenames: false
         stages: [pre-push]
 

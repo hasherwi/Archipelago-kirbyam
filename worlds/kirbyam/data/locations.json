@@ -365,7 +365,7 @@
   },
   "VITALITY_CHEST_CANDY_CONSTELLATION": {
     "label": "Candy Constellation Vitality - Big Chest",
-    "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2",
+    "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_09",
     "default_item": "VITALITY_COUNTER_4",
     "tags": [
       "BigChest",
@@ -654,7 +654,7 @@
   "MINOR_CHEST_CANDY_CONSTELLATION_9_12": {
     "label": "Candy Constellation 9-12 - Small Chest",
     "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_12",
-    "default_item": "SMALL_FOOD",
+    "default_item": "1_UP",
     "tags": [
       "SmallChest",
       "MAP_CANDY_CONSTELLATION"
@@ -665,7 +665,7 @@
   },
   "MINOR_CHEST_OLIVE_OCEAN_6_05": {
     "label": "Olive Ocean 6-05 - Small Chest",
-    "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_05",
+    "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06",
     "default_item": "SMALL_FOOD",
     "tags": [
       "SmallChest",

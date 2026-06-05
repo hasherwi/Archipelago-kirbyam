@@ -82,12 +82,22 @@ def validate_regions() -> bool:
                 error(f"Kirby & The Amazing Mirror: Region [{region_exit}] referenced by [{name}] was not defined")
 
     # Check locations
-    claimed_locations = [location for region in data.regions.values() for location in region.locations]
-    claimed_locations_set = set()
-    for location_name in claimed_locations:
-        if location_name in claimed_locations_set:
-            error(f"Kirby & The Amazing Mirror: Location [{location_name}] was claimed by multiple regions")
-        claimed_locations_set.add(location_name)
+    claimed_location_owners: dict[str, set[str]] = {}
+    for region_name, region in data.regions.items():
+        for location in region.locations:
+            claimed_location_owners.setdefault(location, set()).add(region_name)
+
+    def _canonical_owner(region_name: str) -> str:
+        return region_name.split("__LOGIC__", 1)[0]
+
+    claimed_locations: list[str] = []
+    for location_name, owner_names in claimed_location_owners.items():
+        claimed_locations.append(location_name)
+        canonical_owner_names = {_canonical_owner(owner_name) for owner_name in owner_names}
+        if len(canonical_owner_names) > 1:
+            error(
+                f"Kirby & The Amazing Mirror: Location [{location_name}] was claimed by multiple regions"
+            )
 
     for location_name in locations:
         if location_name not in claimed_locations:

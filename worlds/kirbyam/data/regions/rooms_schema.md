@@ -3,6 +3,7 @@
 This document describes the canonical structure of `rooms.json`.
 
 `rooms.json` is the source of truth for room-level topology and transition data in KirbyAM.
+Room membership for AP locations is derived from `locations.json` parent-region metadata.
 
 ## File Shape
 
@@ -54,6 +55,7 @@ Each room object contains:
 - `locations`:
   - Type: `list[str]`
   - Meaning: location keys physically associated with this room.
+  - Source: derived from `locations.json` `parent_region` metadata.
   - Examples:
     - Empty room: `"locations": []`
     - Boss room: `"locations": ["BOSS_DEFEAT_3"]`
