@@ -12,7 +12,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### New Features
 
 - Expanded exploration location check coverage:
-  - Minor chests are now implemented as location checks (Issue #129). We expect some bugs with this that we haven't found. The other chests as locations are planned for later (we REALLY tried to get these working). Spray paint and music notes as items are planned to be implemented as AP items later. See the Known Limitations section.
   - Hub switches are now implemented as location checks (Issue #481). We expect some bugs with this that we haven't found. Using the connection itself as an AP item is planned for later.
   - The first time you visit each area is now a location check (Issue #606). These nine new location checks give us room to add progression gating items later. This is not a toggleable feature and is separate from Room Sanity.
 - Added several player-facing quality-of-life features:
@@ -45,10 +44,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Known Limitations
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
 - Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
-- Chests:
-  - Spray paint and music notes are just numbered right now and not tied to their room. We need the community to help us label them correctly because no mapping currently exists for which "bit" maps to which room and which item is inside.
-  - The items inside minor (small) chests are not AP given items right now. If you open a chest with a spray paint, the game will give you that spray paint AND AP sends a location check. This is expected. We want to get the locations working before we start interrupting game item delivery.
-  - Major (big) chests *DO* have item delivery interrupted. If you open the chest with Sound Player in it, you probably won't get the Sound Player. However, the animation for getting the sound player and the sprite for it will still show on your screen. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or a custom sprite if it's not a KirbyAM item.
+- Small Chests: We know you want the "small" chests implemented. We want them implemented too. We've been working on it for two months. We decided getting out what IS working, was more important.
+- Major (big) chests: The animation for getting the original item will play with the original sprite. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or a custom sprite if it's not a KirbyAM item.
 - When `ability_randomization_mode` is set to `completely_random` ability statues are actually shuffled. This is known and incorrect, but we decided to release anyway and fix it later. You can always play with this feature off.
 - `Starting Kirby Color`: The color is not immediately applied. It might take a room transition or a hit for it to apply, but it will eventually apply. Hopefully we can improve this later, but the feature does work.
 

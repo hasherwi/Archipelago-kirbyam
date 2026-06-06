@@ -221,7 +221,7 @@ Minor chest status (Issue #540):
 - Active MINOR_CHEST checks are polled from native `other_chest_flags_native` and use direct native chest bit semantics.
 - Respawn/reopen policy is documented as non-repeatable (single-fire chest state) based on decomp evidence in `katam/src/treasures.c` and `katam/asm/chest.s`.
 - Multi-chest room index disambiguation remains deferred (tracked in Issue #542).
-- See `worlds/kirbyam/docs/dev-docs/minor-chest-respawn-policy.md` and `worlds/kirbyam/data/minor_chest_manifest.json` metadata (`respawn_reopen_policy`).
+- See `worlds/kirbyam/dev-docs/minor-chest-respawn-policy.md` and `worlds/kirbyam/data/minor_chest_manifest.json` metadata (`respawn_reopen_policy`).
 
 ## Client Protocol
 

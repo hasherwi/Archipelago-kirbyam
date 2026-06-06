@@ -185,6 +185,9 @@ class KirbyAmWorld(World):
         "Carrot Castle - Mirror Shard",
         "Radish Ruins - Mirror Shard",
     )
+    # Developer-only generation gate for MINOR_CHEST AP locations.
+    # Keep this disabled unless explicitly testing minor-chest location logic.
+    ENABLE_MINOR_CHESTS: ClassVar[bool] = False
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
