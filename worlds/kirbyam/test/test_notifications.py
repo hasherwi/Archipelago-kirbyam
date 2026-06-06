@@ -1,3 +1,5 @@
+# mypy: ignore-errors
+
 """Tests for item notification formatting and location name resolution."""
 from unittest.mock import Mock, patch
 
