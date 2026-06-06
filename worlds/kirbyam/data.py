@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from enum import IntEnum
 from importlib import resources
 from pathlib import Path
-from typing import Any, NamedTuple
+from typing import Any, Iterable, NamedTuple, cast
 
 import orjson
 
@@ -27,7 +27,7 @@ def load_json_data(data_name: str) -> list[Any] | dict[str, Any]:
     raw = pkgutil.get_data(__name__, "data/" + data_name)
     if raw is None:
         raise FileNotFoundError(f"Missing data file: worlds/kirbyam/data/{data_name}")
-    return orjson.loads(raw.decode("utf-8-sig"))
+    return cast(list[Any] | dict[str, Any], orjson.loads(raw.decode("utf-8-sig")))
 
 
 def _list_data_files(subdir: str) -> list[str]:
@@ -61,7 +61,7 @@ def _maybe_load_json_data(data_name: str) -> list[Any] | dict[str, Any] | None:
     if raw is None:
         return None
 
-    return orjson.loads(raw.decode("utf-8-sig"))
+    return cast(list[Any] | dict[str, Any], orjson.loads(raw.decode("utf-8-sig")))
 
 
 def _format_room_code_special_label(room_code: str) -> str | None:
@@ -137,9 +137,9 @@ def _load_room_sanity_locations_from_room_subareas() -> dict[str, dict[str, Any]
             "label": room_label,
             "parent_region": region_name,
             "tags": ["RoomSanity"],
-            "bit_index": int(bit_index_raw),
+            "bit_index": _parse_int(bit_index_raw),
             "category": "ROOM_SANITY",
-            "location_id": int(location_id_raw),
+            "location_id": _parse_int(location_id_raw),
         }
 
     return generated_locations
@@ -453,6 +453,7 @@ def _init() -> None:  # noqa: C901
         isinstance(attrs, dict) and attrs.get("location_id") in (None, 0, "0")
         for attrs in merged_locations_json.values()
     )
+    iter_locations: Iterable[tuple[str, Any]]
     if auto_assign_needed:
         iter_locations = ((loc_key, merged_locations_json[loc_key]) for loc_key in sorted(merged_locations_json))
     else:
@@ -496,7 +497,7 @@ def _init() -> None:  # noqa: C901
         bit_index: int | None = None
         if bit_index_raw not in (None, "", "null"):
             try:
-                bit_index = int(bit_index_raw)
+                bit_index = _parse_int(bit_index_raw)
             except Exception:
                 bit_index = None
 
