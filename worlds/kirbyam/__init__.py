@@ -7,15 +7,14 @@ import pkgutil
 import random
 import time
 from collections import Counter
-from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, TextIO
+from typing import TYPE_CHECKING, Any, ClassVar, TextIO
 
 import settings
 from BaseClasses import ItemClassification, LocationProgressType, MultiWorld, Tutorial
 from worlds.AutoWorld import WebWorld, World
 
-from .client import KirbyAmClient  # type: ignore  # Required to register BizHawk client
+from .client import KirbyAmClient  # noqa: F401  # Required to register BizHawk client
 from .ability_randomization import (
-    VALID_ENEMY_COPY_ABILITIES,
     build_enemy_copy_ability_policy,
 )
 from .colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, resolve_kirby_color
@@ -45,7 +44,7 @@ from .options import (
 from .rom import KirbyAmProcedurePatch, write_tokens
 
 if TYPE_CHECKING:
-    from BaseClasses import CollectionState
+    from NetUtils import MultiData
 
 
 class KirbyAmWebWorld(WebWorld):
@@ -185,6 +184,9 @@ class KirbyAmWorld(World):
         "Carrot Castle - Mirror Shard",
         "Radish Ruins - Mirror Shard",
     )
+    # Developer-only generation gate for MINOR_CHEST AP locations.
+    # Keep this disabled unless explicitly testing minor-chest location logic.
+    ENABLE_MINOR_CHESTS: ClassVar[bool] = False
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
@@ -201,7 +203,12 @@ class KirbyAmWorld(World):
     def _one_hit_mode_value(self) -> int:
         option = getattr(getattr(self, "options", None), "one_hit_mode", None)
         value = getattr(option, "value", option)
-        return int(value) if value is not None else 0
+        if value is None:
+            return 0
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return 0
 
     def _traps_enabled(self) -> bool:
         option = getattr(getattr(self, "options", None), "enable_traps", None)
@@ -211,6 +218,9 @@ class KirbyAmWorld(World):
     def _trap_fill_percentage(self) -> int:
         option = getattr(getattr(self, "options", None), "trap_fill_percentage", None)
         value = getattr(option, "value", option)
+        if value is None:
+            percentage = TrapFillPercentage.default
+            return max(TrapFillPercentage.range_start, min(TrapFillPercentage.range_end, percentage))
         try:
             percentage = int(value)
         except (TypeError, ValueError):
@@ -240,7 +250,8 @@ class KirbyAmWorld(World):
                 "KirbyAM starting Kirby color could not be resolved from the world RNG. "
                 "Expected a valid seeded random.Random on self.random or a cached resolved color."
             )
-        color = resolve_kirby_color(choice_value, rng)
+        rng_for_resolve = rng if isinstance(rng, random.Random) else random.Random(0)
+        color = resolve_kirby_color(choice_value, rng_for_resolve)
         self._resolved_starting_kirby_color_id = color.color_id
         self._resolved_starting_kirby_color_name = color.display_name
         return self._resolved_starting_kirby_color_id, self._resolved_starting_kirby_color_name
@@ -340,8 +351,10 @@ class KirbyAmWorld(World):
 
         with generation_stage("generate_early", self.player, self.player_name):
             logger.info(f"[P{self.player}] Shards mode: {self.options.shards.current_key}")
-            chosen_color_key = self.options.starting_kirby_color.current_key
-            resolved_color = resolve_kirby_color(int(self.options.starting_kirby_color.value), self.random)
+            starting_color_option = self.options.starting_kirby_color
+            chosen_color_key = getattr(starting_color_option, "current_key", "unknown")
+            starting_color_value = getattr(starting_color_option, "value", 0)
+            resolved_color = resolve_kirby_color(int(starting_color_value), self.random)
             self._resolved_starting_kirby_color_id = resolved_color.color_id
             self._resolved_starting_kirby_color_name = resolved_color.display_name
             self._get_resolved_hidden_area_boss_goal_key()
@@ -369,11 +382,15 @@ class KirbyAmWorld(World):
                 include_passive_enemies=randomize_non_ability,
                 no_ability_weight=no_ability_weight,
             )
+            allowed_abilities = tuple(
+                self._enemy_copy_ability_policy.get("allowed_abilities", ())
+            )
             if mode == AbilityRandomizationMode.option_off:
                 logger.info(
-                    "[P%s] Enemy copy-ability randomization: off (%s whitelist entries, minny=%s, statues=%s, no_ability_weight=%s)",
+                    "[P%s] Enemy copy-ability randomization: off "
+                    "(%s whitelist entries, minny=%s, statues=%s, no_ability_weight=%s)",
                     self.player,
-                    len(VALID_ENEMY_COPY_ABILITIES),
+                    len(allowed_abilities),
                     randomize_minny,
                     randomize_statues,
                     no_ability_weight,
@@ -383,7 +400,7 @@ class KirbyAmWorld(World):
                     "[P%s] Enemy copy-ability randomization: shuffled "
                     "(%s whitelist entries, minny=%s, passive_enemies=%s, statues=%s, no_ability_weight=%s)",
                     self.player,
-                    len(VALID_ENEMY_COPY_ABILITIES),
+                    len(allowed_abilities),
                     randomize_minny,
                     randomize_non_ability,
                     randomize_statues,
@@ -411,7 +428,7 @@ class KirbyAmWorld(World):
                     "[P%s] Enemy copy-ability randomization: completely_random "
                     "(%s whitelist entries, minny=%s, passive_enemies=%s, statues=%s, no_ability_weight=%s)",
                     self.player,
-                    len(VALID_ENEMY_COPY_ABILITIES),
+                    len(allowed_abilities),
                     randomize_minny,
                     randomize_non_ability,
                     randomize_statues,
@@ -425,13 +442,17 @@ class KirbyAmWorld(World):
 
             if randomize_statues and mode != AbilityRandomizationMode.option_off:
                 logger.info(
-                    "[P%s] Statue copy-ability randomization enabled (inherits mode=%s; always grants ability; ignores passive/no-ability enemy toggles; respects Minny toggle)",
+                    "[P%s] Statue copy-ability randomization enabled "
+                    "(inherits mode=%s; always grants ability; ignores "
+                    "passive/no-ability enemy toggles; respects Minny toggle)",
                     self.player,
                     self.options.ability_randomization_mode.current_key,
                 )
             elif randomize_statues:
                 logger.info(
-                    "[P%s] Statue copy-ability toggle enabled, but Ability Randomization Mode is off so statue randomization is inactive.",
+                    "[P%s] Statue copy-ability toggle enabled, but Ability "
+                    "Randomization Mode is off so statue randomization is "
+                    "inactive.",
                     self.player,
                 )
 
@@ -469,7 +490,7 @@ class KirbyAmWorld(World):
             ])
             log_regions_created(self.player, len(regions_by_name), fillable_locations)
 
-    def create_items(self) -> None:
+    def create_items(self) -> None:  # noqa: C901
         with generation_stage("create_items", self.player, self.player_name):
             # Create items for all fillable locations (address != None).
             fill_locations: list[KirbyAmLocation] = [
@@ -479,7 +500,7 @@ class KirbyAmWorld(World):
 
             # Resolve fillable physical locations by category.
             boss_locations: list[KirbyAmLocation] = []
-            major_chest_locations: list[KirbyAmLocation] = []
+            map_chest_locations: list[KirbyAmLocation] = []
             vitality_chest_locations: list[KirbyAmLocation] = []
             sound_player_chest_locations: list[KirbyAmLocation] = []
             hub_switch_locations: list[KirbyAmLocation] = []
@@ -496,8 +517,8 @@ class KirbyAmWorld(World):
                     continue
                 if loc_meta.category == LocationCategory.BOSS_DEFEAT:
                     boss_locations.append(loc)
-                elif loc_meta.category == LocationCategory.MAJOR_CHEST:
-                    major_chest_locations.append(loc)
+                elif loc_meta.category == LocationCategory.MAP_CHEST:
+                    map_chest_locations.append(loc)
                 elif loc_meta.category == LocationCategory.VITALITY_CHEST:
                     vitality_chest_locations.append(loc)
                 elif loc_meta.category == LocationCategory.SOUND_PLAYER_CHEST:
@@ -512,7 +533,7 @@ class KirbyAmWorld(World):
                     area_visit_locations.append(loc)
 
             boss_locations.sort(key=lambda loc: loc.key or "")
-            major_chest_locations.sort(key=lambda loc: loc.key or "")
+            map_chest_locations.sort(key=lambda loc: loc.key or "")
             vitality_chest_locations.sort(key=lambda loc: loc.key or "")
             sound_player_chest_locations.sort(key=lambda loc: loc.key or "")
             hub_switch_locations.sort(key=lambda loc: loc.key or "")
@@ -522,7 +543,16 @@ class KirbyAmWorld(World):
 
             locked_shard_count = 0
             randomized_item_codes: list[int] = []
-            if boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or hub_switch_locations or minor_chest_locations or room_sanity_locations or area_visit_locations:
+            if (
+                boss_locations
+                or map_chest_locations
+                or vitality_chest_locations
+                or sound_player_chest_locations
+                or hub_switch_locations
+                or minor_chest_locations
+                or room_sanity_locations
+                or area_visit_locations
+            ):
                 shard_label_to_code = {
                     item.label: item.item_id
                     for item in kirby_data.items.values()
@@ -576,7 +606,17 @@ class KirbyAmWorld(World):
                     )
 
                 open_physical_locations = [
-                    loc for loc in boss_locations + major_chest_locations + vitality_chest_locations + sound_player_chest_locations + hub_switch_locations + minor_chest_locations + room_sanity_locations + area_visit_locations
+                    loc
+                    for loc in (
+                        boss_locations
+                        + map_chest_locations
+                        + vitality_chest_locations
+                        + sound_player_chest_locations
+                        + hub_switch_locations
+                        + minor_chest_locations
+                        + room_sanity_locations
+                        + area_visit_locations
+                    )
                     if loc.item is None
                 ]
                 needed_pool_size = len(open_physical_locations)
@@ -616,7 +656,9 @@ class KirbyAmWorld(World):
                         code for code in non_filler_item_codes if code not in vitality_item_codes
                     ]
                     logger.info(
-                        "[P%s] One-hit mode (exclude_vitality_counters): removed %s vitality counter item(s) from non-filler pool",
+                        "[P%s] One-hit mode (exclude_vitality_counters): "
+                        "removed %s vitality counter item(s) from non-filler "
+                        "pool",
                         self.player,
                         excluded_vitality_count,
                     )
@@ -745,10 +787,23 @@ class KirbyAmWorld(World):
                         self.player,
                     )
 
-            if (boss_locations or major_chest_locations or vitality_chest_locations or sound_player_chest_locations or hub_switch_locations or minor_chest_locations or room_sanity_locations or area_visit_locations) and not randomized_item_codes:
+            if (
+                (
+                    boss_locations
+                    or map_chest_locations
+                    or vitality_chest_locations
+                    or sound_player_chest_locations
+                    or hub_switch_locations
+                    or minor_chest_locations
+                    or room_sanity_locations
+                    or area_visit_locations
+                )
+                and not randomized_item_codes
+            ):
                 raise ValueError(
                     "KirbyAM item pool build failed: no randomized items were produced. "
-                    "This likely indicates a problem with boss/major/vitality/sound-player/hub-switch/minor-chest locations, "
+                    "This likely indicates a problem with boss/major/vitality/"
+                    "sound-player/hub-switch/minor-chest locations, "
                     "room-sanity/area-visit locations, or region/location data."
                 )
 
@@ -779,17 +834,17 @@ class KirbyAmWorld(World):
             )
 
             goal_event_count = 0
-            for loc in self.multiworld.get_locations(self.player):
-                if not isinstance(loc, KirbyAmLocation) or loc.key is None:
+            for location in self.multiworld.get_locations(self.player):
+                if not isinstance(location, KirbyAmLocation) or location.key is None:
                     continue
-                loc_meta = kirby_data.locations.get(loc.key)
+                loc_meta = kirby_data.locations.get(location.key)
                 if loc_meta and loc_meta.category == LocationCategory.GOAL:
-                    loc.place_locked_item(self.create_event(loc.name))
-                    loc.progress_type = LocationProgressType.DEFAULT
+                    location.place_locked_item(self.create_event(location.name))
+                    location.progress_type = LocationProgressType.DEFAULT
                     # Goal checks are runtime events, not host-fillable AP locations.
                     # Keep address=None so multidata does not serialize a None item
                     # for a numeric location entry (host LocationStore requires ints).
-                    loc.address = None
+                    location.address = None
                     goal_event_count += 1
 
             # Log item creation (randomized pool + fixed shard placements)
@@ -837,7 +892,7 @@ class KirbyAmWorld(World):
             log_generation_error(self.player, self.player_name, str(exc))
             raise
 
-    def modify_multidata(self, multidata: dict[str, Any]) -> None:
+    def modify_multidata(self, multidata: "MultiData") -> None:
         # Register auth token using the same (team, slot) tuple shape as player names.
         key = base64.b64encode(self.auth).decode("ascii")
         connect_names = multidata["connect_names"]
@@ -897,7 +952,7 @@ class KirbyAmWorld(World):
         assert policy is not None, (
             "Enemy copy ability policy must be initialized before fill_slot_data is called."
         )
-        allowed_abilities = policy.get("allowed_abilities", VALID_ENEMY_COPY_ABILITIES)
+        allowed_abilities = tuple(policy.get("allowed_abilities", ()))
         slot_data["enemy_copy_ability_whitelist"] = list(allowed_abilities)
         slot_data["enemy_copy_ability_policy"] = dict(policy)
 

@@ -24,6 +24,7 @@ def create_regions(world: "KirbyAmWorld") -> dict[str, Region]:
     """
     regions: dict[str, Region] = {}
     connections: list[tuple[str, str, str]] = []
+    enable_minor_chests = bool(getattr(world, "ENABLE_MINOR_CHESTS", False))
 
     # 1) Instantiate all regions, populate their real locations and event locations
     for region_name, region_data in data.regions.items():
@@ -32,6 +33,8 @@ def create_regions(world: "KirbyAmWorld") -> dict[str, Region]:
         # Add fillable locations from JSON
         for loc_key in region_data.locations:
             loc_meta = data.locations[loc_key]
+            if loc_meta.category == LocationCategory.MINOR_CHEST and not enable_minor_chests:
+                continue
             if (
                 loc_meta.category == LocationCategory.ROOM_SANITY
                 and not world.options.room_sanity.value

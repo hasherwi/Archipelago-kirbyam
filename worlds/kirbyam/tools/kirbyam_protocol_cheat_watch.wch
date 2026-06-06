@@ -33,9 +33,9 @@ SystemID GBA
 0203B0A8	d	h	0	System Bus	minor_chest_event_ring[6] source ptr
 0203B0AC	d	h	0	System Bus	minor_chest_event_ring[7] source ptr
 0	S	_	1		=== Native Gameplay Addresses (from worlds/kirbyam/data/addresses.json) ===
-02038960	d	h	0	System Bus	small_chest_flags_native[0:31] (native chest/switch state block)
-02038964	d	h	0	System Bus	small_chest_flags_native[32:63]
-02038968	w	h	0	System Bus	small_chest_flags_native[64:79]
+02038960	d	h	0	System Bus	other_chest_flags_native[0:31] (native chest/switch state block)
+02038964	d	h	0	System Bus	other_chest_flags_native[32:63]
+02038968	w	h	0	System Bus	other_chest_flags_native[64:79]
 02038970	b	b	0	System Bus	shard_bitfield_native (KIRBY_SHARD_FLAGS)
 02038974	d	b	0	System Bus	spray_paint_bitfield_native (gTreasures.sprayPaintField)
 02038978	d	b	0	System Bus	music_player_and_sheets_bitfield_native (gTreasures.musicPlayerAndSheetsField)

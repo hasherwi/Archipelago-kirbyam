@@ -313,7 +313,7 @@ def test_room_reachability_from_start() -> None:
 
     reachable = _reachable_rooms_from("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE")
 
-    assert len(reachable) == 265
+    assert len(reachable) == 266
     assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE" in reachable
     assert "REGION_RAINBOW_ROUTE/ROOM_1_35" in reachable
     assert "REGION_CANDY_CONSTELLATION/ROOM_9_20" in reachable
@@ -622,17 +622,7 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
         "SOUND_PLAYER_CHEST",
         "ROOM_SANITY_9_CHEST_1",
     ]
-    assert "MINOR_CHEST_CANDY_CONSTELLATION_9_12" not in (
-        kirby_data.regions[room_9_chest_2_from_9_01].locations
-    )
-    assert "MINOR_CHEST_CANDY_CONSTELLATION_9_12" in (
-        kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_12"].locations
-    )
     assert kirby_data.regions[room_9_chest_2_from_9_09].locations == ["VITALITY_CHEST_CANDY_CONSTELLATION"]
-    assert (
-        kirby_data.locations["MINOR_CHEST_CANDY_CONSTELLATION_9_12"].default_item
-        == kirby_data.item_key_to_id["1_UP"]
-    )
     assert kirby_data.regions[room_8_07_from_goal_1].exits == ["REGION_RADISH_RUINS/ROOM_8_GOAL_1"]
     assert set(kirby_data.regions[room_8_07_from_8_18_8_21_8_23].exits) == {
         "REGION_RADISH_RUINS/ROOM_8_18",
@@ -651,7 +641,7 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
         "REGION_OLIVE_OCEAN/ROOM_6_06",
     }
     assert kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_05"].locations == ["ROOM_SANITY_6_05"]
-    assert kirby_data.regions[room_6_05_from_6_04_or_6_06].locations == ["MINOR_CHEST_OLIVE_OCEAN_6_05"]
+    assert kirby_data.regions[room_6_05_from_6_04_or_6_06].locations == []
     assert kirby_data.regions[room_6_05_from_6_23].exits == ["REGION_OLIVE_OCEAN/ROOM_6_23"]
 
 

@@ -170,7 +170,7 @@ def build_major_chest_label_by_index(kirbyam_dir: Path) -> dict[int, str]:
 
     major_labels: dict[int, str] = {}
     for location in locations.values():
-        if location.get("category") != "MAJOR_CHEST":
+        if location.get("category") != "MAP_CHEST":
             continue
         bit_index = location.get("bit_index")
         default_item = location.get("default_item")

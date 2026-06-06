@@ -185,7 +185,7 @@ class LocationCategory(IntEnum):
     SHARD = 0
     GOAL = 1
     BOSS_DEFEAT = 2
-    MAJOR_CHEST = 9
+    MAP_CHEST = 9
     VITALITY_CHEST = 10
     SOUND_PLAYER_CHEST = 11
     ROOM_SANITY = 12

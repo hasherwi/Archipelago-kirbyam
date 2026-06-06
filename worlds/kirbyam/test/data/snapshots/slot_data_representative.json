@@ -295,7 +295,7 @@
     "HUB_SWITCH_MOONLIGHT": {
       "category": "HUB_SWITCH",
       "label": "Moonlight Mansion - Big Switch",
-      "location_id": 3960411,
+      "location_id": 3960401,
       "tags": [
         "HubSwitch",
         "MAP_MOONLIGHT_MANSION"
@@ -349,7 +349,7 @@
     "HUB_SWITCH_RAINBOW_ROUTE_EAST": {
       "category": "HUB_SWITCH",
       "label": "Rainbow Route East - Big Switch",
-      "location_id": 3960401,
+      "location_id": 3960411,
       "tags": [
         "HubSwitch",
         "MAP_RAINBOW_ROUTE"
@@ -383,7 +383,7 @@
       ]
     },
     "MAJOR_CHEST_CABBAGE_CAVERN": {
-      "category": "MAJOR_CHEST",
+      "category": "MAP_CHEST",
       "label": "Cabbage Cavern Map - Big Chest",
       "location_id": 3960200,
       "tags": [
@@ -392,7 +392,7 @@
       ]
     },
     "MAJOR_CHEST_CANDY_CONSTELLATION": {
-      "category": "MAJOR_CHEST",
+      "category": "MAP_CHEST",
       "label": "Candy Constellation Map - Big Chest",
       "location_id": 3960208,
       "tags": [
@@ -401,7 +401,7 @@
       ]
     },
     "MAJOR_CHEST_CARROT_CASTLE": {
-      "category": "MAJOR_CHEST",
+      "category": "MAP_CHEST",
       "label": "Carrot Castle Map - Big Chest",
       "location_id": 3960206,
       "tags": [
@@ -410,7 +410,7 @@
       ]
     },
     "MAJOR_CHEST_MOONLIGHT_MANSION": {
-      "category": "MAJOR_CHEST",
+      "category": "MAP_CHEST",
       "label": "Moonlight Mansion Map - Big Chest",
       "location_id": 3960204,
       "tags": [
@@ -419,7 +419,7 @@
       ]
     },
     "MAJOR_CHEST_MUSTARD_MOUNTAIN": {
-      "category": "MAJOR_CHEST",
+      "category": "MAP_CHEST",
       "label": "Mustard Mountain Map - Big Chest",
       "location_id": 3960205,
       "tags": [
@@ -428,7 +428,7 @@
       ]
     },
     "MAJOR_CHEST_OLIVE_OCEAN": {
-      "category": "MAJOR_CHEST",
+      "category": "MAP_CHEST",
       "label": "Olive Ocean Map - Big Chest",
       "location_id": 3960201,
       "tags": [
@@ -437,7 +437,7 @@
       ]
     },
     "MAJOR_CHEST_PEPPERMINT_PALACE": {
-      "category": "MAJOR_CHEST",
+      "category": "MAP_CHEST",
       "label": "Peppermint Palace Map - Big Chest",
       "location_id": 3960202,
       "tags": [
@@ -446,7 +446,7 @@
       ]
     },
     "MAJOR_CHEST_RADISH_RUINS": {
-      "category": "MAJOR_CHEST",
+      "category": "MAP_CHEST",
       "label": "Radish Ruins Map - Big Chest",
       "location_id": 3960207,
       "tags": [
@@ -455,7 +455,7 @@
       ]
     },
     "MAJOR_CHEST_RAINBOW_ROUTE": {
-      "category": "MAJOR_CHEST",
+      "category": "MAP_CHEST",
       "label": "Rainbow Route Map - Big Chest",
       "location_id": 3960203,
       "tags": [
@@ -463,635 +463,220 @@
         "MAP_RAINBOW_ROUTE"
       ]
     },
-    "MINOR_CHEST_CABBAGE_CAVERN_3_08": {
+    "MINOR_CHEST_MUSIC_NOTE_01": {
       "category": "MINOR_CHEST",
-      "label": "Cabbage Cavern 3-08 - Small Chest",
-      "location_id": 3960518,
-      "tags": [
-        "MAP_CABBAGE_CAVERN",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_CABBAGE_CAVERN_3_15": {
-      "category": "MINOR_CHEST",
-      "label": "Cabbage Cavern 3-15 - Small Chest",
-      "location_id": 3960512,
-      "tags": [
-        "MAP_CABBAGE_CAVERN",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_CABBAGE_CAVERN_3_BOSS": {
-      "category": "MINOR_CHEST",
-      "label": "Cabbage Cavern 3-Boss - Small Chest",
+      "label": "Music Note #1",
       "location_id": 3960514,
       "tags": [
-        "MAP_CABBAGE_CAVERN",
+        "MusicSheet",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_CANDY_CONSTELLATION_9_12": {
+    "MINOR_CHEST_MUSIC_NOTE_02": {
       "category": "MINOR_CHEST",
-      "label": "Candy Constellation 9-12 - Small Chest",
-      "location_id": 3960507,
-      "tags": [
-        "MAP_CANDY_CONSTELLATION",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_CANDY_CONSTELLATION_9_17": {
-      "category": "MINOR_CHEST",
-      "label": "Candy Constellation 9-17 - Small Chest",
-      "location_id": 3960516,
-      "tags": [
-        "MAP_CANDY_CONSTELLATION",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_CANDY_CONSTELLATION_9_CHEST_3": {
-      "category": "MINOR_CHEST",
-      "label": "Candy Constellation 9-Chest 3 - Small Chest",
-      "location_id": 3960505,
-      "tags": [
-        "MAP_CANDY_CONSTELLATION",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_CARROT_CASTLE_5_CHEST_2": {
-      "category": "MINOR_CHEST",
-      "label": "Carrot Castle 5-Chest 2 - Small Chest",
-      "location_id": 3960504,
-      "tags": [
-        "MAP_CARROT_CASTLE",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_MOONLIGHT_MANSION_2_01": {
-      "category": "MINOR_CHEST",
-      "label": "Moonlight Mansion 2-01 - Small Chest",
-      "location_id": 3960511,
-      "tags": [
-        "MAP_MOONLIGHT_MANSION",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_MOONLIGHT_MANSION_2_16": {
-      "category": "MINOR_CHEST",
-      "label": "Moonlight Mansion 2-16 - Small Chest",
-      "location_id": 3960517,
-      "tags": [
-        "MAP_MOONLIGHT_MANSION",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_MUSTARD_MOUNTAIN_4_16": {
-      "category": "MINOR_CHEST",
-      "label": "Mustard Mountain 4-16 - Small Chest",
-      "location_id": 3960513,
-      "tags": [
-        "MAP_MUSTARD_MOUNTAIN",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_OLIVE_OCEAN_6_05": {
-      "category": "MINOR_CHEST",
-      "label": "Olive Ocean 6-05 - Small Chest",
-      "location_id": 3960508,
-      "tags": [
-        "MAP_OLIVE_OCEAN",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_OLIVE_OCEAN_6_13": {
-      "category": "MINOR_CHEST",
-      "label": "Olive Ocean 6-13 - Small Chest",
-      "location_id": 3960519,
-      "tags": [
-        "MAP_OLIVE_OCEAN",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_PEPPERMINT_PALACE_7_07": {
-      "category": "MINOR_CHEST",
-      "label": "Peppermint Palace 7-07 - Small Chest",
+      "label": "Music Note #2",
       "location_id": 3960515,
       "tags": [
-        "MAP_PEPPERMINT_PALACE",
+        "MusicSheet",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_PEPPERMINT_PALACE_7_BOSS": {
+    "MINOR_CHEST_MUSIC_NOTE_03": {
       "category": "MINOR_CHEST",
-      "label": "Peppermint Palace 7-Boss - Small Chest",
-      "location_id": 3960503,
+      "label": "Music Note #3",
+      "location_id": 3960516,
       "tags": [
-        "MAP_PEPPERMINT_PALACE",
+        "MusicSheet",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST": {
+    "MINOR_CHEST_MUSIC_NOTE_04": {
       "category": "MINOR_CHEST",
-      "label": "Peppermint Palace 7-Chest - Small Chest",
-      "location_id": 3960506,
+      "label": "Music Note #4",
+      "location_id": 3960517,
       "tags": [
-        "MAP_PEPPERMINT_PALACE",
+        "MusicSheet",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_RADISH_RUINS_8_02": {
+    "MINOR_CHEST_MUSIC_NOTE_05": {
       "category": "MINOR_CHEST",
-      "label": "Radish Ruins 8-02 - Small Chest",
-      "location_id": 3960510,
+      "label": "Music Note #5",
+      "location_id": 3960518,
       "tags": [
-        "MAP_RADISH_RUINS",
+        "MusicSheet",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_RAINBOW_ROUTE_1_02": {
+    "MINOR_CHEST_MUSIC_NOTE_06": {
       "category": "MINOR_CHEST",
-      "label": "Rainbow Route 1-02 - Small Chest",
-      "location_id": 3960521,
+      "label": "Music Note #6",
+      "location_id": 3960519,
       "tags": [
-        "ExactEventLocation",
-        "MAP_RAINBOW_ROUTE",
+        "MusicSheet",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_RAINBOW_ROUTE_1_22": {
+    "MINOR_CHEST_MUSIC_NOTE_07": {
       "category": "MINOR_CHEST",
-      "label": "Rainbow Route 1-22 - Small Chest",
-      "location_id": 3960501,
-      "tags": [
-        "MAP_RAINBOW_ROUTE",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_RAINBOW_ROUTE_1_38": {
-      "category": "MINOR_CHEST",
-      "label": "Rainbow Route 1-38 - Small Chest",
-      "location_id": 3960502,
-      "tags": [
-        "MAP_RAINBOW_ROUTE",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_RAINBOW_ROUTE_1_39": {
-      "category": "MINOR_CHEST",
-      "label": "Rainbow Route 1-39 - Small Chest",
-      "location_id": 3960500,
-      "tags": [
-        "MAP_RAINBOW_ROUTE",
-        "SmallChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_01_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 1-40 - Expected Music Sheet #2 (Report This)",
+      "label": "Music Note #7",
       "location_id": 3960520,
       "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_03_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 1-02 (Report This)",
-      "location_id": 3960522,
-      "tags": [
-        "ExactEventLocation",
-        "MAP_RAINBOW_ROUTE",
+        "MusicSheet",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_04_REPORT": {
+    "MINOR_CHEST_MUSIC_NOTE_08": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 1-03 (Report This)",
+      "label": "Music Note #8",
+      "location_id": 3960521,
+      "tags": [
+        "MusicSheet",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSIC_NOTE_09": {
+      "category": "MINOR_CHEST",
+      "label": "Music Note #9",
+      "location_id": 3960522,
+      "tags": [
+        "MusicSheet",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSIC_NOTE_10": {
+      "category": "MINOR_CHEST",
+      "label": "Music Note #10",
       "location_id": 3960523,
       "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
+        "MusicSheet",
+        "SmallChest"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_05_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_01": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 1-11 (Report This)",
-      "location_id": 3960524,
+      "label": "Spray Paint #1",
+      "location_id": 3960500,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_06_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_02": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 1-20 (Report This)",
-      "location_id": 3960525,
+      "label": "Spray Paint #2",
+      "location_id": 3960501,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_07_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_03": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 1-19 (Report This)",
-      "location_id": 3960526,
+      "label": "Spray Paint #3",
+      "location_id": 3960502,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_08_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_04": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 1-GOAL-2 (Report This)",
-      "location_id": 3960527,
+      "label": "Spray Paint #4",
+      "location_id": 3960503,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_09_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_05": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 2-19 (Report This)",
-      "location_id": 3960528,
+      "label": "Spray Paint #5",
+      "location_id": 3960504,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_10_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_06": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 2-19 B (Report This)",
-      "location_id": 3960529,
+      "label": "Spray Paint #6",
+      "location_id": 3960505,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_11_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_07": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 2-GOAL-2 (Report This)",
-      "location_id": 3960530,
+      "label": "Spray Paint #7",
+      "location_id": 3960506,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_12_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_08": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 2-14 - Expected Music Sheet #2 (Report This)",
-      "location_id": 3960531,
+      "label": "Spray Paint #8",
+      "location_id": 3960507,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_13_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_09": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-24 (Report This)",
-      "location_id": 3960532,
+      "label": "Spray Paint #9",
+      "location_id": 3960508,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_14_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_10": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-24 B (Report This)",
-      "location_id": 3960533,
+      "label": "Spray Paint #10",
+      "location_id": 3960509,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_15_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_11": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-03 (Report This)",
-      "location_id": 3960534,
+      "label": "Spray Paint #11",
+      "location_id": 3960510,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_16_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_12": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-03 B (Report This)",
-      "location_id": 3960535,
+      "label": "Spray Paint #12",
+      "location_id": 3960511,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_17_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_13": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-GOAL-1 (Report This)",
-      "location_id": 3960536,
+      "label": "Spray Paint #13",
+      "location_id": 3960512,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
-    "MINOR_CHEST_UNMAPPED_X_18_REPORT": {
+    "MINOR_CHEST_SPRAY_PAINT_14": {
       "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 5-04 - Expected Music Sheet #7 (Report This)",
-      "location_id": 3960537,
+      "label": "Spray Paint #14",
+      "location_id": 3960513,
       "tags": [
-        "ReportLocation",
         "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_19_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 5-04 B - Expected Music Sheet #7 (Report This)",
-      "location_id": 3960538,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_20_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 5-04 (Report This)",
-      "location_id": 3960539,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_21_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-06 (Report This)",
-      "location_id": 3960540,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_22_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-06 B (Report This)",
-      "location_id": 3960541,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_23_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-09 - Expected Spray Paint #8 (Report This)",
-      "location_id": 3960542,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_24_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-09 B - Expected Spray Paint #8 (Report This)",
-      "location_id": 3960543,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_25_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-09 C - Expected Spray Paint #8 (Report This)",
-      "location_id": 3960544,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_26_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-16 (Report This)",
-      "location_id": 3960545,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_27_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 7-21 (Report This)",
-      "location_id": 3960546,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_28_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 4-12 (Report This)",
-      "location_id": 3960547,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_29_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 4-WARP (Report This)",
-      "location_id": 3960548,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_30_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 4-05 (Report This)",
-      "location_id": 3960549,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_31_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 9-06 (Report This)",
-      "location_id": 3960550,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_32_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 9-BOSS (Report This)",
-      "location_id": 3960551,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_33_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 9-16 (Report This)",
-      "location_id": 3960552,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_34_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 3-10 (Report This)",
-      "location_id": 3960553,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_35_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 3-07 (Report This)",
-      "location_id": 3960554,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_36_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 3-01 (Report This)",
-      "location_id": 3960555,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_37_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 3-02 (Report This)",
-      "location_id": 3960556,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_38_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 6-15 (Report This)",
-      "location_id": 3960557,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_39_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 6-CHEST-1 (Report This)",
-      "location_id": 3960558,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_40_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 6-GOAL-2 - Expected Music Sheet #1 (Report This)",
-      "location_id": 3960559,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_41_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 8-GOAL-1 (Report This)",
-      "location_id": 3960560,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_42_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 8-07 (Report This)",
-      "location_id": 3960561,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_43_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 8-GOAL-2 - Expected Music Sheet #2 (Report This)",
-      "location_id": 3960562,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_44_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 8-GOAL-2 B - Expected Music Sheet #2 (Report This)",
-      "location_id": 3960563,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_45_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 5-17 (Report This)",
-      "location_id": 3960564,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
-      ]
-    },
-    "MINOR_CHEST_UNMAPPED_X_46_REPORT": {
-      "category": "MINOR_CHEST",
-      "label": "Uncertain Minor Chest 5-16 - Expected Music Sheet #9 (Report This)",
-      "location_id": 3960565,
-      "tags": [
-        "ReportLocation",
-        "SmallChest",
-        "UnmappedMinorChest"
+        "SprayPaint"
       ]
     },
     "ROOM_SANITY_1_01": {
@@ -3256,6 +2841,7 @@
     "REGION_CABBAGE_CAVERN/ROOM_3_01": {
       "exits": [
         "REGION_CABBAGE_CAVERN/ROOM_3_02",
+        "REGION_CABBAGE_CAVERN/ROOM_3_03",
         "REGION_CABBAGE_CAVERN/ROOM_3_16",
         "REGION_CABBAGE_CAVERN/ROOM_3_GOAL"
       ],
@@ -3285,6 +2871,7 @@
     },
     "REGION_CABBAGE_CAVERN/ROOM_3_04": {
       "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_03",
         "REGION_CABBAGE_CAVERN/ROOM_3_10",
         "REGION_CABBAGE_CAVERN/ROOM_3_BOSS",
         "REGION_CABBAGE_CAVERN/ROOM_3_07"
@@ -3790,6 +3377,7 @@
     },
     "REGION_CARROT_CASTLE/ROOM_5_07": {
       "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_13",
         "REGION_CARROT_CASTLE/ROOM_5_03",
         "REGION_CARROT_CASTLE/ROOM_5_08",
         "REGION_CARROT_CASTLE/ROOM_5_07",
@@ -3864,6 +3452,7 @@
     },
     "REGION_CARROT_CASTLE/ROOM_5_14": {
       "exits": [
+        "REGION_CARROT_CASTLE/ROOM_5_13",
         "REGION_CARROT_CASTLE/ROOM_5_12"
       ],
       "label": "REGION_CARROT_CASTLE/ROOM_5_14",
@@ -4632,6 +4221,7 @@
     },
     "REGION_OLIVE_OCEAN/ROOM_6_01": {
       "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_16",
         "REGION_OLIVE_OCEAN/ROOM_6_02"
       ],
       "label": "REGION_OLIVE_OCEAN/ROOM_6_01",
@@ -4672,6 +4262,7 @@
       "exits": [
         "REGION_OLIVE_OCEAN/ROOM_6_04",
         "REGION_OLIVE_OCEAN/ROOM_6_06",
+        "REGION_OLIVE_OCEAN/ROOM_6_07",
         "REGION_OLIVE_OCEAN/ROOM_6_23"
       ],
       "label": "REGION_OLIVE_OCEAN/ROOM_6_05",
@@ -4690,6 +4281,7 @@
     },
     "REGION_OLIVE_OCEAN/ROOM_6_07": {
       "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_05",
         "REGION_OLIVE_OCEAN/ROOM_6_16",
         "REGION_OLIVE_OCEAN/ROOM_6_03",
         "REGION_OLIVE_OCEAN/ROOM_6_08"
@@ -4855,6 +4447,7 @@
     },
     "REGION_OLIVE_OCEAN/ROOM_6_BOSS": {
       "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_16",
         "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1",
         "REGION_OLIVE_OCEAN/ROOM_6_09",
         "REGION_OLIVE_OCEAN/ROOM_6_18"
@@ -5265,6 +4858,7 @@
     },
     "REGION_RADISH_RUINS/ROOM_8_06": {
       "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_09",
         "REGION_RADISH_RUINS/ROOM_8_04",
         "REGION_RADISH_RUINS/ROOM_8_CHEST_1",
         "REGION_RADISH_RUINS/ROOM_8_15"
@@ -5286,6 +4880,7 @@
     },
     "REGION_RADISH_RUINS/ROOM_8_08": {
       "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_09",
         "REGION_RADISH_RUINS/ROOM_8_CHEST_1",
         "REGION_RADISH_RUINS/ROOM_8_05",
         "REGION_RADISH_RUINS/ROOM_8_16"
@@ -5296,6 +4891,8 @@
     },
     "REGION_RADISH_RUINS/ROOM_8_09": {
       "exits": [
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_1",
+        "REGION_RADISH_RUINS/ROOM_8_07",
         "REGION_RADISH_RUINS/ROOM_8_04",
         "REGION_RADISH_RUINS/ROOM_8_03"
       ],
@@ -6008,6 +5605,7 @@
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": {
       "exits": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_16",
         "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
         "REGION_CANDY_CONSTELLATION/ROOM_9_HUB",
         "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
@@ -6016,7 +5614,10 @@
         "REGION_RAINBOW_ROUTE/ROOM_1_13",
         "REGION_RAINBOW_ROUTE/ROOM_1_09",
         "REGION_RAINBOW_ROUTE/ROOM_1_10",
-        "REGION_RAINBOW_ROUTE/ROOM_1_29"
+        "REGION_RAINBOW_ROUTE/ROOM_1_29",
+        "REGION_RAINBOW_ROUTE/ROOM_1_24",
+        "REGION_RAINBOW_ROUTE/ROOM_1_25",
+        "REGION_CARROT_CASTLE/ROOM_5_HUB"
       ],
       "label": "Area 1 - Hub Room 3",
       "parent_region": "REGION_RAINBOW_ROUTE",
