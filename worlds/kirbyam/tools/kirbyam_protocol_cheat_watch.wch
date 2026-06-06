@@ -32,6 +32,8 @@ SystemID GBA
 0203B0A4	d	h	0	System Bus	minor_chest_event_ring[5] source ptr
 0203B0A8	d	h	0	System Bus	minor_chest_event_ring[6] source ptr
 0203B0AC	d	h	0	System Bus	minor_chest_event_ring[7] source ptr
+0203B0B0	d	u	0	System Bus	ability_gate_mask_runtime (Client->ROM; safe_to_gate ability IDs)
+0203B0B4	d	u	0	System Bus	ability_unlock_mask_runtime (Client->ROM and ROM-owned updates)
 0	S	_	1		=== Native Gameplay Addresses (from worlds/kirbyam/data/addresses.json) ===
 02038960	d	h	0	System Bus	other_chest_flags_native[0:31] (native chest/switch state block)
 02038964	d	h	0	System Bus	other_chest_flags_native[32:63]

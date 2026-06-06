@@ -120,6 +120,22 @@ def test_payload_vitality_items_are_replay_guarded_per_unique_item() -> None:
     assert "vitality_counter < KIRBY_MAX_VITALITY_COUNTERS" in content, (
         "Vitality grant helper should enforce AP vitality counter cap"
     )
+    assert "KIRBY_ITEM_ID_BASE_OFFSET + 101u" in content, "Ability unlock AP item lower bound should be handled"
+    assert "KIRBY_ITEM_ID_BASE_OFFSET + 131u" in content, "Ability unlock AP item upper bound should be handled"
+
+
+def test_payload_tracks_ability_gate_and_unlock_masks() -> None:
+    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+
+    with open(payload_path, 'r') as f:
+        content = f.read()
+
+    assert "AP_ABILITY_GATE_MASK" in content, "Ability gate transport mask should be defined"
+    assert "AP_ABILITY_UNLOCK_MASK" in content, "Ability unlock transport mask should be defined"
+    assert "ap_is_locked_gated_ability" in content, "Payload should centralize gateability lock checks"
+    assert "ap_select_random_allowed_ability_excluding" in content, (
+        "Payload should reroll away from locked gated abilities in completely-random mode"
+    )
 
 
 def test_payload_tracks_sound_player_chest_checks_and_ap_unlock_apply() -> None:

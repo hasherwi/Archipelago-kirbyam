@@ -8,7 +8,6 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from .. import KirbyAmWorld
-from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from ..options import Goal
 from ..rules import (
     ABILITY_GATE_RULES,
@@ -650,7 +649,7 @@ def test_stake_breaking_abilities_are_shared_and_expected() -> None:
     abilities = get_stake_breaking_abilities()
 
     assert abilities == tuple(sorted(abilities))
-    assert abilities == tuple(sorted(GATEABLE_ENEMY_COPY_ABILITIES))
+    assert set(abilities) >= {"Hammer", "Master", "Smash", "Stone"}
     assert len(abilities) == len(set(abilities))
 
 

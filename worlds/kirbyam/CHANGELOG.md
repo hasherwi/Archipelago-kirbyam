@@ -9,6 +9,10 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ## Unreleased
 
+### New Features
+
+- Ability unlock items are now generated dynamically from `data/abilities.json` for every copyable ability (`enemy_copy_allowed` true or omitted). Abilities marked `safe_to_gate` now require their AP unlock item to be received before Kirby can retain them.
+
 ### Bug Fixes
 
 - Self-send item popups in BizHawk are now collapsed to one line (`You found your <item>.`) instead of separate send and receive popups (Issue #848).

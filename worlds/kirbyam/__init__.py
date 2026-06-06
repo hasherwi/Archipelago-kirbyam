@@ -19,6 +19,7 @@ from .ability_randomization import (
 )
 from .colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, resolve_kirby_color
 from .data import LocationCategory, format_room_region_label, load_json_data, data as kirby_data
+from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
 from .generation_logging import (
     generation_stage,
@@ -960,6 +961,21 @@ class KirbyAmWorld(World):
 
         slot_data["stake_breaking_abilities"] = list(get_stake_breaking_abilities())
         slot_data["stake_gated_transitions"] = list(get_stake_gated_transition_entrance_names())
+
+        ability_unlock_items: dict[str, str] = {}
+        for item_data in kirby_data.items.values():
+            if "Abilities" not in item_data.tags:
+                continue
+            if not item_data.label.endswith(" Ability"):
+                continue
+            ability_name = item_data.label.removesuffix(" Ability")
+            ability_unlock_items[ability_name] = item_data.label
+
+        slot_data["ability_gateable_abilities"] = list(GATEABLE_ENEMY_COPY_ABILITIES)
+        slot_data["ability_unlock_items"] = {
+            ability_name: ability_unlock_items[ability_name]
+            for ability_name in sorted(ability_unlock_items)
+        }
 
         # Tracker surface integration (Issue #114)
         # Expose all locations and rooms for tracker display

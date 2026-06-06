@@ -33,7 +33,6 @@ from typing import TYPE_CHECKING
 from BaseClasses import CollectionState
 from worlds.generic.Rules import forbid_items_for_player, set_rule
 
-from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .data import LocationCategory, data, load_json_data
 from .generation_logging import logger
 from .groups import resolve_item_group
@@ -76,6 +75,16 @@ _BOSS_DEFEAT_LOCATION_LABELS = [
 
 _DMK_DIMENSION_MIRROR_EVENT = "Defeat Dark Meta Knight (Dimension Mirror)"
 _ABILITY_GATE_STATUS_VALUES = frozenset({"confirmed", "semantic_candidate", "unconfirmed"})
+
+# These gates intentionally default to True until ability items/statues become
+# part of the item pool. The names match the planned logic categories from #37.
+_ABILITY_GATE_PLACEHOLDER_SOURCES = {
+    "CanCutRopes": frozenset({"Cutter", "Sword", "Cupid", "Smash", "Master"}),
+    "CanBreakBlocks": frozenset({"Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master"}),
+    "CanUseMini": frozenset({"Mini"}),
+    "CanLightFuses": frozenset({"Fire", "Burning", "Bomb", "Laser", "UFO", "Master"}),
+    "CanPoundPegs": frozenset({"Hammer", "Stone", "Smash", "Master"}),
+}
 
 _STAKE_TRANSITION_GATE_NAME = "CanPoundPegs"
 
@@ -126,7 +135,7 @@ ABILITY_GATE_RULES = {
 
 def get_stake_breaking_abilities() -> tuple[str, ...]:
     """Return the reusable hammer peg/stake ability group in deterministic order."""
-    return tuple(sorted(GATEABLE_ENEMY_COPY_ABILITIES))
+    return tuple(sorted(_ABILITY_GATE_PLACEHOLDER_SOURCES[_STAKE_TRANSITION_GATE_NAME]))
 
 
 def get_stake_gated_transition_entrance_names() -> tuple[str, ...]:

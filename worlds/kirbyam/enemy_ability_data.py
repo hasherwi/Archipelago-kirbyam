@@ -54,7 +54,8 @@ for ability_name, raw_entry in _ABILITY_DATA.items():
 
     runtime_id_raw = raw_entry.get("runtime_ability_id")
     runtime_id = None if runtime_id_raw is None else int(runtime_id_raw)
-    enemy_copy_allowed = bool(raw_entry.get("enemy_copy_allowed", True))
+    enemy_copy_allowed_raw = raw_entry.get("enemy_copy_allowed", True)
+    enemy_copy_allowed = True if enemy_copy_allowed_raw is None else bool(enemy_copy_allowed_raw)
     safe_to_gate = bool(raw_entry.get("safe_to_gate", False))
 
     if runtime_id is not None:

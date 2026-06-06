@@ -173,6 +173,43 @@ def test_consumable_filler_item_ids_are_stable() -> None:
     assert "3 Up" not in labels_to_ids
 
 
+def test_ability_unlock_items_are_generated_from_abilities_json() -> None:
+    abilities_json = load_json_data("abilities.json")
+    generated_ability_items = sorted(
+        (item for item in data.items.values() if "Abilities" in item.tags),
+        key=lambda item: item.item_id,
+    )
+
+    expected_runtime_ids = sorted(
+        int(attrs["runtime_ability_id"])
+        for attrs in abilities_json.values()
+        if isinstance(attrs, dict)
+        and attrs.get("runtime_ability_id") is not None
+        and attrs.get("enemy_copy_allowed", True) is not False
+    )
+    expected_labels = [
+        f"{ability_name} Ability"
+        for ability_name, attrs in sorted(
+            (
+                (ability_name, attrs)
+                for ability_name, attrs in abilities_json.items()
+                if isinstance(ability_name, str)
+                and isinstance(attrs, dict)
+                and attrs.get("runtime_ability_id") is not None
+                and attrs.get("enemy_copy_allowed", True) is not False
+            ),
+            key=lambda entry: (int(entry[1]["runtime_ability_id"]), entry[0]),
+        )
+    ]
+
+    assert [item.item_id for item in generated_ability_items] == [
+        3860000 + 100 + runtime_id for runtime_id in expected_runtime_ids
+    ]
+    assert [item.label for item in generated_ability_items] == expected_labels
+    assert any(item.classification == ItemClassification.progression for item in generated_ability_items)
+    assert any(item.classification == ItemClassification.useful for item in generated_ability_items)
+
+
 def test_trap_metadata_is_embedded_in_items_json() -> None:
     items_json = load_json_data("items.json")
 

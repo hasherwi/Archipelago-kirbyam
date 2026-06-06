@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from enum import IntEnum
 from importlib import resources
 from pathlib import Path
-from typing import Any, Dict, FrozenSet, List, NamedTuple, Optional, Set, Tuple, Union
+from typing import Any, NamedTuple
 
 import orjson
 
@@ -28,6 +28,7 @@ def load_json_data(data_name: str) -> list[Any] | dict[str, Any]:
     if raw is None:
         raise FileNotFoundError(f"Missing data file: worlds/kirbyam/data/{data_name}")
     return orjson.loads(raw.decode("utf-8-sig"))
+
 
 def _list_data_files(subdir: str) -> list[str]:
     """
@@ -277,7 +278,7 @@ def _classification_from_string(s: str) -> ItemClassification:
     raise ValueError(f"Unknown classification: {s}")
 
 
-def _init() -> None:
+def _init() -> None:  # noqa: C901
     # Optional addresses.json.
     # Supports both old flat schema:
     #   {"ram": {"key": "0x..."}, "rom": {...}}
@@ -353,6 +354,45 @@ def _init() -> None:
             explicit_item_id_owner[explicit_item_id] = item_key
 
         parsed_items.append((item_key, label, classification, tags, explicit_item_id))
+
+    abilities_json = load_json_data("abilities.json")
+    if not isinstance(abilities_json, dict):
+        raise TypeError("abilities.json must be a JSON object mapping ability names to attributes")
+
+    generated_ability_items: list[tuple[str, str, ItemClassification, frozenset[str], int | None]] = []
+    sortable_abilities: list[tuple[int, str, bool, bool]] = []
+    for ability_name, attrs in abilities_json.items():
+        if not isinstance(ability_name, str) or not isinstance(attrs, dict):
+            continue
+
+        runtime_id_raw = attrs.get("runtime_ability_id")
+        if runtime_id_raw is None:
+            continue
+
+        runtime_id = int(runtime_id_raw)
+        enemy_copy_allowed_raw = attrs.get("enemy_copy_allowed", True)
+        enemy_copy_allowed = True if enemy_copy_allowed_raw is None else bool(enemy_copy_allowed_raw)
+        if not enemy_copy_allowed:
+            continue
+
+        safe_to_gate = bool(attrs.get("safe_to_gate", False))
+        sortable_abilities.append((runtime_id, ability_name, safe_to_gate, enemy_copy_allowed))
+
+    for runtime_id, ability_name, safe_to_gate, _enemy_copy_allowed in sorted(
+        sortable_abilities,
+        key=lambda entry: (entry[0], entry[1]),
+    ):
+        generated_ability_items.append(
+            (
+                f"ABILITY_UNLOCK_{ability_name.upper()}",
+                f"{ability_name} Ability",
+                ItemClassification.progression if safe_to_gate else ItemClassification.useful,
+                frozenset({"Abilities", "Unique"}),
+                BASE_OFFSET + 100 + runtime_id,
+            )
+        )
+
+    parsed_items.extend(generated_ability_items)
 
     available_traps: list[str] = []
     for item_key, label, classification, tags, explicit_item_id in parsed_items:
@@ -496,8 +536,6 @@ def _init() -> None:
         if isinstance(region_subset, dict):
             region_json_list.append(region_subset)
 
-
-
     merged_regions: dict[str, Any] = {}
     for subset in region_json_list:
         for region_name, region_def in subset.items():
@@ -550,7 +588,9 @@ def _init() -> None:
         logical_exit_overrides = region_def.get("logical_exit_overrides", {})
         if not isinstance(logical_exit_overrides, dict):
             raise TypeError(
-                f"Region [{region_name}] logical_exit_overrides must be an object mapping destination rooms to logical subregion keys"
+                "Region [%s] logical_exit_overrides must be an object mapping "
+                "destination rooms to logical subregion keys"
+                % region_name
             )
 
         exits_raw = region_def.get("exits", [])
@@ -703,6 +743,7 @@ def _init() -> None:
         ):
             region.locations.append(loc_key)
             claimed_locations.add(loc_key)
+
 
 data = KirbyAmData()
 _init()
