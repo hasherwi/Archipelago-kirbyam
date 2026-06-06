@@ -1228,7 +1228,7 @@ class KirbyAmClient(BizHawkClient):
             return
         if sender_id != getattr(ctx, "slot", None):
             return
-        if sender_id == receiver_id:
+        if sender_id == receiver_id and self._receive_notifications_enabled:
             self._log_verbose(
                 "info",
                 "KirbyAM: self-send popup suppressed (item=%s, slot=%s)",
