@@ -8,6 +8,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from .. import KirbyAmWorld
+from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from ..options import Goal
 from ..rules import (
     ABILITY_GATE_RULES,
@@ -648,10 +649,8 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
 def test_stake_breaking_abilities_are_shared_and_expected() -> None:
     abilities = get_stake_breaking_abilities()
 
-    # Keep ordering deterministic for stable behavior, but do not pin the full
-    # set so stake-breaking abilities can expand over time without brittle tests.
     assert abilities == tuple(sorted(abilities))
-    assert set(abilities) >= {"Hammer", "Master", "Smash", "Stone"}
+    assert abilities == tuple(sorted(GATEABLE_ENEMY_COPY_ABILITIES))
     assert len(abilities) == len(set(abilities))
 
 
