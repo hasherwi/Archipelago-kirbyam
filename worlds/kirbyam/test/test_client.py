@@ -2814,6 +2814,27 @@ async def test_receive_notification_uses_local_slot_for_item_name_lookup(mock_bi
 
 
 @pytest.mark.asyncio
+async def test_receive_notification_uses_single_line_wording_for_self_send(mock_bizhawk_context):
+    """Self-send receives should emit a single local wording line."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    mock_bizhawk_context.slot = 1
+    mock_bizhawk_context.items_received = [Mock(item=3860001, player=1)]
+    mock_bizhawk_context.player_names = {1: "LocalPlayer"}
+    mock_bizhawk_context.item_names = Mock()
+    mock_bizhawk_context.item_names.lookup_in_slot.return_value = "Mirror Shard"
+
+    with patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
+        await client._emit_receive_notification(mock_bizhawk_context, 0)
+
+    mock_display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "You found your Mirror Shard.",
+    )
+
+
+@pytest.mark.asyncio
 async def test_receive_notification_queue_log_emitted_file_only(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
