@@ -80,6 +80,8 @@ Use exact item/location names from this world (or the item groups listed above) 
 
 When you find an item that is not your own, you will be able to see what it was and who it was sent to in both Bizhawk and the Archipelago Bizhawk client. The sprite for the item will still appear, but you will need to receive it via Archipelago before it's usable. When collecting a mirror shard check, the cutscene will still play as if you've received the mirror shard, however it will not be given until you receive it properly via Archipelago.
 
+If an item sends to your own slot, BizHawk shows one local confirmation line (`You found your <item>.`) instead of separate send and receive popups.
+
 
 
 ## When the player receives an item, what happens?

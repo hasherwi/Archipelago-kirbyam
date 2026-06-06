@@ -1,3 +1,5 @@
+# mypy: ignore-errors
+
 """Tests for item notification formatting and location name resolution."""
 from unittest.mock import Mock, patch
 
@@ -207,6 +209,29 @@ def test_send_notification_only_emits_own_items():
 
         # Should not emit for items from other players
         assert mock_display.call_count == 0, "Should not emit notifications for other players' items"
+
+
+def test_send_notification_suppresses_self_send_popups():
+    """_maybe_emit_send_notification should suppress popups for self-send ItemSend events."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    ctx = Mock()
+    ctx.slot = 1
+    ctx.bizhawk_ctx = Mock()
+    ctx.item_names = None
+    ctx.player_names = {1: "LocalPlayer"}
+
+    args = {
+        "type": "ItemSend",
+        "item": Mock(item=12345, player=1, location=67890),
+        "receiving": 1,
+    }
+
+    with patch('worlds.kirbyam.client.bizhawk.display_message') as mock_display:
+        with patch('worlds.kirbyam.client.Utils.async_start', side_effect=_close_async_start_coro):
+            client._maybe_emit_send_notification(ctx, args)
+
+        assert mock_display.call_count == 0, "Self-send should not emit a send popup"
 
 
 def test_send_notification_ignores_non_itemsend_events():

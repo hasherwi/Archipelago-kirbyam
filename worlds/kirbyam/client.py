@@ -1185,8 +1185,12 @@ class KirbyAmClient(BizHawkClient):
         lookup_slot = receiver_slot if receiver_slot is not None else player_id
         item_name = self._item_name(ctx, item_id, lookup_slot)
         sender_name = self._player_name(ctx, player_id)
-        prefix = "Received trap: " if self._is_trap_item(item_id) else "Received "
-        message = f"{prefix}{item_name} from {sender_name}"
+        is_self_receive = receiver_slot is not None and player_id == receiver_slot
+        if is_self_receive:
+            message = f"You found your {item_name}."
+        else:
+            prefix = "Received trap: " if self._is_trap_item(item_id) else "Received "
+            message = f"{prefix}{item_name} from {sender_name}"
 
 
         self._log_verbose(
@@ -1223,6 +1227,14 @@ class KirbyAmClient(BizHawkClient):
         if item_id is None or sender_id is None or receiver_id is None:
             return
         if sender_id != getattr(ctx, "slot", None):
+            return
+        if sender_id == receiver_id and self._receive_notifications_enabled:
+            self._log_verbose(
+                "info",
+                "KirbyAM: self-send popup suppressed (item=%s, slot=%s)",
+                item_id,
+                sender_id,
+            )
             return
 
         send_key = (item_id, sender_id, receiver_id, location_id if location_id is not None else 0xFFFFFFFF)
