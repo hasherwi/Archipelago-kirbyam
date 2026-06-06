@@ -1,4 +1,8 @@
 {
+  "ability_gateable_abilities": [
+    "Smash",
+    "Sleep"
+  ],
   "ability_randomization_boss_spawns": true,
   "ability_randomization_minibosses": false,
   "ability_randomization_minny": false,
@@ -6,6 +10,10 @@
   "ability_randomization_no_ability_weight": 55,
   "ability_randomization_passive_enemies": false,
   "ability_randomization_statues": false,
+  "ability_unlock_items": {
+    "Sleep": "Sleep Ability",
+    "Smash": "Smash Ability"
+  },
   "death_link": true,
   "enable_traps": false,
   "enemy_copy_ability_policy": {
@@ -5715,6 +5723,8 @@
     "Radish Ruins - Mirror Shard",
     "Radish Ruins - Vitality Counter",
     "Rainbow Route - Map",
+    "Sleep Ability",
+    "Smash Ability",
     "Sound Player"
   ]
 }

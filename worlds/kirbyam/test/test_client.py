@@ -5136,12 +5136,24 @@ async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation
     seed_hi = 1
     no_ability_weight = 55
     allowed_mask = 0
-    client._last_ability_runtime_config_signature = (mode, seed_lo, seed_hi, no_ability_weight, allowed_mask)
+    gated_mask = 0
+    unlocked_mask = 0
+    client._last_ability_runtime_config_signature = (
+        mode,
+        seed_lo,
+        seed_hi,
+        no_ability_weight,
+        allowed_mask,
+        gated_mask,
+        unlocked_mask,
+    )
     client._ability_runtime_config_revalidate_counter = 999
 
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
         mock_read.return_value = [
+            (0).to_bytes(4, 'little'),
+            (0).to_bytes(4, 'little'),
             (0).to_bytes(4, 'little'),
             (0).to_bytes(4, 'little'),
             (0).to_bytes(4, 'little'),
@@ -5156,6 +5168,8 @@ async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation
     seed_hi_addr = data.transport_ram_addresses["ability_randomization_seed_hi_runtime"]
     weight_addr = data.transport_ram_addresses["ability_randomization_no_ability_weight_runtime"]
     mask_addr = data.transport_ram_addresses["ability_randomization_allowed_mask_runtime"]
+    gate_addr = data.transport_ram_addresses["ability_gate_mask_runtime"]
+    unlock_addr = data.transport_ram_addresses["ability_unlock_mask_runtime"]
     rng_state_addr = data.transport_ram_addresses["ability_randomization_rng_state_runtime"]
 
     mock_read.assert_awaited_once_with(
@@ -5166,6 +5180,8 @@ async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation
             (seed_hi_addr, 4, "System Bus"),
             (weight_addr, 4, "System Bus"),
             (mask_addr, 4, "System Bus"),
+            (gate_addr, 4, "System Bus"),
+            (unlock_addr, 4, "System Bus"),
         ],
     )
     mock_write.assert_awaited_once_with(
@@ -5176,6 +5192,8 @@ async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation
             (seed_hi_addr, (seed_hi).to_bytes(4, "little"), "System Bus"),
             (weight_addr, (no_ability_weight).to_bytes(4, "little"), "System Bus"),
             (mask_addr, (allowed_mask).to_bytes(4, "little"), "System Bus"),
+            (gate_addr, (gated_mask).to_bytes(4, "little"), "System Bus"),
+            (unlock_addr, (unlocked_mask).to_bytes(4, "little"), "System Bus"),
             (rng_state_addr, (0).to_bytes(4, "little"), "System Bus"),
         ],
     )
