@@ -11,7 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 
-- Ability unlock items are now generated dynamically from `data/abilities.json` for every copyable ability (`enemy_copy_allowed` true or omitted). Abilities marked `safe_to_gate` now require their AP unlock item to be received before Kirby can retain them.
+- Ability unlock items are now generated dynamically from `data/abilities.json` only for abilities marked `safe_to_gate` (and not explicitly `enemy_copy_allowed: false`). Generated unlock items are `Useful`, and receiving them allows Kirby to retain the gated ability.
 
 ### Bug Fixes
 

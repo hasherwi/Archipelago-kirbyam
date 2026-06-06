@@ -360,7 +360,7 @@ def _init() -> None:  # noqa: C901
         raise TypeError("abilities.json must be a JSON object mapping ability names to attributes")
 
     generated_ability_items: list[tuple[str, str, ItemClassification, frozenset[str], int | None]] = []
-    sortable_abilities: list[tuple[int, str, bool, bool]] = []
+    sortable_abilities: list[tuple[int, str]] = []
     for ability_name, attrs in abilities_json.items():
         if not isinstance(ability_name, str) or not isinstance(attrs, dict):
             continue
@@ -376,9 +376,12 @@ def _init() -> None:  # noqa: C901
             continue
 
         safe_to_gate = bool(attrs.get("safe_to_gate", False))
-        sortable_abilities.append((runtime_id, ability_name, safe_to_gate, enemy_copy_allowed))
+        if not safe_to_gate:
+            continue
 
-    for runtime_id, ability_name, safe_to_gate, _enemy_copy_allowed in sorted(
+        sortable_abilities.append((runtime_id, ability_name))
+
+    for runtime_id, ability_name in sorted(
         sortable_abilities,
         key=lambda entry: (entry[0], entry[1]),
     ):
@@ -386,7 +389,7 @@ def _init() -> None:  # noqa: C901
             (
                 f"ABILITY_UNLOCK_{ability_name.upper()}",
                 f"{ability_name} Ability",
-                ItemClassification.progression if safe_to_gate else ItemClassification.useful,
+                ItemClassification.useful,
                 frozenset({"Abilities", "Unique"}),
                 BASE_OFFSET + 100 + runtime_id,
             )

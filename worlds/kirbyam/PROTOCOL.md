@@ -122,7 +122,7 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | TRAP_BOMB | 3860034 | Trap item: sets Kirby's current HP to 0 |
 | TRAP_BATTERY_DRAIN | 3860035 | Trap item: empties the cell phone battery to 0 |
 | TRAP_LIFE_WIPEOUT | 3860036 | Trap item: sets Kirby's lives count to 0 |
-| ABILITY_UNLOCK_* | 3860101 - 3860131 | Dynamic ability unlock items (`BASE_OFFSET + 100 + runtime_ability_id`) generated for copyable abilities in `abilities.json` |
+| ABILITY_UNLOCK_* | 3860101 - 3860131 | Dynamic ability unlock items (`BASE_OFFSET + 100 + runtime_ability_id`) generated only for abilities in `abilities.json` where `safe_to_gate` is true and `enemy_copy_allowed` is not false |
 | *Reserved*        | 3860037+ (except dynamic ability unlock range) | Future items (doors, additional consumables, etc.) |
 
 ### Current filler effect contract
@@ -258,7 +258,7 @@ Server → Client: ConnectionRefused | Connected
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
 - `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.
 - `ability_gateable_abilities` (list[str]): abilities from `data/abilities.json` that are marked `safe_to_gate`.
-- `ability_unlock_items` (dict[str, str]): AP item labels for copyable abilities (`enemy_copy_allowed` true or omitted) generated from `data/abilities.json`.
+- `ability_unlock_items` (dict[str, str]): AP item labels generated from `data/abilities.json` only for abilities where `safe_to_gate` is true and `enemy_copy_allowed` is not false.
 - `stake_breaking_abilities` (list[str]): reusable hammer-peg/stake ability group used by transition logic (currently `Hammer`, `Master`, `Smash`, `Stone`).
 - `stake_gated_transitions` (list[str]): directional entrance names that require the shared hammer-peg/stake gate, derived from room-level `transitions` overrides in `data/regions/rooms.json`.
 - `locations` (dict): tracker-facing location metadata keyed by KirbyAM location key.

@@ -186,6 +186,7 @@ def test_ability_unlock_items_are_generated_from_abilities_json() -> None:
         if isinstance(attrs, dict)
         and attrs.get("runtime_ability_id") is not None
         and attrs.get("enemy_copy_allowed", True) is not False
+        and bool(attrs.get("safe_to_gate", False))
     )
     expected_labels = [
         f"{ability_name} Ability"
@@ -197,6 +198,7 @@ def test_ability_unlock_items_are_generated_from_abilities_json() -> None:
                 and isinstance(attrs, dict)
                 and attrs.get("runtime_ability_id") is not None
                 and attrs.get("enemy_copy_allowed", True) is not False
+                and bool(attrs.get("safe_to_gate", False))
             ),
             key=lambda entry: (int(entry[1]["runtime_ability_id"]), entry[0]),
         )
@@ -206,8 +208,7 @@ def test_ability_unlock_items_are_generated_from_abilities_json() -> None:
         3860000 + 100 + runtime_id for runtime_id in expected_runtime_ids
     ]
     assert [item.label for item in generated_ability_items] == expected_labels
-    assert any(item.classification == ItemClassification.progression for item in generated_ability_items)
-    assert any(item.classification == ItemClassification.useful for item in generated_ability_items)
+    assert all(item.classification == ItemClassification.useful for item in generated_ability_items)
 
 
 def test_trap_metadata_is_embedded_in_items_json() -> None:
