@@ -73,6 +73,13 @@ for ability_name, raw_entry in _ABILITY_DATA.items():
     if safe_to_gate:
         if runtime_id is None:
             raise ValueError(f"ability {ability_name} is safe_to_gate but has no runtime_ability_id")
+        if not enemy_copy_allowed:
+            raise ValueError(f"ability {ability_name} is safe_to_gate but enemy_copy_allowed is false")
+        if not (0 < runtime_id <= 31):
+            raise ValueError(
+                f"ability {ability_name} is safe_to_gate but runtime_ability_id "
+                f"{runtime_id} is outside the supported 1..31 range"
+            )
         _gateable_enemy_copy_abilities.append(ability_name)
 
 

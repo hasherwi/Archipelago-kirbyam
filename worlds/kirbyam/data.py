@@ -395,6 +395,18 @@ def _init() -> None:  # noqa: C901
             )
         )
 
+    generated_ability_item_ids = {
+        item_id for _item_key, _label, _classification, _tags, item_id in generated_ability_items
+        if item_id is not None
+    }
+    for item_key, _label, _classification, _tags, explicit_item_id in parsed_items:
+        if explicit_item_id is not None and explicit_item_id in generated_ability_item_ids:
+            raise ValueError(
+                "KirbyAM item_id collision detected: explicit items.json item_id "
+                f"{explicit_item_id} conflicts with generated ability unlock item '{item_key}'"
+            )
+    used_item_ids.update(generated_ability_item_ids)
+
     parsed_items.extend(generated_ability_items)
 
     available_traps: list[str] = []
