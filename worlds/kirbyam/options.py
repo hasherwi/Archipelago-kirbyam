@@ -178,6 +178,15 @@ class NoExtraLives(Toggle):
     default = 0
 
 
+class AbilityGating(Toggle):
+    """
+    Enable gating for abilities. Gated abilities are turned on by receiving an AP item.
+    On by default.
+    """
+    display_name = "Ability Gating"
+    default = 1
+
+
 class EnableTraps(Toggle):
     """
     Allow negative trap items to appear in the randomized item pool.
@@ -289,6 +298,8 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     no_extra_lives: NoExtraLives
 
+    ability_gating: AbilityGating
+
     enable_traps: EnableTraps
 
     trap_fill_percentage: TrapFillPercentage
@@ -322,6 +333,7 @@ OPTION_GROUPS = [
         RoomSanity,
     ]),
     OptionGroup("Make the game harder", [
+        AbilityGating,
         EnableTraps,
         TrapFillPercentage,
         NoExtraLives,

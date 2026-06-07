@@ -44,6 +44,7 @@ _ABILITY_DATA = _load_json_file("abilities.json")
 _runtime_ability_name_to_id: dict[str, int] = {}
 _valid_enemy_copy_abilities: list[str] = []
 _forbidden_enemy_copy_abilities: set[str] = set()
+_gateable_enemy_copy_abilities: list[str] = []
 
 for ability_name, raw_entry in _ABILITY_DATA.items():
     if not isinstance(ability_name, str) or not ability_name:
@@ -53,7 +54,9 @@ for ability_name, raw_entry in _ABILITY_DATA.items():
 
     runtime_id_raw = raw_entry.get("runtime_ability_id")
     runtime_id = None if runtime_id_raw is None else int(runtime_id_raw)
-    enemy_copy_allowed = bool(raw_entry.get("enemy_copy_allowed", True))
+    enemy_copy_allowed_raw = raw_entry.get("enemy_copy_allowed", True)
+    enemy_copy_allowed = True if enemy_copy_allowed_raw is None else bool(enemy_copy_allowed_raw)
+    safe_to_gate = bool(raw_entry.get("safe_to_gate", False))
 
     if runtime_id is not None:
         _runtime_ability_name_to_id[ability_name] = runtime_id
@@ -67,10 +70,23 @@ for ability_name, raw_entry in _ABILITY_DATA.items():
     else:
         _forbidden_enemy_copy_abilities.add(ability_name)
 
+    if safe_to_gate:
+        if runtime_id is None:
+            raise ValueError(f"ability {ability_name} is safe_to_gate but has no runtime_ability_id")
+        if not enemy_copy_allowed:
+            raise ValueError(f"ability {ability_name} is safe_to_gate but enemy_copy_allowed is false")
+        if not (0 < runtime_id <= 31):
+            raise ValueError(
+                f"ability {ability_name} is safe_to_gate but runtime_ability_id "
+                f"{runtime_id} is outside the supported 1..31 range"
+            )
+        _gateable_enemy_copy_abilities.append(ability_name)
+
 
 ABILITY_NAME_TO_ID: dict[str, int] = dict(_runtime_ability_name_to_id)
 VALID_ENEMY_COPY_ABILITIES: tuple[str, ...] = tuple(_valid_enemy_copy_abilities)
 FORBIDDEN_ENEMY_COPY_ABILITIES: frozenset[str] = frozenset(_forbidden_enemy_copy_abilities)
+GATEABLE_ENEMY_COPY_ABILITIES: tuple[str, ...] = tuple(_gateable_enemy_copy_abilities)
 
 
 _ENEMY_DATA = _load_json_file("enemies.json")

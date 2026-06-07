@@ -19,6 +19,7 @@ from .ability_randomization import (
 )
 from .colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, resolve_kirby_color
 from .data import LocationCategory, format_room_region_label, load_json_data, data as kirby_data
+from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
 from .generation_logging import (
     generation_stage,
@@ -213,6 +214,13 @@ class KirbyAmWorld(World):
     def _traps_enabled(self) -> bool:
         option = getattr(getattr(self, "options", None), "enable_traps", None)
         value = getattr(option, "value", option)
+        return bool(value)
+
+    def _ability_gating_enabled(self) -> bool:
+        option = getattr(getattr(self, "options", None), "ability_gating", None)
+        value = getattr(option, "value", option)
+        if value is None:
+            return True
         return bool(value)
 
     def _trap_fill_percentage(self) -> int:
@@ -676,6 +684,19 @@ class KirbyAmWorld(World):
                         excluded_map_count,
                     )
 
+                if not self._ability_gating_enabled():
+                    excluded_ability_count = sum(
+                        1 for code in non_filler_item_codes if "Abilities" in kirby_data.items[code].tags
+                    )
+                    non_filler_item_codes = [
+                        code for code in non_filler_item_codes if "Abilities" not in kirby_data.items[code].tags
+                    ]
+                    logger.info(
+                        "[P%s] ability_gating: removed %s ability unlock item(s) from non-filler pool",
+                        self.player,
+                        excluded_ability_count,
+                    )
+
                 if len(non_filler_item_codes) > needed_pool_size:
                     raise ValueError(
                         "KirbyAM item pool mismatch: non-filler item count %d exceeds open physical locations %d"
@@ -930,6 +951,7 @@ class KirbyAmWorld(World):
             "start_with_all_maps",
             "starting_kirby_color",
             "no_extra_lives",
+            "ability_gating",
             "enable_traps",
             "trap_fill_percentage",
             "one_hit_mode",
@@ -948,6 +970,8 @@ class KirbyAmWorld(World):
         slot_data["starting_kirby_color"] = resolved_color_id
         slot_data["starting_kirby_color_name"] = resolved_color_name
         slot_data["goal_hidden_area_boss_key"] = self._get_resolved_hidden_area_boss_goal_key()
+        ability_gating_enabled = self._ability_gating_enabled()
+        slot_data["ability_gating"] = ability_gating_enabled
         policy = getattr(self, "_enemy_copy_ability_policy", None)
         assert policy is not None, (
             "Enemy copy ability policy must be initialized before fill_slot_data is called."
@@ -960,6 +984,25 @@ class KirbyAmWorld(World):
 
         slot_data["stake_breaking_abilities"] = list(get_stake_breaking_abilities())
         slot_data["stake_gated_transitions"] = list(get_stake_gated_transition_entrance_names())
+
+        ability_unlock_items: dict[str, str] = {}
+        for item_data in kirby_data.items.values():
+            if "Abilities" not in item_data.tags:
+                continue
+            if not item_data.label.endswith(" Ability"):
+                continue
+            ability_name = item_data.label.removesuffix(" Ability")
+            ability_unlock_items[ability_name] = item_data.label
+
+        if ability_gating_enabled:
+            slot_data["ability_gateable_abilities"] = list(GATEABLE_ENEMY_COPY_ABILITIES)
+            slot_data["ability_unlock_items"] = {
+                ability_name: ability_unlock_items[ability_name]
+                for ability_name in sorted(ability_unlock_items)
+            }
+        else:
+            slot_data["ability_gateable_abilities"] = []
+            slot_data["ability_unlock_items"] = {}
 
         # Tracker surface integration (Issue #114)
         # Expose all locations and rooms for tracker display

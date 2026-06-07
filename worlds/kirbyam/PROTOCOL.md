@@ -79,8 +79,10 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x88   | 0x0203B088 | 4B | ability_reroll_kirby_index_runtime | u32 | ROM → Client | Current player/Kirby slot index (`0..3`) for the **most recent** reroll event. The payload writes the active player index directly to this field and initializes it to `0`. |
 | 0x8C   | 0x0203B08C | 4B | minor_chest_event_counter | u32 | ROM → Client | Monotonic counter for exact small-chest collection events. Increments every time the native small-chest collect call fires. |
 | 0x90   | 0x0203B090 | 32B | minor_chest_event_ring | u32[8] | ROM → Client | Ring buffer of exact small-chest source pointers. Slot `N = event_counter & 7` stores the live chest object's source pointer from `object+0xB0`, allowing the client to disambiguate report-only minor chest locations that share native chest bits. |
+| 0xB0   | 0x0203B0B0 | 4B | ability_gate_mask_runtime | u32 | ROM ← Client | Bitmask of ability IDs that are currently configured as gateable (`safe_to_gate`) in `abilities.json`. |
+| 0xB4   | 0x0203B0B4 | 4B | ability_unlock_mask_runtime | u32 | ROM ← Client and ROM internal | Bitmask of ability IDs currently unlocked by AP ability items. Client sync writes canonical state; payload also sets bits when ability unlock AP items are applied to preserve runtime continuity. |
 
-**Total: 176 bytes (0x0203B000 - 0x0203B0AF)**
+**Total: 184 bytes (0x0203B000 - 0x0203B0B7)**
 
 ### Native Game State (Referenced by AP; some fields are client-reconciled)
 
@@ -120,7 +122,8 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | TRAP_BOMB | 3860034 | Trap item: sets Kirby's current HP to 0 |
 | TRAP_BATTERY_DRAIN | 3860035 | Trap item: empties the cell phone battery to 0 |
 | TRAP_LIFE_WIPEOUT | 3860036 | Trap item: sets Kirby's lives count to 0 |
-| *Reserved*        | 3860037+ | Future items (doors, abilities, additional consumables, etc.) |
+| ABILITY_UNLOCK_* | 3860101 - 3860131 | Dynamic ability unlock items (`BASE_OFFSET + 100 + runtime_ability_id`) generated only for abilities in `abilities.json` where `safe_to_gate` is true and `enemy_copy_allowed` is not false |
+| *Reserved*        | 3860037+ (except dynamic ability unlock range) | Future items (doors, additional consumables, etc.) |
 
 ### Current filler effect contract
 
@@ -252,8 +255,11 @@ Server → Client: ConnectionRefused | Connected
 - `ability_randomization_no_ability_weight` (int): percentage chance from `0` to `100` that an included randomized enemy grant resolves to no ability instead of a copy ability. Default: `55`.
 - `ability_randomization_statues` (bool): include/exclude ability statues (sometimes called ability trophies or ability stands) from copy-ability randomization. This option controls inclusion only; included statues inherit `ability_randomization_mode` (`off`, `shuffled`, `completely_random`) and always grant an ability (statues ignore `ability_randomization_no_ability_weight` and `ability_randomization_passive_enemies`, but do respect `ability_randomization_minny`).
 - `room_sanity` (bool): enables/disables room-visit locations (`Room X-<room code>`, 263 checks).
+- `ability_gating` (bool): enables safe-to-gate ability lock/unlock behavior. Default on.
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
 - `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.
+- `ability_gateable_abilities` (list[str]): abilities from `data/abilities.json` that are marked `safe_to_gate`.
+- `ability_unlock_items` (dict[str, str]): AP item labels generated from `data/abilities.json` only for abilities where `safe_to_gate` is true and `enemy_copy_allowed` is not false.
 - `stake_breaking_abilities` (list[str]): reusable hammer-peg/stake ability group used by transition logic (currently `Hammer`, `Master`, `Smash`, `Stone`).
 - `stake_gated_transitions` (list[str]): directional entrance names that require the shared hammer-peg/stake gate, derived from room-level `transitions` overrides in `data/regions/rooms.json`.
 - `locations` (dict): tracker-facing location metadata keyed by KirbyAM location key.

@@ -9,6 +9,10 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ## Unreleased
 
+### New Features
+
+- Ability gating is now available and controlled by a `Make the game harder` option and defaults to "on". A preset list of abilities is available at the beginning of the game (Beam, Burning, Mini, Stone, and Wheel). This list should be the bare minimum you need to complete the game and get all the currently supported locations. All other abilities are gated by custom AP items (for example, "Sword Ability") (Issues #855, #819).
+
 ### Bug Fixes
 
 - Self-send item popups in BizHawk are now collapsed to one line (`You found your <item>.`) instead of separate send and receive popups (Issue #848).

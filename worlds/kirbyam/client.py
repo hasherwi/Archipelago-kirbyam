@@ -450,7 +450,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_logged_ai_state: int | None = None
         self._last_logged_demo_flags: int | None = None
         self._boss_shard_debug_window_active: bool = False
-        self._last_ability_runtime_config_signature: tuple[int, int, int, int, int] | None = None
+        self._last_ability_runtime_config_signature: tuple[int, int, int, int, int, int, int] | None = None
         self._ability_runtime_config_revalidate_counter: int = 0
         self._last_ability_reroll_event_counter: int | None = None
         self._starting_kirby_color_synced_id: int | None = None
@@ -1641,16 +1641,64 @@ class KirbyAmClient(BizHawkClient):
                 if 0 < ability_id <= 31:
                     allowed_mask |= 1 << ability_id
 
+        gated_mask = 0
+        unlocked_mask = 0
+        gateable_abilities = slot_data.get("ability_gateable_abilities", [])
+        if isinstance(gateable_abilities, list):
+            for ability_name in gateable_abilities:
+                if not isinstance(ability_name, str):
+                    continue
+                ability_id = ABILITY_NAME_TO_ID.get(ability_name)
+                if ability_id is None:
+                    continue
+                if 0 < ability_id <= 31:
+                    gated_mask |= 1 << ability_id
+
+        ability_unlock_items = slot_data.get("ability_unlock_items", {})
+        ability_gating_enabled = self._coerce_bool(slot_data.get("ability_gating", True), True)
+        if ability_gating_enabled and isinstance(ability_unlock_items, dict):
+            unlock_labels: set[str] = {
+                label for label in ability_unlock_items.values()
+                if isinstance(label, str)
+            }
+            if unlock_labels:
+                for item in ctx.items_received:
+                    item_id = self._coerce_u32(getattr(item, "item", None))
+                    if item_id is None:
+                        continue
+                    item_data = data.items.get(item_id)
+                    if item_data is None or not isinstance(item_data.label, str):
+                        continue
+                    if item_data.label not in unlock_labels:
+                        continue
+                    ability_name = item_data.label.removesuffix(" Ability")
+                    ability_id = ABILITY_NAME_TO_ID.get(ability_name)
+                    if ability_id is None:
+                        continue
+                    if 0 < ability_id <= 31:
+                        unlocked_mask |= 1 << ability_id
+
         seed_lo = seed & 0xFFFFFFFF
         seed_hi = (seed >> 32) & 0xFFFFFFFF
-        signature = (mode, seed_lo, seed_hi, no_ability_weight, allowed_mask)
+        signature = (
+            mode,
+            seed_lo,
+            seed_hi,
+            no_ability_weight,
+            allowed_mask,
+            ability_gating_enabled,
+            gated_mask,
+            unlocked_mask,
+        )
         mode_addr = self._transport_addr("ability_randomization_mode_runtime")
         seed_lo_addr = self._transport_addr("ability_randomization_seed_lo_runtime")
         seed_hi_addr = self._transport_addr("ability_randomization_seed_hi_runtime")
         weight_addr = self._transport_addr("ability_randomization_no_ability_weight_runtime")
         mask_addr = self._transport_addr("ability_randomization_allowed_mask_runtime")
+        gate_addr = self._transport_addr("ability_gate_mask_runtime")
+        unlock_addr = self._transport_addr("ability_unlock_mask_runtime")
         rng_state_addr = self._transport_addr("ability_randomization_rng_state_runtime")
-        if None in (mode_addr, seed_lo_addr, seed_hi_addr, weight_addr, mask_addr, rng_state_addr):
+        if None in (mode_addr, seed_lo_addr, seed_hi_addr, weight_addr, mask_addr, gate_addr, unlock_addr, rng_state_addr):
             return
 
         if self._last_ability_runtime_config_signature == signature:
@@ -1659,12 +1707,14 @@ class KirbyAmClient(BizHawkClient):
                 return
             self._ability_runtime_config_revalidate_counter = 0
 
-            mode_raw, seed_lo_raw, seed_hi_raw, weight_raw, mask_raw = await bizhawk.read(ctx.bizhawk_ctx, [
+            mode_raw, seed_lo_raw, seed_hi_raw, weight_raw, mask_raw, gate_raw, unlock_raw = await bizhawk.read(ctx.bizhawk_ctx, [
                 (mode_addr, 4, "System Bus"),
                 (seed_lo_addr, 4, "System Bus"),
                 (seed_hi_addr, 4, "System Bus"),
                 (weight_addr, 4, "System Bus"),
                 (mask_addr, 4, "System Bus"),
+                (gate_addr, 4, "System Bus"),
+                (unlock_addr, 4, "System Bus"),
             ])
             if (
                 self._u32_le(mode_raw) == mode
@@ -1672,6 +1722,8 @@ class KirbyAmClient(BizHawkClient):
                 and self._u32_le(seed_hi_raw) == seed_hi
                 and self._u32_le(weight_raw) == no_ability_weight
                 and self._u32_le(mask_raw) == (allowed_mask & 0xFFFFFFFF)
+                and self._u32_le(gate_raw) == (gated_mask & 0xFFFFFFFF)
+                and self._u32_le(unlock_raw) == (unlocked_mask & 0xFFFFFFFF)
             ):
                 return
 
@@ -1683,6 +1735,8 @@ class KirbyAmClient(BizHawkClient):
             (seed_hi_addr, int(seed_hi).to_bytes(4, "little"), "System Bus"),
             (weight_addr, int(no_ability_weight).to_bytes(4, "little"), "System Bus"),
             (mask_addr, int(allowed_mask & 0xFFFFFFFF).to_bytes(4, "little"), "System Bus"),
+            (gate_addr, int(gated_mask & 0xFFFFFFFF).to_bytes(4, "little"), "System Bus"),
+            (unlock_addr, int(unlocked_mask & 0xFFFFFFFF).to_bytes(4, "little"), "System Bus"),
             # Force deterministic reseed when config changes.
             (rng_state_addr, (0).to_bytes(4, "little"), "System Bus"),
         ])

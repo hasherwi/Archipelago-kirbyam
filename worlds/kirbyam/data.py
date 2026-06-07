@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from enum import IntEnum
 from importlib import resources
 from pathlib import Path
-from typing import Any, Dict, FrozenSet, List, NamedTuple, Optional, Set, Tuple, Union
+from typing import Any, Iterable, NamedTuple, cast
 
 import orjson
 
@@ -27,7 +27,8 @@ def load_json_data(data_name: str) -> list[Any] | dict[str, Any]:
     raw = pkgutil.get_data(__name__, "data/" + data_name)
     if raw is None:
         raise FileNotFoundError(f"Missing data file: worlds/kirbyam/data/{data_name}")
-    return orjson.loads(raw.decode("utf-8-sig"))
+    return cast(list[Any] | dict[str, Any], orjson.loads(raw.decode("utf-8-sig")))
+
 
 def _list_data_files(subdir: str) -> list[str]:
     """
@@ -60,7 +61,7 @@ def _maybe_load_json_data(data_name: str) -> list[Any] | dict[str, Any] | None:
     if raw is None:
         return None
 
-    return orjson.loads(raw.decode("utf-8-sig"))
+    return cast(list[Any] | dict[str, Any], orjson.loads(raw.decode("utf-8-sig")))
 
 
 def _format_room_code_special_label(room_code: str) -> str | None:
@@ -136,9 +137,9 @@ def _load_room_sanity_locations_from_room_subareas() -> dict[str, dict[str, Any]
             "label": room_label,
             "parent_region": region_name,
             "tags": ["RoomSanity"],
-            "bit_index": int(bit_index_raw),
+            "bit_index": _parse_int(bit_index_raw),
             "category": "ROOM_SANITY",
-            "location_id": int(location_id_raw),
+            "location_id": _parse_int(location_id_raw),
         }
 
     return generated_locations
@@ -277,7 +278,7 @@ def _classification_from_string(s: str) -> ItemClassification:
     raise ValueError(f"Unknown classification: {s}")
 
 
-def _init() -> None:
+def _init() -> None:  # noqa: C901
     # Optional addresses.json.
     # Supports both old flat schema:
     #   {"ram": {"key": "0x..."}, "rom": {...}}
@@ -354,6 +355,60 @@ def _init() -> None:
 
         parsed_items.append((item_key, label, classification, tags, explicit_item_id))
 
+    abilities_json = load_json_data("abilities.json")
+    if not isinstance(abilities_json, dict):
+        raise TypeError("abilities.json must be a JSON object mapping ability names to attributes")
+
+    generated_ability_items: list[tuple[str, str, ItemClassification, frozenset[str], int | None]] = []
+    sortable_abilities: list[tuple[int, str]] = []
+    for ability_name, attrs in abilities_json.items():
+        if not isinstance(ability_name, str) or not isinstance(attrs, dict):
+            continue
+
+        runtime_id_raw = attrs.get("runtime_ability_id")
+        if runtime_id_raw is None:
+            continue
+
+        runtime_id = int(runtime_id_raw)
+        enemy_copy_allowed_raw = attrs.get("enemy_copy_allowed", True)
+        enemy_copy_allowed = True if enemy_copy_allowed_raw is None else bool(enemy_copy_allowed_raw)
+        if not enemy_copy_allowed:
+            continue
+
+        safe_to_gate = bool(attrs.get("safe_to_gate", False))
+        if not safe_to_gate:
+            continue
+
+        sortable_abilities.append((runtime_id, ability_name))
+
+    for runtime_id, ability_name in sorted(
+        sortable_abilities,
+        key=lambda entry: (entry[0], entry[1]),
+    ):
+        generated_ability_items.append(
+            (
+                f"ABILITY_UNLOCK_{ability_name.upper()}",
+                f"{ability_name} Ability",
+                ItemClassification.useful,
+                frozenset({"Abilities", "Unique"}),
+                BASE_OFFSET + 100 + runtime_id,
+            )
+        )
+
+    generated_ability_item_ids = {
+        item_id for _item_key, _label, _classification, _tags, item_id in generated_ability_items
+        if item_id is not None
+    }
+    for item_key, _label, _classification, _tags, explicit_item_id in parsed_items:
+        if explicit_item_id is not None and explicit_item_id in generated_ability_item_ids:
+            raise ValueError(
+                "KirbyAM item_id collision detected: explicit items.json item_id "
+                f"{explicit_item_id} conflicts with generated ability unlock item '{item_key}'"
+            )
+    used_item_ids.update(generated_ability_item_ids)
+
+    parsed_items.extend(generated_ability_items)
+
     available_traps: list[str] = []
     for item_key, label, classification, tags, explicit_item_id in parsed_items:
         if explicit_item_id is None:
@@ -413,6 +468,7 @@ def _init() -> None:
         isinstance(attrs, dict) and attrs.get("location_id") in (None, 0, "0")
         for attrs in merged_locations_json.values()
     )
+    iter_locations: Iterable[tuple[str, Any]]
     if auto_assign_needed:
         iter_locations = ((loc_key, merged_locations_json[loc_key]) for loc_key in sorted(merged_locations_json))
     else:
@@ -456,7 +512,7 @@ def _init() -> None:
         bit_index: int | None = None
         if bit_index_raw not in (None, "", "null"):
             try:
-                bit_index = int(bit_index_raw)
+                bit_index = _parse_int(bit_index_raw)
             except Exception:
                 bit_index = None
 
@@ -495,8 +551,6 @@ def _init() -> None:
 
         if isinstance(region_subset, dict):
             region_json_list.append(region_subset)
-
-
 
     merged_regions: dict[str, Any] = {}
     for subset in region_json_list:
@@ -550,7 +604,9 @@ def _init() -> None:
         logical_exit_overrides = region_def.get("logical_exit_overrides", {})
         if not isinstance(logical_exit_overrides, dict):
             raise TypeError(
-                f"Region [{region_name}] logical_exit_overrides must be an object mapping destination rooms to logical subregion keys"
+                "Region [%s] logical_exit_overrides must be an object mapping "
+                "destination rooms to logical subregion keys"
+                % region_name
             )
 
         exits_raw = region_def.get("exits", [])
@@ -703,6 +759,7 @@ def _init() -> None:
         ):
             region.locations.append(loc_key)
             claimed_locations.add(loc_key)
+
 
 data = KirbyAmData()
 _init()

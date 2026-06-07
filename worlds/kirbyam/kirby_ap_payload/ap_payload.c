@@ -54,6 +54,8 @@
 #define AP_ABILITY_REROLL_KIRBY_INDEX (*(volatile uint32_t*)(AP_BASE + 0x88u))
 #define AP_MINOR_CHEST_EVENT_COUNTER (*(volatile uint32_t*)(AP_BASE + 0x8Cu))
 #define AP_MINOR_CHEST_EVENT_RING_BASE (AP_BASE + 0x90u)
+#define AP_ABILITY_GATE_MASK (*(volatile uint32_t*)(AP_BASE + 0xB0u))
+#define AP_ABILITY_UNLOCK_MASK (*(volatile uint32_t*)(AP_BASE + 0xB4u))
 #define AP_MINOR_CHEST_EVENT_RING_SLOT_COUNT 8u
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
@@ -472,12 +474,26 @@ static uint8_t ap_select_random_allowed_ability(uint32_t allowed_mask, uint32_t 
     return ids[random_u32 % count];
 }
 
+static uint8_t ap_is_locked_gated_ability(uint8_t ability_id) {
+    uint32_t bit = 1u << (uint32_t)ability_id;
+    return ((AP_ABILITY_GATE_MASK & bit) != 0u && (AP_ABILITY_UNLOCK_MASK & bit) == 0u) ? 1u : 0u;
+}
+
+static uint8_t ap_select_random_allowed_ability_excluding(
+    uint32_t allowed_mask,
+    uint32_t excluded_mask,
+    uint32_t random_u32
+) {
+    return ap_select_random_allowed_ability(allowed_mask & ~excluded_mask, random_u32);
+}
+
 // Hook target for all callsites that request Kirby ability transition.
 // In completely-random mode, this rerolls a fresh ability for each request,
 // including ability-star transitions used by statues.
 __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, uint32_t ability_flags) {
     uint32_t mode = AP_ABILITY_RANDOMIZATION_MODE;
     uint32_t rewritten_flags = ability_flags;
+    uint8_t selected_ability = (uint8_t)(ability_flags & KIRBY_ABILITY_MASK);
 
     if (mode == ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM) {
         register uint32_t source_obj_ptr asm("r5");
@@ -486,7 +502,6 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
         uint8_t is_ability_star =
             ((ability_flags & KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR) != 0u) ? 1u : 0u;
         uint32_t random_roll = ap_next_rng_u32();
-        uint8_t selected_ability;
         uint32_t source_addr = 0u;
         uint32_t source_kind = ABILITY_REROLL_SOURCE_KIND_NONE;
         uint32_t caller_lr_snapshot = 0u;
@@ -511,6 +526,16 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
             selected_ability = ap_select_random_allowed_ability(allowed_mask, ap_next_rng_u32());
         }
 
+        if (selected_ability != 0u && ap_is_locked_gated_ability(selected_ability) != 0u) {
+            uint32_t locked_mask = AP_ABILITY_GATE_MASK & ~AP_ABILITY_UNLOCK_MASK;
+            uint32_t excluded_mask = locked_mask | (1u << (uint32_t)selected_ability);
+            selected_ability = ap_select_random_allowed_ability_excluding(
+                allowed_mask,
+                excluded_mask,
+                ap_next_rng_u32()
+            );
+        }
+
         rewritten_flags = (ability_flags & ~KIRBY_ABILITY_MASK) | (uint32_t)(selected_ability & KIRBY_ABILITY_MASK);
 
         if (source_obj_ptr == 0u) {
@@ -529,6 +554,11 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
         AP_ABILITY_REROLL_CALLSITE_PC = caller_pc;
         AP_ABILITY_REROLL_KIRBY_INDEX = kirby_index;
         AP_ABILITY_REROLL_EVENT_COUNTER++;
+    }
+
+    selected_ability = (uint8_t)(rewritten_flags & KIRBY_ABILITY_MASK);
+    if (selected_ability != 0u && ap_is_locked_gated_ability(selected_ability) != 0u) {
+        rewritten_flags = (rewritten_flags & ~KIRBY_ABILITY_MASK);
     }
 
     KIRBY_REQUEST_ABILITY_TRANSITION_FN(kirby, rewritten_flags);
@@ -855,6 +885,14 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         return 1u;
     }
 
+    // Dynamic ability unlock items map by runtime ability id:
+    // BASE + 100 + <ability_id>, where ability_id is 1..31.
+    if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 101u) && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 131u)) {
+        uint32_t ability_id = ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 100u);
+        AP_ABILITY_UNLOCK_MASK |= (1u << ability_id);
+        return 1u;
+    }
+
     // SMALL_FOOD, BATTERY, MAX_TOMATO, INVINCIBILITY_CANDY = BASE+26 .. BASE+29
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 26u)) {
         ap_grant_small_food();
@@ -957,6 +995,8 @@ void ap_poll_mailbox_c(void) {
         AP_ABILITY_REROLL_CALLSITE_PC = 0u;
         AP_ABILITY_REROLL_KIRBY_INDEX = 0u;
         AP_ABILITY_REROLL_ABILITY_ID = 0u;
+        AP_ABILITY_GATE_MASK = 0u;
+        AP_ABILITY_UNLOCK_MASK = 0u;
         AP_MINOR_CHEST_EVENT_COUNTER = 0u;
         {
             uint32_t i;
