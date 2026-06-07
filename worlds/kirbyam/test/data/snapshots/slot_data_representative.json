@@ -7,6 +7,7 @@
   "ability_randomization_no_ability_weight": 55,
   "ability_randomization_passive_enemies": false,
   "ability_randomization_statues": false,
+  "configured_area_boss": 7,
   "death_link": true,
   "enable_traps": false,
   "enemy_copy_ability_policy": {
@@ -74,6 +75,7 @@
     "Wheel"
   ],
   "goal": 0,
+  "goal_configured_area_boss_key": "BOSS_DEFEAT_3",
   "goal_hidden_area_boss_key": null,
   "locations": {
     "AREA_VISIT_1_RAINBOW_ROUTE": {
@@ -225,6 +227,15 @@
       "category": "GOAL",
       "label": "Defeat Any Area Boss",
       "location_id": 3960009,
+      "tags": [
+        "Goal",
+        "MAP_RAINBOW_ROUTE"
+      ]
+    },
+    "GOAL_CONFIGURED_AREA_BOSS": {
+      "category": "GOAL",
+      "label": "Defeat Configured Area Boss",
+      "location_id": 3960011,
       "tags": [
         "Goal",
         "MAP_RAINBOW_ROUTE"

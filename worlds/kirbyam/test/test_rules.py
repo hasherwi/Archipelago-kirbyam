@@ -20,6 +20,7 @@ from ..rules import (
 @dataclass
 class _FakeOptions:
     goal_value: int
+    configured_area_boss_value: int = 7
 
     @property
     def goal(self):
@@ -28,6 +29,14 @@ class _FakeOptions:
                 self.value = value
 
         return _GoalValue(self.goal_value)
+
+    @property
+    def configured_area_boss(self):
+        class _ConfiguredAreaBossValue:
+            def __init__(self, value: int):
+                self.value = value
+
+        return _ConfiguredAreaBossValue(self.configured_area_boss_value)
 
 
 class _FakeEntrance:
@@ -131,6 +140,17 @@ def test_hidden_random_area_boss_goal_key_resolves_deterministically_from_seed()
 def test_hidden_random_area_boss_goal_requires_selected_location() -> None:
     world = _FakeWorld(Goal.option_defeat_random_hidden_area_boss)
     world._resolved_hidden_area_boss_goal_key = "BOSS_DEFEAT_3"
+    set_rules(world)
+
+    completion_fn = _get_completion_fn(world)
+    assert not completion_fn(_FakeState())
+    assert not completion_fn(_FakeState(reachable_locations={"Mustard Mountain - Boss Defeat"}))
+    assert completion_fn(_FakeState(reachable_locations={"Candy Constellation - Boss Defeat"}))
+
+
+def test_configured_area_boss_goal_requires_selected_location() -> None:
+    world = _FakeWorld(Goal.option_defeat_configured_area_boss)
+    world._resolved_configured_area_boss_goal_key = "BOSS_DEFEAT_3"
     set_rules(world)
 
     completion_fn = _get_completion_fn(world)

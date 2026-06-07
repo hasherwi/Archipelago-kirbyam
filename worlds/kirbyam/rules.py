@@ -56,10 +56,12 @@ _SHARD_ITEM_LABELS = [
 _GOAL_LOCATION_LABELS = {
     Goal.option_dark_mind: "Defeat Dark Mind",
     Goal.option_defeat_any_area_boss: "Defeat Any Area Boss",
+    Goal.option_defeat_configured_area_boss: "Defeat Configured Area Boss",
     Goal.option_defeat_random_hidden_area_boss: "Defeat a Hidden Area Boss",
 }
 _DARK_MIND_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_dark_mind]
 _ANY_AREA_BOSS_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_defeat_any_area_boss]
+_CONFIGURED_AREA_BOSS_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_defeat_configured_area_boss]
 _HIDDEN_RANDOM_AREA_BOSS_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_defeat_random_hidden_area_boss]
 
 _BOSS_DEFEAT_LOCATION_LABELS = [
@@ -213,7 +215,23 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
     else:
         logger.debug("[P%s] Goal mode %s: require %s", world.player, goal_value, goal_label)
 
-    if goal_value == Goal.option_defeat_random_hidden_area_boss:
+    if goal_value == Goal.option_defeat_configured_area_boss:
+        configured_goal_key = getattr(world, "_resolved_configured_area_boss_goal_key", None)
+        configured_goal = data.locations.get(configured_goal_key) if isinstance(configured_goal_key, str) else None
+        if configured_goal is None or not isinstance(configured_goal.label, str):
+            raise ValueError(
+                f"[P{world.player}] Configured area-boss goal target was not resolved for goal mode {goal_value}"
+            )
+        logger.debug(
+            "[P%s] Configured area boss goal mode requires %s (%s)",
+            world.player,
+            configured_goal.label,
+            configured_goal_key,
+        )
+        world.multiworld.completion_condition[world.player] = (
+            lambda state, required_goal=configured_goal.label: state.can_reach_location(required_goal, world.player)
+        )
+    elif goal_value == Goal.option_defeat_random_hidden_area_boss:
         hidden_goal_key = getattr(world, "_resolved_hidden_area_boss_goal_key", None)
         hidden_goal = data.locations.get(hidden_goal_key) if isinstance(hidden_goal_key, str) else None
         if hidden_goal is None or not isinstance(hidden_goal.label, str):
@@ -296,6 +314,27 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
                         for location_name in _BOSS_DEFEAT_LOCATION_LABELS
                     )
                 set_rule(goal_location, any_area_boss_rule)
+            elif goal_location_name == _CONFIGURED_AREA_BOSS_GOAL_LABEL:
+                configured_goal_key = getattr(
+                    world,
+                    "_resolved_configured_area_boss_goal_key",
+                    None,
+                )
+                configured_goal = (
+                    data.locations.get(configured_goal_key)
+                    if isinstance(configured_goal_key, str)
+                    else None
+                )
+                if configured_goal is None or not isinstance(configured_goal.label, str):
+                    raise ValueError(
+                        f"[P{world.player}] Configured area-boss goal target was not resolved "
+                        f"for goal location {goal_location_name!r}"
+                    )
+
+                def configured_area_boss_rule(state):
+                    return state.can_reach_location(configured_goal.label, world.player)
+
+                set_rule(goal_location, configured_area_boss_rule)
             elif goal_location_name == _HIDDEN_RANDOM_AREA_BOSS_GOAL_LABEL:
                 def hidden_area_boss_rule(state):
                     hidden_goal_key = getattr(world, "_resolved_hidden_area_boss_goal_key", None)

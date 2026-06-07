@@ -21,13 +21,34 @@ class Goal(Choice):
 
     - Dark Mind: Defeat Dark Mind and beat the game.
     - Defeat Any Area Boss: Defeat any one eligible area boss.
+    - Defeat Configured Area Boss: Defeat the selected area boss target.
     - Defeat Random Hidden Area Boss: Defeat one hidden, seed-selected area boss.
     """
     display_name = "Goal"
     default = 0
     option_dark_mind = 0
     option_defeat_any_area_boss = 1
-    option_defeat_random_hidden_area_boss = 2
+    option_defeat_configured_area_boss = 2
+    option_defeat_random_hidden_area_boss = 3
+
+
+class ConfiguredAreaBoss(Choice):
+    """
+    Selects which area boss is used when the goal is set to Defeat Configured Area Boss.
+
+    The default target is the Master Hand + Crazy Hand pair.
+    This option is ignored unless `goal` is set to `defeat_configured_area_boss`.
+    """
+    display_name = "Configured Area Boss"
+    default = 7
+    option_king_golem = 0
+    option_moley = 1
+    option_kracko = 2
+    option_mega_titan = 3
+    option_gobbler = 4
+    option_wiz = 5
+    option_dark_meta_knight = 6
+    option_master_hand_crazy_hand_pair = 7
 
 
 class RandomizeShards(Choice):
@@ -290,6 +311,8 @@ class KirbyAmDeathLink(DeathLink):
 class KirbyAmOptions(PerGameCommonOptions):
     goal: Goal
 
+    configured_area_boss: ConfiguredAreaBoss
+
     shards: RandomizeShards
 
     start_with_all_maps: StartWithAllMaps
@@ -326,6 +349,10 @@ class KirbyAmOptions(PerGameCommonOptions):
 
 
 OPTION_GROUPS = [
+    OptionGroup("Make the game shorter", [
+        Goal,
+        ConfiguredAreaBoss,
+    ]),
     OptionGroup("Make the game easier", [
         StartWithAllMaps,
     ]),

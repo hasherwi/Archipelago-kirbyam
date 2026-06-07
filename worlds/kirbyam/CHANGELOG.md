@@ -12,10 +12,16 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### New Features
 
 - Ability gating is now available and controlled by a `Make the game harder` option and defaults to "on". A preset list of abilities is available at the beginning of the game (Beam, Burning, Mini, Stone, and Wheel). This list should be the bare minimum you need to complete the game and get all the currently supported locations. All other abilities are gated by custom AP items (for example, "Sword Ability") (Issues #855, #819).
+- Added a new goal mode: `defeat_configured_area_boss` completes the seed after a specific area-boss is defeated (Issue #207).
+  - Which area boss is used is determined by the new `configured_area_boss` option. It defaults to Master Hand and Crazy Hand.
 
 ### Bug Fixes
 
 - Self-send item popups in BizHawk are now collapsed to one line (`You found your <item>.`) instead of separate send and receive popups (Issue #848).
+
+### Internal Changes
+
+- Updated KirbyAM goal-mode slot data, protocol documentation, client handling, and tests to support the configured area-boss goal flow (Issue #207).
 
 ## v0.2.0
 

@@ -37,6 +37,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
     options = Mock()
     options.as_dict.return_value = {
         "goal": 0,
+        "configured_area_boss": 7,
         "shards": 2,
         "start_with_all_maps": False,
         "starting_kirby_color": 7,
@@ -59,6 +60,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
     world.options = options
     world._resolved_starting_kirby_color_id = 7
     world._resolved_starting_kirby_color_name = "Sapphire"
+    world._resolved_configured_area_boss_goal_key = "BOSS_DEFEAT_3"
     world._enemy_copy_ability_policy = {
         "mode": "shuffled",
         "allowed_abilities": ["Sword", "Beam", "Burning"],
@@ -71,7 +73,30 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "ability_randomization_statues": False,
     }
 
-    return KirbyAmWorld.fill_slot_data(world)
+    slot_data = KirbyAmWorld.fill_slot_data(world)
+    options.as_dict.assert_called_once_with(
+        "goal",
+        "configured_area_boss",
+        "shards",
+        "start_with_all_maps",
+        "starting_kirby_color",
+        "no_extra_lives",
+        "ability_gating",
+        "enable_traps",
+        "trap_fill_percentage",
+        "one_hit_mode",
+        "death_link",
+        "ability_randomization_mode",
+        "ability_randomization_boss_spawns",
+        "ability_randomization_minibosses",
+        "ability_randomization_minny",
+        "ability_randomization_passive_enemies",
+        "ability_randomization_no_ability_weight",
+        "ability_randomization_statues",
+        "room_sanity",
+        toggles_as_bools=True,
+    )
+    return slot_data
 
 
 def test_protocol_slot_data_keys_match_emitted_slot_data_keys() -> None:
@@ -101,10 +126,19 @@ def test_starting_kirby_color_contract_fields_present_with_expected_shapes() -> 
     assert isinstance(slot_data["starting_kirby_color_name"], str)
     assert slot_data["starting_kirby_color_name"]
 
+    assert "goal_configured_area_boss_key" in slot_data
+    assert slot_data["goal_configured_area_boss_key"] is None or isinstance(
+        slot_data["goal_configured_area_boss_key"],
+        str,
+    )
+
     assert isinstance(slot_data["ability_gating"], bool)
 
     assert "goal_hidden_area_boss_key" in slot_data
-    assert slot_data["goal_hidden_area_boss_key"] is None or isinstance(slot_data["goal_hidden_area_boss_key"], str)
+    assert slot_data["goal_hidden_area_boss_key"] is None or isinstance(
+        slot_data["goal_hidden_area_boss_key"],
+        str,
+    )
 
 
 def test_tracker_surface_contract_fields_present_with_expected_shapes() -> None:

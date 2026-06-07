@@ -62,8 +62,10 @@ def _build_representative_slot_data() -> dict[str, object]:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
 
     options = Mock()
+    options.configured_area_boss = Mock(value=7, current_key="master_hand_crazy_hand_pair")
     options.as_dict.return_value = {
         "goal": 0,
+        "configured_area_boss": 7,
         "shards": 2,
         "no_extra_lives": False,
         "ability_gating": True,
