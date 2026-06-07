@@ -11,7 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 
-- Ability gating is now controlled by a `Make the game harder` option that defaults on. When enabled, ability unlock items are generated dynamically from `data/abilities.json` only for abilities marked `safe_to_gate` (and not explicitly `enemy_copy_allowed: false`); generated unlock items are `Useful`, and receiving them allows Kirby to retain the gated ability.
+- Ability gating is now available and controlled by a `Make the game harder` option and defaults to "on". A preset list of abilities is available at the beginning of the game (Beam, Burning, Mini, Stone, and Wheel). This list should be the bare minimum you need to complete the game and get all the currently supported locations. All other abilities are gated by custom AP items (for example, "Sword Ability") (Issues #855, #819).
 
 ### Bug Fixes
 
