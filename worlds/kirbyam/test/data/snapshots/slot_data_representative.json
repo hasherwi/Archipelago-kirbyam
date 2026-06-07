@@ -232,6 +232,15 @@
         "MAP_RAINBOW_ROUTE"
       ]
     },
+    "GOAL_CONFIGURED_AREA_BOSS": {
+      "category": "GOAL",
+      "label": "Defeat Configured Area Boss",
+      "location_id": 3960011,
+      "tags": [
+        "Goal",
+        "MAP_RAINBOW_ROUTE"
+      ]
+    },
     "GOAL_DARK_MIND": {
       "category": "GOAL",
       "label": "Defeat Dark Mind",
