@@ -1000,6 +1000,7 @@ class KirbyAmWorld(World):
         # Legacy key aliases are intentionally not emitted before first public release.
         slot_data = self.options.as_dict(
             "goal",
+            "configured_area_boss",
             "shards",
             "start_with_all_maps",
             "starting_kirby_color",

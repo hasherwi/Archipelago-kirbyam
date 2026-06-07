@@ -73,7 +73,30 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "ability_randomization_statues": False,
     }
 
-    return KirbyAmWorld.fill_slot_data(world)
+    slot_data = KirbyAmWorld.fill_slot_data(world)
+    options.as_dict.assert_called_once_with(
+        "goal",
+        "configured_area_boss",
+        "shards",
+        "start_with_all_maps",
+        "starting_kirby_color",
+        "no_extra_lives",
+        "ability_gating",
+        "enable_traps",
+        "trap_fill_percentage",
+        "one_hit_mode",
+        "death_link",
+        "ability_randomization_mode",
+        "ability_randomization_boss_spawns",
+        "ability_randomization_minibosses",
+        "ability_randomization_minny",
+        "ability_randomization_passive_enemies",
+        "ability_randomization_no_ability_weight",
+        "ability_randomization_statues",
+        "room_sanity",
+        toggles_as_bools=True,
+    )
+    return slot_data
 
 
 def test_protocol_slot_data_keys_match_emitted_slot_data_keys() -> None:
