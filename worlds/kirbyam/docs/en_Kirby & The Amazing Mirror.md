@@ -22,7 +22,7 @@
 - Enemies that cannot be swallowed are excluded from the enemy copy-ability randomization pool.
 - The chance for an enemy to not have a copy ability can be controlled via the `ability_randomization_no_ability_weight`
 - Ability statues (sometimes called ability trophies or ability stands) have a dedicated boolean toggle (`ability_randomization_statues`) that controls inclusion only; when enabled, included statues inherit the selected `ability_randomization_mode` (`off`, `shuffled`, or `completely_random`). They will always grant an ability and are not affected by `ability_randomization_no_ability_weight` or `ability_randomization_passive_enemies`. They do respect `ability_randomization_minny`. When using `shuffled` mode, a spoiler log includes the statue to ability assignments.
-- AP ability unlock items are generated dynamically from `data/abilities.json` only for abilities marked `safe_to_gate` (and not explicitly disabled by `enemy_copy_allowed: false`). Gated abilities are blocked until their matching AP unlock item has been received.
+- AP ability unlock items are generated dynamically from `data/abilities.json` only when the `Ability Gating` option is enabled. That option defaults on and appears under `Make the game harder`. When enabled, unlock items are generated only for abilities marked `safe_to_gate` (and not explicitly disabled by `enemy_copy_allowed: false`); gated abilities are blocked until their matching AP unlock item has been received.
 
 
 

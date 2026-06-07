@@ -1655,7 +1655,8 @@ class KirbyAmClient(BizHawkClient):
                     gated_mask |= 1 << ability_id
 
         ability_unlock_items = slot_data.get("ability_unlock_items", {})
-        if isinstance(ability_unlock_items, dict):
+        ability_gating_enabled = self._coerce_bool(slot_data.get("ability_gating", True), True)
+        if ability_gating_enabled and isinstance(ability_unlock_items, dict):
             unlock_labels: set[str] = {
                 label for label in ability_unlock_items.values()
                 if isinstance(label, str)
@@ -1679,7 +1680,16 @@ class KirbyAmClient(BizHawkClient):
 
         seed_lo = seed & 0xFFFFFFFF
         seed_hi = (seed >> 32) & 0xFFFFFFFF
-        signature = (mode, seed_lo, seed_hi, no_ability_weight, allowed_mask, gated_mask, unlocked_mask)
+        signature = (
+            mode,
+            seed_lo,
+            seed_hi,
+            no_ability_weight,
+            allowed_mask,
+            ability_gating_enabled,
+            gated_mask,
+            unlocked_mask,
+        )
         mode_addr = self._transport_addr("ability_randomization_mode_runtime")
         seed_lo_addr = self._transport_addr("ability_randomization_seed_lo_runtime")
         seed_hi_addr = self._transport_addr("ability_randomization_seed_hi_runtime")

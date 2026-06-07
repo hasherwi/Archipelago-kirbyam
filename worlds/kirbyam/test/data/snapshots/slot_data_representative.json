@@ -3,6 +3,7 @@
     "Smash",
     "Sleep"
   ],
+  "ability_gating": true,
   "ability_randomization_boss_spawns": true,
   "ability_randomization_minibosses": false,
   "ability_randomization_minny": false,

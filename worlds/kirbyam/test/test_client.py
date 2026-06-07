@@ -5129,13 +5129,14 @@ async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation
         "ability_randomization_no_ability_weight": 55,
         "allowed_abilities": [],
     }
-    mock_bizhawk_context.slot_data = {"enemy_copy_ability_policy": policy}
+    mock_bizhawk_context.slot_data = {"enemy_copy_ability_policy": policy, "ability_gating": True}
 
     mode = 2
     seed_lo = 2
     seed_hi = 1
     no_ability_weight = 55
     allowed_mask = 0
+    ability_gating_enabled = True
     gated_mask = 0
     unlocked_mask = 0
     client._last_ability_runtime_config_signature = (
@@ -5144,6 +5145,7 @@ async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation
         seed_hi,
         no_ability_weight,
         allowed_mask,
+        ability_gating_enabled,
         gated_mask,
         unlocked_mask,
     )

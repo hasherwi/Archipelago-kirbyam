@@ -50,6 +50,7 @@ def _build_representative_slot_data() -> dict[str, object]:
         "goal": 0,
         "shards": 2,
         "no_extra_lives": False,
+        "ability_gating": True,
         "enable_traps": False,
         "trap_fill_percentage": 25,
         "one_hit_mode": 0,

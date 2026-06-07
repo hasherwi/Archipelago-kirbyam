@@ -41,6 +41,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "start_with_all_maps": False,
         "starting_kirby_color": 7,
         "no_extra_lives": False,
+        "ability_gating": True,
         "enable_traps": False,
         "trap_fill_percentage": 25,
         "one_hit_mode": 0,
@@ -99,6 +100,8 @@ def test_starting_kirby_color_contract_fields_present_with_expected_shapes() -> 
     assert isinstance(slot_data["starting_kirby_color"], int)
     assert isinstance(slot_data["starting_kirby_color_name"], str)
     assert slot_data["starting_kirby_color_name"]
+
+    assert isinstance(slot_data["ability_gating"], bool)
 
     assert "goal_hidden_area_boss_key" in slot_data
     assert slot_data["goal_hidden_area_boss_key"] is None or isinstance(slot_data["goal_hidden_area_boss_key"], str)
