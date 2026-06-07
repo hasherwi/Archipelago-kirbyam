@@ -15,7 +15,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Added a new goal mode: `defeat_configured_area_boss` completes the seed after a specific area-boss is defeated (Issue #207).
   - Which area boss is used is determined by the new `configured_area_boss` option. It defaults to Master Hand and Crazy Hand.
 
-### Bug Fixes
+### Improvements
 
 - Self-send item popups in BizHawk are now collapsed to one line (`You found your <item>.`) instead of separate send and receive popups (Issue #848).
 
