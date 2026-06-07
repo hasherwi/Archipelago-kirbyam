@@ -294,6 +294,11 @@ class KirbyAmWorld(World):
 
         option = getattr(getattr(self, "options", None), "configured_area_boss", None)
         value = getattr(option, "value", option)
+        if value is None:
+            raise RuntimeError(
+                "KirbyAM configured area-boss goal could not be resolved from the selected option value. "
+                "Expected one of the defined ConfiguredAreaBoss choices."
+            )
         try:
             choice_value = int(value)
         except (TypeError, ValueError):
