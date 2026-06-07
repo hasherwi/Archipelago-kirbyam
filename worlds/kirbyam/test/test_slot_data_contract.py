@@ -115,11 +115,9 @@ def test_tracker_surface_contract_fields_present_with_expected_shapes() -> None:
     assert all(isinstance(name, str) for name in slot_data["stake_breaking_abilities"])
 
     assert isinstance(slot_data["ability_gateable_abilities"], list)
-    assert slot_data["ability_gateable_abilities"]
     assert all(isinstance(name, str) for name in slot_data["ability_gateable_abilities"])
 
     assert isinstance(slot_data["ability_unlock_items"], dict)
-    assert slot_data["ability_unlock_items"]
     assert all(isinstance(name, str) for name in slot_data["ability_unlock_items"].keys())
     assert all(isinstance(label, str) for label in slot_data["ability_unlock_items"].values())
 

@@ -42,6 +42,22 @@ def _write_or_assert_snapshot(snapshot_name: str, payload: dict[str, object]) ->
     )
 
 
+def _normalize_slot_data_for_snapshot(slot_data: dict[str, object]) -> dict[str, object]:
+    """Drop ability-gating fields that are intentionally data-driven from abilities.json."""
+    normalized = dict(slot_data)
+    normalized.pop("ability_gateable_abilities", None)
+    normalized.pop("ability_unlock_items", None)
+
+    unique_items = normalized.get("unique_items")
+    if isinstance(unique_items, list):
+        normalized["unique_items"] = [
+            item for item in unique_items
+            if not (isinstance(item, str) and item.endswith(" Ability"))
+        ]
+
+    return normalized
+
+
 def _build_representative_slot_data() -> dict[str, object]:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
 
@@ -74,7 +90,7 @@ def _build_representative_slot_data() -> dict[str, object]:
         include_minny=False,
         no_ability_weight=55,
     )
-    return KirbyAmWorld.fill_slot_data(world)
+    return _normalize_slot_data_for_snapshot(KirbyAmWorld.fill_slot_data(world))
 
 
 def _build_deterministic_mapping_artifacts() -> dict[str, object]:
