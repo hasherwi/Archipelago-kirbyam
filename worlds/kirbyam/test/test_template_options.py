@@ -27,6 +27,7 @@ def test_kirbyam_template_surface_options_visibility() -> None:
             requires_game_version = data["requires"]["game"][KirbyAmWorld.game]
             game_block = data["Kirby & The Amazing Mirror"]
             goal_weights = game_block["goal"]
+            configured_boss_weights = game_block["configured_area_boss"]
             shard_weights = game_block["shards"]
             ability_weights = game_block["ability_randomization_mode"]
             assert "starting_kirby_color" in game_block, (
@@ -35,8 +36,12 @@ def test_kirbyam_template_surface_options_visibility() -> None:
             color_weights = game_block["starting_kirby_color"]
 
             assert "dark_mind" in goal_weights
+            assert "defeat_configured_area_boss" in goal_weights
             assert "100" not in goal_weights
             assert "debug" not in goal_weights
+
+            assert "master_hand_crazy_hand_pair" in configured_boss_weights
+            assert "king_golem" in configured_boss_weights
 
             assert "vanilla" in shard_weights
             assert "completely_random" in shard_weights
@@ -49,6 +54,7 @@ def test_kirbyam_template_surface_options_visibility() -> None:
             assert "ability_randomization_no_ability_weight" in game_block
             assert "ability_randomization_statues" in game_block
             assert "starting_kirby_color" in game_block
+            assert "configured_area_boss" in game_block
             assert "pink" in color_weights
             assert "random_color" in color_weights
 

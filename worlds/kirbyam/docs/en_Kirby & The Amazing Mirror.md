@@ -71,6 +71,7 @@ Use exact item/location names from this world (or the item groups listed above) 
   - `dark_mind`: Defeat Dark Mind to complete the seed.
   - `defeat_any_area_boss`: Defeat any one `* - Boss Defeat` location (Mustard Mountain, Moonlight Mansion, Candy Constellation, Olive Ocean, Peppermint Palace, Cabbage Cavern, Carrot Castle, or Radish Ruins). In this mode, collecting all Mirror Shards is not required by the goal mode itself.
     - Candy Constellation's Master Hand + Crazy Hand fight is treated as one pooled boss target (`BOSS_DEFEAT_3`).
+  - `defeat_configured_area_boss`: Defeat a specific area boss selected by the `configured_area_boss` option. The default target is the Master Hand + Crazy Hand pair (`BOSS_DEFEAT_3`), and the selected target is only used by this goal mode.
   - `defeat_random_hidden_area_boss`: Defeat one seed-selected hidden area boss. The selected target is carried in slot data as an internal boss-defeat key; normal player-facing output does not reveal the boss name, but spoiler output may.
 
 
@@ -97,7 +98,7 @@ You will not see an indicator in the game, instead you'll see you received an it
 
 
 
-Currently a tracker is not available. Goal logic depends on the selected mode: either defeat Dark Mind, defeat any one area boss in `defeat_any_area_boss` mode, or defeat the seed-selected hidden area boss in `defeat_random_hidden_area_boss` mode.
+Currently a tracker is not available. Goal logic depends on the selected mode: either defeat Dark Mind, defeat any one area boss in `defeat_any_area_boss` mode, defeat the configured area boss in `defeat_configured_area_boss` mode, or defeat the seed-selected hidden area boss in `defeat_random_hidden_area_boss` mode.
 
 
 

@@ -36,6 +36,7 @@ from .locations import KirbyAmLocation, create_location_label_to_id_map
 from .options import (
     OPTION_GROUPS,
     AbilityRandomizationMode,
+    ConfiguredAreaBoss,
     Goal,
     KirbyAmOptions,
     OneHitMode,
@@ -116,6 +117,7 @@ class KirbyAmWorld(World):
     _enemy_copy_ability_policy: dict[str, Any]
     _resolved_starting_kirby_color_id: int
     _resolved_starting_kirby_color_name: str
+    _resolved_configured_area_boss_goal_key: str | None
     _resolved_hidden_area_boss_goal_key: str | None
 
     # Generation stages
@@ -285,6 +287,41 @@ class KirbyAmWorld(World):
         self._resolved_hidden_area_boss_goal_key = rng.choice(self._BOSS_DEFEAT_KEY_ORDER)
         return self._resolved_hidden_area_boss_goal_key
 
+    def _get_resolved_configured_area_boss_goal_key(self) -> str | None:
+        resolved_key = getattr(self, "_resolved_configured_area_boss_goal_key", None)
+        if isinstance(resolved_key, str) and resolved_key:
+            return resolved_key
+
+        option = getattr(getattr(self, "options", None), "configured_area_boss", None)
+        value = getattr(option, "value", option)
+        try:
+            choice_value = int(value)
+        except (TypeError, ValueError):
+            raise RuntimeError(
+                "KirbyAM configured area-boss goal could not be resolved from the selected option value. "
+                "Expected one of the defined ConfiguredAreaBoss choices."
+            ) from None
+
+        configured_area_boss_key_by_value = {
+            ConfiguredAreaBoss.option_king_golem: "BOSS_DEFEAT_1",
+            ConfiguredAreaBoss.option_moley: "BOSS_DEFEAT_2",
+            ConfiguredAreaBoss.option_kracko: "BOSS_DEFEAT_4",
+            ConfiguredAreaBoss.option_mega_titan: "BOSS_DEFEAT_5",
+            ConfiguredAreaBoss.option_gobbler: "BOSS_DEFEAT_6",
+            ConfiguredAreaBoss.option_wiz: "BOSS_DEFEAT_8",
+            ConfiguredAreaBoss.option_dark_meta_knight: "BOSS_DEFEAT_7",
+            ConfiguredAreaBoss.option_master_hand_crazy_hand_pair: "BOSS_DEFEAT_3",
+        }
+
+        resolved = configured_area_boss_key_by_value.get(choice_value)
+        if resolved is None:
+            raise RuntimeError(
+                f"KirbyAM configured area-boss goal resolved an unsupported option value: {choice_value}"
+            )
+
+        self._resolved_configured_area_boss_goal_key = resolved
+        return resolved
+
     def _active_filler_pool(self) -> tuple[str, ...]:
         pool = self.ACTIVE_FILLER_POOL
         if self._one_hit_mode_value() == OneHitMode.option_exclude_vitality_counters:
@@ -355,7 +392,11 @@ class KirbyAmWorld(World):
     def generate_early(self) -> None:
         # Track generation start
         self._generation_start_time = time.time()
-        log_generation_start(self.player, self.player_name, self.options.as_dict("goal", "shards", "death_link"))
+        log_generation_start(
+            self.player,
+            self.player_name,
+            self.options.as_dict("goal", "configured_area_boss", "shards", "death_link"),
+        )
 
         with generation_stage("generate_early", self.player, self.player_name):
             logger.info(f"[P{self.player}] Shards mode: {self.options.shards.current_key}")
@@ -365,6 +406,7 @@ class KirbyAmWorld(World):
             resolved_color = resolve_kirby_color(int(starting_color_value), self.random)
             self._resolved_starting_kirby_color_id = resolved_color.color_id
             self._resolved_starting_kirby_color_name = resolved_color.display_name
+            configured_area_boss_key = self._get_resolved_configured_area_boss_goal_key()
             self._get_resolved_hidden_area_boss_goal_key()
             logger.info(
                 "[P%s] Starting Kirby color option: %s -> %s (%s)",
@@ -372,6 +414,12 @@ class KirbyAmWorld(World):
                 chosen_color_key,
                 resolved_color.display_name,
                 resolved_color.color_id,
+            )
+            logger.info(
+                "[P%s] Configured area boss option: %s -> %s",
+                self.player,
+                getattr(self.options.configured_area_boss, "current_key", "unknown"),
+                configured_area_boss_key,
             )
 
             mode = int(self.options.ability_randomization_mode.value)
@@ -969,6 +1017,7 @@ class KirbyAmWorld(World):
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
         slot_data["starting_kirby_color"] = resolved_color_id
         slot_data["starting_kirby_color_name"] = resolved_color_name
+        slot_data["goal_configured_area_boss_key"] = self._get_resolved_configured_area_boss_goal_key()
         slot_data["goal_hidden_area_boss_key"] = self._get_resolved_hidden_area_boss_goal_key()
         ability_gating_enabled = self._ability_gating_enabled()
         slot_data["ability_gating"] = ability_gating_enabled
