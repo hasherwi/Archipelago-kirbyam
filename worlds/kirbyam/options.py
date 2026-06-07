@@ -179,7 +179,10 @@ class NoExtraLives(Toggle):
 
 
 class AbilityGating(Toggle):
-    """Enable gating for abilities. Gated abilities are turned on by receiving an AP item. On by default."""
+    """
+    Enable gating for abilities. Gated abilities are turned on by receiving an AP item.
+    On by default.
+    """
     display_name = "Ability Gating"
     default = 1
 
