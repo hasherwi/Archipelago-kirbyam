@@ -5292,6 +5292,58 @@ async def test_poll_enemy_ability_reroll_events_resolves_boxy_spawned_object(moc
 
 
 @pytest.mark.asyncio
+async def test_sync_enemy_copy_ability_runtime_config_revalidates_each_tick_for_unchanged_signature(mock_bizhawk_context):
+    """Unchanged signatures should still be read-validated each watcher tick."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    policy = {
+        "mode": 2,
+        "seed": 0x0000000100000002,
+        "ability_randomization_no_ability_weight": 55,
+        "allowed_abilities": [],
+    }
+    mock_bizhawk_context.slot_data = {"enemy_copy_ability_policy": policy, "ability_gating": True}
+
+    mode = 2
+    seed_lo = 2
+    seed_hi = 1
+    no_ability_weight = 55
+    allowed_mask = 0
+    ability_gating_enabled = True
+    gated_mask = 0
+    unlocked_mask = 0
+    client._last_ability_runtime_config_signature = (
+        mode,
+        seed_lo,
+        seed_hi,
+        no_ability_weight,
+        allowed_mask,
+        ability_gating_enabled,
+        gated_mask,
+        unlocked_mask,
+    )
+    client._ability_runtime_config_revalidate_counter = 0
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        mock_read.return_value = [
+            (mode).to_bytes(4, 'little'),
+            (seed_lo).to_bytes(4, 'little'),
+            (seed_hi).to_bytes(4, 'little'),
+            (no_ability_weight).to_bytes(4, 'little'),
+            (allowed_mask).to_bytes(4, 'little'),
+            (gated_mask).to_bytes(4, 'little'),
+            (unlocked_mask).to_bytes(4, 'little'),
+        ]
+
+        await client._sync_enemy_copy_ability_runtime_config(mock_bizhawk_context)
+
+    mock_read.assert_awaited_once()
+    mock_write.assert_not_awaited()
+
+
+@pytest.mark.asyncio
 async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation_detects_mailbox_drift(mock_bizhawk_context):
     """When signature is unchanged, periodic read-back should still rewrite drifted mailbox state."""
     client = KirbyAmClient()

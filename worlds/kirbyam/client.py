@@ -78,7 +78,9 @@ _AREA_REGION_TOKEN_TO_AREA_ID: dict[str, int] = {
 _STARTING_KIRBY_COLOR_MIN = 0
 _STARTING_KIRBY_COLOR_MAX = 13
 _STARTING_KIRBY_COLOR_REVALIDATE_TICKS = 4
-_ABILITY_RUNTIME_CONFIG_REVALIDATE_TICKS = 4
+# Revalidate every watcher tick so transport resets cannot leave a stale
+# completely-random config window where statue pickups fall back to static table writes.
+_ABILITY_RUNTIME_CONFIG_REVALIDATE_TICKS = 1
 _CHALLENGE_RUNTIME_CONFIG_REVALIDATE_TICKS = 4
 _OPTIONAL_UNSAFE_DELIVERY_COUNTERS = (
     ("shadow_kirby_encounters_native", "shadow_kirby_encounters"),
@@ -1781,6 +1783,10 @@ class KirbyAmClient(BizHawkClient):
                 and self._u32_le(unlock_raw) == (unlocked_mask & 0xFFFFFFFF)
             ):
                 return
+            self._log_verbose(
+                "info",
+                "KirbyAM: runtime ability config drift detected; rewriting mailbox config",
+            )
 
         self._ability_runtime_config_revalidate_counter = 0
 
