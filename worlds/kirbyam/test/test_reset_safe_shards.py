@@ -59,6 +59,9 @@ def test_payload_tracks_major_chest_checks_separately_from_native_maps() -> None
     assert "AP_MAJOR_CHEST_FLAGS" in content, "Major chest transport register should be defined"
     assert "ap_on_collect_big_chest" in content, "Big chest hook target should exist"
     assert "ap_set_major_chest_flag(area_id)" in content, "Big chest hook should set transport check flags"
+    assert "if (area_id == 0u)" in content, (
+        "Big chest hook should preserve native world-map unlock for tutorial chest"
+    )
     assert "ap_unlock_area_map" in content, "Payload should unlock native maps on AP item receipt"
     assert "KIRBY_BIG_CHEST_FLAGS" in content, "Native big chest map bitfield should still be addressable"
 

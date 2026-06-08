@@ -388,6 +388,12 @@ __attribute__((used)) void ap_on_boss_defeat_already_owned_reward(void *obj2, in
 // item is delivered through ap_apply_item().
 __attribute__((used)) void ap_on_collect_big_chest(uint32_t area_id) {
     ap_set_major_chest_flag(area_id);
+
+    // Preserve native world-map unlock from the tutorial chest (area_id=0).
+    // Area maps (1..9) remain AP-item gated.
+    if (area_id == 0u) {
+        ap_unlock_area_map(0u);
+    }
 }
 
 // Hook target for native vitality big chest reward collection. This callsite does
