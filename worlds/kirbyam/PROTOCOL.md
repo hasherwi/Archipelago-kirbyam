@@ -190,6 +190,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | MAJOR_CHEST_CARROT_CASTLE | 3960206 | Carrot Castle big chest (bit 5, gTreasures.bigChestField) |
 | MAJOR_CHEST_RADISH_RUINS | 3960207 | Radish Ruins big chest (bit 8, gTreasures.bigChestField) |
 | MAJOR_CHEST_CANDY_CONSTELLATION | 3960208 | Candy Constellation big chest (bit 9, gTreasures.bigChestField) |
+| MAJOR_CHEST_WORLD_MAP | 3960209 | Tutorial world map big chest (bit 0, gTreasures.bigChestField) |
 | VITALITY_CHEST_CARROT_CASTLE | 3960300 | Carrot Castle 5-23 vitality big chest (transport vitality bit 0) |
 | VITALITY_CHEST_OLIVE_OCEAN | 3960301 | Olive Ocean 6-21 vitality big chest (transport vitality bit 1) |
 | VITALITY_CHEST_RADISH_RUINS | 3960302 | Radish Ruins 8-4 vitality big chest (transport vitality bit 2) |

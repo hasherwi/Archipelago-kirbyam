@@ -624,6 +624,7 @@ async def test_poll_major_chest_sends_location_checks_for_set_bits(mock_bizhawk_
     client = KirbyAmClient()
     client.initialize_client()
 
+    world_map = data.locations["MAJOR_CHEST_WORLD_MAP"].location_id
     cabbage = data.locations["MAJOR_CHEST_CABBAGE_CAVERN"].location_id
     olive = data.locations["MAJOR_CHEST_OLIVE_OCEAN"].location_id
     peppermint = data.locations["MAJOR_CHEST_PEPPERMINT_PALACE"].location_id
@@ -632,13 +633,13 @@ async def test_poll_major_chest_sends_location_checks_for_set_bits(mock_bizhawk_
     with patch.dict(data.transport_ram_addresses, {"major_chest_flags": 0x0203B028}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
-        # Bits 3, 6, 7 set => Cabbage, Olive, Peppermint major chests.
-        mock_read.return_value = [((1 << 3) | (1 << 6) | (1 << 7)).to_bytes(4, 'little')]
+        # Bits 0, 3, 6, 7 set => World Map, Cabbage, Olive, Peppermint major chests.
+        mock_read.return_value = [((1 << 0) | (1 << 3) | (1 << 6) | (1 << 7)).to_bytes(4, 'little')]
 
         await client._poll_major_chest_locations(mock_bizhawk_context)
 
     mock_send.assert_awaited_once_with([
-        {"cmd": "LocationChecks", "locations": [cabbage, olive, peppermint]}
+        {"cmd": "LocationChecks", "locations": [cabbage, olive, peppermint, world_map]}
     ])
 
 
