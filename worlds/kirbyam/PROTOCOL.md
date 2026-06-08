@@ -318,7 +318,8 @@ When runtime gate classifies non-gameplay:
 - Continue goal polling (goal signal can occur in post-clear non-gameplay states).
 
 Runtime gate classification details:
-- `ai_kirby_state_native` below normal gameplay thresholds is non-gameplay (tutorial/menu, cutscene, and goal-clear phases).
+- `ai_kirby_state_native` below normal gameplay thresholds is non-gameplay (tutorial/menu and cutscene phases).
+- Goal-clear AI states (`ai_kirby_state_native in {9999, 10000}`) are non-gameplay.
 - Title-screen demo playback (`demo_playback_flags_native`) is non-gameplay even when AI state reports normal gameplay.
 - `kirby_hp_native <= 0` is treated as non-gameplay to avoid transient dead-state check bursts (including DeathLink-triggered defeats).
 
