@@ -162,6 +162,7 @@ _ABILITY_REROLL_SOURCE_KIND_TO_LABEL: dict[int, str] = {
     1: "OBJECT2_TYPE",
     2: "NULL_SOURCE_PTR",
     3: "NON_EWRAM_SOURCE_PTR",
+    4: "ABILITY_STATUE",
 }
 _GAME_OPTION_SLOT_DATA_KEYS: tuple[str, ...] = (
     "goal",
@@ -1819,11 +1820,11 @@ class KirbyAmClient(BizHawkClient):
         self._last_ability_runtime_config_signature = signature
 
     async def _poll_enemy_ability_reroll_events(self, ctx: "BizHawkClientContext") -> None:
-        """Log per-swallow completely-random reroll events from runtime telemetry."""
+        """Log file-only ability telemetry events emitted by the runtime hook."""
         slot_data = getattr(ctx, "slot_data", None)
         if not isinstance(slot_data, dict):
             return
-        if int(slot_data.get("ability_randomization_mode", 0)) != 2:
+        if int(slot_data.get("ability_randomization_mode", 0)) not in (1, 2):
             return
 
         counter_addr = self._transport_addr("ability_reroll_event_counter_runtime")
@@ -1901,14 +1902,25 @@ class KirbyAmClient(BizHawkClient):
                 "KirbyAM: %d reroll event(s) occurred between polls; only the most recent is available.",
                 delta - 1,
             )
-        self._log_verbose(
-            "info",
-            "%s swallowed a %s. Ability was rerolled to %s.",
-            kirby_label,
-            enemy_name,
-            ability_name,
-        )
-        if enemy_name.startswith("UNKNOWN"):
+        if source_kind == 4:
+            statue_ability_id = source_addr & 0x1F
+            statue_ability_name = _ABILITY_ID_TO_NAME.get(statue_ability_id, f"Ability_{statue_ability_id}")
+            self._log_verbose(
+                "info",
+                "%s touched %s Statue. Ability grant resolved to %s.",
+                kirby_label,
+                statue_ability_name,
+                ability_name,
+            )
+        else:
+            self._log_verbose(
+                "info",
+                "%s swallowed a %s. Ability was rerolled to %s.",
+                kirby_label,
+                enemy_name,
+                ability_name,
+            )
+        if source_kind != 4 and enemy_name.startswith("UNKNOWN"):
             self._log_verbose(
                 "info",
                 "KirbyAM reroll telemetry detail: kirby_index=%d, source_kind=%s(%d), callsite=0x%08X, raw_source=0x%08X.",

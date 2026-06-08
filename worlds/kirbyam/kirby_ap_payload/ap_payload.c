@@ -422,6 +422,7 @@ typedef void (*KirbyRequestAbilityTransitionFn)(void*, uint32_t);
 typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define KIRBY_GIVE_INVINCIBILITY_FN ((KirbyGiveInvincibilityFn)0x0808324Du)
 
+#define ABILITY_RANDOMIZATION_MODE_SHUFFLED 1u
 #define ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM 2u
 #define KIRBY_ABILITY_MASK 0x1Fu
 #define KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR 0x20u
@@ -429,6 +430,7 @@ typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE 1u
 #define ABILITY_REROLL_SOURCE_KIND_NULL_SOURCE_PTR 2u
 #define ABILITY_REROLL_SOURCE_KIND_NON_EWRAM_SOURCE_PTR 3u
+#define ABILITY_REROLL_SOURCE_KIND_ABILITY_STATUE 4u
 #define ENEMY_ABILITY_TABLE_BASE_ADDR 0x35164Eu
 #define ENEMY_ABILITY_TABLE_STRIDE 0x18u
 #define OBJECT2_TYPE_OFFSET 0x82u
@@ -500,13 +502,13 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
     uint32_t mode = AP_ABILITY_RANDOMIZATION_MODE;
     uint32_t rewritten_flags = ability_flags;
     uint8_t selected_ability = (uint8_t)(ability_flags & KIRBY_ABILITY_MASK);
+    uint8_t is_ability_star =
+        ((ability_flags & KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR) != 0u) ? 1u : 0u;
 
     if (mode == ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM) {
         register uint32_t source_obj_ptr asm("r5");
         uint32_t no_ability_weight = AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT;
         uint32_t allowed_mask = AP_ABILITY_RANDOMIZATION_ALLOWED_MASK;
-        uint8_t is_ability_star =
-            ((ability_flags & KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR) != 0u) ? 1u : 0u;
         uint32_t random_roll = ap_next_rng_u32();
         uint32_t source_addr = 0u;
         uint32_t source_kind = ABILITY_REROLL_SOURCE_KIND_NONE;
@@ -544,14 +546,19 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
 
         rewritten_flags = (ability_flags & ~KIRBY_ABILITY_MASK) | (uint32_t)(selected_ability & KIRBY_ABILITY_MASK);
 
-        if (source_obj_ptr == 0u) {
-            source_kind = ABILITY_REROLL_SOURCE_KIND_NULL_SOURCE_PTR;
-        } else if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x02040000u) {
-            uint8_t source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
-            source_kind = ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE;
-            source_addr = ENEMY_ABILITY_TABLE_BASE_ADDR + ((uint32_t)source_type * ENEMY_ABILITY_TABLE_STRIDE);
+        if (is_ability_star != 0u) {
+            source_kind = ABILITY_REROLL_SOURCE_KIND_ABILITY_STATUE;
+            source_addr = (uint32_t)(ability_flags & KIRBY_ABILITY_MASK);
         } else {
-            source_kind = ABILITY_REROLL_SOURCE_KIND_NON_EWRAM_SOURCE_PTR;
+            if (source_obj_ptr == 0u) {
+                source_kind = ABILITY_REROLL_SOURCE_KIND_NULL_SOURCE_PTR;
+            } else if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x02040000u) {
+                uint8_t source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
+                source_kind = ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE;
+                source_addr = ENEMY_ABILITY_TABLE_BASE_ADDR + ((uint32_t)source_type * ENEMY_ABILITY_TABLE_STRIDE);
+            } else {
+                source_kind = ABILITY_REROLL_SOURCE_KIND_NON_EWRAM_SOURCE_PTR;
+            }
         }
 
         AP_ABILITY_REROLL_SOURCE_ADDR = source_addr;
@@ -565,6 +572,18 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
     selected_ability = (uint8_t)(rewritten_flags & KIRBY_ABILITY_MASK);
     if (selected_ability != 0u && ap_is_locked_gated_ability(selected_ability) != 0u) {
         rewritten_flags = (rewritten_flags & ~KIRBY_ABILITY_MASK);
+        selected_ability = 0u;
+    }
+
+    // In shuffled mode, ability-star/statue grants do not emit reroll telemetry in the
+    // randomization branch above, so emit a compact event here for file-only client logs.
+    if (is_ability_star != 0u && mode == ABILITY_RANDOMIZATION_MODE_SHUFFLED) {
+        AP_ABILITY_REROLL_SOURCE_ADDR = (uint32_t)(ability_flags & KIRBY_ABILITY_MASK);
+        AP_ABILITY_REROLL_ABILITY_ID = (uint32_t)(selected_ability & KIRBY_ABILITY_MASK);
+        AP_ABILITY_REROLL_SOURCE_KIND = ABILITY_REROLL_SOURCE_KIND_ABILITY_STATUE;
+        AP_ABILITY_REROLL_CALLSITE_PC = 0u;
+        AP_ABILITY_REROLL_KIRBY_INDEX = (uint32_t)KIRBY_CURRENT_PLAYER;
+        AP_ABILITY_REROLL_EVENT_COUNTER++;
     }
 
     KIRBY_REQUEST_ABILITY_TRANSITION_FN(kirby, rewritten_flags);

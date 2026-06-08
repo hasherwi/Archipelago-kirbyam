@@ -29,6 +29,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Internal Changes
 
 - Log files now report the `world_version` and all game options (Issue #861).
+- Added file-only telemetry logs for ability statue grants when `ability_randomization_mode` is `shuffled` or `completely_random`, aligned with existing swallow-event diagnostics.
 
 ## v0.2.0
 

@@ -5192,6 +5192,73 @@ async def test_poll_enemy_ability_reroll_events_resolves_rom_domain_source_addre
 
 
 @pytest.mark.asyncio
+async def test_poll_enemy_ability_reroll_events_logs_statue_grants_in_shuffled_mode(mock_bizhawk_context):
+    """Statue ability-grant telemetry should also log in shuffled mode."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+    mock_bizhawk_context.slot_data = {"ability_randomization_mode": 1}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(7).to_bytes(4, 'little')],
+            [(8).to_bytes(4, 'little')],
+            [
+                (2).to_bytes(4, 'little'),
+                (5).to_bytes(4, 'little'),
+                (4).to_bytes(4, 'little'),
+                (0x00000000).to_bytes(4, 'little'),
+                (1).to_bytes(4, 'little'),
+            ],
+        ]
+
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+
+    mock_logger.info.assert_any_call(
+        "%s touched %s Statue. Ability grant resolved to %s.",
+        "Kirby P2",
+        "Ice",
+        "Parasol",
+        extra={"NoStream": True, "skip_gui": True},
+    )
+
+
+@pytest.mark.asyncio
+async def test_poll_enemy_ability_reroll_events_does_not_emit_unknown_detail_for_statues(mock_bizhawk_context):
+    """Dedicated statue telemetry should not emit unknown-source detail logs."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+    mock_bizhawk_context.slot_data = {"ability_randomization_mode": 2}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(3).to_bytes(4, 'little')],
+            [(4).to_bytes(4, 'little')],
+            [
+                (1).to_bytes(4, 'little'),
+                (4).to_bytes(4, 'little'),
+                (4).to_bytes(4, 'little'),
+                (0x08012345).to_bytes(4, 'little'),
+                (0).to_bytes(4, 'little'),
+            ],
+        ]
+
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+
+    detail_logs = [
+        call
+        for call in mock_logger.info.call_args_list
+        if call.args and isinstance(call.args[0], str) and "reroll telemetry detail" in call.args[0]
+    ]
+    assert detail_logs == []
+
+
+@pytest.mark.asyncio
 async def test_poll_enemy_ability_reroll_events_resolves_alternate_golem_form_address(mock_bizhawk_context):
     """Alternate Golem form source addresses should resolve to the canonical GOLEM key."""
     client = KirbyAmClient()
