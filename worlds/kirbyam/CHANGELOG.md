@@ -15,6 +15,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Added a new goal mode: `defeat_configured_area_boss` completes the seed after a specific area-boss is defeated (Issue #207).
   - Which area boss is used is determined by the new `configured_area_boss` option. It defaults to Master Hand and Crazy Hand.
 - Added the world map big chest in the tutorial rooms as an AP location check (Issue #845). We plan for the world map as an item can follow later.
+  - Because of how the detect the game state, the check will only send AFTER the tutorial is completed and you enter Central Circle for the first time.
 
 ### Improvements
 
