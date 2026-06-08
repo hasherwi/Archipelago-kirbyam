@@ -14,6 +14,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Ability gating is now available and controlled by a `Make the game harder` option and defaults to "on". A preset list of abilities is available at the beginning of the game (Beam, Burning, Mini, Stone, and Wheel). This list should be the bare minimum you need to complete the game and get all the currently supported locations. All other abilities are gated by custom AP items (for example, "Sword Ability") (Issues #855, #819).
 - Added a new goal mode: `defeat_configured_area_boss` completes the seed after a specific area-boss is defeated (Issue #207).
   - Which area boss is used is determined by the new `configured_area_boss` option. It defaults to Master Hand and Crazy Hand.
+- Added the world map big chest in the tutorial rooms as an AP location check (Issue #845). We plan for the world map as an item can follow later.
+  - Because of how the detect the game state, the check will only send AFTER the tutorial is completed and you enter Central Circle for the first time.
 
 ### Improvements
 
@@ -27,6 +29,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Internal Changes
 
 - Log files now report the `world_version` and all game options (Issue #861).
+- Added file-only telemetry diagnostics for ability statue grants when `ability_randomization_mode` is `shuffled` or `completely_random`, goal target resolution (one-time per session), runtime ability config rewrites (mask/seed snapshot on change), mailbox ACK timeout aggregates, and explicit statue ability-gate suppression reasons (PR #867).
 
 ## v0.2.0
 

@@ -475,6 +475,14 @@
         "MAP_RAINBOW_ROUTE"
       ]
     },
+    "MAJOR_CHEST_WORLD_MAP": {
+      "category": "MAP_CHEST",
+      "label": "Tutorial World Map - Big Chest",
+      "location_id": 3960209,
+      "tags": [
+        "BigChest"
+      ]
+    },
     "MINOR_CHEST_MUSIC_NOTE_01": {
       "category": "MINOR_CHEST",
       "label": "Music Note #1",

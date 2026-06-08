@@ -49,6 +49,7 @@ def test_physical_big_chest_locations_hide_contents_in_labels() -> None:
         "Peppermint Palace Map - Big Chest",
         "Radish Ruins Map - Big Chest",
         "Candy Constellation Map - Big Chest",
+        "Tutorial World Map - Big Chest",
         "Carrot Castle Vitality - Big Chest",
         "Olive Ocean Vitality - Big Chest",
         "Radish Ruins Vitality - Big Chest",

@@ -18,6 +18,7 @@ from worlds._bizhawk.client import BizHawkClient
 from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
+from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .generated_hub_switch_contract import HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY
 from .items import get_item_classification
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
@@ -40,6 +41,7 @@ _GOAL_STATE_FULL_CLEAR = 10000
 _MAILBOX_ACK_TIMEOUT_FRAMES = 30
 _MAILBOX_ACK_TIMEOUT_SECONDS = 1.0  # Fallback when frame_counter is stuck
 _MAILBOX_ACK_RETRY_BACKOFF_SECONDS = 0.5
+_MAILBOX_TIMEOUT_SUMMARY_EVERY = 5
 _MAIN_HOOK_OFFSET = 0x00152696
 _PAYLOAD_OFFSET = 0x0015E000
 _AI_STATE_CUTSCENE_THRESHOLD = 200
@@ -98,6 +100,13 @@ _ABILITY_ID_TO_NAME: dict[int, str] = {
     ability_id: ability_name
     for ability_name, ability_id in ABILITY_NAME_TO_ID.items()
 }
+_ABILITY_UNLOCK_ITEM_LABELS: frozenset[str] = frozenset(
+    item.label
+    for item in data.items.values()
+    if isinstance(item.label, str)
+    and "Abilities" in item.tags
+    and item.label.endswith(" Ability")
+)
 _MAP_ITEM_LABEL_TO_AREA_ID: dict[str, int] = {
     "Rainbow Route - Map": 1,
     "Moonlight Mansion - Map": 2,
@@ -154,6 +163,7 @@ _ABILITY_REROLL_SOURCE_KIND_TO_LABEL: dict[int, str] = {
     1: "OBJECT2_TYPE",
     2: "NULL_SOURCE_PTR",
     3: "NON_EWRAM_SOURCE_PTR",
+    4: "ABILITY_STATUE",
 }
 _GAME_OPTION_SLOT_DATA_KEYS: tuple[str, ...] = (
     "goal",
@@ -408,6 +418,7 @@ class KirbyAmClient(BizHawkClient):
         self._goal_reported: bool = False
         self._goal_location_reported: bool = False
         self._native_goal_signal_seen: bool = False
+        self._goal_target_trace_logged: bool = False
 
         # Boss candidate probing state
         self._last_boss_probe_snapshot: bytes | None = None
@@ -479,6 +490,8 @@ class KirbyAmClient(BizHawkClient):
         self._last_ability_runtime_config_signature: tuple[int, int, int, int, int, int, int] | None = None
         self._ability_runtime_config_revalidate_counter: int = 0
         self._last_ability_reroll_event_counter: int | None = None
+        self._delivery_timeout_total: int = 0
+        self._delivery_timeout_last_reason: str = ""
         self._starting_kirby_color_synced_id: int | None = None
         self._starting_kirby_color_logged_signature: tuple[int, str] | None = None
         self._starting_kirby_color_revalidate_counter: int = 0
@@ -674,6 +687,9 @@ class KirbyAmClient(BizHawkClient):
         self._starting_kirby_color_revalidate_counter = 0
         self._last_challenge_runtime_config_signature = None
         self._challenge_runtime_config_revalidate_counter = 0
+        self._goal_target_trace_logged = False
+        self._delivery_timeout_total = 0
+        self._delivery_timeout_last_reason = ""
         self._cached_delivered_map_bits = 0
         self._cached_map_bits_index = 0
         self._cached_map_bits_items_len = 0
@@ -1701,6 +1717,11 @@ class KirbyAmClient(BizHawkClient):
         gated_mask = 0
         unlocked_mask = 0
         gateable_abilities = slot_data.get("ability_gateable_abilities", [])
+        if (
+            self._coerce_bool(slot_data.get("ability_gating", True), True)
+            and (not isinstance(gateable_abilities, list) or len(gateable_abilities) == 0)
+        ):
+            gateable_abilities = list(GATEABLE_ENEMY_COPY_ABILITIES)
         if isinstance(gateable_abilities, list):
             for ability_name in gateable_abilities:
                 if not isinstance(ability_name, str):
@@ -1718,6 +1739,8 @@ class KirbyAmClient(BizHawkClient):
                 label for label in ability_unlock_items.values()
                 if isinstance(label, str)
             }
+            if not unlock_labels:
+                unlock_labels = set(_ABILITY_UNLOCK_ITEM_LABELS)
             if unlock_labels:
                 for item in ctx.items_received:
                     item_id = self._coerce_u32(getattr(item, "item", None))
@@ -1790,6 +1813,19 @@ class KirbyAmClient(BizHawkClient):
 
         self._ability_runtime_config_revalidate_counter = 0
 
+        if self._last_ability_runtime_config_signature != signature:
+            self._log_verbose(
+                "info",
+                "KirbyAM: runtime ability config update (mode=%s, seed_lo=0x%08X, seed_hi=0x%08X, no_ability_weight=%s, allowed_mask=0x%08X, gate_mask=0x%08X, unlock_mask=0x%08X)",
+                mode,
+                seed_lo,
+                seed_hi,
+                no_ability_weight,
+                allowed_mask & 0xFFFFFFFF,
+                gated_mask & 0xFFFFFFFF,
+                unlocked_mask & 0xFFFFFFFF,
+            )
+
         await bizhawk.write(ctx.bizhawk_ctx, [
             (mode_addr, int(mode).to_bytes(4, "little"), "System Bus"),
             (seed_lo_addr, int(seed_lo).to_bytes(4, "little"), "System Bus"),
@@ -1804,11 +1840,11 @@ class KirbyAmClient(BizHawkClient):
         self._last_ability_runtime_config_signature = signature
 
     async def _poll_enemy_ability_reroll_events(self, ctx: "BizHawkClientContext") -> None:
-        """Log per-swallow completely-random reroll events from runtime telemetry."""
+        """Log file-only ability telemetry events emitted by the runtime hook."""
         slot_data = getattr(ctx, "slot_data", None)
         if not isinstance(slot_data, dict):
             return
-        if int(slot_data.get("ability_randomization_mode", 0)) != 2:
+        if int(slot_data.get("ability_randomization_mode", 0)) not in (1, 2):
             return
 
         counter_addr = self._transport_addr("ability_reroll_event_counter_runtime")
@@ -1886,14 +1922,32 @@ class KirbyAmClient(BizHawkClient):
                 "KirbyAM: %d reroll event(s) occurred between polls; only the most recent is available.",
                 delta - 1,
             )
-        self._log_verbose(
-            "info",
-            "%s swallowed a %s. Ability was rerolled to %s.",
-            kirby_label,
-            enemy_name,
-            ability_name,
-        )
-        if enemy_name.startswith("UNKNOWN"):
+        if source_kind == 4:
+            statue_ability_id = source_addr & 0x1F
+            statue_ability_name = _ABILITY_ID_TO_NAME.get(statue_ability_id, f"Ability_{statue_ability_id}")
+            self._log_verbose(
+                "info",
+                "%s touched %s Statue. Ability grant resolved to %s.",
+                kirby_label,
+                statue_ability_name,
+                ability_name,
+            )
+            if statue_ability_id != 0 and ability_id == 0:
+                self._log_verbose(
+                    "info",
+                    "%s statue grant for %s was suppressed by ability gating (resolved to no ability).",
+                    kirby_label,
+                    statue_ability_name,
+                )
+        else:
+            self._log_verbose(
+                "info",
+                "%s swallowed a %s. Ability was rerolled to %s.",
+                kirby_label,
+                enemy_name,
+                ability_name,
+            )
+        if source_kind != 4 and enemy_name.startswith("UNKNOWN"):
             self._log_verbose(
                 "info",
                 "KirbyAM reroll telemetry detail: kirby_index=%d, source_kind=%s(%d), callsite=0x%08X, raw_source=0x%08X.",
@@ -3467,12 +3521,23 @@ class KirbyAmClient(BizHawkClient):
 
             if timeout_triggered:
                 self._delivery_timeout_streak += 1
+                self._delivery_timeout_total += 1
+                self._delivery_timeout_last_reason = timeout_reason
                 self._log_client(
                     "warning",
                     "KirbyAM: Mailbox ACK timeout at item index %s; clearing flag and retrying (%s)",
                     self._delivered_item_index,
                     timeout_reason,
                 )
+                if (self._delivery_timeout_total % _MAILBOX_TIMEOUT_SUMMARY_EVERY) == 0:
+                    self._log_verbose(
+                        "info",
+                        "KirbyAM: mailbox timeout summary total=%s, streak=%s, delivered_index=%s, last_reason=%s",
+                        self._delivery_timeout_total,
+                        self._delivery_timeout_streak,
+                        self._delivered_item_index,
+                        self._delivery_timeout_last_reason,
+                    )
                 if (
                     not self._delivery_payload_stall_warned
                     and self._delivery_timeout_streak >= 3
@@ -3745,6 +3810,17 @@ class KirbyAmClient(BizHawkClient):
                 return
         if goal_location_id is None:
             return
+
+        if not self._goal_target_trace_logged:
+            self._log_verbose(
+                "info",
+                "KirbyAM: goal target trace (goal_option=%s, configured_key=%s, hidden_key=%s, goal_location_id=%s)",
+                slot_goal,
+                configured_goal_key if configured_goal_key is not None else "<none>",
+                hidden_goal_key if hidden_goal_key is not None else "<none>",
+                goal_location_id,
+            )
+            self._goal_target_trace_logged = True
 
         server_locations = getattr(ctx, "server_locations", None)
         goal_location_exposed_by_server = (

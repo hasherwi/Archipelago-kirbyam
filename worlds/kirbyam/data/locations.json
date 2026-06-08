@@ -334,6 +334,16 @@
     "category": "MAP_CHEST",
     "location_id": 3960208
   },
+  "MAJOR_CHEST_WORLD_MAP": {
+    "label": "Tutorial World Map - Big Chest",
+    "parent_region": "REGION_GAME_START",
+    "tags": [
+      "BigChest"
+    ],
+    "bit_index": 0,
+    "category": "MAP_CHEST",
+    "location_id": 3960209
+  },
   "VITALITY_CHEST_CARROT_CASTLE": {
     "label": "Carrot Castle Vitality - Big Chest",
     "parent_region": "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",

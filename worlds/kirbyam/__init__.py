@@ -308,8 +308,8 @@ class KirbyAmWorld(World):
             ) from None
 
         configured_area_boss_key_by_value = {
-            ConfiguredAreaBoss.option_king_golem: "BOSS_DEFEAT_1",
-            ConfiguredAreaBoss.option_moley: "BOSS_DEFEAT_2",
+            ConfiguredAreaBoss.option_king_golem: "BOSS_DEFEAT_2",
+            ConfiguredAreaBoss.option_moley: "BOSS_DEFEAT_1",
             ConfiguredAreaBoss.option_kracko: "BOSS_DEFEAT_4",
             ConfiguredAreaBoss.option_mega_titan: "BOSS_DEFEAT_5",
             ConfiguredAreaBoss.option_gobbler: "BOSS_DEFEAT_6",

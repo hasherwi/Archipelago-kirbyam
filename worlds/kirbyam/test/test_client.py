@@ -24,6 +24,7 @@ from ..client import (
 )
 from ..options import OneHitMode
 from ..rom import KirbyAmProcedurePatch
+from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
 
 
 @pytest.mark.asyncio
@@ -624,6 +625,7 @@ async def test_poll_major_chest_sends_location_checks_for_set_bits(mock_bizhawk_
     client = KirbyAmClient()
     client.initialize_client()
 
+    world_map = data.locations["MAJOR_CHEST_WORLD_MAP"].location_id
     cabbage = data.locations["MAJOR_CHEST_CABBAGE_CAVERN"].location_id
     olive = data.locations["MAJOR_CHEST_OLIVE_OCEAN"].location_id
     peppermint = data.locations["MAJOR_CHEST_PEPPERMINT_PALACE"].location_id
@@ -632,13 +634,13 @@ async def test_poll_major_chest_sends_location_checks_for_set_bits(mock_bizhawk_
     with patch.dict(data.transport_ram_addresses, {"major_chest_flags": 0x0203B028}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
-        # Bits 3, 6, 7 set => Cabbage, Olive, Peppermint major chests.
-        mock_read.return_value = [((1 << 3) | (1 << 6) | (1 << 7)).to_bytes(4, 'little')]
+        # Bits 0, 3, 6, 7 set => World Map, Cabbage, Olive, Peppermint major chests.
+        mock_read.return_value = [((1 << 0) | (1 << 3) | (1 << 6) | (1 << 7)).to_bytes(4, 'little')]
 
         await client._poll_major_chest_locations(mock_bizhawk_context)
 
     mock_send.assert_awaited_once_with([
-        {"cmd": "LocationChecks", "locations": [cabbage, olive, peppermint]}
+        {"cmd": "LocationChecks", "locations": [cabbage, olive, peppermint, world_map]}
     ])
 
 
@@ -2686,6 +2688,34 @@ async def test_goal_reporting_logs_native_signal_seen(mock_bizhawk_context):
     assert len(signal_calls) == 1
     assert signal_calls[0].args[1:] == (0,)  # goal_option=0
     assert signal_calls[0].kwargs.get("extra", {}).get("NoStream") is True
+
+
+@pytest.mark.asyncio
+async def test_goal_reporting_logs_target_trace_once(mock_bizhawk_context):
+    """Goal target trace should log once per session to aid option/key diagnostics."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    goal_id = data.locations["GOAL_DARK_MIND"].location_id
+    mock_bizhawk_context.slot_data["goal"] = 0
+    mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = {goal_id}
+
+    with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(9999).to_bytes(4, 'little')],
+            [(9999).to_bytes(4, 'little')],
+        ]
+        await client._maybe_report_goal(mock_bizhawk_context)
+        await client._maybe_report_goal(mock_bizhawk_context)
+
+    trace_calls = [
+        c for c in mock_logger.info.call_args_list
+        if c.args and isinstance(c.args[0], str) and "goal target trace" in c.args[0]
+    ]
+    assert len(trace_calls) == 1
 
 
 @pytest.mark.asyncio
@@ -5190,6 +5220,106 @@ async def test_poll_enemy_ability_reroll_events_resolves_rom_domain_source_addre
 
 
 @pytest.mark.asyncio
+async def test_poll_enemy_ability_reroll_events_logs_statue_grants_in_shuffled_mode(mock_bizhawk_context):
+    """Statue ability-grant telemetry should also log in shuffled mode."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+    mock_bizhawk_context.slot_data = {"ability_randomization_mode": 1}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(7).to_bytes(4, 'little')],
+            [(8).to_bytes(4, 'little')],
+            [
+                (2).to_bytes(4, 'little'),
+                (5).to_bytes(4, 'little'),
+                (4).to_bytes(4, 'little'),
+                (0x00000000).to_bytes(4, 'little'),
+                (1).to_bytes(4, 'little'),
+            ],
+        ]
+
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+
+    mock_logger.info.assert_any_call(
+        "%s touched %s Statue. Ability grant resolved to %s.",
+        "Kirby P2",
+        "Ice",
+        "Parasol",
+        extra={"NoStream": True, "skip_gui": True},
+    )
+
+
+@pytest.mark.asyncio
+async def test_poll_enemy_ability_reroll_events_does_not_emit_unknown_detail_for_statues(mock_bizhawk_context):
+    """Dedicated statue telemetry should not emit unknown-source detail logs."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+    mock_bizhawk_context.slot_data = {"ability_randomization_mode": 2}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(3).to_bytes(4, 'little')],
+            [(4).to_bytes(4, 'little')],
+            [
+                (1).to_bytes(4, 'little'),
+                (4).to_bytes(4, 'little'),
+                (4).to_bytes(4, 'little'),
+                (0x08012345).to_bytes(4, 'little'),
+                (0).to_bytes(4, 'little'),
+            ],
+        ]
+
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+
+    detail_logs = [
+        call
+        for call in mock_logger.info.call_args_list
+        if call.args and isinstance(call.args[0], str) and "reroll telemetry detail" in call.args[0]
+    ]
+    assert detail_logs == []
+
+
+@pytest.mark.asyncio
+async def test_poll_enemy_ability_reroll_events_logs_statue_gate_suppression_reason(mock_bizhawk_context):
+    """Statue telemetry should log an explicit reason when ability gating suppresses the grant."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+    mock_bizhawk_context.slot_data = {"ability_randomization_mode": 2}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(5).to_bytes(4, 'little')],
+            [(6).to_bytes(4, 'little')],
+            [
+                (3).to_bytes(4, 'little'),
+                (0).to_bytes(4, 'little'),
+                (4).to_bytes(4, 'little'),
+                (0x08015555).to_bytes(4, 'little'),
+                (0).to_bytes(4, 'little'),
+            ],
+        ]
+
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+
+    mock_logger.info.assert_any_call(
+        "%s statue grant for %s was suppressed by ability gating (resolved to no ability).",
+        "Kirby P1",
+        "Burning",
+        extra={"NoStream": True, "skip_gui": True},
+    )
+
+
+@pytest.mark.asyncio
 async def test_poll_enemy_ability_reroll_events_resolves_alternate_golem_form_address(mock_bizhawk_context):
     """Alternate Golem form source addresses should resolve to the canonical GOLEM key."""
     client = KirbyAmClient()
@@ -5312,6 +5442,10 @@ async def test_sync_enemy_copy_ability_runtime_config_revalidates_each_tick_for_
     allowed_mask = 0
     ability_gating_enabled = True
     gated_mask = 0
+    for ability_name in GATEABLE_ENEMY_COPY_ABILITIES:
+        ability_id = ABILITY_NAME_TO_ID.get(ability_name)
+        if ability_id is not None and 0 < ability_id <= 31:
+            gated_mask |= 1 << ability_id
     unlocked_mask = 0
     client._last_ability_runtime_config_signature = (
         mode,
@@ -5364,6 +5498,10 @@ async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation
     allowed_mask = 0
     ability_gating_enabled = True
     gated_mask = 0
+    for ability_name in GATEABLE_ENEMY_COPY_ABILITIES:
+        ability_id = ABILITY_NAME_TO_ID.get(ability_name)
+        if ability_id is not None and 0 < ability_id <= 31:
+            gated_mask |= 1 << ability_id
     unlocked_mask = 0
     client._last_ability_runtime_config_signature = (
         mode,
