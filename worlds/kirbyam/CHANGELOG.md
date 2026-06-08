@@ -11,20 +11,20 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 
-- FAILING FOR STATUES: Ability gating is now available and controlled by a `Make the game harder` option and defaults to "on". A preset list of abilities is available at the beginning of the game (Beam, Burning, Mini, Stone, and Wheel). This list should be the bare minimum you need to complete the game and get all the currently supported locations. All other abilities are gated by custom AP items (for example, "Sword Ability") (Issues #855, #819).
-- FAILING: Added a new goal mode: `defeat_configured_area_boss` completes the seed after a specific area-boss is defeated (Issue #207).
+- Ability gating is now available and controlled by a `Make the game harder` option and defaults to "on". A preset list of abilities is available at the beginning of the game (Beam, Burning, Mini, Stone, and Wheel). This list should be the bare minimum you need to complete the game and get all the currently supported locations. All other abilities are gated by custom AP items (for example, "Sword Ability") (Issues #855, #819).
+- Added a new goal mode: `defeat_configured_area_boss` completes the seed after a specific area-boss is defeated (Issue #207).
   - Which area boss is used is determined by the new `configured_area_boss` option. It defaults to Master Hand and Crazy Hand.
-- WORKING: Added the world map big chest in the tutorial rooms as an AP location check (Issue #845). We plan for the world map as an item can follow later.
+- Added the world map big chest in the tutorial rooms as an AP location check (Issue #845). We plan for the world map as an item can follow later.
   - Because of how the detect the game state, the check will only send AFTER the tutorial is completed and you enter Central Circle for the first time.
 
 ### Improvements
 
-- WORKING: Self-send item popups in BizHawk are now collapsed to one line (`You found your <item>.`) instead of separate send and receive popups (Issue #848).
+- Self-send item popups in BizHawk are now collapsed to one line (`You found your <item>.`) instead of separate send and receive popups (Issue #848).
 
 ### Bug Fixes
 
-- TO TEST: Prevent false LocationChecks after death by deferring polling while HP <= 0 (Issue #864).
-- FAILING: When `ability_randomization_mode` was `completely_random` and `ability_randomization_statues` was enabled, statue abilities were just shuffled, not random (Issue #841).
+- Prevent false LocationChecks after death by deferring polling while HP <= 0 (Issue #864).
+- When `ability_randomization_mode` was `completely_random` and `ability_randomization_statues` was enabled, statue abilities were just shuffled, not random (Issue #841).
 
 ### Internal Changes
 
