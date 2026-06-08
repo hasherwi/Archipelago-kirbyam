@@ -18,6 +18,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Bug Fixes
 
 - Self-send item popups in BizHawk are now collapsed to one line (`You found your <item>.`) instead of separate send and receive popups (Issue #848).
+- Prevented large false LocationChecks bursts after death transitions (including DeathLink deaths) by treating dead-state frames as non-gameplay for polling/writes and de-duping repeated pause popups while deferred (Issue #864).
 
 ### Internal Changes
 

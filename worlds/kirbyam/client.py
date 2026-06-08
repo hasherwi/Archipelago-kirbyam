@@ -1553,6 +1553,7 @@ class KirbyAmClient(BizHawkClient):
                 ai_state=ai_state,
             )
             if not gameplay_active:
+                was_deferred = self._last_runtime_gate_reason is not None
                 if self._last_runtime_gate_reason != defer_reason:
                     self._log_verbose(
                         "info",
@@ -1560,8 +1561,9 @@ class KirbyAmClient(BizHawkClient):
                         defer_reason,
                         ai_state if ai_state is not None else "unavailable",
                     )
-                    await self._display_client_message(ctx, "Item sending paused by game state")
                     self._last_runtime_gate_reason = defer_reason
+                if not was_deferred:
+                    await self._display_client_message(ctx, "Item sending paused by game state")
 
                 # Preserve mailbox ACK handling while deferring new writes.
                 await self._deliver_items(ctx, allow_new_writes=False)
@@ -2205,6 +2207,9 @@ class KirbyAmClient(BizHawkClient):
         reads: list[tuple[int, int, str]] = [(ai_state_addr, _AI_STATE_ADDR_WIDTH, "System Bus")]
         if demo_flags_addr is not None:
             reads.append((demo_flags_addr, _DEMO_PLAYBACK_FLAGS_WIDTH, "System Bus"))
+        kirby_hp_addr = self._native_addr(_KIRBY_HP_ADDR_KEY)
+        if kirby_hp_addr is not None:
+            reads.append((kirby_hp_addr, _KIRBY_HP_READ_WIDTH, "System Bus"))
         heartbeat_addr = self._transport_addr("hook_heartbeat")
         if self._debug_logging_enabled and heartbeat_addr is not None:
             reads.append((heartbeat_addr, 4, "System Bus"))
@@ -2218,6 +2223,11 @@ class KirbyAmClient(BizHawkClient):
             demo_flags = self._u32_le(raw_values[next_read_index])
             next_read_index += 1
 
+        current_hp: int | None = None
+        if kirby_hp_addr is not None and len(raw_values) > next_read_index:
+            current_hp = self._s8(raw_values[next_read_index])
+            next_read_index += 1
+
         heartbeat_counter: int | None = None
         if self._debug_logging_enabled and heartbeat_addr is not None and len(raw_values) > next_read_index:
             heartbeat_counter = self._u32_le(raw_values[next_read_index])
@@ -2225,7 +2235,10 @@ class KirbyAmClient(BizHawkClient):
         reason: str
         gameplay_active: bool
 
-        if ai_state < _AI_STATE_CUTSCENE_THRESHOLD:
+        if current_hp is not None and current_hp <= 0:
+            reason = "non_gameplay_kirby_dead"
+            gameplay_active = False
+        elif ai_state < _AI_STATE_CUTSCENE_THRESHOLD:
             reason = "non_gameplay_tutorial_or_menu"
             gameplay_active = False
         elif ai_state < _AI_STATE_NORMAL:
