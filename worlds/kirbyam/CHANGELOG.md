@@ -11,7 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 
-- Ability gating is now available and controlled by a `Make the game harder` option and defaults to "on". A preset list of abilities is available at the beginning of the game (Beam, Burning, Mini, Stone, and Wheel). This list should be the bare minimum you need to complete the game and get all the currently supported locations. All other abilities are gated by custom AP items (for example, "Sword Ability") (Issues #855, #819).
+- Ability gating is now available and under the `Make the game harder` option group. It defaults to be "on". A preset list of abilities is available at the beginning of the game (Beam, Burning, Mini, Stone, and Wheel). This list should be the bare minimum you need to complete the game and get all the currently supported locations. All other abilities are gated by custom AP items (for example, "Sword Ability") (Issues #855, #819).
 - Added a new goal mode: `defeat_configured_area_boss` completes the seed after a specific area-boss is defeated (Issue #207).
   - Which area boss is used is determined by the new `configured_area_boss` option. It defaults to Master Hand and Crazy Hand.
 - Added the world map big chest in the tutorial rooms as an AP location check (Issue #845). We plan for the world map as an item can follow later.
