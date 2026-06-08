@@ -3822,16 +3822,19 @@ async def test_runtime_gameplay_state_logs_ai_and_demo_changes_with_heartbeat(mo
             [
                 (100).to_bytes(4, 'little'),
                 (0).to_bytes(4, 'little'),
+                (10).to_bytes(1, 'little'),
                 (7).to_bytes(4, 'little'),
             ],
             [
                 (300).to_bytes(4, 'little'),
                 (0).to_bytes(4, 'little'),
+                (10).to_bytes(1, 'little'),
                 (8).to_bytes(4, 'little'),
             ],
             [
                 (300).to_bytes(4, 'little'),
                 (0x10).to_bytes(4, 'little'),
+                (10).to_bytes(1, 'little'),
                 (9).to_bytes(4, 'little'),
             ],
         ]
@@ -4478,6 +4481,29 @@ async def test_runtime_gameplay_state_non_gameplay_on_goal_clear_state(mock_bizh
 
 
 @pytest.mark.asyncio
+async def test_runtime_gameplay_state_non_gameplay_when_kirby_dead(mock_bizhawk_context):
+    """Kirby HP <= 0 should defer gameplay polling even if AI state is normal."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    with patch.dict(data.native_ram_addresses, {
+        "ai_kirby_state_native": 0x0203AD2C,
+        "kirby_hp_native": 0x02020FE0,
+    }, clear=False), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
+        mock_read.return_value = [
+            (300).to_bytes(4, 'little'),
+            (0).to_bytes(4, 'little'),
+            (0).to_bytes(1, 'little'),
+        ]
+
+        active, reason, ai_state = await client._runtime_gameplay_state(mock_bizhawk_context)
+
+    assert active is False
+    assert reason == "non_gameplay_kirby_dead"
+    assert ai_state == 300
+
+
+@pytest.mark.asyncio
 async def test_runtime_gameplay_state_fail_open_on_unknown_post_normal_state(mock_bizhawk_context):
     """Unknown post-300 AI states should fail open so item delivery is not blocked."""
     client = KirbyAmClient()
@@ -4582,6 +4608,35 @@ async def test_game_watcher_emits_pause_then_resume_popups_on_transition(mock_bi
 
     mock_display.assert_any_await(mock_bizhawk_context.bizhawk_ctx, "Item sending paused by game state")
     mock_display.assert_any_await(mock_bizhawk_context.bizhawk_ctx, "Item sending resumed")
+
+
+@pytest.mark.asyncio
+async def test_game_watcher_dedupes_pause_popup_while_non_gameplay_reason_changes(mock_bizhawk_context):
+    """Pause popup should emit once while deferred, even if defer reason changes."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    with ExitStack() as stack:
+        mock_gate = stack.enter_context(
+            patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock)
+        )
+        stack.enter_context(patch.object(client, '_load_persistent_state', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_deliver_items', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_maybe_report_goal', new_callable=AsyncMock))
+        mock_display = stack.enter_context(
+            patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock)
+        )
+
+        mock_gate.side_effect = [
+            (False, "non_gameplay_cutscene", 200),
+            (False, "non_gameplay_kirby_dead", 300),
+        ]
+
+        await client.game_watcher(mock_bizhawk_context)
+        await client.game_watcher(mock_bizhawk_context)
+
+    mock_display.assert_awaited_once_with(mock_bizhawk_context.bizhawk_ctx, "Item sending paused by game state")
 
 
 @pytest.mark.asyncio
