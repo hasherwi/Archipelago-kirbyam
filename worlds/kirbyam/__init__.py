@@ -1020,6 +1020,7 @@ class KirbyAmWorld(World):
             "room_sanity",
             toggles_as_bools=True,
         )
+        slot_data["world_version"] = self.world_version.as_simple_string()
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
         slot_data["starting_kirby_color"] = resolved_color_id
         slot_data["starting_kirby_color_name"] = resolved_color_name

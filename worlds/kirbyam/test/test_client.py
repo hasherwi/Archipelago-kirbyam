@@ -4,6 +4,7 @@
 import asyncio
 import pytest
 import logging
+import json
 from contextlib import ExitStack
 from unittest.mock import AsyncMock, Mock, call, patch
 
@@ -4008,6 +4009,64 @@ async def test_game_watcher_skips_when_server_is_none(mock_bizhawk_context):
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read:
         await client.game_watcher(mock_bizhawk_context)
         mock_read.assert_not_awaited()
+
+
+def test_log_slot_metadata_once_emits_file_only_diagnostics(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data = {
+        "world_version": "0.2.0",
+        "goal": 0,
+        "configured_area_boss": 7,
+        "shards": 2,
+        "start_with_all_maps": False,
+        "starting_kirby_color": 3,
+        "no_extra_lives": False,
+        "ability_gating": True,
+        "enable_traps": False,
+        "trap_fill_percentage": 25,
+        "one_hit_mode": 0,
+        "death_link": True,
+        "ability_randomization_mode": 1,
+        "ability_randomization_boss_spawns": True,
+        "ability_randomization_minibosses": False,
+        "ability_randomization_minny": False,
+        "ability_randomization_passive_enemies": False,
+        "ability_randomization_no_ability_weight": 55,
+        "ability_randomization_statues": False,
+        "room_sanity": False,
+    }
+
+    with patch("CommonClient.logger") as mock_logger:
+        client._log_slot_metadata_once(mock_bizhawk_context)
+
+    mock_logger.info.assert_called_once()
+    call_args = mock_logger.info.call_args
+    assert call_args.args[0] == "KirbyAM: slot metadata loaded (world_version=%s, game_options=%s)"
+    assert call_args.args[1] == "0.2.0"
+    payload = json.loads(call_args.args[2])
+    assert payload["goal"] == 0
+    assert payload["ability_gating"] is True
+    assert payload["ability_randomization_mode"] == 1
+    assert call_args.kwargs.get("extra", {}).get("NoStream") is True
+    assert call_args.kwargs.get("extra", {}).get("skip_gui") is True
+
+
+def test_log_slot_metadata_once_deduplicates_signature(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data = {
+        "world_version": "0.2.0",
+        "goal": 0,
+    }
+
+    with patch("CommonClient.logger") as mock_logger:
+        client._log_slot_metadata_once(mock_bizhawk_context)
+        client._log_slot_metadata_once(mock_bizhawk_context)
+        mock_bizhawk_context.slot_data["goal"] = 1
+        client._log_slot_metadata_once(mock_bizhawk_context)
+
+    assert mock_logger.info.call_count == 2
 
 
 @pytest.mark.asyncio

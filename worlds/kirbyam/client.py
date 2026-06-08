@@ -6,6 +6,7 @@ import logging
 import random
 import re
 import time
+import json
 from struct import unpack_from
 from typing import TYPE_CHECKING, Callable, Optional
 
@@ -152,6 +153,27 @@ _ABILITY_REROLL_SOURCE_KIND_TO_LABEL: dict[int, str] = {
     2: "NULL_SOURCE_PTR",
     3: "NON_EWRAM_SOURCE_PTR",
 }
+_GAME_OPTION_SLOT_DATA_KEYS: tuple[str, ...] = (
+    "goal",
+    "configured_area_boss",
+    "shards",
+    "start_with_all_maps",
+    "starting_kirby_color",
+    "no_extra_lives",
+    "ability_gating",
+    "enable_traps",
+    "trap_fill_percentage",
+    "one_hit_mode",
+    "death_link",
+    "ability_randomization_mode",
+    "ability_randomization_boss_spawns",
+    "ability_randomization_minibosses",
+    "ability_randomization_minny",
+    "ability_randomization_passive_enemies",
+    "ability_randomization_no_ability_weight",
+    "ability_randomization_statues",
+    "room_sanity",
+)
 
 
 def _build_kirbyam_command_processor(base_command_processor: type) -> type:
@@ -460,6 +482,7 @@ class KirbyAmClient(BizHawkClient):
         self._starting_kirby_color_revalidate_counter: int = 0
         self._last_challenge_runtime_config_signature: tuple[int, int] | None = None
         self._challenge_runtime_config_revalidate_counter: int = 0
+        self._logged_slot_metadata_signature: str | None = None
 
     @staticmethod
     def _server_session_ready(ctx: "BizHawkClientContext") -> bool:
@@ -1084,6 +1107,31 @@ class KirbyAmClient(BizHawkClient):
             color_id,
         )
 
+    def _log_slot_metadata_once(self, ctx: "BizHawkClientContext") -> None:
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            return
+
+        world_version_raw = slot_data.get("world_version")
+        world_version = world_version_raw if isinstance(world_version_raw, str) and world_version_raw else "unknown"
+        game_options = {
+            key: slot_data[key]
+            for key in _GAME_OPTION_SLOT_DATA_KEYS
+            if key in slot_data
+        }
+        options_json = json.dumps(game_options, sort_keys=True, separators=(",", ":"), default=str)
+        signature = f"{world_version}|{options_json}"
+        if self._logged_slot_metadata_signature == signature:
+            return
+
+        self._logged_slot_metadata_signature = signature
+        self._log_verbose(
+            "info",
+            "KirbyAM: slot metadata loaded (world_version=%s, game_options=%s)",
+            world_version,
+            options_json,
+        )
+
     async def _sync_starting_kirby_color_runtime_config(self, ctx: "BizHawkClientContext") -> None:
         config = self._get_starting_kirby_color_config(ctx)
         if config is None:
@@ -1471,6 +1519,7 @@ class KirbyAmClient(BizHawkClient):
 
         self._load_notification_settings(ctx)
         self._load_debug_settings(ctx)
+        self._log_slot_metadata_once(ctx)
         await self._sync_death_link_setting(ctx)
         await self._sync_enemy_copy_ability_runtime_config(ctx)
         await self._sync_challenge_runtime_config(ctx)

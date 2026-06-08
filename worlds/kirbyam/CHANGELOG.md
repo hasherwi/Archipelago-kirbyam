@@ -21,7 +21,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Internal Changes
 
-- Updated KirbyAM goal-mode slot data, protocol documentation, client handling, and tests to support the configured area-boss goal flow (Issue #207).
+- Log files now report the `world_version` and all game options (Issue #861).
 
 ## v0.2.0
 
