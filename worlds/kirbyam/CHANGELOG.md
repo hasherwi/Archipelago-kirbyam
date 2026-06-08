@@ -7,7 +7,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## Unreleased
+## v0.3.0
 
 ### New Features
 
