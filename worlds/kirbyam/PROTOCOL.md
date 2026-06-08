@@ -237,6 +237,7 @@ Server → Client: ConnectionRefused | Connected
                  (with items_received, checked_locations, slot_data)
 
 `slot_data` currently includes:
+- `world_version` (str): world release/version identifier from `KirbyAmWorld.world_version` (for example, `0.2.0`), emitted for log/tracker/version diagnostics.
 - `goal` (int): selected goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Configured Area Boss`, `3=Defeat Random Hidden Area Boss`).
 - `configured_area_boss` (int): selected configured area-boss option (`0=King Golem`, `1=Moley`, `2=Kracko`, `3=Mega Titan`, `4=Gobbler`, `5=Wiz`, `6=Dark Meta Knight`, `7=Master Hand + Crazy Hand pair`). Only used when `goal` is `defeat_configured_area_boss`.
 - `goal_configured_area_boss_key` (str | null): internal boss-defeat key selected for `defeat_configured_area_boss` (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`). Default target is `BOSS_DEFEAT_3` (Master Hand + Crazy Hand pair). Normal player-facing output does not reveal the boss name; spoiler output may resolve the key to the configured target.

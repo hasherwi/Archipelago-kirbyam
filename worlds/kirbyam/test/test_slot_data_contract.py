@@ -122,6 +122,10 @@ def test_enemy_randomization_contract_fields_present_with_expected_shapes() -> N
 def test_starting_kirby_color_contract_fields_present_with_expected_shapes() -> None:
     slot_data = _emit_slot_data_for_contract_test()
 
+    assert "world_version" in slot_data
+    assert isinstance(slot_data["world_version"], str)
+    assert slot_data["world_version"]
+
     assert isinstance(slot_data["starting_kirby_color"], int)
     assert isinstance(slot_data["starting_kirby_color_name"], str)
     assert slot_data["starting_kirby_color_name"]
