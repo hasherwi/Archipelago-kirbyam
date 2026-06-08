@@ -18,7 +18,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Bug Fixes
 
 - Self-send item popups in BizHawk are now collapsed to one line (`You found your <item>.`) instead of separate send and receive popups (Issue #848).
-- Prevent false LocationChecks after death by deferring polling while HP =< 0 (Issue #864).
+- Prevent false LocationChecks after death by deferring polling while HP <= 0 (Issue #864).
 
 ### Internal Changes
 
