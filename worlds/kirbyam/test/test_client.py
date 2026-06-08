@@ -2691,6 +2691,34 @@ async def test_goal_reporting_logs_native_signal_seen(mock_bizhawk_context):
 
 
 @pytest.mark.asyncio
+async def test_goal_reporting_logs_target_trace_once(mock_bizhawk_context):
+    """Goal target trace should log once per session to aid option/key diagnostics."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    goal_id = data.locations["GOAL_DARK_MIND"].location_id
+    mock_bizhawk_context.slot_data["goal"] = 0
+    mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = {goal_id}
+
+    with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(9999).to_bytes(4, 'little')],
+            [(9999).to_bytes(4, 'little')],
+        ]
+        await client._maybe_report_goal(mock_bizhawk_context)
+        await client._maybe_report_goal(mock_bizhawk_context)
+
+    trace_calls = [
+        c for c in mock_logger.info.call_args_list
+        if c.args and isinstance(c.args[0], str) and "goal target trace" in c.args[0]
+    ]
+    assert len(trace_calls) == 1
+
+
+@pytest.mark.asyncio
 async def test_goal_reporting_logs_location_check_sent(mock_bizhawk_context):
     """Info log should fire when goal location check is sent to server."""
     client = KirbyAmClient()
@@ -5256,6 +5284,39 @@ async def test_poll_enemy_ability_reroll_events_does_not_emit_unknown_detail_for
         if call.args and isinstance(call.args[0], str) and "reroll telemetry detail" in call.args[0]
     ]
     assert detail_logs == []
+
+
+@pytest.mark.asyncio
+async def test_poll_enemy_ability_reroll_events_logs_statue_gate_suppression_reason(mock_bizhawk_context):
+    """Statue telemetry should log an explicit reason when ability gating suppresses the grant."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+    mock_bizhawk_context.slot_data = {"ability_randomization_mode": 2}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(5).to_bytes(4, 'little')],
+            [(6).to_bytes(4, 'little')],
+            [
+                (3).to_bytes(4, 'little'),
+                (0).to_bytes(4, 'little'),
+                (4).to_bytes(4, 'little'),
+                (0x08015555).to_bytes(4, 'little'),
+                (0).to_bytes(4, 'little'),
+            ],
+        ]
+
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+
+    mock_logger.info.assert_any_call(
+        "%s statue grant for %s was suppressed by ability gating (resolved to no ability).",
+        "Kirby P1",
+        "Burning",
+        extra={"NoStream": True, "skip_gui": True},
+    )
 
 
 @pytest.mark.asyncio

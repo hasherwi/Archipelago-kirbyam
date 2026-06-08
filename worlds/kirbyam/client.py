@@ -41,6 +41,7 @@ _GOAL_STATE_FULL_CLEAR = 10000
 _MAILBOX_ACK_TIMEOUT_FRAMES = 30
 _MAILBOX_ACK_TIMEOUT_SECONDS = 1.0  # Fallback when frame_counter is stuck
 _MAILBOX_ACK_RETRY_BACKOFF_SECONDS = 0.5
+_MAILBOX_TIMEOUT_SUMMARY_EVERY = 5
 _MAIN_HOOK_OFFSET = 0x00152696
 _PAYLOAD_OFFSET = 0x0015E000
 _AI_STATE_CUTSCENE_THRESHOLD = 200
@@ -417,6 +418,7 @@ class KirbyAmClient(BizHawkClient):
         self._goal_reported: bool = False
         self._goal_location_reported: bool = False
         self._native_goal_signal_seen: bool = False
+        self._goal_target_trace_logged: bool = False
 
         # Boss candidate probing state
         self._last_boss_probe_snapshot: bytes | None = None
@@ -488,6 +490,8 @@ class KirbyAmClient(BizHawkClient):
         self._last_ability_runtime_config_signature: tuple[int, int, int, int, int, int, int] | None = None
         self._ability_runtime_config_revalidate_counter: int = 0
         self._last_ability_reroll_event_counter: int | None = None
+        self._delivery_timeout_total: int = 0
+        self._delivery_timeout_last_reason: str = ""
         self._starting_kirby_color_synced_id: int | None = None
         self._starting_kirby_color_logged_signature: tuple[int, str] | None = None
         self._starting_kirby_color_revalidate_counter: int = 0
@@ -683,6 +687,9 @@ class KirbyAmClient(BizHawkClient):
         self._starting_kirby_color_revalidate_counter = 0
         self._last_challenge_runtime_config_signature = None
         self._challenge_runtime_config_revalidate_counter = 0
+        self._goal_target_trace_logged = False
+        self._delivery_timeout_total = 0
+        self._delivery_timeout_last_reason = ""
         self._cached_delivered_map_bits = 0
         self._cached_map_bits_index = 0
         self._cached_map_bits_items_len = 0
@@ -1806,6 +1813,19 @@ class KirbyAmClient(BizHawkClient):
 
         self._ability_runtime_config_revalidate_counter = 0
 
+        if self._last_ability_runtime_config_signature != signature:
+            self._log_verbose(
+                "info",
+                "KirbyAM: runtime ability config update (mode=%s, seed_lo=0x%08X, seed_hi=0x%08X, no_ability_weight=%s, allowed_mask=0x%08X, gate_mask=0x%08X, unlock_mask=0x%08X)",
+                mode,
+                seed_lo,
+                seed_hi,
+                no_ability_weight,
+                allowed_mask & 0xFFFFFFFF,
+                gated_mask & 0xFFFFFFFF,
+                unlocked_mask & 0xFFFFFFFF,
+            )
+
         await bizhawk.write(ctx.bizhawk_ctx, [
             (mode_addr, int(mode).to_bytes(4, "little"), "System Bus"),
             (seed_lo_addr, int(seed_lo).to_bytes(4, "little"), "System Bus"),
@@ -1912,6 +1932,13 @@ class KirbyAmClient(BizHawkClient):
                 statue_ability_name,
                 ability_name,
             )
+            if statue_ability_id != 0 and ability_id == 0:
+                self._log_verbose(
+                    "info",
+                    "%s statue grant for %s was suppressed by ability gating (resolved to no ability).",
+                    kirby_label,
+                    statue_ability_name,
+                )
         else:
             self._log_verbose(
                 "info",
@@ -3494,12 +3521,23 @@ class KirbyAmClient(BizHawkClient):
 
             if timeout_triggered:
                 self._delivery_timeout_streak += 1
+                self._delivery_timeout_total += 1
+                self._delivery_timeout_last_reason = timeout_reason
                 self._log_client(
                     "warning",
                     "KirbyAM: Mailbox ACK timeout at item index %s; clearing flag and retrying (%s)",
                     self._delivered_item_index,
                     timeout_reason,
                 )
+                if (self._delivery_timeout_total % _MAILBOX_TIMEOUT_SUMMARY_EVERY) == 0:
+                    self._log_verbose(
+                        "info",
+                        "KirbyAM: mailbox timeout summary total=%s, streak=%s, delivered_index=%s, last_reason=%s",
+                        self._delivery_timeout_total,
+                        self._delivery_timeout_streak,
+                        self._delivered_item_index,
+                        self._delivery_timeout_last_reason,
+                    )
                 if (
                     not self._delivery_payload_stall_warned
                     and self._delivery_timeout_streak >= 3
@@ -3772,6 +3810,17 @@ class KirbyAmClient(BizHawkClient):
                 return
         if goal_location_id is None:
             return
+
+        if not self._goal_target_trace_logged:
+            self._log_verbose(
+                "info",
+                "KirbyAM: goal target trace (goal_option=%s, configured_key=%s, hidden_key=%s, goal_location_id=%s)",
+                slot_goal,
+                configured_goal_key if configured_goal_key is not None else "<none>",
+                hidden_goal_key if hidden_goal_key is not None else "<none>",
+                goal_location_id,
+            )
+            self._goal_target_trace_logged = True
 
         server_locations = getattr(ctx, "server_locations", None)
         goal_location_exposed_by_server = (
