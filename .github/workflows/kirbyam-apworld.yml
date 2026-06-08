@@ -193,8 +193,12 @@ jobs:
             --github-ref "refs/tags/${RELEASE_TAG}" \
             --world-manifest "worlds/kirbyam/archipelago.json"
 
-          if git diff --quiet -- worlds/kirbyam/archipelago.json; then
-            echo "worlds/kirbyam/archipelago.json already has world_version ${RELEASE_MANIFEST_VERSION}; no sync commit needed"
+          python .github/scripts/kirbyam_release_metadata.py \
+            --github-ref "refs/tags/${RELEASE_TAG}" \
+            --world-manifest "worlds/kirbyam/test/data/snapshots/slot_data_representative.json"
+
+          if git diff --quiet -- worlds/kirbyam/archipelago.json worlds/kirbyam/test/data/snapshots/slot_data_representative.json; then
+            echo "world_version already set to ${RELEASE_MANIFEST_VERSION} in worlds/kirbyam/archipelago.json and worlds/kirbyam/test/data/snapshots/slot_data_representative.json; no sync commit needed"
             exit 0
           fi
 
@@ -203,8 +207,8 @@ jobs:
           sync_branch="automation/kirbyam-world-version-${RELEASE_MANIFEST_VERSION}"
 
           git checkout -B "${sync_branch}"
-          git add worlds/kirbyam/archipelago.json
-          git commit -m "KirbyAM: sync world_version to ${RELEASE_MANIFEST_VERSION}"
+          git add worlds/kirbyam/archipelago.json worlds/kirbyam/test/data/snapshots/slot_data_representative.json
+          git commit -m "KirbyAM: sync world_version artifacts to ${RELEASE_MANIFEST_VERSION}"
           git push --force-with-lease origin "${sync_branch}:${sync_branch}"
 
           existing_pr_number="$(gh pr list \
@@ -222,6 +226,6 @@ jobs:
               --repo "${GITHUB_REPOSITORY}" \
               --base main \
               --head "${sync_branch}" \
-              --title "KirbyAM: sync world_version to ${RELEASE_MANIFEST_VERSION}" \
-              --body "Automated sync after tag ${RELEASE_TAG} to keep worlds/kirbyam/archipelago.json world_version current."
+              --title "KirbyAM: sync world_version artifacts to ${RELEASE_MANIFEST_VERSION}" \
+              --body "Automated sync after tag ${RELEASE_TAG} to keep worlds/kirbyam/archipelago.json and worlds/kirbyam/test/data/snapshots/slot_data_representative.json world_version current."
           fi

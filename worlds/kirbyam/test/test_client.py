@@ -2,11 +2,13 @@
 
 """Integration tests for client polling and delivery logic."""
 import asyncio
-import pytest
-import logging
 import json
+import logging
+from pathlib import Path
 from contextlib import ExitStack
 from unittest.mock import AsyncMock, Mock, call, patch
+
+import pytest
 
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.context import _game_watcher, AuthStatus, BizHawkClientCommandProcessor
@@ -25,6 +27,15 @@ from ..client import (
 from ..options import OneHitMode
 from ..rom import KirbyAmProcedurePatch
 from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
+
+
+def _load_world_version_from_manifest() -> str:
+    manifest_path = Path(__file__).resolve().parents[1] / "archipelago.json"
+    with manifest_path.open("r", encoding="utf-8") as handle:
+        return str(json.load(handle)["world_version"])
+
+
+WORLD_VERSION = _load_world_version_from_manifest()
 
 
 @pytest.mark.asyncio
@@ -4048,7 +4059,7 @@ def test_log_slot_metadata_once_emits_file_only_diagnostics(mock_bizhawk_context
     client = KirbyAmClient()
     client.initialize_client()
     mock_bizhawk_context.slot_data = {
-        "world_version": "0.2.0",
+        "world_version": WORLD_VERSION,
         "goal": 0,
         "configured_area_boss": 7,
         "shards": 2,
@@ -4076,7 +4087,7 @@ def test_log_slot_metadata_once_emits_file_only_diagnostics(mock_bizhawk_context
     mock_logger.info.assert_called_once()
     call_args = mock_logger.info.call_args
     assert call_args.args[0] == "KirbyAM: slot metadata loaded (world_version=%s, game_options=%s)"
-    assert call_args.args[1] == "0.2.0"
+    assert call_args.args[1] == WORLD_VERSION
     payload = json.loads(call_args.args[2])
     assert payload["goal"] == 0
     assert payload["ability_gating"] is True
@@ -4089,7 +4100,7 @@ def test_log_slot_metadata_once_deduplicates_signature(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
     mock_bizhawk_context.slot_data = {
-        "world_version": "0.2.0",
+        "world_version": WORLD_VERSION,
         "goal": 0,
     }
 
