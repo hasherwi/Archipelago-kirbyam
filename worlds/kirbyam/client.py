@@ -1114,16 +1114,18 @@ class KirbyAmClient(BizHawkClient):
 
         world_version_raw = slot_data.get("world_version")
         world_version = world_version_raw if isinstance(world_version_raw, str) and world_version_raw else "unknown"
-        game_options = {
-            key: slot_data[key]
+        option_pairs = tuple(
+            (key, slot_data.get(key))
             for key in _GAME_OPTION_SLOT_DATA_KEYS
             if key in slot_data
-        }
-        options_json = json.dumps(game_options, sort_keys=True, separators=(",", ":"), default=str)
-        signature = f"{world_version}|{options_json}"
+        )
+        signature = f"{world_version}|{option_pairs!r}"
         if self._logged_slot_metadata_signature == signature:
             return
 
+        self._logged_slot_metadata_signature = signature
+        game_options = dict(option_pairs)
+        options_json = json.dumps(game_options, sort_keys=True, separators=(",", ":"), default=str)
         self._logged_slot_metadata_signature = signature
         self._log_verbose(
             "info",
