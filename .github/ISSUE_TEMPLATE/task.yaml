@@ -1,8 +1,7 @@
-name: Task
-description: Submit a task to be done. If this is not targeting core, it should likely be elsewhere.
-title: "Core: "
+name: Custom Task
+description: Submit a custom task to be done. If this is not targeting core, it should likely be elsewhere.
+title: "Other: "
 labels:
-  - core
   - enhancement
 body:
   - type: textarea
