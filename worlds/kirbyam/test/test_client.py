@@ -3822,16 +3822,19 @@ async def test_runtime_gameplay_state_logs_ai_and_demo_changes_with_heartbeat(mo
             [
                 (100).to_bytes(4, 'little'),
                 (0).to_bytes(4, 'little'),
+                (10).to_bytes(1, 'little'),
                 (7).to_bytes(4, 'little'),
             ],
             [
                 (300).to_bytes(4, 'little'),
                 (0).to_bytes(4, 'little'),
+                (10).to_bytes(1, 'little'),
                 (8).to_bytes(4, 'little'),
             ],
             [
                 (300).to_bytes(4, 'little'),
                 (0x10).to_bytes(4, 'little'),
+                (10).to_bytes(1, 'little'),
                 (9).to_bytes(4, 'little'),
             ],
         ]
