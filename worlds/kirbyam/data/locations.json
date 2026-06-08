@@ -336,7 +336,7 @@
   },
   "MAJOR_CHEST_WORLD_MAP": {
     "label": "Tutorial World Map - Big Chest",
-    "parent_region": "REGION_TUTORIAL/ROOM_0_03",
+    "parent_region": "REGION_GAME_START",
     "tags": [
       "BigChest"
     ],

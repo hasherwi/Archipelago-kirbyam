@@ -18,6 +18,7 @@ from worlds._bizhawk.client import BizHawkClient
 from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
+from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .generated_hub_switch_contract import HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY
 from .items import get_item_classification
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
@@ -98,6 +99,13 @@ _ABILITY_ID_TO_NAME: dict[int, str] = {
     ability_id: ability_name
     for ability_name, ability_id in ABILITY_NAME_TO_ID.items()
 }
+_ABILITY_UNLOCK_ITEM_LABELS: frozenset[str] = frozenset(
+    item.label
+    for item in data.items.values()
+    if isinstance(item.label, str)
+    and "Abilities" in item.tags
+    and item.label.endswith(" Ability")
+)
 _MAP_ITEM_LABEL_TO_AREA_ID: dict[str, int] = {
     "Rainbow Route - Map": 1,
     "Moonlight Mansion - Map": 2,
@@ -1701,6 +1709,11 @@ class KirbyAmClient(BizHawkClient):
         gated_mask = 0
         unlocked_mask = 0
         gateable_abilities = slot_data.get("ability_gateable_abilities", [])
+        if (
+            self._coerce_bool(slot_data.get("ability_gating", True), True)
+            and (not isinstance(gateable_abilities, list) or len(gateable_abilities) == 0)
+        ):
+            gateable_abilities = list(GATEABLE_ENEMY_COPY_ABILITIES)
         if isinstance(gateable_abilities, list):
             for ability_name in gateable_abilities:
                 if not isinstance(ability_name, str):
@@ -1718,6 +1731,8 @@ class KirbyAmClient(BizHawkClient):
                 label for label in ability_unlock_items.values()
                 if isinstance(label, str)
             }
+            if not unlock_labels:
+                unlock_labels = set(_ABILITY_UNLOCK_ITEM_LABELS)
             if unlock_labels:
                 for item in ctx.items_received:
                     item_id = self._coerce_u32(getattr(item, "item", None))

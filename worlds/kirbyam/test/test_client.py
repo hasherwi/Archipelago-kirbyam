@@ -24,6 +24,7 @@ from ..client import (
 )
 from ..options import OneHitMode
 from ..rom import KirbyAmProcedurePatch
+from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
 
 
 @pytest.mark.asyncio
@@ -5313,6 +5314,10 @@ async def test_sync_enemy_copy_ability_runtime_config_revalidates_each_tick_for_
     allowed_mask = 0
     ability_gating_enabled = True
     gated_mask = 0
+    for ability_name in GATEABLE_ENEMY_COPY_ABILITIES:
+        ability_id = ABILITY_NAME_TO_ID.get(ability_name)
+        if ability_id is not None and 0 < ability_id <= 31:
+            gated_mask |= 1 << ability_id
     unlocked_mask = 0
     client._last_ability_runtime_config_signature = (
         mode,
@@ -5365,6 +5370,10 @@ async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation
     allowed_mask = 0
     ability_gating_enabled = True
     gated_mask = 0
+    for ability_name in GATEABLE_ENEMY_COPY_ABILITIES:
+        ability_id = ABILITY_NAME_TO_ID.get(ability_name)
+        if ability_id is not None and 0 < ability_id <= 31:
+            gated_mask |= 1 << ability_id
     unlocked_mask = 0
     client._last_ability_runtime_config_signature = (
         mode,
