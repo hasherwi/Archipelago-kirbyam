@@ -20,5 +20,6 @@
   "{player} missed one jump. That was enough.",
   "{player} stood still for one second too long.",
   "{player} mistimed everything perfectly.",
-  "{player}'s reflection just killed you too."
+  "{player}'s reflection just killed you too.",
+  "{player} cut themself on a shard. Be careful when manipulating broken shards."
 ]
