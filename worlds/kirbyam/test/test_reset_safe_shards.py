@@ -352,10 +352,12 @@ def test_boss_defeat_hook_sets_scrub_delay() -> None:
 
 
 def test_ap_apply_item_shard_path_writes_delivered_bitfield() -> None:
-    """Verify ap_apply_item shard path writes AP_DELIVERED_SHARD_BITFIELD (Issue #478).
+    """Verify ap_apply_item shard path updates shard ownership additively.
 
     AP_DELIVERED_SHARD_BITFIELD is the authority for which shard bits are
     AP-owned.  Only ap_apply_item() may set bits in it; boss-defeat must not.
+    The shard path must OR bits in, never overwrite, so replayed mailbox delivery
+    cannot drop previously granted shards during reconnect/reset catch-up.
     """
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
 
@@ -373,6 +375,14 @@ def test_ap_apply_item_shard_path_writes_delivered_bitfield() -> None:
 
     assert "AP_DELIVERED_SHARD_BITFIELD" in apply_body, \
         "ap_apply_item shard path must write AP_DELIVERED_SHARD_BITFIELD"
+    assert re.search(r"AP_DELIVERED_SHARD_BITFIELD\s*\|=\s*\(uint32_t\)mask", apply_body), \
+        "ap_apply_item shard path must OR into AP_DELIVERED_SHARD_BITFIELD (no overwrite)"
+    assert re.search(r"AP_SHARD_BITFIELD\s*\|=\s*\(uint32_t\)mask", apply_body), \
+        "ap_apply_item shard path must OR into AP_SHARD_BITFIELD (no overwrite)"
+    assert re.search(r"KIRBY_SHARD_FLAGS\s*=\s*new_shard_flags", apply_body), \
+        "ap_apply_item shard path must write native shard flags from OR-combined value"
+    assert re.search(r"new_shard_flags\s*=\s*\(uint8_t\)\(KIRBY_SHARD_FLAGS\s*\|\s*mask\)", apply_body), \
+        "ap_apply_item shard path must merge with existing KIRBY_SHARD_FLAGS"
 
     # Boss hook must NOT write AP_DELIVERED_SHARD_BITFIELD
     match_boss = re.search(
