@@ -3012,17 +3012,17 @@ class KirbyAmClient(BizHawkClient):
             self._hub_switch_baseline_mask = None
 
         # Capture baseline only on first hub-switch poll of a session when the server
-        # has not yet acknowledged any hub-switch locations. This suppresses
-        # pre-session stale transport bits without suppressing legitimate reconnect
-        # resends for hub-switch checks that the server already knows about.
-        has_hub_switch_acknowledgements = bool(self._hub_switch_location_ids_all & ctx.checked_locations)
+        # has not acknowledged any checks yet. This suppresses stale cross-session
+        # transport bits on truly fresh sessions without suppressing legitimate
+        # reconnect resends that are missing on the server.
+        has_any_server_acknowledgements = bool(ctx.checked_locations)
         if not self._hub_switch_session_initialized:
             self._hub_switch_session_initialized = True
-            if self._hub_switch_baseline_mask is None and switch_bits != 0 and not has_hub_switch_acknowledgements:
+            if self._hub_switch_baseline_mask is None and switch_bits != 0 and not has_any_server_acknowledgements:
                 self._hub_switch_baseline_mask = switch_bits
                 self._log_verbose(
                     "info",
-                    "KirbyAM: hub-switch baseline initialized from first-poll transport state before any hub-switch server acknowledgements (baseline=0x%08X)",
+                    "KirbyAM: hub-switch baseline initialized from first-poll transport state before any server acknowledgements (baseline=0x%08X)",
                     switch_bits,
                 )
 

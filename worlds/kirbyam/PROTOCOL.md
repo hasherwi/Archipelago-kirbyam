@@ -399,6 +399,7 @@ hub_switch_bits = RAM[0x0203B04C] as u32
 hub_switch_baseline = 0
 if first_hub_switch_poll and server_checked_locations is empty and hub_switch_bits != 0:
     # Treat pre-existing transport bits as baseline to avoid stale cross-session resend.
+    # This baseline applies only before *any* server checks are acknowledged.
     hub_switch_baseline = hub_switch_bits
 effective_hub_switch_bits = hub_switch_bits & ~hub_switch_baseline
 for bit in mapped_hub_switch_bits:
@@ -452,7 +453,7 @@ Boss shard scrub timing contract (Issue #505):
 
 **Behavior notes:**
 - Detection is **level-based** (current bitfield state), not edge-based, to be reconnect-safe.
-- Hub-switch polling suppresses only pre-session baseline bits on first poll when no hub-switch checks are yet acknowledged by the server, preventing stale EWRAM bits from being resent as fresh checks.
+- Hub-switch polling suppresses only pre-session baseline bits on first poll when no checks are yet acknowledged by the server, preventing stale EWRAM bits from being resent as fresh checks while preserving reconnect resends.
 - No checks are sent for bits already in `server_checked_locations`.
 - No checks are sent for reserved/unmapped bits even when set.
 - Boss-defeat, major-chest, vitality-chest, sound-player-chest, hub-switch, and room-sanity polling follow the same resend/dedupe diagnostic contract.
