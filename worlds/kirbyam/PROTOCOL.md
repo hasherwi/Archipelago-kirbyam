@@ -91,6 +91,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x02038970 | 1B | KIRBY_SHARD_FLAGS       | Native mirror shard bitfield (bits 0-7) |
 | 0x0203897C | 4B | big_chest_bitfield_native | gTreasures.bigChestField; bit N = area ID N (enum AreaId): bit 1=Rainbow Route, 2=Moonlight Mansion, 3=Cabbage Cavern, 4=Mustard Mountain, 5=Carrot Castle, 6=Olive Ocean, 7=Peppermint Palace, 8=Radish Ruins, 9=Candy Constellation. This is the native map-ownership field. AP major-chest checks use `major_chest_flags` in the transport block, and the BizHawk client may reassert AP-owned map bits here from `start_with_all_maps` plus confirmed delivered map items to recover from reconnect/save-state drift. |
 | 0x02038960 - 0x02038969 | 10B | other_chest_flags_native | Native small-chest/switch bitfield block. Unique MINOR_CHEST AP checks still use this bitfield as a resend/fallback signal, while report-only ambiguous minor chest locations use `minor_chest_event_ring` for exact disambiguation. |
+| 0x02038962 / 0x02038968 / 0x02038969 | 1B each | lever_*_flag_native | Native lever bits for AP lever location checks (Issue #850): Moonlight lever uses `0x02038962` bit2, Olive uses `0x02038968` bit1, Carrot uses `0x02038969` bit5, and Radish uses `0x02038969` bit2. |
 | 0x02028C14+ |  -  | Boss/Mirror table       | Native location flags (TBD - not yet mapped). The BizHawk client may probe rising edges here for diagnostics, but boss-defeat AP checks are transport-authoritative via `boss_defeat_flags`. |
 | 0x02028CA0 | 576B | gVisitedDoors (`room_visit_flags_native`) | Native room-visit array (`u16[0x120]`); bit 15 marks visited state by `doorsIdx` |
 | 0x02023B28 | 2B | current_room_native | Current native room ID (`gCurLevelInfo[0].currentRoom`) used for room-entry diagnostics |
@@ -197,6 +198,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | VITALITY_CHEST_CANDY_CONSTELLATION | 3960303 | Candy Constellation 9-8 vitality big chest (transport vitality bit 3) |
 | SOUND_PLAYER_CHEST | 3960304 | Candy Constellation Sound Player chest (transport sound_player_chest bit 0) |
 | HUB_SWITCH_* | 3960400 - 3960414 | Hub big-switch checks mapped to `hub_switch_flags` bits 0..14 (bit 0 = Peppermint West, bit 11 = Moonlight; others sequential) |
+| LEVER_* | 3960415 - 3960418 | Lever checks sourced from native bits (`0x02038962` bit2 Moonlight 2-11, `0x02038968` bit1 Olive 6-13, `0x02038969` bit5 Carrot 5-12, `0x02038969` bit2 Radish 8-12) |
 | AREA_VISIT_* | 3960451 - 3960459 | First-visit checks for gameplay areas 1..9 (Rainbow Route through Candy Constellation), derived from first visited room per area via native `gVisitedDoors` |
 | MINOR_CHEST_RAINBOW_ROUTE_1_39 | 3960500 | Rainbow Route 1-39 small chest (native other_chest_flags_native bit 1) |
 | MINOR_CHEST_RAINBOW_ROUTE_1_22 | 3960501 | Rainbow Route 1-22 small chest (native other_chest_flags_native bit 23) |

@@ -1,5 +1,4 @@
 from collections.abc import Iterable, Mapping, Set as AbstractSet
-from typing import Dict, Set
 
 from .data import LocationCategory, data
 
@@ -44,6 +43,7 @@ _LOCATION_GROUP_MAPS: dict[str, set[str]] = {
 _LOCATION_CATEGORY_TO_GROUP_NAME = {
     LocationCategory.MAP_CHEST: "Major Chests",
     LocationCategory.HUB_SWITCH: "Hub Switches",
+    LocationCategory.LEVER: "Levers",
     LocationCategory.MINOR_CHEST: "Minor Chests",
     LocationCategory.AREA_VISIT: "Area First Visits",
 }

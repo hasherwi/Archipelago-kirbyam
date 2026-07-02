@@ -77,6 +77,14 @@ _AREA_REGION_TOKEN_TO_AREA_ID: dict[str, int] = {
     "RADISH_RUINS": 8,
     "CANDY_CONSTELLATION": 9,
 }
+# Lever bit ordinals are interpreted as 1-based from Issue #850 input:
+# - "3rd bit" -> bit index 2, "2nd bit" -> bit index 1, "6th bit" -> bit index 5.
+_LEVER_LOCATION_NATIVE_SPECS: dict[str, tuple[str, int]] = {
+    "LEVER_MOONLIGHT_MANSION_2_11": ("lever_moonlight_flag_native", 2),
+    "LEVER_OLIVE_OCEAN_6_13": ("lever_olive_flag_native", 1),
+    "LEVER_CARROT_CASTLE_5_12": ("lever_carrot_flag_native", 5),
+    "LEVER_RADISH_RUINS_8_12": ("lever_radish_flag_native", 2),
+}
 _STARTING_KIRBY_COLOR_MIN = 0
 _STARTING_KIRBY_COLOR_MAX = 13
 _STARTING_KIRBY_COLOR_REVALIDATE_TICKS = 4
@@ -403,6 +411,26 @@ class KirbyAmClient(BizHawkClient):
             for location_id in location_ids
         }
 
+        # Lever native-byte bitfield checks (Issue #850).
+        self._lever_location_specs: list[tuple[int, str, int, str]] = []
+        for location_key, (addr_key, bit_index) in _LEVER_LOCATION_NATIVE_SPECS.items():
+            location = data.locations.get(location_key)
+            if location is None:
+                self._log_verbose(
+                    "warning",
+                    "KirbyAM: lever mapping references unknown location key '%s'",
+                    location_key,
+                )
+                continue
+            if location.location_id is None:
+                self._log_verbose(
+                    "warning",
+                    "KirbyAM: lever mapping location key '%s' has no location_id",
+                    location_key,
+                )
+                continue
+            self._lever_location_specs.append((location.location_id, addr_key, bit_index, location.label))
+
         # Room-sanity bitfield index (doorsIdx) -> location IDs.
         self._room_sanity_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.ROOM_SANITY)
         self._room_sanity_bits_sorted: list[int] = sorted(self._room_sanity_location_ids_by_bit.keys())
@@ -437,6 +465,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_vitality_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_sound_player_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_hub_switch_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+        self._last_lever_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._hub_switch_baseline_mask: int | None = None
         self._hub_switch_session_initialized: bool = False
         self._hub_switch_stream_marker: object = None
@@ -661,6 +690,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_vitality_chest_poll_log = None
         self._last_sound_player_chest_poll_log = None
         self._last_hub_switch_poll_log = None
+        self._last_lever_poll_log = None
         self._last_room_sanity_poll_log = None
         self._last_area_visit_poll_log = None
         self._last_boss_probe_snapshot = None
@@ -1665,6 +1695,9 @@ class KirbyAmClient(BizHawkClient):
 
             # Hub switch location polling via dedicated hub_switch_flags register
             await self._poll_hub_switch_locations(ctx)
+
+            # Lever location polling via native other_chest_flags bytes.
+            await self._poll_lever_locations(ctx)
 
             # Share one gVisitedDoors read for area-first-visit and room-sanity polling.
             self._cached_room_visit_flags_view = None
@@ -3026,6 +3059,80 @@ class KirbyAmClient(BizHawkClient):
                 self._last_hub_switch_poll_log = switch_log_state
         else:
             self._last_hub_switch_poll_log = None
+
+    async def _poll_lever_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """
+        Read native lever bytes and map set bits to lever LocationChecks.
+
+        Lever checks are sourced from native state, not transport mailbox flags:
+        - 0x02038962 bit2: Moonlight lever
+        - 0x02038968 bit1: Olive lever
+        - 0x02038969 bit5: Carrot lever
+        - 0x02038969 bit2: Radish lever
+        """
+        if not self._lever_location_specs:
+            return
+
+        read_specs: list[tuple[int, int, str]] = []
+        address_keys_in_order: list[str] = []
+        for _location_id, address_key, _bit_index, _label in self._lever_location_specs:
+            if address_key in address_keys_in_order:
+                continue
+            native_addr = self._native_addr(address_key)
+            if native_addr is None:
+                continue
+            read_specs.append((native_addr, 1, "System Bus"))
+            address_keys_in_order.append(address_key)
+
+        if not read_specs:
+            return
+
+        raw_values = await bizhawk.read(ctx.bizhawk_ctx, read_specs)
+        if len(raw_values) != len(address_keys_in_order):
+            return
+
+        current_values_by_address_key: dict[str, int] = {
+            address_key: int.from_bytes(raw[:1], "little")
+            for address_key, raw in zip(address_keys_in_order, raw_values)
+        }
+
+        active_location_ids = self._active_location_id_set(ctx)
+        mapped_checked_locations: set[int] = set()
+        for location_id, address_key, bit_index, _label in self._lever_location_specs:
+            if active_location_ids is not None and location_id not in active_location_ids:
+                continue
+            current_value = current_values_by_address_key.get(address_key)
+            if current_value is None:
+                continue
+            if (current_value >> bit_index) & 1:
+                mapped_checked_locations.add(location_id)
+
+        missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
+        already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
+        if missing_on_server:
+
+            lever_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
+            if lever_log_state != self._last_lever_poll_log:
+                self._log_verbose(
+                    "info",
+                    "KirbyAM: resending lever LocationChecks missing on server (missing=%s, acked=%s)",
+                    missing_on_server,
+                    already_acknowledged,
+                )
+                self._last_lever_poll_log = lever_log_state
+
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
+        elif mapped_checked_locations:
+            lever_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
+            if lever_log_state != self._last_lever_poll_log:
+                self._log_verbose(
+                    "debug",
+                    "KirbyAM: dedupe suppressed lever LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                    already_acknowledged,
+                )
+                self._last_lever_poll_log = lever_log_state
+        else:
+            self._last_lever_poll_log = None
 
     async def _poll_room_entry_logging(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """

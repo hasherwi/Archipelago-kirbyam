@@ -816,3 +816,32 @@ def test_hub_switch_locations_have_matching_big_switch_events() -> None:
         found_events.add(expected_event)
 
     assert found_events == set(expected_events_by_hub_switch.values())
+
+
+def test_lever_locations_have_matching_lever_events() -> None:
+    from ..data import load_json_data
+
+    rooms = load_json_data("regions/rooms.json")
+    locations = load_json_data("locations.json")
+
+    expected_events_by_lever_location = {
+        "LEVER_MOONLIGHT_MANSION_2_11": "Activate Lever - Moonlight Mansion 2-11",
+        "LEVER_CARROT_CASTLE_5_12": "Activate Lever - Carrot Castle 5-12",
+        "LEVER_OLIVE_OCEAN_6_13": "Activate Lever - Olive Ocean 6-13",
+        "LEVER_RADISH_RUINS_8_12": "Activate Lever - Radish Ruins 8-12",
+    }
+
+    for lever_key, expected_event in expected_events_by_lever_location.items():
+        location_meta = locations.get(lever_key)
+        assert isinstance(location_meta, dict), f"Missing location metadata for {lever_key}"
+
+        parent_region = str(location_meta.get("parent_region", ""))
+        assert parent_region in rooms, f"Missing room region for {lever_key}: {parent_region}"
+        room_data = rooms[parent_region]
+        assert isinstance(room_data, dict), f"Invalid room payload for {parent_region}"
+
+        events = room_data.get("events", [])
+        assert isinstance(events, list), f"Invalid events list for room {parent_region}"
+        event_set = {event for event in events if isinstance(event, str)}
+
+        assert expected_event in event_set

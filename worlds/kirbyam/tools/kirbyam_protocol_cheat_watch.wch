@@ -38,6 +38,10 @@ SystemID GBA
 02038960	d	h	0	System Bus	other_chest_flags_native[0:31] (native chest/switch state block)
 02038964	d	h	0	System Bus	other_chest_flags_native[32:63]
 02038968	w	h	0	System Bus	other_chest_flags_native[64:79]
+02038962	b	h	0	System Bus	lever_moonlight_flag_native (bit2 = Moonlight Mansion 2-11 lever)
+02038968	b	h	0	System Bus	lever_olive_flag_native (bit1 = Olive Ocean 6-13 lever)
+02038969	b	h	0	System Bus	lever_carrot_flag_native (bit5 = Carrot Castle 5-12 lever)
+02038969	b	h	0	System Bus	lever_radish_flag_native (bit2 = Radish Ruins 8-12 lever)
 02038970	b	b	0	System Bus	shard_bitfield_native (KIRBY_SHARD_FLAGS)
 02038974	d	b	0	System Bus	spray_paint_bitfield_native (gTreasures.sprayPaintField)
 02038978	d	b	0	System Bus	music_player_and_sheets_bitfield_native (gTreasures.musicPlayerAndSheetsField)
