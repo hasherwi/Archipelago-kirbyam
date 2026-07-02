@@ -1382,8 +1382,8 @@ async def test_poll_hub_switch_suppresses_pre_session_stale_bits(mock_bizhawk_co
 
 
 @pytest.mark.asyncio
-async def test_poll_hub_switch_suppresses_pre_session_stale_bits_with_unrelated_server_checks(mock_bizhawk_context):
-    """First-poll stale hub-switch bits should still be baselined when only non-hub checks are acknowledged."""
+async def test_poll_hub_switch_resends_with_unrelated_server_checks(mock_bizhawk_context):
+    """First-poll hub-switch bits should resend when any server checks are already acknowledged."""
     client = KirbyAmClient()
     client.initialize_client()
 
@@ -1392,6 +1392,7 @@ async def test_poll_hub_switch_suppresses_pre_session_stale_bits_with_unrelated_
         for loc in data.locations.values()
         if loc.location_id is not None and loc.category != LocationCategory.HUB_SWITCH
     )
+    peppermint_west = data.locations["HUB_SWITCH_PEPPERMINT_WEST"].location_id
     mock_bizhawk_context.checked_locations = {unrelated_location}
 
     with patch.dict(data.transport_ram_addresses, {"hub_switch_flags": 0x0203B04C}, clear=False), \
@@ -1400,9 +1401,10 @@ async def test_poll_hub_switch_suppresses_pre_session_stale_bits_with_unrelated_
         mock_read.return_value = [((1 << 0)).to_bytes(4, 'little')]
 
         await client._poll_hub_switch_locations(mock_bizhawk_context)
-        await client._poll_hub_switch_locations(mock_bizhawk_context)
 
-    mock_send.assert_not_awaited()
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [peppermint_west]}
+    ])
 
 
 @pytest.mark.asyncio
