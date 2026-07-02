@@ -856,7 +856,13 @@ class KirbyAmClient(BizHawkClient):
         return self._cached_delivered_shard_bits & _MANAGED_NATIVE_SHARD_BITMASK
 
     async def _reconcile_native_shard_ownership(self, ctx: "BizHawkClientContext") -> None:
-        """Reassert AP-owned shard bits after SaveRAM loss or reconnect drift."""
+        """Reassert AP-owned shard bits after SaveRAM loss or reconnect drift.
+
+        Reconciliation is additive for managed bits: it restores AP-owned shard bits
+        but never clears shard bits that are already set in native/transport state.
+        This avoids progress loss when reconnect starts before the delivery cursor
+        catches up to the full received-item history.
+        """
         native_addr = self._native_addr("shard_bitfield_native")
         delivered_addr = self._transport_addr("delivered_shard_bitfield")
         if native_addr is None and delivered_addr is None:
@@ -882,22 +888,40 @@ class KirbyAmClient(BizHawkClient):
         writes: list[tuple[int, bytes, str]] = []
 
         if native_addr is not None:
-            desired_native = (current_native & ~_MANAGED_NATIVE_SHARD_BITMASK) | desired_bits
+            desired_managed_native = (current_native & _MANAGED_NATIVE_SHARD_BITMASK) | desired_bits
+            desired_native = (current_native & ~_MANAGED_NATIVE_SHARD_BITMASK) | desired_managed_native
             if desired_native != current_native:
                 writes.append((native_addr, bytes([desired_native & 0xFF]), "System Bus"))
 
         if delivered_addr is not None:
-            desired_delivered = (current_delivered & ~_MANAGED_NATIVE_SHARD_BITMASK) | desired_bits
+            desired_managed_delivered = (current_delivered & _MANAGED_NATIVE_SHARD_BITMASK) | desired_bits
+            desired_delivered = (current_delivered & ~_MANAGED_NATIVE_SHARD_BITMASK) | desired_managed_delivered
             if desired_delivered != current_delivered:
                 writes.append((delivered_addr, int(desired_delivered).to_bytes(4, "little"), "System Bus"))
 
         if not writes:
+            self._log_verbose(
+                "debug",
+                "KirbyAM: reconcile shard tick result=additive-preserve (native=0x%02X, delivered=0x%02X, desired=0x%02X, delivered_item_index=%s)",
+                current_native & 0xFF,
+                current_delivered & 0xFF,
+                desired_bits & 0xFF,
+                self._delivered_item_index,
+            )
             return
 
         await bizhawk.write(ctx.bizhawk_ctx, writes)
         self._log_verbose(
             "info",
             "KirbyAM: reconciled shard ownership (native=0x%02X, delivered=0x%02X, desired=0x%02X, delivered_item_index=%s)",
+            current_native & 0xFF,
+            current_delivered & 0xFF,
+            desired_bits & 0xFF,
+            self._delivered_item_index,
+        )
+        self._log_verbose(
+            "debug",
+            "KirbyAM: reconcile shard tick result=write-restore (native=0x%02X, delivered=0x%02X, desired=0x%02X, delivered_item_index=%s)",
             current_native & 0xFF,
             current_delivered & 0xFF,
             desired_bits & 0xFF,
@@ -911,6 +935,10 @@ class KirbyAmClient(BizHawkClient):
         This covers start_with_all_maps precollects immediately from slot_data and
         restores later map receipts after reconnect/savestate drift without relying
         on native big-chest map ownership as the AP check authority.
+
+        Reconciliation is additive for managed bits: it restores AP-owned maps but
+        never clears map bits that are already set. This prevents reconnect-time
+        cursor lag from temporarily stripping discovered maps.
         """
         map_addr = self._native_addr("big_chest_bitfield_native")
         if map_addr is None:
@@ -919,8 +947,17 @@ class KirbyAmClient(BizHawkClient):
         raw = (await bizhawk.read(ctx.bizhawk_ctx, [(map_addr, 4, "System Bus")]))[0]
         current_bits = self._u32_le(raw)
         desired_map_bits = self._ap_owned_native_map_bits(ctx)
-        desired_bits = (current_bits & ~_MANAGED_NATIVE_MAP_BITMASK) | desired_map_bits
+        desired_managed_bits = (current_bits & _MANAGED_NATIVE_MAP_BITMASK) | desired_map_bits
+        desired_bits = (current_bits & ~_MANAGED_NATIVE_MAP_BITMASK) | desired_managed_bits
         if current_bits == desired_bits:
+            self._log_verbose(
+                "debug",
+                "KirbyAM: reconcile map tick result=additive-preserve (current=0x%08X, desired=0x%08X, start_with_all_maps=%s, delivered_item_index=%s)",
+                current_bits,
+                desired_bits,
+                self._start_with_all_maps_enabled(ctx),
+                self._delivered_item_index,
+            )
             return
 
         await bizhawk.write(
@@ -931,6 +968,14 @@ class KirbyAmClient(BizHawkClient):
         self._log_verbose(
             "info",
             "KirbyAM: reconciled native map ownership (current=0x%08X, desired=0x%08X, start_with_all_maps=%s, delivered_item_index=%s)",
+            current_bits,
+            desired_bits,
+            self._start_with_all_maps_enabled(ctx),
+            self._delivered_item_index,
+        )
+        self._log_verbose(
+            "debug",
+            "KirbyAM: reconcile map tick result=write-restore (current=0x%08X, desired=0x%08X, start_with_all_maps=%s, delivered_item_index=%s)",
             current_bits,
             desired_bits,
             self._start_with_all_maps_enabled(ctx),
