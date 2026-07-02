@@ -562,6 +562,7 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
     )
     _minor_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MINOR_CHEST)
     _hub_switch_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.HUB_SWITCH)
+    _lever_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.LEVER)
     _room_sanity_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.ROOM_SANITY)
     _area_visit_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.AREA_VISIT)
     _expected_pool_size = (
@@ -570,6 +571,7 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
         + _sound_player_chest_count
         + _minor_chest_count
         + _hub_switch_count
+        + _lever_count
         + _room_sanity_count
         + _area_visit_count
     )
@@ -595,6 +597,7 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
     )
     _minor_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MINOR_CHEST)
     _hub_switch_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.HUB_SWITCH)
+    _lever_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.LEVER)
     _room_sanity_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.ROOM_SANITY)
     _area_visit_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.AREA_VISIT)
     _shard_item_count = len(KirbyAmWorld._SHARD_ITEM_LABEL_ORDER)
@@ -605,6 +608,7 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
         + _sound_player_chest_count
         + _minor_chest_count
         + _hub_switch_count
+        + _lever_count
         + _room_sanity_count
         + _area_visit_count
     )

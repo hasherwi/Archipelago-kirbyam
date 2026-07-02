@@ -14,6 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Ability gating is now available and under the `Make the game harder` option group. It defaults to be "on". A preset list of abilities is available at the beginning of the game (Beam, Burning, Mini, Stone, and Wheel). This list should be the bare minimum you need to complete the game and get all the currently supported locations. All other abilities are gated by custom AP items (for example, "Sword Ability") (Issues #855, #819).
 - Added a new goal mode: `defeat_configured_area_boss` completes the seed after a specific area-boss is defeated (Issue #207).
   - Which area boss is used is determined by the new `configured_area_boss` option. It defaults to Master Hand and Crazy Hand.
+- Added four new lever location checks sourced from native lever bits: Moonlight Mansion 2-11, Olive Ocean 6-13, Carrot Castle 5-12, and Radish Ruins 8-12 (Issue #850).
 - Added the world map big chest in the tutorial rooms as an AP location check (Issue #845). We plan for the world map as an item can follow later.
   - Because of how we detect the game state, the check will only send AFTER the tutorial is completed and you enter Central Circle for the first time.
 

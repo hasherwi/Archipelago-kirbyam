@@ -43,6 +43,10 @@
     },
     "native": {
       "other_chest_flags_native": "0x02038960",
+      "lever_moonlight_flag_native": "0x02038962",
+      "lever_olive_flag_native": "0x02038968",
+      "lever_carrot_flag_native": "0x02038969",
+      "lever_radish_flag_native": "0x02038969",
       "shard_bitfield_native": "0x02038970",
       "spray_paint_bitfield_native": "0x02038974",
       "music_player_and_sheets_bitfield_native": "0x02038978",

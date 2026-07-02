@@ -1232,6 +1232,77 @@ async def test_poll_sound_player_chest_skips_when_address_missing(mock_bizhawk_c
 
 
 @pytest.mark.asyncio
+async def test_poll_lever_locations_sends_location_checks_for_set_bits(mock_bizhawk_context):
+    """Set native lever bits should map to lever LocationChecks."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    moonlight = data.locations["LEVER_MOONLIGHT_MANSION_2_11"].location_id
+    olive = data.locations["LEVER_OLIVE_OCEAN_6_13"].location_id
+    carrot = data.locations["LEVER_CARROT_CASTLE_5_12"].location_id
+    radish = data.locations["LEVER_RADISH_RUINS_8_12"].location_id
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.dict(data.native_ram_addresses, {
+        "lever_moonlight_flag_native": 0x02038962,
+        "lever_olive_flag_native": 0x02038968,
+        "lever_carrot_flag_native": 0x02038969,
+        "lever_radish_flag_native": 0x02038969,
+    }, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        # 1-based ordinal mapping: moonlight bit2, olive bit1, shared carrot/radish byte has bits5+2.
+        mock_read.return_value = [bytes([1 << 2]), bytes([1 << 1]), bytes([(1 << 5) | (1 << 2)])]
+
+        await client._poll_lever_locations(mock_bizhawk_context)
+
+    assert mock_read.await_count == 1
+    read_specs = mock_read.await_args.args[1]
+    assert read_specs.count((0x02038969, 1, "System Bus")) == 1
+
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [moonlight, olive, carrot, radish]}
+    ])
+
+
+@pytest.mark.asyncio
+async def test_poll_lever_locations_skips_when_addresses_missing(mock_bizhawk_context):
+    """Missing native lever addresses should no-op safely."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    native_without_levers = {
+        k: v
+        for k, v in data.native_ram_addresses.items()
+        if k not in {
+            "lever_moonlight_flag_native",
+            "lever_olive_flag_native",
+            "lever_carrot_flag_native",
+            "lever_radish_flag_native",
+        }
+    }
+    ram_without_levers = {
+        k: v
+        for k, v in data.ram_addresses.items()
+        if k not in {
+            "lever_moonlight_flag_native",
+            "lever_olive_flag_native",
+            "lever_carrot_flag_native",
+            "lever_radish_flag_native",
+        }
+    }
+
+    with patch.dict(data.native_ram_addresses, native_without_levers, clear=True), \
+         patch.dict(data.ram_addresses, ram_without_levers, clear=True), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        await client._poll_lever_locations(mock_bizhawk_context)
+
+    mock_read.assert_not_awaited()
+    mock_send.assert_not_awaited()
+
+
+@pytest.mark.asyncio
 async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_context):
     """Set transport hub-switch bits after baseline should map to LocationChecks."""
     client = KirbyAmClient()
@@ -4223,6 +4294,7 @@ async def test_game_watcher_reloads_state_after_transport_recovery(mock_bizhawk_
          patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock) as mock_poll_vitality, \
          patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock) as mock_poll_sound_player, \
          patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock) as mock_poll_hub_switch, \
+         patch.object(client, '_poll_lever_locations', new_callable=AsyncMock) as mock_poll_lever, \
          patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock) as mock_poll_area_visit, \
          patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock) as mock_probe_boss, \
          patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock) as mock_probe_unsafe, \
@@ -4243,6 +4315,7 @@ async def test_game_watcher_reloads_state_after_transport_recovery(mock_bizhawk_
     mock_poll_vitality.assert_awaited_once_with(mock_bizhawk_context)
     mock_poll_sound_player.assert_awaited_once_with(mock_bizhawk_context)
     mock_poll_hub_switch.assert_awaited_once_with(mock_bizhawk_context)
+    mock_poll_lever.assert_awaited_once_with(mock_bizhawk_context)
     mock_poll_area_visit.assert_awaited_once_with(mock_bizhawk_context)
     mock_probe_boss.assert_awaited_once_with(mock_bizhawk_context)
     mock_probe_unsafe.assert_awaited_once_with(mock_bizhawk_context)
@@ -4358,6 +4431,7 @@ async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_biz
             patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock) as mock_poll_vitality_chests, \
             patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock) as mock_poll_sound_player_chests, \
                 patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock) as mock_poll_hub_switches, \
+                patch.object(client, '_poll_lever_locations', new_callable=AsyncMock) as mock_poll_levers, \
                 patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock) as mock_poll_area_visits, \
          patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock) as mock_probe, \
          patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock) as mock_probe_unsafe, \
@@ -4395,6 +4469,7 @@ async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_biz
         mock_poll_vitality_chests.assert_awaited_once()
         mock_poll_sound_player_chests.assert_awaited_once()
         mock_poll_hub_switches.assert_awaited_once()
+        mock_poll_levers.assert_awaited_once()
         mock_poll_area_visits.assert_awaited_once()
         mock_probe.assert_awaited_once()
         mock_probe_unsafe.assert_awaited_once()
@@ -4428,6 +4503,7 @@ async def test_game_watcher_reconnect_entry_emits_file_only_session_ready_log(mo
         stack.enter_context(patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_lever_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_room_sanity_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock))
@@ -4668,6 +4744,7 @@ async def test_game_watcher_emits_pause_then_resume_popups_on_transition(mock_bi
         stack.enter_context(patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_lever_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock))
@@ -4762,6 +4839,7 @@ async def test_game_watcher_emits_runtime_gate_logs_file_only(mock_bizhawk_conte
         stack.enter_context(patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_lever_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_room_sanity_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock))
@@ -4811,6 +4889,7 @@ async def test_game_watcher_syncs_death_link_enabled_from_slot_data(mock_bizhawk
          patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_lever_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock), \
          patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock), \
          patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock), \
@@ -4843,6 +4922,7 @@ async def test_game_watcher_death_link_sync_is_deduped_until_value_changes(mock_
          patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_lever_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock), \
          patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock), \
          patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock), \

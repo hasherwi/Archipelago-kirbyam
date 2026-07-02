@@ -394,6 +394,42 @@
         "MAP_RAINBOW_ROUTE"
       ]
     },
+    "LEVER_CARROT_CASTLE_5_12": {
+      "category": "LEVER",
+      "label": "Carrot Castle 5-12 - Lever",
+      "location_id": 3960417,
+      "tags": [
+        "Lever",
+        "MAP_CARROT_CASTLE"
+      ]
+    },
+    "LEVER_MOONLIGHT_MANSION_2_11": {
+      "category": "LEVER",
+      "label": "Moonlight Mansion 2-11 - Lever",
+      "location_id": 3960415,
+      "tags": [
+        "Lever",
+        "MAP_MOONLIGHT_MANSION"
+      ]
+    },
+    "LEVER_OLIVE_OCEAN_6_13": {
+      "category": "LEVER",
+      "label": "Olive Ocean 6-13 - Lever",
+      "location_id": 3960416,
+      "tags": [
+        "Lever",
+        "MAP_OLIVE_OCEAN"
+      ]
+    },
+    "LEVER_RADISH_RUINS_8_12": {
+      "category": "LEVER",
+      "label": "Radish Ruins 8-12 - Lever",
+      "location_id": 3960418,
+      "tags": [
+        "Lever",
+        "MAP_RADISH_RUINS"
+      ]
+    },
     "MAJOR_CHEST_CABBAGE_CAVERN": {
       "category": "MAP_CHEST",
       "label": "Cabbage Cavern Map - Big Chest",

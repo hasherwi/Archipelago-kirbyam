@@ -565,6 +565,7 @@ class KirbyAmWorld(World):
             vitality_chest_locations: list[KirbyAmLocation] = []
             sound_player_chest_locations: list[KirbyAmLocation] = []
             hub_switch_locations: list[KirbyAmLocation] = []
+            lever_locations: list[KirbyAmLocation] = []
             minor_chest_locations: list[KirbyAmLocation] = []
             room_sanity_locations: list[KirbyAmLocation] = []
             area_visit_locations: list[KirbyAmLocation] = []
@@ -586,6 +587,8 @@ class KirbyAmWorld(World):
                     sound_player_chest_locations.append(loc)
                 elif loc_meta.category == LocationCategory.HUB_SWITCH:
                     hub_switch_locations.append(loc)
+                elif loc_meta.category == LocationCategory.LEVER:
+                    lever_locations.append(loc)
                 elif loc_meta.category == LocationCategory.MINOR_CHEST:
                     minor_chest_locations.append(loc)
                 elif loc_meta.category == LocationCategory.ROOM_SANITY:
@@ -598,6 +601,7 @@ class KirbyAmWorld(World):
             vitality_chest_locations.sort(key=lambda loc: loc.key or "")
             sound_player_chest_locations.sort(key=lambda loc: loc.key or "")
             hub_switch_locations.sort(key=lambda loc: loc.key or "")
+            lever_locations.sort(key=lambda loc: loc.key or "")
             minor_chest_locations.sort(key=lambda loc: loc.key or "")
             room_sanity_locations.sort(key=lambda loc: loc.key or "")
             area_visit_locations.sort(key=lambda loc: loc.key or "")
@@ -610,6 +614,7 @@ class KirbyAmWorld(World):
                 or vitality_chest_locations
                 or sound_player_chest_locations
                 or hub_switch_locations
+                or lever_locations
                 or minor_chest_locations
                 or room_sanity_locations
                 or area_visit_locations
@@ -674,6 +679,7 @@ class KirbyAmWorld(World):
                         + vitality_chest_locations
                         + sound_player_chest_locations
                         + hub_switch_locations
+                        + lever_locations
                         + minor_chest_locations
                         + room_sanity_locations
                         + area_visit_locations
