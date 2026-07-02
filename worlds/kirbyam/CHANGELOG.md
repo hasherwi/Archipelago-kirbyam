@@ -31,6 +31,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 - Log files now report the `world_version` and all game options (Issue #861).
 - Added file-only telemetry diagnostics for ability statue grants when `ability_randomization_mode` is `shuffled` or `completely_random`, goal target resolution (one-time per session), runtime ability config rewrites (mask/seed snapshot on change), mailbox ACK timeout aggregates, and explicit statue ability-gate suppression reasons (PR #867).
+- Expand the allowed versions of requirements.txt (PR #881).
 
 ### Other
 
