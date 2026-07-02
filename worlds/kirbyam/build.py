@@ -181,6 +181,12 @@ def should_exclude(rel_posix: str) -> bool:
     if name in {".DS_Store", "Thumbs.db"}:
         return True
 
+    # Keep local tooling artifacts out of the shipped apworld.
+    if parts and parts[0] == "save_states":
+        return True
+    if rel_posix == "kirby_ap_payload/patch_rom.log":
+        return True
+
     return False
 
 
