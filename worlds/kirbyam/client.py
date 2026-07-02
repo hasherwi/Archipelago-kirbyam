@@ -3074,26 +3074,33 @@ class KirbyAmClient(BizHawkClient):
             return
 
         read_specs: list[tuple[int, int, str]] = []
-        address_keys_in_order: list[str] = []
+        native_addrs_in_order: list[int] = []
+        native_addr_by_address_key: dict[str, int] = {}
         for _location_id, address_key, _bit_index, _label in self._lever_location_specs:
-            if address_key in address_keys_in_order:
-                continue
             native_addr = self._native_addr(address_key)
             if native_addr is None:
                 continue
+            native_addr_by_address_key[address_key] = native_addr
+            if native_addr in native_addrs_in_order:
+                continue
             read_specs.append((native_addr, 1, "System Bus"))
-            address_keys_in_order.append(address_key)
+            native_addrs_in_order.append(native_addr)
 
         if not read_specs:
             return
 
         raw_values = await bizhawk.read(ctx.bizhawk_ctx, read_specs)
-        if len(raw_values) != len(address_keys_in_order):
+        if len(raw_values) != len(native_addrs_in_order):
             return
 
+        current_values_by_native_addr: dict[int, int] = {
+            native_addr: int.from_bytes(raw[:1], "little")
+            for native_addr, raw in zip(native_addrs_in_order, raw_values)
+        }
         current_values_by_address_key: dict[str, int] = {
-            address_key: int.from_bytes(raw[:1], "little")
-            for address_key, raw in zip(address_keys_in_order, raw_values)
+            address_key: current_values_by_native_addr[native_addr]
+            for address_key, native_addr in native_addr_by_address_key.items()
+            if native_addr in current_values_by_native_addr
         }
 
         active_location_ids = self._active_location_id_set(ctx)

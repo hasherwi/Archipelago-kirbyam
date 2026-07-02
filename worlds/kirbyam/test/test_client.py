@@ -1251,8 +1251,8 @@ async def test_poll_lever_locations_sends_location_checks_for_set_bits(mock_bizh
     }, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
-        # 1-based ordinal mapping: moonlight bit2, olive bit1, carrot bit5, radish bit2.
-        mock_read.return_value = [bytes([1 << 2]), bytes([1 << 1]), bytes([1 << 5]), bytes([1 << 2])]
+        # 1-based ordinal mapping: moonlight bit2, olive bit1, shared carrot/radish byte has bits5+2.
+        mock_read.return_value = [bytes([1 << 2]), bytes([1 << 1]), bytes([(1 << 5) | (1 << 2)])]
 
         await client._poll_lever_locations(mock_bizhawk_context)
 
