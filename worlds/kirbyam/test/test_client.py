@@ -4835,6 +4835,7 @@ async def test_game_watcher_emits_runtime_gate_logs_file_only(mock_bizhawk_conte
         stack.enter_context(patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_lever_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_room_sanity_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock))
