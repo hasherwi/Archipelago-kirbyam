@@ -26,6 +26,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 - Prevent false LocationChecks after death by deferring polling while HP <= 0 (Issue #864).
 - When `ability_randomization_mode` was `completely_random` and `ability_randomization_statues` was enabled, statue abilities were just shuffled, not random (Issue #841).
+- Ability statues now honor ability-gating rules even when slot data falls back to legacy fields without `enemy_copy_ability_policy` (Issue #874).
 - Changed map and shard item grants to be only additive, never overwriting what was already in the save. This was a consequence of how I "replayed" certain item grants when a game was opened again (PR #881).
 - Fixed hub-switch first-poll baseline suppression so reconnect/disconnect windows do not drop legitimate big-switch location checks (Issue #879).
 

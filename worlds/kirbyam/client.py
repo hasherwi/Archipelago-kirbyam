@@ -1770,20 +1770,26 @@ class KirbyAmClient(BizHawkClient):
             return
 
         policy = slot_data.get("enemy_copy_ability_policy")
-        if not isinstance(policy, dict):
-            return
-
+        allowed_abilities_raw: object
         try:
-            mode = int(policy.get("mode", 0)) & 0xFFFFFFFF
-            seed = int(policy.get("seed", 0)) & 0xFFFFFFFFFFFFFFFF
-            no_ability_weight = int(policy.get("ability_randomization_no_ability_weight", 0)) & 0xFFFFFFFF
+            if isinstance(policy, dict):
+                mode = int(policy.get("mode", 0)) & 0xFFFFFFFF
+                seed = int(policy.get("seed", 0)) & 0xFFFFFFFFFFFFFFFF
+                no_ability_weight = int(policy.get("ability_randomization_no_ability_weight", 0)) & 0xFFFFFFFF
+                allowed_abilities_raw = policy.get("allowed_abilities", [])
+            else:
+                # Legacy slot_data compatibility: still sync ability gating masks even
+                # when a full enemy_copy_ability_policy payload is unavailable.
+                mode = int(slot_data.get("ability_randomization_mode", 0)) & 0xFFFFFFFF
+                seed = 0
+                no_ability_weight = int(slot_data.get("ability_randomization_no_ability_weight", 0)) & 0xFFFFFFFF
+                allowed_abilities_raw = slot_data.get("enemy_copy_ability_whitelist", [])
         except (TypeError, ValueError):
             return
 
         allowed_mask = 0
-        allowed_abilities = policy.get("allowed_abilities", [])
-        if isinstance(allowed_abilities, list):
-            for ability_name in allowed_abilities:
+        if isinstance(allowed_abilities_raw, (list, tuple, set)):
+            for ability_name in allowed_abilities_raw:
                 if not isinstance(ability_name, str):
                     continue
                 ability_id = ABILITY_NAME_TO_ID.get(ability_name)

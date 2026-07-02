@@ -5696,6 +5696,77 @@ async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation
     )
 
 
+@pytest.mark.asyncio
+async def test_sync_enemy_copy_ability_runtime_config_legacy_slot_data_still_syncs_gating_masks(mock_bizhawk_context):
+    """Legacy slot_data without enemy_copy_ability_policy must still enforce gating masks."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    magic_item_id = next(
+        item_id
+        for item_id, item_data in data.items.items()
+        if item_data.label == "Magic Ability"
+    )
+
+    mode = 0
+    seed_lo = 0
+    seed_hi = 0
+    no_ability_weight = 0
+    allowed_mask = 0
+    ability_gating_enabled = True
+    gated_mask = 0
+    for ability_name in GATEABLE_ENEMY_COPY_ABILITIES:
+        ability_id = ABILITY_NAME_TO_ID.get(ability_name)
+        if ability_id is not None and 0 < ability_id <= 31:
+            gated_mask |= 1 << ability_id
+    magic_ability_id = ABILITY_NAME_TO_ID["Magic"]
+    unlocked_mask = 1 << magic_ability_id
+
+    mock_bizhawk_context.slot_data = {
+        "ability_gating": True,
+        "ability_randomization_mode": mode,
+        "ability_randomization_no_ability_weight": no_ability_weight,
+        "enemy_copy_ability_whitelist": [],
+    }
+    mock_bizhawk_context.items_received = [Mock(item=magic_item_id)]
+
+    with patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        await client._sync_enemy_copy_ability_runtime_config(mock_bizhawk_context)
+
+    mode_addr = data.transport_ram_addresses["ability_randomization_mode_runtime"]
+    seed_lo_addr = data.transport_ram_addresses["ability_randomization_seed_lo_runtime"]
+    seed_hi_addr = data.transport_ram_addresses["ability_randomization_seed_hi_runtime"]
+    weight_addr = data.transport_ram_addresses["ability_randomization_no_ability_weight_runtime"]
+    mask_addr = data.transport_ram_addresses["ability_randomization_allowed_mask_runtime"]
+    gate_addr = data.transport_ram_addresses["ability_gate_mask_runtime"]
+    unlock_addr = data.transport_ram_addresses["ability_unlock_mask_runtime"]
+    rng_state_addr = data.transport_ram_addresses["ability_randomization_rng_state_runtime"]
+
+    assert client._last_ability_runtime_config_signature == (
+        mode,
+        seed_lo,
+        seed_hi,
+        no_ability_weight,
+        allowed_mask,
+        ability_gating_enabled,
+        gated_mask,
+        unlocked_mask,
+    )
+    mock_write.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        [
+            (mode_addr, (mode).to_bytes(4, "little"), "System Bus"),
+            (seed_lo_addr, (seed_lo).to_bytes(4, "little"), "System Bus"),
+            (seed_hi_addr, (seed_hi).to_bytes(4, "little"), "System Bus"),
+            (weight_addr, (no_ability_weight).to_bytes(4, "little"), "System Bus"),
+            (mask_addr, (allowed_mask).to_bytes(4, "little"), "System Bus"),
+            (gate_addr, (gated_mask).to_bytes(4, "little"), "System Bus"),
+            (unlock_addr, (unlocked_mask).to_bytes(4, "little"), "System Bus"),
+            (rng_state_addr, (0).to_bytes(4, "little"), "System Bus"),
+        ],
+    )
+
+
 def test_vitality_chest_locations_defined_in_regions():
     """Regression test: all VITALITY_CHEST locations must be registered in their regions.
 
