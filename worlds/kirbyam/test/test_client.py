@@ -1256,6 +1256,10 @@ async def test_poll_lever_locations_sends_location_checks_for_set_bits(mock_bizh
 
         await client._poll_lever_locations(mock_bizhawk_context)
 
+    assert mock_read.await_count == 1
+    read_specs = mock_read.await_args.args[1]
+    assert read_specs.count((0x02038969, 1, "System Bus")) == 1
+
     mock_send.assert_awaited_once_with([
         {"cmd": "LocationChecks", "locations": [moonlight, olive, carrot, radish]}
     ])
