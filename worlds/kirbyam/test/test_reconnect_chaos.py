@@ -12,7 +12,9 @@ from ..data import data
 
 
 @pytest.mark.asyncio
-async def test_reconnect_chaos_boss_defeat_polling_resends_once_then_dedupes(mock_bizhawk_context):
+async def test_reconnect_chaos_boss_defeat_polling_resends_once_then_dedupes(
+    mock_bizhawk_context: Mock,
+) -> None:
     """Reconnect cycles should not duplicate boss-defeat LocationChecks after server acknowledgement."""
     client = KirbyAmClient()
     client.initialize_client()
@@ -38,7 +40,9 @@ async def test_reconnect_chaos_boss_defeat_polling_resends_once_then_dedupes(moc
 
 
 @pytest.mark.asyncio
-async def test_reconnect_chaos_item_delivery_resumes_without_duplicate_first_item(mock_bizhawk_context):
+async def test_reconnect_chaos_item_delivery_resumes_without_duplicate_first_item(
+    mock_bizhawk_context: Mock,
+) -> None:
     """Delivery should resume after reconnect without replaying already-pending first item."""
     client = KirbyAmClient()
     client.initialize_client()
@@ -113,7 +117,9 @@ async def test_reconnect_chaos_item_delivery_resumes_without_duplicate_first_ite
 
 
 @pytest.mark.asyncio
-async def test_reconnect_chaos_goal_reporting_is_idempotent_across_cycles(mock_bizhawk_context):
+async def test_reconnect_chaos_goal_reporting_is_idempotent_across_cycles(
+    mock_bizhawk_context: Mock,
+) -> None:
     """Addressless goal flow should send CLIENT_GOAL once, with no duplicate status on later reconnects."""
     client = KirbyAmClient()
     client.initialize_client()
