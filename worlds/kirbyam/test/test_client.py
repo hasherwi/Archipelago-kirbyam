@@ -518,6 +518,25 @@ async def test_reconcile_native_map_ownership_skips_write_when_native_bits_match
 
 
 @pytest.mark.asyncio
+async def test_reconcile_native_map_ownership_does_not_clear_existing_managed_bits_when_cursor_is_behind(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._delivered_item_index = 0
+    mock_bizhawk_context.items_received = [Mock(item=3860013, player=1)]
+
+    # Existing Olive Ocean map bit is already present in native state.
+    current_bits = 1 << 6
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        mock_read.return_value = [current_bits.to_bytes(4, 'little')]
+
+        await client._reconcile_native_map_ownership(mock_bizhawk_context)
+
+    mock_write.assert_not_awaited()
+
+
+@pytest.mark.asyncio
 async def test_reconcile_native_shard_ownership_restores_bits_after_save_loss(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
@@ -575,6 +594,25 @@ async def test_reconcile_native_shard_ownership_skips_when_state_matches(mock_bi
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
         mock_read.return_value = [bytes([expected_bits & 0xFF]), int(expected_bits).to_bytes(4, 'little')]
+
+        await client._reconcile_native_shard_ownership(mock_bizhawk_context)
+
+    mock_write.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_reconcile_native_shard_ownership_does_not_clear_existing_bits_when_cursor_is_behind(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._delivered_item_index = 0
+
+    # Existing native + delivered shard bit 6 is present while AP desired bits are empty.
+    current_native = 1 << 6
+    current_delivered = 1 << 6
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        mock_read.return_value = [bytes([current_native & 0xFF]), int(current_delivered).to_bytes(4, 'little')]
 
         await client._reconcile_native_shard_ownership(mock_bizhawk_context)
 

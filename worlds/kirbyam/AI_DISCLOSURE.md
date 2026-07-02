@@ -6,6 +6,7 @@
   - I use AI for "first drafts" of some minor features. For example, expanding the catalog of health granting items.
   - I use AI for rote processes. For example, creating PRs and running tests.
   - I have used it to trace how data moves through the decompilation (https://github.com/jiangzhengwenjz/katam). It's faster for these kinds of things.
+  - I'll run some code reviews with it because sometimes it will catch something valid that I missed.
 - *Everything we put out is manually tested by a human (usually @BlameMateo, sometimes @hasherwi).  We both have to agree something is of good enough quality before it is released.*
 
 ## So why do I use these tools?
