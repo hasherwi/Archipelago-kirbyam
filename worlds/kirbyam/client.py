@@ -1778,6 +1778,16 @@ class KirbyAmClient(BizHawkClient):
                 no_ability_weight = int(policy.get("ability_randomization_no_ability_weight", 0)) & 0xFFFFFFFF
                 allowed_abilities_raw = policy.get("allowed_abilities", [])
             else:
+                legacy_config_keys = {
+                    "ability_gating",
+                    "ability_gateable_abilities",
+                    "ability_unlock_items",
+                    "ability_randomization_mode",
+                    "ability_randomization_no_ability_weight",
+                    "enemy_copy_ability_whitelist",
+                }
+                if not any(key in slot_data for key in legacy_config_keys):
+                    return
                 # Legacy slot_data compatibility: still sync ability gating masks even
                 # when a full enemy_copy_ability_policy payload is unavailable.
                 mode = int(slot_data.get("ability_randomization_mode", 0)) & 0xFFFFFFFF
