@@ -25,7 +25,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 - Prevent false LocationChecks after death by deferring polling while HP <= 0 (Issue #864).
 - When `ability_randomization_mode` was `completely_random` and `ability_randomization_statues` was enabled, statue abilities were just shuffled, not random (Issue #841).
-- Changed map and shard item grants to be only additive, never overwriting what was already in the save. This was a consequence of how I "replayed" certain item grants when a game was opened again.
+- Changed map and shard item grants to be only additive, never overwriting what was already in the save. This was a consequence of how I "replayed" certain item grants when a game was opened again (PR #881).
 
 ### Internal Changes
 
