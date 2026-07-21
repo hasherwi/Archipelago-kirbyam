@@ -34,6 +34,7 @@ Locations in which items can be found:
 - All Big Chests
 - All Mirror Shards
 - All Rooms (Optional, not enabled by default)
+- All Levers
 Items that can be shuffled:
 - All Mirror Shards
 - All Maps
