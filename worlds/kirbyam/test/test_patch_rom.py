@@ -264,3 +264,26 @@ def test_boss_already_owned_callsite_scan_finds_expected_synthetic_callsites() -
     )
 
     assert found == [off_a, off_b]
+
+
+def test_ability_transition_start_callsite_scan_finds_statue_bypass_path() -> None:
+    """The generic BL scanner must also discover calls to sub_08054C0C."""
+    rom_base = 0x08000000
+    scan_start = 0xC0
+    target = patch_rom.ORIGINAL_ABILITY_TRANSITION_START_FN_ADDR
+    rom = bytearray(scan_start + 8)
+    expected_offset = scan_start
+    rom[expected_offset:expected_offset + 4] = patch_rom.thumb_bl_bytes(
+        rom_base + expected_offset,
+        target,
+    )
+
+    found = patch_rom.discover_thumb_bl_callsites_to_targets(
+        rom,
+        {target, target | 1},
+        rom_base=rom_base,
+        scan_start=scan_start,
+        scan_end=patch_rom.PAYLOAD_OFFSET,
+    )
+
+    assert found == [expected_offset]

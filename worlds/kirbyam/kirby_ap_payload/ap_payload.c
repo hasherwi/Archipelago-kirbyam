@@ -419,6 +419,9 @@ typedef void (*KirbyCollectSoundPlayerFn)(uint32_t reward_index);
 typedef void (*KirbyRequestAbilityTransitionFn)(void*, uint32_t);
 #define KIRBY_REQUEST_ABILITY_TRANSITION_FN ((KirbyRequestAbilityTransitionFn)0x080547C5u)
 
+typedef void (*KirbyStartAbilityTransitionFn)(void*);
+#define KIRBY_START_ABILITY_TRANSITION_FN ((KirbyStartAbilityTransitionFn)0x08054C0Du)
+
 typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define KIRBY_GIVE_INVINCIBILITY_FN ((KirbyGiveInvincibilityFn)0x0808324Du)
 
@@ -434,6 +437,13 @@ typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define ENEMY_ABILITY_TABLE_BASE_ADDR 0x35164Eu
 #define ENEMY_ABILITY_TABLE_STRIDE 0x18u
 #define OBJECT2_TYPE_OFFSET 0x82u
+
+/*
+ * Verified against katam/include/kirby.h from the game decompilation.
+ * Ability statues bypass sub_080547C4 entirely: they write the requested
+ * ability directly to Kirby::transitioningAbility and then call sub_08054C0C.
+ */
+#define KIRBY_TRANSITIONING_ABILITY_OFFSET 0xDDu
 
 static uint32_t ap_mix_u32(uint32_t x) {
     x ^= x >> 16;
@@ -587,6 +597,43 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
     }
 
     KIRBY_REQUEST_ABILITY_TRANSITION_FN(kirby, rewritten_flags);
+}
+
+/*
+ * Hook target for every direct call to sub_08054C0C, the routine that starts
+ * Kirby's ability-change animation after Kirby::transitioningAbility has
+ * already been populated.
+ *
+ * Why this second hook is required:
+ *   - Enemy and ability-star requests normally flow through sub_080547C4 and
+ *     are handled by ap_on_request_copy_ability_transition above.
+ *   - Ability statues and the Master Sword stand do not call sub_080547C4.
+ *     They assign Object2::kirbyAbility directly to Kirby::transitioningAbility
+ *     (offset 0xDD) and then call sub_08054C0C.
+ *
+ * Sanitizing the authoritative pending field here closes that bypass while
+ * retaining the game's original animation/state-machine behavior. Only the
+ * low five ability-ID bits are cleared; upper transition flags are preserved.
+ */
+__attribute__((used)) void ap_on_start_copy_ability_transition(void *kirby) {
+    volatile uint8_t *transitioning_ability;
+    uint8_t pending_flags;
+    uint8_t pending_ability;
+
+    if (kirby == (void*)0) {
+        return;
+    }
+
+    transitioning_ability =
+        (volatile uint8_t *)((uintptr_t)kirby + KIRBY_TRANSITIONING_ABILITY_OFFSET);
+    pending_flags = *transitioning_ability;
+    pending_ability = (uint8_t)(pending_flags & KIRBY_ABILITY_MASK);
+
+    if (pending_ability != 0u && ap_is_locked_gated_ability(pending_ability) != 0u) {
+        *transitioning_ability = (uint8_t)(pending_flags & (uint8_t)~KIRBY_ABILITY_MASK);
+    }
+
+    KIRBY_START_ABILITY_TRANSITION_FN(kirby);
 }
 
 // Hook target for native Sound Player chest reward collection. Reward index 0 is

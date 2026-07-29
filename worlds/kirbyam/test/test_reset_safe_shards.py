@@ -507,3 +507,22 @@ def test_copy_ability_reroll_hook_reads_object2_type_field() -> None:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
+
+
+def test_statue_ability_lock_hook_sanitizes_transitioning_ability() -> None:
+    """Regression: statues write Kirby::transitioningAbility directly at +0xDD."""
+    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+    with open(payload_path, "r") as f:
+        content = f.read()
+
+    assert "KIRBY_TRANSITIONING_ABILITY_OFFSET 0xDDu" in content
+    match = re.search(
+        r"void\s+ap_on_start_copy_ability_transition[^{]*\{(?P<body>.*?)^}",
+        content,
+        flags=re.DOTALL | re.MULTILINE,
+    )
+    assert match is not None
+    body = match.group(0)
+    assert "ap_is_locked_gated_ability(pending_ability)" in body
+    assert "pending_flags & (uint8_t)~KIRBY_ABILITY_MASK" in body
+    assert "KIRBY_START_ABILITY_TRANSITION_FN(kirby)" in body
