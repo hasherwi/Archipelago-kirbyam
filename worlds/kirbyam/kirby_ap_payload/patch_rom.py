@@ -9,11 +9,17 @@ import shutil
 import subprocess
 import tempfile
 import time
+from collections.abc import Callable
 from datetime import datetime
 from pathlib import Path
+from typing import Any, TextIO, TYPE_CHECKING, cast
 
 _SCRIPT_DIR = os.path.realpath(os.path.dirname(__file__))
 _WORLD_DIR = os.path.realpath(os.path.dirname(_SCRIPT_DIR))
+
+if TYPE_CHECKING:
+    shared_is_thumb_bl_instruction: Callable[[bytes], bool]
+    shared_thumb_bl_bytes: Callable[[int, int], bytes]
 
 # When patch_rom.py is executed from worlds/kirbyam/kirby_ap_payload, Python can
 # still see the parent world directory early enough for worlds/kirbyam/types.py
@@ -24,8 +30,8 @@ for path_entry in list(sys.path):
         sys.path.remove(path_entry)
 
 try:
-    from .thumb_branch import is_thumb_bl_instruction as shared_is_thumb_bl_instruction
-    from .thumb_branch import thumb_bl_bytes as shared_thumb_bl_bytes
+    from .thumb_branch import is_thumb_bl_instruction as shared_is_thumb_bl_instruction  # type: ignore[no-redef]
+    from .thumb_branch import thumb_bl_bytes as shared_thumb_bl_bytes  # type: ignore[no-redef]
 except ImportError:
     _thumb_spec = importlib.util.spec_from_file_location(
         "kirbyam_thumb_branch",
@@ -67,15 +73,15 @@ BSDIFF_HEARTBEAT_SECONDS = int(os.environ.get("KIRBYAM_BSDIFF_HEARTBEAT_SECONDS"
 # Logging (tee stdout/stderr)
 # ----------------------------
 class Tee:
-    def __init__(self, *streams):
+    def __init__(self, *streams: Any) -> None:
         self.streams = streams
 
-    def write(self, data):
+    def write(self, data: str) -> None:
         for s in self.streams:
             s.write(data)
             s.flush()
 
-    def flush(self):
+    def flush(self) -> None:
         for s in self.streams:
             s.flush()
 
@@ -109,14 +115,14 @@ def setup_logging() -> Path:
     log_f.flush()
 
     # Tee both stdout and stderr to the same log file
-    sys.stdout = Tee(sys.__stdout__, log_f)  # type: ignore[assignment]
-    sys.stderr = Tee(sys.__stderr__, log_f)  # type: ignore[assignment]
+    sys.stdout = cast(TextIO, Tee(sys.__stdout__, log_f))
+    sys.stderr = cast(TextIO, Tee(sys.__stderr__, log_f))
 
     # Store handle so it stays open for duration
     return log_path
 
 
-def run_make():
+def run_make() -> None:
     """Run `make clean` then `make` in the current working directory."""
     for cmd in (["make", "clean"], ["make"]):
         print("Running:", " ".join(cmd))
@@ -309,9 +315,9 @@ def resolve_elf_symbol_address(elf_path: str | Path, symbol_name: str) -> int:
     raise SystemExit(f"Error: symbol '{symbol_name}' not found in ELF {elf_path}")
 
 
-def require_bsdiff4():
+def require_bsdiff4() -> Any:
     try:
-        import bsdiff4  # noqa: F401
+        import bsdiff4  # type: ignore[import-untyped]
         return bsdiff4
     except ModuleNotFoundError as e:
         raise SystemExit(
@@ -412,7 +418,12 @@ def release_run_lock(lock_path: Path) -> None:
         print(f"Warning: failed to remove lock file '{lock_path}': {e}")
 
 
-def _bsdiff_worker(in_path: str, intermediary_rom: str, tmp_patch_path: str, result_queue: mp.Queue) -> None:
+def _bsdiff_worker(
+    in_path: str,
+    intermediary_rom: str,
+    tmp_patch_path: str,
+    result_queue: mp.Queue[str],
+) -> None:
     try:
         bsdiff4 = require_bsdiff4()
         bsdiff4.file_diff(in_path, intermediary_rom, tmp_patch_path)
@@ -432,7 +443,7 @@ def generate_bsdiff_with_timeout(in_path: str, intermediary_rom: str, patch_path
         shutil.copy2(in_path, local_in)
         shutil.copy2(intermediary_rom, local_out)
 
-        result_queue: mp.Queue = mp.Queue()
+        result_queue: mp.Queue[str] = mp.Queue()
         proc = mp.Process(
             target=_bsdiff_worker,
             args=(str(local_in), str(local_out), str(local_patch), result_queue),
@@ -603,7 +614,7 @@ def hash_debug_report(in_path: str, source_type: str) -> None:
     print("")
 
 
-def parse_args(argv):
+def parse_args(argv: list[str]) -> dict[str, Any]:
     fixed_patch = str(get_fixed_patch_out())
 
     # Legacy mode: <in> <out> [patch] and no flags
@@ -1094,7 +1105,7 @@ def print_patch_summary(
     )
 
 
-def main():
+def main() -> None:
     log_path = setup_logging()
     print(f"Logging to: {log_path}")
 
