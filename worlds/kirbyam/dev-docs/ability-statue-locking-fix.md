@@ -1,6 +1,6 @@
-# Ability-statue locking fix
+# Ability-statue locking and completely-random fixes
 
-## Root cause
+## Issue #874 root cause
 
 The original Archipelago runtime patch redirected calls to the retail function at
 `0x080547C4` (`sub_080547C4`). That function handles ordinary copy-ability
@@ -16,39 +16,86 @@ The decompilation identifies `Kirby::transitioningAbility` as byte offset
 `0x0DD` in `struct Kirby`. Its low five bits contain the ability ID; upper bits
 are transition-state flags.
 
-## Implementation
+## Issue #875 root cause
 
-`kirby_ap_payload/ap_payload.c` now exports
-`ap_on_start_copy_ability_transition`. The hook:
+The same bypass also explains why a statue in `completely_random` mode gave the
+same ability every time it was touched. Generation writes one deterministic
+ability into each statue's native table entry. The statue object caches that
+value in `Object2::kirbyAbility`, then copies the cached value directly into
+`Kirby::transitioningAbility` on every touch.
 
-1. Reads `Kirby::transitioningAbility` at verified offset `0xDD`.
-2. Extracts the low-five-bit ability ID.
-3. Checks that ID against `AP_ABILITY_GATE_MASK` and
-   `AP_ABILITY_UNLOCK_MASK`.
-4. Clears only the low five bits when the pending ability is locked.
-5. Calls the original `sub_08054C0C` routine so the retail transition state
-   machine and animation remain authoritative.
+The existing per-event reroll hook is attached to `sub_080547C4`; direct statue
+touches never call it. Therefore the generation-time fallback mapping became
+the final result instead of merely the initial/fallback value.
 
-`kirby_ap_payload/patch_rom.py` discovers and redirects all direct Thumb `BL`
-calls to both relevant retail routines:
+## Runtime implementation
 
-- `0x080547C4`: request/reroll hook.
-- `0x08054C0C`: pending-transition sanitization hook.
+`kirby_ap_payload/statue_transition_fix.c` exports the public
+`ap_on_start_copy_ability_transition` symbol used by `patch_rom.py`. It replaces
+the original Issue #874 implementation at link time while preserving and
+extending its behavior:
 
-This covers statues, the Master Sword stand, and other direct writers of
-`transitioningAbility`, while retaining the existing enemy-reroll behavior.
+1. It snapshots the caller address before any helper call can clobber `lr`.
+2. It identifies direct regular-statue calls as callers inside
+   `sub_080AA588` (`0x080AA588..0x080AA617`).
+3. When statue randomization is enabled and the mode is `completely_random`, it
+   advances the shared runtime RNG and selects a fresh ability for that touch.
+4. It removes currently locked gated abilities from the candidate mask before
+   selection. Statues therefore reroll among unlocked allowed abilities rather
+   than selecting a locked ability and then becoming Normal.
+5. It ignores `ability_randomization_no_ability_weight`, matching the documented
+   rule that randomized statues always grant an ability when an eligible one is
+   available.
+6. It preserves all upper transition flags and writes only the low five ability
+   bits.
+7. It performs the final Issue #874 gating check for every transition source.
+8. It emits the existing statue telemetry for shuffled and completely-random
+   touches.
+9. It calls the original `sub_08054C0C` transition state machine.
+
+Independent random draws may legitimately repeat the previous ability. The fix
+guarantees a new draw per touch, not a forced-different result.
+
+The Master Sword stand begins at `sub_080AA618` and is intentionally outside the
+regular statue range because it is not part of the configurable statue table.
+It still receives the final gating check.
+
+## Seed-specific statue toggle
+
+The shared `base_patch.bsdiff4` cannot know whether a particular seed enabled
+`ability_randomization_statues`. The linker reserves the final four bytes of the
+existing payload window at ROM address `0x0815F69C` (file offset `0x15F69C`) for
+`gApAbilityRandomizationStatuesEnabled`.
+
+`rom.write_tokens()` writes an explicit little-endian `0` or `1` into that word
+for every generated patch. This avoids expanding the runtime mailbox protocol
+and prevents completely-random enemy-only seeds from accidentally rerolling
+statues.
+
+## Link-time replacement
+
+The `fix-statues` branch already contained an Issue #874 hook with the same
+public symbol. `fix875_rename_start_hook.h` renames that older implementation
+only while compiling `ap_payload.c`. `statue_transition_fix.c` then owns the
+public symbol. Function/data sections plus linker garbage collection remove the
+unreferenced renamed implementation from the final payload.
+
+The linker explicitly keeps all `ap_on_*` hook sections because `patch_rom.py`
+resolves them by ELF symbol name rather than through normal relocation
+references.
 
 ## Files changed
 
-- `kirby_ap_payload/ap_payload.c`
-- `kirby_ap_payload/patch_rom.py`
-- `test/test_patch_rom.py`
-- `test/test_reset_safe_shards.py`
+- `kirby_ap_payload/Makefile`
+- `kirby_ap_payload/fix875_rename_start_hook.h`
+- `kirby_ap_payload/statue_transition_fix.c`
+- `kirby_ap_payload/linker.ld`
+- `rom.py`
+- `test/test_rom_tokens.py`
+- `test/test_statue_completely_random_runtime.py`
 
-## Validation notes
+## Build requirement
 
-The Python files pass syntax compilation. The C payload passes Clang's
-ARM7TDMI syntax check. A full payload build still requires devkitARM's
-`arm-none-eabi-gcc`, which was not installed in the validation environment.
-Run the normal payload build and ROM patch process in the project's configured
-devkitARM environment before testing in BizHawk or on hardware.
+These source changes alter the injected payload, so `data/base_patch.bsdiff4`
+must be regenerated with the project's normal clean USA ROM and devkitARM build
+workflow before the fix is testable in a generated `.apkirbyam` patch.

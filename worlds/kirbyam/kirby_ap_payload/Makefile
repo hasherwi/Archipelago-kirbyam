@@ -14,15 +14,20 @@ OBJCOPY := C:/devkitPro/devkitARM/bin/arm-none-eabi-objcopy.exe
 endif
 
 
-CFLAGS  := -mthumb -mcpu=arm7tdmi -Os -ffreestanding -fno-builtin -fno-jump-tables -fno-tree-switch-conversion -nostdlib -Wall -Wextra
-LDFLAGS := -T linker.ld -nostdlib
+CFLAGS  := -mthumb -mcpu=arm7tdmi -Os -ffreestanding -fno-builtin -fno-jump-tables -fno-tree-switch-conversion -ffunction-sections -fdata-sections -nostdlib -Wall -Wextra
+LDFLAGS := -T linker.ld -nostdlib -Wl,--gc-sections
 
 all: payload.bin
 
-payload.elf: ap_payload.o ap_hook.o
+payload.elf: ap_payload.o statue_transition_fix.o ap_hook.o
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ -lgcc
 
-ap_payload.o: ap_payload.c
+# Rename the Issue #874 implementation only in the original translation unit.
+# statue_transition_fix.c exports the public replacement used by patch_rom.py.
+ap_payload.o: ap_payload.c fix875_rename_start_hook.h
+	$(CC) $(CFLAGS) -include fix875_rename_start_hook.h -c -o $@ $<
+
+statue_transition_fix.o: statue_transition_fix.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 ap_hook.o: ap_hook.s

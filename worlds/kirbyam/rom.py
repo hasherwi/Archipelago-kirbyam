@@ -21,6 +21,12 @@ if TYPE_CHECKING:
     from . import KirbyAmWorld
 
 
+# Final word of the fixed 0x16A0-byte payload window. The shared base patch
+# contains a default value of zero; every generated patch writes the seed's
+# statue-inclusion setting explicitly so old mailbox state cannot affect it.
+ABILITY_RANDOMIZATION_STATUES_CONFIG_ROM_OFFSET = 0x0015F69C
+
+
 class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
     game = "Kirby & The Amazing Mirror"
     # Calculated with PowerShell Command:
@@ -50,6 +56,17 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
         patch.write_token(APTokenTypes.WRITE, auth_addr, world.auth)
 
     mode = int(world.options.ability_randomization_mode.value)
+    include_statues = bool(world.options.ability_randomization_statues.value)
+
+    # The direct-statue runtime hook lives in the shared base patch, while this
+    # toggle is seed-specific. Bake an explicit 0/1 into the payload config word
+    # so completely-random mode only rerolls statues when the option is enabled.
+    patch.write_token(
+        APTokenTypes.WRITE,
+        ABILITY_RANDOMIZATION_STATUES_CONFIG_ROM_OFFSET,
+        int(include_statues).to_bytes(4, "little"),
+    )
+
     policy = getattr(world, "_enemy_copy_ability_policy", None)
     if mode != AbilityRandomizationMode.option_off and not isinstance(policy, dict):
         raise ValueError(
@@ -58,7 +75,6 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
         )
 
     if isinstance(policy, dict):
-        include_statues = bool(world.options.ability_randomization_statues.value)
         ability_writes = build_enemy_copy_runtime_patch_writes(
             policy,
             include_statues=include_statues,
