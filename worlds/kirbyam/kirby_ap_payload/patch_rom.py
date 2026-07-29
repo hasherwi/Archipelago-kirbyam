@@ -30,8 +30,8 @@ for path_entry in list(sys.path):
         sys.path.remove(path_entry)
 
 try:
-    from .thumb_branch import is_thumb_bl_instruction as shared_is_thumb_bl_instruction  # type: ignore[no-redef]
-    from .thumb_branch import thumb_bl_bytes as shared_thumb_bl_bytes  # type: ignore[no-redef]
+    from .thumb_branch import is_thumb_bl_instruction as shared_is_thumb_bl_instruction
+    from .thumb_branch import thumb_bl_bytes as shared_thumb_bl_bytes
 except ImportError:
     _thumb_spec = importlib.util.spec_from_file_location(
         "kirbyam_thumb_branch",
