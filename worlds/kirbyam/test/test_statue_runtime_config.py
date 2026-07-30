@@ -5,6 +5,7 @@ from __future__ import annotations
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
+from typing import Any, cast
 
 from ..client import KirbyAmClient
 from ..data import data
@@ -21,7 +22,8 @@ def _gateable_ability_mask() -> int:
 
 
 def _written_u32_by_address(mock_write: AsyncMock) -> dict[int, int]:
-    writes = mock_write.await_args.args[1]
+    assert mock_write.await_args is not None
+    writes = cast(list[tuple[int, bytes, str]], mock_write.await_args.args[1])
     return {
         address: int.from_bytes(payload, "little")
         for address, payload, domain in writes
@@ -31,7 +33,7 @@ def _written_u32_by_address(mock_write: AsyncMock) -> dict[int, int]:
 
 @pytest.mark.asyncio
 async def test_legacy_slot_data_still_syncs_statue_gating_masks(
-    mock_bizhawk_context,
+    mock_bizhawk_context: Any,
 ) -> None:
     """Legacy worlds without structured policy still enforce gating (Issue #874)."""
     client = KirbyAmClient()
@@ -78,7 +80,7 @@ async def test_legacy_slot_data_still_syncs_statue_gating_masks(
 
 @pytest.mark.asyncio
 async def test_gating_disabled_writes_zero_gate_and_unlock_masks(
-    mock_bizhawk_context,
+    mock_bizhawk_context: Any,
 ) -> None:
     """Explicitly disabled gating must not suppress any statue ability."""
     client = KirbyAmClient()
