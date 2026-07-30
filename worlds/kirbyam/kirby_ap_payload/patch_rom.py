@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import importlib.util
 import multiprocessing as mp
+from multiprocessing.queues import Queue as MultiprocessingQueue
 import shutil
 import subprocess
 import tempfile
@@ -422,7 +423,7 @@ def _bsdiff_worker(
     in_path: str,
     intermediary_rom: str,
     tmp_patch_path: str,
-    result_queue: mp.Queue[str],
+    result_queue: MultiprocessingQueue[str],
 ) -> None:
     try:
         bsdiff4 = require_bsdiff4()
@@ -443,7 +444,7 @@ def generate_bsdiff_with_timeout(in_path: str, intermediary_rom: str, patch_path
         shutil.copy2(in_path, local_in)
         shutil.copy2(intermediary_rom, local_out)
 
-        result_queue: mp.Queue[str] = mp.Queue()
+        result_queue: MultiprocessingQueue[str] = mp.Queue()
         proc = mp.Process(
             target=_bsdiff_worker,
             args=(str(local_in), str(local_out), str(local_patch), result_queue),

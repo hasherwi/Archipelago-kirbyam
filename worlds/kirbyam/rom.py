@@ -14,23 +14,47 @@ from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 
 from .data import data
-from .enemy_ability_runtime_patch import build_enemy_copy_runtime_patch_writes
+from .enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
+from .enemy_ability_runtime_patch import (
+    build_enemy_copy_runtime_patch_writes,
+    build_statue_runtime_allowed_mask,
+)
 from .options import AbilityRandomizationMode
 
 if TYPE_CHECKING:
     from . import KirbyAmWorld
 
 
-# Final word of the fixed 0x16A0-byte payload window. The shared base patch
-# contains a default value of zero; every generated patch writes the seed's
-# statue-inclusion setting explicitly so old mailbox state cannot affect it.
-ABILITY_RANDOMIZATION_STATUES_CONFIG_ROM_OFFSET = 0x0015F69C
+# Fixed per-seed words reserved by kirby_ap_payload/linker.ld. The initial
+# gate mask protects startup/reset windows before the client populates the live
+# mailbox. The statue mask carries the exact statue-specific ability pool,
+# including custom whitelist and Minny filtering. Explicit zero values disable
+# the corresponding behavior and prevent a reused base patch retaining state
+# from another generated world.
+ABILITY_GATE_MASK_INITIAL_ROM_OFFSET = 0x0015F698
+ABILITY_RANDOMIZATION_STATUE_ALLOWED_MASK_ROM_OFFSET = 0x0015F69C
+
+
+def _initial_ability_gate_mask(world: "KirbyAmWorld") -> int:
+    """Return the seed's gateable ability-ID mask, or zero when gating is off."""
+    if not bool(world.options.ability_gating.value):
+        return 0
+
+    mask = 0
+    for ability_name in GATEABLE_ENEMY_COPY_ABILITIES:
+        ability_id = ABILITY_NAME_TO_ID.get(ability_name)
+        if ability_id is None or not 0 < ability_id <= 31:
+            raise ValueError(
+                f"gateable ability must have a runtime ID within 1..31: {ability_name}"
+            )
+        mask |= 1 << ability_id
+    return mask & 0xFFFFFFFF
 
 
 class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
     game = "Kirby & The Amazing Mirror"
     # Calculated with PowerShell Command:
-    # Get-FileHash "D:\...\Kirby & The Amazing Mirror (USA).gba" -Algorithm MD5
+    # Get-FileHash "D:\\...\\Kirby & The Amazing Mirror (USA).gba" -Algorithm MD5
     hash = "DF5EFE075B35859529EBF82A4D824458"  # md5 hash of base USA rom
     patch_file_ending = ".apkirbyam"
     result_file_ending = ".gba"
@@ -58,21 +82,35 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
     mode = int(world.options.ability_randomization_mode.value)
     include_statues = bool(world.options.ability_randomization_statues.value)
 
-    # The direct-statue runtime hook lives in the shared base patch, while this
-    # toggle is seed-specific. Bake an explicit 0/1 into the payload config word
-    # so completely-random mode only rerolls statues when the option is enabled.
-    patch.write_token(
-        APTokenTypes.WRITE,
-        ABILITY_RANDOMIZATION_STATUES_CONFIG_ROM_OFFSET,
-        int(include_statues).to_bytes(4, "little"),
-    )
-
     policy = getattr(world, "_enemy_copy_ability_policy", None)
     if mode != AbilityRandomizationMode.option_off and not isinstance(policy, dict):
         raise ValueError(
             "enemy_copy_ability_policy must be initialized before writing enemy "
             "copy-ability runtime patch tokens when ability randomization is enabled"
         )
+
+    # Seed the gating mask in ROM as a deny-by-default fallback before the
+    # BizHawk client can synchronize live gate/unlock state. The client remains
+    # authoritative after connection and may add unlock bits at runtime.
+    patch.write_token(
+        APTokenTypes.WRITE,
+        ABILITY_GATE_MASK_INITIAL_ROM_OFFSET,
+        _initial_ability_gate_mask(world).to_bytes(4, "little"),
+    )
+
+    # Always overwrite the reserved statue word so a reused base patch cannot
+    # retain another seed's policy. Off mode has no policy requirement and
+    # therefore writes the explicit disabled mask directly.
+    statue_allowed_mask = (
+        build_statue_runtime_allowed_mask(policy, include_statues=include_statues)
+        if isinstance(policy, dict)
+        else 0
+    )
+    patch.write_token(
+        APTokenTypes.WRITE,
+        ABILITY_RANDOMIZATION_STATUE_ALLOWED_MASK_ROM_OFFSET,
+        statue_allowed_mask.to_bytes(4, "little"),
+    )
 
     if isinstance(policy, dict):
         ability_writes = build_enemy_copy_runtime_patch_writes(

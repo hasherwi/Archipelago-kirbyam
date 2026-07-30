@@ -99,3 +99,17 @@ references.
 These source changes alter the injected payload, so `data/base_patch.bsdiff4`
 must be regenerated with the project's normal clean USA ROM and devkitARM build
 workflow before the fix is testable in a generated `.apkirbyam` patch.
+
+## Per-touch completely-random behavior
+
+Issue #875 shares the same retail bypass: regular statues never call the
+`sub_080547C4` request hook that rerolls enemy and dropped-star grants. The
+transition-start hook now identifies only callsites inside `sub_080AA588` and,
+when statue randomization is enabled in `completely_random` mode, replaces the
+pending ability with a fresh draw from the seed-specific statue pool before
+applying the final gating check. The Master Sword stand begins at
+`sub_080AA618`, so it is outside the reroll callsite range.
+
+The full option matrix, per-seed ROM mask, gating behavior, telemetry contract,
+and executable tests are documented in
+[`ability-statue-runtime-contract.md`](ability-statue-runtime-contract.md).

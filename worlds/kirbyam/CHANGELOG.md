@@ -25,12 +25,16 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Bug Fixes
 
 - Prevent false LocationChecks after death by deferring polling while HP <= 0 (Issue #864).
+- Ability statues now obey ability gating on every direct grant path, including legacy slot-data configurations (Issue #874).
+- In `completely_random` mode, enabled regular ability statues now make a fresh per-touch draw from the configured statue pool instead of repeating their generation-time fallback assignment. The draw honors custom whitelists, the Minny toggle, and live ability unlocks while preserving statue-specific exclusions for no-ability and enemy-source toggles (Issue #875).
 - When `ability_randomization_mode` was `completely_random` and `ability_randomization_statues` was enabled, statue abilities were just shuffled, not random (Issue #841).
 - Changed map and shard item grants to be only additive, never overwriting what was already in the save. This was a consequence of how I "replayed" certain item grants when a game was opened again (PR #881).
 - Fixed hub-switch first-poll baseline suppression so reconnect/disconnect windows do not drop legitimate big-switch location checks (Issue #879).
 
 ### Internal Changes
 
+- Added seed-specific initial-gate and statue-pool masks, executable native-C policy tests, client compatibility tests, ROM-token tests, and patch-callsite contracts for the statue runtime path.
+- Fixed `patch_rom.py` importing on supported Python versions by typing the multiprocessing queue with its actual class rather than subscripting the `multiprocessing.Queue` factory.
 - Log files now report the `world_version` and all game options (Issue #861).
 - Added file-only telemetry diagnostics for ability statue grants when `ability_randomization_mode` is `shuffled` or `completely_random`, goal target resolution (one-time per session), runtime ability config rewrites (mask/seed snapshot on change), mailbox ACK timeout aggregates, and explicit statue ability-gate suppression reasons (PR #867).
 - Expand the allowed versions of requirements.txt (PR #881).
