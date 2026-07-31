@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from random import Random
 from types import SimpleNamespace
+from typing import Any, cast
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -15,12 +16,12 @@ from ..data import data
 def test_world_helper_resolves_starting_kirby_color_random_choice() -> None:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
     world.random = Random(0)
-    world.options = SimpleNamespace(
+    world.options = cast(Any, SimpleNamespace(
         starting_kirby_color=SimpleNamespace(
             current_key="random_color",
             value=STARTING_KIRBY_COLOR_RANDOM_OPTION,
         ),
-    )
+    ))
     resolved_color_id, resolved_color_name = KirbyAmWorld._get_resolved_starting_kirby_color(world)
 
     supported = {color.color_id: color.display_name for color in load_kirby_colors()}
@@ -31,12 +32,12 @@ def test_world_helper_resolves_starting_kirby_color_random_choice() -> None:
 def test_world_helper_caches_resolved_starting_kirby_color_random_choice() -> None:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
     world.random = Random(0)
-    world.options = SimpleNamespace(
+    world.options = cast(Any, SimpleNamespace(
         starting_kirby_color=SimpleNamespace(
             current_key="random_color",
             value=STARTING_KIRBY_COLOR_RANDOM_OPTION,
         ),
-    )
+    ))
 
     first = KirbyAmWorld._get_resolved_starting_kirby_color(world)
     second = KirbyAmWorld._get_resolved_starting_kirby_color(world)
@@ -45,7 +46,7 @@ def test_world_helper_caches_resolved_starting_kirby_color_random_choice() -> No
 
 
 @pytest.mark.asyncio
-async def test_client_syncs_starting_kirby_color_runtime_config_once(mock_bizhawk_context) -> None:
+async def test_client_syncs_starting_kirby_color_runtime_config_once(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     mock_bizhawk_context.slot_data = {
@@ -84,7 +85,7 @@ async def test_client_syncs_starting_kirby_color_runtime_config_once(mock_bizhaw
 
 
 @pytest.mark.asyncio
-async def test_client_starting_color_sync_short_circuits_after_initial_sync(mock_bizhawk_context) -> None:
+async def test_client_starting_color_sync_short_circuits_after_initial_sync(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     mock_bizhawk_context.slot_data = {
@@ -185,7 +186,7 @@ def test_reset_reconnect_transient_state_clears_starting_color_log_signature() -
     assert client._starting_kirby_color_logged_signature is None
 
 
-def test_client_starting_color_config_log_hidden_when_debug_disabled(mock_bizhawk_context) -> None:
+def test_client_starting_color_config_log_hidden_when_debug_disabled(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     client._debug_logging_enabled = False
@@ -201,7 +202,7 @@ def test_client_starting_color_config_log_hidden_when_debug_disabled(mock_bizhaw
     assert mock_info.call_count == 0
 
 
-def test_client_starting_color_config_log_emits_once_when_debug_enabled(mock_bizhawk_context) -> None:
+def test_client_starting_color_config_log_emits_once_when_debug_enabled(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     client._debug_logging_enabled = True
@@ -218,7 +219,7 @@ def test_client_starting_color_config_log_emits_once_when_debug_enabled(mock_biz
     assert mock_info.call_args.args[0] == "KirbyAM: configured starting Kirby color is %s (%s)"
 
 
-def test_client_starting_color_config_log_emits_after_debug_toggle_on(mock_bizhawk_context) -> None:
+def test_client_starting_color_config_log_emits_after_debug_toggle_on(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     client._debug_logging_enabled = False
@@ -238,7 +239,7 @@ def test_client_starting_color_config_log_emits_after_debug_toggle_on(mock_bizha
 
 
 @pytest.mark.asyncio
-async def test_client_starting_color_sync_log_hidden_when_debug_disabled(mock_bizhawk_context) -> None:
+async def test_client_starting_color_sync_log_hidden_when_debug_disabled(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     client._debug_logging_enabled = False
@@ -271,7 +272,7 @@ async def test_client_starting_color_sync_log_hidden_when_debug_disabled(mock_bi
 
 @pytest.mark.asyncio
 async def test_client_game_watcher_logs_starting_color_once_after_initial_ready_transition(
-    mock_bizhawk_context,
+    mock_bizhawk_context: Any,
 ) -> None:
     client = KirbyAmClient()
     client.initialize_client()
