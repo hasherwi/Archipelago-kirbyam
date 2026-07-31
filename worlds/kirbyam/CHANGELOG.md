@@ -3,7 +3,8 @@
 Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 - `### New Features`
-- `### Improvements` (optional for older post-public sections)
+- `### Improvements`
+- `### Known Limitations`
 - `### Bug Fixes`
 - `### Internal Changes`
 
@@ -15,7 +16,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Added a new goal mode: `defeat_configured_area_boss` completes the seed after a specific area-boss is defeated (Issue #207).
   - Which area boss is used is determined by the new `configured_area_boss` option. It defaults to Master Hand and Crazy Hand.
 - Added four new lever location checks sourced from native lever bits: Moonlight Mansion 2-11, Olive Ocean 6-13, Carrot Castle 5-12, and Radish Ruins 8-12 (Issue #850).
-- Added the world map big chest in the tutorial rooms as an AP location check (Issue #845). We plan for the world map as an item can follow later.
+- Added the world map big chest in the tutorial rooms as an AP location check (Issue #845). We plan for the world map as an item to follow later.
   - Because of how we detect the game state, the check will only send AFTER the tutorial is completed and you enter Central Circle for the first time.
 
 ### Improvements
@@ -26,7 +27,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
 - Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
 - Small Chests: We know you want the "small" chests implemented. We want them implemented too. We've been working on it for months. We decided getting out what IS working, is more important.
-- Major (big) chests: The animation for getting the original item will play with the original sprite. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or a custom sprite if it's not a KirbyAM item.
+- Sprite Swapping: The animation for getting the original item will play with the original sprite. Statues show the old ability. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or ability granted.
+- Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
 
 ### Bug Fixes
 
