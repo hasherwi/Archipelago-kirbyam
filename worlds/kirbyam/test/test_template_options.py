@@ -62,7 +62,8 @@ def test_kirbyam_template_surface_options_visibility() -> None:
             assert "DEBUG: Testing-only goal" not in content
             assert "KirbyAM DeathLink uses native Kirby HP semantics" not in content
             assert "Supported color names" in content
-            assert "Non-Pink colors become visible" in content
+            assert "applied before Kirby's first gameplay palette loads" in content
+            assert "after the first room transition" not in content
             assert requires_game_version == KirbyAmWorld.world_version.as_simple_string()
 
             assert "local_items" in game_block

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from random import Random
 from types import SimpleNamespace
+from typing import Any, cast
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -15,12 +16,12 @@ from ..data import data
 def test_world_helper_resolves_starting_kirby_color_random_choice() -> None:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
     world.random = Random(0)
-    world.options = SimpleNamespace(
+    world.options = cast(Any, SimpleNamespace(
         starting_kirby_color=SimpleNamespace(
             current_key="random_color",
             value=STARTING_KIRBY_COLOR_RANDOM_OPTION,
         ),
-    )
+    ))
     resolved_color_id, resolved_color_name = KirbyAmWorld._get_resolved_starting_kirby_color(world)
 
     supported = {color.color_id: color.display_name for color in load_kirby_colors()}
@@ -31,12 +32,12 @@ def test_world_helper_resolves_starting_kirby_color_random_choice() -> None:
 def test_world_helper_caches_resolved_starting_kirby_color_random_choice() -> None:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
     world.random = Random(0)
-    world.options = SimpleNamespace(
+    world.options = cast(Any, SimpleNamespace(
         starting_kirby_color=SimpleNamespace(
             current_key="random_color",
             value=STARTING_KIRBY_COLOR_RANDOM_OPTION,
         ),
-    )
+    ))
 
     first = KirbyAmWorld._get_resolved_starting_kirby_color(world)
     second = KirbyAmWorld._get_resolved_starting_kirby_color(world)
@@ -45,7 +46,7 @@ def test_world_helper_caches_resolved_starting_kirby_color_random_choice() -> No
 
 
 @pytest.mark.asyncio
-async def test_client_syncs_starting_kirby_color_runtime_config_once(mock_bizhawk_context) -> None:
+async def test_client_syncs_starting_kirby_color_runtime_config_once(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     mock_bizhawk_context.slot_data = {
@@ -84,7 +85,7 @@ async def test_client_syncs_starting_kirby_color_runtime_config_once(mock_bizhaw
 
 
 @pytest.mark.asyncio
-async def test_client_starting_color_sync_short_circuits_after_initial_sync(mock_bizhawk_context) -> None:
+async def test_client_starting_color_sync_short_circuits_after_initial_sync(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     mock_bizhawk_context.slot_data = {
@@ -166,7 +167,9 @@ def test_load_kirby_colors_rejects_out_of_range_id() -> None:
     with patch.object(
         colors_module,
         "load_json_data",
-        return_value={"colors": [{"key": "pink", "id": 0, "name": "Pink"}, {"key": "ultra", "id": 14, "name": "Ultra"}]},
+        return_value={
+            "colors": [{"key": "pink", "id": 0, "name": "Pink"}, {"key": "ultra", "id": 14, "name": "Ultra"}]
+        },
     ):
         with pytest.raises(ValueError, match="out of supported range"):
             load_kirby_colors()
@@ -183,7 +186,7 @@ def test_reset_reconnect_transient_state_clears_starting_color_log_signature() -
     assert client._starting_kirby_color_logged_signature is None
 
 
-def test_client_starting_color_config_log_hidden_when_debug_disabled(mock_bizhawk_context) -> None:
+def test_client_starting_color_config_log_hidden_when_debug_disabled(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     client._debug_logging_enabled = False
@@ -199,7 +202,7 @@ def test_client_starting_color_config_log_hidden_when_debug_disabled(mock_bizhaw
     assert mock_info.call_count == 0
 
 
-def test_client_starting_color_config_log_emits_once_when_debug_enabled(mock_bizhawk_context) -> None:
+def test_client_starting_color_config_log_emits_once_when_debug_enabled(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     client._debug_logging_enabled = True
@@ -216,7 +219,7 @@ def test_client_starting_color_config_log_emits_once_when_debug_enabled(mock_biz
     assert mock_info.call_args.args[0] == "KirbyAM: configured starting Kirby color is %s (%s)"
 
 
-def test_client_starting_color_config_log_emits_after_debug_toggle_on(mock_bizhawk_context) -> None:
+def test_client_starting_color_config_log_emits_after_debug_toggle_on(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     client._debug_logging_enabled = False
@@ -236,7 +239,7 @@ def test_client_starting_color_config_log_emits_after_debug_toggle_on(mock_bizha
 
 
 @pytest.mark.asyncio
-async def test_client_starting_color_sync_log_hidden_when_debug_disabled(mock_bizhawk_context) -> None:
+async def test_client_starting_color_sync_log_hidden_when_debug_disabled(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     client._debug_logging_enabled = False
@@ -269,7 +272,7 @@ async def test_client_starting_color_sync_log_hidden_when_debug_disabled(mock_bi
 
 @pytest.mark.asyncio
 async def test_client_game_watcher_logs_starting_color_once_after_initial_ready_transition(
-    mock_bizhawk_context,
+    mock_bizhawk_context: Any,
 ) -> None:
     client = KirbyAmClient()
     client.initialize_client()
@@ -306,3 +309,35 @@ async def test_client_game_watcher_logs_starting_color_once_after_initial_ready_
         if call.args and call.args[0] == "KirbyAM: configured starting Kirby color is %s (%s)"
     ]
     assert len(matching) == 1
+
+
+def test_payload_applies_starting_color_before_create_and_refreshes_live_palette() -> None:
+    from pathlib import Path
+
+    payload_dir = Path(__file__).resolve().parents[1] / "kirby_ap_payload"
+    payload = (payload_dir / "ap_payload.c").read_text(encoding="utf-8")
+    linker = (payload_dir / "linker.ld").read_text(encoding="utf-8")
+
+    # Generation-time path: both single-player starts are redirected to a
+    # wrapper that writes the native selected-color state before CreateKirby.
+    assert "void ap_on_start_single_player_game(" in payload
+    assert "gApStartingKirbyColorInitial" in payload
+    assert "KIRBY_SELECTED_COLOR = (int16_t)desired_color" in payload
+    assert "KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER]" in payload
+    assert "KIRBY_START_GAME_FN(mode, arg1, rooms, positions, flags)" in payload
+
+    # Runtime recovery path: writing Kirby::color alone is insufficient; the
+    # native palette loader must be called after a live Kirby is available.
+    assert "KIRBY_STRUCT_COLOR_OFFSET 0xDFu" in payload
+    assert "KIRBY_REFRESH_PALETTE_FN(KIRBY_STARTING_COLOR_PLAYER)" in payload
+    assert "ap_is_player_kirby_ready" in payload
+
+    # Mutable latch state belongs in EWRAM, not payload .bss/ROM.
+    assert "AP_STARTING_KIRBY_COLOR_APPLIED" in payload
+    assert "static uint8_t ap_starting_kirby_color_applied" not in payload
+
+    # Preserve the already-shipped gate/statue offsets while adding color first.
+    assert "AP_CONFIG_ADDR = 0x0815F694" in linker
+    assert linker.index(".apconfig.color") < linker.index(".apconfig.gate")
+    assert linker.index(".apconfig.gate") < linker.index(".apconfig.statue")
+    assert "SIZEOF(.apconfig) == 12" in linker

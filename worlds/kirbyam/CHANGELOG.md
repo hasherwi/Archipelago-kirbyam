@@ -22,6 +22,12 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 - Self-send item popups in BizHawk are now collapsed to one line (`You found your <item>.`) instead of separate send and receive popups (Issue #848).
 
+### Known Limitations
+- Localization: Only the North American ROM is supported. All AP notifications are in English.
+- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
+- Small Chests: We know you want the "small" chests implemented. We want them implemented too. We've been working on it for months. We decided getting out what IS working, is more important.
+- Major (big) chests: The animation for getting the original item will play with the original sprite. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or a custom sprite if it's not a KirbyAM item.
+
 ### Bug Fixes
 
 - Prevent false LocationChecks after death by deferring polling while HP <= 0 (Issue #864).
@@ -29,6 +35,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - When `ability_randomization_mode` was `completely_random` and `ability_randomization_statues` was enabled, statue abilities were just shuffled, not random (Issue #841).
 - Changed map and shard item grants to be only additive, never overwriting what was already in the save. This was a consequence of how I "replayed" certain item grants when a game was opened again (PR #881).
 - Fixed hub-switch first-poll baseline suppression so reconnect/disconnect windows do not drop legitimate big-switch location checks (Issue #879).
+- Apply `Starting Kirby Color` before the first gameplay palette is created and explicitly refresh the live OBJ palette after reconnects, savestates, or soft resets (Issue #852).
 
 ### Internal Changes
 
@@ -84,7 +91,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Major (big) chests: The animation for getting the original item will play with the original sprite. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or a custom sprite if it's not a KirbyAM item.
 - When `ability_randomization_mode` is set to `completely_random` ability statues are actually shuffled. This is known and incorrect, but we decided to release anyway and fix it later. You can always play with this feature off.
 - `Starting Kirby Color`: The color is not immediately applied. It might take a room transition or a hit for it to apply, but it will eventually apply. Hopefully we can improve this later, but the feature does work.
-
 ### Bug Fixes
 
 - Fixed an issue where having other custom GBA worlds installed with KirbyAM at the same time caused issues (Issue #742).

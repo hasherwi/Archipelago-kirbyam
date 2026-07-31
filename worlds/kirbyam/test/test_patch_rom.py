@@ -287,3 +287,47 @@ def test_ability_transition_start_callsite_scan_finds_statue_bypass_path() -> No
     )
 
     assert found == [expected_offset]
+
+
+def test_starting_color_game_start_callsites_match_verified_retail_assembly() -> None:
+    assert patch_rom.ORIGINAL_START_GAME_FN_ADDR == 0x080332BC
+    assert patch_rom.STARTING_COLOR_START_GAME_CALL_OFFSETS == (
+        0x00123EF2,
+        0x00124022,
+    )
+
+
+def test_validate_starting_color_callsite_target_accepts_expected_target() -> None:
+    rom_base = 0x08000000
+    offset = patch_rom.STARTING_COLOR_START_GAME_CALL_OFFSETS[0]
+    rom = bytearray(offset + 4)
+    rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(
+        rom_base + offset,
+        patch_rom.ORIGINAL_START_GAME_FN_ADDR,
+    )
+
+    original = patch_rom.validate_thumb_bl_callsite_target(
+        rom,
+        offset,
+        "single-player game start",
+        patch_rom.ORIGINAL_START_GAME_FN_ADDR,
+    )
+    assert patch_rom.decode_thumb_bl_target(rom_base + offset, original) == 0x080332BC
+
+
+def test_validate_starting_color_callsite_target_rejects_other_revision() -> None:
+    rom_base = 0x08000000
+    offset = patch_rom.STARTING_COLOR_START_GAME_CALL_OFFSETS[0]
+    rom = bytearray(offset + 4)
+    rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(
+        rom_base + offset,
+        0x08033000,
+    )
+
+    with pytest.raises(SystemExit, match="expected 0x080332BC"):
+        patch_rom.validate_thumb_bl_callsite_target(
+            rom,
+            offset,
+            "single-player game start",
+            patch_rom.ORIGINAL_START_GAME_FN_ADDR,
+        )

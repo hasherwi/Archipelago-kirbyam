@@ -103,6 +103,11 @@ jobs:
               0x08054C0C,
           )
 
+          # The starting-color fix validates the two retail single-player calls
+          # to sub_080332BC before redirecting them to the payload wrapper.
+          for offset in (0x00123EF2, 0x00124022):
+              rom[offset:offset + 4] = thumb_bl_bytes(offset, 0x080332BC)
+
           rom_path.write_bytes(rom)
           PY
 
