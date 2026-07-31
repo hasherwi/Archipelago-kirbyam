@@ -25,7 +25,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Bug Fixes
 
 - Prevent false LocationChecks after death by deferring polling while HP <= 0 (Issue #864).
-- Ability statues now obey ability gating on every direct grant path, including legacy slot-data configurations (Issue #874).
 - In `completely_random` mode, enabled regular ability statues now make a fresh per-touch draw from the configured statue pool instead of repeating their generation-time fallback assignment. The draw honors custom whitelists, the Minny toggle, and live ability unlocks while preserving statue-specific exclusions for no-ability and enemy-source toggles (Issue #875).
 - When `ability_randomization_mode` was `completely_random` and `ability_randomization_statues` was enabled, statue abilities were just shuffled, not random (Issue #841).
 - Changed map and shard item grants to be only additive, never overwriting what was already in the save. This was a consequence of how I "replayed" certain item grants when a game was opened again (PR #881).
