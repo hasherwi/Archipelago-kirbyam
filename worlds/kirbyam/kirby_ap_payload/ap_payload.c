@@ -58,6 +58,11 @@
 #define AP_MINOR_CHEST_EVENT_RING_BASE (AP_BASE + 0x90u)
 #define AP_ABILITY_GATE_MASK (*(volatile uint32_t*)(AP_BASE + 0xB0u))
 #define AP_ABILITY_UNLOCK_MASK (*(volatile uint32_t*)(AP_BASE + 0xB4u))
+/*
+ * Issue #852 runtime latch. Payload code executes from ROM, so mutable state
+ * must live in EWRAM rather than a C static/.bss object linked into the payload.
+ */
+#define AP_STARTING_KIRBY_COLOR_APPLIED (*(volatile uint32_t*)(AP_BASE + 0xB8u))
 #define AP_MINOR_CHEST_EVENT_RING_SLOT_COUNT 8u
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
@@ -75,12 +80,14 @@
 #define AP_NO_EXTRA_LIVES_RUNTIME  (*(volatile uint32_t*)(AP_BASE + 0x58u))
 #define KIRBY_SHARD_FLAGS_ADDR  0x02038970u
 #define KIRBY_SHARD_FLAGS       (*(volatile uint8_t*)(KIRBY_SHARD_FLAGS_ADDR))
-#define KIRBY_ACTIVE_COLOR_ADDR    0x0203ADE0u
-#define KIRBY_ACTIVE_COLOR          (*(volatile uint8_t*)(KIRBY_ACTIVE_COLOR_ADDR))
-// gUnk_0203ADE0 only takes effect before the game's graphics system initialises (boot-time).
-// KIRBY_TRANSITION_COLOR is the variable the game applies on every screen transition (runtime).
-#define KIRBY_TRANSITION_COLOR_ADDR 0x02020FBFu
-#define KIRBY_TRANSITION_COLOR      (*(volatile uint8_t*)(KIRBY_TRANSITION_COLOR_ADDR))
+/* Native player-one color state identified from the KATAM decomp. */
+#define KIRBY_PLAYER_COUNT 4u
+#define KIRBY_STARTING_COLOR_PLAYER 0u
+#define KIRBY_PLAYER_COLOR_TABLE_ADDR 0x0203AD1Cu
+#define KIRBY_PLAYER_COLOR_TABLE ((volatile uint8_t*)KIRBY_PLAYER_COLOR_TABLE_ADDR)
+/* gUnk_0203ADE0 is an s16 selected-color value, not an active 8-bit palette. */
+#define KIRBY_SELECTED_COLOR_ADDR 0x0203ADE0u
+#define KIRBY_SELECTED_COLOR (*(volatile int16_t*)KIRBY_SELECTED_COLOR_ADDR)
 #define AI_KIRBY_STATE_ADDR     0x0203AD2Cu
 #define AI_KIRBY_STATE          (*(volatile uint32_t*)(AI_KIRBY_STATE_ADDR))
 #define DEMO_PLAYBACK_FLAGS_ADDR 0x0203AD10u
@@ -103,7 +110,10 @@
 #define KIRBY_CURRENT_PLAYER_ADDR 0x0203AD3Cu
 #define KIRBY_CURRENT_PLAYER     (*(volatile uint8_t*)(KIRBY_CURRENT_PLAYER_ADDR))
 #define KIRBY_STRUCT_STRIDE      0x1A8u
+#define KIRBY_STRUCT_TASK_OFFSET 0xCCu
 #define KIRBY_STRUCT_BATTERY_OFFSET 0xDCu
+#define KIRBY_STRUCT_COLOR_OFFSET 0xDFu
+#define KIRBY_STRUCT_ABILITY_OFFSET 0x103u
 // Reverse-engineered timed-effect fields used by BonusGiveInvincibility in the
 // KatAM decomp (`bonus.c`): clear the effect-reset byte, set the invincibility
 // kind byte to 100, mark the state byte active, and store a 1000-tick duration.
@@ -148,6 +158,13 @@ const unsigned char gArchipelagoInfo[16] = {0};
  * the client has synchronized live mailbox state; the statue mask carries the
  * exact seed-specific pool for per-touch randomization.
  */
+/*
+ * Resolved generation-time Starting Kirby Color. 0xFFFFFFFF preserves
+ * compatibility with old procedure patches that do not write this word.
+ */
+__attribute__((used, section(".apconfig.color")))
+volatile const uint32_t gApStartingKirbyColorInitial = 0xFFFFFFFFu;
+
 __attribute__((used, section(".apconfig.gate")))
 volatile const uint32_t gApAbilityGateMaskInitial = 0u;
 
@@ -444,6 +461,20 @@ typedef void (*KirbyRequestAbilityTransitionFn)(void*, uint32_t);
 
 typedef void (*KirbyStartAbilityTransitionFn)(void*);
 #define KIRBY_START_ABILITY_TRANSITION_FN ((KirbyStartAbilityTransitionFn)0x08054C0Du)
+
+typedef void (*KirbyRefreshPaletteFn)(uint8_t player);
+/* Thumb entry for native sub_0803E558(u8), which rebuilds and uploads Kirby's OBJ palette. */
+#define KIRBY_REFRESH_PALETTE_FN ((KirbyRefreshPaletteFn)0x0803E559u)
+
+typedef void (*KirbyStartGameFn)(
+    uint8_t mode,
+    uint8_t arg1,
+    const uint16_t *rooms,
+    const int32_t *positions,
+    const uint32_t *flags
+);
+/* Thumb entry for native sub_080332BC, which creates the Kirby players. */
+#define KIRBY_START_GAME_FN ((KirbyStartGameFn)0x080332BDu)
 
 typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define KIRBY_GIVE_INVINCIBILITY_FN ((KirbyGiveInvincibilityFn)0x0808324Du)
@@ -801,49 +832,109 @@ static void ap_sync_active_kirby_health_from_vitality(void) {
     *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_MAX_HP_OFFSET) = vitality_total;
 }
 
-static uint8_t ap_starting_kirby_color_applied = 0u;
+static uint8_t ap_is_supported_kirby_color(uint32_t color_id) {
+    return color_id <= 13u ? 1u : 0u;
+}
+
+static uint32_t ap_get_effective_starting_kirby_color(void) {
+    uint32_t runtime_color = AP_STARTING_KIRBY_COLOR_ID;
+
+    /* Prefer the live client value once synchronized. Before that, use the
+     * generation-time ROM word so startup and offline/reset windows are safe. */
+    if (ap_is_supported_kirby_color(runtime_color) != 0u) {
+        return runtime_color;
+    }
+    if (ap_is_supported_kirby_color(gApStartingKirbyColorInitial) != 0u) {
+        return gApStartingKirbyColorInitial;
+    }
+    return 0xFFFFFFFFu;
+}
+
+static uint8_t ap_is_player_kirby_ready(uint8_t player) {
+    uint32_t kirby_addr;
+    uint32_t task_ptr;
+    uint8_t ability;
+
+    if (player >= KIRBY_PLAYER_COUNT) {
+        return 0u;
+    }
+
+    kirby_addr = KIRBY_STRUCTS_ADDR + ((uint32_t)player * KIRBY_STRUCT_STRIDE);
+    task_ptr = *(volatile uint32_t*)(kirby_addr + KIRBY_STRUCT_TASK_OFFSET);
+    ability = *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_ABILITY_OFFSET);
+
+    /* sub_0803E558 indexes ability palette metadata and assumes a live Kirby.
+     * Native Task objects are allocated in IWRAM. Waiting for both conditions
+     * avoids calling the palette loader from menus or before CreateKirby. */
+    if (task_ptr < 0x03000000u || task_ptr >= 0x03008000u) {
+        return 0u;
+    }
+    if (ability > KIRBY_ABILITY_MASK) {
+        return 0u;
+    }
+    return 1u;
+}
+
+/*
+ * Hook for the two single-player calls to sub_080332BC in code_08123950.c.
+ * The seed color is installed before CreateKirby copies the player-color table,
+ * so the first visible gameplay frame uses the configured palette.
+ */
+__attribute__((used)) void ap_on_start_single_player_game(
+    uint8_t mode,
+    uint8_t arg1,
+    const uint16_t *rooms,
+    const int32_t *positions,
+    const uint32_t *flags
+) {
+    uint32_t desired_color = gApStartingKirbyColorInitial;
+
+    if (ap_is_supported_kirby_color(desired_color) != 0u) {
+        KIRBY_SELECTED_COLOR = (int16_t)desired_color;
+        KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] =
+            (uint8_t)desired_color;
+    }
+
+    KIRBY_START_GAME_FN(mode, arg1, rooms, positions, flags);
+}
 
 static void ap_apply_starting_kirby_color_config(void) {
     uint32_t desired_color;
-    uint8_t current_transition_color;
+    uint32_t kirby_addr;
 
-    if (ap_starting_kirby_color_applied != 0u) {
+    if (AP_STARTING_KIRBY_COLOR_APPLIED != 0u) {
         return;
     }
 
-    desired_color = AP_STARTING_KIRBY_COLOR_ID;
-
-    // 0xFFFFFFFF means client has not synced the runtime config yet.
-    if (desired_color == 0xFFFFFFFFu) {
+    desired_color = ap_get_effective_starting_kirby_color();
+    if (ap_is_supported_kirby_color(desired_color) == 0u) {
         return;
     }
 
-    // Supported native color IDs: 0..13. Value 0 (Pink) is intentionally a no-op.
-    if (desired_color > 13u) {
-        return;
-    }
+    /* Pink is the native/default no-override choice. The startup hook still
+     * writes Pink before CreateKirby, but no runtime palette rebuild is needed. */
     if (desired_color == 0u) {
-        ap_starting_kirby_color_applied = 1u;
+        AP_STARTING_KIRBY_COLOR_APPLIED = 1u;
         return;
     }
 
-    // KIRBY_TRANSITION_COLOR (0x02020FBF) is the variable the game reads on each screen
-    // transition to apply the active palette. If it already equals our desired color we
-    // are done. Otherwise enforce the configured starting color unconditionally: the
-    // spec requires "beginning of the game and on future starts", so we always apply
-    // once per boot/EWRAM session regardless of what a save file or prior session left.
-    current_transition_color = KIRBY_TRANSITION_COLOR;
-
-    if ((uint32_t)current_transition_color == desired_color) {
-        ap_starting_kirby_color_applied = 1u;
+    if (ap_is_player_kirby_ready(KIRBY_STARTING_COLOR_PLAYER) == 0u) {
         return;
     }
 
-    // Write to the transition variable so the color takes effect on the next screen change,
-    // and also to the boot-time state variable in case this hook fires early enough.
-    KIRBY_TRANSITION_COLOR = (uint8_t)desired_color;
-    KIRBY_ACTIVE_COLOR = (uint8_t)desired_color;
-    ap_starting_kirby_color_applied = 1u;
+    kirby_addr = KIRBY_STRUCTS_ADDR
+        + ((uint32_t)KIRBY_STARTING_COLOR_PLAYER * KIRBY_STRUCT_STRIDE);
+
+    /* Keep all native color sources coherent. Merely changing Kirby::color does
+     * not update the OBJ palette already cached in palette RAM. */
+    KIRBY_SELECTED_COLOR = (int16_t)desired_color;
+    KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] =
+        (uint8_t)desired_color;
+    *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_COLOR_OFFSET) =
+        (uint8_t)desired_color;
+
+    KIRBY_REFRESH_PALETTE_FN(KIRBY_STARTING_COLOR_PLAYER);
+    AP_STARTING_KIRBY_COLOR_APPLIED = 1u;
 }
 
 static uint32_t ap_get_active_kirby_addr(void) {
@@ -1165,7 +1256,7 @@ void ap_poll_mailbox_c(void) {
         AP_STARTING_KIRBY_COLOR_ID = 0xFFFFFFFFu;
         AP_ONE_HIT_MODE_RUNTIME = 0xFFFFFFFFu;
         AP_NO_EXTRA_LIVES_RUNTIME = 0xFFFFFFFFu;
-        ap_starting_kirby_color_applied = 0u;
+        AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
         AP_ABILITY_RANDOMIZATION_MODE = 0u;
         AP_ABILITY_RANDOMIZATION_SEED_LO = 0u;
         AP_ABILITY_RANDOMIZATION_SEED_HI = 0u;

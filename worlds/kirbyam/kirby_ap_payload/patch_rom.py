@@ -63,6 +63,10 @@ ORIGINAL_ABILITY_TRANSITION_FN_ADDR = 0x080547C4
 ORIGINAL_ABILITY_TRANSITION_START_FN_ADDR = 0x08054C0C
 ORIGINAL_BOSS_ALREADY_OWNED_REWARD_FN_ADDR = 0x08088A38
 EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES = 8
+# Two single-player gameplay-start calls in code_08123950.c. Both originally
+# target sub_080332BC and must run the seed-color wrapper before CreateKirby.
+ORIGINAL_START_GAME_FN_ADDR = 0x080332BC
+STARTING_COLOR_START_GAME_CALL_OFFSETS = (0x00123EF2, 0x00124022)
 
 
 ROM_PATH_TMP = "rom_path.tmp"
@@ -261,6 +265,26 @@ def validate_thumb_bl_callsite(rom: bytes | bytearray, offset: int, label: str) 
         raise SystemExit(
             f"Error: {label} callsite at {offset:#x} is not a Thumb BL instruction. "
             f"Found bytes: {original.hex(' ')}. Refusing to patch unknown site."
+        )
+    return original
+
+
+def validate_thumb_bl_callsite_target(
+    rom: bytes | bytearray,
+    offset: int,
+    label: str,
+    expected_target: int,
+    *,
+    rom_base: int = 0x08000000,
+) -> bytes:
+    """Validate both the Thumb-BL shape and its decoded retail target."""
+    original = validate_thumb_bl_callsite(rom, offset, label)
+    actual_target = decode_thumb_bl_target(rom_base + offset, original)
+    if actual_target != expected_target:
+        raise SystemExit(
+            f"Error: {label} callsite at {offset:#x} targets "
+            f"0x{actual_target:08X}, expected 0x{expected_target:08X}. "
+            "Refusing to patch an unknown ROM revision."
         )
     return original
 
@@ -751,6 +775,8 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_on_request_copy_ability_transition"),
         "ability_transition_start_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_start_copy_ability_transition"),
+        "starting_color_start_game_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_start_single_player_game"),
     }
     return {name: target & ~1 for name, target in targets.items()}
 
@@ -767,6 +793,7 @@ _PAYLOAD_TARGET_LABELS = {
     "hub_switch_hook_target": "hub switch hook",
     "ability_transition_hook_target": "ability transition hook",
     "ability_transition_start_hook_target": "ability transition-start hook",
+    "starting_color_start_game_hook_target": "starting-color game-start hook",
 }
 
 
@@ -861,6 +888,15 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
     original_hub_switch_hook = validate_thumb_bl_callsite(
         rom, BIG_SWITCH_UNLOCK_CALL_OFFSET, "hub switch unlock"
     )
+    original_starting_color_hooks = [
+        validate_thumb_bl_callsite_target(
+            rom,
+            offset,
+            "single-player game start",
+            ORIGINAL_START_GAME_FN_ADDR,
+        )
+        for offset in STARTING_COLOR_START_GAME_CALL_OFFSETS
+    ]
 
     print("Validated hook callsite instruction shape (Thumb BL):")
     print(f"  boss shard @ {BOSS_COLLECT_SHARD_CALL_OFFSET:#x}: {original_boss_hook.hex(' ')}")
@@ -873,6 +909,8 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
         f"{original_sound_player_hook.hex(' ')}"
     )
     print(f"  hub switch unlock @ {BIG_SWITCH_UNLOCK_CALL_OFFSET:#x}: {original_hub_switch_hook.hex(' ')}")
+    for offset, opcode in zip(STARTING_COLOR_START_GAME_CALL_OFFSETS, original_starting_color_hooks):
+        print(f"  single-player game start @ {offset:#x}: {opcode.hex(' ')}")
 
     return {
         "original_boss_hook": original_boss_hook,
@@ -882,6 +920,8 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
         "original_spray_paint_hook": original_spray_paint_hook,
         "original_sound_player_hook": original_sound_player_hook,
         "original_hub_switch_hook": original_hub_switch_hook,
+        "original_starting_color_hook_intro": original_starting_color_hooks[0],
+        "original_starting_color_hook_load": original_starting_color_hooks[1],
     }
 
 
@@ -1013,6 +1053,10 @@ def patch_rom_with_payload(
         rom[offset:offset + 4] = thumb_bl_bytes(
             rom_base + offset, hook_targets["ability_transition_start_hook_target"]
         )
+    for offset in STARTING_COLOR_START_GAME_CALL_OFFSETS:
+        rom[offset:offset + 4] = thumb_bl_bytes(
+            rom_base + offset, hook_targets["starting_color_start_game_hook_target"]
+        )
 
 
 def print_patch_summary(
@@ -1105,6 +1149,12 @@ def print_patch_summary(
         len(ability_transition_start_callsites),
         "target=",
         hex(hook_targets["ability_transition_start_hook_target"]),
+    )
+    print(
+        "Single-player game-start callsites patched:",
+        ", ".join(hex(offset) for offset in STARTING_COLOR_START_GAME_CALL_OFFSETS),
+        "target=",
+        hex(hook_targets["starting_color_start_game_hook_target"]),
     )
 
 

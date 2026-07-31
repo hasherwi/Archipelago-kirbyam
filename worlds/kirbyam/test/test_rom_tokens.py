@@ -16,6 +16,7 @@ from ..options import AbilityRandomizationMode
 from ..enemy_ability_data import ABILITY_NAME_TO_ID
 from ..enemy_ability_runtime_patch import build_statue_runtime_allowed_mask
 from ..rom import (
+    STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET,
     ABILITY_GATE_MASK_INITIAL_ROM_OFFSET,
     ABILITY_RANDOMIZATION_STATUE_ALLOWED_MASK_ROM_OFFSET,
     write_tokens,
@@ -42,8 +43,9 @@ def _make_world(
     *,
     randomize_statues: bool = False,
     ability_gating: bool = True,
+    starting_color_id: int = 0,
 ) -> SimpleNamespace:
-    return SimpleNamespace(
+    world = SimpleNamespace(
         auth=b"0123456789ABCDEF",
         options=SimpleNamespace(
             ability_randomization_mode=SimpleNamespace(value=mode),
@@ -51,6 +53,38 @@ def _make_world(
             ability_gating=SimpleNamespace(value=ability_gating),
         ),
     )
+    world._get_resolved_starting_kirby_color = lambda: (
+        starting_color_id,
+        "Test Color",
+    )
+    return world
+
+
+def test_write_tokens_bakes_resolved_starting_color() -> None:
+    world = _make_world(
+        AbilityRandomizationMode.option_off,
+        starting_color_id=7,
+    )
+    patch = _DummyPatch()
+
+    write_tokens(cast(Any, world), cast(Any, patch))
+
+    assert (
+        APTokenTypes.WRITE,
+        STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET,
+        (7).to_bytes(4, "little"),
+    ) in patch.token_writes
+
+
+def test_write_tokens_rejects_invalid_resolved_starting_color() -> None:
+    world = _make_world(
+        AbilityRandomizationMode.option_off,
+        starting_color_id=14,
+    )
+    patch = _DummyPatch()
+
+    with pytest.raises(ValueError, match="within 0..13"):
+        write_tokens(cast(Any, world), cast(Any, patch))
 
 
 def test_write_tokens_rejects_missing_policy_for_non_vanilla_mode() -> None:

@@ -166,7 +166,9 @@ def test_load_kirby_colors_rejects_out_of_range_id() -> None:
     with patch.object(
         colors_module,
         "load_json_data",
-        return_value={"colors": [{"key": "pink", "id": 0, "name": "Pink"}, {"key": "ultra", "id": 14, "name": "Ultra"}]},
+        return_value={
+            "colors": [{"key": "pink", "id": 0, "name": "Pink"}, {"key": "ultra", "id": 14, "name": "Ultra"}]
+        },
     ):
         with pytest.raises(ValueError, match="out of supported range"):
             load_kirby_colors()
@@ -306,3 +308,35 @@ async def test_client_game_watcher_logs_starting_color_once_after_initial_ready_
         if call.args and call.args[0] == "KirbyAM: configured starting Kirby color is %s (%s)"
     ]
     assert len(matching) == 1
+
+
+def test_payload_applies_starting_color_before_create_and_refreshes_live_palette() -> None:
+    from pathlib import Path
+
+    payload_dir = Path(__file__).resolve().parents[1] / "kirby_ap_payload"
+    payload = (payload_dir / "ap_payload.c").read_text(encoding="utf-8")
+    linker = (payload_dir / "linker.ld").read_text(encoding="utf-8")
+
+    # Generation-time path: both single-player starts are redirected to a
+    # wrapper that writes the native selected-color state before CreateKirby.
+    assert "void ap_on_start_single_player_game(" in payload
+    assert "gApStartingKirbyColorInitial" in payload
+    assert "KIRBY_SELECTED_COLOR = (int16_t)desired_color" in payload
+    assert "KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER]" in payload
+    assert "KIRBY_START_GAME_FN(mode, arg1, rooms, positions, flags)" in payload
+
+    # Runtime recovery path: writing Kirby::color alone is insufficient; the
+    # native palette loader must be called after a live Kirby is available.
+    assert "KIRBY_STRUCT_COLOR_OFFSET 0xDFu" in payload
+    assert "KIRBY_REFRESH_PALETTE_FN(KIRBY_STARTING_COLOR_PLAYER)" in payload
+    assert "ap_is_player_kirby_ready" in payload
+
+    # Mutable latch state belongs in EWRAM, not payload .bss/ROM.
+    assert "AP_STARTING_KIRBY_COLOR_APPLIED" in payload
+    assert "static uint8_t ap_starting_kirby_color_applied" not in payload
+
+    # Preserve the already-shipped gate/statue offsets while adding color first.
+    assert "AP_CONFIG_ADDR = 0x0815F694" in linker
+    assert linker.index(".apconfig.color") < linker.index(".apconfig.gate")
+    assert linker.index(".apconfig.gate") < linker.index(".apconfig.statue")
+    assert "SIZEOF(.apconfig) == 12" in linker
