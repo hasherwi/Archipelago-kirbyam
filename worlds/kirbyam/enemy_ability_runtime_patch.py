@@ -83,6 +83,39 @@ def _normalized_statue_pool(policy: dict[str, Any]) -> list[str]:
     return pool
 
 
+def build_statue_runtime_allowed_mask(
+    policy: dict[str, Any],
+    include_statues: bool = False,
+) -> int:
+    """Return the exact ability-ID mask allowed for live statue rerolls.
+
+    A zero mask disables per-touch statue rerolls.  Otherwise the mask is built
+    from the same normalized statue pool used for generation-time table writes,
+    so runtime behavior automatically honors the mode, statue toggle, custom
+    whitelist, and ``ability_randomization_minny`` setting.  Statue-specific
+    semantics intentionally ignore passive-enemy and no-ability options.
+    """
+    mode = int(policy.get("mode", AbilityRandomizationMode.option_off))
+    if not include_statues or mode == AbilityRandomizationMode.option_off:
+        return 0
+    if mode not in (
+        AbilityRandomizationMode.option_shuffled,
+        AbilityRandomizationMode.option_completely_random,
+    ):
+        raise ValueError(f"unsupported enemy copy-ability randomization mode: {mode}")
+
+    _validate_runtime_ability_ids()
+    mask = 0
+    for ability_name in _normalized_statue_pool(policy):
+        ability_id = _ability_name_to_id(ability_name)
+        if not 0 < ability_id <= 31:
+            raise ValueError(
+                f"statue ability ID must be within 1..31: {ability_name}={ability_id}"
+            )
+        mask |= 1 << ability_id
+    return mask & 0xFFFFFFFF
+
+
 def _build_statue_assignments(policy: dict[str, Any], mode: int) -> dict[str, str]:
     pool = _normalized_statue_pool(policy)
     normalized_policy = dict(policy)
@@ -204,7 +237,9 @@ def build_enemy_copy_runtime_patch_writes(
     values with a fresh random roll on every swallow event using the runtime
     config written by the client (``ability_randomization_*_runtime`` mailbox
     fields); the static writes here serve as a safe fallback when the runtime
-    hook has not yet fired.
+    hook has not yet fired.  Included statues likewise receive generation-time
+    fallback writes, while the transition-start payload hook uses
+    :func:`build_statue_runtime_allowed_mask` for a fresh per-touch roll.
     """
     mode = int(policy.get("mode", AbilityRandomizationMode.option_off))
     if mode == AbilityRandomizationMode.option_off:

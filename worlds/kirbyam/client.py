@@ -516,7 +516,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_logged_ai_state: int | None = None
         self._last_logged_demo_flags: int | None = None
         self._boss_shard_debug_window_active: bool = False
-        self._last_ability_runtime_config_signature: tuple[int, int, int, int, int, int, int] | None = None
+        self._last_ability_runtime_config_signature: tuple[int, int, int, int, int, bool, int, int] | None = None
         self._ability_runtime_config_revalidate_counter: int = 0
         self._last_ability_reroll_event_counter: int | None = None
         self._delivery_timeout_total: int = 0
@@ -1770,56 +1770,77 @@ class KirbyAmClient(BizHawkClient):
             return
 
         policy = slot_data.get("enemy_copy_ability_policy")
-        if not isinstance(policy, dict):
-            return
-
+        allowed_abilities_raw: object
         try:
-            mode = int(policy.get("mode", 0)) & 0xFFFFFFFF
-            seed = int(policy.get("seed", 0)) & 0xFFFFFFFFFFFFFFFF
-            no_ability_weight = int(policy.get("ability_randomization_no_ability_weight", 0)) & 0xFFFFFFFF
+            if isinstance(policy, dict):
+                mode = int(policy.get("mode", 0)) & 0xFFFFFFFF
+                seed = int(policy.get("seed", 0)) & 0xFFFFFFFFFFFFFFFF
+                no_ability_weight = int(
+                    policy.get("ability_randomization_no_ability_weight", 0)
+                ) & 0xFFFFFFFF
+                allowed_abilities_raw = policy.get("allowed_abilities", [])
+            else:
+                # Compatibility for worlds generated before the structured
+                # enemy_copy_ability_policy field existed.  Ability gating is
+                # independent of randomization, so returning early here would
+                # leave the payload gate/unlock masks at zero and let direct
+                # statue grants bypass progression rules (Issue #874).
+                legacy_config_keys = {
+                    "ability_gating",
+                    "ability_gateable_abilities",
+                    "ability_unlock_items",
+                    "ability_randomization_mode",
+                    "ability_randomization_no_ability_weight",
+                    "enemy_copy_ability_whitelist",
+                }
+                if not any(key in slot_data for key in legacy_config_keys):
+                    return
+                mode = int(slot_data.get("ability_randomization_mode", 0)) & 0xFFFFFFFF
+                seed = 0
+                no_ability_weight = int(
+                    slot_data.get("ability_randomization_no_ability_weight", 0)
+                ) & 0xFFFFFFFF
+                allowed_abilities_raw = slot_data.get(
+                    "enemy_copy_ability_whitelist", []
+                )
         except (TypeError, ValueError):
             return
 
         allowed_mask = 0
-        allowed_abilities = policy.get("allowed_abilities", [])
-        if isinstance(allowed_abilities, list):
-            for ability_name in allowed_abilities:
+        if isinstance(allowed_abilities_raw, (list, tuple, set)):
+            for ability_name in allowed_abilities_raw:
                 if not isinstance(ability_name, str):
                     continue
                 ability_id = ABILITY_NAME_TO_ID.get(ability_name)
-                if ability_id is None:
-                    continue
-                if 0 < ability_id <= 31:
+                if ability_id is not None and 0 < ability_id <= 31:
                     allowed_mask |= 1 << ability_id
 
+        ability_gating_enabled = self._coerce_bool(
+            slot_data.get("ability_gating", True),
+            True,
+        )
         gated_mask = 0
         unlocked_mask = 0
-        gateable_abilities = slot_data.get("ability_gateable_abilities", [])
-        if (
-            self._coerce_bool(slot_data.get("ability_gating", True), True)
-            and (not isinstance(gateable_abilities, list) or len(gateable_abilities) == 0)
-        ):
-            gateable_abilities = list(GATEABLE_ENEMY_COPY_ABILITIES)
-        if isinstance(gateable_abilities, list):
+        if ability_gating_enabled:
+            gateable_abilities = slot_data.get("ability_gateable_abilities", [])
+            if not isinstance(gateable_abilities, list) or not gateable_abilities:
+                gateable_abilities = list(GATEABLE_ENEMY_COPY_ABILITIES)
             for ability_name in gateable_abilities:
                 if not isinstance(ability_name, str):
                     continue
                 ability_id = ABILITY_NAME_TO_ID.get(ability_name)
-                if ability_id is None:
-                    continue
-                if 0 < ability_id <= 31:
+                if ability_id is not None and 0 < ability_id <= 31:
                     gated_mask |= 1 << ability_id
 
-        ability_unlock_items = slot_data.get("ability_unlock_items", {})
-        ability_gating_enabled = self._coerce_bool(slot_data.get("ability_gating", True), True)
-        if ability_gating_enabled and isinstance(ability_unlock_items, dict):
-            unlock_labels: set[str] = {
-                label for label in ability_unlock_items.values()
-                if isinstance(label, str)
-            }
-            if not unlock_labels:
-                unlock_labels = set(_ABILITY_UNLOCK_ITEM_LABELS)
-            if unlock_labels:
+            ability_unlock_items = slot_data.get("ability_unlock_items", {})
+            if isinstance(ability_unlock_items, dict):
+                unlock_labels: set[str] = {
+                    label
+                    for label in ability_unlock_items.values()
+                    if isinstance(label, str)
+                }
+                if not unlock_labels:
+                    unlock_labels = set(_ABILITY_UNLOCK_ITEM_LABELS)
                 for item in ctx.items_received:
                     item_id = self._coerce_u32(getattr(item, "item", None))
                     if item_id is None:
@@ -1831,9 +1852,7 @@ class KirbyAmClient(BizHawkClient):
                         continue
                     ability_name = item_data.label.removesuffix(" Ability")
                     ability_id = ABILITY_NAME_TO_ID.get(ability_name)
-                    if ability_id is None:
-                        continue
-                    if 0 < ability_id <= 31:
+                    if ability_id is not None and 0 < ability_id <= 31:
                         unlocked_mask |= 1 << ability_id
 
         seed_lo = seed & 0xFFFFFFFF

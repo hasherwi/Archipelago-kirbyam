@@ -44,27 +44,64 @@ jobs:
           python - <<'PY'
           from pathlib import Path
 
+          ROM_BASE = 0x08000000
+
+
+          def thumb_bl_bytes(source_offset: int, target_address: int) -> bytes:
+              """Encode a Thumb-1 BL from a ROM file offset to an absolute GBA address."""
+              source_address = ROM_BASE + source_offset
+              displacement = target_address - (source_address + 4)
+
+              if displacement & 1:
+                  raise ValueError("Thumb BL target must be halfword aligned")
+
+              # Thumb-1 BL stores a signed 22-bit halfword displacement.
+              immediate = (displacement >> 1) & 0x3FFFFF
+              first_halfword = 0xF000 | ((immediate >> 11) & 0x7FF)
+              second_halfword = 0xF800 | (immediate & 0x7FF)
+
+              return (
+                  first_halfword.to_bytes(2, "little")
+                  + second_halfword.to_bytes(2, "little")
+              )
+
+
           rom_path = Path("worlds/kirbyam/kirby_ap_payload/kirby.gba")
           rom_path.parent.mkdir(parents=True, exist_ok=True)
           rom = bytearray(0x200000)
-          thumb_bl = bytes.fromhex("00 f0 00 f8")
-          for offset in (0x001D952, 0x0000B144, 0x0000B0CC, 0x0000B1D0, 0x0000B264, 0x00039EEE, 0x0000AFEC):
-            rom[offset:offset + 4] = thumb_bl
 
-          # Generate a valid Thumb BL at ROM file offset 0x20000 targeting the ability
-          # transition function (0x080547C4). Use absolute GBA addresses (0x08000000 base)
-          # to match how patch_rom.py decodes BL targets via decode_thumb_bl_target().
-          # Thumb bit (0x080547C5 bit 0) is cleared to get the even instruction address.
-          src_abs = 0x08000000 + 0x20000   # absolute GBA address of this BL
-          dst_abs = 0x080547C4             # ORIGINAL_ABILITY_TRANSITION_FN_ADDR (even)
-          diff = dst_abs - (src_abs + 4)   # signed byte offset to target
-          imm22 = diff >> 1                # halfword offset (positive for forward branch)
-          imm11_hi = (imm22 >> 11) & 0x7FF
-          imm11_lo = imm22 & 0x7FF
-          first_hw = 0xF000 | imm11_hi
-          second_hw = 0xF800 | imm11_lo
-          bl_bytes = first_hw.to_bytes(2, "little") + second_hw.to_bytes(2, "little")
-          rom[0x20000:0x20004] = bl_bytes
+          # Fixed callsites validated only for their Thumb-BL instruction shape.
+          placeholder_bl = bytes.fromhex("00 f0 00 f8")
+          for offset in (
+              0x001D952,
+              0x0000B144,
+              0x0000B0CC,
+              0x0000B1D0,
+              0x0000B264,
+              0x00039EEE,
+              0x0000AFEC,
+          ):
+              rom[offset:offset + 4] = placeholder_bl
+
+          # patch_rom.py requires exactly eight direct calls to the retail
+          # boss-already-owned reward function.
+          for index in range(8):
+              offset = 0x21000 + index * 4
+              rom[offset:offset + 4] = thumb_bl_bytes(offset, 0x08088A38)
+
+          # Ordinary enemy / ability-star request path.
+          ability_request_offset = 0x22000
+          rom[ability_request_offset:ability_request_offset + 4] = thumb_bl_bytes(
+              ability_request_offset,
+              0x080547C4,
+          )
+
+          # Direct statue / scripted transitioningAbility path.
+          transition_start_offset = 0x22004
+          rom[transition_start_offset:transition_start_offset + 4] = thumb_bl_bytes(
+              transition_start_offset,
+              0x08054C0C,
+          )
 
           rom_path.write_bytes(rom)
           PY

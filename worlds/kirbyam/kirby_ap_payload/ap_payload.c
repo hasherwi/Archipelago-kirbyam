@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#include "statue_runtime_logic.h"
+
 // Kirby AP item ID base offset
 #define KIRBY_ITEM_ID_BASE_OFFSET       3860000u  // must match worlds/kirbyam/data.py BASE_OFFSET
 
@@ -138,6 +140,27 @@
 // Archipelago info structure (not used in this payload)
 __attribute__((section(".apinfo")))
 const unsigned char gArchipelagoInfo[16] = {0};
+
+/*
+ * Per-seed runtime defaults written by rom.py after the shared base patch is
+ * applied. The linker fixes these words at the final eight bytes of the
+ * payload window. The initial gate mask protects startup/reset windows before
+ * the client has synchronized live mailbox state; the statue mask carries the
+ * exact seed-specific pool for per-touch randomization.
+ */
+__attribute__((used, section(".apconfig.gate")))
+volatile const uint32_t gApAbilityGateMaskInitial = 0u;
+
+/*
+ * Per-seed statue-specific ability mask at ROM address 0x0815F69C
+ * (file offset 0x0015F69C), so each generated world can carry its exact statue
+ * pool without rebuilding the shared payload.  Zero disables live statue
+ * rerolls.  Nonzero masks already incorporate the statue toggle, selected
+ * randomization mode, custom whitelist, and Minny option.  Volatile prevents
+ * the compiler from constant-folding the default zero value.
+ */
+__attribute__((used, section(".apconfig.statue")))
+volatile const uint32_t gApAbilityRandomizationStatueAllowedMask = 0u;
 
 
 // Issue #109: Persist shard grants to SRAM to survive reset without room change
@@ -419,6 +442,9 @@ typedef void (*KirbyCollectSoundPlayerFn)(uint32_t reward_index);
 typedef void (*KirbyRequestAbilityTransitionFn)(void*, uint32_t);
 #define KIRBY_REQUEST_ABILITY_TRANSITION_FN ((KirbyRequestAbilityTransitionFn)0x080547C5u)
 
+typedef void (*KirbyStartAbilityTransitionFn)(void*);
+#define KIRBY_START_ABILITY_TRANSITION_FN ((KirbyStartAbilityTransitionFn)0x08054C0Du)
+
 typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define KIRBY_GIVE_INVINCIBILITY_FN ((KirbyGiveInvincibilityFn)0x0808324Du)
 
@@ -434,6 +460,13 @@ typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define ENEMY_ABILITY_TABLE_BASE_ADDR 0x35164Eu
 #define ENEMY_ABILITY_TABLE_STRIDE 0x18u
 #define OBJECT2_TYPE_OFFSET 0x82u
+
+/*
+ * Verified against katam/include/kirby.h from the game decompilation.
+ * Ability statues bypass sub_080547C4 entirely: they write the requested
+ * ability directly to Kirby::transitioningAbility and then call sub_08054C0C.
+ */
+#define KIRBY_TRANSITIONING_ABILITY_OFFSET 0xDDu
 
 static uint32_t ap_mix_u32(uint32_t x) {
     x ^= x >> 16;
@@ -497,7 +530,8 @@ static uint8_t ap_select_random_allowed_ability_excluding(
 
 // Hook target for all callsites that request Kirby ability transition.
 // In completely-random mode, this rerolls a fresh ability for each request,
-// including ability-star transitions used by statues.
+// including dropped ability-star transitions. Direct statue touches bypass this
+// function and are handled by ap_on_start_copy_ability_transition below.
 __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, uint32_t ability_flags) {
     uint32_t mode = AP_ABILITY_RANDOMIZATION_MODE;
     uint32_t rewritten_flags = ability_flags;
@@ -587,6 +621,130 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
     }
 
     KIRBY_REQUEST_ABILITY_TRANSITION_FN(kirby, rewritten_flags);
+}
+
+/*
+ * Hook target for every direct call to sub_08054C0C, the routine that starts
+ * Kirby's ability-change animation after Kirby::transitioningAbility has
+ * already been populated.
+ *
+ * Why this second hook is required:
+ *   - Enemy and dropped ability-star requests normally flow through
+ *     sub_080547C4 and are handled by ap_on_request_copy_ability_transition.
+ *   - Ability statues and the Master Sword stand do not call sub_080547C4.
+ *     They assign Object2::kirbyAbility directly to Kirby::transitioningAbility
+ *     (offset 0xDD) and then call sub_08054C0C.
+ *
+ * Sanitizing the authoritative pending field here closes that bypass while
+ * retaining the game's original animation/state-machine behavior. Only the
+ * low five ability-ID bits are cleared; upper transition flags are preserved.
+ */
+__attribute__((used)) void ap_on_start_copy_ability_transition(void *kirby) {
+    volatile uint8_t *transitioning_ability;
+    uint32_t caller_lr_snapshot = 0u;
+    uint32_t caller_pc;
+    uint32_t mode;
+    uint8_t pending_flags;
+    uint8_t pending_ability;
+    uint8_t original_ability;
+    uint8_t is_direct_statue;
+    uint32_t statue_allowed_mask;
+
+    /*
+     * Snapshot lr before any helper call can clobber it.  Because patch_rom.py
+     * replaces the caller's BL instruction, this resolves to the original
+     * retail callsite rather than a location inside the payload.
+     */
+    __asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));
+    caller_pc = caller_lr_snapshot & ~1u;
+    if (caller_pc >= 4u) {
+        caller_pc -= 4u;
+    }
+
+    if (kirby == (void*)0) {
+        return;
+    }
+
+    transitioning_ability =
+        (volatile uint8_t *)((uintptr_t)kirby + KIRBY_TRANSITIONING_ABILITY_OFFSET);
+    pending_flags = *transitioning_ability;
+    pending_ability = (uint8_t)(pending_flags & KIRBY_ABILITY_MASK);
+    original_ability = pending_ability;
+    mode = AP_ABILITY_RANDOMIZATION_MODE;
+    is_direct_statue = ap_statue_is_direct_touch_callsite(caller_pc);
+    statue_allowed_mask = gApAbilityRandomizationStatueAllowedMask;
+
+    /*
+     * Issue #875: regular statues write their table-selected ability directly
+     * to transitioningAbility and therefore never enter the request hook that
+     * performs per-event completely-random rerolls.  Reroll only the verified
+     * sub_080AA588 call path, only when statue randomization is enabled for the
+     * generated seed, and select directly from the per-seed statue mask after
+     * removing currently locked abilities.  That mask is derived from the same
+     * normalized pool as the static table writes, so custom whitelist and Minny
+     * settings stay aligned.  Statues intentionally ignore the no-ability,
+     * passive-enemy, miniboss, and boss-spawn options.
+     */
+    if (ap_statue_should_reroll(caller_pc, mode, statue_allowed_mask) != 0u) {
+        uint32_t candidate_mask = ap_statue_unlocked_candidate_mask(
+            statue_allowed_mask,
+            AP_ABILITY_GATE_MASK,
+            AP_ABILITY_UNLOCK_MASK
+        );
+        pending_ability = ap_statue_select_ability(
+            candidate_mask,
+            ap_next_rng_u32()
+        );
+        pending_flags = ap_statue_replace_ability_bits(
+            pending_flags,
+            pending_ability
+        );
+        *transitioning_ability = pending_flags;
+    }
+
+    /*
+     * Issue #874: this remains the final authority for direct pending-field
+     * writers.  It also safely handles shuffled/off modes and a config race
+     * where an ability becomes locked after the random selection above.
+     */
+    {
+        /*
+         * Encapsulated equivalent of the original source-level contract:
+         *   ap_is_locked_gated_ability(pending_ability)
+         *   pending_flags & (uint8_t)~KIRBY_ABILITY_MASK
+         * The helper is shared with an executable native C contract test.
+         */
+        uint8_t gated_flags = ap_statue_apply_final_gate(
+            pending_flags,
+            AP_ABILITY_GATE_MASK,
+            AP_ABILITY_UNLOCK_MASK
+        );
+        if (gated_flags != pending_flags) {
+            pending_flags = gated_flags;
+            pending_ability = 0u;
+            *transitioning_ability = pending_flags;
+        }
+    }
+
+    /*
+     * Direct statues bypass the request hook's telemetry too.  Emit one event
+     * per touch in both shuffled and completely-random modes after gating has
+     * determined the final ability.  source_addr retains the table-selected
+     * input ability so existing client-side statue labels continue to work.
+     */
+    if (is_direct_statue != 0u
+        && statue_allowed_mask != 0u
+        && (mode == ABILITY_RANDOMIZATION_MODE_SHUFFLED
+            || mode == ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM)) {
+        AP_ABILITY_REROLL_SOURCE_ADDR = (uint32_t)original_ability;
+        AP_ABILITY_REROLL_ABILITY_ID = (uint32_t)pending_ability;
+        AP_ABILITY_REROLL_SOURCE_KIND = ABILITY_REROLL_SOURCE_KIND_ABILITY_STATUE;
+        AP_ABILITY_REROLL_CALLSITE_PC = caller_pc;
+        AP_ABILITY_REROLL_KIRBY_INDEX = (uint32_t)KIRBY_CURRENT_PLAYER;
+        AP_ABILITY_REROLL_EVENT_COUNTER++;
+    }
+
+    KIRBY_START_ABILITY_TRANSITION_FN(kirby);
 }
 
 // Hook target for native Sound Player chest reward collection. Reward index 0 is
@@ -1020,7 +1178,12 @@ void ap_poll_mailbox_c(void) {
         AP_ABILITY_REROLL_CALLSITE_PC = 0u;
         AP_ABILITY_REROLL_KIRBY_INDEX = 0u;
         AP_ABILITY_REROLL_ABILITY_ID = 0u;
-        AP_ABILITY_GATE_MASK = 0u;
+        /*
+         * Deny gated abilities from the first gameplay frame, even before the
+         * Python client connects. The client later rewrites this mailbox field
+         * with the same canonical mask and synchronizes received unlock bits.
+         */
+        AP_ABILITY_GATE_MASK = gApAbilityGateMaskInitial;
         AP_ABILITY_UNLOCK_MASK = 0u;
         AP_MINOR_CHEST_EVENT_COUNTER = 0u;
         {
