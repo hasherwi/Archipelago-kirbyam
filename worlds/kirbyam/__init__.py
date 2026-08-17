@@ -16,7 +16,7 @@ from .client import KirbyAmClient  # noqa: F401  # Required to register BizHawk 
 from .ability_randomization import (
     build_enemy_copy_ability_policy,
 )
-from .colors import resolve_kirby_color
+from .colors import STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION, resolve_kirby_color
 from .data import LocationCategory, format_room_region_label, load_json_data, data as kirby_data
 from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
@@ -239,6 +239,16 @@ class KirbyAmWorld(World):
         value = getattr(option, "value", option)
         return bool(value)
 
+    def _starting_kirby_color_randomize_on_room_transition_enabled(self) -> bool:
+        option = getattr(getattr(self, "options", None), "starting_kirby_color", None)
+        option_value = getattr(option, "value", option)
+        if option_value is None:
+            return False
+        try:
+            return int(option_value) == STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION
+        except (TypeError, ValueError):
+            return False
+
     def _get_resolved_starting_kirby_color(self) -> tuple[int, str]:
         """Return the concrete color selected by Archipelago option parsing.
 
@@ -258,7 +268,8 @@ class KirbyAmWorld(World):
         except (TypeError, ValueError):
             choice_value = 0
 
-        color = resolve_kirby_color(choice_value)
+        rng = self.random if choice_value == STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION else None
+        color = resolve_kirby_color(choice_value, rng)
         self._resolved_starting_kirby_color_id = color.color_id
         self._resolved_starting_kirby_color_name = color.display_name
         return self._resolved_starting_kirby_color_id, self._resolved_starting_kirby_color_name
@@ -1013,6 +1024,9 @@ class KirbyAmWorld(World):
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
         slot_data["starting_kirby_color"] = resolved_color_id
         slot_data["starting_kirby_color_name"] = resolved_color_name
+        slot_data["starting_kirby_color_randomize_on_room_transition"] = (
+            self._starting_kirby_color_randomize_on_room_transition_enabled()
+        )
         slot_data["goal_configured_area_boss_key"] = self._get_resolved_configured_area_boss_goal_key()
         ability_gating_enabled = self._ability_gating_enabled()
         slot_data["ability_gating"] = ability_gating_enabled

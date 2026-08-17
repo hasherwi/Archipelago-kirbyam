@@ -12,7 +12,11 @@ from Options import (
     Toggle,
 )
 
-from .colors import kirby_color_names_for_docs, load_kirby_colors
+from .colors import (
+    STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION,
+    kirby_color_names_for_docs,
+    load_kirby_colors,
+)
 from .enemy_health_scaling import (
     ENEMY_HEALTH_MULTIPLIER_DEFAULT,
     ENEMY_HEALTH_MULTIPLIER_MAX,
@@ -315,6 +319,10 @@ def _build_starting_kirby_color_option() -> type[Choice]:
       `starting_kirby_color: random`
     If you start from the generated weighted template, replace the entire
     `starting_kirby_color` weight mapping with that one line.
+
+    Set to `random_color_per_room` to choose an initial color at generation,
+    then change to a different supported color whenever the connected BizHawk
+    client observes Kirby enter a different room.
     """
         % kirby_color_names_for_docs()
     )
@@ -323,6 +331,7 @@ def _build_starting_kirby_color_option() -> type[Choice]:
         "__doc__": doc,
         "display_name": "Starting Kirby Color",
         "default": 0,
+        "option_random_color_per_room": STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION,
     }
     for color in load_kirby_colors():
         attrs[f"option_{color.key}"] = color.color_id

@@ -69,6 +69,7 @@ def test_kirbyam_template_surface_options_visibility() -> None:
             assert "pink" in color_weights
             assert "random" not in color_weights
             assert "random_color" not in color_weights
+            assert "random_color_per_room" in color_weights
 
             assert "100% Save File" not in content
             assert "DEBUG: Testing-only goal" not in content
