@@ -20,6 +20,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Generated YAML documentation now shows the scalar `configured_area_boss: random` and `starting_kirby_color: random` shorthands and explains how they replace the generated concrete weight mappings (Issue #872).
 
 ### Known Limitations
+- Enemy Health Scaling: The health bar for enemies does not visually show the changed values.
+- Kirby Color: random_color_per_room changes Kirby's color, but does not change the corresponding UI element colors.
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
 - Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
 - Small Chests: We know you want the "small" chests implemented. We want them implemented too. We've been working on it for months. We decided getting out what IS working, is more important.
