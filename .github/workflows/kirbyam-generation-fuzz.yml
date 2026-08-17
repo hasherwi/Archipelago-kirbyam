@@ -1,6 +1,7 @@
 name: kirbyam-generation-fuzz
 
 on:
+  pull_request:
   workflow_dispatch:
     inputs:
       runs:
@@ -11,8 +12,6 @@ on:
         description: "Number of parallel fuzzer workers"
         required: false
         default: "4"
-  schedule:
-    - cron: "23 9 * * 1"
 
 permissions:
   contents: read

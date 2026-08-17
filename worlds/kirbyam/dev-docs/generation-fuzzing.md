@@ -55,13 +55,12 @@ python tools/run_kirbyam_generation_fuzz.py --sample-from path/to/replay-yamls -
 Do not point `--sample-from` directly at a finding directory that also contains
 the `.log` file; the upstream tool treats every file in that directory as a
 sample. When a bug is confirmed, reduce it to a deterministic regression test
-rather than relying on the scheduled fuzzer to rediscover it.
+rather than relying on an automated fuzz run to rediscover it.
 
 ## CI
 
 `.github/workflows/kirbyam-generation-fuzz.yml` runs separately from the unit
-test matrix. It is manually dispatchable and scheduled weekly on one Ubuntu /
-Python 3.13 runner. The workflow always uploads `fuzz_output/`, including when
-the launcher fails. It is intentionally not a required pull-request check
-while upstream lacks master-seed support and the scheduled job is establishing
-its stability.
+test matrix. It runs for every pull request and is also manually dispatchable
+on one Ubuntu / Python 3.13 runner. The workflow always uploads `fuzz_output/`,
+including when the launcher fails. Repository branch-protection settings decide
+whether this workflow is a required pull-request check.
