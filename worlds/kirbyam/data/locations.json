@@ -30,7 +30,7 @@
     "category": "GOAL"
   },
   "GOAL_CONFIGURED_AREA_BOSS": {
-    "label": "Defeat Configured Area Boss",
+    "label": "Defeat Area Boss",
     "parent_region": "REGION_RAINBOW_ROUTE/MAIN",
     "tags": [
       "Goal",

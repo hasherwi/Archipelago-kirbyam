@@ -38,6 +38,10 @@ _BOSS_MIRROR_TABLE_PROBE_BYTES = 32
 _AI_STATE_ADDR_WIDTH = 4
 _GOAL_STATE_DARK_MIND_CLEAR = 9999
 _GOAL_STATE_FULL_CLEAR = 10000
+# Legacy v0.2/v0.3 slot-data value retained only so newer clients can finish
+# already-generated defeat_random_hidden_area_boss seeds. New generation never
+# emits goal value 3 after Issue #872.
+_LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS = 3
 _MAILBOX_ACK_TIMEOUT_FRAMES = 30
 _MAILBOX_ACK_TIMEOUT_SECONDS = 1.0  # Fallback when frame_counter is stuck
 _MAILBOX_ACK_RETRY_BACKOFF_SECONDS = 0.5
@@ -334,9 +338,9 @@ class KirbyAmClient(BizHawkClient):
                 elif loc.name == "GOAL_ANY_AREA_BOSS":
                     self._goal_location_ids_by_option[Goal.option_defeat_any_area_boss] = loc.location_id
                 elif loc.name == "GOAL_CONFIGURED_AREA_BOSS":
-                    self._goal_location_ids_by_option[Goal.option_defeat_configured_area_boss] = loc.location_id
+                    self._goal_location_ids_by_option[Goal.option_defeat_area_boss] = loc.location_id
                 elif loc.name == "GOAL_HIDDEN_AREA_BOSS":
-                    self._goal_location_ids_by_option[Goal.option_defeat_random_hidden_area_boss] = loc.location_id
+                    self._goal_location_ids_by_option[_LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS] = loc.location_id
             else:
                 self._non_goal_location_ids_sorted.append(loc.location_id)
         # Boss defeat bitfield -> location IDs (BOSS_DEFEAT category; polled from boss_defeat_flags)
@@ -3901,8 +3905,8 @@ class KirbyAmClient(BizHawkClient):
             return False
         return hidden_goal.location_id in checked_locations
 
-    def _configured_area_boss_goal_signal_active(self, ctx: KirbyAmBizHawkClientContext, configured_goal_key: str) -> bool:
-        """Return whether the selected configured area boss has been acknowledged by the server."""
+    def _area_boss_goal_signal_active(self, ctx: KirbyAmBizHawkClientContext, configured_goal_key: str) -> bool:
+        """Return whether the selected area-boss target has been acknowledged by the server."""
         configured_goal = data.locations.get(configured_goal_key)
         if configured_goal is None or configured_goal.location_id is None:
             return False
@@ -3943,8 +3947,8 @@ class KirbyAmClient(BizHawkClient):
         if parsed_slot_goal in (
             Goal.option_dark_mind,
             Goal.option_defeat_any_area_boss,
-            Goal.option_defeat_configured_area_boss,
-            Goal.option_defeat_random_hidden_area_boss,
+            Goal.option_defeat_area_boss,
+            _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS,
         ):
             slot_goal = parsed_slot_goal
         else:
@@ -3962,7 +3966,7 @@ class KirbyAmClient(BizHawkClient):
         hidden_goal_key: str | None = None
         configured_goal_key: str | None = None
         goal_location_id = self._goal_location_ids_by_option.get(slot_goal)
-        if slot_goal == Goal.option_defeat_configured_area_boss:
+        if slot_goal == Goal.option_defeat_area_boss:
             configured_goal_key_raw = ctx.slot_data.get("goal_configured_area_boss_key")
             if isinstance(configured_goal_key_raw, str):
                 configured_goal = data.locations.get(configured_goal_key_raw)
@@ -3971,10 +3975,10 @@ class KirbyAmClient(BizHawkClient):
             if goal_location_id is None or configured_goal_key is None:
                 self._log_client(
                     "warning",
-                    "KirbyAM: configured area-boss target missing or invalid; goal reporting disabled.",
+                    "KirbyAM: area-boss target missing or invalid; goal reporting disabled.",
                 )
                 return
-        if slot_goal == Goal.option_defeat_random_hidden_area_boss:
+        if slot_goal == _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS:
             hidden_goal_key_raw = ctx.slot_data.get("goal_hidden_area_boss_key")
             if isinstance(hidden_goal_key_raw, str):
                 hidden_goal = data.locations.get(hidden_goal_key_raw)
@@ -4008,9 +4012,9 @@ class KirbyAmClient(BizHawkClient):
         if not self._native_goal_signal_seen:
             if slot_goal == Goal.option_defeat_any_area_boss:
                 self._native_goal_signal_seen = self._any_area_boss_goal_signal_active(ctx)
-            elif slot_goal == Goal.option_defeat_configured_area_boss:
-                self._native_goal_signal_seen = self._configured_area_boss_goal_signal_active(ctx, configured_goal_key)
-            elif slot_goal == Goal.option_defeat_random_hidden_area_boss:
+            elif slot_goal == Goal.option_defeat_area_boss:
+                self._native_goal_signal_seen = self._area_boss_goal_signal_active(ctx, configured_goal_key)
+            elif slot_goal == _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS:
                 self._native_goal_signal_seen = self._hidden_area_boss_goal_signal_active(ctx, hidden_goal_key)
             else:
                 self._native_goal_signal_seen = await self._native_goal_signal_active(

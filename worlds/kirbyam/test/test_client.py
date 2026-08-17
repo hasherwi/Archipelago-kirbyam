@@ -2595,7 +2595,7 @@ async def test_goal_any_area_boss_does_not_trigger_without_acknowledged_boss_che
 
 
 @pytest.mark.asyncio
-async def test_goal_configured_area_boss_server_exposed_goal_reports_location_then_goal_status(mock_bizhawk_context):
+async def test_goal_area_boss_server_exposed_goal_reports_location_then_goal_status(mock_bizhawk_context):
     """Configured area-boss goal should wait for goal-location acknowledgement before sending CLIENT_GOAL."""
     from NetUtils import ClientStatus
 
@@ -2632,7 +2632,7 @@ async def test_goal_configured_area_boss_server_exposed_goal_reports_location_th
 
 
 @pytest.mark.asyncio
-async def test_goal_configured_area_boss_does_not_trigger_for_non_target_boss(mock_bizhawk_context):
+async def test_goal_area_boss_does_not_trigger_for_non_target_boss(mock_bizhawk_context):
     """Configured area-boss goal should ignore non-target boss defeats."""
     client = KirbyAmClient()
     client.initialize_client()
@@ -2655,7 +2655,35 @@ async def test_goal_configured_area_boss_does_not_trigger_for_non_target_boss(mo
 
 
 @pytest.mark.asyncio
-async def test_goal_hidden_random_area_boss_server_exposed_goal_reports_location_then_goal_status(mock_bizhawk_context):
+async def test_goal_area_boss_target_acknowledgement_activates_goal_signal(mock_bizhawk_context):
+    """The selected boss check itself must activate the consolidated area-boss goal."""
+    from NetUtils import ClientStatus
+
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    configured_goal_key = "BOSS_DEFEAT_5"
+    target_boss_id = data.locations[configured_goal_key].location_id
+
+    mock_bizhawk_context.slot_data["goal"] = 2
+    mock_bizhawk_context.slot_data["goal_configured_area_boss_key"] = configured_goal_key
+    mock_bizhawk_context.checked_locations = {target_boss_id}
+    # Exercise the direct CLIENT_GOAL fallback too; older generated worlds may
+    # not expose the addressless goal event in server_locations.
+    mock_bizhawk_context.server_locations = set()
+    mock_bizhawk_context.finished_game = False
+
+    await client._maybe_report_goal(mock_bizhawk_context)
+
+    mock_bizhawk_context.send_msgs.assert_awaited_once_with([
+        {"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}
+    ])
+    assert client._native_goal_signal_seen is True
+    assert mock_bizhawk_context.finished_game is True
+
+
+@pytest.mark.asyncio
+async def test_legacy_hidden_area_boss_goal_server_exposed_goal_reports_location_then_goal_status(mock_bizhawk_context):
     """Hidden random boss goal should wait for goal-location acknowledgement before sending CLIENT_GOAL."""
     from NetUtils import ClientStatus
 
@@ -2692,7 +2720,7 @@ async def test_goal_hidden_random_area_boss_server_exposed_goal_reports_location
 
 
 @pytest.mark.asyncio
-async def test_goal_hidden_random_area_boss_does_not_trigger_for_non_target_boss(mock_bizhawk_context):
+async def test_legacy_hidden_area_boss_goal_does_not_trigger_for_non_target_boss(mock_bizhawk_context):
     """Hidden random boss goal should ignore non-target boss defeats."""
     client = KirbyAmClient()
     client.initialize_client()

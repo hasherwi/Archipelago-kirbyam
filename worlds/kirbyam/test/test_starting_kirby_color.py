@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from random import Random
 from types import SimpleNamespace
 from typing import Any, cast
 from unittest.mock import AsyncMock, patch
@@ -9,40 +8,46 @@ import pytest
 
 from .. import KirbyAmWorld
 from ..client import KirbyAmClient
-from ..colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, load_kirby_colors
+from ..colors import load_kirby_colors
 from ..data import data
+from ..options import StartingKirbyColor
 
 
-def test_world_helper_resolves_starting_kirby_color_random_choice() -> None:
+def test_starting_kirby_color_framework_random_resolves_to_concrete_color() -> None:
+    # Match ConfiguredAreaBoss: use Archipelago Choice's built-in literal `random`
+    # rather than a world-specific random_color sentinel.
+    with patch("Options.random.choice", return_value=7):
+        resolved_option = StartingKirbyColor.from_text("random")
+
+    assert resolved_option.value == 7
+    assert resolved_option.current_key == "sapphire"
+
     world = KirbyAmWorld.__new__(KirbyAmWorld)
-    world.random = Random(0)
-    world.options = cast(Any, SimpleNamespace(
-        starting_kirby_color=SimpleNamespace(
-            current_key="random_color",
-            value=STARTING_KIRBY_COLOR_RANDOM_OPTION,
-        ),
-    ))
-    resolved_color_id, resolved_color_name = KirbyAmWorld._get_resolved_starting_kirby_color(world)
-
-    supported = {color.color_id: color.display_name for color in load_kirby_colors()}
-    assert resolved_color_id in supported
-    assert resolved_color_name == supported[resolved_color_id]
+    world.options = cast(Any, SimpleNamespace(starting_kirby_color=resolved_option))
+    assert KirbyAmWorld._get_resolved_starting_kirby_color(world) == (7, "Sapphire")
 
 
-def test_world_helper_caches_resolved_starting_kirby_color_random_choice() -> None:
+def test_starting_kirby_color_has_no_custom_random_sentinel_choice() -> None:
+    supported_ids = {color.color_id for color in load_kirby_colors()}
+
+    assert set(StartingKirbyColor.name_lookup) == supported_ids
+    assert "random_color" not in StartingKirbyColor.options
+
+
+def test_world_helper_caches_resolved_starting_kirby_color_metadata() -> None:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
-    world.random = Random(0)
     world.options = cast(Any, SimpleNamespace(
-        starting_kirby_color=SimpleNamespace(
-            current_key="random_color",
-            value=STARTING_KIRBY_COLOR_RANDOM_OPTION,
-        ),
+        starting_kirby_color=SimpleNamespace(current_key="sapphire", value=7),
     ))
 
     first = KirbyAmWorld._get_resolved_starting_kirby_color(world)
+    # StartingKirbyColor is generated dynamically, so mypy cannot reliably
+    # expose Choice.value through the annotated options type here.
+    cast(Any, world.options.starting_kirby_color).value = 3
     second = KirbyAmWorld._get_resolved_starting_kirby_color(world)
 
-    assert first == second
+    assert first == (7, "Sapphire")
+    assert second == first
 
 
 @pytest.mark.asyncio

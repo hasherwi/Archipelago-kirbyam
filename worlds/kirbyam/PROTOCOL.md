@@ -181,7 +181,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 |---------------|----------|-------------|
 | GOAL_DARK_MIND | auto-assigned | Internal goal metadata entry for Dark Mind completion. Current shipped worlds convert goal locations to runtime events, so the client may report `CLIENT_GOAL` directly when no numeric goal location is exposed by the server. |
 | GOAL_ANY_AREA_BOSS | auto-assigned | Internal goal metadata entry for the "Defeat Any Area Boss" mode. Trigger source is acknowledged `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8` checks; Candy Constellation's Master Hand + Crazy Hand pair counts as one pooled target (`BOSS_DEFEAT_3`). |
-| GOAL_CONFIGURED_AREA_BOSS | auto-assigned | Internal goal metadata entry for the "Defeat Configured Area Boss" mode. Trigger source is the configured `BOSS_DEFEAT_N` check selected via `goal_configured_area_boss_key`. |
+| GOAL_CONFIGURED_AREA_BOSS | auto-assigned | Internal goal metadata entry for the canonical "Defeat Area Boss" mode. Trigger source is the selected `BOSS_DEFEAT_N` check carried via `goal_configured_area_boss_key`. The internal key name is retained for slot-data compatibility. |
 | BOSS_DEFEAT_1 .. BOSS_DEFEAT_8 | auto-assigned | Area boss defeat locations (8 locations) |
 | MAJOR_CHEST_CABBAGE_CAVERN | 3960200 | Cabbage Cavern big chest (bit 3, gTreasures.bigChestField) |
 | MAJOR_CHEST_OLIVE_OCEAN | 3960201 | Olive Ocean big chest (bit 6, gTreasures.bigChestField) |
@@ -242,13 +242,12 @@ Server → Client: ConnectionRefused | Connected
 
 `slot_data` currently includes:
 - `world_version` (str): world release/version identifier from `KirbyAmWorld.world_version` (for example, `0.2.0`), emitted for log/tracker/version diagnostics.
-- `goal` (int): selected goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Configured Area Boss`, `3=Defeat Random Hidden Area Boss`).
-- `configured_area_boss` (int): selected configured area-boss option (`0=King Golem`, `1=Moley`, `2=Kracko`, `3=Mega Titan`, `4=Gobbler`, `5=Wiz`, `6=Dark Meta Knight`, `7=Master Hand + Crazy Hand pair`). Only used when `goal` is `defeat_configured_area_boss`.
-- `goal_configured_area_boss_key` (str | null): internal boss-defeat key selected for `defeat_configured_area_boss` (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`). Default target is `BOSS_DEFEAT_3` (Master Hand + Crazy Hand pair). Normal player-facing output does not reveal the boss name; spoiler output may resolve the key to the configured target.
-- `goal_hidden_area_boss_key` (str | null): internal boss-defeat key selected for `defeat_random_hidden_area_boss` (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`). Normal player-facing output does not reveal the boss name; spoiler output may resolve the key to the hidden target.
+- `goal` (int): selected canonical goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Area Boss`). The older YAML name `defeat_configured_area_boss` parses as value `2`. The removed `defeat_random_hidden_area_boss` must be replaced with `goal: defeat_area_boss` plus `configured_area_boss: random`.
+- `configured_area_boss` (int): concrete area-boss option (`0=King Golem`, `1=Moley`, `2=Kracko`, `3=Mega Titan`, `4=Gobbler`, `5=Wiz`, `6=Dark Meta Knight`, `7=Master Hand + Crazy Hand pair`). Only used when `goal` is `defeat_area_boss`. The literal YAML value `random` is resolved by Archipelago to one of these concrete values before generation.
+- `goal_configured_area_boss_key` (str | null): internal boss-defeat key selected for `defeat_area_boss` (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`). The field name is retained for compatibility. Default target is `BOSS_DEFEAT_3` (Master Hand + Crazy Hand pair).
 - `shards` (int): shard randomization mode.
 - `start_with_all_maps` (bool): when true, all map items are precollected and removed from randomized placement, and the BizHawk client reasserts all native area-map bits during gameplay reconciliation.
-- `starting_kirby_color` (int): resolved Kirby starting color ID (`0..13`) after generation-time random resolution. The same value is baked into the procedure patch and applied before the first single-player gameplay palette is created.
+- `starting_kirby_color` (int): resolved Kirby starting color ID (`0..13`) after Archipelago option parsing. The same value is baked into the procedure patch and applied before the first single-player gameplay palette is created.
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
 - `one_hit_mode` (int): one-hit mode selection (`0=off`, `1=exclude_vitality_counters`, `2=include_vitality_counters`). When non-zero, Kirby's max HP is clamped to `vitality_counter + 1` during gameplay. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool (replaced by filler) so the cap stays at 1. In `include_vitality_counters` mode, Vitality Counter items remain in the pool and each one received raises the cap by 1.
@@ -282,8 +281,10 @@ Compatibility note (Issue #398 option-key reorganization):
 Goal runtime behavior contract:
 - Goal mode `dark_mind` reports completion after the native Dark Mind clear signal.
 - Goal mode `defeat_any_area_boss` reports completion after the first acknowledged area-boss defeat check in `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`.
-- Goal mode `defeat_configured_area_boss` reports completion after the configured boss-defeat target is acknowledged by the server; the client resolves the target from `goal_configured_area_boss_key`.
-- Goal mode `defeat_random_hidden_area_boss` reports completion after the seed-selected hidden boss-defeat target is acknowledged by the server; the client resolves the target from `goal_hidden_area_boss_key`.
+- Goal mode `defeat_area_boss` reports completion after the selected boss-defeat target is acknowledged by the server; the client resolves the target from `goal_configured_area_boss_key`. Setting `configured_area_boss` to the literal `random` uses Archipelago's standard `Choice` randomization and still emits one concrete target.
+
+Legacy goal compatibility:
+- New generation does not emit goal value `3` or `goal_hidden_area_boss_key`. The client still accepts those fields from already-generated `defeat_random_hidden_area_boss` seeds and maps them through the retained legacy goal metadata entry.
 
 DeathLink runtime behavior contract:
 - Incoming DeathLink packets (`Bounced` with `DeathLink` tag) are queued and only applied when gameplay-active gate is true.

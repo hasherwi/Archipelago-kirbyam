@@ -12,7 +12,7 @@ from Options import (
     Toggle,
 )
 
-from .colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, kirby_color_names_for_docs, load_kirby_colors
+from .colors import kirby_color_names_for_docs, load_kirby_colors
 
 
 class Goal(Choice):
@@ -21,23 +21,33 @@ class Goal(Choice):
 
     - Dark Mind: Defeat Dark Mind and beat the game.
     - Defeat Any Area Boss: Defeat any one eligible area boss.
-    - Defeat Configured Area Boss: Defeat the selected area boss target.
-    - Defeat Random Hidden Area Boss: Defeat one hidden, seed-selected area boss.
+    - Defeat Area Boss: Defeat the area boss selected by `configured_area_boss`.
+      Set `configured_area_boss` to `random` to choose one boss at generation.
     """
     display_name = "Goal"
     default = 0
     option_dark_mind = 0
     option_defeat_any_area_boss = 1
-    option_defeat_configured_area_boss = 2
-    option_defeat_random_hidden_area_boss = 3
+    option_defeat_area_boss = 2
+
+    # Issue #872 rename compatibility: the old configured-goal name had the
+    # same semantics, so accepting it as an alias is safe. The old hidden-random
+    # goal is deliberately not aliased because doing so would silently change an
+    # old YAML to the default configured boss; use configured_area_boss: random.
+    alias_defeat_configured_area_boss = option_defeat_area_boss
 
 
 class ConfiguredAreaBoss(Choice):
     """
-    Selects which area boss is used when the goal is set to Defeat Configured Area Boss.
+    Selects which area boss is used when the goal is set to Defeat Area Boss.
 
     The default target is the Master Hand + Crazy Hand pair.
-    This option is ignored unless `goal` is set to `defeat_configured_area_boss`.
+    Set the entire option to `random` to let Archipelago choose one of the eight
+    area bosses during option parsing. In a YAML, the shorthand is:
+      `configured_area_boss: random`
+    If you start from the generated weighted template, replace the entire
+    `configured_area_boss` weight mapping with that one line. This option is
+    ignored unless `goal` is set to `defeat_area_boss`.
     """
     display_name = "Configured Area Boss"
     default = 7
@@ -276,7 +286,11 @@ def _build_starting_kirby_color_option() -> type[Choice]:
     Supported color names (as listed on Kirby Wiki Spray Paint):
       %s
 
-    Set to `random_color` to resolve to one supported color at generation.
+    Set the entire option to `random` to let Archipelago choose one supported
+    color during option parsing. In a YAML, the shorthand is:
+      `starting_kirby_color: random`
+    If you start from the generated weighted template, replace the entire
+    `starting_kirby_color` weight mapping with that one line.
     """
         % kirby_color_names_for_docs()
     )
@@ -285,7 +299,6 @@ def _build_starting_kirby_color_option() -> type[Choice]:
         "__doc__": doc,
         "display_name": "Starting Kirby Color",
         "default": 0,
-        "option_random_color": STARTING_KIRBY_COLOR_RANDOM_OPTION,
     }
     for color in load_kirby_colors():
         attrs[f"option_{color.key}"] = color.color_id
