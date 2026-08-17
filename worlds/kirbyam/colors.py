@@ -5,8 +5,11 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from functools import lru_cache
+from random import Random
+
 from .data import load_json_data
 
+STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION = 254
 _KIRBY_COLOR_ID_MIN = 0
 _KIRBY_COLOR_ID_MAX = 13
 _COLOR_KEY_PATTERN = re.compile(r"^[a-z_][a-z0-9_]*$")
@@ -106,14 +109,31 @@ def kirby_color_name_by_id() -> dict[int, str]:
     return {color.color_id: color.display_name for color in load_kirby_colors()}
 
 
-def resolve_kirby_color(choice_value: int) -> KirbyColor:
+def resolve_kirby_color(choice_value: int, rng: Random | None = None) -> KirbyColor:
     """Resolve an already-parsed StartingKirbyColor value to color metadata."""
     colors = load_kirby_colors()
+    if choice_value == STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION:
+        if rng is None:
+            raise ValueError("Room-transition random Kirby color requires a seeded world RNG.")
+        return rng.choice(colors)
+
     for color in colors:
         if color.color_id == choice_value:
             return color
 
     raise ValueError(f"Unsupported Kirby color choice id: {choice_value}")
+
+
+def choose_different_kirby_color(current_color_id: int, rng: Random) -> KirbyColor:
+    """Choose a supported color whose ID differs from *current_color_id*."""
+    colors = load_kirby_colors()
+    if current_color_id not in {color.color_id for color in colors}:
+        raise ValueError(f"Unsupported current Kirby color id: {current_color_id}")
+
+    candidates = tuple(color for color in colors if color.color_id != current_color_id)
+    if not candidates:
+        raise ValueError("Kirby color data must contain at least two supported colors.")
+    return rng.choice(candidates)
 
 
 def kirby_color_names_for_docs() -> str:

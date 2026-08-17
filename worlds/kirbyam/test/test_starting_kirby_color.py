@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from random import Random
 from types import SimpleNamespace
 from typing import Any, cast
 from unittest.mock import AsyncMock, patch
@@ -8,7 +9,11 @@ import pytest
 
 from .. import KirbyAmWorld
 from ..client import KirbyAmClient
-from ..colors import load_kirby_colors
+from ..colors import (
+    STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION,
+    choose_different_kirby_color,
+    load_kirby_colors,
+)
 from ..data import data
 from ..options import StartingKirbyColor
 
@@ -27,11 +32,40 @@ def test_starting_kirby_color_framework_random_resolves_to_concrete_color() -> N
     assert KirbyAmWorld._get_resolved_starting_kirby_color(world) == (7, "Sapphire")
 
 
-def test_starting_kirby_color_has_no_custom_random_sentinel_choice() -> None:
+def test_starting_kirby_color_has_only_room_transition_custom_random_choice() -> None:
     supported_ids = {color.color_id for color in load_kirby_colors()}
 
-    assert set(StartingKirbyColor.name_lookup) == supported_ids
+    assert set(StartingKirbyColor.name_lookup) == {
+        *supported_ids,
+        STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION,
+    }
     assert "random_color" not in StartingKirbyColor.options
+    assert StartingKirbyColor.options["random_color_per_room"] == STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION
+
+
+def test_world_helper_resolves_room_transition_random_mode_to_initial_color() -> None:
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+    world.random = Random(0)
+    world.options = cast(Any, SimpleNamespace(
+        starting_kirby_color=SimpleNamespace(
+            current_key="random_color_per_room",
+            value=STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION,
+        ),
+    ))
+
+    resolved_color_id, resolved_color_name = KirbyAmWorld._get_resolved_starting_kirby_color(world)
+    supported = {color.color_id: color.display_name for color in load_kirby_colors()}
+
+    assert resolved_color_id in supported
+    assert resolved_color_name == supported[resolved_color_id]
+    assert KirbyAmWorld._starting_kirby_color_randomize_on_room_transition_enabled(world) is True
+
+
+def test_choose_different_kirby_color_never_repeats_current_color() -> None:
+    rng = Random(0)
+    for color in load_kirby_colors():
+        next_color = choose_different_kirby_color(color.color_id, rng)
+        assert next_color.color_id != color.color_id
 
 
 def test_world_helper_caches_resolved_starting_kirby_color_metadata() -> None:
@@ -123,6 +157,83 @@ async def test_client_starting_color_sync_short_circuits_after_initial_sync(mock
     assert mock_write.await_count == 1
 
 
+@pytest.mark.asyncio
+async def test_client_room_random_sync_preserves_valid_live_color(mock_bizhawk_context: Any) -> None:
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data = {
+        "debug": {"logging": False},
+        "starting_kirby_color": 7,
+        "starting_kirby_color_name": "Sapphire",
+        "starting_kirby_color_randomize_on_room_transition": True,
+    }
+
+    with (
+        patch.dict(
+            data.transport_ram_addresses,
+            {"starting_kirby_color_id": 0x0203B050},
+            clear=False,
+        ),
+        patch(
+            "worlds.kirbyam.client.bizhawk.read",
+            new_callable=AsyncMock,
+            side_effect=[[(12).to_bytes(4, "little")]],
+        ) as mock_read,
+        patch(
+            "worlds.kirbyam.client.bizhawk.write",
+            new_callable=AsyncMock,
+        ) as mock_write,
+    ):
+        await client._sync_starting_kirby_color_runtime_config(mock_bizhawk_context)
+
+    assert mock_read.await_count == 1
+    assert mock_write.await_count == 0
+    assert client._starting_kirby_color_synced_id == 12
+
+
+@pytest.mark.asyncio
+async def test_room_transition_random_color_changes_color_and_clears_apply_latch(
+    mock_bizhawk_context: Any,
+) -> None:
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._room_transition_color_rng = Random(0)
+    client._starting_kirby_color_synced_id = 7
+    mock_bizhawk_context.slot_data = {
+        "starting_kirby_color": 7,
+        "starting_kirby_color_name": "Sapphire",
+        "starting_kirby_color_randomize_on_room_transition": True,
+    }
+
+    with (
+        patch.dict(
+            data.transport_ram_addresses,
+            {
+                "starting_kirby_color_id": 0x0203B050,
+                "starting_kirby_color_applied": 0x0203B0B8,
+            },
+            clear=False,
+        ),
+        patch(
+            "worlds.kirbyam.client.bizhawk.write",
+            new_callable=AsyncMock,
+        ) as mock_write,
+    ):
+        await client._maybe_randomize_kirby_color_on_room_transition(mock_bizhawk_context, 100)
+        await client._maybe_randomize_kirby_color_on_room_transition(mock_bizhawk_context, 100)
+        await client._maybe_randomize_kirby_color_on_room_transition(mock_bizhawk_context, 101)
+
+    assert mock_write.await_count == 1
+    writes = mock_write.await_args_list[0].args[1]
+    next_color_id = int.from_bytes(writes[0][1], "little")
+    assert 0 <= next_color_id <= 13
+    assert next_color_id != 7
+    assert writes[0][0] == 0x0203B050
+    assert writes[1] == (0x0203B0B8, (0).to_bytes(4, "little"), "System Bus")
+    assert client._starting_kirby_color_synced_id == next_color_id
+    assert client._room_transition_color_last_native_room_id == 101
+
+
 def test_load_kirby_colors_rejects_invalid_key_format() -> None:
     from .. import colors as colors_module
 
@@ -185,10 +296,12 @@ def test_reset_reconnect_transient_state_clears_starting_color_log_signature() -
     client = KirbyAmClient()
     client.initialize_client()
     client._starting_kirby_color_logged_signature = (7, "Sapphire")
+    client._room_transition_color_last_native_room_id = 101
 
     client._reset_reconnect_transient_state()
 
     assert client._starting_kirby_color_logged_signature is None
+    assert client._room_transition_color_last_native_room_id is None
 
 
 def test_client_starting_color_config_log_hidden_when_debug_disabled(mock_bizhawk_context: Any) -> None:

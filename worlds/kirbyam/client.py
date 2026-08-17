@@ -15,6 +15,7 @@ from BaseClasses import ItemClassification
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
+from .colors import choose_different_kirby_color
 from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
@@ -183,6 +184,7 @@ _GAME_OPTION_SLOT_DATA_KEYS: tuple[str, ...] = (
     "shards",
     "start_with_all_maps",
     "starting_kirby_color",
+    "starting_kirby_color_randomize_on_room_transition",
     "no_extra_lives",
     "ability_gating",
     "enable_traps",
@@ -480,6 +482,8 @@ class KirbyAmClient(BizHawkClient):
         # Room entry logging (always file-only via NoStream=True).
         self._last_native_room_id: int | None = None
         self._last_sent_room_update_native_room_id: int | None = None
+        self._room_transition_color_last_native_room_id: int | None = None
+        self._room_transition_color_rng = random.Random()
         self._current_room_key: str = ""
         self._last_room_region_key: str = ""
         room_label_lookup, room_region_key_lookup, room_area_lookup, boss_room_lookup = self._build_room_metadata_maps()
@@ -685,6 +689,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_runtime_gate_reason = None
         self._last_native_room_id = None
         self._last_sent_room_update_native_room_id = None
+        self._room_transition_color_last_native_room_id = None
         self._current_room_key = ""
         self._last_minor_chest_event_counter = None
         self._logged_unknown_minor_chest_source_ptrs.clear()
@@ -1168,6 +1173,15 @@ class KirbyAmClient(BizHawkClient):
         except Exception:
             self._debug_logging_enabled = False
 
+    def _room_transition_random_color_enabled(self, ctx: "BizHawkClientContext") -> bool:
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            return False
+        return self._coerce_bool(
+            slot_data.get("starting_kirby_color_randomize_on_room_transition", False),
+            False,
+        )
+
     def _get_starting_kirby_color_config(self, ctx: "BizHawkClientContext") -> tuple[int, str] | None:
         slot_data = getattr(ctx, "slot_data", None)
         if not isinstance(slot_data, dict):
@@ -1242,20 +1256,33 @@ class KirbyAmClient(BizHawkClient):
         if color_transport_addr is None:
             return
 
-        if self._starting_kirby_color_synced_id == color_id:
+        room_transition_random = self._room_transition_random_color_enabled(ctx)
+        color_is_synced = (
+            self._starting_kirby_color_synced_id is not None
+            if room_transition_random
+            else self._starting_kirby_color_synced_id == color_id
+        )
+        if color_is_synced:
             self._starting_kirby_color_revalidate_counter += 1
             if self._starting_kirby_color_revalidate_counter < _STARTING_KIRBY_COLOR_REVALIDATE_TICKS:
                 return
         self._starting_kirby_color_revalidate_counter = 0
 
         # Read back the current mailbox value so soft resets are handled correctly.
-        # A GBA soft reset clears EWRAM and reinstates the sentinel 0xFFFFFFFF even
-        # while BizHawk stays connected, so _starting_kirby_color_synced_id alone
-        # would not trigger a re-sync after a reset.
+        # In per-room random mode, any supported live color is authoritative until
+        # the next room change; only an invalid/reset sentinel restores the generated
+        # initial color.
         current_raw = (
             await bizhawk.read(ctx.bizhawk_ctx, [(color_transport_addr, 4, "System Bus")])
         )[0]
-        if int.from_bytes(current_raw, "little") == color_id:
+        current_color_id = int.from_bytes(current_raw, "little")
+        if (
+            room_transition_random
+            and _STARTING_KIRBY_COLOR_MIN <= current_color_id <= _STARTING_KIRBY_COLOR_MAX
+        ):
+            self._starting_kirby_color_synced_id = current_color_id
+            return
+        if current_color_id == color_id:
             self._starting_kirby_color_synced_id = color_id
             return
 
@@ -3165,6 +3192,86 @@ class KirbyAmClient(BizHawkClient):
         else:
             self._last_lever_poll_log = None
 
+    async def _maybe_randomize_kirby_color_on_room_transition(
+        self,
+        ctx: KirbyAmBizHawkClientContext,
+        native_room_id: int,
+    ) -> None:
+        """Change Kirby to a different supported color after a native room change."""
+        if not self._room_transition_random_color_enabled(ctx):
+            self._room_transition_color_last_native_room_id = None
+            return
+
+        previous_room_id = self._room_transition_color_last_native_room_id
+        if previous_room_id is None:
+            # Establish a reconnect/startup baseline without treating connection
+            # itself as a room transition.
+            self._room_transition_color_last_native_room_id = native_room_id
+            return
+        if native_room_id == previous_room_id:
+            return
+
+        color_transport_addr = self._transport_addr("starting_kirby_color_id")
+        color_applied_addr = self._transport_addr("starting_kirby_color_applied")
+        if color_transport_addr is None or color_applied_addr is None:
+            return
+
+        current_color_id = self._starting_kirby_color_synced_id
+        if (
+            current_color_id is None
+            or current_color_id < _STARTING_KIRBY_COLOR_MIN
+            or current_color_id > _STARTING_KIRBY_COLOR_MAX
+        ):
+            config = self._get_starting_kirby_color_config(ctx)
+            if config is None:
+                return
+            current_color_id = config[0]
+
+        next_color = choose_different_kirby_color(
+            current_color_id,
+            self._room_transition_color_rng,
+        )
+
+        try:
+            await bizhawk.write(
+                ctx.bizhawk_ctx,
+                [
+                    (
+                        color_transport_addr,
+                        int(next_color.color_id).to_bytes(4, "little"),
+                        "System Bus",
+                    ),
+                    (
+                        color_applied_addr,
+                        (0).to_bytes(4, "little"),
+                        "System Bus",
+                    ),
+                ],
+            )
+        except (
+            bizhawk.RequestFailedError,
+            bizhawk.ConnectorError,
+            bizhawk.SyncError,
+            TypeError,
+            AttributeError,
+        ):
+            # Leave the old room baseline in place so the next watcher tick can
+            # retry the same transition.
+            return
+
+        self._room_transition_color_last_native_room_id = native_room_id
+        self._starting_kirby_color_synced_id = next_color.color_id
+        self._starting_kirby_color_revalidate_counter = 0
+        self._log_verbose(
+            "info",
+            "KirbyAM: room transition randomized Kirby color %s -> %s (%s) "
+            "(native=0x%04X)",
+            current_color_id,
+            next_color.display_name,
+            next_color.color_id,
+            native_room_id,
+        )
+
     async def _poll_room_entry_logging(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
         Detect native room changes, log the current room, and broadcast tracker updates.
@@ -3192,6 +3299,7 @@ class KirbyAmClient(BizHawkClient):
             return
 
         native_room_id = unpack_from("<H", raw)[0]
+        await self._maybe_randomize_kirby_color_on_room_transition(ctx, native_room_id)
         room_key = self._get_current_room_key(ctx)
         tracker_room_pending = self._is_tracker_room_update_pending(ctx, room_key, native_room_id)
         room_changed = native_room_id != self._last_native_room_id

@@ -5739,6 +5739,7 @@
   ],
   "starting_kirby_color": 0,
   "starting_kirby_color_name": "Pink",
+  "starting_kirby_color_randomize_on_room_transition": false,
   "trap_fill_percentage": 25,
   "unique_items": [
     "Cabbage Cavern - Map",

@@ -35,6 +35,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
 
     options = Mock()
+    options.starting_kirby_color = Mock(value=0, current_key="pink")
     options.as_dict.return_value = {
         "goal": 0,
         "configured_area_boss": 7,
@@ -138,6 +139,7 @@ def test_starting_kirby_color_contract_fields_present_with_expected_shapes() -> 
     assert isinstance(slot_data["starting_kirby_color"], int)
     assert isinstance(slot_data["starting_kirby_color_name"], str)
     assert slot_data["starting_kirby_color_name"]
+    assert isinstance(slot_data["starting_kirby_color_randomize_on_room_transition"], bool)
 
     assert "goal_configured_area_boss_key" in slot_data
     assert slot_data["goal_configured_area_boss_key"] is None or isinstance(
