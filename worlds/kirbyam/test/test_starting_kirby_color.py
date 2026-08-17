@@ -41,7 +41,9 @@ def test_world_helper_caches_resolved_starting_kirby_color_metadata() -> None:
     ))
 
     first = KirbyAmWorld._get_resolved_starting_kirby_color(world)
-    world.options.starting_kirby_color.value = 3
+    # StartingKirbyColor is generated dynamically, so mypy cannot reliably
+    # expose Choice.value through the annotated options type here.
+    cast(Any, world.options.starting_kirby_color).value = 3
     second = KirbyAmWorld._get_resolved_starting_kirby_color(world)
 
     assert first == (7, "Sapphire")
