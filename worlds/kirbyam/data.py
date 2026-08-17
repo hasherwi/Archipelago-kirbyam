@@ -64,6 +64,73 @@ def _maybe_load_json_data(data_name: str) -> list[Any] | dict[str, Any] | None:
     return cast(list[Any] | dict[str, Any], orjson.loads(raw.decode("utf-8-sig")))
 
 
+def _validate_logic_requirement(requirement: Any, *, context: str) -> None:
+    """Validate the JSON shape used for conditional exits and locations."""
+    if requirement is None:
+        return
+    if isinstance(requirement, str):
+        if requirement:
+            return
+        raise ValueError(f"{context} requirement tokens must not be empty")
+    if not isinstance(requirement, dict) or len(requirement) != 1:
+        raise TypeError(f"{context} requirement must be null, a token, or one all/any object")
+
+    operator, operands = next(iter(requirement.items()))
+    if operator not in {"all", "any"}:
+        raise ValueError(f"{context} requirement operator must be 'all' or 'any', got {operator!r}")
+    if not isinstance(operands, list) or not operands:
+        raise TypeError(f"{context} requirement {operator!r} operands must be a non-empty list")
+    for operand in operands:
+        _validate_logic_requirement(operand, context=context)
+
+
+def normalize_region_exits(region_name: str, region_def: dict[str, Any]) -> tuple[list[str], dict[str, Any]]:
+    """Return stable adjacency plus optional requirements for either supported room schema.
+
+    Existing room definitions use ``exits: list[str]``. Newer definitions may use
+    ``exits: {destination: requirement}``. ``exit_requirements`` is an additive
+    compatibility field for list-shaped rooms that need per-edge rules.
+    """
+    exits_raw = region_def.get("exits", [])
+    requirements_raw = region_def.get("exit_requirements", {})
+    if not isinstance(requirements_raw, dict):
+        raise TypeError(f"Region [{region_name}] exit_requirements must be an object")
+
+    if isinstance(exits_raw, list):
+        exits = exits_raw
+        requirements = dict(requirements_raw)
+    elif isinstance(exits_raw, dict):
+        exits = list(exits_raw)
+        requirements = {destination: requirement for destination, requirement in exits_raw.items()}
+        requirements.update(requirements_raw)
+    else:
+        raise TypeError(f"Region [{region_name}] exits must be a list or object")
+
+    normalized_exits: list[str] = []
+    for exit_name in exits:
+        if not isinstance(exit_name, str) or not exit_name:
+            raise TypeError(f"Region [{region_name}] exit names must be non-empty strings")
+        normalized_exits.append(exit_name)
+
+    exit_set = set(normalized_exits)
+    unknown_requirements = sorted(str(destination) for destination in requirements if destination not in exit_set)
+    if unknown_requirements:
+        raise ValueError(
+            f"Region [{region_name}] exit_requirements reference destinations missing from exits: "
+            f"{unknown_requirements}"
+        )
+
+    normalized_requirements: dict[str, Any] = {}
+    for destination, requirement in requirements.items():
+        if not isinstance(destination, str) or not destination:
+            raise TypeError(f"Region [{region_name}] exit requirement destinations must be non-empty strings")
+        _validate_logic_requirement(requirement, context=f"Region [{region_name}] exit [{destination}]")
+        if requirement is not None:
+            normalized_requirements[destination] = requirement
+
+    return normalized_exits, normalized_requirements
+
+
 def _format_room_code_special_label(room_code: str) -> str | None:
     if room_code == "BOSS":
         return "Boss Room"
@@ -108,6 +175,10 @@ def _load_room_sanity_locations_from_room_subareas() -> dict[str, dict[str, Any]
             continue
 
         room_meta = region_def.get("room_sanity")
+        if not isinstance(room_meta, dict):
+            locations_raw = region_def.get("locations")
+            if isinstance(locations_raw, dict):
+                room_meta = locations_raw.get("room_sanity")
         if not isinstance(room_meta, dict):
             continue
         if not bool(room_meta.get("included", False)):
@@ -229,13 +300,17 @@ class EventData(NamedTuple):
 class RegionData:
     name: str
     exits: list[str]
+    exit_requirements: dict[str, Any]
     locations: list[str]
+    location_requirements: dict[str, Any]
     events: list[EventData]
 
     def __init__(self, name: str) -> None:
         self.name = name
         self.exits = []
+        self.exit_requirements = {}
         self.locations = []
+        self.location_requirements = {}
         self.events = []
 
 
@@ -610,9 +685,7 @@ def _init() -> None:  # noqa: C901
                 % region_name
             )
 
-        exits_raw = region_def.get("exits", [])
-        if not isinstance(exits_raw, list):
-            raise TypeError(f"Region [{region_name}] exits must be a list")
+        exits_raw, exit_requirements = normalize_region_exits(region_name, region_def)
 
         exit_destinations: set[str] = set()
         for exit_name in exits_raw:
@@ -637,6 +710,9 @@ def _init() -> None:  # noqa: C901
                 overridden_exit = logical_region_name
 
             region.exits.append(overridden_exit)
+            requirement = exit_requirements.get(exit_name)
+            if requirement is not None:
+                region.exit_requirements[overridden_exit] = requirement
 
         for override_destination in logical_exit_overrides:
             if not isinstance(override_destination, str) or not override_destination:
@@ -648,6 +724,26 @@ def _init() -> None:  # noqa: C901
                     "logical_exit_overrides references destination not present in exits "
                     f"(region={region_name}, destination={override_destination})"
                 )
+
+        # New compact room definitions may claim locations directly and attach
+        # requirements. The legacy parent_region-derived path remains the fallback.
+        locations_raw = region_def.get("locations")
+        if isinstance(locations_raw, dict):
+            for loc_key, requirement in locations_raw.items():
+                if loc_key == "room_sanity":
+                    continue
+                if not isinstance(loc_key, str) or not loc_key:
+                    raise TypeError(f"Region [{region_name}] location keys must be non-empty strings")
+                if loc_key not in data.locations:
+                    raise ValueError(f"Region [{region_name}] references unknown location key [{loc_key}]")
+                _validate_logic_requirement(
+                    requirement,
+                    context=f"Region [{region_name}] location [{loc_key}]",
+                )
+                region.locations.append(loc_key)
+                claimed_locations.add(loc_key)
+                if requirement is not None:
+                    region.location_requirements[loc_key] = requirement
 
         # Events (strings)
         for ev in region_def.get("events", []):

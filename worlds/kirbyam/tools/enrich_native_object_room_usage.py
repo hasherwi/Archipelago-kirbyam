@@ -7,7 +7,7 @@ import argparse
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
-from typing import Dict, List
+from typing import Any, List
 
 ROM_BASE = 0x08000000
 
@@ -92,9 +92,9 @@ def parse_level_obj_list_ptrs(rom: bytes) -> List[int]:
     return ptrs
 
 
-def parse_room_props(rom: bytes) -> List[dict]:
+def parse_room_props(rom: bytes) -> List[dict[str, int]]:
     base = gba_addr_to_offset(ROOM_PROPS_ADDR)
-    entries: List[dict] = []
+    entries: List[dict[str, int]] = []
     for entry_offset in range(0, ROOM_PROPS_SIZE, ROOM_PROPS_STRIDE):
         off = base + entry_offset
         entries.append(
@@ -108,10 +108,13 @@ def parse_room_props(rom: bytes) -> List[dict]:
     return entries
 
 
-def build_doors_idx_to_ap_room_keys(rooms_data: dict) -> dict[int, list[str]]:
+def build_doors_idx_to_ap_room_keys(rooms_data: dict[str, Any]) -> dict[int, list[str]]:
     mapping: dict[int, list[str]] = defaultdict(list)
     for room_key, room_info in rooms_data.items():
         room_sanity = room_info.get("room_sanity")
+        locations_payload = room_info.get("locations")
+        if not isinstance(room_sanity, dict) and isinstance(locations_payload, dict):
+            room_sanity = locations_payload.get("room_sanity")
         if not isinstance(room_sanity, dict):
             continue
         if not room_sanity.get("included"):
@@ -143,7 +146,7 @@ def parse_object_types_for_list(rom: bytes, list_ptr_addr: int) -> List[int]:
     return out
 
 
-def main() -> None:
+def main() -> None:  # noqa: C901
     args = parse_args()
 
     mapping_path = args.mapping.resolve()
@@ -196,17 +199,17 @@ def main() -> None:
             per_room_usage_by_object[obj_id][room_id] = count
             room_keys_by_object[obj_id][room_id] = doors_idx_to_ap.get(doors_idx, [])
 
-    for hex_key, entry in mapping.items():
-        if not isinstance(entry, dict):
+    for hex_key, mapping_entry in mapping.items():
+        if not isinstance(mapping_entry, dict):
             continue
 
-        obj_id = entry.get("item_id")
-        if not isinstance(obj_id, int):
-            obj_id = int(hex_key, 16)
-            entry["item_id"] = obj_id
+        entry_obj_id = mapping_entry.get("item_id")
+        if not isinstance(entry_obj_id, int):
+            entry_obj_id = int(hex_key, 16)
+            mapping_entry["item_id"] = entry_obj_id
 
-        total = int(total_usage_by_object.get(obj_id, 0))
-        per_room = per_room_usage_by_object.get(obj_id, {})
+        total = int(total_usage_by_object.get(entry_obj_id, 0))
+        per_room = per_room_usage_by_object.get(entry_obj_id, {})
 
         rooms_payload = []
         for room_id, count in sorted(per_room.items()):
@@ -214,11 +217,11 @@ def main() -> None:
                 {
                     "native_room_id": room_id,
                     "count": count,
-                    "ap_room_keys": room_keys_by_object[obj_id].get(room_id, []),
+                    "ap_room_keys": room_keys_by_object[entry_obj_id].get(room_id, []),
                 }
             )
 
-        entry["room_usage"] = {
+        mapping_entry["room_usage"] = {
             "total_count_all_rooms": total,
             "rooms": rooms_payload,
         }
@@ -226,7 +229,11 @@ def main() -> None:
     if args.in_place:
         output_path = mapping_path
     else:
-        output_path = args.output.resolve() if args.output else mapping_path.with_name(f"{mapping_path.stem}.enriched.json")
+        output_path = (
+            args.output.resolve()
+            if args.output
+            else mapping_path.with_name(f"{mapping_path.stem}.enriched.json")
+        )
 
     output_path.write_text(json.dumps(mapping, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"Updated mapping with room usage: {len(mapping)} object IDs")

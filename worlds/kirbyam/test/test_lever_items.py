@@ -39,7 +39,13 @@ def test_lever_wall_items_are_unique_progression_items() -> None:
 def test_lever_room_doors_idx_contract_matches_room_data() -> None:
     rooms = cast(dict[str, Any], load_json_data("regions/rooms.json"))
     for room_key, expected_doors_idx in _EXPECTED_LEVER_ROOMS.items():
-        assert rooms[room_key]["room_sanity"]["bit_index"] == expected_doors_idx
+        room = rooms[room_key]
+        room_sanity = room.get("room_sanity")
+        locations = room.get("locations")
+        if not isinstance(room_sanity, dict) and isinstance(locations, dict):
+            room_sanity = locations.get("room_sanity")
+        assert isinstance(room_sanity, dict)
+        assert room_sanity["bit_index"] == expected_doors_idx
 
 
 def test_payload_decouples_physical_lever_from_wall_unlock() -> None:

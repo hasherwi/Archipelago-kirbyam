@@ -24,6 +24,7 @@ import hashlib
 import json
 from collections import defaultdict
 from pathlib import Path
+from typing import Any
 
 
 ROOM_PROPS_ROM_BASE = 0x009331AC
@@ -49,9 +50,12 @@ RESPAWN_POLICY_EVIDENCE = [
 ]
 
 
-def load_json(path: Path) -> dict:
+def load_json(path: Path) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
-        return json.load(handle)
+        payload = json.load(handle)
+    if not isinstance(payload, dict):
+        raise ValueError(f"Expected a JSON object: {path}")
+    return payload
 
 
 def load_native_item_name_by_id(kirbyam_dir: Path) -> dict[int, str]:
@@ -76,10 +80,13 @@ def load_native_item_name_by_id(kirbyam_dir: Path) -> dict[int, str]:
     return parsed
 
 
-def build_doors_idx_to_room_keys(rooms: dict) -> dict[int, list[str]]:
+def build_doors_idx_to_room_keys(rooms: dict[str, Any]) -> dict[int, list[str]]:
     mapping: dict[int, list[str]] = defaultdict(list)
     for room_key, room_data in rooms.items():
         room_sanity = room_data.get("room_sanity")
+        locations_payload = room_data.get("locations")
+        if not isinstance(room_sanity, dict) and isinstance(locations_payload, dict):
+            room_sanity = locations_payload.get("room_sanity")
         if not isinstance(room_sanity, dict):
             continue
         if not room_sanity.get("included", False):
@@ -249,8 +256,8 @@ def classify_reward_profile(native_group: str, chest_flag_index: int, treasure_i
 
 
 def compute_multi_chest_disambiguation(
-    entries: list[dict],
-) -> tuple[dict[int, dict], list[dict]]:
+    entries: list[dict[str, Any]],
+) -> tuple[dict[int, dict[str, Any]], list[dict[str, Any]]]:
     """
     For each AP room whose candidate_ap_room_keys resolves to exactly one key and that room
     contains two or more chest entries, determine whether the chests can be distinguished by
@@ -273,14 +280,14 @@ def compute_multi_chest_disambiguation(
         per_entry: dict[entry_index → disambiguation record]
         room_summary: list of per-room disambiguation summary records, sorted by room_key
     """
-    room_to_entries: dict[str, list[dict]] = defaultdict(list)
+    room_to_entries: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for e in entries:
         keys = e.get("candidate_ap_room_keys") or []
         if len(keys) == 1:
             room_to_entries[keys[0]].append(e)
 
-    per_entry: dict[int, dict] = {}
-    room_summary: list[dict] = []
+    per_entry: dict[int, dict[str, Any]] = {}
+    room_summary: list[dict[str, Any]] = []
 
     for room_key, room_entries in sorted(room_to_entries.items()):
         chest_count = len(room_entries)
@@ -433,7 +440,7 @@ def item_field_semantics(item_id: int, reward_path: str, native_item_name_by_id:
     return base_name, True
 
 
-def main() -> int:
+def main() -> int:  # noqa: C901
     kirbyam_dir = Path(__file__).resolve().parent.parent
     repo_root = kirbyam_dir.parents[1]
     rooms_default, output_default = resolve_default_paths(kirbyam_dir)
@@ -478,7 +485,11 @@ def main() -> int:
     chest_item_values = small_chest_data.get("item")
     chest_addresses = small_chest_data.get("address")
     amr_room_slots = small_chest_data.get("room")
-    if not isinstance(chest_item_values, list) or not isinstance(chest_addresses, list) or not isinstance(amr_room_slots, list):
+    if (
+        not isinstance(chest_item_values, list)
+        or not isinstance(chest_addresses, list)
+        or not isinstance(amr_room_slots, list)
+    ):
         raise ValueError("AMR SmallChest.item, SmallChest.address, and SmallChest.room must be lists")
     if len(chest_item_values) != len(chest_addresses) or len(chest_addresses) != len(amr_room_slots):
         raise ValueError("AMR SmallChest.item/address/room length mismatch")
@@ -495,7 +506,7 @@ def main() -> int:
         native_by_object_list_idx[entry["object_list2_idx"]].append(entry)
         native_by_object_list_idx[entry["object_list_idx"]].append(entry)
 
-    manifest_entries: list[dict] = []
+    manifest_entries: list[dict[str, Any]] = []
     slot_counts: dict[int, int] = defaultdict(int)
     item_counts: dict[int, int] = defaultdict(int)
     ambiguous_entries = 0
@@ -604,8 +615,10 @@ def main() -> int:
         )
 
     per_entry_disambiguation, multi_chest_room_disambiguation = compute_multi_chest_disambiguation(manifest_entries)
-    for entry in manifest_entries:
-        entry["native_item_disambiguation"] = per_entry_disambiguation.get(entry["entry_index"])
+    for manifest_entry in manifest_entries:
+        manifest_entry["native_item_disambiguation"] = per_entry_disambiguation.get(
+            manifest_entry["entry_index"]
+        )
 
     disambiguated_multi_chest_rooms = sum(
         1 for r in multi_chest_room_disambiguation
@@ -619,9 +632,9 @@ def main() -> int:
         native_candidates = native_by_object_list_idx.get(resolved_object_list_idx, [])
         native_room_ids = [candidate["native_room_id"] for candidate in native_candidates]
         doors_idx_candidates = sorted({candidate["doors_idx"] for candidate in native_candidates})
-        ap_room_key_candidates: list[str] = []
+        slot_ap_room_key_candidates: list[str] = []
         for doors_idx in doors_idx_candidates:
-            ap_room_key_candidates.extend(doors_idx_to_room_keys.get(doors_idx, []))
+            slot_ap_room_key_candidates.extend(doors_idx_to_room_keys.get(doors_idx, []))
         slot_resolution_summary.append(
             {
                 "amr_room_slot": slot,
@@ -629,7 +642,7 @@ def main() -> int:
                 "chest_count": slot_counts[slot],
                 "candidate_native_room_ids": native_room_ids,
                 "candidate_doors_idx": doors_idx_candidates,
-                "candidate_ap_room_keys": sorted(set(ap_room_key_candidates)),
+                "candidate_ap_room_keys": sorted(set(slot_ap_room_key_candidates)),
             }
         )
 
