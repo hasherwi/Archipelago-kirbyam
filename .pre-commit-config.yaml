@@ -31,12 +31,14 @@ repos:
         additional_dependencies:
           - flake8
         types: [python]
+        exclude: ^tools/third_party/
 
       - id: mypy-strict
         name: mypy strict on staged files (CI parity)
         entry: python -m mypy --follow-imports=silent --install-types --non-interactive --strict
         language: system
         files: \.pyi?$
+        exclude: ^tools/third_party/
         stages: [pre-push]
 
       - id: pyright-strict

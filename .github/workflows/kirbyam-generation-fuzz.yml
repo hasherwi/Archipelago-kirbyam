@@ -1,0 +1,65 @@
+name: kirbyam-generation-fuzz
+
+on:
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: "Number of generation attempts"
+        required: false
+        default: "500"
+      jobs:
+        description: "Number of parallel fuzzer workers"
+        required: false
+        default: "4"
+  schedule:
+    - cron: "23 9 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  generation-fuzz:
+    name: KirbyAM generation fuzz
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ci-requirements.txt
+          python ModuleUpdate.py --yes --force --append "WebHostLib/requirements.txt"
+          python Launcher.py --update_settings
+
+      - name: Run KirbyAM generation fuzzer
+        env:
+          FUZZ_RUNS: ${{ inputs.runs || '500' }}
+          FUZZ_JOBS: ${{ inputs.jobs || '4' }}
+        run: |
+          python tools/run_kirbyam_generation_fuzz.py \
+            --runs "$FUZZ_RUNS" \
+            --jobs "$FUZZ_JOBS" \
+            --timeout 60
+
+      - name: Upload generation-fuzz artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kirbyam-generation-fuzz-${{ github.run_id }}
+          path: fuzz_output/**
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,2 +1,3 @@
 worlds/blasphemous/region_data.py linguist-generated=true
 worlds/yachtdice/YachtWeights.py linguist-generated=true
+tools/third_party/archipelago_fuzzer/fuzz.py text eol=lf
