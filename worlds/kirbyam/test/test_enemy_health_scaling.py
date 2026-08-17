@@ -1,8 +1,9 @@
 from types import SimpleNamespace
+from typing import cast
 
 import pytest
 
-from worlds.Files import AutoPatchExtensionRegister
+from worlds.Files import APProcedurePatch, AutoPatchExtensionRegister
 
 from ..enemy_health_scaling import (
     BOSS_HEALTH_DIFFICULTY_COUNT,
@@ -179,7 +180,7 @@ def test_patch_extension_reads_seed_multiplier_and_scales_rom() -> None:
     )
 
     scaled = KirbyAmPatchExtension.apply_enemy_health_scaling(
-        caller,
+        cast(APProcedurePatch, caller),
         bytes(rom),
         ENEMY_HEALTH_MULTIPLIER_FILE,
     )
@@ -191,7 +192,7 @@ def test_patch_extension_rejects_malformed_multiplier_metadata() -> None:
 
     with pytest.raises(ValueError, match="exactly 2 bytes"):
         KirbyAmPatchExtension.apply_enemy_health_scaling(
-            caller,
+            cast(APProcedurePatch, caller),
             bytes(_fixture_rom()),
             ENEMY_HEALTH_MULTIPLIER_FILE,
         )
