@@ -253,6 +253,7 @@ Server → Client: ConnectionRefused | Connected
 - `one_hit_mode` (int): one-hit mode selection (`0=off`, `1=exclude_vitality_counters`, `2=include_vitality_counters`). When non-zero, Kirby's max HP is clamped to `vitality_counter + 1` during gameplay. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool (replaced by filler) so the cap stays at 1. In `include_vitality_counters` mode, Vitality Counter items remain in the pool and each one received raises the cap by 1.
 - `enable_traps` (bool): when true, trap items may appear in the randomized item pool.
 - `trap_fill_percentage` (int): percentage (`0..100`) of eligible filler slots that are replaced by trap items when `enable_traps` is true.
+- `enemy_health_multiplier` (int): generation-resolved enemy HP percentage (`50..500`, default `100`). The value is baked into the `.apkirbyam` patch procedure; the client receives it for diagnostics/logging only.
 - `death_link` (bool): enables/disables AP DeathLink tag synchronization in the client.
 - `ability_randomization_mode` (int): enemy copy-ability mode (`0=off`, `1=shuffled`, `2=completely_random`).
 - `ability_randomization_boss_spawns` (bool): include/exclude ability-granting boss-spawned objects.

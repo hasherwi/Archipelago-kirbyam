@@ -2,22 +2,30 @@
 
 The world emits AP procedure patches that apply:
 - the shipped KirbyAM base bsdiff patch artifact
+- per-seed enemy-health table scaling
 - per-seed token writes (auth token and selected runtime feature writes)
 
 Issue #338 adds deterministic enemy copy-ability remap token writes for
 non-off enemy randomization modes.
+Issue #880 scales native enemy/miniboss/boss HP tables after the shared base
+patch is applied, so all native table consumers see the same per-seed values.
 """
 
 from typing import TYPE_CHECKING
 
 from settings import get_settings
-from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
+from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
 
 from .data import data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
 from .enemy_ability_runtime_patch import (
     build_enemy_copy_runtime_patch_writes,
     build_statue_runtime_allowed_mask,
+)
+from .enemy_health_scaling import (
+    ENEMY_HEALTH_MULTIPLIER_MAX,
+    ENEMY_HEALTH_MULTIPLIER_MIN,
+    scale_enemy_health_tables,
 )
 from .options import AbilityRandomizationMode
 
@@ -31,6 +39,7 @@ if TYPE_CHECKING:
 STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET = 0x0015F694
 ABILITY_GATE_MASK_INITIAL_ROM_OFFSET = 0x0015F698
 ABILITY_RANDOMIZATION_STATUE_ALLOWED_MASK_ROM_OFFSET = 0x0015F69C
+ENEMY_HEALTH_MULTIPLIER_FILE = "enemy_health_multiplier.bin"
 
 
 def _initial_ability_gate_mask(world: "KirbyAmWorld") -> int:
@@ -49,6 +58,29 @@ def _initial_ability_gate_mask(world: "KirbyAmWorld") -> int:
     return mask & 0xFFFFFFFF
 
 
+class KirbyAmPatchExtension(APPatchExtension):
+    """KirbyAM-specific AP procedure steps used while applying `.apkirbyam`."""
+
+    game = "Kirby & The Amazing Mirror"
+
+    @staticmethod
+    def apply_enemy_health_scaling(
+        caller: APProcedurePatch,
+        rom: bytes,
+        multiplier_file: str,
+    ) -> bytes:
+        """Scale native enemy HP tables using the seed-resolved percentage."""
+        multiplier_data = caller.get_file(multiplier_file)
+        if len(multiplier_data) != 2:
+            raise ValueError(
+                "KirbyAM enemy-health multiplier metadata must contain exactly "
+                f"2 bytes, got {len(multiplier_data)}"
+            )
+
+        percent = int.from_bytes(multiplier_data, "little")
+        return scale_enemy_health_tables(rom, percent)
+
+
 class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
     game = "Kirby & The Amazing Mirror"
     # Calculated with PowerShell Command:
@@ -59,7 +91,8 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
 
     procedure = [
         ("apply_bsdiff4", ["base_patch.bsdiff4"]),
-        ("apply_tokens", ["token_data.bin"])
+        ("apply_enemy_health_scaling", [ENEMY_HEALTH_MULTIPLIER_FILE]),
+        ("apply_tokens", ["token_data.bin"]),
     ]
 
     @classmethod
@@ -71,6 +104,20 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
 
 
 def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
+    health_multiplier = int(world.options.enemy_health_multiplier.value)
+    if not ENEMY_HEALTH_MULTIPLIER_MIN <= health_multiplier <= ENEMY_HEALTH_MULTIPLIER_MAX:
+        raise ValueError(
+            "enemy health multiplier must be within "
+            f"{ENEMY_HEALTH_MULTIPLIER_MIN}..{ENEMY_HEALTH_MULTIPLIER_MAX}: "
+            f"{health_multiplier}"
+        )
+    # The custom procedure consumes this after applying the shared base patch
+    # and before per-seed token writes. Two bytes cover the full supported range.
+    patch.write_file(
+        ENEMY_HEALTH_MULTIPLIER_FILE,
+        health_multiplier.to_bytes(2, "little"),
+    )
+
     # Only write the auth token if a ROM address has been configured.
     # The injected base patch is expected to reserve 16 bytes for this.
     auth_addr = data.rom_addresses.get("auth_token") or data.rom_addresses.get("gArchipelagoInfo")

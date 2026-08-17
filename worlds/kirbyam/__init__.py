@@ -996,6 +996,7 @@ class KirbyAmWorld(World):
             "ability_gating",
             "enable_traps",
             "trap_fill_percentage",
+            "enemy_health_multiplier",
             "one_hit_mode",
             "death_link",
             "ability_randomization_mode",
