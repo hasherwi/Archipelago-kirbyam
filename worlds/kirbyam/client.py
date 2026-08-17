@@ -15,6 +15,7 @@ from BaseClasses import ItemClassification
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
+from .area_keys import AREA_KEY_AREA_ID_BY_LABEL
 from .colors import choose_different_kirby_color
 from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
@@ -132,6 +133,11 @@ _MAP_ITEM_ID_TO_AREA_ID: dict[int, int] = {
     for item in data.items.values()
     if item.label in _MAP_ITEM_LABEL_TO_AREA_ID
 }
+_AREA_KEY_ITEM_ID_TO_AREA_ID: dict[int, int] = {
+    item.item_id: AREA_KEY_AREA_ID_BY_LABEL[item.label]
+    for item in data.items.values()
+    if item.item_id is not None and item.label in AREA_KEY_AREA_ID_BY_LABEL
+}
 _BOSS_DEFEAT_LABEL_TO_BIT: dict[str, int] = {
     loc.label.split(" - ", 1)[0].strip().lower(): loc.bit_index
     for loc in data.locations.values()
@@ -159,6 +165,9 @@ _ROOM_UPDATE_BOUNCE_TYPE = "RoomUpdate"
 _MANAGED_NATIVE_MAP_BITMASK = 0
 for area_id in _MAP_ITEM_ID_TO_AREA_ID.values():
     _MANAGED_NATIVE_MAP_BITMASK |= 1 << area_id
+_MANAGED_AREA_KEY_BITMASK = 0
+for area_id in _AREA_KEY_ITEM_ID_TO_AREA_ID.values():
+    _MANAGED_AREA_KEY_BITMASK |= 1 << area_id
 _MANAGED_NATIVE_SHARD_BITMASK = 0
 for shard_bit in _SHARD_ITEM_ID_TO_BIT.values():
     _MANAGED_NATIVE_SHARD_BITMASK |= 1 << shard_bit
@@ -323,6 +332,9 @@ class KirbyAmClient(BizHawkClient):
         self._cached_delivered_shard_bits: int = 0
         self._cached_shard_bits_index: int = 0
         self._cached_shard_bits_items_len: int = 0
+        self._cached_delivered_area_key_bits: int = 0
+        self._cached_area_key_bits_index: int = 0
+        self._cached_area_key_bits_items_len: int = 0
 
         # Deterministic location ordering
         self._all_location_ids_sorted: list[int] = [
@@ -420,6 +432,15 @@ class KirbyAmClient(BizHawkClient):
         # Room-sanity bitfield index (doorsIdx) -> location IDs.
         self._room_sanity_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.ROOM_SANITY)
         self._room_sanity_bits_sorted: list[int] = sorted(self._room_sanity_location_ids_by_bit.keys())
+        self._core_landmark_location_ids_by_bit = self._build_location_ids_by_bit(
+            LocationCategory.ROOM_SANITY,
+            lambda location: "CoreLandmark" in getattr(location, "tags", ()),
+        )
+        self._core_landmark_location_ids: set[int] = {
+            location_id
+            for location_ids in self._core_landmark_location_ids_by_bit.values()
+            for location_id in location_ids
+        }
 
         # Area-first-visit location map keyed by area id (1..9).
         self._area_visit_location_ids_by_area_id = self._build_location_ids_by_bit(LocationCategory.AREA_VISIT)
@@ -718,6 +739,9 @@ class KirbyAmClient(BizHawkClient):
         self._cached_delivered_shard_bits = 0
         self._cached_shard_bits_index = 0
         self._cached_shard_bits_items_len = 0
+        self._cached_delivered_area_key_bits = 0
+        self._cached_area_key_bits_index = 0
+        self._cached_area_key_bits_items_len = 0
         self._cached_room_visit_flags_view = None
 
     def _build_minor_chest_source_ptr_map(self) -> dict[int, int]:
@@ -876,6 +900,80 @@ class KirbyAmClient(BizHawkClient):
         self._cached_shard_bits_index = delivered_count
         self._cached_shard_bits_items_len = len(delivered_items)
         return self._cached_delivered_shard_bits & _MANAGED_NATIVE_SHARD_BITMASK
+
+    def _starting_area_key_bits(self, ctx: "BizHawkClientContext") -> int:
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            return 0
+
+        starting_bits = self._coerce_u32(slot_data.get("starting_area_key_bitfield", 0))
+        if starting_bits is None:
+            return 0
+        return starting_bits & _MANAGED_AREA_KEY_BITMASK
+
+    def _ap_owned_area_key_bits(self, ctx: "BizHawkClientContext") -> int:
+        """Return the exact Area Key mask confirmed as delivered to this client.
+
+        ``items_received`` already represents items received by the local slot, so
+        ``NetworkItem.player`` is the sender and must not affect ownership. Only the
+        prefix acknowledged by the ROM delivery cursor is authoritative; queued
+        entries later in the list do not unlock mirrors early.
+        """
+        delivered_items = getattr(ctx, "items_received", ())
+        delivered_count = min(self._delivered_item_index, len(delivered_items))
+
+        if (
+            self._cached_area_key_bits_index > delivered_count
+            or self._cached_area_key_bits_items_len > len(delivered_items)
+        ):
+            self._cached_delivered_area_key_bits = 0
+            self._cached_area_key_bits_index = 0
+
+        for item_index in range(self._cached_area_key_bits_index, delivered_count):
+            item_id = self._coerce_u32(getattr(delivered_items[item_index], "item", None))
+            if item_id is None:
+                continue
+            area_id = _AREA_KEY_ITEM_ID_TO_AREA_ID.get(item_id)
+            if area_id is not None:
+                self._cached_delivered_area_key_bits |= 1 << area_id
+
+        self._cached_area_key_bits_index = delivered_count
+        self._cached_area_key_bits_items_len = len(delivered_items)
+        return (
+            self._starting_area_key_bits(ctx) | self._cached_delivered_area_key_bits
+        ) & _MANAGED_AREA_KEY_BITMASK
+
+    async def _sync_area_key_runtime_config(self, ctx: "BizHawkClientContext") -> None:
+        """Reconcile the ROM Area Key gate bitfield with confirmed AP ownership."""
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict) or "starting_area_key_bitfield" not in slot_data:
+            # Backward compatibility for seeds generated before Area Keys existed.
+            return
+
+        area_key_addr = self._transport_addr("area_key_bitfield_runtime")
+        if area_key_addr is None:
+            return
+
+        desired_bits = self._ap_owned_area_key_bits(ctx)
+        current_raw = (
+            await bizhawk.read(ctx.bizhawk_ctx, [(area_key_addr, 4, "System Bus")])
+        )[0]
+        current_bits = self._u32_le(current_raw)
+        if current_bits == desired_bits:
+            return
+
+        await bizhawk.write(
+            ctx.bizhawk_ctx,
+            [(area_key_addr, desired_bits.to_bytes(4, "little"), "System Bus")],
+        )
+        self._log_verbose(
+            "info",
+            "KirbyAM: reconciled Area Key runtime ownership "
+            "(current=0x%08X, desired=0x%08X, delivered_item_index=%s)",
+            current_bits,
+            desired_bits,
+            self._delivered_item_index,
+        )
 
     async def _reconcile_native_shard_ownership(self, ctx: "BizHawkClientContext") -> None:
         """Reassert AP-owned shard bits after SaveRAM loss or reconnect drift.
@@ -1651,6 +1749,7 @@ class KirbyAmClient(BizHawkClient):
                 self._ram_state_loaded = True
 
             await self._sync_starting_kirby_color_runtime_config(ctx)
+            await self._sync_area_key_runtime_config(ctx)
 
             gameplay_active, defer_reason, ai_state = await self._runtime_gameplay_state(ctx)
             await self._log_boss_shard_debug_window(
@@ -3379,10 +3478,38 @@ class KirbyAmClient(BizHawkClient):
         slot_data = getattr(ctx, "slot_data", None)
         if not isinstance(slot_data, dict):
             return
-        if not self._coerce_bool(slot_data.get("room_sanity", False), False):
-            return
+        room_sanity_enabled = self._coerce_bool(slot_data.get("room_sanity", False), False)
+        if room_sanity_enabled:
+            location_ids_by_bit = self._room_sanity_location_ids_by_bit
+            bit_indexes = self._room_sanity_bits_sorted
+        else:
+            configured_landmarks = slot_data.get("core_landmark_location_ids")
+            if not isinstance(configured_landmarks, list):
+                # Seeds generated before core landmarks existed must retain the
+                # old no-Room-Sanity behavior.
+                return
+            configured_ids = {
+                location_id
+                for location_id in configured_landmarks
+                if isinstance(location_id, int)
+            }
+            configured_ids &= self._core_landmark_location_ids
+            location_ids_by_bit = {
+                bit_index: [
+                    location_id
+                    for location_id in location_ids
+                    if location_id in configured_ids
+                ]
+                for bit_index, location_ids in self._core_landmark_location_ids_by_bit.items()
+            }
+            location_ids_by_bit = {
+                bit_index: location_ids
+                for bit_index, location_ids in location_ids_by_bit.items()
+                if location_ids
+            }
+            bit_indexes = sorted(location_ids_by_bit)
 
-        if not self._room_sanity_location_ids_by_bit:
+        if not location_ids_by_bit:
             return
 
         raw_view = await self._get_room_visit_flags_view(ctx)
@@ -3390,12 +3517,16 @@ class KirbyAmClient(BizHawkClient):
             return
 
         mapped_checked_locations: set[int] = set()
-        for doors_idx in self._room_sanity_bits_sorted:
+        for doors_idx in bit_indexes:
             if doors_idx < 0 or doors_idx >= _ROOM_VISIT_FLAGS_ENTRY_COUNT:
                 continue
             entry_value = unpack_from("<H", raw_view, doors_idx * 2)[0]
             if entry_value & _ROOM_VISIT_FLAGS_BIT_MASK:
-                mapped_checked_locations.update(self._room_sanity_location_ids_by_bit.get(doors_idx, []))
+                mapped_checked_locations.update(location_ids_by_bit.get(doors_idx, []))
+
+        active_location_ids = self._active_location_id_set(ctx)
+        if active_location_ids is not None:
+            mapped_checked_locations &= active_location_ids
 
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)

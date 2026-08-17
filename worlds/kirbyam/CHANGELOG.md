@@ -8,18 +8,26 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## Unreleased
+
+### New Features
+- Added eight Area Key progression items for Areas 2 through 9. Cross-area mirrors (and other transitions like Warp Stars) now require the destination area's key; eight hub rooms are locations (even when Room Sanity is off) so the default item pool retains valid capacity (Issue #42).
+
 ## v0.3.1
 
 ### New Features
+
 - Added a new option: `enemy_health_multiplier`. Scale all enemies' health values between 50% to 500% of the original game. It defaults to 100% which matches the original game (Issue #880).
 - Added `random_color_per_room` to Starting Kirby Color. It chooses an initial supported palette at generation, then changes to a different supported palette whenever the connected BizHawk client observes Kirby enter a different room (Issue #857).
 - Added four progression items that independently open the walls controlled by those levers. Pulling a lever now sends its AP location check without opening the wall; receiving the matching Lever Wall item sets the native wall-unlock state instead (Issue #859).
 
 ### Improvements
+
 - Consolidated `defeat_random_hidden_area_boss` and `defeat_configured_area_boss` into the canonical `defeat_area_boss` goal. `configured_area_boss: random` now uses Archipelago's standard `Choice` randomization, the old `defeat_configured_area_boss` name remains a safe YAML alias, and all eight boss-to-area mappings are corrected (Issue #872).
 - Generated YAML documentation now shows the scalar `configured_area_boss: random` and `starting_kirby_color: random` shorthands and explains how they replace the generated concrete weight mappings (Issue #872).
 
 ### Known Limitations
+
 - Enemy Health Scaling: The health bar for enemies does not visually show the changed values.
 - Kirby Color: random_color_per_room changes Kirby's color, but does not change the corresponding UI element colors.
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
@@ -34,6 +42,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Adds cutter to the base ability pool to make sure players can cut the drop down platforms. (Issue #894)
 
 ### Internal Changes
+
 - Added pinned, checksum-verified Archipelago generation fuzzing with a strict local launcher, a pull-request/manual CI workflow, and retained failure artifacts (Issue #898).
 - `starting_kirby_color` now uses the same standard Archipelago `Choice` literal `random`; the former world-specific `random_color` sentinel has been removed (Issue #872).
 - Split Kirby color catalog validation into focused helpers so Flake8 complexity checks remain meaningful without suppressing C901 (Issue #872).
@@ -50,9 +59,11 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - Because of how we detect the game state, the check will only send AFTER the tutorial is completed and you enter Central Circle for the first time.
 
 ### Improvements
+
 - Self-send item popups in BizHawk are now collapsed to one line (`You found your <item>.`) instead of separate send and receive popups (Issue #848).
 
 ### Known Limitations
+
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
 - Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
 - Small Chests: We know you want the "small" chests implemented. We want them implemented too. We've been working on it for months. We decided getting out what IS working, is more important.

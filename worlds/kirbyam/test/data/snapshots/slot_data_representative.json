@@ -8,6 +8,16 @@
   "ability_randomization_passive_enemies": false,
   "ability_randomization_statues": false,
   "configured_area_boss": 7,
+  "core_landmark_location_ids": [
+    3961070,
+    3961094,
+    3961119,
+    3961126,
+    3961163,
+    3961188,
+    3961221,
+    3961256
+  ],
   "death_link": true,
   "enable_traps": false,
   "enemy_copy_ability_policy": {
@@ -1331,6 +1341,7 @@
       "label": "Area 2 - Hub Room",
       "location_id": 3961070,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -1491,6 +1502,7 @@
       "label": "Area 3 - Hub Room 1",
       "location_id": 3961094,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -1699,6 +1711,7 @@
       "label": "Area 4 - Hub Room",
       "location_id": 3961119,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -1883,6 +1896,7 @@
       "label": "Area 5 - Hub Room",
       "location_id": 3961126,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -2123,6 +2137,7 @@
       "label": "Area 6 - Hub Room",
       "location_id": 3961163,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -2355,6 +2370,7 @@
       "label": "Area 7 - Hub Room 1",
       "location_id": 3961188,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -2603,6 +2619,7 @@
       "label": "Area 8 - Hub Room",
       "location_id": 3961221,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -2819,6 +2836,7 @@
       "label": "Area 9 - Hub Room",
       "location_id": 3961256,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -5931,31 +5949,40 @@
     "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1 -> REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
     "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3 -> REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1"
   ],
+  "starting_area_key_bitfield": 0,
   "starting_kirby_color": 0,
   "starting_kirby_color_name": "Pink",
   "starting_kirby_color_randomize_on_room_transition": false,
   "trap_fill_percentage": 25,
   "unique_items": [
+    "Cabbage Cavern - Area Key",
     "Cabbage Cavern - Map",
     "Cabbage Cavern - Mirror Shard",
+    "Candy Constellation - Area Key",
     "Candy Constellation - Map",
     "Candy Constellation - Mirror Shard",
     "Candy Constellation - Vitality Counter",
+    "Carrot Castle - Area Key",
     "Carrot Castle - Map",
     "Carrot Castle - Mirror Shard",
     "Carrot Castle - Vitality Counter",
     "Carrot Castle 5-12 - Lever Wall",
+    "Moonlight Mansion - Area Key",
     "Moonlight Mansion - Map",
     "Moonlight Mansion - Mirror Shard",
     "Moonlight Mansion 2-11 - Lever Wall",
+    "Mustard Mountain - Area Key",
     "Mustard Mountain - Map",
     "Mustard Mountain - Mirror Shard",
+    "Olive Ocean - Area Key",
     "Olive Ocean - Map",
     "Olive Ocean - Mirror Shard",
     "Olive Ocean - Vitality Counter",
     "Olive Ocean 6-13 - Lever Wall",
+    "Peppermint Palace - Area Key",
     "Peppermint Palace - Map",
     "Peppermint Palace - Mirror Shard",
+    "Radish Ruins - Area Key",
     "Radish Ruins - Map",
     "Radish Ruins - Mirror Shard",
     "Radish Ruins - Vitality Counter",
