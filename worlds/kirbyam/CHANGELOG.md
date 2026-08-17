@@ -8,6 +8,27 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## Unreleased
+
+### Improvements
+- Consolidated `defeat_random_hidden_area_boss` and `defeat_configured_area_boss` into the canonical `defeat_area_boss` goal. `configured_area_boss: random` now uses Archipelago's standard `Choice` randomization, the old `defeat_configured_area_boss` name remains a safe YAML alias, and all eight boss-to-area mappings are corrected (Issue #872).
+- Generated YAML documentation now shows the scalar `configured_area_boss: random` and `starting_kirby_color: random` shorthands and explains how they replace the generated concrete weight mappings (Issue #872).
+
+### Known Limitations
+- Localization: Only the North American ROM is supported. All AP notifications are in English.
+- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
+- Small Chests: We know you want the "small" chests implemented. We want them implemented too. We've been working on it for months. We decided getting out what IS working, is more important.
+- Sprite Swapping: The animation for getting the original item will play with the original sprite. Statues show the old ability. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or ability granted.
+- Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
+
+### Bug Fixes
+
+- Boss checks were mapped incorrectly for the `defeat_configured_area_boss` goal. That's been fixed (Issue #893).
+
+### Internal Changes
+- `starting_kirby_color` now uses the same standard Archipelago `Choice` literal `random`; the former world-specific `random_color` sentinel has been removed (Issue #872).
+- Split Kirby color catalog validation into focused helpers so Flake8 complexity checks remain meaningful without suppressing C901 (Issue #872).
+
 ## v0.3.0
 
 ### New Features
@@ -20,7 +41,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - Because of how we detect the game state, the check will only send AFTER the tutorial is completed and you enter Central Circle for the first time.
 
 ### Improvements
-
 - Self-send item popups in BizHawk are now collapsed to one line (`You found your <item>.`) instead of separate send and receive popups (Issue #848).
 
 ### Known Limitations
