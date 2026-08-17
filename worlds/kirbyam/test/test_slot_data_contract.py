@@ -45,6 +45,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "ability_gating": True,
         "enable_traps": False,
         "trap_fill_percentage": 25,
+        "enemy_health_multiplier": 100,
         "one_hit_mode": 0,
         "death_link": True,
         "ability_randomization_mode": 1,
@@ -84,6 +85,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "ability_gating",
         "enable_traps",
         "trap_fill_percentage",
+        "enemy_health_multiplier",
         "one_hit_mode",
         "death_link",
         "ability_randomization_mode",
@@ -107,6 +109,13 @@ def test_protocol_slot_data_keys_match_emitted_slot_data_keys() -> None:
         "slot_data contract drift detected between emitted fields and PROTOCOL.md. "
         f"documented={documented}, emitted={emitted}"
     )
+
+
+def test_enemy_health_multiplier_contract_field_has_expected_shape() -> None:
+    slot_data = _emit_slot_data_for_contract_test()
+
+    assert isinstance(slot_data["enemy_health_multiplier"], int)
+    assert 50 <= slot_data["enemy_health_multiplier"] <= 500
 
 
 def test_enemy_randomization_contract_fields_present_with_expected_shapes() -> None:
