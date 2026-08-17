@@ -13,11 +13,14 @@ import pytest
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.context import _game_watcher, AuthStatus, BizHawkClientCommandProcessor
 
+from ..area_keys import AREA_KEY_AREA_ID_BY_LABEL
 from ..data import LocationCategory, data
 from ..client import (
     KirbyAmClient,
+    _AREA_KEY_ITEM_ID_TO_AREA_ID,
     _build_kirbyam_command_processor,
     _is_exact_minor_chest_location,
+    _MANAGED_AREA_KEY_BITMASK,
     _MAP_ITEM_ID_TO_AREA_ID,
     _ROOM_PROPS_DOORS_IDX_OFFSET,
     _ROOM_PROPS_ROM_BASE,
@@ -666,6 +669,157 @@ def test_ap_owned_native_map_bits_rebuilds_after_delivered_index_rewind(mock_biz
     rewound_bits = client._ap_owned_native_map_bits(mock_bizhawk_context)
 
     assert rewound_bits == (1 << _MAP_ITEM_ID_TO_AREA_ID[3860010])
+
+
+def test_area_key_client_mapping_follows_item_catalog_and_shared_label_contract():
+    expected_mapping = {
+        item.item_id: AREA_KEY_AREA_ID_BY_LABEL[item.label]
+        for item in data.items.values()
+        if item.item_id is not None and item.label in AREA_KEY_AREA_ID_BY_LABEL
+    }
+
+    assert _AREA_KEY_ITEM_ID_TO_AREA_ID == expected_mapping
+    assert sorted(_AREA_KEY_ITEM_ID_TO_AREA_ID) == list(range(3860041, 3860049))
+    assert set(_AREA_KEY_ITEM_ID_TO_AREA_ID.values()) == set(range(2, 10))
+
+
+def test_ap_owned_area_key_bits_uses_starting_and_confirmed_delivery_prefix(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["starting_area_key_bitfield"] = (1 << 2) | (1 << 31)
+    mock_bizhawk_context.items_received = [
+        Mock(item=3860042, player=77),
+        Mock(item=3860048, player=22),
+        Mock(item=3860044, player=1),
+    ]
+    client._delivered_item_index = 2
+
+    owned_bits = client._ap_owned_area_key_bits(mock_bizhawk_context)
+
+    assert owned_bits == (1 << 2) | (1 << 3) | (1 << 9)
+    assert owned_bits & ~_MANAGED_AREA_KEY_BITMASK == 0
+    assert not owned_bits & (1 << _AREA_KEY_ITEM_ID_TO_AREA_ID[3860044])
+
+
+def test_ap_owned_area_key_bits_never_reads_network_item_sender(mock_bizhawk_context):
+    class ReceivedAreaKey:
+        item = 3860041
+
+        @property
+        def player(self):
+            raise AssertionError("NetworkItem.player is the sender, not the receiving slot")
+
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["starting_area_key_bitfield"] = 0
+    mock_bizhawk_context.items_received = [ReceivedAreaKey()]
+    client._delivered_item_index = 1
+
+    assert client._ap_owned_area_key_bits(mock_bizhawk_context) == 1 << 2
+
+
+def test_ap_owned_area_key_bits_rebuilds_exact_mask_after_delivery_cursor_rewind(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["starting_area_key_bitfield"] = 1 << 7
+    mock_bizhawk_context.items_received = [
+        Mock(item=3860041, player=9),
+        Mock(item=3860042, player=8),
+        Mock(item=3860048, player=7),
+    ]
+
+    client._delivered_item_index = 3
+    assert client._ap_owned_area_key_bits(mock_bizhawk_context) == (
+        (1 << 2) | (1 << 3) | (1 << 7) | (1 << 9)
+    )
+
+    client._delivered_item_index = 1
+    assert client._ap_owned_area_key_bits(mock_bizhawk_context) == (1 << 2) | (1 << 7)
+
+
+def test_area_key_delivery_cache_resets_for_reconnect_rebuild(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["starting_area_key_bitfield"] = 0
+    mock_bizhawk_context.items_received = [
+        Mock(item=3860041, player=1),
+        Mock(item=3860042, player=1),
+    ]
+    client._delivered_item_index = 2
+    assert client._ap_owned_area_key_bits(mock_bizhawk_context) == (1 << 2) | (1 << 3)
+
+    client._reset_reconnect_transient_state()
+
+    assert client._cached_delivered_area_key_bits == 0
+    assert client._cached_area_key_bits_index == 0
+    assert client._cached_area_key_bits_items_len == 0
+
+    mock_bizhawk_context.items_received = [Mock(item=3860048, player=99)]
+    client._delivered_item_index = 1
+    assert client._ap_owned_area_key_bits(mock_bizhawk_context) == 1 << 9
+
+
+@pytest.mark.asyncio
+async def test_sync_area_key_runtime_config_writes_exact_confirmed_mask(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["starting_area_key_bitfield"] = 1 << 2
+    mock_bizhawk_context.items_received = [
+        Mock(item=3860042, player=88),
+        Mock(item=3860048, player=1),
+    ]
+    client._delivered_item_index = 1
+    area_key_addr = 0x0203B0C0
+
+    with patch.dict(
+        data.transport_ram_addresses,
+        {"area_key_bitfield_runtime": area_key_addr},
+        clear=False,
+    ), patch(
+        'worlds.kirbyam.client.bizhawk.read',
+        new_callable=AsyncMock,
+        return_value=[(1 << 9).to_bytes(4, 'little')],
+    ) as mock_read, patch(
+        'worlds.kirbyam.client.bizhawk.write',
+        new_callable=AsyncMock,
+    ) as mock_write:
+        await client._sync_area_key_runtime_config(mock_bizhawk_context)
+
+    desired_bits = (1 << 2) | (1 << 3)
+    mock_read.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        [(area_key_addr, 4, "System Bus")],
+    )
+    mock_write.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        [(area_key_addr, desired_bits.to_bytes(4, "little"), "System Bus")],
+    )
+
+
+@pytest.mark.asyncio
+async def test_sync_area_key_runtime_config_skips_write_when_mask_matches(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["starting_area_key_bitfield"] = 1 << 2
+    client._delivered_item_index = 0
+    area_key_addr = 0x0203B0C0
+
+    with patch.dict(
+        data.transport_ram_addresses,
+        {"area_key_bitfield_runtime": area_key_addr},
+        clear=False,
+    ), patch(
+        'worlds.kirbyam.client.bizhawk.read',
+        new_callable=AsyncMock,
+        return_value=[(1 << 2).to_bytes(4, 'little')],
+    ) as mock_read, patch(
+        'worlds.kirbyam.client.bizhawk.write',
+        new_callable=AsyncMock,
+    ) as mock_write:
+        await client._sync_area_key_runtime_config(mock_bizhawk_context)
+
+    mock_read.assert_awaited_once()
+    mock_write.assert_not_awaited()
 
 
 @pytest.mark.asyncio
@@ -3592,6 +3746,72 @@ async def test_room_sanity_resend_log_is_file_only(mock_bizhawk_context):
 
 
 @pytest.mark.asyncio
+async def test_core_landmark_room_visit_polls_when_full_room_sanity_is_off(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    landmark_bit, landmark_location_ids = next(
+        iter(client._core_landmark_location_ids_by_bit.items())
+    )
+    landmark_location_id = landmark_location_ids[0]
+    non_landmark_bit, non_landmark_location_ids = next(
+        (bit_index, location_ids)
+        for bit_index, location_ids in client._room_sanity_location_ids_by_bit.items()
+        if not set(location_ids) & client._core_landmark_location_ids
+    )
+
+    mock_bizhawk_context.slot_data["room_sanity"] = False
+    mock_bizhawk_context.slot_data["core_landmark_location_ids"] = [landmark_location_id]
+    mock_bizhawk_context.server_locations = {
+        landmark_location_id,
+        non_landmark_location_ids[0],
+    }
+    mock_bizhawk_context.checked_locations = set()
+    raw = bytearray(0x120 * 2)
+    raw[landmark_bit * 2:landmark_bit * 2 + 2] = (0x8000).to_bytes(2, "little")
+    raw[non_landmark_bit * 2:non_landmark_bit * 2 + 2] = (0x8000).to_bytes(2, "little")
+
+    with patch.dict(
+        data.native_ram_addresses,
+        {"room_visit_flags_native": 0x02028CA0},
+        clear=False,
+    ), patch(
+        "worlds.kirbyam.client.bizhawk.read",
+        new_callable=AsyncMock,
+        return_value=[bytes(raw)],
+    ), patch.object(
+        mock_bizhawk_context,
+        "send_msgs",
+        new_callable=AsyncMock,
+    ) as mock_send:
+        await client._poll_room_sanity_locations(mock_bizhawk_context)
+
+    mock_send.assert_awaited_once_with(
+        [{"cmd": "LocationChecks", "locations": [landmark_location_id]}]
+    )
+
+
+@pytest.mark.asyncio
+async def test_old_seed_without_core_landmark_contract_keeps_room_sanity_off(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["room_sanity"] = False
+    mock_bizhawk_context.slot_data.pop("core_landmark_location_ids", None)
+
+    with patch(
+        "worlds.kirbyam.client.bizhawk.read",
+        new_callable=AsyncMock,
+    ) as mock_read, patch.object(
+        mock_bizhawk_context,
+        "send_msgs",
+        new_callable=AsyncMock,
+    ) as mock_send:
+        await client._poll_room_sanity_locations(mock_bizhawk_context)
+
+    mock_read.assert_not_awaited()
+    mock_send.assert_not_awaited()
+
+
+@pytest.mark.asyncio
 async def test_probe_boss_candidates_logs_rising_edges(mock_bizhawk_context):
     """Boss probe should log rising bit transitions for candidate mapping."""
     client = KirbyAmClient()
@@ -4287,6 +4507,8 @@ async def test_game_watcher_reloads_state_after_transport_recovery(mock_bizhawk_
     client._watcher_server_ready = True
     client._watcher_requires_bizhawk_resync = True
     client._last_watcher_transport_error = "Connection timed out"
+    mock_sync_area_keys = AsyncMock()
+    client._sync_area_key_runtime_config = mock_sync_area_keys
 
     with patch.object(client, '_reset_reconnect_transient_state') as mock_reset, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock) as mock_load, \
@@ -4314,6 +4536,7 @@ async def test_game_watcher_reloads_state_after_transport_recovery(mock_bizhawk_
 
     mock_reset.assert_called_once_with()
     mock_load.assert_awaited_once_with(mock_bizhawk_context)
+    mock_sync_area_keys.assert_awaited_once_with(mock_bizhawk_context)
     mock_reconcile_maps.assert_awaited_once_with(mock_bizhawk_context)
     mock_apply_death_link.assert_awaited_once_with(mock_bizhawk_context)
     mock_send_death_link.assert_awaited_once_with(mock_bizhawk_context)
