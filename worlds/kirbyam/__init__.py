@@ -18,7 +18,13 @@ from .ability_randomization import (
     build_enemy_copy_ability_policy,
 )
 from .colors import STARTING_KIRBY_COLOR_RANDOM_OPTION, resolve_kirby_color
-from .data import LocationCategory, format_room_region_label, load_json_data, data as kirby_data
+from .data import (
+    LocationCategory,
+    data as kirby_data,
+    format_room_region_label,
+    load_json_data,
+    normalize_region_exits,
+)
 from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
 from .generation_logging import (
@@ -1075,15 +1081,24 @@ class KirbyAmWorld(World):
         # All rooms (visited and unvisited), including those not in Room Sanity
         rooms_payload = load_json_data("regions/rooms.json")
         rooms = rooms_payload if isinstance(rooms_payload, dict) else {}
-        slot_data["rooms"] = {
-            room_key: {
+        normalized_rooms: dict[str, dict[str, Any]] = {}
+        for room_key, room_data in rooms.items():
+            if not isinstance(room_key, str) or not isinstance(room_data, dict):
+                continue
+            exits, _requirements = normalize_region_exits(room_key, room_data)
+            room_sanity = room_data.get("room_sanity")
+            locations_payload = room_data.get("locations")
+            if not isinstance(room_sanity, dict) and isinstance(locations_payload, dict):
+                room_sanity = locations_payload.get("room_sanity")
+            normalized_rooms[room_key] = {
                 "label": room_data.get("label") or format_room_region_label(room_key),
-                "exits": room_data.get("exits", []),
+                "exits": exits,
                 "parent_region": room_key.split("/")[0] if "/" in room_key else "",
-                "room_sanity_location_id": room_data.get("room_sanity", {}).get("location_id"),
+                "room_sanity_location_id": (
+                    room_sanity.get("location_id") if isinstance(room_sanity, dict) else None
+                ),
             }
-            for room_key, room_data in rooms.items()
-        }
+        slot_data["rooms"] = normalized_rooms
 
         # Unique items for tracker display (items tagged as "Unique").
         # Emit in stable deduplicated order for tracker/cache determinism.

@@ -707,9 +707,9 @@
         "RoomSanity"
       ]
     },
-    "ROOM_SANITY_1_03": {
+    "ROOM_SANITY_1_03_UPPER": {
       "category": "ROOM_SANITY",
-      "label": "Room 1-03",
+      "label": "Room 1-03_UPPER",
       "location_id": 3961016,
       "tags": [
         "RoomSanity"
@@ -731,9 +731,9 @@
         "RoomSanity"
       ]
     },
-    "ROOM_SANITY_1_06": {
+    "ROOM_SANITY_1_06_UPPER": {
       "category": "ROOM_SANITY",
-      "label": "Room 1-06",
+      "label": "Room 1-06_UPPER",
       "location_id": 3961017,
       "tags": [
         "RoomSanity"
@@ -1147,9 +1147,9 @@
         "RoomSanity"
       ]
     },
-    "ROOM_SANITY_2_07": {
+    "ROOM_SANITY_2_07_UPPER_LEFT": {
       "category": "ROOM_SANITY",
-      "label": "Room 2-07",
+      "label": "Room 2-07_UPPER_LEFT",
       "location_id": 3961063,
       "tags": [
         "RoomSanity"
@@ -1187,9 +1187,9 @@
         "RoomSanity"
       ]
     },
-    "ROOM_SANITY_2_12": {
+    "ROOM_SANITY_2_12_LEFT": {
       "category": "ROOM_SANITY",
-      "label": "Room 2-12",
+      "label": "Room 2-12_LEFT",
       "location_id": 3961050,
       "tags": [
         "RoomSanity"
@@ -3726,93 +3726,202 @@
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_01": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_03",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_04",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_02"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_01",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961062
     },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_02": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_03",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_15",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_HUB"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02_ENTRY"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_02",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961067
     },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_02_ENTRY": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_02_ENTRY",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_02_RIGHT": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_HUB"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_02_RIGHT",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_03": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_13",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_02"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_03",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961060
     },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_04": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_08",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_01",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_07",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_04",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961061
     },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_04_FROM_2_07": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_04_FROM_2_07",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_05": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_20",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_08",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_07"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05_UPPER_LEDGE",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_05",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961071
     },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_06"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_05_UPPER_LEDGE": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_05_UPPER_LEDGE",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_06": {
       "exits": [
-        "REGION_DIMENSION_MIRROR/ROOM_10_20",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_20",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_09",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_11"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_06",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961073
     },
-    "REGION_MOONLIGHT_MANSION/ROOM_2_07": {
+    "REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_04",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_14",
         "REGION_MOONLIGHT_MANSION/ROOM_2_05"
       ],
-      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_07",
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961063
     },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_RIGHT": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_08"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_RIGHT",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_08": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_04",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_05",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_11"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_09",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_RIGHT"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_08",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961059
     },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_08_BOMB_ROOM": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_08"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_08_BOMB_ROOM",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_09": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_10",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_06"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_10"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_09",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -3820,9 +3929,7 @@
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_10": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_09",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_13",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_11"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_10",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -3830,30 +3937,50 @@
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_11": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_10",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_08",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_06"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961072
     },
-    "REGION_MOONLIGHT_MANSION/ROOM_2_12": {
+    "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_16",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_17",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
-        "REGION_RAINBOW_ROUTE/ROOM_1_08"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11"
       ],
-      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_12",
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT": {
+      "exits": [
+        "REGION_OLIVE_OCEAN/ROOM_6_13"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961050
     },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_12_RIGHT": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_12_RIGHT",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_13": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_10",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_03",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_15"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_14"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_13",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -3861,27 +3988,41 @@
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_14": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_07",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_14",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961068
     },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_15": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_13",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_HUB"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_WARP"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_15",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961069
     },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_WARP"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_16": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_12",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_17",
-        "REGION_RAINBOW_ROUTE/ROOM_1_07"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18_UPPER_LEFT",
+        "REGION_RAINBOW_ROUTE/ROOM_1_41"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_16",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -3889,10 +4030,8 @@
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_17": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_12",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_16",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_19"
+        "REGION_RAINBOW_ROUTE/ROOM_1_42",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_17",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -3900,19 +4039,36 @@
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_18": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_12",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_19"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18_UPPER_LEFT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_17",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_18",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961053
     },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_18_UPPER_LEFT": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_18_UPPER_LEFT",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_19": {
       "exits": [
-        "REGION_DIMENSION_MIRROR/ROOM_10_19",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_17",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_RIGHT"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_19",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -3920,9 +4076,9 @@
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_20": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_05",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_06",
-        "REGION_OLIVE_OCEAN/ROOM_6_14"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_BOTTOM_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_20",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -3930,9 +4086,7 @@
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_08",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_03",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_01"
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
       ],
       "label": "Area 2 - Boss Room",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -3940,8 +4094,7 @@
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_07"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -3949,9 +4102,7 @@
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_04",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_14",
-        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -3959,18 +4110,41 @@
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_19",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961055
     },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_BOTTOM_RIGHT": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_BOTTOM_RIGHT",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_RIGHT": {
+      "exits": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_20"
+      ],
+      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_RIGHT",
+      "parent_region": "REGION_MOONLIGHT_MANSION",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_HUB": {
       "exits": [
         "REGION_MOONLIGHT_MANSION/ROOM_2_02",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_15",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_WARP"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_03",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
       ],
       "label": "Area 2 - Hub Room",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -3978,7 +4152,7 @@
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_WARP": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_HUB"
+        "REGION_CANDY_CONSTELLATION/ROOM_9_04"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_WARP",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -5119,9 +5293,7 @@
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_01": {
       "exits": [
-        "REGION_CABBAGE_CAVERN/ROOM_3_BOSS",
-        "REGION_RAINBOW_ROUTE/ROOM_1_10",
-        "REGION_RAINBOW_ROUTE/ROOM_1_11"
+        "REGION_RAINBOW_ROUTE/ROOM_1_02"
       ],
       "label": "REGION_RAINBOW_ROUTE/ROOM_1_01",
       "parent_region": "REGION_RAINBOW_ROUTE",
@@ -5129,29 +5301,32 @@
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_02": {
       "exits": [
-        "REGION_RAINBOW_ROUTE/ROOM_1_03",
-        "REGION_RAINBOW_ROUTE/ROOM_1_16",
-        "REGION_RAINBOW_ROUTE/ROOM_1_32"
+        "REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER",
+        "REGION_RAINBOW_ROUTE/ROOM_1_03_LOWER"
       ],
       "label": "REGION_RAINBOW_ROUTE/ROOM_1_02",
       "parent_region": "REGION_RAINBOW_ROUTE",
       "room_sanity_location_id": 3961015
     },
-    "REGION_RAINBOW_ROUTE/ROOM_1_03": {
+    "REGION_RAINBOW_ROUTE/ROOM_1_03_LOWER": {
       "exits": [
-        "REGION_RAINBOW_ROUTE/ROOM_1_37",
-        "REGION_RAINBOW_ROUTE/ROOM_1_02",
-        "REGION_RAINBOW_ROUTE/ROOM_1_32"
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER"
       ],
-      "label": "REGION_RAINBOW_ROUTE/ROOM_1_03",
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_03_LOWER",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": null
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_04"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER",
       "parent_region": "REGION_RAINBOW_ROUTE",
       "room_sanity_location_id": 3961016
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_04": {
       "exits": [
-        "REGION_RAINBOW_ROUTE/ROOM_1_05",
-        "REGION_RAINBOW_ROUTE/ROOM_1_10",
-        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1"
+        "REGION_RAINBOW_ROUTE/ROOM_1_05"
       ],
       "label": "REGION_RAINBOW_ROUTE/ROOM_1_04",
       "parent_region": "REGION_RAINBOW_ROUTE",
@@ -5159,22 +5334,17 @@
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_05": {
       "exits": [
-        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4",
-        "REGION_RAINBOW_ROUTE/ROOM_1_10",
-        "REGION_RAINBOW_ROUTE/ROOM_1_11"
+        "REGION_RAINBOW_ROUTE/ROOM_1_WARP"
       ],
       "label": "REGION_RAINBOW_ROUTE/ROOM_1_05",
       "parent_region": "REGION_RAINBOW_ROUTE",
       "room_sanity_location_id": 3961013
     },
-    "REGION_RAINBOW_ROUTE/ROOM_1_06": {
+    "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER": {
       "exits": [
-        "REGION_RAINBOW_ROUTE/ROOM_1_27",
-        "REGION_RAINBOW_ROUTE/ROOM_1_39",
-        "REGION_RAINBOW_ROUTE/ROOM_1_13",
-        "REGION_RAINBOW_ROUTE/ROOM_1_20"
+        "REGION_RAINBOW_ROUTE/ROOM_1_05"
       ],
-      "label": "REGION_RAINBOW_ROUTE/ROOM_1_06",
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER",
       "parent_region": "REGION_RAINBOW_ROUTE",
       "room_sanity_location_id": 3961017
     },
@@ -5190,7 +5360,7 @@
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_08": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_12",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT",
         "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
         "REGION_RAINBOW_ROUTE/ROOM_1_07",
         "REGION_RAINBOW_ROUTE/ROOM_1_21",
@@ -5248,7 +5418,7 @@
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_13": {
       "exits": [
-        "REGION_RAINBOW_ROUTE/ROOM_1_06",
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER",
         "REGION_RAINBOW_ROUTE/ROOM_1_07",
         "REGION_RAINBOW_ROUTE/ROOM_1_18",
         "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3",
@@ -5318,7 +5488,7 @@
     "REGION_RAINBOW_ROUTE/ROOM_1_20": {
       "exits": [
         "REGION_RAINBOW_ROUTE/ROOM_1_36",
-        "REGION_RAINBOW_ROUTE/ROOM_1_06",
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER",
         "REGION_RAINBOW_ROUTE/ROOM_1_18"
       ],
       "label": "REGION_RAINBOW_ROUTE/ROOM_1_20",
@@ -5390,7 +5560,7 @@
     "REGION_RAINBOW_ROUTE/ROOM_1_27": {
       "exits": [
         "REGION_RAINBOW_ROUTE/ROOM_1_34",
-        "REGION_RAINBOW_ROUTE/ROOM_1_06",
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER",
         "REGION_RAINBOW_ROUTE/ROOM_1_26",
         "REGION_RAINBOW_ROUTE/ROOM_1_WARP"
       ],
@@ -5443,7 +5613,7 @@
     "REGION_RAINBOW_ROUTE/ROOM_1_32": {
       "exits": [
         "REGION_RAINBOW_ROUTE/ROOM_1_02",
-        "REGION_RAINBOW_ROUTE/ROOM_1_03",
+        "REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER",
         "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3"
       ],
       "label": "REGION_RAINBOW_ROUTE/ROOM_1_32",
@@ -5494,7 +5664,7 @@
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_37": {
       "exits": [
-        "REGION_RAINBOW_ROUTE/ROOM_1_03",
+        "REGION_RAINBOW_ROUTE/ROOM_1_03_LOWER",
         "REGION_RAINBOW_ROUTE/ROOM_1_16",
         "REGION_RAINBOW_ROUTE/ROOM_1_09"
       ],
@@ -5519,7 +5689,7 @@
         "REGION_RAINBOW_ROUTE/ROOM_1_27",
         "REGION_RAINBOW_ROUTE/ROOM_1_34",
         "REGION_RAINBOW_ROUTE/ROOM_1_36",
-        "REGION_RAINBOW_ROUTE/ROOM_1_06"
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER"
       ],
       "label": "REGION_RAINBOW_ROUTE/ROOM_1_39",
       "parent_region": "REGION_RAINBOW_ROUTE",
@@ -5559,12 +5729,40 @@
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
       "exits": [
-        "REGION_RAINBOW_ROUTE/ROOM_1_35",
-        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_MIDDLE_PLATFORMS",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS",
+        "REGION_RAINBOW_ROUTE/ROOM_1_01",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
       ],
       "label": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
       "parent_region": "REGION_RAINBOW_ROUTE",
       "room_sanity_location_id": 3961000
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_MIDDLE_PLATFORMS": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_HUB",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_MIDDLE_PLATFORMS",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": null
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_MIDDLE_PLATFORMS",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
+      ],
+      "label": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS",
+      "parent_region": "REGION_RAINBOW_ROUTE",
+      "room_sanity_location_id": null
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1": {
       "exits": [
@@ -5646,9 +5844,7 @@
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_WARP": {
       "exits": [
-        "REGION_RAINBOW_ROUTE/ROOM_1_27",
-        "REGION_RAINBOW_ROUTE/ROOM_1_08",
-        "REGION_RAINBOW_ROUTE/ROOM_1_13"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
       ],
       "label": "REGION_RAINBOW_ROUTE/ROOM_1_WARP",
       "parent_region": "REGION_RAINBOW_ROUTE",
@@ -5695,8 +5891,6 @@
     "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2 -> REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
     "REGION_CANDY_CONSTELLATION/ROOM_9_HUB -> REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
     "REGION_CANDY_CONSTELLATION/ROOM_9_HUB -> REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
-    "REGION_MOONLIGHT_MANSION/ROOM_2_04 -> REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
-    "REGION_MOONLIGHT_MANSION/ROOM_2_14 -> REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
     "REGION_OLIVE_OCEAN/ROOM_6_09 -> REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
     "REGION_OLIVE_OCEAN/ROOM_6_15 -> REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
     "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1 -> REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",

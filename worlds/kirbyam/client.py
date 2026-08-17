@@ -617,6 +617,9 @@ class KirbyAmClient(BizHawkClient):
                 continue
 
             rs = room.get("room_sanity")
+            locations_payload = room.get("locations")
+            if not isinstance(rs, dict) and isinstance(locations_payload, dict):
+                rs = locations_payload.get("room_sanity")
             if not isinstance(rs, dict):
                 continue
             bit_index = rs.get("bit_index")

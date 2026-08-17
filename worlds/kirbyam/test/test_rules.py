@@ -5,12 +5,14 @@ from __future__ import annotations
 import random
 from dataclasses import dataclass
 from types import SimpleNamespace
+from typing import Any
 from unittest.mock import patch
 
 from .. import KirbyAmWorld
 from ..options import Goal
 from ..rules import (
     ABILITY_GATE_RULES,
+    evaluate_room_logic_requirement,
     get_stake_breaking_abilities,
     get_stake_gated_transition_entrance_names,
     set_rules,
@@ -233,27 +235,38 @@ def test_area_topology_routes_start_through_rainbow_route_anchor() -> None:
 
 
 def test_room_subareas_pure_topology_with_all_rooms() -> None:
-    from ..data import load_json_data
+    from ..data import load_json_data, normalize_region_exits
 
     room_regions = load_json_data("regions/rooms.json")
 
-    assert len(room_regions) == 286
+    assert len(room_regions) == 313
+
+    def room_sanity_metadata(region: dict[str, Any]) -> dict[str, Any]:
+        direct = region.get("room_sanity")
+        if isinstance(direct, dict):
+            return direct
+        locations = region.get("locations")
+        if isinstance(locations, dict):
+            nested = locations.get("room_sanity")
+            if isinstance(nested, dict):
+                return nested
+        return {}
 
     included_room_sanity = [
-        region.get("room_sanity", {}).get("included", False)
+        room_sanity_metadata(region).get("included", False)
         for region in room_regions.values()
     ]
     assert sum(1 for included in included_room_sanity if included) == 263
 
     included_room_sanity_ids = [
-        region["room_sanity"]["location_id"]
+        room_sanity_metadata(region)["location_id"]
         for region in room_regions.values()
-        if region.get("room_sanity", {}).get("included", False)
+        if room_sanity_metadata(region).get("included", False)
     ]
     included_room_sanity_bits = [
-        region["room_sanity"]["bit_index"]
+        room_sanity_metadata(region)["bit_index"]
         for region in room_regions.values()
-        if region.get("room_sanity", {}).get("included", False)
+        if room_sanity_metadata(region).get("included", False)
     ]
     assert len(included_room_sanity_ids) == len(set(included_room_sanity_ids))
     assert len(included_room_sanity_bits) == len(set(included_room_sanity_bits))
@@ -267,31 +280,19 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
         "REGION_CANDY_CONSTELLATION/ROOM_9_WARP",
     }
     for region_key in expected_warp_room_sanity:
-        room_meta = room_regions[region_key]["room_sanity"]
+        room_meta = room_sanity_metadata(room_regions[region_key])
         assert room_meta["included"] is True
         assert isinstance(room_meta["location_id"], int)
         assert isinstance(room_meta["bit_index"], int)
 
-    # rooms.json remains topology-only; location ownership is derived at runtime
-    # from locations.json parent_region metadata.
-    rooms_with_locations = [
-        key
-        for key, region in room_regions.items()
-        if "locations" in region
-    ]
-    assert rooms_with_locations == [], (
-        "rooms.json must not carry locations keys; found: "
-        f"{rooms_with_locations}"
-    )
-
-    # Topology includes all rooms, but Room Sanity remains optional metadata.
-    assert all(
-        "room_sanity" in region for region in room_regions.values()
-    ), "All room regions must carry room_sanity metadata"
-
-    assert all(
-        "exits" in region for region in room_regions.values()
-    ), "All room regions must have exits defined"
+    # Both legacy lists and compact requirement maps normalize to stable
+    # adjacency, and every destination resolves to a declared room or area.
+    areas = load_json_data("regions/areas.json")
+    declared_regions = set(room_regions) | set(areas)
+    for room_name, room_def in room_regions.items():
+        exits, requirements = normalize_region_exits(room_name, room_def)
+        assert set(requirements) <= set(exits)
+        assert set(exits) <= declared_regions
 
 
 def test_room_locations_are_derived_from_locations_json() -> None:
@@ -317,15 +318,19 @@ def test_room_locations_are_derived_from_locations_json() -> None:
 
 
 def test_room_subareas_preserve_two_way_and_one_way_transitions() -> None:
-    from ..data import load_json_data
+    from ..data import load_json_data, normalize_region_exits
 
     room_regions = load_json_data("regions/rooms.json")
 
-    assert "REGION_RAINBOW_ROUTE/ROOM_1_35" in room_regions["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]["exits"]
-    assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE" in room_regions["REGION_RAINBOW_ROUTE/ROOM_1_35"]["exits"]
+    def exits(room_name: str) -> list[str]:
+        return normalize_region_exits(room_name, room_regions[room_name])[0]
 
-    assert "REGION_RAINBOW_ROUTE/ROOM_1_39" in room_regions["REGION_RAINBOW_ROUTE/ROOM_1_38"]["exits"]
-    assert "REGION_RAINBOW_ROUTE/ROOM_1_38" not in room_regions["REGION_RAINBOW_ROUTE/ROOM_1_39"]["exits"]
+    middle = "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_MIDDLE_PLATFORMS"
+    assert middle in exits("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE")
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE" in exits(middle)
+
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_39" in exits("REGION_RAINBOW_ROUTE/ROOM_1_38")
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_38" not in exits("REGION_RAINBOW_ROUTE/ROOM_1_39")
 
 
 def test_room_reachability_from_start() -> None:
@@ -333,9 +338,9 @@ def test_room_reachability_from_start() -> None:
 
     reachable = _reachable_rooms_from("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE")
 
-    assert len(reachable) == 266
+    assert len(reachable) == 287
     assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE" in reachable
-    assert "REGION_RAINBOW_ROUTE/ROOM_1_35" in reachable
+    assert "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER" in reachable
     assert "REGION_CANDY_CONSTELLATION/ROOM_9_20" in reachable
 
 
@@ -345,15 +350,12 @@ def test_room_sanity_binding_optional() -> None:
 
     room_regions = load_json_data("regions/rooms.json")
 
-    regions_before = {
-        name: region.get("locations", []).copy()
-        for name, region in room_regions.items()
-    }
+    central_locations_before = room_regions["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]["locations"].copy()
 
     _bind_room_sanity_locations(room_regions, enable_room_sanity=False)
     assert (
         room_regions["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"].get("locations", [])
-        == regions_before["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"]
+        == central_locations_before
     )
 
     _bind_room_sanity_locations(room_regions, enable_room_sanity=True)
@@ -432,35 +434,41 @@ def test_ability_gate_helpers_default_true_without_ability_items() -> None:
         assert gate_rule(state, 1), f"{gate_name} should default to True until ability items exist"
 
 
-def test_room_transition_overrides_are_room_local_only() -> None:
-    # Transition-level gate metadata belongs in rooms.json under each room's
-    # transitions list. areas.json should not carry that room graph detail.
-    from ..data import load_json_data
+def test_compact_room_requirements_enforce_events_and_compose() -> None:
+    requirement = {"all": ["can_fly", "can_break_block", "mm_lever"]}
+
+    assert not evaluate_room_logic_requirement(requirement, _FakeState(), 1)
+    assert evaluate_room_logic_requirement(
+        requirement,
+        _FakeState({"Activate Lever - Moonlight Mansion 2-11"}),
+        1,
+    )
+
+
+def test_room_exit_requirements_are_room_local_only() -> None:
+    from ..data import load_json_data, normalize_region_exits
 
     rooms = load_json_data("regions/rooms.json")
     areas = load_json_data("regions/areas.json")
 
     for room_name, room_def in rooms.items():
-        assert "transitions" in room_def, f"Room {room_name} missing transitions key"
-        assert isinstance(room_def["transitions"], list), (
-            f"Room {room_name} transitions must be a list"
-        )
+        exits, requirements = normalize_region_exits(room_name, room_def)
+        assert set(requirements) <= set(exits)
 
     for area_name, area_def in areas.items():
-        assert "transitions" not in area_def, (
-            f"Area {area_name} should not have room transitions (belongs in rooms.json)"
+        assert "exit_requirements" not in area_def, (
+            f"Area {area_name} should not have room-level requirements"
         )
 
 
 def test_logical_exit_overrides_reference_declared_exits() -> None:
-    from ..data import load_json_data
+    from ..data import load_json_data, normalize_region_exits
 
     rooms = load_json_data("regions/rooms.json")
 
     for room_name, room_def in rooms.items():
-        exits = room_def.get("exits", [])
-        assert isinstance(exits, list), f"Room {room_name} exits must be a list"
-        exit_set = {exit_name for exit_name in exits if isinstance(exit_name, str)}
+        exits, _requirements = normalize_region_exits(room_name, room_def)
+        exit_set = set(exits)
 
         logical_exit_overrides = room_def.get("logical_exit_overrides", {})
         if logical_exit_overrides is None:
@@ -475,36 +483,10 @@ def test_logical_exit_overrides_reference_declared_exits() -> None:
         )
 
 
-def test_split_rooms_define_logical_subregion_metadata() -> None:
+def test_legacy_split_rooms_define_logical_subregion_metadata() -> None:
     from ..data import load_json_data
 
     rooms = load_json_data("regions/rooms.json")
-
-    room_2_07 = rooms["REGION_MOONLIGHT_MANSION/ROOM_2_07"]
-    assert room_2_07["logical_subregions"]["ENTRY_FROM_2_04"]["exits"] == [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_04"
-    ]
-    assert rooms["REGION_MOONLIGHT_MANSION/ROOM_2_04"]["logical_exit_overrides"] == {
-        "REGION_MOONLIGHT_MANSION/ROOM_2_07": "ENTRY_FROM_2_04"
-    }
-
-    room_2_17 = rooms["REGION_MOONLIGHT_MANSION/ROOM_2_17"]
-    assert set(room_2_17["logical_subregions"]["UPPER_HALL"]["exits"]) == {
-        "REGION_MOONLIGHT_MANSION/ROOM_2_16",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
-    }
-    assert set(room_2_17["logical_subregions"]["LOWER_HALL"]["exits"]) == {
-        "REGION_MOONLIGHT_MANSION/ROOM_2_12",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_19",
-    }
-
-    room_2_goal_2 = rooms["REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2"]
-    assert room_2_goal_2["logical_subregions"]["ENTRY_FROM_2_ENTRY"]["exits"] == [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
-    ]
-    assert rooms["REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"]["logical_exit_overrides"] == {
-        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2": "ENTRY_FROM_2_ENTRY"
-    }
 
     room_9_chest_1 = rooms["REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1"]
     room_9_chest_2 = rooms["REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2"]
@@ -587,13 +569,26 @@ def test_split_rooms_define_logical_subregion_metadata() -> None:
     }
 
 
+def test_area_two_split_rooms_are_first_class_regions() -> None:
+    from ..data import data as kirby_data
+
+    assert kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_05"].exits[-1] == (
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER"
+    )
+    assert kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER"].exits == [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05"
+    ]
+    assert "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT" in (
+        kirby_data.regions["REGION_RAINBOW_ROUTE/ROOM_1_08"].exits
+    )
+    assert kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_11"].exit_requirements[
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER"
+    ] == {"all": ["can_climb", "can_fly", "can_break_block", "mm_lever"]}
+
+
 def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     from ..data import data as kirby_data
 
-    room_2_07_from_2_04 = "REGION_MOONLIGHT_MANSION/ROOM_2_07__LOGIC__ENTRY_FROM_2_04"
-    room_2_17_upper = "REGION_MOONLIGHT_MANSION/ROOM_2_17__LOGIC__UPPER_HALL"
-    room_2_17_lower = "REGION_MOONLIGHT_MANSION/ROOM_2_17__LOGIC__LOWER_HALL"
-    room_2_goal_2_from_entry = "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2__LOGIC__ENTRY_FROM_2_ENTRY"
     room_9_chest_2_from_9_01 = "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_01"
     room_9_chest_2_from_9_09 = "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_09"
     room_8_07_from_goal_1 = "REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_GOAL_1"
@@ -605,13 +600,6 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     room_6_05_from_6_04_or_6_06 = "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06"
     room_6_05_from_6_23 = "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_23"
 
-    assert room_2_07_from_2_04 in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_04"].exits
-    assert kirby_data.regions[room_2_07_from_2_04].exits == ["REGION_MOONLIGHT_MANSION/ROOM_2_04"]
-
-    assert room_2_17_lower in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_12"].exits
-    assert room_2_17_upper in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_16"].exits
-    assert room_2_17_lower in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_19"].exits
-    assert room_2_goal_2_from_entry in kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"].exits
     assert room_9_chest_2_from_9_01 in kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_01"].exits
     assert room_9_chest_2_from_9_09 in kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_09"].exits
     assert "REGION_RADISH_RUINS/ROOM_8_07" in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_GOAL_1"].exits
@@ -627,15 +615,6 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     assert room_6_05_from_6_04_or_6_06 in kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_06"].exits
     assert room_6_05_from_6_23 in kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_23"].exits
 
-    assert set(kirby_data.regions[room_2_17_upper].exits) == {
-        "REGION_MOONLIGHT_MANSION/ROOM_2_16",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
-    }
-    assert set(kirby_data.regions[room_2_17_lower].exits) == {
-        "REGION_MOONLIGHT_MANSION/ROOM_2_12",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_19",
-    }
-    assert kirby_data.regions[room_2_goal_2_from_entry].exits == ["REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"]
     assert kirby_data.regions[room_9_chest_2_from_9_01].exits == ["REGION_CANDY_CONSTELLATION/ROOM_9_01"]
     assert kirby_data.regions[room_9_chest_2_from_9_09].exits == ["REGION_CANDY_CONSTELLATION/ROOM_9_09"]
     assert kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1"].locations == [
@@ -684,12 +663,12 @@ def test_stake_gated_transitions_cover_cross_region_stake_rooms() -> None:
     stake_entrances = set(get_stake_gated_transition_entrance_names())
 
     assert "REGION_OLIVE_OCEAN/ROOM_6_15 -> REGION_OLIVE_OCEAN/ROOM_6_CHEST_2" in stake_entrances
-    assert "REGION_MOONLIGHT_MANSION/ROOM_2_04 -> REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1" in stake_entrances
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3 -> REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1" in stake_entrances
     assert "REGION_CANDY_CONSTELLATION/ROOM_9_HUB -> REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3" in stake_entrances
 
 
-def test_stake_gated_transitions_come_from_room_transition_overrides() -> None:
-    from ..data import load_json_data
+def test_stake_gated_transitions_come_from_room_exit_requirements() -> None:
+    from ..data import load_json_data, normalize_region_exits
 
     rooms_payload = load_json_data("regions/rooms.json")
     rooms = rooms_payload if isinstance(rooms_payload, dict) else {}
@@ -697,16 +676,9 @@ def test_stake_gated_transitions_come_from_room_transition_overrides() -> None:
     for source_room, room_data in rooms.items():
         if not isinstance(source_room, str) or not isinstance(room_data, dict):
             continue
-        transitions = room_data.get("transitions", [])
-        if not isinstance(transitions, list):
-            continue
-        for transition in transitions:
-            if not isinstance(transition, dict):
-                continue
-            if transition.get("ability_gate") != "CanPoundPegs":
-                continue
-            destination_room = transition.get("destination_room")
-            if isinstance(destination_room, str):
+        _exits, requirements = normalize_region_exits(source_room, room_data)
+        for destination_room, requirement in requirements.items():
+            if requirement == "CanPoundPegs":
                 annotated.add(f"{source_room} -> {destination_room}")
 
     assert annotated
@@ -740,7 +712,9 @@ def test_stake_gated_transitions_ignore_non_stake_non_exit_mismatch_warning() ->
         )
 
 
-def test_stake_gated_transitions_handles_non_list_exits() -> None:
+def test_stake_gated_transitions_rejects_invalid_exit_shapes() -> None:
+    import pytest
+
     rooms_payload = {
         "REGION_TEST/ROOM_A": {
             "exits": None,
@@ -754,12 +728,8 @@ def test_stake_gated_transitions_handles_non_list_exits() -> None:
     }
 
     with patch("worlds.kirbyam.rules.load_json_data", return_value=rooms_payload), \
-         patch("worlds.kirbyam.rules.logger.warning") as warning_log:
-        assert get_stake_gated_transition_entrance_names() == ()
-        warning_log.assert_any_call(
-            "Room exits payload has unexpected type for %s; treating as empty list",
-            "REGION_TEST/ROOM_A",
-        )
+         pytest.raises(TypeError, match="exits must be a list or object"):
+        get_stake_gated_transition_entrance_names()
 
 
 def test_lever_rooms_define_four_lever_events() -> None:

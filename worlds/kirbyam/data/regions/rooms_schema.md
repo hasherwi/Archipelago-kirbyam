@@ -52,14 +52,12 @@ Example:
 
 Each room object contains:
 
-- `locations`:
-  - Type: `list[str]`
-  - Meaning: location keys physically associated with this room.
-  - Source: derived from `locations.json` `parent_region` metadata.
-  - Examples:
-    - Empty room: `"locations": []`
-    - Boss room: `"locations": ["BOSS_DEFEAT_3"]`
-    - Chest room: `"locations": ["VITALITY_CHEST_CANDY_CONSTELLATION"]`
+- `locations` (optional compact form):
+  - Type: `dict[str, requirement] | null`
+  - Meaning: explicit location claims for split rooms. Omit it when ownership
+    should be derived from `locations.json` `parent_region` metadata.
+  - The reserved `room_sanity` key contains the usual room-sanity metadata.
+  - Other keys are location keys and their values use the requirement grammar below.
 
 - `events`:
   - Type: `list[str]`
@@ -69,9 +67,17 @@ Each room object contains:
     - Lever room: `"events": ["Activate Lever - Moonlight Mansion 2-11"]`
 
 - `exits`:
-  - Type: `list[str]`
+  - Type: `list[str] | dict[str, requirement]`
   - Meaning: destination room keys that are reachable from this room.
-  - Rule: this is the canonical adjacency list.
+  - A list represents unconditional legacy adjacency.
+  - A dictionary maps each destination to its access requirement. `null` means
+    unconditional. Runtime and tracker consumers normalize both forms to a list.
+
+- `exit_requirements` (optional compatibility form):
+  - Type: `dict[str, requirement]`
+  - Meaning: attaches conditions to selected destinations while retaining a
+    list-shaped `exits` field.
+  - Every key must also appear in `exits`.
 
 - `room_sanity`:
   - Type: object with keys:
@@ -155,7 +161,12 @@ Each transition object contains:
 ## Default Semantics
 
 - If a destination appears in `exits`, the transition is considered valid.
-- If no gate field is present for that path, it is considered ungated.
+- A `null` or missing requirement is ungated.
+- A string requirement is a named rule token.
+- `{ "all": [...] }` requires every nested requirement.
+- `{ "any": [...] }` requires at least one nested requirement.
+- Ability-related tokens currently retain the existing permissive placeholder
+  behavior. Event tokens such as `mm_lever` are enforced by `rules.py`.
 - Gates are path-level (transition-level), not room-level.
 
 ## Invariants
@@ -163,6 +174,7 @@ Each transition object contains:
 Recommended invariants for data integrity:
 
 - Every `transitions[].destination_room` is present in the same room's `exits`.
+- Every `exit_requirements` key is present in the normalized `exits` adjacency.
 - No duplicate transition entries for the same source->destination pair.
 - `transitions` can be empty for rooms with no directional metadata.
 - `exits` remains the authoritative adjacency list.

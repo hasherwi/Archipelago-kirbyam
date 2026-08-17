@@ -33,7 +33,7 @@ from typing import TYPE_CHECKING
 from BaseClasses import CollectionState
 from worlds.generic.Rules import forbid_items_for_player, set_rule
 
-from .data import LocationCategory, data, load_json_data
+from .data import LocationCategory, data, load_json_data, normalize_region_exits
 from .generation_logging import logger
 from .groups import resolve_item_group
 from .options import Goal
@@ -89,6 +89,16 @@ _ABILITY_GATE_PLACEHOLDER_SOURCES = {
 }
 
 _STAKE_TRANSITION_GATE_NAME = "CanPoundPegs"
+_MOONLIGHT_MANSION_LEVER_EVENT = "Activate Lever - Moonlight Mansion 2-11"
+_PENDING_ROOM_ABILITY_REQUIREMENTS = frozenset({
+    "can_break_block",
+    "can_break_floating_block",
+    "can_break_metal",
+    "can_break_metal_throw",
+    "can_climb",
+    "can_fly",
+    "can_swim",
+})
 
 
 def _has_all_shards(state: CollectionState, player: int) -> bool:
@@ -135,6 +145,48 @@ ABILITY_GATE_RULES = {
 }
 
 
+def evaluate_room_logic_requirement(requirement, state: CollectionState, player: int) -> bool:
+    """Evaluate the compact condition values used by room exits and locations.
+
+    Ability-related tokens intentionally retain the existing permissive behavior
+    until their item-specific predicates are finalized. Event requirements are
+    enforced now because their progression items already exist.
+    """
+    if requirement is None:
+        return True
+    if isinstance(requirement, str):
+        if requirement == "mm_lever":
+            return state.has(_MOONLIGHT_MANSION_LEVER_EVENT, player)
+        if requirement == _STAKE_TRANSITION_GATE_NAME:
+            return can_pound_pegs(state, player)
+        if requirement == "can_break_block":
+            return can_break_blocks(state, player)
+        if requirement in _PENDING_ROOM_ABILITY_REQUIREMENTS:
+            return _allow_pending_ability_gate(state, player, requirement)
+        raise ValueError(f"Unknown KirbyAM room logic requirement token: {requirement!r}")
+    if isinstance(requirement, dict) and len(requirement) == 1:
+        operator, operands = next(iter(requirement.items()))
+        if isinstance(operands, list):
+            if operator == "all":
+                return all(evaluate_room_logic_requirement(item, state, player) for item in operands)
+            if operator == "any":
+                return any(evaluate_room_logic_requirement(item, state, player) for item in operands)
+    raise TypeError(f"Invalid KirbyAM room logic requirement: {requirement!r}")
+
+
+def _requirement_contains_token(requirement, token: str) -> bool:
+    if requirement == token:
+        return True
+    if isinstance(requirement, dict):
+        return any(
+            _requirement_contains_token(operand, token)
+            for operands in requirement.values()
+            if isinstance(operands, list)
+            for operand in operands
+        )
+    return False
+
+
 def get_stake_breaking_abilities() -> tuple[str, ...]:
     """Return the reusable hammer peg/stake ability group in deterministic order."""
     return tuple(sorted(_ABILITY_GATE_PLACEHOLDER_SOURCES[_STAKE_TRANSITION_GATE_NAME]))
@@ -143,7 +195,8 @@ def get_stake_breaking_abilities() -> tuple[str, ...]:
 def get_stake_gated_transition_entrance_names() -> tuple[str, ...]:
     """Return directional entrance names that require the shared stake gate.
 
-    Source of truth is regions/rooms.json path-level transition overrides.
+    Source of truth is regions/rooms.json path-level exit requirements. Legacy
+    transition annotations remain supported during the data migration.
     """
     rooms_payload = load_json_data("regions/rooms.json")
     rooms = rooms_payload if isinstance(rooms_payload, dict) else {}
@@ -152,17 +205,15 @@ def get_stake_gated_transition_entrance_names() -> tuple[str, ...]:
     for source_room, room_data in rooms.items():
         if not isinstance(source_room, str) or not isinstance(room_data, dict):
             continue
-        exits = room_data.get("exits", [])
+        exits, requirements = normalize_region_exits(source_room, room_data)
         transitions = room_data.get("transitions", [])
-        if not isinstance(exits, list):
-            logger.warning(
-                "Room exits payload has unexpected type for %s; treating as empty list",
-                source_room,
-            )
-            exits = []
+        exit_set = {room for room in exits if isinstance(room, str)}
+        for destination_room, requirement in requirements.items():
+            if _requirement_contains_token(requirement, _STAKE_TRANSITION_GATE_NAME):
+                entrance_names.add(f"{source_room} -> {destination_room}")
+
         if not isinstance(transitions, list):
             continue
-        exit_set = {room for room in exits if isinstance(room, str)}
         for transition in transitions:
             if not isinstance(transition, dict):
                 continue
@@ -264,6 +315,58 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
             world.player,
             entrance_name,
         )
+
+    # Apply compact room-edge and location requirements after region creation.
+    applied_room_requirements = 0
+    for source_name, region_data in data.regions.items():
+        for destination_name, requirement in region_data.exit_requirements.items():
+            requirement_entrance_name = f"{source_name} -> {destination_name}"
+            try:
+                requirement_entrance = world.multiworld.get_entrance(
+                    requirement_entrance_name,
+                    world.player,
+                )
+                set_rule(
+                    requirement_entrance,
+                    lambda state, required=requirement: evaluate_room_logic_requirement(
+                        required,
+                        state,
+                        world.player,
+                    ),
+                )
+                applied_room_requirements += 1
+            except KeyError:
+                logger.debug(
+                    "[P%s] Required room entrance %r not found; skipping",
+                    world.player,
+                    requirement_entrance_name,
+                )
+
+        for location_key, requirement in region_data.location_requirements.items():
+            location_data = data.locations[location_key]
+            try:
+                required_location = world.multiworld.get_location(location_data.label, world.player)
+                set_rule(
+                    required_location,
+                    lambda state, required=requirement: evaluate_room_logic_requirement(
+                        required,
+                        state,
+                        world.player,
+                    ),
+                )
+                applied_room_requirements += 1
+            except KeyError:
+                logger.debug(
+                    "[P%s] Required room location %r not found; skipping",
+                    world.player,
+                    location_data.label,
+                )
+
+    logger.debug(
+        "[P%s] Applied %s compact room logic requirement(s)",
+        world.player,
+        applied_room_requirements,
+    )
 
     # Shared stake-gate model (hammer peg) for directional room transitions.
     def stake_gate_rule(state):
@@ -398,7 +501,11 @@ def _reachable_rooms_from(
             continue
 
         visited.add(current)
-        for next_room in graph[current].get("exits", []):
+        current_region = graph[current]
+        if not isinstance(current_region, dict):
+            continue
+        exits, _requirements = normalize_region_exits(current, current_region)
+        for next_room in exits:
             if next_room not in visited and next_room not in queued:
                 queue.append(next_room)
                 queued.add(next_room)
@@ -433,6 +540,9 @@ def _bind_room_sanity_locations(
         if not isinstance(region_def, dict):
             continue
         room_meta = region_def.get("room_sanity")
+        locations_payload = region_def.get("locations")
+        if not isinstance(room_meta, dict) and isinstance(locations_payload, dict):
+            room_meta = locations_payload.get("room_sanity")
         if not isinstance(room_meta, dict) or not bool(room_meta.get("included", False)):
             continue
 
@@ -445,7 +555,12 @@ def _bind_room_sanity_locations(
         location_name = f"ROOM_SANITY_{area_code}_{room_code}"
 
         if region_name in world_regions:
-            if "locations" not in world_regions[region_name]:
-                world_regions[region_name]["locations"] = []
-            if location_name not in world_regions[region_name]["locations"]:
-                world_regions[region_name]["locations"].append(location_name)
+            locations = world_regions[region_name].get("locations")
+            if isinstance(locations, dict):
+                locations.setdefault(location_name, None)
+            else:
+                if not isinstance(locations, list):
+                    locations = []
+                    world_regions[region_name]["locations"] = locations
+                if location_name not in locations:
+                    locations.append(location_name)
