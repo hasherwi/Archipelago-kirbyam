@@ -58,6 +58,9 @@ SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET = 0x0000B1D0
 # reward-index > 0 (Music Sheet collection rewards).
 SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET = 0x0000B264
 BIG_SWITCH_UNLOCK_CALL_OFFSET = 0x00039EEE
+# sub_08119B3C: BL _call_via_r0 after resolving the small-switch effect function.
+# Hook receives that function pointer in r0 and can suppress only the four AP levers.
+SMALL_SWITCH_EFFECT_CALL_OFFSET = 0x00119B98
 ORIGINAL_ABILITY_TRANSITION_FN_ADDR = 0x080547C4
 # sub_08054C0C consumes Kirby::transitioningAbility after statues write it directly.
 ORIGINAL_ABILITY_TRANSITION_START_FN_ADDR = 0x08054C0C
@@ -771,6 +774,8 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_on_collect_sound_player_chest"),
         "hub_switch_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_world_map_unlock_call"),
+        "small_switch_effect_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_small_switch_effect"),
         "ability_transition_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_request_copy_ability_transition"),
         "ability_transition_start_hook_target": resolve_elf_symbol_address(
@@ -791,6 +796,7 @@ _PAYLOAD_TARGET_LABELS = {
     "spray_paint_chest_hook_target": "spray paint chest hook",
     "sound_player_chest_hook_target": "sound player/music-sheet chest hook",
     "hub_switch_hook_target": "hub switch hook",
+    "small_switch_effect_hook_target": "lever small-switch effect hook",
     "ability_transition_hook_target": "ability transition hook",
     "ability_transition_start_hook_target": "ability transition-start hook",
     "starting_color_start_game_hook_target": "starting-color game-start hook",
@@ -848,6 +854,10 @@ def build_payload_hook_bl_bytes(
             rom_base + BIG_SWITCH_UNLOCK_CALL_OFFSET,
             hook_targets["hub_switch_hook_target"],
         ),
+        "small_switch_effect_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + SMALL_SWITCH_EFFECT_CALL_OFFSET,
+            hook_targets["small_switch_effect_hook_target"],
+        ),
     }
 
 
@@ -888,6 +898,9 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
     original_hub_switch_hook = validate_thumb_bl_callsite(
         rom, BIG_SWITCH_UNLOCK_CALL_OFFSET, "hub switch unlock"
     )
+    original_small_switch_effect_hook = validate_thumb_bl_callsite(
+        rom, SMALL_SWITCH_EFFECT_CALL_OFFSET, "lever small-switch effect dispatch"
+    )
     original_starting_color_hooks = [
         validate_thumb_bl_callsite_target(
             rom,
@@ -909,6 +922,10 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
         f"{original_sound_player_hook.hex(' ')}"
     )
     print(f"  hub switch unlock @ {BIG_SWITCH_UNLOCK_CALL_OFFSET:#x}: {original_hub_switch_hook.hex(' ')}")
+    print(
+        f"  lever small-switch effect @ {SMALL_SWITCH_EFFECT_CALL_OFFSET:#x}: "
+        f"{original_small_switch_effect_hook.hex(' ')}"
+    )
     for offset, opcode in zip(STARTING_COLOR_START_GAME_CALL_OFFSETS, original_starting_color_hooks):
         print(f"  single-player game start @ {offset:#x}: {opcode.hex(' ')}")
 
@@ -920,6 +937,7 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
         "original_spray_paint_hook": original_spray_paint_hook,
         "original_sound_player_hook": original_sound_player_hook,
         "original_hub_switch_hook": original_hub_switch_hook,
+        "original_small_switch_effect_hook": original_small_switch_effect_hook,
         "original_starting_color_hook_intro": original_starting_color_hooks[0],
         "original_starting_color_hook_load": original_starting_color_hooks[1],
     }
@@ -1042,6 +1060,9 @@ def patch_rom_with_payload(
         hook_bl_bytes["sound_player_chest_hook_bl_bytes"]
     )
     rom[BIG_SWITCH_UNLOCK_CALL_OFFSET:BIG_SWITCH_UNLOCK_CALL_OFFSET + 4] = hook_bl_bytes["hub_switch_hook_bl_bytes"]
+    rom[SMALL_SWITCH_EFFECT_CALL_OFFSET:SMALL_SWITCH_EFFECT_CALL_OFFSET + 4] = (
+        hook_bl_bytes["small_switch_effect_hook_bl_bytes"]
+    )
 
     for offset, hook_bl in boss_already_owned_hook_bl_by_offset.items():
         rom[offset:offset + 4] = hook_bl
@@ -1137,6 +1158,14 @@ def print_patch_summary(
         hook_bl_bytes["hub_switch_hook_bl_bytes"].hex(" "),
         "target=",
         hex(hook_targets["hub_switch_hook_target"]),
+    )
+    print(
+        "Lever small-switch effect call patched at file offset:",
+        hex(SMALL_SWITCH_EFFECT_CALL_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["small_switch_effect_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["small_switch_effect_hook_target"]),
     )
     print(
         "Ability request callsites patched:",

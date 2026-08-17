@@ -82,14 +82,10 @@ _AREA_REGION_TOKEN_TO_AREA_ID: dict[str, int] = {
     "RADISH_RUINS": 8,
     "CANDY_CONSTELLATION": 9,
 }
-# Lever bit ordinals are interpreted as 1-based from Issue #850 input:
-# - "3rd bit" -> bit index 2, "2nd bit" -> bit index 1, "6th bit" -> bit index 5.
-_LEVER_LOCATION_NATIVE_SPECS: dict[str, tuple[str, int]] = {
-    "LEVER_MOONLIGHT_MANSION_2_11": ("lever_moonlight_flag_native", 2),
-    "LEVER_OLIVE_OCEAN_6_13": ("lever_olive_flag_native", 1),
-    "LEVER_CARROT_CASTLE_5_12": ("lever_carrot_flag_native", 5),
-    "LEVER_RADISH_RUINS_8_12": ("lever_radish_flag_native", 2),
-}
+# Issue #859 moves lever location authority out of the native wall-unlock bits.
+# The ROM hook latches one bit per physical lever activation here; receiving a
+# Lever Wall item may then set the native wall bit without creating a false check.
+_LEVER_ACTIVATION_FLAGS_ADDR_KEY = "lever_activation_flags"
 _STARTING_KIRBY_COLOR_MIN = 0
 _STARTING_KIRBY_COLOR_MAX = 13
 _STARTING_KIRBY_COLOR_REVALIDATE_TICKS = 4
@@ -418,25 +414,8 @@ class KirbyAmClient(BizHawkClient):
             for location_id in location_ids
         }
 
-        # Lever native-byte bitfield checks (Issue #850).
-        self._lever_location_specs: list[tuple[int, str, int, str]] = []
-        for location_key, (addr_key, bit_index) in _LEVER_LOCATION_NATIVE_SPECS.items():
-            location = data.locations.get(location_key)
-            if location is None:
-                self._log_verbose(
-                    "warning",
-                    "KirbyAM: lever mapping references unknown location key '%s'",
-                    location_key,
-                )
-                continue
-            if location.location_id is None:
-                self._log_verbose(
-                    "warning",
-                    "KirbyAM: lever mapping location key '%s' has no location_id",
-                    location_key,
-                )
-                continue
-            self._lever_location_specs.append((location.location_id, addr_key, bit_index, location.label))
+        # Physical lever activation transport bit -> location IDs (Issues #850/#859).
+        self._lever_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.LEVER)
 
         # Room-sanity bitfield index (doorsIdx) -> location IDs.
         self._room_sanity_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.ROOM_SANITY)
@@ -3112,63 +3091,34 @@ class KirbyAmClient(BizHawkClient):
             self._last_hub_switch_poll_log = None
 
     async def _poll_lever_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """Read ROM-latched physical lever activations and map them to LocationChecks.
+
+        Issue #859 deliberately separates location authority from the native
+        wall-unlock bits. The physical small-switch hook writes bits 0..3 to
+        lever_activation_flags and suppresses the native wall effect; AP Lever
+        Wall item delivery may therefore set native wall state independently.
         """
-        Read native lever bytes and map set bits to lever LocationChecks.
-
-        Lever checks are sourced from native state, not transport mailbox flags:
-        - 0x02038962 bit2: Moonlight lever
-        - 0x02038968 bit1: Olive lever
-        - 0x02038969 bit5: Carrot lever
-        - 0x02038969 bit2: Radish lever
-        """
-        if not self._lever_location_specs:
+        lever_addr = self._transport_addr(_LEVER_ACTIVATION_FLAGS_ADDR_KEY)
+        if lever_addr is None or not self._lever_location_ids_by_bit:
             return
 
-        read_specs: list[tuple[int, int, str]] = []
-        native_addrs_in_order: list[int] = []
-        native_addr_by_address_key: dict[str, int] = {}
-        for _location_id, address_key, _bit_index, _label in self._lever_location_specs:
-            native_addr = self._native_addr(address_key)
-            if native_addr is None:
-                continue
-            native_addr_by_address_key[address_key] = native_addr
-            if native_addr in native_addrs_in_order:
-                continue
-            read_specs.append((native_addr, 1, "System Bus"))
-            native_addrs_in_order.append(native_addr)
-
-        if not read_specs:
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(lever_addr, 4, "System Bus")]))[0]
+        if len(raw) != 4:
             return
-
-        raw_values = await bizhawk.read(ctx.bizhawk_ctx, read_specs)
-        if len(raw_values) != len(native_addrs_in_order):
-            return
-
-        current_values_by_native_addr: dict[int, int] = {
-            native_addr: int.from_bytes(raw[:1], "little")
-            for native_addr, raw in zip(native_addrs_in_order, raw_values)
-        }
-        current_values_by_address_key: dict[str, int] = {
-            address_key: current_values_by_native_addr[native_addr]
-            for address_key, native_addr in native_addr_by_address_key.items()
-            if native_addr in current_values_by_native_addr
-        }
+        lever_bits = self._u32_le(raw)
 
         active_location_ids = self._active_location_id_set(ctx)
         mapped_checked_locations: set[int] = set()
-        for location_id, address_key, bit_index, _label in self._lever_location_specs:
-            if active_location_ids is not None and location_id not in active_location_ids:
+        for bit in sorted(self._lever_location_ids_by_bit):
+            if ((lever_bits >> bit) & 1) == 0:
                 continue
-            current_value = current_values_by_address_key.get(address_key)
-            if current_value is None:
-                continue
-            if (current_value >> bit_index) & 1:
-                mapped_checked_locations.add(location_id)
+            for location_id in self._lever_location_ids_by_bit[bit]:
+                if active_location_ids is None or location_id in active_location_ids:
+                    mapped_checked_locations.add(location_id)
 
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
-
             lever_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
             if lever_log_state != self._last_lever_poll_log:
                 self._log_verbose(

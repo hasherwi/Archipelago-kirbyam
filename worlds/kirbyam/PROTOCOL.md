@@ -82,8 +82,9 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0xB0   | 0x0203B0B0 | 4B | ability_gate_mask_runtime | u32 | ROM ← Client | Bitmask of ability IDs that are currently configured as gateable (`safe_to_gate`) in `abilities.json`. |
 | 0xB4   | 0x0203B0B4 | 4B | ability_unlock_mask_runtime | u32 | ROM ← Client and ROM internal | Bitmask of ability IDs currently unlocked by AP ability items. Client sync writes canonical state; payload also sets bits when ability unlock AP items are applied to preserve runtime continuity. |
 | 0xB8   | 0x0203B0B8 | 4B | starting_kirby_color_applied | u32 | ROM internal | EWRAM latch set after the live player-one palette has been refreshed for the current EWRAM session. Cleared with mailbox initialization. This replaces an invalid mutable C static that would otherwise be linked into ROM-backed payload memory. |
+| 0xBC   | 0x0203B0BC | 4B | lever_activation_flags | u32 | ROM → Client | Bits 0–3 latch physical activation of the Moonlight 2-11, Olive 6-13, Carrot 5-12, and Radish 8-12 levers respectively. The small-switch hook suppresses the native wall-opening effect for these rooms, so this transport is the AP lever-location authority (Issue #859). |
 
-**Total: 188 bytes (0x0203B000 - 0x0203B0BB)**
+**Total: 192 bytes (0x0203B000 - 0x0203B0BF)**
 
 ### Native Game State (Referenced by AP; some fields are client-reconciled)
 
@@ -92,7 +93,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x02038970 | 1B | KIRBY_SHARD_FLAGS       | Native mirror shard bitfield (bits 0-7) |
 | 0x0203897C | 4B | big_chest_bitfield_native | gTreasures.bigChestField; bit N = area ID N (enum AreaId): bit 1=Rainbow Route, 2=Moonlight Mansion, 3=Cabbage Cavern, 4=Mustard Mountain, 5=Carrot Castle, 6=Olive Ocean, 7=Peppermint Palace, 8=Radish Ruins, 9=Candy Constellation. This is the native map-ownership field. AP major-chest checks use `major_chest_flags` in the transport block, and the BizHawk client may reassert AP-owned map bits here from `start_with_all_maps` plus confirmed delivered map items to recover from reconnect/save-state drift. |
 | 0x02038960 - 0x02038969 | 10B | other_chest_flags_native | Native small-chest/switch bitfield block. Unique MINOR_CHEST AP checks still use this bitfield as a resend/fallback signal, while report-only ambiguous minor chest locations use `minor_chest_event_ring` for exact disambiguation. |
-| 0x02038962 / 0x02038968 / 0x02038969 | 1B each | lever_*_flag_native | Native lever bits for AP lever location checks (Issue #850): Moonlight lever uses `0x02038962` bit2, Olive uses `0x02038968` bit1, Carrot uses `0x02038969` bit5, and Radish uses `0x02038969` bit2. |
+| 0x02038962 / 0x02038968 / 0x02038969 | 1B each | lever_*_flag_native | Native lever-controlled wall state. The four Lever Wall AP items set these bits using chest/state IDs 18 (Moonlight), 65 (Olive), 77 (Carrot), and 74 (Radish). Physical lever activation no longer sets these bits directly; AP lever locations use `lever_activation_flags` instead (Issue #859). |
 | 0x02028C14+ |  -  | Boss/Mirror table       | Native location flags (TBD - not yet mapped). The BizHawk client may probe rising edges here for diagnostics, but boss-defeat AP checks are transport-authoritative via `boss_defeat_flags`. |
 | 0x02028CA0 | 576B | gVisitedDoors (`room_visit_flags_native`) | Native room-visit array (`u16[0x120]`); bit 15 marks visited state by `doorsIdx` |
 | 0x02023B28 | 2B | current_room_native | Current native room ID (`gCurLevelInfo[0].currentRoom`) used for room-entry diagnostics |
@@ -124,8 +125,9 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | TRAP_BOMB | 3860034 | Trap item: sets Kirby's current HP to 0 |
 | TRAP_BATTERY_DRAIN | 3860035 | Trap item: empties the cell phone battery to 0 |
 | TRAP_LIFE_WIPEOUT | 3860036 | Trap item: sets Kirby's lives count to 0 |
+| LEVER_WALL_MOONLIGHT_MANSION_2_11 .. LEVER_WALL_RADISH_RUINS_8_12 | 3860037 - 3860040 | Progression items that independently set the four native lever-controlled wall bits (Issue #859) |
 | ABILITY_UNLOCK_* | 3860101 - 3860131 | Dynamic ability unlock items (`BASE_OFFSET + 100 + runtime_ability_id`) generated only for abilities in `abilities.json` where `safe_to_gate` is true and `enemy_copy_allowed` is not false |
-| *Reserved*        | 3860037+ (except dynamic ability unlock range) | Future items (doors, additional consumables, etc.) |
+| *Reserved*        | 3860041+ (except dynamic ability unlock range) | Future items (doors, additional consumables, etc.) |
 
 ### Current filler effect contract
 

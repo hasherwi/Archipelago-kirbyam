@@ -40,7 +40,8 @@
       "minor_chest_event_ring_base": "0x0203B090",
       "ability_gate_mask_runtime": "0x0203B0B0",
       "ability_unlock_mask_runtime": "0x0203B0B4",
-      "starting_kirby_color_applied": "0x0203B0B8"
+      "starting_kirby_color_applied": "0x0203B0B8",
+      "lever_activation_flags": "0x0203B0BC"
     },
     "native": {
       "other_chest_flags_native": "0x02038960",

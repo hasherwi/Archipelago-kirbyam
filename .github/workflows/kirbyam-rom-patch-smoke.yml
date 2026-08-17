@@ -80,6 +80,7 @@ jobs:
               0x0000B264,
               0x00039EEE,
               0x0000AFEC,
+              0x00119B98,  # Small-switch effect dispatch used by lever-item decoupling.
           ):
               rom[offset:offset + 4] = placeholder_bl
 

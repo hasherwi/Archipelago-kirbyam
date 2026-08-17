@@ -63,6 +63,8 @@
  * must live in EWRAM rather than a C static/.bss object linked into the payload.
  */
 #define AP_STARTING_KIRBY_COLOR_APPLIED (*(volatile uint32_t*)(AP_BASE + 0xB8u))
+/* Physical lever activations, separated from native wall-unlock state (Issue #859). */
+#define AP_LEVER_ACTIVATION_FLAGS (*(volatile uint32_t*)(AP_BASE + 0xBCu))
 #define AP_MINOR_CHEST_EVENT_RING_SLOT_COUNT 8u
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
@@ -381,6 +383,37 @@ __attribute__((used)) uint32_t ap_on_query_special_door_state(uint16_t room_id, 
     }
 
     return native_result;
+}
+
+typedef void (*KirbySmallSwitchEffectFn)(void);
+
+/*
+ * Issue #859: the four AP lever locations live in rooms with unique canonical
+ * doorsIdx values. Intercept the small-switch effect dispatcher only for those
+ * rooms, latch the physical activation for the client, and intentionally do not
+ * call the retail effect that opens the wall. Any other small switch preserves
+ * native behavior by chaining through the original function pointer.
+ */
+static uint32_t ap_lever_activation_bit_for_doors_idx(uint16_t doors_idx) {
+    switch (doors_idx) {
+        case 82u:  return (1u << 0);  // Moonlight Mansion 2-11
+        case 202u: return (1u << 1);  // Olive Ocean 6-13
+        case 254u: return (1u << 2);  // Carrot Castle 5-12
+        case 239u: return (1u << 3);  // Radish Ruins 8-12
+        default:   return 0u;
+    }
+}
+
+__attribute__((used)) void ap_on_small_switch_effect(KirbySmallSwitchEffectFn native_effect) {
+    uint16_t doors_idx = ap_room_doors_idx(KIRBY_CURRENT_ROOM);
+    uint32_t activation_bit = ap_lever_activation_bit_for_doors_idx(doors_idx);
+
+    if (activation_bit != 0u) {
+        AP_LEVER_ACTIVATION_FLAGS |= activation_bit;
+        return;
+    }
+
+    native_effect();
 }
 
 // Hook target for the original boss shard grant call. The game passes the boss's
@@ -1229,6 +1262,19 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         return 1u;
     }
 
+    // LEVER_WALL_* = BASE+37 .. BASE+40 (Issue #859).
+    // These are the native gTreasures.chestFields indices observed for the four
+    // lever-controlled walls. Small-switch activation itself is persisted by the
+    // game's independent StateSlot path, so setting these wall bits does not
+    // consume the physical lever location. Writes are additive and idempotent.
+    if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 37u)
+        && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 40u)) {
+        static const uint8_t lever_wall_chest_ids[4] = {18u, 65u, 77u, 74u};
+        uint32_t lever_index = ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 37u);
+        ap_collect_small_chest_native((uint32_t)lever_wall_chest_ids[lever_index]);
+        return 1u;
+    }
+
     // Unhandled item - return 0 to signal that the flag should NOT be cleared
     return 0u;
 }
@@ -1257,6 +1303,7 @@ void ap_poll_mailbox_c(void) {
         AP_ONE_HIT_MODE_RUNTIME = 0xFFFFFFFFu;
         AP_NO_EXTRA_LIVES_RUNTIME = 0xFFFFFFFFu;
         AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
+        AP_LEVER_ACTIVATION_FLAGS = 0u;
         AP_ABILITY_RANDOMIZATION_MODE = 0u;
         AP_ABILITY_RANDOMIZATION_SEED_LO = 0u;
         AP_ABILITY_RANDOMIZATION_SEED_HI = 0u;
