@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#include "statue_runtime_logic.h"
+
 // Kirby AP item ID base offset
 #define KIRBY_ITEM_ID_BASE_OFFSET       3860000u  // must match worlds/kirbyam/data.py BASE_OFFSET
 
@@ -56,6 +58,13 @@
 #define AP_MINOR_CHEST_EVENT_RING_BASE (AP_BASE + 0x90u)
 #define AP_ABILITY_GATE_MASK (*(volatile uint32_t*)(AP_BASE + 0xB0u))
 #define AP_ABILITY_UNLOCK_MASK (*(volatile uint32_t*)(AP_BASE + 0xB4u))
+/*
+ * Issue #852 runtime latch. Payload code executes from ROM, so mutable state
+ * must live in EWRAM rather than a C static/.bss object linked into the payload.
+ */
+#define AP_STARTING_KIRBY_COLOR_APPLIED (*(volatile uint32_t*)(AP_BASE + 0xB8u))
+/* Physical lever activations, separated from native wall-unlock state (Issue #859). */
+#define AP_LEVER_ACTIVATION_FLAGS (*(volatile uint32_t*)(AP_BASE + 0xBCu))
 #define AP_MINOR_CHEST_EVENT_RING_SLOT_COUNT 8u
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
@@ -73,12 +82,14 @@
 #define AP_NO_EXTRA_LIVES_RUNTIME  (*(volatile uint32_t*)(AP_BASE + 0x58u))
 #define KIRBY_SHARD_FLAGS_ADDR  0x02038970u
 #define KIRBY_SHARD_FLAGS       (*(volatile uint8_t*)(KIRBY_SHARD_FLAGS_ADDR))
-#define KIRBY_ACTIVE_COLOR_ADDR    0x0203ADE0u
-#define KIRBY_ACTIVE_COLOR          (*(volatile uint8_t*)(KIRBY_ACTIVE_COLOR_ADDR))
-// gUnk_0203ADE0 only takes effect before the game's graphics system initialises (boot-time).
-// KIRBY_TRANSITION_COLOR is the variable the game applies on every screen transition (runtime).
-#define KIRBY_TRANSITION_COLOR_ADDR 0x02020FBFu
-#define KIRBY_TRANSITION_COLOR      (*(volatile uint8_t*)(KIRBY_TRANSITION_COLOR_ADDR))
+/* Native player-one color state identified from the KATAM decomp. */
+#define KIRBY_PLAYER_COUNT 4u
+#define KIRBY_STARTING_COLOR_PLAYER 0u
+#define KIRBY_PLAYER_COLOR_TABLE_ADDR 0x0203AD1Cu
+#define KIRBY_PLAYER_COLOR_TABLE ((volatile uint8_t*)KIRBY_PLAYER_COLOR_TABLE_ADDR)
+/* gUnk_0203ADE0 is an s16 selected-color value, not an active 8-bit palette. */
+#define KIRBY_SELECTED_COLOR_ADDR 0x0203ADE0u
+#define KIRBY_SELECTED_COLOR (*(volatile int16_t*)KIRBY_SELECTED_COLOR_ADDR)
 #define AI_KIRBY_STATE_ADDR     0x0203AD2Cu
 #define AI_KIRBY_STATE          (*(volatile uint32_t*)(AI_KIRBY_STATE_ADDR))
 #define DEMO_PLAYBACK_FLAGS_ADDR 0x0203AD10u
@@ -101,7 +112,10 @@
 #define KIRBY_CURRENT_PLAYER_ADDR 0x0203AD3Cu
 #define KIRBY_CURRENT_PLAYER     (*(volatile uint8_t*)(KIRBY_CURRENT_PLAYER_ADDR))
 #define KIRBY_STRUCT_STRIDE      0x1A8u
+#define KIRBY_STRUCT_TASK_OFFSET 0xCCu
 #define KIRBY_STRUCT_BATTERY_OFFSET 0xDCu
+#define KIRBY_STRUCT_COLOR_OFFSET 0xDFu
+#define KIRBY_STRUCT_ABILITY_OFFSET 0x103u
 // Reverse-engineered timed-effect fields used by BonusGiveInvincibility in the
 // KatAM decomp (`bonus.c`): clear the effect-reset byte, set the invincibility
 // kind byte to 100, mark the state byte active, and store a 1000-tick duration.
@@ -138,6 +152,34 @@
 // Archipelago info structure (not used in this payload)
 __attribute__((section(".apinfo")))
 const unsigned char gArchipelagoInfo[16] = {0};
+
+/*
+ * Per-seed runtime defaults written by rom.py after the shared base patch is
+ * applied. The linker fixes these words at the final eight bytes of the
+ * payload window. The initial gate mask protects startup/reset windows before
+ * the client has synchronized live mailbox state; the statue mask carries the
+ * exact seed-specific pool for per-touch randomization.
+ */
+/*
+ * Resolved generation-time Starting Kirby Color. 0xFFFFFFFF preserves
+ * compatibility with old procedure patches that do not write this word.
+ */
+__attribute__((used, section(".apconfig.color")))
+volatile const uint32_t gApStartingKirbyColorInitial = 0xFFFFFFFFu;
+
+__attribute__((used, section(".apconfig.gate")))
+volatile const uint32_t gApAbilityGateMaskInitial = 0u;
+
+/*
+ * Per-seed statue-specific ability mask at ROM address 0x0815F69C
+ * (file offset 0x0015F69C), so each generated world can carry its exact statue
+ * pool without rebuilding the shared payload.  Zero disables live statue
+ * rerolls.  Nonzero masks already incorporate the statue toggle, selected
+ * randomization mode, custom whitelist, and Minny option.  Volatile prevents
+ * the compiler from constant-folding the default zero value.
+ */
+__attribute__((used, section(".apconfig.statue")))
+volatile const uint32_t gApAbilityRandomizationStatueAllowedMask = 0u;
 
 
 // Issue #109: Persist shard grants to SRAM to survive reset without room change
@@ -343,6 +385,37 @@ __attribute__((used)) uint32_t ap_on_query_special_door_state(uint16_t room_id, 
     return native_result;
 }
 
+typedef void (*KirbySmallSwitchEffectFn)(void);
+
+/*
+ * Issue #859: the four AP lever locations live in rooms with unique canonical
+ * doorsIdx values. Intercept the small-switch effect dispatcher only for those
+ * rooms, latch the physical activation for the client, and intentionally do not
+ * call the retail effect that opens the wall. Any other small switch preserves
+ * native behavior by chaining through the original function pointer.
+ */
+static uint32_t ap_lever_activation_bit_for_doors_idx(uint16_t doors_idx) {
+    switch (doors_idx) {
+        case 82u:  return (1u << 0);  // Moonlight Mansion 2-11
+        case 202u: return (1u << 1);  // Olive Ocean 6-13
+        case 254u: return (1u << 2);  // Carrot Castle 5-12
+        case 239u: return (1u << 3);  // Radish Ruins 8-12
+        default:   return 0u;
+    }
+}
+
+__attribute__((used)) void ap_on_small_switch_effect(KirbySmallSwitchEffectFn native_effect) {
+    uint16_t doors_idx = ap_room_doors_idx(KIRBY_CURRENT_ROOM);
+    uint32_t activation_bit = ap_lever_activation_bit_for_doors_idx(doors_idx);
+
+    if (activation_bit != 0u) {
+        AP_LEVER_ACTIVATION_FLAGS |= activation_bit;
+        return;
+    }
+
+    native_effect();
+}
+
 // Hook target for the original boss shard grant call. The game passes the boss's
 // shard index in r0 (same value passed to CollectShard(var->unk218) in sub_0801D948).
 // Records the AP boss-defeat transport flag for client polling AND replicates the
@@ -388,6 +461,12 @@ __attribute__((used)) void ap_on_boss_defeat_already_owned_reward(void *obj2, in
 // item is delivered through ap_apply_item().
 __attribute__((used)) void ap_on_collect_big_chest(uint32_t area_id) {
     ap_set_major_chest_flag(area_id);
+
+    // Preserve native world-map unlock from the tutorial chest (area_id=0).
+    // Area maps (1..9) remain AP-item gated.
+    if (area_id == 0u) {
+        ap_unlock_area_map(0u);
+    }
 }
 
 // Hook target for native vitality big chest reward collection. This callsite does
@@ -413,9 +492,27 @@ typedef void (*KirbyCollectSoundPlayerFn)(uint32_t reward_index);
 typedef void (*KirbyRequestAbilityTransitionFn)(void*, uint32_t);
 #define KIRBY_REQUEST_ABILITY_TRANSITION_FN ((KirbyRequestAbilityTransitionFn)0x080547C5u)
 
+typedef void (*KirbyStartAbilityTransitionFn)(void*);
+#define KIRBY_START_ABILITY_TRANSITION_FN ((KirbyStartAbilityTransitionFn)0x08054C0Du)
+
+typedef void (*KirbyRefreshPaletteFn)(uint8_t player);
+/* Thumb entry for native sub_0803E558(u8), which rebuilds and uploads Kirby's OBJ palette. */
+#define KIRBY_REFRESH_PALETTE_FN ((KirbyRefreshPaletteFn)0x0803E559u)
+
+typedef void (*KirbyStartGameFn)(
+    uint8_t mode,
+    uint8_t arg1,
+    const uint16_t *rooms,
+    const int32_t *positions,
+    const uint32_t *flags
+);
+/* Thumb entry for native sub_080332BC, which creates the Kirby players. */
+#define KIRBY_START_GAME_FN ((KirbyStartGameFn)0x080332BDu)
+
 typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define KIRBY_GIVE_INVINCIBILITY_FN ((KirbyGiveInvincibilityFn)0x0808324Du)
 
+#define ABILITY_RANDOMIZATION_MODE_SHUFFLED 1u
 #define ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM 2u
 #define KIRBY_ABILITY_MASK 0x1Fu
 #define KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR 0x20u
@@ -423,9 +520,17 @@ typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE 1u
 #define ABILITY_REROLL_SOURCE_KIND_NULL_SOURCE_PTR 2u
 #define ABILITY_REROLL_SOURCE_KIND_NON_EWRAM_SOURCE_PTR 3u
+#define ABILITY_REROLL_SOURCE_KIND_ABILITY_STATUE 4u
 #define ENEMY_ABILITY_TABLE_BASE_ADDR 0x35164Eu
 #define ENEMY_ABILITY_TABLE_STRIDE 0x18u
 #define OBJECT2_TYPE_OFFSET 0x82u
+
+/*
+ * Verified against katam/include/kirby.h from the game decompilation.
+ * Ability statues bypass sub_080547C4 entirely: they write the requested
+ * ability directly to Kirby::transitioningAbility and then call sub_08054C0C.
+ */
+#define KIRBY_TRANSITIONING_ABILITY_OFFSET 0xDDu
 
 static uint32_t ap_mix_u32(uint32_t x) {
     x ^= x >> 16;
@@ -489,18 +594,19 @@ static uint8_t ap_select_random_allowed_ability_excluding(
 
 // Hook target for all callsites that request Kirby ability transition.
 // In completely-random mode, this rerolls a fresh ability for each request,
-// including ability-star transitions used by statues.
+// including dropped ability-star transitions. Direct statue touches bypass this
+// function and are handled by ap_on_start_copy_ability_transition below.
 __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, uint32_t ability_flags) {
     uint32_t mode = AP_ABILITY_RANDOMIZATION_MODE;
     uint32_t rewritten_flags = ability_flags;
     uint8_t selected_ability = (uint8_t)(ability_flags & KIRBY_ABILITY_MASK);
+    uint8_t is_ability_star =
+        ((ability_flags & KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR) != 0u) ? 1u : 0u;
 
     if (mode == ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM) {
         register uint32_t source_obj_ptr asm("r5");
         uint32_t no_ability_weight = AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT;
         uint32_t allowed_mask = AP_ABILITY_RANDOMIZATION_ALLOWED_MASK;
-        uint8_t is_ability_star =
-            ((ability_flags & KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR) != 0u) ? 1u : 0u;
         uint32_t random_roll = ap_next_rng_u32();
         uint32_t source_addr = 0u;
         uint32_t source_kind = ABILITY_REROLL_SOURCE_KIND_NONE;
@@ -538,14 +644,19 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
 
         rewritten_flags = (ability_flags & ~KIRBY_ABILITY_MASK) | (uint32_t)(selected_ability & KIRBY_ABILITY_MASK);
 
-        if (source_obj_ptr == 0u) {
-            source_kind = ABILITY_REROLL_SOURCE_KIND_NULL_SOURCE_PTR;
-        } else if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x02040000u) {
-            uint8_t source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
-            source_kind = ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE;
-            source_addr = ENEMY_ABILITY_TABLE_BASE_ADDR + ((uint32_t)source_type * ENEMY_ABILITY_TABLE_STRIDE);
+        if (is_ability_star != 0u) {
+            source_kind = ABILITY_REROLL_SOURCE_KIND_ABILITY_STATUE;
+            source_addr = (uint32_t)(ability_flags & KIRBY_ABILITY_MASK);
         } else {
-            source_kind = ABILITY_REROLL_SOURCE_KIND_NON_EWRAM_SOURCE_PTR;
+            if (source_obj_ptr == 0u) {
+                source_kind = ABILITY_REROLL_SOURCE_KIND_NULL_SOURCE_PTR;
+            } else if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x02040000u) {
+                uint8_t source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
+                source_kind = ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE;
+                source_addr = ENEMY_ABILITY_TABLE_BASE_ADDR + ((uint32_t)source_type * ENEMY_ABILITY_TABLE_STRIDE);
+            } else {
+                source_kind = ABILITY_REROLL_SOURCE_KIND_NON_EWRAM_SOURCE_PTR;
+            }
         }
 
         AP_ABILITY_REROLL_SOURCE_ADDR = source_addr;
@@ -559,9 +670,145 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
     selected_ability = (uint8_t)(rewritten_flags & KIRBY_ABILITY_MASK);
     if (selected_ability != 0u && ap_is_locked_gated_ability(selected_ability) != 0u) {
         rewritten_flags = (rewritten_flags & ~KIRBY_ABILITY_MASK);
+        selected_ability = 0u;
+    }
+
+    // In shuffled mode, ability-star/statue grants do not emit reroll telemetry in the
+    // randomization branch above, so emit a compact event here for file-only client logs.
+    if (is_ability_star != 0u && mode == ABILITY_RANDOMIZATION_MODE_SHUFFLED) {
+        AP_ABILITY_REROLL_SOURCE_ADDR = (uint32_t)(ability_flags & KIRBY_ABILITY_MASK);
+        AP_ABILITY_REROLL_ABILITY_ID = (uint32_t)(selected_ability & KIRBY_ABILITY_MASK);
+        AP_ABILITY_REROLL_SOURCE_KIND = ABILITY_REROLL_SOURCE_KIND_ABILITY_STATUE;
+        AP_ABILITY_REROLL_CALLSITE_PC = 0u;
+        AP_ABILITY_REROLL_KIRBY_INDEX = (uint32_t)KIRBY_CURRENT_PLAYER;
+        AP_ABILITY_REROLL_EVENT_COUNTER++;
     }
 
     KIRBY_REQUEST_ABILITY_TRANSITION_FN(kirby, rewritten_flags);
+}
+
+/*
+ * Hook target for every direct call to sub_08054C0C, the routine that starts
+ * Kirby's ability-change animation after Kirby::transitioningAbility has
+ * already been populated.
+ *
+ * Why this second hook is required:
+ *   - Enemy and dropped ability-star requests normally flow through
+ *     sub_080547C4 and are handled by ap_on_request_copy_ability_transition.
+ *   - Ability statues and the Master Sword stand do not call sub_080547C4.
+ *     They assign Object2::kirbyAbility directly to Kirby::transitioningAbility
+ *     (offset 0xDD) and then call sub_08054C0C.
+ *
+ * Sanitizing the authoritative pending field here closes that bypass while
+ * retaining the game's original animation/state-machine behavior. Only the
+ * low five ability-ID bits are cleared; upper transition flags are preserved.
+ */
+__attribute__((used)) void ap_on_start_copy_ability_transition(void *kirby) {
+    volatile uint8_t *transitioning_ability;
+    uint32_t caller_lr_snapshot = 0u;
+    uint32_t caller_pc;
+    uint32_t mode;
+    uint8_t pending_flags;
+    uint8_t pending_ability;
+    uint8_t original_ability;
+    uint8_t is_direct_statue;
+    uint32_t statue_allowed_mask;
+
+    /*
+     * Snapshot lr before any helper call can clobber it.  Because patch_rom.py
+     * replaces the caller's BL instruction, this resolves to the original
+     * retail callsite rather than a location inside the payload.
+     */
+    __asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));
+    caller_pc = caller_lr_snapshot & ~1u;
+    if (caller_pc >= 4u) {
+        caller_pc -= 4u;
+    }
+
+    if (kirby == (void*)0) {
+        return;
+    }
+
+    transitioning_ability =
+        (volatile uint8_t *)((uintptr_t)kirby + KIRBY_TRANSITIONING_ABILITY_OFFSET);
+    pending_flags = *transitioning_ability;
+    pending_ability = (uint8_t)(pending_flags & KIRBY_ABILITY_MASK);
+    original_ability = pending_ability;
+    mode = AP_ABILITY_RANDOMIZATION_MODE;
+    is_direct_statue = ap_statue_is_direct_touch_callsite(caller_pc);
+    statue_allowed_mask = gApAbilityRandomizationStatueAllowedMask;
+
+    /*
+     * Issue #875: regular statues write their table-selected ability directly
+     * to transitioningAbility and therefore never enter the request hook that
+     * performs per-event completely-random rerolls.  Reroll only the verified
+     * sub_080AA588 call path, only when statue randomization is enabled for the
+     * generated seed, and select directly from the per-seed statue mask after
+     * removing currently locked abilities.  That mask is derived from the same
+     * normalized pool as the static table writes, so custom whitelist and Minny
+     * settings stay aligned.  Statues intentionally ignore the no-ability,
+     * passive-enemy, miniboss, and boss-spawn options.
+     */
+    if (ap_statue_should_reroll(caller_pc, mode, statue_allowed_mask) != 0u) {
+        uint32_t candidate_mask = ap_statue_unlocked_candidate_mask(
+            statue_allowed_mask,
+            AP_ABILITY_GATE_MASK,
+            AP_ABILITY_UNLOCK_MASK
+        );
+        pending_ability = ap_statue_select_ability(
+            candidate_mask,
+            ap_next_rng_u32()
+        );
+        pending_flags = ap_statue_replace_ability_bits(
+            pending_flags,
+            pending_ability
+        );
+        *transitioning_ability = pending_flags;
+    }
+
+    /*
+     * Issue #874: this remains the final authority for direct pending-field
+     * writers.  It also safely handles shuffled/off modes and a config race
+     * where an ability becomes locked after the random selection above.
+     */
+    {
+        /*
+         * Encapsulated equivalent of the original source-level contract:
+         *   ap_is_locked_gated_ability(pending_ability)
+         *   pending_flags & (uint8_t)~KIRBY_ABILITY_MASK
+         * The helper is shared with an executable native C contract test.
+         */
+        uint8_t gated_flags = ap_statue_apply_final_gate(
+            pending_flags,
+            AP_ABILITY_GATE_MASK,
+            AP_ABILITY_UNLOCK_MASK
+        );
+        if (gated_flags != pending_flags) {
+            pending_flags = gated_flags;
+            pending_ability = 0u;
+            *transitioning_ability = pending_flags;
+        }
+    }
+
+    /*
+     * Direct statues bypass the request hook's telemetry too.  Emit one event
+     * per touch in both shuffled and completely-random modes after gating has
+     * determined the final ability.  source_addr retains the table-selected
+     * input ability so existing client-side statue labels continue to work.
+     */
+    if (is_direct_statue != 0u
+        && statue_allowed_mask != 0u
+        && (mode == ABILITY_RANDOMIZATION_MODE_SHUFFLED
+            || mode == ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM)) {
+        AP_ABILITY_REROLL_SOURCE_ADDR = (uint32_t)original_ability;
+        AP_ABILITY_REROLL_ABILITY_ID = (uint32_t)pending_ability;
+        AP_ABILITY_REROLL_SOURCE_KIND = ABILITY_REROLL_SOURCE_KIND_ABILITY_STATUE;
+        AP_ABILITY_REROLL_CALLSITE_PC = caller_pc;
+        AP_ABILITY_REROLL_KIRBY_INDEX = (uint32_t)KIRBY_CURRENT_PLAYER;
+        AP_ABILITY_REROLL_EVENT_COUNTER++;
+    }
+
+    KIRBY_START_ABILITY_TRANSITION_FN(kirby);
 }
 
 // Hook target for native Sound Player chest reward collection. Reward index 0 is
@@ -618,49 +865,109 @@ static void ap_sync_active_kirby_health_from_vitality(void) {
     *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_MAX_HP_OFFSET) = vitality_total;
 }
 
-static uint8_t ap_starting_kirby_color_applied = 0u;
+static uint8_t ap_is_supported_kirby_color(uint32_t color_id) {
+    return color_id <= 13u ? 1u : 0u;
+}
+
+static uint32_t ap_get_effective_starting_kirby_color(void) {
+    uint32_t runtime_color = AP_STARTING_KIRBY_COLOR_ID;
+
+    /* Prefer the live client value once synchronized. Before that, use the
+     * generation-time ROM word so startup and offline/reset windows are safe. */
+    if (ap_is_supported_kirby_color(runtime_color) != 0u) {
+        return runtime_color;
+    }
+    if (ap_is_supported_kirby_color(gApStartingKirbyColorInitial) != 0u) {
+        return gApStartingKirbyColorInitial;
+    }
+    return 0xFFFFFFFFu;
+}
+
+static uint8_t ap_is_player_kirby_ready(uint8_t player) {
+    uint32_t kirby_addr;
+    uint32_t task_ptr;
+    uint8_t ability;
+
+    if (player >= KIRBY_PLAYER_COUNT) {
+        return 0u;
+    }
+
+    kirby_addr = KIRBY_STRUCTS_ADDR + ((uint32_t)player * KIRBY_STRUCT_STRIDE);
+    task_ptr = *(volatile uint32_t*)(kirby_addr + KIRBY_STRUCT_TASK_OFFSET);
+    ability = *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_ABILITY_OFFSET);
+
+    /* sub_0803E558 indexes ability palette metadata and assumes a live Kirby.
+     * Native Task objects are allocated in IWRAM. Waiting for both conditions
+     * avoids calling the palette loader from menus or before CreateKirby. */
+    if (task_ptr < 0x03000000u || task_ptr >= 0x03008000u) {
+        return 0u;
+    }
+    if (ability > KIRBY_ABILITY_MASK) {
+        return 0u;
+    }
+    return 1u;
+}
+
+/*
+ * Hook for the two single-player calls to sub_080332BC in code_08123950.c.
+ * The seed color is installed before CreateKirby copies the player-color table,
+ * so the first visible gameplay frame uses the configured palette.
+ */
+__attribute__((used)) void ap_on_start_single_player_game(
+    uint8_t mode,
+    uint8_t arg1,
+    const uint16_t *rooms,
+    const int32_t *positions,
+    const uint32_t *flags
+) {
+    uint32_t desired_color = gApStartingKirbyColorInitial;
+
+    if (ap_is_supported_kirby_color(desired_color) != 0u) {
+        KIRBY_SELECTED_COLOR = (int16_t)desired_color;
+        KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] =
+            (uint8_t)desired_color;
+    }
+
+    KIRBY_START_GAME_FN(mode, arg1, rooms, positions, flags);
+}
 
 static void ap_apply_starting_kirby_color_config(void) {
     uint32_t desired_color;
-    uint8_t current_transition_color;
+    uint32_t kirby_addr;
 
-    if (ap_starting_kirby_color_applied != 0u) {
+    if (AP_STARTING_KIRBY_COLOR_APPLIED != 0u) {
         return;
     }
 
-    desired_color = AP_STARTING_KIRBY_COLOR_ID;
-
-    // 0xFFFFFFFF means client has not synced the runtime config yet.
-    if (desired_color == 0xFFFFFFFFu) {
+    desired_color = ap_get_effective_starting_kirby_color();
+    if (ap_is_supported_kirby_color(desired_color) == 0u) {
         return;
     }
 
-    // Supported native color IDs: 0..13. Value 0 (Pink) is intentionally a no-op.
-    if (desired_color > 13u) {
-        return;
-    }
+    /* Pink is the native/default no-override choice. The startup hook still
+     * writes Pink before CreateKirby, but no runtime palette rebuild is needed. */
     if (desired_color == 0u) {
-        ap_starting_kirby_color_applied = 1u;
+        AP_STARTING_KIRBY_COLOR_APPLIED = 1u;
         return;
     }
 
-    // KIRBY_TRANSITION_COLOR (0x02020FBF) is the variable the game reads on each screen
-    // transition to apply the active palette. If it already equals our desired color we
-    // are done. Otherwise enforce the configured starting color unconditionally: the
-    // spec requires "beginning of the game and on future starts", so we always apply
-    // once per boot/EWRAM session regardless of what a save file or prior session left.
-    current_transition_color = KIRBY_TRANSITION_COLOR;
-
-    if ((uint32_t)current_transition_color == desired_color) {
-        ap_starting_kirby_color_applied = 1u;
+    if (ap_is_player_kirby_ready(KIRBY_STARTING_COLOR_PLAYER) == 0u) {
         return;
     }
 
-    // Write to the transition variable so the color takes effect on the next screen change,
-    // and also to the boot-time state variable in case this hook fires early enough.
-    KIRBY_TRANSITION_COLOR = (uint8_t)desired_color;
-    KIRBY_ACTIVE_COLOR = (uint8_t)desired_color;
-    ap_starting_kirby_color_applied = 1u;
+    kirby_addr = KIRBY_STRUCTS_ADDR
+        + ((uint32_t)KIRBY_STARTING_COLOR_PLAYER * KIRBY_STRUCT_STRIDE);
+
+    /* Keep all native color sources coherent. Merely changing Kirby::color does
+     * not update the OBJ palette already cached in palette RAM. */
+    KIRBY_SELECTED_COLOR = (int16_t)desired_color;
+    KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] =
+        (uint8_t)desired_color;
+    *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_COLOR_OFFSET) =
+        (uint8_t)desired_color;
+
+    KIRBY_REFRESH_PALETTE_FN(KIRBY_STARTING_COLOR_PLAYER);
+    AP_STARTING_KIRBY_COLOR_APPLIED = 1u;
 }
 
 static uint32_t ap_get_active_kirby_addr(void) {
@@ -955,6 +1262,19 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         return 1u;
     }
 
+    // LEVER_WALL_* = BASE+37 .. BASE+40 (Issue #859).
+    // These are the native gTreasures.chestFields indices observed for the four
+    // lever-controlled walls. Small-switch activation itself is persisted by the
+    // game's independent StateSlot path, so setting these wall bits does not
+    // consume the physical lever location. Writes are additive and idempotent.
+    if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 37u)
+        && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 40u)) {
+        static const uint8_t lever_wall_chest_ids[4] = {18u, 65u, 77u, 74u};
+        uint32_t lever_index = ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 37u);
+        ap_collect_small_chest_native((uint32_t)lever_wall_chest_ids[lever_index]);
+        return 1u;
+    }
+
     // Unhandled item - return 0 to signal that the flag should NOT be cleared
     return 0u;
 }
@@ -982,7 +1302,8 @@ void ap_poll_mailbox_c(void) {
         AP_STARTING_KIRBY_COLOR_ID = 0xFFFFFFFFu;
         AP_ONE_HIT_MODE_RUNTIME = 0xFFFFFFFFu;
         AP_NO_EXTRA_LIVES_RUNTIME = 0xFFFFFFFFu;
-        ap_starting_kirby_color_applied = 0u;
+        AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
+        AP_LEVER_ACTIVATION_FLAGS = 0u;
         AP_ABILITY_RANDOMIZATION_MODE = 0u;
         AP_ABILITY_RANDOMIZATION_SEED_LO = 0u;
         AP_ABILITY_RANDOMIZATION_SEED_HI = 0u;
@@ -995,7 +1316,12 @@ void ap_poll_mailbox_c(void) {
         AP_ABILITY_REROLL_CALLSITE_PC = 0u;
         AP_ABILITY_REROLL_KIRBY_INDEX = 0u;
         AP_ABILITY_REROLL_ABILITY_ID = 0u;
-        AP_ABILITY_GATE_MASK = 0u;
+        /*
+         * Deny gated abilities from the first gameplay frame, even before the
+         * Python client connects. The client later rewrites this mailbox field
+         * with the same canonical mask and synchronizes received unlock bits.
+         */
+        AP_ABILITY_GATE_MASK = gApAbilityGateMaskInitial;
         AP_ABILITY_UNLOCK_MASK = 0u;
         AP_MINOR_CHEST_EVENT_COUNTER = 0u;
         {

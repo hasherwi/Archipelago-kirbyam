@@ -22,7 +22,7 @@ all: payload.bin
 payload.elf: ap_payload.o ap_hook.o
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ -lgcc
 
-ap_payload.o: ap_payload.c
+ap_payload.o: ap_payload.c statue_runtime_logic.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 ap_hook.o: ap_hook.s

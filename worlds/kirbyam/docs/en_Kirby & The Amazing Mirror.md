@@ -21,7 +21,7 @@
 - Minny can be kept vanilla with the `ability_randomization_minny` toggle while still randomizing other enemy ability sources.
 - Enemies that cannot be swallowed are excluded from the enemy copy-ability randomization pool.
 - The chance for an enemy to not have a copy ability can be controlled via the `ability_randomization_no_ability_weight`
-- Ability statues (sometimes called ability trophies or ability stands) have a dedicated boolean toggle (`ability_randomization_statues`) that controls inclusion only; when enabled, included statues inherit the selected `ability_randomization_mode` (`off`, `shuffled`, or `completely_random`). They will always grant an ability and are not affected by `ability_randomization_no_ability_weight` or `ability_randomization_passive_enemies`. They do respect `ability_randomization_minny`. When using `shuffled` mode, a spoiler log includes the statue to ability assignments.
+- Ability statues (sometimes called ability trophies or ability stands) have a dedicated boolean toggle (`ability_randomization_statues`). With the toggle off, statues retain their vanilla abilities. In `shuffled` mode, each statue keeps one seed-deterministic assignment, which appears in the spoiler log. In `completely_random` mode, a regular statue makes a fresh draw every time its grant is triggered; independent draws may still repeat by chance. Statue draws use the configured ability whitelist, respect `ability_randomization_minny`, and remove gated abilities until their AP unlock items are received. Statues always draw an ability when at least one eligible ability remains and intentionally ignore `ability_randomization_no_ability_weight`, `ability_randomization_passive_enemies`, `ability_randomization_minibosses`, and `ability_randomization_boss_spawns`. The Master Sword stand is not treated as a regular randomized statue.
 - AP ability unlock items are generated dynamically from `data/abilities.json` only when the `Ability Gating` option is enabled. That option defaults on and appears under `Make the game harder`. When enabled, unlock items are generated only for abilities marked `safe_to_gate` (and not explicitly disabled by `enemy_copy_allowed: false`); gated abilities are blocked until their matching AP unlock item has been received.
 
 
@@ -34,6 +34,8 @@ Locations in which items can be found:
 - All Big Chests
 - All Mirror Shards
 - All Rooms (Optional, not enabled by default)
+- All Levers
+- All Big Switches
 Items that can be shuffled:
 - All Mirror Shards
 - All Maps
@@ -71,8 +73,18 @@ Use exact item/location names from this world (or the item groups listed above) 
   - `dark_mind`: Defeat Dark Mind to complete the seed.
   - `defeat_any_area_boss`: Defeat any one `* - Boss Defeat` location (Mustard Mountain, Moonlight Mansion, Candy Constellation, Olive Ocean, Peppermint Palace, Cabbage Cavern, Carrot Castle, or Radish Ruins). In this mode, collecting all Mirror Shards is not required by the goal mode itself.
     - Candy Constellation's Master Hand + Crazy Hand fight is treated as one pooled boss target (`BOSS_DEFEAT_3`).
-  - `defeat_configured_area_boss`: Defeat a specific area boss selected by the `configured_area_boss` option. The default target is the Master Hand + Crazy Hand pair (`BOSS_DEFEAT_3`), and the selected target is only used by this goal mode.
-  - `defeat_random_hidden_area_boss`: Defeat one seed-selected hidden area boss. The selected target is carried in slot data as an internal boss-defeat key; normal player-facing output does not reveal the boss name, but spoiler output may.
+  - `defeat_area_boss`: Defeat the area boss selected by `configured_area_boss`. The default is Master Hand + Crazy Hand (`BOSS_DEFEAT_3`). Set `configured_area_boss` to `random` to have Archipelago choose one of the eight area bosses during option parsing. The old name `defeat_configured_area_boss` remains accepted as a compatibility alias. Replace the removed `defeat_random_hidden_area_boss` with `goal: defeat_area_boss` plus `configured_area_boss: random`.
+
+### Using Archipelago's built-in `random` choice
+
+`configured_area_boss` and `starting_kirby_color` are normal Archipelago `Choice` options. You can replace the entire generated weight mapping for either option with the scalar value `random`:
+
+```yaml
+configured_area_boss: random
+starting_kirby_color: random
+```
+
+Archipelago resolves each `random` value to one concrete choice during option parsing. The generated weighted template lists only concrete choices, so `random` is documented in comments rather than appearing as another weighted sub-option.
 
 
 
@@ -98,7 +110,7 @@ You will not see an indicator in the game, instead you'll see you received an it
 
 
 
-Currently a tracker is not available. Goal logic depends on the selected mode: either defeat Dark Mind, defeat any one area boss in `defeat_any_area_boss` mode, defeat the configured area boss in `defeat_configured_area_boss` mode, or defeat the seed-selected hidden area boss in `defeat_random_hidden_area_boss` mode.
+Currently a tracker is not available. Goal logic depends on the selected mode: either defeat Dark Mind, defeat any one area boss in `defeat_any_area_boss` mode, or defeat the selected `configured_area_boss` in `defeat_area_boss` mode.
 
 
 

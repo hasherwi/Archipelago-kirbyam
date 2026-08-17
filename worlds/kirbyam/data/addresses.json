@@ -39,10 +39,16 @@
       "minor_chest_event_counter": "0x0203B08C",
       "minor_chest_event_ring_base": "0x0203B090",
       "ability_gate_mask_runtime": "0x0203B0B0",
-      "ability_unlock_mask_runtime": "0x0203B0B4"
+      "ability_unlock_mask_runtime": "0x0203B0B4",
+      "starting_kirby_color_applied": "0x0203B0B8",
+      "lever_activation_flags": "0x0203B0BC"
     },
     "native": {
       "other_chest_flags_native": "0x02038960",
+      "lever_moonlight_flag_native": "0x02038962",
+      "lever_olive_flag_native": "0x02038968",
+      "lever_carrot_flag_native": "0x02038969",
+      "lever_radish_flag_native": "0x02038969",
       "shard_bitfield_native": "0x02038970",
       "spray_paint_bitfield_native": "0x02038974",
       "music_player_and_sheets_bitfield_native": "0x02038978",
@@ -52,6 +58,8 @@
       "current_room_native": "0x02023B28",
       "ai_kirby_state_native": "0x0203AD2C",
       "demo_playback_flags_native": "0x0203AD10",
+      "kirby_player_1_color_native": "0x02020FBF",
+      "kirby_selected_color_native": "0x0203ADE0",
       "kirby_transition_color_native": "0x02020FBF",
       "kirby_hp_native": "0x02020FE0",
       "kirby_max_hp_native": "0x02020FE1",

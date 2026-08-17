@@ -63,6 +63,7 @@ def _build_representative_slot_data() -> dict[str, object]:
 
     options = Mock()
     options.configured_area_boss = Mock(value=7, current_key="master_hand_crazy_hand_pair")
+    options.starting_kirby_color = Mock(value=0, current_key="pink")
     options.as_dict.return_value = {
         "goal": 0,
         "configured_area_boss": 7,
@@ -71,6 +72,7 @@ def _build_representative_slot_data() -> dict[str, object]:
         "ability_gating": True,
         "enable_traps": False,
         "trap_fill_percentage": 25,
+        "enemy_health_multiplier": 100,
         "one_hit_mode": 0,
         "death_link": True,
         "ability_randomization_mode": 1,

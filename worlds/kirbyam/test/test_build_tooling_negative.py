@@ -335,3 +335,15 @@ def test_prepare_args_file_source_accepts_relative_rom_path_tmp(tmp_path: Path, 
     prepared = build_mod._prepare_args_for_patch(args, tmp_path)
     assert prepared.source_type == "file"
     assert prepared.rom is None
+
+
+def test_should_exclude_save_states_tree() -> None:
+    assert build_mod.should_exclude("save_states/1 - Rainbow Route/sample.State")
+
+
+def test_should_exclude_patch_rom_log() -> None:
+    assert build_mod.should_exclude("kirby_ap_payload/patch_rom.log")
+
+
+def test_should_not_exclude_regular_world_data_file() -> None:
+    assert not build_mod.should_exclude("data/locations.json")

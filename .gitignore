@@ -50,6 +50,11 @@ EnemizerCLI/
 /options.yaml
 /config.yaml
 /logs/
+worlds/kirbyam/save_states/
+worlds/kirbyam/kirby_ap_payload/patch_rom.log
+worlds/kirbyam/__pycache__/
+worlds/kirbyam/kirby_ap_payload/__pycache__/
+worlds/kirbyam/test/__pycache__/
 _persistent_storage.yaml
 mystery_result_*.yaml
 *-errors.txt

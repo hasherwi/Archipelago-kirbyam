@@ -7,8 +7,9 @@ find_package(GTest REQUIRED)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     add_definitions("/source-charset:utf-8")
-    # set(CMAKE_CXX_FLAGS_DEBUG "/MDd") # this is the default
-    # set(CMAKE_CXX_FLAGS_RELEASE "/MD") # this is the default
+    # setup-googletest supplies dynamic-runtime (/MD) libraries on Windows.
+    # Match that runtime explicitly to avoid unresolved imported CRT symbols.
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     # enable static analysis for gcc
     add_compile_options(-fanalyzer -Werror)

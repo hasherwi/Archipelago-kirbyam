@@ -3,30 +3,79 @@
 Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 - `### New Features`
-- `### Improvements` (optional for older post-public sections)
+- `### Improvements`
+- `### Known Limitations`
 - `### Bug Fixes`
 - `### Internal Changes`
 
 ## Unreleased
 
 ### New Features
-
-- Ability gating is now available and controlled by a `Make the game harder` option and defaults to "on". A preset list of abilities is available at the beginning of the game (Beam, Burning, Mini, Stone, and Wheel). This list should be the bare minimum you need to complete the game and get all the currently supported locations. All other abilities are gated by custom AP items (for example, "Sword Ability") (Issues #855, #819).
-- Added a new goal mode: `defeat_configured_area_boss` completes the seed after a specific area-boss is defeated (Issue #207).
-  - Which area boss is used is determined by the new `configured_area_boss` option. It defaults to Master Hand and Crazy Hand.
+-  Added a new option: `enemy_health_multiplier`. Scale all enemies' health values between 50% to 500% of the original game. It defaults to 100% which matches the original game (Issue #880).
+- Added `random_color_per_room` to Starting Kirby Color. It chooses an initial supported palette at generation, then changes to a different supported palette whenever the connected BizHawk client observes Kirby enter a different room (Issue #857).
+- Added four progression items that independently open the walls controlled by those levers. Pulling a lever now sends its AP location check without opening the wall; receiving the matching Lever Wall item sets the native wall-unlock state instead (Issue #859).
 
 ### Improvements
+- Consolidated `defeat_random_hidden_area_boss` and `defeat_configured_area_boss` into the canonical `defeat_area_boss` goal. `configured_area_boss: random` now uses Archipelago's standard `Choice` randomization, the old `defeat_configured_area_boss` name remains a safe YAML alias, and all eight boss-to-area mappings are corrected (Issue #872).
+- Generated YAML documentation now shows the scalar `configured_area_boss: random` and `starting_kirby_color: random` shorthands and explains how they replace the generated concrete weight mappings (Issue #872).
 
+### Known Limitations
+- Localization: Only the North American ROM is supported. All AP notifications are in English.
+- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
+- Small Chests: We know you want the "small" chests implemented. We want them implemented too. We've been working on it for months. We decided getting out what IS working, is more important.
+- Sprite Swapping: The animation for getting the original item will play with the original sprite. Statues show the old ability. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or ability granted.
+- Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
+
+### Bug Fixes
+
+- Boss checks were mapped incorrectly for the `defeat_configured_area_boss` goal. That's been fixed (Issue #893).
+
+### Internal Changes
+- `starting_kirby_color` now uses the same standard Archipelago `Choice` literal `random`; the former world-specific `random_color` sentinel has been removed (Issue #872).
+- Split Kirby color catalog validation into focused helpers so Flake8 complexity checks remain meaningful without suppressing C901 (Issue #872).
+
+## v0.3.0
+
+### New Features
+
+- Ability gating is now available and under the `Make the game harder` option group. It defaults to be "on". A preset list of abilities is available at the beginning of the game (Beam, Burning, Mini, Stone, and Wheel). This list should be the bare minimum you need to complete the game and get all the currently supported locations. All other abilities are gated by custom AP items (for example, "Sword Ability") (Issues #855, #819).
+- Added a new goal mode: `defeat_configured_area_boss` completes the seed after a specific area-boss is defeated (Issue #207).
+  - Which area boss is used is determined by the new `configured_area_boss` option. It defaults to Master Hand and Crazy Hand.
+- Added four new lever location checks sourced from native lever bits: Moonlight Mansion 2-11, Olive Ocean 6-13, Carrot Castle 5-12, and Radish Ruins 8-12 (Issue #850).
+- Added the world map big chest in the tutorial rooms as an AP location check (Issue #845). We plan for the world map as an item to follow later.
+  - Because of how we detect the game state, the check will only send AFTER the tutorial is completed and you enter Central Circle for the first time.
+
+### Improvements
 - Self-send item popups in BizHawk are now collapsed to one line (`You found your <item>.`) instead of separate send and receive popups (Issue #848).
+
+### Known Limitations
+- Localization: Only the North American ROM is supported. All AP notifications are in English.
+- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
+- Small Chests: We know you want the "small" chests implemented. We want them implemented too. We've been working on it for months. We decided getting out what IS working, is more important.
+- Sprite Swapping: The animation for getting the original item will play with the original sprite. Statues show the old ability. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or ability granted.
+- Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
 
 ### Bug Fixes
 
 - Prevent false LocationChecks after death by deferring polling while HP <= 0 (Issue #864).
+- In `completely_random` mode, enabled regular ability statues now make a fresh per-touch draw from the configured statue pool instead of repeating their generation-time fallback assignment. The draw honors custom whitelists, the Minny toggle, and live ability unlocks while preserving statue-specific exclusions for no-ability and enemy-source toggles (Issue #875).
 - When `ability_randomization_mode` was `completely_random` and `ability_randomization_statues` was enabled, statue abilities were just shuffled, not random (Issue #841).
+- Changed map and shard item grants to be only additive, never overwriting what was already in the save. This was a consequence of how I "replayed" certain item grants when a game was opened again (PR #881).
+- Fixed hub-switch first-poll baseline suppression so reconnect/disconnect windows do not drop legitimate big-switch location checks (Issue #879).
+- Apply `Starting Kirby Color` before the first gameplay palette is created and explicitly refresh the live OBJ palette after reconnects, savestates, or soft resets (Issue #852).
 
 ### Internal Changes
 
+- Added seed-specific initial-gate and statue-pool masks, executable native-C policy tests, client compatibility tests, ROM-token tests, and patch-callsite contracts for the statue runtime path.
+- Fixed `patch_rom.py` importing on supported Python versions by typing the multiprocessing queue with its actual class rather than subscripting the `multiprocessing.Queue` factory.
 - Log files now report the `world_version` and all game options (Issue #861).
+- Added file-only telemetry diagnostics for ability statue grants when `ability_randomization_mode` is `shuffled` or `completely_random`, goal target resolution (one-time per session), runtime ability config rewrites (mask/seed snapshot on change), mailbox ACK timeout aggregates, and explicit statue ability-gate suppression reasons (PR #867).
+- Expand the allowed versions of requirements.txt (PR #881).
+- Reduce generated `kirbyam.apworld` size by excluding `worlds/kirbyam/save_states` and `worlds/kirbyam/kirby_ap_payload/patch_rom.log` from world packaging, and add explicit ignore entries for KirbyAM-local cache/log artifacts (Issue #871).
+
+### Other
+
+- Create a new AI disclosure page.
 
 ## v0.2.0
 
@@ -69,7 +118,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Major (big) chests: The animation for getting the original item will play with the original sprite. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or a custom sprite if it's not a KirbyAM item.
 - When `ability_randomization_mode` is set to `completely_random` ability statues are actually shuffled. This is known and incorrect, but we decided to release anyway and fix it later. You can always play with this feature off.
 - `Starting Kirby Color`: The color is not immediately applied. It might take a room transition or a hit for it to apply, but it will eventually apply. Hopefully we can improve this later, but the feature does work.
-
 ### Bug Fixes
 
 - Fixed an issue where having other custom GBA worlds installed with KirbyAM at the same time caused issues (Issue #742).

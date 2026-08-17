@@ -118,6 +118,12 @@ def test_big_switch_unlock_call_offset_matches_verified_hook_site() -> None:
     assert patch_rom.BIG_SWITCH_UNLOCK_CALL_OFFSET == 0x00039EEE
 
 
+def test_small_switch_effect_call_offset_matches_verified_hook_site() -> None:
+    # sub_08119B3C loads gUnk_08357B8C[source+0x14] and then calls the selected
+    # effect through `_call_via_r0`; the BL starts at ROM file offset 0x119B98.
+    assert patch_rom.SMALL_SWITCH_EFFECT_CALL_OFFSET == 0x00119B98
+
+
 # ── Negative-path tests: parse_args ──────────────────────────────────────────
 
 def test_parse_args_source_type_arg_missing_rom_positional() -> None:
@@ -264,3 +270,70 @@ def test_boss_already_owned_callsite_scan_finds_expected_synthetic_callsites() -
     )
 
     assert found == [off_a, off_b]
+
+
+def test_ability_transition_start_callsite_scan_finds_statue_bypass_path() -> None:
+    """The generic BL scanner must also discover calls to sub_08054C0C."""
+    rom_base = 0x08000000
+    scan_start = 0xC0
+    target = patch_rom.ORIGINAL_ABILITY_TRANSITION_START_FN_ADDR
+    rom = bytearray(scan_start + 8)
+    expected_offset = scan_start
+    rom[expected_offset:expected_offset + 4] = patch_rom.thumb_bl_bytes(
+        rom_base + expected_offset,
+        target,
+    )
+
+    found = patch_rom.discover_thumb_bl_callsites_to_targets(
+        rom,
+        {target, target | 1},
+        rom_base=rom_base,
+        scan_start=scan_start,
+        scan_end=patch_rom.PAYLOAD_OFFSET,
+    )
+
+    assert found == [expected_offset]
+
+
+def test_starting_color_game_start_callsites_match_verified_retail_assembly() -> None:
+    assert patch_rom.ORIGINAL_START_GAME_FN_ADDR == 0x080332BC
+    assert patch_rom.STARTING_COLOR_START_GAME_CALL_OFFSETS == (
+        0x00123EF2,
+        0x00124022,
+    )
+
+
+def test_validate_starting_color_callsite_target_accepts_expected_target() -> None:
+    rom_base = 0x08000000
+    offset = patch_rom.STARTING_COLOR_START_GAME_CALL_OFFSETS[0]
+    rom = bytearray(offset + 4)
+    rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(
+        rom_base + offset,
+        patch_rom.ORIGINAL_START_GAME_FN_ADDR,
+    )
+
+    original = patch_rom.validate_thumb_bl_callsite_target(
+        rom,
+        offset,
+        "single-player game start",
+        patch_rom.ORIGINAL_START_GAME_FN_ADDR,
+    )
+    assert patch_rom.decode_thumb_bl_target(rom_base + offset, original) == 0x080332BC
+
+
+def test_validate_starting_color_callsite_target_rejects_other_revision() -> None:
+    rom_base = 0x08000000
+    offset = patch_rom.STARTING_COLOR_START_GAME_CALL_OFFSETS[0]
+    rom = bytearray(offset + 4)
+    rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(
+        rom_base + offset,
+        0x08033000,
+    )
+
+    with pytest.raises(SystemExit, match="expected 0x080332BC"):
+        patch_rom.validate_thumb_bl_callsite_target(
+            rom,
+            offset,
+            "single-player game start",
+            patch_rom.ORIGINAL_START_GAME_FN_ADDR,
+        )

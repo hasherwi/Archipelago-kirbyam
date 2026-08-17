@@ -199,5 +199,29 @@
     "classification": "USEFUL",
     "item_id": 3860025,
     "tags": ["SoundPlayer", "Useful", "Unique"]
+  },
+  "LEVER_WALL_MOONLIGHT_MANSION_2_11": {
+    "label": "Moonlight Mansion 2-11 - Lever Wall",
+    "classification": "PROGRESSION",
+    "item_id": 3860037,
+    "tags": ["Levers", "Progression", "Unique"]
+  },
+  "LEVER_WALL_OLIVE_OCEAN_6_13": {
+    "label": "Olive Ocean 6-13 - Lever Wall",
+    "classification": "PROGRESSION",
+    "item_id": 3860038,
+    "tags": ["Levers", "Progression", "Unique"]
+  },
+  "LEVER_WALL_CARROT_CASTLE_5_12": {
+    "label": "Carrot Castle 5-12 - Lever Wall",
+    "classification": "PROGRESSION",
+    "item_id": 3860039,
+    "tags": ["Levers", "Progression", "Unique"]
+  },
+  "LEVER_WALL_RADISH_RUINS_8_12": {
+    "label": "Radish Ruins 8-12 - Lever Wall",
+    "classification": "PROGRESSION",
+    "item_id": 3860040,
+    "tags": ["Levers", "Progression", "Unique"]
   }
 }

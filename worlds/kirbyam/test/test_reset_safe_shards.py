@@ -59,6 +59,9 @@ def test_payload_tracks_major_chest_checks_separately_from_native_maps() -> None
     assert "AP_MAJOR_CHEST_FLAGS" in content, "Major chest transport register should be defined"
     assert "ap_on_collect_big_chest" in content, "Big chest hook target should exist"
     assert "ap_set_major_chest_flag(area_id)" in content, "Big chest hook should set transport check flags"
+    assert "if (area_id == 0u)" in content, (
+        "Big chest hook should preserve native world-map unlock for tutorial chest"
+    )
     assert "ap_unlock_area_map" in content, "Payload should unlock native maps on AP item receipt"
     assert "KIRBY_BIG_CHEST_FLAGS" in content, "Native big chest map bitfield should still be addressable"
 
@@ -504,3 +507,22 @@ def test_copy_ability_reroll_hook_reads_object2_type_field() -> None:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
+
+
+def test_statue_ability_lock_hook_sanitizes_transitioning_ability() -> None:
+    """Regression: statues write Kirby::transitioningAbility directly at +0xDD."""
+    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+    with open(payload_path, "r") as f:
+        content = f.read()
+
+    assert "KIRBY_TRANSITIONING_ABILITY_OFFSET 0xDDu" in content
+    match = re.search(
+        r"void\s+ap_on_start_copy_ability_transition[^{]*\{(?P<body>.*?)^}",
+        content,
+        flags=re.DOTALL | re.MULTILINE,
+    )
+    assert match is not None
+    body = match.group(0)
+    assert "ap_is_locked_gated_ability(pending_ability)" in body
+    assert "pending_flags & (uint8_t)~KIRBY_ABILITY_MASK" in body
+    assert "KIRBY_START_ABILITY_TRANSITION_FN(kirby)" in body

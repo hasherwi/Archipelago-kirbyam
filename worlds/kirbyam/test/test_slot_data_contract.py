@@ -35,6 +35,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
 
     options = Mock()
+    options.starting_kirby_color = Mock(value=0, current_key="pink")
     options.as_dict.return_value = {
         "goal": 0,
         "configured_area_boss": 7,
@@ -45,6 +46,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "ability_gating": True,
         "enable_traps": False,
         "trap_fill_percentage": 25,
+        "enemy_health_multiplier": 100,
         "one_hit_mode": 0,
         "death_link": True,
         "ability_randomization_mode": 1,
@@ -84,6 +86,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "ability_gating",
         "enable_traps",
         "trap_fill_percentage",
+        "enemy_health_multiplier",
         "one_hit_mode",
         "death_link",
         "ability_randomization_mode",
@@ -109,6 +112,13 @@ def test_protocol_slot_data_keys_match_emitted_slot_data_keys() -> None:
     )
 
 
+def test_enemy_health_multiplier_contract_field_has_expected_shape() -> None:
+    slot_data = _emit_slot_data_for_contract_test()
+
+    assert isinstance(slot_data["enemy_health_multiplier"], int)
+    assert 50 <= slot_data["enemy_health_multiplier"] <= 500
+
+
 def test_enemy_randomization_contract_fields_present_with_expected_shapes() -> None:
     slot_data = _emit_slot_data_for_contract_test()
 
@@ -129,6 +139,7 @@ def test_starting_kirby_color_contract_fields_present_with_expected_shapes() -> 
     assert isinstance(slot_data["starting_kirby_color"], int)
     assert isinstance(slot_data["starting_kirby_color_name"], str)
     assert slot_data["starting_kirby_color_name"]
+    assert isinstance(slot_data["starting_kirby_color_randomize_on_room_transition"], bool)
 
     assert "goal_configured_area_boss_key" in slot_data
     assert slot_data["goal_configured_area_boss_key"] is None or isinstance(
@@ -137,12 +148,6 @@ def test_starting_kirby_color_contract_fields_present_with_expected_shapes() -> 
     )
 
     assert isinstance(slot_data["ability_gating"], bool)
-
-    assert "goal_hidden_area_boss_key" in slot_data
-    assert slot_data["goal_hidden_area_boss_key"] is None or isinstance(
-        slot_data["goal_hidden_area_boss_key"],
-        str,
-    )
 
 
 def test_tracker_surface_contract_fields_present_with_expected_shapes() -> None:

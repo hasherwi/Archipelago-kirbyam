@@ -15,9 +15,11 @@ from BaseClasses import ItemClassification
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
+from .colors import choose_different_kirby_color
 from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
+from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .generated_hub_switch_contract import HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY
 from .items import get_item_classification
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
@@ -37,9 +39,14 @@ _BOSS_MIRROR_TABLE_PROBE_BYTES = 32
 _AI_STATE_ADDR_WIDTH = 4
 _GOAL_STATE_DARK_MIND_CLEAR = 9999
 _GOAL_STATE_FULL_CLEAR = 10000
+# Legacy v0.2/v0.3 slot-data value retained only so newer clients can finish
+# already-generated defeat_random_hidden_area_boss seeds. New generation never
+# emits goal value 3 after Issue #872.
+_LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS = 3
 _MAILBOX_ACK_TIMEOUT_FRAMES = 30
 _MAILBOX_ACK_TIMEOUT_SECONDS = 1.0  # Fallback when frame_counter is stuck
 _MAILBOX_ACK_RETRY_BACKOFF_SECONDS = 0.5
+_MAILBOX_TIMEOUT_SUMMARY_EVERY = 5
 _MAIN_HOOK_OFFSET = 0x00152696
 _PAYLOAD_OFFSET = 0x0015E000
 _AI_STATE_CUTSCENE_THRESHOLD = 200
@@ -75,6 +82,10 @@ _AREA_REGION_TOKEN_TO_AREA_ID: dict[str, int] = {
     "RADISH_RUINS": 8,
     "CANDY_CONSTELLATION": 9,
 }
+# Issue #859 moves lever location authority out of the native wall-unlock bits.
+# The ROM hook latches one bit per physical lever activation here; receiving a
+# Lever Wall item may then set the native wall bit without creating a false check.
+_LEVER_ACTIVATION_FLAGS_ADDR_KEY = "lever_activation_flags"
 _STARTING_KIRBY_COLOR_MIN = 0
 _STARTING_KIRBY_COLOR_MAX = 13
 _STARTING_KIRBY_COLOR_REVALIDATE_TICKS = 4
@@ -98,6 +109,13 @@ _ABILITY_ID_TO_NAME: dict[int, str] = {
     ability_id: ability_name
     for ability_name, ability_id in ABILITY_NAME_TO_ID.items()
 }
+_ABILITY_UNLOCK_ITEM_LABELS: frozenset[str] = frozenset(
+    item.label
+    for item in data.items.values()
+    if isinstance(item.label, str)
+    and "Abilities" in item.tags
+    and item.label.endswith(" Ability")
+)
 _MAP_ITEM_LABEL_TO_AREA_ID: dict[str, int] = {
     "Rainbow Route - Map": 1,
     "Moonlight Mansion - Map": 2,
@@ -154,6 +172,7 @@ _ABILITY_REROLL_SOURCE_KIND_TO_LABEL: dict[int, str] = {
     1: "OBJECT2_TYPE",
     2: "NULL_SOURCE_PTR",
     3: "NON_EWRAM_SOURCE_PTR",
+    4: "ABILITY_STATUE",
 }
 _GAME_OPTION_SLOT_DATA_KEYS: tuple[str, ...] = (
     "goal",
@@ -161,10 +180,12 @@ _GAME_OPTION_SLOT_DATA_KEYS: tuple[str, ...] = (
     "shards",
     "start_with_all_maps",
     "starting_kirby_color",
+    "starting_kirby_color_randomize_on_room_transition",
     "no_extra_lives",
     "ability_gating",
     "enable_traps",
     "trap_fill_percentage",
+    "enemy_health_multiplier",
     "one_hit_mode",
     "death_link",
     "ability_randomization_mode",
@@ -316,9 +337,9 @@ class KirbyAmClient(BizHawkClient):
                 elif loc.name == "GOAL_ANY_AREA_BOSS":
                     self._goal_location_ids_by_option[Goal.option_defeat_any_area_boss] = loc.location_id
                 elif loc.name == "GOAL_CONFIGURED_AREA_BOSS":
-                    self._goal_location_ids_by_option[Goal.option_defeat_configured_area_boss] = loc.location_id
+                    self._goal_location_ids_by_option[Goal.option_defeat_area_boss] = loc.location_id
                 elif loc.name == "GOAL_HIDDEN_AREA_BOSS":
-                    self._goal_location_ids_by_option[Goal.option_defeat_random_hidden_area_boss] = loc.location_id
+                    self._goal_location_ids_by_option[_LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS] = loc.location_id
             else:
                 self._non_goal_location_ids_sorted.append(loc.location_id)
         # Boss defeat bitfield -> location IDs (BOSS_DEFEAT category; polled from boss_defeat_flags)
@@ -393,6 +414,9 @@ class KirbyAmClient(BizHawkClient):
             for location_id in location_ids
         }
 
+        # Physical lever activation transport bit -> location IDs (Issues #850/#859).
+        self._lever_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.LEVER)
+
         # Room-sanity bitfield index (doorsIdx) -> location IDs.
         self._room_sanity_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.ROOM_SANITY)
         self._room_sanity_bits_sorted: list[int] = sorted(self._room_sanity_location_ids_by_bit.keys())
@@ -408,6 +432,7 @@ class KirbyAmClient(BizHawkClient):
         self._goal_reported: bool = False
         self._goal_location_reported: bool = False
         self._native_goal_signal_seen: bool = False
+        self._goal_target_trace_logged: bool = False
 
         # Boss candidate probing state
         self._last_boss_probe_snapshot: bytes | None = None
@@ -426,6 +451,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_vitality_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_sound_player_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_hub_switch_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+        self._last_lever_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._hub_switch_baseline_mask: int | None = None
         self._hub_switch_session_initialized: bool = False
         self._hub_switch_stream_marker: object = None
@@ -435,6 +461,8 @@ class KirbyAmClient(BizHawkClient):
         # Room entry logging (always file-only via NoStream=True).
         self._last_native_room_id: int | None = None
         self._last_sent_room_update_native_room_id: int | None = None
+        self._room_transition_color_last_native_room_id: int | None = None
+        self._room_transition_color_rng = random.Random()
         self._current_room_key: str = ""
         self._last_room_region_key: str = ""
         room_label_lookup, room_region_key_lookup, room_area_lookup, boss_room_lookup = self._build_room_metadata_maps()
@@ -476,9 +504,11 @@ class KirbyAmClient(BizHawkClient):
         self._last_logged_ai_state: int | None = None
         self._last_logged_demo_flags: int | None = None
         self._boss_shard_debug_window_active: bool = False
-        self._last_ability_runtime_config_signature: tuple[int, int, int, int, int, int, int] | None = None
+        self._last_ability_runtime_config_signature: tuple[int, int, int, int, int, bool, int, int] | None = None
         self._ability_runtime_config_revalidate_counter: int = 0
         self._last_ability_reroll_event_counter: int | None = None
+        self._delivery_timeout_total: int = 0
+        self._delivery_timeout_last_reason: str = ""
         self._starting_kirby_color_synced_id: int | None = None
         self._starting_kirby_color_logged_signature: tuple[int, str] | None = None
         self._starting_kirby_color_revalidate_counter: int = 0
@@ -641,6 +671,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_runtime_gate_reason = None
         self._last_native_room_id = None
         self._last_sent_room_update_native_room_id = None
+        self._room_transition_color_last_native_room_id = None
         self._current_room_key = ""
         self._last_minor_chest_event_counter = None
         self._logged_unknown_minor_chest_source_ptrs.clear()
@@ -651,6 +682,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_vitality_chest_poll_log = None
         self._last_sound_player_chest_poll_log = None
         self._last_hub_switch_poll_log = None
+        self._last_lever_poll_log = None
         self._last_room_sanity_poll_log = None
         self._last_area_visit_poll_log = None
         self._last_boss_probe_snapshot = None
@@ -677,6 +709,9 @@ class KirbyAmClient(BizHawkClient):
         self._starting_kirby_color_revalidate_counter = 0
         self._last_challenge_runtime_config_signature = None
         self._challenge_runtime_config_revalidate_counter = 0
+        self._goal_target_trace_logged = False
+        self._delivery_timeout_total = 0
+        self._delivery_timeout_last_reason = ""
         self._cached_delivered_map_bits = 0
         self._cached_map_bits_index = 0
         self._cached_map_bits_items_len = 0
@@ -843,7 +878,13 @@ class KirbyAmClient(BizHawkClient):
         return self._cached_delivered_shard_bits & _MANAGED_NATIVE_SHARD_BITMASK
 
     async def _reconcile_native_shard_ownership(self, ctx: "BizHawkClientContext") -> None:
-        """Reassert AP-owned shard bits after SaveRAM loss or reconnect drift."""
+        """Reassert AP-owned shard bits after SaveRAM loss or reconnect drift.
+
+        Reconciliation is additive for managed bits: it restores AP-owned shard bits
+        but never clears shard bits that are already set in native/transport state.
+        This avoids progress loss when reconnect starts before the delivery cursor
+        catches up to the full received-item history.
+        """
         native_addr = self._native_addr("shard_bitfield_native")
         delivered_addr = self._transport_addr("delivered_shard_bitfield")
         if native_addr is None and delivered_addr is None:
@@ -869,22 +910,40 @@ class KirbyAmClient(BizHawkClient):
         writes: list[tuple[int, bytes, str]] = []
 
         if native_addr is not None:
-            desired_native = (current_native & ~_MANAGED_NATIVE_SHARD_BITMASK) | desired_bits
+            desired_managed_native = (current_native & _MANAGED_NATIVE_SHARD_BITMASK) | desired_bits
+            desired_native = (current_native & ~_MANAGED_NATIVE_SHARD_BITMASK) | desired_managed_native
             if desired_native != current_native:
                 writes.append((native_addr, bytes([desired_native & 0xFF]), "System Bus"))
 
         if delivered_addr is not None:
-            desired_delivered = (current_delivered & ~_MANAGED_NATIVE_SHARD_BITMASK) | desired_bits
+            desired_managed_delivered = (current_delivered & _MANAGED_NATIVE_SHARD_BITMASK) | desired_bits
+            desired_delivered = (current_delivered & ~_MANAGED_NATIVE_SHARD_BITMASK) | desired_managed_delivered
             if desired_delivered != current_delivered:
                 writes.append((delivered_addr, int(desired_delivered).to_bytes(4, "little"), "System Bus"))
 
         if not writes:
+            self._log_verbose(
+                "debug",
+                "KirbyAM: reconcile shard tick result=additive-preserve (native=0x%02X, delivered=0x%02X, desired=0x%02X, delivered_item_index=%s)",
+                current_native & 0xFF,
+                current_delivered & 0xFF,
+                desired_bits & 0xFF,
+                self._delivered_item_index,
+            )
             return
 
         await bizhawk.write(ctx.bizhawk_ctx, writes)
         self._log_verbose(
             "info",
             "KirbyAM: reconciled shard ownership (native=0x%02X, delivered=0x%02X, desired=0x%02X, delivered_item_index=%s)",
+            current_native & 0xFF,
+            current_delivered & 0xFF,
+            desired_bits & 0xFF,
+            self._delivered_item_index,
+        )
+        self._log_verbose(
+            "debug",
+            "KirbyAM: reconcile shard tick result=write-restore (native=0x%02X, delivered=0x%02X, desired=0x%02X, delivered_item_index=%s)",
             current_native & 0xFF,
             current_delivered & 0xFF,
             desired_bits & 0xFF,
@@ -898,6 +957,10 @@ class KirbyAmClient(BizHawkClient):
         This covers start_with_all_maps precollects immediately from slot_data and
         restores later map receipts after reconnect/savestate drift without relying
         on native big-chest map ownership as the AP check authority.
+
+        Reconciliation is additive for managed bits: it restores AP-owned maps but
+        never clears map bits that are already set. This prevents reconnect-time
+        cursor lag from temporarily stripping discovered maps.
         """
         map_addr = self._native_addr("big_chest_bitfield_native")
         if map_addr is None:
@@ -906,8 +969,17 @@ class KirbyAmClient(BizHawkClient):
         raw = (await bizhawk.read(ctx.bizhawk_ctx, [(map_addr, 4, "System Bus")]))[0]
         current_bits = self._u32_le(raw)
         desired_map_bits = self._ap_owned_native_map_bits(ctx)
-        desired_bits = (current_bits & ~_MANAGED_NATIVE_MAP_BITMASK) | desired_map_bits
+        desired_managed_bits = (current_bits & _MANAGED_NATIVE_MAP_BITMASK) | desired_map_bits
+        desired_bits = (current_bits & ~_MANAGED_NATIVE_MAP_BITMASK) | desired_managed_bits
         if current_bits == desired_bits:
+            self._log_verbose(
+                "debug",
+                "KirbyAM: reconcile map tick result=additive-preserve (current=0x%08X, desired=0x%08X, start_with_all_maps=%s, delivered_item_index=%s)",
+                current_bits,
+                desired_bits,
+                self._start_with_all_maps_enabled(ctx),
+                self._delivered_item_index,
+            )
             return
 
         await bizhawk.write(
@@ -918,6 +990,14 @@ class KirbyAmClient(BizHawkClient):
         self._log_verbose(
             "info",
             "KirbyAM: reconciled native map ownership (current=0x%08X, desired=0x%08X, start_with_all_maps=%s, delivered_item_index=%s)",
+            current_bits,
+            desired_bits,
+            self._start_with_all_maps_enabled(ctx),
+            self._delivered_item_index,
+        )
+        self._log_verbose(
+            "debug",
+            "KirbyAM: reconcile map tick result=write-restore (current=0x%08X, desired=0x%08X, start_with_all_maps=%s, delivered_item_index=%s)",
             current_bits,
             desired_bits,
             self._start_with_all_maps_enabled(ctx),
@@ -1075,6 +1155,15 @@ class KirbyAmClient(BizHawkClient):
         except Exception:
             self._debug_logging_enabled = False
 
+    def _room_transition_random_color_enabled(self, ctx: "BizHawkClientContext") -> bool:
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            return False
+        return self._coerce_bool(
+            slot_data.get("starting_kirby_color_randomize_on_room_transition", False),
+            False,
+        )
+
     def _get_starting_kirby_color_config(self, ctx: "BizHawkClientContext") -> tuple[int, str] | None:
         slot_data = getattr(ctx, "slot_data", None)
         if not isinstance(slot_data, dict):
@@ -1149,20 +1238,33 @@ class KirbyAmClient(BizHawkClient):
         if color_transport_addr is None:
             return
 
-        if self._starting_kirby_color_synced_id == color_id:
+        room_transition_random = self._room_transition_random_color_enabled(ctx)
+        color_is_synced = (
+            self._starting_kirby_color_synced_id is not None
+            if room_transition_random
+            else self._starting_kirby_color_synced_id == color_id
+        )
+        if color_is_synced:
             self._starting_kirby_color_revalidate_counter += 1
             if self._starting_kirby_color_revalidate_counter < _STARTING_KIRBY_COLOR_REVALIDATE_TICKS:
                 return
         self._starting_kirby_color_revalidate_counter = 0
 
         # Read back the current mailbox value so soft resets are handled correctly.
-        # A GBA soft reset clears EWRAM and reinstates the sentinel 0xFFFFFFFF even
-        # while BizHawk stays connected, so _starting_kirby_color_synced_id alone
-        # would not trigger a re-sync after a reset.
+        # In per-room random mode, any supported live color is authoritative until
+        # the next room change; only an invalid/reset sentinel restores the generated
+        # initial color.
         current_raw = (
             await bizhawk.read(ctx.bizhawk_ctx, [(color_transport_addr, 4, "System Bus")])
         )[0]
-        if int.from_bytes(current_raw, "little") == color_id:
+        current_color_id = int.from_bytes(current_raw, "little")
+        if (
+            room_transition_random
+            and _STARTING_KIRBY_COLOR_MIN <= current_color_id <= _STARTING_KIRBY_COLOR_MAX
+        ):
+            self._starting_kirby_color_synced_id = current_color_id
+            return
+        if current_color_id == color_id:
             self._starting_kirby_color_synced_id = color_id
             return
 
@@ -1608,6 +1710,9 @@ class KirbyAmClient(BizHawkClient):
             # Hub switch location polling via dedicated hub_switch_flags register
             await self._poll_hub_switch_locations(ctx)
 
+            # Lever location polling via native other_chest_flags bytes.
+            await self._poll_lever_locations(ctx)
+
             # Share one gVisitedDoors read for area-first-visit and room-sanity polling.
             self._cached_room_visit_flags_view = None
 
@@ -1679,49 +1784,77 @@ class KirbyAmClient(BizHawkClient):
             return
 
         policy = slot_data.get("enemy_copy_ability_policy")
-        if not isinstance(policy, dict):
-            return
-
+        allowed_abilities_raw: object
         try:
-            mode = int(policy.get("mode", 0)) & 0xFFFFFFFF
-            seed = int(policy.get("seed", 0)) & 0xFFFFFFFFFFFFFFFF
-            no_ability_weight = int(policy.get("ability_randomization_no_ability_weight", 0)) & 0xFFFFFFFF
+            if isinstance(policy, dict):
+                mode = int(policy.get("mode", 0)) & 0xFFFFFFFF
+                seed = int(policy.get("seed", 0)) & 0xFFFFFFFFFFFFFFFF
+                no_ability_weight = int(
+                    policy.get("ability_randomization_no_ability_weight", 0)
+                ) & 0xFFFFFFFF
+                allowed_abilities_raw = policy.get("allowed_abilities", [])
+            else:
+                # Compatibility for worlds generated before the structured
+                # enemy_copy_ability_policy field existed.  Ability gating is
+                # independent of randomization, so returning early here would
+                # leave the payload gate/unlock masks at zero and let direct
+                # statue grants bypass progression rules (Issue #874).
+                legacy_config_keys = {
+                    "ability_gating",
+                    "ability_gateable_abilities",
+                    "ability_unlock_items",
+                    "ability_randomization_mode",
+                    "ability_randomization_no_ability_weight",
+                    "enemy_copy_ability_whitelist",
+                }
+                if not any(key in slot_data for key in legacy_config_keys):
+                    return
+                mode = int(slot_data.get("ability_randomization_mode", 0)) & 0xFFFFFFFF
+                seed = 0
+                no_ability_weight = int(
+                    slot_data.get("ability_randomization_no_ability_weight", 0)
+                ) & 0xFFFFFFFF
+                allowed_abilities_raw = slot_data.get(
+                    "enemy_copy_ability_whitelist", []
+                )
         except (TypeError, ValueError):
             return
 
         allowed_mask = 0
-        allowed_abilities = policy.get("allowed_abilities", [])
-        if isinstance(allowed_abilities, list):
-            for ability_name in allowed_abilities:
+        if isinstance(allowed_abilities_raw, (list, tuple, set)):
+            for ability_name in allowed_abilities_raw:
                 if not isinstance(ability_name, str):
                     continue
                 ability_id = ABILITY_NAME_TO_ID.get(ability_name)
-                if ability_id is None:
-                    continue
-                if 0 < ability_id <= 31:
+                if ability_id is not None and 0 < ability_id <= 31:
                     allowed_mask |= 1 << ability_id
 
+        ability_gating_enabled = self._coerce_bool(
+            slot_data.get("ability_gating", True),
+            True,
+        )
         gated_mask = 0
         unlocked_mask = 0
-        gateable_abilities = slot_data.get("ability_gateable_abilities", [])
-        if isinstance(gateable_abilities, list):
+        if ability_gating_enabled:
+            gateable_abilities = slot_data.get("ability_gateable_abilities", [])
+            if not isinstance(gateable_abilities, list) or not gateable_abilities:
+                gateable_abilities = list(GATEABLE_ENEMY_COPY_ABILITIES)
             for ability_name in gateable_abilities:
                 if not isinstance(ability_name, str):
                     continue
                 ability_id = ABILITY_NAME_TO_ID.get(ability_name)
-                if ability_id is None:
-                    continue
-                if 0 < ability_id <= 31:
+                if ability_id is not None and 0 < ability_id <= 31:
                     gated_mask |= 1 << ability_id
 
-        ability_unlock_items = slot_data.get("ability_unlock_items", {})
-        ability_gating_enabled = self._coerce_bool(slot_data.get("ability_gating", True), True)
-        if ability_gating_enabled and isinstance(ability_unlock_items, dict):
-            unlock_labels: set[str] = {
-                label for label in ability_unlock_items.values()
-                if isinstance(label, str)
-            }
-            if unlock_labels:
+            ability_unlock_items = slot_data.get("ability_unlock_items", {})
+            if isinstance(ability_unlock_items, dict):
+                unlock_labels: set[str] = {
+                    label
+                    for label in ability_unlock_items.values()
+                    if isinstance(label, str)
+                }
+                if not unlock_labels:
+                    unlock_labels = set(_ABILITY_UNLOCK_ITEM_LABELS)
                 for item in ctx.items_received:
                     item_id = self._coerce_u32(getattr(item, "item", None))
                     if item_id is None:
@@ -1733,9 +1866,7 @@ class KirbyAmClient(BizHawkClient):
                         continue
                     ability_name = item_data.label.removesuffix(" Ability")
                     ability_id = ABILITY_NAME_TO_ID.get(ability_name)
-                    if ability_id is None:
-                        continue
-                    if 0 < ability_id <= 31:
+                    if ability_id is not None and 0 < ability_id <= 31:
                         unlocked_mask |= 1 << ability_id
 
         seed_lo = seed & 0xFFFFFFFF
@@ -1793,6 +1924,19 @@ class KirbyAmClient(BizHawkClient):
 
         self._ability_runtime_config_revalidate_counter = 0
 
+        if self._last_ability_runtime_config_signature != signature:
+            self._log_verbose(
+                "info",
+                "KirbyAM: runtime ability config update (mode=%s, seed_lo=0x%08X, seed_hi=0x%08X, no_ability_weight=%s, allowed_mask=0x%08X, gate_mask=0x%08X, unlock_mask=0x%08X)",
+                mode,
+                seed_lo,
+                seed_hi,
+                no_ability_weight,
+                allowed_mask & 0xFFFFFFFF,
+                gated_mask & 0xFFFFFFFF,
+                unlocked_mask & 0xFFFFFFFF,
+            )
+
         await bizhawk.write(ctx.bizhawk_ctx, [
             (mode_addr, int(mode).to_bytes(4, "little"), "System Bus"),
             (seed_lo_addr, int(seed_lo).to_bytes(4, "little"), "System Bus"),
@@ -1807,11 +1951,11 @@ class KirbyAmClient(BizHawkClient):
         self._last_ability_runtime_config_signature = signature
 
     async def _poll_enemy_ability_reroll_events(self, ctx: "BizHawkClientContext") -> None:
-        """Log per-swallow completely-random reroll events from runtime telemetry."""
+        """Log file-only ability telemetry events emitted by the runtime hook."""
         slot_data = getattr(ctx, "slot_data", None)
         if not isinstance(slot_data, dict):
             return
-        if int(slot_data.get("ability_randomization_mode", 0)) != 2:
+        if int(slot_data.get("ability_randomization_mode", 0)) not in (1, 2):
             return
 
         counter_addr = self._transport_addr("ability_reroll_event_counter_runtime")
@@ -1889,14 +2033,32 @@ class KirbyAmClient(BizHawkClient):
                 "KirbyAM: %d reroll event(s) occurred between polls; only the most recent is available.",
                 delta - 1,
             )
-        self._log_verbose(
-            "info",
-            "%s swallowed a %s. Ability was rerolled to %s.",
-            kirby_label,
-            enemy_name,
-            ability_name,
-        )
-        if enemy_name.startswith("UNKNOWN"):
+        if source_kind == 4:
+            statue_ability_id = source_addr & 0x1F
+            statue_ability_name = _ABILITY_ID_TO_NAME.get(statue_ability_id, f"Ability_{statue_ability_id}")
+            self._log_verbose(
+                "info",
+                "%s touched %s Statue. Ability grant resolved to %s.",
+                kirby_label,
+                statue_ability_name,
+                ability_name,
+            )
+            if statue_ability_id != 0 and ability_id == 0:
+                self._log_verbose(
+                    "info",
+                    "%s statue grant for %s was suppressed by ability gating (resolved to no ability).",
+                    kirby_label,
+                    statue_ability_name,
+                )
+        else:
+            self._log_verbose(
+                "info",
+                "%s swallowed a %s. Ability was rerolled to %s.",
+                kirby_label,
+                enemy_name,
+                ability_name,
+            )
+        if source_kind != 4 and enemy_name.startswith("UNKNOWN"):
             self._log_verbose(
                 "info",
                 "KirbyAM reroll telemetry detail: kirby_index=%d, source_kind=%s(%d), callsite=0x%08X, raw_source=0x%08X.",
@@ -2883,17 +3045,17 @@ class KirbyAmClient(BizHawkClient):
             self._hub_switch_baseline_mask = None
 
         # Capture baseline only on first hub-switch poll of a session when the server
-        # has not yet acknowledged any hub-switch locations. This suppresses
-        # pre-session stale transport bits without suppressing legitimate reconnect
-        # resends for hub-switch checks that the server already knows about.
-        has_hub_switch_acknowledgements = bool(self._hub_switch_location_ids_all & ctx.checked_locations)
+        # has not acknowledged any checks yet. This suppresses stale cross-session
+        # transport bits on truly fresh sessions without suppressing legitimate
+        # reconnect resends that are missing on the server.
+        has_any_server_acknowledgements = bool(ctx.checked_locations)
         if not self._hub_switch_session_initialized:
             self._hub_switch_session_initialized = True
-            if self._hub_switch_baseline_mask is None and switch_bits != 0 and not has_hub_switch_acknowledgements:
+            if self._hub_switch_baseline_mask is None and switch_bits != 0 and not has_any_server_acknowledgements:
                 self._hub_switch_baseline_mask = switch_bits
                 self._log_verbose(
                     "info",
-                    "KirbyAM: hub-switch baseline initialized from first-poll transport state before any hub-switch server acknowledgements (baseline=0x%08X)",
+                    "KirbyAM: hub-switch baseline initialized from first-poll transport state before any server acknowledgements (baseline=0x%08X)",
                     switch_bits,
                 )
 
@@ -2931,6 +3093,138 @@ class KirbyAmClient(BizHawkClient):
         else:
             self._last_hub_switch_poll_log = None
 
+    async def _poll_lever_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """Read ROM-latched physical lever activations and map them to LocationChecks.
+
+        Issue #859 deliberately separates location authority from the native
+        wall-unlock bits. The physical small-switch hook writes bits 0..3 to
+        lever_activation_flags and suppresses the native wall effect; AP Lever
+        Wall item delivery may therefore set native wall state independently.
+        """
+        lever_addr = self._transport_addr(_LEVER_ACTIVATION_FLAGS_ADDR_KEY)
+        if lever_addr is None or not self._lever_location_ids_by_bit:
+            return
+
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(lever_addr, 4, "System Bus")]))[0]
+        if len(raw) != 4:
+            return
+        lever_bits = self._u32_le(raw)
+
+        active_location_ids = self._active_location_id_set(ctx)
+        mapped_checked_locations: set[int] = set()
+        for bit in sorted(self._lever_location_ids_by_bit):
+            if ((lever_bits >> bit) & 1) == 0:
+                continue
+            for location_id in self._lever_location_ids_by_bit[bit]:
+                if active_location_ids is None or location_id in active_location_ids:
+                    mapped_checked_locations.add(location_id)
+
+        missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
+        already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
+        if missing_on_server:
+            lever_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
+            if lever_log_state != self._last_lever_poll_log:
+                self._log_verbose(
+                    "info",
+                    "KirbyAM: resending lever LocationChecks missing on server (missing=%s, acked=%s)",
+                    missing_on_server,
+                    already_acknowledged,
+                )
+                self._last_lever_poll_log = lever_log_state
+
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
+        elif mapped_checked_locations:
+            lever_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
+            if lever_log_state != self._last_lever_poll_log:
+                self._log_verbose(
+                    "debug",
+                    "KirbyAM: dedupe suppressed lever LocationChecks (all RAM-derived checks already acknowledged: %s)",
+                    already_acknowledged,
+                )
+                self._last_lever_poll_log = lever_log_state
+        else:
+            self._last_lever_poll_log = None
+
+    async def _maybe_randomize_kirby_color_on_room_transition(
+        self,
+        ctx: KirbyAmBizHawkClientContext,
+        native_room_id: int,
+    ) -> None:
+        """Change Kirby to a different supported color after a native room change."""
+        if not self._room_transition_random_color_enabled(ctx):
+            self._room_transition_color_last_native_room_id = None
+            return
+
+        previous_room_id = self._room_transition_color_last_native_room_id
+        if previous_room_id is None:
+            # Establish a reconnect/startup baseline without treating connection
+            # itself as a room transition.
+            self._room_transition_color_last_native_room_id = native_room_id
+            return
+        if native_room_id == previous_room_id:
+            return
+
+        color_transport_addr = self._transport_addr("starting_kirby_color_id")
+        color_applied_addr = self._transport_addr("starting_kirby_color_applied")
+        if color_transport_addr is None or color_applied_addr is None:
+            return
+
+        current_color_id = self._starting_kirby_color_synced_id
+        if (
+            current_color_id is None
+            or current_color_id < _STARTING_KIRBY_COLOR_MIN
+            or current_color_id > _STARTING_KIRBY_COLOR_MAX
+        ):
+            config = self._get_starting_kirby_color_config(ctx)
+            if config is None:
+                return
+            current_color_id = config[0]
+
+        next_color = choose_different_kirby_color(
+            current_color_id,
+            self._room_transition_color_rng,
+        )
+
+        try:
+            await bizhawk.write(
+                ctx.bizhawk_ctx,
+                [
+                    (
+                        color_transport_addr,
+                        int(next_color.color_id).to_bytes(4, "little"),
+                        "System Bus",
+                    ),
+                    (
+                        color_applied_addr,
+                        (0).to_bytes(4, "little"),
+                        "System Bus",
+                    ),
+                ],
+            )
+        except (
+            bizhawk.RequestFailedError,
+            bizhawk.ConnectorError,
+            bizhawk.SyncError,
+            TypeError,
+            AttributeError,
+        ):
+            # Leave the old room baseline in place so the next watcher tick can
+            # retry the same transition.
+            return
+
+        self._room_transition_color_last_native_room_id = native_room_id
+        self._starting_kirby_color_synced_id = next_color.color_id
+        self._starting_kirby_color_revalidate_counter = 0
+        self._log_verbose(
+            "info",
+            "KirbyAM: room transition randomized Kirby color %s -> %s (%s) "
+            "(native=0x%04X)",
+            current_color_id,
+            next_color.display_name,
+            next_color.color_id,
+            native_room_id,
+        )
+
     async def _poll_room_entry_logging(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
         Detect native room changes, log the current room, and broadcast tracker updates.
@@ -2958,6 +3252,7 @@ class KirbyAmClient(BizHawkClient):
             return
 
         native_room_id = unpack_from("<H", raw)[0]
+        await self._maybe_randomize_kirby_color_on_room_transition(ctx, native_room_id)
         room_key = self._get_current_room_key(ctx)
         tracker_room_pending = self._is_tracker_room_update_pending(ctx, room_key, native_room_id)
         room_changed = native_room_id != self._last_native_room_id
@@ -3470,12 +3765,23 @@ class KirbyAmClient(BizHawkClient):
 
             if timeout_triggered:
                 self._delivery_timeout_streak += 1
+                self._delivery_timeout_total += 1
+                self._delivery_timeout_last_reason = timeout_reason
                 self._log_client(
                     "warning",
                     "KirbyAM: Mailbox ACK timeout at item index %s; clearing flag and retrying (%s)",
                     self._delivered_item_index,
                     timeout_reason,
                 )
+                if (self._delivery_timeout_total % _MAILBOX_TIMEOUT_SUMMARY_EVERY) == 0:
+                    self._log_verbose(
+                        "info",
+                        "KirbyAM: mailbox timeout summary total=%s, streak=%s, delivered_index=%s, last_reason=%s",
+                        self._delivery_timeout_total,
+                        self._delivery_timeout_streak,
+                        self._delivered_item_index,
+                        self._delivery_timeout_last_reason,
+                    )
                 if (
                     not self._delivery_payload_stall_warned
                     and self._delivery_timeout_streak >= 3
@@ -3661,8 +3967,8 @@ class KirbyAmClient(BizHawkClient):
             return False
         return hidden_goal.location_id in checked_locations
 
-    def _configured_area_boss_goal_signal_active(self, ctx: KirbyAmBizHawkClientContext, configured_goal_key: str) -> bool:
-        """Return whether the selected configured area boss has been acknowledged by the server."""
+    def _area_boss_goal_signal_active(self, ctx: KirbyAmBizHawkClientContext, configured_goal_key: str) -> bool:
+        """Return whether the selected area-boss target has been acknowledged by the server."""
         configured_goal = data.locations.get(configured_goal_key)
         if configured_goal is None or configured_goal.location_id is None:
             return False
@@ -3703,8 +4009,8 @@ class KirbyAmClient(BizHawkClient):
         if parsed_slot_goal in (
             Goal.option_dark_mind,
             Goal.option_defeat_any_area_boss,
-            Goal.option_defeat_configured_area_boss,
-            Goal.option_defeat_random_hidden_area_boss,
+            Goal.option_defeat_area_boss,
+            _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS,
         ):
             slot_goal = parsed_slot_goal
         else:
@@ -3722,7 +4028,7 @@ class KirbyAmClient(BizHawkClient):
         hidden_goal_key: str | None = None
         configured_goal_key: str | None = None
         goal_location_id = self._goal_location_ids_by_option.get(slot_goal)
-        if slot_goal == Goal.option_defeat_configured_area_boss:
+        if slot_goal == Goal.option_defeat_area_boss:
             configured_goal_key_raw = ctx.slot_data.get("goal_configured_area_boss_key")
             if isinstance(configured_goal_key_raw, str):
                 configured_goal = data.locations.get(configured_goal_key_raw)
@@ -3731,10 +4037,10 @@ class KirbyAmClient(BizHawkClient):
             if goal_location_id is None or configured_goal_key is None:
                 self._log_client(
                     "warning",
-                    "KirbyAM: configured area-boss target missing or invalid; goal reporting disabled.",
+                    "KirbyAM: area-boss target missing or invalid; goal reporting disabled.",
                 )
                 return
-        if slot_goal == Goal.option_defeat_random_hidden_area_boss:
+        if slot_goal == _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS:
             hidden_goal_key_raw = ctx.slot_data.get("goal_hidden_area_boss_key")
             if isinstance(hidden_goal_key_raw, str):
                 hidden_goal = data.locations.get(hidden_goal_key_raw)
@@ -3749,6 +4055,17 @@ class KirbyAmClient(BizHawkClient):
         if goal_location_id is None:
             return
 
+        if not self._goal_target_trace_logged:
+            self._log_verbose(
+                "info",
+                "KirbyAM: goal target trace (goal_option=%s, configured_key=%s, hidden_key=%s, goal_location_id=%s)",
+                slot_goal,
+                configured_goal_key if configured_goal_key is not None else "<none>",
+                hidden_goal_key if hidden_goal_key is not None else "<none>",
+                goal_location_id,
+            )
+            self._goal_target_trace_logged = True
+
         server_locations = getattr(ctx, "server_locations", None)
         goal_location_exposed_by_server = (
             isinstance(server_locations, set) and goal_location_id in server_locations
@@ -3757,9 +4074,9 @@ class KirbyAmClient(BizHawkClient):
         if not self._native_goal_signal_seen:
             if slot_goal == Goal.option_defeat_any_area_boss:
                 self._native_goal_signal_seen = self._any_area_boss_goal_signal_active(ctx)
-            elif slot_goal == Goal.option_defeat_configured_area_boss:
-                self._native_goal_signal_seen = self._configured_area_boss_goal_signal_active(ctx, configured_goal_key)
-            elif slot_goal == Goal.option_defeat_random_hidden_area_boss:
+            elif slot_goal == Goal.option_defeat_area_boss:
+                self._native_goal_signal_seen = self._area_boss_goal_signal_active(ctx, configured_goal_key)
+            elif slot_goal == _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS:
                 self._native_goal_signal_seen = self._hidden_area_boss_goal_signal_active(ctx, hidden_goal_key)
             else:
                 self._native_goal_signal_seen = await self._native_goal_signal_active(

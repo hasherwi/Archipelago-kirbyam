@@ -30,18 +30,25 @@ def test_kirbyam_template_surface_options_visibility() -> None:
             configured_boss_weights = game_block["configured_area_boss"]
             shard_weights = game_block["shards"]
             ability_weights = game_block["ability_randomization_mode"]
+            health_weights = game_block["enemy_health_multiplier"]
             assert "starting_kirby_color" in game_block, (
                 "'starting_kirby_color' option is missing from the generated template"
             )
             color_weights = game_block["starting_kirby_color"]
 
             assert "dark_mind" in goal_weights
-            assert "defeat_configured_area_boss" in goal_weights
+            assert "defeat_area_boss" in goal_weights
+            assert "defeat_configured_area_boss" not in goal_weights
+            assert "defeat_random_hidden_area_boss" not in goal_weights
             assert "100" not in goal_weights
             assert "debug" not in goal_weights
 
             assert "master_hand_crazy_hand_pair" in configured_boss_weights
             assert "king_golem" in configured_boss_weights
+            # `random` is framework syntax, not a concrete Choice member. It
+            # should be discoverable in the generated comments without being
+            # emitted as a misleading weighted sub-option.
+            assert "random" not in configured_boss_weights
 
             assert "vanilla" in shard_weights
             assert "completely_random" in shard_weights
@@ -55,14 +62,25 @@ def test_kirbyam_template_surface_options_visibility() -> None:
             assert "ability_randomization_statues" in game_block
             assert "starting_kirby_color" in game_block
             assert "configured_area_boss" in game_block
+            assert "enemy_health_multiplier" in game_block
+            assert health_weights[100] == 50
+            assert health_weights["random"] == 0
+            assert "random-range-50-500" in health_weights
             assert "pink" in color_weights
-            assert "random_color" in color_weights
+            assert "random" not in color_weights
+            assert "random_color" not in color_weights
+            assert "random_color_per_room" in color_weights
 
             assert "100% Save File" not in content
             assert "DEBUG: Testing-only goal" not in content
             assert "KirbyAM DeathLink uses native Kirby HP semantics" not in content
             assert "Supported color names" in content
-            assert "Non-Pink colors become visible" in content
+            assert "configured_area_boss: random" in content
+            assert "starting_kirby_color: random" in content
+            assert "replace the entire" in content
+            assert "weight mapping" in content
+            assert "applied before Kirby's first gameplay palette loads" in content
+            assert "after the first room transition" not in content
             assert requires_game_version == KirbyAmWorld.world_version.as_simple_string()
 
             assert "local_items" in game_block

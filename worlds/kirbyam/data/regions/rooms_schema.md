@@ -166,7 +166,7 @@ Each transition object contains:
 - `{ "all": [...] }` requires every nested requirement.
 - `{ "any": [...] }` requires at least one nested requirement.
 - Ability-related tokens currently retain the existing permissive placeholder
-  behavior. Event tokens such as `mm_lever` are enforced by `rules.py`.
+  behavior. `mm_lever` requires the Moonlight Mansion 2-11 Lever Wall item.
 - Gates are path-level (transition-level), not room-level.
 
 ## Invariants

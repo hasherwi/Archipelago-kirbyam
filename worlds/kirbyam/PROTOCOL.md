@@ -52,7 +52,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x1C   | 0x0203B01C | 4B | frame_counter         | u32  | ROM → Client | Monotonic frame count (incremented every hook call) |
 | 0x20   | 0x0203B020 | 4B | delivered_item_index  | u32  | Client ↔ ROM | Next item to deliver index (persisted in RAM) |
 | 0x24   | 0x0203B024 | 4B | boss_defeat_flags     | u32  | ROM → Client | Bits 0–7 set when each area boss is defeated (same bit ordering as shard_bitfield). Bit 2 represents the Candy Constellation boss pair (Master Hand + Crazy Hand) as one pooled boss-defeat target. Transport is set by both native boss outcomes: (1) CollectShard call path and (2) HasShard==true already-owned reward path. |
-| 0x28   | 0x0203B028 | 4B | major_chest_flags     | u32  | ROM → Client | Bits set when a native big chest is opened; bit N = area ID N. This drives AP major-chest checks independently of native map ownership. |
+| 0x28   | 0x0203B028 | 4B | major_chest_flags     | u32  | ROM → Client | Bits set when a native big chest is opened; bit N = area ID N. This drives AP major-chest checks independently of native map ownership for area maps (bits 1..9), while bit 0 (tutorial world map chest) also preserves native world-map unlock. |
 | 0x2C   | 0x0203B02C | 4B | vitality_chest_flags  | u32  | ROM → Client | Bits set when a native vitality big chest is opened; bits 0..3 map to the four vitality chest room IDs (Carrot 5-23, Olive 6-21, Radish 8-4, Candy 9-8). |
 | 0x30   | 0x0203B030 | 4B | sound_player_chest_flags | u32 | ROM → Client | Bits set when the native Sound Player chest is opened; bit 0 maps to `SOUND_PLAYER_CHEST`. Native Sound Player unlock is intentionally deferred until AP item receipt. |
 | 0x34   | 0x0203B034 | 4B | hook_heartbeat        | u32  | ROM → Client | Increments once on every AP main hook entry. Diagnostic signal for hook liveness. |
@@ -62,10 +62,10 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x44   | 0x0203B044 | 4B | boss_temp_shard_bitfield | u32 | ROM internal | Bits 0-7 track shard bits temporarily written by boss-defeat hook for cutscene safety. On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, then clears this mask. |
 | 0x48   | 0x0203B048 | 4B | delivered_vitality_item_bits | u32 | ROM internal | Replay guard for vitality counter items. Bit N marks that `VITALITY_COUNTER_(N+1)` has already been applied, preventing duplicate vitality grants if an item is resent during reconnect/reset recovery. |
 | 0x4C   | 0x0203B04C | 4B | hub_switch_flags | u32 | ROM → Client | Bits 0–14 latched from persisted world-props unlock bits written by `WorldMapUnlockSave` (`sub_08002888(SUB_08002888_ENUM_UNK_3, index, 0)` in decomp; enum value 2), with world-map unlock callback path used only as an immediate fast path when persistence is already visible (AP bit order: Peppermint West, RR East, RR South, Cabbage Center, RR West, Carrot, RR North, Mustard, Cabbage West, Radish, Peppermint East, Moonlight, Cabbage East, Olive, Candy). Mapping source of truth is `data/hub_switch_contract.json`; payload consumes generated `kirby_ap_payload/generated_hub_switch_worldmap_cases.inc` and client compatibility aliases consume generated `generated_hub_switch_contract.py`. Payload ignores `WORLDMAP_NO_UNLOCK` (0), preventing false Peppermint West check sends from non-unlock dispatches (Issue #750). Compatibility note: contract currently carries legacy bit-15 aliasing for `Rainbow Route North - Big Switch` (Issue #733). |
-| 0x50   | 0x0203B050 | 4B | starting_kirby_color_id | u32 | ROM ← Client | Runtime config payload for starting Kirby color. Valid values are `0..13`; `0` (Pink) is intentionally treated as a no-op by payload logic. Non-Pink values are applied through `KIRBY_TRANSITION_COLOR`, so the color becomes visible on the next room/area transition or when an enemy-hit path refreshes Kirby's runtime color state (typically the first transition after game start). |
+| 0x50   | 0x0203B050 | 4B | starting_kirby_color_id | u32 | ROM ← Client | Live recovery copy of the resolved starting color (`0..13`). The generated ROM also carries the same value at file offset `0x15F694`, allowing the startup hook to apply it before `CreateKirby`. After reconnect/reset, the payload updates `Kirby::color` and explicitly calls native `sub_0803E558(0)` to rebuild and upload the OBJ palette. |
 | 0x54   | 0x0203B054 | 4B | one_hit_mode_runtime | u32 | ROM ← Client | Challenge-mode runtime config: one-hit mode value (`0`=off, `1`=exclude_vitality_counters, `2`=include_vitality_counters). Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
 | 0x58   | 0x0203B058 | 4B | no_extra_lives_runtime | u32 | ROM ← Client | Challenge-mode runtime config: no-extra-lives flag (`0`=off, `1`=on). Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
-| 0x5C   | 0x0203B05C | 4B | ability_reroll_source_kind_runtime | u32 | ROM → Client | Source-pointer classifier for the **most recent** reroll event: `0` unknown/unspecified, `1` r5 looked like an `Object2*` in EWRAM and source type was sampled at `+0x82`, `2` r5 was null, `3` r5 was non-null but outside EWRAM. Helps distinguish real swallow-source events from helper call paths that do not carry an enemy object pointer. |
+| 0x5C   | 0x0203B05C | 4B | ability_reroll_source_kind_runtime | u32 | ROM → Client | Source-pointer classifier for the **most recent** ability telemetry event: `0` unknown/unspecified, `1` r5 looked like an `Object2*` in EWRAM and source type was sampled at `+0x82`, `2` r5 was null, `3` r5 was non-null but outside EWRAM, `4` ability statue event (`ability_star`) using `ability_reroll_source_addr_runtime` as the native statue ability ID (`0..31`) instead of a ROM source-table address. Helps distinguish swallow-source events from helper/statue call paths. |
 | 0x60   | 0x0203B060 | 4B | ability_reroll_callsite_pc_runtime | u32 | ROM → Client | Return-site discriminator for the **most recent** reroll event. Payload records caller PC derived from `lr` (`(lr & ~1) - 4`) so telemetry can distinguish call families that route into the same ability transition function. |
 | 0x64   | 0x0203B064 | 4B | ability_randomization_mode_runtime | u32 | ROM ← Client | Enemy copy-ability randomization mode (`0`=off, `1`=shuffled, `2`=completely_random). Written once per connection by the Python client from `slot_data`. |
 | 0x68   | 0x0203B068 | 4B | ability_randomization_seed_lo_runtime | u32 | ROM ← Client | Low 32 bits of the 64-bit seed used for per-swallow completely-random rerolls. |
@@ -73,16 +73,18 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x70   | 0x0203B070 | 4B | ability_randomization_no_ability_weight_runtime | u32 | ROM ← Client | 0–100 weight for no-ability outcomes in completely-random reroll mode. |
 | 0x74   | 0x0203B074 | 4B | ability_randomization_allowed_mask_runtime | u32 | ROM ← Client | Bitmask of allowed ability IDs (bit N = ability ID N, bits 1–31). |
 | 0x78   | 0x0203B078 | 4B | ability_randomization_rng_state_runtime | u32 | ROM internal | Running xorshift RNG state for per-swallow completely-random rerolls. Reset to 0 by the client when config changes to force a deterministic reseed. |
-| 0x7C   | 0x0203B07C | 4B | ability_reroll_event_counter_runtime | u32 | ROM → Client | Incremented by the payload each time a per-swallow reroll fires. Client polls for rises in this counter to detect that one or more rerolls occurred since the previous poll. |
-| 0x80   | 0x0203B080 | 4B | ability_reroll_source_addr_runtime | u32 | ROM → Client | ROM address of the ability-source byte for the **most recent** per-swallow reroll event only. This is a single-slot mailbox field; if multiple rerolls happen between client polls, earlier source addresses are overwritten and cannot be reconstructed. Used by the client to map the most recent source to an enemy name in telemetry (best-effort). |
-| 0x84   | 0x0203B084 | 4B | ability_reroll_ability_id_runtime | u32 | ROM → Client | Ability ID selected by the **most recent** per-swallow reroll event only. Pairs with `ability_reroll_source_addr_runtime` as a best-effort snapshot; if multiple rerolls happen between polls, intermediate ability IDs are overwritten. The client logs how many events were missed when `ability_reroll_event_counter_runtime` advances by more than 1. |
-| 0x88   | 0x0203B088 | 4B | ability_reroll_kirby_index_runtime | u32 | ROM → Client | Current player/Kirby slot index (`0..3`) for the **most recent** reroll event. The payload writes the active player index directly to this field and initializes it to `0`. |
+| 0x7C   | 0x0203B07C | 4B | ability_reroll_event_counter_runtime | u32 | ROM → Client | Incremented by the payload each time an ability telemetry event fires (enemy-swallow rerolls plus statue ability-grant events). Client polls for rises in this counter to detect that one or more events occurred since the previous poll. |
+| 0x80   | 0x0203B080 | 4B | ability_reroll_source_addr_runtime | u32 | ROM → Client | Source identifier for the **most recent** ability telemetry event only. Normally this is the ROM address of the enemy/source-table byte; for source kind `4` (`ABILITY_STATUE`) this instead stores the native statue ability ID (`0..31`). This is a single-slot mailbox field; if multiple events happen between polls, earlier values are overwritten. |
+| 0x84   | 0x0203B084 | 4B | ability_reroll_ability_id_runtime | u32 | ROM → Client | Final ability ID selected/applied for the **most recent** ability telemetry event only. Pairs with `ability_reroll_source_addr_runtime` as a best-effort snapshot; if multiple events happen between polls, intermediate values are overwritten. The client logs how many events were missed when `ability_reroll_event_counter_runtime` advances by more than 1. |
+| 0x88   | 0x0203B088 | 4B | ability_reroll_kirby_index_runtime | u32 | ROM → Client | Current player/Kirby slot index (`0..3`) for the **most recent** ability telemetry event. The payload writes the active player index directly to this field and initializes it to `0`. |
 | 0x8C   | 0x0203B08C | 4B | minor_chest_event_counter | u32 | ROM → Client | Monotonic counter for exact small-chest collection events. Increments every time the native small-chest collect call fires. |
 | 0x90   | 0x0203B090 | 32B | minor_chest_event_ring | u32[8] | ROM → Client | Ring buffer of exact small-chest source pointers. Slot `N = event_counter & 7` stores the live chest object's source pointer from `object+0xB0`, allowing the client to disambiguate report-only minor chest locations that share native chest bits. |
 | 0xB0   | 0x0203B0B0 | 4B | ability_gate_mask_runtime | u32 | ROM ← Client | Bitmask of ability IDs that are currently configured as gateable (`safe_to_gate`) in `abilities.json`. |
 | 0xB4   | 0x0203B0B4 | 4B | ability_unlock_mask_runtime | u32 | ROM ← Client and ROM internal | Bitmask of ability IDs currently unlocked by AP ability items. Client sync writes canonical state; payload also sets bits when ability unlock AP items are applied to preserve runtime continuity. |
+| 0xB8   | 0x0203B0B8 | 4B | starting_kirby_color_applied | u32 | ROM internal | EWRAM latch set after the live player-one palette has been refreshed for the current EWRAM session. Cleared with mailbox initialization. This replaces an invalid mutable C static that would otherwise be linked into ROM-backed payload memory. |
+| 0xBC   | 0x0203B0BC | 4B | lever_activation_flags | u32 | ROM → Client | Bits 0–3 latch physical activation of the Moonlight 2-11, Olive 6-13, Carrot 5-12, and Radish 8-12 levers respectively. The small-switch hook suppresses the native wall-opening effect for these rooms, so this transport is the AP lever-location authority (Issue #859). |
 
-**Total: 184 bytes (0x0203B000 - 0x0203B0B7)**
+**Total: 192 bytes (0x0203B000 - 0x0203B0BF)**
 
 ### Native Game State (Referenced by AP; some fields are client-reconciled)
 
@@ -91,13 +93,14 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x02038970 | 1B | KIRBY_SHARD_FLAGS       | Native mirror shard bitfield (bits 0-7) |
 | 0x0203897C | 4B | big_chest_bitfield_native | gTreasures.bigChestField; bit N = area ID N (enum AreaId): bit 1=Rainbow Route, 2=Moonlight Mansion, 3=Cabbage Cavern, 4=Mustard Mountain, 5=Carrot Castle, 6=Olive Ocean, 7=Peppermint Palace, 8=Radish Ruins, 9=Candy Constellation. This is the native map-ownership field. AP major-chest checks use `major_chest_flags` in the transport block, and the BizHawk client may reassert AP-owned map bits here from `start_with_all_maps` plus confirmed delivered map items to recover from reconnect/save-state drift. |
 | 0x02038960 - 0x02038969 | 10B | other_chest_flags_native | Native small-chest/switch bitfield block. Unique MINOR_CHEST AP checks still use this bitfield as a resend/fallback signal, while report-only ambiguous minor chest locations use `minor_chest_event_ring` for exact disambiguation. |
+| 0x02038962 / 0x02038968 / 0x02038969 | 1B each | lever_*_flag_native | Native lever-controlled wall state. The four Lever Wall AP items set these bits using chest/state IDs 18 (Moonlight), 65 (Olive), 77 (Carrot), and 74 (Radish). Physical lever activation no longer sets these bits directly; AP lever locations use `lever_activation_flags` instead (Issue #859). |
 | 0x02028C14+ |  -  | Boss/Mirror table       | Native location flags (TBD - not yet mapped). The BizHawk client may probe rising edges here for diagnostics, but boss-defeat AP checks are transport-authoritative via `boss_defeat_flags`. |
 | 0x02028CA0 | 576B | gVisitedDoors (`room_visit_flags_native`) | Native room-visit array (`u16[0x120]`); bit 15 marks visited state by `doorsIdx` |
 | 0x02023B28 | 2B | current_room_native | Current native room ID (`gCurLevelInfo[0].currentRoom`) used for room-entry diagnostics |
 | 0x0203AD2C | 4B | AI_KIRBY_STATE          | Runtime phase classifier (Issue #56 gameplay gate) |
 | 0x0203AD10 | 4B | DEMO_PLAYBACK_FLAGS     | Native title-demo discriminator (`demo_playback_flags_native`; bit `0x10` indicates title-screen demo playback) |
-| 0x0203ADE0 | 1B | KIRBY_ACTIVE_COLOR      | Native currently selected Kirby palette index (`0..13`). **Boot-time only**: updates only if written before the game's graphics system initialises; writing during gameplay has no visual effect. |
-| 0x02020FBF | 1B | KIRBY_TRANSITION_COLOR  | Kirby palette index applied by the game engine on each screen transition (`0..13`). Writing here takes effect on the next room/area transition, and can also become visible when an enemy-hit path refreshes Kirby's runtime color state; HUD elements (lives, health bar) reflect the new color after the player pauses. |
+| 0x0203ADE0 | 2B | KIRBY_SELECTED_COLOR    | Native signed 16-bit `gUnk_0203ADE0` selected-color state. `sub_08123FD4` copies its low byte into the player color table before starting single-player gameplay. |
+| 0x02020FBF | 1B | KIRBY_PLAYER_1_COLOR     | `gKirbys[0].color` (`struct Kirby` offset `0xDF`). Changing this field does not update the already-loaded OBJ palette; the payload calls `sub_0803E558(0)` after writing it. |
 | 0x02020FE0 | 1B | KIRBY_HP                | Kirby HP (`s8`) used for DeathLink runtime receive/apply and local death transition detection |
 | 0x02020FE1 | 1B | KIRBY_MAX_HP            | Kirby max HP (`s8`) used for one-hit mode enforcement (player 0 struct) |
 | 0x02020FE2 | 1B | KIRBY_LIVES             | Native extra-life counter (`u8`) used for `no_extra_lives` enforcement |
@@ -122,8 +125,9 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | TRAP_BOMB | 3860034 | Trap item: sets Kirby's current HP to 0 |
 | TRAP_BATTERY_DRAIN | 3860035 | Trap item: empties the cell phone battery to 0 |
 | TRAP_LIFE_WIPEOUT | 3860036 | Trap item: sets Kirby's lives count to 0 |
+| LEVER_WALL_MOONLIGHT_MANSION_2_11 .. LEVER_WALL_RADISH_RUINS_8_12 | 3860037 - 3860040 | Progression items that independently set the four native lever-controlled wall bits (Issue #859) |
 | ABILITY_UNLOCK_* | 3860101 - 3860131 | Dynamic ability unlock items (`BASE_OFFSET + 100 + runtime_ability_id`) generated only for abilities in `abilities.json` where `safe_to_gate` is true and `enemy_copy_allowed` is not false |
-| *Reserved*        | 3860037+ (except dynamic ability unlock range) | Future items (doors, additional consumables, etc.) |
+| *Reserved*        | 3860041+ (except dynamic ability unlock range) | Future items (doors, additional consumables, etc.) |
 
 ### Current filler effect contract
 
@@ -179,7 +183,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 |---------------|----------|-------------|
 | GOAL_DARK_MIND | auto-assigned | Internal goal metadata entry for Dark Mind completion. Current shipped worlds convert goal locations to runtime events, so the client may report `CLIENT_GOAL` directly when no numeric goal location is exposed by the server. |
 | GOAL_ANY_AREA_BOSS | auto-assigned | Internal goal metadata entry for the "Defeat Any Area Boss" mode. Trigger source is acknowledged `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8` checks; Candy Constellation's Master Hand + Crazy Hand pair counts as one pooled target (`BOSS_DEFEAT_3`). |
-| GOAL_CONFIGURED_AREA_BOSS | auto-assigned | Internal goal metadata entry for the "Defeat Configured Area Boss" mode. Trigger source is the configured `BOSS_DEFEAT_N` check selected via `goal_configured_area_boss_key`. |
+| GOAL_CONFIGURED_AREA_BOSS | auto-assigned | Internal goal metadata entry for the canonical "Defeat Area Boss" mode. Trigger source is the selected `BOSS_DEFEAT_N` check carried via `goal_configured_area_boss_key`. The internal key name is retained for slot-data compatibility. |
 | BOSS_DEFEAT_1 .. BOSS_DEFEAT_8 | auto-assigned | Area boss defeat locations (8 locations) |
 | MAJOR_CHEST_CABBAGE_CAVERN | 3960200 | Cabbage Cavern big chest (bit 3, gTreasures.bigChestField) |
 | MAJOR_CHEST_OLIVE_OCEAN | 3960201 | Olive Ocean big chest (bit 6, gTreasures.bigChestField) |
@@ -190,12 +194,14 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | MAJOR_CHEST_CARROT_CASTLE | 3960206 | Carrot Castle big chest (bit 5, gTreasures.bigChestField) |
 | MAJOR_CHEST_RADISH_RUINS | 3960207 | Radish Ruins big chest (bit 8, gTreasures.bigChestField) |
 | MAJOR_CHEST_CANDY_CONSTELLATION | 3960208 | Candy Constellation big chest (bit 9, gTreasures.bigChestField) |
+| MAJOR_CHEST_WORLD_MAP | 3960209 | Tutorial world map big chest (bit 0, gTreasures.bigChestField) |
 | VITALITY_CHEST_CARROT_CASTLE | 3960300 | Carrot Castle 5-23 vitality big chest (transport vitality bit 0) |
 | VITALITY_CHEST_OLIVE_OCEAN | 3960301 | Olive Ocean 6-21 vitality big chest (transport vitality bit 1) |
 | VITALITY_CHEST_RADISH_RUINS | 3960302 | Radish Ruins 8-4 vitality big chest (transport vitality bit 2) |
 | VITALITY_CHEST_CANDY_CONSTELLATION | 3960303 | Candy Constellation 9-8 vitality big chest (transport vitality bit 3) |
 | SOUND_PLAYER_CHEST | 3960304 | Candy Constellation Sound Player chest (transport sound_player_chest bit 0) |
 | HUB_SWITCH_* | 3960400 - 3960414 | Hub big-switch checks mapped to `hub_switch_flags` bits 0..14 (bit 0 = Peppermint West, bit 11 = Moonlight; others sequential) |
+| LEVER_* | 3960415 - 3960418 | Lever checks sourced from native bits (`0x02038962` bit2 Moonlight 2-11, `0x02038968` bit1 Olive 6-13, `0x02038969` bit5 Carrot 5-12, `0x02038969` bit2 Radish 8-12) |
 | AREA_VISIT_* | 3960451 - 3960459 | First-visit checks for gameplay areas 1..9 (Rainbow Route through Candy Constellation), derived from first visited room per area via native `gVisitedDoors` |
 | MINOR_CHEST_RAINBOW_ROUTE_1_39 | 3960500 | Rainbow Route 1-39 small chest (native other_chest_flags_native bit 1) |
 | MINOR_CHEST_RAINBOW_ROUTE_1_22 | 3960501 | Rainbow Route 1-22 small chest (native other_chest_flags_native bit 23) |
@@ -238,18 +244,19 @@ Server → Client: ConnectionRefused | Connected
 
 `slot_data` currently includes:
 - `world_version` (str): world release/version identifier from `KirbyAmWorld.world_version` (for example, `0.2.0`), emitted for log/tracker/version diagnostics.
-- `goal` (int): selected goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Configured Area Boss`, `3=Defeat Random Hidden Area Boss`).
-- `configured_area_boss` (int): selected configured area-boss option (`0=King Golem`, `1=Moley`, `2=Kracko`, `3=Mega Titan`, `4=Gobbler`, `5=Wiz`, `6=Dark Meta Knight`, `7=Master Hand + Crazy Hand pair`). Only used when `goal` is `defeat_configured_area_boss`.
-- `goal_configured_area_boss_key` (str | null): internal boss-defeat key selected for `defeat_configured_area_boss` (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`). Default target is `BOSS_DEFEAT_3` (Master Hand + Crazy Hand pair). Normal player-facing output does not reveal the boss name; spoiler output may resolve the key to the configured target.
-- `goal_hidden_area_boss_key` (str | null): internal boss-defeat key selected for `defeat_random_hidden_area_boss` (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`). Normal player-facing output does not reveal the boss name; spoiler output may resolve the key to the hidden target.
+- `goal` (int): selected canonical goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Area Boss`). The older YAML name `defeat_configured_area_boss` parses as value `2`. The removed `defeat_random_hidden_area_boss` must be replaced with `goal: defeat_area_boss` plus `configured_area_boss: random`.
+- `configured_area_boss` (int): concrete area-boss option (`0=King Golem`, `1=Moley`, `2=Kracko`, `3=Mega Titan`, `4=Gobbler`, `5=Wiz`, `6=Dark Meta Knight`, `7=Master Hand + Crazy Hand pair`). Only used when `goal` is `defeat_area_boss`. The literal YAML value `random` is resolved by Archipelago to one of these concrete values before generation.
+- `goal_configured_area_boss_key` (str | null): internal boss-defeat key selected for `defeat_area_boss` (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`). The field name is retained for compatibility. Default target is `BOSS_DEFEAT_3` (Master Hand + Crazy Hand pair).
 - `shards` (int): shard randomization mode.
 - `start_with_all_maps` (bool): when true, all map items are precollected and removed from randomized placement, and the BizHawk client reasserts all native area-map bits during gameplay reconciliation.
-- `starting_kirby_color` (int): resolved Kirby starting color ID (`0..13`) after generation-time random resolution. Non-Pink colors become visible after the next room/area transition or after an enemy-hit runtime refresh.
+- `starting_kirby_color` (int): resolved Kirby starting color ID (`0..13`) after Archipelago option parsing. The same value is baked into the procedure patch and applied before the first single-player gameplay palette is created.
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
+- `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the existing payload refreshes Kirby's live OBJ palette. Reconnect alone does not reroll the color.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
 - `one_hit_mode` (int): one-hit mode selection (`0=off`, `1=exclude_vitality_counters`, `2=include_vitality_counters`). When non-zero, Kirby's max HP is clamped to `vitality_counter + 1` during gameplay. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool (replaced by filler) so the cap stays at 1. In `include_vitality_counters` mode, Vitality Counter items remain in the pool and each one received raises the cap by 1.
 - `enable_traps` (bool): when true, trap items may appear in the randomized item pool.
 - `trap_fill_percentage` (int): percentage (`0..100`) of eligible filler slots that are replaced by trap items when `enable_traps` is true.
+- `enemy_health_multiplier` (int): generation-resolved enemy HP percentage (`50..500`, default `100`). The value is baked into the `.apkirbyam` patch procedure; the client receives it for diagnostics/logging only.
 - `death_link` (bool): enables/disables AP DeathLink tag synchronization in the client.
 - `ability_randomization_mode` (int): enemy copy-ability mode (`0=off`, `1=shuffled`, `2=completely_random`).
 - `ability_randomization_boss_spawns` (bool): include/exclude ability-granting boss-spawned objects.
@@ -278,8 +285,10 @@ Compatibility note (Issue #398 option-key reorganization):
 Goal runtime behavior contract:
 - Goal mode `dark_mind` reports completion after the native Dark Mind clear signal.
 - Goal mode `defeat_any_area_boss` reports completion after the first acknowledged area-boss defeat check in `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`.
-- Goal mode `defeat_configured_area_boss` reports completion after the configured boss-defeat target is acknowledged by the server; the client resolves the target from `goal_configured_area_boss_key`.
-- Goal mode `defeat_random_hidden_area_boss` reports completion after the seed-selected hidden boss-defeat target is acknowledged by the server; the client resolves the target from `goal_hidden_area_boss_key`.
+- Goal mode `defeat_area_boss` reports completion after the selected boss-defeat target is acknowledged by the server; the client resolves the target from `goal_configured_area_boss_key`. Setting `configured_area_boss` to the literal `random` uses Archipelago's standard `Choice` randomization and still emits one concrete target.
+
+Legacy goal compatibility:
+- New generation does not emit goal value `3` or `goal_hidden_area_boss_key`. The client still accepts those fields from already-generated `defeat_random_hidden_area_boss` seeds and maps them through the retained legacy goal metadata entry.
 
 DeathLink runtime behavior contract:
 - Incoming DeathLink packets (`Bounced` with `DeathLink` tag) are queued and only applied when gameplay-active gate is true.
@@ -396,6 +405,7 @@ hub_switch_bits = RAM[0x0203B04C] as u32
 hub_switch_baseline = 0
 if first_hub_switch_poll and server_checked_locations is empty and hub_switch_bits != 0:
     # Treat pre-existing transport bits as baseline to avoid stale cross-session resend.
+    # This baseline applies only before *any* server checks are acknowledged.
     hub_switch_baseline = hub_switch_bits
 effective_hub_switch_bits = hub_switch_bits & ~hub_switch_baseline
 for bit in mapped_hub_switch_bits:
@@ -449,7 +459,7 @@ Boss shard scrub timing contract (Issue #505):
 
 **Behavior notes:**
 - Detection is **level-based** (current bitfield state), not edge-based, to be reconnect-safe.
-- Hub-switch polling suppresses only pre-session baseline bits on first poll when no hub-switch checks are yet acknowledged by the server, preventing stale EWRAM bits from being resent as fresh checks.
+- Hub-switch polling suppresses only pre-session baseline bits on first poll when no checks are yet acknowledged by the server, preventing stale EWRAM bits from being resent as fresh checks while preserving reconnect resends.
 - No checks are sent for bits already in `server_checked_locations`.
 - No checks are sent for reserved/unmapped bits even when set.
 - Boss-defeat, major-chest, vitality-chest, sound-player-chest, hub-switch, and room-sanity polling follow the same resend/dedupe diagnostic contract.

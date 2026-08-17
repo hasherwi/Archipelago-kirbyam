@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import logging
 import random
+
+import pytest
 from typing import Any, cast
 
 import worlds.kirbyam.enemy_ability_runtime_patch as runtime_patch_module
@@ -11,7 +13,11 @@ import worlds.kirbyam.enemy_ability_runtime_patch as runtime_patch_module
 from ..ability_randomization import build_enemy_copy_ability_policy
 from ..enemy_ability_data import AbilitySource
 from ..enemy_ability_data import ABILITY_NAME_TO_ID, VALID_ENEMY_COPY_ABILITIES
-from ..enemy_ability_runtime_patch import build_enemy_copy_runtime_patch_writes, build_enemy_copy_spoiler_rows
+from ..enemy_ability_runtime_patch import (
+    build_enemy_copy_runtime_patch_writes,
+    build_enemy_copy_spoiler_rows,
+    build_statue_runtime_allowed_mask,
+)
 from ..options import AbilityRandomizationMode
 
 
@@ -536,3 +542,79 @@ def test_statues_respect_minny_toggle() -> None:
     mini_id = ABILITY_NAME_TO_ID["Mini"]
     statue_values = [writes[address] for address in range(0x3538FC, 0x35390F)]
     assert all(value != mini_id for value in statue_values)
+
+
+def test_statue_runtime_mask_is_disabled_when_mode_is_off_or_toggle_is_off() -> None:
+    off_policy = build_enemy_copy_ability_policy(
+        random.Random(1),
+        AbilityRandomizationMode.option_off,
+        include_boss_spawns=True,
+        include_minibosses=True,
+    )
+    random_policy = build_enemy_copy_ability_policy(
+        random.Random(1),
+        AbilityRandomizationMode.option_completely_random,
+        include_boss_spawns=True,
+        include_minibosses=True,
+    )
+
+    assert build_statue_runtime_allowed_mask(off_policy, include_statues=True) == 0
+    assert build_statue_runtime_allowed_mask(random_policy, include_statues=False) == 0
+
+
+def test_statue_runtime_mask_matches_custom_whitelist_exactly() -> None:
+    whitelist = ("Beam", "Magic", "Sword")
+    policy = build_enemy_copy_ability_policy(
+        random.Random(2),
+        AbilityRandomizationMode.option_completely_random,
+        include_boss_spawns=False,
+        include_minibosses=False,
+        include_passive_enemies=True,
+        no_ability_weight=100,
+        whitelist=whitelist,
+    )
+
+    expected = sum(1 << ABILITY_NAME_TO_ID[name] for name in whitelist)
+    assert build_statue_runtime_allowed_mask(policy, include_statues=True) == expected
+
+
+def test_statue_runtime_mask_respects_minny_toggle_without_other_option_leakage() -> None:
+    with_minny = build_enemy_copy_ability_policy(
+        random.Random(3),
+        AbilityRandomizationMode.option_completely_random,
+        include_boss_spawns=False,
+        include_minibosses=False,
+        include_minny=True,
+        include_passive_enemies=False,
+        no_ability_weight=0,
+        whitelist=("Beam", "Mini"),
+    )
+    without_minny = build_enemy_copy_ability_policy(
+        random.Random(3),
+        AbilityRandomizationMode.option_completely_random,
+        include_boss_spawns=True,
+        include_minibosses=True,
+        include_minny=False,
+        include_passive_enemies=True,
+        no_ability_weight=100,
+        whitelist=("Beam", "Mini"),
+    )
+
+    mini_bit = 1 << ABILITY_NAME_TO_ID["Mini"]
+    beam_bit = 1 << ABILITY_NAME_TO_ID["Beam"]
+    assert build_statue_runtime_allowed_mask(with_minny, include_statues=True) == (beam_bit | mini_bit)
+    assert build_statue_runtime_allowed_mask(without_minny, include_statues=True) == beam_bit
+
+
+def test_statue_runtime_mask_rejects_empty_pool_after_minny_filtering() -> None:
+    policy = build_enemy_copy_ability_policy(
+        random.Random(4),
+        AbilityRandomizationMode.option_completely_random,
+        include_boss_spawns=True,
+        include_minibosses=True,
+        include_minny=False,
+        whitelist=("Mini",),
+    )
+
+    with pytest.raises(ValueError, match="statue ability pool cannot be empty"):
+        build_statue_runtime_allowed_mask(policy, include_statues=True)

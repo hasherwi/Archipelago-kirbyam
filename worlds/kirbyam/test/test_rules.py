@@ -2,14 +2,15 @@
 
 from __future__ import annotations
 
-import random
 from dataclasses import dataclass
 from types import SimpleNamespace
 from typing import Any
 from unittest.mock import patch
 
+import pytest
+
 from .. import KirbyAmWorld
-from ..options import Goal
+from ..options import ConfiguredAreaBoss, Goal
 from ..rules import (
     ABILITY_GATE_RULES,
     evaluate_room_logic_requirement,
@@ -110,55 +111,94 @@ def test_dark_mind_goal_requires_dark_mind_event() -> None:
     assert completion_fn(_FakeState({"Defeat Dark Mind"}))
 
 
-def test_hidden_random_area_boss_goal_key_resolves_deterministically_from_seed() -> None:
-    def _build_world(seed: int):
-        world = KirbyAmWorld.__new__(KirbyAmWorld)
-        world.options = SimpleNamespace(goal=SimpleNamespace(value=Goal.option_defeat_random_hidden_area_boss))
-        world.random = random.Random(seed)
-        return world
-
-    first_world = _build_world(20260601)
-    second_world = _build_world(20260601)
-
-    first_key = KirbyAmWorld._get_resolved_hidden_area_boss_goal_key(first_world)
-    second_key = KirbyAmWorld._get_resolved_hidden_area_boss_goal_key(second_world)
-
-    assert first_key == second_key
-    assert first_key in {
-        "BOSS_DEFEAT_1",
-        "BOSS_DEFEAT_2",
-        "BOSS_DEFEAT_3",
-        "BOSS_DEFEAT_4",
-        "BOSS_DEFEAT_5",
-        "BOSS_DEFEAT_6",
-        "BOSS_DEFEAT_7",
-        "BOSS_DEFEAT_8",
-    }
-
-    cached_key = KirbyAmWorld._get_resolved_hidden_area_boss_goal_key(first_world)
-    assert cached_key == first_key
+def test_goal_configured_legacy_name_aliases_to_consolidated_area_boss_mode() -> None:
+    assert Goal.from_text("defeat_area_boss").value == Goal.option_defeat_area_boss
+    assert Goal.from_text("defeat_configured_area_boss").value == Goal.option_defeat_area_boss
 
 
-def test_hidden_random_area_boss_goal_requires_selected_location() -> None:
-    world = _FakeWorld(Goal.option_defeat_random_hidden_area_boss)
-    world._resolved_hidden_area_boss_goal_key = "BOSS_DEFEAT_3"
+def test_removed_hidden_random_goal_requires_explicit_two_option_replacement() -> None:
+    with pytest.raises(KeyError):
+        Goal.from_text("defeat_random_hidden_area_boss")
+
+
+@pytest.mark.parametrize(
+    ("option_value", "expected_key"),
+    [
+        (ConfiguredAreaBoss.option_king_golem, "BOSS_DEFEAT_2"),
+        (ConfiguredAreaBoss.option_moley, "BOSS_DEFEAT_6"),
+        (ConfiguredAreaBoss.option_kracko, "BOSS_DEFEAT_1"),
+        (ConfiguredAreaBoss.option_mega_titan, "BOSS_DEFEAT_7"),
+        (ConfiguredAreaBoss.option_gobbler, "BOSS_DEFEAT_4"),
+        (ConfiguredAreaBoss.option_wiz, "BOSS_DEFEAT_5"),
+        (ConfiguredAreaBoss.option_dark_meta_knight, "BOSS_DEFEAT_8"),
+        (ConfiguredAreaBoss.option_master_hand_crazy_hand_pair, "BOSS_DEFEAT_3"),
+    ],
+)
+def test_every_configured_area_boss_maps_to_its_actual_area_defeat_key(
+    option_value: int,
+    expected_key: str,
+) -> None:
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+    world.options = SimpleNamespace(configured_area_boss=SimpleNamespace(value=option_value))
+
+    assert KirbyAmWorld._get_resolved_configured_area_boss_goal_key(world) == expected_key
+
+
+def test_configured_area_boss_framework_random_resolves_to_concrete_boss() -> None:
+    # Archipelago reserves the literal `random` for Choice and resolves it during
+    # option parsing. The world therefore receives an ordinary concrete boss ID.
+    with patch("Options.random.choice", return_value=ConfiguredAreaBoss.option_wiz):
+        resolved_option = ConfiguredAreaBoss.from_text("random")
+
+    assert resolved_option.value == ConfiguredAreaBoss.option_wiz
+
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+    world.options = SimpleNamespace(configured_area_boss=resolved_option)
+    assert KirbyAmWorld._get_resolved_configured_area_boss_goal_key(world) == "BOSS_DEFEAT_5"
+
+
+def test_any_area_boss_goal_requires_goal_event_and_event_reaches_after_any_boss() -> None:
+    world = _FakeWorld(Goal.option_defeat_any_area_boss)
     set_rules(world)
 
     completion_fn = _get_completion_fn(world)
     assert not completion_fn(_FakeState())
-    assert not completion_fn(_FakeState(reachable_locations={"Mustard Mountain - Boss Defeat"}))
-    assert completion_fn(_FakeState(reachable_locations={"Candy Constellation - Boss Defeat"}))
+    assert completion_fn(_FakeState({"Defeat Any Area Boss"}))
+
+    goal_location = world.multiworld.get_location("Defeat Any Area Boss", world.player)
+    assert not goal_location.access_rule(_FakeState())
+    assert goal_location.access_rule(
+        _FakeState(reachable_locations={"Olive Ocean - Boss Defeat"})
+    )
 
 
-def test_configured_area_boss_goal_requires_selected_location() -> None:
-    world = _FakeWorld(Goal.option_defeat_configured_area_boss)
+def test_area_boss_goal_requires_goal_event_and_selected_boss_access() -> None:
+    world = _FakeWorld(Goal.option_defeat_area_boss)
     world._resolved_configured_area_boss_goal_key = "BOSS_DEFEAT_3"
     set_rules(world)
 
     completion_fn = _get_completion_fn(world)
     assert not completion_fn(_FakeState())
-    assert not completion_fn(_FakeState(reachable_locations={"Mustard Mountain - Boss Defeat"}))
-    assert completion_fn(_FakeState(reachable_locations={"Candy Constellation - Boss Defeat"}))
+    assert completion_fn(_FakeState({"Defeat Area Boss"}))
+
+    goal_location = world.multiworld.get_location("Defeat Area Boss", world.player)
+    assert not goal_location.access_rule(
+        _FakeState(reachable_locations={"Mustard Mountain - Boss Defeat"})
+    )
+    assert goal_location.access_rule(
+        _FakeState(reachable_locations={"Candy Constellation - Boss Defeat"})
+    )
+
+
+def test_current_area_goal_events_are_materialized_in_rainbow_route() -> None:
+    from ..data import load_json_data
+
+    regions = load_json_data("regions/areas.json")
+    rainbow_locations = regions["REGION_RAINBOW_ROUTE/MAIN"]["locations"]
+
+    assert "GOAL_ANY_AREA_BOSS" in rainbow_locations
+    assert "GOAL_CONFIGURED_AREA_BOSS" in rainbow_locations
+    assert "GOAL_HIDDEN_AREA_BOSS" not in rainbow_locations
 
 
 def test_unknown_goal_value_defaults_to_dark_mind_completion() -> None:
@@ -434,13 +474,13 @@ def test_ability_gate_helpers_default_true_without_ability_items() -> None:
         assert gate_rule(state, 1), f"{gate_name} should default to True until ability items exist"
 
 
-def test_compact_room_requirements_enforce_events_and_compose() -> None:
+def test_compact_room_requirements_enforce_lever_wall_items_and_compose() -> None:
     requirement = {"all": ["can_fly", "can_break_block", "mm_lever"]}
 
     assert not evaluate_room_logic_requirement(requirement, _FakeState(), 1)
     assert evaluate_room_logic_requirement(
         requirement,
-        _FakeState({"Activate Lever - Moonlight Mansion 2-11"}),
+        _FakeState({"Moonlight Mansion 2-11 - Lever Wall"}),
         1,
     )
 
@@ -786,3 +826,32 @@ def test_hub_switch_locations_have_matching_big_switch_events() -> None:
         found_events.add(expected_event)
 
     assert found_events == set(expected_events_by_hub_switch.values())
+
+
+def test_lever_locations_have_matching_lever_events() -> None:
+    from ..data import load_json_data
+
+    rooms = load_json_data("regions/rooms.json")
+    locations = load_json_data("locations.json")
+
+    expected_events_by_lever_location = {
+        "LEVER_MOONLIGHT_MANSION_2_11": "Activate Lever - Moonlight Mansion 2-11",
+        "LEVER_CARROT_CASTLE_5_12": "Activate Lever - Carrot Castle 5-12",
+        "LEVER_OLIVE_OCEAN_6_13": "Activate Lever - Olive Ocean 6-13",
+        "LEVER_RADISH_RUINS_8_12": "Activate Lever - Radish Ruins 8-12",
+    }
+
+    for lever_key, expected_event in expected_events_by_lever_location.items():
+        location_meta = locations.get(lever_key)
+        assert isinstance(location_meta, dict), f"Missing location metadata for {lever_key}"
+
+        parent_region = str(location_meta.get("parent_region", ""))
+        assert parent_region in rooms, f"Missing room region for {lever_key}: {parent_region}"
+        room_data = rooms[parent_region]
+        assert isinstance(room_data, dict), f"Invalid room payload for {parent_region}"
+
+        events = room_data.get("events", [])
+        assert isinstance(events, list), f"Invalid events list for room {parent_region}"
+        event_set = {event for event in events if isinstance(event, str)}
+
+        assert expected_event in event_set

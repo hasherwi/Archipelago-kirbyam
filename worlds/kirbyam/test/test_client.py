@@ -2,11 +2,13 @@
 
 """Integration tests for client polling and delivery logic."""
 import asyncio
-import pytest
-import logging
 import json
+import logging
+from pathlib import Path
 from contextlib import ExitStack
 from unittest.mock import AsyncMock, Mock, call, patch
+
+import pytest
 
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.context import _game_watcher, AuthStatus, BizHawkClientCommandProcessor
@@ -24,6 +26,16 @@ from ..client import (
 )
 from ..options import OneHitMode
 from ..rom import KirbyAmProcedurePatch
+from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
+
+
+def _load_world_version_from_manifest() -> str:
+    manifest_path = Path(__file__).resolve().parents[1] / "archipelago.json"
+    with manifest_path.open("r", encoding="utf-8") as handle:
+        return str(json.load(handle)["world_version"])
+
+
+WORLD_VERSION = _load_world_version_from_manifest()
 
 
 @pytest.mark.asyncio
@@ -506,6 +518,25 @@ async def test_reconcile_native_map_ownership_skips_write_when_native_bits_match
 
 
 @pytest.mark.asyncio
+async def test_reconcile_native_map_ownership_does_not_clear_existing_managed_bits_when_cursor_is_behind(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._delivered_item_index = 0
+    mock_bizhawk_context.items_received = [Mock(item=3860013, player=1)]
+
+    # Existing Olive Ocean map bit is already present in native state.
+    current_bits = 1 << 6
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        mock_read.return_value = [current_bits.to_bytes(4, 'little')]
+
+        await client._reconcile_native_map_ownership(mock_bizhawk_context)
+
+    mock_write.assert_not_awaited()
+
+
+@pytest.mark.asyncio
 async def test_reconcile_native_shard_ownership_restores_bits_after_save_loss(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
@@ -569,6 +600,25 @@ async def test_reconcile_native_shard_ownership_skips_when_state_matches(mock_bi
     mock_write.assert_not_awaited()
 
 
+@pytest.mark.asyncio
+async def test_reconcile_native_shard_ownership_does_not_clear_existing_bits_when_cursor_is_behind(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._delivered_item_index = 0
+
+    # Existing native + delivered shard bit 6 is present while AP desired bits are empty.
+    current_native = 1 << 6
+    current_delivered = 1 << 6
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        mock_read.return_value = [bytes([current_native & 0xFF]), int(current_delivered).to_bytes(4, 'little')]
+
+        await client._reconcile_native_shard_ownership(mock_bizhawk_context)
+
+    mock_write.assert_not_awaited()
+
+
 def test_ap_owned_native_map_bits_updates_cache_incrementally(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
@@ -624,6 +674,7 @@ async def test_poll_major_chest_sends_location_checks_for_set_bits(mock_bizhawk_
     client = KirbyAmClient()
     client.initialize_client()
 
+    world_map = data.locations["MAJOR_CHEST_WORLD_MAP"].location_id
     cabbage = data.locations["MAJOR_CHEST_CABBAGE_CAVERN"].location_id
     olive = data.locations["MAJOR_CHEST_OLIVE_OCEAN"].location_id
     peppermint = data.locations["MAJOR_CHEST_PEPPERMINT_PALACE"].location_id
@@ -632,13 +683,13 @@ async def test_poll_major_chest_sends_location_checks_for_set_bits(mock_bizhawk_
     with patch.dict(data.transport_ram_addresses, {"major_chest_flags": 0x0203B028}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
-        # Bits 3, 6, 7 set => Cabbage, Olive, Peppermint major chests.
-        mock_read.return_value = [((1 << 3) | (1 << 6) | (1 << 7)).to_bytes(4, 'little')]
+        # Bits 0, 3, 6, 7 set => World Map, Cabbage, Olive, Peppermint major chests.
+        mock_read.return_value = [((1 << 0) | (1 << 3) | (1 << 6) | (1 << 7)).to_bytes(4, 'little')]
 
         await client._poll_major_chest_locations(mock_bizhawk_context)
 
     mock_send.assert_awaited_once_with([
-        {"cmd": "LocationChecks", "locations": [cabbage, olive, peppermint]}
+        {"cmd": "LocationChecks", "locations": [cabbage, olive, peppermint, world_map]}
     ])
 
 
@@ -1181,6 +1232,55 @@ async def test_poll_sound_player_chest_skips_when_address_missing(mock_bizhawk_c
 
 
 @pytest.mark.asyncio
+async def test_poll_lever_locations_sends_location_checks_for_transport_bits(mock_bizhawk_context):
+    """Physical lever activation transport bits should map to lever LocationChecks."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    moonlight = data.locations["LEVER_MOONLIGHT_MANSION_2_11"].location_id
+    olive = data.locations["LEVER_OLIVE_OCEAN_6_13"].location_id
+    carrot = data.locations["LEVER_CARROT_CASTLE_5_12"].location_id
+    radish = data.locations["LEVER_RADISH_RUINS_8_12"].location_id
+    mock_bizhawk_context.checked_locations = set()
+
+    with patch.dict(data.transport_ram_addresses, {"lever_activation_flags": 0x0203B0BC}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        mock_read.return_value = [((1 << 0) | (1 << 1) | (1 << 2) | (1 << 3)).to_bytes(4, 'little')]
+
+        await client._poll_lever_locations(mock_bizhawk_context)
+
+    mock_read.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        [(0x0203B0BC, 4, "System Bus")],
+    )
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [moonlight, olive, carrot, radish]}
+    ])
+
+
+@pytest.mark.asyncio
+async def test_poll_lever_locations_skips_when_transport_address_missing(mock_bizhawk_context):
+    """Missing lever activation transport address should no-op safely."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    transport_without_levers = {
+        k: v for k, v in data.transport_ram_addresses.items() if k != "lever_activation_flags"
+    }
+    ram_without_levers = {k: v for k, v in data.ram_addresses.items() if k != "lever_activation_flags"}
+
+    with patch.dict(data.transport_ram_addresses, transport_without_levers, clear=True), \
+         patch.dict(data.ram_addresses, ram_without_levers, clear=True), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        await client._poll_lever_locations(mock_bizhawk_context)
+
+    mock_read.assert_not_awaited()
+    mock_send.assert_not_awaited()
+
+
+@pytest.mark.asyncio
 async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_context):
     """Set transport hub-switch bits after baseline should map to LocationChecks."""
     client = KirbyAmClient()
@@ -1260,8 +1360,8 @@ async def test_poll_hub_switch_suppresses_pre_session_stale_bits(mock_bizhawk_co
 
 
 @pytest.mark.asyncio
-async def test_poll_hub_switch_suppresses_pre_session_stale_bits_with_unrelated_server_checks(mock_bizhawk_context):
-    """First-poll stale hub-switch bits should still be baselined when only non-hub checks are acknowledged."""
+async def test_poll_hub_switch_resends_with_unrelated_server_checks(mock_bizhawk_context):
+    """First-poll hub-switch bits should resend when any server checks are already acknowledged."""
     client = KirbyAmClient()
     client.initialize_client()
 
@@ -1270,6 +1370,7 @@ async def test_poll_hub_switch_suppresses_pre_session_stale_bits_with_unrelated_
         for loc in data.locations.values()
         if loc.location_id is not None and loc.category != LocationCategory.HUB_SWITCH
     )
+    peppermint_west = data.locations["HUB_SWITCH_PEPPERMINT_WEST"].location_id
     mock_bizhawk_context.checked_locations = {unrelated_location}
 
     with patch.dict(data.transport_ram_addresses, {"hub_switch_flags": 0x0203B04C}, clear=False), \
@@ -1278,9 +1379,10 @@ async def test_poll_hub_switch_suppresses_pre_session_stale_bits_with_unrelated_
         mock_read.return_value = [((1 << 0)).to_bytes(4, 'little')]
 
         await client._poll_hub_switch_locations(mock_bizhawk_context)
-        await client._poll_hub_switch_locations(mock_bizhawk_context)
 
-    mock_send.assert_not_awaited()
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [peppermint_west]}
+    ])
 
 
 @pytest.mark.asyncio
@@ -2471,7 +2573,7 @@ async def test_goal_any_area_boss_does_not_trigger_without_acknowledged_boss_che
 
 
 @pytest.mark.asyncio
-async def test_goal_configured_area_boss_server_exposed_goal_reports_location_then_goal_status(mock_bizhawk_context):
+async def test_goal_area_boss_server_exposed_goal_reports_location_then_goal_status(mock_bizhawk_context):
     """Configured area-boss goal should wait for goal-location acknowledgement before sending CLIENT_GOAL."""
     from NetUtils import ClientStatus
 
@@ -2508,7 +2610,7 @@ async def test_goal_configured_area_boss_server_exposed_goal_reports_location_th
 
 
 @pytest.mark.asyncio
-async def test_goal_configured_area_boss_does_not_trigger_for_non_target_boss(mock_bizhawk_context):
+async def test_goal_area_boss_does_not_trigger_for_non_target_boss(mock_bizhawk_context):
     """Configured area-boss goal should ignore non-target boss defeats."""
     client = KirbyAmClient()
     client.initialize_client()
@@ -2531,7 +2633,35 @@ async def test_goal_configured_area_boss_does_not_trigger_for_non_target_boss(mo
 
 
 @pytest.mark.asyncio
-async def test_goal_hidden_random_area_boss_server_exposed_goal_reports_location_then_goal_status(mock_bizhawk_context):
+async def test_goal_area_boss_target_acknowledgement_activates_goal_signal(mock_bizhawk_context):
+    """The selected boss check itself must activate the consolidated area-boss goal."""
+    from NetUtils import ClientStatus
+
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    configured_goal_key = "BOSS_DEFEAT_5"
+    target_boss_id = data.locations[configured_goal_key].location_id
+
+    mock_bizhawk_context.slot_data["goal"] = 2
+    mock_bizhawk_context.slot_data["goal_configured_area_boss_key"] = configured_goal_key
+    mock_bizhawk_context.checked_locations = {target_boss_id}
+    # Exercise the direct CLIENT_GOAL fallback too; older generated worlds may
+    # not expose the addressless goal event in server_locations.
+    mock_bizhawk_context.server_locations = set()
+    mock_bizhawk_context.finished_game = False
+
+    await client._maybe_report_goal(mock_bizhawk_context)
+
+    mock_bizhawk_context.send_msgs.assert_awaited_once_with([
+        {"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}
+    ])
+    assert client._native_goal_signal_seen is True
+    assert mock_bizhawk_context.finished_game is True
+
+
+@pytest.mark.asyncio
+async def test_legacy_hidden_area_boss_goal_server_exposed_goal_reports_location_then_goal_status(mock_bizhawk_context):
     """Hidden random boss goal should wait for goal-location acknowledgement before sending CLIENT_GOAL."""
     from NetUtils import ClientStatus
 
@@ -2568,7 +2698,7 @@ async def test_goal_hidden_random_area_boss_server_exposed_goal_reports_location
 
 
 @pytest.mark.asyncio
-async def test_goal_hidden_random_area_boss_does_not_trigger_for_non_target_boss(mock_bizhawk_context):
+async def test_legacy_hidden_area_boss_goal_does_not_trigger_for_non_target_boss(mock_bizhawk_context):
     """Hidden random boss goal should ignore non-target boss defeats."""
     client = KirbyAmClient()
     client.initialize_client()
@@ -2686,6 +2816,34 @@ async def test_goal_reporting_logs_native_signal_seen(mock_bizhawk_context):
     assert len(signal_calls) == 1
     assert signal_calls[0].args[1:] == (0,)  # goal_option=0
     assert signal_calls[0].kwargs.get("extra", {}).get("NoStream") is True
+
+
+@pytest.mark.asyncio
+async def test_goal_reporting_logs_target_trace_once(mock_bizhawk_context):
+    """Goal target trace should log once per session to aid option/key diagnostics."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    goal_id = data.locations["GOAL_DARK_MIND"].location_id
+    mock_bizhawk_context.slot_data["goal"] = 0
+    mock_bizhawk_context.checked_locations = set()
+    mock_bizhawk_context.server_locations = {goal_id}
+
+    with patch.dict(data.native_ram_addresses, {"ai_kirby_state_native": 0x0203AD2C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(9999).to_bytes(4, 'little')],
+            [(9999).to_bytes(4, 'little')],
+        ]
+        await client._maybe_report_goal(mock_bizhawk_context)
+        await client._maybe_report_goal(mock_bizhawk_context)
+
+    trace_calls = [
+        c for c in mock_logger.info.call_args_list
+        if c.args and isinstance(c.args[0], str) and "goal target trace" in c.args[0]
+    ]
+    assert len(trace_calls) == 1
 
 
 @pytest.mark.asyncio
@@ -4018,7 +4176,7 @@ def test_log_slot_metadata_once_emits_file_only_diagnostics(mock_bizhawk_context
     client = KirbyAmClient()
     client.initialize_client()
     mock_bizhawk_context.slot_data = {
-        "world_version": "0.2.0",
+        "world_version": WORLD_VERSION,
         "goal": 0,
         "configured_area_boss": 7,
         "shards": 2,
@@ -4046,7 +4204,7 @@ def test_log_slot_metadata_once_emits_file_only_diagnostics(mock_bizhawk_context
     mock_logger.info.assert_called_once()
     call_args = mock_logger.info.call_args
     assert call_args.args[0] == "KirbyAM: slot metadata loaded (world_version=%s, game_options=%s)"
-    assert call_args.args[1] == "0.2.0"
+    assert call_args.args[1] == WORLD_VERSION
     payload = json.loads(call_args.args[2])
     assert payload["goal"] == 0
     assert payload["ability_gating"] is True
@@ -4059,7 +4217,7 @@ def test_log_slot_metadata_once_deduplicates_signature(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
     mock_bizhawk_context.slot_data = {
-        "world_version": "0.2.0",
+        "world_version": WORLD_VERSION,
         "goal": 0,
     }
 
@@ -4144,6 +4302,7 @@ async def test_game_watcher_reloads_state_after_transport_recovery(mock_bizhawk_
          patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock) as mock_poll_vitality, \
          patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock) as mock_poll_sound_player, \
          patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock) as mock_poll_hub_switch, \
+         patch.object(client, '_poll_lever_locations', new_callable=AsyncMock) as mock_poll_lever, \
          patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock) as mock_poll_area_visit, \
          patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock) as mock_probe_boss, \
          patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock) as mock_probe_unsafe, \
@@ -4164,6 +4323,7 @@ async def test_game_watcher_reloads_state_after_transport_recovery(mock_bizhawk_
     mock_poll_vitality.assert_awaited_once_with(mock_bizhawk_context)
     mock_poll_sound_player.assert_awaited_once_with(mock_bizhawk_context)
     mock_poll_hub_switch.assert_awaited_once_with(mock_bizhawk_context)
+    mock_poll_lever.assert_awaited_once_with(mock_bizhawk_context)
     mock_poll_area_visit.assert_awaited_once_with(mock_bizhawk_context)
     mock_probe_boss.assert_awaited_once_with(mock_bizhawk_context)
     mock_probe_unsafe.assert_awaited_once_with(mock_bizhawk_context)
@@ -4279,6 +4439,7 @@ async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_biz
             patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock) as mock_poll_vitality_chests, \
             patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock) as mock_poll_sound_player_chests, \
                 patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock) as mock_poll_hub_switches, \
+                patch.object(client, '_poll_lever_locations', new_callable=AsyncMock) as mock_poll_levers, \
                 patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock) as mock_poll_area_visits, \
          patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock) as mock_probe, \
          patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock) as mock_probe_unsafe, \
@@ -4316,6 +4477,7 @@ async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_biz
         mock_poll_vitality_chests.assert_awaited_once()
         mock_poll_sound_player_chests.assert_awaited_once()
         mock_poll_hub_switches.assert_awaited_once()
+        mock_poll_levers.assert_awaited_once()
         mock_poll_area_visits.assert_awaited_once()
         mock_probe.assert_awaited_once()
         mock_probe_unsafe.assert_awaited_once()
@@ -4349,6 +4511,7 @@ async def test_game_watcher_reconnect_entry_emits_file_only_session_ready_log(mo
         stack.enter_context(patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_lever_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_room_sanity_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock))
@@ -4589,6 +4752,7 @@ async def test_game_watcher_emits_pause_then_resume_popups_on_transition(mock_bi
         stack.enter_context(patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_lever_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock))
@@ -4683,6 +4847,7 @@ async def test_game_watcher_emits_runtime_gate_logs_file_only(mock_bizhawk_conte
         stack.enter_context(patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_poll_lever_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_poll_room_sanity_locations', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock))
@@ -4732,6 +4897,7 @@ async def test_game_watcher_syncs_death_link_enabled_from_slot_data(mock_bizhawk
          patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_lever_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock), \
          patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock), \
          patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock), \
@@ -4764,6 +4930,7 @@ async def test_game_watcher_death_link_sync_is_deduped_until_value_changes(mock_
          patch.object(client, '_poll_vitality_chest_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_sound_player_chest_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_hub_switch_locations', new_callable=AsyncMock), \
+         patch.object(client, '_poll_lever_locations', new_callable=AsyncMock), \
          patch.object(client, '_poll_area_visit_locations', new_callable=AsyncMock), \
          patch.object(client, '_probe_boss_defeat_candidates', new_callable=AsyncMock), \
          patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock), \
@@ -5190,6 +5357,106 @@ async def test_poll_enemy_ability_reroll_events_resolves_rom_domain_source_addre
 
 
 @pytest.mark.asyncio
+async def test_poll_enemy_ability_reroll_events_logs_statue_grants_in_shuffled_mode(mock_bizhawk_context):
+    """Statue ability-grant telemetry should also log in shuffled mode."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+    mock_bizhawk_context.slot_data = {"ability_randomization_mode": 1}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(7).to_bytes(4, 'little')],
+            [(8).to_bytes(4, 'little')],
+            [
+                (2).to_bytes(4, 'little'),
+                (5).to_bytes(4, 'little'),
+                (4).to_bytes(4, 'little'),
+                (0x00000000).to_bytes(4, 'little'),
+                (1).to_bytes(4, 'little'),
+            ],
+        ]
+
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+
+    mock_logger.info.assert_any_call(
+        "%s touched %s Statue. Ability grant resolved to %s.",
+        "Kirby P2",
+        "Ice",
+        "Parasol",
+        extra={"NoStream": True, "skip_gui": True},
+    )
+
+
+@pytest.mark.asyncio
+async def test_poll_enemy_ability_reroll_events_does_not_emit_unknown_detail_for_statues(mock_bizhawk_context):
+    """Dedicated statue telemetry should not emit unknown-source detail logs."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+    mock_bizhawk_context.slot_data = {"ability_randomization_mode": 2}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(3).to_bytes(4, 'little')],
+            [(4).to_bytes(4, 'little')],
+            [
+                (1).to_bytes(4, 'little'),
+                (4).to_bytes(4, 'little'),
+                (4).to_bytes(4, 'little'),
+                (0x08012345).to_bytes(4, 'little'),
+                (0).to_bytes(4, 'little'),
+            ],
+        ]
+
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+
+    detail_logs = [
+        call
+        for call in mock_logger.info.call_args_list
+        if call.args and isinstance(call.args[0], str) and "reroll telemetry detail" in call.args[0]
+    ]
+    assert detail_logs == []
+
+
+@pytest.mark.asyncio
+async def test_poll_enemy_ability_reroll_events_logs_statue_gate_suppression_reason(mock_bizhawk_context):
+    """Statue telemetry should log an explicit reason when ability gating suppresses the grant."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._debug_logging_enabled = True
+    mock_bizhawk_context.slot_data = {"ability_randomization_mode": 2}
+
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch('CommonClient.logger') as mock_logger:
+        mock_read.side_effect = [
+            [(5).to_bytes(4, 'little')],
+            [(6).to_bytes(4, 'little')],
+            [
+                (3).to_bytes(4, 'little'),
+                (0).to_bytes(4, 'little'),
+                (4).to_bytes(4, 'little'),
+                (0x08015555).to_bytes(4, 'little'),
+                (0).to_bytes(4, 'little'),
+            ],
+        ]
+
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+        await client._poll_enemy_ability_reroll_events(mock_bizhawk_context)
+
+    mock_logger.info.assert_any_call(
+        "%s statue grant for %s was suppressed by ability gating (resolved to no ability).",
+        "Kirby P1",
+        "Burning",
+        extra={"NoStream": True, "skip_gui": True},
+    )
+
+
+@pytest.mark.asyncio
 async def test_poll_enemy_ability_reroll_events_resolves_alternate_golem_form_address(mock_bizhawk_context):
     """Alternate Golem form source addresses should resolve to the canonical GOLEM key."""
     client = KirbyAmClient()
@@ -5312,6 +5579,10 @@ async def test_sync_enemy_copy_ability_runtime_config_revalidates_each_tick_for_
     allowed_mask = 0
     ability_gating_enabled = True
     gated_mask = 0
+    for ability_name in GATEABLE_ENEMY_COPY_ABILITIES:
+        ability_id = ABILITY_NAME_TO_ID.get(ability_name)
+        if ability_id is not None and 0 < ability_id <= 31:
+            gated_mask |= 1 << ability_id
     unlocked_mask = 0
     client._last_ability_runtime_config_signature = (
         mode,
@@ -5364,6 +5635,10 @@ async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation
     allowed_mask = 0
     ability_gating_enabled = True
     gated_mask = 0
+    for ability_name in GATEABLE_ENEMY_COPY_ABILITIES:
+        ability_id = ABILITY_NAME_TO_ID.get(ability_name)
+        if ability_id is not None and 0 < ability_id <= 31:
+            gated_mask |= 1 << ability_id
     unlocked_mask = 0
     client._last_ability_runtime_config_signature = (
         mode,

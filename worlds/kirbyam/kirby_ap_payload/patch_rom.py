@@ -1,8 +1,28 @@
+from __future__ import annotations
+
 import os
 import sys
 
+import argparse
+import hashlib
+import importlib.util
+import multiprocessing as mp
+from multiprocessing.queues import Queue as MultiprocessingQueue
+import shutil
+import subprocess
+import tempfile
+import time
+from collections.abc import Callable
+from datetime import datetime
+from pathlib import Path
+from typing import Any, TextIO, TYPE_CHECKING, cast
+
 _SCRIPT_DIR = os.path.realpath(os.path.dirname(__file__))
 _WORLD_DIR = os.path.realpath(os.path.dirname(_SCRIPT_DIR))
+
+if TYPE_CHECKING:
+    shared_is_thumb_bl_instruction: Callable[[bytes], bool]
+    shared_thumb_bl_bytes: Callable[[int, int], bytes]
 
 # When patch_rom.py is executed from worlds/kirbyam/kirby_ap_payload, Python can
 # still see the parent world directory early enough for worlds/kirbyam/types.py
@@ -11,17 +31,6 @@ for path_entry in list(sys.path):
     resolved = os.path.realpath(path_entry or os.getcwd())
     if resolved == _WORLD_DIR:
         sys.path.remove(path_entry)
-
-import argparse
-import hashlib
-import importlib.util
-import multiprocessing as mp
-import shutil
-import subprocess
-import tempfile
-import time
-from datetime import datetime
-from pathlib import Path
 
 try:
     from .thumb_branch import is_thumb_bl_instruction as shared_is_thumb_bl_instruction
@@ -49,9 +58,18 @@ SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET = 0x0000B1D0
 # reward-index > 0 (Music Sheet collection rewards).
 SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET = 0x0000B264
 BIG_SWITCH_UNLOCK_CALL_OFFSET = 0x00039EEE
+# sub_08119B3C: BL _call_via_r0 after resolving the small-switch effect function.
+# Hook receives that function pointer in r0 and can suppress only the four AP levers.
+SMALL_SWITCH_EFFECT_CALL_OFFSET = 0x00119B98
 ORIGINAL_ABILITY_TRANSITION_FN_ADDR = 0x080547C4
+# sub_08054C0C consumes Kirby::transitioningAbility after statues write it directly.
+ORIGINAL_ABILITY_TRANSITION_START_FN_ADDR = 0x08054C0C
 ORIGINAL_BOSS_ALREADY_OWNED_REWARD_FN_ADDR = 0x08088A38
 EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES = 8
+# Two single-player gameplay-start calls in code_08123950.c. Both originally
+# target sub_080332BC and must run the seed-color wrapper before CreateKirby.
+ORIGINAL_START_GAME_FN_ADDR = 0x080332BC
+STARTING_COLOR_START_GAME_CALL_OFFSETS = (0x00123EF2, 0x00124022)
 
 
 ROM_PATH_TMP = "rom_path.tmp"
@@ -65,17 +83,18 @@ BSDIFF_HEARTBEAT_SECONDS = int(os.environ.get("KIRBYAM_BSDIFF_HEARTBEAT_SECONDS"
 # Logging (tee stdout/stderr)
 # ----------------------------
 class Tee:
-    def __init__(self, *streams):
+    def __init__(self, *streams: Any) -> None:
         self.streams = streams
 
-    def write(self, data):
+    def write(self, data: str) -> None:
         for s in self.streams:
             s.write(data)
             s.flush()
 
-    def flush(self):
+    def flush(self) -> None:
         for s in self.streams:
             s.flush()
+
 
 def get_fixed_patch_out() -> Path:
     # patch_rom.py is in .../worlds/kirbyam/kirby_ap_payload/
@@ -106,14 +125,14 @@ def setup_logging() -> Path:
     log_f.flush()
 
     # Tee both stdout and stderr to the same log file
-    sys.stdout = Tee(sys.__stdout__, log_f)  # type: ignore[assignment]
-    sys.stderr = Tee(sys.__stderr__, log_f)  # type: ignore[assignment]
+    sys.stdout = cast(TextIO, Tee(sys.__stdout__, log_f))
+    sys.stderr = cast(TextIO, Tee(sys.__stderr__, log_f))
 
     # Store handle so it stays open for duration
     return log_path
 
 
-def run_make():
+def run_make() -> None:
     """Run `make clean` then `make` in the current working directory."""
     for cmd in (["make", "clean"], ["make"]):
         print("Running:", " ".join(cmd))
@@ -253,6 +272,26 @@ def validate_thumb_bl_callsite(rom: bytes | bytearray, offset: int, label: str) 
     return original
 
 
+def validate_thumb_bl_callsite_target(
+    rom: bytes | bytearray,
+    offset: int,
+    label: str,
+    expected_target: int,
+    *,
+    rom_base: int = 0x08000000,
+) -> bytes:
+    """Validate both the Thumb-BL shape and its decoded retail target."""
+    original = validate_thumb_bl_callsite(rom, offset, label)
+    actual_target = decode_thumb_bl_target(rom_base + offset, original)
+    if actual_target != expected_target:
+        raise SystemExit(
+            f"Error: {label} callsite at {offset:#x} targets "
+            f"0x{actual_target:08X}, expected 0x{expected_target:08X}. "
+            "Refusing to patch an unknown ROM revision."
+        )
+    return original
+
+
 def discover_thumb_bl_callsites_to_targets(
     rom: bytes | bytearray,
     target_addrs: set[int],
@@ -306,9 +345,9 @@ def resolve_elf_symbol_address(elf_path: str | Path, symbol_name: str) -> int:
     raise SystemExit(f"Error: symbol '{symbol_name}' not found in ELF {elf_path}")
 
 
-def require_bsdiff4():
+def require_bsdiff4() -> Any:
     try:
-        import bsdiff4  # noqa: F401
+        import bsdiff4  # type: ignore[import-untyped]
         return bsdiff4
     except ModuleNotFoundError as e:
         raise SystemExit(
@@ -409,7 +448,12 @@ def release_run_lock(lock_path: Path) -> None:
         print(f"Warning: failed to remove lock file '{lock_path}': {e}")
 
 
-def _bsdiff_worker(in_path: str, intermediary_rom: str, tmp_patch_path: str, result_queue: mp.Queue) -> None:
+def _bsdiff_worker(
+    in_path: str,
+    intermediary_rom: str,
+    tmp_patch_path: str,
+    result_queue: MultiprocessingQueue[str],
+) -> None:
     try:
         bsdiff4 = require_bsdiff4()
         bsdiff4.file_diff(in_path, intermediary_rom, tmp_patch_path)
@@ -429,7 +473,7 @@ def generate_bsdiff_with_timeout(in_path: str, intermediary_rom: str, patch_path
         shutil.copy2(in_path, local_in)
         shutil.copy2(intermediary_rom, local_out)
 
-        result_queue: mp.Queue = mp.Queue()
+        result_queue: MultiprocessingQueue[str] = mp.Queue()
         proc = mp.Process(
             target=_bsdiff_worker,
             args=(str(local_in), str(local_out), str(local_patch), result_queue),
@@ -600,7 +644,7 @@ def hash_debug_report(in_path: str, source_type: str) -> None:
     print("")
 
 
-def parse_args(argv):
+def parse_args(argv: list[str]) -> dict[str, Any]:
     fixed_patch = str(get_fixed_patch_out())
 
     # Legacy mode: <in> <out> [patch] and no flags
@@ -680,7 +724,470 @@ def parse_args(argv):
     }
 
 
-def main():
+def ensure_patch_output_dir_exists(patch_path: str) -> None:
+    patch_out_dir = Path(patch_path).resolve().parent
+    if not patch_out_dir.exists():
+        raise SystemExit(
+            f"Error: patch output directory does not exist: {patch_out_dir}\n"
+            "Create it (worlds/kirbyam/data/) and re-run. patch_rom.py will not create folders."
+        )
+
+
+def load_payload_and_validate() -> tuple[bytes, Path]:
+    try:
+        with open("payload.bin", "rb") as f:
+            payload = f.read()
+    except FileNotFoundError as e:
+        raise SystemExit(
+            "Error: payload.bin not found. Ensure your build produces payload.bin in the current directory."
+        ) from e
+
+    if len(payload) > 0x16A0:
+        raise SystemExit(f"payload.bin too large: {len(payload)} bytes (max 0x16A0)")
+
+    payload_elf_path = Path("payload.elf")
+    if not payload_elf_path.exists():
+        raise SystemExit(
+            "Error: payload.elf not found after build; cannot resolve payload hook symbols."
+        )
+
+    return payload, payload_elf_path
+
+
+def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
+    targets = {
+        "main_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_hook_entry"),
+        "boss_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_boss_defeat_collect_shard"),
+        "boss_already_owned_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_boss_defeat_already_owned_reward"),
+        "minor_chest_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_collect_small_chest"),
+        "big_chest_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_collect_big_chest"),
+        "vitality_chest_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_collect_vitality_chest"),
+        "spray_paint_chest_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_collect_spray_paint_chest"),
+        "sound_player_chest_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_collect_sound_player_chest"),
+        "hub_switch_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_world_map_unlock_call"),
+        "small_switch_effect_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_small_switch_effect"),
+        "ability_transition_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_request_copy_ability_transition"),
+        "ability_transition_start_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_start_copy_ability_transition"),
+        "starting_color_start_game_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_start_single_player_game"),
+    }
+    return {name: target & ~1 for name, target in targets.items()}
+
+
+_PAYLOAD_TARGET_LABELS = {
+    "main_hook_target": "main hook",
+    "boss_hook_target": "boss shard hook",
+    "boss_already_owned_hook_target": "boss already-owned reward hook",
+    "minor_chest_hook_target": "minor chest hook",
+    "big_chest_hook_target": "big chest hook",
+    "vitality_chest_hook_target": "vitality chest hook",
+    "spray_paint_chest_hook_target": "spray paint chest hook",
+    "sound_player_chest_hook_target": "sound player/music-sheet chest hook",
+    "hub_switch_hook_target": "hub switch hook",
+    "small_switch_effect_hook_target": "lever small-switch effect hook",
+    "ability_transition_hook_target": "ability transition hook",
+    "ability_transition_start_hook_target": "ability transition-start hook",
+    "starting_color_start_game_hook_target": "starting-color game-start hook",
+}
+
+
+def validate_payload_targets(
+    hook_targets: dict[str, int],
+    payload_rom_start: int,
+    payload_rom_end: int,
+) -> None:
+    for name, target in hook_targets.items():
+        if not (payload_rom_start <= target < payload_rom_end):
+            raise SystemExit(
+                "Error: "
+                f"{_PAYLOAD_TARGET_LABELS[name]} target address out of expected payload range.\n"
+                f"Resolved address: 0x{target:08X}, expected within "
+                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
+                "Check your payload.elf link address and PAYLOAD_OFFSET."
+            )
+
+
+def build_payload_hook_bl_bytes(
+    hook_targets: dict[str, int], rom_base: int
+) -> dict[str, bytes]:
+    return {
+        "main_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + MAIN_HOOK_OFFSET, hook_targets["main_hook_target"]
+        ),
+        "boss_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + BOSS_COLLECT_SHARD_CALL_OFFSET,
+            hook_targets["boss_hook_target"],
+        ),
+        "minor_chest_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + MINOR_CHEST_COLLECT_CALL_OFFSET,
+            hook_targets["minor_chest_hook_target"],
+        ),
+        "big_chest_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + BIG_CHEST_COLLECT_CALL_OFFSET,
+            hook_targets["big_chest_hook_target"],
+        ),
+        "vitality_chest_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + VITALITY_CHEST_COLLECT_CALL_OFFSET,
+            hook_targets["vitality_chest_hook_target"],
+        ),
+        "spray_paint_chest_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET,
+            hook_targets["spray_paint_chest_hook_target"],
+        ),
+        "sound_player_chest_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET,
+            hook_targets["sound_player_chest_hook_target"],
+        ),
+        "hub_switch_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + BIG_SWITCH_UNLOCK_CALL_OFFSET,
+            hook_targets["hub_switch_hook_target"],
+        ),
+        "small_switch_effect_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + SMALL_SWITCH_EFFECT_CALL_OFFSET,
+            hook_targets["small_switch_effect_hook_target"],
+        ),
+    }
+
+
+def load_rom_and_validate(in_path: str) -> tuple[bytearray, bool]:
+    try:
+        with open(in_path, "rb") as f:
+            rom = bytearray(f.read())
+    except FileNotFoundError as e:
+        raise SystemExit(f"Error: input ROM not found: {in_path}") from e
+
+    warning = get_rom_size_warning(len(rom))
+    if warning is not None:
+        print(warning)
+    return rom, warning is None
+
+
+def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, bytes]:
+    original_boss_hook = validate_thumb_bl_callsite(
+        rom, BOSS_COLLECT_SHARD_CALL_OFFSET, "boss shard"
+    )
+    original_minor_chest_hook = validate_thumb_bl_callsite(
+        rom, MINOR_CHEST_COLLECT_CALL_OFFSET, "minor chest"
+    )
+    original_big_chest_hook = validate_thumb_bl_callsite(
+        rom, BIG_CHEST_COLLECT_CALL_OFFSET, "big chest"
+    )
+    original_vitality_hook = validate_thumb_bl_callsite(
+        rom, VITALITY_CHEST_COLLECT_CALL_OFFSET, "vitality chest"
+    )
+    original_spray_paint_hook = validate_thumb_bl_callsite(
+        rom, SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET, "spray paint chest"
+    )
+    original_sound_player_hook = validate_thumb_bl_callsite(
+        rom,
+        SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET,
+        "sound player/music-sheet chest",
+    )
+    original_hub_switch_hook = validate_thumb_bl_callsite(
+        rom, BIG_SWITCH_UNLOCK_CALL_OFFSET, "hub switch unlock"
+    )
+    original_small_switch_effect_hook = validate_thumb_bl_callsite(
+        rom, SMALL_SWITCH_EFFECT_CALL_OFFSET, "lever small-switch effect dispatch"
+    )
+    original_starting_color_hooks = [
+        validate_thumb_bl_callsite_target(
+            rom,
+            offset,
+            "single-player game start",
+            ORIGINAL_START_GAME_FN_ADDR,
+        )
+        for offset in STARTING_COLOR_START_GAME_CALL_OFFSETS
+    ]
+
+    print("Validated hook callsite instruction shape (Thumb BL):")
+    print(f"  boss shard @ {BOSS_COLLECT_SHARD_CALL_OFFSET:#x}: {original_boss_hook.hex(' ')}")
+    print(f"  minor chest @ {MINOR_CHEST_COLLECT_CALL_OFFSET:#x}: {original_minor_chest_hook.hex(' ')}")
+    print(f"  big chest @ {BIG_CHEST_COLLECT_CALL_OFFSET:#x}: {original_big_chest_hook.hex(' ')}")
+    print(f"  vitality chest @ {VITALITY_CHEST_COLLECT_CALL_OFFSET:#x}: {original_vitality_hook.hex(' ')}")
+    print(f"  spray paint chest @ {SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:#x}: {original_spray_paint_hook.hex(' ')}")
+    print(
+        f"  sound player/music-sheet chest @ {SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET:#x}: "
+        f"{original_sound_player_hook.hex(' ')}"
+    )
+    print(f"  hub switch unlock @ {BIG_SWITCH_UNLOCK_CALL_OFFSET:#x}: {original_hub_switch_hook.hex(' ')}")
+    print(
+        f"  lever small-switch effect @ {SMALL_SWITCH_EFFECT_CALL_OFFSET:#x}: "
+        f"{original_small_switch_effect_hook.hex(' ')}"
+    )
+    for offset, opcode in zip(STARTING_COLOR_START_GAME_CALL_OFFSETS, original_starting_color_hooks):
+        print(f"  single-player game start @ {offset:#x}: {opcode.hex(' ')}")
+
+    return {
+        "original_boss_hook": original_boss_hook,
+        "original_minor_chest_hook": original_minor_chest_hook,
+        "original_big_chest_hook": original_big_chest_hook,
+        "original_vitality_hook": original_vitality_hook,
+        "original_spray_paint_hook": original_spray_paint_hook,
+        "original_sound_player_hook": original_sound_player_hook,
+        "original_hub_switch_hook": original_hub_switch_hook,
+        "original_small_switch_effect_hook": original_small_switch_effect_hook,
+        "original_starting_color_hook_intro": original_starting_color_hooks[0],
+        "original_starting_color_hook_load": original_starting_color_hooks[1],
+    }
+
+
+def discover_runtime_callsites(
+    rom: bytes | bytearray, rom_base: int, hook_targets: dict[str, int]
+) -> tuple[dict[int, bytes], list[int], list[int]]:
+    _GBA_ROM_CODE_START = 0xC0
+    scan_end = min(PAYLOAD_OFFSET, len(rom) - 3)
+
+    boss_already_owned_target_candidates = {
+        ORIGINAL_BOSS_ALREADY_OWNED_REWARD_FN_ADDR,
+        ORIGINAL_BOSS_ALREADY_OWNED_REWARD_FN_ADDR | 1,
+    }
+    boss_already_owned_callsites = discover_thumb_bl_callsites_to_targets(
+        rom,
+        boss_already_owned_target_candidates,
+        rom_base=rom_base,
+        scan_start=_GBA_ROM_CODE_START,
+        scan_end=scan_end,
+    )
+    if len(boss_already_owned_callsites) != EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES:
+        if scan_end == PAYLOAD_OFFSET:
+            raise SystemExit(
+                "Error: expected exactly "
+                f"{EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES} callsites to "
+                f"0x{ORIGINAL_BOSS_ALREADY_OWNED_REWARD_FN_ADDR:08X}, "
+                f"found {len(boss_already_owned_callsites)} at "
+                f"{', '.join(hex(x) for x in boss_already_owned_callsites)}."
+            )
+
+        print(
+            "Warning: expected exactly "
+            f"{EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES} callsites to "
+            f"0x{ORIGINAL_BOSS_ALREADY_OWNED_REWARD_FN_ADDR:08X}, "
+            f"found {len(boss_already_owned_callsites)} at "
+            f"{', '.join(hex(x) for x in boss_already_owned_callsites) or '<none>'}. "
+            "Continuing because ROM size is non-standard; already-owned reward hook patching may be incomplete."
+        )
+
+    boss_already_owned_hook_bl_by_offset = {
+        offset: thumb_bl_bytes(
+            rom_base + offset,
+            hook_targets["boss_already_owned_hook_target"],
+        )
+        for offset in boss_already_owned_callsites
+    }
+
+    ability_transition_target_candidates = {
+        ORIGINAL_ABILITY_TRANSITION_FN_ADDR,
+        ORIGINAL_ABILITY_TRANSITION_FN_ADDR | 1,
+    }
+    ability_transition_callsites = discover_thumb_bl_callsites_to_targets(
+        rom,
+        ability_transition_target_candidates,
+        rom_base=rom_base,
+        scan_start=_GBA_ROM_CODE_START,
+        scan_end=scan_end,
+    )
+    if not ability_transition_callsites:
+        raise SystemExit(
+            f"Error: no callsites found for ability transition function "
+            f"0x{ORIGINAL_ABILITY_TRANSITION_FN_ADDR:08X}. "
+            "Refusing to continue without a validated runtime reroll hook site."
+        )
+
+    ability_transition_start_target_candidates = {
+        ORIGINAL_ABILITY_TRANSITION_START_FN_ADDR,
+        ORIGINAL_ABILITY_TRANSITION_START_FN_ADDR | 1,
+    }
+    ability_transition_start_callsites = discover_thumb_bl_callsites_to_targets(
+        rom,
+        ability_transition_start_target_candidates,
+        rom_base=rom_base,
+        scan_start=_GBA_ROM_CODE_START,
+        scan_end=scan_end,
+    )
+    if not ability_transition_start_callsites:
+        raise SystemExit(
+            f"Error: no callsites found for ability transition starter "
+            f"0x{ORIGINAL_ABILITY_TRANSITION_START_FN_ADDR:08X}. "
+            "Without this hook, ability statues can bypass ability locking."
+        )
+
+    return (
+        boss_already_owned_hook_bl_by_offset,
+        ability_transition_callsites,
+        ability_transition_start_callsites,
+    )
+
+
+def patch_rom_with_payload(
+    rom: bytearray,
+    payload: bytes,
+    hook_bl_bytes: dict[str, bytes],
+    boss_already_owned_hook_bl_by_offset: dict[int, bytes],
+    ability_transition_callsites: list[int],
+    ability_transition_start_callsites: list[int],
+    hook_targets: dict[str, int],
+    rom_base: int,
+) -> None:
+    rom[PAYLOAD_OFFSET:PAYLOAD_OFFSET + len(payload)] = payload
+
+    rom[MAIN_HOOK_OFFSET:MAIN_HOOK_OFFSET + 4] = hook_bl_bytes["main_hook_bl_bytes"]
+    rom[BOSS_COLLECT_SHARD_CALL_OFFSET:BOSS_COLLECT_SHARD_CALL_OFFSET + 4] = hook_bl_bytes["boss_hook_bl_bytes"]
+    rom[MINOR_CHEST_COLLECT_CALL_OFFSET:MINOR_CHEST_COLLECT_CALL_OFFSET + 4] = (
+        hook_bl_bytes["minor_chest_hook_bl_bytes"]
+    )
+    rom[BIG_CHEST_COLLECT_CALL_OFFSET:BIG_CHEST_COLLECT_CALL_OFFSET + 4] = (
+        hook_bl_bytes["big_chest_hook_bl_bytes"]
+    )
+    rom[VITALITY_CHEST_COLLECT_CALL_OFFSET:VITALITY_CHEST_COLLECT_CALL_OFFSET + 4] = (
+        hook_bl_bytes["vitality_chest_hook_bl_bytes"]
+    )
+    rom[SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET + 4] = (
+        hook_bl_bytes["spray_paint_chest_hook_bl_bytes"]
+    )
+    rom[SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET:SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET + 4] = (
+        hook_bl_bytes["sound_player_chest_hook_bl_bytes"]
+    )
+    rom[BIG_SWITCH_UNLOCK_CALL_OFFSET:BIG_SWITCH_UNLOCK_CALL_OFFSET + 4] = hook_bl_bytes["hub_switch_hook_bl_bytes"]
+    rom[SMALL_SWITCH_EFFECT_CALL_OFFSET:SMALL_SWITCH_EFFECT_CALL_OFFSET + 4] = (
+        hook_bl_bytes["small_switch_effect_hook_bl_bytes"]
+    )
+
+    for offset, hook_bl in boss_already_owned_hook_bl_by_offset.items():
+        rom[offset:offset + 4] = hook_bl
+    for offset in ability_transition_callsites:
+        rom[offset:offset + 4] = thumb_bl_bytes(
+            rom_base + offset, hook_targets["ability_transition_hook_target"]
+        )
+    for offset in ability_transition_start_callsites:
+        rom[offset:offset + 4] = thumb_bl_bytes(
+            rom_base + offset, hook_targets["ability_transition_start_hook_target"]
+        )
+    for offset in STARTING_COLOR_START_GAME_CALL_OFFSETS:
+        rom[offset:offset + 4] = thumb_bl_bytes(
+            rom_base + offset, hook_targets["starting_color_start_game_hook_target"]
+        )
+
+
+def print_patch_summary(
+    hook_targets: dict[str, int],
+    hook_bl_bytes: dict[str, bytes],
+    boss_already_owned_callsites: list[int],
+    ability_transition_callsites: list[int],
+    ability_transition_start_callsites: list[int],
+) -> None:
+    print("Intermediary patched ROM written:", INTERMEDIARY_ROM)
+    print("Payload inserted at file offset:", hex(PAYLOAD_OFFSET))
+    print(
+        "Main hook patched at file offset:",
+        hex(MAIN_HOOK_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["main_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["main_hook_target"]),
+    )
+    print(
+        "Boss shard call patched at file offset:",
+        hex(BOSS_COLLECT_SHARD_CALL_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["boss_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["boss_hook_target"]),
+    )
+    print(
+        "Boss already-owned reward callsites patched:",
+        ", ".join(hex(x) for x in boss_already_owned_callsites),
+        "target=",
+        hex(hook_targets["boss_already_owned_hook_target"]),
+    )
+    print(
+        "Minor chest call patched at file offset:",
+        hex(MINOR_CHEST_COLLECT_CALL_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["minor_chest_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["minor_chest_hook_target"]),
+    )
+    print(
+        "Big chest call patched at file offset:",
+        hex(BIG_CHEST_COLLECT_CALL_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["big_chest_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["big_chest_hook_target"]),
+    )
+    print(
+        "Vitality chest call patched at file offset:",
+        hex(VITALITY_CHEST_COLLECT_CALL_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["vitality_chest_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["vitality_chest_hook_target"]),
+    )
+    print(
+        "Spray paint chest call patched at file offset:",
+        hex(SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["spray_paint_chest_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["spray_paint_chest_hook_target"]),
+    )
+    print(
+        "Sound Player/Music Sheet chest call patched at file offset:",
+        hex(SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["sound_player_chest_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["sound_player_chest_hook_target"]),
+    )
+    print(
+        "Hub switch unlock call patched at file offset:",
+        hex(BIG_SWITCH_UNLOCK_CALL_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["hub_switch_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["hub_switch_hook_target"]),
+    )
+    print(
+        "Lever small-switch effect call patched at file offset:",
+        hex(SMALL_SWITCH_EFFECT_CALL_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["small_switch_effect_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["small_switch_effect_hook_target"]),
+    )
+    print(
+        "Ability request callsites patched:",
+        len(ability_transition_callsites),
+        "target=",
+        hex(hook_targets["ability_transition_hook_target"]),
+    )
+    print(
+        "Ability transition-start callsites patched:",
+        len(ability_transition_start_callsites),
+        "target=",
+        hex(hook_targets["ability_transition_start_hook_target"]),
+    )
+    print(
+        "Single-player game-start callsites patched:",
+        ", ".join(hex(offset) for offset in STARTING_COLOR_START_GAME_CALL_OFFSETS),
+        "target=",
+        hex(hook_targets["starting_color_start_game_hook_target"]),
+    )
+
+
+def main() -> None:
     log_path = setup_logging()
     print(f"Logging to: {log_path}")
 
@@ -689,15 +1196,7 @@ def main():
     in_path = args["in_path"]
     patch_path = args["patch_path"]
 
-    # Verify patch output directory exists
-    patch_out_dir = Path(patch_path).resolve().parent
-    if not patch_out_dir.exists():
-        raise SystemExit(
-            f"Error: patch output directory does not exist: {patch_out_dir}\n"
-            "Create it (worlds/kirbyam/data/) and re-run. patch_rom.py will not create folders."
-        )
-
-    print("Patch output (fixed):", Path(patch_path).resolve())
+    ensure_patch_output_dir_exists(patch_path)
 
     lock_path = Path(patch_path).with_suffix(Path(patch_path).suffix + ".lock")
     acquire_run_lock(lock_path)
@@ -727,247 +1226,45 @@ def main():
         print("      For consistency, consider using a file named 'kirby.gba' as the clean base.")
 
     try:
-        # 1) Build step: make clean; make
         run_make()
 
-        # 2) Load payload
-        try:
-            with open("payload.bin", "rb") as f:
-                payload = f.read()
-        except FileNotFoundError as e:
-            raise SystemExit(
-                "Error: payload.bin not found. Ensure your build produces payload.bin in the current directory."
-            ) from e
+        payload, payload_elf_path = load_payload_and_validate()
+        hook_targets = resolve_payload_hook_targets(payload_elf_path)
 
-        if len(payload) > 0x16A0:
-            raise SystemExit(f"payload.bin too large: {len(payload)} bytes (max 0x16A0)")
-
-        payload_elf_path = Path("payload.elf")
-        if not payload_elf_path.exists():
-            raise SystemExit("Error: payload.elf not found after build; cannot resolve payload hook symbols.")
-
-        main_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_hook_entry")
-        boss_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_boss_defeat_collect_shard")
-        boss_already_owned_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_boss_defeat_already_owned_reward")
-        minor_chest_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_collect_small_chest")
-        big_chest_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_collect_big_chest")
-        vitality_chest_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_collect_vitality_chest")
-        spray_paint_chest_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_collect_spray_paint_chest")
-        sound_player_chest_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_collect_sound_player_chest")
-        hub_switch_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_world_map_unlock_call")
-        ability_transition_hook_target = resolve_elf_symbol_address(payload_elf_path, "ap_on_request_copy_ability_transition")
-        # arm-none-eabi-nm may encode Thumb function symbols with bit 0 set.
-        # Clear the Thumb state bit before passing to thumb_bl_bytes(), which
-        # requires a halfword-aligned target address.
-        main_hook_target &= ~1
-        boss_hook_target &= ~1
-        boss_already_owned_hook_target &= ~1
-        minor_chest_hook_target &= ~1
-        big_chest_hook_target &= ~1
-        vitality_chest_hook_target &= ~1
-        spray_paint_chest_hook_target &= ~1
-        sound_player_chest_hook_target &= ~1
-        hub_switch_hook_target &= ~1
-        ability_transition_hook_target &= ~1
         rom_base = 0x08000000
         payload_rom_start = rom_base + PAYLOAD_OFFSET
         payload_rom_end = payload_rom_start + len(payload)
-        if not (payload_rom_start <= main_hook_target < payload_rom_end):
-            raise SystemExit(
-                "Error: main hook target address out of expected payload range.\n"
-                f"Resolved address: 0x{main_hook_target:08X}, expected within "
-                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
-                "Check your payload.elf link address and PAYLOAD_OFFSET."
-            )
-        if not (payload_rom_start <= boss_hook_target < payload_rom_end):
-            raise SystemExit(
-                "Error: boss hook target address out of expected payload range.\n"
-                f"Resolved address: 0x{boss_hook_target:08X}, expected within "
-                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
-                "Check your payload.elf link address and PAYLOAD_OFFSET."
-            )
-        if not (payload_rom_start <= boss_already_owned_hook_target < payload_rom_end):
-            raise SystemExit(
-                "Error: boss already-owned hook target address out of expected payload range.\n"
-                f"Resolved address: 0x{boss_already_owned_hook_target:08X}, expected within "
-                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
-                "Check your payload.elf link address and PAYLOAD_OFFSET."
-            )
-        if not (payload_rom_start <= minor_chest_hook_target < payload_rom_end):
-            raise SystemExit(
-                "Error: minor chest hook target address out of expected payload range.\n"
-                f"Resolved address: 0x{minor_chest_hook_target:08X}, expected within "
-                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
-                "Check your payload.elf link address and PAYLOAD_OFFSET."
-            )
-        if not (payload_rom_start <= big_chest_hook_target < payload_rom_end):
-            raise SystemExit(
-                "Error: big chest hook target address out of expected payload range.\n"
-                f"Resolved address: 0x{big_chest_hook_target:08X}, expected within "
-                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
-                "Check your payload.elf link address and PAYLOAD_OFFSET."
-            )
-        if not (payload_rom_start <= vitality_chest_hook_target < payload_rom_end):
-            raise SystemExit(
-                "Error: vitality chest hook target address out of expected payload range.\n"
-                f"Resolved address: 0x{vitality_chest_hook_target:08X}, expected within "
-                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
-                "Check your payload.elf link address and PAYLOAD_OFFSET."
-            )
-        if not (payload_rom_start <= spray_paint_chest_hook_target < payload_rom_end):
-            raise SystemExit(
-                "Error: spray paint chest hook target address out of expected payload range.\n"
-                f"Resolved address: 0x{spray_paint_chest_hook_target:08X}, expected within "
-                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
-                "Check your payload.elf link address and PAYLOAD_OFFSET."
-            )
-        if not (payload_rom_start <= sound_player_chest_hook_target < payload_rom_end):
-            raise SystemExit(
-                "Error: sound player/music-sheet chest hook target address out of expected payload range.\n"
-                f"Resolved address: 0x{sound_player_chest_hook_target:08X}, expected within "
-                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
-                "Check your payload.elf link address and PAYLOAD_OFFSET."
-            )
-        if not (payload_rom_start <= hub_switch_hook_target < payload_rom_end):
-            raise SystemExit(
-                "Error: hub switch hook target address out of expected payload range.\n"
-                f"Resolved address: 0x{hub_switch_hook_target:08X}, expected within "
-                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
-                "Check your payload.elf link address and PAYLOAD_OFFSET."
-            )
-        if not (payload_rom_start <= ability_transition_hook_target < payload_rom_end):
-            raise SystemExit(
-                "Error: ability transition hook target address out of expected payload range.\n"
-                f"Resolved address: 0x{ability_transition_hook_target:08X}, expected within "
-                f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
-                "Check your payload.elf link address and PAYLOAD_OFFSET."
-            )
-        main_hook_bl_bytes = thumb_bl_bytes(rom_base + MAIN_HOOK_OFFSET, main_hook_target)
-        boss_hook_bl_bytes = thumb_bl_bytes(rom_base + BOSS_COLLECT_SHARD_CALL_OFFSET, boss_hook_target)
-        minor_chest_hook_bl_bytes = thumb_bl_bytes(rom_base + MINOR_CHEST_COLLECT_CALL_OFFSET, minor_chest_hook_target)
-        big_chest_hook_bl_bytes = thumb_bl_bytes(rom_base + BIG_CHEST_COLLECT_CALL_OFFSET, big_chest_hook_target)
-        vitality_chest_hook_bl_bytes = thumb_bl_bytes(rom_base + VITALITY_CHEST_COLLECT_CALL_OFFSET, vitality_chest_hook_target)
-        spray_paint_chest_hook_bl_bytes = thumb_bl_bytes(rom_base + SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET, spray_paint_chest_hook_target)
-        sound_player_chest_hook_bl_bytes = thumb_bl_bytes(rom_base + SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET, sound_player_chest_hook_target)
-        hub_switch_hook_bl_bytes = thumb_bl_bytes(rom_base + BIG_SWITCH_UNLOCK_CALL_OFFSET, hub_switch_hook_target)
+        validate_payload_targets(hook_targets, payload_rom_start, payload_rom_end)
 
-        # 3) Load ROM
-        try:
-            with open(in_path, "rb") as f:
-                rom = bytearray(f.read())
-        except FileNotFoundError as e:
-            raise SystemExit(f"Error: input ROM not found: {in_path}") from e
+        hook_bl_bytes = build_payload_hook_bl_bytes(hook_targets, rom_base)
 
-        warning = get_rom_size_warning(len(rom))
-        if warning is not None:
-            print(warning)
-        is_standard_rom_size = warning is None
+        rom, _ = load_rom_and_validate(in_path)
+        validate_rom_callsite_instructions(rom)
 
-        original_boss_hook = validate_thumb_bl_callsite(rom, BOSS_COLLECT_SHARD_CALL_OFFSET, "boss shard")
-        original_minor_chest_hook = validate_thumb_bl_callsite(rom, MINOR_CHEST_COLLECT_CALL_OFFSET, "minor chest")
-        original_big_chest_hook = validate_thumb_bl_callsite(rom, BIG_CHEST_COLLECT_CALL_OFFSET, "big chest")
-        original_vitality_hook = validate_thumb_bl_callsite(rom, VITALITY_CHEST_COLLECT_CALL_OFFSET, "vitality chest")
-        original_spray_paint_hook = validate_thumb_bl_callsite(rom, SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET, "spray paint chest")
-        original_sound_player_hook = validate_thumb_bl_callsite(
+        (
+            boss_already_owned_hook_bl_by_offset,
+            ability_transition_callsites,
+            ability_transition_start_callsites,
+        ) = discover_runtime_callsites(
             rom,
-            SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET,
-            "sound player/music-sheet chest",
+            rom_base,
+            hook_targets,
         )
-        original_hub_switch_hook = validate_thumb_bl_callsite(rom, BIG_SWITCH_UNLOCK_CALL_OFFSET, "hub switch unlock")
-        print("Validated hook callsite instruction shape (Thumb BL):")
-        print(f"  boss shard @ {BOSS_COLLECT_SHARD_CALL_OFFSET:#x}: {original_boss_hook.hex(' ')}")
-        print(f"  minor chest @ {MINOR_CHEST_COLLECT_CALL_OFFSET:#x}: {original_minor_chest_hook.hex(' ')}")
-        print(f"  big chest @ {BIG_CHEST_COLLECT_CALL_OFFSET:#x}: {original_big_chest_hook.hex(' ')}")
-        print(f"  vitality chest @ {VITALITY_CHEST_COLLECT_CALL_OFFSET:#x}: {original_vitality_hook.hex(' ')}")
-        print(f"  spray paint chest @ {SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:#x}: {original_spray_paint_hook.hex(' ')}")
-        print(
-            f"  sound player/music-sheet chest @ {SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET:#x}: "
-            f"{original_sound_player_hook.hex(' ')}"
-        )
-        print(f"  hub switch unlock @ {BIG_SWITCH_UNLOCK_CALL_OFFSET:#x}: {original_hub_switch_hook.hex(' ')}")
 
-        _GBA_ROM_CODE_START = 0xC0
-        scan_end = min(PAYLOAD_OFFSET, len(rom) - 3)
-
-        boss_already_owned_target_candidates = {
-            ORIGINAL_BOSS_ALREADY_OWNED_REWARD_FN_ADDR,
-            ORIGINAL_BOSS_ALREADY_OWNED_REWARD_FN_ADDR | 1,
-        }
-        boss_already_owned_callsites = discover_thumb_bl_callsites_to_targets(
+        patch_rom_with_payload(
             rom,
-            boss_already_owned_target_candidates,
-            rom_base=rom_base,
-            scan_start=_GBA_ROM_CODE_START,
-            scan_end=scan_end,
-        )
-        if len(boss_already_owned_callsites) != EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES:
-            if is_standard_rom_size:
-                raise SystemExit(
-                    "Error: expected exactly "
-                    f"{EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES} callsites to 0x{ORIGINAL_BOSS_ALREADY_OWNED_REWARD_FN_ADDR:08X}, "
-                    f"found {len(boss_already_owned_callsites)} at {', '.join(hex(x) for x in boss_already_owned_callsites)}."
-                )
-
-            print(
-                "Warning: expected exactly "
-                f"{EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES} callsites to 0x{ORIGINAL_BOSS_ALREADY_OWNED_REWARD_FN_ADDR:08X}, "
-                f"found {len(boss_already_owned_callsites)} at {', '.join(hex(x) for x in boss_already_owned_callsites) or '<none>'}. "
-                "Continuing because ROM size is non-standard; already-owned reward hook patching may be incomplete."
-            )
-
-        boss_already_owned_hook_bl_by_offset = {
-            offset: thumb_bl_bytes(rom_base + offset, boss_already_owned_hook_target)
-            for offset in boss_already_owned_callsites
-        }
-
-        # Find and patch all Thumb BL callsites targeting Kirby's ability-transition function.
-        # The ability-transition function is called from many sites throughout the game code,
-        # so auto-discovery is used instead of a single hardcoded offset.
-        # Scan bounds: start past the GBA ROM header (first 0xC0 bytes contain exception
-        # vectors and the Nintendo logo bitmap, never game code callsites); end at
-        # PAYLOAD_OFFSET, which was chosen to be a zero/free-space region of the original
-        # ROM so no game callsites appear at or after that offset.
-        ability_transition_target_candidates = {
-            ORIGINAL_ABILITY_TRANSITION_FN_ADDR,
-            ORIGINAL_ABILITY_TRANSITION_FN_ADDR | 1,
-        }
-        ability_transition_callsites = discover_thumb_bl_callsites_to_targets(
-            rom,
-            ability_transition_target_candidates,
-            rom_base=rom_base,
-            scan_start=_GBA_ROM_CODE_START,
-            scan_end=scan_end,
+            payload,
+            hook_bl_bytes,
+            boss_already_owned_hook_bl_by_offset,
+            ability_transition_callsites,
+            ability_transition_start_callsites,
+            hook_targets,
+            rom_base,
         )
 
-        if not ability_transition_callsites:
-            raise SystemExit(
-                f"Error: no callsites found for ability transition function "
-                f"0x{ORIGINAL_ABILITY_TRANSITION_FN_ADDR:08X}. "
-                "Refusing to continue without a validated runtime reroll hook site."
-            )
-
-        # 4) Insert payload
-        rom[PAYLOAD_OFFSET:PAYLOAD_OFFSET + len(payload)] = payload
-
-        # 5) Patch hook sites with BL
-        rom[MAIN_HOOK_OFFSET:MAIN_HOOK_OFFSET + 4] = main_hook_bl_bytes
-        rom[BOSS_COLLECT_SHARD_CALL_OFFSET:BOSS_COLLECT_SHARD_CALL_OFFSET + 4] = boss_hook_bl_bytes
-        rom[MINOR_CHEST_COLLECT_CALL_OFFSET:MINOR_CHEST_COLLECT_CALL_OFFSET + 4] = minor_chest_hook_bl_bytes
-        rom[BIG_CHEST_COLLECT_CALL_OFFSET:BIG_CHEST_COLLECT_CALL_OFFSET + 4] = big_chest_hook_bl_bytes
-        rom[VITALITY_CHEST_COLLECT_CALL_OFFSET:VITALITY_CHEST_COLLECT_CALL_OFFSET + 4] = vitality_chest_hook_bl_bytes
-        rom[SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET + 4] = spray_paint_chest_hook_bl_bytes
-        rom[SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET:SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET + 4] = sound_player_chest_hook_bl_bytes
-        rom[BIG_SWITCH_UNLOCK_CALL_OFFSET:BIG_SWITCH_UNLOCK_CALL_OFFSET + 4] = hub_switch_hook_bl_bytes
-        for offset, hook_bl in boss_already_owned_hook_bl_by_offset.items():
-            rom[offset:offset + 4] = hook_bl
-        for offset in ability_transition_callsites:
-            rom[offset:offset + 4] = thumb_bl_bytes(rom_base + offset, ability_transition_hook_target)
-
-        # 6) Write the intermediary patched ROM
         with open(INTERMEDIARY_ROM, "wb") as f:
             f.write(rom)
 
-        # Optional: hash debug of intermediary patched ROM
         if hash_debug:
             try:
                 patched_md5 = md5_file(INTERMEDIARY_ROM)
@@ -981,86 +1278,14 @@ def main():
             except Exception as e:
                 print(f"Warning: failed to compute intermediary patched ROM MD5: {e}")
 
-        print("Intermediary patched ROM written:", INTERMEDIARY_ROM)
-        print("Payload inserted at file offset:", hex(PAYLOAD_OFFSET))
-        print(
-            "Main hook patched at file offset:",
-            hex(MAIN_HOOK_OFFSET),
-            "with bytes:",
-            main_hook_bl_bytes.hex(" "),
-            "target=",
-            hex(main_hook_target),
-        )
-        print(
-            "Boss shard call patched at file offset:",
-            hex(BOSS_COLLECT_SHARD_CALL_OFFSET),
-            "with bytes:",
-            boss_hook_bl_bytes.hex(" "),
-            "target=",
-            hex(boss_hook_target),
-        )
-        print(
-            "Boss already-owned reward callsites patched:",
-            ", ".join(hex(x) for x in boss_already_owned_callsites),
-            "target=",
-            hex(boss_already_owned_hook_target),
-        )
-        print(
-            "Minor chest call patched at file offset:",
-            hex(MINOR_CHEST_COLLECT_CALL_OFFSET),
-            "with bytes:",
-            minor_chest_hook_bl_bytes.hex(" "),
-            "target=",
-            hex(minor_chest_hook_target),
-        )
-        print(
-            "Big chest call patched at file offset:",
-            hex(BIG_CHEST_COLLECT_CALL_OFFSET),
-            "with bytes:",
-            big_chest_hook_bl_bytes.hex(" "),
-            "target=",
-            hex(big_chest_hook_target),
-        )
-        print(
-            "Vitality chest call patched at file offset:",
-            hex(VITALITY_CHEST_COLLECT_CALL_OFFSET),
-            "with bytes:",
-            vitality_chest_hook_bl_bytes.hex(" "),
-            "target=",
-            hex(vitality_chest_hook_target),
-        )
-        print(
-            "Spray paint chest call patched at file offset:",
-            hex(SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET),
-            "with bytes:",
-            spray_paint_chest_hook_bl_bytes.hex(" "),
-            "target=",
-            hex(spray_paint_chest_hook_target),
-        )
-        print(
-            "Sound Player/Music Sheet chest call patched at file offset:",
-            hex(SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET),
-            "with bytes:",
-            sound_player_chest_hook_bl_bytes.hex(" "),
-            "target=",
-            hex(sound_player_chest_hook_target),
-        )
-        print(
-            "Hub switch unlock call patched at file offset:",
-            hex(BIG_SWITCH_UNLOCK_CALL_OFFSET),
-            "with bytes:",
-            hub_switch_hook_bl_bytes.hex(" "),
-            "target=",
-            hex(hub_switch_hook_target),
-        )
-        print(
-            "Ability transition callsites patched:",
-            len(ability_transition_callsites),
-            "target=",
-            hex(ability_transition_hook_target),
+        print_patch_summary(
+            hook_targets,
+            hook_bl_bytes,
+            list(boss_already_owned_hook_bl_by_offset.keys()),
+            ability_transition_callsites,
+            ability_transition_start_callsites,
         )
 
-        # 7) Generate base_patch.bsdiff4: clean base -> intermediary patched ROM
         print("Starting bsdiff generation...")
         generate_bsdiff_with_timeout(in_path, INTERMEDIARY_ROM, patch_path)
 
@@ -1068,7 +1293,6 @@ def main():
         print("Patch source (clean):", in_path)
         print("Patch target (baseline):", INTERMEDIARY_ROM)
 
-        # 8) Delete intermediary ROM now that patch exists
         safe_unlink(INTERMEDIARY_ROM)
     finally:
         release_run_lock(lock_path)

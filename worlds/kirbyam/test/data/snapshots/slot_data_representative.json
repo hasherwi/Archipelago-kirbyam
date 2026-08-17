@@ -74,9 +74,9 @@
     "UFO",
     "Wheel"
   ],
+  "enemy_health_multiplier": 100,
   "goal": 0,
   "goal_configured_area_boss_key": "BOSS_DEFEAT_3",
-  "goal_hidden_area_boss_key": null,
   "locations": {
     "AREA_VISIT_1_RAINBOW_ROUTE": {
       "category": "AREA_VISIT",
@@ -234,7 +234,7 @@
     },
     "GOAL_CONFIGURED_AREA_BOSS": {
       "category": "GOAL",
-      "label": "Defeat Configured Area Boss",
+      "label": "Defeat Area Boss",
       "location_id": 3960011,
       "tags": [
         "Goal",
@@ -248,15 +248,6 @@
       "tags": [
         "Goal",
         "MAP_DIMENSION_MIRROR"
-      ]
-    },
-    "GOAL_HIDDEN_AREA_BOSS": {
-      "category": "GOAL",
-      "label": "Defeat a Hidden Area Boss",
-      "location_id": 3960010,
-      "tags": [
-        "Goal",
-        "MAP_RAINBOW_ROUTE"
       ]
     },
     "HUB_SWITCH_CABBAGE_CAVERN_CENTER": {
@@ -394,6 +385,42 @@
         "MAP_RAINBOW_ROUTE"
       ]
     },
+    "LEVER_CARROT_CASTLE_5_12": {
+      "category": "LEVER",
+      "label": "Carrot Castle 5-12 - Lever",
+      "location_id": 3960417,
+      "tags": [
+        "Lever",
+        "MAP_CARROT_CASTLE"
+      ]
+    },
+    "LEVER_MOONLIGHT_MANSION_2_11": {
+      "category": "LEVER",
+      "label": "Moonlight Mansion 2-11 - Lever",
+      "location_id": 3960415,
+      "tags": [
+        "Lever",
+        "MAP_MOONLIGHT_MANSION"
+      ]
+    },
+    "LEVER_OLIVE_OCEAN_6_13": {
+      "category": "LEVER",
+      "label": "Olive Ocean 6-13 - Lever",
+      "location_id": 3960416,
+      "tags": [
+        "Lever",
+        "MAP_OLIVE_OCEAN"
+      ]
+    },
+    "LEVER_RADISH_RUINS_8_12": {
+      "category": "LEVER",
+      "label": "Radish Ruins 8-12 - Lever",
+      "location_id": 3960418,
+      "tags": [
+        "Lever",
+        "MAP_RADISH_RUINS"
+      ]
+    },
     "MAJOR_CHEST_CABBAGE_CAVERN": {
       "category": "MAP_CHEST",
       "label": "Cabbage Cavern Map - Big Chest",
@@ -473,6 +500,14 @@
       "tags": [
         "BigChest",
         "MAP_RAINBOW_ROUTE"
+      ]
+    },
+    "MAJOR_CHEST_WORLD_MAP": {
+      "category": "MAP_CHEST",
+      "label": "Tutorial World Map - Big Chest",
+      "location_id": 3960209,
+      "tags": [
+        "BigChest"
       ]
     },
     "MINOR_CHEST_MUSIC_NOTE_01": {
@@ -5898,6 +5933,7 @@
   ],
   "starting_kirby_color": 0,
   "starting_kirby_color_name": "Pink",
+  "starting_kirby_color_randomize_on_room_transition": false,
   "trap_fill_percentage": 25,
   "unique_items": [
     "Cabbage Cavern - Map",
@@ -5908,20 +5944,24 @@
     "Carrot Castle - Map",
     "Carrot Castle - Mirror Shard",
     "Carrot Castle - Vitality Counter",
+    "Carrot Castle 5-12 - Lever Wall",
     "Moonlight Mansion - Map",
     "Moonlight Mansion - Mirror Shard",
+    "Moonlight Mansion 2-11 - Lever Wall",
     "Mustard Mountain - Map",
     "Mustard Mountain - Mirror Shard",
     "Olive Ocean - Map",
     "Olive Ocean - Mirror Shard",
     "Olive Ocean - Vitality Counter",
+    "Olive Ocean 6-13 - Lever Wall",
     "Peppermint Palace - Map",
     "Peppermint Palace - Mirror Shard",
     "Radish Ruins - Map",
     "Radish Ruins - Mirror Shard",
     "Radish Ruins - Vitality Counter",
+    "Radish Ruins 8-12 - Lever Wall",
     "Rainbow Route - Map",
     "Sound Player"
   ],
-  "world_version": "0.2.0"
+  "world_version": "0.3.0"
 }

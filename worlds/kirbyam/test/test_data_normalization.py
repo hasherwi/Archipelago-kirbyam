@@ -132,6 +132,25 @@ def test_generated_hub_switch_contract_compatibility_aliases_are_disjoint() -> N
             assert bit not in canonical_bits
 
 
+def test_all_lever_locations_have_expected_unique_mapping() -> None:
+    expected_lever_keys = {
+        "LEVER_MOONLIGHT_MANSION_2_11",
+        "LEVER_OLIVE_OCEAN_6_13",
+        "LEVER_CARROT_CASTLE_5_12",
+        "LEVER_RADISH_RUINS_8_12",
+    }
+
+    levers = {
+        key: location
+        for key, location in kirby_data.locations.items()
+        if key.startswith("LEVER_")
+    }
+
+    assert set(levers) == expected_lever_keys
+    assert all(location.category == LocationCategory.LEVER for location in levers.values())
+    assert {location.location_id for location in levers.values()} == set(range(3960415, 3960419))
+
+
 def test_all_goal_locations_are_explicitly_region_claimed() -> None:
     claimed_locations = {
         location_key
