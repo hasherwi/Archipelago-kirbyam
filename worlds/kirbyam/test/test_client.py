@@ -1232,8 +1232,8 @@ async def test_poll_sound_player_chest_skips_when_address_missing(mock_bizhawk_c
 
 
 @pytest.mark.asyncio
-async def test_poll_lever_locations_sends_location_checks_for_set_bits(mock_bizhawk_context):
-    """Set native lever bits should map to lever LocationChecks."""
+async def test_poll_lever_locations_sends_location_checks_for_transport_bits(mock_bizhawk_context):
+    """Physical lever activation transport bits should map to lever LocationChecks."""
     client = KirbyAmClient()
     client.initialize_client()
 
@@ -1243,56 +1243,34 @@ async def test_poll_lever_locations_sends_location_checks_for_set_bits(mock_bizh
     radish = data.locations["LEVER_RADISH_RUINS_8_12"].location_id
     mock_bizhawk_context.checked_locations = set()
 
-    with patch.dict(data.native_ram_addresses, {
-        "lever_moonlight_flag_native": 0x02038962,
-        "lever_olive_flag_native": 0x02038968,
-        "lever_carrot_flag_native": 0x02038969,
-        "lever_radish_flag_native": 0x02038969,
-    }, clear=False), \
+    with patch.dict(data.transport_ram_addresses, {"lever_activation_flags": 0x0203B0BC}, clear=False), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
-        # 1-based ordinal mapping: moonlight bit2, olive bit1, shared carrot/radish byte has bits5+2.
-        mock_read.return_value = [bytes([1 << 2]), bytes([1 << 1]), bytes([(1 << 5) | (1 << 2)])]
+        mock_read.return_value = [((1 << 0) | (1 << 1) | (1 << 2) | (1 << 3)).to_bytes(4, 'little')]
 
         await client._poll_lever_locations(mock_bizhawk_context)
 
-    assert mock_read.await_count == 1
-    read_specs = mock_read.await_args.args[1]
-    assert read_specs.count((0x02038969, 1, "System Bus")) == 1
-
+    mock_read.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        [(0x0203B0BC, 4, "System Bus")],
+    )
     mock_send.assert_awaited_once_with([
         {"cmd": "LocationChecks", "locations": [moonlight, olive, carrot, radish]}
     ])
 
 
 @pytest.mark.asyncio
-async def test_poll_lever_locations_skips_when_addresses_missing(mock_bizhawk_context):
-    """Missing native lever addresses should no-op safely."""
+async def test_poll_lever_locations_skips_when_transport_address_missing(mock_bizhawk_context):
+    """Missing lever activation transport address should no-op safely."""
     client = KirbyAmClient()
     client.initialize_client()
 
-    native_without_levers = {
-        k: v
-        for k, v in data.native_ram_addresses.items()
-        if k not in {
-            "lever_moonlight_flag_native",
-            "lever_olive_flag_native",
-            "lever_carrot_flag_native",
-            "lever_radish_flag_native",
-        }
+    transport_without_levers = {
+        k: v for k, v in data.transport_ram_addresses.items() if k != "lever_activation_flags"
     }
-    ram_without_levers = {
-        k: v
-        for k, v in data.ram_addresses.items()
-        if k not in {
-            "lever_moonlight_flag_native",
-            "lever_olive_flag_native",
-            "lever_carrot_flag_native",
-            "lever_radish_flag_native",
-        }
-    }
+    ram_without_levers = {k: v for k, v in data.ram_addresses.items() if k != "lever_activation_flags"}
 
-    with patch.dict(data.native_ram_addresses, native_without_levers, clear=True), \
+    with patch.dict(data.transport_ram_addresses, transport_without_levers, clear=True), \
          patch.dict(data.ram_addresses, ram_without_levers, clear=True), \
          patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:

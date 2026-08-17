@@ -118,6 +118,12 @@ def test_big_switch_unlock_call_offset_matches_verified_hook_site() -> None:
     assert patch_rom.BIG_SWITCH_UNLOCK_CALL_OFFSET == 0x00039EEE
 
 
+def test_small_switch_effect_call_offset_matches_verified_hook_site() -> None:
+    # sub_08119B3C loads gUnk_08357B8C[source+0x14] and then calls the selected
+    # effect through `_call_via_r0`; the BL starts at ROM file offset 0x119B98.
+    assert patch_rom.SMALL_SWITCH_EFFECT_CALL_OFFSET == 0x00119B98
+
+
 # ── Negative-path tests: parse_args ──────────────────────────────────────────
 
 def test_parse_args_source_type_arg_missing_rom_positional() -> None:
