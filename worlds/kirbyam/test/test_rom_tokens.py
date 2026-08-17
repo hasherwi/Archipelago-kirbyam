@@ -17,6 +17,7 @@ from ..enemy_ability_data import ABILITY_NAME_TO_ID
 from ..enemy_ability_runtime_patch import build_statue_runtime_allowed_mask
 from ..rom import (
     STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET,
+    ENEMY_HEALTH_MULTIPLIER_FILE,
     ABILITY_GATE_MASK_INITIAL_ROM_OFFSET,
     ABILITY_RANDOMIZATION_STATUE_ALLOWED_MASK_ROM_OFFSET,
     write_tokens,
@@ -44,6 +45,7 @@ def _make_world(
     randomize_statues: bool = False,
     ability_gating: bool = True,
     starting_color_id: int = 0,
+    enemy_health_multiplier: int = 100,
 ) -> SimpleNamespace:
     world = SimpleNamespace(
         auth=b"0123456789ABCDEF",
@@ -51,6 +53,7 @@ def _make_world(
             ability_randomization_mode=SimpleNamespace(value=mode),
             ability_randomization_statues=SimpleNamespace(value=randomize_statues),
             ability_gating=SimpleNamespace(value=ability_gating),
+            enemy_health_multiplier=SimpleNamespace(value=enemy_health_multiplier),
         ),
     )
     world._get_resolved_starting_kirby_color = lambda: (
@@ -74,6 +77,26 @@ def test_write_tokens_bakes_resolved_starting_color() -> None:
         STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET,
         (7).to_bytes(4, "little"),
     ) in patch.token_writes
+
+
+def test_write_tokens_embeds_enemy_health_multiplier_metadata() -> None:
+    world = _make_world(
+        AbilityRandomizationMode.option_off,
+        enemy_health_multiplier=250,
+    )
+    patch = _DummyPatch()
+
+    write_tokens(cast(Any, world), cast(Any, patch))
+
+    assert patch.files[ENEMY_HEALTH_MULTIPLIER_FILE] == (250).to_bytes(2, "little")
+
+
+def test_write_tokens_rejects_out_of_range_enemy_health_multiplier() -> None:
+    world = _make_world(AbilityRandomizationMode.option_off, enemy_health_multiplier=501)
+    patch = _DummyPatch()
+
+    with pytest.raises(ValueError, match="enemy health multiplier must be within 50..500"):
+        write_tokens(cast(Any, world), cast(Any, patch))
 
 
 def test_write_tokens_rejects_invalid_resolved_starting_color() -> None:

@@ -74,6 +74,7 @@
     "UFO",
     "Wheel"
   ],
+  "enemy_health_multiplier": 100,
   "goal": 0,
   "goal_configured_area_boss_key": "BOSS_DEFEAT_3",
   "locations": {

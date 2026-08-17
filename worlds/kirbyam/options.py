@@ -13,6 +13,11 @@ from Options import (
 )
 
 from .colors import kirby_color_names_for_docs, load_kirby_colors
+from .enemy_health_scaling import (
+    ENEMY_HEALTH_MULTIPLIER_DEFAULT,
+    ENEMY_HEALTH_MULTIPLIER_MAX,
+    ENEMY_HEALTH_MULTIPLIER_MIN,
+)
 
 
 class Goal(Choice):
@@ -245,6 +250,25 @@ class TrapFillPercentage(Range):
     default = 25
 
 
+class EnemyHealthMultiplier(Range):
+    """
+    Scale regular-enemy, miniboss, and boss health as a percentage of native HP.
+
+    - 50: Half native HP.
+    - 100: Native HP. Default.
+    - 200: Double native HP.
+    - 500: Five times native HP.
+
+    The value is baked into each generated game patch, so it changes enemy HP
+    in the player's ROM rather than only changing logic or client metadata.
+    Normal Archipelago Range weighting is supported in player YAML files.
+    """
+    display_name = "Enemy Health Multiplier"
+    range_start = ENEMY_HEALTH_MULTIPLIER_MIN
+    range_end = ENEMY_HEALTH_MULTIPLIER_MAX
+    default = ENEMY_HEALTH_MULTIPLIER_DEFAULT
+
+
 class OneHitMode(Choice):
     """
     Controls whether Kirby's maximum health is reduced to 1 HP at the start (one-hit mode).
@@ -339,6 +363,8 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     trap_fill_percentage: TrapFillPercentage
 
+    enemy_health_multiplier: EnemyHealthMultiplier
+
     one_hit_mode: OneHitMode
 
     ability_randomization_mode: AbilityRandomizationMode
@@ -377,6 +403,7 @@ OPTION_GROUPS = [
         TrapFillPercentage,
         NoExtraLives,
         OneHitMode,
+        EnemyHealthMultiplier,
         KirbyAmDeathLink,
     ]),
     OptionGroup("Ability Randomization", [

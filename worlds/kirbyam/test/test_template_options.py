@@ -30,6 +30,7 @@ def test_kirbyam_template_surface_options_visibility() -> None:
             configured_boss_weights = game_block["configured_area_boss"]
             shard_weights = game_block["shards"]
             ability_weights = game_block["ability_randomization_mode"]
+            health_weights = game_block["enemy_health_multiplier"]
             assert "starting_kirby_color" in game_block, (
                 "'starting_kirby_color' option is missing from the generated template"
             )
@@ -61,6 +62,10 @@ def test_kirbyam_template_surface_options_visibility() -> None:
             assert "ability_randomization_statues" in game_block
             assert "starting_kirby_color" in game_block
             assert "configured_area_boss" in game_block
+            assert "enemy_health_multiplier" in game_block
+            assert health_weights[100] == 50
+            assert health_weights["random"] == 0
+            assert "random-range-50-500" in health_weights
             assert "pink" in color_weights
             assert "random" not in color_weights
             assert "random_color" not in color_weights
