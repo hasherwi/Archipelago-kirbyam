@@ -2235,10 +2235,11 @@
       "bit_index": 211
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_02",
-      "REGION_OLIVE_OCEAN/ROOM_6_23"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_09": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_10": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1": {
     "locations": {
@@ -2248,10 +2249,9 @@
       "bit_index": 200
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_12",
-      "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2"
-    ],
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_16": null
+    },
     "exit_requirements": {
       "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2": "CanPoundPegs"
     }
@@ -2264,11 +2264,9 @@
       "bit_index": 215
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_15",
-      "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1",
-      "REGION_OLIVE_OCEAN/ROOM_6_09"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_21": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1": {
     "locations": {
@@ -2278,10 +2276,9 @@
       "bit_index": 195
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_06",
-      "REGION_OLIVE_OCEAN/ROOM_6_BOSS"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2": {
     "locations": {
@@ -2291,12 +2288,9 @@
       "bit_index": 203
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_15",
-      "REGION_OLIVE_OCEAN/ROOM_6_16",
-      "REGION_OLIVE_OCEAN/ROOM_6_03",
-      "REGION_OLIVE_OCEAN/ROOM_6_19"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_BOSS": {
     "locations": {
@@ -2318,10 +2312,10 @@
       "bit_index": 190
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_16",
-      "REGION_OLIVE_OCEAN/ROOM_6_02"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_02": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_02": {
     "locations": {
@@ -2331,11 +2325,11 @@
       "bit_index": 191
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_01",
-      "REGION_OLIVE_OCEAN/ROOM_6_04",
-      "REGION_OLIVE_OCEAN/ROOM_6_HUB"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_01": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_03": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_04": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_03": {
     "locations": {
@@ -2345,11 +2339,9 @@
       "bit_index": 204
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_12",
-      "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2",
-      "REGION_OLIVE_OCEAN/ROOM_6_07"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_02": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_04": {
     "locations": {
@@ -2359,11 +2351,9 @@
       "bit_index": 192
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_02",
-      "REGION_OLIVE_OCEAN/ROOM_6_04",
-      "REGION_OLIVE_OCEAN/ROOM_6_05"
-    ],
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_05": null
+    },
     "logical_exit_overrides": {
       "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_04_OR_6_06"
     }
@@ -2376,12 +2366,10 @@
       "bit_index": 193
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_04",
-      "REGION_OLIVE_OCEAN/ROOM_6_06",
-      "REGION_OLIVE_OCEAN/ROOM_6_07",
-      "REGION_OLIVE_OCEAN/ROOM_6_23"
-    ],
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_06": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_07": null
+    },
     "logical_subregions": {
       "ENTRY_FROM_6_04_OR_6_06": {
         "exits": [
@@ -2412,11 +2400,9 @@
       "bit_index": 194
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_05",
-      "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1",
-      "REGION_OLIVE_OCEAN/ROOM_6_20"
-    ],
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1": null
+    },
     "logical_exit_overrides": {
       "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_04_OR_6_06"
     }
@@ -2429,12 +2415,10 @@
       "bit_index": 205
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_05",
-      "REGION_OLIVE_OCEAN/ROOM_6_16",
-      "REGION_OLIVE_OCEAN/ROOM_6_03",
-      "REGION_OLIVE_OCEAN/ROOM_6_08"
-    ],
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_05": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_08": null
+    },
     "logical_exit_overrides": {
       "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_07"
     }
@@ -2447,11 +2431,10 @@
       "bit_index": 206
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_10",
-      "REGION_OLIVE_OCEAN/ROOM_6_07",
-      "REGION_OLIVE_OCEAN/ROOM_6_22"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_07": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_09": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_09": {
     "locations": {
@@ -2461,12 +2444,10 @@
       "bit_index": 201
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_15",
-      "REGION_OLIVE_OCEAN/ROOM_6_19",
-      "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
-      "REGION_OLIVE_OCEAN/ROOM_6_BOSS"
-    ],
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_08": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_HUB": null
+    },
     "exit_requirements": {
       "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2": "CanPoundPegs"
     }
@@ -2479,10 +2460,12 @@
       "bit_index": 198
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_08",
-      "REGION_OLIVE_OCEAN/ROOM_6_11"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_HUB": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_11": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_15": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_18": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_11": {
     "locations": {
@@ -2492,9 +2475,10 @@
       "bit_index": 207
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_10"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_10": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_12": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_12": {
     "locations": {
@@ -2504,10 +2488,12 @@
       "bit_index": 199
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_15",
-      "REGION_OLIVE_OCEAN/ROOM_6_03"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_11": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_13": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_14": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_17": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_13": {
     "events": [
@@ -2520,12 +2506,10 @@
       "bit_index": 202
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_14",
-      "REGION_OLIVE_OCEAN/ROOM_6_19",
-      "REGION_OLIVE_OCEAN/ROOM_6_21",
-      "REGION_OLIVE_OCEAN/ROOM_6_22"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_12": null,
+      "REGION_MOONLIGHT_MANSION/ROOM_2_12": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_14": {
     "locations": {
@@ -2535,11 +2519,9 @@
       "bit_index": 209
       }
     },
-    "exits": [
-      "REGION_MOONLIGHT_MANSION/ROOM_2_20",
-      "REGION_OLIVE_OCEAN/ROOM_6_13",
-      "REGION_OLIVE_OCEAN/ROOM_6_17"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_15": {
     "locations": {
@@ -2549,11 +2531,9 @@
       "bit_index": 196
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_12",
-      "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2",
-      "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2"
-    ],
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1": null
+    },
     "exit_requirements": {
       "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2": "CanPoundPegs"
     }
@@ -2566,10 +2546,9 @@
       "bit_index": 197
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_07",
-      "REGION_OLIVE_OCEAN/ROOM_6_22"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_17": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_17": {
     "locations": {
@@ -2579,10 +2558,10 @@
       "bit_index": 210
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_14",
-      "REGION_OLIVE_OCEAN/ROOM_6_21"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_12": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_22": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_18": {
     "locations": {
@@ -2592,10 +2571,9 @@
       "bit_index": 208
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_20",
-      "REGION_OLIVE_OCEAN/ROOM_6_BOSS"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_19": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_19": {
     "locations": {
@@ -2605,11 +2583,9 @@
       "bit_index": 214
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_09",
-      "REGION_OLIVE_OCEAN/ROOM_6_13",
-      "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_20": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_20": {
     "locations": {
@@ -2619,11 +2595,9 @@
       "bit_index": 213
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_06",
-      "REGION_OLIVE_OCEAN/ROOM_6_18",
-      "REGION_OLIVE_OCEAN/ROOM_6_23"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_21": {
     "locations": {
@@ -2633,10 +2607,9 @@
       "bit_index": 216
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_13",
-      "REGION_OLIVE_OCEAN/ROOM_6_17"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_22": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_22": {
     "locations": {
@@ -2646,11 +2619,9 @@
       "bit_index": 217
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_16",
-      "REGION_OLIVE_OCEAN/ROOM_6_13",
-      "REGION_OLIVE_OCEAN/ROOM_6_08"
-    ]
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_23": null
+    }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_23": {
     "locations": {
@@ -2660,11 +2631,9 @@
       "bit_index": 212
       }
     },
-    "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_05",
-      "REGION_OLIVE_OCEAN/ROOM_6_HUB",
-      "REGION_OLIVE_OCEAN/ROOM_6_20"
-    ],
+    "exits": {
+      "REGION_OLIVE_OCEAN/ROOM_6_BOSS": null
+    },
     "logical_exit_overrides": {
       "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_23"
     }
