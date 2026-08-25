@@ -34,7 +34,7 @@
       "location_id": 3961022,
       "bit_index": 32
       },
-      "MAJOR_CHEST_MOONLIGHT_MANSION": null
+      "MAJOR_CHEST_RAINBOW_ROUTE": null
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_fly",
@@ -1333,8 +1333,7 @@
     },
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_08",
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1",
-      "REGION_DIMENSION_MIRROR/ROOM_10_19"
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
     ]
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {
@@ -1605,7 +1604,6 @@
       }
     },
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_19",
       "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2"
     ]
   },
@@ -1839,7 +1837,6 @@
       }
     },
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_19",
       "REGION_MUSTARD_MOUNTAIN/ROOM_4_03",
       "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
       "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
@@ -2366,7 +2363,6 @@
       }
     },
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_19",
       "REGION_OLIVE_OCEAN/ROOM_6_06",
       "REGION_OLIVE_OCEAN/ROOM_6_BOSS"
     ]
@@ -2668,7 +2664,6 @@
       }
     },
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_20",
       "REGION_OLIVE_OCEAN/ROOM_6_14",
       "REGION_OLIVE_OCEAN/ROOM_6_21"
     ]
@@ -3031,7 +3026,6 @@
       }
     },
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_19",
       "REGION_PEPPERMINT_PALACE/ROOM_7_08"
     ]
   },
@@ -3127,7 +3121,6 @@
       }
     },
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_20",
       "REGION_PEPPERMINT_PALACE/ROOM_7_16",
       "REGION_PEPPERMINT_PALACE/ROOM_7_19"
     ]
@@ -3277,7 +3270,6 @@
       }
     },
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_20",
       "REGION_RADISH_RUINS/ROOM_8_05"
     ]
   },
@@ -3617,7 +3609,6 @@
       }
     },
     "exits": [
-      "REGION_DIMENSION_MIRROR/ROOM_10_19",
       "REGION_RADISH_RUINS/ROOM_8_07",
       "REGION_RADISH_RUINS/ROOM_8_18"
     ]
@@ -3735,8 +3726,7 @@
       }
     },
     "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_11",
-      "REGION_DIMENSION_MIRROR/ROOM_10_20"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_11"
     ]
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2": {
@@ -3749,8 +3739,7 @@
     },
     "exits": [
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_WARP",
-      "REGION_DIMENSION_MIRROR/ROOM_10_20"
+      "REGION_CANDY_CONSTELLATION/ROOM_9_WARP"
     ],
     "exit_requirements": {
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3": "CanPoundPegs"
