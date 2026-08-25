@@ -2177,13 +2177,15 @@
     ]
   },
   "REGION_CARROT_CASTLE/ROOM_5_12": {
+    "events": [
+      "Activate Lever - Carrot Castle 5-12"
+    ],
     "locations": {
       "room_sanity": {
       "included": true,
       "location_id": 3961127,
       "bit_index": 254
-    },
-      "Activate Lever - Carrot Castle 5-12": null
+      }
     },
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_13",
@@ -2596,13 +2598,15 @@
     ]
   },
   "REGION_OLIVE_OCEAN/ROOM_6_13": {
+    "events": [
+      "Activate Lever - Olive Ocean 6-13"
+    ],
     "locations": {
       "room_sanity": {
       "included": true,
       "location_id": 3961154,
       "bit_index": 202
-      },
-      "Activate Lever - Olive Ocean 6-13": null
+      }
     },
     "exits": [
       "REGION_OLIVE_OCEAN/ROOM_6_14",
@@ -3475,13 +3479,15 @@
     ]
   },
   "REGION_RADISH_RUINS/ROOM_8_12": {
+    "events": [
+      "Activate Lever - Radish Ruins 8-12"
+    ],
     "locations": {
       "room_sanity": {
       "included": true,
       "location_id": 3961220,
       "bit_index": 239
-      },
-      "Activate Lever - Radish Ruins 8-12": null
+      }
     },
     "exits": [
       "REGION_RADISH_RUINS/ROOM_8_20",
