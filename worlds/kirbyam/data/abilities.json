@@ -21,7 +21,7 @@
   },
   "Cutter": {
     "runtime_ability_id": 6,
-    "safe_to_gate": true
+    "safe_to_gate": false
   },
   "Cupid": {
     "runtime_ability_id": 19,

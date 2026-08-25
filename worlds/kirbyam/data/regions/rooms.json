@@ -1131,13 +1131,15 @@
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_11": {
+    "events": [
+      "Activate Lever - Moonlight Mansion 2-11"
+    ],
     "locations": {
       "room_sanity": {
         "included": true,
         "location_id": 3961072,
         "bit_index": 82
-      },
-      "Activate Lever - Moonlight Mansion 2-11": null
+      }
     },
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT": null,
