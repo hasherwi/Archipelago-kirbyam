@@ -1304,12 +1304,11 @@
       "bit_index": 189
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_06",
-      "REGION_CABBAGE_CAVERN/ROOM_3_GOAL",
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2",
-      "REGION_RAINBOW_ROUTE/ROOM_1_10"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_01": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_01": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2": {
     "locations": {
@@ -1319,10 +1318,11 @@
       "bit_index": 188
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_08",
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_02": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_06": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {
     "locations": {
@@ -1332,11 +1332,11 @@
       "bit_index": 219
       }
     },
-    "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_GOAL_2",
-      "REGION_RADISH_RUINS/ROOM_8_BOSS",
-      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_12": null,
+      "REGION_RADISH_RUINS/ROOM_8_01": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_GOAL": {
     "locations": {
@@ -1346,11 +1346,9 @@
       "bit_index": 187
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_01",
-      "REGION_CABBAGE_CAVERN/ROOM_3_08",
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_BOSS": {
     "locations": {
@@ -1372,12 +1370,11 @@
       "bit_index": 183
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_02",
-      "REGION_CABBAGE_CAVERN/ROOM_3_03",
-      "REGION_CABBAGE_CAVERN/ROOM_3_16",
-      "REGION_CABBAGE_CAVERN/ROOM_3_GOAL"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_02": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_03": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_02": {
     "locations": {
@@ -1387,10 +1384,10 @@
       "bit_index": 186
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_01",
-      "REGION_CABBAGE_CAVERN/ROOM_3_05"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_01": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_03": {
     "locations": {
@@ -1400,12 +1397,10 @@
       "bit_index": 185
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_09",
-      "REGION_CABBAGE_CAVERN/ROOM_3_04",
-      "REGION_CABBAGE_CAVERN/ROOM_3_14",
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_01": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_04": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_04": {
     "locations": {
@@ -1415,12 +1410,11 @@
       "bit_index": 178
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_03",
-      "REGION_CABBAGE_CAVERN/ROOM_3_10",
-      "REGION_CABBAGE_CAVERN/ROOM_3_BOSS",
-      "REGION_CABBAGE_CAVERN/ROOM_3_07"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_13": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_03": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_05": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_05": {
     "locations": {
@@ -1430,11 +1424,9 @@
       "bit_index": 177
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_08",
-      "REGION_CABBAGE_CAVERN/ROOM_3_02",
-      "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_GOAL": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_06": {
     "locations": {
@@ -1444,11 +1436,10 @@
       "bit_index": 182
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_13",
-      "REGION_CABBAGE_CAVERN/ROOM_3_07",
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_07": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_07": {
     "locations": {
@@ -1458,12 +1449,10 @@
       "bit_index": 180
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_11",
-      "REGION_CABBAGE_CAVERN/ROOM_3_04",
-      "REGION_CABBAGE_CAVERN/ROOM_3_06",
-      "REGION_CABBAGE_CAVERN/ROOM_3_14"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_06": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_08": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_08": {
     "locations": {
@@ -1473,11 +1462,11 @@
       "bit_index": 176
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_05",
-      "REGION_CABBAGE_CAVERN/ROOM_3_GOAL",
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_07": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_09": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_13": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_09": {
     "locations": {
@@ -1487,9 +1476,10 @@
       "bit_index": 173
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_BOSS"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_08": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_10": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_10": {
     "locations": {
@@ -1499,11 +1489,11 @@
       "bit_index": 172
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_12",
-      "REGION_CABBAGE_CAVERN/ROOM_3_04",
-      "REGION_CABBAGE_CAVERN/ROOM_3_13"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_09": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_11": null,
+      "REGION_RAINBOW_ROUTE/ROOM_1_15": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_11": {
     "locations": {
@@ -1513,10 +1503,10 @@
       "bit_index": 171
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_07",
-      "REGION_CABBAGE_CAVERN/ROOM_3_15"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_10": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_12": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_12": {
     "locations": {
@@ -1526,10 +1516,12 @@
       "bit_index": 175
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_10",
-      "REGION_CABBAGE_CAVERN/ROOM_3_BOSS"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_11": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_13": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_14": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_13": {
     "locations": {
@@ -1539,10 +1531,12 @@
       "bit_index": 179
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_10",
-      "REGION_CABBAGE_CAVERN/ROOM_3_06"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_08": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_10": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_12": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_15": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_14": {
     "locations": {
@@ -1552,9 +1546,10 @@
       "bit_index": 184
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_07"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_12": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_15": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_15": {
     "locations": {
@@ -1564,9 +1559,10 @@
       "bit_index": 181
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_11"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_13": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_16": null
+    }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_16": {
     "locations": {
@@ -1576,12 +1572,9 @@
       "bit_index": 170
       }
     },
-    "exits": [
-      "REGION_CABBAGE_CAVERN/ROOM_3_01",
-      "REGION_OLIVE_OCEAN/ROOM_6_01",
-      "REGION_OLIVE_OCEAN/ROOM_6_BOSS",
-      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
-    ]
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_BOSS": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB": {
     "locations": {
