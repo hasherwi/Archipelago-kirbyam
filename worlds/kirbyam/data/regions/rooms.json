@@ -1896,12 +1896,11 @@
       "bit_index": 253
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_04",
-      "REGION_CARROT_CASTLE/ROOM_5_05",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_01",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_17"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null,
+      "REGION_CARROT_CASTLE/ROOM_5_01": null,
+      "REGION_CARROT_CASTLE/ROOM_5_05": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_CHEST_1": {
     "locations": {
@@ -1911,11 +1910,9 @@
       "bit_index": 266
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_12",
-      "REGION_CARROT_CASTLE/ROOM_5_18",
-      "REGION_CARROT_CASTLE/ROOM_5_BOSS"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_10": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_CHEST_2": {
     "locations": {
@@ -1925,10 +1922,9 @@
       "bit_index": 259
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_16",
-      "REGION_CARROT_CASTLE/ROOM_5_10"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_12": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_WARP": {
     "locations": {
@@ -1938,9 +1934,10 @@
       "bit_index": 269
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_13"
-    ],
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_CHEST_2": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_04": null
+    },
     "logical_exit_overrides": {
       "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_18_OR_5_WARP"
     }
@@ -1965,10 +1962,11 @@
       "bit_index": 251
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_03",
-      "REGION_RADISH_RUINS/ROOM_8_17"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_21": null,
+      "REGION_CARROT_CASTLE/ROOM_5_HUB": null,
+      "REGION_CARROT_CASTLE/ROOM_5_03": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_02": {
     "locations": {
@@ -1978,16 +1976,10 @@
       "bit_index": 249
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_06",
-      "REGION_CARROT_CASTLE/ROOM_5_04",
-      "REGION_CARROT_CASTLE/ROOM_5_05",
-      "REGION_RAINBOW_ROUTE/ROOM_1_41"
-    ],
-    "room_sanity": {
-      "included": true,
-      "location_id": 3961122,
-      "bit_index": 249
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_24": null,
+      "REGION_CARROT_CASTLE/ROOM_5_01": null,
+      "REGION_CARROT_CASTLE/ROOM_5_03": null
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_03": {
@@ -1998,11 +1990,10 @@
       "bit_index": 250
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_01",
-      "REGION_CARROT_CASTLE/ROOM_5_05",
-      "REGION_CARROT_CASTLE/ROOM_5_07"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_01": null,
+      "REGION_CARROT_CASTLE/ROOM_5_04": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_04": {
     "locations": {
@@ -2012,10 +2003,10 @@
       "bit_index": 97
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_02",
-      "REGION_CARROT_CASTLE/ROOM_5_HUB"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_03": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_01": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_05": {
     "locations": {
@@ -2025,12 +2016,11 @@
       "bit_index": 252
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_02",
-      "REGION_CARROT_CASTLE/ROOM_5_03",
-      "REGION_CARROT_CASTLE/ROOM_5_HUB",
-      "REGION_RAINBOW_ROUTE/ROOM_1_09"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_HUB": null,
+      "REGION_CARROT_CASTLE/ROOM_5_06": null,
+      "REGION_CARROT_CASTLE/ROOM_5_07": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_06": {
     "locations": {
@@ -2040,11 +2030,10 @@
       "bit_index": 9
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_04",
-      "REGION_CARROT_CASTLE/ROOM_5_02",
-      "REGION_RAINBOW_ROUTE/ROOM_1_40"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_05": null,
+      "REGION_RADISH_RUINS/ROOM_8_12": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_07": {
     "locations": {
@@ -2054,14 +2043,11 @@
       "bit_index": 258
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_13",
-      "REGION_CARROT_CASTLE/ROOM_5_03",
-      "REGION_CARROT_CASTLE/ROOM_5_08",
-      "REGION_CARROT_CASTLE/ROOM_5_07",
-      "REGION_CARROT_CASTLE/ROOM_5_CHEST_2",
-      "REGION_CARROT_CASTLE/ROOM_5_10"
-    ],
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_08": null,
+      "REGION_CARROT_CASTLE/ROOM_5_13": null,
+      "REGION_CARROT_CASTLE/ROOM_5_14": null
+    },
     "logical_exit_overrides": {
       "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_07"
     }
@@ -2074,11 +2060,9 @@
       "bit_index": 255
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_08",
-      "REGION_CARROT_CASTLE/ROOM_5_10",
-      "REGION_CARROT_CASTLE/ROOM_5_11"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_09": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_09": {
     "locations": {
@@ -2088,12 +2072,9 @@
       "bit_index": 262
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_17",
-      "REGION_CARROT_CASTLE/ROOM_5_09",
-      "REGION_CARROT_CASTLE/ROOM_5_10",
-      "REGION_CARROT_CASTLE/ROOM_5_11"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_10": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_10": {
     "locations": {
@@ -2103,12 +2084,10 @@
       "bit_index": 263
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_08",
-      "REGION_CARROT_CASTLE/ROOM_5_07",
-      "REGION_CARROT_CASTLE/ROOM_5_CHEST_2",
-      "REGION_CARROT_CASTLE/ROOM_5_09"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_CHEST_1": null,
+      "REGION_CARROT_CASTLE/ROOM_5_11": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_11": {
     "locations": {
@@ -2118,11 +2097,9 @@
       "bit_index": 264
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_08",
-      "REGION_CARROT_CASTLE/ROOM_5_09",
-      "REGION_CARROT_CASTLE/ROOM_5_BOSS"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_12": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_12": {
     "events": [
@@ -2135,11 +2112,9 @@
       "bit_index": 254
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_13",
-      "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
-      "REGION_CARROT_CASTLE/ROOM_5_14"
-    ],
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_BOSS": null
+    },
     "logical_exit_overrides": {
       "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_12"
     }
@@ -2152,11 +2127,10 @@
       "bit_index": 261
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_12",
-      "REGION_CARROT_CASTLE/ROOM_5_18",
-      "REGION_CARROT_CASTLE/ROOM_5_WARP"
-    ],
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_07": null,
+      "REGION_CARROT_CASTLE/ROOM_5_14": null
+    },
     "logical_subregions": {
       "ENTRY_FROM_5_07": {
         "exits": [
@@ -2193,10 +2167,10 @@
       "bit_index": 267
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_13",
-      "REGION_CARROT_CASTLE/ROOM_5_12"
-    ],
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_13": null,
+      "REGION_CARROT_CASTLE/ROOM_5_15": null
+    },
     "logical_exit_overrides": {
       "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_14"
     }
@@ -2209,9 +2183,10 @@
       "bit_index": 268
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_BOSS"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_16": null,
+      "REGION_CARROT_CASTLE/ROOM_5_17": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_16": {
     "locations": {
@@ -2221,14 +2196,9 @@
       "bit_index": 260
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_18",
-      "REGION_CARROT_CASTLE/ROOM_5_17",
-      "REGION_CARROT_CASTLE/ROOM_5_CHEST_2",
-      "REGION_CARROT_CASTLE/ROOM_5_16",
-      "REGION_CARROT_CASTLE/ROOM_5_09",
-      "REGION_CARROT_CASTLE/ROOM_5_BOSS"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_09": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_17": {
     "locations": {
@@ -2238,11 +2208,9 @@
       "bit_index": 257
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_18",
-      "REGION_CARROT_CASTLE/ROOM_5_09",
-      "REGION_CARROT_CASTLE/ROOM_5_BOSS"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_18": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_18": {
     "locations": {
@@ -2252,12 +2220,9 @@
       "bit_index": 256
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_16",
-      "REGION_CARROT_CASTLE/ROOM_5_13",
-      "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
-      "REGION_CARROT_CASTLE/ROOM_5_WARP"
-    ],
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_WARP": null
+    },
     "logical_exit_overrides": {
       "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_18_OR_5_WARP"
     }
