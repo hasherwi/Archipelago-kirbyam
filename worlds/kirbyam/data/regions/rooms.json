@@ -635,7 +635,7 @@
       }
     },
     "exits": {
-      "REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT": {"all": ["can_fly", "can_break_floating_block", "can_fire"]}
+      "REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT": {"all": ["can_fly", "can_break_floating_block", "can_light_fuses"]}
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_33": {
@@ -791,7 +791,7 @@
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_41": {"any": ["can_fly", "can_climb"]},
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1": "can_climb",
-      "REGION_RAINBOW_ROUTE/ROOM_1_42_CUT": {"all": ["can_cut", {"any": ["can_fly", "can_climb"]}]}
+      "REGION_RAINBOW_ROUTE/ROOM_1_42_CUT": {"all": ["can_cut_ropes", {"any": ["can_fly", "can_climb"]}]}
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_42_CUT": {
