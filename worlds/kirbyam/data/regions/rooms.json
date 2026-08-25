@@ -1584,9 +1584,11 @@
       "bit_index": 141
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4": null,
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_03": null,
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_04": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST": {
     "locations": {
@@ -1596,12 +1598,9 @@
       "bit_index": 128
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_34": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1": {
     "locations": {
@@ -1611,9 +1610,9 @@
       "bit_index": 124
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_09"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2": {
     "locations": {
@@ -1623,11 +1622,9 @@
       "bit_index": 140
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_04",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP": {
     "locations": {
@@ -1637,9 +1634,9 @@
       "bit_index": 134
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_06": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS": {
     "locations": {
@@ -1661,12 +1658,10 @@
       "bit_index": 118
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_04",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL": null,
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_02": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_02": {
     "locations": {
@@ -1676,10 +1671,10 @@
       "bit_index": 119
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_04"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_01": null,
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_03": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_03": {
     "locations": {
@@ -1689,11 +1684,10 @@
       "bit_index": 120
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
-      "REGION_RAINBOW_ROUTE/ROOM_1_25"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_02": null,
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_04": {
     "locations": {
@@ -1703,11 +1697,10 @@
       "bit_index": 126
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_02",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB": null,
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_05": {
     "locations": {
@@ -1717,13 +1710,10 @@
       "bit_index": 135
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_11",
-      "REGION_RAINBOW_ROUTE/ROOM_1_28"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_06": null,
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_09": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_06": {
     "locations": {
@@ -1733,11 +1723,9 @@
       "bit_index": 121
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_40": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_07": {
     "locations": {
@@ -1747,11 +1735,10 @@
       "bit_index": 122
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_12"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_41": null,
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_08": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_08": {
     "locations": {
@@ -1761,11 +1748,10 @@
       "bit_index": 123
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_09",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05": null,
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_09": {
     "locations": {
@@ -1775,10 +1761,9 @@
       "bit_index": 127
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_10": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_10": {
     "locations": {
@@ -1788,12 +1773,9 @@
       "bit_index": 132
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
-      "REGION_RAINBOW_ROUTE/ROOM_1_29"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_11": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_11": {
     "locations": {
@@ -1803,11 +1785,9 @@
       "bit_index": 136
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_12": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_12": {
     "locations": {
@@ -1817,11 +1797,9 @@
       "bit_index": 131
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_03",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_13": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_13": {
     "locations": {
@@ -1831,10 +1809,9 @@
       "bit_index": 137
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_11"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_14": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_14": {
     "locations": {
@@ -1844,11 +1821,9 @@
       "bit_index": 125
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_17"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_15": {
     "locations": {
@@ -1858,10 +1833,11 @@
       "bit_index": 117
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_18"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_34": null,
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_16": null,
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_17": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_16": {
     "locations": {
@@ -1871,12 +1847,9 @@
       "bit_index": 139
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2",
-      "REGION_RAINBOW_ROUTE/ROOM_1_08"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_17": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_17": {
     "locations": {
@@ -1886,11 +1859,9 @@
       "bit_index": 133
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
-      "REGION_RAINBOW_ROUTE/ROOM_1_25"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_18": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_18": {
     "locations": {
@@ -1900,9 +1871,10 @@
       "bit_index": 129
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_15"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_19": null,
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP": null
+    }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_19": {
     "locations": {
@@ -1912,11 +1884,9 @@
       "bit_index": 130
       }
     },
-    "exits": [
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_03",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_14"
-    ]
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2": null
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_HUB": {
     "locations": {
