@@ -426,7 +426,7 @@
   "REGION_RAINBOW_ROUTE/ROOM_1_18_UPPER": {
     "locations": {},
     "exits": {
-      "REGION_CABBAGE_CAVERN/ROOM_1_18": "can_break_block",
+      "REGION_RAINBOW_ROUTE/ROOM_1_18": "can_break_block",
       "REGION_RAINBOW_ROUTE/ROOM_1_20": null
     }
   },
@@ -651,13 +651,7 @@
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT": {
-    "locations": {
-      "room_sanity": {
-      "included": true,
-      "location_id": 3961009,
-      "bit_index": 18
-      }
-    },
+    "locations": {},
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_33": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_30": null
@@ -801,13 +795,7 @@
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_42_CUT": {
-    "locations": {
-      "room_sanity": {
-      "included": true,
-      "location_id": 3961021,
-      "bit_index": 31
-      }
-    },
+    "locations": {},
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_17": {"all": ["can_break_block", {"any": ["can_fly", "can_climb"]}]},
       "REGION_RAINBOW_ROUTE/ROOM_1_42": {"all": ["can_climb", "can_break_block"]}
