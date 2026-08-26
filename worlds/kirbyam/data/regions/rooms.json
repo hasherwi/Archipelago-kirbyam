@@ -2646,10 +2646,12 @@
       "bit_index": 104
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_12",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_03": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_05": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2": {
     "locations": {
@@ -2659,11 +2661,11 @@
       "bit_index": 116
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_06",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_17",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_15"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_04": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_17": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST": {
     "locations": {
@@ -2673,12 +2675,11 @@
       "bit_index": 92
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_07",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_08",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_03",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_05"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_03": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_05": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_07": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1": {
     "locations": {
@@ -2688,10 +2689,9 @@
       "bit_index": 95
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_06",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_09"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2": {
     "locations": {
@@ -2701,12 +2701,9 @@
       "bit_index": 114
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_23",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_21",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_WARP": {
     "locations": {
@@ -2716,10 +2713,9 @@
       "bit_index": 101
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_08",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_04"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_01": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS": {
     "locations": {
@@ -2741,10 +2737,10 @@
       "bit_index": 94
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_HUB",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_02"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_04": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_02": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_02": {
     "locations": {
@@ -2754,11 +2750,10 @@
       "bit_index": 86
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_03",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_01",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_17"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_01": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_03": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_03": {
     "locations": {
@@ -2768,11 +2763,11 @@
       "bit_index": 91
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_02",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_15"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_02": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_04": {
     "locations": {
@@ -2782,10 +2777,10 @@
       "bit_index": 112
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_22",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_WARP"
-    ]
+    "exits": {
+      "REGION_CARROT_CASTLE/ROOM_5_04": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_05": {
     "locations": {
@@ -2795,12 +2790,12 @@
       "bit_index": 93
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_07",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_15"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_06": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_07": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_06": {
     "locations": {
@@ -2810,11 +2805,10 @@
       "bit_index": 98
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_21",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_05": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_12": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_07": {
     "locations": {
@@ -2824,13 +2818,13 @@
       "bit_index": 89
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_11",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_08",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_05",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_22"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_05": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_08": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_09": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_11": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_08": {
     "locations": {
@@ -2840,12 +2834,9 @@
       "bit_index": 90
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_07",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_13",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_WARP"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_09": {
     "locations": {
@@ -2855,10 +2846,9 @@
       "bit_index": 99
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_10"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_10": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_10": {
     "locations": {
@@ -2868,11 +2858,9 @@
       "bit_index": 100
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_09",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_18",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_19"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_WARP": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_11": {
     "locations": {
@@ -2882,11 +2870,10 @@
       "bit_index": 87
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_12",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_07",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_07": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_12": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_12": {
     "locations": {
@@ -2896,11 +2883,11 @@
       "bit_index": 88
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_11",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_06": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_11": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_13": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_13": {
     "locations": {
@@ -2910,9 +2897,10 @@
       "bit_index": 96
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_08"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_12": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_14": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_14": {
     "locations": {
@@ -2922,9 +2910,11 @@
       "bit_index": 103
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_24"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_13": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_15": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_16": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_15": {
     "locations": {
@@ -2934,13 +2924,10 @@
       "bit_index": 115
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_03",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_05",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2",
-      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_14": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_22": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_16": {
     "locations": {
@@ -2950,11 +2937,9 @@
       "bit_index": 102
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_24",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_18",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_20"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_17": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_17": {
     "locations": {
@@ -2964,11 +2949,10 @@
       "bit_index": 106
       }
     },
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_HUB",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_02",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_18": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_18": {
     "locations": {
@@ -2978,11 +2962,10 @@
       "bit_index": 105
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_10",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_16",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_23"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_17": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_19": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_19": {
     "locations": {
@@ -2992,10 +2975,10 @@
       "bit_index": 107
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_10",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_20"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_18": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_20": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_20": {
     "locations": {
@@ -3005,10 +2988,11 @@
       "bit_index": 108
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_16",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_19"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_19": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_21": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_22": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_21": {
     "locations": {
@@ -3018,10 +3002,9 @@
       "bit_index": 113
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_06",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_22": {
     "locations": {
@@ -3031,10 +3014,11 @@
       "bit_index": 111
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_07",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_04"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_15": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_20": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_23": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_23": {
     "locations": {
@@ -3044,10 +3028,9 @@
       "bit_index": 109
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_18",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_24": null
+    }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_24": {
     "locations": {
@@ -3057,10 +3040,9 @@
       "bit_index": 85
       }
     },
-    "exits": [
-      "REGION_PEPPERMINT_PALACE/ROOM_7_16",
-      "REGION_PEPPERMINT_PALACE/ROOM_7_14"
-    ]
+    "exits": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS": null
+    }
   },
   "REGION_RADISH_RUINS/ROOM_8_HUB": {
     "locations": {
