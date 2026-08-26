@@ -3477,14 +3477,11 @@
       "bit_index": 169
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_09",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_07",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_08",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
-      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
-    ],
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_07": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_08": null
+    },
     "exit_requirements": {
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1": "CanPoundPegs",
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3": "CanPoundPegs"
@@ -3498,10 +3495,9 @@
       "bit_index": 148
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_06",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_06": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": {
     "locations": {
@@ -3511,10 +3507,10 @@
       "bit_index": 145
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_01",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_09"
-    ],
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_01": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_09": null
+    },
     "logical_subregions": {
       "ENTRY_FROM_9_01": {
         "exits": [
@@ -3538,12 +3534,9 @@
       "bit_index": 167
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_08",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_13",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_1": {
     "locations": {
@@ -3553,9 +3546,9 @@
       "bit_index": 154
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_11"
-    ]
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2": {
     "locations": {
@@ -3565,10 +3558,9 @@
       "bit_index": 161
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_WARP"
-    ],
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
+    },
     "exit_requirements": {
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3": "CanPoundPegs"
     }
@@ -3581,11 +3573,9 @@
       "bit_index": 153
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_14",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_13",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_14": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_BOSS": {
     "locations": {
@@ -3607,11 +3597,11 @@
       "bit_index": 146
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_07",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_02"
-    ],
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_02": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_07": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": null
+    },
     "logical_exit_overrides": {
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": "ENTRY_FROM_9_01"
     }
@@ -3624,11 +3614,11 @@
       "bit_index": 168
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_01",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_04",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_03"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_01": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_03": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_04": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_03": {
     "locations": {
@@ -3638,9 +3628,9 @@
       "bit_index": 166
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_02"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_02": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_04": {
     "locations": {
@@ -3650,10 +3640,10 @@
       "bit_index": 151
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_05",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_02"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_02": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_05": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_05": {
     "locations": {
@@ -3663,10 +3653,10 @@
       "bit_index": 150
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_06",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_04"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_04": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_06": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_06": {
     "locations": {
@@ -3676,12 +3666,11 @@
       "bit_index": 143
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_07",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_05",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_08"
-    ],
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_05": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_07": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1": null
+    },
     "exit_requirements": {
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1": "CanPoundPegs"
     }
@@ -3694,11 +3683,11 @@
       "bit_index": 149
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_06",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_01",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_01": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_06": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_HUB": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_08": {
     "locations": {
@@ -3708,13 +3697,11 @@
       "bit_index": 152
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_06",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_09",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_10",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
-    ],
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_09": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_10": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_HUB": null
+    },
     "exit_requirements": {
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3": "CanPoundPegs"
     }
@@ -3727,12 +3714,10 @@
       "bit_index": 147
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_08",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_11",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
-    ],
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_08": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": null
+    },
     "logical_exit_overrides": {
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": "ENTRY_FROM_9_09"
     }
@@ -3745,11 +3730,11 @@
       "bit_index": 159
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_12",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_08",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_11"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_08": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_11": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_12": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_11": {
     "locations": {
@@ -3759,10 +3744,9 @@
       "bit_index": 155
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_09",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_1"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_1": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_12": {
     "locations": {
@@ -3772,10 +3756,9 @@
       "bit_index": 144
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_10",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_13"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_13": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_13": {
     "locations": {
@@ -3785,11 +3768,10 @@
       "bit_index": 160
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_12",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_WARP"
-    ],
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_WARP": null
+    },
     "exit_requirements": {
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3": "CanPoundPegs"
     }
@@ -3802,10 +3784,9 @@
       "bit_index": 156
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_15",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_WARP"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_15": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_15": {
     "locations": {
@@ -3815,11 +3796,10 @@
       "bit_index": 163
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_14",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_17",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_16"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_16": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_17": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_16": {
     "locations": {
@@ -3829,9 +3809,9 @@
       "bit_index": 165
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_15"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_15": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_17": {
     "locations": {
@@ -3841,10 +3821,9 @@
       "bit_index": 164
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_18",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_15"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_18": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_18": {
     "locations": {
@@ -3854,10 +3833,9 @@
       "bit_index": 162
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_19",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_17"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_19": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_19": {
     "locations": {
@@ -3867,10 +3845,9 @@
       "bit_index": 157
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_20",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_18"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_20": null
+    }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_20": {
     "locations": {
@@ -3880,10 +3857,9 @@
       "bit_index": 142
       }
     },
-    "exits": [
-      "REGION_CANDY_CONSTELLATION/ROOM_9_19",
-      "REGION_CANDY_CONSTELLATION/ROOM_9_BOSS"
-    ]
+    "exits": {
+      "REGION_CANDY_CONSTELLATION/ROOM_9_BOSS": null
+    }
   },
   "REGION_TUTORIAL/ROOM_0_01": {
     "locations": {
