@@ -1307,7 +1307,8 @@
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null,
       "REGION_CABBAGE_CAVERN/ROOM_3_01": null,
-      "REGION_OLIVE_OCEAN/ROOM_6_01": null
+      "REGION_OLIVE_OCEAN/ROOM_6_01": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_HUB": null
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2": {
@@ -1319,7 +1320,7 @@
       }
     },
     "exits": {
-      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null,
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_fly",
       "REGION_CABBAGE_CAVERN/ROOM_3_02": null,
       "REGION_CABBAGE_CAVERN/ROOM_3_06": null
     }
@@ -1334,8 +1335,9 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_12": null,
-      "REGION_RADISH_RUINS/ROOM_8_01": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER": null,
+      "REGION_RADISH_RUINS/ROOM_8_01": null,
+      "REGION_RADISH_RUINS/ROOM_8_HUB": null
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_GOAL": {
@@ -1347,7 +1349,7 @@
       }
     },
     "exits": {
-      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {"all": ["can_break_block", "can_fly"]}
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_BOSS": {
@@ -1371,9 +1373,9 @@
       }
     },
     "exits": {
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_02": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_03": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": "can_swim",
+      "REGION_CABBAGE_CAVERN/ROOM_3_02": "can_swim",
+      "REGION_CABBAGE_CAVERN/ROOM_3_03": "can_swim"
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_02": {
@@ -1385,8 +1387,8 @@
       }
     },
     "exits": {
-      "REGION_CABBAGE_CAVERN/ROOM_3_01": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_01": {"all": ["can_fly", "can_break_block"]},
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2": {"all": ["can_fly", "can_break_block"]}
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_03": {
@@ -1398,8 +1400,9 @@
       }
     },
     "exits": {
-      "REGION_CABBAGE_CAVERN/ROOM_3_01": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_04": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_01": "can_swim",
+      "REGION_CABBAGE_CAVERN/ROOM_3_04": "can_swim",
+      "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB": {"all": ["can_swim", "can_break_metal"]}
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_04": {
@@ -1411,7 +1414,13 @@
       }
     },
     "exits": {
-      "REGION_RAINBOW_ROUTE/ROOM_1_13": null,
+      "REGION_RAINBOW_ROUTE/ROOM_1_13": "can_break_block",
+      "REGION_CABBAGE_CAVERN/ROOM_3_03": "can_break_block"
+    }
+  },
+  "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB": {
+    "locations": {},
+    "exits": {
       "REGION_CABBAGE_CAVERN/ROOM_3_03": null,
       "REGION_CABBAGE_CAVERN/ROOM_3_05": null
     }
@@ -1425,7 +1434,7 @@
       }
     },
     "exits": {
-      "REGION_CABBAGE_CAVERN/ROOM_3_GOAL": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_GOAL": "can_fly"
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_06": {
@@ -1437,8 +1446,8 @@
       }
     },
     "exits": {
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_07": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2": "can_break_block",
+      "REGION_CABBAGE_CAVERN/ROOM_3_07": {"all": ["can_fly", "can_break_block"]}
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_07": {
@@ -1451,7 +1460,7 @@
     },
     "exits": {
       "REGION_CABBAGE_CAVERN/ROOM_3_06": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_08": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_08_RIGHT": "can_fly"
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_08": {
@@ -1463,9 +1472,16 @@
       }
     },
     "exits": {
-      "REGION_CABBAGE_CAVERN/ROOM_3_07": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_09": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_13": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_08_RIGHT": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_09": "can_fly",
+      "REGION_CABBAGE_CAVERN/ROOM_3_13": "can_break_block"
+    }
+  },
+  "REGION_CABBAGE_CAVERN/ROOM_3_08_RIGHT": {
+    "locations": {},
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_07": "can_fly",
+      "REGION_CABBAGE_CAVERN/ROOM_3_08": "can_fly"
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_09": {
@@ -1477,8 +1493,8 @@
       }
     },
     "exits": {
-      "REGION_CABBAGE_CAVERN/ROOM_3_08": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_10": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_08": "can_break_block",
+      "REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT": {"all": ["can_fly", "can_break_block"]}
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_10": {
@@ -1490,9 +1506,29 @@
       }
     },
     "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT": {"all": ["can_fly", "can_swim"]},
+      "REGION_CABBAGE_CAVERN/ROOM_3_10_LEFT": {"all": ["can_fly", "can_swim"]},
+      "REGION_RAINBOW_ROUTE/ROOM_1_15": "can_swim"
+    }
+  },
+  "REGION_CABBAGE_CAVERN/ROOM_3_10_LEFT": {
+    "locations": {},
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_10": {"all": ["can_fly", "can_swim", "can_break_block"]},
+      "REGION_CABBAGE_CAVERN/ROOM_3_11": "can_swim"
+    }
+  },
+  "REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT": {
+    "locations": {},
+    "exits": {
       "REGION_CABBAGE_CAVERN/ROOM_3_09": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_11": null,
-      "REGION_RAINBOW_ROUTE/ROOM_1_15": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_10": "can_swim"
+    }
+  },
+  "REGION_CABBAGE_CAVERN/ROOM_3_10_LOWER_RIGHT": {
+    "locations": {},
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT": "can_fly"
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_11": {
@@ -1504,8 +1540,8 @@
       }
     },
     "exits": {
-      "REGION_CABBAGE_CAVERN/ROOM_3_10": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_12": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_10_LEFT": {"all": ["can_swim", "can_break_block"]},
+      "REGION_CABBAGE_CAVERN/ROOM_3_12_UPPER": {"all": ["can_swim", "can_break_block"]}
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_12": {
@@ -1517,8 +1553,21 @@
       }
     },
     "exits": {
-      "REGION_CABBAGE_CAVERN/ROOM_3_11": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_13": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_12_UPPER": "can_fly",
+      "REGION_CABBAGE_CAVERN/ROOM_3_13": "can_break_block",
+      "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER": "can_fly"
+    }
+  },
+  "REGION_CABBAGE_CAVERN/ROOM_3_12_UPPER": {
+    "locations": {},
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_11": "can_swim"
+    }
+  },
+  "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER": {
+    "locations": {},
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_12": null,
       "REGION_CABBAGE_CAVERN/ROOM_3_14": null,
       "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": null
     }
@@ -1533,8 +1582,15 @@
     },
     "exits": {
       "REGION_CABBAGE_CAVERN/ROOM_3_08": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_10": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_10_LOWER_RIGHT": {"all": ["can_fly", "can_swim"]},
       "REGION_CABBAGE_CAVERN/ROOM_3_12": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER": "can_pound_pegs"
+    }
+  },
+  "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER": {
+    "locations": {},
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_13": "can_fly",
       "REGION_CABBAGE_CAVERN/ROOM_3_15": null
     }
   },
@@ -1547,8 +1603,9 @@
       }
     },
     "exits": {
-      "REGION_CABBAGE_CAVERN/ROOM_3_12": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_15": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER": null,
+      "REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY": "can_fly",
+      "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY": "can_pound_pegs"
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_15": {
@@ -1560,8 +1617,32 @@
       }
     },
     "exits": {
-      "REGION_CABBAGE_CAVERN/ROOM_3_13": null,
-      "REGION_CABBAGE_CAVERN/ROOM_3_16": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER": {"all": ["can_fly", "can_break_block"]},
+      "REGION_CABBAGE_CAVERN/ROOM_3_16": "can_break_block"
+    }
+  },
+  "REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY": {
+    "locations": {
+      "room_sanity": {
+      "included": true,
+      "location_id": 3961086,
+      "bit_index": 181
+      }
+    },
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_15": "can_break_block"
+    }
+  },
+  "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY": {
+    "locations": {
+      "room_sanity": {
+      "included": true,
+      "location_id": 3961086,
+      "bit_index": 181
+      }
+    },
+    "exits": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_15": {"all": ["can_fly", "can_break_block"]}
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_16": {
