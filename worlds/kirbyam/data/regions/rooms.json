@@ -1346,7 +1346,8 @@
       "included": true,
       "location_id": 3961092,
       "bit_index": 187
-      }
+      },
+      "MAJOR_CHEST_CABBAGE_CAVERN": {"all": ["can_fly", "can_break_block"]}
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {"all": ["can_break_block", "can_fly"]}
@@ -1402,7 +1403,7 @@
     "exits": {
       "REGION_CABBAGE_CAVERN/ROOM_3_01": "can_swim",
       "REGION_CABBAGE_CAVERN/ROOM_3_04": "can_swim",
-      "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB": {"all": ["can_swim", "can_break_metal"]}
+      "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB": "can_swim"
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_04": {
