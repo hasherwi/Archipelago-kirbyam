@@ -1678,7 +1678,8 @@
       "included": true,
       "location_id": 3961107,
       "bit_index": 128
-      }
+      },
+      "MAJOR_CHEST_MUSTARD_MOUNTAIN": {"all": ["can_fly", "can_hit_far_switch", "can_break_block"]}
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_34": null
@@ -1693,7 +1694,7 @@
       }
     },
     "exits": {
-      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_fly"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2": {
@@ -1705,7 +1706,7 @@
       }
     },
     "exits": {
-      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_break_block"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP": {
@@ -1717,7 +1718,7 @@
       }
     },
     "exits": {
-      "REGION_CANDY_CONSTELLATION/ROOM_9_06": null
+      "REGION_CANDY_CONSTELLATION/ROOM_9_06": "can_fly"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS": {
@@ -1741,8 +1742,8 @@
       }
     },
     "exits": {
-      "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL": null,
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_02": null
+      "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL": "can_climb",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_02": "can_climb"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_02": {
@@ -1754,8 +1755,8 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_01": null,
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_03": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_01": "can_break_block",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_03": {"all": ["can_fly", "can_break_floating_block"]}
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_03": {
@@ -1767,8 +1768,8 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_02": null,
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_02": {"all": ["can_fly", "can_break_floating_block"]},
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB": "can_break_floating_block"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_04": {
@@ -1793,8 +1794,8 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_06": null,
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_09": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_06": "can_use_mini",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_09": "can_fly"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_06": {
@@ -1806,7 +1807,7 @@
       }
     },
     "exits": {
-      "REGION_RAINBOW_ROUTE/ROOM_1_40": null
+      "REGION_RAINBOW_ROUTE/ROOM_1_40": "can_break_block"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_07": {
@@ -1819,7 +1820,7 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_41": null,
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_08": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_08": "can_break_block"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_08": {
@@ -1831,8 +1832,8 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05": null,
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05": {"all": ["can_fly", "can_break_block"]},
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1": {"all": ["can_fly", "can_break_block"]}
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_09": {
@@ -1844,7 +1845,7 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_10": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_10": "can_break_block"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_10": {
@@ -1856,7 +1857,7 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_11": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_11": "can_break_block"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_11": {
@@ -1868,7 +1869,7 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_12": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_12": "can_break_block"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_12": {
@@ -1880,7 +1881,7 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_13": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_13": "can_break_block"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_13": {
@@ -1892,7 +1893,7 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_14": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_14": "can_fly"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_14": {
@@ -1904,7 +1905,7 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS": "can_fly"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_15": {
@@ -1917,8 +1918,8 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_34": null,
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_16": null,
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_17": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_16": {"all": ["can_fly", "can_hit_far_switch"]},
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_17": {"all": ["can_fly", "can_break_block"]}
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_16": {
@@ -1930,7 +1931,7 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_17": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_17_LEFT": "can_break_block"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_17": {
@@ -1942,7 +1943,19 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_18": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_18": {"all": ["can_fly", "can_break_block"]}
+    }
+  },
+  "REGION_MUSTARD_MOUNTAIN/ROOM_4_17_LEFT": {
+    "locations": {
+      "room_sanity": {
+      "included": true,
+      "location_id": 3961112,
+      "bit_index": 133
+      }
+    },
+    "exits": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_18": "can_break_block"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_18": {
@@ -1954,8 +1967,8 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_19": null,
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_19": "can_fly",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP": {"all": ["can_fly", "can_use_mini"]}
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_19": {
@@ -1967,7 +1980,7 @@
       }
     },
     "exits": {
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2": null
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2": "can_break_block"
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_HUB": {
