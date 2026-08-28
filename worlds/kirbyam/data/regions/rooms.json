@@ -1947,13 +1947,7 @@
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_17_LEFT": {
-    "locations": {
-      "room_sanity": {
-      "included": true,
-      "location_id": 3961112,
-      "bit_index": 133
-      }
-    },
+    "locations": {},
     "exits": {
       "REGION_MUSTARD_MOUNTAIN/ROOM_4_18": "can_break_block"
     }
