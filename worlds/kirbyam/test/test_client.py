@@ -695,6 +695,24 @@ async def test_poll_major_chest_sends_location_checks_for_set_bits(mock_bizhawk_
 
 
 @pytest.mark.asyncio
+async def test_poll_major_chest_tutorial_mode_sends_only_world_map_check(mock_bizhawk_context):
+    """Tutorial polling must ignore every major-chest flag except bit 0."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    world_map = data.locations["MAJOR_CHEST_WORLD_MAP"].location_id
+
+    with patch.dict(data.transport_ram_addresses, {"major_chest_flags": 0x0203B028}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        # Bit 3 belongs to Cabbage Cavern and must not be reported from tutorial mode.
+        mock_read.return_value = [((1 << 0) | (1 << 3)).to_bytes(4, 'little')]
+
+        await client._poll_major_chest_locations(mock_bizhawk_context, tutorial_world_map_only=True)
+
+    mock_send.assert_awaited_once_with([{"cmd": "LocationChecks", "locations": [world_map]}])
+
+
+@pytest.mark.asyncio
 async def test_poll_major_chest_skips_already_server_acknowledged(mock_bizhawk_context):
     """No major-chest resend when server already acknowledges all mapped transport checks."""
     client = KirbyAmClient()
@@ -4733,8 +4751,10 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
 
 
 @pytest.mark.asyncio
-async def test_game_watcher_polls_tutorial_room_color_without_opening_gameplay_gate(mock_bizhawk_context):
-    """Tutorial room changes drive color rerolls while gameplay-only polling stays deferred."""
+async def test_game_watcher_polls_tutorial_room_color_and_world_map_chest_without_opening_gameplay_gate(
+    mock_bizhawk_context,
+):
+    """Tutorial color and World Map chest polling remain narrow while gameplay stays deferred."""
     client = KirbyAmClient()
     client.initialize_client()
     client._watcher_server_ready = True
@@ -4751,6 +4771,12 @@ async def test_game_watcher_polls_tutorial_room_color_without_opening_gameplay_g
         mock_poll_tutorial_color = stack.enter_context(
             patch.object(client, '_poll_tutorial_color_room_transition', new_callable=AsyncMock)
         )
+        mock_poll_major = stack.enter_context(
+            patch.object(client, '_poll_major_chest_locations', new_callable=AsyncMock)
+        )
+        mock_poll_boss = stack.enter_context(
+            patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock)
+        )
         mock_poll_locations = stack.enter_context(patch.object(client, '_poll_locations', new_callable=AsyncMock))
         mock_deliver = stack.enter_context(patch.object(client, '_deliver_items', new_callable=AsyncMock))
         mock_goal = stack.enter_context(patch.object(client, '_maybe_report_goal', new_callable=AsyncMock))
@@ -4760,6 +4786,8 @@ async def test_game_watcher_polls_tutorial_room_color_without_opening_gameplay_g
         await client.game_watcher(mock_bizhawk_context)
 
     mock_poll_tutorial_color.assert_awaited_once_with(mock_bizhawk_context)
+    mock_poll_major.assert_awaited_once_with(mock_bizhawk_context, tutorial_world_map_only=True)
+    mock_poll_boss.assert_not_awaited()
     mock_poll_locations.assert_not_awaited()
     mock_deliver.assert_awaited_once_with(mock_bizhawk_context, allow_new_writes=False)
     mock_goal.assert_awaited_once_with(mock_bizhawk_context, ai_state_override=100)
