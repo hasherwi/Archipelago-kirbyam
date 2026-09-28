@@ -37,6 +37,7 @@ EXPECTED_ROM_MAKER_CODE = "01"
 _AUTH_TOKEN_SIZE = 16
 _BOSS_MIRROR_TABLE_PROBE_BYTES = 32
 _AI_STATE_ADDR_WIDTH = 4
+_AI_STATE_TUTORIAL = 100
 _GOAL_STATE_DARK_MIND_CLEAR = 9999
 _GOAL_STATE_FULL_CLEAR = 10000
 # Legacy v0.2/v0.3 slot-data value retained only so newer clients can finish
@@ -1656,6 +1657,10 @@ class KirbyAmClient(BizHawkClient):
             await self._sync_starting_kirby_color_runtime_config(ctx)
 
             gameplay_active, defer_reason, ai_state = await self._runtime_gameplay_state(ctx)
+            if ai_state == _AI_STATE_TUTORIAL:
+                # Report only the tutorial world-map chest while normal location
+                # polling and new item writes remain deferred.
+                await self._poll_major_chest_locations(ctx, tutorial_world_map_only=True)
             await self._log_boss_shard_debug_window(
                 ctx,
                 gameplay_active=gameplay_active,
@@ -2678,7 +2683,12 @@ class KirbyAmClient(BizHawkClient):
         else:
             self._last_boss_poll_log = None
 
-    async def _poll_major_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
+    async def _poll_major_chest_locations(
+        self,
+        ctx: KirbyAmBizHawkClientContext,
+        *,
+        tutorial_world_map_only: bool = False,
+    ) -> None:
         """
         Read transport major_chest_flags and map set bits to major-chest locations.
 
@@ -2701,7 +2711,8 @@ class KirbyAmClient(BizHawkClient):
         chest_bits = self._u32_le(raw)
 
         mapped_checked_locations: set[int] = set()
-        for bit in sorted(self._major_chest_location_ids_by_bit.keys()):
+        bits_to_poll = (0,) if tutorial_world_map_only else sorted(self._major_chest_location_ids_by_bit.keys())
+        for bit in bits_to_poll:
             if (chest_bits >> bit) & 1:
                 mapped_checked_locations.update(self._major_chest_location_ids_by_bit.get(bit, []))
 
