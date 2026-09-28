@@ -9,12 +9,17 @@ from collections import Counter
 from typing import TYPE_CHECKING, Any, ClassVar, TextIO
 
 import settings
-from BaseClasses import ItemClassification, LocationProgressType, MultiWorld, Tutorial
+from BaseClasses import CollectionState, ItemClassification, LocationProgressType, MultiWorld, Tutorial
 from worlds.AutoWorld import WebWorld, World
 
 from .client import KirbyAmClient  # noqa: F401  # Required to register BizHawk client
 from .ability_randomization import (
     build_enemy_copy_ability_policy,
+)
+from .area_keys import (
+    EARLY_REACHABLE_CHECK_THRESHOLD,
+    FALLBACK_STARTING_AREA_KEY_LABEL,
+    area_key_bitfield_from_items,
 )
 from .colors import STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION, resolve_kirby_color
 from .data import (
@@ -945,6 +950,68 @@ class KirbyAmWorld(World):
         # Create auth for client connection.
         self.auth = self.random.randbytes(16)
 
+        # Rules and user-provided starting inventory are both available at this
+        # stage.  Measure the real AP graph rather than approximating it with a
+        # second JSON traversal, then guarantee a viable deterministic start.
+        state = CollectionState(self.multiworld)
+        # Addressless locked events (area visits, switches, and other native
+        # progression state) are part of the same graph used by fill.  Sweep
+        # them before counting checks so the fallback decision cannot drift
+        # from Archipelago's actual CollectionState semantics.
+        state.sweep_for_advancements()
+        early_reachable_checks = [
+            location
+            for location in self.multiworld.get_locations(self.player)
+            if location.address is not None and location.can_reach(state)
+        ]
+        early_reachable_check_count = len(early_reachable_checks)
+        self._early_reachable_check_count = early_reachable_check_count
+
+        if early_reachable_check_count >= EARLY_REACHABLE_CHECK_THRESHOLD:
+            logger.info(
+                "[P%s] Early reachable checks: %s (threshold=%s); no fallback Area Key needed",
+                self.player,
+                early_reachable_check_count,
+                EARLY_REACHABLE_CHECK_THRESHOLD,
+            )
+            return
+
+        player_precollected_items = self.multiworld.precollected_items[self.player]
+        if any(item.name == FALLBACK_STARTING_AREA_KEY_LABEL for item in player_precollected_items):
+            logger.info(
+                "[P%s] Early reachable checks: %s (threshold=%s); %s is already precollected",
+                self.player,
+                early_reachable_check_count,
+                EARLY_REACHABLE_CHECK_THRESHOLD,
+                FALLBACK_STARTING_AREA_KEY_LABEL,
+            )
+            return
+
+        fallback_pool_index = next(
+            (
+                index
+                for index, item in enumerate(self.multiworld.itempool)
+                if item.player == self.player and item.name == FALLBACK_STARTING_AREA_KEY_LABEL
+            ),
+            None,
+        )
+        if fallback_pool_index is None:
+            raise ValueError(
+                f"[P{self.player}] Cannot precollect fallback Area Key "
+                f"{FALLBACK_STARTING_AREA_KEY_LABEL!r}: no owned copy exists in the item pool"
+            )
+
+        fallback_item = self.multiworld.itempool.pop(fallback_pool_index)
+        self.multiworld.itempool.append(self.create_filler())
+        self.push_precollected(fallback_item)
+        logger.info(
+            "[P%s] Early reachable checks: %s (threshold=%s); precollected %s and replaced its pool slot with filler",
+            self.player,
+            early_reachable_check_count,
+            EARLY_REACHABLE_CHECK_THRESHOLD,
+            FALLBACK_STARTING_AREA_KEY_LABEL,
+        )
+
     def generate_output(self, output_directory: str) -> None:
         try:
             # Load base patch data from package resources
@@ -1034,6 +1101,17 @@ class KirbyAmWorld(World):
             self._starting_kirby_color_randomize_on_room_transition_enabled()
         )
         slot_data["goal_configured_area_boss_key"] = self._get_resolved_configured_area_boss_goal_key()
+        multiworld = getattr(self, "multiworld", None)
+        precollected_items = ()
+        if multiworld is not None:
+            precollected_by_player = getattr(multiworld, "precollected_items", {})
+            precollected_items = precollected_by_player.get(getattr(self, "player", 1), ())
+        slot_data["starting_area_key_bitfield"] = area_key_bitfield_from_items(precollected_items)
+        slot_data["core_landmark_location_ids"] = sorted(
+            location.location_id
+            for location in kirby_data.locations.values()
+            if "CoreLandmark" in location.tags
+        )
         ability_gating_enabled = self._ability_gating_enabled()
         slot_data["ability_gating"] = ability_gating_enabled
         policy = getattr(self, "_enemy_copy_ability_policy", None)

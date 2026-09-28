@@ -204,10 +204,20 @@ def _load_room_sanity_locations_from_room_subareas() -> dict[str, dict[str, Any]
                 f"room_sanity metadata missing bit_index/location_id for region [{region_name}]"
             )
 
+        core_landmark = room_meta.get("core_landmark", False)
+        if not isinstance(core_landmark, bool):
+            raise TypeError(
+                f"room_sanity core_landmark must be a boolean for region [{region_name}]"
+            )
+
+        location_tags = ["RoomSanity"]
+        if core_landmark:
+            location_tags.append("CoreLandmark")
+
         generated_locations[location_key] = {
             "label": room_label,
             "parent_region": region_name,
-            "tags": ["RoomSanity"],
+            "tags": location_tags,
             "bit_index": _parse_int(bit_index_raw),
             "category": "ROOM_SANITY",
             "location_id": _parse_int(location_id_raw),

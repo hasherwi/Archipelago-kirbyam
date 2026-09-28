@@ -65,6 +65,8 @@
 #define AP_STARTING_KIRBY_COLOR_APPLIED (*(volatile uint32_t*)(AP_BASE + 0xB8u))
 /* Physical lever activations, separated from native wall-unlock state (Issue #859). */
 #define AP_LEVER_ACTIVATION_FLAGS (*(volatile uint32_t*)(AP_BASE + 0xBCu))
+/* Client-canonical Area Key ownership. Bits 2..9 map to AP areas 2..9. */
+#define AP_AREA_KEY_BITFIELD_RUNTIME (*(volatile uint32_t*)(AP_BASE + 0xC0u))
 #define AP_MINOR_CHEST_EVENT_RING_SLOT_COUNT 8u
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
@@ -112,6 +114,14 @@
 #define KIRBY_CURRENT_PLAYER_ADDR 0x0203AD3Cu
 #define KIRBY_CURRENT_PLAYER     (*(volatile uint8_t*)(KIRBY_CURRENT_PLAYER_ADDR))
 #define KIRBY_STRUCT_STRIDE      0x1A8u
+#define KIRBY_STRUCT_FLAGS2_OFFSET 0x0Cu
+#define KIRBY_STRUCT_X_OFFSET    0x40u
+#define KIRBY_STRUCT_Y_OFFSET    0x44u
+#define KIRBY_STRUCT_PLAYER_OFFSET 0x56u
+#define KIRBY_STRUCT_COLLISION_OFFSET 0x58u
+#define KIRBY_STRUCT_ROOM_OFFSET 0x60u
+#define KIRBY_STRUCT_TRANSITION_KIND_OFFSET 0x62u
+#define KIRBY_STRUCT_CONTACT_OBJECT_OFFSET 0x6Cu
 #define KIRBY_STRUCT_TASK_OFFSET 0xCCu
 #define KIRBY_STRUCT_BATTERY_OFFSET 0xDCu
 #define KIRBY_STRUCT_COLOR_OFFSET 0xDFu
@@ -338,12 +348,39 @@ static void ap_unlock_area_map(uint32_t area_id) {
 
 typedef uint32_t (*KirbySpecialDoorVisitedFn)(uint16_t, uint16_t, uint8_t, uint8_t);
 #define KIRBY_SPECIAL_DOOR_VISITED_FN ((KirbySpecialDoorVisitedFn)0x08002BA9u)
+#define KIRBY_ROOM_AREA_INFO_TABLE_ADDR 0x08D6CD0Cu
+#define KIRBY_ROOM_AREA_INFO_AREA_OFFSET 0x46u
+#define KIRBY_ROOM_AREA_INFO_COUNT 1000u
+#define KIRBY_NATIVE_AREA_UNKNOWN 0xFFu
 #define ROOM_PROPS_BASE_ADDR 0x089331ACu
 #define ROOM_PROPS_STRIDE 0x28u
 #define ROOM_PROPS_DOORS_IDX_OFFSET 0x24u
 #define ROOM_PROPS_ROOM_ID_LIMIT 0x400u
 #define KIRBY_CURRENT_ROOM_ADDR 0x02023B28u
 #define KIRBY_CURRENT_ROOM      (*(volatile uint16_t*)(KIRBY_CURRENT_ROOM_ADDR))
+#define KIRBY_COLLISION_ATTRIBUTES_ADDR 0x082D88B8u
+#define KIRBY_COLLISION_ATTRIBUTES ((volatile const uint32_t*)KIRBY_COLLISION_ATTRIBUTES_ADDR)
+#define KIRBY_LEVEL_INFO_BASE_ADDR 0x02023530u
+#define KIRBY_LEVEL_INFO_STRIDE 0x668u
+#define KIRBY_LEVEL_MIN_X_OFFSET 0x48u
+#define KIRBY_LEVEL_MIN_Y_OFFSET 0x4Cu
+#define KIRBY_LEVEL_MAX_X_OFFSET 0x50u
+#define KIRBY_LEVEL_MAX_Y_OFFSET 0x54u
+#define KIRBY_PLAYER_COUNT_LIMIT 4u
+#define KIRBY_EWRAM_START 0x02000000u
+#define KIRBY_EWRAM_END 0x02040000u
+#define KIRBY_IWRAM_START 0x03000000u
+#define KIRBY_IWRAM_END 0x03008000u
+#define KIRBY_OBJECT_DESTINATION_ROOM_OFFSET 0x63u
+
+typedef uint8_t (*KirbyGetCollisionTileFn)(uint8_t, uint16_t, uint16_t);
+#define KIRBY_GET_COLLISION_TILE_FN ((KirbyGetCollisionTileFn)0x080023E5u)
+typedef void *(*KirbySpecialTileFn)(uint8_t, uint8_t, uint8_t);
+#define KIRBY_SPECIAL_TILE_FN ((KirbySpecialTileFn)0x080025ADu)
+typedef uint8_t (*KirbyButtonTransitionFn)(void *);
+#define KIRBY_BUTTON_TRANSITION_FN ((KirbyButtonTransitionFn)0x0805BC79u)
+typedef uint8_t (*KirbyExplicitTransitionFn)(void *, uint16_t, uint8_t, uint8_t);
+#define KIRBY_EXPLICIT_TRANSITION_FN ((KirbyExplicitTransitionFn)0x080551FDu)
 
 static uint16_t ap_room_doors_idx(uint16_t room_id) {
     if ((uint32_t)room_id >= ROOM_PROPS_ROOM_ID_LIMIT) {
@@ -352,37 +389,197 @@ static uint16_t ap_room_doors_idx(uint16_t room_id) {
     return *(volatile uint16_t*)(ROOM_PROPS_BASE_ADDR + ((uint32_t)room_id * ROOM_PROPS_STRIDE) + ROOM_PROPS_DOORS_IDX_OFFSET);
 }
 
-static uint8_t ap_is_warp_room_doors_idx(uint16_t doors_idx) {
-    switch (doors_idx) {
-        case 30u:   // REGION_RAINBOW_ROUTE/ROOM_1_WARP
-        case 38u:   // REGION_RAINBOW_ROUTE/ROOM_1_13 (Warp Star launch room)
-        case 69u:   // REGION_MOONLIGHT_MANSION/ROOM_2_WARP
-        case 101u:  // REGION_PEPPERMINT_PALACE/ROOM_7_WARP
-        case 134u:  // REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP
-        case 153u:  // REGION_CANDY_CONSTELLATION/ROOM_9_WARP
-        case 269u:  // REGION_CARROT_CASTLE/ROOM_5_WARP
-            return 1u;
-        default:
-            return 0u;
+static uint8_t ap_native_area_for_room(uint16_t room_id) {
+    uint32_t info_addr;
+
+    if ((uint32_t)room_id >= KIRBY_ROOM_AREA_INFO_COUNT) {
+        return KIRBY_NATIVE_AREA_UNKNOWN;
     }
+
+    info_addr = *(volatile const uint32_t*)(
+        KIRBY_ROOM_AREA_INFO_TABLE_ADDR + ((uint32_t)room_id << 2)
+    );
+    if (info_addr < 0x08000000u || info_addr >= 0x0A000000u) {
+        return KIRBY_NATIVE_AREA_UNKNOWN;
+    }
+    return *(volatile const uint8_t*)(info_addr + KIRBY_ROOM_AREA_INFO_AREA_OFFSET);
 }
 
-__attribute__((used)) uint32_t ap_on_query_special_door_state(uint16_t room_id, uint16_t arg1, uint8_t arg2, uint8_t arg3) {
-    uint32_t native_result = KIRBY_SPECIAL_DOOR_VISITED_FN(room_id, arg1, arg2, arg3);
-    uint16_t runtime_source_doors_idx;
+static uint8_t ap_is_keyed_inter_area_edge(uint16_t source_room, uint16_t destination_room) {
+    uint8_t source_area = ap_native_area_for_room(source_room);
+    uint8_t destination_area = ap_native_area_for_room(destination_room);
 
-    if (native_result == 0u) {
+    return (uint8_t)(
+        source_area != KIRBY_NATIVE_AREA_UNKNOWN
+        && source_area != destination_area
+        && destination_area >= 1u
+        && destination_area <= 8u
+    );
+}
+
+/*
+ * Native areas 0..8 map to AP areas 1..9. Rainbow Route (native 0),
+ * Tutorial (9), and Dimension Mirror (10) are never Area Key destinations.
+ */
+__attribute__((used)) uint32_t ap_transition_allowed(uint16_t source_room, uint16_t destination_room) {
+    uint8_t destination_area;
+
+    if (ap_is_keyed_inter_area_edge(source_room, destination_room) == 0u) {
+        return 1u;
+    }
+
+    destination_area = ap_native_area_for_room(destination_room);
+    return (AP_AREA_KEY_BITFIELD_RUNTIME >> (destination_area + 1u)) & 1u;
+}
+
+static uint8_t ap_current_special_tile_destination(void *kirby, uint16_t *out_destination_room) {
+    uint32_t kirby_addr = (uint32_t)kirby;
+    uint8_t player_id = *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_PLAYER_OFFSET);
+    int32_t x;
+    int32_t y;
+    uint32_t level_info_addr;
+    uint16_t tile_x;
+    uint16_t tile_y;
+    uint8_t collision_tile;
+    uint8_t *special_tile;
+
+    if (out_destination_room == 0 || player_id >= KIRBY_PLAYER_COUNT_LIMIT) {
         return 0u;
     }
 
-    // Warp Star access is intentionally disabled in AP mode because these
-    // transitions can bypass intended progression routing.
-    runtime_source_doors_idx = ap_room_doors_idx(KIRBY_CURRENT_ROOM);
-    if (ap_is_warp_room_doors_idx(runtime_source_doors_idx)) {
+    x = *(volatile int32_t*)(kirby_addr + KIRBY_STRUCT_X_OFFSET);
+    y = *(volatile int32_t*)(kirby_addr + KIRBY_STRUCT_Y_OFFSET);
+    level_info_addr = KIRBY_LEVEL_INFO_BASE_ADDR + ((uint32_t)player_id * KIRBY_LEVEL_INFO_STRIDE);
+    if (x <= *(volatile int32_t*)(level_info_addr + KIRBY_LEVEL_MIN_X_OFFSET)
+        || x >= *(volatile int32_t*)(level_info_addr + KIRBY_LEVEL_MAX_X_OFFSET)
+        || y <= *(volatile int32_t*)(level_info_addr + KIRBY_LEVEL_MIN_Y_OFFSET)
+        || y >= *(volatile int32_t*)(level_info_addr + KIRBY_LEVEL_MAX_Y_OFFSET)) {
         return 0u;
     }
 
-    return native_result;
+    tile_x = (uint16_t)(x >> 12);
+    tile_y = (uint16_t)(y >> 12);
+    collision_tile = KIRBY_GET_COLLISION_TILE_FN(player_id, tile_x, tile_y);
+    if ((KIRBY_COLLISION_ATTRIBUTES[collision_tile] & 0x4000u) == 0u) {
+        return 0u;
+    }
+
+    special_tile = (uint8_t*)KIRBY_SPECIAL_TILE_FN(player_id, (uint8_t)tile_x, (uint8_t)tile_y);
+    if (special_tile == 0) {
+        return 0u;
+    }
+    *out_destination_room = *(volatile uint16_t*)(special_tile + 0x08u);
+    return 1u;
+}
+
+static uint8_t ap_current_special_tile_is_locked(void *kirby) {
+    uint32_t kirby_addr = (uint32_t)kirby;
+    uint16_t destination_room;
+
+    if (ap_current_special_tile_destination(kirby, &destination_room) == 0u) {
+        return 0u;
+    }
+    return (uint8_t)(ap_transition_allowed(
+        *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_ROOM_OFFSET),
+        destination_room
+    ) == 0u);
+}
+
+static uint8_t ap_button_transition_is_locked(void *kirby) {
+    uint32_t kirby_addr = (uint32_t)kirby;
+    uint16_t destination_room;
+    uint32_t contact_object_addr;
+    int8_t object_destination_room;
+
+    if (ap_current_special_tile_destination(kirby, &destination_room) != 0u) {
+        return (uint8_t)(ap_transition_allowed(
+            *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_ROOM_OFFSET),
+            destination_room
+        ) == 0u);
+    }
+
+    /*
+     * sub_0805BC78 also accepts object-backed doors when unk62 bit 0x10 is
+     * set and unk58 is not using the special-tile form. Native code takes the
+     * destination from the contacted ObjectBase's signed byte at +0x63.
+     */
+    if ((*(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_TRANSITION_KIND_OFFSET) & 0x10u) == 0u
+        || (*(volatile uint32_t*)(kirby_addr + KIRBY_STRUCT_COLLISION_OFFSET) & 0x4000u) != 0u) {
+        return 0u;
+    }
+
+    contact_object_addr = *(volatile uint32_t*)(kirby_addr + KIRBY_STRUCT_CONTACT_OBJECT_OFFSET);
+    if (!((contact_object_addr >= KIRBY_EWRAM_START
+            && contact_object_addr + KIRBY_OBJECT_DESTINATION_ROOM_OFFSET < KIRBY_EWRAM_END)
+        || (contact_object_addr >= KIRBY_IWRAM_START
+            && contact_object_addr + KIRBY_OBJECT_DESTINATION_ROOM_OFFSET < KIRBY_IWRAM_END))) {
+        return 0u;
+    }
+
+    object_destination_room = *(volatile int8_t*)(
+        contact_object_addr + KIRBY_OBJECT_DESTINATION_ROOM_OFFSET
+    );
+    destination_room = (uint16_t)(int16_t)object_destination_room;
+    return (uint8_t)(ap_transition_allowed(
+        *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_ROOM_OFFSET),
+        destination_room
+    ) == 0u);
+}
+
+/*
+ * This replaces the native comparison at 0x0803FE10. Returning zero branches
+ * around the transition setup; an allowed transition returns the exact unk58
+ * value the overwritten retail instructions would have stored.
+ */
+__attribute__((used)) uint32_t ap_prepare_automatic_transition(void *kirby, uint32_t collision_flags) {
+    uint32_t kirby_addr = (uint32_t)kirby;
+
+    if (collision_flags != 0x104000u || ap_current_special_tile_is_locked(kirby) != 0u) {
+        return 0u;
+    }
+    return *(volatile uint32_t*)(kirby_addr + KIRBY_STRUCT_COLLISION_OFFSET) | 0x4000u;
+}
+
+/*
+ * sub_0805BC78 normally sets bit 0x1000 even when it does not transition.
+ * Preserve that side effect while denying before its transition flags mutate.
+ */
+__attribute__((used)) uint8_t ap_on_button_special_transition(void *kirby) {
+    uint32_t kirby_addr = (uint32_t)kirby;
+
+    if (ap_button_transition_is_locked(kirby) != 0u) {
+        *(volatile uint32_t*)(kirby_addr + KIRBY_STRUCT_FLAGS2_OFFSET) |= 0x1000u;
+        return 0u;
+    }
+    return KIRBY_BUTTON_TRANSITION_FN(kirby);
+}
+
+__attribute__((used)) uint8_t ap_on_explicit_room_transition(
+    void *kirby,
+    uint16_t destination_room,
+    uint8_t spawn_x,
+    uint8_t spawn_y
+) {
+    uint32_t kirby_addr = (uint32_t)kirby;
+    uint16_t source_room = *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_ROOM_OFFSET);
+
+    if (ap_transition_allowed(source_room, destination_room) == 0u) {
+        return 0u;
+    }
+    return KIRBY_EXPLICIT_TRANSITION_FN(kirby, destination_room, spawn_x, spawn_y);
+}
+
+__attribute__((used)) uint32_t ap_on_query_special_door_state(
+    uint16_t room_id,
+    uint16_t destination_room,
+    uint8_t spawn_x,
+    uint8_t spawn_y
+) {
+    if (ap_is_keyed_inter_area_edge(room_id, destination_room) != 0u) {
+        return ap_transition_allowed(room_id, destination_room);
+    }
+
+    return KIRBY_SPECIAL_DOOR_VISITED_FN(room_id, destination_room, spawn_x, spawn_y);
 }
 
 typedef void (*KirbySmallSwitchEffectFn)(void);
@@ -1275,6 +1472,14 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         return 1u;
     }
 
+    // AREA_KEY_2..AREA_KEY_9 = BASE+41 .. BASE+48 (Issue #42).
+    if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 41u)
+        && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 48u)) {
+        uint32_t area_id = 2u + (ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 41u));
+        AP_AREA_KEY_BITFIELD_RUNTIME |= (1u << area_id);
+        return 1u;
+    }
+
     // Unhandled item - return 0 to signal that the flag should NOT be cleared
     return 0u;
 }
@@ -1304,6 +1509,7 @@ void ap_poll_mailbox_c(void) {
         AP_NO_EXTRA_LIVES_RUNTIME = 0xFFFFFFFFu;
         AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
         AP_LEVER_ACTIVATION_FLAGS = 0u;
+        AP_AREA_KEY_BITFIELD_RUNTIME = 0u;
         AP_ABILITY_RANDOMIZATION_MODE = 0u;
         AP_ABILITY_RANDOMIZATION_SEED_LO = 0u;
         AP_ABILITY_RANDOMIZATION_SEED_HI = 0u;

@@ -733,6 +733,7 @@
     "locations": {
       "room_sanity": {
         "included": true,
+        "core_landmark": true,
         "location_id": 3961070,
         "bit_index": 80
       },
@@ -1221,6 +1222,7 @@
     ],
     "room_sanity": {
       "included": true,
+      "core_landmark": true,
       "location_id": 3961094,
       "bit_index": 189
     }
@@ -1489,6 +1491,7 @@
     ],
     "room_sanity": {
       "included": true,
+      "core_landmark": true,
       "location_id": 3961119,
       "bit_index": 141
     }
@@ -1813,6 +1816,7 @@
     ],
     "room_sanity": {
       "included": true,
+      "core_landmark": true,
       "location_id": 3961126,
       "bit_index": 253
     }
@@ -2161,6 +2165,7 @@
     ],
     "room_sanity": {
       "included": true,
+      "core_landmark": true,
       "location_id": 3961163,
       "bit_index": 211
     }
@@ -2578,6 +2583,7 @@
     ],
     "room_sanity": {
       "included": true,
+      "core_landmark": true,
       "location_id": 3961188,
       "bit_index": 104
     }
@@ -2978,6 +2984,7 @@
     ],
     "room_sanity": {
       "included": true,
+      "core_landmark": true,
       "location_id": 3961221,
       "bit_index": 240
     }
@@ -3422,6 +3429,7 @@
     },
     "room_sanity": {
       "included": true,
+      "core_landmark": true,
       "location_id": 3961256,
       "bit_index": 169
     }

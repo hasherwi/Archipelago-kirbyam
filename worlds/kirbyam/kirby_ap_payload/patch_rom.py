@@ -6,9 +6,12 @@ import sys
 import argparse
 import hashlib
 import importlib.util
+import json
 import multiprocessing as mp
 from multiprocessing.queues import Queue as MultiprocessingQueue
+import re
 import shutil
+import struct
 import subprocess
 import tempfile
 import time
@@ -61,6 +64,26 @@ BIG_SWITCH_UNLOCK_CALL_OFFSET = 0x00039EEE
 # sub_08119B3C: BL _call_via_r0 after resolving the small-switch effect function.
 # Hook receives that function pointer in r0 and can suppress only the four AP levers.
 SMALL_SWITCH_EFFECT_CALL_OFFSET = 0x00119B98
+ORIGINAL_SPECIAL_DOOR_STATE_FN_ADDR = 0x08002BA8
+EXPECTED_SPECIAL_DOOR_STATE_CALLSITES = 5
+ORIGINAL_BUTTON_SPECIAL_TRANSITION_FN_ADDR = 0x0805BC78
+EXPECTED_BUTTON_SPECIAL_TRANSITION_CALLSITES = 28
+ORIGINAL_EXPLICIT_ROOM_TRANSITION_FN_ADDR = 0x080551FC
+EXPECTED_EXPLICIT_ROOM_TRANSITION_CALLSITES = 8
+ROOM_PROPS_TABLE_OFFSET = 0x009331AC
+ROOM_PROPS_STRIDE = 0x28
+ROOM_PROPS_DOORS_IDX_OFFSET = 0x24
+ROOM_AREA_INFO_TABLE_OFFSET = 0x00D6CD0C
+ROOM_AREA_INFO_AREA_OFFSET = 0x46
+ROOM_AREA_INFO_COUNT = 1000
+# In sub_0803FBB4, replace the retail collision-mask comparison and unk58 OR
+# before any transition state is written. The following store at 0x0803FE20
+# consumes the value returned by ap_prepare_automatic_transition.
+AUTOMATIC_TRANSITION_GUARD_OFFSET = 0x0003FE10
+AUTOMATIC_TRANSITION_GUARD_RETURN_ROM_ADDR = 0x0803FE5A
+AUTOMATIC_TRANSITION_GUARD_ORIGINAL = bytes.fromhex(
+    "82 20 40 03 86 42 20 D1 A8 6D 80 21 C9 01 08 43"
+)
 ORIGINAL_ABILITY_TRANSITION_FN_ADDR = 0x080547C4
 # sub_08054C0C consumes Kirby::transitioningAbility after statues write it directly.
 ORIGINAL_ABILITY_TRANSITION_START_FN_ADDR = 0x08054C0C
@@ -290,6 +313,160 @@ def validate_thumb_bl_callsite_target(
             "Refusing to patch an unknown ROM revision."
         )
     return original
+
+
+def validate_exact_rom_bytes(
+    rom: bytes | bytearray,
+    offset: int,
+    expected: bytes,
+    label: str,
+) -> bytes:
+    """Require an exact verified retail instruction sequence before overwriting it."""
+    if offset < 0 or offset + len(expected) > len(rom):
+        raise SystemExit(
+            f"Error: {label} sequence at {offset:#x} is out of ROM bounds "
+            f"(size={len(rom):#x})."
+        )
+    original = bytes(rom[offset:offset + len(expected)])
+    if original != expected:
+        raise SystemExit(
+            f"Error: {label} sequence at {offset:#x} does not match the verified retail bytes. "
+            f"Found {original.hex(' ')}, expected {expected.hex(' ')}. "
+            "Refusing to patch an unknown ROM revision."
+        )
+    return original
+
+
+_NATIVE_AREA_BY_REGION_TOKEN = {
+    "RAINBOW_ROUTE": 0,
+    "MOONLIGHT_MANSION": 1,
+    "CABBAGE_CAVERN": 2,
+    "MUSTARD_MOUNTAIN": 3,
+    "CARROT_CASTLE": 4,
+    "OLIVE_OCEAN": 5,
+    "PEPPERMINT_PALACE": 6,
+    "RADISH_RUINS": 7,
+    "CANDY_CONSTELLATION": 8,
+    "TUTORIAL": 9,
+    "DIMENSION_MIRROR": 10,
+}
+_ROOM_REGION_AREA_PATTERN = re.compile(r"^REGION_([A-Z_]+)/ROOM_")
+
+
+def load_expected_native_area_by_doors_idx() -> dict[int, int]:
+    """Build the AP room-data side of the native Area Key mapping contract."""
+    rooms_path = Path(__file__).resolve().parent.parent / "data" / "regions" / "rooms.json"
+    with rooms_path.open("r", encoding="utf-8") as rooms_file:
+        rooms = json.load(rooms_file)
+
+    expected: dict[int, int] = {}
+    for region_name, room_data in rooms.items():
+        match = _ROOM_REGION_AREA_PATTERN.match(region_name)
+        room_sanity = room_data.get("room_sanity") if isinstance(room_data, dict) else None
+        if not isinstance(room_sanity, dict) and isinstance(room_data, dict):
+            locations = room_data.get("locations")
+            if isinstance(locations, dict):
+                room_sanity = locations.get("room_sanity")
+        if match is None or not isinstance(room_sanity, dict):
+            continue
+        doors_idx = room_sanity.get("bit_index")
+        if not isinstance(doors_idx, int):
+            continue
+
+        native_area = _NATIVE_AREA_BY_REGION_TOKEN.get(match.group(1))
+        if native_area is None:
+            raise SystemExit(
+                f"Error: no native Area Key area mapping for room region {region_name!r}."
+            )
+        previous_area = expected.setdefault(doors_idx, native_area)
+        if previous_area != native_area:
+            raise SystemExit(
+                f"Error: rooms.json assigns doorsIdx {doors_idx} to native areas "
+                f"{previous_area} and {native_area}."
+            )
+
+    if not expected:
+        raise SystemExit("Error: rooms.json produced an empty native Area Key area contract.")
+    return expected
+
+
+def validate_area_key_native_area_contract(rom: bytes | bytearray) -> None:
+    """Require rooms.json area names to agree with the retail native room metadata."""
+    expected = load_expected_native_area_by_doors_idx()
+    observed_doors_idx: set[int] = set()
+
+    for room_id in range(ROOM_AREA_INFO_COUNT):
+        info_table_entry = ROOM_AREA_INFO_TABLE_OFFSET + (room_id * 4)
+        room_props_entry = (
+            ROOM_PROPS_TABLE_OFFSET
+            + (room_id * ROOM_PROPS_STRIDE)
+            + ROOM_PROPS_DOORS_IDX_OFFSET
+        )
+        if info_table_entry + 4 > len(rom) or room_props_entry + 2 > len(rom):
+            raise SystemExit("Error: native Area Key room metadata is outside the selected ROM.")
+
+        info_address = struct.unpack_from("<I", rom, info_table_entry)[0]
+        if not (0x08000000 <= info_address < 0x0A000000):
+            continue
+        area_offset = (info_address - 0x08000000) + ROOM_AREA_INFO_AREA_OFFSET
+        if area_offset >= len(rom):
+            continue
+
+        doors_idx = struct.unpack_from("<H", rom, room_props_entry)[0]
+        expected_area = expected.get(doors_idx)
+        if expected_area is None:
+            continue
+
+        native_area = rom[area_offset]
+        if native_area != expected_area:
+            raise SystemExit(
+                "Error: Area Key native/AP room mapping drift: "
+                f"roomId={room_id}, doorsIdx={doors_idx}, nativeArea={native_area}, "
+                f"rooms.jsonArea={expected_area}. Refusing to build a mismatched patch."
+            )
+        observed_doors_idx.add(doors_idx)
+
+    missing = sorted(set(expected) - observed_doors_idx)
+    if missing:
+        raise SystemExit(
+            "Error: Area Key native/AP room mapping is incomplete; rooms.json doorsIdx values "
+            f"were not found in retail room metadata: {missing}."
+        )
+
+    print(
+        "Validated Area Key native/AP room-area mapping:",
+        len(observed_doors_idx),
+        "doorsIdx entries",
+    )
+
+
+def thumb_beq_bytes(src_rom_addr: int, dst_rom_addr: int) -> bytes:
+    """Encode a Thumb-1 16-bit BEQ from <src_rom_addr> to <dst_rom_addr>."""
+    displacement = dst_rom_addr - (src_rom_addr + 4)
+    if displacement % 2 != 0 or not (-256 <= displacement <= 254):
+        raise ValueError(
+            f"Thumb BEQ target out of range/alignment: src={src_rom_addr:#x}, dst={dst_rom_addr:#x}"
+        )
+    return (0xD000 | ((displacement >> 1) & 0xFF)).to_bytes(2, "little")
+
+
+def build_automatic_transition_guard_bytes(
+    hook_target: int,
+    *,
+    rom_base: int = 0x08000000,
+) -> bytes:
+    """Build the 16-byte pre-mutation guard installed inside sub_0803FBB4."""
+    start_addr = rom_base + AUTOMATIC_TRANSITION_GUARD_OFFSET
+    guard = (
+        bytes.fromhex("28 46 31 46")  # mov r0, r5; mov r1, r6
+        + thumb_bl_bytes(start_addr + 4, hook_target)
+        + bytes.fromhex("00 28")  # cmp r0, #0
+        + thumb_beq_bytes(start_addr + 10, AUTOMATIC_TRANSITION_GUARD_RETURN_ROM_ADDR)
+        + bytes.fromhex("C0 46 C0 46")  # two Thumb-1 NOPs
+    )
+    if len(guard) != len(AUTOMATIC_TRANSITION_GUARD_ORIGINAL):
+        raise AssertionError("automatic transition guard must preserve the 16-byte patch window")
+    return guard
 
 
 def discover_thumb_bl_callsites_to_targets(
@@ -776,6 +953,14 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_on_world_map_unlock_call"),
         "small_switch_effect_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_small_switch_effect"),
+        "special_door_state_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_query_special_door_state"),
+        "automatic_transition_guard_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_prepare_automatic_transition"),
+        "button_special_transition_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_button_special_transition"),
+        "explicit_room_transition_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_explicit_room_transition"),
         "ability_transition_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_request_copy_ability_transition"),
         "ability_transition_start_hook_target": resolve_elf_symbol_address(
@@ -797,6 +982,10 @@ _PAYLOAD_TARGET_LABELS = {
     "sound_player_chest_hook_target": "sound player/music-sheet chest hook",
     "hub_switch_hook_target": "hub switch hook",
     "small_switch_effect_hook_target": "lever small-switch effect hook",
+    "special_door_state_hook_target": "Area Key mirror visual-state hook",
+    "automatic_transition_guard_target": "Area Key automatic-transition guard",
+    "button_special_transition_hook_target": "Area Key button-transition hook",
+    "explicit_room_transition_hook_target": "Area Key explicit-room-transition hook",
     "ability_transition_hook_target": "ability transition hook",
     "ability_transition_start_hook_target": "ability transition-start hook",
     "starting_color_start_game_hook_target": "starting-color game-start hook",
@@ -858,6 +1047,10 @@ def build_payload_hook_bl_bytes(
             rom_base + SMALL_SWITCH_EFFECT_CALL_OFFSET,
             hook_targets["small_switch_effect_hook_target"],
         ),
+        "automatic_transition_guard_bytes": build_automatic_transition_guard_bytes(
+            hook_targets["automatic_transition_guard_target"],
+            rom_base=rom_base,
+        ),
     }
 
 
@@ -901,6 +1094,12 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
     original_small_switch_effect_hook = validate_thumb_bl_callsite(
         rom, SMALL_SWITCH_EFFECT_CALL_OFFSET, "lever small-switch effect dispatch"
     )
+    original_automatic_transition_guard = validate_exact_rom_bytes(
+        rom,
+        AUTOMATIC_TRANSITION_GUARD_OFFSET,
+        AUTOMATIC_TRANSITION_GUARD_ORIGINAL,
+        "Area Key automatic-transition guard",
+    )
     original_starting_color_hooks = [
         validate_thumb_bl_callsite_target(
             rom,
@@ -926,6 +1125,10 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
         f"  lever small-switch effect @ {SMALL_SWITCH_EFFECT_CALL_OFFSET:#x}: "
         f"{original_small_switch_effect_hook.hex(' ')}"
     )
+    print(
+        f"  Area Key automatic-transition guard @ {AUTOMATIC_TRANSITION_GUARD_OFFSET:#x}: "
+        f"{original_automatic_transition_guard.hex(' ')}"
+    )
     for offset, opcode in zip(STARTING_COLOR_START_GAME_CALL_OFFSETS, original_starting_color_hooks):
         print(f"  single-player game start @ {offset:#x}: {opcode.hex(' ')}")
 
@@ -938,9 +1141,67 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
         "original_sound_player_hook": original_sound_player_hook,
         "original_hub_switch_hook": original_hub_switch_hook,
         "original_small_switch_effect_hook": original_small_switch_effect_hook,
+        "original_automatic_transition_guard": original_automatic_transition_guard,
         "original_starting_color_hook_intro": original_starting_color_hooks[0],
         "original_starting_color_hook_load": original_starting_color_hooks[1],
     }
+
+
+def discover_required_callsites(
+    rom: bytes | bytearray,
+    rom_base: int,
+    target_addr: int,
+    expected_count: int,
+    label: str,
+) -> list[int]:
+    """Discover one retail call family and fail closed on missing/extra hooks."""
+    callsites = discover_thumb_bl_callsites_to_targets(
+        rom,
+        {target_addr, target_addr | 1},
+        rom_base=rom_base,
+        scan_start=0xC0,
+        scan_end=min(PAYLOAD_OFFSET, len(rom) - 3),
+    )
+    if len(callsites) != expected_count:
+        raise SystemExit(
+            f"Error: expected exactly {expected_count} {label} callsites to "
+            f"0x{target_addr:08X}, found {len(callsites)} at "
+            f"{', '.join(hex(offset) for offset in callsites) or '<none>'}. "
+            "Refusing to build an Area Key patch with incomplete runtime coverage."
+        )
+    return callsites
+
+
+def discover_area_key_callsites(
+    rom: bytes | bytearray,
+    rom_base: int,
+) -> tuple[list[int], list[int], list[int]]:
+    special_door_state_callsites = discover_required_callsites(
+        rom,
+        rom_base,
+        ORIGINAL_SPECIAL_DOOR_STATE_FN_ADDR,
+        EXPECTED_SPECIAL_DOOR_STATE_CALLSITES,
+        "special-door visual-state",
+    )
+    button_transition_callsites = discover_required_callsites(
+        rom,
+        rom_base,
+        ORIGINAL_BUTTON_SPECIAL_TRANSITION_FN_ADDR,
+        EXPECTED_BUTTON_SPECIAL_TRANSITION_CALLSITES,
+        "button special-transition",
+    )
+    explicit_transition_callsites = discover_required_callsites(
+        rom,
+        rom_base,
+        ORIGINAL_EXPLICIT_ROOM_TRANSITION_FN_ADDR,
+        EXPECTED_EXPLICIT_ROOM_TRANSITION_CALLSITES,
+        "explicit room-transition",
+    )
+    return (
+        special_door_state_callsites,
+        button_transition_callsites,
+        explicit_transition_callsites,
+    )
 
 
 def discover_runtime_callsites(
@@ -1037,6 +1298,9 @@ def patch_rom_with_payload(
     boss_already_owned_hook_bl_by_offset: dict[int, bytes],
     ability_transition_callsites: list[int],
     ability_transition_start_callsites: list[int],
+    special_door_state_callsites: list[int],
+    button_transition_callsites: list[int],
+    explicit_transition_callsites: list[int],
     hook_targets: dict[str, int],
     rom_base: int,
 ) -> None:
@@ -1063,6 +1327,10 @@ def patch_rom_with_payload(
     rom[SMALL_SWITCH_EFFECT_CALL_OFFSET:SMALL_SWITCH_EFFECT_CALL_OFFSET + 4] = (
         hook_bl_bytes["small_switch_effect_hook_bl_bytes"]
     )
+    rom[
+        AUTOMATIC_TRANSITION_GUARD_OFFSET:
+        AUTOMATIC_TRANSITION_GUARD_OFFSET + len(AUTOMATIC_TRANSITION_GUARD_ORIGINAL)
+    ] = hook_bl_bytes["automatic_transition_guard_bytes"]
 
     for offset, hook_bl in boss_already_owned_hook_bl_by_offset.items():
         rom[offset:offset + 4] = hook_bl
@@ -1073,6 +1341,18 @@ def patch_rom_with_payload(
     for offset in ability_transition_start_callsites:
         rom[offset:offset + 4] = thumb_bl_bytes(
             rom_base + offset, hook_targets["ability_transition_start_hook_target"]
+        )
+    for offset in special_door_state_callsites:
+        rom[offset:offset + 4] = thumb_bl_bytes(
+            rom_base + offset, hook_targets["special_door_state_hook_target"]
+        )
+    for offset in button_transition_callsites:
+        rom[offset:offset + 4] = thumb_bl_bytes(
+            rom_base + offset, hook_targets["button_special_transition_hook_target"]
+        )
+    for offset in explicit_transition_callsites:
+        rom[offset:offset + 4] = thumb_bl_bytes(
+            rom_base + offset, hook_targets["explicit_room_transition_hook_target"]
         )
     for offset in STARTING_COLOR_START_GAME_CALL_OFFSETS:
         rom[offset:offset + 4] = thumb_bl_bytes(
@@ -1086,6 +1366,9 @@ def print_patch_summary(
     boss_already_owned_callsites: list[int],
     ability_transition_callsites: list[int],
     ability_transition_start_callsites: list[int],
+    special_door_state_callsites: list[int],
+    button_transition_callsites: list[int],
+    explicit_transition_callsites: list[int],
 ) -> None:
     print("Intermediary patched ROM written:", INTERMEDIARY_ROM)
     print("Payload inserted at file offset:", hex(PAYLOAD_OFFSET))
@@ -1168,6 +1451,30 @@ def print_patch_summary(
         hex(hook_targets["small_switch_effect_hook_target"]),
     )
     print(
+        "Area Key automatic-transition guard patched at file offset:",
+        hex(AUTOMATIC_TRANSITION_GUARD_OFFSET),
+        "target=",
+        hex(hook_targets["automatic_transition_guard_target"]),
+    )
+    print(
+        "Area Key mirror visual-state callsites patched:",
+        len(special_door_state_callsites),
+        "target=",
+        hex(hook_targets["special_door_state_hook_target"]),
+    )
+    print(
+        "Area Key button-transition callsites patched:",
+        len(button_transition_callsites),
+        "target=",
+        hex(hook_targets["button_special_transition_hook_target"]),
+    )
+    print(
+        "Area Key explicit-room-transition callsites patched:",
+        len(explicit_transition_callsites),
+        "target=",
+        hex(hook_targets["explicit_room_transition_hook_target"]),
+    )
+    print(
         "Ability request callsites patched:",
         len(ability_transition_callsites),
         "target=",
@@ -1240,6 +1547,13 @@ def main() -> None:
 
         rom, _ = load_rom_and_validate(in_path)
         validate_rom_callsite_instructions(rom)
+        validate_area_key_native_area_contract(rom)
+
+        (
+            special_door_state_callsites,
+            button_transition_callsites,
+            explicit_transition_callsites,
+        ) = discover_area_key_callsites(rom, rom_base)
 
         (
             boss_already_owned_hook_bl_by_offset,
@@ -1258,6 +1572,9 @@ def main() -> None:
             boss_already_owned_hook_bl_by_offset,
             ability_transition_callsites,
             ability_transition_start_callsites,
+            special_door_state_callsites,
+            button_transition_callsites,
+            explicit_transition_callsites,
             hook_targets,
             rom_base,
         )
@@ -1284,6 +1601,9 @@ def main() -> None:
             list(boss_already_owned_hook_bl_by_offset.keys()),
             ability_transition_callsites,
             ability_transition_start_callsites,
+            special_door_state_callsites,
+            button_transition_callsites,
+            explicit_transition_callsites,
         )
 
         print("Starting bsdiff generation...")
