@@ -38,6 +38,73 @@ def _load_world_version_from_manifest() -> str:
 WORLD_VERSION = _load_world_version_from_manifest()
 
 
+def _run_abilities_command(ctx):
+    processor_cls = _build_kirbyam_command_processor(BizHawkClientCommandProcessor)
+    processor = processor_cls(ctx)
+    with patch.object(processor, "output") as mock_output:
+        assert processor("/abilities") is True
+    return [call.args[0] for call in mock_output.call_args_list]
+
+
+def test_abilities_command_lists_unlocked_and_always_available_abilities(mock_bizhawk_context):
+    mock_bizhawk_context.game = KirbyAmClient.game
+    mock_bizhawk_context.slot_data = {"ability_gating": True, "ability_gateable_abilities": []}
+    mock_bizhawk_context.items_received = []
+
+    unlocked = sorted(set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES))
+    assert _run_abilities_command(mock_bizhawk_context) == [
+        f"Unlocked Abilities for {KirbyAmClient.game}",
+        *unlocked,
+    ]
+
+
+def test_abilities_command_includes_received_unlocks_once_and_ignores_other_items(mock_bizhawk_context):
+    mock_bizhawk_context.game = KirbyAmClient.game
+    mock_bizhawk_context.slot_data = {"ability_gating": True}
+    gated_ability = next(
+        item for item in data.items.values()
+        if item.label.endswith(" Ability") and item.label.removesuffix(" Ability") in GATEABLE_ENEMY_COPY_ABILITIES
+    )
+    filler_item = next(item for item in data.items.values() if "Abilities" not in item.tags)
+    mock_bizhawk_context.items_received = [
+        Mock(item=gated_ability.item_id),
+        Mock(item=gated_ability.item_id),
+        Mock(item=filler_item.item_id),
+        Mock(item=None),
+    ]
+
+    unlocked = sorted(
+        (set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES))
+        | {gated_ability.label.removesuffix(" Ability")}
+    )
+    assert _run_abilities_command(mock_bizhawk_context) == [
+        f"Unlocked Abilities for {KirbyAmClient.game}",
+        *unlocked,
+    ]
+
+
+def test_abilities_command_lists_every_ability_when_gating_is_disabled(mock_bizhawk_context):
+    mock_bizhawk_context.game = KirbyAmClient.game
+    mock_bizhawk_context.slot_data = {"ability_gating": False}
+    mock_bizhawk_context.items_received = []
+
+    assert _run_abilities_command(mock_bizhawk_context) == [
+        f"Unlocked Abilities for {KirbyAmClient.game}",
+        *sorted(ABILITY_NAME_TO_ID),
+    ]
+
+
+def test_abilities_command_is_noop_for_other_games(mock_bizhawk_context):
+    processor_cls = _build_kirbyam_command_processor(BizHawkClientCommandProcessor)
+    processor = processor_cls(mock_bizhawk_context)
+    mock_bizhawk_context.game = "Some Other Game"
+
+    with patch.object(processor, "output") as mock_output:
+        assert processor("/abilities") is False
+
+    mock_output.assert_not_called()
+
+
 @pytest.mark.asyncio
 async def test_validate_rom_accepts_patched_kirby_header(mock_bizhawk_context):
     class TestBizHawkClientCommandProcessor(BizHawkClientCommandProcessor):

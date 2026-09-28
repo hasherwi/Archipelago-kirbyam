@@ -256,11 +256,25 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
         return True
 
     def _cmd_abilities(self) -> bool:
-        """List ability unlock items received for the current KirbyAM slot."""
+        """List abilities currently unlocked for the KirbyAM slot."""
         if getattr(self.ctx, "game", None) != KirbyAmClient.game:
             return False
 
-        unlocked_abilities: set[str] = set()
+        slot_data = getattr(self.ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            slot_data = {}
+        ability_gating_enabled = KirbyAmClient._coerce_bool(slot_data.get("ability_gating", True), True)
+        gateable_abilities = slot_data.get("ability_gateable_abilities")
+        if not isinstance(gateable_abilities, list) or not gateable_abilities:
+            gateable_abilities = list(GATEABLE_ENEMY_COPY_ABILITIES)
+
+        all_abilities = set(ABILITY_NAME_TO_ID)
+        unlocked_abilities = all_abilities.copy()
+        if ability_gating_enabled:
+            unlocked_abilities.difference_update(
+                ability_name for ability_name in gateable_abilities if isinstance(ability_name, str)
+            )
+
         for item in getattr(self.ctx, "items_received", ()):
             item_id = KirbyAmClient._coerce_u32(getattr(item, "item", None))
             if item_id is None:
@@ -268,7 +282,9 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
             item_data = data.items.get(item_id)
             if item_data is None or item_data.label not in _ABILITY_UNLOCK_ITEM_LABELS:
                 continue
-            unlocked_abilities.add(item_data.label.removesuffix(" Ability"))
+            ability_name = item_data.label.removesuffix(" Ability")
+            if ability_name in all_abilities:
+                unlocked_abilities.add(ability_name)
 
         self.output(f"Unlocked Abilities for {KirbyAmClient.game}")
         if unlocked_abilities:
