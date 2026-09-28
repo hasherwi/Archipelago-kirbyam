@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## v0.3.1
 
 ### New Features
+- Added an `/abilities` client command that lists the distinct ability unlocks received for the current slot (Issue #891).
 - Added a new option: `enemy_health_multiplier`. Scale all enemies' health values between 50% to 500% of the original game. It defaults to 100% which matches the original game (Issue #880).
 - Added `random_color_per_room` to Starting Kirby Color. It chooses an initial supported palette at generation, then changes to a different supported palette whenever the connected BizHawk client observes Kirby enter a different room (Issue #857).
 - Added four progression items that independently open the walls controlled by those levers. Pulling a lever now sends its AP location check without opening the wall; receiving the matching Lever Wall item sets the native wall-unlock state instead (Issue #859).
