@@ -695,6 +695,24 @@ async def test_poll_major_chest_sends_location_checks_for_set_bits(mock_bizhawk_
 
 
 @pytest.mark.asyncio
+async def test_poll_major_chest_tutorial_mode_sends_only_world_map_check(mock_bizhawk_context):
+    """Tutorial polling must ignore every major-chest flag except bit 0."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    world_map = data.locations["MAJOR_CHEST_WORLD_MAP"].location_id
+
+    with patch.dict(data.transport_ram_addresses, {"major_chest_flags": 0x0203B028}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        # Bit 3 belongs to Cabbage Cavern and must not be reported from tutorial mode.
+        mock_read.return_value = [((1 << 0) | (1 << 3)).to_bytes(4, 'little')]
+
+        await client._poll_major_chest_locations(mock_bizhawk_context, tutorial_world_map_only=True)
+
+    mock_send.assert_awaited_once_with([{"cmd": "LocationChecks", "locations": [world_map]}])
+
+
+@pytest.mark.asyncio
 async def test_poll_major_chest_skips_already_server_acknowledged(mock_bizhawk_context):
     """No major-chest resend when server already acknowledges all mapped transport checks."""
     client = KirbyAmClient()
@@ -4728,6 +4746,37 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
     mock_deliver.assert_awaited_once_with(mock_bizhawk_context, allow_new_writes=False)
     mock_goal.assert_awaited_once_with(mock_bizhawk_context, ai_state_override=200)
     mock_display.assert_awaited_once_with(mock_bizhawk_context.bizhawk_ctx, "Item sending paused by game state")
+
+
+@pytest.mark.asyncio
+async def test_game_watcher_polls_world_map_chest_during_tutorial_without_item_writes(mock_bizhawk_context):
+    """Tutorial allows only the World Map chest check; item mailbox writes stay gated."""
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    with ExitStack() as stack:
+        mock_gate = stack.enter_context(
+            patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock)
+        )
+        stack.enter_context(patch.object(client, '_load_persistent_state', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_sync_starting_kirby_color_runtime_config', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock))
+        mock_poll_major = stack.enter_context(
+            patch.object(client, '_poll_major_chest_locations', new_callable=AsyncMock)
+        )
+        mock_poll_boss = stack.enter_context(
+            patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock)
+        )
+        mock_deliver = stack.enter_context(patch.object(client, '_deliver_items', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_maybe_report_goal', new_callable=AsyncMock))
+        stack.enter_context(patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock))
+        mock_gate.return_value = (False, "non_gameplay_tutorial_or_menu", 100)
+
+        await client.game_watcher(mock_bizhawk_context)
+
+    mock_poll_major.assert_awaited_once_with(mock_bizhawk_context, tutorial_world_map_only=True)
+    mock_poll_boss.assert_not_awaited()
+    mock_deliver.assert_awaited_once_with(mock_bizhawk_context, allow_new_writes=False)
 
 
 @pytest.mark.asyncio
