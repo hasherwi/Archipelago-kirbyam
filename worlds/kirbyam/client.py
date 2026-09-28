@@ -37,6 +37,7 @@ EXPECTED_ROM_MAKER_CODE = "01"
 _AUTH_TOKEN_SIZE = 16
 _BOSS_MIRROR_TABLE_PROBE_BYTES = 32
 _AI_STATE_ADDR_WIDTH = 4
+_AI_STATE_TUTORIAL = 100
 _GOAL_STATE_DARK_MIND_CLEAR = 9999
 _GOAL_STATE_FULL_CLEAR = 10000
 # Legacy v0.2/v0.3 slot-data value retained only so newer clients can finish
@@ -1656,6 +1657,11 @@ class KirbyAmClient(BizHawkClient):
             await self._sync_starting_kirby_color_runtime_config(ctx)
 
             gameplay_active, defer_reason, ai_state = await self._runtime_gameplay_state(ctx)
+            # Tutorial room transitions happen while the normal gameplay gate is
+            # closed. Observe them here so random_color_per_room can advance
+            # without enabling location polling or item writes during the tutorial.
+            if ai_state == _AI_STATE_TUTORIAL:
+                await self._poll_tutorial_color_room_transition(ctx)
             await self._log_boss_shard_debug_window(
                 ctx,
                 gameplay_active=gameplay_active,
@@ -3227,6 +3233,38 @@ class KirbyAmClient(BizHawkClient):
             next_color.color_id,
             native_room_id,
         )
+
+    async def _poll_tutorial_color_room_transition(
+        self,
+        ctx: KirbyAmBizHawkClientContext,
+    ) -> None:
+        """Observe room changes during the native tutorial AI state only."""
+        current_room_addr = self._native_addr(_CURRENT_ROOM_ADDR_KEY)
+        if current_room_addr is None:
+            return
+
+        try:
+            raw = (await bizhawk.read(
+                ctx.bizhawk_ctx,
+                [(current_room_addr, 2, "System Bus")],
+            ))[0]
+        except (
+            bizhawk.RequestFailedError,
+            bizhawk.ConnectorError,
+            bizhawk.SyncError,
+            TypeError,
+            AttributeError,
+        ):
+            return
+        if len(raw) != 2:
+            return
+
+        native_room_id = unpack_from("<H", raw)[0]
+        # 0xFFFF is the native no-room sentinel during startup/teardown. Do not
+        # establish a baseline from it or treat its replacement as a transition.
+        if native_room_id == 0xFFFF:
+            return
+        await self._maybe_randomize_kirby_color_on_room_transition(ctx, native_room_id)
 
     async def _poll_room_entry_logging(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
