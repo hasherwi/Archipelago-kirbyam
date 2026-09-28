@@ -38,6 +38,17 @@ The supported North American ROM uses three native sources:
 | `gUnk_08351608` | `0x351608` | 4 subtype rows × 4 difficulty columns for Dark Mind form 1 |
 | `gUnk_08351648` | `0x351648` | regular Object2 metadata; HP is signed 16-bit at record `+0x04`, record size `0x18` |
 
+The HUD converts current HP into meter fill in `sub_08034E14` using three
+additional Q8.8 coefficient tables. These coefficients are scaled inversely
+with the HP option so the meter continues to show the fraction of the scaled
+maximum HP:
+
+| Table | File offset | Shape / usage |
+| --- | ---: | --- |
+| `gUnk_083513E8` | `0x3513E8` | one regular-enemy coefficient for each type `0x00..0x37` |
+| `gUnk_08351458` | `0x351458` | 27 miniboss/boss rows × 4 human-player difficulty columns |
+| `gUnk_08351628` | `0x351628` | 4 Dark Mind form-1 rows × 4 human-player difficulty columns |
+
 Only regular object types `0x00..0x37` are scaled in `gUnk_08351648`; native
 type `0x38` (`OBJ_MR_FROSTY`) begins the miniboss/boss range and reads the
 dedicated boss table.
@@ -50,9 +61,12 @@ data. Results clamp to `0x7FFF`.
 
 Scaling the source tables rather than only live `Object2::unk80` values means
 any native code that reads those health tables sees the same per-seed values.
-All four human-player difficulty columns are changed together.
+All four human-player difficulty columns are changed together, and the inverse
+meter-coefficient scaling keeps each meter proportional to its enemy's scaled
+maximum HP.
 
 ## Runtime impact
 
 None. This feature does not add mailbox state, payload hooks, or per-frame work.
-The generated GBA already contains the scaled tables when play begins.
+The generated GBA already contains the scaled HP and meter-coefficient tables
+when play begins.
