@@ -255,10 +255,53 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
             self.output(active_location_labels[location_id])
         return True
 
+    def _cmd_abilities(self) -> bool:
+        """List abilities currently unlocked for the KirbyAM slot."""
+        if getattr(self.ctx, "game", None) != KirbyAmClient.game:
+            return False
+
+        slot_data = getattr(self.ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            slot_data = {}
+        ability_gating_enabled = KirbyAmClient._coerce_bool(slot_data.get("ability_gating", True), True)
+        gateable_abilities = slot_data.get("ability_gateable_abilities")
+        if not isinstance(gateable_abilities, list) or not gateable_abilities:
+            gateable_abilities = list(GATEABLE_ENEMY_COPY_ABILITIES)
+
+        all_abilities = set(ABILITY_NAME_TO_ID)
+        unlocked_abilities = all_abilities.copy()
+        if ability_gating_enabled:
+            unlocked_abilities.difference_update(
+                ability_name for ability_name in gateable_abilities if isinstance(ability_name, str)
+            )
+
+        for item in getattr(self.ctx, "items_received", ()):
+            item_id = KirbyAmClient._coerce_u32(getattr(item, "item", None))
+            if item_id is None:
+                continue
+            item_data = data.items.get(item_id)
+            if item_data is None or item_data.label not in _ABILITY_UNLOCK_ITEM_LABELS:
+                continue
+            ability_name = item_data.label.removesuffix(" Ability")
+            if ability_name in all_abilities:
+                unlocked_abilities.add(ability_name)
+
+        self.output(f"Unlocked Abilities for {KirbyAmClient.game}")
+        if unlocked_abilities:
+            for ability_name in sorted(unlocked_abilities):
+                self.output(ability_name)
+        else:
+            self.output("None")
+        return True
+
     return type(
         "KirbyAmCommandProcessor",
         (base_command_processor,),
-        {"_cmd_locations": _cmd_locations, "_is_kirbyam_wrapper": True},
+        {
+            "_cmd_locations": _cmd_locations,
+            "_cmd_abilities": _cmd_abilities,
+            "_is_kirbyam_wrapper": True,
+        },
     )
 
 
