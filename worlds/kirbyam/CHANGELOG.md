@@ -8,6 +8,12 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## v0.3.1-rc2
+
+### Bug Fixes
+
+- Preserve locally found ability unlocks after reconnecting by requesting the full received-item history from the server (Issue #910).
+
 ## v0.3.1
 
 ### New Features
