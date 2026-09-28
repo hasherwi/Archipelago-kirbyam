@@ -1583,7 +1583,10 @@ class KirbyAmClient(BizHawkClient):
 
         # Minimal AP settings
         ctx.game = self.game
-        ctx.items_handling = 0b001
+        # Request both local and remote items so the server replays the full
+        # received-item history when the client reconnects. The client rebuilds
+        # locally owned ability unlocks from that history after a restart.
+        ctx.items_handling = 0b011
         ctx.want_slot_data = True
         ctx.watcher_timeout = 0.125
         base_command_processor = getattr(ctx, "command_processor", None)

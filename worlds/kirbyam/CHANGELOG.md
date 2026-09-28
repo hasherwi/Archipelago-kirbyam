@@ -32,6 +32,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 - Boss checks were mapped incorrectly for the `defeat_configured_area_boss` goal. That's been fixed (Issue #893).
 - Adds cutter to the base ability pool to make sure players can cut the drop down platforms. (Issue #894)
+- Preserve locally found ability unlocks after reconnecting by requesting the full received-item history from the server (Issue #910).
 
 ### Internal Changes
 - Added pinned, checksum-verified Archipelago generation fuzzing with a strict local launcher, a pull-request/manual CI workflow, and retained failure artifacts (Issue #898).
