@@ -255,10 +255,37 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
             self.output(active_location_labels[location_id])
         return True
 
+    def _cmd_abilities(self) -> bool:
+        """List ability unlock items received for the current KirbyAM slot."""
+        if getattr(self.ctx, "game", None) != KirbyAmClient.game:
+            return False
+
+        unlocked_abilities: set[str] = set()
+        for item in getattr(self.ctx, "items_received", ()):
+            item_id = KirbyAmClient._coerce_u32(getattr(item, "item", None))
+            if item_id is None:
+                continue
+            item_data = data.items.get(item_id)
+            if item_data is None or item_data.label not in _ABILITY_UNLOCK_ITEM_LABELS:
+                continue
+            unlocked_abilities.add(item_data.label.removesuffix(" Ability"))
+
+        self.output(f"Unlocked Abilities for {KirbyAmClient.game}")
+        if unlocked_abilities:
+            for ability_name in sorted(unlocked_abilities):
+                self.output(ability_name)
+        else:
+            self.output("None")
+        return True
+
     return type(
         "KirbyAmCommandProcessor",
         (base_command_processor,),
-        {"_cmd_locations": _cmd_locations, "_is_kirbyam_wrapper": True},
+        {
+            "_cmd_locations": _cmd_locations,
+            "_cmd_abilities": _cmd_abilities,
+            "_is_kirbyam_wrapper": True,
+        },
     )
 
 
