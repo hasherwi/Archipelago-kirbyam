@@ -2096,6 +2096,9 @@
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_05": {
+    "events": [
+      "Activate Lever - Carrot Castle 5-05"
+    ],
     "locations": {
       "room_sanity": {
       "included": true,
@@ -2110,9 +2113,6 @@
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_06": {
-    "events": [
-      "Activate Lever - Carrot Castle 5-06"
-    ],
     "locations": {
       "room_sanity": {
       "included": true,
