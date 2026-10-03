@@ -2026,9 +2026,6 @@
     "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_CHEST_2": "can_climb",
       "REGION_PEPPERMINT_PALACE/ROOM_7_04": {"any": ["can_fly", "can_climb"]}
-    },
-    "logical_exit_overrides": {
-      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_18_OR_5_WARP"
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_BOSS": {
@@ -2113,6 +2110,9 @@
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_06": {
+    "events": [
+      "Activate Lever - Carrot Castle 5-06"
+    ],
     "locations": {
       "room_sanity": {
       "included": true,
@@ -2198,9 +2198,6 @@
     },
     "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_BOSS": null
-    },
-    "logical_exit_overrides": {
-      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_12"
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_13": {
@@ -2232,9 +2229,6 @@
     "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_13": null,
       "REGION_CARROT_CASTLE/ROOM_5_15": null
-    },
-    "logical_exit_overrides": {
-      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_14"
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_15": {
