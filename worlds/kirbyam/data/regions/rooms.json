@@ -1986,7 +1986,7 @@
       }
     },
     "exits": {
-      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null,
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_fly",
       "REGION_CARROT_CASTLE/ROOM_5_01": null,
       "REGION_CARROT_CASTLE/ROOM_5_05": null
     }
@@ -2012,7 +2012,7 @@
       }
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_12": null
+      "REGION_CARROT_CASTLE/ROOM_5_12": "can_climb"
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_WARP": {
@@ -2024,8 +2024,8 @@
       }
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_CHEST_2": null,
-      "REGION_PEPPERMINT_PALACE/ROOM_7_04": null
+      "REGION_CARROT_CASTLE/ROOM_5_CHEST_2": "can_climb",
+      "REGION_PEPPERMINT_PALACE/ROOM_7_04": {"any": ["can_fly", "can_climb"]}
     },
     "logical_exit_overrides": {
       "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_18_OR_5_WARP"
@@ -2052,9 +2052,9 @@
       }
     },
     "exits": {
-      "REGION_RAINBOW_ROUTE/ROOM_1_21": null,
-      "REGION_CARROT_CASTLE/ROOM_5_HUB": null,
-      "REGION_CARROT_CASTLE/ROOM_5_03": null
+      "REGION_RAINBOW_ROUTE/ROOM_1_21": "can_break_block",
+      "REGION_CARROT_CASTLE/ROOM_5_HUB": "can_break_block",
+      "REGION_CARROT_CASTLE/ROOM_5_03": {"all": ["can_fly", "can_break_block"]}
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_02": {
@@ -2067,8 +2067,8 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_24": null,
-      "REGION_CARROT_CASTLE/ROOM_5_01": null,
-      "REGION_CARROT_CASTLE/ROOM_5_03": null
+      "REGION_CARROT_CASTLE/ROOM_5_01": "can_fly",
+      "REGION_CARROT_CASTLE/ROOM_5_03": "can_fly"
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_03": {
@@ -2080,8 +2080,8 @@
       }
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_01": null,
-      "REGION_CARROT_CASTLE/ROOM_5_04": null
+      "REGION_CARROT_CASTLE/ROOM_5_01": {"all": ["can_fly", "can_break_block"]},
+      "REGION_CARROT_CASTLE/ROOM_5_04": {"all": ["can_fly", "can_break_block"]}
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_04": {
@@ -2094,7 +2094,8 @@
     },
     "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_03": null,
-      "REGION_PEPPERMINT_PALACE/ROOM_7_01": null
+      "REGION_PEPPERMINT_PALACE/ROOM_7_01": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_04": null
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_05": {
@@ -2107,7 +2108,7 @@
     },
     "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_HUB": null,
-      "REGION_CARROT_CASTLE/ROOM_5_06": null,
+      "REGION_CARROT_CASTLE/ROOM_5_06": "cc_lever",
       "REGION_CARROT_CASTLE/ROOM_5_07": null
     }
   },
@@ -2133,12 +2134,9 @@
       }
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_08": null,
-      "REGION_CARROT_CASTLE/ROOM_5_13": null,
-      "REGION_CARROT_CASTLE/ROOM_5_14": null
-    },
-    "logical_exit_overrides": {
-      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_07"
+      "REGION_CARROT_CASTLE/ROOM_5_08": {"all": ["can_climb", "can_break_block"]},
+      "REGION_CARROT_CASTLE/ROOM_5_13": {"all": ["can_climb", "can_hit_far_switch"]},
+      "REGION_CARROT_CASTLE/ROOM_5_14": {"all": ["can_climb", "can_break_block"]}
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_08": {
@@ -2174,8 +2172,8 @@
       }
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_CHEST_1": null,
-      "REGION_CARROT_CASTLE/ROOM_5_11": null
+      "REGION_CARROT_CASTLE/ROOM_5_CHEST_1": "can_use_mini",
+      "REGION_CARROT_CASTLE/ROOM_5_11": "can_fly"
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_11": {
@@ -2191,9 +2189,6 @@
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_12": {
-    "events": [
-      "Activate Lever - Carrot Castle 5-12"
-    ],
     "locations": {
       "room_sanity": {
       "included": true,
@@ -2217,35 +2212,13 @@
       }
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_07": null,
+      "REGION_CARROT_CASTLE/ROOM_5_07": null
+    }
+  },
+  "REGION_CARROT_CASTLE/ROOM_5_13_UPPER": {
+    "locations": {},
+    "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_14": null
-    },
-    "logical_subregions": {
-      "ENTRY_FROM_5_07": {
-        "exits": [
-          "REGION_CARROT_CASTLE/ROOM_5_07"
-        ],
-        "locations": []
-      },
-      "ENTRY_FROM_5_14": {
-        "exits": [
-          "REGION_CARROT_CASTLE/ROOM_5_14"
-        ],
-        "locations": []
-      },
-      "ENTRY_FROM_5_12": {
-        "exits": [
-          "REGION_CARROT_CASTLE/ROOM_5_12"
-        ],
-        "locations": []
-      },
-      "ENTRY_FROM_5_18_OR_5_WARP": {
-        "exits": [
-          "REGION_CARROT_CASTLE/ROOM_5_18",
-          "REGION_CARROT_CASTLE/ROOM_5_WARP"
-        ],
-        "locations": []
-      }
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_14": {
@@ -2273,8 +2246,8 @@
       }
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_16": null,
-      "REGION_CARROT_CASTLE/ROOM_5_17": null
+      "REGION_CARROT_CASTLE/ROOM_5_16": "can_break_block",
+      "REGION_CARROT_CASTLE/ROOM_5_17": "can_break_block"
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_16": {
@@ -2286,7 +2259,7 @@
       }
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_09": null
+      "REGION_CARROT_CASTLE/ROOM_5_09": "can_fly"
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_17": {
@@ -2298,7 +2271,7 @@
       }
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_18": null
+      "REGION_CARROT_CASTLE/ROOM_5_18": "can_break_block"
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_18": {
@@ -2310,10 +2283,7 @@
       }
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_WARP": null
-    },
-    "logical_exit_overrides": {
-      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_18_OR_5_WARP"
+      "REGION_CARROT_CASTLE/ROOM_5_WARP": {"all": ["can_break_block", {"any": ["can_fly", "can_climb"]}]}
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_HUB": {
@@ -3420,7 +3390,7 @@
       }
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_06": null,
+      "REGION_CARROT_CASTLE/ROOM_5_06": "rr_lever",
       "REGION_RADISH_RUINS/ROOM_8_11": null
     }
   },
