@@ -49,6 +49,6 @@ worlds/kirbyam/client.py runs these every active gameplay tick:
 
 - _reconcile_native_shard_ownership(): keeps shard bits aligned to AP-delivered ownership.
 - _reconcile_native_map_ownership(): keeps native map bits aligned to AP-delivered maps and start_with_all_maps.
-- _sync_hub_connection_item_ownership(): waits for `ReceivedItems` index zero on the current server socket, sends the complete received-door mask before polling checks or delivering items, and writes the unknown sentinel while the inventory is not ready; the payload reapplies owned doors from the mask.
+- _sync_hub_connection_item_ownership(): waits until the current socket's `Connected` batch is processed, sends the complete received-door mask before polling checks or delivering items, and writes the unknown sentinel while the inventory is not ready. Non-empty inventories arrive as `ReceivedItems` index zero in that batch; when the standard server omits the packet, the client clears stale item state and treats the history as empty. The payload reapplies owned doors from the mask.
 
 These reconciliation passes are the final guardrails that interrupt native drift from save/load/cutscene edge cases.

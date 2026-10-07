@@ -1960,7 +1960,7 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
             reply = [connected_packet]
             start_inventory = get_start_inventory(ctx, slot, client.remote_start_inventory)
             items = get_received_items(ctx, client.team, client.slot, client.remote_items)
-            if not client.no_items:
+            if (start_inventory or items) and not client.no_items:
                 reply.append({"cmd": 'ReceivedItems', "index": 0, "items": start_inventory + items})
                 client.send_index = len(start_inventory) + len(items)
             if not client.auth:  # if this was a Re-Connect, don't print to console
@@ -2003,7 +2003,7 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
                     client.items_handling = args['items_handling']
                     start_inventory = get_start_inventory(ctx, client.slot, client.remote_start_inventory)
                     items = get_received_items(ctx, client.team, client.slot, client.remote_items)
-                    if not client.no_items:
+                    if (items or start_inventory) and not client.no_items:
                         client.send_index = len(start_inventory) + len(items)
                         await ctx.send_msgs(client, [{"cmd": "ReceivedItems", "index": 0,
                                                       "items": start_inventory + items}])
@@ -2031,7 +2031,7 @@ async def process_client_cmd(ctx: Context, client: Client, args: dict):
         elif cmd == 'Sync':
             start_inventory = get_start_inventory(ctx, client.slot, client.remote_start_inventory)
             items = get_received_items(ctx, client.team, client.slot, client.remote_items)
-            if not client.no_items:
+            if (start_inventory or items) and not client.no_items:
                 client.send_index = len(start_inventory) + len(items)
                 await ctx.send_msgs(client, [{"cmd": "ReceivedItems", "index": 0,
                                               "items": start_inventory + items}])

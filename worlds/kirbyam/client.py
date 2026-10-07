@@ -2,6 +2,7 @@
 # TODO(typing): keep mypy enabled for CI overall while this legacy client module
 # is incrementally migrated from dynamic AP/BizHawk structures to strict types.
 
+import asyncio
 import logging
 import random
 import re
@@ -475,9 +476,10 @@ class KirbyAmClient(BizHawkClient):
         self._watcher_server_ready: bool = False
         self._watcher_requires_bizhawk_resync: bool = False
         self._last_watcher_transport_error: str | None = None
-        # A live slot_data object can survive a server reconnect while
-        # CommonClient is still replaying ReceivedItems. Do not interpret the
-        # temporarily empty item list as the complete inventory.
+        # A live slot_data object and old items_received list can survive a
+        # reconnect. Wait until the Connected packet batch has drained: a
+        # non-empty inventory is replayed in that batch, while an omitted
+        # ReceivedItems packet means the server's inventory is empty.
         self._hub_connection_received_items_ready: bool = False
         self._hub_connection_received_items_socket: object | None = None
         self._hub_connection_unknown_mask_socket: object | None = None
@@ -2683,7 +2685,7 @@ class KirbyAmClient(BizHawkClient):
         self._hub_connection_unknown_mask_socket = socket
 
     def _hub_connection_item_history_ready(self, ctx: KirbyAmBizHawkClientContext) -> bool:
-        """Whether a complete (possibly empty) ReceivedItems replay arrived on this socket."""
+        """Whether the current socket's item history is known, including a known-empty history."""
         server = getattr(ctx, "server", None)
         socket = getattr(server, "socket", None)
         return bool(
@@ -2692,6 +2694,23 @@ class KirbyAmClient(BizHawkClient):
             and self._hub_connection_received_items_ready
             and self._hub_connection_received_items_socket is socket
         )
+
+    def _confirm_empty_received_item_history(self, ctx: KirbyAmBizHawkClientContext, socket: object) -> None:
+        """Treat an omitted ReceivedItems packet in the completed Connect batch as empty."""
+        server = getattr(ctx, "server", None)
+        current_socket = getattr(server, "socket", None)
+        if current_socket is not socket or getattr(socket, "closed", True):
+            return
+        if self._hub_connection_item_history_ready(ctx):
+            # A ReceivedItems index-zero packet in the same batch already won.
+            return
+
+        # CommonClient keeps the prior socket's list until the next index-zero
+        # replay. The current Connect batch contained no replay, so clear that
+        # stale copy before the watcher writes an ownership mask.
+        ctx.items_received = []
+        self._hub_connection_received_items_socket = socket
+        self._hub_connection_received_items_ready = True
 
     async def _persist_u32(self, ctx: KirbyAmBizHawkClientContext, key: str, value: int) -> None:
         """Persist a 32-bit value to RAM by address key."""
@@ -4220,11 +4239,28 @@ class KirbyAmClient(BizHawkClient):
     def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict) -> None:
         if not self._notification_settings_loaded:
             self._load_notification_settings(ctx)
-        if cmd == "ReceivedItems" and args.get("index") == 0:
+        if cmd == "Connected":
+            server = getattr(ctx, "server", None)
+            socket = getattr(server, "socket", None)
+            self._hub_connection_received_items_ready = False
+            self._hub_connection_received_items_socket = None
+            if socket is not None and not getattr(socket, "closed", True):
+                try:
+                    # CommonClient processes every packet from one websocket
+                    # frame before the event loop runs this callback. Standard
+                    # servers include ReceivedItems in the same Connect batch
+                    # when the history is non-empty; an omission means empty.
+                    asyncio.get_running_loop().call_soon(
+                        self._confirm_empty_received_item_history, ctx, socket
+                    )
+                except RuntimeError:
+                    # The package callback normally runs on the client loop.
+                    # If called synchronously by a host/test harness, leave the
+                    # history unknown rather than infer emptiness too early.
+                    pass
+        elif cmd == "ReceivedItems" and args.get("index") == 0:
             # CommonClient calls this after it has reset and populated
             # ctx.items_received from the server's complete inventory replay.
-            # MultiServer sends index zero even when the authoritative history
-            # is empty, so an empty list before this package remains unknown.
             server = getattr(ctx, "server", None)
             socket = getattr(server, "socket", None)
             if socket is not None and not getattr(socket, "closed", True):

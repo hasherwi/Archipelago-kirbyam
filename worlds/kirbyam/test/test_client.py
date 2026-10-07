@@ -1789,8 +1789,8 @@ async def test_hub_connection_ownership_waits_for_current_connection_item_histor
     mask_addr = data.transport_ram_addresses["hub_connection_item_mask"]
 
     with patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
-        # slot_data can remain available while the server is still replaying
-        # ReceivedItems. An empty list is unknown until its index-zero marker.
+        # slot_data and an empty item list are not enough to establish that
+        # this socket's server history is empty; Connected/index zero is still pending.
         await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
         mock_write.assert_awaited_once_with(
             mock_bizhawk_context.bizhawk_ctx,
@@ -1810,9 +1810,8 @@ async def test_empty_index_zero_snapshot_marks_known_empty_inventory_ready(mock_
     client._notification_settings_loaded = True
     mock_bizhawk_context.items_received = []
 
-    # This is the packet emitted by MultiServer for an authenticated slot with
-    # no start inventory and no received items; it distinguishes known-empty
-    # from the transient empty list during reconnect replay.
+    # Keep accepting an explicit empty index-zero snapshot from compatible
+    # servers; the standard host instead omits ReceivedItems for this case.
     client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0, "items": []})
 
     assert client._hub_connection_item_history_ready(mock_bizhawk_context) is True
