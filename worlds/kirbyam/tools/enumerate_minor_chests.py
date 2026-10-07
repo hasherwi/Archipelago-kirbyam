@@ -2,9 +2,9 @@
 Build a ROM-backed evidence manifest for minor chests.
 
 This script reads the AMR SmallChest address table, then inspects each chest entry
-directly from a vanilla Kirby & The Amazing Mirror ROM to extract:
-- item byte at entry + 0x0E
-- chest index byte at entry + 0x11
+directly from the authorized USA Kirby & The Amazing Mirror ROM to extract:
+- reward ID at ObjectTemplate + 0x0E (AMR fragment byte 2)
+- chest flag index at ObjectTemplate + 0x11 (AMR fragment byte 5)
 
 It also resolves AMR room slots through native gRoomProps metadata to capture
 candidate native room IDs, doorsIdx values, and AP room-sanity keys.
@@ -31,17 +31,23 @@ ROOM_PROPS_ROM_BASE = 0x009331AC
 ROOM_PROPS_SIZE = 0x00009998
 ROOM_PROPS_STRIDE = 0x28
 # gRoomProps layout:
-#   0x20 -> object_list2_idx
-#   0x22 -> object_list_idx
+#   0x20 -> roomObjectListIdx
 #   0x24 -> doors_idx
-ROOM_PROPS_OBJECT_LIST2_IDX_OFFSET = 0x20
-ROOM_PROPS_OBJECT_LIST_IDX_OFFSET = 0x22
+ROOM_PROPS_OBJECT_LIST_IDX_OFFSET = 0x20
 ROOM_PROPS_DOORS_IDX_OFFSET = 0x24
+# AMR's address points at the ObjectTemplate; the six packed chest bytes start
+# at the fragment field 0x0C bytes into that template.
+AMR_OBJECT_TEMPLATE_FRAGMENT_OFFSET = 0x0C
 AMR_SMALL_CHEST_ITEM_OFFSET = 0x0E
 AMR_SMALL_CHEST_INDEX_OFFSET = 0x11
 AMR_PACKED_ITEM_SIZE = 6
 ROM_ENTRY_READ_SIZE = max(AMR_SMALL_CHEST_ITEM_OFFSET, AMR_SMALL_CHEST_INDEX_OFFSET) + 1
 AMR_JP_TO_US_ROM_SHIFT = 0x2FE74
+AUTHORIZED_USA_ROM_SHA1 = "274b102b6d940f46861a92b4e65f89a51815c12c"
+EXPECTED_CONSUMABLE_CHEST_FLAGS = (
+    2, 3, 4, 6, 8, 9, 10, 12, 14, 17, 19, 20, 23, 24, 26, 28, 29, 30, 31, 33, 34,
+    35, 36, 38, 40, 41, 42, 44, 48, 50, 53, 56, 60, 62, 64, 67, 71, 72, 75, 78, 82,
+)
 RESPAWN_POLICY_EVIDENCE = [
     "katam/src/treasures.c: CollectChest(u8) only sets chestFields bit; no clear/reset helper exists",
     "katam/src/treasures.c: HasChest(u8) reads persisted chestFields bit",
@@ -60,6 +66,8 @@ def load_json(path: Path) -> dict[str, Any]:
 
 def load_native_item_name_by_id(kirbyam_dir: Path) -> dict[int, str]:
     mapping_path = kirbyam_dir / "data" / "native_item_id_to_name_mapping.json"
+    if not mapping_path.exists():
+        return {}
     mapping_data = load_json(mapping_path)
     if not isinstance(mapping_data, dict):
         raise ValueError(f"Native item mapping must be a JSON object: {mapping_path}")
@@ -102,6 +110,20 @@ def read_u16(data: bytes, offset: int) -> int:
     return int.from_bytes(data[offset:offset + 2], "little")
 
 
+def decode_amr_small_chest_fragment(fragment: bytes) -> dict[str, int]:
+    """Decode the six-byte AMR fragment embedded at ObjectTemplate + 0x0C."""
+    if len(fragment) != AMR_PACKED_ITEM_SIZE:
+        raise ValueError(f"Expected {AMR_PACKED_ITEM_SIZE}-byte AMR fragment, got {len(fragment)}")
+    return {
+        "entry_type": fragment[0],
+        "entry_marker": fragment[1],
+        "reward_id": fragment[2],
+        "native_treasure_id": fragment[3],
+        "entry_aux_hi": fragment[4],
+        "native_chest_flag_index": fragment[5],
+    }
+
+
 def resolve_amr_room_slot_object_list_idx(amr_room_slot: int) -> int:
     """Translate AMR's compact room slot to the native gRoomProps object-list index."""
     return amr_room_slot + 1 if amr_room_slot >= 4 else amr_room_slot
@@ -118,13 +140,11 @@ def parse_groomprops(rom_bytes: bytes) -> list[dict[str, int]]:
     room_props_entries: list[dict[str, int]] = []
     for entry_offset in range(0, ROOM_PROPS_SIZE, ROOM_PROPS_STRIDE):
         base = ROOM_PROPS_ROM_BASE + entry_offset
-        object_list2_idx = read_u16(rom_bytes, base + ROOM_PROPS_OBJECT_LIST2_IDX_OFFSET)
         object_list_idx = read_u16(rom_bytes, base + ROOM_PROPS_OBJECT_LIST_IDX_OFFSET)
         doors_idx = read_u16(rom_bytes, base + ROOM_PROPS_DOORS_IDX_OFFSET)
         room_props_entries.append(
             {
                 "native_room_id": entry_offset // ROOM_PROPS_STRIDE,
-                "object_list2_idx": object_list2_idx,
                 "object_list_idx": object_list_idx,
                 "doors_idx": doors_idx,
             }
@@ -231,14 +251,12 @@ def resolve_native_collection_item(
     return "unknown", f"Collection Treasure #{treasure_id:02d}", collection_code
 
 
-def classify_reward_profile(native_group: str, chest_flag_index: int, treasure_id: int) -> tuple[str, bool, list[str]]:
+def classify_reward_profile(native_group: str, reward_id: int) -> tuple[str, bool, list[str]]:
     # Source-backed decode paths:
     # - collection_room.c tables map tracked collection rewards (spray/music/vitality/map/sound)
-    # - unresolved 0x80 entries with (flag=0, treasure=0) are non-collection chest rewards.
-    #   These are modeled as a consumable reward pool where 1-Up is a possible outcome.
-    if native_group in {"spray_paint", "music_sheet", "vitality", "major_chest", "sound_player"}:
-        return "collection_reward", False, []
-    if native_group == "unknown" and chest_flag_index == 0 and treasure_id == 0:
+    # - packed reward IDs 0..5 are non-collection small-chest rewards. Auxiliary
+    #   bytes also encode outcomes such as 1-Up, so they do not exclude this path.
+    if 0 <= reward_id <= 5:
         return (
             "non_collection_consumable_pool",
             True,
@@ -252,6 +270,8 @@ def classify_reward_profile(native_group: str, chest_flag_index: int, treasure_i
                 "Invincibility Candy",
             ],
         )
+    if native_group in {"spray_paint", "music_sheet", "vitality", "major_chest", "sound_player"}:
+        return "collection_reward", False, []
     return "unknown", False, []
 
 
@@ -277,7 +297,7 @@ def compute_multi_chest_disambiguation(
           other chest in the same room.  Fully deferred.
 
     Returns:
-        per_entry: dict[entry_index → disambiguation record]
+        per_entry: dict[entry_index  disambiguation record]
         room_summary: list of per-room disambiguation summary records, sorted by room_key
     """
     room_to_entries: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -397,7 +417,9 @@ def resolve_amr_entry_rom_offset(raw_address: int, rom_bytes: bytes, amr_entry_p
     Resolve an AMR SmallChest address to an offset in the current ROM.
 
     AMR items data is JP-ROM scoped. In USA ROM workflows, addresses are shifted.
-    We prove which offset is valid by matching the 6-byte AMR payload prefix.
+    We prove which ObjectTemplate offset is valid by matching the 6-byte AMR
+    fragment at ObjectTemplate + 0x0C. Return the template base, because the
+    runtime source pointer refers to the ObjectTemplate, not its fragment.
 
     Returns:
         (resolved_offset, resolution_mode)
@@ -405,19 +427,21 @@ def resolve_amr_entry_rom_offset(raw_address: int, rom_bytes: bytes, amr_entry_p
     """
     raw_offset = normalize_rom_address(raw_address)
     payload_len = len(amr_entry_payload)
+    fragment_offset = raw_offset + AMR_OBJECT_TEMPLATE_FRAGMENT_OFFSET
 
-    if raw_offset + payload_len <= len(rom_bytes):
-        if rom_bytes[raw_offset:raw_offset + payload_len] == amr_entry_payload:
+    if fragment_offset + payload_len <= len(rom_bytes):
+        if rom_bytes[fragment_offset:fragment_offset + payload_len] == amr_entry_payload:
             return raw_offset, "direct"
 
     translated_offset = raw_offset + AMR_JP_TO_US_ROM_SHIFT
-    if translated_offset + payload_len <= len(rom_bytes):
-        if rom_bytes[translated_offset:translated_offset + payload_len] == amr_entry_payload:
+    translated_fragment_offset = translated_offset + AMR_OBJECT_TEMPLATE_FRAGMENT_OFFSET
+    if translated_fragment_offset + payload_len <= len(rom_bytes):
+        if rom_bytes[translated_fragment_offset:translated_fragment_offset + payload_len] == amr_entry_payload:
             return translated_offset, "jp_to_us_shift"
 
     raise ValueError(
         "Unable to resolve AMR SmallChest address in ROM: "
-        f"raw_address=0x{raw_address:08X}, raw_offset=0x{raw_offset:08X}, "
+        f"raw_address=0x{raw_address:08X}, template_offset=0x{raw_offset:08X}, "
         f"jp_to_us_shift=0x{AMR_JP_TO_US_ROM_SHIFT:X}"
     )
 
@@ -470,6 +494,12 @@ def main() -> int:  # noqa: C901
         raise FileNotFoundError(f"rooms.json not found: {rooms_path}")
 
     rom_bytes = rom_path.read_bytes()
+    rom_sha1 = hashlib.sha1(rom_bytes).hexdigest()
+    if rom_sha1 != AUTHORIZED_USA_ROM_SHA1:
+        raise ValueError(
+            "Wrong ROM for the checked-in minor-chest evidence: "
+            f"expected SHA1 {AUTHORIZED_USA_ROM_SHA1}, got {rom_sha1} ({rom_path})"
+        )
     amr_items = load_json(amr_items_path)
     rooms = load_json(rooms_path)
 
@@ -503,7 +533,6 @@ def main() -> int:  # noqa: C901
 
     native_by_object_list_idx: dict[int, list[dict[str, int]]] = defaultdict(list)
     for entry in room_props:
-        native_by_object_list_idx[entry["object_list2_idx"]].append(entry)
         native_by_object_list_idx[entry["object_list_idx"]].append(entry)
 
     manifest_entries: list[dict[str, Any]] = []
@@ -525,29 +554,35 @@ def main() -> int:  # noqa: C901
                 f"required_end=0x{rom_offset + ROM_ENTRY_READ_SIZE:08X}, rom_size=0x{len(rom_bytes):08X}"
             )
 
-        payload_b0 = amr_entry_payload[0]
-        payload_b1 = amr_entry_payload[1]
-        payload_b2 = amr_entry_payload[2]
-        payload_b3 = amr_entry_payload[3]
-        payload_b4 = amr_entry_payload[4]
-        payload_b5 = amr_entry_payload[5]
+        fragment_fields = decode_amr_small_chest_fragment(amr_entry_payload)
+        payload_b0 = fragment_fields["entry_type"]
+        payload_b1 = fragment_fields["entry_marker"]
+        reward_id = fragment_fields["reward_id"]
+        payload_b3 = fragment_fields["native_treasure_id"]
+        payload_b4 = fragment_fields["entry_aux_hi"]
+        payload_b5 = fragment_fields["native_chest_flag_index"]
         rom_payload = rom_bytes[rom_offset:rom_offset + ROM_ENTRY_READ_SIZE]
 
         item_id = rom_bytes[rom_offset + AMR_SMALL_CHEST_ITEM_OFFSET]
         chest_index = rom_bytes[rom_offset + AMR_SMALL_CHEST_INDEX_OFFSET]
+        if item_id != reward_id or chest_index != payload_b5:
+            raise ValueError(
+                "AMR fragment and USA ObjectTemplate fields disagree: "
+                f"entry={index}, reward_id=0x{reward_id:02X}/0x{item_id:02X}, "
+                f"chest_flag=0x{payload_b5:02X}/0x{chest_index:02X}"
+            )
         native_group, native_item_label, native_collection_code = resolve_native_collection_item(
             payload_b3,
-            payload_b2,
+            chest_index,
             collection_codes_by_treasure_id,
             collection_code_by_chest_flag_index,
             major_chest_label_by_index,
         )
         reward_path, can_yield_1up, possible_rewards = classify_reward_profile(
             native_group,
-            payload_b2,
-            payload_b3,
+            reward_id,
         )
-        item_name, item_id_is_direct_reward = item_field_semantics(item_id, reward_path, native_item_name_by_id)
+        item_name, item_id_is_direct_reward = item_field_semantics(reward_id, reward_path, native_item_name_by_id)
 
         resolved_object_list_idx = resolve_amr_room_slot_object_list_idx(int(amr_room_slot))
         native_candidates = native_by_object_list_idx.get(resolved_object_list_idx, [])
@@ -565,7 +600,7 @@ def main() -> int:  # noqa: C901
         if reward_path == "non_collection_consumable_pool":
             modeled_non_collection_pool_entries += 1
         if native_group == "unknown" and reward_path == "unknown":
-            unresolved_counts[(payload_b2, payload_b3)] += 1
+            unresolved_counts[(chest_index, payload_b3)] += 1
         address_resolution_counts[address_resolution] += 1
 
         slot_counts[int(amr_room_slot)] += 1
@@ -587,8 +622,8 @@ def main() -> int:  # noqa: C901
                 "entry_type_hex": f"0x{payload_b0:02X}",
                 "entry_marker": payload_b1,
                 "entry_marker_hex": f"0x{payload_b1:02X}",
-                "native_chest_flag_index": payload_b2,
-                "native_chest_flag_index_hex": f"0x{payload_b2:02X}",
+                "native_chest_flag_index": chest_index,
+                "native_chest_flag_index_hex": f"0x{chest_index:02X}",
                 "native_treasure_id": payload_b3,
                 "native_treasure_id_hex": f"0x{payload_b3:02X}",
                 "native_collection_group": native_group,
@@ -600,7 +635,9 @@ def main() -> int:  # noqa: C901
                 "can_yield_1up": can_yield_1up,
                 "possible_native_rewards": possible_rewards,
                 "entry_aux_hi": payload_b4,
-                "entry_aux_lo": payload_b5,
+                "amr_fragment_chest_flag_index": payload_b5,
+                "reward_id": reward_id,
+                "reward_id_hex": f"0x{reward_id:02X}",
                 "item_id": item_id,
                 "item_id_hex": f"0x{item_id:02X}",
                 "native_item_name": item_name,
@@ -618,6 +655,19 @@ def main() -> int:  # noqa: C901
     for manifest_entry in manifest_entries:
         manifest_entry["native_item_disambiguation"] = per_entry_disambiguation.get(
             manifest_entry["entry_index"]
+        )
+
+    consumable_chest_flags = tuple(
+        sorted(
+            entry["native_chest_flag_index"]
+            for entry in manifest_entries
+            if entry["native_reward_path"] == "non_collection_consumable_pool"
+        )
+    )
+    if consumable_chest_flags != EXPECTED_CONSUMABLE_CHEST_FLAGS:
+        raise ValueError(
+            "USA-ROM consumable chest flags differ from the independently audited set: "
+            f"expected {EXPECTED_CONSUMABLE_CHEST_FLAGS}, got {consumable_chest_flags}"
         )
 
     disambiguated_multi_chest_rooms = sum(
@@ -669,6 +719,7 @@ def main() -> int:  # noqa: C901
         "metadata": {
             "rom": metadata_path(rom_path, repo_root),
             "rom_sha256": hashlib.sha256(rom_bytes).hexdigest(),
+            "rom_sha1": rom_sha1,
             "amr_items": metadata_path(amr_items_path, repo_root),
             "amr_items_sha256": hashlib.sha256(amr_items_path.read_bytes()).hexdigest(),
             "rooms": metadata_path(rooms_path, repo_root),
@@ -702,9 +753,9 @@ def main() -> int:  # noqa: C901
                 "rom_offset": f"0x{ROOM_PROPS_ROM_BASE:08X}",
                 "size": f"0x{ROOM_PROPS_SIZE:04X}",
                 "stride": f"0x{ROOM_PROPS_STRIDE:02X}",
-                "object_list2_idx_offset": f"0x{ROOM_PROPS_OBJECT_LIST2_IDX_OFFSET:02X}",
                 "object_list_idx_offset": f"0x{ROOM_PROPS_OBJECT_LIST_IDX_OFFSET:02X}",
                 "doors_idx_offset": f"0x{ROOM_PROPS_DOORS_IDX_OFFSET:02X}",
+                "amr_fragment_offset_from_object_template": f"0x{AMR_OBJECT_TEMPLATE_FRAGMENT_OFFSET:02X}",
             },
         },
         "entries": manifest_entries,
@@ -726,3 +777,4 @@ def main() -> int:  # noqa: C901
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
