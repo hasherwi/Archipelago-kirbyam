@@ -511,7 +511,8 @@ static uint8_t ap_transition_reason(uint16_t source_room, uint16_t destination_r
     return allowed ? 3u : 2u; /* destination key present / missing */
 }
 
-static uint8_t ap_current_special_tile_destination(void *kirby, uint16_t *out_destination_room) {
+static uint8_t ap_current_special_tile_destination(void *kirby, uint16_t *out_destination_room,
+                                                   uint8_t *out_spawn_x, uint8_t *out_spawn_y) {
     uint32_t kirby_addr = (uint32_t)kirby;
     uint8_t player_id = *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_PLAYER_OFFSET);
     int32_t x;
@@ -548,6 +549,8 @@ static uint8_t ap_current_special_tile_destination(void *kirby, uint16_t *out_de
         return 0u;
     }
     *out_destination_room = *(volatile uint16_t*)(special_tile + 0x08u);
+    if (out_spawn_x != 0) *out_spawn_x = *(volatile uint8_t*)(special_tile + 0x0Au);
+    if (out_spawn_y != 0) *out_spawn_y = *(volatile uint8_t*)(special_tile + 0x0Bu);
     return 1u;
 }
 
@@ -555,7 +558,7 @@ static uint8_t ap_current_special_tile_is_locked(void *kirby) {
     uint32_t kirby_addr = (uint32_t)kirby;
     uint16_t destination_room;
 
-    if (ap_current_special_tile_destination(kirby, &destination_room) == 0u) {
+    if (ap_current_special_tile_destination(kirby, &destination_room, 0, 0) == 0u) {
         return 0u;
     }
     return (uint8_t)(ap_transition_allowed(
@@ -570,7 +573,7 @@ static uint8_t ap_button_transition_destination(void *kirby, uint16_t *out_desti
     uint32_t contact_object_addr;
     int8_t object_destination_room;
 
-    if (ap_current_special_tile_destination(kirby, &destination_room) != 0u) {
+    if (ap_current_special_tile_destination(kirby, &destination_room, 0, 0) != 0u) {
         *out_destination_room = destination_room;
         return 1u;
     }
@@ -611,7 +614,7 @@ __attribute__((used)) uint32_t ap_prepare_automatic_transition(void *kirby, uint
     uint16_t destination_room;
 
     if (collision_flags == 0x104000u
-        && ap_current_special_tile_destination(kirby, &destination_room) != 0u) {
+        && ap_current_special_tile_destination(kirby, &destination_room, 0, 0) != 0u) {
         uint8_t allowed = (uint8_t)ap_transition_allowed(source_room, destination_room);
         ap_log_transition_attempt(source_room, destination_room, 0u, allowed,
                                   ap_transition_reason(source_room, destination_room, allowed));
@@ -665,10 +668,25 @@ __attribute__((used)) uint8_t ap_on_explicit_room_transition(
 ) {
     uint32_t kirby_addr = (uint32_t)kirby;
     uint16_t source_room = *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_ROOM_OFFSET);
+    uint16_t tile_destination_room;
+    uint8_t tile_spawn_x;
+    uint8_t tile_spawn_y;
     uint8_t allowed = (uint8_t)ap_transition_allowed(source_room, destination_room);
 
-    ap_log_transition_attempt(source_room, destination_room, 0u, allowed,
-                              ap_transition_reason(source_room, destination_room, allowed));
+    /* This helper is shared by player transitions and AI/follower state machines.
+     * Attribute telemetry only for a human holding Up at the matching source
+     * special tile when its native destination and spawn agree exactly. */
+    if (*(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_PLAYER_OFFSET)
+            < *(volatile uint8_t*)KIRBY_NUM_HUMAN_PLAYERS_ADDR
+        && (*(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_MOVEMENT_STATE_OFFSET) & 0x40u) != 0u
+        && ap_current_special_tile_destination(
+            kirby, &tile_destination_room, &tile_spawn_x, &tile_spawn_y) != 0u
+        && tile_destination_room == destination_room
+        && tile_spawn_x == spawn_x
+        && tile_spawn_y == spawn_y) {
+        ap_log_transition_attempt(source_room, destination_room, 0u, allowed,
+                                  ap_transition_reason(source_room, destination_room, allowed));
+    }
     if (allowed == 0u) {
         return 0u;
     }

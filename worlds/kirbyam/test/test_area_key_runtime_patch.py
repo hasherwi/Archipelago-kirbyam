@@ -131,6 +131,36 @@ def test_button_transition_telemetry_matches_native_human_up_condition() -> None
     assert native_attempt(0, 1, 0x40)  # human holding Up is a real attempt
 
 
+def test_explicit_transition_telemetry_requires_matching_player_tile_and_spawn() -> None:
+    payload = (WORLD_DIR / "kirby_ap_payload" / "ap_payload.c").read_text(encoding="utf-8")
+    start = payload.index("uint8_t ap_on_explicit_room_transition(")
+    end = payload.index("/* sub_080510EC", start)
+    guard = payload[start:end]
+
+    helper = payload[payload.index("static uint8_t ap_current_special_tile_destination("):start]
+    assert "out_spawn_x" in helper and "out_spawn_y" in helper
+    attempt = guard.index("KIRBY_NUM_HUMAN_PLAYERS_ADDR")
+    up = guard.index("KIRBY_STRUCT_MOVEMENT_STATE_OFFSET")
+    source_tile = guard.index("ap_current_special_tile_destination(")
+    destination_match = guard.index("tile_destination_room == destination_room")
+    spawn_x_match = guard.index("tile_spawn_x == spawn_x")
+    spawn_y_match = guard.index("tile_spawn_y == spawn_y")
+    telemetry = guard.index("ap_log_transition_attempt(source_room, destination_room, 0u, allowed")
+    denied = guard.index("if (allowed == 0u)", telemetry)
+    assert attempt < up < source_tile < destination_match < spawn_x_match < spawn_y_match < telemetry < denied
+    assert "return KIRBY_EXPLICIT_TRANSITION_FN(kirby, destination_room, spawn_x, spawn_y);" in guard
+
+    def should_report(is_human: bool, holding_up: bool, destination_matches: bool,
+                      spawn_matches: bool) -> bool:
+        return is_human and holding_up and destination_matches and spawn_matches
+
+    assert not should_report(False, True, True, True)  # follower/AI helper call
+    assert not should_report(True, False, True, True)  # idle player
+    assert not should_report(True, True, False, True)  # unrelated scripted target
+    assert not should_report(True, True, True, False)  # wrong spawn point
+    assert should_report(True, True, True, True)  # real denied attempt still logs
+
+
 def test_synthetic_rom_fixture_supplies_complete_patch_smoke_contract() -> None:
     fixture_path = Path(__file__).resolve().parents[3] / ".github" / "scripts" / "create_kirbyam_dummy_rom.py"
     fixture_spec = importlib.util.spec_from_file_location("kirbyam_dummy_rom_fixture", fixture_path)

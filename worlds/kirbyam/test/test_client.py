@@ -41,6 +41,73 @@ def _load_world_version_from_manifest() -> str:
 WORLD_VERSION = _load_world_version_from_manifest()
 
 
+def _run_abilities_command(ctx):
+    processor_cls = _build_kirbyam_command_processor(BizHawkClientCommandProcessor)
+    processor = processor_cls(ctx)
+    with patch.object(processor, "output") as mock_output:
+        assert processor("/abilities") is True
+    return [call.args[0] for call in mock_output.call_args_list]
+
+
+def test_abilities_command_lists_unlocked_and_always_available_abilities(mock_bizhawk_context):
+    mock_bizhawk_context.game = KirbyAmClient.game
+    mock_bizhawk_context.slot_data = {"ability_gating": True, "ability_gateable_abilities": []}
+    mock_bizhawk_context.items_received = []
+
+    unlocked = sorted(set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES))
+    assert _run_abilities_command(mock_bizhawk_context) == [
+        f"Unlocked Abilities for {KirbyAmClient.game}",
+        *unlocked,
+    ]
+
+
+def test_abilities_command_includes_received_unlocks_once_and_ignores_other_items(mock_bizhawk_context):
+    mock_bizhawk_context.game = KirbyAmClient.game
+    mock_bizhawk_context.slot_data = {"ability_gating": True}
+    gated_ability = next(
+        item for item in data.items.values()
+        if item.label.endswith(" Ability") and item.label.removesuffix(" Ability") in GATEABLE_ENEMY_COPY_ABILITIES
+    )
+    filler_item = next(item for item in data.items.values() if "Abilities" not in item.tags)
+    mock_bizhawk_context.items_received = [
+        Mock(item=gated_ability.item_id),
+        Mock(item=gated_ability.item_id),
+        Mock(item=filler_item.item_id),
+        Mock(item=None),
+    ]
+
+    unlocked = sorted(
+        (set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES))
+        | {gated_ability.label.removesuffix(" Ability")}
+    )
+    assert _run_abilities_command(mock_bizhawk_context) == [
+        f"Unlocked Abilities for {KirbyAmClient.game}",
+        *unlocked,
+    ]
+
+
+def test_abilities_command_lists_every_ability_when_gating_is_disabled(mock_bizhawk_context):
+    mock_bizhawk_context.game = KirbyAmClient.game
+    mock_bizhawk_context.slot_data = {"ability_gating": False}
+    mock_bizhawk_context.items_received = []
+
+    assert _run_abilities_command(mock_bizhawk_context) == [
+        f"Unlocked Abilities for {KirbyAmClient.game}",
+        *sorted(ABILITY_NAME_TO_ID),
+    ]
+
+
+def test_abilities_command_is_noop_for_other_games(mock_bizhawk_context):
+    processor_cls = _build_kirbyam_command_processor(BizHawkClientCommandProcessor)
+    processor = processor_cls(mock_bizhawk_context)
+    mock_bizhawk_context.game = "Some Other Game"
+
+    with patch.object(processor, "output") as mock_output:
+        assert processor("/abilities") is False
+
+    mock_output.assert_not_called()
+
+
 @pytest.mark.asyncio
 async def test_validate_rom_accepts_patched_kirby_header(mock_bizhawk_context):
     class TestBizHawkClientCommandProcessor(BizHawkClientCommandProcessor):
@@ -58,6 +125,7 @@ async def test_validate_rom_accepts_patched_kirby_header(mock_bizhawk_context):
 
         assert await client.validate_rom(mock_bizhawk_context) is True
         assert mock_bizhawk_context.game == client.game
+        assert mock_bizhawk_context.items_handling == 0b011
         assert mock_bizhawk_context.want_slot_data is True
         assert mock_bizhawk_context.command_processor is TestBizHawkClientCommandProcessor
         assert getattr(mock_bizhawk_context.command_processor, "_kirbyam_runtime_patched", False) is True
@@ -845,6 +913,24 @@ async def test_poll_major_chest_sends_location_checks_for_set_bits(mock_bizhawk_
     mock_send.assert_awaited_once_with([
         {"cmd": "LocationChecks", "locations": [cabbage, olive, peppermint, world_map]}
     ])
+
+
+@pytest.mark.asyncio
+async def test_poll_major_chest_tutorial_mode_sends_only_world_map_check(mock_bizhawk_context):
+    """Tutorial polling must ignore every major-chest flag except bit 0."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    world_map = data.locations["MAJOR_CHEST_WORLD_MAP"].location_id
+
+    with patch.dict(data.transport_ram_addresses, {"major_chest_flags": 0x0203B028}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        # Bit 3 belongs to Cabbage Cavern and must not be reported from tutorial mode.
+        mock_read.return_value = [((1 << 0) | (1 << 3)).to_bytes(4, 'little')]
+
+        await client._poll_major_chest_locations(mock_bizhawk_context, tutorial_world_map_only=True)
+
+    mock_send.assert_awaited_once_with([{"cmd": "LocationChecks", "locations": [world_map]}])
 
 
 @pytest.mark.asyncio
@@ -4937,6 +5023,7 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
             patch.object(client, '_probe_unsafe_delivery_candidates', new_callable=AsyncMock) as mock_probe_unsafe, \
          patch.object(client, '_deliver_items', new_callable=AsyncMock) as mock_deliver, \
             patch.object(client, '_maybe_report_goal', new_callable=AsyncMock) as mock_goal, \
+            patch.object(client, '_poll_tutorial_color_room_transition', new_callable=AsyncMock) as mock_poll_tutorial_color, \
             patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock) as mock_display:
         mock_gate.return_value = (False, "non_gameplay_cutscene", 200)
 
@@ -4944,12 +5031,110 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
 
     mock_load.assert_awaited_once()
     mock_poll_locations.assert_not_awaited()
+    mock_poll_tutorial_color.assert_not_awaited()
     mock_poll_boss.assert_not_awaited()
     mock_probe.assert_not_awaited()
     mock_probe_unsafe.assert_not_awaited()
     mock_deliver.assert_awaited_once_with(mock_bizhawk_context, allow_new_writes=False)
     mock_goal.assert_awaited_once_with(mock_bizhawk_context, ai_state_override=200)
     mock_display.assert_awaited_once_with(mock_bizhawk_context.bizhawk_ctx, "Item sending paused by game state")
+
+
+@pytest.mark.asyncio
+async def test_game_watcher_polls_tutorial_room_color_and_world_map_chest_without_opening_gameplay_gate(
+    mock_bizhawk_context,
+):
+    """Tutorial color and World Map chest polling remain narrow while gameplay stays deferred."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._watcher_server_ready = True
+    client._ram_state_loaded = True
+
+    with ExitStack() as stack:
+        stack.enter_context(patch.object(client, '_sync_death_link_setting', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_sync_enemy_copy_ability_runtime_config', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_sync_challenge_runtime_config', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_sync_starting_kirby_color_runtime_config', new_callable=AsyncMock))
+        stack.enter_context(patch.object(client, '_log_starting_kirby_color_config_once'))
+        stack.enter_context(patch.object(client, '_log_boss_shard_debug_window', new_callable=AsyncMock))
+        mock_gate = stack.enter_context(patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock))
+        mock_poll_tutorial_color = stack.enter_context(
+            patch.object(client, '_poll_tutorial_color_room_transition', new_callable=AsyncMock)
+        )
+        mock_poll_major = stack.enter_context(
+            patch.object(client, '_poll_major_chest_locations', new_callable=AsyncMock)
+        )
+        mock_poll_boss = stack.enter_context(
+            patch.object(client, '_poll_boss_defeat_locations', new_callable=AsyncMock)
+        )
+        mock_poll_locations = stack.enter_context(patch.object(client, '_poll_locations', new_callable=AsyncMock))
+        mock_deliver = stack.enter_context(patch.object(client, '_deliver_items', new_callable=AsyncMock))
+        mock_goal = stack.enter_context(patch.object(client, '_maybe_report_goal', new_callable=AsyncMock))
+        stack.enter_context(patch('worlds.kirbyam.client.bizhawk.display_message', new_callable=AsyncMock))
+        mock_gate.return_value = (False, "non_gameplay_tutorial_or_menu", 100)
+
+        await client.game_watcher(mock_bizhawk_context)
+
+    mock_poll_tutorial_color.assert_awaited_once_with(mock_bizhawk_context)
+    mock_poll_major.assert_awaited_once_with(mock_bizhawk_context, tutorial_world_map_only=True)
+    mock_poll_boss.assert_not_awaited()
+    mock_poll_locations.assert_not_awaited()
+    mock_deliver.assert_awaited_once_with(mock_bizhawk_context, allow_new_writes=False)
+    mock_goal.assert_awaited_once_with(mock_bizhawk_context, ai_state_override=100)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(("room_bytes", "expected_room_id"), [(b"\x23\x03", 0x0323), (b"\xff\xff", None)])
+async def test_poll_tutorial_color_room_transition_uses_valid_native_room_only(
+    mock_bizhawk_context,
+    room_bytes,
+    expected_room_id,
+):
+    client = KirbyAmClient()
+    client.initialize_client()
+
+    with patch.object(client, '_native_addr', return_value=0x02023B28), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock, return_value=[room_bytes]), \
+         patch.object(client, '_maybe_randomize_kirby_color_on_room_transition', new_callable=AsyncMock) as mock_randomize:
+        await client._poll_tutorial_color_room_transition(mock_bizhawk_context)
+
+    if expected_room_id is None:
+        mock_randomize.assert_not_awaited()
+    else:
+        mock_randomize.assert_awaited_once_with(mock_bizhawk_context, expected_room_id)
+
+
+@pytest.mark.asyncio
+async def test_tutorial_room_transition_rerolls_color_and_releases_payload_latch(mock_bizhawk_context):
+    """A tutorial room change reaches the existing runtime color update mailbox."""
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data = {
+        "starting_kirby_color_randomize_on_room_transition": True,
+        "starting_kirby_color": 2,
+        "starting_kirby_color_name": "Green",
+    }
+    client._starting_kirby_color_synced_id = 2
+    client._room_transition_color_last_native_room_id = 0x0323
+    transport_addresses = {
+        "starting_kirby_color_id": 0x0203B050,
+        "starting_kirby_color_applied": 0x0203B0B8,
+    }
+
+    with patch.object(client, '_native_addr', return_value=0x02023B28), \
+         patch.object(client, '_transport_addr', side_effect=transport_addresses.get), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock, return_value=[b"\x24\x03"]), \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        await client._poll_tutorial_color_room_transition(mock_bizhawk_context)
+
+    mock_write.assert_awaited_once()
+    writes = mock_write.await_args.args[1]
+    assert writes[0][0] == 0x0203B050
+    assert writes[0][1] != (2).to_bytes(4, "little")
+    assert 0 <= int.from_bytes(writes[0][1], "little") <= 13
+    assert writes[1] == (0x0203B0B8, (0).to_bytes(4, "little"), "System Bus")
+    assert client._room_transition_color_last_native_room_id == 0x0324
+    assert client._starting_kirby_color_synced_id == int.from_bytes(writes[0][1], "little")
 
 
 @pytest.mark.asyncio

@@ -31,12 +31,16 @@ async def test_transition_event_logs_allowed_and_denied_fields(mock_bizhawk_cont
     async def read(_ctx: Any, requests: Any) -> list[bytes]:
         address, size, _domain = requests[0]
         if address == 0x0203B130:
-            return [0x54524E31.to_bytes(4, "little"), (6).to_bytes(4, "little")]
+            return [0x54524E31.to_bytes(4, "little"), (8).to_bytes(4, "little")]
         sequence = ((address - ring_addr) // 12)
         if sequence == 5 % 8:
             return [_event(5, 0x0100, 0x0200, 1, False, 2)]
         if sequence == 6 % 8:
             return [_event(6, 0x0200, 0x0201, 0, True, 0)]
+        if sequence == 7 % 8:
+            return [_event(7, 0x0201, 0x0202, 4, True, 0)]
+        if sequence == 0:
+            return [_event(8, 0x0202, 0x0203, 3, True, 0)]
         return [bytes(size)]
 
     with patch.dict(data.native_ram_addresses, {
@@ -48,14 +52,18 @@ async def test_transition_event_logs_allowed_and_denied_fields(mock_bizhawk_cont
     ), patch("CommonClient.logger") as logger:
         await client._poll_transition_attempt_events(mock_bizhawk_context)
 
-    assert logger.info.call_count == 2
+    assert logger.info.call_count == 4
     denied = logger.info.call_args_list[0]
     assert denied.args[1:] == ("denied", "warp star", 0x0100, 0x0200, "missing destination Area Key")
     allowed = logger.info.call_args_list[1]
-    assert allowed.args[1:] == ("allowed", "unknown/scripted", 0x0200, 0x0201, "same-area allowance")
+    assert allowed.args[1:] == ("allowed", "unclassified transition", 0x0200, 0x0201, "same-area allowance")
+    mirror_shard = logger.info.call_args_list[2]
+    assert mirror_shard.args[1:3] == ("allowed", "Mirror Shard")
+    unclassified = logger.info.call_args_list[3]
+    assert unclassified.args[1:3] == ("allowed", "unclassified method 3")
     assert all(call.kwargs["extra"] == {"NoStream": True, "skip_gui": True}
                for call in logger.info.call_args_list)
-    assert client._last_transition_event_counter == 6
+    assert client._last_transition_event_counter == 8
 
 
 @pytest.mark.asyncio
