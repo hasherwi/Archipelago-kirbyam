@@ -39,6 +39,10 @@ def build_dummy_rom() -> bytearray:
         patch_rom.AUTOMATIC_TRANSITION_GUARD_OFFSET:
         patch_rom.AUTOMATIC_TRANSITION_GUARD_OFFSET + len(patch_rom.AUTOMATIC_TRANSITION_GUARD_ORIGINAL)
     ] = patch_rom.AUTOMATIC_TRANSITION_GUARD_ORIGINAL
+    rom[
+        patch_rom.UNKNOWN83_CALLBACK_POINTER_OFFSET:
+        patch_rom.UNKNOWN83_CALLBACK_POINTER_OFFSET + 4
+    ] = patch_rom.UNKNOWN83_CALLBACK_POINTER_ORIGINAL
 
     # Populate all doorsIdx values from rooms.json with native room metadata.
     # Each AP doorsIdx is represented by a unique synthetic native room ID.
@@ -86,6 +90,11 @@ def build_dummy_rom() -> bytearray:
         for _ in range(count):
             put_bl(callsite_offset, target)
             callsite_offset += 8
+
+    # Exact retail cannon boarding helper calls in sub_08121B70. The patcher
+    # validates and rewrites these before passenger bits begin the launch path.
+    for offset in (0x00121C46, 0x00121C9E, 0x00121CF6, 0x00121D54):
+        put_bl(offset, patch_rom.ORIGINAL_CANNON_BOARD_HELPER_ADDR)
 
     # patch_rom.py requires exactly eight direct calls to the retail
     # boss-already-owned reward function.

@@ -528,6 +528,9 @@ class KirbyAmClient(BizHawkClient):
         self._last_ability_runtime_config_signature: tuple[int, int, int, int, int, bool, int, int] | None = None
         self._ability_runtime_config_revalidate_counter: int = 0
         self._last_ability_reroll_event_counter: int | None = None
+        # Transition-attempt telemetry is replayed from the ROM ring after a
+        # transient disconnect, so this counter intentionally survives reconnect.
+        self._last_transition_event_counter: int | None = None
         self._delivery_timeout_total: int = 0
         self._delivery_timeout_last_reason: str = ""
         self._starting_kirby_color_synced_id: int | None = None
@@ -1824,6 +1827,9 @@ class KirbyAmClient(BizHawkClient):
             # Room entry logging (always file-only via NoStream=True).
             await self._poll_room_entry_logging(ctx)
 
+            # Native transition attempts, including Area Key denials.
+            await self._poll_transition_attempt_events(ctx)
+
             # Candidate discovery for non-shard boss defeat signals.
             await self._probe_boss_defeat_candidates(ctx)
 
@@ -2048,6 +2054,99 @@ class KirbyAmClient(BizHawkClient):
             (rng_state_addr, (0).to_bytes(4, "little"), "System Bus"),
         ])
         self._last_ability_runtime_config_signature = signature
+
+    async def _poll_transition_attempt_events(self, ctx: "BizHawkClientContext") -> None:
+        """Write ROM-reported transition attempts to the client log file only."""
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict) or "starting_area_key_bitfield" not in slot_data:
+            # Old seeds have no transition event ring and must remain compatible.
+            return
+
+        counter_addr = self._transport_addr("transition_event_counter_runtime")
+        ring_addr = self._transport_addr("transition_event_ring_runtime")
+        cookie_addr = self._transport_addr("transition_event_telemetry_cookie_runtime")
+        if counter_addr is None or ring_addr is None or cookie_addr is None:
+            return
+
+        try:
+            cookie_raw, counter_raw = (await bizhawk.read(ctx.bizhawk_ctx, [
+                (cookie_addr, 4, "System Bus"),
+                (counter_addr, 4, "System Bus"),
+            ]))
+        except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
+            return
+        if len(cookie_raw) != 4 or len(counter_raw) != 4:
+            return
+        if self._u32_le(cookie_raw) != 0x54524E31:
+            return
+        event_counter = self._u32_le(counter_raw)
+        if self._last_transition_event_counter is None:
+            # Establish the current baseline; don't replay events from before
+            # this client session. Transient reconnects preserve the counter.
+            self._last_transition_event_counter = event_counter
+            return
+        if event_counter == self._last_transition_event_counter:
+            return
+        if event_counter < self._last_transition_event_counter:
+            # ROM reset or counter wrap. Rebaseline without replaying stale RAM.
+            self._last_transition_event_counter = event_counter
+            return
+
+        logger = self._get_logger()
+        pending = event_counter - self._last_transition_event_counter
+        first = max(self._last_transition_event_counter + 1, event_counter - 7)
+        if pending > 8:
+            logger.info(
+                "KirbyAM: transition telemetry ring overran; %d attempt(s) are no longer available.",
+                pending - 8,
+                extra={"NoStream": True, "skip_gui": True},
+            )
+        for sequence in range(first, event_counter + 1):
+            slot_addr = ring_addr + ((sequence % 8) * 12)
+            try:
+                raw = (await bizhawk.read(ctx.bizhawk_ctx, [
+                    (slot_addr, 12, "System Bus"),
+                ]))[0]
+            except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
+                return
+            if len(raw) != 12:
+                return
+            slot_sequence = self._u32_le(raw[0:4])
+            if slot_sequence != sequence:
+                continue
+            packed_rooms = self._u32_le(raw[4:8])
+            source_room = packed_rooms >> 16
+            destination_room = packed_rooms & 0xFFFF
+            metadata = self._u32_le(raw[8:12])
+            method_id = metadata & 0xF
+            allowed = bool((metadata >> 4) & 1)
+            reason_id = (metadata >> 5) & 0xF
+            method = {
+                0: "unknown/scripted",
+                1: "warp star",
+                2: "cannon",
+                3: "wind tunnel",
+                4: "mirror",
+                5: "door/special transition",
+            }.get(method_id, f"unknown method {method_id}")
+            reason = {
+                0: "same-area allowance",
+                1: "destination is unkeyed; hub/escape route allowed",
+                2: "missing destination Area Key",
+                3: "destination Area Key present",
+                4: "destination is outside the Area Key set",
+                5: "room-area metadata unavailable; fail-open compatibility path",
+            }.get(reason_id, f"reason {reason_id}")
+            logger.info(
+                "KirbyAM: area transition attempt %s: method=%s source=0x%04X destination=0x%04X reason=%s.",
+                "allowed" if allowed else "denied",
+                method,
+                source_room,
+                destination_room,
+                reason,
+                extra={"NoStream": True, "skip_gui": True},
+            )
+        self._last_transition_event_counter = event_counter
 
     async def _poll_enemy_ability_reroll_events(self, ctx: "BizHawkClientContext") -> None:
         """Log file-only ability telemetry events emitted by the runtime hook."""

@@ -72,6 +72,12 @@ ORIGINAL_EXPLICIT_ROOM_TRANSITION_FN_ADDR = 0x080551FC
 EXPECTED_EXPLICIT_ROOM_TRANSITION_CALLSITES = 8
 ORIGINAL_WARP_STAR_TRANSITION_FN_ADDR = 0x0800C084
 EXPECTED_WARP_STAR_TRANSITION_CALLSITES = 3
+ORIGINAL_CANNON_BOARD_HELPER_ADDR = 0x080510EC
+EXPECTED_CANNON_BOARD_CALLSITES = 4
+CANNON_BOARD_ROUTINE_START = 0x08121B70
+CANNON_BOARD_ROUTINE_END = 0x08121D70
+UNKNOWN83_CALLBACK_POINTER_OFFSET = 0x000AA95C
+UNKNOWN83_CALLBACK_POINTER_ORIGINAL = (0x080A9BB5).to_bytes(4, "little")
 ROOM_PROPS_TABLE_OFFSET = 0x009331AC
 ROOM_PROPS_STRIDE = 0x28
 ROOM_PROPS_DOORS_IDX_OFFSET = 0x24
@@ -965,6 +971,10 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_on_explicit_room_transition"),
         "warp_star_transition_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_warp_star_transition"),
+        "cannon_board_transition_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_cannon_board_transition"),
+        "unknown83_transition_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_unknown83_transport_update"),
         "ability_transition_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_request_copy_ability_transition"),
         "ability_transition_start_hook_target": resolve_elf_symbol_address(
@@ -991,6 +1001,8 @@ _PAYLOAD_TARGET_LABELS = {
     "button_special_transition_hook_target": "Area Key button-transition hook",
     "explicit_room_transition_hook_target": "Area Key explicit-room-transition hook",
     "warp_star_transition_hook_target": "Area Key warp-star transition hook",
+    "cannon_board_transition_hook_target": "Area Key cannon pre-boarding hook",
+    "unknown83_transition_hook_target": "Area Key Unknown 83 transport hook",
     "ability_transition_hook_target": "ability transition hook",
     "ability_transition_start_hook_target": "ability transition-start hook",
     "starting_color_start_game_hook_target": "starting-color game-start hook",
@@ -1217,6 +1229,29 @@ def discover_area_key_callsites(
     )
 
 
+def discover_cannon_board_callsites(rom: bytes | bytearray, rom_base: int) -> list[int]:
+    """Discover the four pre-boarding eligibility calls inside the cannon task."""
+    candidates = discover_thumb_bl_callsites_to_targets(
+        rom,
+        {ORIGINAL_CANNON_BOARD_HELPER_ADDR, ORIGINAL_CANNON_BOARD_HELPER_ADDR | 1},
+        rom_base=rom_base,
+        scan_start=0xC0,
+        scan_end=min(PAYLOAD_OFFSET, len(rom) - 3),
+    )
+    callsites = [
+        offset for offset in candidates
+        if CANNON_BOARD_ROUTINE_START <= rom_base + offset < CANNON_BOARD_ROUTINE_END
+    ]
+    if len(callsites) != EXPECTED_CANNON_BOARD_CALLSITES:
+        raise SystemExit(
+            "Error: expected exactly "
+            f"{EXPECTED_CANNON_BOARD_CALLSITES} cannon pre-boarding callsites in "
+            f"0x{CANNON_BOARD_ROUTINE_START:08X}..0x{CANNON_BOARD_ROUTINE_END:08X}, "
+            f"found {len(callsites)} at {', '.join(hex(offset) for offset in callsites) or '<none>'}."
+        )
+    return callsites
+
+
 def discover_runtime_callsites(
     rom: bytes | bytearray, rom_base: int, hook_targets: dict[str, int]
 ) -> tuple[dict[int, bytes], list[int], list[int]]:
@@ -1315,10 +1350,14 @@ def patch_rom_with_payload(
     button_transition_callsites: list[int],
     explicit_transition_callsites: list[int],
     warp_star_transition_callsites: list[int],
+    cannon_board_callsites: list[int],
     hook_targets: dict[str, int],
     rom_base: int,
 ) -> None:
     rom[PAYLOAD_OFFSET:PAYLOAD_OFFSET + len(payload)] = payload
+    rom[UNKNOWN83_CALLBACK_POINTER_OFFSET:UNKNOWN83_CALLBACK_POINTER_OFFSET + 4] = (
+        (hook_targets["unknown83_transition_hook_target"] | 1).to_bytes(4, "little")
+    )
 
     rom[MAIN_HOOK_OFFSET:MAIN_HOOK_OFFSET + 4] = hook_bl_bytes["main_hook_bl_bytes"]
     rom[BOSS_COLLECT_SHARD_CALL_OFFSET:BOSS_COLLECT_SHARD_CALL_OFFSET + 4] = hook_bl_bytes["boss_hook_bl_bytes"]
@@ -1372,6 +1411,10 @@ def patch_rom_with_payload(
         rom[offset:offset + 4] = thumb_bl_bytes(
             rom_base + offset, hook_targets["warp_star_transition_hook_target"]
         )
+    for offset in cannon_board_callsites:
+        rom[offset:offset + 4] = thumb_bl_bytes(
+            rom_base + offset, hook_targets["cannon_board_transition_hook_target"]
+        )
     for offset in STARTING_COLOR_START_GAME_CALL_OFFSETS:
         rom[offset:offset + 4] = thumb_bl_bytes(
             rom_base + offset, hook_targets["starting_color_start_game_hook_target"]
@@ -1388,6 +1431,7 @@ def print_patch_summary(
     button_transition_callsites: list[int],
     explicit_transition_callsites: list[int],
     warp_star_transition_callsites: list[int],
+    cannon_board_callsites: list[int],
 ) -> None:
     print("Intermediary patched ROM written:", INTERMEDIARY_ROM)
     print("Payload inserted at file offset:", hex(PAYLOAD_OFFSET))
@@ -1500,6 +1544,18 @@ def print_patch_summary(
         hex(hook_targets["warp_star_transition_hook_target"]),
     )
     print(
+        "Area Key cannon pre-boarding callsites patched:",
+        len(cannon_board_callsites),
+        "target=",
+        hex(hook_targets["cannon_board_transition_hook_target"]),
+    )
+    print(
+        "Area Key Unknown 83 transport callback patched at:",
+        hex(UNKNOWN83_CALLBACK_POINTER_OFFSET),
+        "target=",
+        hex(hook_targets["unknown83_transition_hook_target"]),
+    )
+    print(
         "Ability request callsites patched:",
         len(ability_transition_callsites),
         "target=",
@@ -1580,6 +1636,13 @@ def main() -> None:
             explicit_transition_callsites,
             warp_star_transition_callsites,
         ) = discover_area_key_callsites(rom, rom_base)
+        cannon_board_callsites = discover_cannon_board_callsites(rom, rom_base)
+        validate_exact_rom_bytes(
+            rom,
+            UNKNOWN83_CALLBACK_POINTER_OFFSET,
+            UNKNOWN83_CALLBACK_POINTER_ORIGINAL,
+            "Unknown 83 transport callback pointer",
+        )
 
         (
             boss_already_owned_hook_bl_by_offset,
@@ -1602,6 +1665,7 @@ def main() -> None:
             button_transition_callsites,
             explicit_transition_callsites,
             warp_star_transition_callsites,
+            cannon_board_callsites,
             hook_targets,
             rom_base,
         )
@@ -1632,6 +1696,7 @@ def main() -> None:
             button_transition_callsites,
             explicit_transition_callsites,
             warp_star_transition_callsites,
+            cannon_board_callsites,
         )
 
         print("Starting bsdiff generation...")

@@ -25,6 +25,9 @@ def test_area_key_runtime_address_follows_existing_mailbox_words() -> None:
     assert transport["starting_kirby_color_applied"] == "0x0203B0B8"
     assert transport["lever_activation_flags"] == "0x0203B0BC"
     assert transport["area_key_bitfield_runtime"] == "0x0203B0C0"
+    assert transport["transition_event_counter_runtime"] == "0x0203B0C4"
+    assert transport["transition_event_ring_runtime"] == "0x0203B0C8"
+    assert transport["transition_event_telemetry_cookie_runtime"] == "0x0203B130"
 
 
 def test_warp_star_guard_denies_before_native_boarding_mutates_state() -> None:
@@ -76,6 +79,33 @@ def test_warp_star_guard_preserves_cpu_passenger_call_contract() -> None:
     assert "warp_star_addr + KIRBY_WARP_STAR_KIRBY_PTR_OFFSET" in guard
 
 
+def test_cannon_guard_denies_before_native_boarding_eligibility_call() -> None:
+    payload = (WORLD_DIR / "kirby_ap_payload" / "ap_payload.c").read_text(encoding="utf-8")
+    guard_start = payload.index("uint8_t ap_on_cannon_board_transition(void *kirby)")
+    guard_end = payload.index("/*\n * Warp stars bypass", guard_start)
+    guard = payload[guard_start:guard_end]
+
+    check = guard.index("ap_transition_allowed(source_room, destination_room)")
+    denial = guard.index("if (allowed == 0u) return 0u;", check)
+    native = guard.index("return KIRBY_CANNON_BOARD_FN(kirby);", denial)
+    assert check < denial < native
+    assert "*(volatile uint16_t*)(cannon_addr + 0xBAu)" in guard
+
+
+def test_unknown83_transport_guard_checks_before_pending_room_and_spawn_writes() -> None:
+    payload = (WORLD_DIR / "kirby_ap_payload" / "ap_payload.c").read_text(encoding="utf-8")
+    start = payload.index("void ap_on_unknown83_transport_update(void *object2)")
+    end = payload.index("/*\n * Warp stars bypass", start)
+    guard = payload[start:end]
+
+    decision = guard.index("ap_transition_allowed(source_room, destination_room)")
+    allowed = guard.index("if (allowed != 0u)", decision)
+    pending_room = guard.index("*(volatile uint16_t*)(kirby_addr + 0x106u) = destination_room", allowed)
+    spawn = guard.index("*(volatile int16_t*)(kirby_addr + 0x108u)", allowed)
+    assert decision < allowed < pending_room < spawn
+    assert "#define KIRBY_NUM_KIRBYS_ADDR    0x0203AD44u" in payload
+
+
 def test_synthetic_rom_fixture_supplies_complete_patch_smoke_contract() -> None:
     fixture_path = Path(__file__).resolve().parents[3] / ".github" / "scripts" / "create_kirbyam_dummy_rom.py"
     fixture_spec = importlib.util.spec_from_file_location("kirbyam_dummy_rom_fixture", fixture_path)
@@ -90,12 +120,16 @@ def test_synthetic_rom_fixture_supplies_complete_patch_smoke_contract() -> None:
     assert rom[offset:offset + len(patch_rom.AUTOMATIC_TRANSITION_GUARD_ORIGINAL)] == (
         patch_rom.AUTOMATIC_TRANSITION_GUARD_ORIGINAL
     )
+    unknown83_offset = patch_rom.UNKNOWN83_CALLBACK_POINTER_OFFSET
+    assert rom[unknown83_offset:unknown83_offset + 4] == patch_rom.UNKNOWN83_CALLBACK_POINTER_ORIGINAL
     patch_rom.validate_area_key_native_area_contract(rom)
     visual, button, explicit, warp_star = patch_rom.discover_area_key_callsites(rom, 0x08000000)
+    cannon_board = patch_rom.discover_cannon_board_callsites(rom, 0x08000000)
     assert len(visual) == 5
     assert len(button) == 28
     assert len(explicit) == 8
     assert len(warp_star) == 3
+    assert cannon_board == [0x00121C46, 0x00121C9E, 0x00121CF6, 0x00121D54]
 
 
 def test_payload_uses_native_destination_area_and_new_item_range() -> None:
@@ -117,11 +151,13 @@ def test_payload_has_separate_visual_and_pre_mutation_functional_guards() -> Non
     assert "uint32_t ap_transition_allowed(uint16_t source_room, uint16_t destination_room)" in payload
     assert "uint32_t ap_prepare_automatic_transition(void *kirby, uint32_t collision_flags)" in payload
     assert "uint8_t ap_on_button_special_transition(void *kirby)" in payload
-    assert "static uint8_t ap_button_transition_is_locked(void *kirby)" in payload
+    assert "static uint8_t ap_button_transition_destination(void *kirby, uint16_t *out_destination_room)" in payload
     assert "#define KIRBY_STRUCT_CONTACT_OBJECT_OFFSET 0x6Cu" in payload
     assert "#define KIRBY_OBJECT_DESTINATION_ROOM_OFFSET 0x63u" in payload
     assert "uint8_t ap_on_explicit_room_transition(" in payload
     assert "uint32_t ap_on_warp_star_transition(void *warp_star, uint32_t human_only)" in payload
+    assert "uint8_t ap_on_cannon_board_transition(void *kirby)" in payload
+    assert "void ap_on_unknown83_transport_update(void *object2)" in payload
     assert "uint32_t ap_on_query_special_door_state(" in payload
     assert "return ap_transition_allowed(room_id, destination_room);" in payload
     assert "return KIRBY_SPECIAL_DOOR_VISITED_FN(room_id, destination_room, spawn_x, spawn_y);" in payload

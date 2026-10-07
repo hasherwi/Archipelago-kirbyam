@@ -42,7 +42,10 @@
       "ability_unlock_mask_runtime": "0x0203B0B4",
       "starting_kirby_color_applied": "0x0203B0B8",
       "lever_activation_flags": "0x0203B0BC",
-      "area_key_bitfield_runtime": "0x0203B0C0"
+        "area_key_bitfield_runtime": "0x0203B0C0",
+        "transition_event_counter_runtime": "0x0203B0C4",
+        "transition_event_ring_runtime": "0x0203B0C8",
+        "transition_event_telemetry_cookie_runtime": "0x0203B130"
     },
     "native": {
       "other_chest_flags_native": "0x02038960",
