@@ -210,12 +210,11 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | *Reserved*    | 3960460 - 3960499, 3960580 - 3960999 | Future location families |
 
 Minor chest status:
-- The first physical-location rollout activates fourteen small chests with a verified exact room and unique source-object offset. The new location IDs are 3960566-3960579.
-- `source_rom_offset` stores the normalized ROM file offset of the object record; the AMR payload entry points at its type field at `record + 0x0C`, while the runtime hook records the object's source pointer. The client accepts an exact match only and does not guess nearby pointer aliases.
-- The payload still records the native chest persistence bit and leaves each selected chest's native reward grant intact. These locations add AP checks only; vanilla chest rewards are not converted into AP items by this rollout.
-- The older spray-paint/music-note collection-name rows are retained for ID history but are excluded from region generation because they do not identify unique physical chests.
-- Native small-chest and collectible bitfields are not used to infer AP minor-chest locations. Exact source events are read from `minor_chest_event_ring` and filtered against the current slot's active locations.
-- The ROM payload marks the same 14 verified physical sources and suppresses their native consumable at the delayed reward popup. Native chest persistence remains enabled, and the mailbox item assigned by Archipelago becomes the reward.
+- A follow-up evidence audit invalidated the previous 14-location room/source mapping; it must not be treated as verified or merged.
+- The required USA ROM SHA-1 is `274b102b6d940f46861a92b4e65f89a51815c12c`. The only local ROM found during this audit had SHA-1 `43e9d9e6aa1391a3814ae916054f47ca7c0f598`.
+- The six-byte AMR fragment starts at ObjectTemplate +0x0C: reward ID is fragment byte 2 / ObjectTemplate +0x0E, and the chest flag index is byte 5 / ObjectTemplate +0x11. gRoomProps.roomObjectListIdx is at +0x20.
+- The native small-chest persistence array spans 16 bytes (128 flag indices). AP check identity still requires exact verified source pointers; native flags do not identify physical chests.
+- The existing 14-source native-reward suppression candidate remains draft-only and incomplete. Draft PRs #930 and #931 are on hold until the authorized USA-ROM manifest and all 41 consumable sources are verified.
 
 ## Client Protocol
 
