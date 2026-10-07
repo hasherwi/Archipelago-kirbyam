@@ -8,14 +8,10 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## Unreleased
+## v0.4.0
 
 ### New Features
 - Added eight Area Key progression items for Areas 2 through 9. Cross-area mirrors (and other transitions like Warp Stars) now require the destination area's key; eight hub rooms are locations (even when Room Sanity is off) so the default item pool retains valid capacity (Issue #42).
-
-## v0.3.1
-
-### New Features
 - Added an `/abilities` client command that lists the abilities currently unlocked for the slot (Issue #891).
 - Added a new option: `enemy_health_multiplier`. Scale all enemies' health values between 50% to 500% of the original game. It defaults to 100% which matches the original game (Issue #880).
 - Added `random_color_per_room` to Starting Kirby Color. It chooses an initial supported palette at generation, then changes to a different supported palette whenever the connected BizHawk client observes Kirby enter a different room (Issue #857).
