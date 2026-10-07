@@ -119,6 +119,7 @@
 
 #define KIRBY_STRUCTS_ADDR       0x02020EE0u
 #define KIRBY_NUM_KIRBYS_ADDR    0x0203AD44u
+#define KIRBY_NUM_HUMAN_PLAYERS_ADDR 0x0203AD30u
 #define KIRBY_CURRENT_PLAYER_ADDR 0x0203AD3Cu
 #define KIRBY_CURRENT_PLAYER     (*(volatile uint8_t*)(KIRBY_CURRENT_PLAYER_ADDR))
 #define KIRBY_STRUCT_STRIDE      0x1A8u
@@ -129,6 +130,7 @@
 #define KIRBY_STRUCT_COLLISION_OFFSET 0x58u
 #define KIRBY_STRUCT_ROOM_OFFSET 0x60u
 #define KIRBY_STRUCT_TRANSITION_KIND_OFFSET 0x62u
+#define KIRBY_STRUCT_MOVEMENT_STATE_OFFSET 0x118u
 #define KIRBY_STRUCT_CONTACT_OBJECT_OFFSET 0x6Cu
 #define KIRBY_STRUCT_TASK_OFFSET 0xCCu
 #define KIRBY_STRUCT_BATTERY_OFFSET 0xDCu
@@ -622,13 +624,23 @@ __attribute__((used)) uint32_t ap_prepare_automatic_transition(void *kirby, uint
 }
 
 /*
- * sub_0805BC78 normally sets bit 0x1000 even when it does not transition.
- * Preserve that side effect while denying before its transition flags mutate.
+ * sub_0805BC78 only attempts a transition for a human player holding Up
+ * (movementState & 0x40). Ignore idle/non-human helper calls for telemetry,
+ * while preserving native behavior and checking real attempts before flags
+ * mutate.
  */
 __attribute__((used)) uint8_t ap_on_button_special_transition(void *kirby) {
     uint32_t kirby_addr = (uint32_t)kirby;
     uint16_t destination_room;
     uint16_t source_room = *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_ROOM_OFFSET);
+    uint8_t player_id = *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_PLAYER_OFFSET);
+    uint8_t human_player_count = *(volatile uint8_t*)KIRBY_NUM_HUMAN_PLAYERS_ADDR;
+    uint16_t movement_state = *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_MOVEMENT_STATE_OFFSET);
+
+    if (player_id >= human_player_count || (movement_state & 0x40u) == 0u) {
+        return KIRBY_BUTTON_TRANSITION_FN(kirby);
+    }
+
     uint8_t has_destination = ap_button_transition_destination(kirby, &destination_room);
     uint8_t allowed = has_destination
         ? (uint8_t)ap_transition_allowed(source_room, destination_room)
@@ -684,9 +696,9 @@ __attribute__((used)) uint8_t ap_on_cannon_board_transition(void *kirby) {
     return KIRBY_CANNON_BOARD_FN(kirby);
 }
 
-/* This callback is installed by Unknown 83 transport objects. Its retail body
- * only copies the object's pending destination and spawn point to matching
- * Kirbys, so reproduce those writes after the shared destination-key check. */
+/* Unknown 83 refreshes pending room/spawn state for every matching Kirby on
+ * each callback. Keep its destination-key safety check, but do not report the
+ * room-wide state refresh as a player-initiated transition attempt. */
 __attribute__((used)) void ap_on_unknown83_transport_update(void *object2) {
     uint32_t object2_addr = (uint32_t)object2;
     uint32_t object_addr = *(volatile uint32_t*)(object2_addr + 0xB0u);
@@ -700,8 +712,6 @@ __attribute__((used)) void ap_on_unknown83_transport_update(void *object2) {
         uint32_t kirby_addr = KIRBY_STRUCTS_ADDR + ((uint32_t)i * KIRBY_STRUCT_STRIDE);
         if (*(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_ROOM_OFFSET) == source_room) {
             uint8_t allowed = (uint8_t)ap_transition_allowed(source_room, destination_room);
-            ap_log_transition_attempt(source_room, destination_room, 0u, allowed,
-                                      ap_transition_reason(source_room, destination_room, allowed));
             if (allowed != 0u) {
                 *(volatile uint16_t*)(kirby_addr + 0x106u) = destination_room;
                 *(volatile int16_t*)(kirby_addr + 0x108u) = *(volatile int16_t*)(object_addr + 0x1Au);

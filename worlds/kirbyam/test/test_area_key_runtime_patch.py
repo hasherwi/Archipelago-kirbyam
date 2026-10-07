@@ -95,7 +95,7 @@ def test_cannon_guard_denies_before_native_boarding_eligibility_call() -> None:
 def test_unknown83_transport_guard_checks_before_pending_room_and_spawn_writes() -> None:
     payload = (WORLD_DIR / "kirby_ap_payload" / "ap_payload.c").read_text(encoding="utf-8")
     start = payload.index("void ap_on_unknown83_transport_update(void *object2)")
-    end = payload.index("/*\n * Warp stars bypass", start)
+    end = payload.index("/* Mirror Shards use", start)
     guard = payload[start:end]
 
     decision = guard.index("ap_transition_allowed(source_room, destination_room)")
@@ -103,7 +103,32 @@ def test_unknown83_transport_guard_checks_before_pending_room_and_spawn_writes()
     pending_room = guard.index("*(volatile uint16_t*)(kirby_addr + 0x106u) = destination_room", allowed)
     spawn = guard.index("*(volatile int16_t*)(kirby_addr + 0x108u)", allowed)
     assert decision < allowed < pending_room < spawn
+    assert "ap_log_transition_attempt(" not in guard
     assert "#define KIRBY_NUM_KIRBYS_ADDR    0x0203AD44u" in payload
+
+
+def test_button_transition_telemetry_matches_native_human_up_condition() -> None:
+    payload = (WORLD_DIR / "kirby_ap_payload" / "ap_payload.c").read_text(encoding="utf-8")
+    start = payload.index("uint8_t ap_on_button_special_transition(void *kirby)")
+    end = payload.index("uint8_t ap_on_explicit_room_transition(", start)
+    guard = payload[start:end]
+
+    native_passthrough = guard.index("return KIRBY_BUTTON_TRANSITION_FN(kirby);")
+    attempt_predicate = guard.index("player_id >= human_player_count || (movement_state & 0x40u) == 0u")
+    destination = guard.index("ap_button_transition_destination(kirby, &destination_room)")
+    telemetry = guard.index("ap_log_transition_attempt(source_room, destination_room, 5u, allowed")
+    denial = guard.index("if (allowed == 0u)", telemetry)
+    native_allowed = guard.index("return KIRBY_BUTTON_TRANSITION_FN(kirby);", native_passthrough + 1)
+    assert attempt_predicate < native_passthrough < destination < telemetry < denial < native_allowed
+    assert "#define KIRBY_NUM_HUMAN_PLAYERS_ADDR 0x0203AD30u" in payload
+    assert "#define KIRBY_STRUCT_MOVEMENT_STATE_OFFSET 0x118u" in payload
+
+    def native_attempt(player_id: int, human_count: int, movement_state: int) -> bool:
+        return player_id < human_count and bool(movement_state & 0x40)
+
+    assert not native_attempt(0, 1, 0)  # standing at the door without Up
+    assert not native_attempt(1, 1, 0x40)  # AI Kirby cannot initiate the transition
+    assert native_attempt(0, 1, 0x40)  # human holding Up is a real attempt
 
 
 def test_synthetic_rom_fixture_supplies_complete_patch_smoke_contract() -> None:
