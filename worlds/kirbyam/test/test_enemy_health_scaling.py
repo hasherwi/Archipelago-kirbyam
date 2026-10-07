@@ -9,15 +9,23 @@ from ..enemy_health_scaling import (
     BOSS_HEALTH_DIFFICULTY_COUNT,
     BOSS_HEALTH_ROW_COUNT,
     BOSS_HEALTH_TABLE_OFFSET,
+    BOSS_METER_DIFFICULTY_COUNT,
+    BOSS_METER_ROW_COUNT,
+    BOSS_METER_TABLE_OFFSET,
     DARK_MIND_FORM1_HEALTH_DIFFICULTY_COUNT,
     DARK_MIND_FORM1_HEALTH_TABLE_OFFSET,
     DARK_MIND_FORM1_ROW_COUNT,
+    DARK_MIND_FORM1_METER_DIFFICULTY_COUNT,
+    DARK_MIND_FORM1_METER_ROW_COUNT,
+    DARK_MIND_FORM1_METER_TABLE_OFFSET,
     ENEMY_HEALTH_MULTIPLIER_DEFAULT,
     ENEMY_HEALTH_MULTIPLIER_MAX,
     ENEMY_HEALTH_MULTIPLIER_MIN,
     REGULAR_ENEMY_COUNT,
     REGULAR_ENEMY_ENTRY_SIZE,
     REGULAR_ENEMY_HP_OFFSET,
+    REGULAR_ENEMY_METER_ENTRY_COUNT,
+    REGULAR_ENEMY_METER_TABLE_OFFSET,
     REGULAR_ENEMY_TABLE_OFFSET,
     scale_enemy_health_tables,
     scale_hp_value,
@@ -36,6 +44,14 @@ def _write_s16(rom: bytearray, offset: int, value: int) -> None:
 
 def _read_s16(rom: bytes, offset: int) -> int:
     return int.from_bytes(rom[offset:offset + 2], "little", signed=True)
+
+
+def _write_u16(rom: bytearray, offset: int, value: int) -> None:
+    rom[offset:offset + 2] = value.to_bytes(2, "little")
+
+
+def _read_u16(rom: bytes, offset: int) -> int:
+    return int.from_bytes(rom[offset:offset + 2], "little")
 
 
 def _fixture_rom() -> bytearray:
@@ -137,6 +153,47 @@ def test_all_four_boss_difficulty_columns_scale_together() -> None:
         _read_s16(scaled, BOSS_HEALTH_TABLE_OFFSET + column * 2)
         for column in range(BOSS_HEALTH_DIFFICULTY_COUNT)
     ] == [80, 104, 128, 152]
+
+
+@pytest.mark.parametrize("percent", [50, 150, 500])
+def test_meter_coefficients_scale_inversely_for_every_enemy_class(percent: int) -> None:
+    rom = _fixture_rom()
+    meter_tables = (
+        (REGULAR_ENEMY_METER_TABLE_OFFSET, REGULAR_ENEMY_METER_ENTRY_COUNT),
+        (BOSS_METER_TABLE_OFFSET, BOSS_METER_ROW_COUNT * BOSS_METER_DIFFICULTY_COUNT),
+        (
+            DARK_MIND_FORM1_METER_TABLE_OFFSET,
+            DARK_MIND_FORM1_METER_ROW_COUNT * DARK_MIND_FORM1_METER_DIFFICULTY_COUNT,
+        ),
+    )
+
+    # Check both ends of every table so incorrect extents or indexing leave a
+    # detectable vanilla coefficient behind. Zero remains a valid no-meter entry.
+    for table_offset, entry_count in meter_tables:
+        _write_u16(rom, table_offset, 512)
+        _write_u16(rom, table_offset + (entry_count - 1) * 2, 256)
+        _write_u16(rom, table_offset + 2, 0)
+
+    scaled = scale_enemy_health_tables(bytes(rom), percent)
+
+    for table_offset, entry_count in meter_tables:
+        first_scaled = _read_u16(scaled, table_offset)
+        last_scaled = _read_u16(scaled, table_offset + (entry_count - 1) * 2)
+        assert first_scaled == (512 * 100 + percent // 2) // percent
+        assert last_scaled == (256 * 100 + percent // 2) // percent
+        assert _read_u16(scaled, table_offset + 2) == 0
+
+        # The native routine rounds a positive Q8.8 product up to a whole
+        # pixel. Inverse coefficient scaling should preserve that fill within
+        # the one-pixel rounding inherent in the ROM's integer math.
+        scaled_hp = scale_hp_value(40, percent)
+        vanilla_fill = (40 * 256 + 255) // 256
+        scaled_fill = (scaled_hp * last_scaled + 255) // 256
+        assert abs(scaled_fill - vanilla_fill) <= 1
+
+        vanilla_fill = (40 * 512 + 255) // 256
+        scaled_fill = (scaled_hp * first_scaled + 255) // 256
+        assert abs(scaled_fill - vanilla_fill) <= 1
 
 
 def test_vanilla_multiplier_is_byte_identical() -> None:

@@ -37,6 +37,7 @@ EXPECTED_ROM_MAKER_CODE = "01"
 _AUTH_TOKEN_SIZE = 16
 _BOSS_MIRROR_TABLE_PROBE_BYTES = 32
 _AI_STATE_ADDR_WIDTH = 4
+_AI_STATE_TUTORIAL = 100
 _GOAL_STATE_DARK_MIND_CLEAR = 9999
 _GOAL_STATE_FULL_CLEAR = 10000
 # Legacy v0.2/v0.3 slot-data value retained only so newer clients can finish
@@ -254,10 +255,53 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
             self.output(active_location_labels[location_id])
         return True
 
+    def _cmd_abilities(self) -> bool:
+        """List abilities currently unlocked for the KirbyAM slot."""
+        if getattr(self.ctx, "game", None) != KirbyAmClient.game:
+            return False
+
+        slot_data = getattr(self.ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            slot_data = {}
+        ability_gating_enabled = KirbyAmClient._coerce_bool(slot_data.get("ability_gating", True), True)
+        gateable_abilities = slot_data.get("ability_gateable_abilities")
+        if not isinstance(gateable_abilities, list) or not gateable_abilities:
+            gateable_abilities = list(GATEABLE_ENEMY_COPY_ABILITIES)
+
+        all_abilities = set(ABILITY_NAME_TO_ID)
+        unlocked_abilities = all_abilities.copy()
+        if ability_gating_enabled:
+            unlocked_abilities.difference_update(
+                ability_name for ability_name in gateable_abilities if isinstance(ability_name, str)
+            )
+
+        for item in getattr(self.ctx, "items_received", ()):
+            item_id = KirbyAmClient._coerce_u32(getattr(item, "item", None))
+            if item_id is None:
+                continue
+            item_data = data.items.get(item_id)
+            if item_data is None or item_data.label not in _ABILITY_UNLOCK_ITEM_LABELS:
+                continue
+            ability_name = item_data.label.removesuffix(" Ability")
+            if ability_name in all_abilities:
+                unlocked_abilities.add(ability_name)
+
+        self.output(f"Unlocked Abilities for {KirbyAmClient.game}")
+        if unlocked_abilities:
+            for ability_name in sorted(unlocked_abilities):
+                self.output(ability_name)
+        else:
+            self.output("None")
+        return True
+
     return type(
         "KirbyAmCommandProcessor",
         (base_command_processor,),
-        {"_cmd_locations": _cmd_locations, "_is_kirbyam_wrapper": True},
+        {
+            "_cmd_locations": _cmd_locations,
+            "_cmd_abilities": _cmd_abilities,
+            "_is_kirbyam_wrapper": True,
+        },
     )
 
 
@@ -1583,7 +1627,10 @@ class KirbyAmClient(BizHawkClient):
 
         # Minimal AP settings
         ctx.game = self.game
-        ctx.items_handling = 0b001
+        # Request both local and remote items so the server replays the full
+        # received-item history when the client reconnects. The client rebuilds
+        # locally owned ability unlocks from that history after a restart.
+        ctx.items_handling = 0b011
         ctx.want_slot_data = True
         ctx.watcher_timeout = 0.125
         base_command_processor = getattr(ctx, "command_processor", None)
@@ -1653,6 +1700,14 @@ class KirbyAmClient(BizHawkClient):
             await self._sync_starting_kirby_color_runtime_config(ctx)
 
             gameplay_active, defer_reason, ai_state = await self._runtime_gameplay_state(ctx)
+            # Tutorial room transitions happen while the normal gameplay gate is
+            # closed. Observe them here so random_color_per_room can advance
+            # without enabling location polling or item writes during the tutorial.
+            if ai_state == _AI_STATE_TUTORIAL:
+                await self._poll_tutorial_color_room_transition(ctx)
+                # Report only the tutorial world-map chest while normal location
+                # polling and new item writes remain deferred.
+                await self._poll_major_chest_locations(ctx, tutorial_world_map_only=True)
             await self._log_boss_shard_debug_window(
                 ctx,
                 gameplay_active=gameplay_active,
@@ -2675,7 +2730,12 @@ class KirbyAmClient(BizHawkClient):
         else:
             self._last_boss_poll_log = None
 
-    async def _poll_major_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
+    async def _poll_major_chest_locations(
+        self,
+        ctx: KirbyAmBizHawkClientContext,
+        *,
+        tutorial_world_map_only: bool = False,
+    ) -> None:
         """
         Read transport major_chest_flags and map set bits to major-chest locations.
 
@@ -2698,7 +2758,8 @@ class KirbyAmClient(BizHawkClient):
         chest_bits = self._u32_le(raw)
 
         mapped_checked_locations: set[int] = set()
-        for bit in sorted(self._major_chest_location_ids_by_bit.keys()):
+        bits_to_poll = (0,) if tutorial_world_map_only else sorted(self._major_chest_location_ids_by_bit.keys())
+        for bit in bits_to_poll:
             if (chest_bits >> bit) & 1:
                 mapped_checked_locations.update(self._major_chest_location_ids_by_bit.get(bit, []))
 
@@ -3224,6 +3285,38 @@ class KirbyAmClient(BizHawkClient):
             next_color.color_id,
             native_room_id,
         )
+
+    async def _poll_tutorial_color_room_transition(
+        self,
+        ctx: KirbyAmBizHawkClientContext,
+    ) -> None:
+        """Observe room changes during the native tutorial AI state only."""
+        current_room_addr = self._native_addr(_CURRENT_ROOM_ADDR_KEY)
+        if current_room_addr is None:
+            return
+
+        try:
+            raw = (await bizhawk.read(
+                ctx.bizhawk_ctx,
+                [(current_room_addr, 2, "System Bus")],
+            ))[0]
+        except (
+            bizhawk.RequestFailedError,
+            bizhawk.ConnectorError,
+            bizhawk.SyncError,
+            TypeError,
+            AttributeError,
+        ):
+            return
+        if len(raw) != 2:
+            return
+
+        native_room_id = unpack_from("<H", raw)[0]
+        # 0xFFFF is the native no-room sentinel during startup/teardown. Do not
+        # establish a baseline from it or treat its replacement as a transition.
+        if native_room_id == 0xFFFF:
+            return
+        await self._maybe_randomize_kirby_color_on_room_transition(ctx, native_room_id)
 
     async def _poll_room_entry_logging(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
