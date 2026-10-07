@@ -7,10 +7,11 @@ typedef void (*ApWorldMapUnlockCallback)(void);
 typedef void (*ApHubSwitchRecordCallback)(uint32_t);
 
 /*
- * Big Switch object initialization reads the persistent world-props unlock
- * entry. If AP granted the door but its physical switch has not been collected,
- * return true so the caller can substitute a zero-valued scratch entry and
- * keep the check object available.
+ * The Big Switch initializer reads the persistent world-props unlock entry.
+ * If AP granted the door but its physical switch has not been collected, return
+ * true so that lookup can use a zero-valued scratch entry and keep the check
+ * object available. The separate door-to-hub initializer reads the persisted
+ * entry directly and must continue to see the item-granted state.
  *
  * The arrays are indexed by native WorldMapDoor (1..15); switch_bits contains
  * the separate AP hub-switch flag bit index for each door.

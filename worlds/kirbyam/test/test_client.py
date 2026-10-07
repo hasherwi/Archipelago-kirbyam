@@ -1790,7 +1790,7 @@ async def test_hub_connection_ownership_waits_for_current_connection_item_histor
 
     with patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
         # slot_data can remain available while the server is still replaying
-        # ReceivedItems. An empty list is unknown, not an empty inventory.
+        # ReceivedItems. An empty list is unknown until its index-zero marker.
         await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
         mock_write.assert_awaited_once_with(
             mock_bizhawk_context.bizhawk_ctx,
@@ -1801,6 +1801,27 @@ async def test_hub_connection_ownership_waits_for_current_connection_item_histor
         client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
         await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
         assert mock_write.await_args.args[1] == [(mask_addr, (1 << 1).to_bytes(4, "little"), "System Bus")]
+
+
+@pytest.mark.asyncio
+async def test_empty_index_zero_snapshot_marks_known_empty_inventory_ready(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._notification_settings_loaded = True
+    mock_bizhawk_context.items_received = []
+
+    # This is the packet emitted by MultiServer for an authenticated slot with
+    # no start inventory and no received items; it distinguishes known-empty
+    # from the transient empty list during reconnect replay.
+    client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0, "items": []})
+
+    assert client._hub_connection_item_history_ready(mock_bizhawk_context) is True
+    with patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+
+    assert mock_write.await_args.args[1] == [
+        (data.transport_ram_addresses["hub_connection_item_mask"], (0).to_bytes(4, "little"), "System Bus")
+    ]
 
 
 @pytest.mark.asyncio

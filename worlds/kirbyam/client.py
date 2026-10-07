@@ -2683,7 +2683,7 @@ class KirbyAmClient(BizHawkClient):
         self._hub_connection_unknown_mask_socket = socket
 
     def _hub_connection_item_history_ready(self, ctx: KirbyAmBizHawkClientContext) -> bool:
-        """Whether ReceivedItems index zero has arrived on this open server socket."""
+        """Whether a complete (possibly empty) ReceivedItems replay arrived on this socket."""
         server = getattr(ctx, "server", None)
         socket = getattr(server, "socket", None)
         return bool(
@@ -4223,6 +4223,8 @@ class KirbyAmClient(BizHawkClient):
         if cmd == "ReceivedItems" and args.get("index") == 0:
             # CommonClient calls this after it has reset and populated
             # ctx.items_received from the server's complete inventory replay.
+            # MultiServer sends index zero even when the authoritative history
+            # is empty, so an empty list before this package remains unknown.
             server = getattr(ctx, "server", None)
             socket = getattr(server, "socket", None)
             if socket is not None and not getattr(socket, "closed", True):

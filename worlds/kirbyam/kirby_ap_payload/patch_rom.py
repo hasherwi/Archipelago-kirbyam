@@ -58,10 +58,12 @@ SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET = 0x0000B1D0
 # reward-index > 0 (Music Sheet collection rewards).
 SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET = 0x0000B264
 BIG_SWITCH_UNLOCK_CALL_OFFSET = 0x00039EEE
-# sub_0802AD00's Big Switch initializer reads the persistent unlock bit to
-# decide whether to spawn the physical switch. AP-owned doors need a separate
-# physical-check view, so route this lookup through the payload wrapper.
-BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET = 0x0002AD24
+# sub_0802AD00 is the door-to-hub initializer. Keep its native world-props
+# lookup intact so item-granted connections make their physical doors appear.
+DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET = 0x0002AD24
+# sub_0811938C is the Big Switch initializer. Mask an AP-owned native door
+# unlock only at this distinct lookup, until its physical switch check is hit.
+BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET = 0x001193C4
 ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR = 0x08002888
 # sub_08119B3C: BL _call_via_r0 after resolving the small-switch effect function.
 # Hook receives that function pointer in r0 and can suppress only the four AP levers.
@@ -909,6 +911,12 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
         "hub switch initialization state lookup",
         ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR,
     )
+    original_door_to_hub_init_state_lookup = validate_thumb_bl_callsite_target(
+        rom,
+        DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET,
+        "door-to-hub initialization state lookup",
+        ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR,
+    )
     original_small_switch_effect_hook = validate_thumb_bl_callsite(
         rom, SMALL_SWITCH_EFFECT_CALL_OFFSET, "lever small-switch effect dispatch"
     )
@@ -939,6 +947,11 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
         f"{original_hub_switch_init_state_hook.hex(' ')}"
     )
     print(
+        "  door-to-hub initialization state lookup (left native) @ "
+        f"{DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET:#x}: "
+        f"{original_door_to_hub_init_state_lookup.hex(' ')}"
+    )
+    print(
         f"  lever small-switch effect @ {SMALL_SWITCH_EFFECT_CALL_OFFSET:#x}: "
         f"{original_small_switch_effect_hook.hex(' ')}"
     )
@@ -954,6 +967,7 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
         "original_sound_player_hook": original_sound_player_hook,
         "original_hub_switch_hook": original_hub_switch_hook,
         "original_hub_switch_init_state_hook": original_hub_switch_init_state_hook,
+        "original_door_to_hub_init_state_lookup": original_door_to_hub_init_state_lookup,
         "original_small_switch_effect_hook": original_small_switch_effect_hook,
         "original_starting_color_hook_intro": original_starting_color_hooks[0],
         "original_starting_color_hook_load": original_starting_color_hooks[1],

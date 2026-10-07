@@ -365,8 +365,9 @@ static void ap_sync_hub_switch_flags_from_world_props(void) {
 }
 
 /*
- * Hook target for the Big Switch object initialization StateSlot lookup.
- * sub_0802AD00 passes kind 2 and the switch's native world-props entry index.
+ * Hook target for the Big Switch object's native state lookup in
+ * sub_0811938C. The door-to-hub initializer at sub_0802AD00 remains untouched
+ * and continues to consume the real persisted world-props state.
  * An AP-owned door is not evidence that its physical switch was collected, so
  * present a zero-valued scratch entry until the AP switch check itself is hit.
  */

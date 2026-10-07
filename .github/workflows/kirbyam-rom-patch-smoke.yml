@@ -84,9 +84,14 @@ jobs:
           ):
               rom[offset:offset + 4] = placeholder_bl
 
-          # The Big Switch initializer validates the original world-props
-          # accessor target before patching this callsite.
-          init_state_lookup_offset = 0x0002AD24
+          # The door-to-hub lookup stays native, while the Big Switch
+          # initializer validates and patches its own state lookup.
+          door_init_state_lookup_offset = 0x0002AD24
+          rom[door_init_state_lookup_offset:door_init_state_lookup_offset + 4] = thumb_bl_bytes(
+              door_init_state_lookup_offset,
+              0x08002888,
+          )
+          init_state_lookup_offset = 0x001193C4
           rom[init_state_lookup_offset:init_state_lookup_offset + 4] = thumb_bl_bytes(
               init_state_lookup_offset,
               0x08002888,
