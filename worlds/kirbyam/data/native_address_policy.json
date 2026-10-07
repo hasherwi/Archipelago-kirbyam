@@ -46,7 +46,7 @@
         {
           "name": "other_chest_flags_native",
           "address": "0x02038960",
-          "width": "u8[10]",
+          "width": "u8[16]",
           "source": "Native gTreasures chest/switch state block; small-chest bit is preserved for native persistence",
           "verification": "The payload preserves native chest state, but the client does not use these potentially shared bits to identify AP minor-chest checks; those use exact source-pointer events."
         },
