@@ -129,6 +129,8 @@ def test_synthetic_rom_fixture_supplies_complete_patch_smoke_contract() -> None:
     assert len(button) == 28
     assert len(explicit) == 8
     assert len(warp_star) == 3
+    mirror_shard = patch_rom.discover_mirror_shard_callback_pointers(rom)
+    assert mirror_shard == [0x0001C6BC]
     assert cannon_board == [0x00121C46, 0x00121C9E, 0x00121CF6, 0x00121D54]
 
 
@@ -158,10 +160,23 @@ def test_payload_has_separate_visual_and_pre_mutation_functional_guards() -> Non
     assert "uint32_t ap_on_warp_star_transition(void *warp_star, uint32_t human_only)" in payload
     assert "uint8_t ap_on_cannon_board_transition(void *kirby)" in payload
     assert "void ap_on_unknown83_transport_update(void *object2)" in payload
+    assert "void ap_on_mirror_shard_update(void *shard)" in payload
     assert "uint32_t ap_on_query_special_door_state(" in payload
     assert "return ap_transition_allowed(room_id, destination_room);" in payload
     assert "return KIRBY_SPECIAL_DOOR_VISITED_FN(room_id, destination_room, spawn_x, spawn_y);" in payload
     assert "ap_is_warp_room_doors_idx" not in payload
+
+
+def test_mirror_shard_denial_precedes_native_state_transition() -> None:
+    payload = (WORLD_DIR / "kirby_ap_payload" / "ap_payload.c").read_text(encoding="utf-8")
+    start = payload.index("void ap_on_mirror_shard_update(void *shard)")
+    end = payload.index("/*\n * Warp stars bypass", start)
+    guard = payload[start:end]
+
+    check = guard.index("ap_transition_allowed(source_room, destination_room)")
+    denial = guard.index("if (allowed == 0u) return;", check)
+    native = guard.index("KIRBY_MIRROR_SHARD_UPDATE_FN(shard);", denial)
+    assert check < denial < native
 
 
 def test_rooms_json_native_area_contract_is_complete_and_collision_free() -> None:

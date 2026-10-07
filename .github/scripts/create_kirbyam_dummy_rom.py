@@ -43,6 +43,7 @@ def build_dummy_rom() -> bytearray:
         patch_rom.UNKNOWN83_CALLBACK_POINTER_OFFSET:
         patch_rom.UNKNOWN83_CALLBACK_POINTER_OFFSET + 4
     ] = patch_rom.UNKNOWN83_CALLBACK_POINTER_ORIGINAL
+    rom[0x0001C6BC:0x0001C6C0] = patch_rom.MIRROR_SHARD_CALLBACK_POINTER_ORIGINAL
 
     # Populate all doorsIdx values from rooms.json with native room metadata.
     # Each AP doorsIdx is represented by a unique synthetic native room ID.

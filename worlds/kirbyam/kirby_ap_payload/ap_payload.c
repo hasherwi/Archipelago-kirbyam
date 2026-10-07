@@ -382,6 +382,8 @@ typedef uint32_t (*KirbySpecialDoorVisitedFn)(uint16_t, uint16_t, uint8_t, uint8
 #define KIRBY_OBJECT_DESTINATION_ROOM_OFFSET 0x63u
 #define KIRBY_WARP_STAR_KIRBY_PTR_OFFSET 0x6Cu
 #define KIRBY_WARP_STAR_DESTINATION_ROOM_OFFSET 0xBEu
+#define KIRBY_MIRROR_SHARD_OBJECT_PTR_OFFSET 0xB0u
+#define KIRBY_MIRROR_SHARD_DESTINATION_ROOM_OFFSET 0x1Eu
 
 typedef uint8_t (*KirbyGetCollisionTileFn)(uint8_t, uint16_t, uint16_t);
 #define KIRBY_GET_COLLISION_TILE_FN ((KirbyGetCollisionTileFn)0x080023E5u)
@@ -393,6 +395,8 @@ typedef uint8_t (*KirbyExplicitTransitionFn)(void *, uint16_t, uint8_t, uint8_t)
 #define KIRBY_EXPLICIT_TRANSITION_FN ((KirbyExplicitTransitionFn)0x080551FDu)
 typedef uint32_t (*KirbyWarpStarTransitionFn)(void *, uint32_t);
 #define KIRBY_WARP_STAR_TRANSITION_FN ((KirbyWarpStarTransitionFn)0x0800C085u)
+typedef void (*KirbyMirrorShardUpdateFn)(void *);
+#define KIRBY_MIRROR_SHARD_UPDATE_FN ((KirbyMirrorShardUpdateFn)0x0801BE4Du)
 typedef uint8_t (*KirbyCannonBoardFn)(void *);
 #define KIRBY_CANNON_BOARD_FN ((KirbyCannonBoardFn)0x080510EDu)
 
@@ -705,6 +709,30 @@ __attribute__((used)) void ap_on_unknown83_transport_update(void *object2) {
             }
         }
     }
+}
+
+/* Mirror Shards use a callback that writes each living Kirby's pending room,
+ * then changes the shard callback to its departure animation. Deny before
+ * either mutation so a missing-key attempt remains retryable. */
+__attribute__((used)) void ap_on_mirror_shard_update(void *shard) {
+    uint32_t shard_addr = (uint32_t)shard;
+    uint32_t object_addr = *(volatile uint32_t*)(shard_addr + KIRBY_MIRROR_SHARD_OBJECT_PTR_OFFSET);
+    uint16_t source_room;
+    uint16_t destination_room;
+    uint8_t allowed;
+
+    if (object_addr < KIRBY_EWRAM_START
+        || object_addr + KIRBY_MIRROR_SHARD_DESTINATION_ROOM_OFFSET + sizeof(uint16_t) > KIRBY_EWRAM_END) {
+        KIRBY_MIRROR_SHARD_UPDATE_FN(shard);
+        return;
+    }
+    source_room = *(volatile uint16_t*)(shard_addr + KIRBY_STRUCT_ROOM_OFFSET);
+    destination_room = *(volatile uint16_t*)(object_addr + KIRBY_MIRROR_SHARD_DESTINATION_ROOM_OFFSET);
+    allowed = (uint8_t)ap_transition_allowed(source_room, destination_room);
+    ap_log_transition_attempt(source_room, destination_room, 4u, allowed,
+                              ap_transition_reason(source_room, destination_room, allowed));
+    if (allowed == 0u) return;
+    KIRBY_MIRROR_SHARD_UPDATE_FN(shard);
 }
 
 /*

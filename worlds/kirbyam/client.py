@@ -15,7 +15,7 @@ from BaseClasses import ItemClassification
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
-from .area_keys import AREA_KEY_AREA_ID_BY_LABEL
+from .area_keys import AREA_KEY_AREA_ID_BY_LABEL, AREA_NAME_BY_ID
 from .colors import choose_different_kirby_color
 from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
@@ -478,6 +478,7 @@ class KirbyAmClient(BizHawkClient):
         self._hub_switch_stream_marker: object = None
         self._last_room_sanity_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_area_visit_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+        self._transition_notice_last_at: dict[tuple[int, int], float] = {}
 
         # Room entry logging (always file-only via NoStream=True).
         self._last_native_room_id: int | None = None
@@ -2056,7 +2057,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_ability_runtime_config_signature = signature
 
     async def _poll_transition_attempt_events(self, ctx: "BizHawkClientContext") -> None:
-        """Write ROM-reported transition attempts to the client log file only."""
+        """Log ROM-reported transition attempts and notify on missing Area Keys."""
         slot_data = getattr(ctx, "slot_data", None)
         if not isinstance(slot_data, dict) or "starting_area_key_bitfield" not in slot_data:
             # Old seeds have no transition event ring and must remain compatible.
@@ -2146,6 +2147,33 @@ class KirbyAmClient(BizHawkClient):
                 reason,
                 extra={"NoStream": True, "skip_gui": True},
             )
+            if not allowed and reason_id == 2:
+                # Resolve the destination's ROM doorsIdx through the same room
+                # metadata table used by room-entry reporting. Unknown rooms
+                # stay silent rather than naming the wrong key.
+                room_props_addr = _ROOM_PROPS_ROM_BASE + destination_room * _ROOM_PROPS_STRIDE
+                try:
+                    doors_idx_raw = (await bizhawk.read(ctx.bizhawk_ctx, [
+                        (room_props_addr + _ROOM_PROPS_DOORS_IDX_OFFSET, 2, "System Bus"),
+                    ]))[0]
+                except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
+                    continue
+                if len(doors_idx_raw) != 2:
+                    continue
+                doors_idx = int.from_bytes(doors_idx_raw, "little")
+                area_id = self._room_area_id_by_doors_idx.get(doors_idx)
+                area_name = AREA_NAME_BY_ID.get(area_id) if area_id is not None else None
+                if area_name is None:
+                    continue
+                signature = (source_room, destination_room)
+                now = time.monotonic()
+                if now - self._transition_notice_last_at.get(signature, 0.0) < 1.0:
+                    continue
+                self._transition_notice_last_at[signature] = now
+                try:
+                    await bizhawk.display_message(ctx.bizhawk_ctx, f"You need the {area_name} Area Key.")
+                except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
+                    pass
         self._last_transition_event_counter = event_counter
 
     async def _poll_enemy_ability_reroll_events(self, ctx: "BizHawkClientContext") -> None:

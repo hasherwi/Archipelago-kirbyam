@@ -59,6 +59,112 @@ async def test_transition_event_logs_allowed_and_denied_fields(mock_bizhawk_cont
 
 
 @pytest.mark.asyncio
+async def test_missing_area_key_shows_destination_specific_bizhawk_notice(mock_bizhawk_context: Any) -> None:
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["starting_area_key_bitfield"] = 0
+    client._last_transition_event_counter = 0
+    client._room_area_id_by_doors_idx = {77: 4}
+    ring_addr = 0x0203B0C8
+    destination_room = 0x0200
+
+    async def read(_ctx: Any, requests: Any) -> list[bytes]:
+        if len(requests) == 2:
+            return [0x54524E31.to_bytes(4, "little"), (1).to_bytes(4, "little")]
+        address, size, _domain = requests[0]
+        if address == ring_addr + 12:
+            return [_event(1, 0x0100, destination_room, 1, False, 2)]
+        if address == 0x009331AC + destination_room * 0x28 + 0x24:
+            return [(77).to_bytes(2, "little")]
+        return [bytes(size)]
+
+    with patch.dict(data.native_ram_addresses, {
+        "transition_event_counter_runtime": 0x0203B0C4,
+        "transition_event_ring_runtime": ring_addr,
+        "transition_event_telemetry_cookie_runtime": 0x0203B130,
+    }, clear=False), patch(
+        "worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock, side_effect=read
+    ), patch(
+        "worlds.kirbyam.client.bizhawk.display_message", new_callable=AsyncMock
+    ) as display:
+        await client._poll_transition_attempt_events(mock_bizhawk_context)
+
+    display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "You need the Mustard Mountain Area Key.",
+    )
+
+
+@pytest.mark.asyncio
+async def test_allowed_transition_never_shows_area_key_notice(mock_bizhawk_context: Any) -> None:
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["starting_area_key_bitfield"] = 0
+    client._last_transition_event_counter = 0
+    ring_addr = 0x0203B0C8
+
+    async def read(_ctx: Any, requests: Any) -> list[bytes]:
+        if len(requests) == 2:
+            return [0x54524E31.to_bytes(4, "little"), (1).to_bytes(4, "little")]
+        address, size, _domain = requests[0]
+        if address == ring_addr + 12:
+            return [_event(1, 0x0100, 0x0200, 1, True, 3)]
+        return [bytes(size)]
+
+    with patch.dict(data.native_ram_addresses, {
+        "transition_event_counter_runtime": 0x0203B0C4,
+        "transition_event_ring_runtime": ring_addr,
+        "transition_event_telemetry_cookie_runtime": 0x0203B130,
+    }, clear=False), patch(
+        "worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock, side_effect=read
+    ), patch(
+        "worlds.kirbyam.client.bizhawk.display_message", new_callable=AsyncMock
+    ) as display:
+        await client._poll_transition_attempt_events(mock_bizhawk_context)
+
+    display.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_repeated_blocked_exit_notice_is_rate_limited(mock_bizhawk_context: Any) -> None:
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["starting_area_key_bitfield"] = 0
+    client._last_transition_event_counter = 0
+    client._room_area_id_by_doors_idx = {77: 4}
+    ring_addr = 0x0203B0C8
+    destination_room = 0x0200
+
+    async def read(_ctx: Any, requests: Any) -> list[bytes]:
+        if len(requests) == 2:
+            return [0x54524E31.to_bytes(4, "little"), (2).to_bytes(4, "little")]
+        address, size, _domain = requests[0]
+        if address == ring_addr + 12:
+            return [_event(1, 0x0100, destination_room, 1, False, 2)]
+        if address == ring_addr + 24:
+            return [_event(2, 0x0100, destination_room, 0, False, 2)]
+        if address == 0x009331AC + destination_room * 0x28 + 0x24:
+            return [(77).to_bytes(2, "little")]
+        return [bytes(size)]
+
+    with patch.dict(data.native_ram_addresses, {
+        "transition_event_counter_runtime": 0x0203B0C4,
+        "transition_event_ring_runtime": ring_addr,
+        "transition_event_telemetry_cookie_runtime": 0x0203B130,
+    }, clear=False), patch(
+        "worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock, side_effect=read
+    ), patch("worlds.kirbyam.client.time.monotonic", side_effect=(100.0, 100.5)), patch(
+        "worlds.kirbyam.client.bizhawk.display_message", new_callable=AsyncMock
+    ) as display:
+        await client._poll_transition_attempt_events(mock_bizhawk_context)
+
+    display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "You need the Mustard Mountain Area Key.",
+    )
+
+
+@pytest.mark.asyncio
 async def test_transition_event_counter_baseline_and_reconnect_replay(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()

@@ -78,6 +78,8 @@ CANNON_BOARD_ROUTINE_START = 0x08121B70
 CANNON_BOARD_ROUTINE_END = 0x08121D70
 UNKNOWN83_CALLBACK_POINTER_OFFSET = 0x000AA95C
 UNKNOWN83_CALLBACK_POINTER_ORIGINAL = (0x080A9BB5).to_bytes(4, "little")
+MIRROR_SHARD_CALLBACK_POINTER_ORIGINAL = (0x0801BE4D).to_bytes(4, "little")
+EXPECTED_MIRROR_SHARD_CALLBACK_POINTERS = 1
 ROOM_PROPS_TABLE_OFFSET = 0x009331AC
 ROOM_PROPS_STRIDE = 0x28
 ROOM_PROPS_DOORS_IDX_OFFSET = 0x24
@@ -975,6 +977,8 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_on_cannon_board_transition"),
         "unknown83_transition_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_unknown83_transport_update"),
+        "mirror_shard_transition_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_mirror_shard_update"),
         "ability_transition_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_request_copy_ability_transition"),
         "ability_transition_start_hook_target": resolve_elf_symbol_address(
@@ -1003,6 +1007,7 @@ _PAYLOAD_TARGET_LABELS = {
     "warp_star_transition_hook_target": "Area Key warp-star transition hook",
     "cannon_board_transition_hook_target": "Area Key cannon pre-boarding hook",
     "unknown83_transition_hook_target": "Area Key Unknown 83 transport hook",
+    "mirror_shard_transition_hook_target": "Area Key Mirror Shard transition hook",
     "ability_transition_hook_target": "ability transition hook",
     "ability_transition_start_hook_target": "ability transition-start hook",
     "starting_color_start_game_hook_target": "starting-color game-start hook",
@@ -1229,6 +1234,22 @@ def discover_area_key_callsites(
     )
 
 
+def discover_mirror_shard_callback_pointers(rom: bytes | bytearray) -> list[int]:
+    """Find all retail callback literals that route into the Mirror Shard gate."""
+    pointers = [
+        offset for offset in range(0, len(rom) - 3, 4)
+        if bytes(rom[offset:offset + 4]) == MIRROR_SHARD_CALLBACK_POINTER_ORIGINAL
+    ]
+    if len(pointers) != EXPECTED_MIRROR_SHARD_CALLBACK_POINTERS:
+        raise SystemExit(
+            "Error: expected exactly "
+            f"{EXPECTED_MIRROR_SHARD_CALLBACK_POINTERS} Mirror Shard callback pointers, "
+            f"found {len(pointers)} at {', '.join(hex(offset) for offset in pointers) or '<none>'}. "
+            "Refusing to patch an unknown ROM revision."
+        )
+    return pointers
+
+
 def discover_cannon_board_callsites(rom: bytes | bytearray, rom_base: int) -> list[int]:
     """Discover the four pre-boarding eligibility calls inside the cannon task."""
     candidates = discover_thumb_bl_callsites_to_targets(
@@ -1351,6 +1372,7 @@ def patch_rom_with_payload(
     explicit_transition_callsites: list[int],
     warp_star_transition_callsites: list[int],
     cannon_board_callsites: list[int],
+    mirror_shard_callback_pointers: list[int],
     hook_targets: dict[str, int],
     rom_base: int,
 ) -> None:
@@ -1358,6 +1380,11 @@ def patch_rom_with_payload(
     rom[UNKNOWN83_CALLBACK_POINTER_OFFSET:UNKNOWN83_CALLBACK_POINTER_OFFSET + 4] = (
         (hook_targets["unknown83_transition_hook_target"] | 1).to_bytes(4, "little")
     )
+    for offset in mirror_shard_callback_pointers:
+        validate_exact_rom_bytes(
+            rom, offset, MIRROR_SHARD_CALLBACK_POINTER_ORIGINAL, "Mirror Shard callback pointer"
+        )
+        rom[offset:offset + 4] = (hook_targets["mirror_shard_transition_hook_target"] | 1).to_bytes(4, "little")
 
     rom[MAIN_HOOK_OFFSET:MAIN_HOOK_OFFSET + 4] = hook_bl_bytes["main_hook_bl_bytes"]
     rom[BOSS_COLLECT_SHARD_CALL_OFFSET:BOSS_COLLECT_SHARD_CALL_OFFSET + 4] = hook_bl_bytes["boss_hook_bl_bytes"]
@@ -1432,6 +1459,7 @@ def print_patch_summary(
     explicit_transition_callsites: list[int],
     warp_star_transition_callsites: list[int],
     cannon_board_callsites: list[int],
+    mirror_shard_callback_pointers: list[int],
 ) -> None:
     print("Intermediary patched ROM written:", INTERMEDIARY_ROM)
     print("Payload inserted at file offset:", hex(PAYLOAD_OFFSET))
@@ -1556,6 +1584,12 @@ def print_patch_summary(
         hex(hook_targets["unknown83_transition_hook_target"]),
     )
     print(
+        "Area Key Mirror Shard callback pointers patched:",
+        ", ".join(hex(offset) for offset in mirror_shard_callback_pointers),
+        "target=",
+        hex(hook_targets["mirror_shard_transition_hook_target"]),
+    )
+    print(
         "Ability request callsites patched:",
         len(ability_transition_callsites),
         "target=",
@@ -1636,6 +1670,7 @@ def main() -> None:
             explicit_transition_callsites,
             warp_star_transition_callsites,
         ) = discover_area_key_callsites(rom, rom_base)
+        mirror_shard_callback_pointers = discover_mirror_shard_callback_pointers(rom)
         cannon_board_callsites = discover_cannon_board_callsites(rom, rom_base)
         validate_exact_rom_bytes(
             rom,
@@ -1666,6 +1701,7 @@ def main() -> None:
             explicit_transition_callsites,
             warp_star_transition_callsites,
             cannon_board_callsites,
+            mirror_shard_callback_pointers,
             hook_targets,
             rom_base,
         )
@@ -1697,6 +1733,7 @@ def main() -> None:
             explicit_transition_callsites,
             warp_star_transition_callsites,
             cannon_board_callsites,
+            mirror_shard_callback_pointers,
         )
 
         print("Starting bsdiff generation...")
