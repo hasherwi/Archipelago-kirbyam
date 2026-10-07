@@ -562,3 +562,12 @@ def test_payload_suppresses_native_rewards_for_exact_ap_minor_chests() -> None:
     assert "ap_on_minor_chest_reward_popup" in payload
     assert "chest_obj_ptr + 0xE0u) = KIRBY_MINOR_CHEST_NO_NATIVE_ITEM" in payload
 
+def test_payload_preserves_full_native_small_chest_flag_range() -> None:
+    """Chest flag 82 is valid in the native 128-bit small-chest array."""
+    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+    with open(payload_path, 'r') as f:
+        content = f.read()
+
+    assert "if (chest_index >= 128u)" in content
+    assert "if (chest_index >= 80u)" not in content
+
