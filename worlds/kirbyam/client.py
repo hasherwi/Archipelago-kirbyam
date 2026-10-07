@@ -15,6 +15,7 @@ from BaseClasses import ItemClassification
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
+from .area_keys import AREA_KEY_AREA_ID_BY_LABEL, AREA_NAME_BY_ID
 from .colors import choose_different_kirby_color
 from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
@@ -133,6 +134,11 @@ _MAP_ITEM_ID_TO_AREA_ID: dict[int, int] = {
     for item in data.items.values()
     if item.label in _MAP_ITEM_LABEL_TO_AREA_ID
 }
+_AREA_KEY_ITEM_ID_TO_AREA_ID: dict[int, int] = {
+    item.item_id: AREA_KEY_AREA_ID_BY_LABEL[item.label]
+    for item in data.items.values()
+    if item.item_id is not None and item.label in AREA_KEY_AREA_ID_BY_LABEL
+}
 _BOSS_DEFEAT_LABEL_TO_BIT: dict[str, int] = {
     loc.label.split(" - ", 1)[0].strip().lower(): loc.bit_index
     for loc in data.locations.values()
@@ -160,6 +166,9 @@ _ROOM_UPDATE_BOUNCE_TYPE = "RoomUpdate"
 _MANAGED_NATIVE_MAP_BITMASK = 0
 for area_id in _MAP_ITEM_ID_TO_AREA_ID.values():
     _MANAGED_NATIVE_MAP_BITMASK |= 1 << area_id
+_MANAGED_AREA_KEY_BITMASK = 0
+for area_id in _AREA_KEY_ITEM_ID_TO_AREA_ID.values():
+    _MANAGED_AREA_KEY_BITMASK |= 1 << area_id
 _MANAGED_NATIVE_SHARD_BITMASK = 0
 for shard_bit in _SHARD_ITEM_ID_TO_BIT.values():
     _MANAGED_NATIVE_SHARD_BITMASK |= 1 << shard_bit
@@ -367,6 +376,9 @@ class KirbyAmClient(BizHawkClient):
         self._cached_delivered_shard_bits: int = 0
         self._cached_shard_bits_index: int = 0
         self._cached_shard_bits_items_len: int = 0
+        self._cached_delivered_area_key_bits: int = 0
+        self._cached_area_key_bits_index: int = 0
+        self._cached_area_key_bits_items_len: int = 0
 
         # Deterministic location ordering
         self._all_location_ids_sorted: list[int] = [
@@ -464,6 +476,15 @@ class KirbyAmClient(BizHawkClient):
         # Room-sanity bitfield index (doorsIdx) -> location IDs.
         self._room_sanity_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.ROOM_SANITY)
         self._room_sanity_bits_sorted: list[int] = sorted(self._room_sanity_location_ids_by_bit.keys())
+        self._core_landmark_location_ids_by_bit = self._build_location_ids_by_bit(
+            LocationCategory.ROOM_SANITY,
+            lambda location: "CoreLandmark" in getattr(location, "tags", ()),
+        )
+        self._core_landmark_location_ids: set[int] = {
+            location_id
+            for location_ids in self._core_landmark_location_ids_by_bit.values()
+            for location_id in location_ids
+        }
 
         # Area-first-visit location map keyed by area id (1..9).
         self._area_visit_location_ids_by_area_id = self._build_location_ids_by_bit(LocationCategory.AREA_VISIT)
@@ -501,6 +522,7 @@ class KirbyAmClient(BizHawkClient):
         self._hub_switch_stream_marker: object = None
         self._last_room_sanity_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_area_visit_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+        self._transition_notice_last_at: dict[tuple[int, int], float] = {}
 
         # Room entry logging (always file-only via NoStream=True).
         self._last_native_room_id: int | None = None
@@ -551,6 +573,9 @@ class KirbyAmClient(BizHawkClient):
         self._last_ability_runtime_config_signature: tuple[int, int, int, int, int, bool, int, int] | None = None
         self._ability_runtime_config_revalidate_counter: int = 0
         self._last_ability_reroll_event_counter: int | None = None
+        # Transition-attempt telemetry is replayed from the ROM ring after a
+        # transient disconnect, so this counter intentionally survives reconnect.
+        self._last_transition_event_counter: int | None = None
         self._delivery_timeout_total: int = 0
         self._delivery_timeout_last_reason: str = ""
         self._starting_kirby_color_synced_id: int | None = None
@@ -762,6 +787,9 @@ class KirbyAmClient(BizHawkClient):
         self._cached_delivered_shard_bits = 0
         self._cached_shard_bits_index = 0
         self._cached_shard_bits_items_len = 0
+        self._cached_delivered_area_key_bits = 0
+        self._cached_area_key_bits_index = 0
+        self._cached_area_key_bits_items_len = 0
         self._cached_room_visit_flags_view = None
 
     def _build_minor_chest_source_ptr_map(self) -> dict[int, int]:
@@ -920,6 +948,80 @@ class KirbyAmClient(BizHawkClient):
         self._cached_shard_bits_index = delivered_count
         self._cached_shard_bits_items_len = len(delivered_items)
         return self._cached_delivered_shard_bits & _MANAGED_NATIVE_SHARD_BITMASK
+
+    def _starting_area_key_bits(self, ctx: "BizHawkClientContext") -> int:
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            return 0
+
+        starting_bits = self._coerce_u32(slot_data.get("starting_area_key_bitfield", 0))
+        if starting_bits is None:
+            return 0
+        return starting_bits & _MANAGED_AREA_KEY_BITMASK
+
+    def _ap_owned_area_key_bits(self, ctx: "BizHawkClientContext") -> int:
+        """Return the exact Area Key mask confirmed as delivered to this client.
+
+        ``items_received`` already represents items received by the local slot, so
+        ``NetworkItem.player`` is the sender and must not affect ownership. Only the
+        prefix acknowledged by the ROM delivery cursor is authoritative; queued
+        entries later in the list do not unlock mirrors early.
+        """
+        delivered_items = getattr(ctx, "items_received", ())
+        delivered_count = min(self._delivered_item_index, len(delivered_items))
+
+        if (
+            self._cached_area_key_bits_index > delivered_count
+            or self._cached_area_key_bits_items_len > len(delivered_items)
+        ):
+            self._cached_delivered_area_key_bits = 0
+            self._cached_area_key_bits_index = 0
+
+        for item_index in range(self._cached_area_key_bits_index, delivered_count):
+            item_id = self._coerce_u32(getattr(delivered_items[item_index], "item", None))
+            if item_id is None:
+                continue
+            area_id = _AREA_KEY_ITEM_ID_TO_AREA_ID.get(item_id)
+            if area_id is not None:
+                self._cached_delivered_area_key_bits |= 1 << area_id
+
+        self._cached_area_key_bits_index = delivered_count
+        self._cached_area_key_bits_items_len = len(delivered_items)
+        return (
+            self._starting_area_key_bits(ctx) | self._cached_delivered_area_key_bits
+        ) & _MANAGED_AREA_KEY_BITMASK
+
+    async def _sync_area_key_runtime_config(self, ctx: "BizHawkClientContext") -> None:
+        """Reconcile the ROM Area Key gate bitfield with confirmed AP ownership."""
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict) or "starting_area_key_bitfield" not in slot_data:
+            # Backward compatibility for seeds generated before Area Keys existed.
+            return
+
+        area_key_addr = self._transport_addr("area_key_bitfield_runtime")
+        if area_key_addr is None:
+            return
+
+        desired_bits = self._ap_owned_area_key_bits(ctx)
+        current_raw = (
+            await bizhawk.read(ctx.bizhawk_ctx, [(area_key_addr, 4, "System Bus")])
+        )[0]
+        current_bits = self._u32_le(current_raw)
+        if current_bits == desired_bits:
+            return
+
+        await bizhawk.write(
+            ctx.bizhawk_ctx,
+            [(area_key_addr, desired_bits.to_bytes(4, "little"), "System Bus")],
+        )
+        self._log_verbose(
+            "info",
+            "KirbyAM: reconciled Area Key runtime ownership "
+            "(current=0x%08X, desired=0x%08X, delivered_item_index=%s)",
+            current_bits,
+            desired_bits,
+            self._delivered_item_index,
+        )
 
     async def _reconcile_native_shard_ownership(self, ctx: "BizHawkClientContext") -> None:
         """Reassert AP-owned shard bits after SaveRAM loss or reconnect drift.
@@ -1698,6 +1800,7 @@ class KirbyAmClient(BizHawkClient):
                 self._ram_state_loaded = True
 
             await self._sync_starting_kirby_color_runtime_config(ctx)
+            await self._sync_area_key_runtime_config(ctx)
 
             gameplay_active, defer_reason, ai_state = await self._runtime_gameplay_state(ctx)
             # Tutorial room transitions happen while the normal gameplay gate is
@@ -1779,6 +1882,9 @@ class KirbyAmClient(BizHawkClient):
 
             # Room entry logging (always file-only via NoStream=True).
             await self._poll_room_entry_logging(ctx)
+
+            # Native transition attempts, including Area Key denials.
+            await self._poll_transition_attempt_events(ctx)
 
             # Candidate discovery for non-shard boss defeat signals.
             await self._probe_boss_defeat_candidates(ctx)
@@ -2004,6 +2110,126 @@ class KirbyAmClient(BizHawkClient):
             (rng_state_addr, (0).to_bytes(4, "little"), "System Bus"),
         ])
         self._last_ability_runtime_config_signature = signature
+
+    async def _poll_transition_attempt_events(self, ctx: "BizHawkClientContext") -> None:
+        """Log ROM-reported transition attempts and notify on missing Area Keys."""
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict) or "starting_area_key_bitfield" not in slot_data:
+            # Old seeds have no transition event ring and must remain compatible.
+            return
+
+        counter_addr = self._transport_addr("transition_event_counter_runtime")
+        ring_addr = self._transport_addr("transition_event_ring_runtime")
+        cookie_addr = self._transport_addr("transition_event_telemetry_cookie_runtime")
+        if counter_addr is None or ring_addr is None or cookie_addr is None:
+            return
+
+        try:
+            cookie_raw, counter_raw = (await bizhawk.read(ctx.bizhawk_ctx, [
+                (cookie_addr, 4, "System Bus"),
+                (counter_addr, 4, "System Bus"),
+            ]))
+        except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
+            return
+        if len(cookie_raw) != 4 or len(counter_raw) != 4:
+            return
+        if self._u32_le(cookie_raw) != 0x54524E31:
+            return
+        event_counter = self._u32_le(counter_raw)
+        if self._last_transition_event_counter is None:
+            # Establish the current baseline; don't replay events from before
+            # this client session. Transient reconnects preserve the counter.
+            self._last_transition_event_counter = event_counter
+            return
+        if event_counter == self._last_transition_event_counter:
+            return
+        if event_counter < self._last_transition_event_counter:
+            # ROM reset or counter wrap. Rebaseline without replaying stale RAM.
+            self._last_transition_event_counter = event_counter
+            return
+
+        logger = self._get_logger()
+        pending = event_counter - self._last_transition_event_counter
+        first = max(self._last_transition_event_counter + 1, event_counter - 7)
+        if pending > 8:
+            logger.info(
+                "KirbyAM: transition telemetry ring overran; %d attempt(s) are no longer available.",
+                pending - 8,
+                extra={"NoStream": True, "skip_gui": True},
+            )
+        for sequence in range(first, event_counter + 1):
+            slot_addr = ring_addr + ((sequence % 8) * 12)
+            try:
+                raw = (await bizhawk.read(ctx.bizhawk_ctx, [
+                    (slot_addr, 12, "System Bus"),
+                ]))[0]
+            except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
+                return
+            if len(raw) != 12:
+                return
+            slot_sequence = self._u32_le(raw[0:4])
+            if slot_sequence != sequence:
+                continue
+            packed_rooms = self._u32_le(raw[4:8])
+            source_room = packed_rooms >> 16
+            destination_room = packed_rooms & 0xFFFF
+            metadata = self._u32_le(raw[8:12])
+            method_id = metadata & 0xF
+            allowed = bool((metadata >> 4) & 1)
+            reason_id = (metadata >> 5) & 0xF
+            method = {
+                0: "unclassified transition",
+                1: "warp star",
+                2: "cannon",
+                3: "unclassified method 3",
+                4: "Mirror Shard",
+                5: "door/special transition",
+            }.get(method_id, f"unknown method {method_id}")
+            reason = {
+                0: "same-area allowance",
+                1: "destination is unkeyed; hub/escape route allowed",
+                2: "missing destination Area Key",
+                3: "destination Area Key present",
+                4: "destination is outside the Area Key set",
+                5: "room-area metadata unavailable; fail-open compatibility path",
+            }.get(reason_id, f"reason {reason_id}")
+            logger.info(
+                "KirbyAM: area transition attempt %s: method=%s source=0x%04X destination=0x%04X reason=%s.",
+                "allowed" if allowed else "denied",
+                method,
+                source_room,
+                destination_room,
+                reason,
+                extra={"NoStream": True, "skip_gui": True},
+            )
+            if not allowed and reason_id == 2:
+                # Resolve the destination's ROM doorsIdx through the same room
+                # metadata table used by room-entry reporting. Unknown rooms
+                # stay silent rather than naming the wrong key.
+                room_props_addr = _ROOM_PROPS_ROM_BASE + destination_room * _ROOM_PROPS_STRIDE
+                try:
+                    doors_idx_raw = (await bizhawk.read(ctx.bizhawk_ctx, [
+                        (room_props_addr + _ROOM_PROPS_DOORS_IDX_OFFSET, 2, "System Bus"),
+                    ]))[0]
+                except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
+                    continue
+                if len(doors_idx_raw) != 2:
+                    continue
+                doors_idx = int.from_bytes(doors_idx_raw, "little")
+                area_id = self._room_area_id_by_doors_idx.get(doors_idx)
+                area_name = AREA_NAME_BY_ID.get(area_id) if area_id is not None else None
+                if area_name is None:
+                    continue
+                signature = (source_room, destination_room)
+                now = time.monotonic()
+                if now - self._transition_notice_last_at.get(signature, 0.0) < 1.0:
+                    continue
+                self._transition_notice_last_at[signature] = now
+                try:
+                    await bizhawk.display_message(ctx.bizhawk_ctx, f"You need the {area_name} Area Key.")
+                except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
+                    pass
+        self._last_transition_event_counter = event_counter
 
     async def _poll_enemy_ability_reroll_events(self, ctx: "BizHawkClientContext") -> None:
         """Log file-only ability telemetry events emitted by the runtime hook."""
@@ -3472,10 +3698,38 @@ class KirbyAmClient(BizHawkClient):
         slot_data = getattr(ctx, "slot_data", None)
         if not isinstance(slot_data, dict):
             return
-        if not self._coerce_bool(slot_data.get("room_sanity", False), False):
-            return
+        room_sanity_enabled = self._coerce_bool(slot_data.get("room_sanity", False), False)
+        if room_sanity_enabled:
+            location_ids_by_bit = self._room_sanity_location_ids_by_bit
+            bit_indexes = self._room_sanity_bits_sorted
+        else:
+            configured_landmarks = slot_data.get("core_landmark_location_ids")
+            if not isinstance(configured_landmarks, list):
+                # Seeds generated before core landmarks existed must retain the
+                # old no-Room-Sanity behavior.
+                return
+            configured_ids = {
+                location_id
+                for location_id in configured_landmarks
+                if isinstance(location_id, int)
+            }
+            configured_ids &= self._core_landmark_location_ids
+            location_ids_by_bit = {
+                bit_index: [
+                    location_id
+                    for location_id in location_ids
+                    if location_id in configured_ids
+                ]
+                for bit_index, location_ids in self._core_landmark_location_ids_by_bit.items()
+            }
+            location_ids_by_bit = {
+                bit_index: location_ids
+                for bit_index, location_ids in location_ids_by_bit.items()
+                if location_ids
+            }
+            bit_indexes = sorted(location_ids_by_bit)
 
-        if not self._room_sanity_location_ids_by_bit:
+        if not location_ids_by_bit:
             return
 
         raw_view = await self._get_room_visit_flags_view(ctx)
@@ -3483,12 +3737,16 @@ class KirbyAmClient(BizHawkClient):
             return
 
         mapped_checked_locations: set[int] = set()
-        for doors_idx in self._room_sanity_bits_sorted:
+        for doors_idx in bit_indexes:
             if doors_idx < 0 or doors_idx >= _ROOM_VISIT_FLAGS_ENTRY_COUNT:
                 continue
             entry_value = unpack_from("<H", raw_view, doors_idx * 2)[0]
             if entry_value & _ROOM_VISIT_FLAGS_BIT_MASK:
-                mapped_checked_locations.update(self._room_sanity_location_ids_by_bit.get(doors_idx, []))
+                mapped_checked_locations.update(location_ids_by_bit.get(doors_idx, []))
+
+        active_location_ids = self._active_location_id_set(ctx)
+        if active_location_ids is not None:
+            mapped_checked_locations &= active_location_ids
 
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)

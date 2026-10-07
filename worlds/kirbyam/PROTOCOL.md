@@ -32,11 +32,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
 
     0x02000000 - 0x02040000   EWRAM Region (256 KB)
         ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0203B000 - 0x0203B08B   AP Mailbox (reserved, 140 bytes)
+        ├─ 0x0203B000 - 0x0203B0C3   AP Mailbox (reserved, 196 bytes)
         └─ Remaining EWRAM (excluding AP mailbox block)
 ```
 
-### AP Mailbox Block (0x0203B000 - 0x0203B08B)
+### AP Mailbox Block (0x0203B000 - 0x0203B0C3)
 
 **Transport Layer: Client ↔ ROM Communication**
 
@@ -83,8 +83,20 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0xB4   | 0x0203B0B4 | 4B | ability_unlock_mask_runtime | u32 | ROM ← Client and ROM internal | Bitmask of ability IDs currently unlocked by AP ability items. Client sync writes canonical state; payload also sets bits when ability unlock AP items are applied to preserve runtime continuity. |
 | 0xB8   | 0x0203B0B8 | 4B | starting_kirby_color_applied | u32 | ROM internal | EWRAM latch set after the live player-one palette has been refreshed for the current EWRAM session. Cleared with mailbox initialization. This replaces an invalid mutable C static that would otherwise be linked into ROM-backed payload memory. |
 | 0xBC   | 0x0203B0BC | 4B | lever_activation_flags | u32 | ROM → Client | Bits 0–3 latch physical activation of the Moonlight 2-11, Olive 6-13, Carrot 5-12, and Radish 8-12 levers respectively. The small-switch hook suppresses the native wall-opening effect for these rooms, so this transport is the AP lever-location authority (Issue #859). |
+| 0xC0   | 0x0203B0C0 | 4B | area_key_bitfield_runtime | u32 | ROM ← Client and ROM internal | Client-canonical Area Key ownership. Bits `2..9` map directly to AP areas Moonlight Mansion through Candy Constellation. The client rewrites the complete value for reconnect/reset/savestate recovery; payload delivery of items `3860041..3860048` also ORs the corresponding bit for immediate, idempotent unlock behavior. Cleared with mailbox initialization before the client reasserts ownership. |
+| 0xC4   | 0x0203B0C4 | 4B | transition_event_counter_runtime | u32 | ROM → Client | Monotonic sequence for transition-attempt telemetry. Each event records source/destination rooms, native method code, allow/deny result, and decision reason. |
+| 0xC8   | 0x0203B0C8 | 96B | transition_event_ring_runtime | 3×u32[8] | ROM → Client | Eight-slot sequence-tagged ring. Slot `N = sequence & 7` stores sequence, packed source/destination room IDs, and method/decision/reason flags. Method codes: `0` unknown/scripted, `1` Warp Star, `2` cannon, `5` door/special transition. The client logs all available attempts to the file and reports overwritten records. |
+| 0x130  | 0x0203B130 | 4B | transition_event_telemetry_cookie_runtime | u32 | ROM → Client | `0x54524E31` (`TRN1`) marks a ROM with the transition telemetry ABI. The client ignores the ring until this cookie is present, avoiding garbage reads from older ROM builds. |
 
-**Total: 192 bytes (0x0203B000 - 0x0203B0BF)**
+**Total: 308 bytes (0x0203B000 - 0x0203B133)**
+
+#### Area Key transition runtime contract (Issue #42)
+
+The payload derives both endpoints from native room IDs and reads each room's native area byte from `gUnk_08D6CD0C[room_id]->unk46`. A transition is Area-Key-gated only when the source and destination areas differ and the destination native area is `1..8`, which maps to AP Area Key bits `2..9`. Rainbow Route (native area `0`), Tutorial (`9`), Dimension Mirror (`10`), same-area transitions, and invalid/unknown room metadata preserve native behavior. This destination-based rule means `Area A → Area B` requires Area B's key while the reverse edge requires Area A's key.
+
+Functional denial occurs before native transition state mutates on the patched automatic special-tile, button-entry, explicit/AI, warp-star, cannon-boarding, and Unknown 83 transport paths described above. The cannon guard replaces the four native eligibility calls before passenger bits are set. The Unknown 83 callback reproduces its observed room/spawn pending writes only after the shared destination-key predicate allows them; it is labeled `unknown/scripted` because its native object name does not establish a more precise method. The ROM emits attempts to an eight-entry telemetry ring; the client records source/destination, method, decision, and reason in its file log. Identical collision polls are debounced for 30 frames. Warp Stars and cannons have precise method labels; generic door and scripted transitions are labeled `door/special transition` or `unknown/scripted` when their origin cannot be distinguished safely. The ring is polled only for seeds carrying the Area Key slot-data contract, preserving compatibility with older seeds. Some scripted/follower paths remain outside these hooks and must not be treated as audited runtime coverage. The patch builder validates all 263 `rooms.json` `doorsIdx` area assignments against the retail native room metadata, requires the exact retail automatic-guard bytes and exact visual/button/explicit/warp-star/cannon callsite counts plus the original Unknown 83 callback pointer, and aborts rather than emitting a mismatched or partially gated ROM when any contract drifts.
+
+Visual state is independent of functional denial. Calls to native `sub_08002BA8` are wrapped only to report the Area Key predicate for keyed inter-area edges; all other queries return the native visited-door result. Consequently keyed mirrors remain instantiated and use the door object's existing visible inactive/active variants (including `0x294` variants `0xA`/`9` for boarded area doors and `3`/`2` for regular mirrors). Sprite hiding and the former runtime-only `doorsIdx` warp blacklist are not part of this contract.
 
 ### Native Game State (Referenced by AP; some fields are client-reconciled)
 
@@ -126,8 +138,9 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | TRAP_BATTERY_DRAIN | 3860035 | Trap item: empties the cell phone battery to 0 |
 | TRAP_LIFE_WIPEOUT | 3860036 | Trap item: sets Kirby's lives count to 0 |
 | LEVER_WALL_MOONLIGHT_MANSION_2_11 .. LEVER_WALL_RADISH_RUINS_8_12 | 3860037 - 3860040 | Progression items that independently set the four native lever-controlled wall bits (Issue #859) |
+| AREA_KEY_2 .. AREA_KEY_9 | 3860041 - 3860048 | Progression items that unlock inter-area mirror destinations for Moonlight Mansion through Candy Constellation (bits `2..9` in `area_key_bitfield_runtime`) |
 | ABILITY_UNLOCK_* | 3860101 - 3860131 | Dynamic ability unlock items (`BASE_OFFSET + 100 + runtime_ability_id`) generated only for abilities in `abilities.json` where `safe_to_gate` is true and `enemy_copy_allowed` is not false |
-| *Reserved*        | 3860041+ (except dynamic ability unlock range) | Future items (doors, additional consumables, etc.) |
+| *Reserved*        | 3860049+ (except dynamic ability unlock range) | Future items (doors, additional consumables, etc.) |
 
 ### Current filler effect contract
 
@@ -265,7 +278,9 @@ Server → Client: ConnectionRefused | Connected
 - `ability_randomization_passive_enemies` (bool): when true, enemies that natively grant no ability participate in copy-ability randomization. Default: `true`.
 - `ability_randomization_no_ability_weight` (int): percentage chance from `0` to `100` that an included randomized enemy grant resolves to no ability instead of a copy ability. Default: `55`.
 - `ability_randomization_statues` (bool): include/exclude ability statues (sometimes called ability trophies or ability stands) from copy-ability randomization. This option controls inclusion only; included statues inherit `ability_randomization_mode` (`off`, `shuffled`, `completely_random`) and always grant an ability (statues ignore `ability_randomization_no_ability_weight` and `ability_randomization_passive_enemies`, but do respect `ability_randomization_minny`).
-- `room_sanity` (bool): enables/disables room-visit locations (`Room X-<room code>`, 263 checks).
+- `room_sanity` (bool): enables/disables the full room-visit location set (`Room X-<room code>`, 263 checks). The eight keyed-area hub landmarks remain active when this option is off.
+- `starting_area_key_bitfield` (int): Area Key bits already owned at generation, including user starting inventory and the automatic early-start fallback. Bits `2..9` correspond to Areas `2..9`.
+- `core_landmark_location_ids` (list[int]): the eight always-active keyed-area hub landmark checks. The client polls only these room-visit bits when full Room Sanity is off; absence of this field preserves old-seed behavior.
 - `ability_gating` (bool): enables safe-to-gate ability lock/unlock behavior. Default on.
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
 - `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.

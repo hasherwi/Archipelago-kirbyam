@@ -38,6 +38,7 @@ def create_regions(world: "KirbyAmWorld") -> dict[str, Region]:
             if (
                 loc_meta.category == LocationCategory.ROOM_SANITY
                 and not world.options.room_sanity.value
+                and "CoreLandmark" not in loc_meta.tags
             ):
                 continue
             if loc_meta.label in world.multiworld.regions.location_cache[world.player]:
