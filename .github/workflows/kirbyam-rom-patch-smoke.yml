@@ -84,6 +84,14 @@ jobs:
           ):
               rom[offset:offset + 4] = placeholder_bl
 
+          # The Big Switch initializer validates the original world-props
+          # accessor target before patching this callsite.
+          init_state_lookup_offset = 0x0002AD24
+          rom[init_state_lookup_offset:init_state_lookup_offset + 4] = thumb_bl_bytes(
+              init_state_lookup_offset,
+              0x08002888,
+          )
+
           # patch_rom.py requires exactly eight direct calls to the retail
           # boss-already-owned reward function.
           for index in range(8):
