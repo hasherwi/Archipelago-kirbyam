@@ -25,8 +25,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Known Limitations
 - Kirby Color: random_color_per_room changes Kirby's color but does not update the corresponding UI element colors.
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
-- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
-- Small Chests: Native consumable rewards for the 41 ordinary chest checks still require the stacked reward-suppression change in PR #931. Fixed collection rewards remain native pending their AP item support (Issue #525). Emulator gameplay has not yet been validated.
+- Progression: Progression gating is still being expanded beyond the original game design. Feature-specific gating is described under New Features.
+- Small Chests: Fixed collection rewards remain native pending their AP item support (Issue #525). Native consumable reward suppression for the 41 ordinary chest checks is handled in PR #931. Emulator gameplay has not yet been validated.
 - Sprite Swapping: The animation for getting the original item will play with the original sprite. Statues show the old ability. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or ability granted.
 - Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
 
