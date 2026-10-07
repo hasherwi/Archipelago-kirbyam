@@ -84,6 +84,9 @@ jobs:
           ):
               rom[offset:offset + 4] = placeholder_bl
 
+          # Exact original instructions overwritten by the minor-chest reward-popup hook.
+          rom[0x0000B9A4:0x0000B9A8] = bytes.fromhex("D4 6C 20 1C")
+
           # patch_rom.py requires exactly eight direct calls to the retail
           # boss-already-owned reward function.
           for index in range(8):

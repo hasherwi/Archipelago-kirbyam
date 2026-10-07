@@ -98,6 +98,49 @@ def test_payload_tracks_exact_minor_chest_events() -> None:
     )
 
 
+def test_payload_suppresses_native_rewards_for_exact_ap_minor_chests() -> None:
+    """The suppression table must match the active source-backed checks exactly."""
+    import json
+
+    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+    locations_path = os.path.join(_WORLD_DIR, "data", "locations.json")
+    with open(payload_path, "r", encoding="utf-8") as f:
+        payload = f.read()
+    with open(locations_path, "r", encoding="utf-8") as f:
+        locations = json.load(f)
+
+    table_match = re.search(
+        r"AP_OWNED_MINOR_CHEST_SOURCE_PTRS\[\]\s*=\s*\{([^}]+)\}",
+        payload,
+        re.DOTALL,
+    )
+    assert table_match is not None, "Payload must define AP-owned minor chest sources"
+    payload_sources = {
+        int(address, 16)
+        for address in re.findall(r"0x([0-9A-Fa-f]+)u", table_match.group(1))
+    }
+    expected_sources = {
+        0x08000000 + int(location["source_rom_offset"], 16)
+        for location in locations.values()
+        if location.get("category") == "MINOR_CHEST" and location.get("source_rom_offset")
+    }
+
+    assert len(expected_sources) == 41
+    assert payload_sources == expected_sources
+    assert "AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER" in payload
+    assert "ap_on_minor_chest_reward_popup" in payload
+    assert "chest_obj_ptr + 0xE0u) = KIRBY_MINOR_CHEST_NO_NATIVE_ITEM" in payload
+
+
+def test_payload_preserves_full_native_small_chest_flag_range() -> None:
+    """Chest flag 82 is valid in the native 128-bit small-chest array."""
+    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+    with open(payload_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    assert "if (chest_index >= 128u)" in content
+    assert "if (chest_index >= 80u)" not in content
+
 def test_payload_vitality_items_are_replay_guarded_per_unique_item() -> None:
     """Vitality AP item IDs should be idempotent so reconnect/reset replay does not grant duplicates."""
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")

@@ -98,6 +98,30 @@ def test_minor_chest_collect_call_offset_matches_verified_hook_site() -> None:
     assert patch_rom.MINOR_CHEST_COLLECT_CALL_OFFSET == 0x0000AFEC
 
 
+def test_minor_chest_reward_popup_hook_matches_verified_thumb_sequence() -> None:
+    assert patch_rom.MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET == 0x0000B9A4
+    assert patch_rom.MINOR_CHEST_REWARD_POPUP_EXPECTED_BYTES == bytes.fromhex("D4 6C 20 1C")
+
+    rom = bytearray(b"\x00" * 0x200000)
+    start = patch_rom.MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET
+    rom[start:start + 4] = patch_rom.MINOR_CHEST_REWARD_POPUP_EXPECTED_BYTES
+    assert patch_rom.validate_expected_instruction_sequence(
+        rom,
+        start,
+        patch_rom.MINOR_CHEST_REWARD_POPUP_EXPECTED_BYTES,
+        "minor chest reward popup",
+    ) == patch_rom.MINOR_CHEST_REWARD_POPUP_EXPECTED_BYTES
+
+    rom[start] ^= 0xFF
+    with pytest.raises(SystemExit, match="verified USA-ROM bytes"):
+        patch_rom.validate_expected_instruction_sequence(
+            rom,
+            start,
+            patch_rom.MINOR_CHEST_REWARD_POPUP_EXPECTED_BYTES,
+            "minor chest reward popup",
+        )
+
+
 def test_big_chest_collect_call_offset_matches_verified_hook_site() -> None:
     assert patch_rom.BIG_CHEST_COLLECT_CALL_OFFSET == 0x0000B144
 
@@ -114,7 +138,7 @@ def test_sound_player_chest_collect_call_offset_matches_verified_hook_site() -> 
     assert patch_rom.SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET == 0x0000B264
 
 
-def test_patch_preserves_native_spray_paint_reward_callsite() -> None:
+def test_patch_installs_popup_hook_and_preserves_native_spray_paint() -> None:
     rom = bytearray(b"\xA5" * 0x200000)
     original = bytes(rom[
         patch_rom.SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:
@@ -124,6 +148,7 @@ def test_patch_preserves_native_spray_paint_reward_callsite() -> None:
         "main_hook_bl_bytes": b"\x00\x00\x00\x00",
         "boss_hook_bl_bytes": b"\x00\x00\x00\x00",
         "minor_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "minor_chest_reward_popup_hook_bl_bytes": b"\x12\x34\x56\x78",
         "big_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
         "vitality_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
         "sound_player_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
@@ -146,6 +171,10 @@ def test_patch_preserves_native_spray_paint_reward_callsite() -> None:
         patch_rom.SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:
         patch_rom.SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET + 4
     ] == original
+    assert rom[
+        patch_rom.MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET:
+        patch_rom.MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET + 4
+    ] == b"\x12\x34\x56\x78"
 
 
 def test_big_switch_unlock_call_offset_matches_verified_hook_site() -> None:

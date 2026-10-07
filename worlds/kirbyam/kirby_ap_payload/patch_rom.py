@@ -51,6 +51,10 @@ PAYLOAD_OFFSET = 0x0015E000
 MAIN_HOOK_OFFSET = 0x00152696
 BOSS_COLLECT_SHARD_CALL_OFFSET = 0x001D952
 MINOR_CHEST_COLLECT_CALL_OFFSET = 0x0000AFEC
+# sub_0800B97C: first instruction after the delayed-pickup guard. The four
+# overwritten bytes load popup->unk4C and copy that Chest* to r0.
+MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET = 0x0000B9A4
+MINOR_CHEST_REWARD_POPUP_EXPECTED_BYTES = bytes.fromhex("D4 6C 20 1C")
 BIG_CHEST_COLLECT_CALL_OFFSET = 0x0000B144
 VITALITY_CHEST_COLLECT_CALL_OFFSET = 0x0000B0CC
 SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET = 0x0000B1D0
@@ -268,6 +272,26 @@ def validate_thumb_bl_callsite(rom: bytes | bytearray, offset: int, label: str) 
         raise SystemExit(
             f"Error: {label} callsite at {offset:#x} is not a Thumb BL instruction. "
             f"Found bytes: {original.hex(' ')}. Refusing to patch unknown site."
+        )
+    return original
+
+
+def validate_expected_instruction_sequence(
+    rom: bytes | bytearray, offset: int, expected: bytes, label: str
+) -> bytes:
+    """Require exact original instructions before replacing a Thumb sequence."""
+    if offset < 0 or offset + len(expected) > len(rom):
+        raise SystemExit(
+            f"Error: {label} offset {offset:#x} is out of ROM bounds "
+            f"(size={len(rom):#x})."
+        )
+    if offset % 2 != 0:
+        raise SystemExit(f"Error: {label} offset {offset:#x} is not halfword aligned.")
+    original = bytes(rom[offset:offset + len(expected)])
+    if original != expected:
+        raise SystemExit(
+            f"Error: {label} instruction sequence at {offset:#x} did not match the "
+            f"verified USA-ROM bytes. Expected {expected.hex(' ')}, found {original.hex(' ')}."
         )
     return original
 
@@ -764,6 +788,8 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_on_boss_defeat_already_owned_reward"),
         "minor_chest_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_collect_small_chest"),
+        "minor_chest_reward_popup_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_minor_chest_reward_popup_hook"),
         "big_chest_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_collect_big_chest"),
         "vitality_chest_hook_target": resolve_elf_symbol_address(
@@ -789,6 +815,7 @@ _PAYLOAD_TARGET_LABELS = {
     "boss_hook_target": "boss shard hook",
     "boss_already_owned_hook_target": "boss already-owned reward hook",
     "minor_chest_hook_target": "minor chest hook",
+    "minor_chest_reward_popup_hook_target": "minor chest reward popup hook",
     "big_chest_hook_target": "big chest hook",
     "vitality_chest_hook_target": "vitality chest hook",
     "sound_player_chest_hook_target": "sound player/music-sheet chest hook",
@@ -830,6 +857,10 @@ def build_payload_hook_bl_bytes(
         "minor_chest_hook_bl_bytes": thumb_bl_bytes(
             rom_base + MINOR_CHEST_COLLECT_CALL_OFFSET,
             hook_targets["minor_chest_hook_target"],
+        ),
+        "minor_chest_reward_popup_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET,
+            hook_targets["minor_chest_reward_popup_hook_target"],
         ),
         "big_chest_hook_bl_bytes": thumb_bl_bytes(
             rom_base + BIG_CHEST_COLLECT_CALL_OFFSET,
@@ -874,6 +905,12 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
     original_minor_chest_hook = validate_thumb_bl_callsite(
         rom, MINOR_CHEST_COLLECT_CALL_OFFSET, "minor chest"
     )
+    original_minor_chest_reward_popup_hook = validate_expected_instruction_sequence(
+        rom,
+        MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET,
+        MINOR_CHEST_REWARD_POPUP_EXPECTED_BYTES,
+        "minor chest reward popup",
+    )
     original_big_chest_hook = validate_thumb_bl_callsite(
         rom, BIG_CHEST_COLLECT_CALL_OFFSET, "big chest"
     )
@@ -904,9 +941,13 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
         for offset in STARTING_COLOR_START_GAME_CALL_OFFSETS
     ]
 
-    print("Validated hook callsite instruction shape (Thumb BL):")
+    print("Validated hook callsite instruction sequences:")
     print(f"  boss shard @ {BOSS_COLLECT_SHARD_CALL_OFFSET:#x}: {original_boss_hook.hex(' ')}")
     print(f"  minor chest @ {MINOR_CHEST_COLLECT_CALL_OFFSET:#x}: {original_minor_chest_hook.hex(' ')}")
+    print(
+        f"  minor chest reward popup @ {MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET:#x}: "
+        f"{original_minor_chest_reward_popup_hook.hex(' ')}"
+    )
     print(f"  big chest @ {BIG_CHEST_COLLECT_CALL_OFFSET:#x}: {original_big_chest_hook.hex(' ')}")
     print(f"  vitality chest @ {VITALITY_CHEST_COLLECT_CALL_OFFSET:#x}: {original_vitality_hook.hex(' ')}")
     print(f"  spray paint chest @ {SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:#x}: {original_spray_paint_hook.hex(' ')}")
@@ -925,6 +966,7 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
     return {
         "original_boss_hook": original_boss_hook,
         "original_minor_chest_hook": original_minor_chest_hook,
+        "original_minor_chest_reward_popup_hook": original_minor_chest_reward_popup_hook,
         "original_big_chest_hook": original_big_chest_hook,
         "original_vitality_hook": original_vitality_hook,
         "original_spray_paint_hook": original_spray_paint_hook,
@@ -1040,6 +1082,9 @@ def patch_rom_with_payload(
     rom[MINOR_CHEST_COLLECT_CALL_OFFSET:MINOR_CHEST_COLLECT_CALL_OFFSET + 4] = (
         hook_bl_bytes["minor_chest_hook_bl_bytes"]
     )
+    rom[
+        MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET:MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET + 4
+    ] = hook_bl_bytes["minor_chest_reward_popup_hook_bl_bytes"]
     rom[BIG_CHEST_COLLECT_CALL_OFFSET:BIG_CHEST_COLLECT_CALL_OFFSET + 4] = (
         hook_bl_bytes["big_chest_hook_bl_bytes"]
     )
@@ -1108,6 +1153,14 @@ def print_patch_summary(
         hook_bl_bytes["minor_chest_hook_bl_bytes"].hex(" "),
         "target=",
         hex(hook_targets["minor_chest_hook_target"]),
+    )
+    print(
+        "Minor chest reward popup patched at file offset:",
+        hex(MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["minor_chest_reward_popup_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["minor_chest_reward_popup_hook_target"]),
     )
     print(
         "Big chest call patched at file offset:",

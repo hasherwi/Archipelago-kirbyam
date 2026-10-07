@@ -66,6 +66,23 @@
 /* Physical lever activations, separated from native wall-unlock state (Issue #859). */
 #define AP_LEVER_ACTIVATION_FLAGS (*(volatile uint32_t*)(AP_BASE + 0xBCu))
 #define AP_MINOR_CHEST_EVENT_RING_SLOT_COUNT 8u
+#define AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER 0x41504348u  // "APCH"
+#define KIRBY_MINOR_CHEST_NO_NATIVE_ITEM 0x63u
+
+/* Exact AP-owned chest sources from data/locations.json, stored as GBA bus pointers. */
+static const uint32_t AP_OWNED_MINOR_CHEST_SOURCE_PTRS[] = {
+    0x088B6510u, 0x088B6EB4u, 0x088B7288u, 0x088B9280u,
+    0x088BA7A4u, 0x088BAEE0u, 0x088BB0BCu, 0x088BC018u,
+    0x088BC4A0u, 0x088BDD10u, 0x088BE5E0u, 0x088BE724u,
+    0x088BF3C8u, 0x088BF3ECu, 0x088BFD78u, 0x088C0290u,
+    0x088C02B4u, 0x088C046Cu, 0x088C04D8u, 0x088C06B4u,
+    0x088C06D8u, 0x088C0E38u, 0x088C1380u, 0x088C21ACu,
+    0x088C4798u, 0x088C4DFCu, 0x088C4F24u, 0x088C5BA4u,
+    0x088C78F8u, 0x088C876Cu, 0x088C9114u, 0x088C9FFCu,
+    0x088CAF08u, 0x088CC458u, 0x088CCEFCu, 0x088CD464u,
+    0x088D039Cu, 0x088D03E4u, 0x088D2234u, 0x088D39FCu,
+    0x088D3E88u,
+};
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
 // Bit N set <=> boss of area N was defeated (same bit ordering as shard_bitfield, bits 0-7 used).
@@ -233,6 +250,19 @@ static void ap_record_minor_chest_source_ptr(uint32_t source_ptr) {
     AP_MINOR_CHEST_EVENT_COUNTER = event_counter + 1u;
 }
 
+static uint8_t ap_is_ap_owned_minor_chest_source(uint32_t source_ptr) {
+    uint32_t i;
+    uint32_t source_count = (uint32_t)(
+        sizeof(AP_OWNED_MINOR_CHEST_SOURCE_PTRS) / sizeof(AP_OWNED_MINOR_CHEST_SOURCE_PTRS[0])
+    );
+    for (i = 0u; i < source_count; i++) {
+        if (source_ptr == AP_OWNED_MINOR_CHEST_SOURCE_PTRS[i]) {
+            return 1u;
+        }
+    }
+    return 0u;
+}
+
 static void ap_collect_small_chest_native(uint32_t chest_index) {
     if (chest_index >= 128u) {
         return;
@@ -247,6 +277,10 @@ static void ap_record_minor_chest_collection_from_obj_ptr(uint32_t chest_obj_ptr
     uint32_t chest_index = (uint32_t)(*(volatile uint8_t*)(chest_obj_ptr + 0xE2u));
 
     ap_record_minor_chest_source_ptr(source_ptr);
+    if (ap_is_ap_owned_minor_chest_source(source_ptr)) {
+        /* Chest::unkDC is zeroed on creation and has no other use in the game code. */
+        *(volatile uint32_t*)(chest_obj_ptr + 0xDCu) = AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER;
+    }
     ap_collect_small_chest_native(chest_index);
 }
 
@@ -485,6 +519,20 @@ __attribute__((used)) void ap_on_collect_small_chest(void) {
     register uint32_t chest_obj_ptr asm("r5");
     ap_record_minor_chest_collection_from_obj_ptr(chest_obj_ptr);
 }
+
+/* Called after the native chest popup delay, after open sound/persistence are complete. */
+__attribute__((used)) void ap_on_minor_chest_reward_popup(void) {
+    register uint32_t popup_obj_ptr asm("r8");
+    uint32_t chest_obj_ptr = *(volatile uint32_t*)(popup_obj_ptr + 0x4Cu);
+    uint32_t marker = *(volatile uint32_t*)(chest_obj_ptr + 0xDCu);
+
+    if (marker == AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER) {
+        /* The native popup treats 0x63 as a chest with no bonus item. */
+        *(volatile uint16_t*)(chest_obj_ptr + 0xE0u) = KIRBY_MINOR_CHEST_NO_NATIVE_ITEM;
+        *(volatile uint32_t*)(chest_obj_ptr + 0xDCu) = 0u;
+    }
+}
+
 
 typedef void (*KirbyCollectSoundPlayerFn)(uint32_t reward_index);
 #define KIRBY_COLLECT_SOUND_PLAYER_FN ((KirbyCollectSoundPlayerFn)0x08019E69u)

@@ -40,7 +40,7 @@ AP mode records checks and handles native reward paths by item family. Ordinary 
 | Sound Player chest path | ap_on_collect_sound_player_chest() | Reward index 0 becomes the AP Sound Player chest check; nonzero Music Sheet rewards call the native grant function. |
 | Spray paint chest reward | Native callsite | Left unpatched so the original native Spray Paint reward is granted. The generic small-chest hook has already recorded the physical check event and persistence. |
 | Small-chest AP location | ap_on_collect_small_chest() | Record the exact source pointer and native small-chest persistence for each of 41 active ordinary-item checks; the client maps only exact matches. |
-| Ordinary consumable chest reward | Delayed popup path in stacked PR #931 | Suppress the native ordinary-item reward for all 41 `NativeRewardConsumable` sources so the AP-assigned item is the reward. |
+| Ordinary consumable chest reward | ap_minor_chest_reward_popup_hook | After native persistence and the popup delay, set only marked AP-owned chests to the existing no-bonus item value (`0x63`); the AP mailbox grants the assigned reward. Other small chests retain their native item. |
 | Fixed small-chest collection reward | Native chest collection path | Preserve the 24 native fixed-reward chest grants (14 Spray Paint and 10 Music Sheet) pending AP item support under #525; they are not active AP chest checks in this rollout. |
 | Hub unlock/world map door unlock | ap_on_world_map_unlock_call() | Record AP hub-switch flag when unlock is persisted in world props. |
 
