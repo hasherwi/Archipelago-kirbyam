@@ -234,7 +234,7 @@ static void ap_record_minor_chest_source_ptr(uint32_t source_ptr) {
 }
 
 static void ap_collect_small_chest_native(uint32_t chest_index) {
-    if (chest_index >= 80u) {
+    if (chest_index >= 128u) {
         return;
     }
 

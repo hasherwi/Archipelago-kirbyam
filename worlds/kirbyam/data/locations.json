@@ -906,10 +906,26 @@
     "category": "MINOR_CHEST",
     "location_id": 3960523
   },
+  "MINOR_CHEST_RAINBOW_ROUTE_1_33_OBJECT_01": {
+    "label": "Rainbow Route 1-33 - Small Chest #1",
+    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_33",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008B6510",
+    "category": "MINOR_CHEST",
+    "location_id": 3960580
+  },
   "MINOR_CHEST_RAINBOW_ROUTE_1_02": {
     "label": "Rainbow Route 1-02 - Small Chest",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_02",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008B6EB4",
     "category": "MINOR_CHEST",
     "location_id": 3960566
@@ -917,55 +933,287 @@
   "MINOR_CHEST_RAINBOW_ROUTE_1_06_UPPER": {
     "label": "Rainbow Route 1-06 (Upper) - Small Chest",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008B7288",
     "category": "MINOR_CHEST",
     "location_id": 3960567
   },
+  "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_1_OBJECT_01": {
+    "label": "Rainbow Route Goal 1 - Small Chest #1",
+    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008B9280",
+    "category": "MINOR_CHEST",
+    "location_id": 3960581
+  },
+  "MINOR_CHEST_RAINBOW_ROUTE_1_18_OBJECT_01": {
+    "label": "Rainbow Route 1-18 - Small Chest #1",
+    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_18",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008BA7A4",
+    "category": "MINOR_CHEST",
+    "location_id": 3960582
+  },
+  "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_2_OBJECT_01": {
+    "label": "Rainbow Route Goal 2 - Small Chest #1",
+    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008BAEE0",
+    "category": "MINOR_CHEST",
+    "location_id": 3960583
+  },
   "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_3": {
     "label": "Rainbow Route Goal 3 - Small Chest",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008BB0BC",
     "category": "MINOR_CHEST",
     "location_id": 3960568
   },
+  "MINOR_CHEST_MOONLIGHT_MANSION_2_GOAL_2_OBJECT_01": {
+    "label": "Moonlight Mansion Goal 2 - Small Chest #1",
+    "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008BC018",
+    "category": "MINOR_CHEST",
+    "location_id": 3960584
+  },
   "MINOR_CHEST_MOONLIGHT_MANSION_2_20": {
     "label": "Moonlight Mansion 2-20 - Small Chest",
     "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_20",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008BC4A0",
     "category": "MINOR_CHEST",
     "location_id": 3960569
   },
+  "MINOR_CHEST_MOONLIGHT_MANSION_2_15_OBJECT_01": {
+    "label": "Moonlight Mansion 2-15 - Small Chest #1",
+    "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008BDD10",
+    "category": "MINOR_CHEST",
+    "location_id": 3960585
+  },
   "MINOR_CHEST_PEPPERMINT_PALACE_7_02": {
     "label": "Peppermint Palace 7-02 - Small Chest",
     "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_02",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008BE5E0",
     "category": "MINOR_CHEST",
     "location_id": 3960570
   },
+  "MINOR_CHEST_PEPPERMINT_PALACE_7_02_OBJECT_02": {
+    "label": "Peppermint Palace 7-02 - Small Chest #2",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_02",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008BE724",
+    "category": "MINOR_CHEST",
+    "location_id": 3960586
+  },
+  "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_01": {
+    "label": "Peppermint Palace Chest - Small Chest #1",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008BF3C8",
+    "category": "MINOR_CHEST",
+    "location_id": 3960587
+  },
+  "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_02": {
+    "label": "Peppermint Palace Chest - Small Chest #2",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008BF3EC",
+    "category": "MINOR_CHEST",
+    "location_id": 3960588
+  },
+  "MINOR_CHEST_PEPPERMINT_PALACE_7_13_OBJECT_01": {
+    "label": "Peppermint Palace 7-13 - Small Chest #1",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_13",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008BFD78",
+    "category": "MINOR_CHEST",
+    "location_id": 3960589
+  },
+  "MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_02": {
+    "label": "Peppermint Palace 7-06 - Small Chest #2",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008C0290",
+    "category": "MINOR_CHEST",
+    "location_id": 3960590
+  },
+  "MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_03": {
+    "label": "Peppermint Palace 7-06 - Small Chest #3",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008C02B4",
+    "category": "MINOR_CHEST",
+    "location_id": 3960591
+  },
   "MINOR_CHEST_PEPPERMINT_PALACE_7_09": {
     "label": "Peppermint Palace 7-09 - Small Chest",
     "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008C046C",
     "category": "MINOR_CHEST",
     "location_id": 3960571
   },
+  "MINOR_CHEST_PEPPERMINT_PALACE_7_09_OBJECT_02": {
+    "label": "Peppermint Palace 7-09 - Small Chest #2",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008C04D8",
+    "category": "MINOR_CHEST",
+    "location_id": 3960592
+  },
+  "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02": {
+    "label": "Peppermint Palace 7-10 - Small Chest #2",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008C06B4",
+    "category": "MINOR_CHEST",
+    "location_id": 3960593
+  },
+  "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03": {
+    "label": "Peppermint Palace 7-10 - Small Chest #3",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008C06D8",
+    "category": "MINOR_CHEST",
+    "location_id": 3960594
+  },
+  "MINOR_CHEST_PEPPERMINT_PALACE_7_14_OBJECT_01": {
+    "label": "Peppermint Palace 7-14 - Small Chest #1",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_14",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008C0E38",
+    "category": "MINOR_CHEST",
+    "location_id": 3960595
+  },
   "MINOR_CHEST_PEPPERMINT_PALACE_7_19": {
     "label": "Peppermint Palace 7-19 - Small Chest",
     "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_19",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008C1380",
     "category": "MINOR_CHEST",
     "location_id": 3960572
   },
+  "MINOR_CHEST_PEPPERMINT_PALACE_7_GOAL_2_OBJECT_01": {
+    "label": "Peppermint Palace Goal 2 - Small Chest #1",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008C21AC",
+    "category": "MINOR_CHEST",
+    "location_id": 3960596
+  },
+  "MINOR_CHEST_MUSTARD_MOUNTAIN_4_10_OBJECT_01": {
+    "label": "Mustard Mountain 4-10 - Small Chest #1",
+    "parent_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008C4798",
+    "category": "MINOR_CHEST",
+    "location_id": 3960597
+  },
   "MINOR_CHEST_MUSTARD_MOUNTAIN_4_05": {
     "label": "Mustard Mountain 4-05 - Small Chest",
     "parent_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008C4DFC",
     "category": "MINOR_CHEST",
     "location_id": 3960573
@@ -973,7 +1221,11 @@
   "MINOR_CHEST_MUSTARD_MOUNTAIN_4_11": {
     "label": "Mustard Mountain 4-11 - Small Chest",
     "parent_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_11",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008C4F24",
     "category": "MINOR_CHEST",
     "location_id": 3960574
@@ -981,15 +1233,47 @@
   "MINOR_CHEST_CANDY_CONSTELLATION_9_12": {
     "label": "Candy Constellation 9-12 - Small Chest",
     "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_12",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008C5BA4",
     "category": "MINOR_CHEST",
     "location_id": 3960575
   },
+  "MINOR_CHEST_CANDY_CONSTELLATION_9_10_OBJECT_01": {
+    "label": "Candy Constellation 9-10 - Small Chest #1",
+    "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_10",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008C78F8",
+    "category": "MINOR_CHEST",
+    "location_id": 3960598
+  },
+  "MINOR_CHEST_CANDY_CONSTELLATION_9_03_OBJECT_01": {
+    "label": "Candy Constellation 9-03 - Small Chest #1",
+    "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_03",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008C876C",
+    "category": "MINOR_CHEST",
+    "location_id": 3960599
+  },
   "MINOR_CHEST_CABBAGE_CAVERN_3_09": {
     "label": "Cabbage Cavern 3-09 - Small Chest",
     "parent_region": "REGION_CABBAGE_CAVERN/ROOM_3_09",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008C9114",
     "category": "MINOR_CHEST",
     "location_id": 3960576
@@ -997,25 +1281,121 @@
   "MINOR_CHEST_CABBAGE_CAVERN_3_15": {
     "label": "Cabbage Cavern 3-15 - Small Chest",
     "parent_region": "REGION_CABBAGE_CAVERN/ROOM_3_15",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008C9FFC",
     "category": "MINOR_CHEST",
     "location_id": 3960577
   },
+  "MINOR_CHEST_CABBAGE_CAVERN_3_GOAL_OBJECT_01": {
+    "label": "Cabbage Cavern Goal - Small Chest #1",
+    "parent_region": "REGION_CABBAGE_CAVERN/ROOM_3_GOAL",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008CAF08",
+    "category": "MINOR_CHEST",
+    "location_id": 3960600
+  },
   "MINOR_CHEST_OLIVE_OCEAN_6_16": {
     "label": "Olive Ocean 6-16 - Small Chest",
     "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_16",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008CC458",
     "category": "MINOR_CHEST",
     "location_id": 3960578
   },
+  "MINOR_CHEST_OLIVE_OCEAN_6_09_OBJECT_01": {
+    "label": "Olive Ocean 6-09 - Small Chest #1",
+    "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_09",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008CCEFC",
+    "category": "MINOR_CHEST",
+    "location_id": 3960601
+  },
+  "MINOR_CHEST_OLIVE_OCEAN_6_03_OBJECT_01": {
+    "label": "Olive Ocean 6-03 - Small Chest #1",
+    "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_03",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008CD464",
+    "category": "MINOR_CHEST",
+    "location_id": 3960602
+  },
+  "MINOR_CHEST_RADISH_RUINS_8_07_OBJECT_01": {
+    "label": "Radish Ruins 8-07 - Small Chest #1",
+    "parent_region": "REGION_RADISH_RUINS/ROOM_8_07",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008D039C",
+    "category": "MINOR_CHEST",
+    "location_id": 3960603
+  },
   "MINOR_CHEST_RADISH_RUINS_8_11": {
     "label": "Radish Ruins 8-11 - Small Chest",
     "parent_region": "REGION_RADISH_RUINS/ROOM_8_11",
-    "tags": ["SmallChest", "ExactEventLocation"],
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
     "source_rom_offset": "0x008D03E4",
     "category": "MINOR_CHEST",
     "location_id": 3960579
+  },
+  "MINOR_CHEST_RADISH_RUINS_8_22_OBJECT_01": {
+    "label": "Radish Ruins 8-22 - Small Chest #1",
+    "parent_region": "REGION_RADISH_RUINS/ROOM_8_22",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008D2234",
+    "category": "MINOR_CHEST",
+    "location_id": 3960604
+  },
+  "MINOR_CHEST_CARROT_CASTLE_5_07_OBJECT_01": {
+    "label": "Carrot Castle 5-07 - Small Chest #1",
+    "parent_region": "REGION_CARROT_CASTLE/ROOM_5_07",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008D39FC",
+    "category": "MINOR_CHEST",
+    "location_id": 3960605
+  },
+  "MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02": {
+    "label": "Carrot Castle 5-13 - Small Chest #2",
+    "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_12",
+    "tags": [
+      "SmallChest",
+      "ExactEventLocation",
+      "NativeRewardConsumable"
+    ],
+    "source_rom_offset": "0x008D3E88",
+    "category": "MINOR_CHEST",
+    "location_id": 3960606
   }
 }

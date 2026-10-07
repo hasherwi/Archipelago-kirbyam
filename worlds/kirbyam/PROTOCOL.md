@@ -92,7 +92,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 |----------|------|-------------------------|-----------|
 | 0x02038970 | 1B | KIRBY_SHARD_FLAGS       | Native mirror shard bitfield (bits 0-7) |
 | 0x0203897C | 4B | big_chest_bitfield_native | gTreasures.bigChestField; bit N = area ID N (enum AreaId): bit 1=Rainbow Route, 2=Moonlight Mansion, 3=Cabbage Cavern, 4=Mustard Mountain, 5=Carrot Castle, 6=Olive Ocean, 7=Peppermint Palace, 8=Radish Ruins, 9=Candy Constellation. This is the native map-ownership field. AP major-chest checks use `major_chest_flags` in the transport block, and the BizHawk client may reassert AP-owned map bits here from `start_with_all_maps` plus confirmed delivered map items to recover from reconnect/save-state drift. |
-| 0x02038960 - 0x02038969 | 10B | other_chest_flags_native | Native small-chest/switch persistence block. Small-chest bits are preserved by the payload but are not used to identify AP minor-chest checks because their mapping can be shared. |
+| 0x02038960 - 0x0203896F | 16B | other_chest_flags_native | Native small-chest/switch persistence block (128 chest bits). Small-chest bits are preserved by the payload but are not used to identify AP minor-chest checks because their mapping can be shared. |
 | 0x02038962 / 0x02038968 / 0x02038969 | 1B each | lever_*_flag_native | Native lever-controlled wall state. The four Lever Wall AP items set these bits using chest/state IDs 18 (Moonlight), 65 (Olive), 77 (Carrot), and 74 (Radish). Physical lever activation no longer sets these bits directly; AP lever locations use `lever_activation_flags` instead (Issue #859). |
 | 0x02028C14+ |  -  | Boss/Mirror table       | Native location flags (TBD - not yet mapped). The BizHawk client may probe rising edges here for diagnostics, but boss-defeat AP checks are transport-authoritative via `boss_defeat_flags`. |
 | 0x02028CA0 | 576B | gVisitedDoors (`room_visit_flags_native`) | Native room-visit array (`u16[0x120]`); bit 15 marks visited state by `doorsIdx` |
@@ -204,16 +204,16 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | LEVER_* | 3960415 - 3960418 | Lever checks sourced from native bits (`0x02038962` bit2 Moonlight 2-11, `0x02038968` bit1 Olive 6-13, `0x02038969` bit5 Carrot 5-12, `0x02038969` bit2 Radish 8-12) |
 | AREA_VISIT_* | 3960451 - 3960459 | First-visit checks for gameplay areas 1..9 (Rainbow Route through Candy Constellation), derived from first visited room per area via native `gVisitedDoors` |
 | MINOR_CHEST_SPRAY_PAINT_* / MINOR_CHEST_MUSIC_NOTE_* | 3960500 - 3960523 | Retired collection-name placeholders; retained for ID history and not instantiated as physical checks. |
-| MINOR_CHEST_* (verified first rollout) | 3960566 - 3960579 | Fourteen room-backed checks matched by unique exact source pointers in the minor-chest event ring. |
+| MINOR_CHEST_* (verified ordinary small chests) | 3960566 - 3960606 | 41 ordinary item chests, each matched to one exact ROM object pointer and AP room. |
 | *Reserved/retired minor chest IDs* | 3960524 - 3960565 | Do not reuse historical minor-chest location IDs. |
 | ROOM_SANITY_* | 3961000+ | Room visit checks (`Room X-<room_code>`) keyed by native `doorsIdx` and polled from `gVisitedDoors[doorsIdx]` bit 15; includes designed goal/warp rooms |
-| *Reserved*    | 3960460 - 3960499, 3960580 - 3960999 | Future location families |
+| *Reserved*    | 3960460 - 3960499, 3960607 - 3960999 | Future location families |
 
 Minor chest status:
-- The first physical-location rollout activates fourteen small chests with a verified exact room and unique source-object offset. The new location IDs are 3960566-3960579.
+- The rollout activates the 41 ordinary item chests found in the USA ROM room-object list. Each has one stable AP location ID (3960566-3960606) and one exact, distinct source-object offset; 14 IDs 3960566-3960579 remain stable from the earlier draft.
 - `source_rom_offset` stores the normalized ROM file offset of the object record; the AMR payload entry points at its type field at `record + 0x0C`, while the runtime hook records the object's source pointer. The client accepts an exact match only and does not guess nearby pointer aliases.
-- The payload still records the native chest persistence bit and leaves each selected chest's native reward grant intact. These locations add AP checks only; vanilla chest rewards are not converted into AP items by this rollout.
-- The older spray-paint/music-note collection-name rows are retained for ID history but are excluded from region generation because they do not identify unique physical chests.
+- The runtime records native chest persistence and reports checks only from exact source pointers in the event ring. All 41 active checks are ordinary item chests; stacked PR #931 suppresses their delayed native reward so the AP-assigned item is delivered. The other 24 physical small-chest records are fixed Spray Paint or Music Sheet rewards and remain native pending their item support under #525.
+- The `NativeRewardConsumable` tag records the reward profile for the item-logic PR; it does not change location identity. Older spray-paint/music-note collection-name rows are retained for ID history and excluded from region generation because they do not identify unique physical chests.
 - Native small-chest and collectible bitfields are not used to infer AP minor-chest locations. Exact source events are read from `minor_chest_event_ring` and filtered against the current slot's active locations.
 
 ## Client Protocol

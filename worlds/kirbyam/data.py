@@ -822,6 +822,7 @@ def _init() -> None:  # noqa: C901
                         f"Logical subregion [{logical_region_name}] references unknown location key [{loc_key}]"
                     )
                 logical_region.locations.append(loc_key)
+                claimed_locations.add(loc_key)
 
             logical_region.locations.sort()
 

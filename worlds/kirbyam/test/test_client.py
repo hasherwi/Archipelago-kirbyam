@@ -13,7 +13,7 @@ import pytest
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.context import _game_watcher, AuthStatus, BizHawkClientCommandProcessor
 
-from ..data import LocationCategory, data
+from ..data import LocationCategory, data, load_json_data
 from ..client import (
     KirbyAmClient,
     _build_kirbyam_command_processor,
@@ -871,11 +871,13 @@ def test_minor_chest_source_ptr_map_contains_only_unique_verified_sources():
         loc for loc in data.locations.values()
         if loc.category == LocationCategory.MINOR_CHEST and loc.source_rom_offset is not None
     ]
-    assert len(active_locations) == 14
-    assert len({loc.source_rom_offset for loc in active_locations}) == 14
-    assert len({loc.parent_region for loc in active_locations}) == 14
-    assert sorted(loc.location_id for loc in active_locations) == list(range(3960566, 3960580))
-    assert len(client._minor_chest_location_id_by_source_ptr) == 14
+    assert len(active_locations) == 41
+    assert len({loc.source_rom_offset for loc in active_locations}) == 41
+    assert len({loc.parent_region.split("__LOGIC__", 1)[0] for loc in active_locations}) == 36
+    assert sorted(loc.location_id for loc in active_locations) == list(range(3960566, 3960607))
+    assert sum("NativeRewardConsumable" in loc.tags for loc in active_locations) == 41
+    assert sum("NativeRewardCollection" in loc.tags for loc in active_locations) == 0
+    assert len(client._minor_chest_location_id_by_source_ptr) == 41
     assert client._minor_chest_location_id_by_source_ptr == {
         loc.source_rom_offset: loc.location_id for loc in active_locations
     }
@@ -5708,6 +5710,21 @@ def test_minor_chest_locations_defined_in_regions_when_present():
     for key in minor_chest_keys:
         assert key in all_region_locations, \
             f"MINOR_CHEST location '{key}' defined in locations.json but not registered in any data/regions/*.json entry"
+
+    physical_minor_chests = {
+        key: loc for key, loc in data.locations.items()
+        if loc.category == LocationCategory.MINOR_CHEST and loc.source_rom_offset is not None
+    }
+    room_topology = load_json_data("regions/rooms.json")
+    assert len(physical_minor_chests) == 41
+    for key, loc in physical_minor_chests.items():
+        if "__LOGIC__" in loc.parent_region:
+            room_name, logical_key = loc.parent_region.split("__LOGIC__", 1)
+            assert key in room_topology[room_name]["logical_subregions"][logical_key].get("locations", []), \
+                f"Physical small chest '{key}' is missing from its logical room topology entry"
+        else:
+            assert key in room_topology[loc.parent_region]["locations"], \
+                f"Physical small chest '{key}' is missing from its room topology entry"
 
 
 def test_minor_chest_locations_have_unique_bit_indices_when_present():

@@ -39,9 +39,17 @@ and collectible bitfields are not used to infer location checks because the same
 bits can represent multiple physical chests. Nearby source-pointer offsets are
 not treated as aliases.
 
-Only the fourteen verified rows in this rollout have source offsets. Older
-spray-paint/music-note metadata rows remain dormant because they identify reward
-collections, not unique physical chests.
+The USA-ROM scan found 65 physical `OBJ_SMALL_CHEST` records. The first rollout
+activates the 41 ordinary item chests, each with a unique source pointer and
+one exact AP room. The other 24 records dispatch to fixed Spray Paint or Music
+Sheet rewards and remain outside this location rollout pending their AP item
+support under #525. The scan also found 19 `OBJ_BIG_CHEST` records, which remain
+in the separate big-chest location families.
+
+Stacked item PR #931 suppresses the delayed native reward for the 41 active AP
+chests, so the AP-assigned item is the chest reward. The 24 dormant legacy
+spray-paint/music-note rows remain for location-ID history; they are not
+instantiated as physical checks.
 
 ## Active-location filtering
 
