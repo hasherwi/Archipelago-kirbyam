@@ -39,7 +39,8 @@ AP mode records checks and suppresses or normalizes native rewards so progressio
 | Vitality big chest reward | ap_on_collect_vitality_chest() | Convert room reward event to AP vitality-chest transport bit. |
 | Sound Player chest path | ap_on_collect_sound_player_chest() | Reward index 0 becomes the AP Sound Player chest check; nonzero Music Sheet rewards call the native grant function. |
 | Spray paint chest reward | Native callsite | Left unpatched so the original native Spray Paint reward is granted. The generic small-chest hook has already recorded the physical check event and persistence. |
-| Small chest reward | ap_on_collect_small_chest() | Record exact source pointer and native small-chest persistence so client can map to correct AP minor location. |
+| Small chest collection | ap_on_collect_small_chest() | Record exact source pointer and preserve native small-chest persistence. Mark only the 14 source-backed AP minor chests for delayed reward suppression. |
+| Small chest reward popup | ap_minor_chest_reward_popup_hook | After the native popup delay, change the marked chest's item field to the existing no-bonus value (`0x63`). This skips only the native consumable spawn; the AP mailbox later grants the item assigned to that location. Other small chests retain their native reward. |
 | Hub unlock/world map door unlock | ap_on_world_map_unlock_call() | Record AP hub-switch flag when unlock is persisted in world props. |
 
 ## Client-side reconciliation that enforces AP ownership

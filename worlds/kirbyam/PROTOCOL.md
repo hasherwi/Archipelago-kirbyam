@@ -215,6 +215,7 @@ Minor chest status:
 - The payload still records the native chest persistence bit and leaves each selected chest's native reward grant intact. These locations add AP checks only; vanilla chest rewards are not converted into AP items by this rollout.
 - The older spray-paint/music-note collection-name rows are retained for ID history but are excluded from region generation because they do not identify unique physical chests.
 - Native small-chest and collectible bitfields are not used to infer AP minor-chest locations. Exact source events are read from `minor_chest_event_ring` and filtered against the current slot's active locations.
+- The ROM payload marks the same 14 verified physical sources and suppresses their native consumable at the delayed reward popup. Native chest persistence remains enabled, and the mailbox item assigned by Archipelago becomes the reward.
 
 ## Client Protocol
 
