@@ -23,7 +23,7 @@ Each poll computes mapped AP location IDs and sends LocationChecks for IDs not y
 |---|---|---|---|
 | BOSS_DEFEAT | AP_BOSS_DEFEAT_FLAGS transport bitfield | payload hook ap_on_boss_defeat_collect_shard() and ap_on_boss_defeat_already_owned_reward() in kirby_ap_payload/ap_payload.c | _poll_boss_defeat_locations() |
 | MAJOR_CHEST | AP_MAJOR_CHEST_FLAGS transport bitfield | payload hook ap_on_collect_big_chest() | _poll_major_chest_locations() |
-| MINOR_CHEST | Native small chest flags + exact source-pointer ring for ambiguous chests | payload hooks ap_on_collect_small_chest(), ap_on_collect_spray_paint_chest(), ap_on_collect_sound_player_chest() write ring and native flags | _poll_minor_chest_locations() + _poll_exact_minor_chest_events() |
+| MINOR_CHEST | Exact source-pointer event ring | payload hook ap_on_collect_small_chest() records the source pointer and native persistence bit; native reward callsites remain intact | _poll_minor_chest_locations() delegates to _poll_minor_chest_event_locations() |
 | VITALITY_CHEST | AP_VITALITY_CHEST_FLAGS transport bitfield | payload hook ap_on_collect_vitality_chest() | _poll_vitality_chest_locations() |
 | SOUND_PLAYER_CHEST | AP_SOUND_PLAYER_CHEST_FLAGS transport bitfield | payload hook ap_on_collect_sound_player_chest() | _poll_sound_player_chest_locations() |
 | HUB_SWITCH | AP_HUB_SWITCH_FLAGS transport bitfield | payload hook ap_on_world_map_unlock_call() and world-props sync helpers | _poll_hub_switch_locations() |
@@ -33,12 +33,15 @@ Each poll computes mapped AP location IDs and sends LocationChecks for IDs not y
 
 ## Minor chest disambiguation details
 
-Minor chest reporting uses two paths:
+Minor chest reporting uses one exact path: the event ring's source pointer must
+match the `source_rom_offset` of one active physical location. Native small chest
+and collectible bitfields are not used to infer location checks because the same
+bits can represent multiple physical chests. Nearby source-pointer offsets are
+not treated as aliases.
 
-1. Standard mapped-by-bit checks from native small chest flags.
-2. Exact event ring source pointers for locations tagged as report-only/exact-event.
-
-The exact-event path exists because multiple physical chest events can share native bitfields. Source-pointer tracking keeps AP location mapping deterministic.
+Only the fourteen verified rows in this rollout have source offsets. Older
+spray-paint/music-note metadata rows remain dormant because they identify reward
+collections, not unique physical chests.
 
 ## Active-location filtering
 

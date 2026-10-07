@@ -289,6 +289,8 @@ class LocationData(NamedTuple):
     location_id: int
     category: LocationCategory
     tags: frozenset[str]
+    # Exact ROM file offset of a source object for event-driven checks.
+    source_rom_offset: int | None = None
 
 
 class EventData(NamedTuple):
@@ -507,7 +509,8 @@ def _init() -> None:  # noqa: C901
     # Load locations.json (+ optional locations_*.json fragments)
     # Expected forms:
     #   { "LOC_KEY": {"label":"...", "parent_region":"REGION_X", "default_item":"ITEM_KEY" or item_id,
-    #                "category":"SHARD", "tags":[...], "location_id":123} }
+    #                "category":"SHARD", "tags":[...], "location_id":123,
+    #                "source_rom_offset": "0x008B6EB4"} }
     # or without location_id (auto-assigned)
     locations_json = load_json_data("locations.json")
     if not isinstance(locations_json, dict):
@@ -592,6 +595,11 @@ def _init() -> None:  # noqa: C901
             except Exception:
                 bit_index = None
 
+        source_rom_offset_raw = attrs.get("source_rom_offset")
+        source_rom_offset: int | None = None
+        if source_rom_offset_raw not in (None, "", "null"):
+            source_rom_offset = _parse_int(source_rom_offset_raw)
+
         loc_id_raw = attrs.get("location_id")
         # Treat 0 as "unset" to allow placeholder JSON during early development.
         if loc_id_raw in (None, 0, "0"):
@@ -609,6 +617,7 @@ def _init() -> None:  # noqa: C901
             location_id=location_id,
             category=category,
             tags=tags,
+            source_rom_offset=source_rom_offset,
         )
 
     # Load/merge region json files from data/regions/*.json

@@ -812,25 +812,15 @@ __attribute__((used)) void ap_on_start_copy_ability_transition(void *kirby) {
 }
 
 // Hook target for native Sound Player chest reward collection. Reward index 0 is
-// the Sound Player unlock and should become AP-owned; all other native rewards on
-// this call path are small chest collection rewards that should also become AP-owned.
+// the Sound Player unlock and remains AP-owned; all other rewards are native
+// Music Sheet collections and must retain their original grant behavior.
 __attribute__((used)) void ap_on_collect_sound_player_chest(uint32_t reward_index) {
     if (reward_index == 0u) {
         ap_set_sound_player_chest_flag(0u);
         return;
     }
 
-    register uint32_t chest_obj_ptr asm("r5");
-    ap_record_minor_chest_collection_from_obj_ptr(chest_obj_ptr);
-}
-
-// Hook target for native spray paint chest reward collection.
-// Spray paint chests are AP-owned minor chest checks, so suppress native reward
-// grant and only record transport + native small-chest persistence bits.
-__attribute__((used)) void ap_on_collect_spray_paint_chest(uint32_t reward_index) {
-    register uint32_t chest_obj_ptr asm("r5");
-    (void)reward_index;
-    ap_record_minor_chest_collection_from_obj_ptr(chest_obj_ptr);
+    KIRBY_COLLECT_SOUND_PLAYER_FN(reward_index);
 }
 
 typedef void (*WorldMapUnlockFn)(void);

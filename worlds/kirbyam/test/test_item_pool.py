@@ -33,6 +33,8 @@ def _build_fill_locations() -> list[KirbyAmLocation]:
     for key, meta in data.locations.items():
         if meta.category == LocationCategory.GOAL:
             continue
+        if meta.category == LocationCategory.MINOR_CHEST and meta.source_rom_offset is None:
+            continue
         locations.append(
             KirbyAmLocation(
                 1,
@@ -560,7 +562,10 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
         1 for m in data.locations.values()
         if m.category == LocationCategory.SOUND_PLAYER_CHEST
     )
-    _minor_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MINOR_CHEST)
+    _minor_chest_count = sum(
+        1 for m in data.locations.values()
+        if m.category == LocationCategory.MINOR_CHEST and m.source_rom_offset is not None
+    )
     _hub_switch_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.HUB_SWITCH)
     _lever_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.LEVER)
     _room_sanity_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.ROOM_SANITY)
@@ -595,7 +600,10 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
         1 for m in data.locations.values()
         if m.category == LocationCategory.SOUND_PLAYER_CHEST
     )
-    _minor_chest_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.MINOR_CHEST)
+    _minor_chest_count = sum(
+        1 for m in data.locations.values()
+        if m.category == LocationCategory.MINOR_CHEST and m.source_rom_offset is not None
+    )
     _hub_switch_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.HUB_SWITCH)
     _lever_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.LEVER)
     _room_sanity_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.ROOM_SANITY)

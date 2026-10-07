@@ -61,8 +61,6 @@ _KIRBY_MAX_HP_ADDR_KEY = "kirby_max_hp_native"
 _KIRBY_MAX_HP_READ_WIDTH = 1
 _KIRBY_VITALITY_COUNTER_ADDR_KEY = "kirby_vitality_counter_native"
 _KIRBY_VITALITY_COUNTER_READ_WIDTH = 2
-_SPRAY_PAINT_BITFIELD_ADDR_KEY = "spray_paint_bitfield_native"
-_MUSIC_PLAYER_AND_SHEETS_BITFIELD_ADDR_KEY = "music_player_and_sheets_bitfield_native"
 _MINOR_CHEST_EVENT_COUNTER_ADDR_KEY = "minor_chest_event_counter"
 _MINOR_CHEST_EVENT_RING_BASE_ADDR_KEY = "minor_chest_event_ring_base"
 _MINOR_CHEST_EVENT_RING_SLOT_COUNT = 8
@@ -334,8 +332,7 @@ def _normalize_gba_rom_address(value: int) -> int:
 
 
 def _is_exact_minor_chest_location(loc) -> bool:
-    tags = getattr(loc, "tags", ()) or ()
-    return "ReportLocation" in tags or "ExactEventLocation" in tags
+    return getattr(loc, "source_rom_offset", None) is not None
 
 
 class KirbyAmClient(BizHawkClient):
@@ -398,21 +395,8 @@ class KirbyAmClient(BizHawkClient):
         # Bit N corresponds to area ID N in enum AreaId (e.g. bit 3 = AREA_CABBAGE_CAVERN).
         self._major_chest_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.MAP_CHEST)
 
-        # Minor chest native bitfield -> location IDs (MINOR_CHEST category; polled from native chest flags).
-        self._minor_chest_location_ids_by_bit = self._build_location_ids_by_bit(
-            LocationCategory.MINOR_CHEST,
-            include_predicate=lambda loc: not _is_exact_minor_chest_location(loc),
-        )
-        self._report_only_minor_chest_location_ids: set[int] = {
-            loc.location_id
-            for loc in data.locations.values()
-            if loc.category == LocationCategory.MINOR_CHEST and _is_exact_minor_chest_location(loc)
-        }
+        # Native chest bits are shared and are intentionally not used to identify checks.
         self._minor_chest_location_id_by_source_ptr = self._build_minor_chest_source_ptr_map()
-        (
-            self._minor_chest_spray_fallback_location_ids_by_bit,
-            self._minor_chest_music_sheet_fallback_location_ids_by_bit,
-        ) = self._build_minor_chest_collection_bit_fallback_maps()
         exact_event_minor_count = sum(
             1
             for loc in data.locations.values()
@@ -421,7 +405,7 @@ class KirbyAmClient(BizHawkClient):
         if exact_event_minor_count:
             self._log_verbose(
                 "info",
-                "KirbyAM: %s exact-event minor chest locations are active; they are reported only from exact event-ring source-pointer matches.",
+                "KirbyAM: %s exact-source minor chest checks active; each needs an event-ring source-pointer match.",
                 exact_event_minor_count,
             )
         self._last_minor_chest_event_counter: int | None = None
@@ -491,7 +475,6 @@ class KirbyAmClient(BizHawkClient):
         self._last_shard_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_boss_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_major_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
-        self._last_minor_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_vitality_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_sound_player_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_hub_switch_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
@@ -722,7 +705,6 @@ class KirbyAmClient(BizHawkClient):
         self._last_shard_poll_log = None
         self._last_boss_poll_log = None
         self._last_major_chest_poll_log = None
-        self._last_minor_chest_poll_log = None
         self._last_vitality_chest_poll_log = None
         self._last_sound_player_chest_poll_log = None
         self._last_hub_switch_poll_log = None
@@ -765,17 +747,19 @@ class KirbyAmClient(BizHawkClient):
         self._cached_room_visit_flags_view = None
 
     def _build_minor_chest_source_ptr_map(self) -> dict[int, int]:
-        """Exact event-ring source-pointer mapping is currently disabled."""
-        return {}
-
-    def _build_minor_chest_collection_bit_fallback_maps(self) -> tuple[dict[int, list[int]], dict[int, list[int]]]:
-        """
-        Build native collectible-bit fallback maps for mapped MINOR_CHEST locations.
-
-        These maps are used as a temporary fallback for spray paint and music sheet
-        small chest checks when native chest bit signaling is missing.
-        """
-        return {}, {}
+        """Map exact normalized ROM source offsets to active minor-chest IDs."""
+        source_ptr_map: dict[int, int] = {}
+        for loc in data.locations.values():
+            if loc.category != LocationCategory.MINOR_CHEST or loc.source_rom_offset is None:
+                continue
+            source_ptr = _normalize_gba_rom_address(loc.source_rom_offset)
+            if source_ptr in source_ptr_map:
+                raise ValueError(
+                    "KirbyAM minor chest source pointer is mapped more than once: "
+                    f"0x{source_ptr:08X}"
+                )
+            source_ptr_map[source_ptr] = loc.location_id
+        return source_ptr_map
 
     async def _get_room_visit_flags_view(self, ctx: KirbyAmBizHawkClientContext) -> memoryview | None:
         """Read gVisitedDoors once per watcher tick and return a shared memory view."""
@@ -2838,89 +2822,16 @@ class KirbyAmClient(BizHawkClient):
             self._last_vitality_chest_poll_log = None
 
     async def _poll_minor_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
-        """
-        Read spray-paint and music-sheet collected bits and map set bits to MINOR_CHEST locations.
-
-        Small chest flag indices are heavily shared across many physical chests, which makes
-        native chest-bit only reporting ambiguous. To keep location checks deterministic,
-        this path treats collectible ownership bits as the source for minor chest checks.
-        """
-        active_location_ids = self._active_location_id_set(ctx)
-
-        has_spray_map = bool(self._minor_chest_spray_fallback_location_ids_by_bit)
-        has_music_map = bool(self._minor_chest_music_sheet_fallback_location_ids_by_bit)
-        if not has_spray_map and not has_music_map:
-            return
-
-        spray_addr = self._native_addr(_SPRAY_PAINT_BITFIELD_ADDR_KEY)
-        music_addr = self._native_addr(_MUSIC_PLAYER_AND_SHEETS_BITFIELD_ADDR_KEY)
-        read_specs: list[tuple[int, int, str]] = []
-        if has_spray_map and spray_addr is not None:
-            read_specs.append((spray_addr, 4, "System Bus"))
-        if has_music_map and music_addr is not None:
-            read_specs.append((music_addr, 4, "System Bus"))
-        if not read_specs:
-            return
-
-        raw_values = await bizhawk.read(ctx.bizhawk_ctx, read_specs)
-        if len(raw_values) != len(read_specs):
-            return
-
-        mapped_checked_locations: set[int] = set()
-        read_idx = 0
-        if has_spray_map and spray_addr is not None:
-            spray_raw = raw_values[read_idx]
-            read_idx += 1
-            if len(spray_raw) == 4:
-                spray_bits = self._u32_le(spray_raw)
-                for bit in sorted(self._minor_chest_spray_fallback_location_ids_by_bit.keys()):
-                    if (spray_bits >> bit) & 1:
-                        mapped_checked_locations.update(self._minor_chest_spray_fallback_location_ids_by_bit.get(bit, []))
-
-        if has_music_map and music_addr is not None:
-            music_raw = raw_values[read_idx]
-            if len(music_raw) == 4:
-                music_bits = self._u32_le(music_raw)
-                for bit in sorted(self._minor_chest_music_sheet_fallback_location_ids_by_bit.keys()):
-                    if (music_bits >> bit) & 1:
-                        mapped_checked_locations.update(self._minor_chest_music_sheet_fallback_location_ids_by_bit.get(bit, []))
-
-        if active_location_ids is not None:
-            mapped_checked_locations.intersection_update(active_location_ids)
-
-        missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
-        already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
-        if missing_on_server:
-            chest_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
-            if chest_log_state != self._last_minor_chest_poll_log:
-                self._log_verbose(
-                    "info",
-                    "KirbyAM: resending minor-chest LocationChecks missing on server (missing=%s, acked=%s)",
-                    missing_on_server,
-                    already_acknowledged,
-                )
-                self._last_minor_chest_poll_log = chest_log_state
-
-            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
-        elif mapped_checked_locations:
-            chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
-            if chest_log_state != self._last_minor_chest_poll_log:
-                self._log_verbose(
-                    "debug",
-                    "KirbyAM: dedupe suppressed minor-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                    already_acknowledged,
-                )
-                self._last_minor_chest_poll_log = chest_log_state
-        else:
-            self._last_minor_chest_poll_log = None
+        """Report physical minor-chest checks from exact payload source events."""
+        await self._poll_minor_chest_event_locations(ctx)
 
     async def _poll_minor_chest_event_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
         Read exact minor-chest collection events from the ROM payload event ring.
 
-        This path disambiguates report-only minor chest locations whose native chest bits
-        are shared by multiple chests. The payload records the exact ROM source pointer for
-        each collected chest so the client can map it back to a single AP location.
+        The payload records each collected chest's exact ROM source pointer so the
+        client can match only a verified physical location. Nearby pointer aliases
+        are deliberately not accepted.
         """
         if not self._minor_chest_location_id_by_source_ptr:
             return
@@ -2952,16 +2863,10 @@ class KirbyAmClient(BizHawkClient):
                 source_ptr = _normalize_gba_rom_address(source_ptr_raw)
                 location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr)
                 if location_id is None:
-                    # Live payload events can point at nearby fields within the same object
-                    # row (for example +/- 0xC). Try these aliases before declaring unknown.
-                    location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr + 0xC)
-                if location_id is None and source_ptr >= 0xC:
-                    location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr - 0xC)
-                if location_id is None:
                     if source_ptr not in self._logged_unknown_minor_chest_source_ptrs:
                         self._log_verbose(
                             "warning",
-                            "KirbyAM: exact minor-chest source ptr raw=0x%08X normalized=0x%08X is not mapped to an AP location (sequence=%s slot=%s).",
+                            "KirbyAM: unmapped minor-chest source ptr raw=0x%08X normalized=0x%08X sequence=%s slot=%s",
                             source_ptr_raw,
                             source_ptr,
                             sequence,

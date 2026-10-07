@@ -510,220 +510,130 @@
         "BigChest"
       ]
     },
-    "MINOR_CHEST_MUSIC_NOTE_01": {
+    "MINOR_CHEST_CABBAGE_CAVERN_3_09": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #1",
-      "location_id": 3960514,
+      "label": "Cabbage Cavern 3-09 - Small Chest",
+      "location_id": 3960576,
       "tags": [
-        "MusicSheet",
+        "ExactEventLocation",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_MUSIC_NOTE_02": {
+    "MINOR_CHEST_CABBAGE_CAVERN_3_15": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #2",
-      "location_id": 3960515,
+      "label": "Cabbage Cavern 3-15 - Small Chest",
+      "location_id": 3960577,
       "tags": [
-        "MusicSheet",
+        "ExactEventLocation",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_MUSIC_NOTE_03": {
+    "MINOR_CHEST_CANDY_CONSTELLATION_9_12": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #3",
-      "location_id": 3960516,
+      "label": "Candy Constellation 9-12 - Small Chest",
+      "location_id": 3960575,
       "tags": [
-        "MusicSheet",
+        "ExactEventLocation",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_MUSIC_NOTE_04": {
+    "MINOR_CHEST_MOONLIGHT_MANSION_2_20": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #4",
-      "location_id": 3960517,
+      "label": "Moonlight Mansion 2-20 - Small Chest",
+      "location_id": 3960569,
       "tags": [
-        "MusicSheet",
+        "ExactEventLocation",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_MUSIC_NOTE_05": {
+    "MINOR_CHEST_MUSTARD_MOUNTAIN_4_05": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #5",
-      "location_id": 3960518,
+      "label": "Mustard Mountain 4-05 - Small Chest",
+      "location_id": 3960573,
       "tags": [
-        "MusicSheet",
+        "ExactEventLocation",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_MUSIC_NOTE_06": {
+    "MINOR_CHEST_MUSTARD_MOUNTAIN_4_11": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #6",
-      "location_id": 3960519,
+      "label": "Mustard Mountain 4-11 - Small Chest",
+      "location_id": 3960574,
       "tags": [
-        "MusicSheet",
+        "ExactEventLocation",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_MUSIC_NOTE_07": {
+    "MINOR_CHEST_OLIVE_OCEAN_6_16": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #7",
-      "location_id": 3960520,
+      "label": "Olive Ocean 6-16 - Small Chest",
+      "location_id": 3960578,
       "tags": [
-        "MusicSheet",
+        "ExactEventLocation",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_MUSIC_NOTE_08": {
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_02": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #8",
-      "location_id": 3960521,
+      "label": "Peppermint Palace 7-02 - Small Chest",
+      "location_id": 3960570,
       "tags": [
-        "MusicSheet",
+        "ExactEventLocation",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_MUSIC_NOTE_09": {
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_09": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #9",
-      "location_id": 3960522,
+      "label": "Peppermint Palace 7-09 - Small Chest",
+      "location_id": 3960571,
       "tags": [
-        "MusicSheet",
+        "ExactEventLocation",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_MUSIC_NOTE_10": {
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_19": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #10",
-      "location_id": 3960523,
+      "label": "Peppermint Palace 7-19 - Small Chest",
+      "location_id": 3960572,
       "tags": [
-        "MusicSheet",
+        "ExactEventLocation",
         "SmallChest"
       ]
     },
-    "MINOR_CHEST_SPRAY_PAINT_01": {
+    "MINOR_CHEST_RADISH_RUINS_8_11": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #1",
-      "location_id": 3960500,
+      "label": "Radish Ruins 8-11 - Small Chest",
+      "location_id": 3960579,
       "tags": [
-        "SmallChest",
-        "SprayPaint"
+        "ExactEventLocation",
+        "SmallChest"
       ]
     },
-    "MINOR_CHEST_SPRAY_PAINT_02": {
+    "MINOR_CHEST_RAINBOW_ROUTE_1_02": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #2",
-      "location_id": 3960501,
+      "label": "Rainbow Route 1-02 - Small Chest",
+      "location_id": 3960566,
       "tags": [
-        "SmallChest",
-        "SprayPaint"
+        "ExactEventLocation",
+        "SmallChest"
       ]
     },
-    "MINOR_CHEST_SPRAY_PAINT_03": {
+    "MINOR_CHEST_RAINBOW_ROUTE_1_06_UPPER": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #3",
-      "location_id": 3960502,
+      "label": "Rainbow Route 1-06 (Upper) - Small Chest",
+      "location_id": 3960567,
       "tags": [
-        "SmallChest",
-        "SprayPaint"
+        "ExactEventLocation",
+        "SmallChest"
       ]
     },
-    "MINOR_CHEST_SPRAY_PAINT_04": {
+    "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_3": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #4",
-      "location_id": 3960503,
+      "label": "Rainbow Route Goal 3 - Small Chest",
+      "location_id": 3960568,
       "tags": [
-        "SmallChest",
-        "SprayPaint"
-      ]
-    },
-    "MINOR_CHEST_SPRAY_PAINT_05": {
-      "category": "MINOR_CHEST",
-      "label": "Spray Paint #5",
-      "location_id": 3960504,
-      "tags": [
-        "SmallChest",
-        "SprayPaint"
-      ]
-    },
-    "MINOR_CHEST_SPRAY_PAINT_06": {
-      "category": "MINOR_CHEST",
-      "label": "Spray Paint #6",
-      "location_id": 3960505,
-      "tags": [
-        "SmallChest",
-        "SprayPaint"
-      ]
-    },
-    "MINOR_CHEST_SPRAY_PAINT_07": {
-      "category": "MINOR_CHEST",
-      "label": "Spray Paint #7",
-      "location_id": 3960506,
-      "tags": [
-        "SmallChest",
-        "SprayPaint"
-      ]
-    },
-    "MINOR_CHEST_SPRAY_PAINT_08": {
-      "category": "MINOR_CHEST",
-      "label": "Spray Paint #8",
-      "location_id": 3960507,
-      "tags": [
-        "SmallChest",
-        "SprayPaint"
-      ]
-    },
-    "MINOR_CHEST_SPRAY_PAINT_09": {
-      "category": "MINOR_CHEST",
-      "label": "Spray Paint #9",
-      "location_id": 3960508,
-      "tags": [
-        "SmallChest",
-        "SprayPaint"
-      ]
-    },
-    "MINOR_CHEST_SPRAY_PAINT_10": {
-      "category": "MINOR_CHEST",
-      "label": "Spray Paint #10",
-      "location_id": 3960509,
-      "tags": [
-        "SmallChest",
-        "SprayPaint"
-      ]
-    },
-    "MINOR_CHEST_SPRAY_PAINT_11": {
-      "category": "MINOR_CHEST",
-      "label": "Spray Paint #11",
-      "location_id": 3960510,
-      "tags": [
-        "SmallChest",
-        "SprayPaint"
-      ]
-    },
-    "MINOR_CHEST_SPRAY_PAINT_12": {
-      "category": "MINOR_CHEST",
-      "label": "Spray Paint #12",
-      "location_id": 3960511,
-      "tags": [
-        "SmallChest",
-        "SprayPaint"
-      ]
-    },
-    "MINOR_CHEST_SPRAY_PAINT_13": {
-      "category": "MINOR_CHEST",
-      "label": "Spray Paint #13",
-      "location_id": 3960512,
-      "tags": [
-        "SmallChest",
-        "SprayPaint"
-      ]
-    },
-    "MINOR_CHEST_SPRAY_PAINT_14": {
-      "category": "MINOR_CHEST",
-      "label": "Spray Paint #14",
-      "location_id": 3960513,
-      "tags": [
-        "SmallChest",
-        "SprayPaint"
+        "ExactEventLocation",
+        "SmallChest"
       ]
     },
     "ROOM_SANITY_1_01": {
