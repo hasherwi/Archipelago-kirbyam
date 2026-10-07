@@ -7,6 +7,7 @@ import argparse
 import importlib.util
 import random
 from pathlib import Path
+from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -17,7 +18,7 @@ CALLSITE_START = 0x23000
 NATIVE_AREA_RECORDS_START = 0x300000
 
 
-def _load_patch_rom_module():
+def _load_patch_rom_module() -> Any:
     spec = importlib.util.spec_from_file_location("kirbyam_patch_rom_fixture", PATCH_ROM_PATH)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"Could not load patch_rom.py from {PATCH_ROM_PATH}")
