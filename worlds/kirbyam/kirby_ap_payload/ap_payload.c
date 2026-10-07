@@ -65,6 +65,9 @@
 #define AP_STARTING_KIRBY_COLOR_APPLIED (*(volatile uint32_t*)(AP_BASE + 0xB8u))
 /* Physical lever activations, separated from native wall-unlock state (Issue #859). */
 #define AP_LEVER_ACTIVATION_FLAGS (*(volatile uint32_t*)(AP_BASE + 0xBCu))
+/* Client-owned hub connection items, keyed by native WorldMapDoor index (1..15). */
+#define AP_HUB_CONNECTION_ITEM_MASK (*(volatile uint32_t*)(AP_BASE + 0xC0u))
+#define AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED 0xFFFFFFFFu
 #define AP_MINOR_CHEST_EVENT_RING_SLOT_COUNT 8u
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
@@ -279,24 +282,70 @@ static uint8_t ap_try_map_worldmap_door_to_hub_switch_bit(
     return 0u;
 }
 
+static volatile uint32_t *ap_get_hub_unlock_entry(uint8_t world_props_unlock_index) {
+    return (volatile uint32_t*)KIRBY_WORLD_PROPS_ENTRY_FN(
+        KIRBY_WORLD_PROPS_HUB_UNLOCK_KIND,
+        world_props_unlock_index,
+        0u
+    );
+}
+
+static uint8_t ap_unlock_hub_door(uint8_t world_props_unlock_index) {
+    volatile uint32_t *world_props_entry = ap_get_hub_unlock_entry(world_props_unlock_index);
+    if (world_props_entry == 0) {
+        return 0u;
+    }
+    /* The world-props unlock entry is the native state consumed by the map. */
+    *world_props_entry = 1u;
+    return 1u;
+}
+
 static uint8_t ap_is_hub_unlock_persisted(uint8_t world_props_unlock_index) {
-    volatile uint32_t *world_props_entry =
-        (volatile uint32_t*)KIRBY_WORLD_PROPS_ENTRY_FN(
-            KIRBY_WORLD_PROPS_HUB_UNLOCK_KIND,
-            world_props_unlock_index,
-            0u
-        );
+    volatile uint32_t *world_props_entry = ap_get_hub_unlock_entry(world_props_unlock_index);
     if (world_props_entry == 0) {
         return 0u;
     }
     return ((*world_props_entry) != 0u) ? 1u : 0u;
 }
 
-static void ap_sync_hub_switch_flags_from_world_props(void) {
+static void ap_apply_hub_connection_unlocks_from_mask(void) {
+    uint32_t item_mask = AP_HUB_CONNECTION_ITEM_MASK;
     uint16_t door_index;
+    if (item_mask == AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED) {
+        return;
+    }
+
     for (door_index = 1u; door_index <= 15u; door_index++) {
         uint32_t ap_hub_switch_bit;
         uint8_t world_props_unlock_index;
+        if ((item_mask & (1u << door_index)) == 0u) {
+            continue;
+        }
+        if (ap_try_map_worldmap_door_to_hub_switch_bit(
+                door_index,
+                &ap_hub_switch_bit,
+                &world_props_unlock_index
+            ) != 0u) {
+            (void)ap_unlock_hub_door(world_props_unlock_index);
+        }
+    }
+}
+
+static void ap_sync_hub_switch_flags_from_world_props(void) {
+    uint32_t item_mask = AP_HUB_CONNECTION_ITEM_MASK;
+    uint16_t door_index;
+    /* Wait for the client to send the complete ReceivedItems ownership mask. */
+    if (item_mask == AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED) {
+        return;
+    }
+
+    for (door_index = 1u; door_index <= 15u; door_index++) {
+        uint32_t ap_hub_switch_bit;
+        uint8_t world_props_unlock_index;
+        /* Item-granted native door state must never be mistaken for a switch hit. */
+        if ((item_mask & (1u << door_index)) != 0u) {
+            continue;
+        }
         if (ap_try_map_worldmap_door_to_hub_switch_bit(
                 door_index,
                 &ap_hub_switch_bit,
@@ -828,19 +877,25 @@ typedef void (*WorldMapUnlockFn)(void);
 // Hook target for the world-map unlock dispatcher call in sub_08039ED4.
 // r0 contains the selected unlock function pointer from gUnk_0834BD94 and r4
 // holds the task pointer whose +0x08 halfword stores the WorldMapDoor index.
+// AP records the switch check here but deliberately does not call the native
+// unlock function: that callback starts the connection animation and persists
+// the hub connection before its AP item is received.
 __attribute__((used)) void ap_on_world_map_unlock_call(WorldMapUnlockFn unlock_fn) {
     register uint32_t task_ptr asm("r4");
     uint16_t door_index = *(volatile uint16_t*)(task_ptr + 0x08u);
     uint32_t ap_hub_switch_bit;
     uint8_t world_props_unlock_index;
 
-    unlock_fn();
+    // The switch activation itself has already been handled by the game. Skip
+    // the selected callback so the switch is consumed without making its hub
+    // connection. The AP item handler will apply the unlock later.
+    (void)unlock_fn;
 
     if (ap_try_map_worldmap_door_to_hub_switch_bit(
             door_index,
             &ap_hub_switch_bit,
             &world_props_unlock_index
-        ) != 0u && ap_is_hub_unlock_persisted(world_props_unlock_index) != 0u) {
+        ) != 0u) {
         ap_set_hub_switch_flag(ap_hub_switch_bit);
     }
 }
@@ -1265,6 +1320,22 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         return 1u;
     }
 
+    // HUB_CONNECTION_* = BASE+41 .. BASE+55; enum values 1..15 match WorldMapDoor.
+    if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 41u)
+        && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 55u)) {
+        uint16_t door_index = (uint16_t)(ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 40u));
+        uint32_t ap_hub_switch_bit;
+        uint8_t world_props_unlock_index;
+        if (ap_try_map_worldmap_door_to_hub_switch_bit(
+                door_index,
+                &ap_hub_switch_bit,
+                &world_props_unlock_index
+            ) == 0u) {
+            return 0u;
+        }
+        return ap_unlock_hub_door(world_props_unlock_index);
+    }
+
     // Unhandled item - return 0 to signal that the flag should NOT be cleared
     return 0u;
 }
@@ -1288,6 +1359,7 @@ void ap_poll_mailbox_c(void) {
         AP_BOSS_DEFEAT_FLAGS = 0u;
         AP_BOSS_TEMP_SHARD_BITFIELD = 0u;
         AP_DELIVERED_VITALITY_ITEM_BITS = 0u;
+        AP_HUB_CONNECTION_ITEM_MASK = AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED;
         AP_HUB_SWITCH_FLAGS = 0u;
         AP_STARTING_KIRBY_COLOR_ID = 0xFFFFFFFFu;
         AP_ONE_HIT_MODE_RUNTIME = 0xFFFFFFFFu;
@@ -1323,8 +1395,9 @@ void ap_poll_mailbox_c(void) {
         AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     }
 
-    // Canonical source: persisted world-props hub unlock bits set by WorldMapUnlockSave.
-    // Keep AP hub-switch transport latched from that source every frame.
+    // Rebuild AP-owned native connection state from the client's complete item history.
+    // Then mirror only non-item native unlocks into switch-check transport.
+    ap_apply_hub_connection_unlocks_from_mask();
     ap_sync_hub_switch_flags_from_world_props();
 
     uint8_t ap_delivered = (uint8_t)(AP_DELIVERED_SHARD_BITFIELD & 0xFFu);

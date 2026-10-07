@@ -1,5 +1,6 @@
 """Pytest fixtures for Kirby AM client and world testing."""
 import json
+import base64
 import logging
 import pytest
 from itertools import count
@@ -133,7 +134,23 @@ def mock_bizhawk_context() -> Mock:
         TEST_LOGGER.debug("ap.send_msgs[%s] response=accepted", request_id)
         return None
 
+    async def bizhawk_send_side_effect(serialized_requests):
+        requests = json.loads(serialized_requests)
+        return json.dumps([
+            (
+                {"type": "WRITE_RESPONSE"}
+                if request.get("type") == "WRITE"
+                else {
+                    "type": "READ_RESPONSE",
+                    "value": base64.b64encode(bytes(int(request.get("size", 0)))).decode("ascii"),
+                }
+            )
+            for request in requests
+            if request.get("type") in {"WRITE", "READ"}
+        ])
+
     ctx.send_msgs = AsyncMock(side_effect=send_msgs_side_effect)  # Mock the async send_msgs method
+    ctx.bizhawk_ctx._send_message = AsyncMock(side_effect=bizhawk_send_side_effect)
     ctx.update_death_link = AsyncMock(return_value=None)
     ctx.send_death = AsyncMock(return_value=None)
     TEST_LOGGER.debug(

@@ -40,7 +40,7 @@ AP mode records checks and suppresses or normalizes native rewards so progressio
 | Sound Player chest path | ap_on_collect_sound_player_chest() | Reward index 0 becomes the AP Sound Player chest check; nonzero Music Sheet rewards call the native grant function. |
 | Spray paint chest reward | Native callsite | Left unpatched so the original native Spray Paint reward is granted. The generic small-chest hook has already recorded the physical check event and persistence. |
 | Small chest reward | ap_on_collect_small_chest() | Record exact source pointer and native small-chest persistence so client can map to correct AP minor location. |
-| Hub unlock/world map door unlock | ap_on_world_map_unlock_call() | Record AP hub-switch flag when unlock is persisted in world props. |
+| Hub switch/world map door unlock | ap_on_world_map_unlock_call() | Record the physical switch check and skip the native unlock callback. Hub Connection item receipt writes the mapped native world-props state; the client-supplied ownership mask reapplies owned doors after reconnect and prevents them from being re-reported as physical switch checks. |
 
 ## Client-side reconciliation that enforces AP ownership
 
@@ -48,5 +48,6 @@ worlds/kirbyam/client.py runs these every active gameplay tick:
 
 - _reconcile_native_shard_ownership(): keeps shard bits aligned to AP-delivered ownership.
 - _reconcile_native_map_ownership(): keeps native map bits aligned to AP-delivered maps and start_with_all_maps.
+- _sync_hub_connection_item_ownership(): sends the complete received-door mask before polling and item delivery; the payload reapplies owned world-map doors from that mask.
 
 These reconciliation passes are the final guardrails that interrupt native drift from save/load/cutscene edge cases.

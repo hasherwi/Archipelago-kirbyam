@@ -485,20 +485,110 @@ def test_compact_room_requirements_enforce_lever_wall_items_and_compose() -> Non
     )
 
 
-def test_room_exit_requirements_are_room_local_only() -> None:
-    from ..data import load_json_data, normalize_region_exits
+def test_item_requirement_token_checks_the_named_hub_connection() -> None:
+    requirement = {"item": "Rainbow Route East - Hub Connection"}
+
+    assert not evaluate_room_logic_requirement(requirement, _FakeState(), 1)
+    assert evaluate_room_logic_requirement(
+        requirement,
+        _FakeState({"Rainbow Route East - Hub Connection"}),
+        1,
+    )
+
+
+def test_area_hub_exits_are_item_gated() -> None:
+    from ..data import data, load_json_data, normalize_region_exits
 
     rooms = load_json_data("regions/rooms.json")
     areas = load_json_data("regions/areas.json")
+
+    expected_area_gates = {
+        "REGION_MUSTARD_MOUNTAIN/MAIN": {
+            "REGION_RAINBOW_ROUTE/MAIN": "Mustard Mountain - Hub Connection",
+        },
+        "REGION_MOONLIGHT_MANSION/MAIN": {
+            "REGION_RAINBOW_ROUTE/MAIN": "Moonlight Mansion - Hub Connection",
+            "REGION_OLIVE_OCEAN/MAIN": "Moonlight Mansion - Hub Connection",
+        },
+        "REGION_CANDY_CONSTELLATION/MAIN": {
+            "REGION_RAINBOW_ROUTE/MAIN": "Candy Constellation - Hub Connection",
+        },
+        "REGION_OLIVE_OCEAN/MAIN": {
+            "REGION_CABBAGE_CAVERN/MAIN": "Olive Ocean - Hub Connection",
+            "REGION_MOONLIGHT_MANSION/MAIN": "Olive Ocean - Hub Connection",
+        },
+        "REGION_PEPPERMINT_PALACE/MAIN": {
+            "REGION_RAINBOW_ROUTE/MAIN": "Peppermint Palace East - Hub Connection",
+            "REGION_CARROT_CASTLE/MAIN": "Peppermint Palace West - Hub Connection",
+        },
+        "REGION_CABBAGE_CAVERN/MAIN": {
+            "REGION_RAINBOW_ROUTE/MAIN": "Cabbage Cavern Center - Hub Connection",
+            "REGION_OLIVE_OCEAN/MAIN": "Cabbage Cavern East - Hub Connection",
+            "REGION_RADISH_RUINS/MAIN": "Cabbage Cavern West - Hub Connection",
+        },
+        "REGION_CARROT_CASTLE/MAIN": {
+            "REGION_RAINBOW_ROUTE/MAIN": "Carrot Castle - Hub Connection",
+            "REGION_PEPPERMINT_PALACE/MAIN": "Carrot Castle - Hub Connection",
+            "REGION_RADISH_RUINS/MAIN": "Carrot Castle - Hub Connection",
+        },
+        "REGION_RADISH_RUINS/MAIN": {
+            "REGION_CABBAGE_CAVERN/MAIN": "Radish Ruins - Hub Connection",
+            "REGION_CARROT_CASTLE/MAIN": "Radish Ruins - Hub Connection",
+        },
+        "REGION_RAINBOW_ROUTE/MAIN": {
+            "REGION_MUSTARD_MOUNTAIN/MAIN": "Rainbow Route North - Hub Connection",
+            "REGION_MOONLIGHT_MANSION/MAIN": "Rainbow Route East - Hub Connection",
+            "REGION_CANDY_CONSTELLATION/MAIN": "Candy Constellation - Hub Connection",
+            "REGION_PEPPERMINT_PALACE/MAIN": "Peppermint Palace East - Hub Connection",
+            "REGION_CABBAGE_CAVERN/MAIN": "Rainbow Route South - Hub Connection",
+            "REGION_CARROT_CASTLE/MAIN": "Rainbow Route West - Hub Connection",
+        },
+    }
 
     for room_name, room_def in rooms.items():
         exits, requirements = normalize_region_exits(room_name, room_def)
         assert set(requirements) <= set(exits)
 
+    assert set(expected_area_gates) <= set(areas)
     for area_name, area_def in areas.items():
-        assert "exit_requirements" not in area_def, (
-            f"Area {area_name} should not have room-level requirements"
-        )
+        exits, requirements = normalize_region_exits(area_name, area_def)
+        expected = expected_area_gates.get(area_name, {})
+        assert set(requirements) <= set(exits)
+        assert {
+            destination: requirement.get("item")
+            for destination, requirement in requirements.items()
+        } == expected
+        for item_label in expected.values():
+            assert item_label in {item.label for item in data.items.values()}
+
+
+def test_set_rules_applies_item_gates_to_area_entrances() -> None:
+    from ..data import data
+
+    world = _FakeWorld(Goal.option_dark_mind)
+    with patch("worlds.kirbyam.rules.set_rule") as mock_set_rule:
+        set_rules(world)
+
+    rules_by_entrance = {
+        call.args[0].name: call.args[1]
+        for call in mock_set_rule.call_args_list
+        if hasattr(call.args[0], "name")
+    }
+    checked = 0
+    for source_name, region_data in data.regions.items():
+        if not source_name.endswith("/MAIN"):
+            continue
+        for destination_name, requirement in region_data.exit_requirements.items():
+            if not isinstance(requirement, dict) or "item" not in requirement:
+                continue
+            entrance_name = f"{source_name} -> {destination_name}"
+            rule = rules_by_entrance[entrance_name]
+            item_label = requirement["item"]
+            assert not rule(_FakeState())
+            assert rule(_FakeState({item_label}))
+            checked += 1
+
+    assert checked == 22
 
 
 def test_logical_exit_overrides_reference_declared_exits() -> None:

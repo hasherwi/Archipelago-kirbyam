@@ -161,15 +161,16 @@ def test_payload_tracks_sound_player_chest_checks_and_ap_unlock_apply() -> None:
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 25u" in content, "Sound Player AP item ID should be handled"
 
 
-def test_payload_tracks_hub_switch_checks_from_world_map_unlocks() -> None:
-    """Verify hub-switch transport is driven by persisted world-props unlock bits.
+def test_payload_intercepts_hub_switch_unlocks_and_reports_switch_checks() -> None:
+    """Verify switch hits report checks but do not invoke native door unlocks.
 
     Decomp reference (katam): `sub_08039ED4` dispatches unlock callbacks from
     `gUnk_0834BD94` using `ldrh [task, #8]`. The AP hook must read the same
     halfword and map enum WorldMapDoor values to AP hub-switch bit order while
-    ignoring non-unlock values (e.g., `WORLDMAP_NO_UNLOCK` = 0). Canonical state
-    must come from persisted world-props unlock bits (`sub_08002888(..., 2, ...)`) as
-    written by WorldMapUnlockSave, not from callback dispatch timing alone.
+    ignoring non-unlock values (e.g., `WORLDMAP_NO_UNLOCK` = 0). The AP check is
+    reported directly from callback dispatch, while the native callback that
+    starts and saves the unlock is deliberately skipped. Existing native
+    unlocks are still mirrored by the persisted-state sync path.
     """
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
 
@@ -185,7 +186,7 @@ def test_payload_tracks_hub_switch_checks_from_world_map_unlocks() -> None:
     )
     assert "ap_on_world_map_unlock_call" in content, "World-map unlock hook target should exist"
     assert "task_ptr + 0x08u" in content, "Hook should read the world-map unlock task index at +0x08"
-    assert "unlock_fn();" in content, "Hook should preserve native unlock callback behavior"
+    assert "unlock_fn();" not in content, "Hook must suppress native connection unlock callback"
     assert "KIRBY_WORLD_PROPS_ENTRY_FN" in content, "Payload should reference sub_08002888 world-props accessor"
     assert "#include \"generated_hub_switch_worldmap_cases.inc\"" in content, (
         "Hub switch world-map mapping should come from generated contract include"
@@ -205,16 +206,15 @@ def test_payload_tracks_hub_switch_checks_from_world_map_unlocks() -> None:
     assert "ap_try_map_worldmap_door_to_hub_switch_bit(" in hook_body, (
         "Hook should translate world-map door index before setting AP hub-switch bit"
     )
-    assert "unlock_fn();" in hook_body, "Hook should call the native unlock callback"
-    assert hook_body.index("unlock_fn();") < hook_body.index("ap_set_hub_switch_flag(ap_hub_switch_bit);")
-    assert "ap_is_hub_unlock_persisted(world_props_unlock_index)" in hook_body, (
-        "Hook should only fast-path set AP hub-switch bit when persisted world-props state is visible"
+    assert "(void)unlock_fn;" in hook_body, "Hook should intentionally discard native unlock callback"
+    assert "ap_is_hub_unlock_persisted(world_props_unlock_index)" not in hook_body, (
+        "Switch-hit check reporting must not depend on the suppressed native unlock persisting"
     )
     assert "if (ap_try_map_worldmap_door_to_hub_switch_bit(" in hook_body, (
         "Hook should ignore NO_UNLOCK/unknown world-map door indices"
     )
     assert "ap_set_hub_switch_flag(ap_hub_switch_bit);" in hook_body, (
-        "Hook should set AP hub-switch bit only after successful door-index translation"
+        "Hook should report the switch check after successful door-index translation"
     )
 
     include_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "generated_hub_switch_worldmap_cases.inc")
@@ -238,6 +238,51 @@ def test_payload_tracks_hub_switch_checks_from_world_map_unlocks() -> None:
     assert "*out_bit = 10u;" in include_content, (
         "Generated include should map Peppermint East world-map door to AP bit 10"
     )
+
+
+def test_payload_applies_connection_items_and_excludes_their_unlocks_from_switch_checks() -> None:
+    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+    with open(payload_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    assert "AP_HUB_CONNECTION_ITEM_MASK (*(volatile uint32_t*)(AP_BASE + 0xC0u))" in content
+    assert "AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED 0xFFFFFFFFu" in content
+    assert "*world_props_entry = 1u;" in content, "Door items must write native world-props unlock state"
+
+    apply_match = re.search(
+        r"uint8_t\s+ap_apply_item[^{]*\{(?P<body>.*?)^}",
+        content,
+        flags=re.DOTALL | re.MULTILINE,
+    )
+    assert apply_match is not None
+    apply_body = apply_match.group("body")
+    assert "KIRBY_ITEM_ID_BASE_OFFSET + 41u" in apply_body
+    assert "KIRBY_ITEM_ID_BASE_OFFSET + 55u" in apply_body
+    assert "ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 40u)" in apply_body
+    assert "ap_try_map_worldmap_door_to_hub_switch_bit(" in apply_body
+    assert "return ap_unlock_hub_door(world_props_unlock_index);" in apply_body
+
+    reconcile_match = re.search(
+        r"static void\s+ap_apply_hub_connection_unlocks_from_mask[^{]*\{(?P<body>.*?)^}",
+        content,
+        flags=re.DOTALL | re.MULTILINE,
+    )
+    assert reconcile_match is not None
+    reconcile_body = reconcile_match.group("body")
+    assert "item_mask & (1u << door_index)" in reconcile_body
+    assert "ap_unlock_hub_door(world_props_unlock_index)" in reconcile_body
+
+    sync_match = re.search(
+        r"static void\s+ap_sync_hub_switch_flags_from_world_props[^{]*\{(?P<body>.*?)^}",
+        content,
+        flags=re.DOTALL | re.MULTILINE,
+    )
+    assert sync_match is not None
+    sync_body = sync_match.group("body")
+    assert "AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED" in sync_body
+    assert "item_mask & (1u << door_index)" in sync_body
+    assert "continue;" in sync_body
+    assert "ap_set_hub_switch_flag(ap_hub_switch_bit);" in sync_body
 
 
 def test_hub_switch_contract_generator_uses_canonical_source() -> None:

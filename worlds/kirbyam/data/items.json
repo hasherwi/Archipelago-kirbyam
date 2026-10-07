@@ -223,5 +223,95 @@
     "classification": "PROGRESSION",
     "item_id": 3860040,
     "tags": ["Levers", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_MOONLIGHT_MANSION": {
+    "label": "Moonlight Mansion - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860041,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_RAINBOW_ROUTE_EAST": {
+    "label": "Rainbow Route East - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860042,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_RAINBOW_ROUTE_SOUTH": {
+    "label": "Rainbow Route South - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860043,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_CABBAGE_CAVERN_CENTER": {
+    "label": "Cabbage Cavern Center - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860044,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_RAINBOW_ROUTE_WEST": {
+    "label": "Rainbow Route West - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860045,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_CARROT_CASTLE": {
+    "label": "Carrot Castle - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860046,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_RAINBOW_ROUTE_NORTH": {
+    "label": "Rainbow Route North - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860047,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_MUSTARD_MOUNTAIN": {
+    "label": "Mustard Mountain - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860048,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_CABBAGE_CAVERN_WEST": {
+    "label": "Cabbage Cavern West - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860049,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_RADISH_RUINS": {
+    "label": "Radish Ruins - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860050,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_PEPPERMINT_PALACE_EAST": {
+    "label": "Peppermint Palace East - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860051,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_PEPPERMINT_PALACE_WEST": {
+    "label": "Peppermint Palace West - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860052,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_CABBAGE_CAVERN_EAST": {
+    "label": "Cabbage Cavern East - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860053,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_OLIVE_OCEAN": {
+    "label": "Olive Ocean - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860054,
+    "tags": ["HubConnections", "Progression", "Unique"]
+  },
+  "HUB_CONNECTION_CANDY_CONSTELLATION": {
+    "label": "Candy Constellation - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860055,
+    "tags": ["HubConnections", "Progression", "Unique"]
   }
 }

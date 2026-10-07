@@ -1754,6 +1754,27 @@ async def test_deliver_items_resyncs_after_save_loss(mock_bizhawk_context):
 
 
 @pytest.mark.asyncio
+async def test_hub_connection_ownership_sync_uses_complete_received_item_history(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.items_received = [
+        Mock(item=3860041, player=1),  # Native door index 1 -> mask bit 1.
+        Mock(item=3860042, player=2),  # Remote items still belong to this recipient.
+        Mock(item=3860055, player=1),  # Native door index 15 -> mask bit 15.
+        Mock(item=3860001, player=1),  # Non-connection item is ignored.
+    ]
+
+    with patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+
+    mask = (1 << 1) | (1 << 2) | (1 << 15)
+    mock_write.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        [(data.transport_ram_addresses["hub_connection_item_mask"], mask.to_bytes(4, "little"), "System Bus")],
+    )
+
+
+@pytest.mark.asyncio
 async def test_deliver_items_does_not_fast_forward_when_not_pending(mock_bizhawk_context):
     """In-range forward ROM counters are advisory unless a pending mailbox ACK is in flight."""
     client = KirbyAmClient()

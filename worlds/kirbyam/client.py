@@ -16,7 +16,7 @@ import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
 from .colors import choose_different_kirby_color
-from .data import LocationCategory, data, format_room_region_label, load_json_data
+from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
 from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
@@ -140,6 +140,11 @@ _SHARD_ITEM_ID_TO_BIT: dict[int, int] = {
     item.item_id: _BOSS_DEFEAT_LABEL_TO_BIT[item.label.split(" - ", 1)[0].strip().lower()]
     for item in data.items.values()
     if "Shards" in item.tags and item.label.split(" - ", 1)[0].strip().lower() in _BOSS_DEFEAT_LABEL_TO_BIT
+}
+_HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX: dict[int, int] = {
+    item.item_id: item.item_id - (BASE_OFFSET + 40)
+    for item in data.items.values()
+    if item.item_id is not None and "HubConnections" in item.tags
 }
 _TRAP_ITEM_IDS: frozenset[int] = frozenset(
     item.item_id
@@ -1674,6 +1679,9 @@ class KirbyAmClient(BizHawkClient):
                 self._reset_reconnect_transient_state()
                 self._watcher_requires_bizhawk_resync = False
 
+            # Restore the payload's full item-ownership view before checks or delivery.
+            await self._sync_hub_connection_item_ownership(ctx)
+
             self._log_starting_kirby_color_config_once(ctx)
 
             # Load persisted state from RAM once per session (after bizhawk_ctx is valid)
@@ -2624,6 +2632,27 @@ class KirbyAmClient(BizHawkClient):
         if item_value is None or player_value is None:
             return None
         return item_value, player_value
+
+    async def _sync_hub_connection_item_ownership(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """Send the full received-item door mask before payload checks or delivery."""
+        mask_addr = self._transport_addr("hub_connection_item_mask")
+        bizhawk_ctx = getattr(ctx, "bizhawk_ctx", None)
+        if mask_addr is None or not callable(getattr(bizhawk_ctx, "_send_message", None)):
+            return
+
+        item_mask = 0
+        for network_item in getattr(ctx, "items_received", ()):
+            item_fields = self._extract_delivery_item_fields(network_item)
+            if item_fields is None:
+                continue
+            door_index = _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX.get(item_fields[0])
+            if door_index is not None and 1 <= door_index <= 15:
+                item_mask |= 1 << door_index
+
+        await bizhawk.write(
+            ctx.bizhawk_ctx,
+            [(mask_addr, item_mask.to_bytes(4, "little"), "System Bus")],
+        )
 
     async def _persist_u32(self, ctx: KirbyAmBizHawkClientContext, key: str, value: int) -> None:
         """Persist a 32-bit value to RAM by address key."""
