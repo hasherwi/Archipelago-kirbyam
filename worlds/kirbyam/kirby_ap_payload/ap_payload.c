@@ -372,6 +372,8 @@ typedef uint32_t (*KirbySpecialDoorVisitedFn)(uint16_t, uint16_t, uint8_t, uint8
 #define KIRBY_IWRAM_START 0x03000000u
 #define KIRBY_IWRAM_END 0x03008000u
 #define KIRBY_OBJECT_DESTINATION_ROOM_OFFSET 0x63u
+#define KIRBY_WARP_STAR_KIRBY_PTR_OFFSET 0x6Cu
+#define KIRBY_WARP_STAR_DESTINATION_ROOM_OFFSET 0xBEu
 
 typedef uint8_t (*KirbyGetCollisionTileFn)(uint8_t, uint16_t, uint16_t);
 #define KIRBY_GET_COLLISION_TILE_FN ((KirbyGetCollisionTileFn)0x080023E5u)
@@ -381,6 +383,8 @@ typedef uint8_t (*KirbyButtonTransitionFn)(void *);
 #define KIRBY_BUTTON_TRANSITION_FN ((KirbyButtonTransitionFn)0x0805BC79u)
 typedef uint8_t (*KirbyExplicitTransitionFn)(void *, uint16_t, uint8_t, uint8_t);
 #define KIRBY_EXPLICIT_TRANSITION_FN ((KirbyExplicitTransitionFn)0x080551FDu)
+typedef uint32_t (*KirbyWarpStarTransitionFn)(void *, uint32_t);
+#define KIRBY_WARP_STAR_TRANSITION_FN ((KirbyWarpStarTransitionFn)0x0800C085u)
 
 static uint16_t ap_room_doors_idx(uint16_t room_id) {
     if ((uint32_t)room_id >= ROOM_PROPS_ROOM_ID_LIMIT) {
@@ -567,6 +571,39 @@ __attribute__((used)) uint8_t ap_on_explicit_room_transition(
         return 0u;
     }
     return KIRBY_EXPLICIT_TRANSITION_FN(kirby, destination_room, spawn_x, spawn_y);
+}
+
+/*
+ * Warp stars bypass the normal room-transition functions: sub_0800C084 writes
+ * Kirby's destination room and spawn point directly. Guard that shared helper
+ * before it performs those writes, then preserve its retail behavior otherwise.
+ */
+__attribute__((used)) uint32_t ap_on_warp_star_transition(void *warp_star, uint32_t human_only) {
+    uint32_t warp_star_addr = (uint32_t)warp_star;
+    uint32_t kirby_addr;
+    uint16_t source_room;
+    uint16_t destination_room;
+    uint32_t object_flags;
+
+    object_flags = *(volatile uint32_t*)(warp_star_addr + 0x08u);
+    if ((object_flags & 0x40000u) == 0u) {
+        return KIRBY_WARP_STAR_TRANSITION_FN(warp_star, human_only);
+    }
+
+    kirby_addr = *(volatile uint32_t*)(warp_star_addr + KIRBY_WARP_STAR_KIRBY_PTR_OFFSET);
+    if (!((kirby_addr >= KIRBY_EWRAM_START
+            && kirby_addr + KIRBY_STRUCT_ROOM_OFFSET + sizeof(uint16_t) <= KIRBY_EWRAM_END)
+        || (kirby_addr >= KIRBY_IWRAM_START
+            && kirby_addr + KIRBY_STRUCT_ROOM_OFFSET + sizeof(uint16_t) <= KIRBY_IWRAM_END))) {
+        return KIRBY_WARP_STAR_TRANSITION_FN(warp_star, human_only);
+    }
+
+    source_room = *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_ROOM_OFFSET);
+    destination_room = *(volatile uint16_t*)(warp_star_addr + KIRBY_WARP_STAR_DESTINATION_ROOM_OFFSET);
+    if (ap_transition_allowed(source_room, destination_room) == 0u) {
+        return 0u;
+    }
+    return KIRBY_WARP_STAR_TRANSITION_FN(warp_star, human_only);
 }
 
 __attribute__((used)) uint32_t ap_on_query_special_door_state(

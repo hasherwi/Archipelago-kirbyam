@@ -70,6 +70,8 @@ ORIGINAL_BUTTON_SPECIAL_TRANSITION_FN_ADDR = 0x0805BC78
 EXPECTED_BUTTON_SPECIAL_TRANSITION_CALLSITES = 28
 ORIGINAL_EXPLICIT_ROOM_TRANSITION_FN_ADDR = 0x080551FC
 EXPECTED_EXPLICIT_ROOM_TRANSITION_CALLSITES = 8
+ORIGINAL_WARP_STAR_TRANSITION_FN_ADDR = 0x0800C084
+EXPECTED_WARP_STAR_TRANSITION_CALLSITES = 3
 ROOM_PROPS_TABLE_OFFSET = 0x009331AC
 ROOM_PROPS_STRIDE = 0x28
 ROOM_PROPS_DOORS_IDX_OFFSET = 0x24
@@ -961,6 +963,8 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_on_button_special_transition"),
         "explicit_room_transition_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_explicit_room_transition"),
+        "warp_star_transition_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_warp_star_transition"),
         "ability_transition_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_request_copy_ability_transition"),
         "ability_transition_start_hook_target": resolve_elf_symbol_address(
@@ -986,6 +990,7 @@ _PAYLOAD_TARGET_LABELS = {
     "automatic_transition_guard_target": "Area Key automatic-transition guard",
     "button_special_transition_hook_target": "Area Key button-transition hook",
     "explicit_room_transition_hook_target": "Area Key explicit-room-transition hook",
+    "warp_star_transition_hook_target": "Area Key warp-star transition hook",
     "ability_transition_hook_target": "ability transition hook",
     "ability_transition_start_hook_target": "ability transition-start hook",
     "starting_color_start_game_hook_target": "starting-color game-start hook",
@@ -1175,7 +1180,7 @@ def discover_required_callsites(
 def discover_area_key_callsites(
     rom: bytes | bytearray,
     rom_base: int,
-) -> tuple[list[int], list[int], list[int]]:
+) -> tuple[list[int], list[int], list[int], list[int]]:
     special_door_state_callsites = discover_required_callsites(
         rom,
         rom_base,
@@ -1197,10 +1202,18 @@ def discover_area_key_callsites(
         EXPECTED_EXPLICIT_ROOM_TRANSITION_CALLSITES,
         "explicit room-transition",
     )
+    warp_star_transition_callsites = discover_required_callsites(
+        rom,
+        rom_base,
+        ORIGINAL_WARP_STAR_TRANSITION_FN_ADDR,
+        EXPECTED_WARP_STAR_TRANSITION_CALLSITES,
+        "warp-star transition",
+    )
     return (
         special_door_state_callsites,
         button_transition_callsites,
         explicit_transition_callsites,
+        warp_star_transition_callsites,
     )
 
 
@@ -1301,6 +1314,7 @@ def patch_rom_with_payload(
     special_door_state_callsites: list[int],
     button_transition_callsites: list[int],
     explicit_transition_callsites: list[int],
+    warp_star_transition_callsites: list[int],
     hook_targets: dict[str, int],
     rom_base: int,
 ) -> None:
@@ -1354,6 +1368,10 @@ def patch_rom_with_payload(
         rom[offset:offset + 4] = thumb_bl_bytes(
             rom_base + offset, hook_targets["explicit_room_transition_hook_target"]
         )
+    for offset in warp_star_transition_callsites:
+        rom[offset:offset + 4] = thumb_bl_bytes(
+            rom_base + offset, hook_targets["warp_star_transition_hook_target"]
+        )
     for offset in STARTING_COLOR_START_GAME_CALL_OFFSETS:
         rom[offset:offset + 4] = thumb_bl_bytes(
             rom_base + offset, hook_targets["starting_color_start_game_hook_target"]
@@ -1369,6 +1387,7 @@ def print_patch_summary(
     special_door_state_callsites: list[int],
     button_transition_callsites: list[int],
     explicit_transition_callsites: list[int],
+    warp_star_transition_callsites: list[int],
 ) -> None:
     print("Intermediary patched ROM written:", INTERMEDIARY_ROM)
     print("Payload inserted at file offset:", hex(PAYLOAD_OFFSET))
@@ -1475,6 +1494,12 @@ def print_patch_summary(
         hex(hook_targets["explicit_room_transition_hook_target"]),
     )
     print(
+        "Area Key warp-star transition callsites patched:",
+        len(warp_star_transition_callsites),
+        "target=",
+        hex(hook_targets["warp_star_transition_hook_target"]),
+    )
+    print(
         "Ability request callsites patched:",
         len(ability_transition_callsites),
         "target=",
@@ -1553,6 +1578,7 @@ def main() -> None:
             special_door_state_callsites,
             button_transition_callsites,
             explicit_transition_callsites,
+            warp_star_transition_callsites,
         ) = discover_area_key_callsites(rom, rom_base)
 
         (
@@ -1575,6 +1601,7 @@ def main() -> None:
             special_door_state_callsites,
             button_transition_callsites,
             explicit_transition_callsites,
+            warp_star_transition_callsites,
             hook_targets,
             rom_base,
         )
@@ -1604,6 +1631,7 @@ def main() -> None:
             special_door_state_callsites,
             button_transition_callsites,
             explicit_transition_callsites,
+            warp_star_transition_callsites,
         )
 
         print("Starting bsdiff generation...")

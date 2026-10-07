@@ -27,6 +27,77 @@ def test_area_key_runtime_address_follows_existing_mailbox_words() -> None:
     assert transport["area_key_bitfield_runtime"] == "0x0203B0C0"
 
 
+def test_warp_star_guard_denies_before_native_boarding_mutates_state() -> None:
+    payload = (WORLD_DIR / "kirby_ap_payload" / "ap_payload.c").read_text(encoding="utf-8")
+    guard_start = payload.index("uint32_t ap_on_warp_star_transition(")
+    guard_end = payload.index("__attribute__((used)) uint32_t ap_on_query_special_door_state", guard_start)
+    guard = payload[guard_start:guard_end]
+
+    predicate = guard.index("ap_transition_allowed(source_room, destination_room)")
+    denial = guard.index("return 0u;", predicate)
+    native_boarding = guard.index("KIRBY_WARP_STAR_TRANSITION_FN(warp_star, human_only)", denial)
+    assert predicate < denial < native_boarding
+    assert "KIRBY_WARP_STAR_TRANSITION_FN(warp_star, human_only);" in guard
+    assert "kirby->roomId" not in guard
+    assert "KIRBY_WARP_STAR_DESTINATION_ROOM_OFFSET" in guard
+    assert "AP_AREA_KEY_BITFIELD_RUNTIME >> (destination_area + 1u)" in payload
+
+
+def test_warp_star_destination_gate_semantics() -> None:
+    # This source-level contract model covers the destination-key semantics; it is not emulator proof.
+    payload = (WORLD_DIR / "kirby_ap_payload" / "ap_payload.c").read_text(encoding="utf-8")
+    assert "source_area != destination_area" in payload
+    assert "destination_area >= 1u" in payload
+    assert "destination_area <= 8u" in payload
+    assert "AP_AREA_KEY_BITFIELD_RUNTIME >> (destination_area + 1u)" in payload
+
+    def transition_allowed(source_area: int, destination_area: int, key_mask: int) -> bool:
+        if source_area == 0xFF or source_area == destination_area:
+            return True
+        if not 1 <= destination_area <= 8:
+            return True
+        return bool(key_mask & (1 << (destination_area + 1)))
+
+    assert not transition_allowed(1, 2, 0)  # first Area 1 -> Area 2 star, no keys
+    assert not transition_allowed(1, 2, 1 << 2)  # Area 1 key does not satisfy Area 2
+    assert transition_allowed(1, 2, 1 << 3)  # Area 2 key permits boarding
+    assert transition_allowed(2, 2, 0)  # same-area travel retains retail behavior
+    assert transition_allowed(2, 0, 0)  # return to Rainbow Route remains open
+
+
+def test_warp_star_guard_preserves_cpu_passenger_call_contract() -> None:
+    payload = (WORLD_DIR / "kirby_ap_payload" / "ap_payload.c").read_text(encoding="utf-8")
+    guard_start = payload.index("uint32_t ap_on_warp_star_transition(")
+    guard_end = payload.index("__attribute__((used)) uint32_t ap_on_query_special_door_state", guard_start)
+    guard = payload[guard_start:guard_end]
+
+    assert "uint32_t human_only" in guard
+    assert guard.count("KIRBY_WARP_STAR_TRANSITION_FN(warp_star, human_only)") == 3
+    assert "warp_star_addr + KIRBY_WARP_STAR_KIRBY_PTR_OFFSET" in guard
+
+
+def test_synthetic_rom_fixture_supplies_complete_patch_smoke_contract() -> None:
+    fixture_path = Path(__file__).resolve().parents[3] / ".github" / "scripts" / "create_kirbyam_dummy_rom.py"
+    fixture_spec = importlib.util.spec_from_file_location("kirbyam_dummy_rom_fixture", fixture_path)
+    if fixture_spec is None or fixture_spec.loader is None:
+        raise RuntimeError(f"Failed to load ROM fixture generator from {fixture_path}")
+    fixture = importlib.util.module_from_spec(fixture_spec)
+    fixture_spec.loader.exec_module(fixture)
+
+    rom = fixture.build_dummy_rom()
+    assert len(rom) == 0x1000000
+    offset = patch_rom.AUTOMATIC_TRANSITION_GUARD_OFFSET
+    assert rom[offset:offset + len(patch_rom.AUTOMATIC_TRANSITION_GUARD_ORIGINAL)] == (
+        patch_rom.AUTOMATIC_TRANSITION_GUARD_ORIGINAL
+    )
+    patch_rom.validate_area_key_native_area_contract(rom)
+    visual, button, explicit, warp_star = patch_rom.discover_area_key_callsites(rom, 0x08000000)
+    assert len(visual) == 5
+    assert len(button) == 28
+    assert len(explicit) == 8
+    assert len(warp_star) == 3
+
+
 def test_payload_uses_native_destination_area_and_new_item_range() -> None:
     payload = (WORLD_DIR / "kirby_ap_payload" / "ap_payload.c").read_text(encoding="utf-8")
 
@@ -50,6 +121,7 @@ def test_payload_has_separate_visual_and_pre_mutation_functional_guards() -> Non
     assert "#define KIRBY_STRUCT_CONTACT_OBJECT_OFFSET 0x6Cu" in payload
     assert "#define KIRBY_OBJECT_DESTINATION_ROOM_OFFSET 0x63u" in payload
     assert "uint8_t ap_on_explicit_room_transition(" in payload
+    assert "uint32_t ap_on_warp_star_transition(void *warp_star, uint32_t human_only)" in payload
     assert "uint32_t ap_on_query_special_door_state(" in payload
     assert "return ap_transition_allowed(room_id, destination_room);" in payload
     assert "return KIRBY_SPECIAL_DOOR_VISITED_FN(room_id, destination_room, spawn_x, spawn_y);" in payload
@@ -136,6 +208,10 @@ def _synthetic_area_key_callsite_rom(*, omit_one_button_call: bool = False) -> b
             patch_rom.EXPECTED_EXPLICIT_ROOM_TRANSITION_CALLSITES,
             patch_rom.ORIGINAL_EXPLICIT_ROOM_TRANSITION_FN_ADDR,
         ),
+        (
+            patch_rom.EXPECTED_WARP_STAR_TRANSITION_CALLSITES,
+            patch_rom.ORIGINAL_WARP_STAR_TRANSITION_FN_ADDR,
+        ),
     )
     offset = 0xC0
     rom = bytearray(0x400)
@@ -147,8 +223,8 @@ def _synthetic_area_key_callsite_rom(*, omit_one_button_call: bool = False) -> b
     return rom
 
 
-def test_area_key_callsite_discovery_requires_all_three_exact_call_families() -> None:
-    visual, button, explicit = patch_rom.discover_area_key_callsites(
+def test_area_key_callsite_discovery_requires_all_four_exact_call_families() -> None:
+    visual, button, explicit, warp_star = patch_rom.discover_area_key_callsites(
         _synthetic_area_key_callsite_rom(),
         0x08000000,
     )
@@ -156,6 +232,7 @@ def test_area_key_callsite_discovery_requires_all_three_exact_call_families() ->
     assert len(visual) == 5
     assert len(button) == 28
     assert len(explicit) == 8
+    assert len(warp_star) == 3
 
 
 def test_area_key_callsite_discovery_fails_when_one_button_hook_is_missing() -> None:
