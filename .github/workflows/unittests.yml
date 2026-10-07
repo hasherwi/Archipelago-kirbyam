@@ -78,6 +78,9 @@ jobs:
       timeout-minutes: 15
       run: |
         pytest worlds/kirbyam/test -n auto --dist worksteal
+    - name: Standard server item-history integration
+      if: matrix.os == 'ubuntu-latest' && matrix.python.version == '3.13'
+      run: pytest test/multiworld/test_multiserver_received_items.py
     - name: Upload KirbyAM test logs on failure
       if: failure() || cancelled()
       uses: actions/upload-artifact@v4
