@@ -257,7 +257,7 @@ static uint8_t ap_is_ap_owned_minor_chest_source(uint32_t source_ptr) {
 }
 
 static void ap_collect_small_chest_native(uint32_t chest_index) {
-    if (chest_index >= 80u) {
+    if (chest_index >= 128u) {
         return;
     }
 
