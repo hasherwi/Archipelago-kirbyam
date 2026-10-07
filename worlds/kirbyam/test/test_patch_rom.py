@@ -128,6 +128,7 @@ def test_patch_preserves_native_spray_paint_reward_callsite() -> None:
         "vitality_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
         "sound_player_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
         "hub_switch_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "hub_switch_init_state_hook_bl_bytes": b"\x00\x00\x00\x00",
         "small_switch_effect_hook_bl_bytes": b"\x00\x00\x00\x00",
     }
 
