@@ -1,6 +1,7 @@
 #include <stdint.h>
 
 #include "statue_runtime_logic.h"
+#include "transition_runtime_logic.h"
 
 // Kirby AP item ID base offset
 #define KIRBY_ITEM_ID_BASE_OFFSET       3860000u  // must match worlds/kirbyam/data.py BASE_OFFSET
@@ -640,7 +641,7 @@ __attribute__((used)) uint8_t ap_on_button_special_transition(void *kirby) {
     uint8_t human_player_count = *(volatile uint8_t*)KIRBY_NUM_HUMAN_PLAYERS_ADDR;
     uint16_t movement_state = *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_MOVEMENT_STATE_OFFSET);
 
-    if (player_id >= human_player_count || (movement_state & 0x40u) == 0u) {
+    if (ap_transition_is_human_up_attempt(player_id, human_player_count, movement_state) == 0u) {
         return KIRBY_BUTTON_TRANSITION_FN(kirby);
     }
 
@@ -676,14 +677,15 @@ __attribute__((used)) uint8_t ap_on_explicit_room_transition(
     /* This helper is shared by player transitions and AI/follower state machines.
      * Attribute telemetry only for a human holding Up at the matching source
      * special tile when its native destination and spawn agree exactly. */
-    if (*(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_PLAYER_OFFSET)
-            < *(volatile uint8_t*)KIRBY_NUM_HUMAN_PLAYERS_ADDR
-        && (*(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_MOVEMENT_STATE_OFFSET) & 0x40u) != 0u
+    if (ap_transition_is_human_up_attempt(
+            *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_PLAYER_OFFSET),
+            *(volatile uint8_t*)KIRBY_NUM_HUMAN_PLAYERS_ADDR,
+            *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_MOVEMENT_STATE_OFFSET)) != 0u
         && ap_current_special_tile_destination(
             kirby, &tile_destination_room, &tile_spawn_x, &tile_spawn_y) != 0u
-        && tile_destination_room == destination_room
-        && tile_spawn_x == spawn_x
-        && tile_spawn_y == spawn_y) {
+        && ap_transition_matches_special_tile(
+            tile_destination_room, tile_spawn_x, tile_spawn_y,
+            destination_room, spawn_x, spawn_y) != 0u) {
         ap_log_transition_attempt(source_room, destination_room, 0u, allowed,
                                   ap_transition_reason(source_room, destination_room, allowed));
     }

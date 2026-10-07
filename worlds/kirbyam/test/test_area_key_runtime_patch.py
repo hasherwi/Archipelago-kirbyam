@@ -114,14 +114,17 @@ def test_button_transition_telemetry_matches_native_human_up_condition() -> None
     guard = payload[start:end]
 
     native_passthrough = guard.index("return KIRBY_BUTTON_TRANSITION_FN(kirby);")
-    attempt_predicate = guard.index("player_id >= human_player_count || (movement_state & 0x40u) == 0u")
+    attempt_predicate = guard.index("ap_transition_is_human_up_attempt(player_id, human_player_count, movement_state)")
     destination = guard.index("ap_button_transition_destination(kirby, &destination_room)")
     telemetry = guard.index("ap_log_transition_attempt(source_room, destination_room, 5u, allowed")
     denial = guard.index("if (allowed == 0u)", telemetry)
+    denied_return = guard.index("return 0u;", denial)
     native_allowed = guard.index("return KIRBY_BUTTON_TRANSITION_FN(kirby);", native_passthrough + 1)
-    assert attempt_predicate < native_passthrough < destination < telemetry < denial < native_allowed
+    assert attempt_predicate < native_passthrough < destination < telemetry < denial < denied_return < native_allowed
+    assert "KIRBY_STRUCT_FLAGS2_OFFSET) |= 0x1000u" in guard
     assert "#define KIRBY_NUM_HUMAN_PLAYERS_ADDR 0x0203AD30u" in payload
     assert "#define KIRBY_STRUCT_MOVEMENT_STATE_OFFSET 0x118u" in payload
+    assert '"transition_runtime_logic.h"' in payload
 
     def native_attempt(player_id: int, human_count: int, movement_state: int) -> bool:
         return player_id < human_count and bool(movement_state & 0x40)
@@ -139,15 +142,14 @@ def test_explicit_transition_telemetry_requires_matching_player_tile_and_spawn()
 
     helper = payload[payload.index("static uint8_t ap_current_special_tile_destination("):start]
     assert "out_spawn_x" in helper and "out_spawn_y" in helper
-    attempt = guard.index("KIRBY_NUM_HUMAN_PLAYERS_ADDR")
-    up = guard.index("KIRBY_STRUCT_MOVEMENT_STATE_OFFSET")
+    attempt = guard.index("ap_transition_is_human_up_attempt(")
+    human_count = guard.index("KIRBY_NUM_HUMAN_PLAYERS_ADDR")
+    movement_state = guard.index("KIRBY_STRUCT_MOVEMENT_STATE_OFFSET")
     source_tile = guard.index("ap_current_special_tile_destination(")
-    destination_match = guard.index("tile_destination_room == destination_room")
-    spawn_x_match = guard.index("tile_spawn_x == spawn_x")
-    spawn_y_match = guard.index("tile_spawn_y == spawn_y")
+    destination_match = guard.index("ap_transition_matches_special_tile(")
     telemetry = guard.index("ap_log_transition_attempt(source_room, destination_room, 0u, allowed")
     denied = guard.index("if (allowed == 0u)", telemetry)
-    assert attempt < up < source_tile < destination_match < spawn_x_match < spawn_y_match < telemetry < denied
+    assert attempt < human_count < movement_state < source_tile < destination_match < telemetry < denied
     assert "return KIRBY_EXPLICIT_TRANSITION_FN(kirby, destination_room, spawn_x, spawn_y);" in guard
 
     def should_report(is_human: bool, holding_up: bool, destination_matches: bool,

@@ -104,6 +104,52 @@ async def test_missing_area_key_shows_destination_specific_bizhawk_notice(mock_b
 
 
 @pytest.mark.asyncio
+async def test_denied_then_allowed_retry_logs_both_and_notifies_only_on_denial(
+    mock_bizhawk_context: Any,
+) -> None:
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["starting_area_key_bitfield"] = 0
+    client._last_transition_event_counter = 0
+    client._room_area_id_by_doors_idx = {77: 4}
+    ring_addr = 0x0203B0C8
+    destination_room = 0x0200
+    room_props_addr = 0x009331AC + destination_room * 0x28 + 0x24
+
+    async def read(_ctx: Any, requests: Any) -> list[bytes]:
+        if len(requests) == 2:
+            return [0x54524E31.to_bytes(4, "little"), (2).to_bytes(4, "little")]
+        address, size, _domain = requests[0]
+        if address == ring_addr + 12:
+            return [_event(1, 0x0100, destination_room, 1, False, 2)]
+        if address == ring_addr + 24:
+            return [_event(2, 0x0100, destination_room, 1, True, 3)]
+        if address == room_props_addr:
+            return [(77).to_bytes(2, "little")]
+        return [bytes(size)]
+
+    with patch.dict(data.native_ram_addresses, {
+        "transition_event_counter_runtime": 0x0203B0C4,
+        "transition_event_ring_runtime": ring_addr,
+        "transition_event_telemetry_cookie_runtime": 0x0203B130,
+    }, clear=False), patch(
+        "worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock, side_effect=read
+    ), patch(
+        "worlds.kirbyam.client.bizhawk.display_message", new_callable=AsyncMock
+    ) as display, patch("CommonClient.logger") as logger:
+        await client._poll_transition_attempt_events(mock_bizhawk_context)
+
+    assert logger.info.call_count == 2
+    assert logger.info.call_args_list[0].args[1:3] == ("denied", "warp star")
+    assert logger.info.call_args_list[1].args[1:3] == ("allowed", "warp star")
+    display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "You need the Mustard Mountain Area Key.",
+    )
+    assert client._last_transition_event_counter == 2
+
+
+@pytest.mark.asyncio
 async def test_allowed_transition_never_shows_area_key_notice(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
@@ -237,4 +283,43 @@ def test_rom_transition_telemetry_ring_is_sequence_tagged_and_debounced() -> Non
     assert "AP_TRANSITION_EVENT_RING_SLOTS 8u" in source
     assert "AP_TRANSITION_EVENT_LAST_SIGNATURE" in source
     assert "(frame - AP_TRANSITION_EVENT_LAST_FRAME) < 30u" in source
+    assert "signature ^ (metadata * 0x9E3779B9u)" in source
     assert "AP_TRANSITION_EVENT_COUNTER = counter" in source
+
+
+@pytest.mark.asyncio
+async def test_denied_event_without_area_mapping_is_logged_without_guessing_key(
+    mock_bizhawk_context: Any,
+) -> None:
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data["starting_area_key_bitfield"] = 0
+    client._last_transition_event_counter = 0
+    client._room_area_id_by_doors_idx = {}
+    ring_addr = 0x0203B0C8
+    destination_room = 0x0200
+
+    async def read(_ctx: Any, requests: Any) -> list[bytes]:
+        if len(requests) == 2:
+            return [0x54524E31.to_bytes(4, "little"), (1).to_bytes(4, "little")]
+        address, size, _domain = requests[0]
+        if address == ring_addr + 12:
+            return [_event(1, 0x0100, destination_room, 1, False, 2)]
+        if address == 0x009331AC + destination_room * 0x28 + 0x24:
+            return [(0xFFFF).to_bytes(2, "little")]
+        return [bytes(size)]
+
+    with patch.dict(data.native_ram_addresses, {
+        "transition_event_counter_runtime": 0x0203B0C4,
+        "transition_event_ring_runtime": ring_addr,
+        "transition_event_telemetry_cookie_runtime": 0x0203B130,
+    }, clear=False), patch(
+        "worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock, side_effect=read
+    ), patch(
+        "worlds.kirbyam.client.bizhawk.display_message", new_callable=AsyncMock
+    ) as display, patch("CommonClient.logger") as logger:
+        await client._poll_transition_attempt_events(mock_bizhawk_context)
+
+    logger.info.assert_called_once()
+    assert logger.info.call_args.args[1:3] == ("denied", "warp star")
+    display.assert_not_awaited()
