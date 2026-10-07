@@ -591,6 +591,82 @@ def test_set_rules_applies_item_gates_to_area_entrances() -> None:
     assert checked == 22
 
 
+def _make_collection_state_room_graph():
+    """Build the actual Kirby AM region graph without generating an item pool."""
+    from BaseClasses import CollectionState, MultiWorld
+    from worlds.AutoWorld import World
+
+    from ..regions import create_regions
+
+    multiworld = MultiWorld(1)
+    multiworld.game[1] = KirbyAmWorld.game
+    multiworld.player_name = {1: "Hub Connection Logic Test"}
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+    World.__init__(world, multiworld, 1)
+    multiworld.worlds[1] = world
+    world.options = SimpleNamespace(
+        goal=SimpleNamespace(value=Goal.option_dark_mind),
+        room_sanity=SimpleNamespace(value=False),
+    )
+    create_regions(world)
+    set_rules(world)
+    return multiworld, CollectionState(multiworld)
+
+
+def test_collection_state_gates_hub_shortcuts_and_preserves_overland_routes() -> None:
+    multiworld, state = _make_collection_state_room_graph()
+    gated_edges = {
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_3":
+            "Rainbow Route South - Hub Connection",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_1":
+            "Rainbow Route South - Hub Connection",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_MIDDLE_PLATFORMS -> REGION_MOONLIGHT_MANSION/ROOM_2_HUB":
+            "Rainbow Route East - Hub Connection",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_HUB -> REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE":
+            "Moonlight Mansion - Hub Connection",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_MIDDLE_PLATFORMS -> REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1":
+            "Peppermint Palace East - Hub Connection",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS -> REGION_CANDY_CONSTELLATION/ROOM_9_HUB":
+            "Candy Constellation - Hub Connection",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3 -> REGION_CANDY_CONSTELLATION/ROOM_9_HUB":
+            "Candy Constellation - Hub Connection",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_HUB -> REGION_RAINBOW_ROUTE/ROOM_1_HUB_3":
+            "Candy Constellation - Hub Connection",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3 -> REGION_CARROT_CASTLE/ROOM_5_HUB":
+            "Rainbow Route West - Hub Connection",
+        "REGION_CARROT_CASTLE/ROOM_5_HUB -> REGION_PEPPERMINT_PALACE/ROOM_7_01":
+            "Carrot Castle - Hub Connection",
+        "REGION_CARROT_CASTLE/ROOM_5_HUB -> REGION_PEPPERMINT_PALACE/ROOM_7_17":
+            "Carrot Castle - Hub Connection",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3 -> REGION_PEPPERMINT_PALACE/ROOM_7_15":
+            "Peppermint Palace East - Hub Connection",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_15 -> REGION_RAINBOW_ROUTE/ROOM_1_HUB_3":
+            "Peppermint Palace East - Hub Connection",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3 -> REGION_RAINBOW_ROUTE/ROOM_1_HUB_3":
+            "Cabbage Cavern Center - Hub Connection",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3 -> REGION_RADISH_RUINS/ROOM_8_GOAL_2":
+            "Cabbage Cavern West - Hub Connection",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3 -> REGION_RADISH_RUINS/ROOM_8_BOSS":
+            "Cabbage Cavern West - Hub Connection",
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_2 -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_3":
+            "Radish Ruins - Hub Connection",
+        "REGION_RADISH_RUINS/ROOM_8_BOSS -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_3":
+            "Radish Ruins - Hub Connection",
+    }
+
+    for entrance_name, item_name in gated_edges.items():
+        entrance = multiworld.get_entrance(entrance_name, 1)
+        assert not entrance.access_rule(state), entrance_name
+        state.add_item(item_name, 1)
+        assert entrance.access_rule(state), entrance_name
+        state.remove_item(item_name, 1)
+
+    # Existing overland passages remain traversable without a hub item; these
+    # are separate room connections, not the world-map hub shortcuts above.
+    assert state.can_reach("REGION_CABBAGE_CAVERN/ROOM_3_09", "Region", 1)
+    assert state.can_reach("REGION_CARROT_CASTLE/ROOM_5_05", "Region", 1)
+
+
 def test_logical_exit_overrides_reference_declared_exits() -> None:
     from ..data import load_json_data, normalize_region_exits
 

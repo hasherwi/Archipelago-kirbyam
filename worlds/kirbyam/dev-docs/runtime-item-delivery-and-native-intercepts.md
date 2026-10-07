@@ -22,6 +22,7 @@ This document defines how AP items are injected and how native reward paths are 
 | Area maps | +10..+17 and +24 | Set native big chest map bits via ap_unlock_area_map() |
 | Vitality counters | +18..+21 | Increment vitality once per item index using AP_DELIVERED_VITALITY_ITEM_BITS replay guard |
 | Sound Player | +25 | Call KIRBY_COLLECT_SOUND_PLAYER_FN(0) |
+| Hub Connections | +41..+55 | Set the mapped native world-props unlock; the received-item ownership mask restores this state after reconnect. |
 | Consumables | +26..+31 | Grant food, battery, max tomato, invincibility candy, energy drink, hunk of meat |
 | Traps | +32..+36 | Apply health/life/bomb/battery/lives penalties |
 
@@ -40,7 +41,7 @@ AP mode records checks and suppresses or normalizes native rewards so progressio
 | Sound Player chest path | ap_on_collect_sound_player_chest() | Reward index 0 becomes the AP Sound Player chest check; nonzero Music Sheet rewards call the native grant function. |
 | Spray paint chest reward | Native callsite | Left unpatched so the original native Spray Paint reward is granted. The generic small-chest hook has already recorded the physical check event and persistence. |
 | Small chest reward | ap_on_collect_small_chest() | Record exact source pointer and native small-chest persistence so client can map to correct AP minor location. |
-| Hub switch/world map door unlock | ap_on_world_map_unlock_call() | Record the physical switch check and skip the native unlock callback. Hub Connection item receipt writes the mapped native world-props state; the client-supplied ownership mask reapplies owned doors after reconnect and prevents them from being re-reported as physical switch checks. |
+| Hub switch/world map door unlock | ap_on_world_map_unlock_call() | For a mapped hub door, record the physical switch check and call the game's transition-completion callback without granting the connection. Preserve the selected callback for `NO_UNLOCK` and unknown door values. The Big Switch initializer uses a zero-valued scratch entry when an AP-owned door has not had its physical switch check, keeping the switch available after the item unlocks the route. Hub Connection item receipt writes the mapped native world-props state; the client-supplied ownership mask reapplies owned doors after reconnect and prevents them from being re-reported as physical switch checks. |
 
 ## Client-side reconciliation that enforces AP ownership
 
@@ -48,6 +49,6 @@ worlds/kirbyam/client.py runs these every active gameplay tick:
 
 - _reconcile_native_shard_ownership(): keeps shard bits aligned to AP-delivered ownership.
 - _reconcile_native_map_ownership(): keeps native map bits aligned to AP-delivered maps and start_with_all_maps.
-- _sync_hub_connection_item_ownership(): sends the complete received-door mask before polling and item delivery; the payload reapplies owned world-map doors from that mask.
+- _sync_hub_connection_item_ownership(): waits for `ReceivedItems` index zero on the current server socket, sends the complete received-door mask before polling checks or delivering items, and writes the unknown sentinel while the inventory is not ready; the payload reapplies owned doors from the mask.
 
 These reconciliation passes are the final guardrails that interrupt native drift from save/load/cutscene edge cases.

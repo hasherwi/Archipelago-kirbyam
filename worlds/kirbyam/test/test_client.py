@@ -1763,6 +1763,8 @@ async def test_hub_connection_ownership_sync_uses_complete_received_item_history
         Mock(item=3860055, player=1),  # Native door index 15 -> mask bit 15.
         Mock(item=3860001, player=1),  # Non-connection item is ignored.
     ]
+    client._notification_settings_loaded = True
+    client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
 
     with patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
         await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
@@ -1772,6 +1774,83 @@ async def test_hub_connection_ownership_sync_uses_complete_received_item_history
         mock_bizhawk_context.bizhawk_ctx,
         [(data.transport_ram_addresses["hub_connection_item_mask"], mask.to_bytes(4, "little"), "System Bus")],
     )
+
+
+@pytest.mark.asyncio
+async def test_hub_connection_ownership_waits_for_current_connection_item_history(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._notification_settings_loaded = True
+    mask_addr = data.transport_ram_addresses["hub_connection_item_mask"]
+
+    with patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        # slot_data can remain available while the server is still replaying
+        # ReceivedItems. An empty list is unknown, not an empty inventory.
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+        mock_write.assert_awaited_once_with(
+            mock_bizhawk_context.bizhawk_ctx,
+            [(mask_addr, (0xFFFFFFFF).to_bytes(4, "little"), "System Bus")],
+        )
+
+        mock_bizhawk_context.items_received = [Mock(item=3860041, player=1)]
+        client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+        assert mock_write.await_args.args[1] == [(mask_addr, (1 << 1).to_bytes(4, "little"), "System Bus")]
+
+
+@pytest.mark.asyncio
+async def test_hub_connection_reconnect_clears_mask_until_index_zero_replay(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._notification_settings_loaded = True
+    mask_addr = data.transport_ram_addresses["hub_connection_item_mask"]
+    mock_bizhawk_context.items_received = [Mock(item=3860041, player=1)]
+    client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
+
+    with patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+        old_socket = mock_bizhawk_context.server.socket
+        mock_bizhawk_context.server.socket = Mock(closed=False)
+        mock_bizhawk_context.items_received = []
+
+        # The new socket must not inherit the old connection's complete mask.
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+        assert mock_write.await_args.args[1] == [(mask_addr, (0xFFFFFFFF).to_bytes(4, "little"), "System Bus")]
+        assert client._hub_connection_item_history_ready(mock_bizhawk_context) is False
+
+        mock_bizhawk_context.items_received = [Mock(item=3860055, player=1)]
+        client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+        assert mock_write.await_args.args[1] == [(mask_addr, (1 << 15).to_bytes(4, "little"), "System Bus")]
+        assert client._hub_connection_item_history_ready(mock_bizhawk_context) is True
+        assert old_socket is not mock_bizhawk_context.server.socket
+
+
+@pytest.mark.asyncio
+async def test_game_watcher_waits_for_received_item_history_before_polling(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._notification_settings_loaded = True
+
+    with patch.object(client, "_load_debug_settings"), \
+         patch.object(client, "_log_slot_metadata_once"), \
+         patch.object(client, "_sync_death_link_setting", new_callable=AsyncMock), \
+         patch.object(client, "_sync_enemy_copy_ability_runtime_config", new_callable=AsyncMock), \
+         patch.object(client, "_sync_challenge_runtime_config", new_callable=AsyncMock), \
+         patch.object(client, "_runtime_gameplay_state", new_callable=AsyncMock) as mock_runtime_state, \
+         patch.object(client, "_deliver_items", new_callable=AsyncMock) as mock_deliver_items, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        await client.game_watcher(mock_bizhawk_context)
+
+    assert mock_write.await_args.args[1] == [
+        (
+            data.transport_ram_addresses["hub_connection_item_mask"],
+            (0xFFFFFFFF).to_bytes(4, "little"),
+            "System Bus",
+        )
+    ]
+    mock_runtime_state.assert_not_awaited()
+    mock_deliver_items.assert_not_awaited()
 
 
 @pytest.mark.asyncio

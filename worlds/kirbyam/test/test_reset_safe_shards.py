@@ -162,20 +162,24 @@ def test_payload_tracks_sound_player_chest_checks_and_ap_unlock_apply() -> None:
 
 
 def test_payload_intercepts_hub_switch_unlocks_and_reports_switch_checks() -> None:
-    """Verify switch hits report checks but do not invoke native door unlocks.
+    """Verify switch hits report checks without granting their native doors.
 
     Decomp reference (katam): `sub_08039ED4` dispatches unlock callbacks from
     `gUnk_0834BD94` using `ldrh [task, #8]`. The AP hook must read the same
     halfword and map enum WorldMapDoor values to AP hub-switch bit order while
     ignoring non-unlock values (e.g., `WORLDMAP_NO_UNLOCK` = 0). The AP check is
-    reported directly from callback dispatch, while the native callback that
-    starts and saves the unlock is deliberately skipped. Existing native
-    unlocks are still mirrored by the persisted-state sync path.
+    reported directly from callback dispatch. Mapped doors use the game's
+    transition-completion callback instead of granting the door. Unmapped
+    values retain their original callback. Existing native unlocks are still
+    mirrored by the persisted-state sync path.
     """
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+    hook_logic_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "hub_connection_runtime_logic.h")
 
     with open(payload_path, 'r') as f:
         content = f.read()
+    with open(hook_logic_path, 'r') as f:
+        hook_logic_content = f.read()
 
     assert "AP_HUB_SWITCH_FLAGS" in content, "Hub switch transport register should be defined"
     assert "ap_set_hub_switch_flag" in content, "Hub switch flag helper should exist"
@@ -186,7 +190,13 @@ def test_payload_intercepts_hub_switch_unlocks_and_reports_switch_checks() -> No
     )
     assert "ap_on_world_map_unlock_call" in content, "World-map unlock hook target should exist"
     assert "task_ptr + 0x08u" in content, "Hook should read the world-map unlock task index at +0x08"
-    assert "unlock_fn();" not in content, "Hook must suppress native connection unlock callback"
+    assert "ap_dispatch_world_map_unlock(" in content
+    assert "KIRBY_WORLD_MAP_TRANSITION_COMPLETE_FN" in content
+    assert "ap_set_hub_switch_flag" in content
+    assert "unlock_callback();" in hook_logic_content, "Unmapped doors must preserve their native callback"
+    assert "AP_HUB_SWITCH_INIT_STATE (*(volatile uint32_t*)(AP_BASE + 0xC4u))" in content
+    assert "ap_on_hub_switch_init_state_lookup" in content
+    assert "ap_should_mask_item_owned_hub_unlock(" in content
     assert "KIRBY_WORLD_PROPS_ENTRY_FN" in content, "Payload should reference sub_08002888 world-props accessor"
     assert "#include \"generated_hub_switch_worldmap_cases.inc\"" in content, (
         "Hub switch world-map mapping should come from generated contract include"
@@ -206,16 +216,26 @@ def test_payload_intercepts_hub_switch_unlocks_and_reports_switch_checks() -> No
     assert "ap_try_map_worldmap_door_to_hub_switch_bit(" in hook_body, (
         "Hook should translate world-map door index before setting AP hub-switch bit"
     )
-    assert "(void)unlock_fn;" in hook_body, "Hook should intentionally discard native unlock callback"
+    assert "(void)unlock_fn;" not in hook_body, "Hook must retain native callback for unmapped values"
     assert "ap_is_hub_unlock_persisted(world_props_unlock_index)" not in hook_body, (
         "Switch-hit check reporting must not depend on the suppressed native unlock persisting"
     )
-    assert "if (ap_try_map_worldmap_door_to_hub_switch_bit(" in hook_body, (
-        "Hook should ignore NO_UNLOCK/unknown world-map door indices"
+    assert "ap_dispatch_world_map_unlock(" in hook_body, (
+        "Mapped and unmapped unlocks should use the tested native-callback policy"
     )
-    assert "ap_set_hub_switch_flag(ap_hub_switch_bit);" in hook_body, (
-        "Hook should report the switch check after successful door-index translation"
+
+    init_hook_match = re.search(
+        r"uint32_t\s*\*\s*ap_on_hub_switch_init_state_lookup[^{]*\{(?P<body>.*?)^}",
+        content,
+        flags=re.DOTALL | re.MULTILINE,
     )
+    assert init_hook_match is not None
+    init_hook_body = init_hook_match.group("body")
+    assert "AP_HUB_CONNECTION_ITEM_MASK" in init_hook_body
+    assert "AP_HUB_SWITCH_FLAGS" in init_hook_body
+    assert "AP_HUB_SWITCH_INIT_STATE = 0u;" in init_hook_body
+    assert "return (uint32_t*)&AP_HUB_SWITCH_INIT_STATE;" in init_hook_body
+    assert "return KIRBY_WORLD_PROPS_ENTRY_FN(" in init_hook_body
 
     include_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "generated_hub_switch_worldmap_cases.inc")
     assert os.path.exists(include_path), "Generated hub-switch include should exist"

@@ -152,6 +152,25 @@ def test_big_switch_unlock_call_offset_matches_verified_hook_site() -> None:
     assert patch_rom.BIG_SWITCH_UNLOCK_CALL_OFFSET == 0x00039EEE
 
 
+def test_big_switch_init_state_lookup_callsite_matches_verified_target() -> None:
+    assert patch_rom.BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET == 0x0002AD24
+    assert patch_rom.ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR == 0x08002888
+
+    offset = patch_rom.BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET
+    rom = bytearray(offset + 4)
+    rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(
+        0x08000000 + offset,
+        patch_rom.ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR,
+    )
+    original = patch_rom.validate_thumb_bl_callsite_target(
+        rom,
+        offset,
+        "hub switch initialization state lookup",
+        patch_rom.ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR,
+    )
+    assert original == rom[offset:offset + 4]
+
+
 def test_small_switch_effect_call_offset_matches_verified_hook_site() -> None:
     # sub_08119B3C loads gUnk_08357B8C[source+0x14] and then calls the selected
     # effect through `_call_via_r0`; the BL starts at ROM file offset 0x119B98.

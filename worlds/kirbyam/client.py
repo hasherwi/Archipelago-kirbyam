@@ -475,6 +475,12 @@ class KirbyAmClient(BizHawkClient):
         self._watcher_server_ready: bool = False
         self._watcher_requires_bizhawk_resync: bool = False
         self._last_watcher_transport_error: str | None = None
+        # A live slot_data object can survive a server reconnect while
+        # CommonClient is still replaying ReceivedItems. Do not interpret the
+        # temporarily empty item list as the complete inventory.
+        self._hub_connection_received_items_ready: bool = False
+        self._hub_connection_received_items_socket: object | None = None
+        self._hub_connection_unknown_mask_socket: object | None = None
 
         # Poll diagnostics de-duplication (avoid per-tick log spam)
         self._last_shard_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
@@ -1655,6 +1661,9 @@ class KirbyAmClient(BizHawkClient):
             self._watcher_server_ready = False
             self._watcher_requires_bizhawk_resync = False
             self._last_watcher_transport_error = None
+            self._hub_connection_received_items_ready = False
+            self._hub_connection_received_items_socket = None
+            self._hub_connection_unknown_mask_socket = None
             self._death_link_enabled = None
             self._incoming_death_link_pending = False
             self._last_incoming_death_link_time = None
@@ -1681,6 +1690,10 @@ class KirbyAmClient(BizHawkClient):
 
             # Restore the payload's full item-ownership view before checks or delivery.
             await self._sync_hub_connection_item_ownership(ctx)
+            if not self._hub_connection_item_history_ready(ctx):
+                # Wait for the current connection's complete ReceivedItems
+                # replay. Slot data may still be present from the old session.
+                return
 
             self._log_starting_kirby_color_config_once(ctx)
 
@@ -2640,6 +2653,20 @@ class KirbyAmClient(BizHawkClient):
         if mask_addr is None or not callable(getattr(bizhawk_ctx, "_send_message", None)):
             return
 
+        server = getattr(ctx, "server", None)
+        socket = getattr(server, "socket", None)
+        if not self._hub_connection_item_history_ready(ctx):
+            # Clear any mask left in EWRAM by the previous connection. The
+            # payload treats this sentinel as unknown and waits for a complete
+            # ReceivedItems index-zero replay before applying door ownership.
+            if socket is not None and self._hub_connection_unknown_mask_socket is not socket:
+                await bizhawk.write(
+                    ctx.bizhawk_ctx,
+                    [(mask_addr, (0xFFFFFFFF).to_bytes(4, "little"), "System Bus")],
+                )
+                self._hub_connection_unknown_mask_socket = socket
+            return
+
         item_mask = 0
         for network_item in getattr(ctx, "items_received", ()):
             item_fields = self._extract_delivery_item_fields(network_item)
@@ -2652,6 +2679,18 @@ class KirbyAmClient(BizHawkClient):
         await bizhawk.write(
             ctx.bizhawk_ctx,
             [(mask_addr, item_mask.to_bytes(4, "little"), "System Bus")],
+        )
+        self._hub_connection_unknown_mask_socket = socket
+
+    def _hub_connection_item_history_ready(self, ctx: KirbyAmBizHawkClientContext) -> bool:
+        """Whether ReceivedItems index zero has arrived on this open server socket."""
+        server = getattr(ctx, "server", None)
+        socket = getattr(server, "socket", None)
+        return bool(
+            socket is not None
+            and not getattr(socket, "closed", True)
+            and self._hub_connection_received_items_ready
+            and self._hub_connection_received_items_socket is socket
         )
 
     async def _persist_u32(self, ctx: KirbyAmBizHawkClientContext, key: str, value: int) -> None:
@@ -4181,6 +4220,17 @@ class KirbyAmClient(BizHawkClient):
     def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict) -> None:
         if not self._notification_settings_loaded:
             self._load_notification_settings(ctx)
+        if cmd == "ReceivedItems" and args.get("index") == 0:
+            # CommonClient calls this after it has reset and populated
+            # ctx.items_received from the server's complete inventory replay.
+            server = getattr(ctx, "server", None)
+            socket = getattr(server, "socket", None)
+            if socket is not None and not getattr(socket, "closed", True):
+                self._hub_connection_received_items_socket = socket
+                self._hub_connection_received_items_ready = True
+            else:
+                self._hub_connection_received_items_socket = None
+                self._hub_connection_received_items_ready = False
         if cmd == "Bounced":
             self._queue_incoming_death_link(args)
         if cmd == "PrintJSON":
