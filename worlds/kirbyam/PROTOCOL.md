@@ -215,6 +215,7 @@ Minor chest status:
 - The runtime records native chest persistence and reports checks only from exact source pointers in the event ring. All 41 active checks are ordinary item chests; stacked PR #931 suppresses their delayed native reward so the AP-assigned item is delivered. The other 24 physical small-chest records are fixed Spray Paint or Music Sheet rewards and remain native pending their item support under #525.
 - The `NativeRewardConsumable` tag records the reward profile for the item-logic PR; it does not change location identity. Older spray-paint/music-note collection-name rows are retained for ID history and excluded from region generation because they do not identify unique physical chests.
 - Native small-chest and collectible bitfields are not used to infer AP minor-chest locations. Exact source events are read from `minor_chest_event_ring` and filtered against the current slot's active locations.
+- Once observed, exact-source checks stay pending in the client until the server acknowledges them. They are retried even when the ring counter is unchanged, after ring overwrite, and across transient reconnects in the same authenticated seed/team/slot. Pending checks are cleared on ROM/client initialization or session identity changes. Events overwritten before the client ever observes them, and unacknowledged observations lost on process exit, still need runtime recovery validation; the eight-entry ring is not durable storage.
 
 ## Client Protocol
 

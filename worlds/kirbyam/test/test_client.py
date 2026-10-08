@@ -914,10 +914,120 @@ async def test_poll_minor_chest_event_deduplicates_unchanged_counter(mock_bizhaw
          patch.object(mock_bizhawk_context, "send_msgs", new_callable=AsyncMock) as mock_send:
         mock_read.return_value = [raw_counter, raw_ring]
         await client._poll_minor_chest_locations(mock_bizhawk_context)
+        mock_bizhawk_context.checked_locations.add(target.location_id)
         await client._poll_minor_chest_locations(mock_bizhawk_context)
 
     assert mock_send.await_count == 1
     mock_send.assert_awaited_once_with([{"cmd": "LocationChecks", "locations": [target.location_id]}])
+
+
+@pytest.mark.asyncio
+async def test_minor_chest_retries_until_server_acknowledges(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    target = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"]
+    with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as mock_read:
+        mock_read.return_value = [
+            (1).to_bytes(4, "little"),
+            _minor_chest_event_ring(0x08000000 + target.source_rom_offset),
+        ]
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+        assert mock_bizhawk_context.send_msgs.await_count == 2
+        assert client._pending_minor_chest_locations == {target.location_id}
+        mock_bizhawk_context.checked_locations.add(target.location_id)
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+    assert mock_bizhawk_context.send_msgs.await_count == 2
+    assert not client._pending_minor_chest_locations
+
+
+@pytest.mark.asyncio
+async def test_minor_chest_retains_check_when_send_raises(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    target = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"]
+    mock_bizhawk_context.send_msgs.side_effect = [ConnectionError("socket closed"), None]
+    with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as mock_read:
+        mock_read.return_value = [
+            (1).to_bytes(4, "little"),
+            _minor_chest_event_ring(0x08000000 + target.source_rom_offset),
+        ]
+        with pytest.raises(ConnectionError, match="socket closed"):
+            await client._poll_minor_chest_locations(mock_bizhawk_context)
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+    assert mock_bizhawk_context.send_msgs.await_count == 2
+    assert client._pending_minor_chest_locations == {target.location_id}
+
+
+@pytest.mark.asyncio
+async def test_minor_chest_pending_check_survives_ring_overwrite(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    target = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"]
+    with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as mock_read:
+        mock_read.side_effect = [
+            [(1).to_bytes(4, "little"), _minor_chest_event_ring(0x08000000 + target.source_rom_offset)],
+            [(10).to_bytes(4, "little"), _minor_chest_event_ring()],
+        ]
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+    assert mock_bizhawk_context.send_msgs.await_count == 2
+    mock_bizhawk_context.send_msgs.assert_awaited_with([
+        {"cmd": "LocationChecks", "locations": [target.location_id]}
+    ])
+
+
+@pytest.mark.asyncio
+async def test_minor_chest_pending_check_survives_transient_reconnect(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    target = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"]
+    with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as mock_read:
+        mock_read.side_effect = [
+            [(1).to_bytes(4, "little"), _minor_chest_event_ring(0x08000000 + target.source_rom_offset)],
+            [(0).to_bytes(4, "little"), _minor_chest_event_ring()],
+        ]
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+        client._reset_reconnect_transient_state()
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+    assert mock_bizhawk_context.send_msgs.await_count == 2
+    assert client._pending_minor_chest_locations == {target.location_id}
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("field,new_value", [("auth", "different ROM"), ("slot", 2), ("team", 1),
+                                            ("server_seed_name", "different seed")])
+async def test_minor_chest_pending_check_does_not_cross_sessions(mock_bizhawk_context, field, new_value):
+    client = KirbyAmClient()
+    client.initialize_client()
+    target = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"]
+    with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as mock_read:
+        mock_read.side_effect = [
+            [(1).to_bytes(4, "little"), _minor_chest_event_ring(0x08000000 + target.source_rom_offset)],
+            [(0).to_bytes(4, "little"), _minor_chest_event_ring()],
+        ]
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+        setattr(mock_bizhawk_context, field, new_value)
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+    assert mock_bizhawk_context.send_msgs.await_count == 1
+    assert not client._pending_minor_chest_locations
+
+
+@pytest.mark.asyncio
+async def test_minor_chest_pending_check_respects_updated_active_locations(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    target = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"]
+    with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as mock_read:
+        mock_read.return_value = [
+            (1).to_bytes(4, "little"),
+            _minor_chest_event_ring(0x08000000 + target.source_rom_offset),
+        ]
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+        mock_bizhawk_context.server_locations = {data.locations["MINOR_CHEST_CABBAGE_CAVERN_3_09"].location_id}
+        await client._poll_minor_chest_locations(mock_bizhawk_context)
+    assert mock_bizhawk_context.send_msgs.await_count == 1
+    assert not client._pending_minor_chest_locations
 
 
 @pytest.mark.asyncio

@@ -32,6 +32,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Bug Fixes
 
+- Retain observed minor-chest checks until the server acknowledges them, including dropped sends and reconnects, so consumed event-ring entries do not silently lose AP checks (Issue #129).
 - Boss checks were mapped incorrectly for the `defeat_configured_area_boss` goal. That's been fixed (Issue #893).
 - Adds cutter to the base ability pool to make sure players can cut the drop down platforms. (Issue #894)
 - Preserve locally found ability unlocks after reconnecting by requesting the full received-item history from the server (Issue #910).
