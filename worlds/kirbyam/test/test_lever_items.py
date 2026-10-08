@@ -54,9 +54,10 @@ def test_payload_decouples_physical_lever_from_wall_unlock() -> None:
 
     assert "AP_LEVER_ACTIVATION_FLAGS" in payload
     assert "void ap_on_small_switch_effect(KirbySmallSwitchEffectFn native_effect)" in payload
-    for doors_idx in _EXPECTED_LEVER_ROOMS.values():
-        assert f"case {doors_idx}u:" in payload
-    assert "AP_LEVER_ACTIVATION_FLAGS |= activation_bit" in payload
+    assert "ap_lever_bit_for_obj(chest_obj_ptr)" in payload
+    assert "AP_LEVER_ACTIVATION_FLAGS |= lever_bit" in payload
+    assert "void ap_on_initialize_chest(void *chest)" in payload
+    assert "void ap_on_chest_popup_room_counter" in payload
     assert "native_effect();" in payload
 
     assert "lever_wall_chest_ids[4] = {18u, 65u, 77u, 74u}" in payload

@@ -34,6 +34,9 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Bug Fixes
 
 - Retain observed minor-chest checks until the server acknowledges them, including dropped sends and reconnects, so consumed event-ring entries do not silently lose AP checks (Issue #129).
+- Correct the lever runtime path to intercept native reward-0x63 chests, separate physical checks from delayed wall opening, and keep levers usable when their wall items arrive first (Issues #911, #912; source-tested, emulator acceptance pending).
+- Reapply ability unlock gating at the final native ability commit so late pending-ability writes, including native roulette, cannot bypass the entry gate (Issue #892 hardening; original damage/contact reproduction remains pending).
+
 - Boss checks were mapped incorrectly for the `defeat_configured_area_boss` goal. That's been fixed (Issue #893).
 - Adds cutter to the base ability pool to make sure players can cut the drop down platforms. (Issue #894)
 - Preserve locally found ability unlocks after reconnecting by requesting the full received-item history from the server (Issue #910).
