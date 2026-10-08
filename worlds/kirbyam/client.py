@@ -409,6 +409,8 @@ class KirbyAmClient(BizHawkClient):
                 exact_event_minor_count,
             )
         self._last_minor_chest_event_counter: int | None = None
+        self._pending_minor_chest_locations: set[int] = set()
+        self._minor_chest_session_key: tuple[object, ...] | None = None
         self._logged_unknown_minor_chest_source_ptrs: set[int] = set()
 
         # Vitality chest bitfield -> location IDs (VITALITY_CHEST category; dedicated transport register)
@@ -2836,6 +2838,21 @@ class KirbyAmClient(BizHawkClient):
         if not self._minor_chest_location_id_by_source_ptr:
             return
 
+        # Keep observed checks across transient network/connector reconnects, but
+        # never carry them into a different authenticated seed/team/slot.
+        session_key = tuple(
+            value if isinstance(value, (str, int)) else None
+            for value in (
+                getattr(ctx, "server_seed_name", None), getattr(ctx, "auth", None),
+                getattr(ctx, "team", None), getattr(ctx, "slot", None),
+            )
+        )
+        if self._minor_chest_session_key != session_key:
+            if self._minor_chest_session_key is not None:
+                self._pending_minor_chest_locations.clear()
+                self._last_minor_chest_event_counter = None
+            self._minor_chest_session_key = session_key
+
         counter_addr = self._transport_addr(_MINOR_CHEST_EVENT_COUNTER_ADDR_KEY)
         ring_addr = self._transport_addr(_MINOR_CHEST_EVENT_RING_BASE_ADDR_KEY)
         if counter_addr is None or ring_addr is None:
@@ -2878,66 +2895,43 @@ class KirbyAmClient(BizHawkClient):
             return exact_checked_locations_local
 
         event_counter = self._u32_le(raw_counter)
+        exact_checked_locations: set[int] = set()
         if self._last_minor_chest_event_counter is None:
-            if event_counter == 0:
-                self._last_minor_chest_event_counter = 0
-                return
-
             baseline_window = min(event_counter, _MINOR_CHEST_EVENT_RING_SLOT_COUNT)
-            first_sequence = event_counter - baseline_window
-            exact_checked_locations = collect_exact_checked_locations(first_sequence, event_counter)
-            self._last_minor_chest_event_counter = event_counter
-
-            if not exact_checked_locations:
-                return
-
-            active_location_ids = self._active_location_id_set(ctx)
-            if active_location_ids is not None:
-                exact_checked_locations.intersection_update(active_location_ids)
-            missing_on_server = sorted(exact_checked_locations - ctx.checked_locations)
-            if not missing_on_server:
-                return
-
-            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
-            return
-
-        if event_counter == self._last_minor_chest_event_counter:
-            return
-
-        if event_counter < self._last_minor_chest_event_counter:
+            exact_checked_locations = collect_exact_checked_locations(
+                event_counter - baseline_window, event_counter
+            )
+        elif event_counter < self._last_minor_chest_event_counter:
             self._log_verbose(
                 "info",
                 "KirbyAM: exact minor-chest event counter regressed from %s to %s; resetting baseline (savestate/load).",
                 self._last_minor_chest_event_counter,
                 event_counter,
             )
-            self._last_minor_chest_event_counter = event_counter
-            return
+        elif event_counter > self._last_minor_chest_event_counter:
+            delta = event_counter - self._last_minor_chest_event_counter
+            if delta > _MINOR_CHEST_EVENT_RING_SLOT_COUNT:
+                self._log_verbose(
+                    "warning",
+                    "KirbyAM: dropped %s exact minor-chest events because the payload ring buffer overflowed.",
+                    delta - _MINOR_CHEST_EVENT_RING_SLOT_COUNT,
+                )
+                delta = _MINOR_CHEST_EVENT_RING_SLOT_COUNT
+            exact_checked_locations = collect_exact_checked_locations(event_counter - delta, event_counter)
 
-        delta = event_counter - self._last_minor_chest_event_counter
-        if delta > _MINOR_CHEST_EVENT_RING_SLOT_COUNT:
-            self._log_verbose(
-                "warning",
-                "KirbyAM: dropped %s exact minor-chest events because the payload ring buffer overflowed.",
-                delta - _MINOR_CHEST_EVENT_RING_SLOT_COUNT,
-            )
-            delta = _MINOR_CHEST_EVENT_RING_SLOT_COUNT
-
-        first_sequence = event_counter - delta
-        exact_checked_locations = collect_exact_checked_locations(first_sequence, event_counter)
-
+        # The ring is only an observation buffer, not an acknowledgment from the
+        # AP server. Retain every observed check before sending: send_msgs can
+        # raise, or silently return when its socket disconnected between polls.
         self._last_minor_chest_event_counter = event_counter
-        if not exact_checked_locations:
-            return
-
+        self._pending_minor_chest_locations.update(exact_checked_locations)
         active_location_ids = self._active_location_id_set(ctx)
         if active_location_ids is not None:
-            exact_checked_locations.intersection_update(active_location_ids)
-        missing_on_server = sorted(exact_checked_locations - ctx.checked_locations)
-        if not missing_on_server:
-            return
-
-        await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
+            self._pending_minor_chest_locations.intersection_update(active_location_ids)
+        self._pending_minor_chest_locations.difference_update(ctx.checked_locations)
+        if self._pending_minor_chest_locations:
+            await ctx.send_msgs([{
+                "cmd": "LocationChecks", "locations": sorted(self._pending_minor_chest_locations),
+            }])
 
     async def _poll_sound_player_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
