@@ -21,6 +21,12 @@ from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
 from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .generated_hub_switch_contract import HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY
+from .health import (
+    MAXIMUM_HEALTH_DEFAULT,
+    MINIMUM_HEALTH_DEFAULT,
+    reconcile_health,
+    resolve_health_range,
+)
 from .items import get_item_classification
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
 from .options import Goal, OneHitMode
@@ -188,6 +194,8 @@ _GAME_OPTION_SLOT_DATA_KEYS: tuple[str, ...] = (
     "trap_fill_percentage",
     "enemy_health_multiplier",
     "one_hit_mode",
+    "minimum_health",
+    "maximum_health",
     "death_link",
     "ability_randomization_mode",
     "ability_randomization_boss_spawns",
@@ -1743,7 +1751,7 @@ class KirbyAmClient(BizHawkClient):
             await self._reconcile_native_shard_ownership(ctx)
             await self._reconcile_native_map_ownership(ctx)
             await self._enforce_no_extra_lives(ctx)
-            await self._enforce_one_hit_mode(ctx)
+            await self._enforce_health_range(ctx)
             await self._apply_pending_death_link(ctx)
             await self._poll_and_send_local_death_link(ctx)
 
@@ -2146,19 +2154,25 @@ class KirbyAmClient(BizHawkClient):
             current_lives,
         )
 
-    async def _enforce_one_hit_mode(self, ctx: "BizHawkClientContext") -> None:
-        """Clamp Kirby's max HP (and current HP) to vitality_counter + 1 while one-hit mode is active.
+    async def _enforce_health_range(self, ctx: "BizHawkClientContext") -> None:
+        """Reconcile connected post-tutorial health, including legacy One-Hit presets.
 
-        Both exclude_vitality_counters and include_vitality_counters modes use a 1 HP base.
-        In exclude mode the client also scrubs native vitality counter back to 0 every
-        gameplay tick, giving a permanent max of 1 even if the ROM temporarily applies
-        a vitality grant before watcher reconciliation.
-        In include mode each received Vitality Counter item raises the cap by 1.
-
-        Enforcement targets player 0's Kirby struct (consistent with DeathLink HP tracking).
+        Defaults leave native behavior untouched. Slot data without the new keys
+        retains the old One-Hit meaning. No new payload/mailbox ABI is required.
         """
-        one_hit_mode = self._one_hit_mode_value(ctx)
-        if one_hit_mode == OneHitMode.option_off:
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            return
+        try:
+            health_range = resolve_health_range(
+                slot_data.get("minimum_health", MINIMUM_HEALTH_DEFAULT),
+                slot_data.get("maximum_health", MAXIMUM_HEALTH_DEFAULT),
+                self._one_hit_mode_value(ctx),
+            )
+        except ValueError:
+            # Invalid/unrecognized slot data must never produce unsafe HP writes.
+            return
+        if health_range == resolve_health_range():
             return
 
         vitality_addr = data.native_ram_addresses.get(_KIRBY_VITALITY_COUNTER_ADDR_KEY)
@@ -2178,44 +2192,34 @@ class KirbyAmClient(BizHawkClient):
         current_hp = self._s8(hp_raw)
         current_max_hp = self._s8(max_hp_raw)
 
-        desired_vitality_count = vitality_count
-        if one_hit_mode == OneHitMode.option_exclude_vitality_counters:
-            desired_vitality_count = 0
-
-        # One-hit base is 1; each Vitality Counter adds 1 to the cap.
-        desired_max_hp = min(desired_vitality_count + 1, 0x7F)
-
-        if vitality_count == desired_vitality_count and current_max_hp <= desired_max_hp and current_hp <= desired_max_hp:
-            return
-
+        desired_vitality_count, desired_hp, desired_max_hp = reconcile_health(
+            health_range, vitality_count, current_hp, current_max_hp,
+        )
         writes: list[tuple[int, bytes, str]] = []
         if vitality_count != desired_vitality_count:
             writes.append((vitality_addr, desired_vitality_count.to_bytes(2, "little"), "System Bus"))
-        if current_max_hp > desired_max_hp:
-            writes.append((max_hp_addr, bytes([desired_max_hp & 0xFF]), "System Bus"))
-        # Clamp alive HP down to new max; preserve dead/negative states.
-        if current_hp > 0 and current_hp > desired_max_hp:
-            writes.append((hp_addr, bytes([desired_max_hp & 0xFF]), "System Bus"))
+        if current_max_hp != desired_max_hp:
+            writes.append((max_hp_addr, bytes([desired_max_hp]), "System Bus"))
+        if current_hp != desired_hp:
+            writes.append((hp_addr, bytes([desired_hp]), "System Bus"))
 
         if writes:
-            await bizhawk.write(ctx.bizhawk_ctx, writes)
-
-            clamped_max_hp = current_max_hp > desired_max_hp
-            clamped_hp = current_hp > 0 and current_hp > desired_max_hp
-            parts = []
-            if vitality_count != desired_vitality_count:
-                parts.append(f"vitality_count {vitality_count}->{desired_vitality_count}")
-            if clamped_max_hp:
-                parts.append(f"max_hp {current_max_hp}->{desired_max_hp}")
-            if clamped_hp:
-                parts.append(f"hp {current_hp}->{desired_max_hp}")
-            if parts:
-                self._log_verbose(
-                    "info",
-                    "KirbyAM debug: one-hit mode clamped %s (desired_vitality_count=%s)",
-                    ", ".join(parts),
-                    desired_vitality_count,
-                )
+            # Guard the snapshot atomically: a hit/death/respawn or vitality
+            # delivery between read and write must not be overwritten or revived.
+            applied = await bizhawk.guarded_write(ctx.bizhawk_ctx, writes, [
+                (vitality_addr, vitality_raw, "System Bus"),
+                (hp_addr, hp_raw, "System Bus"),
+                (max_hp_addr, max_hp_raw, "System Bus"),
+            ])
+            if not applied:
+                return  # Re-read and reconcile on the next gameplay tick.
+            self._log_verbose(
+                "info",
+                "KirbyAM debug: health range %s..%s reconciled vitality %s->%s, max_hp %s->%s, hp %s->%s",
+                health_range.minimum, health_range.maximum,
+                vitality_count, desired_vitality_count,
+                current_max_hp, desired_max_hp, current_hp, desired_hp,
+            )
 
     @staticmethod
     def _s8(value: bytes) -> int:

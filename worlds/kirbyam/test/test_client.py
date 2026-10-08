@@ -3934,20 +3934,25 @@ async def test_enforce_one_hit_mode_clamps_max_hp_and_current_hp(mock_bizhawk_co
         },
         clear=False,
     ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+         patch('worlds.kirbyam.client.bizhawk.guarded_write', new_callable=AsyncMock) as mock_write:
         mock_read.return_value = [
             (0).to_bytes(2, 'little'),
             (4).to_bytes(1, 'little', signed=True),
             (6).to_bytes(1, 'little', signed=True),
         ]
 
-        await client._enforce_one_hit_mode(mock_bizhawk_context)
+        await client._enforce_health_range(mock_bizhawk_context)
 
     mock_write.assert_awaited_once_with(
         mock_bizhawk_context.bizhawk_ctx,
         [
             (0x02020FE1, bytes([1]), 'System Bus'),
             (0x02020FE0, bytes([1]), 'System Bus'),
+        ],
+        [
+            (0x02038980, mock_read.return_value[0], 'System Bus'),
+            (0x02020FE0, mock_read.return_value[1], 'System Bus'),
+            (0x02020FE1, mock_read.return_value[2], 'System Bus'),
         ],
     )
 
@@ -3967,19 +3972,24 @@ async def test_enforce_one_hit_mode_exclude_scrubs_native_vitality_counter(mock_
         },
         clear=False,
     ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+         patch('worlds.kirbyam.client.bizhawk.guarded_write', new_callable=AsyncMock) as mock_write:
         mock_read.return_value = [
             (3).to_bytes(2, 'little'),
             (1).to_bytes(1, 'little', signed=True),
             (1).to_bytes(1, 'little', signed=True),
         ]
 
-        await client._enforce_one_hit_mode(mock_bizhawk_context)
+        await client._enforce_health_range(mock_bizhawk_context)
 
     mock_write.assert_awaited_once_with(
         mock_bizhawk_context.bizhawk_ctx,
         [
             (0x02038980, (0).to_bytes(2, 'little'), 'System Bus'),
+        ],
+        [
+            (0x02038980, mock_read.return_value[0], 'System Bus'),
+            (0x02020FE0, mock_read.return_value[1], 'System Bus'),
+            (0x02020FE1, mock_read.return_value[2], 'System Bus'),
         ],
     )
 
@@ -3999,19 +4009,24 @@ async def test_enforce_one_hit_mode_preserves_dead_hp_state(mock_bizhawk_context
         },
         clear=False,
     ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+         patch('worlds.kirbyam.client.bizhawk.guarded_write', new_callable=AsyncMock) as mock_write:
         mock_read.return_value = [
             (1).to_bytes(2, 'little'),
             (-1).to_bytes(1, 'little', signed=True),
             (6).to_bytes(1, 'little', signed=True),
         ]
 
-        await client._enforce_one_hit_mode(mock_bizhawk_context)
+        await client._enforce_health_range(mock_bizhawk_context)
 
     mock_write.assert_awaited_once_with(
         mock_bizhawk_context.bizhawk_ctx,
         [
             (0x02020FE1, bytes([2]), 'System Bus'),
+        ],
+        [
+            (0x02038980, mock_read.return_value[0], 'System Bus'),
+            (0x02020FE0, mock_read.return_value[1], 'System Bus'),
+            (0x02020FE1, mock_read.return_value[2], 'System Bus'),
         ],
     )
 
@@ -4031,14 +4046,14 @@ async def test_enforce_one_hit_mode_skips_writes_when_already_within_cap(mock_bi
         },
         clear=False,
     ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+         patch('worlds.kirbyam.client.bizhawk.guarded_write', new_callable=AsyncMock) as mock_write:
         mock_read.return_value = [
             (2).to_bytes(2, 'little'),
             (2).to_bytes(1, 'little', signed=True),
             (3).to_bytes(1, 'little', signed=True),
         ]
 
-        await client._enforce_one_hit_mode(mock_bizhawk_context)
+        await client._enforce_health_range(mock_bizhawk_context)
 
     mock_write.assert_not_awaited()
 

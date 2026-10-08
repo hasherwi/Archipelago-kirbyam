@@ -74,6 +74,8 @@ def _build_representative_slot_data() -> dict[str, object]:
         "trap_fill_percentage": 25,
         "enemy_health_multiplier": 100,
         "one_hit_mode": 0,
+        "minimum_health": 6,
+        "maximum_health": 10,
         "death_link": True,
         "ability_randomization_mode": 1,
         "ability_randomization_boss_spawns": True,

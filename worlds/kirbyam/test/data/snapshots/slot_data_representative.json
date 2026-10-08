@@ -2881,6 +2881,8 @@
       ]
     }
   },
+  "maximum_health": 10,
+  "minimum_health": 6,
   "no_extra_lives": false,
   "one_hit_mode": 0,
   "room_sanity": false,
