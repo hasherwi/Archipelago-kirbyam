@@ -125,7 +125,7 @@ def test_payload_suppresses_native_rewards_for_exact_ap_minor_chests() -> None:
         if location.get("category") == "MINOR_CHEST" and location.get("source_rom_offset")
     }
 
-    assert len(expected_sources) == 41
+    assert len(expected_sources) == 63
     assert payload_sources == expected_sources
     assert "AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER" in payload
     assert "ap_on_minor_chest_reward_popup" in payload
@@ -194,11 +194,11 @@ def test_payload_tracks_sound_player_chest_checks_and_ap_unlock_apply() -> None:
     assert "AP_SOUND_PLAYER_CHEST_FLAGS" in content, "Sound Player chest transport register should be defined"
     assert "ap_on_collect_sound_player_chest" in content, "Sound Player chest hook target should exist"
     assert "ap_set_sound_player_chest_flag(0u)" in content, "Sound Player chest hook should set AP check bit"
-    assert "KIRBY_COLLECT_SOUND_PLAYER_FN(reward_index);" in content, (
-        "Non-Sound-Player music-sheet rewards must keep their native grant path"
+    assert "ap_apply_native_collection_reward(" in content, (
+        "Fixed collection hooks must preserve grants only for non-AP sources"
     )
-    assert "ap_on_collect_spray_paint_chest" not in content, (
-        "Spray-paint chest reward callsites must retain the original native grant"
+    assert "ap_on_collect_spray_paint_chest" in content, (
+        "Spray Paint grants must be intercepted separately from popup rewards"
     )
     assert "KIRBY_COLLECT_SOUND_PLAYER_FN(0u)" in content, "AP Sound Player item should apply native unlock"
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 25u" in content, "Sound Player AP item ID should be handled"

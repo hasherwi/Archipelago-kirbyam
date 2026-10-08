@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## v0.4.0
 
 ### New Features
+- Added mailbox support for all 14 unique Spray Paint and 10 unique Music Sheet items. Activated 22 unambiguous fixed-collection chests, each with its matching item in the pool, without awarding the original native collection item (Issues #525, #535, #537).
 - Added 41 ordinary small-chest location checks, matched to their exact ROM sources while preserving native chest persistence (PR #930).
 - Added an `/abilities` client command that lists the abilities currently unlocked for the slot (Issue #891).
 - Added a new option: `enemy_health_multiplier`. Scale all enemies' health values between 50% to 500% of the original game. It defaults to 100% which matches the original game (Issue #880).
@@ -18,7 +19,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Added four progression items that independently open the walls controlled by those levers. Pulling a lever now sends its AP location check without opening the wall; receiving the matching Lever Wall item sets the native wall-unlock state instead (Issue #859).
 
 ### Improvements
-- Ordinary small-chest checks now suppress their native consumable reward, so the AP-assigned item is the reward; fixed collection rewards retain their native behavior (PR #931).
+- Small-chest checks suppress their native reward, so the AP-assigned item is the reward. Consumables use the delayed-popup interception from PR #931; Spray Paint and Music Sheet grants are intercepted at their native collection calls.
 - The Tutorial World Map - Big Chest location check is now sent during the tutorial; item delivery remains paused until normal gameplay begins (Issue #868).
 - Consolidated `defeat_random_hidden_area_boss` and `defeat_configured_area_boss` into the canonical `defeat_area_boss` goal. `configured_area_boss: random` now uses Archipelago's standard `Choice` randomization, the old `defeat_configured_area_boss` name remains a safe YAML alias, and all eight boss-to-area mappings are corrected (Issue #872).
 - Generated YAML documentation now shows the scalar `configured_area_boss: random` and `starting_kirby_color: random` shorthands and explains how they replace the generated concrete weight mappings (Issue #872).
@@ -27,7 +28,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Kirby Color: random_color_per_room changes Kirby's color but does not update the corresponding UI element colors.
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
 - Progression: Progression gating is still being expanded beyond the original game design. Feature-specific gating is described under New Features.
-- Small Chests: Fixed collection rewards remain native pending their AP item support (Issue #525). Native consumable reward suppression for the 41 ordinary chest checks is handled in PR #931. Emulator gameplay has not yet been validated.
+- Small Chests: Spray Paint #6 and Music Sheet #6 remain native and outside the AP pool until their logical compartments are verified. The collection-item payload needs a fresh base patch built from the supported USA ROM before release. Real-ROM gameplay, collection menus, and save/reload behavior have not yet been validated. Do not reuse an older base patch with newly generated collection-item seeds.
 - Sprite Swapping: The animation for getting the original item will play with the original sprite. Statues show the old ability. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or ability granted.
 - Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
 

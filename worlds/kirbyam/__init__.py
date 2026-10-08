@@ -688,10 +688,21 @@ class KirbyAmWorld(World):
                 ]
                 needed_pool_size = len(open_physical_locations)
 
+                # Generate collection items only for active, source-backed checks.
+                # Two known sources still need compartment attribution; their
+                # native rewards and historical dormant location IDs are retained.
+                active_collection_item_codes = {
+                    kirby_data.locations[loc.key].default_item
+                    for loc in minor_chest_locations if loc.key is not None
+                }
                 non_filler_item_codes = [
                     item.item_id
                     for item in kirby_data.items.values()
                     if item.classification not in (ItemClassification.filler, ItemClassification.trap)
+                    and (
+                        not item.tags.intersection({"SprayPaint", "MusicSheet"})
+                        or item.item_id in active_collection_item_codes
+                    )
                 ]
                 vitality_item_codes = getattr(self, "_vitality_item_codes", None)
                 if vitality_item_codes is None:

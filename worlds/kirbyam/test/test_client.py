@@ -871,13 +871,16 @@ def test_minor_chest_source_ptr_map_contains_only_unique_verified_sources():
         loc for loc in data.locations.values()
         if loc.category == LocationCategory.MINOR_CHEST and loc.source_rom_offset is not None
     ]
-    assert len(active_locations) == 41
-    assert len({loc.source_rom_offset for loc in active_locations}) == 41
-    assert len({loc.parent_region.split("__LOGIC__", 1)[0] for loc in active_locations}) == 36
-    assert sorted(loc.location_id for loc in active_locations) == list(range(3960566, 3960607))
+    assert len(active_locations) == 63
+    assert len({loc.source_rom_offset for loc in active_locations}) == 63
+    assert len({loc.parent_region.split("__LOGIC__", 1)[0] for loc in active_locations}) == 54
+    assert sorted(loc.location_id for loc in active_locations) == (
+        [value for value in range(3960500, 3960524) if value not in {3960505, 3960519}]
+        + list(range(3960566, 3960607))
+    )
     assert sum("NativeRewardConsumable" in loc.tags for loc in active_locations) == 41
-    assert sum("NativeRewardCollection" in loc.tags for loc in active_locations) == 0
-    assert len(client._minor_chest_location_id_by_source_ptr) == 41
+    assert sum("NativeRewardCollection" in loc.tags for loc in active_locations) == 22
+    assert len(client._minor_chest_location_id_by_source_ptr) == 63
     assert client._minor_chest_location_id_by_source_ptr == {
         loc.source_rom_offset: loc.location_id for loc in active_locations
     }
@@ -5826,7 +5829,7 @@ def test_minor_chest_locations_defined_in_regions_when_present():
         if loc.category == LocationCategory.MINOR_CHEST and loc.source_rom_offset is not None
     }
     room_topology = load_json_data("regions/rooms.json")
-    assert len(physical_minor_chests) == 41
+    assert len(physical_minor_chests) == 63
     for key, loc in physical_minor_chests.items():
         if "__LOGIC__" in loc.parent_region:
             room_name, logical_key = loc.parent_region.split("__LOGIC__", 1)

@@ -147,6 +147,7 @@ def test_checked_in_rom_manifest_matches_all_active_ordinary_chests() -> None:
     active_locations = [
         location for location in locations.values()
         if location.get("category") == "MINOR_CHEST" and location.get("source_rom_offset") is not None
+        and "NativeRewardConsumable" in location.get("tags", [])
     ]
 
     assert manifest["metadata"]["rom_sha1"] == _enumerate_minor_chests.AUTHORIZED_USA_ROM_SHA1

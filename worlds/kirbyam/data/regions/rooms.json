@@ -538,6 +538,9 @@
       "included": true,
       "location_id": 3961039,
       "bit_index": 49
+    },
+    "locations": {
+      "MINOR_CHEST_SPRAY_PAINT_04": null
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_29": {
@@ -690,6 +693,9 @@
       "included": true,
       "location_id": 3961005,
       "bit_index": 14
+    },
+    "locations": {
+      "MINOR_CHEST_MUSIC_NOTE_01": null
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_40": {
@@ -780,7 +786,8 @@
         "location_id": 3961055,
         "bit_index": 64
       },
-      "MINOR_CHEST_MOONLIGHT_MANSION_2_GOAL_2_OBJECT_01": null
+      "MINOR_CHEST_MOONLIGHT_MANSION_2_GOAL_2_OBJECT_01": null,
+      "MINOR_CHEST_SPRAY_PAINT_14": null
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
@@ -1029,7 +1036,8 @@
         "included": true,
         "location_id": 3961063,
         "bit_index": 73
-      }
+      },
+      "MINOR_CHEST_SPRAY_PAINT_11": null
     },
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_04": null
@@ -1236,7 +1244,8 @@
         "included": true,
         "location_id": 3961052,
         "bit_index": 61
-      }
+      },
+      "MINOR_CHEST_MUSIC_NOTE_08": null
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_42": null,
@@ -1449,6 +1458,9 @@
       "included": true,
       "location_id": 3961082,
       "bit_index": 177
+    },
+    "locations": {
+      "MINOR_CHEST_MUSIC_NOTE_09": null
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_06": {
@@ -1462,6 +1474,9 @@
       "included": true,
       "location_id": 3961087,
       "bit_index": 182
+    },
+    "locations": {
+      "MINOR_CHEST_SPRAY_PAINT_12": null
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_07": {
@@ -1540,6 +1555,9 @@
       "included": true,
       "location_id": 3961080,
       "bit_index": 175
+    },
+    "locations": {
+      "MINOR_CHEST_MUSIC_NOTE_03": null
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_13": {
@@ -1563,6 +1581,9 @@
       "included": true,
       "location_id": 3961089,
       "bit_index": 184
+    },
+    "locations": {
+      "MINOR_CHEST_SPRAY_PAINT_08": null
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_15": {
@@ -1641,6 +1662,9 @@
       "included": true,
       "location_id": 3961118,
       "bit_index": 140
+    },
+    "locations": {
+      "MINOR_CHEST_SPRAY_PAINT_13": null
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP": {
@@ -2248,6 +2272,9 @@
       "included": true,
       "location_id": 3961133,
       "bit_index": 260
+    },
+    "locations": {
+      "MINOR_CHEST_SPRAY_PAINT_02": null
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_17": {
@@ -2345,6 +2372,9 @@
       "included": true,
       "location_id": 3961155,
       "bit_index": 203
+    },
+    "locations": {
+      "MINOR_CHEST_MUSIC_NOTE_10": null
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_BOSS": {
@@ -2467,6 +2497,9 @@
       "included": true,
       "location_id": 3961146,
       "bit_index": 194
+    },
+    "locations": {
+      "MINOR_CHEST_SPRAY_PAINT_07": null
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_07": {
@@ -2870,6 +2903,9 @@
       "included": true,
       "location_id": 3961179,
       "bit_index": 93
+    },
+    "locations": {
+      "MINOR_CHEST_SPRAY_PAINT_05": null
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_06": {
@@ -2886,7 +2922,8 @@
     },
     "locations": {
       "MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_02": null,
-      "MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_03": null
+      "MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_03": null,
+      "MINOR_CHEST_MUSIC_NOTE_02": null
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_07": {
@@ -2916,6 +2953,9 @@
       "included": true,
       "location_id": 3961176,
       "bit_index": 90
+    },
+    "locations": {
+      "MINOR_CHEST_MUSIC_NOTE_05": null
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_09": {
@@ -2948,7 +2988,8 @@
     },
     "locations": {
       "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02": null,
-      "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03": null
+      "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03": null,
+      "MINOR_CHEST_SPRAY_PAINT_09": null
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_11": {
@@ -3110,6 +3151,9 @@
       "included": true,
       "location_id": 3961195,
       "bit_index": 111
+    },
+    "locations": {
+      "MINOR_CHEST_SPRAY_PAINT_01": null
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_23": {
@@ -3189,6 +3233,9 @@
       "included": true,
       "location_id": 3961210,
       "bit_index": 229
+    },
+    "locations": {
+      "MINOR_CHEST_SPRAY_PAINT_10": null
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_GOAL_2": {
@@ -3566,7 +3613,8 @@
       "bit_index": 245
     },
     "locations": {
-      "MINOR_CHEST_RADISH_RUINS_8_22_OBJECT_01": null
+      "MINOR_CHEST_RADISH_RUINS_8_22_OBJECT_01": null,
+      "MINOR_CHEST_MUSIC_NOTE_04": null
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_23": {
@@ -3734,6 +3782,9 @@
       "included": true,
       "location_id": 3961255,
       "bit_index": 168
+    },
+    "locations": {
+      "MINOR_CHEST_SPRAY_PAINT_03": null
     }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_03": {
@@ -3932,6 +3983,9 @@
       "included": true,
       "location_id": 3961252,
       "bit_index": 165
+    },
+    "locations": {
+      "MINOR_CHEST_MUSIC_NOTE_07": null
     }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_17": {

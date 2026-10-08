@@ -127,7 +127,9 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | TRAP_LIFE_WIPEOUT | 3860036 | Trap item: sets Kirby's lives count to 0 |
 | LEVER_WALL_MOONLIGHT_MANSION_2_11 .. LEVER_WALL_RADISH_RUINS_8_12 | 3860037 - 3860040 | Progression items that independently set the four native lever-controlled wall bits (Issue #859) |
 | ABILITY_UNLOCK_* | 3860101 - 3860131 | Dynamic ability unlock items (`BASE_OFFSET + 100 + runtime_ability_id`) generated only for abilities in `abilities.json` where `safe_to_gate` is true and `enemy_copy_allowed` is not false |
-| *Reserved*        | 3860041+ (except dynamic ability unlock range) | Future items (doors, additional consumables, etc.) |
+| SPRAY_PAINT_01 .. SPRAY_PAINT_14 | 3860200 - 3860213 | Unique useful collection items; OR native Spray Paint ownership bits 0..13 |
+| MUSIC_SHEET_01 .. MUSIC_SHEET_10 | 3860214 - 3860223 | Unique useful collection items; OR native Music Player/Sheets bits 1..10, leaving bit 0 unchanged |
+| *Reserved* | 3860041 - 3860100, 3860132 - 3860199, 3860224+ | Future items; deferred hub/area-key work already uses IDs beginning at 3860041 |
 
 ### Current filler effect contract
 
@@ -203,17 +205,18 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | HUB_SWITCH_* | 3960400 - 3960414 | Hub big-switch checks mapped to `hub_switch_flags` bits 0..14 (bit 0 = Peppermint West, bit 11 = Moonlight; others sequential) |
 | LEVER_* | 3960415 - 3960418 | Lever checks sourced from native bits (`0x02038962` bit2 Moonlight 2-11, `0x02038968` bit1 Olive 6-13, `0x02038969` bit5 Carrot 5-12, `0x02038969` bit2 Radish 8-12) |
 | AREA_VISIT_* | 3960451 - 3960459 | First-visit checks for gameplay areas 1..9 (Rainbow Route through Candy Constellation), derived from first visited room per area via native `gVisitedDoors` |
-| MINOR_CHEST_SPRAY_PAINT_* / MINOR_CHEST_MUSIC_NOTE_* | 3960500 - 3960523 | Retired collection-name placeholders; retained for ID history and not instantiated as physical checks. |
+| MINOR_CHEST_SPRAY_PAINT_* / MINOR_CHEST_MUSIC_NOTE_* | 3960500 - 3960523 | 22 active fixed-collection checks with exact USA sources/rooms. IDs 3960505 and 3960519 remain dormant until logical compartments are verified. All historical identities/IDs are preserved. |
 | MINOR_CHEST_* (verified ordinary small chests) | 3960566 - 3960606 | 41 ordinary item chests, each matched to one exact ROM object pointer and AP room. |
 | *Reserved/retired minor chest IDs* | 3960524 - 3960565 | Do not reuse historical minor-chest location IDs. |
 | ROOM_SANITY_* | 3961000+ | Room visit checks (`Room X-<room_code>`) keyed by native `doorsIdx` and polled from `gVisitedDoors[doorsIdx]` bit 15; includes designed goal/warp rooms |
 | *Reserved*    | 3960460 - 3960499, 3960607 - 3960999 | Future location families |
 
 Minor chest status:
-- The rollout activates the 41 ordinary item chests found in the USA ROM room-object list. Each has one stable AP location ID (3960566-3960606) and one exact, distinct source-object offset; 14 IDs 3960566-3960579 remain stable from the earlier draft.
+- Fixed-item integration extends the active set to 63 verified small chests: 41 ordinary rewards plus 13 Spray Paint and 9 Music Sheet sources. Spray Paint #6 and Music Sheet #6 remain native and excluded from the generated pool, because their exact physical rooms have unresolved logical compartments. Collection item numbers denote native collection indices, not the starting-color palette IDs.
+- The initial rollout activates the 41 ordinary item chests found in the USA ROM room-object list. Each has one stable AP location ID (3960566-3960606) and one exact, distinct source-object offset; 14 IDs 3960566-3960579 remain stable from the earlier draft.
 - `source_rom_offset` stores the normalized ROM file offset of the object record; the AMR payload entry points at its type field at `record + 0x0C`, while the runtime hook records the object's source pointer. The client accepts an exact match only and does not guess nearby pointer aliases.
-- The payload preserves native chest persistence and reports checks only from exact source pointers in the event ring. For the 41 ordinary item chests, it marks the live chest object and suppresses the native consumable at the delayed popup; the AP mailbox grants the assigned item. Spray Paint, Music Player, and Music Sheet rewards retain their native paths pending fixed-item support under #525.
-- The `NativeRewardConsumable` tag records the reward profile for the item-logic PR; it does not change location identity. Older spray-paint/music-note collection-name rows are retained for ID history and excluded from region generation because they do not identify unique physical chests.
+- The payload preserves native chest persistence and reports checks only from exact source pointers in the event ring. For the 41 ordinary item chests, it marks the live chest object and suppresses the native consumable at the delayed popup; the AP mailbox grants the assigned item. Spray Paint and Music Sheet rewards retain their native paths only for unknown/non-AP sources; mapped fixed chests suppress their collection calls. Sound Player retains its separate existing AP check and item.
+- The `NativeRewardConsumable` tag records the reward profile for the item-logic PR; it does not change location identity. `NativeRewardCollection` marks the 22 active fixed chests, whose existing IDs now resolve through the same exact-source event transport. Ownership bits never imply chest checks, so receiving a collection item first cannot consume its physical location.
 - Native small-chest and collectible bitfields are not used to infer AP minor-chest locations. Exact source events are read from `minor_chest_event_ring` and filtered against the current slot's active locations.
 - Once observed, exact-source checks stay pending in the client until the server acknowledges them. They are retried even when the ring counter is unchanged, after ring overwrite, and across transient reconnects in the same authenticated seed/team/slot. Pending checks are cleared on ROM/client initialization or session identity changes. Events overwritten before the client ever observes them, and unacknowledged observations lost on process exit, still need runtime recovery validation; the eight-entry ring is not durable storage.
 

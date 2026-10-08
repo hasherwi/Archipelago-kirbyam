@@ -39,17 +39,19 @@ and collectible bitfields are not used to infer location checks because the same
 bits can represent multiple physical chests. Nearby source-pointer offsets are
 not treated as aliases.
 
-The USA-ROM scan found 65 physical `OBJ_SMALL_CHEST` records. The first rollout
-activates the 41 ordinary item chests, each with a unique source pointer and
-one exact AP room. The other 24 records dispatch to fixed Spray Paint or Music
-Sheet rewards and remain outside this location rollout pending their AP item
-support under #525. The scan also found 19 `OBJ_BIG_CHEST` records, which remain
-in the separate big-chest location families.
+The USA-ROM scan found 65 physical `OBJ_SMALL_CHEST` records. 63 now
+use unique source pointers: 41 ordinary reward chests, 13 Spray Paint chests,
+and 9 Music Sheet chests. Spray Paint #6 and Music Sheet #6 stay native/dormant
+until their logical room compartments are verified. The separate 19 `OBJ_BIG_CHEST` records retain their
+own location families. Collection IDs 3960500..3960523 preserve the original
+numbered collection identities, replacing only the placeholder room metadata.
 
-Stacked item PR #931 suppresses the delayed native reward for the 41 active AP
-chests, so the AP-assigned item is the chest reward. The 24 dormant legacy
-spray-paint/music-note rows remain for location-ID history; they are not
-instantiated as physical checks.
+PR #931 suppresses the delayed native consumable reward. Fixed collections
+are suppressed at their separate native collection calls, before the game saves
+the chest state; they leave the original popup sprite and animation untouched.
+Collection item receipt only grants ownership and never marks a chest collected.
+See [fixed collection integration](minor-chest-collection-items.md) for sources,
+item IDs, replay behavior, and outstanding runtime checks.
 
 ## Active-location filtering
 

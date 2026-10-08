@@ -1,6 +1,7 @@
 #include <stdint.h>
 
 #include "statue_runtime_logic.h"
+#include "minor_chest_runtime_logic.h"
 
 // Kirby AP item ID base offset
 #define KIRBY_ITEM_ID_BASE_OFFSET       3860000u  // must match worlds/kirbyam/data.py BASE_OFFSET
@@ -71,17 +72,22 @@
 
 /* Exact AP-owned chest sources from data/locations.json, stored as GBA bus pointers. */
 static const uint32_t AP_OWNED_MINOR_CHEST_SOURCE_PTRS[] = {
-    0x088B6510u, 0x088B6EB4u, 0x088B7288u, 0x088B9280u,
-    0x088BA7A4u, 0x088BAEE0u, 0x088BB0BCu, 0x088BC018u,
-    0x088BC4A0u, 0x088BDD10u, 0x088BE5E0u, 0x088BE724u,
-    0x088BF3C8u, 0x088BF3ECu, 0x088BFD78u, 0x088C0290u,
-    0x088C02B4u, 0x088C046Cu, 0x088C04D8u, 0x088C06B4u,
-    0x088C06D8u, 0x088C0E38u, 0x088C1380u, 0x088C21ACu,
-    0x088C4798u, 0x088C4DFCu, 0x088C4F24u, 0x088C5BA4u,
-    0x088C78F8u, 0x088C876Cu, 0x088C9114u, 0x088C9FFCu,
-    0x088CAF08u, 0x088CC458u, 0x088CCEFCu, 0x088CD464u,
-    0x088D039Cu, 0x088D03E4u, 0x088D2234u, 0x088D39FCu,
-    0x088D3E88u,
+    0x088B5FA8u, 0x088B6510u, 0x088B6EB4u, 0x088B7288u,
+    0x088B9280u, 0x088B9FD8u, 0x088BA7A4u, 0x088BAEE0u,
+    0x088BB0BCu, 0x088BBAF8u, 0x088BC018u, 0x088BC114u,
+    0x088BC4A0u, 0x088BD1B0u, 0x088BDD10u, 0x088BE5E0u,
+    0x088BE724u, 0x088BEF84u, 0x088BF3C8u, 0x088BF3ECu,
+    0x088BF610u, 0x088BFD78u, 0x088C026Cu, 0x088C0290u,
+    0x088C02B4u, 0x088C046Cu, 0x088C04D8u, 0x088C0648u,
+    0x088C06B4u, 0x088C06D8u, 0x088C0E38u, 0x088C1380u,
+    0x088C1ADCu, 0x088C21ACu, 0x088C4798u, 0x088C4DFCu,
+    0x088C4F24u, 0x088C54B0u, 0x088C5BA4u, 0x088C78F8u,
+    0x088C86B8u, 0x088C876Cu, 0x088C8AACu, 0x088C9114u,
+    0x088C9478u, 0x088C96E8u, 0x088C9FFCu, 0x088CA0B8u,
+    0x088CA520u, 0x088CAF08u, 0x088CBDACu, 0x088CC458u,
+    0x088CCEFCu, 0x088CD2F4u, 0x088CD464u, 0x088D02C0u,
+    0x088D039Cu, 0x088D03E4u, 0x088D2234u, 0x088D230Cu,
+    0x088D39FCu, 0x088D3DD0u, 0x088D3E88u,
 };
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
@@ -116,6 +122,8 @@ static const uint32_t AP_OWNED_MINOR_CHEST_SOURCE_PTRS[] = {
 #define AI_STATE_DARK_MIND_CLEAR 9999u
 #define AI_STATE_FULL_CLEAR     10000u
 #define KIRBY_SMALL_CHEST_FLAGS_ADDR 0x02038960u
+#define KIRBY_SPRAY_PAINT_FLAGS (*(volatile uint32_t*)0x02038974u)
+#define KIRBY_MUSIC_PLAYER_AND_SHEETS_FLAGS (*(volatile uint32_t*)0x02038978u)
 #define KIRBY_BIG_CHEST_FLAGS_ADDR 0x0203897Cu
 #define KIRBY_BIG_CHEST_FLAGS   (*(volatile uint32_t*)(KIRBY_BIG_CHEST_FLAGS_ADDR))
 #define KIRBY_VITALITY_COUNTER_ADDR 0x02038980u
@@ -277,7 +285,8 @@ static void ap_record_minor_chest_collection_from_obj_ptr(uint32_t chest_obj_ptr
     uint32_t chest_index = (uint32_t)(*(volatile uint8_t*)(chest_obj_ptr + 0xE2u));
 
     ap_record_minor_chest_source_ptr(source_ptr);
-    if (ap_is_ap_owned_minor_chest_source(source_ptr)) {
+    if (ap_is_ap_owned_minor_chest_source(source_ptr)
+        && *(volatile uint16_t*)(chest_obj_ptr + 0xE0u) <= 5u) {
         /* Chest::unkDC is zeroed on creation and has no other use in the game code. */
         *(volatile uint32_t*)(chest_obj_ptr + 0xDCu) = AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER;
     }
@@ -859,16 +868,34 @@ __attribute__((used)) void ap_on_start_copy_ability_transition(void *kirby) {
     KIRBY_START_ABILITY_TRANSITION_FN(kirby);
 }
 
-// Hook target for native Sound Player chest reward collection. Reward index 0 is
-// the Sound Player unlock and remains AP-owned; all other rewards are native
-// Music Sheet collections and must retain their original grant behavior.
+/* Native CollectSprayPaint only ORs its ownership bit (katam/src/treasures.c).
+ * The physical chest event/persistence was already recorded by the generic hook.
+ * Keep unrecognized sources native rather than silently consuming their rewards.
+ */
+__attribute__((used)) void ap_on_collect_spray_paint_chest(uint32_t reward_index) {
+    register uint32_t chest_obj_ptr asm("r5");
+    uint32_t source_ptr = *(volatile uint32_t*)(chest_obj_ptr + 0xB0u);
+    ap_apply_native_collection_reward(
+        &KIRBY_SPRAY_PAINT_FLAGS, reward_index, 14u,
+        ap_is_ap_owned_minor_chest_source(source_ptr)
+    );
+}
+
+/* Reward index 0 remains the existing Sound Player location. Sheet indices
+ * 1..10 are AP-owned only when the physical source is in the exact source table.
+ */
 __attribute__((used)) void ap_on_collect_sound_player_chest(uint32_t reward_index) {
+    register uint32_t chest_obj_ptr asm("r5");
+    uint32_t source_ptr = *(volatile uint32_t*)(chest_obj_ptr + 0xB0u);
     if (reward_index == 0u) {
         ap_set_sound_player_chest_flag(0u);
         return;
     }
 
-    KIRBY_COLLECT_SOUND_PLAYER_FN(reward_index);
+    ap_apply_native_collection_reward(
+        &KIRBY_MUSIC_PLAYER_AND_SHEETS_FLAGS, reward_index, 11u,
+        ap_is_ap_owned_minor_chest_source(source_ptr)
+    );
 }
 
 typedef void (*WorldMapUnlockFn)(void);
@@ -1310,6 +1337,14 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         static const uint8_t lever_wall_chest_ids[4] = {18u, 65u, 77u, 74u};
         uint32_t lever_index = ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 37u);
         ap_collect_small_chest_native((uint32_t)lever_wall_chest_ids[lever_index]);
+        return 1u;
+    }
+
+    // Fixed Spray Paint (+200..+213) and Music Sheet (+214..+223) items.
+    // Bitwise ownership grants are idempotent when received history is replayed.
+    if (ap_apply_collection_item(ap_item_id - KIRBY_ITEM_ID_BASE_OFFSET,
+                                &KIRBY_SPRAY_PAINT_FLAGS,
+                                &KIRBY_MUSIC_PLAYER_AND_SHEETS_FLAGS)) {
         return 1u;
     }
 
