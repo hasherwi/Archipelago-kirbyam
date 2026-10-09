@@ -442,7 +442,7 @@ Mirror shard bitfields (`shard_bitfield_native` / `shard_bitfield`) are progress
 Boss shard scrub timing contract (Issue #505):
 - Boss hook writes temporary native shard state for cutscene safety and marks `boss_temp_shard_bitfield`.
 - During non-gameplay boss/cutscene states, payload may decrement `shard_scrub_delay_frames` but does not scrub pending boss-temp bits.
-- On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, persists the result to SRAM, and clears `boss_temp_shard_bitfield` + delay.
+- On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, leaves persistence to native save flow, and clears `boss_temp_shard_bitfield` + delay.
 
 **Behavior notes:**
 - Detection is **level-based** (current bitfield state), not edge-based, to be reconnect-safe.
@@ -733,3 +733,13 @@ index-zero history arrives; silence is not zero-ownership authority. The first
 normal receipt will supply that history. Empty-packet unit simulations describe
 packet handling only, not stock-server migration acceptance. Starting inventory
 alone is nonempty and does produce an index-zero history with the new flags.
+
+### Shard save integrity
+
+Shard delivery, boss collection and post-cutscene scrub update native EWRAM only.
+The former candidate SRAM offsets overlapped native save headers, not shard data,
+and could invalidate checksums. They are removed. The payload does not invoke a
+native save routine from an unverified frame-hook context. Normal native save flow
+owns serialization, checksums, slot selection and duplicate records. A reset before
+that save needs authenticated AP history replay; immediate power-loss persistence
+is not guaranteed. Host SRAM-integrity tests do not certify emulator save/load.

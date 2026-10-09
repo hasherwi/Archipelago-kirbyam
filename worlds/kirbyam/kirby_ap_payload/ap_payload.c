@@ -159,21 +159,10 @@ static const uint32_t AP_OWNED_MINOR_CHEST_SOURCE_PTRS[] = {
 #define KIRBY_LIVES_ADDR        0x02020FE2u
 #define KIRBY_LIVES             (*(volatile uint8_t*)(KIRBY_LIVES_ADDR))
 
-// SRAM-based persistent shard state (Issue #109: Reset-Safe Mirror Shard Grant Handling)
-// Reference: KitAM disassembly save system + Treasure struct observation
-// These addresses mirror the persistent shard state written when changing rooms
-#define SRAM_BASE               0x0E000000u
-#define SRAM_SHARD_FIELD_OFFSET 0x12u  // Primary shard persistence field (Issue #109 candidate)
-#define SRAM_SHARD_FIELD        (*(volatile uint8_t*)(SRAM_BASE + SRAM_SHARD_FIELD_OFFSET))
-
-// Secondary checksum fields (Issue #109 candidates for save integrity)
-// These are updated alongside shard changes to prevent save corruption on reset
-#define SRAM_CHECKSUM_1_OFFSET  0x18u
-#define SRAM_CHECKSUM_1         (*(volatile uint8_t*)(SRAM_BASE + SRAM_CHECKSUM_1_OFFSET))
-#define SRAM_CHECKSUM_2_OFFSET  0x1Au
-#define SRAM_CHECKSUM_2         (*(volatile uint8_t*)(SRAM_BASE + SRAM_CHECKSUM_2_OFFSET))
-#define SRAM_CHECKSUM_3_OFFSET  0x1Cu
-#define SRAM_CHECKSUM_3         (*(volatile uint8_t*)(SRAM_BASE + SRAM_CHECKSUM_3_OFFSET))
+/* Save records are owned by the native serializer. Do not write guessed SRAM
+ * shard/checksum offsets: those overlap FILE_INFO and WORLD_PROPS headers.
+ * Shard changes below affect gTreasures in EWRAM; normal game save flow persists
+ * them. Reset before that save requires AP history replay, not raw SRAM edits. */
 
 // Archipelago info structure (not used in this payload)
 __attribute__((section(".apinfo")))
@@ -206,22 +195,6 @@ volatile const uint32_t gApAbilityGateMaskInitial = 0u;
  */
 __attribute__((used, section(".apconfig.statue")))
 volatile const uint32_t gApAbilityRandomizationStatueAllowedMask = 0u;
-
-
-// Issue #109: Persist shard grants to SRAM to survive reset without room change
-// This function writes the shard bitfield to persistent storage alongside checksum fields
-// to prevent save corruption when adding shards without entering a new room.
-static void persist_shard_to_sram(uint8_t new_shard_bitfield) {
-    // Write the primary shard field to SRAM
-    SRAM_SHARD_FIELD = new_shard_bitfield;
-
-    // Update checksum fields to maintain save file integrity.
-    // The game validates these when loading, so they must change consistently with shard changes.
-    // These specific addresses were identified through Issue #109 investigation.
-    SRAM_CHECKSUM_1 = (uint8_t)(new_shard_bitfield ^ 0xFFu);  // Inverted checksum
-    SRAM_CHECKSUM_2 = (uint8_t)(new_shard_bitfield + 0x42u);  // Offset checksum
-    SRAM_CHECKSUM_3 = (uint8_t)(SRAM_CHECKSUM_1 + SRAM_CHECKSUM_2); // Derived checksum
-}
 
 
 // Issue #35: Set the boss-defeat flag for <boss_index> (0–7) in the transport register.
@@ -463,7 +436,7 @@ __attribute__((used)) void ap_on_small_switch_effect(KirbySmallSwitchEffectFn na
 // Hook target for the original boss shard grant call. The game passes the boss's
 // shard index in r0 (same value passed to CollectShard(var->unk218) in sub_0801D948).
 // Records the AP boss-defeat transport flag for client polling AND replicates the
-// native CollectShard behavior (writing KIRBY_SHARD_FLAGS + SRAM persistence) so
+// native CollectShard behavior (writing KIRBY_SHARD_FLAGS) so
 // that the post-cutscene state machine can continue the screen transition correctly.
 // AP SHARD_N delivery (ap_apply_item) performs the same KIRBY_SHARD_FLAGS write,
 // making native and AP grants idempotent when both occur on the same shard index.
@@ -472,13 +445,13 @@ __attribute__((used)) void ap_on_small_switch_effect(KirbySmallSwitchEffectFn na
 __attribute__((used)) void ap_on_boss_defeat_collect_shard(uint32_t boss_index) {
     ap_set_boss_defeat_flag(boss_index);
     // Replicate CollectShard(boss_index): update native EWRAM shard bitfield and
-    // persist to SRAM so the game's post-cutscene transition sees valid shard state.
+    // retain it for the post-cutscene transition; native save flow owns persistence.
     if (boss_index < 8u) {
         uint8_t mask = (uint8_t)(1u << boss_index);
         uint8_t new_shard_flags = (uint8_t)(KIRBY_SHARD_FLAGS | mask);
         KIRBY_SHARD_FLAGS = new_shard_flags;
         AP_SHARD_BITFIELD |= (uint32_t)mask;
-        persist_shard_to_sram(new_shard_flags);
+
         // Issue #478: Hold off the per-frame shard scrub so the post-cutscene
         // state machine can read the temporary native write without white-screening.
         AP_SHARD_SCRUB_DELAY = SHARD_BOSS_CUTSCENE_FRAMES;
@@ -1231,8 +1204,7 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         // Optional: keep hack mirror for AP client polling/debugging
         AP_SHARD_BITFIELD |= (uint32_t)mask;
 
-        // Issue #109: Persist to SRAM to survive reset without room change
-        persist_shard_to_sram(new_shard_flags);
+        // Native save flow persists gTreasures; no direct SRAM writes here.
 
         return 1u;
     }
@@ -1456,7 +1428,6 @@ void ap_poll_mailbox_c(void) {
             uint8_t clamped = (uint8_t)(native_shards & (uint8_t)(~scrub_mask));
             if (clamped != native_shards) {
                 KIRBY_SHARD_FLAGS = clamped;
-                persist_shard_to_sram(clamped);
             }
             AP_BOSS_TEMP_SHARD_BITFIELD = 0u;
             AP_SHARD_SCRUB_DELAY = 0u;

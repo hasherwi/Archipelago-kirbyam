@@ -85,7 +85,7 @@ static uint32_t AP_DELIVERED_VITALITY_ITEM_BITS,AP_DELIVERED_SHARD_BITFIELD,AP_S
 static uint16_t KIRBY_VITALITY_COUNTER;
 static uint8_t KIRBY_SHARD_FLAGS;
 '''
-    for name in ['ap_grant_lives','persist_shard_to_sram','ap_unlock_area_map','KIRBY_COLLECT_SOUND_PLAYER_FN','ap_collect_small_chest_native']:
+    for name in ['ap_grant_lives','ap_unlock_area_map','KIRBY_COLLECT_SOUND_PLAYER_FN','ap_collect_small_chest_native']:
         source+=f'static void {name}(uint32_t x) {{(void)x;}}\n'
     for name in ['ap_grant_small_food','ap_grant_battery','ap_grant_max_tomato','ap_grant_invincibility_candy','ap_grant_energy_drink','ap_grant_hunk_of_meat','ap_trap_health_down','ap_trap_life_down','ap_trap_bomb','ap_trap_battery_drain','ap_trap_lives_wipeout']:
         source+=f'static void {name}(void) {{}}\n'
