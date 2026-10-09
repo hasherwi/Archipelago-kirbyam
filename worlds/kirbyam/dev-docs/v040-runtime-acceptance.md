@@ -1,8 +1,8 @@
 # v0.4.0 combined runtime acceptance
 
 This is a test plan, not a record of passing gameplay. The cloud suite and dummy
-ROM smoke cannot replace these checks. Keep the implementation PRs as drafts
-until their remaining gates are reviewed.
+ROM smoke cannot replace these checks. Record the exact included PRs; the
+individual PR review and combined-release acceptance are separate.
 
 ## Freeze the build and inputs
 
@@ -38,6 +38,9 @@ the temporary `0x63` reward used to suppress the native bonus.
 
 ### Fixed collections: `v040-chest-fixed-{spray|sheet}`
 
+This case applies only when collection itemization (#936) is included. The
+#931/#935 stack alone preserves native paint and sheet rewards.
+
 Open active exact-source Spray Paint and Music Sheet chests before receiving
 those items: the native ownership bit must remain unchanged. Receive each AP
 item, then replay/reconnect: exactly its bit is added and existing ownership is
@@ -45,9 +48,10 @@ preserved. Sheets never grant Sound Player (bit 0). Check the independent Sound
 Player chest and its AP item too. Preserve normal collection visuals and native
 room-counter behavior.
 
-The currently deferred Spray Paint #6 and Music Sheet #6 must remain native and
-must not report checks or enter the item pool unless a later reviewed mapping
-explicitly activates them. Record the build's intended active-source count.
+Main now contains all 65 minor physical checks, including Spray Paint #6 and
+Music Sheet #6. The older #931/#935 stack still contains 41 ordinary checks.
+Record the integrated build's intended active-source count; physical checks and
+collection itemization are separate changes.
 
 ### Levers: `v040-lever-{moonlight|olive|carrot|radish}-{order}`
 

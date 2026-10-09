@@ -18,6 +18,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Added four progression items that independently open the walls controlled by those levers. Pulling a lever now sends its AP location check without opening the wall; receiving the matching Lever Wall item sets the native wall-unlock state instead (Issue #859).
 
 ### Improvements
+- Ability unlock gating also applies at the final native ability commit, after roulette and other pending-ability writes (Issue #892).
 - Ordinary small-chest checks now suppress their native consumable reward, so the AP-assigned item is the reward; fixed collection rewards retain their native behavior (PR #931).
 - The Tutorial World Map - Big Chest location check is now sent during the tutorial; item delivery remains paused until normal gameplay begins (Issue #868).
 - Consolidated `defeat_random_hidden_area_boss` and `defeat_configured_area_boss` into the canonical `defeat_area_boss` goal. `configured_area_boss: random` now uses Archipelago's standard `Choice` randomization, the old `defeat_configured_area_boss` name remains a safe YAML alias, and all eight boss-to-area mappings are corrected (Issue #872).
@@ -26,17 +27,12 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Known Limitations
 - Kirby Color: random_color_per_room changes Kirby's color but does not update the corresponding UI element colors.
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
-- Progression: Progression gating is still being expanded beyond the original game design. Feature-specific gating is described under New Features.
+- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
 - Small Chests: Fixed collection rewards remain native pending their AP item support (Issue #525). Native consumable reward suppression for the 41 ordinary chest checks is handled in PR #931. Emulator gameplay has not yet been validated.
 - Sprite Swapping: The animation for getting the original item will play with the original sprite. Statues show the old ability. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or ability granted.
 - Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
 
 ### Bug Fixes
-- Prevent suppressed ordinary-chest rewards from taking the native lever-style room-counter path; preserve vitality and fixed collectible counter behavior (Issues #129, #525, #912).
-
-- Retain observed minor-chest checks until the server acknowledges them, including dropped sends and reconnects, so consumed event-ring entries do not silently lose AP checks (Issue #129).
-- Correct the lever runtime path to intercept native reward-0x63 chests, separate physical checks from delayed wall opening, and keep levers usable when their wall items arrive first (Issues #911, #912; source-tested, emulator acceptance pending).
-- Reapply ability unlock gating at the final native ability commit so late pending-ability writes, including native roulette, cannot bypass the entry gate (Issue #892 hardening; original damage/contact reproduction remains pending).
 
 - Boss checks were mapped incorrectly for the `defeat_configured_area_boss` goal. That's been fixed (Issue #893).
 - Adds cutter to the base ability pool to make sure players can cut the drop down platforms. (Issue #894)

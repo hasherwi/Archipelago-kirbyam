@@ -41,7 +41,8 @@ US decomp revision `7d969fbce14fdc838d2c1ea01389717fb96c3189`:
    native wall-ownership bit or reporting an ordinary chest event.
 2. Only native `sub_080029F4` calls discovered within the chest-popup function
    (`0x0800B97C..0x0800BD4B`) are redirected. The wrapper suppresses the lever's
-   delayed wall counter increment; every other chest retains native behavior.
+   delayed wall counter increment and the substituted ordinary-reward counter
+   increment described below; other native chest counters remain unchanged.
 3. The big-chest object table initializer pointer is validated against
    `sub_0800BD4C` before replacement. The lever-aware wrapper preserves native
    initialization, but uses the physical AP latch for the lever's open/closed
@@ -100,15 +101,25 @@ original damage/Waddle Doo report; that exact reproduction remains necessary.
 
 - Native-C tests execute the actual lever collection, initialization, auxiliary
   update, popup-counter wrapper, and final ability gate with platform IO stubbed.
-  Both receipt orders, all four levers, duplicate updates, room reloads,
+  Both receipt orders, all four levers across all four players and room slots
+  (128 cases), duplicate updates, room reloads,
   nonlever behavior, and all 31 ability IDs/eight upper-flag combinations are
   covered.
 - Synthetic patch tests validate target scope, Thumb pointer bits, BL targets,
   and refusal on missing/changed original targets before mutating a ROM.
 - The ARM payload builds within the existing reserved code/config window.
-- The committed shared base patch still needs regeneration from the maintainer's
-  clean USA ROM before generated games contain these source changes. Synthetic
-  fixtures are never a release base patch.
+- The committed shared base patch was rebuilt from the verified private USA ROM
+  and this exact stacked source. Applying it in memory reproduces all 5,792
+  payload bytes and the five real lever/final-ability hook writes. No ROM output
+  was written. Patch SHA-256:
+  `b40683fbb502dfc6933ff80ffa533e7c7a8d4122186baf65824954664c48b46a`.
+  Payload SHA-256:
+  `100242bc6d98c28dd4b6533e82c792a3cd28d526511e9f16a038e26bb6e4aa30`.
+- This PR remains based on #931, not current main. #931 supplies the ordinary
+  reward suppression hook/assembly bridge; this PR adds its counter guard.
+  The rebuild is not approval of #931 or evidence that main's later #930/#934
+  changes have been integrated. Reconcile that parent with main and rebuild
+  again before treating a combined release artifact as accepted.
 - BizHawk acceptance: for each lever, test physical-first and item-first order,
   delayed popup receipt, leaving/reentering, reconnect and reset. Physical pull
   must send one check and leave the wall closed without the item; item receipt
