@@ -1,8 +1,8 @@
 # v0.4.0 combined runtime acceptance
 
 This is a test plan, not a record of passing gameplay. The cloud suite and dummy
-ROM smoke cannot replace these checks. Keep the implementation PRs as drafts
-until their remaining gates are reviewed.
+ROM smoke cannot replace these checks. PR review status does not waive these runtime gates; no merge or release is
+implied by this checklist.
 
 ## Freeze the build and inputs
 
@@ -45,9 +45,53 @@ preserved. Sheets never grant Sound Player (bit 0). Check the independent Sound
 Player chest and its AP item too. Preserve normal collection visuals and native
 room-counter behavior.
 
-The currently deferred Spray Paint #6 and Music Sheet #6 must remain native and
-must not report checks or enter the item pool unless a later reviewed mapping
-explicitly activates them. Record the build's intended active-source count.
+For combined builds including #936, Candy Spray Paint #6 is active at its
+verified ENTRY_FROM_9_01 compartment. Verify its one exact-source check and
+ensure entry from 9-09 cannot reach it through the separated Vitality compartment.
+Music Sheet #6 remains native/dormant and must not report checks or enter the
+item pool. Record 64 active minor sources for this build; all 24 collection mailbox
+IDs remain supported. For an earlier build, record its actual source count
+rather than assuming these later mappings.
+
+### Carrot topology investigation: `v040-carrot-{approach|switch|music}`
+
+Music Sheet #6 stays dormant during these tests. They establish local traversal
+facts; a local success does not by itself prove the full AP route from the start.
+Use the combined build with #936's fixed collectibles and #938's corrected lower
+1-UP compartment, and record all included heads and artifact hashes.
+
+1. Record normal Kirby, current native room, ability/unlock settings and partner
+   positions. Use no partner holding or phone assistance for the single-player
+   baseline. Do not use a modified-position state as proof of the approach route.
+2. Trace an observed approach through native 719 to tile (14, 3); press Up and
+   verify entry to 720 at spawn (119, 8). Record movement actions and any required
+   ability. Repeat with the purported required ability unavailable to distinguish
+   necessity from convenience. Current AP identities are 5-07 and 5-14.
+3. In 720, trace the actual route from the right-hand spawn toward the switch at
+   pixel (600, 96) and sliding door at (520, 128). The eight OBJ_DESTROYABLE_ROCK_BLOCK
+   records at x1256..1368, y120 use a crumble-on-contact path; do not assume an
+   ability-breaking requirement from their name. Record whether they crumble,
+   can be crossed/floated over, and whether any alternate route exists.
+4. Measure the last switch contact/activation, room-state slot 1 changes and live
+   door bounds. Template+0x18 = 30 initializes the native release counter to 32,
+   but this is not a 32-frame passability claim: task scheduling, activation
+   renewal and opening/closing animation determine the available passage.
+   Record successful and failed normal walk/run/jump/float attempts. Repeat
+   with partners kept away so another Kirby cannot hold the switch silently.
+5. Verify whether passing the door reaches tile (2, 7) and Up transitions to 730
+   at (29, 4). Separately test the automatic tiles (17..27, 11) into 734 at (14, 5).
+   Record which actions enter the upper music compartment and whether the
+   solid divider prevents access to the lower 1-UP compartment.
+6. With Music Sheet #6 still dormant, opening its native chest must grant only
+   its native behavior and must not send location 3960519 or add it to the AP
+   pool. The active lower 1-UP source 0x008D3E88 belongs to the verified 5-07
+   entry, not the legacy 5-12 entry. Retest collection/save/reload/reconnect.
+
+The static source distinguishes attribute 255/0x4001 (Up) from 254/0x104001
+(automatic). The door reads ROOM slot 1, shared with the small switch. These are
+verified local conditions, not a complete logic rule. Preserve failed/blocked
+trials as evidence; do not activate Music Sheet #6 until approach, compartment,
+ability requirements and generation reachability have all been reviewed.
 
 ### Levers: `v040-lever-{moonlight|olive|carrot|radish}-{order}`
 
