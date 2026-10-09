@@ -25,16 +25,12 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Known Limitations
 - Kirby Color: random_color_per_room changes Kirby's color but does not update the corresponding UI element colors.
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
-- Progression: Progression gating is still being expanded beyond the original game design. Feature-specific gating is described under New Features.
 - Small Chests: Fixed collection rewards remain native pending their AP item support (Issue #525). Native consumable reward suppression for the 41 ordinary chest checks is handled in PR #931. Emulator gameplay has not yet been validated.
 - Sprite Swapping: The animation for getting the original item will play with the original sprite. Statues show the old ability. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or ability granted.
 - Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
 
 ### Bug Fixes
 
-- Rebuild the packaged ROM patch from the location-only source so native paint/music grants and persistence for chest flags 80–83 match the reviewed code.
-- Recover unobserved chest checks from audited unique native saved flags after event-ring overflow or reset; replay retained events after counter rollback. Correct the lower Carrot Castle 5-13 1UP to the entrance from 5-07.
-- Retain observed minor-chest checks until the server acknowledges them, including dropped sends and reconnects, so consumed event-ring entries do not silently lose AP checks (Issue #129).
 - Boss checks were mapped incorrectly for the `defeat_configured_area_boss` goal. That's been fixed (Issue #893).
 - Adds cutter to the base ability pool to make sure players can cut the drop down platforms. (Issue #894)
 - Preserve locally found ability unlocks after reconnecting by requesting the full received-item history from the server (Issue #910).
