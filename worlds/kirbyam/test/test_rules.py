@@ -674,9 +674,12 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     assert kirby_data.regions[room_8_09_from_8_03].exits == ["REGION_RADISH_RUINS/ROOM_8_04"]
     assert kirby_data.regions[room_8_09_from_8_04].exits == ["REGION_RADISH_RUINS/ROOM_8_03"]
     assert kirby_data.regions[room_5_13_from_5_12].exits == ["REGION_CARROT_CASTLE/ROOM_5_12"]
-    assert kirby_data.locations["MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"].parent_region == room_5_13_from_5_12
+    assert kirby_data.locations["MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"].parent_region == (
+        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07"
+    )
     assert kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14"].locations == []
-    assert kirby_data.regions[room_5_13_from_5_12].locations == [
+    assert kirby_data.regions[room_5_13_from_5_12].locations == []
+    assert kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07"].locations == [
         "MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"
     ]
     assert set(kirby_data.regions[room_5_13_from_5_18_or_5_warp].exits) == {

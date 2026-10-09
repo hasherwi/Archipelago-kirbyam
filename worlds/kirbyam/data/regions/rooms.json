@@ -2201,7 +2201,10 @@
         "exits": [
           "REGION_CARROT_CASTLE/ROOM_5_07"
         ],
-        "events": []
+        "events": [],
+        "locations": [
+          "MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"
+        ]
       },
       "ENTRY_FROM_5_14": {
         "exits": [
@@ -2213,10 +2216,7 @@
         "exits": [
           "REGION_CARROT_CASTLE/ROOM_5_12"
         ],
-        "events": [],
-        "locations": [
-          "MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"
-        ]
+        "events": []
       },
       "ENTRY_FROM_5_18_OR_5_WARP": {
         "exits": [

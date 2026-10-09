@@ -247,3 +247,54 @@ async def test_deferred_collection_sources_never_report_ap_checks(mock_bizhawk_c
         read.return_value = [(1).to_bytes(4, "little"), ring]
         await client._poll_minor_chest_locations(mock_bizhawk_context)
     mock_bizhawk_context.send_msgs.assert_not_awaited()
+
+
+@pytest.mark.parametrize("entry,reachable", [
+    ("ROOM_5_07", True),
+    ("ROOM_5_14", False),
+    ("ROOM_5_12", False),
+    ("ROOM_5_18", False),
+    ("ROOM_5_WARP", False),
+])
+def test_carrot_lower_chest_requires_verified_entry(entry: str, reachable: bool) -> None:
+    """An isolated entrance must not collect across native 734's solid divider."""
+    prefix = "REGION_CARROT_CASTLE/"
+    parent = prefix + "ROOM_5_13"
+    entries = ["ROOM_5_07", "ROOM_5_14", "ROOM_5_12", "ROOM_5_18", "ROOM_5_WARP"]
+    names = [parent, *(prefix + name for name in entries),
+             *(name for name in data.regions if name.startswith(parent + "__LOGIC__"))]
+    multiworld = MultiWorld(1)
+    multiworld.worlds[1] = KirbyAmWorld(multiworld, 1)
+    regions = {name: Region(name, 1, multiworld) for name in ["Menu", *names]}
+    multiworld.regions.extend(regions.values())
+    for name in names:
+        definition = data.regions[name]
+        # Restrict to entering/leaving 5-13; unrelated external routes would
+        # conceal which compartment owns the chest.
+        for destination in definition.exits:
+            if destination in regions and (name.startswith(parent) or destination.startswith(parent)):
+                regions[name].connect(regions[destination])
+        regions[name].add_locations({key: data.locations[key].location_id for key in definition.locations})
+    regions["Menu"].connect(regions[prefix + entry])
+    state = CollectionState(multiworld)
+    assert multiworld.get_location("MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02", 1).can_reach(state) is reachable
+    assert not regions[parent].can_reach(state)
+    assert not any("MINOR_CHEST_MUSIC_NOTE_06" in data.regions[name].locations for name in names)
+    assert data.locations["MINOR_CHEST_MUSIC_NOTE_06"].source_rom_offset is None
+
+
+def test_carrot_compartment_assignment_matches_pinned_native_evidence() -> None:
+    evidence = json.loads((_WORLD / "dev-docs/carrot-room-evidence.json").read_text())
+    rooms = {room["native_room_id"]: room for room in evidence["rooms"]}
+    assert rooms[719]["ap_room_keys"] == ["REGION_CARROT_CASTLE/ROOM_5_07"]
+    assert rooms[720]["ap_room_keys"] == ["REGION_CARROT_CASTLE/ROOM_5_14"]
+    assert rooms[734]["ap_room_keys"] == ["REGION_CARROT_CASTLE/ROOM_5_13"]
+    for native_id, spawn in [(719, [13, 14]), (720, [14, 5])]:
+        entries = [t for t in rooms[native_id]["transitions"] if t["destination_room"] == 734]
+        assert entries and all(t["destination_spawn_tiles"] == spawn for t in entries)
+    assert {tuple(e["chest_position_pixels"]) for e in rooms[734]["completion_entries"]} == {
+        (128, 120), (72, 264),
+    }
+    assert data.locations["MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"].parent_region.endswith(
+        "__LOGIC__ENTRY_FROM_5_07"
+    )

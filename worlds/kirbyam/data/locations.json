@@ -1319,7 +1319,7 @@
   },
   "MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02": {
     "label": "Carrot Castle 5-13 - Small Chest #2",
-    "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_12",
+    "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
     "tags": [
       "SmallChest",
       "ExactEventLocation",
