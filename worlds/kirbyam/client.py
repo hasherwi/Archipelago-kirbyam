@@ -31,10 +31,13 @@ if TYPE_CHECKING:
     from worlds.generic.shared_utils import NetworkItem
 
 
+_CHEST_RECOVERY_RECORDS = load_json_data("chest_recovery.json")["records"]
+
 EXPECTED_ROM_HEADER_TITLE = "agb kirby am"
 EXPECTED_ROM_GAME_CODE = "b8ke"
 EXPECTED_ROM_MAKER_CODE = "01"
 _AUTH_TOKEN_SIZE = 16
+_START_INVENTORY_HISTORY_BIT = 1 << 31
 _BOSS_MIRROR_TABLE_PROBE_BYTES = 32
 _AI_STATE_ADDR_WIDTH = 4
 _AI_STATE_TUTORIAL = 100
@@ -340,12 +343,11 @@ class KirbyAmClient(BizHawkClient):
     system = "GBA"
     patch_suffix = ".apkirbyam"
 
-    def initialize_client(self) -> None:
-        # Compatibility state retained for tests and reconnect diagnostics.
-        self._checked_location_bits: set[int] = set()
-
+    def _reset_item_delivery_state(self) -> None:
         # Item delivery state
         self._delivered_item_index: int = 0
+        self._delivery_counter_offset: int = 0
+        self._last_rom_received_count: int | None = None
         self._delivery_pending: bool = False  # True after writing mailbox until ROM clears flag
         self._delivery_pending_frame: int | None = None
         self._delivery_pending_time: float | None = None  # Monotonic time recorded when mailbox write issued
@@ -364,6 +366,12 @@ class KirbyAmClient(BizHawkClient):
         self._cached_delivered_shard_bits: int = 0
         self._cached_shard_bits_index: int = 0
         self._cached_shard_bits_items_len: int = 0
+
+    def initialize_client(self) -> None:
+        # Compatibility state retained for tests and reconnect diagnostics.
+        self._checked_location_bits: set[int] = set()
+
+        self._reset_item_delivery_state()
 
         # Deterministic location ordering
         self._all_location_ids_sorted: list[int] = [
@@ -395,7 +403,7 @@ class KirbyAmClient(BizHawkClient):
         # Bit N corresponds to area ID N in enum AreaId (e.g. bit 3 = AREA_CABBAGE_CAVERN).
         self._major_chest_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.MAP_CHEST)
 
-        # Native chest bits are shared and are intentionally not used to identify checks.
+        # Exact events provide prompt checks; audited saved flags provide recovery.
         self._minor_chest_location_id_by_source_ptr = self._build_minor_chest_source_ptr_map()
         exact_event_minor_count = sum(
             1
@@ -405,9 +413,15 @@ class KirbyAmClient(BizHawkClient):
         if exact_event_minor_count:
             self._log_verbose(
                 "info",
-                "KirbyAM: %s exact-source minor chest checks active; each needs an event-ring source-pointer match.",
+                "KirbyAM: %s exact-source minor chest checks active; event-ring checks have audited native-save recovery.",
                 exact_event_minor_count,
             )
+        self._saved_chest_location_by_flag = {
+            row["flag"]: data.locations[row["location_key"]].location_id
+            for row in _CHEST_RECOVERY_RECORDS if row["location_key"] is not None
+        }
+        self._vitality_history_session = None
+        self._legacy_start_inventory_warned = False
         self._last_minor_chest_event_counter: int | None = None
         self._pending_minor_chest_locations: set[int] = set()
         self._minor_chest_session_key: tuple[object, ...] | None = None
@@ -1613,10 +1627,9 @@ class KirbyAmClient(BizHawkClient):
 
         # Minimal AP settings
         ctx.game = self.game
-        # Request both local and remote items so the server replays the full
-        # received-item history when the client reconnects. The client rebuilds
-        # locally owned ability unlocks from that history after a restart.
-        ctx.items_handling = 0b011
+        # Include local, remote and starting items in authoritative history.
+        # Starting items are a prefix; legacy cursor migration is guarded below.
+        ctx.items_handling = 0b111
         ctx.want_slot_data = True
         ctx.watcher_timeout = 0.125
         base_command_processor = getattr(ctx, "command_processor", None)
@@ -1678,6 +1691,10 @@ class KirbyAmClient(BizHawkClient):
 
             self._log_starting_kirby_color_config_once(ctx)
 
+            # A legacy cursor counts a different history when precollects are
+            # added. Never reinterpret that live cursor as a prefixed history.
+            if not await self._start_inventory_cursor_ready(ctx):
+                return
             # Load persisted state from RAM once per session (after bizhawk_ctx is valid)
             if not self._ram_state_loaded:
                 await self._load_persistent_state(ctx)
@@ -1694,6 +1711,7 @@ class KirbyAmClient(BizHawkClient):
                 # Report only the tutorial world-map chest while normal location
                 # polling and new item writes remain deferred.
                 await self._poll_major_chest_locations(ctx, tutorial_world_map_only=True)
+                await self._poll_saved_chest_locations(ctx, tutorial_world_map_only=True)
             await self._log_boss_shard_debug_window(
                 ctx,
                 gameplay_active=gameplay_active,
@@ -1728,10 +1746,13 @@ class KirbyAmClient(BizHawkClient):
 
             await self._reconcile_native_shard_ownership(ctx)
             await self._reconcile_native_map_ownership(ctx)
+            await self._reconcile_vitality_ownership(ctx)
             await self._enforce_no_extra_lives(ctx)
             await self._enforce_one_hit_mode(ctx)
             await self._apply_pending_death_link(ctx)
             await self._poll_and_send_local_death_link(ctx)
+
+            await self._poll_saved_chest_locations(ctx)
 
             # Boss defeat location polling via transport register
             await self._poll_boss_defeat_locations(ctx)
@@ -2643,7 +2664,7 @@ class KirbyAmClient(BizHawkClient):
         keys_in_order = []
 
         # Your addresses.json defines delivered_item_index.
-        for key in ("delivered_item_index",):
+        for key in ("delivered_item_index", "debug_item_counter"):
             addr = self._transport_addr(key)
             if addr is not None:
                 reads.append((addr, 4, "System Bus"))
@@ -2662,6 +2683,13 @@ class KirbyAmClient(BizHawkClient):
                 delivered_count = min(val, len(ctx.items_received))
                 for delivered_index in range(delivered_count):
                     self._record_acknowledged_non_redeliverable_index(ctx, delivered_index)
+
+        if "debug_item_counter" in keys_in_order:
+            position = keys_in_order.index("debug_item_counter")
+            if position < len(raw_list) and len(raw_list[position]) == 4:
+                self._last_rom_received_count = self._u32_le(raw_list[position])
+                self._delivery_counter_offset = max(
+                    0, self._delivered_item_index - self._last_rom_received_count)
 
     # --------------------------
     # Location checking
@@ -2823,6 +2851,147 @@ class KirbyAmClient(BizHawkClient):
         else:
             self._last_vitality_chest_poll_log = None
 
+    @staticmethod
+    def _authenticated_session_key(ctx):
+        return (getattr(ctx, "server_seed_name", None), ctx.auth, ctx.team, ctx.slot)
+
+    async def _poll_saved_chest_locations(self, ctx, *, tutorial_world_map_only=False):
+        """Recover physical checks from unique USA chestFields bits, never reward ownership.
+
+        The native save must belong to this ROM/seed; importing saves from other
+        seeds or vanilla is unsupported because the native save has no seed ID.
+        No client-side pending state is carried across authenticated sessions.
+        """
+        active = self._active_location_id_set(ctx)
+        address = self._native_addr("other_chest_flags_native")
+        if not self._server_session_ready(ctx) or not active or address is None:
+            return
+        session = self._authenticated_session_key(ctx)
+        values = await bizhawk.read(ctx.bizhawk_ctx, [(address, 16, "System Bus")])
+        if (len(values) != 1 or len(values[0]) != 16
+                or session != self._authenticated_session_key(ctx)):
+            return
+        bits = int.from_bytes(values[0], "little")
+        checks = {location for flag, location in self._saved_chest_location_by_flag.items()
+                  if bits & (1 << flag)} & active
+        if tutorial_world_map_only:
+            checks.intersection_update(self._major_chest_location_ids_by_bit.get(0, []))
+        missing = sorted(checks - ctx.checked_locations)
+        if missing:
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing}])
+
+    async def _start_inventory_cursor_ready(self, ctx):
+        """Adopt prefixed history only at a fresh mailbox, or resume its marker.
+
+        Bit 31 of delivered_vitality_item_bits records this history format;
+        low four bits remain the unique Vitality IDs. Payload initialization
+        clears the entire field, so old savestates cannot silently shift indices.
+        """
+        if (self._vitality_history_session != self._authenticated_session_key(ctx)
+                or not any(getattr(item, "location", None) == -2
+                           and getattr(item, "player", None) == 0 for item in ctx.items_received)):
+            return True
+        session = self._authenticated_session_key(ctx)
+        keys = ["delivered_vitality_item_bits", "debug_item_counter", "delivered_item_index",
+                "incoming_item_flag", "mailbox_init_cookie"]
+        addresses = [self._transport_addr(key) for key in keys]
+        if any(address is None for address in addresses):
+            return False
+        raw = await bizhawk.read(ctx.bizhawk_ctx, [(address, 4, "System Bus") for address in addresses])
+        if (len(raw) != 5 or any(len(value) != 4 for value in raw)
+                or session != self._authenticated_session_key(ctx)):
+            return False
+        bits, received, delivered, flag, cookie = map(self._u32_le, raw)
+        if cookie != 0x4B41504D:
+            return False  # Wait for payload initialization before marking its format.
+        if bits & _START_INVENTORY_HISTORY_BIT:
+            return True
+        if received or delivered or flag:
+            if not getattr(self, "_legacy_start_inventory_warned", False):
+                self._log_client("warning", "KirbyAM: starting inventory changes the legacy item cursor. "
+                                 "Restart the ROM from its native save before continuing; "
+                                 "do not load a savestate made with the older client.")
+                self._legacy_start_inventory_warned = True
+            return False
+        applied = await bizhawk.guarded_write(ctx.bizhawk_ctx, [
+            (addresses[0], (bits | _START_INVENTORY_HISTORY_BIT).to_bytes(4, "little"), "System Bus")
+        ], [(address, value, "System Bus") for address, value in zip(addresses, raw)])
+        if applied:
+            if self._legacy_start_inventory_warned:
+                prefix = sum(getattr(item, "location", None) == -2
+                             and getattr(item, "player", None) == 0 for item in ctx.items_received)
+                old_indices = self._acknowledged_non_redeliverable_indices.copy()
+                self._acknowledged_non_redeliverable_indices.clear()
+                self._acknowledged_non_redeliverable_indices.update(index + prefix for index in old_indices)
+            self._reset_item_delivery_state()
+            self._ram_state_loaded = False
+            self._legacy_start_inventory_warned = False
+        return applied
+
+    async def _reconcile_vitality_ownership(self, ctx):
+        """Rebuild unique health ownership from a complete authenticated AP history.
+
+        Wait for index-zero ReceivedItems; an empty pre-sync list is not proof
+        of zero ownership. Correct older inflated saves only with that authority.
+        """
+        session = self._authenticated_session_key(ctx)
+        if (not self._server_session_ready(ctx) or self._vitality_history_session != session
+                or not isinstance(ctx.items_received, list)):
+            return
+        if not await self._start_inventory_cursor_ready(ctx):
+            return
+        mask = 0
+        for item in ctx.items_received:
+            item_id = getattr(item, "item", None)
+            if isinstance(item_id, int) and 3860018 <= item_id <= 3860021:
+                mask |= 1 << (item_id - 3860018)
+        slot = ctx.slot_data
+        if not isinstance(slot, dict):
+            return
+        mode = slot.get("one_hit_mode", 0)
+        minimum, maximum = slot.get("minimum_health", 6), slot.get("maximum_health", 10)
+        if mode == 1:
+            minimum, maximum = 1, 1
+        elif mode == 2:
+            minimum, maximum = 1, 5
+        elif mode != 0:
+            return
+        if (type(minimum) is not int or type(maximum) is not int
+                or not 1 <= minimum <= maximum <= 10 or maximum - minimum > 4):
+            return
+        count = min(mask.bit_count(), maximum - minimum)
+        addresses = [self._transport_addr("delivered_vitality_item_bits"),
+                     self._native_addr("kirby_vitality_counter_native"),
+                     self._native_addr("kirby_hp_native"), self._native_addr("kirby_max_hp_native")]
+        if any(address is None for address in addresses):
+            return
+        widths = [4, 2, 1, 1]
+        values = await bizhawk.read(ctx.bizhawk_ctx, [
+            (address, width, "System Bus") for address, width in zip(addresses, widths)])
+        if (len(values) != 4 or any(len(value) != width for value, width in zip(values, widths))
+                or session != self._authenticated_session_key(ctx)):
+            return
+        hp, previous_max = self._s8(values[2]), self._s8(values[3])
+        maximum = minimum + count
+        # A genuinely new native count gets the normal Vitality heal. Saved
+        # replay preserves damage; migrations clamp, and dead Kirby stays dead.
+        if hp > 0:
+            if count > int.from_bytes(values[1], "little"):
+                hp = maximum
+            elif 0 < previous_max < maximum:
+                hp += maximum - previous_max
+            hp = min(hp, maximum)
+        mask |= int.from_bytes(values[0], "little") & _START_INVENTORY_HISTORY_BIT
+        desired = [mask.to_bytes(4, "little"), count.to_bytes(2, "little"),
+                   hp.to_bytes(1, "little", signed=True), bytes([maximum])]
+        writes = [(address, value, "System Bus") for address, value, before
+                  in zip(addresses, desired, values) if value != before]
+        if writes:
+            applied = await bizhawk.guarded_write(ctx.bizhawk_ctx, writes, [
+                (address, value, "System Bus") for address, value in zip(addresses, values)])
+            if applied:
+                self._log_verbose("info", "KirbyAM: restored unique Vitality ownership mask=0x%X count=%s", mask, count)
+
     async def _poll_minor_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """Report physical minor-chest checks from exact payload source events."""
         await self._poll_minor_chest_event_locations(ctx)
@@ -2907,6 +3076,13 @@ class KirbyAmClient(BizHawkClient):
                 "KirbyAM: exact minor-chest event counter regressed from %s to %s; resetting baseline (savestate/load).",
                 self._last_minor_chest_event_counter,
                 event_counter,
+            )
+            # A reset/load can already contain fresh opens before this poll.
+            # Replay the retained exact-source window; server ACKs below dedupe
+            # checks from a restored state just as they do on first connection.
+            baseline_window = min(event_counter, _MINOR_CHEST_EVENT_RING_SLOT_COUNT)
+            exact_checked_locations = collect_exact_checked_locations(
+                event_counter - baseline_window, event_counter
             )
         elif event_counter > self._last_minor_chest_event_counter:
             delta = event_counter - self._last_minor_chest_event_counter
@@ -3592,6 +3768,9 @@ class KirbyAmClient(BizHawkClient):
         - Otherwise: wait
         """
 
+        if not await self._start_inventory_cursor_ready(ctx):
+            return
+
         flag_addr = self._transport_addr("incoming_item_flag")
         counter_addr = self._transport_addr("debug_item_counter")
         id_addr = self._transport_addr("incoming_item_id")
@@ -3630,8 +3809,20 @@ class KirbyAmClient(BizHawkClient):
                 self._hook_heartbeat_stale_ticks += 1
             self._last_hook_heartbeat = hook_heartbeat
 
-        # Auto-resync delivery cursor if ROM item state moved backward (save-loss)
-        # or forward (reconnect after stale client state).
+        # The payload counts applied requests; the history index also includes
+        # skipped receipts. Compare physical counts to previous physical counts,
+        # never assume they equal the AP history index after a skipped entry.
+        previous_count = self._last_rom_received_count
+        counter_regressed = (rom_received_count is not None and previous_count is not None
+                             and rom_received_count < previous_count)
+        wrapped_ack = (self._delivery_pending and flag == 0 and previous_count == 0xFFFFFFFF
+                       and rom_received_count == 0)
+        counter_regressed = counter_regressed and not wrapped_ack
+        if rom_received_count is not None:
+            self._last_rom_received_count = rom_received_count
+        if counter_regressed:
+            self._delivery_counter_offset = 0
+
         if rom_received_count is not None:
             if rom_received_count > len(ctx.items_received):
                 if not self._delivery_counter_ahead_fallback_active:
@@ -3653,15 +3844,40 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_counter_ahead_fallback_active = False
                 self._delivery_counter_ahead_resume_logged = False
 
-            if rom_received_count < self._delivered_item_index:
+        # Consume a real pending ACK before any history rewind. Only that
+        # request's history index is acknowledged; a raw count cannot fast-forward
+        # over unrelated entries, nor can a smaller count erase this ACK.
+        if self._delivery_pending and flag == 0 and not counter_regressed:
+            delivered_index = self._delivery_pending_item_index
+            if delivered_index is None:
+                delivered_index = self._delivered_item_index
+            self._delivered_item_index = delivered_index + 1
+            if rom_received_count is not None:
+                self._delivery_counter_offset = max(0, self._delivered_item_index - rom_received_count)
+            self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
+            self._delivery_pending = False
+            self._delivery_pending_frame = None
+            self._delivery_pending_time = None
+            self._delivery_pending_item_index = None
+            self._delivery_timeout_streak = 0
+            self._delivery_retry_not_before = 0.0
+            self._delivery_payload_stall_warned = False
+            self._hook_heartbeat_stale_ticks = 0
+            await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
+            self._record_acknowledged_non_redeliverable_index(ctx, delivered_index)
+            await self._emit_receive_notification(ctx, delivered_index)
+            self._log_verbose("info", "KirbyAM: Mailbox delivery confirmed at history index %s (ROM count=%s)",
+                              delivered_index, rom_received_count)
+            if rom_received_count is None:
+                return
+
+        if rom_received_count is not None:
+            history_position = rom_received_count + self._delivery_counter_offset
+            if history_position < self._delivered_item_index and (counter_regressed or not self._delivery_pending):
                 self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
-                self._log_verbose(
-                    "info",
-                    "KirbyAM: ROM delivery counter moved backward from %s to %s; rewinding client delivery cursor",
-                    self._delivered_item_index,
-                    rom_received_count,
-                )
-                self._delivered_item_index = rom_received_count
+                self._log_verbose("info", "KirbyAM: ROM delivery counter moved backward; rewinding history index %s to %s",
+                                  self._delivered_item_index, history_position)
+                self._delivered_item_index = history_position
                 self._delivery_pending = False
                 self._delivery_pending_frame = None
                 self._delivery_pending_time = None
@@ -3670,68 +3886,9 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_retry_not_before = 0.0
                 self._delivery_payload_stall_warned = False
                 await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
-            elif (
-                rom_received_count > self._delivered_item_index
-                and rom_received_count <= len(ctx.items_received)
-                and self._delivery_pending
-                and flag == 0
-            ):
-                # Treat forward counter movement as authoritative only for a pending
-                # delivery ACK. This avoids stale ROM counters skipping deliveries.
-                _ff_pending_item_index = self._delivery_pending_item_index
-                self._log_verbose(
-                    "info",
-                    "KirbyAM: ROM delivery counter moved forward from %s to %s on pending ACK; fast-forwarding client delivery cursor",
-                    self._delivered_item_index,
-                    rom_received_count,
-                )
-                self._delivered_item_index = rom_received_count
-                self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
-                self._delivery_pending = False
-                self._delivery_pending_frame = None
-                self._delivery_pending_time = None
-                self._delivery_pending_item_index = None
-                self._delivery_timeout_streak = 0
-                self._delivery_retry_not_before = 0.0
-                self._delivery_payload_stall_warned = False
-                self._hook_heartbeat_stale_ticks = 0
-                await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
-                # When the ROM counter advances while a delivery was pending and flag == 0,
-                # this IS the ACK: the ROM processed our mailbox item and incremented the
-                # counter in the same frame as clearing the flag.  Emit the receive
-                # notification here so it is not silently dropped by the fast-forward path
-                # taking precedence over the 'if self._delivery_pending' block below.
-                _notify_index = _ff_pending_item_index
-                if _notify_index is None:
-                    _notify_index = self._delivered_item_index - 1
-                self._record_acknowledged_non_redeliverable_index(ctx, _notify_index)
-                await self._emit_receive_notification(ctx, _notify_index)
 
         # If an item is pending, wait for ROM to clear the flag (ACK)
         if self._delivery_pending:
-            if flag == 0:
-                delivered_index = self._delivery_pending_item_index
-                if delivered_index is None:
-                    delivered_index = self._delivered_item_index
-                self._log_verbose("info", "KirbyAM: Mailbox delivery confirmed at item index %s", delivered_index)
-                self._delivery_pending = False
-                self._delivery_pending_frame = None
-                self._delivery_pending_time = None
-                self._delivery_pending_item_index = None
-                self._delivery_timeout_streak = 0
-                self._delivery_retry_not_before = 0.0
-                self._delivery_payload_stall_warned = False
-                self._hook_heartbeat_stale_ticks = 0
-                if rom_received_count is not None and rom_received_count <= len(ctx.items_received):
-                    self._delivered_item_index = rom_received_count
-                else:
-                    self._delivered_item_index += 1
-                self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
-                await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
-                self._record_acknowledged_non_redeliverable_index(ctx, delivered_index)
-                await self._emit_receive_notification(ctx, delivered_index)
-                return
-
             # Check for timeout via frame counter OR wall-clock time (fallback if frame_counter stuck)
             timeout_triggered = False
             timeout_reason = ""
@@ -3834,6 +3991,8 @@ class KirbyAmClient(BizHawkClient):
                     itm,
                 )
                 self._delivered_item_index += 1
+                if rom_received_count is not None:
+                    self._delivery_counter_offset = max(0, self._delivered_item_index - rom_received_count)
                 self._delivery_pending = False
                 self._delivery_pending_time = None
                 self._delivery_pending_item_index = None
@@ -3876,6 +4035,8 @@ class KirbyAmClient(BizHawkClient):
                     )
 
                 self._delivered_item_index += 1
+                if rom_received_count is not None:
+                    self._delivery_counter_offset = max(0, self._delivered_item_index - rom_received_count)
                 self._delivery_pending = False
                 self._delivery_pending_time = None
                 self._delivery_pending_item_index = None
@@ -4144,6 +4305,10 @@ class KirbyAmClient(BizHawkClient):
             self._goal_reported = True
 
     def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict) -> None:
+        if cmd == "Connected":
+            self._vitality_history_session = None
+        elif cmd == "ReceivedItems" and args.get("index") == 0:
+            self._vitality_history_session = self._authenticated_session_key(ctx)
         if not self._notification_settings_loaded:
             self._load_notification_settings(ctx)
         if cmd == "Bounced":
