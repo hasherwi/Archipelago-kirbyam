@@ -2,9 +2,9 @@
 Build a ROM-backed evidence manifest for minor chests.
 
 This script reads the AMR SmallChest address table, then inspects each chest entry
-directly from a vanilla Kirby & The Amazing Mirror ROM to extract:
-- item byte at entry + 0x0E
-- chest index byte at entry + 0x11
+directly from the authorized USA Kirby & The Amazing Mirror ROM to extract:
+- reward ID at ObjectTemplate + 0x0E (AMR fragment byte 2)
+- chest flag index at ObjectTemplate + 0x11 (AMR fragment byte 5)
 
 It also resolves AMR room slots through native gRoomProps metadata to capture
 candidate native room IDs, doorsIdx values, and AP room-sanity keys.
@@ -31,17 +31,36 @@ ROOM_PROPS_ROM_BASE = 0x009331AC
 ROOM_PROPS_SIZE = 0x00009998
 ROOM_PROPS_STRIDE = 0x28
 # gRoomProps layout:
-#   0x20 -> object_list2_idx
-#   0x22 -> object_list_idx
+#   0x20 -> roomObjectListIdx
 #   0x24 -> doors_idx
-ROOM_PROPS_OBJECT_LIST2_IDX_OFFSET = 0x20
-ROOM_PROPS_OBJECT_LIST_IDX_OFFSET = 0x22
+ROOM_PROPS_OBJECT_LIST_IDX_OFFSET = 0x20
 ROOM_PROPS_DOORS_IDX_OFFSET = 0x24
+# AMR's address identifies the six packed chest bytes at ObjectTemplate + 0x0C.
+# The event-ring source pointer is the ObjectTemplate base, so subtract this
+# field offset after matching the packed bytes in the ROM.
+AMR_OBJECT_TEMPLATE_FRAGMENT_OFFSET = 0x0C
 AMR_SMALL_CHEST_ITEM_OFFSET = 0x0E
 AMR_SMALL_CHEST_INDEX_OFFSET = 0x11
 AMR_PACKED_ITEM_SIZE = 6
 ROM_ENTRY_READ_SIZE = max(AMR_SMALL_CHEST_ITEM_OFFSET, AMR_SMALL_CHEST_INDEX_OFFSET) + 1
 AMR_JP_TO_US_ROM_SHIFT = 0x2FE74
+AUTHORIZED_USA_ROM_SHA1 = "274b102b6d940f46861a92b4e65f89a51815c12c"
+AMR_SOURCE_COMMIT = "2ea1c963535405e1ba7d678bb4361a7f5c30703b"
+AMR_ITEMS_BLOB = "23b6a79e1138789518132eafe696d0076e485465"
+EXPECTED_CONSUMABLE_CHEST_FLAGS = (
+    2, 3, 4, 6, 8, 9, 10, 12, 14, 17, 19, 20, 23, 24, 26, 28, 29, 30, 31, 33, 34,
+    35, 36, 38, 40, 41, 42, 44, 48, 50, 53, 56, 60, 62, 64, 67, 71, 72, 75, 78, 82,
+)
+EXPECTED_REWARD_PATH_COUNTS = {
+    "ordinary_item_chest": 41,
+    "spray_paint_chest": 14,
+    "music_or_sound_chest": 10,
+}
+REWARD_PROFILE_EVIDENCE = [
+    "katam/include/data.h: ObjectTemplate subtype1 is at +0x0E and unk11 is at +0x11",
+    "katam/src/chest.c: CreateChest copies subtype1 and unk11 into the live chest object",
+    "katam/src/chest.c: chest reward dispatch classifies item IDs 0..5, 0x14..0x21, and 0x28..0x32",
+]
 RESPAWN_POLICY_EVIDENCE = [
     "katam/src/treasures.c: CollectChest(u8) only sets chestFields bit; no clear/reset helper exists",
     "katam/src/treasures.c: HasChest(u8) reads persisted chestFields bit",
@@ -56,28 +75,6 @@ def load_json(path: Path) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise ValueError(f"Expected a JSON object: {path}")
     return payload
-
-
-def load_native_item_name_by_id(kirbyam_dir: Path) -> dict[int, str]:
-    mapping_path = kirbyam_dir / "data" / "native_item_id_to_name_mapping.json"
-    mapping_data = load_json(mapping_path)
-    if not isinstance(mapping_data, dict):
-        raise ValueError(f"Native item mapping must be a JSON object: {mapping_path}")
-
-    parsed: dict[int, str] = {}
-    for key, value in mapping_data.items():
-        if not isinstance(key, str):
-            raise ValueError(f"Invalid native item mapping key: {key!r}")
-
-        if isinstance(value, str):
-            name = value
-        elif isinstance(value, dict) and isinstance(value.get("name"), str):
-            name = value["name"]
-        else:
-            raise ValueError(f"Invalid native item mapping entry: key={key!r}, value={value!r}")
-
-        parsed[int(key, 16)] = name
-    return parsed
 
 
 def build_doors_idx_to_room_keys(rooms: dict[str, Any]) -> dict[int, list[str]]:
@@ -102,6 +99,20 @@ def read_u16(data: bytes, offset: int) -> int:
     return int.from_bytes(data[offset:offset + 2], "little")
 
 
+def decode_amr_small_chest_fragment(fragment: bytes) -> dict[str, int]:
+    """Decode the six-byte AMR fragment embedded at ObjectTemplate + 0x0C."""
+    if len(fragment) != AMR_PACKED_ITEM_SIZE:
+        raise ValueError(f"Expected {AMR_PACKED_ITEM_SIZE}-byte AMR fragment, got {len(fragment)}")
+    return {
+        "entry_type": fragment[0],
+        "entry_marker": fragment[1],
+        "reward_id": fragment[2],
+        "unknown_object_field": fragment[3],
+        "entry_aux_hi": fragment[4],
+        "native_chest_flag_index": fragment[5],
+    }
+
+
 def resolve_amr_room_slot_object_list_idx(amr_room_slot: int) -> int:
     """Translate AMR's compact room slot to the native gRoomProps object-list index."""
     return amr_room_slot + 1 if amr_room_slot >= 4 else amr_room_slot
@@ -118,13 +129,11 @@ def parse_groomprops(rom_bytes: bytes) -> list[dict[str, int]]:
     room_props_entries: list[dict[str, int]] = []
     for entry_offset in range(0, ROOM_PROPS_SIZE, ROOM_PROPS_STRIDE):
         base = ROOM_PROPS_ROM_BASE + entry_offset
-        object_list2_idx = read_u16(rom_bytes, base + ROOM_PROPS_OBJECT_LIST2_IDX_OFFSET)
         object_list_idx = read_u16(rom_bytes, base + ROOM_PROPS_OBJECT_LIST_IDX_OFFSET)
         doors_idx = read_u16(rom_bytes, base + ROOM_PROPS_DOORS_IDX_OFFSET)
         room_props_entries.append(
             {
                 "native_room_id": entry_offset // ROOM_PROPS_STRIDE,
-                "object_list2_idx": object_list2_idx,
                 "object_list_idx": object_list_idx,
                 "doors_idx": doors_idx,
             }
@@ -138,241 +147,41 @@ def resolve_default_paths(kirbyam_dir: Path) -> tuple[Path, Path]:
     return rooms_default, output_default
 
 
-def build_collection_codes_by_treasure_id() -> dict[int, list[int]]:
-    # Source: katam/src/collection_room.c gUnk_08386A50 entries ({unk0, unk2, unk3}).
-    raw_entries = [
-        (0x100, 0x4), (0x101, 0x5), (0x102, 0x6), (0x103, 0x7), (0x104, 0x8),
-        (0x406, 0x13), (0x401, 0x14), (0x403, 0x15), (0x402, 0x16), (0x400, 0x17),
-        (0x105, 0x9), (0x106, 0xA), (0x107, 0xB), (0x108, 0xC), (0x109, 0xD),
-        (0x409, 0x18), (0x408, 0x19), (0x405, 0x1A), (0x404, 0x1B), (0x407, 0x1C),
-        (0x10A, 0xE), (0x10B, 0xF), (0x10C, 0x10), (0x10D, 0x11), (0x10E, 0x12),
-        (0x200, 0x1D), (0x201, 0x1E), (0x204, 0x1F), (0x202, 0x20), (0x207, 0x21),
-        (0x1000, 0x28), (0x800, 0x27), (0x801, 0x27), (0x802, 0x27), (0x803, 0x27),
-        (0x206, 0x22), (0x209, 0x23), (0x208, 0x24), (0x205, 0x25), (0x203, 0x26),
-    ]
-    mapping: dict[int, list[int]] = defaultdict(list)
-    for collection_code, treasure_id in raw_entries:
-        mapping[treasure_id].append(collection_code)
-    return {treasure_id: sorted(set(codes)) for treasure_id, codes in mapping.items()}
+def classify_reward_profile(reward_id: int) -> tuple[str, bool]:
+    """Classify ObjectTemplate.subtype1 using the native CreateChest dispatch."""
+    if 0 <= reward_id <= 5:
+        return "ordinary_item_chest", True
+    if reward_id == 0x06:
+        return "vitality_chest", False
+    if 0x0A <= reward_id <= 0x13:
+        return "big_chest", False
+    if 0x14 <= reward_id <= 0x21:
+        return "spray_paint_chest", False
+    if 0x28 <= reward_id <= 0x32:
+        return "music_or_sound_chest", False
+    if reward_id == 0x63:
+        return "no_bonus_chest", False
+    return "unclassified_chest_reward", False
 
 
-def build_collection_code_by_chest_flag_index() -> dict[int, int]:
-    # Source: katam/src/collection_room.c gUnk_08386B28 entries ({unk_first, collection_code}).
-    return {
-        0x01: 0x400, 0x02: 0x404, 0x03: 0x401, 0x04: 0x400, 0x05: 0x402, 0x06: 0x402,
-        0x07: 0x401, 0x08: 0x402, 0x09: 0x401, 0x0A: 0x402, 0x0B: 0x401, 0x0C: 0x403,
-        0x0D: 0x403, 0x0E: 0x405, 0x0F: 0x403, 0x10: 0x405, 0x11: 0x405, 0x12: 0x405,
-        0x13: 0x400, 0x14: 0x404, 0x15: 0x401, 0x16: 0x404, 0x17: 0x404, 0x18: 0x403,
-        0x19: 0x400, 0x1A: 0x403, 0x1B: 0x402, 0x1C: 0x402, 0x1D: 0x401, 0x1E: 0x404,
-        0x1F: 0x404, 0x20: 0x404, 0x21: 0x404, 0x22: 0x404, 0x23: 0x401, 0x24: 0x400,
-        0x25: 0x404, 0x26: 0x404, 0x27: 0x404, 0x28: 0x403, 0x29: 0x401, 0x2A: 0x402,
-    }
-
-
-def build_major_chest_label_by_index(kirbyam_dir: Path) -> dict[int, str]:
-    locations_path = kirbyam_dir / "data" / "locations.json"
-    items_path = kirbyam_dir / "data" / "items.json"
-    locations = load_json(locations_path)
-    items = load_json(items_path)
-
-    major_labels: dict[int, str] = {}
-    for location in locations.values():
-        if location.get("category") != "MAP_CHEST":
-            continue
-        bit_index = location.get("bit_index")
-        default_item = location.get("default_item")
-        if not isinstance(bit_index, int) or not isinstance(default_item, str):
-            continue
-        item_data = items.get(default_item)
-        if not isinstance(item_data, dict):
-            continue
-        item_label = item_data.get("label")
-        if isinstance(item_label, str):
-            major_labels[bit_index] = item_label
-    return major_labels
-
-
-def resolve_native_collection_item(
-    treasure_id: int,
-    chest_flag_index: int,
-    collection_codes_by_treasure_id: dict[int, list[int]],
-    collection_code_by_chest_flag_index: dict[int, int],
-    major_chest_label_by_index: dict[int, str],
-) -> tuple[str, str, int | None]:
-    collection_code: int | None = None
-    treasure_codes = collection_codes_by_treasure_id.get(treasure_id, [])
-    if len(treasure_codes) == 1:
-        collection_code = treasure_codes[0]
-    if collection_code is None:
-        collection_code = collection_code_by_chest_flag_index.get(chest_flag_index)
-    if collection_code is None:
-        return "unknown", f"Collection Treasure #{treasure_id:02d}", None
-
-    if collection_code == 0x1000:
-        return "sound_player", "Sound Player", collection_code
-
-    high = collection_code >> 8
-    low = collection_code & 0xFF
-
-    if high == 0x1:
-        if low == 0:
-            return "spray_paint", "Spray Paint Hub", collection_code
-        return "spray_paint", f"Spray Paint #{low}", collection_code
-    if high == 0x2:
-        major_label = major_chest_label_by_index.get(low)
-        if major_label is not None:
-            return "major_chest", major_label, collection_code
-        return "major_chest", f"Big Chest Flag #{low}", collection_code
-    if high == 0x4:
-        return "music_sheet", f"Music Sheet #{low + 1}", collection_code
-    if high == 0x8:
-        return "vitality", f"Vitality Counter #{low + 1}", collection_code
-
-    return "unknown", f"Collection Treasure #{treasure_id:02d}", collection_code
-
-
-def classify_reward_profile(native_group: str, chest_flag_index: int, treasure_id: int) -> tuple[str, bool, list[str]]:
-    # Source-backed decode paths:
-    # - collection_room.c tables map tracked collection rewards (spray/music/vitality/map/sound)
-    # - unresolved 0x80 entries with (flag=0, treasure=0) are non-collection chest rewards.
-    #   These are modeled as a consumable reward pool where 1-Up is a possible outcome.
-    if native_group in {"spray_paint", "music_sheet", "vitality", "major_chest", "sound_player"}:
-        return "collection_reward", False, []
-    if native_group == "unknown" and chest_flag_index == 0 and treasure_id == 0:
-        return (
-            "non_collection_consumable_pool",
-            True,
-            [
-                "Small Food",
-                "Energy Drink",
-                "Hunk of Meat",
-                "Max Tomato",
-                "Cell Phone Battery",
-                "1-Up",
-                "Invincibility Candy",
-            ],
-        )
-    return "unknown", False, []
-
-
-def compute_multi_chest_disambiguation(
-    entries: list[dict[str, Any]],
-) -> tuple[dict[int, dict[str, Any]], list[dict[str, Any]]]:
-    """
-    For each AP room whose candidate_ap_room_keys resolves to exactly one key and that room
-    contains two or more chest entries, determine whether the chests can be distinguished by
-    native_in_game_item (gameplay-observable reward) or by ROM-level fields (chest_index /
-    item_id bytes).
-
-    Disambiguation status strings:
-      "disambiguated_by_native_in_game_item":
-          This entry's native_in_game_item is unique among chests in the room.
-          Flag-to-chest mapping is verifiable by observing the in-game reward.
-      "ambiguous_native_item_rom_field_unique":
-          Chests in the room share the same native_in_game_item, but this entry's
-          chest_index or item_id byte is unique in the room.  Weaker evidence;
-          mapping deferred until gameplay verification.
-      "ambiguous_indistinguishable":
-          No ROM field or native reward distinguishes this chest from at least one
-          other chest in the same room.  Fully deferred.
-
-    Returns:
-        per_entry: dict[entry_index → disambiguation record]
-        room_summary: list of per-room disambiguation summary records, sorted by room_key
-    """
+def summarize_duplicate_room_sources(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Report multiple checks in one room; source-pointer identity remains exact."""
     room_to_entries: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for e in entries:
-        keys = e.get("candidate_ap_room_keys") or []
+    for entry in entries:
+        keys = entry.get("candidate_ap_room_keys") or []
         if len(keys) == 1:
-            room_to_entries[keys[0]].append(e)
+            room_to_entries[keys[0]].append(entry)
 
-    per_entry: dict[int, dict[str, Any]] = {}
-    room_summary: list[dict[str, Any]] = []
-
-    for room_key, room_entries in sorted(room_to_entries.items()):
-        chest_count = len(room_entries)
-        if chest_count < 2:
-            continue
-
-        native_items = [e["native_in_game_item"] for e in room_entries]
-        chest_indices = [e["chest_index"] for e in room_entries]
-        item_ids = [e["item_id"] for e in room_entries]
-        flag_indices = [e["native_chest_flag_index"] for e in room_entries]
-
-        native_items_all_distinct = len(set(native_items)) == len(native_items)
-        chest_indices_all_distinct = len(set(chest_indices)) == len(chest_indices)
-        item_ids_all_distinct = len(set(item_ids)) == len(item_ids)
-
-        if native_items_all_distinct:
-            room_status = "disambiguated_by_native_in_game_item"
-        elif chest_indices_all_distinct or item_ids_all_distinct:
-            room_status = "ambiguous_by_native_item_rom_fields_distinct"
-        elif len(set(chest_indices)) > 1 or len(set(item_ids)) > 1:
-            room_status = "ambiguous_by_native_item_rom_fields_partially_distinct"
-        else:
-            room_status = "ambiguous_by_native_item_indistinguishable"
-
-        for e in room_entries:
-            entry_idx = e["entry_index"]
-            native_item_unique = native_items.count(e["native_in_game_item"]) == 1
-            if native_item_unique:
-                others = [x["native_in_game_item"] for x in room_entries if x["entry_index"] != entry_idx]
-                per_entry[entry_idx] = {
-                    "room_key": room_key,
-                    "disambiguation_status": "disambiguated_by_native_in_game_item",
-                    "native_in_game_item": e["native_in_game_item"],
-                    "other_native_in_game_items_in_room": others,
-                }
-            else:
-                chest_idx_unique = chest_indices.count(e["chest_index"]) == 1
-                item_id_unique = item_ids.count(e["item_id"]) == 1
-                if chest_idx_unique or item_id_unique:
-                    distinguishing_rom_fields: dict[str, str | int] = {}
-                    if chest_idx_unique:
-                        distinguishing_rom_fields["chest_index"] = e["chest_index_hex"]
-                    if item_id_unique:
-                        distinguishing_rom_fields["item_id"] = e["item_id_hex"]
-                        distinguishing_rom_fields["item_id_name"] = e["native_item_name"]
-                    per_entry[entry_idx] = {
-                        "room_key": room_key,
-                        "disambiguation_status": "ambiguous_native_item_rom_field_unique",
-                        "distinguishing_rom_fields": distinguishing_rom_fields,
-                        "deferred": True,
-                        "deferral_reason": (
-                            "native_in_game_item not distinct between chests; "
-                            "rom byte fields differ but require gameplay verification"
-                        ),
-                    }
-                else:
-                    per_entry[entry_idx] = {
-                        "room_key": room_key,
-                        "disambiguation_status": "ambiguous_indistinguishable",
-                        "deferred": True,
-                        "deferral_reason": "no distinguishing field found between chests in this room",
-                    }
-
-        room_summary.append(
-            {
-                "room_key": room_key,
-                "chest_count": chest_count,
-                "native_chest_flag_indices": flag_indices,
-                "native_in_game_items": native_items,
-                "chest_indices_hex": [f"0x{ci:02X}" for ci in chest_indices],
-                "item_ids_hex": [f"0x{ii:02X}" for ii in item_ids],
-                "per_chest": [
-                    {
-                        "native_chest_flag_index": e["native_chest_flag_index"],
-                        "native_in_game_item": e["native_in_game_item"],
-                        "chest_index_hex": e["chest_index_hex"],
-                        "item_id_hex": e["item_id_hex"],
-                    }
-                    for e in room_entries
-                ],
-                "disambiguation_status": room_status,
-            }
-        )
-
-    return per_entry, room_summary
+    return [
+        {
+            "room_key": room_key,
+            "chest_count": len(room_entries),
+            "source_rom_offsets": [entry["rom_offset"] for entry in room_entries],
+            "source_offsets_unique": len({entry["rom_offset"] for entry in room_entries}) == len(room_entries),
+        }
+        for room_key, room_entries in sorted(room_to_entries.items())
+        if len(room_entries) > 1
+    ]
 
 
 def metadata_path(path: Path, repo_root: Path) -> str:
@@ -396,8 +205,10 @@ def resolve_amr_entry_rom_offset(raw_address: int, rom_bytes: bytes, amr_entry_p
     """
     Resolve an AMR SmallChest address to an offset in the current ROM.
 
-    AMR items data is JP-ROM scoped. In USA ROM workflows, addresses are shifted.
-    We prove which offset is valid by matching the 6-byte AMR payload prefix.
+    AMR items data is JP-ROM scoped. Its address points to the six-byte packed
+    item field at ObjectTemplate + 0x0C. In USA ROM workflows, addresses are
+    shifted. Match the packed bytes at that field, then return the ObjectTemplate
+    base because the runtime event ring records that source pointer.
 
     Returns:
         (resolved_offset, resolution_mode)
@@ -408,36 +219,22 @@ def resolve_amr_entry_rom_offset(raw_address: int, rom_bytes: bytes, amr_entry_p
 
     if raw_offset + payload_len <= len(rom_bytes):
         if rom_bytes[raw_offset:raw_offset + payload_len] == amr_entry_payload:
-            return raw_offset, "direct"
+            object_template_offset = raw_offset - AMR_OBJECT_TEMPLATE_FRAGMENT_OFFSET
+            if object_template_offset >= 0:
+                return object_template_offset, "direct"
 
-    translated_offset = raw_offset + AMR_JP_TO_US_ROM_SHIFT
-    if translated_offset + payload_len <= len(rom_bytes):
-        if rom_bytes[translated_offset:translated_offset + payload_len] == amr_entry_payload:
-            return translated_offset, "jp_to_us_shift"
+    translated_payload_offset = raw_offset + AMR_JP_TO_US_ROM_SHIFT
+    if translated_payload_offset + payload_len <= len(rom_bytes):
+        if rom_bytes[translated_payload_offset:translated_payload_offset + payload_len] == amr_entry_payload:
+            object_template_offset = translated_payload_offset - AMR_OBJECT_TEMPLATE_FRAGMENT_OFFSET
+            if object_template_offset >= 0:
+                return object_template_offset, "jp_to_us_shift"
 
     raise ValueError(
         "Unable to resolve AMR SmallChest address in ROM: "
-        f"raw_address=0x{raw_address:08X}, raw_offset=0x{raw_offset:08X}, "
+        f"raw_address=0x{raw_address:08X}, template_offset=0x{raw_offset:08X}, "
         f"jp_to_us_shift=0x{AMR_JP_TO_US_ROM_SHIFT:X}"
     )
-
-
-def native_item_name(item_id: int, native_item_name_by_id: dict[int, str]) -> str:
-    return native_item_name_by_id.get(item_id, f"Unknown (0x{item_id:02X})")
-
-
-def item_field_semantics(item_id: int, reward_path: str, native_item_name_by_id: dict[int, str]) -> tuple[str, bool]:
-    base_name = native_item_name(item_id, native_item_name_by_id)
-    if reward_path == "collection_reward":
-        # This byte is not a grantable chest reward in collection-reward entries.
-        # Treat it as ROM evidence only, not as an object/enemy type or reward mapping.
-        # The actual reward is fully determined by native_in_game_item / native_collection_code.
-        return f"ROM-byte=0x{item_id:02X} (not grantable; see native_in_game_item)", False
-    if item_id == 0x00:
-        return f"{base_name} (sentinel/no direct chest grant)", False
-    if reward_path == "non_collection_consumable_pool" and item_id in {0x80, 0x81, 0x82, 0x83, 0x87, 0xFF}:
-        return f"{base_name} (controller/object reference, not direct chest grant)", False
-    return base_name, True
 
 
 def main() -> int:  # noqa: C901
@@ -470,6 +267,12 @@ def main() -> int:  # noqa: C901
         raise FileNotFoundError(f"rooms.json not found: {rooms_path}")
 
     rom_bytes = rom_path.read_bytes()
+    rom_sha1 = hashlib.sha1(rom_bytes).hexdigest()
+    if rom_sha1 != AUTHORIZED_USA_ROM_SHA1:
+        raise ValueError(
+            "Wrong ROM for the checked-in minor-chest evidence: "
+            f"expected SHA1 {AUTHORIZED_USA_ROM_SHA1}, got {rom_sha1} ({rom_path})"
+        )
     amr_items = load_json(amr_items_path)
     rooms = load_json(rooms_path)
 
@@ -496,21 +299,13 @@ def main() -> int:  # noqa: C901
 
     doors_idx_to_room_keys = build_doors_idx_to_room_keys(rooms)
     room_props = parse_groomprops(rom_bytes)
-    collection_codes_by_treasure_id = build_collection_codes_by_treasure_id()
-    collection_code_by_chest_flag_index = build_collection_code_by_chest_flag_index()
-    major_chest_label_by_index = build_major_chest_label_by_index(kirbyam_dir)
-    native_item_name_by_id = load_native_item_name_by_id(kirbyam_dir)
-
     native_by_object_list_idx: dict[int, list[dict[str, int]]] = defaultdict(list)
     for entry in room_props:
-        native_by_object_list_idx[entry["object_list2_idx"]].append(entry)
         native_by_object_list_idx[entry["object_list_idx"]].append(entry)
 
     manifest_entries: list[dict[str, Any]] = []
     slot_counts: dict[int, int] = defaultdict(int)
-    item_counts: dict[int, int] = defaultdict(int)
     ambiguous_entries = 0
-    unresolved_counts: dict[tuple[int, int], int] = defaultdict(int)
     modeled_non_collection_pool_entries = 0
     address_resolution_counts: dict[str, int] = defaultdict(int)
 
@@ -525,30 +320,24 @@ def main() -> int:  # noqa: C901
                 f"required_end=0x{rom_offset + ROM_ENTRY_READ_SIZE:08X}, rom_size=0x{len(rom_bytes):08X}"
             )
 
-        payload_b0 = amr_entry_payload[0]
-        payload_b1 = amr_entry_payload[1]
-        payload_b2 = amr_entry_payload[2]
-        payload_b3 = amr_entry_payload[3]
-        payload_b4 = amr_entry_payload[4]
-        payload_b5 = amr_entry_payload[5]
+        fragment_fields = decode_amr_small_chest_fragment(amr_entry_payload)
+        payload_b0 = fragment_fields["entry_type"]
+        payload_b1 = fragment_fields["entry_marker"]
+        reward_id = fragment_fields["reward_id"]
+        payload_b3 = fragment_fields["unknown_object_field"]
+        payload_b4 = fragment_fields["entry_aux_hi"]
+        payload_b5 = fragment_fields["native_chest_flag_index"]
         rom_payload = rom_bytes[rom_offset:rom_offset + ROM_ENTRY_READ_SIZE]
 
         item_id = rom_bytes[rom_offset + AMR_SMALL_CHEST_ITEM_OFFSET]
         chest_index = rom_bytes[rom_offset + AMR_SMALL_CHEST_INDEX_OFFSET]
-        native_group, native_item_label, native_collection_code = resolve_native_collection_item(
-            payload_b3,
-            payload_b2,
-            collection_codes_by_treasure_id,
-            collection_code_by_chest_flag_index,
-            major_chest_label_by_index,
-        )
-        reward_path, can_yield_1up, possible_rewards = classify_reward_profile(
-            native_group,
-            payload_b2,
-            payload_b3,
-        )
-        item_name, item_id_is_direct_reward = item_field_semantics(item_id, reward_path, native_item_name_by_id)
-
+        if item_id != reward_id or chest_index != payload_b5:
+            raise ValueError(
+                "AMR fragment and USA ObjectTemplate fields disagree: "
+                f"entry={index}, reward_id=0x{reward_id:02X}/0x{item_id:02X}, "
+                f"chest_flag=0x{payload_b5:02X}/0x{chest_index:02X}"
+            )
+        reward_path, is_ordinary_item_chest = classify_reward_profile(reward_id)
         resolved_object_list_idx = resolve_amr_room_slot_object_list_idx(int(amr_room_slot))
         native_candidates = native_by_object_list_idx.get(resolved_object_list_idx, [])
         native_room_ids = [candidate["native_room_id"] for candidate in native_candidates]
@@ -559,18 +348,18 @@ def main() -> int:  # noqa: C901
             ap_room_key_candidates.extend(doors_idx_to_room_keys.get(doors_idx, []))
         ap_room_key_candidates = sorted(set(ap_room_key_candidates))
 
+        if is_ordinary_item_chest:
+            if len(ap_room_key_candidates) != 1:
+                raise ValueError(
+                    "Ordinary chest does not resolve to exactly one AP room: "
+                    f"entry={index}, source=0x{rom_offset:08X}, rooms={ap_room_key_candidates}"
+                )
+            modeled_non_collection_pool_entries += 1
         if len(native_room_ids) > 1:
             ambiguous_entries += 1
-
-        if reward_path == "non_collection_consumable_pool":
-            modeled_non_collection_pool_entries += 1
-        if native_group == "unknown" and reward_path == "unknown":
-            unresolved_counts[(payload_b2, payload_b3)] += 1
         address_resolution_counts[address_resolution] += 1
 
         slot_counts[int(amr_room_slot)] += 1
-        item_counts[item_id] += 1
-
         manifest_entries.append(
             {
                 "entry_index": index,
@@ -587,44 +376,56 @@ def main() -> int:  # noqa: C901
                 "entry_type_hex": f"0x{payload_b0:02X}",
                 "entry_marker": payload_b1,
                 "entry_marker_hex": f"0x{payload_b1:02X}",
-                "native_chest_flag_index": payload_b2,
-                "native_chest_flag_index_hex": f"0x{payload_b2:02X}",
-                "native_treasure_id": payload_b3,
-                "native_treasure_id_hex": f"0x{payload_b3:02X}",
-                "native_collection_group": native_group,
-                "native_collection_code": (
-                    f"0x{native_collection_code:03X}" if native_collection_code is not None else None
-                ),
-                "native_in_game_item": native_item_label,
+                "native_chest_flag_index": chest_index,
+                "native_chest_flag_index_hex": f"0x{chest_index:02X}",
+                "unknown_object_field": payload_b3,
+                "unknown_object_field_hex": f"0x{payload_b3:02X}",
                 "native_reward_path": reward_path,
-                "can_yield_1up": can_yield_1up,
-                "possible_native_rewards": possible_rewards,
+                "is_ordinary_item_chest": is_ordinary_item_chest,
                 "entry_aux_hi": payload_b4,
-                "entry_aux_lo": payload_b5,
-                "item_id": item_id,
-                "item_id_hex": f"0x{item_id:02X}",
-                "native_item_name": item_name,
-                "item_id_is_direct_reward": item_id_is_direct_reward,
+                "amr_fragment_chest_flag_index": payload_b5,
+                "reward_id": reward_id,
+                "reward_id_hex": f"0x{reward_id:02X}",
+                "native_reward_id": item_id,
+                "native_reward_id_hex": f"0x{item_id:02X}",
                 "chest_index": chest_index,
                 "chest_index_hex": f"0x{chest_index:02X}",
                 "candidate_native_room_ids": native_room_ids,
                 "candidate_doors_idx": doors_idx_candidates,
                 "candidate_ap_room_keys": ap_room_key_candidates,
-                "native_item_disambiguation": None,
             }
         )
 
-    per_entry_disambiguation, multi_chest_room_disambiguation = compute_multi_chest_disambiguation(manifest_entries)
-    for manifest_entry in manifest_entries:
-        manifest_entry["native_item_disambiguation"] = per_entry_disambiguation.get(
-            manifest_entry["entry_index"]
-        )
+    multi_chest_room_disambiguation = summarize_duplicate_room_sources(manifest_entries)
 
-    disambiguated_multi_chest_rooms = sum(
-        1 for r in multi_chest_room_disambiguation
-        if r["disambiguation_status"] == "disambiguated_by_native_in_game_item"
+    consumable_chest_flags = tuple(
+        sorted(
+            entry["native_chest_flag_index"]
+            for entry in manifest_entries
+            if entry["native_reward_path"] == "ordinary_item_chest"
+        )
     )
-    deferred_multi_chest_rooms = len(multi_chest_room_disambiguation) - disambiguated_multi_chest_rooms
+    if consumable_chest_flags != EXPECTED_CONSUMABLE_CHEST_FLAGS:
+        raise ValueError(
+            "USA-ROM consumable chest flags differ from the independently audited set: "
+            f"expected {EXPECTED_CONSUMABLE_CHEST_FLAGS}, got {consumable_chest_flags}"
+        )
+    ordinary_source_offsets = [
+        entry["rom_offset"] for entry in manifest_entries if entry["is_ordinary_item_chest"]
+    ]
+    if len(ordinary_source_offsets) != len(set(ordinary_source_offsets)):
+        raise ValueError("Ordinary minor chests do not have unique ObjectTemplate source offsets")
+    if len(ordinary_source_offsets) != 41:
+        raise ValueError(f"Expected 41 ordinary item chests, got {len(ordinary_source_offsets)}")
+    reward_path_counts = {
+        path: sum(entry["native_reward_path"] == path for entry in manifest_entries)
+        for path in sorted({entry["native_reward_path"] for entry in manifest_entries})
+    }
+    if reward_path_counts != EXPECTED_REWARD_PATH_COUNTS:
+        raise ValueError(
+            "USA-ROM chest reward classes differ from the decomp-audited set: "
+            f"expected {EXPECTED_REWARD_PATH_COUNTS}, got {reward_path_counts}"
+        )
 
     slot_resolution_summary = []
     for slot in sorted(slot_counts.keys()):
@@ -646,39 +447,24 @@ def main() -> int:  # noqa: C901
             }
         )
 
-    item_summary = [
-        {
-            "item_id": item_id,
-            "item_id_hex": f"0x{item_id:02X}",
-            "native_item_name": native_item_name(item_id, native_item_name_by_id),
-            "count": count,
-        }
-        for item_id, count in sorted(item_counts.items())
-    ]
-
-    unresolved_summary = [
-        {
-            "native_chest_flag_index": chest_flag_index,
-            "native_treasure_id": treasure_id,
-            "count": count,
-        }
-        for (chest_flag_index, treasure_id), count in sorted(unresolved_counts.items())
-    ]
-
     manifest = {
         "metadata": {
             "rom": metadata_path(rom_path, repo_root),
             "rom_sha256": hashlib.sha256(rom_bytes).hexdigest(),
+            "rom_sha1": rom_sha1,
             "amr_items": metadata_path(amr_items_path, repo_root),
             "amr_items_sha256": hashlib.sha256(amr_items_path.read_bytes()).hexdigest(),
+            "amr_source_commit": AMR_SOURCE_COMMIT,
+            "amr_items_blob": AMR_ITEMS_BLOB,
             "rooms": metadata_path(rooms_path, repo_root),
             "rooms_sha256": hashlib.sha256(rooms_path.read_bytes()).hexdigest(),
             "total_minor_chests": len(manifest_entries),
             "total_unique_amr_room_slots": len(slot_counts),
             "ambiguous_entries": ambiguous_entries,
-            "identified_entries": len(manifest_entries) - sum(unresolved_counts.values()),
-            "unresolved_entries": sum(unresolved_counts.values()),
+            "identified_entries": len(manifest_entries),
+            "unresolved_entries": 0,
             "modeled_non_collection_pool_entries": modeled_non_collection_pool_entries,
+            "reward_profile_evidence": REWARD_PROFILE_EVIDENCE,
             "address_resolution_counts": dict(sorted(address_resolution_counts.items())),
             "amr_address_resolution": {
                 "jp_to_us_shift_hex": f"0x{AMR_JP_TO_US_ROM_SHIFT:X}",
@@ -688,13 +474,14 @@ def main() -> int:  # noqa: C901
                 ],
             },
             "multi_chest_rooms_total": len(multi_chest_room_disambiguation),
-            "multi_chest_rooms_disambiguated_by_native_item": disambiguated_multi_chest_rooms,
-            "multi_chest_rooms_deferred": deferred_multi_chest_rooms,
+            "multi_chest_rooms_exact_source_offsets_unique": sum(
+                1 for room in multi_chest_room_disambiguation if room["source_offsets_unique"]
+            ),
             "respawn_reopen_policy": {
                 "conclusion": "no_repeatable_minor_chest_reopen_path_confirmed",
                 "ap_handling": (
-                    "Treat each native small chest as single-fire check state when enabled as AP locations; "
-                    "keep unresolved/ambiguous mappings deferred until chest-index proof exists"
+                    "Use the exact ObjectTemplate source pointer for each AP check; preserve native chest flags "
+                    "and do not infer check identity from shared native chest bits"
                 ),
                 "evidence": RESPAWN_POLICY_EVIDENCE,
             },
@@ -702,14 +489,13 @@ def main() -> int:  # noqa: C901
                 "rom_offset": f"0x{ROOM_PROPS_ROM_BASE:08X}",
                 "size": f"0x{ROOM_PROPS_SIZE:04X}",
                 "stride": f"0x{ROOM_PROPS_STRIDE:02X}",
-                "object_list2_idx_offset": f"0x{ROOM_PROPS_OBJECT_LIST2_IDX_OFFSET:02X}",
                 "object_list_idx_offset": f"0x{ROOM_PROPS_OBJECT_LIST_IDX_OFFSET:02X}",
                 "doors_idx_offset": f"0x{ROOM_PROPS_DOORS_IDX_OFFSET:02X}",
+                "amr_fragment_offset_from_object_template": f"0x{AMR_OBJECT_TEMPLATE_FRAGMENT_OFFSET:02X}",
             },
         },
         "entries": manifest_entries,
-        "item_summary": item_summary,
-        "unresolved_summary": unresolved_summary,
+        "reward_path_summary": reward_path_counts,
         "slot_resolution_summary": slot_resolution_summary,
         "multi_chest_room_disambiguation": multi_chest_room_disambiguation,
     }

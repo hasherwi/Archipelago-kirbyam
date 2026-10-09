@@ -78,7 +78,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x84   | 0x0203B084 | 4B | ability_reroll_ability_id_runtime | u32 | ROM → Client | Final ability ID selected/applied for the **most recent** ability telemetry event only. Pairs with `ability_reroll_source_addr_runtime` as a best-effort snapshot; if multiple events happen between polls, intermediate values are overwritten. The client logs how many events were missed when `ability_reroll_event_counter_runtime` advances by more than 1. |
 | 0x88   | 0x0203B088 | 4B | ability_reroll_kirby_index_runtime | u32 | ROM → Client | Current player/Kirby slot index (`0..3`) for the **most recent** ability telemetry event. The payload writes the active player index directly to this field and initializes it to `0`. |
 | 0x8C   | 0x0203B08C | 4B | minor_chest_event_counter | u32 | ROM → Client | Monotonic counter for exact small-chest collection events. Increments every time the native small-chest collect call fires. |
-| 0x90   | 0x0203B090 | 32B | minor_chest_event_ring | u32[8] | ROM → Client | Ring buffer of exact small-chest source pointers. Slot `N = event_counter & 7` stores the live chest object's source pointer from `object+0xB0`, allowing the client to disambiguate report-only minor chest locations that share native chest bits. |
+| 0x90   | 0x0203B090 | 32B | minor_chest_event_ring | u32[8] | ROM → Client | Ring buffer of exact small-chest source pointers. Slot `N = event_counter & 7` stores the live chest object's source pointer from `object+0xB0`; the client matches it against one verified ROM file offset for each active physical minor-chest check. |
 | 0xB0   | 0x0203B0B0 | 4B | ability_gate_mask_runtime | u32 | ROM ← Client | Bitmask of ability IDs that are currently configured as gateable (`safe_to_gate`) in `abilities.json`. |
 | 0xB4   | 0x0203B0B4 | 4B | ability_unlock_mask_runtime | u32 | ROM ← Client and ROM internal | Bitmask of ability IDs currently unlocked by AP ability items. Client sync writes canonical state; payload also sets bits when ability unlock AP items are applied to preserve runtime continuity. |
 | 0xB8   | 0x0203B0B8 | 4B | starting_kirby_color_applied | u32 | ROM internal | EWRAM latch set after the live player-one palette has been refreshed for the current EWRAM session. Cleared with mailbox initialization. This replaces an invalid mutable C static that would otherwise be linked into ROM-backed payload memory. |
@@ -92,7 +92,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 |----------|------|-------------------------|-----------|
 | 0x02038970 | 1B | KIRBY_SHARD_FLAGS       | Native mirror shard bitfield (bits 0-7) |
 | 0x0203897C | 4B | big_chest_bitfield_native | gTreasures.bigChestField; bit N = area ID N (enum AreaId): bit 1=Rainbow Route, 2=Moonlight Mansion, 3=Cabbage Cavern, 4=Mustard Mountain, 5=Carrot Castle, 6=Olive Ocean, 7=Peppermint Palace, 8=Radish Ruins, 9=Candy Constellation. This is the native map-ownership field. AP major-chest checks use `major_chest_flags` in the transport block, and the BizHawk client may reassert AP-owned map bits here from `start_with_all_maps` plus confirmed delivered map items to recover from reconnect/save-state drift. |
-| 0x02038960 - 0x02038969 | 10B | other_chest_flags_native | Native small-chest/switch bitfield block. Unique MINOR_CHEST AP checks still use this bitfield as a resend/fallback signal, while report-only ambiguous minor chest locations use `minor_chest_event_ring` for exact disambiguation. |
+| 0x02038960 - 0x0203896F | 16B | other_chest_flags_native | Native small-chest/switch persistence block (128 chest bits). Small-chest bits are preserved by the payload but are not used to identify AP minor-chest checks because their mapping can be shared. |
 | 0x02038962 / 0x02038968 / 0x02038969 | 1B each | lever_*_flag_native | Native lever-controlled wall state. The four Lever Wall AP items set these bits using chest/state IDs 18 (Moonlight), 65 (Olive), 77 (Carrot), and 74 (Radish). Physical lever activation no longer sets these bits directly; AP lever locations use `lever_activation_flags` instead (Issue #859). |
 | 0x02028C14+ |  -  | Boss/Mirror table       | Native location flags (TBD - not yet mapped). The BizHawk client may probe rising edges here for diagnostics, but boss-defeat AP checks are transport-authoritative via `boss_defeat_flags`. |
 | 0x02028CA0 | 576B | gVisitedDoors (`room_visit_flags_native`) | Native room-visit array (`u16[0x120]`); bit 15 marks visited state by `doorsIdx` |
@@ -203,35 +203,19 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | HUB_SWITCH_* | 3960400 - 3960414 | Hub big-switch checks mapped to `hub_switch_flags` bits 0..14 (bit 0 = Peppermint West, bit 11 = Moonlight; others sequential) |
 | LEVER_* | 3960415 - 3960418 | Lever checks sourced from native bits (`0x02038962` bit2 Moonlight 2-11, `0x02038968` bit1 Olive 6-13, `0x02038969` bit5 Carrot 5-12, `0x02038969` bit2 Radish 8-12) |
 | AREA_VISIT_* | 3960451 - 3960459 | First-visit checks for gameplay areas 1..9 (Rainbow Route through Candy Constellation), derived from first visited room per area via native `gVisitedDoors` |
-| MINOR_CHEST_RAINBOW_ROUTE_1_39 | 3960500 | Rainbow Route 1-39 small chest (native other_chest_flags_native bit 1) |
-| MINOR_CHEST_RAINBOW_ROUTE_1_22 | 3960501 | Rainbow Route 1-22 small chest (native other_chest_flags_native bit 23) |
-| MINOR_CHEST_RAINBOW_ROUTE_1_38 | 3960502 | Rainbow Route 1-38 small chest (native other_chest_flags_native bit 41) |
-| MINOR_CHEST_PEPPERMINT_PALACE_7_BOSS | 3960503 | Peppermint Palace 7-Boss small chest (native other_chest_flags_native bit 20) |
-| MINOR_CHEST_CARROT_CASTLE_5_CHEST_2 | 3960504 | Carrot Castle 5-Chest 2 small chest (native other_chest_flags_native bit 21) |
-| MINOR_CHEST_CANDY_CONSTELLATION_9_CHEST_3 | 3960505 | Candy Constellation 9-Chest 3 small chest (native other_chest_flags_native bit 22) |
-| MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST | 3960506 | Peppermint Palace 7-Chest small chest (native other_chest_flags_native bit 24) |
-| MINOR_CHEST_CANDY_CONSTELLATION_9_12 | 3960507 | Candy Constellation 9-12 small chest (native other_chest_flags_native bit 25) |
-| MINOR_CHEST_OLIVE_OCEAN_6_05 | 3960508 | Olive Ocean 6-05 small chest (native other_chest_flags_native bit 26) |
-| MINOR_CHEST_RADISH_RUINS_8_02 | 3960510 | Radish Ruins 8-02 small chest (native other_chest_flags_native bit 29) |
-| MINOR_CHEST_MOONLIGHT_MANSION_2_01 | 3960511 | Moonlight Mansion 2-01 small chest (native other_chest_flags_native bit 30) |
-| MINOR_CHEST_CABBAGE_CAVERN_3_15 | 3960512 | Cabbage Cavern 3-15 small chest (native other_chest_flags_native bit 31) |
-| MINOR_CHEST_MUSTARD_MOUNTAIN_4_16 | 3960513 | Mustard Mountain 4-16 small chest (native other_chest_flags_native bit 32) |
-| MINOR_CHEST_CABBAGE_CAVERN_3_BOSS | 3960514 | Cabbage Cavern 3-Boss small chest (native other_chest_flags_native bit 43) |
-| MINOR_CHEST_PEPPERMINT_PALACE_7_07 | 3960515 | Peppermint Palace 7-07 small chest (native other_chest_flags_native bit 45) |
-| MINOR_CHEST_CANDY_CONSTELLATION_9_17 | 3960516 | Candy Constellation 9-17 small chest (native other_chest_flags_native bit 47) |
-| MINOR_CHEST_MOONLIGHT_MANSION_2_16 | 3960517 | Moonlight Mansion 2-16 small chest (native other_chest_flags_native bit 48) |
-| MINOR_CHEST_CABBAGE_CAVERN_3_08 | 3960518 | Cabbage Cavern 3-08 small chest (native other_chest_flags_native bit 49) |
-| MINOR_CHEST_OLIVE_OCEAN_6_13 | 3960519 | Olive Ocean 6-13 small chest (native other_chest_flags_native bit 50) |
+| MINOR_CHEST_SPRAY_PAINT_* / MINOR_CHEST_MUSIC_NOTE_* | 3960500 - 3960523 | Retired collection-name placeholders; retained for ID history and not instantiated as physical checks. |
+| MINOR_CHEST_* (verified ordinary small chests) | 3960566 - 3960606 | 41 ordinary item chests, each matched to one exact ROM object pointer and AP room. |
+| *Reserved/retired minor chest IDs* | 3960524 - 3960565 | Do not reuse historical minor-chest location IDs. |
 | ROOM_SANITY_* | 3961000+ | Room visit checks (`Room X-<room_code>`) keyed by native `doorsIdx` and polled from `gVisitedDoors[doorsIdx]` bit 15; includes designed goal/warp rooms |
-| *Reserved*    | 3960460+ | Future location families |
+| *Reserved*    | 3960460 - 3960499, 3960607 - 3960999 | Future location families |
 
-Minor chest status (Issue #540):
-- Expanded MINOR_CHEST AP checks are active for unique native chest-bit mappings in Rainbow Route, Cabbage Cavern, Mustard Mountain, Carrot Castle, Olive Ocean, Peppermint Palace, Radish Ruins, Moonlight Mansion, and Candy Constellation.
-- Report-only `Unmapped Minor Chest X-N` locations are no longer inferred from shared native chest bits. They are reported only from the exact `minor_chest_event_ring` source-pointer hook, which preserves one-to-one chest identity for ambiguous rooms.
-- Active MINOR_CHEST checks are polled from native `other_chest_flags_native` and use direct native chest bit semantics.
-- Respawn/reopen policy is documented as non-repeatable (single-fire chest state) based on decomp evidence in `katam/src/treasures.c` and `katam/asm/chest.s`.
-- Multi-chest room index disambiguation remains deferred (tracked in Issue #542).
-- See `worlds/kirbyam/dev-docs/minor-chest-respawn-policy.md` and `worlds/kirbyam/data/minor_chest_manifest.json` metadata (`respawn_reopen_policy`).
+Minor chest status:
+- The rollout activates the 41 ordinary item chests found in the USA ROM room-object list. Each has one stable AP location ID (3960566-3960606) and one exact, distinct source-object offset; 14 IDs 3960566-3960579 remain stable from the earlier draft.
+- `source_rom_offset` stores the normalized ROM file offset of the object record; the AMR payload entry points at its type field at `record + 0x0C`, while the runtime hook records the object's source pointer. The client accepts an exact match only and does not guess nearby pointer aliases.
+- The runtime records native chest persistence and reports checks only from exact source pointers in the event ring. All 41 active checks are ordinary item chests; stacked PR #931 suppresses their delayed native reward so the AP-assigned item is delivered. The other 24 physical small-chest records are fixed Spray Paint or Music Sheet rewards and remain native pending their item support under #525.
+- The `NativeRewardConsumable` tag records the reward profile for the item-logic PR; it does not change location identity. Older spray-paint/music-note collection-name rows are retained for ID history and excluded from region generation because they do not identify unique physical chests.
+- Native small-chest and collectible bitfields are not used to infer AP minor-chest locations. Exact source events are read from `minor_chest_event_ring` and filtered against the current slot's active locations.
+- Once observed, exact-source checks stay pending in the client until the server acknowledges them. They are retried even when the ring counter is unchanged, after ring overwrite, and across transient reconnects in the same authenticated seed/team/slot. Pending checks are cleared on ROM/client initialization or session identity changes. Events overwritten before the client ever observes them, and unacknowledged observations lost on process exit, still need runtime recovery validation; the eight-entry ring is not durable storage.
 
 ## Client Protocol
 
@@ -504,11 +488,11 @@ Behavior note:
 4. **Recovery** (pending too long): client timeout path clears stale flag and retries same delivery index
 
 `debug_item_counter` reconciliation contract:
-- If `debug_item_counter < delivered_item_index`, rewind cursor to the ROM count.
-- If that rewind revisits trap entries already ACKed in the current client session, the client must locally consume those trap indices instead of writing them back to the mailbox again.
-- If `debug_item_counter` is ahead but still within `len(ctx.items_received)`, treat it as advisory unless a mailbox delivery is currently pending and `incoming_item_flag == 0` (same-tick ROM ACK path).
-- If `debug_item_counter > len(ctx.items_received)`, treat the counter as stale/debug-only and continue normal mailbox delivery once the mailbox is empty. This anti-starvation fallback must not permanently suppress writes.
-- Transition-based logs should make the ahead-counter fallback visible without per-tick spam.
+- The ROM counter counts applied mailbox requests; `delivered_item_index` counts AP history entries, including skipped session-acknowledged effects and malformed entries. They need not be equal.
+- Track the previous physical count and the history/count offset. Only a physical count regression resets that offset; skipping a history entry does not increment the ROM counter.
+- Consume a pending mailbox ACK at that request's history index before cursor reconciliation. A physical count cannot acknowledge unrelated history entries or erase a pending request just because skipped entries put the history index ahead.
+- Restore the persisted cursor together with the physical count. A stable count/history gap must not trigger repeated rewinds, skip logs, or fresh item writes.
+- Existing ahead-counter and missing-counter fallbacks remain supported. Session receipt tracking does not provide a durable journal across arbitrary client process loss.
 
 Research-first note for Issue #223:
 - Delivery remains gated only by the gameplay-active contract from Issue #56.
@@ -538,11 +522,7 @@ Receive-specific contract (Issue #73):
 - Receive notification is emitted only after mailbox ACK for the pending index.
 - Malformed/skipped `ReceivedItems` entries do not emit notifications.
 - Cursor fast-forward/rewind reconciliation without a pending delivery does not emit notifications.
-- Exception (Issue #269): when the ROM counter advances while a delivery is pending and the mailbox
-  flag is already cleared (flag == 0), this simultaneous counter-advance is treated as the ACK
-  signal and does emit a notification.  This covers the common hardware case where the ROM clears
-  the flag and increments debug_item_counter in the same frame, so the fast-forward reconciliation
-  path runs before the normal flag == 0 polling path on the next client tick.
+- A cleared pending mailbox is acknowledged at its recorded history index, including when the physical count is lower because earlier receipts were skipped. A detected physical counter regression instead initiates replay under the existing persistent/transient item policy.
 
 Optional slot-data toggles (default: enabled when absent):
 - `enable_receive_notifications`
