@@ -25,6 +25,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Generated YAML documentation now shows the scalar `configured_area_boss: random` and `starting_kirby_color: random` shorthands and explains how they replace the generated concrete weight mappings (Issue #872).
 
 ### Known Limitations
+- Extra Vitality upgrades for ranges such as 1/10 are still in development (#946/#947). Current generation continues to allow at most four upgrades; equal minimum/maximum still produces no counters and retains the chest checks.
 - Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
 - Custom health requires the connected current BizHawk client after the tutorial, like One-Hit Mode. Native health may briefly reappear on vitality grants, room changes, or respawns before the next client poll.
 - Kirby Color: random_color_per_room changes Kirby's color but does not update the corresponding UI element colors.

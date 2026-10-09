@@ -1,7 +1,41 @@
 # Design: up to nine Vitality upgrades (#946)
 
-Status: proposed design only, targeted to v0.4.0. No runtime, data, pool, ROM patch,
-or release behavior changes are included in this PR.
+Status: implementation in progress for v0.4.0; blocked on #931 reaching main.
+The policy and native hook components below are implemented and tested in
+isolation. Generation, the shipping payload and client still use the four-counter
+contract. Expanded ranges are **not available yet**.
+
+## Implementation checkpoint
+
+- `vitality.py`: explicit nine-ID mapping, all 55 range plans, One-Hit precedence,
+  pool arithmetic, ROM/slot compatibility checks, authenticated-history mask
+  helpers, partial-replay counts and health reconciliation. Reconciliation takes
+  the previous native count so genuine new ownership heals once on either arrival
+  path, while replay and dead HP remain unchanged.
+- `vitality_runtime_logic.h`: matching executable C policy, bounded menu count,
+  partial receipt recovery, capacity and signed dead-HP handling.
+- `vitality_hooks.c` / `vitality_patch.py`: staged no-argument native hook targets
+  and all-or-nothing validation of the USA initializer getter call at `0x3EB0E`,
+  its `+6` instruction at `0x3EB12`, and menu getter call at `0x14380A`.
+  Neither source is enabled by the shipping Makefile/patcher.
+- Local validation: 532 new/existing health tests passed, including 2,640 real
+  pool-builder runs with an isolated nine-ID catalog (55 ranges, both shard modes,
+  all three One-Hit choices and eight map/life/gating combinations). The new tests enumerate
+  55 ranges × 512 ownership masks, compare Python/C policy, exercise fresh versus
+  replayed ownership and death, and reject unknown patch callsites. Independent
+  review also exercised 563,200 authority transitions and all 65,536 u16 menu
+  counts, with a negative control reproducing the original menu overwrite.
+- Isolated ARM link on main fits the existing 5,792-byte window with health config
+  at `0x0815F690`; callsites validated against the private USA ROM in memory.
+  This is not the final combined #931 payload, a distributable patch rebuild,
+  native save/load validation, or emulator acceptance.
+
+Still required after the prerequisites reach main: register extra catalog items;
+wire the plan into real pool generation; integrate both clients' guarded authority
+and protocol checks; install hooks/config/title/header checksum changes; rebuild
+and verify the distributable patch and package; run actual server precollect,
+delivery/reconnect and both-emulator acceptance. Do not enable ranges 5..9 using
+these standalone components alone or interpret this checkpoint as merge-ready.
 
 ## Baseline and dependency
 
