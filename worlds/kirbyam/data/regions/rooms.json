@@ -2541,7 +2541,7 @@
     },
     "exits": {
       "REGION_OLIVE_OCEAN/ROOM_6_12": null,
-      "REGION_MOONLIGHT_MANSION/ROOM_2_12": "oo_lever"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_12_RIGHT": "oo_lever"
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_14": {
