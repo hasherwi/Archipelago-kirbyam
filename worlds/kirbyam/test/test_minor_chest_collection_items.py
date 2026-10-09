@@ -12,8 +12,9 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from BaseClasses import ItemClassification
+from BaseClasses import CollectionState, ItemClassification, MultiWorld, Region
 
+from .. import KirbyAmWorld
 from ..client import KirbyAmClient
 from ..data import data
 from ..options import RandomizeShards
@@ -31,6 +32,55 @@ _COLLECTION_ITEMS = [
 ]
 
 
+@pytest.mark.parametrize("entry, spray_reachable, vitality_reachable", [
+    ("ROOM_9_01", True, False),
+    ("ROOM_9_09", False, True),
+])
+def test_candy_collection_compartments_remain_isolated(
+    entry: str, spray_reachable: bool, vitality_reachable: bool,
+) -> None:
+    """Exercise the loaded graph with only one physical entrance available.
+
+    Pin the left/right ownership without allowing a longer external route to
+    conceal an accidental connection through the unsplit physical parent.
+    Native geometry/provenance is recorded in minor-chest-collection-items.md.
+    """
+    prefix = "REGION_CANDY_CONSTELLATION/"
+    parent = prefix + "ROOM_9_CHEST_2"
+    names = [prefix + "ROOM_9_01", prefix + "ROOM_9_09", parent,
+             parent + "__LOGIC__ENTRY_FROM_9_01", parent + "__LOGIC__ENTRY_FROM_9_09"]
+    multiworld = MultiWorld(1)
+    multiworld.worlds[1] = KirbyAmWorld(multiworld, 1)
+    regions = {name: Region(name, 1, multiworld) for name in ["Menu", *names]}
+    multiworld.regions.extend(regions.values())
+    for name in names:
+        definition = data.regions[name]
+        for destination in definition.exits:
+            if destination in regions:
+                regions[name].connect(regions[destination])
+        regions[name].add_locations({
+            key: data.locations[key].location_id for key in definition.locations
+        })
+    regions["Menu"].connect(regions[prefix + entry])
+    state = CollectionState(multiworld)
+    assert multiworld.get_location("MINOR_CHEST_SPRAY_PAINT_06", 1).can_reach(state) is spray_reachable
+    assert multiworld.get_location("VITALITY_CHEST_CANDY_CONSTELLATION", 1).can_reach(state) is vitality_reachable
+    assert not regions[parent].can_reach(state)
+
+
+def test_candy_source_preserves_historical_identity_and_split_parent() -> None:
+    location = data.locations["MINOR_CHEST_SPRAY_PAINT_06"]
+    assert location.location_id == 3960505
+    assert location.default_item == 3860205
+    assert location.source_rom_offset == 0x008C5EA0
+    assert location.parent_region == (
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_01"
+    )
+    assert "MINOR_CHEST_SPRAY_PAINT_06" not in data.regions[
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2"
+    ].locations
+
+
 @pytest.mark.parametrize("item_key,item_id,reward_id,location_key,location_id", _COLLECTION_ITEMS)
 def test_fixed_collection_identity_matches_exact_manifest_source(
     item_key: str, item_id: int, reward_id: int, location_key: str, location_id: int,
@@ -45,12 +95,12 @@ def test_fixed_collection_identity_matches_exact_manifest_source(
     assert item.classification == ItemClassification.useful
     assert "Unique" in item.tags
     assert location.location_id == location_id
-    if location_key in {"MINOR_CHEST_SPRAY_PAINT_06", "MINOR_CHEST_MUSIC_NOTE_06"}:
-        assert location.source_rom_offset is None  # exact room known; compartment is not
+    if location_key in {"MINOR_CHEST_MUSIC_NOTE_06"}:
+        assert location.source_rom_offset is None  # physical compartment known; AP mapping is unresolved
         return
     assert location.default_item == item_id
     assert location.source_rom_offset == int(source["rom_offset"], 16)
-    assert source["candidate_ap_room_keys"] == [location.parent_region]
+    assert source["candidate_ap_room_keys"] == [location.parent_region.split("__LOGIC__", 1)[0]]
     assert location.bit_index is None  # ownership is never physical check identity
     assert "ExactEventLocation" in location.tags
     assert "NativeRewardCollection" in location.tags
@@ -62,9 +112,9 @@ def test_fixed_collection_items_appear_once_without_changing_filler_capacity(sha
     world.create_items()
     counts = Counter(item.code for item in world.multiworld.itempool)
     assert {item_id: counts[item_id] for _, item_id, *_ in _COLLECTION_ITEMS} == {
-        item_id: (0 if item_id in {3860205, 3860219} else 1) for _, item_id, *_ in _COLLECTION_ITEMS
+        item_id: (0 if item_id in {3860219} else 1) for _, item_id, *_ in _COLLECTION_ITEMS
     }
-    # New 22 locations consume exactly the 22 active unique useful items.
+    # New 23 locations consume exactly the 23 active unique useful items.
     assert len(world.multiworld.itempool) == sum(loc.item is None for loc in locations)
 
 
@@ -88,7 +138,7 @@ async def test_fixed_collection_item_is_written_to_standard_mailbox(mock_bizhawk
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("location_key", [
-    entry[3] for entry in _COLLECTION_ITEMS if entry[1] not in {3860205, 3860219}
+    entry[3] for entry in _COLLECTION_ITEMS if entry[1] not in {3860219}
 ])
 async def test_fixed_collection_source_reports_only_its_physical_check(mock_bizhawk_context, location_key: str) -> None:
     client = KirbyAmClient()
@@ -188,7 +238,7 @@ def test_collection_helpers_are_wired_to_real_payload_and_popup_preserves_regist
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("source_ptr", [0x088C5EA0, 0x088D3E64])
+@pytest.mark.parametrize("source_ptr", [0x088D3E64])
 async def test_deferred_collection_sources_never_report_ap_checks(mock_bizhawk_context, source_ptr: int) -> None:
     client = KirbyAmClient()
     client.initialize_client()

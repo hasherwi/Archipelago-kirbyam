@@ -11,7 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## v0.4.0
 
 ### New Features
-- Added mailbox support for all 14 unique Spray Paint and 10 unique Music Sheet items. Activated 22 unambiguous fixed-collection chests, each with its matching item in the pool, without awarding the original native collection item (Issues #525, #535, #537).
+- Added mailbox support for all 14 unique Spray Paint and 10 unique Music Sheet items. Activated 23 unambiguous fixed-collection chests, each with its matching item in the pool, without awarding the original native collection item (Issues #525, #535, #537).
 - Added 41 ordinary small-chest location checks, matched to their exact ROM sources while preserving native chest persistence (PR #930).
 - Added an `/abilities` client command that lists the abilities currently unlocked for the slot (Issue #891).
 - Added a new option: `enemy_health_multiplier`. Scale all enemies' health values between 50% to 500% of the original game. It defaults to 100% which matches the original game (Issue #880).
@@ -28,7 +28,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Kirby Color: random_color_per_room changes Kirby's color but does not update the corresponding UI element colors.
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
 - Progression: Progression gating is still being expanded beyond the original game design. Feature-specific gating is described under New Features.
-- Small Chests: Spray Paint #6 and Music Sheet #6 remain native and outside the AP pool until their logical compartments are verified. The collection-item payload needs a fresh base patch built from the supported USA ROM before release. Real-ROM gameplay, collection menus, and save/reload behavior have not yet been validated. Do not reuse an older base patch with newly generated collection-item seeds.
+- Small Chests: Music Sheet #6 remains native and outside the AP pool pending Carrot Castle topology reconciliation. Candy Spray Paint #6 is now verified in the 9-01 entry compartment. The collection-item payload needs a fresh base patch built from the supported USA ROM before release. Real-ROM gameplay, collection menus, and save/reload behavior have not yet been validated. Do not reuse an older base patch with newly generated collection-item seeds.
 - Sprite Swapping: The animation for getting the original item will play with the original sprite. Statues show the old ability. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or ability granted.
 - Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
 

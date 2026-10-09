@@ -39,10 +39,10 @@ and collectible bitfields are not used to infer location checks because the same
 bits can represent multiple physical chests. Nearby source-pointer offsets are
 not treated as aliases.
 
-The USA-ROM scan found 65 physical `OBJ_SMALL_CHEST` records. 63 now
-use unique source pointers: 41 ordinary reward chests, 13 Spray Paint chests,
-and 9 Music Sheet chests. Spray Paint #6 and Music Sheet #6 stay native/dormant
-until their logical room compartments are verified. The separate 19 `OBJ_BIG_CHEST` records retain their
+The USA-ROM scan found 65 physical `OBJ_SMALL_CHEST` records. 64 now
+use unique source pointers: 41 ordinary reward chests, 14 Spray Paint chests,
+and 9 Music Sheet chests. Candy Spray Paint #6 belongs only to the 9-01 entry
+compartment. Music Sheet #6 stays native/dormant pending Carrot topology reconciliation. The separate 19 `OBJ_BIG_CHEST` records retain their
 own location families. Collection IDs 3960500..3960523 preserve the original
 numbered collection identities, replacing only the placeholder room metadata.
 

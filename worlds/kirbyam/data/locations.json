@@ -664,16 +664,13 @@
     "source_rom_offset": "0x008BF610"
   },
   "MINOR_CHEST_SPRAY_PAINT_06": {
-    "label": "Spray Paint #6",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "default_item": "SMALL_FOOD",
-    "tags": [
-      "SmallChest",
-      "SprayPaint"
-    ],
-    "bit_index": 5,
+    "label": "Candy Constellation 9-Chest 2 - Spray Paint #6 Chest",
+    "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_01",
+    "default_item": "SPRAY_PAINT_06",
+    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
     "category": "MINOR_CHEST",
-    "location_id": 3960505
+    "location_id": 3960505,
+    "source_rom_offset": "0x008C5EA0"
   },
   "MINOR_CHEST_SPRAY_PAINT_07": {
     "label": "Olive Ocean 6-06 - Spray Paint #7 Chest",

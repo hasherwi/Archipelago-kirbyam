@@ -41,9 +41,9 @@ AP mode records checks and handles native reward paths by item family. Ordinary 
 | Vitality big chest reward | ap_on_collect_vitality_chest() | Convert room reward event to AP vitality-chest transport bit. |
 | Sound Player chest path | ap_on_collect_sound_player_chest() | Reward index 0 remains the AP Sound Player chest check. Nonzero Music Sheets suppress their ownership grant for exact AP sources; unknown sources retain native bitwise collection behavior. |
 | Spray paint chest reward | ap_on_collect_spray_paint_chest() | Suppress ownership grant only for exact AP sources. The generic small-chest hook has already recorded the physical check event and persistence. |
-| Small-chest AP location | ap_on_collect_small_chest() | Record the exact source pointer and native small-chest persistence for each of 63 active checks; the client maps only exact matches. |
+| Small-chest AP location | ap_on_collect_small_chest() | Record the exact source pointer and native small-chest persistence for each of 64 active checks; the client maps only exact matches. |
 | Ordinary consumable chest reward | ap_minor_chest_reward_popup_hook | After native persistence and the popup delay, set only marked AP-owned chests to the existing no-bonus item value (`0x63`); the AP mailbox grants the assigned reward. Other small chests retain their native item. |
-| Fixed small-chest collection reward | Native chest collection hooks | 22 fixed chests are AP locations. Spray Paint #6 and Music Sheet #6 stay native pending logical-compartment attribution. Ownership is awarded only on matching AP item delivery; duplicate delivery is idempotent. Native persistence and original visuals are preserved. |
+| Fixed small-chest collection reward | Native chest collection hooks | 23 fixed chests are AP locations. Candy Spray Paint #6 is isolated to the 9-01 entry compartment; Music Sheet #6 stays native pending Carrot topology reconciliation. Ownership is awarded only on matching AP item delivery; duplicate delivery is idempotent. Native persistence and original visuals are preserved. |
 | Hub unlock/world map door unlock | ap_on_world_map_unlock_call() | Record AP hub-switch flag when unlock is persisted in world props. |
 
 ## Client-side reconciliation that enforces AP ownership

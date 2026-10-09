@@ -1074,6 +1074,17 @@
         "SprayPaint"
       ]
     },
+    "MINOR_CHEST_SPRAY_PAINT_06": {
+      "category": "MINOR_CHEST",
+      "label": "Candy Constellation 9-Chest 2 - Spray Paint #6 Chest",
+      "location_id": 3960505,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
     "MINOR_CHEST_SPRAY_PAINT_07": {
       "category": "MINOR_CHEST",
       "label": "Olive Ocean 6-06 - Spray Paint #7 Chest",

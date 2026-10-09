@@ -537,7 +537,9 @@ def test_legacy_split_rooms_define_logical_subregion_metadata() -> None:
     assert room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_09"]["exits"] == [
         "REGION_CANDY_CONSTELLATION/ROOM_9_09"
     ]
-    assert "locations" not in room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_01"]
+    assert room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_01"]["locations"] == [
+        "MINOR_CHEST_SPRAY_PAINT_06"
+    ]
     assert "locations" not in room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_09"]
     assert rooms["REGION_CANDY_CONSTELLATION/ROOM_9_01"]["logical_exit_overrides"] == {
         "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": "ENTRY_FROM_9_01"
@@ -657,7 +659,7 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
 
     assert kirby_data.regions[room_9_chest_2_from_9_01].exits == ["REGION_CANDY_CONSTELLATION/ROOM_9_01"]
     assert kirby_data.regions[room_9_chest_2_from_9_09].exits == ["REGION_CANDY_CONSTELLATION/ROOM_9_09"]
-    assert kirby_data.regions[room_9_chest_2_from_9_01].locations == []
+    assert kirby_data.regions[room_9_chest_2_from_9_01].locations == ["MINOR_CHEST_SPRAY_PAINT_06"]
     assert kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1"].locations == [
         "SOUND_PLAYER_CHEST",
         "ROOM_SANITY_9_CHEST_1",

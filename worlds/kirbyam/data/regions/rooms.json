@@ -3674,7 +3674,10 @@
         "exits": [
           "REGION_CANDY_CONSTELLATION/ROOM_9_01"
         ],
-        "events": []
+        "events": [],
+        "locations": [
+          "MINOR_CHEST_SPRAY_PAINT_06"
+        ]
       },
       "ENTRY_FROM_9_09": {
         "exits": [
