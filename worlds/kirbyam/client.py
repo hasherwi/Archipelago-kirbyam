@@ -348,6 +348,8 @@ class KirbyAmClient(BizHawkClient):
 
         # Item delivery state
         self._delivered_item_index: int = 0
+        self._delivery_counter_offset: int = 0
+        self._last_rom_received_count: int | None = None
         self._delivery_pending: bool = False  # True after writing mailbox until ROM clears flag
         self._delivery_pending_frame: int | None = None
         self._delivery_pending_time: float | None = None  # Monotonic time recorded when mailbox write issued
@@ -2651,7 +2653,7 @@ class KirbyAmClient(BizHawkClient):
         keys_in_order = []
 
         # Your addresses.json defines delivered_item_index.
-        for key in ("delivered_item_index",):
+        for key in ("delivered_item_index", "debug_item_counter"):
             addr = self._transport_addr(key)
             if addr is not None:
                 reads.append((addr, 4, "System Bus"))
@@ -2670,6 +2672,13 @@ class KirbyAmClient(BizHawkClient):
                 delivered_count = min(val, len(ctx.items_received))
                 for delivered_index in range(delivered_count):
                     self._record_acknowledged_non_redeliverable_index(ctx, delivered_index)
+
+        if "debug_item_counter" in keys_in_order:
+            position = keys_in_order.index("debug_item_counter")
+            if position < len(raw_list) and len(raw_list[position]) == 4:
+                self._last_rom_received_count = self._u32_le(raw_list[position])
+                self._delivery_counter_offset = max(
+                    0, self._delivered_item_index - self._last_rom_received_count)
 
     # --------------------------
     # Location checking
@@ -3674,8 +3683,20 @@ class KirbyAmClient(BizHawkClient):
                 self._hook_heartbeat_stale_ticks += 1
             self._last_hook_heartbeat = hook_heartbeat
 
-        # Auto-resync delivery cursor if ROM item state moved backward (save-loss)
-        # or forward (reconnect after stale client state).
+        # The payload counts applied requests; the history index also includes
+        # skipped receipts. Compare physical counts to previous physical counts,
+        # never assume they equal the AP history index after a skipped entry.
+        previous_count = self._last_rom_received_count
+        counter_regressed = (rom_received_count is not None and previous_count is not None
+                             and rom_received_count < previous_count)
+        wrapped_ack = (self._delivery_pending and flag == 0 and previous_count == 0xFFFFFFFF
+                       and rom_received_count == 0)
+        counter_regressed = counter_regressed and not wrapped_ack
+        if rom_received_count is not None:
+            self._last_rom_received_count = rom_received_count
+        if counter_regressed:
+            self._delivery_counter_offset = 0
+
         if rom_received_count is not None:
             if rom_received_count > len(ctx.items_received):
                 if not self._delivery_counter_ahead_fallback_active:
@@ -3697,15 +3718,40 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_counter_ahead_fallback_active = False
                 self._delivery_counter_ahead_resume_logged = False
 
-            if rom_received_count < self._delivered_item_index:
+        # Consume a real pending ACK before any history rewind. Only that
+        # request's history index is acknowledged; a raw count cannot fast-forward
+        # over unrelated entries, nor can a smaller count erase this ACK.
+        if self._delivery_pending and flag == 0 and not counter_regressed:
+            delivered_index = self._delivery_pending_item_index
+            if delivered_index is None:
+                delivered_index = self._delivered_item_index
+            self._delivered_item_index = delivered_index + 1
+            if rom_received_count is not None:
+                self._delivery_counter_offset = max(0, self._delivered_item_index - rom_received_count)
+            self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
+            self._delivery_pending = False
+            self._delivery_pending_frame = None
+            self._delivery_pending_time = None
+            self._delivery_pending_item_index = None
+            self._delivery_timeout_streak = 0
+            self._delivery_retry_not_before = 0.0
+            self._delivery_payload_stall_warned = False
+            self._hook_heartbeat_stale_ticks = 0
+            await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
+            self._record_acknowledged_non_redeliverable_index(ctx, delivered_index)
+            await self._emit_receive_notification(ctx, delivered_index)
+            self._log_verbose("info", "KirbyAM: Mailbox delivery confirmed at history index %s (ROM count=%s)",
+                              delivered_index, rom_received_count)
+            if rom_received_count is None:
+                return
+
+        if rom_received_count is not None:
+            history_position = rom_received_count + self._delivery_counter_offset
+            if history_position < self._delivered_item_index and (counter_regressed or not self._delivery_pending):
                 self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
-                self._log_verbose(
-                    "info",
-                    "KirbyAM: ROM delivery counter moved backward from %s to %s; rewinding client delivery cursor",
-                    self._delivered_item_index,
-                    rom_received_count,
-                )
-                self._delivered_item_index = rom_received_count
+                self._log_verbose("info", "KirbyAM: ROM delivery counter moved backward; rewinding history index %s to %s",
+                                  self._delivered_item_index, history_position)
+                self._delivered_item_index = history_position
                 self._delivery_pending = False
                 self._delivery_pending_frame = None
                 self._delivery_pending_time = None
@@ -3714,68 +3760,9 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_retry_not_before = 0.0
                 self._delivery_payload_stall_warned = False
                 await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
-            elif (
-                rom_received_count > self._delivered_item_index
-                and rom_received_count <= len(ctx.items_received)
-                and self._delivery_pending
-                and flag == 0
-            ):
-                # Treat forward counter movement as authoritative only for a pending
-                # delivery ACK. This avoids stale ROM counters skipping deliveries.
-                _ff_pending_item_index = self._delivery_pending_item_index
-                self._log_verbose(
-                    "info",
-                    "KirbyAM: ROM delivery counter moved forward from %s to %s on pending ACK; fast-forwarding client delivery cursor",
-                    self._delivered_item_index,
-                    rom_received_count,
-                )
-                self._delivered_item_index = rom_received_count
-                self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
-                self._delivery_pending = False
-                self._delivery_pending_frame = None
-                self._delivery_pending_time = None
-                self._delivery_pending_item_index = None
-                self._delivery_timeout_streak = 0
-                self._delivery_retry_not_before = 0.0
-                self._delivery_payload_stall_warned = False
-                self._hook_heartbeat_stale_ticks = 0
-                await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
-                # When the ROM counter advances while a delivery was pending and flag == 0,
-                # this IS the ACK: the ROM processed our mailbox item and incremented the
-                # counter in the same frame as clearing the flag.  Emit the receive
-                # notification here so it is not silently dropped by the fast-forward path
-                # taking precedence over the 'if self._delivery_pending' block below.
-                _notify_index = _ff_pending_item_index
-                if _notify_index is None:
-                    _notify_index = self._delivered_item_index - 1
-                self._record_acknowledged_non_redeliverable_index(ctx, _notify_index)
-                await self._emit_receive_notification(ctx, _notify_index)
 
         # If an item is pending, wait for ROM to clear the flag (ACK)
         if self._delivery_pending:
-            if flag == 0:
-                delivered_index = self._delivery_pending_item_index
-                if delivered_index is None:
-                    delivered_index = self._delivered_item_index
-                self._log_verbose("info", "KirbyAM: Mailbox delivery confirmed at item index %s", delivered_index)
-                self._delivery_pending = False
-                self._delivery_pending_frame = None
-                self._delivery_pending_time = None
-                self._delivery_pending_item_index = None
-                self._delivery_timeout_streak = 0
-                self._delivery_retry_not_before = 0.0
-                self._delivery_payload_stall_warned = False
-                self._hook_heartbeat_stale_ticks = 0
-                if rom_received_count is not None and rom_received_count <= len(ctx.items_received):
-                    self._delivered_item_index = rom_received_count
-                else:
-                    self._delivered_item_index += 1
-                self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
-                await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
-                self._record_acknowledged_non_redeliverable_index(ctx, delivered_index)
-                await self._emit_receive_notification(ctx, delivered_index)
-                return
-
             # Check for timeout via frame counter OR wall-clock time (fallback if frame_counter stuck)
             timeout_triggered = False
             timeout_reason = ""
@@ -3878,6 +3865,8 @@ class KirbyAmClient(BizHawkClient):
                     itm,
                 )
                 self._delivered_item_index += 1
+                if rom_received_count is not None:
+                    self._delivery_counter_offset = max(0, self._delivered_item_index - rom_received_count)
                 self._delivery_pending = False
                 self._delivery_pending_time = None
                 self._delivery_pending_item_index = None
@@ -3920,6 +3909,8 @@ class KirbyAmClient(BizHawkClient):
                     )
 
                 self._delivered_item_index += 1
+                if rom_received_count is not None:
+                    self._delivery_counter_offset = max(0, self._delivered_item_index - rom_received_count)
                 self._delivery_pending = False
                 self._delivery_pending_time = None
                 self._delivery_pending_item_index = None

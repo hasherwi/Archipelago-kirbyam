@@ -488,11 +488,11 @@ Behavior note:
 4. **Recovery** (pending too long): client timeout path clears stale flag and retries same delivery index
 
 `debug_item_counter` reconciliation contract:
-- If `debug_item_counter < delivered_item_index`, rewind cursor to the ROM count.
-- If that rewind revisits trap entries already ACKed in the current client session, the client must locally consume those trap indices instead of writing them back to the mailbox again.
-- If `debug_item_counter` is ahead but still within `len(ctx.items_received)`, treat it as advisory unless a mailbox delivery is currently pending and `incoming_item_flag == 0` (same-tick ROM ACK path).
-- If `debug_item_counter > len(ctx.items_received)`, treat the counter as stale/debug-only and continue normal mailbox delivery once the mailbox is empty. This anti-starvation fallback must not permanently suppress writes.
-- Transition-based logs should make the ahead-counter fallback visible without per-tick spam.
+- The ROM counter counts applied mailbox requests; `delivered_item_index` counts AP history entries, including skipped session-acknowledged effects and malformed entries. They need not be equal.
+- Track the previous physical count and the history/count offset. Only a physical count regression resets that offset; skipping a history entry does not increment the ROM counter.
+- Consume a pending mailbox ACK at that request's history index before cursor reconciliation. A physical count cannot acknowledge unrelated history entries or erase a pending request just because skipped entries put the history index ahead.
+- Restore the persisted cursor together with the physical count. A stable count/history gap must not trigger repeated rewinds, skip logs, or fresh item writes.
+- Existing ahead-counter and missing-counter fallbacks remain supported. Session receipt tracking does not provide a durable journal across arbitrary client process loss.
 
 Research-first note for Issue #223:
 - Delivery remains gated only by the gameplay-active contract from Issue #56.
@@ -522,11 +522,7 @@ Receive-specific contract (Issue #73):
 - Receive notification is emitted only after mailbox ACK for the pending index.
 - Malformed/skipped `ReceivedItems` entries do not emit notifications.
 - Cursor fast-forward/rewind reconciliation without a pending delivery does not emit notifications.
-- Exception (Issue #269): when the ROM counter advances while a delivery is pending and the mailbox
-  flag is already cleared (flag == 0), this simultaneous counter-advance is treated as the ACK
-  signal and does emit a notification.  This covers the common hardware case where the ROM clears
-  the flag and increments debug_item_counter in the same frame, so the fast-forward reconciliation
-  path runs before the normal flag == 0 polling path on the next client tick.
+- A cleared pending mailbox is acknowledged at its recorded history index, including when the physical count is lower because earlier receipts were skipped. A detected physical counter regression instead initiates replay under the existing persistent/transient item policy.
 
 Optional slot-data toggles (default: enabled when absent):
 - `enable_receive_notifications`
