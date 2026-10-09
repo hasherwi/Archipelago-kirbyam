@@ -36,6 +36,7 @@ from .generation_logging import (
     logger,
 )
 from .groups import ITEM_GROUPS, LOCATION_GROUPS, resolve_item_group
+from .health import HealthRange, MAXIMUM_HEALTH_DEFAULT, MINIMUM_HEALTH_DEFAULT, resolve_health_range
 from .items import KirbyAmItem, create_item_label_to_code_map, get_item_classification
 from .locations import KirbyAmLocation, create_location_label_to_id_map
 from .options import (
@@ -43,7 +44,6 @@ from .options import (
     AbilityRandomizationMode,
     ConfiguredAreaBoss,
     KirbyAmOptions,
-    OneHitMode,
     RandomizeShards,
     TrapFillPercentage,
 )
@@ -217,6 +217,16 @@ class KirbyAmWorld(World):
         except (TypeError, ValueError):
             return 0
 
+    def _health_range(self) -> HealthRange:
+        options = getattr(self, "options", None)
+        minimum = getattr(options, "minimum_health", MINIMUM_HEALTH_DEFAULT)
+        maximum = getattr(options, "maximum_health", MAXIMUM_HEALTH_DEFAULT)
+        return resolve_health_range(
+            getattr(minimum, "value", minimum),
+            getattr(maximum, "value", maximum),
+            self._one_hit_mode_value(),
+        )
+
     def _traps_enabled(self) -> bool:
         option = getattr(getattr(self, "options", None), "enable_traps", None)
         value = getattr(option, "value", option)
@@ -333,7 +343,7 @@ class KirbyAmWorld(World):
 
     def _active_filler_pool(self) -> tuple[str, ...]:
         pool = self.ACTIVE_FILLER_POOL
-        if self._one_hit_mode_value() == OneHitMode.option_exclude_vitality_counters:
+        if self._health_range().maximum == 1:
             pool = self.ACTIVE_FILLER_POOL_NO_HEALING
         if self._no_extra_lives_enabled():
             pool = tuple(item_name for item_name in pool if item_name != "1 Up")
@@ -373,7 +383,7 @@ class KirbyAmWorld(World):
                     _label_for_item_key(self._LIFE_WIPEOUT_TRAP_KEY),
                 }
             )
-        if self._one_hit_mode_value() != OneHitMode.option_off:
+        if self._health_range().minimum == 1:
             excluded_traps.add(_label_for_item_key(self._HEALTH_DOWN_TRAP_KEY))
 
         if not excluded_traps:
@@ -399,6 +409,9 @@ class KirbyAmWorld(World):
 
     # Pre-generation adjustments
     def generate_early(self) -> None:
+        # Reject unsupported health pairs before producing regions/items or a patch.
+        self._health_range()
+
         # Track generation start
         self._generation_start_time = time.time()
         log_generation_start(
@@ -715,20 +728,19 @@ class KirbyAmWorld(World):
                         code for code in non_filler_item_codes if code not in shard_code_set
                     ]
 
-                if self._one_hit_mode_value() == OneHitMode.option_exclude_vitality_counters:
-                    excluded_vitality_count = sum(
-                        1 for code in non_filler_item_codes if code in vitality_item_codes
-                    )
-                    non_filler_item_codes = [
-                        code for code in non_filler_item_codes if code not in vitality_item_codes
-                    ]
-                    logger.info(
-                        "[P%s] One-hit mode (exclude_vitality_counters): "
-                        "removed %s vitality counter item(s) from non-filler "
-                        "pool",
-                        self.player,
-                        excluded_vitality_count,
-                    )
+                health_range = self._health_range()
+                active_vitality_codes = set(sorted(vitality_item_codes)[:health_range.vitality_count])
+                non_filler_item_codes = [
+                    code for code in non_filler_item_codes
+                    if code not in vitality_item_codes or code in active_vitality_codes
+                ]
+                logger.info(
+                    "[P%s] Health range: %s..%s HP; %s unique Vitality Counter item(s)",
+                    self.player,
+                    health_range.minimum,
+                    health_range.maximum,
+                    health_range.vitality_count,
+                )
 
                 if self._start_with_all_maps_enabled():
                     excluded_map_count = sum(
@@ -799,26 +811,12 @@ class KirbyAmWorld(World):
                 vitality_code_counts = Counter(
                     code for code in randomized_item_codes if code in vitality_item_codes
                 )
-                if self._one_hit_mode_value() == OneHitMode.option_exclude_vitality_counters:
-                    if vitality_code_counts:
-                        raise ValueError(
-                            "KirbyAM vitality pool invariant failed in exclude_vitality_counters mode: "
-                            f"expected zero vitality items, got counts={dict(vitality_code_counts)}"
-                        )
-                else:
-                    missing_vitality_codes = sorted(
-                        code for code in vitality_item_codes if vitality_code_counts.get(code, 0) == 0
+                expected_vitality_counts = Counter({code: 1 for code in active_vitality_codes})
+                if vitality_code_counts != expected_vitality_counts:
+                    raise ValueError(
+                        "KirbyAM vitality pool invariant failed: active counters must appear exactly once. "
+                        f"expected={dict(expected_vitality_counts)} actual={dict(vitality_code_counts)}"
                     )
-                    duplicate_vitality_codes = {
-                        code: count
-                        for code, count in vitality_code_counts.items()
-                        if count > 1
-                    }
-                    if missing_vitality_codes or duplicate_vitality_codes:
-                        raise ValueError(
-                            "KirbyAM vitality pool invariant failed: each vitality counter must appear exactly once. "
-                            f"missing={missing_vitality_codes} duplicates={duplicate_vitality_codes}"
-                        )
                 logger.info(
                     "[P%s] Vitality counter pool multiplicity: %s",
                     self.player,
@@ -1016,6 +1014,8 @@ class KirbyAmWorld(World):
             "trap_fill_percentage",
             "enemy_health_multiplier",
             "one_hit_mode",
+            "minimum_health",
+            "maximum_health",
             "death_link",
             "ability_randomization_mode",
             "ability_randomization_boss_spawns",

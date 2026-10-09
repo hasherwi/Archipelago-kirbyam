@@ -22,6 +22,7 @@ from .enemy_health_scaling import (
     ENEMY_HEALTH_MULTIPLIER_MAX,
     ENEMY_HEALTH_MULTIPLIER_MIN,
 )
+from .health import HEALTH_MAX, HEALTH_MIN, MAXIMUM_HEALTH_DEFAULT, MINIMUM_HEALTH_DEFAULT
 
 
 class Goal(Choice):
@@ -273,14 +274,47 @@ class EnemyHealthMultiplier(Range):
     default = ENEMY_HEALTH_MULTIPLIER_DEFAULT
 
 
+class MinimumHealth(Range):
+    """
+    Kirby's starting HP capacity after the tutorial while the client is connected.
+    Each Vitality Counter increases this capacity by 1, up to Maximum Health.
+    This is not a damage floor: Kirby can still lose HP and die normally.
+
+    Set both health options together. Maximum Health must be at least this value
+    and at most 4 HP higher, using the four existing unique Vitality Counters.
+    Defaults to 6 HP. One-Hit Mode overrides both health options when enabled.
+    """
+    display_name = "Minimum Health"
+    range_start = HEALTH_MIN
+    range_end = HEALTH_MAX
+    default = MINIMUM_HEALTH_DEFAULT
+
+
+class MaximumHealth(Range):
+    """
+    Kirby's HP capacity after receiving every Vitality Counter in the item pool.
+    The pool contains Maximum Health minus Minimum Health counters (0 to 4),
+    with unused counter slots replaced by filler. Equal values disable upgrades.
+
+    Set both health options together. Must be at least Minimum Health and at
+    most 4 HP higher. Defaults to 10 HP. One-Hit Mode overrides both health
+    options when enabled. Applied after the tutorial while connected.
+    """
+    display_name = "Maximum Health"
+    range_start = HEALTH_MIN
+    range_end = HEALTH_MAX
+    default = MAXIMUM_HEALTH_DEFAULT
+
+
 class OneHitMode(Choice):
     """
     Controls whether Kirby's maximum health is reduced to 1 HP at the start (one-hit mode).
       Starts after the tutorial. Off by default.
       Yes, you can combine this with No Extra Lives for an extra challenge.
+      When enabled, One-Hit Mode overrides both custom health options.
 
-    - Off: Kirby's maximum health is unmodified (native 6 HP base, plus 1 per
-        Vitality Counter found).
+    - Off: Use Minimum Health and Maximum Health (defaults: native 6 HP base,
+        plus 1 per Vitality Counter found, up to 10).
     - Exclude Vitality Counters: Kirby starts with a maximum of 1 HP. All four Vitality Counter items are
         removed from the item pool and replaced with filler. Kirby's HP cap stays at 1 for the entire run.
     - Include Vitality Counters: Kirby starts with a maximum of 1 HP. Vitality Counter items remain in the
@@ -374,6 +408,10 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     enemy_health_multiplier: EnemyHealthMultiplier
 
+    minimum_health: MinimumHealth
+
+    maximum_health: MaximumHealth
+
     one_hit_mode: OneHitMode
 
     ability_randomization_mode: AbilityRandomizationMode
@@ -402,6 +440,10 @@ OPTION_GROUPS = [
     ]),
     OptionGroup("Make the game easier", [
         StartWithAllMaps,
+    ]),
+    OptionGroup("Kirby Health", [
+        MinimumHealth,
+        MaximumHealth,
     ]),
     OptionGroup("Make the game last longer", [
         RoomSanity,
