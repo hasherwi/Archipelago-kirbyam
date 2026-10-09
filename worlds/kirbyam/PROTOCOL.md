@@ -32,11 +32,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
 
     0x02000000 - 0x02040000   EWRAM Region (256 KB)
         ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0203B000 - 0x0203B08B   AP Mailbox (reserved, 140 bytes)
+        ├─ 0x0203B000 - 0x0203B0BF   AP Mailbox (reserved, 192 bytes)
         └─ Remaining EWRAM (excluding AP mailbox block)
 ```
 
-### AP Mailbox Block (0x0203B000 - 0x0203B08B)
+### AP Mailbox Block (0x0203B000 - 0x0203B0BF)
 
 **Transport Layer: Client ↔ ROM Communication**
 
@@ -60,7 +60,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x3C   | 0x0203B03C | 4B | shard_scrub_delay_frames | u32 | ROM internal | Countdown timer (frames). Set to 600 by boss-defeat hook while temporary native shard state is visible during post-boss cutscene. |
 | 0x40   | 0x0203B040 | 4B | mailbox_init_cookie | u32 | ROM internal | Initialization cookie (`0x4B41504D`). If absent/mismatched, payload seeds `delivered_shard_bitfield` from native shard state, clears scrub delay + boss-defeat flags + boss temp shard mask, and stores the cookie to prevent stale EWRAM transport values from triggering scrub writes. |
 | 0x44   | 0x0203B044 | 4B | boss_temp_shard_bitfield | u32 | ROM internal | Bits 0-7 track shard bits temporarily written by boss-defeat hook for cutscene safety. On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, then clears this mask. |
-| 0x48   | 0x0203B048 | 4B | delivered_vitality_item_bits | u32 | ROM internal | Replay guard for vitality counter items. Bit N marks that `VITALITY_COUNTER_(N+1)` has already been applied, preventing duplicate vitality grants if an item is resent during reconnect/reset recovery. |
+| 0x48   | 0x0203B048 | 4B | delivered_vitality_item_bits | u32 | Client ↔ ROM | Bits 0..3 identify unique Vitality items. Bit 31 is client-owned and marks a cursor using the starting-inventory-prefixed history. Other bits are reserved. Payload initialization clears the whole word; native Vitality counting uses only bits 0..3. |
 | 0x4C   | 0x0203B04C | 4B | hub_switch_flags | u32 | ROM → Client | Bits 0–14 latched from persisted world-props unlock bits written by `WorldMapUnlockSave` (`sub_08002888(SUB_08002888_ENUM_UNK_3, index, 0)` in decomp; enum value 2), with world-map unlock callback path used only as an immediate fast path when persistence is already visible (AP bit order: Peppermint West, RR East, RR South, Cabbage Center, RR West, Carrot, RR North, Mustard, Cabbage West, Radish, Peppermint East, Moonlight, Cabbage East, Olive, Candy). Mapping source of truth is `data/hub_switch_contract.json`; payload consumes generated `kirby_ap_payload/generated_hub_switch_worldmap_cases.inc` and client compatibility aliases consume generated `generated_hub_switch_contract.py`. Payload ignores `WORLDMAP_NO_UNLOCK` (0), preventing false Peppermint West check sends from non-unlock dispatches (Issue #750). Compatibility note: contract currently carries legacy bit-15 aliasing for `Rainbow Route North - Big Switch` (Issue #733). |
 | 0x50   | 0x0203B050 | 4B | starting_kirby_color_id | u32 | ROM ← Client | Live recovery copy of the resolved starting color (`0..13`). The generated ROM also carries the same value at file offset `0x15F694`, allowing the startup hook to apply it before `CreateKirby`. After reconnect/reset, the payload updates `Kirby::color` and explicitly calls native `sub_0803E558(0)` to rebuild and upload the OBJ palette. |
 | 0x54   | 0x0203B054 | 4B | one_hit_mode_runtime | u32 | ROM ← Client | Challenge-mode runtime config: one-hit mode value (`0`=off, `1`=exclude_vitality_counters, `2`=include_vitality_counters). Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
@@ -215,10 +215,10 @@ Minor chest status:
 - Fixed-item integration extends the active set to 64 verified small chests: 41 ordinary rewards plus 14 Spray Paint and 9 Music Sheet sources. Spray Paint #6 is isolated to Candy 9-Chest 2 ENTRY_FROM_9_01. Music Sheet #6 remains native and excluded from the generated pool because its Carrot logical-region attribution is unresolved. Collection item numbers denote native collection indices, not the starting-color palette IDs.
 - The initial rollout activates the 41 ordinary item chests found in the USA ROM room-object list. Each has one stable AP location ID (3960566-3960606) and one exact, distinct source-object offset; 14 IDs 3960566-3960579 remain stable from the earlier draft.
 - `source_rom_offset` stores the normalized ROM file offset of the object record; the AMR payload entry points at its type field at `record + 0x0C`, while the runtime hook records the object's source pointer. The client accepts an exact match only and does not guess nearby pointer aliases.
-- The payload preserves native chest persistence and reports checks only from exact source pointers in the event ring. For the 41 ordinary item chests, it marks the live chest object and suppresses the native consumable at the delayed popup; the AP mailbox grants the assigned item. Spray Paint and Music Sheet rewards retain their native paths only for unknown/non-AP sources; mapped fixed chests suppress their collection calls. Sound Player retains its separate existing AP check and item.
+- The payload preserves native chest persistence and reports prompt checks from exact source pointers in the event ring, with recovery from audited physical chest flags. For the 41 ordinary item chests, it marks the live chest object and suppresses the native consumable at the delayed popup; the AP mailbox grants the assigned item. Spray Paint and Music Sheet rewards retain their native paths only for unknown/non-AP sources; mapped fixed chests suppress their collection calls. Sound Player retains its separate existing AP check and item.
 - The `NativeRewardConsumable` tag records the reward profile for the item-logic PR; it does not change location identity. `NativeRewardCollection` marks the 23 active fixed chests, whose existing IDs now resolve through the same exact-source event transport. Ownership bits never imply chest checks, so receiving a collection item first cannot consume its physical location.
-- Native small-chest and collectible bitfields are not used to infer AP minor-chest locations. Exact source events are read from `minor_chest_event_ring` and filtered against the current slot's active locations.
-- Once observed, exact-source checks stay pending in the client until the server acknowledges them. They are retried even when the ring counter is unchanged, after ring overwrite, and across transient reconnects in the same authenticated seed/team/slot. Pending checks are cleared on ROM/client initialization or session identity changes. Events overwritten before the client ever observes them, and unacknowledged observations lost on process exit, still need runtime recovery validation; the eight-entry ring is not durable storage.
+- Exact events and saved physical `chestFields` bits are filtered against the authenticated slot's active locations. The complete USA inventory has 84 unique flags (0..83); `data/chest_recovery.json` maps 79 reward checks. The four lever flags are excluded because delivered wall items own them, and Music Sheet 6 remains dormant. Map, paint, music and other reward-ownership bitfields never imply physical checks.
+- Once observed, exact-source checks stay pending in the client until the server acknowledges them. They are retried even when the ring counter is unchanged, after ring overwrite, and across transient reconnects in the same authenticated seed/team/slot. Pending checks are cleared on ROM/client initialization or session identity changes. Saved physical flags recover checks after unobserved ring overwrite, process exit, and transport reset; big map/Vitality/Sound Player checks use the same recovery. Native save/load acceptance in BizHawk is still required. The eight-entry ring is not durable storage, and power loss before the native game saves is not guaranteed recoverable.
 
 ## Client Protocol
 
@@ -442,7 +442,7 @@ Mirror shard bitfields (`shard_bitfield_native` / `shard_bitfield`) are progress
 Boss shard scrub timing contract (Issue #505):
 - Boss hook writes temporary native shard state for cutscene safety and marks `boss_temp_shard_bitfield`.
 - During non-gameplay boss/cutscene states, payload may decrement `shard_scrub_delay_frames` but does not scrub pending boss-temp bits.
-- On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, persists the result to SRAM, and clears `boss_temp_shard_bitfield` + delay.
+- On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, leaves persistence to native save flow, and clears `boss_temp_shard_bitfield` + delay.
 
 **Behavior notes:**
 - Detection is **level-based** (current bitfield state), not edge-based, to be reconnect-safe.
@@ -491,11 +491,22 @@ Behavior note:
 4. **Recovery** (pending too long): client timeout path clears stale flag and retries same delivery index
 
 `debug_item_counter` reconciliation contract:
-- If `debug_item_counter < delivered_item_index`, rewind cursor to the ROM count.
-- If that rewind revisits trap entries already ACKed in the current client session, the client must locally consume those trap indices instead of writing them back to the mailbox again.
-- If `debug_item_counter` is ahead but still within `len(ctx.items_received)`, treat it as advisory unless a mailbox delivery is currently pending and `incoming_item_flag == 0` (same-tick ROM ACK path).
-- If `debug_item_counter > len(ctx.items_received)`, treat the counter as stale/debug-only and continue normal mailbox delivery once the mailbox is empty. This anti-starvation fallback must not permanently suppress writes.
-- Transition-based logs should make the ahead-counter fallback visible without per-tick spam.
+- The payload increments this counter once per successfully applied request. The
+  persisted `delivered_item_index` also counts locally skipped receipts, so the
+  two values can legitimately differ.
+- Track that difference when skipping acknowledged consumables or malformed
+  entries, and restore it from the persisted index and physical count on reconnect.
+- A cleared pending mailbox acknowledges exactly its pending history index before
+  rewind handling. Never fast-forward unrelated history entries using a raw count.
+- Repeated polls before consumption retain the pending request, including when its
+  history index exceeds the physical count. Completed ACKs remain consumed on later polls.
+- Detect a real rollback against the previous physical count, discard the old
+  difference, and conservatively replay from the rolled-back count. Known consumable
+  ACKs are skipped again. An acknowledged u32 counter wrap is not a rollback.
+- Counters ahead of received history remain advisory; diagnostics must not starve
+  normal mailbox delivery or spam every poll.
+- This is not a durable transaction journal. Process loss between the native effect
+  and persistence of its client ACK remains an ambiguous consumable-delivery window.
 
 Research-first note for Issue #223:
 - Delivery remains gated only by the gameplay-active contract from Issue #56.
@@ -525,11 +536,8 @@ Receive-specific contract (Issue #73):
 - Receive notification is emitted only after mailbox ACK for the pending index.
 - Malformed/skipped `ReceivedItems` entries do not emit notifications.
 - Cursor fast-forward/rewind reconciliation without a pending delivery does not emit notifications.
-- Exception (Issue #269): when the ROM counter advances while a delivery is pending and the mailbox
-  flag is already cleared (flag == 0), this simultaneous counter-advance is treated as the ACK
-  signal and does emit a notification.  This covers the common hardware case where the ROM clears
-  the flag and increments debug_item_counter in the same frame, so the fast-forward reconciliation
-  path runs before the normal flag == 0 polling path on the next client tick.
+- A cleared pending flag and simultaneous ROM counter increment emit one notification
+  for that pending history entry, including after skipped receipts (Issue #269).
 
 Optional slot-data toggles (default: enabled when absent):
 - `enable_receive_notifications`
@@ -677,3 +685,61 @@ On client startup (cold boot):
 - **AP Mailbox Spec:** See `worlds/kirbyam/data/addresses.json`
 - **ROM Payload:** See `worlds/kirbyam/kirby_ap_payload/ap_payload.c`
 - **Test Address Validator:** See `worlds/kirbyam/tools/validate_addresses.py` (TBD)
+
+### Native-save recovery and Vitality replay
+
+Use a fresh native save for every generated ROM/seed. Resume only that seed's
+save; importing vanilla or another seed's save is unsupported. Native saves
+have no AP seed identifier, so their origin cannot be inferred automatically.
+Recovery reads only after authentication/gameplay gating (tutorial polling is
+limited to its map) and intersects the active server locations. No saved native
+bits are cleared or reinterpreted as item ownership.
+
+After index-zero `ReceivedItems`, the complete authenticated history defines
+unique Vitality ownership, including duplicates and precollects. The client
+atomically reconciles transport identity bits, native count, max HP and living
+HP, preserving damage deficit and dead states. It waits for full history rather
+than treating an initially empty list as zero ownership. This is also the
+migration policy for saves inflated by the earlier replay bug: confirmed AP
+ownership corrects the count; no identities are guessed from a numeric save
+count. Replayed prefixes in the payload only raise count to the distinct IDs
+seen so far; they never increment the retained count or shrink partial history.
+Physical Vitality chest popup healing/cap writes are suppressed; health comes
+from AP ownership. No real gameplay or ARM ABI acceptance is implied by host tests.
+
+### Starting inventory and delivery-history upgrades
+
+The client requests `items_handling=0b111`: ordinary local/remote items and remote
+starting inventory. Stock server history prepends every starting item, not only
+Vitality. This lets ownership reconciliation and normal mailbox delivery agree
+on one ordering. The persisted client index addresses that history; the native
+counter counts only applied requests and can lag when known receipts are skipped.
+
+Bit 31 at `delivered_vitality_item_bits` marks the prefixed cursor format. The
+client sets it with an atomic guarded write only after the payload has initialized
+and the received counter, persisted index and incoming flag are all zero. It is
+preserved while reconciling the four low Vitality identity bits. A marked live
+cursor resumes normally on reconnect. With a starting-item prefix, an unmarked
+nonzero cursor is ambiguous and pauses work with a restart message; the client
+never guesses an offset or silently skips starting items. Cold-start the ROM
+from its same-seed native save and do not load a legacy savestate. If the client
+survives this transition, known ordinary-history consumable ACK indices shift
+by the starting-prefix length. This does not add durable consumable receipt
+storage or promise recovery from power loss before saving.
+
+Stock Connect/Sync sends no `ReceivedItems` packet for a truly empty history.
+The client therefore leaves native Vitality state unchanged until an actual
+index-zero history arrives; silence is not zero-ownership authority. The first
+normal receipt will supply that history. Empty-packet unit simulations describe
+packet handling only, not stock-server migration acceptance. Starting inventory
+alone is nonempty and does produce an index-zero history with the new flags.
+
+### Shard save integrity
+
+Shard delivery, boss collection and post-cutscene scrub update native EWRAM only.
+The former candidate SRAM offsets overlapped native save headers, not shard data,
+and could invalidate checksums. They are removed. The payload does not invoke a
+native save routine from an unverified frame-hook context. Normal native save flow
+owns serialization, checksums, slot selection and duplicate records. A reset before
+that save needs authenticated AP history replay; immediate power-loss persistence
+is not guaranteed. Host SRAM-integrity tests do not certify emulator save/load.

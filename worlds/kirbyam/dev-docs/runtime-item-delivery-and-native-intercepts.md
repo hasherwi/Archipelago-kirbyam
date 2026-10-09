@@ -18,7 +18,7 @@ This document defines how AP items are injected and how native reward paths are 
 | AP item family | IDs (base offset relative) | Runtime effect |
 |---|---|---|
 | 1-UP | +1 | ap_grant_lives(1) |
-| Mirror shards | +2..+9 | Set KIRBY_SHARD_FLAGS, AP shard authority bitfield, and persist shard state to SRAM |
+| Mirror shards | +2..+9 | Set KIRBY_SHARD_FLAGS and AP shard authority; normal native save flow owns persistence |
 | Area maps | +10..+17 and +24 | Set native big chest map bits via ap_unlock_area_map() |
 | Vitality counters | +18..+21 | Increment vitality once per item index using AP_DELIVERED_VITALITY_ITEM_BITS replay guard |
 | Sound Player | +25 | Call KIRBY_COLLECT_SOUND_PLAYER_FN(0) |

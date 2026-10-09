@@ -133,7 +133,9 @@ The collision grid has an unbroken solid boundary at rows 9..10 between them.
 - [AMR Car8W_Car9 and reverse](https://github.com/HeyImTG/Amazing-Mirror-Randomizer/blob/2ea1c963535405e1ba7d678bb4361a7f5c30703b/JSON/mirrors.json#L3914-L3961)
   connect the lower section with native 719 at (13, 14). The USA manifest maps
   native 719 to doorsIdx 258 / AP 5-07, contradicting the existing 1-UP claim
-  on `ENTRY_FROM_5_12`. That older claim is unchanged in this focused update.
+  on `ENTRY_FROM_5_12`. The Pi reconciliation moves only the lower 1-UP
+  to the verified `ENTRY_FROM_5_07` compartment; see
+  [the scoped correction](carrot-topology-reconciliation.md).
 - Historical Carrot AP topology labels disagree with current room-sanity
   identities. The [native pause-map records](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/pause_area_map.c#L1130-L1214)
   put 720 at (30, 8), 734 at (30, 14), and 732 at (7, 9); historical AP
@@ -141,17 +143,21 @@ The collision grid has an unbroken solid boundary at rows 9..10 between them.
   and 5-13 respectively. The current split model has four entry compartments,
   while native room 734 contains two physically separated sections.
 
-An object-editor list suggests native 720 is object-list slot 266, but that does
-not prove its doorsIdx or AP region. Do not equate those fields or guess
-`ENTRY_FROM_5_14`. Native [gRoomProps](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/data/data_8.s#L44013-L44014)
+The earlier object-editor list used an ambiguous slot convention. The USA ROM
+now verifies native 720 objectListIdx and doorsIdx as 267, corresponding to
+current room-sanity identity 5-14. Those fields are decoded separately; their
+equality in these rooms is not assumed by the extractor. Native [gRoomProps](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/data/data_8.s#L44013-L44014)
 and the [door-pointer table](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/data/data_2.s#L863-L864)
 remain ROM-only incbins in the pinned public decomp.
 
-Resolution requires a lawful USA-ROM-backed extract of gRoomProps and door
-records for native rooms 719, 720, 730, and 734, followed by reconciliation of
-AP room IDs, inbound spawn coordinates, and the actual gameplay routes. Review
-that topology correction separately; do not change progression edges merely to
-make this item reachable. All 24 mailbox IDs remain supported in the meantime.
+The lawful USA-ROM extraction is now complete on the Pi; see
+[the real-ROM evidence checkpoint](pi-real-rom-validation.md) and its reproducible
+extractor. It confirms native 720 as current AP 5-14 and native 719 as current
+AP 5-07, with distinct upper/lower entries to native 734. Reconciliation of the
+historical AP topology, inbound spawn coordinates and actual gameplay routes
+remains necessary. Review that topology correction separately; do not change
+progression edges merely to make this item reachable. All 24 mailbox IDs remain
+supported in the meantime.
 
 ## Validation and release gate
 
