@@ -37,6 +37,7 @@ EXPECTED_ROM_HEADER_TITLE = "agb kirby am"
 EXPECTED_ROM_GAME_CODE = "b8ke"
 EXPECTED_ROM_MAKER_CODE = "01"
 _AUTH_TOKEN_SIZE = 16
+_START_INVENTORY_HISTORY_BIT = 1 << 31
 _BOSS_MIRROR_TABLE_PROBE_BYTES = 32
 _AI_STATE_ADDR_WIDTH = 4
 _AI_STATE_TUTORIAL = 100
@@ -342,10 +343,7 @@ class KirbyAmClient(BizHawkClient):
     system = "GBA"
     patch_suffix = ".apkirbyam"
 
-    def initialize_client(self) -> None:
-        # Compatibility state retained for tests and reconnect diagnostics.
-        self._checked_location_bits: set[int] = set()
-
+    def _reset_item_delivery_state(self) -> None:
         # Item delivery state
         self._delivered_item_index: int = 0
         self._delivery_pending: bool = False  # True after writing mailbox until ROM clears flag
@@ -366,6 +364,12 @@ class KirbyAmClient(BizHawkClient):
         self._cached_delivered_shard_bits: int = 0
         self._cached_shard_bits_index: int = 0
         self._cached_shard_bits_items_len: int = 0
+
+    def initialize_client(self) -> None:
+        # Compatibility state retained for tests and reconnect diagnostics.
+        self._checked_location_bits: set[int] = set()
+
+        self._reset_item_delivery_state()
 
         # Deterministic location ordering
         self._all_location_ids_sorted: list[int] = [
@@ -415,6 +419,7 @@ class KirbyAmClient(BizHawkClient):
             for row in _CHEST_RECOVERY_RECORDS if row["location_key"] is not None
         }
         self._vitality_history_session = None
+        self._legacy_start_inventory_warned = False
         self._last_minor_chest_event_counter: int | None = None
         self._pending_minor_chest_locations: set[int] = set()
         self._minor_chest_session_key: tuple[object, ...] | None = None
@@ -1620,10 +1625,9 @@ class KirbyAmClient(BizHawkClient):
 
         # Minimal AP settings
         ctx.game = self.game
-        # Request both local and remote items so the server replays the full
-        # received-item history when the client reconnects. The client rebuilds
-        # locally owned ability unlocks from that history after a restart.
-        ctx.items_handling = 0b011
+        # Include local, remote and starting items in authoritative history.
+        # Starting items are a prefix; legacy cursor migration is guarded below.
+        ctx.items_handling = 0b111
         ctx.want_slot_data = True
         ctx.watcher_timeout = 0.125
         base_command_processor = getattr(ctx, "command_processor", None)
@@ -1685,6 +1689,10 @@ class KirbyAmClient(BizHawkClient):
 
             self._log_starting_kirby_color_config_once(ctx)
 
+            # A legacy cursor counts a different history when precollects are
+            # added. Never reinterpret that live cursor as a prefixed history.
+            if not await self._start_inventory_cursor_ready(ctx):
+                return
             # Load persisted state from RAM once per session (after bizhawk_ctx is valid)
             if not self._ram_state_loaded:
                 await self._load_persistent_state(ctx)
@@ -2863,6 +2871,54 @@ class KirbyAmClient(BizHawkClient):
         if missing:
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing}])
 
+    async def _start_inventory_cursor_ready(self, ctx):
+        """Adopt prefixed history only at a fresh mailbox, or resume its marker.
+
+        Bit 31 of delivered_vitality_item_bits records this history format;
+        low four bits remain the unique Vitality IDs. Payload initialization
+        clears the entire field, so old savestates cannot silently shift indices.
+        """
+        if (self._vitality_history_session != self._authenticated_session_key(ctx)
+                or not any(getattr(item, "location", None) == -2
+                           and getattr(item, "player", None) == 0 for item in ctx.items_received)):
+            return True
+        session = self._authenticated_session_key(ctx)
+        keys = ["delivered_vitality_item_bits", "debug_item_counter", "delivered_item_index",
+                "incoming_item_flag", "mailbox_init_cookie"]
+        addresses = [self._transport_addr(key) for key in keys]
+        if any(address is None for address in addresses):
+            return False
+        raw = await bizhawk.read(ctx.bizhawk_ctx, [(address, 4, "System Bus") for address in addresses])
+        if (len(raw) != 5 or any(len(value) != 4 for value in raw)
+                or session != self._authenticated_session_key(ctx)):
+            return False
+        bits, received, delivered, flag, cookie = map(self._u32_le, raw)
+        if cookie != 0x4B41504D:
+            return False  # Wait for payload initialization before marking its format.
+        if bits & _START_INVENTORY_HISTORY_BIT:
+            return True
+        if received or delivered or flag:
+            if not getattr(self, "_legacy_start_inventory_warned", False):
+                self._log_client("warning", "KirbyAM: starting inventory changes the legacy item cursor. "
+                                 "Restart the ROM from its native save before continuing; "
+                                 "do not load a savestate made with the older client.")
+                self._legacy_start_inventory_warned = True
+            return False
+        applied = await bizhawk.guarded_write(ctx.bizhawk_ctx, [
+            (addresses[0], (bits | _START_INVENTORY_HISTORY_BIT).to_bytes(4, "little"), "System Bus")
+        ], [(address, value, "System Bus") for address, value in zip(addresses, raw)])
+        if applied:
+            if self._legacy_start_inventory_warned:
+                prefix = sum(getattr(item, "location", None) == -2
+                             and getattr(item, "player", None) == 0 for item in ctx.items_received)
+                old_indices = self._acknowledged_non_redeliverable_indices.copy()
+                self._acknowledged_non_redeliverable_indices.clear()
+                self._acknowledged_non_redeliverable_indices.update(index + prefix for index in old_indices)
+            self._reset_item_delivery_state()
+            self._ram_state_loaded = False
+            self._legacy_start_inventory_warned = False
+        return applied
+
     async def _reconcile_vitality_ownership(self, ctx):
         """Rebuild unique health ownership from a complete authenticated AP history.
 
@@ -2872,6 +2928,8 @@ class KirbyAmClient(BizHawkClient):
         session = self._authenticated_session_key(ctx)
         if (not self._server_session_ready(ctx) or self._vitality_history_session != session
                 or not isinstance(ctx.items_received, list)):
+            return
+        if not await self._start_inventory_cursor_ready(ctx):
             return
         mask = 0
         for item in ctx.items_received:
@@ -2914,6 +2972,7 @@ class KirbyAmClient(BizHawkClient):
             elif 0 < previous_max < maximum:
                 hp += maximum - previous_max
             hp = min(hp, maximum)
+        mask |= int.from_bytes(values[0], "little") & _START_INVENTORY_HISTORY_BIT
         desired = [mask.to_bytes(4, "little"), count.to_bytes(2, "little"),
                    hp.to_bytes(1, "little", signed=True), bytes([maximum])]
         writes = [(address, value, "System Bus") for address, value, before
@@ -3699,6 +3758,9 @@ class KirbyAmClient(BizHawkClient):
         - If flag=0 and items available: write next item (set flag -> 1)
         - Otherwise: wait
         """
+
+        if not await self._start_inventory_cursor_ready(ctx):
+            return
 
         flag_addr = self._transport_addr("incoming_item_flag")
         counter_addr = self._transport_addr("debug_item_counter")

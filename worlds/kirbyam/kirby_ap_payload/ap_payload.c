@@ -40,7 +40,8 @@
 // Cleared after gameplay resumes and non-AP-owned bits are scrubbed.
 #define AP_BOSS_TEMP_SHARD_BITFIELD  (*(volatile uint32_t*)(AP_BASE + 0x44u))
 // Bitfield for AP vitality item replay-guard semantics.
-// Bit N set means VITALITY_COUNTER_(N+1) has already been applied this EWRAM session.
+// Low bits 0..3 are unique Vitality identities. Client-owned bit 31 marks
+// a delivery cursor whose server history includes the starting-inventory prefix.
 #define AP_DELIVERED_VITALITY_ITEM_BITS (*(volatile uint32_t*)(AP_BASE + 0x48u))
 // Runtime config for enemy copy-ability randomization live reroll hook.
 #define AP_ABILITY_RANDOMIZATION_MODE   (*(volatile uint32_t*)(AP_BASE + 0x64u))

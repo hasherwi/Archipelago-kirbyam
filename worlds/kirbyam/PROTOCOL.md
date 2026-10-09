@@ -32,11 +32,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
 
     0x02000000 - 0x02040000   EWRAM Region (256 KB)
         ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0203B000 - 0x0203B08B   AP Mailbox (reserved, 140 bytes)
+        ├─ 0x0203B000 - 0x0203B0BF   AP Mailbox (reserved, 192 bytes)
         └─ Remaining EWRAM (excluding AP mailbox block)
 ```
 
-### AP Mailbox Block (0x0203B000 - 0x0203B08B)
+### AP Mailbox Block (0x0203B000 - 0x0203B0BF)
 
 **Transport Layer: Client ↔ ROM Communication**
 
@@ -60,7 +60,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x3C   | 0x0203B03C | 4B | shard_scrub_delay_frames | u32 | ROM internal | Countdown timer (frames). Set to 600 by boss-defeat hook while temporary native shard state is visible during post-boss cutscene. |
 | 0x40   | 0x0203B040 | 4B | mailbox_init_cookie | u32 | ROM internal | Initialization cookie (`0x4B41504D`). If absent/mismatched, payload seeds `delivered_shard_bitfield` from native shard state, clears scrub delay + boss-defeat flags + boss temp shard mask, and stores the cookie to prevent stale EWRAM transport values from triggering scrub writes. |
 | 0x44   | 0x0203B044 | 4B | boss_temp_shard_bitfield | u32 | ROM internal | Bits 0-7 track shard bits temporarily written by boss-defeat hook for cutscene safety. On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, then clears this mask. |
-| 0x48   | 0x0203B048 | 4B | delivered_vitality_item_bits | u32 | ROM internal | Replay guard for vitality counter items. Bit N marks that `VITALITY_COUNTER_(N+1)` has already been applied, preventing duplicate vitality grants if an item is resent during reconnect/reset recovery. |
+| 0x48   | 0x0203B048 | 4B | delivered_vitality_item_bits | u32 | Client ↔ ROM | Bits 0..3 identify unique Vitality items. Bit 31 is client-owned and marks a cursor using the starting-inventory-prefixed history. Other bits are reserved. Payload initialization clears the whole word; native Vitality counting uses only bits 0..3. |
 | 0x4C   | 0x0203B04C | 4B | hub_switch_flags | u32 | ROM → Client | Bits 0–14 latched from persisted world-props unlock bits written by `WorldMapUnlockSave` (`sub_08002888(SUB_08002888_ENUM_UNK_3, index, 0)` in decomp; enum value 2), with world-map unlock callback path used only as an immediate fast path when persistence is already visible (AP bit order: Peppermint West, RR East, RR South, Cabbage Center, RR West, Carrot, RR North, Mustard, Cabbage West, Radish, Peppermint East, Moonlight, Cabbage East, Olive, Candy). Mapping source of truth is `data/hub_switch_contract.json`; payload consumes generated `kirby_ap_payload/generated_hub_switch_worldmap_cases.inc` and client compatibility aliases consume generated `generated_hub_switch_contract.py`. Payload ignores `WORLDMAP_NO_UNLOCK` (0), preventing false Peppermint West check sends from non-unlock dispatches (Issue #750). Compatibility note: contract currently carries legacy bit-15 aliasing for `Rainbow Route North - Big Switch` (Issue #733). |
 | 0x50   | 0x0203B050 | 4B | starting_kirby_color_id | u32 | ROM ← Client | Live recovery copy of the resolved starting color (`0..13`). The generated ROM also carries the same value at file offset `0x15F694`, allowing the startup hook to apply it before `CreateKirby`. After reconnect/reset, the payload updates `Kirby::color` and explicitly calls native `sub_0803E558(0)` to rebuild and upload the OBJ palette. |
 | 0x54   | 0x0203B054 | 4B | one_hit_mode_runtime | u32 | ROM ← Client | Challenge-mode runtime config: one-hit mode value (`0`=off, `1`=exclude_vitality_counters, `2`=include_vitality_counters). Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
@@ -698,3 +698,30 @@ count. Replayed prefixes in the payload only raise count to the distinct IDs
 seen so far; they never increment the retained count or shrink partial history.
 Physical Vitality chest popup healing/cap writes are suppressed; health comes
 from AP ownership. No real gameplay or ARM ABI acceptance is implied by host tests.
+
+### Starting inventory and delivery-history upgrades
+
+The client requests `items_handling=0b111`: ordinary local/remote items and remote
+starting inventory. Stock server history prepends every starting item, not only
+Vitality. This lets ownership reconciliation and normal mailbox delivery agree
+on one ordering. Native mailbox counters and persisted client indices use that
+same ordering.
+
+Bit 31 at `delivered_vitality_item_bits` marks the prefixed cursor format. The
+client sets it with an atomic guarded write only after the payload has initialized
+and the received counter, persisted index and incoming flag are all zero. It is
+preserved while reconciling the four low Vitality identity bits. A marked live
+cursor resumes normally on reconnect. With a starting-item prefix, an unmarked
+nonzero cursor is ambiguous and pauses work with a restart message; the client
+never guesses an offset or silently skips starting items. Cold-start the ROM
+from its same-seed native save and do not load a legacy savestate. If the client
+survives this transition, known ordinary-history consumable ACK indices shift
+by the starting-prefix length. This does not add durable consumable receipt
+storage or promise recovery from power loss before saving.
+
+Stock Connect/Sync sends no `ReceivedItems` packet for a truly empty history.
+The client therefore leaves native Vitality state unchanged until an actual
+index-zero history arrives; silence is not zero-ownership authority. The first
+normal receipt will supply that history. Empty-packet unit simulations describe
+packet handling only, not stock-server migration acceptance. Starting inventory
+alone is nonempty and does produce an index-zero history with the new flags.

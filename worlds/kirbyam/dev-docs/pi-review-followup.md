@@ -41,3 +41,17 @@ no AP seed identifier. Recovery cannot promise data lost before a native save.
 Actual BizHawk save/load, item presentation and ARM ABI acceptance remain unrun.
 Carrot Music Sheet 6 stays dormant with 64 active minor checks; no route or
 minimal-ability proof is claimed. See PROTOCOL.md for the migration policy.
+
+
+Re-review follow-up: stock-server tests confirmed that `0b011` omitted common
+starting inventory. The client now requests `0b111`, verifies all starting item
+IDs precede normal mailbox history, and guards legacy cursor adoption with bit31
+of the existing delivery-identity word. No new RAM allocation or native hook is
+needed. A live unmarked cursor with a prefix requires a cold ROM start from its
+native save; the client will not guess how to reinterpret it. The stock-server
+empty-history test confirms safe deferral without a fabricated empty packet.
+
+Final precollect follow-up validation: 1,086 combined tests passed, including
+stock-server history and full starting-item mailbox order. The unchanged ARM
+payload rebuild matches its prior hash; the real-ROM patch remains current.
+A generated start_inventory seed includes Carrot Vitality as a precollect.
