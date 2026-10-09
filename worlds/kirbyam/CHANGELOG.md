@@ -11,7 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## v0.4.0
 
 ### New Features
-- Added 41 ordinary small-chest location checks, matched to their exact ROM sources while preserving native chest persistence (PR #930).
+- Added all 65 small-chest location checks (41 ordinary rewards, 14 Spray Paints, and 10 Music Sheets), matched to their exact ROM sources while preserving native rewards and chest persistence (PR #930).
 - Added an `/abilities` client command that lists the abilities currently unlocked for the slot (Issue #891).
 - Added a new option: `enemy_health_multiplier`. Scale all enemies' health values between 50% to 500% of the original game. It defaults to 100% which matches the original game (Issue #880).
 - Added `random_color_per_room` to Starting Kirby Color. It chooses an initial supported palette at generation, then changes to a different supported palette whenever the connected BizHawk client observes Kirby enter a different room (Issue #857).
@@ -32,6 +32,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Bug Fixes
 
+- Rebuild the packaged ROM patch from the location-only source so native paint/music grants and persistence for chest flags 80–83 match the reviewed code.
+- Recover unobserved chest checks from audited unique native saved flags after event-ring overflow or reset; replay retained events after counter rollback. Correct the lower Carrot Castle 5-13 1UP to the entrance from 5-07.
 - Retain observed minor-chest checks until the server acknowledges them, including dropped sends and reconnects, so consumed event-ring entries do not silently lose AP checks (Issue #129).
 - Boss checks were mapped incorrectly for the `defeat_configured_area_boss` goal. That's been fixed (Issue #893).
 - Adds cutter to the base ability pool to make sure players can cut the drop down platforms. (Issue #894)

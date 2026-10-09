@@ -31,6 +31,8 @@ if TYPE_CHECKING:
     from worlds.generic.shared_utils import NetworkItem
 
 
+_CHEST_RECOVERY_RECORDS = load_json_data("chest_recovery.json")["records"]
+
 EXPECTED_ROM_HEADER_TITLE = "agb kirby am"
 EXPECTED_ROM_GAME_CODE = "b8ke"
 EXPECTED_ROM_MAKER_CODE = "01"
@@ -405,9 +407,13 @@ class KirbyAmClient(BizHawkClient):
         if exact_event_minor_count:
             self._log_verbose(
                 "info",
-                "KirbyAM: %s exact-source minor chest checks active; each needs an event-ring source-pointer match.",
+                "KirbyAM: %s exact-source minor chest checks active; exact events have audited native-save recovery.",
                 exact_event_minor_count,
             )
+        self._saved_chest_location_by_flag = {
+            row["flag"]: data.locations[row["location_key"]].location_id
+            for row in _CHEST_RECOVERY_RECORDS if row["location_key"] is not None
+        }
         self._last_minor_chest_event_counter: int | None = None
         self._pending_minor_chest_locations: set[int] = set()
         self._minor_chest_session_key: tuple[object, ...] | None = None
@@ -1694,6 +1700,7 @@ class KirbyAmClient(BizHawkClient):
                 # Report only the tutorial world-map chest while normal location
                 # polling and new item writes remain deferred.
                 await self._poll_major_chest_locations(ctx, tutorial_world_map_only=True)
+                await self._poll_saved_chest_locations(ctx, tutorial_world_map_only=True)
             await self._log_boss_shard_debug_window(
                 ctx,
                 gameplay_active=gameplay_active,
@@ -1738,8 +1745,9 @@ class KirbyAmClient(BizHawkClient):
 
             # Major chest location polling via dedicated major_chest_flags transport register
             await self._poll_major_chest_locations(ctx)
+            await self._poll_saved_chest_locations(ctx)
 
-            # Minor chest location polling via native small chest flag bitfield
+            # Minor chest location polling via exact source events
             await self._poll_minor_chest_locations(ctx)
 
             # Vitality chest location polling via dedicated vitality_chest_flags transport register
@@ -2823,6 +2831,35 @@ class KirbyAmClient(BizHawkClient):
         else:
             self._last_vitality_chest_poll_log = None
 
+    @staticmethod
+    def _authenticated_session_key(ctx):
+        return (getattr(ctx, "server_seed_name", None), ctx.auth, ctx.team, ctx.slot)
+
+    async def _poll_saved_chest_locations(self, ctx, *, tutorial_world_map_only=False):
+        """Recover physical checks from unique USA chestFields bits, never reward ownership.
+
+        The native save must belong to this ROM/seed; importing saves from other
+        seeds or vanilla is unsupported because the native save has no seed ID.
+        No client-side pending state is carried across authenticated sessions.
+        """
+        active = self._active_location_id_set(ctx)
+        address = self._native_addr("other_chest_flags_native")
+        if not self._server_session_ready(ctx) or not active or address is None:
+            return
+        session = self._authenticated_session_key(ctx)
+        values = await bizhawk.read(ctx.bizhawk_ctx, [(address, 16, "System Bus")])
+        if (len(values) != 1 or len(values[0]) != 16
+                or session != self._authenticated_session_key(ctx)):
+            return
+        bits = int.from_bytes(values[0], "little")
+        checks = {location for flag, location in self._saved_chest_location_by_flag.items()
+                  if bits & (1 << flag)} & active
+        if tutorial_world_map_only:
+            checks.intersection_update(self._major_chest_location_ids_by_bit.get(0, []))
+        missing = sorted(checks - ctx.checked_locations)
+        if missing:
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing}])
+
     async def _poll_minor_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """Report physical minor-chest checks from exact payload source events."""
         await self._poll_minor_chest_event_locations(ctx)
@@ -2907,6 +2944,13 @@ class KirbyAmClient(BizHawkClient):
                 "KirbyAM: exact minor-chest event counter regressed from %s to %s; resetting baseline (savestate/load).",
                 self._last_minor_chest_event_counter,
                 event_counter,
+            )
+            # A reset/load can already contain fresh opens before this poll.
+            # Replay the retained exact-source window; server ACKs below dedupe
+            # checks from a restored state just as they do on first connection.
+            baseline_window = min(event_counter, _MINOR_CHEST_EVENT_RING_SLOT_COUNT)
+            exact_checked_locations = collect_exact_checked_locations(
+                event_counter - baseline_window, event_counter
             )
         elif event_counter > self._last_minor_chest_event_counter:
             delta = event_counter - self._last_minor_chest_event_counter

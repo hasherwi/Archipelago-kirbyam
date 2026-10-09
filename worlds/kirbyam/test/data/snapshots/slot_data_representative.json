@@ -620,6 +620,106 @@
         "SmallChest"
       ]
     },
+    "MINOR_CHEST_MUSIC_NOTE_01": {
+      "category": "MINOR_CHEST",
+      "label": "Rainbow Route 1-39 - Music Sheet #1 Chest",
+      "location_id": 3960514,
+      "tags": [
+        "ExactEventLocation",
+        "MusicSheet",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSIC_NOTE_02": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+      "location_id": 3960515,
+      "tags": [
+        "ExactEventLocation",
+        "MusicSheet",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSIC_NOTE_03": {
+      "category": "MINOR_CHEST",
+      "label": "Cabbage Cavern 3-12 - Music Sheet #3 Chest",
+      "location_id": 3960516,
+      "tags": [
+        "ExactEventLocation",
+        "MusicSheet",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSIC_NOTE_04": {
+      "category": "MINOR_CHEST",
+      "label": "Radish Ruins 8-22 - Music Sheet #4 Chest",
+      "location_id": 3960517,
+      "tags": [
+        "ExactEventLocation",
+        "MusicSheet",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSIC_NOTE_05": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-08 - Music Sheet #5 Chest",
+      "location_id": 3960518,
+      "tags": [
+        "ExactEventLocation",
+        "MusicSheet",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSIC_NOTE_06": {
+      "category": "MINOR_CHEST",
+      "label": "Carrot Castle 5-13 Upper - Music Sheet #6 Chest",
+      "location_id": 3960519,
+      "tags": [
+        "ExactEventLocation",
+        "MusicSheet",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSIC_NOTE_07": {
+      "category": "MINOR_CHEST",
+      "label": "Candy Constellation 9-16 - Music Sheet #7 Chest",
+      "location_id": 3960520,
+      "tags": [
+        "ExactEventLocation",
+        "MusicSheet",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSIC_NOTE_08": {
+      "category": "MINOR_CHEST",
+      "label": "Moonlight Mansion 2-17 - Music Sheet #8 Chest",
+      "location_id": 3960521,
+      "tags": [
+        "ExactEventLocation",
+        "MusicSheet",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSIC_NOTE_09": {
+      "category": "MINOR_CHEST",
+      "label": "Cabbage Cavern 3-05 - Music Sheet #9 Chest",
+      "location_id": 3960522,
+      "tags": [
+        "ExactEventLocation",
+        "MusicSheet",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSIC_NOTE_10": {
+      "category": "MINOR_CHEST",
+      "label": "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest",
+      "location_id": 3960523,
+      "tags": [
+        "ExactEventLocation",
+        "MusicSheet",
+        "SmallChest"
+      ]
+    },
     "MINOR_CHEST_MUSTARD_MOUNTAIN_4_05": {
       "category": "MINOR_CHEST",
       "label": "Mustard Mountain 4-05 - Small Chest",
@@ -918,6 +1018,146 @@
         "ExactEventLocation",
         "NativeRewardConsumable",
         "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+      "location_id": 3960500,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_02": {
+      "category": "MINOR_CHEST",
+      "label": "Carrot Castle 5-16 - Spray Paint #2 Chest",
+      "location_id": 3960501,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_03": {
+      "category": "MINOR_CHEST",
+      "label": "Candy Constellation 9-02 - Spray Paint #3 Chest",
+      "location_id": 3960502,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_04": {
+      "category": "MINOR_CHEST",
+      "label": "Rainbow Route 1-28 - Spray Paint #4 Chest",
+      "location_id": 3960503,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_05": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-05 - Spray Paint #5 Chest",
+      "location_id": 3960504,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_06": {
+      "category": "MINOR_CHEST",
+      "label": "Candy Constellation 9-Chest 2 - Spray Paint #6 Chest",
+      "location_id": 3960505,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_07": {
+      "category": "MINOR_CHEST",
+      "label": "Olive Ocean 6-06 - Spray Paint #7 Chest",
+      "location_id": 3960506,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_08": {
+      "category": "MINOR_CHEST",
+      "label": "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
+      "location_id": 3960507,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_09": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-10 - Spray Paint #9 Chest",
+      "location_id": 3960508,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_10": {
+      "category": "MINOR_CHEST",
+      "label": "Radish Ruins 8-GOAL-1 - Spray Paint #10 Chest",
+      "location_id": 3960509,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_11": {
+      "category": "MINOR_CHEST",
+      "label": "Moonlight Mansion 2-07-UPPER-LEFT - Spray Paint #11 Chest",
+      "location_id": 3960510,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_12": {
+      "category": "MINOR_CHEST",
+      "label": "Cabbage Cavern 3-06 - Spray Paint #12 Chest",
+      "location_id": 3960511,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_13": {
+      "category": "MINOR_CHEST",
+      "label": "Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest",
+      "location_id": 3960512,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
+      ]
+    },
+    "MINOR_CHEST_SPRAY_PAINT_14": {
+      "category": "MINOR_CHEST",
+      "label": "Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest",
+      "location_id": 3960513,
+      "tags": [
+        "ExactEventLocation",
+        "SmallChest",
+        "SprayPaint"
       ]
     },
     "ROOM_SANITY_1_01": {

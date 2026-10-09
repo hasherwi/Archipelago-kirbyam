@@ -566,7 +566,7 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
         1 for m in data.locations.values()
         if m.category == LocationCategory.MINOR_CHEST and m.source_rom_offset is not None
     )
-    assert _minor_chest_count == 41
+    assert _minor_chest_count == 65
     _hub_switch_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.HUB_SWITCH)
     _lever_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.LEVER)
     _room_sanity_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.ROOM_SANITY)

@@ -138,7 +138,7 @@ def test_room_duplicate_summary_uses_unique_template_offsets() -> None:
     }]
 
 
-def test_checked_in_rom_manifest_matches_all_active_ordinary_chests() -> None:
+def test_checked_in_rom_manifest_matches_all_65_active_chests() -> None:
     world_dir = MODULE_PATH.parents[1]
     manifest = json.loads((world_dir / "data" / "minor_chest_manifest.json").read_text(encoding="utf-8"))
     locations = json.loads((world_dir / "data" / "locations.json").read_text(encoding="utf-8"))
@@ -151,15 +151,15 @@ def test_checked_in_rom_manifest_matches_all_active_ordinary_chests() -> None:
 
     assert manifest["metadata"]["rom_sha1"] == _enumerate_minor_chests.AUTHORIZED_USA_ROM_SHA1
     assert len(ordinary_entries) == 41
-    assert len(active_locations) == 41
-    assert {entry["rom_offset"] for entry in ordinary_entries} == {
+    assert len(active_locations) == 65
+    assert {entry["rom_offset"] for entry in manifest["entries"]} == {
         location["source_rom_offset"] for location in active_locations
     }
     assert tuple(sorted(entry["native_chest_flag_index"] for entry in ordinary_entries)) == (
         _enumerate_minor_chests.EXPECTED_CONSUMABLE_CHEST_FLAGS
     )
     assert all(len(entry["candidate_ap_room_keys"]) == 1 for entry in ordinary_entries)
-    assert sorted(location["location_id"] for location in active_locations) == list(range(3960566, 3960607))
+    assert sorted(location["location_id"] for location in active_locations) == list(range(3960500, 3960524)) + list(range(3960566, 3960607))
 
 
 def test_native_small_chest_persistence_supports_flag_82() -> None:
