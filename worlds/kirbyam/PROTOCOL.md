@@ -32,11 +32,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
 
     0x02000000 - 0x02040000   EWRAM Region (256 KB)
         ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0203B000 - 0x0203B08B   AP Mailbox (reserved, 140 bytes)
+        ├─ 0x0203B000 - 0x0203B0C7   AP Mailbox (reserved, 200 bytes)
         └─ Remaining EWRAM (excluding AP mailbox block)
 ```
 
-### AP Mailbox Block (0x0203B000 - 0x0203B08B)
+### AP Mailbox Block (0x0203B000 - 0x0203B0C7)
 
 **Transport Layer: Client ↔ ROM Communication**
 
@@ -61,7 +61,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x40   | 0x0203B040 | 4B | mailbox_init_cookie | u32 | ROM internal | Initialization cookie (`0x4B41504D`). If absent/mismatched, payload seeds `delivered_shard_bitfield` from native shard state, clears scrub delay + boss-defeat flags + boss temp shard mask, and stores the cookie to prevent stale EWRAM transport values from triggering scrub writes. |
 | 0x44   | 0x0203B044 | 4B | boss_temp_shard_bitfield | u32 | ROM internal | Bits 0-7 track shard bits temporarily written by boss-defeat hook for cutscene safety. On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, then clears this mask. |
 | 0x48   | 0x0203B048 | 4B | delivered_vitality_item_bits | u32 | ROM internal | Replay guard for vitality counter items. Bit N marks that `VITALITY_COUNTER_(N+1)` has already been applied, preventing duplicate vitality grants if an item is resent during reconnect/reset recovery. |
-| 0x4C   | 0x0203B04C | 4B | hub_switch_flags | u32 | ROM → Client | Bits 0–14 latched from persisted world-props unlock bits written by `WorldMapUnlockSave` (`sub_08002888(SUB_08002888_ENUM_UNK_3, index, 0)` in decomp; enum value 2), with world-map unlock callback path used only as an immediate fast path when persistence is already visible (AP bit order: Peppermint West, RR East, RR South, Cabbage Center, RR West, Carrot, RR North, Mustard, Cabbage West, Radish, Peppermint East, Moonlight, Cabbage East, Olive, Candy). Mapping source of truth is `data/hub_switch_contract.json`; payload consumes generated `kirby_ap_payload/generated_hub_switch_worldmap_cases.inc` and client compatibility aliases consume generated `generated_hub_switch_contract.py`. Payload ignores `WORLDMAP_NO_UNLOCK` (0), preventing false Peppermint West check sends from non-unlock dispatches (Issue #750). Compatibility note: contract currently carries legacy bit-15 aliasing for `Rainbow Route North - Big Switch` (Issue #733). |
+| 0x4C   | 0x0203B04C | 4B | hub_switch_flags | u32 | ROM → Client | Bits 0–14 latch when the corresponding big switch is hit. For mapped doors, the unlock hook reports the AP switch check and calls the game's transition-completion function without granting the native connection. `NO_UNLOCK` and unknown indices keep their selected native callback. The Big Switch initializer masks an AP-owned world-props entry to zero until that physical switch has been collected, so item ownership does not remove its check object. Persisted native unlocks are mirrored into switch checks only when the client ownership mask says that door is not item-owned. AP bit order: Peppermint West, RR East, RR South, Cabbage Center, RR West, Carrot, RR North, Mustard, Cabbage West, Radish, Peppermint East, Moonlight, Cabbage East, Olive, Candy. Mapping source of truth is `data/hub_switch_contract.json`; payload consumes generated `kirby_ap_payload/generated_hub_switch_worldmap_cases.inc` and client compatibility aliases consume generated `generated_hub_switch_contract.py`. Payload ignores `WORLDMAP_NO_UNLOCK` (0), preventing false Peppermint West check sends from non-unlock dispatches (Issue #750). Compatibility note: contract currently carries legacy bit-15 aliasing for `Rainbow Route North - Big Switch` (Issue #733). |
 | 0x50   | 0x0203B050 | 4B | starting_kirby_color_id | u32 | ROM ← Client | Live recovery copy of the resolved starting color (`0..13`). The generated ROM also carries the same value at file offset `0x15F694`, allowing the startup hook to apply it before `CreateKirby`. After reconnect/reset, the payload updates `Kirby::color` and explicitly calls native `sub_0803E558(0)` to rebuild and upload the OBJ palette. |
 | 0x54   | 0x0203B054 | 4B | one_hit_mode_runtime | u32 | ROM ← Client | Challenge-mode runtime config: one-hit mode value (`0`=off, `1`=exclude_vitality_counters, `2`=include_vitality_counters). Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
 | 0x58   | 0x0203B058 | 4B | no_extra_lives_runtime | u32 | ROM ← Client | Challenge-mode runtime config: no-extra-lives flag (`0`=off, `1`=on). Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
@@ -82,9 +82,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0xB0   | 0x0203B0B0 | 4B | ability_gate_mask_runtime | u32 | ROM ← Client | Bitmask of ability IDs that are currently configured as gateable (`safe_to_gate`) in `abilities.json`. |
 | 0xB4   | 0x0203B0B4 | 4B | ability_unlock_mask_runtime | u32 | ROM ← Client and ROM internal | Bitmask of ability IDs currently unlocked by AP ability items. Client sync writes canonical state; payload also sets bits when ability unlock AP items are applied to preserve runtime continuity. |
 | 0xB8   | 0x0203B0B8 | 4B | starting_kirby_color_applied | u32 | ROM internal | EWRAM latch set after the live player-one palette has been refreshed for the current EWRAM session. Cleared with mailbox initialization. This replaces an invalid mutable C static that would otherwise be linked into ROM-backed payload memory. |
-| 0xBC   | 0x0203B0BC | 4B | lever_activation_flags | u32 | ROM → Client | Bits 0–3 latch physical activation of the Moonlight 2-11, Olive 6-13, Carrot 5-12, and Radish 8-12 levers respectively. The small-switch hook suppresses the native wall-opening effect for these rooms, so this transport is the AP lever-location authority (Issue #859). |
+| 0xBC   | 0x0203B0BC | 4B | lever_activation_flags | u32 | ROM → Client | Bits 0-3 latch physical activation of the Moonlight 2-11, Olive 6-13, Carrot 5-12, and Radish 8-12 levers respectively. The small-switch hook suppresses the native wall-opening effect for these rooms, so this transport is the AP lever-location authority (Issue #859). |
+| 0xC0   | 0x0203B0C0 | 4B | hub_connection_item_mask | u32 | Client → ROM | Complete ReceivedItems ownership mask for native WorldMapDoor enum indices 1–15 (bit N = door N). Payload restores the corresponding world-props unlock entries from this client-owned mask and excludes those doors from native-unlock-to-switch-check mirroring. `0xFFFFFFFF` means the client has not synchronized ownership yet. |
+| 0xC4   | 0x0203B0C4 | 4B | hub_switch_init_state_scratch | u32 | ROM internal | Zero-valued scratch WorldProps entry returned during Big Switch initialization when AP owns its connection item but the matching physical switch check is not complete. This keeps AP-owned route state separate from switch-check object visibility. |
 
-**Total: 192 bytes (0x0203B000 - 0x0203B0BF)**
+**Total: 200 bytes (0x0203B000 - 0x0203B0C7)**
 
 ### Native Game State (Referenced by AP; some fields are client-reconciled)
 
@@ -126,8 +128,10 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | TRAP_BATTERY_DRAIN | 3860035 | Trap item: empties the cell phone battery to 0 |
 | TRAP_LIFE_WIPEOUT | 3860036 | Trap item: sets Kirby's lives count to 0 |
 | LEVER_WALL_MOONLIGHT_MANSION_2_11 .. LEVER_WALL_RADISH_RUINS_8_12 | 3860037 - 3860040 | Progression items that independently set the four native lever-controlled wall bits (Issue #859) |
+| HUB_CONNECTION_MOONLIGHT_MANSION .. HUB_CONNECTION_CANDY_CONSTELLATION | 3860041 - 3860055 | Progression items mapped in `WorldMapDoor` enum order; IDs `BASE_OFFSET + 40 + door_index` for native door indices 1..15 |
 | ABILITY_UNLOCK_* | 3860101 - 3860131 | Dynamic ability unlock items (`BASE_OFFSET + 100 + runtime_ability_id`) generated only for abilities in `abilities.json` where `safe_to_gate` is true and `enemy_copy_allowed` is not false |
-| *Reserved*        | 3860041+ (except dynamic ability unlock range) | Future items (doors, additional consumables, etc.) |
+
+Hub Connection item gates are declared on area-region exits in `data/regions/areas.json` using the `{"item": "<item label>"}` requirement. The watcher waits until the current connection's item history is known before writing the full door ownership mask or polling checks/delivering items. On a standard Archipelago server, a non-empty history is replayed as `ReceivedItems` index zero in the `Connected` websocket batch; if the batch contains no such packet, the client treats the history as empty after that batch has drained. An explicit index-zero packet remains authoritative, including if it is empty. A reconnect clears the payload mask to the unknown sentinel until the new connection's batch is processed, and clears stale `items_received` state if the batch confirms empty. The payload applies each owned native world-props unlock idempotently and does not infer a switch check from item-granted state. Runtime behavior has code and regression coverage; emulator save/reload behavior still requires in-game validation.
 
 ### Current filler effect contract
 

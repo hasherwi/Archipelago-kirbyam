@@ -17,6 +17,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Added `random_color_per_room` to Starting Kirby Color. It chooses an initial supported palette at generation, then changes to a different supported palette whenever the connected BizHawk client observes Kirby enter a different room (Issue #857).
 - Added four progression items that independently open the walls controlled by those levers. Pulling a lever now sends its AP location check without opening the wall; receiving the matching Lever Wall item sets the native wall-unlock state instead (Issue #859).
 
+- Added 15 Hub Connection progression items that gate their matching area transitions and hub shortcuts while preserving alternate overland routes. Physical Big Switch checks remain available until collected, and received connections are restored across reconnects (Issue #482).
+
 ### Improvements
 - The Tutorial World Map - Big Chest location check is now sent during the tutorial; item delivery remains paused until normal gameplay begins (Issue #868).
 - Consolidated `defeat_random_hidden_area_boss` and `defeat_configured_area_boss` into the canonical `defeat_area_boss` goal. `configured_area_boss: random` now uses Archipelago's standard `Choice` randomization, the old `defeat_configured_area_boss` name remains a safe YAML alias, and all eight boss-to-area mappings are corrected (Issue #872).
@@ -29,6 +31,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Small Chests: Fixed collection rewards remain native pending their AP item support (Issue #525). Native consumable reward suppression for the 41 ordinary chest checks is handled in PR #931. Emulator gameplay has not yet been validated.
 - Sprite Swapping: The animation for getting the original item will play with the original sprite. Statues show the old ability. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or ability granted.
 - Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
+- Hub Connections: Emulator gameplay and save/reload behavior have not yet been validated.
 
 ### Bug Fixes
 

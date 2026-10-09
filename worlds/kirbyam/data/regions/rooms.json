@@ -14,6 +14,10 @@
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2": null,
       "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": null,
       "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": null
+    },
+    "exit_requirements": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {"item": "Rainbow Route South - Hub Connection"},
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": {"item": "Rainbow Route South - Hub Connection"}
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_MIDDLE_PLATFORMS": {
@@ -25,6 +29,12 @@
       "REGION_MOONLIGHT_MANSION/ROOM_2_HUB": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": null,
       "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": null
+    },
+    "exit_requirements": {
+      "REGION_MOONLIGHT_MANSION/ROOM_2_HUB": {
+        "all": ["can_fly", {"item": "Rainbow Route East - Hub Connection"}]
+      },
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": {"item": "Peppermint Palace East - Hub Connection"}
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS": {
@@ -33,7 +43,7 @@
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_MIDDLE_PLATFORMS": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": null,
-      "REGION_CANDY_CONSTELLATION/ROOM_9_HUB": null
+      "REGION_CANDY_CONSTELLATION/ROOM_9_HUB": {"item": "Candy Constellation - Hub Connection"}
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1": {
@@ -81,7 +91,11 @@
       "REGION_CARROT_CASTLE/ROOM_5_HUB"
     ],
     "exit_requirements": {
-      "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1": "CanPoundPegs"
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {"item": "Rainbow Route South - Hub Connection"},
+      "REGION_CANDY_CONSTELLATION/ROOM_9_HUB": {"item": "Candy Constellation - Hub Connection"},
+      "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1": "CanPoundPegs",
+      "REGION_PEPPERMINT_PALACE/ROOM_7_15": {"item": "Peppermint Palace East - Hub Connection"},
+      "REGION_CARROT_CASTLE/ROOM_5_HUB": {"item": "Rainbow Route West - Hub Connection"}
     },
     "room_sanity": {
       "included": true,
@@ -759,6 +773,11 @@
       "REGION_MOONLIGHT_MANSION/ROOM_2_02": null,
       "REGION_MOONLIGHT_MANSION/ROOM_2_03": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_fly"
+    },
+    "exit_requirements": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
+        "all": ["can_fly", {"item": "Moonlight Mansion - Hub Connection"}]
+      }
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1": {
@@ -1348,6 +1367,11 @@
       "REGION_RADISH_RUINS/ROOM_8_BOSS",
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
     ],
+    "exit_requirements": {
+      "REGION_RADISH_RUINS/ROOM_8_GOAL_2": {"item": "Cabbage Cavern West - Hub Connection"},
+      "REGION_RADISH_RUINS/ROOM_8_BOSS": {"item": "Cabbage Cavern West - Hub Connection"},
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": {"item": "Cabbage Cavern Center - Hub Connection"}
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961095,
@@ -1932,6 +1956,10 @@
       "REGION_PEPPERMINT_PALACE/ROOM_7_01",
       "REGION_PEPPERMINT_PALACE/ROOM_7_17"
     ],
+    "exit_requirements": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_01": {"item": "Carrot Castle - Hub Connection"},
+      "REGION_PEPPERMINT_PALACE/ROOM_7_17": {"item": "Carrot Castle - Hub Connection"}
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961126,
@@ -3015,6 +3043,9 @@
       "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2",
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
     ],
+    "exit_requirements": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": {"item": "Peppermint Palace East - Hub Connection"}
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961199,
@@ -3197,6 +3228,9 @@
       "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
       "REGION_RADISH_RUINS/ROOM_8_22"
     ],
+    "exit_requirements": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {"item": "Radish Ruins - Hub Connection"}
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961225,
@@ -3210,6 +3244,9 @@
       "REGION_RADISH_RUINS/ROOM_8_14",
       "REGION_RADISH_RUINS/ROOM_8_CHEST_2"
     ],
+    "exit_requirements": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {"item": "Radish Ruins - Hub Connection"}
+    },
     "room_sanity": {
       "included": true,
       "location_id": 3961229,
@@ -3594,6 +3631,7 @@
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
     ],
     "exit_requirements": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": {"item": "Candy Constellation - Hub Connection"},
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1": "CanPoundPegs",
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3": "CanPoundPegs"
     },

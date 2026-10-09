@@ -10,7 +10,7 @@ import pytest
 from BaseClasses import ItemClassification
 
 from .. import KirbyAmWorld
-from ..data import LocationCategory, data, load_json_data
+from ..data import BASE_OFFSET, LocationCategory, data, load_json_data
 from ..items import get_item_classification
 from ..locations import KirbyAmLocation
 from ..options import OneHitMode, RandomizeShards
@@ -173,6 +173,35 @@ def test_consumable_filler_item_ids_are_stable() -> None:
     assert labels_to_ids["Life Wipeout Trap"] == 3860036
     assert "2 Up" not in labels_to_ids
     assert "3 Up" not in labels_to_ids
+
+
+def test_hub_connection_item_ids_match_native_door_order() -> None:
+    contract = load_json_data("hub_switch_contract.json")
+    entries = sorted(contract["entries"], key=lambda entry: int(entry["native_world_map_door_index"]))
+    assert len(entries) == 15
+
+    for door_index, entry in enumerate(entries, start=1):
+        door_name = str(entry["native_world_map_door_name"]).removeprefix("WORLDMAP_")
+        item_key = f"HUB_CONNECTION_{door_name}"
+        item_id = data.item_key_to_id[item_key]
+        item = data.items[item_id]
+
+        assert item.item_id == BASE_OFFSET + 40 + door_index
+        assert item.label == f"{door_name.replace('_', ' ').title()} - Hub Connection"
+        assert item.classification == ItemClassification.progression
+        assert {"HubConnections", "Progression", "Unique"} <= set(item.tags)
+
+
+def test_hub_connection_items_are_in_the_randomized_progression_pool() -> None:
+    world, _locations = _build_world_for_create_items(RandomizeShards.option_completely_random)
+
+    world.create_items()
+
+    expected_ids = {
+        item.item_id for item in data.items.values() if "HubConnections" in item.tags
+    }
+    pooled_ids = {item.code for item in world.multiworld.itempool if item.code is not None}
+    assert expected_ids <= pooled_ids
 
 
 def test_ability_unlock_items_are_generated_from_abilities_json() -> None:

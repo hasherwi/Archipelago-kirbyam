@@ -73,11 +73,15 @@ def _validate_logic_requirement(requirement: Any, *, context: str) -> None:
             return
         raise ValueError(f"{context} requirement tokens must not be empty")
     if not isinstance(requirement, dict) or len(requirement) != 1:
-        raise TypeError(f"{context} requirement must be null, a token, or one all/any object")
+        raise TypeError(f"{context} requirement must be null, a token, an item, or one all/any object")
 
     operator, operands = next(iter(requirement.items()))
+    if operator == "item":
+        if not isinstance(operands, str) or not operands:
+            raise TypeError(f"{context} item requirement must name a non-empty item label")
+        return
     if operator not in {"all", "any"}:
-        raise ValueError(f"{context} requirement operator must be 'all' or 'any', got {operator!r}")
+        raise ValueError(f"{context} requirement operator must be 'item', 'all', or 'any', got {operator!r}")
     if not isinstance(operands, list) or not operands:
         raise TypeError(f"{context} requirement {operator!r} operands must be a non-empty list")
     for operand in operands:

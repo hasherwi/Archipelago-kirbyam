@@ -401,6 +401,7 @@ async def test_client_game_watcher_logs_starting_color_once_after_initial_ready_
     }
     mock_bizhawk_context.server = SimpleNamespace(socket=SimpleNamespace(closed=False))
     mock_bizhawk_context.items_received = []
+    client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
     mock_bizhawk_context.bizhawk_ctx = object()
 
     with (

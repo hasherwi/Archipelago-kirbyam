@@ -26,7 +26,7 @@ Each poll computes mapped AP location IDs and sends LocationChecks for IDs not y
 | MINOR_CHEST | Exact source-pointer event ring | payload hook ap_on_collect_small_chest() records the source pointer and native persistence bit; native reward callsites remain intact | _poll_minor_chest_locations() delegates to _poll_minor_chest_event_locations() |
 | VITALITY_CHEST | AP_VITALITY_CHEST_FLAGS transport bitfield | payload hook ap_on_collect_vitality_chest() | _poll_vitality_chest_locations() |
 | SOUND_PLAYER_CHEST | AP_SOUND_PLAYER_CHEST_FLAGS transport bitfield | payload hook ap_on_collect_sound_player_chest() | _poll_sound_player_chest_locations() |
-| HUB_SWITCH | AP_HUB_SWITCH_FLAGS transport bitfield | payload hook ap_on_world_map_unlock_call() and world-props sync helpers | _poll_hub_switch_locations() |
+| HUB_SWITCH | AP_HUB_SWITCH_FLAGS transport bitfield | payload hook records physical switch activations; world-props sync excludes doors owned by Hub Connection items | _poll_hub_switch_locations() |
 | AREA_VISIT | Native gVisitedDoors bit-15 interpreted via doorsIdx -> area mapping | native game room-visit state | _poll_area_visit_locations() |
 | ROOM_SANITY | Native gVisitedDoors bit-15 interpreted directly by doorsIdx | native game room-visit state | _poll_room_sanity_locations() |
 | GOAL | Native AI state signal + AP checked location state | native gameplay state + client-side goal option | _maybe_report_goal() |

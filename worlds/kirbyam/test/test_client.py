@@ -38,6 +38,11 @@ def _load_world_version_from_manifest() -> str:
 WORLD_VERSION = _load_world_version_from_manifest()
 
 
+def _mark_received_item_history_ready(client, ctx):
+    """Model a complete server ReceivedItems replay for watcher tests."""
+    client.on_package(ctx, "ReceivedItems", {"index": 0})
+
+
 def _run_abilities_command(ctx):
     processor_cls = _build_kirbyam_command_processor(BizHawkClientCommandProcessor)
     processor = processor_cls(ctx)
@@ -1863,6 +1868,126 @@ async def test_deliver_items_resyncs_after_save_loss(mock_bizhawk_context):
         assert client._delivery_pending is True
         written = mock_write.await_args.args[1]
         assert written[0][1] == int(3860002).to_bytes(4, 'little')
+
+
+@pytest.mark.asyncio
+async def test_hub_connection_ownership_sync_uses_complete_received_item_history(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.items_received = [
+        Mock(item=3860041, player=1),  # Native door index 1 -> mask bit 1.
+        Mock(item=3860042, player=2),  # Remote items still belong to this recipient.
+        Mock(item=3860055, player=1),  # Native door index 15 -> mask bit 15.
+        Mock(item=3860001, player=1),  # Non-connection item is ignored.
+    ]
+    client._notification_settings_loaded = True
+    client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
+
+    with patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+
+    mask = (1 << 1) | (1 << 2) | (1 << 15)
+    mock_write.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        [(data.transport_ram_addresses["hub_connection_item_mask"], mask.to_bytes(4, "little"), "System Bus")],
+    )
+
+
+@pytest.mark.asyncio
+async def test_hub_connection_ownership_waits_for_current_connection_item_history(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._notification_settings_loaded = True
+    mask_addr = data.transport_ram_addresses["hub_connection_item_mask"]
+
+    with patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        # slot_data and an empty item list are not enough to establish that
+        # this socket's server history is empty; Connected/index zero is still pending.
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+        mock_write.assert_awaited_once_with(
+            mock_bizhawk_context.bizhawk_ctx,
+            [(mask_addr, (0xFFFFFFFF).to_bytes(4, "little"), "System Bus")],
+        )
+
+        mock_bizhawk_context.items_received = [Mock(item=3860041, player=1)]
+        client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+        assert mock_write.await_args.args[1] == [(mask_addr, (1 << 1).to_bytes(4, "little"), "System Bus")]
+
+
+@pytest.mark.asyncio
+async def test_empty_index_zero_snapshot_marks_known_empty_inventory_ready(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._notification_settings_loaded = True
+    mock_bizhawk_context.items_received = []
+
+    # Keep accepting an explicit empty index-zero snapshot from compatible
+    # servers; the standard host instead omits ReceivedItems for this case.
+    client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0, "items": []})
+
+    assert client._hub_connection_item_history_ready(mock_bizhawk_context) is True
+    with patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+
+    assert mock_write.await_args.args[1] == [
+        (data.transport_ram_addresses["hub_connection_item_mask"], (0).to_bytes(4, "little"), "System Bus")
+    ]
+
+
+@pytest.mark.asyncio
+async def test_hub_connection_reconnect_clears_mask_until_index_zero_replay(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._notification_settings_loaded = True
+    mask_addr = data.transport_ram_addresses["hub_connection_item_mask"]
+    mock_bizhawk_context.items_received = [Mock(item=3860041, player=1)]
+    client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
+
+    with patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+        old_socket = mock_bizhawk_context.server.socket
+        mock_bizhawk_context.server.socket = Mock(closed=False)
+        mock_bizhawk_context.items_received = []
+
+        # The new socket must not inherit the old connection's complete mask.
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+        assert mock_write.await_args.args[1] == [(mask_addr, (0xFFFFFFFF).to_bytes(4, "little"), "System Bus")]
+        assert client._hub_connection_item_history_ready(mock_bizhawk_context) is False
+
+        mock_bizhawk_context.items_received = [Mock(item=3860055, player=1)]
+        client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
+        await client._sync_hub_connection_item_ownership(mock_bizhawk_context)
+        assert mock_write.await_args.args[1] == [(mask_addr, (1 << 15).to_bytes(4, "little"), "System Bus")]
+        assert client._hub_connection_item_history_ready(mock_bizhawk_context) is True
+        assert old_socket is not mock_bizhawk_context.server.socket
+
+
+@pytest.mark.asyncio
+async def test_game_watcher_waits_for_received_item_history_before_polling(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._notification_settings_loaded = True
+
+    with patch.object(client, "_load_debug_settings"), \
+         patch.object(client, "_log_slot_metadata_once"), \
+         patch.object(client, "_sync_death_link_setting", new_callable=AsyncMock), \
+         patch.object(client, "_sync_enemy_copy_ability_runtime_config", new_callable=AsyncMock), \
+         patch.object(client, "_sync_challenge_runtime_config", new_callable=AsyncMock), \
+         patch.object(client, "_runtime_gameplay_state", new_callable=AsyncMock) as mock_runtime_state, \
+         patch.object(client, "_deliver_items", new_callable=AsyncMock) as mock_deliver_items, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+        await client.game_watcher(mock_bizhawk_context)
+
+    assert mock_write.await_args.args[1] == [
+        (
+            data.transport_ram_addresses["hub_connection_item_mask"],
+            (0xFFFFFFFF).to_bytes(4, "little"),
+            "System Bus",
+        )
+    ]
+    mock_runtime_state.assert_not_awaited()
+    mock_deliver_items.assert_not_awaited()
 
 
 @pytest.mark.asyncio
@@ -4206,6 +4331,7 @@ async def test_game_watcher_recovers_locally_from_transport_errors(
     """KirbyAM's shipped handler should absorb transient BizHawk disconnects without crashing the watcher."""
     client = KirbyAmClient()
     client.initialize_client()
+    _mark_received_item_history_ready(client, mock_bizhawk_context)
     client._watcher_server_ready = True
     client._ram_state_loaded = True
     client._delivery_pending = True
@@ -4232,6 +4358,7 @@ async def test_game_watcher_reloads_state_after_transport_recovery(mock_bizhawk_
     """After a transport error, the next successful tick should reload RAM-backed state and clear recovery flags."""
     client = KirbyAmClient()
     client.initialize_client()
+    _mark_received_item_history_ready(client, mock_bizhawk_context)
     client._watcher_server_ready = True
     client._watcher_requires_bizhawk_resync = True
     client._last_watcher_transport_error = "Connection timed out"
@@ -4357,6 +4484,7 @@ async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_biz
     """First watcher tick after AP session readiness should reset transient reconnect state and log once."""
     client = KirbyAmClient()
     client.initialize_client()
+    _mark_received_item_history_ready(client, mock_bizhawk_context)
 
     client._last_runtime_gate_reason = "non_gameplay_cutscene"
     client._last_shard_poll_log = ("resend", (1,), ())
@@ -4652,6 +4780,7 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
     """In non-gameplay state, watcher defers location/boss polling and new mailbox writes."""
     client = KirbyAmClient()
     client.initialize_client()
+    _mark_received_item_history_ready(client, mock_bizhawk_context)
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock) as mock_load, \
@@ -4686,6 +4815,7 @@ async def test_game_watcher_polls_tutorial_room_color_and_world_map_chest_withou
     """Tutorial color and World Map chest polling remain narrow while gameplay stays deferred."""
     client = KirbyAmClient()
     client.initialize_client()
+    _mark_received_item_history_ready(client, mock_bizhawk_context)
     client._watcher_server_ready = True
     client._ram_state_loaded = True
 
@@ -4781,6 +4911,7 @@ async def test_game_watcher_emits_pause_then_resume_popups_on_transition(mock_bi
     """Watcher should emit one pause and one resume popup across gameplay gate transitions."""
     client = KirbyAmClient()
     client.initialize_client()
+    _mark_received_item_history_ready(client, mock_bizhawk_context)
 
     with ExitStack() as stack:
         mock_gate = stack.enter_context(
@@ -4826,6 +4957,7 @@ async def test_game_watcher_dedupes_pause_popup_while_non_gameplay_reason_change
     """Pause popup should emit once while deferred, even if defer reason changes."""
     client = KirbyAmClient()
     client.initialize_client()
+    _mark_received_item_history_ready(client, mock_bizhawk_context)
 
     with ExitStack() as stack:
         mock_gate = stack.enter_context(
@@ -4854,6 +4986,7 @@ async def test_game_watcher_dedupes_pause_popup_while_non_gameplay_reason_change
 async def test_game_watcher_emits_file_only_runtime_gate_logs(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
+    _mark_received_item_history_ready(client, mock_bizhawk_context)
 
     with patch.object(client, '_runtime_gameplay_state', new_callable=AsyncMock) as mock_gate, \
          patch.object(client, '_load_persistent_state', new_callable=AsyncMock), \
@@ -4877,6 +5010,7 @@ async def test_game_watcher_emits_file_only_runtime_gate_logs(mock_bizhawk_conte
 async def test_game_watcher_emits_runtime_gate_logs_file_only(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
+    _mark_received_item_history_ready(client, mock_bizhawk_context)
 
     with ExitStack() as stack:
         mock_gate = stack.enter_context(

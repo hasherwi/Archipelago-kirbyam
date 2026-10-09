@@ -2,6 +2,7 @@
 # TODO(typing): keep mypy enabled for CI overall while this legacy client module
 # is incrementally migrated from dynamic AP/BizHawk structures to strict types.
 
+import asyncio
 import logging
 import random
 import re
@@ -16,7 +17,7 @@ import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
 from .colors import choose_different_kirby_color
-from .data import LocationCategory, data, format_room_region_label, load_json_data
+from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
 from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
@@ -140,6 +141,11 @@ _SHARD_ITEM_ID_TO_BIT: dict[int, int] = {
     item.item_id: _BOSS_DEFEAT_LABEL_TO_BIT[item.label.split(" - ", 1)[0].strip().lower()]
     for item in data.items.values()
     if "Shards" in item.tags and item.label.split(" - ", 1)[0].strip().lower() in _BOSS_DEFEAT_LABEL_TO_BIT
+}
+_HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX: dict[int, int] = {
+    item.item_id: item.item_id - (BASE_OFFSET + 40)
+    for item in data.items.values()
+    if item.item_id is not None and "HubConnections" in item.tags
 }
 _TRAP_ITEM_IDS: frozenset[int] = frozenset(
     item.item_id
@@ -472,6 +478,13 @@ class KirbyAmClient(BizHawkClient):
         self._watcher_server_ready: bool = False
         self._watcher_requires_bizhawk_resync: bool = False
         self._last_watcher_transport_error: str | None = None
+        # A live slot_data object and old items_received list can survive a
+        # reconnect. Wait until the Connected packet batch has drained: a
+        # non-empty inventory is replayed in that batch, while an omitted
+        # ReceivedItems packet means the server's inventory is empty.
+        self._hub_connection_received_items_ready: bool = False
+        self._hub_connection_received_items_socket: object | None = None
+        self._hub_connection_unknown_mask_socket: object | None = None
 
         # Poll diagnostics de-duplication (avoid per-tick log spam)
         self._last_shard_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
@@ -1652,6 +1665,9 @@ class KirbyAmClient(BizHawkClient):
             self._watcher_server_ready = False
             self._watcher_requires_bizhawk_resync = False
             self._last_watcher_transport_error = None
+            self._hub_connection_received_items_ready = False
+            self._hub_connection_received_items_socket = None
+            self._hub_connection_unknown_mask_socket = None
             self._death_link_enabled = None
             self._incoming_death_link_pending = False
             self._last_incoming_death_link_time = None
@@ -1675,6 +1691,13 @@ class KirbyAmClient(BizHawkClient):
             if self._watcher_requires_bizhawk_resync:
                 self._reset_reconnect_transient_state()
                 self._watcher_requires_bizhawk_resync = False
+
+            # Restore the payload's full item-ownership view before checks or delivery.
+            await self._sync_hub_connection_item_ownership(ctx)
+            if not self._hub_connection_item_history_ready(ctx):
+                # Wait for the current connection's complete ReceivedItems
+                # replay. Slot data may still be present from the old session.
+                return
 
             self._log_starting_kirby_color_config_once(ctx)
 
@@ -2626,6 +2649,70 @@ class KirbyAmClient(BizHawkClient):
         if item_value is None or player_value is None:
             return None
         return item_value, player_value
+
+    async def _sync_hub_connection_item_ownership(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        """Send the full received-item door mask before payload checks or delivery."""
+        mask_addr = self._transport_addr("hub_connection_item_mask")
+        bizhawk_ctx = getattr(ctx, "bizhawk_ctx", None)
+        if mask_addr is None or not callable(getattr(bizhawk_ctx, "_send_message", None)):
+            return
+
+        server = getattr(ctx, "server", None)
+        socket = getattr(server, "socket", None)
+        if not self._hub_connection_item_history_ready(ctx):
+            # Clear any mask left in EWRAM by the previous connection. The
+            # payload treats this sentinel as unknown and waits for a complete
+            # ReceivedItems index-zero replay before applying door ownership.
+            if socket is not None and self._hub_connection_unknown_mask_socket is not socket:
+                await bizhawk.write(
+                    ctx.bizhawk_ctx,
+                    [(mask_addr, (0xFFFFFFFF).to_bytes(4, "little"), "System Bus")],
+                )
+                self._hub_connection_unknown_mask_socket = socket
+            return
+
+        item_mask = 0
+        for network_item in getattr(ctx, "items_received", ()):
+            item_fields = self._extract_delivery_item_fields(network_item)
+            if item_fields is None:
+                continue
+            door_index = _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX.get(item_fields[0])
+            if door_index is not None and 1 <= door_index <= 15:
+                item_mask |= 1 << door_index
+
+        await bizhawk.write(
+            ctx.bizhawk_ctx,
+            [(mask_addr, item_mask.to_bytes(4, "little"), "System Bus")],
+        )
+        self._hub_connection_unknown_mask_socket = socket
+
+    def _hub_connection_item_history_ready(self, ctx: KirbyAmBizHawkClientContext) -> bool:
+        """Whether the current socket's item history is known, including a known-empty history."""
+        server = getattr(ctx, "server", None)
+        socket = getattr(server, "socket", None)
+        return bool(
+            socket is not None
+            and not getattr(socket, "closed", True)
+            and self._hub_connection_received_items_ready
+            and self._hub_connection_received_items_socket is socket
+        )
+
+    def _confirm_empty_received_item_history(self, ctx: KirbyAmBizHawkClientContext, socket: object) -> None:
+        """Treat an omitted ReceivedItems packet in the completed Connect batch as empty."""
+        server = getattr(ctx, "server", None)
+        current_socket = getattr(server, "socket", None)
+        if current_socket is not socket or getattr(socket, "closed", True):
+            return
+        if self._hub_connection_item_history_ready(ctx):
+            # A ReceivedItems index-zero packet in the same batch already won.
+            return
+
+        # CommonClient keeps the prior socket's list until the next index-zero
+        # replay. The current Connect batch contained no replay, so clear that
+        # stale copy before the watcher writes an ownership mask.
+        ctx.items_received = []
+        self._hub_connection_received_items_socket = socket
+        self._hub_connection_received_items_ready = True
 
     async def _persist_u32(self, ctx: KirbyAmBizHawkClientContext, key: str, value: int) -> None:
         """Persist a 32-bit value to RAM by address key."""
@@ -4146,6 +4233,36 @@ class KirbyAmClient(BizHawkClient):
     def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict) -> None:
         if not self._notification_settings_loaded:
             self._load_notification_settings(ctx)
+        if cmd == "Connected":
+            server = getattr(ctx, "server", None)
+            socket = getattr(server, "socket", None)
+            self._hub_connection_received_items_ready = False
+            self._hub_connection_received_items_socket = None
+            if socket is not None and not getattr(socket, "closed", True):
+                try:
+                    # CommonClient processes every packet from one websocket
+                    # frame before the event loop runs this callback. Standard
+                    # servers include ReceivedItems in the same Connect batch
+                    # when the history is non-empty; an omission means empty.
+                    asyncio.get_running_loop().call_soon(
+                        self._confirm_empty_received_item_history, ctx, socket
+                    )
+                except RuntimeError:
+                    # The package callback normally runs on the client loop.
+                    # If called synchronously by a host/test harness, leave the
+                    # history unknown rather than infer emptiness too early.
+                    pass
+        elif cmd == "ReceivedItems" and args.get("index") == 0:
+            # CommonClient calls this after it has reset and populated
+            # ctx.items_received from the server's complete inventory replay.
+            server = getattr(ctx, "server", None)
+            socket = getattr(server, "socket", None)
+            if socket is not None and not getattr(socket, "closed", True):
+                self._hub_connection_received_items_socket = socket
+                self._hub_connection_received_items_ready = True
+            else:
+                self._hub_connection_received_items_socket = None
+                self._hub_connection_received_items_ready = False
         if cmd == "Bounced":
             self._queue_incoming_death_link(args)
         if cmd == "PrintJSON":

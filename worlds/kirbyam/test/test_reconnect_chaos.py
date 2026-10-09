@@ -53,6 +53,7 @@ async def test_reconnect_chaos_item_delivery_resumes_without_duplicate_first_ite
         Mock(item=item1, player=1),
         Mock(item=item2, player=1),
     ]
+    client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
 
     id_addr = data.transport_ram_addresses["incoming_item_id"]
 
@@ -84,7 +85,8 @@ async def test_reconnect_chaos_item_delivery_resumes_without_duplicate_first_ite
         await client.game_watcher(mock_bizhawk_context)
 
         # Cycle 3 (reconnected): ACK first item.
-        mock_bizhawk_context.server.socket.closed = False
+        mock_bizhawk_context.server.socket = Mock(closed=False)
+        client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
         mock_read.return_value = [
             (0).to_bytes(4, 'little'),
             (1).to_bytes(4, 'little'),
@@ -123,6 +125,7 @@ async def test_reconnect_chaos_goal_reporting_is_idempotent_across_cycles(
     """Addressless goal flow should send CLIENT_GOAL once, with no duplicate status on later reconnects."""
     client = KirbyAmClient()
     client.initialize_client()
+    client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
 
     mock_bizhawk_context.slot_data["goal"] = 0
     mock_bizhawk_context.checked_locations = set()
@@ -166,7 +169,8 @@ async def test_reconnect_chaos_goal_reporting_is_idempotent_across_cycles(
         await client.game_watcher(mock_bizhawk_context)
 
         # Cycle 3: reconnected; no duplicate status should be emitted.
-        mock_bizhawk_context.server.socket.closed = False
+        mock_bizhawk_context.server.socket = Mock(closed=False)
+        client.on_package(mock_bizhawk_context, "ReceivedItems", {"index": 0})
         await client.game_watcher(mock_bizhawk_context)
 
         # Cycle 4: another reconnect-safe watcher run should not send duplicate status.

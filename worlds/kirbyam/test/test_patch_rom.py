@@ -128,6 +128,7 @@ def test_patch_preserves_native_spray_paint_reward_callsite() -> None:
         "vitality_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
         "sound_player_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
         "hub_switch_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "hub_switch_init_state_hook_bl_bytes": b"\x00\x00\x00\x00",
         "small_switch_effect_hook_bl_bytes": b"\x00\x00\x00\x00",
     }
 
@@ -150,6 +151,75 @@ def test_patch_preserves_native_spray_paint_reward_callsite() -> None:
 
 def test_big_switch_unlock_call_offset_matches_verified_hook_site() -> None:
     assert patch_rom.BIG_SWITCH_UNLOCK_CALL_OFFSET == 0x00039EEE
+
+
+def test_big_switch_init_state_lookup_callsite_matches_verified_target() -> None:
+    # sub_0811938C (asm/big_small_switch.s) initializes the Big Switch and
+    # reads its physical-check state at 0x081193C4 (ROM offset 0x1193C4).
+    assert patch_rom.BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET == 0x001193C4
+    assert patch_rom.ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR == 0x08002888
+
+    offset = patch_rom.BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET
+    rom = bytearray(offset + 4)
+    rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(
+        0x08000000 + offset,
+        patch_rom.ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR,
+    )
+    original = patch_rom.validate_thumb_bl_callsite_target(
+        rom,
+        offset,
+        "hub switch initialization state lookup",
+        patch_rom.ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR,
+    )
+    assert original == rom[offset:offset + 4]
+
+
+def test_door_to_hub_init_state_lookup_is_separate_and_left_native() -> None:
+    # sub_0802AD00 in special_doors.c activates the physical door from this
+    # state. The hook belongs only to sub_0811938C's switch initializer.
+    assert patch_rom.DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET == 0x0002AD24
+    door_offset = patch_rom.DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET
+    switch_offset = patch_rom.BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET
+    native_target = patch_rom.ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR
+    switch_hook_target = 0x08100000
+    rom = bytearray(switch_offset + 4)
+    door_call = patch_rom.thumb_bl_bytes(0x08000000 + door_offset, native_target)
+    switch_call = patch_rom.thumb_bl_bytes(0x08000000 + switch_offset, native_target)
+    rom[door_offset:door_offset + 4] = door_call
+    rom[switch_offset:switch_offset + 4] = switch_call
+
+    hook_bl_bytes = {
+        "main_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "boss_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "minor_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "big_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "vitality_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "sound_player_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "hub_switch_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "hub_switch_init_state_hook_bl_bytes": patch_rom.thumb_bl_bytes(
+            0x08000000 + switch_offset,
+            switch_hook_target,
+        ),
+        "small_switch_effect_hook_bl_bytes": b"\x00\x00\x00\x00",
+    }
+
+    patch_rom.patch_rom_with_payload(
+        rom,
+        b"\x12",
+        hook_bl_bytes,
+        {},
+        [],
+        [],
+        {"starting_color_start_game_hook_target": 0x08100000},
+        0x08000000,
+    )
+
+    assert rom[door_offset:door_offset + 4] == door_call
+    patched_switch_target = patch_rom.decode_thumb_bl_target(
+        0x08000000 + switch_offset,
+        rom[switch_offset:switch_offset + 4],
+    )
+    assert patched_switch_target == switch_hook_target
 
 
 def test_small_switch_effect_call_offset_matches_verified_hook_site() -> None:
