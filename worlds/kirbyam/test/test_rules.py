@@ -537,9 +537,7 @@ def test_legacy_split_rooms_define_logical_subregion_metadata() -> None:
     assert room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_09"]["exits"] == [
         "REGION_CANDY_CONSTELLATION/ROOM_9_09"
     ]
-    assert room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_01"]["locations"] == [
-        "MINOR_CHEST_SPRAY_PAINT_06"
-    ]
+    assert room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_01"]["locations"] == ["MINOR_CHEST_SPRAY_PAINT_06"]
     assert "locations" not in room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_09"]
     assert rooms["REGION_CANDY_CONSTELLATION/ROOM_9_01"]["logical_exit_overrides"] == {
         "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": "ENTRY_FROM_9_01"
@@ -677,7 +675,9 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     assert kirby_data.locations["MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"].parent_region == (
         "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07"
     )
-    assert kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14"].locations == []
+    assert kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14"].locations == [
+        "MINOR_CHEST_MUSIC_NOTE_06"
+    ]
     assert kirby_data.regions[room_5_13_from_5_12].locations == []
     assert kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07"].locations == [
         "MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"

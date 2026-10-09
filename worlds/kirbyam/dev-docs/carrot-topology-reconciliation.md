@@ -3,7 +3,8 @@
 The existing lower 1-UP check at native source `0x008D3E88` was assigned to
 `ROOM_5_13__LOGIC__ENTRY_FROM_5_12`. Move it to `ENTRY_FROM_5_07`. Its location
 ID 3960606, source address and collection behavior stay unchanged. Music Sheet
-#6 remains dormant, with 64 active minor checks; no new route is added.
+#6 is now active in the verified upper `ENTRY_FROM_5_14` compartment as part
+of main's 65 physical checks. No new progression route is added.
 
 ## Evidence and scope
 

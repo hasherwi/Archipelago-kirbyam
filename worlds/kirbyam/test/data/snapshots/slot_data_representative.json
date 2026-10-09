@@ -675,6 +675,17 @@
         "SmallChest"
       ]
     },
+    "MINOR_CHEST_MUSIC_NOTE_06": {
+      "category": "MINOR_CHEST",
+      "label": "Carrot Castle 5-13 Upper - Music Sheet #6 Chest",
+      "location_id": 3960519,
+      "tags": [
+        "ExactEventLocation",
+        "MusicSheet",
+        "NativeRewardCollection",
+        "SmallChest"
+      ]
+    },
     "MINOR_CHEST_MUSIC_NOTE_07": {
       "category": "MINOR_CHEST",
       "label": "Candy Constellation 9-16 - Music Sheet #7 Chest",
@@ -3328,6 +3339,8 @@
       ]
     }
   },
+  "maximum_health": 10,
+  "minimum_health": 6,
   "no_extra_lives": false,
   "one_hit_mode": 0,
   "room_sanity": false,

@@ -37,7 +37,7 @@ All decomp links are pinned to katam commit
 
 ## Runtime contract
 
-The 64 active sources are exact matches in the same AP-owned source table. The generic
+The 65 active sources are exact matches in the same AP-owned source table. The generic
 chest hook records the source and preserves native chest flags. It marks only
 ordinary rewards 0..5 for delayed popup suppression. New Spray Paint interception
 uses the already-validated callsite 0xB1D0. Music Sheets use the existing 0xB264
@@ -45,8 +45,8 @@ Sound Player/Sheets wrapper. Unknown sources retain bounded native collection
 behavior. Collection reward fields remain unchanged, preserving their popups.
 
 Mailbox delivery uses the same tested C helpers as native-host contract tests.
-All 24 item IDs can OR their ownership bit and ACK normally, but only the 23
-items with active locations enter the generated pool. Replay is
+All 24 item IDs OR their ownership bit and ACK normally; all 24 matching
+items enter the generated pool once. Replay is
 idempotent and leaves unrelated bits untouched. A sheet never implicitly unlocks
 Sound Player; delivering any collection item never consumes a physical check.
 Existing one-shot chest persistence and all six ordinary consumable effects stay
@@ -115,11 +115,12 @@ These layouts and collision lookup semantics are in pinned
 [level.c](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/level.c), and
 [collision lookup](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c).
 
-## Music Sheet #6 remains deliberately deferred
+## Music Sheet #6 and the upper Carrot compartment
 
 Music Sheet #6 (location 3960519, item 3860219) has verified source 0x008D3E64,
 native room 734, and canonical manifest parent `REGION_CARROT_CASTLE/ROOM_5_13`.
-It remains native/dormant and excluded from the AP source table and pool.
+It is active in the upper `ENTRY_FROM_5_14` compartment, included in the
+AP-owned source table and item pool, preserving its historical identity.
 
 The physical compartment is now known: the USA state `5 - Carrot Castle/5 - 9
 Small Chest Music Sheet.State` (SHA-256
@@ -155,18 +156,16 @@ The lawful USA-ROM extraction is now complete on the Pi; see
 extractor. It confirms native 720 as current AP 5-14 and native 719 as current
 AP 5-07, with distinct upper/lower entries to native 734. Reconciliation of the
 historical AP topology, inbound spawn coordinates and actual gameplay routes
-remains necessary. Review that topology correction separately; do not change
-progression edges merely to make this item reachable. All 24 mailbox IDs remain
-supported in the meantime.
+remains a separate gameplay/logic investigation. The owner-approved v0.4
+starting-access premise includes the physical check without expanding progression
+edges; this is not a timed-route gameplay claim.
 
 ## Validation and release gate
 
-The Candy-only compartment update passes 750 KirbyAM tests (the known local
-socket-blocked hosting integration test is excluded), including real generation,
-source-table/native-C contracts, mailbox delivery, pool counts, and both isolated
-entry cases. ARM payload build, deterministic synthetic-image patch smoke,
-APWorld packaging, the modified collection-test type check, and lint pass. The
-committed base patch is unchanged; packaging is not a lawful-ROM rebuild.
+The consolidated candidate combines the current all-65 main baseline with the
+collection, lever, authority, and mGBA changes. Its base patch is rebuilt from
+the exact candidate source and the verified private USA ROM. Older branch test
+counts and patch hashes do not certify this integrated build.
 
 Automated tests cover every item/source pair, stable IDs, one item per pool,
 standard mailbox writes, exact physical checks, native grant interception,
@@ -175,8 +174,8 @@ of the Sound Player bit. ARM compilation validates the full payload and bridge.
 Dummy-ROM patch smoke tests prove patch wiring only, never game behavior.
 
 Before releasing:
-1. Rebuild the base patch using the supported, lawfully supplied USA ROM. The
-   previously committed base patch does not contain this source change.
+1. Freeze the candidate head and verify its rebuilt base patch and payload hashes
+   before runtime acceptance; do not reuse a patch from an earlier branch.
 2. In BizHawk, open one Spray Paint and one Music Sheet chest. Confirm exactly one
    AP check, original visuals, and no native collection unlock before AP receipt.
 3. Receive each item locally and remotely; inspect collection menus, receive a

@@ -44,4 +44,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     inventory = json.loads((Path(__file__).resolve().parents[1] / 'data/chest_recovery.json').read_text())
     verify(args.rom.read_bytes(), inventory)
-    print('Verified all 287 object lists: 84 unique chest flags, 79 mapped physical reward checks.')
+    print('Verified all 287 object lists: 84 unique chest flags, 80 mapped physical reward checks.')

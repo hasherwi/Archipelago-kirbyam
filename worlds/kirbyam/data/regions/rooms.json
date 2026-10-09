@@ -2210,7 +2210,10 @@
         "exits": [
           "REGION_CARROT_CASTLE/ROOM_5_14"
         ],
-        "events": []
+        "events": [],
+        "locations": [
+          "MINOR_CHEST_MUSIC_NOTE_06"
+        ]
       },
       "ENTRY_FROM_5_12": {
         "exits": [

@@ -12,7 +12,7 @@ def test_inventory_covers_all_unique_native_chests_and_excludes_non_checks():
     assert len(records) == 84
     assert {r['flag'] for r in records} == set(range(84))
     excluded = [r for r in records if r['location_key'] is None]
-    assert sorted(r['reward'] for r in excluded) == [46, 99, 99, 99, 99]
+    assert sorted(r['reward'] for r in excluded) == [99, 99, 99, 99]
     manifest = load_json_data('minor_chest_manifest.json')['entries']
     inventory = {int(r['source'], 0): r for r in records}
     for entry in manifest:
@@ -26,7 +26,8 @@ def test_inventory_covers_all_unique_native_chests_and_excludes_non_checks():
 @pytest.mark.parametrize('fresh_client', [False, True])
 async def test_saved_flags_recover_overflow_cold_boot_and_exit_before_ack(mock_bizhawk_context, fresh_client):
     ctx = mock_bizhawk_context
-    client = KirbyAmClient(); client.initialize_client()
+    client = KirbyAmClient()
+    client.initialize_client()
     rows = [r for r in load_json_data('chest_recovery.json')['records']
             if r['type'] == 128 and r['location_key']][:9]
     ids = {data.locations[r['location_key']].location_id for r in rows}
@@ -37,7 +38,8 @@ async def test_saved_flags_recover_overflow_cold_boot_and_exit_before_ack(mock_b
         await client._poll_saved_chest_locations(ctx)
         assert set(ctx.send_msgs.call_args.args[0][0]['locations']) == ids
         if fresh_client:
-            client = KirbyAmClient(); client.initialize_client()
+            client = KirbyAmClient()
+            client.initialize_client()
         # Saved state is sufficient: no volatile transport or pending observations.
         client._last_minor_chest_event_counter = 0
         await client._poll_saved_chest_locations(ctx)
@@ -50,7 +52,8 @@ async def test_saved_flags_recover_overflow_cold_boot_and_exit_before_ack(mock_b
 @pytest.mark.asyncio
 @pytest.mark.parametrize('category', ['MAP_CHEST', 'VITALITY_CHEST', 'SOUND_PLAYER_CHEST'])
 async def test_each_big_chest_family_recovers_without_reward_ownership(mock_bizhawk_context, category):
-    client = KirbyAmClient(); client.initialize_client()
+    client = KirbyAmClient()
+    client.initialize_client()
     ctx = mock_bizhawk_context
     ctx.server_locations = set(client._saved_chest_location_by_flag.values())
     rows = [r for r in load_json_data('chest_recovery.json')['records'] if r['location_key']
@@ -64,8 +67,9 @@ async def test_each_big_chest_family_recovers_without_reward_ownership(mock_bizh
 
 
 @pytest.mark.asyncio
-async def test_recovery_filters_inactive_levers_and_dormant_sheet(mock_bizhawk_context):
-    client = KirbyAmClient(); client.initialize_client()
+async def test_recovery_filters_inactive_locations_and_levers(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
     ctx = mock_bizhawk_context
     one_id = next(iter(client._saved_chest_location_by_flag.values()))
     ctx.server_locations = {one_id}
@@ -82,7 +86,8 @@ async def test_recovery_filters_inactive_levers_and_dormant_sheet(mock_bizhawk_c
 
 @pytest.mark.asyncio
 async def test_recovery_discards_cross_session_read(mock_bizhawk_context):
-    client = KirbyAmClient(); client.initialize_client()
+    client = KirbyAmClient()
+    client.initialize_client()
     ctx = mock_bizhawk_context
     ctx.server_locations = set(client._saved_chest_location_by_flag.values())
     async def switched(*args):

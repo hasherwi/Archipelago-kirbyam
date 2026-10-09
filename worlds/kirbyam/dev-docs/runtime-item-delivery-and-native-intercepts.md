@@ -54,3 +54,19 @@ worlds/kirbyam/client.py runs these every active gameplay tick:
 - _reconcile_native_map_ownership(): keeps native map bits aligned to AP-delivered maps and start_with_all_maps.
 
 These reconciliation passes are the final guardrails that interrupt native drift from save/load/cutscene edge cases.
+
+## Custom health range (Issue #778)
+
+Generation and the client share `health.py`. Only a supported prefix of the
+four existing unique Vitality Counter IDs is placed; native payload grants
+remain unchanged and replay-guarded. The client reuses the same native HP/max
+HP/vitality fields used by One-Hit Mode. It reconciles custom capacity only in
+the gameplay branch of the watcher and guards every write against the read
+snapshot. No new payload build, ROM offsets, or mailbox registers are needed.
+
+Before release, validate starts 1/6/8/10, zero/fewer/four counters, full and
+partial healing, damage/DeathLink, death/respawn, room transitions, reconnect,
+soft reset/save load, and the HP meter. Verify both One-Hit presets still
+override custom options. Known inherited limit: native health is observable
+until the next connected-client poll; offline custom enforcement is not
+implemented. Do not claim a Python pass validates those emulator paths.

@@ -95,9 +95,6 @@ def test_fixed_collection_identity_matches_exact_manifest_source(
     assert item.classification == ItemClassification.useful
     assert "Unique" in item.tags
     assert location.location_id == location_id
-    if location_key in {"MINOR_CHEST_MUSIC_NOTE_06"}:
-        assert location.source_rom_offset is None  # physical compartment known; AP mapping is unresolved
-        return
     assert location.default_item == item_id
     assert location.source_rom_offset == int(source["rom_offset"], 16)
     assert source["candidate_ap_room_keys"] == [location.parent_region.split("__LOGIC__", 1)[0]]
@@ -112,9 +109,9 @@ def test_fixed_collection_items_appear_once_without_changing_filler_capacity(sha
     world.create_items()
     counts = Counter(item.code for item in world.multiworld.itempool)
     assert {item_id: counts[item_id] for _, item_id, *_ in _COLLECTION_ITEMS} == {
-        item_id: (0 if item_id in {3860219} else 1) for _, item_id, *_ in _COLLECTION_ITEMS
+        item_id: 1 for _, item_id, *_ in _COLLECTION_ITEMS
     }
-    # New 23 locations consume exactly the 23 active unique useful items.
+    # All 24 fixed collections consume exactly their 24 unique useful items.
     assert len(world.multiworld.itempool) == sum(loc.item is None for loc in locations)
 
 
@@ -239,14 +236,15 @@ def test_collection_helpers_are_wired_to_real_payload_and_popup_preserves_regist
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("source_ptr", [0x088D3E64])
-async def test_deferred_collection_sources_never_report_ap_checks(mock_bizhawk_context, source_ptr: int) -> None:
+async def test_upper_carrot_collection_source_reports_historical_check(mock_bizhawk_context, source_ptr: int) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     ring = source_ptr.to_bytes(4, "little") + bytes(28)
     with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as read:
         read.return_value = [(1).to_bytes(4, "little"), ring]
         await client._poll_minor_chest_locations(mock_bizhawk_context)
-    mock_bizhawk_context.send_msgs.assert_not_awaited()
+    mock_bizhawk_context.send_msgs.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [3960519]}])
 
 
 @pytest.mark.parametrize("entry,reachable", [
@@ -279,8 +277,8 @@ def test_carrot_lower_chest_requires_verified_entry(entry: str, reachable: bool)
     state = CollectionState(multiworld)
     assert multiworld.get_location("MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02", 1).can_reach(state) is reachable
     assert not regions[parent].can_reach(state)
-    assert not any("MINOR_CHEST_MUSIC_NOTE_06" in data.regions[name].locations for name in names)
-    assert data.locations["MINOR_CHEST_MUSIC_NOTE_06"].source_rom_offset is None
+    assert multiworld.get_location("MINOR_CHEST_MUSIC_NOTE_06", 1).can_reach(state) is (entry == "ROOM_5_14")
+    assert data.locations["MINOR_CHEST_MUSIC_NOTE_06"].source_rom_offset == 0x008D3E64
 
 
 def test_carrot_compartment_assignment_matches_pinned_native_evidence() -> None:

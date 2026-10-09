@@ -95,7 +95,7 @@ def test_payload_suppresses_native_rewards_for_exact_ap_minor_chests() -> None:
         if location.get("category") == "MINOR_CHEST" and location.get("source_rom_offset")
     }
 
-    assert len(expected_sources) == 64
+    assert len(expected_sources) == 65
     assert payload_sources == expected_sources
     assert "AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER" in payload
     assert "ap_on_minor_chest_reward_popup" in payload

@@ -622,7 +622,12 @@
     "label": "Peppermint Palace 7-22 - Spray Paint #1 Chest",
     "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_22",
     "default_item": "SPRAY_PAINT_01",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960500,
     "source_rom_offset": "0x008C1ADC"
@@ -631,7 +636,12 @@
     "label": "Carrot Castle 5-16 - Spray Paint #2 Chest",
     "parent_region": "REGION_CARROT_CASTLE/ROOM_5_16",
     "default_item": "SPRAY_PAINT_02",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960501,
     "source_rom_offset": "0x008D3DD0"
@@ -640,7 +650,12 @@
     "label": "Candy Constellation 9-02 - Spray Paint #3 Chest",
     "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_02",
     "default_item": "SPRAY_PAINT_03",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960502,
     "source_rom_offset": "0x008C8AAC"
@@ -649,7 +664,12 @@
     "label": "Rainbow Route 1-28 - Spray Paint #4 Chest",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_28",
     "default_item": "SPRAY_PAINT_04",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960503,
     "source_rom_offset": "0x008B9FD8"
@@ -658,7 +678,12 @@
     "label": "Peppermint Palace 7-05 - Spray Paint #5 Chest",
     "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_05",
     "default_item": "SPRAY_PAINT_05",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960504,
     "source_rom_offset": "0x008BF610"
@@ -667,7 +692,12 @@
     "label": "Candy Constellation 9-Chest 2 - Spray Paint #6 Chest",
     "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_01",
     "default_item": "SPRAY_PAINT_06",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960505,
     "source_rom_offset": "0x008C5EA0"
@@ -676,7 +706,12 @@
     "label": "Olive Ocean 6-06 - Spray Paint #7 Chest",
     "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_06",
     "default_item": "SPRAY_PAINT_07",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960506,
     "source_rom_offset": "0x008CBDAC"
@@ -685,7 +720,12 @@
     "label": "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
     "parent_region": "REGION_CABBAGE_CAVERN/ROOM_3_14",
     "default_item": "SPRAY_PAINT_08",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960507,
     "source_rom_offset": "0x008CA520"
@@ -694,7 +734,12 @@
     "label": "Peppermint Palace 7-10 - Spray Paint #9 Chest",
     "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
     "default_item": "SPRAY_PAINT_09",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960508,
     "source_rom_offset": "0x008C0648"
@@ -703,7 +748,12 @@
     "label": "Radish Ruins 8-GOAL-1 - Spray Paint #10 Chest",
     "parent_region": "REGION_RADISH_RUINS/ROOM_8_GOAL_1",
     "default_item": "SPRAY_PAINT_10",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960509,
     "source_rom_offset": "0x008D02C0"
@@ -712,7 +762,12 @@
     "label": "Moonlight Mansion 2-07-UPPER-LEFT - Spray Paint #11 Chest",
     "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT",
     "default_item": "SPRAY_PAINT_11",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960510,
     "source_rom_offset": "0x008BD1B0"
@@ -721,7 +776,12 @@
     "label": "Cabbage Cavern 3-06 - Spray Paint #12 Chest",
     "parent_region": "REGION_CABBAGE_CAVERN/ROOM_3_06",
     "default_item": "SPRAY_PAINT_12",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960511,
     "source_rom_offset": "0x008CA0B8"
@@ -730,7 +790,12 @@
     "label": "Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest",
     "parent_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2",
     "default_item": "SPRAY_PAINT_13",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960512,
     "source_rom_offset": "0x008C54B0"
@@ -739,7 +804,12 @@
     "label": "Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest",
     "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
     "default_item": "SPRAY_PAINT_14",
-    "tags": ["SmallChest", "SprayPaint", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "SprayPaint",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960513,
     "source_rom_offset": "0x008BC114"
@@ -748,7 +818,12 @@
     "label": "Rainbow Route 1-39 - Music Sheet #1 Chest",
     "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_39",
     "default_item": "MUSIC_SHEET_01",
-    "tags": ["SmallChest", "MusicSheet", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "MusicSheet",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960514,
     "source_rom_offset": "0x008B5FA8"
@@ -757,7 +832,12 @@
     "label": "Peppermint Palace 7-06 - Music Sheet #2 Chest",
     "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_06",
     "default_item": "MUSIC_SHEET_02",
-    "tags": ["SmallChest", "MusicSheet", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "MusicSheet",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960515,
     "source_rom_offset": "0x008C026C"
@@ -766,7 +846,12 @@
     "label": "Cabbage Cavern 3-12 - Music Sheet #3 Chest",
     "parent_region": "REGION_CABBAGE_CAVERN/ROOM_3_12",
     "default_item": "MUSIC_SHEET_03",
-    "tags": ["SmallChest", "MusicSheet", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "MusicSheet",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960516,
     "source_rom_offset": "0x008C9478"
@@ -775,7 +860,12 @@
     "label": "Radish Ruins 8-22 - Music Sheet #4 Chest",
     "parent_region": "REGION_RADISH_RUINS/ROOM_8_22",
     "default_item": "MUSIC_SHEET_04",
-    "tags": ["SmallChest", "MusicSheet", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "MusicSheet",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960517,
     "source_rom_offset": "0x008D230C"
@@ -784,28 +874,40 @@
     "label": "Peppermint Palace 7-08 - Music Sheet #5 Chest",
     "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_08",
     "default_item": "MUSIC_SHEET_05",
-    "tags": ["SmallChest", "MusicSheet", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "MusicSheet",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960518,
     "source_rom_offset": "0x008BEF84"
   },
   "MINOR_CHEST_MUSIC_NOTE_06": {
-    "label": "Music Note #6",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-    "default_item": "SMALL_FOOD",
+    "label": "Carrot Castle 5-13 Upper - Music Sheet #6 Chest",
+    "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14",
+    "default_item": "MUSIC_SHEET_06",
     "tags": [
       "SmallChest",
-      "MusicSheet"
+      "MusicSheet",
+      "ExactEventLocation",
+      "NativeRewardCollection"
     ],
-    "bit_index": 106,
     "category": "MINOR_CHEST",
-    "location_id": 3960519
+    "location_id": 3960519,
+    "source_rom_offset": "0x008D3E64"
   },
   "MINOR_CHEST_MUSIC_NOTE_07": {
     "label": "Candy Constellation 9-16 - Music Sheet #7 Chest",
     "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_16",
     "default_item": "MUSIC_SHEET_07",
-    "tags": ["SmallChest", "MusicSheet", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "MusicSheet",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960520,
     "source_rom_offset": "0x008C86B8"
@@ -814,7 +916,12 @@
     "label": "Moonlight Mansion 2-17 - Music Sheet #8 Chest",
     "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_17",
     "default_item": "MUSIC_SHEET_08",
-    "tags": ["SmallChest", "MusicSheet", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "MusicSheet",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960521,
     "source_rom_offset": "0x008BBAF8"
@@ -823,7 +930,12 @@
     "label": "Cabbage Cavern 3-05 - Music Sheet #9 Chest",
     "parent_region": "REGION_CABBAGE_CAVERN/ROOM_3_05",
     "default_item": "MUSIC_SHEET_09",
-    "tags": ["SmallChest", "MusicSheet", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "MusicSheet",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960522,
     "source_rom_offset": "0x008C96E8"
@@ -832,7 +944,12 @@
     "label": "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest",
     "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2",
     "default_item": "MUSIC_SHEET_10",
-    "tags": ["SmallChest", "MusicSheet", "ExactEventLocation", "NativeRewardCollection"],
+    "tags": [
+      "SmallChest",
+      "MusicSheet",
+      "ExactEventLocation",
+      "NativeRewardCollection"
+    ],
     "category": "MINOR_CHEST",
     "location_id": 3960523,
     "source_rom_offset": "0x008CD2F4"

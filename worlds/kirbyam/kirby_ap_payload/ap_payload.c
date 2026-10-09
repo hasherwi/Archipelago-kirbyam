@@ -89,7 +89,7 @@ static const uint32_t AP_OWNED_MINOR_CHEST_SOURCE_PTRS[] = {
     0x088CA520u, 0x088CAF08u, 0x088CBDACu, 0x088CC458u,
     0x088CCEFCu, 0x088CD2F4u, 0x088CD464u, 0x088D02C0u,
     0x088D039Cu, 0x088D03E4u, 0x088D2234u, 0x088D230Cu,
-    0x088D39FCu, 0x088D3DD0u, 0x088D3E88u,
+    0x088D39FCu, 0x088D3DD0u, 0x088D3E64u, 0x088D3E88u,
 };
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.

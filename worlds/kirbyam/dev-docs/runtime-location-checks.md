@@ -8,7 +8,7 @@ All location polling runs in worlds/kirbyam/client.py from KirbyAmClient.game_wa
 
 1. Boss defeat
 2. Major chest
-3. Minor chest
+3. Saved physical chest recovery, then minor chest events
 4. Vitality chest
 5. Sound Player chest
 6. Hub switch
@@ -33,25 +33,57 @@ Each poll computes mapped AP location IDs and sends LocationChecks for IDs not y
 
 ## Minor chest disambiguation details
 
-Minor chest reporting uses one exact path: the event ring's source pointer must
-match the `source_rom_offset` of one active physical location. Native small chest
-and collectible bitfields are not used to infer location checks because the same
-bits can represent multiple physical chests. Nearby source-pointer offsets are
-not treated as aliases.
+All 65 physical USA small chests are active: 41 ordinary rewards, 14 Spray
+Paints, and 10 Music Sheets. Historical AP IDs remain stable. Every exact event
+must match a verified `source_rom_offset`; nearby pointers are not aliases.
+Music Sheet 6 is source `0x008D3E64`, native flag 81, reward 46, AP ID 3960519,
+in the upper Carrot 5-13 compartment entered from 5-14. The lower 1UP belongs
+to the separate entrance from 5-07.
 
-The USA-ROM scan found 65 physical `OBJ_SMALL_CHEST` records. 64 now
-use unique source pointers: 41 ordinary reward chests, 14 Spray Paint chests,
-and 9 Music Sheet chests. Candy Spray Paint #6 belongs only to the 9-01 entry
-compartment. Music Sheet #6 stays native/dormant pending Carrot topology reconciliation. The separate 19 `OBJ_BIG_CHEST` records retain their
-own location families. Collection IDs 3960500..3960523 preserve the original
-numbered collection identities, replacing only the placeholder room metadata.
+The eight-entry event ring provides prompt reporting. On counter rollback the
+client replays its retained window. Observed checks remain pending until server
+acknowledgment. Independently, `_poll_saved_chest_locations` reads the 16-byte
+native `chestFields` at `0x02038960` each gameplay poll. A complete scan of 287
+USA object lists establishes 84 unique flags (0..83): 65 small chests, 15 reward
+big chests, and four levers. `chest_recovery.json` maps the 80 reward chests;
+lever flags are excluded because they have item-owned semantics. Tutorial
+polling recovers only the tutorial World Map. Recovery filters active server
+locations and acknowledgments, and discards reads across session changes.
 
-PR #931 suppresses the delayed native consumable reward. Fixed collections
-are suppressed at their separate native collection calls, before the game saves
-the chest state; they leave the original popup sprite and animation untouched.
-Collection item receipt only grants ownership and never marks a chest collected.
-See [fixed collection integration](minor-chest-collection-items.md) for sources,
-item IDs, replay behavior, and outstanding runtime checks.
+Native chest flags are physical collection state, unlike reward ownership.
+A same-seed native save can recover an event overwritten while disconnected;
+unsaved collection lost by resetting before a native save cannot be recovered
+from the older save. Importing vanilla or other-seed saves is unsupported: the
+native save has no AP seed identity. This is not an exactly-once item-delivery
+or native-save-flush guarantee.
+
+Small-chest checks suppress native ordinary, paint, and music rewards. The
+AP-assigned reward is delivered separately; collection receipts grant ownership
+without marking a physical chest collected. See
+[fixed collection integration](minor-chest-collection-items.md).
+
+The physical inventory is reproducible with `tools/verify_chest_recovery.py`
+and an owner-provided unmodified USA ROM (SHA-1
+`274b102b6d940f46861a92b4e65f89a51815c12c`). Native collection/save semantics
+are cross-checked against [the pinned decompilation](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/chest.c)
+and its `src/treasures.c`. No ROM bytes are included in the repository.
+
+### v0.4.0 starting access
+
+All 65 checks are reachable in the current AP graph with no received AP items
+after native event sweeping. The native copy abilities Beam, Burning, Cutter,
+Mini, Stone, and Wheel remain ungated even with `ability_gating: true`; they
+are not six precollected AP items. The set intersects every current capability
+group, and capability rules remain permissive. No hub/area keys or new route
+requirements are introduced here. Physical traversal still requires playing
+the native game; this graph test is not a gameplay or timed-gate validation.
+
+The default enemy randomization mode is off. Optional shuffled/random modes
+can alter where abilities occur; in particular `ability_randomization_no_ability_weight:
+100` removes every participating enemy's grant, including Minny when its toggle
+is on. Statues remain a separate source. Therefore the ungated set alone does
+not establish a universal physical starting-access guarantee for every custom
+randomization setting. This existing option behavior is not changed here.
 
 ## Active-location filtering
 

@@ -205,7 +205,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | HUB_SWITCH_* | 3960400 - 3960414 | Hub big-switch checks mapped to `hub_switch_flags` bits 0..14 (bit 0 = Peppermint West, bit 11 = Moonlight; others sequential) |
 | LEVER_* | 3960415 - 3960418 | Physical lever checks sourced only from `lever_activation_flags` bits 0..3. Native chest bits are separate AP wall ownership and never imply a check. |
 | AREA_VISIT_* | 3960451 - 3960459 | First-visit checks for gameplay areas 1..9 (Rainbow Route through Candy Constellation), derived from first visited room per area via native `gVisitedDoors` |
-| MINOR_CHEST_SPRAY_PAINT_* / MINOR_CHEST_MUSIC_NOTE_* | 3960500 - 3960523 | 23 active fixed-collection checks with exact USA sources/rooms. Candy location 3960505 is in the 9-01 entry compartment; location 3960519 remains dormant pending Carrot topology reconciliation. All historical identities/IDs are preserved. |
+| MINOR_CHEST_SPRAY_PAINT_* / MINOR_CHEST_MUSIC_NOTE_* | 3960500 - 3960523 | 24 active fixed-collection checks with exact USA sources/rooms. Candy location 3960505 is in the 9-01 entry compartment; location 3960519 is in upper Carrot 5-13 entered from 5-14. All historical identities/IDs are preserved. |
 | MINOR_CHEST_* (verified ordinary small chests) | 3960566 - 3960606 | 41 ordinary item chests, each matched to one exact ROM object pointer and AP room. |
 | *Reserved/retired minor chest IDs* | 3960524 - 3960565 | Do not reuse historical minor-chest location IDs. |
 | ROOM_SANITY_* | 3961000+ | Room visit checks (`Room X-<room_code>`) keyed by native `doorsIdx` and polled from `gVisitedDoors[doorsIdx]` bit 15; includes designed goal/warp rooms |
@@ -240,6 +240,8 @@ Server → Client: ConnectionRefused | Connected
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the existing payload refreshes Kirby's live OBJ palette. Reconnect alone does not reroll the color.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
+- `minimum_health` (int): starting HP capacity (`1..10`, default `6`), applied by the connected client after the tutorial. This is not a current-HP floor. Ignored when One-Hit Mode is enabled.
+- `maximum_health` (int): final HP capacity (`1..10`, default `10`). Must be at least `minimum_health` and no more than four HP above it. The difference determines how many of the four unique Vitality Counter items are generated. Ignored when One-Hit Mode is enabled.
 - `one_hit_mode` (int): one-hit mode selection (`0=off`, `1=exclude_vitality_counters`, `2=include_vitality_counters`). When non-zero, Kirby's max HP is clamped to `vitality_counter + 1` during gameplay. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool (replaced by filler) so the cap stays at 1. In `include_vitality_counters` mode, Vitality Counter items remain in the pool and each one received raises the cap by 1.
 - `enable_traps` (bool): when true, trap items may appear in the randomized item pool.
 - `trap_fill_percentage` (int): percentage (`0..100`) of eligible filler slots that are replaced by trap items when `enable_traps` is true.
@@ -290,11 +292,18 @@ DeathLink runtime behavior contract:
 - During gameplay, the BizHawk client clamps `kirby_lives_native` to `0` so the player starts with zero extra lives and native/in-game life gains are overwritten.
 - Any `no_extra_lives` runtime diagnostics are emitted as file-only logs (`NoStream=True`).
 
-`one_hit_mode` runtime behavior contract:
+`minimum_health`, `maximum_health`, and `one_hit_mode` runtime behavior contract:
 - Generation removes all four Vitality Counter items from the non-filler item pool (replaced by filler) when `one_hit_mode == exclude_vitality_counters` (1). Vitality Chest locations are kept, but this mode does not guarantee location-specific filler placement on those chests.
 - In `exclude_vitality_counters` mode, filler selection also removes health-restoring filler (`Small Food`, `Energy Drink`, `Hunk of Meat`, `Max Tomato`) so randomized filler does not counteract the 1 HP challenge. If `no_extra_lives` is also enabled, `1 Up` is removed from that reduced filler pool as well.
 - Generation leaves the item pool unchanged when `one_hit_mode == include_vitality_counters` (2).
-- During gameplay, when `one_hit_mode != off`, the BizHawk client reads `kirby_vitality_counter_native` (`u16`) and enforces `desired_max_hp = vitality_counter + 1` (capped to `0x7F`) onto `kirby_max_hp_native` and `kirby_hp_native` for player 0's struct. In `exclude_vitality_counters` mode it additionally scrubs `kirby_vitality_counter_native` back to `0` every gameplay tick so AP vitality grants cannot persist.
+- `one_hit_mode: off` uses the configured `minimum_health`/`maximum_health` pair. The existing `exclude_vitality_counters` and `include_vitality_counters` presets override that pair to `1..1` and `1..5` respectively, preserving old YAML behavior.
+- With One-Hit Mode off, `1 <= minimum_health <= maximum_health <= 10` and `maximum_health - minimum_health <= 4` are required. Invalid pairs fail generation rather than silently altering the requested range. Ranges wider than four upgrades or above 10 HP need separate native/payload research.
+- Generation keeps the first `maximum - minimum` stable unique Vitality Counter IDs (`3860018..3860021`), each exactly once; unused counter slots receive filler/traps under the existing fill policy. All four vitality-chest locations remain. No new item IDs or duplicate replay-guarded counters are introduced.
+- During active gameplay, the connected BizHawk client bounds native vitality to `maximum - minimum` and sets player 0's capacity to `minimum + bounded_vitality`. Alive HP above that cap is clamped. When raising native capacity (for example, an 8 HP start over the native 6 HP start), the same increase is applied to alive HP, preserving the existing damage deficit. An already-correct cap does not heal on repeated polls. Dead/negative HP is never revived.
+- HP/cap/vitality writes are guarded by the exact read snapshot so an intervening hit, death, respawn, or item delivery is not overwritten. A failed guard waits for a fresh read on the next gameplay tick.
+- The default `6..10` range with One-Hit Mode off leaves native behavior untouched. Older slot data omitting both new keys resolves to the defaults; legacy One-Hit values still take precedence. Invalid health pairs received in slot data cause no health writes.
+- Health options reuse the existing native fields and payload vitality handling. There is no new mailbox ABI or ROM token. Enforcement requires a connected current client after the tutorial: native room/respawn/vitality paths can briefly restore `6 + vitality` before the next client poll, and disconnected play does not maintain custom limits. Runtime/HP-meter rendering validation remains required before release.
+- Custom `1..1` health also excludes healing filler; custom starts at 1 HP exclude Health Down Trap from selection just like legacy One-Hit presets.
 - Dead/negative HP states (`current_hp <= 0`) are preserved; only alive Kirby's HP is clamped.
 - Any `one_hit_mode` runtime diagnostics are emitted as file-only logs (`NoStream=True`).
 ```
@@ -491,22 +500,11 @@ Behavior note:
 4. **Recovery** (pending too long): client timeout path clears stale flag and retries same delivery index
 
 `debug_item_counter` reconciliation contract:
-- The payload increments this counter once per successfully applied request. The
-  persisted `delivered_item_index` also counts locally skipped receipts, so the
-  two values can legitimately differ.
-- Track that difference when skipping acknowledged consumables or malformed
-  entries, and restore it from the persisted index and physical count on reconnect.
-- A cleared pending mailbox acknowledges exactly its pending history index before
-  rewind handling. Never fast-forward unrelated history entries using a raw count.
-- Repeated polls before consumption retain the pending request, including when its
-  history index exceeds the physical count. Completed ACKs remain consumed on later polls.
-- Detect a real rollback against the previous physical count, discard the old
-  difference, and conservatively replay from the rolled-back count. Known consumable
-  ACKs are skipped again. An acknowledged u32 counter wrap is not a rollback.
-- Counters ahead of received history remain advisory; diagnostics must not starve
-  normal mailbox delivery or spam every poll.
-- This is not a durable transaction journal. Process loss between the native effect
-  and persistence of its client ACK remains an ambiguous consumable-delivery window.
+- The ROM counter counts applied mailbox requests; `delivered_item_index` counts AP history entries, including skipped session-acknowledged effects and malformed entries. They need not be equal.
+- Track the previous physical count and the history/count offset. Only a physical count regression resets that offset; skipping a history entry does not increment the ROM counter.
+- Consume a pending mailbox ACK at that request's history index before cursor reconciliation. A physical count cannot acknowledge unrelated history entries or erase a pending request just because skipped entries put the history index ahead.
+- Restore the persisted cursor together with the physical count. A stable count/history gap must not trigger repeated rewinds, skip logs, or fresh item writes.
+- Existing ahead-counter and missing-counter fallbacks remain supported. Session receipt tracking does not provide a durable journal across arbitrary client process loss.
 
 Research-first note for Issue #223:
 - Delivery remains gated only by the gameplay-active contract from Issue #56.
@@ -536,8 +534,7 @@ Receive-specific contract (Issue #73):
 - Receive notification is emitted only after mailbox ACK for the pending index.
 - Malformed/skipped `ReceivedItems` entries do not emit notifications.
 - Cursor fast-forward/rewind reconciliation without a pending delivery does not emit notifications.
-- A cleared pending flag and simultaneous ROM counter increment emit one notification
-  for that pending history entry, including after skipped receipts (Issue #269).
+- A cleared pending mailbox is acknowledged at its recorded history index, including when the physical count is lower because earlier receipts were skipped. A detected physical counter regression instead initiates replay under the existing persistent/transient item policy.
 
 Optional slot-data toggles (default: enabled when absent):
 - `enable_receive_notifications`
@@ -686,6 +683,16 @@ On client startup (cold boot):
 - **ROM Payload:** See `worlds/kirbyam/kirby_ap_payload/ap_payload.c`
 - **Test Address Validator:** See `worlds/kirbyam/tools/validate_addresses.py` (TBD)
 
+### Lever object and final ability guards (v0.4.0)
+
+Lever wall ownership is applied once to the live room counter by a lever-only
+object callback; native initialization handles already-owned walls on room entry.
+The physical lever remains usable if its wall item arrived first. No additional
+mailbox fields are used. The final native ability state callback also reapplies
+the gate/unlock masks after roulette or other late pending-ability writes. See
+[`lever-runtime-regressions.md`](dev-docs/lever-runtime-regressions.md) for exact
+hooks, source provenance, and remaining emulator acceptance checks.
+
 ### Native-save recovery and Vitality replay
 
 Use a fresh native save for every generated ROM/seed. Resume only that seed's
@@ -743,13 +750,3 @@ native save routine from an unverified frame-hook context. Normal native save fl
 owns serialization, checksums, slot selection and duplicate records. A reset before
 that save needs authenticated AP history replay; immediate power-loss persistence
 is not guaranteed. Host SRAM-integrity tests do not certify emulator save/load.
-
-### Lever object and final ability guards (v0.4.0)
-
-Lever wall ownership is applied once to the live room counter by a lever-only
-object callback; native initialization handles already-owned walls on room entry.
-The physical lever remains usable if its wall item arrived first. No additional
-mailbox fields are used. The final native ability state callback also reapplies
-the gate/unlock masks after roulette or other late pending-ability writes. See
-[`lever-runtime-regressions.md`](dev-docs/lever-runtime-regressions.md) for exact
-hooks, source provenance, and remaining emulator acceptance checks.

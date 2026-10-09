@@ -279,11 +279,8 @@ def test_build_location_ids_by_bit_filters_exact_minor_chest_locations():
         if loc.category == LocationCategory.MINOR_CHEST and _is_exact_minor_chest_location(loc)
     }
 
-    assert filtered_ids
-    # Current simplified spray/music-only setup may not configure exact-event
-    # report locations.
-    if not report_only_ids:
-        return
+    assert not filtered_ids  # All 65 physical minor checks now have exact sources.
+    assert len(report_only_ids) == 65
     assert filtered_ids.isdisjoint(report_only_ids)
 
 
@@ -871,16 +868,12 @@ def test_minor_chest_source_ptr_map_contains_only_unique_verified_sources():
         loc for loc in data.locations.values()
         if loc.category == LocationCategory.MINOR_CHEST and loc.source_rom_offset is not None
     ]
-    assert len(active_locations) == 64
-    assert len({loc.source_rom_offset for loc in active_locations}) == 64
-    assert len({loc.parent_region.split("__LOGIC__", 1)[0] for loc in active_locations}) == 55
-    assert sorted(loc.location_id for loc in active_locations) == (
-        [value for value in range(3960500, 3960524) if value not in {3960519}]
-        + list(range(3960566, 3960607))
-    )
+    assert len(active_locations) == 65
+    assert len({loc.source_rom_offset for loc in active_locations}) == 65
+    assert sorted(loc.location_id for loc in active_locations) == list(range(3960500, 3960524)) + list(range(3960566, 3960607))
     assert sum("NativeRewardConsumable" in loc.tags for loc in active_locations) == 41
-    assert sum("NativeRewardCollection" in loc.tags for loc in active_locations) == 23
-    assert len(client._minor_chest_location_id_by_source_ptr) == 64
+    assert sum("NativeRewardCollection" in loc.tags for loc in active_locations) == 24
+    assert len(client._minor_chest_location_id_by_source_ptr) == 65
     assert client._minor_chest_location_id_by_source_ptr == {
         loc.source_rom_offset: loc.location_id for loc in active_locations
     }
@@ -3799,20 +3792,25 @@ async def test_enforce_one_hit_mode_clamps_max_hp_and_current_hp(mock_bizhawk_co
         },
         clear=False,
     ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+         patch('worlds.kirbyam.client.bizhawk.guarded_write', new_callable=AsyncMock) as mock_write:
         mock_read.return_value = [
             (0).to_bytes(2, 'little'),
             (4).to_bytes(1, 'little', signed=True),
             (6).to_bytes(1, 'little', signed=True),
         ]
 
-        await client._enforce_one_hit_mode(mock_bizhawk_context)
+        await client._enforce_health_range(mock_bizhawk_context)
 
     mock_write.assert_awaited_once_with(
         mock_bizhawk_context.bizhawk_ctx,
         [
             (0x02020FE1, bytes([1]), 'System Bus'),
             (0x02020FE0, bytes([1]), 'System Bus'),
+        ],
+        [
+            (0x02038980, mock_read.return_value[0], 'System Bus'),
+            (0x02020FE0, mock_read.return_value[1], 'System Bus'),
+            (0x02020FE1, mock_read.return_value[2], 'System Bus'),
         ],
     )
 
@@ -3832,19 +3830,24 @@ async def test_enforce_one_hit_mode_exclude_scrubs_native_vitality_counter(mock_
         },
         clear=False,
     ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+         patch('worlds.kirbyam.client.bizhawk.guarded_write', new_callable=AsyncMock) as mock_write:
         mock_read.return_value = [
             (3).to_bytes(2, 'little'),
             (1).to_bytes(1, 'little', signed=True),
             (1).to_bytes(1, 'little', signed=True),
         ]
 
-        await client._enforce_one_hit_mode(mock_bizhawk_context)
+        await client._enforce_health_range(mock_bizhawk_context)
 
     mock_write.assert_awaited_once_with(
         mock_bizhawk_context.bizhawk_ctx,
         [
             (0x02038980, (0).to_bytes(2, 'little'), 'System Bus'),
+        ],
+        [
+            (0x02038980, mock_read.return_value[0], 'System Bus'),
+            (0x02020FE0, mock_read.return_value[1], 'System Bus'),
+            (0x02020FE1, mock_read.return_value[2], 'System Bus'),
         ],
     )
 
@@ -3864,19 +3867,24 @@ async def test_enforce_one_hit_mode_preserves_dead_hp_state(mock_bizhawk_context
         },
         clear=False,
     ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+         patch('worlds.kirbyam.client.bizhawk.guarded_write', new_callable=AsyncMock) as mock_write:
         mock_read.return_value = [
             (1).to_bytes(2, 'little'),
             (-1).to_bytes(1, 'little', signed=True),
             (6).to_bytes(1, 'little', signed=True),
         ]
 
-        await client._enforce_one_hit_mode(mock_bizhawk_context)
+        await client._enforce_health_range(mock_bizhawk_context)
 
     mock_write.assert_awaited_once_with(
         mock_bizhawk_context.bizhawk_ctx,
         [
             (0x02020FE1, bytes([2]), 'System Bus'),
+        ],
+        [
+            (0x02038980, mock_read.return_value[0], 'System Bus'),
+            (0x02020FE0, mock_read.return_value[1], 'System Bus'),
+            (0x02020FE1, mock_read.return_value[2], 'System Bus'),
         ],
     )
 
@@ -3896,14 +3904,14 @@ async def test_enforce_one_hit_mode_skips_writes_when_already_within_cap(mock_bi
         },
         clear=False,
     ), patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
-         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as mock_write:
+         patch('worlds.kirbyam.client.bizhawk.guarded_write', new_callable=AsyncMock) as mock_write:
         mock_read.return_value = [
             (2).to_bytes(2, 'little'),
             (2).to_bytes(1, 'little', signed=True),
             (3).to_bytes(1, 'little', signed=True),
         ]
 
-        await client._enforce_one_hit_mode(mock_bizhawk_context)
+        await client._enforce_health_range(mock_bizhawk_context)
 
     mock_write.assert_not_awaited()
 
@@ -5829,7 +5837,7 @@ def test_minor_chest_locations_defined_in_regions_when_present():
         if loc.category == LocationCategory.MINOR_CHEST and loc.source_rom_offset is not None
     }
     room_topology = load_json_data("regions/rooms.json")
-    assert len(physical_minor_chests) == 64
+    assert len(physical_minor_chests) == 65
     for key, loc in physical_minor_chests.items():
         if "__LOGIC__" in loc.parent_region:
             room_name, logical_key = loc.parent_region.split("__LOGIC__", 1)

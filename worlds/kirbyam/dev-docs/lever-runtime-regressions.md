@@ -108,18 +108,10 @@ original damage/Waddle Doo report; that exact reproduction remains necessary.
 - Synthetic patch tests validate target scope, Thumb pointer bits, BL targets,
   and refusal on missing/changed original targets before mutating a ROM.
 - The ARM payload builds within the existing reserved code/config window.
-- The committed shared base patch was rebuilt from the verified private USA ROM
-  and this exact stacked source. Applying it in memory reproduces all 5,792
-  payload bytes and the five real lever/final-ability hook writes. No ROM output
-  was written. Patch SHA-256:
-  `b40683fbb502dfc6933ff80ffa533e7c7a8d4122186baf65824954664c48b46a`.
-  Payload SHA-256:
-  `100242bc6d98c28dd4b6533e82c792a3cd28d526511e9f16a038e26bb6e4aa30`.
-- This PR remains based on #931, not current main. #931 supplies the ordinary
-  reward suppression hook/assembly bridge; this PR adds its counter guard.
-  The rebuild is not approval of #931 or evidence that main's later #930/#934
-  changes have been integrated. Reconcile that parent with main and rebuild
-  again before treating a combined release artifact as accepted.
+- The consolidated #931 candidate integrates current main, collection ownership,
+  native-save recovery, and these guards. Its distributable patch is rebuilt from
+  that combined source. Historical standalone #935 hashes are not the final
+  artifact identity; record the current PR head and build hashes for acceptance.
 - BizHawk acceptance: for each lever, test physical-first and item-first order,
   delayed popup receipt, leaving/reentering, reconnect and reset. Physical pull
   must send one check and leave the wall closed without the item; item receipt

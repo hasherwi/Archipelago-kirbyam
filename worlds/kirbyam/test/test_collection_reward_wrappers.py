@@ -15,7 +15,7 @@ import pytest
 WORLD = Path(__file__).resolve().parents[1]
 
 
-def test_actual_collection_wrappers_preserve_native_and_deferred_rewards(tmp_path: Path) -> None:
+def test_actual_collection_wrappers_suppress_all_owned_collections_and_preserve_unknown_sources(tmp_path: Path) -> None:
     compiler = shutil.which("cc") or shutil.which("gcc") or shutil.which("clang")
     if compiler is None:
         pytest.skip("requires a native C compiler")
@@ -42,7 +42,7 @@ def test_actual_collection_wrappers_preserve_native_and_deferred_rewards(tmp_pat
         if 0x14 <= reward <= 0x21 or 0x29 <= reward <= 0x32:
             offset = entry["rom_offset"]
             offset = int(offset, 0) if isinstance(offset, str) else offset
-            cases.append(f"{{0x{0x08000000 + offset:X}u, {reward}u, {int(reward != 0x2E)}u}}")
+            cases.append(f"{{0x{0x08000000 + offset:X}u, {reward}u, 1u}}")
     assert len(cases) == 24
     prelude = r'''
 #include <stdint.h>
