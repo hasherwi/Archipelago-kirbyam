@@ -138,13 +138,9 @@ def test_sound_player_chest_collect_call_offset_matches_verified_hook_site() -> 
     assert patch_rom.SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET == 0x0000B264
 
 
-def test_patch_installs_popup_hook_and_preserves_native_spray_paint(monkeypatch) -> None:
+def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
     monkeypatch.setattr(patch_rom, "build_runtime_regression_writes", lambda *args: {})
     rom = bytearray(b"\xA5" * 0x200000)
-    original = bytes(rom[
-        patch_rom.SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:
-        patch_rom.SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET + 4
-    ])
     hook_bl_bytes = {
         "main_hook_bl_bytes": b"\x00\x00\x00\x00",
         "boss_hook_bl_bytes": b"\x00\x00\x00\x00",
@@ -152,6 +148,7 @@ def test_patch_installs_popup_hook_and_preserves_native_spray_paint(monkeypatch)
         "minor_chest_reward_popup_hook_bl_bytes": b"\x12\x34\x56\x78",
         "big_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
         "vitality_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "spray_paint_chest_hook_bl_bytes": b"\x56\x78\x9a\xbc",
         "sound_player_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
         "hub_switch_hook_bl_bytes": b"\x00\x00\x00\x00",
         "small_switch_effect_hook_bl_bytes": b"\x00\x00\x00\x00",
@@ -171,7 +168,7 @@ def test_patch_installs_popup_hook_and_preserves_native_spray_paint(monkeypatch)
     assert rom[
         patch_rom.SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:
         patch_rom.SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET + 4
-    ] == original
+    ] == b"\x56\x78\x9a\xbc"
     assert rom[
         patch_rom.MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET:
         patch_rom.MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET + 4

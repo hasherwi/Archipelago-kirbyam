@@ -122,7 +122,7 @@ async def test_validate_rom_accepts_patched_kirby_header(mock_bizhawk_context):
 
         assert await client.validate_rom(mock_bizhawk_context) is True
         assert mock_bizhawk_context.game == client.game
-        assert mock_bizhawk_context.items_handling == 0b011
+        assert mock_bizhawk_context.items_handling == 0b111
         assert mock_bizhawk_context.want_slot_data is True
         assert mock_bizhawk_context.command_processor is TestBizHawkClientCommandProcessor
         assert getattr(mock_bizhawk_context.command_processor, "_kirbyam_runtime_patched", False) is True
@@ -871,13 +871,16 @@ def test_minor_chest_source_ptr_map_contains_only_unique_verified_sources():
         loc for loc in data.locations.values()
         if loc.category == LocationCategory.MINOR_CHEST and loc.source_rom_offset is not None
     ]
-    assert len(active_locations) == 41
-    assert len({loc.source_rom_offset for loc in active_locations}) == 41
-    assert len({loc.parent_region.split("__LOGIC__", 1)[0] for loc in active_locations}) == 36
-    assert sorted(loc.location_id for loc in active_locations) == list(range(3960566, 3960607))
+    assert len(active_locations) == 64
+    assert len({loc.source_rom_offset for loc in active_locations}) == 64
+    assert len({loc.parent_region.split("__LOGIC__", 1)[0] for loc in active_locations}) == 55
+    assert sorted(loc.location_id for loc in active_locations) == (
+        [value for value in range(3960500, 3960524) if value not in {3960519}]
+        + list(range(3960566, 3960607))
+    )
     assert sum("NativeRewardConsumable" in loc.tags for loc in active_locations) == 41
-    assert sum("NativeRewardCollection" in loc.tags for loc in active_locations) == 0
-    assert len(client._minor_chest_location_id_by_source_ptr) == 41
+    assert sum("NativeRewardCollection" in loc.tags for loc in active_locations) == 23
+    assert len(client._minor_chest_location_id_by_source_ptr) == 64
     assert client._minor_chest_location_id_by_source_ptr == {
         loc.source_rom_offset: loc.location_id for loc in active_locations
     }
@@ -2202,8 +2205,8 @@ async def test_deliver_items_ack_clears_pending_and_advances_cursor(mock_bizhawk
 
 
 @pytest.mark.asyncio
-async def test_deliver_items_fast_forward_on_pending_ack(mock_bizhawk_context):
-    """Pending-ACK fast-forward reconciliation should advance cursor and can queue the next mailbox write."""
+async def test_deliver_items_pending_ack_credits_only_its_history_entry(mock_bizhawk_context):
+    """A physical counter cannot acknowledge an unrelated history entry."""
     client = KirbyAmClient()
     client.initialize_client()
     client._delivered_item_index = 0
@@ -2226,17 +2229,17 @@ async def test_deliver_items_fast_forward_on_pending_ack(mock_bizhawk_context):
 
         await client._deliver_items(mock_bizhawk_context)
 
-    assert client._delivered_item_index == 2
+    assert client._delivered_item_index == 1
     assert client._delivery_pending is True
-    assert client._delivery_pending_item_index == 2
+    assert client._delivery_pending_item_index == 1
     assert client._delivery_pending_frame == 900
 
     written_batches = [call.args[1] for call in mock_write.await_args_list]
     assert [
-        (data.transport_ram_addresses["delivered_item_index"], (2).to_bytes(4, 'little'), 'System Bus')
+        (data.transport_ram_addresses["delivered_item_index"], (1).to_bytes(4, 'little'), 'System Bus')
     ] in written_batches
     assert [
-        (data.transport_ram_addresses["incoming_item_id"], int(3860003).to_bytes(4, 'little'), 'System Bus'),
+        (data.transport_ram_addresses["incoming_item_id"], int(3860002).to_bytes(4, 'little'), 'System Bus'),
         (data.transport_ram_addresses["incoming_item_player"], (1).to_bytes(4, 'little'), 'System Bus'),
         (data.transport_ram_addresses["incoming_item_flag"], (1).to_bytes(4, 'little'), 'System Bus'),
     ] in written_batches
@@ -2246,7 +2249,7 @@ async def test_deliver_items_fast_forward_on_pending_ack(mock_bizhawk_context):
 
 
 @pytest.mark.asyncio
-async def test_deliver_items_fast_forward_log_is_file_only(mock_bizhawk_context):
+async def test_deliver_items_pending_ack_log_is_file_only(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
     client._delivered_item_index = 0
@@ -2272,13 +2275,13 @@ async def test_deliver_items_fast_forward_log_is_file_only(mock_bizhawk_context)
     matching_disabled = [
         call
         for call in mock_logger.info.call_args_list
-        if call.args and isinstance(call.args[0], str) and "ROM delivery counter moved forward" in call.args[0]
+        if call.args and isinstance(call.args[0], str) and "Mailbox delivery confirmed" in call.args[0]
     ]
     assert matching_disabled
     assert all(call.kwargs.get("extra", {}).get("NoStream") is True for call in matching_disabled)
     assert all(call.kwargs.get("extra", {}).get("skip_gui") is True for call in matching_disabled)
     mock_logger.info.assert_any_call(
-        "KirbyAM: ROM delivery counter moved forward from %s to %s on pending ACK; fast-forwarding client delivery cursor",
+        "KirbyAM: Mailbox delivery confirmed at history index %s (ROM count=%s)",
         0,
         2,
         extra={"NoStream": True, "skip_gui": True},
@@ -5826,7 +5829,7 @@ def test_minor_chest_locations_defined_in_regions_when_present():
         if loc.category == LocationCategory.MINOR_CHEST and loc.source_rom_offset is not None
     }
     room_topology = load_json_data("regions/rooms.json")
-    assert len(physical_minor_chests) == 41
+    assert len(physical_minor_chests) == 64
     for key, loc in physical_minor_chests.items():
         if "__LOGIC__" in loc.parent_region:
             room_name, logical_key = loc.parent_region.split("__LOGIC__", 1)
@@ -5853,3 +5856,24 @@ def test_minor_chest_locations_have_unique_bit_indices_when_present():
         "MINOR_CHEST locations must use unique bit_index values to avoid duplicate AP checks: "
         f"{bit_indices}"
     )
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("counter", [1, 9])
+async def test_minor_chest_reset_recovers_retained_sources_until_ack(mock_bizhawk_context, counter):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._last_minor_chest_event_counter = counter + 4
+    target = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"]
+    ctx = mock_bizhawk_context
+    # Repeated exact sources also exercise a reset window larger than the ring.
+    ring = _minor_chest_event_ring(*([0x08000000 + target.source_rom_offset] * 8))
+    with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as read:
+        read.return_value = [counter.to_bytes(4, "little"), ring]
+        await client._poll_minor_chest_locations(ctx)
+        await client._poll_minor_chest_locations(ctx)
+        assert ctx.send_msgs.await_count == 2
+        ctx.send_msgs.assert_awaited_with([{"cmd": "LocationChecks", "locations": [target.location_id]}])
+        ctx.checked_locations.add(target.location_id)
+        await client._poll_minor_chest_locations(ctx)
+        assert ctx.send_msgs.await_count == 2
