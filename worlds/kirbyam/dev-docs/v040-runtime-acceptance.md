@@ -1,8 +1,34 @@
 # v0.4.0 combined runtime acceptance
 
 This is a test plan, not a record of passing gameplay. The cloud suite and dummy
-ROM smoke cannot replace these checks. PR review status does not waive these runtime gates; no merge or release is
-implied by this checklist.
+ROM smoke cannot replace these checks. PR review status does not waive these
+runtime gates; no merge or release is implied by this checklist.
+
+## Completed Pi evidence versus pending gameplay
+
+On 2026-10-09 the owner-provided USA ROM was verified on the ARM64 Pi against
+SHA-1 `274b102b6d940f46861a92b4e65f89a51815c12c`. The combined #930/#931/#934/
+#935/#936 payload was rebuilt, retail hook sites validated, all 65 chest records
+regenerated with zero ambiguity, and APWorld packaging checked. The rebuilt
+base-patch SHA-256 is
+`037b7704b1a0404d3b6bcee7a29c8458b087f7c20b3fcf80d0f70a3a9760e4e4`.
+A genuine seed was generated after #938's compartment correction, and its
+embedded base patch matched. A loopback-only server/client handshake reached
+slot 1 with 115 pending checks; no location checks were simulated, no emulator
+was used, and the server stopped afterward.
+
+The combined automated suite passed 982 tests; five further research checks
+covered selected real-ROM fields and a controlled host harness for native door
+C. These results establish build, data and protocol behavior, **not gameplay**.
+The committed base patch was not replaced. The final release candidate must
+still be frozen and rebuilt from its exact reviewed source before acceptance.
+
+BizHawk chest collection, item grants, lever behavior, ability gating, health,
+save/reload, reconnect and full-session acceptance remain **UNRUN**. Music Sheet
+#6 remains dormant. The Carrot experiment below is blocked on a suitable
+x86-64 BizHawk runtime; Pi generation/hosting can be repeated independently.
+The BLOCKED example later in this document refers to gameplay acceptance and
+must not be interpreted as a claim that Pi real-ROM rebuilding is unrun.
 
 ## Freeze the build and inputs
 
@@ -161,7 +187,7 @@ ROM_REGION: USA
 EXPECTED_RESULT: Rebuilt real-ROM payload and matching client complete the runtime cases above
 OBSERVED_RESULT: Gameplay has not been run for this checklist
 EVIDENCE: pending-client-log-and-case-evidence
-NOTES: Cloud tests and dummy-ROM smoke are not runtime acceptance
+NOTES: Pi real-ROM build and local protocol checks passed; BizHawk gameplay remains unrun
 <!-- MANUAL_TEST_RESULT:END -->
 
 ## Review gate
