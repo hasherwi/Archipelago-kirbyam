@@ -566,7 +566,7 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
         1 for m in data.locations.values()
         if m.category == LocationCategory.MINOR_CHEST and m.source_rom_offset is not None
     )
-    assert _minor_chest_count == 41
+    assert _minor_chest_count == 64
     _hub_switch_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.HUB_SWITCH)
     _lever_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.LEVER)
     _room_sanity_count = sum(1 for m in data.locations.values() if m.category == LocationCategory.ROOM_SANITY)
@@ -635,6 +635,7 @@ def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> 
         item.item_id
         for item in data.items.values()
         if item.classification not in (ItemClassification.filler, ItemClassification.trap)
+        and item.item_id not in {3860219}  # deferred logical-compartment mappings
     }
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
@@ -658,6 +659,7 @@ def test_vanilla_pool_contains_each_non_shard_non_filler_item_exactly_once() -> 
         if (
             item.classification not in (ItemClassification.filler, ItemClassification.trap)
             and item.item_id not in shard_codes
+            and item.item_id not in {3860219}  # deferred logical-compartment mappings
         )
     }
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]

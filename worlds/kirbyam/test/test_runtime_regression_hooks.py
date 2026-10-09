@@ -123,7 +123,9 @@ static void chest_init(void *chest) {
     uint8_t *c = chest;
     native_init_calls++;
     *(KirbyChestFn*)(c + 0x78) = native_owned(c[0xE2]) ? chest_open : chest_wait;
-    if (native_owned(c[0xE2])) counter[0]++;
+    uint8_t slot = *(uint8_t*)(KIRBY_LEVEL_INFO_BASE
+        + (uint32_t)c[0x56] * KIRBY_LEVEL_INFO_STRIDE + KIRBY_LEVEL_INFO_ROOM_SLOT_OFFSET);
+    if (native_owned(c[0xE2])) counter[slot]++;
 }
 static void commit_native(void *kirby) {
     uint8_t *k = kirby;
@@ -150,40 +152,45 @@ int main(void) {
     const uint32_t sources[] = {0x088BE07C, 0x088CD240, 0x088D2E68, 0x088D1454};
     const uint8_t ids[] = {18, 65, 77, 74};
     uint8_t *chest = (void*)TEST_CHEST;
-    unsigned i, first, ability, upper;
+    unsigned i, first, ability, upper, player, slot;
     CHECK(mmap((void*)0x02000000, 0x40000, PROT_READ|PROT_WRITE,
         MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x02000000);
     CHECK(mmap((void*)0x03000000, 0x8000, PROT_READ|PROT_WRITE,
         MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x03000000);
     *(uint32_t*)(TEST_POPUP + 0x4C) = TEST_CHEST;
+    for (player = 0; player < 4; player++) for (slot = 0; slot < 4; slot++)
     for (i = 0; i < 4; i++) for (first = 0; first < 2; first++) {
         memset((void*)0x02000000, 0, 0x40000);
         memset(chest, 0, 0x100);
-        AP_LEVER_ACTIVATION_FLAGS = counter[0] = ring_count = 0;
+        memset(counter, 0, sizeof(counter));
+        chest[0x56] = player;
+        *(uint8_t*)(KIRBY_LEVEL_INFO_BASE + player * KIRBY_LEVEL_INFO_STRIDE
+            + KIRBY_LEVEL_INFO_ROOM_SLOT_OFFSET) = slot;
+        AP_LEVER_ACTIVATION_FLAGS = counter[slot] = ring_count = 0;
         *(uint32_t*)(chest+0xB0) = sources[i];
         *(uint16_t*)(chest+0xE0) = 0x63;
         chest[0xE2] = ids[i];
         if (first) collect_native(ids[i]);
         ap_on_initialize_chest(chest);
-        CHECK(counter[0] == first);
+        CHECK(counter[slot] == first);
         CHECK(test_main_callback == chest_wait && chest[0x83] == 2);
         CHECK(AP_LEVER_ACTIVATION_FLAGS == 0);
         ap_record_minor_chest_collection_from_obj_ptr(TEST_CHEST);
         CHECK(AP_LEVER_ACTIVATION_FLAGS == (1u << i));
         CHECK(native_owned(ids[i]) == first && ring_count == 0);
-        ap_on_chest_popup_room_counter(0, 1);
-        CHECK(counter[0] == first);
+        ap_on_chest_popup_room_counter(slot, 1);
+        CHECK(counter[slot] == first);
         collect_native(ids[i]);
         test_aux_callback(chest);
         test_aux_callback(chest);
-        CHECK(counter[0] == 1);
+        CHECK(counter[slot] == 1);
         /* New room instance, fresh counter, same AP state: apply only once. */
-        counter[0] = 0;
+        counter[slot] = 0;
         *(uint32_t*)(chest+0xDC) = 0;
         ap_on_initialize_chest(chest);
         CHECK(test_main_callback == chest_open && chest[0x83] == 3);
         test_aux_callback(chest);
-        CHECK(counter[0] == 1);
+        CHECK(counter[slot] == 1);
         /* All three identity fields are mandatory. */
         CHECK(!ap_lever_bit_for_chest(sources[i]+4, 0x63, ids[i]));
         CHECK(!ap_lever_bit_for_chest(sources[i], 0, ids[i]));
@@ -195,7 +202,7 @@ int main(void) {
     ap_on_chest_popup_room_counter(0, 1);
     CHECK(counter[0] == 1 && ring_count == 1);
     ap_on_initialize_chest(chest);
-    CHECK(native_init_calls == 17);
+    CHECK(native_init_calls == 257);
     /* The final gate handles every ability and upper-flag combination, even
        when a native roulette rewrites pendingAbility after entry was gated. */
     for (ability = 1; ability < 32; ability++) for (upper = 0; upper < 256; upper += 32) {

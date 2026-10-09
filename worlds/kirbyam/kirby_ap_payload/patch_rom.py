@@ -804,6 +804,8 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_on_collect_big_chest"),
         "vitality_chest_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_collect_vitality_chest"),
+        "spray_paint_chest_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_collect_spray_paint_chest"),
         "sound_player_chest_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_collect_sound_player_chest"),
         "hub_switch_hook_target": resolve_elf_symbol_address(
@@ -834,6 +836,7 @@ _PAYLOAD_TARGET_LABELS = {
     "minor_chest_reward_popup_hook_target": "minor chest reward popup hook",
     "big_chest_hook_target": "big chest hook",
     "vitality_chest_hook_target": "vitality chest hook",
+    "spray_paint_chest_hook_target": "spray paint chest hook",
     "sound_player_chest_hook_target": "sound player/music-sheet chest hook",
     "hub_switch_hook_target": "hub switch hook",
     "small_switch_effect_hook_target": "lever small-switch effect hook",
@@ -888,6 +891,10 @@ def build_payload_hook_bl_bytes(
         "vitality_chest_hook_bl_bytes": thumb_bl_bytes(
             rom_base + VITALITY_CHEST_COLLECT_CALL_OFFSET,
             hook_targets["vitality_chest_hook_target"],
+        ),
+        "spray_paint_chest_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET,
+            hook_targets["spray_paint_chest_hook_target"],
         ),
         "sound_player_chest_hook_bl_bytes": thumb_bl_bytes(
             rom_base + SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET,
@@ -1154,6 +1161,9 @@ def patch_rom_with_payload(
     rom[VITALITY_CHEST_COLLECT_CALL_OFFSET:VITALITY_CHEST_COLLECT_CALL_OFFSET + 4] = (
         hook_bl_bytes["vitality_chest_hook_bl_bytes"]
     )
+    rom[SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET + 4] = (
+        hook_bl_bytes["spray_paint_chest_hook_bl_bytes"]
+    )
     rom[SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET:SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET + 4] = (
         hook_bl_bytes["sound_player_chest_hook_bl_bytes"]
     )
@@ -1240,6 +1250,14 @@ def print_patch_summary(
         hook_bl_bytes["vitality_chest_hook_bl_bytes"].hex(" "),
         "target=",
         hex(hook_targets["vitality_chest_hook_target"]),
+    )
+    print(
+        "Spray Paint chest call patched at file offset:",
+        hex(SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["spray_paint_chest_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["spray_paint_chest_hook_target"]),
     )
     print(
         "Sound Player/Music Sheet chest call patched at file offset:",

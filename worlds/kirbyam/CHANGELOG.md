@@ -11,6 +11,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## v0.4.0
 
 ### New Features
+- Added the opt-in **KirbyAM mGBA Client** Launcher component with its adapter, notices and export tooling inside the APWorld; shared BizHawk source and its default patch association remain unchanged (Issue #941). Current runtime acceptance remains outstanding.
+- Added mailbox support for all 14 unique Spray Paint and 10 unique Music Sheet items. Activated 23 unambiguous fixed-collection chests, each with its matching item in the pool, without awarding the original native collection item (Issues #525, #535, #537).
 - Added 41 ordinary small-chest location checks, matched to their exact ROM sources while preserving native chest persistence (PR #930).
 - Added an `/abilities` client command that lists the abilities currently unlocked for the slot (Issue #891).
 - Added a new option: `enemy_health_multiplier`. Scale all enemies' health values between 50% to 500% of the original game. It defaults to 100% which matches the original game (Issue #880).
@@ -18,7 +20,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Added four progression items that independently open the walls controlled by those levers. Pulling a lever now sends its AP location check without opening the wall; receiving the matching Lever Wall item sets the native wall-unlock state instead (Issue #859).
 
 ### Improvements
-- Ordinary small-chest checks now suppress their native consumable reward, so the AP-assigned item is the reward; fixed collection rewards retain their native behavior (PR #931).
+- Ability unlock gating also applies at the final native ability commit, after roulette and other pending-ability writes (Issue #892).
+- Small-chest checks suppress their native reward, so the AP-assigned item is the reward. Consumables use the delayed-popup interception from PR #931; Spray Paint and Music Sheet grants are intercepted at their native collection calls.
 - The Tutorial World Map - Big Chest location check is now sent during the tutorial; item delivery remains paused until normal gameplay begins (Issue #868).
 - Consolidated `defeat_random_hidden_area_boss` and `defeat_configured_area_boss` into the canonical `defeat_area_boss` goal. `configured_area_boss: random` now uses Archipelago's standard `Choice` randomization, the old `defeat_configured_area_boss` name remains a safe YAML alias, and all eight boss-to-area mappings are corrected (Issue #872).
 - Generated YAML documentation now shows the scalar `configured_area_boss: random` and `starting_kirby_color: random` shorthands and explains how they replace the generated concrete weight mappings (Issue #872).
@@ -26,17 +29,13 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Known Limitations
 - Kirby Color: random_color_per_room changes Kirby's color but does not update the corresponding UI element colors.
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
-- Progression: Progression gating is still being expanded beyond the original game design. Feature-specific gating is described under New Features.
-- Small Chests: Fixed collection rewards remain native pending their AP item support (Issue #525). Native consumable reward suppression for the 41 ordinary chest checks is handled in PR #931. Emulator gameplay has not yet been validated.
+- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
+- Small Chests: Music Sheet #6 remains native and outside the AP pool pending Carrot Castle topology reconciliation. Candy Spray Paint #6 is now verified in the 9-01 entry compartment. The collection-item payload needs a fresh base patch built from the supported USA ROM before release. Real-ROM gameplay, collection menus, and save/reload behavior have not yet been validated. Do not reuse an older base patch with newly generated collection-item seeds.
 - Sprite Swapping: The animation for getting the original item will play with the original sprite. Statues show the old ability. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or ability granted.
-- Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
+- Emulator: BizHawk remains the established supported flow. The standalone mGBA v0.4.0 integration is a candidate with current real connection, gameplay, GUI and save/load acceptance still outstanding (Issue #941).
+- mGBA Notifications: The current adapter prints plain text in the **Archipelago Connector** scripting panel, which must be visible to see notices. It does not display notifications over the game image or provide item colors, icons, configurable position or timed fade, so it does not match BizHawk OSD behavior. Normal AP server messages remain separately in the AP client/log. The mocked harness verified the print call, not real GUI appearance. This describes this integration, not all mGBA versions or possible overlay capabilities.
 
 ### Bug Fixes
-- Prevent suppressed ordinary-chest rewards from taking the native lever-style room-counter path; preserve vitality and fixed collectible counter behavior (Issues #129, #525, #912).
-
-- Retain observed minor-chest checks until the server acknowledges them, including dropped sends and reconnects, so consumed event-ring entries do not silently lose AP checks (Issue #129).
-- Correct the lever runtime path to intercept native reward-0x63 chests, separate physical checks from delayed wall opening, and keep levers usable when their wall items arrive first (Issues #911, #912; source-tested, emulator acceptance pending).
-- Reapply ability unlock gating at the final native ability commit so late pending-ability writes, including native roulette, cannot bypass the entry gate (Issue #892 hardening; original damage/contact reproduction remains pending).
 
 - Boss checks were mapped incorrectly for the `defeat_configured_area_boss` goal. That's been fixed (Issue #893).
 - Adds cutter to the base ability pool to make sure players can cut the drop down platforms. (Issue #894)

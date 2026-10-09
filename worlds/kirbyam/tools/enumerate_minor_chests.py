@@ -481,7 +481,7 @@ def main() -> int:  # noqa: C901
                 "conclusion": "no_repeatable_minor_chest_reopen_path_confirmed",
                 "ap_handling": (
                     "Use the exact ObjectTemplate source pointer for each AP check; preserve native chest flags "
-                    "and do not infer check identity from shared native chest bits"
+                    "use the complete USA chest_recovery.json audit for saved physical flag recovery"
                 ),
                 "evidence": RESPAWN_POLICY_EVIDENCE,
             },

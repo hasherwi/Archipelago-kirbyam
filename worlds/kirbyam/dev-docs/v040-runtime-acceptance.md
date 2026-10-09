@@ -4,8 +4,9 @@ This is a test plan, not a record of passing gameplay. The cloud suite and dummy
 ROM smoke cannot replace these checks. PR review status does not waive these
 runtime gates; no merge or release is implied by this checklist.
 
-## Completed Pi evidence versus pending gameplay
+## Historical Pi evidence versus pending gameplay
 
+The following records an earlier build, not the current consolidated candidate.
 On 2026-10-09 the owner-provided USA ROM was verified on the ARM64 Pi against
 SHA-1 `274b102b6d940f46861a92b4e65f89a51815c12c`. The combined #930/#931/#934/
 #935/#936 payload was rebuilt, retail hook sites validated, all 65 chest records
@@ -24,9 +25,9 @@ The committed base patch was not replaced. The final release candidate must
 still be frozen and rebuilt from its exact reviewed source before acceptance.
 
 BizHawk chest collection, item grants, lever behavior, ability gating, health,
-save/reload, reconnect and full-session acceptance remain **UNRUN**. Music Sheet
-#6 remains dormant. The Carrot experiment below is blocked on a suitable
-x86-64 BizHawk runtime; Pi generation/hosting can be repeated independently.
+save/reload, reconnect and full-session acceptance remain **UNRUN**. That earlier build kept Music Sheet #6 dormant. Current main activates all 65
+physical checks; the final integrated candidate must preserve that baseline.
+Pi generation/hosting and emulator acceptance are separate evidence.
 The BLOCKED example later in this document refers to gameplay acceptance and
 must not be interpreted as a claim that Pi real-ROM rebuilding is unrun.
 
@@ -64,6 +65,9 @@ the temporary `0x63` reward used to suppress the native bonus.
 
 ### Fixed collections: `v040-chest-fixed-{spray|sheet}`
 
+This case applies only when collection itemization (#936) is included. The
+#931/#935 stack alone preserves native paint and sheet rewards.
+
 Open active exact-source Spray Paint and Music Sheet chests before receiving
 those items: the native ownership bit must remain unchanged. Receive each AP
 item, then replay/reconnect: exactly its bit is added and existing ownership is
@@ -71,18 +75,14 @@ preserved. Sheets never grant Sound Player (bit 0). Check the independent Sound
 Player chest and its AP item too. Preserve normal collection visuals and native
 room-counter behavior.
 
-For combined builds including #936, Candy Spray Paint #6 is active at its
-verified ENTRY_FROM_9_01 compartment. Verify its one exact-source check and
-ensure entry from 9-09 cannot reach it through the separated Vitality compartment.
-Music Sheet #6 remains native/dormant and must not report checks or enter the
-item pool. Record 64 active minor sources for this build; all 24 collection mailbox
-IDs remain supported. For an earlier build, record its actual source count
-rather than assuming these later mappings.
+The final main-integrated candidate preserves all 65 physical sources and
+itemizes all 24 fixed collections. Verify Candy Spray Paint #6 only through its
+9-01 compartment and Music Sheet #6 through upper Carrot 5-13.
 
 ### Carrot topology investigation: `v040-carrot-{approach|switch|music}`
 
-Music Sheet #6 stays dormant during these tests. They establish local traversal
-facts; a local success does not by itself prove the full AP route from the start.
+These optional route investigations establish local traversal facts; they are
+not a prerequisite for the owner-approved v0.4 physical-location baseline.
 Use the combined build with #936's fixed collectibles and #938's corrected lower
 1-UP compartment, and record all included heads and artifact hashes.
 
@@ -108,16 +108,15 @@ Use the combined build with #936's fixed collectibles and #938's corrected lower
    at (29, 4). Separately test the automatic tiles (17..27, 11) into 734 at (14, 5).
    Record which actions enter the upper music compartment and whether the
    solid divider prevents access to the lower 1-UP compartment.
-6. With Music Sheet #6 still dormant, opening its native chest must grant only
-   its native behavior and must not send location 3960519 or add it to the AP
-   pool. The active lower 1-UP source 0x008D3E88 belongs to the verified 5-07
-   entry, not the legacy 5-12 entry. Retest collection/save/reload/reconnect.
+6. In the all-65 integrated build, opening the upper Music Sheet #6 chest must
+   report location 3960519 once and suppress its native sheet grant. Confirm the
+   assigned AP reward separately. The lower 1-UP source 0x008D3E88 belongs to
+   the 5-07 entry. Retest collection/save/reload/reconnect.
 
 The static source distinguishes attribute 255/0x4001 (Up) from 254/0x104001
 (automatic). The door reads ROOM slot 1, shared with the small switch. These are
 verified local conditions, not a complete logic rule. Preserve failed/blocked
-trials as evidence; do not activate Music Sheet #6 until approach, compartment,
-ability requirements and generation reachability have all been reviewed.
+trials as evidence. Do not add expanded route or ability logic to this v0.4 scope.
 
 ### Levers: `v040-lever-{moonlight|olive|carrot|radish}-{order}`
 
