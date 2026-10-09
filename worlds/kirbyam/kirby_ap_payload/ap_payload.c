@@ -2,6 +2,7 @@
 
 #include "statue_runtime_logic.h"
 #include "minor_chest_runtime_logic.h"
+#include "lever_runtime_logic.h"
 
 // Kirby AP item ID base offset
 #define KIRBY_ITEM_ID_BASE_OFFSET       3860000u  // must match worlds/kirbyam/data.py BASE_OFFSET
@@ -254,9 +255,23 @@ static void ap_collect_small_chest_native(uint32_t chest_index) {
         (uint8_t)(1u << (chest_index & 7u));
 }
 
+static uint32_t ap_lever_bit_for_obj(uint32_t chest_obj_ptr) {
+    return ap_lever_bit_for_chest(
+        *(volatile uint32_t*)(chest_obj_ptr + 0xB0u),
+        *(volatile uint16_t*)(chest_obj_ptr + 0xE0u),
+        *(volatile uint8_t*)(chest_obj_ptr + 0xE2u)
+    );
+}
+
 static void ap_record_minor_chest_collection_from_obj_ptr(uint32_t chest_obj_ptr) {
     uint32_t source_ptr = *(volatile uint32_t*)(chest_obj_ptr + 0xB0u);
     uint32_t chest_index = (uint32_t)(*(volatile uint8_t*)(chest_obj_ptr + 0xE2u));
+
+    uint32_t lever_bit = ap_lever_bit_for_obj(chest_obj_ptr);
+    if (lever_bit != 0u) {
+        AP_LEVER_ACTIVATION_FLAGS |= lever_bit;
+        return;
+    }
 
     ap_record_minor_chest_source_ptr(source_ptr);
     if (ap_is_ap_owned_minor_chest_source(source_ptr)
@@ -404,33 +419,84 @@ __attribute__((used)) uint32_t ap_on_query_special_door_state(uint16_t room_id, 
 
 typedef void (*KirbySmallSwitchEffectFn)(void);
 
-/*
- * Issue #859: the four AP lever locations live in rooms with unique canonical
- * doorsIdx values. Intercept the small-switch effect dispatcher only for those
- * rooms, latch the physical activation for the client, and intentionally do not
- * call the retail effect that opens the wall. Any other small switch preserves
- * native behavior by chaining through the original function pointer.
- */
-static uint32_t ap_lever_activation_bit_for_doors_idx(uint16_t doors_idx) {
-    switch (doors_idx) {
-        case 82u:  return (1u << 0);  // Moonlight Mansion 2-11
-        case 202u: return (1u << 1);  // Olive Ocean 6-13
-        case 254u: return (1u << 2);  // Carrot Castle 5-12
-        case 239u: return (1u << 3);  // Radish Ruins 8-12
-        default:   return 0u;
+/* The AP levers are Chest reward 0x63, not native small switches.  Keep this
+ * legacy dispatch wrapper transparent; ordinary small switches remain native. */
+__attribute__((used)) void ap_on_small_switch_effect(KirbySmallSwitchEffectFn native_effect) {
+    native_effect();
+}
+
+typedef void (*KirbyChestFn)(void*);
+#define KIRBY_CHEST_INIT_FN ((KirbyChestFn)0x0800BD4Du)
+#define KIRBY_CHEST_WAIT_FN ((KirbyChestFn)0x0800AEB1u)
+#define KIRBY_CHEST_OPEN_FN ((KirbyChestFn)0x0800BD9Du)
+typedef void (*KirbyRoomCounterFn)(uint32_t, uint32_t);
+#define KIRBY_ROOM_COUNTER_FN ((KirbyRoomCounterFn)0x080029F5u)
+/* gCurLevelInfo[player].unk65E; currentRoom is at +0x5F8, stride 0x668. */
+#define KIRBY_LEVEL_INFO_BASE 0x02023530u
+#define KIRBY_LEVEL_INFO_STRIDE 0x668u
+#define KIRBY_LEVEL_INFO_ROOM_SLOT_OFFSET 0x65Eu
+
+static uint8_t ap_lever_wall_owned(uint32_t chest_obj_ptr) {
+    uint8_t chest_id = *(volatile uint8_t*)(chest_obj_ptr + 0xE2u);
+    return (uint8_t)((*(volatile uint8_t*)(KIRBY_SMALL_CHEST_FLAGS_ADDR
+        + (chest_id >> 3)) >> (chest_id & 7u)) & 1u);
+}
+
+/* Object::unk7C runs before the native chest callback, including after the
+ * physical lever has been pulled.  Receipt therefore opens a live wall without
+ * consuming the lever, and later room loads reapply exactly one contribution. */
+static void ap_update_lever_wall(void *chest) {
+    uint32_t chest_obj_ptr = (uint32_t)chest;
+    volatile uint32_t *applied = (volatile uint32_t*)(chest_obj_ptr + 0xDCu);
+    uint8_t player = *(volatile uint8_t*)(chest_obj_ptr + 0x56u);
+    uint8_t room_slot;
+    if (player >= KIRBY_PLAYER_COUNT
+        || ap_lever_should_open_wall(ap_lever_wall_owned(chest_obj_ptr), *applied) == 0u) {
+        return;
+    }
+    room_slot = *(volatile uint8_t*)(KIRBY_LEVEL_INFO_BASE
+        + (uint32_t)player * KIRBY_LEVEL_INFO_STRIDE + KIRBY_LEVEL_INFO_ROOM_SLOT_OFFSET);
+    if (room_slot < KIRBY_PLAYER_COUNT) {
+        KIRBY_ROOM_COUNTER_FN(room_slot, 1u);
+        *applied = 1u;
     }
 }
 
-__attribute__((used)) void ap_on_small_switch_effect(KirbySmallSwitchEffectFn native_effect) {
-    uint16_t doors_idx = ap_room_doors_idx(KIRBY_CURRENT_ROOM);
-    uint32_t activation_bit = ap_lever_activation_bit_for_doors_idx(doors_idx);
-
-    if (activation_bit != 0u) {
-        AP_LEVER_ACTIVATION_FLAGS |= activation_bit;
+__attribute__((used)) void ap_on_initialize_chest(void *chest) {
+    uint32_t chest_obj_ptr = (uint32_t)chest;
+    uint32_t lever_bit = ap_lever_bit_for_obj(chest_obj_ptr);
+    uint8_t activated;
+    /* Native initialization opens the wall once if its AP-owned chest bit is
+     * already set.  It also supplies unchanged behavior for every other chest. */
+    KIRBY_CHEST_INIT_FN(chest);
+    if (lever_bit == 0u) {
         return;
     }
+    activated = (AP_LEVER_ACTIVATION_FLAGS & lever_bit) != 0u;
+    *(volatile uint32_t*)(chest_obj_ptr + 0xDCu) = ap_lever_wall_owned(chest_obj_ptr);
+    *(volatile uint8_t*)(chest_obj_ptr + 0x83u) = activated ? 3u : 2u;
+    *(KirbyChestFn volatile *)(chest_obj_ptr + 0x78u) =
+        activated ? KIRBY_CHEST_OPEN_FN : KIRBY_CHEST_WAIT_FN;
+    *(KirbyChestFn volatile *)(chest_obj_ptr + 0x7Cu) = ap_update_lever_wall;
+}
 
-    native_effect();
+/* Only BLs in ChestItemPopup's reward callback are redirected here.  r8 is the
+ * live popup throughout that verified native function; do not use a current-room
+ * guess, which could suppress unrelated chests or another player's room. */
+__attribute__((used)) void ap_on_chest_popup_room_counter(uint32_t room_slot, uint32_t amount) {
+    register uint32_t popup_obj_ptr asm("r8");
+    uint32_t chest_obj_ptr = *(volatile uint32_t*)(popup_obj_ptr + 0x4Cu);
+    uint32_t source_ptr = *(volatile uint32_t*)(chest_obj_ptr + 0xB0u);
+    uint16_t reward = *(volatile uint16_t*)(chest_obj_ptr + 0xE0u);
+    /* The ordinary-reward hook substitutes 0x63 to skip native consumable
+     * creation. Unlike actual native levers/collections, ordinary bonuses do
+     * not increment this room counter (their template uses unk2=0, unk3=31).
+     * Preserve that boundary without suppressing fixed collection rewards. */
+    uint8_t suppressed_ordinary = reward == KIRBY_MINOR_CHEST_NO_NATIVE_ITEM
+        && ap_is_ap_owned_minor_chest_source(source_ptr);
+    if (ap_lever_bit_for_obj(chest_obj_ptr) == 0u && !suppressed_ordinary) {
+        KIRBY_ROOM_COUNTER_FN(room_slot, amount);
+    }
 }
 
 // Hook target for the original boss shard grant call. The game passes the boss's
@@ -844,6 +910,20 @@ __attribute__((used)) void ap_on_start_copy_ability_transition(void *kirby) {
     }
 
     KIRBY_START_ABILITY_TRANSITION_FN(kirby);
+}
+
+/* Native sub_0805C618 is installed as Kirby::stateFn by both ordinary and
+ * roulette transitions. Gate immediately before its authoritative ability write,
+ * after native roulette or collision state has finished choosing the result. */
+__attribute__((used)) void ap_on_commit_copy_ability_transition(void *kirby) {
+    volatile uint8_t *pending;
+    typedef void (*KirbyCommitAbilityFn)(void*);
+    if (kirby == (void*)0) {
+        return;
+    }
+    pending = (volatile uint8_t*)((uintptr_t)kirby + KIRBY_TRANSITIONING_ABILITY_OFFSET);
+    *pending = ap_statue_apply_final_gate(*pending, AP_ABILITY_GATE_MASK, AP_ABILITY_UNLOCK_MASK);
+    ((KirbyCommitAbilityFn)0x0805C619u)(kirby);
 }
 
 /* Native CollectSprayPaint only ORs its ownership bit (katam/src/treasures.c).
@@ -1309,10 +1389,9 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
     }
 
     // LEVER_WALL_* = BASE+37 .. BASE+40 (Issue #859).
-    // These are the native gTreasures.chestFields indices observed for the four
-    // lever-controlled walls. Small-switch activation itself is persisted by the
-    // game's independent StateSlot path, so setting these wall bits does not
-    // consume the physical lever location. Writes are additive and idempotent.
+    // Native chest bits are AP wall ownership. Physical activations use the AP
+    // latch; the lever object's auxiliary callback observes this bit and opens
+    // the live wall once. Chest initialization handles later room visits.
     if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 37u)
         && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 40u)) {
         static const uint8_t lever_wall_chest_ids[4] = {18u, 65u, 77u, 74u};

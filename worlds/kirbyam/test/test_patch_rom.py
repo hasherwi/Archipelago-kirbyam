@@ -138,7 +138,8 @@ def test_sound_player_chest_collect_call_offset_matches_verified_hook_site() -> 
     assert patch_rom.SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET == 0x0000B264
 
 
-def test_patch_installs_popup_and_spray_paint_hooks() -> None:
+def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
+    monkeypatch.setattr(patch_rom, "build_runtime_regression_writes", lambda *args: {})
     rom = bytearray(b"\xA5" * 0x200000)
     hook_bl_bytes = {
         "main_hook_bl_bytes": b"\x00\x00\x00\x00",

@@ -68,7 +68,7 @@ jobs:
 
           rom_path = Path("worlds/kirbyam/kirby_ap_payload/kirby.gba")
           rom_path.parent.mkdir(parents=True, exist_ok=True)
-          rom = bytearray(0x200000)
+          rom = bytearray(0x400000)
 
           # Fixed callsites validated only for their Thumb-BL instruction shape.
           placeholder_bl = bytes.fromhex("00 f0 00 f8")
@@ -111,6 +111,14 @@ jobs:
           # to sub_080332BC before redirecting them to the payload wrapper.
           for offset in (0x00123EF2, 0x00124022):
               rom[offset:offset + 4] = thumb_bl_bytes(offset, 0x080332BC)
+
+          # Lever initializer and delayed wall-counter grant path.
+          initializer = 0x351648 + 0x81 * 0x18 + 0x10
+          rom[initializer:initializer + 4] = (0x0800BD4D).to_bytes(4, "little")
+          rom[0xB9B0:0xB9B4] = thumb_bl_bytes(0xB9B0, 0x080029F4)
+          # Ordinary and native-roulette final callback installers.
+          for offset in (0x5C200, 0x5C400):
+              rom[offset:offset + 4] = (0x0805C619).to_bytes(4, "little")
 
           rom_path.write_bytes(rom)
           PY
