@@ -105,6 +105,7 @@ def test_native_lever_lifecycle_and_final_ability_gate(tmp_path: Path) -> None:
 #define KIRBY_PLAYER_COUNT 4u
 #define KIRBY_TRANSITIONING_ABILITY_OFFSET 0xDDu
 #define AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER 0x12345678u
+#define KIRBY_MINOR_CHEST_NO_NATIVE_ITEM 0x63u
 static uint32_t AP_LEVER_ACTIVATION_FLAGS, AP_ABILITY_GATE_MASK, AP_ABILITY_UNLOCK_MASK;
 static unsigned counter[4], ring_count, native_init_calls, commits;
 static uint8_t last_pending;

@@ -60,6 +60,25 @@ is an EWRAM-session latch, while native chest bits persist AP wall ownership.
 A reset can make a previously pulled lever interactable again; AP server check
 deduplication still prevents a second reward.
 
+## Combined ordinary-chest counter boundary
+
+Ordinary AP chests temporarily substitute reward `0x63` to suppress native
+consumable creation. The native popup routes `0x63` through `sub_080029F4`, but
+ordinary bonus creation does not normally contribute to that room counter:
+[chest.c lines 324–329](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/chest.c#L324-L329)
+creates the bonus with `unk2=0`, `unk3=31`, and
+[bonus.c lines 164–166](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/bonus.c#L164-L166)
+explicitly excludes that template from the increment. The room-counter wrapper
+therefore suppresses both actual AP lever sources and an exact AP-owned source
+whose reward has been converted to `0x63`. Other vitality and fixed collection
+rewards retain their native counter contribution, as do unrelated native sources.
+
+An executable native-C regression test calls the actual suppression hook and
+counter wrapper together for all six ordinary reward IDs, the four levers,
+collection/vitality rewards, and an unrelated native `0x63` chest. It fails on
+the prior wrapper and passes with this exact-source guard. In-game consequences
+and interactions with room mechanisms still require the acceptance checks below.
+
 ## #892: gate the final native ability commit
 
 The US [Kirby source](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c)

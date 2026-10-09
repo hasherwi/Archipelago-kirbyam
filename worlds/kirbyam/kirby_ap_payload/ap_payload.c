@@ -503,7 +503,15 @@ __attribute__((used)) void ap_on_initialize_chest(void *chest) {
 __attribute__((used)) void ap_on_chest_popup_room_counter(uint32_t room_slot, uint32_t amount) {
     register uint32_t popup_obj_ptr asm("r8");
     uint32_t chest_obj_ptr = *(volatile uint32_t*)(popup_obj_ptr + 0x4Cu);
-    if (ap_lever_bit_for_obj(chest_obj_ptr) == 0u) {
+    uint32_t source_ptr = *(volatile uint32_t*)(chest_obj_ptr + 0xB0u);
+    uint16_t reward = *(volatile uint16_t*)(chest_obj_ptr + 0xE0u);
+    /* The ordinary-reward hook substitutes 0x63 to skip native consumable
+     * creation. Unlike actual native levers/collections, ordinary bonuses do
+     * not increment this room counter (their template uses unk2=0, unk3=31).
+     * Preserve that boundary without suppressing fixed collection rewards. */
+    uint8_t suppressed_ordinary = reward == KIRBY_MINOR_CHEST_NO_NATIVE_ITEM
+        && ap_is_ap_owned_minor_chest_source(source_ptr);
+    if (ap_lever_bit_for_obj(chest_obj_ptr) == 0u && !suppressed_ordinary) {
         KIRBY_ROOM_COUNTER_FN(room_slot, amount);
     }
 }

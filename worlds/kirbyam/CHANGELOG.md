@@ -32,6 +32,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
 
 ### Bug Fixes
+- Prevent suppressed ordinary-chest rewards from taking the native lever-style room-counter path; preserve vitality and fixed collectible counter behavior (Issues #129, #525, #912).
 
 - Retain observed minor-chest checks until the server acknowledges them, including dropped sends and reconnects, so consumed event-ring entries do not silently lose AP checks (Issue #129).
 - Correct the lever runtime path to intercept native reward-0x63 chests, separate physical checks from delayed wall opening, and keep levers usable when their wall items arrive first (Issues #911, #912; source-tested, emulator acceptance pending).
