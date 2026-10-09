@@ -930,7 +930,9 @@ static void ap_sync_active_kirby_health_from_vitality(void) {
     uint16_t vitality_total_u16 = (uint16_t)(KIRBY_VITALITY_COUNTER + 6u);
     int8_t vitality_total = (vitality_total_u16 > 0x7Fu) ? 0x7F : (int8_t)vitality_total_u16;
 
-    *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) = vitality_total;
+    if (*(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) > 0) {
+        *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) = vitality_total;
+    }
     *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_MAX_HP_OFFSET) = vitality_total;
 }
 
@@ -1112,17 +1114,19 @@ static void ap_grant_invincibility_candy(void) {
 }
 
 static void ap_grant_vitality_counter(void) {
-    uint16_t vitality_counter = KIRBY_VITALITY_COUNTER;
-
-    if (vitality_counter > KIRBY_MAX_VITALITY_COUNTERS) {
-        vitality_counter = KIRBY_MAX_VITALITY_COUNTERS;
+    uint16_t confirmed_count = 0u;
+    uint32_t bits = AP_DELIVERED_VITALITY_ITEM_BITS & 0xFu;
+    while (bits != 0u) {
+        confirmed_count = (uint16_t)(confirmed_count + (bits & 1u));
+        bits >>= 1;
     }
-    if (vitality_counter < KIRBY_MAX_VITALITY_COUNTERS) {
-        vitality_counter = (uint16_t)(vitality_counter + 1u);
+    /* Replaying a prefix after fresh EWRAM must not add to the retained native
+     * count. Full authenticated history in the client corrects legacy inflated
+     * saves; the payload never guesses identities or shrinks a partial replay. */
+    if (confirmed_count > KIRBY_VITALITY_COUNTER) {
+        KIRBY_VITALITY_COUNTER = confirmed_count;
+        ap_sync_active_kirby_health_from_vitality();
     }
-
-    KIRBY_VITALITY_COUNTER = vitality_counter;
-    ap_sync_active_kirby_health_from_vitality();
 }
 
 static void ap_grant_lives(uint8_t amount) {

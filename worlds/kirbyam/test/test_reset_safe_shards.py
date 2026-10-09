@@ -160,12 +160,6 @@ def test_payload_vitality_items_are_replay_guarded_per_unique_item() -> None:
     assert "KIRBY_MAX_VITALITY_COUNTERS" in content, (
         "Payload should define a hard cap for AP vitality counter grants"
     )
-    assert "vitality_counter > KIRBY_MAX_VITALITY_COUNTERS" in content, (
-        "Vitality grant helper should clamp already-overflowed vitality counts back down"
-    )
-    assert "vitality_counter < KIRBY_MAX_VITALITY_COUNTERS" in content, (
-        "Vitality grant helper should enforce AP vitality counter cap"
-    )
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 101u" in content, "Ability unlock AP item lower bound should be handled"
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 131u" in content, "Ability unlock AP item upper bound should be handled"
 

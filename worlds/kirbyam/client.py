@@ -31,6 +31,8 @@ if TYPE_CHECKING:
     from worlds.generic.shared_utils import NetworkItem
 
 
+_CHEST_RECOVERY_RECORDS = load_json_data("chest_recovery.json")["records"]
+
 EXPECTED_ROM_HEADER_TITLE = "agb kirby am"
 EXPECTED_ROM_GAME_CODE = "b8ke"
 EXPECTED_ROM_MAKER_CODE = "01"
@@ -395,7 +397,7 @@ class KirbyAmClient(BizHawkClient):
         # Bit N corresponds to area ID N in enum AreaId (e.g. bit 3 = AREA_CABBAGE_CAVERN).
         self._major_chest_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.MAP_CHEST)
 
-        # Native chest bits are shared and are intentionally not used to identify checks.
+        # Exact events provide prompt checks; audited saved flags provide recovery.
         self._minor_chest_location_id_by_source_ptr = self._build_minor_chest_source_ptr_map()
         exact_event_minor_count = sum(
             1
@@ -405,9 +407,14 @@ class KirbyAmClient(BizHawkClient):
         if exact_event_minor_count:
             self._log_verbose(
                 "info",
-                "KirbyAM: %s exact-source minor chest checks active; each needs an event-ring source-pointer match.",
+                "KirbyAM: %s exact-source minor chest checks active; event-ring checks have audited native-save recovery.",
                 exact_event_minor_count,
             )
+        self._saved_chest_location_by_flag = {
+            row["flag"]: data.locations[row["location_key"]].location_id
+            for row in _CHEST_RECOVERY_RECORDS if row["location_key"] is not None
+        }
+        self._vitality_history_session = None
         self._last_minor_chest_event_counter: int | None = None
         self._pending_minor_chest_locations: set[int] = set()
         self._minor_chest_session_key: tuple[object, ...] | None = None
@@ -1694,6 +1701,7 @@ class KirbyAmClient(BizHawkClient):
                 # Report only the tutorial world-map chest while normal location
                 # polling and new item writes remain deferred.
                 await self._poll_major_chest_locations(ctx, tutorial_world_map_only=True)
+                await self._poll_saved_chest_locations(ctx, tutorial_world_map_only=True)
             await self._log_boss_shard_debug_window(
                 ctx,
                 gameplay_active=gameplay_active,
@@ -1728,10 +1736,13 @@ class KirbyAmClient(BizHawkClient):
 
             await self._reconcile_native_shard_ownership(ctx)
             await self._reconcile_native_map_ownership(ctx)
+            await self._reconcile_vitality_ownership(ctx)
             await self._enforce_no_extra_lives(ctx)
             await self._enforce_one_hit_mode(ctx)
             await self._apply_pending_death_link(ctx)
             await self._poll_and_send_local_death_link(ctx)
+
+            await self._poll_saved_chest_locations(ctx)
 
             # Boss defeat location polling via transport register
             await self._poll_boss_defeat_locations(ctx)
@@ -2822,6 +2833,96 @@ class KirbyAmClient(BizHawkClient):
                 self._last_vitality_chest_poll_log = chest_log_state
         else:
             self._last_vitality_chest_poll_log = None
+
+    @staticmethod
+    def _authenticated_session_key(ctx):
+        return (getattr(ctx, "server_seed_name", None), ctx.auth, ctx.team, ctx.slot)
+
+    async def _poll_saved_chest_locations(self, ctx, *, tutorial_world_map_only=False):
+        """Recover physical checks from unique USA chestFields bits, never reward ownership.
+
+        The native save must belong to this ROM/seed; importing saves from other
+        seeds or vanilla is unsupported because the native save has no seed ID.
+        No client-side pending state is carried across authenticated sessions.
+        """
+        active = self._active_location_id_set(ctx)
+        address = self._native_addr("other_chest_flags_native")
+        if not self._server_session_ready(ctx) or not active or address is None:
+            return
+        session = self._authenticated_session_key(ctx)
+        values = await bizhawk.read(ctx.bizhawk_ctx, [(address, 16, "System Bus")])
+        if (len(values) != 1 or len(values[0]) != 16
+                or session != self._authenticated_session_key(ctx)):
+            return
+        bits = int.from_bytes(values[0], "little")
+        checks = {location for flag, location in self._saved_chest_location_by_flag.items()
+                  if bits & (1 << flag)} & active
+        if tutorial_world_map_only:
+            checks.intersection_update(self._major_chest_location_ids_by_bit.get(0, []))
+        missing = sorted(checks - ctx.checked_locations)
+        if missing:
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing}])
+
+    async def _reconcile_vitality_ownership(self, ctx):
+        """Rebuild unique health ownership from a complete authenticated AP history.
+
+        Wait for index-zero ReceivedItems; an empty pre-sync list is not proof
+        of zero ownership. Correct older inflated saves only with that authority.
+        """
+        session = self._authenticated_session_key(ctx)
+        if (not self._server_session_ready(ctx) or self._vitality_history_session != session
+                or not isinstance(ctx.items_received, list)):
+            return
+        mask = 0
+        for item in ctx.items_received:
+            item_id = getattr(item, "item", None)
+            if isinstance(item_id, int) and 3860018 <= item_id <= 3860021:
+                mask |= 1 << (item_id - 3860018)
+        slot = ctx.slot_data
+        if not isinstance(slot, dict):
+            return
+        mode = slot.get("one_hit_mode", 0)
+        minimum, maximum = slot.get("minimum_health", 6), slot.get("maximum_health", 10)
+        if mode == 1:
+            minimum, maximum = 1, 1
+        elif mode == 2:
+            minimum, maximum = 1, 5
+        elif mode != 0:
+            return
+        if (type(minimum) is not int or type(maximum) is not int
+                or not 1 <= minimum <= maximum <= 10 or maximum - minimum > 4):
+            return
+        count = min(mask.bit_count(), maximum - minimum)
+        addresses = [self._transport_addr("delivered_vitality_item_bits"),
+                     self._native_addr("kirby_vitality_counter_native"),
+                     self._native_addr("kirby_hp_native"), self._native_addr("kirby_max_hp_native")]
+        if any(address is None for address in addresses):
+            return
+        widths = [4, 2, 1, 1]
+        values = await bizhawk.read(ctx.bizhawk_ctx, [
+            (address, width, "System Bus") for address, width in zip(addresses, widths)])
+        if (len(values) != 4 or any(len(value) != width for value, width in zip(values, widths))
+                or session != self._authenticated_session_key(ctx)):
+            return
+        hp, previous_max = self._s8(values[2]), self._s8(values[3])
+        maximum = minimum + count
+        # A genuinely new native count gets the normal Vitality heal. Saved
+        # replay preserves damage; migrations clamp, and dead Kirby stays dead.
+        if hp > 0:
+            if count > int.from_bytes(values[1], "little"):
+                hp = maximum
+            elif 0 < previous_max < maximum:
+                hp += maximum - previous_max
+            hp = min(hp, maximum)
+        desired = [mask.to_bytes(4, "little"), count.to_bytes(2, "little"),
+                   hp.to_bytes(1, "little", signed=True), bytes([maximum])]
+        writes = [(address, value, "System Bus") for address, value, before
+                  in zip(addresses, desired, values) if value != before]
+        if writes:
+            applied = await bizhawk.guarded_write(ctx.bizhawk_ctx, writes, [
+                (address, value, "System Bus") for address, value in zip(addresses, values)])
+            if applied:
+                self._log_verbose("info", "KirbyAM: restored unique Vitality ownership mask=0x%X count=%s", mask, count)
 
     async def _poll_minor_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """Report physical minor-chest checks from exact payload source events."""
@@ -4151,6 +4252,10 @@ class KirbyAmClient(BizHawkClient):
             self._goal_reported = True
 
     def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict) -> None:
+        if cmd == "Connected":
+            self._vitality_history_session = None
+        elif cmd == "ReceivedItems" and args.get("index") == 0:
+            self._vitality_history_session = self._authenticated_session_key(ctx)
         if not self._notification_settings_loaded:
             self._load_notification_settings(ctx)
         if cmd == "Bounced":

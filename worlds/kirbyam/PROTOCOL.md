@@ -215,10 +215,10 @@ Minor chest status:
 - Fixed-item integration extends the active set to 64 verified small chests: 41 ordinary rewards plus 14 Spray Paint and 9 Music Sheet sources. Spray Paint #6 is isolated to Candy 9-Chest 2 ENTRY_FROM_9_01. Music Sheet #6 remains native and excluded from the generated pool because its Carrot logical-region attribution is unresolved. Collection item numbers denote native collection indices, not the starting-color palette IDs.
 - The initial rollout activates the 41 ordinary item chests found in the USA ROM room-object list. Each has one stable AP location ID (3960566-3960606) and one exact, distinct source-object offset; 14 IDs 3960566-3960579 remain stable from the earlier draft.
 - `source_rom_offset` stores the normalized ROM file offset of the object record; the AMR payload entry points at its type field at `record + 0x0C`, while the runtime hook records the object's source pointer. The client accepts an exact match only and does not guess nearby pointer aliases.
-- The payload preserves native chest persistence and reports checks only from exact source pointers in the event ring. For the 41 ordinary item chests, it marks the live chest object and suppresses the native consumable at the delayed popup; the AP mailbox grants the assigned item. Spray Paint and Music Sheet rewards retain their native paths only for unknown/non-AP sources; mapped fixed chests suppress their collection calls. Sound Player retains its separate existing AP check and item.
+- The payload preserves native chest persistence and reports prompt checks from exact source pointers in the event ring, with recovery from audited physical chest flags. For the 41 ordinary item chests, it marks the live chest object and suppresses the native consumable at the delayed popup; the AP mailbox grants the assigned item. Spray Paint and Music Sheet rewards retain their native paths only for unknown/non-AP sources; mapped fixed chests suppress their collection calls. Sound Player retains its separate existing AP check and item.
 - The `NativeRewardConsumable` tag records the reward profile for the item-logic PR; it does not change location identity. `NativeRewardCollection` marks the 23 active fixed chests, whose existing IDs now resolve through the same exact-source event transport. Ownership bits never imply chest checks, so receiving a collection item first cannot consume its physical location.
-- Native small-chest and collectible bitfields are not used to infer AP minor-chest locations. Exact source events are read from `minor_chest_event_ring` and filtered against the current slot's active locations.
-- Once observed, exact-source checks stay pending in the client until the server acknowledges them. They are retried even when the ring counter is unchanged, after ring overwrite, and across transient reconnects in the same authenticated seed/team/slot. Pending checks are cleared on ROM/client initialization or session identity changes. Events overwritten before the client ever observes them, and unacknowledged observations lost on process exit, still need runtime recovery validation; the eight-entry ring is not durable storage.
+- Exact events and saved physical `chestFields` bits are filtered against the authenticated slot's active locations. The complete USA inventory has 84 unique flags (0..83); `data/chest_recovery.json` maps 79 reward checks. The four lever flags are excluded because delivered wall items own them, and Music Sheet 6 remains dormant. Map, paint, music and other reward-ownership bitfields never imply physical checks.
+- Once observed, exact-source checks stay pending in the client until the server acknowledges them. They are retried even when the ring counter is unchanged, after ring overwrite, and across transient reconnects in the same authenticated seed/team/slot. Pending checks are cleared on ROM/client initialization or session identity changes. Saved physical flags recover checks after unobserved ring overwrite, process exit, and transport reset; big map/Vitality/Sound Player checks use the same recovery. Native save/load acceptance in BizHawk is still required. The eight-entry ring is not durable storage, and power loss before the native game saves is not guaranteed recoverable.
 
 ## Client Protocol
 
@@ -677,3 +677,24 @@ On client startup (cold boot):
 - **AP Mailbox Spec:** See `worlds/kirbyam/data/addresses.json`
 - **ROM Payload:** See `worlds/kirbyam/kirby_ap_payload/ap_payload.c`
 - **Test Address Validator:** See `worlds/kirbyam/tools/validate_addresses.py` (TBD)
+
+### Native-save recovery and Vitality replay
+
+Use a fresh native save for every generated ROM/seed. Resume only that seed's
+save; importing vanilla or another seed's save is unsupported. Native saves
+have no AP seed identifier, so their origin cannot be inferred automatically.
+Recovery reads only after authentication/gameplay gating (tutorial polling is
+limited to its map) and intersects the active server locations. No saved native
+bits are cleared or reinterpreted as item ownership.
+
+After index-zero `ReceivedItems`, the complete authenticated history defines
+unique Vitality ownership, including duplicates and precollects. The client
+atomically reconciles transport identity bits, native count, max HP and living
+HP, preserving damage deficit and dead states. It waits for full history rather
+than treating an initially empty list as zero ownership. This is also the
+migration policy for saves inflated by the earlier replay bug: confirmed AP
+ownership corrects the count; no identities are guessed from a numeric save
+count. Replayed prefixes in the payload only raise count to the distinct IDs
+seen so far; they never increment the retained count or shrink partial history.
+Physical Vitality chest popup healing/cap writes are suppressed; health comes
+from AP ownership. No real gameplay or ARM ABI acceptance is implied by host tests.
