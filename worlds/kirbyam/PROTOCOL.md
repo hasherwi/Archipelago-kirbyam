@@ -491,11 +491,22 @@ Behavior note:
 4. **Recovery** (pending too long): client timeout path clears stale flag and retries same delivery index
 
 `debug_item_counter` reconciliation contract:
-- If `debug_item_counter < delivered_item_index`, rewind cursor to the ROM count.
-- If that rewind revisits trap entries already ACKed in the current client session, the client must locally consume those trap indices instead of writing them back to the mailbox again.
-- If `debug_item_counter` is ahead but still within `len(ctx.items_received)`, treat it as advisory unless a mailbox delivery is currently pending and `incoming_item_flag == 0` (same-tick ROM ACK path).
-- If `debug_item_counter > len(ctx.items_received)`, treat the counter as stale/debug-only and continue normal mailbox delivery once the mailbox is empty. This anti-starvation fallback must not permanently suppress writes.
-- Transition-based logs should make the ahead-counter fallback visible without per-tick spam.
+- The payload increments this counter once per successfully applied request. The
+  persisted `delivered_item_index` also counts locally skipped receipts, so the
+  two values can legitimately differ.
+- Track that difference when skipping acknowledged consumables or malformed
+  entries, and restore it from the persisted index and physical count on reconnect.
+- A cleared pending mailbox acknowledges exactly its pending history index before
+  rewind handling. Never fast-forward unrelated history entries using a raw count.
+- Repeated polls before consumption retain the pending request, including when its
+  history index exceeds the physical count. Completed ACKs remain consumed on later polls.
+- Detect a real rollback against the previous physical count, discard the old
+  difference, and conservatively replay from the rolled-back count. Known consumable
+  ACKs are skipped again. An acknowledged u32 counter wrap is not a rollback.
+- Counters ahead of received history remain advisory; diagnostics must not starve
+  normal mailbox delivery or spam every poll.
+- This is not a durable transaction journal. Process loss between the native effect
+  and persistence of its client ACK remains an ambiguous consumable-delivery window.
 
 Research-first note for Issue #223:
 - Delivery remains gated only by the gameplay-active contract from Issue #56.
@@ -525,11 +536,8 @@ Receive-specific contract (Issue #73):
 - Receive notification is emitted only after mailbox ACK for the pending index.
 - Malformed/skipped `ReceivedItems` entries do not emit notifications.
 - Cursor fast-forward/rewind reconciliation without a pending delivery does not emit notifications.
-- Exception (Issue #269): when the ROM counter advances while a delivery is pending and the mailbox
-  flag is already cleared (flag == 0), this simultaneous counter-advance is treated as the ACK
-  signal and does emit a notification.  This covers the common hardware case where the ROM clears
-  the flag and increments debug_item_counter in the same frame, so the fast-forward reconciliation
-  path runs before the normal flag == 0 polling path on the next client tick.
+- A cleared pending flag and simultaneous ROM counter increment emit one notification
+  for that pending history entry, including after skipped receipts (Issue #269).
 
 Optional slot-data toggles (default: enabled when absent):
 - `enable_receive_notifications`
@@ -704,8 +712,8 @@ from AP ownership. No real gameplay or ARM ABI acceptance is implied by host tes
 The client requests `items_handling=0b111`: ordinary local/remote items and remote
 starting inventory. Stock server history prepends every starting item, not only
 Vitality. This lets ownership reconciliation and normal mailbox delivery agree
-on one ordering. Native mailbox counters and persisted client indices use that
-same ordering.
+on one ordering. The persisted client index addresses that history; the native
+counter counts only applied requests and can lag when known receipts are skipped.
 
 Bit 31 at `delivered_vitality_item_bits` marks the prefixed cursor format. The
 client sets it with an atomic guarded write only after the payload has initialized

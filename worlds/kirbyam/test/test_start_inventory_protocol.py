@@ -152,7 +152,8 @@ async def test_all_starting_item_ids_keep_mailbox_order_before_normal_history(mo
             assert int.from_bytes(memory[flag],'little')==1
             observed.append(int.from_bytes(memory[client._transport_addr('incoming_item_id')],'little'))
             memory[flag]=bytes(4)
-            memory[client._transport_addr('debug_item_counter')]=(index+1).to_bytes(4,'little')
+            counter = client._transport_addr('debug_item_counter')
+            memory[counter]=(int.from_bytes(memory[counter], 'little')+1).to_bytes(4,'little')
         await client._deliver_items(ctx)
     assert observed==[item.item for item in packet['items']]
     assert client._delivered_item_index==len(observed)

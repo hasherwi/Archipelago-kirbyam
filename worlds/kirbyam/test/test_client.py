@@ -2205,8 +2205,8 @@ async def test_deliver_items_ack_clears_pending_and_advances_cursor(mock_bizhawk
 
 
 @pytest.mark.asyncio
-async def test_deliver_items_fast_forward_on_pending_ack(mock_bizhawk_context):
-    """Pending-ACK fast-forward reconciliation should advance cursor and can queue the next mailbox write."""
+async def test_deliver_items_pending_ack_credits_only_its_history_entry(mock_bizhawk_context):
+    """A physical counter cannot acknowledge an unrelated history entry."""
     client = KirbyAmClient()
     client.initialize_client()
     client._delivered_item_index = 0
@@ -2229,17 +2229,17 @@ async def test_deliver_items_fast_forward_on_pending_ack(mock_bizhawk_context):
 
         await client._deliver_items(mock_bizhawk_context)
 
-    assert client._delivered_item_index == 2
+    assert client._delivered_item_index == 1
     assert client._delivery_pending is True
-    assert client._delivery_pending_item_index == 2
+    assert client._delivery_pending_item_index == 1
     assert client._delivery_pending_frame == 900
 
     written_batches = [call.args[1] for call in mock_write.await_args_list]
     assert [
-        (data.transport_ram_addresses["delivered_item_index"], (2).to_bytes(4, 'little'), 'System Bus')
+        (data.transport_ram_addresses["delivered_item_index"], (1).to_bytes(4, 'little'), 'System Bus')
     ] in written_batches
     assert [
-        (data.transport_ram_addresses["incoming_item_id"], int(3860003).to_bytes(4, 'little'), 'System Bus'),
+        (data.transport_ram_addresses["incoming_item_id"], int(3860002).to_bytes(4, 'little'), 'System Bus'),
         (data.transport_ram_addresses["incoming_item_player"], (1).to_bytes(4, 'little'), 'System Bus'),
         (data.transport_ram_addresses["incoming_item_flag"], (1).to_bytes(4, 'little'), 'System Bus'),
     ] in written_batches
@@ -2249,7 +2249,7 @@ async def test_deliver_items_fast_forward_on_pending_ack(mock_bizhawk_context):
 
 
 @pytest.mark.asyncio
-async def test_deliver_items_fast_forward_log_is_file_only(mock_bizhawk_context):
+async def test_deliver_items_pending_ack_log_is_file_only(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
     client._delivered_item_index = 0
@@ -2275,13 +2275,13 @@ async def test_deliver_items_fast_forward_log_is_file_only(mock_bizhawk_context)
     matching_disabled = [
         call
         for call in mock_logger.info.call_args_list
-        if call.args and isinstance(call.args[0], str) and "ROM delivery counter moved forward" in call.args[0]
+        if call.args and isinstance(call.args[0], str) and "Mailbox delivery confirmed" in call.args[0]
     ]
     assert matching_disabled
     assert all(call.kwargs.get("extra", {}).get("NoStream") is True for call in matching_disabled)
     assert all(call.kwargs.get("extra", {}).get("skip_gui") is True for call in matching_disabled)
     mock_logger.info.assert_any_call(
-        "KirbyAM: ROM delivery counter moved forward from %s to %s on pending ACK; fast-forwarding client delivery cursor",
+        "KirbyAM: Mailbox delivery confirmed at history index %s (ROM count=%s)",
         0,
         2,
         extra={"NoStream": True, "skip_gui": True},
