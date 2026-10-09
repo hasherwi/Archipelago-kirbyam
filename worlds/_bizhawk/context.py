@@ -118,6 +118,8 @@ class BizHawkClientCommandProcessor(ClientCommandProcessor):
 
 
 class BizHawkClientContext(CommonContext):
+    # This labels the selected workflow, not an emulator identity handshake.
+    connector_label: str = "BizHawk"
     command_processor = BizHawkClientCommandProcessor
     text_passthrough_categories: set[str]
     server_seed_name: str | None = None
@@ -208,6 +210,7 @@ class BizHawkClientContext(CommonContext):
 
 
 async def _game_watcher(ctx: BizHawkClientContext):
+    connector_label = getattr(ctx, "connector_label", "BizHawk")
     showed_connecting_message = False
     showed_connected_message = False
     showed_no_handler_message = False
@@ -225,7 +228,7 @@ async def _game_watcher(ctx: BizHawkClientContext):
                 showed_connected_message = False
 
                 if not showed_connecting_message:
-                    logger.info("Waiting to connect to BizHawk...")
+                    logger.info("Waiting to connect to %s...", connector_label)
                     showed_connecting_message = True
 
                 # Since a call to `connect` can take a while to return, this will cancel connecting
@@ -258,7 +261,7 @@ async def _game_watcher(ctx: BizHawkClientContext):
 
             if not showed_connected_message:
                 showed_connected_message = True
-                logger.info("Connected to BizHawk")
+                logger.info("Connected to %s", connector_label)
 
             rom_hash = await get_hash(ctx.bizhawk_ctx)
             if ctx.rom_hash is not None and ctx.rom_hash != rom_hash:
@@ -287,7 +290,7 @@ async def _game_watcher(ctx: BizHawkClientContext):
                     logger.info(f"Running handler for {ctx.client_handler.game}")
 
         except RequestFailedError as exc:
-            logger.info(f"Lost connection to BizHawk: {exc.args[0]}")
+            logger.info(f"Lost connection to {connector_label}: {exc.args[0]}")
             continue
         except NotConnectedError:
             continue
@@ -303,7 +306,7 @@ async def _game_watcher(ctx: BizHawkClientContext):
         try:
             await ctx.client_handler.game_watcher(ctx)
         except RequestFailedError as exc:
-            logger.info(f"Lost connection to BizHawk: {exc.args[0]}")
+            logger.info(f"Lost connection to {connector_label}: {exc.args[0]}")
             continue
         except NotConnectedError:
             continue
@@ -384,11 +387,17 @@ def _ensure_kirbyam_base_rom_valid(patch_file: str) -> None:
         rom_cls.validate(str(kirby_settings.rom_file))
 
 
-def _patch_and_run_game(patch_file: str):
+def _patch_and_run_game(patch_file: str, emulator: str = "bizhawk"):
     try:
         _ensure_kirbyam_base_rom_valid(patch_file)
         metadata, output_file = Patch.create_rom_file(patch_file)
-        Utils.async_start(_run_game(output_file))
+        if emulator == "mgba":
+            # Do not read EmuHawk settings or change the user's global rom_start.
+            # mGBA's scripting UI is loaded manually; protocol 1 has no emulator ID.
+            logger.info("Patched ROM ready: %s. Open it in mGBA and load "
+                        "data/lua/connector_bizhawkclient_mgba.lua in Tools > Scripting.", output_file)
+        else:
+            Utils.async_start(_run_game(output_file))
         return metadata
     except Exception as exc:
         logger.exception(exc)
@@ -396,18 +405,30 @@ def _patch_and_run_game(patch_file: str):
         return {}
 
 
+def _get_launch_parser():
+    parser = get_base_parser()
+    parser.add_argument("patch_file", default="", type=str, nargs="?", help="Path to an Archipelago patch file")
+    parser.add_argument("--emulator", choices=("bizhawk", "mgba"), default="bizhawk",
+                        help="mGBA mode patches without launching EmuHawk; load the mGBA connector manually")
+    return parser
+
+
 def launch(*launch_args: str) -> None:
     async def main():
-        parser = get_base_parser()
-        parser.add_argument("patch_file", default="", type=str, nargs="?", help="Path to an Archipelago patch file")
+        parser = _get_launch_parser()
         args = parser.parse_args(launch_args)
 
         if args.patch_file != "":
-            metadata = _patch_and_run_game(args.patch_file)
+            metadata = _patch_and_run_game(args.patch_file, args.emulator)
             if "server" in metadata:
                 args.connect = metadata["server"]
 
         ctx = BizHawkClientContext(args.connect, args.password)
+        if args.emulator == "mgba":
+            ctx.connector_label = "emulator connector (mGBA mode)"
+            logger.info("mGBA mode selected; emulator identity is not detected by protocol 1. "
+                        "Use mGBA 0.10+ with scripting support and only one connector instance. "
+                        "Item messages appear in its Archipelago Connector scripting buffer.")
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="ServerLoop")
 
         if gui_enabled:

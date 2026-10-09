@@ -5,6 +5,7 @@
 - [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases)
 - A USA Kirby & The Amazing Mirror ROM. The Archipelago community cannot provide this.
 - [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) 2.7 or later
+- Alternatively, the **draft mGBA integration** below, with current runtime acceptance still outstanding.
 
 ### Configuring BizHawk
 
@@ -35,7 +36,7 @@ clear it.
 
 If you're playing a single-player seed and you don't care about autotracking or hints, you can stop here, close the
 client, and load the patched ROM in any emulator. However, for multiworlds and other Archipelago features, continue
-below using BizHawk as your emulator.
+below using your selected emulator and its connector.
 
 ## Connecting to a Server
 
@@ -63,5 +64,55 @@ First troubleshooting checks:
 - If the Lua Console reports the wrong ROM/system, reload the correct ROM and rerun `connector_bizhawk_generic.lua`
 - If the connector starts but the BizHawk Client does not attach, verify the Lua Console window remains open.
 
-You should now be able to receive and send items. You'll need to do these steps every time you want to reconnect. It is
-perfectly safe to make progress offline; everything will re-sync when you reconnect.
+You should now be able to receive and send items. You'll need to do these steps every time you want to reconnect. Saved physical chest checks can recover when you reconnect. Save in-game before closing;
+progress or asynchronous items not yet saved may require replay. Keep each seed/team/slot
+on a fresh, isolated native save; do not share saves or savestates between seeds.
+
+
+## Standalone mGBA (draft v0.4.0 integration)
+
+This candidate uses the same **Archipelago BizHawk Client** application. Current
+mGBA connection, gameplay, save/reload and goal acceptance is still outstanding;
+no current version/platform combination is certified yet. A ROM boot alone does
+not prove AP integration works. BizHawk setup above remains available.
+
+1. Use mGBA 0.10.0 or newer **with Tools > Scripting**, Lua and built-in sockets.
+2. Use this repository's `data/lua/connector_bizhawkclient_mgba.lua` beside its
+   `base64.lua` and `json.lua`. Keep the included MIT notices when copying them.
+   The connector is adapted from a pinned community source; see
+   [provenance and limitations](https://github.com/hasherwi/Archipelago-kirbyam/blob/codex/v040-mgba-support/data/lua/README.mgba.md).
+3. With this fork's client, run
+   `python BizHawkClient.py --emulator mgba path/to/seed.apkirbyam`
+   (or `ArchipelagoBizHawkClient --emulator mgba path/to/seed.apkirbyam` in a build
+   containing this change). This patches and prints the output ROM path without
+   launching EmuHawk or changing global settings. To reconnect without patching,
+   omit the patch filename.
+4. If you installed only the APWorld into stock Archipelago, this new CLI flag is
+   **not included**. Set `bizhawkclient_options.rom_start: false` in `host.yaml`
+   before opening the patch, and start BizHawk Client normally. That setting affects
+   all games using that client; restore it when you want automatic launching again.
+5. Put the patched ROM in a fresh directory unique to this seed/team/slot. Configure
+   mGBA's save/state directory there; do not reuse player saves or states from another
+   seed. Verify the save destination before playing.
+6. Open the patched `.gba` in mGBA. In **Tools > Scripting**, use
+   **File > Load script** to load `connector_bizhawkclient_mgba.lua`.
+7. Keep the scripting window and game running. Look for the connector's loopback
+   listening message and `Connected (mGBA protocol 1)`, followed by Kirby ROM
+   validation in the client. Connect the client to the AP room normally.
+
+Only run one mGBA connector at a time; close competing BizHawk connectors too.
+Messages appear in the **Archipelago Connector** scripting buffer rather than
+an in-game overlay. The mGBA CLI selection labels the chosen workflow; protocol 1
+cannot independently identify which emulator is behind the connector.
+
+If `base64`/`json` cannot be found, check the three Lua files are together. A missing
+Scripting menu means the build lacks the required interface. A version mismatch
+means the wrong connector was loaded. Wrong ROM/patch metadata errors require the
+correct freshly patched USA ROM. If disconnected, unpause emulation, close the old
+script/client connection, then reload the script and reconnect. Do not open router
+ports: the emulator interface is local only, on 127.0.0.1 ports 43055–43059.
+
+For bug reports include emulator/build version, OS, APWorld/client revision,
+connector revision and relevant logs, without ROM bytes, saves or auth tokens.
+The developer acceptance checklist covers item receipt, physical checks, reconnects,
+all native save slots, isolation and Dark Mind/credits goal reporting.
