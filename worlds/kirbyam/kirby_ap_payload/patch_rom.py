@@ -63,7 +63,8 @@ SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET = 0x0000B1D0
 SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET = 0x0000B264
 BIG_SWITCH_UNLOCK_CALL_OFFSET = 0x00039EEE
 # sub_08119B3C: BL _call_via_r0 after resolving the small-switch effect function.
-# Hook receives that function pointer in r0 and can suppress only the four AP levers.
+# Legacy wrapper receives that function pointer in r0 and now preserves native behavior.
+# AP levers use the verified Chest reward-0x63 path, not this dispatcher.
 SMALL_SWITCH_EFFECT_CALL_OFFSET = 0x00119B98
 ORIGINAL_ABILITY_TRANSITION_FN_ADDR = 0x080547C4
 # sub_08054C0C consumes Kirby::transitioningAbility after statues write it directly.
@@ -74,6 +75,15 @@ EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES = 8
 # target sub_080332BC and must run the seed-color wrapper before CreateKirby.
 ORIGINAL_START_GAME_FN_ADDR = 0x080332BC
 STARTING_COLOR_START_GAME_CALL_OFFSETS = (0x00123EF2, 0x00124022)
+
+# US decomp symbols and table layout; validate every replacement against the
+# clean input rather than guessing new instruction offsets.
+BIG_CHEST_INITIALIZER_POINTER_OFFSET = 0x00351648 + 0x81 * 0x18 + 0x10
+ORIGINAL_CHEST_INITIALIZER_ADDR = 0x0800BD4C
+ORIGINAL_CHEST_ROOM_COUNTER_ADDR = 0x080029F4
+CHEST_POPUP_FUNCTION_RANGE = (0x0000B97C, 0x0000BD4C)
+ORIGINAL_ABILITY_COMMIT_ADDR = 0x0805C618
+ABILITY_COMMIT_INSTALLER_RANGE = (0x0005C11C, 0x0005C618)
 
 
 ROM_PATH_TMP = "rom_path.tmp"
@@ -804,6 +814,12 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_on_request_copy_ability_transition"),
         "ability_transition_start_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_start_copy_ability_transition"),
+        "chest_initializer_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_initialize_chest"),
+        "chest_popup_room_counter_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_chest_popup_room_counter"),
+        "ability_commit_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_commit_copy_ability_transition"),
         "starting_color_start_game_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_start_single_player_game"),
     }
@@ -824,6 +840,9 @@ _PAYLOAD_TARGET_LABELS = {
     "ability_transition_hook_target": "ability transition hook",
     "ability_transition_start_hook_target": "ability transition-start hook",
     "starting_color_start_game_hook_target": "starting-color game-start hook",
+    "chest_initializer_hook_target": "lever-aware chest initializer",
+    "chest_popup_room_counter_hook_target": "lever-aware popup wall counter",
+    "ability_commit_hook_target": "final ability commit gate",
 }
 
 
@@ -1065,6 +1084,47 @@ def discover_runtime_callsites(
     )
 
 
+def build_runtime_regression_writes(
+    rom: bytes | bytearray, hook_targets: dict[str, int], rom_base: int = 0x08000000
+) -> dict[int, bytes]:
+    """Validate lever/late-ability hooks before any output ROM is modified."""
+    initializer = BIG_CHEST_INITIALIZER_POINTER_OFFSET
+    validate_expected_instruction_sequence(
+        rom, initializer, (ORIGINAL_CHEST_INITIALIZER_ADDR | 1).to_bytes(4, "little"),
+        "big-chest initializer pointer",
+    )
+    counter_calls = discover_thumb_bl_callsites_to_targets(
+        rom, {ORIGINAL_CHEST_ROOM_COUNTER_ADDR}, rom_base=rom_base,
+        scan_start=CHEST_POPUP_FUNCTION_RANGE[0], scan_end=CHEST_POPUP_FUNCTION_RANGE[1],
+    )
+    if not 1 <= len(counter_calls) <= 3:
+        raise SystemExit(
+            "Error: expected 1..3 native chest-popup room-counter calls, "
+            f"found {len(counter_calls)}. Refusing an unverified lever hook."
+        )
+    # Two stateFn assignments in sub_0805C11C and sub_0805C3B8 install the same
+    # final callback. Only aligned literal words within those functions qualify.
+    commit_pointer = (ORIGINAL_ABILITY_COMMIT_ADDR | 1).to_bytes(4, "little")
+    start, end = ABILITY_COMMIT_INSTALLER_RANGE
+    commit_refs = [offset for offset in range(start, min(end, len(rom) - 3), 4)
+                   if rom[offset:offset + 4] == commit_pointer]
+    if len(commit_refs) != 2:
+        raise SystemExit(
+            "Error: expected two final ability-state callback pointers, "
+            f"found {len(commit_refs)}. Refusing an incomplete ability gate."
+        )
+    writes = {
+        initializer: (hook_targets["chest_initializer_hook_target"] | 1).to_bytes(4, "little"),
+        **{offset: thumb_bl_bytes(rom_base + offset, hook_targets["chest_popup_room_counter_hook_target"])
+           for offset in counter_calls},
+        **{offset: (hook_targets["ability_commit_hook_target"] | 1).to_bytes(4, "little")
+           for offset in commit_refs},
+    }
+    print("Validated lever initializer, chest-popup wall calls, and final ability callbacks:",
+          ", ".join(hex(offset) for offset in sorted(writes)))
+    return writes
+
+
 def patch_rom_with_payload(
     rom: bytearray,
     payload: bytes,
@@ -1075,7 +1135,10 @@ def patch_rom_with_payload(
     hook_targets: dict[str, int],
     rom_base: int,
 ) -> None:
+    regression_writes = build_runtime_regression_writes(rom, hook_targets, rom_base)
     rom[PAYLOAD_OFFSET:PAYLOAD_OFFSET + len(payload)] = payload
+    for offset, replacement in regression_writes.items():
+        rom[offset:offset + len(replacement)] = replacement
 
     rom[MAIN_HOOK_OFFSET:MAIN_HOOK_OFFSET + 4] = hook_bl_bytes["main_hook_bl_bytes"]
     rom[BOSS_COLLECT_SHARD_CALL_OFFSET:BOSS_COLLECT_SHARD_CALL_OFFSET + 4] = hook_bl_bytes["boss_hook_bl_bytes"]

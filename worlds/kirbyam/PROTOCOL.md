@@ -82,7 +82,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0xB0   | 0x0203B0B0 | 4B | ability_gate_mask_runtime | u32 | ROM ← Client | Bitmask of ability IDs that are currently configured as gateable (`safe_to_gate`) in `abilities.json`. |
 | 0xB4   | 0x0203B0B4 | 4B | ability_unlock_mask_runtime | u32 | ROM ← Client and ROM internal | Bitmask of ability IDs currently unlocked by AP ability items. Client sync writes canonical state; payload also sets bits when ability unlock AP items are applied to preserve runtime continuity. |
 | 0xB8   | 0x0203B0B8 | 4B | starting_kirby_color_applied | u32 | ROM internal | EWRAM latch set after the live player-one palette has been refreshed for the current EWRAM session. Cleared with mailbox initialization. This replaces an invalid mutable C static that would otherwise be linked into ROM-backed payload memory. |
-| 0xBC   | 0x0203B0BC | 4B | lever_activation_flags | u32 | ROM → Client | Bits 0–3 latch physical activation of the Moonlight 2-11, Olive 6-13, Carrot 5-12, and Radish 8-12 levers respectively. The small-switch hook suppresses the native wall-opening effect for these rooms, so this transport is the AP lever-location authority (Issue #859). |
+| 0xBC   | 0x0203B0BC | 4B | lever_activation_flags | u32 | ROM → Client | Bits 0–3 latch physical activation of the Moonlight 2-11, Olive 6-13, Carrot 5-12, and Radish 8-12 levers respectively. The chest-collection hook recognizes four exact reward-0x63 lever sources; their delayed popup counter grants are suppressed. This transport is the physical AP lever-location authority (Issues #859, #911, #912). |
 
 **Total: 192 bytes (0x0203B000 - 0x0203B0BF)**
 
@@ -201,7 +201,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | VITALITY_CHEST_CANDY_CONSTELLATION | 3960303 | Candy Constellation 9-8 vitality big chest (transport vitality bit 3) |
 | SOUND_PLAYER_CHEST | 3960304 | Candy Constellation Sound Player chest (transport sound_player_chest bit 0) |
 | HUB_SWITCH_* | 3960400 - 3960414 | Hub big-switch checks mapped to `hub_switch_flags` bits 0..14 (bit 0 = Peppermint West, bit 11 = Moonlight; others sequential) |
-| LEVER_* | 3960415 - 3960418 | Lever checks sourced from native bits (`0x02038962` bit2 Moonlight 2-11, `0x02038968` bit1 Olive 6-13, `0x02038969` bit5 Carrot 5-12, `0x02038969` bit2 Radish 8-12) |
+| LEVER_* | 3960415 - 3960418 | Physical lever checks sourced only from `lever_activation_flags` bits 0..3. Native chest bits are separate AP wall ownership and never imply a check. |
 | AREA_VISIT_* | 3960451 - 3960459 | First-visit checks for gameplay areas 1..9 (Rainbow Route through Candy Constellation), derived from first visited room per area via native `gVisitedDoors` |
 | MINOR_CHEST_SPRAY_PAINT_* / MINOR_CHEST_MUSIC_NOTE_* | 3960500 - 3960523 | Retired collection-name placeholders; retained for ID history and not instantiated as physical checks. |
 | MINOR_CHEST_* (verified ordinary small chests) | 3960566 - 3960606 | 41 ordinary item chests, each matched to one exact ROM object pointer and AP room. |
@@ -674,3 +674,13 @@ On client startup (cold boot):
 - **AP Mailbox Spec:** See `worlds/kirbyam/data/addresses.json`
 - **ROM Payload:** See `worlds/kirbyam/kirby_ap_payload/ap_payload.c`
 - **Test Address Validator:** See `worlds/kirbyam/tools/validate_addresses.py` (TBD)
+
+### Lever object and final ability guards (v0.4.0)
+
+Lever wall ownership is applied once to the live room counter by a lever-only
+object callback; native initialization handles already-owned walls on room entry.
+The physical lever remains usable if its wall item arrived first. No additional
+mailbox fields are used. The final native ability state callback also reapplies
+the gate/unlock masks after roulette or other late pending-ability writes. See
+[`lever-runtime-regressions.md`](dev-docs/lever-runtime-regressions.md) for exact
+hooks, source provenance, and remaining emulator acceptance checks.
