@@ -519,6 +519,10 @@ __attribute__((used)) void ap_on_collect_vitality_chest(void) {
     register uint32_t chest_obj_ptr asm("r5");
     uint16_t room_id = *(volatile uint16_t*)(chest_obj_ptr + 0x60u);
     ap_set_vitality_chest_flag_for_room(room_id);
+    /* CollectVitality interception alone leaves the delayed native popup free
+     * to reset max HP and spawn a healing tomato. Defer both to AP delivery,
+     * while retaining the popup and its native room-completion increment. */
+    *(volatile uint32_t*)(chest_obj_ptr + 0xDCu) = AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER;
 }
 
 // Hook target for native small chest reward collection. The live chest object remains in r5,

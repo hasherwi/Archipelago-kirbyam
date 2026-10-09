@@ -2908,6 +2908,13 @@ class KirbyAmClient(BizHawkClient):
                 self._last_minor_chest_event_counter,
                 event_counter,
             )
+            # A reset/load can already contain fresh opens before this poll.
+            # Replay the retained exact-source window; server ACKs below dedupe
+            # checks from a restored state just as they do on first connection.
+            baseline_window = min(event_counter, _MINOR_CHEST_EVENT_RING_SLOT_COUNT)
+            exact_checked_locations = collect_exact_checked_locations(
+                event_counter - baseline_window, event_counter
+            )
         elif event_counter > self._last_minor_chest_event_counter:
             delta = event_counter - self._last_minor_chest_event_counter
             if delta > _MINOR_CHEST_EVENT_RING_SLOT_COUNT:

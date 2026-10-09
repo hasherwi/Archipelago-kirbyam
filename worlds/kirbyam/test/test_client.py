@@ -5856,3 +5856,24 @@ def test_minor_chest_locations_have_unique_bit_indices_when_present():
         "MINOR_CHEST locations must use unique bit_index values to avoid duplicate AP checks: "
         f"{bit_indices}"
     )
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("counter", [1, 9])
+async def test_minor_chest_reset_recovers_retained_sources_until_ack(mock_bizhawk_context, counter):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._last_minor_chest_event_counter = counter + 4
+    target = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"]
+    ctx = mock_bizhawk_context
+    # Repeated exact sources also exercise a reset window larger than the ring.
+    ring = _minor_chest_event_ring(*([0x08000000 + target.source_rom_offset] * 8))
+    with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as read:
+        read.return_value = [counter.to_bytes(4, "little"), ring]
+        await client._poll_minor_chest_locations(ctx)
+        await client._poll_minor_chest_locations(ctx)
+        assert ctx.send_msgs.await_count == 2
+        ctx.send_msgs.assert_awaited_with([{"cmd": "LocationChecks", "locations": [target.location_id]}])
+        ctx.checked_locations.add(target.location_id)
+        await client._poll_minor_chest_locations(ctx)
+        assert ctx.send_msgs.await_count == 2
