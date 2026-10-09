@@ -31,8 +31,10 @@ changing ROMs, and restart client/emulator for another seed/team/slot.
   No ROM or real socket is used. Passing does not establish native timing.
 
 Current implementation check: **238 Python tests passed** in the four-file command
-above; adapter and host-harness Lua syntax checks passed. Host harness execution is
-**UNRUN, pending approval to execute the reviewed third-party-derived adapter**.
+above; adapter and host-harness Lua syntax checks passed. After execution approval,
+the bounded host harness **passed under Lua 5.1.5**, using mocked memory, sockets
+and time only. Its notification assertion verifies a text-print call, not real
+mGBA GUI rendering or in-game OSD.
 No additional emulator build was installed or launched for this change.
 
 ## Real runtime matrix
@@ -46,6 +48,7 @@ Do not substitute injected emulator RAM values for physical gameplay.
 | Wrong/unpatched ROM | Clear rejection without AP authentication or item writes | UNRUN |
 | Missing modules/build feature | Clear setup error; no false connected/supported claim | UNRUN |
 | Incompatible connector | Version mismatch disconnect; missing domain/command reported | UNRUN |
+| Notification display | With the Archipelago Connector scripting panel visible, verify plain-text notices and the separate AP client log; no item colors/icons/position/timed fade or game-image OSD parity is implemented by this adapter | UNRUN |
 | Native item receipt | Representative consumable, trap, shard, map, paint, sheet, unique Vitality apply once with mailbox ACK | UNRUN |
 | Safe deferral | Item queued during title/menu/death applies only in supported gameplay state | UNRUN |
 | Physical checks | Small chest, map/tutorial, Vitality, Sound Player reach server and become acknowledged | UNRUN |

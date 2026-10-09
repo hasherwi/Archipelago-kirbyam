@@ -35,9 +35,15 @@ and [`src/script/socket.c`](https://github.com/mgba-emu/mgba/blob/0.10.5/src/scr
   addresses. These are the only memory domains Kirby's client currently uses.
 - Guards and their following operations are processed together in one callback;
   a failed guard suppresses the rest of that batch.
-- Display messages go to the **Archipelago Connector** scripting buffer, not an
-  in-game overlay. `SET_MESSAGE_INTERVAL` and unmapped domains are unsupported;
-  Kirby does not currently require them. Unsupported commands return an error.
+- Known notification limitation in this v0.4.0 integration: display messages are
+  plain text in the **Archipelago Connector** scripting panel, not an overlay on
+  the game image. Keep that panel visible to see notices. There are no item colors,
+  icons, configurable screen position or timed fade; this does not match BizHawk
+  in-game OSD behavior. Normal AP server messages remain separately in the AP
+  client/log, without guaranteed replay of a missing delivery notice. This scopes
+  the limitation to this adapter, not to all mGBA versions or possible overlays.
+  `SET_MESSAGE_INTERVAL` and unmapped domains are unsupported; Kirby does not
+  currently require them. Unsupported commands return an error.
 - ROM change detection returns a CRC32 token instead of BizHawk's hash. Kirby
   still independently checks USA header fields, patch metadata and hook bytes.
 - This is an unauthenticated local memory-control interface. It binds only to
@@ -50,8 +56,9 @@ and [`src/script/socket.c`](https://github.com/mgba-emu/mgba/blob/0.10.5/src/scr
 
 Python launch/client regression tests and Lua syntax checks cover source changes.
 The host harness `worlds/kirbyam/tools/test_mgba_connector.lua` exercises the actual
-adapter with mocked memory, sockets and time; it is run separately after adapter
-execution approval. It is not emulator, native-save or gameplay acceptance.
+adapter with mocked memory, sockets and time. After execution approval it passed
+under Lua 5.1.5, including the notification text-print call. It did not test the
+real scripting GUI, notification appearance, emulator, native saves or gameplay.
 No mGBA version/platform combination is yet certified for this v0.4.0 integration.
 
 The [historical #876 closing report](https://github.com/hasherwi/Archipelago-kirbyam/issues/876#issuecomment-5138157837)

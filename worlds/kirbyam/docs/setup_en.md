@@ -101,9 +101,24 @@ not prove AP integration works. BizHawk setup above remains available.
    validation in the client. Connect the client to the AP room normally.
 
 Only run one mGBA connector at a time; close competing BizHawk connectors too.
-Messages appear in the **Archipelago Connector** scripting buffer rather than
-an in-game overlay. The mGBA CLI selection labels the chosen workflow; protocol 1
-cannot independently identify which emulator is behind the connector.
+The mGBA CLI selection labels the chosen workflow; protocol 1 cannot independently
+identify which emulator is behind the connector.
+
+### Known limitation: mGBA notification display
+
+The current v0.4.0 mGBA adapter displays item notices as plain text in the
+**Archipelago Connector** panel in **Tools > Scripting**, not over the game image.
+Keep that scripting panel visible to see these notices while playing. This path
+has no item colors, icons, configurable screen position or timed fade, and does
+not provide the same in-game OSD behavior as the BizHawk connector.
+
+Normal AP server messages still appear separately in the Archipelago client/log.
+That log is not a guaranteed replay of a missing item-delivery notice. This is a
+limitation of this integration, not a claim about every mGBA version or its possible
+overlay capabilities. The approved mocked harness verified the text-print call;
+notification appearance in the real mGBA GUI remains untested.
+
+### mGBA troubleshooting
 
 If `base64`/`json` cannot be found, check the three Lua files are together. A missing
 Scripting menu means the build lacks the required interface. A version mismatch
