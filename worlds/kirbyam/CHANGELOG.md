@@ -12,6 +12,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 - Added `minimum_health` and `maximum_health` YAML options for a custom starting/final HP capacity (Issue #778). Defaults remain 6/10; supported ranges stay within 1..10 HP and at most four unique Vitality Counter upgrades. Existing One-Hit Mode presets override these options.
+- Added all 65 small-chest location checks (41 ordinary rewards, 14 Spray Paints, and 10 Music Sheets), matched to their exact ROM sources while preserving native rewards and chest persistence (PR #930).
 - Added an `/abilities` client command that lists the abilities currently unlocked for the slot (Issue #891).
 - Added a new option: `enemy_health_multiplier`. Scale all enemies' health values between 50% to 500% of the original game. It defaults to 100% which matches the original game (Issue #880).
 - Added `random_color_per_room` to Starting Kirby Color. It chooses an initial supported palette at generation, then changes to a different supported palette whenever the connected BizHawk client observes Kirby enter a different room (Issue #857).
@@ -24,16 +25,16 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Generated YAML documentation now shows the scalar `configured_area_boss: random` and `starting_kirby_color: random` shorthands and explains how they replace the generated concrete weight mappings (Issue #872).
 
 ### Known Limitations
-- Custom health requires the connected current BizHawk client after the tutorial, like One-Hit Mode. Native health may briefly reappear on vitality grants, room changes, or respawns before the next client poll. HP-meter visuals and emulator behavior require runtime validation before release.
+- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
+- Custom health requires the connected current BizHawk client after the tutorial, like One-Hit Mode. Native health may briefly reappear on vitality grants, room changes, or respawns before the next client poll.
 - Kirby Color: random_color_per_room changes Kirby's color but does not update the corresponding UI element colors.
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
-- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
-- Small Chests: We know you want the "small" chests implemented. We want them implemented too. We've been working on it for months. We decided getting out what IS working, is more important.
+- Small Chests: Fixed collection rewards remain native pending their AP item support (Issue #525). Native consumable reward suppression for the 41 ordinary chest checks is handled in PR #931. Emulator gameplay has not yet been validated.
 - Sprite Swapping: The animation for getting the original item will play with the original sprite. Statues show the old ability. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or ability granted.
 - Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
 
 ### Bug Fixes
-- Health reconciliation guards native reads against intervening damage, death, or vitality delivery and preserves dead/negative HP states when correcting capacity.
+
 - Boss checks were mapped incorrectly for the `defeat_configured_area_boss` goal. That's been fixed (Issue #893).
 - Adds cutter to the base ability pool to make sure players can cut the drop down platforms. (Issue #894)
 - Preserve locally found ability unlocks after reconnecting by requesting the full received-item history from the server (Issue #910).
@@ -43,6 +44,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Added pinned, checksum-verified Archipelago generation fuzzing with a strict local launcher, a pull-request/manual CI workflow, and retained failure artifacts (Issue #898).
 - `starting_kirby_color` now uses the same standard Archipelago `Choice` literal `random`; the former world-specific `random_color` sentinel has been removed (Issue #872).
 - Split Kirby color catalog validation into focused helpers so Flake8 complexity checks remain meaningful without suppressing C901 (Issue #872).
+
 ## v0.3.0
 
 ### New Features

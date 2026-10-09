@@ -114,6 +114,40 @@ def test_sound_player_chest_collect_call_offset_matches_verified_hook_site() -> 
     assert patch_rom.SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET == 0x0000B264
 
 
+def test_patch_preserves_native_spray_paint_reward_callsite() -> None:
+    rom = bytearray(b"\xA5" * 0x200000)
+    original = bytes(rom[
+        patch_rom.SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:
+        patch_rom.SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET + 4
+    ])
+    hook_bl_bytes = {
+        "main_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "boss_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "minor_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "big_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "vitality_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "sound_player_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "hub_switch_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "small_switch_effect_hook_bl_bytes": b"\x00\x00\x00\x00",
+    }
+
+    patch_rom.patch_rom_with_payload(
+        rom,
+        b"\x12",
+        hook_bl_bytes,
+        {},
+        [],
+        [],
+        {"starting_color_start_game_hook_target": 0x08100000},
+        0x08000000,
+    )
+
+    assert rom[
+        patch_rom.SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:
+        patch_rom.SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET + 4
+    ] == original
+
+
 def test_big_switch_unlock_call_offset_matches_verified_hook_site() -> None:
     assert patch_rom.BIG_SWITCH_UNLOCK_CALL_OFFSET == 0x00039EEE
 

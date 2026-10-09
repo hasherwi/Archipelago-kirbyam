@@ -190,9 +190,10 @@ class KirbyAmWorld(World):
         "Carrot Castle - Mirror Shard",
         "Radish Ruins - Mirror Shard",
     )
-    # Developer-only generation gate for MINOR_CHEST AP locations.
-    # Keep this disabled unless explicitly testing minor-chest location logic.
-    ENABLE_MINOR_CHESTS: ClassVar[bool] = False
+    # Activate the verified exact-source minor chest rollout. The older
+    # collection-name placeholder rows remain dormant until they have unique
+    # physical chest mappings.
+    ENABLE_MINOR_CHESTS: ClassVar[bool] = True
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
@@ -1079,6 +1080,10 @@ class KirbyAmWorld(World):
             }
             for loc_key, loc_data in kirby_data.locations.items()
             if loc_key != "GOAL_HIDDEN_AREA_BOSS"
+            and (
+                loc_data.category != LocationCategory.MINOR_CHEST
+                or loc_data.source_rom_offset is not None
+            )
         }
 
         # All rooms (visited and unvisited), including those not in Room Sanity

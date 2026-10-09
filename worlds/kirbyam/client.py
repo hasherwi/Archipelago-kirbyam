@@ -37,6 +37,8 @@ if TYPE_CHECKING:
     from worlds.generic.shared_utils import NetworkItem
 
 
+_CHEST_RECOVERY_RECORDS = load_json_data("chest_recovery.json")["records"]
+
 EXPECTED_ROM_HEADER_TITLE = "agb kirby am"
 EXPECTED_ROM_GAME_CODE = "b8ke"
 EXPECTED_ROM_MAKER_CODE = "01"
@@ -67,8 +69,6 @@ _KIRBY_MAX_HP_ADDR_KEY = "kirby_max_hp_native"
 _KIRBY_MAX_HP_READ_WIDTH = 1
 _KIRBY_VITALITY_COUNTER_ADDR_KEY = "kirby_vitality_counter_native"
 _KIRBY_VITALITY_COUNTER_READ_WIDTH = 2
-_SPRAY_PAINT_BITFIELD_ADDR_KEY = "spray_paint_bitfield_native"
-_MUSIC_PLAYER_AND_SHEETS_BITFIELD_ADDR_KEY = "music_player_and_sheets_bitfield_native"
 _MINOR_CHEST_EVENT_COUNTER_ADDR_KEY = "minor_chest_event_counter"
 _MINOR_CHEST_EVENT_RING_BASE_ADDR_KEY = "minor_chest_event_ring_base"
 _MINOR_CHEST_EVENT_RING_SLOT_COUNT = 8
@@ -342,8 +342,7 @@ def _normalize_gba_rom_address(value: int) -> int:
 
 
 def _is_exact_minor_chest_location(loc) -> bool:
-    tags = getattr(loc, "tags", ()) or ()
-    return "ReportLocation" in tags or "ExactEventLocation" in tags
+    return getattr(loc, "source_rom_offset", None) is not None
 
 
 class KirbyAmClient(BizHawkClient):
@@ -357,6 +356,8 @@ class KirbyAmClient(BizHawkClient):
 
         # Item delivery state
         self._delivered_item_index: int = 0
+        self._delivery_counter_offset: int = 0
+        self._last_rom_received_count: int | None = None
         self._delivery_pending: bool = False  # True after writing mailbox until ROM clears flag
         self._delivery_pending_frame: int | None = None
         self._delivery_pending_time: float | None = None  # Monotonic time recorded when mailbox write issued
@@ -406,21 +407,8 @@ class KirbyAmClient(BizHawkClient):
         # Bit N corresponds to area ID N in enum AreaId (e.g. bit 3 = AREA_CABBAGE_CAVERN).
         self._major_chest_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.MAP_CHEST)
 
-        # Minor chest native bitfield -> location IDs (MINOR_CHEST category; polled from native chest flags).
-        self._minor_chest_location_ids_by_bit = self._build_location_ids_by_bit(
-            LocationCategory.MINOR_CHEST,
-            include_predicate=lambda loc: not _is_exact_minor_chest_location(loc),
-        )
-        self._report_only_minor_chest_location_ids: set[int] = {
-            loc.location_id
-            for loc in data.locations.values()
-            if loc.category == LocationCategory.MINOR_CHEST and _is_exact_minor_chest_location(loc)
-        }
+        # Native chest bits are shared and are intentionally not used to identify checks.
         self._minor_chest_location_id_by_source_ptr = self._build_minor_chest_source_ptr_map()
-        (
-            self._minor_chest_spray_fallback_location_ids_by_bit,
-            self._minor_chest_music_sheet_fallback_location_ids_by_bit,
-        ) = self._build_minor_chest_collection_bit_fallback_maps()
         exact_event_minor_count = sum(
             1
             for loc in data.locations.values()
@@ -429,10 +417,16 @@ class KirbyAmClient(BizHawkClient):
         if exact_event_minor_count:
             self._log_verbose(
                 "info",
-                "KirbyAM: %s exact-event minor chest locations are active; they are reported only from exact event-ring source-pointer matches.",
+                "KirbyAM: %s exact-source minor chest checks active; exact events have audited native-save recovery.",
                 exact_event_minor_count,
             )
+        self._saved_chest_location_by_flag = {
+            row["flag"]: data.locations[row["location_key"]].location_id
+            for row in _CHEST_RECOVERY_RECORDS if row["location_key"] is not None
+        }
         self._last_minor_chest_event_counter: int | None = None
+        self._pending_minor_chest_locations: set[int] = set()
+        self._minor_chest_session_key: tuple[object, ...] | None = None
         self._logged_unknown_minor_chest_source_ptrs: set[int] = set()
 
         # Vitality chest bitfield -> location IDs (VITALITY_CHEST category; dedicated transport register)
@@ -499,7 +493,6 @@ class KirbyAmClient(BizHawkClient):
         self._last_shard_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_boss_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_major_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
-        self._last_minor_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_vitality_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_sound_player_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_hub_switch_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
@@ -730,7 +723,6 @@ class KirbyAmClient(BizHawkClient):
         self._last_shard_poll_log = None
         self._last_boss_poll_log = None
         self._last_major_chest_poll_log = None
-        self._last_minor_chest_poll_log = None
         self._last_vitality_chest_poll_log = None
         self._last_sound_player_chest_poll_log = None
         self._last_hub_switch_poll_log = None
@@ -773,17 +765,19 @@ class KirbyAmClient(BizHawkClient):
         self._cached_room_visit_flags_view = None
 
     def _build_minor_chest_source_ptr_map(self) -> dict[int, int]:
-        """Exact event-ring source-pointer mapping is currently disabled."""
-        return {}
-
-    def _build_minor_chest_collection_bit_fallback_maps(self) -> tuple[dict[int, list[int]], dict[int, list[int]]]:
-        """
-        Build native collectible-bit fallback maps for mapped MINOR_CHEST locations.
-
-        These maps are used as a temporary fallback for spray paint and music sheet
-        small chest checks when native chest bit signaling is missing.
-        """
-        return {}, {}
+        """Map exact normalized ROM source offsets to active minor-chest IDs."""
+        source_ptr_map: dict[int, int] = {}
+        for loc in data.locations.values():
+            if loc.category != LocationCategory.MINOR_CHEST or loc.source_rom_offset is None:
+                continue
+            source_ptr = _normalize_gba_rom_address(loc.source_rom_offset)
+            if source_ptr in source_ptr_map:
+                raise ValueError(
+                    "KirbyAM minor chest source pointer is mapped more than once: "
+                    f"0x{source_ptr:08X}"
+                )
+            source_ptr_map[source_ptr] = loc.location_id
+        return source_ptr_map
 
     async def _get_room_visit_flags_view(self, ctx: KirbyAmBizHawkClientContext) -> memoryview | None:
         """Read gVisitedDoors once per watcher tick and return a shared memory view."""
@@ -1716,6 +1710,7 @@ class KirbyAmClient(BizHawkClient):
                 # Report only the tutorial world-map chest while normal location
                 # polling and new item writes remain deferred.
                 await self._poll_major_chest_locations(ctx, tutorial_world_map_only=True)
+                await self._poll_saved_chest_locations(ctx, tutorial_world_map_only=True)
             await self._log_boss_shard_debug_window(
                 ctx,
                 gameplay_active=gameplay_active,
@@ -1760,8 +1755,9 @@ class KirbyAmClient(BizHawkClient):
 
             # Major chest location polling via dedicated major_chest_flags transport register
             await self._poll_major_chest_locations(ctx)
+            await self._poll_saved_chest_locations(ctx)
 
-            # Minor chest location polling via native small chest flag bitfield
+            # Minor chest location polling via exact source events
             await self._poll_minor_chest_locations(ctx)
 
             # Vitality chest location polling via dedicated vitality_chest_flags transport register
@@ -2661,7 +2657,7 @@ class KirbyAmClient(BizHawkClient):
         keys_in_order = []
 
         # Your addresses.json defines delivered_item_index.
-        for key in ("delivered_item_index",):
+        for key in ("delivered_item_index", "debug_item_counter"):
             addr = self._transport_addr(key)
             if addr is not None:
                 reads.append((addr, 4, "System Bus"))
@@ -2680,6 +2676,13 @@ class KirbyAmClient(BizHawkClient):
                 delivered_count = min(val, len(ctx.items_received))
                 for delivered_index in range(delivered_count):
                     self._record_acknowledged_non_redeliverable_index(ctx, delivered_index)
+
+        if "debug_item_counter" in keys_in_order:
+            position = keys_in_order.index("debug_item_counter")
+            if position < len(raw_list) and len(raw_list[position]) == 4:
+                self._last_rom_received_count = self._u32_le(raw_list[position])
+                self._delivery_counter_offset = max(
+                    0, self._delivered_item_index - self._last_rom_received_count)
 
     # --------------------------
     # Location checking
@@ -2841,93 +2844,64 @@ class KirbyAmClient(BizHawkClient):
         else:
             self._last_vitality_chest_poll_log = None
 
+    @staticmethod
+    def _authenticated_session_key(ctx):
+        return (getattr(ctx, "server_seed_name", None), ctx.auth, ctx.team, ctx.slot)
+
+    async def _poll_saved_chest_locations(self, ctx, *, tutorial_world_map_only=False):
+        """Recover physical checks from unique USA chestFields bits, never reward ownership.
+
+        The native save must belong to this ROM/seed; importing saves from other
+        seeds or vanilla is unsupported because the native save has no seed ID.
+        No client-side pending state is carried across authenticated sessions.
+        """
+        active = self._active_location_id_set(ctx)
+        address = self._native_addr("other_chest_flags_native")
+        if not self._server_session_ready(ctx) or not active or address is None:
+            return
+        session = self._authenticated_session_key(ctx)
+        values = await bizhawk.read(ctx.bizhawk_ctx, [(address, 16, "System Bus")])
+        if (len(values) != 1 or len(values[0]) != 16
+                or session != self._authenticated_session_key(ctx)):
+            return
+        bits = int.from_bytes(values[0], "little")
+        checks = {location for flag, location in self._saved_chest_location_by_flag.items()
+                  if bits & (1 << flag)} & active
+        if tutorial_world_map_only:
+            checks.intersection_update(self._major_chest_location_ids_by_bit.get(0, []))
+        missing = sorted(checks - ctx.checked_locations)
+        if missing:
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing}])
+
     async def _poll_minor_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
-        """
-        Read spray-paint and music-sheet collected bits and map set bits to MINOR_CHEST locations.
-
-        Small chest flag indices are heavily shared across many physical chests, which makes
-        native chest-bit only reporting ambiguous. To keep location checks deterministic,
-        this path treats collectible ownership bits as the source for minor chest checks.
-        """
-        active_location_ids = self._active_location_id_set(ctx)
-
-        has_spray_map = bool(self._minor_chest_spray_fallback_location_ids_by_bit)
-        has_music_map = bool(self._minor_chest_music_sheet_fallback_location_ids_by_bit)
-        if not has_spray_map and not has_music_map:
-            return
-
-        spray_addr = self._native_addr(_SPRAY_PAINT_BITFIELD_ADDR_KEY)
-        music_addr = self._native_addr(_MUSIC_PLAYER_AND_SHEETS_BITFIELD_ADDR_KEY)
-        read_specs: list[tuple[int, int, str]] = []
-        if has_spray_map and spray_addr is not None:
-            read_specs.append((spray_addr, 4, "System Bus"))
-        if has_music_map and music_addr is not None:
-            read_specs.append((music_addr, 4, "System Bus"))
-        if not read_specs:
-            return
-
-        raw_values = await bizhawk.read(ctx.bizhawk_ctx, read_specs)
-        if len(raw_values) != len(read_specs):
-            return
-
-        mapped_checked_locations: set[int] = set()
-        read_idx = 0
-        if has_spray_map and spray_addr is not None:
-            spray_raw = raw_values[read_idx]
-            read_idx += 1
-            if len(spray_raw) == 4:
-                spray_bits = self._u32_le(spray_raw)
-                for bit in sorted(self._minor_chest_spray_fallback_location_ids_by_bit.keys()):
-                    if (spray_bits >> bit) & 1:
-                        mapped_checked_locations.update(self._minor_chest_spray_fallback_location_ids_by_bit.get(bit, []))
-
-        if has_music_map and music_addr is not None:
-            music_raw = raw_values[read_idx]
-            if len(music_raw) == 4:
-                music_bits = self._u32_le(music_raw)
-                for bit in sorted(self._minor_chest_music_sheet_fallback_location_ids_by_bit.keys()):
-                    if (music_bits >> bit) & 1:
-                        mapped_checked_locations.update(self._minor_chest_music_sheet_fallback_location_ids_by_bit.get(bit, []))
-
-        if active_location_ids is not None:
-            mapped_checked_locations.intersection_update(active_location_ids)
-
-        missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
-        already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
-        if missing_on_server:
-            chest_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
-            if chest_log_state != self._last_minor_chest_poll_log:
-                self._log_verbose(
-                    "info",
-                    "KirbyAM: resending minor-chest LocationChecks missing on server (missing=%s, acked=%s)",
-                    missing_on_server,
-                    already_acknowledged,
-                )
-                self._last_minor_chest_poll_log = chest_log_state
-
-            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
-        elif mapped_checked_locations:
-            chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
-            if chest_log_state != self._last_minor_chest_poll_log:
-                self._log_verbose(
-                    "debug",
-                    "KirbyAM: dedupe suppressed minor-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                    already_acknowledged,
-                )
-                self._last_minor_chest_poll_log = chest_log_state
-        else:
-            self._last_minor_chest_poll_log = None
+        """Report physical minor-chest checks from exact payload source events."""
+        await self._poll_minor_chest_event_locations(ctx)
 
     async def _poll_minor_chest_event_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
         Read exact minor-chest collection events from the ROM payload event ring.
 
-        This path disambiguates report-only minor chest locations whose native chest bits
-        are shared by multiple chests. The payload records the exact ROM source pointer for
-        each collected chest so the client can map it back to a single AP location.
+        The payload records each collected chest's exact ROM source pointer so the
+        client can match only a verified physical location. Nearby pointer aliases
+        are deliberately not accepted.
         """
         if not self._minor_chest_location_id_by_source_ptr:
             return
+
+        # Keep observed checks across transient network/connector reconnects, but
+        # never carry them into a different authenticated seed/team/slot.
+        session_key = tuple(
+            value if isinstance(value, (str, int)) else None
+            for value in (
+                getattr(ctx, "server_seed_name", None), getattr(ctx, "auth", None),
+                getattr(ctx, "team", None), getattr(ctx, "slot", None),
+            )
+        )
+        if self._minor_chest_session_key != session_key:
+            if self._minor_chest_session_key is not None:
+                self._pending_minor_chest_locations.clear()
+                self._last_minor_chest_event_counter = None
+            self._minor_chest_session_key = session_key
 
         counter_addr = self._transport_addr(_MINOR_CHEST_EVENT_COUNTER_ADDR_KEY)
         ring_addr = self._transport_addr(_MINOR_CHEST_EVENT_RING_BASE_ADDR_KEY)
@@ -2956,16 +2930,10 @@ class KirbyAmClient(BizHawkClient):
                 source_ptr = _normalize_gba_rom_address(source_ptr_raw)
                 location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr)
                 if location_id is None:
-                    # Live payload events can point at nearby fields within the same object
-                    # row (for example +/- 0xC). Try these aliases before declaring unknown.
-                    location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr + 0xC)
-                if location_id is None and source_ptr >= 0xC:
-                    location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr - 0xC)
-                if location_id is None:
                     if source_ptr not in self._logged_unknown_minor_chest_source_ptrs:
                         self._log_verbose(
                             "warning",
-                            "KirbyAM: exact minor-chest source ptr raw=0x%08X normalized=0x%08X is not mapped to an AP location (sequence=%s slot=%s).",
+                            "KirbyAM: unmapped minor-chest source ptr raw=0x%08X normalized=0x%08X sequence=%s slot=%s",
                             source_ptr_raw,
                             source_ptr,
                             sequence,
@@ -2977,66 +2945,50 @@ class KirbyAmClient(BizHawkClient):
             return exact_checked_locations_local
 
         event_counter = self._u32_le(raw_counter)
+        exact_checked_locations: set[int] = set()
         if self._last_minor_chest_event_counter is None:
-            if event_counter == 0:
-                self._last_minor_chest_event_counter = 0
-                return
-
             baseline_window = min(event_counter, _MINOR_CHEST_EVENT_RING_SLOT_COUNT)
-            first_sequence = event_counter - baseline_window
-            exact_checked_locations = collect_exact_checked_locations(first_sequence, event_counter)
-            self._last_minor_chest_event_counter = event_counter
-
-            if not exact_checked_locations:
-                return
-
-            active_location_ids = self._active_location_id_set(ctx)
-            if active_location_ids is not None:
-                exact_checked_locations.intersection_update(active_location_ids)
-            missing_on_server = sorted(exact_checked_locations - ctx.checked_locations)
-            if not missing_on_server:
-                return
-
-            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
-            return
-
-        if event_counter == self._last_minor_chest_event_counter:
-            return
-
-        if event_counter < self._last_minor_chest_event_counter:
+            exact_checked_locations = collect_exact_checked_locations(
+                event_counter - baseline_window, event_counter
+            )
+        elif event_counter < self._last_minor_chest_event_counter:
             self._log_verbose(
                 "info",
                 "KirbyAM: exact minor-chest event counter regressed from %s to %s; resetting baseline (savestate/load).",
                 self._last_minor_chest_event_counter,
                 event_counter,
             )
-            self._last_minor_chest_event_counter = event_counter
-            return
-
-        delta = event_counter - self._last_minor_chest_event_counter
-        if delta > _MINOR_CHEST_EVENT_RING_SLOT_COUNT:
-            self._log_verbose(
-                "warning",
-                "KirbyAM: dropped %s exact minor-chest events because the payload ring buffer overflowed.",
-                delta - _MINOR_CHEST_EVENT_RING_SLOT_COUNT,
+            # A reset/load can already contain fresh opens before this poll.
+            # Replay the retained exact-source window; server ACKs below dedupe
+            # checks from a restored state just as they do on first connection.
+            baseline_window = min(event_counter, _MINOR_CHEST_EVENT_RING_SLOT_COUNT)
+            exact_checked_locations = collect_exact_checked_locations(
+                event_counter - baseline_window, event_counter
             )
-            delta = _MINOR_CHEST_EVENT_RING_SLOT_COUNT
+        elif event_counter > self._last_minor_chest_event_counter:
+            delta = event_counter - self._last_minor_chest_event_counter
+            if delta > _MINOR_CHEST_EVENT_RING_SLOT_COUNT:
+                self._log_verbose(
+                    "warning",
+                    "KirbyAM: dropped %s exact minor-chest events because the payload ring buffer overflowed.",
+                    delta - _MINOR_CHEST_EVENT_RING_SLOT_COUNT,
+                )
+                delta = _MINOR_CHEST_EVENT_RING_SLOT_COUNT
+            exact_checked_locations = collect_exact_checked_locations(event_counter - delta, event_counter)
 
-        first_sequence = event_counter - delta
-        exact_checked_locations = collect_exact_checked_locations(first_sequence, event_counter)
-
+        # The ring is only an observation buffer, not an acknowledgment from the
+        # AP server. Retain every observed check before sending: send_msgs can
+        # raise, or silently return when its socket disconnected between polls.
         self._last_minor_chest_event_counter = event_counter
-        if not exact_checked_locations:
-            return
-
+        self._pending_minor_chest_locations.update(exact_checked_locations)
         active_location_ids = self._active_location_id_set(ctx)
         if active_location_ids is not None:
-            exact_checked_locations.intersection_update(active_location_ids)
-        missing_on_server = sorted(exact_checked_locations - ctx.checked_locations)
-        if not missing_on_server:
-            return
-
-        await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
+            self._pending_minor_chest_locations.intersection_update(active_location_ids)
+        self._pending_minor_chest_locations.difference_update(ctx.checked_locations)
+        if self._pending_minor_chest_locations:
+            await ctx.send_msgs([{
+                "cmd": "LocationChecks", "locations": sorted(self._pending_minor_chest_locations),
+            }])
 
     async def _poll_sound_player_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
@@ -3735,8 +3687,20 @@ class KirbyAmClient(BizHawkClient):
                 self._hook_heartbeat_stale_ticks += 1
             self._last_hook_heartbeat = hook_heartbeat
 
-        # Auto-resync delivery cursor if ROM item state moved backward (save-loss)
-        # or forward (reconnect after stale client state).
+        # The payload counts applied requests; the history index also includes
+        # skipped receipts. Compare physical counts to previous physical counts,
+        # never assume they equal the AP history index after a skipped entry.
+        previous_count = self._last_rom_received_count
+        counter_regressed = (rom_received_count is not None and previous_count is not None
+                             and rom_received_count < previous_count)
+        wrapped_ack = (self._delivery_pending and flag == 0 and previous_count == 0xFFFFFFFF
+                       and rom_received_count == 0)
+        counter_regressed = counter_regressed and not wrapped_ack
+        if rom_received_count is not None:
+            self._last_rom_received_count = rom_received_count
+        if counter_regressed:
+            self._delivery_counter_offset = 0
+
         if rom_received_count is not None:
             if rom_received_count > len(ctx.items_received):
                 if not self._delivery_counter_ahead_fallback_active:
@@ -3758,15 +3722,40 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_counter_ahead_fallback_active = False
                 self._delivery_counter_ahead_resume_logged = False
 
-            if rom_received_count < self._delivered_item_index:
+        # Consume a real pending ACK before any history rewind. Only that
+        # request's history index is acknowledged; a raw count cannot fast-forward
+        # over unrelated entries, nor can a smaller count erase this ACK.
+        if self._delivery_pending and flag == 0 and not counter_regressed:
+            delivered_index = self._delivery_pending_item_index
+            if delivered_index is None:
+                delivered_index = self._delivered_item_index
+            self._delivered_item_index = delivered_index + 1
+            if rom_received_count is not None:
+                self._delivery_counter_offset = max(0, self._delivered_item_index - rom_received_count)
+            self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
+            self._delivery_pending = False
+            self._delivery_pending_frame = None
+            self._delivery_pending_time = None
+            self._delivery_pending_item_index = None
+            self._delivery_timeout_streak = 0
+            self._delivery_retry_not_before = 0.0
+            self._delivery_payload_stall_warned = False
+            self._hook_heartbeat_stale_ticks = 0
+            await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
+            self._record_acknowledged_non_redeliverable_index(ctx, delivered_index)
+            await self._emit_receive_notification(ctx, delivered_index)
+            self._log_verbose("info", "KirbyAM: Mailbox delivery confirmed at history index %s (ROM count=%s)",
+                              delivered_index, rom_received_count)
+            if rom_received_count is None:
+                return
+
+        if rom_received_count is not None:
+            history_position = rom_received_count + self._delivery_counter_offset
+            if history_position < self._delivered_item_index and (counter_regressed or not self._delivery_pending):
                 self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
-                self._log_verbose(
-                    "info",
-                    "KirbyAM: ROM delivery counter moved backward from %s to %s; rewinding client delivery cursor",
-                    self._delivered_item_index,
-                    rom_received_count,
-                )
-                self._delivered_item_index = rom_received_count
+                self._log_verbose("info", "KirbyAM: ROM delivery counter moved backward; rewinding history index %s to %s",
+                                  self._delivered_item_index, history_position)
+                self._delivered_item_index = history_position
                 self._delivery_pending = False
                 self._delivery_pending_frame = None
                 self._delivery_pending_time = None
@@ -3775,68 +3764,9 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_retry_not_before = 0.0
                 self._delivery_payload_stall_warned = False
                 await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
-            elif (
-                rom_received_count > self._delivered_item_index
-                and rom_received_count <= len(ctx.items_received)
-                and self._delivery_pending
-                and flag == 0
-            ):
-                # Treat forward counter movement as authoritative only for a pending
-                # delivery ACK. This avoids stale ROM counters skipping deliveries.
-                _ff_pending_item_index = self._delivery_pending_item_index
-                self._log_verbose(
-                    "info",
-                    "KirbyAM: ROM delivery counter moved forward from %s to %s on pending ACK; fast-forwarding client delivery cursor",
-                    self._delivered_item_index,
-                    rom_received_count,
-                )
-                self._delivered_item_index = rom_received_count
-                self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
-                self._delivery_pending = False
-                self._delivery_pending_frame = None
-                self._delivery_pending_time = None
-                self._delivery_pending_item_index = None
-                self._delivery_timeout_streak = 0
-                self._delivery_retry_not_before = 0.0
-                self._delivery_payload_stall_warned = False
-                self._hook_heartbeat_stale_ticks = 0
-                await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
-                # When the ROM counter advances while a delivery was pending and flag == 0,
-                # this IS the ACK: the ROM processed our mailbox item and incremented the
-                # counter in the same frame as clearing the flag.  Emit the receive
-                # notification here so it is not silently dropped by the fast-forward path
-                # taking precedence over the 'if self._delivery_pending' block below.
-                _notify_index = _ff_pending_item_index
-                if _notify_index is None:
-                    _notify_index = self._delivered_item_index - 1
-                self._record_acknowledged_non_redeliverable_index(ctx, _notify_index)
-                await self._emit_receive_notification(ctx, _notify_index)
 
         # If an item is pending, wait for ROM to clear the flag (ACK)
         if self._delivery_pending:
-            if flag == 0:
-                delivered_index = self._delivery_pending_item_index
-                if delivered_index is None:
-                    delivered_index = self._delivered_item_index
-                self._log_verbose("info", "KirbyAM: Mailbox delivery confirmed at item index %s", delivered_index)
-                self._delivery_pending = False
-                self._delivery_pending_frame = None
-                self._delivery_pending_time = None
-                self._delivery_pending_item_index = None
-                self._delivery_timeout_streak = 0
-                self._delivery_retry_not_before = 0.0
-                self._delivery_payload_stall_warned = False
-                self._hook_heartbeat_stale_ticks = 0
-                if rom_received_count is not None and rom_received_count <= len(ctx.items_received):
-                    self._delivered_item_index = rom_received_count
-                else:
-                    self._delivered_item_index += 1
-                self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
-                await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
-                self._record_acknowledged_non_redeliverable_index(ctx, delivered_index)
-                await self._emit_receive_notification(ctx, delivered_index)
-                return
-
             # Check for timeout via frame counter OR wall-clock time (fallback if frame_counter stuck)
             timeout_triggered = False
             timeout_reason = ""
@@ -3939,6 +3869,8 @@ class KirbyAmClient(BizHawkClient):
                     itm,
                 )
                 self._delivered_item_index += 1
+                if rom_received_count is not None:
+                    self._delivery_counter_offset = max(0, self._delivered_item_index - rom_received_count)
                 self._delivery_pending = False
                 self._delivery_pending_time = None
                 self._delivery_pending_item_index = None
@@ -3981,6 +3913,8 @@ class KirbyAmClient(BizHawkClient):
                     )
 
                 self._delivered_item_index += 1
+                if rom_received_count is not None:
+                    self._delivery_counter_offset = max(0, self._delivered_item_index - rom_received_count)
                 self._delivery_pending = False
                 self._delivery_pending_time = None
                 self._delivery_pending_item_index = None
