@@ -1,8 +1,35 @@
 # v0.4.0 combined runtime acceptance
 
 This is a test plan, not a record of passing gameplay. The cloud suite and dummy
-ROM smoke cannot replace these checks. Record the exact included PRs; the
-individual PR review and combined-release acceptance are separate.
+ROM smoke cannot replace these checks. PR review status does not waive these
+runtime gates; no merge or release is implied by this checklist.
+
+## Historical Pi evidence versus pending gameplay
+
+The following records an earlier build, not the current consolidated candidate.
+On 2026-10-09 the owner-provided USA ROM was verified on the ARM64 Pi against
+SHA-1 `274b102b6d940f46861a92b4e65f89a51815c12c`. The combined #930/#931/#934/
+#935/#936 payload was rebuilt, retail hook sites validated, all 65 chest records
+regenerated with zero ambiguity, and APWorld packaging checked. The rebuilt
+base-patch SHA-256 is
+`037b7704b1a0404d3b6bcee7a29c8458b087f7c20b3fcf80d0f70a3a9760e4e4`.
+A genuine seed was generated after #938's compartment correction, and its
+embedded base patch matched. A loopback-only server/client handshake reached
+slot 1 with 115 pending checks; no location checks were simulated, no emulator
+was used, and the server stopped afterward.
+
+The combined automated suite passed 982 tests; five further research checks
+covered selected real-ROM fields and a controlled host harness for native door
+C. These results establish build, data and protocol behavior, **not gameplay**.
+The committed base patch was not replaced. The final release candidate must
+still be frozen and rebuilt from its exact reviewed source before acceptance.
+
+BizHawk chest collection, item grants, lever behavior, ability gating, health,
+save/reload, reconnect and full-session acceptance remain **UNRUN**. That earlier build kept Music Sheet #6 dormant. Current main activates all 65
+physical checks; the final integrated candidate must preserve that baseline.
+Pi generation/hosting and emulator acceptance are separate evidence.
+The BLOCKED example later in this document refers to gameplay acceptance and
+must not be interpreted as a claim that Pi real-ROM rebuilding is unrun.
 
 ## Freeze the build and inputs
 
@@ -48,10 +75,48 @@ preserved. Sheets never grant Sound Player (bit 0). Check the independent Sound
 Player chest and its AP item too. Preserve normal collection visuals and native
 room-counter behavior.
 
-Main now contains all 65 minor physical checks, including Spray Paint #6 and
-Music Sheet #6. The older #931/#935 stack still contains 41 ordinary checks.
-Record the integrated build's intended active-source count; physical checks and
-collection itemization are separate changes.
+The final main-integrated candidate preserves all 65 physical sources and
+itemizes all 24 fixed collections. Verify Candy Spray Paint #6 only through its
+9-01 compartment and Music Sheet #6 through upper Carrot 5-13.
+
+### Carrot topology investigation: `v040-carrot-{approach|switch|music}`
+
+These optional route investigations establish local traversal facts; they are
+not a prerequisite for the owner-approved v0.4 physical-location baseline.
+Use the combined build with #936's fixed collectibles and #938's corrected lower
+1-UP compartment, and record all included heads and artifact hashes.
+
+1. Record normal Kirby, current native room, ability/unlock settings and partner
+   positions. Use no partner holding or phone assistance for the single-player
+   baseline. Do not use a modified-position state as proof of the approach route.
+2. Trace an observed approach through native 719 to tile (14, 3); press Up and
+   verify entry to 720 at spawn (119, 8). Record movement actions and any required
+   ability. Repeat with the purported required ability unavailable to distinguish
+   necessity from convenience. Current AP identities are 5-07 and 5-14.
+3. In 720, trace the actual route from the right-hand spawn toward the switch at
+   pixel (600, 96) and sliding door at (520, 128). The eight OBJ_DESTROYABLE_ROCK_BLOCK
+   records at x1256..1368, y120 use a crumble-on-contact path; do not assume an
+   ability-breaking requirement from their name. Record whether they crumble,
+   can be crossed/floated over, and whether any alternate route exists.
+4. Measure the last switch contact/activation, room-state slot 1 changes and live
+   door bounds. Template+0x18 = 30 initializes the native release counter to 32,
+   but this is not a 32-frame passability claim: task scheduling, activation
+   renewal and opening/closing animation determine the available passage.
+   Record successful and failed normal walk/run/jump/float attempts. Repeat
+   with partners kept away so another Kirby cannot hold the switch silently.
+5. Verify whether passing the door reaches tile (2, 7) and Up transitions to 730
+   at (29, 4). Separately test the automatic tiles (17..27, 11) into 734 at (14, 5).
+   Record which actions enter the upper music compartment and whether the
+   solid divider prevents access to the lower 1-UP compartment.
+6. In the all-65 integrated build, opening the upper Music Sheet #6 chest must
+   report location 3960519 once and suppress its native sheet grant. Confirm the
+   assigned AP reward separately. The lower 1-UP source 0x008D3E88 belongs to
+   the 5-07 entry. Retest collection/save/reload/reconnect.
+
+The static source distinguishes attribute 255/0x4001 (Up) from 254/0x104001
+(automatic). The door reads ROOM slot 1, shared with the small switch. These are
+verified local conditions, not a complete logic rule. Preserve failed/blocked
+trials as evidence. Do not add expanded route or ability logic to this v0.4 scope.
 
 ### Levers: `v040-lever-{moonlight|olive|carrot|radish}-{order}`
 
@@ -121,7 +186,7 @@ ROM_REGION: USA
 EXPECTED_RESULT: Rebuilt real-ROM payload and matching client complete the runtime cases above
 OBSERVED_RESULT: Gameplay has not been run for this checklist
 EVIDENCE: pending-client-log-and-case-evidence
-NOTES: Cloud tests and dummy-ROM smoke are not runtime acceptance
+NOTES: Pi real-ROM build and local protocol checks passed; BizHawk gameplay remains unrun
 <!-- MANUAL_TEST_RESULT:END -->
 
 ## Review gate
