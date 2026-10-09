@@ -28,7 +28,12 @@ and [`src/script/socket.c`](https://github.com/mgba-emu/mgba/blob/0.10.5/src/scr
 
 - Upstream minimum: mGBA 0.10.0+, with the scripting UI, Lua and built-in socket API.
   A standalone core library or a build without Tools > Scripting is insufficient.
-- Load the script beside AP's `base64.lua` and `json.lua`, in `data/lua`.
+- Use the **KirbyAM mGBA Client** Launcher component, or
+  `python -m worlds.kirbyam.mgba_launcher` from source. It exports this APWorld
+  resource, its notices and AP's existing `base64.lua`/`json.lua` into the directory
+  printed in the client log. Load that exported script. `--connector-dir` selects
+  a fresh destination; differing existing files are preserved rather than replaced.
+  The standard BizHawk client and patch association remain unchanged.
 - One mGBA connector instance at a time. The upstream cross-instance binding
   limitation is not solved by this adaptation. Close competing BizHawk connectors too.
 - `ROM` is mGBA `cart0` with ROM-relative offsets; `System Bus` uses full GBA
@@ -65,3 +70,17 @@ The [historical #876 closing report](https://github.com/hasherwi/Archipelago-kir
 was posted July 31, 2026 and describes a June 24 adapter with APWorld 0.3.0-rc2:
 goal completion and remaining checks worked there. It does not validate this
 candidate. See `worlds/kirbyam/dev-docs/mgba-acceptance.md` for current acceptance.
+
+
+## Repository scope
+
+All source, resources, tests and documentation for this integration live under
+`worlds/kirbyam`. The world registers an opt-in component through AP's existing
+`LauncherComponents` hook and reuses the existing `BizHawkClientContext` and game
+watcher without editing or monkeypatching shared modules. Shared transport log
+messages retain the BizHawk name. ROM preflight is world-local.
+
+The five exported runtime files are materialized because mGBA needs ordinary Lua
+files outside the APWorld ZIP. Their user-selected/default output directory is
+runtime data, not a source-tree modification. AP's standard Lua helper files are
+read and copied without altering their originals.

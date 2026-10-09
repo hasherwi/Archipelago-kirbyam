@@ -4286,11 +4286,9 @@ async def test_game_watcher_reloads_state_after_transport_recovery(mock_bizhawk_
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("connector_label", ["BizHawk", "emulator connector (mGBA mode)"])
-async def test_global_game_watcher_recovers_when_handler_tick_times_out(connector_label):
+async def test_global_game_watcher_recovers_when_handler_tick_times_out():
     """A RequestFailedError in handler game_watcher should not crash the global watcher loop."""
     ctx = Mock()
-    ctx.connector_label = connector_label
     ctx.watcher_timeout = 0.01
     ctx.watcher_event = asyncio.Event()
     ctx.watcher_event.set()
@@ -4317,7 +4315,7 @@ async def test_global_game_watcher_recovers_when_handler_tick_times_out(connecto
 
     mock_ping.assert_awaited_once_with(ctx.bizhawk_ctx)
     ctx.client_handler.game_watcher.assert_awaited_once_with(ctx)
-    mock_logger.info.assert_any_call(f"Lost connection to {connector_label}: Connection timed out")
+    mock_logger.info.assert_any_call("Lost connection to BizHawk: Connection timed out")
 
 
 @pytest.mark.asyncio

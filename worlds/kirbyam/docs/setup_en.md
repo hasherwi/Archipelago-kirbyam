@@ -77,32 +77,39 @@ no current version/platform combination is certified yet. A ROM boot alone does
 not prove AP integration works. BizHawk setup above remains available.
 
 1. Use mGBA 0.10.0 or newer **with Tools > Scripting**, Lua and built-in sockets.
-2. Use this repository's `data/lua/connector_bizhawkclient_mgba.lua` beside its
-   `base64.lua` and `json.lua`. Keep the included MIT notices when copying them.
-   The connector is adapted from a pinned community source; see
-   [provenance and limitations](https://github.com/hasherwi/Archipelago-kirbyam/blob/codex/v040-mgba-support/data/lua/README.mgba.md).
-3. With this fork's client, run
-   `python BizHawkClient.py --emulator mgba path/to/seed.apkirbyam`
-   (or `ArchipelagoBizHawkClient --emulator mgba path/to/seed.apkirbyam` in a build
-   containing this change). This patches and prints the output ROM path without
-   launching EmuHawk or changing global settings. To reconnect without patching,
-   omit the patch filename.
-4. If you installed only the APWorld into stock Archipelago, this new CLI flag is
-   **not included**. Set `bizhawkclient_options.rom_start: false` in `host.yaml`
-   before opening the patch, and start BizHawk Client normally. That setting affects
-   all games using that client; restore it when you want automatic launching again.
+2. Install the KirbyAM APWorld containing this integration and restart the
+   Archipelago Launcher. Select **KirbyAM mGBA Client**. This is an opt-in Launcher
+   component; opening `.apkirbyam` through the existing Open Patch association
+   still uses the unchanged BizHawk workflow.
+3. In the patch picker, select your `.apkirbyam`, or cancel to connect without
+   patching. From a source checkout you can instead run
+   `python -m worlds.kirbyam.mgba_launcher path/to/seed.apkirbyam`.
+   From the Launcher CLI use
+   `ArchipelagoLauncher "KirbyAM mGBA Client" -- path/to/seed.apkirbyam`.
+   The Kirby-specific launcher validates and patches the ROM, then prints its path.
+   It does not launch an emulator or change global emulator settings.
+4. The launcher exports its bundled Lua adapter and MIT notices alongside AP's
+   existing `base64.lua` and `json.lua`, and prints the exported script path.
+   The default directory is `kirbyam/mgba-connector` under Archipelago's user-data
+   location (which can be its writable installation directory). To choose a
+   directory, pass `--connector-dir path/to/connector` to the world launcher.
+   Different existing files are never replaced: use a fresh directory when
+   upgrading. The adapter is bundled inside the APWorld, so no shared AP source
+   edits or global `rom_start` changes are needed. See
+   [provenance and limitations](https://github.com/hasherwi/Archipelago-kirbyam/blob/codex/v040-mgba-support/worlds/kirbyam/mgba/README.md).
 5. Put the patched ROM in a fresh directory unique to this seed/team/slot. Configure
    mGBA's save/state directory there; do not reuse player saves or states from another
    seed. Verify the save destination before playing.
 6. Open the patched `.gba` in mGBA. In **Tools > Scripting**, use
-   **File > Load script** to load `connector_bizhawkclient_mgba.lua`.
+   **File > Load script** to load the exported `connector_bizhawkclient_mgba.lua`
+   at the path printed by the launcher.
 7. Keep the scripting window and game running. Look for the connector's loopback
    listening message and `Connected (mGBA protocol 1)`, followed by Kirby ROM
    validation in the client. Connect the client to the AP room normally.
 
 Only run one mGBA connector at a time; close competing BizHawk connectors too.
-The mGBA CLI selection labels the chosen workflow; protocol 1 cannot independently
-identify which emulator is behind the connector.
+The world launcher announces mGBA mode. Shared transport messages still use the
+name BizHawk; protocol 1 cannot independently identify the emulator.
 
 ### Known limitation: mGBA notification display
 

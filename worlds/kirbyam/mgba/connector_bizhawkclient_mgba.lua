@@ -1,13 +1,13 @@
 -- KirbyAM adaptation of Zunawe/bhc-substitutes at 8954261f63f8032893b3a9a28a049a718ee480fc.
--- See README.mgba.md for provenance, changes and acceptance limits.
+-- See README.md for provenance, changes and acceptance limits.
 --[[
 This is a beta version of a connector script that will allow mGBA to
 communicate with Archipelago's BizHawk Client (yes, the name, I know).
 
 Requires mGBA version 0.10.0 or newer.
 
-Place it in the same directory as the normal BizHawk connector
-(`Archipelago/data/lua/`). Open your ROM in mGBA, and open
+Use the KirbyAM mGBA Client launcher to export this script alongside
+Archipelago's base64.lua and json.lua dependencies. Open your ROM in mGBA, and open
 `Tools > Scripting...` in the menus. Then `File > Load script...` in the new
 Scripting window and select this file.
 

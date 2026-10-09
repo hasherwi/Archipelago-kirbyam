@@ -64,7 +64,7 @@ socket.tcp = function()
     return sock
 end
 
-dofile("data/lua/connector_bizhawkclient_mgba.lua")
+dofile("worlds/kirbyam/mgba/connector_bizhawkclient_mgba.lua")
 local function connect()
     frame()
     accepted = connection()

@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, TextIO
 import settings
 from BaseClasses import ItemClassification, LocationProgressType, MultiWorld, Tutorial
 from worlds.AutoWorld import WebWorld, World
+from worlds.LauncherComponents import Component, Type, components, launch as launch_component
 
 from .client import KirbyAmClient  # noqa: F401  # Required to register BizHawk client
 from .ability_randomization import (
@@ -51,6 +52,17 @@ from .rom import KirbyAmProcedurePatch, write_tokens
 
 if TYPE_CHECKING:
     from NetUtils import MultiData
+
+
+def launch_mgba_client(*args: str) -> None:
+    from .mgba_launcher import main
+    launch_component(main, name="KirbyAMmGBAClient", args=args)
+
+
+# Opt-in component: do not take over .apkirbyam's existing BizHawk association.
+components.append(Component("KirbyAM mGBA Client", func=launch_mgba_client,
+                            component_type=Type.CLIENT,
+                            description="Connect KirbyAM through standalone mGBA (candidate integration)."))
 
 
 class KirbyAmWebWorld(WebWorld):

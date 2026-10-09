@@ -20,9 +20,9 @@ changing ROMs, and restart client/emulator for another seed/team/slot.
 ## Automated checks
 
 - Python: `python -m pytest worlds/kirbyam/test/test_mgba_launch.py worlds/kirbyam/test/test_bizhawk_patch_preflight.py worlds/kirbyam/test/test_client.py worlds/kirbyam/test/test_start_inventory_protocol.py`.
-  Covers launch selection, ROM rejection, existing delivery/check/reconnect and
+  Covers world-local launch/export, ROM rejection, existing delivery/check/reconnect and
   Dark Mind 9999/10000 goal handling with mocked BizHawk memory.
-- Syntax: `luac -p data/lua/connector_bizhawkclient_mgba.lua`.
+- Syntax: `luac -p worlds/kirbyam/mgba/connector_bizhawkclient_mgba.lua`.
 - After approval to execute the reviewed adapter, from repo root:
   `lua worlds/kirbyam/tools/test_mgba_connector.lua`.
   Exercises fragmented/coalesced input, partial/would-block output, version,
@@ -30,7 +30,7 @@ changing ROMs, and restart client/emulator for another seed/team/slot.
   traffic, disconnect/reconnect, lock release, idle timeout and port exhaustion.
   No ROM or real socket is used. Passing does not establish native timing.
 
-Current implementation check: **238 Python tests passed** in the four-file command
+Current implementation check: **248 Python tests passed** in the four-file command
 above; adapter and host-harness Lua syntax checks passed. After execution approval,
 the bounded host harness **passed under Lua 5.1.5**, using mocked memory, sockets
 and time only. Its notification assertion verifies a text-print call, not real
@@ -44,7 +44,7 @@ Do not substitute injected emulator RAM values for physical gameplay.
 
 | Case | Observation required | Status |
 | --- | --- | --- |
-| Fresh setup | Patched USA ROM opens, connector version 1 connects, Kirby handler validates, correct AP slot authenticates | UNRUN |
+| Fresh setup | Installed APWorld exposes KirbyAM mGBA Client; bundled connector exports; patched USA ROM opens, connector version 1 connects, Kirby handler validates, correct AP slot authenticates | UNRUN |
 | Wrong/unpatched ROM | Clear rejection without AP authentication or item writes | UNRUN |
 | Missing modules/build feature | Clear setup error; no false connected/supported claim | UNRUN |
 | Incompatible connector | Version mismatch disconnect; missing domain/command reported | UNRUN |

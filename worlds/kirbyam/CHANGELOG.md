@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## v0.4.0
 
 ### New Features
+- Added the opt-in **KirbyAM mGBA Client** Launcher component with its adapter, notices and export tooling inside the APWorld; shared BizHawk source and its default patch association remain unchanged (Issue #941). Current runtime acceptance remains outstanding.
 - Added mailbox support for all 14 unique Spray Paint and 10 unique Music Sheet items. Activated 23 unambiguous fixed-collection chests, each with its matching item in the pool, without awarding the original native collection item (Issues #525, #535, #537).
 - Added 41 ordinary small-chest location checks, matched to their exact ROM sources while preserving native chest persistence (PR #930).
 - Added an `/abilities` client command that lists the abilities currently unlocked for the slot (Issue #891).
