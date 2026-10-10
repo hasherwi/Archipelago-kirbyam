@@ -125,6 +125,7 @@ def mock_bizhawk_context() -> Mock:
     ctx.items_received = []  # List of NetworkItem objects delivered to player
     ctx.slot = 1
     ctx.team = 0
+    ctx.server_seed_name = "test_seed"
     ctx.auth = "test_auth_token"
 
     async def send_msgs_side_effect(messages):
@@ -287,3 +288,17 @@ def location_check_fixtures() -> Dict[str, int]:
             continue
         result[loc_key.lower()] = loc_data.location_id
     return result
+
+
+@pytest.fixture(autouse=True)
+def isolated_receipt_storage(tmp_path, monkeypatch):
+    """Never let client regression tests read/write a player's receipt journal."""
+    import Utils
+    original = Utils.user_path
+
+    def user_path(*parts):
+        if parts == ("kirbyam", "receipts.sqlite3"):
+            return str(tmp_path / "receipts.sqlite3")
+        return original(*parts)
+
+    monkeypatch.setattr(Utils, "user_path", user_path)

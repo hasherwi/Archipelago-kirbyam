@@ -777,3 +777,18 @@ not prove a native save flush. Complete history may correct an inflated saved
 count; partial replay retains it up to the configured upgrade limit. Only a
 real increase heals living Kirby; duplicate/replayed receipts cannot revive or
 heal. Physical chest flags never establish item ownership.
+
+### Local receipt journal and reopen behavior (#952)
+
+The client records acknowledged transient receipts and receive-notice decisions in
+an authenticated seed/ROM/team/slot-scoped local SQLite journal. This survives
+client reinitialization and zeroed transport RAM. Persistent ownership receipts
+remain replayable for native-save restoration, without repeated notices. Delivery
+policy is explicit rather than derived from filler classification.
+
+An interrupted write-ahead transient receipt pauses delivery until the user resolves
+its outcome with `/receipt received` or `/receipt retry` after clearing the mailbox
+through a native-save restart. The client never treats a raw counter as proof of an
+ambiguous effect. Journal IO failures also pause delivery. See
+[reopening-receipts.md](dev-docs/reopening-receipts.md) for migration, portability,
+crash-window limits and recovery semantics. ROM/save formats are unchanged.
