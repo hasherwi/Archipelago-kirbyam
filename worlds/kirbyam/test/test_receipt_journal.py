@@ -313,3 +313,18 @@ async def test_session_change_during_bridge_read_prevents_delivery(receipt_env):
     box.read = changed_session
     await tick(client, ctx, box, AsyncMock())
     assert not box.offers
+
+
+@pytest.mark.asyncio
+async def test_reused_history_index_does_not_suppress_a_different_receipt(receipt_env):
+    ctx = receipt_env
+    ctx.items_received = [NetworkItem(3860027, 42, 1)]
+    client = make_client(ctx)
+    display = AsyncMock()
+    await drain(client, ctx, Mailbox(client), display)
+    ctx.items_received = [NetworkItem(3860027, 43, 1)]
+    client.on_package(ctx, 'ReceivedItems', {'index': 0})
+    box = Mailbox(client)
+    await drain(client, ctx, box, display)
+    assert box.applied == [3860027]
+    assert display.await_count == 2

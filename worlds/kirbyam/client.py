@@ -4204,7 +4204,8 @@ class KirbyAmClient(BizHawkClient):
                 except (OSError, sqlite3.Error, ValueError) as exc:
                     self._receipt_failure(f"could not read receipt ({exc})")
                     return
-            if durable_ack or self._is_acknowledged_non_redeliverable_index(ctx, self._delivered_item_index):
+            if durable_ack or (self._receipt_journal is None and
+                               self._is_acknowledged_non_redeliverable_index(ctx, self._delivered_item_index)):
                 # Issue #753: non-redeliverable items (traps/filler) are one-time
                 # effects and must not replay on reconnect/reload after mailbox ACK.
                 if rom_received_count is None:
