@@ -8,6 +8,19 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## v0.5.0
+
+### New Features
+
+### Improvements
+
+### Known Limitations
+
+### Bug Fixes
+- Pause new item deliveries during the update that applies an incoming DeathLink, including links received while checking locations. Items already being delivered can still finish, and new deliveries resume after Kirby respawns (Issue #944).
+
+### Internal Changes
+
 ## v0.4.1
 
 ### New Features

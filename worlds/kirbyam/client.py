@@ -1918,6 +1918,7 @@ class KirbyAmClient(BizHawkClient):
             await self._reconcile_vitality_ownership(ctx)
             await self._enforce_no_extra_lives(ctx)
             await self._enforce_health_range(ctx)
+            death_link_was_pending = self._death_link_enabled is True and self._incoming_death_link_pending
             await self._apply_pending_death_link(ctx)
             await self._poll_and_send_local_death_link(ctx)
 
@@ -1966,7 +1967,14 @@ class KirbyAmClient(BizHawkClient):
             await self._poll_enemy_ability_reroll_events(ctx)
 
             # Item delivery (mailbox protocol)
-            await self._deliver_items(ctx)
+            if death_link_was_pending or (self._death_link_enabled is True and self._incoming_death_link_pending):
+                # The earlier gameplay snapshot predates DeathLink's HP write.
+                # Keep ACK/recovery processing, but wait for a fresh alive tick
+                # before offering another item. Also catch links queued while
+                # the intervening location polls were awaiting bridge IO.
+                await self._deliver_items(ctx, allow_new_writes=False)
+            else:
+                await self._deliver_items(ctx)
 
             # Goal reporting
             await self._maybe_report_goal(ctx, ai_state_override=ai_state)
