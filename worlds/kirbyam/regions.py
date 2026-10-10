@@ -33,8 +33,12 @@ def create_regions(world: "KirbyAmWorld") -> dict[str, Region]:
         # Add fillable locations from JSON
         for loc_key in region_data.locations:
             loc_meta = data.locations[loc_key]
-            if loc_meta.category == LocationCategory.MINOR_CHEST and not enable_minor_chests:
-                continue
+            if loc_meta.category == LocationCategory.MINOR_CHEST:
+                # Older spray-paint/music-note metadata rows are not physical
+                # chest locations. Only source-pointer-backed rows represent
+                # verified, unique checks in this rollout.
+                if not enable_minor_chests or loc_meta.source_rom_offset is None:
+                    continue
             if (
                 loc_meta.category == LocationCategory.ROOM_SANITY
                 and not world.options.room_sanity.value

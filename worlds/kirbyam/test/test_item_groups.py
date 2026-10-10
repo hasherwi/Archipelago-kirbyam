@@ -115,8 +115,8 @@ class TestItemGroupMembership:
             "Maps group size should match map items in data"
 
         # Vitality: 4 area-specific items
-        assert len(ITEM_GROUPS.get("Vitality", set())) == 4, \
-            "Vitality group should have 4 items"
+        assert len(ITEM_GROUPS.get("Vitality", set())) == 9, \
+            "Vitality group should have 9 items"
         assert "Candy Constellation - Vitality Counter" in ITEM_GROUPS.get("Vitality", set()), \
             "Vitality group should include Candy Constellation - Vitality Counter"
         # Filler: 7 shipped filler items (1-Up plus consumables)

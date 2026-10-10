@@ -194,6 +194,56 @@
     "item_id": 3860021,
     "tags": ["Vitality", "Useful", "Unique"]
   },
+  "VITALITY_COUNTER_5": {
+    "label": "Vitality Counter #5",
+    "classification": "USEFUL",
+    "item_id": 3860224,
+    "tags": [
+      "Vitality",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "VITALITY_COUNTER_6": {
+    "label": "Vitality Counter #6",
+    "classification": "USEFUL",
+    "item_id": 3860225,
+    "tags": [
+      "Vitality",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "VITALITY_COUNTER_7": {
+    "label": "Vitality Counter #7",
+    "classification": "USEFUL",
+    "item_id": 3860226,
+    "tags": [
+      "Vitality",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "VITALITY_COUNTER_8": {
+    "label": "Vitality Counter #8",
+    "classification": "USEFUL",
+    "item_id": 3860227,
+    "tags": [
+      "Vitality",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "VITALITY_COUNTER_9": {
+    "label": "Vitality Counter #9",
+    "classification": "USEFUL",
+    "item_id": 3860228,
+    "tags": [
+      "Vitality",
+      "Useful",
+      "Unique"
+    ]
+  },
   "SOUND_PLAYER": {
     "label": "Sound Player",
     "classification": "USEFUL",
@@ -223,5 +273,245 @@
     "classification": "PROGRESSION",
     "item_id": 3860040,
     "tags": ["Levers", "Progression", "Unique"]
+  },
+  "SPRAY_PAINT_01": {
+    "label": "Spray Paint #1",
+    "classification": "USEFUL",
+    "item_id": 3860200,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "SPRAY_PAINT_02": {
+    "label": "Spray Paint #2",
+    "classification": "USEFUL",
+    "item_id": 3860201,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "SPRAY_PAINT_03": {
+    "label": "Spray Paint #3",
+    "classification": "USEFUL",
+    "item_id": 3860202,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "SPRAY_PAINT_04": {
+    "label": "Spray Paint #4",
+    "classification": "USEFUL",
+    "item_id": 3860203,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "SPRAY_PAINT_05": {
+    "label": "Spray Paint #5",
+    "classification": "USEFUL",
+    "item_id": 3860204,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "SPRAY_PAINT_06": {
+    "label": "Spray Paint #6",
+    "classification": "USEFUL",
+    "item_id": 3860205,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "SPRAY_PAINT_07": {
+    "label": "Spray Paint #7",
+    "classification": "USEFUL",
+    "item_id": 3860206,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "SPRAY_PAINT_08": {
+    "label": "Spray Paint #8",
+    "classification": "USEFUL",
+    "item_id": 3860207,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "SPRAY_PAINT_09": {
+    "label": "Spray Paint #9",
+    "classification": "USEFUL",
+    "item_id": 3860208,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "SPRAY_PAINT_10": {
+    "label": "Spray Paint #10",
+    "classification": "USEFUL",
+    "item_id": 3860209,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "SPRAY_PAINT_11": {
+    "label": "Spray Paint #11",
+    "classification": "USEFUL",
+    "item_id": 3860210,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "SPRAY_PAINT_12": {
+    "label": "Spray Paint #12",
+    "classification": "USEFUL",
+    "item_id": 3860211,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "SPRAY_PAINT_13": {
+    "label": "Spray Paint #13",
+    "classification": "USEFUL",
+    "item_id": 3860212,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "SPRAY_PAINT_14": {
+    "label": "Spray Paint #14",
+    "classification": "USEFUL",
+    "item_id": 3860213,
+    "tags": [
+      "SprayPaint",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "MUSIC_SHEET_01": {
+    "label": "Music Sheet #1",
+    "classification": "USEFUL",
+    "item_id": 3860214,
+    "tags": [
+      "MusicSheet",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "MUSIC_SHEET_02": {
+    "label": "Music Sheet #2",
+    "classification": "USEFUL",
+    "item_id": 3860215,
+    "tags": [
+      "MusicSheet",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "MUSIC_SHEET_03": {
+    "label": "Music Sheet #3",
+    "classification": "USEFUL",
+    "item_id": 3860216,
+    "tags": [
+      "MusicSheet",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "MUSIC_SHEET_04": {
+    "label": "Music Sheet #4",
+    "classification": "USEFUL",
+    "item_id": 3860217,
+    "tags": [
+      "MusicSheet",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "MUSIC_SHEET_05": {
+    "label": "Music Sheet #5",
+    "classification": "USEFUL",
+    "item_id": 3860218,
+    "tags": [
+      "MusicSheet",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "MUSIC_SHEET_06": {
+    "label": "Music Sheet #6",
+    "classification": "USEFUL",
+    "item_id": 3860219,
+    "tags": [
+      "MusicSheet",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "MUSIC_SHEET_07": {
+    "label": "Music Sheet #7",
+    "classification": "USEFUL",
+    "item_id": 3860220,
+    "tags": [
+      "MusicSheet",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "MUSIC_SHEET_08": {
+    "label": "Music Sheet #8",
+    "classification": "USEFUL",
+    "item_id": 3860221,
+    "tags": [
+      "MusicSheet",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "MUSIC_SHEET_09": {
+    "label": "Music Sheet #9",
+    "classification": "USEFUL",
+    "item_id": 3860222,
+    "tags": [
+      "MusicSheet",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "MUSIC_SHEET_10": {
+    "label": "Music Sheet #10",
+    "classification": "USEFUL",
+    "item_id": 3860223,
+    "tags": [
+      "MusicSheet",
+      "Useful",
+      "Unique"
+    ]
   }
 }

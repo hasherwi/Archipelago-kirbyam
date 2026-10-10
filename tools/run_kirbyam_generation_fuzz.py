@@ -20,6 +20,7 @@ FUZZER_REPOSITORY = "https://github.com/ionium-ap/Archipelago-fuzzer"
 FUZZER_COMMIT = "ebe01d5523f04a2a0a1de5eb7229d10ef12b8fc2"
 FUZZER_VERSION = "0.6.2"
 FUZZER_SHA256 = "fbb3c0f19e1dc5a85c6e7f561a4f2cdc2d18c773f48238b4df0923b3c68ea35b"
+FUZZER_META_PATH = REPO_ROOT / "tools" / "kirbyam_generation_fuzz_meta.yaml"
 OUTPUT_DIR = REPO_ROOT / "fuzz_output"
 REPORT_PATH = OUTPUT_DIR / "report.json"
 METADATA_PATH = OUTPUT_DIR / "metadata.json"
@@ -89,7 +90,7 @@ def build_fuzzer_command(args: argparse.Namespace) -> list[str]:
         "--dump-ignored",
     ]
     if args.sample_from is None:
-        command.extend(("--game", "kirbyam"))
+        command.extend(("--game", "kirbyam", "--meta", str(FUZZER_META_PATH)))
     else:
         command.extend(("--sample-from", str(args.sample_from.resolve())))
     if not args.with_output:

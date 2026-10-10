@@ -8,7 +8,7 @@ All location polling runs in worlds/kirbyam/client.py from KirbyAmClient.game_wa
 
 1. Boss defeat
 2. Major chest
-3. Minor chest
+3. Saved physical chest recovery, then minor chest events
 4. Vitality chest
 5. Sound Player chest
 6. Hub switch
@@ -23,7 +23,7 @@ Each poll computes mapped AP location IDs and sends LocationChecks for IDs not y
 |---|---|---|---|
 | BOSS_DEFEAT | AP_BOSS_DEFEAT_FLAGS transport bitfield | payload hook ap_on_boss_defeat_collect_shard() and ap_on_boss_defeat_already_owned_reward() in kirby_ap_payload/ap_payload.c | _poll_boss_defeat_locations() |
 | MAJOR_CHEST | AP_MAJOR_CHEST_FLAGS transport bitfield | payload hook ap_on_collect_big_chest() | _poll_major_chest_locations() |
-| MINOR_CHEST | Native small chest flags + exact source-pointer ring for ambiguous chests | payload hooks ap_on_collect_small_chest(), ap_on_collect_spray_paint_chest(), ap_on_collect_sound_player_chest() write ring and native flags | _poll_minor_chest_locations() + _poll_exact_minor_chest_events() |
+| MINOR_CHEST | Exact source-pointer event ring | payload hook ap_on_collect_small_chest() records the source pointer and native persistence bit; native reward callsites remain intact | _poll_minor_chest_locations() delegates to _poll_minor_chest_event_locations() |
 | VITALITY_CHEST | AP_VITALITY_CHEST_FLAGS transport bitfield | payload hook ap_on_collect_vitality_chest() | _poll_vitality_chest_locations() |
 | SOUND_PLAYER_CHEST | AP_SOUND_PLAYER_CHEST_FLAGS transport bitfield | payload hook ap_on_collect_sound_player_chest() | _poll_sound_player_chest_locations() |
 | HUB_SWITCH | AP_HUB_SWITCH_FLAGS transport bitfield | payload hook ap_on_world_map_unlock_call() and world-props sync helpers | _poll_hub_switch_locations() |
@@ -33,12 +33,57 @@ Each poll computes mapped AP location IDs and sends LocationChecks for IDs not y
 
 ## Minor chest disambiguation details
 
-Minor chest reporting uses two paths:
+All 65 physical USA small chests are active: 41 ordinary rewards, 14 Spray
+Paints, and 10 Music Sheets. Historical AP IDs remain stable. Every exact event
+must match a verified `source_rom_offset`; nearby pointers are not aliases.
+Music Sheet 6 is source `0x008D3E64`, native flag 81, reward 46, AP ID 3960519,
+in the upper Carrot 5-13 compartment entered from 5-14. The lower 1UP belongs
+to the separate entrance from 5-07.
 
-1. Standard mapped-by-bit checks from native small chest flags.
-2. Exact event ring source pointers for locations tagged as report-only/exact-event.
+The eight-entry event ring provides prompt reporting. On counter rollback the
+client replays its retained window. Observed checks remain pending until server
+acknowledgment. Independently, `_poll_saved_chest_locations` reads the 16-byte
+native `chestFields` at `0x02038960` each gameplay poll. A complete scan of 287
+USA object lists establishes 84 unique flags (0..83): 65 small chests, 15 reward
+big chests, and four levers. `chest_recovery.json` maps the 80 reward chests;
+lever flags are excluded because they have item-owned semantics. Tutorial
+polling recovers only the tutorial World Map. Recovery filters active server
+locations and acknowledgments, and discards reads across session changes.
 
-The exact-event path exists because multiple physical chest events can share native bitfields. Source-pointer tracking keeps AP location mapping deterministic.
+Native chest flags are physical collection state, unlike reward ownership.
+A same-seed native save can recover an event overwritten while disconnected;
+unsaved collection lost by resetting before a native save cannot be recovered
+from the older save. Importing vanilla or other-seed saves is unsupported: the
+native save has no AP seed identity. This is not an exactly-once item-delivery
+or native-save-flush guarantee.
+
+Small-chest checks suppress native ordinary, paint, and music rewards. The
+AP-assigned reward is delivered separately; collection receipts grant ownership
+without marking a physical chest collected. See
+[fixed collection integration](minor-chest-collection-items.md).
+
+The physical inventory is reproducible with `tools/verify_chest_recovery.py`
+and an owner-provided unmodified USA ROM (SHA-1
+`274b102b6d940f46861a92b4e65f89a51815c12c`). Native collection/save semantics
+are cross-checked against [the pinned decompilation](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/chest.c)
+and its `src/treasures.c`. No ROM bytes are included in the repository.
+
+### v0.4.0 starting access
+
+All 65 checks are reachable in the current AP graph with no received AP items
+after native event sweeping. The native copy abilities Beam, Burning, Cutter,
+Mini, Stone, and Wheel remain ungated even with `ability_gating: true`; they
+are not six precollected AP items. The set intersects every current capability
+group, and capability rules remain permissive. No hub/area keys or new route
+requirements are introduced here. Physical traversal still requires playing
+the native game; this graph test is not a gameplay or timed-gate validation.
+
+The default enemy randomization mode is off. Optional shuffled/random modes
+can alter where abilities occur; in particular `ability_randomization_no_ability_weight:
+100` removes every participating enemy's grant, including Minny when its toggle
+is on. Statues remain a separate source. Therefore the ungated set alone does
+not establish a universal physical starting-access guarantee for every custom
+randomization setting. This existing option behavior is not changed here.
 
 ## Active-location filtering
 

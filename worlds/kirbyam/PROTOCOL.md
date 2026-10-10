@@ -32,11 +32,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
 
     0x02000000 - 0x02040000   EWRAM Region (256 KB)
         ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0203B000 - 0x0203B08B   AP Mailbox (reserved, 140 bytes)
+        ├─ 0x0203B000 - 0x0203B0BF   AP Mailbox (reserved, 192 bytes)
         └─ Remaining EWRAM (excluding AP mailbox block)
 ```
 
-### AP Mailbox Block (0x0203B000 - 0x0203B08B)
+### AP Mailbox Block (0x0203B000 - 0x0203B0BF)
 
 **Transport Layer: Client ↔ ROM Communication**
 
@@ -60,7 +60,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x3C   | 0x0203B03C | 4B | shard_scrub_delay_frames | u32 | ROM internal | Countdown timer (frames). Set to 600 by boss-defeat hook while temporary native shard state is visible during post-boss cutscene. |
 | 0x40   | 0x0203B040 | 4B | mailbox_init_cookie | u32 | ROM internal | Initialization cookie (`0x4B41504D`). If absent/mismatched, payload seeds `delivered_shard_bitfield` from native shard state, clears scrub delay + boss-defeat flags + boss temp shard mask, and stores the cookie to prevent stale EWRAM transport values from triggering scrub writes. |
 | 0x44   | 0x0203B044 | 4B | boss_temp_shard_bitfield | u32 | ROM internal | Bits 0-7 track shard bits temporarily written by boss-defeat hook for cutscene safety. On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, then clears this mask. |
-| 0x48   | 0x0203B048 | 4B | delivered_vitality_item_bits | u32 | ROM internal | Replay guard for vitality counter items. Bit N marks that `VITALITY_COUNTER_(N+1)` has already been applied, preventing duplicate vitality grants if an item is resent during reconnect/reset recovery. |
+| 0x48   | 0x0203B048 | 4B | delivered_vitality_item_bits | u32 | Client ↔ ROM | Bits 0..3 identify unique Vitality items. Bit 31 is client-owned and marks a cursor using the starting-inventory-prefixed history. Other bits are reserved. Payload initialization clears the whole word; native Vitality counting uses only bits 0..3. |
 | 0x4C   | 0x0203B04C | 4B | hub_switch_flags | u32 | ROM → Client | Bits 0–14 latched from persisted world-props unlock bits written by `WorldMapUnlockSave` (`sub_08002888(SUB_08002888_ENUM_UNK_3, index, 0)` in decomp; enum value 2), with world-map unlock callback path used only as an immediate fast path when persistence is already visible (AP bit order: Peppermint West, RR East, RR South, Cabbage Center, RR West, Carrot, RR North, Mustard, Cabbage West, Radish, Peppermint East, Moonlight, Cabbage East, Olive, Candy). Mapping source of truth is `data/hub_switch_contract.json`; payload consumes generated `kirby_ap_payload/generated_hub_switch_worldmap_cases.inc` and client compatibility aliases consume generated `generated_hub_switch_contract.py`. Payload ignores `WORLDMAP_NO_UNLOCK` (0), preventing false Peppermint West check sends from non-unlock dispatches (Issue #750). Compatibility note: contract currently carries legacy bit-15 aliasing for `Rainbow Route North - Big Switch` (Issue #733). |
 | 0x50   | 0x0203B050 | 4B | starting_kirby_color_id | u32 | ROM ← Client | Live recovery copy of the resolved starting color (`0..13`). The generated ROM also carries the same value at file offset `0x15F694`, allowing the startup hook to apply it before `CreateKirby`. After reconnect/reset, the payload updates `Kirby::color` and explicitly calls native `sub_0803E558(0)` to rebuild and upload the OBJ palette. |
 | 0x54   | 0x0203B054 | 4B | one_hit_mode_runtime | u32 | ROM ← Client | Challenge-mode runtime config: one-hit mode value (`0`=off, `1`=exclude_vitality_counters, `2`=include_vitality_counters). Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
@@ -78,11 +78,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x84   | 0x0203B084 | 4B | ability_reroll_ability_id_runtime | u32 | ROM → Client | Final ability ID selected/applied for the **most recent** ability telemetry event only. Pairs with `ability_reroll_source_addr_runtime` as a best-effort snapshot; if multiple events happen between polls, intermediate values are overwritten. The client logs how many events were missed when `ability_reroll_event_counter_runtime` advances by more than 1. |
 | 0x88   | 0x0203B088 | 4B | ability_reroll_kirby_index_runtime | u32 | ROM → Client | Current player/Kirby slot index (`0..3`) for the **most recent** ability telemetry event. The payload writes the active player index directly to this field and initializes it to `0`. |
 | 0x8C   | 0x0203B08C | 4B | minor_chest_event_counter | u32 | ROM → Client | Monotonic counter for exact small-chest collection events. Increments every time the native small-chest collect call fires. |
-| 0x90   | 0x0203B090 | 32B | minor_chest_event_ring | u32[8] | ROM → Client | Ring buffer of exact small-chest source pointers. Slot `N = event_counter & 7` stores the live chest object's source pointer from `object+0xB0`, allowing the client to disambiguate report-only minor chest locations that share native chest bits. |
+| 0x90   | 0x0203B090 | 32B | minor_chest_event_ring | u32[8] | ROM → Client | Ring buffer of exact small-chest source pointers. Slot `N = event_counter & 7` stores the live chest object's source pointer from `object+0xB0`; the client matches it against one verified ROM file offset for each active physical minor-chest check. |
 | 0xB0   | 0x0203B0B0 | 4B | ability_gate_mask_runtime | u32 | ROM ← Client | Bitmask of ability IDs that are currently configured as gateable (`safe_to_gate`) in `abilities.json`. |
 | 0xB4   | 0x0203B0B4 | 4B | ability_unlock_mask_runtime | u32 | ROM ← Client and ROM internal | Bitmask of ability IDs currently unlocked by AP ability items. Client sync writes canonical state; payload also sets bits when ability unlock AP items are applied to preserve runtime continuity. |
 | 0xB8   | 0x0203B0B8 | 4B | starting_kirby_color_applied | u32 | ROM internal | EWRAM latch set after the live player-one palette has been refreshed for the current EWRAM session. Cleared with mailbox initialization. This replaces an invalid mutable C static that would otherwise be linked into ROM-backed payload memory. |
-| 0xBC   | 0x0203B0BC | 4B | lever_activation_flags | u32 | ROM → Client | Bits 0–3 latch physical activation of the Moonlight 2-11, Olive 6-13, Carrot 5-12, and Radish 8-12 levers respectively. The small-switch hook suppresses the native wall-opening effect for these rooms, so this transport is the AP lever-location authority (Issue #859). |
+| 0xBC   | 0x0203B0BC | 4B | lever_activation_flags | u32 | ROM → Client | Bits 0–3 latch physical activation of the Moonlight 2-11, Olive 6-13, Carrot 5-12, and Radish 8-12 levers respectively. The chest-collection hook recognizes four exact reward-0x63 lever sources; their delayed popup counter grants are suppressed. This transport is the physical AP lever-location authority (Issues #859, #911, #912). |
 
 **Total: 192 bytes (0x0203B000 - 0x0203B0BF)**
 
@@ -92,7 +92,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 |----------|------|-------------------------|-----------|
 | 0x02038970 | 1B | KIRBY_SHARD_FLAGS       | Native mirror shard bitfield (bits 0-7) |
 | 0x0203897C | 4B | big_chest_bitfield_native | gTreasures.bigChestField; bit N = area ID N (enum AreaId): bit 1=Rainbow Route, 2=Moonlight Mansion, 3=Cabbage Cavern, 4=Mustard Mountain, 5=Carrot Castle, 6=Olive Ocean, 7=Peppermint Palace, 8=Radish Ruins, 9=Candy Constellation. This is the native map-ownership field. AP major-chest checks use `major_chest_flags` in the transport block, and the BizHawk client may reassert AP-owned map bits here from `start_with_all_maps` plus confirmed delivered map items to recover from reconnect/save-state drift. |
-| 0x02038960 - 0x02038969 | 10B | other_chest_flags_native | Native small-chest/switch bitfield block. Unique MINOR_CHEST AP checks still use this bitfield as a resend/fallback signal, while report-only ambiguous minor chest locations use `minor_chest_event_ring` for exact disambiguation. |
+| 0x02038960 - 0x0203896F | 16B | other_chest_flags_native | Native small-chest/switch persistence block (128 chest bits). Small-chest bits are preserved by the payload but are not used to identify AP minor-chest checks because their mapping can be shared. |
 | 0x02038962 / 0x02038968 / 0x02038969 | 1B each | lever_*_flag_native | Native lever-controlled wall state. The four Lever Wall AP items set these bits using chest/state IDs 18 (Moonlight), 65 (Olive), 77 (Carrot), and 74 (Radish). Physical lever activation no longer sets these bits directly; AP lever locations use `lever_activation_flags` instead (Issue #859). |
 | 0x02028C14+ |  -  | Boss/Mirror table       | Native location flags (TBD - not yet mapped). The BizHawk client may probe rising edges here for diagnostics, but boss-defeat AP checks are transport-authoritative via `boss_defeat_flags`. |
 | 0x02028CA0 | 576B | gVisitedDoors (`room_visit_flags_native`) | Native room-visit array (`u16[0x120]`); bit 15 marks visited state by `doorsIdx` |
@@ -115,7 +115,8 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | 1_UP              | 3860001  | Single extra life |
 | SHARD_1 .. SHARD_8 | 3860002 - 3860009 | Mirror shards (8 items) |
 | MAP_MUSTARD_MOUNTAIN .. MAP_RADISH_RUINS | 3860010 - 3860017 | Useful map rewards |
-| VITALITY_COUNTER_1 .. VITALITY_COUNTER_4 | 3860018 - 3860021 | Useful vitality rewards |
+| VITALITY_COUNTER_1 .. VITALITY_COUNTER_4 | 3860018 - 3860021 | Original unique vitality rewards |
+| VITALITY_COUNTER_5 .. VITALITY_COUNTER_9 | 3860224 - 3860228 | Additional format-2 unique vitality rewards |
 | MAP_RAINBOW_ROUTE | 3860024 | Useful map reward |
 | SOUND_PLAYER      | 3860025 | Useful unlock reward (applies native Sound Player unlock on receipt) |
 | SMALL_FOOD, BATTERY, MAX_TOMATO, INVINCIBILITY_CANDY | 3860026 - 3860029 | Filler consumable rewards |
@@ -127,7 +128,9 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | TRAP_LIFE_WIPEOUT | 3860036 | Trap item: sets Kirby's lives count to 0 |
 | LEVER_WALL_MOONLIGHT_MANSION_2_11 .. LEVER_WALL_RADISH_RUINS_8_12 | 3860037 - 3860040 | Progression items that independently set the four native lever-controlled wall bits (Issue #859) |
 | ABILITY_UNLOCK_* | 3860101 - 3860131 | Dynamic ability unlock items (`BASE_OFFSET + 100 + runtime_ability_id`) generated only for abilities in `abilities.json` where `safe_to_gate` is true and `enemy_copy_allowed` is not false |
-| *Reserved*        | 3860041+ (except dynamic ability unlock range) | Future items (doors, additional consumables, etc.) |
+| SPRAY_PAINT_01 .. SPRAY_PAINT_14 | 3860200 - 3860213 | Unique useful collection items; OR native Spray Paint ownership bits 0..13 |
+| MUSIC_SHEET_01 .. MUSIC_SHEET_10 | 3860214 - 3860223 | Unique useful collection items; OR native Music Player/Sheets bits 1..10, leaving bit 0 unchanged |
+| *Reserved* | 3860041 - 3860100, 3860132 - 3860199, 3860224+ | Future items; deferred hub/area-key work already uses IDs beginning at 3860041 |
 
 ### Current filler effect contract
 
@@ -201,37 +204,22 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 | VITALITY_CHEST_CANDY_CONSTELLATION | 3960303 | Candy Constellation 9-8 vitality big chest (transport vitality bit 3) |
 | SOUND_PLAYER_CHEST | 3960304 | Candy Constellation Sound Player chest (transport sound_player_chest bit 0) |
 | HUB_SWITCH_* | 3960400 - 3960414 | Hub big-switch checks mapped to `hub_switch_flags` bits 0..14 (bit 0 = Peppermint West, bit 11 = Moonlight; others sequential) |
-| LEVER_* | 3960415 - 3960418 | Lever checks sourced from native bits (`0x02038962` bit2 Moonlight 2-11, `0x02038968` bit1 Olive 6-13, `0x02038969` bit5 Carrot 5-12, `0x02038969` bit2 Radish 8-12) |
+| LEVER_* | 3960415 - 3960418 | Physical lever checks sourced only from `lever_activation_flags` bits 0..3. Native chest bits are separate AP wall ownership and never imply a check. |
 | AREA_VISIT_* | 3960451 - 3960459 | First-visit checks for gameplay areas 1..9 (Rainbow Route through Candy Constellation), derived from first visited room per area via native `gVisitedDoors` |
-| MINOR_CHEST_RAINBOW_ROUTE_1_39 | 3960500 | Rainbow Route 1-39 small chest (native other_chest_flags_native bit 1) |
-| MINOR_CHEST_RAINBOW_ROUTE_1_22 | 3960501 | Rainbow Route 1-22 small chest (native other_chest_flags_native bit 23) |
-| MINOR_CHEST_RAINBOW_ROUTE_1_38 | 3960502 | Rainbow Route 1-38 small chest (native other_chest_flags_native bit 41) |
-| MINOR_CHEST_PEPPERMINT_PALACE_7_BOSS | 3960503 | Peppermint Palace 7-Boss small chest (native other_chest_flags_native bit 20) |
-| MINOR_CHEST_CARROT_CASTLE_5_CHEST_2 | 3960504 | Carrot Castle 5-Chest 2 small chest (native other_chest_flags_native bit 21) |
-| MINOR_CHEST_CANDY_CONSTELLATION_9_CHEST_3 | 3960505 | Candy Constellation 9-Chest 3 small chest (native other_chest_flags_native bit 22) |
-| MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST | 3960506 | Peppermint Palace 7-Chest small chest (native other_chest_flags_native bit 24) |
-| MINOR_CHEST_CANDY_CONSTELLATION_9_12 | 3960507 | Candy Constellation 9-12 small chest (native other_chest_flags_native bit 25) |
-| MINOR_CHEST_OLIVE_OCEAN_6_05 | 3960508 | Olive Ocean 6-05 small chest (native other_chest_flags_native bit 26) |
-| MINOR_CHEST_RADISH_RUINS_8_02 | 3960510 | Radish Ruins 8-02 small chest (native other_chest_flags_native bit 29) |
-| MINOR_CHEST_MOONLIGHT_MANSION_2_01 | 3960511 | Moonlight Mansion 2-01 small chest (native other_chest_flags_native bit 30) |
-| MINOR_CHEST_CABBAGE_CAVERN_3_15 | 3960512 | Cabbage Cavern 3-15 small chest (native other_chest_flags_native bit 31) |
-| MINOR_CHEST_MUSTARD_MOUNTAIN_4_16 | 3960513 | Mustard Mountain 4-16 small chest (native other_chest_flags_native bit 32) |
-| MINOR_CHEST_CABBAGE_CAVERN_3_BOSS | 3960514 | Cabbage Cavern 3-Boss small chest (native other_chest_flags_native bit 43) |
-| MINOR_CHEST_PEPPERMINT_PALACE_7_07 | 3960515 | Peppermint Palace 7-07 small chest (native other_chest_flags_native bit 45) |
-| MINOR_CHEST_CANDY_CONSTELLATION_9_17 | 3960516 | Candy Constellation 9-17 small chest (native other_chest_flags_native bit 47) |
-| MINOR_CHEST_MOONLIGHT_MANSION_2_16 | 3960517 | Moonlight Mansion 2-16 small chest (native other_chest_flags_native bit 48) |
-| MINOR_CHEST_CABBAGE_CAVERN_3_08 | 3960518 | Cabbage Cavern 3-08 small chest (native other_chest_flags_native bit 49) |
-| MINOR_CHEST_OLIVE_OCEAN_6_13 | 3960519 | Olive Ocean 6-13 small chest (native other_chest_flags_native bit 50) |
+| MINOR_CHEST_SPRAY_PAINT_* / MINOR_CHEST_MUSIC_NOTE_* | 3960500 - 3960523 | 24 active fixed-collection checks with exact USA sources/rooms. Candy location 3960505 is in the 9-01 entry compartment; location 3960519 is in upper Carrot 5-13 entered from 5-14. All historical identities/IDs are preserved. |
+| MINOR_CHEST_* (verified ordinary small chests) | 3960566 - 3960606 | 41 ordinary item chests, each matched to one exact ROM object pointer and AP room. |
+| *Reserved/retired minor chest IDs* | 3960524 - 3960565 | Do not reuse historical minor-chest location IDs. |
 | ROOM_SANITY_* | 3961000+ | Room visit checks (`Room X-<room_code>`) keyed by native `doorsIdx` and polled from `gVisitedDoors[doorsIdx]` bit 15; includes designed goal/warp rooms |
-| *Reserved*    | 3960460+ | Future location families |
+| *Reserved*    | 3960460 - 3960499, 3960607 - 3960999 | Future location families |
 
-Minor chest status (Issue #540):
-- Expanded MINOR_CHEST AP checks are active for unique native chest-bit mappings in Rainbow Route, Cabbage Cavern, Mustard Mountain, Carrot Castle, Olive Ocean, Peppermint Palace, Radish Ruins, Moonlight Mansion, and Candy Constellation.
-- Report-only `Unmapped Minor Chest X-N` locations are no longer inferred from shared native chest bits. They are reported only from the exact `minor_chest_event_ring` source-pointer hook, which preserves one-to-one chest identity for ambiguous rooms.
-- Active MINOR_CHEST checks are polled from native `other_chest_flags_native` and use direct native chest bit semantics.
-- Respawn/reopen policy is documented as non-repeatable (single-fire chest state) based on decomp evidence in `katam/src/treasures.c` and `katam/asm/chest.s`.
-- Multi-chest room index disambiguation remains deferred (tracked in Issue #542).
-- See `worlds/kirbyam/dev-docs/minor-chest-respawn-policy.md` and `worlds/kirbyam/data/minor_chest_manifest.json` metadata (`respawn_reopen_policy`).
+Minor chest status:
+- Fixed-item integration extends the active set to 64 verified small chests: 41 ordinary rewards plus 14 Spray Paint and 9 Music Sheet sources. Spray Paint #6 is isolated to Candy 9-Chest 2 ENTRY_FROM_9_01. Music Sheet #6 remains native and excluded from the generated pool because its Carrot logical-region attribution is unresolved. Collection item numbers denote native collection indices, not the starting-color palette IDs.
+- The initial rollout activates the 41 ordinary item chests found in the USA ROM room-object list. Each has one stable AP location ID (3960566-3960606) and one exact, distinct source-object offset; 14 IDs 3960566-3960579 remain stable from the earlier draft.
+- `source_rom_offset` stores the normalized ROM file offset of the object record; the AMR payload entry points at its type field at `record + 0x0C`, while the runtime hook records the object's source pointer. The client accepts an exact match only and does not guess nearby pointer aliases.
+- The payload preserves native chest persistence and reports prompt checks from exact source pointers in the event ring, with recovery from audited physical chest flags. For the 41 ordinary item chests, it marks the live chest object and suppresses the native consumable at the delayed popup; the AP mailbox grants the assigned item. Spray Paint and Music Sheet rewards retain their native paths only for unknown/non-AP sources; mapped fixed chests suppress their collection calls. Sound Player retains its separate existing AP check and item.
+- The `NativeRewardConsumable` tag records the reward profile for the item-logic PR; it does not change location identity. `NativeRewardCollection` marks the 23 active fixed chests, whose existing IDs now resolve through the same exact-source event transport. Ownership bits never imply chest checks, so receiving a collection item first cannot consume its physical location.
+- Exact events and saved physical `chestFields` bits are filtered against the authenticated slot's active locations. The complete USA inventory has 84 unique flags (0..83); `data/chest_recovery.json` maps 79 reward checks. The four lever flags are excluded because delivered wall items own them, and Music Sheet 6 remains dormant. Map, paint, music and other reward-ownership bitfields never imply physical checks.
+- Once observed, exact-source checks stay pending in the client until the server acknowledges them. They are retried even when the ring counter is unchanged, after ring overwrite, and across transient reconnects in the same authenticated seed/team/slot. Pending checks are cleared on ROM/client initialization or session identity changes. Saved physical flags recover checks after unobserved ring overwrite, process exit, and transport reset; big map/Vitality/Sound Player checks use the same recovery. Native save/load acceptance in BizHawk is still required. The eight-entry ring is not durable storage, and power loss before the native game saves is not guaranteed recoverable.
 
 ## Client Protocol
 
@@ -253,6 +241,9 @@ Server → Client: ConnectionRefused | Connected
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the existing payload refreshes Kirby's live OBJ palette. Reconnect alone does not reroll the color.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
+- `health_protocol_version` (int): `2` for newly generated ROMs; requires the format-2 client and `KIRBYAM APV2` ROM header. Missing version identifies the legacy four-counter contract.
+- `minimum_health` (int): starting HP capacity (`1..10`, default `6`), applied by the connected client after the tutorial. This is not a current-HP floor. Ignored when One-Hit Mode is enabled.
+- `maximum_health` (int): final HP capacity (`1..10`, default `10`). Must be at least `minimum_health` and no more than nine HP above it. The difference determines how many of the nine unique Vitality Counter items are generated. Ignored when One-Hit Mode is enabled.
 - `one_hit_mode` (int): one-hit mode selection (`0=off`, `1=exclude_vitality_counters`, `2=include_vitality_counters`). When non-zero, Kirby's max HP is clamped to `vitality_counter + 1` during gameplay. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool (replaced by filler) so the cap stays at 1. In `include_vitality_counters` mode, Vitality Counter items remain in the pool and each one received raises the cap by 1.
 - `enable_traps` (bool): when true, trap items may appear in the randomized item pool.
 - `trap_fill_percentage` (int): percentage (`0..100`) of eligible filler slots that are replaced by trap items when `enable_traps` is true.
@@ -303,11 +294,18 @@ DeathLink runtime behavior contract:
 - During gameplay, the BizHawk client clamps `kirby_lives_native` to `0` so the player starts with zero extra lives and native/in-game life gains are overwritten.
 - Any `no_extra_lives` runtime diagnostics are emitted as file-only logs (`NoStream=True`).
 
-`one_hit_mode` runtime behavior contract:
-- Generation removes all four Vitality Counter items from the non-filler item pool (replaced by filler) when `one_hit_mode == exclude_vitality_counters` (1). Vitality Chest locations are kept, but this mode does not guarantee location-specific filler placement on those chests.
+`minimum_health`, `maximum_health`, and `one_hit_mode` runtime behavior contract:
+- Generation removes all Vitality Counter items from the non-filler item pool (replaced by filler) when `one_hit_mode == exclude_vitality_counters` (1). Vitality Chest locations are kept, but this mode does not guarantee location-specific filler placement on those chests.
 - In `exclude_vitality_counters` mode, filler selection also removes health-restoring filler (`Small Food`, `Energy Drink`, `Hunk of Meat`, `Max Tomato`) so randomized filler does not counteract the 1 HP challenge. If `no_extra_lives` is also enabled, `1 Up` is removed from that reduced filler pool as well.
 - Generation leaves the item pool unchanged when `one_hit_mode == include_vitality_counters` (2).
-- During gameplay, when `one_hit_mode != off`, the BizHawk client reads `kirby_vitality_counter_native` (`u16`) and enforces `desired_max_hp = vitality_counter + 1` (capped to `0x7F`) onto `kirby_max_hp_native` and `kirby_hp_native` for player 0's struct. In `exclude_vitality_counters` mode it additionally scrubs `kirby_vitality_counter_native` back to `0` every gameplay tick so AP vitality grants cannot persist.
+- `one_hit_mode: off` uses the configured `minimum_health`/`maximum_health` pair. The existing `exclude_vitality_counters` and `include_vitality_counters` presets override that pair to `1..1` and `1..5` respectively, preserving old YAML behavior.
+- With One-Hit Mode off, `1 <= minimum_health <= maximum_health <= 10` are required. Invalid pairs fail generation rather than silently altering the requested range. All 55 ordered pairs within 1..10 are supported by format 2.
+- Generation keeps the first `maximum - minimum` stable unique Vitality Counter IDs (`3860018..3860021`, then `3860224..3860228`), each exactly once; unused counter slots receive filler/traps under the existing fill policy. All four vitality-chest locations remain. The first four IDs and physical locations remain unchanged; five additional unique identities provide the wider ranges.
+- During active gameplay, the connected BizHawk client bounds native vitality to `maximum - minimum` and sets player 0's capacity to `minimum + bounded_vitality`. Alive HP above that cap is clamped. When raising native capacity (for example, an 8 HP start over the native 6 HP start), the same increase is applied to alive HP, preserving the existing damage deficit. An already-correct cap does not heal on repeated polls. Dead/negative HP is never revived.
+- HP/cap/vitality writes are guarded by the exact read snapshot so an intervening hit, death, respawn, or item delivery is not overwritten. A failed guard waits for a fresh read on the next gameplay tick.
+- The default `6..10` range keeps four upgrades. Older slot data omitting both new keys resolves to the defaults; legacy One-Hit values still take precedence. Invalid health pairs received in slot data cause no health writes.
+- Health options reuse the existing native fields and payload vitality handling. There is no new mailbox ABI or ROM token. Enforcement requires a connected current client after the tutorial: native room/respawn/vitality paths can briefly restore `6 + vitality` before the next client poll, and disconnected play does not maintain custom limits. Runtime/HP-meter rendering validation remains required before release.
+- Custom `1..1` health also excludes healing filler; custom starts at 1 HP exclude Health Down Trap from selection just like legacy One-Hit presets.
 - Dead/negative HP states (`current_hp <= 0`) are preserved; only alive Kirby's HP is clamped.
 - Any `one_hit_mode` runtime diagnostics are emitted as file-only logs (`NoStream=True`).
 ```
@@ -455,7 +453,7 @@ Mirror shard bitfields (`shard_bitfield_native` / `shard_bitfield`) are progress
 Boss shard scrub timing contract (Issue #505):
 - Boss hook writes temporary native shard state for cutscene safety and marks `boss_temp_shard_bitfield`.
 - During non-gameplay boss/cutscene states, payload may decrement `shard_scrub_delay_frames` but does not scrub pending boss-temp bits.
-- On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, persists the result to SRAM, and clears `boss_temp_shard_bitfield` + delay.
+- On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, leaves persistence to native save flow, and clears `boss_temp_shard_bitfield` + delay.
 
 **Behavior notes:**
 - Detection is **level-based** (current bitfield state), not edge-based, to be reconnect-safe.
@@ -504,11 +502,11 @@ Behavior note:
 4. **Recovery** (pending too long): client timeout path clears stale flag and retries same delivery index
 
 `debug_item_counter` reconciliation contract:
-- If `debug_item_counter < delivered_item_index`, rewind cursor to the ROM count.
-- If that rewind revisits trap entries already ACKed in the current client session, the client must locally consume those trap indices instead of writing them back to the mailbox again.
-- If `debug_item_counter` is ahead but still within `len(ctx.items_received)`, treat it as advisory unless a mailbox delivery is currently pending and `incoming_item_flag == 0` (same-tick ROM ACK path).
-- If `debug_item_counter > len(ctx.items_received)`, treat the counter as stale/debug-only and continue normal mailbox delivery once the mailbox is empty. This anti-starvation fallback must not permanently suppress writes.
-- Transition-based logs should make the ahead-counter fallback visible without per-tick spam.
+- The ROM counter counts applied mailbox requests; `delivered_item_index` counts AP history entries, including skipped session-acknowledged effects and malformed entries. They need not be equal.
+- Track the previous physical count and the history/count offset. Only a physical count regression resets that offset; skipping a history entry does not increment the ROM counter.
+- Consume a pending mailbox ACK at that request's history index before cursor reconciliation. A physical count cannot acknowledge unrelated history entries or erase a pending request just because skipped entries put the history index ahead.
+- Restore the persisted cursor together with the physical count. A stable count/history gap must not trigger repeated rewinds, skip logs, or fresh item writes.
+- Existing ahead-counter and missing-counter fallbacks remain supported. Session receipt tracking does not provide a durable journal across arbitrary client process loss.
 
 Research-first note for Issue #223:
 - Delivery remains gated only by the gameplay-active contract from Issue #56.
@@ -538,11 +536,7 @@ Receive-specific contract (Issue #73):
 - Receive notification is emitted only after mailbox ACK for the pending index.
 - Malformed/skipped `ReceivedItems` entries do not emit notifications.
 - Cursor fast-forward/rewind reconciliation without a pending delivery does not emit notifications.
-- Exception (Issue #269): when the ROM counter advances while a delivery is pending and the mailbox
-  flag is already cleared (flag == 0), this simultaneous counter-advance is treated as the ACK
-  signal and does emit a notification.  This covers the common hardware case where the ROM clears
-  the flag and increments debug_item_counter in the same frame, so the fast-forward reconciliation
-  path runs before the normal flag == 0 polling path on the next client tick.
+- A cleared pending mailbox is acknowledged at its recorded history index, including when the physical count is lower because earlier receipts were skipped. A detected physical counter regression instead initiates replay under the existing persistent/transient item policy.
 
 Optional slot-data toggles (default: enabled when absent):
 - `enable_receive_notifications`
@@ -690,3 +684,96 @@ On client startup (cold boot):
 - **AP Mailbox Spec:** See `worlds/kirbyam/data/addresses.json`
 - **ROM Payload:** See `worlds/kirbyam/kirby_ap_payload/ap_payload.c`
 - **Test Address Validator:** See `worlds/kirbyam/tools/validate_addresses.py` (TBD)
+
+### Lever object and final ability guards (v0.4.0)
+
+Lever wall ownership is applied once to the live room counter by a lever-only
+object callback; native initialization handles already-owned walls on room entry.
+The physical lever remains usable if its wall item arrived first. No additional
+mailbox fields are used. The final native ability state callback also reapplies
+the gate/unlock masks after roulette or other late pending-ability writes. See
+[`lever-runtime-regressions.md`](dev-docs/lever-runtime-regressions.md) for exact
+hooks, source provenance, and remaining emulator acceptance checks.
+
+### Native-save recovery and Vitality replay
+
+Use a fresh native save for every generated ROM/seed. Resume only that seed's
+save; importing vanilla or another seed's save is unsupported. Native saves
+have no AP seed identifier, so their origin cannot be inferred automatically.
+Recovery reads only after authentication/gameplay gating (tutorial polling is
+limited to its map) and intersects the active server locations. No saved native
+bits are cleared or reinterpreted as item ownership.
+
+After index-zero `ReceivedItems`, the complete authenticated history defines
+unique Vitality ownership, including duplicates and precollects. The client
+atomically reconciles transport identity bits, native count, max HP and living
+HP, preserving damage deficit and dead states. It waits for full history rather
+than treating an initially empty list as zero ownership. This is also the
+migration policy for saves inflated by the earlier replay bug: confirmed AP
+ownership corrects the count; no identities are guessed from a numeric save
+count. Replayed prefixes in the payload only raise count to the distinct IDs
+seen so far; they never increment the retained count or shrink partial history.
+Physical Vitality chest popup healing/cap writes are suppressed; health comes
+from AP ownership. No real gameplay or ARM ABI acceptance is implied by host tests.
+
+### Starting inventory and delivery-history upgrades
+
+The client requests `items_handling=0b111`: ordinary local/remote items and remote
+starting inventory. Stock server history prepends every starting item, not only
+Vitality. This lets ownership reconciliation and normal mailbox delivery agree
+on one ordering. The persisted client index addresses that history; the native
+counter counts only applied requests and can lag when known receipts are skipped.
+
+Bit 31 at `delivered_vitality_item_bits` marks the prefixed cursor format. The
+client sets it with an atomic guarded write only after the payload has initialized
+and the received counter, persisted index and incoming flag are all zero. It is
+preserved while reconciling the nine low Vitality identity bits (four for legacy ROMs), along with all other reserved high bits. A marked live
+cursor resumes normally on reconnect. With a starting-item prefix, an unmarked
+nonzero cursor is ambiguous and pauses work with a restart message; the client
+never guesses an offset or silently skips starting items. Cold-start the ROM
+from its same-seed native save and do not load a legacy savestate. If the client
+survives this transition, known ordinary-history consumable ACK indices shift
+by the starting-prefix length. This does not add durable consumable receipt
+storage or promise recovery from power loss before saving.
+
+Stock Connect/Sync sends no `ReceivedItems` packet for a truly empty history.
+The client therefore leaves native Vitality state unchanged until an actual
+index-zero history arrives; silence is not zero-ownership authority. The first
+normal receipt will supply that history. Empty-packet unit simulations describe
+packet handling only, not stock-server migration acceptance. Starting inventory
+alone is nonempty and does produce an index-zero history with the new flags.
+
+### Shard save integrity
+
+Shard delivery, boss collection and post-cutscene scrub update native EWRAM only.
+The former candidate SRAM offsets overlapped native save headers, not shard data,
+and could invalidate checksums. They are removed. The payload does not invoke a
+native save routine from an unverified frame-hook context. Normal native save flow
+owns serialization, checksums, slot selection and duplicate records. A reset before
+that save needs authenticated AP history replay; immediate power-loss persistence
+is not guaranteed. Host SRAM-integrity tests do not certify emulator save/load.
+
+
+### Format-2 health compatibility (#947)
+
+New patches use the 12-byte GBA title `KIRBYAM APV2` and recompute the header
+checksum. The game code, maker, seed authentication token and save layout remain
+unchanged. The ROM word at `0x0815F690` is `0xA902MMmm`, where `mm` and `MM`
+are the resolved minimum and maximum. One-Hit presets resolve to 1/1 and 1/5.
+The client requires slot `health_protocol_version=2` and exact matching bounds.
+It rechecks title/config/authentication before every watcher iteration, before
+runtime flags, DeathLink, location reports or mailbox writes. Mismatches pause
+writes and require regeneration/update. Older clients reject the new title.
+New clients retain the legacy title/four-counter slot contract; they do not
+apply nine-bit ownership to an old ROM.
+
+The native initializer reads these bounds before the client connects. Its u16
+saved count remains unchanged on initialization. The collection-room getter
+clamps to four display icons before the original u8 truncation; all nine AP
+ownership identities still contribute to configured capacity. No SRAM offsets
+or serializer formats change. Normal native save points or authenticated replay
+remain necessary to persist newly received ownership; receipt ACK alone does
+not prove a native save flush. Complete history may correct an inflated saved
+count; partial replay retains it up to the configured upgrade limit. Only a
+real increase heals living Kirby; duplicate/replayed receipts cannot revive or
+heal. Physical chest flags never establish item ownership.

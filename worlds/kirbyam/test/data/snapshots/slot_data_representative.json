@@ -77,6 +77,7 @@
   "enemy_health_multiplier": 100,
   "goal": 0,
   "goal_configured_area_boss_key": "BOSS_DEFEAT_3",
+  "health_protocol_version": 2,
   "locations": {
     "AREA_VISIT_1_RAINBOW_ROUTE": {
       "category": "AREA_VISIT",
@@ -510,218 +511,676 @@
         "BigChest"
       ]
     },
+    "MINOR_CHEST_CABBAGE_CAVERN_3_09": {
+      "category": "MINOR_CHEST",
+      "label": "Cabbage Cavern 3-09 - Small Chest",
+      "location_id": 3960576,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_CABBAGE_CAVERN_3_15": {
+      "category": "MINOR_CHEST",
+      "label": "Cabbage Cavern 3-15 - Small Chest",
+      "location_id": 3960577,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_CABBAGE_CAVERN_3_GOAL_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Cabbage Cavern Goal - Small Chest #1",
+      "location_id": 3960600,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_CANDY_CONSTELLATION_9_03_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Candy Constellation 9-03 - Small Chest #1",
+      "location_id": 3960599,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_CANDY_CONSTELLATION_9_10_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Candy Constellation 9-10 - Small Chest #1",
+      "location_id": 3960598,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_CANDY_CONSTELLATION_9_12": {
+      "category": "MINOR_CHEST",
+      "label": "Candy Constellation 9-12 - Small Chest",
+      "location_id": 3960575,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_CARROT_CASTLE_5_07_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Carrot Castle 5-07 - Small Chest #1",
+      "location_id": 3960605,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02": {
+      "category": "MINOR_CHEST",
+      "label": "Carrot Castle 5-13 - Small Chest #2",
+      "location_id": 3960606,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MOONLIGHT_MANSION_2_15_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Moonlight Mansion 2-15 - Small Chest #1",
+      "location_id": 3960585,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MOONLIGHT_MANSION_2_20": {
+      "category": "MINOR_CHEST",
+      "label": "Moonlight Mansion 2-20 - Small Chest",
+      "location_id": 3960569,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MOONLIGHT_MANSION_2_GOAL_2_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Moonlight Mansion Goal 2 - Small Chest #1",
+      "location_id": 3960584,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
     "MINOR_CHEST_MUSIC_NOTE_01": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #1",
+      "label": "Rainbow Route 1-39 - Music Sheet #1 Chest",
       "location_id": 3960514,
       "tags": [
+        "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
     "MINOR_CHEST_MUSIC_NOTE_02": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #2",
+      "label": "Peppermint Palace 7-06 - Music Sheet #2 Chest",
       "location_id": 3960515,
       "tags": [
+        "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
     "MINOR_CHEST_MUSIC_NOTE_03": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #3",
+      "label": "Cabbage Cavern 3-12 - Music Sheet #3 Chest",
       "location_id": 3960516,
       "tags": [
+        "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
     "MINOR_CHEST_MUSIC_NOTE_04": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #4",
+      "label": "Radish Ruins 8-22 - Music Sheet #4 Chest",
       "location_id": 3960517,
       "tags": [
+        "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
     "MINOR_CHEST_MUSIC_NOTE_05": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #5",
+      "label": "Peppermint Palace 7-08 - Music Sheet #5 Chest",
       "location_id": 3960518,
       "tags": [
+        "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
     "MINOR_CHEST_MUSIC_NOTE_06": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #6",
+      "label": "Carrot Castle 5-13 Upper - Music Sheet #6 Chest",
       "location_id": 3960519,
       "tags": [
+        "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
     "MINOR_CHEST_MUSIC_NOTE_07": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #7",
+      "label": "Candy Constellation 9-16 - Music Sheet #7 Chest",
       "location_id": 3960520,
       "tags": [
+        "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
     "MINOR_CHEST_MUSIC_NOTE_08": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #8",
+      "label": "Moonlight Mansion 2-17 - Music Sheet #8 Chest",
       "location_id": 3960521,
       "tags": [
+        "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
     "MINOR_CHEST_MUSIC_NOTE_09": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #9",
+      "label": "Cabbage Cavern 3-05 - Music Sheet #9 Chest",
       "location_id": 3960522,
       "tags": [
+        "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
     "MINOR_CHEST_MUSIC_NOTE_10": {
       "category": "MINOR_CHEST",
-      "label": "Music Note #10",
+      "label": "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest",
       "location_id": 3960523,
       "tags": [
+        "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSTARD_MOUNTAIN_4_05": {
+      "category": "MINOR_CHEST",
+      "label": "Mustard Mountain 4-05 - Small Chest",
+      "location_id": 3960573,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSTARD_MOUNTAIN_4_10_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Mustard Mountain 4-10 - Small Chest #1",
+      "location_id": 3960597,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_MUSTARD_MOUNTAIN_4_11": {
+      "category": "MINOR_CHEST",
+      "label": "Mustard Mountain 4-11 - Small Chest",
+      "location_id": 3960574,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_OLIVE_OCEAN_6_03_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Olive Ocean 6-03 - Small Chest #1",
+      "location_id": 3960602,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_OLIVE_OCEAN_6_09_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Olive Ocean 6-09 - Small Chest #1",
+      "location_id": 3960601,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_OLIVE_OCEAN_6_16": {
+      "category": "MINOR_CHEST",
+      "label": "Olive Ocean 6-16 - Small Chest",
+      "location_id": 3960578,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_02": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-02 - Small Chest",
+      "location_id": 3960570,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_02_OBJECT_02": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-02 - Small Chest #2",
+      "location_id": 3960586,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_02": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-06 - Small Chest #2",
+      "location_id": 3960590,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_03": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-06 - Small Chest #3",
+      "location_id": 3960591,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_09": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-09 - Small Chest",
+      "location_id": 3960571,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_09_OBJECT_02": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-09 - Small Chest #2",
+      "location_id": 3960592,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-10 - Small Chest #2",
+      "location_id": 3960593,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-10 - Small Chest #3",
+      "location_id": 3960594,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_13_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-13 - Small Chest #1",
+      "location_id": 3960589,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_14_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-14 - Small Chest #1",
+      "location_id": 3960595,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_19": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace 7-19 - Small Chest",
+      "location_id": 3960572,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace Chest - Small Chest #1",
+      "location_id": 3960587,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_02": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace Chest - Small Chest #2",
+      "location_id": 3960588,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_GOAL_2_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Peppermint Palace Goal 2 - Small Chest #1",
+      "location_id": 3960596,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_RADISH_RUINS_8_07_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Radish Ruins 8-07 - Small Chest #1",
+      "location_id": 3960603,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_RADISH_RUINS_8_11": {
+      "category": "MINOR_CHEST",
+      "label": "Radish Ruins 8-11 - Small Chest",
+      "location_id": 3960579,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_RADISH_RUINS_8_22_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Radish Ruins 8-22 - Small Chest #1",
+      "location_id": 3960604,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_RAINBOW_ROUTE_1_02": {
+      "category": "MINOR_CHEST",
+      "label": "Rainbow Route 1-02 - Small Chest",
+      "location_id": 3960566,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_RAINBOW_ROUTE_1_06_UPPER": {
+      "category": "MINOR_CHEST",
+      "label": "Rainbow Route 1-06 (Upper) - Small Chest",
+      "location_id": 3960567,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_RAINBOW_ROUTE_1_18_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Rainbow Route 1-18 - Small Chest #1",
+      "location_id": 3960582,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_RAINBOW_ROUTE_1_33_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Rainbow Route 1-33 - Small Chest #1",
+      "location_id": 3960580,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_1_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Rainbow Route Goal 1 - Small Chest #1",
+      "location_id": 3960581,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_2_OBJECT_01": {
+      "category": "MINOR_CHEST",
+      "label": "Rainbow Route Goal 2 - Small Chest #1",
+      "location_id": 3960583,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
+        "SmallChest"
+      ]
+    },
+    "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_3": {
+      "category": "MINOR_CHEST",
+      "label": "Rainbow Route Goal 3 - Small Chest",
+      "location_id": 3960568,
+      "tags": [
+        "ExactEventLocation",
+        "NativeRewardConsumable",
         "SmallChest"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_01": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #1",
+      "label": "Peppermint Palace 7-22 - Spray Paint #1 Chest",
       "location_id": 3960500,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_02": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #2",
+      "label": "Carrot Castle 5-16 - Spray Paint #2 Chest",
       "location_id": 3960501,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_03": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #3",
+      "label": "Candy Constellation 9-02 - Spray Paint #3 Chest",
       "location_id": 3960502,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_04": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #4",
+      "label": "Rainbow Route 1-28 - Spray Paint #4 Chest",
       "location_id": 3960503,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_05": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #5",
+      "label": "Peppermint Palace 7-05 - Spray Paint #5 Chest",
       "location_id": 3960504,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_06": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #6",
+      "label": "Candy Constellation 9-Chest 2 - Spray Paint #6 Chest",
       "location_id": 3960505,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_07": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #7",
+      "label": "Olive Ocean 6-06 - Spray Paint #7 Chest",
       "location_id": 3960506,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_08": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #8",
+      "label": "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
       "location_id": 3960507,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_09": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #9",
+      "label": "Peppermint Palace 7-10 - Spray Paint #9 Chest",
       "location_id": 3960508,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_10": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #10",
+      "label": "Radish Ruins 8-GOAL-1 - Spray Paint #10 Chest",
       "location_id": 3960509,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_11": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #11",
+      "label": "Moonlight Mansion 2-07-UPPER-LEFT - Spray Paint #11 Chest",
       "location_id": 3960510,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_12": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #12",
+      "label": "Cabbage Cavern 3-06 - Spray Paint #12 Chest",
       "location_id": 3960511,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_13": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #13",
+      "label": "Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest",
       "location_id": 3960512,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
     },
     "MINOR_CHEST_SPRAY_PAINT_14": {
       "category": "MINOR_CHEST",
-      "label": "Spray Paint #14",
+      "label": "Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest",
       "location_id": 3960513,
       "tags": [
+        "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -2881,6 +3340,8 @@
       ]
     }
   },
+  "maximum_health": 10,
+  "minimum_health": 6,
   "no_extra_lives": false,
   "one_hit_mode": 0,
   "room_sanity": false,
@@ -5948,6 +6409,16 @@
     "Moonlight Mansion - Map",
     "Moonlight Mansion - Mirror Shard",
     "Moonlight Mansion 2-11 - Lever Wall",
+    "Music Sheet #1",
+    "Music Sheet #10",
+    "Music Sheet #2",
+    "Music Sheet #3",
+    "Music Sheet #4",
+    "Music Sheet #5",
+    "Music Sheet #6",
+    "Music Sheet #7",
+    "Music Sheet #8",
+    "Music Sheet #9",
     "Mustard Mountain - Map",
     "Mustard Mountain - Mirror Shard",
     "Olive Ocean - Map",
@@ -5961,7 +6432,26 @@
     "Radish Ruins - Vitality Counter",
     "Radish Ruins 8-12 - Lever Wall",
     "Rainbow Route - Map",
-    "Sound Player"
+    "Sound Player",
+    "Spray Paint #1",
+    "Spray Paint #10",
+    "Spray Paint #11",
+    "Spray Paint #12",
+    "Spray Paint #13",
+    "Spray Paint #14",
+    "Spray Paint #2",
+    "Spray Paint #3",
+    "Spray Paint #4",
+    "Spray Paint #5",
+    "Spray Paint #6",
+    "Spray Paint #7",
+    "Spray Paint #8",
+    "Spray Paint #9",
+    "Vitality Counter #5",
+    "Vitality Counter #6",
+    "Vitality Counter #7",
+    "Vitality Counter #8",
+    "Vitality Counter #9"
   ],
   "world_version": "0.3.1"
 }

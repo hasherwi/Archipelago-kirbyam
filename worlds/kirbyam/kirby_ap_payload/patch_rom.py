@@ -51,6 +51,10 @@ PAYLOAD_OFFSET = 0x0015E000
 MAIN_HOOK_OFFSET = 0x00152696
 BOSS_COLLECT_SHARD_CALL_OFFSET = 0x001D952
 MINOR_CHEST_COLLECT_CALL_OFFSET = 0x0000AFEC
+# sub_0800B97C: first instruction after the delayed-pickup guard. The four
+# overwritten bytes load popup->unk4C and copy that Chest* to r0.
+MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET = 0x0000B9A4
+MINOR_CHEST_REWARD_POPUP_EXPECTED_BYTES = bytes.fromhex("D4 6C 20 1C")
 BIG_CHEST_COLLECT_CALL_OFFSET = 0x0000B144
 VITALITY_CHEST_COLLECT_CALL_OFFSET = 0x0000B0CC
 SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET = 0x0000B1D0
@@ -59,7 +63,8 @@ SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET = 0x0000B1D0
 SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET = 0x0000B264
 BIG_SWITCH_UNLOCK_CALL_OFFSET = 0x00039EEE
 # sub_08119B3C: BL _call_via_r0 after resolving the small-switch effect function.
-# Hook receives that function pointer in r0 and can suppress only the four AP levers.
+# Legacy wrapper receives that function pointer in r0 and now preserves native behavior.
+# AP levers use the verified Chest reward-0x63 path, not this dispatcher.
 SMALL_SWITCH_EFFECT_CALL_OFFSET = 0x00119B98
 ORIGINAL_ABILITY_TRANSITION_FN_ADDR = 0x080547C4
 # sub_08054C0C consumes Kirby::transitioningAbility after statues write it directly.
@@ -70,6 +75,15 @@ EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES = 8
 # target sub_080332BC and must run the seed-color wrapper before CreateKirby.
 ORIGINAL_START_GAME_FN_ADDR = 0x080332BC
 STARTING_COLOR_START_GAME_CALL_OFFSETS = (0x00123EF2, 0x00124022)
+
+# US decomp symbols and table layout; validate every replacement against the
+# clean input rather than guessing new instruction offsets.
+BIG_CHEST_INITIALIZER_POINTER_OFFSET = 0x00351648 + 0x81 * 0x18 + 0x10
+ORIGINAL_CHEST_INITIALIZER_ADDR = 0x0800BD4C
+ORIGINAL_CHEST_ROOM_COUNTER_ADDR = 0x080029F4
+CHEST_POPUP_FUNCTION_RANGE = (0x0000B97C, 0x0000BD4C)
+ORIGINAL_ABILITY_COMMIT_ADDR = 0x0805C618
+ABILITY_COMMIT_INSTALLER_RANGE = (0x0005C11C, 0x0005C618)
 
 
 ROM_PATH_TMP = "rom_path.tmp"
@@ -268,6 +282,26 @@ def validate_thumb_bl_callsite(rom: bytes | bytearray, offset: int, label: str) 
         raise SystemExit(
             f"Error: {label} callsite at {offset:#x} is not a Thumb BL instruction. "
             f"Found bytes: {original.hex(' ')}. Refusing to patch unknown site."
+        )
+    return original
+
+
+def validate_expected_instruction_sequence(
+    rom: bytes | bytearray, offset: int, expected: bytes, label: str
+) -> bytes:
+    """Require exact original instructions before replacing a Thumb sequence."""
+    if offset < 0 or offset + len(expected) > len(rom):
+        raise SystemExit(
+            f"Error: {label} offset {offset:#x} is out of ROM bounds "
+            f"(size={len(rom):#x})."
+        )
+    if offset % 2 != 0:
+        raise SystemExit(f"Error: {label} offset {offset:#x} is not halfword aligned.")
+    original = bytes(rom[offset:offset + len(expected)])
+    if original != expected:
+        raise SystemExit(
+            f"Error: {label} instruction sequence at {offset:#x} did not match the "
+            f"verified USA-ROM bytes. Expected {expected.hex(' ')}, found {original.hex(' ')}."
         )
     return original
 
@@ -756,6 +790,12 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
 
 def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
     targets = {
+        "vitality_menu_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_vitality_collection_menu_count"),
+        "initial_health_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_initial_health_capacity"),
+        "health_hud_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_draw_health_hud"),
         "main_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_hook_entry"),
         "boss_hook_target": resolve_elf_symbol_address(
@@ -764,6 +804,8 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_on_boss_defeat_already_owned_reward"),
         "minor_chest_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_collect_small_chest"),
+        "minor_chest_reward_popup_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_minor_chest_reward_popup_hook"),
         "big_chest_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_collect_big_chest"),
         "vitality_chest_hook_target": resolve_elf_symbol_address(
@@ -780,6 +822,12 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_on_request_copy_ability_transition"),
         "ability_transition_start_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_start_copy_ability_transition"),
+        "chest_initializer_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_initialize_chest"),
+        "chest_popup_room_counter_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_chest_popup_room_counter"),
+        "ability_commit_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_commit_copy_ability_transition"),
         "starting_color_start_game_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_start_single_player_game"),
     }
@@ -787,10 +835,14 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
 
 
 _PAYLOAD_TARGET_LABELS = {
+    "health_hud_hook_target": "health HUD trailing-tile cleanup",
+    "initial_health_hook_target": "configured native initial health",
+    "vitality_menu_hook_target": "bounded native collection menu",
     "main_hook_target": "main hook",
     "boss_hook_target": "boss shard hook",
     "boss_already_owned_hook_target": "boss already-owned reward hook",
     "minor_chest_hook_target": "minor chest hook",
+    "minor_chest_reward_popup_hook_target": "minor chest reward popup hook",
     "big_chest_hook_target": "big chest hook",
     "vitality_chest_hook_target": "vitality chest hook",
     "spray_paint_chest_hook_target": "spray paint chest hook",
@@ -800,6 +852,9 @@ _PAYLOAD_TARGET_LABELS = {
     "ability_transition_hook_target": "ability transition hook",
     "ability_transition_start_hook_target": "ability transition-start hook",
     "starting_color_start_game_hook_target": "starting-color game-start hook",
+    "chest_initializer_hook_target": "lever-aware chest initializer",
+    "chest_popup_room_counter_hook_target": "lever-aware popup wall counter",
+    "ability_commit_hook_target": "final ability commit gate",
 }
 
 
@@ -833,6 +888,10 @@ def build_payload_hook_bl_bytes(
         "minor_chest_hook_bl_bytes": thumb_bl_bytes(
             rom_base + MINOR_CHEST_COLLECT_CALL_OFFSET,
             hook_targets["minor_chest_hook_target"],
+        ),
+        "minor_chest_reward_popup_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET,
+            hook_targets["minor_chest_reward_popup_hook_target"],
         ),
         "big_chest_hook_bl_bytes": thumb_bl_bytes(
             rom_base + BIG_CHEST_COLLECT_CALL_OFFSET,
@@ -881,6 +940,12 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
     original_minor_chest_hook = validate_thumb_bl_callsite(
         rom, MINOR_CHEST_COLLECT_CALL_OFFSET, "minor chest"
     )
+    original_minor_chest_reward_popup_hook = validate_expected_instruction_sequence(
+        rom,
+        MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET,
+        MINOR_CHEST_REWARD_POPUP_EXPECTED_BYTES,
+        "minor chest reward popup",
+    )
     original_big_chest_hook = validate_thumb_bl_callsite(
         rom, BIG_CHEST_COLLECT_CALL_OFFSET, "big chest"
     )
@@ -911,9 +976,13 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
         for offset in STARTING_COLOR_START_GAME_CALL_OFFSETS
     ]
 
-    print("Validated hook callsite instruction shape (Thumb BL):")
+    print("Validated hook callsite instruction sequences:")
     print(f"  boss shard @ {BOSS_COLLECT_SHARD_CALL_OFFSET:#x}: {original_boss_hook.hex(' ')}")
     print(f"  minor chest @ {MINOR_CHEST_COLLECT_CALL_OFFSET:#x}: {original_minor_chest_hook.hex(' ')}")
+    print(
+        f"  minor chest reward popup @ {MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET:#x}: "
+        f"{original_minor_chest_reward_popup_hook.hex(' ')}"
+    )
     print(f"  big chest @ {BIG_CHEST_COLLECT_CALL_OFFSET:#x}: {original_big_chest_hook.hex(' ')}")
     print(f"  vitality chest @ {VITALITY_CHEST_COLLECT_CALL_OFFSET:#x}: {original_vitality_hook.hex(' ')}")
     print(f"  spray paint chest @ {SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:#x}: {original_spray_paint_hook.hex(' ')}")
@@ -932,6 +1001,7 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
     return {
         "original_boss_hook": original_boss_hook,
         "original_minor_chest_hook": original_minor_chest_hook,
+        "original_minor_chest_reward_popup_hook": original_minor_chest_reward_popup_hook,
         "original_big_chest_hook": original_big_chest_hook,
         "original_vitality_hook": original_vitality_hook,
         "original_spray_paint_hook": original_spray_paint_hook,
@@ -1030,6 +1100,74 @@ def discover_runtime_callsites(
     )
 
 
+def build_runtime_regression_writes(
+    rom: bytes | bytearray, hook_targets: dict[str, int], rom_base: int = 0x08000000
+) -> dict[int, bytes]:
+    """Validate lever/late-ability hooks before any output ROM is modified."""
+    initializer = BIG_CHEST_INITIALIZER_POINTER_OFFSET
+    validate_expected_instruction_sequence(
+        rom, initializer, (ORIGINAL_CHEST_INITIALIZER_ADDR | 1).to_bytes(4, "little"),
+        "big-chest initializer pointer",
+    )
+    counter_calls = discover_thumb_bl_callsites_to_targets(
+        rom, {ORIGINAL_CHEST_ROOM_COUNTER_ADDR}, rom_base=rom_base,
+        scan_start=CHEST_POPUP_FUNCTION_RANGE[0], scan_end=CHEST_POPUP_FUNCTION_RANGE[1],
+    )
+    if not 1 <= len(counter_calls) <= 3:
+        raise SystemExit(
+            "Error: expected 1..3 native chest-popup room-counter calls, "
+            f"found {len(counter_calls)}. Refusing an unverified lever hook."
+        )
+    # Two stateFn assignments in sub_0805C11C and sub_0805C3B8 install the same
+    # final callback. Only aligned literal words within those functions qualify.
+    commit_pointer = (ORIGINAL_ABILITY_COMMIT_ADDR | 1).to_bytes(4, "little")
+    start, end = ABILITY_COMMIT_INSTALLER_RANGE
+    commit_refs = [offset for offset in range(start, min(end, len(rom) - 3), 4)
+                   if rom[offset:offset + 4] == commit_pointer]
+    if len(commit_refs) != 2:
+        raise SystemExit(
+            "Error: expected two final ability-state callback pointers, "
+            f"found {len(commit_refs)}. Refusing an incomplete ability gate."
+        )
+    writes = {
+        initializer: (hook_targets["chest_initializer_hook_target"] | 1).to_bytes(4, "little"),
+        **{offset: thumb_bl_bytes(rom_base + offset, hook_targets["chest_popup_room_counter_hook_target"])
+           for offset in counter_calls},
+        **{offset: (hook_targets["ability_commit_hook_target"] | 1).to_bytes(4, "little")
+           for offset in commit_refs},
+    }
+    print("Validated lever initializer, chest-popup wall calls, and final ability callbacks:",
+          ", ".join(hex(offset) for offset in sorted(writes)))
+    return writes
+
+
+HEALTH_HUD_CALLSITES = (0x339B2, 0x33BF2, 0x35A62)
+
+
+def build_health_hud_writes(rom: bytes | bytearray, target: int,
+                            rom_base: int = 0x08000000) -> dict[int, bytes]:
+    """All three USA native HUD callers; reject mismatched or already patched input."""
+    writes = {}
+    for offset in HEALTH_HUD_CALLSITES:
+        validate_expected_instruction_sequence(
+            rom, offset, thumb_bl_bytes(rom_base + offset, 0x0803518C),
+            "native health HUD call",
+        )
+        writes[offset] = thumb_bl_bytes(rom_base + offset, target)
+    return writes
+
+
+def build_initial_health_writes(rom: bytes | bytearray, target: int,
+                                rom_base: int = 0x08000000) -> dict[int, bytes]:
+    """Replace only the USA initializer getter and its six-HP addition."""
+    offset = 0x3EB0E
+    validate_expected_instruction_sequence(
+        rom, offset, thumb_bl_bytes(rom_base + offset, 0x08019F0C) + b"\x06\x30",
+        "native initial health getter and base",
+    )
+    return {offset: thumb_bl_bytes(rom_base + offset, target), offset + 4: b"\xc0\x46"}
+
+
 def patch_rom_with_payload(
     rom: bytearray,
     payload: bytes,
@@ -1040,13 +1178,29 @@ def patch_rom_with_payload(
     hook_targets: dict[str, int],
     rom_base: int,
 ) -> None:
+    regression_writes = build_runtime_regression_writes(rom, hook_targets, rom_base)
+    regression_writes.update(build_health_hud_writes(
+        rom, hook_targets["health_hud_hook_target"], rom_base))
+    regression_writes.update(build_initial_health_writes(
+        rom, hook_targets["initial_health_hook_target"], rom_base))
+    menu_offset = 0x14380A
+    validate_expected_instruction_sequence(
+        rom, menu_offset, thumb_bl_bytes(rom_base + menu_offset, 0x08019F0C),
+        "native collection-menu vitality getter")
+    regression_writes[menu_offset] = thumb_bl_bytes(
+        rom_base + menu_offset, hook_targets["vitality_menu_hook_target"])
     rom[PAYLOAD_OFFSET:PAYLOAD_OFFSET + len(payload)] = payload
+    for offset, replacement in regression_writes.items():
+        rom[offset:offset + len(replacement)] = replacement
 
     rom[MAIN_HOOK_OFFSET:MAIN_HOOK_OFFSET + 4] = hook_bl_bytes["main_hook_bl_bytes"]
     rom[BOSS_COLLECT_SHARD_CALL_OFFSET:BOSS_COLLECT_SHARD_CALL_OFFSET + 4] = hook_bl_bytes["boss_hook_bl_bytes"]
     rom[MINOR_CHEST_COLLECT_CALL_OFFSET:MINOR_CHEST_COLLECT_CALL_OFFSET + 4] = (
         hook_bl_bytes["minor_chest_hook_bl_bytes"]
     )
+    rom[
+        MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET:MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET + 4
+    ] = hook_bl_bytes["minor_chest_reward_popup_hook_bl_bytes"]
     rom[BIG_CHEST_COLLECT_CALL_OFFSET:BIG_CHEST_COLLECT_CALL_OFFSET + 4] = (
         hook_bl_bytes["big_chest_hook_bl_bytes"]
     )
@@ -1120,6 +1274,14 @@ def print_patch_summary(
         hex(hook_targets["minor_chest_hook_target"]),
     )
     print(
+        "Minor chest reward popup patched at file offset:",
+        hex(MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["minor_chest_reward_popup_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["minor_chest_reward_popup_hook_target"]),
+    )
+    print(
         "Big chest call patched at file offset:",
         hex(BIG_CHEST_COLLECT_CALL_OFFSET),
         "with bytes:",
@@ -1136,7 +1298,7 @@ def print_patch_summary(
         hex(hook_targets["vitality_chest_hook_target"]),
     )
     print(
-        "Spray paint chest call patched at file offset:",
+        "Spray Paint chest call patched at file offset:",
         hex(SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET),
         "with bytes:",
         hook_bl_bytes["spray_paint_chest_hook_bl_bytes"].hex(" "),

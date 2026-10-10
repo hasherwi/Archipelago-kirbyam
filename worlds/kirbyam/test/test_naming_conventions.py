@@ -30,6 +30,7 @@ def test_vitality_items_use_area_specific_names() -> None:
         "Radish Ruins - Vitality Counter",
         "Candy Constellation - Vitality Counter",
     }
+    expected.update(f"Vitality Counter #{index}" for index in range(5, 10))
     actual = {
         item.label
         for item in data.items.values()

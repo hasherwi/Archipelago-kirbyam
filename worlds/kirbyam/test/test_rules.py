@@ -537,7 +537,7 @@ def test_legacy_split_rooms_define_logical_subregion_metadata() -> None:
     assert room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_09"]["exits"] == [
         "REGION_CANDY_CONSTELLATION/ROOM_9_09"
     ]
-    assert "locations" not in room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_01"]
+    assert room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_01"]["locations"] == ["MINOR_CHEST_SPRAY_PAINT_06"]
     assert "locations" not in room_9_chest_2["logical_subregions"]["ENTRY_FROM_9_09"]
     assert rooms["REGION_CANDY_CONSTELLATION/ROOM_9_01"]["logical_exit_overrides"] == {
         "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2": "ENTRY_FROM_9_01"
@@ -657,6 +657,7 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
 
     assert kirby_data.regions[room_9_chest_2_from_9_01].exits == ["REGION_CANDY_CONSTELLATION/ROOM_9_01"]
     assert kirby_data.regions[room_9_chest_2_from_9_09].exits == ["REGION_CANDY_CONSTELLATION/ROOM_9_09"]
+    assert kirby_data.regions[room_9_chest_2_from_9_01].locations == ["MINOR_CHEST_SPRAY_PAINT_06"]
     assert kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1"].locations == [
         "SOUND_PLAYER_CHEST",
         "ROOM_SANITY_9_CHEST_1",
@@ -671,6 +672,16 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     assert kirby_data.regions[room_8_09_from_8_03].exits == ["REGION_RADISH_RUINS/ROOM_8_04"]
     assert kirby_data.regions[room_8_09_from_8_04].exits == ["REGION_RADISH_RUINS/ROOM_8_03"]
     assert kirby_data.regions[room_5_13_from_5_12].exits == ["REGION_CARROT_CASTLE/ROOM_5_12"]
+    assert kirby_data.locations["MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"].parent_region == (
+        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07"
+    )
+    assert kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14"].locations == [
+        "MINOR_CHEST_MUSIC_NOTE_06"
+    ]
+    assert kirby_data.regions[room_5_13_from_5_12].locations == []
+    assert kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07"].locations == [
+        "MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"
+    ]
     assert set(kirby_data.regions[room_5_13_from_5_18_or_5_warp].exits) == {
         "REGION_CARROT_CASTLE/ROOM_5_18",
         "REGION_CARROT_CASTLE/ROOM_5_WARP",
@@ -778,7 +789,7 @@ def test_lever_rooms_define_four_lever_events() -> None:
     rooms = load_json_data("regions/rooms.json")
 
     assert "Activate Lever - Moonlight Mansion 2-11" in rooms["REGION_MOONLIGHT_MANSION/ROOM_2_11"]["events"]
-    assert "Activate Lever - Carrot Castle 5-05" in rooms["REGION_CARROT_CASTLE/ROOM_5_05"]["events"]
+    assert "Activate Lever - Carrot Castle 5-12" in rooms["REGION_CARROT_CASTLE/ROOM_5_12"]["events"]
     assert "Activate Lever - Olive Ocean 6-13" in rooms["REGION_OLIVE_OCEAN/ROOM_6_13"]["events"]
     assert "Activate Lever - Radish Ruins 8-12" in rooms["REGION_RADISH_RUINS/ROOM_8_12"]["events"]
 
@@ -836,7 +847,7 @@ def test_lever_locations_have_matching_lever_events() -> None:
 
     expected_events_by_lever_location = {
         "LEVER_MOONLIGHT_MANSION_2_11": "Activate Lever - Moonlight Mansion 2-11",
-        "LEVER_CARROT_CASTLE_5_05": "Activate Lever - Carrot Castle 5-05",
+        "LEVER_CARROT_CASTLE_5_12": "Activate Lever - Carrot Castle 5-12",
         "LEVER_OLIVE_OCEAN_6_13": "Activate Lever - Olive Ocean 6-13",
         "LEVER_RADISH_RUINS_8_12": "Activate Lever - Radish Ruins 8-12",
     }

@@ -389,6 +389,7 @@ async def test_client_starting_color_sync_log_hidden_when_debug_disabled(mock_bi
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_client_game_watcher_logs_starting_color_once_after_initial_ready_transition(
     mock_bizhawk_context: Any,
 ) -> None:
@@ -455,7 +456,8 @@ def test_payload_applies_starting_color_before_create_and_refreshes_live_palette
     assert "static uint8_t ap_starting_kirby_color_applied" not in payload
 
     # Preserve the already-shipped gate/statue offsets while adding color first.
-    assert "AP_CONFIG_ADDR = 0x0815F694" in linker
+    assert "AP_CONFIG_ADDR = 0x0815F690" in linker
+    assert linker.index(".apconfig.health") < linker.index(".apconfig.color")
     assert linker.index(".apconfig.color") < linker.index(".apconfig.gate")
     assert linker.index(".apconfig.gate") < linker.index(".apconfig.statue")
-    assert "SIZEOF(.apconfig) == 12" in linker
+    assert "SIZEOF(.apconfig) == 16" in linker
