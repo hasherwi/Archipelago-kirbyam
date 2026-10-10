@@ -1,0 +1,76 @@
+name: Finalize authorized KirbyAM stable release
+on:
+  push:
+    branches: [codex/publish-kirbyam-v0.4.0]
+permissions:
+  contents: read
+concurrency:
+  group: publish-kirbyam-v0.4.0
+  cancel-in-progress: false
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - name: Verify stable, remove only RC2 release, close empty milestone
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,subprocess
+          from pathlib import Path
+          repo='hasherwi/Archipelago-kirbyam'
+          def api(path, method='GET', payload=None, missing=False):
+              args=['gh','api',f'repos/{repo}/{path}','--method',method]
+              if payload is not None: args += ['--input','-']
+              r=subprocess.run(args,input=json.dumps(payload) if payload is not None else None,capture_output=True,text=True)
+              if r.returncode:
+                  if missing and 'HTTP 404' in r.stderr: return None
+                  raise RuntimeError(r.stderr)
+              return json.loads(r.stdout) if r.stdout.strip() else None
+          commit='cbf69ef05c6803dab6d973584c93dc9253d8200c'
+          stable='kirbyam-v0.4.0';rc='kirbyam-v0.4.0-rc2'
+          expected='be059aed9f4136e7f7721b2d718bb9367b9d519e266bc8815ba31c1de19a19f6'
+          release=api(f'releases/tags/{stable}')
+          assert release['id']==409091294 and release['name']=='KirbyAM APWorld v0.4.0'
+          assert not release['draft'] and not release['prerelease'] and release['target_commitish']==commit
+          assert len(release['assets'])==1 and release['assets'][0]['id']==628539974
+          data=subprocess.check_output(['gh','api',f'repos/{repo}/releases/assets/628539974','--header','Accept: application/octet-stream'])
+          assert hashlib.sha256(data).hexdigest()==expected
+          assert api(f'git/ref/tags/{stable}')['object']['sha']==commit
+          assert api(f'git/ref/tags/{rc}')['object']['sha']==commit
+          old=api(f'releases/tags/{rc}',missing=True)
+          if old is not None:
+              assert old['id']==408637041 and old['prerelease'] and old['tag_name']==rc
+              assert len(old['assets'])==1 and old['assets'][0]['digest']=='sha256:e1a9ebf7c2aa3d00f815b07cce206adbdc331a60d06bd6bbeb6ef41426b8514b'
+              Path('rc2-release-before-deletion.json').write_text(json.dumps(old,indent=2)+'\n')
+              api('releases/408637041',method='DELETE')
+          assert api(f'releases/tags/{rc}',missing=True) is None
+          assert api('releases/408637041',missing=True) is None
+          assert api(f'git/ref/tags/{rc}')['object']['sha']==commit
+          assert api(f'git/ref/tags/{stable}')['object']['sha']==commit
+          assert api(f'releases/tags/{stable}')['id']==409091294
+          source=api('milestones/20');target=api('milestones/11')
+          assert source['title']=='v0.4.0' and target['title']=='v0.5.0' and target['state']=='open'
+          assert source['open_issues']==0
+          assert api('issues?milestone=20&state=open&per_page=100&page=1')==[]
+          issue=api('issues/950');assert issue['state']=='open' and issue['milestone']['number']==11
+          if source['state']!='closed': api('milestones/20',method='PATCH',payload={'state':'closed'})
+          final=api('milestones/20');assert final['state']=='closed' and final['open_issues']==0
+          assert final['closed_issues']==source['closed_issues']
+          result={'stable_url':release['html_url'],'commit':commit,'asset_sha256':expected,'rc2_release_deleted':True,'rc2_tag_preserved':True,'moved_items':[950],'target_milestone':target['html_url'],'closed_milestone':final['html_url'],'remaining_open_items':0,'historical_closed_items':final['closed_issues']}
+          Path('final-result.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kirbyam-stable-finalization-evidence
+          path: |
+            final-result.json
+            rc2-release-before-deletion.json
+          retention-days: 14
