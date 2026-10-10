@@ -978,11 +978,30 @@ __attribute__((used)) void ap_on_world_map_unlock_call(WorldMapUnlockFn unlock_f
     }
 }
 
+/* Per-seed v1 health bounds; four unique Vitality identities remain unchanged.
+ * ROM configuration also applies before the AP client connects after reload. */
+__attribute__((used, section(".apconfig.health")))
+volatile const uint32_t gApHealthConfigInitial = 0xA9010A06u;
+
+__attribute__((used)) uint32_t ap_initial_health_capacity(void) {
+    uint32_t config = gApHealthConfigInitial;
+    uint32_t minimum = config & 0xFFu;
+    uint32_t maximum = (config >> 8) & 0xFFu;
+    if ((config >> 16) != 0xA901u || minimum < 1u || maximum > 10u ||
+        maximum < minimum || maximum - minimum > 4u) {
+        minimum = 6u;
+        maximum = 10u;
+    }
+    uint32_t count = KIRBY_VITALITY_COUNTER;
+    uint32_t available = maximum - minimum;
+    if (count > available) count = available;
+    return minimum + count;
+}
+
 static void ap_sync_active_kirby_health_from_vitality(void) {
     uint8_t player = KIRBY_CURRENT_PLAYER;
     uint32_t kirby_addr = KIRBY_STRUCTS_ADDR + ((uint32_t)player * KIRBY_STRUCT_STRIDE);
-    uint16_t vitality_total_u16 = (uint16_t)(KIRBY_VITALITY_COUNTER + 6u);
-    int8_t vitality_total = (vitality_total_u16 > 0x7Fu) ? 0x7F : (int8_t)vitality_total_u16;
+    int8_t vitality_total = (int8_t)ap_initial_health_capacity();
 
     if (*(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) > 0) {
         *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) = vitality_total;

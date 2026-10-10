@@ -60,7 +60,7 @@ def test_actual_payload_replay_preserves_saved_counts_and_dead_state(tmp_path):
     world=Path(__file__).resolve().parents[1]
     payload=(world/'kirby_ap_payload/ap_payload.c').read_text()
     functions=[]
-    for name in ['ap_sync_active_kirby_health_from_vitality','ap_grant_vitality_counter','ap_apply_item']:
+    for name in ['ap_initial_health_capacity','ap_sync_active_kirby_health_from_vitality','ap_grant_vitality_counter','ap_apply_item']:
         match=re.search(r'[^\n]*\b'+name+r'\([^)]*\)\s*\{',payload);assert match
         end,depth=match.end(),1
         while depth:
@@ -83,6 +83,7 @@ def test_actual_payload_replay_preserves_saved_counts_and_dead_state(tmp_path):
 #define CHECK(x) do {if(!(x)) return __LINE__;} while(0)
 static uint32_t AP_DELIVERED_VITALITY_ITEM_BITS,AP_DELIVERED_SHARD_BITFIELD,AP_SHARD_BITFIELD,AP_ABILITY_UNLOCK_MASK,KIRBY_SPRAY_PAINT_FLAGS,KIRBY_MUSIC_PLAYER_AND_SHEETS_FLAGS;
 static uint16_t KIRBY_VITALITY_COUNTER;
+static uint32_t gApHealthConfigInitial=0xA9010A06u;
 static uint8_t KIRBY_SHARD_FLAGS;
 '''
     for name in ['ap_grant_lives','ap_unlock_area_map','KIRBY_COLLECT_SOUND_PLAYER_FN','ap_collect_small_chest_native']:

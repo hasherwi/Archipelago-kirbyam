@@ -36,6 +36,7 @@ if TYPE_CHECKING:
 # Fixed per-seed words reserved by kirby_ap_payload/linker.ld. Starting color
 # is consumed before CreateKirby so the first gameplay palette is correct. The
 # gate and statue masks retain their existing offsets for patch compatibility.
+HEALTH_INITIAL_ROM_OFFSET = 0x0015F690
 STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET = 0x0015F694
 ABILITY_GATE_MASK_INITIAL_ROM_OFFSET = 0x0015F698
 ABILITY_RANDOMIZATION_STATUE_ALLOWED_MASK_ROM_OFFSET = 0x0015F69C
@@ -123,6 +124,12 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
     auth_addr = data.rom_addresses.get("auth_token") or data.rom_addresses.get("gArchipelagoInfo")
     if auth_addr is not None:
         patch.write_token(APTokenTypes.WRITE, auth_addr, world.auth)
+
+    health = world._health_range()
+    patch.write_token(
+        APTokenTypes.WRITE, HEALTH_INITIAL_ROM_OFFSET,
+        (0xA9010000 | (health.maximum << 8) | health.minimum).to_bytes(4, "little"),
+    )
 
     resolved_color_id, _ = world._get_resolved_starting_kirby_color()
     if not 0 <= int(resolved_color_id) <= 13:

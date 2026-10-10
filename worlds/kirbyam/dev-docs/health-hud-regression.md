@@ -38,8 +38,35 @@ compares the nearby tilemap with a clean native redraw and checks HP/MAX,
 callee-saved registers and SP. Three demo-mode no-write cases also passed.
 The unmodified prior patch fails this same probe as a negative control.
 
-This is native-instruction validation with synthetic RAM, not gameplay or
-save/load acceptance. The live game remains on the old ROM until an explicit
-safe replacement. Recheck the HUD after a real receipt and normal door/save
-transition on the fixed build; do not treat the old build's receipt as fixed
-build acceptance. Global custom-capacity policy and PR947 remain separate.
+The HUD fix was subsequently launched with the same seed and a copy of the
+current native save after a read-only guard found all saved fields matched both
+native copies. While the AP client was disconnected, a read-only probe showed
+HP7/MAX7, native Vitality1 and fresh transport count/mask0. After reconnection,
+HP4/MAX4, Vitality1, transport count3 and ownership mask1 were observed; the HUD
+showed four units. The restarted client replayed the three prior history entries,
+so this does not establish exactly-once transient effects across process loss.
+
+## Native reload initialization
+
+The seven-unit disconnected reload was an actual capacity defect, not stale
+HUD tiles. The USA initializer calls NumVitalitiesCollected at0x3EB0E and adds6
+at0x3EB12. A separate fix replaces that call with configured capacity and only
+NOPs the add, retaining native HP/max stores. It reads a per-seed v1 ROM word at
+0x15F690 (magic0xA901, maximum then minimum bytes). Existing color/gate/statue
+words remain atF694/F698/F69C. Invalid configuration falls back to6..10;
+valid ranges are1..10 with at most four upgrades, including resolved One-Hit
+presets. Saved counts are capped for capacity calculation without modifying
+save data. Native fresh Vitality grants use the same capacity and preserve
+HP<=0; living fresh grants retain their existing full-heal policy.
+
+Newly generated procedure patches include the health word. Older procedure
+patches need regeneration or an explicit same-seed metadata-preserving rebuild
+to embed custom bounds; changing only their base patch leaves default6..10
+before client reconciliation. This does not enable PR947's extra Vitality items.
+
+Independent packaged-ROM instruction checks passed1,536 initializer cases across
+all40 ranges, eight saved counts and four Kirby pointers, plus malformed config
+cases. Native stores, adjacent bytes, saved count and callee registers were
+checked. These probes use synthetic RAM in an isolated real core; they are not
+full gameplay/save-load acceptance. Live offline reload acceptance of this
+additional initializer fix remains pending.

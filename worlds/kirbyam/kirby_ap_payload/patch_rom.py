@@ -790,6 +790,8 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
 
 def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
     targets = {
+        "initial_health_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_initial_health_capacity"),
         "health_hud_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_draw_health_hud"),
         "main_hook_target": resolve_elf_symbol_address(
@@ -832,6 +834,7 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
 
 _PAYLOAD_TARGET_LABELS = {
     "health_hud_hook_target": "health HUD trailing-tile cleanup",
+    "initial_health_hook_target": "configured native initial health",
     "main_hook_target": "main hook",
     "boss_hook_target": "boss shard hook",
     "boss_already_owned_hook_target": "boss already-owned reward hook",
@@ -1151,6 +1154,17 @@ def build_health_hud_writes(rom: bytes | bytearray, target: int,
     return writes
 
 
+def build_initial_health_writes(rom: bytes | bytearray, target: int,
+                                rom_base: int = 0x08000000) -> dict[int, bytes]:
+    """Replace only the USA initializer getter and its six-HP addition."""
+    offset = 0x3EB0E
+    validate_expected_instruction_sequence(
+        rom, offset, thumb_bl_bytes(rom_base + offset, 0x08019F0C) + b"\x06\x30",
+        "native initial health getter and base",
+    )
+    return {offset: thumb_bl_bytes(rom_base + offset, target), offset + 4: b"\xc0\x46"}
+
+
 def patch_rom_with_payload(
     rom: bytearray,
     payload: bytes,
@@ -1164,6 +1178,8 @@ def patch_rom_with_payload(
     regression_writes = build_runtime_regression_writes(rom, hook_targets, rom_base)
     regression_writes.update(build_health_hud_writes(
         rom, hook_targets["health_hud_hook_target"], rom_base))
+    regression_writes.update(build_initial_health_writes(
+        rom, hook_targets["initial_health_hook_target"], rom_base))
     rom[PAYLOAD_OFFSET:PAYLOAD_OFFSET + len(payload)] = payload
     for offset, replacement in regression_writes.items():
         rom[offset:offset + len(replacement)] = replacement
