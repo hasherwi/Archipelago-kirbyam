@@ -9,14 +9,9 @@ from types import SimpleNamespace
 import pytest
 
 from BaseClasses import ItemClassification
-from Fill import FillError
 from ..health import resolve_health_range
 from .test_health_range import VALID_RANGES
 from .test_item_pool import _build_world_for_create_items, _vitality_item_codes
-
-
-class KnownRoomSanityIngressError(Exception):
-    """Only the independently identified five inaccessible room checks."""
 
 
 @pytest.fixture
@@ -79,13 +74,7 @@ def test_health_pool_all_percentages_and_modifiers(minimum, maximum, shards, no_
 
 
 @pytest.mark.parametrize("minimum,maximum", VALID_RANGES)
-@pytest.mark.parametrize("scenario", [
-    pytest.param(scenario, marks=pytest.mark.xfail(
-        strict=True, raises=KnownRoomSanityIngressError,
-        reason="Inherited room-sanity ingress defect; see dev-docs/health-option-review.md",
-    )) if scenario % 2 else scenario
-    for scenario in range(12)
-])
+@pytest.mark.parametrize("scenario", range(12))
 def test_health_cross_option_archive_generation(tmp_path, minimum, maximum, scenario):
     """Cross every health range with 12 mixed scenarios, not a Cartesian proof."""
     from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
@@ -112,15 +101,7 @@ def test_health_cross_option_archive_generation(tmp_path, minimum, maximum, scen
         f"  ability_randomization_statues: {(scenario // 5) % 2}\n",
         encoding="utf-8",
     )
-    try:
-        archive = generate_archive_from_fixture(player, tmp_path / "output", seed=934 + scenario)
-    except FillError as exc:
-        expected = (
-            "Missing: [Room 2-06, Room 5-13, Room 6-05, Room 8-09, Room 9-CHEST_2]"
-        )
-        if expected in str(exc):
-            raise KnownRoomSanityIngressError(expected) from exc
-        raise
+    archive = generate_archive_from_fixture(player, tmp_path / "output", seed=934 + scenario)
     decoded = load_multidata_from_archive(archive)
     slot_data = decoded["slot_data"][1]
     assert (slot_data["minimum_health"], slot_data["maximum_health"]) == (minimum, maximum)
