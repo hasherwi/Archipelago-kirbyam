@@ -120,6 +120,10 @@ jobs:
           for offset in (0x5C200, 0x5C400):
               rom[offset:offset + 4] = (0x0805C619).to_bytes(4, "little")
 
+          # Exact native HUD callers required by trailing-tile cleanup.
+          for offset in (0x339B2, 0x33BF2, 0x35A62):
+              rom[offset:offset + 4] = thumb_bl_bytes(offset, 0x0803518C)
+
           rom_path.write_bytes(rom)
           PY
 
