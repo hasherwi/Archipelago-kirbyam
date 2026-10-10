@@ -276,12 +276,12 @@ class EnemyHealthMultiplier(Range):
 
 class MinimumHealth(Range):
     """
-    Kirby's starting HP capacity after the tutorial while the client is connected.
+    Kirby's starting HP capacity, also applied when loading a native save offline.
     Each Vitality Counter increases this capacity by 1, up to Maximum Health.
     This is not a damage floor: Kirby can still lose HP and die normally.
 
     Set both health options together. Maximum Health must be at least this value
-    and at most 4 HP higher, using the four existing unique Vitality Counters.
+    and at most 9 HP higher, using up to nine unique Vitality Counters.
     Defaults to 6 HP. One-Hit Mode overrides both health options when enabled.
     """
     display_name = "Minimum Health"
@@ -293,12 +293,12 @@ class MinimumHealth(Range):
 class MaximumHealth(Range):
     """
     Kirby's HP capacity after receiving every Vitality Counter in the item pool.
-    The pool contains Maximum Health minus Minimum Health counters (0 to 4),
+    The pool contains Maximum Health minus Minimum Health counters (0 to 9),
     with unused counter slots replaced by filler. Equal values disable upgrades.
 
     Set both health options together. Must be at least Minimum Health and at
-    most 4 HP higher. Defaults to 10 HP. One-Hit Mode overrides both health
-    options when enabled. Applied after the tutorial while connected.
+    most 9 HP higher. Defaults to 10 HP. One-Hit Mode overrides both health
+    options when enabled. Newly generated ROMs include these health bounds.
     """
     display_name = "Maximum Health"
     range_start = HEALTH_MIN

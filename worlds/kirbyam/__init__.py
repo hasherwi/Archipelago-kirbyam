@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, TextIO
 import settings
 from BaseClasses import ItemClassification, LocationProgressType, MultiWorld, Tutorial
 from worlds.AutoWorld import WebWorld, World
+from worlds.LauncherComponents import Component, Type, components, launch as launch_component
 
 from .client import KirbyAmClient  # noqa: F401  # Required to register BizHawk client
 from .ability_randomization import (
@@ -51,6 +52,17 @@ from .rom import KirbyAmProcedurePatch, write_tokens
 
 if TYPE_CHECKING:
     from NetUtils import MultiData
+
+
+def launch_mgba_client(*args: str) -> None:
+    from .mgba_launcher import main
+    launch_component(main, name="KirbyAMmGBAClient", args=args)
+
+
+# Opt-in component: do not take over .apkirbyam's existing BizHawk association.
+components.append(Component("KirbyAM mGBA Client", func=launch_mgba_client,
+                            component_type=Type.CLIENT,
+                            description="Connect KirbyAM through standalone mGBA (candidate integration)."))
 
 
 class KirbyAmWebWorld(WebWorld):
@@ -701,10 +713,21 @@ class KirbyAmWorld(World):
                 ]
                 needed_pool_size = len(open_physical_locations)
 
+                # Generate collection items only for active, source-backed checks.
+                # Two known sources still need compartment attribution; their
+                # native rewards and historical dormant location IDs are retained.
+                active_collection_item_codes = {
+                    kirby_data.locations[loc.key].default_item
+                    for loc in minor_chest_locations if loc.key is not None
+                }
                 non_filler_item_codes = [
                     item.item_id
                     for item in kirby_data.items.values()
                     if item.classification not in (ItemClassification.filler, ItemClassification.trap)
+                    and (
+                        not item.tags.intersection({"SprayPaint", "MusicSheet"})
+                        or item.item_id in active_collection_item_codes
+                    )
                 ]
                 vitality_item_codes = getattr(self, "_vitality_item_codes", None)
                 if vitality_item_codes is None:
@@ -729,7 +752,8 @@ class KirbyAmWorld(World):
                     ]
 
                 health_range = self._health_range()
-                active_vitality_codes = set(sorted(vitality_item_codes)[:health_range.vitality_count])
+                from .vitality import VITALITY_ITEM_IDS
+                active_vitality_codes = set(VITALITY_ITEM_IDS[:health_range.vitality_count])
                 non_filler_item_codes = [
                     code for code in non_filler_item_codes
                     if code not in vitality_item_codes or code in active_vitality_codes
@@ -1028,6 +1052,7 @@ class KirbyAmWorld(World):
             toggles_as_bools=True,
         )
         slot_data["world_version"] = self.world_version.as_simple_string()
+        slot_data["health_protocol_version"] = 2
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
         slot_data["starting_kirby_color"] = resolved_color_id
         slot_data["starting_kirby_color_name"] = resolved_color_name

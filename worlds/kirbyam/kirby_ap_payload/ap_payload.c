@@ -1,6 +1,9 @@
 #include <stdint.h>
 
 #include "statue_runtime_logic.h"
+#include "minor_chest_runtime_logic.h"
+#include "lever_runtime_logic.h"
+#include "vitality_runtime_logic.h"
 
 // Kirby AP item ID base offset
 #define KIRBY_ITEM_ID_BASE_OFFSET       3860000u  // must match worlds/kirbyam/data.py BASE_OFFSET
@@ -39,7 +42,8 @@
 // Cleared after gameplay resumes and non-AP-owned bits are scrubbed.
 #define AP_BOSS_TEMP_SHARD_BITFIELD  (*(volatile uint32_t*)(AP_BASE + 0x44u))
 // Bitfield for AP vitality item replay-guard semantics.
-// Bit N set means VITALITY_COUNTER_(N+1) has already been applied this EWRAM session.
+// Low bits 0..3 are unique Vitality identities. Client-owned bit 31 marks
+// a delivery cursor whose server history includes the starting-inventory prefix.
 #define AP_DELIVERED_VITALITY_ITEM_BITS (*(volatile uint32_t*)(AP_BASE + 0x48u))
 // Runtime config for enemy copy-ability randomization live reroll hook.
 #define AP_ABILITY_RANDOMIZATION_MODE   (*(volatile uint32_t*)(AP_BASE + 0x64u))
@@ -66,6 +70,28 @@
 /* Physical lever activations, separated from native wall-unlock state (Issue #859). */
 #define AP_LEVER_ACTIVATION_FLAGS (*(volatile uint32_t*)(AP_BASE + 0xBCu))
 #define AP_MINOR_CHEST_EVENT_RING_SLOT_COUNT 8u
+#define AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER 0x41504348u  // "APCH"
+#define KIRBY_MINOR_CHEST_NO_NATIVE_ITEM 0x63u
+
+/* Exact AP-owned chest sources from data/locations.json, stored as GBA bus pointers. */
+static const uint32_t AP_OWNED_MINOR_CHEST_SOURCE_PTRS[] = {
+    0x088B5FA8u, 0x088B6510u, 0x088B6EB4u, 0x088B7288u,
+    0x088B9280u, 0x088B9FD8u, 0x088BA7A4u, 0x088BAEE0u,
+    0x088BB0BCu, 0x088BBAF8u, 0x088BC018u, 0x088BC114u,
+    0x088BC4A0u, 0x088BD1B0u, 0x088BDD10u, 0x088BE5E0u,
+    0x088BE724u, 0x088BEF84u, 0x088BF3C8u, 0x088BF3ECu,
+    0x088BF610u, 0x088BFD78u, 0x088C026Cu, 0x088C0290u,
+    0x088C02B4u, 0x088C046Cu, 0x088C04D8u, 0x088C0648u,
+    0x088C06B4u, 0x088C06D8u, 0x088C0E38u, 0x088C1380u,
+    0x088C1ADCu, 0x088C21ACu, 0x088C4798u, 0x088C4DFCu,
+    0x088C4F24u, 0x088C54B0u, 0x088C5BA4u, 0x088C5EA0u, 0x088C78F8u,
+    0x088C86B8u, 0x088C876Cu, 0x088C8AACu, 0x088C9114u,
+    0x088C9478u, 0x088C96E8u, 0x088C9FFCu, 0x088CA0B8u,
+    0x088CA520u, 0x088CAF08u, 0x088CBDACu, 0x088CC458u,
+    0x088CCEFCu, 0x088CD2F4u, 0x088CD464u, 0x088D02C0u,
+    0x088D039Cu, 0x088D03E4u, 0x088D2234u, 0x088D230Cu,
+    0x088D39FCu, 0x088D3DD0u, 0x088D3E64u, 0x088D3E88u,
+};
 // Boss Defeat Transport Register (Issue #35: Boss-defeat locations with shard-delivery decoupling)
 // Written by ROM payload when an area boss is defeated; polled by Python client for location checks.
 // Bit N set <=> boss of area N was defeated (same bit ordering as shard_bitfield, bits 0-7 used).
@@ -99,14 +125,16 @@
 #define AI_STATE_DARK_MIND_CLEAR 9999u
 #define AI_STATE_FULL_CLEAR     10000u
 #define KIRBY_SMALL_CHEST_FLAGS_ADDR 0x02038960u
+#define KIRBY_SPRAY_PAINT_FLAGS (*(volatile uint32_t*)0x02038974u)
+#define KIRBY_MUSIC_PLAYER_AND_SHEETS_FLAGS (*(volatile uint32_t*)0x02038978u)
 #define KIRBY_BIG_CHEST_FLAGS_ADDR 0x0203897Cu
 #define KIRBY_BIG_CHEST_FLAGS   (*(volatile uint32_t*)(KIRBY_BIG_CHEST_FLAGS_ADDR))
 #define KIRBY_VITALITY_COUNTER_ADDR 0x02038980u
 #define KIRBY_VITALITY_COUNTER  (*(volatile uint16_t*)(KIRBY_VITALITY_COUNTER_ADDR))
-// Kirby has four AP vitality counter items in the current item contract.
+// Format 2 has nine distinct AP vitality counter identities.
 // Clamp native vitality state to that count so mailbox replay/reset paths
 // cannot over-grant vitality above intended progression.
-#define KIRBY_MAX_VITALITY_COUNTERS 4u
+#define KIRBY_MAX_VITALITY_COUNTERS 9u
 
 #define KIRBY_STRUCTS_ADDR       0x02020EE0u
 #define KIRBY_CURRENT_PLAYER_ADDR 0x0203AD3Cu
@@ -133,21 +161,10 @@
 #define KIRBY_LIVES_ADDR        0x02020FE2u
 #define KIRBY_LIVES             (*(volatile uint8_t*)(KIRBY_LIVES_ADDR))
 
-// SRAM-based persistent shard state (Issue #109: Reset-Safe Mirror Shard Grant Handling)
-// Reference: KitAM disassembly save system + Treasure struct observation
-// These addresses mirror the persistent shard state written when changing rooms
-#define SRAM_BASE               0x0E000000u
-#define SRAM_SHARD_FIELD_OFFSET 0x12u  // Primary shard persistence field (Issue #109 candidate)
-#define SRAM_SHARD_FIELD        (*(volatile uint8_t*)(SRAM_BASE + SRAM_SHARD_FIELD_OFFSET))
-
-// Secondary checksum fields (Issue #109 candidates for save integrity)
-// These are updated alongside shard changes to prevent save corruption on reset
-#define SRAM_CHECKSUM_1_OFFSET  0x18u
-#define SRAM_CHECKSUM_1         (*(volatile uint8_t*)(SRAM_BASE + SRAM_CHECKSUM_1_OFFSET))
-#define SRAM_CHECKSUM_2_OFFSET  0x1Au
-#define SRAM_CHECKSUM_2         (*(volatile uint8_t*)(SRAM_BASE + SRAM_CHECKSUM_2_OFFSET))
-#define SRAM_CHECKSUM_3_OFFSET  0x1Cu
-#define SRAM_CHECKSUM_3         (*(volatile uint8_t*)(SRAM_BASE + SRAM_CHECKSUM_3_OFFSET))
+/* Save records are owned by the native serializer. Do not write guessed SRAM
+ * shard/checksum offsets: those overlap FILE_INFO and WORLD_PROPS headers.
+ * Shard changes below affect gTreasures in EWRAM; normal game save flow persists
+ * them. Reset before that save requires AP history replay, not raw SRAM edits. */
 
 // Archipelago info structure (not used in this payload)
 __attribute__((section(".apinfo")))
@@ -180,22 +197,6 @@ volatile const uint32_t gApAbilityGateMaskInitial = 0u;
  */
 __attribute__((used, section(".apconfig.statue")))
 volatile const uint32_t gApAbilityRandomizationStatueAllowedMask = 0u;
-
-
-// Issue #109: Persist shard grants to SRAM to survive reset without room change
-// This function writes the shard bitfield to persistent storage alongside checksum fields
-// to prevent save corruption when adding shards without entering a new room.
-static void persist_shard_to_sram(uint8_t new_shard_bitfield) {
-    // Write the primary shard field to SRAM
-    SRAM_SHARD_FIELD = new_shard_bitfield;
-
-    // Update checksum fields to maintain save file integrity.
-    // The game validates these when loading, so they must change consistently with shard changes.
-    // These specific addresses were identified through Issue #109 investigation.
-    SRAM_CHECKSUM_1 = (uint8_t)(new_shard_bitfield ^ 0xFFu);  // Inverted checksum
-    SRAM_CHECKSUM_2 = (uint8_t)(new_shard_bitfield + 0x42u);  // Offset checksum
-    SRAM_CHECKSUM_3 = (uint8_t)(SRAM_CHECKSUM_1 + SRAM_CHECKSUM_2); // Derived checksum
-}
 
 
 // Issue #35: Set the boss-defeat flag for <boss_index> (0–7) in the transport register.
@@ -233,6 +234,19 @@ static void ap_record_minor_chest_source_ptr(uint32_t source_ptr) {
     AP_MINOR_CHEST_EVENT_COUNTER = event_counter + 1u;
 }
 
+static uint8_t ap_is_ap_owned_minor_chest_source(uint32_t source_ptr) {
+    uint32_t i;
+    uint32_t source_count = (uint32_t)(
+        sizeof(AP_OWNED_MINOR_CHEST_SOURCE_PTRS) / sizeof(AP_OWNED_MINOR_CHEST_SOURCE_PTRS[0])
+    );
+    for (i = 0u; i < source_count; i++) {
+        if (source_ptr == AP_OWNED_MINOR_CHEST_SOURCE_PTRS[i]) {
+            return 1u;
+        }
+    }
+    return 0u;
+}
+
 static void ap_collect_small_chest_native(uint32_t chest_index) {
     if (chest_index >= 128u) {
         return;
@@ -242,11 +256,30 @@ static void ap_collect_small_chest_native(uint32_t chest_index) {
         (uint8_t)(1u << (chest_index & 7u));
 }
 
+static uint32_t ap_lever_bit_for_obj(uint32_t chest_obj_ptr) {
+    return ap_lever_bit_for_chest(
+        *(volatile uint32_t*)(chest_obj_ptr + 0xB0u),
+        *(volatile uint16_t*)(chest_obj_ptr + 0xE0u),
+        *(volatile uint8_t*)(chest_obj_ptr + 0xE2u)
+    );
+}
+
 static void ap_record_minor_chest_collection_from_obj_ptr(uint32_t chest_obj_ptr) {
     uint32_t source_ptr = *(volatile uint32_t*)(chest_obj_ptr + 0xB0u);
     uint32_t chest_index = (uint32_t)(*(volatile uint8_t*)(chest_obj_ptr + 0xE2u));
 
+    uint32_t lever_bit = ap_lever_bit_for_obj(chest_obj_ptr);
+    if (lever_bit != 0u) {
+        AP_LEVER_ACTIVATION_FLAGS |= lever_bit;
+        return;
+    }
+
     ap_record_minor_chest_source_ptr(source_ptr);
+    if (ap_is_ap_owned_minor_chest_source(source_ptr)
+        && *(volatile uint16_t*)(chest_obj_ptr + 0xE0u) <= 5u) {
+        /* Chest::unkDC is zeroed on creation and has no other use in the game code. */
+        *(volatile uint32_t*)(chest_obj_ptr + 0xDCu) = AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER;
+    }
     ap_collect_small_chest_native(chest_index);
 }
 
@@ -387,39 +420,90 @@ __attribute__((used)) uint32_t ap_on_query_special_door_state(uint16_t room_id, 
 
 typedef void (*KirbySmallSwitchEffectFn)(void);
 
-/*
- * Issue #859: the four AP lever locations live in rooms with unique canonical
- * doorsIdx values. Intercept the small-switch effect dispatcher only for those
- * rooms, latch the physical activation for the client, and intentionally do not
- * call the retail effect that opens the wall. Any other small switch preserves
- * native behavior by chaining through the original function pointer.
- */
-static uint32_t ap_lever_activation_bit_for_doors_idx(uint16_t doors_idx) {
-    switch (doors_idx) {
-        case 82u:  return (1u << 0);  // Moonlight Mansion 2-11
-        case 202u: return (1u << 1);  // Olive Ocean 6-13
-        case 254u: return (1u << 2);  // Carrot Castle 5-12
-        case 239u: return (1u << 3);  // Radish Ruins 8-12
-        default:   return 0u;
+/* The AP levers are Chest reward 0x63, not native small switches.  Keep this
+ * legacy dispatch wrapper transparent; ordinary small switches remain native. */
+__attribute__((used)) void ap_on_small_switch_effect(KirbySmallSwitchEffectFn native_effect) {
+    native_effect();
+}
+
+typedef void (*KirbyChestFn)(void*);
+#define KIRBY_CHEST_INIT_FN ((KirbyChestFn)0x0800BD4Du)
+#define KIRBY_CHEST_WAIT_FN ((KirbyChestFn)0x0800AEB1u)
+#define KIRBY_CHEST_OPEN_FN ((KirbyChestFn)0x0800BD9Du)
+typedef void (*KirbyRoomCounterFn)(uint32_t, uint32_t);
+#define KIRBY_ROOM_COUNTER_FN ((KirbyRoomCounterFn)0x080029F5u)
+/* gCurLevelInfo[player].unk65E; currentRoom is at +0x5F8, stride 0x668. */
+#define KIRBY_LEVEL_INFO_BASE 0x02023530u
+#define KIRBY_LEVEL_INFO_STRIDE 0x668u
+#define KIRBY_LEVEL_INFO_ROOM_SLOT_OFFSET 0x65Eu
+
+static uint8_t ap_lever_wall_owned(uint32_t chest_obj_ptr) {
+    uint8_t chest_id = *(volatile uint8_t*)(chest_obj_ptr + 0xE2u);
+    return (uint8_t)((*(volatile uint8_t*)(KIRBY_SMALL_CHEST_FLAGS_ADDR
+        + (chest_id >> 3)) >> (chest_id & 7u)) & 1u);
+}
+
+/* Object::unk7C runs before the native chest callback, including after the
+ * physical lever has been pulled.  Receipt therefore opens a live wall without
+ * consuming the lever, and later room loads reapply exactly one contribution. */
+static void ap_update_lever_wall(void *chest) {
+    uint32_t chest_obj_ptr = (uint32_t)chest;
+    volatile uint32_t *applied = (volatile uint32_t*)(chest_obj_ptr + 0xDCu);
+    uint8_t player = *(volatile uint8_t*)(chest_obj_ptr + 0x56u);
+    uint8_t room_slot;
+    if (player >= KIRBY_PLAYER_COUNT
+        || ap_lever_should_open_wall(ap_lever_wall_owned(chest_obj_ptr), *applied) == 0u) {
+        return;
+    }
+    room_slot = *(volatile uint8_t*)(KIRBY_LEVEL_INFO_BASE
+        + (uint32_t)player * KIRBY_LEVEL_INFO_STRIDE + KIRBY_LEVEL_INFO_ROOM_SLOT_OFFSET);
+    if (room_slot < KIRBY_PLAYER_COUNT) {
+        KIRBY_ROOM_COUNTER_FN(room_slot, 1u);
+        *applied = 1u;
     }
 }
 
-__attribute__((used)) void ap_on_small_switch_effect(KirbySmallSwitchEffectFn native_effect) {
-    uint16_t doors_idx = ap_room_doors_idx(KIRBY_CURRENT_ROOM);
-    uint32_t activation_bit = ap_lever_activation_bit_for_doors_idx(doors_idx);
-
-    if (activation_bit != 0u) {
-        AP_LEVER_ACTIVATION_FLAGS |= activation_bit;
+__attribute__((used)) void ap_on_initialize_chest(void *chest) {
+    uint32_t chest_obj_ptr = (uint32_t)chest;
+    uint32_t lever_bit = ap_lever_bit_for_obj(chest_obj_ptr);
+    uint8_t activated;
+    /* Native initialization opens the wall once if its AP-owned chest bit is
+     * already set.  It also supplies unchanged behavior for every other chest. */
+    KIRBY_CHEST_INIT_FN(chest);
+    if (lever_bit == 0u) {
         return;
     }
+    activated = (AP_LEVER_ACTIVATION_FLAGS & lever_bit) != 0u;
+    *(volatile uint32_t*)(chest_obj_ptr + 0xDCu) = ap_lever_wall_owned(chest_obj_ptr);
+    *(volatile uint8_t*)(chest_obj_ptr + 0x83u) = activated ? 3u : 2u;
+    *(KirbyChestFn volatile *)(chest_obj_ptr + 0x78u) =
+        activated ? KIRBY_CHEST_OPEN_FN : KIRBY_CHEST_WAIT_FN;
+    *(KirbyChestFn volatile *)(chest_obj_ptr + 0x7Cu) = ap_update_lever_wall;
+}
 
-    native_effect();
+/* Only BLs in ChestItemPopup's reward callback are redirected here.  r8 is the
+ * live popup throughout that verified native function; do not use a current-room
+ * guess, which could suppress unrelated chests or another player's room. */
+__attribute__((used)) void ap_on_chest_popup_room_counter(uint32_t room_slot, uint32_t amount) {
+    register uint32_t popup_obj_ptr asm("r8");
+    uint32_t chest_obj_ptr = *(volatile uint32_t*)(popup_obj_ptr + 0x4Cu);
+    uint32_t source_ptr = *(volatile uint32_t*)(chest_obj_ptr + 0xB0u);
+    uint16_t reward = *(volatile uint16_t*)(chest_obj_ptr + 0xE0u);
+    /* The ordinary-reward hook substitutes 0x63 to skip native consumable
+     * creation. Unlike actual native levers/collections, ordinary bonuses do
+     * not increment this room counter (their template uses unk2=0, unk3=31).
+     * Preserve that boundary without suppressing fixed collection rewards. */
+    uint8_t suppressed_ordinary = reward == KIRBY_MINOR_CHEST_NO_NATIVE_ITEM
+        && ap_is_ap_owned_minor_chest_source(source_ptr);
+    if (ap_lever_bit_for_obj(chest_obj_ptr) == 0u && !suppressed_ordinary) {
+        KIRBY_ROOM_COUNTER_FN(room_slot, amount);
+    }
 }
 
 // Hook target for the original boss shard grant call. The game passes the boss's
 // shard index in r0 (same value passed to CollectShard(var->unk218) in sub_0801D948).
 // Records the AP boss-defeat transport flag for client polling AND replicates the
-// native CollectShard behavior (writing KIRBY_SHARD_FLAGS + SRAM persistence) so
+// native CollectShard behavior (writing KIRBY_SHARD_FLAGS) so
 // that the post-cutscene state machine can continue the screen transition correctly.
 // AP SHARD_N delivery (ap_apply_item) performs the same KIRBY_SHARD_FLAGS write,
 // making native and AP grants idempotent when both occur on the same shard index.
@@ -428,13 +512,13 @@ __attribute__((used)) void ap_on_small_switch_effect(KirbySmallSwitchEffectFn na
 __attribute__((used)) void ap_on_boss_defeat_collect_shard(uint32_t boss_index) {
     ap_set_boss_defeat_flag(boss_index);
     // Replicate CollectShard(boss_index): update native EWRAM shard bitfield and
-    // persist to SRAM so the game's post-cutscene transition sees valid shard state.
+    // retain it for the post-cutscene transition; native save flow owns persistence.
     if (boss_index < 8u) {
         uint8_t mask = (uint8_t)(1u << boss_index);
         uint8_t new_shard_flags = (uint8_t)(KIRBY_SHARD_FLAGS | mask);
         KIRBY_SHARD_FLAGS = new_shard_flags;
         AP_SHARD_BITFIELD |= (uint32_t)mask;
-        persist_shard_to_sram(new_shard_flags);
+
         // Issue #478: Hold off the per-frame shard scrub so the post-cutscene
         // state machine can read the temporary native write without white-screening.
         AP_SHARD_SCRUB_DELAY = SHARD_BOSS_CUTSCENE_FRAMES;
@@ -476,6 +560,10 @@ __attribute__((used)) void ap_on_collect_vitality_chest(void) {
     register uint32_t chest_obj_ptr asm("r5");
     uint16_t room_id = *(volatile uint16_t*)(chest_obj_ptr + 0x60u);
     ap_set_vitality_chest_flag_for_room(room_id);
+    /* CollectVitality interception alone leaves the delayed native popup free
+     * to reset max HP and spawn a healing tomato. Defer both to AP delivery,
+     * while retaining the popup and its native room-completion increment. */
+    *(volatile uint32_t*)(chest_obj_ptr + 0xDCu) = AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER;
 }
 
 // Hook target for native small chest reward collection. The live chest object remains in r5,
@@ -485,6 +573,20 @@ __attribute__((used)) void ap_on_collect_small_chest(void) {
     register uint32_t chest_obj_ptr asm("r5");
     ap_record_minor_chest_collection_from_obj_ptr(chest_obj_ptr);
 }
+
+/* Called after the native chest popup delay, after open sound/persistence are complete. */
+__attribute__((used)) void ap_on_minor_chest_reward_popup(void) {
+    register uint32_t popup_obj_ptr asm("r8");
+    uint32_t chest_obj_ptr = *(volatile uint32_t*)(popup_obj_ptr + 0x4Cu);
+    uint32_t marker = *(volatile uint32_t*)(chest_obj_ptr + 0xDCu);
+
+    if (marker == AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER) {
+        /* The native popup treats 0x63 as a chest with no bonus item. */
+        *(volatile uint16_t*)(chest_obj_ptr + 0xE0u) = KIRBY_MINOR_CHEST_NO_NATIVE_ITEM;
+        *(volatile uint32_t*)(chest_obj_ptr + 0xDCu) = 0u;
+    }
+}
+
 
 typedef void (*KirbyCollectSoundPlayerFn)(uint32_t reward_index);
 #define KIRBY_COLLECT_SOUND_PLAYER_FN ((KirbyCollectSoundPlayerFn)0x08019E69u)
@@ -811,16 +913,48 @@ __attribute__((used)) void ap_on_start_copy_ability_transition(void *kirby) {
     KIRBY_START_ABILITY_TRANSITION_FN(kirby);
 }
 
-// Hook target for native Sound Player chest reward collection. Reward index 0 is
-// the Sound Player unlock and remains AP-owned; all other rewards are native
-// Music Sheet collections and must retain their original grant behavior.
+/* Native sub_0805C618 is installed as Kirby::stateFn by both ordinary and
+ * roulette transitions. Gate immediately before its authoritative ability write,
+ * after native roulette or collision state has finished choosing the result. */
+__attribute__((used)) void ap_on_commit_copy_ability_transition(void *kirby) {
+    volatile uint8_t *pending;
+    typedef void (*KirbyCommitAbilityFn)(void*);
+    if (kirby == (void*)0) {
+        return;
+    }
+    pending = (volatile uint8_t*)((uintptr_t)kirby + KIRBY_TRANSITIONING_ABILITY_OFFSET);
+    *pending = ap_statue_apply_final_gate(*pending, AP_ABILITY_GATE_MASK, AP_ABILITY_UNLOCK_MASK);
+    ((KirbyCommitAbilityFn)0x0805C619u)(kirby);
+}
+
+/* Native CollectSprayPaint only ORs its ownership bit (katam/src/treasures.c).
+ * The physical chest event/persistence was already recorded by the generic hook.
+ * Keep unrecognized sources native rather than silently consuming their rewards.
+ */
+__attribute__((used)) void ap_on_collect_spray_paint_chest(uint32_t reward_index) {
+    register uint32_t chest_obj_ptr asm("r5");
+    uint32_t source_ptr = *(volatile uint32_t*)(chest_obj_ptr + 0xB0u);
+    ap_apply_native_collection_reward(
+        &KIRBY_SPRAY_PAINT_FLAGS, reward_index, 14u,
+        ap_is_ap_owned_minor_chest_source(source_ptr)
+    );
+}
+
+/* Reward index 0 remains the existing Sound Player location. Sheet indices
+ * 1..10 are AP-owned only when the physical source is in the exact source table.
+ */
 __attribute__((used)) void ap_on_collect_sound_player_chest(uint32_t reward_index) {
+    register uint32_t chest_obj_ptr asm("r5");
+    uint32_t source_ptr = *(volatile uint32_t*)(chest_obj_ptr + 0xB0u);
     if (reward_index == 0u) {
         ap_set_sound_player_chest_flag(0u);
         return;
     }
 
-    KIRBY_COLLECT_SOUND_PLAYER_FN(reward_index);
+    ap_apply_native_collection_reward(
+        &KIRBY_MUSIC_PLAYER_AND_SHEETS_FLAGS, reward_index, 11u,
+        ap_is_ap_owned_minor_chest_source(source_ptr)
+    );
 }
 
 typedef void (*WorldMapUnlockFn)(void);
@@ -845,13 +979,28 @@ __attribute__((used)) void ap_on_world_map_unlock_call(WorldMapUnlockFn unlock_f
     }
 }
 
+/* Format-2 per-seed bounds apply before connecting after native reload. */
+__attribute__((used, section(".apconfig.health")))
+volatile const uint32_t gApHealthConfigInitial = 0xA9020A06u;
+
+__attribute__((used)) uint32_t ap_initial_health_capacity(void) {
+    return ap_vitality_capacity(gApHealthConfigInitial, KIRBY_VITALITY_COUNTER);
+}
+
+/* The native collection menu has exactly four icon slots. Clamp the u16
+ * before its caller truncates to u8; never modify saved ownership here. */
+__attribute__((used)) uint32_t ap_vitality_collection_menu_count(void) {
+    return ap_vitality_menu_count(KIRBY_VITALITY_COUNTER);
+}
+
 static void ap_sync_active_kirby_health_from_vitality(void) {
     uint8_t player = KIRBY_CURRENT_PLAYER;
     uint32_t kirby_addr = KIRBY_STRUCTS_ADDR + ((uint32_t)player * KIRBY_STRUCT_STRIDE);
-    uint16_t vitality_total_u16 = (uint16_t)(KIRBY_VITALITY_COUNTER + 6u);
-    int8_t vitality_total = (vitality_total_u16 > 0x7Fu) ? 0x7F : (int8_t)vitality_total_u16;
+    int8_t vitality_total = (int8_t)ap_initial_health_capacity();
 
-    *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) = vitality_total;
+    if (*(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) > 0) {
+        *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) = vitality_total;
+    }
     *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_MAX_HP_OFFSET) = vitality_total;
 }
 
@@ -1033,17 +1182,15 @@ static void ap_grant_invincibility_candy(void) {
 }
 
 static void ap_grant_vitality_counter(void) {
-    uint16_t vitality_counter = KIRBY_VITALITY_COUNTER;
-
-    if (vitality_counter > KIRBY_MAX_VITALITY_COUNTERS) {
-        vitality_counter = KIRBY_MAX_VITALITY_COUNTERS;
+    uint16_t previous = KIRBY_VITALITY_COUNTER;
+    uint16_t confirmed_count = ap_vitality_partial_count(
+        gApHealthConfigInitial, AP_DELIVERED_VITALITY_ITEM_BITS, previous);
+    KIRBY_VITALITY_COUNTER = confirmed_count;
+    /* Partial replay retains saved ownership and never heals a reconstructed
+     * receipt. Complete authenticated history can correct an inflated save. */
+    if (confirmed_count > previous) {
+        ap_sync_active_kirby_health_from_vitality();
     }
-    if (vitality_counter < KIRBY_MAX_VITALITY_COUNTERS) {
-        vitality_counter = (uint16_t)(vitality_counter + 1u);
-    }
-
-    KIRBY_VITALITY_COUNTER = vitality_counter;
-    ap_sync_active_kirby_health_from_vitality();
 }
 
 static void ap_grant_lives(uint8_t amount) {
@@ -1147,8 +1294,7 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         // Optional: keep hack mirror for AP client polling/debugging
         AP_SHARD_BITFIELD |= (uint32_t)mask;
 
-        // Issue #109: Persist to SRAM to survive reset without room change
-        persist_shard_to_sram(new_shard_flags);
+        // Native save flow persists gTreasures; no direct SRAM writes here.
 
         return 1u;
     }
@@ -1165,10 +1311,9 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         return 1u;
     }
 
-    // VITALITY_COUNTER_1..VITALITY_COUNTER_4 = BASE+18 .. BASE+21
-    if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 18u) && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 21u)) {
-        uint32_t vitality_index = ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 18u);  // 0..3
-        uint32_t vitality_mask = (1u << vitality_index);
+    /* Explicit noncontiguous identities; physical chest flags are unrelated. */
+    uint32_t vitality_mask = ap_vitality_item_bit(ap_item_id);
+    if (vitality_mask != 0u) {
         if ((AP_DELIVERED_VITALITY_ITEM_BITS & vitality_mask) == 0u) {
             AP_DELIVERED_VITALITY_ITEM_BITS |= vitality_mask;
             ap_grant_vitality_counter();
@@ -1253,15 +1398,22 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
     }
 
     // LEVER_WALL_* = BASE+37 .. BASE+40 (Issue #859).
-    // These are the native gTreasures.chestFields indices observed for the four
-    // lever-controlled walls. Small-switch activation itself is persisted by the
-    // game's independent StateSlot path, so setting these wall bits does not
-    // consume the physical lever location. Writes are additive and idempotent.
+    // Native chest bits are AP wall ownership. Physical activations use the AP
+    // latch; the lever object's auxiliary callback observes this bit and opens
+    // the live wall once. Chest initialization handles later room visits.
     if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 37u)
         && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 40u)) {
         static const uint8_t lever_wall_chest_ids[4] = {18u, 65u, 77u, 74u};
         uint32_t lever_index = ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 37u);
         ap_collect_small_chest_native((uint32_t)lever_wall_chest_ids[lever_index]);
+        return 1u;
+    }
+
+    // Fixed Spray Paint (+200..+213) and Music Sheet (+214..+223) items.
+    // Bitwise ownership grants are idempotent when received history is replayed.
+    if (ap_apply_collection_item(ap_item_id - KIRBY_ITEM_ID_BASE_OFFSET,
+                                &KIRBY_SPRAY_PAINT_FLAGS,
+                                &KIRBY_MUSIC_PLAYER_AND_SHEETS_FLAGS)) {
         return 1u;
     }
 
@@ -1364,7 +1516,6 @@ void ap_poll_mailbox_c(void) {
             uint8_t clamped = (uint8_t)(native_shards & (uint8_t)(~scrub_mask));
             if (clamped != native_shards) {
                 KIRBY_SHARD_FLAGS = clamped;
-                persist_shard_to_sram(clamped);
             }
             AP_BOSS_TEMP_SHARD_BITFIELD = 0u;
             AP_SHARD_SCRUB_DELAY = 0u;
@@ -1396,5 +1547,25 @@ void ap_poll_mailbox_c(void) {
     if (item_was_processed) {
         AP_ITEM_RCVD_COUNTER++;
         AP_IN_FLAG = 0u;
+    }
+}
+
+/* Native sub_0803518C redraws only the current capacity and its endcap.
+ * A client-side custom-capacity reduction can therefore leave old HP tiles.
+ * Restore the unused cells to the native HUD initializer's blank tile 0x184.
+ * Six cells cover the supported 1..10 HP range (five pairs plus endcap).
+ * Keep demo-mode suppression and all native HP/endcap rendering unchanged.
+ */
+void ap_draw_health_hud(uint8_t *kirby) {
+    typedef void (*draw_fn)(uint8_t *);
+    ((draw_fn)0x0803518Du)(kirby);
+    int8_t capacity = *(volatile int8_t *)(kirby + 0x101u);
+    if ((*(volatile uint32_t *)0x0203AD10u & 0x10u) != 0u
+            || capacity < 1 || capacity > 10) {
+        return;
+    }
+    for (uint32_t cell = (uint32_t)capacity / 2u + 1u; cell < 6u; ++cell) {
+        *(volatile uint16_t *)(0x0600E49Au + cell * 2u) = 0x0184u;
+        *(volatile uint16_t *)(0x0600E4DAu + cell * 2u) = 0x0184u;
     }
 }

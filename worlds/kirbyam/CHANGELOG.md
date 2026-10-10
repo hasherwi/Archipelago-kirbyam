@@ -11,28 +11,29 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## v0.4.0
 
 ### New Features
-- Added `minimum_health` and `maximum_health` YAML options for a custom starting/final HP capacity (Issue #778). Defaults remain 6/10; supported ranges stay within 1..10 HP and at most four unique Vitality Counter upgrades. Existing One-Hit Mode presets override these options.
-- Added all 65 small-chest location checks (41 ordinary rewards, 14 Spray Paints, and 10 Music Sheets), matched to their exact ROM sources while preserving native rewards and chest persistence (PR #930).
+- Added `minimum_health` and `maximum_health` YAML options for a custom starting/final HP capacity (Issues #778, #947). Defaults remain 6/10; all starting/final ranges within 1..10 HP are supported with up to nine unique Vitality Counter upgrades. Existing One-Hit Mode presets override these options.
+- mGBA now supported as an optional emulator.
+- All minor chests are added as locations and no longer provide their native item.
+- Spray Paints and Music Sheets added as AP items.
 - Added an `/abilities` client command that lists the abilities currently unlocked for the slot (Issue #891).
 - Added a new option: `enemy_health_multiplier`. Scale all enemies' health values between 50% to 500% of the original game. It defaults to 100% which matches the original game (Issue #880).
 - Added `random_color_per_room` to Starting Kirby Color. It chooses an initial supported palette at generation, then changes to a different supported palette whenever the connected BizHawk client observes Kirby enter a different room (Issue #857).
 - Added four progression items that independently open the walls controlled by those levers. Pulling a lever now sends its AP location check without opening the wall; receiving the matching Lever Wall item sets the native wall-unlock state instead (Issue #859).
 
 ### Improvements
+- Ability unlock gating also applies at the final native ability commit, after roulette and other pending-ability writes (Issue #892).
 - Unused Vitality Counters are replaced through the existing filler/trap policy while all vitality-chest checks remain available.
 - The Tutorial World Map - Big Chest location check is now sent during the tutorial; item delivery remains paused until normal gameplay begins (Issue #868).
 - Consolidated `defeat_random_hidden_area_boss` and `defeat_configured_area_boss` into the canonical `defeat_area_boss` goal. `configured_area_boss: random` now uses Archipelago's standard `Choice` randomization, the old `defeat_configured_area_boss` name remains a safe YAML alias, and all eight boss-to-area mappings are corrected (Issue #872).
 - Generated YAML documentation now shows the scalar `configured_area_boss: random` and `starting_kirby_color: random` shorthands and explains how they replace the generated concrete weight mappings (Issue #872).
 
 ### Known Limitations
-- Extra Vitality upgrades for ranges such as 1/10 are still in development (#946/#947). Current generation continues to allow at most four upgrades; equal minimum/maximum still produces no counters and retains the chest checks.
 - Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
-- Custom health requires the connected current BizHawk client after the tutorial, like One-Hit Mode. Native health may briefly reappear on vitality grants, room changes, or respawns before the next client poll.
+- Use newly generated ROM patches for offline custom health initialization; older patches need a same-seed rebuild to embed health bounds. Client reconciliation remains required for authoritative AP ownership. Full gameplay coverage of every custom-health interaction remains pending.
 - Kirby Color: random_color_per_room changes Kirby's color but does not update the corresponding UI element colors.
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
-- Small Chests: Fixed collection rewards remain native pending their AP item support (Issue #525). Native consumable reward suppression for the 41 ordinary chest checks is handled in PR #931. Emulator gameplay has not yet been validated.
-- Sprite Swapping: The animation for getting the original item will play with the original sprite. Statues show the old ability. This is expected. We hope in the future to support "sprite swapping" where we show the sprite for the actual item delivered or ability granted.
-- Emulator: Only BizHawk is supported. mGBA may work, but we don't currently test against it.
+- Native sprites and animations: Chests still show their original item sprite and collection animation. Statues still show their original ability.
+- mGBA notifications appear as plain text in the **Archipelago Connector** scripting panel, which must be visible. They do not appear over the game image.
 
 ### Bug Fixes
 

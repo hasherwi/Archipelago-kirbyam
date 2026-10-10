@@ -122,7 +122,7 @@ async def test_validate_rom_accepts_patched_kirby_header(mock_bizhawk_context):
 
         assert await client.validate_rom(mock_bizhawk_context) is True
         assert mock_bizhawk_context.game == client.game
-        assert mock_bizhawk_context.items_handling == 0b011
+        assert mock_bizhawk_context.items_handling == 0b111
         assert mock_bizhawk_context.want_slot_data is True
         assert mock_bizhawk_context.command_processor is TestBizHawkClientCommandProcessor
         assert getattr(mock_bizhawk_context.command_processor, "_kirbyam_runtime_patched", False) is True
@@ -872,7 +872,7 @@ def test_minor_chest_source_ptr_map_contains_only_unique_verified_sources():
     assert len({loc.source_rom_offset for loc in active_locations}) == 65
     assert sorted(loc.location_id for loc in active_locations) == list(range(3960500, 3960524)) + list(range(3960566, 3960607))
     assert sum("NativeRewardConsumable" in loc.tags for loc in active_locations) == 41
-    assert sum("NativeRewardCollection" in loc.tags for loc in active_locations) == 0
+    assert sum("NativeRewardCollection" in loc.tags for loc in active_locations) == 24
     assert len(client._minor_chest_location_id_by_source_ptr) == 65
     assert client._minor_chest_location_id_by_source_ptr == {
         loc.source_rom_offset: loc.location_id for loc in active_locations
@@ -4120,6 +4120,7 @@ async def test_log_boss_shard_debug_window_logs_completion_on_resume(mock_bizhaw
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_skips_when_server_is_none(mock_bizhawk_context):
     """game_watcher should do nothing when ctx.server is None (AP not connected)."""
     client = KirbyAmClient()
@@ -4208,6 +4209,7 @@ def test_log_slot_metadata_once_deduplicates_signature(mock_bizhawk_context):
         ),
     ],
 )
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_recovers_locally_from_transport_errors(
     mock_bizhawk_context,
     raised_exception,
@@ -4239,6 +4241,7 @@ async def test_game_watcher_recovers_locally_from_transport_errors(
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_reloads_state_after_transport_recovery(mock_bizhawk_context):
     """After a transport error, the next successful tick should reload RAM-backed state and clear recovery flags."""
     client = KirbyAmClient()
@@ -4327,6 +4330,7 @@ async def test_global_game_watcher_recovers_when_handler_tick_times_out():
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_skips_when_slot_data_is_none(mock_bizhawk_context):
     """game_watcher should do nothing when ctx.slot_data is None (handshake not complete)."""
     client = KirbyAmClient()
@@ -4339,6 +4343,7 @@ async def test_game_watcher_skips_when_slot_data_is_none(mock_bizhawk_context):
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_skips_when_server_socket_is_missing(mock_bizhawk_context):
     """game_watcher should do nothing when ctx.server.socket is temporarily unavailable."""
     client = KirbyAmClient()
@@ -4351,6 +4356,7 @@ async def test_game_watcher_skips_when_server_socket_is_missing(mock_bizhawk_con
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_skips_when_server_socket_is_closed(mock_bizhawk_context):
     """game_watcher should do nothing when AP socket is closed."""
     client = KirbyAmClient()
@@ -4364,6 +4370,7 @@ async def test_game_watcher_skips_when_server_socket_is_closed(mock_bizhawk_cont
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_bizhawk_context):
     """First watcher tick after AP session readiness should reset transient reconnect state and log once."""
     client = KirbyAmClient()
@@ -4449,6 +4456,7 @@ async def test_game_watcher_reconnect_entry_resets_transient_state_once(mock_biz
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_reconnect_entry_emits_file_only_session_ready_log(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
@@ -4659,6 +4667,7 @@ async def test_runtime_gameplay_state_fail_open_when_signal_unavailable(mock_biz
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock_bizhawk_context):
     """In non-gameplay state, watcher defers location/boss polling and new mailbox writes."""
     client = KirbyAmClient()
@@ -4691,6 +4700,7 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_polls_tutorial_room_color_and_world_map_chest_without_opening_gameplay_gate(
     mock_bizhawk_context,
 ):
@@ -4788,6 +4798,7 @@ async def test_tutorial_room_transition_rerolls_color_and_releases_payload_latch
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_emits_pause_then_resume_popups_on_transition(mock_bizhawk_context):
     """Watcher should emit one pause and one resume popup across gameplay gate transitions."""
     client = KirbyAmClient()
@@ -4833,6 +4844,7 @@ async def test_game_watcher_emits_pause_then_resume_popups_on_transition(mock_bi
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_dedupes_pause_popup_while_non_gameplay_reason_changes(mock_bizhawk_context):
     """Pause popup should emit once while deferred, even if defer reason changes."""
     client = KirbyAmClient()
@@ -4862,6 +4874,7 @@ async def test_game_watcher_dedupes_pause_popup_while_non_gameplay_reason_change
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_emits_file_only_runtime_gate_logs(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
@@ -4885,6 +4898,7 @@ async def test_game_watcher_emits_file_only_runtime_gate_logs(mock_bizhawk_conte
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_emits_runtime_gate_logs_file_only(mock_bizhawk_context):
     client = KirbyAmClient()
     client.initialize_client()
@@ -4935,6 +4949,7 @@ async def test_game_watcher_emits_runtime_gate_logs_file_only(mock_bizhawk_conte
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_syncs_death_link_enabled_from_slot_data(mock_bizhawk_context):
     """DeathLink tag state should be enabled when slot_data.death_link is true."""
     client = KirbyAmClient()
@@ -4968,6 +4983,7 @@ async def test_game_watcher_syncs_death_link_enabled_from_slot_data(mock_bizhawk
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_game_watcher_death_link_sync_is_deduped_until_value_changes(mock_bizhawk_context):
     """DeathLink tag update should not repeat every frame when slot_data value is unchanged."""
     client = KirbyAmClient()
@@ -5864,3 +5880,24 @@ def test_minor_chest_locations_have_unique_bit_indices_when_present():
         "MINOR_CHEST locations must use unique bit_index values to avoid duplicate AP checks: "
         f"{bit_indices}"
     )
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("counter", [1, 9])
+async def test_minor_chest_reset_recovers_retained_sources_until_ack(mock_bizhawk_context, counter):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._last_minor_chest_event_counter = counter + 4
+    target = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"]
+    ctx = mock_bizhawk_context
+    # Repeated exact sources also exercise a reset window larger than the ring.
+    ring = _minor_chest_event_ring(*([0x08000000 + target.source_rom_offset] * 8))
+    with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as read:
+        read.return_value = [counter.to_bytes(4, "little"), ring]
+        await client._poll_minor_chest_locations(ctx)
+        await client._poll_minor_chest_locations(ctx)
+        assert ctx.send_msgs.await_count == 2
+        ctx.send_msgs.assert_awaited_with([{"cmd": "LocationChecks", "locations": [target.location_id]}])
+        ctx.checked_locations.add(target.location_id)
+        await client._poll_minor_chest_locations(ctx)
+        assert ctx.send_msgs.await_count == 2

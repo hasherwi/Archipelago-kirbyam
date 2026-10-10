@@ -3,8 +3,7 @@
 
 #include <stdint.h>
 
-/* Format-2 helpers. Not wired into the legacy payload until its native hooks
- * and full-history client authority are integrated together. No SRAM writes. */
+/* Shared format-2 native health policy. No direct SRAM writes. */
 #define AP_VITALITY_MASK 0x1FFu
 #define AP_HEALTH_CONFIG_MAGIC 0xA9020000u
 

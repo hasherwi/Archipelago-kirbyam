@@ -1,4 +1,4 @@
-"""Executable format-2 policy; not a claim that shipping ROM hooks are enabled."""
+"""Format-2 policy and actual shipping pool coverage; no gameplay claim."""
 
 import ctypes
 import json
@@ -70,13 +70,11 @@ def test_defaults_one_hit_ids_and_legacy_gate():
     assert resolve_vitality_plan(10, 1, 1) == VitalityPlan(1, 1)
     assert resolve_vitality_plan(10, 1, 2) == VitalityPlan(1, 5)
     assert remaining_pool(VitalityPlan(6, 6), 100, 20)[0] == remaining_pool(VitalityPlan(6, 10), 100, 20)[0] + 4
-    # Still blocked in shipping generation until #931 and native hooks integrate.
-    with pytest.raises(ValueError, match="at most 4"):
-        resolve_health_range(1, 10)
+    assert resolve_health_range(1, 10).vitality_count == 9
     catalog = json.loads((WORLD / "data/items.json").read_text())
     assigned = {entry["item_id"] for entry in catalog.values() if "item_id" in entry}
-    assert not assigned.intersection(VITALITY_ITEM_IDS[4:])
-    for index, item_id in enumerate(VITALITY_ITEM_IDS[:4], 1):
+    assert assigned.issuperset(VITALITY_ITEM_IDS)
+    for index, item_id in enumerate(VITALITY_ITEM_IDS, 1):
         assert catalog[f"VITALITY_COUNTER_{index}"]["item_id"] == item_id
 
 
@@ -218,25 +216,14 @@ def test_native_patch_plan_rejects_unknown_code_and_targets():
 
 @pytest.mark.parametrize("minimum,maximum", RANGES)
 @pytest.mark.parametrize("shards", [0, 2])
-def test_real_pool_builder_with_isolated_format2_catalog(monkeypatch, minimum, maximum, shards):
-    """Exercise actual pool code without enabling unsafe shipping ROM generation.
-
-    Only the proposed catalog additions and validated range are injected. All
-    selection, filler/trap exclusions, rounding, and item creation use real code.
-    This is not full generation/precollect or emulator acceptance.
-    """
+def test_real_pool_builder_with_shipping_format2_catalog( minimum, maximum, shards):
+    """Exercise real catalog and pool code across ranges and option modifiers."""
     from BaseClasses import ItemClassification
     from .. import KirbyAmWorld
     from ..data import data, ItemData
     from ..health import HealthRange
     from .test_item_pool import _build_world_for_create_items
 
-    for index, code in enumerate(VITALITY_ITEM_IDS[4:], 5):
-        label = f"Vitality Counter #{index}"
-        monkeypatch.setitem(data.items, code, ItemData(label, code, ItemClassification.useful,
-                                                     frozenset(("Vitality", "Useful", "Unique"))))
-        monkeypatch.setitem(KirbyAmWorld.item_name_to_id, label, code)
-        monkeypatch.setitem(KirbyAmWorld.item_id_to_name, code, label)
     for one_hit, maps, no_lives, gating in product(range(3), range(2), range(2), range(2)):
         plan = resolve_vitality_plan(minimum, maximum, one_hit)
         world, locations = _build_world_for_create_items(shards, one_hit_mode=one_hit,
@@ -244,7 +231,8 @@ def test_real_pool_builder_with_isolated_format2_catalog(monkeypatch, minimum, m
                                                         trap_fill_percentage=25)
         world.options.no_extra_lives = SimpleNamespace(value=no_lives)
         world.options.ability_gating = SimpleNamespace(value=gating)
-        world._health_range = lambda: HealthRange(plan.minimum, plan.maximum)
+        world.options.minimum_health = SimpleNamespace(value=minimum)
+        world.options.maximum_health = SimpleNamespace(value=maximum)
         world.create_items()
         pool = world.multiworld.itempool
         assert len(pool) == sum(location.item is None for location in locations)

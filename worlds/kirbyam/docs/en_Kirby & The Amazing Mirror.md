@@ -102,7 +102,7 @@ one_hit_mode: off
 
 This starts with 8 HP and places two unique Vitality Counters, each adding 1 HP.
 Equal values give a fixed capacity with no counters. The maximum must be at
-least the minimum and at most 4 HP higher: there are only four unique counters.
+least the minimum and at most 9 HP higher: there are nine unique counters.
 Unsupported pairs fail generation with an explanation; they are not silently
 changed. If using weighted/random values, every possible pair must satisfy
 these constraints.

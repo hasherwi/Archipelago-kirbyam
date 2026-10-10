@@ -636,6 +636,7 @@ def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> 
         for item in data.items.values()
         if item.classification not in (ItemClassification.filler, ItemClassification.trap)
     }
+    expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
 
@@ -660,6 +661,7 @@ def test_vanilla_pool_contains_each_non_shard_non_filler_item_exactly_once() -> 
             and item.item_id not in shard_codes
         )
     }
+    expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
 
@@ -711,7 +713,7 @@ def test_one_hit_mode_vanilla_includes_all_vitality_items() -> None:
     )
     world.create_items()
 
-    vitality_codes = _vitality_item_codes()
+    vitality_codes = set(sorted(_vitality_item_codes())[:4])
     pool_codes = {item.code for item in world.multiworld.itempool if item.code is not None}
     assert vitality_codes.issubset(pool_codes), (
         "Vanilla one-hit mode should not remove vitality counter items from the pool"
@@ -725,7 +727,7 @@ def test_one_hit_mode_include_vitality_counters_includes_all_vitality_items() ->
     )
     world.create_items()
 
-    vitality_codes = _vitality_item_codes()
+    vitality_codes = set(sorted(_vitality_item_codes())[:4])
     pool_codes = {item.code for item in world.multiworld.itempool if item.code is not None}
     assert vitality_codes.issubset(pool_codes), (
         "include_vitality_counters mode should keep all vitality counter items in the pool"
@@ -739,7 +741,7 @@ def test_vitality_items_appear_exactly_once_in_vanilla_pool() -> None:
     )
     world.create_items()
 
-    vitality_codes = _vitality_item_codes()
+    vitality_codes = set(sorted(_vitality_item_codes())[:4])
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     counts = Counter(code for code in pool_codes if code in vitality_codes)
 
@@ -759,7 +761,7 @@ def test_vitality_items_appear_exactly_once_in_include_mode_pool() -> None:
     )
     world.create_items()
 
-    vitality_codes = _vitality_item_codes()
+    vitality_codes = set(sorted(_vitality_item_codes())[:4])
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     counts = Counter(code for code in pool_codes if code in vitality_codes)
 

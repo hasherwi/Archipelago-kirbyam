@@ -1,8 +1,7 @@
 """Format-2 Vitality policy (#946/#947).
 
-This module is deliberately not enabled by generation until the native hooks and
-full-history client integration are available. Legacy health.py remains the
-shipping policy. These helpers never infer ownership from physical chest flags.
+The generator, client and native payload share this identity contract.
+These helpers never infer ownership from physical chest flags.
 """
 
 from dataclasses import dataclass

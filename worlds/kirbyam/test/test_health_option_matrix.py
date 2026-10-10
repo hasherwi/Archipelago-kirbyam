@@ -31,7 +31,7 @@ def quiet_pool_logs():
 
 @pytest.mark.parametrize("minimum,maximum,mode", list(product(range(1, 11), range(1, 11), range(3))))
 def test_entire_health_input_domain(minimum, maximum, mode):
-    valid = mode != 0 or (minimum <= maximum <= minimum + 4)
+    valid = mode != 0 or (minimum <= maximum)
     if not valid:
         with pytest.raises(ValueError):
             resolve_health_range(minimum, maximum, mode)

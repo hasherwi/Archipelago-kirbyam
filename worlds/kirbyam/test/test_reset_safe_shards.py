@@ -1,4 +1,4 @@
-"""Test reset-safe mirror shard grant handling (Issue #109)."""
+"""Shard grant and boss-transition contracts; SRAM integrity has executable tests."""
 
 import re
 import sys
@@ -15,38 +15,8 @@ for path_entry in list(sys.path):
 import pytest  # noqa: E402
 
 
-def test_shard_persistence_addresses_defined() -> None:
-    """Verify that SRAM addresses for shard persistence are correctly defined in payload."""
-    # Payload should define:
-    # - SRAM_BASE (0x0E000000)
-    # - SRAM_SHARD_FIELD_OFFSET (0x12)
-    # - SRAM_CHECKSUM_1/2/3 offsets (0x18, 0x1A, 0x1C)
-
-    # This is verified at compile time in ap_payload.c, so this test
-    # confirms the implementation exists and is documented.
-    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
-    assert os.path.exists(payload_path), "ap_payload.c should exist"
-
-    with open(payload_path, 'r') as f:
-        content = f.read()
-
-    # Verify SRAM definitions are present
-    assert "SRAM_BASE" in content, "SRAM_BASE should be defined"
-    assert "SRAM_SHARD_FIELD_OFFSET" in content, "SRAM_SHARD_FIELD_OFFSET should be defined"
-    assert "persist_shard_to_sram" in content, "persist_shard_to_sram function should exist"
-    assert "SRAM_CHECKSUM" in content, "Checksum fields should be defined"
 
 
-def test_shard_persistence_function_exists() -> None:
-    """Verify persist_shard_to_sram function is called when granting shards."""
-    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
-
-    with open(payload_path, 'r') as f:
-        content = f.read()
-
-    # Verify the function is defined
-    assert "persist_shard_to_sram(new_shard_flags)" in content, \
-        "persist_shard_to_sram should be called when granting shards"
 
 
 def test_payload_tracks_major_chest_checks_separately_from_native_maps() -> None:
@@ -77,7 +47,7 @@ def test_payload_tracks_vitality_chest_checks_and_ap_vitality_apply() -> None:
     assert "ap_on_collect_vitality_chest" in content, "Vitality chest hook target should exist"
     assert "ap_set_vitality_chest_flag_for_room" in content, "Vitality chest room mapping helper should exist"
     assert "ap_grant_vitality_counter" in content, "AP vitality grant helper should exist"
-    assert "KIRBY_ITEM_ID_BASE_OFFSET + 18u" in content, "Vitality AP item IDs should be handled"
+    assert "ap_vitality_item_bit(ap_item_id)" in content, "Vitality AP item IDs should be handled"
 
 
 def test_payload_tracks_exact_minor_chest_events() -> None:
@@ -98,6 +68,49 @@ def test_payload_tracks_exact_minor_chest_events() -> None:
     )
 
 
+def test_payload_suppresses_native_rewards_for_exact_ap_minor_chests() -> None:
+    """The suppression table must match the active source-backed checks exactly."""
+    import json
+
+    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+    locations_path = os.path.join(_WORLD_DIR, "data", "locations.json")
+    with open(payload_path, "r", encoding="utf-8") as f:
+        payload = f.read()
+    with open(locations_path, "r", encoding="utf-8") as f:
+        locations = json.load(f)
+
+    table_match = re.search(
+        r"AP_OWNED_MINOR_CHEST_SOURCE_PTRS\[\]\s*=\s*\{([^}]+)\}",
+        payload,
+        re.DOTALL,
+    )
+    assert table_match is not None, "Payload must define AP-owned minor chest sources"
+    payload_sources = {
+        int(address, 16)
+        for address in re.findall(r"0x([0-9A-Fa-f]+)u", table_match.group(1))
+    }
+    expected_sources = {
+        0x08000000 + int(location["source_rom_offset"], 16)
+        for location in locations.values()
+        if location.get("category") == "MINOR_CHEST" and location.get("source_rom_offset")
+    }
+
+    assert len(expected_sources) == 65
+    assert payload_sources == expected_sources
+    assert "AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER" in payload
+    assert "ap_on_minor_chest_reward_popup" in payload
+    assert "chest_obj_ptr + 0xE0u) = KIRBY_MINOR_CHEST_NO_NATIVE_ITEM" in payload
+
+
+def test_payload_preserves_full_native_small_chest_flag_range() -> None:
+    """Chest flag 82 is valid in the native 128-bit small-chest array."""
+    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
+    with open(payload_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    assert "if (chest_index >= 128u)" in content
+    assert "if (chest_index >= 80u)" not in content
+
 def test_payload_vitality_items_are_replay_guarded_per_unique_item() -> None:
     """Vitality AP item IDs should be idempotent so reconnect/reset replay does not grant duplicates."""
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
@@ -106,7 +119,7 @@ def test_payload_vitality_items_are_replay_guarded_per_unique_item() -> None:
         content = f.read()
 
     assert "AP_DELIVERED_VITALITY_ITEM_BITS" in content, "Vitality replay-guard bitfield should be defined"
-    assert "vitality_index" in content, "Vitality handler should derive per-item index"
+    assert "ap_vitality_item_bit" in content, "Vitality handler should derive per-item index"
     assert "vitality_mask" in content, "Vitality handler should derive per-item bit mask"
     assert "AP_DELIVERED_VITALITY_ITEM_BITS |= vitality_mask" in content, (
         "Vitality item handling should mark items as applied"
@@ -116,12 +129,6 @@ def test_payload_vitality_items_are_replay_guarded_per_unique_item() -> None:
     )
     assert "KIRBY_MAX_VITALITY_COUNTERS" in content, (
         "Payload should define a hard cap for AP vitality counter grants"
-    )
-    assert "vitality_counter > KIRBY_MAX_VITALITY_COUNTERS" in content, (
-        "Vitality grant helper should clamp already-overflowed vitality counts back down"
-    )
-    assert "vitality_counter < KIRBY_MAX_VITALITY_COUNTERS" in content, (
-        "Vitality grant helper should enforce AP vitality counter cap"
     )
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 101u" in content, "Ability unlock AP item lower bound should be handled"
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 131u" in content, "Ability unlock AP item upper bound should be handled"
@@ -151,11 +158,11 @@ def test_payload_tracks_sound_player_chest_checks_and_ap_unlock_apply() -> None:
     assert "AP_SOUND_PLAYER_CHEST_FLAGS" in content, "Sound Player chest transport register should be defined"
     assert "ap_on_collect_sound_player_chest" in content, "Sound Player chest hook target should exist"
     assert "ap_set_sound_player_chest_flag(0u)" in content, "Sound Player chest hook should set AP check bit"
-    assert "KIRBY_COLLECT_SOUND_PLAYER_FN(reward_index);" in content, (
-        "Non-Sound-Player music-sheet rewards must keep their native grant path"
+    assert "ap_apply_native_collection_reward(" in content, (
+        "Fixed collection hooks must preserve grants only for non-AP sources"
     )
-    assert "ap_on_collect_spray_paint_chest" not in content, (
-        "Spray-paint chest reward callsites must retain the original native grant"
+    assert "ap_on_collect_spray_paint_chest" in content, (
+        "Spray Paint grants must be intercepted separately from popup rewards"
     )
     assert "KIRBY_COLLECT_SOUND_PLAYER_FN(0u)" in content, "AP Sound Player item should apply native unlock"
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 25u" in content, "Sound Player AP item ID should be handled"
@@ -253,38 +260,8 @@ def test_hub_switch_contract_generator_uses_canonical_source() -> None:
     assert os.path.exists(contract_path), "Canonical hub_switch_contract.json should exist"
 
 
-def test_sram_checksum_fields_updated() -> None:
-    """Verify that checksum fields are updated alongside shard persistence."""
-    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
-
-    with open(payload_path, 'r') as f:
-        content = f.read()
-
-    # Verify checksum update logic exists
-    assert "SRAM_CHECKSUM_1 = " in content, "Checksum 1 should be updated"
-    assert "SRAM_CHECKSUM_2 = " in content, "Checksum 2 should be updated"
-    assert "SRAM_CHECKSUM_3 = " in content, "Checksum 3 should be updated"
-
-    # Verify they use the shard bitfield value
-    assert "new_shard_bitfield" in content, "Checksums should be derived from shard bitfield"
 
 
-def test_issue_109_addresses_documented() -> None:
-    """Verify Issue #109 addresses are documented in the payload."""
-    payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
-
-    with open(payload_path, 'r') as f:
-        content = f.read()
-
-    # Verify the specific candidate SRAM addresses are in some form
-    # Issue #109 mentions: 000018, 00001A, 00001C, 00032C, 00032E, 000330
-    # Our implementation uses: 0x12 (18), 0x18 (24), 0x1A (26), 0x1C (28)
-
-    # These are in the ranges mentioned in Issue #109
-    assert "0x12" in content or "18" in content, "SRAM offset 0x12 should be defined"
-    assert "0x18" in content or "24" in content, "SRAM offset 0x18 should be defined"
-    assert "0x1A" in content or "26" in content, "SRAM offset 0x1A should be defined"
-    assert "0x1C" in content or "28" in content, "SRAM offset 0x1C should be defined"
 
 
 def test_boss_defeat_hook_preserves_native_shard_state() -> None:
@@ -320,9 +297,8 @@ def test_boss_defeat_hook_preserves_native_shard_state() -> None:
     assert "KIRBY_SHARD_FLAGS = new_shard_flags" in hook_body, \
         "Boss hook must write KIRBY_SHARD_FLAGS so post-cutscene state machine sees valid shard state"
 
-    # The hook must persist to SRAM (same as the AP shard-grant path).
-    assert "persist_shard_to_sram(new_shard_flags)" in hook_body, \
-        "Boss hook must persist shard flags to SRAM for reset-safe behaviour"
+    # Native save flow owns persistence; the executable save-integrity test
+    # exercises this hook without permitting any direct SRAM byte changes.
 
 
 def test_boss_defeat_hook_sets_scrub_delay() -> None:
@@ -429,8 +405,7 @@ def test_ap_poll_mailbox_contains_shard_scrub_logic() -> None:
         "ap_poll_mailbox_c gameplay gate must account for title-demo playback"
     assert re.search(r"AP_DELIVERED_SHARD_BITFIELD\s*=\s*\(uint32_t\)\s*native_shards", poll_body_norm), \
         "ap_poll_mailbox_c must be able to seed AP_DELIVERED_SHARD_BITFIELD from native saved shards"
-    assert re.search(r"persist_shard_to_sram\s*\(", poll_body_norm), \
-        "ap_poll_mailbox_c scrub must persist the clamped state to SRAM"
+    # Native save flow persists the scrubbed EWRAM state.
 
 
 def test_ap_hook_preserves_register_context_without_r4_temp_restore() -> None:

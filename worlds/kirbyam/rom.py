@@ -28,6 +28,7 @@ from .enemy_health_scaling import (
     scale_enemy_health_tables,
 )
 from .options import AbilityRandomizationMode
+from .vitality import HEALTH_CONFIG_MAGIC, HEALTH_ROM_TITLE
 
 if TYPE_CHECKING:
     from . import KirbyAmWorld
@@ -36,6 +37,7 @@ if TYPE_CHECKING:
 # Fixed per-seed words reserved by kirby_ap_payload/linker.ld. Starting color
 # is consumed before CreateKirby so the first gameplay palette is correct. The
 # gate and statue masks retain their existing offsets for patch compatibility.
+HEALTH_INITIAL_ROM_OFFSET = 0x0015F690
 STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET = 0x0015F694
 ABILITY_GATE_MASK_INITIAL_ROM_OFFSET = 0x0015F698
 ABILITY_RANDOMIZATION_STATUE_ALLOWED_MASK_ROM_OFFSET = 0x0015F69C
@@ -62,6 +64,16 @@ class KirbyAmPatchExtension(APPatchExtension):
     """KirbyAM-specific AP procedure steps used while applying `.apkirbyam`."""
 
     game = "Kirby & The Amazing Mirror"
+
+    @staticmethod
+    def finalize_health_header(caller: APProcedurePatch, rom: bytes) -> bytes:
+        """Version the ROM contract and recalculate the GBA header checksum."""
+        from .vitality import decode_health_config
+        decode_health_config(int.from_bytes(rom[0x15F690:0x15F694], "little"))
+        result = bytearray(rom)
+        result[0xA0:0xAC] = HEALTH_ROM_TITLE.ljust(12, b"\0")
+        result[0xBD] = (-sum(result[0xA0:0xBD]) - 0x19) & 0xFF
+        return bytes(result)
 
     @staticmethod
     def apply_enemy_health_scaling(
@@ -93,6 +105,7 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
         ("apply_bsdiff4", ["base_patch.bsdiff4"]),
         ("apply_enemy_health_scaling", [ENEMY_HEALTH_MULTIPLIER_FILE]),
         ("apply_tokens", ["token_data.bin"]),
+        ("finalize_health_header", []),
     ]
 
     @classmethod
@@ -123,6 +136,12 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
     auth_addr = data.rom_addresses.get("auth_token") or data.rom_addresses.get("gArchipelagoInfo")
     if auth_addr is not None:
         patch.write_token(APTokenTypes.WRITE, auth_addr, world.auth)
+
+    health = world._health_range()
+    patch.write_token(
+        APTokenTypes.WRITE, HEALTH_INITIAL_ROM_OFFSET,
+        (HEALTH_CONFIG_MAGIC | (health.maximum << 8) | health.minimum).to_bytes(4, "little"),
+    )
 
     resolved_color_id, _ = world._get_resolved_starting_kirby_color()
     if not 0 <= int(resolved_color_id) <= 13:

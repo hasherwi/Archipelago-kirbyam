@@ -16,7 +16,7 @@ from .test_item_pool import _build_world_for_create_items, _vitality_item_codes
 VALID_RANGES = [
     (minimum, maximum)
     for minimum in range(1, 11)
-    for maximum in range(minimum, min(minimum + 4, 10) + 1)
+    for maximum in range(minimum, 11)
 ]
 
 
@@ -45,7 +45,7 @@ def test_all_supported_health_ranges(minimum: int, maximum: int) -> None:
 
 @pytest.mark.parametrize("minimum,maximum,message", [
     (0, 4, "within 1..10"), (7, 11, "within 1..10"),
-    (8, 7, "at least minimum_health"), (1, 10, "at most 4 HP"),
+    (8, 7, "at least minimum_health"),
     ("6", 10, "whole numbers"), (True, 4, "whole numbers"),
 ])
 def test_invalid_health_ranges_are_rejected(minimum, maximum, message) -> None:
@@ -71,7 +71,7 @@ def test_custom_health_pool_contains_exact_unique_counter_prefix(shards, minimum
     actual = Counter(item.code for item in world.multiworld.itempool if item.code in all_counter_codes)
     assert actual == expected
     assert len(world.multiworld.itempool) == sum(location.item is None for location in locations)
-    assert len(all_counter_codes) == 4  # No new IDs or duplicate replay-guarded counters.
+    assert len(all_counter_codes) == 9  # Each upgrade has a unique identity.
 
 
 @pytest.mark.parametrize("mode,count", [
@@ -181,7 +181,7 @@ def test_custom_health_yaml_generates_patch_and_slot_data(tmp_path: Path, minimu
         assert any(name.endswith(".apkirbyam") for name in generated.namelist())
 
 
-@pytest.mark.parametrize("minimum,maximum", [(1, 10), (8, 3)])
+@pytest.mark.parametrize("minimum,maximum", [(8, 3)])
 def test_invalid_health_pair_fails_early_before_generation(minimum: int, maximum: int) -> None:
     world, _ = _build_world_for_create_items(RandomizeShards.option_completely_random)
     world.options.minimum_health = SimpleNamespace(value=minimum)
