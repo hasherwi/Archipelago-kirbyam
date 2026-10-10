@@ -78,8 +78,8 @@ _BOSS_DEFEAT_LOCATION_LABELS = [
 _DMK_DIMENSION_MIRROR_EVENT = "Defeat Dark Meta Knight (Dimension Mirror)"
 _ABILITY_GATE_STATUS_VALUES = frozenset({"confirmed", "semantic_candidate", "unconfirmed"})
 
-# These gates intentionally default to True until ability items/statues become
-# part of the item pool. The names match the planned logic categories from #37.
+# These capability gates retain the current permissive policy until their
+# source-backed predicates are finalized. Ability items already exist in the pool.
 _ABILITY_GATE_PLACEHOLDER_SOURCES = {
     "CanCutRopes": frozenset({"Cutter", "Sword", "Cupid", "Smash", "Master"}),
     "CanBreakBlocks": frozenset({"Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master"}),
@@ -89,15 +89,25 @@ _ABILITY_GATE_PLACEHOLDER_SOURCES = {
 }
 
 _STAKE_TRANSITION_GATE_NAME = "CanPoundPegs"
-_MOONLIGHT_MANSION_LEVER_WALL_ITEM = "Moonlight Mansion 2-11 - Lever Wall"
+# Catalog/native item order is Moonlight, Olive, Carrot, Radish (IDs 3860037..40).
+# Physical lever events report checks; only these AP items own the wall unlocks.
+_ROOM_LEVER_WALL_ITEMS = {
+    "mm_lever": "Moonlight Mansion 2-11 - Lever Wall",
+    "oo_lever": "Olive Ocean 6-13 - Lever Wall",
+    "cc_lever": "Carrot Castle 5-12 - Lever Wall",
+    "rr_lever": "Radish Ruins 8-12 - Lever Wall",
+}
 _PENDING_ROOM_ABILITY_REQUIREMENTS = frozenset({
-    "can_break_block",
     "can_break_floating_block",
     "can_break_metal",
     "can_break_metal_throw",
     "can_climb",
     "can_fly",
     "can_swim",
+    "can_wheel",
+    "can_mirra",
+    "can_hit_far_switch",
+    "can_get_rr_map_chest",
 })
 
 
@@ -145,22 +155,31 @@ ABILITY_GATE_RULES = {
 }
 
 
+# Explicit aliases share the same policy as the existing capability helpers.
+_ROOM_ABILITY_GATE_RULES = {
+    **ABILITY_GATE_RULES,
+    "can_break_block": can_break_blocks,
+    "can_cut_ropes": can_cut_ropes,
+    "can_use_mini": can_use_mini,
+    "can_light_fuses": can_light_fuses,
+    "can_pound_pegs": can_pound_pegs,
+}
+
+
 def evaluate_room_logic_requirement(requirement, state: CollectionState, player: int) -> bool:
     """Evaluate the compact condition values used by room exits and locations.
 
     Ability-related tokens intentionally retain the existing permissive behavior
-    until their item-specific predicates are finalized. The Moonlight Mansion
-    lever token uses the matching Lever Wall progression item.
+    until their source-backed predicates are finalized. Every lever token
+    requires its matching Lever Wall progression item, not a physical event.
     """
     if requirement is None:
         return True
     if isinstance(requirement, str):
-        if requirement == "mm_lever":
-            return state.has(_MOONLIGHT_MANSION_LEVER_WALL_ITEM, player)
-        if requirement == _STAKE_TRANSITION_GATE_NAME:
-            return can_pound_pegs(state, player)
-        if requirement == "can_break_block":
-            return can_break_blocks(state, player)
+        if requirement in _ROOM_LEVER_WALL_ITEMS:
+            return state.has(_ROOM_LEVER_WALL_ITEMS[requirement], player)
+        if requirement in _ROOM_ABILITY_GATE_RULES:
+            return _ROOM_ABILITY_GATE_RULES[requirement](state, player)
         if requirement in _PENDING_ROOM_ABILITY_REQUIREMENTS:
             return _allow_pending_ability_gate(state, player, requirement)
         raise ValueError(f"Unknown KirbyAM room logic requirement token: {requirement!r}")

@@ -629,6 +629,13 @@ def test_area_two_split_rooms_are_first_class_regions() -> None:
 def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     from ..data import data as kirby_data
 
+    def traversal_exits(name):
+        check = name.split("__LOGIC__")[0] + "__ROOM_CHECK"
+        exits = kirby_data.regions[name].exits
+        assert exits.count(check) == 1
+        assert kirby_data.regions[check].exits == []
+        return [destination for destination in exits if destination != check]
+
     room_9_chest_2_from_9_01 = "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_01"
     room_9_chest_2_from_9_09 = "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_09"
     room_8_07_from_goal_1 = "REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_GOAL_1"
@@ -655,23 +662,23 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     assert room_6_05_from_6_04_or_6_06 in kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_06"].exits
     assert room_6_05_from_6_23 in kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_23"].exits
 
-    assert kirby_data.regions[room_9_chest_2_from_9_01].exits == ["REGION_CANDY_CONSTELLATION/ROOM_9_01"]
-    assert kirby_data.regions[room_9_chest_2_from_9_09].exits == ["REGION_CANDY_CONSTELLATION/ROOM_9_09"]
+    assert traversal_exits(room_9_chest_2_from_9_01) == ["REGION_CANDY_CONSTELLATION/ROOM_9_01"]
+    assert traversal_exits(room_9_chest_2_from_9_09) == ["REGION_CANDY_CONSTELLATION/ROOM_9_09"]
     assert kirby_data.regions[room_9_chest_2_from_9_01].locations == ["MINOR_CHEST_SPRAY_PAINT_06"]
     assert kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1"].locations == [
         "SOUND_PLAYER_CHEST",
         "ROOM_SANITY_9_CHEST_1",
     ]
     assert kirby_data.regions[room_9_chest_2_from_9_09].locations == ["VITALITY_CHEST_CANDY_CONSTELLATION"]
-    assert kirby_data.regions[room_8_07_from_goal_1].exits == ["REGION_RADISH_RUINS/ROOM_8_GOAL_1"]
-    assert set(kirby_data.regions[room_8_07_from_8_18_8_21_8_23].exits) == {
+    assert traversal_exits(room_8_07_from_goal_1) == ["REGION_RADISH_RUINS/ROOM_8_GOAL_1"]
+    assert set(traversal_exits(room_8_07_from_8_18_8_21_8_23)) == {
         "REGION_RADISH_RUINS/ROOM_8_18",
         "REGION_RADISH_RUINS/ROOM_8_21",
         "REGION_RADISH_RUINS/ROOM_8_23",
     }
-    assert kirby_data.regions[room_8_09_from_8_03].exits == ["REGION_RADISH_RUINS/ROOM_8_04"]
-    assert kirby_data.regions[room_8_09_from_8_04].exits == ["REGION_RADISH_RUINS/ROOM_8_03"]
-    assert kirby_data.regions[room_5_13_from_5_12].exits == ["REGION_CARROT_CASTLE/ROOM_5_12"]
+    assert traversal_exits(room_8_09_from_8_03) == ["REGION_RADISH_RUINS/ROOM_8_04"]
+    assert traversal_exits(room_8_09_from_8_04) == ["REGION_RADISH_RUINS/ROOM_8_03"]
+    assert traversal_exits(room_5_13_from_5_12) == ["REGION_CARROT_CASTLE/ROOM_5_12"]
     assert kirby_data.locations["MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"].parent_region == (
         "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07"
     )
@@ -682,17 +689,18 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     assert kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07"].locations == [
         "MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"
     ]
-    assert set(kirby_data.regions[room_5_13_from_5_18_or_5_warp].exits) == {
+    assert set(traversal_exits(room_5_13_from_5_18_or_5_warp)) == {
         "REGION_CARROT_CASTLE/ROOM_5_18",
         "REGION_CARROT_CASTLE/ROOM_5_WARP",
     }
-    assert set(kirby_data.regions[room_6_05_from_6_04_or_6_06].exits) == {
+    assert set(traversal_exits(room_6_05_from_6_04_or_6_06)) == {
         "REGION_OLIVE_OCEAN/ROOM_6_04",
         "REGION_OLIVE_OCEAN/ROOM_6_06",
     }
-    assert kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_05"].locations == ["ROOM_SANITY_6_05"]
+    assert kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_05"].locations == []
+    assert kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_05__ROOM_CHECK"].locations == ["ROOM_SANITY_6_05"]
     assert kirby_data.regions[room_6_05_from_6_04_or_6_06].locations == []
-    assert kirby_data.regions[room_6_05_from_6_23].exits == ["REGION_OLIVE_OCEAN/ROOM_6_23"]
+    assert traversal_exits(room_6_05_from_6_23) == ["REGION_OLIVE_OCEAN/ROOM_6_23"]
 
 
 def test_stake_breaking_abilities_are_shared_and_expected() -> None:
