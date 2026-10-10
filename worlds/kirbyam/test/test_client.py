@@ -122,7 +122,7 @@ async def test_validate_rom_accepts_patched_kirby_header(mock_bizhawk_context):
 
         assert await client.validate_rom(mock_bizhawk_context) is True
         assert mock_bizhawk_context.game == client.game
-        assert mock_bizhawk_context.items_handling == 0b011
+        assert mock_bizhawk_context.items_handling == 0b111
         assert mock_bizhawk_context.want_slot_data is True
         assert mock_bizhawk_context.command_processor is TestBizHawkClientCommandProcessor
         assert getattr(mock_bizhawk_context.command_processor, "_kirbyam_runtime_patched", False) is True
@@ -872,7 +872,7 @@ def test_minor_chest_source_ptr_map_contains_only_unique_verified_sources():
     assert len({loc.source_rom_offset for loc in active_locations}) == 65
     assert sorted(loc.location_id for loc in active_locations) == list(range(3960500, 3960524)) + list(range(3960566, 3960607))
     assert sum("NativeRewardConsumable" in loc.tags for loc in active_locations) == 41
-    assert sum("NativeRewardCollection" in loc.tags for loc in active_locations) == 0
+    assert sum("NativeRewardCollection" in loc.tags for loc in active_locations) == 24
     assert len(client._minor_chest_location_id_by_source_ptr) == 65
     assert client._minor_chest_location_id_by_source_ptr == {
         loc.source_rom_offset: loc.location_id for loc in active_locations
@@ -5864,3 +5864,24 @@ def test_minor_chest_locations_have_unique_bit_indices_when_present():
         "MINOR_CHEST locations must use unique bit_index values to avoid duplicate AP checks: "
         f"{bit_indices}"
     )
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("counter", [1, 9])
+async def test_minor_chest_reset_recovers_retained_sources_until_ack(mock_bizhawk_context, counter):
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._last_minor_chest_event_counter = counter + 4
+    target = data.locations["MINOR_CHEST_RAINBOW_ROUTE_1_02"]
+    ctx = mock_bizhawk_context
+    # Repeated exact sources also exercise a reset window larger than the ring.
+    ring = _minor_chest_event_ring(*([0x08000000 + target.source_rom_offset] * 8))
+    with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as read:
+        read.return_value = [counter.to_bytes(4, "little"), ring]
+        await client._poll_minor_chest_locations(ctx)
+        await client._poll_minor_chest_locations(ctx)
+        assert ctx.send_msgs.await_count == 2
+        ctx.send_msgs.assert_awaited_with([{"cmd": "LocationChecks", "locations": [target.location_id]}])
+        ctx.checked_locations.add(target.location_id)
+        await client._poll_minor_chest_locations(ctx)
+        assert ctx.send_msgs.await_count == 2

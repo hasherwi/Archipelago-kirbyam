@@ -5,6 +5,18 @@ that every supported option combination works. The health delta passes focused
 checks, but the wider review reproduces inherited compatibility defects below.
 No live emulator session, owner save, ROM or connector was changed by this review.
 
+## Consolidated v0.4 candidate update
+
+The findings below describe the earlier #934 review against its then-current
+main baseline. The consolidated #931 candidate includes #940's full starting
+history (`items_handling=0b111`), guarded Vitality authority reconciliation, and
+native dead-HP preservation. Actual stock-server history tests now include
+starting Vitality, and the compiled native grant preserves HP zero. These close
+the specific source/protocol reproductions recorded for #943 and #944 within
+the tested scope; they do not establish every DeathLink interleaving or native
+save/load behavior. The room-sanity defect #945 remains unchanged. Issue state
+and release acceptance are separate from this local integration evidence.
+
 ## Executable coverage
 
 `test_health_option_matrix.py` covers:

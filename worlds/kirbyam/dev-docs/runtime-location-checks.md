@@ -57,9 +57,10 @@ from the older save. Importing vanilla or other-seed saves is unsupported: the
 native save has no AP seed identity. This is not an exactly-once item-delivery
 or native-save-flush guarantee.
 
-This location-only foundation preserves native ordinary, paint, and music
-rewards. It adds no collection item IDs, pool entries, or suppression hooks.
-The later reward PRs must be reconciled onto this expanded location baseline.
+Small-chest checks suppress native ordinary, paint, and music rewards. The
+AP-assigned reward is delivered separately; collection receipts grant ownership
+without marking a physical chest collected. See
+[fixed collection integration](minor-chest-collection-items.md).
 
 The physical inventory is reproducible with `tools/verify_chest_recovery.py`
 and an owner-provided unmodified USA ROM (SHA-1

@@ -68,7 +68,7 @@ jobs:
 
           rom_path = Path("worlds/kirbyam/kirby_ap_payload/kirby.gba")
           rom_path.parent.mkdir(parents=True, exist_ok=True)
-          rom = bytearray(0x200000)
+          rom = bytearray(0x400000)
 
           # Fixed callsites validated only for their Thumb-BL instruction shape.
           placeholder_bl = bytes.fromhex("00 f0 00 f8")
@@ -83,6 +83,9 @@ jobs:
               0x00119B98,  # Small-switch effect dispatch used by lever-item decoupling.
           ):
               rom[offset:offset + 4] = placeholder_bl
+
+          # Exact original instructions overwritten by the minor-chest reward-popup hook.
+          rom[0x0000B9A4:0x0000B9A8] = bytes.fromhex("D4 6C 20 1C")
 
           # patch_rom.py requires exactly eight direct calls to the retail
           # boss-already-owned reward function.
@@ -108,6 +111,19 @@ jobs:
           # to sub_080332BC before redirecting them to the payload wrapper.
           for offset in (0x00123EF2, 0x00124022):
               rom[offset:offset + 4] = thumb_bl_bytes(offset, 0x080332BC)
+
+          # Lever initializer and delayed wall-counter grant path.
+          initializer = 0x351648 + 0x81 * 0x18 + 0x10
+          rom[initializer:initializer + 4] = (0x0800BD4D).to_bytes(4, "little")
+          rom[0xB9B0:0xB9B4] = thumb_bl_bytes(0xB9B0, 0x080029F4)
+          # Ordinary and native-roulette final callback installers.
+          for offset in (0x5C200, 0x5C400):
+              rom[offset:offset + 4] = (0x0805C619).to_bytes(4, "little")
+
+          # Exact native HUD callers required by trailing-tile cleanup.
+          rom[0x3EB0E:0x3EB14] = thumb_bl_bytes(0x3EB0E, 0x08019F0C) + b"\x06\x30"
+          for offset in (0x339B2, 0x33BF2, 0x35A62):
+              rom[offset:offset + 4] = thumb_bl_bytes(offset, 0x0803518C)
 
           rom_path.write_bytes(rom)
           PY

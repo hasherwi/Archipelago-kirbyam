@@ -627,6 +627,7 @@
       "tags": [
         "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
@@ -637,6 +638,7 @@
       "tags": [
         "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
@@ -647,6 +649,7 @@
       "tags": [
         "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
@@ -657,6 +660,7 @@
       "tags": [
         "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
@@ -667,6 +671,7 @@
       "tags": [
         "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
@@ -677,6 +682,7 @@
       "tags": [
         "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
@@ -687,6 +693,7 @@
       "tags": [
         "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
@@ -697,6 +704,7 @@
       "tags": [
         "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
@@ -707,6 +715,7 @@
       "tags": [
         "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
@@ -717,6 +726,7 @@
       "tags": [
         "ExactEventLocation",
         "MusicSheet",
+        "NativeRewardCollection",
         "SmallChest"
       ]
     },
@@ -1026,6 +1036,7 @@
       "location_id": 3960500,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -1036,6 +1047,7 @@
       "location_id": 3960501,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -1046,6 +1058,7 @@
       "location_id": 3960502,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -1056,6 +1069,7 @@
       "location_id": 3960503,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -1066,6 +1080,7 @@
       "location_id": 3960504,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -1076,6 +1091,7 @@
       "location_id": 3960505,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -1086,6 +1102,7 @@
       "location_id": 3960506,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -1096,6 +1113,7 @@
       "location_id": 3960507,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -1106,6 +1124,7 @@
       "location_id": 3960508,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -1116,6 +1135,7 @@
       "location_id": 3960509,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -1126,6 +1146,7 @@
       "location_id": 3960510,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -1136,6 +1157,7 @@
       "location_id": 3960511,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -1146,6 +1168,7 @@
       "location_id": 3960512,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -1156,6 +1179,7 @@
       "location_id": 3960513,
       "tags": [
         "ExactEventLocation",
+        "NativeRewardCollection",
         "SmallChest",
         "SprayPaint"
       ]
@@ -6384,6 +6408,16 @@
     "Moonlight Mansion - Map",
     "Moonlight Mansion - Mirror Shard",
     "Moonlight Mansion 2-11 - Lever Wall",
+    "Music Sheet #1",
+    "Music Sheet #10",
+    "Music Sheet #2",
+    "Music Sheet #3",
+    "Music Sheet #4",
+    "Music Sheet #5",
+    "Music Sheet #6",
+    "Music Sheet #7",
+    "Music Sheet #8",
+    "Music Sheet #9",
     "Mustard Mountain - Map",
     "Mustard Mountain - Mirror Shard",
     "Olive Ocean - Map",
@@ -6397,7 +6431,21 @@
     "Radish Ruins - Vitality Counter",
     "Radish Ruins 8-12 - Lever Wall",
     "Rainbow Route - Map",
-    "Sound Player"
+    "Sound Player",
+    "Spray Paint #1",
+    "Spray Paint #10",
+    "Spray Paint #11",
+    "Spray Paint #12",
+    "Spray Paint #13",
+    "Spray Paint #14",
+    "Spray Paint #2",
+    "Spray Paint #3",
+    "Spray Paint #4",
+    "Spray Paint #5",
+    "Spray Paint #6",
+    "Spray Paint #7",
+    "Spray Paint #8",
+    "Spray Paint #9"
   ],
   "world_version": "0.3.1"
 }
