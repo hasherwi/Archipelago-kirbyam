@@ -1,0 +1,144 @@
+name: Publish authorized KirbyAM RC2
+on:
+  push:
+    branches: [codex/publish-kirbyam-v0.4.0-rc2]
+permissions:
+  contents: read
+concurrency:
+  group: publish-kirbyam-v0.4.0-rc2
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/codex/publish-kirbyam-v0.4.0-rc2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: cbf69ef05c6803dab6d973584c93dc9253d8200c
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Build and audit the exact merged main source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = 'cbf69ef05c6803dab6d973584c93dc9253d8200c'
+          mkdir -p dist
+          python .github/scripts/kirbyam_release_metadata.py --github-ref refs/tags/kirbyam-v0.4.0-rc2 --world-manifest worlds/kirbyam/archipelago.json
+          python - <<'PY'
+          from pathlib import Path
+          import runpy
+          helpers = runpy.run_path('.github/scripts/kirbyam_release_metadata.py')
+          # The owner requested the existing v0.4.0 section, verbatim.
+          Path('dist/release-notes.md').write_text(helpers['extract_changelog_section'](Path('worlds/kirbyam/CHANGELOG.md'), '0.4.0'))
+          PY
+          python worlds/kirbyam/build.py --skip-patch --skip-install --non-interactive
+          cp worlds/kirbyam/kirbyam.apworld dist/kirbyam.apworld
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json, subprocess, zipfile
+          tracked = set(subprocess.check_output(['git','ls-files','worlds/kirbyam'], text=True).splitlines())
+          rows = {}
+          with zipfile.ZipFile('dist/kirbyam.apworld') as archive:
+              for name in archive.namelist():
+                  assert name.startswith('kirbyam/') and '..' not in Path(name).parts, name
+                  path = Path('worlds') / name
+                  assert str(path) in tracked, (name, 'untracked file')
+                  assert Path(name).suffix.lower() not in {'.gba','.sav','.srm','.ss0','.o','.elf','.pyc','.apworld'}, name
+                  assert not any(part.lower() in {'.git','__pycache__','private-roms','save_states'} for part in Path(name).parts), name
+                  content = archive.read(name)
+                  assert content == path.read_bytes(), name
+                  rows[name] = hashlib.sha256(content).hexdigest()
+              assert json.loads(archive.read('kirbyam/archipelago.json'))['world_version'] == '0.4.0'
+              assert hashlib.sha256(archive.read('kirbyam/data/base_patch.bsdiff4')).hexdigest() == '292b23b25990559639be44c797ab4d01fa5016db20cdc4296cb26b9849e51e76'
+          inventory = hashlib.sha256(json.dumps(rows, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+          assert inventory == 'df93200311164944896869fb88804072f904184363db129e6a0234a746fe4927', inventory
+          notes_hash = hashlib.sha256(Path('dist/release-notes.md').read_bytes()).hexdigest()
+          assert notes_hash == 'c78a511202dc90a8a5578c69ed71fe88539d27669c80fc2088c8c432d3a11d03'
+          evidence = {'commit':'cbf69ef05c6803dab6d973584c93dc9253d8200c', 'asset':'kirbyam.apworld',
+                      'sha256':hashlib.sha256(Path('dist/kirbyam.apworld').read_bytes()).hexdigest(),
+                      'inventory_sha256':inventory, 'entry_count':len(rows), 'release_body_sha256':notes_hash,
+                      'private_files_excluded':True, 'live_acceptance':'deferred to RC', 'large_local_matrix':'deferred to RC'}
+          Path('dist/provenance.json').write_text(json.dumps(evidence, indent=2)+'\n')
+          print(json.dumps(evidence, indent=2))
+          PY
+      - name: Publish only the requested tag, prerelease and audited APWorld
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json, subprocess
+          repo = 'hasherwi/Archipelago-kirbyam'
+          tag = 'kirbyam-v0.4.0-rc2'
+          title = 'KirbyAM APWorld v0.4.0-rc2'
+          commit = 'cbf69ef05c6803dab6d973584c93dc9253d8200c'
+          def api(path, payload=None, missing=False, method="POST"):
+              command = ['gh','api',f'repos/{repo}/{path}']
+              if payload is not None:
+                  command += ['--method',method,'--input','-']
+              result = subprocess.run(command, input=None if payload is None else json.dumps(payload), text=True, capture_output=True)
+              if result.returncode:
+                  if missing and 'HTTP 404' in result.stderr:
+                      return None
+                  raise RuntimeError(result.stderr)
+              return json.loads(result.stdout)
+          def gh(*args):
+              subprocess.run(['gh',*args,'--repo',repo], check=True)
+          # Refuse silently moving the requested tag or publishing from a changed main.
+          assert api('branches/main')['commit']['sha'] == commit, 'main advanced; rebuild/review before tagging'
+          ref = api(f'git/ref/tags/{tag}', missing=True)
+          if ref is None:
+              ref = api('git/refs', {'ref':f'refs/tags/{tag}', 'sha':commit})
+          assert ref['object']['type'] == 'commit' and ref['object']['sha'] == commit, 'existing tag differs'
+          notes = Path('dist/release-notes.md').read_text()
+          # Draft releases are absent from the releases/tags endpoint.
+          matches = [r for r in api('releases?per_page=100') if r['tag_name'] == tag]
+          assert len(matches) <= 1, 'ambiguous release'
+          if not matches:
+              release = api('releases', {'tag_name':tag, 'target_commitish':commit, 'name':title, 'body':notes, 'draft':True, 'prerelease':True, 'make_latest':'false'})
+          else:
+              release = api(f"releases/{matches[0]['id']}")
+          assert release['target_commitish'] == commit
+          assert release['name'] == title and release['prerelease'] is True, 'existing release metadata differs'
+          assert (release['body'] or '').replace('\r\n','\n').rstrip('\n') == notes.rstrip('\n'), 'existing release notes differ'
+          names = [asset['name'] for asset in release['assets']]
+          assert all(name == 'kirbyam.apworld' for name in names) and len(names) <= 1, 'unexpected existing assets'
+          release_id = release['id']
+          if not names:
+              result = subprocess.run(['gh','api',f'https://uploads.github.com/repos/{repo}/releases/{release_id}/assets?name=kirbyam.apworld','--method','POST','--header','Content-Type: application/zip','--input','dist/kirbyam.apworld'], capture_output=True, check=True)
+              asset = json.loads(result.stdout)
+          else:
+              asset = release['assets'][0]
+          Path('verified').mkdir(exist_ok=True)
+          with Path('verified/kirbyam.apworld').open('wb') as output:
+              subprocess.run(['gh','api',f"repos/{repo}/releases/assets/{asset['id']}",'--header','Accept: application/octet-stream'], stdout=output, check=True)
+          expected = hashlib.sha256(Path('dist/kirbyam.apworld').read_bytes()).hexdigest()
+          actual = hashlib.sha256(Path('verified/kirbyam.apworld').read_bytes()).hexdigest()
+          assert actual == expected, 'downloaded release asset differs'
+          if release['draft']:
+              api(f'releases/{release_id}', {'draft':False,'prerelease':True,'make_latest':'false'}, method='PATCH')
+          release = api(f'releases/tags/{tag}')
+          assert not release['draft'] and release['prerelease'] and release['name'] == title
+          assert release['target_commitish'] == commit
+          assert release['body'].replace('\r\n','\n').rstrip('\n') == notes.rstrip('\n')
+          assert len(release['assets']) == 1 and release['assets'][0]['name'] == 'kirbyam.apworld'
+          ref = api(f'git/ref/tags/{tag}')
+          assert ref['object']['sha'] == commit
+          Path('dist/published-release.json').write_text(json.dumps(release, indent=2)+'\n')
+          Path('dist/published-tag.json').write_text(json.dumps(ref, indent=2)+'\n')
+          print(json.dumps({'url':release['html_url'],'commit':commit,'tag':tag,'asset_sha256':actual,'download_verified':True},indent=2))
+          PY
+      - name: Retain publication evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kirbyam-v0.4.0-rc2-publication
+          path: dist/
+          retention-days: 14
