@@ -7,7 +7,7 @@ MINIMUM_HEALTH_DEFAULT = 6
 MAXIMUM_HEALTH_DEFAULT = 10
 HEALTH_MIN = 1
 HEALTH_MAX = 10
-VITALITY_COUNTER_COUNT = 4
+VITALITY_COUNTER_COUNT = 9
 
 
 @dataclass(frozen=True)
@@ -27,7 +27,7 @@ def resolve_health_range(
 ) -> HealthRange:
     """Resolve legacy One-Hit presets first, then validate the custom range.
 
-    The four existing unique vitality items each add one HP. Reject unsupported
+    The nine unique vitality items each add one HP. Reject unsupported
     ranges rather than silently changing the requested cap or duplicating items
     that the payload's replay guard would ignore.
     """
@@ -43,8 +43,7 @@ def resolve_health_range(
         raise ValueError("maximum_health must be at least minimum_health")
     if maximum - minimum > VITALITY_COUNTER_COUNT:
         raise ValueError(
-            "maximum_health may be at most 4 HP above minimum_health "
-            "because KirbyAM has four unique Vitality Counters"
+            "maximum_health may be at most 9 HP above minimum_health"
         )
     return HealthRange(minimum, maximum)
 

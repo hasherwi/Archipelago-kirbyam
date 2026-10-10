@@ -752,7 +752,8 @@ class KirbyAmWorld(World):
                     ]
 
                 health_range = self._health_range()
-                active_vitality_codes = set(sorted(vitality_item_codes)[:health_range.vitality_count])
+                from .vitality import VITALITY_ITEM_IDS
+                active_vitality_codes = set(VITALITY_ITEM_IDS[:health_range.vitality_count])
                 non_filler_item_codes = [
                     code for code in non_filler_item_codes
                     if code not in vitality_item_codes or code in active_vitality_codes
@@ -1051,6 +1052,7 @@ class KirbyAmWorld(World):
             toggles_as_bools=True,
         )
         slot_data["world_version"] = self.world_version.as_simple_string()
+        slot_data["health_protocol_version"] = 2
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
         slot_data["starting_kirby_color"] = resolved_color_id
         slot_data["starting_kirby_color_name"] = resolved_color_name

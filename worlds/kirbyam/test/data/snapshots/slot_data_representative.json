@@ -77,6 +77,7 @@
   "enemy_health_multiplier": 100,
   "goal": 0,
   "goal_configured_area_boss_key": "BOSS_DEFEAT_3",
+  "health_protocol_version": 2,
   "locations": {
     "AREA_VISIT_1_RAINBOW_ROUTE": {
       "category": "AREA_VISIT",
@@ -6445,7 +6446,12 @@
     "Spray Paint #6",
     "Spray Paint #7",
     "Spray Paint #8",
-    "Spray Paint #9"
+    "Spray Paint #9",
+    "Vitality Counter #5",
+    "Vitality Counter #6",
+    "Vitality Counter #7",
+    "Vitality Counter #8",
+    "Vitality Counter #9"
   ],
   "world_version": "0.3.1"
 }

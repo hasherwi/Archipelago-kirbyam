@@ -11,7 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## v0.4.0
 
 ### New Features
-- Added `minimum_health` and `maximum_health` YAML options for a custom starting/final HP capacity (Issue #778). Defaults remain 6/10; supported ranges stay within 1..10 HP and at most four unique Vitality Counter upgrades. Existing One-Hit Mode presets override these options.
+- Added `minimum_health` and `maximum_health` YAML options for a custom starting/final HP capacity (Issues #778, #947). Defaults remain 6/10; all starting/final ranges within 1..10 HP are supported with up to nine unique Vitality Counter upgrades. Existing One-Hit Mode presets override these options.
 - mGBA now supported as an optional emulator.
 - All minor chests are added as locations and no longer provide their native item.
 - Spray Paints and Music Sheets added as AP items.

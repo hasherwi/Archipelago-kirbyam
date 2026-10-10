@@ -71,6 +71,7 @@ def test_actual_payload_replay_preserves_saved_counts_and_dead_state(tmp_path):
 #include <stdint.h>
 #include <sys/mman.h>
 #include "minor_chest_runtime_logic.h"
+#include "vitality_runtime_logic.h"
 #define KIRBY_ITEM_ID_BASE_OFFSET 3860000u
 #define KIRBY_MAX_VITALITY_COUNTERS 4u
 #define KIRBY_CURRENT_PLAYER 0u
@@ -83,7 +84,7 @@ def test_actual_payload_replay_preserves_saved_counts_and_dead_state(tmp_path):
 #define CHECK(x) do {if(!(x)) return __LINE__;} while(0)
 static uint32_t AP_DELIVERED_VITALITY_ITEM_BITS,AP_DELIVERED_SHARD_BITFIELD,AP_SHARD_BITFIELD,AP_ABILITY_UNLOCK_MASK,KIRBY_SPRAY_PAINT_FLAGS,KIRBY_MUSIC_PLAYER_AND_SHEETS_FLAGS;
 static uint16_t KIRBY_VITALITY_COUNTER;
-static uint32_t gApHealthConfigInitial=0xA9010A06u;
+static uint32_t gApHealthConfigInitial=0xA9020A06u;
 static uint8_t KIRBY_SHARD_FLAGS;
 '''
     for name in ['ap_grant_lives','ap_unlock_area_map','KIRBY_COLLECT_SOUND_PLAYER_FN','ap_collect_small_chest_native']:
@@ -110,6 +111,31 @@ int main(void) {
         CHECK(ap_apply_item(3860018u));
         CHECK(KIRBY_VITALITY_COUNTER==4 && HP==2);
     }
+    const unsigned ids[9]={3860018,3860019,3860020,3860021,3860224,3860225,3860226,3860227,3860228};
+    for(unsigned low=1;low<=10;low++) for(unsigned high=low;high<=10;high++) {
+      gApHealthConfigInitial=0xA9020000u | (high<<8) | low;
+      for(unsigned saved=0;saved<=high-low;saved++) for(unsigned first=0;first<9;first++) {
+        KIRBY_VITALITY_COUNTER=saved;AP_DELIVERED_VITALITY_ITEM_BITS=0xABCDE000u;
+        HP=1;MAX_HP=low+saved;
+        for(unsigned i=0;i<9;i++) {
+          unsigned previous=KIRBY_VITALITY_COUNTER;
+          int before=HP;
+          CHECK(ap_apply_item(ids[(first+i)%9]));
+          unsigned expected=i+1>high-low?high-low:i+1;
+          if(expected<saved) expected=saved;
+          CHECK(KIRBY_VITALITY_COUNTER==expected);
+          CHECK(HP==(expected>previous?(int)(low+expected):before));
+          CHECK((AP_DELIVERED_VITALITY_ITEM_BITS & ~0x1ffu)==0xABCDE000u);
+          HP=1; CHECK(ap_apply_item(ids[(first+i)%9])); CHECK(HP==1);
+        }
+        CHECK(KIRBY_VITALITY_COUNTER==high-low);
+      }
+      for(int dead=-128;dead<=0;dead++) {
+        KIRBY_VITALITY_COUNTER=0;AP_DELIVERED_VITALITY_ITEM_BITS=0;HP=dead;MAX_HP=low;
+        CHECK(ap_apply_item(3860228)); CHECK(HP==dead);
+      }
+    }
+    gApHealthConfigInitial=0xA9020A06u;
     KIRBY_VITALITY_COUNTER=0;AP_DELIVERED_VITALITY_ITEM_BITS=0x80000000u;HP=2;MAX_HP=6;
     CHECK(ap_apply_item(3860018u));
     CHECK(KIRBY_VITALITY_COUNTER==1 && AP_DELIVERED_VITALITY_ITEM_BITS==0x80000001u);

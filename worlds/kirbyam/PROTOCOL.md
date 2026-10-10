@@ -115,7 +115,8 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | 1_UP              | 3860001  | Single extra life |
 | SHARD_1 .. SHARD_8 | 3860002 - 3860009 | Mirror shards (8 items) |
 | MAP_MUSTARD_MOUNTAIN .. MAP_RADISH_RUINS | 3860010 - 3860017 | Useful map rewards |
-| VITALITY_COUNTER_1 .. VITALITY_COUNTER_4 | 3860018 - 3860021 | Useful vitality rewards |
+| VITALITY_COUNTER_1 .. VITALITY_COUNTER_4 | 3860018 - 3860021 | Original unique vitality rewards |
+| VITALITY_COUNTER_5 .. VITALITY_COUNTER_9 | 3860224 - 3860228 | Additional format-2 unique vitality rewards |
 | MAP_RAINBOW_ROUTE | 3860024 | Useful map reward |
 | SOUND_PLAYER      | 3860025 | Useful unlock reward (applies native Sound Player unlock on receipt) |
 | SMALL_FOOD, BATTERY, MAX_TOMATO, INVINCIBILITY_CANDY | 3860026 - 3860029 | Filler consumable rewards |
@@ -240,8 +241,9 @@ Server → Client: ConnectionRefused | Connected
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the existing payload refreshes Kirby's live OBJ palette. Reconnect alone does not reroll the color.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
+- `health_protocol_version` (int): `2` for newly generated ROMs; requires the format-2 client and `KIRBYAM APV2` ROM header. Missing version identifies the legacy four-counter contract.
 - `minimum_health` (int): starting HP capacity (`1..10`, default `6`), applied by the connected client after the tutorial. This is not a current-HP floor. Ignored when One-Hit Mode is enabled.
-- `maximum_health` (int): final HP capacity (`1..10`, default `10`). Must be at least `minimum_health` and no more than four HP above it. The difference determines how many of the four unique Vitality Counter items are generated. Ignored when One-Hit Mode is enabled.
+- `maximum_health` (int): final HP capacity (`1..10`, default `10`). Must be at least `minimum_health` and no more than nine HP above it. The difference determines how many of the nine unique Vitality Counter items are generated. Ignored when One-Hit Mode is enabled.
 - `one_hit_mode` (int): one-hit mode selection (`0=off`, `1=exclude_vitality_counters`, `2=include_vitality_counters`). When non-zero, Kirby's max HP is clamped to `vitality_counter + 1` during gameplay. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool (replaced by filler) so the cap stays at 1. In `include_vitality_counters` mode, Vitality Counter items remain in the pool and each one received raises the cap by 1.
 - `enable_traps` (bool): when true, trap items may appear in the randomized item pool.
 - `trap_fill_percentage` (int): percentage (`0..100`) of eligible filler slots that are replaced by trap items when `enable_traps` is true.
@@ -293,15 +295,15 @@ DeathLink runtime behavior contract:
 - Any `no_extra_lives` runtime diagnostics are emitted as file-only logs (`NoStream=True`).
 
 `minimum_health`, `maximum_health`, and `one_hit_mode` runtime behavior contract:
-- Generation removes all four Vitality Counter items from the non-filler item pool (replaced by filler) when `one_hit_mode == exclude_vitality_counters` (1). Vitality Chest locations are kept, but this mode does not guarantee location-specific filler placement on those chests.
+- Generation removes all Vitality Counter items from the non-filler item pool (replaced by filler) when `one_hit_mode == exclude_vitality_counters` (1). Vitality Chest locations are kept, but this mode does not guarantee location-specific filler placement on those chests.
 - In `exclude_vitality_counters` mode, filler selection also removes health-restoring filler (`Small Food`, `Energy Drink`, `Hunk of Meat`, `Max Tomato`) so randomized filler does not counteract the 1 HP challenge. If `no_extra_lives` is also enabled, `1 Up` is removed from that reduced filler pool as well.
 - Generation leaves the item pool unchanged when `one_hit_mode == include_vitality_counters` (2).
 - `one_hit_mode: off` uses the configured `minimum_health`/`maximum_health` pair. The existing `exclude_vitality_counters` and `include_vitality_counters` presets override that pair to `1..1` and `1..5` respectively, preserving old YAML behavior.
-- With One-Hit Mode off, `1 <= minimum_health <= maximum_health <= 10` and `maximum_health - minimum_health <= 4` are required. Invalid pairs fail generation rather than silently altering the requested range. Ranges wider than four upgrades or above 10 HP need separate native/payload research.
-- Generation keeps the first `maximum - minimum` stable unique Vitality Counter IDs (`3860018..3860021`), each exactly once; unused counter slots receive filler/traps under the existing fill policy. All four vitality-chest locations remain. No new item IDs or duplicate replay-guarded counters are introduced.
+- With One-Hit Mode off, `1 <= minimum_health <= maximum_health <= 10` are required. Invalid pairs fail generation rather than silently altering the requested range. All 55 ordered pairs within 1..10 are supported by format 2.
+- Generation keeps the first `maximum - minimum` stable unique Vitality Counter IDs (`3860018..3860021`, then `3860224..3860228`), each exactly once; unused counter slots receive filler/traps under the existing fill policy. All four vitality-chest locations remain. The first four IDs and physical locations remain unchanged; five additional unique identities provide the wider ranges.
 - During active gameplay, the connected BizHawk client bounds native vitality to `maximum - minimum` and sets player 0's capacity to `minimum + bounded_vitality`. Alive HP above that cap is clamped. When raising native capacity (for example, an 8 HP start over the native 6 HP start), the same increase is applied to alive HP, preserving the existing damage deficit. An already-correct cap does not heal on repeated polls. Dead/negative HP is never revived.
 - HP/cap/vitality writes are guarded by the exact read snapshot so an intervening hit, death, respawn, or item delivery is not overwritten. A failed guard waits for a fresh read on the next gameplay tick.
-- The default `6..10` range with One-Hit Mode off leaves native behavior untouched. Older slot data omitting both new keys resolves to the defaults; legacy One-Hit values still take precedence. Invalid health pairs received in slot data cause no health writes.
+- The default `6..10` range keeps four upgrades. Older slot data omitting both new keys resolves to the defaults; legacy One-Hit values still take precedence. Invalid health pairs received in slot data cause no health writes.
 - Health options reuse the existing native fields and payload vitality handling. There is no new mailbox ABI or ROM token. Enforcement requires a connected current client after the tutorial: native room/respawn/vitality paths can briefly restore `6 + vitality` before the next client poll, and disconnected play does not maintain custom limits. Runtime/HP-meter rendering validation remains required before release.
 - Custom `1..1` health also excludes healing filler; custom starts at 1 HP exclude Health Down Trap from selection just like legacy One-Hit presets.
 - Dead/negative HP states (`current_hp <= 0`) are preserved; only alive Kirby's HP is clamped.
@@ -725,7 +727,7 @@ counter counts only applied requests and can lag when known receipts are skipped
 Bit 31 at `delivered_vitality_item_bits` marks the prefixed cursor format. The
 client sets it with an atomic guarded write only after the payload has initialized
 and the received counter, persisted index and incoming flag are all zero. It is
-preserved while reconciling the four low Vitality identity bits. A marked live
+preserved while reconciling the nine low Vitality identity bits (four for legacy ROMs), along with all other reserved high bits. A marked live
 cursor resumes normally on reconnect. With a starting-item prefix, an unmarked
 nonzero cursor is ambiguous and pauses work with a restart message; the client
 never guesses an offset or silently skips starting items. Cold-start the ROM
@@ -750,3 +752,28 @@ native save routine from an unverified frame-hook context. Normal native save fl
 owns serialization, checksums, slot selection and duplicate records. A reset before
 that save needs authenticated AP history replay; immediate power-loss persistence
 is not guaranteed. Host SRAM-integrity tests do not certify emulator save/load.
+
+
+### Format-2 health compatibility (#947)
+
+New patches use the 12-byte GBA title `KIRBYAM APV2` and recompute the header
+checksum. The game code, maker, seed authentication token and save layout remain
+unchanged. The ROM word at `0x0815F690` is `0xA902MMmm`, where `mm` and `MM`
+are the resolved minimum and maximum. One-Hit presets resolve to 1/1 and 1/5.
+The client requires slot `health_protocol_version=2` and exact matching bounds.
+It rechecks title/config/authentication before every watcher iteration, before
+runtime flags, DeathLink, location reports or mailbox writes. Mismatches pause
+writes and require regeneration/update. Older clients reject the new title.
+New clients retain the legacy title/four-counter slot contract; they do not
+apply nine-bit ownership to an old ROM.
+
+The native initializer reads these bounds before the client connects. Its u16
+saved count remains unchanged on initialization. The collection-room getter
+clamps to four display icons before the original u8 truncation; all nine AP
+ownership identities still contribute to configured capacity. No SRAM offsets
+or serializer formats change. Normal native save points or authenticated replay
+remain necessary to persist newly received ownership; receipt ACK alone does
+not prove a native save flush. Complete history may correct an inflated saved
+count; partial replay retains it up to the configured upgrade limit. Only a
+real increase heals living Kirby; duplicate/replayed receipts cannot revive or
+heal. Physical chest flags never establish item ownership.

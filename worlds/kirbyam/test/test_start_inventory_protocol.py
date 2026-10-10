@@ -16,6 +16,8 @@ async def validated_client(ctx):
         read.side_effect = [[b'AGB KIRBY AM', b'B8KE', b'01'],
                             [b'\x01' + bytes(15)], [b'\x00\xf0\x00\xf8']]
         assert await client.validate_rom(ctx)
+    import base64
+    ctx.auth = base64.b64encode(b"\x01" + bytes(15)).decode()
     return client
 
 
@@ -35,6 +37,8 @@ def mailbox(client, *, received=0, delivered=0, bits=0, cookie=0x4B41504D, flag=
     memory.update({client._native_addr('kirby_vitality_counter_native'):bytes(2),
                    client._native_addr('kirby_hp_native'):bytes([2]),
                    client._native_addr('kirby_max_hp_native'):bytes([6])})
+    memory.update({0xA0: b"AGB KIRBY AM", 0x15F690: bytes(4),
+                   data.rom_addresses["gArchipelagoInfo"] & 0x1FFFFFF: b"\x01" + bytes(15)})
     return memory
 
 

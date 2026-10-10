@@ -11,7 +11,7 @@ from .. import KirbyAmWorld
 from ..health import resolve_health_range
 from ..rom import write_tokens, HEALTH_INITIAL_ROM_OFFSET
 
-RANGES = [(lo, hi) for lo in range(1, 11) for hi in range(lo, min(lo + 4, 10) + 1)]
+RANGES = [(lo, hi) for lo in range(1, 11) for hi in range(lo, 11)]
 
 
 def test_native_initializer_patch_fail_closed():
@@ -42,7 +42,7 @@ def test_seed_health_and_old_config_offsets(minimum, maximum, one_hit):
     out = _DummyPatch(); write_tokens(world, out)
     values = {offset: int.from_bytes(value, 'little') for _, offset, value in out.token_writes}
     health = resolve_health_range(minimum, maximum, one_hit)
-    assert values[HEALTH_INITIAL_ROM_OFFSET] == 0xA9010000 | health.maximum << 8 | health.minimum
+    assert values[HEALTH_INITIAL_ROM_OFFSET] == 0xA9020000 | health.maximum << 8 | health.minimum
     assert {0x15F690, 0x15F694, 0x15F698, 0x15F69C} <= values.keys()
 
 
@@ -55,6 +55,7 @@ def test_actual_c_all_u16_counts_and_grant_policy(tmp_path):
     sync = _function(payload, 'ap_sync_active_kirby_health_from_vitality').replace('uint32_t kirby_addr', 'uintptr_t kirby_addr')
     source = '''#include <stdint.h>
 #include <stdio.h>
+#include "vitality_runtime_logic.h"
 static uint32_t gApHealthConfigInitial;
 static uint16_t KIRBY_VITALITY_COUNTER;
 static uint8_t KIRBY_CURRENT_PLAYER;
@@ -66,8 +67,8 @@ static uint8_t kirbies[4][0x1A8];
 #define CHECK(x) do {if(!(x)){fprintf(stderr,"line%d\\n",__LINE__);return 1;}} while(0)
 ''' + capacity + '\n' + sync + '''
 int main(void) {
- for(unsigned lo=1;lo<=10;lo++) for(unsigned hi=lo;hi<=10 && hi-lo<=4;hi++) {
-  gApHealthConfigInitial=0xA9010000u | (hi<<8) | lo;
+ for(unsigned lo=1;lo<=10;lo++) for(unsigned hi=lo;hi<=10;hi++) {
+  gApHealthConfigInitial=0xA9020000u | (hi<<8) | lo;
   for(unsigned count=0;count<=65535;count++) {
    KIRBY_VITALITY_COUNTER=count;
    CHECK(ap_initial_health_capacity()==lo+(count>hi-lo?hi-lo:count));
@@ -83,19 +84,19 @@ int main(void) {
    }
   }
  }
- unsigned invalid[]={0,0xffffffff,0xA9020703,0xA9010700,0xA9010307,0xA9010b06,0xA9010a01};
+ unsigned invalid[]={0,0xffffffff,0xA9010703,0xA9020700,0xA9020307,0xA9020b06};
  for(unsigned i=0;i<sizeof invalid/sizeof *invalid;i++) {
   gApHealthConfigInitial=invalid[i];KIRBY_VITALITY_COUNTER=1;
   CHECK(ap_initial_health_capacity()==7);
  }
- gApHealthConfigInitial=0xA9010703;KIRBY_VITALITY_COUNTER=1;
+ gApHealthConfigInitial=0xA9020703;KIRBY_VITALITY_COUNTER=1;
  CHECK(ap_initial_health_capacity()==4);
  return 0;
 }
 '''
     c = tmp_path / 'health.c'; exe = tmp_path / 'health'
     c.write_text(source)
-    built = subprocess.run([cc, '-std=c99', '-O2', str(c), '-o', str(exe)], capture_output=True, text=True)
+    built = subprocess.run([cc, '-std=c99', '-O2', '-I', str(Path(__file__).resolve().parents[1] / 'kirby_ap_payload'), str(c), '-o', str(exe)], capture_output=True, text=True)
     assert built.returncode == 0, built.stderr
     result = subprocess.run([str(exe)], capture_output=True, text=True)
     assert result.returncode == 0, result.stderr

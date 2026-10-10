@@ -27,6 +27,9 @@ from .health import (
     reconcile_health,
     resolve_health_range,
 )
+from .vitality import (VITALITY_ITEM_BITS, VITALITY_MASK, HEALTH_CONFIG_OFFSET,
+                       HEALTH_ROM_TITLE, decode_health_config, resolve_vitality_plan,
+                       validate_health_protocol)
 from .items import get_item_classification
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
 from .options import Goal, OneHitMode
@@ -428,6 +431,9 @@ class KirbyAmClient(BizHawkClient):
             row["flag"]: data.locations[row["location_key"]].location_id
             for row in _CHEST_RECOVERY_RECORDS if row["location_key"] is not None
         }
+        self._health_protocol_version = 1
+        self._health_rom_auth = None
+        self._last_health_protocol_error = None
         self._vitality_history_session = None
         self._legacy_start_inventory_warned = False
         self._last_minor_chest_event_counter: int | None = None
@@ -1555,7 +1561,7 @@ class KirbyAmClient(BizHawkClient):
             game_code = bytes(game_code_bytes).decode("ascii", errors="ignore").rstrip("\0").lower()
             maker_code = bytes(maker_code_bytes).decode("ascii", errors="ignore").rstrip("\0")
             if (
-                rom_title != EXPECTED_ROM_HEADER_TITLE
+                rom_title not in (EXPECTED_ROM_HEADER_TITLE, HEALTH_ROM_TITLE.decode().lower())
                 or game_code != EXPECTED_ROM_GAME_CODE
                 or maker_code != EXPECTED_ROM_MAKER_CODE
             ):
@@ -1573,6 +1579,18 @@ class KirbyAmClient(BizHawkClient):
         except Exception:
             self._log_client("error", "KirbyAM: unexpected error during ROM header validation", exc_info=True)
             return await _fail("header_validation_exception")
+
+        health_protocol_version = 2 if rom_title == HEALTH_ROM_TITLE.decode().lower() else 1
+        if health_protocol_version == 2:
+            try:
+                config_raw = (await bizhawk.read(ctx.bizhawk_ctx, [
+                    (HEALTH_CONFIG_OFFSET, 4, "ROM")]))[0]
+                if len(config_raw) != 4:
+                    raise ValueError("truncated health config")
+                decode_health_config(int.from_bytes(config_raw, "little"))
+            except (ValueError, bizhawk.RequestFailedError):
+                return await _fail("health_protocol_mismatch",
+                                   "Incompatible health ROM. Regenerate the patch and update the client.")
 
         auth_addr = data.rom_addresses.get("gArchipelagoInfo")
         if auth_addr is None:
@@ -1647,6 +1665,8 @@ class KirbyAmClient(BizHawkClient):
             ctx.command_processor = _patch_kirbyam_command_processor(base_command_processor)
 
         self.initialize_client()
+        self._health_protocol_version = health_protocol_version
+        self._health_rom_auth = bytes(auth_raw)
         self._log_client("info", "KirbyAM: ROM validated.")
         return True
 
@@ -1665,6 +1685,57 @@ class KirbyAmClient(BizHawkClient):
         auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
         ctx.auth = base64.b64encode(auth_raw).decode("utf-8")
 
+    async def _health_protocol_ready(self, ctx, *, require_identity: bool = True) -> bool:
+        """Reject incompatible ROM/slot pairs before any watcher writes.
+
+        Re-read ROM identity on every poll: connector ROM changes must not inherit
+        permission from an earlier seed, slot, auth token, or health config.
+        Legacy ROMs retain their four-counter contract.
+        """
+        import base64
+        slot = getattr(ctx, "slot_data", None)
+        if not isinstance(slot, dict):
+            return False
+        version = getattr(self, "_health_protocol_version", 1)
+        try:
+            plan = resolve_vitality_plan(slot.get("minimum_health", 6),
+                                        slot.get("maximum_health", 10),
+                                        slot.get("one_hit_mode", 0))
+            slot_version = slot.get("health_protocol_version", 1)
+            if type(slot_version) is not int or slot_version != version:
+                raise ValueError("ROM and slot health versions differ")
+            if version == 1:
+                if plan.count > 4:
+                    raise ValueError("legacy ROM supports only four counters")
+                if self._health_rom_auth is None and not require_identity:
+                    return True
+            if version not in (1, 2) or self._health_rom_auth is None:
+                raise ValueError("unvalidated health protocol")
+            auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
+            title, config, auth = await bizhawk.read(ctx.bizhawk_ctx, [
+                (0xA0, 12, "ROM"), (HEALTH_CONFIG_OFFSET, 4, "ROM"),
+                (auth_addr, _AUTH_TOKEN_SIZE, "ROM")])
+            if len(title) != 12 or len(config) != 4 or len(auth) != _AUTH_TOKEN_SIZE:
+                raise ValueError("truncated ROM identity")
+            if (bytes(auth) != self._health_rom_auth or
+                    base64.b64encode(auth).decode() != getattr(ctx, "auth", None)):
+                raise ValueError("ROM authentication changed")
+            if version == 1:
+                if bytes(title).rstrip(b"\0").lower() != EXPECTED_ROM_HEADER_TITLE.encode():
+                    raise ValueError("legacy ROM identity changed")
+            else:
+                validate_health_protocol(bytes(title).rstrip(b"\0"),
+                                         int.from_bytes(config, "little"), slot_version, plan)
+            return True
+        except (ValueError, KeyError, TypeError, bizhawk.RequestFailedError,
+                bizhawk.NotConnectedError, bizhawk.ConnectorError, bizhawk.SyncError) as exc:
+            reason = str(exc)
+            if getattr(self, "_last_health_protocol_error", None) != reason:
+                self._log_client("error", "KirbyAM: health compatibility check failed (%s). "
+                                 "Regenerate the patch and update the client; game writes are paused.", reason)
+                self._last_health_protocol_error = reason
+            return False
+
     async def game_watcher(self, ctx: "BizHawkClientContext") -> None:
         """Main watcher loop: polls locations, delivers items, reports goal."""
 
@@ -1678,6 +1749,9 @@ class KirbyAmClient(BizHawkClient):
             self._last_incoming_death_link_time = None
             self._last_local_alive_state = None
             self._suppress_next_local_death_send = False
+            return
+
+        if not await self._health_protocol_ready(ctx):
             return
 
         self._load_notification_settings(ctx)
@@ -2167,6 +2241,8 @@ class KirbyAmClient(BizHawkClient):
         Defaults leave native behavior untouched. Slot data without the new keys
         retains the old One-Hit meaning. No new payload/mailbox ABI is required.
         """
+        if not await self._health_protocol_ready(ctx, require_identity=False):
+            return
         slot_data = getattr(ctx, "slot_data", None)
         if not isinstance(slot_data, dict):
             return
@@ -2944,11 +3020,14 @@ class KirbyAmClient(BizHawkClient):
             return
         if not await self._start_inventory_cursor_ready(ctx):
             return
+        if not await self._health_protocol_ready(ctx, require_identity=False):
+            return
+        ownership_mask = VITALITY_MASK if self._health_protocol_version == 2 else 0xF
         mask = 0
         for item in ctx.items_received:
             item_id = getattr(item, "item", None)
-            if isinstance(item_id, int) and 3860018 <= item_id <= 3860021:
-                mask |= 1 << (item_id - 3860018)
+            if isinstance(item_id, int):
+                mask |= VITALITY_ITEM_BITS.get(item_id, 0) & ownership_mask
         slot = ctx.slot_data
         if not isinstance(slot, dict):
             return
@@ -2961,7 +3040,8 @@ class KirbyAmClient(BizHawkClient):
         elif mode != 0:
             return
         if (type(minimum) is not int or type(maximum) is not int
-                or not 1 <= minimum <= maximum <= 10 or maximum - minimum > 4):
+                or not 1 <= minimum <= maximum <= 10
+                or maximum - minimum > (9 if self._health_protocol_version == 2 else 4)):
             return
         count = min(mask.bit_count(), maximum - minimum)
         addresses = [self._transport_addr("delivered_vitality_item_bits"),
@@ -2985,7 +3065,7 @@ class KirbyAmClient(BizHawkClient):
             elif 0 < previous_max < maximum:
                 hp += maximum - previous_max
             hp = min(hp, maximum)
-        mask |= int.from_bytes(values[0], "little") & _START_INVENTORY_HISTORY_BIT
+        mask |= int.from_bytes(values[0], "little") & ~ownership_mask
         desired = [mask.to_bytes(4, "little"), count.to_bytes(2, "little"),
                    hp.to_bytes(1, "little", signed=True), bytes([maximum])]
         writes = [(address, value, "System Bus") for address, value, before

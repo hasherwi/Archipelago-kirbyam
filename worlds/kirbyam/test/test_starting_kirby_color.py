@@ -389,6 +389,7 @@ async def test_client_starting_color_sync_log_hidden_when_debug_disabled(mock_bi
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_client_game_watcher_logs_starting_color_once_after_initial_ready_transition(
     mock_bizhawk_context: Any,
 ) -> None:

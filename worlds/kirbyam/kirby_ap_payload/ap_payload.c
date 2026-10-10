@@ -3,6 +3,7 @@
 #include "statue_runtime_logic.h"
 #include "minor_chest_runtime_logic.h"
 #include "lever_runtime_logic.h"
+#include "vitality_runtime_logic.h"
 
 // Kirby AP item ID base offset
 #define KIRBY_ITEM_ID_BASE_OFFSET       3860000u  // must match worlds/kirbyam/data.py BASE_OFFSET
@@ -130,10 +131,10 @@ static const uint32_t AP_OWNED_MINOR_CHEST_SOURCE_PTRS[] = {
 #define KIRBY_BIG_CHEST_FLAGS   (*(volatile uint32_t*)(KIRBY_BIG_CHEST_FLAGS_ADDR))
 #define KIRBY_VITALITY_COUNTER_ADDR 0x02038980u
 #define KIRBY_VITALITY_COUNTER  (*(volatile uint16_t*)(KIRBY_VITALITY_COUNTER_ADDR))
-// Kirby has four AP vitality counter items in the current item contract.
+// Format 2 has nine distinct AP vitality counter identities.
 // Clamp native vitality state to that count so mailbox replay/reset paths
 // cannot over-grant vitality above intended progression.
-#define KIRBY_MAX_VITALITY_COUNTERS 4u
+#define KIRBY_MAX_VITALITY_COUNTERS 9u
 
 #define KIRBY_STRUCTS_ADDR       0x02020EE0u
 #define KIRBY_CURRENT_PLAYER_ADDR 0x0203AD3Cu
@@ -978,24 +979,18 @@ __attribute__((used)) void ap_on_world_map_unlock_call(WorldMapUnlockFn unlock_f
     }
 }
 
-/* Per-seed v1 health bounds; four unique Vitality identities remain unchanged.
- * ROM configuration also applies before the AP client connects after reload. */
+/* Format-2 per-seed bounds apply before connecting after native reload. */
 __attribute__((used, section(".apconfig.health")))
-volatile const uint32_t gApHealthConfigInitial = 0xA9010A06u;
+volatile const uint32_t gApHealthConfigInitial = 0xA9020A06u;
 
 __attribute__((used)) uint32_t ap_initial_health_capacity(void) {
-    uint32_t config = gApHealthConfigInitial;
-    uint32_t minimum = config & 0xFFu;
-    uint32_t maximum = (config >> 8) & 0xFFu;
-    if ((config >> 16) != 0xA901u || minimum < 1u || maximum > 10u ||
-        maximum < minimum || maximum - minimum > 4u) {
-        minimum = 6u;
-        maximum = 10u;
-    }
-    uint32_t count = KIRBY_VITALITY_COUNTER;
-    uint32_t available = maximum - minimum;
-    if (count > available) count = available;
-    return minimum + count;
+    return ap_vitality_capacity(gApHealthConfigInitial, KIRBY_VITALITY_COUNTER);
+}
+
+/* The native collection menu has exactly four icon slots. Clamp the u16
+ * before its caller truncates to u8; never modify saved ownership here. */
+__attribute__((used)) uint32_t ap_vitality_collection_menu_count(void) {
+    return ap_vitality_menu_count(KIRBY_VITALITY_COUNTER);
 }
 
 static void ap_sync_active_kirby_health_from_vitality(void) {
@@ -1187,17 +1182,13 @@ static void ap_grant_invincibility_candy(void) {
 }
 
 static void ap_grant_vitality_counter(void) {
-    uint16_t confirmed_count = 0u;
-    uint32_t bits = AP_DELIVERED_VITALITY_ITEM_BITS & 0xFu;
-    while (bits != 0u) {
-        confirmed_count = (uint16_t)(confirmed_count + (bits & 1u));
-        bits >>= 1;
-    }
-    /* Replaying a prefix after fresh EWRAM must not add to the retained native
-     * count. Full authenticated history in the client corrects legacy inflated
-     * saves; the payload never guesses identities or shrinks a partial replay. */
-    if (confirmed_count > KIRBY_VITALITY_COUNTER) {
-        KIRBY_VITALITY_COUNTER = confirmed_count;
+    uint16_t previous = KIRBY_VITALITY_COUNTER;
+    uint16_t confirmed_count = ap_vitality_partial_count(
+        gApHealthConfigInitial, AP_DELIVERED_VITALITY_ITEM_BITS, previous);
+    KIRBY_VITALITY_COUNTER = confirmed_count;
+    /* Partial replay retains saved ownership and never heals a reconstructed
+     * receipt. Complete authenticated history can correct an inflated save. */
+    if (confirmed_count > previous) {
         ap_sync_active_kirby_health_from_vitality();
     }
 }
@@ -1320,10 +1311,9 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         return 1u;
     }
 
-    // VITALITY_COUNTER_1..VITALITY_COUNTER_4 = BASE+18 .. BASE+21
-    if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 18u) && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 21u)) {
-        uint32_t vitality_index = ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 18u);  // 0..3
-        uint32_t vitality_mask = (1u << vitality_index);
+    /* Explicit noncontiguous identities; physical chest flags are unrelated. */
+    uint32_t vitality_mask = ap_vitality_item_bit(ap_item_id);
+    if (vitality_mask != 0u) {
         if ((AP_DELIVERED_VITALITY_ITEM_BITS & vitality_mask) == 0u) {
             AP_DELIVERED_VITALITY_ITEM_BITS |= vitality_mask;
             ap_grant_vitality_counter();

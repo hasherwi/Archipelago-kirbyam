@@ -194,6 +194,56 @@
     "item_id": 3860021,
     "tags": ["Vitality", "Useful", "Unique"]
   },
+  "VITALITY_COUNTER_5": {
+    "label": "Vitality Counter #5",
+    "classification": "USEFUL",
+    "item_id": 3860224,
+    "tags": [
+      "Vitality",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "VITALITY_COUNTER_6": {
+    "label": "Vitality Counter #6",
+    "classification": "USEFUL",
+    "item_id": 3860225,
+    "tags": [
+      "Vitality",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "VITALITY_COUNTER_7": {
+    "label": "Vitality Counter #7",
+    "classification": "USEFUL",
+    "item_id": 3860226,
+    "tags": [
+      "Vitality",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "VITALITY_COUNTER_8": {
+    "label": "Vitality Counter #8",
+    "classification": "USEFUL",
+    "item_id": 3860227,
+    "tags": [
+      "Vitality",
+      "Useful",
+      "Unique"
+    ]
+  },
+  "VITALITY_COUNTER_9": {
+    "label": "Vitality Counter #9",
+    "classification": "USEFUL",
+    "item_id": 3860228,
+    "tags": [
+      "Vitality",
+      "Useful",
+      "Unique"
+    ]
+  },
   "SOUND_PLAYER": {
     "label": "Sound Player",
     "classification": "USEFUL",

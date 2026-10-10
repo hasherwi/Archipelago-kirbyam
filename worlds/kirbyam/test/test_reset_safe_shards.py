@@ -47,7 +47,7 @@ def test_payload_tracks_vitality_chest_checks_and_ap_vitality_apply() -> None:
     assert "ap_on_collect_vitality_chest" in content, "Vitality chest hook target should exist"
     assert "ap_set_vitality_chest_flag_for_room" in content, "Vitality chest room mapping helper should exist"
     assert "ap_grant_vitality_counter" in content, "AP vitality grant helper should exist"
-    assert "KIRBY_ITEM_ID_BASE_OFFSET + 18u" in content, "Vitality AP item IDs should be handled"
+    assert "ap_vitality_item_bit(ap_item_id)" in content, "Vitality AP item IDs should be handled"
 
 
 def test_payload_tracks_exact_minor_chest_events() -> None:
@@ -119,7 +119,7 @@ def test_payload_vitality_items_are_replay_guarded_per_unique_item() -> None:
         content = f.read()
 
     assert "AP_DELIVERED_VITALITY_ITEM_BITS" in content, "Vitality replay-guard bitfield should be defined"
-    assert "vitality_index" in content, "Vitality handler should derive per-item index"
+    assert "ap_vitality_item_bit" in content, "Vitality handler should derive per-item index"
     assert "vitality_mask" in content, "Vitality handler should derive per-item bit mask"
     assert "AP_DELIVERED_VITALITY_ITEM_BITS |= vitality_mask" in content, (
         "Vitality item handling should mark items as applied"

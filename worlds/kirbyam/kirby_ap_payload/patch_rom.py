@@ -790,6 +790,8 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
 
 def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
     targets = {
+        "vitality_menu_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_vitality_collection_menu_count"),
         "initial_health_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_initial_health_capacity"),
         "health_hud_hook_target": resolve_elf_symbol_address(
@@ -835,6 +837,7 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
 _PAYLOAD_TARGET_LABELS = {
     "health_hud_hook_target": "health HUD trailing-tile cleanup",
     "initial_health_hook_target": "configured native initial health",
+    "vitality_menu_hook_target": "bounded native collection menu",
     "main_hook_target": "main hook",
     "boss_hook_target": "boss shard hook",
     "boss_already_owned_hook_target": "boss already-owned reward hook",
@@ -1180,6 +1183,12 @@ def patch_rom_with_payload(
         rom, hook_targets["health_hud_hook_target"], rom_base))
     regression_writes.update(build_initial_health_writes(
         rom, hook_targets["initial_health_hook_target"], rom_base))
+    menu_offset = 0x14380A
+    validate_expected_instruction_sequence(
+        rom, menu_offset, thumb_bl_bytes(rom_base + menu_offset, 0x08019F0C),
+        "native collection-menu vitality getter")
+    regression_writes[menu_offset] = thumb_bl_bytes(
+        rom_base + menu_offset, hook_targets["vitality_menu_hook_target"])
     rom[PAYLOAD_OFFSET:PAYLOAD_OFFSET + len(payload)] = payload
     for offset, replacement in regression_writes.items():
         rom[offset:offset + len(replacement)] = replacement
