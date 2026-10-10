@@ -280,7 +280,8 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
         if not isinstance(gateable_abilities, list) or not gateable_abilities:
             gateable_abilities = list(GATEABLE_ENEMY_COPY_ABILITIES)
 
-        all_abilities = set(ABILITY_NAME_TO_ID)
+        # Wait is an internal native state, not a player-facing copy ability.
+        all_abilities = set(ABILITY_NAME_TO_ID) - {"Wait"}
         unlocked_abilities = all_abilities.copy()
         if ability_gating_enabled:
             unlocked_abilities.difference_update(

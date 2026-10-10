@@ -51,7 +51,7 @@ def test_abilities_command_lists_unlocked_and_always_available_abilities(mock_bi
     mock_bizhawk_context.slot_data = {"ability_gating": True, "ability_gateable_abilities": []}
     mock_bizhawk_context.items_received = []
 
-    unlocked = sorted(set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES))
+    unlocked = sorted(set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES) - {"Wait"})
     assert _run_abilities_command(mock_bizhawk_context) == [
         f"Unlocked Abilities for {KirbyAmClient.game}",
         *unlocked,
@@ -74,7 +74,7 @@ def test_abilities_command_includes_received_unlocks_once_and_ignores_other_item
     ]
 
     unlocked = sorted(
-        (set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES))
+        (set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES) - {"Wait"})
         | {gated_ability.label.removesuffix(" Ability")}
     )
     assert _run_abilities_command(mock_bizhawk_context) == [
@@ -90,8 +90,24 @@ def test_abilities_command_lists_every_ability_when_gating_is_disabled(mock_bizh
 
     assert _run_abilities_command(mock_bizhawk_context) == [
         f"Unlocked Abilities for {KirbyAmClient.game}",
-        *sorted(ABILITY_NAME_TO_ID),
+        *sorted(set(ABILITY_NAME_TO_ID) - {"Wait"}),
     ]
+
+
+@pytest.mark.parametrize("slot_data", [None, {}, {"ability_gating": True}, {"ability_gating": False}])
+def test_abilities_command_hides_wait_without_removing_real_abilities(mock_bizhawk_context, slot_data):
+    mock_bizhawk_context.game = KirbyAmClient.game
+    mock_bizhawk_context.slot_data = slot_data
+    mock_bizhawk_context.items_received = []
+
+    output = _run_abilities_command(mock_bizhawk_context)
+
+    assert "Wait" not in output
+    assert "Beam" in output
+    assert "Cutter" in output
+    assert output[1:] == sorted(set(output[1:]))
+    # Wait is still needed by native ability logic; hide it only in this display.
+    assert "Wait" in ABILITY_NAME_TO_ID
 
 
 def test_abilities_command_is_noop_for_other_games(mock_bizhawk_context):
