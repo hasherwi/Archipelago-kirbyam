@@ -7,14 +7,15 @@ import random
 import re
 import time
 import json
+import sqlite3
 from struct import unpack_from
 from typing import TYPE_CHECKING, Callable, Optional
 
 import Utils
-from BaseClasses import ItemClassification
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
+from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .colors import choose_different_kirby_color
 from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
@@ -30,7 +31,6 @@ from .health import (
 from .vitality import (VITALITY_ITEM_BITS, VITALITY_MASK, HEALTH_CONFIG_OFFSET,
                        HEALTH_ROM_TITLE, decode_health_config, resolve_vitality_plan,
                        validate_health_protocol)
-from .items import get_item_classification
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
 from .options import Goal, OneHitMode
 from .types import KirbyAmBizHawkClientContext
@@ -158,11 +158,7 @@ _TRAP_ITEM_IDS: frozenset[int] = frozenset(
     for item in data.items.values()
     if type(item.classification).trap in item.classification and item.item_id is not None
 )
-_NON_REDELIVERABLE_ITEM_IDS: frozenset[int] = frozenset(
-    item_id
-    for item_id in data.items
-    if get_item_classification(item_id) in (ItemClassification.filler, ItemClassification.trap)
-)
+_NON_REDELIVERABLE_ITEM_IDS = TRANSIENT_ITEM_IDS
 _ROOM_PROPS_ROM_BASE = 0x009331AC  # gRoomProps[] — ROM domain offset (GBA ROM 0x089331AC)
 _ROOM_PROPS_STRIDE = 0x28  # sizeof(struct RoomProps)
 _ROOM_PROPS_DOORS_IDX_OFFSET = 0x24  # offsetof(struct RoomProps, doorsIdx)
@@ -307,12 +303,27 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
             self.output("None")
         return True
 
+    def _cmd_receipt(self, decision: str = "") -> bool:
+        """Resolve an interrupted consumable: /receipt received or /receipt retry."""
+        client = getattr(self.ctx, "client_handler", None)
+        if not isinstance(client, KirbyAmClient) or not client._receipt_blocked:
+            self.output("No interrupted KirbyAM receipt awaits resolution.")
+            return False
+        if decision not in ("received", "retry"):
+            self.output("Restart the ROM from its native save first. Use /receipt received if the effect "
+                        "already happened, or /receipt retry to apply it (which can duplicate an uncertain effect).")
+            return False
+        client._receipt_resolution = (*client._receipt_blocked, decision)
+        self.output("Receipt decision queued; delivery resumes only with an empty mailbox.")
+        return True
+
     return type(
         "KirbyAmCommandProcessor",
         (base_command_processor,),
         {
             "_cmd_locations": _cmd_locations,
             "_cmd_abilities": _cmd_abilities,
+            "_cmd_receipt": _cmd_receipt,
             "_is_kirbyam_wrapper": True,
         },
     )
@@ -380,6 +391,15 @@ class KirbyAmClient(BizHawkClient):
         self._cached_shard_bits_items_len: int = 0
 
     def initialize_client(self) -> None:
+        old_journal = getattr(self, "_receipt_journal", None)
+        if old_journal is not None:
+            old_journal.close()
+        self._receipt_journal = None
+        self._receipt_scope = None
+        self._receipt_active = None
+        self._receipt_blocked = None
+        self._receipt_resolution = None
+        self._receipt_error = None
         # Compatibility state retained for tests and reconnect diagnostics.
         self._checked_location_bits: set[int] = set()
 
@@ -1382,14 +1402,79 @@ class KirbyAmClient(BizHawkClient):
         label = _LOCATION_ID_TO_LABEL.get(location_id)
         return label if label is not None else f"Location {location_id}"
 
+    def _receipt_failure(self, message):
+        if message != self._receipt_error:
+            self._log_client("error", "KirbyAM: item delivery paused: %s", message)
+            self._receipt_error = message
+
+    def _prepare_receipts(self, ctx):
+        # Only a validated ROM supplies the identity needed for durable receipts.
+        auth = getattr(self, "_health_rom_auth", None)
+        if not isinstance(auth, bytes) or len(auth) != _AUTH_TOKEN_SIZE:
+            return True
+        seed = getattr(ctx, "server_seed_name", None)
+        if (not isinstance(seed, str) or not seed or type(ctx.team) is not int
+                or type(ctx.slot) is not int or ctx.team < 0 or ctx.slot < 1
+                or self._vitality_history_session != self._authenticated_session_key(ctx)):
+            return False  # Wait for complete authenticated history, not an empty startup list.
+        scope = scope_key(seed, auth, ctx.team, ctx.slot)
+        try:
+            if scope != self._receipt_scope:
+                if self._receipt_journal is not None:
+                    self._receipt_journal.close()
+                    self._receipt_journal = None
+                    self._reset_item_delivery_state()
+                    self._notified_receive_indices.clear()
+                    self._acknowledged_non_redeliverable_indices.clear()
+                self._receipt_active = self._receipt_blocked = self._receipt_resolution = None
+                self._receipt_journal = ReceiptJournal(Utils.user_path("kirbyam", "receipts.sqlite3"), scope)
+                self._receipt_scope = scope
+            return True
+        except (OSError, sqlite3.Error, ValueError) as exc:
+            self._receipt_failure(f"receipt journal unavailable ({exc}); restore access before continuing")
+            return False
+
+    def _receipts_ready(self, flag):
+        if self._receipt_journal is None:
+            return True
+        try:
+            pending = self._receipt_journal.pending()
+            unresolved = [key for key in pending
+                          if not (self._delivery_pending and key == self._receipt_active)]
+            if unresolved:
+                blocked = (self._receipt_scope, unresolved[0])
+                self._receipt_blocked = blocked
+                if (flag == 0 and self._receipt_resolution is not None
+                        and self._receipt_resolution[:2] == blocked):
+                    self._receipt_journal.resolve(unresolved[0], self._receipt_resolution[2])
+                    self._receipt_resolution = self._receipt_blocked = None
+                    self._receipt_error = None
+                    return False  # Recheck all pending records on the next tick.
+                self._receipt_failure("an interrupted consumable has an unknown outcome. "
+                                      "Restart the ROM from its native save, then use /receipt received "
+                                      "or /receipt retry. Receipt: " + unresolved[0])
+                return False
+            self._receipt_blocked = None
+            return True
+        except (OSError, sqlite3.Error, ValueError) as exc:
+            self._receipt_failure(f"receipt journal unavailable ({exc})")
+            return False
+
     async def _emit_receive_notification(self, ctx: "BizHawkClientContext", delivered_index: int) -> None:
+        if delivered_index < 0 or delivered_index >= len(ctx.items_received):
+            return
+        if self._receipt_journal is not None:
+            try:
+                if not self._receipt_journal.claim_notice(receipt_key(ctx.items_received, delivered_index)):
+                    return
+            except (OSError, sqlite3.Error, ValueError) as exc:
+                self._receipt_failure(f"could not record notification ({exc})")
+                return
         # ACK-gated + index-deduped to avoid replay spam during reconnect
         # rewind/fast-forward reconciliation.
         if not self._receive_notifications_enabled:
             return
-        if delivered_index in self._notified_receive_indices:
-            return
-        if delivered_index < 0 or delivered_index >= len(ctx.items_received):
+        if self._receipt_journal is None and delivered_index in self._notified_receive_indices:
             return
 
         item = ctx.items_received[delivered_index]
@@ -3856,6 +3941,11 @@ class KirbyAmClient(BizHawkClient):
         if not await self._start_inventory_cursor_ready(ctx):
             return
 
+        if not self._prepare_receipts(ctx):
+            return
+
+        receipt_session = (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None))
+
         flag_addr = self._transport_addr("incoming_item_flag")
         counter_addr = self._transport_addr("debug_item_counter")
         id_addr = self._transport_addr("incoming_item_id")
@@ -3873,6 +3963,9 @@ class KirbyAmClient(BizHawkClient):
         if heartbeat_addr is not None:
             reads.append((heartbeat_addr, 4, "System Bus"))
         raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
+
+        if receipt_session != (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None)):
+            return
 
         flag = self._u32_le(raw_values[0])
         next_read_index = 1
@@ -3893,6 +3986,9 @@ class KirbyAmClient(BizHawkClient):
             else:
                 self._hook_heartbeat_stale_ticks += 1
             self._last_hook_heartbeat = hook_heartbeat
+
+        if not self._receipts_ready(flag):
+            return
 
         # The payload counts applied requests; the history index also includes
         # skipped receipts. Compare physical counts to previous physical counts,
@@ -3936,6 +4032,17 @@ class KirbyAmClient(BizHawkClient):
             delivered_index = self._delivery_pending_item_index
             if delivered_index is None:
                 delivered_index = self._delivered_item_index
+            if self._receipt_journal is not None:
+                try:
+                    confirmed_receipt = receipt_key(ctx.items_received, delivered_index)
+                    if confirmed_receipt != self._receipt_active:
+                        self._receipt_failure("item history changed during an in-flight delivery; reconnect before continuing")
+                        return
+                    self._receipt_journal.acknowledge(confirmed_receipt)
+                    self._receipt_active = None
+                except (OSError, sqlite3.Error, ValueError) as exc:
+                    self._receipt_failure(f"could not record item acknowledgement ({exc})")
+                    return
             self._delivered_item_index = delivered_index + 1
             if rom_received_count is not None:
                 self._delivery_counter_offset = max(0, self._delivered_item_index - rom_received_count)
@@ -4089,7 +4196,15 @@ class KirbyAmClient(BizHawkClient):
 
             item_id, player_id = item_fields
 
-            if self._is_acknowledged_non_redeliverable_index(ctx, self._delivered_item_index):
+            durable_ack = False
+            if self._receipt_journal is not None and item_id in TRANSIENT_ITEM_IDS:
+                try:
+                    durable_ack = self._receipt_journal.acknowledged(
+                        receipt_key(ctx.items_received, self._delivered_item_index))
+                except (OSError, sqlite3.Error, ValueError) as exc:
+                    self._receipt_failure(f"could not read receipt ({exc})")
+                    return
+            if durable_ack or self._is_acknowledged_non_redeliverable_index(ctx, self._delivered_item_index):
                 # Issue #753: non-redeliverable items (traps/filler) are one-time
                 # effects and must not replay on reconnect/reload after mailbox ACK.
                 if rom_received_count is None:
@@ -4148,11 +4263,23 @@ class KirbyAmClient(BizHawkClient):
                 self._item_name(ctx, item_id, player_id),
                 self._player_name(ctx, player_id),
             )
+            pending_receipt = None
+            if self._receipt_journal is not None:
+                try:
+                    pending_receipt = receipt_key(ctx.items_received, self._delivered_item_index)
+                    if item_id in TRANSIENT_ITEM_IDS and not self._receipt_journal.reserve(pending_receipt):
+                        return  # Another process/earlier attempt owns it; never double-send.
+                except (OSError, sqlite3.Error, ValueError) as exc:
+                    self._receipt_failure(f"could not reserve receipt ({exc})")
+                    return
             await bizhawk.write(ctx.bizhawk_ctx, [
                 (id_addr, item_id.to_bytes(4, "little"), "System Bus"),
                 (player_addr, player_id.to_bytes(4, "little"), "System Bus"),
                 (flag_addr, (1).to_bytes(4, "little"), "System Bus"),
             ])
+            if receipt_session != (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None)):
+                return  # An outstanding transient reservation remains explicitly unresolved.
+            self._receipt_active = pending_receipt
             self._delivery_pending = True
             self._delivery_pending_frame = current_frame
             self._delivery_pending_time = time.monotonic()  # Record monotonic time for timeout fallback

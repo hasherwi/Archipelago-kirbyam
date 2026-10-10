@@ -38,6 +38,7 @@ async def test_migrated_ack_prefix_does_not_repeat_fresh_effect(mock_bizhawk_con
 async def test_multiple_receipt_gaps_survive_idle_polls_reconnect_and_rollback(mock_bizhawk_context, reconnect):
     ctx = mock_bizhawk_context
     client = await validated_client(ctx)
+    client.on_package(ctx, "ReceivedItems", {"index": 0})
     ctx.items_received = [NetworkItem(item, 3960566 + i, 1) for i, item in enumerate(
         [3860026, 3860032, 3860027, 3860026, 3860033, 3860027, 3860034])]
     client._acknowledged_non_redeliverable_indices.update({0, 2, 3, 5})
@@ -77,6 +78,7 @@ async def test_multiple_receipt_gaps_survive_idle_polls_reconnect_and_rollback(m
                 assert not client._delivery_pending
             if reconnect:
                 client = await validated_client(ctx)
+                client.on_package(ctx, "ReceivedItems", {"index": 0})
                 client._emit_receive_notification = AsyncMock()
                 await client._load_persistent_state(ctx)
                 client._acknowledged_non_redeliverable_indices.update({0, 2, 3, 5})
