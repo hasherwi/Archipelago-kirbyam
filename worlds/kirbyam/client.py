@@ -375,6 +375,7 @@ class KirbyAmClient(BizHawkClient):
         self._delivery_pending_frame: int | None = None
         self._delivery_pending_time: float | None = None  # Monotonic time recorded when mailbox write issued
         self._delivery_pending_item_index: int | None = None
+        self._receipt_offer_count: int | None = None
         self._delivery_timeout_streak: int = 0
         self._delivery_retry_not_before: float = 0.0
         self._delivery_payload_stall_warned: bool = False
@@ -4025,6 +4026,26 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_counter_ahead_fallback_active = False
                 self._delivery_counter_ahead_resume_logged = False
 
+        # A reset can clear the flag without applying the request, including
+        # the first request where the physical counter stays at zero. Compare
+        # with the count captured at offer time, not the previous poll (which
+        # may already have observed an ACK whose journal commit failed).
+        if self._receipt_journal is not None and self._delivery_pending and flag == 0:
+            expected_count = (None if self._receipt_offer_count is None
+                              else (self._receipt_offer_count + 1) & 0xFFFFFFFF)
+            if expected_count in (None, 0) or rom_received_count != expected_count:
+                # Even a genuine wrap to zero is indistinguishable from reset.
+                # Keep transient reservations unresolved for explicit recovery.
+                # Permanent ownership remains eligible for safe restoration.
+                self._delivery_pending = False
+                self._delivery_pending_frame = None
+                self._delivery_pending_time = None
+                self._delivery_pending_item_index = None
+                self._receipt_active = None
+                self._receipt_offer_count = None
+                self._receipts_ready(flag)
+                return
+
         # Consume a real pending ACK before any history rewind. Only that
         # request's history index is acknowledged; a raw count cannot fast-forward
         # over unrelated entries, nor can a smaller count erase this ACK.
@@ -4281,6 +4302,7 @@ class KirbyAmClient(BizHawkClient):
             if receipt_session != (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None)):
                 return  # An outstanding transient reservation remains explicitly unresolved.
             self._receipt_active = pending_receipt
+            self._receipt_offer_count = rom_received_count
             self._delivery_pending = True
             self._delivery_pending_frame = current_frame
             self._delivery_pending_time = time.monotonic()  # Record monotonic time for timeout fallback

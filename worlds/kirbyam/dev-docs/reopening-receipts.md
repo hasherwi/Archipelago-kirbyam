@@ -30,6 +30,15 @@ savestate restore. The client pauses new mailbox delivery instead of automatical
 repeating or discarding the effect. Location polling/ownership reconciliation are
 not disabled by this pause.
 
+For a live pending request, a cleared mailbox confirms a receipt only when the
+physical application counter is exactly one greater than its value at offer time.
+An unchanged counter (including the first request at zero), a jump, or missing
+counter evidence leaves the transient receipt unresolved. A wrap to zero also
+pauses because it cannot be distinguished from a reset. If an effect was consumed
+but a reset erased that evidence before the ACK poll, explicit resolution is still
+required. Failed journal commits retain the offer-time baseline for safe retry.
+Permanent ownership requests without ACK evidence remain eligible for restoration.
+
 The console identifies the pending receipt (item ID, location, sender, occurrence).
 Restart the ROM from its native save to empty the mailbox, then choose:
 

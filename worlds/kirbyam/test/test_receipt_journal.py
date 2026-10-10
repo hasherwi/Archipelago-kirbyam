@@ -28,11 +28,11 @@ def make_client(ctx, auth=b'1234567890abcdef'):
     return client
 
 
-async def tick(client, ctx, box, display):
+async def tick(client, ctx, box, display, *, allow_new_writes=True):
     with patch('worlds.kirbyam.client.bizhawk.read', side_effect=box.read), \
          patch('worlds.kirbyam.client.bizhawk.write', side_effect=box.write), \
          patch('worlds.kirbyam.client.bizhawk.display_message', display):
-        await client._deliver_items(ctx)
+        await client._deliver_items(ctx, allow_new_writes=allow_new_writes)
 
 
 async def drain(client, ctx, box, display):
@@ -240,6 +240,98 @@ async def test_ack_storage_failure_retains_pending_until_commit_succeeds(receipt
     await drain(client, ctx, box, display)
     assert box.applied == [3860027]
     assert display.await_count == 1
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('item', sorted(TRANSIENT_ITEM_IDS))
+@pytest.mark.parametrize('count', [0, 7, 0xFFFFFFFF])
+@pytest.mark.parametrize('outcome', ['unconsumed_reset', 'consumed_reset', 'consumed'])
+async def test_pending_receipt_needs_request_counter_evidence(receipt_env, item, count, outcome):
+    ctx = receipt_env
+    ctx.items_received = [NetworkItem(item, 3960566, 1)]
+    client = make_client(ctx)
+    box = Mailbox(client, count=count)
+    display = AsyncMock()
+    await tick(client, ctx, box, display)
+    assert box.offers == [item]
+    for _ in range(2):
+        await tick(client, ctx, box, display)  # Pending idle polls must not change the offer baseline.
+    if outcome != 'unconsumed_reset':
+        # Match the native uint32 increment, including wraparound.
+        box.applied.append(item)
+        box.memory[client._transport_addr('debug_item_counter')] = ((count + 1) & 0xFFFFFFFF).to_bytes(4, 'little')
+        box.memory[client._transport_addr('incoming_item_flag')] = bytes(4)
+    if outcome.endswith('_reset'):
+        box = Mailbox(client)  # Same live client; reset/restore wipes transport before the ACK poll.
+    key = receipt_key(ctx.items_received, 0)
+    await tick(client, ctx, box, display, allow_new_writes=False)  # Title/file-selection ACK path.
+    confirmed = outcome == 'consumed' and count != 0xFFFFFFFF
+    assert client._receipt_journal.acknowledged(key) is confirmed
+    assert display.await_count == int(confirmed)
+    assert bool(client._receipt_blocked) is not confirmed
+    assert client._receipt_journal.pending() == ([] if confirmed else [key])
+    for _ in range(3):
+        await tick(client, ctx, box, display)
+    assert box.offers == ([] if outcome.endswith('_reset') else [item])
+    assert display.await_count == int(confirmed)
+    # Reopening must preserve uncertainty as well as confirmed receipts.
+    client = make_client(ctx)
+    box = Mailbox(client)
+    await drain(client, ctx, box, display)
+    assert not box.applied
+    assert bool(client._receipt_blocked) is not confirmed
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('observed', [7, 9])
+async def test_cleared_flag_without_exact_increment_stays_uncertain(receipt_env, observed):
+    ctx = receipt_env
+    ctx.items_received = [NetworkItem(3860027, 42, 1)]
+    client = make_client(ctx)
+    box = Mailbox(client, count=7)
+    display = AsyncMock()
+    await tick(client, ctx, box, display)
+    box.memory[client._transport_addr('incoming_item_flag')] = bytes(4)
+    box.memory[client._transport_addr('debug_item_counter')] = observed.to_bytes(4, 'little')
+    await tick(client, ctx, box, display)
+    assert client._receipt_blocked
+    assert not client._receipt_journal.acknowledged(receipt_key(ctx.items_received, 0))
+    assert not display.called
+
+
+@pytest.mark.asyncio
+async def test_unconsumed_permanent_request_can_restore_after_reset(receipt_env):
+    ctx = receipt_env
+    ctx.items_received = [NetworkItem(3860025, 42, 1)]
+    client = make_client(ctx)
+    box = Mailbox(client)
+    display = AsyncMock()
+    await tick(client, ctx, box, display)
+    box = Mailbox(client)
+    await tick(client, ctx, box, display)
+    assert not client._receipt_journal.acknowledged(receipt_key(ctx.items_received, 0))
+    assert not display.called
+    await drain(client, ctx, box, display)
+    assert box.applied == [3860025]
+    assert display.await_count == 1
+
+
+@pytest.mark.asyncio
+async def test_missing_offer_counter_cannot_confirm_transient(receipt_env, monkeypatch):
+    ctx = receipt_env
+    ctx.items_received = [NetworkItem(3860027, 42, 1)]
+    client = make_client(ctx)
+    transport_addr = client._transport_addr
+    monkeypatch.setattr(client, '_transport_addr',
+                        lambda key: None if key == 'debug_item_counter' else transport_addr(key))
+    box = Mailbox(client)
+    display = AsyncMock()
+    await tick(client, ctx, box, display)
+    box.memory[client._transport_addr('incoming_item_flag')] = bytes(4)
+    await tick(client, ctx, box, display)
+    assert client._receipt_blocked
+    assert not client._receipt_journal.acknowledged(receipt_key(ctx.items_received, 0))
+    assert not display.called
 
 
 @pytest.mark.asyncio
