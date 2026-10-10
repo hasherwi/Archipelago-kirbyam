@@ -36,6 +36,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - mGBA notifications appear as plain text in the **Archipelago Connector** scripting panel, which must be visible. They do not appear over the game image.
 
 ### Bug Fixes
+- Clear stale health-bar segments after a custom HP capacity decreases, including the temporary native-capacity change when receiving a Vitality Counter.
 
 - Boss checks were mapped incorrectly for the `defeat_configured_area_boss` goal. That's been fixed (Issue #893).
 - Adds cutter to the base ability pool to make sure players can cut the drop down platforms. (Issue #894)

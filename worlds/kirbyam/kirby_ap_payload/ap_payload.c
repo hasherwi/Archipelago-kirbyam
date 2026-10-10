@@ -1540,3 +1540,23 @@ void ap_poll_mailbox_c(void) {
         AP_IN_FLAG = 0u;
     }
 }
+
+/* Native sub_0803518C redraws only the current capacity and its endcap.
+ * A client-side custom-capacity reduction can therefore leave old HP tiles.
+ * Restore the unused cells to the native HUD initializer's blank tile 0x184.
+ * Six cells cover the supported 1..10 HP range (five pairs plus endcap).
+ * Keep demo-mode suppression and all native HP/endcap rendering unchanged.
+ */
+void ap_draw_health_hud(uint8_t *kirby) {
+    typedef void (*draw_fn)(uint8_t *);
+    ((draw_fn)0x0803518Du)(kirby);
+    int8_t capacity = *(volatile int8_t *)(kirby + 0x101u);
+    if ((*(volatile uint32_t *)0x0203AD10u & 0x10u) != 0u
+            || capacity < 1 || capacity > 10) {
+        return;
+    }
+    for (uint32_t cell = (uint32_t)capacity / 2u + 1u; cell < 6u; ++cell) {
+        *(volatile uint16_t *)(0x0600E49Au + cell * 2u) = 0x0184u;
+        *(volatile uint16_t *)(0x0600E4DAu + cell * 2u) = 0x0184u;
+    }
+}

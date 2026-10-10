@@ -141,6 +141,8 @@ def test_sound_player_chest_collect_call_offset_matches_verified_hook_site() -> 
 def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
     monkeypatch.setattr(patch_rom, "build_runtime_regression_writes", lambda *args: {})
     rom = bytearray(b"\xA5" * 0x200000)
+    for offset in patch_rom.HEALTH_HUD_CALLSITES:
+        rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(0x08000000 + offset, 0x0803518C)
     hook_bl_bytes = {
         "main_hook_bl_bytes": b"\x00\x00\x00\x00",
         "boss_hook_bl_bytes": b"\x00\x00\x00\x00",
@@ -161,9 +163,14 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
         {},
         [],
         [],
-        {"starting_color_start_game_hook_target": 0x08100000},
+        {"starting_color_start_game_hook_target": 0x08100000,
+         "health_hud_hook_target": 0x08100100},
         0x08000000,
     )
+
+    for offset in patch_rom.HEALTH_HUD_CALLSITES:
+        assert patch_rom.decode_thumb_bl_target(
+            0x08000000 + offset, rom[offset:offset + 4]) == 0x08100100
 
     assert rom[
         patch_rom.SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET:
