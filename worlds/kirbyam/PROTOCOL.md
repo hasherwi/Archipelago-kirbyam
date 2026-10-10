@@ -778,6 +778,23 @@ count; partial replay retains it up to the configured upgrade limit. Only a
 real increase heals living Kirby; duplicate/replayed receipts cannot revive or
 heal. Physical chest flags never establish item ownership.
 
+### DeathLink and in-flight Vitality delivery (#944)
+
+The gameplay snapshot can precede an incoming DeathLink HP write. If a link was
+pending when that write phase began, or arrived during later location polling,
+the watcher processes mailbox ACK/recovery but does not offer another item in
+that tick. A later gameplay snapshot must show living Kirby before new delivery.
+An already offered request is not cleared or discarded to enforce this gate.
+
+The existing native Vitality grant preserves HP at zero and all negative signed
+death values while updating ownership/capacity; a successfully processed request
+still increments the application counter and clears its mailbox flag. Thus a
+Vitality consumed before DeathLink is followed by the death write, while one
+consumed after that write cannot heal dead Kirby. Client health reconciliation
+retains its guarded HP writes. The client ordering change needs no new ROM patch.
+Regression coverage executes actual client ordering and native grant/ACK source
+with stand-in RAM; live death-animation/save-load acceptance remains unrun.
+
 ### Local receipt journal and reopen behavior (#952)
 
 The client records acknowledged transient receipts and receive-notice decisions in

@@ -66,6 +66,11 @@ def test_actual_payload_replay_preserves_saved_counts_and_dead_state(tmp_path):
         while depth:
             depth+=(payload[end]=='{')-(payload[end]=='}');end+=1
         functions.append(payload[match.start():end])
+    # Execute the shipping mailbox consumption/ACK body, with only the unrelated
+    # per-frame shard/color work omitted. This is host RAM, not emulator acceptance.
+    mailbox_start = payload.index("    // Check if there's an item to process", payload.index('void ap_poll_mailbox_c'))
+    mailbox_end = payload.index('\n}\n', mailbox_start)
+    functions.append('static void consume_mailbox(void) {\n' + payload[mailbox_start:mailbox_end] + '\n}')
     source='''
 #define _GNU_SOURCE
 #include <stdint.h>
@@ -86,6 +91,8 @@ static uint32_t AP_DELIVERED_VITALITY_ITEM_BITS,AP_DELIVERED_SHARD_BITFIELD,AP_S
 static uint16_t KIRBY_VITALITY_COUNTER;
 static uint32_t gApHealthConfigInitial=0xA9020A06u;
 static uint8_t KIRBY_SHARD_FLAGS;
+static uint32_t AP_IN_FLAG,AP_IN_ITEM_ID,AP_IN_PLAYER,AP_ITEM_RCVD_COUNTER;
+static uint32_t AP_DEBUG_LAST_ITEM_ID,AP_DEBUG_LAST_FROM;
 '''
     for name in ['ap_grant_lives','ap_unlock_area_map','KIRBY_COLLECT_SOUND_PLAYER_FN','ap_collect_small_chest_native']:
         source+=f'static void {name}(uint32_t x) {{(void)x;}}\n'
@@ -142,6 +149,30 @@ int main(void) {
     KIRBY_VITALITY_COUNTER=0;AP_DELIVERED_VITALITY_ITEM_BITS=0;HP=0;MAX_HP=6;
     CHECK(ap_apply_item(3860018u));
     CHECK(KIRBY_VITALITY_COUNTER==1 && HP==0 && MAX_HP==7);
+    /* #944: either native consumption finishes before DeathLink, or its
+     * existing dead-HP guard must preserve the later zero/negative HP state.
+     * Ownership and ACK still advance; idle polls and reconnect replay do not heal. */
+    const int deaths[3]={0,-1,-128};
+    for(unsigned low=1;low<=10;low++) for(unsigned high=low;high<=10;high++)
+    for(unsigned id=0;id<9;id++) for(unsigned d=0;d<3;d++) for(unsigned before=0;before<2;before++) {
+        gApHealthConfigInitial=0xA9020000u | (high<<8) | low;
+        KIRBY_VITALITY_COUNTER=0;AP_DELIVERED_VITALITY_ITEM_BITS=0;
+        HP=1;MAX_HP=low;AP_ITEM_RCVD_COUNTER=0;
+        AP_IN_ITEM_ID=ids[id];AP_IN_PLAYER=1;AP_IN_FLAG=1;
+        if(before) HP=deaths[d];
+        consume_mailbox();
+        if(!before) HP=deaths[d];
+        unsigned earned=high>low?1:0;
+        CHECK(HP==deaths[d] && KIRBY_VITALITY_COUNTER==earned);
+        CHECK(MAX_HP==low+earned && AP_IN_FLAG==0 && AP_ITEM_RCVD_COUNTER==1);
+        consume_mailbox();CHECK(AP_ITEM_RCVD_COUNTER==1 && HP==deaths[d]);
+        /* A reconnect reconstructs receipt bits; saved count survives. */
+        AP_DELIVERED_VITALITY_ITEM_BITS=0;AP_IN_FLAG=1;
+        consume_mailbox();CHECK(AP_ITEM_RCVD_COUNTER==2 && HP==deaths[d]);
+        HP=1;AP_IN_FLAG=1;  /* Respawn then duplicate: do not re-heal. */
+        consume_mailbox();CHECK(AP_ITEM_RCVD_COUNTER==3 && HP==1);
+        CHECK(KIRBY_VITALITY_COUNTER==earned && MAX_HP==low+earned);
+    }
     return 0;
 }
 '''
