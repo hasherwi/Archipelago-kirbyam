@@ -79,10 +79,10 @@ jobs:
           tag = 'kirbyam-v0.4.0-rc1'
           title = 'KirbyAM APWorld v0.4.0-rc1'
           commit = '2c699568e8ee406769157fb7aa4b5c48a2911b26'
-          def api(path, payload=None, missing=False):
+          def api(path, payload=None, missing=False, method="POST"):
               command = ['gh','api',f'repos/{repo}/{path}']
               if payload is not None:
-                  command += ['--method','POST','--input','-']
+                  command += ['--method',method,'--input','-']
               result = subprocess.run(command, input=None if payload is None else json.dumps(payload), text=True, capture_output=True)
               if result.returncode:
                   if missing and 'HTTP 404' in result.stderr:
@@ -98,23 +98,29 @@ jobs:
               ref = api('git/refs', {'ref':f'refs/tags/{tag}', 'sha':commit})
           assert ref['object']['type'] == 'commit' and ref['object']['sha'] == commit, 'existing tag differs'
           notes = Path('dist/release-notes.md').read_text()
-          release = api(f'releases/tags/{tag}', missing=True)
-          if release is None:
-              gh('release','create',tag,'--verify-tag','--target',commit,'--title',title,'--prerelease','--draft','--notes-file','dist/release-notes.md')
-              release = api(f'releases/tags/{tag}')
+          # Draft releases are absent from the releases/tags endpoint.
+          matches = [r for r in api('releases?per_page=100') if r['tag_name'] == tag]
+          assert len(matches) == 1, 'expected exactly one existing authorized draft'
+          release = api(f"releases/{matches[0]['id']}")
+          assert release['id'] == 408553420 and release['target_commitish'] == commit
           assert release['name'] == title and release['prerelease'] is True, 'existing release metadata differs'
           assert (release['body'] or '').rstrip('\n') == notes.rstrip('\n'), 'existing release notes differ'
           names = [asset['name'] for asset in release['assets']]
           assert all(name == 'kirbyam.apworld' for name in names) and len(names) <= 1, 'unexpected existing assets'
+          release_id = release['id']
           if not names:
-              gh('release','upload',tag,'dist/kirbyam.apworld')
+              result = subprocess.run(['gh','api',f'https://uploads.github.com/repos/{repo}/releases/{release_id}/assets?name=kirbyam.apworld','--method','POST','--header','Content-Type: application/zip','--input','dist/kirbyam.apworld'], capture_output=True, check=True)
+              asset = json.loads(result.stdout)
+          else:
+              asset = release['assets'][0]
           Path('verified').mkdir(exist_ok=True)
-          gh('release','download',tag,'--pattern','kirbyam.apworld','--dir','verified')
+          with Path('verified/kirbyam.apworld').open('wb') as output:
+              subprocess.run(['gh','api',f"repos/{repo}/releases/assets/{asset['id']}",'--header','Accept: application/octet-stream'], stdout=output, check=True)
           expected = hashlib.sha256(Path('dist/kirbyam.apworld').read_bytes()).hexdigest()
           actual = hashlib.sha256(Path('verified/kirbyam.apworld').read_bytes()).hexdigest()
           assert actual == expected, 'downloaded release asset differs'
           if release['draft']:
-              gh('release','edit',tag,'--draft=false','--prerelease','--latest=false')
+              api(f'releases/{release_id}', {'draft':False,'prerelease':True,'make_latest':'false'}, method='PATCH')
           release = api(f'releases/tags/{tag}')
           assert not release['draft'] and release['prerelease'] and release['name'] == title
           assert release['target_commitish'] == commit
