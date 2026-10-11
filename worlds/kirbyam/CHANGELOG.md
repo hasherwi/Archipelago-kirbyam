@@ -17,6 +17,13 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Reopening a game remembers items confirmed by the updated client, so food, lives, batteries, invincibility and traps are not applied again and old receive messages stay quiet. Permanent items can still be restored when loading an older save. If an interruption leaves an item's delivery uncertain, the client asks you to resolve it instead of guessing (Issue #952, PR #954).
 
 ### Known Limitations
+- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
+- Backwards Compatability: Use newly generated ROM patches for offline custom health initialization; older patches need a same-seed rebuild to embed health bounds. Client reconciliation remains required for authoritative AP ownership. Full gameplay coverage of every custom-health interaction remains pending.
+- Kirby Color: random_color_per_room changes Kirby's color but does not update the corresponding UI element colors.
+- Localization: Only the North American ROM is supported. All AP notifications are in English.
+- Native sprites and animations: Chests still show their original item sprite and collection animation. Statues still show their original ability.
+- mGBA: notifications appear as plain text in the **Archipelago Connector** scripting panel, which must be visible. They do not appear over the game image.
+- Levers: Visually they'll revert to being "down" after a game reset. This does not affect gameplay.
 
 ### Bug Fixes
 - Pause new item deliveries during the update that applies an incoming DeathLink, including links received while checking locations. Items already being delivered can still finish, and new deliveries resume after Kirby respawns (Issue #944).
@@ -46,11 +53,12 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Known Limitations
 - Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
-- Use newly generated ROM patches for offline custom health initialization; older patches need a same-seed rebuild to embed health bounds. Client reconciliation remains required for authoritative AP ownership. Full gameplay coverage of every custom-health interaction remains pending.
+- Backwards Compatability: Use newly generated ROM patches for offline custom health initialization; older patches need a same-seed rebuild to embed health bounds. Client reconciliation remains required for authoritative AP ownership. Full gameplay coverage of every custom-health interaction remains pending.
 - Kirby Color: random_color_per_room changes Kirby's color but does not update the corresponding UI element colors.
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
 - Native sprites and animations: Chests still show their original item sprite and collection animation. Statues still show their original ability.
-- mGBA notifications appear as plain text in the **Archipelago Connector** scripting panel, which must be visible. They do not appear over the game image.
+- mGBA: notifications appear as plain text in the **Archipelago Connector** scripting panel, which must be visible. They do not appear over the game image.
+- Levers: Visually they'll revert to being "down" after a game reset. This does not affect gameplay.
 
 ### Bug Fixes
 
