@@ -176,9 +176,9 @@ def test_consumable_filler_item_ids_are_stable() -> None:
     assert "3 Up" not in labels_to_ids
 
 
-def test_ability_unlock_items_are_generated_from_abilities_json() -> None:
+def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
     abilities_json = load_json_data("abilities.json")
-    generated_ability_items = sorted(
+    ability_items = sorted(
         (item for item in data.items.values() if "Abilities" in item.tags),
         key=lambda item: item.item_id,
     )
@@ -207,11 +207,41 @@ def test_ability_unlock_items_are_generated_from_abilities_json() -> None:
         )
     ]
 
-    assert [item.item_id for item in generated_ability_items] == [
+    assert [item.item_id for item in ability_items] == [
         3860000 + 100 + runtime_id for runtime_id in expected_runtime_ids
     ]
-    assert [item.label for item in generated_ability_items] == expected_labels
-    assert all(item.classification == ItemClassification.useful for item in generated_ability_items)
+    assert [item.label for item in ability_items] == expected_labels
+    assert all(item.classification == ItemClassification.useful for item in ability_items)
+
+    # A tracker can read every unlock directly, without importing AP/Python.
+    raw_items = load_json_data("items.json")
+    raw_abilities = {key: attrs for key, attrs in raw_items.items() if key.startswith("ABILITY_UNLOCK_")}
+    assert len(raw_abilities) == 25
+    assert {attrs["item_id"] for attrs in raw_abilities.values()} == set(range(3860101, 3860126))
+    for runtime_id, label in zip(expected_runtime_ids, expected_labels):
+        key = f"ABILITY_UNLOCK_{label.removesuffix(' Ability').upper()}"
+        assert raw_abilities[key] == {
+            "label": label,
+            "classification": "USEFUL",
+            "item_id": 3860100 + runtime_id,
+            "tags": ["Abilities", "Unique"],
+        }
+        assert data.item_key_to_id[key] == raw_abilities[key]["item_id"]
+    assert not {"ABILITY_UNLOCK_NORMAL", "ABILITY_UNLOCK_MASTER", "ABILITY_UNLOCK_WAIT"} & raw_items.keys()
+
+
+def test_items_json_lists_every_tracker_item() -> None:
+    raw_items = load_json_data("items.json")
+    # Existing shard records keep their automatic IDs; ability IDs are explicit.
+    explicit_ids = [attrs["item_id"] for attrs in raw_items.values() if "item_id" in attrs]
+    assert len(explicit_ids) == len(set(explicit_ids))
+    assert set(raw_items) == set(data.item_key_to_id)
+    assert {attrs["label"] for attrs in raw_items.values()} == set(KirbyAmWorld.item_name_to_id)
+    for key, attrs in raw_items.items():
+        loaded = data.items[data.item_key_to_id[key]]
+        assert attrs.get("item_id", loaded.item_id) == loaded.item_id
+        assert loaded.label == attrs["label"]
+        assert loaded.tags == frozenset(attrs["tags"])
 
 
 def test_trap_metadata_is_embedded_in_items_json() -> None:
