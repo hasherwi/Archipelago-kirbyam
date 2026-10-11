@@ -84,6 +84,18 @@ jobs:
           ):
               rom[offset:offset + 4] = placeholder_bl
 
+          # The door-to-hub lookup stays native, while the Big Switch
+          # initializer validates and patches its own state lookup.
+          door_init_state_lookup_offset = 0x0002AD24
+          rom[door_init_state_lookup_offset:door_init_state_lookup_offset + 4] = thumb_bl_bytes(
+              door_init_state_lookup_offset,
+              0x08002888,
+          )
+          init_state_lookup_offset = 0x001193C4
+          rom[init_state_lookup_offset:init_state_lookup_offset + 4] = thumb_bl_bytes(
+              init_state_lookup_offset,
+              0x08002888,
+          )
           # Exact original instructions overwritten by the minor-chest reward-popup hook.
           rom[0x0000B9A4:0x0000B9A8] = bytes.fromhex("D4 6C 20 1C")
 

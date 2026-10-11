@@ -44,6 +44,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Added `random_color_per_room` to Starting Kirby Color. It chooses an initial supported palette at generation, then changes to a different supported palette whenever the connected BizHawk client observes Kirby enter a different room (Issue #857).
 - Added four progression items that independently open the walls controlled by those levers. Pulling a lever now sends its AP location check without opening the wall; receiving the matching Lever Wall item sets the native wall-unlock state instead (Issue #859).
 
+- Added 15 Hub Connection progression items that gate their matching area transitions and hub shortcuts while preserving alternate overland routes. Physical Big Switch checks remain available until collected, and received connections are restored across reconnects (Issue #482).
+
 ### Improvements
 - Ability unlock gating also applies at the final native ability commit, after roulette and other pending-ability writes (Issue #892).
 - Unused Vitality Counters are replaced through the existing filler/trap policy while all vitality-chest checks remain available.

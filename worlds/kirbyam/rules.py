@@ -8,8 +8,8 @@ This implementation is intentionally minimal while the world data model and
 client/ROM integration are still in flux.
 
 Current rules:
-    - Access to Rainbow Route's connected area graph starts from REGION_GAME_START,
-            which now only feeds the Rainbow Route hub.
+    - Access to the area graph starts from REGION_GAME_START, which feeds Rainbow
+      Route; area-to-area hub exits require the corresponding Hub Connection item.
     - Access to the Dimension Mirror region from Rainbow Route requires collecting
             all 8 Mirror Shards (implemented as 8 progression items).
         - Within the Dimension Mirror:
@@ -166,6 +166,8 @@ def evaluate_room_logic_requirement(requirement, state: CollectionState, player:
         raise ValueError(f"Unknown KirbyAM room logic requirement token: {requirement!r}")
     if isinstance(requirement, dict) and len(requirement) == 1:
         operator, operands = next(iter(requirement.items()))
+        if operator == "item" and isinstance(operands, str) and operands:
+            return state.has(operands, player)
         if isinstance(operands, list):
             if operator == "all":
                 return all(evaluate_room_logic_requirement(item, state, player) for item in operands)
