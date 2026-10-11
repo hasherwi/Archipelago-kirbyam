@@ -9,8 +9,9 @@
 - Upstream range: `fb45a2f8..54803be0`, 214 commits. Some were previously copied into this fork without shared ancestry.
 
 The integration uses the released upstream tag instead of its moving main branch.
-It is post-v0.4.0 work in the issue's v0.5.0 milestone; the existing v0.4.1 entries
-and all released changelog sections are retained.
+It is post-v0.4.0 work. At the owner's request, the changelog entry is under
+v0.4.1 Internal Changes; the issue's v0.5.0 milestone is unchanged. Existing
+v0.4.1 entries and all released changelog sections are retained.
 
 ## Compatibility and conflict decisions
 
