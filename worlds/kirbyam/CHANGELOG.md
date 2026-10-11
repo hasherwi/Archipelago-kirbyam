@@ -8,19 +8,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## v0.5.0
-
-### New Features
-
-### Improvements
-- List ability unlock items in `items.json` for tracker support (Issue #961).
-
-### Known Limitations
-
-### Bug Fixes
-
-### Internal Changes
-
 ## v0.4.1
 
 ### New Features
@@ -35,6 +22,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Pause new item deliveries during the update that applies an incoming DeathLink, including links received while checking locations. Items already being delivered can still finish, and new deliveries resume after Kirby respawns (Issue #944).
 
 ### Internal Changes
+- List ability unlock items in `items.json` for tracker support (Issue #961).
 - Updated to AP 0.6.8 (Issue #933)
 - Guaranteed starting abilities are now represented as AP items for tracker support (Issue #957).
 
