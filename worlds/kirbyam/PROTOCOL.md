@@ -130,7 +130,7 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | TRAP_LIFE_WIPEOUT | 3860036 | Trap item: sets Kirby's lives count to 0 |
 | LEVER_WALL_MOONLIGHT_MANSION_2_11 .. LEVER_WALL_RADISH_RUINS_8_12 | 3860037 - 3860040 | Progression items that independently set the four native lever-controlled wall bits (Issue #859) |
 | HUB_CONNECTION_MOONLIGHT_MANSION .. HUB_CONNECTION_CANDY_CONSTELLATION | 3860041 - 3860055 | Progression items mapped in `WorldMapDoor` enum order; IDs `BASE_OFFSET + 40 + door_index` for native door indices 1..15 |
-| ABILITY_UNLOCK_* | 3860101 - 3860131 | Dynamic ability unlock items (`BASE_OFFSET + 100 + runtime_ability_id`) generated only for abilities in `abilities.json` where `safe_to_gate` is true and `enemy_copy_allowed` is not false |
+| ABILITY_UNLOCK_* | 3860101 - 3860125 | Explicit ability items in `data/items.json`, preserving `BASE_OFFSET + 100 + runtime_ability_id`: 19 gateable unlocks and six guaranteed starting abilities. `Normal`, `Master`, and `Wait` have no AP item. |
 | SPRAY_PAINT_01 .. SPRAY_PAINT_14 | 3860200 - 3860213 | Unique useful collection items; OR native Spray Paint ownership bits 0..13 |
 | MUSIC_SHEET_01 .. MUSIC_SHEET_10 | 3860214 - 3860223 | Unique useful collection items; OR native Music Player/Sheets bits 1..10, leaving bit 0 unchanged |
 | *Reserved* | 3860056 - 3860100, 3860132 - 3860199, 3860224+ | Future items; deferred hub/area-key work already uses IDs beginning at 3860041 |
@@ -265,7 +265,7 @@ Server → Client: ConnectionRefused | Connected
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
 - `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.
 - `ability_gateable_abilities` (list[str]): abilities from `data/abilities.json` that are marked `safe_to_gate`.
-- `ability_unlock_items` (dict[str, str]): AP item labels generated from `data/abilities.json` only for abilities where `safe_to_gate` is true and `enemy_copy_allowed` is not false.
+- `ability_unlock_items` (dict[str, str]): all 25 ability item labels from `data/items.json`, including six guaranteed starting abilities. Exported with either gating setting; `abilities.json` remains the runtime/gating policy source.
 - `stake_breaking_abilities` (list[str]): reusable hammer-peg/stake ability group used by transition logic (currently `Hammer`, `Master`, `Smash`, `Stone`).
 - `stake_gated_transitions` (list[str]): directional entrance names that require the shared hammer-peg/stake gate, derived from room-level `transitions` overrides in `data/regions/rooms.json`.
 - `locations` (dict): tracker-facing location metadata keyed by KirbyAM location key.
