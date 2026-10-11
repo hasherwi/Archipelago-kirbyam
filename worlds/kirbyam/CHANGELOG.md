@@ -8,18 +8,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## v0.5.0
-
-### New Features
-
-### Improvements
-
-### Known Limitations
-
-### Bug Fixes
-
-### Internal Changes
-
 ## v0.4.1
 
 ### New Features
