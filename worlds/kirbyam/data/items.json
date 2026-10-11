@@ -513,5 +513,155 @@
       "Useful",
       "Unique"
     ]
+  },
+  "ABILITY_UNLOCK_FIRE": {
+    "label": "Fire Ability",
+    "classification": "USEFUL",
+    "item_id": 3860101,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_ICE": {
+    "label": "Ice Ability",
+    "classification": "USEFUL",
+    "item_id": 3860102,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_BURNING": {
+    "label": "Burning Ability",
+    "classification": "USEFUL",
+    "item_id": 3860103,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_WHEEL": {
+    "label": "Wheel Ability",
+    "classification": "USEFUL",
+    "item_id": 3860104,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_PARASOL": {
+    "label": "Parasol Ability",
+    "classification": "USEFUL",
+    "item_id": 3860105,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_CUTTER": {
+    "label": "Cutter Ability",
+    "classification": "USEFUL",
+    "item_id": 3860106,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_BEAM": {
+    "label": "Beam Ability",
+    "classification": "USEFUL",
+    "item_id": 3860107,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_STONE": {
+    "label": "Stone Ability",
+    "classification": "USEFUL",
+    "item_id": 3860108,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_BOMB": {
+    "label": "Bomb Ability",
+    "classification": "USEFUL",
+    "item_id": 3860109,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_THROW": {
+    "label": "Throw Ability",
+    "classification": "USEFUL",
+    "item_id": 3860110,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_SLEEP": {
+    "label": "Sleep Ability",
+    "classification": "USEFUL",
+    "item_id": 3860111,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_COOK": {
+    "label": "Cook Ability",
+    "classification": "USEFUL",
+    "item_id": 3860112,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_LASER": {
+    "label": "Laser Ability",
+    "classification": "USEFUL",
+    "item_id": 3860113,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_UFO": {
+    "label": "UFO Ability",
+    "classification": "USEFUL",
+    "item_id": 3860114,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_SPARK": {
+    "label": "Spark Ability",
+    "classification": "USEFUL",
+    "item_id": 3860115,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_TORNADO": {
+    "label": "Tornado Ability",
+    "classification": "USEFUL",
+    "item_id": 3860116,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_HAMMER": {
+    "label": "Hammer Ability",
+    "classification": "USEFUL",
+    "item_id": 3860117,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_SWORD": {
+    "label": "Sword Ability",
+    "classification": "USEFUL",
+    "item_id": 3860118,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_CUPID": {
+    "label": "Cupid Ability",
+    "classification": "USEFUL",
+    "item_id": 3860119,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_FIGHTER": {
+    "label": "Fighter Ability",
+    "classification": "USEFUL",
+    "item_id": 3860120,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_MAGIC": {
+    "label": "Magic Ability",
+    "classification": "USEFUL",
+    "item_id": 3860121,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_SMASH": {
+    "label": "Smash Ability",
+    "classification": "USEFUL",
+    "item_id": 3860122,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_MINI": {
+    "label": "Mini Ability",
+    "classification": "USEFUL",
+    "item_id": 3860123,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_CRASH": {
+    "label": "Crash Ability",
+    "classification": "USEFUL",
+    "item_id": 3860124,
+    "tags": ["Abilities", "Unique"]
+  },
+  "ABILITY_UNLOCK_MISSILE": {
+    "label": "Missile Ability",
+    "classification": "USEFUL",
+    "item_id": 3860125,
+    "tags": ["Abilities", "Unique"]
   }
 }
