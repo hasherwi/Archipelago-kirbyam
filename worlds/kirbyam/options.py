@@ -356,6 +356,7 @@ def _build_starting_kirby_color_option() -> type[Choice]:
     )
 
     attrs: dict[str, object] = {
+        "__module__": __name__,
         "__doc__": doc,
         "display_name": "Starting Kirby Color",
         "default": 0,

@@ -8,6 +8,19 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## v0.5.0
+
+### New Features
+
+### Improvements
+- Update the bundled Archipelago framework to 0.6.8, including client connection fixes and improved world loading (Issue #933).
+
+### Known Limitations
+
+### Bug Fixes
+
+### Internal Changes
+
 ## v0.4.1
 
 ### New Features

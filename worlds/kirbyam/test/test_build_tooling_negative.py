@@ -133,7 +133,7 @@ def test_build_main_falls_back_when_make_missing_and_existing_patch_present(tmp_
     def _raise_make_missing(*_args: object, **_kwargs: object) -> None:
         raise SystemExit("patch_rom.py failed.\nError: 'make' was not found on PATH.")
 
-    def _build_apworld(_world_root: Path, _world_name: str) -> Path:
+    def _build_apworld(_world_root: Path, _world_name: str, _version: int) -> Path:
         built_apworld.write_bytes(b"apworld")
         return built_apworld
 
