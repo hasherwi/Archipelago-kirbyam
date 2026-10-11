@@ -18,6 +18,7 @@ import orjson
 
 from BaseClasses import ItemClassification
 
+
 # If your JSON does not provide explicit numeric IDs, we will auto-assign IDs starting here.
 BASE_OFFSET = 3_860_000
 _ROOM_REGION_KEY_PATTERN = re.compile(r"^REGION_[A-Z_]+/ROOM_(\d+)_([A-Z0-9_]+)$")
@@ -299,6 +300,8 @@ class LocationData(NamedTuple):
     location_id: int
     category: LocationCategory
     tags: frozenset[str]
+    # Exact ROM file offset of a source object for event-driven checks.
+    source_rom_offset: int | None = None
 
 
 class EventData(NamedTuple):
@@ -441,60 +444,6 @@ def _init() -> None:  # noqa: C901
 
         parsed_items.append((item_key, label, classification, tags, explicit_item_id))
 
-    abilities_json = load_json_data("abilities.json")
-    if not isinstance(abilities_json, dict):
-        raise TypeError("abilities.json must be a JSON object mapping ability names to attributes")
-
-    generated_ability_items: list[tuple[str, str, ItemClassification, frozenset[str], int | None]] = []
-    sortable_abilities: list[tuple[int, str]] = []
-    for ability_name, attrs in abilities_json.items():
-        if not isinstance(ability_name, str) or not isinstance(attrs, dict):
-            continue
-
-        runtime_id_raw = attrs.get("runtime_ability_id")
-        if runtime_id_raw is None:
-            continue
-
-        runtime_id = int(runtime_id_raw)
-        enemy_copy_allowed_raw = attrs.get("enemy_copy_allowed", True)
-        enemy_copy_allowed = True if enemy_copy_allowed_raw is None else bool(enemy_copy_allowed_raw)
-        if not enemy_copy_allowed:
-            continue
-
-        safe_to_gate = bool(attrs.get("safe_to_gate", False))
-        if not safe_to_gate:
-            continue
-
-        sortable_abilities.append((runtime_id, ability_name))
-
-    for runtime_id, ability_name in sorted(
-        sortable_abilities,
-        key=lambda entry: (entry[0], entry[1]),
-    ):
-        generated_ability_items.append(
-            (
-                f"ABILITY_UNLOCK_{ability_name.upper()}",
-                f"{ability_name} Ability",
-                ItemClassification.useful,
-                frozenset({"Abilities", "Unique"}),
-                BASE_OFFSET + 100 + runtime_id,
-            )
-        )
-
-    generated_ability_item_ids = {
-        item_id for _item_key, _label, _classification, _tags, item_id in generated_ability_items
-        if item_id is not None
-    }
-    for item_key, _label, _classification, _tags, explicit_item_id in parsed_items:
-        if explicit_item_id is not None and explicit_item_id in generated_ability_item_ids:
-            raise ValueError(
-                "KirbyAM item_id collision detected: explicit items.json item_id "
-                f"{explicit_item_id} conflicts with generated ability unlock item '{item_key}'"
-            )
-    used_item_ids.update(generated_ability_item_ids)
-
-    parsed_items.extend(generated_ability_items)
-
     available_traps: list[str] = []
     for item_key, label, classification, tags, explicit_item_id in parsed_items:
         if explicit_item_id is None:
@@ -517,7 +466,8 @@ def _init() -> None:  # noqa: C901
     # Load locations.json (+ optional locations_*.json fragments)
     # Expected forms:
     #   { "LOC_KEY": {"label":"...", "parent_region":"REGION_X", "default_item":"ITEM_KEY" or item_id,
-    #                "category":"SHARD", "tags":[...], "location_id":123} }
+    #                "category":"SHARD", "tags":[...], "location_id":123,
+    #                "source_rom_offset": "0x008B6EB4"} }
     # or without location_id (auto-assigned)
     locations_json = load_json_data("locations.json")
     if not isinstance(locations_json, dict):
@@ -602,6 +552,11 @@ def _init() -> None:  # noqa: C901
             except Exception:
                 bit_index = None
 
+        source_rom_offset_raw = attrs.get("source_rom_offset")
+        source_rom_offset: int | None = None
+        if source_rom_offset_raw not in (None, "", "null"):
+            source_rom_offset = _parse_int(source_rom_offset_raw)
+
         loc_id_raw = attrs.get("location_id")
         # Treat 0 as "unset" to allow placeholder JSON during early development.
         if loc_id_raw in (None, 0, "0"):
@@ -619,6 +574,7 @@ def _init() -> None:  # noqa: C901
             location_id=location_id,
             category=category,
             tags=tags,
+            source_rom_offset=source_rom_offset,
         )
 
     # Load/merge region json files from data/regions/*.json
@@ -823,6 +779,7 @@ def _init() -> None:  # noqa: C901
                         f"Logical subregion [{logical_region_name}] references unknown location key [{loc_key}]"
                     )
                 logical_region.locations.append(loc_key)
+                claimed_locations.add(loc_key)
 
             logical_region.locations.sort()
 

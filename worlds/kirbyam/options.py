@@ -10,6 +10,7 @@ from Options import (
     PerGameCommonOptions,
     Range,
     Toggle,
+    Visibility,
 )
 
 from .colors import (
@@ -22,6 +23,7 @@ from .enemy_health_scaling import (
     ENEMY_HEALTH_MULTIPLIER_MAX,
     ENEMY_HEALTH_MULTIPLIER_MIN,
 )
+from .health import HEALTH_MAX, HEALTH_MIN, MAXIMUM_HEALTH_DEFAULT, MINIMUM_HEALTH_DEFAULT
 
 
 class Goal(Choice):
@@ -273,21 +275,47 @@ class EnemyHealthMultiplier(Range):
     default = ENEMY_HEALTH_MULTIPLIER_DEFAULT
 
 
-class OneHitMode(Choice):
+class MinimumHealth(Range):
     """
-    Controls whether Kirby's maximum health is reduced to 1 HP at the start (one-hit mode).
-      Starts after the tutorial. Off by default.
-      Yes, you can combine this with No Extra Lives for an extra challenge.
+    Kirby's starting HP capacity, also applied when loading a native save offline.
+    Each Vitality Counter increases this capacity by 1, up to Maximum Health.
+    This is not a damage floor: Kirby can still lose HP and die normally.
 
-    - Off: Kirby's maximum health is unmodified (native 6 HP base, plus 1 per
-        Vitality Counter found).
-    - Exclude Vitality Counters: Kirby starts with a maximum of 1 HP. All four Vitality Counter items are
-        removed from the item pool and replaced with filler. Kirby's HP cap stays at 1 for the entire run.
-    - Include Vitality Counters: Kirby starts with a maximum of 1 HP. Vitality Counter items remain in the
-        pool; each one received increases Kirby's HP cap by 1 (up to 5 with all four). This is known to
-        cause a visual artifact on the screen when a vitality counter is received, but it is functional.
+    Set both health options together. Maximum Health must be at least this value
+    and at most 9 HP higher, using up to nine unique Vitality Counters.
+    Defaults to 6 HP. Set both health values to 1 for a fixed one-hit challenge.
     """
-    display_name = "One-Hit Mode"
+    display_name = "Minimum Health"
+    range_start = HEALTH_MIN
+    range_end = HEALTH_MAX
+    default = MINIMUM_HEALTH_DEFAULT
+
+
+class MaximumHealth(Range):
+    """
+    Kirby's HP capacity after receiving every Vitality Counter in the item pool.
+    The pool contains Maximum Health minus Minimum Health counters (0 to 9),
+    with unused counter slots replaced by filler. Equal values disable upgrades.
+
+    Set both health options together. Must be at least Minimum Health and at
+    most 9 HP higher. Defaults to 10 HP. For a one-hit start with four upgrades,
+    use Minimum Health 1 and Maximum Health 5. New ROMs include these bounds.
+    """
+    display_name = "Maximum Health"
+    range_start = HEALTH_MIN
+    range_end = HEALTH_MAX
+    default = MAXIMUM_HEALTH_DEFAULT
+
+
+class OneHitMode(Choice):
+    """Deprecated YAML compatibility alias; use Minimum Health / Maximum Health.
+
+    Exclude Vitality Counters maps to 1/1 and Include Vitality Counters to 1/5.
+    Nonzero legacy values retain their original precedence over custom bounds.
+    Generation normalizes them once; new slot data contains only health bounds.
+    """
+    display_name = "One-Hit Mode (legacy)"
+    visibility = Visibility.none
     default = 0
     option_off = 0
     option_exclude_vitality_counters = 1
@@ -328,6 +356,7 @@ def _build_starting_kirby_color_option() -> type[Choice]:
     )
 
     attrs: dict[str, object] = {
+        "__module__": __name__,
         "__doc__": doc,
         "display_name": "Starting Kirby Color",
         "default": 0,
@@ -374,6 +403,10 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     enemy_health_multiplier: EnemyHealthMultiplier
 
+    minimum_health: MinimumHealth
+
+    maximum_health: MaximumHealth
+
     one_hit_mode: OneHitMode
 
     ability_randomization_mode: AbilityRandomizationMode
@@ -403,6 +436,10 @@ OPTION_GROUPS = [
     OptionGroup("Make the game easier", [
         StartWithAllMaps,
     ]),
+    OptionGroup("Kirby Health", [
+        MinimumHealth,
+        MaximumHealth,
+    ]),
     OptionGroup("Make the game last longer", [
         RoomSanity,
     ]),
@@ -411,7 +448,6 @@ OPTION_GROUPS = [
         EnableTraps,
         TrapFillPercentage,
         NoExtraLives,
-        OneHitMode,
         EnemyHealthMultiplier,
         KirbyAmDeathLink,
     ]),

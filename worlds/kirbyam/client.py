@@ -7,22 +7,31 @@ import random
 import re
 import time
 import json
+import sqlite3
 from struct import unpack_from
 from typing import TYPE_CHECKING, Callable, Optional
 
 import Utils
-from BaseClasses import ItemClassification
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
 from .area_keys import AREA_KEY_AREA_ID_BY_LABEL, AREA_NAME_BY_ID
+from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .colors import choose_different_kirby_color
 from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
 from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .generated_hub_switch_contract import HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY
-from .items import get_item_classification
+from .health import (
+    MAXIMUM_HEALTH_DEFAULT,
+    MINIMUM_HEALTH_DEFAULT,
+    reconcile_health,
+    resolve_health_range,
+)
+from .vitality import (VITALITY_ITEM_BITS, VITALITY_MASK, HEALTH_CONFIG_OFFSET,
+                       HEALTH_ROM_TITLE, decode_health_config, resolve_vitality_plan,
+                       validate_health_protocol)
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
 from .options import Goal, OneHitMode
 from .types import KirbyAmBizHawkClientContext
@@ -32,10 +41,13 @@ if TYPE_CHECKING:
     from worlds.generic.shared_utils import NetworkItem
 
 
+_CHEST_RECOVERY_RECORDS = load_json_data("chest_recovery.json")["records"]
+
 EXPECTED_ROM_HEADER_TITLE = "agb kirby am"
 EXPECTED_ROM_GAME_CODE = "b8ke"
 EXPECTED_ROM_MAKER_CODE = "01"
 _AUTH_TOKEN_SIZE = 16
+_START_INVENTORY_HISTORY_BIT = 1 << 31
 _BOSS_MIRROR_TABLE_PROBE_BYTES = 32
 _AI_STATE_ADDR_WIDTH = 4
 _AI_STATE_TUTORIAL = 100
@@ -62,8 +74,6 @@ _KIRBY_MAX_HP_ADDR_KEY = "kirby_max_hp_native"
 _KIRBY_MAX_HP_READ_WIDTH = 1
 _KIRBY_VITALITY_COUNTER_ADDR_KEY = "kirby_vitality_counter_native"
 _KIRBY_VITALITY_COUNTER_READ_WIDTH = 2
-_SPRAY_PAINT_BITFIELD_ADDR_KEY = "spray_paint_bitfield_native"
-_MUSIC_PLAYER_AND_SHEETS_BITFIELD_ADDR_KEY = "music_player_and_sheets_bitfield_native"
 _MINOR_CHEST_EVENT_COUNTER_ADDR_KEY = "minor_chest_event_counter"
 _MINOR_CHEST_EVENT_RING_BASE_ADDR_KEY = "minor_chest_event_ring_base"
 _MINOR_CHEST_EVENT_RING_SLOT_COUNT = 8
@@ -154,11 +164,7 @@ _TRAP_ITEM_IDS: frozenset[int] = frozenset(
     for item in data.items.values()
     if type(item.classification).trap in item.classification and item.item_id is not None
 )
-_NON_REDELIVERABLE_ITEM_IDS: frozenset[int] = frozenset(
-    item_id
-    for item_id in data.items
-    if get_item_classification(item_id) in (ItemClassification.filler, ItemClassification.trap)
-)
+_NON_REDELIVERABLE_ITEM_IDS = TRANSIENT_ITEM_IDS
 _ROOM_PROPS_ROM_BASE = 0x009331AC  # gRoomProps[] — ROM domain offset (GBA ROM 0x089331AC)
 _ROOM_PROPS_STRIDE = 0x28  # sizeof(struct RoomProps)
 _ROOM_PROPS_DOORS_IDX_OFFSET = 0x24  # offsetof(struct RoomProps, doorsIdx)
@@ -197,6 +203,8 @@ _GAME_OPTION_SLOT_DATA_KEYS: tuple[str, ...] = (
     "trap_fill_percentage",
     "enemy_health_multiplier",
     "one_hit_mode",
+    "minimum_health",
+    "maximum_health",
     "death_link",
     "ability_randomization_mode",
     "ability_randomization_boss_spawns",
@@ -277,7 +285,8 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
         if not isinstance(gateable_abilities, list) or not gateable_abilities:
             gateable_abilities = list(GATEABLE_ENEMY_COPY_ABILITIES)
 
-        all_abilities = set(ABILITY_NAME_TO_ID)
+        # Wait is an internal native state, not a player-facing copy ability.
+        all_abilities = set(ABILITY_NAME_TO_ID) - {"Wait"}
         unlocked_abilities = all_abilities.copy()
         if ability_gating_enabled:
             unlocked_abilities.difference_update(
@@ -303,12 +312,27 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
             self.output("None")
         return True
 
+    def _cmd_receipt(self, decision: str = "") -> bool:
+        """Resolve an interrupted consumable: /receipt received or /receipt retry."""
+        client = getattr(self.ctx, "client_handler", None)
+        if not isinstance(client, KirbyAmClient) or not client._receipt_blocked:
+            self.output("No interrupted KirbyAM receipt awaits resolution.")
+            return False
+        if decision not in ("received", "retry"):
+            self.output("Restart the ROM from its native save first. Use /receipt received if the effect "
+                        "already happened, or /receipt retry to apply it (which can duplicate an uncertain effect).")
+            return False
+        client._receipt_resolution = (*client._receipt_blocked, decision)
+        self.output("Receipt decision queued; delivery resumes only with an empty mailbox.")
+        return True
+
     return type(
         "KirbyAmCommandProcessor",
         (base_command_processor,),
         {
             "_cmd_locations": _cmd_locations,
             "_cmd_abilities": _cmd_abilities,
+            "_cmd_receipt": _cmd_receipt,
             "_is_kirbyam_wrapper": True,
         },
     )
@@ -343,8 +367,7 @@ def _normalize_gba_rom_address(value: int) -> int:
 
 
 def _is_exact_minor_chest_location(loc) -> bool:
-    tags = getattr(loc, "tags", ()) or ()
-    return "ReportLocation" in tags or "ExactEventLocation" in tags
+    return getattr(loc, "source_rom_offset", None) is not None
 
 
 class KirbyAmClient(BizHawkClient):
@@ -352,16 +375,16 @@ class KirbyAmClient(BizHawkClient):
     system = "GBA"
     patch_suffix = ".apkirbyam"
 
-    def initialize_client(self) -> None:
-        # Compatibility state retained for tests and reconnect diagnostics.
-        self._checked_location_bits: set[int] = set()
-
+    def _reset_item_delivery_state(self) -> None:
         # Item delivery state
         self._delivered_item_index: int = 0
+        self._delivery_counter_offset: int = 0
+        self._last_rom_received_count: int | None = None
         self._delivery_pending: bool = False  # True after writing mailbox until ROM clears flag
         self._delivery_pending_frame: int | None = None
         self._delivery_pending_time: float | None = None  # Monotonic time recorded when mailbox write issued
         self._delivery_pending_item_index: int | None = None
+        self._receipt_offer_count: int | None = None
         self._delivery_timeout_streak: int = 0
         self._delivery_retry_not_before: float = 0.0
         self._delivery_payload_stall_warned: bool = False
@@ -379,6 +402,21 @@ class KirbyAmClient(BizHawkClient):
         self._cached_delivered_area_key_bits: int = 0
         self._cached_area_key_bits_index: int = 0
         self._cached_area_key_bits_items_len: int = 0
+
+    def initialize_client(self) -> None:
+        old_journal = getattr(self, "_receipt_journal", None)
+        if old_journal is not None:
+            old_journal.close()
+        self._receipt_journal = None
+        self._receipt_scope = None
+        self._receipt_active = None
+        self._receipt_blocked = None
+        self._receipt_resolution = None
+        self._receipt_error = None
+        # Compatibility state retained for tests and reconnect diagnostics.
+        self._checked_location_bits: set[int] = set()
+
+        self._reset_item_delivery_state()
 
         # Deterministic location ordering
         self._all_location_ids_sorted: list[int] = [
@@ -410,21 +448,8 @@ class KirbyAmClient(BizHawkClient):
         # Bit N corresponds to area ID N in enum AreaId (e.g. bit 3 = AREA_CABBAGE_CAVERN).
         self._major_chest_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.MAP_CHEST)
 
-        # Minor chest native bitfield -> location IDs (MINOR_CHEST category; polled from native chest flags).
-        self._minor_chest_location_ids_by_bit = self._build_location_ids_by_bit(
-            LocationCategory.MINOR_CHEST,
-            include_predicate=lambda loc: not _is_exact_minor_chest_location(loc),
-        )
-        self._report_only_minor_chest_location_ids: set[int] = {
-            loc.location_id
-            for loc in data.locations.values()
-            if loc.category == LocationCategory.MINOR_CHEST and _is_exact_minor_chest_location(loc)
-        }
+        # Exact events provide prompt checks; audited saved flags provide recovery.
         self._minor_chest_location_id_by_source_ptr = self._build_minor_chest_source_ptr_map()
-        (
-            self._minor_chest_spray_fallback_location_ids_by_bit,
-            self._minor_chest_music_sheet_fallback_location_ids_by_bit,
-        ) = self._build_minor_chest_collection_bit_fallback_maps()
         exact_event_minor_count = sum(
             1
             for loc in data.locations.values()
@@ -433,10 +458,21 @@ class KirbyAmClient(BizHawkClient):
         if exact_event_minor_count:
             self._log_verbose(
                 "info",
-                "KirbyAM: %s exact-event minor chest locations are active; they are reported only from exact event-ring source-pointer matches.",
+                "KirbyAM: %s exact-source minor chest checks active; event-ring checks have audited native-save recovery.",
                 exact_event_minor_count,
             )
+        self._saved_chest_location_by_flag = {
+            row["flag"]: data.locations[row["location_key"]].location_id
+            for row in _CHEST_RECOVERY_RECORDS if row["location_key"] is not None
+        }
+        self._health_protocol_version = 1
+        self._health_rom_auth = None
+        self._last_health_protocol_error = None
+        self._vitality_history_session = None
+        self._legacy_start_inventory_warned = False
         self._last_minor_chest_event_counter: int | None = None
+        self._pending_minor_chest_locations: set[int] = set()
+        self._minor_chest_session_key: tuple[object, ...] | None = None
         self._logged_unknown_minor_chest_source_ptrs: set[int] = set()
 
         # Vitality chest bitfield -> location IDs (VITALITY_CHEST category; dedicated transport register)
@@ -512,7 +548,6 @@ class KirbyAmClient(BizHawkClient):
         self._last_shard_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_boss_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_major_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
-        self._last_minor_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_vitality_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_sound_player_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_hub_switch_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
@@ -747,7 +782,6 @@ class KirbyAmClient(BizHawkClient):
         self._last_shard_poll_log = None
         self._last_boss_poll_log = None
         self._last_major_chest_poll_log = None
-        self._last_minor_chest_poll_log = None
         self._last_vitality_chest_poll_log = None
         self._last_sound_player_chest_poll_log = None
         self._last_hub_switch_poll_log = None
@@ -793,17 +827,19 @@ class KirbyAmClient(BizHawkClient):
         self._cached_room_visit_flags_view = None
 
     def _build_minor_chest_source_ptr_map(self) -> dict[int, int]:
-        """Exact event-ring source-pointer mapping is currently disabled."""
-        return {}
-
-    def _build_minor_chest_collection_bit_fallback_maps(self) -> tuple[dict[int, list[int]], dict[int, list[int]]]:
-        """
-        Build native collectible-bit fallback maps for mapped MINOR_CHEST locations.
-
-        These maps are used as a temporary fallback for spray paint and music sheet
-        small chest checks when native chest bit signaling is missing.
-        """
-        return {}, {}
+        """Map exact normalized ROM source offsets to active minor-chest IDs."""
+        source_ptr_map: dict[int, int] = {}
+        for loc in data.locations.values():
+            if loc.category != LocationCategory.MINOR_CHEST or loc.source_rom_offset is None:
+                continue
+            source_ptr = _normalize_gba_rom_address(loc.source_rom_offset)
+            if source_ptr in source_ptr_map:
+                raise ValueError(
+                    "KirbyAM minor chest source pointer is mapped more than once: "
+                    f"0x{source_ptr:08X}"
+                )
+            source_ptr_map[source_ptr] = loc.location_id
+        return source_ptr_map
 
     async def _get_room_visit_flags_view(self, ctx: KirbyAmBizHawkClientContext) -> memoryview | None:
         """Read gVisitedDoors once per watcher tick and return a shared memory view."""
@@ -1469,14 +1505,79 @@ class KirbyAmClient(BizHawkClient):
         label = _LOCATION_ID_TO_LABEL.get(location_id)
         return label if label is not None else f"Location {location_id}"
 
+    def _receipt_failure(self, message):
+        if message != self._receipt_error:
+            self._log_client("error", "KirbyAM: item delivery paused: %s", message)
+            self._receipt_error = message
+
+    def _prepare_receipts(self, ctx):
+        # Only a validated ROM supplies the identity needed for durable receipts.
+        auth = getattr(self, "_health_rom_auth", None)
+        if not isinstance(auth, bytes) or len(auth) != _AUTH_TOKEN_SIZE:
+            return True
+        seed = getattr(ctx, "server_seed_name", None)
+        if (not isinstance(seed, str) or not seed or type(ctx.team) is not int
+                or type(ctx.slot) is not int or ctx.team < 0 or ctx.slot < 1
+                or self._vitality_history_session != self._authenticated_session_key(ctx)):
+            return False  # Wait for complete authenticated history, not an empty startup list.
+        scope = scope_key(seed, auth, ctx.team, ctx.slot)
+        try:
+            if scope != self._receipt_scope:
+                if self._receipt_journal is not None:
+                    self._receipt_journal.close()
+                    self._receipt_journal = None
+                    self._reset_item_delivery_state()
+                    self._notified_receive_indices.clear()
+                    self._acknowledged_non_redeliverable_indices.clear()
+                self._receipt_active = self._receipt_blocked = self._receipt_resolution = None
+                self._receipt_journal = ReceiptJournal(Utils.user_path("kirbyam", "receipts.sqlite3"), scope)
+                self._receipt_scope = scope
+            return True
+        except (OSError, sqlite3.Error, ValueError) as exc:
+            self._receipt_failure(f"receipt journal unavailable ({exc}); restore access before continuing")
+            return False
+
+    def _receipts_ready(self, flag):
+        if self._receipt_journal is None:
+            return True
+        try:
+            pending = self._receipt_journal.pending()
+            unresolved = [key for key in pending
+                          if not (self._delivery_pending and key == self._receipt_active)]
+            if unresolved:
+                blocked = (self._receipt_scope, unresolved[0])
+                self._receipt_blocked = blocked
+                if (flag == 0 and self._receipt_resolution is not None
+                        and self._receipt_resolution[:2] == blocked):
+                    self._receipt_journal.resolve(unresolved[0], self._receipt_resolution[2])
+                    self._receipt_resolution = self._receipt_blocked = None
+                    self._receipt_error = None
+                    return False  # Recheck all pending records on the next tick.
+                self._receipt_failure("an interrupted consumable has an unknown outcome. "
+                                      "Restart the ROM from its native save, then use /receipt received "
+                                      "or /receipt retry. Receipt: " + unresolved[0])
+                return False
+            self._receipt_blocked = None
+            return True
+        except (OSError, sqlite3.Error, ValueError) as exc:
+            self._receipt_failure(f"receipt journal unavailable ({exc})")
+            return False
+
     async def _emit_receive_notification(self, ctx: "BizHawkClientContext", delivered_index: int) -> None:
+        if delivered_index < 0 or delivered_index >= len(ctx.items_received):
+            return
+        if self._receipt_journal is not None:
+            try:
+                if not self._receipt_journal.claim_notice(receipt_key(ctx.items_received, delivered_index)):
+                    return
+            except (OSError, sqlite3.Error, ValueError) as exc:
+                self._receipt_failure(f"could not record notification ({exc})")
+                return
         # ACK-gated + index-deduped to avoid replay spam during reconnect
         # rewind/fast-forward reconciliation.
         if not self._receive_notifications_enabled:
             return
-        if delivered_index in self._notified_receive_indices:
-            return
-        if delivered_index < 0 or delivered_index >= len(ctx.items_received):
+        if self._receipt_journal is None and delivered_index in self._notified_receive_indices:
             return
 
         item = ctx.items_received[delivered_index]
@@ -1649,7 +1750,7 @@ class KirbyAmClient(BizHawkClient):
             game_code = bytes(game_code_bytes).decode("ascii", errors="ignore").rstrip("\0").lower()
             maker_code = bytes(maker_code_bytes).decode("ascii", errors="ignore").rstrip("\0")
             if (
-                rom_title != EXPECTED_ROM_HEADER_TITLE
+                rom_title not in (EXPECTED_ROM_HEADER_TITLE, HEALTH_ROM_TITLE.decode().lower())
                 or game_code != EXPECTED_ROM_GAME_CODE
                 or maker_code != EXPECTED_ROM_MAKER_CODE
             ):
@@ -1667,6 +1768,18 @@ class KirbyAmClient(BizHawkClient):
         except Exception:
             self._log_client("error", "KirbyAM: unexpected error during ROM header validation", exc_info=True)
             return await _fail("header_validation_exception")
+
+        health_protocol_version = 2 if rom_title == HEALTH_ROM_TITLE.decode().lower() else 1
+        if health_protocol_version == 2:
+            try:
+                config_raw = (await bizhawk.read(ctx.bizhawk_ctx, [
+                    (HEALTH_CONFIG_OFFSET, 4, "ROM")]))[0]
+                if len(config_raw) != 4:
+                    raise ValueError("truncated health config")
+                decode_health_config(int.from_bytes(config_raw, "little"))
+            except (ValueError, bizhawk.RequestFailedError):
+                return await _fail("health_protocol_mismatch",
+                                   "Incompatible health ROM. Regenerate the patch and update the client.")
 
         auth_addr = data.rom_addresses.get("gArchipelagoInfo")
         if auth_addr is None:
@@ -1729,10 +1842,9 @@ class KirbyAmClient(BizHawkClient):
 
         # Minimal AP settings
         ctx.game = self.game
-        # Request both local and remote items so the server replays the full
-        # received-item history when the client reconnects. The client rebuilds
-        # locally owned ability unlocks from that history after a restart.
-        ctx.items_handling = 0b011
+        # Include local, remote and starting items in authoritative history.
+        # Starting items are a prefix; legacy cursor migration is guarded below.
+        ctx.items_handling = 0b111
         ctx.want_slot_data = True
         ctx.watcher_timeout = 0.125
         base_command_processor = getattr(ctx, "command_processor", None)
@@ -1742,6 +1854,8 @@ class KirbyAmClient(BizHawkClient):
             ctx.command_processor = _patch_kirbyam_command_processor(base_command_processor)
 
         self.initialize_client()
+        self._health_protocol_version = health_protocol_version
+        self._health_rom_auth = bytes(auth_raw)
         self._log_client("info", "KirbyAM: ROM validated.")
         return True
 
@@ -1760,6 +1874,57 @@ class KirbyAmClient(BizHawkClient):
         auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
         ctx.auth = base64.b64encode(auth_raw).decode("utf-8")
 
+    async def _health_protocol_ready(self, ctx, *, require_identity: bool = True) -> bool:
+        """Reject incompatible ROM/slot pairs before any watcher writes.
+
+        Re-read ROM identity on every poll: connector ROM changes must not inherit
+        permission from an earlier seed, slot, auth token, or health config.
+        Legacy ROMs retain their four-counter contract.
+        """
+        import base64
+        slot = getattr(ctx, "slot_data", None)
+        if not isinstance(slot, dict):
+            return False
+        version = getattr(self, "_health_protocol_version", 1)
+        try:
+            plan = resolve_vitality_plan(slot.get("minimum_health", 6),
+                                        slot.get("maximum_health", 10),
+                                        slot.get("one_hit_mode", 0))
+            slot_version = slot.get("health_protocol_version", 1)
+            if type(slot_version) is not int or slot_version != version:
+                raise ValueError("ROM and slot health versions differ")
+            if version == 1:
+                if plan.count > 4:
+                    raise ValueError("legacy ROM supports only four counters")
+                if self._health_rom_auth is None and not require_identity:
+                    return True
+            if version not in (1, 2) or self._health_rom_auth is None:
+                raise ValueError("unvalidated health protocol")
+            auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
+            title, config, auth = await bizhawk.read(ctx.bizhawk_ctx, [
+                (0xA0, 12, "ROM"), (HEALTH_CONFIG_OFFSET, 4, "ROM"),
+                (auth_addr, _AUTH_TOKEN_SIZE, "ROM")])
+            if len(title) != 12 or len(config) != 4 or len(auth) != _AUTH_TOKEN_SIZE:
+                raise ValueError("truncated ROM identity")
+            if (bytes(auth) != self._health_rom_auth or
+                    base64.b64encode(auth).decode() != getattr(ctx, "auth", None)):
+                raise ValueError("ROM authentication changed")
+            if version == 1:
+                if bytes(title).rstrip(b"\0").lower() != EXPECTED_ROM_HEADER_TITLE.encode():
+                    raise ValueError("legacy ROM identity changed")
+            else:
+                validate_health_protocol(bytes(title).rstrip(b"\0"),
+                                         int.from_bytes(config, "little"), slot_version, plan)
+            return True
+        except (ValueError, KeyError, TypeError, bizhawk.RequestFailedError,
+                bizhawk.NotConnectedError, bizhawk.ConnectorError, bizhawk.SyncError) as exc:
+            reason = str(exc)
+            if getattr(self, "_last_health_protocol_error", None) != reason:
+                self._log_client("error", "KirbyAM: health compatibility check failed (%s). "
+                                 "Regenerate the patch and update the client; game writes are paused.", reason)
+                self._last_health_protocol_error = reason
+            return False
+
     async def game_watcher(self, ctx: "BizHawkClientContext") -> None:
         """Main watcher loop: polls locations, delivers items, reports goal."""
 
@@ -1773,6 +1938,9 @@ class KirbyAmClient(BizHawkClient):
             self._last_incoming_death_link_time = None
             self._last_local_alive_state = None
             self._suppress_next_local_death_send = False
+            return
+
+        if not await self._health_protocol_ready(ctx):
             return
 
         self._load_notification_settings(ctx)
@@ -1794,6 +1962,10 @@ class KirbyAmClient(BizHawkClient):
 
             self._log_starting_kirby_color_config_once(ctx)
 
+            # A legacy cursor counts a different history when precollects are
+            # added. Never reinterpret that live cursor as a prefixed history.
+            if not await self._start_inventory_cursor_ready(ctx):
+                return
             # Load persisted state from RAM once per session (after bizhawk_ctx is valid)
             if not self._ram_state_loaded:
                 await self._load_persistent_state(ctx)
@@ -1811,6 +1983,7 @@ class KirbyAmClient(BizHawkClient):
                 # Report only the tutorial world-map chest while normal location
                 # polling and new item writes remain deferred.
                 await self._poll_major_chest_locations(ctx, tutorial_world_map_only=True)
+                await self._poll_saved_chest_locations(ctx, tutorial_world_map_only=True)
             await self._log_boss_shard_debug_window(
                 ctx,
                 gameplay_active=gameplay_active,
@@ -1845,10 +2018,14 @@ class KirbyAmClient(BizHawkClient):
 
             await self._reconcile_native_shard_ownership(ctx)
             await self._reconcile_native_map_ownership(ctx)
+            await self._reconcile_vitality_ownership(ctx)
             await self._enforce_no_extra_lives(ctx)
-            await self._enforce_one_hit_mode(ctx)
+            await self._enforce_health_range(ctx)
+            death_link_was_pending = self._death_link_enabled is True and self._incoming_death_link_pending
             await self._apply_pending_death_link(ctx)
             await self._poll_and_send_local_death_link(ctx)
+
+            await self._poll_saved_chest_locations(ctx)
 
             # Boss defeat location polling via transport register
             await self._poll_boss_defeat_locations(ctx)
@@ -1856,7 +2033,7 @@ class KirbyAmClient(BizHawkClient):
             # Major chest location polling via dedicated major_chest_flags transport register
             await self._poll_major_chest_locations(ctx)
 
-            # Minor chest location polling via native small chest flag bitfield
+            # Minor chest location polling via exact source events
             await self._poll_minor_chest_locations(ctx)
 
             # Vitality chest location polling via dedicated vitality_chest_flags transport register
@@ -1896,7 +2073,14 @@ class KirbyAmClient(BizHawkClient):
             await self._poll_enemy_ability_reroll_events(ctx)
 
             # Item delivery (mailbox protocol)
-            await self._deliver_items(ctx)
+            if death_link_was_pending or (self._death_link_enabled is True and self._incoming_death_link_pending):
+                # The earlier gameplay snapshot predates DeathLink's HP write.
+                # Keep ACK/recovery processing, but wait for a fresh alive tick
+                # before offering another item. Also catch links queued while
+                # the intervening location polls were awaiting bridge IO.
+                await self._deliver_items(ctx, allow_new_writes=False)
+            else:
+                await self._deliver_items(ctx)
 
             # Goal reporting
             await self._maybe_report_goal(ctx, ai_state_override=ai_state)
@@ -2007,28 +2191,28 @@ class KirbyAmClient(BizHawkClient):
                 if ability_id is not None and 0 < ability_id <= 31:
                     gated_mask |= 1 << ability_id
 
-            ability_unlock_items = slot_data.get("ability_unlock_items", {})
-            if isinstance(ability_unlock_items, dict):
-                unlock_labels: set[str] = {
-                    label
-                    for label in ability_unlock_items.values()
-                    if isinstance(label, str)
-                }
-                if not unlock_labels:
-                    unlock_labels = set(_ABILITY_UNLOCK_ITEM_LABELS)
-                for item in ctx.items_received:
-                    item_id = self._coerce_u32(getattr(item, "item", None))
-                    if item_id is None:
-                        continue
-                    item_data = data.items.get(item_id)
-                    if item_data is None or not isinstance(item_data.label, str):
-                        continue
-                    if item_data.label not in unlock_labels:
-                        continue
-                    ability_name = item_data.label.removesuffix(" Ability")
-                    ability_id = ABILITY_NAME_TO_ID.get(ability_name)
-                    if ability_id is not None and 0 < ability_id <= 31:
-                        unlocked_mask |= 1 << ability_id
+        ability_unlock_items = slot_data.get("ability_unlock_items", {})
+        if isinstance(ability_unlock_items, dict):
+            unlock_labels: set[str] = {
+                label
+                for label in ability_unlock_items.values()
+                if isinstance(label, str)
+            }
+            if not unlock_labels:
+                unlock_labels = set(_ABILITY_UNLOCK_ITEM_LABELS)
+            for item in ctx.items_received:
+                item_id = self._coerce_u32(getattr(item, "item", None))
+                if item_id is None:
+                    continue
+                item_data = data.items.get(item_id)
+                if item_data is None or not isinstance(item_data.label, str):
+                    continue
+                if item_data.label not in unlock_labels:
+                    continue
+                ability_name = item_data.label.removesuffix(" Ability")
+                ability_id = ABILITY_NAME_TO_ID.get(ability_name)
+                if ability_id is not None and 0 < ability_id <= 31:
+                    unlocked_mask |= 1 << ability_id
 
         seed_lo = seed & 0xFFFFFFFF
         seed_hi = (seed >> 32) & 0xFFFFFFFF
@@ -2372,19 +2556,27 @@ class KirbyAmClient(BizHawkClient):
             current_lives,
         )
 
-    async def _enforce_one_hit_mode(self, ctx: "BizHawkClientContext") -> None:
-        """Clamp Kirby's max HP (and current HP) to vitality_counter + 1 while one-hit mode is active.
+    async def _enforce_health_range(self, ctx: "BizHawkClientContext") -> None:
+        """Reconcile connected post-tutorial health, including legacy One-Hit presets.
 
-        Both exclude_vitality_counters and include_vitality_counters modes use a 1 HP base.
-        In exclude mode the client also scrubs native vitality counter back to 0 every
-        gameplay tick, giving a permanent max of 1 even if the ROM temporarily applies
-        a vitality grant before watcher reconciliation.
-        In include mode each received Vitality Counter item raises the cap by 1.
-
-        Enforcement targets player 0's Kirby struct (consistent with DeathLink HP tracking).
+        Defaults leave native behavior untouched. Slot data without the new keys
+        retains the old One-Hit meaning. No new payload/mailbox ABI is required.
         """
-        one_hit_mode = self._one_hit_mode_value(ctx)
-        if one_hit_mode == OneHitMode.option_off:
+        if not await self._health_protocol_ready(ctx, require_identity=False):
+            return
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            return
+        try:
+            health_range = resolve_health_range(
+                slot_data.get("minimum_health", MINIMUM_HEALTH_DEFAULT),
+                slot_data.get("maximum_health", MAXIMUM_HEALTH_DEFAULT),
+                self._one_hit_mode_value(ctx),
+            )
+        except ValueError:
+            # Invalid/unrecognized slot data must never produce unsafe HP writes.
+            return
+        if health_range == resolve_health_range():
             return
 
         vitality_addr = data.native_ram_addresses.get(_KIRBY_VITALITY_COUNTER_ADDR_KEY)
@@ -2404,44 +2596,34 @@ class KirbyAmClient(BizHawkClient):
         current_hp = self._s8(hp_raw)
         current_max_hp = self._s8(max_hp_raw)
 
-        desired_vitality_count = vitality_count
-        if one_hit_mode == OneHitMode.option_exclude_vitality_counters:
-            desired_vitality_count = 0
-
-        # One-hit base is 1; each Vitality Counter adds 1 to the cap.
-        desired_max_hp = min(desired_vitality_count + 1, 0x7F)
-
-        if vitality_count == desired_vitality_count and current_max_hp <= desired_max_hp and current_hp <= desired_max_hp:
-            return
-
+        desired_vitality_count, desired_hp, desired_max_hp = reconcile_health(
+            health_range, vitality_count, current_hp, current_max_hp,
+        )
         writes: list[tuple[int, bytes, str]] = []
         if vitality_count != desired_vitality_count:
             writes.append((vitality_addr, desired_vitality_count.to_bytes(2, "little"), "System Bus"))
-        if current_max_hp > desired_max_hp:
-            writes.append((max_hp_addr, bytes([desired_max_hp & 0xFF]), "System Bus"))
-        # Clamp alive HP down to new max; preserve dead/negative states.
-        if current_hp > 0 and current_hp > desired_max_hp:
-            writes.append((hp_addr, bytes([desired_max_hp & 0xFF]), "System Bus"))
+        if current_max_hp != desired_max_hp:
+            writes.append((max_hp_addr, bytes([desired_max_hp]), "System Bus"))
+        if current_hp != desired_hp:
+            writes.append((hp_addr, bytes([desired_hp]), "System Bus"))
 
         if writes:
-            await bizhawk.write(ctx.bizhawk_ctx, writes)
-
-            clamped_max_hp = current_max_hp > desired_max_hp
-            clamped_hp = current_hp > 0 and current_hp > desired_max_hp
-            parts = []
-            if vitality_count != desired_vitality_count:
-                parts.append(f"vitality_count {vitality_count}->{desired_vitality_count}")
-            if clamped_max_hp:
-                parts.append(f"max_hp {current_max_hp}->{desired_max_hp}")
-            if clamped_hp:
-                parts.append(f"hp {current_hp}->{desired_max_hp}")
-            if parts:
-                self._log_verbose(
-                    "info",
-                    "KirbyAM debug: one-hit mode clamped %s (desired_vitality_count=%s)",
-                    ", ".join(parts),
-                    desired_vitality_count,
-                )
+            # Guard the snapshot atomically: a hit/death/respawn or vitality
+            # delivery between read and write must not be overwritten or revived.
+            applied = await bizhawk.guarded_write(ctx.bizhawk_ctx, writes, [
+                (vitality_addr, vitality_raw, "System Bus"),
+                (hp_addr, hp_raw, "System Bus"),
+                (max_hp_addr, max_hp_raw, "System Bus"),
+            ])
+            if not applied:
+                return  # Re-read and reconcile on the next gameplay tick.
+            self._log_verbose(
+                "info",
+                "KirbyAM debug: health range %s..%s reconciled vitality %s->%s, max_hp %s->%s, hp %s->%s",
+                health_range.minimum, health_range.maximum,
+                vitality_count, desired_vitality_count,
+                current_max_hp, desired_max_hp, current_hp, desired_hp,
+            )
 
     @staticmethod
     def _s8(value: bytes) -> int:
@@ -2450,17 +2632,26 @@ class KirbyAmClient(BizHawkClient):
         return int.from_bytes(value[:1], "little", signed=True)
 
     async def _sync_challenge_runtime_config(self, ctx: "BizHawkClientContext") -> None:
-        """Write challenge-mode runtime config (one_hit_mode, no_extra_lives) to transport mailbox."""
+        """Derive trap policy from health bounds; retain the legacy mailbox ABI."""
         slot_data = getattr(ctx, "slot_data", None)
         if not isinstance(slot_data, dict):
             return
 
-        # Legacy/minimal test contexts may not include these slot keys.
-        # Real KirbyAM slot_data always includes both keys explicitly.
-        if "one_hit_mode" not in slot_data and "no_extra_lives" not in slot_data:
+        # Old seeds may only have the legacy preset; new seeds have bounds.
+        if not any(key in slot_data for key in ("minimum_health", "one_hit_mode", "no_extra_lives")):
             return
 
         one_hit_mode = self._one_hit_mode_value(ctx) & 0xFFFFFFFF
+        if one_hit_mode == 0 and "minimum_health" in slot_data:
+            try:
+                health_range = resolve_health_range(
+                    slot_data["minimum_health"], slot_data.get("maximum_health", MAXIMUM_HEALTH_DEFAULT),
+                )
+            except ValueError:
+                return
+            # The native legacy word now carries the health-down-trap exclusion
+            # policy. Do not feed it back into health-range resolution.
+            one_hit_mode = int(health_range.minimum == 1)
         no_extra_lives = (1 if self._no_extra_lives_enabled(ctx) else 0) & 0xFFFFFFFF
         signature = (one_hit_mode, no_extra_lives)
 
@@ -2883,7 +3074,7 @@ class KirbyAmClient(BizHawkClient):
         keys_in_order = []
 
         # Your addresses.json defines delivered_item_index.
-        for key in ("delivered_item_index",):
+        for key in ("delivered_item_index", "debug_item_counter"):
             addr = self._transport_addr(key)
             if addr is not None:
                 reads.append((addr, 4, "System Bus"))
@@ -2902,6 +3093,13 @@ class KirbyAmClient(BizHawkClient):
                 delivered_count = min(val, len(ctx.items_received))
                 for delivered_index in range(delivered_count):
                     self._record_acknowledged_non_redeliverable_index(ctx, delivered_index)
+
+        if "debug_item_counter" in keys_in_order:
+            position = keys_in_order.index("debug_item_counter")
+            if position < len(raw_list) and len(raw_list[position]) == 4:
+                self._last_rom_received_count = self._u32_le(raw_list[position])
+                self._delivery_counter_offset = max(
+                    0, self._delivered_item_index - self._last_rom_received_count)
 
     # --------------------------
     # Location checking
@@ -3063,93 +3261,180 @@ class KirbyAmClient(BizHawkClient):
         else:
             self._last_vitality_chest_poll_log = None
 
+    @staticmethod
+    def _authenticated_session_key(ctx):
+        return (getattr(ctx, "server_seed_name", None), ctx.auth, ctx.team, ctx.slot)
+
+    async def _poll_saved_chest_locations(self, ctx, *, tutorial_world_map_only=False):
+        """Recover physical checks from unique USA chestFields bits, never reward ownership.
+
+        The native save must belong to this ROM/seed; importing saves from other
+        seeds or vanilla is unsupported because the native save has no seed ID.
+        No client-side pending state is carried across authenticated sessions.
+        """
+        active = self._active_location_id_set(ctx)
+        address = self._native_addr("other_chest_flags_native")
+        if not self._server_session_ready(ctx) or not active or address is None:
+            return
+        session = self._authenticated_session_key(ctx)
+        values = await bizhawk.read(ctx.bizhawk_ctx, [(address, 16, "System Bus")])
+        if (len(values) != 1 or len(values[0]) != 16
+                or session != self._authenticated_session_key(ctx)):
+            return
+        bits = int.from_bytes(values[0], "little")
+        checks = {location for flag, location in self._saved_chest_location_by_flag.items()
+                  if bits & (1 << flag)} & active
+        if tutorial_world_map_only:
+            checks.intersection_update(self._major_chest_location_ids_by_bit.get(0, []))
+        missing = sorted(checks - ctx.checked_locations)
+        if missing:
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing}])
+
+    async def _start_inventory_cursor_ready(self, ctx):
+        """Adopt prefixed history only at a fresh mailbox, or resume its marker.
+
+        Bit 31 of delivered_vitality_item_bits records this history format;
+        low four bits remain the unique Vitality IDs. Payload initialization
+        clears the entire field, so old savestates cannot silently shift indices.
+        """
+        if (self._vitality_history_session != self._authenticated_session_key(ctx)
+                or not any(getattr(item, "location", None) == -2
+                           and getattr(item, "player", None) == 0 for item in ctx.items_received)):
+            return True
+        session = self._authenticated_session_key(ctx)
+        keys = ["delivered_vitality_item_bits", "debug_item_counter", "delivered_item_index",
+                "incoming_item_flag", "mailbox_init_cookie"]
+        addresses = [self._transport_addr(key) for key in keys]
+        if any(address is None for address in addresses):
+            return False
+        raw = await bizhawk.read(ctx.bizhawk_ctx, [(address, 4, "System Bus") for address in addresses])
+        if (len(raw) != 5 or any(len(value) != 4 for value in raw)
+                or session != self._authenticated_session_key(ctx)):
+            return False
+        bits, received, delivered, flag, cookie = map(self._u32_le, raw)
+        if cookie != 0x4B41504D:
+            return False  # Wait for payload initialization before marking its format.
+        if bits & _START_INVENTORY_HISTORY_BIT:
+            return True
+        if received or delivered or flag:
+            if not getattr(self, "_legacy_start_inventory_warned", False):
+                self._log_client("warning", "KirbyAM: starting inventory changes the legacy item cursor. "
+                                 "Restart the ROM from its native save before continuing; "
+                                 "do not load a savestate made with the older client.")
+                self._legacy_start_inventory_warned = True
+            return False
+        applied = await bizhawk.guarded_write(ctx.bizhawk_ctx, [
+            (addresses[0], (bits | _START_INVENTORY_HISTORY_BIT).to_bytes(4, "little"), "System Bus")
+        ], [(address, value, "System Bus") for address, value in zip(addresses, raw)])
+        if applied:
+            if self._legacy_start_inventory_warned:
+                prefix = sum(getattr(item, "location", None) == -2
+                             and getattr(item, "player", None) == 0 for item in ctx.items_received)
+                old_indices = self._acknowledged_non_redeliverable_indices.copy()
+                self._acknowledged_non_redeliverable_indices.clear()
+                self._acknowledged_non_redeliverable_indices.update(index + prefix for index in old_indices)
+            self._reset_item_delivery_state()
+            self._ram_state_loaded = False
+            self._legacy_start_inventory_warned = False
+        return applied
+
+    async def _reconcile_vitality_ownership(self, ctx):
+        """Rebuild unique health ownership from a complete authenticated AP history.
+
+        Wait for index-zero ReceivedItems; an empty pre-sync list is not proof
+        of zero ownership. Correct older inflated saves only with that authority.
+        """
+        session = self._authenticated_session_key(ctx)
+        if (not self._server_session_ready(ctx) or self._vitality_history_session != session
+                or not isinstance(ctx.items_received, list)):
+            return
+        if not await self._start_inventory_cursor_ready(ctx):
+            return
+        if not await self._health_protocol_ready(ctx, require_identity=False):
+            return
+        ownership_mask = VITALITY_MASK if self._health_protocol_version == 2 else 0xF
+        mask = 0
+        for item in ctx.items_received:
+            item_id = getattr(item, "item", None)
+            if isinstance(item_id, int):
+                mask |= VITALITY_ITEM_BITS.get(item_id, 0) & ownership_mask
+        slot = ctx.slot_data
+        if not isinstance(slot, dict):
+            return
+        mode = slot.get("one_hit_mode", 0)
+        minimum, maximum = slot.get("minimum_health", 6), slot.get("maximum_health", 10)
+        if mode == 1:
+            minimum, maximum = 1, 1
+        elif mode == 2:
+            minimum, maximum = 1, 5
+        elif mode != 0:
+            return
+        if (type(minimum) is not int or type(maximum) is not int
+                or not 1 <= minimum <= maximum <= 10
+                or maximum - minimum > (9 if self._health_protocol_version == 2 else 4)):
+            return
+        count = min(mask.bit_count(), maximum - minimum)
+        addresses = [self._transport_addr("delivered_vitality_item_bits"),
+                     self._native_addr("kirby_vitality_counter_native"),
+                     self._native_addr("kirby_hp_native"), self._native_addr("kirby_max_hp_native")]
+        if any(address is None for address in addresses):
+            return
+        widths = [4, 2, 1, 1]
+        values = await bizhawk.read(ctx.bizhawk_ctx, [
+            (address, width, "System Bus") for address, width in zip(addresses, widths)])
+        if (len(values) != 4 or any(len(value) != width for value, width in zip(values, widths))
+                or session != self._authenticated_session_key(ctx)):
+            return
+        hp, previous_max = self._s8(values[2]), self._s8(values[3])
+        maximum = minimum + count
+        # A genuinely new native count gets the normal Vitality heal. Saved
+        # replay preserves damage; migrations clamp, and dead Kirby stays dead.
+        if hp > 0:
+            if count > int.from_bytes(values[1], "little"):
+                hp = maximum
+            elif 0 < previous_max < maximum:
+                hp += maximum - previous_max
+            hp = min(hp, maximum)
+        mask |= int.from_bytes(values[0], "little") & ~ownership_mask
+        desired = [mask.to_bytes(4, "little"), count.to_bytes(2, "little"),
+                   hp.to_bytes(1, "little", signed=True), bytes([maximum])]
+        writes = [(address, value, "System Bus") for address, value, before
+                  in zip(addresses, desired, values) if value != before]
+        if writes:
+            applied = await bizhawk.guarded_write(ctx.bizhawk_ctx, writes, [
+                (address, value, "System Bus") for address, value in zip(addresses, values)])
+            if applied:
+                self._log_verbose("info", "KirbyAM: restored unique Vitality ownership mask=0x%X count=%s", mask, count)
+
     async def _poll_minor_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
-        """
-        Read spray-paint and music-sheet collected bits and map set bits to MINOR_CHEST locations.
-
-        Small chest flag indices are heavily shared across many physical chests, which makes
-        native chest-bit only reporting ambiguous. To keep location checks deterministic,
-        this path treats collectible ownership bits as the source for minor chest checks.
-        """
-        active_location_ids = self._active_location_id_set(ctx)
-
-        has_spray_map = bool(self._minor_chest_spray_fallback_location_ids_by_bit)
-        has_music_map = bool(self._minor_chest_music_sheet_fallback_location_ids_by_bit)
-        if not has_spray_map and not has_music_map:
-            return
-
-        spray_addr = self._native_addr(_SPRAY_PAINT_BITFIELD_ADDR_KEY)
-        music_addr = self._native_addr(_MUSIC_PLAYER_AND_SHEETS_BITFIELD_ADDR_KEY)
-        read_specs: list[tuple[int, int, str]] = []
-        if has_spray_map and spray_addr is not None:
-            read_specs.append((spray_addr, 4, "System Bus"))
-        if has_music_map and music_addr is not None:
-            read_specs.append((music_addr, 4, "System Bus"))
-        if not read_specs:
-            return
-
-        raw_values = await bizhawk.read(ctx.bizhawk_ctx, read_specs)
-        if len(raw_values) != len(read_specs):
-            return
-
-        mapped_checked_locations: set[int] = set()
-        read_idx = 0
-        if has_spray_map and spray_addr is not None:
-            spray_raw = raw_values[read_idx]
-            read_idx += 1
-            if len(spray_raw) == 4:
-                spray_bits = self._u32_le(spray_raw)
-                for bit in sorted(self._minor_chest_spray_fallback_location_ids_by_bit.keys()):
-                    if (spray_bits >> bit) & 1:
-                        mapped_checked_locations.update(self._minor_chest_spray_fallback_location_ids_by_bit.get(bit, []))
-
-        if has_music_map and music_addr is not None:
-            music_raw = raw_values[read_idx]
-            if len(music_raw) == 4:
-                music_bits = self._u32_le(music_raw)
-                for bit in sorted(self._minor_chest_music_sheet_fallback_location_ids_by_bit.keys()):
-                    if (music_bits >> bit) & 1:
-                        mapped_checked_locations.update(self._minor_chest_music_sheet_fallback_location_ids_by_bit.get(bit, []))
-
-        if active_location_ids is not None:
-            mapped_checked_locations.intersection_update(active_location_ids)
-
-        missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
-        already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
-        if missing_on_server:
-            chest_log_state = ("resend", tuple(missing_on_server), tuple(already_acknowledged))
-            if chest_log_state != self._last_minor_chest_poll_log:
-                self._log_verbose(
-                    "info",
-                    "KirbyAM: resending minor-chest LocationChecks missing on server (missing=%s, acked=%s)",
-                    missing_on_server,
-                    already_acknowledged,
-                )
-                self._last_minor_chest_poll_log = chest_log_state
-
-            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
-        elif mapped_checked_locations:
-            chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
-            if chest_log_state != self._last_minor_chest_poll_log:
-                self._log_verbose(
-                    "debug",
-                    "KirbyAM: dedupe suppressed minor-chest LocationChecks (all RAM-derived checks already acknowledged: %s)",
-                    already_acknowledged,
-                )
-                self._last_minor_chest_poll_log = chest_log_state
-        else:
-            self._last_minor_chest_poll_log = None
+        """Report physical minor-chest checks from exact payload source events."""
+        await self._poll_minor_chest_event_locations(ctx)
 
     async def _poll_minor_chest_event_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
         Read exact minor-chest collection events from the ROM payload event ring.
 
-        This path disambiguates report-only minor chest locations whose native chest bits
-        are shared by multiple chests. The payload records the exact ROM source pointer for
-        each collected chest so the client can map it back to a single AP location.
+        The payload records each collected chest's exact ROM source pointer so the
+        client can match only a verified physical location. Nearby pointer aliases
+        are deliberately not accepted.
         """
         if not self._minor_chest_location_id_by_source_ptr:
             return
+
+        # Keep observed checks across transient network/connector reconnects, but
+        # never carry them into a different authenticated seed/team/slot.
+        session_key = tuple(
+            value if isinstance(value, (str, int)) else None
+            for value in (
+                getattr(ctx, "server_seed_name", None), getattr(ctx, "auth", None),
+                getattr(ctx, "team", None), getattr(ctx, "slot", None),
+            )
+        )
+        if self._minor_chest_session_key != session_key:
+            if self._minor_chest_session_key is not None:
+                self._pending_minor_chest_locations.clear()
+                self._last_minor_chest_event_counter = None
+            self._minor_chest_session_key = session_key
 
         counter_addr = self._transport_addr(_MINOR_CHEST_EVENT_COUNTER_ADDR_KEY)
         ring_addr = self._transport_addr(_MINOR_CHEST_EVENT_RING_BASE_ADDR_KEY)
@@ -3178,16 +3463,10 @@ class KirbyAmClient(BizHawkClient):
                 source_ptr = _normalize_gba_rom_address(source_ptr_raw)
                 location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr)
                 if location_id is None:
-                    # Live payload events can point at nearby fields within the same object
-                    # row (for example +/- 0xC). Try these aliases before declaring unknown.
-                    location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr + 0xC)
-                if location_id is None and source_ptr >= 0xC:
-                    location_id = self._minor_chest_location_id_by_source_ptr.get(source_ptr - 0xC)
-                if location_id is None:
                     if source_ptr not in self._logged_unknown_minor_chest_source_ptrs:
                         self._log_verbose(
                             "warning",
-                            "KirbyAM: exact minor-chest source ptr raw=0x%08X normalized=0x%08X is not mapped to an AP location (sequence=%s slot=%s).",
+                            "KirbyAM: unmapped minor-chest source ptr raw=0x%08X normalized=0x%08X sequence=%s slot=%s",
                             source_ptr_raw,
                             source_ptr,
                             sequence,
@@ -3199,66 +3478,50 @@ class KirbyAmClient(BizHawkClient):
             return exact_checked_locations_local
 
         event_counter = self._u32_le(raw_counter)
+        exact_checked_locations: set[int] = set()
         if self._last_minor_chest_event_counter is None:
-            if event_counter == 0:
-                self._last_minor_chest_event_counter = 0
-                return
-
             baseline_window = min(event_counter, _MINOR_CHEST_EVENT_RING_SLOT_COUNT)
-            first_sequence = event_counter - baseline_window
-            exact_checked_locations = collect_exact_checked_locations(first_sequence, event_counter)
-            self._last_minor_chest_event_counter = event_counter
-
-            if not exact_checked_locations:
-                return
-
-            active_location_ids = self._active_location_id_set(ctx)
-            if active_location_ids is not None:
-                exact_checked_locations.intersection_update(active_location_ids)
-            missing_on_server = sorted(exact_checked_locations - ctx.checked_locations)
-            if not missing_on_server:
-                return
-
-            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
-            return
-
-        if event_counter == self._last_minor_chest_event_counter:
-            return
-
-        if event_counter < self._last_minor_chest_event_counter:
+            exact_checked_locations = collect_exact_checked_locations(
+                event_counter - baseline_window, event_counter
+            )
+        elif event_counter < self._last_minor_chest_event_counter:
             self._log_verbose(
                 "info",
                 "KirbyAM: exact minor-chest event counter regressed from %s to %s; resetting baseline (savestate/load).",
                 self._last_minor_chest_event_counter,
                 event_counter,
             )
-            self._last_minor_chest_event_counter = event_counter
-            return
-
-        delta = event_counter - self._last_minor_chest_event_counter
-        if delta > _MINOR_CHEST_EVENT_RING_SLOT_COUNT:
-            self._log_verbose(
-                "warning",
-                "KirbyAM: dropped %s exact minor-chest events because the payload ring buffer overflowed.",
-                delta - _MINOR_CHEST_EVENT_RING_SLOT_COUNT,
+            # A reset/load can already contain fresh opens before this poll.
+            # Replay the retained exact-source window; server ACKs below dedupe
+            # checks from a restored state just as they do on first connection.
+            baseline_window = min(event_counter, _MINOR_CHEST_EVENT_RING_SLOT_COUNT)
+            exact_checked_locations = collect_exact_checked_locations(
+                event_counter - baseline_window, event_counter
             )
-            delta = _MINOR_CHEST_EVENT_RING_SLOT_COUNT
+        elif event_counter > self._last_minor_chest_event_counter:
+            delta = event_counter - self._last_minor_chest_event_counter
+            if delta > _MINOR_CHEST_EVENT_RING_SLOT_COUNT:
+                self._log_verbose(
+                    "warning",
+                    "KirbyAM: dropped %s exact minor-chest events because the payload ring buffer overflowed.",
+                    delta - _MINOR_CHEST_EVENT_RING_SLOT_COUNT,
+                )
+                delta = _MINOR_CHEST_EVENT_RING_SLOT_COUNT
+            exact_checked_locations = collect_exact_checked_locations(event_counter - delta, event_counter)
 
-        first_sequence = event_counter - delta
-        exact_checked_locations = collect_exact_checked_locations(first_sequence, event_counter)
-
+        # The ring is only an observation buffer, not an acknowledgment from the
+        # AP server. Retain every observed check before sending: send_msgs can
+        # raise, or silently return when its socket disconnected between polls.
         self._last_minor_chest_event_counter = event_counter
-        if not exact_checked_locations:
-            return
-
+        self._pending_minor_chest_locations.update(exact_checked_locations)
         active_location_ids = self._active_location_id_set(ctx)
         if active_location_ids is not None:
-            exact_checked_locations.intersection_update(active_location_ids)
-        missing_on_server = sorted(exact_checked_locations - ctx.checked_locations)
-        if not missing_on_server:
-            return
-
-        await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
+            self._pending_minor_chest_locations.intersection_update(active_location_ids)
+        self._pending_minor_chest_locations.difference_update(ctx.checked_locations)
+        if self._pending_minor_chest_locations:
+            await ctx.send_msgs([{
+                "cmd": "LocationChecks", "locations": sorted(self._pending_minor_chest_locations),
+            }])
 
     async def _poll_sound_player_chest_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
@@ -3951,6 +4214,14 @@ class KirbyAmClient(BizHawkClient):
         - Otherwise: wait
         """
 
+        if not await self._start_inventory_cursor_ready(ctx):
+            return
+
+        if not self._prepare_receipts(ctx):
+            return
+
+        receipt_session = (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None))
+
         flag_addr = self._transport_addr("incoming_item_flag")
         counter_addr = self._transport_addr("debug_item_counter")
         id_addr = self._transport_addr("incoming_item_id")
@@ -3968,6 +4239,9 @@ class KirbyAmClient(BizHawkClient):
         if heartbeat_addr is not None:
             reads.append((heartbeat_addr, 4, "System Bus"))
         raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
+
+        if receipt_session != (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None)):
+            return
 
         flag = self._u32_le(raw_values[0])
         next_read_index = 1
@@ -3989,8 +4263,23 @@ class KirbyAmClient(BizHawkClient):
                 self._hook_heartbeat_stale_ticks += 1
             self._last_hook_heartbeat = hook_heartbeat
 
-        # Auto-resync delivery cursor if ROM item state moved backward (save-loss)
-        # or forward (reconnect after stale client state).
+        if not self._receipts_ready(flag):
+            return
+
+        # The payload counts applied requests; the history index also includes
+        # skipped receipts. Compare physical counts to previous physical counts,
+        # never assume they equal the AP history index after a skipped entry.
+        previous_count = self._last_rom_received_count
+        counter_regressed = (rom_received_count is not None and previous_count is not None
+                             and rom_received_count < previous_count)
+        wrapped_ack = (self._delivery_pending and flag == 0 and previous_count == 0xFFFFFFFF
+                       and rom_received_count == 0)
+        counter_regressed = counter_regressed and not wrapped_ack
+        if rom_received_count is not None:
+            self._last_rom_received_count = rom_received_count
+        if counter_regressed:
+            self._delivery_counter_offset = 0
+
         if rom_received_count is not None:
             if rom_received_count > len(ctx.items_received):
                 if not self._delivery_counter_ahead_fallback_active:
@@ -4012,15 +4301,71 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_counter_ahead_fallback_active = False
                 self._delivery_counter_ahead_resume_logged = False
 
-            if rom_received_count < self._delivered_item_index:
+        # A reset can clear the flag without applying the request, including
+        # the first request where the physical counter stays at zero. Compare
+        # with the count captured at offer time, not the previous poll (which
+        # may already have observed an ACK whose journal commit failed).
+        if self._receipt_journal is not None and self._delivery_pending and flag == 0:
+            expected_count = (None if self._receipt_offer_count is None
+                              else (self._receipt_offer_count + 1) & 0xFFFFFFFF)
+            if expected_count in (None, 0) or rom_received_count != expected_count:
+                # Even a genuine wrap to zero is indistinguishable from reset.
+                # Keep transient reservations unresolved for explicit recovery.
+                # Permanent ownership remains eligible for safe restoration.
+                self._delivery_pending = False
+                self._delivery_pending_frame = None
+                self._delivery_pending_time = None
+                self._delivery_pending_item_index = None
+                self._receipt_active = None
+                self._receipt_offer_count = None
+                self._receipts_ready(flag)
+                return
+
+        # Consume a real pending ACK before any history rewind. Only that
+        # request's history index is acknowledged; a raw count cannot fast-forward
+        # over unrelated entries, nor can a smaller count erase this ACK.
+        if self._delivery_pending and flag == 0 and not counter_regressed:
+            delivered_index = self._delivery_pending_item_index
+            if delivered_index is None:
+                delivered_index = self._delivered_item_index
+            if self._receipt_journal is not None:
+                try:
+                    confirmed_receipt = receipt_key(ctx.items_received, delivered_index)
+                    if confirmed_receipt != self._receipt_active:
+                        self._receipt_failure("item history changed during an in-flight delivery; reconnect before continuing")
+                        return
+                    self._receipt_journal.acknowledge(confirmed_receipt)
+                    self._receipt_active = None
+                except (OSError, sqlite3.Error, ValueError) as exc:
+                    self._receipt_failure(f"could not record item acknowledgement ({exc})")
+                    return
+            self._delivered_item_index = delivered_index + 1
+            if rom_received_count is not None:
+                self._delivery_counter_offset = max(0, self._delivered_item_index - rom_received_count)
+            self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
+            self._delivery_pending = False
+            self._delivery_pending_frame = None
+            self._delivery_pending_time = None
+            self._delivery_pending_item_index = None
+            self._delivery_timeout_streak = 0
+            self._delivery_retry_not_before = 0.0
+            self._delivery_payload_stall_warned = False
+            self._hook_heartbeat_stale_ticks = 0
+            await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
+            self._record_acknowledged_non_redeliverable_index(ctx, delivered_index)
+            await self._emit_receive_notification(ctx, delivered_index)
+            self._log_verbose("info", "KirbyAM: Mailbox delivery confirmed at history index %s (ROM count=%s)",
+                              delivered_index, rom_received_count)
+            if rom_received_count is None:
+                return
+
+        if rom_received_count is not None:
+            history_position = rom_received_count + self._delivery_counter_offset
+            if history_position < self._delivered_item_index and (counter_regressed or not self._delivery_pending):
                 self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
-                self._log_verbose(
-                    "info",
-                    "KirbyAM: ROM delivery counter moved backward from %s to %s; rewinding client delivery cursor",
-                    self._delivered_item_index,
-                    rom_received_count,
-                )
-                self._delivered_item_index = rom_received_count
+                self._log_verbose("info", "KirbyAM: ROM delivery counter moved backward; rewinding history index %s to %s",
+                                  self._delivered_item_index, history_position)
+                self._delivered_item_index = history_position
                 self._delivery_pending = False
                 self._delivery_pending_frame = None
                 self._delivery_pending_time = None
@@ -4029,68 +4374,9 @@ class KirbyAmClient(BizHawkClient):
                 self._delivery_retry_not_before = 0.0
                 self._delivery_payload_stall_warned = False
                 await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
-            elif (
-                rom_received_count > self._delivered_item_index
-                and rom_received_count <= len(ctx.items_received)
-                and self._delivery_pending
-                and flag == 0
-            ):
-                # Treat forward counter movement as authoritative only for a pending
-                # delivery ACK. This avoids stale ROM counters skipping deliveries.
-                _ff_pending_item_index = self._delivery_pending_item_index
-                self._log_verbose(
-                    "info",
-                    "KirbyAM: ROM delivery counter moved forward from %s to %s on pending ACK; fast-forwarding client delivery cursor",
-                    self._delivered_item_index,
-                    rom_received_count,
-                )
-                self._delivered_item_index = rom_received_count
-                self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
-                self._delivery_pending = False
-                self._delivery_pending_frame = None
-                self._delivery_pending_time = None
-                self._delivery_pending_item_index = None
-                self._delivery_timeout_streak = 0
-                self._delivery_retry_not_before = 0.0
-                self._delivery_payload_stall_warned = False
-                self._hook_heartbeat_stale_ticks = 0
-                await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
-                # When the ROM counter advances while a delivery was pending and flag == 0,
-                # this IS the ACK: the ROM processed our mailbox item and incremented the
-                # counter in the same frame as clearing the flag.  Emit the receive
-                # notification here so it is not silently dropped by the fast-forward path
-                # taking precedence over the 'if self._delivery_pending' block below.
-                _notify_index = _ff_pending_item_index
-                if _notify_index is None:
-                    _notify_index = self._delivered_item_index - 1
-                self._record_acknowledged_non_redeliverable_index(ctx, _notify_index)
-                await self._emit_receive_notification(ctx, _notify_index)
 
         # If an item is pending, wait for ROM to clear the flag (ACK)
         if self._delivery_pending:
-            if flag == 0:
-                delivered_index = self._delivery_pending_item_index
-                if delivered_index is None:
-                    delivered_index = self._delivered_item_index
-                self._log_verbose("info", "KirbyAM: Mailbox delivery confirmed at item index %s", delivered_index)
-                self._delivery_pending = False
-                self._delivery_pending_frame = None
-                self._delivery_pending_time = None
-                self._delivery_pending_item_index = None
-                self._delivery_timeout_streak = 0
-                self._delivery_retry_not_before = 0.0
-                self._delivery_payload_stall_warned = False
-                self._hook_heartbeat_stale_ticks = 0
-                if rom_received_count is not None and rom_received_count <= len(ctx.items_received):
-                    self._delivered_item_index = rom_received_count
-                else:
-                    self._delivered_item_index += 1
-                self._max_delivered_item_index_seen = max(self._max_delivered_item_index_seen, self._delivered_item_index)
-                await self._persist_u32(ctx, "delivered_item_index", self._delivered_item_index)
-                self._record_acknowledged_non_redeliverable_index(ctx, delivered_index)
-                await self._emit_receive_notification(ctx, delivered_index)
-                return
-
             # Check for timeout via frame counter OR wall-clock time (fallback if frame_counter stuck)
             timeout_triggered = False
             timeout_reason = ""
@@ -4193,6 +4479,8 @@ class KirbyAmClient(BizHawkClient):
                     itm,
                 )
                 self._delivered_item_index += 1
+                if rom_received_count is not None:
+                    self._delivery_counter_offset = max(0, self._delivered_item_index - rom_received_count)
                 self._delivery_pending = False
                 self._delivery_pending_time = None
                 self._delivery_pending_item_index = None
@@ -4204,7 +4492,16 @@ class KirbyAmClient(BizHawkClient):
 
             item_id, player_id = item_fields
 
-            if self._is_acknowledged_non_redeliverable_index(ctx, self._delivered_item_index):
+            durable_ack = False
+            if self._receipt_journal is not None and item_id in TRANSIENT_ITEM_IDS:
+                try:
+                    durable_ack = self._receipt_journal.acknowledged(
+                        receipt_key(ctx.items_received, self._delivered_item_index))
+                except (OSError, sqlite3.Error, ValueError) as exc:
+                    self._receipt_failure(f"could not read receipt ({exc})")
+                    return
+            if durable_ack or (self._receipt_journal is None and
+                               self._is_acknowledged_non_redeliverable_index(ctx, self._delivered_item_index)):
                 # Issue #753: non-redeliverable items (traps/filler) are one-time
                 # effects and must not replay on reconnect/reload after mailbox ACK.
                 if rom_received_count is None:
@@ -4235,6 +4532,8 @@ class KirbyAmClient(BizHawkClient):
                     )
 
                 self._delivered_item_index += 1
+                if rom_received_count is not None:
+                    self._delivery_counter_offset = max(0, self._delivered_item_index - rom_received_count)
                 self._delivery_pending = False
                 self._delivery_pending_time = None
                 self._delivery_pending_item_index = None
@@ -4261,11 +4560,24 @@ class KirbyAmClient(BizHawkClient):
                 self._item_name(ctx, item_id, player_id),
                 self._player_name(ctx, player_id),
             )
+            pending_receipt = None
+            if self._receipt_journal is not None:
+                try:
+                    pending_receipt = receipt_key(ctx.items_received, self._delivered_item_index)
+                    if item_id in TRANSIENT_ITEM_IDS and not self._receipt_journal.reserve(pending_receipt):
+                        return  # Another process/earlier attempt owns it; never double-send.
+                except (OSError, sqlite3.Error, ValueError) as exc:
+                    self._receipt_failure(f"could not reserve receipt ({exc})")
+                    return
             await bizhawk.write(ctx.bizhawk_ctx, [
                 (id_addr, item_id.to_bytes(4, "little"), "System Bus"),
                 (player_addr, player_id.to_bytes(4, "little"), "System Bus"),
                 (flag_addr, (1).to_bytes(4, "little"), "System Bus"),
             ])
+            if receipt_session != (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None)):
+                return  # An outstanding transient reservation remains explicitly unresolved.
+            self._receipt_active = pending_receipt
+            self._receipt_offer_count = rom_received_count
             self._delivery_pending = True
             self._delivery_pending_frame = current_frame
             self._delivery_pending_time = time.monotonic()  # Record monotonic time for timeout fallback
@@ -4503,6 +4815,10 @@ class KirbyAmClient(BizHawkClient):
             self._goal_reported = True
 
     def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict) -> None:
+        if cmd == "Connected":
+            self._vitality_history_session = None
+        elif cmd == "ReceivedItems" and args.get("index") == 0:
+            self._vitality_history_session = self._authenticated_session_key(ctx)
         if not self._notification_settings_loaded:
             self._load_notification_settings(ctx)
         if cmd == "Bounced":

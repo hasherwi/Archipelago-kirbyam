@@ -40,6 +40,7 @@ async def test_reconnect_chaos_boss_defeat_polling_resends_once_then_dedupes(
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_reconnect_chaos_item_delivery_resumes_without_duplicate_first_item(
     mock_bizhawk_context: Mock,
 ) -> None:
@@ -117,6 +118,7 @@ async def test_reconnect_chaos_item_delivery_resumes_without_duplicate_first_ite
 
 
 @pytest.mark.asyncio
+@patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
 async def test_reconnect_chaos_goal_reporting_is_idempotent_across_cycles(
     mock_bizhawk_context: Mock,
 ) -> None:

@@ -111,6 +111,19 @@ def build_dummy_rom() -> bytearray:
     for offset in patch_rom.STARTING_COLOR_START_GAME_CALL_OFFSETS:
         put_bl(offset, patch_rom.ORIGINAL_START_GAME_FN_ADDR)
 
+    rom[patch_rom.PAYLOAD_OFFSET:patch_rom.PAYLOAD_LEGACY_OFFSET] = bytes(0x400)
+
+    # Current main's delayed chest, lever, ability and health hooks.
+    rom[0xB9A4:0xB9A8] = bytes.fromhex("D4 6C 20 1C")
+    initializer = 0x351648 + 0x81 * 0x18 + 0x10
+    rom[initializer:initializer + 4] = (0x0800BD4D).to_bytes(4, "little")
+    put_bl(0xB9B0, 0x080029F4)
+    for offset in (0x5C200, 0x5C400):
+        rom[offset:offset + 4] = (0x0805C619).to_bytes(4, "little")
+    put_bl(0x14380A, 0x08019F0C)
+    rom[0x3EB0E:0x3EB14] = patch_rom.thumb_bl_bytes(0x0803EB0E, 0x08019F0C) + b"\x06\x30"
+    for offset in (0x339B2, 0x33BF2, 0x35A62):
+        put_bl(offset, 0x0803518C)
     return rom
 
 
