@@ -8,19 +8,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## v0.5.0
-
-### New Features
-
-### Improvements
-- Beam, Burning, Cutter, Mini, Stone and Wheel now appear as starting AP ability unlock items. They remain usable before connecting, and receiving an unlock never equips it. Explicit starting copies avoid an extra automatic copy (Issue #957).
-
-### Known Limitations
-
-### Bug Fixes
-
-### Internal Changes
-
 ## v0.4.1
 
 ### New Features
@@ -34,6 +21,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Pause new item deliveries during the update that applies an incoming DeathLink, including links received while checking locations. Items already being delivered can still finish, and new deliveries resume after Kirby respawns (Issue #944).
 
 ### Internal Changes
+- Guaranteed starting abilities are now represented as AP items for tracker support (Issue #957).
 
 ## v0.4.0
 
