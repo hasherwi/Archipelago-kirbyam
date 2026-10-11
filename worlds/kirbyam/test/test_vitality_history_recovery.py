@@ -74,6 +74,7 @@ def test_actual_payload_replay_preserves_saved_counts_and_dead_state(tmp_path):
     source='''
 #define _GNU_SOURCE
 #include <stdint.h>
+#include <string.h>
 #include <sys/mman.h>
 #include "minor_chest_runtime_logic.h"
 #include "vitality_runtime_logic.h"
@@ -102,6 +103,23 @@ static uint32_t AP_DEBUG_LAST_ITEM_ID,AP_DEBUG_LAST_FROM;
 int main(void) {
     CHECK(mmap((void*)0x02020000,0x2000,PROT_READ|PROT_WRITE,
         MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x02020000);
+    /* Starting ability grants touch only ownership, including replay after reset.
+       Compare all mapped Kirby RAM so HP, held ability and other native state
+       cannot be changed by an unlock delivery. */
+    unsigned char before[0x2000];
+    memset((void*)0x02020000, 0x5A, sizeof(before));
+    memcpy(before, (void*)0x02020000, sizeof(before));
+    const unsigned starting_ids[] = {3, 4, 6, 7, 8, 23};
+    for (unsigned reset=0; reset<2; reset++) {
+        AP_ABILITY_UNLOCK_MASK=0;
+        unsigned expected=0;
+        for (unsigned i=0; i<6; i++) for (unsigned repeat=0; repeat<2; repeat++) {
+            CHECK(ap_apply_item(3860100u + starting_ids[i]));
+            expected |= 1u << starting_ids[i];
+            CHECK(AP_ABILITY_UNLOCK_MASK == expected);
+            CHECK(memcmp(before, (void*)0x02020000, sizeof(before)) == 0);
+        }
+    }
     for(unsigned saved=0;saved<=4;saved++) for(unsigned first=0;first<4;first++) {
         KIRBY_VITALITY_COUNTER=saved;AP_DELIVERED_VITALITY_ITEM_BITS=0;
         HP=2;MAX_HP=6+saved;

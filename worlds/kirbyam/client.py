@@ -2085,28 +2085,28 @@ class KirbyAmClient(BizHawkClient):
                 if ability_id is not None and 0 < ability_id <= 31:
                     gated_mask |= 1 << ability_id
 
-            ability_unlock_items = slot_data.get("ability_unlock_items", {})
-            if isinstance(ability_unlock_items, dict):
-                unlock_labels: set[str] = {
-                    label
-                    for label in ability_unlock_items.values()
-                    if isinstance(label, str)
-                }
-                if not unlock_labels:
-                    unlock_labels = set(_ABILITY_UNLOCK_ITEM_LABELS)
-                for item in ctx.items_received:
-                    item_id = self._coerce_u32(getattr(item, "item", None))
-                    if item_id is None:
-                        continue
-                    item_data = data.items.get(item_id)
-                    if item_data is None or not isinstance(item_data.label, str):
-                        continue
-                    if item_data.label not in unlock_labels:
-                        continue
-                    ability_name = item_data.label.removesuffix(" Ability")
-                    ability_id = ABILITY_NAME_TO_ID.get(ability_name)
-                    if ability_id is not None and 0 < ability_id <= 31:
-                        unlocked_mask |= 1 << ability_id
+        ability_unlock_items = slot_data.get("ability_unlock_items", {})
+        if isinstance(ability_unlock_items, dict):
+            unlock_labels: set[str] = {
+                label
+                for label in ability_unlock_items.values()
+                if isinstance(label, str)
+            }
+            if not unlock_labels:
+                unlock_labels = set(_ABILITY_UNLOCK_ITEM_LABELS)
+            for item in ctx.items_received:
+                item_id = self._coerce_u32(getattr(item, "item", None))
+                if item_id is None:
+                    continue
+                item_data = data.items.get(item_id)
+                if item_data is None or not isinstance(item_data.label, str):
+                    continue
+                if item_data.label not in unlock_labels:
+                    continue
+                ability_name = item_data.label.removesuffix(" Ability")
+                ability_id = ABILITY_NAME_TO_ID.get(ability_name)
+                if ability_id is not None and 0 < ability_id <= 31:
+                    unlocked_mask |= 1 << ability_id
 
         seed_lo = seed & 0xFFFFFFFF
         seed_hi = (seed >> 32) & 0xFFFFFFFF

@@ -8,6 +8,19 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## v0.5.0
+
+### New Features
+
+### Improvements
+- Beam, Burning, Cutter, Mini, Stone and Wheel now appear as starting AP ability unlock items. They remain usable before connecting, and receiving an unlock never equips it. Explicit starting copies avoid an extra automatic copy (Issue #957).
+
+### Known Limitations
+
+### Bug Fixes
+
+### Internal Changes
+
 ## v0.4.1
 
 ### New Features

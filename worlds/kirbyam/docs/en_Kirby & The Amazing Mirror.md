@@ -160,3 +160,32 @@ you're playing a multiworld game, the client will sync your game with the server
 
 
 \[jiangzhengwenjz](https://github.com/jiangzhengwenjz) and other contributors — creators of the \[Kirby \& The Amazing Mirror disassembly](https://github.com/jiangzhengwenjz/katam), which was instrumental in understanding ROM internals for this integration.
+
+
+## Starting ability unlocks
+
+Beam, Burning, Cutter, Mini, Stone and Wheel are a fixed starting set. New seeds
+precollect their AP unlock items, so they appear in starting inventory, received
+history and trackers. An unlock grants permission to acquire the ability through
+normal gameplay; it does not equip an ability. These six remain usable before
+connecting to the server or receiving mailbox deliveries.
+
+This fixed set is precollected with `ability_gating` both on and off. When gating
+is off, all abilities remain usable and no ability unlocks enter the shuffled
+pool. With gating on, the other unlocks retain their existing pool and gate rules.
+The six starting items never consume location slots.
+
+If `start_inventory` explicitly includes one of these six, its requested positive
+count is retained and no automatic copy is added. Counts above one are redundant
+ownership grants and never equip or stack an effect. Other explicit starting items
+retain their usual behavior. There is no new starting-ability selection option.
+
+Use a matching updated APWorld/client for new seeds. Existing seeds retain their
+original inventory and gate policy; the client does not insert starting packets
+into old histories. Reconnect/reset recovery rebuilds ownership from server history,
+while the native bootstrap keeps the fixed starting permissions available offline.
+The six useful items are tracked in CollectionState without adding traversal gates.
+
+The unchanged native unlock handler and gate bootstrap are covered by host tests;
+these tests are not emulator save/load acceptance. Fresh live acceptance of this
+inventory representation remains pending.
