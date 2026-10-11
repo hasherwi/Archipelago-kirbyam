@@ -89,6 +89,7 @@ def test_actual_payload_replay_preserves_saved_counts_and_dead_state(tmp_path):
 #define MAX_HP (*(int8_t*)0x02020FE1u)
 #define CHECK(x) do {if(!(x)) return __LINE__;} while(0)
 static uint32_t AP_DELIVERED_VITALITY_ITEM_BITS,AP_DELIVERED_SHARD_BITFIELD,AP_SHARD_BITFIELD,AP_ABILITY_UNLOCK_MASK,KIRBY_SPRAY_PAINT_FLAGS,KIRBY_MUSIC_PLAYER_AND_SHEETS_FLAGS;
+static uint32_t AP_AREA_KEY_BITFIELD_RUNTIME;
 static uint16_t KIRBY_VITALITY_COUNTER;
 static uint32_t gApHealthConfigInitial=0xA9020A06u;
 static uint8_t KIRBY_SHARD_FLAGS;

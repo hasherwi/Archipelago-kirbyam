@@ -35,6 +35,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## v0.4.0
 
 ### New Features
+- Added eight Area Key progression items for Areas 2 through 9. Cross-area mirrors (and other transitions like Warp Stars) now require the destination area's key; eight hub rooms are locations (even when Room Sanity is off) so the default item pool retains valid capacity (Issue #42).
 - Added `minimum_health` and `maximum_health` YAML options for a custom starting/final HP capacity (Issues #778, #947). Defaults remain 6/10; all starting/final ranges within 1..10 HP are supported with up to nine unique Vitality Counter upgrades. Existing One-Hit Mode presets override these options.
 - mGBA now supported as an optional emulator.
 - All minor chests are added as locations and no longer provide their native item.
@@ -84,9 +85,11 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - Because of how we detect the game state, the check will only send AFTER the tutorial is completed and you enter Central Circle for the first time.
 
 ### Improvements
+
 - Self-send item popups in BizHawk are now collapsed to one line (`You found your <item>.`) instead of separate send and receive popups (Issue #848).
 
 ### Known Limitations
+
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
 - Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
 - Small Chests: We know you want the "small" chests implemented. We want them implemented too. We've been working on it for months. We decided getting out what IS working, is more important.

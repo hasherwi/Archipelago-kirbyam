@@ -97,7 +97,7 @@ def test_carrot_physical_compartments(entry, lower, upper):
     assert not regions[parent].can_reach(state)
 
 
-def test_all_65_chests_are_reachable_without_received_ap_items():
+def test_all_65_chests_are_reachable_with_route_items():
     """Current v0.4 graph, including event sweep, requires no new item gates."""
     from argparse import Namespace
     multiworld = MultiWorld(1)
@@ -116,6 +116,12 @@ def test_all_65_chests_are_reachable_without_received_ap_items():
     rows = [row for row in data.locations.values()
             if row.name.startswith('MINOR_CHEST_') and row.source_rom_offset is not None]
     assert len(rows) == 65
+    assert any(not multiworld.get_location(row.label, 1).can_reach(state) for row in rows)
+    route_items = [item for item in data.items.values() if "AreaKeys" in item.tags]
+    assert len(route_items) == 8
+    for item in route_items:
+        state.collect(world.create_item(item.label), prevent_sweep=True)
+    state.sweep_for_advancements()
     assert not [row.name for row in rows
                 if not multiworld.get_location(row.label, 1).can_reach(state)]
 

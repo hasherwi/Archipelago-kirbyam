@@ -141,11 +141,13 @@ def test_sound_player_chest_collect_call_offset_matches_verified_hook_site() -> 
 def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
     monkeypatch.setattr(patch_rom, "build_runtime_regression_writes", lambda *args: {})
     rom = bytearray(b"\xA5" * 0x200000)
+    rom[patch_rom.PAYLOAD_OFFSET:patch_rom.PAYLOAD_LEGACY_OFFSET] = bytes(0x400)
     for offset in patch_rom.HEALTH_HUD_CALLSITES:
         rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(0x08000000 + offset, 0x0803518C)
     rom[0x14380A:0x14380E] = patch_rom.thumb_bl_bytes(0x0814380A, 0x08019F0C)
     rom[0x3EB0E:0x3EB14] = patch_rom.thumb_bl_bytes(0x0803EB0E, 0x08019F0C) + b"\x06\x30"
     hook_bl_bytes = {
+        "automatic_transition_guard_bytes": b"\0" * len(patch_rom.AUTOMATIC_TRANSITION_GUARD_ORIGINAL),
         "main_hook_bl_bytes": b"\x00\x00\x00\x00",
         "boss_hook_bl_bytes": b"\x00\x00\x00\x00",
         "minor_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
@@ -165,7 +167,9 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
         {},
         [],
         [],
-        {"starting_color_start_game_hook_target": 0x08100000,
+        [], [], [], [], [], [],
+        {"unknown83_transition_hook_target": 0x08100400,
+         "starting_color_start_game_hook_target": 0x08100000,
          "health_hud_hook_target": 0x08100100, "initial_health_hook_target": 0x08100200, "vitality_menu_hook_target": 0x08100300},
         0x08000000,
     )
@@ -407,3 +411,10 @@ def test_validate_starting_color_callsite_target_rejects_other_revision() -> Non
             "single-player game start",
             patch_rom.ORIGINAL_START_GAME_FN_ADDR,
         )
+
+
+def test_extended_payload_padding_rejects_unexpected_native_bytes() -> None:
+    rom = bytearray(0x200000)
+    rom[patch_rom.PAYLOAD_OFFSET + 9] = 1
+    with pytest.raises(SystemExit, match="extended payload retail zero padding"):
+        patch_rom.patch_rom_with_payload(rom, b"", {}, {}, [], [], [], [], [], [], [], [], {}, 0x08000000)
