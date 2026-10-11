@@ -422,7 +422,16 @@ class KirbyAmWorld(World):
     # Pre-generation adjustments
     def generate_early(self) -> None:
         # Reject unsupported health pairs before producing regions/items or a patch.
-        self._health_range()
+        health_range = self._health_range()
+        if self._one_hit_mode_value():
+            logger.warning(
+                "[P%s] one_hit_mode is deprecated; using minimum_health=%s and maximum_health=%s. "
+                "Replace one_hit_mode in your YAML with these health values.",
+                self.player, health_range.minimum, health_range.maximum,
+            )
+            self.options.minimum_health.value = health_range.minimum
+            self.options.maximum_health.value = health_range.maximum
+            self.options.one_hit_mode.value = 0
 
         # Track generation start
         self._generation_start_time = time.time()
@@ -1053,7 +1062,6 @@ class KirbyAmWorld(World):
             "enable_traps",
             "trap_fill_percentage",
             "enemy_health_multiplier",
-            "one_hit_mode",
             "minimum_health",
             "maximum_health",
             "death_link",

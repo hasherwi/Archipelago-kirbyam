@@ -170,11 +170,12 @@ def test_custom_health_yaml_generates_patch_and_slot_data(tmp_path: Path, minimu
     archive = generate_archive_from_fixture(player_file, tmp_path / "output", seed=778)
     decoded = load_multidata_from_archive(archive)
     slot_data = decoded["slot_data"][1]
-    assert slot_data["minimum_health"] == minimum
-    assert slot_data["maximum_health"] == maximum
     expected_mode = {"off": 0, "exclude_vitality_counters": 1, "include_vitality_counters": 2}[mode]
-    assert slot_data["one_hit_mode"] == expected_mode
-    expected_count = resolve_health_range(minimum, maximum, expected_mode).vitality_count
+    expected_range = resolve_health_range(minimum, maximum, expected_mode)
+    assert slot_data["minimum_health"] == expected_range.minimum
+    assert slot_data["maximum_health"] == expected_range.maximum
+    assert "one_hit_mode" not in slot_data
+    expected_count = expected_range.vitality_count
     item_codes = [item[0] for item in decoded["locations"][1].values()]
     assert sum(code in _vitality_item_codes() for code in item_codes) == expected_count
     with zipfile.ZipFile(archive) as generated:

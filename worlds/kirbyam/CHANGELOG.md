@@ -13,6 +13,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### New Features
 
 ### Improvements
+- Configure one-hit starts through Minimum Health and Maximum Health. The redundant One-Hit Mode selector is removed from templates; older YAML presets still convert automatically (Issue #955).
 - Reopening a game remembers items confirmed by the updated client, so food, lives, batteries, invincibility and traps are not applied again and old receive messages stay quiet. Permanent items can still be restored when loading an older save. If an interruption leaves an item's delivery uncertain, the client asks you to resolve it instead of guessing (Issue #952, PR #954).
 
 ### Known Limitations

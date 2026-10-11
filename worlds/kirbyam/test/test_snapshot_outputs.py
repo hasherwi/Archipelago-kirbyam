@@ -73,7 +73,6 @@ def _build_representative_slot_data() -> dict[str, object]:
         "enable_traps": False,
         "trap_fill_percentage": 25,
         "enemy_health_multiplier": 100,
-        "one_hit_mode": 0,
         "minimum_health": 6,
         "maximum_health": 10,
         "death_link": True,

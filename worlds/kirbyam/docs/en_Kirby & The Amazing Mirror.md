@@ -67,7 +67,7 @@ Use exact item/location names from this world (or the item groups listed above) 
 
 
 - There is an optional setting to enable one-life mode (no_extra_lives). If you die you are instantly sent back to the Hub, and any 1Ups you receive will be immediately removed.
-- There is an optional setting to enable one-hit mode. Kirby's HP cap is clamped to 1 plus collected Vitality Counters. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool and health-restoring filler (Small Food, Energy Drink, Hunk of Meat, and Max Tomato) is also removed from filler selection so randomized filler cannot counteract the 1 HP challenge.
+- For a fixed one-hit challenge, set `minimum_health: 1` and `maximum_health: 1`. This removes Vitality Counters and healing filler from the pool. For a one-hit start with four upgrades, use `minimum_health: 1` and `maximum_health: 5`.
 - Filler items use weighted generation rather than equal odds. Current whole-number weights are: Cell Phone Battery 25, Energy Drink 17, 1 Up 15, Max Tomato 15, Small Food 14, Hunk of Meat 9, Invincibility Candy 5.
 - Goal modes:
   - `dark_mind`: Defeat Dark Mind to complete the seed.
@@ -97,7 +97,6 @@ The defaults are 6 and 10. Set both values together, for example:
 ```yaml
 minimum_health: 8
 maximum_health: 10
-one_hit_mode: off
 ```
 
 This starts with 8 HP and places two unique Vitality Counters, each adding 1 HP.
@@ -108,15 +107,23 @@ changed. If using weighted/random values, every possible pair must satisfy
 these constraints.
 
 Minimum Health is a starting capacity, not a damage floor. Kirby can still
-lose HP and die. Existing One-Hit Mode presets override both custom values:
-`exclude_vitality_counters` means 1 HP throughout; `include_vitality_counters`
-means a 1 HP start with four upgrades to 5 HP.
+lose HP and die. Minimum/Maximum Health are now the only public health controls.
+The old `one_hit_mode` selector is hidden from templates and option groups.
 
-As with One-Hit Mode, custom health applies after the tutorial while connected
-to the current BizHawk client. Native health can briefly reappear during room
-changes, respawns, and vitality grants until the next client poll. Disconnected
-play does not maintain custom limits. Nonstandard HP-meter visuals still need
-in-game validation.
+Older YAML files still work: `exclude_vitality_counters` (or `1`) converts to
+`minimum_health: 1` / `maximum_health: 1`; `include_vitality_counters` (or `2`)
+converts to `1` / `5`. Generation prints a migration warning and preserves the
+old preset's precedence if custom bounds are also present. Replace that legacy
+key with the displayed bounds. `off` leaves the custom bounds unchanged.
+New seeds store only the resolved min/max values; existing seeds retain their
+legacy client behavior. No item IDs or native save fields change.
+
+Starting at 1 HP excludes Health Down Trap from the pool and suppresses its
+native effect. Fixed 1/1 health also excludes healing filler. Other health
+ranges retain their normal filler/trap policy. Newly generated ROMs embed the
+resolved bounds for native health initialization; the connected client still
+reconciles AP ownership after the tutorial. Fresh emulator acceptance remains
+separate from generation and host-function tests.
 
 
 ## What does another world's item look like in Kirby \& The Amazing Mirror?
