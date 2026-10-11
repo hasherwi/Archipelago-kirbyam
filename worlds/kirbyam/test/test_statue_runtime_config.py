@@ -79,7 +79,7 @@ async def test_legacy_slot_data_still_syncs_statue_gating_masks(
 
 
 @pytest.mark.asyncio
-async def test_gating_disabled_writes_zero_gate_and_unlock_masks(
+async def test_gating_disabled_keeps_zero_gate_and_tracks_received_ownership(
     mock_bizhawk_context: Any,
 ) -> None:
     """Explicitly disabled gating must not suppress any statue ability."""
@@ -93,7 +93,7 @@ async def test_gating_disabled_writes_zero_gate_and_unlock_masks(
     )
     mock_bizhawk_context.slot_data = {
         "ability_gating": False,
-        # These values must be ignored while gating is disabled.
+        # Gateability is ignored, but received ownership is still tracked.
         "ability_gateable_abilities": ["Magic"],
         "ability_unlock_items": {"Magic": "Magic Ability"},
         "enemy_copy_ability_policy": {
@@ -109,7 +109,7 @@ async def test_gating_disabled_writes_zero_gate_and_unlock_masks(
         await client._sync_enemy_copy_ability_runtime_config(mock_bizhawk_context)
 
     assert client._last_ability_runtime_config_signature is not None
-    assert client._last_ability_runtime_config_signature[-3:] == (False, 0, 0)
+    assert client._last_ability_runtime_config_signature[-3:] == (False, 0, 1 << ABILITY_NAME_TO_ID["Magic"])
     written = _written_u32_by_address(mock_write)
     assert written[data.transport_ram_addresses["ability_gate_mask_runtime"]] == 0
-    assert written[data.transport_ram_addresses["ability_unlock_mask_runtime"]] == 0
+    assert written[data.transport_ram_addresses["ability_unlock_mask_runtime"]] == 1 << ABILITY_NAME_TO_ID["Magic"]

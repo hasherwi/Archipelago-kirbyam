@@ -63,7 +63,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x48   | 0x0203B048 | 4B | delivered_vitality_item_bits | u32 | Client ↔ ROM | Bits 0..3 identify unique Vitality items. Bit 31 is client-owned and marks a cursor using the starting-inventory-prefixed history. Other bits are reserved. Payload initialization clears the whole word; native Vitality counting uses only bits 0..3. |
 | 0x4C   | 0x0203B04C | 4B | hub_switch_flags | u32 | ROM → Client | Bits 0–14 latched from persisted world-props unlock bits written by `WorldMapUnlockSave` (`sub_08002888(SUB_08002888_ENUM_UNK_3, index, 0)` in decomp; enum value 2), with world-map unlock callback path used only as an immediate fast path when persistence is already visible (AP bit order: Peppermint West, RR East, RR South, Cabbage Center, RR West, Carrot, RR North, Mustard, Cabbage West, Radish, Peppermint East, Moonlight, Cabbage East, Olive, Candy). Mapping source of truth is `data/hub_switch_contract.json`; payload consumes generated `kirby_ap_payload/generated_hub_switch_worldmap_cases.inc` and client compatibility aliases consume generated `generated_hub_switch_contract.py`. Payload ignores `WORLDMAP_NO_UNLOCK` (0), preventing false Peppermint West check sends from non-unlock dispatches (Issue #750). Compatibility note: contract currently carries legacy bit-15 aliasing for `Rainbow Route North - Big Switch` (Issue #733). |
 | 0x50   | 0x0203B050 | 4B | starting_kirby_color_id | u32 | ROM ← Client | Live recovery copy of the resolved starting color (`0..13`). The generated ROM also carries the same value at file offset `0x15F694`, allowing the startup hook to apply it before `CreateKirby`. After reconnect/reset, the payload updates `Kirby::color` and explicitly calls native `sub_0803E558(0)` to rebuild and upload the OBJ palette. |
-| 0x54   | 0x0203B054 | 4B | one_hit_mode_runtime | u32 | ROM ← Client | Challenge-mode runtime config: one-hit mode value (`0`=off, `1`=exclude_vitality_counters, `2`=include_vitality_counters). Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
+| 0x54   | 0x0203B054 | 4B | one_hit_mode_runtime | u32 | ROM ← Client | Health Down Trap suppression: new slots write `1` when resolved minimum health is 1, otherwise `0`. Legacy slots retain preset values `0`, `1`, or `2`; any nonzero initialized value suppresses the trap. This word does not select health bounds. Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
 | 0x58   | 0x0203B058 | 4B | no_extra_lives_runtime | u32 | ROM ← Client | Challenge-mode runtime config: no-extra-lives flag (`0`=off, `1`=on). Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
 | 0x5C   | 0x0203B05C | 4B | ability_reroll_source_kind_runtime | u32 | ROM → Client | Source-pointer classifier for the **most recent** ability telemetry event: `0` unknown/unspecified, `1` r5 looked like an `Object2*` in EWRAM and source type was sampled at `+0x82`, `2` r5 was null, `3` r5 was non-null but outside EWRAM, `4` ability statue event (`ability_star`) using `ability_reroll_source_addr_runtime` as the native statue ability ID (`0..31`) instead of a ROM source-table address. Helps distinguish swallow-source events from helper/statue call paths. |
 | 0x60   | 0x0203B060 | 4B | ability_reroll_callsite_pc_runtime | u32 | ROM → Client | Return-site discriminator for the **most recent** reroll event. Payload records caller PC derived from `lr` (`(lr & ~1) - 4`) so telemetry can distinguish call families that route into the same ability transition function. |
@@ -176,7 +176,7 @@ All trap items are sourced directly from `worlds/kirbyam/data/items.json` and ar
 
 Seed-time trap pool filtering:
 - When `no_extra_lives` is enabled, `Life Down Trap` and `Life Wipeout Trap` are removed from trap selection.
-- When one-hit mode is enabled (`one_hit_mode != 0`), `Health Down Trap` is removed from trap selection.
+- When resolved `minimum_health` is 1, `Health Down Trap` is removed from trap selection.
 
 ## Location ID Ranges
 
@@ -242,9 +242,8 @@ Server → Client: ConnectionRefused | Connected
 - `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the existing payload refreshes Kirby's live OBJ palette. Reconnect alone does not reroll the color.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
 - `health_protocol_version` (int): `2` for newly generated ROMs; requires the format-2 client and `KIRBYAM APV2` ROM header. Missing version identifies the legacy four-counter contract.
-- `minimum_health` (int): starting HP capacity (`1..10`, default `6`), applied by the connected client after the tutorial. This is not a current-HP floor. Ignored when One-Hit Mode is enabled.
-- `maximum_health` (int): final HP capacity (`1..10`, default `10`). Must be at least `minimum_health` and no more than nine HP above it. The difference determines how many of the nine unique Vitality Counter items are generated. Ignored when One-Hit Mode is enabled.
-- `one_hit_mode` (int): one-hit mode selection (`0=off`, `1=exclude_vitality_counters`, `2=include_vitality_counters`). When non-zero, Kirby's max HP is clamped to `vitality_counter + 1` during gameplay. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool (replaced by filler) so the cap stays at 1. In `include_vitality_counters` mode, Vitality Counter items remain in the pool and each one received raises the cap by 1.
+- `minimum_health` (int): starting HP capacity (`1..10`, default `6`), embedded in new ROMs for native initialization and reconciled by the connected client after the tutorial. This is not a current-HP floor. Legacy nonzero presets take precedence for old slots.
+- `maximum_health` (int): final HP capacity (`1..10`, default `10`). Must be at least `minimum_health` and no more than nine HP above it. The difference determines how many of the nine unique Vitality Counter items are generated. Legacy nonzero presets take precedence for old slots.
 - `enable_traps` (bool): when true, trap items may appear in the randomized item pool.
 - `trap_fill_percentage` (int): percentage (`0..100`) of eligible filler slots that are replaced by trap items when `enable_traps` is true.
 - `enemy_health_multiplier` (int): generation-resolved enemy HP percentage (`50..500`, default `100`). The value is baked into the `.apkirbyam` patch procedure; the client receives it for diagnostics/logging only.
@@ -281,6 +280,8 @@ Goal runtime behavior contract:
 Legacy goal compatibility:
 - New generation does not emit goal value `3` or `goal_hidden_area_boss_key`. The client still accepts those fields from already-generated `defeat_random_hidden_area_boss` seeds and maps them through the retained legacy goal metadata entry.
 
+Legacy slots may additionally contain `one_hit_mode`: `0` selects custom/default bounds, `1` selects 1/1, and `2` selects 1/5. New generation converts the hidden YAML alias into canonical bounds and omits this slot-data key. Clients retain support for previously generated slots.
+
 DeathLink runtime behavior contract:
 - Incoming DeathLink packets (`Bounced` with `DeathLink` tag) are queued and only applied when gameplay-active gate is true.
 - Application writes `kirby_hp_native` to `0` to trigger local defeat.
@@ -294,17 +295,16 @@ DeathLink runtime behavior contract:
 - During gameplay, the BizHawk client clamps `kirby_lives_native` to `0` so the player starts with zero extra lives and native/in-game life gains are overwritten.
 - Any `no_extra_lives` runtime diagnostics are emitted as file-only logs (`NoStream=True`).
 
-`minimum_health`, `maximum_health`, and `one_hit_mode` runtime behavior contract:
-- Generation removes all Vitality Counter items from the non-filler item pool (replaced by filler) when `one_hit_mode == exclude_vitality_counters` (1). Vitality Chest locations are kept, but this mode does not guarantee location-specific filler placement on those chests.
-- In `exclude_vitality_counters` mode, filler selection also removes health-restoring filler (`Small Food`, `Energy Drink`, `Hunk of Meat`, `Max Tomato`) so randomized filler does not counteract the 1 HP challenge. If `no_extra_lives` is also enabled, `1 Up` is removed from that reduced filler pool as well.
-- Generation leaves the item pool unchanged when `one_hit_mode == include_vitality_counters` (2).
-- `one_hit_mode: off` uses the configured `minimum_health`/`maximum_health` pair. The existing `exclude_vitality_counters` and `include_vitality_counters` presets override that pair to `1..1` and `1..5` respectively, preserving old YAML behavior.
-- With One-Hit Mode off, `1 <= minimum_health <= maximum_health <= 10` are required. Invalid pairs fail generation rather than silently altering the requested range. All 55 ordered pairs within 1..10 are supported by format 2.
+`minimum_health` / `maximum_health` runtime behavior contract:
+- New generation uses only the canonical health pair. The hidden legacy YAML alias normalizes `exclude_vitality_counters` to 1/1 and `include_vitality_counters` to 1/5, warns, and is not emitted in slot data.
+- `1 <= minimum_health <= maximum_health <= 10` is required after normalization. All 55 ordered pairs are supported by format 2; the difference is the number of unique Vitality Counters.
+- Equal bounds generate no Vitality Counter items. Fixed 1/1 also removes healing filler; starts at 1 HP remove Health Down Trap. Vitality Chest checks remain available.
 - Generation keeps the first `maximum - minimum` stable unique Vitality Counter IDs (`3860018..3860021`, then `3860224..3860228`), each exactly once; unused counter slots receive filler/traps under the existing fill policy. All four vitality-chest locations remain. The first four IDs and physical locations remain unchanged; five additional unique identities provide the wider ranges.
+- The retained mailbox word at 0x54 carries trap suppression derived from minimum health, not a second health setting. Legacy slots preserve their preset semantics.
 - During active gameplay, the connected BizHawk client bounds native vitality to `maximum - minimum` and sets player 0's capacity to `minimum + bounded_vitality`. Alive HP above that cap is clamped. When raising native capacity (for example, an 8 HP start over the native 6 HP start), the same increase is applied to alive HP, preserving the existing damage deficit. An already-correct cap does not heal on repeated polls. Dead/negative HP is never revived.
 - HP/cap/vitality writes are guarded by the exact read snapshot so an intervening hit, death, respawn, or item delivery is not overwritten. A failed guard waits for a fresh read on the next gameplay tick.
 - The default `6..10` range keeps four upgrades. Older slot data omitting both new keys resolves to the defaults; legacy One-Hit values still take precedence. Invalid health pairs received in slot data cause no health writes.
-- Health options reuse the existing native fields and payload vitality handling. There is no new mailbox ABI or ROM token. Enforcement requires a connected current client after the tutorial: native room/respawn/vitality paths can briefly restore `6 + vitality` before the next client poll, and disconnected play does not maintain custom limits. Runtime/HP-meter rendering validation remains required before release.
+- Format 2 embeds the resolved bounds in the existing health config ROM word for native initialization. The connected client reconciles AP ownership after the tutorial. This option consolidation adds no new mailbox ABI, ROM hook or native save field. Runtime acceptance remains separate from host tests.
 - Custom `1..1` health also excludes healing filler; custom starts at 1 HP exclude Health Down Trap from selection just like legacy One-Hit presets.
 - Dead/negative HP states (`current_hp <= 0`) are preserved; only alive Kirby's HP is clamped.
 - Any `one_hit_mode` runtime diagnostics are emitted as file-only logs (`NoStream=True`).
@@ -777,3 +777,35 @@ not prove a native save flush. Complete history may correct an inflated saved
 count; partial replay retains it up to the configured upgrade limit. Only a
 real increase heals living Kirby; duplicate/replayed receipts cannot revive or
 heal. Physical chest flags never establish item ownership.
+
+### DeathLink and in-flight Vitality delivery (#944)
+
+The gameplay snapshot can precede an incoming DeathLink HP write. If a link was
+pending when that write phase began, or arrived during later location polling,
+the watcher processes mailbox ACK/recovery but does not offer another item in
+that tick. A later gameplay snapshot must show living Kirby before new delivery.
+An already offered request is not cleared or discarded to enforce this gate.
+
+The existing native Vitality grant preserves HP at zero and all negative signed
+death values while updating ownership/capacity; a successfully processed request
+still increments the application counter and clears its mailbox flag. Thus a
+Vitality consumed before DeathLink is followed by the death write, while one
+consumed after that write cannot heal dead Kirby. Client health reconciliation
+retains its guarded HP writes. The client ordering change needs no new ROM patch.
+Regression coverage executes actual client ordering and native grant/ACK source
+with stand-in RAM; live death-animation/save-load acceptance remains unrun.
+
+### Local receipt journal and reopen behavior (#952)
+
+The client records acknowledged transient receipts and receive-notice decisions in
+an authenticated seed/ROM/team/slot-scoped local SQLite journal. This survives
+client reinitialization and zeroed transport RAM. Persistent ownership receipts
+remain replayable for native-save restoration, without repeated notices. Delivery
+policy is explicit rather than derived from filler classification.
+
+An interrupted write-ahead transient receipt pauses delivery until the user resolves
+its outcome with `/receipt received` or `/receipt retry` after clearing the mailbox
+through a native-save restart. The client never treats a raw counter as proof of an
+ambiguous effect. Journal IO failures also pause delivery. See
+[reopening-receipts.md](dev-docs/reopening-receipts.md) for migration, portability,
+crash-window limits and recovery semantics. ROM/save formats are unchanged.

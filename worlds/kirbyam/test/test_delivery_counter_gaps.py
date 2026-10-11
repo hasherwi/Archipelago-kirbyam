@@ -2,6 +2,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 from NetUtils import NetworkItem
 from .test_start_inventory_protocol import validated_client, mailbox
+from ..receipts import receipt_key
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize('fresh_item',[3860001,3860026,3860027,3860032,3860033,3860034])
@@ -24,6 +25,9 @@ async def test_migrated_ack_prefix_does_not_repeat_fresh_effect(mock_bizhawk_con
         for key in ['debug_item_counter','delivered_item_index','incoming_item_flag']:memory[client._transport_addr(key)]=bytes(4)
         assert await client._start_inventory_cursor_ready(ctx)
         assert client._acknowledged_non_redeliverable_indices=={1,2,3}
+        assert client._prepare_receipts(ctx)
+        for index in (1, 2, 3):
+            client._receipt_journal.acknowledge(receipt_key(ctx.items_received, index))
         for tick in range(16):
             await client._deliver_items(ctx)
             if int.from_bytes(memory[flag],'little')==1:
@@ -38,9 +42,13 @@ async def test_migrated_ack_prefix_does_not_repeat_fresh_effect(mock_bizhawk_con
 async def test_multiple_receipt_gaps_survive_idle_polls_reconnect_and_rollback(mock_bizhawk_context, reconnect):
     ctx = mock_bizhawk_context
     client = await validated_client(ctx)
+    client.on_package(ctx, "ReceivedItems", {"index": 0})
     ctx.items_received = [NetworkItem(item, 3960566 + i, 1) for i, item in enumerate(
         [3860026, 3860032, 3860027, 3860026, 3860033, 3860027, 3860034])]
     client._acknowledged_non_redeliverable_indices.update({0, 2, 3, 5})
+    assert client._prepare_receipts(ctx)
+    for index in (0, 2, 3, 5):
+        client._receipt_journal.acknowledge(receipt_key(ctx.items_received, index))
     memory = mailbox(client)
     flag = client._transport_addr('incoming_item_flag')
     counter = client._transport_addr('debug_item_counter')
@@ -77,6 +85,7 @@ async def test_multiple_receipt_gaps_survive_idle_polls_reconnect_and_rollback(m
                 assert not client._delivery_pending
             if reconnect:
                 client = await validated_client(ctx)
+                client.on_package(ctx, "ReceivedItems", {"index": 0})
                 client._emit_receive_notification = AsyncMock()
                 await client._load_persistent_state(ctx)
                 client._acknowledged_non_redeliverable_indices.update({0, 2, 3, 5})

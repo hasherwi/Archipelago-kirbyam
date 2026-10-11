@@ -12,6 +12,7 @@ from BaseClasses import ItemClassification
 from .. import KirbyAmWorld
 from ..data import LocationCategory, data, load_json_data
 from ..items import get_item_classification
+from ..enemy_ability_data import STARTING_COPY_ABILITIES
 from ..locations import KirbyAmLocation
 from ..options import OneHitMode, RandomizeShards
 
@@ -184,11 +185,11 @@ def test_ability_unlock_items_are_generated_from_abilities_json() -> None:
 
     expected_runtime_ids = sorted(
         int(attrs["runtime_ability_id"])
-        for attrs in abilities_json.values()
+        for ability_name, attrs in abilities_json.items()
         if isinstance(attrs, dict)
         and attrs.get("runtime_ability_id") is not None
         and attrs.get("enemy_copy_allowed", True) is not False
-        and bool(attrs.get("safe_to_gate", False))
+        and (bool(attrs.get("safe_to_gate", False)) or ability_name in STARTING_COPY_ABILITIES)
     )
     expected_labels = [
         f"{ability_name} Ability"
@@ -200,7 +201,7 @@ def test_ability_unlock_items_are_generated_from_abilities_json() -> None:
                 and isinstance(attrs, dict)
                 and attrs.get("runtime_ability_id") is not None
                 and attrs.get("enemy_copy_allowed", True) is not False
-                and bool(attrs.get("safe_to_gate", False))
+                and (bool(attrs.get("safe_to_gate", False)) or ability_name in STARTING_COPY_ABILITIES)
             ),
             key=lambda entry: (int(entry[1]["runtime_ability_id"]), entry[0]),
         )
@@ -636,6 +637,7 @@ def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> 
         for item in data.items.values()
         if item.classification not in (ItemClassification.filler, ItemClassification.trap)
     }
+    expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in STARTING_COPY_ABILITIES}
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
@@ -661,6 +663,7 @@ def test_vanilla_pool_contains_each_non_shard_non_filler_item_exactly_once() -> 
             and item.item_id not in shard_codes
         )
     }
+    expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in STARTING_COPY_ABILITIES}
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
