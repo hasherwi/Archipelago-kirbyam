@@ -38,6 +38,10 @@ v0.4.1 entries and all released changelog sections are retained.
 
 ## Compatibility repairs exposed by restored coverage
 
+- Scope Kirby test DEBUG logging to its test protocol, restoring the root level
+  after all fixture finalizers. Collection must not enable global DEBUG: pytest
+  capture retains log arguments and caused false MultiWorld leak failures in
+  other games. Keep the upstream memory checks unchanged.
 - Give the dynamic starting-color option its real module identity so WebHost can pickle it.
 - Add missing package initializers in Kirby tooling and test helpers.
 - Keep container version fields out of source `archipelago.json`; the builder
