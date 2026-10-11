@@ -2406,17 +2406,26 @@ class KirbyAmClient(BizHawkClient):
         return int.from_bytes(value[:1], "little", signed=True)
 
     async def _sync_challenge_runtime_config(self, ctx: "BizHawkClientContext") -> None:
-        """Write challenge-mode runtime config (one_hit_mode, no_extra_lives) to transport mailbox."""
+        """Derive trap policy from health bounds; retain the legacy mailbox ABI."""
         slot_data = getattr(ctx, "slot_data", None)
         if not isinstance(slot_data, dict):
             return
 
-        # Legacy/minimal test contexts may not include these slot keys.
-        # Real KirbyAM slot_data always includes both keys explicitly.
-        if "one_hit_mode" not in slot_data and "no_extra_lives" not in slot_data:
+        # Old seeds may only have the legacy preset; new seeds have bounds.
+        if not any(key in slot_data for key in ("minimum_health", "one_hit_mode", "no_extra_lives")):
             return
 
         one_hit_mode = self._one_hit_mode_value(ctx) & 0xFFFFFFFF
+        if one_hit_mode == 0 and "minimum_health" in slot_data:
+            try:
+                health_range = resolve_health_range(
+                    slot_data["minimum_health"], slot_data.get("maximum_health", MAXIMUM_HEALTH_DEFAULT),
+                )
+            except ValueError:
+                return
+            # The native legacy word now carries the health-down-trap exclusion
+            # policy. Do not feed it back into health-range resolution.
+            one_hit_mode = int(health_range.minimum == 1)
         no_extra_lives = (1 if self._no_extra_lives_enabled(ctx) else 0) & 0xFFFFFFFF
         signature = (one_hit_mode, no_extra_lives)
 

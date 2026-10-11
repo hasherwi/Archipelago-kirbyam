@@ -10,6 +10,7 @@ from Options import (
     PerGameCommonOptions,
     Range,
     Toggle,
+    Visibility,
 )
 
 from .colors import (
@@ -282,7 +283,7 @@ class MinimumHealth(Range):
 
     Set both health options together. Maximum Health must be at least this value
     and at most 9 HP higher, using up to nine unique Vitality Counters.
-    Defaults to 6 HP. One-Hit Mode overrides both health options when enabled.
+    Defaults to 6 HP. Set both health values to 1 for a fixed one-hit challenge.
     """
     display_name = "Minimum Health"
     range_start = HEALTH_MIN
@@ -297,8 +298,8 @@ class MaximumHealth(Range):
     with unused counter slots replaced by filler. Equal values disable upgrades.
 
     Set both health options together. Must be at least Minimum Health and at
-    most 9 HP higher. Defaults to 10 HP. One-Hit Mode overrides both health
-    options when enabled. Newly generated ROMs include these health bounds.
+    most 9 HP higher. Defaults to 10 HP. For a one-hit start with four upgrades,
+    use Minimum Health 1 and Maximum Health 5. New ROMs include these bounds.
     """
     display_name = "Maximum Health"
     range_start = HEALTH_MIN
@@ -307,21 +308,14 @@ class MaximumHealth(Range):
 
 
 class OneHitMode(Choice):
-    """
-    Controls whether Kirby's maximum health is reduced to 1 HP at the start (one-hit mode).
-      Starts after the tutorial. Off by default.
-      Yes, you can combine this with No Extra Lives for an extra challenge.
-      When enabled, One-Hit Mode overrides both custom health options.
+    """Deprecated YAML compatibility alias; use Minimum Health / Maximum Health.
 
-    - Off: Use Minimum Health and Maximum Health (defaults: native 6 HP base,
-        plus 1 per Vitality Counter found, up to 10).
-    - Exclude Vitality Counters: Kirby starts with a maximum of 1 HP. All four Vitality Counter items are
-        removed from the item pool and replaced with filler. Kirby's HP cap stays at 1 for the entire run.
-    - Include Vitality Counters: Kirby starts with a maximum of 1 HP. Vitality Counter items remain in the
-        pool; each one received increases Kirby's HP cap by 1 (up to 5 with all four). This is known to
-        cause a visual artifact on the screen when a vitality counter is received, but it is functional.
+    Exclude Vitality Counters maps to 1/1 and Include Vitality Counters to 1/5.
+    Nonzero legacy values retain their original precedence over custom bounds.
+    Generation normalizes them once; new slot data contains only health bounds.
     """
-    display_name = "One-Hit Mode"
+    display_name = "One-Hit Mode (legacy)"
+    visibility = Visibility.none
     default = 0
     option_off = 0
     option_exclude_vitality_counters = 1
@@ -453,7 +447,6 @@ OPTION_GROUPS = [
         EnableTraps,
         TrapFillPercentage,
         NoExtraLives,
-        OneHitMode,
         EnemyHealthMultiplier,
         KirbyAmDeathLink,
     ]),
