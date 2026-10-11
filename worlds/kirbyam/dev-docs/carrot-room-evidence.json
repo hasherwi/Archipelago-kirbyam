@@ -1,0 +1,681 @@
+{
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "scope": "Completion and tile-triggered transition records only; object-driven doors, collision-state conditions, AP routes, ability requirements and gameplay acceptance are not inferred.",
+  "rooms": [
+    {
+      "native_room_id": 719,
+      "room_props_rom_offset": 9675268,
+      "object_list_idx": 258,
+      "solidity_map_idx": 258,
+      "doors_idx": 258,
+      "ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_07"
+      ],
+      "completion_entries": [
+        {
+          "rom_offset": 9645256,
+          "kind": 1,
+          "chest_position_pixels": [
+            688,
+            216
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": 9114878,
+          "source_tiles": [
+            14,
+            3
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 720,
+          "destination_spawn_tiles": [
+            119,
+            8
+          ]
+        },
+        {
+          "rom_offset": 9114910,
+          "source_tiles": [
+            19,
+            8
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 719,
+          "destination_spawn_tiles": [
+            26,
+            9
+          ]
+        },
+        {
+          "rom_offset": 9114924,
+          "source_tiles": [
+            24,
+            8
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 719,
+          "destination_spawn_tiles": [
+            19,
+            9
+          ]
+        },
+        {
+          "rom_offset": 9115406,
+          "source_tiles": [
+            1,
+            14
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 734,
+          "destination_spawn_tiles": [
+            13,
+            14
+          ]
+        },
+        {
+          "rom_offset": 9115582,
+          "source_tiles": [
+            2,
+            23
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 714,
+          "destination_spawn_tiles": [
+            43,
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "native_room_id": 720,
+      "room_props_rom_offset": 9675308,
+      "object_list_idx": 267,
+      "solidity_map_idx": 267,
+      "doors_idx": 267,
+      "ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_14"
+      ],
+      "completion_entries": [],
+      "transitions": [
+        {
+          "rom_offset": 9124144,
+          "source_tiles": [
+            2,
+            7
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            29,
+            4
+          ]
+        },
+        {
+          "rom_offset": 9124518,
+          "source_tiles": [
+            17,
+            11
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 734,
+          "destination_spawn_tiles": [
+            14,
+            5
+          ]
+        },
+        {
+          "rom_offset": 9124532,
+          "source_tiles": [
+            18,
+            11
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 734,
+          "destination_spawn_tiles": [
+            14,
+            5
+          ]
+        },
+        {
+          "rom_offset": 9124546,
+          "source_tiles": [
+            19,
+            11
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 734,
+          "destination_spawn_tiles": [
+            14,
+            5
+          ]
+        },
+        {
+          "rom_offset": 9124560,
+          "source_tiles": [
+            20,
+            11
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 734,
+          "destination_spawn_tiles": [
+            14,
+            5
+          ]
+        },
+        {
+          "rom_offset": 9124574,
+          "source_tiles": [
+            21,
+            11
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 734,
+          "destination_spawn_tiles": [
+            14,
+            5
+          ]
+        },
+        {
+          "rom_offset": 9124588,
+          "source_tiles": [
+            22,
+            11
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 734,
+          "destination_spawn_tiles": [
+            14,
+            5
+          ]
+        },
+        {
+          "rom_offset": 9124602,
+          "source_tiles": [
+            23,
+            11
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 734,
+          "destination_spawn_tiles": [
+            14,
+            5
+          ]
+        },
+        {
+          "rom_offset": 9124616,
+          "source_tiles": [
+            24,
+            11
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 734,
+          "destination_spawn_tiles": [
+            14,
+            5
+          ]
+        },
+        {
+          "rom_offset": 9124630,
+          "source_tiles": [
+            25,
+            11
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 734,
+          "destination_spawn_tiles": [
+            14,
+            5
+          ]
+        },
+        {
+          "rom_offset": 9124644,
+          "source_tiles": [
+            26,
+            11
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 734,
+          "destination_spawn_tiles": [
+            14,
+            5
+          ]
+        },
+        {
+          "rom_offset": 9124658,
+          "source_tiles": [
+            27,
+            11
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 734,
+          "destination_spawn_tiles": [
+            14,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "native_room_id": 730,
+      "room_props_rom_offset": 9675708,
+      "object_list_idx": 268,
+      "solidity_map_idx": 268,
+      "doors_idx": 268,
+      "ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_15"
+      ],
+      "completion_entries": [],
+      "transitions": [
+        {
+          "rom_offset": 9125336,
+          "source_tiles": [
+            7,
+            12
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            4,
+            18
+          ]
+        },
+        {
+          "rom_offset": 9125350,
+          "source_tiles": [
+            8,
+            12
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            4,
+            18
+          ]
+        },
+        {
+          "rom_offset": 9125364,
+          "source_tiles": [
+            11,
+            12
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            17,
+            19
+          ]
+        },
+        {
+          "rom_offset": 9125378,
+          "source_tiles": [
+            12,
+            12
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            17,
+            19
+          ]
+        },
+        {
+          "rom_offset": 9125392,
+          "source_tiles": [
+            15,
+            12
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            19,
+            28
+          ]
+        },
+        {
+          "rom_offset": 9125406,
+          "source_tiles": [
+            16,
+            12
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            19,
+            28
+          ]
+        },
+        {
+          "rom_offset": 9125420,
+          "source_tiles": [
+            7,
+            13
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            4,
+            18
+          ]
+        },
+        {
+          "rom_offset": 9125434,
+          "source_tiles": [
+            8,
+            13
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            4,
+            18
+          ]
+        },
+        {
+          "rom_offset": 9125448,
+          "source_tiles": [
+            11,
+            13
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            17,
+            19
+          ]
+        },
+        {
+          "rom_offset": 9125462,
+          "source_tiles": [
+            12,
+            13
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            17,
+            19
+          ]
+        },
+        {
+          "rom_offset": 9125476,
+          "source_tiles": [
+            15,
+            13
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            19,
+            28
+          ]
+        },
+        {
+          "rom_offset": 9125490,
+          "source_tiles": [
+            16,
+            13
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            19,
+            28
+          ]
+        },
+        {
+          "rom_offset": 9125522,
+          "source_tiles": [
+            11,
+            21
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            17,
+            24
+          ]
+        },
+        {
+          "rom_offset": 9125554,
+          "source_tiles": [
+            24,
+            25
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            4,
+            35
+          ]
+        },
+        {
+          "rom_offset": 9125604,
+          "source_tiles": [
+            2,
+            29
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 0,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            4,
+            41
+          ]
+        },
+        {
+          "rom_offset": 9125654,
+          "source_tiles": [
+            23,
+            30
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            28,
+            37
+          ]
+        },
+        {
+          "rom_offset": 9125740,
+          "source_tiles": [
+            15,
+            36
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            15,
+            46
+          ]
+        },
+        {
+          "rom_offset": 9125772,
+          "source_tiles": [
+            12,
+            41
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            15,
+            46
+          ]
+        },
+        {
+          "rom_offset": 9125804,
+          "source_tiles": [
+            27,
+            41
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 730,
+          "destination_spawn_tiles": [
+            20,
+            46
+          ]
+        },
+        {
+          "rom_offset": 9125962,
+          "source_tiles": [
+            3,
+            48
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 717,
+          "destination_spawn_tiles": [
+            71,
+            19
+          ]
+        },
+        {
+          "rom_offset": 9125976,
+          "source_tiles": [
+            27,
+            48
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 733,
+          "destination_spawn_tiles": [
+            3,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "native_room_id": 732,
+      "room_props_rom_offset": 9675788,
+      "object_list_idx": 259,
+      "solidity_map_idx": 259,
+      "doors_idx": 259,
+      "ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_CHEST_2"
+      ],
+      "completion_entries": [
+        {
+          "rom_offset": 9645316,
+          "kind": 1,
+          "chest_position_pixels": [
+            168,
+            96
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": 9115788,
+          "source_tiles": [
+            1,
+            28
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 600,
+          "destination_spawn_tiles": [
+            44,
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "native_room_id": 734,
+      "room_props_rom_offset": 9675868,
+      "object_list_idx": 261,
+      "solidity_map_idx": 261,
+      "doors_idx": 261,
+      "ap_room_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_13"
+      ],
+      "completion_entries": [
+        {
+          "rom_offset": 9645380,
+          "kind": 1,
+          "chest_position_pixels": [
+            128,
+            120
+          ]
+        },
+        {
+          "rom_offset": 9645388,
+          "kind": 1,
+          "chest_position_pixels": [
+            72,
+            264
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": 9116636,
+          "source_tiles": [
+            2,
+            4
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 720,
+          "destination_spawn_tiles": [
+            11,
+            8
+          ]
+        },
+        {
+          "rom_offset": 9116650,
+          "source_tiles": [
+            13,
+            13
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 719,
+          "destination_spawn_tiles": [
+            6,
+            15
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -57,12 +57,17 @@ def test_kirbyam_template_surface_options_visibility() -> None:
             assert "off" in ability_weights
             assert "shuffled" in ability_weights
             assert "completely_random" not in ability_weights
+            assert "one_hit_mode" not in game_block
             assert "no_extra_lives" in game_block
             assert "ability_randomization_no_ability_weight" in game_block
             assert "ability_randomization_statues" in game_block
             assert "starting_kirby_color" in game_block
             assert "configured_area_boss" in game_block
             assert "enemy_health_multiplier" in game_block
+            assert game_block["minimum_health"][6] == 50
+            assert game_block["maximum_health"][10] == 50
+            assert "random-range-1-10" in game_block["minimum_health"]
+            assert "random-range-1-10" in game_block["maximum_health"]
             assert health_weights[100] == 50
             assert health_weights["random"] == 0
             assert "random-range-50-500" in health_weights

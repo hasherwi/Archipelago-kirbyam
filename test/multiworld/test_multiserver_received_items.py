@@ -86,6 +86,8 @@ def _game_client_context(game_client, socket, items_received):
         bizhawk_ctx=SimpleNamespace(_send_message=AsyncMock()),
         items_received=items_received,
         auth="Kirby",
+        server_seed_name="main-sync-hub-integration",
+        connected_identity=None,
         team=0,
         slot=0,
         slot_info={},

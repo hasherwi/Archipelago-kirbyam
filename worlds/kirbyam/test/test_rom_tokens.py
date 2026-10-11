@@ -60,6 +60,8 @@ def _make_world(
         starting_color_id,
         "Test Color",
     )
+    from ..health import resolve_health_range
+    world._health_range = lambda: resolve_health_range()
     return world
 
 

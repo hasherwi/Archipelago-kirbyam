@@ -34,7 +34,7 @@
     "multi_chest_rooms_exact_source_offsets_unique": 8,
     "respawn_reopen_policy": {
       "conclusion": "no_repeatable_minor_chest_reopen_path_confirmed",
-      "ap_handling": "Use the exact ObjectTemplate source pointer for each AP check; preserve native chest flags and do not infer check identity from shared native chest bits",
+      "ap_handling": "Use the exact ObjectTemplate source pointer for each AP check; preserve native chest flags and use the complete chest_recovery.json audit for unique saved physical flag recovery",
       "evidence": [
         "katam/src/treasures.c: CollectChest(u8) only sets chestFields bit; no clear/reset helper exists",
         "katam/src/treasures.c: HasChest(u8) reads persisted chestFields bit",

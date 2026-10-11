@@ -9,8 +9,9 @@ from collections import Counter
 from typing import TYPE_CHECKING, Any, ClassVar, TextIO
 
 import settings
-from BaseClasses import ItemClassification, LocationProgressType, MultiWorld, Tutorial
+from BaseClasses import CollectionState, Item, ItemClassification, LocationProgressType, MultiWorld, Tutorial
 from worlds.AutoWorld import WebWorld, World
+from worlds.LauncherComponents import Component, Type, components, launch as launch_component
 
 from .client import KirbyAmClient  # noqa: F401  # Required to register BizHawk client
 from .ability_randomization import (
@@ -24,7 +25,7 @@ from .data import (
     load_json_data,
     normalize_region_exits,
 )
-from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
+from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
 from .generation_logging import (
     generation_stage,
@@ -36,6 +37,7 @@ from .generation_logging import (
     logger,
 )
 from .groups import ITEM_GROUPS, LOCATION_GROUPS, resolve_item_group
+from .health import HealthRange, MAXIMUM_HEALTH_DEFAULT, MINIMUM_HEALTH_DEFAULT, resolve_health_range
 from .items import KirbyAmItem, create_item_label_to_code_map, get_item_classification
 from .locations import KirbyAmLocation, create_location_label_to_id_map
 from .options import (
@@ -43,7 +45,6 @@ from .options import (
     AbilityRandomizationMode,
     ConfiguredAreaBoss,
     KirbyAmOptions,
-    OneHitMode,
     RandomizeShards,
     TrapFillPercentage,
 )
@@ -51,6 +52,17 @@ from .rom import KirbyAmProcedurePatch, write_tokens
 
 if TYPE_CHECKING:
     from NetUtils import MultiData
+
+
+def launch_mgba_client(*args: str) -> None:
+    from .mgba_launcher import main
+    launch_component(main, name="KirbyAMmGBAClient", args=args)
+
+
+# Opt-in component: do not take over .apkirbyam's existing BizHawk association.
+components.append(Component("KirbyAM mGBA Client", func=launch_mgba_client,
+                            component_type=Type.CLIENT,
+                            description="Connect KirbyAM through standalone mGBA (candidate integration)."))
 
 
 class KirbyAmWebWorld(WebWorld):
@@ -217,6 +229,16 @@ class KirbyAmWorld(World):
         except (TypeError, ValueError):
             return 0
 
+    def _health_range(self) -> HealthRange:
+        options = getattr(self, "options", None)
+        minimum = getattr(options, "minimum_health", MINIMUM_HEALTH_DEFAULT)
+        maximum = getattr(options, "maximum_health", MAXIMUM_HEALTH_DEFAULT)
+        return resolve_health_range(
+            getattr(minimum, "value", minimum),
+            getattr(maximum, "value", maximum),
+            self._one_hit_mode_value(),
+        )
+
     def _traps_enabled(self) -> bool:
         option = getattr(getattr(self, "options", None), "enable_traps", None)
         value = getattr(option, "value", option)
@@ -333,7 +355,7 @@ class KirbyAmWorld(World):
 
     def _active_filler_pool(self) -> tuple[str, ...]:
         pool = self.ACTIVE_FILLER_POOL
-        if self._one_hit_mode_value() == OneHitMode.option_exclude_vitality_counters:
+        if self._health_range().maximum == 1:
             pool = self.ACTIVE_FILLER_POOL_NO_HEALING
         if self._no_extra_lives_enabled():
             pool = tuple(item_name for item_name in pool if item_name != "1 Up")
@@ -373,7 +395,7 @@ class KirbyAmWorld(World):
                     _label_for_item_key(self._LIFE_WIPEOUT_TRAP_KEY),
                 }
             )
-        if self._one_hit_mode_value() != OneHitMode.option_off:
+        if self._health_range().minimum == 1:
             excluded_traps.add(_label_for_item_key(self._HEALTH_DOWN_TRAP_KEY))
 
         if not excluded_traps:
@@ -399,6 +421,18 @@ class KirbyAmWorld(World):
 
     # Pre-generation adjustments
     def generate_early(self) -> None:
+        # Reject unsupported health pairs before producing regions/items or a patch.
+        health_range = self._health_range()
+        if self._one_hit_mode_value():
+            logger.warning(
+                "[P%s] one_hit_mode is deprecated; using minimum_health=%s and maximum_health=%s. "
+                "Replace one_hit_mode in your YAML with these health values.",
+                self.player, health_range.minimum, health_range.maximum,
+            )
+            self.options.minimum_health.value = health_range.minimum
+            self.options.maximum_health.value = health_range.maximum
+            self.options.one_hit_mode.value = 0
+
         # Track generation start
         self._generation_start_time = time.time()
         log_generation_start(
@@ -516,6 +550,15 @@ class KirbyAmWorld(World):
                     "inactive.",
                     self.player,
                 )
+
+            # Main applies explicit start_inventory after generate_early. Keep its
+            # requested multiplicity, but do not add another automatic copy.
+            starting_inventory = getattr(self.options, "start_inventory", None)
+            explicit_starting = getattr(starting_inventory, "value", {})
+            for ability_name in STARTING_COPY_ABILITIES:
+                label = f"{ability_name} Ability"
+                if explicit_starting.get(label, 0) <= 0:
+                    self.push_precollected(self.create_item(label))
 
             if self._start_with_all_maps_enabled():
                 map_items = [
@@ -688,10 +731,21 @@ class KirbyAmWorld(World):
                 ]
                 needed_pool_size = len(open_physical_locations)
 
+                # Generate collection items only for active, source-backed checks.
+                # Two known sources still need compartment attribution; their
+                # native rewards and historical dormant location IDs are retained.
+                active_collection_item_codes = {
+                    kirby_data.locations[loc.key].default_item
+                    for loc in minor_chest_locations if loc.key is not None
+                }
                 non_filler_item_codes = [
                     item.item_id
                     for item in kirby_data.items.values()
                     if item.classification not in (ItemClassification.filler, ItemClassification.trap)
+                    and (
+                        not item.tags.intersection({"SprayPaint", "MusicSheet"})
+                        or item.item_id in active_collection_item_codes
+                    )
                 ]
                 vitality_item_codes = getattr(self, "_vitality_item_codes", None)
                 if vitality_item_codes is None:
@@ -715,20 +769,20 @@ class KirbyAmWorld(World):
                         code for code in non_filler_item_codes if code not in shard_code_set
                     ]
 
-                if self._one_hit_mode_value() == OneHitMode.option_exclude_vitality_counters:
-                    excluded_vitality_count = sum(
-                        1 for code in non_filler_item_codes if code in vitality_item_codes
-                    )
-                    non_filler_item_codes = [
-                        code for code in non_filler_item_codes if code not in vitality_item_codes
-                    ]
-                    logger.info(
-                        "[P%s] One-hit mode (exclude_vitality_counters): "
-                        "removed %s vitality counter item(s) from non-filler "
-                        "pool",
-                        self.player,
-                        excluded_vitality_count,
-                    )
+                health_range = self._health_range()
+                from .vitality import VITALITY_ITEM_IDS
+                active_vitality_codes = set(VITALITY_ITEM_IDS[:health_range.vitality_count])
+                non_filler_item_codes = [
+                    code for code in non_filler_item_codes
+                    if code not in vitality_item_codes or code in active_vitality_codes
+                ]
+                logger.info(
+                    "[P%s] Health range: %s..%s HP; %s unique Vitality Counter item(s)",
+                    self.player,
+                    health_range.minimum,
+                    health_range.maximum,
+                    health_range.vitality_count,
+                )
 
                 if self._start_with_all_maps_enabled():
                     excluded_map_count = sum(
@@ -742,6 +796,13 @@ class KirbyAmWorld(World):
                         self.player,
                         excluded_map_count,
                     )
+
+                starting_ability_codes = {
+                    self.item_name_to_id[f"{name} Ability"] for name in STARTING_COPY_ABILITIES
+                }
+                non_filler_item_codes = [
+                    code for code in non_filler_item_codes if code not in starting_ability_codes
+                ]
 
                 if not self._ability_gating_enabled():
                     excluded_ability_count = sum(
@@ -799,26 +860,12 @@ class KirbyAmWorld(World):
                 vitality_code_counts = Counter(
                     code for code in randomized_item_codes if code in vitality_item_codes
                 )
-                if self._one_hit_mode_value() == OneHitMode.option_exclude_vitality_counters:
-                    if vitality_code_counts:
-                        raise ValueError(
-                            "KirbyAM vitality pool invariant failed in exclude_vitality_counters mode: "
-                            f"expected zero vitality items, got counts={dict(vitality_code_counts)}"
-                        )
-                else:
-                    missing_vitality_codes = sorted(
-                        code for code in vitality_item_codes if vitality_code_counts.get(code, 0) == 0
+                expected_vitality_counts = Counter({code: 1 for code in active_vitality_codes})
+                if vitality_code_counts != expected_vitality_counts:
+                    raise ValueError(
+                        "KirbyAM vitality pool invariant failed: active counters must appear exactly once. "
+                        f"expected={dict(expected_vitality_counts)} actual={dict(vitality_code_counts)}"
                     )
-                    duplicate_vitality_codes = {
-                        code: count
-                        for code, count in vitality_code_counts.items()
-                        if count > 1
-                    }
-                    if missing_vitality_codes or duplicate_vitality_codes:
-                        raise ValueError(
-                            "KirbyAM vitality pool invariant failed: each vitality counter must appear exactly once. "
-                            f"missing={missing_vitality_codes} duplicates={duplicate_vitality_codes}"
-                        )
                 logger.info(
                     "[P%s] Vitality counter pool multiplicity: %s",
                     self.player,
@@ -1015,7 +1062,8 @@ class KirbyAmWorld(World):
             "enable_traps",
             "trap_fill_percentage",
             "enemy_health_multiplier",
-            "one_hit_mode",
+            "minimum_health",
+            "maximum_health",
             "death_link",
             "ability_randomization_mode",
             "ability_randomization_boss_spawns",
@@ -1028,6 +1076,7 @@ class KirbyAmWorld(World):
             toggles_as_bools=True,
         )
         slot_data["world_version"] = self.world_version.as_simple_string()
+        slot_data["health_protocol_version"] = 2
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
         slot_data["starting_kirby_color"] = resolved_color_id
         slot_data["starting_kirby_color_name"] = resolved_color_name
@@ -1061,13 +1110,13 @@ class KirbyAmWorld(World):
 
         if ability_gating_enabled:
             slot_data["ability_gateable_abilities"] = list(GATEABLE_ENEMY_COPY_ABILITIES)
-            slot_data["ability_unlock_items"] = {
-                ability_name: ability_unlock_items[ability_name]
-                for ability_name in sorted(ability_unlock_items)
-            }
         else:
             slot_data["ability_gateable_abilities"] = []
-            slot_data["ability_unlock_items"] = {}
+        # Ownership is represented even when gates are disabled; it never equips.
+        slot_data["ability_unlock_items"] = {
+            ability_name: ability_unlock_items[ability_name]
+            for ability_name in sorted(ability_unlock_items)
+        }
 
         # Tracker surface integration (Issue #114)
         # Expose all locations and rooms for tracker display
@@ -1121,6 +1170,13 @@ class KirbyAmWorld(World):
         return slot_data
 
     # Helper methods to create items and events
+    def collect_item(self, state: CollectionState, item: Item, remove: bool = False) -> str | None:
+        # Track the fixed starting permissions without making them progression
+        # or changing the existing permissive traversal predicates.
+        if item.name in {f"{name} Ability" for name in STARTING_COPY_ABILITIES}:
+            return item.name
+        return super().collect_item(state, item, remove)
+
     def create_item(self, name: str) -> KirbyAmItem:
         return self.create_item_by_code(self.item_name_to_id[name])
 

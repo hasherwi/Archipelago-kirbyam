@@ -64,3 +64,13 @@ test matrix. It runs for every pull request and is also manually dispatchable
 on one Ubuntu / Python 3.13 runner. The workflow always uploads `fuzz_output/`,
 including when the launcher fails. Repository branch-protection settings decide
 whether this workflow is a required pull-request check.
+
+## Health-pair constraints
+
+The default launcher passes `tools/kirbyam_generation_fuzz_meta.yaml` to the
+unchanged pinned fuzzer. Its triggers preserve the randomly chosen minimum HP
+and draw maximum HP from the supported `[minimum, min(minimum + 4, 10)]`
+interval. Thus it exercises all supported pairs without treating intentionally
+invalid combinations as generation bugs. Deterministic tests separately cover
+every supported pair and invalid-pair rejection. `--sample-from` bypasses this
+metadata so saved reproductions, including invalid user YAML, are not rewritten.

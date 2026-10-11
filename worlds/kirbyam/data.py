@@ -18,6 +18,8 @@ import orjson
 
 from BaseClasses import ItemClassification
 
+from .enemy_ability_data import STARTING_COPY_ABILITIES
+
 # If your JSON does not provide explicit numeric IDs, we will auto-assign IDs starting here.
 BASE_OFFSET = 3_860_000
 _ROOM_REGION_KEY_PATTERN = re.compile(r"^REGION_[A-Z_]+/ROOM_(\d+)_([A-Z0-9_]+)$")
@@ -458,7 +460,7 @@ def _init() -> None:  # noqa: C901
             continue
 
         safe_to_gate = bool(attrs.get("safe_to_gate", False))
-        if not safe_to_gate:
+        if not safe_to_gate and ability_name not in STARTING_COPY_ABILITIES:
             continue
 
         sortable_abilities.append((runtime_id, ability_name))

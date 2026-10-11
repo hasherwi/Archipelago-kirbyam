@@ -1,0 +1,63 @@
+# Choose a supported maximum after the fuzzer rolls the starting HP.
+# Keep the vendored fuzzer unchanged; explicit replay samples bypass this file.
+triggers:
+  - option_category: Kirby & The Amazing Mirror
+    option_name: minimum_health
+    option_result: 1
+    options:
+      Kirby & The Amazing Mirror:
+        maximum_health: random-range-1-5
+  - option_category: Kirby & The Amazing Mirror
+    option_name: minimum_health
+    option_result: 2
+    options:
+      Kirby & The Amazing Mirror:
+        maximum_health: random-range-2-6
+  - option_category: Kirby & The Amazing Mirror
+    option_name: minimum_health
+    option_result: 3
+    options:
+      Kirby & The Amazing Mirror:
+        maximum_health: random-range-3-7
+  - option_category: Kirby & The Amazing Mirror
+    option_name: minimum_health
+    option_result: 4
+    options:
+      Kirby & The Amazing Mirror:
+        maximum_health: random-range-4-8
+  - option_category: Kirby & The Amazing Mirror
+    option_name: minimum_health
+    option_result: 5
+    options:
+      Kirby & The Amazing Mirror:
+        maximum_health: random-range-5-9
+  - option_category: Kirby & The Amazing Mirror
+    option_name: minimum_health
+    option_result: 6
+    options:
+      Kirby & The Amazing Mirror:
+        maximum_health: random-range-6-10
+  - option_category: Kirby & The Amazing Mirror
+    option_name: minimum_health
+    option_result: 7
+    options:
+      Kirby & The Amazing Mirror:
+        maximum_health: random-range-7-10
+  - option_category: Kirby & The Amazing Mirror
+    option_name: minimum_health
+    option_result: 8
+    options:
+      Kirby & The Amazing Mirror:
+        maximum_health: random-range-8-10
+  - option_category: Kirby & The Amazing Mirror
+    option_name: minimum_health
+    option_result: 9
+    options:
+      Kirby & The Amazing Mirror:
+        maximum_health: random-range-9-10
+  - option_category: Kirby & The Amazing Mirror
+    option_name: minimum_health
+    option_result: 10
+    options:
+      Kirby & The Amazing Mirror:
+        maximum_health: random-range-10-10

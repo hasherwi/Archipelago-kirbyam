@@ -67,7 +67,7 @@ Use exact item/location names from this world (or the item groups listed above) 
 
 
 - There is an optional setting to enable one-life mode (no_extra_lives). If you die you are instantly sent back to the Hub, and any 1Ups you receive will be immediately removed.
-- There is an optional setting to enable one-hit mode. Kirby's HP cap is clamped to 1 plus collected Vitality Counters. In `exclude_vitality_counters` mode, Vitality Counter items are removed from the item pool and health-restoring filler (Small Food, Energy Drink, Hunk of Meat, and Max Tomato) is also removed from filler selection so randomized filler cannot counteract the 1 HP challenge.
+- For a fixed one-hit challenge, set `minimum_health: 1` and `maximum_health: 1`. This removes Vitality Counters and healing filler from the pool. For a one-hit start with four upgrades, use `minimum_health: 1` and `maximum_health: 5`.
 - Filler items use weighted generation rather than equal odds. Current whole-number weights are: Cell Phone Battery 25, Energy Drink 17, 1 Up 15, Max Tomato 15, Small Food 14, Hunk of Meat 9, Invincibility Candy 5.
 - Goal modes:
   - `dark_mind`: Defeat Dark Mind to complete the seed.
@@ -86,6 +86,44 @@ starting_kirby_color: random
 
 Archipelago resolves each `random` value to one concrete choice during option parsing. The generated weighted template lists only concrete choices, so `random` is documented in comments rather than appearing as another weighted sub-option.
 
+
+
+### Custom health
+
+`minimum_health` sets Kirby's starting HP capacity and `maximum_health` sets the
+capacity after every Vitality Counter. Both accept whole numbers from 1 to 10.
+The defaults are 6 and 10. Set both values together, for example:
+
+```yaml
+minimum_health: 8
+maximum_health: 10
+```
+
+This starts with 8 HP and places two unique Vitality Counters, each adding 1 HP.
+Equal values give a fixed capacity with no counters. The maximum must be at
+least the minimum and at most 9 HP higher: there are nine unique counters.
+Unsupported pairs fail generation with an explanation; they are not silently
+changed. If using weighted/random values, every possible pair must satisfy
+these constraints.
+
+Minimum Health is a starting capacity, not a damage floor. Kirby can still
+lose HP and die. Minimum/Maximum Health are now the only public health controls.
+The old `one_hit_mode` selector is hidden from templates and option groups.
+
+Older YAML files still work: `exclude_vitality_counters` (or `1`) converts to
+`minimum_health: 1` / `maximum_health: 1`; `include_vitality_counters` (or `2`)
+converts to `1` / `5`. Generation prints a migration warning and preserves the
+old preset's precedence if custom bounds are also present. Replace that legacy
+key with the displayed bounds. `off` leaves the custom bounds unchanged.
+New seeds store only the resolved min/max values; existing seeds retain their
+legacy client behavior. No item IDs or native save fields change.
+
+Starting at 1 HP excludes Health Down Trap from the pool and suppresses its
+native effect. Fixed 1/1 health also excludes healing filler. Other health
+ranges retain their normal filler/trap policy. Newly generated ROMs embed the
+resolved bounds for native health initialization; the connected client still
+reconciles AP ownership after the tutorial. Fresh emulator acceptance remains
+separate from generation and host-function tests.
 
 
 ## What does another world's item look like in Kirby \& The Amazing Mirror?
@@ -129,3 +167,32 @@ you're playing a multiworld game, the client will sync your game with the server
 
 
 \[jiangzhengwenjz](https://github.com/jiangzhengwenjz) and other contributors — creators of the \[Kirby \& The Amazing Mirror disassembly](https://github.com/jiangzhengwenjz/katam), which was instrumental in understanding ROM internals for this integration.
+
+
+## Starting ability unlocks
+
+Beam, Burning, Cutter, Mini, Stone and Wheel are a fixed starting set. New seeds
+precollect their AP unlock items, so they appear in starting inventory, received
+history and trackers. An unlock grants permission to acquire the ability through
+normal gameplay; it does not equip an ability. These six remain usable before
+connecting to the server or receiving mailbox deliveries.
+
+This fixed set is precollected with `ability_gating` both on and off. When gating
+is off, all abilities remain usable and no ability unlocks enter the shuffled
+pool. With gating on, the other unlocks retain their existing pool and gate rules.
+The six starting items never consume location slots.
+
+If `start_inventory` explicitly includes one of these six, its requested positive
+count is retained and no automatic copy is added. Counts above one are redundant
+ownership grants and never equip or stack an effect. Other explicit starting items
+retain their usual behavior. There is no new starting-ability selection option.
+
+Use a matching updated APWorld/client for new seeds. Existing seeds retain their
+original inventory and gate policy; the client does not insert starting packets
+into old histories. Reconnect/reset recovery rebuilds ownership from server history,
+while the native bootstrap keeps the fixed starting permissions available offline.
+The six useful items are tracked in CollectionState without adding traversal gates.
+
+The unchanged native unlock handler and gate bootstrap are covered by host tests;
+these tests are not emulator save/load acceptance. Fresh live acceptance of this
+inventory representation remains pending.

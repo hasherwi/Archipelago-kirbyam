@@ -63,6 +63,7 @@ def test_default_command_targets_only_kirbyam_and_skips_output() -> None:
     assert command[1] == str(launcher.FUZZER_PATH)
     assert command[command.index("--game") + 1] == "kirbyam"
     assert "--skip-output" in command
+    assert command[command.index("--meta") + 1] == str(launcher.FUZZER_META_PATH)
     assert "--dump-ignored" in command
 
 
@@ -71,6 +72,7 @@ def test_sample_command_uses_samples_instead_of_game_selector(tmp_path: Path) ->
     command = launcher.build_fuzzer_command(launcher_args(sample_from=tmp_path, with_output=True))
 
     assert "--game" not in command
+    assert "--meta" not in command
     assert command[command.index("--sample-from") + 1] == str(tmp_path.resolve())
     assert "--skip-output" not in command
 
@@ -154,3 +156,23 @@ def test_run_returns_failure_for_ignored_option_error(monkeypatch: pytest.Monkey
     monkeypatch.setattr(launcher.subprocess, "run", fake_run)
 
     assert launcher.run(["--runs", "2", "--jobs", "1"]) == 1
+
+
+@pytest.mark.parametrize("minimum", range(1, 11))
+def test_health_fuzz_triggers_select_only_supported_maximum_range(minimum: int) -> None:
+    import yaml
+    from Generate import roll_triggers
+    from worlds.kirbyam.options import MaximumHealth
+
+    launcher = load_launcher()
+    meta = yaml.safe_load(launcher.FUZZER_META_PATH.read_text(encoding="utf-8"))
+    game = "Kirby & The Amazing Mirror"
+    # Even an initially invalid independently-randomized maximum is replaced.
+    weights = {game: {"minimum_health": minimum, "maximum_health": 1}}
+    resolved = roll_triggers(weights, meta["triggers"], set())[game]
+    assert resolved["minimum_health"] == minimum
+    expected_end = min(minimum + 4, 10)
+    assert resolved["maximum_health"] == f"random-range-{minimum}-{expected_end}"
+    for _ in range(20):
+        maximum = MaximumHealth.from_any(resolved["maximum_health"]).value
+        assert minimum <= maximum <= expected_end

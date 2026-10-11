@@ -26,6 +26,7 @@ def generate_archive_from_fixture(fixture_yaml: Path, output_dir: Path, seed: in
 
             sys.argv = [
                 sys.argv[0],
+                "--multi", "1",
                 "--seed",
                 str(seed),
                 "--player_files_path",
@@ -33,7 +34,11 @@ def generate_archive_from_fixture(fixture_yaml: Path, output_dir: Path, seed: in
                 "--outputpath",
                 str(output_dir),
             ]
-            Main.main(*Generate.main())
+            args = Generate.mystery_argparse()
+            args.race = False
+            args.weights_file_path = None
+            args.meta_file_path = None
+            Main.main(*Generate.main(args))
     finally:
         sys.argv = original_argv
 
