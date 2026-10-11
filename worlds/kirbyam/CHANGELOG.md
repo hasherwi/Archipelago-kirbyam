@@ -22,6 +22,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Pause new item deliveries during the update that applies an incoming DeathLink, including links received while checking locations. Items already being delivered can still finish, and new deliveries resume after Kirby respawns (Issue #944).
 
 ### Internal Changes
+- Updated to AP 0.6.8 (Issue #933)
 - Guaranteed starting abilities are now represented as AP items for tracker support (Issue #957).
 
 ## v0.4.0

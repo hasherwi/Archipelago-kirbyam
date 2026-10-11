@@ -72,27 +72,6 @@ def load_json(path: Path) -> dict[str, Any]:
         raise SystemExit(f"Invalid JSON in manifest: {path}\n{e}") from e
 
 
-def write_pretty_json(path: Path, obj: dict[str, Any]) -> None:
-    with path.open("w", encoding="utf-8", newline="\n") as f:
-        json.dump(obj, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-
-
-def inject_apcontainer_fields(manifest_path: Path, apcontainer_version: int) -> None:
-    manifest = load_json(manifest_path)
-    changed = False
-
-    if "version" not in manifest:
-        manifest["version"] = apcontainer_version
-        changed = True
-    if "compatible_version" not in manifest:
-        manifest["compatible_version"] = apcontainer_version
-        changed = True
-
-    if changed:
-        write_pretty_json(manifest_path, manifest)
-
-
 def run_patch_rom(world_root: Path, source_type: str, rom_arg: str | None) -> None:
     """
     Calls patch_rom.py from kirby_ap_payload/ and runs it with cwd set to kirby_ap_payload/
@@ -190,7 +169,9 @@ def should_exclude(rel_posix: str) -> bool:
     return False
 
 
-def build_apworld_in_place(world_root: Path, world_name: str) -> Path:
+def build_apworld_in_place(
+    world_root: Path, world_name: str, apcontainer_version: int = DEFAULT_APCONTAINER_VERSION,
+) -> Path:
     """
     Creates <world_root>/<world_name>.apworld containing a top-level folder named <world_name>.
     No staging folder is created.
@@ -211,7 +192,13 @@ def build_apworld_in_place(world_root: Path, world_name: str) -> Path:
                 continue
 
             arcname = f"{world_name}/{rel_posix}"
-            zf.write(p, arcname)
+            if rel_posix == "archipelago.json":
+                manifest = load_json(p)
+                manifest["version"] = apcontainer_version
+                manifest["compatible_version"] = apcontainer_version
+                zf.writestr(arcname, json.dumps(manifest, indent=2) + "\n")
+            else:
+                zf.write(p, arcname)
 
     return out_path
 
@@ -236,7 +223,7 @@ def parse_args() -> argparse.Namespace:
         "--apcontainer-version",
         type=int,
         default=DEFAULT_APCONTAINER_VERSION,
-        help="APContainer manifest version/compatible_version to inject if missing.",
+        help="APContainer version fields written only into the packaged manifest.",
     )
     p.add_argument("--skip-patch", action="store_true", help="Skip calling kirby_ap_payload/patch_rom.py first.")
     p.add_argument(
@@ -383,9 +370,6 @@ def main() -> None:
     if not manifest_path.exists():
         raise SystemExit(f"Missing manifest: {manifest_path}")
 
-    # 1) Ensure manifest includes APContainer fields
-    inject_apcontainer_fields(manifest_path, int(args.apcontainer_version))
-
     # 2) Run patch_rom.py (build payload + generate base_patch.bsdiff4)
     if not args.skip_patch:
         patch_out = world_root / "data" / "base_patch.bsdiff4"
@@ -412,7 +396,7 @@ def main() -> None:
         print("Skipping patch_rom.py (--skip-patch)")
 
     # 3) Build .apworld in-place
-    apworld_path = build_apworld_in_place(world_root, world_name)
+    apworld_path = build_apworld_in_place(world_root, world_name, int(args.apcontainer_version))
 
     install_path: Path | None
     if args.install_path:

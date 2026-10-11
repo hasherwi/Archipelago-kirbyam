@@ -50,7 +50,9 @@ def pytest_configure(config: pytest.Config) -> None:
 
     root_logger = logging.getLogger()
     root_logger.addHandler(handler)
-    root_logger.setLevel(logging.DEBUG)
+    # Do not change the session root level during collection: pytest retains
+    # DEBUG LogRecord arguments, including other worlds' MultiWorld references.
+    # The per-test hooks below enable and restore DEBUG only for Kirby tests.
 
     config._kirbyam_test_log_handler = handler  # type: ignore[attr-defined]
     TEST_LOGGER.info("KirbyAM pytest logging initialized. output=%s", TEST_LOG_FILE)
@@ -64,15 +66,25 @@ def pytest_unconfigure(config: pytest.Config) -> None:
     handler.close()
 
 
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_protocol(
+    item: pytest.Item, nextitem: pytest.Item | None,
+) -> Generator[None, None, None]:
+    # Restore after fixture finalizers too: caplog restores its own saved level
+    # during teardown, which can otherwise reintroduce our temporary DEBUG level.
+    prior_level = logging.getLogger().level
+    try:
+        yield
+    finally:
+        logging.getLogger().setLevel(prior_level)
+
+
 def pytest_runtest_setup(item: pytest.Item) -> None:
     handler = getattr(item.config, "_kirbyam_test_log_handler", None)
     root_logger = logging.getLogger()
     if handler is not None and handler not in root_logger.handlers:
         # Some tests may reconfigure root logging; keep the session file handler attached.
         root_logger.addHandler(handler)
-    # Capture prior root level so teardown can restore it and avoid leaking
-    # global logging state across tests (or into unrelated test modules).
-    item._kirbyam_prior_root_level = root_logger.level
     root_logger.setLevel(logging.DEBUG)
     TEST_LOGGER.info("START test=%s", item.nodeid)
 
@@ -80,8 +92,6 @@ def pytest_runtest_setup(item: pytest.Item) -> None:
 def pytest_runtest_teardown(item: pytest.Item, nextitem: pytest.Item | None) -> None:
     del nextitem
     TEST_LOGGER.info("END test=%s", item.nodeid)
-    prior_level = getattr(item, "_kirbyam_prior_root_level", logging.WARNING)
-    logging.getLogger().setLevel(prior_level)
 
 
 @pytest.fixture(scope="session")
