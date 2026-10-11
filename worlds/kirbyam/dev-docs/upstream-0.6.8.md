@@ -82,3 +82,18 @@ checks (#945). Those expected failures are not evidence that room-sanity is fixe
 The PR records terminal test/CI results and the distinction between protocol smoke
 tests and fresh emulator acceptance. Private ROM validation must remain local;
 only source, metadata and distributable patches may be published.
+
+## Owner-requested Overcooked! 2 quarantine
+
+The restored macOS baseline exposed a default-option Overcooked! 2 fill failure
+at seed `51633506502411458318`: 25 items remain unplaceable. The same seed fails
+in a clean upstream `54803be0` snapshot. At the owner's request, the slot-data
+test now uses the verified fillable seed `0` for OC2 only; other games retain
+their existing randomized coverage. OC2 serialization, other OC2 tests and all
+memory assertions remain enabled.
+
+`test/general/test_overcooked_slot_data_regression.py` separately runs the exact
+bad seed with a strict expected failure. Only its specific 25-item `FillError`
+is accepted; setup errors, other fill errors and serialization failures remain
+failures. A repaired seed becomes strict XPASS, requiring removal of this
+quarantine. This does not fix OC2 generation or claim arbitrary-seed coverage.
