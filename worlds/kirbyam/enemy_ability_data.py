@@ -39,6 +39,10 @@ def _parse_address(value: Any) -> int:
     raise ValueError(f"unsupported address value type: {type(value).__name__}")
 
 
+# Fixed initial permissions, independent of randomized ability assignment.
+STARTING_COPY_ABILITIES: tuple[str, ...] = ("Beam", "Burning", "Cutter", "Mini", "Stone", "Wheel")
+
+
 _ABILITY_DATA = _load_json_file("abilities.json")
 
 _runtime_ability_name_to_id: dict[str, int] = {}

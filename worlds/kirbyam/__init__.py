@@ -9,7 +9,7 @@ from collections import Counter
 from typing import TYPE_CHECKING, Any, ClassVar, TextIO
 
 import settings
-from BaseClasses import ItemClassification, LocationProgressType, MultiWorld, Tutorial
+from BaseClasses import CollectionState, Item, ItemClassification, LocationProgressType, MultiWorld, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, Type, components, launch as launch_component
 
@@ -25,7 +25,7 @@ from .data import (
     load_json_data,
     normalize_region_exits,
 )
-from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
+from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
 from .generation_logging import (
     generation_stage,
@@ -542,6 +542,15 @@ class KirbyAmWorld(World):
                     self.player,
                 )
 
+            # Main applies explicit start_inventory after generate_early. Keep its
+            # requested multiplicity, but do not add another automatic copy.
+            starting_inventory = getattr(self.options, "start_inventory", None)
+            explicit_starting = getattr(starting_inventory, "value", {})
+            for ability_name in STARTING_COPY_ABILITIES:
+                label = f"{ability_name} Ability"
+                if explicit_starting.get(label, 0) <= 0:
+                    self.push_precollected(self.create_item(label))
+
             if self._start_with_all_maps_enabled():
                 map_items = [
                     item for item in kirby_data.items.values()
@@ -778,6 +787,13 @@ class KirbyAmWorld(World):
                         self.player,
                         excluded_map_count,
                     )
+
+                starting_ability_codes = {
+                    self.item_name_to_id[f"{name} Ability"] for name in STARTING_COPY_ABILITIES
+                }
+                non_filler_item_codes = [
+                    code for code in non_filler_item_codes if code not in starting_ability_codes
+                ]
 
                 if not self._ability_gating_enabled():
                     excluded_ability_count = sum(
@@ -1086,13 +1102,13 @@ class KirbyAmWorld(World):
 
         if ability_gating_enabled:
             slot_data["ability_gateable_abilities"] = list(GATEABLE_ENEMY_COPY_ABILITIES)
-            slot_data["ability_unlock_items"] = {
-                ability_name: ability_unlock_items[ability_name]
-                for ability_name in sorted(ability_unlock_items)
-            }
         else:
             slot_data["ability_gateable_abilities"] = []
-            slot_data["ability_unlock_items"] = {}
+        # Ownership is represented even when gates are disabled; it never equips.
+        slot_data["ability_unlock_items"] = {
+            ability_name: ability_unlock_items[ability_name]
+            for ability_name in sorted(ability_unlock_items)
+        }
 
         # Tracker surface integration (Issue #114)
         # Expose all locations and rooms for tracker display
@@ -1146,6 +1162,13 @@ class KirbyAmWorld(World):
         return slot_data
 
     # Helper methods to create items and events
+    def collect_item(self, state: CollectionState, item: Item, remove: bool = False) -> str | None:
+        # Track the fixed starting permissions without making them progression
+        # or changing the existing permissive traversal predicates.
+        if item.name in {f"{name} Ability" for name in STARTING_COPY_ABILITIES}:
+            return item.name
+        return super().collect_item(state, item, remove)
+
     def create_item(self, name: str) -> KirbyAmItem:
         return self.create_item_by_code(self.item_name_to_id[name])
 
