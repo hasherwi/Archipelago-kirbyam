@@ -1,0 +1,43 @@
+name: Remove only withdrawn KirbyAM v0.4.1 draft
+on:
+  push:
+    branches: [codex/remove-draft-kirbyam-v0.4.1]
+permissions:
+  contents: read
+jobs:
+  remove-draft:
+    if: github.ref == 'refs/heads/codex/remove-draft-kirbyam-v0.4.1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Verify exact unpublished identity and delete only release 410935354
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,subprocess
+          repo='hasherwi/Archipelago-kirbyam'
+          def get(path):
+              return json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/{path}']))
+          before=get('releases?per_page=100')
+          release=get('releases/410935354')
+          assert release['draft'] is True and release['prerelease'] is True
+          assert release['tag_name']=='kirbyam-v0.4.1'
+          assert release['name']=='KirbyAM APWorld v0.4.1'
+          assert release['target_commitish']=='fa4926316901dcc4bbc29c5ccf62e6cfd8268fcd'
+          assert len(release['assets'])==1
+          asset=release['assets'][0]
+          assert asset['id']==634761389 and asset['name']=='kirbyam.apworld'
+          assert asset['digest']=='sha256:f2e772268db6fb335c592968a897aacd7bc1b6c94246400c44913ead7ee4fb6e'
+          tags=get('git/matching-refs/tags/kirbyam-v0.4.1')
+          assert tags==[], 'Unexpected tag; stop for review'
+          subprocess.run(['gh','api',f'repos/{repo}/releases/410935354','--method','DELETE'],check=True)
+          after=get('releases?per_page=100')
+          assert {x['id'] for x in after}=={x['id'] for x in before if x['id']!=410935354}
+          assert get('git/matching-refs/tags/kirbyam-v0.4.1')==tags
+          print('Verified: only unpublished release 410935354 removed; other releases and tags unchanged.')
+          PY
