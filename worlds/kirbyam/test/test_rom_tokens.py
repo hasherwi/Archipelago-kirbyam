@@ -61,15 +61,18 @@ def _make_world(
         "Test Color",
     )
     from ..health import resolve_health_range
+    world._starting_kirby_color_randomize_on_room_transition_enabled = lambda: False
     world._health_range = lambda: resolve_health_range()
     return world
 
 
-def test_write_tokens_bakes_resolved_starting_color() -> None:
+@pytest.mark.parametrize("per_room", [False, True])
+def test_write_tokens_bakes_resolved_starting_color(per_room: bool) -> None:
     world = _make_world(
         AbilityRandomizationMode.option_off,
         starting_color_id=7,
     )
+    world._starting_kirby_color_randomize_on_room_transition_enabled = lambda: per_room
     patch = _DummyPatch()
 
     write_tokens(cast(Any, world), cast(Any, patch))
@@ -77,7 +80,7 @@ def test_write_tokens_bakes_resolved_starting_color() -> None:
     assert (
         APTokenTypes.WRITE,
         STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET,
-        (7).to_bytes(4, "little"),
+        (0xC0100007 | (int(per_room) << 8)).to_bytes(4, "little"),
     ) in patch.token_writes
 
 

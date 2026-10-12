@@ -8,19 +8,19 @@ The other previous symbol, `0x0203ADE0`, is `gUnk_0203ADE0`, a signed 16-bit sel
 
 ## Generation-time startup path
 
-`rom.write_tokens()` writes the resolved color ID to payload ROM word `0x0815F694` (file offset `0x15F694`). Existing ability-gate and statue-pool words remain at `0x15F698` and `0x15F69C`.
+`rom.write_tokens()` writes the versioned color/mode configuration to payload ROM word `0x0815F694` (file offset `0x15F694`). Existing ability-gate and statue-pool words remain at `0x15F698` and `0x15F69C`.
 
-`patch_rom.py` validates and redirects the two North American retail calls to `sub_080332BC` at file offsets `0x123EF2` and `0x124022`. Both are inside the single-player startup module `code_08123950.c`. The wrapper writes:
+`patch_rom.py` validates and redirects the two North American retail calls to `sub_080332BC` at file offsets `0x123EF2` and `0x124022`. Both are inside the single-player startup module `code_08123950.c`. The wrapper resolves the current per-room color, saved owned paint choice, AP static choice or Pink, then writes:
 
 - `gUnk_0203ADE0` as `s16`;
 - `gUnk_0203AD1C[0]`, the player-one color initialization entry;
 - then calls the original `sub_080332BC` with all five arguments unchanged.
 
-Because `CreateKirby` consumes that table during the original call, the first visible gameplay palette is generated from the configured color.
+Because `CreateKirby` consumes that table during the original call, the first visible gameplay palette is generated from the resolved color.
 
 ## Runtime recovery path
 
-The existing client mailbox at `0x0203B050` remains for reconnect, savestate, and compatibility recovery. Once player one has a valid IWRAM task and a valid ability ID, the payload keeps selected/table/live color state coherent and calls native `sub_0803E558(0)` to rebuild and upload the OBJ palette immediately.
+The existing client mailbox at `0x0203B050` remains for reconnect, savestate, and compatibility recovery. Once player one and the normal gameplay HUD have valid IWRAM tasks and fades are finished, the payload keeps selected/table/live color state coherent. It calls native `sub_0803E558(0)` for OBJ and `sub_0803D21C(table + color*16, 0xF0, 16)` for the HUD palette and backup, then requests BG upload. Pink is a real runtime color.
 
 The one-shot latch lives at `0x0203B0B8`. Payload code executes from ROM, so a writable C `static`/`.bss` variable is not a valid place for session state.
 
@@ -28,6 +28,7 @@ The one-shot latch lives at `0x0203B0B8`. Payload code executes from ROM, so a w
 
 - Color IDs outside `0..13` are ignored.
 - ROM default `0xFFFFFFFF` keeps older procedure patches safe.
-- Pink remains the default/no-runtime-refresh option, while the startup wrapper still writes Pink before `CreateKirby`.
+- Pink is the fallback and a valid requested palette. Runtime Pink refresh is no longer skipped.
+- The owned-paint A-button handler at `0x0814406C` records a genuine choice, including choosing a paint matching the AP default. Saved preference uses native treasure padding and the native serializer, not raw SRAM writes. See PROTOCOL.md for the marker and priority order.
 - The patcher verifies both callsites still target `0x080332BC` before replacing them, refusing unknown ROM revisions.
 - Demo and multiplayer calls to `sub_080332BC` are not patched.

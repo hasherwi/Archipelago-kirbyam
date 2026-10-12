@@ -338,6 +338,8 @@ def _build_starting_kirby_color_option() -> type[Choice]:
     Choose Kirby's default starting color palette.
       Pink is the in-game default. The resolved color is embedded in the
     generated patch and applied before Kirby's first gameplay palette loads.
+    A confirmed, owned treasure-room paint overrides this static choice and
+    persists per save file. The treasure menu's default swatch clears that choice.
 
     Supported color names (as listed on Kirby Wiki Spray Paint):
       %s
@@ -350,7 +352,8 @@ def _build_starting_kirby_color_option() -> type[Choice]:
 
     Set to `random_color_per_room` to choose an initial color at generation,
     then change to a different supported color whenever the connected BizHawk
-    client observes Kirby enter a different room.
+    client observes Kirby enter a different room. This mode takes priority over
+    a treasure-room paint choice; it does not erase the saved choice.
     """
         % kirby_color_names_for_docs()
     )
