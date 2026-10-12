@@ -67,8 +67,8 @@ int main(int argc,char**argv){
   unsigned index=0;for(;index<40;index++)if(c->busRead16(c,0x08386A50+4*index)==0x101+color)break;assert(index<40);
   c->busWrite8(c,0x0201002A,index);c->busWrite8(c,0x02010002+index,1);c->busWrite8(c,0x02010001,color);
   for(unsigned i=0;i<0x8000;i++)sram_before[i]=c->busRead8(c,0x0E000000+i);
-  /* Use the actual patched BL site, stopping its caller after return is unnecessary:
-   * direct resolved wrapper invokes the unchanged native handler and serializer. */
+  /* Invoke the resolved payload wrapper and its native handler/serializer.
+   * The patched caller encoding is checked separately; this is not menu traversal. */
   call(c,menu_hook,0x02010000,0,0);
   unsigned marker=0xC600|(color<<4)|(color^15),base=0x18+slot*0x628;
   assert(c->busRead16(c,0x02038982)==marker);
