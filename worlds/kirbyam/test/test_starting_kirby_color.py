@@ -284,7 +284,7 @@ def test_load_kirby_colors_rejects_out_of_range_id() -> None:
         colors_module,
         "load_json_data",
         return_value={
-            "colors": [{"key": "pink", "id": 0, "name": "Pink"}, {"key": "ultra", "id": 14, "name": "Ultra"}]
+            "colors": [{"key": "pink", "id": 0, "name": "Pink"}, {"key": "ultra", "id": 254, "name": "Ultra"}]
         },
     ):
         with pytest.raises(ValueError, match="out of supported range"):

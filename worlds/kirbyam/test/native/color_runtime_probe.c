@@ -6,6 +6,9 @@
 #include <mgba/internal/arm/isa-inlines.h>
 #include <mgba-util/vfs.h>
 #include <assert.h>
+#include <stdint.h>
+#define AP_COLOR_INCLUDE_PALETTES
+#include "../../kirby_ap_payload/color_tables.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,6 +22,7 @@ static unsigned call(struct mCore*c,unsigned entry,unsigned a,unsigned b,unsigne
  while(cpu->gprs[15]!=0x0201F002 && n++<300000){
   /* Startup's scene construction is intentionally an IO stand-in; inspect its ABI. */
   if(cpu->gprs[15]==0x080332BE){
+   assert(c->busRead32(c,0x0203B0B8)==0x43535441);
    assert(cpu->gprs[0]==1&&cpu->gprs[1]==0&&cpu->gprs[2]==0x02018000&&cpu->gprs[3]==0x02018000);
    assert(c->busRead32(c,cpu->gprs[13])==0x02018010);start_calls++;
    cpu->gprs[15]=cpu->gprs[14]&~1;ThumbWritePC(cpu);
@@ -41,8 +45,8 @@ static void ready(struct mCore*c){
 }
 int main(int argc,char**argv){
  assert(argc==4);unsigned poll=strtoul(argv[1],0,0),menu_hook=strtoul(argv[2],0,0),start=strtoul(argv[3],0,0);
- unsigned char*rom=malloc(0x1000000);assert(fread(rom,1,0x1000000,stdin)==0x1000000);
- struct mCore*c=GBACoreCreate();assert(c&&c->init(c));mCoreInitConfig(c,"isolated-color-save-probe");assert(c->loadROM(c,VFileFromMemory(rom,0x1000000)));c->reset(c);
+ unsigned char*rom=malloc(0x1010000);size_t rom_size=fread(rom,1,0x1010000,stdin);assert(rom_size>0x1000000);
+ struct mCore*c=GBACoreCreate();assert(c&&c->init(c));mCoreInitConfig(c,"isolated-color-save-probe");assert(c->loadROM(c,VFileFromMemory(rom,rom_size)));c->reset(c);
  unsigned bg=c->busRead32(c,0x0803D248),backup=c->busRead32(c,0x0803D24C);
  unsigned transitions=0;
  const unsigned abilities[]={0,1,14,20};
@@ -66,6 +70,92 @@ int main(int argc,char**argv){
   c->busWrite32(c,0x03002440,0);call(c,poll,0,0,0);assert(!(c->busRead32(c,0x03002440)&1));
   transitions++;
  }
+ unsigned curated_cases=0;
+ for(unsigned color=14;color<AP_COLOR_COUNT;color++) {
+  for(unsigned ability=0;ability<27;ability++)for(unsigned form=0;form<2;form++) {
+   ready(c);c->busWrite16(c,0x02038982,0);
+   c->rawWrite32(c,0x0815F694,-1,0xC0100100);
+   c->busWrite32(c,0x0203B050,0);c->busWrite8(c,0x02020FBF,0);
+   c->busWrite8(c,0x02020FE3,ability);c->busWrite16(c,0x02020FB4,form?0x38:0);
+   call(c,0x0803E558,0,0,0);
+   unsigned native[16];for(unsigned i=0;i<16;i++)native[i]=c->busRead16(c,0x03002c60+2*i);
+   unsigned anim=c->busRead16(c,0x08350A3C+ability*4);
+   c->busWrite32(c,0x0203B050,color);
+   for(unsigned i=16;i<64;i++)c->busWrite16(c,0x03002c60+2*i,0x1234+i);
+   call(c,0x0803E558,0,0,0);
+   for(unsigned i=0;i<16;i++) {
+    unsigned expected = (ability==14 && !form)? ap_color_palettes[color-14][1][i]
+      : (anim && i>=12)? (ability==14?ap_color_palettes[color-14][1][i]:native[i]) : ap_color_palettes[color-14][0][i];
+    if(c->busRead16(c,0x03002c60+2*i)!=expected){fprintf(stderr,"curated mismatch color%u ability%u form%u index%u actual%x expected%x\n",color,ability,form,i,c->busRead16(c,0x03002c60+2*i),expected);return 3;}
+    assert(c->busRead16(c,0x02022320+2*i)==expected);
+   }
+   for(unsigned i=16;i<64;i++)assert(c->busRead16(c,0x03002c60+2*i)==0x1234+i);
+   call(c,0x0803D21C,0x0834BB20,0xCAFE00F0,0xBEEF0010);
+   for(unsigned i=0;i<16;i++) {
+    assert(c->busRead16(c,bg+0x1e0+2*i)==ap_color_palettes[color-14][2][i]);
+    assert(c->busRead16(c,backup+0x1e0+2*i)==ap_color_palettes[color-14][2][i]);
+   }
+   curated_cases++;
+  }
+  /* Native damage/interaction composition retains its own slots. */
+  for(unsigned effect=0;effect<3;effect++) {
+   ready(c);c->busWrite32(c,0x0203B050,0);c->busWrite8(c,0x02020FBF,0);
+   unsigned entry=effect==2?0x0803E778:0x0803E6B8;
+   unsigned animation=effect==2?0x35:0x34,variant=effect==1?1:0;
+   call(c,entry,0,animation,variant);unsigned baseline[16];
+   for(unsigned i=0;i<16;i++)baseline[i]=c->busRead16(c,0x03002c60+2*i);
+   c->busWrite32(c,0x0203B050,color);call(c,entry,0,animation,variant);
+   for(unsigned i=0;i<16;i++) {
+    unsigned keep=effect==2?(i==1||i>=10):i>=12;
+    assert(c->busRead16(c,0x03002c60+2*i)==(keep?baseline[i]:ap_color_palettes[color-14][0][i]));
+   }
+   curated_cases++;
+  }
+  /* Native special variant14 is not logical Shadow14, for either body/UFO. */
+  for(unsigned ufo=0;ufo<2;ufo++) {
+   ready(c);c->busWrite8(c,0x02020FE3,ufo?14:0);c->busWrite32(c,0x0203B050,0);
+   call(c,0x0803E868,0,0,0);unsigned baseline[16];
+   for(unsigned i=0;i<16;i++)baseline[i]=c->busRead16(c,0x03002c60+2*i);
+   c->busWrite32(c,0x0203B050,color);call(c,0x0803E868,0,0,0);
+   for(unsigned i=0;i<16;i++)assert(c->busRead16(c,0x03002c60+2*i)==baseline[i]);
+   curated_cases++;
+  }
+  /* Startup loads OBJ before the HUD exists, using a bounded synchronous marker. */
+  ready(c);c->busWrite32(c,0x03000010,0);c->busWrite32(c,0x0203B0B8,0x43535441);
+  c->busWrite32(c,0x0203B050,color);c->busWrite8(c,0x02020FE3,1);
+  call(c,0x0803E558,0,0,0);
+  for(unsigned i=0;i<16;i++)assert(c->busRead16(c,0x03002c60+2*i)==ap_color_palettes[color-14][0][i]);
+ }
+ printf("PASS %u curated native ability/form/HUD/effect/special cases and5 pre-HUD startup loads; partner banks preserved.\n",curated_cases);
+ /* Direct actual native dispatch comparisons: transform path and load gate. */
+ unsigned dispatch=c->busRead32(c,0x08D60820)&~1u,command=0x02018000,sprite=0x02018100;
+ for(unsigned color=14;color<AP_COLOR_COUNT;color++)for(unsigned transform=0;transform<2;transform++) {
+  ready(c);c->busWrite32(c,0x02038974,0);c->busWrite16(c,0x02038982,0);
+  c->busWrite32(c,0x0203B050,color);c->rawWrite32(c,0x0815F694,-1,0xC0100100);
+  c->busWrite32(c,command+4,0);c->busWrite16(c,command+8,16);c->busWrite16(c,command+10,0);
+  for(unsigned i=0;i<0x28;i++)c->busWrite8(c,sprite+i,0);
+  c->busWrite16(c,sprite+12,0x15);c->busWrite16(c,sprite+14,5);
+  c->busWrite32(c,0x03003678,0);
+  for(unsigned i=0;i<32;i++) {
+   c->busWrite16(c,0x030036D0+2*i,31-i);
+   c->busWrite16(c,0x03003710+2*i,(31-i)<<5);
+   c->busWrite16(c,0x03003750+2*i,(31-i)<<10);
+  }
+  /* Native reference gets the independently generated palette via a RAM table. */
+  c->busWrite32(c,0x0201820C,0x02018300);c->busWrite32(c,0x03003674,0x02018200);
+  for(unsigned i=0;i<16;i++)c->busWrite16(c,0x02018300+2*i,ap_color_palettes[color-14][0][i]);
+  c->busWrite32(c,0x03002440,transform?0x20000:0);call(c,0x08155400,command,sprite,0);
+  unsigned reference[16];for(unsigned i=0;i<16;i++)reference[i]=c->busRead16(c,0x03002c60+2*i);
+  c->busWrite32(c,0x03003674,0x083B909C);c->busWrite16(c,sprite+14,5);
+  c->busWrite32(c,0x03002440,transform?0x20000:0);call(c,dispatch,command,sprite,0);
+  assert(c->busRead16(c,sprite+14)==8);
+  for(unsigned i=0;i<16;i++)assert(c->busRead16(c,0x03002c60+2*i)==reference[i]);
+  c->busWrite32(c,sprite+8,0x40000);c->busWrite32(c,0x03002440,0);
+  call(c,dispatch,command,sprite,0);assert(c->busRead16(c,sprite+14)==11);
+  assert(c->busRead32(c,0x03002440)==0);
+  for(unsigned i=0;i<16;i++)assert(c->busRead16(c,0x03002c60+2*i)==reference[i]);
+ }
+ printf("PASS 10 native-reference transformed/raw palette loads; gated commands advance cursor without palette/flag writes.\n");
  unsigned saves=0;unsigned char sram_before[0x8000];
  for(unsigned slot=0;slot<3;slot++)for(unsigned color=0;color<14;color++){
   ready(c);c->busWrite16(c,0x0203AD48,slot);c->busWrite16(c,0x02038982,0);

@@ -1367,6 +1367,22 @@ def print_patch_summary(
     )
 
 
+def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
+    # This module also supports callers that import patch_rom.py by filename.
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "kirby_color_patch", Path(__file__).with_name("color_patch.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    extension = elf_path.with_name("color_payload.bin").read_bytes()
+    writes = module.build_color_extension_writes(
+        rom, extension,
+        resolve_elf_symbol_address(elf_path, "ap_color_sprite_palette"),
+        resolve_elf_symbol_address(elf_path, "ap_color_load_bg"))
+    for offset, replacement in writes.items():
+        rom[offset:offset + len(replacement)] = replacement
+
+
 def main() -> None:
     log_path = setup_logging()
     print(f"Logging to: {log_path}")
@@ -1441,6 +1457,8 @@ def main() -> None:
             hook_targets,
             rom_base,
         )
+
+        apply_color_extension(rom, payload_elf_path)
 
         with open(INTERMEDIARY_ROM, "wb") as f:
             f.write(rom)

@@ -13,13 +13,13 @@ from .test_runtime_regression_hooks import patch_rom
 WORLD = Path(__file__).resolve().parents[1]
 
 
-@pytest.mark.parametrize('color', range(14))
+@pytest.mark.parametrize('color', range(19))
 @pytest.mark.parametrize('per_room', [False, True])
 def test_color_config_encodes_mode_without_moving_rom_word(color: int, per_room: bool) -> None:
     assert encode_color_config(color, per_room) == 0xC0100000 | (int(per_room) << 8) | color
 
 
-@pytest.mark.parametrize('color', [-1, 14, 254, 0xFFFFFFFF])
+@pytest.mark.parametrize('color', [-1, 19, 254, 0xFFFFFFFF])
 def test_color_config_rejects_non_concrete_colors(color: int) -> None:
     with pytest.raises(ValueError):
         encode_color_config(color, False)
@@ -76,4 +76,4 @@ static int16_t save_world(uint32_t,uint16_t);
     assert result.returncode == 0, result.stderr
     result = subprocess.run([str(exe)], capture_output=True, text=True)
     assert result.returncode == 0, result.stdout + result.stderr
-    assert '25200 precedence cases' in result.stdout
+    assert '45600 precedence cases' in result.stdout
