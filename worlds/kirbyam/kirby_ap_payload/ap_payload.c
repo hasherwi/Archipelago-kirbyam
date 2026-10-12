@@ -451,6 +451,14 @@ static void ap_update_lever_wall(void *chest) {
     volatile uint32_t *applied = (volatile uint32_t*)(chest_obj_ptr + 0xDCu);
     uint8_t player = *(volatile uint8_t*)(chest_obj_ptr + 0x56u);
     uint8_t room_slot;
+    /* Server-acknowledged pulls can be restored after this object was loaded.
+     * Only retire the waiting state: never replace an active native pull/popup.
+     * This changes physical appearance, not wall ownership or its counter. */
+    if ((AP_LEVER_ACTIVATION_FLAGS & ap_lever_bit_for_obj(chest_obj_ptr)) != 0u
+        && *(KirbyChestFn volatile *)(chest_obj_ptr + 0x78u) == KIRBY_CHEST_WAIT_FN) {
+        *(volatile uint8_t*)(chest_obj_ptr + 0x83u) = 3u;
+        *(KirbyChestFn volatile *)(chest_obj_ptr + 0x78u) = KIRBY_CHEST_OPEN_FN;
+    }
     if (player >= KIRBY_PLAYER_COUNT
         || ap_lever_should_open_wall(ap_lever_wall_owned(chest_obj_ptr), *applied) == 0u) {
         return;

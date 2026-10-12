@@ -23,9 +23,10 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
 - Native sprites and animations: Chests still show their original item sprite and collection animation. Statues still show their original ability.
 - mGBA: notifications appear as plain text in the **Archipelago Connector** scripting panel, which must be visible. They do not appear over the game image.
-- Levers: Visually they'll revert to being "down" after a game reset. This does not affect gameplay.
+- Levers: Reset recovery requires a connected client and server-acknowledged checks. Offline pulls reset before acknowledgement are not persisted.
 
 ### Bug Fixes
+- Restore acknowledged lever pulls after resets and reconnects, including already-loaded levers, without granting their separate wall items (Issue #949). Regenerate the ROM patch for immediate visual recovery.
 - Pause new item deliveries during the update that applies an incoming DeathLink, including links received while checking locations. Items already being delivered can still finish, and new deliveries resume after Kirby respawns (Issue #944).
 
 ### Internal Changes

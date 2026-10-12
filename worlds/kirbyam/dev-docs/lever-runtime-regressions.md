@@ -58,8 +58,13 @@ US decomp revision `7d969fbce14fdc838d2c1ea01389717fb96c3189`:
 
 The mailbox layout, item IDs, and location IDs do not change. Physical activation
 is an EWRAM-session latch, while native chest bits persist AP wall ownership.
-A reset can make a previously pulled lever interactable again; AP server check
-deduplication still prevents a second reward.
+In v0.4.0 a reset makes a previously pulled lever interactable again; AP server
+check deduplication still prevents a second reward. In v0.4.1 (#949), the connected
+client restores acknowledged physical checks into this latch using a guarded
+merge. A waiting live lever then switches to its pulled appearance without
+replaying collection or interrupting a native pull. Wall ownership and the
+per-object counter latch remain independent. Unacknowledged/offline pulls are
+not durably persisted by this change.
 
 ## Combined ordinary-chest counter boundary
 
