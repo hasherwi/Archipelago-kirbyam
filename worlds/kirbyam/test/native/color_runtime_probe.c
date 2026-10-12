@@ -45,13 +45,19 @@ int main(int argc,char**argv){
  struct mCore*c=GBACoreCreate();assert(c&&c->init(c));mCoreInitConfig(c,"isolated-color-save-probe");assert(c->loadROM(c,VFileFromMemory(rom,0x1000000)));c->reset(c);
  unsigned bg=c->busRead32(c,0x0803D248),backup=c->busRead32(c,0x0803D24C);
  unsigned transitions=0;
- for(unsigned old=0;old<14;old++)for(unsigned next=0;next<14;next++)if(old!=next){
-  ready(c);c->busWrite8(c,0x02020FBF,old);call(c,0x08035FDC,0,0,0);
+ const unsigned abilities[]={0,1,14,20};
+ for(unsigned ability_i=0;ability_i<4;ability_i++)for(unsigned old=0;old<14;old++)for(unsigned next=0;next<14;next++)if(old!=next){
+  ready(c);c->busWrite8(c,0x02020FE3,abilities[ability_i]);
+  c->busWrite8(c,0x02020FBF,next);call(c,0x0803E558,0,0,0);
+  unsigned expected_obj[16],expected_backup[16];
+  for(unsigned i=0;i<16;i++){expected_obj[i]=c->busRead16(c,0x03002c60+2*i);expected_backup[i]=c->busRead16(c,0x02022320+2*i);}
+  c->busWrite8(c,0x02020FBF,old);call(c,0x0803E558,0,0,0);call(c,0x08035FDC,0,0,0);
   c->rawWrite32(c,0x0815F694,-1,0xC0100100|old);
   c->busWrite32(c,0x0203B050,next);
   c->busWrite32(c,0x02038974,0x3fff);c->busWrite16(c,0x02038982,0xC600|(old<<4)|(old^15));
   call(c,poll,0,0,0);assert(c->busRead8(c,0x02020FBF)==next);
   assert(c->busRead32(c,0x0203B0B8)==1&&(c->busRead32(c,0x03002440)&1));
+  for(unsigned i=0;i<16;i++){assert(c->busRead16(c,0x03002c60+2*i)==expected_obj[i]);assert(c->busRead16(c,0x02022320+2*i)==expected_backup[i]);}
   for(unsigned i=0;i<16;i++){
    unsigned expected=c->busRead16(c,0x0834BB20+32*next+2*i);
    assert(c->busRead16(c,bg+0x1e0+2*i)==expected&&c->busRead16(c,backup+0x1e0+2*i)==expected);
