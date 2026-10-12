@@ -77,3 +77,21 @@ def test_built_apworld_generates_single_and_multi_player_archives(tmp_path):
     assert summary['archives'] == 32
     assert summary['slots'] == 48
     assert summary['option_values']['room_sanity'] == ['0', '1']
+
+
+def test_packaged_data_listing_uses_a_package_anchor(monkeypatch, tmp_path):
+    """Enforce Python 3.11's package-only resources contract on newer Python too."""
+    import importlib
+    data_module = importlib.import_module("worlds.kirbyam.data")
+    real_files = data_module.resources.files
+
+    def package_only_files(anchor):
+        module = importlib.import_module(anchor)
+        if module.__spec__.submodule_search_locations is None:
+            raise TypeError(f"{anchor!r} is not a package")
+        return real_files(anchor)
+
+    # The direct filesystem fast path is unavailable inside an APWorld ZIP.
+    monkeypatch.setattr(data_module, "__file__", str(tmp_path / "kirbyam.apworld/kirbyam/data.py"))
+    monkeypatch.setattr(data_module.resources, "files", package_only_files)
+    assert "rooms.json" in data_module._list_data_files("regions")

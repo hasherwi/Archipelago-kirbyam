@@ -94,3 +94,14 @@ suite proves every seed, arbitrary plando/common-option constraints, or gameplay
 The failed draft's exact owner YAML has not been supplied. Reproducing the known
 five-room defect in its preserved package establishes a concrete regression,
 but does not establish that it was the owner's particular generation failure.
+
+The exact published v0.4.0 APWorld is also affected: asset SHA256
+`be059aed9f4136e7f7721b2d718bb9367b9d519e266bc8815ba31c1de19a19f6`
+reproduces the five missing checks with only `room_sanity: true`, seed
+202610120972, on AP 0.6.7 and 0.6.8. Default-option controls pass on both.
+
+The new installed-package regression also exposed a Python 3.11 compatibility
+issue: `importlib.resources.files()` requires a package anchor on that runtime.
+Use `worlds.kirbyam`, not its `data` module, to enumerate packaged region files.
+The compatibility regression enforces that older contract even on newer Python;
+cross-platform CI also runs the actual package under Python 3.11.
