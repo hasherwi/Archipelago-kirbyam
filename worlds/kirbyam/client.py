@@ -531,6 +531,7 @@ class KirbyAmClient(BizHawkClient):
         self._last_sound_player_chest_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_hub_switch_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
         self._last_lever_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+        self._lever_checked_session = None
         self._hub_switch_baseline_mask: int | None = None
         self._hub_switch_session_initialized: bool = False
         self._hub_switch_stream_marker: object = None
@@ -1942,7 +1943,8 @@ class KirbyAmClient(BizHawkClient):
             # Hub switch location polling via dedicated hub_switch_flags register
             await self._poll_hub_switch_locations(ctx)
 
-            # Lever location polling via native other_chest_flags bytes.
+            await self._reconcile_lever_activations(ctx)
+            # Physical lever checks remain independent of native wall ownership.
             await self._poll_lever_locations(ctx)
 
             # Share one gVisitedDoors read for area-first-visit and room-sanity polling.
@@ -3417,11 +3419,59 @@ class KirbyAmClient(BizHawkClient):
         else:
             self._last_hub_switch_poll_log = None
 
+    async def _reconcile_lever_activations(self, ctx):
+        """Restore acknowledged pulls after reset, without granting wall ownership.
+
+        Recompute from this Connected session every tick; never cache a mask or
+        use received wall items. Offline/unacknowledged pulls remain volatile.
+        """
+        import base64
+        session = self._authenticated_session_key(ctx)
+        if (not self._server_session_ready(ctx) or None in session
+                or self._lever_checked_session != session):
+            return
+        active = self._active_location_id_set(ctx)
+        checked = getattr(ctx, "checked_locations", None)
+        auth = self._health_rom_auth
+        if (not active or not isinstance(checked, set) or auth is None
+                or len(auth) != _AUTH_TOKEN_SIZE
+                or base64.b64encode(auth).decode() != ctx.auth):
+            return
+        mask = 0
+        for bit, locations in self._lever_location_ids_by_bit.items():
+            if any(location in checked and location in active for location in locations):
+                mask |= 1 << bit
+        lever_addr = self._transport_addr(_LEVER_ACTIVATION_FLAGS_ADDR_KEY)
+        cookie_addr = self._transport_addr("mailbox_init_cookie")
+        if not mask or lever_addr is None or cookie_addr is None:
+            return
+        connector, server = ctx.bizhawk_ctx, ctx.server
+        raw = await bizhawk.read(connector, [
+            (lever_addr, 4, "System Bus"), (cookie_addr, 4, "System Bus")])
+        if (len(raw) != 2 or any(len(value) != 4 for value in raw)
+                or self._u32_le(raw[1]) != 0x4B41504D
+                or not self._server_session_ready(ctx)
+                or session != self._authenticated_session_key(ctx)
+                or self._lever_checked_session != session
+                or ctx.server is not server or ctx.bizhawk_ctx is not connector):
+            return
+        bits = self._u32_le(raw[0])
+        if bits | mask == bits:
+            return
+        # Compare-and-merge: a concurrent pull/reset causes a retry next tick.
+        # ROM auth is guarded in the same request, preventing a ROM/slot swap
+        # after the watcher's identity check from receiving the previous mask.
+        auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
+        await bizhawk.guarded_write(connector, [
+            (lever_addr, (bits | mask).to_bytes(4, "little"), "System Bus")
+        ], [(lever_addr, raw[0], "System Bus"),
+            (cookie_addr, raw[1], "System Bus"), (auth_addr, auth, "ROM")])
+
     async def _poll_lever_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """Read ROM-latched physical lever activations and map them to LocationChecks.
 
         Issue #859 deliberately separates location authority from the native
-        wall-unlock bits. The physical small-switch hook writes bits 0..3 to
+        wall-unlock bits. The physical chest-collection hook writes bits 0..3 to
         lever_activation_flags and suppresses the native wall effect; AP Lever
         Wall item delivery may therefore set native wall state independently.
         """
@@ -4558,6 +4608,7 @@ class KirbyAmClient(BizHawkClient):
 
     def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict) -> None:
         if cmd == "Connected":
+            self._lever_checked_session = self._authenticated_session_key(ctx)
             self._vitality_history_session = None
         elif cmd == "ReceivedItems" and args.get("index") == 0:
             self._vitality_history_session = self._authenticated_session_key(ctx)

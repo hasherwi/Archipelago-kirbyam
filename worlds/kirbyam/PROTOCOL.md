@@ -82,7 +82,7 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0xB0   | 0x0203B0B0 | 4B | ability_gate_mask_runtime | u32 | ROM ← Client | Bitmask of ability IDs that are currently configured as gateable (`safe_to_gate`) in `abilities.json`. |
 | 0xB4   | 0x0203B0B4 | 4B | ability_unlock_mask_runtime | u32 | ROM ← Client and ROM internal | Bitmask of ability IDs currently unlocked by AP ability items. Client sync writes canonical state; payload also sets bits when ability unlock AP items are applied to preserve runtime continuity. |
 | 0xB8   | 0x0203B0B8 | 4B | starting_kirby_color_applied | u32 | ROM internal | EWRAM latch set after the live player-one palette has been refreshed for the current EWRAM session. Cleared with mailbox initialization. This replaces an invalid mutable C static that would otherwise be linked into ROM-backed payload memory. |
-| 0xBC   | 0x0203B0BC | 4B | lever_activation_flags | u32 | ROM → Client | Bits 0–3 latch physical activation of the Moonlight 2-11, Olive 6-13, Carrot 5-12, and Radish 8-12 levers respectively. The chest-collection hook recognizes four exact reward-0x63 lever sources; their delayed popup counter grants are suppressed. This transport is the physical AP lever-location authority (Issues #859, #911, #912). |
+| 0xBC   | 0x0203B0BC | 4B | lever_activation_flags | u32 | ROM ↔ Client | Bits 0–3 latch physical activation of the Moonlight 2-11, Olive 6-13, Carrot 5-12, and Radish 8-12 levers respectively. The chest-collection hook recognizes four exact reward-0x63 lever sources; their delayed popup counter grants are suppressed. This transport is the physical AP lever-location authority (Issues #859, #911, #912). The client also merges active, server-acknowledged checks from the current authenticated slot after reset; writes guard the old latch, initialized mailbox cookie and ROM auth token (Issue #949). |
 
 **Total: 192 bytes (0x0203B000 - 0x0203B0BF)**
 
@@ -809,3 +809,19 @@ through a native-save restart. The client never treats a raw counter as proof of
 ambiguous effect. Journal IO failures also pause delivery. See
 [reopening-receipts.md](dev-docs/reopening-receipts.md) for migration, portability,
 crash-window limits and recovery semantics. ROM/save formats are unchanged.
+
+### Acknowledged lever reset recovery (v0.4.1)
+
+The client reconstructs physical lever bits only from `checked_locations` after
+`Connected`, filtered to the current slot's active locations. It repeats this
+reconciliation during normal gameplay, so a reset does not require a client
+restart. The guarded merge preserves concurrent physical pulls and retries
+after mailbox initialization or a changed latch; the ROM auth guard prevents
+a swapped ROM from receiving another slot's state. No native wall bit is written.
+
+The lever auxiliary callback refreshes variant 3 and the opened callback only
+when the current callback is the native waiting state. Native pulls/popups and
+the existing once-only wall-counter contribution remain untouched. Newly
+generated patches are required for this immediate live-object refresh; older
+payloads use the restored latch on the next room load. Offline/unacknowledged
+pulls are still session-only and can be lost on reset.

@@ -113,6 +113,7 @@ typedef void (*KirbyChestFn)(void*);
 static void room_counter(uint32_t slot, uint32_t amount) { counter[slot] += amount; }
 static void chest_wait(void *chest) { (void)chest; }
 static void chest_open(void *chest) { (void)chest; }
+static void chest_pulling(void *chest) { (void)chest; }
 static uint8_t native_owned(uint8_t id) {
     return (*(uint8_t*)(KIRBY_SMALL_CHEST_FLAGS_ADDR + (id >> 3)) >> (id & 7)) & 1;
 }
@@ -191,6 +192,41 @@ int main(void) {
         CHECK(test_main_callback == chest_open && chest[0x83] == 3);
         test_aux_callback(chest);
         CHECK(counter[slot] == 1);
+        /* Reset: restore server history into an already-loaded waiting lever.
+         * Physical recovery alone cannot open its unowned wall. */
+        AP_LEVER_ACTIVATION_FLAGS = 0;
+        *(uint8_t*)(KIRBY_SMALL_CHEST_FLAGS_ADDR + (ids[i] >> 3)) = 0;
+        counter[slot] = 0;
+        ap_on_initialize_chest(chest);
+        CHECK(test_main_callback == chest_wait && chest[0x83] == 2);
+        AP_LEVER_ACTIVATION_FLAGS = 1u << i;
+        test_aux_callback(chest);
+        test_aux_callback(chest);
+        CHECK(test_main_callback == chest_open && chest[0x83] == 3);
+        CHECK(counter[slot] == 0 && !native_owned(ids[i]));
+        /* Receipt during a native pull must not replace its callback/variant. */
+        test_main_callback = chest_pulling;
+        chest[0x83] = 2;
+        collect_native(ids[i]);
+        test_aux_callback(chest);
+        test_aux_callback(chest);
+        CHECK(test_main_callback == chest_pulling && chest[0x83] == 2);
+        CHECK(counter[slot] == 1);
+        /* Saved wall first, then acknowledgement after room initialization. */
+        AP_LEVER_ACTIVATION_FLAGS = 0;
+        counter[slot] = 0;
+        ap_on_initialize_chest(chest);
+        CHECK(test_main_callback == chest_wait && counter[slot] == 1);
+        AP_LEVER_ACTIVATION_FLAGS = 1u << i;
+        test_aux_callback(chest);
+        test_aux_callback(chest);
+        CHECK(test_main_callback == chest_open && chest[0x83] == 3);
+        CHECK(counter[slot] == 1);
+        /* Later room reload must still contribute exactly once. */
+        counter[slot] = 0;
+        ap_on_initialize_chest(chest);
+        test_aux_callback(chest);
+        CHECK(test_main_callback == chest_open && counter[slot] == 1);
         /* All three identity fields are mandatory. */
         CHECK(!ap_lever_bit_for_chest(sources[i]+4, 0x63, ids[i]));
         CHECK(!ap_lever_bit_for_chest(sources[i], 0, ids[i]));
@@ -202,7 +238,7 @@ int main(void) {
     ap_on_chest_popup_room_counter(0, 1);
     CHECK(counter[0] == 1 && ring_count == 1);
     ap_on_initialize_chest(chest);
-    CHECK(native_init_calls == 257);
+    CHECK(native_init_calls == 641);
     /* The final gate handles every ability and upper-flag combination, even
        when a native roulette rewrites pendingAbility after entry was gated. */
     for (ability = 1; ability < 32; ability++) for (upper = 0; upper < 256; upper += 32) {
