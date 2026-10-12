@@ -1023,6 +1023,7 @@ static void ap_sync_active_kirby_health_from_vitality(void) {
 #define KIRBY_HUD_TASK (*(volatile uint32_t*)0x03000010u)
 #define KIRBY_MENU_SELECT_FN ((uint32_t (*)(uint8_t*))0x081447E1u)
 #define KIRBY_SAVE_WORLD_FN ((int16_t (*)(uint32_t, uint16_t))0x0800ACD5u)
+#define KIRBY_TRANSFORM_BG_PALETTE_FN ((void (*)(const uint16_t*, uint8_t, uint16_t))0x08158335u)
 #define KIRBY_LOAD_BG_PALETTE_FN ((void (*)(const uint16_t*, uint8_t, uint16_t))0x0803D21Du)
 
 static uint32_t ap_get_effective_starting_kirby_color(void) {
@@ -1108,10 +1109,10 @@ static void ap_apply_starting_kirby_color_config(void) {
     uint32_t hud = KIRBY_HUD_TASK;
     if (AP_STARTING_KIRBY_COLOR_APPLIED != 0u) return;
     /* A live gameplay HUD owns BG bank 15. Menu tasks can reuse its memory.
-     * Defer until software palette transforms and hardware brightness fades end. */
+     * RGB transformation flags can remain enabled throughout normal gameplay;
+     * use the native loaders instead of treating those flags as an active fade. */
     if (hud < 0x03000000u || hud >= 0x03007FECu || (hud & 3u)
         || *(volatile uint32_t*)(hud + 8u) != 0x08033B9Du
-        || (KIRBY_MAIN_FLAGS & 0x30000u)
         || ((KIRBY_BLD_CONTROL & 0x80u) && KIRBY_BLD_Y != 0u)
         || KIRBY_CURRENT_PLAYER != KIRBY_STARTING_COLOR_PLAYER
         || (DEMO_PLAYBACK_FLAGS & 0x12u)
@@ -1123,6 +1124,10 @@ static void ap_apply_starting_kirby_color_config(void) {
     *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_COLOR_OFFSET) = (uint8_t)desired_color;
     KIRBY_REFRESH_PALETTE_FN(KIRBY_STARTING_COLOR_PLAYER);
     KIRBY_LOAD_BG_PALETTE_FN((const uint16_t*)(0x0834BB20u + desired_color * 32u), 0xF0u, 16u);
+    if (KIRBY_MAIN_FLAGS & 0x10000u) {
+        /* The raw loader also preserves the resolved HUD row in its backup. */
+        KIRBY_TRANSFORM_BG_PALETTE_FN((const uint16_t*)0x02022300u, 0xF0u, 16u);
+    }
     KIRBY_MAIN_FLAGS |= 1u; /* Native VBlank uploader consumes the BG sync flag. */
     AP_STARTING_KIRBY_COLOR_APPLIED = 1u;
 }

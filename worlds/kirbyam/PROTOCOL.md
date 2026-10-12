@@ -321,7 +321,7 @@ no RAM reads, location sends, item writes, or goal reports occur.
 
 When runtime gate classifies non-gameplay:
 - Defer location polling and boss-defeat polling.
-- Defer new mailbox item writes.
+- Defer new mailbox item writes, except the six guaranteed starting-ability precollect receipts during a live tutorial (native rooms 803–805, AI state 100, positive HP, demo flags zero). This exception accepts only Archipelago-origin `location=-2, player=0` receipts at the current history cursor; it never skips an intervening item or equips an ability. Other precollects and ordinary items remain deferred. Permission masks already synchronize before this receipt processing.
 - Continue mailbox ACK/recovery handling for already-pending deliveries.
 - Continue goal polling (goal signal can occur in post-clear non-gameplay states).
 
@@ -835,4 +835,4 @@ An explicit A-button confirmation on an owned spray-paint entry records `0xC600 
 
 The menu's always-available default swatch clears the marker, allowing the AP static color to win. A collected Pink paint is an explicit owned choice like every other paint. Random-per-room overrides but does not erase a marker. Native save/load and resets restore the marker per slot; savestates restore their older marker/mailbox/latch state. Reconnect alone does not reroll. Startup clears the palette latch and resolves the current valid runtime color (per-room mode), saved owned choice, configured static color or Pink before `CreateKirby`.
 
-HUD refresh uses the native color-specific HUD table and BG+backup loader, then sets the BG upload flag. It waits for the active single-player gameplay HUD, valid Kirby task/ability and completed software palette/brightness fades. It does not reinitialize HUD tasks or touch health, lives, battery counts, other players or paint ownership. Changes require a newly generated ROM patch; old ROMs retain their previous color behavior.
+HUD refresh uses the native color-specific HUD table and BG+backup loader, then sets the BG upload flag. It waits for the active single-player gameplay HUD, valid Kirby task/ability and completed hardware brightness fades. Native BG/OBJ RGB-transformation enables (`gMainFlags & 0x30000`) can persist during ordinary gameplay and do not defer a color request. The OBJ refresh retains native transformation behavior; the HUD keeps its raw resolved backup row and uses native `LoadBgPaletteWithTransformation` for its working row when BG transformation is enabled. It does not reinitialize HUD tasks or touch health, lives, battery counts, other players or paint ownership. Changes require a newly generated ROM patch; old ROMs retain their previous color behavior.
