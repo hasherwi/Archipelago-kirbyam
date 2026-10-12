@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING
 from settings import get_settings
 from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
 
+from .colors import encode_color_config
 from .data import data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
 from .enemy_ability_runtime_patch import (
@@ -151,7 +152,8 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
     patch.write_token(
         APTokenTypes.WRITE,
         STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET,
-        int(resolved_color_id).to_bytes(4, "little"),
+        encode_color_config(int(resolved_color_id),
+                            world._starting_kirby_color_randomize_on_room_transition_enabled()).to_bytes(4, "little"),
     )
 
     mode = int(world.options.ability_randomization_mode.value)

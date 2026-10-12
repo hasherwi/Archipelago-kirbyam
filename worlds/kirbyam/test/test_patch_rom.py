@@ -143,6 +143,7 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
     rom = bytearray(b"\xA5" * 0x200000)
     for offset in patch_rom.HEALTH_HUD_CALLSITES:
         rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(0x08000000 + offset, 0x0803518C)
+    rom[0x14406C:0x144070] = patch_rom.thumb_bl_bytes(0x0814406C, 0x081447E0)
     rom[0x14380A:0x14380E] = patch_rom.thumb_bl_bytes(0x0814380A, 0x08019F0C)
     rom[0x3EB0E:0x3EB14] = patch_rom.thumb_bl_bytes(0x0803EB0E, 0x08019F0C) + b"\x06\x30"
     hook_bl_bytes = {
@@ -166,6 +167,7 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
         [],
         [],
         {"starting_color_start_game_hook_target": 0x08100000,
+         "treasure_paint_hook_target": 0x08100400,
          "health_hud_hook_target": 0x08100100, "initial_health_hook_target": 0x08100200, "vitality_menu_hook_target": 0x08100300},
         0x08000000,
     )

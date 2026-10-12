@@ -10,6 +10,15 @@ from random import Random
 from .data import load_json_data
 
 STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION = 254
+COLOR_CONFIG_MAGIC = 0xC0100000
+
+
+def encode_color_config(color_id: int, per_room: bool) -> int:
+    if not 0 <= color_id <= 13:
+        raise ValueError("Kirby color must be within 0..13")
+    return COLOR_CONFIG_MAGIC | (0x100 if per_room else 0) | color_id
+
+
 _KIRBY_COLOR_ID_MIN = 0
 _KIRBY_COLOR_ID_MAX = 13
 _COLOR_KEY_PATTERN = re.compile(r"^[a-z_][a-z0-9_]*$")
