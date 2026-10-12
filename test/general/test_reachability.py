@@ -11,7 +11,7 @@ class TestBase(unittest.TestCase):
 
     default_settings_unreachable_regions = {
         # Kirby retains empty tutorial/final-area placeholders and dormant split rooms.
-        # Active locations are still checked above; #945 covers room-sanity ingress.
+        # Active locations and terminal physical-room check regions remain reachable.
         "Kirby & The Amazing Mirror": {
             'REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2',
             'REGION_CARROT_CASTLE/ROOM_5_13',
@@ -33,8 +33,6 @@ class TestBase(unittest.TestCase):
             'REGION_DIMENSION_MIRROR/ROOM_10_16',
             'REGION_DIMENSION_MIRROR/ROOM_10_17',
             'REGION_MOONLIGHT_MANSION/ROOM_2_04_FROM_2_07',
-            'REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER',
-            'REGION_MOONLIGHT_MANSION/ROOM_2_06',
             'REGION_MOONLIGHT_MANSION/ROOM_2_08_BOMB_ROOM',
             'REGION_MOONLIGHT_MANSION/ROOM_2_12_RIGHT',
             'REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN',
