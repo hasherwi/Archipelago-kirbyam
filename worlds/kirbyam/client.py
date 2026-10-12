@@ -20,7 +20,7 @@ from .colors import choose_different_kirby_color, kirby_color_name_by_id
 from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
-from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
+from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES
 from .generated_hub_switch_contract import HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY
 from .health import (
     MAXIMUM_HEALTH_DEFAULT,
@@ -1921,8 +1921,16 @@ class KirbyAmClient(BizHawkClient):
                 if not was_deferred:
                     await self._display_client_message(ctx, "Item sending paused by game state")
 
-                # Preserve mailbox ACK handling while deferring new writes.
-                await self._deliver_items(ctx, allow_new_writes=False)
+                # Only the guaranteed precollected permission receipts are safe
+                # here. Their native handler ORs an unlock bit; it never equips
+                # an ability, heals Kirby, or changes a world/save flag.
+                if (ai_state == _AI_STATE_TUTORIAL
+                        and defer_reason == "non_gameplay_tutorial_or_menu"
+                        and await self._tutorial_starting_abilities_ready(ctx)):
+                    await self._deliver_items(ctx, allow_new_writes=False,
+                                              allow_starting_abilities=True)
+                else:
+                    await self._deliver_items(ctx, allow_new_writes=False)
                 # Goal detection remains active because native goal signals may only
                 # be observable in post-clear non-gameplay phases.
                 await self._maybe_report_goal(ctx, ai_state_override=ai_state)
@@ -3615,7 +3623,7 @@ class KirbyAmClient(BizHawkClient):
         self._starting_kirby_color_revalidate_counter = 0
         self._log_verbose(
             "info",
-            "KirbyAM: room transition randomized Kirby color %s -> %s (%s) "
+            "KirbyAM: room transition requested Kirby color %s -> %s (%s) "
             "(native=0x%04X)",
             current_color_id,
             next_color.display_name,
@@ -4014,7 +4022,30 @@ class KirbyAmClient(BizHawkClient):
     # Item delivery (mailbox protocol)
     # --------------------------
 
-    async def _deliver_items(self, ctx: KirbyAmBizHawkClientContext, allow_new_writes: bool = True) -> None:
+    async def _tutorial_starting_abilities_ready(self, ctx) -> bool:
+        """A live tutorial, excluding title/demo/menu and dead Kirby."""
+        keys = ("current_room_native", "demo_playback_flags_native", "kirby_hp_native")
+        addresses = [self._native_addr(key) for key in keys]
+        if any(address is None for address in addresses):
+            return False
+        room, demo, hp = await bizhawk.read(ctx.bizhawk_ctx, [
+            (addresses[0], 2, "System Bus"), (addresses[1], 4, "System Bus"),
+            (addresses[2], 1, "System Bus"),
+        ])
+        return (int.from_bytes(room, "little") in (803, 804, 805)
+                and self._u32_le(demo) == 0 and self._s8(hp) > 0)
+
+    @classmethod
+    def _is_guaranteed_starting_ability_receipt(cls, item: object) -> bool:
+        if getattr(item, "location", None) != -2 or getattr(item, "player", None) != 0:
+            return False
+        item_id = cls._coerce_u32(getattr(item, "item", None))
+        entry = data.items.get(item_id)
+        return (entry is not None and entry.label in
+                {f"{name} Ability" for name in STARTING_COPY_ABILITIES})
+
+    async def _deliver_items(self, ctx: KirbyAmBizHawkClientContext, allow_new_writes: bool = True,
+                             *, allow_starting_abilities: bool = False) -> None:
         """
         Deliver items via mailbox protocol.
 
@@ -4274,7 +4305,7 @@ class KirbyAmClient(BizHawkClient):
             return
 
         # Gameplay-state gate can defer new writes while still allowing ACK/recovery handling.
-        if not allow_new_writes:
+        if not allow_new_writes and not allow_starting_abilities:
             return
 
         if self._delivery_retry_not_before > 0.0 and time.monotonic() < self._delivery_retry_not_before:
@@ -4286,6 +4317,9 @@ class KirbyAmClient(BizHawkClient):
 
         while self._delivered_item_index < len(ctx.items_received):
             itm = ctx.items_received[self._delivered_item_index]
+            if not allow_new_writes and not self._is_guaranteed_starting_ability_receipt(itm):
+                # Never jump past food/maps/other precollects or reorder history.
+                return
             item_fields = self._extract_delivery_item_fields(itm)
             if item_fields is None:
                 self._log_client(

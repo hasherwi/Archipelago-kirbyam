@@ -1,5 +1,10 @@
 /* Appended to actual shipping C by test_color_precedence.py; IO only is stubbed. */
 #define CHECK(c) do {if(!(c)){printf("failed line %d\n",__LINE__);return 1;}}while(0)
+static unsigned transform_calls;
+static void transform_bg(const uint16_t *p,uint8_t index,uint16_t count){
+ if(p!=(const uint16_t*)0x02022300u||index!=240||count!=16)abort();
+ transform_calls++;
+}
 static unsigned obj_calls,bg_calls,save_calls,start_calls,menu_calls,bad_io;
 static uint16_t slots[3], bg[16], bg_backup[16];
 static uint8_t obj_color;
@@ -82,14 +87,23 @@ int main(void){
  ((uint16_t*)0x08386A50)[0]=0x100;AP_SAVED_PAINT_CHOICE=ap_color_choice_encode(5);
  KIRBY_SPRAY_PAINT_FLAGS=0;ap_on_treasure_paint_selection(menu);
  CHECK(AP_SAVED_PAINT_CHOICE==0&&slots[1]==0&&KIRBY_SPRAY_PAINT_FLAGS==0);
+ /* Persistent transform modes must consume requests, without clearing native flags. */
+ for(unsigned flags=1;flags<=3;flags++)for(unsigned color=0;color<19;color++){
+  ready();gApStartingKirbyColorInitial=AP_COLOR_CONFIG_MAGIC|AP_COLOR_PER_ROOM;
+  AP_MAILBOX_INIT_COOKIE=AP_MAILBOX_INIT_COOKIE_VALUE;AP_STARTING_KIRBY_COLOR_ID=color;
+  KIRBY_MAIN_FLAGS|=flags<<16;transform_calls=0;
+  ap_apply_starting_kirby_color_config();
+  CHECK(obj_calls==1&&bg_calls==1&&AP_STARTING_KIRBY_COLOR_APPLIED==1);
+  CHECK(transform_calls==(flags&1)&&((KIRBY_MAIN_FLAGS>>16)&3)==flags);
+  CHECK(obj_color==ap_native_color(color));
+ }
  /* Every unsafe palette context defers and retries instead of consuming latch. */
- for(unsigned reason=0;reason<9;reason++){
+ for(unsigned reason=0;reason<7;reason++){
   ready();gApStartingKirbyColorInitial=AP_COLOR_CONFIG_MAGIC;AP_MAILBOX_INIT_COOKIE=0;
   switch(reason){case 0:KIRBY_HUD_TASK=0;break;case 1:KIRBY_HUD_TASK++;break;
-   case 2:*(uint32_t*)0x03001008=0x081434F9;break;case 3:KIRBY_MAIN_FLAGS|=0x10000;break;
-   case 4:KIRBY_MAIN_FLAGS|=0x20000;break;case 5:KIRBY_BLD_CONTROL=0xC0;KIRBY_BLD_Y=8;break;
-   case 6:DEMO_PLAYBACK_FLAGS=0x10;break;case 7:KIRBY_CURRENT_PLAYER=1;break;
-   case 8:*(uint32_t*)(KIRBY_STRUCTS_ADDR+KIRBY_STRUCT_TASK_OFFSET)=0;break;}
+   case 2:*(uint32_t*)0x03001008=0x081434F9;break;case 3:KIRBY_BLD_CONTROL=0xC0;KIRBY_BLD_Y=8;break;
+   case 4:DEMO_PLAYBACK_FLAGS=0x10;break;case 5:KIRBY_CURRENT_PLAYER=1;break;
+   case 6:*(uint32_t*)(KIRBY_STRUCTS_ADDR+KIRBY_STRUCT_TASK_OFFSET)=0;break;}
   ap_apply_starting_kirby_color_config();CHECK(!obj_calls&&!bg_calls&&!AP_STARTING_KIRBY_COLOR_APPLIED);
   ready();ap_apply_starting_kirby_color_config();CHECK(obj_calls==1&&bg_calls==1&&obj_color==0);
  }

@@ -156,6 +156,39 @@ int main(int argc,char**argv){
   for(unsigned i=0;i<16;i++)assert(c->busRead16(c,0x03002c60+2*i)==reference[i]);
  }
  printf("PASS 10 native-reference transformed/raw palette loads; gated commands advance cursor without palette/flag writes.\n");
+ /* Persistent RGB transformation enables must not stall color requests. */
+ unsigned transformed_requests=0;
+ for(unsigned flags=1;flags<=3;flags++)for(unsigned inverse=0;inverse<2;inverse++)
+ for(unsigned color=0;color<AP_COLOR_COUNT;color++) {
+  ready(c);c->rawWrite32(c,0x0815F694,-1,0xC0100106);
+  c->busWrite32(c,0x0203B050,color);c->busWrite16(c,0x02038982,0);
+  c->busWrite32(c,0x03003678,0);
+  for(unsigned i=0;i<32;i++) {
+   unsigned v=inverse?31-i:i;
+   c->busWrite16(c,0x030036D0+2*i,v);
+   c->busWrite16(c,0x03003710+2*i,v<<5);
+   c->busWrite16(c,0x03003750+2*i,v<<10);
+  }
+  c->busWrite32(c,0x03002440,flags<<16);
+  c->busWrite8(c,0x02020FBF,color<14?color:0);
+  call(c,0x0803E558,0,0,0);
+  unsigned expected_obj[16];
+  for(unsigned i=0;i<16;i++)expected_obj[i]=c->busRead16(c,0x03002c60+2*i);
+  c->busWrite8(c,0x02020FBF,6);c->busWrite32(c,0x03002440,flags<<16);
+  call(c,poll,0,0,0);
+  assert(c->busRead8(c,0x02020FBF)==(color<14?color:0));
+  assert(c->busRead32(c,0x0203B0B8)==1);
+  assert((c->busRead32(c,0x03002440)&0x30000)==flags<<16);
+  for(unsigned i=0;i<16;i++) {
+   unsigned raw=color<14?c->busRead16(c,0x0834BB20+32*color+2*i):ap_color_palettes[color-14][2][i];
+   unsigned expected=(flags&1)?(inverse?((raw^0x7fff)&0x7fff):(raw&0x7fff)):raw;
+   assert(c->busRead16(c,bg+0x1e0+2*i)==expected);
+   assert(c->busRead16(c,backup+0x1e0+2*i)==raw);
+   assert(c->busRead16(c,0x03002c60+2*i)==expected_obj[i]);
+  }
+  transformed_requests++;
+ }
+ printf("PASS %u persistent-transform requests: native OBJ, transformed HUD, raw backup.\n",transformed_requests);
  unsigned saves=0;unsigned char sram_before[0x8000];
  for(unsigned slot=0;slot<3;slot++)for(unsigned color=0;color<14;color++){
   ready(c);c->busWrite16(c,0x0203AD48,slot);c->busWrite16(c,0x02038982,0);

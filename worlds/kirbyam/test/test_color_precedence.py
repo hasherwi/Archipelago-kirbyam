@@ -51,6 +51,7 @@ def test_shipping_color_precedence_and_lifecycle(tmp_path: Path) -> None:
     source = source.replace('volatile const uint32_t gApStartingKirbyColorInitial',
                             'volatile uint32_t gApStartingKirbyColorInitial')
     for macro, replacement in {
+        'KIRBY_TRANSFORM_BG_PALETTE_FN': 'transform_bg',
         'KIRBY_REFRESH_PALETTE_FN': 'refresh_obj', 'KIRBY_LOAD_BG_PALETTE_FN': 'load_bg',
         'KIRBY_START_GAME_FN': 'start_game', 'KIRBY_MENU_SELECT_FN': 'menu_select',
         'KIRBY_SAVE_WORLD_FN': 'save_world',
@@ -61,7 +62,9 @@ def test_shipping_color_precedence_and_lifecycle(tmp_path: Path) -> None:
 #include <stdint.h>
 #include <sys/mman.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+static void transform_bg(const uint16_t*,uint8_t,uint16_t);
 static void refresh_obj(uint8_t);
 static void load_bg(const uint16_t*,uint8_t,uint16_t);
 static void start_game(uint8_t,uint8_t,const uint16_t*,const int32_t*,const uint32_t*);
