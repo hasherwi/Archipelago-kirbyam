@@ -18,7 +18,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Known Limitations
 - Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
-- Backwards Compatability: Use newly generated ROM patches for offline custom health initialization; older patches need a same-seed rebuild to embed health bounds. Client reconciliation remains required for authoritative AP ownership. Full gameplay coverage of every custom-health interaction remains pending.
 - Localization: Only the North American ROM is supported. All AP notifications are in English.
 - Native sprites and animations: Chests still show their original item sprite and collection animation. Statues still show their original ability.
 - mGBA: notifications appear as plain text in the **Archipelago Connector** scripting panel, which must be visible. They do not appear over the game image.
