@@ -15,17 +15,17 @@ WORLD = Path(__file__).resolve().parents[1]
 
 @pytest.mark.parametrize('color', range(14))
 @pytest.mark.parametrize('per_room', [False, True])
-def test_color_config_encodes_mode_without_moving_rom_word(color, per_room):
+def test_color_config_encodes_mode_without_moving_rom_word(color: int, per_room: bool) -> None:
     assert encode_color_config(color, per_room) == 0xC0100000 | (int(per_room) << 8) | color
 
 
 @pytest.mark.parametrize('color', [-1, 14, 254, 0xFFFFFFFF])
-def test_color_config_rejects_non_concrete_colors(color):
+def test_color_config_rejects_non_concrete_colors(color: int) -> None:
     with pytest.raises(ValueError):
         encode_color_config(color, False)
 
 
-def test_treasure_hook_validates_native_call_before_mutation():
+def test_treasure_hook_validates_native_call_before_mutation() -> None:
     rom = bytearray(0x150000)
     off = patch_rom.TREASURE_PAINT_CALL_OFFSET
     rom[off:off + 4] = patch_rom.thumb_bl_bytes(0x08000000 + off, 0x081447E0)
@@ -39,10 +39,11 @@ def test_treasure_hook_validates_native_call_before_mutation():
         patch_rom.build_treasure_paint_writes(rom, 0x0815E100)
 
 
-def test_shipping_color_precedence_and_lifecycle(tmp_path):
+def test_shipping_color_precedence_and_lifecycle(tmp_path: Path) -> None:
     cc = shutil.which('cc')
     if not cc or not sys.platform.startswith('linux'):
         pytest.skip('requires Linux mapped-memory C harness')
+    assert cc is not None
     source = (WORLD / 'kirby_ap_payload/ap_payload.c').read_text()
     source = re.sub(r'register uint32_t (\w+) asm\("r[458]"\);', r'uint32_t \1 = 0;', source)
     source = source.replace('__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));',
