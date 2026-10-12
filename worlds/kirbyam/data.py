@@ -44,7 +44,8 @@ def _list_data_files(subdir: str) -> list[str]:
         return sorted(path.name for path in source_dir.iterdir() if path.is_file())
 
     try:
-        base = resources.files(__name__).joinpath("data", subdir)
+        # Python 3.11 requires a package anchor; this module is not a package.
+        base = resources.files(__package__).joinpath("data", subdir)
         if not base.is_dir():
             return []
         return sorted(p.name for p in base.iterdir() if p.is_file())
@@ -804,6 +805,21 @@ def _init() -> None:  # noqa: C901
 
     for region_name, loc_keys in sorted(room_sanity_by_region.items()):
         region = data.regions[region_name]
+        if region_name in logical_subregions_by_parent:
+            # A visit to any compartment sets the same native physical-room bit.
+            # Put the singleton check in a sink: never connect compartments to
+            # the canonical room, whose exits could permit unintended traversal.
+            check_region_name = f"{region_name}__ROOM_CHECK"
+            if check_region_name in data.regions:
+                raise ValueError(f"Duplicate room-check region [{check_region_name}]")
+            region = RegionData(check_region_name)
+            data.regions[check_region_name] = region
+            sources = [region_name, *(
+                logical_region_names[(region_name, key)]
+                for key in logical_subregions_by_parent[region_name]
+            )]
+            for source in sources:
+                data.regions[source].exits.append(check_region_name)
         for loc_key in sorted(
             loc_keys,
             key=lambda key: (
