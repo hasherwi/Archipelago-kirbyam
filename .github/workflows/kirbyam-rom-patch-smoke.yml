@@ -68,7 +68,7 @@ jobs:
 
           rom_path = Path("worlds/kirbyam/kirby_ap_payload/kirby.gba")
           rom_path.parent.mkdir(parents=True, exist_ok=True)
-          rom = bytearray(0x400000)
+          rom = bytearray(0x1000000)
 
           # Fixed callsites validated only for their Thumb-BL instruction shape.
           placeholder_bl = bytes.fromhex("00 f0 00 f8")
@@ -128,6 +128,10 @@ jobs:
           for offset in (0x339B2, 0x33BF2, 0x35A62):
               rom[offset:offset + 4] = thumb_bl_bytes(offset, 0x0803518C)
 
+          # Synthetic native palette hook sentinels; no retail ROM data.
+          rom[0xD60820:0xD60824] = (0x08155401).to_bytes(4, "little")
+          rom[0x3D21C:0x3D224] = bytes.fromhex("70 b5 04 1c 0d 1c 16 1c")
+
           rom_path.write_bytes(rom)
           PY
 
@@ -140,6 +144,7 @@ jobs:
           test -f worlds/kirbyam/data/base_patch.bsdiff4
           test -f worlds/kirbyam/kirbyam.apworld
           test -f worlds/kirbyam/kirby_ap_payload/payload.bin
+          test -f worlds/kirbyam/kirby_ap_payload/color_payload.bin
 
       - name: Upload KirbyAM patch smoke artifacts
         uses: actions/upload-artifact@v4
