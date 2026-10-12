@@ -341,8 +341,11 @@ def _build_starting_kirby_color_option() -> type[Choice]:
     A confirmed, owned treasure-room paint overrides this static choice and
     persists per save file. The treasure menu's default swatch clears that choice.
 
-    Supported color names (as listed on Kirby Wiki Spray Paint):
+    Supported color names:
       %s
+
+    Shadow, Ivory, Citrus, White and Lavender are appearance choices, without
+    new collectible spray paints. Native Chalk keeps its original appearance.
 
     Set the entire option to `random` to let Archipelago choose one supported
     color during option parsing. In a YAML, the shorthand is:

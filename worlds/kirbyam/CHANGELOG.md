@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## v0.4.1
 
 ### New Features
+- Choose Shadow, Ivory, Citrus, White or Lavender as your starting Kirby color, or include them in random color per room. Native paints, including Chalk, keep their existing appearance and priority. New colors require an updated client and newly generated patch (Issue #599).
 
 ### Improvements
 - Configure one-hit starts through Minimum Health and Maximum Health. The redundant One-Hit Mode selector is removed from templates; older YAML presets still convert automatically (Issue #955).

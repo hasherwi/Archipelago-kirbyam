@@ -16,7 +16,7 @@ import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
-from .colors import choose_different_kirby_color
+from .colors import choose_different_kirby_color, kirby_color_name_by_id
 from .data import LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
@@ -98,7 +98,7 @@ _AREA_REGION_TOKEN_TO_AREA_ID: dict[str, int] = {
 # Lever Wall item may then set the native wall bit without creating a false check.
 _LEVER_ACTIVATION_FLAGS_ADDR_KEY = "lever_activation_flags"
 _STARTING_KIRBY_COLOR_MIN = 0
-_STARTING_KIRBY_COLOR_MAX = 13
+_STARTING_KIRBY_COLOR_MAX = max(kirby_color_name_by_id())
 _STARTING_KIRBY_COLOR_REVALIDATE_TICKS = 4
 # Revalidate every watcher tick so transport resets cannot leave a stale
 # completely-random config window where statue pickups fall back to static table writes.
@@ -392,6 +392,7 @@ class KirbyAmClient(BizHawkClient):
         self._cached_shard_bits_items_len: int = 0
 
     def initialize_client(self) -> None:
+        self._curated_color_rom_confirmed: bool | None = None
         old_journal = getattr(self, "_receipt_journal", None)
         if old_journal is not None:
             old_journal.close()
@@ -748,6 +749,7 @@ class KirbyAmClient(BizHawkClient):
 
     def _reset_reconnect_transient_state(self) -> None:
         """Reset transient watcher diagnostics/probes so reconnect starts from clean baselines."""
+        self._curated_color_rom_confirmed = None
         self._last_runtime_gate_reason = None
         self._last_native_room_id = None
         self._last_sent_room_update_native_room_id = None
@@ -1253,7 +1255,8 @@ class KirbyAmClient(BizHawkClient):
         color_value = self._coerce_u32(slot_data.get("starting_kirby_color"))
         if color_value is None:
             return None
-        if color_value < _STARTING_KIRBY_COLOR_MIN or color_value > _STARTING_KIRBY_COLOR_MAX:
+        maximum = _STARTING_KIRBY_COLOR_MAX if slot_data.get("kirby_color_catalog_version") == 2 else 13
+        if color_value < _STARTING_KIRBY_COLOR_MIN or color_value > maximum:
             return None
 
         color_name_raw = slot_data.get("starting_kirby_color_name", "")
@@ -1309,12 +1312,29 @@ class KirbyAmClient(BizHawkClient):
             options_json,
         )
 
+    async def _color_catalog_ready(self, ctx: "BizHawkClientContext") -> bool:
+        """Never send curated IDs to an older payload, including per-room mode."""
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict) or slot_data.get("kirby_color_catalog_version", 1) != 2:
+            return True
+        if self._curated_color_rom_confirmed is None:
+            try:
+                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(0x1000000, 8, "ROM")]))[0]
+            except bizhawk.RequestFailedError:
+                return False
+            self._curated_color_rom_confirmed = bytes(marker) == b"APCOL02\0"
+            if not self._curated_color_rom_confirmed:
+                self._log_client("warning", "KirbyAM: this color catalog requires a regenerated ROM patch.")
+        return self._curated_color_rom_confirmed
+
     async def _sync_starting_kirby_color_runtime_config(self, ctx: "BizHawkClientContext") -> None:
         config = self._get_starting_kirby_color_config(ctx)
         if config is None:
             return
 
         color_id, color_name = config
+        if not await self._color_catalog_ready(ctx):
+            return
         color_transport_addr = self._transport_addr("starting_kirby_color_id")
         if color_transport_addr is None:
             return
@@ -3529,6 +3549,9 @@ class KirbyAmClient(BizHawkClient):
             self._room_transition_color_last_native_room_id = None
             return
 
+        if not await self._color_catalog_ready(ctx):
+            return
+
         previous_room_id = self._room_transition_color_last_native_room_id
         if previous_room_id is None:
             # Establish a reconnect/startup baseline without treating connection
@@ -3557,6 +3580,7 @@ class KirbyAmClient(BizHawkClient):
         next_color = choose_different_kirby_color(
             current_color_id,
             self._room_transition_color_rng,
+            native_only=getattr(ctx, "slot_data", {}).get("kirby_color_catalog_version", 1) != 2,
         )
 
         try:

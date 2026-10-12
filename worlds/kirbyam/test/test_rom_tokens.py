@@ -67,10 +67,11 @@ def _make_world(
 
 
 @pytest.mark.parametrize("per_room", [False, True])
-def test_write_tokens_bakes_resolved_starting_color(per_room: bool) -> None:
+@pytest.mark.parametrize("color_id", range(19))
+def test_write_tokens_bakes_resolved_starting_color(per_room: bool, color_id: int) -> None:
     world = _make_world(
         AbilityRandomizationMode.option_off,
-        starting_color_id=7,
+        starting_color_id=color_id,
     )
     world._starting_kirby_color_randomize_on_room_transition_enabled = lambda: per_room
     patch = _DummyPatch()
@@ -80,7 +81,7 @@ def test_write_tokens_bakes_resolved_starting_color(per_room: bool) -> None:
     assert (
         APTokenTypes.WRITE,
         STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET,
-        (0xC0100007 | (int(per_room) << 8)).to_bytes(4, "little"),
+        (0xC0100000 | color_id | (int(per_room) << 8)).to_bytes(4, "little"),
     ) in patch.token_writes
 
 
@@ -107,11 +108,11 @@ def test_write_tokens_rejects_out_of_range_enemy_health_multiplier() -> None:
 def test_write_tokens_rejects_invalid_resolved_starting_color() -> None:
     world = _make_world(
         AbilityRandomizationMode.option_off,
-        starting_color_id=14,
+        starting_color_id=19,
     )
     patch = _DummyPatch()
 
-    with pytest.raises(ValueError, match="within 0..13"):
+    with pytest.raises(ValueError, match="Unsupported Kirby color ID"):
         write_tokens(cast(Any, world), cast(Any, patch))
 
 

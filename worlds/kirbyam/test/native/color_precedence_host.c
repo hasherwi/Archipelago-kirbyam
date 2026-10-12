@@ -30,23 +30,24 @@ int main(void){
  CHECK(mmap((void*)0x08000000,0x1000000,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED_NOREPLACE,-1,0)==(void*)0x08000000);
  for(unsigned c=0;c<14;c++)for(unsigned i=0;i<16;i++)((uint16_t*)0x0834BB20)[c*16+i]=c*100+i;
  unsigned cases=0;
- for(unsigned seed=0;seed<14;seed++)for(unsigned mode=0;mode<2;mode++)
+ for(unsigned seed=0;seed<19;seed++)for(unsigned mode=0;mode<2;mode++)
  for(unsigned choice=0;choice<15;choice++)for(unsigned owned=0;owned<2;owned++)
- for(unsigned runtime=0;runtime<15;runtime++)for(unsigned cookie=0;cookie<2;cookie++){
+ for(unsigned runtime=0;runtime<20;runtime++)for(unsigned cookie=0;cookie<2;cookie++){
   ready();gApStartingKirbyColorInitial=AP_COLOR_CONFIG_MAGIC|(mode<<8)|seed;
   AP_MAILBOX_INIT_COOKIE=cookie?AP_MAILBOX_INIT_COOKIE_VALUE:0;
-  AP_STARTING_KIRBY_COLOR_ID=runtime<14?runtime:0xffffffff;
+  AP_STARTING_KIRBY_COLOR_ID=runtime<19?runtime:0xffffffff;
   AP_SAVED_PAINT_CHOICE=choice<14?ap_color_choice_encode(choice):0;
   uint16_t marker=AP_SAVED_PAINT_CHOICE;
   KIRBY_SPRAY_PAINT_FLAGS=owned?0x3fff:0;
-  unsigned expected=!mode&&choice<14&&owned?choice:cookie&&runtime<14?runtime:seed;
+  unsigned expected=!mode&&choice<14&&owned?choice:cookie&&runtime<19?runtime:seed;
   CHECK(ap_get_effective_starting_kirby_color()==expected);
   ap_on_start_single_player_game(1,0,(void*)0x20,(void*)0x30,(void*)0x40);
-  CHECK(KIRBY_SELECTED_COLOR==expected&&KIRBY_PLAYER_COLOR_TABLE[0]==expected&&*(uint8_t*)0x02020FBF==expected);
+  unsigned native_expected=expected<14?expected:0;
+  CHECK(KIRBY_SELECTED_COLOR==native_expected&&KIRBY_PLAYER_COLOR_TABLE[0]==native_expected&&*(uint8_t*)0x02020FBF==native_expected);
   CHECK(AP_STARTING_KIRBY_COLOR_APPLIED==0);
   ap_apply_starting_kirby_color_config();
-  CHECK(obj_calls==1&&bg_calls==1&&obj_color==expected&&AP_STARTING_KIRBY_COLOR_APPLIED==1);
-  CHECK(KIRBY_MAIN_FLAGS==0x1001&&bg[0]==expected*100&&!memcmp(bg,bg_backup,32));
+  CHECK(obj_calls==1&&bg_calls==1&&obj_color==native_expected&&AP_STARTING_KIRBY_COLOR_APPLIED==1);
+  CHECK(KIRBY_MAIN_FLAGS==0x1001&&bg[0]==native_expected*100&&!memcmp(bg,bg_backup,32));
   CHECK(AP_SAVED_PAINT_CHOICE==marker&&KIRBY_SPRAY_PAINT_FLAGS==(owned?0x3fff:0));
   ap_apply_starting_kirby_color_config();CHECK(obj_calls==1&&bg_calls==1);cases++;
  }
@@ -54,7 +55,7 @@ int main(void){
  for(unsigned v=0;v<65536;v++){
   unsigned c=(v>>4)&15;
   CHECK(ap_color_choice_decode(v,0)==AP_COLOR_INVALID);
-  CHECK(ap_color_choice_decode(v,0x3fff)==(c<14&&v==ap_color_choice_encode(c)?c:AP_COLOR_INVALID));
+  CHECK(ap_color_choice_decode(v,0xffff)==(c<14&&v==ap_color_choice_encode(c)?c:AP_COLOR_INVALID));
  }
  /* Mode metadata does not reinterpret old 0..13 ROM color words. */
  for(unsigned c=0;c<14;c++){CHECK(ap_color_initial(c)==c);CHECK(!ap_color_per_room(c));}
@@ -92,5 +93,5 @@ int main(void){
   ap_apply_starting_kirby_color_config();CHECK(!obj_calls&&!bg_calls&&!AP_STARTING_KIRBY_COLOR_APPLIED);
   ready();ap_apply_starting_kirby_color_config();CHECK(obj_calls==1&&bg_calls==1&&obj_color==0);
  }
- CHECK(!bad_io&&cases==25200);printf("%u precedence cases; explicit owned choices, Pink, invalid padding, save slots, deferred HUD/fades, retry/latch pass\n",cases);return 0;
+ CHECK(!bad_io&&cases==45600);printf("%u precedence cases; explicit owned choices, Pink, invalid padding, save slots, deferred HUD/fades, retry/latch pass\n",cases);return 0;
 }

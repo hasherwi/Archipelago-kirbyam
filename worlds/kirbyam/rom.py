@@ -145,10 +145,6 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
     )
 
     resolved_color_id, _ = world._get_resolved_starting_kirby_color()
-    if not 0 <= int(resolved_color_id) <= 13:
-        raise ValueError(
-            f"resolved starting Kirby color must be within 0..13: {resolved_color_id}"
-        )
     patch.write_token(
         APTokenTypes.WRITE,
         STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET,

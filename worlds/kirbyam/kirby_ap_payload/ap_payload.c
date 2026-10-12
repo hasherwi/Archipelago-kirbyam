@@ -1041,7 +1041,7 @@ __attribute__((used)) uint32_t ap_on_treasure_paint_selection(uint8_t *menu) {
         && KIRBY_SAVE_ID < 3u) {
         uint32_t tag = ((const uint16_t*)0x08386A50u)[index * 2u];
         uint32_t paint = tag - 0x101u;
-        if (tag == 0x100u || (ap_color_valid(paint)
+        if (tag == 0x100u || (ap_native_color_valid(paint)
             && (KIRBY_SPRAY_PAINT_FLAGS & (1u << paint)))) {
             uint16_t saved = tag == 0x100u ? 0u : ap_color_choice_encode(paint);
             if (AP_SAVED_PAINT_CHOICE != saved) {
@@ -1093,12 +1093,13 @@ __attribute__((used)) void ap_on_start_single_player_game(
     const int32_t *positions,
     const uint32_t *flags
 ) {
-    uint32_t desired_color = ap_get_effective_starting_kirby_color();
+    uint32_t desired_color = ap_native_color(ap_get_effective_starting_kirby_color());
     KIRBY_SELECTED_COLOR = (int16_t)desired_color;
     KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] = (uint8_t)desired_color;
-    AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
+    AP_STARTING_KIRBY_COLOR_APPLIED = AP_COLOR_STARTUP;
 
     KIRBY_START_GAME_FN(mode, arg1, rooms, positions, flags);
+    AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
 }
 
 static void ap_apply_starting_kirby_color_config(void) {
@@ -1115,7 +1116,7 @@ static void ap_apply_starting_kirby_color_config(void) {
         || KIRBY_CURRENT_PLAYER != KIRBY_STARTING_COLOR_PLAYER
         || (DEMO_PLAYBACK_FLAGS & 0x12u)
         || !ap_is_player_kirby_ready(KIRBY_STARTING_COLOR_PLAYER)) return;
-    desired_color = ap_get_effective_starting_kirby_color();
+    desired_color = ap_native_color(ap_get_effective_starting_kirby_color());
     kirby_addr = KIRBY_STRUCTS_ADDR;
     KIRBY_SELECTED_COLOR = (int16_t)desired_color;
     KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] = (uint8_t)desired_color;
