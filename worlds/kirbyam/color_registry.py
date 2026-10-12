@@ -122,5 +122,3 @@ def parse_color_catalog(payload: object) -> tuple[KirbyColor, ...]:
     if tuple(c.color_id for c in ordered) != tuple(range(len(ordered))):
         raise ValueError("Color IDs must be contiguous")
     return ordered
-
-
