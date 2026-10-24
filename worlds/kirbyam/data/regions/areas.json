@@ -109,7 +109,8 @@
     "locations": [
       "AREA_VISIT_1_RAINBOW_ROUTE",
       "GOAL_ANY_AREA_BOSS",
-      "GOAL_CONFIGURED_AREA_BOSS"
+      "GOAL_CONFIGURED_AREA_BOSS",
+      "GOAL_AREA_BOSS_COUNT"
     ],
     "events": [
       "Activate Big Switch - Rainbow Route East",

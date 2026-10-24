@@ -69,6 +69,7 @@ def _build_representative_slot_data() -> dict[str, object]:
     options.as_dict.return_value = {
         "goal": 0,
         "configured_area_boss": 7,
+        "required_area_bosses": 3,
         "shards": 2,
         "no_extra_lives": False,
         "ability_gating": True,
