@@ -16,6 +16,9 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966). Regenerate the ROM patch.
 - Allow the six guaranteed starting ability receipts and notices during the tutorial. Other items stay deferred, and Sword still requires its ability item (Issue #967).
 
+### Internal Changes
+- Restore Python 3.11 CI setup on current Ubuntu runners and Windows by selecting an available 3.11 interpreter and correcting Kivy dependency discovery. Preserve all six Python/OS test combinations and full-suite coverage (Issue #986).
+
 ## v0.4.1
 
 ### New Features
