@@ -76,6 +76,13 @@
     "item_id": 3860036,
     "tags": ["Trap"]
   },
+  "TRAP_HUB_TELEPORT": {
+    "label": "Hub Teleport Trap",
+    "_comment": "Returns Kirby to the Rainbow Route hub when native room-transition state is safe. Defers during scripts and transitions.",
+    "classification": "TRAP",
+    "item_id": 3860041,
+    "tags": ["Trap"]
+  },
   "SHARD_1": {
     "label": "Mustard Mountain - Mirror Shard",
     "classification": "PROGRESSION",

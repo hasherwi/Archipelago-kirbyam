@@ -1807,8 +1807,8 @@ class KirbyAmClient(BizHawkClient):
         version = getattr(self, "_health_protocol_version", 1)
         try:
             plan = resolve_vitality_plan(slot.get("minimum_health", 6),
-                                        slot.get("maximum_health", 10),
-                                        slot.get("one_hit_mode", 0))
+                                         slot.get("maximum_health", 10),
+                                         slot.get("one_hit_mode", 0))
             slot_version = slot.get("health_protocol_version", 1)
             if type(slot_version) is not int or slot_version != version:
                 raise ValueError("ROM and slot health versions differ")
@@ -4246,6 +4246,15 @@ class KirbyAmClient(BizHawkClient):
                 if elapsed_seconds >= _MAILBOX_ACK_TIMEOUT_SECONDS:
                     timeout_triggered = True
                     timeout_reason = f"time timeout ({elapsed_seconds:.1f}s >= {_MAILBOX_ACK_TIMEOUT_SECONDS}s)"
+
+            # Hub teleport deliberately leaves the mailbox pending through scripts,
+            # pause and native room transitions. Clearing/reoffering it on a timer
+            # can race its eventual acceptance; retain this receipt in order.
+            pending_index = self._delivery_pending_item_index
+            if (timeout_triggered and flag == 1 and pending_index is not None
+                    and 0 <= pending_index < len(ctx.items_received)
+                    and getattr(ctx.items_received[pending_index], "item", None) == 3860041):
+                return
 
             if timeout_triggered:
                 self._delivery_timeout_streak += 1

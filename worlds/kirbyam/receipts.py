@@ -9,17 +9,19 @@ import hashlib
 import json
 import sqlite3
 from pathlib import Path
+from collections.abc import Sequence
+from typing import Any
 
 # Delivery semantics must not follow AP progression/filler classification.
 TRANSIENT_ITEM_IDS = frozenset({
     3860001,  # 1 Up
     3860026, 3860027, 3860028, 3860029, 3860030, 3860031,  # Consumables
-    3860032, 3860033, 3860034, 3860035, 3860036,  # All five transient traps
+    3860032, 3860033, 3860034, 3860035, 3860036, 3860041,  # Transient traps
 })
 
 
-def receipt_key(items, index: int) -> str:
-    def identity(item):
+def receipt_key(items: Sequence[Any], index: int) -> str:
+    def identity(item: Any) -> tuple[int, int, int] | None:
         try:
             return (int(item.item), int(item.location), int(item.player))
         except (TypeError, ValueError, AttributeError):
@@ -43,7 +45,7 @@ def scope_key(seed: str, rom_auth: bytes, team: int, slot: int) -> str:
 
 
 class ReceiptJournal:
-    def __init__(self, path: str, scope: str):
+    def __init__(self, path: str, scope: str) -> None:
         Path(path).parent.mkdir(parents=True, exist_ok=True)
         self.scope = scope
         self.db = sqlite3.connect(path, timeout=1)
@@ -53,7 +55,7 @@ class ReceiptJournal:
                         "PRIMARY KEY(scope, receipt), CHECK(state IN ('pending', 'acked')))")
         self.db.commit()
 
-    def close(self):
+    def close(self) -> None:
         self.db.close()
 
     def pending(self) -> list[str]:
@@ -71,7 +73,7 @@ class ReceiptJournal:
                                      (self.scope, receipt))
         return result.rowcount == 1
 
-    def acknowledge(self, receipt: str):
+    def acknowledge(self, receipt: str) -> None:
         with self.db:
             self.db.execute("INSERT INTO receipts VALUES (?, ?, 'acked', 0) "
                             "ON CONFLICT(scope, receipt) DO UPDATE SET state='acked'", (self.scope, receipt))
@@ -83,7 +85,7 @@ class ReceiptJournal:
                                      (self.scope, receipt))
         return result.rowcount == 1
 
-    def resolve(self, receipt: str, decision: str):
+    def resolve(self, receipt: str, decision: str) -> None:
         with self.db:
             if decision == 'received':
                 self.db.execute("UPDATE receipts SET state='acked', notified=1 "

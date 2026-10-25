@@ -10,6 +10,9 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ## Unreleased
 
+### New Features
+- Add Hub Teleport Trap (Issue #697): return to Rainbow Route through the native guarded transition, deferring during scripts, pauses and room changes. Regenerate patches; emulator acceptance testing remains pending.
+
 ### Bug Fixes
 - Restore packaged region discovery on Python 3.11 by using a package resource anchor.
 - Fix room-sanity generation by making each physical room check reachable from its valid compartment and restoring the missing Moonlight 2-05 lower descent (Issues #945, #969).

@@ -30,7 +30,7 @@ SECTIONS
     KEEP(*(.apconfig.statue))
   }
   /* Append beyond the clean 16 MiB ROM; never allocate presumed internal padding. */
-  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) color_payload.o(.text* .rodata*) }
+  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) color_payload.o(.text* .rodata*) *(.aphub) }
 }
 
 ASSERT(SIZEOF(.apconfig) == 16, "KirbyAM runtime config must be exactly 16 bytes")
