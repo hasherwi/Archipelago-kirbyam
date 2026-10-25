@@ -30,7 +30,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          python -m pip --isolated --disable-pip-version-check install --no-index --no-deps --require-hashes -r worlds/kirbyam/tools/security-bootstrap.txt
           pip install -r ci-requirements.txt
           python ModuleUpdate.py --yes --force --append "WebHostLib/requirements.txt"
           python Launcher.py --update_settings

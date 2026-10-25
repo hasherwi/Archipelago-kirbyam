@@ -36,7 +36,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y make gcc-arm-none-eabi binutils-arm-none-eabi
-          python -m pip install --upgrade pip
+          python -m pip --isolated --disable-pip-version-check install --no-index --no-deps --require-hashes -r worlds/kirbyam/tools/security-bootstrap.txt
           python -m pip install bsdiff4
 
       - name: Create deterministic dummy base ROM for CI smoke

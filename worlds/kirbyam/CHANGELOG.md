@@ -16,6 +16,19 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966). Regenerate the ROM patch.
 - Allow the six guaranteed starting ability receipts and notices during the tutorial. Other items stay deferred, and Sword still requires its ability item (Issue #967).
 
+## v0.4.2
+
+### Bug Fixes
+- Security maintenance only: KirbyAM-specific build/test workflows bootstrap pip 26.2.2 and certifi 2026.10.19 from checksum-pinned wheels before their Python dependency downloads after the eMudhra/emSign CA incident (Issue #978). A matching bootstrap file and guidance are provided for dedicated KirbyAM development environments. Global Archipelago dependencies, Docker builds, and general workflows are unchanged.
+
+### Known Limitations
+- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
+- Localization: Only the North American ROM is supported. All AP notifications are in English.
+- Native sprites and animations: Chests still show their original item sprite and collection animation. Statues still show their original ability.
+- mGBA: notifications appear as plain text in the **Archipelago Connector** scripting panel, which must be visible. They do not appear over the game image.
+- This APWorld does not contain or update Python, pip, certifi, or the operating system trust store. Existing Archipelago installations and virtual environments need separate remediation; see [Python trust update guidance](docs/python-trust-update.md).
+- Gameplay, logic, ROM patches, and Python 3.11 support are unchanged from v0.4.1. A new APWorld alone is not evidence that a host or previously distributed executable is remediated.
+
 ## v0.4.1
 
 ### New Features
