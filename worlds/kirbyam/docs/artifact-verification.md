@@ -36,6 +36,8 @@ Existing identical assets are retained only when their API digest matches; chang
 or missing digests fail for owner review. There is no clobber, delete, publish or edit
 command. A rerun that produces a different attestation bundle will stop instead of
 replacing it; the owner must review the existing verified draft, not erase evidence.
+Rerunning only the publisher also fails the receipt run-attempt check; do not rewrite
+the receipt to force it through. Review the existing run or rebuild the entire workflow.
 
 Before enabling this path, the owner must enable GitHub immutable future releases,
 protect release tags/main and configure the release environment described in
@@ -54,6 +56,7 @@ the approved source SHA and tag from the reviewed release decision; do not copy 
 only from the downloaded receipt. In a new empty directory, replace SOURCE and TAG:
 
 ```sh
+set -eu
 gh release download "$TAG" --repo hasherwi/Archipelago-kirbyam \
   --pattern kirbyam.apworld --pattern kirbyam.provenance.json --pattern kirbyam.attestation.jsonl
 for artifact in kirbyam.apworld kirbyam.provenance.json; do
