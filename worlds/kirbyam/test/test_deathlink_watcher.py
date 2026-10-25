@@ -59,8 +59,12 @@ async def test_zero_hp_outside_gameplay_never_sends_deathlink(deathlink_session:
 
 
 @pytest.mark.asyncio
-async def test_incoming_link_on_first_tick_does_not_suppress_later_local_death(deathlink_session: Any) -> None:
+@pytest.mark.parametrize('prior_alive_state', [None, False])
+async def test_incoming_link_before_alive_poll_does_not_suppress_later_local_death(
+    deathlink_session: Any, prior_alive_state: bool | None,
+) -> None:
     client, ctx, box, hp, display = deathlink_session
+    client._last_local_alive_state = prior_alive_state
     ctx.items_received = []
     client._incoming_death_link_pending = True
     await client.game_watcher(ctx)

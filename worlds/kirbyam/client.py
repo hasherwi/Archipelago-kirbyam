@@ -2645,6 +2645,10 @@ class KirbyAmClient(BizHawkClient):
                 self._log_verbose("info", "KirbyAM: sending outgoing DeathLink with flavored cause")
                 await ctx.send_death(cause)
 
+        if not alive_now:
+            # A link may kill a freshly respawned Kirby before an alive poll.
+            # Consume suppression even when the prior observation was dead.
+            self._suppress_next_local_death_send = False
         self._last_local_alive_state = alive_now
 
     async def _runtime_gameplay_state(self, ctx: KirbyAmBizHawkClientContext) -> tuple[bool, str, int | None]:
