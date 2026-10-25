@@ -2070,7 +2070,9 @@
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_05": {
-    "events": [],
+    "events": [
+      "Activate Lever - Carrot Castle 5-05"
+    ],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_02",
       "REGION_CARROT_CASTLE/ROOM_5_03",
@@ -2173,9 +2175,7 @@
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_12": {
-    "events": [
-      "Activate Lever - Carrot Castle 5-12"
-    ],
+    "events": [],
     "exits": [
       "REGION_CARROT_CASTLE/ROOM_5_13",
       "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",

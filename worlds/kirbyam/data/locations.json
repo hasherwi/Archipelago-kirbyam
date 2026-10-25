@@ -597,8 +597,8 @@
     "location_id": 3960416
   },
   "LEVER_CARROT_CASTLE_5_12": {
-    "label": "Carrot Castle 5-12 - Lever",
-    "parent_region": "REGION_CARROT_CASTLE/ROOM_5_12",
+    "label": "Carrot Castle 5-05 - Lever",
+    "parent_region": "REGION_CARROT_CASTLE/ROOM_5_05",
     "tags": [
       "Lever",
       "MAP_CARROT_CASTLE"

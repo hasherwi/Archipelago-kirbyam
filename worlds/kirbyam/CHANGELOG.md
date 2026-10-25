@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### Bug Fixes
+- Move the Carrot Castle lever check and event from room 5-12 to 5-05 and correct its labels (Issue #972). Generate a new seed to use the corrected placement; numeric IDs and native lever bits are unchanged.
 - Restore packaged region discovery on Python 3.11 by using a package resource anchor.
 - Fix room-sanity generation by making each physical room check reachable from its valid compartment and restoring the missing Moonlight 2-05 lower descent (Issues #945, #969).
 - Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966). Regenerate the ROM patch.
