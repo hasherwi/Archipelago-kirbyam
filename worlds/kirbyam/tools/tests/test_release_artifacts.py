@@ -5,6 +5,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 artifacts = importlib.import_module("release_artifacts")
@@ -43,6 +44,7 @@ class ReleaseArtifactTests(unittest.TestCase):
             existing = [{"name": name, "digest": "sha256:" + artifacts.digest(root / name)}
                         for name in artifacts.ASSETS]
             self.assertEqual(artifacts.plan(root, {"isDraft": True, "assets": existing}), [])
+            state: dict[str, Any]
             for state in ({"isDraft": False, "assets": []}, {"assets": []},
                           {"isDraft": True, "assets": [{"name": "full.gba", "digest": "sha256:bad"}]},
                           {"isDraft": True, "assets": [{"name": artifacts.ASSETS[0]}]},
