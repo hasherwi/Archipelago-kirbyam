@@ -1,5 +1,6 @@
 """Offline negative fixtures: never download or install fixture code."""
 import hashlib
+import importlib
 import json
 from pathlib import Path
 import sys
@@ -7,7 +8,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from verify_wheelhouse import verify  # noqa: E402
+verify = importlib.import_module("verify_wheelhouse").verify
 
 
 class WheelhouseTests(unittest.TestCase):
