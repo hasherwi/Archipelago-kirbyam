@@ -36,7 +36,8 @@ def test_hub_hook_rejects_wrong_rom_without_mutation() -> None:
     assert rom == before
 
 
-def test_actual_mailbox_and_hub_dispatch(tmp_path: Path) -> None:
+@pytest.mark.parametrize("optimization", ["-O0", "-O2"])
+def test_actual_mailbox_and_hub_dispatch(tmp_path: Path, optimization: str) -> None:
     compiler = shutil.which("cc")
     if not sys.platform.startswith("linux") or not compiler:
         pytest.skip("requires Linux low-address memory mapping and C compiler")
@@ -45,6 +46,12 @@ def test_actual_mailbox_and_hub_dispatch(tmp_path: Path) -> None:
     # Only platform calls/register bindings are substituted. All mailbox,
     # item effects, readiness guards and acknowledgement code run unchanged.
     source = re.sub(r'register uint32_t (\w+) asm\("r\d+"\);', r'uint32_t \1 = 0;', source)
+    # ARM return-address snapshots in unrelated chest hooks must also be
+    # adapted: x86 treats `lr` as an undefined symbol, even with optimization.
+    lr_snapshot = '__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));'
+    assert source.count(lr_snapshot) == 2
+    source = source.replace(lr_snapshot, 'caller_lr_snapshot = 0;')
+    assert not re.search(r'\b(?:__asm__|asm)\s*\(', source)
     source = source.replace('((KirbyWorldPropsEntryFn)0x08002889u)', 'native_world_props')
     source = source.replace('((RoomSpawnFn)0x08002D41u)', 'native_spawn')
     source = source.replace('((RequestRoomFn)0x080551FDu)', 'native_request')
@@ -54,7 +61,7 @@ def test_actual_mailbox_and_hub_dispatch(tmp_path: Path) -> None:
     path = tmp_path / 'hub.c'
     path.write_text(source)
     exe = tmp_path / 'hub'
-    built = subprocess.run([compiler, '-std=gnu99', '-O2', '-w', '-I', str(PAYLOAD),
+    built = subprocess.run([compiler, '-std=gnu99', optimization, '-w', '-I', str(PAYLOAD),
                             str(path), '-o', str(exe)], capture_output=True, text=True)
     assert built.returncode == 0, built.stderr
     result = subprocess.run([str(exe)], capture_output=True, text=True)
