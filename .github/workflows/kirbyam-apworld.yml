@@ -78,6 +78,7 @@ jobs:
         run: |
           mkdir -p dist
           cp worlds/kirbyam/kirbyam.apworld "dist/${{ steps.meta.outputs.apworld_name }}"
+          python worlds/kirbyam/tools/release_artifacts.py record dist
           ls -lh dist
           echo "apworld_name=${{ steps.meta.outputs.apworld_name }}" >> "${GITHUB_OUTPUT}"
 
@@ -85,7 +86,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.package.outputs.apworld_name }}
-          path: dist/${{ steps.package.outputs.apworld_name }}
+          path: |
+            dist/kirbyam.apworld
+            dist/kirbyam.provenance.json
           if-no-files-found: error
           retention-days: 14
 
@@ -96,6 +99,8 @@ jobs:
     needs: build-apworld
     permissions:
       contents: write
+      id-token: write
+      attestations: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -114,68 +119,64 @@ jobs:
           name: ${{ steps.authorize.outputs.apworld_name }}
           path: dist
 
-      - name: Ensure tagged release exists
-        shell: bash
+      - name: Verify intended build receipt before attesting
+        run: python worlds/kirbyam/tools/release_artifacts.py verify dist
+
+      - name: Attest exact APWorld and provenance receipt
+        id: attest
+        uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3.0.0
+        with:
+          subject-path: |
+            dist/kirbyam.apworld
+            dist/kirbyam.provenance.json
+
+      - name: Stage attestation bundle
+        env:
+          BUNDLE_PATH: ${{ steps.attest.outputs.bundle-path }}
+        run: cp "$BUNDLE_PATH" dist/kirbyam.attestation.jsonl
+
+      - name: Verify signatures and plan draft-only additions
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_TAG: ${{ steps.authorize.outputs.release_tag }}
-          RELEASE_NAME: ${{ steps.authorize.outputs.release_name }}
-          RELEASE_PRERELEASE: ${{ steps.authorize.outputs.prerelease }}
         run: |
-          if gh release view "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
-            echo "Release ${RELEASE_TAG} already exists; preserving existing body/state."
-          else
-            release_notes_path="release_notes.md"
+          for artifact in kirbyam.apworld kirbyam.provenance.json; do
+            gh attestation verify "dist/$artifact" --repo "$GITHUB_REPOSITORY" \
+              --bundle dist/kirbyam.attestation.jsonl \
+              --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/kirbyam-apworld.yml" \
+              --source-digest "$GITHUB_SHA" --source-ref "$GITHUB_REF" --deny-self-hosted-runners
+          done
+          gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft,assets > release-state.json
+          python worlds/kirbyam/tools/release_artifacts.py plan dist --state release-state.json > upload-plan.txt
 
-            prerelease_flag=()
-            if [ "${RELEASE_PRERELEASE}" = "true" ]; then
-              prerelease_flag=(--prerelease)
-            fi
-
-            gh release create "${RELEASE_TAG}" \
-              --repo "${GITHUB_REPOSITORY}" \
-              --title "${RELEASE_NAME}" \
-              --draft \
-              "${prerelease_flag[@]}" \
-              --notes-file "${release_notes_path}"
-          fi
-
-      - name: Prune non-APWorld assets from tagged release
-        shell: bash
+      - name: Add missing draft assets without replacement
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_TAG: ${{ steps.authorize.outputs.release_tag }}
-          APWORLD_NAME: ${{ steps.authorize.outputs.apworld_name }}
         run: |
-          gh release view "${RELEASE_TAG}" \
-            --repo "${GITHUB_REPOSITORY}" \
-            --json assets \
-            --jq '.assets[].name' | while IFS= read -r asset_name; do
-              if [ -n "${asset_name}" ] && [ "${asset_name}" != "${APWORLD_NAME}" ]; then
-                echo "Deleting prior release asset: ${asset_name}"
-                gh release delete-asset "${RELEASE_TAG}" "${asset_name}" --repo "${GITHUB_REPOSITORY}" --yes
-              fi
-            done
+          while IFS= read -r asset; do
+            # Recheck draft state immediately before each addition; no clobber or deletion.
+            gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft,assets > release-state.json
+            python worlds/kirbyam/tools/release_artifacts.py plan dist --state release-state.json > current-plan.txt
+            grep -Fx "$asset" current-plan.txt
+            gh release upload "$RELEASE_TAG" "dist/$asset" --repo "$GITHUB_REPOSITORY"
+          done < upload-plan.txt
 
-      - name: Upload APWorld to tagged release
-        shell: bash
+      - name: Download staged bytes and verify provenance
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_TAG: ${{ steps.authorize.outputs.release_tag }}
-          APWORLD_NAME: ${{ steps.authorize.outputs.apworld_name }}
         run: |
-          gh release upload "${RELEASE_TAG}" "dist/${APWORLD_NAME}" \
-            --repo "${GITHUB_REPOSITORY}" \
-            --clobber
-
-      - name: Verify release asset publication
-        shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_TAG: ${{ steps.authorize.outputs.release_tag }}
-          APWORLD_NAME: ${{ steps.authorize.outputs.apworld_name }}
-        run: |
-          gh release view "${RELEASE_TAG}" \
-            --repo "${GITHUB_REPOSITORY}" \
-            --json assets \
-            --jq '.assets[].name' | grep -Fx "${APWORLD_NAME}"
+          mkdir verified-download
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --dir verified-download \
+            --pattern kirbyam.apworld --pattern kirbyam.provenance.json --pattern kirbyam.attestation.jsonl
+          for artifact in kirbyam.apworld kirbyam.provenance.json kirbyam.attestation.jsonl; do
+            cmp "dist/$artifact" "verified-download/$artifact"
+          done
+          python worlds/kirbyam/tools/release_artifacts.py verify verified-download
+          for artifact in kirbyam.apworld kirbyam.provenance.json; do
+            gh attestation verify "verified-download/$artifact" --repo "$GITHUB_REPOSITORY" \
+              --bundle verified-download/kirbyam.attestation.jsonl \
+              --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/kirbyam-apworld.yml" \
+              --source-digest "$GITHUB_SHA" --source-ref "$GITHUB_REF" --deny-self-hosted-runners
+          done
