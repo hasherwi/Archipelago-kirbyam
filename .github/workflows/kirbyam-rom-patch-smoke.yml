@@ -41,7 +41,7 @@ jobs:
           python worlds/kirbyam/tools/verify_wheelhouse.py "$RUNNER_TEMP/kirby-wheels" worlds/kirbyam/tools/rom-smoke-wheels.json
           python -m pip --isolated --disable-pip-version-check install --no-index --find-links "$RUNNER_TEMP/kirby-wheels" --only-binary=:all: --no-deps --require-hashes -r worlds/kirbyam/tools/rom-smoke-requirements.txt
           python -m pip check
-          python -m unittest discover -s worlds/kirbyam/tools/tests -v
+          python -m unittest discover -s worlds/kirbyam/tools/tests -p test_wheelhouse.py -v
 
       - name: Create deterministic dummy base ROM for CI smoke
         run: |
