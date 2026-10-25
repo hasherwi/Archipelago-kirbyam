@@ -24,3 +24,10 @@ The vendored generation fuzzer's existing checksum remains unchanged.
 Global LLVM, GoogleTest helper, Enemizer/SNI/VC redistributable, AppImage controls,
 full-app container images and workflows are outside the owner's Kirby-only boundary.
 No global checksum controls were relaxed. No claim of full #981 completion is made.
+
+The #983 companion may add attest-build-provenance at
+977bb373ede98d70efdf65b84cb5f73e068dcc2a (v3.0.0). This approved composite pins its
+predicate action to 864457a58d4733d7f1574bd8821fa24e02cf7538 and actions/attest to
+daf44fb950173508f38bd2406030372c1d1162b1; both nested manifests execute bundled
+node24 JavaScript. Its online OIDC/attestation services remain trusted dependencies.
+The pin is inventoried here so the companion cannot silently introduce a mutable action.
