@@ -1,5 +1,5 @@
-# Match ModuleUpdate: older bundled setuptools misidentifies normalized Kivy dependency names.
-setuptools>=75,<81
+# pkg_resources needs modern name normalization for Kivy; retain ModuleUpdate's <81 ceiling.
+setuptools>=80.9,<81
 pytest>=9.0.1,<10  # this includes subtests support
 pytest-xdist>=3.8.0
 pytest-asyncio>=0.23.0
