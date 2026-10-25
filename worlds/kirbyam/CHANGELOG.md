@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
+- Reserve Hub Teleport Trap at item 3860300, avoiding the open Area Key/Hub Connection IDs; reject cross-branch identity collisions with a pinned inventory and catalog validator. Regenerate initial-draft seeds and patches.
 - Add Hub Teleport Trap (Issue #697): return to Rainbow Route through the native guarded transition, deferring during scripts, pauses and room changes. Regenerate patches; emulator acceptance testing remains pending.
 
 ### Bug Fixes

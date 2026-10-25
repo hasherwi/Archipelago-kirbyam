@@ -17,9 +17,9 @@ PAYLOAD = Path(__file__).resolve().parents[1] / "kirby_ap_payload"
 
 
 def test_hub_trap_catalog_and_receipt_policy() -> None:
-    assert data.item_key_to_id["TRAP_HUB_TELEPORT"] == 3860041
-    assert data.items[3860041].label == "Hub Teleport Trap"
-    assert 3860041 in TRANSIENT_ITEM_IDS
+    assert data.item_key_to_id["TRAP_HUB_TELEPORT"] == 3860300
+    assert data.items[3860300].label == "Hub Teleport Trap"
+    assert 3860300 in TRANSIENT_ITEM_IDS
     assert "Hub Teleport Trap" in data.available_trap_item_labels
 
 
@@ -68,21 +68,41 @@ async def test_deferred_hub_receipt_survives_timeout_in_order(receipt_env: Any) 
     from .test_receipt_journal import make_client, tick, drain
     from .test_reset_counter_gaps import Mailbox
     ctx = receipt_env
-    ctx.items_received = [NetworkItem(3860041, 3960566, 1), NetworkItem(3860032, 3960567, 1)]
+    ctx.items_received = [NetworkItem(3860300, 3960566, 1), NetworkItem(3860032, 3960567, 1)]
     client = make_client(ctx)  # type: ignore[no-untyped-call]  # Existing shared test helpers.
     box = Mailbox(client)  # type: ignore[no-untyped-call]  # Existing shared test helpers.
     display = AsyncMock()
     await tick(client, ctx, box, display)  # type: ignore[no-untyped-call]  # Existing shared test helpers.
-    assert box.offers == [3860041]
+    assert box.offers == [3860300]
     client._delivery_pending_frame = -100000
     client._delivery_pending_time = -100000.0
     for _ in range(5):
         await tick(client, ctx, box, display)  # type: ignore[no-untyped-call]  # Existing shared test helpers.
-    assert box.offers == [3860041]
+    assert box.offers == [3860300]
     assert client._delivery_pending
     assert client._delivered_item_index == 0
     assert box.memory[client._transport_addr('incoming_item_flag')] == (1).to_bytes(4, 'little')
     box.consume()  # type: ignore[no-untyped-call]  # Existing shared test helpers.
     await drain(client, ctx, box, display)  # type: ignore[no-untyped-call]  # Existing shared test helpers.
-    assert box.applied == [3860041, 3860032]
+    assert box.applied == [3860300, 3860032]
     assert client._delivered_item_index == 2
+
+
+def test_verified_hub_fixture_accepts_only_unmodified_contract() -> None:
+    from .native.hub_transition_fixture import CONTRACT_BYTES, populate_hub_transition_fixture
+    rom = bytearray(0x1000000)
+    populate_hub_transition_fixture(rom)
+    before = bytes(rom)
+    target = 0x0815E100
+    writes = patch_rom.build_hub_teleport_writes(rom, target)
+    assert writes == {0x151CF4: patch_rom.thumb_bl_bytes(0x08151CF4, target)}
+    assert rom == before
+    for offset, original in CONTRACT_BYTES.items():
+        for index in range(len(original)):
+            rom[offset + index] ^= 1
+            mutated = bytes(rom)
+            with pytest.raises(SystemExit, match='native transition contract'):
+                patch_rom.build_hub_teleport_writes(rom, target)
+            assert rom == mutated
+            rom[offset + index] ^= 1
+    assert rom == before

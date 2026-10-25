@@ -42,7 +42,7 @@ static void ready(void) {
     U32(KIRBY_STRUCTS_ADDR + 0xC) = 0x1000;
     U8(KIRBY_STRUCTS_ADDR + 0x100) = 6;
     U16(KIRBY_STRUCTS_ADDR + 0x60) = 1;
-    AP_IN_ITEM_ID = 3860041; AP_IN_PLAYER = 7; AP_IN_FLAG = 1;
+    AP_IN_ITEM_ID = 3860300; AP_IN_PLAYER = 7; AP_IN_FLAG = 1;
     AP_ITEM_RCVD_COUNTER = 100;
     requests = spawns = tasks = script_after_tasks = 0; accepts = 1;
 }

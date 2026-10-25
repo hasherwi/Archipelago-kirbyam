@@ -130,7 +130,8 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | ABILITY_UNLOCK_* | 3860101 - 3860125 | Explicit ability items in `data/items.json`, preserving `BASE_OFFSET + 100 + runtime_ability_id`: 19 gateable unlocks and six guaranteed starting abilities. `Normal`, `Master`, and `Wait` have no AP item. |
 | SPRAY_PAINT_01 .. SPRAY_PAINT_14 | 3860200 - 3860213 | Unique useful collection items; OR native Spray Paint ownership bits 0..13 |
 | MUSIC_SHEET_01 .. MUSIC_SHEET_10 | 3860214 - 3860223 | Unique useful collection items; OR native Music Player/Sheets bits 1..10, leaving bit 0 unchanged |
-| *Reserved* | 3860041 - 3860100, 3860132 - 3860199, 3860224+ | Future items; deferred hub/area-key work already uses IDs beginning at 3860041 |
+| TRAP_HUB_TELEPORT | 3860300 | Explicit stable reservation; guarded native hub return with receipt deferral |
+| *Reserved* | 3860041 - 3860100, 3860132 - 3860199, 3860229 - 3860299, 3860301+ | Future items; open hub/area-key branches use IDs beginning at 3860041. Check `data/item_id_reservations.json` and validate candidate catalogs before combining branches. |
 
 ### Current filler effect contract
 
@@ -837,6 +838,6 @@ The menu's always-available default swatch clears the marker, allowing the AP st
 
 HUD refresh uses the native color-specific HUD table and BG+backup loader, then sets the BG upload flag. It waits for the active single-player gameplay HUD, valid Kirby task/ability and completed hardware brightness fades. Native BG/OBJ RGB-transformation enables (`gMainFlags & 0x30000`) can persist during ordinary gameplay and do not defer a color request. The OBJ refresh retains native transformation behavior; the HUD keeps its raw resolved backup row and uses native `LoadBgPaletteWithTransformation` for its working row when BG transformation is enabled. It does not reinitialize HUD tasks or touch health, lives, battery counts, other players or paint ownership. Changes require a newly generated ROM patch; old ROMs retain their previous color behavior.
 
-### Hub Teleport Trap deferral (item 3860041)
+### Hub Teleport Trap deferral (item 3860300)
 
 This trap retains the existing incoming flag and receipt index until the main-thread post-task hook accepts a native hub transition (or safely observes Kirby already in the hub). The input mailbox poll leaves it pending. Scripts, pause, death, demo, multiplayer and transition states defer it. Its client ACK timeout retains the flag instead of clearing/reoffering it; later receipts remain ordered behind it. It is transient/non-replayable after observed ACK, and uses the existing ambiguous-receipt recovery after process loss. No mailbox or native save layout changes. See [native evidence and emulator acceptance](dev-docs/hub-teleport-trap.md).

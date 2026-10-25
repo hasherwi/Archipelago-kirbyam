@@ -172,7 +172,7 @@ def test_consumable_filler_item_ids_are_stable() -> None:
     assert labels_to_ids["Bomb Trap"] == 3860034
     assert labels_to_ids["Battery Drain Trap"] == 3860035
     assert labels_to_ids["Life Wipeout Trap"] == 3860036
-    assert labels_to_ids["Hub Teleport Trap"] == 3860041
+    assert labels_to_ids["Hub Teleport Trap"] == 3860300
     assert "2 Up" not in labels_to_ids
     assert "3 Up" not in labels_to_ids
 

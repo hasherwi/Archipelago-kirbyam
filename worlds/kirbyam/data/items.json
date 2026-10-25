@@ -80,7 +80,7 @@
     "label": "Hub Teleport Trap",
     "_comment": "Returns Kirby to the Rainbow Route hub when native room-transition state is safe. Defers during scripts and transitions.",
     "classification": "TRAP",
-    "item_id": 3860041,
+    "item_id": 3860300,
     "tags": ["Trap"]
   },
   "SHARD_1": {

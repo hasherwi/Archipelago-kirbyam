@@ -4253,7 +4253,7 @@ class KirbyAmClient(BizHawkClient):
             pending_index = self._delivery_pending_item_index
             if (timeout_triggered and flag == 1 and pending_index is not None
                     and 0 <= pending_index < len(ctx.items_received)
-                    and getattr(ctx.items_received[pending_index], "item", None) == 3860041):
+                    and getattr(ctx.items_received[pending_index], "item", None) == 3860300):
                 return
 
             if timeout_triggered:

@@ -1306,7 +1306,7 @@ static void ap_dispatch_hub_trap(void) {
 
     if (AP_MAILBOX_INIT_COOKIE != AP_MAILBOX_INIT_COOKIE_VALUE
         || AP_IN_FLAG != 1u
-        || AP_IN_ITEM_ID != KIRBY_ITEM_ID_BASE_OFFSET + 41u) return;
+        || AP_IN_ITEM_ID != KIRBY_ITEM_ID_BASE_OFFSET + 300u) return;
     /* Single-player ordinary gameplay only. Do not interrupt menus, paused
      * task execution, demos, boss scripts, or an uninitialized Kirby. */
     if (AI_KIRBY_STATE != AI_STATE_NORMAL
