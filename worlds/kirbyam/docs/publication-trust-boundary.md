@@ -1,5 +1,11 @@
 # Kirby publication trust boundary
 
+**Do not enable or use #993 standalone as safe publication.** Its legacy prune,
+delete and clobber behavior is removed by #994. The safe publisher requires the
+combined stack plus owner-verified tag/environment protections and immutable-release
+enforcement. Tests must remain offline; a skipped publisher job is not evidence of
+successful signing, immutable staging or publication.
+
 Partial #982 coverage. Build outputs do not authorize publication. The writer job
 requires this repository, a protected `kirbyam-v*` tag push and the `kirbyam-release`
 environment. Its checkout selects main, disables persisted credentials, and executes
