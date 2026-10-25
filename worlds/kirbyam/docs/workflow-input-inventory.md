@@ -9,8 +9,9 @@ The committed dist bundles are therefore covered by the Git commit identity;
 this audit is not proof that those bundles are free of vulnerabilities.
 
 Run `python worlds/kirbyam/tools/check_action_pins.py` before proposing changes.
-Unknown actions, local actions, containers, mutable tags and changed commits require
-an explicit inventory review; the checker rejects them by default. Refresh a pin
+Unknown actions, local actions, job/service containers, mutable tags and changed commits require
+an explicit inventory review; the checker rejects them by default. Container and service
+entries are disallowed until a future reviewed policy defines their complete input contract. Refresh a pin
 only in a reviewed PR after inspecting upstream changes, action.yml and transitive
 network/executable inputs. Never auto-resolve a tag during the workflow.
 

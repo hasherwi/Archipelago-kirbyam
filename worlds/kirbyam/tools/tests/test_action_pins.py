@@ -24,6 +24,13 @@ class ActionPinsTests(unittest.TestCase):
             with self.subTest(text=text), self.assertRaises(ValueError):
                 check(text, {"actions/example": "a" * 40})
 
+    def test_job_and_service_containers_require_review(self) -> None:
+        for text in ("jobs: {test: {container: 'image:latest'}}",
+                     "jobs: {test: {container: {image: 'image@sha256:abc'}}}",
+                     "jobs: {test: {services: {db: {image: 'postgres:latest'}}}}"):
+            with self.subTest(text=text), self.assertRaisesRegex(ValueError, "container or service"):
+                check(text, {})
+
 
 if __name__ == "__main__":
     unittest.main()

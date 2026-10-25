@@ -10,6 +10,8 @@ def check(text: str, pins: dict[str, str]) -> None:
     def visit(value: object) -> None:
         if isinstance(value, dict):
             for key, item in value.items():
+                if key in ("container", "services"):
+                    raise ValueError("Unreviewed container or service input")
                 if key == "uses":
                     if not isinstance(item, str):
                         raise ValueError("Action reference must be a string")
