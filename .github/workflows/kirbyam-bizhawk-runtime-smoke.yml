@@ -17,12 +17,15 @@ env:
 
 jobs:
   bizhawk-runtime-smoke:
+    if: github.repository == 'hasherwi/Archipelago-kirbyam' && github.ref == 'refs/heads/main'
     runs-on: [self-hosted, windows]
     timeout-minutes: 30
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v6

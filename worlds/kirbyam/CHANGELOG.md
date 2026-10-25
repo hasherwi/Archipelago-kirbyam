@@ -10,6 +10,9 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ## Unreleased
 
+### Internal Changes
+- Require protected tag pushes, release-environment approval and trusted-main source validation for Kirby publication; remove publisher PR authority and branch-based self-hosted smoke runs (Issue #982).
+
 ### Bug Fixes
 - Restore packaged region discovery on Python 3.11 by using a package resource anchor.
 - Fix room-sanity generation by making each physical room check reachable from its valid compartment and restoring the missing Moonlight 2-05 lower descent (Issues #945, #969).

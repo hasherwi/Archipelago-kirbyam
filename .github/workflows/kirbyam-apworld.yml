@@ -10,6 +10,7 @@ on:
     paths:
       - ".github/workflows/kirbyam-apworld.yml"
       - ".github/scripts/kirbyam_release_metadata.py"
+      - ".github/scripts/kirbyam_publish_policy.py"
       - "worlds/kirbyam/**"
   workflow_dispatch:
 
@@ -33,6 +34,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -42,6 +45,9 @@ jobs:
       - name: Show Python version
         run: |
           python --version
+
+      - name: Test publisher policy without release access
+        run: python -m unittest discover -s worlds/kirbyam/tools/tests -v
 
       - name: Prepare release metadata
         id: meta
@@ -84,38 +90,42 @@ jobs:
           retention-days: 14
 
   release-apworld:
-    if: needs.build-apworld.outputs.release_enabled == 'true'
+    if: github.repository == 'hasherwi/Archipelago-kirbyam' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/kirbyam-v') && github.ref_protected == true
+    environment: kirbyam-release
     runs-on: ubuntu-latest
     needs: build-apworld
     permissions:
       contents: write
-      pull-requests: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Authorize release from trusted main policy
+        id: authorize
+        run: python .github/scripts/kirbyam_publish_policy.py
 
       - name: Download built artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{ needs.build-apworld.outputs.apworld_name }}
+          name: ${{ steps.authorize.outputs.apworld_name }}
           path: dist
 
       - name: Ensure tagged release exists
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_TAG: ${{ needs.build-apworld.outputs.release_tag }}
-          RELEASE_NAME: ${{ needs.build-apworld.outputs.release_name }}
-          RELEASE_PRERELEASE: ${{ needs.build-apworld.outputs.prerelease }}
+          RELEASE_TAG: ${{ steps.authorize.outputs.release_tag }}
+          RELEASE_NAME: ${{ steps.authorize.outputs.release_name }}
+          RELEASE_PRERELEASE: ${{ steps.authorize.outputs.prerelease }}
         run: |
           if gh release view "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
             echo "Release ${RELEASE_TAG} already exists; preserving existing body/state."
           else
             release_notes_path="release_notes.md"
-            python .github/scripts/kirbyam_release_metadata.py \
-              --github-ref "refs/tags/${RELEASE_TAG}" \
-              --changelog "worlds/kirbyam/CHANGELOG.md" \
-              --release-notes "${release_notes_path}"
 
             prerelease_flag=()
             if [ "${RELEASE_PRERELEASE}" = "true" ]; then
@@ -134,8 +144,8 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_TAG: ${{ needs.build-apworld.outputs.release_tag }}
-          APWORLD_NAME: ${{ needs.build-apworld.outputs.apworld_name }}
+          RELEASE_TAG: ${{ steps.authorize.outputs.release_tag }}
+          APWORLD_NAME: ${{ steps.authorize.outputs.apworld_name }}
         run: |
           gh release view "${RELEASE_TAG}" \
             --repo "${GITHUB_REPOSITORY}" \
@@ -151,8 +161,8 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_TAG: ${{ needs.build-apworld.outputs.release_tag }}
-          APWORLD_NAME: ${{ needs.build-apworld.outputs.apworld_name }}
+          RELEASE_TAG: ${{ steps.authorize.outputs.release_tag }}
+          APWORLD_NAME: ${{ steps.authorize.outputs.apworld_name }}
         run: |
           gh release upload "${RELEASE_TAG}" "dist/${APWORLD_NAME}" \
             --repo "${GITHUB_REPOSITORY}" \
@@ -162,70 +172,10 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_TAG: ${{ needs.build-apworld.outputs.release_tag }}
-          APWORLD_NAME: ${{ needs.build-apworld.outputs.apworld_name }}
+          RELEASE_TAG: ${{ steps.authorize.outputs.release_tag }}
+          APWORLD_NAME: ${{ steps.authorize.outputs.apworld_name }}
         run: |
           gh release view "${RELEASE_TAG}" \
             --repo "${GITHUB_REPOSITORY}" \
             --json assets \
             --jq '.assets[].name' | grep -Fx "${APWORLD_NAME}"
-
-      - name: Check out main for manifest version sync
-        uses: actions/checkout@v6
-        with:
-          ref: main
-          fetch-depth: 0
-
-      - name: Set up Python for manifest version sync
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-
-      - name: Create PR to sync world_version
-        shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_TAG: ${{ needs.build-apworld.outputs.release_tag }}
-          RELEASE_VERSION: ${{ needs.build-apworld.outputs.version }}
-          RELEASE_MANIFEST_VERSION: ${{ needs.build-apworld.outputs.manifest_version }}
-        run: |
-          python .github/scripts/kirbyam_release_metadata.py \
-            --github-ref "refs/tags/${RELEASE_TAG}" \
-            --world-manifest "worlds/kirbyam/archipelago.json"
-
-          python .github/scripts/kirbyam_release_metadata.py \
-            --github-ref "refs/tags/${RELEASE_TAG}" \
-            --world-manifest "worlds/kirbyam/test/data/snapshots/slot_data_representative.json"
-
-          if git diff --quiet -- worlds/kirbyam/archipelago.json worlds/kirbyam/test/data/snapshots/slot_data_representative.json; then
-            echo "world_version already set to ${RELEASE_MANIFEST_VERSION} in worlds/kirbyam/archipelago.json and worlds/kirbyam/test/data/snapshots/slot_data_representative.json; no sync commit needed"
-            exit 0
-          fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          sync_branch="automation/kirbyam-world-version-${RELEASE_MANIFEST_VERSION}"
-
-          git checkout -B "${sync_branch}"
-          git add worlds/kirbyam/archipelago.json worlds/kirbyam/test/data/snapshots/slot_data_representative.json
-          git commit -m "KirbyAM: sync world_version artifacts to ${RELEASE_MANIFEST_VERSION}"
-          git push --force-with-lease origin "${sync_branch}:${sync_branch}"
-
-          existing_pr_number="$(gh pr list \
-            --repo "${GITHUB_REPOSITORY}" \
-            --base main \
-            --head "${sync_branch}" \
-            --state open \
-            --json number \
-            --jq '.[0].number // empty')"
-
-          if [ -n "${existing_pr_number}" ]; then
-            echo "world_version sync PR #${existing_pr_number} already open for ${sync_branch}"
-          else
-            gh pr create \
-              --repo "${GITHUB_REPOSITORY}" \
-              --base main \
-              --head "${sync_branch}" \
-              --title "KirbyAM: sync world_version artifacts to ${RELEASE_MANIFEST_VERSION}" \
-              --body "Automated sync after tag ${RELEASE_TAG} to keep worlds/kirbyam/archipelago.json and worlds/kirbyam/test/data/snapshots/slot_data_representative.json world_version current."
-          fi
