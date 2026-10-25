@@ -13,7 +13,11 @@ only main's publisher policy. That policy checks the event/ref again, requires t
 tagged commit to be in main history, reads its manifest/changelog as data, and derives
 all release metadata independently of build outputs. Tagged manifest versions must
 already agree; automatic writer-side version-sync PRs are removed. Build jobs retain
-read-only contents access; the publisher has only contents:write, no PR/OIDC rights.
+read-only contents access. In the combined #993/#994 stack, the protected publisher
+has contents:write for draft asset staging, id-token:write to obtain the short-lived
+GitHub OIDC identity, and attestations:write to record provenance. These permissions
+are job-scoped; build/dependency jobs receive no signing rights. The publisher has
+no pull-requests:write authority.
 
 ## Owner configuration still required (not performed by this PR)
 
@@ -35,7 +39,11 @@ No runner, environment, repository setting, credential or trust setting was chan
 ## Remaining scope
 
 Global full-application release permissions are outside the Kirby-only boundary.
-Artifact origin, immutable publication and retry behavior are tracked separately in
-#983. This change does not make builder-produced bytes independently trustworthy.
+The #994 companion implements artifact receipts, signed provenance and no-replacement
+draft staging for #983; see artifact-verification.md. Do not enable or use #993 alone
+as safe publication: it retains legacy prune/delete/clobber behavior. Safe publication
+requires the combined #993/#994 stack plus owner-verified protections and immutable
+release enforcement. Live signing, publication, race and owner-settings acceptance
+remain unverified. Provenance does not prove builder-produced code is harmless.
 Tests use in-memory contexts and inspect workflow source; they never publish or modify
 release state. Hosted tag/environment behavior still requires owner-approved validation.

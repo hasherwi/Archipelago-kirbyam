@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### Internal Changes
+- Add source/run receipts and signed provenance to Kirby draft artifacts, verify downloaded bytes, and refuse published-asset replacement; document executable-plugin trust and owner immutability prerequisites (Issue #983).
 - Require protected tag pushes, release-environment approval and trusted-main source validation for Kirby publication; remove publisher PR authority and branch-based self-hosted smoke runs (Issue #982).
 
 ### Bug Fixes
