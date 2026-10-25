@@ -10,6 +10,9 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ## Unreleased
 
+### Internal Changes
+- Pin Kirby workflow actions to audited commit identities and reject mutable action references (Issue #981; interpreter/toolchain downloads remain separate).
+
 ### Bug Fixes
 - Restore packaged region discovery on Python 3.11 by using a package resource anchor.
 - Fix room-sanity generation by making each physical room check reachable from its valid compartment and restoring the missing Moonlight 2-05 lower descent (Issues #945, #969).
