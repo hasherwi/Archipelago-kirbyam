@@ -4848,8 +4848,9 @@ async def test_game_watcher_defers_polling_and_new_writes_when_non_gameplay(mock
 
 @pytest.mark.asyncio
 @patch.object(KirbyAmClient, "_health_protocol_ready", new=AsyncMock(return_value=True))
+@pytest.mark.parametrize("starting_ready", [False, True])
 async def test_game_watcher_polls_tutorial_room_color_and_world_map_chest_without_opening_gameplay_gate(
-    mock_bizhawk_context,
+    mock_bizhawk_context, starting_ready,
 ):
     """Tutorial color and World Map chest polling remain narrow while gameplay stays deferred."""
     client = KirbyAmClient()
@@ -4859,6 +4860,8 @@ async def test_game_watcher_polls_tutorial_room_color_and_world_map_chest_withou
     client._ram_state_loaded = True
 
     with ExitStack() as stack:
+        stack.enter_context(patch.object(client, "_tutorial_starting_abilities_ready",
+                                         new_callable=AsyncMock, return_value=starting_ready))
         stack.enter_context(patch.object(client, '_sync_death_link_setting', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_sync_enemy_copy_ability_runtime_config', new_callable=AsyncMock))
         stack.enter_context(patch.object(client, '_sync_challenge_runtime_config', new_callable=AsyncMock))
@@ -4887,7 +4890,8 @@ async def test_game_watcher_polls_tutorial_room_color_and_world_map_chest_withou
     mock_poll_major.assert_awaited_once_with(mock_bizhawk_context, tutorial_world_map_only=True)
     mock_poll_boss.assert_not_awaited()
     mock_poll_locations.assert_not_awaited()
-    mock_deliver.assert_awaited_once_with(mock_bizhawk_context, allow_new_writes=False)
+    expected = {"allow_starting_abilities": True} if starting_ready else {}
+    mock_deliver.assert_awaited_once_with(mock_bizhawk_context, allow_new_writes=False, **expected)
     mock_goal.assert_awaited_once_with(mock_bizhawk_context, ai_state_override=100)
 
 

@@ -205,7 +205,7 @@ def test_payload_intercepts_hub_switch_unlocks_and_reports_switch_checks() -> No
     assert "ap_on_hub_switch_init_state_lookup" in content
     assert "ap_should_mask_item_owned_hub_unlock(" in content
     assert "KIRBY_WORLD_PROPS_ENTRY_FN" in content, "Payload should reference sub_08002888 world-props accessor"
-    assert "#include \"generated_hub_switch_worldmap_cases.inc\"" in content, (
+    assert "#include \"generated_hub_switch_tables.inc\"" in content, (
         "Hub switch world-map mapping should come from generated contract include"
     )
 

@@ -45,6 +45,8 @@ def _write_or_assert_snapshot(snapshot_name: str, payload: dict[str, object]) ->
 def _normalize_slot_data_for_snapshot(slot_data: dict[str, object]) -> dict[str, object]:
     """Drop ability-gating fields that are intentionally data-driven from abilities.json."""
     normalized = dict(slot_data)
+    # Keep the legacy fixture stable; test the new catalog contract explicitly.
+    assert normalized.pop("kirby_color_catalog_version") == 2
     normalized.pop("ability_gateable_abilities", None)
     normalized.pop("ability_unlock_items", None)
 

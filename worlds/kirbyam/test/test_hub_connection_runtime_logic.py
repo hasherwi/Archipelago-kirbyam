@@ -35,7 +35,7 @@ def test_hub_connection_runtime_logic_executes_against_all_contract_doors() -> N
         ["0u"] + [f"{entry['world_props_unlock_index']}u" for entry in by_door]
     )
     switch_bits = ", ".join(
-        ["0u"] + [f"{entry['ap_bit_index']}u" for entry in by_door]
+        ["0u"] + [f"{entry.get('runtime_ap_bit_index', entry['ap_bit_index'])}u" for entry in by_door]
     )
 
     harness = f'''

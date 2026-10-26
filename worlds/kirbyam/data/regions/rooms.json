@@ -1012,6 +1012,7 @@
       }
     },
     "exits": {
+      "REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER": null,
       "REGION_MOONLIGHT_MANSION/ROOM_2_05_UPPER_LEDGE": {
         "all": [
           "can_fly",

@@ -797,6 +797,8 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
 
 def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
     targets = {
+        "treasure_paint_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_treasure_paint_selection"),
         "vitality_menu_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_vitality_collection_menu_count"),
         "initial_health_hook_target": resolve_elf_symbol_address(
@@ -845,6 +847,7 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
 
 _PAYLOAD_TARGET_LABELS = {
     "health_hud_hook_target": "health HUD trailing-tile cleanup",
+    "treasure_paint_hook_target": "explicit treasure paint choice",
     "initial_health_hook_target": "configured native initial health",
     "vitality_menu_hook_target": "bounded native collection menu",
     "main_hook_target": "main hook",
@@ -1195,6 +1198,19 @@ def build_health_hud_writes(rom: bytes | bytearray, target: int,
     return writes
 
 
+TREASURE_PAINT_CALL_OFFSET = 0x14406C
+
+
+def build_treasure_paint_writes(rom: bytes | bytearray, target: int,
+                                rom_base: int = 0x08000000) -> dict[int, bytes]:
+    """Only the USA treasure menu's owned-item A-button handler."""
+    offset = TREASURE_PAINT_CALL_OFFSET
+    validate_expected_instruction_sequence(
+        rom, offset, thumb_bl_bytes(rom_base + offset, 0x081447E0),
+        "native treasure paint selection")
+    return {offset: thumb_bl_bytes(rom_base + offset, target)}
+
+
 def build_initial_health_writes(rom: bytes | bytearray, target: int,
                                 rom_base: int = 0x08000000) -> dict[int, bytes]:
     """Replace only the USA initializer getter and its six-HP addition."""
@@ -1221,6 +1237,8 @@ def patch_rom_with_payload(
         rom, hook_targets["health_hud_hook_target"], rom_base))
     regression_writes.update(build_initial_health_writes(
         rom, hook_targets["initial_health_hook_target"], rom_base))
+    regression_writes.update(build_treasure_paint_writes(
+        rom, hook_targets["treasure_paint_hook_target"], rom_base))
     menu_offset = 0x14380A
     validate_expected_instruction_sequence(
         rom, menu_offset, thumb_bl_bytes(rom_base + menu_offset, 0x08019F0C),
@@ -1398,6 +1416,22 @@ def print_patch_summary(
     )
 
 
+def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
+    # This module also supports callers that import patch_rom.py by filename.
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "kirby_color_patch", Path(__file__).with_name("color_patch.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    extension = elf_path.with_name("color_payload.bin").read_bytes()
+    writes = module.build_color_extension_writes(
+        rom, extension,
+        resolve_elf_symbol_address(elf_path, "ap_color_sprite_palette"),
+        resolve_elf_symbol_address(elf_path, "ap_color_load_bg"))
+    for offset, replacement in writes.items():
+        rom[offset:offset + len(replacement)] = replacement
+
+
 def main() -> None:
     log_path = setup_logging()
     print(f"Logging to: {log_path}")
@@ -1472,6 +1506,8 @@ def main() -> None:
             hook_targets,
             rom_base,
         )
+
+        apply_color_extension(rom, payload_elf_path)
 
         with open(INTERMEDIARY_ROM, "wb") as f:
             f.write(rom)
