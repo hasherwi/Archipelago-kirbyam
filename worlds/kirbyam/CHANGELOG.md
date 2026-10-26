@@ -28,6 +28,10 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Uncertain consumable delivery and native-save timing remain limitations: no exactly-once guarantee across arbitrary interruption or unsaved power loss. Reconnect acceptance does not cover the complete item/chest/slot, offline-check, pending-ACK, goal or BizHawk matrix.
 
 ### Internal Changes
+- Verify the complete wheel inventory and SHA-256 bytes before offline Kirby ROM-smoke dependency installation (Issue #980; broader dependency matrices remain open).
+- Pin Kirby workflow actions to audited commit identities and reject mutable action references (Issue #981; interpreter/toolchain downloads remain separate).
+- Add source/run receipts and signed provenance to Kirby draft artifacts, verify downloaded bytes, and refuse published-asset replacement; document executable-plugin trust and owner immutability prerequisites (Issue #983).
+- Require protected tag pushes, release-environment approval and trusted-main source validation for Kirby publication; remove publisher PR authority and branch-based self-hosted smoke runs (Issue #982).
 - Abandon the unpublished v0.4.2 release plan and carry its Kirby-only security maintenance into upcoming v0.5.0. See the [integration plan](dev-docs/v050-security-integration.md) for PR dependencies and unresolved acceptance gates.
 
 ## v0.4.1

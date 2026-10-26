@@ -17,15 +17,18 @@ env:
 
 jobs:
   bizhawk-runtime-smoke:
+    if: github.repository == 'hasherwi/Archipelago-kirbyam' && github.ref == 'refs/heads/main'
     runs-on: [self-hosted, windows]
     timeout-minutes: 30
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.13"
 
@@ -114,7 +117,7 @@ jobs:
 
       - name: Upload runtime smoke logs (best effort)
         if: failure() || cancelled()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: kirbyam-bizhawk-runtime-smoke-logs
           path: |
