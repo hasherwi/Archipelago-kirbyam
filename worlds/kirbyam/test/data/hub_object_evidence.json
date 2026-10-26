@@ -1,0 +1,134 @@
+{
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "objects": [
+    {
+      "room": 192,
+      "object_offset": 9155556,
+      "pixels": [
+        200,
+        64
+      ],
+      "tile": [
+        12,
+        3
+      ],
+      "unlock_index": 9,
+      "switch_contract": {
+        "location_key": "HUB_SWITCH_RAINBOW_ROUTE_WEST",
+        "native_world_map_door_index": 5,
+        "native_world_map_door_name": "WORLDMAP_RAINBOW_ROUTE_WEST",
+        "ap_bit_index": 4,
+        "world_props_unlock_index": 9
+      },
+      "closed_record": 8921512,
+      "closed_attribute": 0,
+      "open_record": 8921530,
+      "open_attribute": 255,
+      "destination_room": 801,
+      "spawn_tiles": [
+        8,
+        12
+      ],
+      "transition_flags": 1,
+      "zero_unlock": "closed; no mutation",
+      "nonzero_unlock": "replace tile; select open record"
+    },
+    {
+      "room": 192,
+      "object_offset": 9155592,
+      "pixels": [
+        56,
+        64
+      ],
+      "tile": [
+        3,
+        3
+      ],
+      "unlock_index": 10,
+      "switch_contract": {
+        "location_key": "HUB_SWITCH_CARROT",
+        "native_world_map_door_index": 6,
+        "native_world_map_door_name": "WORLDMAP_CARROT_CASTLE",
+        "ap_bit_index": 5,
+        "world_props_unlock_index": 10
+      },
+      "closed_record": 8921480,
+      "closed_attribute": 0,
+      "open_record": 8921498,
+      "open_attribute": 255,
+      "destination_room": 193,
+      "spawn_tiles": [
+        9,
+        3
+      ],
+      "transition_flags": 2,
+      "zero_unlock": "closed; no mutation",
+      "nonzero_unlock": "replace tile; select open record"
+    },
+    {
+      "room": 592,
+      "object_offset": 9236280,
+      "pixels": [
+        136,
+        144
+      ],
+      "tile": [
+        8,
+        8
+      ],
+      "unlock_index": 8,
+      "switch_contract": {
+        "location_key": "HUB_SWITCH_RADISH",
+        "native_world_map_door_index": 10,
+        "native_world_map_door_name": "WORLDMAP_RADISH_RUINS",
+        "ap_bit_index": 9,
+        "world_props_unlock_index": 8
+      },
+      "closed_record": 9078738,
+      "closed_attribute": 0,
+      "open_record": 9078756,
+      "open_attribute": 255,
+      "destination_room": 690,
+      "spawn_tiles": [
+        9,
+        3
+      ],
+      "transition_flags": 0,
+      "zero_unlock": "closed; no mutation",
+      "nonzero_unlock": "replace tile; select open record"
+    },
+    {
+      "room": 592,
+      "object_offset": 9236316,
+      "pixels": [
+        136,
+        64
+      ],
+      "tile": [
+        8,
+        3
+      ],
+      "unlock_index": 7,
+      "switch_contract": {
+        "location_key": "HUB_SWITCH_CABBAGE_CAVERN_WEST",
+        "native_world_map_door_index": 9,
+        "native_world_map_door_name": "WORLDMAP_CABBAGE_CAVERN_WEST",
+        "ap_bit_index": 8,
+        "world_props_unlock_index": 7
+      },
+      "closed_record": 9078678,
+      "closed_attribute": 0,
+      "open_record": 9078696,
+      "open_attribute": 255,
+      "destination_room": 801,
+      "spawn_tiles": [
+        7,
+        17
+      ],
+      "transition_flags": 1,
+      "zero_unlock": "closed; no mutation",
+      "nonzero_unlock": "replace tile; select open record"
+    }
+  ],
+  "graph_edges_added": 0
+}
