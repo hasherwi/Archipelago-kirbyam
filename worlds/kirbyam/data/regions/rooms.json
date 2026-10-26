@@ -16,7 +16,7 @@
       "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": null
     },
     "exit_requirements": {
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {"item": "Rainbow Route South - Hub Connection"},
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {"item": "Cabbage Cavern West - Hub Connection"},
       "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": {"item": "Rainbow Route South - Hub Connection"}
     }
   },
@@ -77,11 +77,10 @@
     "events": [],
     "exits": [
       "REGION_CABBAGE_CAVERN/ROOM_3_16",
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
       "REGION_CANDY_CONSTELLATION/ROOM_9_HUB",
       "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
       "REGION_PEPPERMINT_PALACE/ROOM_7_15",
-      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_MIDDLE_PLATFORMS",
       "REGION_RAINBOW_ROUTE/ROOM_1_13",
       "REGION_RAINBOW_ROUTE/ROOM_1_09",
       "REGION_RAINBOW_ROUTE/ROOM_1_10",
@@ -91,11 +90,16 @@
       "REGION_CARROT_CASTLE/ROOM_5_HUB"
     ],
     "exit_requirements": {
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {"item": "Rainbow Route South - Hub Connection"},
       "REGION_CANDY_CONSTELLATION/ROOM_9_HUB": {"item": "Candy Constellation - Hub Connection"},
       "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1": "CanPoundPegs",
       "REGION_PEPPERMINT_PALACE/ROOM_7_15": {"item": "Peppermint Palace East - Hub Connection"},
-      "REGION_CARROT_CASTLE/ROOM_5_HUB": {"item": "Rainbow Route West - Hub Connection"}
+      "REGION_CARROT_CASTLE/ROOM_5_HUB": {"item": "Rainbow Route West - Hub Connection"},
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_MIDDLE_PLATFORMS": {
+        "all": [
+          "can_fly",
+          {"item": "Rainbow Route West - Hub Connection"}
+        ]
+      }
     },
     "room_sanity": {
       "included": true,

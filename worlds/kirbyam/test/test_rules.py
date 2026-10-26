@@ -617,7 +617,7 @@ def test_collection_state_gates_hub_shortcuts_and_preserves_overland_routes() ->
     multiworld, state = _make_collection_state_room_graph()
     gated_edges = {
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_3":
-            "Rainbow Route South - Hub Connection",
+            "Cabbage Cavern West - Hub Connection",
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_1":
             "Rainbow Route South - Hub Connection",
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_MIDDLE_PLATFORMS -> REGION_MOONLIGHT_MANSION/ROOM_2_HUB":
