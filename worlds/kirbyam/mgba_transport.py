@@ -1,11 +1,13 @@
 """Handshake recovery for the Kirby mGBA launcher, without changing shared AP."""
+from typing import cast
+
 from worlds._bizhawk import BizHawkContext, RequestFailedError, disconnect
 
 
 class KirbyMGBATransport(BizHawkContext):
-    async def _send_message(self, message: str):
+    async def _send_message(self, message: str) -> str:
         if message != "VERSION":
-            return await super()._send_message(message)
+            return cast(str, await super()._send_message(message))
 
         # Linux can connect a socket to itself when an ephemeral source port
         # equals the absent connector's destination port. Reject it before I/O.
@@ -18,7 +20,7 @@ class KirbyMGBATransport(BizHawkContext):
                 raise RequestFailedError("KirbyAM rejected a self-connected connector socket")
 
         try:
-            response = await super()._send_message(message)
+            response = cast(str, await super()._send_message(message))
             int(response)
         except ValueError as exc:  # includes UnicodeDecodeError
             # The shared watcher already retries RequestFailedError. Closing
