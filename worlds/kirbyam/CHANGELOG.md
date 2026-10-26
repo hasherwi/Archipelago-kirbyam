@@ -11,15 +11,12 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### Bug Fixes
+- Keep the KirbyAM mGBA client running when reconnecting encounters a self-connected TCP socket or a malformed connector VERSION reply. The client closes the invalid connection and retries; shared Archipelago transport and the stock BizHawk launcher are unchanged.
 - Restore packaged region discovery on Python 3.11 by using a package resource anchor.
 - Fix room-sanity generation by making each physical room check reachable from its valid compartment and restoring the missing Moonlight 2-05 lower descent (Issues #945, #969).
 - Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966). Regenerate the ROM patch.
 - Allow the six guaranteed starting ability receipts and notices during the tutorial. Other items stay deferred, and Sword still requires its ability item (Issue #967).
-
-## v0.4.2
-
-### Bug Fixes
-- Security maintenance only: KirbyAM-specific build/test workflows bootstrap pip 26.2.2 and certifi 2026.10.19 from checksum-pinned wheels before their Python dependency downloads after the eMudhra/emSign CA incident (Issue #978). A matching bootstrap file and guidance are provided for dedicated KirbyAM development environments. Global Archipelago dependencies, Docker builds, and general workflows are unchanged.
+- Build security maintenance: KirbyAM-specific build/test workflows bootstrap pip 26.2.2 and certifi 2026.10.19 from checksum-pinned wheels before their Python dependency downloads after the eMudhra/emSign CA incident (Issue #978). A matching bootstrap file and guidance are provided for dedicated KirbyAM development environments. Global Archipelago dependencies, Docker builds, and general workflows are unchanged.
 
 ### Known Limitations
 - Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
@@ -27,7 +24,11 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Native sprites and animations: Chests still show their original item sprite and collection animation. Statues still show their original ability.
 - mGBA: notifications appear as plain text in the **Archipelago Connector** scripting panel, which must be visible. They do not appear over the game image.
 - This APWorld does not contain or update Python, pip, certifi, or the operating system trust store. Existing Archipelago installations and virtual environments need separate remediation; see [Python trust update guidance](docs/python-trust-update.md).
-- Gameplay, logic, ROM patches, and Python 3.11 support are unchanged from v0.4.1. A new APWorld alone is not evidence that a host or previously distributed executable is remediated.
+- An APWorld alone is not evidence that a host or previously distributed executable is remediated. Python 3.11 support is retained; v0.5.0 integration requires its own compatibility and gameplay validation.
+- Uncertain consumable delivery and native-save timing remain limitations: no exactly-once guarantee across arbitrary interruption or unsaved power loss. Reconnect acceptance does not cover the complete item/chest/slot, offline-check, pending-ACK, goal or BizHawk matrix.
+
+### Internal Changes
+- Abandon the unpublished v0.4.2 release plan and carry its Kirby-only security maintenance into upcoming v0.5.0. See the [integration plan](dev-docs/v050-security-integration.md) for PR dependencies and unresolved acceptance gates.
 
 ## v0.4.1
 

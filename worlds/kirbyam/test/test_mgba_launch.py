@@ -149,6 +149,7 @@ def test_export_failure_does_not_start_client(tmp_path):
 
 @pytest.mark.asyncio
 async def test_watcher_failure_closes_transport_and_shuts_down():
+    from ..mgba_transport import KirbyMGBATransport
     ctx = Mock()
     ctx.exit_event = asyncio.Event()
     ctx.shutdown = AsyncMock()
@@ -159,6 +160,7 @@ async def test_watcher_failure_closes_transport_and_shuts_down():
             patch("worlds._bizhawk.disconnect") as disconnect:
         await launcher._run_client(argparse.Namespace(connect=None, password=None))
     assert ctx.exit_event.is_set()
+    assert isinstance(ctx.bizhawk_ctx, KirbyMGBATransport)
     disconnect.assert_called_once_with(ctx.bizhawk_ctx)
     ctx.shutdown.assert_awaited_once()
 

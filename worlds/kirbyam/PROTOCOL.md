@@ -6,6 +6,14 @@ This document defines the contract between the Archipelago server, the Python cl
 
 ## Purpose and Scope
 
+The KirbyAM mGBA launcher uses the shared connector protocol with a world-local
+handshake guard. A TCP socket whose local and peer endpoints are identical is
+closed before sending `VERSION` (Linux can self-connect while scanning absent
+listeners). A non-integer or invalid UTF-8 `VERSION` reply closes the stream and
+returns to the existing connection retry loop. Numeric version mismatches retain
+the shared watcher's compatibility check. Other worlds and the stock BizHawk
+launcher retain their existing transport behavior.
+
 Use this document as the protocol source-of-truth for runtime data exchange and delivery semantics.
 
 - It defines mailbox memory layout, field ownership, and directionality.

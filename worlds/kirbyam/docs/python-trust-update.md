@@ -1,4 +1,4 @@
-# Python trust update for KirbyAM v0.4.2
+# Python trust update for KirbyAM v0.5.0 planning
 
 The [Python security notice of October 20, 2026](https://discuss.python.org/t/109576)
 recommends pip >=26.2.2 and certifi >=2026.10.19 following the eMudhra/emSign CA incident.
@@ -16,7 +16,7 @@ They install a known security baseline without asking an old pip to resolve pack
 
 The release asset is an **APWorld only**. It contains Kirby's world/client code and guidance, but no
 Python interpreter, pip, certifi bundle, or OS trust store. Installing the APWorld does not remediate
-the Archipelago host. No gameplay, generation logic, native payload or ROM patch changes are included.
+the Archipelago host. The trust-maintenance changes themselves do not change gameplay, generation logic, native payload or ROM patches; this is not a claim about the complete v0.5.0 integration.
 
 ## Dedicated KirbyAM development environments
 
