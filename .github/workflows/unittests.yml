@@ -119,3 +119,5 @@ jobs:
         env:
           AP_TEST_WORLDS: kirbyam
         run: python -m pytest worlds/kirbyam/test -n auto --dist worksteal
+      - name: Standard server item-history integration
+        run: python -m pytest test/multiworld/test_multiserver_received_items.py

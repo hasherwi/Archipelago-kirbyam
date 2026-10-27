@@ -16,6 +16,23 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966). Regenerate the ROM patch.
 - Allow the six guaranteed starting ability receipts and notices during the tutorial. Other items stay deferred, and Sword still requires its ability item (Issue #967).
 
+### Known Limitations
+- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
+- Localization: Only the North American ROM is supported. All AP notifications are in English.
+- Native sprites and animations: Chests still show their original item sprite and collection animation. Statues still show their original ability.
+- mGBA: notifications appear as plain text in the **Archipelago Connector** scripting panel, which must be visible. They do not appear over the game image.
+
+- Draft #932 proves the directed 192→801→592 route under controlled QA only; the reverse and 11 other disputed pairs remain unproven. Fresh-seed gameplay, reconnect and native persistence acceptance remain separate.
+- Security issues #980–#983 retain partial coverage in #989/#990/#993/#994; The paired #993/#994 stack is required; #993 alone is not a publisher solution. No live signing or repository protection configuration is claimed here.
+
+Historical v0.4.1 limitations retained for acceptance tracking: main carries color/lever fixes, but this integration does not independently establish fresh-gameplay or persistence acceptance. The custom-health compatibility requirement still applies.
+- Backwards Compatability: Use newly generated ROM patches for offline custom health initialization; older patches need a same-seed rebuild to embed health bounds. Client reconciliation remains required for authoritative AP ownership. Full gameplay coverage of every custom-health interaction remains pending.
+- Kirby Color: random_color_per_room changes Kirby's color but does not update the corresponding UI element colors.
+- Levers: Visually they'll revert to being "down" after a game reset. This does not affect gameplay.
+
+### Internal Changes
+- Preserve compiled Hub switch mapping with generated lookup tables, fixed configuration addresses and explicit overlap checks. Catalog/runtime door 1/2 mapping divergence remains documented; metadata is not bumped.
+
 ## v0.4.1
 
 ### New Features
@@ -51,6 +68,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Added a new option: `enemy_health_multiplier`. Scale all enemies' health values between 50% to 500% of the original game. It defaults to 100% which matches the original game (Issue #880).
 - Added `random_color_per_room` to Starting Kirby Color. It chooses an initial supported palette at generation, then changes to a different supported palette whenever the connected BizHawk client observes Kirby enter a different room (Issue #857).
 - Added four progression items that independently open the walls controlled by those levers. Pulling a lever now sends its AP location check without opening the wall; receiving the matching Lever Wall item sets the native wall-unlock state instead (Issue #859).
+
+- Added 15 Hub Connection progression items that gate their matching area transitions and hub shortcuts while preserving alternate overland routes. Physical Big Switch checks remain available until collected, and received connections are restored across reconnects (Issue #482).
 
 ### Improvements
 - Ability unlock gating also applies at the final native ability commit, after roulette and other pending-ability writes (Issue #892).

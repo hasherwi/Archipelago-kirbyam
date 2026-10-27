@@ -36,3 +36,6 @@ SECTIONS
 ASSERT(SIZEOF(.apconfig) == 16, "KirbyAM runtime config must be exactly 16 bytes")
 
 ASSERT(SIZEOF(.apcolors) <= 0x10000, "Curated palette extension exceeds 64 KiB")
+
+ASSERT(ADDR(.text) + SIZEOF(.text) <= AP_CONFIG_ADDR, "KirbyAM payload overlaps fixed configuration ABI")
+ASSERT(SIZEOF(.data) == 0 && SIZEOF(.bss) == 0, "KirbyAM ROM payload must not contain writable static storage")
