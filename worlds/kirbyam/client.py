@@ -2885,8 +2885,8 @@ class KirbyAmClient(BizHawkClient):
             return None
         return item_value, player_value
 
-    async def _sync_hub_connection_item_ownership(self, ctx: KirbyAmBizHawkClientContext) -> None:
-        """Send the full received-item door mask before payload checks or delivery."""
+    async def _sync_hub_connection_item_ownership(self, ctx: KirbyAmBizHawkClientContext) -> int | None:
+        """Return the acknowledged complete ownership mask, or None while unknown."""
         mask_addr = self._transport_addr("hub_connection_item_mask")
         bizhawk_ctx = getattr(ctx, "bizhawk_ctx", None)
         if mask_addr is None or not callable(getattr(bizhawk_ctx, "_send_message", None)):
@@ -2920,6 +2920,7 @@ class KirbyAmClient(BizHawkClient):
             [(mask_addr, item_mask.to_bytes(4, "little"), "System Bus")],
         )
         self._hub_connection_unknown_mask_socket = socket
+        return item_mask
 
     def _hub_connection_item_history_ready(self, ctx: KirbyAmBizHawkClientContext) -> bool:
         """Whether the current socket's item history is known, including a known-empty history."""
@@ -4155,6 +4156,8 @@ class KirbyAmClient(BizHawkClient):
             return
 
         receipt_session = (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None))
+        delivery_socket = getattr(getattr(ctx, "server", None), "socket", None)
+        delivery_streams = getattr(ctx.bizhawk_ctx, "streams", None)
 
         flag_addr = self._transport_addr("incoming_item_flag")
         counter_addr = self._transport_addr("debug_item_counter")
@@ -4506,11 +4509,43 @@ class KirbyAmClient(BizHawkClient):
                 except (OSError, sqlite3.Error, ValueError) as exc:
                     self._receipt_failure(f"could not reserve receipt ({exc})")
                     return
-            await bizhawk.write(ctx.bizhawk_ctx, [
+            offer = [
                 (id_addr, item_id.to_bytes(4, "little"), "System Bus"),
                 (player_addr, player_id.to_bytes(4, "little"), "System Bus"),
                 (flag_addr, (1).to_bytes(4, "little"), "System Bus"),
-            ])
+            ]
+            hub_door = _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX.get(item_id)
+            if hub_door is not None:
+                delivery_index = self._delivered_item_index
+
+                def hub_offer_current() -> bool:
+                    return (
+                        receipt_session == (self._authenticated_session_key(ctx), self._health_rom_auth)
+                        and delivery_socket is getattr(getattr(ctx, "server", None), "socket", None)
+                        and delivery_streams is getattr(ctx.bizhawk_ctx, "streams", None)
+                        and self._hub_connection_item_history_ready(ctx)
+                        and self._delivered_item_index == delivery_index
+                        and delivery_index < len(ctx.items_received)
+                        and ctx.items_received[delivery_index] is itm
+                    )
+
+                # ReceivedItems can arrive during the watcher polls after its
+                # initial ownership sync. Acknowledge ownership separately:
+                # connectors can continue later writes after a batch error.
+                mask = await self._sync_hub_connection_item_ownership(ctx)
+                mask_addr = self._transport_addr("hub_connection_item_mask")
+                if (mask is None or mask_addr is None or not mask & (1 << hub_door)
+                        or not hub_offer_current()):
+                    return
+                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, offer, [
+                    (mask_addr, mask.to_bytes(4, "little"), "System Bus"),
+                    (flag_addr, bytes(4), "System Bus"),
+                ]):
+                    return
+                if not hub_offer_current():
+                    return  # An in-flight offer may have committed; reconcile by readback.
+            else:
+                await bizhawk.write(ctx.bizhawk_ctx, offer)
             if receipt_session != (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None)):
                 return  # An outstanding transient reservation remains explicitly unresolved.
             self._receipt_active = pending_receipt
