@@ -15,6 +15,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Verify starting Vitality with stock-server empty/nonempty normal histories, duplicate precollects and repeated cold-RAM recovery without replay healing (Issue #943).
 
 ### Bug Fixes
+- Restore outgoing DeathLink detection on dead gameplay frames while keeping fresh item delivery paused. Links received while already dead no longer kill the next respawn (Issue #975).
 - Restore packaged region discovery on Python 3.11 by using a package resource anchor.
 - Fix room-sanity generation by making each physical room check reachable from its valid compartment and restoring the missing Moonlight 2-05 lower descent (Issues #945, #969).
 - Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966). Regenerate the ROM patch.
