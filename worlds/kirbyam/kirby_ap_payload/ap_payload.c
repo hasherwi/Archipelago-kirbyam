@@ -4,6 +4,7 @@
 #include "minor_chest_runtime_logic.h"
 #include "lever_runtime_logic.h"
 #include "vitality_runtime_logic.h"
+#include "color_runtime_logic.h"
 
 // Kirby AP item ID base offset
 #define KIRBY_ITEM_ID_BASE_OFFSET       3860000u  // must match worlds/kirbyam/data.py BASE_OFFSET
@@ -172,14 +173,14 @@ const unsigned char gArchipelagoInfo[16] = {0};
 
 /*
  * Per-seed runtime defaults written by rom.py after the shared base patch is
- * applied. The linker fixes these words at the final eight bytes of the
+ * applied. The linker fixes these words at the final sixteen bytes of the
  * payload window. The initial gate mask protects startup/reset windows before
  * the client has synchronized live mailbox state; the statue mask carries the
  * exact seed-specific pool for per-touch randomization.
  */
 /*
- * Resolved generation-time Starting Kirby Color. 0xFFFFFFFF preserves
- * compatibility with old procedure patches that do not write this word.
+ * Versioned starting-color/mode configuration (see color_runtime_logic.h).
+ * Legacy concrete IDs remain static; the unwritten 0xFFFFFFFF defaults to Pink.
  */
 __attribute__((used, section(".apconfig.color")))
 volatile const uint32_t gApStartingKirbyColorInitial = 0xFFFFFFFFu;
@@ -451,6 +452,14 @@ static void ap_update_lever_wall(void *chest) {
     volatile uint32_t *applied = (volatile uint32_t*)(chest_obj_ptr + 0xDCu);
     uint8_t player = *(volatile uint8_t*)(chest_obj_ptr + 0x56u);
     uint8_t room_slot;
+    /* Server-acknowledged pulls can be restored after this object was loaded.
+     * Only retire the waiting state: never replace an active native pull/popup.
+     * This changes physical appearance, not wall ownership or its counter. */
+    if ((AP_LEVER_ACTIVATION_FLAGS & ap_lever_bit_for_obj(chest_obj_ptr)) != 0u
+        && *(KirbyChestFn volatile *)(chest_obj_ptr + 0x78u) == KIRBY_CHEST_WAIT_FN) {
+        *(volatile uint8_t*)(chest_obj_ptr + 0x83u) = 3u;
+        *(KirbyChestFn volatile *)(chest_obj_ptr + 0x78u) = KIRBY_CHEST_OPEN_FN;
+    }
     if (player >= KIRBY_PLAYER_COUNT
         || ap_lever_should_open_wall(ap_lever_wall_owned(chest_obj_ptr), *applied) == 0u) {
         return;
@@ -1004,22 +1013,48 @@ static void ap_sync_active_kirby_health_from_vitality(void) {
     *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_MAX_HP_OFFSET) = vitality_total;
 }
 
-static uint8_t ap_is_supported_kirby_color(uint32_t color_id) {
-    return color_id <= 13u ? 1u : 0u;
-}
+/* Only a confirmed owned-paint menu action writes this saved marker. */
+#define AP_SAVED_PAINT_CHOICE (*(volatile uint16_t*)0x02038982u)
+#define KIRBY_SAVE_ID (*(volatile uint16_t*)0x0203AD48u)
+#define KIRBY_PRESSED_KEYS (*(volatile uint16_t*)0x030039FCu)
+#define KIRBY_MAIN_FLAGS (*(volatile uint32_t*)0x03002440u)
+#define KIRBY_BLD_CONTROL (*(volatile uint16_t*)0x030024E8u)
+#define KIRBY_BLD_Y (*(volatile uint16_t*)0x030024ECu)
+#define KIRBY_HUD_TASK (*(volatile uint32_t*)0x03000010u)
+#define KIRBY_MENU_SELECT_FN ((uint32_t (*)(uint8_t*))0x081447E1u)
+#define KIRBY_SAVE_WORLD_FN ((int16_t (*)(uint32_t, uint16_t))0x0800ACD5u)
+#define KIRBY_TRANSFORM_BG_PALETTE_FN ((void (*)(const uint16_t*, uint8_t, uint16_t))0x08158335u)
+#define KIRBY_LOAD_BG_PALETTE_FN ((void (*)(const uint16_t*, uint8_t, uint16_t))0x0803D21Du)
 
 static uint32_t ap_get_effective_starting_kirby_color(void) {
-    uint32_t runtime_color = AP_STARTING_KIRBY_COLOR_ID;
+    uint32_t runtime = AP_MAILBOX_INIT_COOKIE == AP_MAILBOX_INIT_COOKIE_VALUE
+        ? AP_STARTING_KIRBY_COLOR_ID : AP_COLOR_INVALID;
+    return ap_color_resolve(gApStartingKirbyColorInitial, runtime,
+                            AP_SAVED_PAINT_CHOICE, KIRBY_SPRAY_PAINT_FLAGS);
+}
 
-    /* Prefer the live client value once synchronized. Before that, use the
-     * generation-time ROM word so startup and offline/reset windows are safe. */
-    if (ap_is_supported_kirby_color(runtime_color) != 0u) {
-        return runtime_color;
+/* Runs only at the treasure menu's A-button handler, after native save loading.
+ * This also records choosing an owned paint that happens to match an AP default:
+ * native code otherwise treats that genuine confirmation as a no-op. */
+__attribute__((used)) uint32_t ap_on_treasure_paint_selection(uint8_t *menu) {
+    uint32_t index = menu[0x2A];
+    if ((KIRBY_PRESSED_KEYS & 1u) && index < 40u && menu[2u + index]
+        && KIRBY_SAVE_ID < 3u) {
+        uint32_t tag = ((const uint16_t*)0x08386A50u)[index * 2u];
+        uint32_t paint = tag - 0x101u;
+        if (tag == 0x100u || (ap_native_color_valid(paint)
+            && (KIRBY_SPRAY_PAINT_FLAGS & (1u << paint)))) {
+            uint16_t saved = tag == 0x100u ? 0u : ap_color_choice_encode(paint);
+            if (AP_SAVED_PAINT_CHOICE != saved) {
+                AP_SAVED_PAINT_CHOICE = saved;
+                /* Use the native serializer for both checksum-protected copies.
+                 * Never write raw SRAM or save from the per-frame palette path. */
+                KIRBY_SAVE_WORLD_FN(1u, KIRBY_SAVE_ID);
+            }
+            AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
+        }
     }
-    if (ap_is_supported_kirby_color(gApStartingKirbyColorInitial) != 0u) {
-        return gApStartingKirbyColorInitial;
-    }
-    return 0xFFFFFFFFu;
+    return KIRBY_MENU_SELECT_FN(menu);
 }
 
 static uint8_t ap_is_player_kirby_ready(uint8_t player) {
@@ -1059,53 +1094,41 @@ __attribute__((used)) void ap_on_start_single_player_game(
     const int32_t *positions,
     const uint32_t *flags
 ) {
-    uint32_t desired_color = gApStartingKirbyColorInitial;
-
-    if (ap_is_supported_kirby_color(desired_color) != 0u) {
-        KIRBY_SELECTED_COLOR = (int16_t)desired_color;
-        KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] =
-            (uint8_t)desired_color;
-    }
+    uint32_t desired_color = ap_native_color(ap_get_effective_starting_kirby_color());
+    KIRBY_SELECTED_COLOR = (int16_t)desired_color;
+    KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] = (uint8_t)desired_color;
+    AP_STARTING_KIRBY_COLOR_APPLIED = AP_COLOR_STARTUP;
 
     KIRBY_START_GAME_FN(mode, arg1, rooms, positions, flags);
+    AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
 }
 
 static void ap_apply_starting_kirby_color_config(void) {
     uint32_t desired_color;
     uint32_t kirby_addr;
-
-    if (AP_STARTING_KIRBY_COLOR_APPLIED != 0u) {
-        return;
-    }
-
-    desired_color = ap_get_effective_starting_kirby_color();
-    if (ap_is_supported_kirby_color(desired_color) == 0u) {
-        return;
-    }
-
-    /* Pink is the native/default no-override choice. The startup hook still
-     * writes Pink before CreateKirby, but no runtime palette rebuild is needed. */
-    if (desired_color == 0u) {
-        AP_STARTING_KIRBY_COLOR_APPLIED = 1u;
-        return;
-    }
-
-    if (ap_is_player_kirby_ready(KIRBY_STARTING_COLOR_PLAYER) == 0u) {
-        return;
-    }
-
-    kirby_addr = KIRBY_STRUCTS_ADDR
-        + ((uint32_t)KIRBY_STARTING_COLOR_PLAYER * KIRBY_STRUCT_STRIDE);
-
-    /* Keep all native color sources coherent. Merely changing Kirby::color does
-     * not update the OBJ palette already cached in palette RAM. */
+    uint32_t hud = KIRBY_HUD_TASK;
+    if (AP_STARTING_KIRBY_COLOR_APPLIED != 0u) return;
+    /* A live gameplay HUD owns BG bank 15. Menu tasks can reuse its memory.
+     * RGB transformation flags can remain enabled throughout normal gameplay;
+     * use the native loaders instead of treating those flags as an active fade. */
+    if (hud < 0x03000000u || hud >= 0x03007FECu || (hud & 3u)
+        || *(volatile uint32_t*)(hud + 8u) != 0x08033B9Du
+        || ((KIRBY_BLD_CONTROL & 0x80u) && KIRBY_BLD_Y != 0u)
+        || KIRBY_CURRENT_PLAYER != KIRBY_STARTING_COLOR_PLAYER
+        || (DEMO_PLAYBACK_FLAGS & 0x12u)
+        || !ap_is_player_kirby_ready(KIRBY_STARTING_COLOR_PLAYER)) return;
+    desired_color = ap_native_color(ap_get_effective_starting_kirby_color());
+    kirby_addr = KIRBY_STRUCTS_ADDR;
     KIRBY_SELECTED_COLOR = (int16_t)desired_color;
-    KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] =
-        (uint8_t)desired_color;
-    *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_COLOR_OFFSET) =
-        (uint8_t)desired_color;
-
+    KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] = (uint8_t)desired_color;
+    *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_COLOR_OFFSET) = (uint8_t)desired_color;
     KIRBY_REFRESH_PALETTE_FN(KIRBY_STARTING_COLOR_PLAYER);
+    KIRBY_LOAD_BG_PALETTE_FN((const uint16_t*)(0x0834BB20u + desired_color * 32u), 0xF0u, 16u);
+    if (KIRBY_MAIN_FLAGS & 0x10000u) {
+        /* The raw loader also preserves the resolved HUD row in its backup. */
+        KIRBY_TRANSFORM_BG_PALETTE_FN((const uint16_t*)0x02022300u, 0xF0u, 16u);
+    }
+    KIRBY_MAIN_FLAGS |= 1u; /* Native VBlank uploader consumes the BG sync flag. */
     AP_STARTING_KIRBY_COLOR_APPLIED = 1u;
 }
 

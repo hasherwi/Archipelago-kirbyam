@@ -76,3 +76,43 @@ def test_lever_lookup_uses_requested_player(token):
 def test_unknown_tokens_still_fail_closed():
     with pytest.raises(ValueError, match="Unknown KirbyAM room logic requirement"):
         evaluate_room_logic_requirement("can_cutt_ropes", _FakeState(), 1)
+
+
+@pytest.mark.parametrize('token', ['CanPoundPegs', 'can_pound_pegs'])
+@pytest.mark.parametrize('operator', ['all', 'any'])
+def test_stake_discovery_preserves_complete_compact_rule(token, operator):
+    from types import SimpleNamespace
+    from .. import rules
+    from .test_rules import _FakeWorld
+    from ..options import Goal
+
+    requirement = {operator: [token, 'mm_lever']}
+    regions = {'SOURCE': SimpleNamespace(
+        exit_requirements={'DESTINATION': requirement}, location_requirements={})}
+    raw = {'SOURCE': {'exits': {'DESTINATION': requirement}}}
+    world = _FakeWorld(Goal.option_dark_mind)
+    with patch.object(rules.data, 'regions', regions), \
+            patch.object(rules, 'load_json_data', return_value=raw):
+        assert rules.get_stake_gated_transition_entrance_names() == ('SOURCE -> DESTINATION',)
+        rules.set_rules(world)
+    entrance = world.multiworld.get_entrance('SOURCE -> DESTINATION', 1)
+    lever = LEVER_ITEMS['mm_lever'][1]
+    for capability in (False, True):
+        for owns_lever in (False, True):
+            state = _FakeState({lever} if owns_lever else set())
+            with patch.object(rules, '_allow_pending_ability_gate', return_value=capability):
+                expected = (capability and owns_lever) if operator == 'all' else (capability or owns_lever)
+                assert entrance.access_rule(state) == expected
+
+
+def test_exported_stake_entrances_exist_in_generated_world():
+    from test.general import setup_solo_multiworld
+    from .. import KirbyAmWorld
+    from ..rules import get_stake_gated_transition_entrance_names
+
+    world = setup_solo_multiworld(KirbyAmWorld, seed=914)
+    names = get_stake_gated_transition_entrance_names()
+    assert len(names) == 5
+    for name in names:
+        entrance = world.get_entrance(name, 1)
+        assert entrance.connected_region is not None

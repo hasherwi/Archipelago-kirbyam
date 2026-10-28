@@ -13,9 +13,9 @@ SECTIONS
   . = 0x0815E000;
 
   .text : {
-    *(.text*)
+    *(EXCLUDE_FILE (color_payload.o) .text*)
     KEEP(*(.apinfo))
-    *(.rodata*)
+    *(EXCLUDE_FILE (color_payload.o) .rodata*)
   }
 
   .data : { *(.data*) }
@@ -29,6 +29,10 @@ SECTIONS
     KEEP(*(.apconfig.gate))
     KEEP(*(.apconfig.statue))
   }
+  /* Append beyond the clean 16 MiB ROM; never allocate presumed internal padding. */
+  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) color_payload.o(.text* .rodata*) }
 }
 
 ASSERT(SIZEOF(.apconfig) == 16, "KirbyAM runtime config must be exactly 16 bytes")
+
+ASSERT(SIZEOF(.apcolors) <= 0x10000, "Curated palette extension exceeds 64 KiB")

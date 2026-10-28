@@ -11,8 +11,7 @@ class TestBase(unittest.TestCase):
 
     default_settings_unreachable_regions = {
         # Kirby retains empty tutorial/final-area placeholders and dormant split rooms.
-        # Every active location must still be reachable; these exceptions are empty nodes.
-        # PR914 restores Moonlight lower/right routes; Carrot 5-13 UPPER is still unused.
+        # Active locations and terminal physical-room check regions remain reachable.
         "Kirby & The Amazing Mirror": {
             'REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2',
             'REGION_CARROT_CASTLE/ROOM_5_13',
@@ -38,8 +37,7 @@ class TestBase(unittest.TestCase):
             'REGION_MOONLIGHT_MANSION/ROOM_2_08_BOMB_ROOM',
             'REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN',
             'REGION_OLIVE_OCEAN/ROOM_6_05',
-            'REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_18_OR_8_21_OR_8_23',
-            'REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_GOAL_1',
+            'REGION_RADISH_RUINS/ROOM_8_07',
             'REGION_RADISH_RUINS/ROOM_8_09',
             'REGION_TUTORIAL/ROOM_0_01',
             'REGION_TUTORIAL/ROOM_0_02',

@@ -44,7 +44,8 @@ def _list_data_files(subdir: str) -> list[str]:
         return sorted(path.name for path in source_dir.iterdir() if path.is_file())
 
     try:
-        base = resources.files(__name__).joinpath("data", subdir)
+        # Python 3.11 requires a package anchor; this module is not a package.
+        base = resources.files(__package__).joinpath("data", subdir)
         if not base.is_dir():
             return []
         return sorted(p.name for p in base.iterdir() if p.is_file())

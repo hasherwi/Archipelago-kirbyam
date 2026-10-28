@@ -3816,8 +3816,7 @@
       }
     },
     "exits": {
-      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null,
-      "REGION_RADISH_RUINS/ROOM_8_07": null
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_GOAL_2": {
@@ -3880,11 +3879,7 @@
     "exits": {
       "REGION_RADISH_RUINS/ROOM_8_CHEST_1": "can_pound_pegs",
       "REGION_RADISH_RUINS/ROOM_8_04": null,
-      "REGION_RADISH_RUINS/ROOM_8_08": null,
-      "REGION_RADISH_RUINS/ROOM_8_09": null
-    },
-    "logical_exit_overrides": {
-      "REGION_RADISH_RUINS/ROOM_8_09": "ENTRY_FROM_8_03"
+      "REGION_RADISH_RUINS/ROOM_8_08": null
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_04": {
@@ -3898,10 +3893,10 @@
     "exits": {
       "REGION_RADISH_RUINS/ROOM_8_03": null,
       "REGION_RADISH_RUINS/ROOM_8_05": null,
-      "REGION_RADISH_RUINS/ROOM_8_09": null
+      "REGION_RADISH_RUINS/ROOM_8_07": null
     },
     "logical_exit_overrides": {
-      "REGION_RADISH_RUINS/ROOM_8_09": "ENTRY_FROM_8_04"
+      "REGION_RADISH_RUINS/ROOM_8_07": "ENTRY_FROM_8_04"
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_05": {
@@ -3936,24 +3931,20 @@
   },
   "REGION_RADISH_RUINS/ROOM_8_07": {
     "events": [],
-    "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_GOAL_1",
-      "REGION_RADISH_RUINS/ROOM_8_18",
-      "REGION_RADISH_RUINS/ROOM_8_21",
-      "REGION_RADISH_RUINS/ROOM_8_23"
-    ],
+    "exits": [],
     "logical_subregions": {
-      "ENTRY_FROM_8_GOAL_1": {
+      "ENTRY_FROM_8_04": {
         "exits": [
-          "REGION_RADISH_RUINS/ROOM_8_GOAL_1"
+          "REGION_RADISH_RUINS/ROOM_8_04"
+        ],
+        "locations": [
+          "MINOR_CHEST_RADISH_RUINS_8_07_OBJECT_01"
         ],
         "events": []
       },
-      "ENTRY_FROM_8_18_OR_8_21_OR_8_23": {
+      "ENTRY_FROM_8_09": {
         "exits": [
-          "REGION_RADISH_RUINS/ROOM_8_18",
-          "REGION_RADISH_RUINS/ROOM_8_21",
-          "REGION_RADISH_RUINS/ROOM_8_23"
+          "REGION_RADISH_RUINS/ROOM_8_08"
         ],
         "events": []
       }
@@ -3963,9 +3954,7 @@
       "location_id": 3961211,
       "bit_index": 230
     },
-    "locations": {
-      "MINOR_CHEST_RADISH_RUINS_8_07_OBJECT_01": null
-    }
+    "locations": {}
   },
   "REGION_RADISH_RUINS/ROOM_8_08": {
     "locations": {
@@ -3985,34 +3974,19 @@
   },
   "REGION_RADISH_RUINS/ROOM_8_09": {
     "events": [],
-    "exits": [
-      "REGION_RADISH_RUINS/ROOM_8_GOAL_1",
-      "REGION_RADISH_RUINS/ROOM_8_07",
-      "REGION_RADISH_RUINS/ROOM_8_04",
-      "REGION_RADISH_RUINS/ROOM_8_03"
-    ],
+    "exits": [],
     "logical_subregions": {
       "ENTRY_FROM_8_06": {
         "exits": [
+          "REGION_RADISH_RUINS/ROOM_8_06",
           "REGION_RADISH_RUINS/ROOM_8_GOAL_1"
         ],
         "events": []
       },
       "ENTRY_FROM_8_08": {
         "exits": [
-          "REGION_RADISH_RUINS/ROOM_8_07"
-        ],
-        "events": []
-      },
-      "ENTRY_FROM_8_03": {
-        "exits": [
-          "REGION_RADISH_RUINS/ROOM_8_04"
-        ],
-        "events": []
-      },
-      "ENTRY_FROM_8_04": {
-        "exits": [
-          "REGION_RADISH_RUINS/ROOM_8_03"
+          "REGION_RADISH_RUINS/ROOM_8_08",
+          "REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_09"
         ],
         "events": []
       }
@@ -4139,8 +4113,7 @@
       }
     },
     "exits": {
-      "REGION_RADISH_RUINS/ROOM_8_19": null,
-      "REGION_RADISH_RUINS/ROOM_8_07": null
+      "REGION_RADISH_RUINS/ROOM_8_19": null
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_19": {
@@ -4176,8 +4149,7 @@
       }
     },
     "exits": {
-      "REGION_RADISH_RUINS/ROOM_8_22": null,
-      "REGION_RADISH_RUINS/ROOM_8_07": null
+      "REGION_RADISH_RUINS/ROOM_8_22": null
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_22": {
@@ -4203,8 +4175,7 @@
       }
     },
     "exits": {
-      "REGION_RADISH_RUINS/ROOM_8_BOSS": null,
-      "REGION_RADISH_RUINS/ROOM_8_07": null
+      "REGION_RADISH_RUINS/ROOM_8_BOSS": null
     }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_HUB": {

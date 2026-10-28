@@ -63,3 +63,45 @@ archive matrix now requires success instead of expecting the five-check error.
 This establishes static route evidence and AP generation/accessibility, not
 new emulator gameplay acceptance or exhaustive ability/physics validation.
 Native payload, ROM patch, transport and running game are unaffected.
+
+This repair is extracted from PR #914 commit `00e6ec57` for release regression
+#969. The broader PR remains separate and unchanged.
+
+## Packaged generation regression
+
+`tools/verify_packaged_generation.py` runs against the installed APWorld ZIP in
+an isolated AP runtime. It rejects accidental imports from loose source, invokes
+real generation, decodes each archive's multidata, checks the 263 room-sanity IDs
+per enabled player, and compares every embedded base patch with the package.
+The verifier removes successful temporary archives and retains failures plus
+YAML inputs. Run from the runtime directory, with no loose Kirby world installed:
+
+```sh
+python /path/to/verify_packaged_generation.py \
+  --apworld /path/to/custom_worlds/kirbyam.apworld \
+  --output /path/to/results --seeds 935 202610120972 0
+```
+
+Its 384 cases cross all three goals, eight configured bosses, room-sanity on/off,
+vanilla/shuffled shards, ability gating, and starting maps. Three seeds produce
+1,152 archives and 1,728 player slots per runtime, alternating one- and two-player
+worlds. Each case gets both player counts; second players use different room and
+health settings. Other options cycle through health, One-Hit, color, trap, enemy
+health and ability-randomization boundaries; those fields are not a Cartesian
+cross-product. The CI packaging test runs a bounded 32-archive subset. Neither
+suite proves every seed, arbitrary plando/common-option constraints, or gameplay.
+
+The failed draft's exact owner YAML has not been supplied. Reproducing the known
+five-room defect in its preserved package establishes a concrete regression,
+but does not establish that it was the owner's particular generation failure.
+
+The exact published v0.4.0 APWorld is also affected: asset SHA256
+`be059aed9f4136e7f7721b2d718bb9367b9d519e266bc8815ba31c1de19a19f6`
+reproduces the five missing checks with only `room_sanity: true`, seed
+202610120972, on AP 0.6.7 and 0.6.8. Default-option controls pass on both.
+
+The new installed-package regression also exposed a Python 3.11 compatibility
+issue: `importlib.resources.files()` requires a package anchor on that runtime.
+Use `worlds.kirbyam`, not its `data` module, to enumerate packaged region files.
+The compatibility regression enforces that older contract even on newer Python;
+cross-platform CI also runs the actual package under Python 3.11.

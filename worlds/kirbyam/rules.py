@@ -194,7 +194,7 @@ def evaluate_room_logic_requirement(requirement, state: CollectionState, player:
 
 
 def _requirement_contains_token(requirement, token: str) -> bool:
-    if requirement == token:
+    if requirement == token or (token == "CanPoundPegs" and requirement == "can_pound_pegs"):
         return True
     if isinstance(requirement, dict):
         return any(
@@ -307,6 +307,7 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
 
     # Apply compact room-edge and location requirements after region creation.
     applied_room_requirements = 0
+    compact_requirement_entrances: set[str] = set()
     for source_name, region_data in data.regions.items():
         for destination_name, requirement in region_data.exit_requirements.items():
             requirement_entrance_name = f"{source_name} -> {destination_name}"
@@ -323,6 +324,7 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
                         world.player,
                     ),
                 )
+                compact_requirement_entrances.add(requirement_entrance_name)
                 applied_room_requirements += 1
             except KeyError:
                 logger.debug(
@@ -365,7 +367,10 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
     for stake_entrance_name in stake_entrance_names:
         try:
             stake_entrance = world.multiworld.get_entrance(stake_entrance_name, world.player)
-            set_rule(stake_entrance, stake_gate_rule)
+            # Compact rules already include this capability, possibly inside
+            # an all/any expression. Never replace that complete predicate.
+            if stake_entrance_name not in compact_requirement_entrances:
+                set_rule(stake_entrance, stake_gate_rule)
             applied_stake_gates += 1
         except KeyError:
             logger.debug(
