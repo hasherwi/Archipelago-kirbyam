@@ -8,6 +8,11 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## Unreleased
+
+### Internal Changes
+- Integrate room connections and requirements into world-generation logic (PR #914).
+
 ## v0.4.1
 
 ### New Features
