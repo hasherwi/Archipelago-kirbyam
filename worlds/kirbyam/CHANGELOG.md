@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### Internal Changes
+- Exercise all eight shard receipts through twelve cold client/transport restarts, partial native saves and interleaved acknowledged food receipts (Issue #974).
 - Verify starting Vitality with stock-server empty/nonempty normal histories, duplicate precollects and repeated cold-RAM recovery without replay healing (Issue #943).
 
 ### Bug Fixes
