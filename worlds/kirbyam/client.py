@@ -1909,6 +1909,15 @@ class KirbyAmClient(BizHawkClient):
                 ai_state=ai_state,
             )
             if not gameplay_active:
+                if defer_reason == "non_gameplay_kirby_dead":
+                    # Death observation must survive the gate that blocks fresh
+                    # item writes. A link received while dead belongs to this
+                    # death, not the next respawn; do not write HP here.
+                    if self._death_link_enabled is True and self._incoming_death_link_pending:
+                        self._incoming_death_link_pending = False
+                        self._last_local_alive_state = False
+                        self._suppress_next_local_death_send = False
+                    await self._poll_and_send_local_death_link(ctx)
                 was_deferred = self._last_runtime_gate_reason is not None
                 if self._last_runtime_gate_reason != defer_reason:
                     self._log_verbose(
@@ -2622,6 +2631,10 @@ class KirbyAmClient(BizHawkClient):
 
         if self._last_local_alive_state is None:
             self._last_local_alive_state = alive_now
+            if not alive_now:
+                # An incoming link can be applied before the first alive poll.
+                # Its echo suppression belongs to that death only.
+                self._suppress_next_local_death_send = False
             return
 
         if self._last_local_alive_state and not alive_now:
@@ -2632,6 +2645,10 @@ class KirbyAmClient(BizHawkClient):
                 self._log_verbose("info", "KirbyAM: sending outgoing DeathLink with flavored cause")
                 await ctx.send_death(cause)
 
+        if not alive_now:
+            # A link may kill a freshly respawned Kirby before an alive poll.
+            # Consume suppression even when the prior observation was dead.
+            self._suppress_next_local_death_send = False
         self._last_local_alive_state = alive_now
 
     async def _runtime_gameplay_state(self, ctx: KirbyAmBizHawkClientContext) -> tuple[bool, str, int | None]:
@@ -2682,10 +2699,7 @@ class KirbyAmClient(BizHawkClient):
         reason: str
         gameplay_active: bool
 
-        if current_hp is not None and current_hp <= 0:
-            reason = "non_gameplay_kirby_dead"
-            gameplay_active = False
-        elif ai_state < _AI_STATE_CUTSCENE_THRESHOLD:
+        if ai_state < _AI_STATE_CUTSCENE_THRESHOLD:
             reason = "non_gameplay_tutorial_or_menu"
             gameplay_active = False
         elif ai_state < _AI_STATE_NORMAL:
@@ -2696,6 +2710,9 @@ class KirbyAmClient(BizHawkClient):
             gameplay_active = False
         elif ai_state in (_GOAL_STATE_DARK_MIND_CLEAR, _GOAL_STATE_FULL_CLEAR):
             reason = "non_gameplay_goal_clear"
+            gameplay_active = False
+        elif current_hp is not None and current_hp <= 0:
+            reason = "non_gameplay_kirby_dead"
             gameplay_active = False
         else:
             reason = "gameplay_active"

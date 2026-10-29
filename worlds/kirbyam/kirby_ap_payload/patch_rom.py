@@ -880,14 +880,14 @@ def validate_payload_targets(
 
 
 def build_hub_teleport_writes(rom: bytes | bytearray, target: int) -> dict[int, bytes]:
-    """Fail closed on the USA scheduler call, native guards and hub spawn data."""
+    """Fail closed on the USA scheduler call, native input decoder and warp-star sequence."""
     offset = 0x151CF4
     validate_expected_instruction_sequence(
         rom, offset, thumb_bl_bytes(0x08151CF4, 0x08152CF4), "hub trap scheduler call")
     contracts = (
-        (0x551FC, 0x552A8, "c858402c86383c8e00bd874a942fe59b25936c1f91de91344b5666859d336134"),
-        (0x2D40, 0x2D60, "b20e7d2ce6e538c5c3242e3ea6927b7972946e76571f9f3628dc9da87c2df3c5"),
-        (0x93D186, 0x93D188, "ca53b1b426b669b4171fb4bb4e6cf90a2b2bbf46e3b8b280f0ec3328a10e8296"),
+        (0x3F324, 0x3F46C, "bd420a33b1e8175c02ecc37c0d6f7f71ec989a5fb12c9d7b9dfcab0250f714f4"),
+        (0x56E40, 0x578E4, "73d6ac232300355a3d69012d2fc2e06aff888ff878e5a2f933838583c18dc9e3"),
+        (0x5BEE8, 0x5BF2C, "92931d3762d4ba7ecbb6762c9a367649bf6f1f74ff69285f864ebc45e20fb7b4"),
     )
     for start, end, digest in contracts:
         if hashlib.sha256(rom[start:end]).hexdigest() != digest:

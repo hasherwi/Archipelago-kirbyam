@@ -1292,59 +1292,78 @@ static void ap_trap_battery_drain(void) {
     *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_BATTERY_OFFSET) = 0u;
 }
 
-/* Main-thread dispatch: GetInput's mailbox poll must leave this item pending
- * until the current frame's tasks and scripts have run. No separate pending
- * state: the existing flag/counter handshake retains receipt ordering. */
-__attribute__((noinline, long_call, section(".aphub")))
-static void ap_dispatch_hub_trap(void) {
-    uint32_t kirby_addr;
-    uint32_t hud;
-    uint8_t x, y;
-    uint16_t animation;
-    typedef uint8_t (*RequestRoomFn)(void *, uint16_t, uint8_t, uint8_t);
-    typedef void (*RoomSpawnFn)(uint16_t, uint8_t *, uint8_t *);
+/* The native input decoder reads gHeldKeys and derives Kirby's press edges.
+ * Keep native room/boss/ability eligibility and cancellation authoritative. */
+#define HUB_HELD_KEYS (*(volatile uint16_t *)0x03002E90u)
+#define HUB_STATE_FN (*(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 0x78u))
+#define HUB_CALL_STATE 0x0805701Du
+#define HUB_CHARGE_STATE 0x080573D1u
+#define HUB_TAKEOFF_STATE 0x080575D9u
+#define HUB_EXT __attribute__((noinline, long_call, section(".aphub")))
 
+static HUB_EXT uint8_t ap_hub_pending_ready(void) {
+    uint32_t hud;
+    uint16_t animation = *(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0xD4u);
     if (AP_MAILBOX_INIT_COOKIE != AP_MAILBOX_INIT_COOKIE_VALUE
         || AP_IN_FLAG != 1u
-        || AP_IN_ITEM_ID != KIRBY_ITEM_ID_BASE_OFFSET + 300u) return;
-    /* Single-player ordinary gameplay only. Do not interrupt menus, paused
-     * task execution, demos, boss scripts, or an uninitialized Kirby. */
+        || AP_IN_ITEM_ID != KIRBY_ITEM_ID_BASE_OFFSET + 300u) return 0u;
     if (AI_KIRBY_STATE != AI_STATE_NORMAL
-        || (DEMO_PLAYBACK_FLAGS & 0x12u) != 0u
+        || (DEMO_PLAYBACK_FLAGS & 0x16u) != 0u
         || (*(volatile uint32_t *)0x03002440u & 0x800u) != 0u
         || KIRBY_CURRENT_PLAYER != 0u
-        || *(volatile uint8_t *)0x0203AD30u != 1u) return;
+        || *(volatile uint8_t *)0x0203AD30u != 1u) return 0u;
     hud = KIRBY_HUD_TASK;
     if (hud < 0x03000000u || hud >= 0x03007FECu || (hud & 3u)
-        || *(volatile uint32_t *)(hud + 8u) != 0x08033B9Du) return;
-    kirby_addr = KIRBY_STRUCTS_ADDR;
-    animation = *(volatile uint16_t *)(kirby_addr + 0xD4u);
-    /* Same readiness checks as native sub_080551FC, including its script
-     * pointer and transition eligibility bit. Also protect the already-hub
-     * no-op, which cannot use native's same-room rejection as success. */
+        || *(volatile uint32_t *)(hud + 8u) != 0x08033B9Du) return 0u;
     if ((*(volatile uint8_t *)0x03000514u & 0x11u) != 0u
-        || *(volatile uint32_t *)(kirby_addr + KIRBY_STRUCT_TASK_OFFSET) == 0u
-        || *(volatile int8_t *)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) <= 0
+        || *(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + KIRBY_STRUCT_TASK_OFFSET) == 0u
+        || *(volatile int8_t *)(KIRBY_STRUCTS_ADDR + KIRBY_STRUCT_HP_OFFSET) <= 0
         || animation == 39u || animation > 122u
-        || *(volatile uint32_t *)(kirby_addr + 0x110u) != 0u
-        || (*(volatile uint32_t *)(kirby_addr + 8u) & 0x3800B00u) != 0u
-        || (*(volatile uint32_t *)(kirby_addr + 0xCu) & 0x1000u) == 0u) return;
-    if (*(volatile uint16_t *)(kirby_addr + 0x60u) != 0x321u) {
-        /* Native spawn table and native request path own the room change,
-         * animation, object cleanup and eventual native save behavior. */
-        ((RoomSpawnFn)0x08002D41u)(0x321u, &x, &y);
-        if (!((RequestRoomFn)0x080551FDu)((void *)kirby_addr, 0x321u, x, y)) return;
+        || *(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 0x110u) != 0u) return 0u;
+    return 1u;
+}
+
+static HUB_EXT uint8_t ap_hub_idle_ready(void) {
+    return (*(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 8u) & 0x3800B00u) == 0u
+        && (*(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 0xCu) & 0x1000u) != 0u;
+}
+
+static HUB_EXT void ap_hub_tasks(void) {
+    uint16_t held = HUB_HELD_KEYS;
+    uint32_t before = HUB_STATE_FN;
+    uint8_t ready = ap_hub_pending_ready();
+    uint8_t calling = before == HUB_CALL_STATE || before == HUB_CHARGE_STATE;
+    uint8_t inject = 0u;
+    if (ready && (held & 0xCu) == 0u
+        && *(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0x60u) != 0x321u) {
+        if (calling) {
+            /* Only sustain native L-call states, never other phone actions. */
+            inject = (*(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 0xCu) & 0x40000u) != 0u;
+        } else if (ap_hub_idle_ready()
+            && (*(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0x118u) & 0x200u) == 0u) {
+            /* Rejected native presses get a release frame, then a new edge.
+             * Physical input is never cleared, including a user's held L. */
+            inject = 1u;
+        }
     }
+    if (inject) HUB_HELD_KEYS = held | 0x200u;
+    ((void (*)(void))0x08152CF5u)();
+    HUB_HELD_KEYS = held;
+    if (!ap_hub_pending_ready()) return;
+    /* Accept only this frame's native charge -> takeoff transition. A receipt
+     * arriving during an earlier takeoff must wait for safe arrival instead. */
+    if (!(ready && before == HUB_CHARGE_STATE && HUB_STATE_FN == HUB_TAKEOFF_STATE)
+        && !(*(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0x60u) == 0x321u
+             && ap_hub_idle_ready())) return;
     AP_DEBUG_LAST_ITEM_ID = AP_IN_ITEM_ID;
     AP_DEBUG_LAST_FROM = AP_IN_PLAYER;
     AP_ITEM_RCVD_COUNTER++;
     AP_IN_FLAG = 0u;
 }
 
-/* One verified call in GameLoop, not every scheduler call in the ROM. */
+/* One verified GameLoop scheduler call. No state-function or room writes. */
 __attribute__((used)) void ap_after_tasks(void) {
-    ((void (*)(void))0x08152CF5u)();
-    ap_dispatch_hub_trap();
+    ap_hub_tasks();
 }
 
 // Returns 1 if item was successfully processed, 0 if unrecognized

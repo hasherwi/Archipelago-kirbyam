@@ -53,8 +53,6 @@ def test_actual_mailbox_and_hub_dispatch(tmp_path: Path, optimization: str) -> N
     source = source.replace(lr_snapshot, 'caller_lr_snapshot = 0;')
     assert not re.search(r'\b(?:__asm__|asm)\s*\(', source)
     source = source.replace('((KirbyWorldPropsEntryFn)0x08002889u)', 'native_world_props')
-    source = source.replace('((RoomSpawnFn)0x08002D41u)', 'native_spawn')
-    source = source.replace('((RequestRoomFn)0x080551FDu)', 'native_request')
     source = source.replace('((void (*)(void))0x08152CF5u)', 'native_tasks')
     harness = (Path(__file__).parent / 'native/hub_teleport_host.c').read_text()
     source = harness.replace('/* PAYLOAD */', source)
