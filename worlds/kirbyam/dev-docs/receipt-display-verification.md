@@ -1,8 +1,17 @@
 # Native receipt/display verification (#953, #971)
 
-Baseline: main `99c63e3a505131d5ab16db60350a4c9c9daae54d`.
+Original verification baseline: main `99c63e3a505131d5ab16db60350a4c9c9daae54d`.
 These reports are not closed by this verification work. No cheat-free emulator
 reproduction or collection-menu acceptance was performed.
+
+## Refresh against main
+
+The PR was refreshed against main `ac4c30217aa726149de951aa5b21fed9a2840a26`.
+All 176 focused mailbox, collection/wrapper, Vitality-history and HUD-hook tests
+passed again on Linux. The changelog conflict was resolved by preserving every
+entry under one Unreleased Internal Changes section. Native source, client,
+payload and distributable files are unchanged by this PR; the original build
+evidence below is historical and was not repeated for this documentation/test refresh.
 
 ## Executable evidence
 
