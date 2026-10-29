@@ -27,8 +27,12 @@ needs no payload, patch, receipt or wall-ownership changes.
 Tests require stable numeric identity, unique ownership by room 5-05, and an
 actual generated check and locked activation event in that room. Room 5-12
 must contain neither lever check nor event. Existing lever/rules and strict
-slot-data snapshot tests cover the corrected labels. All room exits remain
-unchanged; no broader #914 topology or ability changes are included.
+slot-data snapshot tests cover the corrected labels. The refresh onto main `785a97317db8e28e51b03a656ca4518f226a25f8` preserves
+all #914 room exits, requirements and logical exit overrides, including the
+`cc_lever` gate from 5-05 to 5-06. A generated-world regression verifies that
+physical activation alone does not unlock that gate; receiving the AP wall
+item does. Both explicit room location ownership and the activation event move
+together. Stable IDs, native bits and the committed ROM patch are unchanged.
 
 This is static evidence and AP generation coverage. Emulator playthrough,
 wall opening and save/load acceptance for a newly generated seed remain manual

@@ -1388,7 +1388,7 @@
   },
   "MINOR_CHEST_RADISH_RUINS_8_07_OBJECT_01": {
     "label": "Radish Ruins 8-07 - Small Chest #1",
-    "parent_region": "REGION_RADISH_RUINS/ROOM_8_07",
+    "parent_region": "REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_04",
     "tags": [
       "SmallChest",
       "ExactEventLocation",

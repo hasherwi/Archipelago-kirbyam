@@ -102,3 +102,40 @@ def test_generated_carrot_lever_check_and_event_belong_only_to_room_five() -> No
     old_room = multiworld.get_region("REGION_CARROT_CASTLE/ROOM_5_12", 1)
     assert all("Lever" not in location.name for location in old_room.locations)
     assert len([location for location in multiworld.get_locations(1) if location.address == 3960417]) == 1
+
+
+def test_generated_carrot_wall_still_requires_received_wall_item() -> None:
+    from BaseClasses import CollectionState
+    from test.general import setup_solo_multiworld
+    from .. import KirbyAmWorld
+
+    multiworld = setup_solo_multiworld(KirbyAmWorld, seed=972)
+    room = multiworld.get_region("REGION_CARROT_CASTLE/ROOM_5_05", 1)
+    wall_exit = next(exit for exit in room.exits if exit.connected_region is not None
+                     and exit.connected_region.name == "REGION_CARROT_CASTLE/ROOM_5_06")
+    state = CollectionState(multiworld)
+    assert not wall_exit.access_rule(state)
+    world = multiworld.worlds[1]
+    event_item = multiworld.get_location("Activate Lever - Carrot Castle 5-05", 1).item
+    assert event_item is not None
+    state.collect(event_item, prevent_sweep=True)
+    assert not wall_exit.access_rule(state)
+    state.collect(world.create_item("Carrot Castle 5-05 - Lever Wall"), prevent_sweep=True)
+    assert wall_exit.access_rule(state)
+
+
+def test_carrot_lever_move_preserves_current_room_topology() -> None:
+    rooms = cast(dict[str, Any], load_json_data("regions/rooms.json"))
+    assert rooms["REGION_CARROT_CASTLE/ROOM_5_05"]["exits"] == {
+        "REGION_CARROT_CASTLE/ROOM_5_HUB": None,
+        "REGION_CARROT_CASTLE/ROOM_5_06": "cc_lever",
+        "REGION_CARROT_CASTLE/ROOM_5_07": None,
+    }
+    old_room = rooms["REGION_CARROT_CASTLE/ROOM_5_12"]
+    assert old_room["exits"] == {
+        "REGION_CARROT_CASTLE/ROOM_5_BOSS": None,
+        "REGION_CARROT_CASTLE/ROOM_5_13": None,
+    }
+    assert old_room["logical_exit_overrides"] == {
+        "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_12",
+    }
