@@ -38,6 +38,8 @@ def test_kirbyam_template_surface_options_visibility() -> None:
 
             assert "dark_mind" in goal_weights
             assert "defeat_area_boss" in goal_weights
+            assert "defeat_area_boss_count" in goal_weights
+            assert "required_area_bosses" in game_block
             assert "defeat_configured_area_boss" not in goal_weights
             assert "defeat_random_hidden_area_boss" not in goal_weights
             assert "100" not in goal_weights

@@ -59,6 +59,7 @@ _GOAL_LOCATION_LABELS = {
     Goal.option_dark_mind: "Defeat Dark Mind",
     Goal.option_defeat_any_area_boss: "Defeat Any Area Boss",
     Goal.option_defeat_area_boss: "Defeat Area Boss",
+    Goal.option_defeat_area_boss_count: "Defeat a Number of Area Bosses",
 }
 _DARK_MIND_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_dark_mind]
 _ANY_AREA_BOSS_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_defeat_any_area_boss]
@@ -411,6 +412,15 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
                         for location_name in _BOSS_DEFEAT_LOCATION_LABELS
                     )
                 set_rule(goal_location, any_area_boss_rule)
+            elif goal_value == Goal.option_defeat_area_boss_count:
+                required_bosses = world.options.required_area_bosses.value
+
+                def area_boss_count_rule(state):
+                    return sum(
+                        state.can_reach_location(location_name, world.player)
+                        for location_name in _BOSS_DEFEAT_LOCATION_LABELS
+                    ) >= required_bosses
+                set_rule(goal_location, area_boss_count_rule)
             elif goal_location_name == _AREA_BOSS_GOAL_LABEL:
                 configured_goal_key = getattr(
                     world,

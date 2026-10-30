@@ -233,6 +233,15 @@
         "MAP_RAINBOW_ROUTE"
       ]
     },
+    "GOAL_AREA_BOSS_COUNT": {
+      "category": "GOAL",
+      "label": "Defeat a Number of Area Bosses",
+      "location_id": 3960012,
+      "tags": [
+        "Goal",
+        "MAP_RAINBOW_ROUTE"
+      ]
+    },
     "GOAL_CONFIGURED_AREA_BOSS": {
       "category": "GOAL",
       "label": "Defeat Area Boss",
@@ -3343,6 +3352,7 @@
   "maximum_health": 10,
   "minimum_health": 6,
   "no_extra_lives": false,
+  "required_area_bosses": 3,
   "room_sanity": false,
   "rooms": {
     "REGION_CABBAGE_CAVERN/ROOM_3_01": {

@@ -39,6 +39,16 @@
     "location_id": 3960011,
     "category": "GOAL"
   },
+  "GOAL_AREA_BOSS_COUNT": {
+    "label": "Defeat a Number of Area Bosses",
+    "parent_region": "REGION_RAINBOW_ROUTE/MAIN",
+    "tags": [
+      "Goal",
+      "MAP_RAINBOW_ROUTE"
+    ],
+    "location_id": 3960012,
+    "category": "GOAL"
+  },
   "BOSS_DEFEAT_1": {
     "label": "Mustard Mountain - Boss Defeat",
     "parent_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
