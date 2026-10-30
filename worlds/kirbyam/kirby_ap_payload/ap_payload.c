@@ -1,6 +1,7 @@
 #include <stdint.h>
 
 #include "statue_runtime_logic.h"
+#include "enemy_runtime_logic.h"
 #include "minor_chest_runtime_logic.h"
 #include "lever_runtime_logic.h"
 #include "vitality_runtime_logic.h"
@@ -173,11 +174,15 @@ const unsigned char gArchipelagoInfo[16] = {0};
 
 /*
  * Per-seed runtime defaults written by rom.py after the shared base patch is
- * applied. The linker fixes these words at the final sixteen bytes of the
+ * applied. The linker fixes these words at the final twenty bytes of the
  * payload window. The initial gate mask protects startup/reset windows before
  * the client has synchronized live mailbox state; the statue mask carries the
  * exact seed-specific pool for per-touch randomization.
  */
+/* Per-seed Minny inclusion, defaulting to the safe vanilla exception. */
+__attribute__((used, section(".apconfig.minny")))
+volatile const uint32_t gApRandomizeMinny = 0u;
+
 /*
  * Versioned starting-color/mode configuration (see color_runtime_logic.h).
  * Legacy concrete IDs remain static; the unwritten 0xFFFFFFFF defaults to Pink.
@@ -707,29 +712,29 @@ static uint8_t ap_select_random_allowed_ability_excluding(
 // In completely-random mode, this rerolls a fresh ability for each request,
 // including dropped ability-star transitions. Direct statue touches bypass this
 // function and are handled by ap_on_start_copy_ability_transition below.
-__attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, uint32_t ability_flags) {
+/* Assembly entry snapshots incoming r5/LR before any C prologue or RNG call. */
+__attribute__((used)) void ap_on_request_copy_ability_transition_c(
+    void *kirby, uint32_t ability_flags, uint32_t source_obj_ptr, uint32_t caller_lr
+) {
     uint32_t mode = AP_ABILITY_RANDOMIZATION_MODE;
     uint32_t rewritten_flags = ability_flags;
     uint8_t selected_ability = (uint8_t)(ability_flags & KIRBY_ABILITY_MASK);
     uint8_t is_ability_star =
         ((ability_flags & KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR) != 0u) ? 1u : 0u;
 
-    if (mode == ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM) {
-        register uint32_t source_obj_ptr asm("r5");
+    uint32_t caller_pc = (caller_lr & ~1u) - 4u;
+    uint8_t source_type = 0xFFu;
+    if (ap_enemy_has_verified_source(caller_pc, source_obj_ptr) != 0u) {
+        source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
+    }
+
+    if (ap_enemy_should_reroll(mode, gApRandomizeMinny, source_type) != 0u) {
         uint32_t no_ability_weight = AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT;
         uint32_t allowed_mask = AP_ABILITY_RANDOMIZATION_ALLOWED_MASK;
         uint32_t random_roll = ap_next_rng_u32();
         uint32_t source_addr = 0u;
         uint32_t source_kind = ABILITY_REROLL_SOURCE_KIND_NONE;
-        uint32_t caller_lr_snapshot = 0u;
-        uint32_t caller_pc = 0u;
         uint32_t kirby_index = (uint32_t)KIRBY_CURRENT_PLAYER;
-
-        __asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));
-        caller_pc = caller_lr_snapshot & ~1u;
-        if (caller_pc >= 4u) {
-            caller_pc -= 4u;
-        }
 
         if (is_ability_star != 0u) {
             no_ability_weight = 0u;
@@ -761,7 +766,7 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
         } else {
             if (source_obj_ptr == 0u) {
                 source_kind = ABILITY_REROLL_SOURCE_KIND_NULL_SOURCE_PTR;
-            } else if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x02040000u) {
+            } else if (ap_enemy_source_pointer_is_readable(source_obj_ptr) != 0u) {
                 uint8_t source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
                 source_kind = ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE;
                 source_addr = ENEMY_ABILITY_TABLE_BASE_ADDR + ((uint32_t)source_type * ENEMY_ABILITY_TABLE_STRIDE);

@@ -66,6 +66,7 @@ BIG_SWITCH_UNLOCK_CALL_OFFSET = 0x00039EEE
 # Legacy wrapper receives that function pointer in r0 and now preserves native behavior.
 # AP levers use the verified Chest reward-0x63 path, not this dispatcher.
 SMALL_SWITCH_EFFECT_CALL_OFFSET = 0x00119B98
+MINNY_SWALLOW_CALL_OFFSET = 0x0009C6AA
 ORIGINAL_ABILITY_TRANSITION_FN_ADDR = 0x080547C4
 # sub_08054C0C consumes Kirby::transitioningAbility after statues write it directly.
 ORIGINAL_ABILITY_TRANSITION_START_FN_ADDR = 0x08054C0C
@@ -91,6 +92,16 @@ INTERMEDIARY_ROM = "baseline_patched.tmp.gba"
 EXPECTED_BASE_ROM_SIZE = 0x1000000
 BSDIFF_TIMEOUT_SECONDS = int(os.environ.get("KIRBYAM_BSDIFF_TIMEOUT_SECONDS", "0"))
 BSDIFF_HEARTBEAT_SECONDS = int(os.environ.get("KIRBYAM_BSDIFF_HEARTBEAT_SECONDS", "30"))
+
+
+def validate_minny_swallow_callsite(rom: bytes | bytearray) -> None:
+    """Require the exact US-ROM r5 source/ability load and native BL target."""
+    offset = MINNY_SWALLOW_CALL_OFFSET
+    expected = bytes.fromhex("2c 1c 84 34 21 78 30 1c") + thumb_bl_bytes(
+        0x08000000 + offset, ORIGINAL_ABILITY_TRANSITION_FN_ADDR,
+    )
+    if rom[offset - 8:offset + 4] != expected:
+        raise SystemExit("Error: unverified Minny source ABI at ordinary swallow callsite")
 
 
 # ----------------------------
@@ -1059,6 +1070,8 @@ def discover_runtime_callsites(
         )
         for offset in boss_already_owned_callsites
     }
+
+    validate_minny_swallow_callsite(rom)
 
     ability_transition_target_candidates = {
         ORIGINAL_ABILITY_TRANSITION_FN_ADDR,
