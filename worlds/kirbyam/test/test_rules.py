@@ -622,7 +622,7 @@ def test_area_two_split_rooms_are_first_class_regions() -> None:
 def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     from ..data import data as kirby_data
 
-    def traversal_exits(name):
+    def traversal_exits(name: str) -> list[str]:
         check = name.split("__LOGIC__")[0] + "__ROOM_CHECK"
         exits = kirby_data.regions[name].exits
         assert exits.count(check) == 1
@@ -791,7 +791,7 @@ def test_lever_rooms_define_four_lever_events() -> None:
     rooms = load_json_data("regions/rooms.json")
 
     assert "Activate Lever - Moonlight Mansion 2-11" in rooms["REGION_MOONLIGHT_MANSION/ROOM_2_11"]["events"]
-    assert "Activate Lever - Carrot Castle 5-12" in rooms["REGION_CARROT_CASTLE/ROOM_5_12"]["events"]
+    assert "Activate Lever - Carrot Castle 5-05" in rooms["REGION_CARROT_CASTLE/ROOM_5_05"]["events"]
     assert "Activate Lever - Olive Ocean 6-13" in rooms["REGION_OLIVE_OCEAN/ROOM_6_13"]["events"]
     assert "Activate Lever - Radish Ruins 8-12" in rooms["REGION_RADISH_RUINS/ROOM_8_12"]["events"]
 
@@ -849,7 +849,7 @@ def test_lever_locations_have_matching_lever_events() -> None:
 
     expected_events_by_lever_location = {
         "LEVER_MOONLIGHT_MANSION_2_11": "Activate Lever - Moonlight Mansion 2-11",
-        "LEVER_CARROT_CASTLE_5_12": "Activate Lever - Carrot Castle 5-12",
+        "LEVER_CARROT_CASTLE_5_12": "Activate Lever - Carrot Castle 5-05",
         "LEVER_OLIVE_OCEAN_6_13": "Activate Lever - Olive Ocean 6-13",
         "LEVER_RADISH_RUINS_8_12": "Activate Lever - Radish Ruins 8-12",
     }

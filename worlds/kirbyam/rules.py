@@ -94,7 +94,7 @@ _STAKE_TRANSITION_GATE_NAME = "CanPoundPegs"
 _ROOM_LEVER_WALL_ITEMS = {
     "mm_lever": "Moonlight Mansion 2-11 - Lever Wall",
     "oo_lever": "Olive Ocean 6-13 - Lever Wall",
-    "cc_lever": "Carrot Castle 5-12 - Lever Wall",
+    "cc_lever": "Carrot Castle 5-05 - Lever Wall",
     "rr_lever": "Radish Ruins 8-12 - Lever Wall",
 }
 _PENDING_ROOM_ABILITY_REQUIREMENTS = frozenset({

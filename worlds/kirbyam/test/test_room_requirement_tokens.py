@@ -11,7 +11,7 @@ from .test_rules import _FakeState
 LEVER_ITEMS = {
     "mm_lever": (3860037, "Moonlight Mansion 2-11 - Lever Wall"),
     "oo_lever": (3860038, "Olive Ocean 6-13 - Lever Wall"),
-    "cc_lever": (3860039, "Carrot Castle 5-12 - Lever Wall"),
+    "cc_lever": (3860039, "Carrot Castle 5-05 - Lever Wall"),
     "rr_lever": (3860040, "Radish Ruins 8-12 - Lever Wall"),
 }
 

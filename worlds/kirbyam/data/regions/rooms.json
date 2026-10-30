@@ -2529,13 +2529,17 @@
         "included": true,
         "location_id": 3961125,
         "bit_index": 252
-      }
+      },
+      "LEVER_CARROT_CASTLE_5_12": null
     },
     "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_HUB": null,
       "REGION_CARROT_CASTLE/ROOM_5_06": "cc_lever",
       "REGION_CARROT_CASTLE/ROOM_5_07": null
-    }
+    },
+    "events": [
+      "Activate Lever - Carrot Castle 5-05"
+    ]
   },
   "REGION_CARROT_CASTLE/ROOM_5_06": {
     "locations": {
@@ -2633,16 +2637,13 @@
         "included": true,
         "location_id": 3961127,
         "bit_index": 254
-      },
-      "LEVER_CARROT_CASTLE_5_12": null
+      }
     },
     "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_BOSS": null,
       "REGION_CARROT_CASTLE/ROOM_5_13": null
     },
-    "events": [
-      "Activate Lever - Carrot Castle 5-12"
-    ],
+    "events": [],
     "logical_exit_overrides": {
       "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_12"
     }
