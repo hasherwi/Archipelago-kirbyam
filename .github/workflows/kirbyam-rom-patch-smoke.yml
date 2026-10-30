@@ -25,10 +25,10 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.12"
 
@@ -36,8 +36,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y make gcc-arm-none-eabi binutils-arm-none-eabi
-          python -m pip install --upgrade pip
-          python -m pip install bsdiff4
+          python -m pip --isolated --disable-pip-version-check install --no-index --no-deps --require-hashes -r worlds/kirbyam/tools/security-bootstrap.txt
+          python -m pip --isolated --disable-pip-version-check download --only-binary=:all: --no-deps --require-hashes -r worlds/kirbyam/tools/rom-smoke-requirements.txt -d "$RUNNER_TEMP/kirby-wheels"
+          python worlds/kirbyam/tools/verify_wheelhouse.py "$RUNNER_TEMP/kirby-wheels" worlds/kirbyam/tools/rom-smoke-wheels.json
+          python -m pip --isolated --disable-pip-version-check install --no-index --find-links "$RUNNER_TEMP/kirby-wheels" --only-binary=:all: --no-deps --require-hashes -r worlds/kirbyam/tools/rom-smoke-requirements.txt
+          python -m pip check
+          python -m unittest discover -s worlds/kirbyam/tools/tests -p test_wheelhouse.py -v
 
       - name: Create deterministic dummy base ROM for CI smoke
         run: |
@@ -93,8 +97,9 @@ jobs:
               offset = 0x21000 + index * 4
               rom[offset:offset + 4] = thumb_bl_bytes(offset, 0x08088A38)
 
-          # Ordinary enemy / ability-star request path.
-          ability_request_offset = 0x22000
+          # Verified ordinary-enemy r5/type ABI for the Minny exception.
+          rom[0x9C6A2:0x9C6AA] = bytes.fromhex("2c 1c 84 34 21 78 30 1c")
+          ability_request_offset = 0x9C6AA
           rom[ability_request_offset:ability_request_offset + 4] = thumb_bl_bytes(
               ability_request_offset,
               0x080547C4,
@@ -147,7 +152,7 @@ jobs:
           test -f worlds/kirbyam/kirby_ap_payload/color_payload.bin
 
       - name: Upload KirbyAM patch smoke artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: kirbyam-rom-patch-smoke-artifacts
           path: |

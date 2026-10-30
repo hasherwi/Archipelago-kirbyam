@@ -30,10 +30,10 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Set up Python 3.13
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.13"
 
@@ -43,6 +43,11 @@ jobs:
           pip install -r ci-requirements.txt
           python ModuleUpdate.py --yes --force --append "WebHostLib/requirements.txt"
           python Launcher.py --update_settings
+
+      - name: Check Kirby action policy
+        run: |
+          python worlds/kirbyam/tools/check_action_pins.py
+          python -m unittest discover -s worlds/kirbyam/tools/tests -v
 
       - name: Run KirbyAM generation fuzzer
         env:
@@ -56,7 +61,7 @@ jobs:
 
       - name: Upload generation-fuzz artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: kirbyam-generation-fuzz-${{ github.run_id }}
           path: fuzz_output/**

@@ -62,6 +62,12 @@ unknown goal as Dark Mind; the framework's minimum-client-version check does not
 Existing goals and legacy hidden-boss seeds remain supported by the updated client. No ROM patch rebuild is needed
 for this client-side goal addition.
 
+Before playing a count-goal seed, install the APWorld containing this feature on each player's machine,
+restart the client, connect to the intended slot and run `/goal`. It must show the configured number of
+distinct area bosses. An unknown command, a Dark Mind requirement or unavailable goal data means the
+client/slot setup needs correcting before play. Updating only the generator or server does not update
+the player's client. A successful server connection alone does not establish compatibility.
+
 ## Connecting to a Server
 
 By default, opening a patch file will do steps 1-5 below for you automatically. Even so, keep them in your memory just

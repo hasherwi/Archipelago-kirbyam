@@ -33,3 +33,14 @@ ap_minor_chest_reward_popup_hook:
     ldr r4, [r2, #0x4C]
     adds r0, r4, #0
     bx lr
+
+.section .text.ap_request_entry,"ax",%progbits
+.global ap_on_request_copy_ability_transition
+.type ap_on_request_copy_ability_transition, %function
+.thumb_func
+ap_on_request_copy_ability_transition:
+    // Native object swallow has Object2* in r5. Capture before the C prologue;
+    // tail-call preserves the native return address and stack alignment.
+    movs r2, r5
+    mov r3, lr
+    b ap_on_request_copy_ability_transition_c

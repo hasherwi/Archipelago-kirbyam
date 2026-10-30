@@ -179,13 +179,15 @@ async def test_count_numeric_goal_waits_for_goal_acknowledgement(mock_bizhawk_co
 
 
 @pytest.mark.parametrize("goal", [0, 1, 2, 3])
-@pytest.mark.parametrize("count", [None, 0, 8, "bad"])
+@pytest.mark.parametrize("count", [None, 0, 8, "bad", "missing"])
 @pytest.mark.asyncio
 async def test_existing_goals_ignore_count(mock_bizhawk_context: Any, goal: int, count: Any) -> None:
     ctx = mock_bizhawk_context
     ctx.slot_data = {"goal": goal, "required_area_bosses": count,
                      "goal_configured_area_boss_key": "BOSS_DEFEAT_3",
                      "goal_hidden_area_boss_key": "BOSS_DEFEAT_3"}
+    if count == "missing":
+        ctx.slot_data.pop("required_area_bosses")
     ctx.checked_locations = {BOSS_IDS[0]}
     ctx.server_locations = set()
     ctx.finished_game = False
