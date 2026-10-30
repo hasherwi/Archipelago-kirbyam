@@ -10,6 +10,9 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ## Unreleased
 
+### Internal Changes
+- Pin Kirby workflow actions to audited commit identities and reject mutable action references (Issue #981; interpreter/toolchain downloads remain separate).
+
 ### Bug Fixes
 - Correct the Carrot Castle lever placement and labels to room 5-05 (Issue #972).
 - Restore outgoing DeathLink detection on dead gameplay frames while keeping fresh item delivery paused. Links received while already dead no longer kill the next respawn (Issue #975).
