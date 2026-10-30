@@ -22,7 +22,7 @@ all: payload.bin color_payload.bin
 payload.elf: ap_payload.o ap_hook.o color_payload.o
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ -lgcc
 
-ap_payload.o: ap_payload.c statue_runtime_logic.h minor_chest_runtime_logic.h lever_runtime_logic.h vitality_runtime_logic.h color_runtime_logic.h color_tables.h
+ap_payload.o: ap_payload.c enemy_runtime_logic.h statue_runtime_logic.h minor_chest_runtime_logic.h lever_runtime_logic.h vitality_runtime_logic.h color_runtime_logic.h color_tables.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 ap_hook.o: ap_hook.s
