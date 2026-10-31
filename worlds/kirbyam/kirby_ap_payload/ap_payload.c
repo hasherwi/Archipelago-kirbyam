@@ -1,6 +1,7 @@
 #include <stdint.h>
 
 #include "hub_connection_runtime_logic.h"
+#include "hub_save_logic.h"
 #include "statue_runtime_logic.h"
 #include "enemy_runtime_logic.h"
 #include "minor_chest_runtime_logic.h"
@@ -295,10 +296,29 @@ static void ap_record_minor_chest_collection_from_obj_ptr(uint32_t chest_obj_ptr
     ap_collect_small_chest_native(chest_index);
 }
 
-static void ap_set_hub_switch_flag(uint32_t door_index) {
-    if (door_index < 16u) {
-        AP_HUB_SWITCH_FLAGS |= (1u << door_index);
+#define AP_HUB_SAVED_CHECKS ((volatile uint32_t*)0x02028C7Cu)
+#define AP_HUB_ROM_AUTH ((const volatile uint32_t*)0x08F00000u)
+
+static __attribute__((noinline, long_call, section(".aphub")))
+void ap_set_hub_switch_flag(uint32_t bit) {
+    if (!ap_hub_record_check(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH, bit)) return;
+    AP_HUB_SWITCH_FLAGS = ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH);
+    switch (ap_hub_save_action(*(volatile uint32_t*)0x0203AD10u,
+                              *(volatile uint8_t*)0x0203AD3Cu,
+                              *(volatile uint8_t*)0x0203AD24u)) {
+        case 1u:
+            ((int16_t (*)(uint32_t, uint16_t))0x0800ACD5u)(
+                1u, ap_hub_save_slot(*(volatile uint16_t*)0x0203AD48u));
+            break;
+        case 2u: ((void (*)(uint32_t))0x08031CE5u)(8u); break;
+        default: break;
     }
+}
+
+static __attribute__((noinline, long_call, section(".aphub")))
+void ap_restore_hub_switch_checks(void) {
+    /* Assignment also handles native file changes without leaking old RAM bits. */
+    AP_HUB_SWITCH_FLAGS = ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH);
 }
 
 typedef uint32_t *(*KirbyWorldPropsEntryFn)(uint32_t, uint8_t, uint8_t);
@@ -342,14 +362,6 @@ static uint8_t ap_unlock_hub_door(uint8_t world_props_unlock_index) {
     return 1u;
 }
 
-static uint8_t ap_is_hub_unlock_persisted(uint8_t world_props_unlock_index) {
-    volatile uint32_t *world_props_entry = ap_get_hub_unlock_entry(world_props_unlock_index);
-    if (world_props_entry == 0) {
-        return 0u;
-    }
-    return ((*world_props_entry) != 0u) ? 1u : 0u;
-}
-
 /* Use the existing appended Hub extension, preserving the fixed config ABI. */
 static __attribute__((noinline, long_call, section(".aphub")))
 void ap_apply_hub_connection_unlocks_from_mask(void) {
@@ -375,35 +387,6 @@ void ap_apply_hub_connection_unlocks_from_mask(void) {
     }
 }
 
-static void ap_sync_hub_switch_flags_from_world_props(void) {
-    uint32_t item_mask = AP_HUB_CONNECTION_ITEM_MASK;
-    uint16_t door_index;
-    /* Wait for the client to send the complete ReceivedItems ownership mask. */
-    if (item_mask == AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED) {
-        return;
-    }
-
-    for (door_index = 1u; door_index <= 15u; door_index++) {
-        uint32_t ap_hub_switch_bit;
-        uint8_t world_props_unlock_index;
-        /* Item-granted native door state must never be mistaken for a switch hit. */
-        if ((item_mask & (1u << door_index)) != 0u) {
-            continue;
-        }
-        if (ap_try_map_worldmap_door_to_hub_switch_bit(
-                door_index,
-                &ap_hub_switch_bit,
-                &world_props_unlock_index
-            ) == 0u) {
-            continue;
-        }
-
-        if (ap_is_hub_unlock_persisted(world_props_unlock_index) != 0u) {
-            ap_set_hub_switch_flag(ap_hub_switch_bit);
-        }
-    }
-}
-
 /*
  * Hook target for the Big Switch object's native state lookup in
  * sub_0811938C. The door-to-hub initializer at sub_0802AD00 remains untouched
@@ -416,20 +399,16 @@ __attribute__((used)) uint32_t *ap_on_hub_switch_init_state_lookup(
     uint32_t world_props_unlock_index,
     uint32_t unlock_flags
 ) {
-    if (unlock_kind == KIRBY_WORLD_PROPS_HUB_UNLOCK_KIND
-        && world_props_unlock_index <= 0xFFu
-        && AP_HUB_CONNECTION_ITEM_MASK != AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED) {
-        if (ap_should_mask_item_owned_hub_unlock(
-                unlock_kind,
-                KIRBY_WORLD_PROPS_HUB_UNLOCK_KIND,
-                (uint8_t)world_props_unlock_index,
-                AP_HUB_CONNECTION_ITEM_MASK,
-                AP_HUB_SWITCH_FLAGS,
-                ap_hub_props,
-                ap_hub_bits
-            ) != 0u) {
-            AP_HUB_SWITCH_INIT_STATE = 0u;
-            return (uint32_t*)&AP_HUB_SWITCH_INIT_STATE;
+    if (unlock_kind == KIRBY_WORLD_PROPS_HUB_UNLOCK_KIND && world_props_unlock_index <= 0xFFu) {
+        uint32_t door;
+        ap_restore_hub_switch_checks();
+        for (door = 1u; door <= 15u; door++) {
+            if (ap_hub_props[door] == world_props_unlock_index) {
+                /* Physical checks remain independent even before client history,
+                 * and a saved hit stays hidden without owning its connection. */
+                AP_HUB_SWITCH_INIT_STATE = (AP_HUB_SWITCH_FLAGS >> ap_hub_bits[door]) & 1u;
+                return (uint32_t*)&AP_HUB_SWITCH_INIT_STATE;
+            }
         }
     }
 
@@ -1686,9 +1665,9 @@ void ap_poll_mailbox_c(void) {
     }
 
     // Rebuild AP-owned native connection state from the client's complete item history.
-    // Then mirror only non-item native unlocks into switch-check transport.
+    // Restore only seed-bound physical checks, never infer them from item doors.
     ap_apply_hub_connection_unlocks_from_mask();
-    ap_sync_hub_switch_flags_from_world_props();
+    ap_restore_hub_switch_checks();
 
     uint8_t ap_delivered = (uint8_t)(AP_DELIVERED_SHARD_BITFIELD & 0xFFu);
     uint8_t native_shards = KIRBY_SHARD_FLAGS;

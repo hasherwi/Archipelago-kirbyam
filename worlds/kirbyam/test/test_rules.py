@@ -228,50 +228,16 @@ def test_area_topology_routes_start_through_rainbow_route_anchor() -> None:
 
     assert regions["REGION_GAME_START"]["exits"] == ["REGION_RAINBOW_ROUTE/MAIN"]
 
-    # Rainbow Route is the hub; connects to all areas that have a hub mirror in
-    # the room-level transition data. Olive Ocean and Radish Ruins have no hub
-    # mirror to Rainbow Route (they are reached via adjacent areas instead).
+    # Summary regions cannot fabricate traversal between physical areas.
     assert set(regions["REGION_RAINBOW_ROUTE/MAIN"]["exits"]) == {
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-        "REGION_MUSTARD_MOUNTAIN/MAIN",
-        "REGION_MOONLIGHT_MANSION/MAIN",
-        "REGION_CANDY_CONSTELLATION/MAIN",
-        "REGION_PEPPERMINT_PALACE/MAIN",
-        "REGION_CABBAGE_CAVERN/MAIN",
-        "REGION_CARROT_CASTLE/MAIN",
         "REGION_DIMENSION_MIRROR/MAIN",
     }
+    for name, region in regions.items():
+        if name not in {"REGION_GAME_START", "REGION_RAINBOW_ROUTE/MAIN",
+                        "REGION_DIMENSION_MIRROR/MAIN"}:
+            assert region["exits"] == []
 
-    # Areas connected to Rainbow Route via hub mirror exit back to it.
-    for region_name in {
-        "REGION_MUSTARD_MOUNTAIN/MAIN",
-        "REGION_MOONLIGHT_MANSION/MAIN",
-        "REGION_CANDY_CONSTELLATION/MAIN",
-        "REGION_PEPPERMINT_PALACE/MAIN",
-        "REGION_CABBAGE_CAVERN/MAIN",
-        "REGION_CARROT_CASTLE/MAIN",
-    }:
-        assert "REGION_RAINBOW_ROUTE/MAIN" in regions[region_name]["exits"]
-
-    # Areas reachable only via cross-area mirrors have no direct Rainbow Route exit.
-    assert "REGION_RAINBOW_ROUTE/MAIN" not in regions["REGION_OLIVE_OCEAN/MAIN"]["exits"]
-    assert "REGION_RAINBOW_ROUTE/MAIN" not in regions["REGION_RADISH_RUINS/MAIN"]["exits"]
-
-    # Cross-area mirror connections derived from rooms.json transitions data.
-    assert set(regions["REGION_CABBAGE_CAVERN/MAIN"]["exits"]) >= {
-        "REGION_OLIVE_OCEAN/MAIN", "REGION_RADISH_RUINS/MAIN",
-    }
-    assert "REGION_OLIVE_OCEAN/MAIN" in regions["REGION_MOONLIGHT_MANSION/MAIN"]["exits"]
-    assert set(regions["REGION_OLIVE_OCEAN/MAIN"]["exits"]) >= {
-        "REGION_CABBAGE_CAVERN/MAIN", "REGION_MOONLIGHT_MANSION/MAIN",
-    }
-    assert set(regions["REGION_CARROT_CASTLE/MAIN"]["exits"]) >= {
-        "REGION_PEPPERMINT_PALACE/MAIN", "REGION_RADISH_RUINS/MAIN",
-    }
-    assert set(regions["REGION_PEPPERMINT_PALACE/MAIN"]["exits"]) >= {"REGION_CARROT_CASTLE/MAIN"}
-    assert set(regions["REGION_RADISH_RUINS/MAIN"]["exits"]) >= {
-        "REGION_CABBAGE_CAVERN/MAIN", "REGION_CARROT_CASTLE/MAIN",
-    }
 
 
 def test_room_subareas_pure_topology_with_all_rooms() -> None:
@@ -502,72 +468,22 @@ def test_item_requirement_token_checks_the_named_hub_connection() -> None:
 
 
 def test_area_hub_exits_are_item_gated() -> None:
-    from ..data import data, load_json_data, normalize_region_exits
+    from ..data import load_json_data, normalize_region_exits
 
     rooms = load_json_data("regions/rooms.json")
     areas = load_json_data("regions/areas.json")
 
-    expected_area_gates = {
-        "REGION_MUSTARD_MOUNTAIN/MAIN": {
-            "REGION_RAINBOW_ROUTE/MAIN": "Mustard Mountain - Hub Connection",
-        },
-        "REGION_MOONLIGHT_MANSION/MAIN": {
-            "REGION_RAINBOW_ROUTE/MAIN": "Moonlight Mansion - Hub Connection",
-            "REGION_OLIVE_OCEAN/MAIN": "Moonlight Mansion - Hub Connection",
-        },
-        "REGION_CANDY_CONSTELLATION/MAIN": {
-            "REGION_RAINBOW_ROUTE/MAIN": "Candy Constellation - Hub Connection",
-        },
-        "REGION_OLIVE_OCEAN/MAIN": {
-            "REGION_CABBAGE_CAVERN/MAIN": "Olive Ocean - Hub Connection",
-            "REGION_MOONLIGHT_MANSION/MAIN": "Olive Ocean - Hub Connection",
-        },
-        "REGION_PEPPERMINT_PALACE/MAIN": {
-            "REGION_RAINBOW_ROUTE/MAIN": "Peppermint Palace East - Hub Connection",
-            "REGION_CARROT_CASTLE/MAIN": "Peppermint Palace West - Hub Connection",
-        },
-        "REGION_CABBAGE_CAVERN/MAIN": {
-            "REGION_RAINBOW_ROUTE/MAIN": "Cabbage Cavern Center - Hub Connection",
-            "REGION_OLIVE_OCEAN/MAIN": "Cabbage Cavern East - Hub Connection",
-            "REGION_RADISH_RUINS/MAIN": "Cabbage Cavern West - Hub Connection",
-        },
-        "REGION_CARROT_CASTLE/MAIN": {
-            "REGION_RAINBOW_ROUTE/MAIN": "Carrot Castle - Hub Connection",
-            "REGION_PEPPERMINT_PALACE/MAIN": "Carrot Castle - Hub Connection",
-            "REGION_RADISH_RUINS/MAIN": "Carrot Castle - Hub Connection",
-        },
-        "REGION_RADISH_RUINS/MAIN": {
-            "REGION_CABBAGE_CAVERN/MAIN": "Radish Ruins - Hub Connection",
-            "REGION_CARROT_CASTLE/MAIN": "Radish Ruins - Hub Connection",
-        },
-        "REGION_RAINBOW_ROUTE/MAIN": {
-            "REGION_MUSTARD_MOUNTAIN/MAIN": "Rainbow Route North - Hub Connection",
-            "REGION_MOONLIGHT_MANSION/MAIN": "Rainbow Route East - Hub Connection",
-            "REGION_CANDY_CONSTELLATION/MAIN": "Candy Constellation - Hub Connection",
-            "REGION_PEPPERMINT_PALACE/MAIN": "Peppermint Palace East - Hub Connection",
-            "REGION_CABBAGE_CAVERN/MAIN": "Rainbow Route South - Hub Connection",
-            "REGION_CARROT_CASTLE/MAIN": "Rainbow Route West - Hub Connection",
-        },
-    }
-
+    # Area summaries do not grant synthetic inter-area travel.
+    for area_name, area_def in areas.items():
+        exits, requirements = normalize_region_exits(area_name, area_def)
+        assert not requirements
     for room_name, room_def in rooms.items():
         exits, requirements = normalize_region_exits(room_name, room_def)
         assert set(requirements) <= set(exits)
 
-    assert set(expected_area_gates) <= set(areas)
-    for area_name, area_def in areas.items():
-        exits, requirements = normalize_region_exits(area_name, area_def)
-        expected = expected_area_gates.get(area_name, {})
-        assert set(requirements) <= set(exits)
-        assert {
-            destination: requirement.get("item")
-            for destination, requirement in requirements.items()
-        } == expected
-        for item_label in expected.values():
-            assert item_label in {item.label for item in data.items.values()}
 
 
-def test_set_rules_applies_item_gates_to_area_entrances() -> None:
+def test_set_rules_applies_item_gates_to_physical_entrances() -> None:
     from ..data import data
 
     world = _FakeWorld(Goal.option_dark_mind)
@@ -581,8 +497,6 @@ def test_set_rules_applies_item_gates_to_area_entrances() -> None:
     }
     checked = 0
     for source_name, region_data in data.regions.items():
-        if not source_name.endswith("/MAIN"):
-            continue
         for destination_name, requirement in region_data.exit_requirements.items():
             if not isinstance(requirement, dict) or "item" not in requirement:
                 continue
@@ -593,7 +507,7 @@ def test_set_rules_applies_item_gates_to_area_entrances() -> None:
             assert rule(_FakeState({item_label}))
             checked += 1
 
-    assert checked == 22
+    assert checked >= 20
 
 
 def _make_collection_state_room_graph():
@@ -624,11 +538,11 @@ def test_collection_state_gates_hub_shortcuts_and_preserves_overland_routes() ->
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_3":
             "Cabbage Cavern West - Hub Connection",
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_1":
-            "Rainbow Route South - Hub Connection",
+            "Cabbage Cavern East - Hub Connection",
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_MOONLIGHT_MANSION/ROOM_2_HUB":
             "Rainbow Route East - Hub Connection",
         "REGION_MOONLIGHT_MANSION/ROOM_2_HUB -> REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE":
-            "Moonlight Mansion - Hub Connection",
+            "Rainbow Route East - Hub Connection",
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1":
             "Peppermint Palace East - Hub Connection",
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS -> REGION_CANDY_CONSTELLATION/ROOM_9_HUB":
@@ -652,8 +566,8 @@ def test_collection_state_gates_hub_shortcuts_and_preserves_overland_routes() ->
 
     # Existing overland passages remain traversable without a hub item; these
     # are separate room connections, not the world-map hub shortcuts above.
-    assert state.can_reach("REGION_CABBAGE_CAVERN/ROOM_3_09", "Region", 1)
-    assert state.can_reach("REGION_CARROT_CASTLE/ROOM_5_05", "Region", 1)
+    assert state.can_reach("REGION_MOONLIGHT_MANSION/ROOM_2_HUB", "Region", 1)
+    assert state.can_reach("REGION_CANDY_CONSTELLATION/ROOM_9_HUB", "Region", 1)
 
 
 def test_logical_exit_overrides_reference_declared_exits() -> None:

@@ -13,12 +13,7 @@
     "events": [
       "Activate Big Switch - Mustard Mountain"
     ],
-    "exits": [
-      "REGION_RAINBOW_ROUTE/MAIN"
-    ],
-    "exit_requirements": {
-      "REGION_RAINBOW_ROUTE/MAIN": {"item": "Mustard Mountain - Hub Connection"}
-    }
+    "exits": []
   },
   "REGION_MOONLIGHT_MANSION/MAIN": {
     "locations": [
@@ -27,14 +22,7 @@
     "events": [
       "Activate Big Switch - Moonlight Mansion"
     ],
-    "exits": [
-      "REGION_RAINBOW_ROUTE/MAIN",
-      "REGION_OLIVE_OCEAN/MAIN"
-    ],
-    "exit_requirements": {
-      "REGION_RAINBOW_ROUTE/MAIN": {"item": "Moonlight Mansion - Hub Connection"},
-      "REGION_OLIVE_OCEAN/MAIN": {"item": "Moonlight Mansion - Hub Connection"}
-    }
+    "exits": []
   },
   "REGION_CANDY_CONSTELLATION/MAIN": {
     "locations": [
@@ -43,12 +31,7 @@
     "events": [
       "Activate Big Switch - Candy Constellation"
     ],
-    "exits": [
-      "REGION_RAINBOW_ROUTE/MAIN"
-    ],
-    "exit_requirements": {
-      "REGION_RAINBOW_ROUTE/MAIN": {"item": "Candy Constellation - Hub Connection"}
-    }
+    "exits": []
   },
   "REGION_OLIVE_OCEAN/MAIN": {
     "locations": [
@@ -57,14 +40,7 @@
     "events": [
       "Activate Big Switch - Olive Ocean"
     ],
-    "exits": [
-      "REGION_CABBAGE_CAVERN/MAIN",
-      "REGION_MOONLIGHT_MANSION/MAIN"
-    ],
-    "exit_requirements": {
-      "REGION_CABBAGE_CAVERN/MAIN": {"item": "Olive Ocean - Hub Connection"},
-      "REGION_MOONLIGHT_MANSION/MAIN": {"item": "Olive Ocean - Hub Connection"}
-    }
+    "exits": []
   },
   "REGION_PEPPERMINT_PALACE/MAIN": {
     "locations": [
@@ -74,14 +50,7 @@
       "Activate Big Switch - Peppermint Palace East",
       "Activate Big Switch - Peppermint Palace West"
     ],
-    "exits": [
-      "REGION_RAINBOW_ROUTE/MAIN",
-      "REGION_CARROT_CASTLE/MAIN"
-    ],
-    "exit_requirements": {
-      "REGION_RAINBOW_ROUTE/MAIN": {"item": "Peppermint Palace East - Hub Connection"},
-      "REGION_CARROT_CASTLE/MAIN": {"item": "Peppermint Palace West - Hub Connection"}
-    }
+    "exits": []
   },
   "REGION_CABBAGE_CAVERN/MAIN": {
     "locations": [
@@ -92,16 +61,7 @@
       "Activate Big Switch - Cabbage Cavern East",
       "Activate Big Switch - Cabbage Cavern West"
     ],
-    "exits": [
-      "REGION_RAINBOW_ROUTE/MAIN",
-      "REGION_OLIVE_OCEAN/MAIN",
-      "REGION_RADISH_RUINS/MAIN"
-    ],
-    "exit_requirements": {
-      "REGION_RAINBOW_ROUTE/MAIN": {"item": "Cabbage Cavern Center - Hub Connection"},
-      "REGION_OLIVE_OCEAN/MAIN": {"item": "Cabbage Cavern East - Hub Connection"},
-      "REGION_RADISH_RUINS/MAIN": {"item": "Cabbage Cavern West - Hub Connection"}
-    }
+    "exits": []
   },
   "REGION_CARROT_CASTLE/MAIN": {
     "locations": [
@@ -110,16 +70,7 @@
     "events": [
       "Activate Big Switch - Carrot Castle"
     ],
-    "exits": [
-      "REGION_RAINBOW_ROUTE/MAIN",
-      "REGION_PEPPERMINT_PALACE/MAIN",
-      "REGION_RADISH_RUINS/MAIN"
-    ],
-    "exit_requirements": {
-      "REGION_RAINBOW_ROUTE/MAIN": {"item": "Carrot Castle - Hub Connection"},
-      "REGION_PEPPERMINT_PALACE/MAIN": {"item": "Carrot Castle - Hub Connection"},
-      "REGION_RADISH_RUINS/MAIN": {"item": "Carrot Castle - Hub Connection"}
-    }
+    "exits": []
   },
   "REGION_RADISH_RUINS/MAIN": {
     "locations": [
@@ -128,14 +79,7 @@
     "events": [
       "Activate Big Switch - Radish Ruins"
     ],
-    "exits": [
-      "REGION_CABBAGE_CAVERN/MAIN",
-      "REGION_CARROT_CASTLE/MAIN"
-    ],
-    "exit_requirements": {
-      "REGION_CABBAGE_CAVERN/MAIN": {"item": "Radish Ruins - Hub Connection"},
-      "REGION_CARROT_CASTLE/MAIN": {"item": "Radish Ruins - Hub Connection"}
-    }
+    "exits": []
   },
   "REGION_RAINBOW_ROUTE/MAIN": {
     "locations": [
@@ -152,22 +96,8 @@
     ],
     "exits": [
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-      "REGION_MUSTARD_MOUNTAIN/MAIN",
-      "REGION_MOONLIGHT_MANSION/MAIN",
-      "REGION_CANDY_CONSTELLATION/MAIN",
-      "REGION_PEPPERMINT_PALACE/MAIN",
-      "REGION_CABBAGE_CAVERN/MAIN",
-      "REGION_CARROT_CASTLE/MAIN",
       "REGION_DIMENSION_MIRROR/MAIN"
-    ],
-    "exit_requirements": {
-      "REGION_MUSTARD_MOUNTAIN/MAIN": {"item": "Rainbow Route North - Hub Connection"},
-      "REGION_MOONLIGHT_MANSION/MAIN": {"item": "Rainbow Route East - Hub Connection"},
-      "REGION_CANDY_CONSTELLATION/MAIN": {"item": "Candy Constellation - Hub Connection"},
-      "REGION_PEPPERMINT_PALACE/MAIN": {"item": "Peppermint Palace East - Hub Connection"},
-      "REGION_CABBAGE_CAVERN/MAIN": {"item": "Rainbow Route South - Hub Connection"},
-      "REGION_CARROT_CASTLE/MAIN": {"item": "Rainbow Route West - Hub Connection"}
-    }
+    ]
   },
   "REGION_DIMENSION_MIRROR/MAIN": {
     "locations": [

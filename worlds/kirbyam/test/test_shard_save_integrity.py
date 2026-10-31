@@ -23,8 +23,8 @@ def test_shard_paths_preserve_all_save_bytes(tmp_path):
     source = source.replace('__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));',
                             'caller_lr_snapshot = 0;')
     # These callbacks do not participate in shard delivery or its SRAM writes.
-    for name in ("ap_sync_hub_switch_flags_from_world_props", "ap_apply_starting_kirby_color_config"):
-        match = re.search(r"static void " + name + r"\(void\)\s*\{", source)
+    for name in ("ap_restore_hub_switch_checks", "ap_apply_starting_kirby_color_config"):
+        match = re.search(r"void " + name + r"\(void\)\s*\{", source)
         assert match
         end, depth = match.end(), 1
         while depth:

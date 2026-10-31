@@ -18,6 +18,7 @@ from worlds._bizhawk.client import BizHawkClient
 
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .colors import choose_different_kirby_color, kirby_color_name_by_id
+from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
@@ -1882,6 +1883,15 @@ class KirbyAmClient(BizHawkClient):
             return False
         version = getattr(self, "_health_protocol_version", 1)
         try:
+            hub_version = hub_slot_version(slot)
+            if hub_version:
+                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")]))[0]
+                if bytes(marker) != HUB_MARKER:
+                    raise ValueError("ROM and slot Hub versions differ")
+            elif any(3860041 <= getattr(item, "item", 0) <= 3860055
+                     or 3860401 <= getattr(item, "item", 0) <= 3860415
+                     for item in getattr(ctx, "items_received", ())):
+                raise ValueError("Hub items received without a compatible Hub slot")
             plan = resolve_vitality_plan(slot.get("minimum_health", 6),
                                          slot.get("maximum_health", 10),
                                          slot.get("one_hit_mode", 0))
@@ -1910,12 +1920,16 @@ class KirbyAmClient(BizHawkClient):
             else:
                 validate_health_protocol(bytes(title).rstrip(b"\0"),
                                          int.from_bytes(config, "little"), slot_version, plan)
+                if not hub_version:
+                    marker = (await bizhawk.read(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")]))[0]
+                    if bytes(marker) == HUB_MARKER:
+                        raise ValueError("Hub ROM requires a compatible Hub slot")
             return True
         except (ValueError, KeyError, TypeError, bizhawk.RequestFailedError,
                 bizhawk.NotConnectedError, bizhawk.ConnectorError, bizhawk.SyncError) as exc:
             reason = str(exc)
             if getattr(self, "_last_health_protocol_error", None) != reason:
-                self._log_client("error", "KirbyAM: health compatibility check failed (%s). "
+                self._log_client("error", "KirbyAM: ROM/slot compatibility check failed (%s). "
                                  "Regenerate the patch and update the client; game writes are paused.", reason)
                 self._last_health_protocol_error = reason
             return False
@@ -2967,6 +2981,10 @@ class KirbyAmClient(BizHawkClient):
 
     async def _sync_hub_connection_item_ownership(self, ctx: KirbyAmBizHawkClientContext) -> int | None:
         """Return the acknowledged complete ownership mask, or None while unknown."""
+        slot = getattr(ctx, "slot_data", {})
+        # Explicit legacy main catalogs have no Hub mailbox ownership contract.
+        if "unique_items" in slot and hub_slot_version(slot) == 0:
+            return None
         mask_addr = self._transport_addr("hub_connection_item_mask")
         bizhawk_ctx = getattr(ctx, "bizhawk_ctx", None)
         if mask_addr is None or not callable(getattr(bizhawk_ctx, "_send_message", None)):
@@ -3571,6 +3589,10 @@ class KirbyAmClient(BizHawkClient):
         # transport bits on truly fresh sessions without suppressing legitimate
         # reconnect resends that are missing on the server.
         has_any_server_acknowledgements = bool(ctx.checked_locations)
+        # Protocol 2 restores seed-bound native saved checks. They can predate
+        # the first server connection and must not be treated as stale RAM.
+        if getattr(ctx, "slot_data", {}).get("hub_connection_protocol_version") == 2:
+            self._hub_switch_baseline_mask = 0
         if not self._hub_switch_session_initialized:
             self._hub_switch_session_initialized = True
             if self._hub_switch_baseline_mask is None and switch_bits != 0 and not has_any_server_acknowledgements:

@@ -78,6 +78,7 @@
   "goal": 0,
   "goal_configured_area_boss_key": "BOSS_DEFEAT_3",
   "health_protocol_version": 2,
+  "hub_connection_protocol_version": 2,
   "locations": {
     "AREA_VISIT_1_RAINBOW_ROUTE": {
       "category": "AREA_VISIT",
@@ -3621,9 +3622,9 @@
     },
     "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2": {
       "exits": [
-        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
         "REGION_CABBAGE_CAVERN/ROOM_3_02",
-        "REGION_CABBAGE_CAVERN/ROOM_3_06"
+        "REGION_CABBAGE_CAVERN/ROOM_3_06",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2"
       ],
       "label": "Area 3 - Hub Room 2",
       "parent_region": "REGION_CABBAGE_CAVERN",
@@ -4081,9 +4082,9 @@
     },
     "REGION_CARROT_CASTLE/ROOM_5_HUB": {
       "exits": [
-        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
         "REGION_CARROT_CASTLE/ROOM_5_01",
-        "REGION_CARROT_CASTLE/ROOM_5_05"
+        "REGION_CARROT_CASTLE/ROOM_5_05",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
       ],
       "label": "Area 5 - Hub Room",
       "parent_region": "REGION_CARROT_CASTLE",

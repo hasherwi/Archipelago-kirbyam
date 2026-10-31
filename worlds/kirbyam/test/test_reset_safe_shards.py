@@ -174,8 +174,7 @@ def test_payload_intercepts_hub_switch_unlocks_and_reports_switch_checks() -> No
     ignoring non-unlock values (e.g., `WORLDMAP_NO_UNLOCK` = 0). The AP check is
     reported directly from callback dispatch. Mapped doors use the game's
     transition-completion callback instead of granting the door. Unmapped
-    values retain their original callback. Existing native unlocks are still
-    mirrored by the persisted-state sync path.
+    values retain their original callback. Physical checks persist independently of received-item door state.
     """
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
     hook_logic_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "hub_connection_runtime_logic.h")
@@ -188,10 +187,8 @@ def test_payload_intercepts_hub_switch_unlocks_and_reports_switch_checks() -> No
     assert "AP_HUB_SWITCH_FLAGS" in content, "Hub switch transport register should be defined"
     assert "ap_set_hub_switch_flag" in content, "Hub switch flag helper should exist"
     assert "ap_try_map_worldmap_door_to_hub_switch_bit" in content, "Hub switch door-to-bit mapper should exist"
-    assert "ap_is_hub_unlock_persisted" in content, "Payload should probe persisted world-props unlock state"
-    assert "ap_sync_hub_switch_flags_from_world_props" in content, (
-        "Payload should continuously sync hub-switch flags from persisted world-props unlock bits"
-    )
+    assert "ap_restore_hub_switch_checks" in content
+    assert "ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH)" in content
     assert "ap_on_world_map_unlock_call" in content, "World-map unlock hook target should exist"
     assert "task_ptr + 0x08u" in content, "Hook should read the world-map unlock task index at +0x08"
     assert "ap_dispatch_world_map_unlock(" in content
@@ -200,7 +197,6 @@ def test_payload_intercepts_hub_switch_unlocks_and_reports_switch_checks() -> No
     assert "unlock_callback();" in hook_logic_content, "Unmapped doors must preserve their native callback"
     assert "AP_HUB_SWITCH_INIT_STATE (*(volatile uint32_t*)(AP_BASE + 0x138u))" in content
     assert "ap_on_hub_switch_init_state_lookup" in content
-    assert "ap_should_mask_item_owned_hub_unlock(" in content
     assert "KIRBY_WORLD_PROPS_ENTRY_FN" in content, "Payload should reference sub_08002888 world-props accessor"
     assert "#include \"generated_hub_switch_tables.inc\"" in content, (
         "Hub switch world-map mapping should come from generated contract include"
@@ -235,9 +231,10 @@ def test_payload_intercepts_hub_switch_unlocks_and_reports_switch_checks() -> No
     )
     assert init_hook_match is not None
     init_hook_body = init_hook_match.group("body")
-    assert "AP_HUB_CONNECTION_ITEM_MASK" in init_hook_body
+    assert "AP_HUB_CONNECTION_ITEM_MASK" not in init_hook_body
     assert "AP_HUB_SWITCH_FLAGS" in init_hook_body
-    assert "AP_HUB_SWITCH_INIT_STATE = 0u;" in init_hook_body
+    assert "ap_restore_hub_switch_checks();" in init_hook_body
+    assert "(AP_HUB_SWITCH_FLAGS >> ap_hub_bits[door]) & 1u" in init_hook_body
     assert "return (uint32_t*)&AP_HUB_SWITCH_INIT_STATE;" in init_hook_body
     assert "return KIRBY_WORLD_PROPS_ENTRY_FN(" in init_hook_body
 
@@ -296,17 +293,9 @@ def test_payload_applies_connection_items_and_excludes_their_unlocks_from_switch
     assert "item_mask & (1u << door_index)" in reconcile_body
     assert "ap_unlock_hub_door(world_props_unlock_index)" in reconcile_body
 
-    sync_match = re.search(
-        r"static void\s+ap_sync_hub_switch_flags_from_world_props[^{]*\{(?P<body>.*?)^}",
-        content,
-        flags=re.DOTALL | re.MULTILINE,
-    )
-    assert sync_match is not None
-    sync_body = sync_match.group("body")
-    assert "AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED" in sync_body
-    assert "item_mask & (1u << door_index)" in sync_body
-    assert "continue;" in sync_body
-    assert "ap_set_hub_switch_flag(ap_hub_switch_bit);" in sync_body
+    assert "ap_sync_hub_switch_flags_from_world_props" not in content
+    assert "ap_restore_hub_switch_checks();" in content
+
 
 
 def test_hub_switch_contract_generator_uses_canonical_source() -> None:

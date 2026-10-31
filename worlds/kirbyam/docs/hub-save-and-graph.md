@@ -1,0 +1,45 @@
+# Hub traversal and physical-check persistence
+
+## Independent ownership and physical checks
+
+Receiving a Hub item unlocks its native door. Hitting a physical Big Switch records a location check and completes the native transition without granting that door. The switch initializer now uses the saved physical-check bit even when the connection is unowned or item history has not arrived. It never infers a physical hit from a nonzero door word.
+
+Physical checks occupy native world-state words 27–31 (`0x02028C7C..0x02028C8F`). Four words contain the complete 16-byte ROM authentication token at `0x08F00000`; the last contains tag `0x48530000` and runtime switch bits 0–14. Unknown tags or a different token yield zero checks. The first genuine hit initializes the record. Existing native door state cannot safely migrate into physical checks, so no such inference is made. New-game/erase clears the native section; selecting a file loads that file's record.
+
+The allocation is inside the existing 128-byte `gUnk_02028C10` entry in the USA ROM's `gWorldProps` table at ROM offset `0x2D91FC`. The seven serialized lengths are 32, 128, 574, 36, 4, 4 and 2 bytes: 780 data bytes plus an eight-byte checksum. Native duplicated saves and all three slots retain their sizes, offsets and checksum algorithm. No new SRAM section is allocated. The native WORLD accessor call audit covered 197 direct `GetStateSlot` calls (24 WORLD callers), object templates, loop bounds and direct array pointer references. Hub mirror/return templates use slots 0–15/18, Big Switch templates 1–15, and the background lookup uses 18. Literal WORLD callers also use 19; no audited native consumer uses 27–31. This allocation is specific to the verified USA base ROM (SHA-1 `274b102b6d940f46861a92b4e65f89a51815c12c`).
+
+A newly recorded bit invokes native `UpdateSaveBufferByOffset` at `0x0800ACD5`, preserving `WorldMapUnlockSave` policy: flag `0x10` suppresses saving; linked non-owner players request native save command 8; the owner saves section 1 with slot 0–2 and native fallback to 0. Duplicate hits do not rewrite the save. Native save errors and sudden power loss retain native limitations; this is not a new atomic-save protocol.
+
+## Version compatibility
+
+New slot data declares `hub_connection_protocol_version: 2`. The rebuilt ROM carries `APHUB02\0` at file offset `0x1000008`, after the existing color marker. The client checks this before watcher writes and rechecks it on subsequent polls. Old Hub catalogs without a version, unsupported versions, mismatched ROM markers, and Hub receipts without a compatible slot are rejected. Earlier draft seeds and ROM patches must be regenerated together. Legacy non-Hub main slots retain their existing health protocol and do not receive Hub ownership-mask writes.
+
+Protocol 2 physical flags are seed-bound saved checks. The client therefore reports them on its first connection even when the server has acknowledged nothing. Legacy transport-only flags retain their stale-baseline handling. Server acknowledgements still deduplicate resend requests.
+
+## Physical graph and the owner's three phases
+
+The room graph now gates all 30 decoded directed transitions (15 native Hub pairs) with the matching received item. Two compressed return edges are corrected: Carrot hub 193 returns to Rainbow hub 192, and Cabbage hub 591 returns to Rainbow hub 194. Neither directly returns to Central Circle 801. Existing capability requirements and overland edges remain.
+
+Area summaries previously added synthetic inter-area shortcuts and disconnected First Visit checks from physical visits. They now receive one-way links from rooms in their area; summaries cannot bypass a Hub gate. The start and Dimension Mirror entrances are preserved.
+
+The owner's phases mean initial access; receipt of a qualifying Central Circle connection excluding the physical Moonlight mirror and all non-Central pairs; then receipt of all eight distinct AP Mirror Shards. They are not a promise of exactly three numbered Archipelago playthrough spheres. Tests reject seven distinct shards plus a duplicate and accept all eight.
+
+With RoomSanity on and ability gating off, the corrected graph's initial state reaches 78 checks. A Rainbow Route South receipt reaches 377. Each non-Central connection alone and the physical Moonlight connection leave the initial reachable set unchanged. The initial graph reaches only Rainbow Route, Moonlight Mansion and Candy Constellation, not the other six areas. Candy membership is not evidence of access to the broader map.
+
+The graph currently claims a path from Moonlight's warp through Candy 9-04, 9-02, 9-01 and 9-07 to its hub. Native object metadata confirms 705's Warp Star destination 409; tile-transition records confirm those directed room endpoints. Arrival-to-exit movement is not established by those facts. Collision inspection identifies separate passages inside room 419 (Candy 9-13); mutable bomb-chain barriers also occur in room 407 (9-07). Treating a whole room as connected can overstate reachability. This audit remains open, and the graph's initial Candy hub/boss access must not be presented as actual gameplay proof or as disproving the owner's phase definition. No unverified barrier or item-name change was imposed.
+
+A generated counterexample remains to a strict phase-two boundary: seed 932's first capacity fixture places the Moonlight 2-11 lever and Olive Hub connection in the initial sphere; the next sphere reaches the other six area bosses without any qualifying Central Circle item. The path uses native 743 → 180 → 824. The ROM places the 743 arrival at shaft tile (5,3), in the left current-filled corridor leading to 824 at the bottom. The separate right corridor returns from Olive to Moonlight. This is a generated-logic counterexample supported by endpoint and collision metadata, not a completed arrival-to-exit emulator traversal. Actual movement through the shaft and onward to the wider map remains unproven. First verify that route in normal gameplay; if it is traversable and a strict receipt boundary is intended, obtain an explicit placement-policy decision before constraining the Moonlight lever or Olive connection. No route barrier or placement constraint is imposed by this correction.
+
+There is a preserved naming discrepancy requiring owner review: native world-map enum 1/item 3860401 is labeled Moonlight Mansion but opens 801↔190 (Rainbow hub 1); enum 2/item 3860402 is labeled Rainbow Route East but opens 801↔790 (Moonlight hub). The endpoint audit and negative phase test follow the physical Moonlight connection, 3860402. Physical switch identities and the compiled runtime bit overrides have not been silently swapped.
+
+`test/data/hub_native_edges.json` records metadata for all 30 decoded endpoints from the verified USA ROM; it contains no ROM bytes. This static endpoint evidence does not establish rendered player traversal across every pair or prove the pending capability predicates.
+
+## Verification scope
+
+Host tests execute the shipping callback and switch initializer with mapped RAM and a native save-call spy. They cover all 15 switches, all three save slots, received-door independence, duplicate hits, buffer reload, seed mismatch, reset, save-disable and link-owner policy. Separate helper tests cover all 65,536 slot values and all flag/player combinations. These are host tests, not actual ARM/SRAM or fresh emulator acceptance.
+
+The final non-matrix suite passes 2,819 tests, including thirty directed edge tests and both RoomSanity modes. The unchanged CI-config pyright baseline remains 35 errors / 7 warnings; required syntax lint and the isolated Hub protocol helper type check pass. Thirty-two newly generated option combinations retain exactly 15 Hub items, 116/379 locations, 52–89 mandatory items and at least 27/290 filler-or-trap slots. Generation succeeds with the revised gates; this is bounded seed/option evidence, not exhaustive generation proof.
+
+GNU ARM GCC 14.2.1 builds a 5,792-byte payload and 1,920-byte extension with four bytes before the unchanged 20-byte configuration tail. The rebuilt bsdiff is 6,946 bytes, SHA-256 `543115ebea6823878d107ab46f594cdc366ae4452d312b0b8dbf577a98705cb7`; applying it to the private clean USA ROM reproduces the builder output exactly. Five native callsite mutation guards pass.
+
+A fresh stock-mGBA seed with three normally configured starting Hub items restores ownership mask `0x8220` and native door words while physical-check flags stay zero. This proves live separation for starting-item history, not a midgame receipt, cold-save restoration or traversal. Fresh physical-switch cold-save restoration, deliberate reconnect and 801→592 traversal remain acceptance work. Historical old-draft item-door evidence is recorded separately and does not prove this saved-check implementation.

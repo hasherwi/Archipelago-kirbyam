@@ -1,5 +1,7 @@
 # Hub Connection integration with main
 
+The subsequent graph, saved-check and protocol corrections are documented in [Hub traversal and physical-check persistence](hub-save-and-graph.md). The local verification numbers below describe the earlier integration candidate, not the subsequent correction.
+
 The October 31 candidate integrates main `32288a744c1c435f9c3e5f3dc334984fc3ac25a8` into #932 `843208e892ce791b935603ac66a2f0c928a4c6cd`. Main's workflow pins, Minny exclusion, goal modes, deferred Hub Teleport Trap and reconnect/hardening changes are retained. No Area Key feature from #908 is imported.
 
 ## Draft compatibility and native layout
