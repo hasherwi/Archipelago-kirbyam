@@ -20,6 +20,7 @@ def test_shipping_switch_callback_and_initializer(tmp_path):
     source = re.sub(r'register uint32_t (\w+) asm\("r[458]"\);', r'uint32_t \1 = 0;', source)
     source = source.replace('__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));',
                             'caller_lr_snapshot = 0;')
+    source = source.replace('0x08039671u', '&fake_complete')
     source = source.replace('0x0800ACD5u', '&fake_save').replace('0x08031CE5u', '&fake_network')
     source = '''#define _GNU_SOURCE
 #include <sys/mman.h>
@@ -28,10 +29,14 @@ def test_shipping_switch_callback_and_initializer(tmp_path):
 #include <stdio.h>
 static int16_t fake_save(uint32_t, uint16_t);
 static void fake_network(uint32_t);
+static void fake_complete(void);
+static void fake_unknown(void);
 ''' + source
     source += r'''
 #define CHECK(x) do { if (!(x)) {printf("line %d\n",__LINE__);return 1;} } while(0)
-static unsigned saves, network_requests;
+static unsigned saves, network_requests, completions, unknown_calls;
+static void fake_complete(void) { completions++; }
+static void fake_unknown(void) { unknown_calls++; }
 static uint32_t disk[3][32];
 static int16_t fake_save(uint32_t section, uint16_t slot) {
     if(section!=1 || slot>2) return -1;
@@ -41,6 +46,10 @@ static void fake_network(uint32_t request) { if(request==8) network_requests++; 
 int main(void) {
     CHECK(mmap((void*)0x02000000u,0x40000,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x02000000u);
     CHECK(mmap((void*)0x08F00000u,4096,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x08F00000u);
+    CHECK(mmap((void*)0x08340000u,65536,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x08340000u);
+    for(unsigned i=0;i<15;i++) ((uint32_t*)0x0834BDBCu)[i]=0x08126405u+12*i;
+    ap_on_world_map_unlock_call(fake_unknown); CHECK(unknown_calls==1 && completions==0 && saves==0);
+    ap_on_world_map_unlock_call(0); CHECK(unknown_calls==1 && completions==0);
     memcpy((void*)AP_HUB_ROM_AUTH,"0123456789abcdef",16);
     for(unsigned slot=0;slot<3;slot++) {
         memset((void*)0x02000000u,0,0x40000);
@@ -50,8 +59,9 @@ int main(void) {
             /* Receipt opens a door but must leave the physical switch visible. */
             *(uint32_t*)(0x02028C10u+ap_hub_props[door]*4)=1;
             CHECK(*ap_on_hub_switch_init_state_lookup(2,ap_hub_props[door],0)==0);
-            ap_set_hub_switch_flag(bit);
-            CHECK(saves==before+1);
+            unsigned complete_before=completions;
+            ap_on_world_map_unlock_call((WorldMapUnlockFn)(uintptr_t)(0x08126405u+12*(door-1)));
+            CHECK(saves==before+1 && completions==complete_before+1 && unknown_calls==1);
             ap_set_hub_switch_flag(bit); CHECK(saves==before+1);
             memset((void*)0x02028C10u,0,128); AP_HUB_SWITCH_FLAGS=0;
             memcpy((void*)0x02028C10u,disk[slot],128);

@@ -62,6 +62,8 @@ SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET = 0x0000B1D0
 # reward-index > 0 (Music Sheet collection rewards).
 SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET = 0x0000B264
 BIG_SWITCH_UNLOCK_CALL_OFFSET = 0x00039EEE
+HUB_UNLOCK_CALLBACK_TABLE_OFFSET = 0x0034BDBC
+HUB_UNLOCK_CALLBACKS = tuple(0x08126405 + 12 * index for index in range(15))
 # sub_0802AD00 is the door-to-hub initializer. Keep its native world-props
 # lookup intact so item-granted connections make their physical doors appear.
 DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET = 0x0002AD24
@@ -979,7 +981,15 @@ def load_rom_and_validate(in_path: str) -> tuple[bytearray, bool]:
     return rom, warning is None
 
 
+def validate_hub_unlock_callback_table(rom: bytes | bytearray) -> None:
+    start = HUB_UNLOCK_CALLBACK_TABLE_OFFSET
+    expected = b"".join(value.to_bytes(4, "little") for value in HUB_UNLOCK_CALLBACKS)
+    if bytes(rom[start:start + len(expected)]) != expected:
+        raise SystemExit("Unexpected Hub unlock callback table; refusing to patch")
+
+
 def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, bytes]:
+    validate_hub_unlock_callback_table(rom)
     original_boss_hook = validate_thumb_bl_callsite(
         rom, BOSS_COLLECT_SHARD_CALL_OFFSET, "boss shard"
     )

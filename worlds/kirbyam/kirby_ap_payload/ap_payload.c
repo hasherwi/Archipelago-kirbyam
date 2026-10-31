@@ -1042,29 +1042,26 @@ __attribute__((used)) void ap_on_collect_sound_player_chest(uint32_t reward_inde
 
 typedef void (*WorldMapUnlockFn)(void);
 
-// Hook target for the world-map unlock dispatcher call in sub_08039ED4.
-// r0 contains the selected unlock function pointer from gUnk_0834BD94 and r4
-// holds the task pointer whose +0x08 halfword stores the WorldMapDoor index.
-// Mapped hub doors record their physical check, then use the game's common
-// transition-completion callback without granting the native connection.
-__attribute__((used)) void ap_on_world_map_unlock_call(WorldMapUnlockFn unlock_fn) {
-    register uint32_t task_ptr asm("r4");
-    uint16_t door_index = *(volatile uint16_t*)(task_ptr + 0x08u);
-    uint32_t ap_hub_switch_bit = 0u;
-    uint8_t world_props_unlock_index = 0u;
+/* Dispatcher indices 0..9 are non-Hub; 10..24 are the 15 unlock
+ * callbacks. Its task index is NOT WorldMapDoor. Identify
+ * the selected callback in r0, without reading an undeclared caller register.
+ * patch_rom validates this exact USA table before installing the hook. */
+static __attribute__((noinline, long_call, section(".aphub")))
+void ap_dispatch_hub_unlock_callback(WorldMapUnlockFn unlock_fn) {
+    const volatile uint32_t *callbacks = (const volatile uint32_t*)0x0834BDBCu;
+    uint32_t door;
+    for (door = 1u; door <= 15u; door++) {
+        if ((uintptr_t)unlock_fn == callbacks[door - 1u]) {
+            ap_set_hub_switch_flag(ap_hub_bits[door]);
+            KIRBY_WORLD_MAP_TRANSITION_COMPLETE_FN();
+            return;
+        }
+    }
+    if (unlock_fn != 0) unlock_fn();
+}
 
-    uint8_t is_mapped_hub_door = ap_try_map_worldmap_door_to_hub_switch_bit(
-        door_index,
-        &ap_hub_switch_bit,
-        &world_props_unlock_index
-    );
-    ap_dispatch_world_map_unlock(
-        is_mapped_hub_door,
-        ap_hub_switch_bit,
-        unlock_fn,
-        KIRBY_WORLD_MAP_TRANSITION_COMPLETE_FN,
-        ap_set_hub_switch_flag
-    );
+__attribute__((used)) void ap_on_world_map_unlock_call(WorldMapUnlockFn unlock_fn) {
+    ap_dispatch_hub_unlock_callback(unlock_fn);
 }
 
 /* Format-2 per-seed bounds apply before connecting after native reload. */

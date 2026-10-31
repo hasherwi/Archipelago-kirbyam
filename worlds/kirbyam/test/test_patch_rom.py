@@ -493,3 +493,18 @@ def test_validate_starting_color_callsite_target_rejects_other_revision() -> Non
             "single-player game start",
             patch_rom.ORIGINAL_START_GAME_FN_ADDR,
         )
+
+
+def test_hub_dispatch_table_rejects_shifted_or_changed_callbacks():
+    start = patch_rom.HUB_UNLOCK_CALLBACK_TABLE_OFFSET
+    rom = bytearray(start + 15 * 4)
+    for i, callback in enumerate(patch_rom.HUB_UNLOCK_CALLBACKS):
+        rom[start + i * 4:start + i * 4 + 4] = callback.to_bytes(4, "little")
+    patch_rom.validate_hub_unlock_callback_table(rom)
+    for i in range(15):
+        bad = bytearray(rom)
+        bad[start + i * 4] ^= 1
+        with pytest.raises(SystemExit, match="Hub unlock callback table"):
+            patch_rom.validate_hub_unlock_callback_table(bad)
+    with pytest.raises(SystemExit, match="Hub unlock callback table"):
+        patch_rom.validate_hub_unlock_callback_table(rom[:-1])
