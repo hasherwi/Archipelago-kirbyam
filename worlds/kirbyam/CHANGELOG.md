@@ -16,7 +16,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
 
 ### Bug Fixes
-- Keep the KirbyAM mGBA client running when reconnecting encounters a self-connected TCP socket or a malformed connector VERSION reply. The client closes the invalid connection and retries; shared Archipelago transport and the stock BizHawk launcher are unchanged.
+- Retry mGBA connections after self-connected sockets or malformed VERSION replies instead of stopping the client. Shared Archipelago transport and the stock BizHawk launcher are unchanged.
 - Preserve excluded Minny grants in Completely Random mode while retaining normal ability gating (Issue #997). Regenerate the ROM patch.
 - Correct the Carrot Castle lever placement and labels to room 5-05 (Issue #972).
 - Restore outgoing DeathLink detection on dead gameplay frames while keeping fresh item delivery paused. Links received while already dead no longer kill the next respawn (Issue #975).
@@ -24,23 +24,23 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Fix room-sanity generation by making each physical room check reachable from its valid compartment and restoring the missing Moonlight 2-05 lower descent (Issues #945, #969).
 - Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966). Regenerate the ROM patch.
 - Allow the six guaranteed starting ability receipts and notices during the tutorial. Other items stay deferred, and Sword still requires its ability item (Issue #967).
-- Build security maintenance: KirbyAM-specific build/test workflows bootstrap pip 26.2.2 and certifi 2026.10.19 from checksum-pinned wheels before their Python dependency downloads after the eMudhra/emSign CA incident (Issue #978). A matching bootstrap file and guidance are provided for dedicated KirbyAM development environments. Global Archipelago dependencies, Docker builds, and general workflows are unchanged.
+- Bootstrap Kirby build/test dependencies with checksum-pinned pip 26.2.2 and certifi 2026.10.19 after the eMudhra/emSign incident (Issue #978), with matching development guidance. Global AP dependencies, Docker and general workflows are unchanged.
 
 ### Known Limitations
-- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
-- Localization: Only the North American ROM is supported. All AP notifications are in English.
-- Native sprites and animations: Chests still show their original item sprite and collection animation. Statues still show their original ability.
-- mGBA: notifications appear as plain text in the **Archipelago Connector** scripting panel, which must be visible. They do not appear over the game image.
-- This APWorld does not contain or update Python, pip, certifi, or the operating system trust store. Existing Archipelago installations and virtual environments need separate remediation; see [Python trust update guidance](docs/python-trust-update.md).
-- An APWorld alone is not evidence that a host or previously distributed executable is remediated. Python 3.11 support is retained; v0.5.0 integration requires its own compatibility and gameplay validation.
-- Uncertain consumable delivery and native-save timing remain limitations: no exactly-once guarantee across arbitrary interruption or unsaved power loss. Reconnect acceptance does not cover the complete item/chest/slot, offline-check, pending-ACK, goal or BizHawk matrix.
+- Progression remains broadly two spheres: received items are needed to open the Dimension Mirror and defeat Dark Mind, but not to complete most of the game. Additional progression gates remain planned.
+- Only the North American ROM is supported; AP notifications are English.
+- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
+- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
+- APWorld updates do not remediate host Python, pip, certifi, OS trust or previously distributed executables. Existing installations and virtual environments need separate [trust remediation](docs/python-trust-update.md).
+- Python 3.11 remains supported; v0.5.0 still needs compatibility and gameplay validation.
+- Consumable delivery and native saves have no exactly-once guarantee across interruptions or unsaved power loss. Full item/chest/slot, offline-check, pending-ACK, goal and BizHawk reconnect coverage remains unverified.
 
 ### Internal Changes
 - Verify the complete wheel inventory and SHA-256 bytes before offline Kirby ROM-smoke dependency installation (Issue #980; broader dependency matrices remain open).
 - Pin Kirby workflow actions to audited commit identities and reject mutable action references (Issue #981; interpreter/toolchain downloads remain separate).
-- Add source/run receipts and signed provenance to Kirby draft artifacts, verify downloaded bytes, and refuse published-asset replacement; document executable-plugin trust and owner immutability prerequisites (Issue #983).
-- Require protected tag pushes, release-environment approval and trusted-main source validation for Kirby publication; remove publisher PR authority and branch-based self-hosted smoke runs (Issue #982).
-- Abandon the unpublished v0.4.2 release plan and carry its Kirby-only security maintenance into upcoming v0.5.0. See the [integration plan](dev-docs/v050-security-integration.md) for PR dependencies and unresolved acceptance gates.
+- Add draft-artifact receipts, signed provenance and download verification; refuse published-asset replacement (Issue #983). Plugin-trust guidance and owner immutability prerequisites are documented.
+- Gate Kirby publication on protected tags, release-environment approval and trusted-main validation; remove publisher PR authority and limit self-hosted smoke runs to main (Issue #982).
+- Carry the abandoned v0.4.2 security work into v0.5.0; see the [integration plan](dev-docs/v050-security-integration.md) for dependencies and pending acceptance gates.
 - Execute the full native mailbox/ACK path for all 24 Spray Paint/Music Sheet IDs and Vitality grants for all four player structures, including duplicate delivery and dead-state safety (Issues #971, #953).
 - Exercise all eight shard receipts through twelve cold client/transport restarts, partial native saves and interleaved acknowledged food receipts (Issue #974).
 - Verify starting Vitality with stock-server empty/nonempty normal histories, duplicate precollects and repeated cold-RAM recovery without replay healing (Issue #943).
