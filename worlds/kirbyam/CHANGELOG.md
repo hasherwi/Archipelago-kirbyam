@@ -10,8 +10,16 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ## Unreleased
 
+### New Features
+- Add Hub Teleport Trap, which returns Kirby to Rainbow Route’s central hub (Issue #697).
+- Add `/goal` to display the seed's victory condition, including its resolved boss target while preserving legacy hidden targets (Issue #923).
+- Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
+
 ### Bug Fixes
 - Keep the KirbyAM mGBA client running when reconnecting encounters a self-connected TCP socket or a malformed connector VERSION reply. The client closes the invalid connection and retries; shared Archipelago transport and the stock BizHawk launcher are unchanged.
+- Preserve excluded Minny grants in Completely Random mode while retaining normal ability gating (Issue #997). Regenerate the ROM patch.
+- Correct the Carrot Castle lever placement and labels to room 5-05 (Issue #972).
+- Restore outgoing DeathLink detection on dead gameplay frames while keeping fresh item delivery paused. Links received while already dead no longer kill the next respawn (Issue #975).
 - Restore packaged region discovery on Python 3.11 by using a package resource anchor.
 - Fix room-sanity generation by making each physical room check reachable from its valid compartment and restoring the missing Moonlight 2-05 lower descent (Issues #945, #969).
 - Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966). Regenerate the ROM patch.
@@ -33,6 +41,10 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Add source/run receipts and signed provenance to Kirby draft artifacts, verify downloaded bytes, and refuse published-asset replacement; document executable-plugin trust and owner immutability prerequisites (Issue #983).
 - Require protected tag pushes, release-environment approval and trusted-main source validation for Kirby publication; remove publisher PR authority and branch-based self-hosted smoke runs (Issue #982).
 - Abandon the unpublished v0.4.2 release plan and carry its Kirby-only security maintenance into upcoming v0.5.0. See the [integration plan](dev-docs/v050-security-integration.md) for PR dependencies and unresolved acceptance gates.
+- Execute the full native mailbox/ACK path for all 24 Spray Paint/Music Sheet IDs and Vitality grants for all four player structures, including duplicate delivery and dead-state safety (Issues #971, #953).
+- Exercise all eight shard receipts through twelve cold client/transport restarts, partial native saves and interleaved acknowledged food receipts (Issue #974).
+- Verify starting Vitality with stock-server empty/nonempty normal histories, duplicate precollects and repeated cold-RAM recovery without replay healing (Issue #943).
+- Integrate room connections and requirements into world-generation logic (PR #914).
 
 ## v0.4.1
 

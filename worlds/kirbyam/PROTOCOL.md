@@ -138,7 +138,8 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | ABILITY_UNLOCK_* | 3860101 - 3860125 | Explicit ability items in `data/items.json`, preserving `BASE_OFFSET + 100 + runtime_ability_id`: 19 gateable unlocks and six guaranteed starting abilities. `Normal`, `Master`, and `Wait` have no AP item. |
 | SPRAY_PAINT_01 .. SPRAY_PAINT_14 | 3860200 - 3860213 | Unique useful collection items; OR native Spray Paint ownership bits 0..13 |
 | MUSIC_SHEET_01 .. MUSIC_SHEET_10 | 3860214 - 3860223 | Unique useful collection items; OR native Music Player/Sheets bits 1..10, leaving bit 0 unchanged |
-| *Reserved* | 3860041 - 3860100, 3860132 - 3860199, 3860224+ | Future items; deferred hub/area-key work already uses IDs beginning at 3860041 |
+| TRAP_HUB_TELEPORT | 3860300 | Explicit stable reservation; native warp-star return with receipt deferral |
+| *Reserved* | 3860041 - 3860100, 3860132 - 3860199, 3860229 - 3860299, 3860301+ | Future items; open hub/area-key branches use IDs beginning at 3860041. Check `data/item_id_reservations.json` and validate candidate catalogs before combining branches. |
 
 ### Current filler effect contract
 
@@ -194,6 +195,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 |---------------|----------|-------------|
 | GOAL_DARK_MIND | auto-assigned | Internal goal metadata entry for Dark Mind completion. Current shipped worlds convert goal locations to runtime events, so the client may report `CLIENT_GOAL` directly when no numeric goal location is exposed by the server. |
 | GOAL_ANY_AREA_BOSS | auto-assigned | Internal goal metadata entry for the "Defeat Any Area Boss" mode. Trigger source is acknowledged `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8` checks; Candy Constellation's Master Hand + Crazy Hand pair counts as one pooled target (`BOSS_DEFEAT_3`). |
+| GOAL_AREA_BOSS_COUNT | 3960012 | Internal metadata for "Defeat a Number of Area Bosses". Generation creates an addressless locked event in Rainbow Route. Completion requires `required_area_bosses` distinct acknowledged canonical area-boss checks. |
 | GOAL_CONFIGURED_AREA_BOSS | auto-assigned | Internal goal metadata entry for the canonical "Defeat Area Boss" mode. Trigger source is the selected `BOSS_DEFEAT_N` check carried via `goal_configured_area_boss_key`. The internal key name is retained for slot-data compatibility. |
 | BOSS_DEFEAT_1 .. BOSS_DEFEAT_8 | auto-assigned | Area boss defeat locations (8 locations) |
 | MAJOR_CHEST_CABBAGE_CAVERN | 3960200 | Cabbage Cavern big chest (bit 3, gTreasures.bigChestField) |
@@ -240,7 +242,8 @@ Server → Client: ConnectionRefused | Connected
 
 `slot_data` currently includes:
 - `world_version` (str): world release/version identifier from `KirbyAmWorld.world_version` (for example, `0.2.0`), emitted for log/tracker/version diagnostics.
-- `goal` (int): selected canonical goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Area Boss`). The older YAML name `defeat_configured_area_boss` parses as value `2`. The removed `defeat_random_hidden_area_boss` must be replaced with `goal: defeat_area_boss` plus `configured_area_boss: random`.
+- `goal` (int): selected canonical goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Area Boss`, `4=Defeat a Number of Area Bosses`). Value `3` is reserved for legacy hidden seeds. The older YAML name `defeat_configured_area_boss` parses as value `2`. The removed `defeat_random_hidden_area_boss` must be replaced with `goal: defeat_area_boss` plus `configured_area_boss: random`.
+- `required_area_bosses` (int): threshold from 1 to 8, default 3. Used only by `goal=4`; all other goals ignore it. Missing, malformed or out-of-range values disable count-goal reporting rather than defaulting.
 - `configured_area_boss` (int): concrete area-boss option (`0=King Golem`, `1=Moley`, `2=Kracko`, `3=Mega Titan`, `4=Gobbler`, `5=Wiz`, `6=Dark Meta Knight`, `7=Master Hand + Crazy Hand pair`). Only used when `goal` is `defeat_area_boss`. The literal YAML value `random` is resolved by Archipelago to one of these concrete values before generation.
 - `goal_configured_area_boss_key` (str | null): internal boss-defeat key selected for `defeat_area_boss` (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`). The field name is retained for compatibility. Default target is `BOSS_DEFEAT_3` (Master Hand + Crazy Hand pair).
 - `shards` (int): shard randomization mode.
@@ -285,6 +288,19 @@ Goal runtime behavior contract:
 - Goal mode `dark_mind` reports completion after the native Dark Mind clear signal.
 - Goal mode `defeat_any_area_boss` reports completion after the first acknowledged area-boss defeat check in `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`.
 - Goal mode `defeat_area_boss` reports completion after the selected boss-defeat target is acknowledged by the server; the client resolves the target from `goal_configured_area_boss_key`. Setting `configured_area_boss` to the literal `random` uses Archipelago's standard `Choice` randomization and still emits one concrete target.
+
+Count-goal contract (`goal=4`):
+- Count the intersection of this slot's server-acknowledged checks with the eight canonical
+  `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8` IDs. Repeated defeats, resends, reconnects and unrelated checks cannot add credit.
+- Master Hand + Crazy Hand count once. Radish Ruins' Dark Meta Knight counts; the later Dimension Mirror encounter,
+  Dark Mind, minibosses, Mirror Shards and received items do not. Server-restored checks retain credit, as in other boss goals.
+- The selected locked goal event is reachable when at least N distinct boss locations are reachable in AP logic.
+  Unselected goal events remain inert. The count is an alternative goal, never an extra requirement for other modes.
+- Reuse normal goal reporting: addressless events send `CLIENT_GOAL` after the boss checks are acknowledged;
+  a server-exposed numeric goal must itself be acknowledged first. `/goal` only displays the requirement.
+- Use the updated KirbyAM APWorld/client for count-goal seeds. Older clients interpret unknown goal values as Dark Mind;
+  the framework minimum-client version does not enforce a KirbyAM plugin version. Updated clients disable reporting
+  for missing, malformed or unknown goal values. Existing seeds with goals 0–3 need no count field.
 
 Legacy goal compatibility:
 - New generation does not emit goal value `3` or `goal_hidden_area_boss_key`. The client still accepts those fields from already-generated `defeat_random_hidden_area_boss` seeds and maps them through the retained legacy goal metadata entry.
@@ -844,3 +860,7 @@ An explicit A-button confirmation on an owned spray-paint entry records `0xC600 
 The menu's always-available default swatch clears the marker, allowing the AP static color to win. A collected Pink paint is an explicit owned choice like every other paint. Random-per-room overrides but does not erase a marker. Native save/load and resets restore the marker per slot; savestates restore their older marker/mailbox/latch state. Reconnect alone does not reroll. Startup clears the palette latch and resolves the current valid runtime color (per-room mode), saved owned choice, configured static color or Pink before `CreateKirby`.
 
 HUD refresh uses the native color-specific HUD table and BG+backup loader, then sets the BG upload flag. It waits for the active single-player gameplay HUD, valid Kirby task/ability and completed hardware brightness fades. Native BG/OBJ RGB-transformation enables (`gMainFlags & 0x30000`) can persist during ordinary gameplay and do not defer a color request. The OBJ refresh retains native transformation behavior; the HUD keeps its raw resolved backup row and uses native `LoadBgPaletteWithTransformation` for its working row when BG transformation is enabled. It does not reinitialize HUD tasks or touch health, lives, battery counts, other players or paint ownership. Changes require a newly generated ROM patch; old ROMs retain their previous color behavior.
+
+### Hub Teleport Trap deferral (item 3860300)
+
+This trap retains the existing incoming flag and receipt index until the main-thread scheduler wrapper observes native warp-star charge enter takeoff (or safely observes Kirby already in the hub). The input mailbox poll leaves it pending. Scripts, pause, death, demo, multiplayer and transition states defer it. Its client ACK timeout retains the flag instead of clearing/reoffering it; later receipts remain ordered behind it. It is transient/non-replayable after observed ACK, and uses the existing ambiguous-receipt recovery after process loss. No mailbox or native save layout changes. See [native evidence and emulator acceptance](dev-docs/hub-teleport-trap.md).

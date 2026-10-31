@@ -138,8 +138,10 @@ def test_sound_player_chest_collect_call_offset_matches_verified_hook_site() -> 
     assert patch_rom.SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET == 0x0000B264
 
 
-def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
+def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(patch_rom, "build_runtime_regression_writes", lambda *args: {})
+    # The hub contract has separate corruption tests and local real-ROM validation.
+    monkeypatch.setattr(patch_rom, "build_hub_teleport_writes", lambda *args: {})
     rom = bytearray(b"\xA5" * 0x200000)
     for offset in patch_rom.HEALTH_HUD_CALLSITES:
         rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(0x08000000 + offset, 0x0803518C)
@@ -166,9 +168,11 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
         {},
         [],
         [],
-        {"starting_color_start_game_hook_target": 0x08100000,
+        {"hub_trap_hook_target": 0x08100500,
+         "starting_color_start_game_hook_target": 0x08100000,
          "treasure_paint_hook_target": 0x08100400,
-         "health_hud_hook_target": 0x08100100, "initial_health_hook_target": 0x08100200, "vitality_menu_hook_target": 0x08100300},
+         "health_hud_hook_target": 0x08100100, "initial_health_hook_target": 0x08100200,
+         "vitality_menu_hook_target": 0x08100300},
         0x08000000,
     )
 

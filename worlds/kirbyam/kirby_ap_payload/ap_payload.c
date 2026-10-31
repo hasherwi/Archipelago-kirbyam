@@ -1,6 +1,7 @@
 #include <stdint.h>
 
 #include "statue_runtime_logic.h"
+#include "enemy_runtime_logic.h"
 #include "minor_chest_runtime_logic.h"
 #include "lever_runtime_logic.h"
 #include "vitality_runtime_logic.h"
@@ -173,11 +174,15 @@ const unsigned char gArchipelagoInfo[16] = {0};
 
 /*
  * Per-seed runtime defaults written by rom.py after the shared base patch is
- * applied. The linker fixes these words at the final sixteen bytes of the
+ * applied. The linker fixes these words at the final twenty bytes of the
  * payload window. The initial gate mask protects startup/reset windows before
  * the client has synchronized live mailbox state; the statue mask carries the
  * exact seed-specific pool for per-touch randomization.
  */
+/* Per-seed Minny inclusion, defaulting to the safe vanilla exception. */
+__attribute__((used, section(".apconfig.minny")))
+volatile const uint32_t gApRandomizeMinny = 0u;
+
 /*
  * Versioned starting-color/mode configuration (see color_runtime_logic.h).
  * Legacy concrete IDs remain static; the unwritten 0xFFFFFFFF defaults to Pink.
@@ -707,29 +712,29 @@ static uint8_t ap_select_random_allowed_ability_excluding(
 // In completely-random mode, this rerolls a fresh ability for each request,
 // including dropped ability-star transitions. Direct statue touches bypass this
 // function and are handled by ap_on_start_copy_ability_transition below.
-__attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, uint32_t ability_flags) {
+/* Assembly entry snapshots incoming r5/LR before any C prologue or RNG call. */
+__attribute__((used)) void ap_on_request_copy_ability_transition_c(
+    void *kirby, uint32_t ability_flags, uint32_t source_obj_ptr, uint32_t caller_lr
+) {
     uint32_t mode = AP_ABILITY_RANDOMIZATION_MODE;
     uint32_t rewritten_flags = ability_flags;
     uint8_t selected_ability = (uint8_t)(ability_flags & KIRBY_ABILITY_MASK);
     uint8_t is_ability_star =
         ((ability_flags & KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR) != 0u) ? 1u : 0u;
 
-    if (mode == ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM) {
-        register uint32_t source_obj_ptr asm("r5");
+    uint32_t caller_pc = (caller_lr & ~1u) - 4u;
+    uint8_t source_type = 0xFFu;
+    if (ap_enemy_has_verified_source(caller_pc, source_obj_ptr) != 0u) {
+        source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
+    }
+
+    if (ap_enemy_should_reroll(mode, gApRandomizeMinny, source_type) != 0u) {
         uint32_t no_ability_weight = AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT;
         uint32_t allowed_mask = AP_ABILITY_RANDOMIZATION_ALLOWED_MASK;
         uint32_t random_roll = ap_next_rng_u32();
         uint32_t source_addr = 0u;
         uint32_t source_kind = ABILITY_REROLL_SOURCE_KIND_NONE;
-        uint32_t caller_lr_snapshot = 0u;
-        uint32_t caller_pc = 0u;
         uint32_t kirby_index = (uint32_t)KIRBY_CURRENT_PLAYER;
-
-        __asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));
-        caller_pc = caller_lr_snapshot & ~1u;
-        if (caller_pc >= 4u) {
-            caller_pc -= 4u;
-        }
 
         if (is_ability_star != 0u) {
             no_ability_weight = 0u;
@@ -761,7 +766,7 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
         } else {
             if (source_obj_ptr == 0u) {
                 source_kind = ABILITY_REROLL_SOURCE_KIND_NULL_SOURCE_PTR;
-            } else if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x02040000u) {
+            } else if (ap_enemy_source_pointer_is_readable(source_obj_ptr) != 0u) {
                 uint8_t source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
                 source_kind = ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE;
                 source_addr = ENEMY_ABILITY_TABLE_BASE_ADDR + ((uint32_t)source_type * ENEMY_ABILITY_TABLE_STRIDE);
@@ -1290,6 +1295,75 @@ static void ap_trap_bomb(void) {
 static void ap_trap_battery_drain(void) {
     uint32_t kirby_addr = ap_get_active_kirby_addr();
     *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_BATTERY_OFFSET) = 0u;
+}
+
+/* The native input decoder reads gHeldKeys and derives Kirby's press edges.
+ * Keep native room/boss/ability eligibility and cancellation authoritative. */
+#define HUB_HELD_KEYS (*(volatile uint16_t *)0x03002E90u)
+#define HUB_STATE_FN (*(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 0x78u))
+#define HUB_CALL_STATE 0x0805701Du
+#define HUB_CHARGE_STATE 0x080573D1u
+#define HUB_TAKEOFF_STATE 0x080575D9u
+#define HUB_EXT __attribute__((noinline, long_call, section(".aphub")))
+
+static HUB_EXT uint8_t ap_hub_pending_ready(void) {
+    uint32_t hud;
+    uint16_t animation = *(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0xD4u);
+    if (AP_MAILBOX_INIT_COOKIE != AP_MAILBOX_INIT_COOKIE_VALUE
+        || AP_IN_FLAG != 1u
+        || AP_IN_ITEM_ID != KIRBY_ITEM_ID_BASE_OFFSET + 300u) return 0u;
+    if (AI_KIRBY_STATE != AI_STATE_NORMAL
+        || (DEMO_PLAYBACK_FLAGS & 0x16u) != 0u
+        || (*(volatile uint32_t *)0x03002440u & 0x800u) != 0u
+        || KIRBY_CURRENT_PLAYER != 0u
+        || *(volatile uint8_t *)0x0203AD30u != 1u) return 0u;
+    hud = KIRBY_HUD_TASK;
+    if (hud < 0x03000000u || hud >= 0x03007FECu || (hud & 3u)
+        || *(volatile uint32_t *)(hud + 8u) != 0x08033B9Du) return 0u;
+    if ((*(volatile uint8_t *)0x03000514u & 0x11u) != 0u
+        || *(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + KIRBY_STRUCT_TASK_OFFSET) == 0u
+        || *(volatile int8_t *)(KIRBY_STRUCTS_ADDR + KIRBY_STRUCT_HP_OFFSET) <= 0
+        || animation == 39u || animation > 122u
+        || *(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 0x110u) != 0u) return 0u;
+    return 1u;
+}
+
+static HUB_EXT uint8_t ap_hub_idle_ready(void) {
+    return (*(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 8u) & 0x3800B00u) == 0u
+        && (*(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 0xCu) & 0x1000u) != 0u;
+}
+
+HUB_EXT void ap_hub_tasks(void) {
+    uint16_t held = HUB_HELD_KEYS;
+    uint32_t before = HUB_STATE_FN;
+    uint8_t ready = ap_hub_pending_ready();
+    uint8_t calling = before == HUB_CALL_STATE || before == HUB_CHARGE_STATE;
+    uint8_t inject = 0u;
+    if (ready && (held & 0xCu) == 0u
+        && *(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0x60u) != 0x321u) {
+        if (calling) {
+            /* Only sustain native L-call states, never other phone actions. */
+            inject = (*(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 0xCu) & 0x40000u) != 0u;
+        } else if (ap_hub_idle_ready()
+            && (*(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0x118u) & 0x200u) == 0u) {
+            /* Rejected native presses get a release frame, then a new edge.
+             * Physical input is never cleared, including a user's held L. */
+            inject = 1u;
+        }
+    }
+    if (inject) HUB_HELD_KEYS = held | 0x200u;
+    ((void (*)(void))0x08152CF5u)();
+    HUB_HELD_KEYS = held;
+    if (!ap_hub_pending_ready()) return;
+    /* Accept only this frame's native charge -> takeoff transition. A receipt
+     * arriving during an earlier takeoff must wait for safe arrival instead. */
+    if (!(ready && before == HUB_CHARGE_STATE && HUB_STATE_FN == HUB_TAKEOFF_STATE)
+        && !(*(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0x60u) == 0x321u
+             && ap_hub_idle_ready())) return;
+    AP_DEBUG_LAST_ITEM_ID = AP_IN_ITEM_ID;
+    AP_DEBUG_LAST_FROM = AP_IN_PLAYER;
+    AP_ITEM_RCVD_COUNTER++;
+    AP_IN_FLAG = 0u;
 }
 
 // Returns 1 if item was successfully processed, 0 if unrecognized

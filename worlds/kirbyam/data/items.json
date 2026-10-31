@@ -76,6 +76,13 @@
     "item_id": 3860036,
     "tags": ["Trap"]
   },
+  "TRAP_HUB_TELEPORT": {
+    "label": "Hub Teleport Trap",
+    "_comment": "Returns Kirby to the Rainbow Route hub when native room-transition state is safe. Defers during scripts and transitions.",
+    "classification": "TRAP",
+    "item_id": 3860300,
+    "tags": ["Trap"]
+  },
   "SHARD_1": {
     "label": "Mustard Mountain - Mirror Shard",
     "classification": "PROGRESSION",
@@ -263,7 +270,7 @@
     "tags": ["Levers", "Progression", "Unique"]
   },
   "LEVER_WALL_CARROT_CASTLE_5_12": {
-    "label": "Carrot Castle 5-12 - Lever Wall",
+    "label": "Carrot Castle 5-05 - Lever Wall",
     "classification": "PROGRESSION",
     "item_id": 3860039,
     "tags": ["Levers", "Progression", "Unique"]

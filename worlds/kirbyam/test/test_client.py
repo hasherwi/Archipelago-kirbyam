@@ -7,6 +7,7 @@ import logging
 from pathlib import Path
 from contextlib import ExitStack
 from unittest.mock import AsyncMock, Mock, call, patch
+from typing import Any
 
 import pytest
 
@@ -36,6 +37,136 @@ def _load_world_version_from_manifest() -> str:
 
 
 WORLD_VERSION = _load_world_version_from_manifest()
+
+
+_GOAL_TARGET_CASES = [
+    (0, "BOSS_DEFEAT_2", "King Golem (Moonlight Mansion)"),
+    (1, "BOSS_DEFEAT_6", "Moley (Cabbage Cavern)"),
+    (2, "BOSS_DEFEAT_1", "Kracko (Mustard Mountain)"),
+    (3, "BOSS_DEFEAT_7", "Mega Titan (Carrot Castle)"),
+    (4, "BOSS_DEFEAT_4", "Gobbler (Olive Ocean)"),
+    (5, "BOSS_DEFEAT_5", "Wiz (Peppermint Palace)"),
+    (6, "BOSS_DEFEAT_8", "Dark Meta Knight (Radish Ruins)"),
+    (7, "BOSS_DEFEAT_3", "Master Hand + Crazy Hand (Candy Constellation)"),
+]
+
+
+def _run_goal_command(slot_data: Any, game: str | None = KirbyAmClient.game, expected: bool = True) -> list[str]:
+    from copy import deepcopy
+    from types import SimpleNamespace
+
+    # A minimal context deliberately has no transport or game-state methods.
+    ctx = SimpleNamespace(game=game, slot_data=slot_data, finished_game=False,
+                          checked_locations=set(), items_received=[])
+    before = deepcopy(vars(ctx))
+    processor = _build_kirbyam_command_processor(BizHawkClientCommandProcessor)(ctx)
+    with patch.object(processor, "output") as output:
+        assert processor("/goal") is expected
+    assert vars(ctx) == before
+    return [entry.args[0] for entry in output.call_args_list]
+
+
+@pytest.mark.parametrize("goal,message", [
+    (0, "Defeat Dark Mind."),
+    (1, "Defeat any one area boss."),
+    (3, "Defeat the randomly selected hidden area boss (target hidden)."),
+])
+def test_goal_command_modes(goal, message):
+    assert _run_goal_command({"goal": goal}) == [f"Goal: {message}"]
+
+
+@pytest.mark.parametrize("option,key,boss", _GOAL_TARGET_CASES)
+def test_goal_command_names_every_resolved_boss(option, key, boss):
+    from types import SimpleNamespace
+    from .. import KirbyAmWorld
+
+    world = SimpleNamespace(options=SimpleNamespace(configured_area_boss=SimpleNamespace(value=option)))
+    resolved = KirbyAmWorld._get_resolved_configured_area_boss_goal_key(world)
+    assert resolved == key
+    assert _run_goal_command({"goal": 2, "goal_configured_area_boss_key": resolved}) == [f"Goal: Defeat {boss}."]
+
+
+def test_goal_command_uses_random_choice_resolved_at_generation():
+    from types import SimpleNamespace
+    from .. import KirbyAmWorld
+    from ..options import ConfiguredAreaBoss
+
+    with patch("Options.random.choice", return_value=ConfiguredAreaBoss.option_wiz):
+        option = ConfiguredAreaBoss.from_text("random")
+    world = SimpleNamespace(options=SimpleNamespace(configured_area_boss=option))
+    resolved = KirbyAmWorld._get_resolved_configured_area_boss_goal_key(world)
+    assert _run_goal_command({"goal": 2, "configured_area_boss": "random",
+                              "goal_configured_area_boss_key": resolved}) == [
+        "Goal: Defeat Wiz (Peppermint Palace).",
+    ]
+
+
+def test_goal_command_prefers_authoritative_target_over_option():
+    assert _run_goal_command({"goal": 2, "configured_area_boss": 7,
+                              "goal_configured_area_boss_key": "BOSS_DEFEAT_2"}) == [
+        "Goal: Defeat King Golem (Moonlight Mansion).",
+    ]
+
+
+@pytest.mark.parametrize("option,key,boss", _GOAL_TARGET_CASES)
+def test_goal_command_does_not_disclose_legacy_hidden_boss(option, key, boss):
+    assert _run_goal_command({"goal": 3, "goal_hidden_area_boss_key": key,
+                              "goal_configured_area_boss_key": key, "configured_area_boss": option}) == [
+        "Goal: Defeat the randomly selected hidden area boss (target hidden).",
+    ]
+
+
+@pytest.mark.parametrize("slot_data", [None, {}, [], "invalid", 0])
+def test_goal_command_missing_slot_data(slot_data):
+    assert _run_goal_command(slot_data, expected=False) == [
+        "Goal unavailable: waiting for KirbyAM slot data from the server.",
+    ]
+
+
+@pytest.mark.parametrize("goal", [None, True, False, 0.0, 2.5, "0", "random", [], {}, -1, 5, 999])
+def test_goal_command_rejects_malformed_or_unsupported_goal(goal):
+    assert _run_goal_command({"goal": goal}, expected=False) == [
+        "Goal unavailable: unsupported or malformed KirbyAM goal data.",
+    ]
+
+
+@pytest.mark.parametrize("key", [None, "", [], {}, 2, True, "BOSS_DEFEAT_9", "GOAL_DARK_MIND"])
+def test_goal_command_rejects_missing_or_invalid_boss_without_guessing(key):
+    assert _run_goal_command({"goal": 2, "configured_area_boss": 7,
+                              "goal_configured_area_boss_key": key}, expected=False) == [
+        "Goal: Defeat the configured area boss; target missing or unsupported in slot data.",
+    ]
+
+
+@pytest.mark.parametrize("game", [None, "Some Other Game"])
+def test_goal_command_handles_non_kirby_context(game):
+    assert _run_goal_command({"goal": 0}, game=game, expected=False) == [
+        "Goal unavailable: no KirbyAM slot is active.",
+    ]
+
+
+def test_goal_command_runtime_patch_dispatch_help_and_slot_changes():
+    from types import SimpleNamespace
+    from ..client import _patch_kirbyam_command_processor
+
+    class Processor(BizHawkClientCommandProcessor):
+        pass
+
+    ctx = SimpleNamespace(game=KirbyAmClient.game, slot_data={"goal": 0})
+    processor = Processor(ctx)  # Existing UI processors must gain the command too.
+    assert _patch_kirbyam_command_processor(Processor) is Processor
+    assert _patch_kirbyam_command_processor(Processor) is Processor
+    with patch.object(processor, "output") as output:
+        assert processor("/goal") is True
+        ctx.slot_data = {"goal": 1}
+        assert processor("/goal") is True
+        del ctx.slot_data
+        assert processor("/goal") is False
+        processor("/help")
+    lines = [entry.args[0] for entry in output.call_args_list]
+    assert lines[:3] == ["Goal: Defeat Dark Mind.", "Goal: Defeat any one area boss.",
+                         "Goal unavailable: waiting for KirbyAM slot data from the server."]
+    assert any("/goal" in line and "victory condition" in line for line in lines[3:])
 
 
 def _run_abilities_command(ctx):
@@ -1008,7 +1139,7 @@ async def test_minor_chest_pending_check_survives_transient_reconnect(mock_bizha
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("field,new_value", [("auth", "different ROM"), ("slot", 2), ("team", 1),
-                                            ("server_seed_name", "different seed")])
+                                             ("server_seed_name", "different seed")])
 async def test_minor_chest_pending_check_does_not_cross_sessions(mock_bizhawk_context, field, new_value):
     client = KirbyAmClient()
     client.initialize_client()

@@ -39,6 +39,16 @@
     "location_id": 3960011,
     "category": "GOAL"
   },
+  "GOAL_AREA_BOSS_COUNT": {
+    "label": "Defeat a Number of Area Bosses",
+    "parent_region": "REGION_RAINBOW_ROUTE/MAIN",
+    "tags": [
+      "Goal",
+      "MAP_RAINBOW_ROUTE"
+    ],
+    "location_id": 3960012,
+    "category": "GOAL"
+  },
   "BOSS_DEFEAT_1": {
     "label": "Mustard Mountain - Boss Defeat",
     "parent_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
@@ -597,8 +607,8 @@
     "location_id": 3960416
   },
   "LEVER_CARROT_CASTLE_5_12": {
-    "label": "Carrot Castle 5-12 - Lever",
-    "parent_region": "REGION_CARROT_CASTLE/ROOM_5_12",
+    "label": "Carrot Castle 5-05 - Lever",
+    "parent_region": "REGION_CARROT_CASTLE/ROOM_5_05",
     "tags": [
       "Lever",
       "MAP_CARROT_CASTLE"
@@ -1388,7 +1398,7 @@
   },
   "MINOR_CHEST_RADISH_RUINS_8_07_OBJECT_01": {
     "label": "Radish Ruins 8-07 - Small Chest #1",
-    "parent_region": "REGION_RADISH_RUINS/ROOM_8_07",
+    "parent_region": "REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_04",
     "tags": [
       "SmallChest",
       "ExactEventLocation",

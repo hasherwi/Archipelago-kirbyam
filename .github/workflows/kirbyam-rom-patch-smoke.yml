@@ -97,8 +97,9 @@ jobs:
               offset = 0x21000 + index * 4
               rom[offset:offset + 4] = thumb_bl_bytes(offset, 0x08088A38)
 
-          # Ordinary enemy / ability-star request path.
-          ability_request_offset = 0x22000
+          # Verified ordinary-enemy r5/type ABI for the Minny exception.
+          rom[0x9C6A2:0x9C6AA] = bytes.fromhex("2c 1c 84 34 21 78 30 1c")
+          ability_request_offset = 0x9C6AA
           rom[ability_request_offset:ability_request_offset + 4] = thumb_bl_bytes(
               ability_request_offset,
               0x080547C4,
@@ -135,6 +136,11 @@ jobs:
           # Synthetic native palette hook sentinels; no retail ROM data.
           rom[0xD60820:0xD60824] = (0x08155401).to_bytes(4, "little")
           rom[0x3D21C:0x3D224] = bytes.fromhex("70 b5 04 1c 0d 1c 16 1c")
+
+          # Preserve strict native hub guards in the synthetic smoke input.
+          import runpy
+          hub_fixture = runpy.run_path("worlds/kirbyam/test/native/hub_transition_fixture.py")
+          hub_fixture["populate_hub_transition_fixture"](rom)
 
           rom_path.write_bytes(rom)
           PY

@@ -56,6 +56,16 @@ _GOAL_STATE_FULL_CLEAR = 10000
 # already-generated defeat_random_hidden_area_boss seeds. New generation never
 # emits goal value 3 after Issue #872.
 _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS = 3
+_GOAL_BOSS_NAMES: dict[str, str] = {
+    "BOSS_DEFEAT_1": "Kracko (Mustard Mountain)",
+    "BOSS_DEFEAT_2": "King Golem (Moonlight Mansion)",
+    "BOSS_DEFEAT_3": "Master Hand + Crazy Hand (Candy Constellation)",
+    "BOSS_DEFEAT_4": "Gobbler (Olive Ocean)",
+    "BOSS_DEFEAT_5": "Wiz (Peppermint Palace)",
+    "BOSS_DEFEAT_6": "Moley (Cabbage Cavern)",
+    "BOSS_DEFEAT_7": "Mega Titan (Carrot Castle)",
+    "BOSS_DEFEAT_8": "Dark Meta Knight (Radish Ruins)",
+}
 _MAILBOX_ACK_TIMEOUT_FRAMES = 30
 _MAILBOX_ACK_TIMEOUT_SECONDS = 1.0  # Fallback when frame_counter is stuck
 _MAILBOX_ACK_RETRY_BACKOFF_SECONDS = 0.5
@@ -184,6 +194,7 @@ _ABILITY_REROLL_SOURCE_KIND_TO_LABEL: dict[int, str] = {
 _GAME_OPTION_SLOT_DATA_KEYS: tuple[str, ...] = (
     "goal",
     "configured_area_boss",
+    "required_area_bosses",
     "shards",
     "start_with_all_maps",
     "starting_kirby_color",
@@ -208,8 +219,57 @@ _GAME_OPTION_SLOT_DATA_KEYS: tuple[str, ...] = (
 )
 
 
+def _required_area_boss_count(slot_data: dict) -> int | None:
+    """Validate the serialized threshold without coercing malformed data."""
+    count = slot_data.get("required_area_bosses")
+    return count if type(count) is int and 1 <= count <= 8 else None
+
+
 def _build_kirbyam_command_processor(base_command_processor: type) -> type:
     _base_cls = base_command_processor
+
+    def _cmd_goal(self) -> bool:
+        """Show the current KirbyAM seed's victory condition without revealing hidden targets."""
+        if getattr(self.ctx, "game", None) != KirbyAmClient.game:
+            self.output("Goal unavailable: no KirbyAM slot is active.")
+            return False
+
+        slot_data = getattr(self.ctx, "slot_data", None)
+        if not isinstance(slot_data, dict) or "goal" not in slot_data:
+            self.output("Goal unavailable: waiting for KirbyAM slot data from the server.")
+            return False
+
+        goal = slot_data["goal"]
+        # Slot data uses JSON integers. Do not turn malformed values into a different goal.
+        if type(goal) is not int:
+            self.output("Goal unavailable: unsupported or malformed KirbyAM goal data.")
+            return False
+        if goal == Goal.option_dark_mind:
+            description = "Defeat Dark Mind."
+        elif goal == Goal.option_defeat_any_area_boss:
+            description = "Defeat any one area boss."
+        elif goal == Goal.option_defeat_area_boss:
+            # This resolved key is also used by goal reporting, including random choices.
+            key = slot_data.get("goal_configured_area_boss_key")
+            boss = _GOAL_BOSS_NAMES.get(key) if isinstance(key, str) else None
+            if boss is None:
+                self.output("Goal: Defeat the configured area boss; target missing or unsupported in slot data.")
+                return False
+            description = f"Defeat {boss}."
+        elif goal == Goal.option_defeat_area_boss_count:
+            count = _required_area_boss_count(slot_data)
+            if count is None:
+                self.output("Goal unavailable: required_area_bosses must be an integer from 1 to 8 in slot data.")
+                return False
+            noun = "boss" if count == 1 else "bosses"
+            description = f"Defeat any {count} distinct area {noun}."
+        elif goal == _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS:
+            description = "Defeat the randomly selected hidden area boss (target hidden)."
+        else:
+            self.output("Goal unavailable: unsupported or malformed KirbyAM goal data.")
+            return False
+        self.output(f"Goal: {description}")
+        return True
 
     def _cmd_locations(self) -> bool:
         """List active location names for the current KirbyAM seed when available."""
@@ -322,6 +382,7 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
         (base_command_processor,),
         {
             "_cmd_locations": _cmd_locations,
+            "_cmd_goal": _cmd_goal,
             "_cmd_abilities": _cmd_abilities,
             "_cmd_receipt": _cmd_receipt,
             "_is_kirbyam_wrapper": True,
@@ -421,6 +482,8 @@ class KirbyAmClient(BizHawkClient):
                     self._goal_location_ids_by_option[Goal.option_defeat_any_area_boss] = loc.location_id
                 elif loc.name == "GOAL_CONFIGURED_AREA_BOSS":
                     self._goal_location_ids_by_option[Goal.option_defeat_area_boss] = loc.location_id
+                elif loc.name == "GOAL_AREA_BOSS_COUNT":
+                    self._goal_location_ids_by_option[Goal.option_defeat_area_boss_count] = loc.location_id
                 elif loc.name == "GOAL_HIDDEN_AREA_BOSS":
                     self._goal_location_ids_by_option[_LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS] = loc.location_id
             else:
@@ -1807,8 +1870,8 @@ class KirbyAmClient(BizHawkClient):
         version = getattr(self, "_health_protocol_version", 1)
         try:
             plan = resolve_vitality_plan(slot.get("minimum_health", 6),
-                                        slot.get("maximum_health", 10),
-                                        slot.get("one_hit_mode", 0))
+                                         slot.get("maximum_health", 10),
+                                         slot.get("one_hit_mode", 0))
             slot_version = slot.get("health_protocol_version", 1)
             if type(slot_version) is not int or slot_version != version:
                 raise ValueError("ROM and slot health versions differ")
@@ -1909,6 +1972,15 @@ class KirbyAmClient(BizHawkClient):
                 ai_state=ai_state,
             )
             if not gameplay_active:
+                if defer_reason == "non_gameplay_kirby_dead":
+                    # Death observation must survive the gate that blocks fresh
+                    # item writes. A link received while dead belongs to this
+                    # death, not the next respawn; do not write HP here.
+                    if self._death_link_enabled is True and self._incoming_death_link_pending:
+                        self._incoming_death_link_pending = False
+                        self._last_local_alive_state = False
+                        self._suppress_next_local_death_send = False
+                    await self._poll_and_send_local_death_link(ctx)
                 was_deferred = self._last_runtime_gate_reason is not None
                 if self._last_runtime_gate_reason != defer_reason:
                     self._log_verbose(
@@ -2622,6 +2694,10 @@ class KirbyAmClient(BizHawkClient):
 
         if self._last_local_alive_state is None:
             self._last_local_alive_state = alive_now
+            if not alive_now:
+                # An incoming link can be applied before the first alive poll.
+                # Its echo suppression belongs to that death only.
+                self._suppress_next_local_death_send = False
             return
 
         if self._last_local_alive_state and not alive_now:
@@ -2632,6 +2708,10 @@ class KirbyAmClient(BizHawkClient):
                 self._log_verbose("info", "KirbyAM: sending outgoing DeathLink with flavored cause")
                 await ctx.send_death(cause)
 
+        if not alive_now:
+            # A link may kill a freshly respawned Kirby before an alive poll.
+            # Consume suppression even when the prior observation was dead.
+            self._suppress_next_local_death_send = False
         self._last_local_alive_state = alive_now
 
     async def _runtime_gameplay_state(self, ctx: KirbyAmBizHawkClientContext) -> tuple[bool, str, int | None]:
@@ -2682,10 +2762,7 @@ class KirbyAmClient(BizHawkClient):
         reason: str
         gameplay_active: bool
 
-        if current_hp is not None and current_hp <= 0:
-            reason = "non_gameplay_kirby_dead"
-            gameplay_active = False
-        elif ai_state < _AI_STATE_CUTSCENE_THRESHOLD:
+        if ai_state < _AI_STATE_CUTSCENE_THRESHOLD:
             reason = "non_gameplay_tutorial_or_menu"
             gameplay_active = False
         elif ai_state < _AI_STATE_NORMAL:
@@ -2696,6 +2773,9 @@ class KirbyAmClient(BizHawkClient):
             gameplay_active = False
         elif ai_state in (_GOAL_STATE_DARK_MIND_CLEAR, _GOAL_STATE_FULL_CLEAR):
             reason = "non_gameplay_goal_clear"
+            gameplay_active = False
+        elif current_hp is not None and current_hp <= 0:
+            reason = "non_gameplay_kirby_dead"
             gameplay_active = False
         else:
             reason = "gameplay_active"
@@ -4247,6 +4327,15 @@ class KirbyAmClient(BizHawkClient):
                     timeout_triggered = True
                     timeout_reason = f"time timeout ({elapsed_seconds:.1f}s >= {_MAILBOX_ACK_TIMEOUT_SECONDS}s)"
 
+            # Hub teleport deliberately leaves the mailbox pending through scripts,
+            # pause and native room transitions. Clearing/reoffering it on a timer
+            # can race its eventual acceptance; retain this receipt in order.
+            pending_index = self._delivery_pending_item_index
+            if (timeout_triggered and flag == 1 and pending_index is not None
+                    and 0 <= pending_index < len(ctx.items_received)
+                    and getattr(ctx.items_received[pending_index], "item", None) == 3860300):
+                return
+
             if timeout_triggered:
                 self._delivery_timeout_streak += 1
                 self._delivery_timeout_total += 1
@@ -4469,6 +4558,13 @@ class KirbyAmClient(BizHawkClient):
             return False
         return any(location_id in checked_locations for location_id in self._boss_location_ids_all)
 
+    def _area_boss_count_goal_signal_active(self, ctx, required_bosses: int) -> bool:
+        """Count distinct canonical area defeats acknowledged for this slot, not items or raw bits."""
+        checked_locations = getattr(ctx, "checked_locations", None)
+        if not isinstance(checked_locations, set):
+            return False
+        return sum(data.locations[key].location_id in checked_locations for key in _GOAL_BOSS_NAMES) >= required_bosses
+
     def _hidden_area_boss_goal_signal_active(self, ctx: KirbyAmBizHawkClientContext, hidden_goal_key: str) -> bool:
         """Return whether the selected hidden area boss has been acknowledged by the server."""
         hidden_goal = data.locations.get(hidden_goal_key)
@@ -4511,32 +4607,25 @@ class KirbyAmClient(BizHawkClient):
         if not self._all_location_ids_sorted:
             return
 
-        slot_goal_raw = ctx.slot_data.get("goal", Goal.option_dark_mind)
-        parsed_slot_goal: Optional[int] = None
-        clamped_goal = False
-        try:
-            parsed_slot_goal = int(slot_goal_raw)
-        except (TypeError, ValueError):
-            clamped_goal = True
-
-        if parsed_slot_goal in (
+        slot_data = getattr(ctx, "slot_data", None)
+        slot_goal = slot_data.get("goal") if isinstance(slot_data, dict) else None
+        if type(slot_goal) is not int or slot_goal not in (
             Goal.option_dark_mind,
             Goal.option_defeat_any_area_boss,
             Goal.option_defeat_area_boss,
+            Goal.option_defeat_area_boss_count,
             _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS,
         ):
-            slot_goal = parsed_slot_goal
-        else:
-            slot_goal = Goal.option_dark_mind
-            clamped_goal = True
+            self._log_client("warning", "KirbyAM: missing or unsupported goal data; goal reporting disabled.")
+            return
 
-        if clamped_goal:
-            self._log_client(
-                "warning",
-                "KirbyAM: unexpected slot goal value '%s' (parsed=%s); clamping to Dark Mind. This may indicate mismatched configs or world versions.",
-                slot_goal_raw,
-                parsed_slot_goal,
-            )
+        required_bosses = None
+        if slot_goal == Goal.option_defeat_area_boss_count:
+            required_bosses = _required_area_boss_count(slot_data)
+            if required_bosses is None:
+                self._log_client("warning", "KirbyAM: required_area_bosses must be an integer from 1 to 8; "
+                                 "goal reporting disabled.")
+                return
 
         hidden_goal_key: str | None = None
         configured_goal_key: str | None = None
@@ -4587,6 +4676,8 @@ class KirbyAmClient(BizHawkClient):
         if not self._native_goal_signal_seen:
             if slot_goal == Goal.option_defeat_any_area_boss:
                 self._native_goal_signal_seen = self._any_area_boss_goal_signal_active(ctx)
+            elif slot_goal == Goal.option_defeat_area_boss_count:
+                self._native_goal_signal_seen = self._area_boss_count_goal_signal_active(ctx, required_bosses)
             elif slot_goal == Goal.option_defeat_area_boss:
                 self._native_goal_signal_seen = self._area_boss_goal_signal_active(ctx, configured_goal_key)
             elif slot_goal == _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS:
