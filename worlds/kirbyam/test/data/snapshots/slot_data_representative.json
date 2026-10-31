@@ -233,6 +233,15 @@
         "MAP_RAINBOW_ROUTE"
       ]
     },
+    "GOAL_AREA_BOSS_COUNT": {
+      "category": "GOAL",
+      "label": "Defeat a Number of Area Bosses",
+      "location_id": 3960012,
+      "tags": [
+        "Goal",
+        "MAP_RAINBOW_ROUTE"
+      ]
+    },
     "GOAL_CONFIGURED_AREA_BOSS": {
       "category": "GOAL",
       "label": "Defeat Area Boss",
@@ -388,7 +397,7 @@
     },
     "LEVER_CARROT_CASTLE_5_12": {
       "category": "LEVER",
-      "label": "Carrot Castle 5-12 - Lever",
+      "label": "Carrot Castle 5-05 - Lever",
       "location_id": 3960417,
       "tags": [
         "Lever",
@@ -3343,6 +3352,7 @@
   "maximum_health": 10,
   "minimum_health": 6,
   "no_extra_lives": false,
+  "required_area_bosses": 3,
   "room_sanity": false,
   "rooms": {
     "REGION_CABBAGE_CAVERN/ROOM_3_01": {
@@ -6221,7 +6231,7 @@
     "Carrot Castle - Map",
     "Carrot Castle - Mirror Shard",
     "Carrot Castle - Vitality Counter",
-    "Carrot Castle 5-12 - Lever Wall",
+    "Carrot Castle 5-05 - Lever Wall",
     "Moonlight Mansion - Map",
     "Moonlight Mansion - Mirror Shard",
     "Moonlight Mansion 2-11 - Lever Wall",

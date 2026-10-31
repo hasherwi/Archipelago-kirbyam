@@ -49,12 +49,13 @@ def test_actual_mailbox_and_hub_dispatch(tmp_path: Path, optimization: str) -> N
     # ARM return-address snapshots in unrelated chest hooks must also be
     # adapted: x86 treats `lr` as an undefined symbol, even with optimization.
     lr_snapshot = '__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));'
-    assert source.count(lr_snapshot) == 2
+    assert source.count(lr_snapshot) == 1
     source = source.replace(lr_snapshot, 'caller_lr_snapshot = 0;')
     assert not re.search(r'\b(?:__asm__|asm)\s*\(', source)
     source = source.replace('((KirbyWorldPropsEntryFn)0x08002889u)', 'native_world_props')
     source = source.replace('((void (*)(void))0x08152CF5u)', 'native_tasks')
     harness = (Path(__file__).parent / 'native/hub_teleport_host.c').read_text()
+    source += '\nvoid ap_after_tasks(void) { ap_hub_tasks(); }\n'
     source = harness.replace('/* PAYLOAD */', source)
     path = tmp_path / 'hub.c'
     path.write_text(source)

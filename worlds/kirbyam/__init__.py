@@ -1054,6 +1054,7 @@ class KirbyAmWorld(World):
         slot_data = self.options.as_dict(
             "goal",
             "configured_area_boss",
+            "required_area_bosses",
             "shards",
             "start_with_all_maps",
             "starting_kirby_color",

@@ -187,6 +187,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 |---------------|----------|-------------|
 | GOAL_DARK_MIND | auto-assigned | Internal goal metadata entry for Dark Mind completion. Current shipped worlds convert goal locations to runtime events, so the client may report `CLIENT_GOAL` directly when no numeric goal location is exposed by the server. |
 | GOAL_ANY_AREA_BOSS | auto-assigned | Internal goal metadata entry for the "Defeat Any Area Boss" mode. Trigger source is acknowledged `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8` checks; Candy Constellation's Master Hand + Crazy Hand pair counts as one pooled target (`BOSS_DEFEAT_3`). |
+| GOAL_AREA_BOSS_COUNT | 3960012 | Internal metadata for "Defeat a Number of Area Bosses". Generation creates an addressless locked event in Rainbow Route. Completion requires `required_area_bosses` distinct acknowledged canonical area-boss checks. |
 | GOAL_CONFIGURED_AREA_BOSS | auto-assigned | Internal goal metadata entry for the canonical "Defeat Area Boss" mode. Trigger source is the selected `BOSS_DEFEAT_N` check carried via `goal_configured_area_boss_key`. The internal key name is retained for slot-data compatibility. |
 | BOSS_DEFEAT_1 .. BOSS_DEFEAT_8 | auto-assigned | Area boss defeat locations (8 locations) |
 | MAJOR_CHEST_CABBAGE_CAVERN | 3960200 | Cabbage Cavern big chest (bit 3, gTreasures.bigChestField) |
@@ -233,7 +234,8 @@ Server → Client: ConnectionRefused | Connected
 
 `slot_data` currently includes:
 - `world_version` (str): world release/version identifier from `KirbyAmWorld.world_version` (for example, `0.2.0`), emitted for log/tracker/version diagnostics.
-- `goal` (int): selected canonical goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Area Boss`). The older YAML name `defeat_configured_area_boss` parses as value `2`. The removed `defeat_random_hidden_area_boss` must be replaced with `goal: defeat_area_boss` plus `configured_area_boss: random`.
+- `goal` (int): selected canonical goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Area Boss`, `4=Defeat a Number of Area Bosses`). Value `3` is reserved for legacy hidden seeds. The older YAML name `defeat_configured_area_boss` parses as value `2`. The removed `defeat_random_hidden_area_boss` must be replaced with `goal: defeat_area_boss` plus `configured_area_boss: random`.
+- `required_area_bosses` (int): threshold from 1 to 8, default 3. Used only by `goal=4`; all other goals ignore it. Missing, malformed or out-of-range values disable count-goal reporting rather than defaulting.
 - `configured_area_boss` (int): concrete area-boss option (`0=King Golem`, `1=Moley`, `2=Kracko`, `3=Mega Titan`, `4=Gobbler`, `5=Wiz`, `6=Dark Meta Knight`, `7=Master Hand + Crazy Hand pair`). Only used when `goal` is `defeat_area_boss`. The literal YAML value `random` is resolved by Archipelago to one of these concrete values before generation.
 - `goal_configured_area_boss_key` (str | null): internal boss-defeat key selected for `defeat_area_boss` (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`). The field name is retained for compatibility. Default target is `BOSS_DEFEAT_3` (Master Hand + Crazy Hand pair).
 - `shards` (int): shard randomization mode.
@@ -278,6 +280,19 @@ Goal runtime behavior contract:
 - Goal mode `dark_mind` reports completion after the native Dark Mind clear signal.
 - Goal mode `defeat_any_area_boss` reports completion after the first acknowledged area-boss defeat check in `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`.
 - Goal mode `defeat_area_boss` reports completion after the selected boss-defeat target is acknowledged by the server; the client resolves the target from `goal_configured_area_boss_key`. Setting `configured_area_boss` to the literal `random` uses Archipelago's standard `Choice` randomization and still emits one concrete target.
+
+Count-goal contract (`goal=4`):
+- Count the intersection of this slot's server-acknowledged checks with the eight canonical
+  `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8` IDs. Repeated defeats, resends, reconnects and unrelated checks cannot add credit.
+- Master Hand + Crazy Hand count once. Radish Ruins' Dark Meta Knight counts; the later Dimension Mirror encounter,
+  Dark Mind, minibosses, Mirror Shards and received items do not. Server-restored checks retain credit, as in other boss goals.
+- The selected locked goal event is reachable when at least N distinct boss locations are reachable in AP logic.
+  Unselected goal events remain inert. The count is an alternative goal, never an extra requirement for other modes.
+- Reuse normal goal reporting: addressless events send `CLIENT_GOAL` after the boss checks are acknowledged;
+  a server-exposed numeric goal must itself be acknowledged first. `/goal` only displays the requirement.
+- Use the updated KirbyAM APWorld/client for count-goal seeds. Older clients interpret unknown goal values as Dark Mind;
+  the framework minimum-client version does not enforce a KirbyAM plugin version. Updated clients disable reporting
+  for missing, malformed or unknown goal values. Existing seeds with goals 0–3 need no count field.
 
 Legacy goal compatibility:
 - New generation does not emit goal value `3` or `goal_hidden_area_boss_key`. The client still accepts those fields from already-generated `defeat_random_hidden_area_boss` seeds and maps them through the retained legacy goal metadata entry.

@@ -6,7 +6,7 @@ The mailbox retains the receipt during scripts, death, pause, demos, multiplayer
 
 ## Native evidence and implementation
 
-Integrated main: `a7b608f389c5e63a6b89d9e421be9e09bc8a4b83`. The source reference is [katam kirby.c](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c), together with `main.c` and `include/kirby.h`. Disassembly and literal pools of the locally supplied USA ROM (MD5 `df5efe075b35859529ebf82a4d824458`) verify these addresses and offsets:
+Integrated main: `163972e981419dde338b9cdc3db967e49f345a1f`. The source reference is [katam kirby.c](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c), together with `main.c` and `include/kirby.h`. Disassembly and literal pools of the locally supplied USA ROM (MD5 `df5efe075b35859529ebf82a4d824458`) verify these addresses and offsets:
 
 - The existing mailbox hook at `0x08152696` leaves the item pending. The single GameLoop scheduler call at `0x08151CF4` still invokes native TasksExec (`0x08152CF4`) exactly once.
 - Native input decoder `sub_0803F324` reads the halfword `gHeldKeys` at `0x03002E90` for local single-player Kirby. It derives held/pressed/released fields at Kirby `+0x118/+0x11A/+0x11C`; its native input-suppression flag remains effective.
@@ -15,13 +15,31 @@ Integrated main: `a7b608f389c5e63a6b89d9e421be9e09bc8a4b83`. The source referenc
 - Acknowledgment requires observing charge before TasksExec and takeoff (`0x080575D9`) afterward. A receipt arriving during an earlier takeoff waits for safe hub arrival. Native `57774` sets room `0x321`, spawn `(0, -2)`, then enters `5545C`; the trap no longer calls the direct room-request or default-spawn routines.
 - Existing gameplay, health, script, animation, HUD and transition guards remain. Initiation also yields to physical Start/Select. The call/charge continuation uses native state recognition because those states intentionally set flags that would prevent a fresh request. Native restrictions may defer the trap indefinitely until returning to eligible gameplay; they are not bypassed.
 
-The patch builder checks the scheduler BL and SHA256 of USA native input decoding (`0x3F324–0x3F46C`), call/charge/takeoff (`0x56E40–0x578E4`), and takeoff entry (`0x5BEE8–0x5BF2C`) before mutation. Synthetic fixtures contain only those guarded excerpts. The adapter lives in the append-only ROM extension; per-seed configuration, mailbox and save layouts remain unchanged. No full ROM is distributed.
+The patch builder checks the scheduler BL and SHA256 of USA native input decoding (`0x3F324–0x3F46C`), call/charge/takeoff (`0x56E40–0x578E4`), and takeoff entry (`0x5BEE8–0x5BF2C`) before mutation. Synthetic fixtures contain only those guarded excerpts. The adapter lives in the append-only ROM extension; its eight-byte Thumb tail-call entry preserves LR and SP and replaces the C wrapper to fit alongside the Minny transition hook; per-seed configuration, mailbox and save layouts remain unchanged. No full ROM is distributed.
 
 ## Validation scope and emulator acceptance
 
 Host regressions run the actual adapter and mailbox against a scheduler double modeling native input edges, refusal, sustained hold, cancellation and accepted takeoff. They check delayed acknowledgment, every readiness gate, cancellation/retry, restored physical input, receipts arriving during takeoff, safe hub no-op, and two actual accepted returns at different receipt counters. These tests establish adapter behavior against that model, not native animation or emulator stability. Client tests cover prolonged deferral and ordered delivery; the patcher rejects each corrupted guarded contract byte without modifying input.
 
 ARM compilation and local BSDIFF reapplication validate the build and patch contents. Before closing #697, emulator acceptance must verify visible call/charge/takeoff, native arrival `(0, -2)`, ground/air/water and copy abilities (including deferred Mini), room/boss restrictions, rejected calls and retries, door/mirror/warp transitions, chest/lever scripts, pause/death/respawn, consecutive receipts, and save/reload/reconnect around acceptance. Verify no lost collection events or unintended ability/health changes. No gameplay, animation or save/load acceptance is claimed by host tests or patch checks.
+
+## Current-main integration (2026-10-31)
+
+The combined ARM GCC 14.2.1 build uses 5,768 bytes of main code/data, four bytes of
+space, and the unchanged 20-byte per-seed configuration in the 5,792-byte window.
+The append-only extension is 1,608 bytes. The earlier C entry wrapper overlapped
+configuration by four bytes after integrating the Minny fix; the eight-byte
+`ldr r3; bx r3; .word ap_hub_tasks` tail entry resolves that without moving any
+configuration or mailbox addresses. Binary inspection verifies its exact opcodes
+and Thumb destination against the linked ELF. The host scheduler test substitutes
+a C tail-entry equivalent and therefore does not execute that ARM entry.
+
+The rebuilt BSDIFF SHA256 is
+`7be95efdbfdd72510f65bbf5614eb51582be4b0e3a07bcd84af08bb242ed0be0`.
+Local reapplication matches the built ROM byte-for-byte; each of five corrupted
+native contract inputs is rejected without mutation. Focused adapter, Minny,
+patch-contract and count-goal tests pass (104 tests). Actual emulator gameplay,
+visible animation, arrival and save/reload/reconnect acceptance remain open.
 
 ## Cross-branch item identity reservation
 
