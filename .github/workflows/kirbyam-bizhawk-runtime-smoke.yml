@@ -17,12 +17,15 @@ env:
 
 jobs:
   bizhawk-runtime-smoke:
+    if: github.repository == 'hasherwi/Archipelago-kirbyam' && github.ref == 'refs/heads/main'
     runs-on: [self-hosted, windows]
     timeout-minutes: 30
 
     steps:
       - name: Check out repository
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
@@ -32,7 +35,8 @@ jobs:
       - name: Install dependencies
         shell: pwsh
         run: |
-          python -m pip install --upgrade pip
+          python -m pip --isolated --disable-pip-version-check install --no-index --no-deps --require-hashes -r worlds/kirbyam/tools/security-bootstrap.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m pip install -r ci-requirements.txt
           python ModuleUpdate.py --yes --force --append "WebHostLib/requirements.txt"
 

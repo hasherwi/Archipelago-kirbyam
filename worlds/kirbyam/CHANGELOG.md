@@ -16,6 +16,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
 
 ### Bug Fixes
+- Retry mGBA connections after self-connected sockets or malformed VERSION replies instead of stopping the client. Shared Archipelago transport and the stock BizHawk launcher are unchanged.
 - Preserve excluded Minny grants in Completely Random mode while retaining normal ability gating (Issue #997). Regenerate the ROM patch.
 - Correct the Carrot Castle lever placement and labels to room 5-05 (Issue #972).
 - Restore outgoing DeathLink detection on dead gameplay frames while keeping fresh item delivery paused. Links received while already dead no longer kill the next respawn (Issue #975).
@@ -23,10 +24,23 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Fix room-sanity generation by making each physical room check reachable from its valid compartment and restoring the missing Moonlight 2-05 lower descent (Issues #945, #969).
 - Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966). Regenerate the ROM patch.
 - Allow the six guaranteed starting ability receipts and notices during the tutorial. Other items stay deferred, and Sword still requires its ability item (Issue #967).
+- Bootstrap Kirby build/test dependencies with checksum-pinned pip 26.2.2 and certifi 2026.10.19 after the eMudhra/emSign incident (Issue #978), with matching development guidance. Global AP dependencies, Docker and general workflows are unchanged.
+
+### Known Limitations
+- Progression remains broadly two spheres: received items are needed to open the Dimension Mirror and defeat Dark Mind, but not to complete most of the game. Additional progression gates remain planned.
+- Only the North American ROM is supported; AP notifications are English.
+- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
+- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
+- APWorld updates do not remediate host Python, pip, certifi, OS trust or previously distributed executables. Existing installations and virtual environments need separate [trust remediation](docs/python-trust-update.md).
+- Python 3.11 remains supported; v0.5.0 still needs compatibility and gameplay validation.
+- Consumable delivery and native saves have no exactly-once guarantee across interruptions or unsaved power loss. Full item/chest/slot, offline-check, pending-ACK, goal and BizHawk reconnect coverage remains unverified.
 
 ### Internal Changes
-- Pin Kirby workflow actions to audited commit identities and reject mutable action references (Issue #981; interpreter/toolchain downloads remain separate).
 - Verify the complete wheel inventory and SHA-256 bytes before offline Kirby ROM-smoke dependency installation (Issue #980; broader dependency matrices remain open).
+- Pin Kirby workflow actions to audited commit identities and reject mutable action references (Issue #981; interpreter/toolchain downloads remain separate).
+- Add draft-artifact receipts, signed provenance and download verification; refuse published-asset replacement (Issue #983). Plugin-trust guidance and owner immutability prerequisites are documented.
+- Gate Kirby publication on protected tags, release-environment approval and trusted-main validation; remove publisher PR authority and limit self-hosted smoke runs to main (Issue #982).
+- Carry the abandoned v0.4.2 security work into v0.5.0; see the [integration plan](dev-docs/v050-security-integration.md) for dependencies and pending acceptance gates.
 - Execute the full native mailbox/ACK path for all 24 Spray Paint/Music Sheet IDs and Vitality grants for all four player structures, including duplicate delivery and dead-state safety (Issues #971, #953).
 - Exercise all eight shard receipts through twelve cold client/transport restarts, partial native saves and interleaved acknowledged food receipts (Issue #974).
 - Verify starting Vitality with stock-server empty/nonempty normal histories, duplicate precollects and repeated cold-RAM recovery without replay healing (Issue #943).

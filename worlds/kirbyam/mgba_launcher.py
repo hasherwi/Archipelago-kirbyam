@@ -90,7 +90,9 @@ async def _run_client(args: argparse.Namespace) -> None:
     from CommonClient import gui_enabled, server_loop
     from worlds._bizhawk import disconnect
     from worlds._bizhawk.context import BizHawkClientContext, _game_watcher
+    from .mgba_transport import KirbyMGBATransport
     ctx = BizHawkClientContext(args.connect, args.password)
+    ctx.bizhawk_ctx = KirbyMGBATransport()
     ctx.server_task = asyncio.create_task(server_loop(ctx), name="ServerLoop")
     if gui_enabled and not getattr(args, "nogui", False):
         ctx.run_gui()
