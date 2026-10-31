@@ -33,3 +33,27 @@ ap_minor_chest_reward_popup_hook:
     ldr r4, [r2, #0x4C]
     adds r0, r4, #0
     bx lr
+
+.section .text.ap_request_entry,"ax",%progbits
+.global ap_on_request_copy_ability_transition
+.type ap_on_request_copy_ability_transition, %function
+.thumb_func
+ap_on_request_copy_ability_transition:
+    // Native object swallow has Object2* in r5. Capture before the C prologue;
+    // tail-call preserves the native return address and stack alignment.
+    movs r2, r5
+    mov r3, lr
+    b ap_on_request_copy_ability_transition_c
+
+.section .text.ap_hub_entry,"ax",%progbits
+.balign 4
+.global ap_after_tasks
+.type ap_after_tasks, %function
+.thumb_func
+ap_after_tasks:
+    // Eight-byte long tail call keeps the fixed payload/config window intact.
+    // Preserve LR and stack alignment; the extension returns to GameLoop.
+    ldr r3, 1f
+    bx r3
+1:  .word ap_hub_tasks
+.size ap_after_tasks, .-ap_after_tasks

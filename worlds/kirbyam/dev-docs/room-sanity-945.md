@@ -28,9 +28,9 @@ corroborates this route. This is not a new ability-gating policy.
 
 The native transition at ROM file offset 0x885AF6 leads from 702 to 744.
 Room 744 tile (3,58) then enters room 745 (2_GOAL_1) at (7,3).
-The existing 2-06 -> 2_GOAL_1 chain remains intact. This main-targeted
-extraction preserves unrelated current-main edges; no PR #914 v0.5 routes,
-new hub shortcut or reverse route are imported. The [Room 6 description](https://wikirby.com/w/index.php?title=Moonlight_Mansion_-_Room_6&oldid=574542)
+Consequently the descent also repairs PR #914's stranded Goal 1 check through
+the existing 2-06 -> 2_GOAL_1 chain. No guessed hub shortcut or reverse route
+is added. The [Room 6 description](https://wikirby.com/w/index.php?title=Moonlight_Mansion_-_Room_6&oldid=574542)
 identifies it as a one-way route to Goal 1.
 
 ## Physical check ownership without extra traversal

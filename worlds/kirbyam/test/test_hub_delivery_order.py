@@ -76,13 +76,13 @@ async def setup_client(ctx: Any) -> tuple[KirbyAmClient, Bridge]:
     client.initialize_client()
     client._notification_settings_loaded = True
     client._delivered_item_index = 1
-    ctx.items_received = [Mock(item=3860045, player=1)]
+    ctx.items_received = [Mock(item=3860405, player=1)]
     client.on_package(ctx, 'ReceivedItems', {'index': 0})
     bridge = Bridge()
     ctx.bizhawk_ctx._send_message.side_effect = bridge.send
     await client._sync_hub_connection_item_ownership(ctx)
     # The watcher can receive this item during any intervening awaited poll.
-    ctx.items_received.append(Mock(item=3860049, player=1))
+    ctx.items_received.append(Mock(item=3860409, player=1))
     client.on_package(ctx, 'ReceivedItems', {'index': 1})
     return client, bridge
 
@@ -93,7 +93,7 @@ async def test_late_hub_receipt_installs_ownership_before_native_offer(mock_bizh
     client, bridge = await setup_client(ctx)
     with patch.object(client, '_prepare_receipts', return_value=True):
         await client._deliver_items(ctx)
-    assert bridge.offers == [(3860049, 0x220)]
+    assert bridge.offers == [(3860409, 0x220)]
     assert client._delivery_pending is True
 
 
@@ -179,7 +179,7 @@ async def test_lost_offer_ack_reads_busy_mailbox_before_retry(mock_bizhawk_conte
             await client._deliver_items(ctx)
         bridge.lose_offer_reply = False
         await client._deliver_items(ctx)
-    assert bridge.offers == [(3860049, 0x220)]
+    assert bridge.offers == [(3860409, 0x220)]
 
 
 @pytest.mark.asyncio
@@ -189,7 +189,7 @@ async def test_reconnect_during_offer_does_not_attach_old_pending_state(mock_biz
     bridge.after_offer = lambda: setattr(ctx.server, 'socket', Mock(closed=False))
     with patch.object(client, '_prepare_receipts', return_value=True):
         await client._deliver_items(ctx)
-    assert bridge.offers == [(3860049, 0x220)]
+    assert bridge.offers == [(3860409, 0x220)]
     assert client._delivery_pending is False
 
 
@@ -215,5 +215,5 @@ async def test_recovery_installs_complete_ownership_before_retry(mock_bizhawk_co
             client.on_package(ctx, 'ReceivedItems', {'index': 0})
         assert bridge.offers == []
         await client._deliver_items(ctx)
-    assert bridge.offers == [(3860049, 0x220)]
+    assert bridge.offers == [(3860409, 0x220)]
     assert client._delivery_pending is True

@@ -34,18 +34,27 @@ class Goal(Choice):
     - Defeat Any Area Boss: Defeat any one eligible area boss.
     - Defeat Area Boss: Defeat the area boss selected by `configured_area_boss`.
       Set `configured_area_boss` to `random` to choose one boss at generation.
+    - Defeat a Number of Area Bosses: Defeat any `required_area_bosses` distinct area bosses.
     """
     display_name = "Goal"
     default = 0
     option_dark_mind = 0
     option_defeat_any_area_boss = 1
     option_defeat_area_boss = 2
+    # Value 3 remains reserved for legacy hidden-area-boss seeds.
+    option_defeat_area_boss_count = 4
 
     # Issue #872 rename compatibility: the old configured-goal name had the
     # same semantics, so accepting it as an alias is safe. The old hidden-random
     # goal is deliberately not aliased because doing so would silently change an
     # old YAML to the default configured boss; use configured_area_boss: random.
     alias_defeat_configured_area_boss = option_defeat_area_boss
+
+    @classmethod
+    def get_option_name(cls, value: int) -> str:
+        if value == cls.option_defeat_area_boss_count:
+            return "Defeat a Number of Area Bosses"
+        return super().get_option_name(value)
 
 
 class ConfiguredAreaBoss(Choice):
@@ -70,6 +79,19 @@ class ConfiguredAreaBoss(Choice):
     option_wiz = 5
     option_dark_meta_knight = 6
     option_master_hand_crazy_hand_pair = 7
+
+
+class RequiredAreaBosses(Range):
+    """Number of distinct area bosses required by Defeat a Number of Area Bosses.
+
+    Ignored by every other goal. Repeat defeats count once; Master Hand and
+    Crazy Hand together count as one area boss. Mirror Shards do not count.
+    New count-goal seeds require an updated KirbyAM client.
+    """
+    display_name = "Required Area Bosses"
+    range_start = 1
+    range_end = 8
+    default = 3
 
 
 class RandomizeShards(Choice):
@@ -393,6 +415,8 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     configured_area_boss: ConfiguredAreaBoss
 
+    required_area_bosses: RequiredAreaBosses
+
     shards: RandomizeShards
 
     start_with_all_maps: StartWithAllMaps
@@ -438,6 +462,7 @@ OPTION_GROUPS = [
     OptionGroup("Make the game shorter", [
         Goal,
         ConfiguredAreaBoss,
+        RequiredAreaBosses,
     ]),
     OptionGroup("Make the game easier", [
         StartWithAllMaps,

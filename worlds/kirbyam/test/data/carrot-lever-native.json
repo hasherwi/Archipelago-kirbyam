@@ -1,0 +1,25 @@
+{
+  "source_commit": "abf60952fdf79d15bb07607c4977bce7d68f1be7",
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "decoder": "tools/extract_room_evidence.py",
+  "room": {
+    "native_room_id": 170,
+    "doors_idx": 252,
+    "ap_room_keys": [
+      "REGION_CARROT_CASTLE/ROOM_5_05"
+    ],
+    "destinations": [
+      181,
+      193,
+      719
+    ]
+  },
+  "carrot_lever": {
+    "source": "0x008D2E68",
+    "native_room_id": 170,
+    "object_list_idx": 252,
+    "flag": 77,
+    "reward": 99,
+    "type": 129
+  }
+}

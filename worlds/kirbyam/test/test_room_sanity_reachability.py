@@ -9,8 +9,10 @@ from ..data import LocationCategory, data, load_json_data
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 
 
+ROOMS = load_json_data("regions/rooms.json")
+assert isinstance(ROOMS, dict)
 SPLITS = {name: list(row["logical_subregions"])
-          for name, row in load_json_data("regions/rooms.json").items()
+          for name, row in ROOMS.items()
           if row.get("logical_subregions")}
 ENTRY_CASES = [(parent, source) for parent, entries in SPLITS.items()
                for source in [parent, *(f"{parent}__LOGIC__{key}" for key in entries)]]
@@ -61,6 +63,7 @@ def test_moonlight_lower_ingress_preserves_directed_native_route():
     # Native 702 (43,17) -> 744 (2,3); 744 (3,58) -> 745 (7,3).
     assert prefix + "2_GOAL_1" in rooms[prefix + "2_06"]["exits"]
     assert prefix + "2_06" not in rooms[prefix + "2_GOAL_1"]["exits"]
+    assert prefix + "2_GOAL_1" not in rooms["REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"]["exits"]
 
 
 @pytest.mark.parametrize("goal", range(3))

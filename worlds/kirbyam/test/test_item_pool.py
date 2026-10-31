@@ -172,6 +172,7 @@ def test_consumable_filler_item_ids_are_stable() -> None:
     assert labels_to_ids["Bomb Trap"] == 3860034
     assert labels_to_ids["Battery Drain Trap"] == 3860035
     assert labels_to_ids["Life Wipeout Trap"] == 3860036
+    assert labels_to_ids["Hub Teleport Trap"] == 3860300
     assert "2 Up" not in labels_to_ids
     assert "3 Up" not in labels_to_ids
 
@@ -187,7 +188,7 @@ def test_hub_connection_item_ids_match_native_door_order() -> None:
         item_id = data.item_key_to_id[item_key]
         item = data.items[item_id]
 
-        assert item.item_id == BASE_OFFSET + 40 + door_index
+        assert item.item_id == BASE_OFFSET + 400 + door_index
         assert item.label == f"{door_name.replace('_', ' ').title()} - Hub Connection"
         assert item.classification == ItemClassification.progression
         assert {"HubConnections", "Progression", "Unique"} <= set(item.tags)
@@ -295,6 +296,7 @@ def test_available_trap_item_labels_include_all_traps_from_items_json() -> None:
         "Bomb Trap",
         "Battery Drain Trap",
         "Life Wipeout Trap",
+        "Hub Teleport Trap",
     )
 
 
@@ -304,7 +306,7 @@ def test_get_trap_item_name_can_return_life_wipeout_trap() -> None:
 
     def _choose(pool: tuple[str, ...]) -> str:
         seen_pool["pool"] = pool
-        return pool[-1]
+        return pool[pool.index("Life Wipeout Trap")]
 
     world.random = SimpleNamespace(choice=_choose)
     world.options = SimpleNamespace(
@@ -327,6 +329,7 @@ def test_no_extra_lives_removes_life_traps_from_active_trap_pool() -> None:
         "Health Down Trap",
         "Bomb Trap",
         "Battery Drain Trap",
+        "Hub Teleport Trap",
     )
 
 
@@ -342,6 +345,7 @@ def test_one_hit_mode_removes_health_down_from_active_trap_pool() -> None:
         "Bomb Trap",
         "Battery Drain Trap",
         "Life Wipeout Trap",
+        "Hub Teleport Trap",
     )
 
 
@@ -355,6 +359,7 @@ def test_combined_modes_remove_life_and_health_traps_from_active_trap_pool() -> 
     assert world._active_trap_pool() == (
         "Bomb Trap",
         "Battery Drain Trap",
+        "Hub Teleport Trap",
     )
 
 

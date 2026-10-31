@@ -15,10 +15,6 @@ for path_entry in list(sys.path):
 import pytest  # noqa: E402
 
 
-
-
-
-
 def test_payload_tracks_major_chest_checks_separately_from_native_maps() -> None:
     """Verify big chest openings feed transport checks while AP map items unlock native maps."""
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
@@ -111,6 +107,7 @@ def test_payload_preserves_full_native_small_chest_flag_range() -> None:
     assert "if (chest_index >= 128u)" in content
     assert "if (chest_index >= 80u)" not in content
 
+
 def test_payload_vitality_items_are_replay_guarded_per_unique_item() -> None:
     """Vitality AP item IDs should be idempotent so reconnect/reset replay does not grant duplicates."""
     payload_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_payload.c")
@@ -201,7 +198,7 @@ def test_payload_intercepts_hub_switch_unlocks_and_reports_switch_checks() -> No
     assert "KIRBY_WORLD_MAP_TRANSITION_COMPLETE_FN" in content
     assert "ap_set_hub_switch_flag" in content
     assert "unlock_callback();" in hook_logic_content, "Unmapped doors must preserve their native callback"
-    assert "AP_HUB_SWITCH_INIT_STATE (*(volatile uint32_t*)(AP_BASE + 0xC4u))" in content
+    assert "AP_HUB_SWITCH_INIT_STATE (*(volatile uint32_t*)(AP_BASE + 0x138u))" in content
     assert "ap_on_hub_switch_init_state_lookup" in content
     assert "ap_should_mask_item_owned_hub_unlock(" in content
     assert "KIRBY_WORLD_PROPS_ENTRY_FN" in content, "Payload should reference sub_08002888 world-props accessor"
@@ -272,7 +269,7 @@ def test_payload_applies_connection_items_and_excludes_their_unlocks_from_switch
     with open(payload_path, "r", encoding="utf-8") as f:
         content = f.read()
 
-    assert "AP_HUB_CONNECTION_ITEM_MASK (*(volatile uint32_t*)(AP_BASE + 0xC0u))" in content
+    assert "AP_HUB_CONNECTION_ITEM_MASK (*(volatile uint32_t*)(AP_BASE + 0x134u))" in content
     assert "AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED 0xFFFFFFFFu" in content
     assert "*world_props_entry = 1u;" in content, "Door items must write native world-props unlock state"
 
@@ -283,14 +280,14 @@ def test_payload_applies_connection_items_and_excludes_their_unlocks_from_switch
     )
     assert apply_match is not None
     apply_body = apply_match.group("body")
-    assert "KIRBY_ITEM_ID_BASE_OFFSET + 41u" in apply_body
-    assert "KIRBY_ITEM_ID_BASE_OFFSET + 55u" in apply_body
-    assert "ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 40u)" in apply_body
+    assert "KIRBY_ITEM_ID_BASE_OFFSET + 401u" in apply_body
+    assert "KIRBY_ITEM_ID_BASE_OFFSET + 415u" in apply_body
+    assert "ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 400u)" in apply_body
     assert "ap_try_map_worldmap_door_to_hub_switch_bit(" in apply_body
     assert "return ap_unlock_hub_door(world_props_unlock_index);" in apply_body
 
     reconcile_match = re.search(
-        r"static void\s+ap_apply_hub_connection_unlocks_from_mask[^{]*\{(?P<body>.*?)^}",
+        r"void\s+ap_apply_hub_connection_unlocks_from_mask[^{]*\{(?P<body>.*?)^}",
         content,
         flags=re.DOTALL | re.MULTILINE,
     )
@@ -323,10 +320,6 @@ def test_hub_switch_contract_generator_uses_canonical_source() -> None:
         "Hub-switch generator must source mappings from canonical hub_switch_contract.json"
     )
     assert os.path.exists(contract_path), "Canonical hub_switch_contract.json should exist"
-
-
-
-
 
 
 def test_boss_defeat_hook_preserves_native_shard_state() -> None:
@@ -537,10 +530,12 @@ def test_copy_ability_reroll_hook_reads_object2_type_field() -> None:
         "Reroll hook must write caller PC discriminator telemetry"
     assert "AP_ABILITY_REROLL_KIRBY_INDEX = kirby_index" in hook_body, \
         "Reroll hook must write Kirby index telemetry"
-    assert "mov %0, lr" in hook_body, \
-        "Reroll hook must snapshot lr before any BL clobbers the caller return address"
-    assert "caller_lr_snapshot" in hook_body, \
-        "Reroll hook should capture caller lr into a normal variable before helper calls"
+    hook_path = os.path.join(_WORLD_DIR, "kirby_ap_payload", "ap_hook.s")
+    with open(hook_path) as f:
+        entry = f.read().split("ap_on_request_copy_ability_transition:", 1)[1]
+    assert entry.index("movs r2, r5") < entry.index("b ap_on_request_copy_ability_transition_c")
+    assert entry.index("mov r3, lr") < entry.index("b ap_on_request_copy_ability_transition_c")
+    assert "uint32_t source_obj_ptr, uint32_t caller_lr" in hook_body
     assert "ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE" in content, \
         "Payload should define explicit source-kind enum values"
     assert "uint16_t source_type = *(volatile uint16_t*)(source_obj_ptr + 0u);" not in hook_body, \

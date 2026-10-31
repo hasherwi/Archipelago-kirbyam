@@ -19,7 +19,9 @@ new emulator test or an acquired ROM:
 | `8 - Radish Ruins/8 - 15 Lever.State` | 619 | `0x088D1454` | `0x81` | `0x63` | 74 | 3 |
 
 These historical state filenames use an older room numbering convention; AP
-location names and IDs remain Moonlight 2-11, Olive 6-13, Carrot 5-12, Radish 8-12.
+location names are Moonlight 2-11, Olive 6-13, Carrot 5-05, Radish 8-12.
+Issue #972 corrects the historical Carrot 5-12 label and check/event parent;
+numeric IDs and native bits remain stable. See [Carrot lever evidence](carrot-lever-972.md).
 The payload matches exact source pointer, reward, and chest ID together instead
 of interpreting a current-room label as proof of an activation.
 

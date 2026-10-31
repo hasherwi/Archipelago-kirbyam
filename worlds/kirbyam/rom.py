@@ -41,6 +41,7 @@ if TYPE_CHECKING:
 HEALTH_INITIAL_ROM_OFFSET = 0x0015F690
 STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET = 0x0015F694
 ABILITY_GATE_MASK_INITIAL_ROM_OFFSET = 0x0015F698
+ABILITY_RANDOMIZATION_MINNY_ROM_OFFSET = 0x0015F68C
 ABILITY_RANDOMIZATION_STATUE_ALLOWED_MASK_ROM_OFFSET = 0x0015F69C
 ENEMY_HEALTH_MULTIPLIER_FILE = "enemy_health_multiplier.bin"
 
@@ -169,6 +170,15 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
         APTokenTypes.WRITE,
         ABILITY_GATE_MASK_INITIAL_ROM_OFFSET,
         _initial_ability_gate_mask(world).to_bytes(4, "little"),
+    )
+
+    # Keep the source inclusion policy in the generated ROM, independently of
+    # client connection/reset timing. Match the static policy's legacy default.
+    randomize_minny = bool(policy.get("ability_randomization_minny", True)) if isinstance(policy, dict) else False
+    patch.write_token(
+        APTokenTypes.WRITE,
+        ABILITY_RANDOMIZATION_MINNY_ROM_OFFSET,
+        int(randomize_minny).to_bytes(4, "little"),
     )
 
     # Always overwrite the reserved statue word so a reused base patch cannot
