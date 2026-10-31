@@ -1,0 +1,50 @@
+# Hub Teleport Trap (#697)
+
+Hub Teleport Trap (item `3860300`) participates in the existing trap pool when traps are enabled. It calls the native warp star to return single-player Kirby to Central Circle (Rainbow Route room `0x321`). Receiving it while safely in that room consumes it without another return. Regenerate the ROM patch and use the matching client; older payloads do not implement this behavior.
+
+The mailbox retains the receipt during scripts, death, pause, demos, multiplayer, missing gameplay HUD, native return restrictions, and existing room transitions. Later items wait behind it. The client does not clear/reoffer this deliberately deferred receipt on its ordinary ACK timeout. The counter advances once when native charge changes into takeoff, or on a safe already-hub no-op; the flag clears last. Acceptance is not arrival. Reset and ambiguous process-loss recovery retain the existing transient-receipt policy.
+
+## Native evidence and implementation
+
+Integrated main: `163972e981419dde338b9cdc3db967e49f345a1f`. The source reference is [katam kirby.c](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c), together with `main.c` and `include/kirby.h`. Disassembly and literal pools of the locally supplied USA ROM (MD5 `df5efe075b35859529ebf82a4d824458`) verify these addresses and offsets:
+
+- The existing mailbox hook at `0x08152696` leaves the item pending. The single GameLoop scheduler call at `0x08151CF4` still invokes native TasksExec (`0x08152CF4`) exactly once.
+- Native input decoder `sub_0803F324` reads the halfword `gHeldKeys` at `0x03002E90` for local single-player Kirby. It derives held/pressed/released fields at Kirby `+0x118/+0x11A/+0x11C`; its native input-suppression flag remains effective.
+- Native input handlers check room priority `0x40`, boss/session state, mode flags and Mini exclusion before calling `sub_08056E40`. Calling that function directly would bypass those checks. The scheduler wrapper therefore temporarily ORs L (`0x200`) into held input, preserving physical input and restoring it after the scheduler. It never writes Kirby's function pointer, destination, ability, or input-state fields.
+- The native sequence is `56E40 -> 5701C -> 572A0 -> 573D0 -> 5BEE8 -> 575D8 -> 57774`. Kirby's function pointer is at `+0x78`. The wrapper sustains L only in native call/charge (`0x0805701D`, `0x080573D1`) with the native return-call bit `+0xC & 0x40000`. A single pulse would cancel in `573D0`; rejected presses receive a release frame before retrying. Physical L is never suppressed.
+- Acknowledgment requires observing charge before TasksExec and takeoff (`0x080575D9`) afterward. A receipt arriving during an earlier takeoff waits for safe hub arrival. Native `57774` sets room `0x321`, spawn `(0, -2)`, then enters `5545C`; the trap no longer calls the direct room-request or default-spawn routines.
+- Existing gameplay, health, script, animation, HUD and transition guards remain. Initiation also yields to physical Start/Select. The call/charge continuation uses native state recognition because those states intentionally set flags that would prevent a fresh request. Native restrictions may defer the trap indefinitely until returning to eligible gameplay; they are not bypassed.
+
+The patch builder checks the scheduler BL and SHA256 of USA native input decoding (`0x3F324–0x3F46C`), call/charge/takeoff (`0x56E40–0x578E4`), and takeoff entry (`0x5BEE8–0x5BF2C`) before mutation. Synthetic fixtures contain only those guarded excerpts. The adapter lives in the append-only ROM extension; its eight-byte Thumb tail-call entry preserves LR and SP and replaces the C wrapper to fit alongside the Minny transition hook; per-seed configuration, mailbox and save layouts remain unchanged. No full ROM is distributed.
+
+## Validation scope and emulator acceptance
+
+Host regressions run the actual adapter and mailbox against a scheduler double modeling native input edges, refusal, sustained hold, cancellation and accepted takeoff. They check delayed acknowledgment, every readiness gate, cancellation/retry, restored physical input, receipts arriving during takeoff, safe hub no-op, and two actual accepted returns at different receipt counters. These tests establish adapter behavior against that model, not native animation or emulator stability. Client tests cover prolonged deferral and ordered delivery; the patcher rejects each corrupted guarded contract byte without modifying input.
+
+ARM compilation and local BSDIFF reapplication validate the build and patch contents. Before closing #697, emulator acceptance must verify visible call/charge/takeoff, native arrival `(0, -2)`, ground/air/water and copy abilities (including deferred Mini), room/boss restrictions, rejected calls and retries, door/mirror/warp transitions, chest/lever scripts, pause/death/respawn, consecutive receipts, and save/reload/reconnect around acceptance. Verify no lost collection events or unintended ability/health changes. No gameplay, animation or save/load acceptance is claimed by host tests or patch checks.
+
+## Current-main integration (2026-10-31)
+
+The combined ARM GCC 14.2.1 build uses 5,768 bytes of main code/data, four bytes of
+space, and the unchanged 20-byte per-seed configuration in the 5,792-byte window.
+The append-only extension is 1,608 bytes. The earlier C entry wrapper overlapped
+configuration by four bytes after integrating the Minny fix; the eight-byte
+`ldr r3; bx r3; .word ap_hub_tasks` tail entry resolves that without moving any
+configuration or mailbox addresses. Binary inspection verifies its exact opcodes
+and Thumb destination against the linked ELF. The host scheduler test substitutes
+a C tail-entry equivalent and therefore does not execute that ARM entry.
+
+The rebuilt BSDIFF SHA256 is
+`7be95efdbfdd72510f65bbf5614eb51582be4b0e3a07bcd84af08bb242ed0be0`.
+Local reapplication matches the built ROM byte-for-byte; each of five corrupted
+native contract inputs is rejected without mutation. Focused adapter, Minny,
+patch-contract and count-goal tests pass (104 tests). Actual emulator gameplay,
+visible animation, arrival and save/reload/reconnect acceptance remain open.
+
+## Cross-branch item identity reservation
+
+Hub Teleport Trap is reserved at `3860300` (`BASE_OFFSET + 300`). The original draft's `3860041` is invalid: #932 uses `3860041–3860055` for Hub Connections and #908 independently used `3860041–3860048` for Area Keys. Do not retain the old trap ID as a compatibility alias; it would consume progression items as traps. Discard seeds generated from the initial draft and regenerate both seed and ROM patch with the corrected catalog/client. Existing main IDs are unchanged.
+
+`data/item_id_reservations.json` records resolved main IDs and exact head/blob hashes for all 16 open PR catalogs inspected on 2026-10-25 (#908, #914, #932, #977, #979, #984, #985, #987–#995). All omitted catalog entries equal the recorded baseline. Both explicit IDs and implicit `data.py` allocations were counted; none used 3860300. This is a pinned audit, not a claim that future branch heads were inspected. Preserve the reservation when updating any item catalog.
+
+Before combining branches, run `python worlds/kirbyam/tools/check_item_ids.py --catalog /path/to/first/items.json --catalog /path/to/second/items.json` for every candidate catalog. The validator rejects distinct keys sharing an ID and the same key changing IDs; it also enforces the trap reservation. Tests reproduce the original #908/#932 collision and prove the corrected trap is compatible with either individually. The independent Area Key/Hub Connection overlap remains an integration blocker until its owning worker reallocates one range and updates all consumers. This PR does not modify those branches or waive that failure.

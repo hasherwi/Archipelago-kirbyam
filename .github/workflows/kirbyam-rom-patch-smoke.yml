@@ -137,6 +137,11 @@ jobs:
           rom[0xD60820:0xD60824] = (0x08155401).to_bytes(4, "little")
           rom[0x3D21C:0x3D224] = bytes.fromhex("70 b5 04 1c 0d 1c 16 1c")
 
+          # Preserve strict native hub guards in the synthetic smoke input.
+          import runpy
+          hub_fixture = runpy.run_path("worlds/kirbyam/test/native/hub_transition_fixture.py")
+          hub_fixture["populate_hub_transition_fixture"](rom)
+
           rom_path.write_bytes(rom)
           PY
 

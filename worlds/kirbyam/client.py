@@ -4327,6 +4327,15 @@ class KirbyAmClient(BizHawkClient):
                     timeout_triggered = True
                     timeout_reason = f"time timeout ({elapsed_seconds:.1f}s >= {_MAILBOX_ACK_TIMEOUT_SECONDS}s)"
 
+            # Hub teleport deliberately leaves the mailbox pending through scripts,
+            # pause and native room transitions. Clearing/reoffering it on a timer
+            # can race its eventual acceptance; retain this receipt in order.
+            pending_index = self._delivery_pending_item_index
+            if (timeout_triggered and flag == 1 and pending_index is not None
+                    and 0 <= pending_index < len(ctx.items_received)
+                    and getattr(ctx.items_received[pending_index], "item", None) == 3860300):
+                return
+
             if timeout_triggered:
                 self._delivery_timeout_streak += 1
                 self._delivery_timeout_total += 1

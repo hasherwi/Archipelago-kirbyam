@@ -44,3 +44,16 @@ ap_on_request_copy_ability_transition:
     movs r2, r5
     mov r3, lr
     b ap_on_request_copy_ability_transition_c
+
+.section .text.ap_hub_entry,"ax",%progbits
+.balign 4
+.global ap_after_tasks
+.type ap_after_tasks, %function
+.thumb_func
+ap_after_tasks:
+    // Eight-byte long tail call keeps the fixed payload/config window intact.
+    // Preserve LR and stack alignment; the extension returns to GameLoop.
+    ldr r3, 1f
+    bx r3
+1:  .word ap_hub_tasks
+.size ap_after_tasks, .-ap_after_tasks

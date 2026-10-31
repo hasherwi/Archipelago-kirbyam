@@ -809,6 +809,7 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_initial_health_capacity"),
         "health_hud_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_draw_health_hud"),
+        "hub_trap_hook_target": resolve_elf_symbol_address(payload_elf_path, "ap_after_tasks"),
         "main_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_hook_entry"),
         "boss_hook_target": resolve_elf_symbol_address(
@@ -852,6 +853,7 @@ _PAYLOAD_TARGET_LABELS = {
     "treasure_paint_hook_target": "explicit treasure paint choice",
     "initial_health_hook_target": "configured native initial health",
     "vitality_menu_hook_target": "bounded native collection menu",
+    "hub_trap_hook_target": "hub trap scheduler hook",
     "main_hook_target": "main hook",
     "boss_hook_target": "boss shard hook",
     "boss_already_owned_hook_target": "boss already-owned reward hook",
@@ -886,6 +888,22 @@ def validate_payload_targets(
                 f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
                 "Check your payload.elf link address and PAYLOAD_OFFSET."
             )
+
+
+def build_hub_teleport_writes(rom: bytes | bytearray, target: int) -> dict[int, bytes]:
+    """Fail closed on the USA scheduler call, native input decoder and warp-star sequence."""
+    offset = 0x151CF4
+    validate_expected_instruction_sequence(
+        rom, offset, thumb_bl_bytes(0x08151CF4, 0x08152CF4), "hub trap scheduler call")
+    contracts = (
+        (0x3F324, 0x3F46C, "bd420a33b1e8175c02ecc37c0d6f7f71ec989a5fb12c9d7b9dfcab0250f714f4"),
+        (0x56E40, 0x578E4, "73d6ac232300355a3d69012d2fc2e06aff888ff878e5a2f933838583c18dc9e3"),
+        (0x5BEE8, 0x5BF2C, "92931d3762d4ba7ecbb6762c9a367649bf6f1f74ff69285f864ebc45e20fb7b4"),
+    )
+    for start, end, digest in contracts:
+        if hashlib.sha256(rom[start:end]).hexdigest() != digest:
+            raise SystemExit("Error: hub trap native transition contract differs from verified USA ROM")
+    return {offset: thumb_bl_bytes(0x08000000 + offset, target)}
 
 
 def build_payload_hook_bl_bytes(
@@ -1207,7 +1225,8 @@ def patch_rom_with_payload(
     hook_targets: dict[str, int],
     rom_base: int,
 ) -> None:
-    regression_writes = build_runtime_regression_writes(rom, hook_targets, rom_base)
+    regression_writes = build_hub_teleport_writes(rom, hook_targets["hub_trap_hook_target"])
+    regression_writes.update(build_runtime_regression_writes(rom, hook_targets, rom_base))
     regression_writes.update(build_health_hud_writes(
         rom, hook_targets["health_hud_hook_target"], rom_base))
     regression_writes.update(build_initial_health_writes(
@@ -1385,6 +1404,7 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     import importlib.util
     spec = importlib.util.spec_from_file_location(
         "kirby_color_patch", Path(__file__).with_name("color_patch.py"))
+    assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     extension = elf_path.with_name("color_payload.bin").read_bytes()

@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
+- Add Hub Teleport Trap, which returns Kirby to Rainbow Route’s central hub (Issue #697).
 - Add `/goal` to display the seed's victory condition, including its resolved boss target while preserving legacy hidden targets (Issue #923).
 - Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
 
