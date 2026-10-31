@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
+- Added 15 Hub Connection progression items that gate their matching area transitions and hub shortcuts while preserving alternate overland routes. Physical Big Switch checks remain available until collected, and received connections are restored across reconnects (Issue #482).
 - Add Hub Teleport Trap, which returns Kirby to Rainbow Route’s central hub (Issue #697).
 - Add `/goal` to display the seed's victory condition, including its resolved boss target while preserving legacy hidden targets (Issue #923).
 - Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
@@ -99,7 +100,6 @@ Historical v0.4.1 limitations retained for acceptance tracking: main carries col
 - Added `random_color_per_room` to Starting Kirby Color. It chooses an initial supported palette at generation, then changes to a different supported palette whenever the connected BizHawk client observes Kirby enter a different room (Issue #857).
 - Added four progression items that independently open the walls controlled by those levers. Pulling a lever now sends its AP location check without opening the wall; receiving the matching Lever Wall item sets the native wall-unlock state instead (Issue #859).
 
-- Added 15 Hub Connection progression items that gate their matching area transitions and hub shortcuts while preserving alternate overland routes. Physical Big Switch checks remain available until collected, and received connections are restored across reconnects (Issue #482).
 
 ### Improvements
 - Ability unlock gating also applies at the final native ability commit, after roulette and other pending-ability writes (Issue #892).
