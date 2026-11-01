@@ -1,0 +1,3703 @@
+{
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "checked_on": "2026-11-01",
+  "slot_count": 983,
+  "unused_ranges": [
+    [
+      0,
+      100
+    ],
+    [
+      105,
+      105
+    ],
+    [
+      109,
+      109
+    ],
+    [
+      111,
+      112
+    ],
+    [
+      116,
+      116
+    ],
+    [
+      123,
+      125
+    ],
+    [
+      128,
+      128
+    ],
+    [
+      150,
+      169
+    ],
+    [
+      179,
+      179
+    ],
+    [
+      182,
+      189
+    ],
+    [
+      196,
+      199
+    ],
+    [
+      201,
+      201
+    ],
+    [
+      207,
+      207
+    ],
+    [
+      213,
+      213
+    ],
+    [
+      233,
+      289
+    ],
+    [
+      292,
+      299
+    ],
+    [
+      301,
+      303
+    ],
+    [
+      305,
+      307
+    ],
+    [
+      309,
+      309
+    ],
+    [
+      311,
+      311
+    ],
+    [
+      314,
+      314
+    ],
+    [
+      319,
+      320
+    ],
+    [
+      327,
+      389
+    ],
+    [
+      391,
+      399
+    ],
+    [
+      410,
+      410
+    ],
+    [
+      428,
+      489
+    ],
+    [
+      491,
+      499
+    ],
+    [
+      505,
+      506
+    ],
+    [
+      518,
+      522
+    ],
+    [
+      548,
+      550
+    ],
+    [
+      552,
+      552
+    ],
+    [
+      558,
+      569
+    ],
+    [
+      572,
+      589
+    ],
+    [
+      593,
+      599
+    ],
+    [
+      602,
+      602
+    ],
+    [
+      607,
+      607
+    ],
+    [
+      615,
+      615
+    ],
+    [
+      624,
+      689
+    ],
+    [
+      691,
+      699
+    ],
+    [
+      701,
+      701
+    ],
+    [
+      703,
+      703
+    ],
+    [
+      713,
+      713
+    ],
+    [
+      715,
+      715
+    ],
+    [
+      718,
+      718
+    ],
+    [
+      721,
+      729
+    ],
+    [
+      746,
+      789
+    ],
+    [
+      791,
+      799
+    ],
+    [
+      806,
+      809
+    ],
+    [
+      812,
+      813
+    ],
+    [
+      817,
+      818
+    ],
+    [
+      820,
+      820
+    ],
+    [
+      833,
+      889
+    ],
+    [
+      891,
+      908
+    ],
+    [
+      917,
+      917
+    ],
+    [
+      920,
+      949
+    ],
+    [
+      952,
+      954
+    ],
+    [
+      958,
+      968
+    ],
+    [
+      971,
+      979
+    ]
+  ],
+  "rooms": [
+    {
+      "native_id": 101,
+      "completion_index": 21,
+      "object_list_index": 21,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_01"
+      ],
+      "wiki_title": "Rainbow Route - Room 1",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 102,
+      "completion_index": 245,
+      "object_list_index": 245,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_22"
+      ],
+      "wiki_title": "Radish Ruins - Room 22",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_22",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 103,
+      "completion_index": 22,
+      "object_list_index": 22,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_05"
+      ],
+      "wiki_title": "Rainbow Route - Room 5",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_5",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 104,
+      "completion_index": 23,
+      "object_list_index": 23,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_04"
+      ],
+      "wiki_title": "Rainbow Route - Room 4",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_4",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 106,
+      "completion_index": 24,
+      "object_list_index": 24,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_02"
+      ],
+      "wiki_title": "Rainbow Route - Room 2",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 107,
+      "completion_index": 25,
+      "object_list_index": 25,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER",
+        "REGION_RAINBOW_ROUTE/ROOM_1_03_LOWER"
+      ],
+      "wiki_title": "Rainbow Route - Room 3",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_3",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 108,
+      "completion_index": 26,
+      "object_list_index": 26,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER",
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_RIGHT",
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID",
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_CHEST"
+      ],
+      "wiki_title": "Rainbow Route - Room 6",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_6",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 110,
+      "completion_index": 27,
+      "object_list_index": 27,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_08"
+      ],
+      "wiki_title": "Rainbow Route - Room 8",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_8",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 113,
+      "completion_index": 246,
+      "object_list_index": 246,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_21"
+      ],
+      "wiki_title": "Radish Ruins - Room 21",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_21",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 114,
+      "completion_index": 247,
+      "object_list_index": 247,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_23"
+      ],
+      "wiki_title": "Radish Ruins - Room 23",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_23",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 115,
+      "completion_index": 45,
+      "object_list_index": 45,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_25"
+      ],
+      "wiki_title": "Rainbow Route - Room 25",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_25",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 117,
+      "completion_index": 46,
+      "object_list_index": 46,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_24",
+        "REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER"
+      ],
+      "wiki_title": "Rainbow Route - Room 24",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_24",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 118,
+      "completion_index": 47,
+      "object_list_index": 47,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_23"
+      ],
+      "wiki_title": "Rainbow Route - Room 23",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_23",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 119,
+      "completion_index": 48,
+      "object_list_index": 48,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_22"
+      ],
+      "wiki_title": "Rainbow Route - Room 22",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_22",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 120,
+      "completion_index": 249,
+      "object_list_index": 249,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_02"
+      ],
+      "wiki_title": "Carrot Castle - Room 2",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 121,
+      "completion_index": 250,
+      "object_list_index": 250,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_03"
+      ],
+      "wiki_title": "Carrot Castle - Room 3",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_3",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 122,
+      "completion_index": 251,
+      "object_list_index": 251,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_01"
+      ],
+      "wiki_title": "Carrot Castle - Room 1",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 126,
+      "completion_index": 44,
+      "object_list_index": 44,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_32"
+      ],
+      "wiki_title": "Rainbow Route - Room 32",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_32",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 127,
+      "completion_index": 33,
+      "object_list_index": 33,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_15",
+        "REGION_RAINBOW_ROUTE/ROOM_1_15_LOWER"
+      ],
+      "wiki_title": "Rainbow Route - Room 15",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_15",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 129,
+      "completion_index": 248,
+      "object_list_index": 248,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_BOSS"
+      ],
+      "wiki_title": "Radish Ruins - Boss",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Boss",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 130,
+      "completion_index": 190,
+      "object_list_index": 190,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_01"
+      ],
+      "wiki_title": "Olive Ocean - Room 1",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 131,
+      "completion_index": 191,
+      "object_list_index": 191,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_02"
+      ],
+      "wiki_title": "Olive Ocean - Room 2",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_2",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 132,
+      "completion_index": 192,
+      "object_list_index": 192,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_04"
+      ],
+      "wiki_title": "Olive Ocean - Room 4",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_4",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 133,
+      "completion_index": 193,
+      "object_list_index": 193,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_05",
+        "REGION_OLIVE_OCEAN/ROOM_6_05_SUBROOM",
+        "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06",
+        "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_23",
+        "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_07"
+      ],
+      "wiki_title": "Olive Ocean - Room 5",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_5",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 134,
+      "completion_index": 194,
+      "object_list_index": 194,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_06"
+      ],
+      "wiki_title": "Olive Ocean - Room 6",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_6",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 135,
+      "completion_index": 195,
+      "object_list_index": 195,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1"
+      ],
+      "wiki_title": "Olive Ocean - Goal 1",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Goal_1",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 136,
+      "completion_index": 34,
+      "object_list_index": 34,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_31"
+      ],
+      "wiki_title": "Rainbow Route - Room 31",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_31",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 137,
+      "completion_index": 35,
+      "object_list_index": 35,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_14"
+      ],
+      "wiki_title": "Rainbow Route - Room 14",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_14",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 138,
+      "completion_index": 49,
+      "object_list_index": 49,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_28"
+      ],
+      "wiki_title": "Rainbow Route - Room 28",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_28",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 139,
+      "completion_index": 50,
+      "object_list_index": 50,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_26",
+        "REGION_RAINBOW_ROUTE/ROOM_1_26_UPPER_RIGHT"
+      ],
+      "wiki_title": "Rainbow Route - Room 26",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_26",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 140,
+      "completion_index": 28,
+      "object_list_index": 28,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_07"
+      ],
+      "wiki_title": "Rainbow Route - Room 7",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_7",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 141,
+      "completion_index": 29,
+      "object_list_index": 29,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_41",
+        "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER"
+      ],
+      "wiki_title": "Rainbow Route - Room 41",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_41",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 142,
+      "completion_index": 30,
+      "object_list_index": 30,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_WARP"
+      ],
+      "wiki_title": "Rainbow Route - Warp",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Warp",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 143,
+      "completion_index": 31,
+      "object_list_index": 31,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_42",
+        "REGION_RAINBOW_ROUTE/ROOM_1_42_CUT"
+      ],
+      "wiki_title": "Rainbow Route - Room 42",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_42",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 144,
+      "completion_index": 60,
+      "object_list_index": 60,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_16"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 16",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_16",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 145,
+      "completion_index": 61,
+      "object_list_index": 61,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_17"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 17",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_17",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 146,
+      "completion_index": 62,
+      "object_list_index": 62,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18_UPPER_LEFT"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 18",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_18",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 147,
+      "completion_index": 63,
+      "object_list_index": 63,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 19",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_19",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 148,
+      "completion_index": 64,
+      "object_list_index": 64,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_BOTTOM_RIGHT"
+      ],
+      "wiki_title": "Moonlight Mansion - Goal 2",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Goal_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 149,
+      "completion_index": 65,
+      "object_list_index": 65,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_20"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 20",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_20",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 170,
+      "completion_index": 252,
+      "object_list_index": 252,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_05"
+      ],
+      "wiki_title": "Carrot Castle - Room 5",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_5",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 171,
+      "completion_index": 51,
+      "object_list_index": 51,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_21"
+      ],
+      "wiki_title": "Rainbow Route - Room 21",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_21",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 172,
+      "completion_index": 52,
+      "object_list_index": 52,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_20"
+      ],
+      "wiki_title": "Rainbow Route - Room 20",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_20",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 173,
+      "completion_index": 53,
+      "object_list_index": 53,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_18",
+        "REGION_RAINBOW_ROUTE/ROOM_1_18_UPPER"
+      ],
+      "wiki_title": "Rainbow Route - Room 18",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_18",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 174,
+      "completion_index": 54,
+      "object_list_index": 54,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_17"
+      ],
+      "wiki_title": "Rainbow Route - Room 17",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_17",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 175,
+      "completion_index": 55,
+      "object_list_index": 55,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_19"
+      ],
+      "wiki_title": "Rainbow Route - Room 19",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_19",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 176,
+      "completion_index": 56,
+      "object_list_index": 56,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2"
+      ],
+      "wiki_title": "Rainbow Route - Goal 2",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Goal_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 177,
+      "completion_index": 57,
+      "object_list_index": 57,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3"
+      ],
+      "wiki_title": "Rainbow Route - Goal 3",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Goal_3",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 178,
+      "completion_index": 58,
+      "object_list_index": 58,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_29"
+      ],
+      "wiki_title": "Rainbow Route - Room 29",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_29",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 180,
+      "completion_index": 8,
+      "object_list_index": 8,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_12_RIGHT"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 12",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_12",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 181,
+      "completion_index": 9,
+      "object_list_index": 9,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_06"
+      ],
+      "wiki_title": "Carrot Castle - Room 6",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_6",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 190,
+      "completion_index": 32,
+      "object_list_index": 32,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+      ],
+      "wiki_title": "Rainbow Route - Hub 1",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Hub_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 191,
+      "completion_index": 189,
+      "object_list_index": 189,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
+      ],
+      "wiki_title": "Cabbage Cavern - Hub 1",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Hub_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 192,
+      "completion_index": 59,
+      "object_list_index": 59,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+      ],
+      "wiki_title": "Rainbow Route - Hub 3",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Hub_3",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 193,
+      "completion_index": 253,
+      "object_list_index": 253,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_HUB"
+      ],
+      "wiki_title": "Carrot Castle - Hub",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Hub",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 194,
+      "completion_index": 36,
+      "object_list_index": 36,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2"
+      ],
+      "wiki_title": "Rainbow Route - Hub 2",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Hub_2",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 195,
+      "completion_index": 66,
+      "object_list_index": 66,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
+      ],
+      "wiki_title": "Moonlight Mansion - Entry",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Entry",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 200,
+      "completion_index": 85,
+      "object_list_index": 85,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_24"
+      ],
+      "wiki_title": "Peppermint Palace - Room 24",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_24",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 202,
+      "completion_index": 86,
+      "object_list_index": 86,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_02"
+      ],
+      "wiki_title": "Peppermint Palace - Room 2",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_2",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 203,
+      "completion_index": 87,
+      "object_list_index": 87,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_11"
+      ],
+      "wiki_title": "Peppermint Palace - Room 11",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_11",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 204,
+      "completion_index": 88,
+      "object_list_index": 88,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_12"
+      ],
+      "wiki_title": "Peppermint Palace - Room 12",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_12",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 205,
+      "completion_index": 89,
+      "object_list_index": 89,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+      ],
+      "wiki_title": "Peppermint Palace - Room 7",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_7",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 206,
+      "completion_index": 90,
+      "object_list_index": 90,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_08"
+      ],
+      "wiki_title": "Peppermint Palace - Room 8",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_8",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 208,
+      "completion_index": 91,
+      "object_list_index": 91,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_03"
+      ],
+      "wiki_title": "Peppermint Palace - Room 3",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_3",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 209,
+      "completion_index": 92,
+      "object_list_index": 92,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST"
+      ],
+      "wiki_title": "Peppermint Palace - Chest",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Chest",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 210,
+      "completion_index": 93,
+      "object_list_index": 93,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_05"
+      ],
+      "wiki_title": "Peppermint Palace - Room 5",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_5",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 211,
+      "completion_index": 94,
+      "object_list_index": 94,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_01"
+      ],
+      "wiki_title": "Peppermint Palace - Room 1",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 212,
+      "completion_index": 105,
+      "object_list_index": 105,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_18"
+      ],
+      "wiki_title": "Peppermint Palace - Room 18",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_18",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 214,
+      "completion_index": 95,
+      "object_list_index": 95,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1"
+      ],
+      "wiki_title": "Peppermint Palace - Goal 1",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Goal_1",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 215,
+      "completion_index": 106,
+      "object_list_index": 106,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_17"
+      ],
+      "wiki_title": "Peppermint Palace - Room 17",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_17",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 216,
+      "completion_index": 107,
+      "object_list_index": 107,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_19"
+      ],
+      "wiki_title": "Peppermint Palace - Room 19",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_19",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 217,
+      "completion_index": 108,
+      "object_list_index": 108,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_20"
+      ],
+      "wiki_title": "Peppermint Palace - Room 20",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_20",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 218,
+      "completion_index": 109,
+      "object_list_index": 109,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_23"
+      ],
+      "wiki_title": "Peppermint Palace - Room 23",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_23",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 219,
+      "completion_index": 110,
+      "object_list_index": 110,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS"
+      ],
+      "wiki_title": "Peppermint Palace - Boss",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Boss",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 220,
+      "completion_index": 96,
+      "object_list_index": 96,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_13"
+      ],
+      "wiki_title": "Peppermint Palace - Room 13",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_13",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 221,
+      "completion_index": 111,
+      "object_list_index": 111,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_22"
+      ],
+      "wiki_title": "Peppermint Palace - Room 22",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_22",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 222,
+      "completion_index": 112,
+      "object_list_index": 112,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_04"
+      ],
+      "wiki_title": "Peppermint Palace - Room 4",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_4",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 223,
+      "completion_index": 113,
+      "object_list_index": 113,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_21"
+      ],
+      "wiki_title": "Peppermint Palace - Room 21",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_21",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 224,
+      "completion_index": 114,
+      "object_list_index": 114,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2"
+      ],
+      "wiki_title": "Peppermint Palace - Goal 2",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Goal_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 225,
+      "completion_index": 115,
+      "object_list_index": 115,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_15"
+      ],
+      "wiki_title": "Peppermint Palace - Room 15",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_15",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 226,
+      "completion_index": 97,
+      "object_list_index": 97,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_04"
+      ],
+      "wiki_title": "Carrot Castle - Room 4",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_4",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 227,
+      "completion_index": 98,
+      "object_list_index": 98,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06"
+      ],
+      "wiki_title": "Peppermint Palace - Room 6",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_6",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 228,
+      "completion_index": 99,
+      "object_list_index": 99,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_09"
+      ],
+      "wiki_title": "Peppermint Palace - Room 9",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_9",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 229,
+      "completion_index": 100,
+      "object_list_index": 100,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10"
+      ],
+      "wiki_title": "Peppermint Palace - Room 10",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_10",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 230,
+      "completion_index": 101,
+      "object_list_index": 101,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_WARP"
+      ],
+      "wiki_title": "Peppermint Palace - Warp",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Warp",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 231,
+      "completion_index": 102,
+      "object_list_index": 102,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_16"
+      ],
+      "wiki_title": "Peppermint Palace - Room 16",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_16",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 232,
+      "completion_index": 103,
+      "object_list_index": 103,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_14"
+      ],
+      "wiki_title": "Peppermint Palace - Room 14",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_14",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 290,
+      "completion_index": 104,
+      "object_list_index": 104,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+      ],
+      "wiki_title": "Peppermint Palace - Hub 1",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Hub_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 291,
+      "completion_index": 116,
+      "object_list_index": 116,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2"
+      ],
+      "wiki_title": "Peppermint Palace - Hub 2",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Hub_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 300,
+      "completion_index": 125,
+      "object_list_index": 125,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_14"
+      ],
+      "wiki_title": "Mustard Mountain - Room 14",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_14",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 304,
+      "completion_index": 126,
+      "object_list_index": 126,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_04"
+      ],
+      "wiki_title": "Mustard Mountain - Room 4",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_4",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 308,
+      "completion_index": 127,
+      "object_list_index": 127,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_09"
+      ],
+      "wiki_title": "Mustard Mountain - Room 9",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_9",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 310,
+      "completion_index": 128,
+      "object_list_index": 128,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
+      ],
+      "wiki_title": "Mustard Mountain - Chest",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Chest",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 312,
+      "completion_index": 129,
+      "object_list_index": 129,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_18"
+      ],
+      "wiki_title": "Mustard Mountain - Room 18",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_18",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 313,
+      "completion_index": 130,
+      "object_list_index": 130,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_19"
+      ],
+      "wiki_title": "Mustard Mountain - Room 19",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_19",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 315,
+      "completion_index": 131,
+      "object_list_index": 131,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_12"
+      ],
+      "wiki_title": "Mustard Mountain - Room 12",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_12",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 316,
+      "completion_index": 132,
+      "object_list_index": 132,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_10"
+      ],
+      "wiki_title": "Mustard Mountain - Room 10",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_10",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 317,
+      "completion_index": 133,
+      "object_list_index": 133,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_17",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_17_LEFT"
+      ],
+      "wiki_title": "Mustard Mountain - Room 17",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_17",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 318,
+      "completion_index": 134,
+      "object_list_index": 134,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP"
+      ],
+      "wiki_title": "Mustard Mountain - Warp",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Warp",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 321,
+      "completion_index": 135,
+      "object_list_index": 135,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05"
+      ],
+      "wiki_title": "Mustard Mountain - Room 5",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_5",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 322,
+      "completion_index": 136,
+      "object_list_index": 136,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_11"
+      ],
+      "wiki_title": "Mustard Mountain - Room 11",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_11",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 323,
+      "completion_index": 137,
+      "object_list_index": 137,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_13"
+      ],
+      "wiki_title": "Mustard Mountain - Room 13",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_13",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 324,
+      "completion_index": 138,
+      "object_list_index": 138,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS"
+      ],
+      "wiki_title": "Mustard Mountain - Boss",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Boss",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 325,
+      "completion_index": 139,
+      "object_list_index": 139,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_16"
+      ],
+      "wiki_title": "Mustard Mountain - Room 16",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_16",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 326,
+      "completion_index": 140,
+      "object_list_index": 140,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2"
+      ],
+      "wiki_title": "Mustard Mountain - Goal 2",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Goal_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 390,
+      "completion_index": 141,
+      "object_list_index": 141,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB"
+      ],
+      "wiki_title": "Mustard Mountain - Hub",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Hub",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 400,
+      "completion_index": 142,
+      "object_list_index": 142,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_20"
+      ],
+      "wiki_title": "Candy Constellation - Room 20",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_20",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 401,
+      "completion_index": 143,
+      "object_list_index": 143,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_06"
+      ],
+      "wiki_title": "Candy Constellation - Room 6",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_6",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 402,
+      "completion_index": 144,
+      "object_list_index": 144,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_12"
+      ],
+      "wiki_title": "Candy Constellation - Room 12",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_12",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 403,
+      "completion_index": 145,
+      "object_list_index": 145,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_01",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_09"
+      ],
+      "wiki_title": "Candy Constellation - Chest 2",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Chest_2",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 404,
+      "completion_index": 146,
+      "object_list_index": 146,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_01"
+      ],
+      "wiki_title": "Candy Constellation - Room 1",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 405,
+      "completion_index": 147,
+      "object_list_index": 147,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_09"
+      ],
+      "wiki_title": "Candy Constellation - Room 9",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_9",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 406,
+      "completion_index": 148,
+      "object_list_index": 148,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1"
+      ],
+      "wiki_title": "Candy Constellation - Chest 1",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Chest_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 407,
+      "completion_index": 149,
+      "object_list_index": 149,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_07"
+      ],
+      "wiki_title": "Candy Constellation - Room 7",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_7",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 408,
+      "completion_index": 150,
+      "object_list_index": 150,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_05"
+      ],
+      "wiki_title": "Candy Constellation - Room 5",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_5",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 409,
+      "completion_index": 151,
+      "object_list_index": 151,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_04"
+      ],
+      "wiki_title": "Candy Constellation - Room 4",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_4",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 411,
+      "completion_index": 152,
+      "object_list_index": 152,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_08"
+      ],
+      "wiki_title": "Candy Constellation - Room 8",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_8",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 412,
+      "completion_index": 153,
+      "object_list_index": 153,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_WARP"
+      ],
+      "wiki_title": "Candy Constellation - Warp",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Warp",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 413,
+      "completion_index": 154,
+      "object_list_index": 154,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_1"
+      ],
+      "wiki_title": "Candy Constellation - Goal 1",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Goal_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 414,
+      "completion_index": 155,
+      "object_list_index": 155,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_11"
+      ],
+      "wiki_title": "Candy Constellation - Room 11",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_11",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 415,
+      "completion_index": 156,
+      "object_list_index": 156,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_14"
+      ],
+      "wiki_title": "Candy Constellation - Room 14",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_14",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 416,
+      "completion_index": 157,
+      "object_list_index": 157,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_19"
+      ],
+      "wiki_title": "Candy Constellation - Room 19",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_19",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 417,
+      "completion_index": 158,
+      "object_list_index": 158,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_BOSS"
+      ],
+      "wiki_title": "Candy Constellation - Boss",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Boss",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 418,
+      "completion_index": 159,
+      "object_list_index": 159,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_10"
+      ],
+      "wiki_title": "Candy Constellation - Room 10",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_10",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 419,
+      "completion_index": 160,
+      "object_list_index": 160,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13"
+      ],
+      "wiki_title": "Candy Constellation - Room 13",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_13",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 420,
+      "completion_index": 161,
+      "object_list_index": 161,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2"
+      ],
+      "wiki_title": "Candy Constellation - Goal 2",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Goal_2",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 421,
+      "completion_index": 162,
+      "object_list_index": 162,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_18"
+      ],
+      "wiki_title": "Candy Constellation - Room 18",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_18",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 422,
+      "completion_index": 163,
+      "object_list_index": 163,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_15"
+      ],
+      "wiki_title": "Candy Constellation - Room 15",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_15",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 423,
+      "completion_index": 164,
+      "object_list_index": 164,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_17"
+      ],
+      "wiki_title": "Candy Constellation - Room 17",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_17",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 424,
+      "completion_index": 165,
+      "object_list_index": 165,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_16"
+      ],
+      "wiki_title": "Candy Constellation - Room 16",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_16",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 425,
+      "completion_index": 166,
+      "object_list_index": 166,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_03"
+      ],
+      "wiki_title": "Candy Constellation - Room 3",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_3",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 426,
+      "completion_index": 167,
+      "object_list_index": 167,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3"
+      ],
+      "wiki_title": "Candy Constellation - Chest 3",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Chest_3",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 427,
+      "completion_index": 168,
+      "object_list_index": 168,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_02"
+      ],
+      "wiki_title": "Candy Constellation - Room 2",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 490,
+      "completion_index": 169,
+      "object_list_index": 169,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
+      ],
+      "wiki_title": "Candy Constellation - Hub",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Hub",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 500,
+      "completion_index": 170,
+      "object_list_index": 170,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_16"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 16",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_16",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 501,
+      "completion_index": 176,
+      "object_list_index": 176,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_08",
+        "REGION_CABBAGE_CAVERN/ROOM_3_08_RIGHT"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 8",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_8",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 502,
+      "completion_index": 241,
+      "object_list_index": 241,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_16"
+      ],
+      "wiki_title": "Radish Ruins - Room 16",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_16",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 503,
+      "completion_index": 41,
+      "object_list_index": 41,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_12"
+      ],
+      "wiki_title": "Rainbow Route - Room 12",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_12",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 504,
+      "completion_index": 37,
+      "object_list_index": 37,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_16",
+        "REGION_RAINBOW_ROUTE/ROOM_1_16_MID",
+        "REGION_RAINBOW_ROUTE/ROOM_1_16_UPPER"
+      ],
+      "wiki_title": "Rainbow Route - Room 16",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_16",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 507,
+      "completion_index": 38,
+      "object_list_index": 38,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_13",
+        "REGION_RAINBOW_ROUTE/ROOM_1_13_LOWER"
+      ],
+      "wiki_title": "Rainbow Route - Room 13",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_13",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 508,
+      "completion_index": 171,
+      "object_list_index": 171,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_11"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 11",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_11",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 509,
+      "completion_index": 172,
+      "object_list_index": 172,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_10",
+        "REGION_CABBAGE_CAVERN/ROOM_3_10_LEFT",
+        "REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT",
+        "REGION_CABBAGE_CAVERN/ROOM_3_10_LOWER_RIGHT"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 10",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_10",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 510,
+      "completion_index": 173,
+      "object_list_index": 173,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_09"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 9",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_9",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 511,
+      "completion_index": 177,
+      "object_list_index": 177,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_05"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 5",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_5",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 512,
+      "completion_index": 178,
+      "object_list_index": 178,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_04",
+        "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 4",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_4",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 513,
+      "completion_index": 179,
+      "object_list_index": 179,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_13",
+        "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 13",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_13",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 514,
+      "completion_index": 180,
+      "object_list_index": 180,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_07"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 7",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_7",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 515,
+      "completion_index": 181,
+      "object_list_index": 181,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_15",
+        "REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY",
+        "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 15",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_15",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 516,
+      "completion_index": 174,
+      "object_list_index": 174,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_BOSS"
+      ],
+      "wiki_title": "Cabbage Cavern - Boss",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Boss",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 517,
+      "completion_index": 182,
+      "object_list_index": 182,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_06"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 6",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_6",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 523,
+      "completion_index": 183,
+      "object_list_index": 183,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_01"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 1",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 524,
+      "completion_index": 242,
+      "object_list_index": 242,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_15"
+      ],
+      "wiki_title": "Radish Ruins - Room 15",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_15",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 525,
+      "completion_index": 243,
+      "object_list_index": 243,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_17"
+      ],
+      "wiki_title": "Radish Ruins - Room 17",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_17",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 526,
+      "completion_index": 244,
+      "object_list_index": 244,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_2"
+      ],
+      "wiki_title": "Radish Ruins - Goal 2",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Goal_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 527,
+      "completion_index": 184,
+      "object_list_index": 184,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_14"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 14",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_14",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 528,
+      "completion_index": 175,
+      "object_list_index": 175,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_12",
+        "REGION_CABBAGE_CAVERN/ROOM_3_12_UPPER",
+        "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 12",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_12",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 529,
+      "completion_index": 185,
+      "object_list_index": 185,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_03"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 3",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_3",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 530,
+      "completion_index": 186,
+      "object_list_index": 186,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_02"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 2",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 531,
+      "completion_index": 187,
+      "object_list_index": 187,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_GOAL"
+      ],
+      "wiki_title": "Cabbage Cavern - Goal",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Goal",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 532,
+      "completion_index": 10,
+      "object_list_index": 10,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_27",
+        "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT",
+        "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_RIGHT"
+      ],
+      "wiki_title": "Rainbow Route - Room 27",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_27",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 533,
+      "completion_index": 117,
+      "object_list_index": 117,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_15"
+      ],
+      "wiki_title": "Mustard Mountain - Room 15",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_15",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 534,
+      "completion_index": 11,
+      "object_list_index": 11,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_34"
+      ],
+      "wiki_title": "Rainbow Route - Room 34",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_34",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 535,
+      "completion_index": 12,
+      "object_list_index": 12,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_35"
+      ],
+      "wiki_title": "Rainbow Route - Room 35",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_35",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 536,
+      "completion_index": 13,
+      "object_list_index": 13,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_38"
+      ],
+      "wiki_title": "Rainbow Route - Room 38",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_38",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 537,
+      "completion_index": 14,
+      "object_list_index": 14,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_39"
+      ],
+      "wiki_title": "Rainbow Route - Room 39",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_39",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 538,
+      "completion_index": 15,
+      "object_list_index": 15,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL",
+        "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL"
+      ],
+      "wiki_title": "Rainbow Route - Room 36",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_36",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 539,
+      "completion_index": 118,
+      "object_list_index": 118,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_01"
+      ],
+      "wiki_title": "Mustard Mountain - Room 1",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 540,
+      "completion_index": 119,
+      "object_list_index": 119,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_02"
+      ],
+      "wiki_title": "Mustard Mountain - Room 2",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_2",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 541,
+      "completion_index": 120,
+      "object_list_index": 120,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_03"
+      ],
+      "wiki_title": "Mustard Mountain - Room 3",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_3",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 542,
+      "completion_index": 16,
+      "object_list_index": 16,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_37"
+      ],
+      "wiki_title": "Rainbow Route - Room 37",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_37",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 543,
+      "completion_index": 17,
+      "object_list_index": 17,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_40"
+      ],
+      "wiki_title": "Rainbow Route - Room 40",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_40",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 544,
+      "completion_index": 121,
+      "object_list_index": 121,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_06"
+      ],
+      "wiki_title": "Mustard Mountain - Room 6",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_6",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 545,
+      "completion_index": 122,
+      "object_list_index": 122,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_07"
+      ],
+      "wiki_title": "Mustard Mountain - Room 7",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_7",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 546,
+      "completion_index": 123,
+      "object_list_index": 123,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_08"
+      ],
+      "wiki_title": "Mustard Mountain - Room 8",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_8",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 547,
+      "completion_index": 124,
+      "object_list_index": 124,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1"
+      ],
+      "wiki_title": "Mustard Mountain - Goal 1",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Goal_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 551,
+      "completion_index": 196,
+      "object_list_index": 196,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_15"
+      ],
+      "wiki_title": "Olive Ocean - Room 15",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_15",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 553,
+      "completion_index": 197,
+      "object_list_index": 197,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_16"
+      ],
+      "wiki_title": "Olive Ocean - Room 16",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_16",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 554,
+      "completion_index": 39,
+      "object_list_index": 39,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_09"
+      ],
+      "wiki_title": "Rainbow Route - Room 9",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_9",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 555,
+      "completion_index": 40,
+      "object_list_index": 40,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_10"
+      ],
+      "wiki_title": "Rainbow Route - Room 10",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_10",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 556,
+      "completion_index": 42,
+      "object_list_index": 42,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_11"
+      ],
+      "wiki_title": "Rainbow Route - Room 11",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_11",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 557,
+      "completion_index": 43,
+      "object_list_index": 43,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1"
+      ],
+      "wiki_title": "Rainbow Route - Goal 1",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Goal_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 570,
+      "completion_index": 18,
+      "object_list_index": 18,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_33",
+        "REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT"
+      ],
+      "wiki_title": "Rainbow Route - Room 33",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_33",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 571,
+      "completion_index": 19,
+      "object_list_index": 19,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_30"
+      ],
+      "wiki_title": "Rainbow Route - Room 30",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_30",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 590,
+      "completion_index": 20,
+      "object_list_index": 20,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+      ],
+      "wiki_title": "Rainbow Route - Hub 4",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Hub_4",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 591,
+      "completion_index": 188,
+      "object_list_index": 188,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+      ],
+      "wiki_title": "Cabbage Cavern - Hub 2",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Hub_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 592,
+      "completion_index": 219,
+      "object_list_index": 219,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+      ],
+      "wiki_title": "Cabbage Cavern - Hub 3",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Hub_3",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 600,
+      "completion_index": 254,
+      "object_list_index": 254,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_12"
+      ],
+      "wiki_title": "Carrot Castle - Room 12",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_12",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 601,
+      "completion_index": 220,
+      "object_list_index": 220,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_04"
+      ],
+      "wiki_title": "Radish Ruins - Room 4",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_4",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 603,
+      "completion_index": 221,
+      "object_list_index": 221,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_06"
+      ],
+      "wiki_title": "Radish Ruins - Room 6",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_6",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 604,
+      "completion_index": 222,
+      "object_list_index": 222,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_09",
+        "REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_06",
+        "REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_08"
+      ],
+      "wiki_title": "Radish Ruins - Room 9",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_9",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 605,
+      "completion_index": 223,
+      "object_list_index": 223,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_03"
+      ],
+      "wiki_title": "Radish Ruins - Room 3",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_3",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 606,
+      "completion_index": 224,
+      "object_list_index": 224,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_08"
+      ],
+      "wiki_title": "Radish Ruins - Room 8",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_8",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 608,
+      "completion_index": 231,
+      "object_list_index": 231,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_11"
+      ],
+      "wiki_title": "Radish Ruins - Room 11",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_11",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 609,
+      "completion_index": 232,
+      "object_list_index": 232,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_18"
+      ],
+      "wiki_title": "Radish Ruins - Room 18",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_18",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 610,
+      "completion_index": 225,
+      "object_list_index": 225,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_1"
+      ],
+      "wiki_title": "Radish Ruins - Chest 1",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Chest_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 611,
+      "completion_index": 226,
+      "object_list_index": 226,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_05"
+      ],
+      "wiki_title": "Radish Ruins - Room 5",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_5",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 612,
+      "completion_index": 233,
+      "object_list_index": 233,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_10"
+      ],
+      "wiki_title": "Radish Ruins - Room 10",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_10",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 613,
+      "completion_index": 234,
+      "object_list_index": 234,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_13"
+      ],
+      "wiki_title": "Radish Ruins - Room 13",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_13",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 614,
+      "completion_index": 235,
+      "object_list_index": 235,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_19"
+      ],
+      "wiki_title": "Radish Ruins - Room 19",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_19",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 616,
+      "completion_index": 236,
+      "object_list_index": 236,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_14"
+      ],
+      "wiki_title": "Radish Ruins - Room 14",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_14",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 617,
+      "completion_index": 237,
+      "object_list_index": 237,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_2"
+      ],
+      "wiki_title": "Radish Ruins - Chest 2",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Chest_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 618,
+      "completion_index": 238,
+      "object_list_index": 238,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_20"
+      ],
+      "wiki_title": "Radish Ruins - Room 20",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_20",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 619,
+      "completion_index": 239,
+      "object_list_index": 239,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_12"
+      ],
+      "wiki_title": "Radish Ruins - Room 12",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_12",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 620,
+      "completion_index": 227,
+      "object_list_index": 227,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_01"
+      ],
+      "wiki_title": "Radish Ruins - Room 1",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 621,
+      "completion_index": 228,
+      "object_list_index": 228,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_02"
+      ],
+      "wiki_title": "Radish Ruins - Room 2",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_2",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 622,
+      "completion_index": 229,
+      "object_list_index": 229,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_1"
+      ],
+      "wiki_title": "Radish Ruins - Goal 1",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Goal_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 623,
+      "completion_index": 230,
+      "object_list_index": 230,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_07",
+        "REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_04",
+        "REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_09"
+      ],
+      "wiki_title": "Radish Ruins - Room 7",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_7",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 690,
+      "completion_index": 240,
+      "object_list_index": 240,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_HUB"
+      ],
+      "wiki_title": "Radish Ruins - Hub",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Hub",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 700,
+      "completion_index": 67,
+      "object_list_index": 67,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_10"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 10",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_10",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 702,
+      "completion_index": 81,
+      "object_list_index": 81,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05_UPPER_LEDGE",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 5",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_5",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 704,
+      "completion_index": 68,
+      "object_list_index": 68,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_08_BOMB_ROOM"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 8",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_8",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 705,
+      "completion_index": 69,
+      "object_list_index": 69,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_WARP"
+      ],
+      "wiki_title": "Moonlight Mansion - Warp",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Warp",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 706,
+      "completion_index": 70,
+      "object_list_index": 70,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_03",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 3",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_3",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 707,
+      "completion_index": 71,
+      "object_list_index": 71,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04_FROM_2_07"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 4",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_4",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 708,
+      "completion_index": 72,
+      "object_list_index": 72,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 1",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 709,
+      "completion_index": 73,
+      "object_list_index": 73,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 7",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_7",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 710,
+      "completion_index": 74,
+      "object_list_index": 74,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS"
+      ],
+      "wiki_title": "Moonlight Mansion - Boss",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Boss",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 711,
+      "completion_index": 75,
+      "object_list_index": 75,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_09"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 9",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_9",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 712,
+      "completion_index": 76,
+      "object_list_index": 76,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 13",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_13",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 714,
+      "completion_index": 255,
+      "object_list_index": 255,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_08"
+      ],
+      "wiki_title": "Carrot Castle - Room 8",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_8",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 716,
+      "completion_index": 256,
+      "object_list_index": 256,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_18"
+      ],
+      "wiki_title": "Carrot Castle - Room 18",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_18",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 717,
+      "completion_index": 257,
+      "object_list_index": 257,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_17"
+      ],
+      "wiki_title": "Carrot Castle - Room 17",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_17",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 719,
+      "completion_index": 258,
+      "object_list_index": 258,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_07"
+      ],
+      "wiki_title": "Carrot Castle - Room 7",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_7",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 720,
+      "completion_index": 267,
+      "object_list_index": 267,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_14"
+      ],
+      "wiki_title": "Carrot Castle - Room 14",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_14",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 730,
+      "completion_index": 268,
+      "object_list_index": 268,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_15"
+      ],
+      "wiki_title": "Carrot Castle - Room 15",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_15",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 731,
+      "completion_index": 269,
+      "object_list_index": 269,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_WARP"
+      ],
+      "wiki_title": "Carrot Castle - Warp",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Warp",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 732,
+      "completion_index": 259,
+      "object_list_index": 259,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_CHEST_2"
+      ],
+      "wiki_title": "Carrot Castle - Chest 2",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Chest_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 733,
+      "completion_index": 260,
+      "object_list_index": 260,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_16"
+      ],
+      "wiki_title": "Carrot Castle - Room 16",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_16",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 734,
+      "completion_index": 261,
+      "object_list_index": 261,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_13",
+        "REGION_CARROT_CASTLE/ROOM_5_13_UPPER",
+        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14",
+        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_12",
+        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP"
+      ],
+      "wiki_title": "Carrot Castle - Room 13",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_13",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 735,
+      "completion_index": 262,
+      "object_list_index": 262,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_09"
+      ],
+      "wiki_title": "Carrot Castle - Room 9",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_9",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 736,
+      "completion_index": 263,
+      "object_list_index": 263,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_10"
+      ],
+      "wiki_title": "Carrot Castle - Room 10",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_10",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 737,
+      "completion_index": 264,
+      "object_list_index": 264,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_11"
+      ],
+      "wiki_title": "Carrot Castle - Room 11",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_11",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 738,
+      "completion_index": 265,
+      "object_list_index": 265,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_BOSS"
+      ],
+      "wiki_title": "Carrot Castle - Boss",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Boss",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 739,
+      "completion_index": 266,
+      "object_list_index": 266,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_CHEST_1"
+      ],
+      "wiki_title": "Carrot Castle - Chest 1",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Chest_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 740,
+      "completion_index": 77,
+      "object_list_index": 77,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02_ENTRY",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02_RIGHT"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 2",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 741,
+      "completion_index": 78,
+      "object_list_index": 78,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_14",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 14",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_14",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 742,
+      "completion_index": 79,
+      "object_list_index": 79,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 15",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_15",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 743,
+      "completion_index": 82,
+      "object_list_index": 82,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 11",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_11",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 744,
+      "completion_index": 83,
+      "object_list_index": 83,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_06"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 6",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_6",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 745,
+      "completion_index": 84,
+      "object_list_index": 84,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1"
+      ],
+      "wiki_title": "Moonlight Mansion - Goal 1",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Goal_1",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 790,
+      "completion_index": 80,
+      "object_list_index": 80,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_HUB"
+      ],
+      "wiki_title": "Moonlight Mansion - Hub",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Hub",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 800,
+      "completion_index": 212,
+      "object_list_index": 212,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_23"
+      ],
+      "wiki_title": "Olive Ocean - Room 23",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_23",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 801,
+      "completion_index": 0,
+      "object_list_index": 0,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS"
+      ],
+      "wiki_title": "Rainbow Route - Central Circle",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Central_Circle",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 802,
+      "completion_index": 213,
+      "object_list_index": 213,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_20"
+      ],
+      "wiki_title": "Olive Ocean - Room 20",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_20",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 803,
+      "completion_index": 1,
+      "object_list_index": 1,
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_01"
+      ],
+      "wiki_title": "Labyrinth Entrance Stage",
+      "wiki_url": "https://wikirby.com/wiki/Labyrinth_Entrance_Stage",
+      "verification": "shared",
+      "note": "Tutorial room 1; shared article"
+    },
+    {
+      "native_id": 804,
+      "completion_index": 2,
+      "object_list_index": 2,
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_02"
+      ],
+      "wiki_title": "Labyrinth Entrance Stage",
+      "wiki_url": "https://wikirby.com/wiki/Labyrinth_Entrance_Stage",
+      "verification": "shared",
+      "note": "Tutorial room 2; shared article"
+    },
+    {
+      "native_id": 805,
+      "completion_index": 3,
+      "object_list_index": 3,
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_03"
+      ],
+      "wiki_title": "Labyrinth Entrance Stage",
+      "wiki_url": "https://wikirby.com/wiki/Labyrinth_Entrance_Stage",
+      "verification": "shared",
+      "note": "Tutorial room 3; shared article"
+    },
+    {
+      "native_id": 810,
+      "completion_index": 214,
+      "object_list_index": 214,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_19"
+      ],
+      "wiki_title": "Olive Ocean - Room 19",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_19",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 811,
+      "completion_index": 198,
+      "object_list_index": 198,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_10"
+      ],
+      "wiki_title": "Olive Ocean - Room 10",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_10",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 814,
+      "completion_index": 199,
+      "object_list_index": 199,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_12"
+      ],
+      "wiki_title": "Olive Ocean - Room 12",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_12",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 815,
+      "completion_index": 200,
+      "object_list_index": 200,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+      ],
+      "wiki_title": "Olive Ocean - Chest 1",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Chest_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 816,
+      "completion_index": 215,
+      "object_list_index": 215,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2"
+      ],
+      "wiki_title": "Olive Ocean - Chest 2",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Chest_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 819,
+      "completion_index": 216,
+      "object_list_index": 216,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_21"
+      ],
+      "wiki_title": "Olive Ocean - Room 21",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_21",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 821,
+      "completion_index": 217,
+      "object_list_index": 217,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_22"
+      ],
+      "wiki_title": "Olive Ocean - Room 22",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_22",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 822,
+      "completion_index": 218,
+      "object_list_index": 218,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_BOSS"
+      ],
+      "wiki_title": "Olive Ocean - Boss",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Boss",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 823,
+      "completion_index": 201,
+      "object_list_index": 201,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_09"
+      ],
+      "wiki_title": "Olive Ocean - Room 9",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_9",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 824,
+      "completion_index": 202,
+      "object_list_index": 202,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_13",
+        "REGION_OLIVE_OCEAN/ROOM_6_13__LOGIC__ENTRY_FROM_MOONLIGHT"
+      ],
+      "wiki_title": "Olive Ocean - Room 13",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_13",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 825,
+      "completion_index": 203,
+      "object_list_index": 203,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2"
+      ],
+      "wiki_title": "Olive Ocean - Goal 2",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Goal_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 826,
+      "completion_index": 204,
+      "object_list_index": 204,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_03"
+      ],
+      "wiki_title": "Olive Ocean - Room 3",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_3",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 827,
+      "completion_index": 205,
+      "object_list_index": 205,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_07"
+      ],
+      "wiki_title": "Olive Ocean - Room 7",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_7",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 828,
+      "completion_index": 206,
+      "object_list_index": 206,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_08"
+      ],
+      "wiki_title": "Olive Ocean - Room 8",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_8",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 829,
+      "completion_index": 207,
+      "object_list_index": 207,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_11"
+      ],
+      "wiki_title": "Olive Ocean - Room 11",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_11",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 830,
+      "completion_index": 208,
+      "object_list_index": 208,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_18"
+      ],
+      "wiki_title": "Olive Ocean - Room 18",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_18",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 831,
+      "completion_index": 209,
+      "object_list_index": 209,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_14"
+      ],
+      "wiki_title": "Olive Ocean - Room 14",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_14",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 832,
+      "completion_index": 210,
+      "object_list_index": 210,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_17"
+      ],
+      "wiki_title": "Olive Ocean - Room 17",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_17",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 890,
+      "completion_index": 211,
+      "object_list_index": 211,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_HUB"
+      ],
+      "wiki_title": "Olive Ocean - Hub",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Hub",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room"
+    },
+    {
+      "native_id": 909,
+      "completion_index": 270,
+      "object_list_index": 270,
+      "ap_keys": [],
+      "wiki_title": "Dimension Mirror (level)",
+      "wiki_url": "https://wikirby.com/wiki/Dimension_Mirror_(level)",
+      "verification": "shared",
+      "note": "Dark Meta Knight arena (area 1); shared level article, not a numbered room page"
+    },
+    {
+      "native_id": 910,
+      "completion_index": 271,
+      "object_list_index": 271,
+      "ap_keys": [],
+      "wiki_title": "Dimension Mirror (level)",
+      "wiki_url": "https://wikirby.com/wiki/Dimension_Mirror_(level)",
+      "verification": "shared",
+      "note": "Dark Mind first encounter (area 2); shared level article, not a numbered room page"
+    },
+    {
+      "native_id": 911,
+      "completion_index": 272,
+      "object_list_index": 272,
+      "ap_keys": [],
+      "wiki_title": "Dimension Mirror (level)",
+      "wiki_url": "https://wikirby.com/wiki/Dimension_Mirror_(level)",
+      "verification": "shared",
+      "note": "Intermediate puzzle room (area 3); shared level article, not a numbered room page"
+    },
+    {
+      "native_id": 912,
+      "completion_index": 273,
+      "object_list_index": 273,
+      "ap_keys": [],
+      "wiki_title": "Dimension Mirror (level)",
+      "wiki_url": "https://wikirby.com/wiki/Dimension_Mirror_(level)",
+      "verification": "shared",
+      "note": "Dark Mind second encounter (area 4); shared level article, not a numbered room page"
+    },
+    {
+      "native_id": 913,
+      "completion_index": 274,
+      "object_list_index": 274,
+      "ap_keys": [],
+      "wiki_title": "Dimension Mirror (level)",
+      "wiki_url": "https://wikirby.com/wiki/Dimension_Mirror_(level)",
+      "verification": "shared",
+      "note": "Intermediate puzzle room (area 5); shared level article, not a numbered room page"
+    },
+    {
+      "native_id": 914,
+      "completion_index": 275,
+      "object_list_index": 275,
+      "ap_keys": [],
+      "wiki_title": "Dimension Mirror (level)",
+      "wiki_url": "https://wikirby.com/wiki/Dimension_Mirror_(level)",
+      "verification": "shared",
+      "note": "Dark Mind third encounter (area 6); shared level article, not a numbered room page"
+    },
+    {
+      "native_id": 915,
+      "completion_index": 276,
+      "object_list_index": 276,
+      "ap_keys": [],
+      "wiki_title": "Dimension Mirror (level)",
+      "wiki_url": "https://wikirby.com/wiki/Dimension_Mirror_(level)",
+      "verification": "shared",
+      "note": "Intermediate puzzle room (area 7); shared level article, not a numbered room page"
+    },
+    {
+      "native_id": 916,
+      "completion_index": 277,
+      "object_list_index": 277,
+      "ap_keys": [],
+      "wiki_title": "Dimension Mirror (level)",
+      "wiki_url": "https://wikirby.com/wiki/Dimension_Mirror_(level)",
+      "verification": "shared",
+      "note": "Dark Mind fourth encounter (area 8); shared level article, not a numbered room page"
+    },
+    {
+      "native_id": 918,
+      "completion_index": 278,
+      "object_list_index": 278,
+      "ap_keys": [],
+      "wiki_title": "Dimension Mirror (level)",
+      "wiki_url": "https://wikirby.com/wiki/Dimension_Mirror_(level)",
+      "verification": "shared",
+      "note": "Dark Mind second form (area 9); shared level article, not a numbered room page"
+    },
+    {
+      "native_id": 919,
+      "completion_index": 279,
+      "object_list_index": 279,
+      "ap_keys": [],
+      "wiki_title": "Dimension Mirror (level)",
+      "wiki_url": "https://wikirby.com/wiki/Dimension_Mirror_(level)",
+      "verification": "shared",
+      "note": "Dark Mind third-form chase; outside nine-room list; shared level article, not a numbered room page"
+    },
+    {
+      "native_id": 950,
+      "completion_index": 280,
+      "object_list_index": 280,
+      "ap_keys": [],
+      "wiki_title": "Boss Endurance",
+      "wiki_url": "https://wikirby.com/wiki/Boss_Endurance",
+      "verification": "shared",
+      "note": "Boss Endurance starting ability chamber: ability statues and Boss Challenge Door; shared article, no invented numbered room page"
+    },
+    {
+      "native_id": 951,
+      "completion_index": 281,
+      "object_list_index": 281,
+      "ap_keys": [],
+      "wiki_title": "Boss Endurance",
+      "wiki_url": "https://wikirby.com/wiki/Boss_Endurance",
+      "verification": "shared",
+      "note": "Boss Endurance rest chamber: random ability statues and Boss Challenge Door; boss-clear code returns to native 951"
+    },
+    {
+      "native_id": 955,
+      "completion_index": 282,
+      "object_list_index": 282,
+      "ap_keys": [],
+      "wiki_title": "Boss Endurance",
+      "wiki_url": "https://wikirby.com/wiki/Boss_Endurance",
+      "verification": "shared",
+      "note": "Boss Endurance Mid-Bosses 1 encounter: Mr. Frosty and object spawner; native 955 is an explicit Boss Challenge Door destination"
+    },
+    {
+      "native_id": 956,
+      "completion_index": 283,
+      "object_list_index": 283,
+      "ap_keys": [],
+      "wiki_title": "Boss Endurance",
+      "wiki_url": "https://wikirby.com/wiki/Boss_Endurance",
+      "verification": "shared",
+      "note": "Boss Endurance Mid-Bosses 3 encounter: Batafire and object spawner; native 956 is an explicit Boss Challenge Door destination"
+    },
+    {
+      "native_id": 957,
+      "completion_index": 284,
+      "object_list_index": 284,
+      "ap_keys": [],
+      "wiki_title": "Boss Endurance",
+      "wiki_url": "https://wikirby.com/wiki/Boss_Endurance",
+      "verification": "shared",
+      "note": "Boss Endurance Mid-Bosses 2 encounter: Waddle Dee and object spawner; native 957 is an explicit Boss Challenge Door destination"
+    },
+    {
+      "native_id": 969,
+      "completion_index": 285,
+      "object_list_index": 285,
+      "ap_keys": [],
+      "wiki_title": null,
+      "wiki_url": null,
+      "verification": "internal",
+      "note": "Boss Endurance nonparticipant holding room: initializer assigns native 969 to nonhuman slots; no separately verified WiKirby room target, not an unused table slot"
+    },
+    {
+      "native_id": 970,
+      "completion_index": 286,
+      "object_list_index": 286,
+      "ap_keys": [],
+      "wiki_title": "Copy Ability Room",
+      "wiki_url": "https://wikirby.com/wiki/Copy_Ability_Room",
+      "verification": "shared",
+      "note": "Copy Ability Room linked to Central Circle: ability statues and return transition to native 801; shared article, distinct from native 950 Boss Endurance variant"
+    },
+    {
+      "native_id": 980,
+      "completion_index": 5,
+      "object_list_index": 5,
+      "ap_keys": [],
+      "wiki_title": "Goal Game",
+      "wiki_url": "https://wikirby.com/wiki/Goal_Game",
+      "verification": "shared",
+      "note": "Goal Game variant; shared general article, no individual room page established"
+    },
+    {
+      "native_id": 981,
+      "completion_index": 6,
+      "object_list_index": 6,
+      "ap_keys": [],
+      "wiki_title": "Goal Game",
+      "wiki_url": "https://wikirby.com/wiki/Goal_Game",
+      "verification": "shared",
+      "note": "Goal Game variant; shared general article, no individual room page established"
+    },
+    {
+      "native_id": 982,
+      "completion_index": 7,
+      "object_list_index": 7,
+      "ap_keys": [],
+      "wiki_title": "Goal Game",
+      "wiki_url": "https://wikirby.com/wiki/Goal_Game",
+      "verification": "shared",
+      "note": "Goal Game variant; shared general article, no individual room page established"
+    }
+  ]
+}
