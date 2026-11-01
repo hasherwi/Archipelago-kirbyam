@@ -23,7 +23,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Honor excluded passive enemies, minibosses, and boss spawns in Completely Random ability mode. Regenerate the ROM patch.
 - Make repeated explicit `/toggle_text` disable commands safe for Kirby slots.
 - Recreate the mGBA connector listener after socket errors and ignore callbacks from an obsolete listener.
-- Correct Rainbow Route East and Moonlight Mansion Hub Connection item names while preserving their numeric IDs and native destinations.
 - Keep Moonlight arrivals in Olive 6-13 behind the received Olive lever wall while preserving the physical RoomSanity check and return chute.
 - Retry mGBA connections after self-connected sockets or malformed VERSION replies instead of stopping the client. Shared Archipelago transport and the stock BizHawk launcher are unchanged.
 - Preserve excluded Minny grants in Completely Random mode while retaining normal ability gating (Issue #997). Regenerate the ROM patch.
