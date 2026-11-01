@@ -29,7 +29,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Bootstrap Kirby build/test dependencies with checksum-pinned pip 26.2.2 and certifi 2026.10.19 after the eMudhra/emSign incident (Issue #978), with matching development guidance. Global AP dependencies, Docker and general workflows are unchanged.
 
 ### Known Limitations
-- Hub Connection items add a progression layer before receiving all eight distinct Mirror Shards. Strict ordering around qualifying Central Circle connections still needs complete alternate-route validation; Candy arrival-to-exit traversal remains unproven.
+- Hub Connection items add independent receipt milestones before receiving all eight distinct Mirror Shards. A verified native Moonlight-to-Candy overland route reaches the Candy hub without a qualifying Central Circle receipt; strict global map-access ordering would require a separate gameplay decision.
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.

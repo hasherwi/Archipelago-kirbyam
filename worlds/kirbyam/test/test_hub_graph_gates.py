@@ -94,3 +94,25 @@ def test_moonlight_arrival_cannot_cross_olive_lever_wall(room_sanity, ability_ga
     assert world.get_region(olive, 1).can_reach(state)
     assert world.get_region('REGION_OLIVE_OCEAN/ROOM_6_12', 1).can_reach(state)
     assert world.get_region('REGION_CABBAGE_CAVERN/ROOM_3_HUB_1', 1).can_reach(state)
+
+
+@pytest.mark.parametrize('room_sanity', [0, 1])
+@pytest.mark.parametrize('ability_gating', [0, 1])
+def test_candy_overland_arrival_does_not_grant_its_central_connection(room_sanity, ability_gating):
+    """Preserve the emulator-proven 705->409->427->404->407->401->407->490 route."""
+    world = setup_multiworld(KirbyAmWorld, seed=932, options={
+        'room_sanity': room_sanity, 'ability_gating': ability_gating})
+    state = CollectionState(world)
+    state.collect(world.worlds[1].create_item('Moonlight Mansion 2-11 - Lever Wall'), True)
+    # This regression concerns topology, not acquisition of each copy ability.
+    # The runtime route used normally acquired Missile and Burning with gating off.
+    for item in world.itempool:
+        if item.name.endswith(' Ability'):
+            state.collect(item, True)
+    state.sweep_for_advancements()
+    hub = 'REGION_CANDY_CONSTELLATION/ROOM_9_HUB'
+    assert world.get_region(hub, 1).can_reach(state)
+    connection = world.get_entrance(f'{hub} -> {CENTRAL}', 1)
+    assert not connection.access_rule(state)
+    state.collect(world.worlds[1].create_item('Candy Constellation - Hub Connection'), True)
+    assert connection.access_rule(state)
