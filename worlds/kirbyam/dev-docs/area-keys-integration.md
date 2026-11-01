@@ -3,6 +3,31 @@
 PR #908 integrates main after #932 and #999. Newly generated seeds and ROM patches are required. This is
 an integration draft; source/host checks do not establish emulator acceptance.
 
+## Area Keys option
+
+`area_keys` is a default-on toggle in **Make the game easier**. Turning it off
+removes the eight keys from the pool, rebalances filler, skips the early-key
+fallback, and omits only Area Key entrance requirements. The eight core hub
+checks and Hub, lever, ability and Dimension Mirror requirements remain.
+Explicit user starting inventory is retained, but disabled Area Key ownership
+is ignored and reconciled to zero.
+
+The immutable per-seed word at file offset `0x15F688` is `0x414B0101` for on
+and `0x414B0100` for off. Only the exact off word bypasses the shared native
+Area Key predicate, including before connection and after save/reset. Missing
+or invalid configuration remains on. Older Area Key slot data without the
+option stays on; pre-Area-Key slot data retains its prior no-sync behavior.
+The patch procedure validates the base marker before seed tokens overwrite it.
+
+Compiled ARM fixtures cover on, off, invalid defaults and stale ownership across
+mirrors, cannons, Warp Stars, wind admission/exits and door appearance. Off uses
+native door appearance and telemetry reason 6 rather than pretending keys are
+owned. Native callees are intercepted in these fixtures; they are not full
+gameplay proof. The earlier enabled candidate has emulator deny/allow evidence
+for mirrors, the first Warp Star, and Carrot-to-Radish wind transport, plus free
+Rainbow return and clean save/reconnect. Full retail cannon launch remains
+unverified.
+
 ## Transition behavior
 
 | Mechanism | Guard and intended behavior | Evidence and remaining acceptance |
@@ -36,14 +61,14 @@ normal transition telemetry retains source/destination/method/decision/reason.
   behavior remains independent of item ownership.
 - The fixed payload starts at file offset `0x15DC00`. Its added 1 KiB must be
   verified retail zero padding. Native code occupies `0x1958` bytes, ending at
-  `0x0815F558`, leaving **308 bytes** before configuration at `0x0815F68C`.
+  `0x0815F558`, leaving **304 bytes** before the new Area Keys word at `0x0815F688`.
   The five Minny/health/color/gate/statue words remain at `0x0815F68C..0x0815F69F`.
 - The complete fixed payload is 6,816 bytes. Transition helpers share the
-  existing appended ROM extension; extension size is 3,256 bytes. Eight-byte
+  existing appended ROM extension; extension size is 3,304 bytes. Eight-byte
   Thumb entries preserve arguments/LR when native short calls enter relocated
   helpers. Linker assertions reject overlaps and writable static storage.
 - Verified distributable patch SHA-256:
-  `b02331897bc467f648673f89eabf918d100ef6b796270485e5ab16c3ca8b404f`.
+  `c4f812a3c3ff4a90d05bdf3b898beb9feea2969a06cd742e0832d3aea6cc5ed3`.
   Applying it to the private verified USA base reproduces the compiled payload
   and extension. A clean rebuild reproduces both binaries byte-for-byte.
   All 263 native/AP room-area assignments validate.

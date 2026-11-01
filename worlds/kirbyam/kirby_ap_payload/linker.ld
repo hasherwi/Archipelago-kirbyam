@@ -1,13 +1,13 @@
 ENTRY(ap_hook_entry)
 
 /*
- * Reserve the final twenty bytes in patch_rom.py's 0x1AA0-byte payload window
- * for per-seed Minny, health, starting color, ability gating, and statue-pool
+ * Reserve the final twenty-four bytes in patch_rom.py's 0x1AA0-byte payload window
+ * for per-seed Area Keys, Minny, health, starting color, ability gating, and statue-pool
  * configuration. Moving the
  * location counter here also makes the linker fail if code/data grows into the
  * reserved words.
  */
-AP_CONFIG_ADDR = 0x0815F68C;
+AP_CONFIG_ADDR = 0x0815F688;
 
 SECTIONS
 {
@@ -29,6 +29,7 @@ SECTIONS
   . = AP_CONFIG_ADDR;
   .apconfig : {
     /* Explicit subsection order is the per-seed token-write ABI. */
+    KEEP(*(.apconfig.area_keys))
     KEEP(*(.apconfig.minny))
     KEEP(*(.apconfig.health))
     KEEP(*(.apconfig.color))
@@ -39,7 +40,7 @@ SECTIONS
   .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) color_payload.o(.text* .rodata*) *(.aphub) }
 }
 
-ASSERT(SIZEOF(.apconfig) == 20, "KirbyAM runtime config must be exactly 20 bytes")
+ASSERT(SIZEOF(.apconfig) == 24, "KirbyAM runtime config must be exactly 24 bytes")
 
 ASSERT(SIZEOF(.apcolors) <= 0x10000, "Curated palette extension exceeds 64 KiB")
 

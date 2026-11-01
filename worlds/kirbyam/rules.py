@@ -302,32 +302,35 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
 
     # Area Keys are directional destination gates.  Use add_rule so an entrance
     # can simultaneously require its destination key and another traversal rule.
-    area_key_gates = area_key_entrance_area_ids()
-    if not area_key_gates:
-        raise ValueError("Area Key entrance contract is empty; refusing to generate an ungated world")
+    area_keys_option = getattr(world.options, "area_keys", None)
+    area_keys_value = getattr(area_keys_option, "value", area_keys_option)
+    if area_keys_value is None or bool(area_keys_value):
+        area_key_gates = area_key_entrance_area_ids()
+        if not area_key_gates:
+            raise ValueError("Area Key entrance contract is empty; refusing to generate an ungated world")
 
-    applied_area_key_gates = 0
-    for entrance_name, destination_area_id in area_key_gates.items():
-        try:
-            entrance = world.multiworld.get_entrance(entrance_name, world.player)
-        except KeyError as exc:
-            raise ValueError(
-                f"[P{world.player}] Canonical Area Key entrance {entrance_name!r} "
-                "was not created; refusing to generate a partially gated world"
-            ) from exc
+        applied_area_key_gates = 0
+        for entrance_name, destination_area_id in area_key_gates.items():
+            try:
+                entrance = world.multiworld.get_entrance(entrance_name, world.player)
+            except KeyError as exc:
+                raise ValueError(
+                    f"[P{world.player}] Canonical Area Key entrance {entrance_name!r} "
+                    "was not created; refusing to generate a partially gated world"
+                ) from exc
 
-        area_key_label = AREA_KEY_LABEL_BY_AREA_ID[destination_area_id]
-        add_rule(
-            entrance,
-            lambda state, required_key=area_key_label: state.has(required_key, world.player),
+            area_key_label = AREA_KEY_LABEL_BY_AREA_ID[destination_area_id]
+            add_rule(
+                entrance,
+                lambda state, required_key=area_key_label: state.has(required_key, world.player),
+            )
+            applied_area_key_gates += 1
+
+        logger.debug(
+            "[P%s] Applied %s directed Area-Key entrance rule(s)",
+            world.player,
+            applied_area_key_gates,
         )
-        applied_area_key_gates += 1
-
-    logger.debug(
-        "[P%s] Applied %s directed Area-Key entrance rule(s)",
-        world.player,
-        applied_area_key_gates,
-    )
 
     # Preserve the shard requirement on every graph ingress into the Dimension
     # Mirror, not just the coarse Rainbow Route /MAIN edge.

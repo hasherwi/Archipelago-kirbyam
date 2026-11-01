@@ -203,11 +203,22 @@ const unsigned char gArchipelagoInfo[16] = {0};
 
 /*
  * Per-seed runtime defaults written by rom.py after the shared base patch is
- * applied. The linker fixes these words at the final twenty bytes of the
+ * applied. The linker fixes these words at the final twenty-four bytes of the
  * payload window. The initial gate mask protects startup/reset windows before
  * the client has synchronized live mailbox state; the statue mask carries the
  * exact seed-specific pool for per-touch randomization.
  */
+/* Immutable seed contract: AK, version 1, enable bit. Only exact v1-off
+ * disables gates; unwritten/legacy/corrupt words retain the default-on policy. */
+#define AP_AREA_KEYS_CONFIG_OFF 0x414B0100u
+#define AP_AREA_KEYS_CONFIG_ON 0x414B0101u
+__attribute__((used, section(".apconfig.area_keys")))
+volatile const uint32_t gApAreaKeysConfig = AP_AREA_KEYS_CONFIG_ON;
+
+static inline uint8_t ap_area_keys_enabled(void) {
+    return (uint8_t)(gApAreaKeysConfig != AP_AREA_KEYS_CONFIG_OFF);
+}
+
 /* Per-seed Minny inclusion, defaulting to the safe vanilla exception. */
 __attribute__((used, section(".apconfig.minny")))
 volatile const uint32_t gApRandomizeMinny = 0u;
@@ -529,6 +540,7 @@ static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_native
 }
 
 static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_is_keyed_inter_area_edge(uint16_t source_room, uint16_t destination_room) {
+    if (ap_area_keys_enabled() == 0u) return 0u;
     uint8_t source_area = ap_native_area_for_room(source_room);
     uint8_t destination_area = ap_native_area_for_room(destination_room);
 
@@ -604,6 +616,7 @@ static __attribute__((noinline, long_call, section(".aphub"))) void ap_log_trans
 }
 
 static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_transition_reason(uint16_t source_room, uint16_t destination_room, uint8_t allowed) {
+    if (ap_area_keys_enabled() == 0u) return 6u; /* Area Keys disabled for this seed */
     uint8_t source_area = ap_native_area_for_room(source_room);
     uint8_t destination_area = ap_native_area_for_room(destination_room);
 

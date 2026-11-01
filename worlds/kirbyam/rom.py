@@ -38,6 +38,9 @@ if TYPE_CHECKING:
 # Fixed per-seed words reserved by kirby_ap_payload/linker.ld. Starting color
 # is consumed before CreateKirby so the first gameplay palette is correct. The
 # gate and statue masks retain their existing offsets for patch compatibility.
+AREA_KEYS_CONFIG_ROM_OFFSET = 0x0015F688
+AREA_KEYS_CONFIG_OFF = 0x414B0100
+AREA_KEYS_CONFIG_ON = 0x414B0101
 HEALTH_INITIAL_ROM_OFFSET = 0x0015F690
 STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET = 0x0015F694
 ABILITY_GATE_MASK_INITIAL_ROM_OFFSET = 0x0015F698
@@ -66,6 +69,14 @@ class KirbyAmPatchExtension(APPatchExtension):
     """KirbyAM-specific AP procedure steps used while applying `.apkirbyam`."""
 
     game = "Kirby & The Amazing Mirror"
+
+    @staticmethod
+    def validate_area_keys_base(caller: APProcedurePatch, rom: bytes) -> bytes:
+        """Reject stale base patches before per-seed tokens conceal their ABI."""
+        expected = AREA_KEYS_CONFIG_ON.to_bytes(4, "little")
+        if rom[AREA_KEYS_CONFIG_ROM_OFFSET:AREA_KEYS_CONFIG_ROM_OFFSET + 4] != expected:
+            raise ValueError("Area Keys config marker missing from base patch; rebuild the base patch")
+        return rom
 
     @staticmethod
     def finalize_health_header(caller: APProcedurePatch, rom: bytes) -> bytes:
@@ -105,6 +116,7 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
 
     procedure = [
         ("apply_bsdiff4", ["base_patch.bsdiff4"]),
+        ("validate_area_keys_base", []),
         ("apply_enemy_health_scaling", [ENEMY_HEALTH_MULTIPLIER_FILE]),
         ("apply_tokens", ["token_data.bin"]),
         ("finalize_health_header", []),
@@ -138,6 +150,13 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
     auth_addr = data.rom_addresses.get("auth_token") or data.rom_addresses.get("gArchipelagoInfo")
     if auth_addr is not None:
         patch.write_token(APTokenTypes.WRITE, auth_addr, world.auth)
+
+    area_keys_option = getattr(world.options, "area_keys", True)
+    area_keys_enabled = bool(getattr(area_keys_option, "value", area_keys_option))
+    patch.write_token(
+        APTokenTypes.WRITE, AREA_KEYS_CONFIG_ROM_OFFSET,
+        (AREA_KEYS_CONFIG_ON if area_keys_enabled else AREA_KEYS_CONFIG_OFF).to_bytes(4, "little"),
+    )
 
     health = world._health_range()
     patch.write_token(

@@ -997,6 +997,10 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
     if len(payload) > 0x1AA0:
         raise SystemExit(f"payload.bin too large: {len(payload)} bytes (max 0x1AA0)")
 
+    area_keys_offset = 0x15F688 - PAYLOAD_OFFSET
+    if payload[area_keys_offset:area_keys_offset + 4] != (0x414B0101).to_bytes(4, "little"):
+        raise SystemExit("Error: payload Area Keys config marker missing; rebuild the native payload")
+
     payload_elf_path = Path("payload.elf")
     if not payload_elf_path.exists():
         raise SystemExit(

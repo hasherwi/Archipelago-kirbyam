@@ -13,6 +13,7 @@ def test_wind_chute_admission_targets(tmp_path: Path) -> None:
     compiler = shutil.which("cc") or shutil.which("clang") or shutil.which("gcc")
     if compiler is None:
         pytest.skip("no host C compiler available")
+    assert compiler is not None
     source = tmp_path / "chute_policy.c"
     executable = tmp_path / ("chute_policy.exe" if os.name == "nt" else "chute_policy")
     source.write_text(r'''

@@ -249,6 +249,11 @@ class KirbyAmWorld(World):
         value = getattr(option, "value", option)
         return bool(value)
 
+    def _area_keys_enabled(self) -> bool:
+        option = getattr(getattr(self, "options", None), "area_keys", None)
+        value = getattr(option, "value", option)
+        return True if value is None else bool(value)
+
     def _ability_gating_enabled(self) -> bool:
         option = getattr(getattr(self, "options", None), "ability_gating", None)
         value = getattr(option, "value", option)
@@ -809,6 +814,11 @@ class KirbyAmWorld(World):
                     code for code in non_filler_item_codes if code not in starting_ability_codes
                 ]
 
+                if not self._area_keys_enabled():
+                    non_filler_item_codes = [
+                        code for code in non_filler_item_codes if "AreaKeys" not in kirby_data.items[code].tags
+                    ]
+
                 if not self._ability_gating_enabled():
                     excluded_ability_count = sum(
                         1 for code in non_filler_item_codes if "Abilities" in kirby_data.items[code].tags
@@ -997,6 +1007,8 @@ class KirbyAmWorld(World):
     def generate_basic(self) -> None:
         # Create auth for client connection.
         self.auth = self.random.randbytes(16)
+        if not self._area_keys_enabled():
+            return
 
         # Rules and user-provided starting inventory are both available at this
         # stage.  Measure the real AP graph rather than approximating it with a
@@ -1159,7 +1171,10 @@ class KirbyAmWorld(World):
         if multiworld is not None:
             precollected_by_player = getattr(multiworld, "precollected_items", {})
             precollected_items = precollected_by_player.get(getattr(self, "player", 1), ())
-        slot_data["starting_area_key_bitfield"] = area_key_bitfield_from_items(precollected_items)
+        slot_data["area_keys"] = self._area_keys_enabled()
+        slot_data["starting_area_key_bitfield"] = (
+            area_key_bitfield_from_items(precollected_items) if slot_data["area_keys"] else 0
+        )
         slot_data["core_landmark_location_ids"] = sorted(
             location.location_id
             for location in kirby_data.locations.values()

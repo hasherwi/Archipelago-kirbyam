@@ -7,6 +7,7 @@
   "ability_randomization_no_ability_weight": 55,
   "ability_randomization_passive_enemies": false,
   "ability_randomization_statues": false,
+  "area_keys": true,
   "configured_area_boss": 7,
   "core_landmark_location_ids": [
     3961070,

@@ -1065,7 +1065,16 @@ class KirbyAmClient(BizHawkClient):
         self._cached_shard_bits_items_len = len(delivered_items)
         return self._cached_delivered_shard_bits & _MANAGED_NATIVE_SHARD_BITMASK
 
+    def _area_keys_enabled(self, ctx: "BizHawkClientContext") -> bool:
+        """Older Area Key seeds omit the option and retain their enabled gates."""
+        slot_data = getattr(ctx, "slot_data", None)
+        if not isinstance(slot_data, dict):
+            return True
+        return self._coerce_u32(slot_data.get("area_keys", 1)) != 0
+
     def _starting_area_key_bits(self, ctx: "BizHawkClientContext") -> int:
+        if not self._area_keys_enabled(ctx):
+            return 0
         slot_data = getattr(ctx, "slot_data", None)
         if not isinstance(slot_data, dict):
             return 0
@@ -1083,6 +1092,14 @@ class KirbyAmClient(BizHawkClient):
         prefix acknowledged by the ROM delivery cursor is authoritative; queued
         entries later in the list do not unlock mirrors early.
         """
+        if not self._area_keys_enabled(ctx):
+            # An older save or reconnect must not resurrect ownership when the
+            # seed has disabled Area Keys. The immutable ROM option bypasses
+            # their gates independently, including before client connection.
+            self._cached_delivered_area_key_bits = 0
+            self._cached_area_key_bits_index = 0
+            self._cached_area_key_bits_items_len = 0
+            return 0
         delivered_items = getattr(ctx, "items_received", ())
         delivered_count = min(self._delivered_item_index, len(delivered_items))
 
@@ -2515,6 +2532,7 @@ class KirbyAmClient(BizHawkClient):
                 3: "destination Area Key present",
                 4: "destination is outside the Area Key set",
                 5: "room-area metadata unavailable; fail-open compatibility path",
+                6: "Area Keys disabled for this seed",
             }.get(reason_id, f"reason {reason_id}")
             logger.info(
                 "KirbyAM: area transition attempt %s: method=%s source=0x%04X destination=0x%04X reason=%s.",
@@ -2525,7 +2543,7 @@ class KirbyAmClient(BizHawkClient):
                 reason,
                 extra={"NoStream": True, "skip_gui": True},
             )
-            if not allowed and reason_id == 2:
+            if not allowed and reason_id == 2 and self._area_keys_enabled(ctx):
                 # Resolve the destination's ROM doorsIdx through the same room
                 # metadata table used by room-entry reporting. Unknown rooms
                 # stay silent rather than naming the wrong key.

@@ -28,6 +28,7 @@ def test_production_cannon_and_warp_guards_before_native_mutation(tmp_path: Path
     cc = shutil.which("cc")
     if cc is None:
         pytest.skip("host C compiler unavailable")
+    assert cc is not None
     payload = (Path(__file__).resolve().parents[1] / "kirby_ap_payload" / "ap_payload.c").read_text()
     names = (
         "KIRBY_STRUCT_ROOM_OFFSET", "KIRBY_EWRAM_START", "KIRBY_EWRAM_END",

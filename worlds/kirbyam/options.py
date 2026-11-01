@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from Options import (
     Choice,
     DeathLink,
+    DefaultOnToggle,
     OptionGroup,
     PerGameCommonOptions,
     Range,
@@ -399,6 +400,15 @@ def _build_starting_kirby_color_option() -> type[Choice]:
 StartingKirbyColor = _build_starting_kirby_color_option()
 
 
+class AreaKeys(DefaultOnToggle):
+    """Require the destination Area Key for travel into Areas 2–9.
+
+    Disable to remove Area Keys from the item pool and leave native area travel
+    open. Hub Connection, lever, ability, and Dimension Mirror requirements remain.
+    """
+    display_name = "Area Keys"
+
+
 class RoomSanity(Toggle):
     """Adds room-visit checks (for example, `Room X-*`). Off by default because it adds 263 locations."""
     display_name = "Room Sanity"
@@ -420,6 +430,8 @@ class KirbyAmOptions(PerGameCommonOptions):
     shards: RandomizeShards
 
     start_with_all_maps: StartWithAllMaps
+
+    area_keys: AreaKeys
 
     starting_kirby_color: StartingKirbyColor  # type: ignore[valid-type]
 
@@ -466,6 +478,7 @@ OPTION_GROUPS = [
     ]),
     OptionGroup("Make the game easier", [
         StartWithAllMaps,
+        AreaKeys,
     ]),
     OptionGroup("Kirby Health", [
         MinimumHealth,

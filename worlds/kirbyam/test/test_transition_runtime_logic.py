@@ -22,6 +22,7 @@ def test_transition_attempt_policy_executes_from_payload_header() -> None:
     compiler = _native_c_compiler()
     if compiler is None:
         pytest.skip("no native C compiler available for payload transition policy contract")
+    assert compiler is not None
 
     harness = r'''
 #include <stdint.h>
