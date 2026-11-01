@@ -24,3 +24,5 @@ The two runtime reference docs above intentionally stay short and operational:
 - Where the signal is written (native hook or AP transport register).
 - Which client poll/delivery method consumes it.
 - What behavior is intentionally suppressed from native game rewards in AP mode.
+
+- Area Keys and Hub protocol 2 integration: see area-keys-integration.md

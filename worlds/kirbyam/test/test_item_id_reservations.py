@@ -36,7 +36,9 @@ def test_historical_progression_collision_is_not_silently_accepted() -> None:
     validate_catalogs({'area keys': catalogs['908'], 'current': data.item_key_to_id},
                       INVENTORY['reserved_items'])
     with pytest.raises(ValueError, match='HUB_CONNECTION_RAINBOW_ROUTE_EAST moved from 3860042 to 3860401'):
-        validate_catalogs({'old hub': catalogs['932'], 'current': data.item_key_to_id},
+        validate_catalogs({'old hub': catalogs['932'], 'current': {
+            key: value for key, value in data.item_key_to_id.items() if key.startswith('HUB_CONNECTION_')
+        }},
                           INVENTORY['reserved_items'])
 
 
@@ -59,7 +61,10 @@ def test_implicit_allocations_are_included_and_duplicate_ids_rejected() -> None:
 def test_hub_allocation_avoids_area_key_catalog_and_mailbox() -> None:
     hubs = {key: value for key, value in data.item_key_to_id.items() if key.startswith('HUB_CONNECTION_')}
     assert set(hubs.values()) == set(range(3860401, 3860416))
-    assert not any(key.startswith('AREA_KEY_') for key in data.item_key_to_id)
+    keys = {value for key, value in data.item_key_to_id.items() if key.startswith('AREA_KEY_')}
+    assert keys == set(range(3860041, 3860049))
+    assert keys.isdisjoint(hubs.values())
+    assert 3860300 not in keys | set(hubs.values())
     addresses = data.transport_ram_addresses
     assert addresses['hub_connection_item_mask'] == 0x0203B134
     assert addresses['hub_connection_item_mask'] >= 0x0203B134  # #908 ends at B133.

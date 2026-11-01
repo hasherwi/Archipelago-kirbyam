@@ -121,6 +121,9 @@ def test_generated_carrot_wall_still_requires_received_wall_item() -> None:
     state.collect(event_item, prevent_sweep=True)
     assert not wall_exit.access_rule(state)
     state.collect(world.create_item("Carrot Castle 5-05 - Lever Wall"), prevent_sweep=True)
+    # This entrance also admits Kirby to the forced chute into Radish.
+    assert not wall_exit.access_rule(state)
+    state.collect(world.create_item("Radish Ruins - Area Key"), prevent_sweep=True)
     assert wall_exit.access_rule(state)
 
 

@@ -5,6 +5,9 @@ See dev-docs/hub-teleport-trap.md for addresses and evidence.
 """
 from __future__ import annotations
 
+import runpy
+from pathlib import Path
+
 CONTRACT_BYTES = {
     0x3F324: bytes.fromhex(
         "30b5041c0948016810200840002819d00125231c563306491878097888420bd2e1f70af9034b034039e0000010ad0302"
@@ -84,6 +87,11 @@ CONTRACT_BYTES = {
 def populate_hub_transition_fixture(rom: bytearray) -> None:
     if len(rom) != 0x1000000:
         raise ValueError('Expected a synthetic 16 MiB fixture')
+    # Native Candy exclusion table, also required by the appended payload guard.
+    rooms = (999, 324, 710, 417, 822, 219, 516, 738, 129)
+    rom[0x35105C:0x35106E] = b"".join(room.to_bytes(2, "little") for room in rooms)
     rom[0x151CF4:0x151CF8] = bytes.fromhex('00 f0 fe ff')
     for offset, data in CONTRACT_BYTES.items():
         rom[offset:offset + len(data)] = data
+    area_fixture = runpy.run_path(str(Path(__file__).with_name("area_key_transition_fixture.py")))
+    area_fixture["populate_area_key_transition_fixture"](rom)

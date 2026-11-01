@@ -84,7 +84,12 @@ Each room object contains:
     - `included`: `bool`
     - `location_id`: `int | null`
     - `bit_index`: `int | null`
+    - `core_landmark`: `bool` (optional; default `false`)
   - Meaning: room-sanity metadata for tracker/check integration.
+  - Rooms marked `core_landmark` are stable area-hub visit checks that remain
+    active when full Room Sanity is disabled. They reuse the same location ID
+    and native `doorsIdx` visit bit when Room Sanity is enabled, so they are
+    never duplicated.
 
 - `transitions`:
   - Type: `list[transition_object]`

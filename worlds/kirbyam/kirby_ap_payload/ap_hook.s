@@ -57,3 +57,38 @@ ap_after_tasks:
     bx r3
 1:  .word ap_hub_tasks
 .size ap_after_tasks, .-ap_after_tasks
+
+// Preserve native LR/arguments across long calls into the ROM extension.
+
+.section .text.ap_transition_entries,"ax",%progbits
+.balign 4
+.global ap_prepare_automatic_transition_entry
+.type ap_prepare_automatic_transition_entry, %function
+.thumb_func
+ap_prepare_automatic_transition_entry:
+    ldr r3, 1f
+    bx r3
+1:  .word ap_prepare_automatic_transition
+.size ap_prepare_automatic_transition_entry, .-ap_prepare_automatic_transition_entry
+
+.section .text.ap_transition_entries,"ax",%progbits
+.balign 4
+.global ap_on_button_special_transition_entry
+.type ap_on_button_special_transition_entry, %function
+.thumb_func
+ap_on_button_special_transition_entry:
+    ldr r3, 1f
+    bx r3
+1:  .word ap_on_button_special_transition
+.size ap_on_button_special_transition_entry, .-ap_on_button_special_transition_entry
+
+.section .text.ap_transition_entries,"ax",%progbits
+.balign 4
+.global ap_on_warp_star_transition_entry
+.type ap_on_warp_star_transition_entry, %function
+.thumb_func
+ap_on_warp_star_transition_entry:
+    ldr r3, 1f
+    bx r3
+1:  .word ap_on_warp_star_transition
+.size ap_on_warp_star_transition_entry, .-ap_on_warp_star_transition_entry

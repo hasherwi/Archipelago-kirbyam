@@ -92,7 +92,9 @@ def test_room_sanity_archive_accessibility_across_goals_and_options(tmp_path, go
     actual = set(decoded["locations"][1])
     expected = {loc.location_id for loc in data.locations.values()
                 if loc.category == LocationCategory.ROOM_SANITY}
-    assert actual & expected == (expected if room_sanity else set())
+    core = {loc.location_id for loc in data.locations.values() if "CoreLandmark" in loc.tags}
+    assert len(core) == 8
+    assert actual & expected == (expected if room_sanity else core)
     assert decoded["slot_data"][1]["room_sanity"] == room_sanity
 
 

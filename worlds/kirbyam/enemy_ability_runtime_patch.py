@@ -178,6 +178,27 @@ def _included_randomizable_sources(policy: dict[str, Any]) -> tuple[list[Ability
     return included_sources, excluded_unswallowable_sources
 
 
+# Versioned immutable extension config. Version zero preserves legacy seeds.
+ENEMY_SOURCE_CONFIG_ROM_OFFSET = 0x100FFDC
+ENEMY_SOURCE_CONFIG_MAGIC = 0x41534501
+ENEMY_SOURCE_CONFIG_LEGACY = 0x41534500
+
+
+def build_enemy_source_runtime_config(policy: dict[str, Any]) -> bytes:
+    """Encode the same eligible source set used by static table generation."""
+    words = [0] * 8
+    sources, _ = _included_randomizable_sources(policy)
+    if int(policy.get("mode", AbilityRandomizationMode.option_off)) == AbilityRandomizationMode.option_off:
+        sources = []
+    for source in sources:
+        for address in source.addresses:
+            index, remainder = divmod(address - 0x35164E, 24)
+            if remainder or not 0 <= index < 256:
+                raise ValueError(f"Unverified enemy source table address: {address:#x}")
+            words[index >> 5] |= 1 << (index & 31)
+    return b"".join(word.to_bytes(4, "little") for word in [ENEMY_SOURCE_CONFIG_MAGIC, *words])
+
+
 def build_enemy_copy_spoiler_rows(
     policy: dict[str, Any],
     include_statues: bool = False,

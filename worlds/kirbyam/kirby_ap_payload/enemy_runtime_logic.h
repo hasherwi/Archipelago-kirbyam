@@ -37,4 +37,19 @@ static inline uint8_t ap_enemy_should_reroll(
         && verified_source_type == AP_ENEMY_MINNY_TYPE) ? 0u : 1u;
 }
 
+#define AP_ENEMY_SOURCE_CONFIG_MAGIC 0x41534501u
+#define AP_ENEMY_SOURCE_CONFIG_LEGACY 0x41534500u
+
+/* Only verified ordinary-swallow Object2 sources consult the per-seed bitmap.
+ * Stars and unrelated callers retain their established reroll behavior. */
+static inline uint8_t ap_enemy_source_policy_allows(
+    const volatile uint32_t *config, uint32_t caller_pc, uint32_t source_ptr,
+    uint32_t source_type
+) {
+    if (ap_enemy_has_verified_source(caller_pc, source_ptr) == 0u) return 1u;
+    if (config[0] != AP_ENEMY_SOURCE_CONFIG_MAGIC) return 1u;
+    if (source_type >= 256u) return 0u;
+    return (uint8_t)((config[1u + (source_type >> 5)] >> (source_type & 31u)) & 1u);
+}
+
 #endif

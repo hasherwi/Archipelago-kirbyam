@@ -4,19 +4,28 @@ from pathlib import Path
 
 import pytest
 
-from BaseClasses import CollectionState
+from BaseClasses import CollectionState, MultiWorld
 from test.general import setup_multiworld
 from .. import KirbyAmWorld
 from ..data import data
+from ..area_keys import AREA_KEY_LABELS
 from .test_rules import _make_collection_state_room_graph
 
 EVIDENCE = json.loads((Path(__file__).parent / 'data/hub_native_edges.json').read_text())
 CENTRAL = 'REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE'
 
 
+def _with_area_keys(world: MultiWorld, state: CollectionState) -> CollectionState:
+    # Isolate native Hub shortcut and compartment predicates from destination keys.
+    for label in AREA_KEY_LABELS:
+        state.collect(world.worlds[1].create_item(label), True)
+    return state
+
+
 @pytest.mark.parametrize('edge', EVIDENCE)
 def test_each_native_edge_requires_its_own_item(edge):
     world, state = _make_collection_state_room_graph()
+    _with_area_keys(world, state)
     source, destination = edge['source_keys'][0], edge['destination_keys'][0]
     if edge['room'] == 801 and edge['destination'] in (590, 490):
         source += '_UPPER_PLATFORMS'
@@ -35,7 +44,7 @@ def test_each_native_edge_requires_its_own_item(edge):
 def test_hub_receipt_shortcuts_and_eight_distinct_shards(room_sanity):
     world = setup_multiworld(KirbyAmWorld, seed=932, options={
         'room_sanity': room_sanity, 'ability_gating': 0})
-    trial = CollectionState(world)
+    trial = _with_area_keys(world, CollectionState(world))
     # Receipt milestones describe shortcuts, not global room-access phases.
     # Physical Moonlight is ID 402; ID 401 is the Rainbow East central shortcut.
     for item_id, label, destination in (
@@ -66,7 +75,7 @@ def test_hub_receipt_shortcuts_and_eight_distinct_shards(room_sanity):
 def test_moonlight_arrival_cannot_cross_olive_lever_wall(room_sanity, ability_gating):
     world = setup_multiworld(KirbyAmWorld, seed=932, options={
         'room_sanity': room_sanity, 'ability_gating': ability_gating})
-    state = CollectionState(world)
+    state = _with_area_keys(world, CollectionState(world))
     for name in ('Moonlight Mansion - Hub Connection',
                  'Moonlight Mansion 2-11 - Lever Wall',
                  'Olive Ocean - Hub Connection'):
@@ -103,7 +112,7 @@ def test_candy_overland_arrival_does_not_grant_its_central_connection(room_sanit
     """Preserve the emulator-proven 705->409->427->404->407->401->407->490 route."""
     world = setup_multiworld(KirbyAmWorld, seed=932, options={
         'room_sanity': room_sanity, 'ability_gating': ability_gating})
-    state = CollectionState(world)
+    state = _with_area_keys(world, CollectionState(world))
     state.collect(world.worlds[1].create_item('Moonlight Mansion 2-11 - Lever Wall'), True)
     # This regression concerns topology, not acquisition of each copy ability.
     # The runtime route used normally acquired Missile and Burning with gating off.

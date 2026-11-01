@@ -452,7 +452,7 @@
       "0x3525DE",
       "0x3525F6"
     ],
-    "default_ability": "Ice"
+    "default_ability": "Normal"
   },
   "PARASOL_OBJECT": {
     "kind": "boss_spawned",
@@ -466,7 +466,7 @@
     "addresses": [
       "0x3526CE"
     ],
-    "default_ability": "Parasol"
+    "default_ability": "Normal"
   },
   "PRANK_BOMB": {
     "kind": "boss_spawned",

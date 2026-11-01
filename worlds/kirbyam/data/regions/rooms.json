@@ -1051,7 +1051,8 @@
       "room_sanity": {
         "included": true,
         "location_id": 3961070,
-        "bit_index": 80
+        "bit_index": 80,
+        "core_landmark": true
       },
       "HUB_SWITCH_MOONLIGHT": null
     },
@@ -1629,7 +1630,8 @@
       "room_sanity": {
         "included": true,
         "location_id": 3961094,
-        "bit_index": 189
+        "bit_index": 189,
+        "core_landmark": true
       }
     },
     "exits": {
@@ -2072,7 +2074,8 @@
       "room_sanity": {
         "included": true,
         "location_id": 3961119,
-        "bit_index": 141
+        "bit_index": 141,
+        "core_landmark": true
       }
     },
     "exits": {
@@ -2443,7 +2446,8 @@
       "room_sanity": {
         "included": true,
         "location_id": 3961126,
-        "bit_index": 253
+        "bit_index": 253,
+        "core_landmark": true
       }
     },
     "exits": {
@@ -2851,7 +2855,8 @@
       "room_sanity": {
         "included": true,
         "location_id": 3961163,
-        "bit_index": 211
+        "bit_index": 211,
+        "core_landmark": true
       }
     },
     "exits": {
@@ -3376,7 +3381,8 @@
       "room_sanity": {
         "included": true,
         "location_id": 3961188,
-        "bit_index": 104
+        "bit_index": 104,
+        "core_landmark": true
       }
     },
     "exits": {
@@ -3874,7 +3880,8 @@
       "room_sanity": {
         "included": true,
         "location_id": 3961221,
-        "bit_index": 240
+        "bit_index": 240,
+        "core_landmark": true
       }
     },
     "exits": {
@@ -4288,7 +4295,8 @@
       "room_sanity": {
         "included": true,
         "location_id": 3961256,
-        "bit_index": 169
+        "bit_index": 169,
+        "core_landmark": true
       }
     },
     "exits": {

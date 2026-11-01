@@ -117,7 +117,9 @@ def main():
                     for player in range(1, players + 1):
                         actual = set(decoded['locations'][player]) & room_ids
                         enabled = decoded['slot_data'][player]['room_sanity']
-                        assert actual == (room_ids if enabled else set())
+                        core_ids = {loc.location_id for loc in data.locations.values()
+                                    if 'CoreLandmark' in loc.tags}
+                        assert actual == (room_ids if enabled else core_ids)
                     for name in patches:
                         with zipfile.ZipFile(io.BytesIO(archive.read(name))) as patch:
                             assert patch.read('base_patch.bsdiff4') == base_patch

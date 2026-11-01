@@ -7,7 +7,18 @@
   "ability_randomization_no_ability_weight": 55,
   "ability_randomization_passive_enemies": false,
   "ability_randomization_statues": false,
+  "area_keys": true,
   "configured_area_boss": 7,
+  "core_landmark_location_ids": [
+    3961070,
+    3961094,
+    3961119,
+    3961126,
+    3961163,
+    3961188,
+    3961221,
+    3961256
+  ],
   "death_link": true,
   "enable_traps": false,
   "enemy_copy_ability_policy": {
@@ -1800,6 +1811,7 @@
       "label": "Area 2 - Hub Room",
       "location_id": 3961070,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -1960,6 +1972,7 @@
       "label": "Area 3 - Hub Room 1",
       "location_id": 3961094,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -2168,6 +2181,7 @@
       "label": "Area 4 - Hub Room",
       "location_id": 3961119,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -2352,6 +2366,7 @@
       "label": "Area 5 - Hub Room",
       "location_id": 3961126,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -2592,6 +2607,7 @@
       "label": "Area 6 - Hub Room",
       "location_id": 3961163,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -2824,6 +2840,7 @@
       "label": "Area 7 - Hub Room 1",
       "location_id": 3961188,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -3072,6 +3089,7 @@
       "label": "Area 8 - Hub Room",
       "location_id": 3961221,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -3288,6 +3306,7 @@
       "label": "Area 9 - Hub Room",
       "location_id": 3961256,
       "tags": [
+        "CoreLandmark",
         "RoomSanity"
       ]
     },
@@ -6219,25 +6238,30 @@
     "REGION_CANDY_CONSTELLATION/ROOM_9_08 -> REGION_CANDY_CONSTELLATION/ROOM_9_09",
     "REGION_RADISH_RUINS/ROOM_8_03 -> REGION_RADISH_RUINS/ROOM_8_CHEST_1"
   ],
+  "starting_area_key_bitfield": 0,
   "starting_kirby_color": 0,
   "starting_kirby_color_name": "Pink",
   "starting_kirby_color_randomize_on_room_transition": false,
   "trap_fill_percentage": 25,
   "unique_items": [
+    "Cabbage Cavern - Area Key",
     "Cabbage Cavern - Map",
     "Cabbage Cavern - Mirror Shard",
     "Cabbage Cavern Center - Hub Connection",
     "Cabbage Cavern East - Hub Connection",
     "Cabbage Cavern West - Hub Connection",
+    "Candy Constellation - Area Key",
     "Candy Constellation - Hub Connection",
     "Candy Constellation - Map",
     "Candy Constellation - Mirror Shard",
     "Candy Constellation - Vitality Counter",
+    "Carrot Castle - Area Key",
     "Carrot Castle - Hub Connection",
     "Carrot Castle - Map",
     "Carrot Castle - Mirror Shard",
     "Carrot Castle - Vitality Counter",
     "Carrot Castle 5-05 - Lever Wall",
+    "Moonlight Mansion - Area Key",
     "Moonlight Mansion - Hub Connection",
     "Moonlight Mansion - Map",
     "Moonlight Mansion - Mirror Shard",
@@ -6252,18 +6276,22 @@
     "Music Sheet #7",
     "Music Sheet #8",
     "Music Sheet #9",
+    "Mustard Mountain - Area Key",
     "Mustard Mountain - Hub Connection",
     "Mustard Mountain - Map",
     "Mustard Mountain - Mirror Shard",
+    "Olive Ocean - Area Key",
     "Olive Ocean - Hub Connection",
     "Olive Ocean - Map",
     "Olive Ocean - Mirror Shard",
     "Olive Ocean - Vitality Counter",
     "Olive Ocean 6-13 - Lever Wall",
+    "Peppermint Palace - Area Key",
     "Peppermint Palace - Map",
     "Peppermint Palace - Mirror Shard",
     "Peppermint Palace East - Hub Connection",
     "Peppermint Palace West - Hub Connection",
+    "Radish Ruins - Area Key",
     "Radish Ruins - Hub Connection",
     "Radish Ruins - Map",
     "Radish Ruins - Mirror Shard",

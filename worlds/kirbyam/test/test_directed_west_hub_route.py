@@ -28,6 +28,7 @@ def test_route_preserves_native_chain_in_current_room_graph() -> None:
 @pytest.mark.parametrize('order', [(WEST_RAINBOW, WEST_CABBAGE), (WEST_CABBAGE, WEST_RAINBOW)])
 def test_actual_route_rules_require_both_native_hub_items(order: tuple[str, str]) -> None:
     world, state = _make_collection_state_room_graph()
+    state.add_item("Cabbage Cavern - Area Key", 1)
     first = world.get_entrance(f'{SOURCE} -> {LOWER}', 1)
     second = world.get_entrance(f'{LOWER} -> {TARGET}', 1)
     assert not first.access_rule(state)

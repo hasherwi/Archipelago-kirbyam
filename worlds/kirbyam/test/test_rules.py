@@ -10,6 +10,11 @@ from unittest.mock import patch
 import pytest
 
 from .. import KirbyAmWorld
+from ..area_keys import (
+    AREA_KEY_LABEL_BY_AREA_ID,
+    area_key_entrance_area_ids,
+    dimension_mirror_entrance_names,
+)
 from ..options import ConfiguredAreaBoss, Goal
 from ..rules import (
     ABILITY_GATE_RULES,
@@ -46,6 +51,7 @@ class _FakeEntrance:
     def __init__(self, name: str, player: int) -> None:
         self.name = name
         self.player = player
+        self.access_rule = lambda _state: True
 
 
 class _FakeLocation:
@@ -213,12 +219,108 @@ def test_unknown_goal_value_defaults_to_dark_mind_completion() -> None:
 def test_set_rules_applies_shard_gate_to_dimension_mirror_and_goal_events() -> None:
     world = _FakeWorld(Goal.option_dark_mind)
 
-    with patch("worlds.kirbyam.rules.set_rule") as mock_set_rule:
+    with (
+        patch("worlds.kirbyam.rules.add_rule") as mock_add_rule,
+        patch("worlds.kirbyam.rules.set_rule") as mock_set_rule,
+    ):
         set_rules(world)
 
-    applied_names = [call.args[0].name for call in mock_set_rule.call_args_list]
+    applied_names = [call.args[0].name for call in mock_add_rule.call_args_list]
     assert "REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN" in applied_names
-    assert "Defeat Dark Mind" in applied_names
+    assert "Defeat Dark Mind" in [call.args[0].name for call in mock_set_rule.call_args_list]
+
+
+def test_area_key_rules_use_directed_destination_area_for_native_edges() -> None:
+    world = _FakeWorld(Goal.option_dark_mind)
+    set_rules(world)
+
+    cabbage_to_olive = world.multiworld.get_entrance(
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1 -> REGION_OLIVE_OCEAN/ROOM_6_01",
+        world.player,
+    )
+    assert not cabbage_to_olive.access_rule(_FakeState())
+    assert not cabbage_to_olive.access_rule(
+        _FakeState({AREA_KEY_LABEL_BY_AREA_ID[3]})
+    ), "The source area's key must not authorize a directed destination gate"
+    assert cabbage_to_olive.access_rule(
+        _FakeState({AREA_KEY_LABEL_BY_AREA_ID[6]})
+    )
+
+    olive_to_cabbage = world.multiworld.get_entrance(
+        "REGION_OLIVE_OCEAN/ROOM_6_01 -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_1",
+        world.player,
+    )
+    assert not olive_to_cabbage.access_rule(
+        _FakeState({AREA_KEY_LABEL_BY_AREA_ID[6]})
+    )
+    assert olive_to_cabbage.access_rule(
+        _FakeState({AREA_KEY_LABEL_BY_AREA_ID[3]})
+    )
+
+
+def test_area_key_rules_gate_room_edges_but_leave_rainbow_route_returns_free() -> None:
+    world = _FakeWorld(Goal.option_dark_mind)
+    set_rules(world)
+
+    room_entrance_name = "REGION_RAINBOW_ROUTE/ROOM_1_13_LOWER -> REGION_CABBAGE_CAVERN/ROOM_3_04"
+    destination_area_id = area_key_entrance_area_ids()[room_entrance_name]
+    room_entrance = world.multiworld.get_entrance(room_entrance_name, world.player)
+    assert not room_entrance.access_rule(_FakeState())
+    assert room_entrance.access_rule(
+        _FakeState({AREA_KEY_LABEL_BY_AREA_ID[destination_area_id]})
+    )
+
+    return_to_rainbow_route = world.multiworld.get_entrance(
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1 -> REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+        world.player,
+    )
+    assert return_to_rainbow_route.access_rule(_FakeState())
+
+
+def test_area_key_rule_composes_with_an_existing_entrance_requirement() -> None:
+    world = _FakeWorld(Goal.option_dark_mind)
+    entrance = world.multiworld.get_entrance(
+        "REGION_RAINBOW_ROUTE/ROOM_1_13_LOWER -> REGION_CABBAGE_CAVERN/ROOM_3_04",
+        world.player,
+    )
+    entrance.access_rule = lambda state: state.has("Existing traversal requirement", world.player)
+
+    set_rules(world)
+
+    assert not entrance.access_rule(_FakeState({AREA_KEY_LABEL_BY_AREA_ID[3]}))
+    assert not entrance.access_rule(_FakeState({"Existing traversal requirement"}))
+    assert entrance.access_rule(
+        _FakeState({AREA_KEY_LABEL_BY_AREA_ID[3], "Existing traversal requirement"})
+    )
+
+
+def test_area_key_rule_wiring_fails_closed_when_a_canonical_entrance_is_missing() -> None:
+    world = _FakeWorld(Goal.option_dark_mind)
+    missing_entrance = next(iter(area_key_entrance_area_ids()))
+    original_get_entrance = world.multiworld.get_entrance
+
+    def get_entrance(name: str, player: int):
+        if name == missing_entrance:
+            raise KeyError(name)
+        return original_get_entrance(name, player)
+
+    world.multiworld.get_entrance = get_entrance
+
+    with pytest.raises(ValueError, match="refusing to generate a partially gated world"):
+        set_rules(world)
+
+
+def test_every_dimension_mirror_ingress_preserves_the_all_shards_gate() -> None:
+    world = _FakeWorld(Goal.option_dark_mind)
+    set_rules(world)
+
+    entrance_names = dimension_mirror_entrance_names()
+    assert "REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN" in entrance_names
+    assert entrance_names == ("REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN",)
+    for entrance_name in entrance_names:
+        entrance = world.multiworld.get_entrance(entrance_name, world.player)
+        assert not entrance.access_rule(_FakeState()), entrance_name
+        assert entrance.access_rule(_FakeState(ALL_SHARDS)), entrance_name
 
 
 def test_area_topology_routes_start_through_rainbow_route_anchor() -> None:
@@ -237,7 +339,6 @@ def test_area_topology_routes_start_through_rainbow_route_anchor() -> None:
         if name not in {"REGION_GAME_START", "REGION_RAINBOW_ROUTE/MAIN",
                         "REGION_DIMENSION_MIRROR/MAIN"}:
             assert region["exits"] == []
-
 
 
 def test_room_subareas_pure_topology_with_all_rooms() -> None:
@@ -482,17 +583,16 @@ def test_area_hub_exits_are_item_gated() -> None:
         assert set(requirements) <= set(exits)
 
 
-
 def test_set_rules_applies_item_gates_to_physical_entrances() -> None:
     from ..data import data
 
     world = _FakeWorld(Goal.option_dark_mind)
-    with patch("worlds.kirbyam.rules.set_rule") as mock_set_rule:
+    with patch("worlds.kirbyam.rules.add_rule") as mock_add_rule:
         set_rules(world)
 
     rules_by_entrance = {
         call.args[0].name: call.args[1]
-        for call in mock_set_rule.call_args_list
+        for call in mock_add_rule.call_args_list
         if hasattr(call.args[0], "name")
     }
     checked = 0
@@ -534,6 +634,8 @@ def _make_collection_state_room_graph():
 
 def test_collection_state_gates_hub_shortcuts_and_preserves_overland_routes() -> None:
     multiworld, state = _make_collection_state_room_graph()
+    for label in AREA_KEY_LABEL_BY_AREA_ID.values():
+        state.add_item(label, 1)
     gated_edges = {
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_3":
             "Cabbage Cavern West - Hub Connection",

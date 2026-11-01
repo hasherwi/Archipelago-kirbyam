@@ -37,7 +37,7 @@ def test_generated_start_inventory_and_balanced_pool(tmp_path, gating, explicit)
     assert inventory[3860118] == 1  # Explicit Sword retained.
     assert inventory[3860026] == 2  # Unrelated multiplicity retained.
     locations = decoded["locations"][1]
-    assert len(locations) == 116  # Existing default active physical-check count.
+    assert len(locations) == 124  # Main's 116 physical checks plus eight Area Key hub checks.
     pool = Counter(item[0] for item in locations.values())
     assert STARTING_IDS.isdisjoint(pool)
     gateable_ids = {3860100 + ABILITY_NAME_TO_ID[name] for name in GATEABLE_ENEMY_COPY_ABILITIES}

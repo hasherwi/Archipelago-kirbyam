@@ -148,6 +148,25 @@ assert(conn.closed)
 conn = connect()
 feed(conn, string.rep("x", 1024 * 1024 + 1))
 assert(conn.closed)
+-- A failed listening socket is replaced once without leaking or spinning.
+frame()
+local failed_listener = listener
+failed_listener.callbacks.error()
+assert(failed_listener.closed)
+frame()
+local replacement = listener
+local binds_after_recovery = #bound_ports
+assert(replacement ~= failed_listener and not replacement.closed)
+for _ = 1, 600 do frame() end
+assert(listener == replacement and #bound_ports == binds_after_recovery)
+-- Stale notifications cannot consume or close the replacement listener.
+failed_listener.callbacks.error()
+failed_listener.callbacks.received()
+assert(listener == replacement and not replacement.closed)
+conn = connect()
+feed(conn, "VERSION\n")
+assert(conn.output == "1\n")
+conn.callbacks.error()
 -- All ports occupied: never bind 43060 and never listen on a failed socket.
 for port = 43055, 43059 do busy_ports[port] = true end
 bound_ports = {}
