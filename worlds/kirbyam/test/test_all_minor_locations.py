@@ -97,8 +97,8 @@ def test_carrot_physical_compartments(entry, lower, upper):
     assert not regions[parent].can_reach(state)
 
 
-def test_all_65_chests_are_reachable_without_received_ap_items():
-    """Current v0.4 graph, including event sweep, requires no new item gates."""
+def test_all_65_chests_are_reachable_with_route_items():
+    """All chests remain reachable with Hub items in the current main graph."""
     from argparse import Namespace
     multiworld = MultiWorld(1)
     multiworld.game[1] = KirbyAmWorld.game
@@ -116,6 +116,13 @@ def test_all_65_chests_are_reachable_without_received_ap_items():
     rows = [row for row in data.locations.values()
             if row.name.startswith('MINOR_CHEST_') and row.source_rom_offset is not None]
     assert len(rows) == 65
+    # Main #914 permits overland access without requiring every Hub shortcut.
+    # Individual shortcut gates are checked by test_rules, not chest counts.
+    route_items = [item for item in data.items.values() if "HubConnections" in item.tags]
+    assert len(route_items) == 15
+    for item in route_items:
+        state.collect(world.create_item(item.label), prevent_sweep=True)
+    state.sweep_for_advancements()
     assert not [row.name for row in rows
                 if not multiworld.get_location(row.label, 1).can_reach(state)]
 

@@ -75,11 +75,15 @@ def _validate_logic_requirement(requirement: Any, *, context: str) -> None:
             return
         raise ValueError(f"{context} requirement tokens must not be empty")
     if not isinstance(requirement, dict) or len(requirement) != 1:
-        raise TypeError(f"{context} requirement must be null, a token, or one all/any object")
+        raise TypeError(f"{context} requirement must be null, a token, an item, or one all/any object")
 
     operator, operands = next(iter(requirement.items()))
+    if operator == "item":
+        if not isinstance(operands, str) or not operands:
+            raise TypeError(f"{context} item requirement must name a non-empty item label")
+        return
     if operator not in {"all", "any"}:
-        raise ValueError(f"{context} requirement operator must be 'all' or 'any', got {operator!r}")
+        raise ValueError(f"{context} requirement operator must be 'item', 'all', or 'any', got {operator!r}")
     if not isinstance(operands, list) or not operands:
         raise TypeError(f"{context} requirement {operator!r} operands must be a non-empty list")
     for operand in operands:
@@ -746,15 +750,13 @@ def _init() -> None:  # noqa: C901
             logical_region_name = logical_region_names[(parent_region_name, logical_key)]
             logical_region = RegionData(logical_region_name)
 
-            exits_raw = logical_def.get("exits", [])
-            if not isinstance(exits_raw, list):
-                raise TypeError(
-                    f"Logical subregion [{logical_key}] on [{parent_region_name}] exits must be a list"
-                )
+            exits_raw, exit_requirements = normalize_region_exits(logical_region_name, logical_def)
 
             for exit_name in exits_raw:
                 if isinstance(exit_name, str):
                     logical_region.exits.append(exit_name)
+                    if exit_name in exit_requirements:
+                        logical_region.exit_requirements[exit_name] = exit_requirements[exit_name]
 
             locations_raw = logical_def.get("locations", [])
             if not isinstance(locations_raw, list):

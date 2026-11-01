@@ -228,50 +228,16 @@ def test_area_topology_routes_start_through_rainbow_route_anchor() -> None:
 
     assert regions["REGION_GAME_START"]["exits"] == ["REGION_RAINBOW_ROUTE/MAIN"]
 
-    # Rainbow Route is the hub; connects to all areas that have a hub mirror in
-    # the room-level transition data. Olive Ocean and Radish Ruins have no hub
-    # mirror to Rainbow Route (they are reached via adjacent areas instead).
+    # Summary regions cannot fabricate traversal between physical areas.
     assert set(regions["REGION_RAINBOW_ROUTE/MAIN"]["exits"]) == {
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-        "REGION_MUSTARD_MOUNTAIN/MAIN",
-        "REGION_MOONLIGHT_MANSION/MAIN",
-        "REGION_CANDY_CONSTELLATION/MAIN",
-        "REGION_PEPPERMINT_PALACE/MAIN",
-        "REGION_CABBAGE_CAVERN/MAIN",
-        "REGION_CARROT_CASTLE/MAIN",
         "REGION_DIMENSION_MIRROR/MAIN",
     }
+    for name, region in regions.items():
+        if name not in {"REGION_GAME_START", "REGION_RAINBOW_ROUTE/MAIN",
+                        "REGION_DIMENSION_MIRROR/MAIN"}:
+            assert region["exits"] == []
 
-    # Areas connected to Rainbow Route via hub mirror exit back to it.
-    for region_name in {
-        "REGION_MUSTARD_MOUNTAIN/MAIN",
-        "REGION_MOONLIGHT_MANSION/MAIN",
-        "REGION_CANDY_CONSTELLATION/MAIN",
-        "REGION_PEPPERMINT_PALACE/MAIN",
-        "REGION_CABBAGE_CAVERN/MAIN",
-        "REGION_CARROT_CASTLE/MAIN",
-    }:
-        assert "REGION_RAINBOW_ROUTE/MAIN" in regions[region_name]["exits"]
-
-    # Areas reachable only via cross-area mirrors have no direct Rainbow Route exit.
-    assert "REGION_RAINBOW_ROUTE/MAIN" not in regions["REGION_OLIVE_OCEAN/MAIN"]["exits"]
-    assert "REGION_RAINBOW_ROUTE/MAIN" not in regions["REGION_RADISH_RUINS/MAIN"]["exits"]
-
-    # Cross-area mirror connections derived from rooms.json transitions data.
-    assert set(regions["REGION_CABBAGE_CAVERN/MAIN"]["exits"]) >= {
-        "REGION_OLIVE_OCEAN/MAIN", "REGION_RADISH_RUINS/MAIN",
-    }
-    assert "REGION_OLIVE_OCEAN/MAIN" in regions["REGION_MOONLIGHT_MANSION/MAIN"]["exits"]
-    assert set(regions["REGION_OLIVE_OCEAN/MAIN"]["exits"]) >= {
-        "REGION_CABBAGE_CAVERN/MAIN", "REGION_MOONLIGHT_MANSION/MAIN",
-    }
-    assert set(regions["REGION_CARROT_CASTLE/MAIN"]["exits"]) >= {
-        "REGION_PEPPERMINT_PALACE/MAIN", "REGION_RADISH_RUINS/MAIN",
-    }
-    assert set(regions["REGION_PEPPERMINT_PALACE/MAIN"]["exits"]) >= {"REGION_CARROT_CASTLE/MAIN"}
-    assert set(regions["REGION_RADISH_RUINS/MAIN"]["exits"]) >= {
-        "REGION_CABBAGE_CAVERN/MAIN", "REGION_CARROT_CASTLE/MAIN",
-    }
 
 
 def test_room_subareas_pure_topology_with_all_rooms() -> None:
@@ -490,20 +456,118 @@ def test_compact_room_requirements_enforce_lever_wall_items_and_compose() -> Non
     )
 
 
-def test_room_exit_requirements_are_room_local_only() -> None:
+def test_item_requirement_token_checks_the_named_hub_connection() -> None:
+    requirement = {"item": "Rainbow Route East - Hub Connection"}
+
+    assert not evaluate_room_logic_requirement(requirement, _FakeState(), 1)
+    assert evaluate_room_logic_requirement(
+        requirement,
+        _FakeState({"Rainbow Route East - Hub Connection"}),
+        1,
+    )
+
+
+def test_area_hub_exits_are_item_gated() -> None:
     from ..data import load_json_data, normalize_region_exits
 
     rooms = load_json_data("regions/rooms.json")
     areas = load_json_data("regions/areas.json")
 
+    # Area summaries do not grant synthetic inter-area travel.
+    for area_name, area_def in areas.items():
+        exits, requirements = normalize_region_exits(area_name, area_def)
+        assert not requirements
     for room_name, room_def in rooms.items():
         exits, requirements = normalize_region_exits(room_name, room_def)
         assert set(requirements) <= set(exits)
 
-    for area_name, area_def in areas.items():
-        assert "exit_requirements" not in area_def, (
-            f"Area {area_name} should not have room-level requirements"
-        )
+
+
+def test_set_rules_applies_item_gates_to_physical_entrances() -> None:
+    from ..data import data
+
+    world = _FakeWorld(Goal.option_dark_mind)
+    with patch("worlds.kirbyam.rules.set_rule") as mock_set_rule:
+        set_rules(world)
+
+    rules_by_entrance = {
+        call.args[0].name: call.args[1]
+        for call in mock_set_rule.call_args_list
+        if hasattr(call.args[0], "name")
+    }
+    checked = 0
+    for source_name, region_data in data.regions.items():
+        for destination_name, requirement in region_data.exit_requirements.items():
+            if not isinstance(requirement, dict) or "item" not in requirement:
+                continue
+            entrance_name = f"{source_name} -> {destination_name}"
+            rule = rules_by_entrance[entrance_name]
+            item_label = requirement["item"]
+            assert not rule(_FakeState())
+            assert rule(_FakeState({item_label}))
+            checked += 1
+
+    assert checked >= 20
+
+
+def _make_collection_state_room_graph():
+    """Build the actual Kirby AM region graph without generating an item pool."""
+    from BaseClasses import CollectionState, MultiWorld
+    from worlds.AutoWorld import World
+
+    from ..regions import create_regions
+
+    multiworld = MultiWorld(1)
+    multiworld.game[1] = KirbyAmWorld.game
+    multiworld.player_name = {1: "Hub Connection Logic Test"}
+    world = KirbyAmWorld.__new__(KirbyAmWorld)
+    World.__init__(world, multiworld, 1)
+    multiworld.worlds[1] = world
+    world.options = SimpleNamespace(
+        goal=SimpleNamespace(value=Goal.option_dark_mind),
+        room_sanity=SimpleNamespace(value=False),
+    )
+    create_regions(world)
+    set_rules(world)
+    return multiworld, CollectionState(multiworld)
+
+
+def test_collection_state_gates_hub_shortcuts_and_preserves_overland_routes() -> None:
+    multiworld, state = _make_collection_state_room_graph()
+    gated_edges = {
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_3":
+            "Cabbage Cavern West - Hub Connection",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_1":
+            "Cabbage Cavern East - Hub Connection",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_MOONLIGHT_MANSION/ROOM_2_HUB":
+            "Moonlight Mansion - Hub Connection",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_HUB -> REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE":
+            "Moonlight Mansion - Hub Connection",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1":
+            "Peppermint Palace East - Hub Connection",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS -> REGION_CANDY_CONSTELLATION/ROOM_9_HUB":
+            "Candy Constellation - Hub Connection",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3 -> REGION_CARROT_CASTLE/ROOM_5_HUB":
+            "Carrot Castle - Hub Connection",
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3 -> REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE":
+            "Rainbow Route West - Hub Connection",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3 -> REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE":
+            "Cabbage Cavern West - Hub Connection",
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3 -> REGION_RADISH_RUINS/ROOM_8_HUB":
+            "Radish Ruins - Hub Connection",
+    }
+
+    for entrance_name, item_name in gated_edges.items():
+        entrance = multiworld.get_entrance(entrance_name, 1)
+        assert not entrance.access_rule(state), entrance_name
+        state.add_item(item_name, 1)
+        assert entrance.access_rule(state), entrance_name
+        state.remove_item(item_name, 1)
+
+    # Existing overland passages remain traversable without a hub item; these
+    # are separate room connections, not the world-map hub shortcuts above.
+    assert state.can_reach("REGION_MOONLIGHT_MANSION/ROOM_2_HUB", "Region", 1)
+    assert state.can_reach("REGION_CANDY_CONSTELLATION/ROOM_9_HUB", "Region", 1)
 
 
 def test_logical_exit_overrides_reference_declared_exits() -> None:

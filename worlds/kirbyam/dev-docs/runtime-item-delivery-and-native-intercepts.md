@@ -22,6 +22,7 @@ This document defines how AP items are injected and how native reward paths are 
 | Area maps | +10..+17 and +24 | Set native big chest map bits via ap_unlock_area_map() |
 | Vitality counters | +18..+21 | Increment vitality once per item index using AP_DELIVERED_VITALITY_ITEM_BITS replay guard |
 | Sound Player | +25 | Call KIRBY_COLLECT_SOUND_PLAYER_FN(0) |
+| Hub Connections | +41..+55 | Set the mapped native world-props unlock; the received-item ownership mask restores this state after reconnect. |
 | Consumables | +26..+31 | Grant food, battery, max tomato, invincibility candy, energy drink, hunk of meat |
 | Traps | +32..+36 | Apply health/life/bomb/battery/lives penalties |
 | Spray Paint | +200..+213 | OR native `gTreasures.sprayPaintField` bits 0..13 |
@@ -44,7 +45,7 @@ AP mode records checks and handles native reward paths by item family. Ordinary 
 | Small-chest AP location | ap_on_collect_small_chest() | Record the exact source pointer and native small-chest persistence for each of 64 active checks; the client maps only exact matches. |
 | Ordinary consumable chest reward | ap_minor_chest_reward_popup_hook | After native persistence and the popup delay, set only marked AP-owned chests to the existing no-bonus item value (`0x63`); the AP mailbox grants the assigned reward. Other small chests retain their native item. |
 | Fixed small-chest collection reward | Native chest collection hooks | 23 fixed chests are AP locations. Candy Spray Paint #6 is isolated to the 9-01 entry compartment; Music Sheet #6 stays native pending Carrot topology reconciliation. Ownership is awarded only on matching AP item delivery; duplicate delivery is idempotent. Native persistence and original visuals are preserved. |
-| Hub unlock/world map door unlock | ap_on_world_map_unlock_call() | Record AP hub-switch flag when unlock is persisted in world props. |
+| Hub switch/world map door unlock | ap_on_world_map_unlock_call() | For a mapped hub door, record the physical switch check and call the game's transition-completion callback without granting the connection. Preserve the selected callback for `NO_UNLOCK` and unknown door values. The Big Switch initializer uses a zero-valued scratch entry when an AP-owned door has not had its physical switch check, keeping the switch available after the item unlocks the route. Hub Connection item receipt writes the mapped native world-props state; the client-supplied ownership mask reapplies owned doors after reconnect and prevents them from being re-reported as physical switch checks. |
 
 ## Client-side reconciliation that enforces AP ownership
 
@@ -52,6 +53,7 @@ worlds/kirbyam/client.py runs these every active gameplay tick:
 
 - _reconcile_native_shard_ownership(): keeps shard bits aligned to AP-delivered ownership.
 - _reconcile_native_map_ownership(): keeps native map bits aligned to AP-delivered maps and start_with_all_maps.
+- _sync_hub_connection_item_ownership(): waits until the current socket's `Connected` batch is processed, sends the complete received-door mask before polling checks or delivering items, and writes the unknown sentinel while the inventory is not ready. Non-empty inventories arrive as `ReceivedItems` index zero in that batch; when the standard server omits the packet, the client clears stale item state and treats the history as empty. The payload reapplies owned doors from the mask.
 
 These reconciliation passes are the final guardrails that interrupt native drift from save/load/cutscene edge cases.
 

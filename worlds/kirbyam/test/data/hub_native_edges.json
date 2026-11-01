@@ -1,0 +1,392 @@
+[
+  {
+    "room": 190,
+    "destination": 801,
+    "object": "0x8b7d10",
+    "slot": 2,
+    "item": 3860401,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ]
+  },
+  {
+    "room": 191,
+    "destination": 890,
+    "object": "0x8cb110",
+    "slot": 4,
+    "item": 3860414,
+    "source_keys": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
+    ],
+    "destination_keys": [
+      "REGION_OLIVE_OCEAN/ROOM_6_HUB"
+    ]
+  },
+  {
+    "room": 191,
+    "destination": 801,
+    "object": "0x8cb134",
+    "slot": 3,
+    "item": 3860413,
+    "source_keys": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ]
+  },
+  {
+    "room": 192,
+    "destination": 801,
+    "object": "0x8bb3e4",
+    "slot": 9,
+    "item": 3860405,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ]
+  },
+  {
+    "room": 192,
+    "destination": 193,
+    "object": "0x8bb408",
+    "slot": 10,
+    "item": 3860406,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+    ],
+    "destination_keys": [
+      "REGION_CARROT_CASTLE/ROOM_5_HUB"
+    ]
+  },
+  {
+    "room": 193,
+    "destination": 192,
+    "object": "0x8d2ed4",
+    "slot": 10,
+    "item": 3860406,
+    "source_keys": [
+      "REGION_CARROT_CASTLE/ROOM_5_HUB"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+    ]
+  },
+  {
+    "room": 194,
+    "destination": 591,
+    "object": "0x8b85dc",
+    "slot": 5,
+    "item": 3860404,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2"
+    ],
+    "destination_keys": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+    ]
+  },
+  {
+    "room": 194,
+    "destination": 801,
+    "object": "0x8b8600",
+    "slot": 6,
+    "item": 3860403,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ]
+  },
+  {
+    "room": 290,
+    "destination": 291,
+    "object": "0x8c0f18",
+    "slot": 12,
+    "item": 3860412,
+    "source_keys": [
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+    ],
+    "destination_keys": [
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2"
+    ]
+  },
+  {
+    "room": 290,
+    "destination": 801,
+    "object": "0x8c0f3c",
+    "slot": 11,
+    "item": 3860411,
+    "source_keys": [
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ]
+  },
+  {
+    "room": 291,
+    "destination": 290,
+    "object": "0x8c2618",
+    "slot": 12,
+    "item": 3860412,
+    "source_keys": [
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2"
+    ],
+    "destination_keys": [
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+    ]
+  },
+  {
+    "room": 390,
+    "destination": 590,
+    "object": "0x8c5620",
+    "slot": 15,
+    "item": 3860408,
+    "source_keys": [
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+    ]
+  },
+  {
+    "room": 490,
+    "destination": 801,
+    "object": "0x8c8bac",
+    "slot": 14,
+    "item": 3860415,
+    "source_keys": [
+      "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ]
+  },
+  {
+    "room": 590,
+    "destination": 801,
+    "object": "0x8b68c0",
+    "slot": 13,
+    "item": 3860407,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ]
+  },
+  {
+    "room": 590,
+    "destination": 390,
+    "object": "0x8b68e4",
+    "slot": 15,
+    "item": 3860408,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+    ],
+    "destination_keys": [
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB"
+    ]
+  },
+  {
+    "room": 591,
+    "destination": 194,
+    "object": "0x8cb0c4",
+    "slot": 5,
+    "item": 3860404,
+    "source_keys": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2"
+    ]
+  },
+  {
+    "room": 592,
+    "destination": 690,
+    "object": "0x8cef38",
+    "slot": 8,
+    "item": 3860410,
+    "source_keys": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+    ],
+    "destination_keys": [
+      "REGION_RADISH_RUINS/ROOM_8_HUB"
+    ]
+  },
+  {
+    "room": 592,
+    "destination": 801,
+    "object": "0x8cef5c",
+    "slot": 7,
+    "item": 3860409,
+    "source_keys": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ]
+  },
+  {
+    "room": 690,
+    "destination": 592,
+    "object": "0x8d14e4",
+    "slot": 8,
+    "item": 3860410,
+    "source_keys": [
+      "REGION_RADISH_RUINS/ROOM_8_HUB"
+    ],
+    "destination_keys": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+    ]
+  },
+  {
+    "room": 790,
+    "destination": 801,
+    "object": "0x8bdd60",
+    "slot": 1,
+    "item": 3860402,
+    "source_keys": [
+      "REGION_MOONLIGHT_MANSION/ROOM_2_HUB"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ]
+  },
+  {
+    "room": 801,
+    "destination": 194,
+    "object": "0x8b4afc",
+    "slot": 6,
+    "item": 3860403,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2"
+    ]
+  },
+  {
+    "room": 801,
+    "destination": 592,
+    "object": "0x8b4b20",
+    "slot": 7,
+    "item": 3860409,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ],
+    "destination_keys": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+    ]
+  },
+  {
+    "room": 801,
+    "destination": 192,
+    "object": "0x8b4b44",
+    "slot": 9,
+    "item": 3860405,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+    ]
+  },
+  {
+    "room": 801,
+    "destination": 290,
+    "object": "0x8b4b68",
+    "slot": 11,
+    "item": 3860411,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ],
+    "destination_keys": [
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+    ]
+  },
+  {
+    "room": 801,
+    "destination": 590,
+    "object": "0x8b4bb0",
+    "slot": 13,
+    "item": 3860407,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+    ]
+  },
+  {
+    "room": 801,
+    "destination": 490,
+    "object": "0x8b4bd4",
+    "slot": 14,
+    "item": 3860415,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ],
+    "destination_keys": [
+      "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
+    ]
+  },
+  {
+    "room": 801,
+    "destination": 191,
+    "object": "0x8b4bf8",
+    "slot": 3,
+    "item": 3860413,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ],
+    "destination_keys": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
+    ]
+  },
+  {
+    "room": 801,
+    "destination": 790,
+    "object": "0x8b4c1c",
+    "slot": 1,
+    "item": 3860402,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ],
+    "destination_keys": [
+      "REGION_MOONLIGHT_MANSION/ROOM_2_HUB"
+    ]
+  },
+  {
+    "room": 801,
+    "destination": 190,
+    "object": "0x8b4c40",
+    "slot": 2,
+    "item": 3860401,
+    "source_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    ],
+    "destination_keys": [
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+    ]
+  },
+  {
+    "room": 890,
+    "destination": 191,
+    "object": "0x8ce1e4",
+    "slot": 4,
+    "item": 3860414,
+    "source_keys": [
+      "REGION_OLIVE_OCEAN/ROOM_6_HUB"
+    ],
+    "destination_keys": [
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
+    ]
+  }
+]

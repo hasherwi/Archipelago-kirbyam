@@ -2,6 +2,7 @@
 # TODO(typing): keep mypy enabled for CI overall while this legacy client module
 # is incrementally migrated from dynamic AP/BizHawk structures to strict types.
 
+import asyncio
 import logging
 import random
 import re
@@ -17,7 +18,8 @@ from worlds._bizhawk.client import BizHawkClient
 
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .colors import choose_different_kirby_color, kirby_color_name_by_id
-from .data import LocationCategory, data, format_room_region_label, load_json_data
+from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
+from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
 from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES
@@ -162,6 +164,11 @@ _SHARD_ITEM_ID_TO_BIT: dict[int, int] = {
     item.item_id: _BOSS_DEFEAT_LABEL_TO_BIT[item.label.split(" - ", 1)[0].strip().lower()]
     for item in data.items.values()
     if "Shards" in item.tags and item.label.split(" - ", 1)[0].strip().lower() in _BOSS_DEFEAT_LABEL_TO_BIT
+}
+_HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX: dict[int, int] = {
+    item.item_id: item.item_id - (BASE_OFFSET + 400)
+    for item in data.items.values()
+    if item.item_id is not None and "HubConnections" in item.tags
 }
 _TRAP_ITEM_IDS: frozenset[int] = frozenset(
     item.item_id
@@ -586,6 +593,13 @@ class KirbyAmClient(BizHawkClient):
         self._watcher_server_ready: bool = False
         self._watcher_requires_bizhawk_resync: bool = False
         self._last_watcher_transport_error: str | None = None
+        # A live slot_data object and old items_received list can survive a
+        # reconnect. Wait until the Connected packet batch has drained: a
+        # non-empty inventory is replayed in that batch, while an omitted
+        # ReceivedItems packet means the server's inventory is empty.
+        self._hub_connection_received_items_ready: bool = False
+        self._hub_connection_received_items_socket: object | None = None
+        self._hub_connection_unknown_mask_socket: object | None = None
 
         # Poll diagnostics de-duplication (avoid per-tick log spam)
         self._last_shard_poll_log: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
@@ -1869,6 +1883,15 @@ class KirbyAmClient(BizHawkClient):
             return False
         version = getattr(self, "_health_protocol_version", 1)
         try:
+            hub_version = hub_slot_version(slot)
+            if hub_version:
+                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")]))[0]
+                if bytes(marker) != HUB_MARKER:
+                    raise ValueError("ROM and slot Hub versions differ")
+            elif any(3860041 <= getattr(item, "item", 0) <= 3860055
+                     or 3860401 <= getattr(item, "item", 0) <= 3860415
+                     for item in getattr(ctx, "items_received", ())):
+                raise ValueError("Hub items received without a compatible Hub slot")
             plan = resolve_vitality_plan(slot.get("minimum_health", 6),
                                          slot.get("maximum_health", 10),
                                          slot.get("one_hit_mode", 0))
@@ -1897,12 +1920,16 @@ class KirbyAmClient(BizHawkClient):
             else:
                 validate_health_protocol(bytes(title).rstrip(b"\0"),
                                          int.from_bytes(config, "little"), slot_version, plan)
+                if not hub_version:
+                    marker = (await bizhawk.read(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")]))[0]
+                    if bytes(marker) == HUB_MARKER:
+                        raise ValueError("Hub ROM requires a compatible Hub slot")
             return True
         except (ValueError, KeyError, TypeError, bizhawk.RequestFailedError,
                 bizhawk.NotConnectedError, bizhawk.ConnectorError, bizhawk.SyncError) as exc:
             reason = str(exc)
             if getattr(self, "_last_health_protocol_error", None) != reason:
-                self._log_client("error", "KirbyAM: health compatibility check failed (%s). "
+                self._log_client("error", "KirbyAM: ROM/slot compatibility check failed (%s). "
                                  "Regenerate the patch and update the client; game writes are paused.", reason)
                 self._last_health_protocol_error = reason
             return False
@@ -1915,6 +1942,9 @@ class KirbyAmClient(BizHawkClient):
             self._watcher_server_ready = False
             self._watcher_requires_bizhawk_resync = False
             self._last_watcher_transport_error = None
+            self._hub_connection_received_items_ready = False
+            self._hub_connection_received_items_socket = None
+            self._hub_connection_unknown_mask_socket = None
             self._death_link_enabled = None
             self._incoming_death_link_pending = False
             self._last_incoming_death_link_time = None
@@ -1941,6 +1971,13 @@ class KirbyAmClient(BizHawkClient):
             if self._watcher_requires_bizhawk_resync:
                 self._reset_reconnect_transient_state()
                 self._watcher_requires_bizhawk_resync = False
+
+            # Restore the payload's full item-ownership view before checks or delivery.
+            await self._sync_hub_connection_item_ownership(ctx)
+            if not self._hub_connection_item_history_ready(ctx):
+                # Wait for the current connection's complete ReceivedItems
+                # replay. Slot data may still be present from the old session.
+                return
 
             self._log_starting_kirby_color_config_once(ctx)
 
@@ -2942,6 +2979,75 @@ class KirbyAmClient(BizHawkClient):
             return None
         return item_value, player_value
 
+    async def _sync_hub_connection_item_ownership(self, ctx: KirbyAmBizHawkClientContext) -> int | None:
+        """Return the acknowledged complete ownership mask, or None while unknown."""
+        slot = getattr(ctx, "slot_data", {})
+        # Explicit legacy main catalogs have no Hub mailbox ownership contract.
+        if "unique_items" in slot and hub_slot_version(slot) == 0:
+            return None
+        mask_addr = self._transport_addr("hub_connection_item_mask")
+        bizhawk_ctx = getattr(ctx, "bizhawk_ctx", None)
+        if mask_addr is None or not callable(getattr(bizhawk_ctx, "_send_message", None)):
+            return
+
+        server = getattr(ctx, "server", None)
+        socket = getattr(server, "socket", None)
+        if not self._hub_connection_item_history_ready(ctx):
+            # Clear any mask left in EWRAM by the previous connection. The
+            # payload treats this sentinel as unknown and waits for a complete
+            # ReceivedItems index-zero replay before applying door ownership.
+            if socket is not None and self._hub_connection_unknown_mask_socket is not socket:
+                await bizhawk.write(
+                    ctx.bizhawk_ctx,
+                    [(mask_addr, (0xFFFFFFFF).to_bytes(4, "little"), "System Bus")],
+                )
+                self._hub_connection_unknown_mask_socket = socket
+            return
+
+        item_mask = 0
+        for network_item in getattr(ctx, "items_received", ()):
+            item_fields = self._extract_delivery_item_fields(network_item)
+            if item_fields is None:
+                continue
+            door_index = _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX.get(item_fields[0])
+            if door_index is not None and 1 <= door_index <= 15:
+                item_mask |= 1 << door_index
+
+        await bizhawk.write(
+            ctx.bizhawk_ctx,
+            [(mask_addr, item_mask.to_bytes(4, "little"), "System Bus")],
+        )
+        self._hub_connection_unknown_mask_socket = socket
+        return item_mask
+
+    def _hub_connection_item_history_ready(self, ctx: KirbyAmBizHawkClientContext) -> bool:
+        """Whether the current socket's item history is known, including a known-empty history."""
+        server = getattr(ctx, "server", None)
+        socket = getattr(server, "socket", None)
+        return bool(
+            socket is not None
+            and not getattr(socket, "closed", True)
+            and self._hub_connection_received_items_ready
+            and self._hub_connection_received_items_socket is socket
+        )
+
+    def _confirm_empty_received_item_history(self, ctx: KirbyAmBizHawkClientContext, socket: object) -> None:
+        """Treat an omitted ReceivedItems packet in the completed Connect batch as empty."""
+        server = getattr(ctx, "server", None)
+        current_socket = getattr(server, "socket", None)
+        if current_socket is not socket or getattr(socket, "closed", True):
+            return
+        if self._hub_connection_item_history_ready(ctx):
+            # A ReceivedItems index-zero packet in the same batch already won.
+            return
+
+        # CommonClient keeps the prior socket's list until the next index-zero
+        # replay. The current Connect batch contained no replay, so clear that
+        # stale copy before the watcher writes an ownership mask.
+        ctx.items_received = []
+        self._hub_connection_received_items_socket = socket
+        self._hub_connection_received_items_ready = True
+
     async def _persist_u32(self, ctx: KirbyAmBizHawkClientContext, key: str, value: int) -> None:
         """Persist a 32-bit value to RAM by address key."""
         addr = self._transport_addr(key)
@@ -3483,6 +3589,10 @@ class KirbyAmClient(BizHawkClient):
         # transport bits on truly fresh sessions without suppressing legitimate
         # reconnect resends that are missing on the server.
         has_any_server_acknowledgements = bool(ctx.checked_locations)
+        # Protocol 2 restores seed-bound native saved checks. They can predate
+        # the first server connection and must not be treated as stale RAM.
+        if getattr(ctx, "slot_data", {}).get("hub_connection_protocol_version") == 2:
+            self._hub_switch_baseline_mask = 0
         if not self._hub_switch_session_initialized:
             self._hub_switch_session_initialized = True
             if self._hub_switch_baseline_mask is None and switch_bits != 0 and not has_any_server_acknowledgements:
@@ -4148,6 +4258,8 @@ class KirbyAmClient(BizHawkClient):
             return
 
         receipt_session = (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None))
+        delivery_socket = getattr(getattr(ctx, "server", None), "socket", None)
+        delivery_streams = getattr(ctx.bizhawk_ctx, "streams", None)
 
         flag_addr = self._transport_addr("incoming_item_flag")
         counter_addr = self._transport_addr("debug_item_counter")
@@ -4508,11 +4620,43 @@ class KirbyAmClient(BizHawkClient):
                 except (OSError, sqlite3.Error, ValueError) as exc:
                     self._receipt_failure(f"could not reserve receipt ({exc})")
                     return
-            await bizhawk.write(ctx.bizhawk_ctx, [
+            offer = [
                 (id_addr, item_id.to_bytes(4, "little"), "System Bus"),
                 (player_addr, player_id.to_bytes(4, "little"), "System Bus"),
                 (flag_addr, (1).to_bytes(4, "little"), "System Bus"),
-            ])
+            ]
+            hub_door = _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX.get(item_id)
+            if hub_door is not None:
+                delivery_index = self._delivered_item_index
+
+                def hub_offer_current() -> bool:
+                    return (
+                        receipt_session == (self._authenticated_session_key(ctx), self._health_rom_auth)
+                        and delivery_socket is getattr(getattr(ctx, "server", None), "socket", None)
+                        and delivery_streams is getattr(ctx.bizhawk_ctx, "streams", None)
+                        and self._hub_connection_item_history_ready(ctx)
+                        and self._delivered_item_index == delivery_index
+                        and delivery_index < len(ctx.items_received)
+                        and ctx.items_received[delivery_index] is itm
+                    )
+
+                # ReceivedItems can arrive during the watcher polls after its
+                # initial ownership sync. Acknowledge ownership separately:
+                # connectors can continue later writes after a batch error.
+                mask = await self._sync_hub_connection_item_ownership(ctx)
+                mask_addr = self._transport_addr("hub_connection_item_mask")
+                if (mask is None or mask_addr is None or not mask & (1 << hub_door)
+                        or not hub_offer_current()):
+                    return
+                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, offer, [
+                    (mask_addr, mask.to_bytes(4, "little"), "System Bus"),
+                    (flag_addr, bytes(4), "System Bus"),
+                ]):
+                    return
+                if not hub_offer_current():
+                    return  # An in-flight offer may have committed; reconcile by readback.
+            else:
+                await bizhawk.write(ctx.bizhawk_ctx, offer)
             if receipt_session != (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None)):
                 return  # An outstanding transient reservation remains explicitly unresolved.
             self._receipt_active = pending_receipt
@@ -4763,6 +4907,36 @@ class KirbyAmClient(BizHawkClient):
             self._vitality_history_session = self._authenticated_session_key(ctx)
         if not self._notification_settings_loaded:
             self._load_notification_settings(ctx)
+        if cmd == "Connected":
+            server = getattr(ctx, "server", None)
+            socket = getattr(server, "socket", None)
+            self._hub_connection_received_items_ready = False
+            self._hub_connection_received_items_socket = None
+            if socket is not None and not getattr(socket, "closed", True):
+                try:
+                    # CommonClient processes every packet from one websocket
+                    # frame before the event loop runs this callback. Standard
+                    # servers include ReceivedItems in the same Connect batch
+                    # when the history is non-empty; an omission means empty.
+                    asyncio.get_running_loop().call_soon(
+                        self._confirm_empty_received_item_history, ctx, socket
+                    )
+                except RuntimeError:
+                    # The package callback normally runs on the client loop.
+                    # If called synchronously by a host/test harness, leave the
+                    # history unknown rather than infer emptiness too early.
+                    pass
+        elif cmd == "ReceivedItems" and args.get("index") == 0:
+            # CommonClient calls this after it has reset and populated
+            # ctx.items_received from the server's complete inventory replay.
+            server = getattr(ctx, "server", None)
+            socket = getattr(server, "socket", None)
+            if socket is not None and not getattr(socket, "closed", True):
+                self._hub_connection_received_items_socket = socket
+                self._hub_connection_received_items_ready = True
+            else:
+                self._hub_connection_received_items_socket = None
+                self._hub_connection_received_items_ready = False
         if cmd == "Bounced":
             self._queue_incoming_death_link(args)
         if cmd == "PrintJSON":

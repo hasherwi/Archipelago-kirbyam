@@ -6,6 +6,7 @@ from BaseClasses import CollectionState, MultiWorld, Region
 
 from .. import KirbyAmWorld
 from ..data import LocationCategory, data, load_json_data
+from ..rules import evaluate_room_logic_requirement
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 
 
@@ -30,7 +31,12 @@ def test_each_compartment_reaches_one_physical_check_without_traversal(parent, e
         definition = data.regions[name]
         for destination in definition.exits:
             if destination in regions:
-                regions[name].connect(regions[destination])
+                requirement = definition.exit_requirements.get(destination)
+                regions[name].connect(
+                    regions[destination],
+                    rule=lambda state, requirement=requirement:
+                        evaluate_room_logic_requirement(requirement, state, 1),
+                )
         for key in definition.locations:
             location = data.locations[key]
             if location.category == LocationCategory.ROOM_SANITY:
