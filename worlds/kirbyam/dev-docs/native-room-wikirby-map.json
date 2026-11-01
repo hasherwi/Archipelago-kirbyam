@@ -3657,7 +3657,7 @@
       "wiki_title": null,
       "wiki_url": null,
       "verification": "unresolved",
-      "note": "Unresolved research gap: populated record with empty object list; purpose, reachability and wiki equivalent unknown; not proven unused or internal-only"
+      "note": "Unresolved research gap: populated record; empty objects/transitions; 16x13 collision grid with nine empty rows and four attribute-13 rows; purpose/reachability/wiki equivalent unestablished"
     },
     {
       "native_id": 970,

@@ -12,12 +12,12 @@ mapping = importlib.import_module("check_native_room_mapping")
 
 class NativeRoomMappingTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.data = json.loads(mapping.DATA.read_text())
-        self.rooms = json.loads((mapping.ROOT / "data/regions/rooms.json").read_text())
+        self.data = json.loads(mapping.DATA.read_text(encoding="utf-8"))
+        self.rooms = json.loads((mapping.ROOT / "data/regions/rooms.json").read_text(encoding="utf-8"))
 
     def test_checked_inventory_and_table(self) -> None:
         mapping.validate(self.data, self.rooms)
-        self.assertIn(mapping.render(self.data), mapping.DOC.read_text())
+        self.assertIn(mapping.render(self.data), mapping.DOC.read_text(encoding="utf-8"))
 
     def test_missing_slot_is_rejected(self) -> None:
         self.data["unused_ranges"][0][0] += 1

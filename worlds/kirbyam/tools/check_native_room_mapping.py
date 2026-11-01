@@ -106,17 +106,17 @@ def main() -> None:
     parser.add_argument("--rom", type=Path, help="Optional privately held unmodified USA ROM; never emitted")
     parser.add_argument("--write", action="store_true", help="Refresh only the generated Markdown table")
     args = parser.parse_args()
-    data = json.loads(DATA.read_text())
-    rooms = json.loads((ROOT / "data/regions/rooms.json").read_text())
+    data = json.loads(DATA.read_text(encoding="utf-8"))
+    rooms = json.loads((ROOT / "data/regions/rooms.json").read_text(encoding="utf-8"))
     validate(data, rooms, args.rom.read_bytes() if args.rom else None)
-    text = DOC.read_text()
+    text = DOC.read_text(encoding="utf-8")
     pattern = re.escape(BEGIN) + r".*?" + re.escape(END)
     if len(re.findall(pattern, text, flags=re.DOTALL)) != 1:
         raise ValueError("expected exactly one generated table block")
     expected = re.sub(pattern, lambda _: BEGIN + "\n\n" + render(data) + "\n\n" + END,
                       text, flags=re.DOTALL)
     if args.write:
-        DOC.write_text(expected)
+        DOC.write_text(expected, encoding="utf-8")
     elif text != expected:
         raise ValueError("documentation table is stale; run with --write")
     print("983 slots accounted for: 286 populated, 697 sentinel; "

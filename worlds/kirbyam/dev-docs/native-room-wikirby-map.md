@@ -129,6 +129,70 @@ the **16 goal entrance rooms** in the nine main areas. Neither the three
 minigame variants nor their score tiers should replace those 16 entrances when
 counting potential checks.
 
+## Investigations: native 806 and 969
+
+### Native 806: sentinel slot with a residual map-coordinate entry
+
+This is not a decimal/hex mix-up: `0x326` is decimal 806. The pinned decompilation
+[README](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/README.md)
+targets the same USA SHA-1 used here; no cross-region comparison supports a
+version-difference explanation. At `0x9331AC + 806 * 0x28 = 0x93AF9C`, the room
+record is the exact sentinel. The independent per-room descriptor pointer at
+`0xD6CD0C + 806 * 4` is null. Neighboring tutorial records 803–805 are populated.
+This corroborates the table offset and distinguishes an unused slot from a
+populated room whose purpose is unknown.
+
+The source's [coordinate lookup](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/pause_world_map.c#L859)
+uses the Dimension Mirror list to position Kirby's map icon; it is not a room
+loader or an entrance list. The 806 entry has zero coordinates for every player.
+The source search found no room-loading reference to 806; other `0x326` hits in
+`ufo.c` are sprite animation IDs, not room IDs. The decoded tile-transition and
+completion tables contain no inbound destination 806. Object/script-driven
+transitions are not exhaustively proved absent by that decoder.
+
+Conclusion: an unpopulated USA slot with a residual map-coordinate entry. A
+stale/reserved entry is plausible, but its development history is unproved.
+There is no evidence of a missing playable RoomSanity location or an AP gameplay
+bug, and no justification to load this sentinel as a room.
+
+### Native 969: populated, minimal geometry, identity still unknown
+
+Native 969 is different: its record at `0x93C914` is populated and uses map,
+solidity, object-list and completion index 285. Its descriptor pointer is valid
+(`0x08B57F24`) and the area field is 10 (Dimension Mirror). Its foreground
+metadata is at `0x9C2854`, and its solidity header is at `0x8B49C0`.
+The existing [trace decoder](../tools/trace_hub_objects.py) reads a 16 by 13 grid
+of 16-pixel collision cells: nine rows of attribute 0 followed by four rows of
+attribute 13 (flags `0x200`). The object list, completion list and solidity
+transition-record list are empty. This is a small 256 by 208 geometry, not a
+copy of native 970's 29 by 32 collision-cell chamber.
+
+No decoded tile/completion transition targets 969. The textual decompilation
+search found only its zero-coordinate map-list entry as a room-ID reference.
+These are bounded static results: compressed assets, computed destinations and
+script/object-driven entry paths can evade a literal/reference search. No
+runtime entry was established, so neither a definitive unused-room label nor a
+wiki counterpart is claimed. A verified inbound reference or isolated runtime
+trace remains the exact research gap. No ROM graphics or binary assets are
+included in this document.
+
+## RoomSanity inclusion policy
+
+Owner-selected policy: exclude Boss Endurance rooms 950, 951 and 955–957;
+include the story-mode Copy Ability Room, native 970 (completion index 286).
+Keep that room distinct from the Boss Endurance starting variant, native 950.
+Native 969 remains excluded pending identification; native 806 is a sentinel.
+
+The inspected main baseline contains 263 physical checks and excludes all six
+of those populated mode/ability rooms. Thus Boss Endurance already satisfies
+the policy, while 970 needs one new check: **264 RoomSanity checks** after the
+separate gameplay follow-up. Existing RoomSanity IDs must remain unchanged.
+RoomSanity OFF stays at 116 current checks; ON would become 380. If the separate
+proposed 16 Goal Game completion checks are added, those totals become 132 and
+396 respectively. This documentation PR does not implement those checks or a
+Copy Ability Room access item. Room inclusion and access-item design are
+separate changes.
+
 ## Reproduce and validate
 
 The companion [JSON](native-room-wikirby-map.json) is the reviewable mapping
@@ -434,7 +498,7 @@ if no equivalent exists.
 | 955 / `0x3BB` | 282 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance Mid-Bosses 1 encounter: Mr. Frosty and object spawner; native 955 is an explicit Boss Challenge Door destination | — |
 | 956 / `0x3BC` | 283 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance Mid-Bosses 3 encounter: Batafire and object spawner; native 956 is an explicit Boss Challenge Door destination | — |
 | 957 / `0x3BD` | 284 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance Mid-Bosses 2 encounter: Waddle Dee and object spawner; native 957 is an explicit Boss Challenge Door destination | — |
-| 969 / `0x3C9` | 285 | No established wiki equivalent | **unresolved**: Unresolved research gap: populated record with empty object list; purpose, reachability and wiki equivalent unknown; not proven unused or internal-only | — |
+| 969 / `0x3C9` | 285 | No established wiki equivalent | **unresolved**: Unresolved research gap: populated record; empty objects/transitions; 16x13 collision grid with nine empty rows and four attribute-13 rows; purpose/reachability/wiki equivalent unestablished | — |
 | 970 / `0x3CA` | 286 | [Copy Ability Room](https://wikirby.com/wiki/Copy_Ability_Room) | **shared**: Copy Ability Room linked to Central Circle: ability statues and return transition to native 801; shared article, distinct from native 950 Boss Endurance variant | — |
 | 980 / `0x3D4` | 5 | [Goal Game](https://wikirby.com/wiki/Goal_Game) | **shared**: Goal Game variant; shared general article, no individual room page established | — |
 | 981 / `0x3D5` | 6 | [Goal Game](https://wikirby.com/wiki/Goal_Game) | **shared**: Goal Game variant; shared general article, no individual room page established | — |
