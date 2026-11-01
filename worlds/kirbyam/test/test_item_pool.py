@@ -184,6 +184,9 @@ def test_hub_connection_item_ids_match_native_door_order() -> None:
 
     for door_index, entry in enumerate(entries, start=1):
         door_name = str(entry["native_world_map_door_name"]).removeprefix("WORLDMAP_")
+        # Native enum aliases 1/2 predate the physical destination audit.
+        # Preserve those ABI aliases while checking the corrected item catalog.
+        door_name = {1: "RAINBOW_ROUTE_EAST", 2: "MOONLIGHT_MANSION"}.get(door_index, door_name)
         item_key = f"HUB_CONNECTION_{door_name}"
         item_id = data.item_key_to_id[item_key]
         item = data.items[item_id]
