@@ -37,7 +37,11 @@ SECTIONS
     KEEP(*(.apconfig.statue))
   }
   /* Append beyond the clean 16 MiB ROM; never allocate presumed internal padding. */
-  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) color_payload.o(.text* .rodata*) *(.aphub) }
+  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) color_payload.o(.text* .rodata*) *(.aphub)
+    ap_extension_code_end = .;
+    . = 0xFFDC;
+    KEEP(*(.apsourceconfig))
+  }
 }
 
 ASSERT(SIZEOF(.apconfig) == 24, "KirbyAM runtime config must be exactly 24 bytes")
@@ -46,3 +50,6 @@ ASSERT(SIZEOF(.apcolors) <= 0x10000, "Curated palette extension exceeds 64 KiB")
 
 ASSERT(ADDR(.text) + SIZEOF(.text) <= AP_CONFIG_ADDR, "KirbyAM payload overlaps fixed configuration ABI")
 ASSERT(SIZEOF(.data) == 0 && SIZEOF(.bss) == 0, "KirbyAM ROM payload must not contain writable static storage")
+
+ASSERT(ap_extension_code_end <= 0x0900FFDC, "Enemy source config overlaps extension code")
+ASSERT(gApEnemySourceConfig == 0x0900FFDC, "Enemy source config address changed")

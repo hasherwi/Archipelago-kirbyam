@@ -21,6 +21,9 @@ from .data import data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
 from .enemy_ability_runtime_patch import (
     build_enemy_copy_runtime_patch_writes,
+    build_enemy_source_runtime_config,
+    ENEMY_SOURCE_CONFIG_ROM_OFFSET,
+    ENEMY_SOURCE_CONFIG_LEGACY,
     build_statue_runtime_allowed_mask,
 )
 from .enemy_health_scaling import (
@@ -79,6 +82,15 @@ class KirbyAmPatchExtension(APPatchExtension):
         return rom
 
     @staticmethod
+    def validate_enemy_source_base(caller: APProcedurePatch, rom: bytes) -> bytes:
+        """Require the native source-policy ABI before applying seed tokens."""
+        offset = ENEMY_SOURCE_CONFIG_ROM_OFFSET
+        expected = ENEMY_SOURCE_CONFIG_LEGACY.to_bytes(4, "little") + bytes(32)
+        if rom[offset:offset + 36] != expected:
+            raise ValueError("Enemy source config marker missing from base patch; rebuild the base patch")
+        return rom
+
+    @staticmethod
     def finalize_health_header(caller: APProcedurePatch, rom: bytes) -> bytes:
         """Version the ROM contract and recalculate the GBA header checksum."""
         from .vitality import decode_health_config
@@ -117,6 +129,7 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
     procedure = [
         ("apply_bsdiff4", ["base_patch.bsdiff4"]),
         ("validate_area_keys_base", []),
+        ("validate_enemy_source_base", []),
         ("apply_enemy_health_scaling", [ENEMY_HEALTH_MULTIPLIER_FILE]),
         ("apply_tokens", ["token_data.bin"]),
         ("finalize_health_header", []),
@@ -181,6 +194,11 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
             "enemy_copy_ability_policy must be initialized before writing enemy "
             "copy-ability runtime patch tokens when ability randomization is enabled"
         )
+
+    patch.write_token(
+        APTokenTypes.WRITE, ENEMY_SOURCE_CONFIG_ROM_OFFSET,
+        build_enemy_source_runtime_config(policy if isinstance(policy, dict) else {}),
+    )
 
     # Seed the gating mask in ROM as a deny-by-default fallback before the
     # BizHawk client can synchronize live gate/unlock state. The client remains

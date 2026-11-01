@@ -39,6 +39,13 @@ def mailbox(client, *, received=0, delivered=0, bits=0, cookie=0x4B41504D, flag=
                    client._native_addr('kirby_max_hp_native'):bytes([6])})
     memory.update({0xA0: b"AGB KIRBY AM", 0x15F690: bytes(4),
                    data.rom_addresses["gArchipelagoInfo"] & 0x1FFFFFF: b"\x01" + bytes(15)})
+    # A live primary Kirby in a room where native consumables can activate.
+    hp = client._native_addr('kirby_hp_native')
+    assert hp is not None
+    kirby = hp - 0x100
+    memory.update({kirby + 0x60: (101).to_bytes(2, 'little'),
+                   kirby + 0xCC: (0x03001000).to_bytes(4, 'little'),
+                   kirby + 0x0C: bytes(4)})
     return memory
 
 
@@ -133,7 +140,10 @@ async def test_prefix_marker_waits_for_payload_init_and_atomic_guard(mock_bizhaw
 
 
 @pytest.mark.asyncio
-async def test_all_starting_item_ids_keep_mailbox_order_before_normal_history(mock_bizhawk_context):
+@pytest.mark.parametrize('defer_starting_candy', [False, True])
+async def test_all_starting_item_ids_keep_mailbox_order_before_normal_history(
+    mock_bizhawk_context, defer_starting_candy,
+):
     ctx=mock_bizhawk_context;client=await validated_client(ctx)
     starting=[NetworkItem(item.item_id,-2,0) for item in data.items.values()]
     server,_=await server_history(ctx,starting,[NetworkItem(3860026,3960566,1)])
@@ -152,6 +162,21 @@ async def test_all_starting_item_ids_keep_mailbox_order_before_normal_history(mo
          patch('worlds.kirbyam.client.bizhawk.guarded_write',side_effect=guarded), \
          patch.object(client,'_emit_receive_notification',new_callable=AsyncMock):
         for index in range(len(ctx.items_received)):
+            if defer_starting_candy and ctx.items_received[index].item == 3860029:
+                hp = client._native_addr('kirby_hp_native')
+                assert hp is not None
+                room = hp - 0x100 + 0x60
+                memory[room] = (801).to_bytes(2, 'little')
+                counter = client._transport_addr('debug_item_counter')
+                before_count = memory[counter]
+                for _ in range(3):
+                    await client._deliver_items(ctx)
+                    assert memory[flag] == bytes(4)
+                    assert memory[counter] == before_count
+                    assert client._delivered_item_index == index
+                    assert not client._delivery_pending
+                    assert observed == [item.item for item in packet['items'][:index]]
+                memory[room] = (101).to_bytes(2, 'little')
             await client._deliver_items(ctx)
             assert int.from_bytes(memory[flag],'little')==1
             observed.append(int.from_bytes(memory[client._transport_addr('incoming_item_id')],'little'))

@@ -1218,6 +1218,13 @@ def validate_hub_unlock_callback_table(rom: bytes | bytearray) -> None:
         raise SystemExit("Unexpected Hub unlock callback table; refusing to patch")
 
 
+def validate_candy_room_table(rom: bytes | bytearray) -> None:
+    expected = b"".join(room.to_bytes(2, "little") for room in
+                        (999, 324, 710, 417, 822, 219, 516, 738, 129))
+    if rom[0x35105C:0x35106E] != expected:
+        raise SystemExit("Error: unverified native Candy exclusion room table")
+
+
 def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, bytes]:
     validate_hub_unlock_callback_table(rom)
     original_boss_hook = validate_thumb_bl_callsite(
@@ -1907,7 +1914,11 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    validate_candy_room_table(rom)
     extension = elf_path.with_name("color_payload.bin").read_bytes()
+    if (resolve_elf_symbol_address(elf_path, "gApEnemySourceConfig") != 0x0900FFDC
+            or extension[0xFFDC:0x10000] != (0x41534500).to_bytes(4, "little") + bytes(32)):
+        raise SystemExit("Error: missing versioned enemy source policy config")
     writes = module.build_color_extension_writes(
         rom, extension,
         resolve_elf_symbol_address(elf_path, "ap_color_sprite_palette"),

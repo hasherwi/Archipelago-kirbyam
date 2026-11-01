@@ -90,7 +90,8 @@ def test_actual_payload_replay_preserves_saved_counts_and_dead_state(tmp_path):
 #define CHECK(x) do {if(!(x)) return __LINE__;} while(0)
 static uint32_t AP_DELIVERED_VITALITY_ITEM_BITS,AP_DELIVERED_SHARD_BITFIELD,AP_SHARD_BITFIELD,AP_ABILITY_UNLOCK_MASK,KIRBY_SPRAY_PAINT_FLAGS,KIRBY_MUSIC_PLAYER_AND_SHEETS_FLAGS;
 static uint32_t AP_AREA_KEY_BITFIELD_RUNTIME;
-/* Route effects are outside this isolated Vitality harness. */
+/* Route and Candy effects are outside this isolated Vitality harness. */
+static uint8_t ap_invincibility_candy_ready(void){return 1;}
 static uint8_t ap_try_map_worldmap_door_to_hub_switch_bit(uint16_t d,uint32_t *b,uint8_t *i){*b=d;*i=d;return 1;}
 static uint8_t ap_unlock_hub_door(uint8_t i){(void)i;return 1;}
 static uint16_t KIRBY_VITALITY_COUNTER;

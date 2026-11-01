@@ -6,6 +6,7 @@
 #include "transition_runtime_logic.h"
 #include "transition_route_logic.h"
 #include "enemy_runtime_logic.h"
+#include "candy_runtime_logic.h"
 #include "minor_chest_runtime_logic.h"
 #include "lever_runtime_logic.h"
 #include "vitality_runtime_logic.h"
@@ -1228,6 +1229,16 @@ static uint8_t ap_select_random_allowed_ability_excluding(
     return ap_select_random_allowed_ability(allowed_mask & ~excluded_mask, random_u32);
 }
 
+/* Version zero means an older seed did not write a source inclusion bitmap. */
+__attribute__((used, section(".apsourceconfig")))
+volatile const uint32_t gApEnemySourceConfig[9] = { AP_ENEMY_SOURCE_CONFIG_LEGACY };
+
+static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_enemy_seed_source_allows(
+    uint32_t caller_pc, uint32_t source_ptr, uint32_t source_type
+) {
+    return ap_enemy_source_policy_allows(gApEnemySourceConfig, caller_pc, source_ptr, source_type);
+}
+
 // Hook target for all callsites that request Kirby ability transition.
 // In completely-random mode, this rerolls a fresh ability for each request,
 // including dropped ability-star transitions. Direct statue touches bypass this
@@ -1248,7 +1259,8 @@ __attribute__((used, section(".text.ap_request_impl"))) void ap_on_request_copy_
         source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
     }
 
-    if (ap_enemy_should_reroll(mode, gApRandomizeMinny, source_type) != 0u) {
+    if (ap_enemy_should_reroll(mode, gApRandomizeMinny, source_type) != 0u
+        && ap_enemy_seed_source_allows(caller_pc, source_obj_ptr, source_type) != 0u) {
         uint32_t no_ability_weight = AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT;
         uint32_t allowed_mask = AP_ABILITY_RANDOMIZATION_ALLOWED_MASK;
         uint32_t random_roll = ap_next_rng_u32();
@@ -1721,6 +1733,23 @@ static void ap_grant_max_tomato(void) {
     *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) = max_hp;
 }
 
+/* Preserve the offer until native Candy can actually create its effect task.
+ * In forbidden rooms native silently rejects it; an existing task is not refreshed.
+ * This is also the final guard against room/death changes after client preflight. */
+static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_invincibility_candy_ready(void) {
+    uint32_t kirby_addr;
+    uint32_t task;
+    if (KIRBY_CURRENT_PLAYER >= KIRBY_PLAYER_COUNT || AI_KIRBY_STATE != AI_STATE_NORMAL
+        || (DEMO_PLAYBACK_FLAGS & 0x16u) != 0u) return 0u;
+    kirby_addr = ap_get_active_kirby_addr();
+    task = *(volatile uint32_t*)(kirby_addr + KIRBY_STRUCT_TASK_OFFSET);
+    return task >= 0x03000000u && task < 0x03008000u && (task & 3u) == 0u
+        && *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET) > 0
+        && (*(volatile uint32_t*)(kirby_addr + 0xCu) & 0x40u) == 0u
+        && ap_candy_room_supported(*(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_ROOM_OFFSET),
+                                   (const volatile uint16_t*)0x0835105Cu);
+}
+
 static void ap_grant_invincibility_candy(void) {
     uint32_t kirby_addr = ap_get_active_kirby_addr();
 
@@ -1971,6 +2000,7 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
     }
 
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 29u)) {
+        if (!ap_invincibility_candy_ready()) return 0u;
         ap_grant_invincibility_candy();
         return 1u;
     }

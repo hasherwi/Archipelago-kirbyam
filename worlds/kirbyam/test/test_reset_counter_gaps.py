@@ -14,6 +14,16 @@ class Mailbox:
             'incoming_item_flag': 0, 'debug_item_counter': count,
             'delivered_item_index': cursor, 'frame_counter': 1, 'hook_heartbeat': 1,
         }.items()}
+        # These delivery tests model a live supported room; Candy-specific
+        # tests override the same fields to exercise intentional deferral.
+        hp = client._native_addr("kirby_hp_native")
+        assert hp is not None
+        kirby = hp - 0x100
+        self.memory.update({
+            kirby + 0x60: (101).to_bytes(2, "little"),
+            kirby + 0xCC: (0x03001000).to_bytes(4, "little"),
+            kirby + 0x0C: bytes(4), hp: bytes([10]),
+        })
         self.offers = []
         self.applied = []
 

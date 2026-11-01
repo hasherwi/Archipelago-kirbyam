@@ -17,6 +17,7 @@ import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 
 from .area_keys import AREA_KEY_AREA_ID_BY_LABEL, AREA_NAME_BY_ID
+from .candy import CANDY_ITEM_ID, candy_delivery_ready
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .colors import choose_different_kirby_color, kirby_color_name_by_id
 from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
@@ -248,6 +249,17 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
         getattr(base_command_processor, "_cmd_toggle_text", None),
     )
 
+    _base_missing = getattr(
+        base_command_processor, "_kirbyam_original__cmd_missing",
+        getattr(base_command_processor, "_cmd_missing", None),
+    )
+
+    def _cmd_missing(self, *filter_words: str) -> bool:
+        """List missing checks, optionally filtered by a location name."""
+        if getattr(self.ctx, "game", None) == KirbyAmClient.game and filter_words:
+            return _base_missing(self, " ".join(filter_words))
+        return _base_missing(self, *filter_words)
+
     def _cmd_toggle_text(self, category: str | None = None, toggle: str | None = None):
         """Sets types of incoming messages to forward to the emulator."""
         from worlds._bizhawk.context import TextCategory, logger
@@ -421,6 +433,8 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
             "_cmd_abilities": _cmd_abilities,
             "_cmd_receipt": _cmd_receipt,
             "_cmd_toggle_text": _cmd_toggle_text,
+            "_cmd_missing": _cmd_missing,
+            "_kirbyam_original__cmd_missing": _base_missing,
             "_is_kirbyam_wrapper": True,
         },
     )
@@ -2020,11 +2034,30 @@ class KirbyAmClient(BizHawkClient):
         slot = getattr(ctx, "slot_data", None)
         if not isinstance(slot, dict):
             return False
+        # AP disconnect/reconnect may complete while a connector read is pending.
+        # Such a poll belongs to the old session, not an incompatible ROM.
+        server = getattr(ctx, "server", None)
+        socket = getattr(server, "socket", None)
+        slot_identity = (getattr(ctx, "server_seed_name", None),
+                         getattr(ctx, "team", None), getattr(ctx, "slot", None))
+
+        def session_expired() -> bool:
+            return (getattr(ctx, "server", None) is not server
+                    or getattr(server, "socket", None) is not socket
+                    or getattr(ctx, "slot_data", None) is not slot
+                    or slot_identity != (getattr(ctx, "server_seed_name", None),
+                                         getattr(ctx, "team", None), getattr(ctx, "slot", None))
+                    or (socket is not None and getattr(socket, "closed", True)))
+
+        if session_expired():
+            return False
         version = getattr(self, "_health_protocol_version", 1)
         try:
             hub_version = hub_slot_version(slot)
             if hub_version:
                 marker = (await bizhawk.read(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")]))[0]
+                if session_expired():
+                    return False
                 if bytes(marker) != HUB_MARKER:
                     raise ValueError("ROM and slot Hub versions differ")
             elif any(3860041 <= getattr(item, "item", 0) <= 3860055
@@ -2048,6 +2081,8 @@ class KirbyAmClient(BizHawkClient):
             title, config, auth = await bizhawk.read(ctx.bizhawk_ctx, [
                 (0xA0, 12, "ROM"), (HEALTH_CONFIG_OFFSET, 4, "ROM"),
                 (auth_addr, _AUTH_TOKEN_SIZE, "ROM")])
+            if session_expired():
+                return False
             if len(title) != 12 or len(config) != 4 or len(auth) != _AUTH_TOKEN_SIZE:
                 raise ValueError("truncated ROM identity")
             if (bytes(auth) != self._health_rom_auth or
@@ -2061,11 +2096,26 @@ class KirbyAmClient(BizHawkClient):
                                          int.from_bytes(config, "little"), slot_version, plan)
                 if not hub_version:
                     marker = (await bizhawk.read(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")]))[0]
+                    if session_expired():
+                        return False
                     if bytes(marker) == HUB_MARKER:
                         raise ValueError("Hub ROM requires a compatible Hub slot")
             return True
-        except (ValueError, KeyError, TypeError, bizhawk.RequestFailedError,
-                bizhawk.NotConnectedError, bizhawk.ConnectorError, bizhawk.SyncError) as exc:
+        except (bizhawk.RequestFailedError, bizhawk.NotConnectedError,
+                bizhawk.ConnectorError, bizhawk.SyncError) as exc:
+            if session_expired():
+                return False
+            reason = f"{type(exc).__name__}: {exc}"
+            if self._mark_bizhawk_watcher_transport_error(reason):
+                self._log_verbose(
+                    "info",
+                    "KirbyAM: connector read failed during ROM validation; waiting for reconnect (%s)",
+                    reason,
+                )
+            return False
+        except (ValueError, KeyError, TypeError) as exc:
+            if session_expired():
+                return False
             reason = str(exc)
             if getattr(self, "_last_health_protocol_error", None) != reason:
                 self._log_client("error", "KirbyAM: ROM/slot compatibility check failed (%s). "
@@ -4508,6 +4558,19 @@ class KirbyAmClient(BizHawkClient):
     # Item delivery (mailbox protocol)
     # --------------------------
 
+    async def _invincibility_candy_ready(self, ctx: KirbyAmBizHawkClientContext) -> bool:
+        """Avoid reserving a transient receipt while native Candy cannot start."""
+        hp_address = self._native_addr(_KIRBY_HP_ADDR_KEY)
+        if hp_address is None:
+            return False
+        kirby = hp_address - 0x100
+        room, task, flags, hp = await bizhawk.read(ctx.bizhawk_ctx, [
+            (kirby + 0x60, 2, "System Bus"), (kirby + 0xCC, 4, "System Bus"),
+            (kirby + 0x0C, 4, "System Bus"), (hp_address, 1, "System Bus"),
+        ])
+        return candy_delivery_ready(int.from_bytes(room, "little"), self._u32_le(task),
+                                    self._u32_le(flags), self._s8(hp))
+
     async def _tutorial_starting_abilities_ready(self, ctx) -> bool:
         """A live tutorial, excluding title/demo/menu and dead Kirby."""
         keys = ("current_room_native", "demo_playback_flags_native", "kirby_hp_native")
@@ -4735,13 +4798,13 @@ class KirbyAmClient(BizHawkClient):
                     timeout_triggered = True
                     timeout_reason = f"time timeout ({elapsed_seconds:.1f}s >= {_MAILBOX_ACK_TIMEOUT_SECONDS}s)"
 
-            # Hub teleport deliberately leaves the mailbox pending through scripts,
+            # Hub teleport and Candy deliberately leave the mailbox pending through scripts,
             # pause and native room transitions. Clearing/reoffering it on a timer
             # can race its eventual acceptance; retain this receipt in order.
             pending_index = self._delivery_pending_item_index
             if (timeout_triggered and flag == 1 and pending_index is not None
                     and 0 <= pending_index < len(ctx.items_received)
-                    and getattr(ctx.items_received[pending_index], "item", None) == 3860300):
+                    and getattr(ctx.items_received[pending_index], "item", None) in (3860300, CANDY_ITEM_ID)):
                 return
 
             if timeout_triggered:
@@ -4899,6 +4962,17 @@ class KirbyAmClient(BizHawkClient):
                     len(ctx.items_received),
                 )
                 self._delivery_counter_ahead_resume_logged = True
+
+            if item_id == CANDY_ITEM_ID:
+                if not await self._invincibility_candy_ready(ctx):
+                    return  # Keep history order; do not reserve or consume this receipt yet.
+                # Readiness awaits the connector; reject a changed delivery session.
+                if (receipt_session != (self._authenticated_session_key(ctx), self._health_rom_auth)
+                        or delivery_socket is not getattr(getattr(ctx, "server", None), "socket", None)
+                        or delivery_streams is not getattr(ctx.bizhawk_ctx, "streams", None)
+                        or self._delivered_item_index >= len(ctx.items_received)
+                        or ctx.items_received[self._delivered_item_index] is not itm):
+                    return
 
             self._log_verbose(
                 "info",

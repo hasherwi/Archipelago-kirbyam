@@ -36,7 +36,7 @@ def test_minny_native_hook(tmp_path: Path) -> None:
     source = (PAYLOAD_DIR / "ap_payload.c").read_text(encoding="utf-8")
     names = ("ap_mix_u32", "ap_next_rng_u32", "ap_select_random_allowed_ability",
              "ap_is_locked_gated_ability", "ap_select_random_allowed_ability_excluding",
-             "ap_on_request_copy_ability_transition_c")
+             "ap_enemy_seed_source_allows", "ap_on_request_copy_ability_transition_c")
     functions = "\n".join(_function(source, name) for name in names)
     # ARM call-distance annotation has no host-compiler counterpart.
     functions = functions.replace("noinline, long_call,", "noinline,")
@@ -56,6 +56,7 @@ static uint32_t AP_ABILITY_REROLL_SOURCE_ADDR, AP_ABILITY_REROLL_ABILITY_ID;
 static uint32_t AP_ABILITY_REROLL_SOURCE_KIND, AP_ABILITY_REROLL_CALLSITE_PC;
 static uint32_t AP_ABILITY_REROLL_KIRBY_INDEX, AP_ABILITY_REROLL_EVENT_COUNTER;
 static uint32_t KIRBY_CURRENT_PLAYER, result, calls;
+static const uint32_t gApEnemySourceConfig[9] = { AP_ENEMY_SOURCE_CONFIG_LEGACY };
 static void native_transition(void *kirby, uint32_t flags) { (void)kirby; result = flags; calls++; }
 #define KIRBY_REQUEST_ABILITY_TRANSITION_FN native_transition
 '''

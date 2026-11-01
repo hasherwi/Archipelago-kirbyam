@@ -11,6 +11,7 @@ def test_mgba_connector_socket_lifecycle() -> None:
     lua = shutil.which("lua") or shutil.which("lua5.4") or shutil.which("lua5.3")
     if lua is None:
         pytest.skip("Lua interpreter is not installed")
+    assert lua is not None
     root = Path(__file__).resolve().parents[3]
     result = subprocess.run(
         [lua, "worlds/kirbyam/tools/test_mgba_connector.lua"],
