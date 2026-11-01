@@ -2,8 +2,8 @@
 
 This is a complete **native table-slot inventory**, with an explicit mapping or
 exception for every slot. All 263 main-area room titles and URLs were verified
-against WiKirby's category listings. Seven special-room wiki equivalents remain
-unresolved; those rows deliberately have no guessed link. Completeness refers
+against WiKirby's category listings. One special-room wiki equivalent remains
+unresolved; that row deliberately has no guessed link. Completeness refers
 to slot coverage, not certainty about every special room's purpose.
 No gameplay, region logic, locations, ROM patch or item pool changes accompany it.
 
@@ -81,12 +81,49 @@ This does not mean those compartments are mutually traversable.
 `page` means the individual target page was retrieved (163 rows); `category`
 means the exact title and URL were verified through the area category (100 rows).
 `shared` means a verified article describes multiple native rooms or a general
-mode (16 rows). `unresolved` means no precise wiki equivalent established
-(7 rows). Category verification is not a visual audit of every room's terrain.
+mode (22 rows). `unresolved` means no precise wiki equivalent established
+(1 row). Category verification is not a visual audit of every room's terrain.
 
-The seven unresolved records are 950, 951, 955, 956, 957, 969 and 970. Their
-object evidence is recorded in the table; absence from AP is not proof of being
-unused. The three native Goal Game variants 980–982 share a
+### Special rooms: resolved shared targets and remaining gap
+
+The initial seven missing correspondences were research gaps, not evidence of
+seven rooms without wiki coverage. Six can now be associated with shared
+articles. None of these seven is established to be unused or internal-only.
+
+| Native IDs | Count | Classification and evidence |
+| --- | ---: | --- |
+| 950 | 1 | Boss Endurance starting ability chamber: statues plus Boss Challenge Door; the shared article describes the starting Copy Ability Room. |
+| 951 | 1 | Boss Endurance rest chamber: random ability statues plus Boss Challenge Door; boss-clear code returns to 951. |
+| 955, 956, 957 | 3 | Boss Endurance encounter rooms: Mr. Frosty, Batafire and Waddle Dee starts respectively; all three appear in the Boss Challenge Door destination table. |
+| 970 | 1 | Copy Ability Room: ability statues and return door to Central Circle (native 801); the shared article describes this connection and the Boss Endurance reuse. |
+| 969 | 1 | Unresolved research gap: populated table record, empty object list, no decoded transitions. Purpose and reachability remain unestablished. No verified wiki equivalent; this is not a claim that no page exists. |
+
+The verified [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) article's
+Amazing Mirror section covers the initial chamber, rest chamber and the three
+mid-boss groups. Its group numbers are encounter labels, not native room IDs.
+The [Copy Ability Room](https://wikirby.com/wiki/Copy_Ability_Room) article covers
+the Central Circle connection and reuse as the starting area of Boss Endurance.
+These are shared targets, not fabricated individual room-page URLs.
+
+Native evidence beyond the object lists:
+[Boss Challenge Door dispatch](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/boss_challenge_door.c#L125)
+indexes `gUnk_08357B24`; its
+[table extent](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/data/data_13.s#L9)
+is 13 halfwords at ROM offset `0x357B24`. Decoding it in the verified USA ROM
+includes native IDs 957, 956 and 955.
+[Object destruction](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/object.c#L333)
+handles the 955–957 range and returns to 951;
+[boss-clear handling](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0806F780.c#L9419)
+also returns to 951 in that mode. This supports played mode rooms, not unused
+slots. The native-to-wiki semantic join is an inference from this evidence;
+WiKirby does not itself publish these native IDs.
+
+For 969, the remaining work is a verified inbound reference or runtime trace
+establishing when it loads and its visible purpose. An empty object list and
+world-map-list membership are insufficient. Retain `unresolved` until that
+room-specific evidence exists.
+
+The three native Goal Game variants 980–982 share a
 [general article](https://wikirby.com/wiki/Goal_Game), and are distinct from
 the **16 goal entrance rooms** in the nine main areas. Neither the three
 minigame variants nor their score tiers should replace those 16 entrances when
@@ -109,7 +146,7 @@ missing/duplicate AP keys, incorrect completion joins and stale Markdown.
 slot; it never writes ROM contents. Use `--write` to refresh the generated table
 after a reviewed JSON change. The validator does not contact WiKirby or convert
 an unresolved annotation into verified evidence. Further research can resolve
-the seven special records using room-specific evidence; retain honest unknowns
+native 969 using room-specific evidence; retain honest unknowns
 if no equivalent exists.
 
 <!-- native-room-table:start -->
@@ -392,13 +429,13 @@ if no equivalent exists.
 | 916 / `0x394` | 277 | [Dimension Mirror (level)](https://wikirby.com/wiki/Dimension_Mirror_(level)) | **shared**: Dark Mind fourth encounter (area 8); shared level article, not a numbered room page | — |
 | 918 / `0x396` | 278 | [Dimension Mirror (level)](https://wikirby.com/wiki/Dimension_Mirror_(level)) | **shared**: Dark Mind second form (area 9); shared level article, not a numbered room page | — |
 | 919 / `0x397` | 279 | [Dimension Mirror (level)](https://wikirby.com/wiki/Dimension_Mirror_(level)) | **shared**: Dark Mind third-form chase; outside nine-room list; shared level article, not a numbered room page | — |
-| 950 / `0x3B6` | 280 | No established wiki equivalent | **unresolved**: Special: ability statues and Boss Challenge Door; Boss Endurance staging context, exact room label unresolved | — |
-| 951 / `0x3B7` | 281 | No established wiki equivalent | **unresolved**: Special: random ability statue and Boss Challenge Door; Boss Endurance context, exact room label unresolved | — |
-| 955 / `0x3BB` | 282 | No established wiki equivalent | **unresolved**: Special: Mr. Frosty and object spawner; purpose/wiki equivalent unresolved | — |
-| 956 / `0x3BC` | 283 | No established wiki equivalent | **unresolved**: Special: Batafire and object spawner; purpose/wiki equivalent unresolved | — |
-| 957 / `0x3BD` | 284 | No established wiki equivalent | **unresolved**: Special: Waddle Dee and object spawner; purpose/wiki equivalent unresolved | — |
-| 969 / `0x3C9` | 285 | No established wiki equivalent | **unresolved**: Internal: empty object list; purpose/wiki equivalent unresolved (not proven unused) | — |
-| 970 / `0x3CA` | 286 | No established wiki equivalent | **unresolved**: Special: ability statues and return transition to Central Circle; exact wiki equivalent unresolved | — |
+| 950 / `0x3B6` | 280 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance starting ability chamber: ability statues and Boss Challenge Door; shared article, no invented numbered room page | — |
+| 951 / `0x3B7` | 281 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance rest chamber: random ability statues and Boss Challenge Door; boss-clear code returns to native 951 | — |
+| 955 / `0x3BB` | 282 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance Mid-Bosses 1 encounter: Mr. Frosty and object spawner; native 955 is an explicit Boss Challenge Door destination | — |
+| 956 / `0x3BC` | 283 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance Mid-Bosses 3 encounter: Batafire and object spawner; native 956 is an explicit Boss Challenge Door destination | — |
+| 957 / `0x3BD` | 284 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance Mid-Bosses 2 encounter: Waddle Dee and object spawner; native 957 is an explicit Boss Challenge Door destination | — |
+| 969 / `0x3C9` | 285 | No established wiki equivalent | **unresolved**: Unresolved research gap: populated record with empty object list; purpose, reachability and wiki equivalent unknown; not proven unused or internal-only | — |
+| 970 / `0x3CA` | 286 | [Copy Ability Room](https://wikirby.com/wiki/Copy_Ability_Room) | **shared**: Copy Ability Room linked to Central Circle: ability statues and return transition to native 801; shared article, distinct from native 950 Boss Endurance variant | — |
 | 980 / `0x3D4` | 5 | [Goal Game](https://wikirby.com/wiki/Goal_Game) | **shared**: Goal Game variant; shared general article, no individual room page established | — |
 | 981 / `0x3D5` | 6 | [Goal Game](https://wikirby.com/wiki/Goal_Game) | **shared**: Goal Game variant; shared general article, no individual room page established | — |
 | 982 / `0x3D6` | 7 | [Goal Game](https://wikirby.com/wiki/Goal_Game) | **shared**: Goal Game variant; shared general article, no individual room page established | — |

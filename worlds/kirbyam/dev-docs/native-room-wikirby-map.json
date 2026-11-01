@@ -3604,50 +3604,50 @@
       "completion_index": 280,
       "object_list_index": 280,
       "ap_keys": [],
-      "wiki_title": null,
-      "wiki_url": null,
-      "verification": "unresolved",
-      "note": "Special: ability statues and Boss Challenge Door; Boss Endurance staging context, exact room label unresolved"
+      "wiki_title": "Boss Endurance",
+      "wiki_url": "https://wikirby.com/wiki/Boss_Endurance",
+      "verification": "shared",
+      "note": "Boss Endurance starting ability chamber: ability statues and Boss Challenge Door; shared article, no invented numbered room page"
     },
     {
       "native_id": 951,
       "completion_index": 281,
       "object_list_index": 281,
       "ap_keys": [],
-      "wiki_title": null,
-      "wiki_url": null,
-      "verification": "unresolved",
-      "note": "Special: random ability statue and Boss Challenge Door; Boss Endurance context, exact room label unresolved"
+      "wiki_title": "Boss Endurance",
+      "wiki_url": "https://wikirby.com/wiki/Boss_Endurance",
+      "verification": "shared",
+      "note": "Boss Endurance rest chamber: random ability statues and Boss Challenge Door; boss-clear code returns to native 951"
     },
     {
       "native_id": 955,
       "completion_index": 282,
       "object_list_index": 282,
       "ap_keys": [],
-      "wiki_title": null,
-      "wiki_url": null,
-      "verification": "unresolved",
-      "note": "Special: Mr. Frosty and object spawner; purpose/wiki equivalent unresolved"
+      "wiki_title": "Boss Endurance",
+      "wiki_url": "https://wikirby.com/wiki/Boss_Endurance",
+      "verification": "shared",
+      "note": "Boss Endurance Mid-Bosses 1 encounter: Mr. Frosty and object spawner; native 955 is an explicit Boss Challenge Door destination"
     },
     {
       "native_id": 956,
       "completion_index": 283,
       "object_list_index": 283,
       "ap_keys": [],
-      "wiki_title": null,
-      "wiki_url": null,
-      "verification": "unresolved",
-      "note": "Special: Batafire and object spawner; purpose/wiki equivalent unresolved"
+      "wiki_title": "Boss Endurance",
+      "wiki_url": "https://wikirby.com/wiki/Boss_Endurance",
+      "verification": "shared",
+      "note": "Boss Endurance Mid-Bosses 3 encounter: Batafire and object spawner; native 956 is an explicit Boss Challenge Door destination"
     },
     {
       "native_id": 957,
       "completion_index": 284,
       "object_list_index": 284,
       "ap_keys": [],
-      "wiki_title": null,
-      "wiki_url": null,
-      "verification": "unresolved",
-      "note": "Special: Waddle Dee and object spawner; purpose/wiki equivalent unresolved"
+      "wiki_title": "Boss Endurance",
+      "wiki_url": "https://wikirby.com/wiki/Boss_Endurance",
+      "verification": "shared",
+      "note": "Boss Endurance Mid-Bosses 2 encounter: Waddle Dee and object spawner; native 957 is an explicit Boss Challenge Door destination"
     },
     {
       "native_id": 969,
@@ -3657,17 +3657,17 @@
       "wiki_title": null,
       "wiki_url": null,
       "verification": "unresolved",
-      "note": "Internal: empty object list; purpose/wiki equivalent unresolved (not proven unused)"
+      "note": "Unresolved research gap: populated record with empty object list; purpose, reachability and wiki equivalent unknown; not proven unused or internal-only"
     },
     {
       "native_id": 970,
       "completion_index": 286,
       "object_list_index": 286,
       "ap_keys": [],
-      "wiki_title": null,
-      "wiki_url": null,
-      "verification": "unresolved",
-      "note": "Special: ability statues and return transition to Central Circle; exact wiki equivalent unresolved"
+      "wiki_title": "Copy Ability Room",
+      "wiki_url": "https://wikirby.com/wiki/Copy_Ability_Room",
+      "verification": "shared",
+      "note": "Copy Ability Room linked to Central Circle: ability statues and return transition to native 801; shared article, distinct from native 950 Boss Endurance variant"
     },
     {
       "native_id": 980,
