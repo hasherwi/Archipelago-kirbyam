@@ -466,7 +466,7 @@
     "addresses": [
       "0x3526CE"
     ],
-    "default_ability": "Parasol"
+    "default_ability": "Normal"
   },
   "PRANK_BOMB": {
     "kind": "boss_spawned",
