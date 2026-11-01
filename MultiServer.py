@@ -2868,6 +2868,7 @@ async def main(args: argparse.Namespace):
         logging.exception(f"Failed to read multiworld data ({e})")
         raise
 
+    ctx.save_filename = args.savefile
     ctx.init_save(not args.disable_save)
 
     ssl_context = load_server_cert(args.cert, args.cert_key) if args.cert else None

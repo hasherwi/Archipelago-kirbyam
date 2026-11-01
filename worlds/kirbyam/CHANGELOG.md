@@ -12,12 +12,14 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 - Added eight Area Key progression items for Areas 2 through 9. Cross-area mirrors (and other transitions like Warp Stars) now require the destination area's key (Issue #42).
+- Add a default-on Area Keys option under Make the game easier. Turning it off removes Area Key requirements and replaces the eight keys with filler.
 - Added 15 Hub Connection progression items that unlock matching hub shortcuts while preserving alternate overland routes. Physical Big Switch checks remain independent, and received connections are restored across reconnects (Issue #482).
 - Add Hub Teleport Trap, which returns Kirby to Rainbow Route’s central hub (Issue #697).
 - Add `/goal` to display the seed's victory condition, including its resolved boss target while preserving legacy hidden targets (Issue #923).
 - Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
 
 ### Bug Fixes
+- Honor the server's `--savefile` option when loading and saving state, so separate servers can keep distinct save files for the same multidata.
 - Correct Rainbow Route East and Moonlight Mansion Hub Connection item names while preserving their numeric IDs and native destinations.
 - Keep Moonlight arrivals in Olive 6-13 behind the received Olive lever wall while preserving the physical RoomSanity check and return chute.
 - Retry mGBA connections after self-connected sockets or malformed VERSION replies instead of stopping the client. Shared Archipelago transport and the stock BizHawk launcher are unchanged.
