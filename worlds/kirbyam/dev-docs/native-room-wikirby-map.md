@@ -16,7 +16,9 @@ No gameplay, region logic, locations, ROM patch or item pool changes accompany i
 | Unpopulated sentinel slots, in 58 inclusive ranges | 697 |
 | Populated records with a physical AP RoomSanity check | 263 |
 | Other populated records | 23 |
-| AP room keys accounted for | 321 |
+| Top-level AP room keys accounted for | 321 |
+| Generated logical subregion aliases accounted for | 14 |
+| Total AP keys in the table | 335 |
 | Additional logical compartment keys sharing physical records | 55 |
 | Tutorial keys without RoomSanity checks | 3 |
 
@@ -27,8 +29,9 @@ once. The table has no populated record for index 4. Native **806** (`0x326`)
 is a sentinel even though the decompilation's Dimension Mirror world-map list
 mentions it; a map-list entry alone does not establish a loadable room.
 
-The 55 AP compartments are aliases for purposes of this lookup, not additional
-native rooms. The table retains every full AP key. For example, Rainbow Route
+The 55 top-level AP compartments and 14 generated logical subregions are aliases for purposes of this lookup, not additional
+native rooms. The table retains every full AP key, including the `parent__LOGIC__key` names
+constructed by [data.py](../data.py) from nested `logical_subregions`. For example, Rainbow Route
 Room 3's upper/lower logic keys both resolve to native 107 and completion 25.
 This does not mean those compartments are mutually traversable.
 
@@ -136,7 +139,7 @@ if no equivalent exists.
 | 130 / `0x082` | 190 | [Olive Ocean - Room 1](https://wikirby.com/wiki/Olive_Ocean_-_Room_1) | **page**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_01` |
 | 131 / `0x083` | 191 | [Olive Ocean - Room 2](https://wikirby.com/wiki/Olive_Ocean_-_Room_2) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_02` |
 | 132 / `0x084` | 192 | [Olive Ocean - Room 4](https://wikirby.com/wiki/Olive_Ocean_-_Room_4) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_04` |
-| 133 / `0x085` | 193 | [Olive Ocean - Room 5](https://wikirby.com/wiki/Olive_Ocean_-_Room_5) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_05`<br>`REGION_OLIVE_OCEAN/ROOM_6_05_SUBROOM` |
+| 133 / `0x085` | 193 | [Olive Ocean - Room 5](https://wikirby.com/wiki/Olive_Ocean_-_Room_5) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_05`<br>`REGION_OLIVE_OCEAN/ROOM_6_05_SUBROOM`<br>`REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06`<br>`REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_23`<br>`REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_07` |
 | 134 / `0x086` | 194 | [Olive Ocean - Room 6](https://wikirby.com/wiki/Olive_Ocean_-_Room_6) | **page**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_06` |
 | 135 / `0x087` | 195 | [Olive Ocean - Goal 1](https://wikirby.com/wiki/Olive_Ocean_-_Goal_1) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_GOAL_1` |
 | 136 / `0x088` | 34 | [Rainbow Route - Room 31](https://wikirby.com/wiki/Rainbow_Route_-_Room_31) | **page**: Completion-index join; AP compartments share this native room | `REGION_RAINBOW_ROUTE/ROOM_1_31` |
@@ -222,7 +225,7 @@ if no equivalent exists.
 | 400 / `0x190` | 142 | [Candy Constellation - Room 20](https://wikirby.com/wiki/Candy_Constellation_-_Room_20) | **page**: Completion-index join; AP compartments share this native room | `REGION_CANDY_CONSTELLATION/ROOM_9_20` |
 | 401 / `0x191` | 143 | [Candy Constellation - Room 6](https://wikirby.com/wiki/Candy_Constellation_-_Room_6) | **page**: Completion-index join; AP compartments share this native room | `REGION_CANDY_CONSTELLATION/ROOM_9_06` |
 | 402 / `0x192` | 144 | [Candy Constellation - Room 12](https://wikirby.com/wiki/Candy_Constellation_-_Room_12) | **page**: Completion-index join; AP compartments share this native room | `REGION_CANDY_CONSTELLATION/ROOM_9_12` |
-| 403 / `0x193` | 145 | [Candy Constellation - Chest 2](https://wikirby.com/wiki/Candy_Constellation_-_Chest_2) | **category**: Completion-index join; AP compartments share this native room | `REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2` |
+| 403 / `0x193` | 145 | [Candy Constellation - Chest 2](https://wikirby.com/wiki/Candy_Constellation_-_Chest_2) | **category**: Completion-index join; AP compartments share this native room | `REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2`<br>`REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_01`<br>`REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_09` |
 | 404 / `0x194` | 146 | [Candy Constellation - Room 1](https://wikirby.com/wiki/Candy_Constellation_-_Room_1) | **page**: Completion-index join; AP compartments share this native room | `REGION_CANDY_CONSTELLATION/ROOM_9_01` |
 | 405 / `0x195` | 147 | [Candy Constellation - Room 9](https://wikirby.com/wiki/Candy_Constellation_-_Room_9) | **page**: Completion-index join; AP compartments share this native room | `REGION_CANDY_CONSTELLATION/ROOM_9_09` |
 | 406 / `0x196` | 148 | [Candy Constellation - Chest 1](https://wikirby.com/wiki/Candy_Constellation_-_Chest_1) | **page**: Completion-index join; AP compartments share this native room | `REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1` |
@@ -302,7 +305,7 @@ if no equivalent exists.
 | 600 / `0x258` | 254 | [Carrot Castle - Room 12](https://wikirby.com/wiki/Carrot_Castle_-_Room_12) | **page**: Completion-index join; AP compartments share this native room | `REGION_CARROT_CASTLE/ROOM_5_12` |
 | 601 / `0x259` | 220 | [Radish Ruins - Room 4](https://wikirby.com/wiki/Radish_Ruins_-_Room_4) | **page**: Completion-index join; AP compartments share this native room | `REGION_RADISH_RUINS/ROOM_8_04` |
 | 603 / `0x25B` | 221 | [Radish Ruins - Room 6](https://wikirby.com/wiki/Radish_Ruins_-_Room_6) | **category**: Completion-index join; AP compartments share this native room | `REGION_RADISH_RUINS/ROOM_8_06` |
-| 604 / `0x25C` | 222 | [Radish Ruins - Room 9](https://wikirby.com/wiki/Radish_Ruins_-_Room_9) | **category**: Completion-index join; AP compartments share this native room | `REGION_RADISH_RUINS/ROOM_8_09` |
+| 604 / `0x25C` | 222 | [Radish Ruins - Room 9](https://wikirby.com/wiki/Radish_Ruins_-_Room_9) | **category**: Completion-index join; AP compartments share this native room | `REGION_RADISH_RUINS/ROOM_8_09`<br>`REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_06`<br>`REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_08` |
 | 605 / `0x25D` | 223 | [Radish Ruins - Room 3](https://wikirby.com/wiki/Radish_Ruins_-_Room_3) | **page**: Completion-index join; AP compartments share this native room | `REGION_RADISH_RUINS/ROOM_8_03` |
 | 606 / `0x25E` | 224 | [Radish Ruins - Room 8](https://wikirby.com/wiki/Radish_Ruins_-_Room_8) | **page**: Completion-index join; AP compartments share this native room | `REGION_RADISH_RUINS/ROOM_8_08` |
 | 608 / `0x260` | 231 | [Radish Ruins - Room 11](https://wikirby.com/wiki/Radish_Ruins_-_Room_11) | **category**: Completion-index join; AP compartments share this native room | `REGION_RADISH_RUINS/ROOM_8_11` |
@@ -319,7 +322,7 @@ if no equivalent exists.
 | 620 / `0x26C` | 227 | [Radish Ruins - Room 1](https://wikirby.com/wiki/Radish_Ruins_-_Room_1) | **page**: Completion-index join; AP compartments share this native room | `REGION_RADISH_RUINS/ROOM_8_01` |
 | 621 / `0x26D` | 228 | [Radish Ruins - Room 2](https://wikirby.com/wiki/Radish_Ruins_-_Room_2) | **category**: Completion-index join; AP compartments share this native room | `REGION_RADISH_RUINS/ROOM_8_02` |
 | 622 / `0x26E` | 229 | [Radish Ruins - Goal 1](https://wikirby.com/wiki/Radish_Ruins_-_Goal_1) | **page**: Completion-index join; AP compartments share this native room | `REGION_RADISH_RUINS/ROOM_8_GOAL_1` |
-| 623 / `0x26F` | 230 | [Radish Ruins - Room 7](https://wikirby.com/wiki/Radish_Ruins_-_Room_7) | **page**: Completion-index join; AP compartments share this native room | `REGION_RADISH_RUINS/ROOM_8_07` |
+| 623 / `0x26F` | 230 | [Radish Ruins - Room 7](https://wikirby.com/wiki/Radish_Ruins_-_Room_7) | **page**: Completion-index join; AP compartments share this native room | `REGION_RADISH_RUINS/ROOM_8_07`<br>`REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_04`<br>`REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_09` |
 | 690 / `0x2B2` | 240 | [Radish Ruins - Hub](https://wikirby.com/wiki/Radish_Ruins_-_Hub) | **page**: Completion-index join; AP compartments share this native room | `REGION_RADISH_RUINS/ROOM_8_HUB` |
 | 700 / `0x2BC` | 67 | [Moonlight Mansion - Room 10](https://wikirby.com/wiki/Moonlight_Mansion_-_Room_10) | **page**: Completion-index join; AP compartments share this native room | `REGION_MOONLIGHT_MANSION/ROOM_2_10` |
 | 702 / `0x2BE` | 81 | [Moonlight Mansion - Room 5](https://wikirby.com/wiki/Moonlight_Mansion_-_Room_5) | **page**: Completion-index join; AP compartments share this native room | `REGION_MOONLIGHT_MANSION/ROOM_2_05`<br>`REGION_MOONLIGHT_MANSION/ROOM_2_05_UPPER_LEDGE`<br>`REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER` |
@@ -341,7 +344,7 @@ if no equivalent exists.
 | 731 / `0x2DB` | 269 | [Carrot Castle - Warp](https://wikirby.com/wiki/Carrot_Castle_-_Warp) | **page**: Completion-index join; AP compartments share this native room | `REGION_CARROT_CASTLE/ROOM_5_WARP` |
 | 732 / `0x2DC` | 259 | [Carrot Castle - Chest 2](https://wikirby.com/wiki/Carrot_Castle_-_Chest_2) | **page**: Completion-index join; AP compartments share this native room | `REGION_CARROT_CASTLE/ROOM_5_CHEST_2` |
 | 733 / `0x2DD` | 260 | [Carrot Castle - Room 16](https://wikirby.com/wiki/Carrot_Castle_-_Room_16) | **page**: Completion-index join; AP compartments share this native room | `REGION_CARROT_CASTLE/ROOM_5_16` |
-| 734 / `0x2DE` | 261 | [Carrot Castle - Room 13](https://wikirby.com/wiki/Carrot_Castle_-_Room_13) | **category**: Completion-index join; AP compartments share this native room | `REGION_CARROT_CASTLE/ROOM_5_13`<br>`REGION_CARROT_CASTLE/ROOM_5_13_UPPER` |
+| 734 / `0x2DE` | 261 | [Carrot Castle - Room 13](https://wikirby.com/wiki/Carrot_Castle_-_Room_13) | **category**: Completion-index join; AP compartments share this native room | `REGION_CARROT_CASTLE/ROOM_5_13`<br>`REGION_CARROT_CASTLE/ROOM_5_13_UPPER`<br>`REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07`<br>`REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14`<br>`REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_12`<br>`REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP` |
 | 735 / `0x2DF` | 262 | [Carrot Castle - Room 9](https://wikirby.com/wiki/Carrot_Castle_-_Room_9) | **page**: Completion-index join; AP compartments share this native room | `REGION_CARROT_CASTLE/ROOM_5_09` |
 | 736 / `0x2E0` | 263 | [Carrot Castle - Room 10](https://wikirby.com/wiki/Carrot_Castle_-_Room_10) | **page**: Completion-index join; AP compartments share this native room | `REGION_CARROT_CASTLE/ROOM_5_10` |
 | 737 / `0x2E1` | 264 | [Carrot Castle - Room 11](https://wikirby.com/wiki/Carrot_Castle_-_Room_11) | **page**: Completion-index join; AP compartments share this native room | `REGION_CARROT_CASTLE/ROOM_5_11` |
@@ -369,7 +372,7 @@ if no equivalent exists.
 | 821 / `0x335` | 217 | [Olive Ocean - Room 22](https://wikirby.com/wiki/Olive_Ocean_-_Room_22) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_22` |
 | 822 / `0x336` | 218 | [Olive Ocean - Boss](https://wikirby.com/wiki/Olive_Ocean_-_Boss) | **page**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_BOSS` |
 | 823 / `0x337` | 201 | [Olive Ocean - Room 9](https://wikirby.com/wiki/Olive_Ocean_-_Room_9) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_09` |
-| 824 / `0x338` | 202 | [Olive Ocean - Room 13](https://wikirby.com/wiki/Olive_Ocean_-_Room_13) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_13` |
+| 824 / `0x338` | 202 | [Olive Ocean - Room 13](https://wikirby.com/wiki/Olive_Ocean_-_Room_13) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_13`<br>`REGION_OLIVE_OCEAN/ROOM_6_13__LOGIC__ENTRY_FROM_MOONLIGHT` |
 | 825 / `0x339` | 203 | [Olive Ocean - Goal 2](https://wikirby.com/wiki/Olive_Ocean_-_Goal_2) | **page**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_GOAL_2` |
 | 826 / `0x33A` | 204 | [Olive Ocean - Room 3](https://wikirby.com/wiki/Olive_Ocean_-_Room_3) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_03` |
 | 827 / `0x33B` | 205 | [Olive Ocean - Room 7](https://wikirby.com/wiki/Olive_Ocean_-_Room_7) | **page**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_07` |

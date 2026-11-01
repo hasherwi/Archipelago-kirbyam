@@ -39,6 +39,13 @@ class NativeRoomMappingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unknown AP key"):
             mapping.validate(self.data, self.rooms)
 
+    def test_missing_generated_alias_is_rejected(self) -> None:
+        row = next(row for row in self.data["rooms"]
+                   if any("__LOGIC__" in key for key in row["ap_keys"]))
+        row["ap_keys"] = [key for key in row["ap_keys"] if "__LOGIC__" not in key]
+        with self.assertRaisesRegex(ValueError, "incomplete"):
+            mapping.validate(self.data, self.rooms)
+
     def test_wrong_rom_is_rejected_before_parsing(self) -> None:
         with self.assertRaisesRegex(ValueError, "unmodified USA ROM"):
             mapping.validate(self.data, self.rooms, b"synthetic invalid fixture")

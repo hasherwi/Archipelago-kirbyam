@@ -526,7 +526,10 @@
       "object_list_index": 193,
       "ap_keys": [
         "REGION_OLIVE_OCEAN/ROOM_6_05",
-        "REGION_OLIVE_OCEAN/ROOM_6_05_SUBROOM"
+        "REGION_OLIVE_OCEAN/ROOM_6_05_SUBROOM",
+        "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06",
+        "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_23",
+        "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_07"
       ],
       "wiki_title": "Olive Ocean - Room 5",
       "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_5",
@@ -1569,7 +1572,9 @@
       "completion_index": 145,
       "object_list_index": 145,
       "ap_keys": [
-        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2"
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_01",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_09"
       ],
       "wiki_title": "Candy Constellation - Chest 2",
       "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Chest_2",
@@ -2546,7 +2551,9 @@
       "completion_index": 222,
       "object_list_index": 222,
       "ap_keys": [
-        "REGION_RADISH_RUINS/ROOM_8_09"
+        "REGION_RADISH_RUINS/ROOM_8_09",
+        "REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_06",
+        "REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_08"
       ],
       "wiki_title": "Radish Ruins - Room 9",
       "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_9",
@@ -2750,7 +2757,9 @@
       "completion_index": 230,
       "object_list_index": 230,
       "ap_keys": [
-        "REGION_RADISH_RUINS/ROOM_8_07"
+        "REGION_RADISH_RUINS/ROOM_8_07",
+        "REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_04",
+        "REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_09"
       ],
       "wiki_title": "Radish Ruins - Room 7",
       "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_7",
@@ -3027,7 +3036,11 @@
       "object_list_index": 261,
       "ap_keys": [
         "REGION_CARROT_CASTLE/ROOM_5_13",
-        "REGION_CARROT_CASTLE/ROOM_5_13_UPPER"
+        "REGION_CARROT_CASTLE/ROOM_5_13_UPPER",
+        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14",
+        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_12",
+        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP"
       ],
       "wiki_title": "Carrot Castle - Room 13",
       "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_13",
@@ -3370,7 +3383,8 @@
       "completion_index": 202,
       "object_list_index": 202,
       "ap_keys": [
-        "REGION_OLIVE_OCEAN/ROOM_6_13"
+        "REGION_OLIVE_OCEAN/ROOM_6_13",
+        "REGION_OLIVE_OCEAN/ROOM_6_13__LOGIC__ENTRY_FROM_MOONLIGHT"
       ],
       "wiki_title": "Olive Ocean - Room 13",
       "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_13",

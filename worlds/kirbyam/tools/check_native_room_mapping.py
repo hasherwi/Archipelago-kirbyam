@@ -50,6 +50,10 @@ def validate_row(row: dict[str, Any], rooms: dict[str, Any], keys: set[str], rom
 def validate(data: dict[str, Any], rooms: dict[str, Any], rom: bytes | None = None) -> None:
     if data["slot_count"] != SLOTS or data["rom_sha1"] != SHA1:
         raise ValueError("wrong inventory revision")
+    rooms = dict(rooms)
+    for parent, definition in list(rooms.items()):
+        for key in definition.get("logical_subregions", {}):
+            rooms[f"{parent}__LOGIC__{key}"] = definition
     slots: set[int] = set()
     keys: set[str] = set()
     completions: set[int] = set()
@@ -115,7 +119,8 @@ def main() -> None:
         DOC.write_text(expected)
     elif text != expected:
         raise ValueError("documentation table is stale; run with --write")
-    print("983 slots accounted for: 286 populated, 697 sentinel; 321 AP keys covered")
+    print("983 slots accounted for: 286 populated, 697 sentinel; "
+          "335 AP keys covered (321 top-level, 14 generated logical aliases)")
 
 
 if __name__ == "__main__":
