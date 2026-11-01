@@ -32,23 +32,24 @@ def test_each_native_edge_requires_its_own_item(edge):
 
 
 @pytest.mark.parametrize('room_sanity', [0, 1])
-def test_central_receipt_layer_and_eight_distinct_shards(room_sanity):
+def test_hub_receipt_shortcuts_and_eight_distinct_shards(room_sanity):
     world = setup_multiworld(KirbyAmWorld, seed=932, options={
         'room_sanity': room_sanity, 'ability_gating': 0})
-    state = CollectionState(world)
-    def reachable(s):
-        s.sweep_for_advancements()
-        return {l.name for l in world.get_locations() if l.address is not None and l.can_reach(s)}
-    initial = reachable(state)
-    # Native slot 1 is the physical Moonlight mirror. Its legacy item label is
-    # Rainbow Route East; this test follows the audited endpoint, not the label.
-    for item_id in (3860402, 3860404, 3860406, 3860408, 3860410, 3860412, 3860414):
-        trial = state.copy()
-        trial.collect(world.worlds[1].create_item(data.items[item_id].label), True)
-        assert reachable(trial) == initial
-    trial = state.copy()
-    trial.collect(world.worlds[1].create_item('Rainbow Route South - Hub Connection'), True)
-    assert len(reachable(trial)) > len(initial)
+    trial = CollectionState(world)
+    # Receipt milestones describe shortcuts, not global room-access phases.
+    # Physical Moonlight is ID 402; ID 401 is the Rainbow East central shortcut.
+    for item_id, label, destination in (
+        (3860401, 'Rainbow Route East - Hub Connection',
+         'REGION_RAINBOW_ROUTE/ROOM_1_HUB_1'),
+        (3860402, 'Moonlight Mansion - Hub Connection',
+         'REGION_MOONLIGHT_MANSION/ROOM_2_HUB'),
+    ):
+        assert data.items[item_id].label == label
+        entrance = world.get_entrance(f'{CENTRAL} -> {destination}', 1)
+        assert not entrance.access_rule(trial)
+        received = trial.copy()
+        received.collect(world.worlds[1].create_item(label), True)
+        assert entrance.access_rule(received)
     dimension = world.get_entrance('REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN', 1)
     shards = [item for item in world.itempool if 'Mirror Shard' in item.name]
     assert len(shards) == 8
@@ -66,7 +67,7 @@ def test_moonlight_arrival_cannot_cross_olive_lever_wall(room_sanity, ability_ga
     world = setup_multiworld(KirbyAmWorld, seed=932, options={
         'room_sanity': room_sanity, 'ability_gating': ability_gating})
     state = CollectionState(world)
-    for name in ('Rainbow Route East - Hub Connection',
+    for name in ('Moonlight Mansion - Hub Connection',
                  'Moonlight Mansion 2-11 - Lever Wall',
                  'Olive Ocean - Hub Connection'):
         state.collect(world.worlds[1].create_item(name), True)

@@ -35,7 +35,7 @@ def test_historical_progression_collision_is_not_silently_accepted() -> None:
     # Current Hub IDs coexist with #908; old Hub seeds require regeneration.
     validate_catalogs({'area keys': catalogs['908'], 'current': data.item_key_to_id},
                       INVENTORY['reserved_items'])
-    with pytest.raises(ValueError, match='HUB_CONNECTION_MOONLIGHT_MANSION moved'):
+    with pytest.raises(ValueError, match='HUB_CONNECTION_RAINBOW_ROUTE_EAST moved from 3860042 to 3860401'):
         validate_catalogs({'old hub': catalogs['932'], 'current': data.item_key_to_id},
                           INVENTORY['reserved_items'])
 

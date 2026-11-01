@@ -521,8 +521,8 @@
       "Unique"
     ]
   },
-  "HUB_CONNECTION_MOONLIGHT_MANSION": {
-    "label": "Moonlight Mansion - Hub Connection",
+  "HUB_CONNECTION_RAINBOW_ROUTE_EAST": {
+    "label": "Rainbow Route East - Hub Connection",
     "classification": "PROGRESSION",
     "item_id": 3860401,
     "tags": [
@@ -531,8 +531,8 @@
       "Unique"
     ]
   },
-  "HUB_CONNECTION_RAINBOW_ROUTE_EAST": {
-    "label": "Rainbow Route East - Hub Connection",
+  "HUB_CONNECTION_MOONLIGHT_MANSION": {
+    "label": "Moonlight Mansion - Hub Connection",
     "classification": "PROGRESSION",
     "item_id": 3860402,
     "tags": [

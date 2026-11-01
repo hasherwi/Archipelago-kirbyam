@@ -11,10 +11,10 @@
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS": "can_fly",
       "REGION_RAINBOW_ROUTE/ROOM_1_01": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1": {
-        "item": "Moonlight Mansion - Hub Connection"
+        "item": "Rainbow Route East - Hub Connection"
       },
       "REGION_MOONLIGHT_MANSION/ROOM_2_HUB": {
-        "item": "Rainbow Route East - Hub Connection"
+        "item": "Moonlight Mansion - Hub Connection"
       },
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": {
         "item": "Rainbow Route West - Hub Connection"
@@ -59,7 +59,7 @@
         "all": [
           "can_fly",
           {
-            "item": "Moonlight Mansion - Hub Connection"
+            "item": "Rainbow Route East - Hub Connection"
           }
         ]
       },
@@ -1059,7 +1059,7 @@
       "REGION_MOONLIGHT_MANSION/ROOM_2_02": null,
       "REGION_MOONLIGHT_MANSION/ROOM_2_03": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
-        "item": "Rainbow Route East - Hub Connection"
+        "item": "Moonlight Mansion - Hub Connection"
       }
     }
   },

@@ -11,12 +11,13 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- Added 15 Hub Connection progression items that gate their matching area transitions and hub shortcuts while preserving alternate overland routes. Physical Big Switch checks remain available until collected, and received connections are restored across reconnects (Issue #482).
+- Added 15 Hub Connection progression items that unlock matching hub shortcuts while preserving alternate overland routes. Physical Big Switch checks remain independent, and received connections are restored across reconnects (Issue #482).
 - Add Hub Teleport Trap, which returns Kirby to Rainbow Route’s central hub (Issue #697).
 - Add `/goal` to display the seed's victory condition, including its resolved boss target while preserving legacy hidden targets (Issue #923).
 - Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
 
 ### Bug Fixes
+- Correct Rainbow Route East and Moonlight Mansion Hub Connection item names while preserving their numeric IDs and native destinations.
 - Keep Moonlight arrivals in Olive 6-13 behind the received Olive lever wall while preserving the physical RoomSanity check and return chute.
 - Retry mGBA connections after self-connected sockets or malformed VERSION replies instead of stopping the client. Shared Archipelago transport and the stock BizHawk launcher are unchanged.
 - Preserve excluded Minny grants in Completely Random mode while retaining normal ability gating (Issue #997). Regenerate the ROM patch.
@@ -29,7 +30,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Bootstrap Kirby build/test dependencies with checksum-pinned pip 26.2.2 and certifi 2026.10.19 after the eMudhra/emSign incident (Issue #978), with matching development guidance. Global AP dependencies, Docker and general workflows are unchanged.
 
 ### Known Limitations
-- Hub Connection items add independent receipt milestones before receiving all eight distinct Mirror Shards. A verified native Moonlight-to-Candy overland route reaches the Candy hub without a qualifying Central Circle receipt; strict global map-access ordering would require a separate gameplay decision.
+- Progression remains broadly two spheres: received items are needed to open the Dimension Mirror and defeat Dark Mind, but not to complete most of the game. Additional progression gates remain planned.
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
@@ -38,6 +39,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Consumable delivery and native saves have no exactly-once guarantee across interruptions or unsaved power loss. Full item/chest/slot, offline-check, pending-ACK, goal and BizHawk reconnect coverage remains unverified.
 
 ### Internal Changes
+- Preserve compiled Hub switch mapping with generated lookup tables, fixed configuration addresses and explicit overlap checks. Historical native door aliases remain unchanged.
 - Verify the complete wheel inventory and SHA-256 bytes before offline Kirby ROM-smoke dependency installation (Issue #980; broader dependency matrices remain open).
 - Pin Kirby workflow actions to audited commit identities and reject mutable action references (Issue #981; interpreter/toolchain downloads remain separate).
 - Add draft-artifact receipts, signed provenance and download verification; refuse published-asset replacement (Issue #983). Plugin-trust guidance and owner immutability prerequisites are documented.
@@ -47,23 +49,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Exercise all eight shard receipts through twelve cold client/transport restarts, partial native saves and interleaved acknowledged food receipts (Issue #974).
 - Verify starting Vitality with stock-server empty/nonempty normal histories, duplicate precollects and repeated cold-RAM recovery without replay healing (Issue #943).
 - Integrate room connections and requirements into world-generation logic (PR #914).
-
-### Known Limitations
-- Progression: The entire game is still only two spheres. This means you can complete almost the entirety of Kirby and the Amazing Mirror without ever having to receive an item, except open the Dimension Mirror. In other words, you can do everything in the game except defeat Dark Mind without ever receiving an item from another player. This is a consequence of the original game design. We have plans to gate your progression in other ways, but they all require coding/hacking in intentional blockers.
-- Localization: Only the North American ROM is supported. All AP notifications are in English.
-- Native sprites and animations: Chests still show their original item sprite and collection animation. Statues still show their original ability.
-- mGBA: notifications appear as plain text in the **Archipelago Connector** scripting panel, which must be visible. They do not appear over the game image.
-
-- Draft #932 proves the directed 192→801→592 route under controlled QA only; the reverse and 11 other disputed pairs remain unproven. Fresh-seed gameplay, reconnect and native persistence acceptance remain separate.
-- Security issues #980–#983 retain partial coverage in #989/#990/#993/#994; The paired #993/#994 stack is required; #993 alone is not a publisher solution. No live signing or repository protection configuration is claimed here.
-
-Historical v0.4.1 limitations retained for acceptance tracking: main carries color/lever fixes, but this integration does not independently establish fresh-gameplay or persistence acceptance. The custom-health compatibility requirement still applies.
-- Backwards Compatability: Use newly generated ROM patches for offline custom health initialization; older patches need a same-seed rebuild to embed health bounds. Client reconciliation remains required for authoritative AP ownership. Full gameplay coverage of every custom-health interaction remains pending.
-- Kirby Color: random_color_per_room changes Kirby's color but does not update the corresponding UI element colors.
-- Levers: Visually they'll revert to being "down" after a game reset. This does not affect gameplay.
-
-### Internal Changes
-- Preserve compiled Hub switch mapping with generated lookup tables, fixed configuration addresses and explicit overlap checks. Catalog/runtime door 1/2 mapping divergence remains documented; metadata is not bumped.
 
 ## v0.4.1
 
@@ -100,7 +85,6 @@ Historical v0.4.1 limitations retained for acceptance tracking: main carries col
 - Added a new option: `enemy_health_multiplier`. Scale all enemies' health values between 50% to 500% of the original game. It defaults to 100% which matches the original game (Issue #880).
 - Added `random_color_per_room` to Starting Kirby Color. It chooses an initial supported palette at generation, then changes to a different supported palette whenever the connected BizHawk client observes Kirby enter a different room (Issue #857).
 - Added four progression items that independently open the walls controlled by those levers. Pulling a lever now sends its AP location check without opening the wall; receiving the matching Lever Wall item sets the native wall-unlock state instead (Issue #859).
-
 
 ### Improvements
 - Ability unlock gating also applies at the final native ability commit, after roulette and other pending-ability writes (Issue #892).

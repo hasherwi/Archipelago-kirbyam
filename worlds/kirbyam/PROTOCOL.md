@@ -137,7 +137,7 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | TRAP_BATTERY_DRAIN | 3860035 | Trap item: empties the cell phone battery to 0 |
 | TRAP_LIFE_WIPEOUT | 3860036 | Trap item: sets Kirby's lives count to 0 |
 | LEVER_WALL_MOONLIGHT_MANSION_2_11 .. LEVER_WALL_RADISH_RUINS_8_12 | 3860037 - 3860040 | Progression items that independently set the four native lever-controlled wall bits (Issue #859) |
-| HUB_CONNECTION_MOONLIGHT_MANSION .. HUB_CONNECTION_CANDY_CONSTELLATION | 3860401 - 3860415 | Progression items mapped in `WorldMapDoor` enum order; IDs `BASE_OFFSET + 400 + door_index` for native door indices 1..15 |
+| HUB_CONNECTION_RAINBOW_ROUTE_EAST .. HUB_CONNECTION_CANDY_CONSTELLATION | 3860401 - 3860415 | Progression items mapped in `WorldMapDoor` enum order; IDs `BASE_OFFSET + 400 + door_index` for native door indices 1..15 |
 | ABILITY_UNLOCK_* | 3860101 - 3860125 | Explicit ability items in `data/items.json`, preserving `BASE_OFFSET + 100 + runtime_ability_id`: 19 gateable unlocks and six guaranteed starting abilities. `Normal`, `Master`, and `Wait` have no AP item. |
 | SPRAY_PAINT_01 .. SPRAY_PAINT_14 | 3860200 - 3860213 | Unique useful collection items; OR native Spray Paint ownership bits 0..13 |
 | MUSIC_SHEET_01 .. MUSIC_SHEET_10 | 3860214 - 3860223 | Unique useful collection items; OR native Music Player/Sheets bits 1..10, leaving bit 0 unchanged |
@@ -881,3 +881,5 @@ ROM authentication token. The existing native save section, checksums, duplicate
 copies and file policy are unchanged. The client reports restored checks even on
 its first connection; it does not suppress them as a stale transport baseline.
 See [allocation, compatibility, graph and validation evidence](docs/hub-save-and-graph.md).
+
+Hub item names match physical destinations: 3860401 is Rainbow Route East (801↔190), and 3860402 is Moonlight Mansion (801↔790). Correcting these names does not change numeric receipt routing, native enum aliases, protocol 2, or save layout. Existing generated seeds retain their serialized labels; regenerate seeds for corrected display names. Historical draft ID reservations remain historical.

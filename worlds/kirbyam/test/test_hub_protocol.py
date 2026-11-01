@@ -87,3 +87,17 @@ async def test_mixed_hub_identity_has_no_watcher_side_effects(mock_bizhawk_conte
             write.assert_not_called()
             guarded.assert_not_called()
             ctx.send_msgs.assert_not_called()
+
+
+def test_corrected_names_preserve_protocol_two_numeric_receipts():
+    from ..client import _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX
+    from ..data import data
+    # Old protocol-2 catalogs contain these same names. Receipt IDs, not names,
+    # choose the mailbox bits, so existing saves need no migration.
+    assert hub_slot_version({"hub_connection_protocol_version": 2,
+                             "unique_items": ["Moonlight Mansion - Hub Connection",
+                                              "Rainbow Route East - Hub Connection"]}) == 2
+    assert data.item_key_to_id['HUB_CONNECTION_RAINBOW_ROUTE_EAST'] == 3860401
+    assert data.item_key_to_id['HUB_CONNECTION_MOONLIGHT_MANSION'] == 3860402
+    assert _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX[3860401] == 1
+    assert _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX[3860402] == 2

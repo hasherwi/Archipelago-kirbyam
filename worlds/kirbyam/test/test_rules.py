@@ -540,9 +540,9 @@ def test_collection_state_gates_hub_shortcuts_and_preserves_overland_routes() ->
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_CABBAGE_CAVERN/ROOM_3_HUB_1":
             "Cabbage Cavern East - Hub Connection",
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_MOONLIGHT_MANSION/ROOM_2_HUB":
-            "Rainbow Route East - Hub Connection",
+            "Moonlight Mansion - Hub Connection",
         "REGION_MOONLIGHT_MANSION/ROOM_2_HUB -> REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE":
-            "Rainbow Route East - Hub Connection",
+            "Moonlight Mansion - Hub Connection",
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1":
             "Peppermint Palace East - Hub Connection",
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS -> REGION_CANDY_CONSTELLATION/ROOM_9_HUB":
