@@ -58,3 +58,39 @@ def test_central_receipt_layer_and_eight_distinct_shards(room_sanity):
     assert not dimension.access_rule(trial)
     trial.collect(shards[-1], True)
     assert dimension.access_rule(trial)
+
+
+@pytest.mark.parametrize('room_sanity', [0, 1])
+@pytest.mark.parametrize('ability_gating', [0, 1])
+def test_moonlight_arrival_cannot_cross_olive_lever_wall(room_sanity, ability_gating):
+    world = setup_multiworld(KirbyAmWorld, seed=932, options={
+        'room_sanity': room_sanity, 'ability_gating': ability_gating})
+    state = CollectionState(world)
+    for name in ('Rainbow Route East - Hub Connection',
+                 'Moonlight Mansion 2-11 - Lever Wall',
+                 'Olive Ocean - Hub Connection'):
+        state.collect(world.worlds[1].create_item(name), True)
+    state.sweep_for_advancements()
+
+    olive = 'REGION_OLIVE_OCEAN/ROOM_6_13'
+    entry = world.get_region(olive + '__LOGIC__ENTRY_FROM_MOONLIGHT', 1)
+    assert entry.can_reach(state)
+    assert not world.get_region(olive, 1).can_reach(state)
+    assert not world.get_region('REGION_OLIVE_OCEAN/ROOM_6_12', 1).can_reach(state)
+    assert not world.get_region('REGION_OLIVE_OCEAN/ROOM_6_HUB', 1).can_reach(state)
+    assert not world.get_region('REGION_CABBAGE_CAVERN/ROOM_3_HUB_1', 1).can_reach(state)
+    assert not world.get_location(data.locations['LEVER_OLIVE_OCEAN_6_13'].label, 1).can_reach(state)
+    # Entering the physical room does set its one RoomSanity bit. The shared
+    # check must remain a sink, not an escape into the other compartment.
+    check = world.get_region(olive + '__ROOM_CHECK', 1)
+    assert check.can_reach(state)
+    assert not data.regions[check.name].exits
+    assert all(exit.connected_region.name == 'REGION_OLIVE_OCEAN/MAIN' for exit in check.exits)
+    assert len(check.locations) == room_sanity
+    assert world.get_region('REGION_MOONLIGHT_MANSION/ROOM_2_12_RIGHT', 1).can_reach(state)
+
+    state.collect(world.worlds[1].create_item('Olive Ocean 6-13 - Lever Wall'), True)
+    state.sweep_for_advancements()
+    assert world.get_region(olive, 1).can_reach(state)
+    assert world.get_region('REGION_OLIVE_OCEAN/ROOM_6_12', 1).can_reach(state)
+    assert world.get_region('REGION_CABBAGE_CAVERN/ROOM_3_HUB_1', 1).can_reach(state)

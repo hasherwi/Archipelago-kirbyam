@@ -17,6 +17,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
 
 ### Bug Fixes
+- Keep Moonlight arrivals in Olive 6-13 behind the received Olive lever wall while preserving the physical RoomSanity check and return chute.
 - Retry mGBA connections after self-connected sockets or malformed VERSION replies instead of stopping the client. Shared Archipelago transport and the stock BizHawk launcher are unchanged.
 - Preserve excluded Minny grants in Completely Random mode while retaining normal ability gating (Issue #997). Regenerate the ROM patch.
 - Correct the Carrot Castle lever placement and labels to room 5-05 (Issue #972).
@@ -28,7 +29,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Bootstrap Kirby build/test dependencies with checksum-pinned pip 26.2.2 and certifi 2026.10.19 after the eMudhra/emSign incident (Issue #978), with matching development guidance. Global AP dependencies, Docker and general workflows are unchanged.
 
 ### Known Limitations
-- Progression remains broadly two spheres: received items are needed to open the Dimension Mirror and defeat Dark Mind, but not to complete most of the game. Additional progression gates remain planned.
+- Hub Connection items add a progression layer before receiving all eight distinct Mirror Shards. Strict ordering around qualifying Central Circle connections still needs complete alternate-route validation; Candy arrival-to-exit traversal remains unproven.
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.

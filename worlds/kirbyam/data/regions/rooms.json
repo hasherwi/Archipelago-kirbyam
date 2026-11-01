@@ -1449,6 +1449,9 @@
     },
     "exits": {
       "REGION_OLIVE_OCEAN/ROOM_6_13": null
+    },
+    "logical_exit_overrides": {
+      "REGION_OLIVE_OCEAN/ROOM_6_13": "ENTRY_FROM_MOONLIGHT"
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_12_RIGHT": {
@@ -3227,6 +3230,14 @@
     "exits": {
       "REGION_OLIVE_OCEAN/ROOM_6_12": null,
       "REGION_MOONLIGHT_MANSION/ROOM_2_12_RIGHT": "oo_lever"
+    },
+    "logical_subregions": {
+      "ENTRY_FROM_MOONLIGHT": {
+        "exits": {
+          "REGION_OLIVE_OCEAN/ROOM_6_13": "oo_lever",
+          "REGION_MOONLIGHT_MANSION/ROOM_2_12_RIGHT": null
+        }
+      }
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_14": {

@@ -750,15 +750,13 @@ def _init() -> None:  # noqa: C901
             logical_region_name = logical_region_names[(parent_region_name, logical_key)]
             logical_region = RegionData(logical_region_name)
 
-            exits_raw = logical_def.get("exits", [])
-            if not isinstance(exits_raw, list):
-                raise TypeError(
-                    f"Logical subregion [{logical_key}] on [{parent_region_name}] exits must be a list"
-                )
+            exits_raw, exit_requirements = normalize_region_exits(logical_region_name, logical_def)
 
             for exit_name in exits_raw:
                 if isinstance(exit_name, str):
                     logical_region.exits.append(exit_name)
+                    if exit_name in exit_requirements:
+                        logical_region.exit_requirements[exit_name] = exit_requirements[exit_name]
 
             locations_raw = logical_def.get("locations", [])
             if not isinstance(locations_raw, list):
