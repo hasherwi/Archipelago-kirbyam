@@ -34,9 +34,9 @@ def validate_row(row: dict[str, Any], rooms: dict[str, Any], keys: set[str], rom
         if sanity.get("included") and sanity["bit_index"] != completion:
             raise ValueError("wrong completion-index join")
     status, url = row["verification"], row["wiki_url"]
-    if status not in {"page", "category", "shared", "unverified", "unresolved"}:
+    if status not in {"page", "category", "shared", "internal", "unverified", "unresolved"}:
         raise ValueError("unknown verification status")
-    if status in {"unverified", "unresolved"}:
+    if status in {"internal", "unverified", "unresolved"}:
         if url is not None:
             raise ValueError("unverified target must not pretend to be a verified URL")
     elif url != "https://wikirby.com/wiki/" + row["wiki_title"].replace(" ", "_"):

@@ -3656,8 +3656,8 @@
       "ap_keys": [],
       "wiki_title": null,
       "wiki_url": null,
-      "verification": "unresolved",
-      "note": "Unresolved research gap: populated record; empty objects/transitions; 16x13 collision grid with nine empty rows and four attribute-13 rows; purpose/reachability/wiki equivalent unestablished"
+      "verification": "internal",
+      "note": "Boss Endurance nonparticipant holding room: initializer assigns native 969 to nonhuman slots; no separately verified WiKirby room target, not an unused table slot"
     },
     {
       "native_id": 970,

@@ -2,9 +2,9 @@
 
 This is a complete **native table-slot inventory**, with an explicit mapping or
 exception for every slot. All 263 main-area room titles and URLs were verified
-against WiKirby's category listings. One special-room wiki equivalent remains
-unresolved; that row deliberately has no guessed link. Completeness refers
-to slot coverage, not certainty about every special room's purpose.
+against WiKirby's category listings. Native 969 is an internal Boss Endurance holding room without a separately
+verified wiki target; that row deliberately has no guessed link. Completeness
+refers to native inventory coverage, not one individual wiki page per record.
 No gameplay, region logic, locations, ROM patch or item pool changes accompany it.
 
 ## Coverage and identifiers
@@ -81,14 +81,15 @@ This does not mean those compartments are mutually traversable.
 `page` means the individual target page was retrieved (163 rows); `category`
 means the exact title and URL were verified through the area category (100 rows).
 `shared` means a verified article describes multiple native rooms or a general
-mode (22 rows). `unresolved` means no precise wiki equivalent established
-(1 row). Category verification is not a visual audit of every room's terrain.
+mode (22 rows). `internal` identifies the source-backed nonparticipant holding room
+(1 row); no individual wiki counterpart has been verified. No populated room
+identity remains unresolved in this inventory. Category verification is not a visual audit of every room's terrain.
 
-### Special rooms: resolved shared targets and remaining gap
+### Special rooms: shared targets and internal holding room
 
 The initial seven missing correspondences were research gaps, not evidence of
-seven rooms without wiki coverage. Six can now be associated with shared
-articles. None of these seven is established to be unused or internal-only.
+seven rooms without wiki coverage. Six now have shared article targets; the seventh is an internal holding room.
+None of these seven is an unpopulated slot.
 
 | Native IDs | Count | Classification and evidence |
 | --- | ---: | --- |
@@ -96,7 +97,7 @@ articles. None of these seven is established to be unused or internal-only.
 | 951 | 1 | Boss Endurance rest chamber: random ability statues plus Boss Challenge Door; boss-clear code returns to 951. |
 | 955, 956, 957 | 3 | Boss Endurance encounter rooms: Mr. Frosty, Batafire and Waddle Dee starts respectively; all three appear in the Boss Challenge Door destination table. |
 | 970 | 1 | Copy Ability Room: ability statues and return door to Central Circle (native 801); the shared article describes this connection and the Boss Endurance reuse. |
-| 969 | 1 | Unresolved research gap: populated table record, empty object list, no decoded transitions. Purpose and reachability remain unestablished. No verified wiki equivalent; this is not a claim that no page exists. |
+| 969 | 1 | Internal Boss Endurance holding room for nonparticipating Kirby slots. Verified initializer tables and assignments establish its role. No separately verified wiki room target. |
 
 The verified [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) article's
 Amazing Mirror section covers the initial chamber, rest chamber and the three
@@ -118,10 +119,9 @@ also returns to 951 in that mode. This supports played mode rooms, not unused
 slots. The native-to-wiki semantic join is an inference from this evidence;
 WiKirby does not itself publish these native IDs.
 
-For 969, the remaining work is a verified inbound reference or runtime trace
-establishing when it loads and its visible purpose. An empty object list and
-world-map-list membership are insufficient. Retain `unresolved` until that
-room-specific evidence exists.
+Native 969 is not an ordinary adventure entrance or an unused slot; see the
+initializer investigation below. Its missing individual wiki URL is an explicit
+internal-room exception, not an unresolved native identity.
 
 The three native Goal Game variants 980–982 share a
 [general article](https://wikirby.com/wiki/Goal_Game), and are distinct from
@@ -155,7 +155,7 @@ stale/reserved entry is plausible, but its development history is unproved.
 There is no evidence of a missing playable RoomSanity location or an AP gameplay
 bug, and no justification to load this sentinel as a room.
 
-### Native 969: populated, minimal geometry, identity still unknown
+### Native 969: Boss Endurance nonparticipant holding room
 
 Native 969 is different: its record at `0x93C914` is populated and uses map,
 solidity, object-list and completion index 285. Its descriptor pointer is valid
@@ -167,21 +167,35 @@ attribute 13 (flags `0x200`). The object list, completion list and solidity
 transition-record list are empty. This is a small 256 by 208 geometry, not a
 copy of native 970's 29 by 32 collision-cell chamber.
 
-No decoded tile/completion transition targets 969. The textual decompilation
-search found only its zero-coordinate map-list entry as a room-ID reference.
-These are bounded static results: compressed assets, computed destinations and
-script/object-driven entry paths can evade a literal/reference search. No
-runtime entry was established, so neither a definitive unused-room label nor a
-wiki counterpart is claimed. A verified inbound reference or isolated runtime
-trace remains the exact research gap. No ROM graphics or binary assets are
-included in this document.
+No decoded tile/completion transition targets 969, because the verified inbound
+path is an initializer rather than a door. The related
+[#1002 research](https://github.com/hasherwi/Archipelago-kirbyam/issues/1002#issuecomment-6553935841)
+provided that lead; it was independently checked against the pinned source and
+USA ROM:
+
+- [Subgame selection, case 3](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/subgame_menu.c#L820)
+  calls `sub_08025650(gNumHumanPlayers)` for Boss Endurance.
+- [The initializer](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08025650.s#L40)
+  selects room IDs from `gUnk_082DEB10` for participant slots and
+  `gUnk_082DEB48` for the others. All four USA halfwords at `0x2DEB10` are 950;
+  all four at `0x2DEB48` are 969. Its later loop also writes literal `0x3C9`
+  to the nonparticipant state entries (literal at ROM `0x257A4`).
+- [sub_080332BC](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080332BC.c#L26)
+  passes those IDs into `CreateKirby`, then initializes the nonhuman slots.
+
+Thus 969 is an internal holding room used by mode setup, not a normal playable
+room reached through a door. The earlier literal-only search missed the
+zero-padded assembly literal and room-ID tables. This resolves the native
+identity statically; it is not a new emulator acceptance claim. No separately
+verified WiKirby room page describes that internal slot, so the mapping keeps
+its URL null. No ROM graphics or binary assets are included.
 
 ## RoomSanity inclusion policy
 
 Owner-selected policy: exclude Boss Endurance rooms 950, 951 and 955–957;
 include the story-mode Copy Ability Room, native 970 (completion index 286).
 Keep that room distinct from the Boss Endurance starting variant, native 950.
-Native 969 remains excluded pending identification; native 806 is a sentinel.
+Native 969 remains excluded as an internal Boss Endurance holding room; native 806 is a sentinel.
 
 The inspected main baseline contains 263 physical checks and excludes all six
 of those populated mode/ability rooms. Thus Boss Endurance already satisfies
@@ -210,7 +224,7 @@ missing/duplicate AP keys, incorrect completion joins and stale Markdown.
 slot; it never writes ROM contents. Use `--write` to refresh the generated table
 after a reviewed JSON change. The validator does not contact WiKirby or convert
 an unresolved annotation into verified evidence. Further research can resolve
-native 969 using room-specific evidence; retain honest unknowns
+any future ambiguous records using room-specific evidence; retain honest unknowns
 if no equivalent exists.
 
 <!-- native-room-table:start -->
@@ -498,7 +512,7 @@ if no equivalent exists.
 | 955 / `0x3BB` | 282 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance Mid-Bosses 1 encounter: Mr. Frosty and object spawner; native 955 is an explicit Boss Challenge Door destination | — |
 | 956 / `0x3BC` | 283 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance Mid-Bosses 3 encounter: Batafire and object spawner; native 956 is an explicit Boss Challenge Door destination | — |
 | 957 / `0x3BD` | 284 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance Mid-Bosses 2 encounter: Waddle Dee and object spawner; native 957 is an explicit Boss Challenge Door destination | — |
-| 969 / `0x3C9` | 285 | No established wiki equivalent | **unresolved**: Unresolved research gap: populated record; empty objects/transitions; 16x13 collision grid with nine empty rows and four attribute-13 rows; purpose/reachability/wiki equivalent unestablished | — |
+| 969 / `0x3C9` | 285 | No established wiki equivalent | **internal**: Boss Endurance nonparticipant holding room: initializer assigns native 969 to nonhuman slots; no separately verified WiKirby room target, not an unused table slot | — |
 | 970 / `0x3CA` | 286 | [Copy Ability Room](https://wikirby.com/wiki/Copy_Ability_Room) | **shared**: Copy Ability Room linked to Central Circle: ability statues and return transition to native 801; shared article, distinct from native 950 Boss Endurance variant | — |
 | 980 / `0x3D4` | 5 | [Goal Game](https://wikirby.com/wiki/Goal_Game) | **shared**: Goal Game variant; shared general article, no individual room page established | — |
 | 981 / `0x3D5` | 6 | [Goal Game](https://wikirby.com/wiki/Goal_Game) | **shared**: Goal Game variant; shared general article, no individual room page established | — |
