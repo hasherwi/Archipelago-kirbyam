@@ -192,20 +192,21 @@ its URL null. No ROM graphics or binary assets are included.
 
 ## RoomSanity inclusion policy
 
-Owner-selected policy: exclude Boss Endurance rooms 950, 951 and 955–957;
-include the story-mode Copy Ability Room, native 970 (completion index 286).
-Keep that room distinct from the Boss Endurance starting variant, native 950.
-Native 969 remains excluded as an internal Boss Endurance holding room; native 806 is a sentinel.
+Keep Boss Endurance rooms 950, 951 and 955–957 excluded. The story-mode Copy
+Ability Room, native 970 (completion index 286), also remains excluded from
+RoomSanity by owner decision. Its mapping and identity remain documented here;
+it is distinct from Boss Endurance's starting variant, native 950. Native 969
+is an internal Boss Endurance holding room and remains excluded; native 806 is
+a sentinel.
 
-The inspected main baseline contains 263 physical checks and excludes all six
-of those populated mode/ability rooms. Thus Boss Endurance already satisfies
-the policy, while 970 needs one new check: **264 RoomSanity checks** after the
-separate gameplay follow-up. Existing RoomSanity IDs must remain unchanged.
-RoomSanity OFF stays at 116 current checks; ON would become 380. If the separate
-proposed 16 Goal Game completion checks are added, those totals become 132 and
-396 respectively. This documentation PR does not implement those checks or a
-Copy Ability Room access item. Room inclusion and access-item design are
-separate changes.
+The current catalog stays at **263 RoomSanity checks**. RoomSanity OFF has 116
+current checks; ON has 379. With the separate proposed 16 Goal Game completion
+checks, those totals would be **132 OFF / 395 ON**. No additional location ID is
+allocated for room 970. The unpublished RoomSanity-addition follow-up is dropped.
+
+The Copy Ability Room access item in [#1002](https://github.com/hasherwi/Archipelago-kirbyam/issues/1002)
+is a separate feature; granting access does not imply adding a RoomSanity check.
+This documentation PR implements neither that item nor Goal Game checks.
 
 ## Reproduce and validate
 
