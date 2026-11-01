@@ -1,0 +1,2 @@
+# CPython 3.12, Linux x86_64 only. No runtime dependencies; wheels only.
+bsdiff4==1.2.6 --hash=sha256:56c2728c96d1d4eb8e089e4797c018a56be3f905f440fb507773f44c567fcd38

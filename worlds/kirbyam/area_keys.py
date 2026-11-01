@@ -80,6 +80,11 @@ def area_key_entrance_area_ids() -> dict[str, int]:
             if source_area_id == destination_area_id:
                 continue
             gated[f"{source_region} -> {destination_region}"] = destination_area_id
+    # Gate admission to forced wind lanes before a player can be stranded at
+    # the later cross-area exit. Other room edges retain destination semantics.
+    gated["REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER -> "
+          "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT"] = 6
+    gated["REGION_CARROT_CASTLE/ROOM_5_05 -> REGION_CARROT_CASTLE/ROOM_5_06"] = 8
     return gated
 
 

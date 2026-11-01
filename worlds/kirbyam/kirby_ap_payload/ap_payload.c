@@ -1,10 +1,15 @@
 #include <stdint.h>
 
+#include "hub_connection_runtime_logic.h"
+#include "hub_save_logic.h"
 #include "statue_runtime_logic.h"
 #include "transition_runtime_logic.h"
+#include "transition_route_logic.h"
+#include "enemy_runtime_logic.h"
 #include "minor_chest_runtime_logic.h"
 #include "lever_runtime_logic.h"
 #include "vitality_runtime_logic.h"
+#include "color_runtime_logic.h"
 
 // Kirby AP item ID base offset
 #define KIRBY_ITEM_ID_BASE_OFFSET       3860000u  // must match worlds/kirbyam/data.py BASE_OFFSET
@@ -79,6 +84,11 @@
 #define AP_TRANSITION_EVENT_LAST_FRAME (*(volatile uint32_t*)(AP_BASE + 0x12Cu))
 #define AP_TRANSITION_EVENT_TELEMETRY_COOKIE (*(volatile uint32_t*)(AP_BASE + 0x130u))
 #define AP_TRANSITION_EVENT_TELEMETRY_COOKIE_VALUE 0x54524E31u /* "TRN1" */
+/* Client-owned hub connection items, keyed by native WorldMapDoor index (1..15). */
+#define AP_HUB_CONNECTION_ITEM_MASK (*(volatile uint32_t*)(AP_BASE + 0x134u))
+#define AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED 0xFFFFFFFFu
+/* Scratch world-props entry so AP-owned doors do not hide uncollected switches. */
+#define AP_HUB_SWITCH_INIT_STATE (*(volatile uint32_t*)(AP_BASE + 0x138u))
 #define AP_MINOR_CHEST_EVENT_RING_SLOT_COUNT 8u
 #define AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER 0x41504348u  // "APCH"
 #define KIRBY_MINOR_CHEST_NO_NATIVE_ITEM 0x63u
@@ -193,14 +203,18 @@ const unsigned char gArchipelagoInfo[16] = {0};
 
 /*
  * Per-seed runtime defaults written by rom.py after the shared base patch is
- * applied. The linker fixes these words at the final eight bytes of the
+ * applied. The linker fixes these words at the final twenty bytes of the
  * payload window. The initial gate mask protects startup/reset windows before
  * the client has synchronized live mailbox state; the statue mask carries the
  * exact seed-specific pool for per-touch randomization.
  */
+/* Per-seed Minny inclusion, defaulting to the safe vanilla exception. */
+__attribute__((used, section(".apconfig.minny")))
+volatile const uint32_t gApRandomizeMinny = 0u;
+
 /*
- * Resolved generation-time Starting Kirby Color. 0xFFFFFFFF preserves
- * compatibility with old procedure patches that do not write this word.
+ * Versioned starting-color/mode configuration (see color_runtime_logic.h).
+ * Legacy concrete IDs remain static; the unwritten 0xFFFFFFFF defaults to Pink.
  */
 __attribute__((used, section(".apconfig.color")))
 volatile const uint32_t gApStartingKirbyColorInitial = 0xFFFFFFFFu;
@@ -304,65 +318,127 @@ static void ap_record_minor_chest_collection_from_obj_ptr(uint32_t chest_obj_ptr
     ap_collect_small_chest_native(chest_index);
 }
 
-static void ap_set_hub_switch_flag(uint32_t door_index) {
-    if (door_index < 16u) {
-        AP_HUB_SWITCH_FLAGS |= (1u << door_index);
+#define AP_HUB_SAVED_CHECKS ((volatile uint32_t*)0x02028C7Cu)
+#define AP_HUB_ROM_AUTH ((const volatile uint32_t*)0x08F00000u)
+
+static __attribute__((noinline, long_call, section(".aphub")))
+void ap_set_hub_switch_flag(uint32_t bit) {
+    if (!ap_hub_record_check(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH, bit)) return;
+    AP_HUB_SWITCH_FLAGS = ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH);
+    switch (ap_hub_save_action(*(volatile uint32_t*)0x0203AD10u,
+                              *(volatile uint8_t*)0x0203AD3Cu,
+                              *(volatile uint8_t*)0x0203AD24u)) {
+        case 1u:
+            ((int16_t (*)(uint32_t, uint16_t))0x0800ACD5u)(
+                1u, ap_hub_save_slot(*(volatile uint16_t*)0x0203AD48u));
+            break;
+        case 2u: ((void (*)(uint32_t))0x08031CE5u)(8u); break;
+        default: break;
     }
+}
+
+static __attribute__((noinline, long_call, section(".aphub")))
+void ap_restore_hub_switch_checks(void) {
+    /* Assignment also handles native file changes without leaking old RAM bits. */
+    AP_HUB_SWITCH_FLAGS = ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH);
 }
 
 typedef uint32_t *(*KirbyWorldPropsEntryFn)(uint32_t, uint8_t, uint8_t);
 #define KIRBY_WORLD_PROPS_ENTRY_FN ((KirbyWorldPropsEntryFn)0x08002889u)
 #define KIRBY_WORLD_PROPS_HUB_UNLOCK_KIND 2u
+#define KIRBY_WORLD_MAP_TRANSITION_COMPLETE_FN ((WorldMapUnlockFn)0x08039671u)
 
 // sub_08039ED4 dispatches using enum WorldMapDoor where 0 = NO_UNLOCK.
 // AP hub-switch bits use a different stable ordering contract, so translate
 // explicitly and ignore non-unlock/unknown indices.
+#include "generated_hub_switch_tables.inc"
+
 static uint8_t ap_try_map_worldmap_door_to_hub_switch_bit(
     uint16_t door_index,
     uint32_t *out_bit,
     uint8_t *out_world_props_unlock_index
 ) {
-    if (out_bit == 0 || out_world_props_unlock_index == 0) {
+    if (out_bit == 0 || out_world_props_unlock_index == 0 || door_index == 0u || door_index > 15u) {
         return 0u;
     }
-
-    switch (door_index) {
-#include "generated_hub_switch_worldmap_cases.inc"
-    }
-
-    return 0u;
+    *out_bit = ap_hub_bits[door_index];
+    *out_world_props_unlock_index = ap_hub_props[door_index];
+    return 1u;
 }
 
-static uint8_t ap_is_hub_unlock_persisted(uint8_t world_props_unlock_index) {
-    volatile uint32_t *world_props_entry =
-        (volatile uint32_t*)KIRBY_WORLD_PROPS_ENTRY_FN(
-            KIRBY_WORLD_PROPS_HUB_UNLOCK_KIND,
-            world_props_unlock_index,
-            0u
-        );
+static volatile uint32_t *ap_get_hub_unlock_entry(uint8_t world_props_unlock_index) {
+    return (volatile uint32_t*)KIRBY_WORLD_PROPS_ENTRY_FN(
+        KIRBY_WORLD_PROPS_HUB_UNLOCK_KIND,
+        world_props_unlock_index,
+        0u
+    );
+}
+
+static uint8_t ap_unlock_hub_door(uint8_t world_props_unlock_index) {
+    volatile uint32_t *world_props_entry = ap_get_hub_unlock_entry(world_props_unlock_index);
     if (world_props_entry == 0) {
         return 0u;
     }
-    return ((*world_props_entry) != 0u) ? 1u : 0u;
+    /* The world-props unlock entry is the native state consumed by the map. */
+    *world_props_entry = 1u;
+    return 1u;
 }
 
-static void ap_sync_hub_switch_flags_from_world_props(void) {
+/* Use the existing appended Hub extension, preserving the fixed config ABI. */
+static __attribute__((noinline, long_call, section(".aphub")))
+void ap_apply_hub_connection_unlocks_from_mask(void) {
+    uint32_t item_mask = AP_HUB_CONNECTION_ITEM_MASK;
     uint16_t door_index;
+    if (item_mask == AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED) {
+        return;
+    }
+
     for (door_index = 1u; door_index <= 15u; door_index++) {
         uint32_t ap_hub_switch_bit;
         uint8_t world_props_unlock_index;
+        if ((item_mask & (1u << door_index)) == 0u) {
+            continue;
+        }
         if (ap_try_map_worldmap_door_to_hub_switch_bit(
                 door_index,
                 &ap_hub_switch_bit,
                 &world_props_unlock_index
-            ) == 0u) {
-            continue;
-        }
-
-        if (ap_is_hub_unlock_persisted(world_props_unlock_index) != 0u) {
-            ap_set_hub_switch_flag(ap_hub_switch_bit);
+            ) != 0u) {
+            (void)ap_unlock_hub_door(world_props_unlock_index);
         }
     }
+}
+
+/*
+ * Hook target for the Big Switch object's native state lookup in
+ * sub_0811938C. The door-to-hub initializer at sub_0802AD00 remains untouched
+ * and continues to consume the real persisted world-props state.
+ * An AP-owned door is not evidence that its physical switch was collected, so
+ * present a zero-valued scratch entry until the AP switch check itself is hit.
+ */
+__attribute__((used)) uint32_t *ap_on_hub_switch_init_state_lookup(
+    uint32_t unlock_kind,
+    uint32_t world_props_unlock_index,
+    uint32_t unlock_flags
+) {
+    if (unlock_kind == KIRBY_WORLD_PROPS_HUB_UNLOCK_KIND && world_props_unlock_index <= 0xFFu) {
+        uint32_t door;
+        ap_restore_hub_switch_checks();
+        for (door = 1u; door <= 15u; door++) {
+            if (ap_hub_props[door] == world_props_unlock_index) {
+                /* Physical checks remain independent even before client history,
+                 * and a saved hit stays hidden without owning its connection. */
+                AP_HUB_SWITCH_INIT_STATE = (AP_HUB_SWITCH_FLAGS >> ap_hub_bits[door]) & 1u;
+                return (uint32_t*)&AP_HUB_SWITCH_INIT_STATE;
+            }
+        }
+    }
+
+    return KIRBY_WORLD_PROPS_ENTRY_FN(
+        unlock_kind,
+        (uint8_t)world_props_unlock_index,
+        (uint8_t)unlock_flags
+    );
 }
 
 static void ap_set_vitality_chest_flag_for_room(uint16_t room_id) {
@@ -436,14 +512,7 @@ typedef void (*KirbyMirrorShardUpdateFn)(void *);
 typedef uint8_t (*KirbyCannonBoardFn)(void *);
 #define KIRBY_CANNON_BOARD_FN ((KirbyCannonBoardFn)0x080510EDu)
 
-static uint16_t ap_room_doors_idx(uint16_t room_id) {
-    if ((uint32_t)room_id >= ROOM_PROPS_ROOM_ID_LIMIT) {
-        return 0xFFFFu;
-    }
-    return *(volatile uint16_t*)(ROOM_PROPS_BASE_ADDR + ((uint32_t)room_id * ROOM_PROPS_STRIDE) + ROOM_PROPS_DOORS_IDX_OFFSET);
-}
-
-static uint8_t ap_native_area_for_room(uint16_t room_id) {
+static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_native_area_for_room(uint16_t room_id) {
     uint32_t info_addr;
 
     if ((uint32_t)room_id >= KIRBY_ROOM_AREA_INFO_COUNT) {
@@ -459,7 +528,7 @@ static uint8_t ap_native_area_for_room(uint16_t room_id) {
     return *(volatile const uint8_t*)(info_addr + KIRBY_ROOM_AREA_INFO_AREA_OFFSET);
 }
 
-static uint8_t ap_is_keyed_inter_area_edge(uint16_t source_room, uint16_t destination_room) {
+static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_is_keyed_inter_area_edge(uint16_t source_room, uint16_t destination_room) {
     uint8_t source_area = ap_native_area_for_room(source_room);
     uint8_t destination_area = ap_native_area_for_room(destination_room);
 
@@ -475,7 +544,7 @@ static uint8_t ap_is_keyed_inter_area_edge(uint16_t source_room, uint16_t destin
  * Native areas 0..8 map to AP areas 1..9. Rainbow Route (native 0),
  * Tutorial (9), and Dimension Mirror (10) are never Area Key destinations.
  */
-__attribute__((used)) uint32_t ap_transition_allowed(uint16_t source_room, uint16_t destination_room) {
+__attribute__((used, noinline, long_call, section(".aphub"))) uint32_t ap_transition_allowed(uint16_t source_room, uint16_t destination_room) {
     uint8_t destination_area;
 
     if (ap_is_keyed_inter_area_edge(source_room, destination_room) == 0u) {
@@ -488,7 +557,7 @@ __attribute__((used)) uint32_t ap_transition_allowed(uint16_t source_room, uint1
 
 /* The ring is ROM-to-client telemetry. Each slot has sequence, packed room IDs,
  * and method/decision/reason so a reconnect can replay only unseen attempts. */
-static void ap_initialize_transition_event_telemetry(void) {
+static __attribute__((noinline, long_call, section(".aphub"))) void ap_initialize_transition_event_telemetry(void) {
     uint32_t i;
 
     if (AP_TRANSITION_EVENT_TELEMETRY_COOKIE == AP_TRANSITION_EVENT_TELEMETRY_COOKIE_VALUE) return;
@@ -504,7 +573,7 @@ static void ap_initialize_transition_event_telemetry(void) {
     AP_TRANSITION_EVENT_TELEMETRY_COOKIE = AP_TRANSITION_EVENT_TELEMETRY_COOKIE_VALUE;
 }
 
-static void ap_log_transition_attempt(uint16_t source_room, uint16_t destination_room,
+static __attribute__((noinline, long_call, section(".aphub"))) void ap_log_transition_attempt(uint16_t source_room, uint16_t destination_room,
                                       uint8_t method, uint8_t allowed, uint8_t reason) {
     uint32_t signature = ((uint32_t)source_room << 16) | destination_room;
     uint32_t metadata = ((uint32_t)method & 0xFu)
@@ -534,7 +603,7 @@ static void ap_log_transition_attempt(uint16_t source_room, uint16_t destination
     AP_TRANSITION_EVENT_COUNTER = counter;
 }
 
-static uint8_t ap_transition_reason(uint16_t source_room, uint16_t destination_room, uint8_t allowed) {
+static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_transition_reason(uint16_t source_room, uint16_t destination_room, uint8_t allowed) {
     uint8_t source_area = ap_native_area_for_room(source_room);
     uint8_t destination_area = ap_native_area_for_room(destination_room);
 
@@ -545,7 +614,7 @@ static uint8_t ap_transition_reason(uint16_t source_room, uint16_t destination_r
     return allowed ? 3u : 2u; /* destination key present / missing */
 }
 
-static uint8_t ap_current_special_tile_destination(void *kirby, uint16_t *out_destination_room,
+static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_current_special_tile_destination(void *kirby, uint16_t *out_destination_room,
                                                    uint8_t *out_spawn_x, uint8_t *out_spawn_y) {
     uint32_t kirby_addr = (uint32_t)kirby;
     uint8_t player_id = *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_PLAYER_OFFSET);
@@ -588,7 +657,7 @@ static uint8_t ap_current_special_tile_destination(void *kirby, uint16_t *out_de
     return 1u;
 }
 
-static uint8_t ap_current_special_tile_is_locked(void *kirby) {
+static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_current_special_tile_is_locked(void *kirby) {
     uint32_t kirby_addr = (uint32_t)kirby;
     uint16_t destination_room;
 
@@ -601,14 +670,17 @@ static uint8_t ap_current_special_tile_is_locked(void *kirby) {
     ) == 0u);
 }
 
-static uint8_t ap_button_transition_destination(void *kirby, uint16_t *out_destination_room) {
+static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_button_transition_destination(void *kirby, uint16_t *out_destination_room) {
     uint32_t kirby_addr = (uint32_t)kirby;
     uint16_t destination_room;
+    uint8_t spawn_x, spawn_y;
     uint32_t contact_object_addr;
     int8_t object_destination_room;
 
-    if (ap_current_special_tile_destination(kirby, &destination_room, 0, 0) != 0u) {
-        *out_destination_room = destination_room;
+    if (ap_current_special_tile_destination(kirby, &destination_room, &spawn_x, &spawn_y) != 0u) {
+        *out_destination_room = ap_transition_route_destination(
+            *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_ROOM_OFFSET),
+            destination_room, spawn_x, spawn_y);
         return 1u;
     }
 
@@ -642,7 +714,7 @@ static uint8_t ap_button_transition_destination(void *kirby, uint16_t *out_desti
  * around the transition setup; an allowed transition returns the exact unk58
  * value the overwritten retail instructions would have stored.
  */
-__attribute__((used)) uint32_t ap_prepare_automatic_transition(void *kirby, uint32_t collision_flags) {
+__attribute__((used, noinline, long_call, section(".aphub"))) uint32_t ap_prepare_automatic_transition(void *kirby, uint32_t collision_flags) {
     uint32_t kirby_addr = (uint32_t)kirby;
     uint16_t source_room = *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_ROOM_OFFSET);
     uint16_t destination_room;
@@ -666,7 +738,7 @@ __attribute__((used)) uint32_t ap_prepare_automatic_transition(void *kirby, uint
  * while preserving native behavior and checking real attempts before flags
  * mutate.
  */
-__attribute__((used)) uint8_t ap_on_button_special_transition(void *kirby) {
+__attribute__((used, noinline, long_call, section(".aphub"))) uint8_t ap_on_button_special_transition(void *kirby) {
     uint32_t kirby_addr = (uint32_t)kirby;
     uint16_t destination_room;
     uint16_t source_room = *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_ROOM_OFFSET);
@@ -684,7 +756,12 @@ __attribute__((used)) uint8_t ap_on_button_special_transition(void *kirby) {
         : 1u;
 
     if (has_destination != 0u) {
-        ap_log_transition_attempt(source_room, destination_room, 5u, allowed,
+        ap_log_transition_attempt(source_room, destination_room,
+            (source_room == 743u && destination_room == 824u)
+            || (source_room == 824u && destination_room == 743u)
+            || (source_room == 170u && destination_room == 619u)
+            || (source_room == 619u && destination_room == 170u)
+                ? AP_TRANSITION_METHOD_WIND_CHUTE : 5u, allowed,
                                   ap_transition_reason(source_room, destination_room, allowed));
     }
     if (allowed == 0u) {
@@ -705,7 +782,9 @@ __attribute__((used)) uint8_t ap_on_explicit_room_transition(
     uint16_t tile_destination_room;
     uint8_t tile_spawn_x;
     uint8_t tile_spawn_y;
-    uint8_t allowed = (uint8_t)ap_transition_allowed(source_room, destination_room);
+    uint16_t permission_room = ap_transition_route_destination(
+        source_room, destination_room, spawn_x, spawn_y);
+    uint8_t allowed = (uint8_t)ap_transition_allowed(source_room, permission_room);
 
     /* This helper is shared by player transitions and AI/follower state machines.
      * Attribute telemetry only for a human holding Up at the matching source
@@ -719,8 +798,9 @@ __attribute__((used)) uint8_t ap_on_explicit_room_transition(
         && ap_transition_matches_special_tile(
             tile_destination_room, tile_spawn_x, tile_spawn_y,
             destination_room, spawn_x, spawn_y) != 0u) {
-        ap_log_transition_attempt(source_room, destination_room, 0u, allowed,
-                                  ap_transition_reason(source_room, destination_room, allowed));
+        ap_log_transition_attempt(source_room, permission_room,
+            permission_room != destination_room ? AP_TRANSITION_METHOD_WIND_CHUTE : 0u, allowed,
+            ap_transition_reason(source_room, permission_room, allowed));
     }
     if (allowed == 0u) {
         return 0u;
@@ -737,7 +817,8 @@ __attribute__((used)) uint8_t ap_on_cannon_board_transition(void *kirby) {
     uint16_t destination_room;
     uint8_t allowed;
 
-    if (cannon_addr < KIRBY_EWRAM_START || cannon_addr + 0xBCu > KIRBY_EWRAM_END) {
+    if (!((cannon_addr >= KIRBY_EWRAM_START && cannon_addr <= KIRBY_EWRAM_END - 0xBCu)
+        || (cannon_addr >= KIRBY_IWRAM_START && cannon_addr <= KIRBY_IWRAM_END - 0xBCu))) {
         return KIRBY_CANNON_BOARD_FN(kirby);
     }
     source_room = *(volatile uint16_t*)(kirby_addr + KIRBY_STRUCT_ROOM_OFFSET);
@@ -803,7 +884,7 @@ __attribute__((used)) void ap_on_mirror_shard_update(void *shard) {
  * Kirby's destination room and spawn point directly. Guard that shared helper
  * before it performs those writes, then preserve its retail behavior otherwise.
  */
-__attribute__((used)) uint32_t ap_on_warp_star_transition(void *warp_star, uint32_t human_only) {
+__attribute__((used, noinline, long_call, section(".aphub"))) uint32_t ap_on_warp_star_transition(void *warp_star, uint32_t human_only) {
     uint32_t warp_star_addr = (uint32_t)warp_star;
     uint32_t kirby_addr;
     uint16_t source_room;
@@ -817,9 +898,9 @@ __attribute__((used)) uint32_t ap_on_warp_star_transition(void *warp_star, uint3
 
     kirby_addr = *(volatile uint32_t*)(warp_star_addr + KIRBY_WARP_STAR_KIRBY_PTR_OFFSET);
     if (!((kirby_addr >= KIRBY_EWRAM_START
-            && kirby_addr + KIRBY_STRUCT_ROOM_OFFSET + sizeof(uint16_t) <= KIRBY_EWRAM_END)
+            && kirby_addr <= KIRBY_EWRAM_END - KIRBY_STRUCT_ROOM_OFFSET - sizeof(uint16_t))
         || (kirby_addr >= KIRBY_IWRAM_START
-            && kirby_addr + KIRBY_STRUCT_ROOM_OFFSET + sizeof(uint16_t) <= KIRBY_IWRAM_END))) {
+            && kirby_addr <= KIRBY_IWRAM_END - KIRBY_STRUCT_ROOM_OFFSET - sizeof(uint16_t)))) {
         return KIRBY_WARP_STAR_TRANSITION_FN(warp_star, human_only);
     }
 
@@ -842,8 +923,9 @@ __attribute__((used)) uint32_t ap_on_query_special_door_state(
     uint8_t spawn_x,
     uint8_t spawn_y
 ) {
-    if (ap_is_keyed_inter_area_edge(room_id, destination_room) != 0u) {
-        return ap_transition_allowed(room_id, destination_room);
+    uint16_t permission_room = ap_transition_route_destination(room_id, destination_room, spawn_x, spawn_y);
+    if (ap_is_keyed_inter_area_edge(room_id, permission_room) != 0u) {
+        return ap_transition_allowed(room_id, permission_room);
     }
 
     return KIRBY_SPECIAL_DOOR_VISITED_FN(room_id, destination_room, spawn_x, spawn_y);
@@ -882,6 +964,14 @@ static void ap_update_lever_wall(void *chest) {
     volatile uint32_t *applied = (volatile uint32_t*)(chest_obj_ptr + 0xDCu);
     uint8_t player = *(volatile uint8_t*)(chest_obj_ptr + 0x56u);
     uint8_t room_slot;
+    /* Server-acknowledged pulls can be restored after this object was loaded.
+     * Only retire the waiting state: never replace an active native pull/popup.
+     * This changes physical appearance, not wall ownership or its counter. */
+    if ((AP_LEVER_ACTIVATION_FLAGS & ap_lever_bit_for_obj(chest_obj_ptr)) != 0u
+        && *(KirbyChestFn volatile *)(chest_obj_ptr + 0x78u) == KIRBY_CHEST_WAIT_FN) {
+        *(volatile uint8_t*)(chest_obj_ptr + 0x83u) = 3u;
+        *(KirbyChestFn volatile *)(chest_obj_ptr + 0x78u) = KIRBY_CHEST_OPEN_FN;
+    }
     if (player >= KIRBY_PLAYER_COUNT
         || ap_lever_should_open_wall(ap_lever_wall_owned(chest_obj_ptr), *applied) == 0u) {
         return;
@@ -1065,7 +1155,7 @@ typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
  */
 #define KIRBY_TRANSITIONING_ABILITY_OFFSET 0xDDu
 
-static uint32_t ap_mix_u32(uint32_t x) {
+static __attribute__((noinline, long_call, section(".aphub"))) uint32_t ap_mix_u32(uint32_t x) {
     x ^= x >> 16;
     x *= 0x7FEB352Du;
     x ^= x >> 15;
@@ -1129,29 +1219,29 @@ static uint8_t ap_select_random_allowed_ability_excluding(
 // In completely-random mode, this rerolls a fresh ability for each request,
 // including dropped ability-star transitions. Direct statue touches bypass this
 // function and are handled by ap_on_start_copy_ability_transition below.
-__attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, uint32_t ability_flags) {
+/* Assembly entry snapshots incoming r5/LR before any C prologue or RNG call. */
+__attribute__((used, section(".text.ap_request_impl"))) void ap_on_request_copy_ability_transition_c(
+    void *kirby, uint32_t ability_flags, uint32_t source_obj_ptr, uint32_t caller_lr
+) {
     uint32_t mode = AP_ABILITY_RANDOMIZATION_MODE;
     uint32_t rewritten_flags = ability_flags;
     uint8_t selected_ability = (uint8_t)(ability_flags & KIRBY_ABILITY_MASK);
     uint8_t is_ability_star =
         ((ability_flags & KIRBY_ABILITY_CHANGE_IS_ABILITY_STAR) != 0u) ? 1u : 0u;
 
-    if (mode == ABILITY_RANDOMIZATION_MODE_COMPLETELY_RANDOM) {
-        register uint32_t source_obj_ptr asm("r5");
+    uint32_t caller_pc = (caller_lr & ~1u) - 4u;
+    uint8_t source_type = 0xFFu;
+    if (ap_enemy_has_verified_source(caller_pc, source_obj_ptr) != 0u) {
+        source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
+    }
+
+    if (ap_enemy_should_reroll(mode, gApRandomizeMinny, source_type) != 0u) {
         uint32_t no_ability_weight = AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT;
         uint32_t allowed_mask = AP_ABILITY_RANDOMIZATION_ALLOWED_MASK;
         uint32_t random_roll = ap_next_rng_u32();
         uint32_t source_addr = 0u;
         uint32_t source_kind = ABILITY_REROLL_SOURCE_KIND_NONE;
-        uint32_t caller_lr_snapshot = 0u;
-        uint32_t caller_pc = 0u;
         uint32_t kirby_index = (uint32_t)KIRBY_CURRENT_PLAYER;
-
-        __asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));
-        caller_pc = caller_lr_snapshot & ~1u;
-        if (caller_pc >= 4u) {
-            caller_pc -= 4u;
-        }
 
         if (is_ability_star != 0u) {
             no_ability_weight = 0u;
@@ -1183,7 +1273,7 @@ __attribute__((used)) void ap_on_request_copy_ability_transition(void *kirby, ui
         } else {
             if (source_obj_ptr == 0u) {
                 source_kind = ABILITY_REROLL_SOURCE_KIND_NULL_SOURCE_PTR;
-            } else if (source_obj_ptr >= 0x02000000u && source_obj_ptr < 0x02040000u) {
+            } else if (ap_enemy_source_pointer_is_readable(source_obj_ptr) != 0u) {
                 uint8_t source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
                 source_kind = ABILITY_REROLL_SOURCE_KIND_OBJECT2_TYPE;
                 source_addr = ENEMY_ABILITY_TABLE_BASE_ADDR + ((uint32_t)source_type * ENEMY_ABILITY_TABLE_STRIDE);
@@ -1390,24 +1480,26 @@ __attribute__((used)) void ap_on_collect_sound_player_chest(uint32_t reward_inde
 
 typedef void (*WorldMapUnlockFn)(void);
 
-// Hook target for the world-map unlock dispatcher call in sub_08039ED4.
-// r0 contains the selected unlock function pointer from gUnk_0834BD94 and r4
-// holds the task pointer whose +0x08 halfword stores the WorldMapDoor index.
-__attribute__((used)) void ap_on_world_map_unlock_call(WorldMapUnlockFn unlock_fn) {
-    register uint32_t task_ptr asm("r4");
-    uint16_t door_index = *(volatile uint16_t*)(task_ptr + 0x08u);
-    uint32_t ap_hub_switch_bit;
-    uint8_t world_props_unlock_index;
-
-    unlock_fn();
-
-    if (ap_try_map_worldmap_door_to_hub_switch_bit(
-            door_index,
-            &ap_hub_switch_bit,
-            &world_props_unlock_index
-        ) != 0u && ap_is_hub_unlock_persisted(world_props_unlock_index) != 0u) {
-        ap_set_hub_switch_flag(ap_hub_switch_bit);
+/* Dispatcher indices 0..9 are non-Hub; 10..24 are the 15 unlock
+ * callbacks. Its task index is NOT WorldMapDoor. Identify
+ * the selected callback in r0, without reading an undeclared caller register.
+ * patch_rom validates this exact USA table before installing the hook. */
+static __attribute__((noinline, long_call, section(".aphub")))
+void ap_dispatch_hub_unlock_callback(WorldMapUnlockFn unlock_fn) {
+    const volatile uint32_t *callbacks = (const volatile uint32_t*)0x0834BDBCu;
+    uint32_t door;
+    for (door = 1u; door <= 15u; door++) {
+        if ((uintptr_t)unlock_fn == callbacks[door - 1u]) {
+            ap_set_hub_switch_flag(ap_hub_bits[door]);
+            KIRBY_WORLD_MAP_TRANSITION_COMPLETE_FN();
+            return;
+        }
     }
+    if (unlock_fn != 0) unlock_fn();
+}
+
+__attribute__((used)) void ap_on_world_map_unlock_call(WorldMapUnlockFn unlock_fn) {
+    ap_dispatch_hub_unlock_callback(unlock_fn);
 }
 
 /* Format-2 per-seed bounds apply before connecting after native reload. */
@@ -1435,22 +1527,48 @@ static void ap_sync_active_kirby_health_from_vitality(void) {
     *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_MAX_HP_OFFSET) = vitality_total;
 }
 
-static uint8_t ap_is_supported_kirby_color(uint32_t color_id) {
-    return color_id <= 13u ? 1u : 0u;
-}
+/* Only a confirmed owned-paint menu action writes this saved marker. */
+#define AP_SAVED_PAINT_CHOICE (*(volatile uint16_t*)0x02038982u)
+#define KIRBY_SAVE_ID (*(volatile uint16_t*)0x0203AD48u)
+#define KIRBY_PRESSED_KEYS (*(volatile uint16_t*)0x030039FCu)
+#define KIRBY_MAIN_FLAGS (*(volatile uint32_t*)0x03002440u)
+#define KIRBY_BLD_CONTROL (*(volatile uint16_t*)0x030024E8u)
+#define KIRBY_BLD_Y (*(volatile uint16_t*)0x030024ECu)
+#define KIRBY_HUD_TASK (*(volatile uint32_t*)0x03000010u)
+#define KIRBY_MENU_SELECT_FN ((uint32_t (*)(uint8_t*))0x081447E1u)
+#define KIRBY_SAVE_WORLD_FN ((int16_t (*)(uint32_t, uint16_t))0x0800ACD5u)
+#define KIRBY_TRANSFORM_BG_PALETTE_FN ((void (*)(const uint16_t*, uint8_t, uint16_t))0x08158335u)
+#define KIRBY_LOAD_BG_PALETTE_FN ((void (*)(const uint16_t*, uint8_t, uint16_t))0x0803D21Du)
 
 static uint32_t ap_get_effective_starting_kirby_color(void) {
-    uint32_t runtime_color = AP_STARTING_KIRBY_COLOR_ID;
+    uint32_t runtime = AP_MAILBOX_INIT_COOKIE == AP_MAILBOX_INIT_COOKIE_VALUE
+        ? AP_STARTING_KIRBY_COLOR_ID : AP_COLOR_INVALID;
+    return ap_color_resolve(gApStartingKirbyColorInitial, runtime,
+                            AP_SAVED_PAINT_CHOICE, KIRBY_SPRAY_PAINT_FLAGS);
+}
 
-    /* Prefer the live client value once synchronized. Before that, use the
-     * generation-time ROM word so startup and offline/reset windows are safe. */
-    if (ap_is_supported_kirby_color(runtime_color) != 0u) {
-        return runtime_color;
+/* Runs only at the treasure menu's A-button handler, after native save loading.
+ * This also records choosing an owned paint that happens to match an AP default:
+ * native code otherwise treats that genuine confirmation as a no-op. */
+__attribute__((used)) uint32_t ap_on_treasure_paint_selection(uint8_t *menu) {
+    uint32_t index = menu[0x2A];
+    if ((KIRBY_PRESSED_KEYS & 1u) && index < 40u && menu[2u + index]
+        && KIRBY_SAVE_ID < 3u) {
+        uint32_t tag = ((const uint16_t*)0x08386A50u)[index * 2u];
+        uint32_t paint = tag - 0x101u;
+        if (tag == 0x100u || (ap_native_color_valid(paint)
+            && (KIRBY_SPRAY_PAINT_FLAGS & (1u << paint)))) {
+            uint16_t saved = tag == 0x100u ? 0u : ap_color_choice_encode(paint);
+            if (AP_SAVED_PAINT_CHOICE != saved) {
+                AP_SAVED_PAINT_CHOICE = saved;
+                /* Use the native serializer for both checksum-protected copies.
+                 * Never write raw SRAM or save from the per-frame palette path. */
+                KIRBY_SAVE_WORLD_FN(1u, KIRBY_SAVE_ID);
+            }
+            AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
+        }
     }
-    if (ap_is_supported_kirby_color(gApStartingKirbyColorInitial) != 0u) {
-        return gApStartingKirbyColorInitial;
-    }
-    return 0xFFFFFFFFu;
+    return KIRBY_MENU_SELECT_FN(menu);
 }
 
 static uint8_t ap_is_player_kirby_ready(uint8_t player) {
@@ -1490,53 +1608,41 @@ __attribute__((used)) void ap_on_start_single_player_game(
     const int32_t *positions,
     const uint32_t *flags
 ) {
-    uint32_t desired_color = gApStartingKirbyColorInitial;
-
-    if (ap_is_supported_kirby_color(desired_color) != 0u) {
-        KIRBY_SELECTED_COLOR = (int16_t)desired_color;
-        KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] =
-            (uint8_t)desired_color;
-    }
+    uint32_t desired_color = ap_native_color(ap_get_effective_starting_kirby_color());
+    KIRBY_SELECTED_COLOR = (int16_t)desired_color;
+    KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] = (uint8_t)desired_color;
+    AP_STARTING_KIRBY_COLOR_APPLIED = AP_COLOR_STARTUP;
 
     KIRBY_START_GAME_FN(mode, arg1, rooms, positions, flags);
+    AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
 }
 
 static void ap_apply_starting_kirby_color_config(void) {
     uint32_t desired_color;
     uint32_t kirby_addr;
-
-    if (AP_STARTING_KIRBY_COLOR_APPLIED != 0u) {
-        return;
-    }
-
-    desired_color = ap_get_effective_starting_kirby_color();
-    if (ap_is_supported_kirby_color(desired_color) == 0u) {
-        return;
-    }
-
-    /* Pink is the native/default no-override choice. The startup hook still
-     * writes Pink before CreateKirby, but no runtime palette rebuild is needed. */
-    if (desired_color == 0u) {
-        AP_STARTING_KIRBY_COLOR_APPLIED = 1u;
-        return;
-    }
-
-    if (ap_is_player_kirby_ready(KIRBY_STARTING_COLOR_PLAYER) == 0u) {
-        return;
-    }
-
-    kirby_addr = KIRBY_STRUCTS_ADDR
-        + ((uint32_t)KIRBY_STARTING_COLOR_PLAYER * KIRBY_STRUCT_STRIDE);
-
-    /* Keep all native color sources coherent. Merely changing Kirby::color does
-     * not update the OBJ palette already cached in palette RAM. */
+    uint32_t hud = KIRBY_HUD_TASK;
+    if (AP_STARTING_KIRBY_COLOR_APPLIED != 0u) return;
+    /* A live gameplay HUD owns BG bank 15. Menu tasks can reuse its memory.
+     * RGB transformation flags can remain enabled throughout normal gameplay;
+     * use the native loaders instead of treating those flags as an active fade. */
+    if (hud < 0x03000000u || hud >= 0x03007FECu || (hud & 3u)
+        || *(volatile uint32_t*)(hud + 8u) != 0x08033B9Du
+        || ((KIRBY_BLD_CONTROL & 0x80u) && KIRBY_BLD_Y != 0u)
+        || KIRBY_CURRENT_PLAYER != KIRBY_STARTING_COLOR_PLAYER
+        || (DEMO_PLAYBACK_FLAGS & 0x12u)
+        || !ap_is_player_kirby_ready(KIRBY_STARTING_COLOR_PLAYER)) return;
+    desired_color = ap_native_color(ap_get_effective_starting_kirby_color());
+    kirby_addr = KIRBY_STRUCTS_ADDR;
     KIRBY_SELECTED_COLOR = (int16_t)desired_color;
-    KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] =
-        (uint8_t)desired_color;
-    *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_COLOR_OFFSET) =
-        (uint8_t)desired_color;
-
+    KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] = (uint8_t)desired_color;
+    *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_COLOR_OFFSET) = (uint8_t)desired_color;
     KIRBY_REFRESH_PALETTE_FN(KIRBY_STARTING_COLOR_PLAYER);
+    KIRBY_LOAD_BG_PALETTE_FN((const uint16_t*)(0x0834BB20u + desired_color * 32u), 0xF0u, 16u);
+    if (KIRBY_MAIN_FLAGS & 0x10000u) {
+        /* The raw loader also preserves the resolved HUD row in its backup. */
+        KIRBY_TRANSFORM_BG_PALETTE_FN((const uint16_t*)0x02022300u, 0xF0u, 16u);
+    }
+    KIRBY_MAIN_FLAGS |= 1u; /* Native VBlank uploader consumes the BG sync flag. */
     AP_STARTING_KIRBY_COLOR_APPLIED = 1u;
 }
 
@@ -1700,6 +1806,75 @@ static void ap_trap_battery_drain(void) {
     *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_BATTERY_OFFSET) = 0u;
 }
 
+/* The native input decoder reads gHeldKeys and derives Kirby's press edges.
+ * Keep native room/boss/ability eligibility and cancellation authoritative. */
+#define HUB_HELD_KEYS (*(volatile uint16_t *)0x03002E90u)
+#define HUB_STATE_FN (*(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 0x78u))
+#define HUB_CALL_STATE 0x0805701Du
+#define HUB_CHARGE_STATE 0x080573D1u
+#define HUB_TAKEOFF_STATE 0x080575D9u
+#define HUB_EXT __attribute__((noinline, long_call, section(".aphub")))
+
+static HUB_EXT uint8_t ap_hub_pending_ready(void) {
+    uint32_t hud;
+    uint16_t animation = *(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0xD4u);
+    if (AP_MAILBOX_INIT_COOKIE != AP_MAILBOX_INIT_COOKIE_VALUE
+        || AP_IN_FLAG != 1u
+        || AP_IN_ITEM_ID != KIRBY_ITEM_ID_BASE_OFFSET + 300u) return 0u;
+    if (AI_KIRBY_STATE != AI_STATE_NORMAL
+        || (DEMO_PLAYBACK_FLAGS & 0x16u) != 0u
+        || (*(volatile uint32_t *)0x03002440u & 0x800u) != 0u
+        || KIRBY_CURRENT_PLAYER != 0u
+        || *(volatile uint8_t *)0x0203AD30u != 1u) return 0u;
+    hud = KIRBY_HUD_TASK;
+    if (hud < 0x03000000u || hud >= 0x03007FECu || (hud & 3u)
+        || *(volatile uint32_t *)(hud + 8u) != 0x08033B9Du) return 0u;
+    if ((*(volatile uint8_t *)0x03000514u & 0x11u) != 0u
+        || *(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + KIRBY_STRUCT_TASK_OFFSET) == 0u
+        || *(volatile int8_t *)(KIRBY_STRUCTS_ADDR + KIRBY_STRUCT_HP_OFFSET) <= 0
+        || animation == 39u || animation > 122u
+        || *(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 0x110u) != 0u) return 0u;
+    return 1u;
+}
+
+static HUB_EXT uint8_t ap_hub_idle_ready(void) {
+    return (*(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 8u) & 0x3800B00u) == 0u
+        && (*(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 0xCu) & 0x1000u) != 0u;
+}
+
+HUB_EXT void ap_hub_tasks(void) {
+    uint16_t held = HUB_HELD_KEYS;
+    uint32_t before = HUB_STATE_FN;
+    uint8_t ready = ap_hub_pending_ready();
+    uint8_t calling = before == HUB_CALL_STATE || before == HUB_CHARGE_STATE;
+    uint8_t inject = 0u;
+    if (ready && (held & 0xCu) == 0u
+        && *(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0x60u) != 0x321u) {
+        if (calling) {
+            /* Only sustain native L-call states, never other phone actions. */
+            inject = (*(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 0xCu) & 0x40000u) != 0u;
+        } else if (ap_hub_idle_ready()
+            && (*(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0x118u) & 0x200u) == 0u) {
+            /* Rejected native presses get a release frame, then a new edge.
+             * Physical input is never cleared, including a user's held L. */
+            inject = 1u;
+        }
+    }
+    if (inject) HUB_HELD_KEYS = held | 0x200u;
+    ((void (*)(void))0x08152CF5u)();
+    HUB_HELD_KEYS = held;
+    if (!ap_hub_pending_ready()) return;
+    /* Accept only this frame's native charge -> takeoff transition. A receipt
+     * arriving during an earlier takeoff must wait for safe arrival instead. */
+    if (!(ready && before == HUB_CHARGE_STATE && HUB_STATE_FN == HUB_TAKEOFF_STATE)
+        && !(*(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0x60u) == 0x321u
+             && ap_hub_idle_ready())) return;
+    AP_DEBUG_LAST_ITEM_ID = AP_IN_ITEM_ID;
+    AP_DEBUG_LAST_FROM = AP_IN_PLAYER;
+    AP_ITEM_RCVD_COUNTER++;
+    AP_IN_FLAG = 0u;
+}
+
 // Returns 1 if item was successfully processed, 0 if unrecognized
 static uint8_t ap_apply_item(uint32_t ap_item_id) {
     // 1_UP = BASE+1
@@ -1848,6 +2023,22 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         return 1u;
     }
 
+    // HUB_CONNECTION_* = BASE+401 .. BASE+415; enum values 1..15 match WorldMapDoor.
+    if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 401u)
+        && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 415u)) {
+        uint16_t door_index = (uint16_t)(ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 400u));
+        uint32_t ap_hub_switch_bit;
+        uint8_t world_props_unlock_index;
+        if (ap_try_map_worldmap_door_to_hub_switch_bit(
+                door_index,
+                &ap_hub_switch_bit,
+                &world_props_unlock_index
+            ) == 0u) {
+            return 0u;
+        }
+        return ap_unlock_hub_door(world_props_unlock_index);
+    }
+
     // Fixed Spray Paint (+200..+213) and Music Sheet (+214..+223) items.
     // Bitwise ownership grants are idempotent when received history is replayed.
     if (ap_apply_collection_item(ap_item_id - KIRBY_ITEM_ID_BASE_OFFSET,
@@ -1879,6 +2070,8 @@ void ap_poll_mailbox_c(void) {
         AP_BOSS_DEFEAT_FLAGS = 0u;
         AP_BOSS_TEMP_SHARD_BITFIELD = 0u;
         AP_DELIVERED_VITALITY_ITEM_BITS = 0u;
+        AP_HUB_CONNECTION_ITEM_MASK = AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED;
+        AP_HUB_SWITCH_INIT_STATE = 0u;
         AP_HUB_SWITCH_FLAGS = 0u;
         AP_STARTING_KIRBY_COLOR_ID = 0xFFFFFFFFu;
         AP_ONE_HIT_MODE_RUNTIME = 0xFFFFFFFFu;
@@ -1915,9 +2108,10 @@ void ap_poll_mailbox_c(void) {
         AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     }
 
-    // Canonical source: persisted world-props hub unlock bits set by WorldMapUnlockSave.
-    // Keep AP hub-switch transport latched from that source every frame.
-    ap_sync_hub_switch_flags_from_world_props();
+    // Rebuild AP-owned native connection state from the client's complete item history.
+    // Restore only seed-bound physical checks, never infer them from item doors.
+    ap_apply_hub_connection_unlocks_from_mask();
+    ap_restore_hub_switch_checks();
 
     uint8_t ap_delivered = (uint8_t)(AP_DELIVERED_SHARD_BITFIELD & 0xFFu);
     uint8_t native_shards = KIRBY_SHARD_FLAGS;

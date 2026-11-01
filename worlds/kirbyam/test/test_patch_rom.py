@@ -138,12 +138,15 @@ def test_sound_player_chest_collect_call_offset_matches_verified_hook_site() -> 
     assert patch_rom.SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET == 0x0000B264
 
 
-def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
+def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(patch_rom, "build_runtime_regression_writes", lambda *args: {})
+    # The hub contract has separate corruption tests and local real-ROM validation.
+    monkeypatch.setattr(patch_rom, "build_hub_teleport_writes", lambda *args: {})
     rom = bytearray(b"\xA5" * 0x200000)
     rom[patch_rom.PAYLOAD_OFFSET:patch_rom.PAYLOAD_LEGACY_OFFSET] = bytes(0x400)
     for offset in patch_rom.HEALTH_HUD_CALLSITES:
         rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(0x08000000 + offset, 0x0803518C)
+    rom[0x14406C:0x144070] = patch_rom.thumb_bl_bytes(0x0814406C, 0x081447E0)
     rom[0x14380A:0x14380E] = patch_rom.thumb_bl_bytes(0x0814380A, 0x08019F0C)
     rom[0x3EB0E:0x3EB14] = patch_rom.thumb_bl_bytes(0x0803EB0E, 0x08019F0C) + b"\x06\x30"
     hook_bl_bytes = {
@@ -157,6 +160,7 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
         "spray_paint_chest_hook_bl_bytes": b"\x56\x78\x9a\xbc",
         "sound_player_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
         "hub_switch_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "hub_switch_init_state_hook_bl_bytes": b"\x00\x00\x00\x00",
         "small_switch_effect_hook_bl_bytes": b"\x00\x00\x00\x00",
     }
 
@@ -168,9 +172,11 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
         [],
         [],
         [], [], [], [], [], [],
-        {"unknown83_transition_hook_target": 0x08100400,
+        {"unknown83_transition_hook_target": 0x08100600, "hub_trap_hook_target": 0x08100500,
          "starting_color_start_game_hook_target": 0x08100000,
-         "health_hud_hook_target": 0x08100100, "initial_health_hook_target": 0x08100200, "vitality_menu_hook_target": 0x08100300},
+         "treasure_paint_hook_target": 0x08100400,
+         "health_hud_hook_target": 0x08100100, "initial_health_hook_target": 0x08100200,
+         "vitality_menu_hook_target": 0x08100300},
         0x08000000,
     )
 
@@ -190,6 +196,88 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch) -> None:
 
 def test_big_switch_unlock_call_offset_matches_verified_hook_site() -> None:
     assert patch_rom.BIG_SWITCH_UNLOCK_CALL_OFFSET == 0x00039EEE
+
+
+def test_big_switch_init_state_lookup_callsite_matches_verified_target() -> None:
+    # sub_0811938C (asm/big_small_switch.s) initializes the Big Switch and
+    # reads its physical-check state at 0x081193C4 (ROM offset 0x1193C4).
+    assert patch_rom.BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET == 0x001193C4
+    assert patch_rom.ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR == 0x08002888
+
+    offset = patch_rom.BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET
+    rom = bytearray(offset + 4)
+    rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(
+        0x08000000 + offset,
+        patch_rom.ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR,
+    )
+    original = patch_rom.validate_thumb_bl_callsite_target(
+        rom,
+        offset,
+        "hub switch initialization state lookup",
+        patch_rom.ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR,
+    )
+    assert original == rom[offset:offset + 4]
+
+
+def test_door_to_hub_init_state_lookup_is_separate_and_left_native(monkeypatch) -> None:
+    monkeypatch.setattr(patch_rom, "build_runtime_regression_writes", lambda *args: {})
+    monkeypatch.setattr(patch_rom, "build_initial_health_writes", lambda *args: {})
+    monkeypatch.setattr(patch_rom, "build_health_hud_writes", lambda *args: {})
+    monkeypatch.setattr(patch_rom, "build_hub_teleport_writes", lambda *args: {})
+    # sub_0802AD00 in special_doors.c activates the physical door from this
+    # state. The hook belongs only to sub_0811938C's switch initializer.
+    assert patch_rom.DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET == 0x0002AD24
+    door_offset = patch_rom.DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET
+    switch_offset = patch_rom.BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET
+    native_target = patch_rom.ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR
+    switch_hook_target = 0x08100000
+    rom = bytearray(0x200000)
+    rom[0x14380A:0x14380E] = patch_rom.thumb_bl_bytes(0x0814380A, 0x08019F0C)
+    rom[0x14406C:0x144070] = patch_rom.thumb_bl_bytes(0x0814406C, 0x081447E0)
+    door_call = patch_rom.thumb_bl_bytes(0x08000000 + door_offset, native_target)
+    switch_call = patch_rom.thumb_bl_bytes(0x08000000 + switch_offset, native_target)
+    rom[door_offset:door_offset + 4] = door_call
+    rom[switch_offset:switch_offset + 4] = switch_call
+
+    hook_bl_bytes = {
+        "main_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "boss_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "minor_chest_reward_popup_hook_bl_bytes": b"\0" * 4,
+        "spray_paint_chest_hook_bl_bytes": b"\0" * 4,
+        "minor_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "big_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "vitality_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "sound_player_chest_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "hub_switch_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "hub_switch_init_state_hook_bl_bytes": patch_rom.thumb_bl_bytes(
+            0x08000000 + switch_offset,
+            switch_hook_target,
+        ),
+        "small_switch_effect_hook_bl_bytes": b"\x00\x00\x00\x00",
+        "automatic_transition_guard_bytes": bytes(16),
+    }
+
+    patch_rom.patch_rom_with_payload(
+        rom,
+        b"\x12",
+        hook_bl_bytes,
+        {},
+        [],
+        [],
+        [], [], [], [], [], [],
+        {"unknown83_transition_hook_target": 0x08100600, "starting_color_start_game_hook_target": 0x08100000,
+         "health_hud_hook_target": 0x08100100, "initial_health_hook_target": 0x08100200,
+         "vitality_menu_hook_target": 0x08100300,
+         "treasure_paint_hook_target": 0x08100400, "hub_trap_hook_target": 0x08100500},
+        0x08000000,
+    )
+
+    assert rom[door_offset:door_offset + 4] == door_call
+    patched_switch_target = patch_rom.decode_thumb_bl_target(
+        0x08000000 + switch_offset,
+        rom[switch_offset:switch_offset + 4],
+    )
+    assert patched_switch_target == switch_hook_target
 
 
 def test_small_switch_effect_call_offset_matches_verified_hook_site() -> None:
@@ -418,3 +506,18 @@ def test_extended_payload_padding_rejects_unexpected_native_bytes() -> None:
     rom[patch_rom.PAYLOAD_OFFSET + 9] = 1
     with pytest.raises(SystemExit, match="extended payload retail zero padding"):
         patch_rom.patch_rom_with_payload(rom, b"", {}, {}, [], [], [], [], [], [], [], [], {}, 0x08000000)
+
+
+def test_hub_dispatch_table_rejects_shifted_or_changed_callbacks():
+    start = patch_rom.HUB_UNLOCK_CALLBACK_TABLE_OFFSET
+    rom = bytearray(start + 15 * 4)
+    for i, callback in enumerate(patch_rom.HUB_UNLOCK_CALLBACKS):
+        rom[start + i * 4:start + i * 4 + 4] = callback.to_bytes(4, "little")
+    patch_rom.validate_hub_unlock_callback_table(rom)
+    for i in range(15):
+        bad = bytearray(rom)
+        bad[start + i * 4] ^= 1
+        with pytest.raises(SystemExit, match="Hub unlock callback table"):
+            patch_rom.validate_hub_unlock_callback_table(bad)
+    with pytest.raises(SystemExit, match="Hub unlock callback table"):
+        patch_rom.validate_hub_unlock_callback_table(rom[:-1])

@@ -42,14 +42,14 @@ def test_statue_transition_hook_documents_exact_runtime_contract() -> None:
     # Issue #852 prepends a starting-color word without moving the already
     # shipped gate/statue token addresses. Verify the complete ordered ABI
     # rather than assuming the ability words begin the config region.
-    assert "AP_CONFIG_ADDR = 0x0815F690" in linker_source
+    assert "AP_CONFIG_ADDR = 0x0815F68C" in linker_source
     assert "KEEP(*(.apconfig.color))" in linker_source
     assert "KEEP(*(.apconfig.gate))" in linker_source
     assert "KEEP(*(.apconfig.statue))" in linker_source
     assert linker_source.index(".apconfig.health") < linker_source.index(".apconfig.color")
     assert linker_source.index(".apconfig.color") < linker_source.index(".apconfig.gate")
     assert linker_source.index(".apconfig.gate") < linker_source.index(".apconfig.statue")
-    assert "SIZEOF(.apconfig) == 16" in linker_source
+    assert "SIZEOF(.apconfig) == 20" in linker_source
     assert "ABILITY_GATE_MASK_INITIAL_ROM_OFFSET = 0x0015F698" in rom_source
     assert "ABILITY_RANDOMIZATION_STATUE_ALLOWED_MASK_ROM_OFFSET = 0x0015F69C" in rom_source
 

@@ -1,0 +1,2031 @@
+{
+  "schema_version": 1,
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "decomp_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "source_references": {
+    "special_tiles": "include/data.h; src/code_080023A4.c; src/kirby.c sub_0803FBB4, sub_0805BC78",
+    "wind_physics": "src/code_080023A4.c sub_080097C4 and sub_080098C4",
+    "cannon": "asm/kirby_cannon.s CreateKirbyCannon, sub_08121AF8, sub_08121B70; src/kirby.c sub_080510EC, sub_080515D4",
+    "warp_star": "src/warp_star.c CreateWarpStar, sub_0800C084"
+  },
+  "evidence_scope": "Read-only retail ROM decoding and native source; not emulator acceptance. Exact byte preconditions are limited to transport records, field values and their pointer/index provenance. Collision grids are represented by hashes, not copied ROM payloads.",
+  "wind_chute_entries": [
+    {
+      "source": {
+        "native_room_id": 743,
+        "native_area": 1,
+        "ap_room_keys": [
+          "REGION_MOONLIGHT_MANSION/ROOM_2_11"
+        ],
+        "native_area_rom_offset": 11883802
+      },
+      "intermediate": {
+        "native_room_id": 180,
+        "native_area": 1,
+        "ap_room_keys": [
+          "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT"
+        ],
+        "native_area_rom_offset": 11807998
+      },
+      "effective_destination": {
+        "native_room_id": 824,
+        "native_area": 5,
+        "ap_room_keys": [
+          "REGION_OLIVE_OCEAN/ROOM_6_13"
+        ],
+        "native_area_rom_offset": 11889350
+      },
+      "entry": {
+        "record_rom_offset": 8936734,
+        "source_tiles": [
+          6,
+          7
+        ],
+        "collision_attribute": 255,
+        "transition_flags": 0,
+        "destination_room": 180,
+        "spawn_tiles": [
+          5,
+          3
+        ]
+      },
+      "lane_exit_records": [
+        {
+          "record_rom_offset": 8867104,
+          "source_tiles": [
+            1,
+            50
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867118,
+          "source_tiles": [
+            2,
+            50
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867132,
+          "source_tiles": [
+            3,
+            50
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867146,
+          "source_tiles": [
+            4,
+            50
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867160,
+          "source_tiles": [
+            5,
+            50
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867174,
+          "source_tiles": [
+            6,
+            50
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867188,
+          "source_tiles": [
+            1,
+            51
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867202,
+          "source_tiles": [
+            2,
+            51
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867216,
+          "source_tiles": [
+            3,
+            51
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867230,
+          "source_tiles": [
+            4,
+            51
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867244,
+          "source_tiles": [
+            5,
+            51
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867258,
+          "source_tiles": [
+            6,
+            51
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867272,
+          "source_tiles": [
+            1,
+            52
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867286,
+          "source_tiles": [
+            2,
+            52
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867300,
+          "source_tiles": [
+            3,
+            52
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867314,
+          "source_tiles": [
+            4,
+            52
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867328,
+          "source_tiles": [
+            5,
+            52
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8867342,
+          "source_tiles": [
+            6,
+            52
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 2,
+          "destination_room": 824,
+          "spawn_tiles": [
+            12,
+            4
+          ]
+        }
+      ],
+      "permission": "destination Area Key only, checked before native admission; original intermediate room and spawn remain the native transition target"
+    },
+    {
+      "source": {
+        "native_room_id": 824,
+        "native_area": 5,
+        "ap_room_keys": [
+          "REGION_OLIVE_OCEAN/ROOM_6_13"
+        ],
+        "native_area_rom_offset": 11889350
+      },
+      "intermediate": {
+        "native_room_id": 180,
+        "native_area": 1,
+        "ap_room_keys": [
+          "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT"
+        ],
+        "native_area_rom_offset": 11807998
+      },
+      "effective_destination": {
+        "native_room_id": 743,
+        "native_area": 1,
+        "ap_room_keys": [
+          "REGION_MOONLIGHT_MANSION/ROOM_2_11"
+        ],
+        "native_area_rom_offset": 11883802
+      },
+      "entry": {
+        "record_rom_offset": 9061834,
+        "source_tiles": [
+          12,
+          3
+        ],
+        "collision_attribute": 255,
+        "transition_flags": 0,
+        "destination_room": 180,
+        "spawn_tiles": [
+          12,
+          49
+        ]
+      },
+      "lane_exit_records": [
+        {
+          "record_rom_offset": 8866936,
+          "source_tiles": [
+            9,
+            0
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 743,
+          "spawn_tiles": [
+            8,
+            8
+          ]
+        },
+        {
+          "record_rom_offset": 8866950,
+          "source_tiles": [
+            10,
+            0
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 743,
+          "spawn_tiles": [
+            8,
+            8
+          ]
+        },
+        {
+          "record_rom_offset": 8866964,
+          "source_tiles": [
+            11,
+            0
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 743,
+          "spawn_tiles": [
+            8,
+            8
+          ]
+        },
+        {
+          "record_rom_offset": 8866978,
+          "source_tiles": [
+            12,
+            0
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 743,
+          "spawn_tiles": [
+            8,
+            8
+          ]
+        },
+        {
+          "record_rom_offset": 8866992,
+          "source_tiles": [
+            13,
+            0
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 743,
+          "spawn_tiles": [
+            8,
+            8
+          ]
+        },
+        {
+          "record_rom_offset": 8867006,
+          "source_tiles": [
+            14,
+            0
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 743,
+          "spawn_tiles": [
+            8,
+            8
+          ]
+        },
+        {
+          "record_rom_offset": 8867020,
+          "source_tiles": [
+            9,
+            1
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 743,
+          "spawn_tiles": [
+            8,
+            8
+          ]
+        },
+        {
+          "record_rom_offset": 8867034,
+          "source_tiles": [
+            10,
+            1
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 743,
+          "spawn_tiles": [
+            8,
+            8
+          ]
+        },
+        {
+          "record_rom_offset": 8867048,
+          "source_tiles": [
+            11,
+            1
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 743,
+          "spawn_tiles": [
+            8,
+            8
+          ]
+        },
+        {
+          "record_rom_offset": 8867062,
+          "source_tiles": [
+            12,
+            1
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 743,
+          "spawn_tiles": [
+            8,
+            8
+          ]
+        },
+        {
+          "record_rom_offset": 8867076,
+          "source_tiles": [
+            13,
+            1
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 743,
+          "spawn_tiles": [
+            8,
+            8
+          ]
+        },
+        {
+          "record_rom_offset": 8867090,
+          "source_tiles": [
+            14,
+            1
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 743,
+          "spawn_tiles": [
+            8,
+            8
+          ]
+        }
+      ],
+      "permission": "destination Area Key only, checked before native admission; original intermediate room and spawn remain the native transition target"
+    },
+    {
+      "source": {
+        "native_room_id": 170,
+        "native_area": 4,
+        "ap_room_keys": [
+          "REGION_CARROT_CASTLE/ROOM_5_05"
+        ],
+        "native_area_rom_offset": 11804670
+      },
+      "intermediate": {
+        "native_room_id": 181,
+        "native_area": 4,
+        "ap_room_keys": [
+          "REGION_CARROT_CASTLE/ROOM_5_06"
+        ],
+        "native_area_rom_offset": 11808074
+      },
+      "effective_destination": {
+        "native_room_id": 619,
+        "native_area": 7,
+        "ap_room_keys": [
+          "REGION_RADISH_RUINS/ROOM_8_12"
+        ],
+        "native_area_rom_offset": 11874190
+      },
+      "entry": {
+        "record_rom_offset": 9108864,
+        "source_tiles": [
+          1,
+          8
+        ],
+        "collision_attribute": 255,
+        "transition_flags": 0,
+        "destination_room": 181,
+        "spawn_tiles": [
+          5,
+          3
+        ]
+      },
+      "lane_exit_records": [
+        {
+          "record_rom_offset": 8868076,
+          "source_tiles": [
+            1,
+            50
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868090,
+          "source_tiles": [
+            2,
+            50
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868104,
+          "source_tiles": [
+            3,
+            50
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868118,
+          "source_tiles": [
+            4,
+            50
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868132,
+          "source_tiles": [
+            5,
+            50
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868146,
+          "source_tiles": [
+            6,
+            50
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868160,
+          "source_tiles": [
+            1,
+            51
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868174,
+          "source_tiles": [
+            2,
+            51
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868188,
+          "source_tiles": [
+            3,
+            51
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868202,
+          "source_tiles": [
+            4,
+            51
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868216,
+          "source_tiles": [
+            5,
+            51
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868230,
+          "source_tiles": [
+            6,
+            51
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868244,
+          "source_tiles": [
+            1,
+            52
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868258,
+          "source_tiles": [
+            2,
+            52
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868272,
+          "source_tiles": [
+            3,
+            52
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868286,
+          "source_tiles": [
+            4,
+            52
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868300,
+          "source_tiles": [
+            5,
+            52
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        },
+        {
+          "record_rom_offset": 8868314,
+          "source_tiles": [
+            6,
+            52
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 619,
+          "spawn_tiles": [
+            4,
+            4
+          ]
+        }
+      ],
+      "permission": "destination Area Key only, checked before native admission; original intermediate room and spawn remain the native transition target"
+    },
+    {
+      "source": {
+        "native_room_id": 619,
+        "native_area": 7,
+        "ap_room_keys": [
+          "REGION_RADISH_RUINS/ROOM_8_12"
+        ],
+        "native_area_rom_offset": 11874190
+      },
+      "intermediate": {
+        "native_room_id": 181,
+        "native_area": 4,
+        "ap_room_keys": [
+          "REGION_CARROT_CASTLE/ROOM_5_06"
+        ],
+        "native_area_rom_offset": 11808074
+      },
+      "effective_destination": {
+        "native_room_id": 170,
+        "native_area": 4,
+        "ap_room_keys": [
+          "REGION_CARROT_CASTLE/ROOM_5_05"
+        ],
+        "native_area_rom_offset": 11804670
+      },
+      "entry": {
+        "record_rom_offset": 9099888,
+        "source_tiles": [
+          2,
+          3
+        ],
+        "collision_attribute": 255,
+        "transition_flags": 0,
+        "destination_room": 181,
+        "spawn_tiles": [
+          12,
+          49
+        ]
+      },
+      "lane_exit_records": [
+        {
+          "record_rom_offset": 8867908,
+          "source_tiles": [
+            9,
+            0
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 170,
+          "spawn_tiles": [
+            3,
+            9
+          ]
+        },
+        {
+          "record_rom_offset": 8867922,
+          "source_tiles": [
+            10,
+            0
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 170,
+          "spawn_tiles": [
+            3,
+            9
+          ]
+        },
+        {
+          "record_rom_offset": 8867936,
+          "source_tiles": [
+            11,
+            0
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 170,
+          "spawn_tiles": [
+            3,
+            9
+          ]
+        },
+        {
+          "record_rom_offset": 8867950,
+          "source_tiles": [
+            12,
+            0
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 170,
+          "spawn_tiles": [
+            3,
+            9
+          ]
+        },
+        {
+          "record_rom_offset": 8867964,
+          "source_tiles": [
+            13,
+            0
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 170,
+          "spawn_tiles": [
+            3,
+            9
+          ]
+        },
+        {
+          "record_rom_offset": 8867978,
+          "source_tiles": [
+            14,
+            0
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 170,
+          "spawn_tiles": [
+            3,
+            9
+          ]
+        },
+        {
+          "record_rom_offset": 8867992,
+          "source_tiles": [
+            9,
+            1
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 170,
+          "spawn_tiles": [
+            3,
+            9
+          ]
+        },
+        {
+          "record_rom_offset": 8868006,
+          "source_tiles": [
+            10,
+            1
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 170,
+          "spawn_tiles": [
+            3,
+            9
+          ]
+        },
+        {
+          "record_rom_offset": 8868020,
+          "source_tiles": [
+            11,
+            1
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 170,
+          "spawn_tiles": [
+            3,
+            9
+          ]
+        },
+        {
+          "record_rom_offset": 8868034,
+          "source_tiles": [
+            12,
+            1
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 170,
+          "spawn_tiles": [
+            3,
+            9
+          ]
+        },
+        {
+          "record_rom_offset": 8868048,
+          "source_tiles": [
+            13,
+            1
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 170,
+          "spawn_tiles": [
+            3,
+            9
+          ]
+        },
+        {
+          "record_rom_offset": 8868062,
+          "source_tiles": [
+            14,
+            1
+          ],
+          "collision_attribute": 254,
+          "transition_flags": 1,
+          "destination_room": 170,
+          "spawn_tiles": [
+            3,
+            9
+          ]
+        }
+      ],
+      "permission": "destination Area Key only, checked before native admission; original intermediate room and spawn remain the native transition target"
+    }
+  ],
+  "wind_chute_grids": [
+    {
+      "native_room_id": 180,
+      "compressed_grid_rom_offset": 8866400,
+      "width_tiles": 16,
+      "height_tiles": 53,
+      "decompressed_sha256": "6dcb3a24454aa51e7a9885e7083d8a3a5ae8903bd369641c64d271f84ac1babe",
+      "left_lane": {
+        "x_min": 1,
+        "x_max": 6,
+        "wind_attribute": 86,
+        "automatic_exit_y_min": 50,
+        "automatic_exit_y_max": 52
+      },
+      "right_lane": {
+        "x_min": 9,
+        "x_max": 14,
+        "wind_attribute": 85,
+        "automatic_exit_y_min": 0,
+        "automatic_exit_y_max": 1
+      },
+      "solid_columns": [
+        0,
+        7,
+        8,
+        15
+      ]
+    },
+    {
+      "native_room_id": 181,
+      "compressed_grid_rom_offset": 8867372,
+      "width_tiles": 16,
+      "height_tiles": 53,
+      "decompressed_sha256": "6dcb3a24454aa51e7a9885e7083d8a3a5ae8903bd369641c64d271f84ac1babe",
+      "left_lane": {
+        "x_min": 1,
+        "x_max": 6,
+        "wind_attribute": 86,
+        "automatic_exit_y_min": 50,
+        "automatic_exit_y_max": 52
+      },
+      "right_lane": {
+        "x_min": 9,
+        "x_max": 14,
+        "wind_attribute": 85,
+        "automatic_exit_y_min": 0,
+        "automatic_exit_y_max": 1
+      },
+      "solid_columns": [
+        0,
+        7,
+        8,
+        15
+      ]
+    }
+  ],
+  "object_transports": [
+    {
+      "mechanism": "cannon",
+      "source": {
+        "native_room_id": 126,
+        "native_area": 0,
+        "ap_room_keys": [
+          "REGION_RAINBOW_ROUTE/ROOM_1_32"
+        ],
+        "native_area_rom_offset": 11788866
+      },
+      "destination": {
+        "native_room_id": 570,
+        "native_area": 0,
+        "ap_room_keys": [
+          "REGION_RAINBOW_ROUTE/ROOM_1_33"
+        ],
+        "native_area_rom_offset": 11864014
+      },
+      "object_record_rom_offset": 9147624,
+      "object_type": 138,
+      "destination_field_offset": 18,
+      "spawn_tiles": [
+        6,
+        1
+      ],
+      "same_native_area": true
+    },
+    {
+      "mechanism": "cannon",
+      "source": {
+        "native_room_id": 323,
+        "native_area": 3,
+        "ap_room_keys": [
+          "REGION_MUSTARD_MOUNTAIN/ROOM_4_13"
+        ],
+        "native_area_rom_offset": 11829022
+      },
+      "destination": {
+        "native_room_id": 300,
+        "native_area": 3,
+        "ap_room_keys": [
+          "REGION_MUSTARD_MOUNTAIN/ROOM_4_14"
+        ],
+        "native_area_rom_offset": 11826430
+      },
+      "object_record_rom_offset": 9195812,
+      "object_type": 138,
+      "destination_field_offset": 18,
+      "spawn_tiles": [
+        2,
+        1
+      ],
+      "same_native_area": true
+    },
+    {
+      "mechanism": "cannon",
+      "source": {
+        "native_room_id": 502,
+        "native_area": 7,
+        "ap_room_keys": [
+          "REGION_RADISH_RUINS/ROOM_8_16"
+        ],
+        "native_area_rom_offset": 11840998
+      },
+      "destination": {
+        "native_room_id": 525,
+        "native_area": 7,
+        "ap_room_keys": [
+          "REGION_RADISH_RUINS/ROOM_8_17"
+        ],
+        "native_area_rom_offset": 11846658
+      },
+      "object_record_rom_offset": 9246216,
+      "object_type": 138,
+      "destination_field_offset": 18,
+      "spawn_tiles": [
+        2,
+        1
+      ],
+      "same_native_area": true
+    },
+    {
+      "mechanism": "cannon",
+      "source": {
+        "native_room_id": 827,
+        "native_area": 5,
+        "ap_room_keys": [
+          "REGION_OLIVE_OCEAN/ROOM_6_07"
+        ],
+        "native_area_rom_offset": 11890734
+      },
+      "destination": {
+        "native_room_id": 133,
+        "native_area": 5,
+        "ap_room_keys": [
+          "REGION_OLIVE_OCEAN/ROOM_6_05"
+        ],
+        "native_area_rom_offset": 11792482
+      },
+      "object_record_rom_offset": 9229916,
+      "object_type": 138,
+      "destination_field_offset": 18,
+      "spawn_tiles": [
+        27,
+        1
+      ],
+      "same_native_area": true
+    },
+    {
+      "mechanism": "warp_star",
+      "source": {
+        "native_room_id": 142,
+        "native_area": 0,
+        "ap_room_keys": [
+          "REGION_RAINBOW_ROUTE/ROOM_1_WARP"
+        ],
+        "native_area_rom_offset": 11799986
+      },
+      "destination": {
+        "native_room_id": 195,
+        "native_area": 1,
+        "ap_room_keys": [
+          "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
+        ],
+        "native_area_rom_offset": 11812162
+      },
+      "object_record_rom_offset": 9140752,
+      "object_type": 132,
+      "destination_field_offset": 30,
+      "spawn_tiles": [
+        -5,
+        -3
+      ],
+      "same_native_area": false
+    }
+  ],
+  "byte_preconditions": [
+    {
+      "rom_offset": 2984172,
+      "expected_hex": "00020000",
+      "purpose": "collision attribute 0xd"
+    },
+    {
+      "rom_offset": 2984460,
+      "expected_hex": "01082001",
+      "purpose": "collision attribute 0x55"
+    },
+    {
+      "rom_offset": 2984464,
+      "expected_hex": "01082002",
+      "purpose": "collision attribute 0x56"
+    },
+    {
+      "rom_offset": 2985136,
+      "expected_hex": "01401000",
+      "purpose": "collision attribute 0xfe"
+    },
+    {
+      "rom_offset": 2985140,
+      "expected_hex": "01400000",
+      "purpose": "collision attribute 0xff"
+    },
+    {
+      "rom_offset": 8866936,
+      "expected_hex": "03fe09000e00ffffe702080801ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8866950,
+      "expected_hex": "03fe0a000e00ffffe702080801ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8866964,
+      "expected_hex": "03fe0b000e00ffffe702080801ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8866978,
+      "expected_hex": "03fe0c000e00ffffe702080801ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8866992,
+      "expected_hex": "03fe0d000e00ffffe702080801ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867006,
+      "expected_hex": "03fe0e000e00ffffe702080801ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867020,
+      "expected_hex": "03fe09010e00ffffe702080801ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867034,
+      "expected_hex": "03fe0a010e00ffffe702080801ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867048,
+      "expected_hex": "03fe0b010e00ffffe702080801ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867062,
+      "expected_hex": "03fe0c010e00ffffe702080801ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867076,
+      "expected_hex": "03fe0d010e00ffffe702080801ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867090,
+      "expected_hex": "03fe0e010e00ffffe702080801ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867104,
+      "expected_hex": "03fe01320e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867118,
+      "expected_hex": "03fe02320e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867132,
+      "expected_hex": "03fe03320e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867146,
+      "expected_hex": "03fe04320e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867160,
+      "expected_hex": "03fe05320e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867174,
+      "expected_hex": "03fe06320e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867188,
+      "expected_hex": "03fe01330e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867202,
+      "expected_hex": "03fe02330e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867216,
+      "expected_hex": "03fe03330e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867230,
+      "expected_hex": "03fe04330e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867244,
+      "expected_hex": "03fe05330e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867258,
+      "expected_hex": "03fe06330e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867272,
+      "expected_hex": "03fe01340e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867286,
+      "expected_hex": "03fe02340e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867300,
+      "expected_hex": "03fe03340e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867314,
+      "expected_hex": "03fe04340e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867328,
+      "expected_hex": "03fe05340e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867342,
+      "expected_hex": "03fe06340e00ffff38030c0402ff",
+      "purpose": "room 180 special tile transition"
+    },
+    {
+      "rom_offset": 8867364,
+      "expected_hex": "604a8708",
+      "purpose": "room 180 collision grid pointer"
+    },
+    {
+      "rom_offset": 8867368,
+      "expected_hex": "784c8708",
+      "purpose": "room 180 special tile list pointer"
+    },
+    {
+      "rom_offset": 8867908,
+      "expected_hex": "03fe09000e00ffffaa00030901ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8867922,
+      "expected_hex": "03fe0a000e00ffffaa00030901ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8867936,
+      "expected_hex": "03fe0b000e00ffffaa00030901ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8867950,
+      "expected_hex": "03fe0c000e00ffffaa00030901ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8867964,
+      "expected_hex": "03fe0d000e00ffffaa00030901ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8867978,
+      "expected_hex": "03fe0e000e00ffffaa00030901ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8867992,
+      "expected_hex": "03fe09010e00ffffaa00030901ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868006,
+      "expected_hex": "03fe0a010e00ffffaa00030901ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868020,
+      "expected_hex": "03fe0b010e00ffffaa00030901ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868034,
+      "expected_hex": "03fe0c010e00ffffaa00030901ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868048,
+      "expected_hex": "03fe0d010e00ffffaa00030901ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868062,
+      "expected_hex": "03fe0e010e00ffffaa00030901ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868076,
+      "expected_hex": "03fe01320e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868090,
+      "expected_hex": "03fe02320e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868104,
+      "expected_hex": "03fe03320e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868118,
+      "expected_hex": "03fe04320e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868132,
+      "expected_hex": "03fe05320e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868146,
+      "expected_hex": "03fe06320e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868160,
+      "expected_hex": "03fe01330e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868174,
+      "expected_hex": "03fe02330e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868188,
+      "expected_hex": "03fe03330e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868202,
+      "expected_hex": "03fe04330e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868216,
+      "expected_hex": "03fe05330e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868230,
+      "expected_hex": "03fe06330e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868244,
+      "expected_hex": "03fe01340e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868258,
+      "expected_hex": "03fe02340e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868272,
+      "expected_hex": "03fe03340e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868286,
+      "expected_hex": "03fe04340e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868300,
+      "expected_hex": "03fe05340e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868314,
+      "expected_hex": "03fe06340e00ffff6b02040401ff",
+      "purpose": "room 181 special tile transition"
+    },
+    {
+      "rom_offset": 8868336,
+      "expected_hex": "2c4e8708",
+      "purpose": "room 181 collision grid pointer"
+    },
+    {
+      "rom_offset": 8868340,
+      "expected_hex": "44508708",
+      "purpose": "room 181 special tile list pointer"
+    },
+    {
+      "rom_offset": 8936734,
+      "expected_hex": "03ff06070e00ffffb400050300ff",
+      "purpose": "room 743 special tile transition"
+    },
+    {
+      "rom_offset": 8938868,
+      "expected_hex": "a85c8808",
+      "purpose": "room 743 special tile list pointer"
+    },
+    {
+      "rom_offset": 9061834,
+      "expected_hex": "03ff0c030e00ffffb4000c3100ff",
+      "purpose": "room 824 special tile transition"
+    },
+    {
+      "rom_offset": 9061876,
+      "expected_hex": "94458a08",
+      "purpose": "room 824 special tile list pointer"
+    },
+    {
+      "rom_offset": 9099888,
+      "expected_hex": "03ff02030e00ffffb5000c3100ff",
+      "purpose": "room 619 special tile transition"
+    },
+    {
+      "rom_offset": 9099948,
+      "expected_hex": "4cda8a08",
+      "purpose": "room 619 special tile list pointer"
+    },
+    {
+      "rom_offset": 9108864,
+      "expected_hex": "03ff01080e00ffffb500050300ff",
+      "purpose": "room 170 special tile transition"
+    },
+    {
+      "rom_offset": 9108924,
+      "expected_hex": "40fd8a08",
+      "purpose": "room 170 special tile list pointer"
+    },
+    {
+      "rom_offset": 9140752,
+      "expected_hex": "0124",
+      "purpose": "room 142 transport object record header"
+    },
+    {
+      "rom_offset": 9140764,
+      "expected_hex": "84",
+      "purpose": "room 142 transport object type"
+    },
+    {
+      "rom_offset": 9140778,
+      "expected_hex": "fbfffdff",
+      "purpose": "first Warp Star spawn"
+    },
+    {
+      "rom_offset": 9140782,
+      "expected_hex": "c300",
+      "purpose": "room 142 transport destination"
+    },
+    {
+      "rom_offset": 9140884,
+      "expected_hex": "c8798b08",
+      "purpose": "room 142 object list pointer"
+    },
+    {
+      "rom_offset": 9147624,
+      "expected_hex": "0124",
+      "purpose": "room 126 transport object record header"
+    },
+    {
+      "rom_offset": 9147636,
+      "expected_hex": "8a",
+      "purpose": "room 126 transport object type"
+    },
+    {
+      "rom_offset": 9147642,
+      "expected_hex": "3a02",
+      "purpose": "room 126 transport destination"
+    },
+    {
+      "rom_offset": 9147648,
+      "expected_hex": "0906",
+      "purpose": "room 126 cannon spawn encoding"
+    },
+    {
+      "rom_offset": 9147792,
+      "expected_hex": "58948b08",
+      "purpose": "room 126 object list pointer"
+    },
+    {
+      "rom_offset": 9195812,
+      "expected_hex": "0124",
+      "purpose": "room 323 transport object record header"
+    },
+    {
+      "rom_offset": 9195824,
+      "expected_hex": "8a",
+      "purpose": "room 323 transport object type"
+    },
+    {
+      "rom_offset": 9195830,
+      "expected_hex": "2c01",
+      "purpose": "room 323 transport destination"
+    },
+    {
+      "rom_offset": 9195836,
+      "expected_hex": "1c02",
+      "purpose": "room 323 cannon spawn encoding"
+    },
+    {
+      "rom_offset": 9196056,
+      "expected_hex": "b8508c08",
+      "purpose": "room 323 object list pointer"
+    },
+    {
+      "rom_offset": 9229916,
+      "expected_hex": "0124",
+      "purpose": "room 827 transport object record header"
+    },
+    {
+      "rom_offset": 9229928,
+      "expected_hex": "8a",
+      "purpose": "room 827 transport object type"
+    },
+    {
+      "rom_offset": 9229934,
+      "expected_hex": "8500",
+      "purpose": "room 827 transport destination"
+    },
+    {
+      "rom_offset": 9229940,
+      "expected_hex": "041b",
+      "purpose": "room 827 cannon spawn encoding"
+    },
+    {
+      "rom_offset": 9230124,
+      "expected_hex": "d0d48c08",
+      "purpose": "room 827 object list pointer"
+    },
+    {
+      "rom_offset": 9246216,
+      "expected_hex": "0124",
+      "purpose": "room 502 transport object record header"
+    },
+    {
+      "rom_offset": 9246228,
+      "expected_hex": "8a",
+      "purpose": "room 502 transport object type"
+    },
+    {
+      "rom_offset": 9246234,
+      "expected_hex": "0d02",
+      "purpose": "room 502 transport destination"
+    },
+    {
+      "rom_offset": 9246240,
+      "expected_hex": "0302",
+      "purpose": "room 502 cannon spawn encoding"
+    },
+    {
+      "rom_offset": 9247144,
+      "expected_hex": "e4158d08",
+      "purpose": "room 502 object list pointer"
+    },
+    {
+      "rom_offset": 9651580,
+      "expected_hex": "2c00",
+      "purpose": "room 126 object index"
+    },
+    {
+      "rom_offset": 9652220,
+      "expected_hex": "1e00",
+      "purpose": "room 142 object index"
+    },
+    {
+      "rom_offset": 9653334,
+      "expected_hex": "fc00",
+      "purpose": "room 170 solidity index"
+    },
+    {
+      "rom_offset": 9653732,
+      "expected_hex": "0800",
+      "purpose": "room 180 foreground index"
+    },
+    {
+      "rom_offset": 9653734,
+      "expected_hex": "0800",
+      "purpose": "room 180 solidity index"
+    },
+    {
+      "rom_offset": 9653772,
+      "expected_hex": "0900",
+      "purpose": "room 181 foreground index"
+    },
+    {
+      "rom_offset": 9653774,
+      "expected_hex": "0900",
+      "purpose": "room 181 solidity index"
+    },
+    {
+      "rom_offset": 9659460,
+      "expected_hex": "8900",
+      "purpose": "room 323 object index"
+    },
+    {
+      "rom_offset": 9666620,
+      "expected_hex": "f100",
+      "purpose": "room 502 object index"
+    },
+    {
+      "rom_offset": 9671294,
+      "expected_hex": "ef00",
+      "purpose": "room 619 solidity index"
+    },
+    {
+      "rom_offset": 9676254,
+      "expected_hex": "5200",
+      "purpose": "room 743 solidity index"
+    },
+    {
+      "rom_offset": 9679494,
+      "expected_hex": "ca00",
+      "purpose": "room 824 solidity index"
+    },
+    {
+      "rom_offset": 9679620,
+      "expected_hex": "cd00",
+      "purpose": "room 827 object index"
+    },
+    {
+      "rom_offset": 9707256,
+      "expected_hex": "20006a00",
+      "purpose": "room 180 foreground dimensions"
+    },
+    {
+      "rom_offset": 9708292,
+      "expected_hex": "20006a00",
+      "purpose": "room 181 foreground dimensions"
+    },
+    {
+      "rom_offset": 11788866,
+      "expected_hex": "00",
+      "purpose": "room 126 native area"
+    },
+    {
+      "rom_offset": 11792482,
+      "expected_hex": "05",
+      "purpose": "room 133 native area"
+    },
+    {
+      "rom_offset": 11799986,
+      "expected_hex": "00",
+      "purpose": "room 142 native area"
+    },
+    {
+      "rom_offset": 11804670,
+      "expected_hex": "04",
+      "purpose": "room 170 native area"
+    },
+    {
+      "rom_offset": 11807998,
+      "expected_hex": "01",
+      "purpose": "room 180 native area"
+    },
+    {
+      "rom_offset": 11808074,
+      "expected_hex": "04",
+      "purpose": "room 181 native area"
+    },
+    {
+      "rom_offset": 11812162,
+      "expected_hex": "01",
+      "purpose": "room 195 native area"
+    },
+    {
+      "rom_offset": 11826430,
+      "expected_hex": "03",
+      "purpose": "room 300 native area"
+    },
+    {
+      "rom_offset": 11829022,
+      "expected_hex": "03",
+      "purpose": "room 323 native area"
+    },
+    {
+      "rom_offset": 11840998,
+      "expected_hex": "07",
+      "purpose": "room 502 native area"
+    },
+    {
+      "rom_offset": 11846658,
+      "expected_hex": "07",
+      "purpose": "room 525 native area"
+    },
+    {
+      "rom_offset": 11864014,
+      "expected_hex": "00",
+      "purpose": "room 570 native area"
+    },
+    {
+      "rom_offset": 11874190,
+      "expected_hex": "07",
+      "purpose": "room 619 native area"
+    },
+    {
+      "rom_offset": 11883802,
+      "expected_hex": "01",
+      "purpose": "room 743 native area"
+    },
+    {
+      "rom_offset": 11889350,
+      "expected_hex": "05",
+      "purpose": "room 824 native area"
+    },
+    {
+      "rom_offset": 11890734,
+      "expected_hex": "05",
+      "purpose": "room 827 native area"
+    },
+    {
+      "rom_offset": 14037840,
+      "expected_hex": "244e8708",
+      "purpose": "room 180 solidity header pointer"
+    },
+    {
+      "rom_offset": 14037844,
+      "expected_hex": "f0518708",
+      "purpose": "room 181 solidity header pointer"
+    },
+    {
+      "rom_offset": 14038136,
+      "expected_hex": "70658808",
+      "purpose": "room 743 solidity header pointer"
+    },
+    {
+      "rom_offset": 14038616,
+      "expected_hex": "f0458a08",
+      "purpose": "room 824 solidity header pointer"
+    },
+    {
+      "rom_offset": 14038764,
+      "expected_hex": "a8da8a08",
+      "purpose": "room 619 solidity header pointer"
+    },
+    {
+      "rom_offset": 14038816,
+      "expected_hex": "b8fd8a08",
+      "purpose": "room 170 solidity header pointer"
+    },
+    {
+      "rom_offset": 14039076,
+      "expected_hex": "947a8b08",
+      "purpose": "room 142 object header pointer"
+    },
+    {
+      "rom_offset": 14039132,
+      "expected_hex": "90958b08",
+      "purpose": "room 126 object header pointer"
+    },
+    {
+      "rom_offset": 14039504,
+      "expected_hex": "18528c08",
+      "purpose": "room 323 object header pointer"
+    },
+    {
+      "rom_offset": 14039776,
+      "expected_hex": "2cd78c08",
+      "purpose": "room 827 object header pointer"
+    },
+    {
+      "rom_offset": 14039920,
+      "expected_hex": "a8198d08",
+      "purpose": "room 502 object header pointer"
+    },
+    {
+      "rom_offset": 14042432,
+      "expected_hex": "f81e9408",
+      "purpose": "room 180 foreground pointer"
+    },
+    {
+      "rom_offset": 14042436,
+      "expected_hex": "04239408",
+      "purpose": "room 181 foreground pointer"
+    },
+    {
+      "rom_offset": 14077700,
+      "expected_hex": "fce1b308",
+      "purpose": "room 126 native area pointer"
+    },
+    {
+      "rom_offset": 14077728,
+      "expected_hex": "1cf0b308",
+      "purpose": "room 133 native area pointer"
+    },
+    {
+      "rom_offset": 14077764,
+      "expected_hex": "6c0db408",
+      "purpose": "room 142 native area pointer"
+    },
+    {
+      "rom_offset": 14077876,
+      "expected_hex": "b81fb408",
+      "purpose": "room 170 native area pointer"
+    },
+    {
+      "rom_offset": 14077916,
+      "expected_hex": "b82cb408",
+      "purpose": "room 180 native area pointer"
+    },
+    {
+      "rom_offset": 14077920,
+      "expected_hex": "042db408",
+      "purpose": "room 181 native area pointer"
+    },
+    {
+      "rom_offset": 14077976,
+      "expected_hex": "fc3cb408",
+      "purpose": "room 195 native area pointer"
+    },
+    {
+      "rom_offset": 14078396,
+      "expected_hex": "b874b408",
+      "purpose": "room 300 native area pointer"
+    },
+    {
+      "rom_offset": 14078488,
+      "expected_hex": "d87eb408",
+      "purpose": "room 323 native area pointer"
+    },
+    {
+      "rom_offset": 14079204,
+      "expected_hex": "a0adb408",
+      "purpose": "room 502 native area pointer"
+    },
+    {
+      "rom_offset": 14079296,
+      "expected_hex": "bcc3b408",
+      "purpose": "room 525 native area pointer"
+    },
+    {
+      "rom_offset": 14079476,
+      "expected_hex": "8807b508",
+      "purpose": "room 570 native area pointer"
+    },
+    {
+      "rom_offset": 14079672,
+      "expected_hex": "482fb508",
+      "purpose": "room 619 native area pointer"
+    },
+    {
+      "rom_offset": 14080168,
+      "expected_hex": "d454b508",
+      "purpose": "room 743 native area pointer"
+    },
+    {
+      "rom_offset": 14080492,
+      "expected_hex": "806ab508",
+      "purpose": "room 824 native area pointer"
+    },
+    {
+      "rom_offset": 14080504,
+      "expected_hex": "e86fb508",
+      "purpose": "room 827 native area pointer"
+    }
+  ]
+}

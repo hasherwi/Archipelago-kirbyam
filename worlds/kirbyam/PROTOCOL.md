@@ -6,6 +6,14 @@ This document defines the contract between the Archipelago server, the Python cl
 
 ## Purpose and Scope
 
+The KirbyAM mGBA launcher uses the shared connector protocol with a world-local
+handshake guard. A TCP socket whose local and peer endpoints are identical is
+closed before sending `VERSION` (Linux can self-connect while scanning absent
+listeners). A non-integer or invalid UTF-8 `VERSION` reply closes the stream and
+returns to the existing connection retry loop. Numeric version mismatches retain
+the shared watcher's compatibility check. Other worlds and the stock BizHawk
+launcher retain their existing transport behavior.
+
 Use this document as the protocol source-of-truth for runtime data exchange and delivery semantics.
 
 - It defines mailbox memory layout, field ownership, and directionality.
@@ -32,11 +40,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
 
     0x02000000 - 0x02040000   EWRAM Region (256 KB)
         ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0203B000 - 0x0203B133   AP Mailbox (reserved, 308 bytes)
+        ├─ 0x0203B000 - 0x0203B13B   AP Mailbox (reserved, 316-byte span)
         └─ Remaining EWRAM (excluding AP mailbox block)
 ```
 
-### AP Mailbox Block (0x0203B000 - 0x0203B133)
+### AP Mailbox Block (0x0203B000 - 0x0203B13B)
 
 **Transport Layer: Client ↔ ROM Communication**
 
@@ -61,8 +69,8 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x40   | 0x0203B040 | 4B | mailbox_init_cookie | u32 | ROM internal | Initialization cookie (`0x4B41504D`). If absent/mismatched, payload seeds `delivered_shard_bitfield` from native shard state, clears scrub delay + boss-defeat flags + boss temp shard mask, and stores the cookie to prevent stale EWRAM transport values from triggering scrub writes. |
 | 0x44   | 0x0203B044 | 4B | boss_temp_shard_bitfield | u32 | ROM internal | Bits 0-7 track shard bits temporarily written by boss-defeat hook for cutscene safety. On gameplay resume, payload scrubs only `boss_temp_shard_bitfield & ~delivered_shard_bitfield`, then clears this mask. |
 | 0x48   | 0x0203B048 | 4B | delivered_vitality_item_bits | u32 | Client ↔ ROM | Bits 0..3 identify unique Vitality items. Bit 31 is client-owned and marks a cursor using the starting-inventory-prefixed history. Other bits are reserved. Payload initialization clears the whole word; native Vitality counting uses only bits 0..3. |
-| 0x4C   | 0x0203B04C | 4B | hub_switch_flags | u32 | ROM → Client | Bits 0–14 latched from persisted world-props unlock bits written by `WorldMapUnlockSave` (`sub_08002888(SUB_08002888_ENUM_UNK_3, index, 0)` in decomp; enum value 2), with world-map unlock callback path used only as an immediate fast path when persistence is already visible (AP bit order: Peppermint West, RR East, RR South, Cabbage Center, RR West, Carrot, RR North, Mustard, Cabbage West, Radish, Peppermint East, Moonlight, Cabbage East, Olive, Candy). Mapping source of truth is `data/hub_switch_contract.json`; payload consumes generated `kirby_ap_payload/generated_hub_switch_worldmap_cases.inc` and client compatibility aliases consume generated `generated_hub_switch_contract.py`. Payload ignores `WORLDMAP_NO_UNLOCK` (0), preventing false Peppermint West check sends from non-unlock dispatches (Issue #750). Compatibility note: contract currently carries legacy bit-15 aliasing for `Rainbow Route North - Big Switch` (Issue #733). |
-| 0x50   | 0x0203B050 | 4B | starting_kirby_color_id | u32 | ROM ← Client | Live recovery copy of the resolved starting color (`0..13`). The generated ROM also carries the same value at file offset `0x15F694`, allowing the startup hook to apply it before `CreateKirby`. After reconnect/reset, the payload updates `Kirby::color` and explicitly calls native `sub_0803E558(0)` to rebuild and upload the OBJ palette. |
+| 0x4C   | 0x0203B04C | 4B | hub_switch_flags | u32 | ROM → Client | Bits 0–14 latch when the corresponding big switch is hit. For mapped doors, the unlock hook reports the AP switch check and calls the game's transition-completion function without granting the native connection. `NO_UNLOCK` and unknown indices keep their selected native callback. The Big Switch initializer masks an AP-owned world-props entry to zero until that physical switch has been collected, so item ownership does not remove its check object. Persisted native unlocks are mirrored into switch checks only when the client ownership mask says that door is not item-owned. AP bit order: Peppermint West, RR East, RR South, Cabbage Center, RR West, Carrot, RR North, Mustard, Cabbage West, Radish, Peppermint East, Moonlight, Cabbage East, Olive, Candy. Mapping source of truth is `data/hub_switch_contract.json`; payload consumes generated `kirby_ap_payload/generated_hub_switch_worldmap_cases.inc` and client compatibility aliases consume generated `generated_hub_switch_contract.py`. Payload ignores `WORLDMAP_NO_UNLOCK` (0), preventing false Peppermint West check sends from non-unlock dispatches (Issue #750). Compatibility note: contract currently carries legacy bit-15 aliasing for `Rainbow Route North - Big Switch` (Issue #733). |
+| 0x50   | 0x0203B050 | 4B | starting_kirby_color_id | u32 | ROM ← Client | Live recovery copy of the resolved starting color (`0..18`). The generated ROM carries versioned color/mode configuration at `0x15F694`. The payload resolves random-per-room > owned saved paint choice > static AP color > Pink. Runtime application refreshes OBJ and HUD BG bank 15 together when the gameplay HUD is safe. |
 | 0x54   | 0x0203B054 | 4B | one_hit_mode_runtime | u32 | ROM ← Client | Health Down Trap suppression: new slots write `1` when resolved minimum health is 1, otherwise `0`. Legacy slots retain preset values `0`, `1`, or `2`; any nonzero initialized value suppresses the trap. This word does not select health bounds. Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
 | 0x58   | 0x0203B058 | 4B | no_extra_lives_runtime | u32 | ROM ← Client | Challenge-mode runtime config: no-extra-lives flag (`0`=off, `1`=on). Initialized to `0xFFFFFFFF` by payload on cold boot; overwritten by the Python client each connection. |
 | 0x5C   | 0x0203B05C | 4B | ability_reroll_source_kind_runtime | u32 | ROM → Client | Source-pointer classifier for the **most recent** ability telemetry event: `0` unknown/unspecified, `1` r5 looked like an `Object2*` in EWRAM and source type was sampled at `+0x82`, `2` r5 was null, `3` r5 was non-null but outside EWRAM, `4` ability statue event (`ability_star`) using `ability_reroll_source_addr_runtime` as the native statue ability ID (`0..31`) instead of a ROM source-table address. Helps distinguish swallow-source events from helper/statue call paths. |
@@ -81,20 +89,24 @@ EWRAM Layout (0x02000000 - 0x02040000):
 | 0x90   | 0x0203B090 | 32B | minor_chest_event_ring | u32[8] | ROM → Client | Ring buffer of exact small-chest source pointers. Slot `N = event_counter & 7` stores the live chest object's source pointer from `object+0xB0`; the client matches it against one verified ROM file offset for each active physical minor-chest check. |
 | 0xB0   | 0x0203B0B0 | 4B | ability_gate_mask_runtime | u32 | ROM ← Client | Bitmask of ability IDs that are currently configured as gateable (`safe_to_gate`) in `abilities.json`. |
 | 0xB4   | 0x0203B0B4 | 4B | ability_unlock_mask_runtime | u32 | ROM ← Client and ROM internal | Bitmask of ability IDs currently unlocked by AP ability items. Client sync writes canonical state; payload also sets bits when ability unlock AP items are applied to preserve runtime continuity. |
-| 0xB8   | 0x0203B0B8 | 4B | starting_kirby_color_applied | u32 | ROM internal | EWRAM latch set after the live player-one palette has been refreshed for the current EWRAM session. Cleared with mailbox initialization. This replaces an invalid mutable C static that would otherwise be linked into ROM-backed payload memory. |
-| 0xBC   | 0x0203B0BC | 4B | lever_activation_flags | u32 | ROM → Client | Bits 0–3 latch physical activation of the Moonlight 2-11, Olive 6-13, Carrot 5-12, and Radish 8-12 levers respectively. The chest-collection hook recognizes four exact reward-0x63 lever sources; their delayed popup counter grants are suppressed. This transport is the physical AP lever-location authority (Issues #859, #911, #912). |
+| 0xB8   | 0x0203B0B8 | 4B | starting_kirby_color_applied | u32 | ROM internal | EWRAM latch (0 pending, 1 applied, `0x43535441` only during synchronous native scene construction before the HUD exists). Set after both the player-one OBJ and HUD BG palettes are refreshed. Cleared by mailbox initialization, gameplay startup, a treasure-menu confirmation or a client room-color request. Unsafe HUD/menu/fade states defer without consuming it. This replaces an invalid mutable C static that would otherwise be linked into ROM-backed payload memory. |
+| 0xBC   | 0x0203B0BC | 4B | lever_activation_flags | u32 | ROM ↔ Client | Bits 0–3 latch physical activation of the Moonlight 2-11, Olive 6-13, Carrot 5-12, and Radish 8-12 levers respectively. The chest-collection hook recognizes four exact reward-0x63 lever sources; their delayed popup counter grants are suppressed. This transport is the physical AP lever-location authority (Issues #859, #911, #912). The client also merges active, server-acknowledged checks from the current authenticated slot after reset; writes guard the old latch, initialized mailbox cookie and ROM auth token (Issue #949). |
 | 0xC0   | 0x0203B0C0 | 4B | area_key_bitfield_runtime | u32 | ROM ← Client and ROM internal | Client-canonical Area Key ownership. Bits `2..9` map directly to AP areas Moonlight Mansion through Candy Constellation. The client rewrites the complete value for reconnect/reset/savestate recovery; payload delivery of items `3860041..3860048` also ORs the corresponding bit for immediate, idempotent unlock behavior. Cleared with mailbox initialization before the client reasserts ownership. |
 | 0xC4   | 0x0203B0C4 | 4B | transition_event_counter_runtime | u32 | ROM → Client | Monotonic sequence for transition-attempt telemetry. Each event records source/destination rooms, native method code, allow/deny result, and decision reason. |
-| 0xC8   | 0x0203B0C8 | 96B | transition_event_ring_runtime | 3×u32[8] | ROM → Client | Eight-slot sequence-tagged ring. Slot `N = sequence & 7` stores sequence, packed source/destination room IDs, and method/decision/reason flags. Method codes: `0` unknown/scripted, `1` Warp Star, `2` cannon, `5` door/special transition. The client logs all available attempts to the file and reports overwritten records. |
+| 0xC8   | 0x0203B0C8 | 96B | transition_event_ring_runtime | 3×u32[8] | ROM → Client | Eight-slot sequence-tagged ring. Slot `N = sequence & 7` stores sequence, packed source/destination room IDs, and method/decision/reason flags. Method codes: `0` unknown/scripted, `1` Warp Star, `2` cannon, `3` wind chute, `5` door/special transition. The client logs all available attempts to the file and reports overwritten records. |
 | 0x130  | 0x0203B130 | 4B | transition_event_telemetry_cookie_runtime | u32 | ROM → Client | `0x54524E31` (`TRN1`) marks a ROM with the transition telemetry ABI. The client ignores the ring until this cookie is present, avoiding garbage reads from older ROM builds. |
+| 0x134  | 0x0203B134 | 4B | hub_connection_item_mask | u32 | Client → ROM | Complete ReceivedItems ownership mask for native WorldMapDoor enum indices 1–15 (bit N = door N). Payload restores the corresponding world-props unlock entries from this client-owned mask without inferring physical switch checks from native door state. `0xFFFFFFFF` means the client has not synchronized ownership yet. |
+| 0x138  | 0x0203B138 | 4B | hub_switch_init_state_scratch | u32 | ROM internal | Zero-valued scratch WorldProps entry returned during Big Switch initialization when AP owns its connection item but the matching physical switch check is not complete. This keeps AP-owned route state separate from switch-check object visibility. |
 
-**Total: 308 bytes (0x0203B000 - 0x0203B133)**
+**Total: 316-byte span (0x0203B000 - 0x0203B13B)**
 
 #### Area Key transition runtime contract (Issue #42)
 
 The payload derives both endpoints from native room IDs and reads each room's native area byte from `gUnk_08D6CD0C[room_id]->unk46`. A transition is Area-Key-gated only when the source and destination areas differ and the destination native area is `1..8`, which maps to AP Area Key bits `2..9`. Rainbow Route (native area `0`), Tutorial (`9`), Dimension Mirror (`10`), same-area transitions, and invalid/unknown room metadata preserve native behavior. This destination-based rule means `Area A → Area B` requires Area B's key while the reverse edge requires Area A's key.
 
 Functional denial occurs before native transition state mutates on the patched automatic special-tile, button-entry, explicit/AI, warp-star, cannon-boarding, and Unknown 83 transport paths described above. The cannon guard replaces the four native eligibility calls before passenger bits are set. The Unknown 83 callback reproduces its observed room/spawn pending writes only after the shared destination-key predicate allows them; it is labeled `unknown/scripted` because its native object name does not establish a more precise method. The ROM emits attempts to an eight-entry telemetry ring; the client records source/destination, method, decision, and reason in its file log. Identical collision polls are debounced for 30 frames. Warp Stars and cannons have precise method labels; generic door and scripted transitions are labeled `door/special transition` or `unknown/scripted` when their origin cannot be distinguished safely. The ring is polled only for seeds carrying the Area Key slot-data contract, preserving compatibility with older seeds. Some scripted/follower paths remain outside these hooks and must not be treated as audited runtime coverage. The patch builder validates all 263 `rooms.json` `doorsIdx` area assignments against the retail native room metadata, requires the exact retail automatic-guard bytes and exact visual/button/explicit/warp-star/cannon callsite counts plus the original Unknown 83 callback pointer, and aborts rather than emitting a mismatched or partially gated ROM when any contract drifts.
+
+Wind chute admission resolves the four verified `(source, chute, spawn)` tuples to the room at the end of the entered lane: `743→180 (5,3)` checks Olive (`824`), `824→180 (12,49)` checks Moonlight (`743`), `170→181 (5,3)` checks Radish (`619`), and `619→181 (12,49)` checks Carrot (`170`). Permission and telemetry use that endpoint; native execution retains the original chute destination and spawn. This denies entry before forced motion, while the eventual automatic exit retains its destination gate. Cannon objects may reside in IWRAM or EWRAM; both validated ranges use the destination predicate before native boarding. All four currently inventoried retail cannon jumps remain same-area and require no new key.
 
 Visual state is independent of functional denial. Calls to native `sub_08002BA8` are wrapped only to report the Area Key predicate for keyed inter-area edges; all other queries return the native visited-door result. Consequently keyed mirrors remain instantiated and use the door object's existing visible inactive/active variants (including `0x294` variants `0xA`/`9` for boarded area doors and `3`/`2` for regular mirrors). Sprite hiding and the former runtime-only `doorsIdx` warp blacklist are not part of this contract.
 
@@ -140,10 +152,14 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | TRAP_LIFE_WIPEOUT | 3860036 | Trap item: sets Kirby's lives count to 0 |
 | LEVER_WALL_MOONLIGHT_MANSION_2_11 .. LEVER_WALL_RADISH_RUINS_8_12 | 3860037 - 3860040 | Progression items that independently set the four native lever-controlled wall bits (Issue #859) |
 | AREA_KEY_2 .. AREA_KEY_9 | 3860041 - 3860048 | Progression items that unlock inter-area mirror destinations for Moonlight Mansion through Candy Constellation (bits `2..9` in `area_key_bitfield_runtime`) |
+| HUB_CONNECTION_RAINBOW_ROUTE_EAST .. HUB_CONNECTION_CANDY_CONSTELLATION | 3860401 - 3860415 | Progression items mapped in `WorldMapDoor` enum order; IDs `BASE_OFFSET + 400 + door_index` for native door indices 1..15 |
 | ABILITY_UNLOCK_* | 3860101 - 3860125 | Explicit ability items in `data/items.json`, preserving `BASE_OFFSET + 100 + runtime_ability_id`: 19 gateable unlocks and six guaranteed starting abilities. `Normal`, `Master`, and `Wait` have no AP item. |
 | SPRAY_PAINT_01 .. SPRAY_PAINT_14 | 3860200 - 3860213 | Unique useful collection items; OR native Spray Paint ownership bits 0..13 |
 | MUSIC_SHEET_01 .. MUSIC_SHEET_10 | 3860214 - 3860223 | Unique useful collection items; OR native Music Player/Sheets bits 1..10, leaving bit 0 unchanged |
-| *Reserved* | 3860049 - 3860100, 3860132 - 3860199, 3860224+ | Future items; deferred hub/area-key work already uses IDs beginning at 3860041 |
+| TRAP_HUB_TELEPORT | 3860300 | Explicit stable reservation; native warp-star return with receipt deferral |
+| *Reserved* | 3860049 - 3860100, 3860132 - 3860199, 3860229 - 3860299, 3860301 - 3860400, 3860416+ | Future items; open hub/area-key branches use IDs beginning at 3860041. Check `data/item_id_reservations.json` and validate candidate catalogs before combining branches. |
+
+Hub Connection item gates are declared on area-region exits in `data/regions/areas.json` using the `{"item": "<item label>"}` requirement. The watcher waits until the current connection's item history is known before writing the full door ownership mask or polling checks/delivering items. On a standard Archipelago server, a non-empty history is replayed as `ReceivedItems` index zero in the `Connected` websocket batch; if the batch contains no such packet, the client treats the history as empty after that batch has drained. An explicit index-zero packet remains authoritative, including if it is empty. A reconnect clears the payload mask to the unknown sentinel until the new connection's batch is processed, and clears stale `items_received` state if the batch confirms empty. The payload applies each owned native world-props unlock idempotently and does not infer a switch check from item-granted state. Runtime behavior has code and regression coverage. See the dated integration evidence for the distinction between historical and refreshed-build emulator acceptance.
 
 ### Current filler effect contract
 
@@ -199,6 +215,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 |---------------|----------|-------------|
 | GOAL_DARK_MIND | auto-assigned | Internal goal metadata entry for Dark Mind completion. Current shipped worlds convert goal locations to runtime events, so the client may report `CLIENT_GOAL` directly when no numeric goal location is exposed by the server. |
 | GOAL_ANY_AREA_BOSS | auto-assigned | Internal goal metadata entry for the "Defeat Any Area Boss" mode. Trigger source is acknowledged `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8` checks; Candy Constellation's Master Hand + Crazy Hand pair counts as one pooled target (`BOSS_DEFEAT_3`). |
+| GOAL_AREA_BOSS_COUNT | 3960012 | Internal metadata for "Defeat a Number of Area Bosses". Generation creates an addressless locked event in Rainbow Route. Completion requires `required_area_bosses` distinct acknowledged canonical area-boss checks. |
 | GOAL_CONFIGURED_AREA_BOSS | auto-assigned | Internal goal metadata entry for the canonical "Defeat Area Boss" mode. Trigger source is the selected `BOSS_DEFEAT_N` check carried via `goal_configured_area_boss_key`. The internal key name is retained for slot-data compatibility. |
 | BOSS_DEFEAT_1 .. BOSS_DEFEAT_8 | auto-assigned | Area boss defeat locations (8 locations) |
 | MAJOR_CHEST_CABBAGE_CAVERN | 3960200 | Cabbage Cavern big chest (bit 3, gTreasures.bigChestField) |
@@ -245,16 +262,19 @@ Server → Client: ConnectionRefused | Connected
 
 `slot_data` currently includes:
 - `world_version` (str): world release/version identifier from `KirbyAmWorld.world_version` (for example, `0.2.0`), emitted for log/tracker/version diagnostics.
-- `goal` (int): selected canonical goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Area Boss`). The older YAML name `defeat_configured_area_boss` parses as value `2`. The removed `defeat_random_hidden_area_boss` must be replaced with `goal: defeat_area_boss` plus `configured_area_boss: random`.
+- `goal` (int): selected canonical goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Area Boss`, `4=Defeat a Number of Area Bosses`). Value `3` is reserved for legacy hidden seeds. The older YAML name `defeat_configured_area_boss` parses as value `2`. The removed `defeat_random_hidden_area_boss` must be replaced with `goal: defeat_area_boss` plus `configured_area_boss: random`.
+- `required_area_bosses` (int): threshold from 1 to 8, default 3. Used only by `goal=4`; all other goals ignore it. Missing, malformed or out-of-range values disable count-goal reporting rather than defaulting.
 - `configured_area_boss` (int): concrete area-boss option (`0=King Golem`, `1=Moley`, `2=Kracko`, `3=Mega Titan`, `4=Gobbler`, `5=Wiz`, `6=Dark Meta Knight`, `7=Master Hand + Crazy Hand pair`). Only used when `goal` is `defeat_area_boss`. The literal YAML value `random` is resolved by Archipelago to one of these concrete values before generation.
 - `goal_configured_area_boss_key` (str | null): internal boss-defeat key selected for `defeat_area_boss` (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`). The field name is retained for compatibility. Default target is `BOSS_DEFEAT_3` (Master Hand + Crazy Hand pair).
 - `shards` (int): shard randomization mode.
 - `start_with_all_maps` (bool): when true, all map items are precollected and removed from randomized placement, and the BizHawk client reasserts all native area-map bits during gameplay reconciliation.
-- `starting_kirby_color` (int): resolved Kirby starting color ID (`0..13`) after Archipelago option parsing. The same value is baked into the procedure patch and applied before the first single-player gameplay palette is created.
+- `kirby_color_catalog_version` (int): `2` enables the shared 19-color catalog after the client verifies the ROM extension marker `APCOL02\0` at file offset `0x1000000`. Absent/legacy metadata keeps the native-only 14-color per-room pool. New colors require regenerated patches and an updated client; custom logical IDs use native fallback Pink and never become paint ownership/save IDs.
+- `starting_kirby_color` (int): resolved Kirby starting color ID (`0..18`) after Archipelago option parsing. The ID and per-room mode are encoded into the ROM configuration; startup resolves precedence before creating Kirby.
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
-- `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the existing payload refreshes Kirby's live OBJ palette. Reconnect alone does not reroll the color.
+- `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the payload refreshes Kirby's live OBJ and matching HUD BG palettes, including Pink. Reconnect alone does not reroll the color.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
 - `health_protocol_version` (int): `2` for newly generated ROMs; requires the format-2 client and `KIRBYAM APV2` ROM header. Missing version identifies the legacy four-counter contract.
+- `hub_connection_protocol_version` (int): `2` for Hub seeds; requires ROM marker `APHUB02\0` at file offset `0x1000008`. Earlier Hub drafts without this version must regenerate seed and patch together.
 - `minimum_health` (int): starting HP capacity (`1..10`, default `6`), embedded in new ROMs for native initialization and reconciled by the connected client after the tutorial. This is not a current-HP floor. Legacy nonzero presets take precedence for old slots.
 - `maximum_health` (int): final HP capacity (`1..10`, default `10`). Must be at least `minimum_health` and no more than nine HP above it. The difference determines how many of the nine unique Vitality Counter items are generated. Legacy nonzero presets take precedence for old slots.
 - `enable_traps` (bool): when true, trap items may appear in the randomized item pool.
@@ -291,6 +311,19 @@ Goal runtime behavior contract:
 - Goal mode `dark_mind` reports completion after the native Dark Mind clear signal.
 - Goal mode `defeat_any_area_boss` reports completion after the first acknowledged area-boss defeat check in `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`.
 - Goal mode `defeat_area_boss` reports completion after the selected boss-defeat target is acknowledged by the server; the client resolves the target from `goal_configured_area_boss_key`. Setting `configured_area_boss` to the literal `random` uses Archipelago's standard `Choice` randomization and still emits one concrete target.
+
+Count-goal contract (`goal=4`):
+- Count the intersection of this slot's server-acknowledged checks with the eight canonical
+  `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8` IDs. Repeated defeats, resends, reconnects and unrelated checks cannot add credit.
+- Master Hand + Crazy Hand count once. Radish Ruins' Dark Meta Knight counts; the later Dimension Mirror encounter,
+  Dark Mind, minibosses, Mirror Shards and received items do not. Server-restored checks retain credit, as in other boss goals.
+- The selected locked goal event is reachable when at least N distinct boss locations are reachable in AP logic.
+  Unselected goal events remain inert. The count is an alternative goal, never an extra requirement for other modes.
+- Reuse normal goal reporting: addressless events send `CLIENT_GOAL` after the boss checks are acknowledged;
+  a server-exposed numeric goal must itself be acknowledged first. `/goal` only displays the requirement.
+- Use the updated KirbyAM APWorld/client for count-goal seeds. Older clients interpret unknown goal values as Dark Mind;
+  the framework minimum-client version does not enforce a KirbyAM plugin version. Updated clients disable reporting
+  for missing, malformed or unknown goal values. Existing seeds with goals 0–3 need no count field.
 
 Legacy goal compatibility:
 - New generation does not emit goal value `3` or `goal_hidden_area_boss_key`. The client still accepts those fields from already-generated `defeat_random_hidden_area_boss` seeds and maps them through the retained legacy goal metadata entry.
@@ -335,7 +368,7 @@ no RAM reads, location sends, item writes, or goal reports occur.
 
 When runtime gate classifies non-gameplay:
 - Defer location polling and boss-defeat polling.
-- Defer new mailbox item writes.
+- Defer new mailbox item writes, except the six guaranteed starting-ability precollect receipts during a live tutorial (native rooms 803–805, AI state 100, positive HP, demo flags zero). This exception accepts only Archipelago-origin `location=-2, player=0` receipts at the current history cursor; it never skips an intervening item or equips an ability. Other precollects and ordinary items remain deferred. Permission masks already synchronize before this receipt processing.
 - Continue mailbox ACK/recovery handling for already-pending deliveries.
 - Continue goal polling (goal signal can occur in post-clear non-gameplay states).
 
@@ -827,4 +860,47 @@ crash-window limits and recovery semantics. ROM/save formats are unchanged.
 
 ### Area Key branch payload layout
 
-The combined payload starts at ROM file offset `0x15DC00`, extending the old window backward by 1 KiB. The patcher requires every added byte through `0x15DFFF` to match the retail zero padding. The payload ends at `0x15F6A0`; health/color/gate/statue config remains fixed at `0x15F690..0x15F69F`. Hook destinations are resolved from the rebuilt ELF. This branch requires newly generated patches; offline patch validation does not establish transition gameplay acceptance.
+The combined payload starts at ROM file offset `0x15DC00`, extending the old window backward by 1 KiB. The patcher requires every added byte through `0x15DFFF` to match the retail zero padding. The payload ends at `0x15F6A0`; Minny/health/color/gate/statue config remains fixed at `0x15F68C..0x15F69F`. Transition helpers share the existing ROM extension at `0x09000000`; short native calls land on verified long-call entries in the fixed window. Hook destinations are resolved from the rebuilt ELF. This branch requires newly generated patches; offline patch validation does not establish transition gameplay acceptance.
+
+### Acknowledged lever reset recovery (v0.4.1)
+
+The client reconstructs physical lever bits only from `checked_locations` after
+`Connected`, filtered to the current slot's active locations. It repeats this
+reconciliation during normal gameplay, so a reset does not require a client
+restart. The guarded merge preserves concurrent physical pulls and retries
+after mailbox initialization or a changed latch; the ROM auth guard prevents
+a swapped ROM from receiving another slot's state. No native wall bit is written.
+
+The lever auxiliary callback refreshes variant 3 and the opened callback only
+when the current callback is the native waiting state. Native pulls/popups and
+the existing once-only wall-counter contribution remain untouched. Newly
+generated patches are required for this immediate live-object refresh; older
+payloads use the restored latch on the next room load. Offline/unacknowledged
+pulls are still session-only and can be lost on reset.
+
+### Color precedence and saved paint choice (v0.4.1)
+
+The color word at ROM `0x0815F694` is `0xC0100000 | (per_room << 8) | initial_color`, with ID `0..13`. Old concrete words `0..13` remain static configurations; an absent/invalid configuration falls back to Pink. This does not move the health, gate or statue configuration words. Framework `random` resolves once at generation and is static thereafter. The existing client mailbox remains a plain color ID; no client-side palette writes are added.
+
+An explicit A-button confirmation on an owned spray-paint entry records `0xC600 | (color << 4) | (color ^ 15)` in the two unused tail-padding bytes of native `Treasures` (`0x02038982`). Those bytes already belong to the native 0x24-byte checksummed save descriptor. The menu hook validates the owned bit, then uses native `UpdateSaveBufferByOffset(WORLD_PROPS, gSaveID)` for both copies in the selected slot. No raw SRAM writes or per-frame saves occur. AP color/configuration writes and item receipt never create a manual-choice marker. Legacy zero/unrecognized padding and markers whose paint is no longer owned are ignored. Existing saves cannot distinguish a historical manual choice from an AP default; choose the owned paint once with the updated patch to record it, even if it already matches the displayed color.
+
+The menu's always-available default swatch clears the marker, allowing the AP static color to win. A collected Pink paint is an explicit owned choice like every other paint. Random-per-room overrides but does not erase a marker. Native save/load and resets restore the marker per slot; savestates restore their older marker/mailbox/latch state. Reconnect alone does not reroll. Startup clears the palette latch and resolves the current valid runtime color (per-room mode), saved owned choice, configured static color or Pink before `CreateKirby`.
+
+HUD refresh uses the native color-specific HUD table and BG+backup loader, then sets the BG upload flag. It waits for the active single-player gameplay HUD, valid Kirby task/ability and completed hardware brightness fades. Native BG/OBJ RGB-transformation enables (`gMainFlags & 0x30000`) can persist during ordinary gameplay and do not defer a color request. The OBJ refresh retains native transformation behavior; the HUD keeps its raw resolved backup row and uses native `LoadBgPaletteWithTransformation` for its working row when BG transformation is enabled. It does not reinitialize HUD tasks or touch health, lives, battery counts, other players or paint ownership. Changes require a newly generated ROM patch; old ROMs retain their previous color behavior.
+
+### Hub Teleport Trap deferral (item 3860300)
+
+This trap retains the existing incoming flag and receipt index until the main-thread scheduler wrapper observes native warp-star charge enter takeoff (or safely observes Kirby already in the hub). The input mailbox poll leaves it pending. Scripts, pause, death, demo, multiplayer and transition states defer it. Its client ACK timeout retains the flag instead of clearing/reoffering it; later receipts remain ordered behind it. It is transient/non-replayable after observed ACK, and uses the existing ambiguous-receipt recovery after process loss. No mailbox or native save layout changes. See [native evidence and emulator acceptance](dev-docs/hub-teleport-trap.md).
+
+Hub draft compatibility: IDs 3860401–3860415 and ownership/scratch words at `0x0203B134`/`0x0203B138` supersede earlier #932 IDs 3860041–3860055 and words at `0x0203B0C0`/`0x0203B0C4`. Regenerate old draft seeds and ROM patches together; do not reconnect an old draft seed with this client. The gap `0x0203B0C0..0x0203B133` is reserved for #908, whose Area Key and telemetry implementation is not included here.
+
+
+## Hub physical-check save format (version 2)
+
+Physical switch checks use native world-state words 27–31, bound to the complete
+ROM authentication token. The existing native save section, checksums, duplicate
+copies and file policy are unchanged. The client reports restored checks even on
+its first connection; it does not suppress them as a stale transport baseline.
+See [allocation, compatibility, graph and validation evidence](docs/hub-save-and-graph.md).
+
+Hub item names match physical destinations: 3860401 is Rainbow Route East (801↔190), and 3860402 is Moonlight Mansion (801↔790). Correcting these names does not change numeric receipt routing, native enum aliases, protocol 2, or save layout. Existing generated seeds retain their serialized labels; regenerate seeds for corrected display names. Historical draft ID reservations remain historical.

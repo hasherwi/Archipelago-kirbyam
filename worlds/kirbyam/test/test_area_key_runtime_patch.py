@@ -116,7 +116,7 @@ def test_button_transition_telemetry_matches_native_human_up_condition() -> None
     native_passthrough = guard.index("return KIRBY_BUTTON_TRANSITION_FN(kirby);")
     attempt_predicate = guard.index("ap_transition_is_human_up_attempt(player_id, human_player_count, movement_state)")
     destination = guard.index("ap_button_transition_destination(kirby, &destination_room)")
-    telemetry = guard.index("ap_log_transition_attempt(source_room, destination_room, 5u, allowed")
+    telemetry = guard.index("ap_log_transition_attempt(source_room, destination_room,")
     denial = guard.index("if (allowed == 0u)", telemetry)
     denied_return = guard.index("return 0u;", denial)
     native_allowed = guard.index("return KIRBY_BUTTON_TRANSITION_FN(kirby);", native_passthrough + 1)
@@ -140,14 +140,14 @@ def test_explicit_transition_telemetry_requires_matching_player_tile_and_spawn()
     end = payload.index("/* sub_080510EC", start)
     guard = payload[start:end]
 
-    helper = payload[payload.index("static uint8_t ap_current_special_tile_destination("):start]
+    helper = payload[payload.index("uint8_t ap_current_special_tile_destination("):start]
     assert "out_spawn_x" in helper and "out_spawn_y" in helper
     attempt = guard.index("ap_transition_is_human_up_attempt(")
     human_count = guard.index("KIRBY_NUM_HUMAN_PLAYERS_ADDR")
     movement_state = guard.index("KIRBY_STRUCT_MOVEMENT_STATE_OFFSET")
     source_tile = guard.index("ap_current_special_tile_destination(")
     destination_match = guard.index("ap_transition_matches_special_tile(")
-    telemetry = guard.index("ap_log_transition_attempt(source_room, destination_room, 0u, allowed")
+    telemetry = guard.index("ap_log_transition_attempt(source_room, permission_room,")
     denied = guard.index("if (allowed == 0u)", telemetry)
     assert attempt < human_count < movement_state < source_tile < destination_match < telemetry < denied
     assert "return KIRBY_EXPLICIT_TRANSITION_FN(kirby, destination_room, spawn_x, spawn_y);" in guard
@@ -210,7 +210,7 @@ def test_payload_has_separate_visual_and_pre_mutation_functional_guards() -> Non
     assert "uint32_t ap_transition_allowed(uint16_t source_room, uint16_t destination_room)" in payload
     assert "uint32_t ap_prepare_automatic_transition(void *kirby, uint32_t collision_flags)" in payload
     assert "uint8_t ap_on_button_special_transition(void *kirby)" in payload
-    assert "static uint8_t ap_button_transition_destination(void *kirby, uint16_t *out_destination_room)" in payload
+    assert "uint8_t ap_button_transition_destination(void *kirby, uint16_t *out_destination_room)" in payload
     assert "#define KIRBY_STRUCT_CONTACT_OBJECT_OFFSET 0x6Cu" in payload
     assert "#define KIRBY_OBJECT_DESTINATION_ROOM_OFFSET 0x63u" in payload
     assert "uint8_t ap_on_explicit_room_transition(" in payload
@@ -219,7 +219,7 @@ def test_payload_has_separate_visual_and_pre_mutation_functional_guards() -> Non
     assert "void ap_on_unknown83_transport_update(void *object2)" in payload
     assert "void ap_on_mirror_shard_update(void *shard)" in payload
     assert "uint32_t ap_on_query_special_door_state(" in payload
-    assert "return ap_transition_allowed(room_id, destination_room);" in payload
+    assert "return ap_transition_allowed(room_id, permission_room);" in payload
     assert "return KIRBY_SPECIAL_DOOR_VISITED_FN(room_id, destination_room, spawn_x, spawn_y);" in payload
     assert "ap_is_warp_room_doors_idx" not in payload
 
@@ -359,3 +359,21 @@ def test_protocol_documents_area_key_runtime_allocation_and_item_ids() -> None:
     assert "3860041 - 3860048" in protocol
     assert "variants `0xA`/`9` for boarded area doors" in protocol
     assert "`3`/`2` for regular mirrors" in protocol
+
+
+def test_wind_chute_admission_records_fail_closed_on_drift() -> None:
+    evidence = json.loads((WORLD_DIR / "test/data/area_key_transports.json").read_text())
+    records = [entry for entry in evidence["byte_preconditions"]
+               if "special tile transition" in entry["purpose"]]
+    rom = bytearray(0x1000000)
+    for entry in records:
+        offset = entry["rom_offset"]
+        value = bytes.fromhex(entry["expected_hex"])
+        rom[offset:offset + len(value)] = value
+    patch_rom.validate_wind_chute_routes(rom)
+    for entry in records:
+        offset = entry["rom_offset"] + 8  # native destination room
+        rom[offset] ^= 1
+        with pytest.raises(SystemExit, match="Area Key wind chute"):
+            patch_rom.validate_wind_chute_routes(rom)
+        rom[offset] ^= 1

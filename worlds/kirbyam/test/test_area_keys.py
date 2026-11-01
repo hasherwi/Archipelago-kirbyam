@@ -166,7 +166,7 @@ def test_area_key_bits_are_destination_area_ids_2_through_9() -> None:
 
 def test_directed_area_key_contract_contains_main_and_room_edges_only_into_areas_2_to_9() -> None:
     gated = area_key_entrance_area_ids()
-    assert gated["REGION_RAINBOW_ROUTE/MAIN -> REGION_MOONLIGHT_MANSION/MAIN"] == 2
+    assert gated["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_MOONLIGHT_MANSION/ROOM_2_HUB"] == 2
     assert any("/ROOM_" in entrance_name for entrance_name in gated)
     assert all(area_id in range(2, 10) for area_id in gated.values())
     assert "REGION_MOONLIGHT_MANSION/MAIN -> REGION_RAINBOW_ROUTE/MAIN" not in gated

@@ -45,7 +45,8 @@
         "area_key_bitfield_runtime": "0x0203B0C0",
         "transition_event_counter_runtime": "0x0203B0C4",
         "transition_event_ring_runtime": "0x0203B0C8",
-        "transition_event_telemetry_cookie_runtime": "0x0203B130"
+        "transition_event_telemetry_cookie_runtime": "0x0203B130",
+      "hub_connection_item_mask": "0x0203B134"
     },
     "native": {
       "other_chest_flags_native": "0x02038960",

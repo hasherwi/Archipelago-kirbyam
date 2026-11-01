@@ -5,7 +5,17 @@ that every supported option combination works. The health delta passes focused
 checks, but the wider review reproduces inherited compatibility defects below.
 No live emulator session, owner save, ROM or connector was changed by this review.
 
-## Consolidated v0.4 candidate update
+## Room-sanity generation repair (#945 / #969)
+
+The scoped repair adds terminal physical-room check regions and the native-backed
+Moonlight lower-room entrance. The current health archive regression now requires
+all 55 valid health ranges across 12 scenarios (660 generations) to succeed; the
+old five-room expected-failure exception has been removed. Historical counts and
+findings below describe the earlier #934 review, not the current test contract.
+See [room-sanity evidence](room-sanity-945.md). This does not claim all seeds,
+arbitrary common AP constraints, or native gameplay acceptance.
+
+## Consolidated v0.4 candidate update (historical)
 
 The findings below describe the earlier #934 review against its then-current
 main baseline. The consolidated #931 candidate includes #940's full starting
@@ -17,7 +27,7 @@ the tested scope; they do not establish every DeathLink interleaving or native
 save/load behavior. The room-sanity defect #945 remains unchanged. Issue state
 and release acceptance are separate from this local integration evidence.
 
-## Executable coverage
+## Historical executable coverage
 
 `test_health_option_matrix.py` covers:
 
@@ -55,7 +65,7 @@ proof of native gameplay reachability or arbitrary common AP options. Common
 customizations cannot be reduced to a claimed finite global Cartesian test.
 The 12 mixed scenarios are examples, not pairwise-complete coverage.
 
-## Blocking broader compatibility findings
+## Historical broader compatibility findings
 
 1. **Room sanity ([#945](https://github.com/hasherwi/Archipelago-kirbyam/issues/945)):** split rooms 5-13, 6-05, 8-09 and 9-CHEST_2 attach their one
    room check to a canonical region while entrances target logical subregions.

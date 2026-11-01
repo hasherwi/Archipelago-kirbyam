@@ -10,7 +10,7 @@ import pytest
 from BaseClasses import ItemClassification
 
 from .. import KirbyAmWorld
-from ..data import LocationCategory, data, load_json_data
+from ..data import BASE_OFFSET, LocationCategory, data, load_json_data
 from ..items import get_item_classification
 from ..enemy_ability_data import STARTING_COPY_ABILITIES
 from ..locations import KirbyAmLocation
@@ -172,8 +172,41 @@ def test_consumable_filler_item_ids_are_stable() -> None:
     assert labels_to_ids["Bomb Trap"] == 3860034
     assert labels_to_ids["Battery Drain Trap"] == 3860035
     assert labels_to_ids["Life Wipeout Trap"] == 3860036
+    assert labels_to_ids["Hub Teleport Trap"] == 3860300
     assert "2 Up" not in labels_to_ids
     assert "3 Up" not in labels_to_ids
+
+
+def test_hub_connection_item_ids_match_native_door_order() -> None:
+    contract = load_json_data("hub_switch_contract.json")
+    entries = sorted(contract["entries"], key=lambda entry: int(entry["native_world_map_door_index"]))
+    assert len(entries) == 15
+
+    for door_index, entry in enumerate(entries, start=1):
+        door_name = str(entry["native_world_map_door_name"]).removeprefix("WORLDMAP_")
+        # Native enum aliases 1/2 predate the physical destination audit.
+        # Preserve those ABI aliases while checking the corrected item catalog.
+        door_name = {1: "RAINBOW_ROUTE_EAST", 2: "MOONLIGHT_MANSION"}.get(door_index, door_name)
+        item_key = f"HUB_CONNECTION_{door_name}"
+        item_id = data.item_key_to_id[item_key]
+        item = data.items[item_id]
+
+        assert item.item_id == BASE_OFFSET + 400 + door_index
+        assert item.label == f"{door_name.replace('_', ' ').title()} - Hub Connection"
+        assert item.classification == ItemClassification.progression
+        assert {"HubConnections", "Progression", "Unique"} <= set(item.tags)
+
+
+def test_hub_connection_items_are_in_the_randomized_progression_pool() -> None:
+    world, _locations = _build_world_for_create_items(RandomizeShards.option_completely_random)
+
+    world.create_items()
+
+    expected_ids = {
+        item.item_id for item in data.items.values() if "HubConnections" in item.tags
+    }
+    pooled_ids = {item.code for item in world.multiworld.itempool if item.code is not None}
+    assert expected_ids <= pooled_ids
 
 
 def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
@@ -266,6 +299,7 @@ def test_available_trap_item_labels_include_all_traps_from_items_json() -> None:
         "Bomb Trap",
         "Battery Drain Trap",
         "Life Wipeout Trap",
+        "Hub Teleport Trap",
     )
 
 
@@ -275,7 +309,7 @@ def test_get_trap_item_name_can_return_life_wipeout_trap() -> None:
 
     def _choose(pool: tuple[str, ...]) -> str:
         seen_pool["pool"] = pool
-        return pool[-1]
+        return pool[pool.index("Life Wipeout Trap")]
 
     world.random = SimpleNamespace(choice=_choose)
     world.options = SimpleNamespace(
@@ -298,6 +332,7 @@ def test_no_extra_lives_removes_life_traps_from_active_trap_pool() -> None:
         "Health Down Trap",
         "Bomb Trap",
         "Battery Drain Trap",
+        "Hub Teleport Trap",
     )
 
 
@@ -313,6 +348,7 @@ def test_one_hit_mode_removes_health_down_from_active_trap_pool() -> None:
         "Bomb Trap",
         "Battery Drain Trap",
         "Life Wipeout Trap",
+        "Hub Teleport Trap",
     )
 
 
@@ -326,6 +362,7 @@ def test_combined_modes_remove_life_and_health_traps_from_active_trap_pool() -> 
     assert world._active_trap_pool() == (
         "Bomb Trap",
         "Battery Drain Trap",
+        "Hub Teleport Trap",
     )
 
 

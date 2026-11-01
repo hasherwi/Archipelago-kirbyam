@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING
 from settings import get_settings
 from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
 
+from .colors import encode_color_config
 from .data import data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
 from .enemy_ability_runtime_patch import (
@@ -40,6 +41,7 @@ if TYPE_CHECKING:
 HEALTH_INITIAL_ROM_OFFSET = 0x0015F690
 STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET = 0x0015F694
 ABILITY_GATE_MASK_INITIAL_ROM_OFFSET = 0x0015F698
+ABILITY_RANDOMIZATION_MINNY_ROM_OFFSET = 0x0015F68C
 ABILITY_RANDOMIZATION_STATUE_ALLOWED_MASK_ROM_OFFSET = 0x0015F69C
 ENEMY_HEALTH_MULTIPLIER_FILE = "enemy_health_multiplier.bin"
 
@@ -144,14 +146,11 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
     )
 
     resolved_color_id, _ = world._get_resolved_starting_kirby_color()
-    if not 0 <= int(resolved_color_id) <= 13:
-        raise ValueError(
-            f"resolved starting Kirby color must be within 0..13: {resolved_color_id}"
-        )
     patch.write_token(
         APTokenTypes.WRITE,
         STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET,
-        int(resolved_color_id).to_bytes(4, "little"),
+        encode_color_config(int(resolved_color_id),
+                            world._starting_kirby_color_randomize_on_room_transition_enabled()).to_bytes(4, "little"),
     )
 
     mode = int(world.options.ability_randomization_mode.value)
@@ -171,6 +170,15 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
         APTokenTypes.WRITE,
         ABILITY_GATE_MASK_INITIAL_ROM_OFFSET,
         _initial_ability_gate_mask(world).to_bytes(4, "little"),
+    )
+
+    # Keep the source inclusion policy in the generated ROM, independently of
+    # client connection/reset timing. Match the static policy's legacy default.
+    randomize_minny = bool(policy.get("ability_randomization_minny", True)) if isinstance(policy, dict) else False
+    patch.write_token(
+        APTokenTypes.WRITE,
+        ABILITY_RANDOMIZATION_MINNY_ROM_OFFSET,
+        int(randomize_minny).to_bytes(4, "little"),
     )
 
     # Always overwrite the reserved statue word so a reused base patch cannot

@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import argparse
 import importlib.util
+import json
 import random
+import runpy
 from pathlib import Path
 from typing import Any
 
@@ -124,6 +126,30 @@ def build_dummy_rom() -> bytearray:
     rom[0x3EB0E:0x3EB14] = patch_rom.thumb_bl_bytes(0x0803EB0E, 0x08019F0C) + b"\x06\x30"
     for offset in (0x339B2, 0x33BF2, 0x35A62):
         put_bl(offset, 0x0803518C)
+    # Hub switch initialization and dispatcher contract from current main.
+    put_bl(0x2AD24, 0x08002888)
+    put_bl(0x1193C4, 0x08002888)
+    for index in range(15):
+        offset = 0x34BDBC + index * 4
+        rom[offset:offset + 4] = (0x08126405 + index * 12).to_bytes(4, "little")
+
+    # Minny enemy ABI and native treasure-menu paint selection.
+    rom[0x9C6A2:0x9C6AA] = bytes.fromhex("2c 1c 84 34 21 78 30 1c")
+    put_bl(0x9C6AA, patch_rom.ORIGINAL_ABILITY_TRANSITION_FN_ADDR)
+    put_bl(0x14406C, 0x081447E0)
+    rom[0xD60820:0xD60824] = (0x08155401).to_bytes(4, "little")
+    rom[0x3D21C:0x3D224] = bytes.fromhex("70 b5 04 1c 0d 1c 16 1c")
+
+    # Exact checked native hub excerpts are shared with the regression fixtures.
+    hub_fixture = runpy.run_path(str(ROOT / "worlds/kirbyam/test/native/hub_transition_fixture.py"))
+    hub_fixture["populate_hub_transition_fixture"](rom)
+    # Exact route records used by admission gating; no lane geometry is fabricated.
+    evidence = json.loads((ROOT / "worlds/kirbyam/test/data/area_key_transports.json").read_text())
+    for entry in evidence["byte_preconditions"]:
+        if "special tile transition" in entry["purpose"]:
+            expected = bytes.fromhex(entry["expected_hex"])
+            offset = entry["rom_offset"]
+            rom[offset:offset + len(expected)] = expected
     return rom
 
 

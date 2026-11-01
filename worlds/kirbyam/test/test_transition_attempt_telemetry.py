@@ -60,7 +60,7 @@ async def test_transition_event_logs_allowed_and_denied_fields(mock_bizhawk_cont
     mirror_shard = logger.info.call_args_list[2]
     assert mirror_shard.args[1:3] == ("allowed", "Mirror Shard")
     unclassified = logger.info.call_args_list[3]
-    assert unclassified.args[1:3] == ("allowed", "unclassified method 3")
+    assert unclassified.args[1:3] == ("allowed", "wind chute")
     assert all(call.kwargs["extra"] == {"NoStream": True, "skip_gui": True}
                for call in logger.info.call_args_list)
     assert client._last_transition_event_counter == 8

@@ -6,14 +6,18 @@
       "native_world_map_door_index": 1,
       "native_world_map_door_name": "WORLDMAP_MOONLIGHT_MANSION",
       "ap_bit_index": 1,
-      "world_props_unlock_index": 2
+      "world_props_unlock_index": 2,
+      "runtime_ap_bit_index": 11,
+      "runtime_bit_reason": "Preserve compiled C mapping present in main 99c63e3a and PR932 c176aa10; catalog/runtime divergence remains unresolved."
     },
     {
       "location_key": "HUB_SWITCH_RAINBOW_ROUTE_EAST",
       "native_world_map_door_index": 2,
       "native_world_map_door_name": "WORLDMAP_RAINBOW_ROUTE_EAST",
       "ap_bit_index": 11,
-      "world_props_unlock_index": 1
+      "world_props_unlock_index": 1,
+      "runtime_ap_bit_index": 1,
+      "runtime_bit_reason": "Preserve compiled C mapping present in main 99c63e3a and PR932 c176aa10; catalog/runtime divergence remains unresolved."
     },
     {
       "location_key": "HUB_SWITCH_RAINBOW_ROUTE_SOUTH",
@@ -49,7 +53,9 @@
       "native_world_map_door_name": "WORLDMAP_RAINBOW_ROUTE_NORTH",
       "ap_bit_index": 6,
       "world_props_unlock_index": 13,
-      "compatibility_ap_bits": [15]
+      "compatibility_ap_bits": [
+        15
+      ]
     },
     {
       "location_key": "HUB_SWITCH_MUSTARD",

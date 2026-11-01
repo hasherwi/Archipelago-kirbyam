@@ -124,6 +124,13 @@
     "item_id": 3860048,
     "tags": ["AreaKeys", "Unique"]
   },
+  "TRAP_HUB_TELEPORT": {
+    "label": "Hub Teleport Trap",
+    "_comment": "Returns Kirby to the Rainbow Route hub when native room-transition state is safe. Defers during scripts and transitions.",
+    "classification": "TRAP",
+    "item_id": 3860300,
+    "tags": ["Trap"]
+  },
   "SHARD_1": {
     "label": "Mustard Mountain - Mirror Shard",
     "classification": "PROGRESSION",
@@ -311,7 +318,7 @@
     "tags": ["Levers", "Progression", "Unique"]
   },
   "LEVER_WALL_CARROT_CASTLE_5_12": {
-    "label": "Carrot Castle 5-12 - Lever Wall",
+    "label": "Carrot Castle 5-05 - Lever Wall",
     "classification": "PROGRESSION",
     "item_id": 3860039,
     "tags": ["Levers", "Progression", "Unique"]
@@ -559,6 +566,156 @@
     "tags": [
       "MusicSheet",
       "Useful",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_RAINBOW_ROUTE_EAST": {
+    "label": "Rainbow Route East - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860401,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_MOONLIGHT_MANSION": {
+    "label": "Moonlight Mansion - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860402,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_RAINBOW_ROUTE_SOUTH": {
+    "label": "Rainbow Route South - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860403,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_CABBAGE_CAVERN_CENTER": {
+    "label": "Cabbage Cavern Center - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860404,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_RAINBOW_ROUTE_WEST": {
+    "label": "Rainbow Route West - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860405,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_CARROT_CASTLE": {
+    "label": "Carrot Castle - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860406,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_RAINBOW_ROUTE_NORTH": {
+    "label": "Rainbow Route North - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860407,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_MUSTARD_MOUNTAIN": {
+    "label": "Mustard Mountain - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860408,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_CABBAGE_CAVERN_WEST": {
+    "label": "Cabbage Cavern West - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860409,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_RADISH_RUINS": {
+    "label": "Radish Ruins - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860410,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_PEPPERMINT_PALACE_EAST": {
+    "label": "Peppermint Palace East - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860411,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_PEPPERMINT_PALACE_WEST": {
+    "label": "Peppermint Palace West - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860412,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_CABBAGE_CAVERN_EAST": {
+    "label": "Cabbage Cavern East - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860413,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_OLIVE_OCEAN": {
+    "label": "Olive Ocean - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860414,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+  "HUB_CONNECTION_CANDY_CONSTELLATION": {
+    "label": "Candy Constellation - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860415,
+    "tags": [
+      "HubConnections",
+      "Progression",
       "Unique"
     ]
   },

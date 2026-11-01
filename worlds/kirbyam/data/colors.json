@@ -1,18 +1,409 @@
 {
   "colors": [
-    {"key": "pink", "id": 0, "name": "Pink"},
-    {"key": "yellow", "id": 1, "name": "Yellow"},
-    {"key": "red", "id": 2, "name": "Red"},
-    {"key": "green", "id": 3, "name": "Green"},
-    {"key": "snow", "id": 4, "name": "Snow"},
-    {"key": "carbon", "id": 5, "name": "Carbon"},
-    {"key": "ocean", "id": 6, "name": "Ocean"},
-    {"key": "sapphire", "id": 7, "name": "Sapphire"},
-    {"key": "grape", "id": 8, "name": "Grape"},
-    {"key": "emerald", "id": 9, "name": "Emerald"},
-    {"key": "orange", "id": 10, "name": "Orange"},
-    {"key": "chocolate", "id": 11, "name": "Chocolate"},
-    {"key": "cherry", "id": 12, "name": "Cherry"},
-    {"key": "chalk", "id": 13, "name": "Chalk"}
+    {
+      "key": "pink",
+      "id": 0,
+      "name": "Pink"
+    },
+    {
+      "key": "yellow",
+      "id": 1,
+      "name": "Yellow"
+    },
+    {
+      "key": "red",
+      "id": 2,
+      "name": "Red"
+    },
+    {
+      "key": "green",
+      "id": 3,
+      "name": "Green"
+    },
+    {
+      "key": "snow",
+      "id": 4,
+      "name": "Snow"
+    },
+    {
+      "key": "carbon",
+      "id": 5,
+      "name": "Carbon"
+    },
+    {
+      "key": "ocean",
+      "id": 6,
+      "name": "Ocean"
+    },
+    {
+      "key": "sapphire",
+      "id": 7,
+      "name": "Sapphire"
+    },
+    {
+      "key": "grape",
+      "id": 8,
+      "name": "Grape"
+    },
+    {
+      "key": "emerald",
+      "id": 9,
+      "name": "Emerald"
+    },
+    {
+      "key": "orange",
+      "id": 10,
+      "name": "Orange"
+    },
+    {
+      "key": "chocolate",
+      "id": 11,
+      "name": "Chocolate"
+    },
+    {
+      "key": "cherry",
+      "id": 12,
+      "name": "Cherry"
+    },
+    {
+      "key": "chalk",
+      "id": 13,
+      "name": "Chalk"
+    },
+    {
+      "key": "shadow",
+      "id": 14,
+      "name": "Shadow",
+      "native_fallback": 0,
+      "palettes": {
+        "normal": [
+          0,
+          0,
+          26359,
+          18960,
+          16813,
+          12618,
+          10471,
+          7333,
+          5218,
+          11528,
+          8390,
+          5218,
+          23188,
+          26392,
+          29596,
+          32767
+        ],
+        "ufo": [
+          0,
+          0,
+          26359,
+          18960,
+          26392,
+          12618,
+          10471,
+          7333,
+          5218,
+          18927,
+          14666,
+          8390,
+          5218,
+          25335,
+          22131,
+          32767
+        ],
+        "hud": [
+          0,
+          18960,
+          16813,
+          12618,
+          8390,
+          10471,
+          7333,
+          0,
+          32767,
+          863,
+          32589,
+          607,
+          479,
+          20480,
+          863,
+          19026
+        ]
+      },
+      "provenance": {
+        "normal": "Verified named Squeak Squad USA palette, same-index adaptation",
+        "ufo": "Verified named Squeak Squad USA UFO palette, same-index adaptation",
+        "hud": "Derived Amazing Mirror HUD adaptation; normal indices 3,4,5,10,6,7 replace HUD indices 1..6; other Pink HUD colors retained"
+      }
+    },
+    {
+      "key": "ivory",
+      "id": 15,
+      "name": "Ivory",
+      "native_fallback": 0,
+      "palettes": {
+        "normal": [
+          0,
+          0,
+          29663,
+          24511,
+          21308,
+          17081,
+          12854,
+          11731,
+          2220,
+          3545,
+          2452,
+          1293,
+          19292,
+          23453,
+          28639,
+          32767
+        ],
+        "ufo": [
+          0,
+          0,
+          29663,
+          24511,
+          25368,
+          17081,
+          12854,
+          11731,
+          2220,
+          10940,
+          6649,
+          2452,
+          1293,
+          8957,
+          15889,
+          32767
+        ],
+        "hud": [
+          0,
+          24511,
+          21308,
+          17081,
+          2452,
+          12854,
+          11731,
+          0,
+          32767,
+          863,
+          32589,
+          607,
+          479,
+          20480,
+          863,
+          19026
+        ]
+      },
+      "provenance": {
+        "normal": "Verified named Squeak Squad USA palette, same-index adaptation",
+        "ufo": "Verified named Squeak Squad USA UFO palette, same-index adaptation",
+        "hud": "Derived Amazing Mirror HUD adaptation; normal indices 3,4,5,10,6,7 replace HUD indices 1..6; other Pink HUD colors retained"
+      }
+    },
+    {
+      "key": "citrus",
+      "id": 16,
+      "name": "Citrus",
+      "native_fallback": 0,
+      "palettes": {
+        "normal": [
+          0,
+          4224,
+          27647,
+          11263,
+          8154,
+          948,
+          4877,
+          8775,
+          12704,
+          2991,
+          2818,
+          15937,
+          19292,
+          23453,
+          28639,
+          32767
+        ],
+        "ufo": [
+          0,
+          4224,
+          27647,
+          11263,
+          25368,
+          948,
+          4877,
+          8775,
+          12704,
+          7165,
+          2996,
+          1835,
+          15937,
+          19583,
+          16912,
+          32767
+        ],
+        "hud": [
+          0,
+          11263,
+          8154,
+          948,
+          2818,
+          4877,
+          8775,
+          0,
+          32767,
+          863,
+          32589,
+          607,
+          479,
+          20480,
+          863,
+          19026
+        ]
+      },
+      "provenance": {
+        "normal": "Verified named Squeak Squad USA palette, same-index adaptation",
+        "ufo": "Verified named Squeak Squad USA UFO palette, same-index adaptation",
+        "hud": "Derived Amazing Mirror HUD adaptation; normal indices 3,4,5,10,6,7 replace HUD indices 1..6; other Pink HUD colors retained"
+      }
+    },
+    {
+      "key": "white",
+      "id": 17,
+      "name": "White",
+      "native_fallback": 0,
+      "palettes": {
+        "normal": [
+          0,
+          0,
+          32767,
+          32767,
+          30653,
+          27482,
+          24311,
+          19026,
+          10570,
+          30653,
+          26425,
+          22197,
+          26425,
+          27482,
+          29596,
+          32767
+        ],
+        "ufo": [
+          0,
+          0,
+          32767,
+          32767,
+          30653,
+          27482,
+          24311,
+          19026,
+          10570,
+          32767,
+          29596,
+          25368,
+          19026,
+          27482,
+          29596,
+          32767
+        ],
+        "hud": [
+          0,
+          32767,
+          30653,
+          27482,
+          26425,
+          24311,
+          19026,
+          0,
+          32767,
+          863,
+          32589,
+          607,
+          479,
+          20480,
+          863,
+          19026
+        ]
+      },
+      "provenance": {
+        "normal": "Verified named Squeak Squad USA palette, same-index adaptation",
+        "ufo": "Verified named Squeak Squad USA UFO palette, same-index adaptation",
+        "hud": "Derived Amazing Mirror HUD adaptation; normal indices 3,4,5,10,6,7 replace HUD indices 1..6; other Pink HUD colors retained"
+      }
+    },
+    {
+      "key": "lavender",
+      "id": 18,
+      "name": "Lavender",
+      "native_fallback": 0,
+      "palettes": {
+        "normal": [
+          0,
+          0,
+          32703,
+          32443,
+          30265,
+          28086,
+          24912,
+          20681,
+          11398,
+          28116,
+          22863,
+          18601,
+          19292,
+          23453,
+          28639,
+          32767
+        ],
+        "ufo": [
+          0,
+          0,
+          32703,
+          32443,
+          25368,
+          28086,
+          24912,
+          20681,
+          11398,
+          32540,
+          31254,
+          28977,
+          26795,
+          5695,
+          16912,
+          32767
+        ],
+        "hud": [
+          0,
+          32443,
+          30265,
+          28086,
+          22863,
+          24912,
+          20681,
+          0,
+          32767,
+          863,
+          32589,
+          607,
+          479,
+          20480,
+          863,
+          19026
+        ]
+      },
+      "provenance": {
+        "normal": "Verified named Squeak Squad USA palette, same-index adaptation",
+        "ufo": "Verified named Squeak Squad USA UFO palette, same-index adaptation",
+        "hud": "Derived Amazing Mirror HUD adaptation; normal indices 3,4,5,10,6,7 replace HUD indices 1..6; other Pink HUD colors retained"
+      }
+    }
   ]
 }

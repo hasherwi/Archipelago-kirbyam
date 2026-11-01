@@ -39,6 +39,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
     options.as_dict.return_value = {
         "goal": 0,
         "configured_area_boss": 7,
+        "required_area_bosses": 3,
         "shards": 2,
         "start_with_all_maps": False,
         "starting_kirby_color": 7,
@@ -80,6 +81,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
     options.as_dict.assert_called_once_with(
         "goal",
         "configured_area_boss",
+        "required_area_bosses",
         "shards",
         "start_with_all_maps",
         "starting_kirby_color",

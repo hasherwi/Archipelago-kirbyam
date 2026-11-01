@@ -15,6 +15,7 @@ def deathlink_session(mock_bizhawk_context):
     ctx.server_seed_name = 'deathlink-ordering'
     ctx.items_received = [NetworkItem(3860018, 3960301, 1)]
     client = make_client(ctx)
+    client.on_package(ctx, "ReceivedItems", {"index": 0})
     client._death_link_enabled = True
     client._watcher_server_ready = True
     client._ram_state_loaded = True

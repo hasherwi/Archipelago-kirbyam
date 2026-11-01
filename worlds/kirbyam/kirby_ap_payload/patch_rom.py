@@ -66,6 +66,15 @@ SPRAY_PAINT_CHEST_COLLECT_CALL_OFFSET = 0x0000B1D0
 # reward-index > 0 (Music Sheet collection rewards).
 SOUND_PLAYER_CHEST_COLLECT_CALL_OFFSET = 0x0000B264
 BIG_SWITCH_UNLOCK_CALL_OFFSET = 0x00039EEE
+HUB_UNLOCK_CALLBACK_TABLE_OFFSET = 0x0034BDBC
+HUB_UNLOCK_CALLBACKS = tuple(0x08126405 + 12 * index for index in range(15))
+# sub_0802AD00 is the door-to-hub initializer. Keep its native world-props
+# lookup intact so item-granted connections make their physical doors appear.
+DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET = 0x0002AD24
+# sub_0811938C is the Big Switch initializer. Mask an AP-owned native door
+# unlock only at this distinct lookup, until its physical switch check is hit.
+BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET = 0x001193C4
+ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR = 0x08002888
 # sub_08119B3C: BL _call_via_r0 after resolving the small-switch effect function.
 # Legacy wrapper receives that function pointer in r0 and now preserves native behavior.
 # AP levers use the verified Chest reward-0x63 path, not this dispatcher.
@@ -100,6 +109,7 @@ AUTOMATIC_TRANSITION_GUARD_RETURN_ROM_ADDR = 0x0803FE5A
 AUTOMATIC_TRANSITION_GUARD_ORIGINAL = bytes.fromhex(
     "82 20 40 03 86 42 20 D1 A8 6D 80 21 C9 01 08 43"
 )
+MINNY_SWALLOW_CALL_OFFSET = 0x0009C6AA
 ORIGINAL_ABILITY_TRANSITION_FN_ADDR = 0x080547C4
 # sub_08054C0C consumes Kirby::transitioningAbility after statues write it directly.
 ORIGINAL_ABILITY_TRANSITION_START_FN_ADDR = 0x08054C0C
@@ -125,6 +135,16 @@ INTERMEDIARY_ROM = "baseline_patched.tmp.gba"
 EXPECTED_BASE_ROM_SIZE = 0x1000000
 BSDIFF_TIMEOUT_SECONDS = int(os.environ.get("KIRBYAM_BSDIFF_TIMEOUT_SECONDS", "0"))
 BSDIFF_HEARTBEAT_SECONDS = int(os.environ.get("KIRBYAM_BSDIFF_HEARTBEAT_SECONDS", "30"))
+
+
+def validate_minny_swallow_callsite(rom: bytes | bytearray) -> None:
+    """Require the exact US-ROM r5 source/ability load and native BL target."""
+    offset = MINNY_SWALLOW_CALL_OFFSET
+    expected = bytes.fromhex("2c 1c 84 34 21 78 30 1c") + thumb_bl_bytes(
+        0x08000000 + offset, ORIGINAL_ABILITY_TRANSITION_FN_ADDR,
+    )
+    if rom[offset - 8:offset + 4] != expected:
+        raise SystemExit("Error: unverified Minny source ABI at ordinary swallow callsite")
 
 
 # ----------------------------
@@ -483,6 +503,16 @@ def validate_area_key_native_area_contract(rom: bytes | bytearray) -> None:
         len(observed_doors_idx),
         "doorsIdx entries",
     )
+
+
+def validate_wind_chute_routes(rom: bytes | bytearray) -> None:
+    """Reject drift in the exact entries and forced exits used for admission gates."""
+    evidence_path = Path(__file__).resolve().parent.parent / "test/data/area_key_transports.json"
+    evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    for entry in evidence["byte_preconditions"]:
+        if "special tile transition" in entry["purpose"]:
+            validate_exact_rom_bytes(rom, entry["rom_offset"], bytes.fromhex(entry["expected_hex"]),
+                                     "Area Key wind chute " + entry["purpose"])
 
 
 def thumb_beq_bytes(src_rom_addr: int, dst_rom_addr: int) -> bytes:
@@ -978,12 +1008,15 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
 
 def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
     targets = {
+        "treasure_paint_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_treasure_paint_selection"),
         "vitality_menu_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_vitality_collection_menu_count"),
         "initial_health_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_initial_health_capacity"),
         "health_hud_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_draw_health_hud"),
+        "hub_trap_hook_target": resolve_elf_symbol_address(payload_elf_path, "ap_after_tasks"),
         "main_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_hook_entry"),
         "boss_hook_target": resolve_elf_symbol_address(
@@ -1004,18 +1037,20 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_on_collect_sound_player_chest"),
         "hub_switch_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_world_map_unlock_call"),
+        "hub_switch_init_state_hook_target": resolve_elf_symbol_address(
+            payload_elf_path, "ap_on_hub_switch_init_state_lookup"),
         "small_switch_effect_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_small_switch_effect"),
         "special_door_state_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_query_special_door_state"),
         "automatic_transition_guard_target": resolve_elf_symbol_address(
-            payload_elf_path, "ap_prepare_automatic_transition"),
+            payload_elf_path, "ap_prepare_automatic_transition_entry"),
         "button_special_transition_hook_target": resolve_elf_symbol_address(
-            payload_elf_path, "ap_on_button_special_transition"),
+            payload_elf_path, "ap_on_button_special_transition_entry"),
         "explicit_room_transition_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_explicit_room_transition"),
         "warp_star_transition_hook_target": resolve_elf_symbol_address(
-            payload_elf_path, "ap_on_warp_star_transition"),
+            payload_elf_path, "ap_on_warp_star_transition_entry"),
         "cannon_board_transition_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_cannon_board_transition"),
         "unknown83_transition_hook_target": resolve_elf_symbol_address(
@@ -1040,8 +1075,10 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
 
 _PAYLOAD_TARGET_LABELS = {
     "health_hud_hook_target": "health HUD trailing-tile cleanup",
+    "treasure_paint_hook_target": "explicit treasure paint choice",
     "initial_health_hook_target": "configured native initial health",
     "vitality_menu_hook_target": "bounded native collection menu",
+    "hub_trap_hook_target": "hub trap scheduler hook",
     "main_hook_target": "main hook",
     "boss_hook_target": "boss shard hook",
     "boss_already_owned_hook_target": "boss already-owned reward hook",
@@ -1052,6 +1089,7 @@ _PAYLOAD_TARGET_LABELS = {
     "spray_paint_chest_hook_target": "spray paint chest hook",
     "sound_player_chest_hook_target": "sound player/music-sheet chest hook",
     "hub_switch_hook_target": "hub switch hook",
+    "hub_switch_init_state_hook_target": "hub switch initialization state hook",
     "small_switch_effect_hook_target": "lever small-switch effect hook",
     "special_door_state_hook_target": "Area Key mirror visual-state hook",
     "automatic_transition_guard_target": "Area Key automatic-transition guard",
@@ -1084,6 +1122,22 @@ def validate_payload_targets(
                 f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
                 "Check your payload.elf link address and PAYLOAD_OFFSET."
             )
+
+
+def build_hub_teleport_writes(rom: bytes | bytearray, target: int) -> dict[int, bytes]:
+    """Fail closed on the USA scheduler call, native input decoder and warp-star sequence."""
+    offset = 0x151CF4
+    validate_expected_instruction_sequence(
+        rom, offset, thumb_bl_bytes(0x08151CF4, 0x08152CF4), "hub trap scheduler call")
+    contracts = (
+        (0x3F324, 0x3F46C, "bd420a33b1e8175c02ecc37c0d6f7f71ec989a5fb12c9d7b9dfcab0250f714f4"),
+        (0x56E40, 0x578E4, "73d6ac232300355a3d69012d2fc2e06aff888ff878e5a2f933838583c18dc9e3"),
+        (0x5BEE8, 0x5BF2C, "92931d3762d4ba7ecbb6762c9a367649bf6f1f74ff69285f864ebc45e20fb7b4"),
+    )
+    for start, end, digest in contracts:
+        if hashlib.sha256(rom[start:end]).hexdigest() != digest:
+            raise SystemExit("Error: hub trap native transition contract differs from verified USA ROM")
+    return {offset: thumb_bl_bytes(0x08000000 + offset, target)}
 
 
 def build_payload_hook_bl_bytes(
@@ -1125,6 +1179,10 @@ def build_payload_hook_bl_bytes(
             rom_base + BIG_SWITCH_UNLOCK_CALL_OFFSET,
             hook_targets["hub_switch_hook_target"],
         ),
+        "hub_switch_init_state_hook_bl_bytes": thumb_bl_bytes(
+            rom_base + BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET,
+            hook_targets["hub_switch_init_state_hook_target"],
+        ),
         "small_switch_effect_hook_bl_bytes": thumb_bl_bytes(
             rom_base + SMALL_SWITCH_EFFECT_CALL_OFFSET,
             hook_targets["small_switch_effect_hook_target"],
@@ -1149,7 +1207,15 @@ def load_rom_and_validate(in_path: str) -> tuple[bytearray, bool]:
     return rom, warning is None
 
 
+def validate_hub_unlock_callback_table(rom: bytes | bytearray) -> None:
+    start = HUB_UNLOCK_CALLBACK_TABLE_OFFSET
+    expected = b"".join(value.to_bytes(4, "little") for value in HUB_UNLOCK_CALLBACKS)
+    if bytes(rom[start:start + len(expected)]) != expected:
+        raise SystemExit("Unexpected Hub unlock callback table; refusing to patch")
+
+
 def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, bytes]:
+    validate_hub_unlock_callback_table(rom)
     original_boss_hook = validate_thumb_bl_callsite(
         rom, BOSS_COLLECT_SHARD_CALL_OFFSET, "boss shard"
     )
@@ -1178,6 +1244,18 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
     )
     original_hub_switch_hook = validate_thumb_bl_callsite(
         rom, BIG_SWITCH_UNLOCK_CALL_OFFSET, "hub switch unlock"
+    )
+    original_hub_switch_init_state_hook = validate_thumb_bl_callsite_target(
+        rom,
+        BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET,
+        "hub switch initialization state lookup",
+        ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR,
+    )
+    original_door_to_hub_init_state_lookup = validate_thumb_bl_callsite_target(
+        rom,
+        DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET,
+        "door-to-hub initialization state lookup",
+        ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR,
     )
     original_small_switch_effect_hook = validate_thumb_bl_callsite(
         rom, SMALL_SWITCH_EFFECT_CALL_OFFSET, "lever small-switch effect dispatch"
@@ -1214,6 +1292,16 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
     )
     print(f"  hub switch unlock @ {BIG_SWITCH_UNLOCK_CALL_OFFSET:#x}: {original_hub_switch_hook.hex(' ')}")
     print(
+        "  hub switch initialization state lookup @ "
+        f"{BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET:#x}: "
+        f"{original_hub_switch_init_state_hook.hex(' ')}"
+    )
+    print(
+        "  door-to-hub initialization state lookup (left native) @ "
+        f"{DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET:#x}: "
+        f"{original_door_to_hub_init_state_lookup.hex(' ')}"
+    )
+    print(
         f"  lever small-switch effect @ {SMALL_SWITCH_EFFECT_CALL_OFFSET:#x}: "
         f"{original_small_switch_effect_hook.hex(' ')}"
     )
@@ -1233,6 +1321,8 @@ def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, byte
         "original_spray_paint_hook": original_spray_paint_hook,
         "original_sound_player_hook": original_sound_player_hook,
         "original_hub_switch_hook": original_hub_switch_hook,
+        "original_hub_switch_init_state_hook": original_hub_switch_init_state_hook,
+        "original_door_to_hub_init_state_lookup": original_door_to_hub_init_state_lookup,
         "original_small_switch_effect_hook": original_small_switch_effect_hook,
         "original_automatic_transition_guard": original_automatic_transition_guard,
         "original_starting_color_hook_intro": original_starting_color_hooks[0],
@@ -1388,6 +1478,8 @@ def discover_runtime_callsites(
         for offset in boss_already_owned_callsites
     }
 
+    validate_minny_swallow_callsite(rom)
+
     ability_transition_target_candidates = {
         ORIGINAL_ABILITY_TRANSITION_FN_ADDR,
         ORIGINAL_ABILITY_TRANSITION_FN_ADDR | 1,
@@ -1488,6 +1580,19 @@ def build_health_hud_writes(rom: bytes | bytearray, target: int,
     return writes
 
 
+TREASURE_PAINT_CALL_OFFSET = 0x14406C
+
+
+def build_treasure_paint_writes(rom: bytes | bytearray, target: int,
+                                rom_base: int = 0x08000000) -> dict[int, bytes]:
+    """Only the USA treasure menu's owned-item A-button handler."""
+    offset = TREASURE_PAINT_CALL_OFFSET
+    validate_expected_instruction_sequence(
+        rom, offset, thumb_bl_bytes(rom_base + offset, 0x081447E0),
+        "native treasure paint selection")
+    return {offset: thumb_bl_bytes(rom_base + offset, target)}
+
+
 def build_initial_health_writes(rom: bytes | bytearray, target: int,
                                 rom_base: int = 0x08000000) -> dict[int, bytes]:
     """Replace only the USA initializer getter and its six-HP addition."""
@@ -1519,11 +1624,14 @@ def patch_rom_with_payload(
         rom, PAYLOAD_OFFSET, bytes(PAYLOAD_LEGACY_OFFSET - PAYLOAD_OFFSET),
         "extended payload retail zero padding",
     )
-    regression_writes = build_runtime_regression_writes(rom, hook_targets, rom_base)
+    regression_writes = build_hub_teleport_writes(rom, hook_targets["hub_trap_hook_target"])
+    regression_writes.update(build_runtime_regression_writes(rom, hook_targets, rom_base))
     regression_writes.update(build_health_hud_writes(
         rom, hook_targets["health_hud_hook_target"], rom_base))
     regression_writes.update(build_initial_health_writes(
         rom, hook_targets["initial_health_hook_target"], rom_base))
+    regression_writes.update(build_treasure_paint_writes(
+        rom, hook_targets["treasure_paint_hook_target"], rom_base))
     menu_offset = 0x14380A
     validate_expected_instruction_sequence(
         rom, menu_offset, thumb_bl_bytes(rom_base + menu_offset, 0x08019F0C),
@@ -1563,6 +1671,9 @@ def patch_rom_with_payload(
         hook_bl_bytes["sound_player_chest_hook_bl_bytes"]
     )
     rom[BIG_SWITCH_UNLOCK_CALL_OFFSET:BIG_SWITCH_UNLOCK_CALL_OFFSET + 4] = hook_bl_bytes["hub_switch_hook_bl_bytes"]
+    rom[BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET:BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET + 4] = (
+        hook_bl_bytes["hub_switch_init_state_hook_bl_bytes"]
+    )
     rom[SMALL_SWITCH_EFFECT_CALL_OFFSET:SMALL_SWITCH_EFFECT_CALL_OFFSET + 4] = (
         hook_bl_bytes["small_switch_effect_hook_bl_bytes"]
     )
@@ -1701,6 +1812,14 @@ def print_patch_summary(
         hex(hook_targets["hub_switch_hook_target"]),
     )
     print(
+        "Hub switch initialization state lookup patched at file offset:",
+        hex(BIG_SWITCH_INIT_STATE_LOOKUP_CALL_OFFSET),
+        "with bytes:",
+        hook_bl_bytes["hub_switch_init_state_hook_bl_bytes"].hex(" "),
+        "target=",
+        hex(hook_targets["hub_switch_init_state_hook_target"]),
+    )
+    print(
         "Lever small-switch effect call patched at file offset:",
         hex(SMALL_SWITCH_EFFECT_CALL_OFFSET),
         "with bytes:",
@@ -1776,6 +1895,23 @@ def print_patch_summary(
     )
 
 
+def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
+    # This module also supports callers that import patch_rom.py by filename.
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "kirby_color_patch", Path(__file__).with_name("color_patch.py"))
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    extension = elf_path.with_name("color_payload.bin").read_bytes()
+    writes = module.build_color_extension_writes(
+        rom, extension,
+        resolve_elf_symbol_address(elf_path, "ap_color_sprite_palette"),
+        resolve_elf_symbol_address(elf_path, "ap_color_load_bg"))
+    for offset, replacement in writes.items():
+        rom[offset:offset + len(replacement)] = replacement
+
+
 def main() -> None:
     log_path = setup_logging()
     print(f"Logging to: {log_path}")
@@ -1830,6 +1966,7 @@ def main() -> None:
         rom, _ = load_rom_and_validate(in_path)
         validate_rom_callsite_instructions(rom)
         validate_area_key_native_area_contract(rom)
+        validate_wind_chute_routes(rom)
 
         (
             special_door_state_callsites,
@@ -1872,6 +2009,8 @@ def main() -> None:
             hook_targets,
             rom_base,
         )
+
+        apply_color_extension(rom, payload_elf_path)
 
         with open(INTERMEDIARY_ROM, "wb") as f:
             f.write(rom)

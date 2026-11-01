@@ -1,0 +1,226 @@
+{
+  "checked_at": "2026-10-25",
+  "main_commit": "99c63e3a505131d5ab16db60350a4c9c9daae54d",
+  "reserved_items": {
+    "TRAP_HUB_TELEPORT": 3860300
+  },
+  "baseline_catalog": {
+    "1_UP": 3860001,
+    "SMALL_FOOD": 3860026,
+    "ENERGY_DRINK": 3860030,
+    "HUNK_OF_MEAT": 3860031,
+    "BATTERY": 3860027,
+    "MAX_TOMATO": 3860028,
+    "INVINCIBILITY_CANDY": 3860029,
+    "TRAP_HEALTH_DOWN": 3860032,
+    "TRAP_LIFE_DOWN": 3860033,
+    "TRAP_BOMB": 3860034,
+    "TRAP_BATTERY_DRAIN": 3860035,
+    "TRAP_LIFE_WIPEOUT": 3860036,
+    "SHARD_1": 3860002,
+    "SHARD_2": 3860003,
+    "SHARD_3": 3860004,
+    "SHARD_4": 3860005,
+    "SHARD_5": 3860006,
+    "SHARD_6": 3860007,
+    "SHARD_7": 3860008,
+    "SHARD_8": 3860009,
+    "MAP_RAINBOW_ROUTE": 3860024,
+    "MAP_MUSTARD_MOUNTAIN": 3860010,
+    "MAP_MOONLIGHT_MANSION": 3860011,
+    "MAP_CANDY_CONSTELLATION": 3860012,
+    "MAP_OLIVE_OCEAN": 3860013,
+    "MAP_PEPPERMINT_PALACE": 3860014,
+    "MAP_CABBAGE_CAVERN": 3860015,
+    "MAP_CARROT_CASTLE": 3860016,
+    "MAP_RADISH_RUINS": 3860017,
+    "VITALITY_COUNTER_1": 3860018,
+    "VITALITY_COUNTER_2": 3860019,
+    "VITALITY_COUNTER_3": 3860020,
+    "VITALITY_COUNTER_4": 3860021,
+    "VITALITY_COUNTER_5": 3860224,
+    "VITALITY_COUNTER_6": 3860225,
+    "VITALITY_COUNTER_7": 3860226,
+    "VITALITY_COUNTER_8": 3860227,
+    "VITALITY_COUNTER_9": 3860228,
+    "SOUND_PLAYER": 3860025,
+    "LEVER_WALL_MOONLIGHT_MANSION_2_11": 3860037,
+    "LEVER_WALL_OLIVE_OCEAN_6_13": 3860038,
+    "LEVER_WALL_CARROT_CASTLE_5_12": 3860039,
+    "LEVER_WALL_RADISH_RUINS_8_12": 3860040,
+    "SPRAY_PAINT_01": 3860200,
+    "SPRAY_PAINT_02": 3860201,
+    "SPRAY_PAINT_03": 3860202,
+    "SPRAY_PAINT_04": 3860203,
+    "SPRAY_PAINT_05": 3860204,
+    "SPRAY_PAINT_06": 3860205,
+    "SPRAY_PAINT_07": 3860206,
+    "SPRAY_PAINT_08": 3860207,
+    "SPRAY_PAINT_09": 3860208,
+    "SPRAY_PAINT_10": 3860209,
+    "SPRAY_PAINT_11": 3860210,
+    "SPRAY_PAINT_12": 3860211,
+    "SPRAY_PAINT_13": 3860212,
+    "SPRAY_PAINT_14": 3860213,
+    "MUSIC_SHEET_01": 3860214,
+    "MUSIC_SHEET_02": 3860215,
+    "MUSIC_SHEET_03": 3860216,
+    "MUSIC_SHEET_04": 3860217,
+    "MUSIC_SHEET_05": 3860218,
+    "MUSIC_SHEET_06": 3860219,
+    "MUSIC_SHEET_07": 3860220,
+    "MUSIC_SHEET_08": 3860221,
+    "MUSIC_SHEET_09": 3860222,
+    "MUSIC_SHEET_10": 3860223,
+    "ABILITY_UNLOCK_FIRE": 3860101,
+    "ABILITY_UNLOCK_ICE": 3860102,
+    "ABILITY_UNLOCK_BURNING": 3860103,
+    "ABILITY_UNLOCK_WHEEL": 3860104,
+    "ABILITY_UNLOCK_PARASOL": 3860105,
+    "ABILITY_UNLOCK_CUTTER": 3860106,
+    "ABILITY_UNLOCK_BEAM": 3860107,
+    "ABILITY_UNLOCK_STONE": 3860108,
+    "ABILITY_UNLOCK_BOMB": 3860109,
+    "ABILITY_UNLOCK_THROW": 3860110,
+    "ABILITY_UNLOCK_SLEEP": 3860111,
+    "ABILITY_UNLOCK_COOK": 3860112,
+    "ABILITY_UNLOCK_LASER": 3860113,
+    "ABILITY_UNLOCK_UFO": 3860114,
+    "ABILITY_UNLOCK_SPARK": 3860115,
+    "ABILITY_UNLOCK_TORNADO": 3860116,
+    "ABILITY_UNLOCK_HAMMER": 3860117,
+    "ABILITY_UNLOCK_SWORD": 3860118,
+    "ABILITY_UNLOCK_CUPID": 3860119,
+    "ABILITY_UNLOCK_FIGHTER": 3860120,
+    "ABILITY_UNLOCK_MAGIC": 3860121,
+    "ABILITY_UNLOCK_SMASH": 3860122,
+    "ABILITY_UNLOCK_MINI": 3860123,
+    "ABILITY_UNLOCK_CRASH": 3860124,
+    "ABILITY_UNLOCK_MISSILE": 3860125
+  },
+  "open_pr_snapshots": [
+    {
+      "pr": 995,
+      "head": "4ef0ca0dcdfbd710651b1148edfd078e3d85673b",
+      "items_blob": "bdccab49b588233e16b24d95fdf0a6ab86d4c6a2",
+      "changes": {
+        "TRAP_HUB_TELEPORT": 3860041
+      }
+    },
+    {
+      "pr": 994,
+      "head": "639202a8ca1773f69a26251fa4e5618baf943d61",
+      "items_blob": "55264ccf806562c4141f9be8bd70900e7d6c5c57",
+      "changes": {}
+    },
+    {
+      "pr": 993,
+      "head": "7e8fe54ee5255d12a26ec9ce547b3a73fc6de620",
+      "items_blob": "55264ccf806562c4141f9be8bd70900e7d6c5c57",
+      "changes": {}
+    },
+    {
+      "pr": 992,
+      "head": "aa66fbf7d10c0411b09847afdabd2329deac822d",
+      "items_blob": "55264ccf806562c4141f9be8bd70900e7d6c5c57",
+      "changes": {}
+    },
+    {
+      "pr": 991,
+      "head": "28f083a5fef6d623c39a0459ed32fa30816728c8",
+      "items_blob": "55264ccf806562c4141f9be8bd70900e7d6c5c57",
+      "changes": {}
+    },
+    {
+      "pr": 990,
+      "head": "4b3b2dfcb8b3756aee0f9979a79bab21bdbbd783",
+      "items_blob": "55264ccf806562c4141f9be8bd70900e7d6c5c57",
+      "changes": {}
+    },
+    {
+      "pr": 989,
+      "head": "ab495b296756bb2a0db3cd8616916bcf3ffe6c82",
+      "items_blob": "55264ccf806562c4141f9be8bd70900e7d6c5c57",
+      "changes": {}
+    },
+    {
+      "pr": 988,
+      "head": "4dea2034cf1b730627df95a8db8b769ac2ff2f03",
+      "items_blob": "55264ccf806562c4141f9be8bd70900e7d6c5c57",
+      "changes": {}
+    },
+    {
+      "pr": 987,
+      "head": "7be9165aa5f379b57b8751584b3d6ff73ef2e1c7",
+      "items_blob": "55264ccf806562c4141f9be8bd70900e7d6c5c57",
+      "changes": {}
+    },
+    {
+      "pr": 985,
+      "head": "014cb656e79e7bfe2d857a8ade823330fb3f2ee5",
+      "items_blob": "55264ccf806562c4141f9be8bd70900e7d6c5c57",
+      "changes": {}
+    },
+    {
+      "pr": 984,
+      "head": "6a8d28f5fde1f7dd7df44cc1be04143aba8ddabe",
+      "items_blob": "55264ccf806562c4141f9be8bd70900e7d6c5c57",
+      "changes": {}
+    },
+    {
+      "pr": 979,
+      "head": "f1e6c60913f213e8ccd2a607adde0b502de84c7e",
+      "items_blob": "55264ccf806562c4141f9be8bd70900e7d6c5c57",
+      "changes": {}
+    },
+    {
+      "pr": 977,
+      "head": "31d447735d7f682a3960739ea2f35daec740546a",
+      "items_blob": "55264ccf806562c4141f9be8bd70900e7d6c5c57",
+      "changes": {}
+    },
+    {
+      "pr": 932,
+      "head": "96d3dbce73330395bfd18404cc2e0dec40f4a7b6",
+      "items_blob": "b612bfb50ce8a790153d528b72e2673695336610",
+      "changes": {
+        "HUB_CONNECTION_MOONLIGHT_MANSION": 3860041,
+        "HUB_CONNECTION_RAINBOW_ROUTE_EAST": 3860042,
+        "HUB_CONNECTION_RAINBOW_ROUTE_SOUTH": 3860043,
+        "HUB_CONNECTION_CABBAGE_CAVERN_CENTER": 3860044,
+        "HUB_CONNECTION_RAINBOW_ROUTE_WEST": 3860045,
+        "HUB_CONNECTION_CARROT_CASTLE": 3860046,
+        "HUB_CONNECTION_RAINBOW_ROUTE_NORTH": 3860047,
+        "HUB_CONNECTION_MUSTARD_MOUNTAIN": 3860048,
+        "HUB_CONNECTION_CABBAGE_CAVERN_WEST": 3860049,
+        "HUB_CONNECTION_RADISH_RUINS": 3860050,
+        "HUB_CONNECTION_PEPPERMINT_PALACE_EAST": 3860051,
+        "HUB_CONNECTION_PEPPERMINT_PALACE_WEST": 3860052,
+        "HUB_CONNECTION_CABBAGE_CAVERN_EAST": 3860053,
+        "HUB_CONNECTION_OLIVE_OCEAN": 3860054,
+        "HUB_CONNECTION_CANDY_CONSTELLATION": 3860055
+      }
+    },
+    {
+      "pr": 914,
+      "head": "08507541bd3cbc596b6f65a885ea9a008b752a46",
+      "items_blob": "55264ccf806562c4141f9be8bd70900e7d6c5c57",
+      "changes": {}
+    },
+    {
+      "pr": 908,
+      "head": "ba2310debd40bbbb650f836c218a961da7de8699",
+      "items_blob": "c3bfbcb2dd9349f78eaa5519c9e00853cba31593",
+      "changes": {
+        "AREA_KEY_2": 3860041,
+        "AREA_KEY_3": 3860042,
+        "AREA_KEY_4": 3860043,
+        "AREA_KEY_5": 3860044,
+        "AREA_KEY_6": 3860045,
+        "AREA_KEY_7": 3860046,
+        "AREA_KEY_8": 3860047,
+        "AREA_KEY_9": 3860048
+      }
+    }
+  ]
+}

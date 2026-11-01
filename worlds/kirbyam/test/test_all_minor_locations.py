@@ -57,6 +57,7 @@ async def test_nine_offline_opens_recover_from_actual_saved_flags(mock_bizhawk_c
     mock_bizhawk_context.server_locations = ids
     ring = _minor_chest_event_ring(*(int(row['source'], 0) + 0x08000000 for row in rows))
     flags = sum(1 << row['flag'] for row in rows).to_bytes(16, 'little')
+
     async def read_memory(_ctx, reads):
         memory = {data.transport_ram_addresses['minor_chest_event_counter']: (9).to_bytes(4, 'little'),
                   data.transport_ram_addresses['minor_chest_event_ring_base']: ring,
@@ -98,7 +99,7 @@ def test_carrot_physical_compartments(entry, lower, upper):
 
 
 def test_all_65_chests_are_reachable_with_route_items():
-    """Current v0.4 graph, including event sweep, requires no new item gates."""
+    """All chests are reachable after destination Area Keys are received."""
     from argparse import Namespace
     multiworld = MultiWorld(1)
     multiworld.game[1] = KirbyAmWorld.game
@@ -117,8 +118,9 @@ def test_all_65_chests_are_reachable_with_route_items():
             if row.name.startswith('MINOR_CHEST_') and row.source_rom_offset is not None]
     assert len(rows) == 65
     assert any(not multiworld.get_location(row.label, 1).can_reach(state) for row in rows)
-    route_items = [item for item in data.items.values() if "AreaKeys" in item.tags]
-    assert len(route_items) == 8
+    route_items = [item for item in data.items.values()
+                   if {"AreaKeys", "HubConnections", "Levers"}.intersection(item.tags)]
+    assert len(route_items) == 27
     for item in route_items:
         state.collect(world.create_item(item.label), prevent_sweep=True)
     state.sweep_for_advancements()
