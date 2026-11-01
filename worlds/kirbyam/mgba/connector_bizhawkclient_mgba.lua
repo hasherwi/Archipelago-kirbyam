@@ -402,7 +402,17 @@ function create_server()
             if listening then
                 server = candidate
                 console:log("Waiting for client on 127.0.0.1:"..port.." (mGBA protocol 1)")
-                server:add("received", accept)
+                server:add("received", function()
+                    if server == candidate then accept() end
+                end)
+                server:add("error", function()
+                    -- Clear before closing: a late callback from this socket
+                    -- must not close or accept on a replacement listener.
+                    if server ~= candidate then return end
+                    server = nil
+                    candidate:close()
+                    console:error("Connector listener error; retrying on the next frame")
+                end)
                 return
             end
         end

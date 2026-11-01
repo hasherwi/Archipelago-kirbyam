@@ -243,6 +243,25 @@ def _required_area_boss_count(slot_data: dict) -> int | None:
 
 def _build_kirbyam_command_processor(base_command_processor: type) -> type:
     _base_cls = base_command_processor
+    _base_toggle_text = getattr(
+        base_command_processor, "_kirbyam_original__cmd_toggle_text",
+        getattr(base_command_processor, "_cmd_toggle_text", None),
+    )
+
+    def _cmd_toggle_text(self, category: str | None = None, toggle: str | None = None):
+        """Sets types of incoming messages to forward to the emulator."""
+        from worlds._bizhawk.context import TextCategory, logger
+
+        # The shared command removes individual categories with set.remove().
+        # An explicit disable is already satisfied when this category is absent.
+        if (getattr(self.ctx, "game", None) == KirbyAmClient.game
+                and category is not None and toggle is not None
+                and toggle.lower() in ("off", "false")
+                and category.lower() in {value.value for value in TextCategory if value != TextCategory.ALL}
+                and category.lower() not in self.ctx.text_passthrough_categories):
+            logger.info(f"Currently Showing Categories: {', '.join(self.ctx.text_passthrough_categories)}")
+            return
+        return _base_toggle_text(self, category, toggle)
 
     def _cmd_goal(self) -> bool:
         """Show the current KirbyAM seed's victory condition without revealing hidden targets."""
@@ -401,6 +420,7 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
             "_cmd_goal": _cmd_goal,
             "_cmd_abilities": _cmd_abilities,
             "_cmd_receipt": _cmd_receipt,
+            "_cmd_toggle_text": _cmd_toggle_text,
             "_is_kirbyam_wrapper": True,
         },
     )

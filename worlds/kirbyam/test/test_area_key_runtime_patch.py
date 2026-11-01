@@ -164,7 +164,7 @@ def test_explicit_transition_telemetry_requires_matching_player_tile_and_spawn()
 
 
 def test_synthetic_rom_fixture_supplies_complete_patch_smoke_contract() -> None:
-    fixture_path = Path(__file__).resolve().parents[3] / ".github" / "scripts" / "create_kirbyam_dummy_rom.py"
+    fixture_path = Path(__file__).resolve().parents[1] / "tools" / "create_dummy_rom.py"
     fixture_spec = importlib.util.spec_from_file_location("kirbyam_dummy_rom_fixture", fixture_path)
     if fixture_spec is None or fixture_spec.loader is None:
         raise RuntimeError(f"Failed to load ROM fixture generator from {fixture_path}")
