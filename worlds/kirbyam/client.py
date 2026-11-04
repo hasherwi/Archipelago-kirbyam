@@ -705,6 +705,7 @@ class KirbyAmClient(BizHawkClient):
         self._death_link_enabled: bool | None = None
         self._incoming_death_link_pending: bool = False
         self._last_incoming_death_link_time: float | None = None
+        self._death_link_event_session: tuple[object, ...] | None = None
         self._last_local_alive_state: bool | None = None
         self._suppress_next_local_death_send: bool = False
         self._death_link_flavor_templates: list[str] = self._load_death_link_flavor_templates()
@@ -909,7 +910,6 @@ class KirbyAmClient(BizHawkClient):
         self._unsafe_delivery_probe_stream_marker = None
         self._last_unsafe_delivery_counter_values = {}
         self._incoming_death_link_pending = False
-        self._last_incoming_death_link_time = None
         self._last_local_alive_state = None
         self._suppress_next_local_death_send = False
         self._delivery_counter_ahead_fallback_active = False
@@ -2136,7 +2136,6 @@ class KirbyAmClient(BizHawkClient):
             self._hub_connection_unknown_mask_socket = None
             self._death_link_enabled = None
             self._incoming_death_link_pending = False
-            self._last_incoming_death_link_time = None
             self._last_local_alive_state = None
             self._suppress_next_local_death_send = False
             return
@@ -2331,6 +2330,7 @@ class KirbyAmClient(BizHawkClient):
     async def _sync_death_link_setting(self, ctx: "BizHawkClientContext") -> None:
         """Mirror slot_data death_link into AP DeathLink tag state with de-dupe."""
 
+        self._sync_death_link_event_session(ctx)
         slot_data = getattr(ctx, "slot_data", None)
         enabled = False
         if isinstance(slot_data, dict):
@@ -2343,7 +2343,6 @@ class KirbyAmClient(BizHawkClient):
         self._death_link_enabled = enabled
         if not enabled:
             self._incoming_death_link_pending = False
-            self._last_incoming_death_link_time = None
             self._last_local_alive_state = None
             self._suppress_next_local_death_send = False
         self._log_client("info", "KirbyAM: DeathLink %s", "enabled" if enabled else "disabled")
@@ -2974,6 +2973,16 @@ class KirbyAmClient(BizHawkClient):
         template = random.choice(self._death_link_flavor_templates)
         sender_name = self._player_name(ctx, int(getattr(ctx, "slot", 0) or 0))
         return template.replace("{player}", sender_name)
+
+    def _sync_death_link_event_session(self, ctx: "BizHawkClientContext") -> None:
+        """Keep replay suppression across transport reconnects, not across slots."""
+        session = self._authenticated_session_key(ctx)
+        if session != self._death_link_event_session:
+            self._death_link_event_session = session
+            self._last_incoming_death_link_time = None
+            self._incoming_death_link_pending = False
+            self._last_local_alive_state = None
+            self._suppress_next_local_death_send = False
 
     def _queue_incoming_death_link(self, args: dict) -> None:
         """Queue an incoming DeathLink event for safe application during gameplay-active ticks."""
@@ -5271,6 +5280,7 @@ class KirbyAmClient(BizHawkClient):
 
     def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict) -> None:
         if cmd == "Connected":
+            self._sync_death_link_event_session(ctx)
             self._lever_checked_session = self._authenticated_session_key(ctx)
             self._vitality_history_session = None
         elif cmd == "ReceivedItems" and args.get("index") == 0:
@@ -5308,7 +5318,9 @@ class KirbyAmClient(BizHawkClient):
                 self._hub_connection_received_items_socket = None
                 self._hub_connection_received_items_ready = False
         if cmd == "Bounced":
-            self._queue_incoming_death_link(args)
+            if self._server_session_ready(ctx):
+                self._sync_death_link_event_session(ctx)
+                self._queue_incoming_death_link(args)
         if cmd == "PrintJSON":
             self._maybe_queue_self_send_fallback_item(ctx, args)
             self._maybe_emit_send_notification(ctx, args)
