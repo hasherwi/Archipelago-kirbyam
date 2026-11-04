@@ -45,21 +45,21 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Bug Fixes
 - Avoid a misleading ROM compatibility warning when disconnecting from the server.
-- Resume item delivery and gameplay polling when continuing a completed save, while keeping ending, title and demo screens deferred (Issue #1004). Regenerate the ROM patch.
+- Resume item delivery and gameplay polling when continuing a completed save, while keeping ending, title and demo screens deferred (Issue #1004).
 - Keep duplicate incoming DeathLinks suppressed when reconnecting to the same seed and slot.
-- Preserve Mr. Frosty’s ice cubes and Boxy’s boxes as no-ability sources when passive-enemy ability randomization is disabled. Regenerate the ROM patch.
+- Preserve Mr. Frosty’s ice cubes and Boxy’s boxes as no-ability sources when passive-enemy ability randomization is disabled.
 - Keep Invincibility Candy queued until its native effect can start, including after leaving hubs or boss rooms and after an active Candy effect expires.
-- Honor excluded passive enemies, minibosses, and boss spawns in Completely Random ability mode. Regenerate the ROM patch.
+- Honor excluded passive enemies, minibosses, and boss spawns in Completely Random ability mode.
 - Make repeated explicit `/toggle_text` disable commands safe for Kirby slots.
 - Recreate the mGBA connector listener after socket errors and ignore callbacks from an obsolete listener.
 - Keep Moonlight arrivals in Olive 6-13 behind the received Olive lever wall while preserving the physical RoomSanity check and return chute.
 - Retry mGBA connections after self-connected sockets or malformed VERSION replies instead of stopping the client. Shared Archipelago transport and the stock BizHawk launcher are unchanged.
-- Preserve excluded Minny grants in Completely Random mode while retaining normal ability gating (Issue #997). Regenerate the ROM patch.
+- Preserve excluded Minny grants in Completely Random mode while retaining normal ability gating (Issue #997).
 - Correct the Carrot Castle lever placement and labels to room 5-05 (Issue #972).
 - Restore outgoing DeathLink detection on dead gameplay frames while keeping fresh item delivery paused. Links received while already dead no longer kill the next respawn (Issue #975).
 - Restore packaged region discovery on Python 3.11 by using a package resource anchor.
 - Fix room-sanity generation by making each physical room check reachable from its valid compartment and restoring the missing Moonlight 2-05 lower descent (Issues #945, #969).
-- Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966). Regenerate the ROM patch.
+- Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966).
 - Allow the six guaranteed starting ability receipts and notices during the tutorial. Other items stay deferred, and Sword still requires its ability item (Issue #967).
 - Bootstrap Kirby build/test dependencies with checksum-pinned pip 26.2.2 and certifi 2026.10.19 after the eMudhra/emSign incident (Issue #978), with matching development guidance. Global AP dependencies, Docker and general workflows are unchanged.
 
