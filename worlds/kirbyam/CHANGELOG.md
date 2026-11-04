@@ -43,10 +43,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - APWorld updates do not remediate host Python, pip, certifi, OS trust or previously distributed executables. Existing installations and virtual environments need separate [trust remediation](docs/python-trust-update.md).
-- Python 3.11 compatibility and actual x86/BizHawk gameplay acceptance remain pending for this release candidate.
-- Consumable delivery and native saves have no exactly-once guarantee across interruptions or unsaved power loss. Delivery of an item held pending across reconnect remains unverified.
-- The eight-boss goal threshold and some ability-exclusion combinations still lack native gameplay acceptance.
-- Area Key requirements block entry without changing mirror artwork. Missing-key notices may not appear in mGBA.
+- Python 3.11 remains supported; v0.5.0 still needs compatibility and gameplay validation.
+- Consumable delivery and native saves have no exactly-once guarantee across interruptions or unsaved power loss. Full item/chest/slot, offline-check, pending-ACK, goal and BizHawk reconnect coverage remains unverified.
 
 ### Bug Fixes
 - Avoid a misleading ROM compatibility warning when disconnecting from the server.
