@@ -136,5 +136,26 @@ int main(void) {
     }
     ready(); AP_IN_ITEM_ID = 0xFFFFFFFF; ap_after_tasks(); ap_poll_mailbox_c();
     CHECK(!requests && AP_IN_FLAG == 1 && AP_ITEM_RCVD_COUNTER == 100);
+    /* Saved completion is playable, but stale task memory must not launch. */
+    for (unsigned state = 9999; state <= 10000; state++) {
+        ready(); AI_KIRBY_STATE = state;
+        KIRBY_CURRENT_ROOM = 101; U16(KIRBY_STRUCTS_ADDR+0x60) = 101;
+        U16(0x03001002) = 0x19A0; U16(0x03001004) = 0x1A54;
+        U16(0x03001006) = 0x3000; U16(0x03001010) = 0x3000;
+        ap_after_tasks(); CHECK(!requests && AP_IN_FLAG == 1 && HUB_STATE_FN == 0);
+        U32(0x03001008) = 0x0803EE19;
+        U8(0x03003000) = 1;
+        ap_after_tasks(); CHECK(!requests && AP_IN_FLAG == 1 && HUB_STATE_FN == 0);
+        U8(0x03003000) = 0; DEMO_PLAYBACK_FLAGS = 0x10;
+        ap_after_tasks(); CHECK(!requests && AP_IN_FLAG == 1 && HUB_STATE_FN == 0);
+        DEMO_PLAYBACK_FLAGS = 0x20;
+        ap_after_tasks(); CHECK(!requests && AP_IN_FLAG == 1 && HUB_STATE_FN == 0);
+        DEMO_PLAYBACK_FLAGS = 0x40;
+        ap_after_tasks(); CHECK(!requests && AP_IN_FLAG == 1 && HUB_STATE_FN == 0);
+        DEMO_PLAYBACK_FLAGS = 0;
+        ap_after_tasks(); ap_after_tasks(); ap_after_tasks();
+        CHECK(requests == 1 && AP_IN_FLAG == 0 && AP_ITEM_RCVD_COUNTER == 101);
+        ap_after_tasks(); CHECK(requests == 1 && AP_ITEM_RCVD_COUNTER == 101);
+    }
     return 0;
 }

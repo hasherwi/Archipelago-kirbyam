@@ -45,22 +45,23 @@ def test_production_candy_readiness(tmp_path: Path) -> None:
     constants = []
     for name in ("KIRBY_PLAYER_COUNT", "KIRBY_STRUCTS_ADDR", "KIRBY_STRUCT_STRIDE",
                  "KIRBY_STRUCT_TASK_OFFSET", "KIRBY_STRUCT_HP_OFFSET", "KIRBY_STRUCT_ROOM_OFFSET",
-                 "AI_STATE_NORMAL"):
+                 "AI_STATE_NORMAL", "AI_STATE_DARK_MIND_CLEAR", "AI_STATE_FULL_CLEAR"):
         match = re.search(r"^#define " + name + r" .+$", payload, re.MULTILINE)
         assert match
         constants.append(match.group())
     functions = "\n".join(_function(payload, name) for name in
-                          ("ap_get_active_kirby_addr", "ap_invincibility_candy_ready"))
+                          ("ap_get_active_kirby_addr", "ap_runtime_ai_allows_gameplay", "ap_invincibility_candy_ready"))
     source = r'''
 #define _GNU_SOURCE
 #include <stdint.h>
 #include <sys/mman.h>
 #include "candy_runtime_logic.h"
 #define CHECK(c) do { if (!(c)) return __LINE__; } while (0)
-static uint32_t KIRBY_CURRENT_PLAYER, AI_KIRBY_STATE, DEMO_PLAYBACK_FLAGS;
+static uint32_t KIRBY_CURRENT_PLAYER, KIRBY_CURRENT_ROOM, AI_KIRBY_STATE, DEMO_PLAYBACK_FLAGS;
 '''+"\n".join(constants)+"\n"+functions+r'''
 int main(void) {
     CHECK(mmap((void*)0x02000000, 0x40000, 3, MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0) != MAP_FAILED);
+    CHECK(mmap((void*)0x03000000, 0x8000, 3, MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0) != MAP_FAILED);
     CHECK(mmap((void*)0x08350000, 0x10000, 3, MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0) != MAP_FAILED);
     uint16_t rooms[] = {999,324,710,417,822,219,516,738,129};
     volatile uint16_t *table = (void*)0x0835105c;
@@ -97,6 +98,38 @@ int main(void) {
         }
         DEMO_PLAYBACK_FLAGS=0;
         AI_KIRBY_STATE=200; CHECK(!ap_invincibility_candy_ready());
+        KIRBY_CURRENT_ROOM=101;
+        *(uint16_t*)0x03001002=0x19a0;
+        *(uint16_t*)0x03001004=0x1a54;
+        *(uint16_t*)0x03001006=0x2000;
+        *(uint32_t*)0x03001008=0x0803ee19;
+        *(uint16_t*)0x03001010=0x3000;
+        *(uint16_t*)0x03001012=0;
+        *(uint8_t*)0x03002000=player;
+        for(unsigned state=9999;state<=10000;state++) {
+            AI_KIRBY_STATE=state;
+            CHECK(ap_invincibility_candy_ready());
+            *(uint32_t*)0x03001008=0; CHECK(!ap_invincibility_candy_ready());
+            *(uint32_t*)0x03001008=0x0803ee19;
+            *(uint8_t*)0x03002000=player+1; CHECK(!ap_invincibility_candy_ready());
+            *(uint8_t*)0x03002000=player;
+            *(uint16_t*)0x03001012=1; CHECK(!ap_invincibility_candy_ready());
+            *(uint16_t*)0x03001012=0x10;
+            *(uint8_t*)0x02008000=player; CHECK(ap_invincibility_candy_ready());
+            *(uint16_t*)0x03001012=0;
+            DEMO_PLAYBACK_FLAGS=0x10; CHECK(!ap_invincibility_candy_ready());
+            DEMO_PLAYBACK_FLAGS=0x20; CHECK(!ap_runtime_ai_allows_gameplay());
+            DEMO_PLAYBACK_FLAGS=0x40; CHECK(!ap_runtime_ai_allows_gameplay());
+            DEMO_PLAYBACK_FLAGS=0;
+            *(uint8_t*)(uintptr_t)(p+0x100)=0; CHECK(!ap_invincibility_candy_ready());
+            *(uint8_t*)(uintptr_t)(p+0x100)=10;
+            *(uint32_t*)(uintptr_t)(p+0xc)=0x40; CHECK(!ap_invincibility_candy_ready());
+            *(uint32_t*)(uintptr_t)(p+0xc)=0;
+            *(uint16_t*)(uintptr_t)(p+0x60)=801; CHECK(!ap_invincibility_candy_ready());
+            *(uint16_t*)(uintptr_t)(p+0x60)=101;
+            KIRBY_CURRENT_ROOM=804; CHECK(!ap_invincibility_candy_ready());
+            KIRBY_CURRENT_ROOM=101;
+        }
     }
     KIRBY_CURRENT_PLAYER=4; CHECK(!ap_invincibility_candy_ready());
     return 0;

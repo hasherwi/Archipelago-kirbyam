@@ -80,9 +80,15 @@ _AI_STATE_CUTSCENE_THRESHOLD = 200
 _AI_STATE_NORMAL = 300
 _DEMO_PLAYBACK_FLAGS_ADDR_KEY = "demo_playback_flags_native"
 _DEMO_PLAYBACK_ACTIVE_FLAG = 0x10
+_POST_CLEAR_NON_GAMEPLAY_FLAGS = 0x70  # Demo, interactive credits, final demo sequence.
 _DEMO_PLAYBACK_FLAGS_WIDTH = 4
 _KIRBY_HP_ADDR_KEY = "kirby_hp_native"
 _KIRBY_HP_READ_WIDTH = 1
+# USA CreateKirby (0803E920) installs this task callback and a one-byte
+# KirbyIdx payload. TaskDestroy replaces the callback before freeing it.
+_KIRBY_TASK_CALLBACK = 0x0803EE19
+_KIRBY_TASK_OFFSET_FROM_HP = 0xCC - 0x100
+_KIRBY_ROOM_OFFSET_FROM_HP = 0x60 - 0x100
 _KIRBY_MAX_HP_ADDR_KEY = "kirby_max_hp_native"
 _KIRBY_MAX_HP_READ_WIDTH = 1
 _KIRBY_VITALITY_COUNTER_ADDR_KEY = "kirby_vitality_counter_native"
@@ -3074,12 +3080,63 @@ class KirbyAmClient(BizHawkClient):
             self._suppress_next_local_death_send = False
         self._last_local_alive_state = alive_now
 
+    async def _post_clear_player_task_active(self, ctx: KirbyAmBizHawkClientContext, expected_hp: int) -> bool:
+        """A saved clear flag persists in gameplay; require a live player task.
+
+        Results screens destroy this task, but replay credits can retain it.
+        Validate its callback and player index, not stale HP/room values alone.
+        Re-read the task and owner pointer to reject destruction/reuse mid-read.
+        """
+        hp_addr = self._native_addr(_KIRBY_HP_ADDR_KEY)
+        room_addr = self._native_addr(_CURRENT_ROOM_ADDR_KEY)
+        demo_addr = self._native_addr(_DEMO_PLAYBACK_FLAGS_ADDR_KEY)
+        if hp_addr is None or room_addr is None or demo_addr is None:
+            return False
+        owner_addr = hp_addr + _KIRBY_TASK_OFFSET_FROM_HP
+        values = await bizhawk.read(ctx.bizhawk_ctx, [
+            (owner_addr, 4, "System Bus"),
+            (room_addr, 2, "System Bus"),
+            (hp_addr + _KIRBY_ROOM_OFFSET_FROM_HP, 2, "System Bus"),
+        ])
+        if len(values) != 3 or any(len(v) != n for v, n in zip(values, (4, 2, 2))):
+            return False
+        task = int.from_bytes(values[0], "little")
+        room = int.from_bytes(values[1], "little")
+        if not room or values[1] != values[2] or task & 3 or not 0x03000000 <= task <= 0x03007FEC:
+            return False
+        headers = await bizhawk.read(ctx.bizhawk_ctx, [(task, 20, "System Bus")])
+        if len(headers) != 1 or len(headers[0]) != 20:
+            return False
+        header = headers[0]
+        offset = int.from_bytes(header[6:8], "little")
+        flags = int.from_bytes(header[18:20], "little")
+        if (int.from_bytes(header[8:12], "little") != _KIRBY_TASK_CALLBACK
+                or int.from_bytes(header[16:18], "little") != 0x3000
+                or flags & 1 or not offset or header[2:4] == b"\0\0" or header[4:6] == b"\0\0"):
+            return False
+        if flags & 0x10:
+            payload = 0x02000000 + (offset << 2)
+        elif offset <= 0x7FFF:
+            payload = 0x03000000 + offset
+        else:
+            return False
+        final = await bizhawk.read(ctx.bizhawk_ctx, [
+            (payload, 1, "System Bus"), (owner_addr, 4, "System Bus"), (task, 20, "System Bus"),
+            (demo_addr, 4, "System Bus"), (hp_addr, 1, "System Bus"),
+            (room_addr, 2, "System Bus"), (hp_addr + _KIRBY_ROOM_OFFSET_FROM_HP, 2, "System Bus"),
+        ])
+        return (len(final) == 7 and final[0] == b"\0" and final[1] == values[0] and final[2] == header
+                and len(final[3]) == 4 and not self._u32_le(final[3]) & _POST_CLEAR_NON_GAMEPLAY_FLAGS
+                and len(final[4]) == 1 and self._s8(final[4]) == expected_hp
+                and final[5] == values[1] and final[6] == values[2])
+
     async def _runtime_gameplay_state(self, ctx: KirbyAmBizHawkClientContext) -> tuple[bool, str, int | None]:
         """
         Classify whether gameplay-active polling/delivery is safe for this frame.
 
         Contract update for Issue #419:
-        - known non-gameplay states remain deferred (tutorial/menu, cutscene, goal-clear states)
+        - known non-gameplay states remain deferred (tutorial/menu, cutscene, ending/results)
+        - saved goal-clear states require a live native player task before resuming gameplay
         - unknown post-300 states fail open to avoid blocking mailbox item delivery
         - fail open when native address is unavailable
 
@@ -3121,6 +3178,11 @@ class KirbyAmClient(BizHawkClient):
 
         reason: str
         gameplay_active: bool
+        post_clear_active = False
+        if (ai_state in (_GOAL_STATE_DARK_MIND_CLEAR, _GOAL_STATE_FULL_CLEAR)
+                and demo_flags is not None and not demo_flags & _POST_CLEAR_NON_GAMEPLAY_FLAGS
+                and current_hp is not None):
+            post_clear_active = await self._post_clear_player_task_active(ctx, current_hp)
 
         if ai_state < _AI_STATE_CUTSCENE_THRESHOLD:
             reason = "non_gameplay_tutorial_or_menu"
@@ -3128,10 +3190,10 @@ class KirbyAmClient(BizHawkClient):
         elif ai_state < _AI_STATE_NORMAL:
             reason = "non_gameplay_cutscene"
             gameplay_active = False
-        elif ai_state == _AI_STATE_NORMAL and demo_flags is not None and bool(demo_flags & _DEMO_PLAYBACK_ACTIVE_FLAG):
+        elif demo_flags is not None and bool(demo_flags & _DEMO_PLAYBACK_ACTIVE_FLAG):
             reason = "non_gameplay_title_demo"
             gameplay_active = False
-        elif ai_state in (_GOAL_STATE_DARK_MIND_CLEAR, _GOAL_STATE_FULL_CLEAR):
+        elif ai_state in (_GOAL_STATE_DARK_MIND_CLEAR, _GOAL_STATE_FULL_CLEAR) and not post_clear_active:
             reason = "non_gameplay_goal_clear"
             gameplay_active = False
         elif current_hp is not None and current_hp <= 0:
@@ -5070,8 +5132,8 @@ class KirbyAmClient(BizHawkClient):
         if slot_goal != Goal.option_dark_mind:
             return False
 
-        # Dark Mind clear is ideally observed at 9999, but live sessions can miss that
-        # transient state and only see the subsequent post-clear 10000 signal.
+        # Both values persist in completed saves: 9999 is ordinary victory,
+        # while 10000 additionally indicates full completion.
         return ai_state in (_GOAL_STATE_DARK_MIND_CLEAR, _GOAL_STATE_FULL_CLEAR)
 
     def _any_area_boss_goal_signal_active(self, ctx: KirbyAmBizHawkClientContext) -> bool:
