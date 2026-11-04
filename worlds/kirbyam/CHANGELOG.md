@@ -11,12 +11,42 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
+- None.
+
+### Improvements
+- None.
+
+### Known Limitations
+- None.
+
+### Bug Fixes
+- None.
+
+### Internal Changes
+- None.
+
+## v0.5.0-rc1
+
+### New Features
 - Added eight Area Key progression items for Areas 2 through 9. Cross-area mirrors (and other transitions like Warp Stars) now require the destination area's key (Issue #42). Thanks to SpawnSean for sharing early mirror-door research.
 - Add a default-on Area Keys option under Make the game easier. Turning it off removes Area Key requirements and replaces the eight keys with filler.
 - Added 15 Hub Connection progression items that unlock matching hub shortcuts while preserving alternate overland routes. Physical Big Switch checks remain independent, and received connections are restored across reconnects (Issue #482).
 - Add Hub Teleport Trap, which returns Kirby to Rainbow Route’s central hub (Issue #697).
 - Add `/goal` to display the seed's victory condition, including its resolved boss target while preserving legacy hidden targets (Issue #923).
 - Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
+
+### Improvements
+- None.
+
+### Known Limitations
+- Only the North American ROM is supported; AP notifications are English.
+- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
+- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
+- APWorld updates do not remediate host Python, pip, certifi, OS trust or previously distributed executables. Existing installations and virtual environments need separate [trust remediation](docs/python-trust-update.md).
+- Python 3.11 compatibility and actual x86/BizHawk gameplay acceptance remain pending for this release candidate.
+- Consumable delivery and native saves have no exactly-once guarantee across interruptions or unsaved power loss. Delivery of an item held pending across reconnect remains unverified.
+- The eight-boss goal threshold and some ability-exclusion combinations still lack native gameplay acceptance.
+- Area Key requirements block entry without changing mirror artwork. Missing-key notices may not appear in mGBA.
 
 ### Bug Fixes
 - Avoid a misleading ROM compatibility warning when disconnecting from the server.
@@ -37,14 +67,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966). Regenerate the ROM patch.
 - Allow the six guaranteed starting ability receipts and notices during the tutorial. Other items stay deferred, and Sword still requires its ability item (Issue #967).
 - Bootstrap Kirby build/test dependencies with checksum-pinned pip 26.2.2 and certifi 2026.10.19 after the eMudhra/emSign incident (Issue #978), with matching development guidance. Global AP dependencies, Docker and general workflows are unchanged.
-
-### Known Limitations
-- Only the North American ROM is supported; AP notifications are English.
-- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
-- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
-- APWorld updates do not remediate host Python, pip, certifi, OS trust or previously distributed executables. Existing installations and virtual environments need separate [trust remediation](docs/python-trust-update.md).
-- Python 3.11 remains supported; v0.5.0 still needs compatibility and gameplay validation.
-- Consumable delivery and native saves have no exactly-once guarantee across interruptions or unsaved power loss. Full item/chest/slot, offline-check, pending-ACK, goal and BizHawk reconnect coverage remains unverified.
 
 ### Internal Changes
 - Preserve compiled Hub switch mapping with generated lookup tables, fixed configuration addresses and explicit overlap checks. Historical native door aliases remain unchanged.
