@@ -1675,6 +1675,38 @@ static uint32_t ap_get_active_kirby_addr(void) {
     return KIRBY_STRUCTS_ADDR + ((uint32_t)KIRBY_CURRENT_PLAYER * KIRBY_STRUCT_STRIDE);
 }
 
+/* Clear states are saved progression, not permanent ending-screen markers.
+ * CreateKirby installs this callback and player-index payload; TaskDestroy
+ * replaces the callback before freeing the task. Require live identity before
+ * admitting post-clear gameplay, rather than trusting stale room/HP fields. */
+static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_runtime_ai_allows_gameplay(void) {
+    uint32_t ai = AI_KIRBY_STATE;
+    uint32_t kirby, task, payload;
+    uint16_t flags, offset;
+    if (ai == AI_STATE_NORMAL) return 1u;
+    if ((ai != AI_STATE_DARK_MIND_CLEAR && ai != AI_STATE_FULL_CLEAR)
+        || (DEMO_PLAYBACK_FLAGS & 0x70u) != 0u /* Replay credits retain a live Kirby task. */
+        || KIRBY_CURRENT_PLAYER >= KIRBY_PLAYER_COUNT) return 0u;
+    kirby = ap_get_active_kirby_addr();
+    task = *(volatile uint32_t*)(kirby + KIRBY_STRUCT_TASK_OFFSET);
+    if (task < 0x03000000u || task > 0x03007FECu || (task & 3u)
+        || *(volatile uint32_t*)(task + 8u) != 0x0803EE19u
+        || *(volatile uint16_t*)(task + 0x10u) != 0x3000u
+        || *(volatile uint16_t*)(task + 2u) == 0u
+        || *(volatile uint16_t*)(task + 4u) == 0u) return 0u;
+    flags = *(volatile uint16_t*)(task + 0x12u);
+    offset = *(volatile uint16_t*)(task + 6u);
+    if ((flags & 1u) || !offset) return 0u;
+    if (flags & 0x10u) payload = 0x02000000u + ((uint32_t)offset << 2);
+    else {
+        if (offset > 0x7FFFu) return 0u;
+        payload = 0x03000000u + offset;
+    }
+    return *(volatile uint8_t*)payload == KIRBY_CURRENT_PLAYER
+        && KIRBY_CURRENT_ROOM != 0u
+        && *(volatile uint16_t*)(kirby + KIRBY_STRUCT_ROOM_OFFSET) == KIRBY_CURRENT_ROOM;
+}
+
 static void ap_grant_heal_amount(uint8_t amount) {
     uint32_t kirby_addr = ap_get_active_kirby_addr();
     int8_t hp = *(volatile int8_t*)(kirby_addr + KIRBY_STRUCT_HP_OFFSET);
@@ -1739,7 +1771,7 @@ static void ap_grant_max_tomato(void) {
 static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_invincibility_candy_ready(void) {
     uint32_t kirby_addr;
     uint32_t task;
-    if (KIRBY_CURRENT_PLAYER >= KIRBY_PLAYER_COUNT || AI_KIRBY_STATE != AI_STATE_NORMAL
+    if (KIRBY_CURRENT_PLAYER >= KIRBY_PLAYER_COUNT || !ap_runtime_ai_allows_gameplay()
         || (DEMO_PLAYBACK_FLAGS & 0x16u) != 0u) return 0u;
     kirby_addr = ap_get_active_kirby_addr();
     task = *(volatile uint32_t*)(kirby_addr + KIRBY_STRUCT_TASK_OFFSET);
@@ -1863,7 +1895,7 @@ static HUB_EXT uint8_t ap_hub_pending_ready(void) {
     if (AP_MAILBOX_INIT_COOKIE != AP_MAILBOX_INIT_COOKIE_VALUE
         || AP_IN_FLAG != 1u
         || AP_IN_ITEM_ID != KIRBY_ITEM_ID_BASE_OFFSET + 300u) return 0u;
-    if (AI_KIRBY_STATE != AI_STATE_NORMAL
+    if (!ap_runtime_ai_allows_gameplay()
         || (DEMO_PLAYBACK_FLAGS & 0x16u) != 0u
         || (*(volatile uint32_t *)0x03002440u & 0x800u) != 0u
         || KIRBY_CURRENT_PLAYER != 0u
@@ -2172,12 +2204,12 @@ void ap_poll_mailbox_c(void) {
         // cutscene, but scrub to AP-owned authority as soon as gameplay resumes.
         uint32_t ai_state = AI_KIRBY_STATE;
         uint8_t gameplay_active = 0u;
-        if (ai_state >= AI_STATE_NORMAL
+        if ((ai_state >= AI_STATE_NORMAL
             && ai_state != AI_STATE_DARK_MIND_CLEAR
-            && ai_state != AI_STATE_FULL_CLEAR) {
+            && ai_state != AI_STATE_FULL_CLEAR) || ap_runtime_ai_allows_gameplay()) {
             gameplay_active = 1u;
         }
-        if (gameplay_active && ai_state == AI_STATE_NORMAL) {
+        if (gameplay_active) {
             uint32_t demo_flags = DEMO_PLAYBACK_FLAGS;
             if ((demo_flags & DEMO_PLAYBACK_ACTIVE_FLAG) != 0u) {
                 gameplay_active = 0u;
