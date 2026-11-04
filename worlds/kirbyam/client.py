@@ -2044,6 +2044,10 @@ class KirbyAmClient(BizHawkClient):
         # Such a poll belongs to the old session, not an incompatible ROM.
         server = getattr(ctx, "server", None)
         socket = getattr(server, "socket", None)
+        # A prior awaited watcher phase may already have completed disconnect.
+        # Do not validate against the cleared authentication of that session.
+        if server is None or socket is None:
+            return False
         slot_identity = (getattr(ctx, "server_seed_name", None),
                          getattr(ctx, "team", None), getattr(ctx, "slot", None))
 

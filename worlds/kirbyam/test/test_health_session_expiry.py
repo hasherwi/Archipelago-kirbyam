@@ -11,6 +11,38 @@ from .test_vitality_protocol import _identity
 
 
 @pytest.mark.asyncio
+async def test_disconnect_before_nested_health_validation_is_quiet(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    ctx = mock_bizhawk_context
+    memory = _identity(client, ctx, 2, 6, 10)
+    server, auth, team, slot, seed = (
+        ctx.server, ctx.auth, ctx.team, ctx.slot, ctx.server_seed_name)
+
+    async def read(_, requests):
+        return [memory[a, domain] for a, _, domain in requests]
+
+    with patch('worlds.kirbyam.client.bizhawk.read', side_effect=read) as reads, \
+            patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as write, \
+            patch('worlds.kirbyam.client.bizhawk.guarded_write', new_callable=AsyncMock) as guarded, \
+            patch.object(client, '_log_client') as log:
+        assert await client._health_protocol_ready(ctx)
+        # Disconnect can finish in an earlier awaited watcher phase, before
+        # this nested validator snapshots the session.
+        CommonContext.reset_server_state(ctx)
+        reads.reset_mock()
+        await client._enforce_health_range(ctx)
+        reads.assert_not_awaited()
+        log.assert_not_called()
+        write.assert_not_awaited()
+        guarded.assert_not_awaited()
+        ctx.send_msgs.assert_not_awaited()
+        ctx.server, ctx.auth, ctx.team, ctx.slot, ctx.server_seed_name = (
+            server, auth, team, slot, seed)
+        assert await client._health_protocol_ready(ctx)
+
+
+@pytest.mark.asyncio
 @pytest.mark.parametrize('boundary', ['identity', 'hub_before', 'hub_after'])
 @pytest.mark.parametrize('change', ['reset', 'close', 'server', 'socket', 'slot', 'slot_data'])
 async def test_expired_rom_poll_is_quiet_and_has_no_side_effects(mock_bizhawk_context, boundary, change):
