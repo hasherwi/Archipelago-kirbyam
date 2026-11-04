@@ -20,6 +20,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Bug Fixes
 - Resume item delivery and gameplay polling when continuing a completed save, while keeping ending, title and demo screens deferred (Issue #1004). Regenerate the ROM patch.
+- Keep duplicate incoming DeathLinks suppressed when reconnecting to the same seed and slot.
 - Preserve Mr. Frosty’s ice cubes and Boxy’s boxes as no-ability sources when passive-enemy ability randomization is disabled. Regenerate the ROM patch.
 - Keep Invincibility Candy queued until its native effect can start, including after leaving hubs or boss rooms and after an active Candy effect expires.
 - Honor excluded passive enemies, minibosses, and boss spawns in Completely Random ability mode. Regenerate the ROM patch.
