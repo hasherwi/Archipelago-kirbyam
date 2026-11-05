@@ -29,7 +29,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 - Add Rainbow, Candy Corn, Negative, Pineapple, Cotton Candy, Royal, Pumpkin and Mint Chip Kirby palettes with normal, UFO and HUD rows; retain native effects and owned spray-paint precedence.
-- Added eight Area Key progression items for Areas 2 through 9. Cross-area mirrors (and other transitions like Warp Stars) now require the destination area's key (Issue #42).
+- Added eight Area Key progression items for Areas 2 through 9. Cross-area mirrors (and other transitions like Warp Stars) now require the destination area's key. Locked mirrors show boards and their associated Warp Stars stay hidden; receiving the key updates nearby mirrors and eligible Warp Stars while preserving other unlock requirements (Issues #42, #1010).
 - Add a default-on Area Keys option under Make the game easier. Turning it off removes Area Key requirements and replaces the eight keys with filler.
 - Added 15 Hub Connection progression items that unlock matching hub shortcuts while preserving alternate overland routes. Physical Big Switch checks remain independent, and received connections are restored across reconnects (Issue #482).
 - Add Hub Teleport Trap, which returns Kirby to Rainbow Route’s central hub (Issue #697).
@@ -37,7 +37,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
 
 ### Improvements
-- Show boards on mirrors locked by Area Keys and hide their associated Warp Stars. Receiving the destination key updates nearby mirrors and eligible Warp Stars while preserving other unlock requirements (Issue #1010).
 - Add a release-preparation runbook, read-only readiness checks and staging status reporting (Issue #1012). Owner settings verification and a live release rehearsal remain pending.
 
 ### Known Limitations
