@@ -161,12 +161,16 @@ def main():
         for name, reg in [('level', UC_ARM_REG_R6), ('strip', UC_ARM_REG_R5)]:
             u.reg_write(reg, template)
             u.reg_write(UC_ARM_REG_R7, level)
-            for occupied in [0, 1]:
-                native_slot[0] = occupied
-                w(0x0203B0C0, '<I', 0)
-                assert run('ap_area_spawn_' + name + '_entry', 0, 0, 0) == (occupied or int(not disabled))
-                assert u.reg_read(reg) == template
-                assert u.reg_read(UC_ARM_REG_R7) == level
+            for keys in [0, 4]:
+                for occupied in [0, 1]:
+                    native_slot[0] = occupied
+                    w(0x0203B0C0, '<I', keys)
+                    u.reg_write(UC_ARM_REG_R4, 0x44444444)
+                    expected = occupied or int(not disabled and keys == 0)
+                    assert run('ap_area_spawn_' + name + '_entry', 0, 0, 0) == expected
+                    assert u.reg_read(UC_ARM_REG_R4) == 0x44444444
+                    assert u.reg_read(reg) == template
+                    assert u.reg_read(UC_ARM_REG_R7) == level
         # Repeated frame scans create one star; occupied/consumed native slots
         # and missing keys never create another. Native scheduler still runs.
         w(0x0203AD30, '<B', 1)
