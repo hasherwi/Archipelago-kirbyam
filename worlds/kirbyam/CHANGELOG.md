@@ -14,7 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - None.
 
 ### Improvements
-- Show boards on mirrors locked by Area Keys and hide their associated Warp Stars. Receiving the destination key updates nearby mirrors and eligible Warp Stars while preserving other unlock requirements. Regenerate your ROM patch to use these changes (Issue #1010).
+- Show boards on mirrors locked by Area Keys and hide their associated Warp Stars. Receiving the destination key updates nearby mirrors and eligible Warp Stars while preserving other unlock requirements (Issue #1010).
 
 ### Known Limitations
 - None.
