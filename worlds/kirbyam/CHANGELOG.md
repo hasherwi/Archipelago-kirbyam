@@ -11,13 +11,16 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- None.
+- All sixteen Goal Games now award a check when completed, including runs with no prizes. Checks persist offline and report on reconnect, independently of Room Sanity and chests.
 
 ### Improvements
 - None.
 
 ### Known Limitations
-- None.
+- Native linked-GBA multiplayer within a single world is not currently supported. Ordinary Archipelago multiworld uses separate player worlds.
+- Only the North American ROM is supported; AP notifications are English.
+- Chests retain their original item sprites and collection animations; statues retain their original ability appearance. Mirrors and warp stars locked by Area Keys have no visual indicator.
+- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 
 ### Bug Fixes
 - None.

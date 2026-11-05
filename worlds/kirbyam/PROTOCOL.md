@@ -277,6 +277,8 @@ Server → Client: ConnectionRefused | Connected
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the payload refreshes Kirby's live OBJ and matching HUD BG palettes, including Pink. Reconnect alone does not reroll the color.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
+- `goal_game_protocol_version` (int): `1` enables the sixteen default Goal Game completion checks and requires `APGOAL1\0` at ROM offset `0x1000018`. Missing means legacy, with no Goal Game polling.
+- `shared_save_protocol_version` (int): `1` requires the authenticated shared save lifecycle described below.
 - `health_protocol_version` (int): `2` for newly generated ROMs; requires the format-2 client and `KIRBYAM APV2` ROM header. Missing version identifies the legacy four-counter contract.
 - `hub_connection_protocol_version` (int): `2` for Hub seeds; requires ROM marker `APHUB02\0` at file offset `0x1000008`. Earlier Hub drafts without this version must regenerate seed and patch together.
 - `minimum_health` (int): starting HP capacity (`1..10`, default `6`), embedded in new ROMs for native initialization and reconciled by the connected client after the tutorial. This is not a current-HP floor. Legacy nonzero presets take precedence for old slots.
@@ -993,3 +995,27 @@ deliberate save rollback is not an exactly-once persistence guarantee. Offline
 cache and completion records are restored for the same authentication identity.
 Native linked-GBA multiplayer within one world remains unsupported; ordinary
 Archipelago multiworld is a separate supported mode.
+
+## Goal Game completion checks (#1000)
+
+All sixteen physical Goal Games are default checks (IDs 3960700–3960715), independent
+of Room Sanity and treasure. They add sixteen ordinary item-pool slots. Their route
+rules match their existing return-to-Central-Circle exits, including Moonlight's
+upper-room restrictions. They are not requirements for the 100% goal.
+
+The exact 33 source-door records in `data/goal_game_doors.json` map to sixteen
+origins. Hook 0x55DF0 wraps the native transition and captures the consumed pointer,
+source, and actual arrival together. Shared scenes 980–982 never identify an origin
+by themselves. GoalStar callback literal 0xC5F0 starts a run only for the local
+participant. Literal 0xD2DC wraps the native landing delay: the transition to
+0x0800DE21 completes the check, including zero-prize runs. No score is read.
+Leaving, death, native save reload, menu teardown, or a changed shared context
+cancels an unfinished run. AI followers cannot establish origins.
+
+Transient run storage is 0x0203B170–0x0203B17B (epoch, star pointer, room, bit,
+phase). Persistent bits 0–15 belong to the shared authenticated WORLD26 record;
+the feature preserves Copy Room bits and Hub words. The native saver retries
+failures. The client reads the fenced snapshot, sends only checks in the connected
+slot, and resends on reconnect until server acknowledgement. It retains no pending
+RAM-derived checks across connections. Legacy seeds lacking the version do not poll
+these locations. A version/ROM marker mismatch fails closed.

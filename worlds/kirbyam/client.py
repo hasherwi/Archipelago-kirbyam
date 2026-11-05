@@ -21,6 +21,7 @@ from .candy import CANDY_ITEM_ID, candy_delivery_ready
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .colors import choose_different_kirby_color, kirby_color_name_by_id
 from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
+from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games
 from .shared_save_protocol import SHARED_MARKER, SHARED_MARKER_OFFSET, shared_slot_version
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
@@ -2064,6 +2065,12 @@ class KirbyAmClient(BizHawkClient):
             return False
         version = getattr(self, "_health_protocol_version", 1)
         try:
+            if goal_slot_version(slot):
+                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(GOAL_MARKER_OFFSET, 8, "ROM")]))[0]
+                if session_expired():
+                    return False
+                if bytes(marker) != GOAL_MARKER:
+                    raise ValueError("ROM and slot Goal Game versions differ")
             if shared_slot_version(slot):
                 marker = (await bizhawk.read(ctx.bizhawk_ctx, [(SHARED_MARKER_OFFSET, 8, "ROM")]))[0]
                 if session_expired():
@@ -2287,6 +2294,8 @@ class KirbyAmClient(BizHawkClient):
             await self._poll_hub_switch_locations(ctx)
 
             await self._reconcile_lever_activations(ctx)
+            await poll_goal_games(ctx)
+
             # Physical lever checks remain independent of native wall ownership.
             await self._poll_lever_locations(ctx)
 

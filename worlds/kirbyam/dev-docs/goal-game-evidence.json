@@ -1,0 +1,141 @@
+{
+  "foundation_commit": "dfbb0aa1c62bbe383cfb2ee4238dcf01bed735c9",
+  "base_patch_sha256": "51394cbefa541344f4e1cab7a26cc7589b9fea820be94d07fcd89e32ef1a2e9b",
+  "native_emulator": "mGBA 0.10.5 isolated core, controller inputs/read-only telemetry",
+  "matrix": [
+    {
+      "source_room": 557,
+      "bit": 0,
+      "entry_bits": 0,
+      "completed_bits": 1,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 176,
+      "bit": 1,
+      "entry_bits": 0,
+      "completed_bits": 2,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 177,
+      "bit": 2,
+      "entry_bits": 0,
+      "completed_bits": 4,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 745,
+      "bit": 3,
+      "entry_bits": 0,
+      "completed_bits": 8,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 148,
+      "bit": 4,
+      "entry_bits": 0,
+      "completed_bits": 16,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 531,
+      "bit": 5,
+      "entry_bits": 0,
+      "completed_bits": 32,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 547,
+      "bit": 6,
+      "entry_bits": 0,
+      "completed_bits": 64,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 326,
+      "bit": 7,
+      "entry_bits": 0,
+      "completed_bits": 128,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 135,
+      "bit": 8,
+      "entry_bits": 0,
+      "completed_bits": 256,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 825,
+      "bit": 9,
+      "entry_bits": 0,
+      "completed_bits": 512,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 214,
+      "bit": 10,
+      "entry_bits": 0,
+      "completed_bits": 1024,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 224,
+      "bit": 11,
+      "entry_bits": 0,
+      "completed_bits": 2048,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 622,
+      "bit": 12,
+      "entry_bits": 0,
+      "completed_bits": 4096,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 526,
+      "bit": 13,
+      "entry_bits": 0,
+      "completed_bits": 8192,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 413,
+      "bit": 14,
+      "entry_bits": 0,
+      "completed_bits": 16384,
+      "both_native_save_copies_and_checksums": "pass"
+    },
+    {
+      "source_room": 420,
+      "bit": 15,
+      "entry_bits": 0,
+      "completed_bits": 32768,
+      "both_native_save_copies_and_checksums": "pass"
+    }
+  ],
+  "other_native_checks": [
+    "Cold boot of actual completed native save retains check",
+    "Soft reset before start clears context and awards no check",
+    "Soft reset during started run clears context and awards no check",
+    "Zero-prize fixture: native drop schedule terminator at 0x2eb9a4, no pickup callbacks, normal completion persists bit 0"
+  ],
+  "host_tests": 124,
+  "additional_full_fill_tests": 2,
+  "scope_limits": [
+    "Controlled route fixtures redirect one already-owned Central Circle doorway and append a matching native lookup entry, preserving existing visual lookups; native Goal Game source doors, objects and event routines unchanged. Area Keys disabled via valid seed option.",
+    "Emulator matrix validates completion attribution and persistence, not ordinary traversal of every route; generation tests separately validate all-sixteen logical reachability and full fills.",
+    "Zero-prize test substitutes the drop-table terminator in a private fixture, not a naturally occurring no-prize playthrough.",
+    "Reconnect/authentication tested with mocked transport, not an end-to-end live AP server.",
+    "Native linked-GBA single-world multiplayer unsupported."
+  ],
+  "broad_suite": {
+    "initial_passed": 4997,
+    "initial_failed": 16,
+    "corrected_harness_and_location_count_reruns_passed": 12,
+    "loopback_and_process_ipc_tests_passed_with_approved_execution": 4,
+    "note": "Initial broad run preceded test harness linkage/count corrections; all initially failing cases passed on targeted rerun."
+  }
+}

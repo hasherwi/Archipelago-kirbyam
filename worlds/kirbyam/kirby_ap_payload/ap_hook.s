@@ -111,3 +111,13 @@ ap_shared_clear_entry:
     ldr r3, 1f
     bx r3
 1: .word ap_shared_clear
+
+.section .text.ap_goal_entries,"ax",%progbits
+.balign 4
+.global ap_goal_transition_entry
+.type ap_goal_transition_entry, %function
+.thumb_func
+ap_goal_transition_entry:
+    ldr r3, 1f
+    bx r3
+1: .word ap_goal_transition

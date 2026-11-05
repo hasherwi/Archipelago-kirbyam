@@ -158,13 +158,16 @@ jobs:
           hub_fixture = runpy.run_path("worlds/kirbyam/test/native/hub_transition_fixture.py")
           hub_fixture["populate_hub_transition_fixture"](rom)
 
-          # Exact native shared-save lifecycle sentinels (synthetic only).
+          # Exact native lifecycle and Goal Game sentinels (synthetic only).
           for target, offsets in (
               (0x0800A91C, (0x222, 0x242, 0x32384, 0x138CB2, 0x13CA80, 0x140430, 0x141CA0, 0x142638, 0x1428AE)),
               (0x0800AC00, (0x22E, 0x250, 0x270, 0x25F9E, 0x32390, 0x138D10, 0x13CA8C, 0x14043C, 0x141CAC, 0x142644, 0x1428BA, 0x1429A6)),
+              (0x080562D0, (0x55DF0,)),
           ):
               for offset in offsets:
                   rom[offset:offset + 4] = thumb_bl_bytes(offset, target)
+          rom[0xC5F0:0xC5F4] = (0x0800DCAD).to_bytes(4, "little")
+          rom[0xD2DC:0xD2E0] = (0x0800D2E1).to_bytes(4, "little")
 
           rom_path.write_bytes(rom)
           PY

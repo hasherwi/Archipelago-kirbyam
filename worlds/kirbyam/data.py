@@ -281,6 +281,7 @@ class LocationCategory(IntEnum):
     MINOR_CHEST = 14
     AREA_VISIT = 15
     LEVER = 16
+    GOAL_GAME = 17
 
 
 class ItemData(NamedTuple):

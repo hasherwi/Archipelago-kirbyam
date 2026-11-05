@@ -622,6 +622,7 @@ class KirbyAmWorld(World):
             minor_chest_locations: list[KirbyAmLocation] = []
             room_sanity_locations: list[KirbyAmLocation] = []
             area_visit_locations: list[KirbyAmLocation] = []
+            goal_game_locations: list[KirbyAmLocation] = []
             location_by_key: dict[str, KirbyAmLocation] = {}
             for loc in fill_locations:
                 if loc.key is None:
@@ -646,6 +647,8 @@ class KirbyAmWorld(World):
                     minor_chest_locations.append(loc)
                 elif loc_meta.category == LocationCategory.ROOM_SANITY:
                     room_sanity_locations.append(loc)
+                elif loc_meta.category == LocationCategory.GOAL_GAME:
+                    goal_game_locations.append(loc)
                 elif loc_meta.category == LocationCategory.AREA_VISIT:
                     area_visit_locations.append(loc)
 
@@ -658,6 +661,7 @@ class KirbyAmWorld(World):
             minor_chest_locations.sort(key=lambda loc: loc.key or "")
             room_sanity_locations.sort(key=lambda loc: loc.key or "")
             area_visit_locations.sort(key=lambda loc: loc.key or "")
+            goal_game_locations.sort(key=lambda loc: loc.key or "")
 
             locked_shard_count = 0
             randomized_item_codes: list[int] = []
@@ -671,6 +675,7 @@ class KirbyAmWorld(World):
                 or minor_chest_locations
                 or room_sanity_locations
                 or area_visit_locations
+                or goal_game_locations
             ):
                 shard_label_to_code = {
                     item.label: item.item_id
@@ -736,6 +741,7 @@ class KirbyAmWorld(World):
                         + minor_chest_locations
                         + room_sanity_locations
                         + area_visit_locations
+                        + goal_game_locations
                     )
                     if loc.item is None
                 ]
@@ -939,6 +945,7 @@ class KirbyAmWorld(World):
                     or minor_chest_locations
                     or room_sanity_locations
                     or area_visit_locations
+                    or goal_game_locations
                 )
                 and not randomized_item_codes
             ):
@@ -1156,6 +1163,8 @@ class KirbyAmWorld(World):
             toggles_as_bools=True,
         )
         slot_data["world_version"] = self.world_version.as_simple_string()
+        slot_data["goal_game_protocol_version"] = 1
+        slot_data["shared_save_protocol_version"] = 1
         slot_data["health_protocol_version"] = 2
         slot_data["hub_connection_protocol_version"] = 2
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
