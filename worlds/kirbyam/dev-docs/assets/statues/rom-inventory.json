@@ -1,0 +1,256 @@
+{
+  "rom_sha256": "cfb194cd0cb373787094a962852e3e564fb2ecdb0609fe065afdd8de3f4e11f1",
+  "regular_statue_records": [
+    {
+      "ability": "Beam",
+      "grant_rom_offset": "0x3538FC",
+      "animation_info_rom_offset": "0x35369C",
+      "animation_id": 900,
+      "animation_variant": 11,
+      "verified": true
+    },
+    {
+      "ability": "Bomb",
+      "grant_rom_offset": "0x353902",
+      "animation_info_rom_offset": "0x3536B4",
+      "animation_id": 900,
+      "animation_variant": 17,
+      "verified": true
+    },
+    {
+      "ability": "Burning",
+      "grant_rom_offset": "0x3538FD",
+      "animation_info_rom_offset": "0x3536A0",
+      "animation_id": 900,
+      "animation_variant": 12,
+      "verified": true
+    },
+    {
+      "ability": "Cutter",
+      "grant_rom_offset": "0x35390D",
+      "animation_info_rom_offset": "0x3536E0",
+      "animation_id": 900,
+      "animation_variant": 27,
+      "verified": true
+    },
+    {
+      "ability": "Cupid",
+      "grant_rom_offset": "0x35390E",
+      "animation_info_rom_offset": "0x3536E4",
+      "animation_id": 900,
+      "animation_variant": 28,
+      "verified": true
+    },
+    {
+      "ability": "Fighter",
+      "grant_rom_offset": "0x353901",
+      "animation_info_rom_offset": "0x3536B0",
+      "animation_id": 900,
+      "animation_variant": 16,
+      "verified": true
+    },
+    {
+      "ability": "Fire",
+      "grant_rom_offset": "0x3538FF",
+      "animation_info_rom_offset": "0x3536A8",
+      "animation_id": 900,
+      "animation_variant": 14,
+      "verified": true
+    },
+    {
+      "ability": "Hammer",
+      "grant_rom_offset": "0x35390A",
+      "animation_info_rom_offset": "0x3536D4",
+      "animation_id": 900,
+      "animation_variant": 25,
+      "verified": true
+    },
+    {
+      "ability": "Ice",
+      "grant_rom_offset": "0x353905",
+      "animation_info_rom_offset": "0x3536C0",
+      "animation_id": 900,
+      "animation_variant": 20,
+      "verified": true
+    },
+    {
+      "ability": "Laser",
+      "grant_rom_offset": "0x3538FE",
+      "animation_info_rom_offset": "0x3536A4",
+      "animation_id": 900,
+      "animation_variant": 13,
+      "verified": true
+    },
+    {
+      "ability": "Missile",
+      "grant_rom_offset": "0x353907",
+      "animation_info_rom_offset": "0x3536C8",
+      "animation_id": 900,
+      "animation_variant": 22,
+      "verified": true
+    },
+    {
+      "ability": "Parasol",
+      "grant_rom_offset": "0x35390B",
+      "animation_info_rom_offset": "0x3536D8",
+      "animation_id": 900,
+      "animation_variant": 29,
+      "verified": true
+    },
+    {
+      "ability": "Smash",
+      "grant_rom_offset": "0x353908",
+      "animation_info_rom_offset": "0x3536CC",
+      "animation_id": 900,
+      "animation_variant": 23,
+      "verified": true
+    },
+    {
+      "ability": "Spark",
+      "grant_rom_offset": "0x353906",
+      "animation_info_rom_offset": "0x3536C4",
+      "animation_id": 900,
+      "animation_variant": 21,
+      "verified": true
+    },
+    {
+      "ability": "Stone",
+      "grant_rom_offset": "0x353900",
+      "animation_info_rom_offset": "0x3536AC",
+      "animation_id": 900,
+      "animation_variant": 15,
+      "verified": true
+    },
+    {
+      "ability": "Sword",
+      "grant_rom_offset": "0x35390C",
+      "animation_info_rom_offset": "0x3536DC",
+      "animation_id": 900,
+      "animation_variant": 26,
+      "verified": true
+    },
+    {
+      "ability": "Throw",
+      "grant_rom_offset": "0x353909",
+      "animation_info_rom_offset": "0x3536D0",
+      "animation_id": 900,
+      "animation_variant": 24,
+      "verified": true
+    },
+    {
+      "ability": "Tornado",
+      "grant_rom_offset": "0x353903",
+      "animation_info_rom_offset": "0x3536B8",
+      "animation_id": 900,
+      "animation_variant": 18,
+      "verified": true
+    },
+    {
+      "ability": "Wheel",
+      "grant_rom_offset": "0x353904",
+      "animation_info_rom_offset": "0x3536BC",
+      "animation_id": 900,
+      "animation_variant": 19,
+      "verified": true
+    }
+  ],
+  "enemy_art_candidates": [
+    {
+      "enemy": "Cookin",
+      "object_type": 38,
+      "animation_id": 779,
+      "variant": 0,
+      "palette": 295,
+      "tile_count": 24,
+      "first_frame_dimensions": [
+        64,
+        24
+      ],
+      "first_frame_origin": [
+        50,
+        14
+      ]
+    },
+    {
+      "enemy": "Bomber",
+      "object_type": 40,
+      "animation_id": 811,
+      "variant": 0,
+      "palette": 337,
+      "tile_count": 9,
+      "first_frame_dimensions": [
+        24,
+        24
+      ],
+      "first_frame_origin": [
+        12,
+        12
+      ]
+    },
+    {
+      "enemy": "Boxy",
+      "object_type": 61,
+      "animation_id": 824,
+      "variant": 0,
+      "palette": 349,
+      "tile_count": 42,
+      "first_frame_dimensions": [
+        56,
+        48
+      ],
+      "first_frame_origin": [
+        11,
+        24
+      ]
+    },
+    {
+      "enemy": "Minny",
+      "object_type": 39,
+      "animation_id": 767,
+      "variant": 0,
+      "palette": 283,
+      "tile_count": 4,
+      "first_frame_dimensions": [
+        16,
+        16
+      ],
+      "first_frame_origin": [
+        8,
+        10
+      ]
+    },
+    {
+      "enemy": "Noddy",
+      "object_type": 30,
+      "animation_id": 802,
+      "variant": 0,
+      "palette": 328,
+      "tile_count": 9,
+      "first_frame_dimensions": [
+        24,
+        24
+      ],
+      "first_frame_origin": [
+        8,
+        16
+      ]
+    },
+    {
+      "enemy": "UFO",
+      "object_type": 27,
+      "animation_id": 806,
+      "variant": 0,
+      "palette": 332,
+      "tile_count": 12,
+      "first_frame_dimensions": [
+        24,
+        32
+      ],
+      "first_frame_origin": [
+        12,
+        13
+      ]
+    }
+  ],
+  "inventory_note": "Animation 0x384 has 31 variants: 11 boss portraits, 19 regular ability icons and one pedestal. Native room object lists also scanned for types 0x92..0x96 plus UFO 0x1B and Bomber 0x28. No separate UFO/Bomber statue records verified in these sources; this does not establish absence of other graphics elsewhere."
+}

@@ -1,6 +1,6 @@
 # AI Disclosure
 
-- KirbyAM Archipelago does **not** contain AI art.
+- The issue #824 draft adds seven AI-authored, editable pixel icons for ability statues. These assets require human review before release. Existing native game graphics are reused for the other 19 regular statue abilities.
 - AI Agents and LLMs do assist with coding and developer documentation, but everything is manually reviewed by the developer:
   - I design all features. That doesn't mean the design is good. I'm not a professional developer. I'm a computer science graduate who dabbles.
   - I use AI for "first drafts" of some minor features. For example, expanding the catalog of health granting items.

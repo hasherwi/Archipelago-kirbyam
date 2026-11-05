@@ -33,6 +33,7 @@ from .enemy_health_scaling import (
 )
 from .options import AbilityRandomizationMode
 from .vitality import HEALTH_CONFIG_MAGIC, HEALTH_ROM_TITLE
+from .statue_art import STATUE_VISUAL_MODE_FILE, apply_statue_visuals
 
 if TYPE_CHECKING:
     from . import KirbyAmWorld
@@ -91,6 +92,13 @@ class KirbyAmPatchExtension(APPatchExtension):
         return rom
 
     @staticmethod
+    def apply_statue_art(caller: APProcedurePatch, rom: bytes, mode_file: str) -> bytes:
+        metadata = caller.get_file(mode_file)
+        if len(metadata) != 1:
+            raise ValueError("Statue visual metadata must contain exactly one mode byte")
+        return apply_statue_visuals(rom, metadata[0])
+
+    @staticmethod
     def finalize_health_header(caller: APProcedurePatch, rom: bytes) -> bytes:
         """Version the ROM contract and recalculate the GBA header checksum."""
         from .vitality import decode_health_config
@@ -132,6 +140,7 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
         ("validate_enemy_source_base", []),
         ("apply_enemy_health_scaling", [ENEMY_HEALTH_MULTIPLIER_FILE]),
         ("apply_tokens", ["token_data.bin"]),
+        ("apply_statue_art", [STATUE_VISUAL_MODE_FILE]),
         ("finalize_health_header", []),
     ]
 
@@ -240,4 +249,5 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
         for rom_offset, ability_id in sorted(ability_writes.items()):
             patch.write_token(APTokenTypes.WRITE, rom_offset, bytes([ability_id]))
 
+    patch.write_file(STATUE_VISUAL_MODE_FILE, bytes([mode if include_statues else 0]))
     patch.write_file("token_data.bin", patch.get_token_binary())
