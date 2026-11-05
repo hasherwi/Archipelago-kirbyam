@@ -945,6 +945,8 @@ __attribute__((used)) uint32_t ap_on_query_special_door_state(
     return KIRBY_SPECIAL_DOOR_VISITED_FN(room_id, destination_room, spawn_x, spawn_y);
 }
 
+#include "area_key_objects.inc"
+
 typedef void (*KirbySmallSwitchEffectFn)(void);
 
 /* The AP levers are Chest reward 0x63, not native small switches.  Keep this
