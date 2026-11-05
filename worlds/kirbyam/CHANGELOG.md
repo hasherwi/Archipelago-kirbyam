@@ -11,7 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- Added Copy Ability Room Access as a progression item replacing one filler. The adventure entrance now requires authenticated ownership instead of all Big Switches; no starting access is granted automatically and no RoomSanity check is added (Issue #1002).
+- Access to the Copy Ability Room is now an AP Item (Issue #1002).
 
 ### Improvements
 - None.
