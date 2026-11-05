@@ -14,7 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - None.
 
 ### Improvements
-- None.
+- Add a release-preparation runbook, read-only readiness checks and staging status reporting (Issue #1012). Owner settings verification and a live release rehearsal remain pending.
 
 ### Known Limitations
 - None.
