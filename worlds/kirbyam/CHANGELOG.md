@@ -20,12 +20,12 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - None.
 
 ### Bug Fixes
-- Fix repeated healing sounds after hitting Scarfy or Bomber with enemy health set to 50%, and keep enemy health meters accurate when scaled health rounds to a whole number (Issue #1028).
+- None.
 
 ### Internal Changes
 - None.
 
-## v0.5.0-rc1
+## v0.5.0
 
 ### New Features
 - Added eight Area Key progression items for Areas 2 through 9. Cross-area mirrors (and other transitions like Warp Stars) now require the destination area's key (Issue #42).
@@ -62,6 +62,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966).
 - Allow the six guaranteed starting ability receipts and notices during the tutorial. Other items stay deferred, and Sword still requires its ability item (Issue #967).
 - Bootstrap Kirby build/test dependencies with checksum-pinned pip 26.2.2 and certifi 2026.10.19 after the eMudhra/emSign incident (Issue #978), with matching development guidance. Global AP dependencies, Docker and general workflows are unchanged.
+- Fix repeated healing sounds after hitting Scarfy or Bomber with enemy health set to 50%, and keep enemy health meters accurate when scaled health rounds to a whole number (Issue #1028).
 
 ### Internal Changes
 - Preserve compiled Hub switch mapping with generated lookup tables, fixed configuration addresses and explicit overlap checks. Historical native door aliases remain unchanged.
