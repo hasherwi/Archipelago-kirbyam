@@ -106,7 +106,8 @@ ineligible run outcomes. Neither can authorize staging.
 `staged-and-verified` requires an exact matching tag-push run and successful publisher,
 the three allowlisted assets, API digest matches, receipt run/attempt/source identity,
 and #983 attestation verification of the downloaded APWorld and receipt. The command
-rechecks release state after verification. It never uploads or publishes. This snapshot
+rechecks release state and asset metadata after verification, ignoring only asset
+download counters that verification can increment. It never uploads or publishes. This snapshot
 is not an atomic lock: the owner must recheck current settings/state and enforce the
 server-side immutable policy. Review notes/prerelease classification and retain the
 readiness output before separately authorizing publication.

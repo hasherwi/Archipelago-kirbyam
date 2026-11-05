@@ -105,6 +105,29 @@ class ReadinessTests(unittest.TestCase):
              patch.object(r, 'verify_download'), self.assertRaisesRegex(ValueError, 'changed'):
             r.inspect(self.args, {})
 
+    def test_verification_download_counts_do_not_block_readiness(self):
+        for public in (False, True):
+            with self.subTest(public=public):
+                self.args.public = public
+                self.release.update(draft=not public, immutable=public)
+                responses = self.responses()
+                responses[-1] = dict(self.release, assets=[
+                    dict(asset, download_count=1) for asset in self.release['assets']])
+                with patch.object(r, 'source_check'), patch.object(r, 'api', side_effect=responses), \
+                     patch.object(r, 'verify_download'):
+                    self.assertTrue(r.inspect(self.args, {}))
+
+    def test_asset_changes_still_block_readiness(self):
+        for field, value in (('id', 999), ('digest', 'sha256:changed'), ('name', 'other.apworld')):
+            with self.subTest(field=field):
+                responses = self.responses()
+                assets = [dict(asset, download_count=1) for asset in self.release['assets']]
+                assets[0][field] = value
+                responses[-1] = dict(self.release, assets=assets)
+                with patch.object(r, 'source_check'), patch.object(r, 'api', side_effect=responses), \
+                     patch.object(r, 'verify_download'), self.assertRaisesRegex(ValueError, 'changed'):
+                    r.inspect(self.args, {})
+
     def test_actual_download_verification_and_retry_constraints(self):
         # Exercise real #983 receipt/digest checks; only network/signature subprocess is mocked.
         (self.directory / 'owner.json').unlink()

@@ -103,6 +103,14 @@ def verify_download(directory, release, tag, sha, run, public=False):
                 '--source-ref', f'refs/tags/{tag}', '--deny-self-hosted-runners')
 
 
+def release_snapshot(release):
+    """Ignore download counters, which verification itself can increment."""
+    return {**release, 'assets': [
+        {key: value for key, value in asset.items() if key != 'download_count'}
+        for asset in release['assets']
+    ]}
+
+
 def inspect(args, report):
     source_check(args.tag, args.source)
     report['prerequisites'] = prerequisites(json.loads(args.owner_evidence.read_text()), args.tag, args.source)
@@ -144,7 +152,7 @@ def inspect(args, report):
     with tempfile.TemporaryDirectory() as tmp:
         verify_download(Path(tmp), release, args.tag, args.source, run, args.public)
     # Detect concurrent state/asset changes; this is not an atomic publication lock.
-    if api(f'releases/tags/{args.tag}') != release:
+    if release_snapshot(api(f'releases/tags/{args.tag}')) != release_snapshot(release):
         raise ValueError('release changed during verification; inspect and repeat')
     report.update(status='published-and-verified' if args.public else 'staged-and-verified',
                   action='Record evidence; publication still requires separate authorization.' if not args.public
