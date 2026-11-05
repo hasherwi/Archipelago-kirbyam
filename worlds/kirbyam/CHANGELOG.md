@@ -63,6 +63,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Random-per-room colors now update Kirby and the HUD when native palette transformations remain enabled during gameplay (Issue #966).
 - Allow the six guaranteed starting ability receipts and notices during the tutorial. Other items stay deferred, and Sword still requires its ability item (Issue #967).
 - Bootstrap Kirby build/test dependencies with checksum-pinned pip 26.2.2 and certifi 2026.10.19 after the eMudhra/emSign incident (Issue #978), with matching development guidance. Global AP dependencies, Docker and general workflows are unchanged.
+- Fix repeated healing sounds after hitting Scarfy or Bomber with enemy health set to 50%, and keep enemy health meters accurate when scaled health rounds to a whole number (Issue #1028).
 
 ### Internal Changes
 - Isolate the stake-rule test fixture from shared graph data and exercise cold and warm Area Key and Dimension Mirror caches to prevent order-dependent test failures (PR #1014).
