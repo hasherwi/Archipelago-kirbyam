@@ -83,7 +83,7 @@ AREA_OBJECT_EXT void ap_area_mirror_main(void) {
         uint32_t effect = OBJ_U32(obj, 0xB4u);
         if (effect && ap_is_keyed_inter_area_edge(source, dest)) {
             uint8_t open = ap_transition_allowed(source, dest);
-            uint8_t variant = open ? ((OBJ_U16(OBJ_U32(obj, 0xB0u), 0x22u) & 0x100u) ? 9u : 2u) : 0xAu;
+            uint8_t variant = open ? ((OBJ_U16(OBJ_U32(obj, 0xB0u), 0x22u) & 0x100u) ? 9u : 2u) : 6u;
             if (OBJ_U16(effect, 0x18u) != 0x294u || OBJ_U8(effect, 0x26u) != variant) {
                 OBJ_U16(effect, 0x18u) = 0x294u;
                 OBJ_U8(effect, 0x26u) = variant;
@@ -103,21 +103,32 @@ AREA_OBJECT_EXT void ap_area_door_decoration(void *door) {
     uint16_t source = OBJ_U16(obj, 0x60u);
     uint16_t dest = ap_transition_route_destination(source, OBJ_U16(tile, 8u), OBJ_U8(tile, 0xAu), OBJ_U8(tile, 0xBu));
     if (ap_transition_allowed(source, dest)) {
+        /* Variant 6 is the full boarded frame, not the native interior A.
+         * Restore the native decoration anchor before its updater reuses it. */
+        uint32_t effect = OBJ_U32(obj, 0xB4u);
+        if (effect && OBJ_U16(effect, 0x18u) == 0x294u && OBJ_U8(effect, 0x26u) == 6u) {
+            uint8_t decorated = (OBJ_U16(OBJ_U32(obj, 0xB0u), 0x22u) & 0x100u) != 0u;
+            OBJ_U16(effect, 0x18u) = decorated ? 0x294u : 0x2CFu;
+            OBJ_U8(effect, 0x26u) = decorated ? 0xAu : 0u;
+            OBJ_U8(effect, 0x27u) = 0xFFu;
+            OBJ_U32(effect, 0x38u) = OBJ_U32(obj, 0x44u) - (decorated ? 0xA00u : 0x2800u);
+            if (!decorated) OBJ_U16(effect, 6u) |= 1u;
+        }
         ((void (*)(void*))0x0802B2F5u)(door);
     } else {
         uint32_t effect = OBJ_U32(obj, 0xB4u);
         if (!effect) {
-            effect = (uint32_t)((void* (*)(void*, uint32_t, uint32_t, uint32_t, uint32_t))0x0808B62Du)(door, 0, 0x294, 0xA, 0);
+            effect = (uint32_t)((void* (*)(void*, uint32_t, uint32_t, uint32_t, uint32_t))0x0808B62Du)(door, 0, 0x294, 6, 0);
             OBJ_U32(obj, 0xB4u) = effect;
         }
-        if (OBJ_U16(effect, 0x18u) != 0x294u || OBJ_U8(effect, 0x26u) != 0xAu) {
+        if (OBJ_U16(effect, 0x18u) != 0x294u || OBJ_U8(effect, 0x26u) != 6u) {
             OBJ_U16(effect, 0x18u) = 0x294u;
-            OBJ_U8(effect, 0x26u) = 0xAu;
+            OBJ_U8(effect, 0x26u) = 6u;
             OBJ_U8(effect, 0x27u) = 0xFFu;
         }
         OBJ_U16(effect, 6u) &= ~1u;
         OBJ_U32(effect, 0x34u) = OBJ_U32(obj, 0x40u);
-        OBJ_U32(effect, 0x38u) = OBJ_U32(obj, 0x44u) - 0xA00u;
+        OBJ_U32(effect, 0x38u) = OBJ_U32(obj, 0x44u);
         OBJ_U16(effect, 0x20u) = 0x780u;
     }
 }
@@ -143,26 +154,26 @@ AREA_OBJECT_EXT void ap_area_hub_mirror_main(void) {
                 uint32_t tile = (uint32_t)KIRBY_SPECIAL_TILE_FN(player, x, y);
                 dest = ap_transition_route_destination(source, OBJ_U16(tile, 8u), OBJ_U8(tile, 0xAu), OBJ_U8(tile, 0xBu));
                 slot = obj + 0xB8u;
-                board_y = OBJ_S32(obj, 0x44u) - 0x800;
+                board_y = OBJ_S32(obj, 0x44u);
             }
         }
         if (slot && ap_is_keyed_inter_area_edge(source, dest)) {
             uint32_t effect = OBJ_U32(slot, 0u);
             if (!ap_transition_allowed(source, dest)) {
                 if (!effect) {
-                    effect = (uint32_t)((void* (*)(void*, uint32_t, uint32_t, uint32_t, uint32_t))0x0808B62Du)((void*)obj, 0, 0x294, 0xA, 0);
+                    effect = (uint32_t)((void* (*)(void*, uint32_t, uint32_t, uint32_t, uint32_t))0x0808B62Du)((void*)obj, 0, 0x294, 6, 0);
                     OBJ_U32(slot, 0u) = effect;
                 }
-                if (OBJ_U16(effect, 0x18u) != 0x294u || OBJ_U8(effect, 0x26u) != 0xAu) {
+                if (OBJ_U16(effect, 0x18u) != 0x294u || OBJ_U8(effect, 0x26u) != 6u) {
                     OBJ_U16(effect, 0x18u) = 0x294u;
-                    OBJ_U8(effect, 0x26u) = 0xAu;
+                    OBJ_U8(effect, 0x26u) = 6u;
                     OBJ_U8(effect, 0x27u) = 0xFFu;
                 }
                 OBJ_U16(effect, 6u) &= ~1u;
                 OBJ_U32(effect, 0x34u) = OBJ_U32(obj, 0x40u);
                 OBJ_S32(effect, 0x38u) = board_y;
                 OBJ_U16(effect, 0x20u) = 0x780u;
-            } else if (effect && OBJ_U16(effect, 0x18u) == 0x294u && OBJ_U8(effect, 0x26u) == 0xAu) {
+            } else if (effect && OBJ_U16(effect, 0x18u) == 0x294u && OBJ_U8(effect, 0x26u) == 6u) {
                 OBJ_U16(effect, 6u) |= 0x1000u;
                 OBJ_U32(slot, 0u) = 0u;
             }

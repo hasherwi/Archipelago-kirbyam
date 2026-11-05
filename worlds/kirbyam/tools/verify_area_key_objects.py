@@ -108,14 +108,31 @@ def main():
             w(effect + 0x18, '<H', 0x294)
             w(effect + 0x26, '<B', 9)
             run('ap_area_mirror_main')
-            assert r(effect + 0x26, '<B') == (9 if allowed else 10)
+            assert r(effect + 0x26, '<B') == (9 if allowed else 6)
             assert calls == [0x08099B80]
             run('ap_area_door_decoration', obj)
             assert calls == ([0x0802B2F4] if allowed else [])
             if not allowed:
-                assert r(effect + 0x26, '<B') == 10
+                assert r(effect + 0x26, '<B') == 6
             w(obj + 0xBE, '<H', 195)
             rows.append({'disabled': disabled, 'keys': keys, 'allowed': allowed})
+        # A board is a complete frame at the foot; native interior and
+        # unvisited indicators have distinct anchors when a key is received.
+        if not disabled:
+            for decorated in [False, True]:
+                w(template + 0x22, '<H', 0x100 if decorated else 0)
+                w(obj + 0x44, '<I', 560 << 8)
+                w(obj + 0xB4, '<I', effect)
+                w(0x0203B0C0, '<I', 0)
+                run('ap_area_door_decoration', obj)
+                assert r(effect + 0x26, '<B') == 6
+                assert r(effect + 0x38, '<I') == 560 << 8
+                w(0x0203B0C0, '<I', 4)
+                run('ap_area_door_decoration', obj)
+                assert calls == [0x0802B2F4]
+                assert r(effect + 0x18, '<H') == (0x294 if decorated else 0x2CF)
+                assert r(effect + 0x26, '<B') == (10 if decorated else 0)
+                assert r(effect + 0x38, '<I') == (550 if decorated else 520) << 8
         # Special Hub mirrors stay absent before the native Hub initializer,
         # then receive a board even after the native callback has gone idle.
         w(obj + 0x82, '<B', 0x8C)
@@ -129,7 +146,7 @@ def main():
         run('ap_area_hub_mirror_main')
         assert calls == ([0x08099B80] if disabled else [0x0808B62C, 0x08099B80])
         if not disabled:
-            assert r(effect + 0x26, '<B') == 10
+            assert r(effect + 0x26, '<B') == 6
         w(0x0203B0C0, '<I', 4)
         run('ap_area_hub_mirror_main')
         assert r(obj + 0xB4, '<I') == 0

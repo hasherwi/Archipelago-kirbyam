@@ -1,0 +1,151 @@
+{
+  "emulator": "mGBA 0.10.5",
+  "patch_sha256": "f182ee8804e24d8a607afc4083fb64f6ca5460d0034b52cb5502f025a00305f8",
+  "fixture_changes": "Mirror: only player 0 new-game start room 173 and coordinates (448,552), CPU start tables unchanged. Star: new-game room 142 and coordinates (336,192). Runtime and object templates unchanged.",
+  "delivery": "AP mailbox item, sender=1, flag=1; wait for ROM ACK=0. No live client/server claimed.",
+  "mirror": [
+    {
+      "stage": "proof-locked",
+      "room": 173,
+      "key_mask": "0x0",
+      "last_item": 0,
+      "ack": 0,
+      "effect_animation": "0x294",
+      "variant": 6,
+      "effect_y": 560
+    },
+    {
+      "stage": "wrong-key-still-locked",
+      "room": 173,
+      "key_mask": "0x4",
+      "last_item": 3860041,
+      "ack": 0,
+      "effect_animation": "0x294",
+      "variant": 6,
+      "effect_y": 560
+    },
+    {
+      "stage": "proof-unlocked",
+      "room": 173,
+      "key_mask": "0xc",
+      "last_item": 3860042,
+      "ack": 0,
+      "effect_animation": "0x294",
+      "variant": 9,
+      "effect_y": 550
+    },
+    {
+      "stage": "relocked",
+      "room": 173,
+      "key_mask": "0x4",
+      "last_item": 3860042,
+      "ack": 0,
+      "effect_animation": "0x294",
+      "variant": 6,
+      "effect_y": 560
+    },
+    {
+      "stage": "savestate-unlocked",
+      "room": 173,
+      "key_mask": "0xc",
+      "last_item": 3860042,
+      "ack": 0,
+      "effect_animation": "0x294",
+      "variant": 9,
+      "effect_y": 550
+    },
+    {
+      "stage": "entered-native-destination",
+      "room": 508,
+      "key_mask": "0xc",
+      "last_item": 3860042,
+      "ack": 0
+    }
+  ],
+  "star": [
+    {
+      "stage": "locked",
+      "room": 142,
+      "key_mask": "0x0",
+      "ack_flag": 0,
+      "last_item": 0,
+      "stars": []
+    },
+    {
+      "stage": "unlocked",
+      "room": 142,
+      "key_mask": "0x4",
+      "ack_flag": 0,
+      "last_item": 3860041,
+      "stars": [
+        {
+          "task": "0x3001ba8",
+          "object": "0x3003e30",
+          "main": "0x9000d9b",
+          "template": "0x88b7a10",
+          "destination": 195,
+          "flags": "0x1221c142"
+        }
+      ]
+    },
+    {
+      "stage": "still-one-after-240-frames",
+      "room": 142,
+      "key_mask": "0x4",
+      "ack_flag": 0,
+      "last_item": 3860041,
+      "stars": [
+        {
+          "task": "0x3001ba8",
+          "object": "0x3003e30",
+          "main": "0x9000d9b",
+          "template": "0x88b7a10",
+          "destination": 195,
+          "flags": "0x1221c142"
+        }
+      ]
+    },
+    {
+      "stage": "key-mask-rollback",
+      "room": 142,
+      "key_mask": "0x0",
+      "ack_flag": 0,
+      "last_item": 3860041,
+      "stars": []
+    },
+    {
+      "stage": "restored",
+      "room": 142,
+      "key_mask": "0x4",
+      "ack_flag": 0,
+      "last_item": 3860041,
+      "stars": [
+        {
+          "task": "0x3001ba8",
+          "object": "0x3003e30",
+          "main": "0x9000d9b",
+          "template": "0x88b7a10",
+          "destination": 195,
+          "flags": "0x1221c142"
+        }
+      ]
+    },
+    {
+      "stage": "emulator-savestate-reload",
+      "room": 142,
+      "key_mask": "0x4",
+      "ack_flag": 0,
+      "last_item": 3860041,
+      "stars": [
+        {
+          "task": "0x3001ba8",
+          "object": "0x3003e30",
+          "main": "0x9000d9b",
+          "template": "0x88b7a10",
+          "destination": 195,
+          "flags": "0x1221c144"
+        }
+      ]
+    }
+  ]
+}

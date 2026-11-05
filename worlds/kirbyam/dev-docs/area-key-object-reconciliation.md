@@ -1,6 +1,6 @@
 # Area Key object reconciliation (#1010)
 
-This is an implementation draft, not gameplay acceptance or a release claim.
+This is an implementation draft with scoped native emulator evidence, not a release claim.
 The existing transition guards and authoritative Area Key mailbox are retained.
 New ROM patches must be generated to use these hooks.
 
@@ -16,7 +16,7 @@ retail disassembly, not copied from the old issue proposal.
   closed-to-open. Its task callback now reconciles the decoration in both
   directions, without changing native collision or session state.
 - `AreaDoor` normally creates either the visited arrow or an area decoration.
-  Its three decoration calls now select the existing `0x294/0xA` board while
+  Its three decoration calls now select the existing `0x294/6` boarded frame while
   locked, including templates without the native area-decoration flag. Native
   decoration handling resumes on unlock.
 - `DoorToHub` and `SpecialHubMirror` use different effect slots. Their task
@@ -65,8 +65,39 @@ on the exact rebuilt seed:
 - Independent Hub Connection, shard, lever and native collision requirements;
   same-area/ungated routes and Area Keys disabled.
 
-No emulator gameplay acceptance has been recorded for this draft. ROM-level
-and ARM fixture checks cannot replace that gate.
+## Native emulator evidence (rendering correction)
+
+mGBA 0.10.5 exposed an incorrect asset selection: `0x294/0xA` is an
+animated mirror interior, not wooden boards. The native `MirrorDoor` disabled
+frame is `0x294/6` (`gUnk_08357BEC[1]`). All AP board paths now select that
+frame. AreaDoor and DoorToHub anchor the complete frame at the door foot;
+AreaDoor restores the interior/indicator anchor before its native updater
+reuses the effect after unlocking.
+
+A fresh start-room fixture for native room 173 proves an unobscured boarded
+mirror at (472,560), then the same open mirror after the payload acknowledges
+Cabbage Cavern item 3860042. Moonlight Mansion item 3860041 alone leaves it
+boarded. Clearing only the Cabbage key bit restores boards; redelivery restores
+the open mirror; emulator savestate reload preserves the open state. Walking
+through the unlocked mirror enters native destination room 508. The active
+native collision prerequisite is retained throughout. The same-area / unkeyed
+543 destination of room 544 retains native artwork.
+
+The companion Kirbys retain their original start rooms; only player 0's start
+room/coordinates are changed for the mirror fixture. Native code, room geometry
+and object templates are untouched. Screenshots are emulator framebuffer
+captures, scaled 3x nearest-neighbor. Mailbox injection exercises ROM delivery,
+not a live server reconnect; rollback is an explicit controlled RAM mutation.
+
+The rebuilt star fixture again proves zero / one / zero / one live native
+Warp Star objects across lock, delivery, rollback and redelivery; 240 further
+frames retain one object, and a private emulator savestate reload preserves it.
+No shared emulator session or pre-existing save was modified.
+
+See `area-key-native-evidence.json` for patch hashes and RAM observations.
+Other mirror families/destinations, native in-game save/reset/reconnect,
+consumption, flights, multiplayer and full prerequisite composition remain
+outstanding. Scoped screenshots and ARM fixtures do not close those gates.
 
 ## Integration and deferred attribution
 
