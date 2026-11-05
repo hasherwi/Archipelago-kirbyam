@@ -404,6 +404,140 @@
         "ufo": "Verified named Squeak Squad USA UFO palette, same-index adaptation",
         "hud": "Derived Amazing Mirror HUD adaptation; normal indices 3,4,5,10,6,7 replace HUD indices 1..6; other Pink HUD colors retained"
       }
+    },
+    {
+      "key": "rainbow",
+      "id": 19,
+      "name": "Rainbow",
+      "native_fallback": 0,
+      "palettes": {
+        "normal": [
+          0,
+          0,
+          31583,
+          4959,
+          5962,
+          26307,
+          28036,
+          23727,
+          12360,
+          5311,
+          2459,
+          3152,
+          12915,
+          20215,
+          27581,
+          32767
+        ],
+        "ufo": [
+          0,
+          0,
+          31583,
+          4959,
+          24218,
+          26307,
+          28036,
+          23727,
+          12360,
+          5311,
+          2459,
+          3152,
+          118,
+          4127,
+          16912,
+          32767
+        ],
+        "hud": [
+          0,
+          4959,
+          5962,
+          26307,
+          2459,
+          28036,
+          23727,
+          0,
+          32767,
+          863,
+          32589,
+          607,
+          479,
+          20480,
+          863,
+          19026
+        ]
+      },
+      "provenance": {
+        "normal": "Original static multicolor body and feet design; native Pink outline, highlight and effect tail retained",
+        "ufo": "Original rainbow body and saucer adaptation; native Pink canopy index 4 and UFO tail indices 12..15 retained",
+        "hud": "Derived Amazing Mirror HUD adaptation; normal indices 3,4,5,10,6,7 replace HUD indices 1..6; other Pink HUD colors retained"
+      }
+    },
+    {
+      "key": "candy_corn",
+      "id": 20,
+      "name": "Candy Corn",
+      "native_fallback": 0,
+      "palettes": {
+        "normal": [
+          0,
+          0,
+          32767,
+          32767,
+          3711,
+          1469,
+          280,
+          177,
+          105,
+          4031,
+          1787,
+          433,
+          12915,
+          20215,
+          27581,
+          32767
+        ],
+        "ufo": [
+          0,
+          0,
+          32767,
+          32767,
+          24218,
+          1469,
+          280,
+          177,
+          105,
+          4031,
+          1787,
+          433,
+          118,
+          4127,
+          16912,
+          32767
+        ],
+        "hud": [
+          0,
+          32767,
+          3711,
+          1469,
+          1787,
+          280,
+          177,
+          0,
+          32767,
+          863,
+          32589,
+          607,
+          479,
+          20480,
+          863,
+          19026
+        ]
+      },
+      "provenance": {
+        "normal": "Original candy corn design: white highlight, orange body shading, yellow feet; native Pink outline and effect tail retained",
+        "ufo": "Original candy corn body and saucer adaptation; native Pink canopy index 4 and UFO tail indices 12..15 retained",
+        "hud": "Derived Amazing Mirror HUD adaptation; normal indices 3,4,5,10,6,7 replace HUD indices 1..6; other Pink HUD colors retained"
+      }
     }
   ]
 }

@@ -11,7 +11,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- None.
+
+- Add static Rainbow and Candy Corn Kirby palettes with normal, UFO and HUD rows; retain native effects and owned spray-paint precedence. Catalog 3 guards the expanded pool from older ROM patches.
 
 ### Improvements
 - None.

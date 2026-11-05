@@ -26,7 +26,7 @@ The one-shot latch lives at `0x0203B0B8`. Payload code executes from ROM, so a w
 
 ## Compatibility and safety
 
-- Native paint IDs remain `0..13`; curated logical IDs `14..18` use native Pink as a safe renderer fallback. IDs absent from the generated registry are ignored.
+- Native paint IDs remain `0..13`; curated logical IDs `14..20` use native Pink as a safe renderer fallback. IDs absent from the generated registry are ignored.
 - ROM default `0xFFFFFFFF` keeps older procedure patches safe.
 - Pink is the fallback and a valid requested palette. Runtime Pink refresh is no longer skipped.
 - The owned-paint A-button handler at `0x0814406C` records a genuine choice, including choosing a paint matching the AP default. Saved preference uses native treasure padding and the native serializer, not raw SRAM writes. See PROTOCOL.md for the marker and priority order.
@@ -80,8 +80,8 @@ Kirby can load its custom palette before HUD creation; the startup wrapper clear
 it on return. Otherwise a bounded live HUD task is required. The existing per-frame
 recovery still waits for fades before updating palettes.
 
-New slot data declares `kirby_color_catalog_version: 2`. The client verifies
-`APCOL02\0` at the appended ROM start before sending these color IDs. Earlier seed
+New slot data declares `kirby_color_catalog_version: 3`. The client verifies
+`APCOL03\0` at the appended ROM start before sending these color IDs. Earlier seed
 metadata retains the native-only 14-color per-room pool. Regenerate a patch and update
 the client for the expanded catalog; existing saves and owned paint choices keep their
 format. No color items, menu swatches, ownership bits or save layout were added.
@@ -98,3 +98,24 @@ remain covered. Scene construction is an explicit IO stand-in; this is instructi
 and serializer evidence, not a full gameplay or visual-acceptance claim. No ROM or
 save file is written by the probe. Interactive BizHawk and whole-game visual review
 remain manual acceptance steps.
+
+## Original static multicolor palettes
+
+Rainbow (19) and Candy Corn (20) are original designs, with explicit normal, UFO,
+and HUD rows. Choose `starting_kirby_color: rainbow` or `candy_corn`. These are
+static colors; multiple hues appear simultaneously, following existing sprite
+shading regions. Candy Corn uses white highlights, orange body shading and yellow
+feet, approximating white/top, orange/middle, yellow/bottom without changing art.
+Neither palette promises geometric stripes or color cycling.
+
+Normal Pink outline/highlight and effect tail slots are retained. UFO retains its
+native canopy slot 4 and tail slots 12..15; its body/saucer receives the theme.
+HUD indices 1..6 follow the existing adaptation, preserving shared UI accents,
+outline, eyes/white detail and all other HUD slots. Native abilities and damage
+still compose their own colors. Menus, paint swatches, demo/multiplayer and partner
+colors remain native under the existing gameplay-only contract. Explicit owned
+spray paint continues to override a static AP color.
+
+Catalog 3 requires APCOL03 and regenerated patches. The updated client still
+accepts catalog 2 only with APCOL02, limiting its static and per-room choices to
+0..18. Legacy metadata retains 0..13. This prevents new IDs reaching old payloads.

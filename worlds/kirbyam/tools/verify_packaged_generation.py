@@ -32,7 +32,7 @@ def matrix_cases():
             'goal': goal, 'configured_area_boss': boss, 'room_sanity': rooms,
             'shards': shards, 'ability_gating': gating, 'start_with_all_maps': maps,
             'minimum_health': lo, 'maximum_health': hi, 'one_hit_mode': index % 3,
-            'starting_kirby_color': ([*range(19), 'random', 'random_color_per_room'])[index % 21],
+            'starting_kirby_color': ([*range(21), 'random', 'random_color_per_room'])[index % 23],
             'no_extra_lives': (index // 2) % 2, 'enable_traps': index % 2,
             'trap_fill_percentage': (0, 1, 25, 99, 100)[index % 5],
             'enemy_health_multiplier': (50, 100, 500)[index % 3],

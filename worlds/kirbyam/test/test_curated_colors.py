@@ -24,14 +24,14 @@ def module(name):
 
 def test_registry_build_and_options_agree():
     colors = load_kirby_colors()
-    assert [c.key for c in colors[14:]] == ['shadow', 'ivory', 'citrus', 'white', 'lavender']
-    assert [(c.color_id, StartingKirbyColor.from_text(c.key).value) for c in colors] == [(i, i) for i in range(19)]
+    assert [c.key for c in colors[14:]] == ['shadow', 'ivory', 'citrus', 'white', 'lavender', 'rainbow', 'candy_corn']
+    assert [(c.color_id, StartingKirbyColor.from_text(c.key).value) for c in colors] == [(i, i) for i in range(21)]
     assert colors[13].key == 'chalk' and not colors[13].palettes
     assert module('generate_colors').render() == (WORLD / 'kirby_ap_payload/color_tables.h').read_text()
     rng = Random(599)
-    for current in range(19):
+    for current in range(21):
         seen = {choose_different_kirby_color(current, rng).color_id for _ in range(500)}
-        assert seen == set(range(19)) - {current}
+        assert seen == set(range(21)) - {current}
     for current in range(14):
         seen = {choose_different_kirby_color(current, rng, native_only=True).color_id for _ in range(500)}
         assert seen == set(range(14)) - {current}
@@ -63,7 +63,7 @@ def fixture_rom():
 def test_extension_appends_and_validates_both_native_hooks_before_mutation():
     api, rom = fixture_rom()
     original = bytes(rom)
-    extension = b'APCOL02\0' + bytes(56)
+    extension = b'APCOL03\0' + bytes(56)
     writes = api.build_color_extension_writes(rom, extension, 0x09000008, 0x09000020)
     assert bytes(rom) == original
     for offset, content in writes.items(): rom[offset:offset + len(content)] = content
@@ -77,7 +77,7 @@ def test_extension_appends_and_validates_both_native_hooks_before_mutation():
 @pytest.mark.parametrize('defect', ['empty', 'oversized', 'odd', 'outside', 'marker', 'dispatch', 'hud'])
 def test_extension_refuses_unsafe_inputs(defect):
     api, rom = fixture_rom()
-    extension = b'APCOL02\0' + bytes(56)
+    extension = b'APCOL03\0' + bytes(56)
     target = 0x09000008
     if defect == 'empty': extension = b''
     elif defect == 'oversized': extension += bytes(65536)
@@ -107,3 +107,39 @@ async def test_client_requires_new_payload_for_curated_catalog(mock_bizhawk_cont
             assert not write.called
             await client._sync_starting_kirby_color_runtime_config(mock_bizhawk_context)
             assert read.await_count == 1
+
+
+@pytest.mark.parametrize('version,maximum', [(1, 13), (2, 18), (3, 20), ([], 13), ({}, 13)])
+def test_catalog_limits_preserve_old_seed_pool(mock_bizhawk_context, version, maximum):
+    client = KirbyAmClient()
+    for color in range(21):
+        mock_bizhawk_context.slot_data = {'kirby_color_catalog_version': version, 'starting_kirby_color': color}
+        assert (client._get_starting_kirby_color_config(mock_bizhawk_context) is not None) == (color <= maximum)
+    rng = Random(19)
+    seen = {choose_different_kirby_color(0, rng, max_color_id=maximum).color_id for _ in range(1000)}
+    assert seen == set(range(1, maximum + 1))
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('version,marker,ready', [
+    (3, b'APCOL03\0', True), (3, b'APCOL02\0', False),
+    (2, b'APCOL02\0', True), (2, b'APCOL03\0', False),
+])
+async def test_catalog_version_requires_matching_rom(mock_bizhawk_context, version, marker, ready):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data = {'kirby_color_catalog_version': version}
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock, return_value=[marker]):
+        assert await client._color_catalog_ready(mock_bizhawk_context) is ready
+
+
+@pytest.mark.parametrize('key', ['rainbow', 'candy_corn'])
+def test_original_palette_preserves_shared_ui_and_effect_slots(key):
+    color = next(c for c in load_kirby_colors() if c.key == key)
+    normal, ufo, hud = color.palettes
+    assert normal[0:2] == ufo[0:2] == (0, 0)
+    assert normal[12:] == (12915, 20215, 27581, 32767)
+    assert ufo[4] == 24218
+    assert ufo[12:] == (118, 4127, 16912, 32767)
+    assert hud[1:7] == tuple(normal[i] for i in (3, 4, 5, 10, 6, 7))
+    assert hud[7:] == (0, 32767, 863, 32589, 607, 479, 20480, 863, 19026)
