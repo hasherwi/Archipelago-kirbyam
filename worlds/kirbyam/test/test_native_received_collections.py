@@ -3,6 +3,7 @@
 Host execution checks native effects and ACKs; it does not simulate the ARM ABI,
 rendered HUD, cheats, or emulator save/load.
 """
+from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -99,6 +100,7 @@ int main(void) {
 }
 '''
     cfile, executable = tmp_path / 'receipts.c', tmp_path / 'receipts'
+    source = link_payload_modules(source, WORLD / 'kirby_ap_payload')
     cfile.write_text(source)
     result = subprocess.run([compiler, '-std=gnu99', '-w', '-I', str(WORLD / 'kirby_ap_payload'),
                              str(cfile), '-o', str(executable)], capture_output=True, text=True)

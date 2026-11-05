@@ -3,6 +3,7 @@
 This is host execution of payload C, not emulator or native save/load acceptance.
 Unrelated ROM callbacks and ARM register reads are replaced; shard paths are not.
 """
+from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -74,6 +75,7 @@ int main(void) {
 }
 '''
     cfile, exe = tmp_path / "save-integrity.c", tmp_path / "save-integrity"
+    source = link_payload_modules(source, WORLD / 'kirby_ap_payload')
     cfile.write_text(source)
     result = subprocess.run([compiler, "-std=gnu99", "-w", "-I", str(WORLD / "kirby_ap_payload"),
                              str(cfile), "-o", str(exe)], capture_output=True, text=True)

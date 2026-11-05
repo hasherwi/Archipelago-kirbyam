@@ -2,6 +2,7 @@
 
 This verifies call policy and buffer reload, not native ARM/SRAM acceptance.
 """
+from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -82,6 +83,7 @@ int main(void) {
     return 0;
 }
 '''
+    source = link_payload_modules(source, payload)
     cfile, exe = tmp_path / 'payload.c', tmp_path / 'payload'
     cfile.write_text(source)
     result = subprocess.run([cc, '-std=gnu99', '-w', '-I', str(payload), str(cfile), '-o', str(exe)],
