@@ -17,7 +17,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - None.
 
 ### Known Limitations
-- 100% Game Completion remains pending recorded BizHawk completion/credits and native save-load acceptance. Use the updated client and a regenerated patch; host tests do not establish gameplay verification.
+- None.
 
 ### Bug Fixes
 - None.
