@@ -1,0 +1,645 @@
+{
+  "emulator": "mGBA 0.10.5",
+  "patch_sha256": "f182ee8804e24d8a607afc4083fb64f6ca5460d0034b52cb5502f025a00305f8",
+  "fixture_changes": "Mirror: only player 0 new-game start room 173 and coordinates (448,552), CPU start tables unchanged. Star: new-game room 142 and coordinates (336,192). Runtime and object templates unchanged.",
+  "delivery": "AP mailbox item, sender=1, flag=1; wait for ROM ACK=0. No live client/server claimed.",
+  "mirror": [
+    {
+      "stage": "proof-locked",
+      "room": 173,
+      "key_mask": "0x0",
+      "last_item": 0,
+      "ack": 0,
+      "effect_animation": "0x294",
+      "variant": 6,
+      "effect_y": 560
+    },
+    {
+      "stage": "wrong-key-still-locked",
+      "room": 173,
+      "key_mask": "0x4",
+      "last_item": 3860041,
+      "ack": 0,
+      "effect_animation": "0x294",
+      "variant": 6,
+      "effect_y": 560
+    },
+    {
+      "stage": "proof-unlocked",
+      "room": 173,
+      "key_mask": "0xc",
+      "last_item": 3860042,
+      "ack": 0,
+      "effect_animation": "0x294",
+      "variant": 9,
+      "effect_y": 550
+    },
+    {
+      "stage": "relocked",
+      "room": 173,
+      "key_mask": "0x4",
+      "last_item": 3860042,
+      "ack": 0,
+      "effect_animation": "0x294",
+      "variant": 6,
+      "effect_y": 560
+    },
+    {
+      "stage": "savestate-unlocked",
+      "room": 173,
+      "key_mask": "0xc",
+      "last_item": 3860042,
+      "ack": 0,
+      "effect_animation": "0x294",
+      "variant": 9,
+      "effect_y": 550
+    },
+    {
+      "stage": "entered-native-destination",
+      "room": 508,
+      "key_mask": "0xc",
+      "last_item": 3860042,
+      "ack": 0
+    }
+  ],
+  "star": [
+    {
+      "stage": "locked",
+      "room": 142,
+      "key_mask": "0x0",
+      "ack_flag": 0,
+      "last_item": 0,
+      "stars": []
+    },
+    {
+      "stage": "unlocked",
+      "room": 142,
+      "key_mask": "0x4",
+      "ack_flag": 0,
+      "last_item": 3860041,
+      "stars": [
+        {
+          "task": "0x3001ba8",
+          "object": "0x3003e30",
+          "main": "0x9000d9b",
+          "template": "0x88b7a10",
+          "destination": 195,
+          "flags": "0x1221c142"
+        }
+      ]
+    },
+    {
+      "stage": "still-one-after-240-frames",
+      "room": 142,
+      "key_mask": "0x4",
+      "ack_flag": 0,
+      "last_item": 3860041,
+      "stars": [
+        {
+          "task": "0x3001ba8",
+          "object": "0x3003e30",
+          "main": "0x9000d9b",
+          "template": "0x88b7a10",
+          "destination": 195,
+          "flags": "0x1221c142"
+        }
+      ]
+    },
+    {
+      "stage": "key-mask-rollback",
+      "room": 142,
+      "key_mask": "0x0",
+      "ack_flag": 0,
+      "last_item": 3860041,
+      "stars": []
+    },
+    {
+      "stage": "restored",
+      "room": 142,
+      "key_mask": "0x4",
+      "ack_flag": 0,
+      "last_item": 3860041,
+      "stars": [
+        {
+          "task": "0x3001ba8",
+          "object": "0x3003e30",
+          "main": "0x9000d9b",
+          "template": "0x88b7a10",
+          "destination": 195,
+          "flags": "0x1221c142"
+        }
+      ]
+    },
+    {
+      "stage": "emulator-savestate-reload",
+      "room": 142,
+      "key_mask": "0x4",
+      "ack_flag": 0,
+      "last_item": 3860041,
+      "stars": [
+        {
+          "task": "0x3001ba8",
+          "object": "0x3003e30",
+          "main": "0x9000d9b",
+          "template": "0x88b7a10",
+          "destination": 195,
+          "flags": "0x1221c144"
+        }
+      ]
+    }
+  ],
+  "hub": [
+    {
+      "stage": "no-hub-connection-no-key",
+      "keys": "0x0",
+      "last_item": 0,
+      "ack": 0,
+      "mirrors": [
+        {
+          "object": "0x3003d88",
+          "xy": [
+            248,
+            280
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003e4c",
+          "xy": [
+            88,
+            264
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003f10",
+          "xy": [
+            104,
+            184
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003fd4",
+          "xy": [
+            40,
+            168
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        }
+      ]
+    },
+    {
+      "stage": "hub-connected-no-key",
+      "keys": "0x0",
+      "last_item": 3860415,
+      "ack": 0,
+      "mirrors": [
+        {
+          "object": "0x3003d88",
+          "xy": [
+            248,
+            280
+          ],
+          "native_destination": 194,
+          "effect": "0x3004098",
+          "variant": 0,
+          "effect_xy": [
+            248,
+            264
+          ]
+        },
+        {
+          "object": "0x3003e4c",
+          "xy": [
+            88,
+            264
+          ],
+          "native_destination": 592,
+          "effect": "0x30041c8",
+          "variant": 6,
+          "effect_xy": [
+            88,
+            280
+          ]
+        },
+        {
+          "object": "0x3003f10",
+          "xy": [
+            104,
+            184
+          ],
+          "native_destination": 192,
+          "effect": "0x30040e4",
+          "variant": 0,
+          "effect_xy": [
+            104,
+            168
+          ]
+        },
+        {
+          "object": "0x3003fd4",
+          "xy": [
+            40,
+            168
+          ],
+          "native_destination": 290,
+          "effect": "0x3004130",
+          "variant": 6,
+          "effect_xy": [
+            40,
+            184
+          ]
+        }
+      ]
+    },
+    {
+      "stage": "cabbage-key-received",
+      "keys": "0x8",
+      "last_item": 3860042,
+      "ack": 0,
+      "mirrors": [
+        {
+          "object": "0x3003d88",
+          "xy": [
+            248,
+            280
+          ],
+          "native_destination": 194,
+          "effect": "0x3004098",
+          "variant": 0,
+          "effect_xy": [
+            248,
+            264
+          ]
+        },
+        {
+          "object": "0x3003e4c",
+          "xy": [
+            88,
+            264
+          ],
+          "native_destination": 592,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003f10",
+          "xy": [
+            104,
+            184
+          ],
+          "native_destination": 192,
+          "effect": "0x30040e4",
+          "variant": 0,
+          "effect_xy": [
+            104,
+            168
+          ]
+        },
+        {
+          "object": "0x3003fd4",
+          "xy": [
+            40,
+            168
+          ],
+          "native_destination": 290,
+          "effect": "0x3004130",
+          "variant": 6,
+          "effect_xy": [
+            40,
+            184
+          ]
+        }
+      ]
+    },
+    {
+      "stage": "all-area-keys-without-hub-connections",
+      "keys": "0x3fc",
+      "last_item": 3860048,
+      "ack": 0,
+      "mirrors": [
+        {
+          "object": "0x3003d88",
+          "xy": [
+            248,
+            280
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003e4c",
+          "xy": [
+            88,
+            264
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003f10",
+          "xy": [
+            104,
+            184
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003fd4",
+          "xy": [
+            40,
+            168
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        }
+      ]
+    },
+    {
+      "stage": "unlocked-savestate-reload",
+      "keys": "0x8",
+      "last_item": 3860042,
+      "ack": 0,
+      "mirrors": [
+        {
+          "object": "0x3003d88",
+          "xy": [
+            248,
+            280
+          ],
+          "native_destination": 194,
+          "effect": "0x3004098",
+          "variant": 0,
+          "effect_xy": [
+            248,
+            264
+          ]
+        },
+        {
+          "object": "0x3003e4c",
+          "xy": [
+            88,
+            264
+          ],
+          "native_destination": 592,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003f10",
+          "xy": [
+            104,
+            184
+          ],
+          "native_destination": 192,
+          "effect": "0x30040e4",
+          "variant": 0,
+          "effect_xy": [
+            104,
+            168
+          ]
+        },
+        {
+          "object": "0x3003fd4",
+          "xy": [
+            40,
+            168
+          ],
+          "native_destination": 290,
+          "effect": "0x3004130",
+          "variant": 6,
+          "effect_xy": [
+            40,
+            184
+          ]
+        }
+      ]
+    },
+    {
+      "stage": "relocked-after-native-callback-idle",
+      "keys": "0x0",
+      "last_item": 3860042,
+      "ack": 0,
+      "mirrors": [
+        {
+          "object": "0x3003d88",
+          "xy": [
+            248,
+            280
+          ],
+          "native_destination": 194,
+          "effect": "0x3004098",
+          "variant": 0,
+          "effect_xy": [
+            248,
+            264
+          ]
+        },
+        {
+          "object": "0x3003e4c",
+          "xy": [
+            88,
+            264
+          ],
+          "native_destination": 592,
+          "effect": "0x30041c8",
+          "variant": 6,
+          "effect_xy": [
+            88,
+            280
+          ]
+        },
+        {
+          "object": "0x3003f10",
+          "xy": [
+            104,
+            184
+          ],
+          "native_destination": 192,
+          "effect": "0x30040e4",
+          "variant": 0,
+          "effect_xy": [
+            104,
+            168
+          ]
+        },
+        {
+          "object": "0x3003fd4",
+          "xy": [
+            40,
+            168
+          ],
+          "native_destination": 290,
+          "effect": "0x3004130",
+          "variant": 6,
+          "effect_xy": [
+            40,
+            184
+          ]
+        }
+      ]
+    }
+  ],
+  "additional_runtime_checks": {
+    "area_keys_disabled": {
+      "room_173": "Native effect 0x294/A at (472,550), no AP board with key mask 0.",
+      "room_142": "One native Warp Star at (400,193), destination 195, key mask 0."
+    },
+    "hub_round_trip": {
+      "rooms": [
+        801,
+        592,
+        801
+      ],
+      "key_mask": "0x8",
+      "hub_connections": "All 15 delivered through ROM mailbox",
+      "return_position": [
+        94,
+        280
+      ]
+    },
+    "visual_acceptance": "User accepted the current hub appearance. Standard gold-frame boards remain overlaid on larger themed mirrors; no claim of custom fitted artwork."
+  },
+  "flight": [
+    {
+      "rollback_after_boarding": false,
+      "frames": 1,
+      "room": 142,
+      "key_mask": "0x4",
+      "source_star_count": 1,
+      "passenger_masks": [
+        1
+      ]
+    },
+    {
+      "rollback_after_boarding": false,
+      "frames": 60,
+      "room": 142,
+      "key_mask": "0x4",
+      "source_star_count": 1,
+      "passenger_masks": [
+        1
+      ]
+    },
+    {
+      "rollback_after_boarding": false,
+      "frames": 180,
+      "room": 142,
+      "key_mask": "0x4",
+      "source_star_count": 1,
+      "passenger_masks": [
+        9
+      ]
+    },
+    {
+      "rollback_after_boarding": false,
+      "frames": 600,
+      "room": 195,
+      "key_mask": "0x4",
+      "source_star_count": 1,
+      "passenger_masks": [
+        13
+      ]
+    },
+    {
+      "rollback_after_boarding": false,
+      "frames": 1200,
+      "room": 195,
+      "key_mask": "0x4",
+      "source_star_count": 1,
+      "passenger_masks": [
+        0
+      ]
+    },
+    {
+      "rollback_after_boarding": false,
+      "frames": 2400,
+      "room": 195,
+      "key_mask": "0x4",
+      "source_star_count": 1,
+      "passenger_masks": [
+        0
+      ]
+    },
+    {
+      "rollback_after_boarding": true,
+      "frames": 1,
+      "room": 142,
+      "key_mask": "0x0",
+      "source_star_count": 1,
+      "passenger_masks": [
+        1
+      ]
+    },
+    {
+      "rollback_after_boarding": true,
+      "frames": 60,
+      "room": 142,
+      "key_mask": "0x0",
+      "source_star_count": 1,
+      "passenger_masks": [
+        1
+      ]
+    },
+    {
+      "rollback_after_boarding": true,
+      "frames": 180,
+      "room": 142,
+      "key_mask": "0x0",
+      "source_star_count": 1,
+      "passenger_masks": [
+        1
+      ]
+    },
+    {
+      "rollback_after_boarding": true,
+      "frames": 600,
+      "room": 195,
+      "key_mask": "0x0",
+      "source_star_count": 1,
+      "passenger_masks": [
+        1
+      ]
+    },
+    {
+      "rollback_after_boarding": true,
+      "frames": 1200,
+      "room": 195,
+      "key_mask": "0x0",
+      "source_star_count": 0,
+      "passenger_masks": []
+    },
+    {
+      "rollback_after_boarding": true,
+      "frames": 2400,
+      "room": 195,
+      "key_mask": "0x0",
+      "source_star_count": 0,
+      "passenger_masks": []
+    }
+  ]
+}
