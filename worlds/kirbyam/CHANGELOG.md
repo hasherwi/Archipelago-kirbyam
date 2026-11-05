@@ -14,7 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - None.
 
 ### Improvements
-- None.
+- Shuffled ability statues now show their assigned ability, with new matching art where needed. Completely Random statues show a question mark that stays readable in either facing (Issue #824).
 
 ### Known Limitations
 - None.
