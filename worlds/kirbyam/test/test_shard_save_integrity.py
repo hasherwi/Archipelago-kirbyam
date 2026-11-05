@@ -3,6 +3,7 @@
 This is host execution of payload C, not emulator or native save/load acceptance.
 Unrelated ROM callbacks and ARM register reads are replaced; shard paths are not.
 """
+from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -33,7 +34,6 @@ def test_shard_paths_preserve_all_save_bytes(tmp_path):
         source = source[:match.end()] + "}\n" + source[end:]
     source = '#define _GNU_SOURCE\n#include <sys/mman.h>\n#include <stdio.h>\n#include <string.h>\n' + source
     # Shared lifecycle/access are covered by test_copy_room_runtime; isolate unrelated receipts.
-    source += '\nvoid ap_shared_start(uint8_t h,uint8_t l,const uint16_t*r,const int32_t*p,const uint32_t*s) {}\nvoid ap_shared_poll(void) {}\nvoid ap_copy_room_poll(void) {}\nuint32_t ap_copy_room_owned(void) { return 0; }\n'
     source += r'''
 #define SAVE ((unsigned char *)0x0E000000u)
 static unsigned char before[0x8000];
@@ -76,6 +76,7 @@ int main(void) {
 }
 '''
     cfile, exe = tmp_path / "save-integrity.c", tmp_path / "save-integrity"
+    source = link_payload_modules(source, WORLD / 'kirby_ap_payload')
     cfile.write_text(source)
     result = subprocess.run([compiler, "-std=gnu99", "-w", "-I", str(WORLD / "kirby_ap_payload"),
                              str(cfile), "-o", str(exe)], capture_output=True, text=True)

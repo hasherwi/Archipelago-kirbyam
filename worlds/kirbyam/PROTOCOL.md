@@ -277,6 +277,9 @@ Server → Client: ConnectionRefused | Connected
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the payload refreshes Kirby's live OBJ and matching HUD BG palettes, including Pink. Reconnect alone does not reroll the color.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
+- `shared_save_protocol_version` (int): `1` requires the authenticated WORLD 22–26 record and active-save epoch contract.
+- `copy_ability_room_protocol_version` (int): `1` requires the Copy Room ROM capability marker and authenticated ownership mailbox.
+- `starting_copy_ability_room_access` (bool): true only when the access item was explicitly precollected; false by default.
 - `health_protocol_version` (int): `2` for newly generated ROMs; requires the format-2 client and `KIRBYAM APV2` ROM header. Missing version identifies the legacy four-counter contract.
 - `hub_connection_protocol_version` (int): `2` for Hub seeds; requires ROM marker `APHUB02\0` at file offset `0x1000008`. Earlier Hub drafts without this version must regenerate seed and patch together.
 - `minimum_health` (int): starting HP capacity (`1..10`, default `6`), embedded in new ROMs for native initialization and reconciled by the connected client after the tutorial. This is not a current-HP floor. Legacy nonzero presets take precedence for old slots.

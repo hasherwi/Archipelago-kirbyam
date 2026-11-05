@@ -1,4 +1,5 @@
 """Explicit owned-paint selection, color priority and palette lifecycle contracts."""
+from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -71,8 +72,7 @@ static void start_game(uint8_t,uint8_t,const uint16_t*,const int32_t*,const uint
 static uint32_t menu_select(uint8_t*);
 static int16_t save_world(uint32_t,uint16_t);
 ''' + source + (WORLD / 'test/native/color_precedence_host.c').read_text()
-    # Shared access lifecycle is exercised separately in test_copy_room_runtime.
-    source += '\nvoid ap_shared_start(uint8_t h,uint8_t l,const uint16_t*r,const int32_t*p,const uint32_t*s) { start_game(h,l,r,p,s); }\nvoid ap_shared_poll(void) {}\nvoid ap_copy_room_poll(void) {}\nuint32_t ap_copy_room_owned(void) { return 0; }\n'
+    source = link_payload_modules(source, WORLD / 'kirby_ap_payload', native_start='start_game')
     cfile = tmp_path / 'color.c'
     cfile.write_text(source)
     exe = tmp_path / 'color'

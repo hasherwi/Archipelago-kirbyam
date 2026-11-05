@@ -11,7 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- None.
+- Added Copy Ability Room Access as a progression item replacing one filler. The adventure entrance now requires authenticated ownership instead of all Big Switches; no starting access is granted automatically and no RoomSanity check is added (Issue #1002).
 
 ### Improvements
 - None.
@@ -23,7 +23,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - None.
 
 ### Internal Changes
-- None.
+- Added a shared, seed-authenticated save record and active-save context for the separate Goal Game and Copy Room features (#1000, #1002), preventing cached state from being attributed to another seed or save slot.
 
 ## v0.5.0-rc1
 

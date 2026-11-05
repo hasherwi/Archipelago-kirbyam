@@ -1,4 +1,5 @@
 """Execute the real mailbox and hub dispatch against mapped host RAM."""
+from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -56,9 +57,8 @@ def test_actual_mailbox_and_hub_dispatch(tmp_path: Path, optimization: str) -> N
     source = source.replace('((void (*)(void))0x08152CF5u)', 'native_tasks')
     harness = (Path(__file__).parent / 'native/hub_teleport_host.c').read_text()
     source += '\nvoid ap_after_tasks(void) { ap_hub_tasks(); }\n'
-    # Shared access lifecycle is exercised separately in test_copy_room_runtime.
-    source += '\nvoid ap_shared_start(uint8_t h,uint8_t l,const uint16_t*r,const int32_t*p,const uint32_t*s) {}\nvoid ap_shared_poll(void) {}\nvoid ap_copy_room_poll(void) {}\nuint32_t ap_copy_room_owned(void) { return 0; }\n'
     source = harness.replace('/* PAYLOAD */', source)
+    source = link_payload_modules(source, PAYLOAD)
     path = tmp_path / 'hub.c'
     path.write_text(source)
     exe = tmp_path / 'hub'

@@ -2,6 +2,7 @@
 
 This verifies call policy and buffer reload, not native ARM/SRAM acceptance.
 """
+from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -32,8 +33,6 @@ static void fake_network(uint32_t);
 static void fake_complete(void);
 static void fake_unknown(void);
 ''' + source
-    # Shared access lifecycle is exercised separately in test_copy_room_runtime.
-    source += '\nvoid ap_shared_start(uint8_t h,uint8_t l,const uint16_t*r,const int32_t*p,const uint32_t*s) {}\nvoid ap_shared_poll(void) {}\nvoid ap_copy_room_poll(void) {}\nuint32_t ap_copy_room_owned(void) { return 0; }\n'
     source += r'''
 #define CHECK(x) do { if (!(x)) {printf("line %d\n",__LINE__);return 1;} } while(0)
 static unsigned saves, network_requests, completions, unknown_calls;
@@ -84,6 +83,7 @@ int main(void) {
     return 0;
 }
 '''
+    source = link_payload_modules(source, payload)
     cfile, exe = tmp_path / 'payload.c', tmp_path / 'payload'
     cfile.write_text(source)
     result = subprocess.run([cc, '-std=gnu99', '-w', '-I', str(payload), str(cfile), '-o', str(exe)],

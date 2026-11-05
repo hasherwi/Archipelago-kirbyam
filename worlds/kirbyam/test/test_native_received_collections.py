@@ -3,6 +3,7 @@
 Host execution checks native effects and ACKs; it does not simulate the ARM ABI,
 rendered HUD, cheats, or emulator save/load.
 """
+from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -33,7 +34,6 @@ def test_mailbox_collections_and_active_player_vitality(tmp_path: Path) -> None:
         source = source[:match.end()] + '}\n' + source[end:]
     source = '#define _GNU_SOURCE\n#include <sys/mman.h>\n#include <stdio.h>\n#include <string.h>\n' + source
     # Shared lifecycle/access are covered by test_copy_room_runtime; isolate unrelated receipts.
-    source += '\nvoid ap_shared_start(uint8_t h,uint8_t l,const uint16_t*r,const int32_t*p,const uint32_t*s) {}\nvoid ap_shared_poll(void) {}\nvoid ap_copy_room_poll(void) {}\nuint32_t ap_copy_room_owned(void) { return 0; }\n'
     source += r'''
 #define CHECK(x) do { if (!(x)) {printf("failed line %d\n", __LINE__);return 1;} } while(0)
 static void reset(void) {
@@ -101,6 +101,7 @@ int main(void) {
 }
 '''
     cfile, executable = tmp_path / 'receipts.c', tmp_path / 'receipts'
+    source = link_payload_modules(source, WORLD / 'kirby_ap_payload')
     cfile.write_text(source)
     result = subprocess.run([compiler, '-std=gnu99', '-w', '-I', str(WORLD / 'kirby_ap_payload'),
                              str(cfile), '-o', str(executable)], capture_output=True, text=True)
