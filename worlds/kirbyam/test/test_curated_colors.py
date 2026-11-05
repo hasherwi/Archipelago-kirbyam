@@ -24,14 +24,17 @@ def module(name):
 
 def test_registry_build_and_options_agree():
     colors = load_kirby_colors()
-    assert [c.key for c in colors[14:]] == ['shadow', 'ivory', 'citrus', 'white', 'lavender', 'rainbow', 'candy_corn', 'hot_pepper', 'negative']
-    assert [(c.color_id, StartingKirbyColor.from_text(c.key).value) for c in colors] == [(i, i) for i in range(23)]
+    assert [c.key for c in colors[14:]] == [
+        'shadow', 'ivory', 'citrus', 'white', 'lavender', 'rainbow', 'candy_corn',
+        'hot_pepper', 'negative', 'pineapple', 'cotton_candy', 'royal', 'pumpkin', 'mint_chip',
+    ]
+    assert [(c.color_id, StartingKirbyColor.from_text(c.key).value) for c in colors] == [(i, i) for i in range(28)]
     assert colors[13].key == 'chalk' and not colors[13].palettes
     assert module('generate_colors').render() == (WORLD / 'kirby_ap_payload/color_tables.h').read_text()
     rng = Random(599)
-    for current in range(23):
+    for current in range(28):
         seen = {choose_different_kirby_color(current, rng).color_id for _ in range(500)}
-        assert seen == set(range(23)) - {current}
+        assert seen == set(range(28)) - {current}
     for current in range(14):
         seen = {choose_different_kirby_color(current, rng, native_only=True).color_id for _ in range(500)}
         assert seen == set(range(14)) - {current}
@@ -109,10 +112,10 @@ async def test_client_requires_new_payload_for_curated_catalog(mock_bizhawk_cont
             assert read.await_count == 1
 
 
-@pytest.mark.parametrize('version,maximum', [(1, 13), (2, 18), (3, 22), ([], 13), ({}, 13)])
+@pytest.mark.parametrize('version,maximum', [(1, 13), (2, 18), (3, 27), ([], 13), ({}, 13)])
 def test_catalog_limits_preserve_old_seed_pool(mock_bizhawk_context, version, maximum):
     client = KirbyAmClient()
-    for color in range(23):
+    for color in range(28):
         mock_bizhawk_context.slot_data = {'kirby_color_catalog_version': version, 'starting_kirby_color': color}
         assert (client._get_starting_kirby_color_config(mock_bizhawk_context) is not None) == (color <= maximum)
     rng = Random(19)
@@ -133,7 +136,10 @@ async def test_catalog_version_requires_matching_rom(mock_bizhawk_context, versi
         assert await client._color_catalog_ready(mock_bizhawk_context) is ready
 
 
-@pytest.mark.parametrize('key', ['rainbow', 'candy_corn', 'hot_pepper', 'negative'])
+@pytest.mark.parametrize('key', [
+    'rainbow', 'candy_corn', 'hot_pepper', 'negative', 'pineapple',
+    'cotton_candy', 'royal', 'pumpkin', 'mint_chip',
+])
 def test_original_palette_preserves_shared_ui_and_effect_slots(key):
     color = next(c for c in load_kirby_colors() if c.key == key)
     normal, ufo, hud = color.palettes
@@ -151,3 +157,14 @@ def test_negative_inverts_native_body_and_saucer_without_inverting_shared_detail
     native_body = (31583, 28319, 25183, 20958, 14651, 7318, 2124, 16511, 10266, 5142)
     assert normal[2:12] == tuple(word ^ 0x7FFF for word in native_body)
     assert ufo[9:12] == tuple(word ^ 0x7FFF for word in (703, 511, 284))
+
+
+@pytest.mark.parametrize('key', ['pineapple', 'cotton_candy', 'royal', 'pumpkin', 'mint_chip'])
+def test_new_themed_colors_keep_readable_shading_and_distinct_rows(key):
+    color = next(c for c in load_kirby_colors() if c.key == key)
+    def brightness(word):
+        return 299 * (word & 31) + 587 * ((word >> 5) & 31) + 114 * ((word >> 10) & 31)
+    normal = color.palettes[0]
+    assert all(brightness(a) > brightness(b) for a, b in zip(normal[2:8], normal[3:9]))
+    assert all(brightness(a) > brightness(b) for a, b in zip(normal[9:11], normal[10:12]))
+    assert all(color.palettes != other.palettes for other in load_kirby_colors() if other.key != key)

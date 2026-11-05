@@ -26,7 +26,7 @@ The one-shot latch lives at `0x0203B0B8`. Payload code executes from ROM, so a w
 
 ## Compatibility and safety
 
-- Native paint IDs remain `0..13`; curated logical IDs `14..22` use native Pink as a safe renderer fallback. IDs absent from the generated registry are ignored.
+- Native paint IDs remain `0..13`; curated logical IDs `14..27` use native Pink as a safe renderer fallback. IDs absent from the generated registry are ignored.
 - ROM default `0xFFFFFFFF` keeps older procedure patches safe.
 - Pink is the fallback and a valid requested palette. Runtime Pink refresh is no longer skipped.
 - The owned-paint A-button handler at `0x0814406C` records a genuine choice, including choosing a paint matching the AP default. Saved preference uses native treasure padding and the native serializer, not raw SRAM writes. See PROTOCOL.md for the marker and priority order.
@@ -127,3 +127,18 @@ Its UFO row inverts the native UFO body/saucer slots separately, retaining canop
 slot 4. Both retain black outlines, eye/white details, native effect tails and shared
 HUD accents; only the six existing Kirby HUD slots adopt the theme. Choose
 `starting_kirby_color: hot_pepper` or `negative`.
+
+Additional original themes use descending brightness for readable body/foot shading:
+
+| ID | YAML option | Body and highlight | Feet / UFO saucer accent |
+| --- | --- | --- | --- |
+| 23 | `pineapple` | Warm gold/amber, cream highlight | Dark leaf green |
+| 24 | `cotton_candy` | Pale sky blue | Bubblegum pink |
+| 25 | `royal` | Deep violet, lilac highlight | Rich gold |
+| 26 | `pumpkin` | Pumpkin orange, apricot highlight | Dark plum |
+| 27 | `mint_chip` | Pale mint | Dark cocoa |
+
+Each includes its own normal, UFO and six-slot HUD adaptation with the same native
+outline/eyes, UFO canopy/effect-tail and shared UI preservation rules. Palette-only
+Mint Chip has cocoa feet, not chocolate-chip texture; Pineapple has green feet, not
+new leaf geometry. No sprite art or animation is added. Game Boy is not included.

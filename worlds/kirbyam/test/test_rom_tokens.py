@@ -67,7 +67,7 @@ def _make_world(
 
 
 @pytest.mark.parametrize("per_room", [False, True])
-@pytest.mark.parametrize("color_id", range(23))
+@pytest.mark.parametrize("color_id", range(28))
 def test_write_tokens_bakes_resolved_starting_color(per_room: bool, color_id: int) -> None:
     world = _make_world(
         AbilityRandomizationMode.option_off,
@@ -108,7 +108,7 @@ def test_write_tokens_rejects_out_of_range_enemy_health_multiplier() -> None:
 def test_write_tokens_rejects_invalid_resolved_starting_color() -> None:
     world = _make_world(
         AbilityRandomizationMode.option_off,
-        starting_color_id=23,
+        starting_color_id=28,
     )
     patch = _DummyPatch()
 
