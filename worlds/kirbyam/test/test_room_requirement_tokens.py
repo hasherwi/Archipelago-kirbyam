@@ -1,4 +1,6 @@
 """Dispatch coverage for every capability and item token in the room graph."""
+from copy import copy
+from functools import lru_cache
 from unittest.mock import patch
 from typing import cast
 
@@ -82,9 +84,31 @@ def test_unknown_tokens_still_fail_closed():
         evaluate_room_logic_requirement("can_cutt_ropes", _FakeState(), 1)
 
 
+@pytest.fixture(params=[(False, False), (False, True), (True, False), (True, True)],
+                ids=['both-cold', 'mirror-warm', 'area-warm', 'both-warm'])
+def isolated_graph_caches(request, monkeypatch):
+    from .. import area_keys, rules
+
+    # Exercise real graph discovery with private caches, preserving the shared
+    # caches for other tests regardless of collection order or assertion failures.
+    helpers = ('area_key_entrance_area_ids', 'dimension_mirror_entrance_names')
+    checks = []
+    for name, warm in zip(helpers, request.param):
+        discover = getattr(area_keys, name).__wrapped__
+        expected = discover()
+        cached = lru_cache(maxsize=1)(discover)
+        if warm:
+            cached()
+        monkeypatch.setattr(rules, name, cached)
+        checks.append((cached, expected))
+    yield
+    for cached, expected in checks:
+        assert cached() == expected
+
+
 @pytest.mark.parametrize('token', ['CanPoundPegs', 'can_pound_pegs'])
 @pytest.mark.parametrize('operator', ['all', 'any'])
-def test_stake_discovery_preserves_complete_compact_rule(token, operator):
+def test_stake_discovery_preserves_complete_compact_rule(token, operator, isolated_graph_caches):
     from types import SimpleNamespace
     from .. import rules
     from .test_rules import _FakeWorld
@@ -95,7 +119,11 @@ def test_stake_discovery_preserves_complete_compact_rule(token, operator):
         exit_requirements={'DESTINATION': requirement}, location_requirements={})}
     raw = {'SOURCE': {'exits': {'DESTINATION': requirement}}}
     world = _FakeWorld(Goal.option_dark_mind)
-    with patch.object(rules.data, 'regions', regions), \
+    # Replace only the rules module's view; Area Key/Dimension Mirror helpers
+    # must keep the canonical graph even when their caches are cold.
+    rule_data = copy(rules.data)
+    rule_data.regions = regions
+    with patch.object(rules, 'data', rule_data), \
             patch.object(rules, 'load_json_data', return_value=raw):
         assert rules.get_stake_gated_transition_entrance_names() == ('SOURCE -> DESTINATION',)
         rules.set_rules(world)
