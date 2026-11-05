@@ -25,7 +25,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Internal Changes
 - None.
 
-## v0.5.0-rc1
+## v0.5.0
 
 ### New Features
 - Added eight Area Key progression items for Areas 2 through 9. Cross-area mirrors (and other transitions like Warp Stars) now require the destination area's key (Issue #42).
@@ -64,6 +64,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Bootstrap Kirby build/test dependencies with checksum-pinned pip 26.2.2 and certifi 2026.10.19 after the eMudhra/emSign incident (Issue #978), with matching development guidance. Global AP dependencies, Docker and general workflows are unchanged.
 
 ### Internal Changes
+- Isolate the stake-rule test fixture from shared graph data and exercise cold and warm Area Key and Dimension Mirror caches to prevent order-dependent test failures (PR #1014).
 - Preserve compiled Hub switch mapping with generated lookup tables, fixed configuration addresses and explicit overlap checks. Historical native door aliases remain unchanged.
 - Verify the complete wheel inventory and SHA-256 bytes before offline Kirby ROM-smoke dependency installation (Issue #980; broader dependency matrices remain open).
 - Pin Kirby workflow actions to audited commit identities and reject mutable action references (Issue #981; interpreter/toolchain downloads remain separate).
