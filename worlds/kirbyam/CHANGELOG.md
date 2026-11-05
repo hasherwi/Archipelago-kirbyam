@@ -20,7 +20,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - None.
 
 ### Bug Fixes
-- None.
+- Fix repeated healing sounds after hitting Scarfy or Bomber with enemy health set to 50%, and keep enemy health meters accurate when scaled health rounds to a whole number (Issue #1028).
 
 ### Internal Changes
 - None.
