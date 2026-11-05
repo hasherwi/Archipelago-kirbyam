@@ -26,7 +26,7 @@ The one-shot latch lives at `0x0203B0B8`. Payload code executes from ROM, so a w
 
 ## Compatibility and safety
 
-- Native paint IDs remain `0..13`; curated logical IDs `14..27` use native Pink as a safe renderer fallback. IDs absent from the generated registry are ignored.
+- Native paint IDs remain `0..13`; curated logical IDs `14..26` use native Pink as a safe renderer fallback. IDs absent from the generated registry are ignored.
 - ROM default `0xFFFFFFFF` keeps older procedure patches safe.
 - Pink is the fallback and a valid requested palette. Runtime Pink refresh is no longer skipped.
 - The owned-paint A-button handler at `0x0814406C` records a genuine choice, including choosing a paint matching the AP default. Saved preference uses native treasure padding and the native serializer, not raw SRAM writes. See PROTOCOL.md for the marker and priority order.
@@ -80,8 +80,8 @@ Kirby can load its custom palette before HUD creation; the startup wrapper clear
 it on return. Otherwise a bounded live HUD task is required. The existing per-frame
 recovery still waits for fades before updating palettes.
 
-New slot data declares `kirby_color_catalog_version: 3`. The client verifies
-`APCOL03\0` at the appended ROM start before sending these color IDs. Earlier seed
+New slot data declares `kirby_color_catalog_version: 4`. The client verifies
+`APCOL04\0` at the appended ROM start before sending these color IDs. Earlier seed
 metadata retains the native-only 14-color per-room pool. Regenerate a patch and update
 the client for the expanded catalog; existing saves and owned paint choices keep their
 format. No color items, menu swatches, ownership bits or save layout were added.
@@ -108,7 +108,7 @@ shading regions. Candy Corn uses white highlights, orange body shading and yello
 feet, approximating white/top, orange/middle, yellow/bottom without changing art.
 Neither palette promises geometric stripes or color cycling.
 
-Normal Pink outline/highlight and effect tail slots are retained. UFO retains its
+Normal Pink outline and effect tail slots are retained. UFO retains its
 native canopy slot 4 and tail slots 12..15; its body/saucer receives the theme.
 HUD indices 1..6 follow the existing adaptation, preserving shared UI accents,
 outline, eyes/white detail and all other HUD slots. Native abilities and damage
@@ -116,29 +116,34 @@ still compose their own colors. Menus, paint swatches, demo/multiplayer and part
 colors remain native under the existing gameplay-only contract. Explicit owned
 spray paint continues to override a static AP color.
 
-Catalog 3 requires APCOL03 and regenerated patches. The updated client still
+Catalog 4 requires APCOL04 and regenerated patches. The updated client still
 accepts catalog 2 only with APCOL02, limiting its static and per-room choices to
 0..18. Legacy metadata retains 0..13. This prevents new IDs reaching old payloads.
 
-Hot Pepper (21) uses red body shading, green highlights/accents and dark red feet.
-Negative (22) complements each RGB555 channel of native Pink body/feet slots 2..11;
+Negative (21) complements each RGB555 channel of native Pink body/feet slots 2..11;
 its dark green highlights and pale teal shadows intentionally reverse the shading.
 Its UFO row inverts the native UFO body/saucer slots separately, retaining canopy
-slot 4. Both retain black outlines, eye/white details, native effect tails and shared
+slot 4. It retains black outlines, eye/white details, native effect tails and shared
 HUD accents; only the six existing Kirby HUD slots adopt the theme. Choose
-`starting_kirby_color: hot_pepper` or `negative`.
+`starting_kirby_color: negative`.
 
 Additional original themes use descending brightness for readable body/foot shading:
 
 | ID | YAML option | Body and highlight | Feet / UFO saucer accent |
 | --- | --- | --- | --- |
-| 23 | `pineapple` | Warm gold/amber, cream highlight | Dark leaf green |
-| 24 | `cotton_candy` | Pale sky blue | Bubblegum pink |
-| 25 | `royal` | Deep violet, lilac highlight | Rich gold |
-| 26 | `pumpkin` | Pumpkin orange, apricot highlight | Dark plum |
-| 27 | `mint_chip` | Pale mint | Dark cocoa |
+| 22 | `pineapple` | Warm gold/amber, cream highlight | Dark leaf green |
+| 23 | `cotton_candy` | Pale sky blue | Bubblegum pink |
+| 24 | `royal` | Deep violet, lilac highlight | Rich gold |
+| 25 | `pumpkin` | Pumpkin orange, apricot highlight | Dark plum |
+| 26 | `mint_chip` | Pale mint | Dark cocoa |
 
 Each includes its own normal, UFO and six-slot HUD adaptation with the same native
 outline/eyes, UFO canopy/effect-tail and shared UI preservation rules. Palette-only
 Mint Chip has cocoa feet, not chocolate-chip texture; Pineapple has green feet, not
 new leaf geometry. No sprite art or animation is added. Game Boy is not included.
+
+Catalog 4 retires the unreleased draft catalog 3 after removal of a draft entry.
+Released IDs 0..18 and draft Rainbow/Candy Corn IDs 19/20 are unchanged. The remaining
+draft entries are contiguous at 21..26; their palette colors are unchanged. The client
+rejects catalog-3 static and per-room requests, and APCOL04 rejects older draft ROMs.
+Regenerate both seed metadata and ROM patches; native paint saves remain compatible.

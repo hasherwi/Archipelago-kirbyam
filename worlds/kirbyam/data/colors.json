@@ -540,75 +540,8 @@
       }
     },
     {
-      "key": "hot_pepper",
-      "id": 21,
-      "name": "Hot Pepper",
-      "native_fallback": 0,
-      "palettes": {
-        "normal": [
-          0,
-          0,
-          8077,
-          3295,
-          3719,
-          2170,
-          1109,
-          1071,
-          8,
-          1105,
-          1068,
-          7,
-          12915,
-          20215,
-          27581,
-          32767
-        ],
-        "ufo": [
-          0,
-          0,
-          8077,
-          3295,
-          24218,
-          2170,
-          1109,
-          1071,
-          8,
-          1105,
-          1068,
-          7,
-          118,
-          4127,
-          16912,
-          32767
-        ],
-        "hud": [
-          0,
-          3295,
-          3719,
-          2170,
-          1068,
-          1109,
-          1071,
-          0,
-          32767,
-          863,
-          32589,
-          607,
-          479,
-          20480,
-          863,
-          19026
-        ]
-      },
-      "provenance": {
-        "normal": "Original red body, green highlight/accent and dark red feet design; native outline, eyes/white and effect tail retained",
-        "ufo": "Original hot pepper body/saucer adaptation; native canopy slot 4 and tail slots 12..15 retained",
-        "hud": "Derived Amazing Mirror HUD adaptation; normal indices 3,4,5,10,6,7 replace HUD indices 1..6; other Pink HUD colors retained"
-      }
-    },
-    {
       "key": "negative",
-      "id": 22,
+      "id": 21,
       "name": "Negative",
       "native_fallback": 0,
       "palettes": {
@@ -675,7 +608,7 @@
     },
     {
       "key": "pineapple",
-      "id": 23,
+      "id": 22,
       "name": "Pineapple",
       "native_fallback": 0,
       "palettes": {
@@ -742,7 +675,7 @@
     },
     {
       "key": "cotton_candy",
-      "id": 24,
+      "id": 23,
       "name": "Cotton Candy",
       "native_fallback": 0,
       "palettes": {
@@ -809,7 +742,7 @@
     },
     {
       "key": "royal",
-      "id": 25,
+      "id": 24,
       "name": "Royal",
       "native_fallback": 0,
       "palettes": {
@@ -876,7 +809,7 @@
     },
     {
       "key": "pumpkin",
-      "id": 26,
+      "id": 25,
       "name": "Pumpkin",
       "native_fallback": 0,
       "palettes": {
@@ -943,7 +876,7 @@
     },
     {
       "key": "mint_chip",
-      "id": 27,
+      "id": 26,
       "name": "Mint Chip",
       "native_fallback": 0,
       "palettes": {
