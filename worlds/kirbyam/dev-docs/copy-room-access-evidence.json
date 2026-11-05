@@ -1,7 +1,7 @@
 {
   "issue": 1002,
   "base_commit": "98ffe79fcef2e24690ec7d3fd7916cb07b1ef684",
-  "foundation_remote_commit": "ad41fe72a71290d51e77a5edd505d2647977d48b",
+  "foundation_remote_commit": "0120f8266f6b39c038dcc8ab9e2b36ba398d74a7",
   "rom_source_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
   "patch_sha256": "11fcf2e723ad02b8716dbc14660db1da043eb7bf11b2793e1d24ee556681bc3c",
   "native_emulator": "mGBA 0.10.5, isolated headless core; private ROM/save copies",
