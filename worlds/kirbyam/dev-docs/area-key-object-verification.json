@@ -1,0 +1,52 @@
+{
+  "scope": "Compiled ARM with intercepted native callees; not gameplay acceptance",
+  "payload_sha256": "532d75b88bf61736e75b331fb92ec034944ea2d8aba6533fdd59ccffde990b02",
+  "extension_sha256": "a0f75dabfee55c1d4af4922ef411fb73b72bbce682289d8617eba157aaff13b7",
+  "cases": [
+    {
+      "disabled": false,
+      "keys": 0,
+      "allowed": false
+    },
+    {
+      "disabled": false,
+      "keys": 4,
+      "allowed": true
+    },
+    {
+      "disabled": false,
+      "keys": 0,
+      "allowed": false
+    },
+    {
+      "disabled": false,
+      "keys": 4,
+      "allowed": true
+    },
+    {
+      "disabled": true,
+      "keys": 0,
+      "allowed": true
+    },
+    {
+      "disabled": true,
+      "keys": 4,
+      "allowed": true
+    },
+    {
+      "disabled": true,
+      "keys": 0,
+      "allowed": true
+    },
+    {
+      "disabled": true,
+      "keys": 4,
+      "allowed": true
+    }
+  ],
+  "adapters_and_no_duplicate_spawn": "passed",
+  "patch_sha256": "68198b8ebdfcbf7f56f095c3d1cb5b77a4a172070163141c3cacfe9bb9d01f50",
+  "rom_sha256": "199858691f2f78c894ab6f2f97c92658bc6133eee2558fe917ff9b4241f23f07",
+  "native_hook_writes_verified": 11,
+  "focused_pytest": "51 passed"
+}
