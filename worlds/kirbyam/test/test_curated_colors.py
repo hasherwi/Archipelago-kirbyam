@@ -66,7 +66,7 @@ def fixture_rom():
 def test_extension_appends_and_validates_both_native_hooks_before_mutation():
     api, rom = fixture_rom()
     original = bytes(rom)
-    extension = b'APCOL04\0' + bytes(56)
+    extension = b'APCOL03\0' + bytes(56)
     writes = api.build_color_extension_writes(rom, extension, 0x09000008, 0x09000020)
     assert bytes(rom) == original
     for offset, content in writes.items(): rom[offset:offset + len(content)] = content
@@ -80,7 +80,7 @@ def test_extension_appends_and_validates_both_native_hooks_before_mutation():
 @pytest.mark.parametrize('defect', ['empty', 'oversized', 'odd', 'outside', 'marker', 'dispatch', 'hud'])
 def test_extension_refuses_unsafe_inputs(defect):
     api, rom = fixture_rom()
-    extension = b'APCOL04\0' + bytes(56)
+    extension = b'APCOL03\0' + bytes(56)
     target = 0x09000008
     if defect == 'empty': extension = b''
     elif defect == 'oversized': extension += bytes(65536)
@@ -112,7 +112,7 @@ async def test_client_requires_new_payload_for_curated_catalog(mock_bizhawk_cont
             assert read.await_count == 1
 
 
-@pytest.mark.parametrize('version,maximum', [(1, 13), (2, 18), (4, 26), ([], 13), ({}, 13)])
+@pytest.mark.parametrize('version,maximum', [(1, 13), (2, 18), (3, 26), ([], 13), ({}, 13)])
 def test_catalog_limits_preserve_old_seed_pool(mock_bizhawk_context, version, maximum):
     client = KirbyAmClient()
     for color in range(27):
@@ -125,9 +125,8 @@ def test_catalog_limits_preserve_old_seed_pool(mock_bizhawk_context, version, ma
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize('version,marker,ready', [
-    (4, b'APCOL04\0', True), (4, b'APCOL02\0', False),
-    (2, b'APCOL02\0', True), (2, b'APCOL04\0', False),
-    (4, b'APCOL03\0', False), (3, b'APCOL03\0', False), (3, b'APCOL04\0', False),
+    (3, b'APCOL03\0', True), (3, b'APCOL02\0', False),
+    (2, b'APCOL02\0', True), (2, b'APCOL03\0', False),
 ])
 async def test_catalog_version_requires_matching_rom(mock_bizhawk_context, version, marker, ready):
     client = KirbyAmClient()
@@ -169,20 +168,3 @@ def test_new_themed_colors_keep_readable_shading_and_distinct_rows(key):
     assert all(brightness(a) > brightness(b) for a, b in zip(normal[2:8], normal[3:9]))
     assert all(brightness(a) > brightness(b) for a, b in zip(normal[9:11], normal[10:12]))
     assert all(color.palettes != other.palettes for other in load_kirby_colors() if other.key != key)
-
-
-@pytest.mark.asyncio
-async def test_retired_draft_catalog_never_writes_color_ids(mock_bizhawk_context):
-    client = KirbyAmClient()
-    client.initialize_client()
-    mock_bizhawk_context.slot_data = {
-        'kirby_color_catalog_version': 3,
-        'starting_kirby_color': 22,
-        'starting_kirby_color_randomize_on_room_transition': True,
-    }
-    with patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as write:
-        assert client._get_starting_kirby_color_config(mock_bizhawk_context) is None
-        await client._sync_starting_kirby_color_runtime_config(mock_bizhawk_context)
-        await client._maybe_randomize_kirby_color_on_room_transition(mock_bizhawk_context, 801)
-        await client._maybe_randomize_kirby_color_on_room_transition(mock_bizhawk_context, 803)
-        write.assert_not_awaited()

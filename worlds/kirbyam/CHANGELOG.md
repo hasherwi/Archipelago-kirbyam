@@ -12,7 +12,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 
-- Add static Rainbow, Candy Corn, Negative, Pineapple, Cotton Candy, Royal, Pumpkin and Mint Chip Kirby palettes with normal, UFO and HUD rows; retain native effects and owned spray-paint precedence. Catalog 4 guards the expanded pool from older ROM patches.
+- Add static Rainbow, Candy Corn, Negative, Pineapple, Cotton Candy, Royal, Pumpkin and Mint Chip Kirby palettes with normal, UFO and HUD rows; retain native effects and owned spray-paint precedence. Catalog 3 guards the expanded pool from older ROM patches.
 
 ### Improvements
 - None.

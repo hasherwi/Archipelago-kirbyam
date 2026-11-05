@@ -80,8 +80,8 @@ Kirby can load its custom palette before HUD creation; the startup wrapper clear
 it on return. Otherwise a bounded live HUD task is required. The existing per-frame
 recovery still waits for fades before updating palettes.
 
-New slot data declares `kirby_color_catalog_version: 4`. The client verifies
-`APCOL04\0` at the appended ROM start before sending these color IDs. Earlier seed
+New slot data declares `kirby_color_catalog_version: 3`. The client verifies
+`APCOL03\0` at the appended ROM start before sending these color IDs. Earlier seed
 metadata retains the native-only 14-color per-room pool. Regenerate a patch and update
 the client for the expanded catalog; existing saves and owned paint choices keep their
 format. No color items, menu swatches, ownership bits or save layout were added.
@@ -116,7 +116,7 @@ still compose their own colors. Menus, paint swatches, demo/multiplayer and part
 colors remain native under the existing gameplay-only contract. Explicit owned
 spray paint continues to override a static AP color.
 
-Catalog 4 requires APCOL04 and regenerated patches. The updated client still
+Catalog 3 requires APCOL03 and regenerated patches. The updated client still
 accepts catalog 2 only with APCOL02, limiting its static and per-room choices to
 0..18. Legacy metadata retains 0..13. This prevents new IDs reaching old payloads.
 
@@ -142,8 +142,9 @@ outline/eyes, UFO canopy/effect-tail and shared UI preservation rules. Palette-o
 Mint Chip has cocoa feet, not chocolate-chip texture; Pineapple has green feet, not
 new leaf geometry. No sprite art or animation is added. Game Boy is not included.
 
-Catalog 4 retires the unreleased draft catalog 3 after removal of a draft entry.
-Released IDs 0..18 and draft Rainbow/Candy Corn IDs 19/20 are unchanged. The remaining
-draft entries are contiguous at 21..26; their palette colors are unchanged. The client
-rejects catalog-3 static and per-room requests, and APCOL04 rejects older draft ROMs.
-Regenerate both seed metadata and ROM patches; native paint saves remain compatible.
+Catalog 3 remains unreleased within this draft PR. Released IDs 0..18 and draft
+Rainbow/Candy Corn IDs 19/20 are unchanged. The remaining draft entries are
+contiguous at 21..26; their palette colors are unchanged. Earlier draft seeds and
+ROM patches must be regenerated together after removal of a draft entry: APCOL03
+cannot distinguish those draft layouts and mixing them can select the wrong color.
+Native paint saves and released catalog-2 seeds remain compatible.
