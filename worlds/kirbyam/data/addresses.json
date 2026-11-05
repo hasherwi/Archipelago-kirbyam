@@ -47,7 +47,9 @@
         "transition_event_ring_runtime": "0x0203B0C8",
         "transition_event_telemetry_cookie_runtime": "0x0203B130",
       "hub_connection_item_mask": "0x0203B134",
-      "shared_save_context": "0x0203B13C"
+      "shared_save_context": "0x0203B13C",
+      "copy_room_ownership_request": "0x0203B160",
+      "copy_room_ownership_ack": "0x0203B168"
     },
     "native": {
       "other_chest_flags_native": "0x02038960",

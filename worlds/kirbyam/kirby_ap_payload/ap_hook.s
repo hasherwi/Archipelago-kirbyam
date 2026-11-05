@@ -111,3 +111,13 @@ ap_shared_clear_entry:
     ldr r3, 1f
     bx r3
 1: .word ap_shared_clear
+
+.section .text.ap_copy_room_entry,"ax",%progbits
+.balign 4
+.global ap_copy_room_state_entry
+.type ap_copy_room_state_entry, %function
+.thumb_func
+ap_copy_room_state_entry:
+    ldr r3, 1f
+    bx r3
+1: .word ap_copy_room_state

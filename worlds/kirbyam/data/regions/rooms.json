@@ -1,4 +1,10 @@
 {
+  "REGION_COPY_ABILITY_ROOM/MAIN": {
+    "locations": {},
+    "exits": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
+    }
+  },
   "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
     "locations": {
       "room_sanity": {
@@ -8,6 +14,9 @@
       }
     },
     "exits": {
+      "REGION_COPY_ABILITY_ROOM/MAIN": {
+        "item": "Copy Ability Room Access"
+      },
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS": "can_fly",
       "REGION_RAINBOW_ROUTE/ROOM_1_01": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1": {

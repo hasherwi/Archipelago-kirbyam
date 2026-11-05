@@ -3,6 +3,7 @@
 #include "hub_connection_runtime_logic.h"
 #include "hub_save_logic.h"
 #include "shared_save.h"
+#include "copy_room.h"
 #include "statue_runtime_logic.h"
 #include "transition_runtime_logic.h"
 #include "transition_route_logic.h"
@@ -561,6 +562,7 @@ static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_is_key
 __attribute__((used, noinline, long_call, section(".aphub"))) uint32_t ap_transition_allowed(uint16_t source_room, uint16_t destination_room) {
     uint8_t destination_area;
 
+    if (source_room == 801u && destination_room == 970u) return ap_copy_room_owned();
     if (ap_is_keyed_inter_area_edge(source_room, destination_room) == 0u) {
         return 1u;
     }
@@ -1952,6 +1954,8 @@ HUB_EXT void ap_hub_tasks(void) {
 
 // Returns 1 if item was successfully processed, 0 if unrecognized
 static uint8_t ap_apply_item(uint32_t ap_item_id) {
+    /* History reconciliation owns this item; a stale delivery mailbox cannot grant it. */
+    if (ap_item_id == AP_COPY_ROOM_ITEM) return (uint8_t)ap_copy_room_owned();
     // 1_UP = BASE+1
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 1u)) {
         ap_grant_lives(1u);
@@ -2129,6 +2133,7 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
 
 
 AP_SHARED_EXT void ap_poll_mailbox_c(void) {
+    ap_copy_room_poll();
     ap_shared_poll();
 
     // Hook liveness diagnostic counter; increments on every AP hook entry.

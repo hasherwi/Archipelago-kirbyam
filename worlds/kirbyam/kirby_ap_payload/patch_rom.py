@@ -1012,6 +1012,7 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
 
 def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
     targets = {
+        "copy_room_state_target": resolve_elf_symbol_address(payload_elf_path, "ap_copy_room_state_entry"),
         "shared_load_target": resolve_elf_symbol_address(payload_elf_path, "ap_shared_load_entry"),
         "shared_clear_target": resolve_elf_symbol_address(payload_elf_path, "ap_shared_clear_entry"),
         "treasure_paint_hook_target": resolve_elf_symbol_address(
@@ -1557,6 +1558,24 @@ def discover_runtime_callsites(
     )
 
 
+def build_copy_room_native_grant_writes(rom: bytes | bytearray) -> dict[int, bytes]:
+    """Keep native switch save/cleanup, skip the all-switch room reward.
+
+    USA WorldMapUnlockMain has already called WorldMapUnlockSave at 0x1262E2.
+    Always take its ordinary cleanup at 0x12639C, skipping the word-18 store,
+    redundant room-unlock save and sub_0801DA58 presentation. This never clears
+    an AP-owned cache, and does not touch Boss Endurance or physical switches.
+    """
+    validate_expected_instruction_sequence(
+        rom, 0x12630A,
+        bytes.fromhex("0f 2d 46 d1 02 20 12 21 00 22 dc f6 b8 fa 01 21 01 60"),
+        "Copy Ability Room native all-switch grant")
+    validate_expected_instruction_sequence(
+        rom, 0x12639C, bytes.fromhex("03 48 00 68 2c f0 4c fc 13 f7 64 f9"),
+        "Copy Ability Room ordinary unlock cleanup")
+    return {0x12630C: bytes.fromhex("46 e0")}
+
+
 def build_runtime_regression_writes(
     rom: bytes | bytearray, hook_targets: dict[str, int], rom_base: int = 0x08000000
 ) -> dict[int, bytes]:
@@ -1661,6 +1680,11 @@ def patch_rom_with_payload(
     regression_writes = build_hub_teleport_writes(rom, hook_targets["hub_trap_hook_target"])
     regression_writes.update(build_shared_save_writes(rom, hook_targets))
     regression_writes.update(build_runtime_regression_writes(rom, hook_targets, rom_base))
+    regression_writes.update(build_copy_room_native_grant_writes(rom))
+    validate_expected_instruction_sequence(
+        rom, 0x1E5B2, thumb_bl_bytes(0x0801E5B2, ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR),
+        "Copy Ability Room mirror state lookup")
+    regression_writes[0x1E5B2] = thumb_bl_bytes(0x0801E5B2, hook_targets["copy_room_state_target"])
     regression_writes.update(build_health_hud_writes(
         rom, hook_targets["health_hud_hook_target"], rom_base))
     regression_writes.update(build_initial_health_writes(

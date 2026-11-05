@@ -68,6 +68,10 @@ def build_dummy_rom() -> bytearray:
         for offset in offsets:
             put_bl(offset, target)
 
+    rom[0x12630A:0x12631C] = bytes.fromhex("0f 2d 46 d1 02 20 12 21 00 22 dc f6 b8 fa 01 21 01 60")
+    rom[0x12639C:0x1263A8] = bytes.fromhex("03 48 00 68 2c f0 4c fc 13 f7 64 f9")
+    put_bl(0x1E5B2, patch_rom.ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR)
+
     # Current main's delayed chest, lever, ability and health hooks.
     rom[0xB9A4:0xB9A8] = bytes.fromhex("D4 6C 20 1C")
     initializer = 0x351648 + 0x81 * 0x18 + 0x10

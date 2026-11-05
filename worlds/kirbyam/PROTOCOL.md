@@ -993,3 +993,56 @@ deliberate save rollback is not an exactly-once persistence guarantee. Offline
 cache and completion records are restored for the same authentication identity.
 Native linked-GBA multiplayer within one world remains unsupported; ordinary
 Archipelago multiworld is a separate supported mode.
+
+
+## Copy Ability Room access (issue #1002, protocol 1)
+
+Item `3860500`, **Copy Ability Room Access**, is a progression item replacing
+one filler slot. It gates only adventure Central Circle 801 → 970. There is no
+970 RoomSanity check: the existing optional catalog remains 263. No default
+starting grant exists; explicit precollection is serialized as
+`starting_copy_ability_room_access` and reconciled through the same ownership
+path as received item history. Access never grants individual copy abilities.
+Boss Endurance 950, ordinary statues, switch checks and Hub Connections retain
+independent behavior.
+
+Generated slots require `copy_ability_room_protocol_version: 1` and
+`shared_save_protocol_version: 1`. The ROM marker `APCPY01\0` lives at file
+offset `0x100FFD4` (eight bytes immediately before source configuration), avoiding
+allocation of #1000's extension-header space. Mixed ROM/slot capabilities fail
+closed before watcher writes. Regenerate seeds and patches and update clients;
+old native word 18 alone cannot migrate ownership. Older slots without this
+feature remain supported with their matching ROMs.
+
+The shared foundation owns WORLD 22–26 and context 0x0203B13C–0x0203B15F.
+This feature owns mailbox 0x0203B160–0x0203B16F:
+
+| Offset | Direction | Meaning |
+| --- | --- | --- |
+| 0x160 | client → ROM | Request epoch, written last; zero means idle |
+| 0x164 | client → ROM | Complete authoritative ownership, exactly 0 or 1 |
+| 0x168 | ROM → client | Last accepted epoch |
+| 0x16C | ROM → client | Last accepted ownership value |
+
+The client waits for the current socket's complete item history, combines it with
+explicit precollection, and fences the shared snapshot, connection identity,
+ROM auth and epoch before a guarded write. The runtime revalidates the active
+context before accepting the command. It sets validity and ownership together,
+preserving all Goal bits. A stale ordinary item-delivery mailbox cannot grant
+access: delivery acknowledges this item only after ownership reconciliation.
+Disconnect does not send a zero command or clear authenticated offline ownership.
+Duplicate commands do not create new dirty saves. Save failure/retry and native
+slot binding remain owned by the shared foundation. Arbitrary emulator-state
+rollback is not a guarantee of retention of unsaved progress.
+
+WORLD word 18 is derived, never authoritative. The native mirror lookup at USA
+0x0801E5B2 is intercepted before collision changes; the actual 801 → 970 transition
+also checks ownership. Live authoritative revocation in 801 uses the ordinary
+801 → 801 transition to rebuild the closed entrance. No per-frame writes target
+WORLD during file previews. The vanilla all-switch branch at ROM 0x12630C changes
+from `46 D1` to `46 E0`: individual switch saving has already occurred, and normal
+cleanup at 0x12639C runs without the automatic word-18 grant, its redundant save,
+or its misleading unlock presentation. Exact retail instruction guards reject
+unrecognized patch sources. WORLD 27–31 remain untouched.
+
+Native linked-GBA multiplayer is unsupported; ordinary AP multiworld is required.

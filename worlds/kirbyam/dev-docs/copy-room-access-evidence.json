@@ -1,0 +1,55 @@
+{
+  "issue": 1002,
+  "base_commit": "98ffe79fcef2e24690ec7d3fd7916cb07b1ef684",
+  "foundation_remote_commit": "ad41fe72a71290d51e77a5edd505d2647977d48b",
+  "rom_source_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "patch_sha256": "11fcf2e723ad02b8716dbc14660db1da043eb7bf11b2793e1d24ee556681bc3c",
+  "native_emulator": "mGBA 0.10.5, isolated headless core; private ROM/save copies",
+  "native_passes": [
+    "All three native files: legacy WORLD18=1 with authenticated unowned record remains blocked in801",
+    "All three native files: authenticated owned record permits801to970 using identical controller input",
+    "Live simulated client ownership command while801loaded opens entrance; duplicate command is idempotent",
+    "Native save after receipt cold-restarts offline and permits801to970",
+    "Live authoritative revocation reloads801and blocks same entrance",
+    "All three files: changed ROM auth clears ownership and blocks801to970",
+    "All resulting native save sections in both copies retain valid checksums"
+  ],
+  "native_input_after_adventure_start": [
+    [
+      64,
+      160
+    ],
+    [
+      96,
+      150
+    ],
+    [
+      0,
+      20
+    ],
+    [
+      0,
+      60
+    ],
+    [
+      64,
+      20
+    ],
+    [
+      0,
+      125
+    ]
+  ],
+  "scope_limits": [
+    "Ownership-cache cases use synthetic authenticated native-save fixtures",
+    "Receipt cases simulate client writes only to the documented mailbox; client/server behavior is separately host-tested",
+    "Actual live AP server to emulator round-trip not exercised",
+    "Native all-switch source interception verified by exact retail instructions, not by completing fifteen switches in a playthrough",
+    "Boss Endurance950is excluded by the exact801to970predicate; a full Boss Endurance gameplay run remains untested",
+    "No linked-GBA multiplayer support claim"
+  ],
+  "payload_text_bytes": 4840,
+  "extension_executable_bytes": 6976,
+  "copy_marker_file_offset": "0x100FFD4",
+  "roomsanity_count": 263
+}

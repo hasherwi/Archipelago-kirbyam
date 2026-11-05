@@ -18,6 +18,7 @@ def _identity(client, ctx, version=2, minimum=1, maximum=10):
     ctx.auth = base64.b64encode(auth).decode()
     ctx.slot_data.update(health_protocol_version=version, minimum_health=minimum, maximum_health=maximum)
     return {
+        (0x100FFD4, 'ROM'): bytes(8),  # legacy main has no Copy Room marker
         (0x1000008, 'ROM'): bytes(8),  # legacy main has no Hub marker
         (0xA0, 'ROM'): HEALTH_ROM_TITLE if version == 2 else LEGACY_ROM_TITLE,
         (0x15F690, 'ROM'): VitalityPlan(minimum, maximum).config_word.to_bytes(4, 'little'),

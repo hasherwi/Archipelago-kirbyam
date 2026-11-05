@@ -65,7 +65,8 @@ def test_native_config_defaults_on_and_bypasses_only_destination_key(tmp_path: P
 #include <stdio.h>
 #define AP_AREA_KEYS_CONFIG_OFF 0x414B0100u
 #define KIRBY_NATIVE_AREA_UNKNOWN 255u
-static uint32_t gApAreaKeysConfig, AP_AREA_KEY_BITFIELD_RUNTIME;
+static uint32_t gApAreaKeysConfig, AP_AREA_KEY_BITFIELD_RUNTIME, copy_room_owned;
+static uint32_t ap_copy_room_owned(void) { return copy_room_owned; }
 /* Native area metadata is isolated here; all tested policy functions are extracted production bodies. */
 static uint8_t ap_native_area_for_room(uint16_t room) { return (uint8_t)room; }
 #define CHECK(c) do { if (!(c)) {fprintf(stderr,"line %d: %s\n",__LINE__,#c);return 1;} } while (0)
@@ -93,6 +94,9 @@ int main(void) {
             CHECK(ap_transition_reason(source,destination,1)==6);
         }
     }
+    CHECK(ap_transition_allowed(801,970)==0);
+    copy_room_owned=1;CHECK(ap_transition_allowed(801,970)==1);
+    copy_room_owned=0;
     /* Enabling again never synthesizes ownership from the disabled mode. */
     gApAreaKeysConfig=0x414B0101u; AP_AREA_KEY_BITFIELD_RUNTIME=0;
     CHECK(ap_transition_allowed(0,1)==0);

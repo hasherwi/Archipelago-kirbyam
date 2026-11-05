@@ -143,10 +143,12 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch: pytest.MonkeyPa
     # The hub contract has separate corruption tests and local real-ROM validation.
     monkeypatch.setattr(patch_rom, "build_hub_teleport_writes", lambda *args: {})
     monkeypatch.setattr(patch_rom, "build_shared_save_writes", lambda *args: {})
+    monkeypatch.setattr(patch_rom, "build_copy_room_native_grant_writes", lambda *args: {})
     rom = bytearray(b"\xA5" * 0x200000)
     rom[patch_rom.PAYLOAD_OFFSET:patch_rom.PAYLOAD_LEGACY_OFFSET] = bytes(0x400)
     for offset in patch_rom.HEALTH_HUD_CALLSITES:
         rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(0x08000000 + offset, 0x0803518C)
+    rom[0x1E5B2:0x1E5B6] = patch_rom.thumb_bl_bytes(0x0801E5B2, 0x08002888)
     rom[0x14406C:0x144070] = patch_rom.thumb_bl_bytes(0x0814406C, 0x081447E0)
     rom[0x14380A:0x14380E] = patch_rom.thumb_bl_bytes(0x0814380A, 0x08019F0C)
     rom[0x3EB0E:0x3EB14] = patch_rom.thumb_bl_bytes(0x0803EB0E, 0x08019F0C) + b"\x06\x30"
@@ -177,7 +179,7 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch: pytest.MonkeyPa
          "starting_color_start_game_hook_target": 0x08100000,
          "treasure_paint_hook_target": 0x08100400,
          "health_hud_hook_target": 0x08100100, "initial_health_hook_target": 0x08100200,
-         "vitality_menu_hook_target": 0x08100300},
+         "vitality_menu_hook_target": 0x08100300, "copy_room_state_target": 0x08100700},
         0x08000000,
     )
 
@@ -226,6 +228,7 @@ def test_door_to_hub_init_state_lookup_is_separate_and_left_native(monkeypatch) 
     monkeypatch.setattr(patch_rom, "build_health_hud_writes", lambda *args: {})
     monkeypatch.setattr(patch_rom, "build_hub_teleport_writes", lambda *args: {})
     monkeypatch.setattr(patch_rom, "build_shared_save_writes", lambda *args: {})
+    monkeypatch.setattr(patch_rom, "build_copy_room_native_grant_writes", lambda *args: {})
     # sub_0802AD00 in special_doors.c activates the physical door from this
     # state. The hook belongs only to sub_0811938C's switch initializer.
     assert patch_rom.DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET == 0x0002AD24
@@ -235,6 +238,7 @@ def test_door_to_hub_init_state_lookup_is_separate_and_left_native(monkeypatch) 
     switch_hook_target = 0x08100000
     rom = bytearray(0x200000)
     rom[0x14380A:0x14380E] = patch_rom.thumb_bl_bytes(0x0814380A, 0x08019F0C)
+    rom[0x1E5B2:0x1E5B6] = patch_rom.thumb_bl_bytes(0x0801E5B2, 0x08002888)
     rom[0x14406C:0x144070] = patch_rom.thumb_bl_bytes(0x0814406C, 0x081447E0)
     door_call = patch_rom.thumb_bl_bytes(0x08000000 + door_offset, native_target)
     switch_call = patch_rom.thumb_bl_bytes(0x08000000 + switch_offset, native_target)
@@ -270,7 +274,7 @@ def test_door_to_hub_init_state_lookup_is_separate_and_left_native(monkeypatch) 
         {"unknown83_transition_hook_target": 0x08100600, "starting_color_start_game_hook_target": 0x08100000,
          "health_hud_hook_target": 0x08100100, "initial_health_hook_target": 0x08100200,
          "vitality_menu_hook_target": 0x08100300,
-         "treasure_paint_hook_target": 0x08100400, "hub_trap_hook_target": 0x08100500},
+         "treasure_paint_hook_target": 0x08100400, "hub_trap_hook_target": 0x08100500, "copy_room_state_target": 0x08100700},
         0x08000000,
     )
 
