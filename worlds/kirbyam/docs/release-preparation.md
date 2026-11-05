@@ -15,6 +15,15 @@ The command checks ancestry against fetched origin/main and reads the source man
 and changelog as data using the existing release metadata checks. It never runs tagged
 project code and never repairs an inconsistent manifest.
 
+For a tag such as `kirbyam-v0.5.0-rc2`, changelog validation and note extraction
+prefer `## v0.5.0-rc2` and otherwise use `## v0.5.0`. A final `kirbyam-v0.5.0`
+requires `## v0.5.0`; another RC, another version, and `Unreleased` cannot substitute.
+Duplicate selected headings fail closed. Extracted notes retain the source heading;
+the release tag, prerelease flag, receipt and attestation still identify the exact RC.
+This policy is shared by the build, trusted-main publisher and readiness preflight.
+An existing failed tag still points at its original workflow/code: merging this fix
+does not repair that source or authorize moving the tag. Follow recovery below.
+
 An owner must inspect the current settings in
 [publication-trust-boundary.md](publication-trust-boundary.md) and
 [artifact-verification.md](artifact-verification.md). Record a fresh inspection for
