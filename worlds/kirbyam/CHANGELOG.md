@@ -37,7 +37,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
 
 ### Improvements
-- Add a release-preparation runbook, read-only readiness checks and staging status reporting (Issue #1012). Owner settings verification and a live release rehearsal remain pending.
+- Add a release-preparation runbook, read-only readiness checks and staging status reporting, with consistent exact-version or matching base-version changelog selection for release candidates (Issue #1012). Owner settings verification and a live release rehearsal remain pending.
 
 ### Known Limitations
 - Only the North American ROM is supported; AP notifications are English.
