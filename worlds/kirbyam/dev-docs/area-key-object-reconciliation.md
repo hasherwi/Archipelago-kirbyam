@@ -36,8 +36,8 @@ retail disassembly, not copied from the old issue proposal.
   Enemies and unrelated stars are not included in this extra scan.
 - An already authorized flight retains its passenger-owning star until native
   cleanup. Freeing that object mid-flight would strand its passengers. Existing
-  boarding guards still reject new passengers. Mid-flight ownership rollback
-  remains an explicit gameplay acceptance case, not a proven behavior.
+  boarding guards still reject new passengers. The native 142 → 195 flight has now been checked with ownership rollback
+  after boarding; broader flight/destination coverage remains outstanding.
 
 All paths use `ap_transition_allowed` / `ap_is_keyed_inter_area_edge`; the
 immutable disabled setting preserves native execution. Native Hub/switch and
@@ -132,5 +132,15 @@ not added to the changelog or described as shipped in this draft.
   repository for the runner's Ubuntu `resolute` returns HTTP 404. No analyzer
   findings were produced; this is an external CI setup failure, not a pass.
 
-Actual client reconnect, native in-game save/reset, star consumption/flight
-rollback and linked multiplayer remain unverified.
+Actual client reconnect, native in-game save/reset, other star routes/consumption and linked multiplayer remain unverified.
+
+### Authorized flight with key rollback
+
+Player input boarded the native room 142 star with the Moonlight key. A control
+run retained the key; a second run cleared its key bit immediately after the
+first passenger boarded. Both reached room 195. With rollback, the passenger
+mask stayed at 1 (no later CPU passengers were admitted), the object survived
+through flight, then disappeared by frame 1200 after native passenger cleanup.
+At frame 2400 it remained absent. The control run returned to one idle native
+star (passenger mask 0), with no duplicate. This verifies the scoped authorized
+flight case; it does not substitute for linked multiplayer or all star routes.

@@ -523,5 +523,123 @@
       ]
     },
     "visual_acceptance": "User accepted the current hub appearance. Standard gold-frame boards remain overlaid on larger themed mirrors; no claim of custom fitted artwork."
-  }
+  },
+  "flight": [
+    {
+      "rollback_after_boarding": false,
+      "frames": 1,
+      "room": 142,
+      "key_mask": "0x4",
+      "source_star_count": 1,
+      "passenger_masks": [
+        1
+      ]
+    },
+    {
+      "rollback_after_boarding": false,
+      "frames": 60,
+      "room": 142,
+      "key_mask": "0x4",
+      "source_star_count": 1,
+      "passenger_masks": [
+        1
+      ]
+    },
+    {
+      "rollback_after_boarding": false,
+      "frames": 180,
+      "room": 142,
+      "key_mask": "0x4",
+      "source_star_count": 1,
+      "passenger_masks": [
+        9
+      ]
+    },
+    {
+      "rollback_after_boarding": false,
+      "frames": 600,
+      "room": 195,
+      "key_mask": "0x4",
+      "source_star_count": 1,
+      "passenger_masks": [
+        13
+      ]
+    },
+    {
+      "rollback_after_boarding": false,
+      "frames": 1200,
+      "room": 195,
+      "key_mask": "0x4",
+      "source_star_count": 1,
+      "passenger_masks": [
+        0
+      ]
+    },
+    {
+      "rollback_after_boarding": false,
+      "frames": 2400,
+      "room": 195,
+      "key_mask": "0x4",
+      "source_star_count": 1,
+      "passenger_masks": [
+        0
+      ]
+    },
+    {
+      "rollback_after_boarding": true,
+      "frames": 1,
+      "room": 142,
+      "key_mask": "0x0",
+      "source_star_count": 1,
+      "passenger_masks": [
+        1
+      ]
+    },
+    {
+      "rollback_after_boarding": true,
+      "frames": 60,
+      "room": 142,
+      "key_mask": "0x0",
+      "source_star_count": 1,
+      "passenger_masks": [
+        1
+      ]
+    },
+    {
+      "rollback_after_boarding": true,
+      "frames": 180,
+      "room": 142,
+      "key_mask": "0x0",
+      "source_star_count": 1,
+      "passenger_masks": [
+        1
+      ]
+    },
+    {
+      "rollback_after_boarding": true,
+      "frames": 600,
+      "room": 195,
+      "key_mask": "0x0",
+      "source_star_count": 1,
+      "passenger_masks": [
+        1
+      ]
+    },
+    {
+      "rollback_after_boarding": true,
+      "frames": 1200,
+      "room": 195,
+      "key_mask": "0x0",
+      "source_star_count": 0,
+      "passenger_masks": []
+    },
+    {
+      "rollback_after_boarding": true,
+      "frames": 2400,
+      "room": 195,
+      "key_mask": "0x0",
+      "source_star_count": 0,
+      "passenger_masks": []
+    }
+  ]
 }
