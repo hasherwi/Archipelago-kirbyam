@@ -1491,7 +1491,8 @@ class KirbyAmClient(BizHawkClient):
         color_value = self._coerce_u32(slot_data.get("starting_kirby_color"))
         if color_value is None:
             return None
-        maximum = _STARTING_KIRBY_COLOR_MAX if slot_data.get("kirby_color_catalog_version") == 2 else 13
+        version = slot_data.get("kirby_color_catalog_version", 1)
+        maximum = _STARTING_KIRBY_COLOR_MAX if version == 3 else 18 if version == 2 else 13
         if color_value < _STARTING_KIRBY_COLOR_MIN or color_value > maximum:
             return None
 
@@ -1551,14 +1552,15 @@ class KirbyAmClient(BizHawkClient):
     async def _color_catalog_ready(self, ctx: "BizHawkClientContext") -> bool:
         """Never send curated IDs to an older payload, including per-room mode."""
         slot_data = getattr(ctx, "slot_data", None)
-        if not isinstance(slot_data, dict) or slot_data.get("kirby_color_catalog_version", 1) != 2:
+        if not isinstance(slot_data, dict) or slot_data.get("kirby_color_catalog_version", 1) not in (2, 3):
             return True
         if self._curated_color_rom_confirmed is None:
             try:
                 marker = (await bizhawk.read(ctx.bizhawk_ctx, [(0x1000000, 8, "ROM")]))[0]
             except bizhawk.RequestFailedError:
                 return False
-            self._curated_color_rom_confirmed = bytes(marker) == b"APCOL02\0"
+            expected = b"APCOL03\0" if slot_data["kirby_color_catalog_version"] == 3 else b"APCOL02\0"
+            self._curated_color_rom_confirmed = bytes(marker) == expected
             if not self._curated_color_rom_confirmed:
                 self._log_client("warning", "KirbyAM: this color catalog requires a regenerated ROM patch.")
         return self._curated_color_rom_confirmed
@@ -4164,10 +4166,12 @@ class KirbyAmClient(BizHawkClient):
                 return
             current_color_id = config[0]
 
+        catalog_version = getattr(ctx, "slot_data", {}).get("kirby_color_catalog_version", 1)
+        maximum = _STARTING_KIRBY_COLOR_MAX if catalog_version == 3 else 18 if catalog_version == 2 else 13
         next_color = choose_different_kirby_color(
             current_color_id,
             self._room_transition_color_rng,
-            native_only=getattr(ctx, "slot_data", {}).get("kirby_color_catalog_version", 1) != 2,
+            max_color_id=maximum,
         )
 
         try:

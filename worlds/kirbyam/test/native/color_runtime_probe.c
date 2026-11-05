@@ -126,7 +126,7 @@ int main(int argc,char**argv){
   call(c,0x0803E558,0,0,0);
   for(unsigned i=0;i<16;i++)assert(c->busRead16(c,0x03002c60+2*i)==ap_color_palettes[color-14][0][i]);
  }
- printf("PASS %u curated native ability/form/HUD/effect/special cases and5 pre-HUD startup loads; partner banks preserved.\n",curated_cases);
+ printf("PASS %u curated native ability/form/HUD/effect/special cases and %u pre-HUD startup loads; partner banks preserved.\n",curated_cases,AP_COLOR_COUNT-14);
  /* Direct actual native dispatch comparisons: transform path and load gate. */
  unsigned dispatch=c->busRead32(c,0x08D60820)&~1u,command=0x02018000,sprite=0x02018100;
  for(unsigned color=14;color<AP_COLOR_COUNT;color++)for(unsigned transform=0;transform<2;transform++) {
@@ -155,7 +155,7 @@ int main(int argc,char**argv){
   assert(c->busRead32(c,0x03002440)==0);
   for(unsigned i=0;i<16;i++)assert(c->busRead16(c,0x03002c60+2*i)==reference[i]);
  }
- printf("PASS 10 native-reference transformed/raw palette loads; gated commands advance cursor without palette/flag writes.\n");
+ printf("PASS %u native-reference transformed/raw palette loads; gated commands advance cursor without palette/flag writes.\n",2*(AP_COLOR_COUNT-14));
  /* Persistent RGB transformation enables must not stall color requests. */
  unsigned transformed_requests=0;
  for(unsigned flags=1;flags<=3;flags++)for(unsigned inverse=0;inverse<2;inverse++)
