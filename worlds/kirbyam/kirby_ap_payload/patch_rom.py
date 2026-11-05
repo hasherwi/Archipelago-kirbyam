@@ -1012,6 +1012,8 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
 
 def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
     targets = {
+        "shared_load_target": resolve_elf_symbol_address(payload_elf_path, "ap_shared_load_entry"),
+        "shared_clear_target": resolve_elf_symbol_address(payload_elf_path, "ap_shared_clear_entry"),
         "treasure_paint_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_treasure_paint_selection"),
         "vitality_menu_hook_target": resolve_elf_symbol_address(
@@ -1096,6 +1098,8 @@ _PAYLOAD_TARGET_LABELS = {
     "hub_switch_init_state_hook_target": "hub switch initialization state hook",
     "small_switch_effect_hook_target": "lever small-switch effect hook",
     "special_door_state_hook_target": "Area Key mirror visual-state hook",
+    "shared_load_target": "shared save load",
+    "shared_clear_target": "shared save clear",
     "automatic_transition_guard_target": "Area Key automatic-transition guard",
     "button_special_transition_hook_target": "Area Key button-transition hook",
     "explicit_room_transition_hook_target": "Area Key explicit-room-transition hook",
@@ -1126,6 +1130,25 @@ def validate_payload_targets(
                 f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
                 "Check your payload.elf link address and PAYLOAD_OFFSET."
             )
+
+
+SHARED_SAVE_NATIVE_CALLS = (
+    (0x0800A91C, "shared_load_target", (0x222, 0x242, 0x32384, 0x138CB2,
+      0x13CA80, 0x140430, 0x141CA0, 0x142638, 0x1428AE)),
+    (0x0800AC00, "shared_clear_target", (0x22E, 0x250, 0x270, 0x25F9E,
+      0x32390, 0x138D10, 0x13CA8C, 0x14043C, 0x141CAC, 0x142644, 0x1428BA, 0x1429A6)),
+)
+
+
+def build_shared_save_writes(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
+    """Exact USA loader/clear calls; adventure activation composes with color startup."""
+    writes = {}
+    for native, key, offsets in SHARED_SAVE_NATIVE_CALLS:
+        for offset in offsets:
+            validate_expected_instruction_sequence(
+                rom, offset, thumb_bl_bytes(0x08000000 + offset, native), key)
+            writes[offset] = thumb_bl_bytes(0x08000000 + offset, targets[key])
+    return writes
 
 
 def build_hub_teleport_writes(rom: bytes | bytearray, target: int) -> dict[int, bytes]:
@@ -1636,6 +1659,7 @@ def patch_rom_with_payload(
         "extended payload retail zero padding",
     )
     regression_writes = build_hub_teleport_writes(rom, hook_targets["hub_trap_hook_target"])
+    regression_writes.update(build_shared_save_writes(rom, hook_targets))
     regression_writes.update(build_runtime_regression_writes(rom, hook_targets, rom_base))
     regression_writes.update(build_health_hud_writes(
         rom, hook_targets["health_hud_hook_target"], rom_base))

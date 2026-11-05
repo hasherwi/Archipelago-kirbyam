@@ -916,3 +916,80 @@ Hub item names match physical destinations: 3860401 is Rainbow Route East (801�
 The client waits before reserving or offering Candy (`3860029`) while its native effect cannot start. Native code independently checks the live player, normal gameplay, positive HP, an inactive Candy effect, and the retail room restrictions before acknowledging. Room 801, rooms 324/710/417/822/219/516/738/129, and IDs above 899 reject the native effect. The patcher verifies the retail exclusion table. If a room transition races client preflight, the mailbox remains pending in order; Candy shares Hub Teleport Trap's timeout protection against clearing and reoffering a still-pending item. Two legitimate Candy receipts remain separate and wait for the preceding effect to finish.
 
 This preserves existing conservative transient-receipt recovery. A reset that loses a pending native offer can still require explicit receipt resolution; it does not establish exactly-once delivery across unsaved power loss.
+
+## Shared native save context, version 1 (#1000 / #1002 foundation)
+
+The foundation reserves native WORLD words **22–26** (`0x02028C68` through
+`0x02028C7B`). Hub words 27–31 remain independent and unchanged. Words 22–25
+contain all 16 bytes of the ROM authentication identity. Word 26 is:
+
+| Bits | Meaning |
+| --- | --- |
+| 0–15 | Goal Game completion flags (feature supplied separately) |
+| 16 | Copy Ability Room access owned (feature supplied separately) |
+| 17 | Copy Room ownership cache valid; clear means unknown, not owned |
+| 18–31 | Format tag; `(word & ~0x3FFFF) == 0x41500000` |
+
+One validator owns the whole record. An unknown tag or any mismatching auth
+word invalidates **both** features. Initialization first invalidates word 26,
+then writes the authentication words, then publishes the tag with all feature
+bits clear. It never combines new authentication with stale feature bits.
+These are native save-buffer words, not direct SRAM offsets. Native section
+sizes, checksums, duplicate-copy recovery, and file numbering are unchanged.
+
+The ROM advertises `APSHR01\0` at ROM file offset `0x1000010`. Feature slots
+must set `shared_save_protocol_version: 1`; clients reject those slots with a
+missing/different ROM marker before watcher writes. The foundation alone adds
+no items or locations and does not change legacy slot catalogs. Its presence
+is not a Goal Game or Copy Room feature capability: each feature must also
+version its own slot/catalog and runtime support. New feature seeds require
+matching regenerated patches and clients.
+
+### Context lifecycle and mailbox allocation
+
+Native file-menu previews load every file's WORLD data while `gSaveID` can
+already refer to the selected file. Therefore neither `gSaveID`, AI state 300,
+nor a live AP mailbox alone authorizes shared-record use. Every inventoried
+native WORLD loader/clear call first invalidates the shared context. The two
+single-player adventure startup calls activate it **after** native player
+creation, only when the last loaded/cleared slot matches valid `gSaveID` 0–2.
+Activation composes with the existing starting-color hook. Demo, Boss Endurance,
+and linked startup do not activate it. Per-frame polling checks the original
+local Kirby task identity, file identity, mode, and record authentication; loss
+of that identity deactivates it. Features must use `ap_shared_epoch()` rather
+than infer activation from native globals. A feature must separately cancel an
+in-progress action on death/abort; completed persistent bits survive death.
+
+| Mailbox offset | Owner / meaning |
+| --- | --- |
+| `0x13C` | Public active epoch, zero while inactive; published last |
+| `0x140` | Activation serial; increments and skips zero |
+| `0x144` | Active native slot, 0–2; `0xFFFFFFFF` while inactive |
+| `0x148` | Dirty flag; native save has not yet succeeded |
+| `0x14C` | Private last loaded/cleared slot |
+| `0x150` | Private active local Kirby task pointer |
+| `0x154` | Public authenticated feature bits |
+| `0x158` | Private lifecycle cookie `0x41505331` |
+| `0x15C` | Private save retry countdown |
+| `0x160–0x16F` | Reserved for Copy Room feature; foundation does not write |
+| `0x170–0x18F` | Reserved for Goal Game feature; foundation does not write |
+
+`shared_save_protocol.read_shared_snapshot` reads the context and then fences
+it with a second epoch/serial/slot read and full ROM-auth reads, discarding a
+changed context, ROM identity, or AP session. Callers must first authenticate ROM/slot identity and must not retain
+pending checks or receipt writes across a changed epoch or server session.
+Mutations use `ap_shared_update(clear_mask, set_mask)` only in an active context;
+it returns zero when inactive and one for an accepted update, including an
+idempotent repeat. Updates preserve all bits outside their supplied masks.
+Goal Games should OR their completion bits; Copy Room should only change bits
+16–17, reconciling its cache with complete server history.
+
+Initialization/updates set dirty; native `UpdateSaveBufferByOffset(1, slot)`
+flushes both checksummed copies. Only return zero clears dirty; failures retry
+after 60 mailbox ticks. No invalid slot falls back to file 0. Teardown discards
+transient dirty state rather than risk writing a different loaded buffer.
+Power loss or leaving before a successful save can lose unsaved changes;
+deliberate save rollback is not an exactly-once persistence guarantee. Offline
+cache and completion records are restored for the same authentication identity.
+Native linked-GBA multiplayer within one world remains unsupported; ordinary
+Archipelago multiworld is a separate supported mode.

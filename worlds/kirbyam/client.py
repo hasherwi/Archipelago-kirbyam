@@ -21,6 +21,7 @@ from .candy import CANDY_ITEM_ID, candy_delivery_ready
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .colors import choose_different_kirby_color, kirby_color_name_by_id
 from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
+from .shared_save_protocol import SHARED_MARKER, SHARED_MARKER_OFFSET, shared_slot_version
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
@@ -2063,6 +2064,12 @@ class KirbyAmClient(BizHawkClient):
             return False
         version = getattr(self, "_health_protocol_version", 1)
         try:
+            if shared_slot_version(slot):
+                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(SHARED_MARKER_OFFSET, 8, "ROM")]))[0]
+                if session_expired():
+                    return False
+                if bytes(marker) != SHARED_MARKER:
+                    raise ValueError("ROM and slot shared save versions differ")
             hub_version = hub_slot_version(slot)
             if hub_version:
                 marker = (await bizhawk.read(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")]))[0]

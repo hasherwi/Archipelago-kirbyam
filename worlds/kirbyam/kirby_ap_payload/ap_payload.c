@@ -2,6 +2,7 @@
 
 #include "hub_connection_runtime_logic.h"
 #include "hub_save_logic.h"
+#include "shared_save.h"
 #include "statue_runtime_logic.h"
 #include "transition_runtime_logic.h"
 #include "transition_route_logic.h"
@@ -1638,7 +1639,7 @@ __attribute__((used)) void ap_on_start_single_player_game(
     KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] = (uint8_t)desired_color;
     AP_STARTING_KIRBY_COLOR_APPLIED = AP_COLOR_STARTUP;
 
-    KIRBY_START_GAME_FN(mode, arg1, rooms, positions, flags);
+    ap_shared_start(mode, arg1, rooms, positions, flags);
     AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
 }
 
@@ -2127,7 +2128,8 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
 }
 
 
-void ap_poll_mailbox_c(void) {
+AP_SHARED_EXT void ap_poll_mailbox_c(void) {
+    ap_shared_poll();
 
     // Hook liveness diagnostic counter; increments on every AP hook entry.
     AP_HOOK_HEARTBEAT++;

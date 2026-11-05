@@ -92,3 +92,22 @@ ap_on_warp_star_transition_entry:
     bx r3
 1:  .word ap_on_warp_star_transition
 .size ap_on_warp_star_transition_entry, .-ap_on_warp_star_transition_entry
+
+.section .text.ap_shared_entries,"ax",%progbits
+.balign 4
+.global ap_shared_load_entry
+.type ap_shared_load_entry, %function
+.thumb_func
+ap_shared_load_entry:
+    ldr r3, 1f
+    bx r3
+1: .word ap_shared_load
+
+.balign 4
+.global ap_shared_clear_entry
+.type ap_shared_clear_entry, %function
+.thumb_func
+ap_shared_clear_entry:
+    ldr r3, 1f
+    bx r3
+1: .word ap_shared_clear
