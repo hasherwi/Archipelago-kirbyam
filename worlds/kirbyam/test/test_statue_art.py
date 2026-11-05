@@ -12,6 +12,7 @@ from ..statue_art import (
     GRANT_TABLE_OFFSET, NATIVE_ANIM_TABLE_OFFSET, NATIVE_SCRIPT_OFFSET,
     NATIVE_STATUE_ABILITIES, NATIVE_VARIANTS, ROM_BASE, STATUE_VISUAL_MODE_FILE,
     TILES_BASE, apply_statue_visuals, encode_statue_tiles, load_statue_pixels,
+    SPRITE_DRAW_OFFSET, SPRITE_DRAW_PROLOGUE, STATUE_FACING_HOOK,
 )
 from ..rom import KirbyAmPatchExtension, KirbyAmProcedurePatch, write_tokens
 from .test_rom_tokens import _DummyPatch, _make_world
@@ -19,6 +20,7 @@ from .test_rom_tokens import _DummyPatch, _make_world
 
 def native_fixture() -> bytes:
     rom = bytearray(0x1010000)
+    rom[SPRITE_DRAW_OFFSET:SPRITE_DRAW_OFFSET + 8] = SPRITE_DRAW_PROLOGUE
     struct.pack_into('<6I', rom, 0x3B909C, 0x08448574, 0x084789C4, 0x084BA240,
                      0x084BB0EC, ROM_BASE + TILES_BASE, 0x08869B6C)
     struct.pack_into('<I', rom, ANIM_POINTER_OFFSET, ROM_BASE + NATIVE_ANIM_TABLE_OFFSET)
@@ -56,6 +58,12 @@ def test_every_slot_and_ability(mode: int, ability: str) -> None:
     restored = bytearray(rom[:len(original)])
     restored[ANIM_POINTER_OFFSET:ANIM_POINTER_OFFSET + 4] = original[ANIM_POINTER_OFFSET:ANIM_POINTER_OFFSET + 4]
     restored[ANIM_INFO_OFFSET:ANIM_INFO_OFFSET + 76] = original[ANIM_INFO_OFFSET:ANIM_INFO_OFFSET + 76]
+    if mode == 2:
+        assert restored[SPRITE_DRAW_OFFSET:SPRITE_DRAW_OFFSET + 4] == bytes.fromhex('004b1847')
+        hook = struct.unpack_from('<I', restored, SPRITE_DRAW_OFFSET + 4)[0]
+        assert hook & 1 and (hook & ~1) - ROM_BASE >= len(original)
+        assert rom[(hook & ~1) - ROM_BASE:] == STATUE_FACING_HOOK
+        restored[SPRITE_DRAW_OFFSET:SPRITE_DRAW_OFFSET + 8] = SPRITE_DRAW_PROLOGUE
     assert restored == original
     pixels = load_statue_pixels()
     for i, name in enumerate(CUSTOM_STATUE_ABILITIES):
@@ -169,3 +177,50 @@ def test_native_metadata_validation(mutation: str) -> None:
         beam['animation_info_rom_offset'] = '0x3536E8'  # Master Sword
     with pytest.raises(ValueError):
         parse_native_statues(data)
+
+
+def test_facing_hook_rejects_changed_entry_only_when_needed() -> None:
+    rom = bytearray(native_fixture())
+    rom[SPRITE_DRAW_OFFSET] ^= 1
+    with pytest.raises(ValueError, match="sprite-draw prologue"):
+        apply_statue_visuals(bytes(rom), 2)
+    shuffled = apply_statue_visuals(bytes(rom), 1)
+    assert shuffled[SPRITE_DRAW_OFFSET:SPRITE_DRAW_OFFSET + 8] == rom[SPRITE_DRAW_OFFSET:SPRITE_DRAW_OFFSET + 8]
+
+
+def test_thumb_facing_guard_execution() -> None:
+    """Execute shipped bytes for both orientations and ended animations."""
+    uc = pytest.importorskip("unicorn")
+    from unicorn import arm_const as arm
+
+    emu = uc.Uc(uc.UC_ARCH_ARM, uc.UC_MODE_THUMB)
+    emu.mem_map(ROM_BASE, 0x200000)
+    emu.mem_map(0x02000000, 0x10000)
+    entry = ROM_BASE + SPRITE_DRAW_OFFSET
+    hook = ROM_BASE + 0x180000
+    emu.mem_write(entry, bytes.fromhex("004b1847") + struct.pack("<I", hook | 1))
+    emu.mem_write(hook, STATUE_FACING_HOOK)
+    registers = [getattr(arm, f"UC_ARM_REG_R{i}") for i in range(13)] + [arm.UC_ARM_REG_SP, arm.UC_ARM_REG_LR]
+    for anim in (0x383, 0x384, 0x385):
+        for variant in range(38):
+            for flags in (0, 0x400, 0x4400, 0xFFFFFFFF):
+                sprite = bytearray(range(40))
+                struct.pack_into("<IH", sprite, 8, flags, anim)
+                sprite[26] = variant
+                emu.mem_write(0x02000100, bytes(sprite))
+                values = [0x02000100] + list(range(1, 13)) + [0x02008000, 0x08000001]
+                for register, value in zip(registers, values):
+                    emu.reg_write(register, value)
+                emu.emu_start(entry | 1, entry + 8, count=50)
+                assert emu.reg_read(arm.UC_ARM_REG_PC) == entry + 8
+                expected = bytearray(sprite)
+                if anim == 0x384 and variant == 37:
+                    struct.pack_into("<I", expected, 8, flags & ~0x400)
+                assert emu.mem_read(0x02000100, 40) == expected
+                # Replay the native prologue; r1-r3 are caller-clobbered.
+                assert emu.mem_read(0x02008000 - 20, 20) == struct.pack("<5I", 4, 5, 6, 7, 0x08000001)
+                preserved = {0: values[0], 4: 4, 5: 8, 6: 9, 7: 10,
+                             8: 8, 9: 9, 10: 10, 11: 11, 12: 12,
+                             13: 0x02008000 - 20, 14: 0x08000001}
+                for index, value in preserved.items():
+                    assert emu.reg_read(registers[index]) == value

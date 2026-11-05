@@ -57,7 +57,7 @@ No graphics from another Kirby game were copied.
 
 The `apply_statue_art` patch procedure runs **after** generation's grant tokens.
 It reads the resulting 19 grants, validates the native animation records, and
-changes only their display selectors plus animation `0x384`'s table pointer.
+changes their display selectors plus animation `0x384`'s table pointer.
 It preserves all 31 original variant pointers and appends seven custom variants.
 Their scripts reuse native frame 11 (one 16×16 OBJ) and palette 429. All pixel
 rows are editable hexadecimal palette indexes in `data/statue_art.json`; no
@@ -65,8 +65,16 @@ image library is needed to apply a patch. The art data and encoder are separate
 from statue gameplay and can support a later pickup-icon feature.
 
 The extension is aligned and appended at EOF. It never occupies presumed free
-retail padding or overwrites another appended extension. No native hook,
-mailbox/save field, RNG, collision, touch callback, or grant byte changes.
+retail padding or overwrites another appended extension. Completely Random mode
+also guards the USA `DisplaySprite` entry at file offset `0x15604C`, after
+validating its displaced eight-byte prologue. The appended Thumb guard clears
+only the sprite horizontal-flip flag for animation `0x384`, variant 37, then
+replays the prologue and resumes at `0x08156054`. This final drawing boundary
+covers both normal updates and the separate collection-effect redraw path.
+Object facing, native icons, all other animation variants, mailbox/save fields,
+RNG, collision, touch callbacks, and grant bytes remain unchanged. The standalone
+source is `kirby_ap_payload/statue_facing.s`; its assembled bytes are embedded
+in the patch module. Off and Shuffled modes do not install this hook.
 `base_patch.bsdiff4` is unchanged and does not require regeneration for this PR.
 Changing the shared base patch for another feature still requires the normal
 source-based rebuild; do not choose conflicting binaries mechanically.
@@ -93,9 +101,15 @@ interactive emulator were not used or modified; ROMs and states remain private.
 
 These are controlled visual/collection fixtures, not acceptance of a full
 randomized multiworld session. Linked-GBA co-op, save/reload, reconnect, and
-human art approval are not claimed. The question glyph currently follows the
-native statue facing and therefore mirrors on opposite-facing stands; that
-presentation needs review before this draft is finalized.
+human art approval are not claimed. The final question glyph was checked with
+both native facing values in room 950, during movement and the Cook collection
+effect. Read-only runtime observations confirmed object facing values 0 and 1
+remain intact while rendered question sprites have horizontal flip cleared.
+A Thumb execution test checks all 38 variants across three animation IDs and
+four flag combinations (456 cases), including the ended-animation flag; only
+the question variant changes. It also checks native prologue register/stack
+behavior. This execution test requires the optional Unicorn package. The draft
+remains held for art review and outside the v0.5.0 release scope.
 
 | Cook | Crash | Magic |
 | --- | --- | --- |
@@ -108,3 +122,9 @@ presentation needs review before this draft is finalized.
 | Completely Random display | Native/off | Mixed shuffled display |
 | --- | --- | --- |
 | ![Question](assets/statues/question.png) | ![Off](assets/statues/off.png) | ![Mixed](assets/statues/mixed.png) |
+
+Both-facing gameplay and collection-effect regression captures:
+
+![Both native facings](assets/statues/question-facing.png)
+
+![Collection effect](assets/statues/question-collection.png)

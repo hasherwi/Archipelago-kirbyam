@@ -22,6 +22,13 @@ NATIVE_SCRIPT_OFFSET = 0x4405B0
 TILES_BASE = 0x4BED4C
 ROM_BASE = 0x08000000
 NATIVE_VARIANT_COUNT = 31
+SPRITE_DRAW_OFFSET = 0x15604C
+SPRITE_DRAW_PROLOGUE = bytes.fromhex("f0b557464e464546")
+# Assembled from kirby_ap_payload/statue_facing.s (ARM7TDMI Thumb).
+STATUE_FACING_HOOK = bytes.fromhex(
+    "8189e1229200914207d1817e252904d181680422120291438160"
+    "f0b557464e464546014b1847c04655601508"
+)
 
 
 def parse_native_statues(abilities: dict[str, object]) -> tuple[tuple[str, int], ...]:
@@ -95,9 +102,9 @@ def apply_statue_visuals(rom: bytes, mode: int) -> bytes:
     """Apply after grant tokens. 0 is off/disabled, 1 shuffled, 2 per-touch random.
 
     Allocate at EOF, so other append-only extensions cannot be overwritten.
-    Validate the native layout before modifying anything. No base-patch rebuild
-    or runtime hook is needed. The Master Sword's record follows our 19 records
-    and is deliberately excluded.
+    Validate the native layout before modifying anything. Random mode appends
+    a narrowly guarded sprite-draw shim; no base-patch rebuild is needed.
+    The Master Sword's record follows our 19 records and is deliberately excluded.
     """
     if mode == 0:
         return rom
@@ -131,6 +138,8 @@ def apply_statue_visuals(rom: bytes, mode: int) -> bytes:
     grants = rom[GRANT_TABLE_OFFSET:GRANT_TABLE_OFFSET + 19]
     if any(ability not in variants for ability in grants):
         raise ValueError("Statue grant is outside the 25 supported abilities")
+    if mode == 2 and rom[SPRITE_DRAW_OFFSET:SPRITE_DRAW_OFFSET + 8] != SPRITE_DRAW_PROLOGUE:
+        raise ValueError("Unexpected native sprite-draw prologue (or already hooked)")
     pixels = load_statue_pixels()
     result = bytearray(rom)
     result.extend(b"APSTAT01")
@@ -151,4 +160,13 @@ def apply_statue_visuals(rom: bytes, mode: int) -> bytes:
     for i, ability in enumerate(grants):
         variant = variants[ability] if mode == 1 else NATIVE_VARIANT_COUNT + 6
         struct.pack_into("<HBB", result, ANIM_INFO_OFFSET + i * 4, 0x384, variant, 0)
+    if mode == 2:
+        hook_offset = len(result)
+        assert hook_offset % 4 == 0
+        result.extend(STATUE_FACING_HOOK)
+        # Thumb absolute tail jump. The shim replays the displaced instructions
+        # before returning to the native function; only '?' facing is changed.
+        result[SPRITE_DRAW_OFFSET:SPRITE_DRAW_OFFSET + 8] = (
+            bytes.fromhex("004b1847") + struct.pack("<I", ROM_BASE + hook_offset + 1)
+        )
     return bytes(result)
