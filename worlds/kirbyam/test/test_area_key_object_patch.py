@@ -43,3 +43,11 @@ def test_rejects_changed_native_hook_or_register_contract(offset):
     rom[offset] ^= 1
     with pytest.raises(SystemExit):
         patch.build_area_object_writes(rom, targets)
+
+
+def test_ci_dummy_rom_contains_native_lifecycle_contracts():
+    import runpy
+    dummy = runpy.run_path(str(Path(__file__).parents[1] / "tools/create_dummy_rom.py"))
+    rom = dummy["build_dummy_rom"]()
+    _, targets = fixture()
+    assert len(patch.build_area_object_writes(rom, targets)) == 11

@@ -147,5 +147,381 @@
         }
       ]
     }
-  ]
+  ],
+  "hub": [
+    {
+      "stage": "no-hub-connection-no-key",
+      "keys": "0x0",
+      "last_item": 0,
+      "ack": 0,
+      "mirrors": [
+        {
+          "object": "0x3003d88",
+          "xy": [
+            248,
+            280
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003e4c",
+          "xy": [
+            88,
+            264
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003f10",
+          "xy": [
+            104,
+            184
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003fd4",
+          "xy": [
+            40,
+            168
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        }
+      ]
+    },
+    {
+      "stage": "hub-connected-no-key",
+      "keys": "0x0",
+      "last_item": 3860415,
+      "ack": 0,
+      "mirrors": [
+        {
+          "object": "0x3003d88",
+          "xy": [
+            248,
+            280
+          ],
+          "native_destination": 194,
+          "effect": "0x3004098",
+          "variant": 0,
+          "effect_xy": [
+            248,
+            264
+          ]
+        },
+        {
+          "object": "0x3003e4c",
+          "xy": [
+            88,
+            264
+          ],
+          "native_destination": 592,
+          "effect": "0x30041c8",
+          "variant": 6,
+          "effect_xy": [
+            88,
+            280
+          ]
+        },
+        {
+          "object": "0x3003f10",
+          "xy": [
+            104,
+            184
+          ],
+          "native_destination": 192,
+          "effect": "0x30040e4",
+          "variant": 0,
+          "effect_xy": [
+            104,
+            168
+          ]
+        },
+        {
+          "object": "0x3003fd4",
+          "xy": [
+            40,
+            168
+          ],
+          "native_destination": 290,
+          "effect": "0x3004130",
+          "variant": 6,
+          "effect_xy": [
+            40,
+            184
+          ]
+        }
+      ]
+    },
+    {
+      "stage": "cabbage-key-received",
+      "keys": "0x8",
+      "last_item": 3860042,
+      "ack": 0,
+      "mirrors": [
+        {
+          "object": "0x3003d88",
+          "xy": [
+            248,
+            280
+          ],
+          "native_destination": 194,
+          "effect": "0x3004098",
+          "variant": 0,
+          "effect_xy": [
+            248,
+            264
+          ]
+        },
+        {
+          "object": "0x3003e4c",
+          "xy": [
+            88,
+            264
+          ],
+          "native_destination": 592,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003f10",
+          "xy": [
+            104,
+            184
+          ],
+          "native_destination": 192,
+          "effect": "0x30040e4",
+          "variant": 0,
+          "effect_xy": [
+            104,
+            168
+          ]
+        },
+        {
+          "object": "0x3003fd4",
+          "xy": [
+            40,
+            168
+          ],
+          "native_destination": 290,
+          "effect": "0x3004130",
+          "variant": 6,
+          "effect_xy": [
+            40,
+            184
+          ]
+        }
+      ]
+    },
+    {
+      "stage": "all-area-keys-without-hub-connections",
+      "keys": "0x3fc",
+      "last_item": 3860048,
+      "ack": 0,
+      "mirrors": [
+        {
+          "object": "0x3003d88",
+          "xy": [
+            248,
+            280
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003e4c",
+          "xy": [
+            88,
+            264
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003f10",
+          "xy": [
+            104,
+            184
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003fd4",
+          "xy": [
+            40,
+            168
+          ],
+          "native_destination": 65535,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        }
+      ]
+    },
+    {
+      "stage": "unlocked-savestate-reload",
+      "keys": "0x8",
+      "last_item": 3860042,
+      "ack": 0,
+      "mirrors": [
+        {
+          "object": "0x3003d88",
+          "xy": [
+            248,
+            280
+          ],
+          "native_destination": 194,
+          "effect": "0x3004098",
+          "variant": 0,
+          "effect_xy": [
+            248,
+            264
+          ]
+        },
+        {
+          "object": "0x3003e4c",
+          "xy": [
+            88,
+            264
+          ],
+          "native_destination": 592,
+          "effect": "0x0",
+          "variant": null,
+          "effect_xy": null
+        },
+        {
+          "object": "0x3003f10",
+          "xy": [
+            104,
+            184
+          ],
+          "native_destination": 192,
+          "effect": "0x30040e4",
+          "variant": 0,
+          "effect_xy": [
+            104,
+            168
+          ]
+        },
+        {
+          "object": "0x3003fd4",
+          "xy": [
+            40,
+            168
+          ],
+          "native_destination": 290,
+          "effect": "0x3004130",
+          "variant": 6,
+          "effect_xy": [
+            40,
+            184
+          ]
+        }
+      ]
+    },
+    {
+      "stage": "relocked-after-native-callback-idle",
+      "keys": "0x0",
+      "last_item": 3860042,
+      "ack": 0,
+      "mirrors": [
+        {
+          "object": "0x3003d88",
+          "xy": [
+            248,
+            280
+          ],
+          "native_destination": 194,
+          "effect": "0x3004098",
+          "variant": 0,
+          "effect_xy": [
+            248,
+            264
+          ]
+        },
+        {
+          "object": "0x3003e4c",
+          "xy": [
+            88,
+            264
+          ],
+          "native_destination": 592,
+          "effect": "0x30041c8",
+          "variant": 6,
+          "effect_xy": [
+            88,
+            280
+          ]
+        },
+        {
+          "object": "0x3003f10",
+          "xy": [
+            104,
+            184
+          ],
+          "native_destination": 192,
+          "effect": "0x30040e4",
+          "variant": 0,
+          "effect_xy": [
+            104,
+            168
+          ]
+        },
+        {
+          "object": "0x3003fd4",
+          "xy": [
+            40,
+            168
+          ],
+          "native_destination": 290,
+          "effect": "0x3004130",
+          "variant": 6,
+          "effect_xy": [
+            40,
+            184
+          ]
+        }
+      ]
+    }
+  ],
+  "additional_runtime_checks": {
+    "area_keys_disabled": {
+      "room_173": "Native effect 0x294/A at (472,550), no AP board with key mask 0.",
+      "room_142": "One native Warp Star at (400,193), destination 195, key mask 0."
+    },
+    "hub_round_trip": {
+      "rooms": [
+        801,
+        592,
+        801
+      ],
+      "key_mask": "0x8",
+      "hub_connections": "All 15 delivered through ROM mailbox",
+      "return_position": [
+        94,
+        280
+      ]
+    },
+    "visual_acceptance": "User accepted the current hub appearance. Standard gold-frame boards remain overlaid on larger themed mirrors; no claim of custom fitted artwork."
+  }
 }

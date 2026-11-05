@@ -88,6 +88,15 @@ def build_dummy_rom() -> bytearray:
     rom[0xD60820:0xD60824] = (0x08155401).to_bytes(4, "little")
     rom[0x3D21C:0x3D224] = bytes.fromhex("70 b5 04 1c 0d 1c 16 1c")
 
+    # Mirror decoration and Warp Star lifecycle hooks require the original
+    # native instruction/register contracts, just like the retail patch input.
+    for offset, (_, expected) in patch_rom.AREA_OBJECT_SPAWN_SITES.items():
+        rom[offset - 6:offset + 8] = expected
+    for offset, (native, _) in patch_rom.AREA_OBJECT_TASK_POINTERS.items():
+        rom[offset:offset + 4] = native.to_bytes(4, "little")
+    for offset in patch_rom.AREA_DOOR_DECORATION_SITES:
+        put_bl(offset, 0x0802B2F4)
+
     # Exact checked native hub excerpts are shared with the regression fixtures.
     hub_fixture = runpy.run_path(str(ROOT / "worlds/kirbyam/test/native/hub_transition_fixture.py"))
     hub_fixture["populate_hub_transition_fixture"](rom)

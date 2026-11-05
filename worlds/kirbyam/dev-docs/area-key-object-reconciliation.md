@@ -109,3 +109,28 @@ No palette catalog or completion protocol change is included here.
 After this implementation is merged, add once to its delivered changelog entry:
 “Thanks to SpawnSean for sharing early mirror-door research.” It is intentionally
 not added to the changelog or described as shipped in this draft.
+
+### Additional native and CI acceptance
+
+- Hub room 801: without a Hub Connection, even all Area Keys leave mirrors
+  uninitialized and absent. With connections present and keys absent, keyed
+  hub mirrors receive boards. Cabbage item 3860042 removes only its matching
+  board (destination 592). Savestate reload preserves it; key rollback restores
+  the board after the native callback has gone idle.
+- A normal player-controlled 801 → 592 → 801 round trip succeeds with the
+  connection and Cabbage key. Return position is (94,280).
+- With the immutable Area Keys configuration disabled, room 173 keeps native
+  interior variant A and room 142 spawns its native star with no key ownership.
+- The user accepted the current hub appearance. The standard gold frame still
+  overlays the larger themed hub frame; custom fitted artwork is not claimed.
+- CI's synthetic ROM initially lacked the 11 newly required object hook sites.
+  The fixture now supplies their checked native contracts, and the complete
+  synthetic patch build passes locally. The retail patch and runtime binaries
+  are unchanged by this CI fixture correction. Regression coverage validates
+  the dummy ROM with the same fail-closed hook inventory used in production.
+- Native static analysis on head 72eb719 failed before compilation: the LLVM 19
+  repository for the runner's Ubuntu `resolute` returns HTTP 404. No analyzer
+  findings were produced; this is an external CI setup failure, not a pass.
+
+Actual client reconnect, native in-game save/reset, star consumption/flight
+rollback and linked multiplayer remain unverified.
