@@ -12,7 +12,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 
-- Add static Rainbow and Candy Corn Kirby palettes with normal, UFO and HUD rows; retain native effects and owned spray-paint precedence. Catalog 3 guards the expanded pool from older ROM patches.
+- Add static Rainbow, Candy Corn, Hot Pepper and Negative Kirby palettes with normal, UFO and HUD rows; retain native effects and owned spray-paint precedence. Catalog 3 guards the expanded pool from older ROM patches.
 
 ### Improvements
 - None.

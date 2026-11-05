@@ -26,7 +26,7 @@ The one-shot latch lives at `0x0203B0B8`. Payload code executes from ROM, so a w
 
 ## Compatibility and safety
 
-- Native paint IDs remain `0..13`; curated logical IDs `14..20` use native Pink as a safe renderer fallback. IDs absent from the generated registry are ignored.
+- Native paint IDs remain `0..13`; curated logical IDs `14..22` use native Pink as a safe renderer fallback. IDs absent from the generated registry are ignored.
 - ROM default `0xFFFFFFFF` keeps older procedure patches safe.
 - Pink is the fallback and a valid requested palette. Runtime Pink refresh is no longer skipped.
 - The owned-paint A-button handler at `0x0814406C` records a genuine choice, including choosing a paint matching the AP default. Saved preference uses native treasure padding and the native serializer, not raw SRAM writes. See PROTOCOL.md for the marker and priority order.
@@ -119,3 +119,11 @@ spray paint continues to override a static AP color.
 Catalog 3 requires APCOL03 and regenerated patches. The updated client still
 accepts catalog 2 only with APCOL02, limiting its static and per-room choices to
 0..18. Legacy metadata retains 0..13. This prevents new IDs reaching old payloads.
+
+Hot Pepper (21) uses red body shading, green highlights/accents and dark red feet.
+Negative (22) complements each RGB555 channel of native Pink body/feet slots 2..11;
+its dark green highlights and pale teal shadows intentionally reverse the shading.
+Its UFO row inverts the native UFO body/saucer slots separately, retaining canopy
+slot 4. Both retain black outlines, eye/white details, native effect tails and shared
+HUD accents; only the six existing Kirby HUD slots adopt the theme. Choose
+`starting_kirby_color: hot_pepper` or `negative`.
