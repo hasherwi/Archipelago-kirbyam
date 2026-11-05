@@ -14,7 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - None.
 
 ### Improvements
-- Add a release-preparation runbook, read-only readiness checks and staging status reporting (Issue #1012). Owner settings verification and a live release rehearsal remain pending.
+- None.
 
 ### Known Limitations
 - None.
@@ -25,7 +25,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Internal Changes
 - None.
 
-## v0.5.0-rc1
+## v0.5.0
 
 ### New Features
 - Added eight Area Key progression items for Areas 2 through 9. Cross-area mirrors (and other transitions like Warp Stars) now require the destination area's key (Issue #42).
@@ -36,7 +36,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
 
 ### Improvements
-- None.
+- Add a release-preparation runbook, read-only readiness checks and staging status reporting (Issue #1012). Owner settings verification and a live release rehearsal remain pending.
 
 ### Known Limitations
 - Only the North American ROM is supported; AP notifications are English.
