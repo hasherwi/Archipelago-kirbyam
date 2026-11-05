@@ -11,19 +11,19 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- None.
+- Add 100% Game Completion: all native completion rooms, physical chests, levers and Big Switches, required native unlocks and Dark Mind clear. Health upgrades do not add completion requirements (Issue #204).
 
 ### Improvements
 - None.
 
 ### Known Limitations
-- None.
+- 100% Game Completion remains pending recorded BizHawk completion/credits and native save-load acceptance. Use the updated client and a regenerated patch; host tests do not establish gameplay verification.
 
 ### Bug Fixes
 - None.
 
 ### Internal Changes
-- None.
+- Persist physical lever pulls alongside seed-bound Hub checks without granting wall ownership or changing the native save layout.
 
 ## v0.5.0-rc1
 

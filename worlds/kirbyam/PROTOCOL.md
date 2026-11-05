@@ -219,6 +219,7 @@ All location IDs use **BASE_OFFSET + 100_000** as the auto-assignment start (= 3
 |---------------|----------|-------------|
 | GOAL_DARK_MIND | auto-assigned | Internal goal metadata entry for Dark Mind completion. Current shipped worlds convert goal locations to runtime events, so the client may report `CLIENT_GOAL` directly when no numeric goal location is exposed by the server. |
 | GOAL_ANY_AREA_BOSS | auto-assigned | Internal goal metadata entry for the "Defeat Any Area Boss" mode. Trigger source is acknowledged `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8` checks; Candy Constellation's Master Hand + Crazy Hand pair counts as one pooled target (`BOSS_DEFEAT_3`). |
+| GOAL_100_PERCENT | 3960013 | Addressless 100% Game Completion event; exact native components plus 99 physical acknowledgements, with no Vitality ownership requirement. |
 | GOAL_AREA_BOSS_COUNT | 3960012 | Internal metadata for "Defeat a Number of Area Bosses". Generation creates an addressless locked event in Rainbow Route. Completion requires `required_area_bosses` distinct acknowledged canonical area-boss checks. |
 | GOAL_CONFIGURED_AREA_BOSS | auto-assigned | Internal goal metadata entry for the canonical "Defeat Area Boss" mode. Trigger source is the selected `BOSS_DEFEAT_N` check carried via `goal_configured_area_boss_key`. The internal key name is retained for slot-data compatibility. |
 | BOSS_DEFEAT_1 .. BOSS_DEFEAT_8 | auto-assigned | Area boss defeat locations (8 locations) |
@@ -266,7 +267,9 @@ Server → Client: ConnectionRefused | Connected
 
 `slot_data` currently includes:
 - `world_version` (str): world release/version identifier from `KirbyAmWorld.world_version` (for example, `0.2.0`), emitted for log/tracker/version diagnostics.
-- `goal` (int): selected canonical goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Area Boss`, `4=Defeat a Number of Area Bosses`). Value `3` is reserved for legacy hidden seeds. The older YAML name `defeat_configured_area_boss` parses as value `2`. The removed `defeat_random_hidden_area_boss` must be replaced with `goal: defeat_area_boss` plus `configured_area_boss: random`.
+- `goal` (int): selected canonical goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Area Boss`, `4=Defeat a Number of Area Bosses`, `5=100% Game Completion`). Value `3` is reserved for legacy hidden seeds. The older YAML name `defeat_configured_area_boss` parses as value `2`. The removed `defeat_random_hidden_area_boss` must be replaced with `goal: defeat_area_boss` plus `configured_area_boss: random`.
+- `full_completion_version` (int): `1` for goal 5. Requires exact native room/chest/switch/shard/final-clear obligations, all 99 physical AP acknowledgements, and authenticated required unlock ownership. Vitality ownership is excluded. Missing/unknown versions disable this goal.
+- `physical_check_save_version` (int): `1` on new seeds, requiring marker `APFULL01` at ROM offset `0x1000010`. Extends the seed-bound native Hub check record with four physical lever bits; legacy records migrate without inventing lever actions. Updated client and regenerated patch required.
 - `required_area_bosses` (int): threshold from 1 to 8, default 3. Used only by `goal=4`; all other goals ignore it. Missing, malformed or out-of-range values disable count-goal reporting rather than defaulting.
 - `configured_area_boss` (int): concrete area-boss option (`0=King Golem`, `1=Moley`, `2=Kracko`, `3=Mega Titan`, `4=Gobbler`, `5=Wiz`, `6=Dark Meta Knight`, `7=Master Hand + Crazy Hand pair`). Only used when `goal` is `defeat_area_boss`. The literal YAML value `random` is resolved by Archipelago to one of these concrete values before generation.
 - `goal_configured_area_boss_key` (str | null): internal boss-defeat key selected for `defeat_area_boss` (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`). The field name is retained for compatibility. Default target is `BOSS_DEFEAT_3` (Master Hand + Crazy Hand pair).
@@ -313,6 +316,7 @@ Compatibility note (Issue #398 option-key reorganization):
 - If compatibility aliases are needed after public release, this section will be updated with an explicit deprecation/removal timeline.
 
 Goal runtime behavior contract:
+- Goal mode `full_completion` reports the addressless `GOAL_100_PERCENT` event through `CLIENT_GOAL` directly after its conditions pass. Native AI10000 alone is insufficient. See [the full completion contract and acceptance limits](dev-docs/full-completion.md).
 - Goal mode `dark_mind` reports completion after the native Dark Mind clear signal.
 - Goal mode `defeat_any_area_boss` reports completion after the first acknowledged area-boss defeat check in `BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`.
 - Goal mode `defeat_area_boss` reports completion after the selected boss-defeat target is acknowledged by the server; the client resolves the target from `goal_configured_area_boss_key`. Setting `configured_area_boss` to the literal `random` uses Archipelago's standard `Choice` randomization and still emits one concrete target.

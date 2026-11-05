@@ -80,7 +80,7 @@ def test_native_lever_lifecycle_and_final_ability_gate(tmp_path: Path) -> None:
         pytest.skip("requires Linux low-address test memory and a native C compiler")
     source = (PAYLOAD_DIR / "ap_payload.c").read_text(encoding="utf-8")
     names = (
-        "ap_lever_bit_for_obj", "ap_record_minor_chest_collection_from_obj_ptr",
+        "ap_lever_bit_for_obj", "ap_set_lever_activation_flag", "ap_record_minor_chest_collection_from_obj_ptr",
         "ap_lever_wall_owned", "ap_update_lever_wall", "ap_on_initialize_chest",
         "ap_on_chest_popup_room_counter", "ap_on_commit_copy_ability_transition",
     )
@@ -94,6 +94,7 @@ def test_native_lever_lifecycle_and_final_ability_gate(tmp_path: Path) -> None:
 #include <sys/mman.h>
 #include <string.h>
 #include "lever_runtime_logic.h"
+#include "hub_save_logic.h"
 #include "statue_runtime_logic.h"
 #define CHECK(c) do { if (!(c)) return __LINE__; } while (0)
 #define TEST_CHEST 0x03000100u
@@ -107,6 +108,8 @@ def test_native_lever_lifecycle_and_final_ability_gate(tmp_path: Path) -> None:
 #define AP_MINOR_CHEST_ITEM_SUPPRESSION_MARKER 0x12345678u
 #define KIRBY_MINOR_CHEST_NO_NATIVE_ITEM 0x63u
 static uint32_t AP_LEVER_ACTIVATION_FLAGS, AP_ABILITY_GATE_MASK, AP_ABILITY_UNLOCK_MASK;
+static uint32_t AP_HUB_SAVED_CHECKS[5];
+static const uint32_t AP_HUB_ROM_AUTH[4]={1,2,3,4};
 static unsigned counter[4], ring_count, native_init_calls, commits;
 static uint8_t last_pending;
 typedef void (*KirbyChestFn)(void*);
@@ -163,6 +166,7 @@ int main(void) {
     for (i = 0; i < 4; i++) for (first = 0; first < 2; first++) {
         memset((void*)0x02000000, 0, 0x40000);
         memset(chest, 0, 0x100);
+        memset(AP_HUB_SAVED_CHECKS, 0, sizeof(AP_HUB_SAVED_CHECKS));
         memset(counter, 0, sizeof(counter));
         chest[0x56] = player;
         *(uint8_t*)(KIRBY_LEVEL_INFO_BASE + player * KIRBY_LEVEL_INFO_STRIDE

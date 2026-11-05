@@ -128,14 +128,12 @@
       ]
     },
     "full_clear_completion": {
-      "status": "integrated",
+      "status": "candidate",
       "entries": [
         {
-          "name": "ai_kirby_state_native",
-          "address": "0x0203AD2C",
-          "width": "u32",
-          "source": "Live-mapped AI state candidate integrated for goal mode polling",
-          "verification": "Integrated with semantics: 10000 used for post-clear progression telemetry (not a goal trigger)"
+          "name": "full_completion_snapshot",
+          "source": "data/full_completion.json; pinned USA decomp/native ROM inventory",
+          "verification": "Implemented exact component predicate plus physical AP checks; host/ARM patch validation is not BizHawk acceptance. Pending full-clear, credits, offline native-save and reload captures. AI10000 and cached percentage alone are not goal evidence."
         }
       ]
     },

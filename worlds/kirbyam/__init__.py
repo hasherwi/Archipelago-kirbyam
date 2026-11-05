@@ -46,6 +46,7 @@ from .health import HealthRange, MAXIMUM_HEALTH_DEFAULT, MINIMUM_HEALTH_DEFAULT,
 from .items import KirbyAmItem, create_item_label_to_code_map, get_item_classification
 from .locations import KirbyAmLocation, create_location_label_to_id_map
 from .options import (
+    Goal,
     OPTION_GROUPS,
     AbilityRandomizationMode,
     ConfiguredAreaBoss,
@@ -1155,7 +1156,10 @@ class KirbyAmWorld(World):
             "room_sanity",
             toggles_as_bools=True,
         )
+        if self.options.goal.value == Goal.option_full_completion:
+            slot_data["full_completion_version"] = 1
         slot_data["world_version"] = self.world_version.as_simple_string()
+        slot_data["physical_check_save_version"] = 1
         slot_data["health_protocol_version"] = 2
         slot_data["hub_connection_protocol_version"] = 2
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
