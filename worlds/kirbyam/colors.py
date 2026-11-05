@@ -45,14 +45,18 @@ def resolve_kirby_color(choice_value: int, rng: Random | None = None) -> KirbyCo
     raise ValueError(f"Unsupported Kirby color choice id: {choice_value}")
 
 
-def choose_different_kirby_color(current_color_id: int, rng: Random, *, native_only: bool = False) -> KirbyColor:
+def choose_different_kirby_color(
+    current_color_id: int, rng: Random, *, native_only: bool = False,
+    max_color_id: int | None = None,
+) -> KirbyColor:
     """Choose a supported color whose ID differs from *current_color_id*."""
     colors = load_kirby_colors()
     if current_color_id not in {color.color_id for color in colors}:
         raise ValueError(f"Unsupported current Kirby color id: {current_color_id}")
 
     candidates = tuple(color for color in colors if color.color_id != current_color_id
-                       and (not native_only or color.color_id < 14))
+                       and (not native_only or color.color_id < 14)
+                       and (max_color_id is None or color.color_id <= max_color_id))
     if not candidates:
         raise ValueError("Kirby color data must contain at least two supported colors.")
     return rng.choice(candidates)
