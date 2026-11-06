@@ -111,3 +111,13 @@ ap_shared_clear_entry:
     ldr r3, 1f
     bx r3
 1: .word ap_shared_clear
+
+.align 2
+.global ap_single_save_entry
+.type ap_single_save_entry, %function
+.thumb_func
+ap_single_save_entry:
+    ldr r3, 1f
+    bx r3
+.align 2
+1: .word ap_single_save_enter

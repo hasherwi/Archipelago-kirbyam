@@ -14,7 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - None.
 
 ### Improvements
-- None.
+- Remove save file selection, always use File 1, and add 4 KiB of storage for AP game data.
 
 ### Known Limitations
 - None.

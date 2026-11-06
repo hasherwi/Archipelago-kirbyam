@@ -6,7 +6,7 @@ from worlds._bizhawk import read
 
 SHARED_PROTOCOL_VERSION = 1
 SHARED_MARKER_OFFSET = 0x1000010
-SHARED_MARKER = b'APSHR01\0'
+SHARED_MARKER = b'APSHR02\0'
 SHARED_CONTEXT_ADDRESS = 0x0203B13C
 SHARED_GOALS_MASK = 0xFFFF
 SHARED_ACCESS_OWNED = 1 << 16
@@ -35,7 +35,7 @@ def decode_shared_snapshot(raw: bytes, fence: bytes) -> SharedSaveSnapshot | Non
         return None
     words = [int.from_bytes(raw[i:i+4], 'little') for i in range(0, 36, 4)]
     epoch, serial, slot, dirty, loaded_slot, task, bits, cookie, _retry = words
-    if (not epoch or epoch != serial or slot >= 3 or loaded_slot != slot
+    if (not epoch or epoch != serial or slot != 0 or loaded_slot != slot
             or dirty not in (0, 1) or bits & ~SHARED_FEATURE_MASK
             or cookie != 0x41505331 or not 0x03000000 <= task <= 0x03007FEC or task & 3):
         return None

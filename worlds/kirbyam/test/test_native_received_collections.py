@@ -39,6 +39,7 @@ static void reset(void) {
     memset((void *)0x02000000u, 0, 0x40000);
     AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     AI_KIRBY_STATE = AI_STATE_NORMAL;
+    host_shared_active();
 }
 static void receive(unsigned item) {
     AP_IN_ITEM_ID = item;
@@ -47,6 +48,8 @@ static void receive(unsigned item) {
     ap_poll_mailbox_c();
 }
 int main(void) {
+    CHECK(mmap((void*)0x03000000u,0x8000,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x03000000u);
+    CHECK(mmap((void*)0x08F00000u,4096,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x08F00000u);
     CHECK(mmap((void*)0x02000000u, 0x40000, PROT_READ|PROT_WRITE,
         MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x02000000u);
     for (unsigned item=3860200; item<=3860223; item++) {
@@ -71,7 +74,7 @@ int main(void) {
             }
         }
     }
-    for (unsigned player=0; player<4; player++) {
+    for (unsigned player=0; player<1; player++) {
         for (unsigned dead=0; dead<2; dead++) {
             reset();
             KIRBY_CURRENT_PLAYER = player;

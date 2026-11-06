@@ -7,7 +7,7 @@
 struct ApSharedContext {
     uint32_t epoch;       /* +13C: zero while inactive; publish last */
     uint32_t serial;      /* +140: monotonic activation counter, not saved */
-    uint32_t slot;        /* +144: active native file 0..2 */
+    uint32_t slot;        /* +144: active native file 0 (File 1) */
     uint32_t dirty;       /* +148: native save still needs successful retry */
     uint32_t loaded_slot;/* +14C: last native WORLD load/clear identity */
     uint32_t task;        /* +150: active local Kirby task identity */

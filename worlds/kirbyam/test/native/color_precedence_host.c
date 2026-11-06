@@ -66,8 +66,8 @@ int main(void){
  for(unsigned c=0;c<14;c++){CHECK(ap_color_initial(c)==c);CHECK(!ap_color_per_room(c));}
  CHECK(ap_color_initial(0xffffffff)==0);
  uint8_t *menu=(uint8_t*)0x02010000;
- for(unsigned slot=0;slot<3;slot++)for(unsigned c=0;c<14;c++){
-  KIRBY_SAVE_ID=slot;KIRBY_PRESSED_KEYS=1;menu[0x2A]=1;menu[3]=1;
+ for(unsigned slot=0;slot<1;slot++)for(unsigned c=0;c<14;c++){
+  host_shared_active(); KIRBY_SAVE_ID=slot;KIRBY_PRESSED_KEYS=1;menu[0x2A]=1;menu[3]=1;
   ((uint16_t*)0x08386A50)[2]=0x101+c;menu[1]=c; /* same as AP default still explicit */
   KIRBY_SPRAY_PAINT_FLAGS=1u<<c;AP_SAVED_PAINT_CHOICE=0;unsigned saves=save_calls;
   CHECK(ap_on_treasure_paint_selection(menu)==77);
@@ -83,10 +83,10 @@ int main(void){
   ap_on_treasure_paint_selection(menu);CHECK(save_calls==saves+1&&AP_SAVED_PAINT_CHOICE==0);
  }
  /* Uncollected default swatch clears preference without granting any paint. */
- KIRBY_SAVE_ID=1;KIRBY_PRESSED_KEYS=1;menu[0x2A]=0;menu[2]=1;
+ KIRBY_SAVE_ID=0;KIRBY_PRESSED_KEYS=1;menu[0x2A]=0;menu[2]=1;
  ((uint16_t*)0x08386A50)[0]=0x100;AP_SAVED_PAINT_CHOICE=ap_color_choice_encode(5);
  KIRBY_SPRAY_PAINT_FLAGS=0;ap_on_treasure_paint_selection(menu);
- CHECK(AP_SAVED_PAINT_CHOICE==0&&slots[1]==0&&KIRBY_SPRAY_PAINT_FLAGS==0);
+ CHECK(AP_SAVED_PAINT_CHOICE==0&&slots[0]==0&&KIRBY_SPRAY_PAINT_FLAGS==0);
  /* Persistent transform modes must consume requests, without clearing native flags. */
  for(unsigned flags=1;flags<=3;flags++)for(unsigned color=0;color<19;color++){
   ready();gApStartingKirbyColorInitial=AP_COLOR_CONFIG_MAGIC|AP_COLOR_PER_ROOM;

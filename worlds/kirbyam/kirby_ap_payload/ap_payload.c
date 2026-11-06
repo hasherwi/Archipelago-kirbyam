@@ -336,6 +336,7 @@ static void ap_record_minor_chest_collection_from_obj_ptr(uint32_t chest_obj_ptr
 
 static __attribute__((noinline, long_call, section(".aphub")))
 void ap_set_hub_switch_flag(uint32_t bit) {
+    if (!ap_shared_epoch()) return;
     if (!ap_hub_record_check(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH, bit)) return;
     AP_HUB_SWITCH_FLAGS = ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH);
     switch (ap_hub_save_action(*(volatile uint32_t*)0x0203AD10u,
@@ -1579,7 +1580,7 @@ static uint32_t ap_get_effective_starting_kirby_color(void) {
 __attribute__((used)) uint32_t ap_on_treasure_paint_selection(uint8_t *menu) {
     uint32_t index = menu[0x2A];
     if ((KIRBY_PRESSED_KEYS & 1u) && index < 40u && menu[2u + index]
-        && KIRBY_SAVE_ID < 3u) {
+        && KIRBY_SAVE_ID == 0u && ap_shared_epoch()) {
         uint32_t tag = ((const uint16_t*)0x08386A50u)[index * 2u];
         uint32_t paint = tag - 0x101u;
         if (tag == 0x100u || (ap_native_color_valid(paint)
@@ -1891,6 +1892,7 @@ static void ap_trap_battery_drain(void) {
 #define HUB_EXT __attribute__((noinline, long_call, section(".aphub")))
 
 static HUB_EXT uint8_t ap_hub_pending_ready(void) {
+    if (!ap_shared_epoch()) return 0u;
     uint32_t hud;
     uint16_t animation = *(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0xD4u);
     if (AP_MAILBOX_INIT_COOKIE != AP_MAILBOX_INIT_COOKIE_VALUE
@@ -2184,6 +2186,8 @@ AP_SHARED_EXT void ap_poll_mailbox_c(void) {
         }
         AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     }
+
+    if (!ap_shared_epoch()) return;
 
     // Rebuild AP-owned native connection state from the client's complete item history.
     // Restore only seed-bound physical checks, never infer them from item doors.

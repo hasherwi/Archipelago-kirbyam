@@ -1012,6 +1012,7 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
 
 def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
     targets = {
+        "single_save_target": resolve_elf_symbol_address(payload_elf_path, "ap_single_save_entry"),
         "shared_load_target": resolve_elf_symbol_address(payload_elf_path, "ap_shared_load_entry"),
         "shared_clear_target": resolve_elf_symbol_address(payload_elf_path, "ap_shared_clear_entry"),
         "treasure_paint_hook_target": resolve_elf_symbol_address(
@@ -1098,6 +1099,7 @@ _PAYLOAD_TARGET_LABELS = {
     "hub_switch_init_state_hook_target": "hub switch initialization state hook",
     "small_switch_effect_hook_target": "lever small-switch effect hook",
     "special_door_state_hook_target": "Area Key mirror visual-state hook",
+    "single_save_target": "single save startup",
     "shared_load_target": "shared save load",
     "shared_clear_target": "shared save clear",
     "automatic_transition_guard_target": "Area Key automatic-transition guard",
@@ -1148,6 +1150,24 @@ def build_shared_save_writes(rom: bytes | bytearray, targets: dict[str, int]) ->
             validate_expected_instruction_sequence(
                 rom, offset, thumb_bl_bytes(0x08000000 + offset, native), key)
             writes[offset] = thumb_bl_bytes(0x08000000 + offset, targets[key])
+    for offset, before, after in (
+        (0x14A802, thumb_bl_bytes(0x0814A802, 0x08138B44),
+         thumb_bl_bytes(0x0814A802, targets["single_save_target"])),
+        (0x26A, bytes.fromhex("022c"), bytes.fromhex("002c")),
+        (0x278, bytes.fromhex("0f2e"), bytes.fromhex("032e")),
+    ):
+        validate_expected_instruction_sequence(rom, offset, before, "single save startup")
+        writes[offset] = after
+    validate_expected_instruction_sequence(rom, 0x2D91FC, bytes.fromhex(
+        "f08b020220000000108c020280000000a08c02023e0200006089030224000000"
+        "d029020204000000d8290202040000002cad030202000000ffffffffffffffff"),
+        "native WORLD descriptor layout")
+    # Every retail descriptor reference, including native checksum/clear helpers.
+    for offset in (0xA9EC, 0xAA18, 0xAADC, 0xAB04, 0xABF4, 0xAD4C,
+                   0x325DC, 0x32640, 0x3280C):
+        validate_expected_instruction_sequence(rom, offset, bytes.fromhex("fc912d08"),
+                                               "WORLD descriptor table")
+        writes[offset] = bytes.fromhex("80ff0009")
     return writes
 
 

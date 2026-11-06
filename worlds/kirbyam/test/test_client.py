@@ -6411,3 +6411,20 @@ async def test_minor_chest_reset_recovers_retained_sources_until_ack(mock_bizhaw
         ctx.checked_locations.add(target.location_id)
         await client._poll_minor_chest_locations(ctx)
         assert ctx.send_msgs.await_count == 2
+
+
+@pytest.mark.asyncio
+async def test_single_save_watcher_defers_all_data_work_until_authenticated_start(mock_bizhawk_context):
+    client = KirbyAmClient()
+    client.initialize_client()
+    mock_bizhawk_context.slot_data['shared_save_protocol_version'] = 1
+    with patch.object(client, '_health_protocol_ready', new=AsyncMock(return_value=True)), \
+         patch('worlds.kirbyam.client.read_shared_snapshot', new=AsyncMock(return_value=None)) as snapshot, \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as read, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as write, \
+         patch.object(client, '_sync_hub_connection_item_ownership', new_callable=AsyncMock) as sync:
+        await client.game_watcher(mock_bizhawk_context)
+        snapshot.assert_awaited_once_with(mock_bizhawk_context)
+        read.assert_not_awaited()
+        write.assert_not_awaited()
+        sync.assert_not_awaited()

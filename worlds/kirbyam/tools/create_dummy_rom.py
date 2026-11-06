@@ -96,6 +96,8 @@ def build_dummy_rom() -> bytearray:
     # Exact checked native hub excerpts are shared with the regression fixtures.
     hub_fixture = runpy.run_path(str(ROOT / "worlds/kirbyam/test/native/hub_transition_fixture.py"))
     hub_fixture["populate_hub_transition_fixture"](rom)
+    single = runpy.run_path(str(ROOT / "worlds/kirbyam/test/native/single_save_fixture.py"))
+    single["populate_single_save_fixture"](rom, patch_rom.thumb_bl_bytes)
     return rom
 
 

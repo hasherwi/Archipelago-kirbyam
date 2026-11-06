@@ -166,6 +166,9 @@ jobs:
               for offset in offsets:
                   rom[offset:offset + 4] = thumb_bl_bytes(offset, target)
 
+          single = runpy.run_path("worlds/kirbyam/test/native/single_save_fixture.py")
+          single["populate_single_save_fixture"](rom, lambda address, target: thumb_bl_bytes(address - 0x08000000, target))
+
           rom_path.write_bytes(rom)
           PY
 

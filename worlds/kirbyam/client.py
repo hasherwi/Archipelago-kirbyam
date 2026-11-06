@@ -21,7 +21,7 @@ from .candy import CANDY_ITEM_ID, candy_delivery_ready
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .colors import choose_different_kirby_color, kirby_color_name_by_id
 from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
-from .shared_save_protocol import SHARED_MARKER, SHARED_MARKER_OFFSET, shared_slot_version
+from .shared_save_protocol import SHARED_MARKER, SHARED_MARKER_OFFSET, shared_slot_version, read_shared_snapshot
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
@@ -2159,6 +2159,12 @@ class KirbyAmClient(BizHawkClient):
 
         if not await self._health_protocol_ready(ctx):
             return
+
+        # Single-save ROMs publish an authenticated epoch only after genuine
+        # adventure startup. Keep all AP data work behind that boundary.
+        if shared_slot_version(ctx.slot_data):
+            if await read_shared_snapshot(ctx) is None:
+                return
 
         self._load_notification_settings(ctx)
         self._load_debug_settings(ctx)

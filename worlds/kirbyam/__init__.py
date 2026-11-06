@@ -1157,6 +1157,7 @@ class KirbyAmWorld(World):
         )
         slot_data["world_version"] = self.world_version.as_simple_string()
         slot_data["health_protocol_version"] = 2
+        slot_data["shared_save_protocol_version"] = 1
         slot_data["hub_connection_protocol_version"] = 2
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
         slot_data["kirby_color_catalog_version"] = 2
