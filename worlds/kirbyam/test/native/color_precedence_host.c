@@ -66,13 +66,19 @@ int main(void){
  for(unsigned c=0;c<14;c++){CHECK(ap_color_initial(c)==c);CHECK(!ap_color_per_room(c));}
  CHECK(ap_color_initial(0xffffffff)==0);
  uint8_t *menu=(uint8_t*)0x02010000;
- for(unsigned slot=0;slot<3;slot++)for(unsigned c=0;c<14;c++){
+ for(unsigned slot=0;slot<1;slot++)for(unsigned c=0;c<14;c++){
+  host_shared_active();
+  /* Collection follows a native File 1 load, with no Adventure task/epoch. */
+  AP_SHARED_CONTEXT->epoch=0;AP_SHARED_CONTEXT->task=0;
+  *(uint32_t*)0x02020FACu=0;
+  CHECK(!ap_shared_epoch());
   KIRBY_SAVE_ID=slot;KIRBY_PRESSED_KEYS=1;menu[0x2A]=1;menu[3]=1;
   ((uint16_t*)0x08386A50)[2]=0x101+c;menu[1]=c; /* same as AP default still explicit */
   KIRBY_SPRAY_PAINT_FLAGS=1u<<c;AP_SAVED_PAINT_CHOICE=0;unsigned saves=save_calls;
   CHECK(ap_on_treasure_paint_selection(menu)==77);
   CHECK(AP_SAVED_PAINT_CHOICE==ap_color_choice_encode(c)&&slots[slot]==AP_SAVED_PAINT_CHOICE);
   CHECK(save_calls==saves+1&&KIRBY_SPRAY_PAINT_FLAGS==(1u<<c));
+  CHECK(!ap_shared_epoch()&&!ap_shared_update(0,1));
   ap_on_treasure_paint_selection(menu);CHECK(save_calls==saves+1);
   /* Synthetic file load restores only the marker; native roundtrip tested separately. */
   AP_SAVED_PAINT_CHOICE=0;AP_MAILBOX_INIT_COOKIE=0;AP_SAVED_PAINT_CHOICE=slots[slot];
@@ -83,10 +89,25 @@ int main(void){
   ap_on_treasure_paint_selection(menu);CHECK(save_calls==saves+1&&AP_SAVED_PAINT_CHOICE==0);
  }
  /* Uncollected default swatch clears preference without granting any paint. */
- KIRBY_SAVE_ID=1;KIRBY_PRESSED_KEYS=1;menu[0x2A]=0;menu[2]=1;
+ KIRBY_SAVE_ID=0;KIRBY_PRESSED_KEYS=1;menu[0x2A]=0;menu[2]=1;
  ((uint16_t*)0x08386A50)[0]=0x100;AP_SAVED_PAINT_CHOICE=ap_color_choice_encode(5);
  KIRBY_SPRAY_PAINT_FLAGS=0;ap_on_treasure_paint_selection(menu);
- CHECK(AP_SAVED_PAINT_CHOICE==0&&slots[1]==0&&KIRBY_SPRAY_PAINT_FLAGS==0);
+ CHECK(AP_SAVED_PAINT_CHOICE==0&&slots[0]==0&&KIRBY_SPRAY_PAINT_FLAGS==0);
+ /* Wrong file, failed load, changed seed, malformed record and uninitialized
+  * lifecycle must not authorize menu AP preference writes. */
+ for(unsigned reason=0;reason<5;reason++){
+  host_shared_active();AP_SHARED_CONTEXT->epoch=0;AP_SHARED_CONTEXT->task=0;
+  KIRBY_SAVE_ID=0;KIRBY_PRESSED_KEYS=1;menu[0x2A]=1;menu[3]=1;
+  ((uint16_t*)0x08386A50)[2]=0x106;KIRBY_SPRAY_PAINT_FLAGS=1u<<5;
+  AP_SAVED_PAINT_CHOICE=0;unsigned saves=save_calls;
+  switch(reason){case 0:KIRBY_SAVE_ID=1;break;
+   case 1:AP_SHARED_CONTEXT->loaded_slot=0xffffffff;break;
+   case 2:*(uint32_t*)0x08F00000u^=1;break;
+   case 3:*(uint32_t*)0x02028C78u^=1u<<18;break;
+   case 4:AP_SHARED_CONTEXT->cookie=0;break;}
+  ap_on_treasure_paint_selection(menu);
+  CHECK(AP_SAVED_PAINT_CHOICE==0&&save_calls==saves&&!ap_shared_epoch());
+ }
  /* Persistent transform modes must consume requests, without clearing native flags. */
  for(unsigned flags=1;flags<=3;flags++)for(unsigned color=0;color<AP_COLOR_COUNT;color++){
   ready();gApStartingKirbyColorInitial=AP_COLOR_CONFIG_MAGIC|AP_COLOR_PER_ROOM;

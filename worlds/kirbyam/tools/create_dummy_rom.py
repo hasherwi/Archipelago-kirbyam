@@ -63,6 +63,11 @@ def build_dummy_rom() -> bytearray:
     for offset in patch_rom.STARTING_COLOR_START_GAME_CALL_OFFSETS:
         put_bl(offset, patch_rom.ORIGINAL_START_GAME_FN_ADDR)
 
+    # Shared save lifecycle requires exact loader and clear calls.
+    for target, _key, offsets in patch_rom.SHARED_SAVE_NATIVE_CALLS:
+        for offset in offsets:
+            put_bl(offset, target)
+
     # Current main's delayed chest, lever, ability and health hooks.
     rom[0xB9A4:0xB9A8] = bytes.fromhex("D4 6C 20 1C")
     initializer = 0x351648 + 0x81 * 0x18 + 0x10
@@ -100,6 +105,8 @@ def build_dummy_rom() -> bytearray:
     # Exact checked native hub excerpts are shared with the regression fixtures.
     hub_fixture = runpy.run_path(str(ROOT / "worlds/kirbyam/test/native/hub_transition_fixture.py"))
     hub_fixture["populate_hub_transition_fixture"](rom)
+    single = runpy.run_path(str(ROOT / "worlds/kirbyam/test/native/single_save_fixture.py"))
+    single["populate_single_save_fixture"](rom, patch_rom.thumb_bl_bytes)
     return rom
 
 

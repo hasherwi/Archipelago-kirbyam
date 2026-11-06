@@ -3,6 +3,7 @@
 This is host execution of payload C, not emulator or native save/load acceptance.
 Unrelated ROM callbacks and ARM register reads are replaced; shard paths are not.
 """
+from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -42,8 +43,11 @@ static void reset(unsigned flags) {
     AP_DELIVERED_SHARD_BITFIELD = flags;
     AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     AI_KIRBY_STATE = AI_STATE_NORMAL;
+    host_shared_active();
 }
 int main(void) {
+    CHECK(mmap((void*)0x03000000u,0x8000,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x03000000u);
+    CHECK(mmap((void*)0x08F00000u,4096,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x08F00000u);
     CHECK(mmap((void*)0x02000000u,0x40000,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x02000000u);
     CHECK(mmap(SAVE,0x8000,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==SAVE);
     for(unsigned i=0;i<sizeof(before);i++) before[i]=(unsigned char)(i*37u+13u);
@@ -74,6 +78,7 @@ int main(void) {
 }
 '''
     cfile, exe = tmp_path / "save-integrity.c", tmp_path / "save-integrity"
+    source = link_payload_modules(source, WORLD / 'kirby_ap_payload')
     cfile.write_text(source)
     result = subprocess.run([compiler, "-std=gnu99", "-w", "-I", str(WORLD / "kirby_ap_payload"),
                              str(cfile), "-o", str(exe)], capture_output=True, text=True)
