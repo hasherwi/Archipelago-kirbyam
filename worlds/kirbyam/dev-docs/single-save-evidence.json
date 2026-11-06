@@ -1,7 +1,7 @@
 {
   "supersedes_native_layout_evidence": "shared-save-foundation-evidence.json (APSHR01 three-slot format only)",
   "marker": "APSHR02",
-  "patch_sha256": "4fb272e82a58bd4ff3c585dcb891f6e113977c86615502f49008e176220f8fb3",
+  "patch_sha256": "8d1f26167ca63a1444e11716a5bb24b5e3f50e19d70211230ba017a532309010",
   "extra_data_bytes": 4096,
   "extra_ewram_range": [
     "0x0203B200",
@@ -61,5 +61,19 @@
     "fix": "task-local epoch/auth guards on all client memory I/O, response validation and AP messages",
     "tests": "18 interleaving/actual-watcher cases plus 288 existing client tests passed",
     "combined_focused_tests": 489
+  },
+  "mode_menu_regression": {
+    "cause": "Direct title-to-Adventure dispatch bypassed native mode selection and made Boss Endurance inaccessible.",
+    "fix": "Load File 1 and calculate its native completion, then invoke native mode-menu constructor 0x08138F68; mode Back uses native title teardown instead of file selection.",
+    "native_acceptance": [
+      "Fresh and completed Adventure gameplay with active slot0 epoch",
+      "Native 100% fixture exposes Boss Endurance; one-player launch reaches playable room950 with native mode4 and AP epoch0",
+      "Mode Back/title/re-entry leaves AP context inactive and save unchanged",
+      "Boss Endurance reset followed by Adventure activates slot0 context",
+      "Existing full4096-byte persistence/copy recovery/checksum/seed isolation/reset probe passed"
+    ],
+    "focused_tests": 97,
+    "real_and_synthetic_builds": "passed",
+    "fixture_limit": "100% native progression is a synthetic checksum-valid fixture; normal controller inputs and read-only emulator telemetry are used afterward."
   }
 }

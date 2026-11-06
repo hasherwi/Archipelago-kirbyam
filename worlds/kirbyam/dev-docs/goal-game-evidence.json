@@ -421,5 +421,31 @@
     },
     "fixture_note": "Fresh cold boot of a checksum-valid native progress fixture in the new 4884-byte layout; no old savestates reused. Controller input navigates Central Circle to the redirected doorway. Original matrix scope limits still apply.",
     "synthetic_rom_smoke": "passed; real source-built patch restored and verified"
+  },
+  "mode_menu_integration": {
+    "foundation_local_commit": "0d88f9ea41e8a4b3d025a286e57345a4c6789074",
+    "patch_sha256": "29319ac66014fc1181fb6725ef564eb441f09a67702ae433c683683a3f9987fd",
+    "focused_tests": 241,
+    "native_menu_probe": "passed all cases, including playable Boss Endurance room950 with AP context inactive",
+    "native_goal_matrix": "all16 exact bits, no entry checks, both native copy checksums passed on fresh states built from this patch",
+    "additional_native_checks": {
+      "abort-entry": {
+        "completed_bit0": false,
+        "bonus_callbacks": 0
+      },
+      "abort-started": {
+        "completed_bit0": false,
+        "bonus_callbacks": 0
+      },
+      "persisted": {
+        "completed_bit0": true,
+        "bonus_callbacks": 0
+      },
+      "zero-prize": {
+        "completed_bit0": true,
+        "bonus_callbacks": 0
+      }
+    },
+    "foundation_source_tree": "eaf84a8605eaf34fcad39b294d428c896e7d358f"
   }
 }

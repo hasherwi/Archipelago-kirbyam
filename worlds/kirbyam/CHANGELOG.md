@@ -14,7 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - All sixteen Goal Games now award a check when completed, including runs with no prizes. Checks persist offline and report on reconnect, independently of Room Sanity and chests.
 
 ### Improvements
-- Remove save file selection, always use File 1, and add 4 KiB of storage for AP game data.
+- Remove save file selection, always use File 1 while retaining the game-mode menu, and add 4 KiB of storage for AP game data.
 
 ### Known Limitations
 - Native linked-GBA multiplayer within a single world is not currently supported. Ordinary Archipelago multiworld uses separate player worlds.
