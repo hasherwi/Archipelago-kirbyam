@@ -272,14 +272,15 @@ Server → Client: ConnectionRefused | Connected
 - `goal_configured_area_boss_key` (str | null): internal boss-defeat key selected for `defeat_area_boss` (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`). The field name is retained for compatibility. Default target is `BOSS_DEFEAT_3` (Master Hand + Crazy Hand pair).
 - `shards` (int): shard randomization mode.
 - `start_with_all_maps` (bool): when true, all map items are precollected and removed from randomized placement, and the BizHawk client reasserts all native area-map bits during gameplay reconciliation.
-- `kirby_color_catalog_version` (int): `2` enables the shared 19-color catalog after the client verifies the ROM extension marker `APCOL02\0` at file offset `0x1000000`. Absent/legacy metadata keeps the native-only 14-color per-room pool. New colors require regenerated patches and an updated client; custom logical IDs use native fallback Pink and never become paint ownership/save IDs.
-- `starting_kirby_color` (int): resolved Kirby starting color ID (`0..18`) after Archipelago option parsing. The ID and per-room mode are encoded into the ROM configuration; startup resolves precedence before creating Kirby.
+- `kirby_color_catalog_version` (int): `3` enables the shared 27-color catalog after the client verifies the ROM extension marker `APCOL03\0` at file offset `0x1000000`. Catalog 3 is unreleased; regenerate earlier draft seeds and ROM patches together because draft IDs changed and the marker cannot distinguish draft layouts. Catalog 2 retains IDs 0..18 and requires its original `APCOL02\0` marker. Absent/legacy metadata keeps the native-only 14-color per-room pool. New colors require regenerated patches and an updated client; custom logical IDs use native fallback Pink and never become paint ownership/save IDs.
+- `starting_kirby_color` (int): resolved Kirby starting color ID (`0..26`) after Archipelago option parsing. The ID and per-room mode are encoded into the ROM configuration; startup resolves precedence before creating Kirby.
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the payload refreshes Kirby's live OBJ and matching HUD BG palettes, including Pink. Reconnect alone does not reroll the color.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
 - `goal_game_protocol_version` (int): `1` enables the sixteen default Goal Game completion checks and requires `APGOAL1\0` at ROM offset `0x1000018`. Missing means legacy, with no Goal Game polling.
 - `shared_save_protocol_version` (int): `1` requires the authenticated shared save lifecycle described below.
 - `health_protocol_version` (int): `2` for newly generated ROMs; requires the format-2 client and `KIRBYAM APV2` ROM header. Missing version identifies the legacy four-counter contract.
+- `shared_save_protocol_version` (int): `1`; requires the APSHR02 single-save ROM marker and authenticated active adventure context.
 - `hub_connection_protocol_version` (int): `2` for Hub seeds; requires ROM marker `APHUB02\0` at file offset `0x1000008`. Earlier Hub drafts without this version must regenerate seed and patch together.
 - `minimum_health` (int): starting HP capacity (`1..10`, default `6`), embedded in new ROMs for native initialization and reconciled by the connected client after the tutorial. This is not a current-HP floor. Legacy nonzero presets take precedence for old slots.
 - `maximum_health` (int): final HP capacity (`1..10`, default `10`). Must be at least `minimum_health` and no more than nine HP above it. The difference determines how many of the nine unique Vitality Counter items are generated. Legacy nonzero presets take precedence for old slots.
@@ -937,9 +938,9 @@ word invalidates **both** features. Initialization first invalidates word 26,
 then writes the authentication words, then publishes the tag with all feature
 bits clear. It never combines new authentication with stale feature bits.
 These are native save-buffer words, not direct SRAM offsets. Native section
-sizes, checksums, duplicate-copy recovery, and file numbering are unchanged.
+checksums and duplicate-copy recovery remain native; the section is expanded as documented below.
 
-The ROM advertises `APSHR01\0` at ROM file offset `0x1000010`. Feature slots
+The ROM advertises `APSHR02\0` at ROM file offset `0x1000010`. All newly generated slots
 must set `shared_save_protocol_version: 1`; clients reject those slots with a
 missing/different ROM marker before watcher writes. The foundation alone adds
 no items or locations and does not change legacy slot catalogs. Its presence
@@ -949,12 +950,12 @@ matching regenerated patches and clients.
 
 ### Context lifecycle and mailbox allocation
 
-Native file-menu previews load every file's WORLD data while `gSaveID` can
+The bypassed retail file-menu previews loaded every file's WORLD data while `gSaveID` could
 already refer to the selected file. Therefore neither `gSaveID`, AI state 300,
 nor a live AP mailbox alone authorizes shared-record use. Every inventoried
 native WORLD loader/clear call first invalidates the shared context. The two
 single-player adventure startup calls activate it **after** native player
-creation, only when the last loaded/cleared slot matches valid `gSaveID` 0–2.
+creation, only when the last loaded/cleared slot matches `gSaveID` 0.
 Activation composes with the existing starting-color hook. Demo, Boss Endurance,
 and linked startup do not activate it. Per-frame polling checks the original
 local Kirby task identity, file identity, mode, and record authentication; loss
@@ -966,7 +967,7 @@ in-progress action on death/abort; completed persistent bits survive death.
 | --- | --- |
 | `0x13C` | Public active epoch, zero while inactive; published last |
 | `0x140` | Activation serial; increments and skips zero |
-| `0x144` | Active native slot, 0–2; `0xFFFFFFFF` while inactive |
+| `0x144` | Active native slot, always 0; `0xFFFFFFFF` while inactive |
 | `0x148` | Dirty flag; native save has not yet succeeded |
 | `0x14C` | Private last loaded/cleared slot |
 | `0x150` | Private active local Kirby task pointer |
@@ -995,6 +996,71 @@ deliberate save rollback is not an exactly-once persistence guarantee. Offline
 cache and completion records are restored for the same authentication identity.
 Native linked-GBA multiplayer within one world remains unsupported; ordinary
 Archipelago multiworld is a separate supported mode.
+
+### Single-save storage format (APSHR02)
+
+The title-screen dispatch at USA ROM `0x14A802` bypasses the file selector
+entirely, including its three-file preview loop. It sets `gSaveID=0` (visible
+File 1), loads WORLD through the native primary/backup verifier, clears through
+the native initializer on failure, and invokes native adventure continue
+`0x08123FD4`. That path handles both a fresh WORLD and continued progress and
+still reaches the existing starting-color → shared-start wrapper. The boot
+validation loop also visits only File 1; its all-blank error mask is adjusted
+from 15 to 3. Title/menu states publish no active epoch. New seed slots opt in
+to the shared client gate before AP data reads/writes; the ROM mailbox, Hub
+switch persistence and paint persistence require the active context too.
+
+The replacement native WORLD descriptor table lives at ROM `0x0900FF80`.
+All nine original table references are guarded and redirected. The seven
+native data spans remain byte-for-byte in order and size (780 bytes total),
+followed by **4096 bytes at EWRAM `0x0203B200..0x0203C1FF`**. The retail EWRAM
+heap ends at `0x02020080`, globals end at `0x0203ADE4`, and AP mailboxes end
+below `0x0203B200`; this reservation is separate from those regions. No native
+staging buffer is enlarged: the serializer iterates each descriptor directly.
+Native clears and checksum calculations include the extension. On a seed/tag
+mismatch, the extension is zeroed before activation; it is otherwise retained.
+The extension is reserved for future AP data, with no feature allocation yet.
+Consumers must validate the active epoch and request a native save after writes.
+WORLD 22–26, Hub 27–31 and feature mailbox allocations do not move.
+
+FILE_INFO remains two 12-byte records. Each WORLD copy is now 4884 bytes
+(8-byte checksum, 780 native bytes, 4096 AP bytes). File 1 copies occupy SRAM
+`[24,4908)` and `[4908,9792)`; bytes from 9792 onward are unused by this
+single-save path, not additional advertised capacity. The checksum covers the
+entire data portion. Native recovery from the backup repairs a damaged primary;
+a valid primary does not proactively repair an unused damaged backup until a
+subsequent save. Existing save migration and in-game erase/reset UI are out of
+scope. The APSHR02 marker intentionally rejects older foundation ROMs; regenerate
+matching ROMs/clients. Both dependent feature patches must be rebuilt from source.
+
+
+Native acceptance can be reproduced with a private, legally supplied clean USA
+ROM and mGBA 0.10.5 development headers/library. Build
+`test/native/shared_save_probe.c` against `libmgba`, then run:
+
+```sh
+python worlds/kirbyam/test/native/run_shared_save_probe.py --rom /private/kirby-usa.gba --observer /private/shared-save-probe --output /private/single-save-results
+```
+
+The probe uses normal controller input and read-only telemetry. The runner
+creates synthetic checksum-valid progress fixtures and corrupts copies only in
+its private output directory. It writes full private ROM/save/state/screenshot
+artifacts there; do not commit them. `dev-docs/single-save-evidence.json` records
+the tested layout and limits without distributing those artifacts.
+
+
+### Async watcher epoch fencing
+
+`shared_watcher` retains the initial authenticated epoch in a task-local scope
+for the whole watcher iteration. Every client memory read and write adds
+bridge GUARD checks for epoch/serial/slot and the full ROM auth token. Existing
+native write guards are retained. Response validation rejects results that
+were executed before reset but delivered after it, and AP location/goal sends
+revalidate the same context. AP session/socket/connector changes also abort
+the scope. Context changes invalidate cached RAM/receipt state for fresh
+reconciliation on the next valid iteration. Legacy slots retain their existing
+transport behavior. Feature integrations must route runtime I/O and messages
+through `shared_watcher` rather than bypass the active task scope.
 
 ## Goal Game completion checks (#1000)
 

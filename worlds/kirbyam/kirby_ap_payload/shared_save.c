@@ -14,7 +14,7 @@
 #define NATIVE_SAVE ((int16_t (*)(uint32_t,uint16_t))0x0800ACD5u)
 
 __attribute__((used,section(".apsharedinfo")))
-const char ap_shared_save_marker[8] = "APSHR01";
+const char ap_shared_save_marker[8] = "APSHR02";
 
 static AP_SHARED_EXT void deactivate(void) {
     CTX->epoch = 0u;
@@ -49,7 +49,7 @@ static AP_SHARED_EXT uint8_t live_task(uint32_t task) {
     return U8(payload)==0u;
 }
 static AP_SHARED_EXT uint8_t context_matches(void) {
-    return CTX->epoch && SAVE_SLOT < 3u && SAVE_SLOT == CTX->slot
+    return CTX->epoch && SAVE_SLOT == 0u && SAVE_SLOT == CTX->slot
         && CTX->loaded_slot == CTX->slot && !(FLAGS & 0x76u)
         && LOCAL == 0u && HUMANS == 1u
         && U32(KIRBY+0xCCu) == CTX->task && live_task(CTX->task)
@@ -84,14 +84,14 @@ AP_SHARED_EXT int16_t ap_shared_load(uint32_t kind, uint16_t slot) {
     initialize();
     if (kind==1u) { deactivate(); CTX->loaded_slot=AP_SHARED_INVALID_SLOT; }
     result=((int16_t (*)(uint32_t,uint16_t))0x0800A91Du)(kind,slot);
-    if (kind==1u && result==0 && slot<3u) CTX->loaded_slot=slot;
+    if (kind==1u && result==0 && slot==0u) CTX->loaded_slot=slot;
     return result;
 }
 AP_SHARED_EXT void ap_shared_clear(uint32_t kind) {
     initialize();
     if (kind==1u) { deactivate(); CTX->loaded_slot=AP_SHARED_INVALID_SLOT; }
     ((void (*)(uint32_t))0x0800AC01u)(kind);
-    if (kind==1u && SAVE_SLOT<3u) CTX->loaded_slot=SAVE_SLOT;
+    if (kind==1u && SAVE_SLOT==0u) CTX->loaded_slot=SAVE_SLOT;
 }
 /* Patch only the two adventure startup calls; Boss Endurance, demo and linked
  * startup keep their original calls. The native load happened before this. */
@@ -103,12 +103,39 @@ AP_SHARED_EXT void ap_shared_start(uint8_t humans, uint8_t local, const uint16_t
     ((void (*)(uint8_t,uint8_t,const uint16_t*,const int32_t*,const uint32_t*))0x080332BDu)(
         humans,local,rooms,positions,spawn);
     task=U32(KIRBY+0xCCu);
-    if (SAVE_SLOT>=3u || CTX->loaded_slot!=SAVE_SLOT || (FLAGS&0x76u)
+    if (SAVE_SLOT!=0u || CTX->loaded_slot!=SAVE_SLOT || (FLAGS&0x76u)
         || humans!=1u || local!=0u || LOCAL!=0u || HUMANS!=1u || !live_task(task)) return;
     CTX->dirty=ap_shared_record_init(RECORD,AUTH);
+    if (CTX->dirty) {
+        volatile uint32_t *extra=(volatile uint32_t *)0x0203B200u;
+        for (uint32_t i=0; i<1024u; ++i) extra[i]=0u;
+    }
     CTX->slot=SAVE_SLOT;
     CTX->task=task;
     CTX->bits=ap_shared_record_bits(RECORD,AUTH);
     CTX->serial=ap_shared_next_epoch(CTX->serial);
     CTX->epoch=CTX->serial;
 }
+
+/* The title task is already destroyed at this call site. Never enter the
+ * selector or its three-file preview loader. Continue uses the original
+ * adventure startup call, including the color and shared-context wrappers. */
+AP_SHARED_EXT void ap_single_save_enter(void) {
+    initialize();
+    deactivate();
+    ((void (*)(void))0x08150251u)(); /* native m4aMPlayAllStop */
+    U16(0x030024E8u)=0u; U16(0x030024EAu)=0u; U16(0x030024ECu)=0u;
+    SAVE_SLOT=0u;
+    U8(0x0203ADE0u)=0xFFu;
+    if (ap_shared_load(1u,0u)!=0) ap_shared_clear(1u);
+    ((void (*)(void))0x08123FD5u)();
+}
+
+/* Native descriptors drive clearing, checksums, reads, writes and duplicate
+ * offsets. Preserve all original fields, then append 4096 bytes of AP data. */
+__attribute__((used,section(".apsavedesc")))
+const uint32_t ap_single_save_descriptors[18] = {
+    0x02028BF0u,32u, 0x02028C10u,128u, 0x02028CA0u,574u,
+    0x02038960u,36u, 0x020229D0u,4u, 0x020229D8u,4u,
+    0x0203AD2Cu,2u, 0x0203B200u,4096u, 0xFFFFFFFFu,0xFFFFFFFFu
+};

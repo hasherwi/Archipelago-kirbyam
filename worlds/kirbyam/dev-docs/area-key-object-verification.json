@@ -1,0 +1,48 @@
+{
+  "scope": "Compiled ARM with intercepted native callees; not gameplay acceptance",
+  "payload_sha256": "3752ce790025d46640c8cc2a1d9915fd95ac76e7fb1d7c6456177bb7397908a0",
+  "extension_sha256": "b7dac8f0a4e767b4fc98bdd2533aa432977702e9a0302232fad65b4b66ca2a13",
+  "cases": [
+    {
+      "disabled": false,
+      "keys": 0,
+      "allowed": false
+    },
+    {
+      "disabled": false,
+      "keys": 4,
+      "allowed": true
+    },
+    {
+      "disabled": false,
+      "keys": 0,
+      "allowed": false
+    },
+    {
+      "disabled": false,
+      "keys": 4,
+      "allowed": true
+    },
+    {
+      "disabled": true,
+      "keys": 0,
+      "allowed": true
+    },
+    {
+      "disabled": true,
+      "keys": 4,
+      "allowed": true
+    },
+    {
+      "disabled": true,
+      "keys": 0,
+      "allowed": true
+    },
+    {
+      "disabled": true,
+      "keys": 4,
+      "allowed": true
+    }
+  ],
+  "adapters_and_no_duplicate_spawn": "passed"
+}

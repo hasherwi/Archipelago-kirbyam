@@ -1,4 +1,5 @@
 """Completed Goal Games are read from the authenticated shared native save."""
+from . import shared_watcher as shared_io
 from .shared_save_protocol import read_shared_snapshot, shared_slot_version
 
 GOAL_MARKER_OFFSET = 0x1000018
@@ -34,4 +35,4 @@ async def poll_goal_games(ctx) -> None:
     checks = {GOAL_LOCATION_BASE + bit for bit in range(16) if snapshot.bits & (1 << bit)}
     missing = sorted(checks & set(ctx.missing_locations) - set(ctx.checked_locations))
     if missing:
-        await ctx.send_msgs([{'cmd': 'LocationChecks', 'locations': missing}])
+        await shared_io.send_msgs(ctx, [{'cmd': 'LocationChecks', 'locations': missing}])

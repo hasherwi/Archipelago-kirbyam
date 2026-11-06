@@ -39,9 +39,9 @@ The supported North American ROM uses three native sources:
 | `gUnk_08351648` | `0x351648` | regular Object2 metadata; HP is signed 16-bit at record `+0x04`, record size `0x18` |
 
 The HUD converts current HP into meter fill in `sub_08034E14` using three
-additional Q8.8 coefficient tables. These coefficients are scaled inversely
-with the HP option so the meter continues to show the fraction of the scaled
-maximum HP:
+additional Q8.8 coefficient tables. Each coefficient is scaled using its
+corresponding original HP divided by the actual rounded/clamped HP, so the
+meter continues to show the fraction of the scaled maximum HP:
 
 | Table | File offset | Shape / usage |
 | --- | ---: | --- |
@@ -56,6 +56,45 @@ dedicated boss table.
 All positive signed-16-bit values in the health slots are scaled with integer
 half-up rounding. Zero and negative values are preserved as sentinel/non-health
 data. Results clamp to `0x7FFF`.
+
+## Rounded HP and native meter limits (Issue #1028)
+
+The native meter truncates `current_hp * coefficient` to signed 16-bit,
+shifts right by eight, rounds up for a nonzero fractional byte, and stores
+the result as a signed byte. A positive result therefore requires a product
+no greater than `127 * 256`, not merely `0x7FFF`.
+
+Scarfy, falling Scarfy, and Bomber have 1 HP. At 50%, HP still rounds to 1;
+dividing their coefficient by 50% produced `0x8000`, interpreted by the meter
+as -128. When the target becomes zero after damage, the meter animates upward
+and repeatedly requests the same sound as Kirby's healing.
+
+Coefficients now use the nearest integer to
+`native_coefficient * native_hp / scaled_hp`. The result is capped so its
+rounded full-health fill cannot exceed the original fill or 127. This also
+prevents a nearest-coefficient rounding step from overfilling the native
+64-pixel meter. A Q8.8 coefficient cannot always represent the original fill
+exactly at large scaled HP; its remaining error is bounded by one coefficient
+step. Zero coefficients and coefficients paired with sentinel HP are preserved.
+The 100% option remains byte-identical. For synthetic HP too large for any
+positive safe coefficient, zero suppresses the meter rather than wrapping.
+
+Tests cover every integer percentage from 50 through 500, every slot and
+difficulty column in all three table layouts, the one-HP enemies, sentinel
+values, both signed boundaries, and native signed-meter monotonicity.
+
+An optional probe checks all actual table entries and executes the native
+Thumb meter routines for Scarfy, falling Scarfy, and Bomber at all 451 settings:
+
+```sh
+python worlds/kirbyam/test/native/run_enemy_meter_probe.py --rom /private/clean-USA.gba
+```
+
+This requires `bsdiff4` and Unicorn. It verifies the clean USA hash, applies the
+committed base patch in memory, and emits only a JSON summary. It checks every
+current-HP value in each scaled entry. Rendering and sound playback are
+intercepted; the probe counts sound requests and does not certify audible
+playback or a full gameplay encounter.
 
 ## Native-consumer consistency
 

@@ -29,7 +29,7 @@ def test_checks_offline_reconnect_and_fenced_identity(monkeypatch, mutation):
     async def send(values):
         messages.extend(values)
     ctx.send_msgs = send
-    raw = struct.pack('<9I', 4, 4, 2, 0, 2, 0x03001000, 0x3ffff, 0x41505331, 0)
+    raw = struct.pack('<9I', 4, 4, 0, 0, 0, 0x03001000, 0x3ffff, 0x41505331, 0)
     count = 0
     async def read(*args):
         nonlocal count

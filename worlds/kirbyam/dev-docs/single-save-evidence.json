@@ -1,0 +1,65 @@
+{
+  "supersedes_native_layout_evidence": "shared-save-foundation-evidence.json (APSHR01 three-slot format only)",
+  "marker": "APSHR02",
+  "patch_sha256": "4fb272e82a58bd4ff3c585dcb891f6e113977c86615502f49008e176220f8fb3",
+  "extra_data_bytes": 4096,
+  "extra_ewram_range": [
+    "0x0203B200",
+    "0x0203C200 (exclusive)"
+  ],
+  "world_copy_bytes": 4884,
+  "sram_copy_ranges": [
+    [
+      24,
+      4908
+    ],
+    [
+      4908,
+      9792
+    ]
+  ],
+  "native_emulator": "mGBA 0.10.5; controller input, read-only telemetry; private synthetic native-save fixtures",
+  "native_passes": [
+    "blank SRAM: title to File 1 adventure, visible rendered gameplay",
+    "same-seed cold continue keeps data",
+    "all 4096 extension bytes survive native reload",
+    "damaged primary recovered from backup and repaired by native routine",
+    "valid primary survives a damaged backup",
+    "native checksums cover full extension",
+    "SRAM bytes 9792..32767 untouched",
+    "synthetic Hub record and native chest/shard/owned paint fields preserved",
+    "seed mismatch clears shared flags and extension before activation",
+    "controller soft reset deactivates; re-entry advances epoch 1 to 2"
+  ],
+  "host_passes": [
+    "single-save lifecycle, incorrect slot rejection, failed native save retry, EWRAM neighbor canaries",
+    "client refuses AP data work until authenticated startup",
+    "color precedence, Hub persistence/teleport, chest receipts and shard SRAM integrity"
+  ],
+  "scope_limits": [
+    "Feature flags and native collection fields in save fixtures are synthetic; separate feature gameplay acceptance is required for #1025/#1026.",
+    "Emulator tests are not physical SRAM hardware validation.",
+    "Native primary-success behavior does not repair a damaged backup until a later save.",
+    "Legacy save migration and erase UI are outside scope.",
+    "Native linked-GBA single-world multiplayer remains unsupported."
+  ],
+  "focused_tests": 393,
+  "broader_suite": {
+    "passed": 4987,
+    "initial_failures": 6,
+    "resolution": "Two intentional slot-data documentation/snapshot updates corrected; all seven contract/snapshot tests pass. Four local-socket tests pass with loopback access permitted."
+  },
+  "main_integration": {
+    "base": "d001e2a",
+    "focused_tests": 471,
+    "native_probe": "passed all cases after source-composed rebuild",
+    "synthetic_build": "passed",
+    "release_scope": "upstream release sections preserved; foundation remains Unreleased"
+  },
+  "async_watcher_review": {
+    "reproduced_gap": "initial snapshot alone did not fence later asynchronous operations",
+    "fix": "task-local epoch/auth guards on all client memory I/O, response validation and AP messages",
+    "tests": "18 interleaving/actual-watcher cases plus 288 existing client tests passed",
+    "combined_focused_tests": 489
+  }
+}

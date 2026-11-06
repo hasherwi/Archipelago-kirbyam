@@ -137,5 +137,289 @@
     "corrected_harness_and_location_count_reruns_passed": 12,
     "loopback_and_process_ipc_tests_passed_with_approved_execution": 4,
     "note": "Initial broad run preceded test harness linkage/count corrections; all initially failing cases passed on targeted rerun."
+  },
+  "single_save_integration": {
+    "foundation_commit": "174cc7c4d9be90e6821ab393382e88809d381c37",
+    "base_patch_sha256": "2a6dbddbddc5f701153f644f86090332f36a78bce7a807d778fc2bf5f7ecbe4d",
+    "focused_tests": "241 passed",
+    "native_save_probe": "passed blank SRAM, continue, 4096-byte persistence, copy recovery, checksum and canary coverage, seed isolation, reset/re-entry",
+    "goal_gameplay_matrix": [
+      {
+        "room": 557,
+        "bit": 0,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=980 bit=0 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=980 bit=0 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=0300428c room=980 bit=0 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=980 bit=0 phase=0 bits=00000001"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 176,
+        "bit": 1,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=980 bit=1 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=980 bit=1 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003f40 room=980 bit=1 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=980 bit=1 phase=0 bits=00000002"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 177,
+        "bit": 2,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=980 bit=2 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=980 bit=2 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003f40 room=980 bit=2 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=980 bit=2 phase=0 bits=00000004"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 745,
+        "bit": 3,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=3 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=3 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003e88 room=982 bit=3 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=3 phase=0 bits=00000008"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 148,
+        "bit": 4,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=4 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=4 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003f40 room=981 bit=4 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=4 phase=0 bits=00000010"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 531,
+        "bit": 5,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=5 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=5 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003f40 room=981 bit=5 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=5 phase=0 bits=00000020"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 547,
+        "bit": 6,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=6 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=6 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003f40 room=981 bit=6 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=6 phase=0 bits=00000040"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 326,
+        "bit": 7,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=7 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=7 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003f40 room=981 bit=7 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=7 phase=0 bits=00000080"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 135,
+        "bit": 8,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=8 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=8 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003fbc room=981 bit=8 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=8 phase=0 bits=00000100"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 825,
+        "bit": 9,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=9 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=9 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003e88 room=982 bit=9 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=9 phase=0 bits=00000200"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 214,
+        "bit": 10,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=10 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=10 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003f40 room=981 bit=10 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=10 phase=0 bits=00000400"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 224,
+        "bit": 11,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=11 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=11 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003e88 room=982 bit=11 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=11 phase=0 bits=00000800"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 622,
+        "bit": 12,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=12 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=12 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003f40 room=981 bit=12 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=981 bit=12 phase=0 bits=00001000"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 526,
+        "bit": 13,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=13 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=13 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003e88 room=982 bit=13 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=13 phase=0 bits=00002000"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 413,
+        "bit": 14,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=14 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=14 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003e88 room=982 bit=14 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=14 phase=0 bits=00004000"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      },
+      {
+        "room": 420,
+        "bit": 15,
+        "entry_exit": 0,
+        "entry_bits": [
+          "GOALSTATE epoch=0 star=00000000 room=0 bit=0 phase=0 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=15 phase=1 bits=00000000"
+        ],
+        "play_exit": 0,
+        "play_bits": [
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=15 phase=1 bits=00000000",
+          "GOALSTATE epoch=1 star=03003e88 room=982 bit=15 phase=2 bits=00000000",
+          "GOALSTATE epoch=1 star=00000000 room=982 bit=15 phase=0 bits=00008000"
+        ],
+        "both_native_save_copies_and_checksums": "pass"
+      }
+    ],
+    "other_native_checks": {
+      "abort-entry": {
+        "completed_bit0": false,
+        "bonus_callbacks": 0
+      },
+      "abort-started": {
+        "completed_bit0": false,
+        "bonus_callbacks": 0
+      },
+      "persisted": {
+        "completed_bit0": true,
+        "bonus_callbacks": 0
+      },
+      "zero-prize": {
+        "completed_bit0": true,
+        "bonus_callbacks": 0
+      }
+    },
+    "fixture_note": "Fresh cold boot of a checksum-valid native progress fixture in the new 4884-byte layout; no old savestates reused. Controller input navigates Central Circle to the redirected doorway. Original matrix scope limits still apply.",
+    "synthetic_rom_smoke": "passed; real source-built patch restored and verified"
   }
 }
