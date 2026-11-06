@@ -125,7 +125,7 @@ def test_shipping_single_save_lifecycle_and_retry(tmp_path):
     source = (payload/'shared_save.c').read_text()
     for address, replacement in {
         '0x0800ACD5u':'&save', '0x0800A91Du':'&load', '0x0800AC01u':'&clear',
-        '0x080332BDu':'&start', '0x08123FD5u':'&enter', '0x08150251u':'&stop',
+        '0x080332BDu':'&start', '0x08138F69u':'&enter', '0x0813914Du':'&completion', '0x08150251u':'&stop',
     }.items():
         source = source.replace(address, replacement)
     source = r'''
@@ -136,6 +136,7 @@ def test_shipping_single_save_lifecycle_and_retry(tmp_path):
 #include <stdio.h>
 static int16_t save(uint32_t,uint16_t),load(uint32_t,uint16_t);
 static void clear(uint32_t),enter(void),stop(void);
+static int8_t completion(uint8_t);
 static void start(uint8_t,uint8_t,const uint16_t*,const int32_t*,const uint32_t*);
 ''' + source + r'''
 #define CHECK(x) do {if(!(x)){printf("line %d\n",__LINE__);return 1;}}while(0)
@@ -151,8 +152,10 @@ static void start(uint8_t h,uint8_t l,const uint16_t*r,const int32_t*p,const uin
  U16(0x03001006)=0x6000;U32(0x03001008)=0x0803EE19;
  U16(0x03001010)=0x3000;U16(0x03001012)=0;U8(0x03006000)=0;
 }
+static int8_t completion(uint8_t slot){bad|=slot!=0;return 100;}
 static void enter(void){bad|=U16(0x030024E8)||U16(0x030024EA)||U16(0x030024EC);
- ap_shared_start(1,0,0,0,0);}
+ bad|=CTX->epoch!=0||U8(0x0203ACB0)!=100||U8(0x0203ACB1)!=255||U8(0x0203ACB2)!=255;}
+static void adventure(void){ap_single_save_enter();ap_shared_start(1,0,0,0,0);}
 int main(void){
  CHECK(mmap((void*)0x02000000,0x40000,3,0x32,-1,0)==(void*)0x02000000);
  CHECK(mmap((void*)0x03000000,0x8000,3,0x32,-1,0)==(void*)0x03000000);
@@ -161,19 +164,19 @@ int main(void){
  U32(0x0203B1FC)=0x12345678;U32(0x0203C200)=0x87654321;
  memset((void*)0x0203B200,0xA5,4096);SAVE_SLOT=2;
  U16(0x030024E8)=0xFF;U16(0x030024EC)=16;
- ap_single_save_enter();CHECK(!bad&&loads==1&&stops==1&&SAVE_SLOT==0&&CTX->epoch==1);
+ adventure();CHECK(!bad&&loads==1&&stops==1&&SAVE_SLOT==0&&CTX->epoch==1);
  CHECK(CTX->dirty&&U32(0x0203B200)==0&&U32(0x0203C1FC)==0);
  CHECK(U32(0x0203B1FC)==0x12345678&&U32(0x0203C200)==0x87654321);
  fails=1;ap_shared_poll();CHECK(saves==1&&CTX->dirty&&CTX->retry==60);
  for(unsigned i=0;i<60;i++)ap_shared_poll();CHECK(saves==1&&CTX->dirty);
  fails=0;ap_shared_poll();CHECK(saves==2&&!CTX->dirty);
  U32(0x0203B200)=7;CHECK(ap_shared_update(0,0x30081));ap_shared_poll();
- ap_single_save_enter();CHECK(CTX->epoch==2&&CTX->bits==0x30081&&U32(0x0203B200)==7);
+ adventure();CHECK(CTX->epoch==2&&CTX->bits==0x30081&&U32(0x0203B200)==7);
  U32(KIRBY+0xCC)=0;CHECK(!ap_shared_epoch()&&!ap_shared_update(0,1));
  ap_shared_clear(1);CHECK(clears==1&&CTX->loaded_slot==0&&!CTX->epoch);
- ap_single_save_enter();CHECK(CTX->epoch==3);
+ adventure();CHECK(CTX->epoch==3);
  ((uint32_t*)AUTH)[3]^=1;CHECK(!ap_shared_epoch());
- ap_single_save_enter();CHECK(CTX->epoch==4&&CTX->bits==0&&U32(0x0203B200)==0);
+ adventure();CHECK(CTX->epoch==4&&CTX->bits==0&&U32(0x0203B200)==0);
  SAVE_SLOT=1;CHECK(!ap_shared_epoch());
  ap_shared_start(1,0,0,0,0);CHECK(!CTX->epoch);
  CHECK(!bad);return 0;
