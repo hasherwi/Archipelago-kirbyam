@@ -48,8 +48,10 @@ jobs:
 
       - name: Test publisher policy without release access
         run: |
+          python -m unittest discover -s worlds/kirbyam/tools/tests -p test_release_changelog.py -v
           python -m unittest discover -s worlds/kirbyam/tools/tests -p test_publish_policy.py -v
           python -m unittest discover -s worlds/kirbyam/tools/tests -p test_release_artifacts.py -v
+          python -m unittest discover -s worlds/kirbyam/tools/tests -p test_release_readiness.py -v
 
       - name: Prepare release metadata
         id: meta
@@ -182,3 +184,30 @@ jobs:
               --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/kirbyam-apworld.yml" \
               --source-digest "$GITHUB_SHA" --source-ref "$GITHUB_REF" --deny-self-hosted-runners
           done
+
+  release-status:
+    if: always()
+    needs: [build-apworld, release-apworld]
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Explain build and staging outcome
+        env:
+          BUILD_RESULT: ${{ needs.build-apworld.result }}
+          STAGING_RESULT: ${{ needs.release-apworld.result }}
+        run: |
+          {
+            echo "## Kirby release status"
+            echo "Source: $GITHUB_SHA"
+            echo "Ref: $GITHUB_REF"
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo "Build: $BUILD_RESULT; publisher: $STAGING_RESULT"
+            if [ "$STAGING_RESULT" = success ]; then
+              echo "Staging job succeeded. Run release_readiness.py against the exact draft before separately authorized publication."
+            elif [ "$STAGING_RESULT" = skipped ]; then
+              echo "Publisher skipped: this is a build-only result, not a downloadable release."
+            else
+              echo "Staging failed or was interrupted. Preserve assets and follow the recovery runbook."
+            fi
+            echo "Runbook: worlds/kirbyam/docs/release-preparation.md"
+          } >> "$GITHUB_STEP_SUMMARY"

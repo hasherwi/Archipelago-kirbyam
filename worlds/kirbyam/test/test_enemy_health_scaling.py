@@ -155,49 +155,115 @@ def test_all_four_boss_difficulty_columns_scale_together() -> None:
     ] == [80, 104, 128, 152]
 
 
-@pytest.mark.parametrize("percent", [50, 150, 500])
-def test_meter_coefficients_scale_inversely_for_every_enemy_class(percent: int) -> None:
-    rom = _fixture_rom()
-    meter_tables = (
-        (REGULAR_ENEMY_METER_TABLE_OFFSET, REGULAR_ENEMY_METER_ENTRY_COUNT),
-        (BOSS_METER_TABLE_OFFSET, BOSS_METER_ROW_COUNT * BOSS_METER_DIFFICULTY_COUNT),
-        (
-            DARK_MIND_FORM1_METER_TABLE_OFFSET,
-            DARK_MIND_FORM1_METER_ROW_COUNT * DARK_MIND_FORM1_METER_DIFFICULTY_COUNT,
-        ),
-    )
+# (meter offset, HP offset, entry count, HP stride). Boss columns are
+# contiguous HP/coefficient pairs; regular HP lives inside metadata records.
+_METER_HP_TABLES = (
+    (REGULAR_ENEMY_METER_TABLE_OFFSET,
+     REGULAR_ENEMY_TABLE_OFFSET + REGULAR_ENEMY_HP_OFFSET,
+     REGULAR_ENEMY_METER_ENTRY_COUNT, REGULAR_ENEMY_ENTRY_SIZE),
+    (BOSS_METER_TABLE_OFFSET, BOSS_HEALTH_TABLE_OFFSET,
+     BOSS_METER_ROW_COUNT * BOSS_METER_DIFFICULTY_COUNT, 2),
+    (DARK_MIND_FORM1_METER_TABLE_OFFSET, DARK_MIND_FORM1_HEALTH_TABLE_OFFSET,
+     DARK_MIND_FORM1_METER_ROW_COUNT * DARK_MIND_FORM1_METER_DIFFICULTY_COUNT, 2),
+)
 
-    # Check both ends of every table so incorrect extents or indexing leave a
-    # detectable vanilla coefficient behind. Zero remains a valid no-meter entry.
-    for table_offset, entry_count in meter_tables:
-        _write_u16(rom, table_offset, 512)
-        _write_u16(rom, table_offset + (entry_count - 1) * 2, 256)
-        _write_u16(rom, table_offset + 2, 0)
+
+def _native_meter(hp: int, coefficient: int) -> int:
+    # sub_08034F80 / sub_080353C8: truncate to s16, arithmetic shift,
+    # round up if the low byte is nonzero, store/read as s8.
+    product = (hp * coefficient + 0x8000) % 0x10000 - 0x8000
+    fill = (product >> 8) + bool(product & 0xFF)
+    return (fill + 0x80) % 0x100 - 0x80
+
+
+@pytest.mark.parametrize("percent", range(50, 501))
+def test_rounded_hp_and_signed_meter_for_every_table_slot(percent: int) -> None:
+    rom = _fixture_rom()
+    entries = []
+    for meter_offset, hp_offset, count, stride in _METER_HP_TABLES:
+        for index in range(count):
+            # Distinct adjacent HP values catch swapped difficulty columns,
+            # wrong strides, and pairing with already-scaled rather than native HP.
+            hp = 1 + index * 3
+            coefficient = 0x4000 // hp
+            if meter_offset == REGULAR_ENEMY_METER_TABLE_OFFSET and index in (0x05, 0x24, 0x28):
+                hp, coefficient = 1, 0x4000  # Scarfy, falling Scarfy, Bomber
+            health_address = hp_offset + index * stride
+            meter_address = meter_offset + index * 2
+            _write_s16(rom, health_address, hp)
+            _write_u16(rom, meter_address, coefficient)
+            entries.append((health_address, meter_address, hp, coefficient))
 
     scaled = scale_enemy_health_tables(bytes(rom), percent)
+    for health_address, meter_address, hp, coefficient in entries:
+        actual_hp = _read_s16(scaled, health_address)
+        actual_coefficient = _read_u16(scaled, meter_address)
+        assert actual_hp == scale_hp_value(hp, percent)
+        native_fill = _native_meter(hp, coefficient)
+        assert 0 < actual_coefficient
+        assert actual_hp * actual_coefficient <= 127 * 256
+        assert 0 < _native_meter(actual_hp, actual_coefficient) <= native_fill
+        # Quantization of a Q8.8 coefficient may lose pixels for high HP;
+        # bound that error by one coefficient step rather than demanding
+        # an unrepresentable exact full-health fill.
+        assert native_fill - _native_meter(actual_hp, actual_coefficient) <= (actual_hp + 255) // 256
+        samples = sorted({0, 1, actual_hp // 2, actual_hp - 1, actual_hp})
+        fills = [_native_meter(value, actual_coefficient) for value in samples]
+        assert fills == sorted(fills)
+        assert fills[0] == 0  # damage to zero can never look like recovery
+        if hp == 1:
+            assert _native_meter(actual_hp, actual_coefficient) == 64
 
-    for table_offset, entry_count in meter_tables:
-        first_scaled = _read_u16(scaled, table_offset)
-        last_scaled = _read_u16(scaled, table_offset + (entry_count - 1) * 2)
-        assert first_scaled == (512 * 100 + percent // 2) // percent
-        assert last_scaled == (256 * 100 + percent // 2) // percent
-        assert _read_u16(scaled, table_offset + 2) == 0
 
-        # The native routine rounds a positive Q8.8 product up to a whole
-        # pixel. Inverse coefficient scaling should preserve that fill within
-        # the one-pixel rounding inherent in the ROM's integer math.
-        scaled_hp = scale_hp_value(40, percent)
-        vanilla_fill = (40 * 256 + 255) // 256
-        scaled_fill = (scaled_hp * last_scaled + 255) // 256
-        assert abs(scaled_fill - vanilla_fill) <= 1
+@pytest.mark.parametrize("meter_offset,hp_offset,count,stride", _METER_HP_TABLES)
+def test_meter_uses_corresponding_native_and_rounded_hp(
+    meter_offset: int, hp_offset: int, count: int, stride: int,
+) -> None:
+    rom = _fixture_rom()
+    for index, hp in enumerate((3, 7, 11, 15)):
+        _write_s16(rom, hp_offset + index * stride, hp)
+        _write_u16(rom, meter_offset + index * 2, 512)
+    _write_s16(rom, hp_offset + (count - 1) * stride, 7)
+    _write_u16(rom, meter_offset + (count - 1) * 2, 256)
+    scaled = scale_enemy_health_tables(bytes(rom), 150)
+    assert [_read_u16(scaled, meter_offset + index * 2) for index in range(4)] == [307, 325, 331, 333]
+    assert _read_u16(scaled, meter_offset + (count - 1) * 2) == 162
 
-        vanilla_fill = (40 * 512 + 255) // 256
-        scaled_fill = (scaled_hp * first_scaled + 255) // 256
-        assert abs(scaled_fill - vanilla_fill) <= 1
+
+@pytest.mark.parametrize("meter_offset,hp_offset,count,stride", _METER_HP_TABLES)
+@pytest.mark.parametrize("hp,coefficient", [(0, 512), (-1, 512), (-7, 65535), (3, 0)])
+def test_meter_preserves_sentinel_hp_and_zero_coefficients(
+    meter_offset: int, hp_offset: int, count: int, stride: int, hp: int, coefficient: int,
+) -> None:
+    rom = _fixture_rom()
+    for index in (0, count - 1):
+        _write_s16(rom, hp_offset + index * stride, hp)
+        _write_u16(rom, meter_offset + index * 2, coefficient)
+    scaled = scale_enemy_health_tables(bytes(rom), 50)
+    for index in (0, count - 1):
+        assert _read_u16(scaled, meter_offset + index * 2) == coefficient
+
+
+@pytest.mark.parametrize("hp,coefficient,percent,expected", [
+    (41, 624, 500, 124),  # nearest ratio alone would overfill 100 -> 101
+    (1, 32512, 200, 16256),  # greatest positive signed-byte fill: 127
+    (1, 32767, 200, 16256),  # s16-safe alone still rounds to signed-byte -128
+    (32767, 1, 500, 0),  # no positive coefficient fits the native meter
+])
+def test_meter_caps_full_fill_and_both_signed_boundaries(
+    hp: int, coefficient: int, percent: int, expected: int,
+) -> None:
+    rom = _fixture_rom()
+    _write_s16(rom, REGULAR_ENEMY_TABLE_OFFSET + REGULAR_ENEMY_HP_OFFSET, hp)
+    _write_u16(rom, REGULAR_ENEMY_METER_TABLE_OFFSET, coefficient)
+    scaled = scale_enemy_health_tables(bytes(rom), percent)
+    actual = _read_u16(scaled, REGULAR_ENEMY_METER_TABLE_OFFSET)
+    assert actual == expected
+    assert 0 <= _native_meter(scale_hp_value(hp, percent), actual) <= 127
 
 
 def test_vanilla_multiplier_is_byte_identical() -> None:
-    rom = bytes(_fixture_rom())
+    rom = bytes(index % 256 for index in range(len(_fixture_rom())))
     assert scale_enemy_health_tables(rom, ENEMY_HEALTH_MULTIPLIER_DEFAULT) is rom
 
 

@@ -35,16 +35,16 @@ int main(void){
  CHECK(mmap((void*)0x08000000,0x1000000,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED_NOREPLACE,-1,0)==(void*)0x08000000);
  for(unsigned c=0;c<14;c++)for(unsigned i=0;i<16;i++)((uint16_t*)0x0834BB20)[c*16+i]=c*100+i;
  unsigned cases=0;
- for(unsigned seed=0;seed<19;seed++)for(unsigned mode=0;mode<2;mode++)
+ for(unsigned seed=0;seed<AP_COLOR_COUNT;seed++)for(unsigned mode=0;mode<2;mode++)
  for(unsigned choice=0;choice<15;choice++)for(unsigned owned=0;owned<2;owned++)
- for(unsigned runtime=0;runtime<20;runtime++)for(unsigned cookie=0;cookie<2;cookie++){
+ for(unsigned runtime=0;runtime<=AP_COLOR_COUNT;runtime++)for(unsigned cookie=0;cookie<2;cookie++){
   ready();gApStartingKirbyColorInitial=AP_COLOR_CONFIG_MAGIC|(mode<<8)|seed;
   AP_MAILBOX_INIT_COOKIE=cookie?AP_MAILBOX_INIT_COOKIE_VALUE:0;
-  AP_STARTING_KIRBY_COLOR_ID=runtime<19?runtime:0xffffffff;
+  AP_STARTING_KIRBY_COLOR_ID=runtime<AP_COLOR_COUNT?runtime:0xffffffff;
   AP_SAVED_PAINT_CHOICE=choice<14?ap_color_choice_encode(choice):0;
   uint16_t marker=AP_SAVED_PAINT_CHOICE;
   KIRBY_SPRAY_PAINT_FLAGS=owned?0x3fff:0;
-  unsigned expected=!mode&&choice<14&&owned?choice:cookie&&runtime<19?runtime:seed;
+  unsigned expected=!mode&&choice<14&&owned?choice:cookie&&runtime<AP_COLOR_COUNT?runtime:seed;
   CHECK(ap_get_effective_starting_kirby_color()==expected);
   ap_on_start_single_player_game(1,0,(void*)0x20,(void*)0x30,(void*)0x40);
   unsigned native_expected=expected<14?expected:0;
@@ -66,8 +66,8 @@ int main(void){
  for(unsigned c=0;c<14;c++){CHECK(ap_color_initial(c)==c);CHECK(!ap_color_per_room(c));}
  CHECK(ap_color_initial(0xffffffff)==0);
  uint8_t *menu=(uint8_t*)0x02010000;
- for(unsigned slot=0;slot<3;slot++)for(unsigned c=0;c<14;c++){
-  KIRBY_SAVE_ID=slot;KIRBY_PRESSED_KEYS=1;menu[0x2A]=1;menu[3]=1;
+ for(unsigned slot=0;slot<1;slot++)for(unsigned c=0;c<14;c++){
+  host_shared_active(); KIRBY_SAVE_ID=slot;KIRBY_PRESSED_KEYS=1;menu[0x2A]=1;menu[3]=1;
   ((uint16_t*)0x08386A50)[2]=0x101+c;menu[1]=c; /* same as AP default still explicit */
   KIRBY_SPRAY_PAINT_FLAGS=1u<<c;AP_SAVED_PAINT_CHOICE=0;unsigned saves=save_calls;
   CHECK(ap_on_treasure_paint_selection(menu)==77);
@@ -83,12 +83,12 @@ int main(void){
   ap_on_treasure_paint_selection(menu);CHECK(save_calls==saves+1&&AP_SAVED_PAINT_CHOICE==0);
  }
  /* Uncollected default swatch clears preference without granting any paint. */
- KIRBY_SAVE_ID=1;KIRBY_PRESSED_KEYS=1;menu[0x2A]=0;menu[2]=1;
+ KIRBY_SAVE_ID=0;KIRBY_PRESSED_KEYS=1;menu[0x2A]=0;menu[2]=1;
  ((uint16_t*)0x08386A50)[0]=0x100;AP_SAVED_PAINT_CHOICE=ap_color_choice_encode(5);
  KIRBY_SPRAY_PAINT_FLAGS=0;ap_on_treasure_paint_selection(menu);
- CHECK(AP_SAVED_PAINT_CHOICE==0&&slots[1]==0&&KIRBY_SPRAY_PAINT_FLAGS==0);
+ CHECK(AP_SAVED_PAINT_CHOICE==0&&slots[0]==0&&KIRBY_SPRAY_PAINT_FLAGS==0);
  /* Persistent transform modes must consume requests, without clearing native flags. */
- for(unsigned flags=1;flags<=3;flags++)for(unsigned color=0;color<19;color++){
+ for(unsigned flags=1;flags<=3;flags++)for(unsigned color=0;color<AP_COLOR_COUNT;color++){
   ready();gApStartingKirbyColorInitial=AP_COLOR_CONFIG_MAGIC|AP_COLOR_PER_ROOM;
   AP_MAILBOX_INIT_COOKIE=AP_MAILBOX_INIT_COOKIE_VALUE;AP_STARTING_KIRBY_COLOR_ID=color;
   KIRBY_MAIN_FLAGS|=flags<<16;transform_calls=0;
@@ -107,5 +107,5 @@ int main(void){
   ap_apply_starting_kirby_color_config();CHECK(!obj_calls&&!bg_calls&&!AP_STARTING_KIRBY_COLOR_APPLIED);
   ready();ap_apply_starting_kirby_color_config();CHECK(obj_calls==1&&bg_calls==1&&obj_color==0);
  }
- CHECK(!bad_io&&cases==45600);printf("%u precedence cases; explicit owned choices, Pink, invalid padding, save slots, deferred HUD/fades, retry/latch pass\n",cases);return 0;
+ CHECK(!bad_io&&cases==AP_COLOR_COUNT*2*15*2*(AP_COLOR_COUNT+1)*2);printf("%u precedence cases; explicit owned choices, Pink, invalid padding, save slots, deferred HUD/fades, retry/latch pass\n",cases);return 0;
 }

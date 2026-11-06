@@ -39,7 +39,8 @@ int main(void) {
     CHECK(mmap((void*)0x03000000,0x8000,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)!=(void*)-1);
     CHECK(mmap((void*)0x08F00000,0x1000,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)!=(void*)-1);
     memcpy((void*)AUTH,"0123456789abcdef",16);
-    for(unsigned slot=0;slot<3;slot++) {
+    for(unsigned cycle=0;cycle<3;cycle++) {
+        unsigned slot=0; /* APSHR02 always uses File 1. */
         memset((void*)RECORD,0,20);activate(slot,slot+1);
         WORD18=1;CHECK(*ap_copy_room_state(2,18,0)==0);CHECK(!ap_copy_room_owned());
         U16(KIRBY+0x60)=801;
@@ -65,6 +66,10 @@ int main(void) {
         WORD18=0x1234;ap_copy_room_poll();CHECK(WORD18==0x1234); /* preview untouched */
         activate(slot,slot+20);CHECK(!ap_copy_room_owned());CHECK(CTX->bits==0);
         CHECK(*ap_copy_room_state(2,18,0)==0);
+    }
+    for(unsigned slot=1;slot<3;slot++) {
+        activate(slot,30+slot);REQUEST[0]=30+slot;REQUEST[1]=1;
+        ap_copy_room_poll();CHECK(!ap_copy_room_owned());CHECK(!CTX->epoch);
     }
     return 0;
 }

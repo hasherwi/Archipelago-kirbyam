@@ -1,6 +1,6 @@
 """Copy Ability Room ownership, synchronized only from authenticated history."""
 import base64
-from worlds import _bizhawk as bizhawk
+from . import shared_watcher as shared_io
 from .shared_save_protocol import read_shared_snapshot, SHARED_CONTEXT_ADDRESS
 
 COPY_ROOM_ITEM_ID = 3860500
@@ -42,7 +42,7 @@ async def sync_copy_room_ownership(ctx, history_ready) -> bool:
         return False
     # This command batch checks the epoch and ROM identity immediately before
     # writing. Runtime checks the epoch again before changing native ownership.
-    return await bizhawk.guarded_write(ctx.bizhawk_ctx, [
+    return await shared_io.guarded_write(ctx.bizhawk_ctx, [
         (COPY_ROOM_REQUEST_ADDRESS + 4, int(owned).to_bytes(4, 'little'), 'System Bus'),
         (COPY_ROOM_REQUEST_ADDRESS, snapshot.epoch.to_bytes(4, 'little'), 'System Bus'),
     ], [

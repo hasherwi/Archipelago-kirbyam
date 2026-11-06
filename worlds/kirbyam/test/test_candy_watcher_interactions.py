@@ -41,14 +41,15 @@ async def test_deferred_candy_does_not_block_checks_or_goal(
 
     # Isolate unrelated hardware domains while retaining the whole watcher and
     # real boss polling, Candy preflight/journal, and goal-reporting methods.
-    tree = ast.parse(textwrap.dedent(inspect.getsource(KirbyAmClient.game_watcher)))
+    tree = ast.parse('\n'.join(textwrap.dedent(inspect.getsource(method)) for method in
+                              (KirbyAmClient.game_watcher, KirbyAmClient._watch_active_game)))
     names = {
         node.value.func.attr for node in ast.walk(tree)
         if isinstance(node, ast.Await) and isinstance(node.value, ast.Call)
         and isinstance(node.value.func, ast.Attribute)
         and isinstance(node.value.func.value, ast.Name) and node.value.func.value.id == 'self'
     }
-    real = {'_deliver_items', '_poll_boss_defeat_locations', '_maybe_report_goal'}
+    real = {'_watch_active_game', '_deliver_items', '_poll_boss_defeat_locations', '_maybe_report_goal'}
     with ExitStack() as stack:
         mocks = {
             name: stack.enter_context(patch.object(client, name, new_callable=AsyncMock))

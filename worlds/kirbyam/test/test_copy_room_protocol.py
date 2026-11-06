@@ -29,7 +29,7 @@ def test_history_and_precollection_share_ownership_path(monkeypatch, received, p
         items_received=[SimpleNamespace(item=3860500)] if received else [],bizhawk_ctx=object())
     monkeypatch.setattr(protocol,'read_shared_snapshot',AsyncMock(return_value=SharedSaveSnapshot(7,2,0,False)))
     write=AsyncMock(return_value=True)
-    monkeypatch.setattr(protocol.bizhawk,'guarded_write',write)
+    monkeypatch.setattr(protocol.shared_io.bizhawk,'guarded_write',write)
     assert asyncio.run(protocol.sync_copy_room_ownership(ctx,lambda _: True))
     args=write.call_args.args
     assert args[1] == [(0x0203B164,owned.to_bytes(4,'little'),'System Bus'),
@@ -56,6 +56,31 @@ def test_never_write_after_snapshot_race(monkeypatch,change):
         return SharedSaveSnapshot(7,2,0,False)
     write=AsyncMock(return_value=True)
     monkeypatch.setattr(protocol,'read_shared_snapshot',snapshot)
-    monkeypatch.setattr(protocol.bizhawk,'guarded_write',write)
+    monkeypatch.setattr(protocol.shared_io.bizhawk,'guarded_write',write)
     assert not asyncio.run(protocol.sync_copy_room_ownership(ctx,lambda _: ready))
     write.assert_not_called()
+
+
+@pytest.mark.asyncio
+async def test_reset_before_copy_snapshot_cannot_adopt_new_epoch(monkeypatch):
+    """A resumed Copy sync cannot escape the epoch captured by its watcher."""
+    io = protocol.shared_io
+    auth = bytes(range(16))
+    ctx = SimpleNamespace(auth=base64.b64encode(auth).decode(), team=0, slot=1,
+        server=SimpleNamespace(socket=object()), bizhawk_ctx=object(),
+        slot_data={'copy_ability_room_protocol_version':1,'shared_save_protocol_version':1},
+        items_received=[SimpleNamespace(item=3860500)])
+    writes = []
+    monkeypatch.setattr(protocol, 'read_shared_snapshot',
+                        AsyncMock(return_value=SharedSaveSnapshot(2,0,0,False)))
+    async def guarded_write(connector, offered, guards):
+        if guards[0][1][:4] != (2).to_bytes(4, 'little'):
+            return False
+        writes.extend(offered)
+        return True
+    monkeypatch.setattr(io.bizhawk, 'guarded_write', guarded_write)
+    monkeypatch.setattr(io.bizhawk, 'guarded_read', AsyncMock(return_value=None))
+    with io.shared_watcher(ctx, SharedSaveSnapshot(1,0,0,False)):
+        with pytest.raises(io.SharedContextChanged):
+            await protocol.sync_copy_room_ownership(ctx, lambda _: True)
+    assert not writes

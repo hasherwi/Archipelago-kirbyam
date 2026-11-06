@@ -534,13 +534,16 @@ def test_shared_save_hooks_validate_all_original_calls_before_patching():
         0x0800A91C: (0x222,0x242,0x32384,0x138CB2,0x13CA80,0x140430,0x141CA0,0x142638,0x1428AE),
         0x0800AC00: (0x22E,0x250,0x270,0x25F9E,0x32390,0x138D10,0x13CA8C,0x14043C,0x141CAC,0x142644,0x1428BA,0x1429A6),
     }
-    rom = bytearray(0x160000)
+    rom = bytearray(0x300000)
     for target, offsets in calls.items():
         for offset in offsets:
             rom[offset:offset+4] = patch_rom.thumb_bl_bytes(0x08000000+offset,target)
-    targets = {"shared_load_target":0x0815E000,"shared_clear_target":0x0815E008}
+    from .native.single_save_fixture import populate_single_save_fixture
+    populate_single_save_fixture(rom, patch_rom.thumb_bl_bytes)
+    targets = {"shared_load_target":0x0815E000,"shared_clear_target":0x0815E008,
+               "single_save_target":0x0815E010}
     writes = patch_rom.build_shared_save_writes(rom, targets)
-    assert len(writes) == 21
+    assert len(writes) == 33
     assert 0x123EF2 not in writes  # existing starting-color hook composes activation
     for offset in writes:
         original = bytes(rom[offset:offset+4])
@@ -548,3 +551,17 @@ def test_shared_save_hooks_validate_all_original_calls_before_patching():
         with pytest.raises(SystemExit, match="verified USA-ROM bytes"):
             patch_rom.build_shared_save_writes(rom, targets)
         rom[offset:offset+4] = original
+
+
+def test_single_save_rejects_changed_native_descriptor_layout():
+    from .native.single_save_fixture import populate_single_save_fixture
+    rom = bytearray(0x300000)
+    for native, _key, offsets in patch_rom.SHARED_SAVE_NATIVE_CALLS:
+        for offset in offsets:
+            rom[offset:offset+4] = patch_rom.thumb_bl_bytes(0x08000000+offset, native)
+    populate_single_save_fixture(rom, patch_rom.thumb_bl_bytes)
+    targets = {"shared_load_target":0x0815E000,"shared_clear_target":0x0815E008,
+               "single_save_target":0x0815E010}
+    rom[0x2D91FC+12] ^= 1
+    with pytest.raises(SystemExit, match="native WORLD descriptor layout"):
+        patch_rom.build_shared_save_writes(rom, targets)
