@@ -1154,6 +1154,8 @@ def build_shared_save_writes(rom: bytes | bytearray, targets: dict[str, int]) ->
     for offset, before, after in (
         (0x14A802, thumb_bl_bytes(0x0814A802, 0x08138B44),
          thumb_bl_bytes(0x0814A802, targets["single_save_target"])),
+        # Mode-menu Back exits to title instead of reopening the file selector.
+        (0x13D8A0, bytes.fromhex("15c41308"), bytes.fromhex("a1211408")),
         (0x26A, bytes.fromhex("022c"), bytes.fromhex("002c")),
         (0x278, bytes.fromhex("0f2e"), bytes.fromhex("032e")),
     ):

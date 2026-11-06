@@ -12,7 +12,7 @@ w=Path(__file__).resolve().parents[2]
 clean=args.rom.read_bytes()
 rom=bytearray(bsdiff4.patch(clean,(w/'data/base_patch.bsdiff4').read_bytes()))
 rom[0xf00000:0xf00010]=bytes(range(1,17));(d/'single.gba').write_bytes(rom)
-commands='0 180\n8 1\n0 120\n8 1\n0 240\n'
+commands='0 180\n8 1\n0 120\n8 1\n0 240\n64 1\n0 1\n64 1\n0 1\n1 1\n0 120\n1 1\n0 240\n'
 def run(name,save,rompath=d/'single.gba',inputs=commands):
  (d/(name+'.input.sav')).write_bytes(save)
  r=subprocess.run([str(args.observer.resolve()),str(rompath),'cold:'+str(d/(name+'.input.sav')),str(d/(name+'.ss1')),str(d/(name+'.ppm'))],input=inputs,text=True,capture_output=True)
@@ -57,6 +57,6 @@ for c in range(2):
  assert struct.unpack_from('<I',data(saved,c),136)[0]==0x41500000
  assert checksum(data(saved,c))==saved[24+c*stride:32+c*stride]
 # Controller reset and return through the title, then same-save re-entry.
-reset_save=run('single-reset',cached,inputs=commands+'15 60\n0 180\n8 1\n0 120\n8 1\n0 240\n')
+reset_save=run('single-reset',cached,inputs=commands+'15 60\n'+commands)
 assert 'context=2 serial=2 slot=0 dirty=0 loaded=0' in (p/'single-reset.log').read_text()
 print('PASS blank SRAM, continue, full 4096-byte persistence, primary recovery, valid-primary/invalid-backup load, checksum coverage, neighboring SRAM, seed isolation, controller reset/re-entry')

@@ -16,6 +16,7 @@ static void logger(struct mLogger *l,int cat,enum mLogLevel level,const char *fm
 #define R16(a) c->busRead16(c,(a))
 #define R32(a) c->busRead32(c,(a))
 static void report(void) {
+ printf("mode=%08x completion=%u ai=%u humans=%u\n",R32(0x0203ad10),R8(0x0203acb0),R16(0x0203ad2c),R8(0x0203ad30));
  uint32_t pc=0;c->readRegister(c,"pc",&pc);
  printf("pc=%08x coreframe=%u ",pc,c->frameCounter(c));
  printf("frame=%u room=%u xy=%.3f,%.3f hp=%u ability=%u world18=%u\n",tick,R16(0x02020f40),(int32_t)R32(0x02020f20)/256.,(int32_t)R32(0x02020f24)/256.,R8(0x02020fe0),R8(0x02020fe3),R32(0x02028c58));

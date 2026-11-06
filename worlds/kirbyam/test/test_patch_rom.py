@@ -543,7 +543,8 @@ def test_shared_save_hooks_validate_all_original_calls_before_patching():
     targets = {"shared_load_target":0x0815E000,"shared_clear_target":0x0815E008,
                "single_save_target":0x0815E010}
     writes = patch_rom.build_shared_save_writes(rom, targets)
-    assert len(writes) == 33
+    assert len(writes) == 34
+    assert writes[0x13D8A0] == bytes.fromhex("a1211408")  # mode Back goes to title
     assert 0x123EF2 not in writes  # existing starting-color hook composes activation
     for offset in writes:
         original = bytes(rom[offset:offset+4])

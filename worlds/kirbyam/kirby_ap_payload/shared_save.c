@@ -118,8 +118,9 @@ AP_SHARED_EXT void ap_shared_start(uint8_t humans, uint8_t local, const uint16_t
 }
 
 /* The title task is already destroyed at this call site. Never enter the
- * selector or its three-file preview loader. Continue uses the original
- * adventure startup call, including the color and shared-context wrappers. */
+ * selector or its three-file preview loader. Reuse the native mode menu
+ * constructor so Adventure, subgames (including Boss Endurance) and Collection
+ * remain accessible. Only genuine Adventure startup activates AP state. */
 AP_SHARED_EXT void ap_single_save_enter(void) {
     initialize();
     deactivate();
@@ -128,7 +129,9 @@ AP_SHARED_EXT void ap_single_save_enter(void) {
     SAVE_SLOT=0u;
     U8(0x0203ADE0u)=0xFFu;
     if (ap_shared_load(1u,0u)!=0) ap_shared_clear(1u);
-    ((void (*)(void))0x08123FD5u)();
+    U8(0x0203ACB0u)=(uint8_t)((int8_t (*)(uint8_t))0x0813914Du)(0u);
+    U8(0x0203ACB1u)=0xFFu; U8(0x0203ACB2u)=0xFFu;
+    ((void (*)(void))0x08138F69u)();
 }
 
 /* Native descriptors drive clearing, checksums, reads, writes and duplicate

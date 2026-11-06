@@ -2,13 +2,14 @@
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import pytest
 
 
 def test_authenticated_runtime_ownership_and_reconciliation(tmp_path):
     cc = shutil.which('cc')
-    if not cc:
-        pytest.skip('C compiler unavailable')
+    if not cc or not sys.platform.startswith('linux'):
+        pytest.skip('Linux mapped-memory host harness and C compiler required')
     payload = Path(__file__).resolve().parents[1] / 'kirby_ap_payload'
     shared = (payload/'shared_save.c').read_text().replace('0x0800ACD5u', '&fake_save')
     copy = (payload/'copy_room.c').read_text().replace('0x080551FDu', '&fake_reload')

@@ -14,7 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Access to the Copy Ability Room is now an AP Item (Issue #1002).
 
 ### Improvements
-- Remove save file selection, always use File 1, and add 4 KiB of storage for AP game data.
+- Remove save file selection, always use File 1 while retaining the game-mode menu, and add 4 KiB of storage for AP game data.
 
 ### Known Limitations
 - None.

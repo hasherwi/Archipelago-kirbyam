@@ -1003,9 +1003,13 @@ Archipelago multiworld is a separate supported mode.
 The title-screen dispatch at USA ROM `0x14A802` bypasses the file selector
 entirely, including its three-file preview loop. It sets `gSaveID=0` (visible
 File 1), loads WORLD through the native primary/backup verifier, clears through
-the native initializer on failure, and invokes native adventure continue
-`0x08123FD4`. That path handles both a fresh WORLD and continued progress and
-still reaches the existing starting-color → shared-start wrapper. The boot
+the native initializer on failure, and invokes the native mode-menu constructor `0x08138F68`, after computing
+File 1 completion through `0x0813914C`. This constructor never runs the three-file
+preview loop. Adventure, subgames (including normally unlocked Boss Endurance),
+and Collection remain reachable. Mode-menu Back returns to title through the
+native task teardown instead of reopening file selection. Adventure still uses
+the native continue path and existing starting-color → shared-start wrapper;
+menus and Boss Endurance never activate the AP Adventure epoch. The boot
 validation loop also visits only File 1; its all-blank error mask is adjusted
 from 15 to 3. Title/menu states publish no active epoch. New seed slots opt in
 to the shared client gate before AP data reads/writes; the ROM mailbox, Hub
@@ -1062,6 +1066,13 @@ the scope. Context changes invalidate cached RAM/receipt state for fresh
 reconciliation on the next valid iteration. Legacy slots retain their existing
 transport behavior. Feature integrations must route runtime I/O and messages
 through `shared_watcher` rather than bypass the active task scope.
+
+The separate `test/native/run_single_save_menu_probe.py` accepts the same
+`--rom`, `--observer`, and `--output` arguments. It verifies fresh/continued
+Adventure, native 100% Boss Endurance access and playable room 950, inactive AP
+state outside Adventure, mode-menu Back/title/re-entry, and Boss reset into
+Adventure. Its completed-progress fixture is synthetic and checksummed; all
+emulator actions use controller input and read-only telemetry.
 
 ## Copy Ability Room access (issue #1002, protocol 1)
 
