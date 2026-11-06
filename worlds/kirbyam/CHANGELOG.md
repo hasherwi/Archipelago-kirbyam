@@ -37,7 +37,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
 
 ### Improvements
-- Remove save file selection, always use File 1 while retaining the game-mode menu, and add 4 KiB of storage for AP game data.
 - Add a release-preparation runbook, read-only readiness checks and staging status reporting, with consistent exact-version or matching base-version changelog selection for release candidates (Issue #1012). Support a single-maintainer review path without mandatory settings evidence or a separate reviewer; a live release rehearsal remains pending.
 
 ### Known Limitations
@@ -68,7 +67,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Fix repeated healing sounds after hitting Scarfy or Bomber with enemy health set to 50%, and keep enemy health meters accurate when scaled health rounds to a whole number (Issue #1028).
 
 ### Internal Changes
-- Added a shared, seed-authenticated save record and active-save context for the separate Goal Game and Copy Room features (#1000, #1002), preventing cached state from being attributed to another seed or save slot and fencing asynchronous client operations to the active adventure.
 - Isolate the stake-rule test fixture from shared graph data and exercise cold and warm Area Key and Dimension Mirror caches to prevent order-dependent test failures (PR #1014).
 - Preserve compiled Hub switch mapping with generated lookup tables, fixed configuration addresses and explicit overlap checks. Historical native door aliases remain unchanged.
 - Verify the complete wheel inventory and SHA-256 bytes before offline Kirby ROM-smoke dependency installation (Issue #980; broader dependency matrices remain open).

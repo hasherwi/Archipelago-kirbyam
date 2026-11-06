@@ -444,12 +444,7 @@ def test_payload_applies_starting_color_before_create_and_refreshes_live_palette
     assert "gApStartingKirbyColorInitial" in payload
     assert "KIRBY_SELECTED_COLOR = (int16_t)desired_color" in payload
     assert "KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER]" in payload
-    assert "ap_shared_start(mode, arg1, rooms, positions, flags)" in payload
-    shared = (payload_dir / "shared_save.c").read_text(encoding="utf-8")
-    assert "0x080332BDu" in shared  # composed wrapper still invokes the native startup
-    assert payload.index("KIRBY_SELECTED_COLOR = (int16_t)desired_color",
-                         payload.index("void ap_on_start_single_player_game(")) < payload.index(
-                             "ap_shared_start(mode, arg1, rooms, positions, flags)")
+    assert "KIRBY_START_GAME_FN(mode, arg1, rooms, positions, flags)" in payload
 
     # Runtime recovery path: writing Kirby::color alone is insufficient; the
     # native palette loader must be called after a live Kirby is available.

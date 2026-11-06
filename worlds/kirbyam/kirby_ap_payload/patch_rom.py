@@ -1012,9 +1012,6 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
 
 def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
     targets = {
-        "single_save_target": resolve_elf_symbol_address(payload_elf_path, "ap_single_save_entry"),
-        "shared_load_target": resolve_elf_symbol_address(payload_elf_path, "ap_shared_load_entry"),
-        "shared_clear_target": resolve_elf_symbol_address(payload_elf_path, "ap_shared_clear_entry"),
         "treasure_paint_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_treasure_paint_selection"),
         "vitality_menu_hook_target": resolve_elf_symbol_address(
@@ -1099,9 +1096,6 @@ _PAYLOAD_TARGET_LABELS = {
     "hub_switch_init_state_hook_target": "hub switch initialization state hook",
     "small_switch_effect_hook_target": "lever small-switch effect hook",
     "special_door_state_hook_target": "Area Key mirror visual-state hook",
-    "single_save_target": "single save startup",
-    "shared_load_target": "shared save load",
-    "shared_clear_target": "shared save clear",
     "automatic_transition_guard_target": "Area Key automatic-transition guard",
     "button_special_transition_hook_target": "Area Key button-transition hook",
     "explicit_room_transition_hook_target": "Area Key explicit-room-transition hook",
@@ -1132,45 +1126,6 @@ def validate_payload_targets(
                 f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
                 "Check your payload.elf link address and PAYLOAD_OFFSET."
             )
-
-
-SHARED_SAVE_NATIVE_CALLS = (
-    (0x0800A91C, "shared_load_target", (0x222, 0x242, 0x32384, 0x138CB2,
-      0x13CA80, 0x140430, 0x141CA0, 0x142638, 0x1428AE)),
-    (0x0800AC00, "shared_clear_target", (0x22E, 0x250, 0x270, 0x25F9E,
-      0x32390, 0x138D10, 0x13CA8C, 0x14043C, 0x141CAC, 0x142644, 0x1428BA, 0x1429A6)),
-)
-
-
-def build_shared_save_writes(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
-    """Exact USA loader/clear calls; adventure activation composes with color startup."""
-    writes = {}
-    for native, key, offsets in SHARED_SAVE_NATIVE_CALLS:
-        for offset in offsets:
-            validate_expected_instruction_sequence(
-                rom, offset, thumb_bl_bytes(0x08000000 + offset, native), key)
-            writes[offset] = thumb_bl_bytes(0x08000000 + offset, targets[key])
-    for offset, before, after in (
-        (0x14A802, thumb_bl_bytes(0x0814A802, 0x08138B44),
-         thumb_bl_bytes(0x0814A802, targets["single_save_target"])),
-        # Mode-menu Back exits to title instead of reopening the file selector.
-        (0x13D8A0, bytes.fromhex("15c41308"), bytes.fromhex("a1211408")),
-        (0x26A, bytes.fromhex("022c"), bytes.fromhex("002c")),
-        (0x278, bytes.fromhex("0f2e"), bytes.fromhex("032e")),
-    ):
-        validate_expected_instruction_sequence(rom, offset, before, "single save startup")
-        writes[offset] = after
-    validate_expected_instruction_sequence(rom, 0x2D91FC, bytes.fromhex(
-        "f08b020220000000108c020280000000a08c02023e0200006089030224000000"
-        "d029020204000000d8290202040000002cad030202000000ffffffffffffffff"),
-        "native WORLD descriptor layout")
-    # Every retail descriptor reference, including native checksum/clear helpers.
-    for offset in (0xA9EC, 0xAA18, 0xAADC, 0xAB04, 0xABF4, 0xAD4C,
-                   0x325DC, 0x32640, 0x3280C):
-        validate_expected_instruction_sequence(rom, offset, bytes.fromhex("fc912d08"),
-                                               "WORLD descriptor table")
-        writes[offset] = bytes.fromhex("80ff0009")
-    return writes
 
 
 # USA native register contracts: full-room scanner holds template/LevelInfo in
@@ -1718,7 +1673,6 @@ def patch_rom_with_payload(
         "extended payload retail zero padding",
     )
     regression_writes = build_hub_teleport_writes(rom, hook_targets["hub_trap_hook_target"])
-    regression_writes.update(build_shared_save_writes(rom, hook_targets))
     regression_writes.update(build_runtime_regression_writes(rom, hook_targets, rom_base))
     regression_writes.update(build_health_hud_writes(
         rom, hook_targets["health_hud_hook_target"], rom_base))
