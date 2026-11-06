@@ -1,7 +1,7 @@
 {
   "supersedes_native_layout_evidence": "shared-save-foundation-evidence.json (APSHR01 three-slot format only)",
   "marker": "APSHR02",
-  "patch_sha256": "724c548a3111981a4c78150547cdb60307b960a232c5e6d1ed04b77e53874fe8",
+  "patch_sha256": "4fb272e82a58bd4ff3c585dcb891f6e113977c86615502f49008e176220f8fb3",
   "extra_data_bytes": 4096,
   "extra_ewram_range": [
     "0x0203B200",
@@ -48,5 +48,12 @@
     "passed": 4987,
     "initial_failures": 6,
     "resolution": "Two intentional slot-data documentation/snapshot updates corrected; all seven contract/snapshot tests pass. Four local-socket tests pass with loopback access permitted."
+  },
+  "main_integration": {
+    "base": "d001e2a",
+    "focused_tests": 471,
+    "native_probe": "passed all cases after source-composed rebuild",
+    "synthetic_build": "passed",
+    "release_scope": "upstream release sections preserved; foundation remains Unreleased"
   }
 }

@@ -121,3 +121,62 @@ ap_single_save_entry:
     bx r3
 .align 2
 1: .word ap_single_save_enter
+
+.section .text.ap_transition_entries,"ax",%progbits
+.balign 4
+.global ap_area_spawn_level_entry
+.type ap_area_spawn_level_entry, %function
+.thumb_func
+ap_area_spawn_level_entry:
+    push {r4, lr}
+    ldr r3, 2f
+    bl 1f
+    cmp r0, #0
+    bne 3f
+    movs r0, r6
+    movs r1, r7
+    ldr r3, 4f
+    bl 1f
+3:  pop {r4}
+    pop {r1}
+    bx r1
+1:  bx r3
+.balign 4
+2:  .word 0x080027E9
+4:  .word ap_area_key_spawn_blocked
+.size ap_area_spawn_level_entry, .-ap_area_spawn_level_entry
+
+.section .text.ap_transition_entries,"ax",%progbits
+.balign 4
+.global ap_area_spawn_strip_entry
+.type ap_area_spawn_strip_entry, %function
+.thumb_func
+ap_area_spawn_strip_entry:
+    push {r4, lr}
+    ldr r3, 2f
+    bl 1f
+    cmp r0, #0
+    bne 3f
+    movs r0, r5
+    movs r1, r7
+    ldr r3, 4f
+    bl 1f
+3:  pop {r4}
+    pop {r1}
+    bx r1
+1:  bx r3
+.balign 4
+2:  .word 0x080027E9
+4:  .word ap_area_key_spawn_blocked
+.size ap_area_spawn_strip_entry, .-ap_area_spawn_strip_entry
+
+.section .text.ap_transition_entries,"ax",%progbits
+.balign 4
+.global ap_area_door_decoration_entry
+.type ap_area_door_decoration_entry, %function
+.thumb_func
+ap_area_door_decoration_entry:
+    ldr r3, 1f
+    bx r3
+1:  .word ap_area_door_decoration
+.size ap_area_door_decoration_entry, .-ap_area_door_decoration_entry

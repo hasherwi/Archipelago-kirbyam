@@ -1171,6 +1171,43 @@ def build_shared_save_writes(rom: bytes | bytearray, targets: dict[str, int]) ->
     return writes
 
 
+# USA native register contracts: full-room scanner holds template/LevelInfo in
+# r6/r7; both strip scanners use r5/r7. Validate the surrounding instructions,
+# not just the BL, before installing their adapters.
+AREA_OBJECT_SPAWN_SITES = {
+    0xA19C: ("level", bytes.fromhex("434bfa181278f8f724fb002870d1")),
+    0xA306: ("strip", bytes.fromhex("154bfa181278f8f76ffa002800d0")),
+    0xA4B2: ("strip", bytes.fromhex("154bfa181278f8f799f9002800d0")),
+}
+AREA_OBJECT_TASK_POINTERS = {
+    0xBE44: (0x08099B81, "ap_area_warp_star_main"),
+    0x1E300: (0x08099B81, "ap_area_hub_mirror_main"),
+    0x2AB38: (0x08099B81, "ap_area_hub_mirror_main"),
+    0x119D28: (0x08099B81, "ap_area_mirror_main"),
+    0xA840: (0x0800A6E9, "ap_area_spawn_main"),
+}
+AREA_DOOR_DECORATION_SITES = (0x2B2B8, 0x2B446, 0x2B48A)
+
+
+def build_area_object_writes(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
+    writes = {}
+    found = discover_thumb_bl_callsites_to_targets(
+        rom, {0x0802B2F4}, rom_base=0x08000000, scan_start=0, scan_end=0x280000,
+    )
+    if found != list(AREA_DOOR_DECORATION_SITES):
+        raise SystemExit("Error: Area Door decoration callsite inventory changed")
+    for offset, (adapter, expected) in AREA_OBJECT_SPAWN_SITES.items():
+        validate_exact_rom_bytes(rom, offset - 6, expected, "Area Key spawn scanner register contract")
+        writes[offset] = thumb_bl_bytes(0x08000000 + offset, targets["ap_area_spawn_" + adapter + "_entry"])
+    for offset, (native, name) in AREA_OBJECT_TASK_POINTERS.items():
+        validate_exact_rom_bytes(rom, offset, native.to_bytes(4, "little"), "Area Key native task callback")
+        writes[offset] = (targets[name] | 1).to_bytes(4, "little")
+    for offset in AREA_DOOR_DECORATION_SITES:
+        validate_thumb_bl_callsite_target(rom, offset, "Area Door decoration", 0x0802B2F4)
+        writes[offset] = thumb_bl_bytes(0x08000000 + offset, targets["ap_area_door_decoration_entry"])
+    return writes
+
+
 def build_hub_teleport_writes(rom: bytes | bytearray, target: int) -> dict[int, bytes]:
     """Fail closed on the USA scheduler call, native input decoder and warp-star sequence."""
     offset = 0x151CF4
@@ -2052,6 +2089,14 @@ def main() -> None:
             hook_targets,
         )
 
+        area_object_symbols = (
+            "ap_area_spawn_level_entry", "ap_area_spawn_strip_entry", "ap_area_door_decoration_entry",
+            "ap_area_warp_star_main", "ap_area_mirror_main", "ap_area_spawn_main", "ap_area_hub_mirror_main",
+        )
+        area_object_writes = build_area_object_writes(rom, {
+            name: resolve_elf_symbol_address(payload_elf_path, name) for name in area_object_symbols
+        })
+
         patch_rom_with_payload(
             rom,
             payload,
@@ -2069,6 +2114,8 @@ def main() -> None:
             rom_base,
         )
 
+        for offset, data in area_object_writes.items():
+            rom[offset:offset + len(data)] = data
         apply_color_extension(rom, payload_elf_path)
 
         with open(INTERMEDIARY_ROM, "wb") as f:

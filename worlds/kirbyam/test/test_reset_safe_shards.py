@@ -382,7 +382,15 @@ def test_ap_hook_preserves_register_context_without_r4_temp_restore() -> None:
         content = f.read()
 
     # Strip // line comments so comment text cannot trigger false positives/negatives.
-    code_only = re.sub(r'//[^\n]*', '', content)
+    hook = re.search(
+        r"^ap_hook_entry:[^\n]*\n(?P<body>.*?)(?=^\s*\.(?:global|section|size)\b|\Z)",
+        content,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+    assert hook is not None, "ap_hook_entry definition must exist"
+    # Other entry points have their own ABI. In particular, the spawn adapters
+    # legitimately restore their saved r4; they do not rebuild LR through r4.
+    code_only = re.sub(r'//[^\n]*', '', hook.group("body"))
     # Normalize runs of spaces/tabs to a single space.
     normalized = re.sub(r'[ \t]+', ' ', code_only)
 

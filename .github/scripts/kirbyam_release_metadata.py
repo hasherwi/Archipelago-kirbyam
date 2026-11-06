@@ -75,48 +75,38 @@ def build_release_metadata(github_ref: str) -> ReleaseMetadata:
     )
 
 
-def check_changelog_has_version(changelog_path: Path, version: str) -> None:
-    """Raise ValueError if the changelog does not contain a section for version.
-
-    Looks for a heading of the exact form ``## v{version}`` anywhere in the
-    file.  Raises with a descriptive message so the CI step fails clearly.
-    """
-    text = changelog_path.read_text(encoding="utf-8")
-    heading = f"## v{version}"
-    for line in text.splitlines():
-        if line.strip() == heading:
-            return
+def _changelog_section(changelog_path: Path, version: str) -> tuple[list[str], int, int]:
+    """Prefer exact notes; only a valid RC may fall back to its base version."""
+    lines = changelog_path.read_text(encoding="utf-8").splitlines()
+    candidates = [version]
+    match = TAG_PATTERN.fullmatch(f"kirbyam-v{version}")
+    if match and "-rc" in version:
+        candidates.append(version.split("-", 1)[0])
+    for candidate in candidates:
+        indexes = [i for i, line in enumerate(lines) if line.strip() == f"## v{candidate}"]
+        if len(indexes) > 1:
+            raise ValueError(f"CHANGELOG.md contains duplicate sections for v{candidate}")
+        if indexes:
+            start = indexes[0]
+            end = next((i for i in range(start + 1, len(lines))
+                        if lines[i].strip().startswith("## ")), len(lines))
+            return lines, start, end
+    expected = " or ".join(f"'## v{candidate}'" for candidate in candidates)
     raise ValueError(
         f"CHANGELOG.md does not contain a section for v{version}. "
-        f"Add a '## v{version}' heading before tagging the release."
+        f"Add a {expected} heading before tagging the release."
     )
 
 
+def check_changelog_has_version(changelog_path: Path, version: str) -> None:
+    """Validate notes using the same selection policy as extraction."""
+    _changelog_section(changelog_path, version)
+
+
 def extract_changelog_section(changelog_path: Path, version: str) -> str:
-    """Extract the markdown section for a single changelog version."""
-    text = changelog_path.read_text(encoding="utf-8")
-    heading = f"## v{version}"
-    lines = text.splitlines()
-    start_index = None
-
-    for index, line in enumerate(lines):
-        if line.strip() == heading:
-            start_index = index
-            break
-
-    if start_index is None:
-        raise ValueError(
-            f"CHANGELOG.md does not contain a section for v{version}. "
-            f"Add a '## v{version}' heading before tagging the release."
-        )
-
-    end_index = len(lines)
-    for index in range(start_index + 1, len(lines)):
-        if lines[index].startswith("## "):
-            end_index = index
-            break
-
-    return "\n".join(lines[start_index:end_index]).rstrip() + "\n"
+    """Extract selected source notes, retaining their original version heading."""
+    lines, start, end = _changelog_section(changelog_path, version)
+    return "\n".join(lines[start:end]).rstrip() + "\n"
 
 
 def inject_world_version(manifest_path: Path, world_version: str) -> bool:
@@ -184,7 +174,7 @@ def main() -> int:
 
     if args.changelog and metadata.release_enabled:
         check_changelog_has_version(args.changelog, metadata.version)
-        print(f"CHANGELOG.md contains section for v{metadata.version}")
+        print(f"CHANGELOG.md contains release notes for v{metadata.version}")
 
     if args.release_notes and args.changelog and metadata.release_enabled:
         args.release_notes.write_text(

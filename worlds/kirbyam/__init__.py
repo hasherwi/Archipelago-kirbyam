@@ -1160,7 +1160,7 @@ class KirbyAmWorld(World):
         slot_data["shared_save_protocol_version"] = 1
         slot_data["hub_connection_protocol_version"] = 2
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
-        slot_data["kirby_color_catalog_version"] = 2
+        slot_data["kirby_color_catalog_version"] = 3
         slot_data["starting_kirby_color"] = resolved_color_id
         slot_data["starting_kirby_color_name"] = resolved_color_name
         slot_data["starting_kirby_color_randomize_on_room_transition"] = (
