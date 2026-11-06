@@ -6225,7 +6225,6 @@
     }
   },
   "shards": 2,
-  "shared_save_protocol_version": 1,
   "stake_breaking_abilities": [
     "Hammer",
     "Master",

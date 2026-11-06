@@ -2,7 +2,6 @@
 
 This verifies call policy and buffer reload, not native ARM/SRAM acceptance.
 """
-from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -52,10 +51,9 @@ int main(void) {
     ap_on_world_map_unlock_call(fake_unknown); CHECK(unknown_calls==1 && completions==0 && saves==0);
     ap_on_world_map_unlock_call(0); CHECK(unknown_calls==1 && completions==0);
     memcpy((void*)AP_HUB_ROM_AUTH,"0123456789abcdef",16);
-    CHECK(mmap((void*)0x03000000u,0x8000,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x03000000u);
-    for(unsigned slot=0;slot<1;slot++) {
+    for(unsigned slot=0;slot<3;slot++) {
         memset((void*)0x02000000u,0,0x40000);
-        host_shared_active();
+        *(uint16_t*)0x0203AD48u=slot;
         for(unsigned door=1;door<=15;door++) {
             unsigned bit=ap_hub_bits[door], before=saves;
             /* Receipt opens a door but must leave the physical switch visible. */
@@ -78,13 +76,12 @@ int main(void) {
         unsigned before=saves;
         *(uint32_t*)0x0203AD10u=0x10;ap_set_hub_switch_flag(0);CHECK(saves==before);
         *(uint32_t*)0x0203AD10u=2;*(uint8_t*)0x0203AD3Cu=1;
-        ap_set_hub_switch_flag(1);CHECK(saves==before && network_requests==0);
-        *(uint8_t*)0x0203AD24u=1;ap_set_hub_switch_flag(2);CHECK(saves==before);
+        ap_set_hub_switch_flag(1);CHECK(saves==before && network_requests==slot+1);
+        *(uint8_t*)0x0203AD24u=1;ap_set_hub_switch_flag(2);CHECK(saves==before+1);
     }
     return 0;
 }
 '''
-    source = link_payload_modules(source, payload)
     cfile, exe = tmp_path / 'payload.c', tmp_path / 'payload'
     cfile.write_text(source)
     result = subprocess.run([cc, '-std=gnu99', '-w', '-I', str(payload), str(cfile), '-o', str(exe)],
