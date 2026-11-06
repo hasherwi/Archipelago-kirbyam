@@ -447,5 +447,12 @@
       }
     },
     "foundation_source_tree": "eaf84a8605eaf34fcad39b294d428c896e7d358f"
+  },
+  "collection_paint_integration": {
+    "foundation": "a900d415ed1f4c6151e6a363db0d8eeef2b4a08f",
+    "patch_sha256": "594bc6873c79dd1fdbd579300ad188f8db95f7ac067df3258de10d402a9ce122",
+    "focused_tests": 153,
+    "native": "Collection owned-paint selection, checksum copies, Adventure and cold reload passed; fresh/continued Adventure, Boss Endurance, Back/title/reentry and Boss reset/Adventure passed.",
+    "scope": "This paint follow-up did not rerun the all-sixteen route matrix; that evidence belongs to the preceding menu integration. Shared save ABI and Goal source mapping are unchanged."
   }
 }

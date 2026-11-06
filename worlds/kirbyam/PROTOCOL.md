@@ -1012,7 +1012,12 @@ menus and Boss Endurance never activate the AP Adventure epoch. The boot
 validation loop also visits only File 1; its all-blank error mask is adjusted
 from 15 to 3. Title/menu states publish no active epoch. New seed slots opt in
 to the shared client gate before AP data reads/writes; the ROM mailbox, Hub
-switch persistence and paint persistence require the active context too.
+switch persistence require the active context too. Collection's native paint
+confirmation is the narrow exception: it validates the successful File 1 WORLD
+load and full seed-authenticated record without activating an Adventure epoch,
+then saves only the owned-paint preference through the native serializer. A
+failed load, different slot, invalid record or changed seed rejects that write.
+Feature flags and mailbox work remain inactive in Collection.
 
 The replacement native WORLD descriptor table lives at ROM `0x0900FF80`.
 All nine original table references are guarded and redirected. The seven

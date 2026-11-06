@@ -16,6 +16,7 @@ static void logger(struct mLogger *l,int cat,enum mLogLevel level,const char *fm
 #define R16(a) c->busRead16(c,(a))
 #define R32(a) c->busRead32(c,(a))
 static void report(void) {
+ printf("paint_choice=%04x paint_owned=%08x selected_color=%u live_color=%u\n",R16(0x02038982),R32(0x02038974),R16(0x0203ade0),R8(0x02020fbf));
  printf("mode=%08x completion=%u ai=%u humans=%u\n",R32(0x0203ad10),R8(0x0203acb0),R16(0x0203ad2c),R8(0x0203ad30));
  uint32_t pc=0;c->readRegister(c,"pc",&pc);
  printf("pc=%08x coreframe=%u ",pc,c->frameCounter(c));
