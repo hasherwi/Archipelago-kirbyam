@@ -55,5 +55,11 @@
     "native_probe": "passed all cases after source-composed rebuild",
     "synthetic_build": "passed",
     "release_scope": "upstream release sections preserved; foundation remains Unreleased"
+  },
+  "async_watcher_review": {
+    "reproduced_gap": "initial snapshot alone did not fence later asynchronous operations",
+    "fix": "task-local epoch/auth guards on all client memory I/O, response validation and AP messages",
+    "tests": "18 interleaving/actual-watcher cases plus 288 existing client tests passed",
+    "combined_focused_tests": 489
   }
 }

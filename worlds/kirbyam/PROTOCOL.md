@@ -1045,3 +1045,17 @@ creates synthetic checksum-valid progress fixtures and corrupts copies only in
 its private output directory. It writes full private ROM/save/state/screenshot
 artifacts there; do not commit them. `dev-docs/single-save-evidence.json` records
 the tested layout and limits without distributing those artifacts.
+
+
+### Async watcher epoch fencing
+
+`shared_watcher` retains the initial authenticated epoch in a task-local scope
+for the whole watcher iteration. Every client memory read and write adds
+bridge GUARD checks for epoch/serial/slot and the full ROM auth token. Existing
+native write guards are retained. Response validation rejects results that
+were executed before reset but delivered after it, and AP location/goal sends
+revalidate the same context. AP session/socket/connector changes also abort
+the scope. Context changes invalidate cached RAM/receipt state for fresh
+reconciliation on the next valid iteration. Legacy slots retain their existing
+transport behavior. Feature integrations must route runtime I/O and messages
+through `shared_watcher` rather than bypass the active task scope.

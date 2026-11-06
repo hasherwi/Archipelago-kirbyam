@@ -23,7 +23,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - None.
 
 ### Internal Changes
-- Added a shared, seed-authenticated save record and active-save context for the separate Goal Game and Copy Room features (#1000, #1002), preventing cached state from being attributed to another seed or save slot.
+- Added a shared, seed-authenticated save record and active-save context for the separate Goal Game and Copy Room features (#1000, #1002), preventing cached state from being attributed to another seed or save slot and fencing asynchronous client operations to the active adventure.
 
 ## v0.5.0
 
