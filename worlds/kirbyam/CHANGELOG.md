@@ -46,6 +46,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 
 ### Bug Fixes
+- Correct Rainbow Route 1-06’s small chest to the lower cave, preventing the upper path from granting access (Issue #1032).
 - Avoid a misleading ROM compatibility warning when disconnecting from the server.
 - Resume item delivery and gameplay polling when continuing a completed save, while keeping ending, title and demo screens deferred (Issue #1004).
 - Keep duplicate incoming DeathLinks suppressed when reconnecting to the same seed and slot.
