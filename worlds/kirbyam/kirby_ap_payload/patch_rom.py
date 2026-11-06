@@ -1013,6 +1013,10 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
 def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
     targets = {
         "single_save_target": resolve_elf_symbol_address(payload_elf_path, "ap_single_save_entry"),
+
+        "goal_transition_target": resolve_elf_symbol_address(payload_elf_path, "ap_goal_transition_entry"),
+        "goal_start_target": resolve_elf_symbol_address(payload_elf_path, "ap_goal_start_callback"),
+        "goal_landed_target": resolve_elf_symbol_address(payload_elf_path, "ap_goal_landed_callback"),
         "shared_load_target": resolve_elf_symbol_address(payload_elf_path, "ap_shared_load_entry"),
         "shared_clear_target": resolve_elf_symbol_address(payload_elf_path, "ap_shared_clear_entry"),
         "treasure_paint_hook_target": resolve_elf_symbol_address(
@@ -1100,6 +1104,8 @@ _PAYLOAD_TARGET_LABELS = {
     "small_switch_effect_hook_target": "lever small-switch effect hook",
     "special_door_state_hook_target": "Area Key mirror visual-state hook",
     "single_save_target": "single save startup",
+
+    "goal_transition_target": "Goal Game doorway transition",
     "shared_load_target": "shared save load",
     "shared_clear_target": "shared save clear",
     "automatic_transition_guard_target": "Area Key automatic-transition guard",
@@ -1124,6 +1130,10 @@ def validate_payload_targets(
     payload_rom_end: int,
 ) -> None:
     for name, target in hook_targets.items():
+        if name in ("goal_start_target", "goal_landed_target"):
+            if not 0x09000000 <= target < 0x0900FFDC:
+                raise SystemExit("Goal Game callback outside extension")
+            continue
         if not (payload_rom_start <= target < payload_rom_end):
             raise SystemExit(
                 "Error: "
@@ -1132,6 +1142,22 @@ def validate_payload_targets(
                 f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
                 "Check your payload.elf link address and PAYLOAD_OFFSET."
             )
+
+
+def build_goal_game_writes(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
+    writes = {}
+    for offset, native, key in ((0xC5F0, 0x0800DCAD, "goal_start_target"),
+                                (0xD2DC, 0x0800D2E1, "goal_landed_target")):
+        validate_expected_instruction_sequence(rom, offset, native.to_bytes(4, "little"), key)
+        target = targets[key] | 1
+        if not 0x09000000 <= target < 0x0900FFDC:
+            raise SystemExit("Goal Game callback outside extension")
+        writes[offset] = target.to_bytes(4, "little")
+    offset = 0x55DF0
+    validate_expected_instruction_sequence(rom, offset, thumb_bl_bytes(0x08000000 + offset, 0x080562D0),
+                                           "Goal Game doorway transition")
+    writes[offset] = thumb_bl_bytes(0x08000000 + offset, targets["goal_transition_target"])
+    return writes
 
 
 SHARED_SAVE_NATIVE_CALLS = (
@@ -1719,6 +1745,7 @@ def patch_rom_with_payload(
     )
     regression_writes = build_hub_teleport_writes(rom, hook_targets["hub_trap_hook_target"])
     regression_writes.update(build_shared_save_writes(rom, hook_targets))
+    regression_writes.update(build_goal_game_writes(rom, hook_targets))
     regression_writes.update(build_runtime_regression_writes(rom, hook_targets, rom_base))
     regression_writes.update(build_health_hud_writes(
         rom, hook_targets["health_hud_hook_target"], rom_base))

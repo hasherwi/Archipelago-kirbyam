@@ -143,6 +143,7 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch: pytest.MonkeyPa
     # The hub contract has separate corruption tests and local real-ROM validation.
     monkeypatch.setattr(patch_rom, "build_hub_teleport_writes", lambda *args: {})
     monkeypatch.setattr(patch_rom, "build_shared_save_writes", lambda *args: {})
+    monkeypatch.setattr(patch_rom, "build_goal_game_writes", lambda *args: {})
     rom = bytearray(b"\xA5" * 0x200000)
     rom[patch_rom.PAYLOAD_OFFSET:patch_rom.PAYLOAD_LEGACY_OFFSET] = bytes(0x400)
     for offset in patch_rom.HEALTH_HUD_CALLSITES:
@@ -226,6 +227,7 @@ def test_door_to_hub_init_state_lookup_is_separate_and_left_native(monkeypatch) 
     monkeypatch.setattr(patch_rom, "build_health_hud_writes", lambda *args: {})
     monkeypatch.setattr(patch_rom, "build_hub_teleport_writes", lambda *args: {})
     monkeypatch.setattr(patch_rom, "build_shared_save_writes", lambda *args: {})
+    monkeypatch.setattr(patch_rom, "build_goal_game_writes", lambda *args: {})
     # sub_0802AD00 in special_doors.c activates the physical door from this
     # state. The hook belongs only to sub_0811938C's switch initializer.
     assert patch_rom.DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET == 0x0002AD24
@@ -562,3 +564,21 @@ def test_single_save_rejects_changed_native_descriptor_layout():
     rom[0x2D91FC+12] ^= 1
     with pytest.raises(SystemExit, match="native WORLD descriptor layout"):
         patch_rom.build_shared_save_writes(rom, targets)
+
+def test_goal_game_hooks_validate_exact_native_completion_and_transition():
+    rom = bytearray(0x60000)
+    rom[0xC5F0:0xC5F4] = (0x0800DCAD).to_bytes(4, 'little')
+    rom[0xD2DC:0xD2E0] = (0x0800D2E1).to_bytes(4, 'little')
+    rom[0x55DF0:0x55DF4] = patch_rom.thumb_bl_bytes(0x08055DF0, 0x080562D0)
+    targets = {'goal_start_target': 0x09002000, 'goal_landed_target': 0x09002100,
+               'goal_transition_target': 0x0815E000}
+    writes = patch_rom.build_goal_game_writes(rom, targets)
+    assert set(writes) == {0xC5F0, 0xD2DC, 0x55DF0}
+    for offset in writes:
+        changed = bytearray(rom)
+        changed[offset] ^= 1
+        with pytest.raises(SystemExit):
+            patch_rom.build_goal_game_writes(changed, targets)
+    for name in ('goal_start_target', 'goal_landed_target'):
+        with pytest.raises(SystemExit):
+            patch_rom.build_goal_game_writes(rom, dict(targets, **{name: 0x02000000}))

@@ -63,6 +63,10 @@ def build_dummy_rom() -> bytearray:
     for offset in patch_rom.STARTING_COLOR_START_GAME_CALL_OFFSETS:
         put_bl(offset, patch_rom.ORIGINAL_START_GAME_FN_ADDR)
 
+    put_bl(0x55DF0, 0x080562D0)
+    rom[0xC5F0:0xC5F4] = (0x0800DCAD).to_bytes(4, "little")
+    rom[0xD2DC:0xD2E0] = (0x0800D2E1).to_bytes(4, "little")
+
     # Shared save lifecycle requires exact loader and clear calls.
     for target, _key, offsets in patch_rom.SHARED_SAVE_NATIVE_CALLS:
         for offset in offsets:

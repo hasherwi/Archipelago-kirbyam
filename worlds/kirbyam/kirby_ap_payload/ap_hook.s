@@ -180,3 +180,13 @@ ap_area_door_decoration_entry:
     bx r3
 1:  .word ap_area_door_decoration
 .size ap_area_door_decoration_entry, .-ap_area_door_decoration_entry
+
+.section .text.ap_goal_entries,"ax",%progbits
+.balign 4
+.global ap_goal_transition_entry
+.type ap_goal_transition_entry, %function
+.thumb_func
+ap_goal_transition_entry:
+    ldr r3, 1f
+    bx r3
+1: .word ap_goal_transition
