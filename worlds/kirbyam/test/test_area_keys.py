@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import logging
+from unittest.mock import patch
 
 import pytest
 
 from BaseClasses import CollectionState, Item, ItemClassification, MultiWorld
-from test.general import setup_multiworld, setup_solo_multiworld
+from test.general import setup_multiworld
 from worlds.AutoWorld import call_all
 
 from .. import KirbyAmWorld
@@ -31,6 +32,13 @@ _PRE_GENERATE_BASIC_STEPS = (
     "create_items",
     "set_rules",
 )
+
+
+def _setup_before_starting_area_key(worlds, *, seed: int, options=None) -> MultiWorld:
+    # Boundary tests need to adjust access before the item-stage fallback runs.
+    # Separate lifecycle tests below exercise the real stage without this seam.
+    with patch.object(KirbyAmWorld, "stage_create_items"):
+        return setup_multiworld(worlds, steps=_PRE_GENERATE_BASIC_STEPS, seed=seed, options=options)
 
 
 def _limit_reachable_checks(multiworld: MultiWorld, player: int, count: int) -> None:
@@ -151,7 +159,8 @@ def test_core_landmarks_fill_default_capacity_without_duplicating_room_sanity() 
     )
     assert len({location.address for location in on_room_locations}) == len(on_room_locations)
     assert all(
-        len(_owned_pool_items(off_world, 1, label)) == 1
+        len(_owned_pool_items(off_world, 1, label))
+        + sum(item.name == label for item in off_world.precollected_items[1]) == 1
         for label in AREA_KEY_LABELS
     )
 
@@ -174,12 +183,11 @@ def test_directed_area_key_contract_contains_main_and_room_edges_only_into_areas
     assert "REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN" not in gated
 
 
-def test_generate_basic_precollects_moonlight_below_viability_threshold(
+def test_item_stage_precollects_moonlight_below_viability_threshold(
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    multiworld = setup_multiworld(
+    multiworld = _setup_before_starting_area_key(
         KirbyAmWorld,
-        steps=_PRE_GENERATE_BASIC_STEPS,
         seed=42,
         options={"room_sanity": 1},
     )
@@ -201,7 +209,7 @@ def test_generate_basic_precollects_moonlight_below_viability_threshold(
     assert len(_owned_pool_items(multiworld, 1, FALLBACK_STARTING_AREA_KEY_LABEL)) == 1
 
     with caplog.at_level(logging.INFO):
-        world.generate_basic()
+        world._ensure_starting_area_key()
 
     assert len(multiworld.itempool) == original_pool_size
     assert _owned_pool_items(multiworld, 1, FALLBACK_STARTING_AREA_KEY_LABEL) == []
@@ -219,10 +227,9 @@ def test_generate_basic_precollects_moonlight_below_viability_threshold(
     ) == EARLY_REACHABLE_CHECK_THRESHOLD
 
 
-def test_generate_basic_does_not_precollect_at_viability_threshold() -> None:
-    multiworld = setup_multiworld(
+def test_item_stage_does_not_precollect_at_viability_threshold() -> None:
+    multiworld = _setup_before_starting_area_key(
         KirbyAmWorld,
-        steps=_PRE_GENERATE_BASIC_STEPS,
         seed=43,
         options={"room_sanity": 1},
     )
@@ -230,7 +237,7 @@ def test_generate_basic_does_not_precollect_at_viability_threshold() -> None:
     _limit_reachable_checks(multiworld, 1, EARLY_REACHABLE_CHECK_THRESHOLD)
 
     original_pool_size = len(multiworld.itempool)
-    world.generate_basic()
+    world._ensure_starting_area_key()
 
     assert len(multiworld.itempool) == original_pool_size
     assert len(_owned_pool_items(multiworld, 1, FALLBACK_STARTING_AREA_KEY_LABEL)) == 1
@@ -240,10 +247,9 @@ def test_generate_basic_does_not_precollect_at_viability_threshold() -> None:
     )
 
 
-def test_generate_basic_does_not_duplicate_an_existing_starting_moonlight_key() -> None:
-    multiworld = setup_solo_multiworld(
+def test_item_stage_does_not_duplicate_an_existing_starting_moonlight_key() -> None:
+    multiworld = _setup_before_starting_area_key(
         KirbyAmWorld,
-        steps=_PRE_GENERATE_BASIC_STEPS,
         seed=46,
     )
     world = multiworld.worlds[1]
@@ -254,7 +260,7 @@ def test_generate_basic_does_not_duplicate_an_existing_starting_moonlight_key() 
     original_pool_key_count = len(
         _owned_pool_items(multiworld, 1, FALLBACK_STARTING_AREA_KEY_LABEL)
     )
-    world.generate_basic()
+    world._ensure_starting_area_key()
 
     assert len(multiworld.itempool) == original_pool_size
     assert len(_owned_pool_items(multiworld, 1, FALLBACK_STARTING_AREA_KEY_LABEL)) == original_pool_key_count
@@ -266,9 +272,8 @@ def test_generate_basic_does_not_duplicate_an_existing_starting_moonlight_key() 
 
 
 def test_existing_non_moonlight_key_uses_real_state_reachability_to_avoid_fallback() -> None:
-    multiworld = setup_multiworld(
+    multiworld = _setup_before_starting_area_key(
         KirbyAmWorld,
-        steps=_PRE_GENERATE_BASIC_STEPS,
         seed=47,
         options={"room_sanity": 1},
     )
@@ -291,7 +296,7 @@ def test_existing_non_moonlight_key_uses_real_state_reachability_to_avoid_fallba
         location.access_rule = requires_cabbage_key
     multiworld.push_precollected(world.create_item(cabbage_key))
 
-    world.generate_basic()
+    world._ensure_starting_area_key()
 
     assert world._early_reachable_check_count == EARLY_REACHABLE_CHECK_THRESHOLD
     assert not any(
@@ -300,17 +305,16 @@ def test_existing_non_moonlight_key_uses_real_state_reachability_to_avoid_fallba
     )
 
 
-def test_generate_basic_fallback_is_isolated_per_player() -> None:
-    multiworld = setup_multiworld(
+def test_item_stage_fallback_is_isolated_per_player() -> None:
+    multiworld = _setup_before_starting_area_key(
         [KirbyAmWorld, KirbyAmWorld],
-        steps=_PRE_GENERATE_BASIC_STEPS,
         seed=44,
         options={"room_sanity": 1},
     )
     _limit_reachable_checks(multiworld, 1, EARLY_REACHABLE_CHECK_THRESHOLD - 1)
     _limit_reachable_checks(multiworld, 2, EARLY_REACHABLE_CHECK_THRESHOLD)
 
-    call_all(multiworld, "generate_basic")
+    KirbyAmWorld.stage_create_items(multiworld)
 
     assert len(_owned_pool_items(multiworld, 1, FALLBACK_STARTING_AREA_KEY_LABEL)) == 0
     assert len(_owned_pool_items(multiworld, 2, FALLBACK_STARTING_AREA_KEY_LABEL)) == 1
@@ -338,7 +342,7 @@ def test_two_player_restrictive_fill_keeps_every_area_key_out_of_its_own_lock(ro
     precollected_keys = [item for items in multiworld.precollected_items.values()
                          for item in items if item.name in AREA_KEY_LABELS]
     # The lower-cave chest is no longer a starting check. With RoomSanity off,
-    # generate_basic legitimately moves each player's Moonlight key out of fill.
+    # Item creation legitimately moves each player's Moonlight key out of fill.
     assert len(area_key_locations) + len(precollected_keys) == 16
     assert len(precollected_keys) == (2 if not room_sanity else 0)
     for player in (1, 2):
@@ -367,9 +371,8 @@ def test_two_player_restrictive_fill_keeps_every_area_key_out_of_its_own_lock(ro
 
 
 def test_slot_data_encodes_only_this_players_precollected_area_keys() -> None:
-    multiworld = setup_multiworld(
+    multiworld = _setup_before_starting_area_key(
         [KirbyAmWorld, KirbyAmWorld],
-        steps=_PRE_GENERATE_BASIC_STEPS,
         seed=45,
     )
     world_one = multiworld.worlds[1]
@@ -389,3 +392,23 @@ def test_slot_data_encodes_only_this_players_precollected_area_keys() -> None:
         3961221,
         3961256,
     ]
+
+
+@pytest.mark.parametrize("room_sanity", [0, 1])
+def test_starting_key_finalizes_pool_during_create_items(room_sanity: int) -> None:
+    multiworld = setup_multiworld(
+        KirbyAmWorld, seed=1032, steps=("generate_early", "create_regions", "create_items"),
+        options={"room_sanity": room_sanity},
+    )
+    created = list(multiworld.itempool)
+    world = multiworld.worlds[1]
+    assert sum(item.name == FALLBACK_STARTING_AREA_KEY_LABEL
+               for item in multiworld.precollected_items[1]) == (0 if room_sanity else 1)
+    entrance = multiworld.get_entrance(
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID -> REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_CHEST", 1)
+    rule = entrance.access_rule
+    for step in ("set_rules", "connect_entrances", "generate_basic", "pre_fill"):
+        call_all(multiworld, step)
+        assert multiworld.itempool == created
+    assert entrance.access_rule is rule
+    assert len(world.auth) == 16
