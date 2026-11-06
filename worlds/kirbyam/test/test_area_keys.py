@@ -34,6 +34,7 @@ _PRE_GENERATE_BASIC_STEPS = (
 
 
 def _limit_reachable_checks(multiworld: MultiWorld, player: int, count: int) -> None:
+    # Boundary fixtures enable RoomSanity to supply enough real reachable checks.
     state = CollectionState(multiworld)
     numeric_locations = [
         location
@@ -176,10 +177,11 @@ def test_directed_area_key_contract_contains_main_and_room_edges_only_into_areas
 def test_generate_basic_precollects_moonlight_below_viability_threshold(
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    multiworld = setup_solo_multiworld(
+    multiworld = setup_multiworld(
         KirbyAmWorld,
         steps=_PRE_GENERATE_BASIC_STEPS,
         seed=42,
+        options={"room_sanity": 1},
     )
     world = multiworld.worlds[1]
     _limit_reachable_checks(multiworld, 1, EARLY_REACHABLE_CHECK_THRESHOLD - 1)
@@ -218,10 +220,11 @@ def test_generate_basic_precollects_moonlight_below_viability_threshold(
 
 
 def test_generate_basic_does_not_precollect_at_viability_threshold() -> None:
-    multiworld = setup_solo_multiworld(
+    multiworld = setup_multiworld(
         KirbyAmWorld,
         steps=_PRE_GENERATE_BASIC_STEPS,
         seed=43,
+        options={"room_sanity": 1},
     )
     world = multiworld.worlds[1]
     _limit_reachable_checks(multiworld, 1, EARLY_REACHABLE_CHECK_THRESHOLD)
@@ -263,10 +266,11 @@ def test_generate_basic_does_not_duplicate_an_existing_starting_moonlight_key() 
 
 
 def test_existing_non_moonlight_key_uses_real_state_reachability_to_avoid_fallback() -> None:
-    multiworld = setup_solo_multiworld(
+    multiworld = setup_multiworld(
         KirbyAmWorld,
         steps=_PRE_GENERATE_BASIC_STEPS,
         seed=47,
+        options={"room_sanity": 1},
     )
     world = multiworld.worlds[1]
     initially_reachable = [
@@ -301,6 +305,7 @@ def test_generate_basic_fallback_is_isolated_per_player() -> None:
         [KirbyAmWorld, KirbyAmWorld],
         steps=_PRE_GENERATE_BASIC_STEPS,
         seed=44,
+        options={"room_sanity": 1},
     )
     _limit_reachable_checks(multiworld, 1, EARLY_REACHABLE_CHECK_THRESHOLD - 1)
     _limit_reachable_checks(multiworld, 2, EARLY_REACHABLE_CHECK_THRESHOLD)
@@ -313,12 +318,14 @@ def test_generate_basic_fallback_is_isolated_per_player() -> None:
     assert area_key_bitfield_from_items(multiworld.precollected_items[2]) == 0
 
 
-def test_two_player_restrictive_fill_keeps_every_area_key_out_of_its_own_lock() -> None:
+@pytest.mark.parametrize("room_sanity", [0, 1])
+def test_two_player_restrictive_fill_keeps_every_area_key_out_of_its_own_lock(room_sanity: int) -> None:
     from Fill import distribute_items_restrictive
 
     multiworld = setup_multiworld(
         [KirbyAmWorld, KirbyAmWorld],
         seed=50,
+        options={"room_sanity": room_sanity},
     )
     distribute_items_restrictive(multiworld)
 
@@ -328,7 +335,17 @@ def test_two_player_restrictive_fill_keeps_every_area_key_out_of_its_own_lock() 
         for location in multiworld.get_filled_locations()
         if location.item is not None and location.item.name in AREA_KEY_LABELS
     ]
-    assert len(area_key_locations) == 16
+    precollected_keys = [item for items in multiworld.precollected_items.values()
+                         for item in items if item.name in AREA_KEY_LABELS]
+    # The lower-cave chest is no longer a starting check. With RoomSanity off,
+    # generate_basic legitimately moves each player's Moonlight key out of fill.
+    assert len(area_key_locations) + len(precollected_keys) == 16
+    assert len(precollected_keys) == (2 if not room_sanity else 0)
+    for player in (1, 2):
+        for label in AREA_KEY_LABELS:
+            assert sum(item.player == player and item.name == label
+                       for item in [*(location.item for location in area_key_locations),
+                                    *precollected_keys] if item is not None) == 1
     assert any(
         location.item is not None and location.player != location.item.player
         for location in area_key_locations
