@@ -60,6 +60,14 @@ AP_SHARED_EXT uint32_t ap_shared_epoch(void) {
     if (CTX->epoch && !context_matches()) deactivate();
     return CTX->epoch;
 }
+/* Collection's native A-button hook runs after WORLD load but outside Adventure.
+ * Permit only its owned-paint preference serializer; never activate the public
+ * epoch or permit feature/mailbox mutations from this menu context. */
+AP_SHARED_EXT uint8_t ap_shared_can_save_paint(void) {
+    initialize();
+    return SAVE_SLOT == 0u && CTX->loaded_slot == 0u
+        && ap_shared_record_valid(RECORD, AUTH);
+}
 AP_SHARED_EXT uint8_t ap_shared_update(uint32_t clear, uint32_t set) {
     if (!ap_shared_epoch()) return 0u;
     if (ap_shared_record_update(RECORD, AUTH, clear, set)) {

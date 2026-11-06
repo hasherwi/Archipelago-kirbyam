@@ -20,6 +20,9 @@ AP_SHARED_EXT void ap_shared_start(uint8_t humans, uint8_t local, const uint16_t
                                    const int32_t *positions, const uint32_t *spawn);
 AP_SHARED_EXT void ap_shared_poll(void);
 AP_SHARED_EXT uint32_t ap_shared_epoch(void);
+/* Only the native Collection paint-confirmation hook uses this loaded-file check.
+ * It does not activate an Adventure context. */
+AP_SHARED_EXT uint8_t ap_shared_can_save_paint(void);
 /* Mutations only succeed inside the current authenticated gameplay context. */
 AP_SHARED_EXT uint8_t ap_shared_update(uint32_t clear, uint32_t set);
 #endif

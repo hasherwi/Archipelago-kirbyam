@@ -1584,7 +1584,7 @@ static uint32_t ap_get_effective_starting_kirby_color(void) {
 __attribute__((used)) uint32_t ap_on_treasure_paint_selection(uint8_t *menu) {
     uint32_t index = menu[0x2A];
     if ((KIRBY_PRESSED_KEYS & 1u) && index < 40u && menu[2u + index]
-        && KIRBY_SAVE_ID == 0u && ap_shared_epoch()) {
+        && KIRBY_SAVE_ID == 0u && ap_shared_can_save_paint()) {
         uint32_t tag = ((const uint16_t*)0x08386A50u)[index * 2u];
         uint32_t paint = tag - 0x101u;
         if (tag == 0x100u || (ap_native_color_valid(paint)
