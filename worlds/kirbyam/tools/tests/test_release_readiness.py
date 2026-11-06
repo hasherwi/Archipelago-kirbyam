@@ -30,14 +30,15 @@ class ReadinessTests(unittest.TestCase):
         self.evidence_file = self.directory / 'owner.json'
         self.evidence_file.write_text(json.dumps(self.evidence))
         self.args = SimpleNamespace(tag=TAG, source=SHA, run_id=42,
-                                    owner_evidence=self.evidence_file, preflight=False, public=False)
+                                    owner_evidence=None, preflight=False, public=False)
         self.release = dict(tag_name=TAG, draft=True, immutable=False, html_url='release',
                             assets=[dict(name=n, digest='sha256:x') for n in r.artifacts.ASSETS])
 
     def responses(self, release=None, jobs=None, pending=None, run=None):
         release = release if release is not None else self.release
         return [{'object': {'type': 'commit', 'sha': SHA}}, release, run or RUN,
-                {'total_count': len(jobs) if jobs is not None else 1, 'jobs': jobs if jobs is not None else [JOB]}, pending or [], release]
+                {'total_count': len(jobs) if jobs is not None else 1, 'jobs': jobs if jobs is not None else [JOB]},
+                pending or [], {'object': {'type': 'commit', 'sha': SHA}}, release]
 
     def test_normal_staging_and_public_verification(self):
         for public in (False, True):
@@ -61,6 +62,7 @@ class ReadinessTests(unittest.TestCase):
             self.assertEqual(report['status'], 'preflight complete')
 
     def test_owner_missing_unreadable_and_unsubstantiated(self):
+        self.args.owner_evidence = self.evidence_file
         for value, expected in (({'status': 'missing'}, 'missing'), ({}, 'unreadable'),
                                 ({'status': 'verified'}, 'unreadable')):
             self.evidence['protected_tag'] = value
@@ -71,6 +73,64 @@ class ReadinessTests(unittest.TestCase):
                 api.assert_not_called()
         with self.assertRaises(ValueError):
             r.prerequisites(self.evidence, TAG, 'b' * 40)
+
+    def test_default_cli_preflight_needs_no_settings_evidence(self):
+        with patch.object(sys, 'argv', ['readiness', '--preflight', '--tag', TAG, '--source', SHA]), \
+             patch.object(r, 'source_check') as source, patch.object(r, 'api') as api, \
+             patch('sys.stdout', new_callable=io.StringIO) as output:
+            self.assertEqual(r.main(), 0)
+        source.assert_called_once_with(TAG, SHA)
+        api.assert_not_called()
+        report = json.loads(output.getvalue())
+        self.assertEqual(report['policy'], 'single-maintainer')
+        self.assertEqual(report['prerequisites'], {})
+        self.assertEqual(report['missing_prerequisites'], [])
+
+    def test_public_snapshot_reports_optional_immutability(self):
+        self.args.public = True
+        for immutable in (True, False, None):
+            with self.subTest(immutable=immutable):
+                self.release.update(draft=False, immutable=immutable)
+                with patch.object(r, 'source_check'), patch.object(r, 'api', side_effect=self.responses()), \
+                     patch.object(r, 'verify_download') as verify:
+                    report = {}
+                    self.assertTrue(r.inspect(self.args, report))
+                self.assertEqual(report['status'], 'published-and-verified')
+                self.assertEqual(report['immutable'], immutable)
+                self.assertEqual(bool(report['warnings']), immutable is not True)
+                verify.assert_called_once()
+
+    def test_strict_profile_retains_settings_and_immutable_checks(self):
+        self.args.owner_evidence = self.evidence_file
+        self.args.public = True
+        for immutable in (False, None):
+            self.release.update(draft=False, immutable=immutable)
+            with self.subTest(immutable=immutable), patch.object(r, 'source_check'), \
+                 patch.object(r, 'api', side_effect=self.responses()), \
+                 patch.object(r, 'verify_download') as verify, self.assertRaisesRegex(ValueError, 'immutable'):
+                r.inspect(self.args, {})
+            verify.assert_not_called()
+        self.release['immutable'] = True
+        with patch.object(r, 'source_check'), patch.object(r, 'api', side_effect=self.responses()), \
+             patch.object(r, 'verify_download'):
+            report = {}
+            self.assertTrue(r.inspect(self.args, report))
+            self.assertEqual(report['policy'], 'strict')
+
+    def test_public_mode_never_accepts_a_draft(self):
+        self.args.public = True
+        with patch.object(r, 'source_check'), patch.object(r, 'api', side_effect=self.responses()), \
+             patch.object(r, 'verify_download') as verify, self.assertRaisesRegex(ValueError, 'published release'):
+            r.inspect(self.args, {})
+        verify.assert_not_called()
+
+    def test_api_and_signature_failures_never_pass(self):
+        for failing_step in ('api', 'verify_download'):
+            with self.subTest(failing_step=failing_step), patch.object(r, 'source_check'), \
+                 patch.object(r, 'api', side_effect=self.responses()), patch.object(r, 'verify_download'), \
+                 patch.object(r, failing_step, side_effect=OSError('unavailable')), \
+                 self.assertRaisesRegex(OSError, 'unavailable'):
+                r.inspect(self.args, {})
 
     def test_failure_states_never_verify_assets(self):
         cases = [([dict(JOB, conclusion='skipped')], [], RUN, 'publisher skipped'),
@@ -104,6 +164,29 @@ class ReadinessTests(unittest.TestCase):
         with patch.object(r, 'source_check'), patch.object(r, 'api', side_effect=responses), \
              patch.object(r, 'verify_download'), self.assertRaisesRegex(ValueError, 'changed'):
             r.inspect(self.args, {})
+
+    def test_tag_moved_during_verification_stops(self):
+        for public in (False, True):
+            with self.subTest(public=public):
+                self.args.public = public
+                self.release.update(draft=not public)
+                responses = self.responses()
+                responses[-2] = {'object': {'type': 'commit', 'sha': 'b' * 40}}
+                with patch.object(r, 'source_check'), patch.object(r, 'api', side_effect=responses), \
+                     patch.object(r, 'verify_download') as verify, self.assertRaisesRegex(ValueError, 'remote tag'):
+                    r.inspect(self.args, {})
+                verify.assert_called_once()
+
+    def test_annotated_tags_are_peeled_before_and_after_verification(self):
+        responses = self.responses()
+        responses[0] = {'object': {'type': 'tag', 'sha': 'c' * 40}}
+        responses.insert(1, {'object': {'type': 'commit', 'sha': SHA}})
+        responses[-2] = {'object': {'type': 'tag', 'sha': 'c' * 40}}
+        responses.insert(len(responses) - 1, {'object': {'type': 'commit', 'sha': SHA}})
+        with patch.object(r, 'source_check'), patch.object(r, 'api', side_effect=responses) as api, \
+             patch.object(r, 'verify_download'):
+            self.assertTrue(r.inspect(self.args, {}))
+        self.assertEqual(sum(call.args == ('git/tags/' + 'c' * 40,) for call in api.call_args_list), 2)
 
     def test_verification_download_counts_do_not_block_readiness(self):
         for public in (False, True):

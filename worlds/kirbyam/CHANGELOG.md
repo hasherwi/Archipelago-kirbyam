@@ -38,7 +38,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Improvements
 - Remove save file selection, always use File 1 while retaining the game-mode menu, and add 4 KiB of storage for AP game data.
-- Add a release-preparation runbook, read-only readiness checks and staging status reporting, with consistent exact-version or matching base-version changelog selection for release candidates (Issue #1012). Owner settings verification and a live release rehearsal remain pending.
+- Add a release-preparation runbook, read-only readiness checks and staging status reporting, with consistent exact-version or matching base-version changelog selection for release candidates (Issue #1012). Support a single-maintainer review path without mandatory settings evidence or a separate reviewer; a live release rehearsal remains pending.
 
 ### Known Limitations
 - Only the North American ROM is supported; AP notifications are English.
@@ -73,8 +73,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Preserve compiled Hub switch mapping with generated lookup tables, fixed configuration addresses and explicit overlap checks. Historical native door aliases remain unchanged.
 - Verify the complete wheel inventory and SHA-256 bytes before offline Kirby ROM-smoke dependency installation (Issue #980; broader dependency matrices remain open).
 - Pin Kirby workflow actions to audited commit identities and reject mutable action references (Issue #981; interpreter/toolchain downloads remain separate).
-- Add draft-artifact receipts, signed provenance and download verification; refuse published-asset replacement (Issue #983). Plugin-trust guidance and owner immutability prerequisites are documented.
-- Gate Kirby publication on protected tags, release-environment approval and trusted-main validation; remove publisher PR authority and limit self-hosted smoke runs to main (Issue #982).
+- Add draft-artifact receipts, signed provenance and download verification; refuse published-asset replacement (Issue #983). Plugin-trust guidance and optional immutability safeguards are documented.
+- Gate Kirby staging on release-tag pushes and trusted-main validation, preserving existing environment restrictions with optional tag protection; remove publisher PR authority and limit self-hosted smoke runs to main (Issue #982).
 - Carry the abandoned v0.4.2 security work into v0.5.0; see the [integration plan](dev-docs/v050-security-integration.md) for dependencies and pending acceptance gates.
 - Execute the full native mailbox/ACK path for all 24 Spray Paint/Music Sheet IDs and Vitality grants for all four player structures, including duplicate delivery and dead-state safety (Issues #971, #953).
 - Exercise all eight shard receipts through twelve cold client/transport restarts, partial native saves and interleaved acknowledged food receipts (Issue #974).
