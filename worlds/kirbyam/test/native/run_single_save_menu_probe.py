@@ -62,4 +62,28 @@ log, saved = run('completed-adventure', complete, title+adventure)
 assert 'context=1 serial=1 slot=0' in log and 'room=801 ' in log
 log, saved = run('boss-reset-adventure', complete, title+boss+'15 60\n'+title+adventure)
 assert 'mode=00000004' in log and 'context=1 serial=1 slot=0' in log and 'room=801 ' in log
+# Authenticated File 1 with owned paints, selected through native Collection UI.
+owned = bytearray(complete)
+for copy in range(2):
+    start = 24+copy*4884
+    data = bytearray(owned[start+8:start+4884])
+    struct.pack_into('<I', data, 754, 0x3fff)
+    struct.pack_into('<H', data, 768, 0)
+    total = sum(struct.unpack('<2438H', data)) & 65535
+    owned[start:start+4884] = struct.pack('<4H', total, total ^ 65535, (-total) & 65535, 0)+data
+collection_paint = '1 1\n0 300\n16 1\n0 10\n16 1\n0 10\n1 1\n0 180\n'
+log, painted = run('collection-paint', owned, title+collection_paint)
+assert 'context=1 ' not in log and 'selected_color=1 ' in log
+for copy in range(2):
+    start = 24+copy*4884
+    data = painted[start+8:start+4884]
+    assert struct.unpack_from('<H', data, 768)[0] == 0xc61e
+    total = sum(struct.unpack('<2438H', data)) & 65535
+    assert painted[start:start+8] == struct.pack('<4H', total, total ^ 65535, (-total) & 65535, 0)
+log, saved = run('collection-paint-adventure', owned,
+                 title+collection_paint+'2 1\n0 240\n'+adventure)
+assert 'context=1 serial=1 slot=0' in log and 'selected_color=1 live_color=1' in log
+log, saved = run('collection-paint-cold-reload', painted, title+adventure)
+assert 'context=1 serial=1 slot=0' in log and 'selected_color=1 live_color=1' in log
+print('PASS Collection owned-paint selection with epoch zero, both native checksum copies, Adventure color and cold reload')
 print('PASS fresh/continued Adventure, completed-file Boss Endurance room 950, inactive menu/Boss AP context, mode Back/title/re-entry, Boss reset/Adventure, File 1 isolation')
