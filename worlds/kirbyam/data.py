@@ -322,6 +322,7 @@ class RegionData:
     locations: list[str]
     location_requirements: dict[str, Any]
     events: list[EventData]
+    traversal: dict[str, Any]
 
     def __init__(self, name: str) -> None:
         self.name = name
@@ -330,6 +331,7 @@ class RegionData:
         self.locations = []
         self.location_requirements = {}
         self.events = []
+        self.traversal = {}
 
 
 class KirbyAmData:
@@ -646,6 +648,10 @@ def _init() -> None:  # noqa: C901
             continue
 
         region = RegionData(region_name)
+        traversal = region_def.get("traversal", {})
+        if not isinstance(traversal, dict):
+            raise TypeError(f"Region [{region_name}] traversal must be an object")
+        region.traversal = traversal
 
         # Exits
         logical_exit_overrides = region_def.get("logical_exit_overrides", {})
@@ -759,6 +765,10 @@ def _init() -> None:  # noqa: C901
         for logical_key, logical_def in logical_subregions.items():
             logical_region_name = logical_region_names[(parent_region_name, logical_key)]
             logical_region = RegionData(logical_region_name)
+            traversal = logical_def.get("traversal", {})
+            if not isinstance(traversal, dict):
+                raise TypeError(f"Region [{logical_region_name}] traversal must be an object")
+            logical_region.traversal = traversal
 
             exits_raw, exit_requirements = normalize_region_exits(logical_region_name, logical_def)
 

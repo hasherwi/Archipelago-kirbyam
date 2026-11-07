@@ -5,17 +5,16 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Any
 
-from .data import data, load_json_data
+from .data import data
 from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
-from .traversal import SourcePolicy, TraversalGraph, compile_traversal_graph
+from .traversal import SourcePolicy, TraversalGraph
+from .traversal_data import graph_access_regions, has_graph_access, room_traversal_graph, room_traversal_targets
 
 
 @lru_cache(maxsize=1)
 def mini_routes() -> tuple[tuple[dict[str, Any], TraversalGraph], ...]:
-    payload = load_json_data("mini_traversal.json")
-    if not isinstance(payload, dict):
-        raise TypeError("Mini traversal catalog must be an object")
-    return tuple((row, compile_traversal_graph(row["graph"])) for row in payload["routes"])
+    return tuple((row, room_traversal_graph(row["id"], "local"))
+                 for row in room_traversal_targets("mini"))
 
 
 def validate_mini_sources(policy_data: dict[str, Any], include_statues: bool) -> None:
@@ -38,6 +37,8 @@ def install_mini_rules(world: Any) -> None:
     gating = world._ability_gating_enabled()
     for row, graph in mini_routes():
         def rule(state: Any, graph: TraversalGraph = graph) -> bool:
+            if not has_graph_access(world, state, graph):
+                return False
             owned = frozenset(
                 f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES
                 if state.has(f"{name} Ability", world.player)
@@ -48,6 +49,9 @@ def install_mini_rules(world: Any) -> None:
         if row["exit"]:
             entrance = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", world.player)
             add_rule(entrance, rule)
+            for name in graph_access_regions(graph):
+                dependency = world.multiworld.get_region(name, world.player)
+                world.multiworld.register_indirect_condition(dependency, entrance)
         elif row["location"]:
             location_data = data.locations[row["location"]]
             # A disabled optional check does not need an AP access rule.

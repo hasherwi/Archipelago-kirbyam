@@ -7,7 +7,7 @@ from BaseClasses import CollectionState
 
 from ..traversal import SourcePolicy
 from ..wheel_traversal import (
-    CENTRAL_REGION, HUB_SWITCH_LABELS, RACE_ENTRANCE, RESET_ASSUMPTION, wheel_graph,
+    CENTRAL_REGION, HUB_SWITCH_LABELS, RACE_ENTRANCE, wheel_graph,
 )
 from .test_mini_traversal import make_world
 
@@ -33,7 +33,10 @@ def test_only_audited_return_resets_room_and_retains_wheel():
     assert len(resets) == 1
     rooms = {node.key: node.room for node in graph.nodes}
     assert (rooms[resets[0].source], rooms[resets[0].target]) == (110, 108)
-    assert "unoccupied" in RESET_ASSUMPTION
+    from ..traversal_data import room_traversal_targets
+    payload = room_traversal_targets("wheel")[0]["graphs"]["local"]
+    assert "unoccupied" in next(row["reset_evidence"] for row in payload["routes"]
+                                if row.get("room_instance") == "reset")
     result = graph.evaluate(SourcePolicy({"mode": 0}), frozenset({"Wheel Ability"}), True)
     assert any(position.node == "chest" and position.equipped == "Wheel" for position in result.positions)
 

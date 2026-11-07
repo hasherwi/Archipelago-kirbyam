@@ -312,6 +312,8 @@ class TraversalGraph:
     placements: tuple[Placement, ...]
     starts: tuple[Position, ...]
     required_targets: frozenset[str]
+    access_region: str | None = None
+    requires_all_hub_switches: bool = False
 
     def evaluate(self, policy: SourcePolicy, owned: frozenset[str], gating: bool,
                  allow_documented_retries: bool = False) -> TraversalResult:
@@ -321,7 +323,53 @@ class TraversalGraph:
         )
 
 
-def compile_traversal_graph(payload: Mapping[str, Any]) -> TraversalGraph:
+def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
+    if not row.get("evidence"):
+        raise ValueError("Traversal route is missing evidence")
+    if row.get("room_instance") not in (None, "reset", "preserve"):
+        raise ValueError("Unknown room instance policy")
+    if row.get("room_instance") == "reset" and not row.get("reset_evidence"):
+        raise ValueError("Room reset is missing evidence")
+    for key in ("recover_dropped_ability", "room_transition"):
+        if not isinstance(row.get(key, False), bool):
+            raise ValueError(f"{key} must be a boolean")
+    allowed = row.get("allowed_abilities")
+    capability = row.get("capability")
+    providers = CAPABILITY_ABILITIES.get(capability, frozenset()) if isinstance(capability, str) else frozenset()
+    if allowed is not None and (
+        not allowed or not set(allowed) <= providers
+    ):
+        raise ValueError("Allowed abilities must narrow the route capability providers")
+    return Route(
+        row["from"], row["to"], row.get("capability"), row.get("opens"),
+        frozenset(row.get("items", ())) | frozenset(row.get("area_key_items", ()) if area_keys else ()),
+        None if "allowed_abilities" not in row else frozenset(row["allowed_abilities"]),
+        bool(row.get("recover_dropped_ability", False)),
+        bool(row.get("room_transition", False)),
+        row.get("room_instance") == "reset",
+        row.get("room_instance") == "preserve",
+    )
+
+
+def _compile_placement(row: Mapping[str, Any]) -> Placement:
+    if not row.get("acquisition_evidence"):
+        raise ValueError("Source is missing acquisition evidence")
+    if row["source_key"] not in _SOURCE_BY_KEY and row["source_key"] not in _STATUE_DEFAULTS:
+        raise ValueError(f"Unknown ability source: {row['source_key']}")
+    if not isinstance(row.get("renewable", False), bool):
+        raise ValueError("renewable must be a boolean")
+    if row.get("renewable") and not row.get("renewable_evidence"):
+        raise ValueError("Renewable source is missing repeatability evidence")
+    if row.get("retry_evidence") and not row.get("renewable"):
+        raise ValueError("Retry evidence requires a renewable source")
+    return Placement(
+        row["node"], row["source_key"], frozenset(row.get("items", ())),
+        retry_evidence=row.get("retry_evidence"),
+        identity=row.get("id"), renewable=bool(row.get("renewable", False)),
+    )
+
+
+def compile_traversal_graph(payload: Mapping[str, Any], *, area_keys: bool = False) -> TraversalGraph:
     """Compile explicitly reviewed route data, refusing unresolved research.
 
     This is not a tile flood-fill or an automatic enemy-placement join. A source
@@ -333,38 +381,25 @@ def compile_traversal_graph(payload: Mapping[str, Any]) -> TraversalGraph:
     keys = {node.key for node in nodes}
     if len(keys) != len(nodes):
         raise ValueError("Duplicate traversal compartment")
-    routes = []
-    for row in payload["routes"]:
-        if not row.get("evidence"):
-            raise ValueError("Traversal route is missing evidence")
-        routes.append(Route(
-            row["from"], row["to"], row.get("capability"), row.get("opens"),
-            frozenset(row.get("items", ())),
-            None if "allowed_abilities" not in row else frozenset(row["allowed_abilities"]),
-            bool(row.get("recover_dropped_ability", False)),
-            bool(row.get("room_transition", False)),
-            row.get("room_instance") == "reset",
-            row.get("room_instance") == "preserve",
-        ))
-    placements = []
-    for row in payload.get("sources", ()):
-        if not row.get("acquisition_evidence"):
-            raise ValueError("Source is missing acquisition evidence")
-        if row["source_key"] not in _SOURCE_BY_KEY and row["source_key"] not in _STATUE_DEFAULTS:
-            raise ValueError(f"Unknown ability source: {row['source_key']}")
-        if row.get("renewable") and not row.get("renewable_evidence"):
-            raise ValueError("Renewable source is missing repeatability evidence")
-        placements.append(Placement(
-            row["node"], row["source_key"], frozenset(row.get("items", ())),
-            identity=row.get("id"), renewable=bool(row.get("renewable", False)),
-        ))
+    routes = tuple(_compile_route(row, area_keys) for row in payload["routes"])
+    placements = tuple(_compile_placement(row) for row in payload.get("sources", ()))
     # Default to Normal. Carried equipment belongs to a predecessor path, not
     # to an inventory grant or an unproved optimistic entry assumption.
     starts = tuple(Position(key) for key in payload["starts"])
     required_targets = frozenset(payload.get("required_targets", ()))
     if not required_targets <= keys or any(position.node not in keys for position in starts):
         raise ValueError("Unknown start or required target")
-    graph = TraversalGraph(nodes, tuple(routes), tuple(placements), starts, required_targets)
+    access = payload.get("access", {})
+    if not isinstance(access, dict) or set(access) - {"region", "all_hub_switches"}:
+        raise ValueError("Unknown traversal access prerequisite")
+    if access and not isinstance(access.get("region"), str):
+        raise ValueError("Traversal access must name an independent region")
+    if not isinstance(access.get("all_hub_switches", False), bool):
+        raise ValueError("all_hub_switches must be a boolean")
+    graph = TraversalGraph(
+        nodes, tuple(routes), tuple(placements), starts, required_targets,
+        access.get("region"), access.get("all_hub_switches", False),
+    )
     # Validate all endpoints, capabilities and local events even if disconnected.
     graph.evaluate(SourcePolicy({"mode": 0}), frozenset(), True)
     return graph

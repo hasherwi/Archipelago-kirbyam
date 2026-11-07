@@ -11,10 +11,10 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- None.
+- Add source-aware logic for Mini corridors, the Rainbow Route Wheel chest, and peg-gated checks and passages. Receiving an ability item unlocks its use; reaching a suitable enemy or Copy Ability statue is still required (PR #1041).
 
 ### Improvements
-- None.
+- Mini and Wheel now join progression instead of starting abilities. Minny enemies always give Mini, while other ability-randomization options and ability gating remain available. Generate and patch a new ROM to use these changes (PR #1041).
 
 ### Known Limitations
 - None.

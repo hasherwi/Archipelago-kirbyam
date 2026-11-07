@@ -1453,7 +1453,8 @@
       "completion_index": 135,
       "object_list_index": 135,
       "ap_keys": [
-        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05"
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05__LOGIC__RIGHT_ENTRY"
       ],
       "wiki_title": "Mustard Mountain - Room 5",
       "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_5",

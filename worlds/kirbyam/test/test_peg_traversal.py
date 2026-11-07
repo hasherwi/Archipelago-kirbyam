@@ -1,24 +1,27 @@
 """Reviewed local peg witnesses and full native census coverage."""
 
 import pytest
+from pathlib import Path
+import re
 from BaseClasses import CollectionState
 
-from ..data import data, load_json_data
+from ..data import data
 from ..peg_traversal import PEG_ROUTES, peg_graph
 from ..traversal import SourcePolicy
 from .test_mini_traversal import make_world
 
 
 def test_census_covers_all_fourteen_pegs_without_blanket_room_gates():
-    rows = load_json_data("peg_traversal_audit.json")["pegs"]
-    assert len(rows) == len({row["id"] for row in rows}) == 14
-    assert len({row["native_room"] for row in rows}) == 13
-    assert {row["native_room"] for row in rows} == {
+    document = Path(__file__).parents[1] / "docs" / "traversal-logic.md"
+    ids = re.findall(r"^#### `(peg_[0-9_]+)`$", document.read_text(encoding="utf-8"), re.MULTILINE)
+    assert len(ids) == len(set(ids)) == 14
+    assert len({key.split("_")[1] for key in ids}) == 13
+    assert {int(key.split("_")[1]) for key in ids} == {
         149, 204, 218, 221, 401, 411, 509, 510, 513, 527, 605, 741, 816,
     }
-    assert len([row for row in rows if row["native_room"] == 527]) == 2
+    assert len([key for key in ids if key.startswith("peg_527_")]) == 2
     assert len(PEG_ROUTES) == 11
-    assert {row["id"] for row in rows} - {row["id"] for row in PEG_ROUTES} == {
+    assert set(ids) - {row["id"] for row in PEG_ROUTES} == {
         "peg_218_9_33", "peg_509_32_2", "peg_741_27_13",
     }
 
@@ -30,7 +33,7 @@ def test_real_peg_rules_use_same_local_assignment_as_rom(mode, gating):
     resolver = SourcePolicy(world._enemy_copy_ability_policy)
     state = CollectionState(world.multiworld)
     for row in PEG_ROUTES:
-        if not row["sources"]:
+        if not peg_graph(row).placements:
             continue
         graph = peg_graph(row)
         owned = frozenset(
@@ -68,7 +71,7 @@ def test_fixed_statue_carry_requires_connections_and_preserves_stone(mode):
     policy_data["ability_randomization_no_ability_weight"] = 100
     policy = SourcePolicy(policy_data, include_statues=False)
     for row in PEG_ROUTES:
-        if row["room"] == 149:  # 143 rope requires Smash, tested separately with970 access.
+        if row["native_room"] == 149:  # 143 rope requires Smash, tested separately with970 access.
             continue
         graph = stone_carry_graph(row, True)
         items = frozenset(item for route in graph.routes for item in route.items)
@@ -91,7 +94,7 @@ def test_random_statue_retry_is_explicit_and_does_not_use_enemy_weight():
     raw = dict(make_world(2, True)._enemy_copy_ability_policy)
     raw["ability_randomization_no_ability_weight"] = 100
     policy = SourcePolicy(raw, include_statues=True)
-    graph = stone_carry_graph(next(row for row in PEG_ROUTES if row["room"] == 411), False)
+    graph = stone_carry_graph(next(row for row in PEG_ROUTES if row["native_room"] == 411), False)
     items = frozenset(item for route in graph.routes for item in route.items)
     assert not graph.evaluate(policy, items, True).reaches("target")
     result = graph.evaluate(policy, items, True, allow_documented_retries=True)
@@ -103,7 +106,7 @@ def test_gate_side_reach_does_not_bootstrap_remote_statue():
     from unittest.mock import patch
     from ..peg_traversal import stone_carry_graph
     world = make_world(0, True)
-    row = next(row for row in PEG_ROUTES if row["room"] == 411)  # 411 has no local source.
+    row = next(row for row in PEG_ROUTES if row["native_room"] == 411)  # 411 has no local source.
     graph = stone_carry_graph(row, world._area_keys_enabled())
     state = CollectionState(world.multiworld)
     for item in {item for route in graph.routes for item in route.items}:
@@ -203,8 +206,9 @@ def test_527_peg_only_gates_lower_door():
 def test_new_carriers_cannot_bootstrap_disconnected_source_hub(room):
     world = make_world(2, True, ability_randomization_no_ability_weight=100,
                        ability_randomization_statues=False)
-    row = next(row for row in PEG_ROUTES if row["room"] == room)
-    hub = row.get("source_hub", "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1")
+    row = next(row for row in PEG_ROUTES if row["native_room"] == room)
+    hub = ("REGION_RAINBOW_ROUTE/ROOM_1_HUB_1" if room == 204
+           else "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3")
     for entrance in world.multiworld.get_region(hub, 1).entrances:
         entrance.access_rule = lambda state: False
     state = CollectionState(world.multiworld)
@@ -241,7 +245,7 @@ def test_149_late_smash_carrier_needs_actual_source_unlock_and_cut(mode):
     raw = dict(make_world(mode, True)._enemy_copy_ability_policy)
     raw["ability_randomization_no_ability_weight"] = 100
     policy = SourcePolicy(raw, include_statues=False)
-    row = next(row for row in PEG_ROUTES if row["room"] == 149)
+    row = next(row for row in PEG_ROUTES if row["native_room"] == 149)
     early = stone_carry_graph(row, True)
     late = stone_carry_graph(row, True, statue_room=True)
     items = frozenset(item for route in late.routes for item in route.items)

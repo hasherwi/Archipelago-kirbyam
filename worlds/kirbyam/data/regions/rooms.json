@@ -31,6 +31,149 @@
       "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {
         "item": "Cabbage Cavern West - Hub Connection"
       }
+    },
+    "traversal": {
+      "version": 1,
+      "source_sets": {
+        "statues_970": {
+          "native_room": 970,
+          "sources": [
+            {
+              "id": "0x088D6054",
+              "source_key": "STATUE:3538FC",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D6150",
+              "source_key": "STATUE:3538FD",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D612C",
+              "source_key": "STATUE:3538FE",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D6108",
+              "source_key": "STATUE:3538FF",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D60E4",
+              "source_key": "STATUE:353900",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D60C0",
+              "source_key": "STATUE:353901",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D5EEC",
+              "source_key": "STATUE:353902",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D5EC8",
+              "source_key": "STATUE:353903",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D6078",
+              "source_key": "STATUE:353904",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D609C",
+              "source_key": "STATUE:353905",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D6030",
+              "source_key": "STATUE:353906",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D600C",
+              "source_key": "STATUE:353907",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D5FE8",
+              "source_key": "STATUE:353908",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D5FC4",
+              "source_key": "STATUE:353909",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D5FA0",
+              "source_key": "STATUE:35390A",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D5F7C",
+              "source_key": "STATUE:35390B",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D5F58",
+              "source_key": "STATUE:35390C",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D5F34",
+              "source_key": "STATUE:35390D",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088D5F10",
+              "source_key": "STATUE:35390E",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS": {
@@ -65,6 +208,30 @@
       },
       "REGION_RAINBOW_ROUTE/ROOM_1_42": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_07": null
+    },
+    "traversal": {
+      "version": 1,
+      "source_sets": {
+        "statues_190": {
+          "native_room": 190,
+          "sources": [
+            {
+              "id": "0x088B7CEC",
+              "source_key": "STATUE:353900",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088B7DA0",
+              "source_key": "STATUE:3538FC",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2": {
@@ -269,6 +436,187 @@
       "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_RIGHT": "can_break_block",
       "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_CHEST": "can_wheel",
       "REGION_RAINBOW_ROUTE/ROOM_1_08": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "wheel_108_chest",
+          "kind": "wheel",
+          "native_room": 108,
+          "exit": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_CHEST",
+          "location": null,
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "step0",
+                  "native_room": 140
+                },
+                {
+                  "id": "step1",
+                  "native_room": 108
+                },
+                {
+                  "id": "step2",
+                  "native_room": 110
+                },
+                {
+                  "id": "step3",
+                  "native_room": 108
+                },
+                {
+                  "id": "chest",
+                  "native_room": 108
+                }
+              ],
+              "routes": [
+                {
+                  "from": "step0",
+                  "to": "step1",
+                  "evidence": "docs/traversal-logic.md#destructive-chains-and-remaining-acceptance"
+                },
+                {
+                  "from": "step1",
+                  "to": "step2",
+                  "evidence": "docs/traversal-logic.md#destructive-chains-and-remaining-acceptance"
+                },
+                {
+                  "from": "step2",
+                  "to": "step3",
+                  "evidence": "docs/traversal-logic.md#destructive-chains-and-remaining-acceptance",
+                  "room_instance": "reset",
+                  "reset_evidence": "Fresh unoccupied 108 return from 110; docs/traversal-logic.md#destructive-chains-and-remaining-acceptance"
+                },
+                {
+                  "from": "step3",
+                  "to": "chest",
+                  "evidence": "docs/traversal-logic.md#destructive-chains-and-remaining-acceptance",
+                  "capability": "wheel_race"
+                }
+              ],
+              "sources": [
+                {
+                  "id": "0x088B765C",
+                  "node": "step0",
+                  "source_key": "WHEELIE",
+                  "acquisition_evidence": "docs/traversal-logic.md#destructive-chains-and-remaining-acceptance"
+                }
+              ],
+              "starts": [
+                "step0"
+              ],
+              "required_targets": [
+                "chest"
+              ],
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_07"
+              }
+            },
+            "statues": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "step0",
+                  "native_room": 970
+                },
+                {
+                  "id": "step1",
+                  "native_room": 801
+                },
+                {
+                  "id": "step2",
+                  "native_room": 190
+                },
+                {
+                  "id": "step3",
+                  "native_room": 140
+                },
+                {
+                  "id": "step4",
+                  "native_room": 108
+                },
+                {
+                  "id": "step5",
+                  "native_room": 110
+                },
+                {
+                  "id": "step6",
+                  "native_room": 108
+                },
+                {
+                  "id": "chest",
+                  "native_room": 108
+                }
+              ],
+              "routes": [
+                {
+                  "from": "step0",
+                  "to": "step1",
+                  "evidence": "docs/traversal-logic.md#destructive-chains-and-remaining-acceptance"
+                },
+                {
+                  "from": "step1",
+                  "to": "step2",
+                  "evidence": "docs/traversal-logic.md#destructive-chains-and-remaining-acceptance",
+                  "items": [
+                    "Rainbow Route East - Hub Connection"
+                  ]
+                },
+                {
+                  "from": "step2",
+                  "to": "step3",
+                  "evidence": "docs/traversal-logic.md#destructive-chains-and-remaining-acceptance"
+                },
+                {
+                  "from": "step3",
+                  "to": "step4",
+                  "evidence": "docs/traversal-logic.md#destructive-chains-and-remaining-acceptance"
+                },
+                {
+                  "from": "step4",
+                  "to": "step5",
+                  "evidence": "docs/traversal-logic.md#destructive-chains-and-remaining-acceptance"
+                },
+                {
+                  "from": "step5",
+                  "to": "step6",
+                  "evidence": "docs/traversal-logic.md#destructive-chains-and-remaining-acceptance",
+                  "room_instance": "reset",
+                  "reset_evidence": "Fresh unoccupied 108 return from 110; docs/traversal-logic.md#destructive-chains-and-remaining-acceptance"
+                },
+                {
+                  "from": "step6",
+                  "to": "chest",
+                  "evidence": "docs/traversal-logic.md#destructive-chains-and-remaining-acceptance",
+                  "capability": "wheel_race"
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "step0"
+              ],
+              "required_targets": [
+                "chest"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_970",
+                  "node": "step0",
+                  "retry_evidence": "Permanent970 statue retouch; eventual eligible Wheel draw assumed"
+                }
+              ],
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+                "all_hub_switches": true
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_CHEST": {
@@ -1624,6 +1972,336 @@
           "can_swim"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "peg_149_35_18",
+          "exit": null,
+          "location": "MINOR_CHEST_MOONLIGHT_MANSION_2_20",
+          "kind": "peg",
+          "native_room": 149,
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "approach",
+                  "native_room": 149
+                },
+                {
+                  "id": "target",
+                  "native_room": 149
+                }
+              ],
+              "routes": [
+                {
+                  "from": "approach",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "capability": "peg",
+                  "opens": "peg_149_35_18"
+                }
+              ],
+              "sources": [
+                {
+                  "id": "0x088BC434",
+                  "node": "approach",
+                  "source_key": "GIANT_ROCKY",
+                  "acquisition_evidence": "docs/traversal-logic.md#peg_149_35_18"
+                }
+              ],
+              "starts": [
+                "approach"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "carry": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "190",
+                  "native_room": 190
+                },
+                {
+                  "id": "143",
+                  "native_room": 143
+                },
+                {
+                  "id": "145",
+                  "native_room": 145
+                },
+                {
+                  "id": "146",
+                  "native_room": 146
+                },
+                {
+                  "id": "147",
+                  "native_room": 147
+                },
+                {
+                  "id": "148",
+                  "native_room": 148
+                },
+                {
+                  "id": "149",
+                  "native_room": 149
+                },
+                {
+                  "id": "target",
+                  "native_room": 149
+                }
+              ],
+              "routes": [
+                {
+                  "from": "190",
+                  "to": "143",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "143",
+                  "to": "145",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "145",
+                  "to": "146",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "146",
+                  "to": "147",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "147",
+                  "to": "148",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "148",
+                  "to": "149",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "149",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "capability": "peg",
+                  "opens": "peg_149_35_18",
+                  "allowed_abilities": [
+                    "Smash"
+                  ]
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "190"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_190",
+                  "node": "190",
+                  "retry_evidence": "Permanent hub statue can be retouched before carry; eventual eligible draw assumed"
+                }
+              ],
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              }
+            },
+            "statues": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "970",
+                  "native_room": 970
+                },
+                {
+                  "id": "801",
+                  "native_room": 801
+                },
+                {
+                  "id": "190",
+                  "native_room": 190
+                },
+                {
+                  "id": "143",
+                  "native_room": 143
+                },
+                {
+                  "id": "145",
+                  "native_room": 145
+                },
+                {
+                  "id": "146",
+                  "native_room": 146
+                },
+                {
+                  "id": "147",
+                  "native_room": 147
+                },
+                {
+                  "id": "148",
+                  "native_room": 148
+                },
+                {
+                  "id": "149",
+                  "native_room": 149
+                },
+                {
+                  "id": "target",
+                  "native_room": 149
+                }
+              ],
+              "routes": [
+                {
+                  "from": "970",
+                  "to": "801",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "items": [
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "801",
+                  "to": "190",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "items": [
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "190",
+                  "to": "143",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "items": [
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "143",
+                  "to": "145",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "items": [
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "145",
+                  "to": "146",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "items": [
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "146",
+                  "to": "147",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "items": [
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "147",
+                  "to": "148",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "items": [
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "148",
+                  "to": "149",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "items": [
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Moonlight Mansion - Area Key"
+                  ]
+                },
+                {
+                  "from": "149",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_149_35_18",
+                  "capability": "peg",
+                  "opens": "peg_149_35_18",
+                  "allowed_abilities": [
+                    "Smash"
+                  ]
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "970"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_970",
+                  "node": "970",
+                  "retry_evidence": "Permanent hub statue can be retouched before carry; eventual eligible draw assumed"
+                }
+              ],
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+                "all_hub_switches": true
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": {
@@ -1683,6 +2361,30 @@
       "REGION_RADISH_RUINS/ROOM_8_01": null,
       "REGION_RADISH_RUINS/ROOM_8_HUB": {
         "item": "Radish Ruins - Hub Connection"
+      }
+    },
+    "traversal": {
+      "version": 1,
+      "source_sets": {
+        "statues_592": {
+          "native_room": 592,
+          "sources": [
+            {
+              "id": "0x088CEFEC",
+              "source_key": "STATUE:353900",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_510_7_7",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            },
+            {
+              "id": "0x088CEFC8",
+              "source_key": "STATUE:3538FD",
+              "renewable": true,
+              "acquisition_evidence": "docs/traversal-logic.md#peg_510_7_7",
+              "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
+            }
+          ]
+        }
       }
     }
   },
@@ -1876,6 +2578,141 @@
           "can_break_block"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "peg_510_7_7",
+          "exit": null,
+          "location": "MINOR_CHEST_CABBAGE_CAVERN_3_09",
+          "kind": "peg",
+          "native_room": 510,
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "approach",
+                  "native_room": 510
+                },
+                {
+                  "id": "target",
+                  "native_room": 510
+                }
+              ],
+              "routes": [
+                {
+                  "from": "approach",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_510_7_7",
+                  "capability": "peg",
+                  "opens": "peg_510_7_7"
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "approach"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "carry": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "592",
+                  "native_room": 592
+                },
+                {
+                  "id": "528",
+                  "native_room": 528
+                },
+                {
+                  "id": "513",
+                  "native_room": 513
+                },
+                {
+                  "id": "509",
+                  "native_room": 509
+                },
+                {
+                  "id": "510",
+                  "native_room": 510
+                },
+                {
+                  "id": "target",
+                  "native_room": 510
+                }
+              ],
+              "routes": [
+                {
+                  "from": "592",
+                  "to": "528",
+                  "evidence": "docs/traversal-logic.md#peg_510_7_7",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "528",
+                  "to": "513",
+                  "evidence": "docs/traversal-logic.md#peg_510_7_7",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "513",
+                  "to": "509",
+                  "evidence": "docs/traversal-logic.md#peg_510_7_7",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "509",
+                  "to": "510",
+                  "evidence": "docs/traversal-logic.md#peg_510_7_7",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "510",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_510_7_7",
+                  "capability": "peg",
+                  "opens": "peg_510_7_7",
+                  "allowed_abilities": [
+                    "Stone"
+                  ]
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "592"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_592",
+                  "node": "592",
+                  "retry_evidence": "Permanent hub statue can be retouched before carry; eventual eligible draw assumed"
+                }
+              ],
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_10": {
@@ -1998,6 +2835,117 @@
       },
       "REGION_CABBAGE_CAVERN/ROOM_3_12": null,
       "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER": "can_pound_pegs"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "peg_513_4_7",
+          "exit": "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER",
+          "location": null,
+          "kind": "peg",
+          "native_room": 513,
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "approach",
+                  "native_room": 513
+                },
+                {
+                  "id": "target",
+                  "native_room": 513
+                }
+              ],
+              "routes": [
+                {
+                  "from": "approach",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_513_4_7",
+                  "capability": "peg",
+                  "opens": "peg_513_4_7"
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "approach"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "carry": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "592",
+                  "native_room": 592
+                },
+                {
+                  "id": "528",
+                  "native_room": 528
+                },
+                {
+                  "id": "513",
+                  "native_room": 513
+                },
+                {
+                  "id": "target",
+                  "native_room": 513
+                }
+              ],
+              "routes": [
+                {
+                  "from": "592",
+                  "to": "528",
+                  "evidence": "docs/traversal-logic.md#peg_513_4_7",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "528",
+                  "to": "513",
+                  "evidence": "docs/traversal-logic.md#peg_513_4_7",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "513",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_513_4_7",
+                  "capability": "peg",
+                  "opens": "peg_513_4_7",
+                  "allowed_abilities": [
+                    "Stone"
+                  ]
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "592"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_592",
+                  "node": "592",
+                  "retry_evidence": "Permanent hub statue can be retouched before carry; eventual eligible draw assumed"
+                }
+              ],
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER": {
@@ -2020,6 +2968,223 @@
       "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER": null,
       "REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY": "can_fly",
       "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY": "can_pound_pegs"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "peg_527_56_16",
+          "exit": "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY",
+          "location": null,
+          "kind": "peg",
+          "native_room": 527,
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "approach",
+                  "native_room": 527
+                },
+                {
+                  "id": "target",
+                  "native_room": 527
+                }
+              ],
+              "routes": [
+                {
+                  "from": "approach",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "capability": "peg",
+                  "opens": "peg_527_56_16"
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "approach"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "carry": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "592",
+                  "native_room": 592
+                },
+                {
+                  "id": "528",
+                  "native_room": 528
+                },
+                {
+                  "id": "527",
+                  "native_room": 527
+                },
+                {
+                  "id": "target",
+                  "native_room": 527
+                }
+              ],
+              "routes": [
+                {
+                  "from": "592",
+                  "to": "528",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "528",
+                  "to": "527",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "527",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "capability": "peg",
+                  "opens": "peg_527_56_16",
+                  "allowed_abilities": [
+                    "Stone"
+                  ]
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "592"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_592",
+                  "node": "592",
+                  "retry_evidence": "Permanent hub statue can be retouched before carry; eventual eligible draw assumed"
+                }
+              ],
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              }
+            }
+          }
+        },
+        {
+          "id": "peg_527_18_13",
+          "exit": null,
+          "location": "MINOR_CHEST_SPRAY_PAINT_08",
+          "kind": "peg",
+          "native_room": 527,
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "approach",
+                  "native_room": 527
+                },
+                {
+                  "id": "target",
+                  "native_room": 527
+                }
+              ],
+              "routes": [
+                {
+                  "from": "approach",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "capability": "peg",
+                  "opens": "peg_527_18_13"
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "approach"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "carry": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "592",
+                  "native_room": 592
+                },
+                {
+                  "id": "528",
+                  "native_room": 528
+                },
+                {
+                  "id": "527",
+                  "native_room": 527
+                },
+                {
+                  "id": "target",
+                  "native_room": 527
+                }
+              ],
+              "routes": [
+                {
+                  "from": "592",
+                  "to": "528",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "528",
+                  "to": "527",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "527",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "capability": "peg",
+                  "opens": "peg_527_18_13",
+                  "allowed_abilities": [
+                    "Stone"
+                  ]
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "592"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_592",
+                  "node": "592",
+                  "retry_evidence": "Permanent hub statue can be retouched before carry; eventual eligible draw assumed"
+                }
+              ],
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_15": {
@@ -2242,7 +3407,6 @@
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_05": {
     "locations": {
-      "MINOR_CHEST_MUSTARD_MOUNTAIN_4_05": null,
       "room_sanity": {
         "included": true,
         "location_id": 3961113,
@@ -2251,7 +3415,226 @@
     },
     "exits": {
       "REGION_MUSTARD_MOUNTAIN/ROOM_4_06": "can_use_mini",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_09": "can_fly"
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_09": "can_fly",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05__LOGIC__RIGHT_ENTRY": "can_use_mini"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "mini_321_lower",
+          "native_room": 321,
+          "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
+          "location": null,
+          "kind": "mini",
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "mini_321_lower:arrival",
+                  "native_room": 321
+                },
+                {
+                  "id": "mini_321_lower:source",
+                  "native_room": 321
+                },
+                {
+                  "id": "mini_321_lower:target",
+                  "native_room": 321
+                },
+                {
+                  "id": "mini_321_lower:bypass",
+                  "native_room": 321
+                }
+              ],
+              "routes": [
+                {
+                  "from": "mini_321_lower:arrival",
+                  "to": "mini_321_lower:source",
+                  "room_transition": false,
+                  "evidence": "docs/traversal-logic.md#mustard-5-entry-compartments"
+                },
+                {
+                  "from": "mini_321_lower:source",
+                  "to": "mini_321_lower:target",
+                  "capability": "mini_corridor",
+                  "recover_dropped_ability": false,
+                  "evidence": "docs/traversal-logic.md#mustard-5-entry-compartments"
+                },
+                {
+                  "from": "mini_321_lower:arrival",
+                  "to": "mini_321_lower:bypass",
+                  "evidence": "docs/traversal-logic.md#mustard-5-entry-compartments"
+                }
+              ],
+              "sources": [
+                {
+                  "id": "minny_088c4db4",
+                  "node": "mini_321_lower:source",
+                  "source_key": "MINNY",
+                  "acquisition_evidence": "Canonical local Minny pocket 0x088C4DB4; inhalation from approach, not a claim that spawn tile is walkable. Entry-side acquisition only; docs/traversal-logic.md#mustard-5-entry-compartments"
+                }
+              ],
+              "starts": [
+                "mini_321_lower:arrival"
+              ],
+              "required_targets": [
+                "mini_321_lower:target"
+              ]
+            }
+          }
+        },
+        {
+          "id": "mini_321_cross_to_right",
+          "native_room": 321,
+          "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05__LOGIC__RIGHT_ENTRY",
+          "location": null,
+          "kind": "mini",
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "mini_321_cross_to_right:arrival",
+                  "native_room": 321
+                },
+                {
+                  "id": "mini_321_cross_to_right:source",
+                  "native_room": 321
+                },
+                {
+                  "id": "mini_321_cross_to_right:target",
+                  "native_room": 321
+                },
+                {
+                  "id": "mini_321_cross_to_right:bypass",
+                  "native_room": 321
+                }
+              ],
+              "routes": [
+                {
+                  "from": "mini_321_cross_to_right:arrival",
+                  "to": "mini_321_cross_to_right:source",
+                  "room_transition": false,
+                  "evidence": "docs/traversal-logic.md#mustard-5-entry-compartments"
+                },
+                {
+                  "from": "mini_321_cross_to_right:source",
+                  "to": "mini_321_cross_to_right:target",
+                  "capability": "mini_corridor",
+                  "recover_dropped_ability": false,
+                  "evidence": "docs/traversal-logic.md#mustard-5-entry-compartments"
+                },
+                {
+                  "from": "mini_321_cross_to_right:arrival",
+                  "to": "mini_321_cross_to_right:bypass",
+                  "evidence": "docs/traversal-logic.md#mustard-5-entry-compartments"
+                }
+              ],
+              "sources": [
+                {
+                  "id": "minny_088c4db4",
+                  "node": "mini_321_cross_to_right:source",
+                  "source_key": "MINNY",
+                  "acquisition_evidence": "Canonical local Minny pocket 0x088C4DB4; inhalation from approach, not a claim that spawn tile is walkable. Entry-side acquisition only; docs/traversal-logic.md#mustard-5-entry-compartments"
+                }
+              ],
+              "starts": [
+                "mini_321_cross_to_right:arrival"
+              ],
+              "required_targets": [
+                "mini_321_cross_to_right:target"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "logical_subregions": {
+      "RIGHT_ENTRY": {
+        "locations": [
+          "MINOR_CHEST_MUSTARD_MOUNTAIN_4_05"
+        ],
+        "exits": {
+          "REGION_MUSTARD_MOUNTAIN/ROOM_4_05": null,
+          "REGION_MUSTARD_MOUNTAIN/ROOM_4_06": "can_use_mini",
+          "REGION_MUSTARD_MOUNTAIN/ROOM_4_09": "can_fly"
+        },
+        "evidence": "Native 546 arrival30,19 can puff bomb14,15, collect chest and cross left with Normal. Left304 arrival2,22 crosses both Mini throats to reach right. docs/traversal-logic.md#mustard-5-entry-compartments",
+        "traversal": {
+          "version": 1,
+          "targets": [
+            {
+              "id": "mini_321_right_lower",
+              "native_room": 321,
+              "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
+              "location": null,
+              "kind": "mini",
+              "graphs": {
+                "local": {
+                  "version": 1,
+                  "status": "reviewed",
+                  "nodes": [
+                    {
+                      "id": "mini_321_right_lower:arrival",
+                      "native_room": 321
+                    },
+                    {
+                      "id": "mini_321_right_lower:source",
+                      "native_room": 321
+                    },
+                    {
+                      "id": "mini_321_right_lower:target",
+                      "native_room": 321
+                    },
+                    {
+                      "id": "mini_321_right_lower:bypass",
+                      "native_room": 321
+                    }
+                  ],
+                  "routes": [
+                    {
+                      "from": "mini_321_right_lower:arrival",
+                      "to": "mini_321_right_lower:source",
+                      "room_transition": false,
+                      "evidence": "docs/traversal-logic.md#mustard-5-entry-compartments"
+                    },
+                    {
+                      "from": "mini_321_right_lower:source",
+                      "to": "mini_321_right_lower:target",
+                      "capability": "mini_corridor",
+                      "recover_dropped_ability": false,
+                      "evidence": "docs/traversal-logic.md#mustard-5-entry-compartments"
+                    },
+                    {
+                      "from": "mini_321_right_lower:arrival",
+                      "to": "mini_321_right_lower:bypass",
+                      "evidence": "docs/traversal-logic.md#mustard-5-entry-compartments"
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "id": "minny_088c4dd8",
+                      "node": "mini_321_right_lower:source",
+                      "source_key": "MINNY",
+                      "acquisition_evidence": "Canonical local Minny pocket 0x088C4DD8; inhalation from approach, not a claim that spawn tile is walkable. Entry-side acquisition only; docs/traversal-logic.md#mustard-5-entry-compartments"
+                    }
+                  ],
+                  "starts": [
+                    "mini_321_right_lower:arrival"
+                  ],
+                  "required_targets": [
+                    "mini_321_right_lower:target"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_06": {
@@ -2300,6 +3683,9 @@
           "can_break_block"
         ]
       }
+    },
+    "logical_exit_overrides": {
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_05": "RIGHT_ENTRY"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_09": {
@@ -2451,6 +3837,76 @@
           "can_use_mini"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "mini_312_warp",
+          "native_room": 312,
+          "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP",
+          "location": null,
+          "kind": "mini",
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "mini_312_warp:arrival",
+                  "native_room": 312
+                },
+                {
+                  "id": "mini_312_warp:source",
+                  "native_room": 312
+                },
+                {
+                  "id": "mini_312_warp:target",
+                  "native_room": 312
+                },
+                {
+                  "id": "mini_312_warp:bypass",
+                  "native_room": 312
+                }
+              ],
+              "routes": [
+                {
+                  "from": "mini_312_warp:arrival",
+                  "to": "mini_312_warp:source",
+                  "room_transition": false,
+                  "evidence": "Canonical Minny approach. In 736, down cannon 0x088B2616 self-transitions before acquisition."
+                },
+                {
+                  "from": "mini_312_warp:source",
+                  "to": "mini_312_warp:target",
+                  "capability": "mini_corridor",
+                  "recover_dropped_ability": false,
+                  "evidence": "Native collision 0x59 / sub_080088CC requires actual Mini. Olive includes drop/inhale/recover at star-stone 0x088CBD40."
+                },
+                {
+                  "from": "mini_312_warp:arrival",
+                  "to": "mini_312_warp:bypass",
+                  "evidence": "Independent upper/ordinary exit is not separated by the Mini corridor."
+                }
+              ],
+              "sources": [
+                {
+                  "id": "minny_088c417c",
+                  "node": "mini_312_warp:source",
+                  "source_key": "MINNY",
+                  "acquisition_evidence": "Canonical local Minny pocket 0x088C417C; inhalation from approach, not a claim that spawn tile is walkable."
+                }
+              ],
+              "starts": [
+                "mini_312_warp:arrival"
+              ],
+              "required_targets": [
+                "mini_312_warp:target"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_19": {
@@ -2711,6 +4167,76 @@
     "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_CHEST_1": "can_use_mini",
       "REGION_CARROT_CASTLE/ROOM_5_11": "can_fly"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "mini_736_chest",
+          "native_room": 736,
+          "exit": "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
+          "location": null,
+          "kind": "mini",
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "mini_736_chest:arrival",
+                  "native_room": 736
+                },
+                {
+                  "id": "mini_736_chest:source",
+                  "native_room": 736
+                },
+                {
+                  "id": "mini_736_chest:target",
+                  "native_room": 736
+                },
+                {
+                  "id": "mini_736_chest:bypass",
+                  "native_room": 736
+                }
+              ],
+              "routes": [
+                {
+                  "from": "mini_736_chest:arrival",
+                  "to": "mini_736_chest:source",
+                  "room_transition": true,
+                  "evidence": "Canonical Minny approach. In 736, down cannon 0x088B2616 self-transitions before acquisition."
+                },
+                {
+                  "from": "mini_736_chest:source",
+                  "to": "mini_736_chest:target",
+                  "capability": "mini_corridor",
+                  "recover_dropped_ability": false,
+                  "evidence": "Native collision 0x59 / sub_080088CC requires actual Mini. Olive includes drop/inhale/recover at star-stone 0x088CBD40."
+                },
+                {
+                  "from": "mini_736_chest:arrival",
+                  "to": "mini_736_chest:bypass",
+                  "evidence": "Independent upper/ordinary exit is not separated by the Mini corridor."
+                }
+              ],
+              "sources": [
+                {
+                  "id": "minny_088d41a0",
+                  "node": "mini_736_chest:source",
+                  "source_key": "MINNY",
+                  "acquisition_evidence": "Canonical local Minny pocket 0x088D41A0; inhalation from approach, not a claim that spawn tile is walkable."
+                }
+              ],
+              "starts": [
+                "mini_736_chest:arrival"
+              ],
+              "required_targets": [
+                "mini_736_chest:target"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_11": {
@@ -2925,6 +4451,244 @@
     },
     "exits": {
       "REGION_OLIVE_OCEAN/ROOM_6_21": "can_swim"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "peg_816_26_3",
+          "exit": null,
+          "location": "MAJOR_CHEST_OLIVE_OCEAN",
+          "kind": "peg",
+          "native_room": 816,
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "approach",
+                  "native_room": 816
+                },
+                {
+                  "id": "target",
+                  "native_room": 816
+                }
+              ],
+              "routes": [
+                {
+                  "from": "approach",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_816_26_3",
+                  "capability": "peg",
+                  "opens": "peg_816_26_3"
+                }
+              ],
+              "sources": [
+                {
+                  "id": "0x088CE8FC",
+                  "node": "approach",
+                  "source_key": "BONKERS",
+                  "acquisition_evidence": "docs/traversal-logic.md#peg_816_26_3"
+                }
+              ],
+              "starts": [
+                "approach"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "carry": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "592",
+                  "native_room": 592
+                },
+                {
+                  "id": "801",
+                  "native_room": 801
+                },
+                {
+                  "id": "191",
+                  "native_room": 191
+                },
+                {
+                  "id": "890",
+                  "native_room": 890
+                },
+                {
+                  "id": "811",
+                  "native_room": 811
+                },
+                {
+                  "id": "830",
+                  "native_room": 830
+                },
+                {
+                  "id": "810",
+                  "native_room": 810
+                },
+                {
+                  "id": "802",
+                  "native_room": 802
+                },
+                {
+                  "id": "816",
+                  "native_room": 816
+                },
+                {
+                  "id": "target",
+                  "native_room": 816
+                }
+              ],
+              "routes": [
+                {
+                  "from": "592",
+                  "to": "801",
+                  "evidence": "docs/traversal-logic.md#peg_816_26_3",
+                  "items": [
+                    "Cabbage Cavern East - Hub Connection",
+                    "Cabbage Cavern West - Hub Connection",
+                    "Olive Ocean - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key",
+                    "Olive Ocean - Area Key"
+                  ]
+                },
+                {
+                  "from": "801",
+                  "to": "191",
+                  "evidence": "docs/traversal-logic.md#peg_816_26_3",
+                  "items": [
+                    "Cabbage Cavern East - Hub Connection",
+                    "Cabbage Cavern West - Hub Connection",
+                    "Olive Ocean - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key",
+                    "Olive Ocean - Area Key"
+                  ]
+                },
+                {
+                  "from": "191",
+                  "to": "890",
+                  "evidence": "docs/traversal-logic.md#peg_816_26_3",
+                  "items": [
+                    "Cabbage Cavern East - Hub Connection",
+                    "Cabbage Cavern West - Hub Connection",
+                    "Olive Ocean - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key",
+                    "Olive Ocean - Area Key"
+                  ]
+                },
+                {
+                  "from": "890",
+                  "to": "811",
+                  "evidence": "docs/traversal-logic.md#peg_816_26_3",
+                  "items": [
+                    "Cabbage Cavern East - Hub Connection",
+                    "Cabbage Cavern West - Hub Connection",
+                    "Olive Ocean - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key",
+                    "Olive Ocean - Area Key"
+                  ]
+                },
+                {
+                  "from": "811",
+                  "to": "830",
+                  "evidence": "docs/traversal-logic.md#peg_816_26_3",
+                  "items": [
+                    "Cabbage Cavern East - Hub Connection",
+                    "Cabbage Cavern West - Hub Connection",
+                    "Olive Ocean - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key",
+                    "Olive Ocean - Area Key"
+                  ]
+                },
+                {
+                  "from": "830",
+                  "to": "810",
+                  "evidence": "docs/traversal-logic.md#peg_816_26_3",
+                  "items": [
+                    "Cabbage Cavern East - Hub Connection",
+                    "Cabbage Cavern West - Hub Connection",
+                    "Olive Ocean - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key",
+                    "Olive Ocean - Area Key"
+                  ]
+                },
+                {
+                  "from": "810",
+                  "to": "802",
+                  "evidence": "docs/traversal-logic.md#peg_816_26_3",
+                  "items": [
+                    "Cabbage Cavern East - Hub Connection",
+                    "Cabbage Cavern West - Hub Connection",
+                    "Olive Ocean - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key",
+                    "Olive Ocean - Area Key"
+                  ]
+                },
+                {
+                  "from": "802",
+                  "to": "816",
+                  "evidence": "docs/traversal-logic.md#peg_816_26_3",
+                  "items": [
+                    "Cabbage Cavern East - Hub Connection",
+                    "Cabbage Cavern West - Hub Connection",
+                    "Olive Ocean - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key",
+                    "Olive Ocean - Area Key"
+                  ]
+                },
+                {
+                  "from": "816",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_816_26_3",
+                  "capability": "peg",
+                  "opens": "peg_816_26_3",
+                  "allowed_abilities": [
+                    "Stone"
+                  ]
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "592"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_592",
+                  "node": "592",
+                  "retry_evidence": "Permanent hub statue can be retouched before carry; eventual eligible draw assumed"
+                }
+              ],
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1": {
@@ -3091,6 +4855,76 @@
     },
     "logical_exit_overrides": {
       "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_04_OR_6_06"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "mini_134_ocean_spray",
+          "native_room": 134,
+          "exit": null,
+          "location": "MINOR_CHEST_SPRAY_PAINT_07",
+          "kind": "mini",
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "mini_134_ocean_spray:arrival",
+                  "native_room": 134
+                },
+                {
+                  "id": "mini_134_ocean_spray:source",
+                  "native_room": 134
+                },
+                {
+                  "id": "mini_134_ocean_spray:target",
+                  "native_room": 134
+                },
+                {
+                  "id": "mini_134_ocean_spray:bypass",
+                  "native_room": 134
+                }
+              ],
+              "routes": [
+                {
+                  "from": "mini_134_ocean_spray:arrival",
+                  "to": "mini_134_ocean_spray:source",
+                  "room_transition": false,
+                  "evidence": "Canonical Minny approach. In 736, down cannon 0x088B2616 self-transitions before acquisition."
+                },
+                {
+                  "from": "mini_134_ocean_spray:source",
+                  "to": "mini_134_ocean_spray:target",
+                  "capability": "mini_corridor",
+                  "recover_dropped_ability": true,
+                  "evidence": "Native collision 0x59 / sub_080088CC requires actual Mini. Olive includes drop/inhale/recover at star-stone 0x088CBD40."
+                },
+                {
+                  "from": "mini_134_ocean_spray:arrival",
+                  "to": "mini_134_ocean_spray:bypass",
+                  "evidence": "Independent upper/ordinary exit is not separated by the Mini corridor."
+                }
+              ],
+              "sources": [
+                {
+                  "id": "minny_088cbd88",
+                  "node": "mini_134_ocean_spray:source",
+                  "source_key": "MINNY",
+                  "acquisition_evidence": "Canonical local Minny pocket 0x088CBD88; inhalation from approach, not a claim that spawn tile is walkable."
+                }
+              ],
+              "starts": [
+                "mini_134_ocean_spray:arrival"
+              ],
+              "required_targets": [
+                "mini_134_ocean_spray:target"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_07": {
@@ -3749,6 +5583,173 @@
       "REGION_PEPPERMINT_PALACE/ROOM_7_11": null,
       "REGION_PEPPERMINT_PALACE/ROOM_7_13": null,
       "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY": "can_pound_pegs"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "peg_204_62_4",
+          "exit": "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY",
+          "location": null,
+          "kind": "peg",
+          "native_room": 204,
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "approach",
+                  "native_room": 204
+                },
+                {
+                  "id": "target",
+                  "native_room": 204
+                }
+              ],
+              "routes": [
+                {
+                  "from": "approach",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_204_62_4",
+                  "capability": "peg",
+                  "opens": "peg_204_62_4"
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "approach"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "carry": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "190",
+                  "native_room": 190
+                },
+                {
+                  "id": "801",
+                  "native_room": 801
+                },
+                {
+                  "id": "290",
+                  "native_room": 290
+                },
+                {
+                  "id": "210",
+                  "native_room": 210
+                },
+                {
+                  "id": "227",
+                  "native_room": 227
+                },
+                {
+                  "id": "204",
+                  "native_room": 204
+                },
+                {
+                  "id": "target",
+                  "native_room": 204
+                }
+              ],
+              "routes": [
+                {
+                  "from": "190",
+                  "to": "801",
+                  "evidence": "docs/traversal-logic.md#peg_204_62_4",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "801",
+                  "to": "290",
+                  "evidence": "docs/traversal-logic.md#peg_204_62_4",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "290",
+                  "to": "210",
+                  "evidence": "docs/traversal-logic.md#peg_204_62_4",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "210",
+                  "to": "227",
+                  "evidence": "docs/traversal-logic.md#peg_204_62_4",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "227",
+                  "to": "204",
+                  "evidence": "docs/traversal-logic.md#peg_204_62_4",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "204",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_204_62_4",
+                  "capability": "peg",
+                  "opens": "peg_204_62_4",
+                  "allowed_abilities": [
+                    "Stone"
+                  ]
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "190"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_190",
+                  "node": "190",
+                  "retry_evidence": "Permanent hub statue can be retouched before carry; eventual eligible draw assumed"
+                }
+              ],
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_13": {
@@ -3884,6 +5885,242 @@
       "REGION_PEPPERMINT_PALACE/ROOM_7_15": null,
       "REGION_PEPPERMINT_PALACE/ROOM_7_20": null,
       "REGION_PEPPERMINT_PALACE/ROOM_7_23": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "peg_221_41_12",
+          "exit": null,
+          "location": "MINOR_CHEST_SPRAY_PAINT_01",
+          "kind": "peg",
+          "native_room": 221,
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "approach",
+                  "native_room": 221
+                },
+                {
+                  "id": "target",
+                  "native_room": 221
+                }
+              ],
+              "routes": [
+                {
+                  "from": "approach",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_221_41_12",
+                  "capability": "peg",
+                  "opens": "peg_221_41_12"
+                }
+              ],
+              "sources": [
+                {
+                  "id": "0x088C192C",
+                  "node": "approach",
+                  "source_key": "GIANT_ROCKY",
+                  "acquisition_evidence": "docs/traversal-logic.md#peg_221_41_12"
+                },
+                {
+                  "id": "0x088C1A4C",
+                  "node": "approach",
+                  "source_key": "GIANT_ROCKY",
+                  "acquisition_evidence": "docs/traversal-logic.md#peg_221_41_12"
+                }
+              ],
+              "starts": [
+                "approach"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "carry": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "190",
+                  "native_room": 190
+                },
+                {
+                  "id": "801",
+                  "native_room": 801
+                },
+                {
+                  "id": "290",
+                  "native_room": 290
+                },
+                {
+                  "id": "291",
+                  "native_room": 291
+                },
+                {
+                  "id": "215",
+                  "native_room": 215
+                },
+                {
+                  "id": "212",
+                  "native_room": 212
+                },
+                {
+                  "id": "216",
+                  "native_room": 216
+                },
+                {
+                  "id": "217",
+                  "native_room": 217
+                },
+                {
+                  "id": "221",
+                  "native_room": 221
+                },
+                {
+                  "id": "target",
+                  "native_room": 221
+                }
+              ],
+              "routes": [
+                {
+                  "from": "190",
+                  "to": "801",
+                  "evidence": "docs/traversal-logic.md#peg_221_41_12",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection",
+                    "Peppermint Palace West - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "801",
+                  "to": "290",
+                  "evidence": "docs/traversal-logic.md#peg_221_41_12",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection",
+                    "Peppermint Palace West - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "290",
+                  "to": "291",
+                  "evidence": "docs/traversal-logic.md#peg_221_41_12",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection",
+                    "Peppermint Palace West - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "291",
+                  "to": "215",
+                  "evidence": "docs/traversal-logic.md#peg_221_41_12",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection",
+                    "Peppermint Palace West - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "215",
+                  "to": "212",
+                  "evidence": "docs/traversal-logic.md#peg_221_41_12",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection",
+                    "Peppermint Palace West - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "212",
+                  "to": "216",
+                  "evidence": "docs/traversal-logic.md#peg_221_41_12",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection",
+                    "Peppermint Palace West - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "216",
+                  "to": "217",
+                  "evidence": "docs/traversal-logic.md#peg_221_41_12",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection",
+                    "Peppermint Palace West - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "217",
+                  "to": "221",
+                  "evidence": "docs/traversal-logic.md#peg_221_41_12",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection",
+                    "Peppermint Palace West - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "221",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_221_41_12",
+                  "capability": "peg",
+                  "opens": "peg_221_41_12",
+                  "allowed_abilities": [
+                    "Stone"
+                  ]
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "190"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_190",
+                  "node": "190",
+                  "retry_evidence": "Permanent hub statue can be retouched before carry; eventual eligible draw assumed"
+                }
+              ],
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_23": {
@@ -4027,6 +6264,153 @@
       "REGION_RADISH_RUINS/ROOM_8_CHEST_1": "can_pound_pegs",
       "REGION_RADISH_RUINS/ROOM_8_04": null,
       "REGION_RADISH_RUINS/ROOM_8_08": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "peg_605_12_24",
+          "exit": "REGION_RADISH_RUINS/ROOM_8_CHEST_1",
+          "location": null,
+          "kind": "peg",
+          "native_room": 605,
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "approach",
+                  "native_room": 605
+                },
+                {
+                  "id": "target",
+                  "native_room": 605
+                }
+              ],
+              "routes": [
+                {
+                  "from": "approach",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_605_12_24",
+                  "capability": "peg",
+                  "opens": "peg_605_12_24"
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "approach"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "carry": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "592",
+                  "native_room": 592
+                },
+                {
+                  "id": "690",
+                  "native_room": 690
+                },
+                {
+                  "id": "611",
+                  "native_room": 611
+                },
+                {
+                  "id": "601",
+                  "native_room": 601
+                },
+                {
+                  "id": "605",
+                  "native_room": 605
+                },
+                {
+                  "id": "target",
+                  "native_room": 605
+                }
+              ],
+              "routes": [
+                {
+                  "from": "592",
+                  "to": "690",
+                  "evidence": "docs/traversal-logic.md#peg_605_12_24",
+                  "items": [
+                    "Radish Ruins - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Radish Ruins - Area Key"
+                  ]
+                },
+                {
+                  "from": "690",
+                  "to": "611",
+                  "evidence": "docs/traversal-logic.md#peg_605_12_24",
+                  "items": [
+                    "Radish Ruins - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Radish Ruins - Area Key"
+                  ]
+                },
+                {
+                  "from": "611",
+                  "to": "601",
+                  "evidence": "docs/traversal-logic.md#peg_605_12_24",
+                  "items": [
+                    "Radish Ruins - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Radish Ruins - Area Key"
+                  ]
+                },
+                {
+                  "from": "601",
+                  "to": "605",
+                  "evidence": "docs/traversal-logic.md#peg_605_12_24",
+                  "items": [
+                    "Radish Ruins - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Radish Ruins - Area Key"
+                  ]
+                },
+                {
+                  "from": "605",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_605_12_24",
+                  "capability": "peg",
+                  "opens": "peg_605_12_24",
+                  "allowed_abilities": [
+                    "Stone"
+                  ]
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "592"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_592",
+                  "node": "592",
+                  "retry_evidence": "Permanent hub statue can be retouched before carry; eventual eligible draw assumed"
+                }
+              ],
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_04": {
@@ -4528,6 +6912,170 @@
       "REGION_CANDY_CONSTELLATION/ROOM_9_05": null,
       "REGION_CANDY_CONSTELLATION/ROOM_9_07": null,
       "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1": "can_pound_pegs"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "peg_401_28_30",
+          "exit": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
+          "location": null,
+          "kind": "peg",
+          "native_room": 401,
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "approach",
+                  "native_room": 401
+                },
+                {
+                  "id": "target",
+                  "native_room": 401
+                }
+              ],
+              "routes": [
+                {
+                  "from": "approach",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_401_28_30",
+                  "capability": "peg",
+                  "opens": "peg_401_28_30"
+                }
+              ],
+              "sources": [
+                {
+                  "id": "0x088C5840",
+                  "node": "approach",
+                  "source_key": "ROCKY",
+                  "acquisition_evidence": "docs/traversal-logic.md#peg_401_28_30"
+                },
+                {
+                  "id": "0x088C5864",
+                  "node": "approach",
+                  "source_key": "ROCKY",
+                  "acquisition_evidence": "docs/traversal-logic.md#peg_401_28_30"
+                }
+              ],
+              "starts": [
+                "approach"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "carry": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "190",
+                  "native_room": 190
+                },
+                {
+                  "id": "801",
+                  "native_room": 801
+                },
+                {
+                  "id": "490",
+                  "native_room": 490
+                },
+                {
+                  "id": "407",
+                  "native_room": 407
+                },
+                {
+                  "id": "401",
+                  "native_room": 401
+                },
+                {
+                  "id": "target",
+                  "native_room": 401
+                }
+              ],
+              "routes": [
+                {
+                  "from": "190",
+                  "to": "801",
+                  "evidence": "docs/traversal-logic.md#peg_401_28_30",
+                  "items": [
+                    "Candy Constellation - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Candy Constellation - Area Key"
+                  ]
+                },
+                {
+                  "from": "801",
+                  "to": "490",
+                  "evidence": "docs/traversal-logic.md#peg_401_28_30",
+                  "items": [
+                    "Candy Constellation - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Candy Constellation - Area Key"
+                  ]
+                },
+                {
+                  "from": "490",
+                  "to": "407",
+                  "evidence": "docs/traversal-logic.md#peg_401_28_30",
+                  "items": [
+                    "Candy Constellation - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Candy Constellation - Area Key"
+                  ]
+                },
+                {
+                  "from": "407",
+                  "to": "401",
+                  "evidence": "docs/traversal-logic.md#peg_401_28_30",
+                  "items": [
+                    "Candy Constellation - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Candy Constellation - Area Key"
+                  ]
+                },
+                {
+                  "from": "401",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_401_28_30",
+                  "capability": "peg",
+                  "opens": "peg_401_28_30",
+                  "allowed_abilities": [
+                    "Stone"
+                  ]
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "190"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_190",
+                  "node": "190",
+                  "retry_evidence": "Permanent hub statue can be retouched before carry; eventual eligible draw assumed"
+                }
+              ],
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_07": {
@@ -4556,6 +7104,143 @@
       "REGION_CANDY_CONSTELLATION/ROOM_9_09": "can_pound_pegs",
       "REGION_CANDY_CONSTELLATION/ROOM_9_10": null,
       "REGION_CANDY_CONSTELLATION/ROOM_9_HUB": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "peg_411_4_3",
+          "exit": "REGION_CANDY_CONSTELLATION/ROOM_9_09",
+          "location": null,
+          "kind": "peg",
+          "native_room": 411,
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "approach",
+                  "native_room": 411
+                },
+                {
+                  "id": "target",
+                  "native_room": 411
+                }
+              ],
+              "routes": [
+                {
+                  "from": "approach",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3",
+                  "capability": "peg",
+                  "opens": "peg_411_4_3"
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "approach"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "carry": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "190",
+                  "native_room": 190
+                },
+                {
+                  "id": "801",
+                  "native_room": 801
+                },
+                {
+                  "id": "490",
+                  "native_room": 490
+                },
+                {
+                  "id": "411",
+                  "native_room": 411
+                },
+                {
+                  "id": "target",
+                  "native_room": 411
+                }
+              ],
+              "routes": [
+                {
+                  "from": "190",
+                  "to": "801",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3",
+                  "items": [
+                    "Candy Constellation - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Candy Constellation - Area Key"
+                  ]
+                },
+                {
+                  "from": "801",
+                  "to": "490",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3",
+                  "items": [
+                    "Candy Constellation - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Candy Constellation - Area Key"
+                  ]
+                },
+                {
+                  "from": "490",
+                  "to": "411",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3",
+                  "items": [
+                    "Candy Constellation - Hub Connection",
+                    "Rainbow Route East - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Candy Constellation - Area Key"
+                  ]
+                },
+                {
+                  "from": "411",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3",
+                  "capability": "peg",
+                  "opens": "peg_411_4_3",
+                  "allowed_abilities": [
+                    "Hammer",
+                    "Smash",
+                    "Stone"
+                  ]
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "190"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_190",
+                  "node": "190",
+                  "retry_evidence": "Permanent hub statue can be retouched before carry; eventual eligible draw assumed"
+                }
+              ],
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_09": {

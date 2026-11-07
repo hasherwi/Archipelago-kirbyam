@@ -111,7 +111,7 @@ class RandomizeShards(Choice):
 class AbilityRandomizationMode(Choice):
     """
     Controls randomization of enemy-granted copy abilities.
-    If statue randomization is enabled, statues inherit this same mode.
+    If Copy Ability statue randomization is enabled, Copy Ability statues inherit this same mode.
 
     - Off: Enemy copy abilities stay at native defaults. Default.
     - Shuffled: Enemy types are remapped deterministically so all enemies of the
@@ -157,7 +157,7 @@ class AbilityRandomizationPassiveEnemies(Toggle):
     When enabled, enemies that normally do not grant a copy ability can receive a
     randomized ability.
       Only applies when Ability Randomization Mode is not Off.
-      Enemy sources only. Ability statues are not affected by this toggle.
+      Enemy sources only. Copy Ability statues are not affected by this toggle.
 
       On by Default, but ability_randomization_mode is Off by Default.
     """
@@ -178,7 +178,7 @@ class AbilityRandomizationNoAbilityWeight(Range):
 
     This only affects enemies already included by the ability randomization mode and
     the boss/miniboss/passive-enemy toggles.
-    Ability statues are not affected; randomized statues always grant an ability.
+    Copy Ability statues are not affected; randomized Copy Ability statues always grant an ability.
 
         You can set a custom percentage by adding a custom number as the subkey,
         then supply the "percentage" chance for generation to roll that value.
@@ -203,21 +203,22 @@ class AbilityRandomizationNoAbilityWeight(Range):
 
 class AbilityRandomizationStatues(Toggle):
     """
-    Include ability statues (sometimes called ability trophies or ability stands)
-    in copy-ability randomization.
+    Include Copy Ability statues in copy-ability randomization.
+    The Master Sword stand is excluded.
 
-    This toggle only controls whether statues participate at all.
+    This toggle only controls whether Copy Ability statues participate at all.
     Only applies when Ability Randomization Mode is not Off.
-    Participating statues use the currently selected Ability Randomization Mode
+    Participating Copy Ability statues use the currently selected Ability Randomization Mode
     (Off, Shuffled, or Completely Random).
-    Randomized statues always grant an ability and do not use
+    Randomized Copy Ability statues always grant an ability and do not use
     `ability_randomization_no_ability_weight` or
     `ability_randomization_passive_enemies`.
-    Randomized regular statues exclude Mini; Minny always retains its native Mini grant.
+    Randomized Copy Ability statues exclude Mini; Minny enemies always give Mini.
+    Ability gating still applies: the matching ability item is needed when that ability is locked.
 
     Off by default.
     """
-    display_name = "Ability Randomization: Statues"
+    display_name = "Ability Randomization: Copy Ability Statues"
     default = 0
 
 
