@@ -751,7 +751,7 @@
   },
   "ABILITY_UNLOCK_CUTTER": {
     "label": "Cutter Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860106,
     "tags": ["Abilities", "Unique"]
   },

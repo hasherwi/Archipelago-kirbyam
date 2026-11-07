@@ -14,7 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Access to the Copy Ability Room is now an AP Item (Issue #1002).
 
 ### Improvements
-- Improve Mini, Wheel, peg, rope and cannon-fuse traversal logic to account for reachable enemies and Copy Ability statues; Mini and Wheel are now progression abilities, and Minny always grants Mini (PR #1041).
+- Cutter, Wheel and Mini are no longer in the starting inventory, with traversal logic added to support their removal (PRs #1041, #1042).
 
 ### Known Limitations
 - None.
@@ -23,7 +23,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - None.
 
 ### Internal Changes
-- None.
+- Add source-aware peg and cannon-fuse traversal using reachable enemies and Copy Ability statues, and keep Minny fixed to Mini (PR #1041).
 
 ## v0.5.0
 

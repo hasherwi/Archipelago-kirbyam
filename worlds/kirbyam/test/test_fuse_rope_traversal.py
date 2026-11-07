@@ -125,7 +125,7 @@ def test_all_physical_source_identities_are_explicit_and_shared_consistently():
                         assert source.renewable
 
 
-@pytest.mark.parametrize('ability', ['Fire', 'Bomb', 'Laser', 'UFO', 'Sword', 'Cupid'])
+@pytest.mark.parametrize('ability', ['Fire', 'Bomb', 'Laser', 'UFO', 'Sword', 'Cupid', 'Cutter'])
 def test_new_provider_permission_items_are_progression(ability):
     item = next(item for item in data.items.values() if item.label == ability + ' Ability')
     assert item.classification & ItemClassification.progression
@@ -133,8 +133,9 @@ def test_new_provider_permission_items_are_progression(ability):
 
 
 @pytest.mark.parametrize('mode', [0, 1, 2])
-def test_burning_and_cutter_permissions_remain_starting(mode):
-    assert {'Burning', 'Cutter'} <= set(starting_copy_abilities(mode))
+def test_only_burning_permission_remains_starting(mode):
+    assert 'Burning' in starting_copy_abilities(mode)
+    assert 'Cutter' not in starting_copy_abilities(mode)
 
 
 @pytest.mark.parametrize('target', ['fuse_126', 'fuse_323', 'fuse_827'])

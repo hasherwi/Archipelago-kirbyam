@@ -128,13 +128,15 @@ def test_all_65_chests_are_reachable_with_route_items():
                 if not multiworld.get_location(row.label, 1).can_reach(state)]
 
 
-def test_starting_ungated_native_abilities_cover_current_capability_groups():
+def test_starting_ungated_native_abilities_match_remaining_placeholders():
     from ..rules import _ABILITY_GATE_PLACEHOLDER_SOURCES
     abilities = load_json_data('abilities.json')
     ungated = {name for name, row in abilities.items()
                if not row.get('safe_to_gate') and row.get('enemy_copy_allowed', True)}
-    assert ungated == {'Beam', 'Burning', 'Cutter', 'Stone'}
+    assert ungated == {'Beam', 'Burning', 'Stone'}
     assert all(ungated & choices for name, choices in _ABILITY_GATE_PLACEHOLDER_SOURCES.items()
-               if name != "CanUseMini")
+               if name not in {"CanUseMini", "CanCutRopes"})
+    assert not ungated & _ABILITY_GATE_PLACEHOLDER_SOURCES["CanCutRopes"]
+    assert abilities["Cutter"]["safe_to_gate"]
     assert abilities["Mini"]["safe_to_gate"]
     assert abilities["Wheel"]["safe_to_gate"]

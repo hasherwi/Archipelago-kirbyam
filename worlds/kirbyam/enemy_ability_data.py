@@ -39,14 +39,15 @@ def _parse_address(value: Any) -> int:
     raise ValueError(f"unsupported address value type: {type(value).__name__}")
 
 
-# Legacy initial permissions, also retained for live-random mode during the traversal rollout.
+# Historical starting permissions retained for old seed receipt handling.
+# New seeds use starting_copy_abilities() instead.
 STARTING_COPY_ABILITIES: tuple[str, ...] = ("Beam", "Burning", "Cutter", "Mini", "Stone", "Wheel")
 
 
 def starting_copy_abilities(mode: int) -> tuple[str, ...]:
-    """Mini and Wheel have source-backed routes; Stone retains starting permission."""
+    """Cutter, Mini and Wheel use source-backed progression in every mode."""
     return tuple(
-        ability for ability in STARTING_COPY_ABILITIES if ability not in {"Mini", "Wheel"}
+        ability for ability in STARTING_COPY_ABILITIES if ability not in {"Cutter", "Mini", "Wheel"}
     )
 
 
