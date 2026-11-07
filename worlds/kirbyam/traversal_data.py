@@ -10,12 +10,29 @@ from copy import deepcopy
 from functools import lru_cache
 from typing import Any, Mapping
 
+from Options import Accessibility
+
 from .data import LocationCategory, data
 from .traversal import TraversalGraph, compile_traversal_graph
 
 
 HUB_SWITCH_LABELS = tuple(row.label for row in data.locations.values()
                           if row.category == LocationCategory.HUB_SWITCH)
+
+
+def requires_all_traversal_witnesses(world: Any) -> bool:
+    """Only explicit minimal accessibility may leave source-backed checks closed.
+
+    This controls the early feasibility filter, never the installed access rules.
+    Normal fill and accessibility still have to prove the selected goal reachable.
+    Missing or malformed options conservatively retain full validation.
+    """
+    accessibility = getattr(getattr(world, "options", None), "accessibility", None)
+    return not (
+        isinstance(accessibility, Accessibility)
+        and type(accessibility.value) is int
+        and accessibility.value == Accessibility.option_minimal
+    )
 
 
 def has_graph_access(world: Any, state: Any, graph: TraversalGraph) -> bool:

@@ -20,8 +20,38 @@ runtime fix is included. The reviewed ordinary-hub statue network below provides
 alternative carriers with independently proved access, actual assignments, and
 per-route connection/Area Key guards. In particular, 100% Normal
 randomized enemies with fixed statues can leave no actual Wheel or Smash source;
-those seeds must fail closed. Complete coverage of all option combinations is not
-claimed.
+the affected traversal rules remain closed. Whether the seed must be rejected
+depends on its goal, fill, and accessibility requirements, as described below.
+Complete coverage of all option combinations is not claimed.
+
+## Generation and accessibility
+
+Full accessibility retains source-feasibility preflight and static-assignment
+validation for required traversal targets. Minimal accessibility does not demand
+a witness for every check before fill: it keeps the original static assignment
+and installs the same source-aware access rules. Missing sources leave their
+routes closed, and normal fill, beatability, and accessibility validation decide
+whether the seed succeeds. Minimal accessibility does not guarantee generation
+for every option combination or goal. Neither mode invents an ability grant,
+opens a failed witness, or repairs room970 access.
+
+Regression evidence comes from [CI run 42378067551](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/42378067551),
+[artifact 13576028492](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/42378067551/artifacts/13576028492):
+
+- Case 69, seed `108836542`, uses minimal accessibility and a seven-area-boss goal.
+  A follow-up replay with only the unconditional preflight rejection deferred
+  generated successfully with the real peg and Wheel gates still closed. All
+  eight area bosses were reachable, the goal and minimal accessibility passed,
+  and exactly two unreachable chests held filler.
+- Case 95, seed `321375454`, uses full accessibility. With the same preflight-only
+  deferral, Dark Mind was beatable, but the real `fulfills_accessibility` check
+  raised `FillError` for the Moonlight Mansion 2-20 and Rainbow Route 1-06 Lower
+  chests. Beating the goal does not satisfy full accessibility.
+
+These cases distinguish valid optional omissions from a full-accessibility
+failure. They do not establish a new Wheel or Smash source or runtime access
+to room970. Tests must preserve closed gates and actual source assignments in both
+cases rather than weakening access rules to make generation pass.
 
 ## Contract
 
@@ -201,7 +231,9 @@ therefore gain source-aware ordinary-hub alternatives. They still need an actual
 reachable grant. With fixed excluded statues and100% Normal included enemies,
 this network provides neither Wheel nor Smash. The unavailable970 sources cannot
 mask that missing witness: another reviewed source or separately verified runtime
-unlock repair is needed before accepting such a configuration.
+unlock repair is needed before opening either affected route. Full accessibility
+requires those checks; minimal accessibility may leave them closed when the
+normal fill and goal-accessibility checks succeed.
 
 ### Network regression contract
 
@@ -335,8 +367,9 @@ not automatically an executable route. Production source-aware gates currently c
 Carrier witnesses require an independently reachable source hub, actual Hub
 Connection items, and destination Area Key when that option is enabled. Static
 assignment validation accepts reviewed local or carrier witnesses rather than
-rewriting individual randomized outputs. Static policies, including shuffled weight100/statue configurations, get at most
-8192 assignment attempts without forcing individual outputs. The larger bounded
+rewriting individual randomized outputs. For full accessibility, static policies,
+including shuffled weight100/statue configurations, get at most 8192 assignment
+attempts without forcing individual outputs. The larger bounded
 search accommodates the rare joint Wheelie/peg-source assignment when ordinary
 hub statues remain fixed; the previous 1024-attempt budget rejected some ordinary
 55% no-ability seeds despite valid later candidates in the same deterministic
@@ -344,8 +377,11 @@ stream. If that budget finds no Wheel-validated assignment, generation fails tha
 seed with a precise
 search-budget diagnostic, not a claim that the configuration is impossible.
 A Wheel-valid candidate without all reviewed peg witnesses also fails after the
-bounded search. No target rule silently becomes permissive. Live-random rules
-validate positive-support renewable source witnesses before installation. Unknown
+bounded search. Under minimal accessibility, the original assignment is retained
+without this all-target search; normal fill and goal-accessibility validation
+still apply. No target rule silently becomes permissive. Live-random rules
+retain positive-support renewable source requirements, with all-target preflight
+rejection limited to full accessibility. Unknown
 alternatives are not declared impossible; the diagnostic describes this seed and
 reviewed witness set, not global configuration impossibility.
 The current repository has no entrance
@@ -1008,8 +1044,11 @@ and target-route requirements unchanged.
 For live randomization, a retry is useful only with an unlocked eligible output
 of positive probability. Repeated eligible draws use a conditional eventual-draw
 fairness assumption, never a bounded-attempt guarantee. Empty output pools and
-100% Normal included-enemy settings still fail. Fixed ordinary-hub statues cannot
-supply the missing Wheel/Smash grants, and unavailable970 sources remain blocked.
+100% Normal included-enemy settings still fail these local source witnesses.
+Fixed ordinary-hub statues cannot supply the missing Wheel/Smash grants, and
+unavailable970 sources remain blocked. If no other reviewed source succeeds,
+full accessibility rejects the seed; minimal accessibility must instead pass
+normal fill and goal-accessibility validation with those routes closed.
 Static assignments and excluded categories must retain their actual grants.
 
 Pinned native evidence, commit `7d969fbce14fdc838d2c1ea01389717fb96c3189`:

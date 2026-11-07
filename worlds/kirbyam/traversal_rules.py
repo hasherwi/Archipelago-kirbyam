@@ -7,7 +7,10 @@ from typing import Any
 from .data import data
 from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .traversal import SourcePolicy, TraversalGraph
-from .traversal_data import graph_access_regions, has_graph_access, room_traversal_graph, room_traversal_targets
+from .traversal_data import (
+    graph_access_regions, has_graph_access, requires_all_traversal_witnesses,
+    room_traversal_graph, room_traversal_targets,
+)
 
 
 def extra_traversal_targets() -> tuple[dict[str, Any], ...]:
@@ -63,7 +66,7 @@ def install_extra_traversal_rules(world: Any) -> None:
         graphs = target_graphs(row, world._area_keys_enabled())
         required_items = frozenset(f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES)
         required_items |= frozenset(item for graph in graphs for item in graph_items(graph))
-        if row.get("required_for_generation", True) and not any(
+        if requires_all_traversal_witnesses(world) and row.get("required_for_generation", True) and not any(
             graph_succeeds(graph, policy, required_items, gating, retries=True) for graph in graphs
         ):
             raise ValueError(

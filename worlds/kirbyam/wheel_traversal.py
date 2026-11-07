@@ -12,7 +12,8 @@ from typing import Any
 from .traversal import SourcePolicy, TraversalGraph
 from .traversal_data import (
     HUB_SWITCH_LABELS as HUB_SWITCH_LABELS,
-    graph_access_regions, has_graph_access, room_traversal_graph, room_traversal_targets,
+    graph_access_regions, has_graph_access, requires_all_traversal_witnesses,
+    room_traversal_graph, room_traversal_targets,
 )
 
 RACE = room_traversal_targets("wheel")[0]
@@ -48,8 +49,10 @@ def install_wheel_rules(world: Any) -> None:
     gating = world._ability_gating_enabled()
     all_items = frozenset(f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES)
     all_items |= frozenset(item for graph in graphs for route in graph.routes for item in route.items)
-    if not any(graph.evaluate(policy, all_items, gating, allow_documented_retries=True).reaches("chest")
-               for graph in graphs):
+    if requires_all_traversal_witnesses(world) and not any(
+        graph.evaluate(policy, all_items, gating, allow_documented_retries=True).reaches("chest")
+        for graph in graphs
+    ):
         raise ValueError(
             "No reviewed non-970 Wheel source witness for these options. "
             "Room 970 is unavailable until patched-ROM access is independently verified."

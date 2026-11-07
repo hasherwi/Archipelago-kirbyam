@@ -33,6 +33,7 @@ from .data import (
 from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES, starting_copy_abilities
 from .mini_traversal import validate_mini_sources
 from .peg_traversal import peg_logic_enabled, validate_peg_assignment
+from .traversal_data import requires_all_traversal_witnesses
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
 from .generation_logging import (
     generation_stage,
@@ -495,7 +496,7 @@ class KirbyAmWorld(World):
                     self.random, mode, randomize_boss_spawned, randomize_miniboss,
                     include_minny=False, include_passive_enemies=randomize_non_ability,
                     no_ability_weight=no_ability_weight,
-                ), randomize_statues,
+                ), randomize_statues, require_all_witnesses=requires_all_traversal_witnesses(self),
             )
             validate_mini_sources(self._enemy_copy_ability_policy, randomize_statues)
             if not peg_logic_enabled(self._enemy_copy_ability_policy):

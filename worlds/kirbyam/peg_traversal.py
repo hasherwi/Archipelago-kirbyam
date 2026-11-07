@@ -11,7 +11,10 @@ from typing import Any, Callable
 
 from .data import data
 from .traversal import SourcePolicy, TraversalGraph
-from .traversal_data import graph_access_regions, has_graph_access, room_traversal_graph, room_traversal_targets
+from .traversal_data import (
+    graph_access_regions, has_graph_access, requires_all_traversal_witnesses,
+    room_traversal_graph, room_traversal_targets,
+)
 
 
 PEG_ROUTES = room_traversal_targets("peg")
@@ -58,17 +61,21 @@ def _assignment_has_witness(row: dict[str, Any], policy: SourcePolicy) -> bool:
 
 def validate_peg_assignment(
     initial: dict[str, Any], factory: Callable[[], dict[str, Any]], include_statues: bool,
-    max_attempts: int = 8192,
+    max_attempts: int = 8192, *, require_all_witnesses: bool = True,
 ) -> dict[str, Any]:
     """Select a valid deterministic assignment; do not rewrite individual grants.
 
     The bounded default allows rare joint Wheelie/peg-source assignments with fixed
     statues. It never forces individual grants. Rejection does not prove that no
     remote-carried solution exists. Live random statues use explicit retry semantics.
+    Minimal accessibility keeps the original assignment and leaves closed routes
+    to normal fill and the goal-accessibility check instead of demanding every check.
     """
+    if not isinstance(require_all_witnesses, bool):
+        raise TypeError("require_all_witnesses must be a boolean")
     if max_attempts < 1:
         raise ValueError("assignment search budget must be positive")
-    if not peg_logic_enabled(initial):
+    if not require_all_witnesses or not peg_logic_enabled(initial):
         return initial
     from .wheel_traversal import static_wheel_witness
     from .traversal_rules import static_extra_witness
@@ -122,8 +129,10 @@ def install_peg_rules(world: Any) -> None:
         carriers = carry_graphs(row, world._area_keys_enabled())
         all_items = frozenset(f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES)
         all_items |= frozenset(item for carrier in carriers for route in carrier.routes for item in route.items)
-        if not any(candidate.evaluate(policy, all_items, gating, allow_documented_retries=True).reaches("target")
-                   for candidate in (graph, *carriers)):
+        if requires_all_traversal_witnesses(world) and not any(
+            candidate.evaluate(policy, all_items, gating, allow_documented_retries=True).reaches("target")
+            for candidate in (graph, *carriers)
+        ):
             raise ValueError(
                 f"No reviewed source witness for {row['id']} in mode {policy.mode}; "
                 "unreviewed alternatives are not declared impossible. Try another seed."

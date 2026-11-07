@@ -18,7 +18,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Mini and Wheel now join progression instead of starting abilities. Minny enemies always give Mini, while other ability-randomization options and ability gating remain available. Burning and Cutter remain starting abilities. Generate and patch a new ROM to use these changes (PR #1041).
 
 ### Known Limitations
-- The late ability room is not counted as an ability source until its unlock is verified in the patched ROM. Some ability-randomization combinations may fail generation when no reviewed Wheel or Smash source remains, including 100% no-ability enemies with fixed statues; complete option coverage is not claimed.
+- The late ability room is not counted as an ability source until its unlock is verified in the patched ROM. Settings such as 100% no-ability enemies with fixed statues can leave no reviewed Wheel or Smash source. Full accessibility cannot accept the affected unreachable checks; minimal accessibility may leave them closed if item placement and the selected goal still succeed. Minimal accessibility does not guarantee generation for every option combination.
 - Crash can light fuses, but cannon-route logic currently uses the seven other reviewed ignition abilities pending target-specific Crash timing checks. Burning and Cutter remain starting abilities; the non-rope Cutter dependency review is not complete.
 
 ### Bug Fixes
