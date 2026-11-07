@@ -236,6 +236,15 @@
         "Boss"
       ]
     },
+    "GOAL_100_PERCENT": {
+      "category": "GOAL",
+      "label": "100% Game Completion",
+      "location_id": 3960013,
+      "tags": [
+        "Goal",
+        "MAP_RAINBOW_ROUTE"
+      ]
+    },
     "GOAL_ANY_AREA_BOSS": {
       "category": "GOAL",
       "label": "Defeat Any Area Boss",
@@ -3372,6 +3381,7 @@
   "maximum_health": 10,
   "minimum_health": 6,
   "no_extra_lives": false,
+  "physical_check_save_version": 1,
   "required_area_bosses": 3,
   "room_sanity": false,
   "rooms": {

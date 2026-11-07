@@ -11,7 +11,7 @@ import sys
 import pytest
 
 
-def test_shipping_switch_callback_and_initializer(tmp_path):
+def test_shipping_switch_callback_and_initializer(tmp_path: Path) -> None:
     cc = shutil.which('cc')
     if not cc or not sys.platform.startswith('linux'):
         pytest.skip('Linux mapped memory and C compiler required')
@@ -70,6 +70,36 @@ int main(void) {
             CHECK(*(uint32_t*)(0x02028C10u+ap_hub_props[door]*4)==1);
         }
         CHECK(AP_HUB_SWITCH_FLAGS==0x7FFF);
+        static const uint32_t sources[4]={0x088BE07Cu,0x088CD240u,0x088D2E68u,0x088D1454u};
+        static const uint8_t chest_ids[4]={18,65,77,74};
+        for(unsigned lever=0;lever<4;lever++) {
+            uint32_t chest=0x02010000u;
+            *(uint32_t*)(chest+0xB0u)=sources[lever];
+            *(uint16_t*)(chest+0xE0u)=0x63u;
+            *(uint8_t*)(chest+0xE2u)=chest_ids[lever];
+            uint32_t before=saves;
+            uint8_t native_before=*((uint8_t*)KIRBY_SMALL_CHEST_FLAGS_ADDR+(chest_ids[lever]>>3));
+            ap_record_minor_chest_collection_from_obj_ptr(chest);
+            CHECK(saves==before); /* Native chest callback owns the later save. */
+            CHECK(AP_LEVER_ACTIVATION_FLAGS==((1u<<(lever+1))-1u));
+            CHECK(*((uint8_t*)KIRBY_SMALL_CHEST_FLAGS_ADDR+(chest_ids[lever]>>3))==native_before);
+            fake_save(1,slot); /* Model the original callback after our hook. */
+            memset((void*)0x02028C10u,0,128); AP_LEVER_ACTIVATION_FLAGS=0;
+            memcpy((void*)0x02028C10u,disk[slot],128);
+            ap_restore_hub_switch_checks();
+            CHECK(AP_HUB_SWITCH_FLAGS==0x7FFF);
+            CHECK(AP_LEVER_ACTIVATION_FLAGS==((1u<<(lever+1))-1u));
+            ap_record_minor_chest_collection_from_obj_ptr(chest);
+            CHECK(AP_LEVER_ACTIVATION_FLAGS==((1u<<(lever+1))-1u));
+        }
+        *(uint32_t*)AP_HUB_ROM_AUTH^=1;ap_restore_hub_switch_checks();CHECK(AP_LEVER_ACTIVATION_FLAGS==0);
+        *(uint32_t*)AP_HUB_ROM_AUTH^=1;ap_restore_hub_switch_checks();CHECK(AP_LEVER_ACTIVATION_FLAGS==15);
+        /* Switching to a native file without matching saved evidence clears RAM. */
+        uint32_t saved_record[5];memcpy(saved_record,(void*)AP_HUB_SAVED_CHECKS,20);
+        memset((void*)AP_HUB_SAVED_CHECKS,0,20);ap_restore_hub_switch_checks();
+        CHECK(AP_HUB_SWITCH_FLAGS==0 && AP_LEVER_ACTIVATION_FLAGS==0);
+        memcpy((void*)AP_HUB_SAVED_CHECKS,saved_record,20);ap_restore_hub_switch_checks();
+        CHECK(AP_LEVER_ACTIVATION_FLAGS==15);
         *(uint32_t*)AP_HUB_ROM_AUTH^=1;ap_restore_hub_switch_checks();CHECK(AP_HUB_SWITCH_FLAGS==0);
         *(uint32_t*)AP_HUB_ROM_AUTH^=1;ap_restore_hub_switch_checks();CHECK(AP_HUB_SWITCH_FLAGS==0x7FFF);
         memset((void*)AP_HUB_SAVED_CHECKS,0,20);ap_restore_hub_switch_checks();CHECK(AP_HUB_SWITCH_FLAGS==0);

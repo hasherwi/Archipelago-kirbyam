@@ -311,13 +311,30 @@ static uint32_t ap_lever_bit_for_obj(uint32_t chest_obj_ptr) {
     );
 }
 
+#define AP_HUB_SAVED_CHECKS ((volatile uint32_t*)0x02028C7Cu)
+#define AP_HUB_ROM_AUTH ((const volatile uint32_t*)0x08F00000u)
+
+static __attribute__((noinline, long_call, section(".aphub")))
+void ap_set_lever_activation_flag(uint32_t lever_bit) {
+    uint32_t bit;
+    for (bit = 0u; bit < 4u; bit++) {
+        if (lever_bit == (1u << bit)) {
+            ap_lever_record_check(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH, bit);
+            break;
+        }
+    }
+    AP_LEVER_ACTIVATION_FLAGS = ap_lever_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH);
+}
+
 static void ap_record_minor_chest_collection_from_obj_ptr(uint32_t chest_obj_ptr) {
     uint32_t source_ptr = *(volatile uint32_t*)(chest_obj_ptr + 0xB0u);
     uint32_t chest_index = (uint32_t)(*(volatile uint8_t*)(chest_obj_ptr + 0xE2u));
 
     uint32_t lever_bit = ap_lever_bit_for_obj(chest_obj_ptr);
     if (lever_bit != 0u) {
-        AP_LEVER_ACTIVATION_FLAGS |= lever_bit;
+        ap_set_lever_activation_flag(lever_bit);
+        /* This hook replaces CollectChest, before the original guarded native
+         * world-save call. Let that existing save commit the physical pull. */
         return;
     }
 
@@ -329,9 +346,6 @@ static void ap_record_minor_chest_collection_from_obj_ptr(uint32_t chest_obj_ptr
     }
     ap_collect_small_chest_native(chest_index);
 }
-
-#define AP_HUB_SAVED_CHECKS ((volatile uint32_t*)0x02028C7Cu)
-#define AP_HUB_ROM_AUTH ((const volatile uint32_t*)0x08F00000u)
 
 static __attribute__((noinline, long_call, section(".aphub")))
 void ap_set_hub_switch_flag(uint32_t bit) {
@@ -351,8 +365,10 @@ void ap_set_hub_switch_flag(uint32_t bit) {
 
 static __attribute__((noinline, long_call, section(".aphub")))
 void ap_restore_hub_switch_checks(void) {
-    /* Assignment also handles native file changes without leaking old RAM bits. */
+    /* Assignment handles native file changes without leaking old RAM bits.
+     * Client acknowledgement recovery updates this same seed-bound save buffer. */
     AP_HUB_SWITCH_FLAGS = ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH);
+    AP_LEVER_ACTIVATION_FLAGS = ap_lever_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH);
 }
 
 typedef uint32_t *(*KirbyWorldPropsEntryFn)(uint32_t, uint8_t, uint8_t);

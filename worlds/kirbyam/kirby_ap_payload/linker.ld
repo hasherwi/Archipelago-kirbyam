@@ -37,7 +37,7 @@ SECTIONS
     KEEP(*(.apconfig.statue))
   }
   /* Append beyond the clean 16 MiB ROM; never allocate presumed internal padding. */
-  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) color_payload.o(.text* .rodata*) *(.aphub)
+  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apfullinfo)) color_payload.o(.text* .rodata*) *(.aphub)
     ap_extension_code_end = .;
     . = 0xFFDC;
     KEEP(*(.apsourceconfig))
@@ -53,3 +53,5 @@ ASSERT(SIZEOF(.data) == 0 && SIZEOF(.bss) == 0, "KirbyAM ROM payload must not co
 
 ASSERT(ap_extension_code_end <= 0x0900FFDC, "Enemy source config overlaps extension code")
 ASSERT(gApEnemySourceConfig == 0x0900FFDC, "Enemy source config address changed")
+
+ASSERT(ap_full_completion_marker == 0x09000010, "Full completion marker address changed")

@@ -1,0 +1,2448 @@
+{
+  "schema_version": 1,
+  "provenance": {
+    "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "katam_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+    "room_table_offset": "0x00932F8C",
+    "room_table_count": 272,
+    "room_properties_offset": "0x009331AC",
+    "room_properties_stride": 40,
+    "room_properties_doors_idx_offset": 36,
+    "room_formula_source": "src/code_08138D64.c:750-768",
+    "room_flag_source": "src/code_080023A4.c:1572-1580",
+    "chest_inventory": "chest_recovery.json",
+    "chest_inventory_verification": "tools/verify_chest_recovery.py; all 287 native object lists and all 84 flags verified against SHA1-pinned retail ROM",
+    "runtime_acceptance": "not verified by emulator"
+  },
+  "room_reconciliation": {
+    "native_required_doors_idx_range_inclusive": [
+      8,
+      279
+    ],
+    "room_sanity_doors_idx_ranges_inclusive": [
+      [
+        0,
+        0
+      ],
+      [
+        8,
+        269
+      ]
+    ],
+    "excluded_room_sanity_index": 0,
+    "excluded_room": "Rainbow Route Central Circle",
+    "dimension_mirror_doors_idx_range_inclusive": [
+      270,
+      279
+    ],
+    "dimension_mirror_logic": "Existing Dark Mind sequence models ten required final-sequence rooms collectively; no independent graph edges or per-room reachability are asserted.",
+    "split_room_logic": "__ROOM_CHECK is the existing physical-visit sink reachable from any modeled compartment, not a connection between compartments."
+  },
+  "rooms": [
+    {
+      "native_room_id": 101,
+      "doors_idx": 21,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_01"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 102,
+      "doors_idx": 245,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_22"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 103,
+      "doors_idx": 22,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_05"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 104,
+      "doors_idx": 23,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_04"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 106,
+      "doors_idx": 24,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_02"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 107,
+      "doors_idx": 25,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 108,
+      "doors_idx": 26,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 110,
+      "doors_idx": 27,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_08"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 113,
+      "doors_idx": 246,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_21"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 114,
+      "doors_idx": 247,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_23"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 115,
+      "doors_idx": 45,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_25"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 117,
+      "doors_idx": 46,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_24"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 118,
+      "doors_idx": 47,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_23"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 119,
+      "doors_idx": 48,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_22"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 120,
+      "doors_idx": 249,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_02"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 121,
+      "doors_idx": 250,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_03"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 122,
+      "doors_idx": 251,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_01"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 126,
+      "doors_idx": 44,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_32"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 127,
+      "doors_idx": 33,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_15"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 129,
+      "doors_idx": 248,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_BOSS"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 130,
+      "doors_idx": 190,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_01"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 131,
+      "doors_idx": 191,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_02"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 132,
+      "doors_idx": 192,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_04"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 133,
+      "doors_idx": 193,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_05__ROOM_CHECK"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 134,
+      "doors_idx": 194,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_06"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 135,
+      "doors_idx": 195,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 136,
+      "doors_idx": 34,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_31"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 137,
+      "doors_idx": 35,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_14"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 138,
+      "doors_idx": 49,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_28"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 139,
+      "doors_idx": 50,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_26"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 140,
+      "doors_idx": 28,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_07"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 141,
+      "doors_idx": 29,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_41"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 142,
+      "doors_idx": 30,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_WARP"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 143,
+      "doors_idx": 31,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_42"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 144,
+      "doors_idx": 60,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_16"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 145,
+      "doors_idx": 61,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_17"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 146,
+      "doors_idx": 62,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 147,
+      "doors_idx": 63,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 148,
+      "doors_idx": 64,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 149,
+      "doors_idx": 65,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_20"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 170,
+      "doors_idx": 252,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_05"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 171,
+      "doors_idx": 51,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_21"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 172,
+      "doors_idx": 52,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_20"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 173,
+      "doors_idx": 53,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_18"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 174,
+      "doors_idx": 54,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_17"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 175,
+      "doors_idx": 55,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_19"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 176,
+      "doors_idx": 56,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 177,
+      "doors_idx": 57,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 178,
+      "doors_idx": 58,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_29"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 180,
+      "doors_idx": 8,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 181,
+      "doors_idx": 9,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_06"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 190,
+      "doors_idx": 32,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 191,
+      "doors_idx": 189,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 192,
+      "doors_idx": 59,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 193,
+      "doors_idx": 253,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_HUB"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 194,
+      "doors_idx": 36,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 195,
+      "doors_idx": 66,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 200,
+      "doors_idx": 85,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_24"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 202,
+      "doors_idx": 86,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_02"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 203,
+      "doors_idx": 87,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_11"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 204,
+      "doors_idx": 88,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_12"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 205,
+      "doors_idx": 89,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 206,
+      "doors_idx": 90,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_08"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 208,
+      "doors_idx": 91,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_03"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 209,
+      "doors_idx": 92,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 210,
+      "doors_idx": 93,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_05"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 211,
+      "doors_idx": 94,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_01"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 212,
+      "doors_idx": 105,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_18"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 214,
+      "doors_idx": 95,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 215,
+      "doors_idx": 106,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_17"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 216,
+      "doors_idx": 107,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_19"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 217,
+      "doors_idx": 108,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_20"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 218,
+      "doors_idx": 109,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_23"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 219,
+      "doors_idx": 110,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 220,
+      "doors_idx": 96,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_13"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 221,
+      "doors_idx": 111,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_22"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 222,
+      "doors_idx": 112,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_04"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 223,
+      "doors_idx": 113,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_21"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 224,
+      "doors_idx": 114,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 225,
+      "doors_idx": 115,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_15"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 226,
+      "doors_idx": 97,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_04"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 227,
+      "doors_idx": 98,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 228,
+      "doors_idx": 99,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_09"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 229,
+      "doors_idx": 100,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 230,
+      "doors_idx": 101,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_WARP"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 231,
+      "doors_idx": 102,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_16"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 232,
+      "doors_idx": 103,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_14"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 290,
+      "doors_idx": 104,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 291,
+      "doors_idx": 116,
+      "region_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 300,
+      "doors_idx": 125,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_14"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 304,
+      "doors_idx": 126,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_04"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 308,
+      "doors_idx": 127,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_09"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 310,
+      "doors_idx": 128,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 312,
+      "doors_idx": 129,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_18"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 313,
+      "doors_idx": 130,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_19"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 315,
+      "doors_idx": 131,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_12"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 316,
+      "doors_idx": 132,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_10"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 317,
+      "doors_idx": 133,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_17"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 318,
+      "doors_idx": 134,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 321,
+      "doors_idx": 135,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 322,
+      "doors_idx": 136,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_11"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 323,
+      "doors_idx": 137,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_13"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 324,
+      "doors_idx": 138,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 325,
+      "doors_idx": 139,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_16"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 326,
+      "doors_idx": 140,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 390,
+      "doors_idx": 141,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 400,
+      "doors_idx": 142,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_20"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 401,
+      "doors_idx": 143,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_06"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 402,
+      "doors_idx": 144,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_12"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 403,
+      "doors_idx": 145,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__ROOM_CHECK"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 404,
+      "doors_idx": 146,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_01"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 405,
+      "doors_idx": 147,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_09"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 406,
+      "doors_idx": 148,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 407,
+      "doors_idx": 149,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_07"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 408,
+      "doors_idx": 150,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_05"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 409,
+      "doors_idx": 151,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_04"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 411,
+      "doors_idx": 152,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_08"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 412,
+      "doors_idx": 153,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_WARP"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 413,
+      "doors_idx": 154,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 414,
+      "doors_idx": 155,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_11"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 415,
+      "doors_idx": 156,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_14"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 416,
+      "doors_idx": 157,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_19"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 417,
+      "doors_idx": 158,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_BOSS"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 418,
+      "doors_idx": 159,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_10"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 419,
+      "doors_idx": 160,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 420,
+      "doors_idx": 161,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 421,
+      "doors_idx": 162,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_18"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 422,
+      "doors_idx": 163,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_15"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 423,
+      "doors_idx": 164,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_17"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 424,
+      "doors_idx": 165,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_16"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 425,
+      "doors_idx": 166,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_03"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 426,
+      "doors_idx": 167,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 427,
+      "doors_idx": 168,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_02"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 490,
+      "doors_idx": 169,
+      "region_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_HUB"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 500,
+      "doors_idx": 170,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_16"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 501,
+      "doors_idx": 176,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_08"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 502,
+      "doors_idx": 241,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_16"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 503,
+      "doors_idx": 41,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_12"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 504,
+      "doors_idx": 37,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_16"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 507,
+      "doors_idx": 38,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_13"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 508,
+      "doors_idx": 171,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_11"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 509,
+      "doors_idx": 172,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_10"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 510,
+      "doors_idx": 173,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_09"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 511,
+      "doors_idx": 177,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_05"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 512,
+      "doors_idx": 178,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_04"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 513,
+      "doors_idx": 179,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_13"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 514,
+      "doors_idx": 180,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_07"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 515,
+      "doors_idx": 181,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_15"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 516,
+      "doors_idx": 174,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_BOSS"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 517,
+      "doors_idx": 182,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_06"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 523,
+      "doors_idx": 183,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_01"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 524,
+      "doors_idx": 242,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_15"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 525,
+      "doors_idx": 243,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_17"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 526,
+      "doors_idx": 244,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_2"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 527,
+      "doors_idx": 184,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_14"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 528,
+      "doors_idx": 175,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_12"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 529,
+      "doors_idx": 185,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_03"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 530,
+      "doors_idx": 186,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_02"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 531,
+      "doors_idx": 187,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_GOAL"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 532,
+      "doors_idx": 10,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_27"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 533,
+      "doors_idx": 117,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_15"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 534,
+      "doors_idx": 11,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_34"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 535,
+      "doors_idx": 12,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_35"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 536,
+      "doors_idx": 13,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_38"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 537,
+      "doors_idx": 14,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_39"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 538,
+      "doors_idx": 15,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 539,
+      "doors_idx": 118,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_01"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 540,
+      "doors_idx": 119,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_02"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 541,
+      "doors_idx": 120,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_03"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 542,
+      "doors_idx": 16,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_37"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 543,
+      "doors_idx": 17,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_40"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 544,
+      "doors_idx": 121,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_06"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 545,
+      "doors_idx": 122,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_07"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 546,
+      "doors_idx": 123,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_08"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 547,
+      "doors_idx": 124,
+      "region_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 551,
+      "doors_idx": 196,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_15"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 553,
+      "doors_idx": 197,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_16"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 554,
+      "doors_idx": 39,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_09"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 555,
+      "doors_idx": 40,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_10"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 556,
+      "doors_idx": 42,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_11"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 557,
+      "doors_idx": 43,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 570,
+      "doors_idx": 18,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_33"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 571,
+      "doors_idx": 19,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_30"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 590,
+      "doors_idx": 20,
+      "region_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 591,
+      "doors_idx": 188,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 592,
+      "doors_idx": 219,
+      "region_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 600,
+      "doors_idx": 254,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_12"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 601,
+      "doors_idx": 220,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_04"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 603,
+      "doors_idx": 221,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_06"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 604,
+      "doors_idx": 222,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_09__ROOM_CHECK"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 605,
+      "doors_idx": 223,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_03"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 606,
+      "doors_idx": 224,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_08"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 608,
+      "doors_idx": 231,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_11"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 609,
+      "doors_idx": 232,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_18"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 610,
+      "doors_idx": 225,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 611,
+      "doors_idx": 226,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_05"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 612,
+      "doors_idx": 233,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_10"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 613,
+      "doors_idx": 234,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_13"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 614,
+      "doors_idx": 235,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_19"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 616,
+      "doors_idx": 236,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_14"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 617,
+      "doors_idx": 237,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_2"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 618,
+      "doors_idx": 238,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_20"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 619,
+      "doors_idx": 239,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_12"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 620,
+      "doors_idx": 227,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_01"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 621,
+      "doors_idx": 228,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_02"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 622,
+      "doors_idx": 229,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_GOAL_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 623,
+      "doors_idx": 230,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_07__ROOM_CHECK"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 690,
+      "doors_idx": 240,
+      "region_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_HUB"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 700,
+      "doors_idx": 67,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_10"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 702,
+      "doors_idx": 81,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 704,
+      "doors_idx": 68,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_08"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 705,
+      "doors_idx": 69,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_WARP"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 706,
+      "doors_idx": 70,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_03"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 707,
+      "doors_idx": 71,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 708,
+      "doors_idx": 72,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 709,
+      "doors_idx": 73,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 710,
+      "doors_idx": 74,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 711,
+      "doors_idx": 75,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_09"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 712,
+      "doors_idx": 76,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 714,
+      "doors_idx": 255,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_08"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 716,
+      "doors_idx": 256,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_18"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 717,
+      "doors_idx": 257,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_17"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 719,
+      "doors_idx": 258,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_07"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 720,
+      "doors_idx": 267,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_14"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 730,
+      "doors_idx": 268,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_15"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 731,
+      "doors_idx": 269,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_WARP"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 732,
+      "doors_idx": 259,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_CHEST_2"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 733,
+      "doors_idx": 260,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_16"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 734,
+      "doors_idx": 261,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_13__ROOM_CHECK"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 735,
+      "doors_idx": 262,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_09"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 736,
+      "doors_idx": 263,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_10"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 737,
+      "doors_idx": 264,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_11"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 738,
+      "doors_idx": 265,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_BOSS"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 739,
+      "doors_idx": 266,
+      "region_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_CHEST_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 740,
+      "doors_idx": 77,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 741,
+      "doors_idx": 78,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_14"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 742,
+      "doors_idx": 79,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 743,
+      "doors_idx": 82,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 744,
+      "doors_idx": 83,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_06"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 745,
+      "doors_idx": 84,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 790,
+      "doors_idx": 80,
+      "region_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_HUB"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 800,
+      "doors_idx": 212,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_23"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 802,
+      "doors_idx": 213,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_20"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 810,
+      "doors_idx": 214,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_19"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 811,
+      "doors_idx": 198,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_10"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 814,
+      "doors_idx": 199,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_12"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 815,
+      "doors_idx": 200,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 816,
+      "doors_idx": 215,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 819,
+      "doors_idx": 216,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_21"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 821,
+      "doors_idx": 217,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_22"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 822,
+      "doors_idx": 218,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_BOSS"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 823,
+      "doors_idx": 201,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_09"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 824,
+      "doors_idx": 202,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_13__ROOM_CHECK"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 825,
+      "doors_idx": 203,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 826,
+      "doors_idx": 204,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_03"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 827,
+      "doors_idx": 205,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_07"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 828,
+      "doors_idx": 206,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_08"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 829,
+      "doors_idx": 207,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_11"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 830,
+      "doors_idx": 208,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_18"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 831,
+      "doors_idx": 209,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_14"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 832,
+      "doors_idx": 210,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_17"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 890,
+      "doors_idx": 211,
+      "region_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_HUB"
+      ],
+      "logic_requirement": "region"
+    },
+    {
+      "native_room_id": 909,
+      "doors_idx": 270,
+      "region_keys": [],
+      "logic_requirement": "dark_mind_sequence"
+    },
+    {
+      "native_room_id": 910,
+      "doors_idx": 271,
+      "region_keys": [],
+      "logic_requirement": "dark_mind_sequence"
+    },
+    {
+      "native_room_id": 911,
+      "doors_idx": 272,
+      "region_keys": [],
+      "logic_requirement": "dark_mind_sequence"
+    },
+    {
+      "native_room_id": 912,
+      "doors_idx": 273,
+      "region_keys": [],
+      "logic_requirement": "dark_mind_sequence"
+    },
+    {
+      "native_room_id": 913,
+      "doors_idx": 274,
+      "region_keys": [],
+      "logic_requirement": "dark_mind_sequence"
+    },
+    {
+      "native_room_id": 914,
+      "doors_idx": 275,
+      "region_keys": [],
+      "logic_requirement": "dark_mind_sequence"
+    },
+    {
+      "native_room_id": 915,
+      "doors_idx": 276,
+      "region_keys": [],
+      "logic_requirement": "dark_mind_sequence"
+    },
+    {
+      "native_room_id": 916,
+      "doors_idx": 277,
+      "region_keys": [],
+      "logic_requirement": "dark_mind_sequence"
+    },
+    {
+      "native_room_id": 918,
+      "doors_idx": 278,
+      "region_keys": [],
+      "logic_requirement": "dark_mind_sequence"
+    },
+    {
+      "native_room_id": 919,
+      "doors_idx": 279,
+      "region_keys": [],
+      "logic_requirement": "dark_mind_sequence"
+    }
+  ],
+  "chest_flags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83
+  ],
+  "chest_mask_hex": "0xFFFFFFFFFFFFFFFFFFFFF",
+  "native_world_switch_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "required_shard_mask": 255,
+  "physical_location_keys": [
+    "MAJOR_CHEST_WORLD_MAP",
+    "MINOR_CHEST_MUSIC_NOTE_01",
+    "MINOR_CHEST_RAINBOW_ROUTE_1_33_OBJECT_01",
+    "MINOR_CHEST_RAINBOW_ROUTE_1_02",
+    "MINOR_CHEST_RAINBOW_ROUTE_1_06_UPPER",
+    "MAJOR_CHEST_RAINBOW_ROUTE",
+    "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_1_OBJECT_01",
+    "MINOR_CHEST_SPRAY_PAINT_04",
+    "MINOR_CHEST_RAINBOW_ROUTE_1_18_OBJECT_01",
+    "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_2_OBJECT_01",
+    "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_3",
+    "MINOR_CHEST_MUSIC_NOTE_08",
+    "MINOR_CHEST_MOONLIGHT_MANSION_2_GOAL_2_OBJECT_01",
+    "MINOR_CHEST_SPRAY_PAINT_14",
+    "MINOR_CHEST_MOONLIGHT_MANSION_2_20",
+    "MAJOR_CHEST_MOONLIGHT_MANSION",
+    "MINOR_CHEST_SPRAY_PAINT_11",
+    "MINOR_CHEST_MOONLIGHT_MANSION_2_15_OBJECT_01",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_02",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_02_OBJECT_02",
+    "MINOR_CHEST_MUSIC_NOTE_05",
+    "MAJOR_CHEST_PEPPERMINT_PALACE",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_01",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_02",
+    "MINOR_CHEST_SPRAY_PAINT_05",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_13_OBJECT_01",
+    "MINOR_CHEST_MUSIC_NOTE_02",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_02",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_03",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_09",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_09_OBJECT_02",
+    "MINOR_CHEST_SPRAY_PAINT_09",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_14_OBJECT_01",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_19",
+    "MINOR_CHEST_SPRAY_PAINT_01",
+    "MINOR_CHEST_PEPPERMINT_PALACE_7_GOAL_2_OBJECT_01",
+    "MAJOR_CHEST_MUSTARD_MOUNTAIN",
+    "MINOR_CHEST_MUSTARD_MOUNTAIN_4_10_OBJECT_01",
+    "MINOR_CHEST_MUSTARD_MOUNTAIN_4_05",
+    "MINOR_CHEST_MUSTARD_MOUNTAIN_4_11",
+    "MINOR_CHEST_SPRAY_PAINT_13",
+    "MINOR_CHEST_CANDY_CONSTELLATION_9_12",
+    "MINOR_CHEST_SPRAY_PAINT_06",
+    "VITALITY_CHEST_CANDY_CONSTELLATION",
+    "SOUND_PLAYER_CHEST",
+    "MINOR_CHEST_CANDY_CONSTELLATION_9_10_OBJECT_01",
+    "MINOR_CHEST_MUSIC_NOTE_07",
+    "MINOR_CHEST_CANDY_CONSTELLATION_9_03_OBJECT_01",
+    "MAJOR_CHEST_CANDY_CONSTELLATION",
+    "MINOR_CHEST_SPRAY_PAINT_03",
+    "MINOR_CHEST_CABBAGE_CAVERN_3_09",
+    "MINOR_CHEST_MUSIC_NOTE_03",
+    "MINOR_CHEST_MUSIC_NOTE_09",
+    "MINOR_CHEST_CABBAGE_CAVERN_3_15",
+    "MINOR_CHEST_SPRAY_PAINT_12",
+    "MINOR_CHEST_SPRAY_PAINT_08",
+    "MAJOR_CHEST_CABBAGE_CAVERN",
+    "MINOR_CHEST_CABBAGE_CAVERN_3_GOAL_OBJECT_01",
+    "MINOR_CHEST_SPRAY_PAINT_07",
+    "MINOR_CHEST_OLIVE_OCEAN_6_16",
+    "VITALITY_CHEST_OLIVE_OCEAN",
+    "MINOR_CHEST_OLIVE_OCEAN_6_09_OBJECT_01",
+    "MINOR_CHEST_MUSIC_NOTE_10",
+    "MINOR_CHEST_OLIVE_OCEAN_6_03_OBJECT_01",
+    "MAJOR_CHEST_OLIVE_OCEAN",
+    "VITALITY_CHEST_RADISH_RUINS",
+    "MINOR_CHEST_SPRAY_PAINT_10",
+    "MINOR_CHEST_RADISH_RUINS_8_07_OBJECT_01",
+    "MINOR_CHEST_RADISH_RUINS_8_11",
+    "MAJOR_CHEST_RADISH_RUINS",
+    "MINOR_CHEST_RADISH_RUINS_8_22_OBJECT_01",
+    "MINOR_CHEST_MUSIC_NOTE_04",
+    "MINOR_CHEST_CARROT_CASTLE_5_07_OBJECT_01",
+    "MAJOR_CHEST_CARROT_CASTLE",
+    "MINOR_CHEST_SPRAY_PAINT_02",
+    "MINOR_CHEST_MUSIC_NOTE_06",
+    "MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02",
+    "VITALITY_CHEST_CARROT_CASTLE",
+    "HUB_SWITCH_RAINBOW_ROUTE_EAST",
+    "HUB_SWITCH_MOONLIGHT",
+    "HUB_SWITCH_RAINBOW_ROUTE_SOUTH",
+    "HUB_SWITCH_CABBAGE_CAVERN_CENTER",
+    "HUB_SWITCH_RAINBOW_ROUTE_WEST",
+    "HUB_SWITCH_CARROT",
+    "HUB_SWITCH_RAINBOW_ROUTE_NORTH",
+    "HUB_SWITCH_MUSTARD",
+    "HUB_SWITCH_CABBAGE_CAVERN_WEST",
+    "HUB_SWITCH_RADISH",
+    "HUB_SWITCH_PEPPERMINT_EAST",
+    "HUB_SWITCH_PEPPERMINT_WEST",
+    "HUB_SWITCH_CABBAGE_CAVERN_EAST",
+    "HUB_SWITCH_OLIVE",
+    "HUB_SWITCH_CANDY",
+    "LEVER_MOONLIGHT_MANSION_2_11",
+    "LEVER_OLIVE_OCEAN_6_13",
+    "LEVER_CARROT_CASTLE_5_12",
+    "LEVER_RADISH_RUINS_8_12"
+  ],
+  "lever_native_chest_flags": [
+    18,
+    65,
+    74,
+    77
+  ],
+  "native_addresses": {
+    "chest_flags": {
+      "address": "0x02038960",
+      "width": 16
+    },
+    "shards": {
+      "address": "0x02038970",
+      "width": 4
+    },
+    "room_visits": {
+      "address": "0x02028CA0",
+      "width": 576
+    },
+    "world_switches": {
+      "address": "0x02028C14",
+      "width": 60
+    },
+    "save_id": {
+      "address": "0x0203AD48",
+      "width": 2
+    },
+    "ai_state": {
+      "address": "0x0203AD2C",
+      "width": 4
+    },
+    "demo_flags": {
+      "address": "0x0203AD10",
+      "width": 4
+    }
+  },
+  "music_sheet_6": {
+    "native_chest_flag": 81,
+    "location_key": "MINOR_CHEST_MUSIC_NOTE_06",
+    "region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14",
+    "source_rom_offset": "0x008D3E64",
+    "status": "Active AP location on audited main; older chest-native-save-acceptance.md dormant statement is stale. Native upper-compartment attribution is verified; full gameplay traversal acceptance is unrun."
+  }
+}

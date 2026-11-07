@@ -6,7 +6,7 @@ import subprocess
 import pytest
 
 
-def test_seed_bound_checks_and_native_door_words(tmp_path):
+def test_seed_bound_checks_and_native_door_words(tmp_path: Path) -> None:
     cc = shutil.which("cc")
     if not cc:
         pytest.skip("C compiler unavailable")
@@ -32,11 +32,32 @@ int main(void) {
         for(unsigned i=0;i<4;i++) {
             auth[i]^=1;CHECK(ap_hub_saved_checks(world+27,auth)==0);auth[i]^=1;
         }
-        world[31]^=0x8000;CHECK(ap_hub_saved_checks(world+27,auth)==0);
+        world[31]^=0x80000;CHECK(ap_hub_saved_checks(world+27,auth)==0);
         CHECK(ap_hub_record_check(world+27,auth,14)==1);
         CHECK(ap_hub_saved_checks(world+27,auth)==(1u<<14));
         CHECK(ap_hub_record_check(world+27,auth,15)==0);
         memset(world,0,sizeof(world));CHECK(ap_hub_saved_checks(world+27,auth)==0);
+    }
+    /* Every hub mask and every lever subset survive, including legacy migration.
+     * Updating either family never clears the other or touches native door words. */
+    for(unsigned hubs=0;hubs<32768;hubs++) for(unsigned levers=0;levers<16;levers++) {
+        memset(world,0,sizeof(world));
+        for(unsigned i=0;i<27;i++) world[i]=0xABC00000u+i;
+        memcpy(world+27,auth,16);
+        world[31]=AP_HUB_SAVE_TAG|hubs;
+        CHECK(ap_hub_saved_checks(world+27,auth)==hubs);
+        CHECK(ap_lever_saved_checks(world+27,auth)==0);
+        for(unsigned bit=0;bit<4;bit++) if(levers&(1u<<bit)) {
+            CHECK(ap_lever_record_check(world+27,auth,bit)==1);
+            CHECK(ap_lever_record_check(world+27,auth,bit)==0);
+        }
+        CHECK(ap_hub_saved_checks(world+27,auth)==hubs);
+        CHECK(ap_lever_saved_checks(world+27,auth)==levers);
+        CHECK(ap_lever_record_check(world+27,auth,4)==0);
+        ap_hub_record_check(world+27,auth,0);
+        CHECK(ap_hub_saved_checks(world+27,auth)==(hubs|1u));
+        CHECK(ap_lever_saved_checks(world+27,auth)==levers);
+        for(unsigned i=0;i<27;i++) CHECK(world[i]==0xABC00000u+i);
     }
     for(unsigned flags=0;flags<32;flags++) for(unsigned local=0;local<4;local++)
         for(unsigned owner=0;owner<4;owner++)

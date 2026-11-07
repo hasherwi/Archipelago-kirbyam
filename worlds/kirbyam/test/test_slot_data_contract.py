@@ -6,7 +6,10 @@ import re
 from pathlib import Path
 from unittest.mock import Mock
 
+import pytest
+
 from .. import KirbyAmWorld
+from ..options import Goal
 
 
 PROTOCOL_PATH = Path(__file__).resolve().parents[1] / "PROTOCOL.md"
@@ -29,15 +32,16 @@ def _documented_slot_data_keys() -> list[str]:
     return keys
 
 
-def _emit_slot_data_for_contract_test() -> dict[str, object]:
+def _emit_slot_data_for_contract_test(goal: int = Goal.option_dark_mind) -> dict[str, object]:
     # Use a lightweight world stub so contract tests fail only on key drift,
     # not on full world-generation dependencies.
     world = KirbyAmWorld.__new__(KirbyAmWorld)
 
     options = Mock()
+    options.goal = Mock(value=goal)
     options.starting_kirby_color = Mock(value=0, current_key="pink")
     options.as_dict.return_value = {
-        "goal": 0,
+        "goal": goal,
         "configured_area_boss": 7,
         "required_area_bosses": 3,
         "shards": 2,
@@ -106,9 +110,13 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
     return slot_data
 
 
-def test_protocol_slot_data_keys_match_emitted_slot_data_keys() -> None:
-    documented = sorted(set(_documented_slot_data_keys()))
-    emitted = sorted(set(_emit_slot_data_for_contract_test().keys()))
+@pytest.mark.parametrize("goal", [Goal.option_dark_mind, Goal.option_full_completion])
+def test_protocol_slot_data_keys_match_emitted_slot_data_keys(goal: int) -> None:
+    keys = set(_documented_slot_data_keys())
+    if goal != Goal.option_full_completion:
+        keys.remove("full_completion_version")
+    documented = sorted(keys)
+    emitted = sorted(set(_emit_slot_data_for_contract_test(goal).keys()))
 
     assert emitted == documented, (
         "slot_data contract drift detected between emitted fields and PROTOCOL.md. "
