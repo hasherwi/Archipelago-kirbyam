@@ -190,7 +190,7 @@ regions as indirect dependencies for entrance rules.
 Mini, peg, Wheel, rope, and fuse targets use room-owned witness metadata and the
 resolved source policy, rather than parallel route/source catalogs. Research-only
 non-AP pegs and rope platforms belong in the evidence censuses below, not
-executable AP targets. Burning and Cutter remain starting abilities.
+executable AP targets. Burning remains a starting ability; Cutter is a progression unlock.
 
 ## Ordinary hub statue network
 
@@ -1587,7 +1587,7 @@ confer renewal on rope witnesses. No route relies on copying a replacement abili
 recovering a randomly changed dropped star. Master is not assumed to appear in ordinary
 enemy pools.
 
-### Rope regression contract and remaining Cutter safety work
+### Rope regression contract and Cutter coverage limits
 
 Test all six bindings and all seven non-AP exclusions; exact five providers; Stone and
 Normal negatives; permission without a source; a source behind its own rope; actual shuffle
@@ -1598,16 +1598,21 @@ exits and chests available. Preserve227 lower arrival versus Box Boxer upper arr
 left versus right arrival, and228 bomb order. A room transition must not renew a consumed
 source without explicit lifetime evidence.
 
-Cutter remains starting. The structural non-rope inventory contains 35 small buttons across
-24 rooms and 403 F1 bomb tiles across 125 rooms, including unused/test rooms. Explicit
+Cutter now enters the progression pool when Ability Gating is on. The structural non-rope
+inventory contains 35 small buttons across 24 rooms and 403 F1 bomb tiles across 125 rooms, including unused/test rooms. Explicit
 far-switch placeholders are310 Mustard major chest,533 Mustard Room15->16, and209 Peppermint
 major chest. Button rooms
 are147,177,209,228,310,404,426,427,511,527,533,608,610,707,708,712,720,742,804,815,825,831,911,915.
 
 No unique Cutter-only obstacle type check was found, but range and projectile steering can
 matter even when attacks share eligibility. Absence of a type check does not establish a
-geometric alternative. Do not mark Cutter safe to gate or remove it from starting abilities
-until meaningful non-rope dependencies and patch/runtime/gate tests are covered.
+geometric alternative. Normal Kirby's air puff can trigger ordinary blocks, F1 bomb chains
+and small switches when its horizontal, terrain-colliding hitbox reaches them (see the
+[pinned native air-puff implementation](https://github.com/jiangzhengwenjz/katam/blob/1197474f80e5de282fbedcd0025ebfa61f61a764/src/code_0806F780.c#L2093-L2180)). This change
+retains the existing far-switch predicates: successful seed generation validates the AP
+model, not every physical switch or projectile trajectory. No new Cutter-only geometric
+requirement is asserted. Rope access continues to require a reviewed source and an unlocked
+cutting ability; ownership alone is not equipment.
 
 
 ## Fuse cannon traversal evidence

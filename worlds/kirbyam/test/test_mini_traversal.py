@@ -62,7 +62,7 @@ def test_only_minny_option_removed():
 
 def test_mini_and_wheel_removed_in_all_modes_without_changing_stone():
     assert starting_copy_abilities(0) == starting_copy_abilities(1)
-    assert set(starting_copy_abilities(0)) == set(STARTING_COPY_ABILITIES) - {"Mini", "Wheel"}
+    assert set(starting_copy_abilities(0)) == set(STARTING_COPY_ABILITIES) - {"Cutter", "Mini", "Wheel"}
     assert starting_copy_abilities(2) == starting_copy_abilities(0)
 
 
