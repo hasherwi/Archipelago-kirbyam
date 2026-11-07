@@ -999,8 +999,8 @@
     "location_id": 3960566
   },
   "MINOR_CHEST_RAINBOW_ROUTE_1_06_UPPER": {
-    "label": "Rainbow Route 1-06 (Upper) - Small Chest",
-    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER",
+    "label": "Rainbow Route 1-06 (Lower) - Small Chest",
+    "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_CHEST",
     "tags": [
       "SmallChest",
       "ExactEventLocation",

@@ -1,4 +1,6 @@
 """Dispatch coverage for every capability and item token in the room graph."""
+from copy import copy
+from functools import lru_cache
 from unittest.mock import patch
 from typing import Any, Iterator, cast
 
@@ -7,7 +9,6 @@ from BaseClasses import CollectionState
 import pytest
 
 from .. import KirbyAmWorld
-from ..area_keys import area_key_entrance_area_ids, dimension_mirror_entrance_names
 from ..data import data
 from ..rules import evaluate_room_logic_requirement
 from .test_rules import _FakeState
@@ -86,9 +87,33 @@ def test_unknown_tokens_still_fail_closed() -> None:
         evaluate_room_logic_requirement("can_cutt_ropes", cast(CollectionState, _FakeState()), 1)
 
 
+@pytest.fixture(params=[(False, False), (False, True), (True, False), (True, True)],
+                ids=['both-cold', 'mirror-warm', 'area-warm', 'both-warm'])
+def isolated_graph_caches(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
+    from .. import area_keys, rules
+
+    # Exercise real graph discovery with private caches, preserving the shared
+    # caches for other tests regardless of collection order or assertion failures.
+    helpers = ('area_key_entrance_area_ids', 'dimension_mirror_entrance_names')
+    checks = []
+    for name, warm in zip(helpers, request.param):
+        discover = getattr(area_keys, name).__wrapped__
+        expected = discover()
+        cached = lru_cache(maxsize=1)(discover)
+        if warm:
+            cached()
+        monkeypatch.setattr(rules, name, cached)
+        checks.append((cached, expected))
+    yield
+    for cached, expected in checks:
+        assert cached() == expected
+
+
 @pytest.mark.parametrize('token', ['CanPoundPegs', 'can_pound_pegs'])
 @pytest.mark.parametrize('operator', ['all', 'any'])
-def test_stake_discovery_preserves_complete_compact_rule(token: str, operator: str) -> None:
+def test_stake_discovery_preserves_complete_compact_rule(
+    token: str, operator: str, isolated_graph_caches: None,
+) -> None:
     from types import SimpleNamespace
     from .. import rules
     from .test_rules import _FakeWorld
@@ -99,10 +124,11 @@ def test_stake_discovery_preserves_complete_compact_rule(token: str, operator: s
         exit_requirements={'DESTINATION': requirement}, location_requirements={})}
     raw = {'SOURCE': {'exits': {'DESTINATION': requirement}}}
     world = _FakeWorld(Goal.option_dark_mind)
-    # Resolve canonical gates before replacing the graph with a stake-only fixture.
-    area_key_entrance_area_ids()
-    dimension_mirror_entrance_names()
-    with patch.object(data, 'regions', regions), \
+    # Replace only the rules module's view; Area Key/Dimension Mirror helpers
+    # must keep the canonical graph even when their caches are cold.
+    rule_data = copy(data)
+    rule_data.regions = cast(Any, regions)
+    with patch.object(rules, 'data', rule_data), \
             patch.object(rules, 'load_json_data', return_value=raw):
         assert rules.get_stake_gated_transition_entrance_names() == ('SOURCE -> DESTINATION',)
         rules.set_rules(cast(KirbyAmWorld, world))

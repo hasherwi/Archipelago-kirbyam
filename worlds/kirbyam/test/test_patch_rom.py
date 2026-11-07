@@ -143,6 +143,19 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch: pytest.MonkeyPa
     # The hub contract has separate corruption tests and local real-ROM validation.
     monkeypatch.setattr(patch_rom, "build_hub_teleport_writes", lambda *args: {})
     rom = bytearray(b"\xA5" * 0x200000)
+    # RC4 rolls back the coupled File 1/menu and WORLD-layout changes (#1037).
+    # The native selector, Back route and all three files must remain untouched.
+    native_file_selection = {
+        0x14A802: patch_rom.thumb_bl_bytes(0x0814A802, 0x08138B44),
+        0x13D8A0: bytes.fromhex("15c41308"),
+        0x26A: bytes.fromhex("022c"),
+        0x278: bytes.fromhex("0f2e"),
+    }
+    for offset in (0xA9EC, 0xAA18, 0xAADC, 0xAB04, 0xABF4, 0xAD4C,
+                   0x325DC, 0x32640, 0x3280C):
+        native_file_selection[offset] = bytes.fromhex("fc912d08")
+    for offset, native_bytes in native_file_selection.items():
+        rom[offset:offset + len(native_bytes)] = native_bytes
     rom[patch_rom.PAYLOAD_OFFSET:patch_rom.PAYLOAD_LEGACY_OFFSET] = bytes(0x400)
     for offset in patch_rom.HEALTH_HUD_CALLSITES:
         rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(0x08000000 + offset, 0x0803518C)
@@ -179,6 +192,9 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch: pytest.MonkeyPa
          "vitality_menu_hook_target": 0x08100300},
         0x08000000,
     )
+
+    for offset, native_bytes in native_file_selection.items():
+        assert rom[offset:offset + len(native_bytes)] == native_bytes, hex(offset)
 
     for offset in patch_rom.HEALTH_HUD_CALLSITES:
         assert patch_rom.decode_thumb_bl_target(

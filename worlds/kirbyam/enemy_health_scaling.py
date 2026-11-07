@@ -100,23 +100,35 @@ def _scale_s16_table(rom: bytearray, offset: int, entry_count: int, percent: int
             _write_s16(rom, entry_offset, scaled_hp)
 
 
-def _scale_meter_coefficients(rom: bytearray, offset: int, entry_count: int, percent: int) -> None:
-    """Adjust Q8.8 meter coefficients by the inverse of the HP multiplier.
+def _scale_meter_coefficients(
+    rom: bytearray, native_rom: bytes, offset: int, entry_count: int,
+    hp_offset: int, hp_stride: int,
+) -> None:
+    """Normalize Q8.8 coefficients against the actual rounded HP values.
 
-    sub_08034E14 computes the fill as ceil(current_hp * coefficient / 256).
-    When HP is multiplied by *percent*, divide the coefficient by the same
-    ratio so the meter continues to represent the fraction of maximum HP.
-    Keep nonzero coefficients nonzero so a low-precision entry still responds
-    to damage after rounding.
+    The native meter uses a signed-16-bit product and signed-byte fill. Round
+    the native/scaled HP ratio to nearest, then cap it so full health cannot
+    exceed the original fill or the native positive range. In particular,
+    1 HP at 50% stays 1 HP and must not double its coefficient to 0x8000.
+    Sentinel HP and zero coefficients retain their original meaning.
     """
     for index in range(entry_count):
         entry_offset = offset + index * _S16_SIZE
-        native_coefficient = _read_u16(rom, entry_offset)
-        if native_coefficient == 0:
+        native_coefficient = _read_u16(native_rom, entry_offset)
+        health_offset = hp_offset + index * hp_stride
+        native_hp = _read_s16(native_rom, health_offset)
+        if native_coefficient == 0 or native_hp <= 0:
             continue
 
-        scaled = (native_coefficient * 100 + percent // 2) // percent
-        scaled = min(_MAX_UNSIGNED_16, max(1, scaled))
+        scaled_hp = _read_s16(rom, health_offset)
+        native_product = native_coefficient * native_hp
+        scaled = (native_product + scaled_hp // 2) // scaled_hp
+        max_fill = min(127, (native_product + 255) // 256)
+        # ceil(product / 256) must also fit a signed byte: 0x7FFF alone
+        # would round to 128. Zero is necessary if no positive coefficient
+        # fits (possible for synthetic HP above 127 * 256).
+        max_coefficient = min(_MAX_UNSIGNED_16, max_fill * 256 // scaled_hp)
+        scaled = min(max_coefficient, max(1, scaled))
         if scaled != native_coefficient:
             _write_u16(rom, entry_offset, scaled)
 
@@ -182,25 +194,31 @@ def scale_enemy_health_tables(rom: bytes, percent: int) -> bytes:
             _write_s16(scaled_rom, hp_offset, scaled_hp)
 
     # The native HUD routine sub_08034E14 converts current HP into a percentage
-    # using these tables. Scale the coefficients inversely so the meter tracks
-    # the scaled maximum HP instead of reaching empty at vanilla HP.
+    # using these tables. Pair each coefficient with the original and rounded
+    # HP from its corresponding row, including each boss difficulty column.
     _scale_meter_coefficients(
         scaled_rom,
+        rom,
         REGULAR_ENEMY_METER_TABLE_OFFSET,
         REGULAR_ENEMY_METER_ENTRY_COUNT,
-        percent,
+        REGULAR_ENEMY_TABLE_OFFSET + REGULAR_ENEMY_HP_OFFSET,
+        REGULAR_ENEMY_ENTRY_SIZE,
     )
     _scale_meter_coefficients(
         scaled_rom,
+        rom,
         BOSS_METER_TABLE_OFFSET,
         BOSS_METER_ROW_COUNT * BOSS_METER_DIFFICULTY_COUNT,
-        percent,
+        BOSS_HEALTH_TABLE_OFFSET,
+        _S16_SIZE,
     )
     _scale_meter_coefficients(
         scaled_rom,
+        rom,
         DARK_MIND_FORM1_METER_TABLE_OFFSET,
         DARK_MIND_FORM1_METER_ROW_COUNT * DARK_MIND_FORM1_METER_DIFFICULTY_COUNT,
-        percent,
+        DARK_MIND_FORM1_HEALTH_TABLE_OFFSET,
+        _S16_SIZE,
     )
 
     return bytes(scaled_rom)
