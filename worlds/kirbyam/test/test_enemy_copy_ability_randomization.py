@@ -33,7 +33,7 @@ def test_off_mode_returns_identity_mapping_policy() -> None:
     assert policy_is_whitelist_preserving(policy, VALID_ENEMY_COPY_ABILITIES)
     assert policy["ability_randomization_boss_spawns"] is True
     assert policy["ability_randomization_minibosses"] is True
-    assert policy["ability_randomization_minny"] is True
+    assert policy["ability_randomization_minny"] is False
     assert policy["ability_randomization_no_ability_weight"] == 55
 
 
@@ -53,7 +53,7 @@ def test_shuffled_mode_maps_enemy_type_consistently() -> None:
     assert other in VALID_ENEMY_COPY_ABILITIES
     assert policy["ability_randomization_boss_spawns"] is False
     assert policy["ability_randomization_minibosses"] is False
-    assert policy["ability_randomization_minny"] is True
+    assert policy["ability_randomization_minny"] is False
 
 
 def test_completely_random_mode_varies_by_event() -> None:
@@ -156,7 +156,7 @@ def test_non_ability_enemies_flag_defaults_to_false_in_policy() -> None:
         include_minibosses=True,
     )
     assert policy["ability_randomization_passive_enemies"] is False
-    assert policy["ability_randomization_minny"] is True
+    assert policy["ability_randomization_minny"] is False
     assert policy["ability_randomization_no_ability_weight"] == 0
 
 
@@ -170,7 +170,7 @@ def test_non_ability_enemies_flag_true_stored_in_policy() -> None:
         no_ability_weight=55,
     )
     assert policy["ability_randomization_passive_enemies"] is True
-    assert policy["ability_randomization_minny"] is True
+    assert policy["ability_randomization_minny"] is False
     assert policy["ability_randomization_no_ability_weight"] == 55
 
 
@@ -184,7 +184,7 @@ def test_off_mode_stores_non_ability_flag_in_policy() -> None:
         no_ability_weight=55,
     )
     assert policy["ability_randomization_passive_enemies"] is True
-    assert policy["ability_randomization_minny"] is True
+    assert policy["ability_randomization_minny"] is False
     assert policy["ability_randomization_no_ability_weight"] == 55
 
 

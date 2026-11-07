@@ -13,7 +13,7 @@ Notes:
 - Wait remains excluded via the existing policy whitelist.
 - Statue writes are gated by the `ability_randomization_statues` option, inherit
     selected mode, always grant an ability, ignore passive/no-ability toggles,
-    and respect the Minny toggle.
+    and exclude Mini, preserving the former default statue pool.
 """
 
 from __future__ import annotations
@@ -76,8 +76,8 @@ def _ability_name_to_id(name: str) -> int:
 def _normalized_statue_pool(policy: dict[str, Any]) -> list[str]:
     # Statue randomization always grants an ability and uses the current mode.
     pool = [str(name) for name in policy.get("allowed_abilities", [])]
-    if not bool(policy.get("ability_randomization_minny", True)):
-        pool = [name for name in pool if name != _MINI_ABILITY_NAME]
+    # Preserve the former default statue pool, independently of legacy keys.
+    pool = [name for name in pool if name != _MINI_ABILITY_NAME]
     if not pool:
         raise ValueError("statue ability pool cannot be empty after Minny filtering")
     return pool
@@ -92,7 +92,7 @@ def build_statue_runtime_allowed_mask(
     A zero mask disables per-touch statue rerolls.  Otherwise the mask is built
     from the same normalized statue pool used for generation-time table writes,
     so runtime behavior automatically honors the mode, statue toggle, custom
-    whitelist, and ``ability_randomization_minny`` setting.  Statue-specific
+    whitelist, and fixed Mini exclusion. Statue-specific
     semantics intentionally ignore passive-enemy and no-ability options.
     """
     mode = int(policy.get("mode", AbilityRandomizationMode.option_off))
@@ -143,7 +143,7 @@ def _build_statue_assignments(policy: dict[str, Any], mode: int) -> dict[str, st
 
 
 def _is_source_enabled(source: AbilitySource, policy: dict[str, Any]) -> bool:
-    if source.key == "MINNY" and not bool(policy.get("ability_randomization_minny", True)):
+    if source.key == "MINNY":
         return False
     if source.kind == "miniboss" and not bool(policy.get("ability_randomization_minibosses", True)):
         return False

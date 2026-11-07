@@ -152,17 +152,6 @@ class AbilityRandomizationMinibosses(Toggle):
     default = 1
 
 
-class AbilityRandomizationMinny(Toggle):
-    """
-    Include Minny in copy-ability randomization.
-            Only applies when Ability Randomization Mode is not Off.
-            If ability statue randomization is enabled, statues also respect this toggle.
-            Off by Default.
-    """
-    display_name = "Ability Randomization: Minny"
-    default = 0
-
-
 class AbilityRandomizationPassiveEnemies(Toggle):
     """
     When enabled, enemies that normally do not grant a copy ability can receive a
@@ -224,7 +213,7 @@ class AbilityRandomizationStatues(Toggle):
     Randomized statues always grant an ability and do not use
     `ability_randomization_no_ability_weight` or
     `ability_randomization_passive_enemies`.
-    Randomized statues do respect `ability_randomization_minny`.
+    Randomized regular statues exclude Mini; Minny always retains its native Mini grant.
 
     Off by default.
     """
@@ -457,8 +446,6 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     ability_randomization_minibosses: AbilityRandomizationMinibosses
 
-    ability_randomization_minny: AbilityRandomizationMinny
-
     ability_randomization_passive_enemies: AbilityRandomizationPassiveEnemies
 
     ability_randomization_no_ability_weight: AbilityRandomizationNoAbilityWeight
@@ -502,7 +489,6 @@ OPTION_GROUPS = [
         AbilityRandomizationNoAbilityWeight,
         AbilityRandomizationBossSpawns,
         AbilityRandomizationMinibosses,
-        AbilityRandomizationMinny,
     ]),
     OptionGroup("Cosmetics", [
         StartingKirbyColor,

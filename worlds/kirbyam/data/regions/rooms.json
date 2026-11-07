@@ -3589,7 +3589,6 @@
     "locations": {
       "MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_02": null,
       "MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_03": null,
-      "MINOR_CHEST_MUSIC_NOTE_02": null,
       "room_sanity": {
         "included": true,
         "location_id": 3961183,
@@ -3599,6 +3598,17 @@
     "exits": {
       "REGION_PEPPERMINT_PALACE/ROOM_7_05": null,
       "REGION_PEPPERMINT_PALACE/ROOM_7_12": null
+    },
+    "logical_subregions": {
+      "HAPPY_NOTES_ENTRY": {
+        "locations": [
+          "MINOR_CHEST_MUSIC_NOTE_02"
+        ],
+        "exits": {
+          "REGION_PEPPERMINT_PALACE/ROOM_7_06": null
+        },
+        "evidence": "Native227 peg entry spawn27,2 reaches HappyNotes. 0x0F upper boundary permits upward egress to main, not reverse entry."
+      }
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_07": {
@@ -3714,7 +3724,8 @@
     "exits": {
       "REGION_PEPPERMINT_PALACE/ROOM_7_06": null,
       "REGION_PEPPERMINT_PALACE/ROOM_7_11": null,
-      "REGION_PEPPERMINT_PALACE/ROOM_7_13": null
+      "REGION_PEPPERMINT_PALACE/ROOM_7_13": null,
+      "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY": "can_pound_pegs"
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_13": {

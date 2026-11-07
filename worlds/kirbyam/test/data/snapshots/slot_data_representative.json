@@ -2,7 +2,6 @@
   "ability_gating": true,
   "ability_randomization_boss_spawns": true,
   "ability_randomization_minibosses": false,
-  "ability_randomization_minny": false,
   "ability_randomization_mode": 1,
   "ability_randomization_no_ability_weight": 55,
   "ability_randomization_passive_enemies": false,
@@ -5143,7 +5142,8 @@
       "exits": [
         "REGION_PEPPERMINT_PALACE/ROOM_7_06",
         "REGION_PEPPERMINT_PALACE/ROOM_7_11",
-        "REGION_PEPPERMINT_PALACE/ROOM_7_13"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_13",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY"
       ],
       "label": "REGION_PEPPERMINT_PALACE/ROOM_7_12",
       "parent_region": "REGION_PEPPERMINT_PALACE",
@@ -6236,6 +6236,7 @@
     "REGION_CABBAGE_CAVERN/ROOM_3_14 -> REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY",
     "REGION_CANDY_CONSTELLATION/ROOM_9_06 -> REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
     "REGION_CANDY_CONSTELLATION/ROOM_9_08 -> REGION_CANDY_CONSTELLATION/ROOM_9_09",
+    "REGION_PEPPERMINT_PALACE/ROOM_7_12 -> REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY",
     "REGION_RADISH_RUINS/ROOM_8_03 -> REGION_RADISH_RUINS/ROOM_8_CHEST_1"
   ],
   "starting_area_key_bitfield": 0,

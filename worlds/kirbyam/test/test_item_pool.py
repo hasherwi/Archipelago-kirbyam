@@ -12,7 +12,7 @@ from BaseClasses import ItemClassification
 from .. import KirbyAmWorld
 from ..data import BASE_OFFSET, LocationCategory, data, load_json_data
 from ..items import get_item_classification
-from ..enemy_ability_data import STARTING_COPY_ABILITIES
+from ..enemy_ability_data import STARTING_COPY_ABILITIES, starting_copy_abilities
 from ..locations import KirbyAmLocation
 from ..options import OneHitMode, RandomizeShards
 
@@ -244,7 +244,9 @@ def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
         3860000 + 100 + runtime_id for runtime_id in expected_runtime_ids
     ]
     assert [item.label for item in ability_items] == expected_labels
-    assert all(item.classification == ItemClassification.useful for item in ability_items)
+    progression_abilities = {"Mini Ability", "Hammer Ability", "Smash Ability"}
+    assert all(item.classification == (ItemClassification.progression if item.label in progression_abilities
+                                       else ItemClassification.useful) for item in ability_items)
 
     # A tracker can read every unlock directly, without importing AP/Python.
     raw_items = load_json_data("items.json")
@@ -255,7 +257,8 @@ def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
         key = f"ABILITY_UNLOCK_{label.removesuffix(' Ability').upper()}"
         assert raw_abilities[key] == {
             "label": label,
-            "classification": "USEFUL",
+            "classification": ("PROGRESSION" if label in {"Mini Ability", "Hammer Ability", "Smash Ability"}
+                               else "USEFUL"),
             "item_id": 3860100 + runtime_id,
             "tags": ["Abilities", "Unique"],
         }
@@ -704,7 +707,7 @@ def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> 
         for item in data.items.values()
         if item.classification not in (ItemClassification.filler, ItemClassification.trap)
     }
-    expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in STARTING_COPY_ABILITIES}
+    expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
@@ -730,7 +733,7 @@ def test_vanilla_pool_contains_each_non_shard_non_filler_item_exactly_once() -> 
             and item.item_id not in shard_codes
         )
     }
-    expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in STARTING_COPY_ABILITIES}
+    expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]

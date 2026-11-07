@@ -288,10 +288,9 @@ Server → Client: ConnectionRefused | Connected
 - `ability_randomization_mode` (int): enemy copy-ability mode (`0=off`, `1=shuffled`, `2=completely_random`).
 - `ability_randomization_boss_spawns` (bool): include/exclude ability-granting boss-spawned objects.
 - `ability_randomization_minibosses` (bool): include/exclude mini-boss ability grants.
-- `ability_randomization_minny` (bool): include/exclude Minny from copy-ability randomization. Enemy and statue randomization both respect this toggle when enabled.
 - `ability_randomization_passive_enemies` (bool): when true, enemies that natively grant no ability participate in copy-ability randomization. Default: `true`.
 - `ability_randomization_no_ability_weight` (int): percentage chance from `0` to `100` that an included randomized enemy grant resolves to no ability instead of a copy ability. Default: `55`.
-- `ability_randomization_statues` (bool): include/exclude ability statues (sometimes called ability trophies or ability stands) from copy-ability randomization. This option controls inclusion only; included statues inherit `ability_randomization_mode` (`off`, `shuffled`, `completely_random`) and always grant an ability (statues ignore `ability_randomization_no_ability_weight` and `ability_randomization_passive_enemies`, but do respect `ability_randomization_minny`).
+- `ability_randomization_statues` (bool): include/exclude ability statues (sometimes called ability trophies or ability stands) from copy-ability randomization. This option controls inclusion only; included statues inherit `ability_randomization_mode` (`off`, `shuffled`, `completely_random`) and always grant an ability (statues ignore `ability_randomization_no_ability_weight` and `ability_randomization_passive_enemies`; their default pool excludes Mini).
 - `room_sanity` (bool): enables/disables the full room-visit location set (`Room X-<room code>`, 263 checks). The eight keyed-area hub landmarks remain active when this option is off.
 - `area_keys` (bool): default-on Area Key destination gates. Off removes all eight keys from the generated pool and rebalances filler while retaining Hub, lever, ability and Dimension Mirror rules. Missing means enabled for older Area Key seeds.
 - `starting_area_key_bitfield` (int): Area Key bits already owned at generation, including user starting inventory and the automatic early-start fallback. Bits `2..9` correspond to Areas `2..9`; this value is zero when `area_keys` is false.
@@ -300,16 +299,22 @@ Server → Client: ConnectionRefused | Connected
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
 - `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.
 - `ability_gateable_abilities` (list[str]): abilities from `data/abilities.json` that are marked `safe_to_gate`.
-- `ability_unlock_items` (dict[str, str]): all 25 ability item labels from `data/items.json`, including six guaranteed starting abilities. Exported with either gating setting; `abilities.json` remains the runtime/gating policy source.
+- `ability_unlock_items` (dict[str, str]): all 25 ability item labels from `data/items.json`, including the starting permissions. Exported with either gating setting; `abilities.json` remains the runtime/gating policy source.
 - `stake_breaking_abilities` (list[str]): reusable hammer-peg/stake ability group used by transition logic (currently `Hammer`, `Master`, `Smash`, `Stone`).
 - `stake_gated_transitions` (list[str]): directional entrance names that require the shared hammer-peg/stake gate, derived from room-level `transitions` overrides in `data/regions/rooms.json`.
 - `locations` (dict): tracker-facing location metadata keyed by KirbyAM location key.
 - `rooms` (dict): tracker-facing room metadata keyed by room region key, exported regardless of `room_sanity` option.
 - `unique_items` (list[str]): tracker-facing list of KirbyAM unique item labels.
 
+Minny traversal compatibility:
+- Minny is invariant and is no longer a configurable randomization source. The removed top-level `ability_randomization_minny` option is not emitted. The nested policy retains a false legacy field for older consumers; old `include_minny` builder arguments are accepted but ignored.
+- New static patch plans omit Minny from randomized assignments and always write zero to its legacy ROM option word and exclude its native type from the source bitmap. This applies to newly generated ROMs. Old already-randomized ROMs are not repaired by ignoring an old slot key: regenerate/repatch from the supported original ROM.
+- Mini remains in unrelated enemy output pools. Regular statues retain the previous default pool, excluding Mini. No general randomization option was removed.
+- See `dev-docs/traversal-logic.md` for exact activated routes and remaining draft acceptance gaps.
+
 Compatibility note (Issue #398 option-key reorganization):
 - Legacy keys `enemy_copy_ability_randomization`, `randomize_boss_spawned_ability_grants`, and `randomize_miniboss_ability_grants` are intentionally not emitted in `slot_data` during the pre-public (`< v0.1.0`) phase.
-- Canonical keys are `ability_randomization_mode`, `ability_randomization_boss_spawns`, `ability_randomization_minibosses`, `ability_randomization_minny`, `ability_randomization_passive_enemies`, `ability_randomization_no_ability_weight`, and `ability_randomization_statues`.
+- Canonical keys are `ability_randomization_mode`, `ability_randomization_boss_spawns`, `ability_randomization_minibosses`, `ability_randomization_passive_enemies`, `ability_randomization_no_ability_weight`, and `ability_randomization_statues`.
 - If compatibility aliases are needed after public release, this section will be updated with an explicit deprecation/removal timeline.
 
 Goal runtime behavior contract:

@@ -817,7 +817,7 @@
   },
   "ABILITY_UNLOCK_HAMMER": {
     "label": "Hammer Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860117,
     "tags": ["Abilities", "Unique"]
   },
@@ -847,13 +847,13 @@
   },
   "ABILITY_UNLOCK_SMASH": {
     "label": "Smash Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860122,
     "tags": ["Abilities", "Unique"]
   },
   "ABILITY_UNLOCK_MINI": {
     "label": "Mini Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860123,
     "tags": ["Abilities", "Unique"]
   },

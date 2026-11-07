@@ -396,6 +396,10 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
     # adjacency, and every destination resolves to a declared room or area.
     areas = load_json_data("regions/areas.json")
     declared_regions = set(room_regions) | set(areas)
+    declared_regions.update(
+        f"{parent}__LOGIC__{name}" for parent, definition in room_regions.items()
+        for name in definition.get("logical_subregions", {})
+    )
     for room_name, room_def in room_regions.items():
         exits, requirements = normalize_region_exits(room_name, room_def)
         assert set(requirements) <= set(exits)

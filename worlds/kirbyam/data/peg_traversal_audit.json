@@ -1,0 +1,1757 @@
+{
+  "version": 1,
+  "native_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "native_sources": [
+    "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/hammer_peg.c",
+    "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/level.c"
+  ],
+  "coverage": "Complete native hammer-peg census: 14 pegs in 13 rooms. This audit is not a blanket room gate or an executable source acquisition proof. 0x0F platforms are upward-only, not undirected flood-fill connections.",
+  "pegs": [
+    {
+      "id": "peg_149_35_18",
+      "native_room": 149,
+      "peg_tile": [
+        35,
+        18
+      ],
+      "route_evidence": {
+        "peg_id": "peg_149_35_18",
+        "arrivals": [
+          {
+            "source": 148,
+            "record": "0x8882a42",
+            "spawn": [
+              2,
+              10
+            ],
+            "compartment": "hillside"
+          }
+        ],
+        "target": {
+          "kind": "small_chest",
+          "object": "0x88bc4a0",
+          "pixel": [
+            624,
+            376
+          ],
+          "item": "1-Up"
+        },
+        "peg_route": "hillside -> star opening -> peg -> lower-right chest pocket",
+        "alternate": {
+          "obstacle": "F7",
+          "tiles": [
+            [
+              42,
+              24
+            ],
+            [
+              43,
+              24
+            ]
+          ],
+          "approach": "underwater from below",
+          "status": "topology proven; underwater upward attack executable capability unverified"
+        },
+        "source": {
+          "object": "0x88bc434",
+          "kind": "Giant Rocky",
+          "vanilla": "Stone",
+          "prepeg": true
+        },
+        "exit_gated": false
+      },
+      "activation": "audit_only_pending_source_carry_graph"
+    },
+    {
+      "id": "peg_204_62_4",
+      "native_room": 204,
+      "peg_tile": [
+        62,
+        4
+      ],
+      "ap_regions": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_12"
+      ],
+      "trigger": {
+        "id": "peg_204_62_4",
+        "xy": [
+          62,
+          4
+        ],
+        "record": "0x088870E2",
+        "sprite": "0x088BEA24",
+        "chain_cells": 6
+      },
+      "incoming": [
+        {
+          "source": 203,
+          "xy": [
+            1,
+            18
+          ],
+          "spawn": [
+            73,
+            4
+          ],
+          "address": "0x8887002"
+        },
+        {
+          "source": 220,
+          "xy": [
+            59,
+            4
+          ],
+          "spawn": [
+            3,
+            8
+          ],
+          "address": "0x888a00a"
+        },
+        {
+          "source": 227,
+          "xy": [
+            16,
+            2
+          ],
+          "spawn": [
+            56,
+            9
+          ],
+          "address": "0x888a310"
+        }
+      ],
+      "outgoing": [
+        {
+          "destination": 203,
+          "xy": [
+            73,
+            3
+          ],
+          "spawn": [
+            3,
+            19
+          ],
+          "address": "0x88870d4"
+        },
+        {
+          "destination": 220,
+          "xy": [
+            1,
+            7
+          ],
+          "spawn": [
+            59,
+            5
+          ],
+          "address": "0x8887160"
+        },
+        {
+          "destination": 227,
+          "xy": [
+            56,
+            8
+          ],
+          "spawn": [
+            18,
+            3
+          ],
+          "address": "0x888716e"
+        },
+        {
+          "destination": 227,
+          "xy": [
+            64,
+            8
+          ],
+          "spawn": [
+            27,
+            2
+          ],
+          "address": "0x888717c"
+        }
+      ],
+      "routes": [
+        {
+          "from": "any initial incoming port",
+          "to": "door64,8 to227 spawn27,2",
+          "requires": [
+            "peg_204_62_4"
+          ],
+          "status": "collision separation and opening verified"
+        },
+        {
+          "from": "any initial incoming port",
+          "to": "door56,8 to227 spawn18,3 /exit1,7 to220 /exit73,3 to203",
+          "requires": [],
+          "status": "same initial component, movement untested"
+        }
+      ],
+      "source_evidence": "none; Pengy/Cookin/Chip/BrontoBurt",
+      "dynamic_gate": null,
+      "activation": "audit_only_pending_source_carry_graph"
+    },
+    {
+      "id": "peg_218_9_33",
+      "native_room": 218,
+      "peg_tile": [
+        9,
+        33
+      ],
+      "ap_regions": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_23"
+      ],
+      "incoming": [
+        {
+          "source": 221,
+          "address": "0x888c72c",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            1,
+            2
+          ],
+          "size": 14,
+          "destination": 218,
+          "spawn": [
+            15,
+            3
+          ],
+          "flags": 2
+        }
+      ],
+      "outgoing": [
+        {
+          "source": 218,
+          "address": "0x888c3ce",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            5,
+            4
+          ],
+          "size": 14,
+          "destination": 200,
+          "spawn": [
+            41,
+            9
+          ],
+          "flags": 2
+        }
+      ],
+      "compartments": {
+        "pre": "Tall upper room, incoming221 at upper-right; peg at bottom of main room(9,33).",
+        "post": "Six F2 tiles x8..10,y34..35 disappear, opening downward consumable shaft."
+      },
+      "affected": [
+        {
+          "kind": "item",
+          "object": "0x088C1798",
+          "name": "Pop Soda",
+          "position": [
+            152,
+            600
+          ]
+        },
+        {
+          "kind": "item",
+          "object": "0x088C1774",
+          "name": "Meat",
+          "position": [
+            152,
+            648
+          ]
+        },
+        {
+          "kind": "item",
+          "object": "0x088C1750",
+          "name": "Battery",
+          "position": [
+            152,
+            696
+          ]
+        },
+        {
+          "kind": "item",
+          "object": "0x088C172C",
+          "name": "1UP",
+          "position": [
+            152,
+            744
+          ]
+        }
+      ],
+      "unaffected": [
+        {
+          "destination_native": 200,
+          "tile": [
+            5,
+            4
+          ],
+          "object": "0x088C1654",
+          "requires": "Separate bomb(2,4), not peg."
+        }
+      ],
+      "order": [
+        "From221 upper-right entrance traverse/fall down main room to peg.",
+        "Press peg to enter treat shaft; ordinary F0 breakable rows at y38,41,44,47 separate its levels.",
+        "Exit200 is at top(5,4), hidden by independent bomb chain at(2,4); that chain replaces ceiling x2..8,y1 with collision29 spikes."
+      ],
+      "source_evidence": [
+        {
+          "room": 221,
+          "object": "0x088C192C",
+          "type": "GIANT_ROCKY",
+          "position": [
+            816,
+            160
+          ],
+          "ability": "Stone",
+          "prerequisite": "Super Inhale by holding inhale about48 ticks; carry through221\u2192218. Actual carrying route not emulator-tested."
+        },
+        {
+          "room": 221,
+          "object": "0x088C1A4C",
+          "type": "GIANT_ROCKY",
+          "position": [
+            768,
+            288
+          ],
+          "ability": "Stone",
+          "prerequisite": "Same Super Inhale prerequisite; reach221 exit(1,2) through separate bomb-block route."
+        }
+      ],
+      "caveats": [
+        "No local vanilla peg-solving enemy. Local Pengy/SwordKnight/Sparky/WaddleDoo provide Ice/Sword/Spark/Beam, not the peg attack mask.",
+        "Treat shaft is not a treasure check in native objects; only gate consumable checks if those checks are enabled.",
+        "Strict collision graph supports separation; tile15 semantics and complete movement have not been simulated."
+      ],
+      "activation": "audit_only_pending_source_carry_graph"
+    },
+    {
+      "id": "peg_221_41_12",
+      "native_room": 221,
+      "peg_tile": [
+        41,
+        12
+      ],
+      "ap_regions": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_22"
+      ],
+      "incoming": [
+        {
+          "source": 217,
+          "address": "0x888c04c",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            1,
+            3
+          ],
+          "size": 14,
+          "destination": 221,
+          "spawn": [
+            57,
+            19
+          ],
+          "flags": 2
+        },
+        {
+          "source": 225,
+          "address": "0x888dd76",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            4,
+            88
+          ],
+          "size": 14,
+          "destination": 221,
+          "spawn": [
+            58,
+            5
+          ],
+          "flags": 2
+        }
+      ],
+      "outgoing": [
+        {
+          "source": 221,
+          "address": "0x888c72c",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            1,
+            2
+          ],
+          "size": 14,
+          "destination": 218,
+          "spawn": [
+            15,
+            3
+          ],
+          "flags": 2
+        },
+        {
+          "source": 221,
+          "address": "0x888c7ee",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            58,
+            4
+          ],
+          "size": 14,
+          "destination": 225,
+          "spawn": [
+            6,
+            89
+          ],
+          "flags": 1
+        },
+        {
+          "source": 221,
+          "address": "0x888cdc0",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            57,
+            18
+          ],
+          "size": 14,
+          "destination": 217,
+          "spawn": [
+            3,
+            4
+          ],
+          "flags": 1
+        }
+      ],
+      "compartments": {
+        "pre": "Right main chamber includes incoming225 upper-right and217 lower-right, two Giant Rockys, and bomb-block pocket leading to peg.",
+        "post": "Winding peg-linked tunnel leads from(41,12) down one tile, left to39, up/left via36 and33, then up to top chest pocket(39,3)."
+      },
+      "affected": [
+        {
+          "kind": "chest",
+          "object": "0x088C1ADC",
+          "position": [
+            632,
+            56
+          ],
+          "subtype": 20,
+          "name": "Pink Spray (wiki identification)"
+        }
+      ],
+      "unaffected": [
+        {
+          "destination_native": 225,
+          "tile": [
+            58,
+            4
+          ]
+        },
+        {
+          "destination_native": 217,
+          "tile": [
+            57,
+            18
+          ]
+        },
+        {
+          "destination_native": 218,
+          "tile": [
+            1,
+            2
+          ],
+          "requires": "Separate lower-left bombblock route; not the peg-linked chest tunnel."
+        }
+      ],
+      "order": [
+        "Reach right chamber from225 spawn(58,5) or217 spawn(57,19).",
+        "Upper GiantRocky at(816,160) lies beside bomb(49,10). Super Inhale provides Stone without needing another ability.",
+        "Trigger bomb(49,10) to clear(47,9),(47,10),(48,10), opening peg approach chamber x41..46,y9..12.",
+        "Activate peg(41,12), then follow newly opened winding chain into chest at(39,3).",
+        "Separate bomb(36,18) starts lower-left progression toward218; it does not unlock the top chest."
+      ],
+      "source_evidence": [
+        {
+          "object": "0x088C192C",
+          "type": "GIANT_ROCKY",
+          "position": [
+            816,
+            160
+          ],
+          "ability": "Stone",
+          "prerequisite": "Hold inhale until strength3 Super Inhale (about48 ticks). No multi-Kirby requirement."
+        },
+        {
+          "object": "0x088C1A4C",
+          "type": "GIANT_ROCKY",
+          "position": [
+            768,
+            288
+          ],
+          "ability": "Stone",
+          "prerequisite": "Same. Lower-right chamber, outside peg-linked tunnel."
+        }
+      ],
+      "caveats": [
+        "Point connectivity allowing slopes passable and every OTHER mutation destroyed still leaves top chest disconnected until peg chain removed. This is a useful no-other-bomb-bypass proof under that model, not movement feasibility.",
+        "GiantRocky availability is native-vanilla; ability shuffling/randomization must use resolved source assignment, and Super Inhale reach geometry still needs testing."
+      ],
+      "activation": "production_source_aware_local_or_reviewed_hub190_carry",
+      "carry_contract": "Actual resolved statue slots STATUE:353900 and STATUE:3538FC; independently reachable hub190; explicit hub/area requirements. Renewable randomized statues use documented possible-acquisition assumption."
+    },
+    {
+      "id": "peg_401_28_30",
+      "native_room": 401,
+      "peg_tile": [
+        28,
+        30
+      ],
+      "ap_regions": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_06"
+      ],
+      "incoming": [
+        {
+          "source": 406,
+          "address": "0x8894bbc",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            7,
+            7
+          ],
+          "size": 14,
+          "destination": 401,
+          "spawn": [
+            28,
+            49
+          ],
+          "flags": 2
+        },
+        {
+          "source": 407,
+          "address": "0x8894f6a",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            41,
+            12
+          ],
+          "size": 14,
+          "destination": 401,
+          "spawn": [
+            3,
+            49
+          ],
+          "flags": 1
+        },
+        {
+          "source": 408,
+          "address": "0x88955c4",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            1,
+            3
+          ],
+          "size": 14,
+          "destination": 401,
+          "spawn": [
+            28,
+            4
+          ],
+          "flags": 2
+        }
+      ],
+      "outgoing": [
+        {
+          "source": 401,
+          "address": "0x8893010",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            28,
+            3
+          ],
+          "size": 14,
+          "destination": 408,
+          "spawn": [
+            3,
+            4
+          ],
+          "flags": 1
+        },
+        {
+          "source": 401,
+          "address": "0x88933b4",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            1,
+            48
+          ],
+          "size": 14,
+          "destination": 407,
+          "spawn": [
+            41,
+            13
+          ],
+          "flags": 2
+        },
+        {
+          "source": 401,
+          "address": "0x88933c2",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            28,
+            48
+          ],
+          "size": 14,
+          "destination": 406,
+          "spawn": [
+            7,
+            8
+          ],
+          "flags": 2
+        }
+      ],
+      "compartments": {
+        "pre": "Upper winding shaft and peg approach, reached from408 top entrance; lower-left407 entrance is separated by bomb shortcut.",
+        "post": "Peg clears right drop shaft x27..28 y31..45 into lower-right406 door pocket."
+      },
+      "affected": [
+        {
+          "kind": "door",
+          "destination_native": 406,
+          "destination_ap": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
+          "tile": [
+            28,
+            48
+          ],
+          "object_address": "0x088C5888",
+          "check_object": "0x088C644C",
+          "check_position": [
+            120,
+            48
+          ],
+          "check_subtype": 40,
+          "check_name": "Sound Player (wiki identification)"
+        }
+      ],
+      "unaffected": [],
+      "order": [
+        "From408 spawn(28,4), descend winding upper passage; Rockys at(288,152) and(240,312) precede peg.",
+        "Press peg(28,30), descend newly empty right shaft, enter406.",
+        "Bomb(6,40) or(7,40) opens separate lower-left shortcut toward407, not the peg shaft. Bomb(22,23) also has a separate chain."
+      ],
+      "source_evidence": [
+        {
+          "object": "0x088C5840",
+          "type": "ROCKY",
+          "position": [
+            288,
+            152
+          ],
+          "ability": "Stone",
+          "pre_peg": "Upper passage; static map places it before peg from408."
+        },
+        {
+          "object": "0x088C5864",
+          "type": "ROCKY",
+          "position": [
+            240,
+            312
+          ],
+          "ability": "Stone",
+          "pre_peg": "Upper passage; static map places it before peg from408."
+        }
+      ],
+      "caveats": [
+        "Reverse incoming406 starts in lower-right door pocket, below unpressed shaft. Do not assume it can activate peg from there.",
+        "Incoming407 lower-left access to upper area is bomb-shortcut dependent; abilityless bomb reach/attack angle not emulator-tested.",
+        "Slope-relaxed connectivity overconnects this map; strict tile graph supports shaft separation but cannot prove movement or absence of bypass."
+      ],
+      "activation": "production_source_aware_local_or_reviewed_hub190_carry",
+      "carry_contract": "Actual resolved statue slots STATUE:353900 and STATUE:3538FC; independently reachable hub190; explicit hub/area requirements. Renewable randomized statues use documented possible-acquisition assumption."
+    },
+    {
+      "id": "peg_411_4_3",
+      "native_room": 411,
+      "peg_tile": [
+        4,
+        3
+      ],
+      "ap_regions": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_08"
+      ],
+      "incoming": [
+        {
+          "source": 405,
+          "address": "0x8894922",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            74,
+            8
+          ],
+          "size": 14,
+          "destination": 411,
+          "spawn": [
+            3,
+            8
+          ],
+          "flags": 1
+        },
+        {
+          "source": 418,
+          "address": "0x8898fda",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            1,
+            4
+          ],
+          "size": 14,
+          "destination": 411,
+          "spawn": [
+            28,
+            7
+          ],
+          "flags": 2
+        },
+        {
+          "source": 490,
+          "address": "0x889b438",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            14,
+            5
+          ],
+          "size": 14,
+          "destination": 411,
+          "spawn": [
+            3,
+            19
+          ],
+          "flags": 1
+        }
+      ],
+      "outgoing": [
+        {
+          "source": 411,
+          "address": "0x8895aa8",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            28,
+            6
+          ],
+          "size": 14,
+          "destination": 418,
+          "spawn": [
+            3,
+            5
+          ],
+          "flags": 1
+        },
+        {
+          "source": 411,
+          "address": "0x8895ac8",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            2,
+            7
+          ],
+          "size": 14,
+          "destination": 405,
+          "spawn": [
+            74,
+            9
+          ],
+          "flags": 2
+        },
+        {
+          "source": 411,
+          "address": "0x8895b0c",
+          "kind": 3,
+          "collision": 255,
+          "xy": [
+            1,
+            18
+          ],
+          "size": 14,
+          "destination": 490,
+          "spawn": [
+            14,
+            6
+          ],
+          "flags": 2
+        }
+      ],
+      "compartments": {
+        "pre": "Main sloping route connecting490 bottom-left hub entrance and418 right entrance; peg on upper-left ledge. Hidden405 door pocket remains blocked.",
+        "post": "Peg chain clears x4..5 y4..7 wall and hidden-door tiles x2,y6..7 and x3,y7; changes(2,7) to exit collisionFF."
+      },
+      "affected": [
+        {
+          "kind": "door",
+          "destination_native": 405,
+          "destination_ap": "REGION_CANDY_CONSTELLATION/ROOM_9_09",
+          "tile": [
+            2,
+            7
+          ],
+          "object_address": "0x088C6AF0",
+          "door_subtype": 1
+        }
+      ],
+      "unaffected": [
+        {
+          "destination_native": 418,
+          "tile": [
+            28,
+            6
+          ],
+          "object": "0x088C6B14"
+        },
+        {
+          "destination_native": 490,
+          "tile": [
+            1,
+            18
+          ],
+          "object": "0x088C6B38"
+        }
+      ],
+      "order": [
+        "Enter from490 or418, climb main slope to peg ledge(4,3).",
+        "Press peg to reveal upper-left405 exit;418 and490 exits are independent of peg."
+      ],
+      "source_evidence": [
+        {
+          "room": 490,
+          "object": "0x088C8C3C",
+          "type": "ABILITY_STATUE_1",
+          "position": [
+            64,
+            32
+          ],
+          "subtype1": 2,
+          "subtype2": 1,
+          "ability": "Laser",
+          "randomized_slot": "STATUE:3538FE"
+        },
+        {
+          "room": 490,
+          "object": "0x088C8C60",
+          "type": "ABILITY_STATUE_4",
+          "position": [
+            200,
+            32
+          ],
+          "subtype1": 2,
+          "subtype2": 0,
+          "ability": "Cupid",
+          "randomized_slot": "STATUE:35390E"
+        }
+      ],
+      "caveats": [
+        "No enemies or ability sources inside411. Neighboring490 hub statues grant Laser and Cupid in vanilla, neither solves peg. Randomized statue assignments may supply a solver; must resolve actual mode/seed and gating.",
+        "Incoming405 spawn(3,8) puts center near blocked hidden-door(2,7). Native initialization may clear entry-adjacent tiles; reverse traversal needs separate engine/emulator verification."
+      ],
+      "activation": "production_source_aware_local_or_reviewed_hub190_carry",
+      "carry_contract": "Actual resolved statue slots STATUE:353900 and STATUE:3538FC; independently reachable hub190; explicit hub/area requirements. Renewable randomized statues use documented possible-acquisition assumption."
+    },
+    {
+      "id": "peg_509_32_2",
+      "native_room": 509,
+      "peg_tile": [
+        32,
+        2
+      ],
+      "ap_regions": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_10"
+      ],
+      "trigger": {
+        "id": "peg_509_32_2",
+        "xy": [
+          32,
+          2
+        ],
+        "record": "0x0889B940",
+        "sprite": "0x088C9080",
+        "affected": "Battery0x088C9038 and meat0x088C905C pocket only",
+        "not_affected": "all three exits",
+        "chain_cells": 25
+      },
+      "incoming": [
+        {
+          "source": 127,
+          "xy": [
+            10,
+            17
+          ],
+          "spawn": [
+            21,
+            8
+          ],
+          "address": "0x887a068"
+        },
+        {
+          "source": 508,
+          "xy": [
+            44,
+            27
+          ],
+          "spawn": [
+            4,
+            19
+          ],
+          "address": "0x889b79e"
+        },
+        {
+          "source": 510,
+          "xy": [
+            2,
+            5
+          ],
+          "spawn": [
+            41,
+            4
+          ],
+          "address": "0x889bd08"
+        },
+        {
+          "source": 513,
+          "xy": [
+            8,
+            2
+          ],
+          "spawn": [
+            43,
+            17
+          ],
+          "address": "0x889d458"
+        }
+      ],
+      "outgoing": [
+        {
+          "destination": 510,
+          "xy": [
+            41,
+            3
+          ],
+          "spawn": [
+            4,
+            6
+          ],
+          "address": "0x889b9ac"
+        },
+        {
+          "destination": 127,
+          "xy": [
+            19,
+            7
+          ],
+          "spawn": [
+            12,
+            18
+          ],
+          "address": "0x889bac8"
+        },
+        {
+          "destination": 508,
+          "xy": [
+            2,
+            18
+          ],
+          "spawn": [
+            43,
+            28
+          ],
+          "address": "0x889bbd2"
+        }
+      ],
+      "routes": [
+        {
+          "from": "any initial incoming port",
+          "to": "battery/meat pocket",
+          "requires": [
+            "peg_509_32_2"
+          ],
+          "status": "collision separation verified; movement not emulated"
+        }
+      ],
+      "source_evidence": "none; only Blippers in room",
+      "dynamic_gate": null,
+      "activation": "audit_only_pending_source_carry_graph"
+    },
+    {
+      "id": "peg_510_7_7",
+      "native_room": 510,
+      "peg_tile": [
+        7,
+        7
+      ],
+      "ap_regions": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_09"
+      ],
+      "trigger": {
+        "id": "peg_510_7_7",
+        "xy": [
+          7,
+          7
+        ],
+        "record": "0x0889BD16",
+        "sprite": "0x088C90F0",
+        "chain_cells": 17
+      },
+      "incoming": [
+        {
+          "source": 501,
+          "xy": [
+            14,
+            3
+          ],
+          "spawn": [
+            24,
+            29
+          ],
+          "address": "0x889cd08"
+        },
+        {
+          "source": 509,
+          "xy": [
+            41,
+            3
+          ],
+          "spawn": [
+            4,
+            6
+          ],
+          "address": "0x889b9ac"
+        }
+      ],
+      "outgoing": [
+        {
+          "destination": 509,
+          "xy": [
+            2,
+            5
+          ],
+          "spawn": [
+            41,
+            4
+          ],
+          "address": "0x889bd08"
+        },
+        {
+          "destination": 501,
+          "xy": [
+            24,
+            28
+          ],
+          "spawn": [
+            14,
+            4
+          ],
+          "address": "0x889c694"
+        }
+      ],
+      "routes": [
+        {
+          "from": "509 via spawn4,6 upper",
+          "to": "chest0x088C9114 at96,456",
+          "alternatives": [
+            [
+              "peg_510_7_7"
+            ],
+            [
+              "ordinary blocks x24..26,y10..26",
+              "bomb_510_21_28",
+              "metal x8..17,y28"
+            ]
+          ],
+          "status": "peg shaft and metal barrier verified; alternate route movement untested"
+        },
+        {
+          "from": "501 via spawn24,29 lower-right",
+          "to": "same chest",
+          "alternatives": [
+            [
+              "bomb_510_21_28",
+              "metal x8..17,y28"
+            ],
+            [
+              "bomb_510_21_28",
+              "peg_510_7_7"
+            ]
+          ],
+          "status": "static action-graph alternatives; traversal untested"
+        },
+        {
+          "from": "upper",
+          "to": "exit24,28 to501",
+          "requires": [
+            "ordinary block shaft, independent of peg"
+          ],
+          "status": "collision route verified, movement untested"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source": "HeavyKnight",
+          "xy": [
+            216,
+            112
+          ],
+          "address": "0x088C91A4",
+          "compartment": "upper; vanilla Sword does not pound pegs"
+        },
+        {
+          "source": "Sparky",
+          "xy": [
+            56,
+            120
+          ],
+          "address": "0x088C9180",
+          "compartment": "upper-left side pocket; interaction reach unverified"
+        },
+        {
+          "source": "UFO",
+          "xy": [
+            40,
+            440
+          ],
+          "address": "0x088C91C8",
+          "compartment": "lower-left chest chamber; do not use to justify own gate"
+        }
+      ],
+      "dynamic_gate": null,
+      "activation": "audit_only_pending_source_carry_graph"
+    },
+    {
+      "id": "peg_513_4_7",
+      "native_room": 513,
+      "peg_tile": [
+        4,
+        7
+      ],
+      "ap_regions": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_13"
+      ],
+      "trigger": {
+        "id": "peg_513_4_7",
+        "xy": [
+          4,
+          7
+        ],
+        "record": "0x0889D482",
+        "sprite": "0x088C9A30",
+        "chain_cells": 17
+      },
+      "incoming": [
+        {
+          "source": 501,
+          "xy": [
+            2,
+            28
+          ],
+          "spawn": [
+            27,
+            5
+          ],
+          "address": "0x889cef8"
+        },
+        {
+          "source": 515,
+          "xy": [
+            10,
+            2
+          ],
+          "spawn": [
+            27,
+            19
+          ],
+          "address": "0x889dad0"
+        },
+        {
+          "source": 528,
+          "xy": [
+            21,
+            31
+          ],
+          "spawn": [
+            4,
+            6
+          ],
+          "address": "0x889cbac"
+        }
+      ],
+      "outgoing": [
+        {
+          "destination": 509,
+          "xy": [
+            8,
+            2
+          ],
+          "spawn": [
+            43,
+            17
+          ],
+          "address": "0x889d458"
+        },
+        {
+          "destination": 501,
+          "xy": [
+            27,
+            4
+          ],
+          "spawn": [
+            5,
+            29
+          ],
+          "address": "0x889d466"
+        },
+        {
+          "destination": 528,
+          "xy": [
+            2,
+            5
+          ],
+          "spawn": [
+            21,
+            32
+          ],
+          "address": "0x889d474"
+        },
+        {
+          "destination": 515,
+          "xy": [
+            27,
+            18
+          ],
+          "spawn": [
+            12,
+            3
+          ],
+          "address": "0x889d7e2"
+        }
+      ],
+      "routes": [
+        {
+          "from": "501 spawn27,5 or528 spawn4,6 upper",
+          "to": "exit27,18 to515 spawn12,3",
+          "requires": [
+            "peg_513_4_7",
+            "then bomb_513_5_18"
+          ],
+          "status": "ordered collision action graph; movement untested"
+        },
+        {
+          "from": "515 spawn27,19 lower",
+          "to": "upper exits",
+          "requires": [
+            "bomb_513_5_18"
+          ],
+          "note": "opens alternative middle passage without activating peg",
+          "status": "optimistic reverse bypass; physical movement untested"
+        },
+        {
+          "from": "upper",
+          "to": "509 exit8,2 /501 exit27,4 /528 exit2,5",
+          "requires": [],
+          "status": "same initial collision component"
+        }
+      ],
+      "source_evidence": "none; upper Haley/Foley/Chip, lower Shooty/Foley",
+      "dynamic_gate": null,
+      "activation": "audit_only_pending_source_carry_graph"
+    },
+    {
+      "id": "peg_527_18_13",
+      "native_room": 527,
+      "peg_tile": [
+        18,
+        13
+      ],
+      "ap_regions": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_14"
+      ],
+      "trigger": {
+        "id": "peg_527_18_13",
+        "xy": [
+          18,
+          13
+        ],
+        "record": "0x0889E736",
+        "sprite": "0x088CA7F0",
+        "chain_cells": 10
+      },
+      "incoming": [
+        {
+          "source": 528,
+          "xy": [
+            22,
+            47
+          ],
+          "spawn": [
+            3,
+            17
+          ],
+          "address": "0x889cbc8"
+        }
+      ],
+      "outgoing": [
+        {
+          "destination": 515,
+          "xy": [
+            69,
+            5
+          ],
+          "spawn": [
+            2,
+            3
+          ],
+          "address": "0x889e62c"
+        },
+        {
+          "destination": 528,
+          "xy": [
+            1,
+            16
+          ],
+          "spawn": [
+            22,
+            48
+          ],
+          "address": "0x889e820"
+        },
+        {
+          "destination": 515,
+          "xy": [
+            69,
+            17
+          ],
+          "spawn": [
+            5,
+            24
+          ],
+          "address": "0x889e918"
+        }
+      ],
+      "routes": [
+        {
+          "from": "528 spawn3,17 main",
+          "to": "lower exit69,17 to515 spawn5,24",
+          "requires": [
+            "peg_527_56_16"
+          ],
+          "status": "initial tile separation and peg opening verified"
+        },
+        {
+          "from": "528 spawn3,17 main",
+          "to": "upper exit69,5 to515 spawn2,3",
+          "requires": [],
+          "note": "no peg tile separates this port; dynamic gate/movement constraints separate",
+          "status": "static component only"
+        },
+        {
+          "from": "upper-left peg approach",
+          "to": "Sapphire chest0x088CA520 at224,280",
+          "requires": [
+            "peg_527_18_13"
+          ],
+          "status": "opened local approach verified"
+        },
+        {
+          "from": "main lower passage",
+          "to": "Sapphire",
+          "requires": [
+            "reach bomb_527_38_8 via timed gate",
+            "bomb_527_38_8",
+            "peg_527_18_13"
+          ],
+          "note": "Prior bomb_527_24_14 bypass disproved by directed0F platform graph. Dynamic gate timing still not simulated.",
+          "status": "directed tile separation verified; full movement/timer untested"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source": "GiantRocky",
+          "xy": [
+            752,
+            288
+          ],
+          "address": "0x088CA568",
+          "vanilla": "Stone",
+          "status": "same optimistic main lower component before second peg; dynamic/movement confirmation pending"
+        }
+      ],
+      "dynamic_gate": {
+        "switch": "0x088CA544",
+        "xy": [
+          856,
+          192
+        ],
+        "door": "0x088CA6F4",
+        "door_xy": [
+          808,
+          144
+        ],
+        "shared_room_state_slot": 1,
+        "switch_unk18": 100,
+        "door_initial_bounds": [
+          -8,
+          -32,
+          8,
+          0
+        ],
+        "note": "time-bounded gate; complete timing route not simulated; door absent from point graph"
+      },
+      "activation": "audit_only_pending_source_carry_graph"
+    },
+    {
+      "id": "peg_527_56_16",
+      "native_room": 527,
+      "peg_tile": [
+        56,
+        16
+      ],
+      "ap_regions": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_14"
+      ],
+      "trigger": {
+        "id": "peg_527_56_16",
+        "xy": [
+          56,
+          16
+        ],
+        "record": "0x0889E89A",
+        "sprite": "0x088CA814",
+        "chain_cells": 2
+      },
+      "incoming": [
+        {
+          "source": 528,
+          "xy": [
+            22,
+            47
+          ],
+          "spawn": [
+            3,
+            17
+          ],
+          "address": "0x889cbc8"
+        }
+      ],
+      "outgoing": [
+        {
+          "destination": 515,
+          "xy": [
+            69,
+            5
+          ],
+          "spawn": [
+            2,
+            3
+          ],
+          "address": "0x889e62c"
+        },
+        {
+          "destination": 528,
+          "xy": [
+            1,
+            16
+          ],
+          "spawn": [
+            22,
+            48
+          ],
+          "address": "0x889e820"
+        },
+        {
+          "destination": 515,
+          "xy": [
+            69,
+            17
+          ],
+          "spawn": [
+            5,
+            24
+          ],
+          "address": "0x889e918"
+        }
+      ],
+      "routes": [
+        {
+          "from": "528 spawn3,17 main",
+          "to": "lower exit69,17 to515 spawn5,24",
+          "requires": [
+            "peg_527_56_16"
+          ],
+          "status": "initial tile separation and peg opening verified"
+        },
+        {
+          "from": "528 spawn3,17 main",
+          "to": "upper exit69,5 to515 spawn2,3",
+          "requires": [],
+          "note": "no peg tile separates this port; dynamic gate/movement constraints separate",
+          "status": "static component only"
+        },
+        {
+          "from": "upper-left peg approach",
+          "to": "Sapphire chest0x088CA520 at224,280",
+          "requires": [
+            "peg_527_18_13"
+          ],
+          "status": "opened local approach verified"
+        },
+        {
+          "from": "main lower passage",
+          "to": "Sapphire",
+          "requires": [
+            "reach bomb_527_38_8 via timed gate",
+            "bomb_527_38_8",
+            "peg_527_18_13"
+          ],
+          "note": "Prior bomb_527_24_14 bypass disproved by directed0F platform graph. Dynamic gate timing still not simulated.",
+          "status": "directed tile separation verified; full movement/timer untested"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source": "GiantRocky",
+          "xy": [
+            752,
+            288
+          ],
+          "address": "0x088CA568",
+          "vanilla": "Stone",
+          "status": "same optimistic main lower component before second peg; dynamic/movement confirmation pending"
+        }
+      ],
+      "dynamic_gate": {
+        "switch": "0x088CA544",
+        "xy": [
+          856,
+          192
+        ],
+        "door": "0x088CA6F4",
+        "door_xy": [
+          808,
+          144
+        ],
+        "shared_room_state_slot": 1,
+        "switch_unk18": 100,
+        "door_initial_bounds": [
+          -8,
+          -32,
+          8,
+          0
+        ],
+        "note": "time-bounded gate; complete timing route not simulated; door absent from point graph"
+      },
+      "activation": "audit_only_pending_source_carry_graph"
+    },
+    {
+      "id": "peg_605_12_24",
+      "native_room": 605,
+      "peg_tile": [
+        12,
+        24
+      ],
+      "route_evidence": {
+        "peg_id": "peg_605_12_24",
+        "arrivals": [
+          {
+            "source": 601,
+            "record": "0x88a8ede",
+            "spawn": [
+              4,
+              25
+            ],
+            "compartment": "peg_platform"
+          },
+          {
+            "source": 601,
+            "record": "0x88a8a30",
+            "spawn": [
+              3,
+              18
+            ],
+            "compartment": "upper_left",
+            "obstacle_to_peg": "F7 x11..13,y18..19"
+          },
+          {
+            "source": 606,
+            "record": "0x88aa2c6",
+            "spawn": [
+              7,
+              17
+            ],
+            "compartment": "upper_left",
+            "obstacle_to_peg": "F7 x11..13,y18..19"
+          },
+          {
+            "source": 621,
+            "record": "0x88ab6e8",
+            "spawn": [
+              44,
+              5
+            ],
+            "compartment": "main_maze",
+            "obstacle_to_peg": "separate bomb triangle with F1 at28,27"
+          }
+        ],
+        "target": {
+          "kind": "activated_door",
+          "record": "0x88aa0c4",
+          "tile": [
+            11,
+            28
+          ],
+          "destination": 610,
+          "spawn": [
+            42,
+            4
+          ],
+          "mutation": "0x88aa0b2",
+          "replacement": "FF",
+          "then_chest": {
+            "object": "0x88cfd64",
+            "pixel": [
+              552,
+              96
+            ],
+            "subtype": 6,
+            "item": "Vitality"
+          }
+        },
+        "peg_route": "peg platform -> peg -> F2 door tile becomes FF -> Chest1 arrival chamber -> Vitality",
+        "alternate": "No alternative incoming transition to610 found; separate bomb triangle not linked to peg chain",
+        "local_peg_solver": "none in inspected vanilla objects; not exhaustive remote ability search",
+        "other_exit_gated": false
+      },
+      "activation": "audit_only_pending_source_carry_graph"
+    },
+    {
+      "id": "peg_741_27_13",
+      "native_room": 741,
+      "peg_tile": [
+        27,
+        13
+      ],
+      "route_evidence": {
+        "peg_id": "peg_741_27_13",
+        "arrivals": [
+          {
+            "source": 712,
+            "record": "0x8884640",
+            "spawn": [
+              4,
+              39
+            ],
+            "compartment": "main_bottom"
+          },
+          {
+            "source": 742,
+            "record": "0x888554e",
+            "spawn": [
+              11,
+              8
+            ],
+            "compartment": "isolated_top_annex"
+          }
+        ],
+        "target": {
+          "kind": "loose_1up",
+          "object": "0x88bd984",
+          "pixel": [
+            440,
+            264
+          ]
+        },
+        "peg_route": "main_bottom -> bomb-chain ascents -> upper corridor -> peg -> optional 1-Up cage",
+        "annex_can_reach_peg": false,
+        "source": {
+          "object": "0x88bda80",
+          "kind": "Bonkers",
+          "vanilla": "Hammer",
+          "prepeg": "conditional",
+          "obstacle": "F5 wall x14..20,y22..23 except17,23",
+          "status": "geometry verified; exact playable entry/attack route untested"
+        },
+        "exit_gated": false
+      },
+      "activation": "audit_only_pending_source_carry_graph"
+    },
+    {
+      "id": "peg_816_26_3",
+      "native_room": 816,
+      "peg_tile": [
+        26,
+        3
+      ],
+      "route_evidence": {
+        "peg_id": "peg_816_26_3",
+        "arrivals": [
+          {
+            "source": 802,
+            "records": [
+              "0x88a72ba",
+              "0x88a72c8",
+              "0x88a72d6",
+              "0x88a72e4",
+              "0x88a72f2",
+              "0x88a7300"
+            ],
+            "spawn": [
+              2,
+              4
+            ],
+            "compartment": "water_inlet_to_upper_hall"
+          }
+        ],
+        "target": {
+          "kind": "big_chest",
+          "object": "0x88ce86c",
+          "pixel": [
+            632,
+            240
+          ],
+          "item": "Olive Ocean Map"
+        },
+        "peg_route": "upper hall -> peg shaft -> lower map pocket",
+        "alternate": {
+          "obstacle": "bomb_wall",
+          "bounds": [
+            44,
+            12,
+            50,
+            13
+          ],
+          "bomb": [
+            44,
+            13
+          ],
+          "status": "remote/piercing activation from far side or above untested; no ordinary walking bypass"
+        },
+        "source": {
+          "object": "0x88ce8fc",
+          "kind": "Bonkers",
+          "vanilla": "Hammer",
+          "prepeg": true,
+          "note": "normal fight/arena behavior applies"
+        },
+        "exit_gated": false
+      },
+      "activation": "audit_only_pending_source_carry_graph"
+    }
+  ]
+}

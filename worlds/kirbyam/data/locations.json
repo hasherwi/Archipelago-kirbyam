@@ -840,7 +840,7 @@
   },
   "MINOR_CHEST_MUSIC_NOTE_02": {
     "label": "Peppermint Palace 7-06 - Music Sheet #2 Chest",
-    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY",
     "default_item": "MUSIC_SHEET_02",
     "tags": [
       "SmallChest",

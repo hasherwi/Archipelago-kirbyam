@@ -1,0 +1,266 @@
+{
+  "version": 1,
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "source": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c",
+  "coverage": "All four native 0x59 corridor rooms. Source alternatives not exhaustively modeled. No emulator claim.",
+  "routes": [
+    {
+      "id": "mini_134_ocean_spray",
+      "native_room": 134,
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_06",
+      "exit": null,
+      "location": "MINOR_CHEST_SPRAY_PAINT_07",
+      "graph": {
+        "version": 1,
+        "status": "reviewed",
+        "nodes": [
+          {
+            "id": "mini_134_ocean_spray:arrival",
+            "native_room": 134
+          },
+          {
+            "id": "mini_134_ocean_spray:source",
+            "native_room": 134
+          },
+          {
+            "id": "mini_134_ocean_spray:target",
+            "native_room": 134
+          },
+          {
+            "id": "mini_134_ocean_spray:bypass",
+            "native_room": 134
+          }
+        ],
+        "routes": [
+          {
+            "from": "mini_134_ocean_spray:arrival",
+            "to": "mini_134_ocean_spray:source",
+            "room_transition": false,
+            "evidence": "Canonical Minny approach. In 736, down cannon 0x088B2616 self-transitions before acquisition."
+          },
+          {
+            "from": "mini_134_ocean_spray:source",
+            "to": "mini_134_ocean_spray:target",
+            "capability": "mini_corridor",
+            "recover_dropped_ability": true,
+            "evidence": "Native collision 0x59 / sub_080088CC requires actual Mini. Olive includes drop/inhale/recover at star-stone 0x088CBD40."
+          },
+          {
+            "from": "mini_134_ocean_spray:arrival",
+            "to": "mini_134_ocean_spray:bypass",
+            "evidence": "Independent upper/ordinary exit is not separated by the Mini corridor."
+          }
+        ],
+        "sources": [
+          {
+            "id": "minny_088cbd88",
+            "node": "mini_134_ocean_spray:source",
+            "source_key": "MINNY",
+            "acquisition_evidence": "Canonical local Minny pocket 0x088CBD88; inhalation from approach, not a claim that spawn tile is walkable."
+          }
+        ],
+        "starts": [
+          "mini_134_ocean_spray:arrival"
+        ],
+        "required_targets": [
+          "mini_134_ocean_spray:target"
+        ]
+      }
+    },
+    {
+      "id": "mini_312_warp",
+      "native_room": 312,
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
+      "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP",
+      "location": null,
+      "graph": {
+        "version": 1,
+        "status": "reviewed",
+        "nodes": [
+          {
+            "id": "mini_312_warp:arrival",
+            "native_room": 312
+          },
+          {
+            "id": "mini_312_warp:source",
+            "native_room": 312
+          },
+          {
+            "id": "mini_312_warp:target",
+            "native_room": 312
+          },
+          {
+            "id": "mini_312_warp:bypass",
+            "native_room": 312
+          }
+        ],
+        "routes": [
+          {
+            "from": "mini_312_warp:arrival",
+            "to": "mini_312_warp:source",
+            "room_transition": false,
+            "evidence": "Canonical Minny approach. In 736, down cannon 0x088B2616 self-transitions before acquisition."
+          },
+          {
+            "from": "mini_312_warp:source",
+            "to": "mini_312_warp:target",
+            "capability": "mini_corridor",
+            "recover_dropped_ability": false,
+            "evidence": "Native collision 0x59 / sub_080088CC requires actual Mini. Olive includes drop/inhale/recover at star-stone 0x088CBD40."
+          },
+          {
+            "from": "mini_312_warp:arrival",
+            "to": "mini_312_warp:bypass",
+            "evidence": "Independent upper/ordinary exit is not separated by the Mini corridor."
+          }
+        ],
+        "sources": [
+          {
+            "id": "minny_088c417c",
+            "node": "mini_312_warp:source",
+            "source_key": "MINNY",
+            "acquisition_evidence": "Canonical local Minny pocket 0x088C417C; inhalation from approach, not a claim that spawn tile is walkable."
+          }
+        ],
+        "starts": [
+          "mini_312_warp:arrival"
+        ],
+        "required_targets": [
+          "mini_312_warp:target"
+        ]
+      }
+    },
+    {
+      "id": "mini_321_lower",
+      "native_room": 321,
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+      "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
+      "location": null,
+      "graph": {
+        "version": 1,
+        "status": "reviewed",
+        "nodes": [
+          {
+            "id": "mini_321_lower:arrival",
+            "native_room": 321
+          },
+          {
+            "id": "mini_321_lower:source",
+            "native_room": 321
+          },
+          {
+            "id": "mini_321_lower:target",
+            "native_room": 321
+          },
+          {
+            "id": "mini_321_lower:bypass",
+            "native_room": 321
+          }
+        ],
+        "routes": [
+          {
+            "from": "mini_321_lower:arrival",
+            "to": "mini_321_lower:source",
+            "room_transition": false,
+            "evidence": "Canonical Minny approach. In 736, down cannon 0x088B2616 self-transitions before acquisition."
+          },
+          {
+            "from": "mini_321_lower:source",
+            "to": "mini_321_lower:target",
+            "capability": "mini_corridor",
+            "recover_dropped_ability": false,
+            "evidence": "Native collision 0x59 / sub_080088CC requires actual Mini. Olive includes drop/inhale/recover at star-stone 0x088CBD40."
+          },
+          {
+            "from": "mini_321_lower:arrival",
+            "to": "mini_321_lower:bypass",
+            "evidence": "Independent upper/ordinary exit is not separated by the Mini corridor."
+          }
+        ],
+        "sources": [
+          {
+            "id": "minny_088c4db4",
+            "node": "mini_321_lower:source",
+            "source_key": "MINNY",
+            "acquisition_evidence": "Canonical local Minny pocket 0x088C4DB4; inhalation from approach, not a claim that spawn tile is walkable."
+          },
+          {
+            "id": "minny_088c4dd8",
+            "node": "mini_321_lower:source",
+            "source_key": "MINNY",
+            "acquisition_evidence": "Canonical local Minny pocket 0x088C4DD8; inhalation from approach, not a claim that spawn tile is walkable."
+          }
+        ],
+        "starts": [
+          "mini_321_lower:arrival"
+        ],
+        "required_targets": [
+          "mini_321_lower:target"
+        ]
+      }
+    },
+    {
+      "id": "mini_736_chest",
+      "native_room": 736,
+      "region": "REGION_CARROT_CASTLE/ROOM_5_10",
+      "exit": "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
+      "location": null,
+      "graph": {
+        "version": 1,
+        "status": "reviewed",
+        "nodes": [
+          {
+            "id": "mini_736_chest:arrival",
+            "native_room": 736
+          },
+          {
+            "id": "mini_736_chest:source",
+            "native_room": 736
+          },
+          {
+            "id": "mini_736_chest:target",
+            "native_room": 736
+          },
+          {
+            "id": "mini_736_chest:bypass",
+            "native_room": 736
+          }
+        ],
+        "routes": [
+          {
+            "from": "mini_736_chest:arrival",
+            "to": "mini_736_chest:source",
+            "room_transition": true,
+            "evidence": "Canonical Minny approach. In 736, down cannon 0x088B2616 self-transitions before acquisition."
+          },
+          {
+            "from": "mini_736_chest:source",
+            "to": "mini_736_chest:target",
+            "capability": "mini_corridor",
+            "recover_dropped_ability": false,
+            "evidence": "Native collision 0x59 / sub_080088CC requires actual Mini. Olive includes drop/inhale/recover at star-stone 0x088CBD40."
+          },
+          {
+            "from": "mini_736_chest:arrival",
+            "to": "mini_736_chest:bypass",
+            "evidence": "Independent upper/ordinary exit is not separated by the Mini corridor."
+          }
+        ],
+        "sources": [
+          {
+            "id": "minny_088d41a0",
+            "node": "mini_736_chest:source",
+            "source_key": "MINNY",
+            "acquisition_evidence": "Canonical local Minny pocket 0x088D41A0; inhalation from approach, not a claim that spawn tile is walkable."
+          }
+        ],
+        "starts": [
+          "mini_736_chest:arrival"
+        ],
+        "required_targets": [
+          "mini_736_chest:target"
+        ]
+      }
+    }
+  ]
+}
