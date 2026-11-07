@@ -11,15 +11,13 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- Add source-aware logic for Mini corridors, the Rainbow Route Wheel chest, peg-gated checks and passages, six rope-gated targets, and all four fuse-cannon routes. Unrelated exits and optional cannon bypasses remain available without those abilities. Receiving an ability item unlocks its use; reaching a suitable enemy or Copy Ability statue is still required (PR #1041).
+- None.
 
 ### Improvements
-- Traversal can use reviewed ability carries from ordinary hub statues, requiring only the Hub Connections and enabled Area Keys along the chosen route. Randomized statues use their actual grants; fixed statues do not provide Wheel or Smash.
-- Mini and Wheel now join progression instead of starting abilities. Minny enemies always give Mini, while other ability-randomization options and ability gating remain available. Burning and Cutter remain starting abilities. Generate and patch a new ROM to use these changes (PR #1041).
+- Improve Mini, Wheel, peg, rope and cannon-fuse traversal logic to account for reachable enemies and Copy Ability statues; Mini and Wheel are now progression abilities, and Minny always grants Mini (PR #1041).
 
 ### Known Limitations
-- The late ability room is not counted as an ability source until its unlock is verified in the patched ROM. Settings such as 100% no-ability enemies with fixed statues can leave no reviewed Wheel or Smash source. Full accessibility cannot accept the affected unreachable checks; minimal accessibility may leave them closed if item placement and the selected goal still succeed. Minimal accessibility does not guarantee generation for every option combination.
-- Crash can light fuses, but cannon-route logic currently uses the seven other reviewed ignition abilities pending target-specific Crash timing checks. Burning and Cutter remain starting abilities; the non-rope Cutter dependency review is not complete.
+- None.
 
 ### Bug Fixes
 - None.
