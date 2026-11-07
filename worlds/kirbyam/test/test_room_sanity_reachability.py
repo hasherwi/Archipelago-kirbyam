@@ -49,7 +49,8 @@ def test_each_compartment_reaches_one_physical_check_without_traversal(parent, e
     assert checks[0].parent_region.name == check_name
     assert not regions[check_name].exits
     expected = {entry, check_name}
-    if entry == "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY":
+    if entry in {"REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY",
+                 "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__LOWER_CHEST"}:
         # Native0x0F floor blocks downward entry, not upward exit to main.
         expected.add(parent)
     assert {name for name in names if regions[name].can_reach(state)} == expected

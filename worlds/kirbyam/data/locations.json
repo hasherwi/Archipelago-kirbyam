@@ -1338,7 +1338,7 @@
   },
   "MINOR_CHEST_CABBAGE_CAVERN_3_15": {
     "label": "Cabbage Cavern 3-15 - Small Chest",
-    "parent_region": "REGION_CABBAGE_CAVERN/ROOM_3_15",
+    "parent_region": "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__LOWER_CHEST",
     "tags": [
       "SmallChest",
       "ExactEventLocation",

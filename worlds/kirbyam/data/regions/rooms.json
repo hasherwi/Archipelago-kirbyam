@@ -2004,7 +2004,7 @@
     "locations": {},
     "exits": {
       "REGION_CABBAGE_CAVERN/ROOM_3_13": "can_fly",
-      "REGION_CABBAGE_CAVERN/ROOM_3_15": null
+      "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__FROM_3_13": null
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_14": {
@@ -2024,7 +2024,6 @@
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_15": {
     "locations": {
-      "MINOR_CHEST_CABBAGE_CAVERN_3_15": null,
       "room_sanity": {
         "included": true,
         "location_id": 3961086,
@@ -2039,6 +2038,24 @@
         ]
       },
       "REGION_CABBAGE_CAVERN/ROOM_3_16": "can_break_block"
+    },
+    "logical_subregions": {
+      "LOWER_CHEST": {
+        "locations": [
+          "MINOR_CHEST_CABBAGE_CAVERN_3_15"
+        ],
+        "exits": {
+          "REGION_CABBAGE_CAVERN/ROOM_3_15": null
+        },
+        "evidence": "Native515 lower527 arrival5,24 crosses ordinary bomb7,23 to chest. Nondroppable0F blocks upper arrivals; lower chest can exit to common network."
+      },
+      "FROM_3_13": {
+        "locations": [],
+        "exits": {
+          "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER": null
+        },
+        "evidence": "Native513 record0889D7E2 arrives515spawn12,3 in isolated upper-right shaft. Can return513 via door10,2, not enter chest or lower exit network."
+      }
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY": {
@@ -2051,6 +2068,12 @@
     "locations": {},
     "exits": {
       "REGION_CABBAGE_CAVERN/ROOM_3_15": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__LOWER_CHEST": {
         "all": [
           "can_fly",
           "can_break_block"

@@ -65,7 +65,7 @@ repatch from the supported original ROM.
 ## Peg coverage
 
 `peg_traversal_audit.json` records all14 pegs in13 native rooms. An audit record is
-not automatically an executable route. Production source-aware gates currently:
+not automatically an executable route. Production source-aware gates currently cover seven peg targets:
 
 - 401 peg28,30: right shaft to406 Sound Player; local Rockys or explicit Stone
   carry190 -> 801 -> 490 -> 407 -> 401. The407 bomb is approached from above with Stone.
@@ -75,6 +75,19 @@ not automatically an executable route. Production source-aware gates currently:
   ordinary blocks, and the star platform rather than assuming them absent.
 
 - 816 peg26,3: Olive Map; local Bonkers or Stone592 -> 801 -> 191 -> 890 -> 811 -> 830 -> 810 -> 802 -> 816. The reviewed carry avoids rock bodies and opposing currents; ordinary underwater puffs activate the811/802 bombs without dropping Stone.
+
+- 204 peg62,4: alternate227 entrance to Happy Notes; Stone190 -> 801 -> 290 ->
+  210 -> 227 main -> 204. Ordinary BoxBoxer combat retaining Stone is assumed.
+  Native damage eligibility accepts Stone. The post-boss puff and transition
+  retaining Stone were replayed, but the fight itself was not.
+- 605 peg12,24: revealed610 door; Stone592 -> 690 -> 611 -> 601 upper exit -> 605.
+  Standing untransformed on two native0x74 crumble objects removes the F7 floor
+  layers without discarding Stone. The601 bomb uses an ordinary puff.
+- 527 peg56,16: lower515 entrance only; Stone592 -> 528 -> 527. This carry avoids
+  the timed gate and rock body. Its narrow ordinary corridors fit native flight
+  terrain bounds. The independent upper exit is not gated by this peg.
+  A segmented native replay verifies this peg, lower door, bomb and chest with
+  Stone retained and no Mini. It does not verify the full randomized source carry.
 
 Carrier witnesses require an independently reachable source hub, actual Hub
 Connection items, and destination Area Key when that option is enabled. Static
@@ -90,17 +103,22 @@ shuffle option; RoomSanity adds checks, not shuffled transitions.
 
 204 -> 227 Happy Notes has a one-way target compartment: regular227 entry cannot
 reach it through the nondroppable0x0F platform. The upper compartment can exit to
-main. Its exact peg-side entrance is separated, but its source rule is still
-pending. Do not describe that topology correction as completed source enforcement.
+main. Its exact peg-side entrance now has source enforcement.
 
-Remaining audit-only routes:149 chest (alternate underwaterF7 approach unresolved),
-204 alternate exit,510 chest (different lower metal route),513 upper-to-lower
-peg then bomb (reverse bomb bypass),527 first peg/Sapphire and second peg/lower
-exit, and605 revealed610 door. The816 remote bomb alternative remains unresolved,
-but its reviewed peg route is enforced.
+515 also has directed compartments: only the527 lower arrival reaches its chest.
+The527 upper arrival can reach the common exits but not that chest. The513 arrival
+occupies a separate shaft that can return to513 but cannot reach the chest or
+bottom500 exit. No Mini requirement is inferred from an ordinary16px corridor.
+
+Remaining audit-only AP targets:149 chest (Stone carrier blocked by143 star
+platforms; a separate local source is known),510 chest (different lower metal route),513
+upper-to-lower peg then bomb (reverse bomb bypass), and527 first peg/Sapphire.
 509 and218 gate food rather than AP exits;741 gates a loose1-Up, not its room exit.
 527 Sapphire requires bomb38,8 then peg18,13; an earlier bomb24,14-only bypass was
-invalidated by directed0x0F analysis. Its timed gate is a separate constraint.
+invalidated by directed0x0F analysis. Its timed gate remains a separate unverified
+constraint. The816 remote bomb alternative remains unresolved. Ordinary underwater
+weapons and puffs cannot break149's alternate F7 ceiling because they lack the
+required attack flag; environmental large-block/cannon alternatives are not claimed.
 
 ## Destructive chains and remaining acceptance
 
@@ -117,7 +135,8 @@ or reloads after initial140 setup. The exact108 lower-mid -> chest route is now 
 source when its actual output is Wheel. All19 regular statues in970 provide a
 late fallback after every physical hub switch can be activated. Area-wide events
 and received Hub Connection items do not substitute for those15 physical checks.
-The carry passes970 -> 801 -> 190 -> 140 -> 108 -> 110 -> 108, retainingWheel. Only its final
+The carry passes970 -> 801 -> 190 -> 140 -> 108 -> 110 -> 108, retainingWheel.
+The970-to140 path uses clear ordinary flight and avoids touching the190 statues. Only its final
 110 -> 108 return explicitly uses a fresh unoccupied room reset. Ordinary
 single-player opportunity for that reset is assumed; no adversarial-AI or bounded
 reset guarantee and no unlimited phone battery are claimed. Native code rebuilds

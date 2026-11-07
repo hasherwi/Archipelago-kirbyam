@@ -143,3 +143,69 @@ def test_unvalidated_wheel_seed_fails_when_search_budget_exhausted(monkeypatch):
     initial = {"mode": 1, "seed": 123}
     with pytest.raises(ValueError, match="Wheel-source search budget exhausted after 3 attempts"):
         peg_traversal.validate_peg_assignment(initial, lambda: initial, False, 3)
+
+
+@pytest.mark.parametrize("entry,gets_chest,gets_lower_exit", [
+    ("_UPPER_ENTRY", False, True),
+    ("_LOWER_ENTRY", True, True),
+    ("__LOGIC__FROM_3_13", False, False),
+])
+def test_515_native_arrivals_keep_chest_and_exit_direction(entry, gets_chest, gets_lower_exit):
+    from BaseClasses import MultiWorld, Region
+    from .. import KirbyAmWorld
+    from ..rules import evaluate_room_logic_requirement
+    base = "REGION_CABBAGE_CAVERN/ROOM_3_15"
+    lower_exit = "REGION_CABBAGE_CAVERN/ROOM_3_16"
+    return_exit = "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER"
+    names = [base + suffix for suffix in ("", "_UPPER_ENTRY", "_LOWER_ENTRY",
+                                          "__LOGIC__LOWER_CHEST", "__LOGIC__FROM_3_13", "__ROOM_CHECK")]
+    mw = MultiWorld(1)
+    mw.worlds[1] = KirbyAmWorld(mw, 1)
+    regions = {name: Region(name, 1, mw) for name in ["Menu", *names, lower_exit, return_exit]}
+    mw.regions.extend(regions.values())
+    for name in names:
+        definition = data.regions[name]
+        for destination in definition.exits:
+            if destination in regions:
+                requirement = definition.exit_requirements.get(destination)
+                regions[name].connect(regions[destination], rule=lambda state, requirement=requirement:
+                                      evaluate_room_logic_requirement(requirement, state, 1))
+    regions["Menu"].connect(regions[base + entry])
+    state = CollectionState(mw)
+    assert regions[base + "__LOGIC__LOWER_CHEST"].can_reach(state) == gets_chest
+    assert regions[lower_exit].can_reach(state) == gets_lower_exit
+    assert regions[return_exit].can_reach(state)
+
+
+def test_527_peg_only_gates_lower_door():
+    from unittest.mock import patch
+    world = make_world(0, True)
+    state = CollectionState(world.multiworld)
+    source = "REGION_CABBAGE_CAVERN/ROOM_3_14"
+    upper = world.multiworld.get_entrance(source + " -> REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY", 1)
+    lower = world.multiworld.get_entrance(source + " -> REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY", 1)
+    with patch.object(state, "can_reach_region", return_value=False):
+        assert upper.access_rule(state)
+        assert not lower.access_rule(state)
+    state.collect(world.create_item("Cabbage Cavern - Area Key"), prevent_sweep=True)
+    with patch.object(state, "can_reach_region", return_value=True):
+        assert upper.access_rule(state) and lower.access_rule(state)
+
+
+@pytest.mark.parametrize("room", [204, 527, 605])
+def test_new_carriers_cannot_bootstrap_disconnected_source_hub(room):
+    world = make_world(2, True, ability_randomization_no_ability_weight=100,
+                       ability_randomization_statues=False)
+    row = next(row for row in PEG_ROUTES if row["room"] == room)
+    hub = row.get("source_hub", "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1")
+    for entrance in world.multiworld.get_region(hub, 1).entrances:
+        entrance.access_rule = lambda state: False
+    state = CollectionState(world.multiworld)
+    for name in world.item_name_to_id:
+        state.collect(world.create_item(name), prevent_sweep=True)
+    assert not state.can_reach_region(hub, 1)
+    if row["exit"]:
+        target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", 1)
+    else:
+        target = world.multiworld.get_location(data.locations[row["location"]].label, 1)
+    assert not target.access_rule(state)

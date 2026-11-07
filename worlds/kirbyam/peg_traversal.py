@@ -16,6 +16,24 @@ from .traversal import Node, Placement, Position, Route, SourcePolicy, Traversal
 
 PEG_ROUTES: tuple[dict[str, Any], ...] = (
     {
+        "id": "peg_204_62_4", "room": 204,
+        "region": "REGION_PEPPERMINT_PALACE/ROOM_7_12",
+        "exit": "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY", "location": None,
+        "sources": (),
+    },
+    {
+        "id": "peg_605_12_24", "room": 605,
+        "region": "REGION_RADISH_RUINS/ROOM_8_03",
+        "exit": "REGION_RADISH_RUINS/ROOM_8_CHEST_1", "location": None,
+        "sources": (), "source_hub": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
+    },
+    {
+        "id": "peg_527_56_16", "room": 527,
+        "region": "REGION_CABBAGE_CAVERN/ROOM_3_14",
+        "exit": "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY", "location": None,
+        "sources": (), "source_hub": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
+    },
+    {
         "id": "peg_816_26_3", "room": 816,
         "region": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
         "exit": None, "location": "MAJOR_CHEST_OLIVE_OCEAN",
@@ -44,12 +62,20 @@ PEG_ROUTES: tuple[dict[str, Any], ...] = (
 
 _STONE_HUB = "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
 _CARRY_PATHS = {
+    "peg_204_62_4": (190, 801, 290, 210, 227, 204),
+    "peg_605_12_24": (592, 690, 611, 601, 605),
+    "peg_527_56_16": (592, 528, 527),
     "peg_816_26_3": (592, 801, 191, 890, 811, 830, 810, 802, 816),
     "peg_411_4_3": (190, 801, 490, 411),
     "peg_401_28_30": (190, 801, 490, 407, 401),
     "peg_221_41_12": (190, 801, 290, 291, 215, 212, 216, 217, 221),
 }
 _CARRY_ITEMS = {
+    "peg_204_62_4": frozenset({
+        "Rainbow Route East - Hub Connection", "Peppermint Palace East - Hub Connection",
+    }),
+    "peg_605_12_24": frozenset({"Radish Ruins - Hub Connection"}),
+    "peg_527_56_16": frozenset(),
     "peg_816_26_3": frozenset({
         "Cabbage Cavern West - Hub Connection", "Cabbage Cavern East - Hub Connection",
         "Olive Ocean - Hub Connection",
@@ -77,11 +103,10 @@ def stone_carry_graph(row: dict[str, Any], area_keys: bool) -> TraversalGraph:
     path = _CARRY_PATHS[row["id"]]
     items = _CARRY_ITEMS[row["id"]]
     if area_keys:
-        area = "Candy Constellation" if row["room"] in (401, 411) else "Peppermint Palace"
+        areas = {row["region"].split("/")[0].removeprefix("REGION_").replace("_", " ").title()}
         if row["room"] == 816:
-            items |= {"Cabbage Cavern - Area Key", "Olive Ocean - Area Key"}
-        else:
-            items |= {area + " - Area Key"}
+            areas.add("Cabbage Cavern")  # Carrier re-enters191 after Central Circle.
+        items |= {area + " - Area Key" for area in areas}
     nodes = tuple(Node(str(room), room) for room in path) + (Node("target", row["room"]),)
     routes = tuple(
         Route(str(source), str(target), items=items)

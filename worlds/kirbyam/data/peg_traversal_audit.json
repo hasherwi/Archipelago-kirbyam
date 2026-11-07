@@ -50,7 +50,7 @@
             ]
           ],
           "approach": "underwater from below",
-          "status": "topology proven; underwater upward attack executable capability unverified"
+          "status": "Ordinary underwater attacks lack F7-required0x800; environmental large-block/cannon alternatives unverified."
         },
         "source": {
           "object": "0x88bc434",
@@ -60,7 +60,19 @@
         },
         "exit_gated": false
       },
-      "activation": "audit_only_pending_source_carry_graph"
+      "activation": "audit_only_pending_source_carry_graph",
+      "carry_evidence": {
+        "rejected_path": [
+          190,
+          143,
+          145,
+          146,
+          147,
+          148,
+          149
+        ],
+        "reason": "Uncut143 star platforms block descent to bomb29,18 from190 arrival. Earlier collision mutation was not reachable. Stone carrier is not valid; local GiantRocky remains a separate candidate."
+      }
     },
     {
       "id": "peg_204_62_4",
@@ -188,7 +200,18 @@
       ],
       "source_evidence": "none; Pengy/Cookin/Chip/BrontoBurt",
       "dynamic_gate": null,
-      "activation": "audit_only_pending_source_carry_graph"
+      "activation": "production_source_aware_with_explicit_draft_policy_deferral",
+      "carry_evidence": {
+        "path": [
+          190,
+          801,
+          290,
+          210,
+          227,
+          204
+        ],
+        "qualification": "Ordinary BoxBoxer combat retaining Stone assumed; native strength/damage eligibility verified. Post-boss Stone puff and210-to227 transition replayed, not full combat. Only alternate227 Happy Notes entrance is peg gated."
+      }
     },
     {
       "id": "peg_218_9_33",
@@ -306,7 +329,7 @@
             160
           ],
           "ability": "Stone",
-          "prerequisite": "Super Inhale by holding inhale about48 ticks; carry through221\u2192218. Actual carrying route not emulator-tested."
+          "prerequisite": "Super Inhale by holding inhale about48 ticks; carry through221→218. Actual carrying route not emulator-tested."
         },
         {
           "room": 221,
@@ -1557,7 +1580,15 @@
         ],
         "note": "time-bounded gate; complete timing route not simulated; door absent from point graph"
       },
-      "activation": "audit_only_pending_source_carry_graph"
+      "activation": "production_source_aware_with_explicit_draft_policy_deferral",
+      "carry_evidence": {
+        "path": [
+          592,
+          528,
+          527
+        ],
+        "qualification": "Lower515 entrance only. Carry avoids timed-door and rock-body envelopes. Flight terrain bounds(-6,-5,6,7) fit ordinary16px corridors.515 lower chest separate from common exits and isolated513 arrival."
+      }
     },
     {
       "id": "peg_605_12_24",
@@ -1638,7 +1669,17 @@
         "local_peg_solver": "none in inspected vanilla objects; not exhaustive remote ability search",
         "other_exit_gated": false
       },
-      "activation": "audit_only_pending_source_carry_graph"
+      "activation": "production_source_aware_with_explicit_draft_policy_deferral",
+      "carry_evidence": {
+        "path": [
+          592,
+          690,
+          611,
+          601,
+          605
+        ],
+        "qualification": "601 upper exit112,3. Ordinary puff activates601 bomb5,8. Standing untransformed on0x74 objects088CF8DC and088CFA8C removes605 F7 layers12,18/19 after native delay; no ability drop."
+      }
     },
     {
       "id": "peg_741_27_13",

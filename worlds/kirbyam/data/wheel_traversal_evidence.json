@@ -102,7 +102,8 @@
     "items": [
       "Rainbow Route East - Hub Connection"
     ],
-    "retry_contract": "Positive-support repeated statue acquisition with explicit fairness assumption, not finite guarantee. Enemy no-ability weight does not remove statue outputs."
+    "retry_contract": "Positive-support repeated statue acquisition with explicit fairness assumption, not finite guarantee. Enemy no-ability weight does not remove statue outputs.",
+    "carrier_geometry": "970 return088B4AB8 ->801spawn5,4; 28-node two-high air route ->801exit08873428 tile24,12 ->190spawn9,3;14-node two-high air/door route avoids statue envelopes ->190exit08879CE4 tile1,8 ->140spawn43,9. No forced pickup, obstacle or ability change."
   },
   "normal_witnesses_not_wheel_gated": [
     {
