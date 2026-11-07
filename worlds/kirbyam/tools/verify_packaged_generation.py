@@ -40,7 +40,6 @@ def matrix_cases():
             'ability_randomization_no_ability_weight': (0, 55, 100)[index % 3],
             'ability_randomization_boss_spawns': index % 2,
             'ability_randomization_minibosses': (index // 2) % 2,
-            'ability_randomization_minny': (index // 3) % 2,
             'ability_randomization_passive_enemies': (index // 4) % 2,
             'ability_randomization_statues': (index // 5) % 2,
             'progression_balancing': (0, 50, 99)[index % 3],

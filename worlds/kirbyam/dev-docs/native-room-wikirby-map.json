@@ -1235,7 +1235,8 @@
       "completion_index": 98,
       "object_list_index": 98,
       "ap_keys": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_06"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY"
       ],
       "wiki_title": "Peppermint Palace - Room 6",
       "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_6",
@@ -1331,7 +1332,8 @@
       "completion_index": 125,
       "object_list_index": 125,
       "ap_keys": [
-        "REGION_MUSTARD_MOUNTAIN/ROOM_4_14"
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT"
       ],
       "wiki_title": "Mustard Mountain - Room 14",
       "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_14",
@@ -1452,7 +1454,8 @@
       "completion_index": 135,
       "object_list_index": 135,
       "ap_keys": [
-        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05"
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05__LOGIC__RIGHT_ENTRY"
       ],
       "wiki_title": "Mustard Mountain - Room 5",
       "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_5",
@@ -1476,7 +1479,8 @@
       "completion_index": 137,
       "object_list_index": 137,
       "ap_keys": [
-        "REGION_MUSTARD_MOUNTAIN/ROOM_4_13"
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT"
       ],
       "wiki_title": "Mustard Mountain - Room 13",
       "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_13",
@@ -2041,7 +2045,9 @@
       "ap_keys": [
         "REGION_CABBAGE_CAVERN/ROOM_3_15",
         "REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY",
-        "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY"
+        "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY",
+        "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__LOWER_CHEST",
+        "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__FROM_3_13"
       ],
       "wiki_title": "Cabbage Cavern - Room 15",
       "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_15",

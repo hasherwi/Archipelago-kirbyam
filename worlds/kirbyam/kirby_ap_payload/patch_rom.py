@@ -147,6 +147,16 @@ def validate_minny_swallow_callsite(rom: bytes | bytearray) -> None:
         raise SystemExit("Error: unverified Minny source ABI at ordinary swallow callsite")
 
 
+def validate_mini_star_callsite(rom: bytes | bytearray) -> None:
+    """Verify r5 raw-ability load, native star flag, and original request BL."""
+    offset = 0x0009C69C
+    expected = bytes.fromhex("2c 1c 84 34 20 78 80 21 01 43 30 1c") + thumb_bl_bytes(
+        0x08000000 + offset, ORIGINAL_ABILITY_TRANSITION_FN_ADDR,
+    )
+    if rom[offset - 12:offset + 4] != expected:
+        raise SystemExit("Error: unverified Mini star source ABI at star swallow callsite")
+
+
 # ----------------------------
 # Logging (tee stdout/stderr)
 # ----------------------------
@@ -1562,6 +1572,7 @@ def discover_runtime_callsites(
     }
 
     validate_minny_swallow_callsite(rom)
+    validate_mini_star_callsite(rom)
 
     ability_transition_target_candidates = {
         ORIGINAL_ABILITY_TRANSITION_FN_ADDR,

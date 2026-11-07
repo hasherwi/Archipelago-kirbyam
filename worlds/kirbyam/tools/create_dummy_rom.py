@@ -87,6 +87,10 @@ def build_dummy_rom() -> bytearray:
         offset = 0x34BDBC + index * 4
         rom[offset:offset + 4] = (0x08126405 + index * 12).to_bytes(4, "little")
 
+    # Native Mini-star source load, flag, and request ABI.
+    rom[0x9C690:0x9C69C] = bytes.fromhex("2c 1c 84 34 20 78 80 21 01 43 30 1c")
+    put_bl(0x9C69C, patch_rom.ORIGINAL_ABILITY_TRANSITION_FN_ADDR)
+
     # Minny enemy ABI and native treasure-menu paint selection.
     rom[0x9C6A2:0x9C6AA] = bytes.fromhex("2c 1c 84 34 21 78 30 1c")
     put_bl(0x9C6AA, patch_rom.ORIGINAL_ABILITY_TRANSITION_FN_ADDR)

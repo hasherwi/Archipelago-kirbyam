@@ -1246,7 +1246,7 @@ static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_enemy_
 
 // Hook target for all callsites that request Kirby ability transition.
 // In completely-random mode, this rerolls a fresh ability for each request,
-// including dropped ability-star transitions. Direct statue touches bypass this
+// except verified raw Mini recovery stars. Direct statue touches bypass this
 // function and are handled by ap_on_start_copy_ability_transition below.
 /* Assembly entry snapshots incoming r5/LR before any C prologue or RNG call. */
 __attribute__((used, section(".text.ap_request_impl"))) void ap_on_request_copy_ability_transition_c(
@@ -1264,7 +1264,8 @@ __attribute__((used, section(".text.ap_request_impl"))) void ap_on_request_copy_
         source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
     }
 
-    if (ap_enemy_should_reroll(mode, gApRandomizeMinny, source_type) != 0u
+    if (ap_is_mini_star_recovery(caller_pc, source_obj_ptr, ability_flags) == 0u
+        && ap_enemy_should_reroll(mode, gApRandomizeMinny, source_type) != 0u
         && ap_enemy_seed_source_allows(caller_pc, source_obj_ptr, source_type) != 0u) {
         uint32_t no_ability_weight = AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT;
         uint32_t allowed_mask = AP_ABILITY_RANDOMIZATION_ALLOWED_MASK;
