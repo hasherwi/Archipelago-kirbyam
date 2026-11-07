@@ -205,11 +205,6 @@ def test_static_policy_uses_rom_assignments_without_forcing_sources():
 @pytest.mark.parametrize('gating', [False, True])
 @pytest.mark.parametrize('statues', [False, True])
 def test_real_world_live_options_and_local_permission(gating, statues):
-    if not statues:
-        with pytest.raises(ValueError, match='No reviewed source witness for peg_149_35_18'):
-            make_world(2, gating, ability_randomization_statues=False,
-                       ability_randomization_no_ability_weight=100)
-        return
     world = make_world(2, gating, ability_randomization_statues=statues,
                        ability_randomization_no_ability_weight=100)
     assert bool(world.options.ability_randomization_statues.value) is statues

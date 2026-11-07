@@ -1,28 +1,43 @@
 # Source-backed traversal (draft)
 
-## Current runtime blocker: room970 is unavailable
+## Copy Ability Room access and source contract
 
-The room970 ability-room sources are **not admitted as current witnesses**.
-Its special mirror requires native WORLD slot18. The normal setter is
-[`pause_world_map.c:1345-1357`](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/pause_world_map.c#L1345-L1357).
-The AP physical-switch intercept in
-[`ap_payload.c:1516-1526`](../kirby_ap_payload/ap_payload.c#L1516-L1526)
-records the physical bit and continues at `0x08039671`, bypassing the native
-unlock callback. Receipt handling at lines389-421 and2104-2117 writes slots1-15;
-no replacement slot18 setter has been established. Reachability of all15 physical
-switches, received Hub Connection items, and Central access are therefore not
-sufficient proof of access to970 in the patched ROM.
+[PR #1025](https://github.com/hasherwi/Archipelago-kirbyam/pull/1025), merged as
+`06ab91f55e37bce254a9e51ca43901d36d31b911`, supplies the runtime gate for native
+room 970. `Copy Ability Room Access` (item ID `3860500`) is one progression item
+replacing filler. It is unowned by default and supports explicit precollection.
+The item alone opens the special mirror from Central Circle (801) to 970; all Hub
+Connection items, all 15 physical switches, and legacy WORLD word 18 never grant
+it. Ownership is grant-only within the authenticated seed and selected native
+save file. The original three-file selector and native save layouts are retained.
+See [native-save acceptance](../dev-docs/copy-room-native-save-acceptance.md) for
+the separate room-access feature's evidence and limits.
 
-`source_sets.statues_970.unavailable` makes every dependent graph fail closed
-with an explanatory reason. Historical geometry and acquisition evidence below
-is retained for investigation, not credited as an active fallback. No speculative
-runtime fix is included. The reviewed ordinary-hub statue network below provides
-alternative carriers with independently proved access, actual assignments, and
-per-route connection/Area Key guards. In particular, 100% Normal
-randomized enemies with fixed statues can leave no actual Wheel or Smash source;
-the affected traversal rules remain closed. Whether the seed must be rejected
-depends on its goal, fill, and accessibility requirements, as described below.
-Complete coverage of all option combinations is not claimed.
+Access is permission to enter, not equipment or an ability-unlock grant. The
+nineteen room 970 statue sources are owned by `REGION_COPY_ABILITY_ROOM/MAIN` and
+shared by exactly two traversal consumers: the Wheel 108 chest and Smash 149 peg
+carriers. Each consumer requires independently reachable room 970; the shared source set
+also requires the access item at acquisition. Actual statue assignments, category
+inclusion/exclusion, eligible output pools, and ability-item gates still apply.
+Fixed excluded statues supply their native Wheel/Smash grants only after reaching
+970 with the corresponding ability permission when gating is enabled. They do
+not bypass the carrier's Hub Connection, Area Key, obstacle, or reset requirements.
+
+The earlier draft correctly rejected all-switch reachability as a substitute for
+runtime access. The native setter is
+[`pause_world_map.c:1345-1357`](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/pause_world_map.c#L1345-L1357),
+but the pre-integration AP physical-switch intercept recorded the physical bit
+and continued at `0x08039671`, bypassing its unlock callback. Hub receipt handling
+wrote WORLD slots 1..15 without replacing the word 18 setter. The former
+`source_sets.statues_970.unavailable` restriction recorded that gap. The merged
+item-gated feature supersedes that restriction, not the historical finding that
+all-switch or legacy-word access was unsound.
+
+The native geometry and source evidence below support the room-owned carrier
+rules. A controller-only Wheel carrier replay now passes on the combined patch,
+under the controlled fixture described in the Wheel section. This does not
+establish the Smash carrier, Mini sequences, ordinary-enemy retry loops, or cannon
+timing. Those gameplay acceptance gaps remain listed below.
 
 ## Generation and accessibility
 
@@ -32,10 +47,13 @@ a witness for every check before fill: it keeps the original static assignment
 and installs the same source-aware access rules. Missing sources leave their
 routes closed, and normal fill, beatability, and accessibility validation decide
 whether the seed succeeds. Minimal accessibility does not guarantee generation
-for every option combination or goal. Neither mode invents an ability grant,
-opens a failed witness, or repairs room970 access.
+for every option combination or goal. Neither mode invents an ability grant or
+opens a failed witness. With 100% Normal included enemies and fixed excluded
+statues, room 970 can now supply the Wheel/Smash witnesses after item-gated access
+and the relevant ability permissions. Fill must still place progression without
+requiring a source behind its own target.
 
-Regression evidence comes from [CI run 42378067551](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/42378067551),
+Historical pre-integration regression evidence comes from [CI run 42378067551](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/42378067551),
 [artifact 13576028492](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/42378067551/artifacts/13576028492):
 
 - Case 69, seed `108836542`, uses minimal accessibility and a seven-area-boss goal.
@@ -48,10 +66,27 @@ Regression evidence comes from [CI run 42378067551](https://github.com/hasherwi/
   raised `FillError` for the Moonlight Mansion 2-20 and Rainbow Route 1-06 Lower
   chests. Beating the goal does not satisfy full accessibility.
 
-These cases distinguish valid optional omissions from a full-accessibility
-failure. They do not establish a new Wheel or Smash source or runtime access
-to room970. Tests must preserve closed gates and actual source assignments in both
-cases rather than weakening access rules to make generation pass.
+These historical results distinguish valid optional omissions from a
+full-accessibility failure before the room-access integration. On the combined
+build, both exact, unchanged case 69 and case 95 YAML fixtures now generate and
+fulfill accessibility. Every check is reachable, including the formerly closed
+targets through actual Copy Ability Room sources. Case 69 retains its original policy seed `4994526115634732429`
+without resampling. Removing every copy of the room-access item closes the two
+affected checks again. Mixed case 69/default and case 69/95 worlds also preserve
+per-player access. The replay tests use the pinned fixture hashes and normal
+generation entrypoints in
+[`test_traversal_accessibility.py`](../test/test_traversal_accessibility.py).
+
+The focused integration suite passes all 325 tests, including these exact
+replays and true zero-item negatives. Installed-APWorld generation on runtime
+0.6.8 succeeds for 34 archives / 51 slots: 32 archives / 48 slots in the main
+matrix and 2 archives / 3 slots for explicit precollection. The matrix's former
+two source rejections no longer occur. These outcomes use the real room-access
+item and actual statue grants, not relaxed target rules or invented equipment.
+The first full world run finished with 6,093 passed and one hosting failure from
+an environmental `AF_UNIX` socket-path length limit in the temporary directory.
+The unchanged hosting test passes when retried under a shorter temporary path.
+A clean full-suite rerun is pending; this is not yet a complete suite pass.
 
 ## Contract
 
@@ -115,12 +150,14 @@ an automatic reset annotation.
 
 Local `sources` name exact acquisition nodes, physical identities and evidence.
 Shared `source_sets` live with their hub region, name their native room, and are
-referenced by ID and compartment in a witness. The nineteen970 statues remain
-defined once for historical Wheel/Smash carrier records, but their source set is
-explicitly unavailable pending patched-ROM access proof. The source
-set's native room must match the receiving compartment. A renewable placement
-needs repeatability evidence, and possible-acquisition retries additionally need
-the witness's `retry_evidence` and an explicit evaluator opt-in.
+referenced by ID and compartment in a witness. The nineteen room 970 statues are
+defined once under `REGION_COPY_ABILITY_ROOM/MAIN`; their shared `items` requirement
+is `Copy Ability Room Access`. The compiler unions source-set requirements with
+each physical placement's requirements. Preflight and runtime source checks both
+include these requirements alongside route items. The source set's native room
+must match the receiving compartment. A renewable placement needs repeatability
+evidence, and possible-acquisition retries additionally need the witness's
+`retry_evidence` and an explicit evaluator opt-in.
 
 Reviewed `graph_parts` can share nodes, routes, sources, and source-set references.
 They cannot supply or override a consumer's starts, required targets, or access
@@ -129,10 +166,12 @@ compilation without adding room-reset credit. An unavailable source set makes
 every dependent graph unavailable, including static-assignment validation; it
 cannot be recovered through a different consumer of the same shared records.
 
-The graph's `access.region` is an independently reachable source region.
-`access.all_hub_switches` additionally requires each physical switch location,
-not owned connection items or an area event. The shared runtime helper also
-registers those access regions as indirect dependencies for entrance rules.
+The graph's `access.region` is an independently reachable source region. Both
+970 consumers require `REGION_COPY_ABILITY_ROOM/MAIN`, not merely Central Circle.
+The optional `access.all_hub_switches` mechanism requires each physical switch
+location, not owned connection items or an area event; it is not used to unlock
+970 or either of its consumers. The shared runtime helper also registers access
+regions as indirect dependencies for entrance rules.
 Mini, peg, Wheel, rope, and fuse targets use room-owned witness metadata and the
 resolved source policy, rather than parallel route/source catalogs. Research-only
 non-AP pegs and rope platforms belong in the evidence censuses below, not
@@ -229,11 +268,12 @@ requirements:
 The six rope graph sets, two mandatory fuse graph sets, Wheel108, and Smash149
 therefore gain source-aware ordinary-hub alternatives. They still need an actual
 reachable grant. With fixed excluded statues and100% Normal included enemies,
-this network provides neither Wheel nor Smash. The unavailable970 sources cannot
-mask that missing witness: another reviewed source or separately verified runtime
-unlock repair is needed before opening either affected route. Full accessibility
-requires those checks; minimal accessibility may leave them closed when the
-normal fill and goal-accessibility checks succeed.
+this ordinary-hub network provides neither Wheel nor Smash. The separate room 970
+source set can supply them through item-gated room access and actual eligible
+statue grants. It does not make ordinary-hub fixed statues gain those outputs or
+rescue a missing access item, ability permission, or carry requirement. Full
+accessibility requires those checks; minimal accessibility may leave them closed
+when the normal fill and goal-accessibility checks succeed.
 
 ### Network regression contract
 
@@ -241,10 +281,14 @@ Check that zero hub items expose no network source; a statue pair opens only wit
 its exact mirror item and conditional Area Key; reverse directions retain their
 guards; unrelated keys are unnecessary; and an ability item without a reachable
 source fails. Test actual shuffled assignments, fixed excluded native outputs,
-positive-support statue retries, and empty-pool failures. All970 consumers must
-remain unavailable, including static validation. Shared parts must not override
-starts/access or add reset credit. These are required checks, not a claim that
-the final full test suite or patched-ROM acceptance is complete.
+positive-support statue retries, and empty-pool failures. Both970 consumers must
+reject missing room access and all-hubs/all-switches substitutes, plus missing
+ability permission when gating is enabled. Fixed excluded room 970 statues retain
+native grants; included statues use
+their actual static assignments or live pools. Test source requirements in static
+validation as well as runtime rules. Shared parts must not override starts/access
+or add reset credit. These are required checks, not a claim that the final full
+test suite or patched-ROM acceptance is complete.
 
 ## Mini
 
@@ -325,10 +369,13 @@ not automatically an executable route. Production source-aware gates currently c
 - 149 peg35,18: chest, with a local Giant Rocky or a carried Smash. The carry
   runs190 -> 143 -> 145 -> 146 upper exit -> 147 -> 148 right entry -> 149.
   Smash Up+B cuts the143 star-platform rope; Stone cannot substitute there.
-  A190 statue may supply Smash under its actual assignment. The historical970
-  fallback is unavailable: all15 physical switches, Central access, and the East
-  hub connection do not prove the patched special mirror opens. Smash's down attack clears the149 ordinary floor.
-  Room147's documented vanilla timed run is assumed, not emulator-replayed.
+  A 190 statue may supply Smash under its actual assignment. The room 970 alternative
+  additionally requires `Copy Ability Room Access`, reachable room 970, an actual
+  eligible Smash grant, and Smash permission when gating is enabled; all 15
+  physical switches and Central access are not substitutes. The carry retains
+  the East Hub Connection and conditional Moonlight Mansion Area Key requirements.
+  Smash's down attack clears the 149 ordinary floor. Room 147's documented vanilla
+  timed run is assumed, not emulator-replayed.
 - 510 peg7,7: chest; Stone592 -> 528 -> 513 upper -> 509 upper-right -> 510 upper.
   The final segments need no peg, metal or rope clearing. The UFO inside the chest
   chamber is never used to bootstrap entry. A lower horizontal-metal alternative
@@ -414,30 +461,85 @@ Wheel exclusivity is not established. A consolidated uninterrupted native replay
 now verifies Normal140 arrival, actual Wheelie acquisition, the independent108
 bomb,110 detour, fresh108 return, and chest collection. There were no RAM edits
 or reloads after initial140 setup. The exact108 lower-mid -> chest route is now enforced. Wheel140 supplies an early
-source when its actual output is Wheel. The19 regular statues in970 are not an
-admitted late fallback: patched-ROM access is unproved even with all15 physical
-switches reachable. The historical carry970 ->801 ->190 ->140 ->108 ->110 ->108
-retains Wheel once its start is supplied, but cannot prove access to that start.
-Its970-to140 geometry uses ordinary flight and avoids the190 statues. Only its final
-110 -> 108 return explicitly uses a fresh unoccupied room reset. Ordinary
-single-player opportunity for that reset is assumed; no adversarial-AI or bounded
-reset guarantee and no unlimited phone battery are claimed. Native code rebuilds
-original collision for a fresh room slot. The final arrival matches the witnessed
-Wheel race start. See the Wheel evidence appendix below and the room-owned traversal metadata in
-`data/regions/rooms.json`. Wheel is removed from
-starting abilities in every mode, while Stone remains.
+source when its actual output is Wheel. The 19 regular statues in room 970 provide a
+separate item-gated source alternative: independently reach 970 with
+`Copy Ability Room Access`, acquire an actual eligible Wheel grant with Wheel
+permission when gating is enabled, then carry 970 -> 801 -> 190 -> 140 -> 108 -> 110 -> 108.
+The carrier requires Rainbow Route East - Hub Connection; all 15 switches or all
+hub items cannot substitute for room access. Its 970-to-140 geometry uses ordinary
+flight and avoids the 190 statues. Only the final 110 -> 108 return explicitly
+uses a fresh unoccupied room reset. The combined replay below witnesses that reset
+in one controlled run; it is not an adversarial-AI or bounded-reset guarantee and
+does not assume unlimited phone battery. Native code rebuilds original collision
+for a fresh room slot. The final arrival matches the witnessed Wheel race start.
+See the Wheel evidence appendix below and the room-owned traversal metadata in
+`data/regions/rooms.json`. Wheel is removed from starting abilities in every mode,
+while Stone remains.
+
+### Combined patched-ROM Wheel acceptance
+
+The combined patch passes a controller-only carry from the actual fixed Wheel
+statue `0x088D6078` in room 970 through 801 -> 190 -> 140 -> 108 -> 110 -> fresh
+108 -> chest. Wheel (ID 4) and 6 HP remain continuous after acquisition, with no
+reloads or gameplay memory edits. Both room 108 bombs at `(44,17)` and `(36,18)`
+open before the detour and reconstruct as `0xF1` on return. An ordinary puff
+activates the race bomb; Wheel reaches the chest, stops, and Up opens it. The
+single recorded event uses native source `0x088B7288`, mapped to AP location
+`3960567`.
+
+This is a controlled initial Central Circle fixture at pixel `(96,80)` with
+synthetic authentication and a blank native battery loaded only at startup. It
+is explicitly distinct from the configured production-origin ROM. Mode 2 uses
+100% Normal included enemies, passive enemies included, fixed native statues,
+ability gating enabled, and Area Keys off. The emitted Minny option is false,
+so Minny remains fixed; all 73 included enemy table writes are Normal. Real
+production client item synchronization grants East Hub (`3860401`), Wheel
+permission (`3860104`), and Copy Ability Room Access (`3860500`) using simulated
+history and an in-process transport. This is not an external server session or
+full-campaign acceptance. Calibration attempts are excluded from the passing run.
+
+With only East Hub and Wheel permission, aligned Up remains outside room 970.
+Receipt of the room-access item opens entry without adding ability permissions.
+File 3 -> mode menu -> Back also preserves all 32,768 save bytes. A separate
+controlled, checksummed File 1 fixture starts with all 15 physical hub flags and
+legacy WORLD word 18 set. Production receipts of all 15 Hub Connection items
+produce mask `0xFFFE`, but without Copy Ability Room Access the runtime clears
+the legacy gate, ownership and ability permissions remain zero, and aligned Up
+cannot enter 970. That negative has no post-start fixture writes and is not a
+played 15-switch campaign.
+
+The tested identities are:
+
+- Clean input SHA-1: `274b102b6d940f46861a92b4e65f89a51815c12c`.
+- `base_patch.bsdiff4` SHA-256:
+  `56985f839a63505cdc1bb35c0e7332fb4444f06997f7bdbd5508fb70df380ce5`.
+- Patched base ROM SHA-256:
+  `0a0495c2f95af91f4433365c7b4ebb31ddd238c14b4e088541d88d0bf2bdb033`.
+- Configured production-origin ROM SHA-256:
+  `1c0e54360fe1558986896e6e2be6ba53c0c15f5e68e7ae4b478568a09f2879e9`.
+- Controlled hub-start ROM SHA-256:
+  `ac1d5caead2fc99b49060668f18569a3a722b646a25850a71ff43150f9c8b0df`.
+
+Independent review verifies all 19 native room 970 placements against their
+grant-table mappings and verifies that the reconstructed compiled payload matches
+the BSDIFF patch. Cached hooks, strict mypy on the six traversal modules, and 27
+release-related standalone tests pass. These checks do not establish additional
+gameplay routes or replace the pending clean full-suite rerun.
+
+### Remaining acceptance
 
 Before treating this draft as gameplay accepted:
 
 - Expand alternative witnesses where useful; all eleven AP peg targets have
   source-aware rules, but source availability is not guaranteed for every option
   combination. The three non-AP consumable pegs remain audit records.
-- Prove the patched special-mirror slot18 unlock before admitting any970 source.
-  Until then, dependent witnesses remain unavailable; historical geometry is not
-  runtime-access evidence.
-- Repeat the verified native Rainbow108 carrier/reset route on the rebuilt
-  randomized/gated ROM and investigate more speed alternatives. The current
-  rule retains the explicit fresh-room opportunity assumption.
+- Replay the complete room 970 Smash carrier on the combined patched ROM. The
+  passing Wheel carry and all-hubs negative do not validate Smash's rope, timing,
+  floor-clearing, or peg sequence.
+- Replay the local Wheelie acquisition route on the combined randomized/gated
+  ROM and investigate more speed alternatives. The passed statue carrier does
+  not validate local enemy retries; the rule retains its fresh-room opportunity
+  assumption.
 - Replay the full Olive Mini sequence with the rebuilt randomized/gated ROM.
 - Replay both Mustard5 arrivals and the Mini cross-side route on that ROM;
   its new compartment correction has native geometry and logic tests, not
@@ -450,7 +552,8 @@ Before treating this draft as gameplay accepted:
 - Complete target-specific Crash cannon timing and the remaining non-rope Cutter
   dependency review before broadening those claims. Burning and Cutter remain
   starting abilities.
-- Run the complete world suite and archive generation matrix on the final commit.
+- Finish the clean full-suite rerun and verify checks against the final published
+  commit. The installed archive matrix above is complete for this tested build.
 
 Research was pinned to native source commit
 `7d969fbce14fdc838d2c1ea01389717fb96c3189`. Published records contain compact
@@ -532,8 +635,12 @@ upward-only, not undirected flood-fill connections.
 
 - Path: 190, 143, 145, 146, 147, 148, 149.
 - Required equipment: Smash.
-- Historical late source path (currently unavailable): 970, 801, 190.
-- Historical late-access requirements: all15 physical hub switches reachable, Central reachable, East Hub Connection, actual970 statue assignment, and Smash gating. These are not sufficient patched-ROM access proof; no current witness may use970 until its slot18 unlock is proved.
+- Copy Ability Room source path: 970, 801, 190.
+- Access requirements: independently reachable room 970, `Copy Ability Room Access`,
+  an actual eligible room 970 Smash grant, and Smash permission when gating is enabled.
+  The carry retains East Hub Connection and the conditional Moonlight Mansion
+  Area Key. The old all-15-switch/Central guard is historical and is not an
+  alternative grant of room access.
 - Qualification: Smash Up+B0x2000 hits143 rope from344,216; Stone carry rejected.146 passes left/above heavy block.147 vanilla ordinary timed route assumed, puff retains Smash.149 Down+B calls Stone attack function and clears ordinary floor without dropping Smash. Local GiantRocky before peg remains separate early source.
 
 #### `peg_204_62_4`
@@ -1045,11 +1152,14 @@ For live randomization, a retry is useful only with an unlocked eligible output
 of positive probability. Repeated eligible draws use a conditional eventual-draw
 fairness assumption, never a bounded-attempt guarantee. Empty output pools and
 100% Normal included-enemy settings still fail these local source witnesses.
-Fixed ordinary-hub statues cannot supply the missing Wheel/Smash grants, and
-unavailable970 sources remain blocked. If no other reviewed source succeeds,
-full accessibility rejects the seed; minimal accessibility must instead pass
-normal fill and goal-accessibility validation with those routes closed.
-Static assignments and excluded categories must retain their actual grants.
+Fixed ordinary-hub statues cannot supply the missing Wheel/Smash grants. The
+separate room 970 statues can supply them only with room access and, when gating is
+enabled, the relevant ability permission; their availability does not change
+these local enemy witnesses. If
+no reviewed source succeeds, full accessibility rejects the seed; minimal
+accessibility must instead pass normal fill and goal-accessibility validation
+with those routes closed. Static assignments and excluded categories must retain
+their actual grants.
 
 Pinned native evidence, commit `7d969fbce14fdc838d2c1ea01389717fb96c3189`:
 
@@ -1061,8 +1171,11 @@ Pinned native evidence, commit `7d969fbce14fdc838d2c1ea01389717fb96c3189`:
 
 #### Ability-room fallback provenance
 
-**Historical geometry only; currently unavailable.** The following records do not
-establish that the patched ROM opens the970 mirror. See the runtime blocker above.
+These native source and carrier records accompany the current item-gated room
+970 contract above. They do not establish access without the item; the combined
+Wheel replay is recorded separately in the acceptance section. The prior
+all-switch access hypothesis is retained below as history, not as an alternative
+current gate.
 
 | Evidence point | Native detail |
 | --- | --- |
@@ -1075,10 +1188,11 @@ establish that the patched ROM opens the970 mirror. See the runtime blocker abov
 
 In the native game, all15 physical hub-switch activations populate WORLD
 slots1..15 and `WorldMapUnlockMain` sets slot18. The AP intercept bypasses that
-normal callback, and no replacement setter is proved. The earlier physical-switch
-reachability guard therefore does not establish patched-ROM970 access. Actual
-statue assignments and ability unlocks would still apply if access were proved. There is no forced pickup, obstacle, or
-ability change along the reviewed970-to140 carrier geometry. Permanent statues
+normal callback, which invalidated the earlier physical-switch reachability
+guard. The merged AP gate now checks `Copy Ability Room Access` instead; all 15
+switches and legacy word 18 remain insufficient. Actual statue assignments and
+ability unlocks apply after entry. There is no forced pickup, obstacle, or ability
+change along the reviewed 970-to-140 carrier geometry. Permanent statues
 can be retouched after dropping unwanted results. Positive-support repeated
 acquisition relies on fairness, not a finite guarantee; enemy no-ability weight
 does not remove statue outputs.
@@ -1153,7 +1267,7 @@ Stone/Beam do not cut. Hub 194 has fixed Cutter statue0x088B8528, key STATUE:353
 Laser0x088B854C, key3538FE. The carrier194->801->190->143 requires Rainbow Route South and
 East hub connections. Ordinary hub travel retains all five providers. This supplies a
 fixed-statue witness even when all included enemies return Normal, without relying on
-late970 access.
+Copy Ability Room access.
 
 Source: https://wikirby.com/wiki/Rainbow_Route_-_Room_42
 

@@ -8,7 +8,9 @@ from typing import Any
 from .data import data
 from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .traversal import SourcePolicy, TraversalGraph
-from .traversal_data import graph_access_regions, has_graph_access, room_traversal_graph, room_traversal_targets
+from .traversal_data import (
+    graph_access_regions, graph_items, has_graph_access, room_traversal_graph, room_traversal_targets,
+)
 
 
 @lru_cache(maxsize=1)
@@ -22,7 +24,7 @@ def validate_mini_sources(policy_data: dict[str, Any], include_statues: bool) ->
     all_permissions = frozenset(f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES)
     policy = SourcePolicy(policy_data, include_statues)
     for row, graph in mini_routes():
-        result = graph.evaluate(policy, all_permissions, True)
+        result = graph.evaluate(policy, all_permissions | graph_items(graph), True)
         if not all(result.reaches(target) for target in graph.required_targets):
             raise ValueError(f"Mini traversal contract has no fixed-source witness: {row['id']}")
 
@@ -43,6 +45,7 @@ def install_mini_rules(world: Any) -> None:
                 f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES
                 if state.has(f"{name} Ability", world.player)
             )
+            owned |= frozenset(item for item in graph_items(graph) if state.has(item, world.player))
             result = graph.evaluate(policy, owned, gating)
             return all(result.reaches(target) for target in graph.required_targets)
 

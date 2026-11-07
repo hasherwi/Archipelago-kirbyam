@@ -35,6 +35,12 @@ def requires_all_traversal_witnesses(world: Any) -> bool:
     )
 
 
+def graph_items(graph: TraversalGraph) -> frozenset[str]:
+    """Inventory prerequisites for both route traversal and source acquisition."""
+    return (frozenset(item for route in graph.routes for item in route.items)
+            | frozenset(item for source in graph.placements for item in source.requirements))
+
+
 def has_graph_access(world: Any, state: Any, graph: TraversalGraph) -> bool:
     """Test independent acquisition access, not inventory-as-equipment."""
     if graph.unavailable_reason is not None:
@@ -95,7 +101,8 @@ def compile_room_graph(
         if nodes.get(node) != definition["native_room"]:
             raise ValueError(f"Source set {key} is not in its native room at {node}")
         for placement in definition["sources"]:
-            source = {**placement, "node": node}
+            source = {**placement, "node": node,
+                      "items": sorted(set(definition.get("items", ())) | set(placement.get("items", ())))}
             if "retry_evidence" in reference:
                 source["retry_evidence"] = reference["retry_evidence"]
             sources.append(source)

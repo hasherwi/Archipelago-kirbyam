@@ -6,8 +6,9 @@ import pytest
 from BaseClasses import CollectionState
 
 from ..traversal import SourcePolicy
+from ..traversal_data import graph_items
 from ..wheel_traversal import (
-    CENTRAL_REGION, HUB_SWITCH_LABELS, RACE_ENTRANCE, wheel_graph,
+    CENTRAL_REGION, COPY_ROOM_REGION, HUB_SWITCH_LABELS, RACE_ENTRANCE, wheel_graph,
 )
 from .test_mini_traversal import make_world
 
@@ -16,20 +17,13 @@ from .test_mini_traversal import make_world
 @pytest.mark.parametrize("statues", [0, 1])
 @pytest.mark.parametrize("gating", [0, 1])
 def test_all_mode_statue_fallback_uses_actual_assignment(mode, statues, gating):
-    if mode and not statues:
-        reason = ("Reviewed Wheel-source search budget exhausted" if mode == 1
-                  else "No reviewed source witness for peg_149_35_18")
-        with pytest.raises(ValueError, match=reason):
-            make_world(mode, gating, ability_randomization_statues=statues,
-                       ability_randomization_no_ability_weight=100)
-        return
     world = make_world(mode, gating, ability_randomization_statues=statues,
                        ability_randomization_no_ability_weight=100)
     policy = SourcePolicy(world._enemy_copy_ability_policy, bool(statues))
     from ..traversal_data import room_traversal_graph
     graph = (wheel_graph(False) if mode == 0
-             else room_traversal_graph("wheel_108_chest", "hub_statues", True))
-    items = frozenset(item for route in graph.routes for item in route.items)
+             else room_traversal_graph("wheel_108_chest", "hub_statues" if statues else "statues", True))
+    items = graph_items(graph)
     assert graph.evaluate(policy, items | {"Wheel Ability"}, gating,
                           allow_documented_retries=True).reaches("chest")
     assert graph.evaluate(policy, items, gating,
@@ -50,21 +44,26 @@ def test_only_audited_return_resets_room_and_retains_wheel():
     assert any(position.node == "chest" and position.equipped == "Wheel" for position in result.positions)
 
 
-def test_970_stays_unavailable_even_with_all_physical_switches_and_items():
-    world = make_world(0, True)
+def test_970_needs_its_item_even_with_all_physical_switches_and_other_items():
+    world = make_world(2, True, ability_randomization_statues=False,
+                       ability_randomization_no_ability_weight=100)
     state = CollectionState(world.multiworld)
     for name in world.item_name_to_id:
-        state.collect(world.create_item(name), prevent_sweep=True)
+        if name != "Copy Ability Room Access":
+            state.collect(world.create_item(name), prevent_sweep=True)
     graph = wheel_graph(True)
     from ..traversal_data import has_graph_access
-    assert graph.unavailable_reason and "slot18" in graph.unavailable_reason
+    assert graph.unavailable_reason is None
+    assert not graph.requires_all_hub_switches
     with ExitStack() as stack:
-        stack.enter_context(patch.object(state, "can_reach_region", return_value=True))
         for name in HUB_SWITCH_LABELS:
             stack.enter_context(patch.object(world.multiworld.get_location(name, 1), "can_reach", return_value=True))
         assert not has_graph_access(world, state, graph)
-        assert not graph.evaluate(SourcePolicy({"mode": 0}), frozenset(world.item_name_to_id), False,
-                                  allow_documented_retries=True).reaches("chest")
+        target = world.multiworld.get_entrance(RACE_ENTRANCE, 1)
+        assert not target.access_rule(state)
+        state.collect(world.create_item("Copy Ability Room Access"), prevent_sweep=True)
+        assert has_graph_access(world, state, graph)
+        assert target.access_rule(state)
 
 
 def test_normal_race_witnesses_are_not_wheel_gated():
@@ -89,12 +88,6 @@ def test_wheel_and_mini_archive_accessibility(tmp_path, mode, statues, gating):
         f"  ability_gating: {gating}\n  ability_randomization_no_ability_weight: 100\n"
         "  room_sanity: 1\n", encoding="utf-8",
     )
-    if mode and not statues:
-        reason = ("Reviewed Wheel-source search budget exhausted" if mode == 1
-                  else "No reviewed source witness for peg_149_35_18")
-        with pytest.raises(ValueError, match=reason):
-            generate_archive_from_fixture(player, tmp_path / "output", seed=1041 + mode * 4 + statues * 2 + gating)
-        return
     archive = generate_archive_from_fixture(player, tmp_path / "output", seed=1041 + mode * 4 + statues * 2 + gating)
     decoded = load_multidata_from_archive(archive)
     starts = decoded["precollected_items"][1]
@@ -109,6 +102,6 @@ def test_all_indirect_source_regions_are_registered():
     from ..wheel_traversal import LOCAL_SOURCE_REGION
     world = make_world(0, True)
     entrance = world.multiworld.get_entrance(RACE_ENTRANCE, 1)
-    expected = {world.multiworld.get_region(name, 1) for name in (LOCAL_SOURCE_REGION, CENTRAL_REGION)}
-    expected.update(world.multiworld.get_location(name, 1).parent_region for name in HUB_SWITCH_LABELS)
+    expected = {world.multiworld.get_region(name, 1)
+                for name in (LOCAL_SOURCE_REGION, CENTRAL_REGION, COPY_ROOM_REGION)}
     assert all(entrance in world.multiworld.indirect_connections.get(region, set()) for region in expected)

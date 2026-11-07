@@ -8,6 +8,7 @@
   "ability_randomization_statues": false,
   "area_keys": true,
   "configured_area_boss": 7,
+  "copy_ability_room_protocol_version": 2,
   "core_landmark_location_ids": [
     3961070,
     3961094,
@@ -4119,6 +4120,14 @@
       "parent_region": "REGION_CARROT_CASTLE",
       "room_sanity_location_id": 3961260
     },
+    "REGION_COPY_ABILITY_ROOM/MAIN": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+      ],
+      "label": "REGION_COPY_ABILITY_ROOM/MAIN",
+      "parent_region": "REGION_COPY_ABILITY_ROOM",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_01": {
       "exits": [
         "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
@@ -6101,6 +6110,7 @@
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
       "exits": [
+        "REGION_COPY_ABILITY_ROOM/MAIN",
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS",
         "REGION_RAINBOW_ROUTE/ROOM_1_01",
         "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
@@ -6243,6 +6253,7 @@
     "REGION_RADISH_RUINS/ROOM_8_03 -> REGION_RADISH_RUINS/ROOM_8_CHEST_1"
   ],
   "starting_area_key_bitfield": 0,
+  "starting_copy_ability_room_access": false,
   "starting_kirby_color": 0,
   "starting_kirby_color_name": "Pink",
   "starting_kirby_color_randomize_on_room_transition": false,

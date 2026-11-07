@@ -142,6 +142,8 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch: pytest.MonkeyPa
     monkeypatch.setattr(patch_rom, "build_runtime_regression_writes", lambda *args: {})
     # The hub contract has separate corruption tests and local real-ROM validation.
     monkeypatch.setattr(patch_rom, "build_hub_teleport_writes", lambda *args: {})
+    monkeypatch.setattr(patch_rom, "build_copy_room_context_writes", lambda *args: {})
+    monkeypatch.setattr(patch_rom, "build_copy_room_native_grant_writes", lambda *args: {})
     rom = bytearray(b"\xA5" * 0x200000)
     # RC4 rolls back the coupled File 1/menu and WORLD-layout changes (#1037).
     # The native selector, Back route and all three files must remain untouched.
@@ -240,6 +242,8 @@ def test_door_to_hub_init_state_lookup_is_separate_and_left_native(monkeypatch) 
     monkeypatch.setattr(patch_rom, "build_initial_health_writes", lambda *args: {})
     monkeypatch.setattr(patch_rom, "build_health_hud_writes", lambda *args: {})
     monkeypatch.setattr(patch_rom, "build_hub_teleport_writes", lambda *args: {})
+    monkeypatch.setattr(patch_rom, "build_copy_room_context_writes", lambda *args: {})
+    monkeypatch.setattr(patch_rom, "build_copy_room_native_grant_writes", lambda *args: {})
     # sub_0802AD00 in special_doors.c activates the physical door from this
     # state. The hook belongs only to sub_0811938C's switch initializer.
     assert patch_rom.DOOR_TO_HUB_INIT_STATE_LOOKUP_CALL_OFFSET == 0x0002AD24

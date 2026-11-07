@@ -103,12 +103,6 @@ def test_health_cross_option_archive_generation(tmp_path, minimum, maximum, scen
         f"  ability_randomization_statues: {randomize_statues}\n",
         encoding="utf-8",
     )
-    if (ability_mode, no_ability_weight, randomize_statues) == (2, 100, 0):
-        # Keep every health-range case: this exact option combination has no
-        # reviewed peg149 source, independently of its health/pool settings.
-        with pytest.raises(ValueError, match=r"^No reviewed source witness for peg_149_35_18 in mode 2;"):
-            generate_archive_from_fixture(player, tmp_path / "output", seed=934 + scenario)
-        return
     archive = generate_archive_from_fixture(player, tmp_path / "output", seed=934 + scenario)
     decoded = load_multidata_from_archive(archive)
     slot_data = decoded["slot_data"][1]

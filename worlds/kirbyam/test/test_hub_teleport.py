@@ -43,6 +43,7 @@ def test_actual_mailbox_and_hub_dispatch(tmp_path: Path, optimization: str) -> N
         pytest.skip("requires Linux low-address memory mapping and C compiler")
     assert compiler is not None
     source = (PAYLOAD / "ap_payload.c").read_text()
+    source += "\n" + (PAYLOAD / "copy_room.c").read_text()
     # Only platform calls/register bindings are substituted. All mailbox,
     # item effects, readiness guards and acknowledgement code run unchanged.
     source = re.sub(r'register uint32_t (\w+) asm\("r\d+"\);', r'uint32_t \1 = 0;', source)

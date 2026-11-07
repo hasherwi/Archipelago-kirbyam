@@ -185,7 +185,7 @@ def test_mini_exact_directed_topology(target_id, native_room):
 
 @pytest.mark.parametrize("witness,rooms,access,switches", [
     ("local", [140, 108, 110, 108], "REGION_RAINBOW_ROUTE/ROOM_1_07", False),
-    ("statues", [970, 801, 190, 140, 108, 110, 108], CENTRAL, True),
+    ("statues", [970, 801, 190, 140, 108, 110, 108], "REGION_COPY_ABILITY_ROOM/MAIN", False),
 ])
 def test_wheel_exact_directed_topology_and_access(witness, rooms, access, switches):
     graph = room_traversal_graph("wheel_108_chest", witness)
@@ -218,7 +218,7 @@ def test_area_keys_are_option_dependent_without_losing_hub_requirements():
 def test_shared_statues_keep_physical_identity_across_witnesses():
     wheel = room_traversal_graph("wheel_108_chest", "statues")
     peg = room_traversal_graph("peg_149_35_18", "statues")
-    expected_wheel = ("0x088D612C", "STATUE:3538FE")
+    expected_wheel = ("0x088D6078", "STATUE:353904")
     for graph in (wheel, peg):
         identities = {(p.identity, p.source_key) for p in graph.placements}
         assert len(identities) == 19

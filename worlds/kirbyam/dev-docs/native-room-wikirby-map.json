@@ -3669,7 +3669,9 @@
       "native_id": 970,
       "completion_index": 286,
       "object_list_index": 286,
-      "ap_keys": [],
+      "ap_keys": [
+        "REGION_COPY_ABILITY_ROOM/MAIN"
+      ],
       "wiki_title": "Copy Ability Room",
       "wiki_url": "https://wikirby.com/wiki/Copy_Ability_Room",
       "verification": "shared",

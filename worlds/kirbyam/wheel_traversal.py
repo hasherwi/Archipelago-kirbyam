@@ -1,4 +1,4 @@
-"""Rainbow108 closing-chain route with local and all-switch statue sources.
+"""Rainbow108 closing-chain route with local and item-gated statue sources.
 
 The carry detour uses a fresh, unoccupied108 reset. This is an explicit
 single-player opportunity assumption, not every door transition or a bounded
@@ -12,7 +12,7 @@ from typing import Any
 from .traversal import SourcePolicy, TraversalGraph
 from .traversal_data import (
     HUB_SWITCH_LABELS as HUB_SWITCH_LABELS,
-    graph_access_regions, has_graph_access, requires_all_traversal_witnesses,
+    graph_access_regions, graph_items, has_graph_access, requires_all_traversal_witnesses,
     room_traversal_graph, room_traversal_targets,
 )
 
@@ -25,13 +25,14 @@ def wheel_graph(statue_room: bool) -> TraversalGraph:
 
 
 LOCAL_SOURCE_REGION = str(wheel_graph(False).access_region)
-CENTRAL_REGION = str(wheel_graph(True).access_region)
+COPY_ROOM_REGION = str(wheel_graph(True).access_region)
+CENTRAL_REGION = "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
 assert len(HUB_SWITCH_LABELS) == 15
 
 
 def static_wheel_witness(policy: SourcePolicy) -> bool:
     return any(
-        graph.evaluate(policy, frozenset(item for route in graph.routes for item in route.items), False)
+        graph.evaluate(policy, graph_items(graph), False)
         .reaches("chest")
         for graph in (room_traversal_graph(RACE["id"], witness) for witness in RACE["graphs"])
     )
@@ -48,14 +49,14 @@ def install_wheel_rules(world: Any) -> None:
     graphs = tuple(room_traversal_graph(RACE["id"], witness, world._area_keys_enabled()) for witness in RACE["graphs"])
     gating = world._ability_gating_enabled()
     all_items = frozenset(f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES)
-    all_items |= frozenset(item for graph in graphs for route in graph.routes for item in route.items)
+    all_items |= frozenset(item for graph in graphs for item in graph_items(graph))
     if requires_all_traversal_witnesses(world) and not any(
         graph.evaluate(policy, all_items, gating, allow_documented_retries=True).reaches("chest")
         for graph in graphs
     ):
         raise ValueError(
-            "No reviewed non-970 Wheel source witness for these options. "
-            "Room 970 is unavailable until patched-ROM access is independently verified."
+            "No reviewed Wheel source witness for these options; "
+            "unreviewed alternatives are not declared impossible. Try another seed."
         )
 
     def rule(state: Any) -> bool:
@@ -64,7 +65,7 @@ def install_wheel_rules(world: Any) -> None:
         for graph in graphs:
             if not has_graph_access(world, state, graph):
                 continue
-            items = owned | frozenset(item for route in graph.routes for item in route.items
+            items = owned | frozenset(item for item in graph_items(graph)
                                       if state.has(item, world.player))
             if graph.evaluate(policy, items, gating, allow_documented_retries=True).reaches("chest"):
                 return True

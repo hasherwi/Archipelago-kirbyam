@@ -16,9 +16,9 @@ No gameplay, region logic, locations, ROM patch or item pool changes accompany i
 | Unpopulated sentinel slots, in 58 inclusive ranges | 697 |
 | Populated records with a physical AP RoomSanity check | 263 |
 | Other populated records | 23 |
-| Top-level AP room keys accounted for | 321 |
-| Generated logical subregion aliases accounted for | 14 |
-| Total AP keys in the table | 335 |
+| Top-level AP room keys accounted for | 322 |
+| Generated logical subregion aliases accounted for | 20 |
+| Total AP keys in the table | 342 |
 | Additional logical compartment keys sharing physical records | 55 |
 | Tutorial keys without RoomSanity checks | 3 |
 
@@ -29,7 +29,7 @@ once. The table has no populated record for index 4. Native **806** (`0x326`)
 is a sentinel even though the decompilation's Dimension Mirror world-map list
 mentions it; a map-list entry alone does not establish a loadable room.
 
-The 55 top-level AP compartments and 14 generated logical subregions are aliases for purposes of this lookup, not additional
+The 55 top-level AP compartments and 20 generated logical subregions are aliases for purposes of this lookup, not additional
 native rooms. The table retains every full AP key, including the `parent__LOGIC__key` names
 constructed by [data.py](../data.py) from nested `logical_subregions`. For example, Rainbow Route
 Room 3's upper/lower logic keys both resolve to native 107 and completion 25.
@@ -514,7 +514,7 @@ if no equivalent exists.
 | 956 / `0x3BC` | 283 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance Mid-Bosses 3 encounter: Batafire and object spawner; native 956 is an explicit Boss Challenge Door destination | — |
 | 957 / `0x3BD` | 284 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance Mid-Bosses 2 encounter: Waddle Dee and object spawner; native 957 is an explicit Boss Challenge Door destination | — |
 | 969 / `0x3C9` | 285 | No established wiki equivalent | **internal**: Boss Endurance nonparticipant holding room: initializer assigns native 969 to nonhuman slots; no separately verified WiKirby room target, not an unused table slot | — |
-| 970 / `0x3CA` | 286 | [Copy Ability Room](https://wikirby.com/wiki/Copy_Ability_Room) | **shared**: Copy Ability Room linked to Central Circle: ability statues and return transition to native 801; shared article, distinct from native 950 Boss Endurance variant | — |
+| 970 / `0x3CA` | 286 | [Copy Ability Room](https://wikirby.com/wiki/Copy_Ability_Room) | **shared**: Copy Ability Room linked to Central Circle: ability statues and return transition to native 801; shared article, distinct from native 950 Boss Endurance variant | `REGION_COPY_ABILITY_ROOM/MAIN` |
 | 980 / `0x3D4` | 5 | [Goal Game](https://wikirby.com/wiki/Goal_Game) | **shared**: Goal Game variant; shared general article, no individual room page established | — |
 | 981 / `0x3D5` | 6 | [Goal Game](https://wikirby.com/wiki/Goal_Game) | **shared**: Goal Game variant; shared general article, no individual room page established | — |
 | 982 / `0x3D6` | 7 | [Goal Game](https://wikirby.com/wiki/Goal_Game) | **shared**: Goal Game variant; shared general article, no individual room page established | — |

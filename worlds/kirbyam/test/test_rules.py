@@ -346,7 +346,8 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
 
     room_regions = load_json_data("regions/rooms.json")
 
-    assert len(room_regions) == 321
+    assert len(room_regions) == 322
+    assert room_regions["REGION_COPY_ABILITY_ROOM/MAIN"]["locations"] == {}
 
     def room_sanity_metadata(region: dict[str, Any]) -> dict[str, Any]:
         direct = region.get("room_sanity")
@@ -452,7 +453,8 @@ def test_room_reachability_from_start() -> None:
 
     reachable = _reachable_rooms_from("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE")
 
-    assert len(reachable) == 313
+    assert len(reachable) == 314
+    assert "REGION_COPY_ABILITY_ROOM/MAIN" in reachable
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER" in reachable
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_06" in reachable
     assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE" in reachable

@@ -12,7 +12,7 @@ from typing import Any, Callable
 from .data import data
 from .traversal import SourcePolicy, TraversalGraph
 from .traversal_data import (
-    graph_access_regions, has_graph_access, requires_all_traversal_witnesses,
+    graph_access_regions, graph_items, has_graph_access, requires_all_traversal_witnesses,
     room_traversal_graph, room_traversal_targets,
 )
 
@@ -34,7 +34,7 @@ def carrier_reachable(world: Any, state: Any, policy: SourcePolicy, graph: Trave
                       owned: frozenset[str], gating: bool) -> bool:
     if not has_graph_access(world, state, graph):
         return False
-    required = frozenset(item for route in graph.routes for item in route.items)
+    required = graph_items(graph)
     owned |= frozenset(item for item in required if state.has(item, world.player))
     return graph.evaluate(policy, owned, gating, allow_documented_retries=True).reaches("target")
 
@@ -50,10 +50,11 @@ def peg_logic_enabled(policy: dict[str, Any]) -> bool:
 
 
 def _assignment_has_witness(row: dict[str, Any], policy: SourcePolicy) -> bool:
-    if peg_graph(row).evaluate(policy, frozenset(), False).reaches("target"):
+    local = peg_graph(row)
+    if local.evaluate(policy, graph_items(local), False).reaches("target"):
         return True
     for graph in carry_graphs(row, False):
-        items = frozenset(item for route in graph.routes for item in route.items)
+        items = graph_items(graph)
         if graph.evaluate(policy, items, False).reaches("target"):
             return True
     return False
@@ -128,7 +129,7 @@ def install_peg_rules(world: Any) -> None:
         graph = peg_graph(row)
         carriers = carry_graphs(row, world._area_keys_enabled())
         all_items = frozenset(f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES)
-        all_items |= frozenset(item for carrier in carriers for route in carrier.routes for item in route.items)
+        all_items |= frozenset(item for candidate in (graph, *carriers) for item in graph_items(candidate))
         if requires_all_traversal_witnesses(world) and not any(
             candidate.evaluate(policy, all_items, gating, allow_documented_retries=True).reaches("target")
             for candidate in (graph, *carriers)
@@ -144,8 +145,9 @@ def install_peg_rules(world: Any) -> None:
                 f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES
                 if state.has(f"{name} Ability", world.player)
             )
+            local_owned = owned | frozenset(item for item in graph_items(graph) if state.has(item, world.player))
             if (has_graph_access(world, state, graph)
-                    and graph.evaluate(policy, owned, gating, allow_documented_retries=True).reaches("target")):
+                    and graph.evaluate(policy, local_owned, gating, allow_documented_retries=True).reaches("target")):
                 return True
             return any(carrier_reachable(world, state, policy, carrier, owned, gating)
                        for carrier in carriers)

@@ -868,5 +868,11 @@
     "classification": "USEFUL",
     "item_id": 3860125,
     "tags": ["Abilities", "Unique"]
+  },
+  "COPY_ABILITY_ROOM_ACCESS": {
+    "label": "Copy Ability Room Access",
+    "classification": "PROGRESSION",
+    "item_id": 3860500,
+    "tags": ["RoomAccess"]
   }
 }

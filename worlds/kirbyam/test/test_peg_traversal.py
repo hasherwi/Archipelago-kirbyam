@@ -252,18 +252,20 @@ def test_513_reverse_bomb_bypass_does_not_unlock_forward_peg():
 
 
 @pytest.mark.parametrize("mode", [0, 1, 2])
-def test_149_room970_carrier_stays_unavailable(mode):
+def test_149_room970_carrier_requires_access_permission_and_route_items(mode):
     import random
     from ..ability_randomization import build_enemy_copy_ability_policy
     from ..peg_traversal import stone_carry_graph
+    from ..traversal_data import graph_items
     raw = build_enemy_copy_ability_policy(random.Random(773), mode, False, False, no_ability_weight=100)
     row = next(row for row in PEG_ROUTES if row["native_room"] == 149)
-    late = stone_carry_graph(row, True, statue_room=True)
-    items = frozenset(item for route in late.routes for item in route.items) | {"Smash Ability"}
-    assert late.unavailable_reason
-    for include_statues in (False, True):
-        assert not late.evaluate(SourcePolicy(raw, include_statues), items, True,
-                                 allow_documented_retries=True).reaches("target")
+    graph = stone_carry_graph(row, True, statue_room=True)
+    items = graph_items(graph) | {"Smash Ability"}
+    assert graph.unavailable_reason is None
+    policy = SourcePolicy(raw, False)
+    assert graph.evaluate(policy, items, True).reaches("target")
+    for item in items:
+        assert not graph.evaluate(policy, items - {item}, True).reaches("target"), item
 
 
 @pytest.mark.parametrize("mode", [1, 2])

@@ -183,19 +183,22 @@ def test_generate_early_passes_minimal_without_resampling(monkeypatch, mode):
     if mode:
         state = world.multiworld.get_all_state(False)
         for name in world.item_name_to_id:
-            state.collect(world.create_item(name), prevent_sweep=True)
+            if name != "Copy Ability Room Access":
+                state.collect(world.create_item(name), prevent_sweep=True)
         assert not world.multiworld.get_entrance(wheel_traversal.RACE_ENTRANCE, 1).access_rule(state)
         peg = world.multiworld.get_location(data.locations["MINOR_CHEST_MOONLIGHT_MANSION_2_20"].label, 1)
         assert not peg.access_rule(state)
 
 
 @pytest.mark.parametrize("accessibility", ["full", "minimal"])
-def test_room_970_stays_unavailable_with_all_access_and_items(accessibility):
+def test_room_970_requires_independent_access_in_every_accessibility(accessibility):
     graph = wheel_traversal.wheel_graph(True)
-    assert graph.unavailable_reason
+    assert graph.unavailable_reason is None
     world = SimpleNamespace(player=1, options=SimpleNamespace(accessibility=Accessibility.from_any(accessibility)))
-    state = SimpleNamespace(can_reach_region=lambda *_: True, has=lambda *_: True)
+    state = SimpleNamespace(can_reach_region=lambda *_: False, has=lambda *_: True)
     assert not has_graph_access(world, state, graph)
+    state.can_reach_region = lambda region, player: region == "REGION_COPY_ABILITY_ROOM/MAIN"
+    assert has_graph_access(world, state, graph)
     assert not graph.evaluate(SourcePolicy({"mode": 0}), frozenset({"Wheel Ability"}), False,
                               allow_documented_retries=True).reaches("chest")
 
@@ -240,7 +243,7 @@ def replay_fuzz_case(monkeypatch, tmp_path, case, *, companion=None):
     return Main.main(generated_args, actual_seed)
 
 
-def test_exact_fuzz_69_minimal_generates_beatable_with_unreachable_checks(monkeypatch, tmp_path):
+def test_exact_fuzz_69_minimal_preserves_policy_and_uses_copy_room(monkeypatch, tmp_path):
     from ..rules import _BOSS_DEFEAT_LOCATION_LABELS
 
     multiworld = replay_fuzz_case(monkeypatch, tmp_path, 69)
@@ -253,44 +256,45 @@ def test_exact_fuzz_69_minimal_generates_beatable_with_unreachable_checks(monkey
     assert not world.options.ability_randomization_statues.value
     state = multiworld.get_all_state(False)
     unreachable = {location.name for location in multiworld.get_locations() if not location.can_reach(state)}
-    assert unreachable == {"Rainbow Route 1-06 (Lower) - Small Chest", "Moonlight Mansion 2-20 - Small Chest"}
+    assert unreachable == set()
     assert all(state.can_reach_location(name, 1) for name in _BOSS_DEFEAT_LOCATION_LABELS)
+    assert multiworld.get_entrance(wheel_traversal.RACE_ENTRANCE, 1).access_rule(state)
+    assert multiworld.get_location("Moonlight Mansion 2-20 - Small Chest", 1).access_rule(state)
+    assert has_graph_access(world, state, wheel_traversal.wheel_graph(True))
+    # get_all_state collects both the item pool and filled-location sweep.
+    while state.has("Copy Ability Room Access", world.player):
+        state.remove(world.create_item("Copy Ability Room Access"))
     assert not multiworld.get_entrance(wheel_traversal.RACE_ENTRANCE, 1).access_rule(state)
     assert not multiworld.get_location("Moonlight Mansion 2-20 - Small Chest", 1).access_rule(state)
-    assert not has_graph_access(world, state, wheel_traversal.wheel_graph(True))
 
 
-def test_exact_fuzz_95_full_keeps_fail_closed_validation(monkeypatch, tmp_path):
-    with pytest.raises(ValueError, match="No reviewed source witness for peg_149_35_18 in mode 2"):
-        replay_fuzz_case(monkeypatch, tmp_path, 95)
+def test_exact_fuzz_95_full_generates_with_proved_copy_room_route(monkeypatch, tmp_path):
+    multiworld = replay_fuzz_case(monkeypatch, tmp_path, 95)
+    world = multiworld.worlds[1]
+    assert world.options.accessibility.value == Accessibility.option_full
+    assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
+    state = multiworld.get_all_state(False)
+    assert all(location.can_reach(state) for location in multiworld.get_locations())
+    assert has_graph_access(world, state, wheel_traversal.wheel_graph(True))
+    # get_all_state collects both the item pool and filled-location sweep.
+    while state.has("Copy Ability Room Access", world.player):
+        state.remove(world.create_item("Copy Ability Room Access"))
+    assert not multiworld.get_location("Moonlight Mansion 2-20 - Small Chest", 1).access_rule(state)
 
 
-def test_mixed_accessibility_keeps_full_players_items_out_of_closed_checks(monkeypatch, tmp_path):
-    from BaseClasses import ItemClassification
-
-    multiworld = replay_fuzz_case(monkeypatch, tmp_path, 69, companion="default")
+@pytest.mark.parametrize("companion", ["default", 95])
+def test_mixed_accessibility_copy_room_access_is_per_player(monkeypatch, tmp_path, companion):
+    multiworld = replay_fuzz_case(monkeypatch, tmp_path, 69, companion=companion)
     minimal, full = multiworld.worlds[1], multiworld.worlds[2]
     assert minimal.options.accessibility.value == Accessibility.option_minimal
     assert full.options.accessibility.value == Accessibility.option_full
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     state = multiworld.get_all_state(False)
-    closed = [location for location in multiworld.get_locations() if not location.can_reach(state)]
-    assert {(location.player, location.name) for location in closed} == {
-        (1, "Rainbow Route 1-06 (Lower) - Small Chest"), (1, "Moonlight Mansion 2-20 - Small Chest"),
-    }
-    protected = [full.create_item(name) for name in full.item_name_to_id]
-    protected = [item for item in protected if item.classification & (
-        ItemClassification.progression | ItemClassification.useful
-    )]
-    assert protected
-    for location in closed:
-        assert all(not location.item_rule(item) for item in protected)
-        assert location.item is not None
-        assert location.item.player == 1 or not location.item.classification & (
-            ItemClassification.progression | ItemClassification.useful
-        )
-
-
-def test_minimal_player_does_not_suppress_full_players_source_rejection(monkeypatch, tmp_path):
-    with pytest.raises(ValueError, match="No reviewed source witness for peg_149_35_18 in mode 2"):
-        replay_fuzz_case(monkeypatch, tmp_path, 69, companion=95)
+    assert all(location.can_reach(state) for location in multiworld.get_locations())
+    while state.has("Copy Ability Room Access", minimal.player):
+        state.remove(minimal.create_item("Copy Ability Room Access"))
+    graph = wheel_traversal.wheel_graph(True)
+    assert not has_graph_access(minimal, state, graph)
+    assert has_graph_access(full, state, graph)
+    assert not multiworld.get_entrance(wheel_traversal.RACE_ENTRANCE, 1).access_rule(state)
+    assert multiworld.get_entrance(wheel_traversal.RACE_ENTRANCE, 2).access_rule(state)

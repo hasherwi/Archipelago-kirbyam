@@ -1,36 +1,8 @@
 {
-  "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
-    "locations": {
-      "room_sanity": {
-        "included": true,
-        "location_id": 3961000,
-        "bit_index": 0
-      }
-    },
+  "REGION_COPY_ABILITY_ROOM/MAIN": {
+    "locations": {},
     "exits": {
-      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS": "can_fly",
-      "REGION_RAINBOW_ROUTE/ROOM_1_01": null,
-      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1": {
-        "item": "Rainbow Route East - Hub Connection"
-      },
-      "REGION_MOONLIGHT_MANSION/ROOM_2_HUB": {
-        "item": "Moonlight Mansion - Hub Connection"
-      },
-      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": {
-        "item": "Rainbow Route West - Hub Connection"
-      },
-      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": {
-        "item": "Peppermint Palace East - Hub Connection"
-      },
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": {
-        "item": "Cabbage Cavern East - Hub Connection"
-      },
-      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2": {
-        "item": "Rainbow Route South - Hub Connection"
-      },
-      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {
-        "item": "Cabbage Cavern West - Hub Connection"
-      }
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
     },
     "traversal": {
       "version": 1,
@@ -172,9 +144,51 @@
               "renewable_evidence": "Permanent statue retouch without consumption: ability_objects.c:sub_080AA588"
             }
           ],
-          "unavailable": "Patched-ROM access is unverified: the native special mirror requires WORLD slot18, but AP bypasses the normal setter callback and no replacement setter is established. Fail closed; physical switch visits or received Hub Connections alone are not accepted proof."
+          "items": [
+            "Copy Ability Room Access"
+          ]
         }
+      }
+    }
+  },
+  "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
+    "locations": {
+      "room_sanity": {
+        "included": true,
+        "location_id": 3961000,
+        "bit_index": 0
+      }
+    },
+    "exits": {
+      "REGION_COPY_ABILITY_ROOM/MAIN": {
+        "item": "Copy Ability Room Access"
       },
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS": "can_fly",
+      "REGION_RAINBOW_ROUTE/ROOM_1_01": null,
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1": {
+        "item": "Rainbow Route East - Hub Connection"
+      },
+      "REGION_MOONLIGHT_MANSION/ROOM_2_HUB": {
+        "item": "Moonlight Mansion - Hub Connection"
+      },
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3": {
+        "item": "Rainbow Route West - Hub Connection"
+      },
+      "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": {
+        "item": "Peppermint Palace East - Hub Connection"
+      },
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1": {
+        "item": "Cabbage Cavern East - Hub Connection"
+      },
+      "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2": {
+        "item": "Rainbow Route South - Hub Connection"
+      },
+      "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3": {
+        "item": "Cabbage Cavern West - Hub Connection"
+      }
+    },
+    "traversal": {
+      "version": 1,
       "graph_parts": {
         "ordinary_hub_statues": {
           "version": 1,
@@ -1143,8 +1157,7 @@
                 }
               ],
               "access": {
-                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-                "all_hub_switches": true
+                "region": "REGION_COPY_ABILITY_ROOM/MAIN"
               }
             },
             "hub_statues": {
@@ -3472,8 +3485,7 @@
                 }
               ],
               "access": {
-                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-                "all_hub_switches": true
+                "region": "REGION_COPY_ABILITY_ROOM/MAIN"
               }
             },
             "hub_statues": {

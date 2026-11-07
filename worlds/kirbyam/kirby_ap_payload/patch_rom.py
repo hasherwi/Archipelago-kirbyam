@@ -1028,6 +1028,9 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
             payload_elf_path, "ap_vitality_collection_menu_count"),
         "initial_health_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_initial_health_capacity"),
+        "copy_room_load_target": resolve_elf_symbol_address(payload_elf_path, "ap_copy_room_load_entry"),
+        "copy_room_clear_target": resolve_elf_symbol_address(payload_elf_path, "ap_copy_room_clear_entry"),
+        "copy_room_state_target": resolve_elf_symbol_address(payload_elf_path, "ap_copy_room_state_entry"),
         "health_hud_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_draw_health_hud"),
         "hub_trap_hook_target": resolve_elf_symbol_address(payload_elf_path, "ap_after_tasks"),
@@ -1088,6 +1091,9 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
 
 
 _PAYLOAD_TARGET_LABELS = {
+    "copy_room_load_target": "Copy Room load guard",
+    "copy_room_clear_target": "Copy Room clear guard",
+    "copy_room_state_target": "Copy Room state guard",
     "health_hud_hook_target": "health HUD trailing-tile cleanup",
     "treasure_paint_hook_target": "explicit treasure paint choice",
     "initial_health_hook_target": "configured native initial health",
@@ -1136,6 +1142,35 @@ def validate_payload_targets(
                 f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
                 "Check your payload.elf link address and PAYLOAD_OFFSET."
             )
+
+
+COPY_ROOM_NATIVE_CALLS = (
+    (0x0800A91C, "copy_room_load_target", (0x222, 0x242, 0x32384, 0x138CB2,
+     0x13CA80, 0x140430, 0x141CA0, 0x142638, 0x1428AE)),
+    (0x0800AC00, "copy_room_clear_target", (0x22E, 0x250, 0x270, 0x25F9E,
+     0x32390, 0x138D10, 0x13CA8C, 0x14043C, 0x141CAC, 0x142644, 0x1428BA, 0x1429A6)),
+    (0x08002888, "copy_room_state_target", (0x1E5B2,)),
+)
+
+
+def build_copy_room_context_writes(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
+    """Wrap exact USA calls, preserving native selector, bounds and save layout."""
+    writes = {}
+    for native, key, offsets in COPY_ROOM_NATIVE_CALLS:
+        for offset in offsets:
+            validate_expected_instruction_sequence(
+                rom, offset, thumb_bl_bytes(0x08000000 + offset, native), key)
+            writes[offset] = thumb_bl_bytes(0x08000000 + offset, targets[key])
+    return writes
+
+
+def build_copy_room_native_grant_writes(rom: bytes | bytearray) -> dict[int, bytes]:
+    """Keep native switch progress/cleanup without all-switch room ownership."""
+    validate_expected_instruction_sequence(rom, 0x12630A, bytes.fromhex(
+        "0f 2d 46 d1 02 20 12 21 00 22 dc f6 b8 fa 01 21 01 60"), "Copy Room native grant")
+    validate_expected_instruction_sequence(rom, 0x12639C, bytes.fromhex(
+        "03 48 00 68 2c f0 4c fc 13 f7 64 f9"), "Copy Room native cleanup")
+    return {0x12630C: bytes.fromhex("46 e0")}
 
 
 # USA native register contracts: full-room scanner holds template/LevelInfo in
@@ -1684,6 +1719,8 @@ def patch_rom_with_payload(
         "extended payload retail zero padding",
     )
     regression_writes = build_hub_teleport_writes(rom, hook_targets["hub_trap_hook_target"])
+    regression_writes.update(build_copy_room_context_writes(rom, hook_targets))
+    regression_writes.update(build_copy_room_native_grant_writes(rom))
     regression_writes.update(build_runtime_regression_writes(rom, hook_targets, rom_base))
     regression_writes.update(build_health_hud_writes(
         rom, hook_targets["health_hud_hook_target"], rom_base))

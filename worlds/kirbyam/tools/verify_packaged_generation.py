@@ -46,37 +46,13 @@ def matrix_cases():
         }
 
 
-def expected_source_rejection(options):
-    """Only the audited unsupported source combinations are expected failures."""
-    if (options['ability_randomization_no_ability_weight'] != 100
-            or options['ability_randomization_statues']):
-        return None
-    return {
-        1: 'Reviewed Wheel-source search budget exhausted',
-        2: 'No reviewed source witness for peg_149_35_18 in mode 2;',
-    }.get(options['ability_randomization_mode'])
-
-
-def checked_generation(generate, options):
-    """Return the exact expected rejection; propagate every unexpected failure."""
-    expected = expected_source_rejection(options)
-    try:
-        generate()
-    except ValueError as error:
-        if expected is None or not str(error).startswith(expected):
-            raise
-        return str(error)
-    if expected is not None:
-        raise AssertionError(f'Expected source rejection did not occur: {expected}')
-    return None
-
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--apworld', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--seeds', type=int, nargs='+', default=[935, 202610120972, 0])
     parser.add_argument('--limit', type=int)
+    parser.add_argument('--copy-room-precollection', action='store_true')
     args = parser.parse_args()
     # Resolve the AP runtime, not the directory containing this verification tool.
     sys.path.insert(0, str(Path.cwd()))
@@ -101,8 +77,12 @@ def main():
     assert len(room_ids) == 263
     args.output.mkdir(parents=True, exist_ok=True)
     cases = list(matrix_cases())[:args.limit]
+    if args.copy_room_precollection:
+        baseline = next(matrix_cases())[1]
+        cases = [(index, {**baseline, 'room_sanity': index,
+                          'start_inventory': {'Copy Ability Room Access': 1}})
+                 for index in range(2)]
     passed = slots = 0
-    rejected = []
     coverage: dict[str, set[str]] = {}
     started = time.monotonic()
     logging.disable(logging.CRITICAL)
@@ -131,44 +111,44 @@ def main():
                 ])
                 settings.weights_file_path = settings.meta_file_path = None
                 settings.race = False
-                rejection = checked_generation(lambda: Main.main(*Generate.main(settings)), options)
-                if rejection is not None:
-                    assert not list((case_root / 'output').glob('*.zip')), 'Rejected generation produced an archive'
-                    rejected.append({'case': index, 'seed': seed, 'players': players, 'reason': rejection})
-                else:
-                    archives = list((case_root / 'output').glob('*.zip'))
-                    assert len(archives) == 1
-                    with zipfile.ZipFile(archives[0]) as archive:
-                        md = [n for n in archive.namelist() if n.endswith('.archipelago')]
-                        patches = [n for n in archive.namelist() if n.endswith('.apkirbyam')]
-                        assert len(md) == 1 and len(patches) == players
-                        decoded = Context.decompress(archive.read(md[0]))
-                        for player in range(1, players + 1):
-                            actual = set(decoded['locations'][player]) & room_ids
-                            enabled = decoded['slot_data'][player]['room_sanity']
-                            core_ids = {loc.location_id for loc in data.locations.values()
-                                        if 'CoreLandmark' in loc.tags}
-                            assert actual == (room_ids if enabled else core_ids)
-                        for name in patches:
-                            with zipfile.ZipFile(io.BytesIO(archive.read(name))) as patch:
-                                assert patch.read('base_patch.bsdiff4') == base_patch
+                Main.main(*Generate.main(settings))
+                archives = list((case_root / 'output').glob('*.zip'))
+                assert len(archives) == 1
+                with zipfile.ZipFile(archives[0]) as archive:
+                    md = [n for n in archive.namelist() if n.endswith('.archipelago')]
+                    patches = [n for n in archive.namelist() if n.endswith('.apkirbyam')]
+                    assert len(md) == 1 and len(patches) == players
+                    decoded = Context.decompress(archive.read(md[0]))
+                    for player in range(1, players + 1):
+                        actual = set(decoded['locations'][player]) & room_ids
+                        slot = decoded['slot_data'][player]
+                        assert slot['copy_ability_room_protocol_version'] == 2
+                        expected_start = args.copy_room_precollection
+                        assert slot['starting_copy_ability_room_access'] is expected_start
+                        assert decoded['precollected_items'][player].count(3860500) == int(expected_start)
+                        assert 'shared_save_protocol_version' not in slot
+                        assert sum(entry[0] == 3860500 and entry[1] == player
+                                   for locations in decoded['locations'].values()
+                                   for entry in locations.values()) == 1
+                        enabled = decoded['slot_data'][player]['room_sanity']
+                        core_ids = {loc.location_id for loc in data.locations.values()
+                                    if 'CoreLandmark' in loc.tags}
+                        assert actual == (room_ids if enabled else core_ids)
+                    for name in patches:
+                        with zipfile.ZipFile(io.BytesIO(archive.read(name))) as patch:
+                            assert patch.read('base_patch.bsdiff4') == base_patch
             except Exception:
                 print(f'FAIL case={index} seed={seed} players={players}; retained {case_root}', flush=True)
                 raise
             else:
                 import shutil
                 shutil.rmtree(case_root)
-                if rejection is None:
-                    passed += 1
-                    slots += players
+                passed += 1
+                slots += players
             if passed % 48 == 0:
                 print(f'PASS archives={passed} slots={slots}', flush=True)
     result = {'runtime': Utils.__version__, 'artifact_sha256': hashlib.sha256(package.read_bytes()).hexdigest(),
               'cases': len(cases), 'seeds': args.seeds, 'archives': passed, 'slots': slots,
-              'rejections': rejected, 'rejected_cases': len(rejected),
-              'rejected_slots': sum(case['players'] for case in rejected),
-              'attempts': passed + len(rejected),
-              'attempted_slots': slots + sum(case['players'] for case in rejected),
               'seconds': round(time.monotonic()-started, 2),
               'option_values': {k: sorted(v) for k, v in coverage.items()},
               'scope': 'Cartesian graph factors; cycling other boundaries, not all option tuples or seeds'}

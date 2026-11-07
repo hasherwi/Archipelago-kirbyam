@@ -8,7 +8,7 @@ from .data import data
 from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .traversal import SourcePolicy, TraversalGraph
 from .traversal_data import (
-    graph_access_regions, has_graph_access, requires_all_traversal_witnesses,
+    graph_access_regions, graph_items, has_graph_access, requires_all_traversal_witnesses,
     room_traversal_graph, room_traversal_targets,
 )
 
@@ -19,11 +19,6 @@ def extra_traversal_targets() -> tuple[dict[str, Any], ...]:
 
 def target_graphs(row: dict[str, Any], area_keys: bool) -> tuple[TraversalGraph, ...]:
     return tuple(room_traversal_graph(row["id"], witness, area_keys) for witness in row["graphs"])
-
-
-def graph_items(graph: TraversalGraph) -> frozenset[str]:
-    return (frozenset(item for route in graph.routes for item in route.items)
-            | frozenset(item for source in graph.placements for item in source.requirements))
 
 
 def graph_succeeds(graph: TraversalGraph, policy: SourcePolicy, owned: frozenset[str], gating: bool,

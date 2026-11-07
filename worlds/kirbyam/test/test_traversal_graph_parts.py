@@ -179,15 +179,39 @@ def test_ordinary_hub_network_physical_census_and_directed_guards():
     assert reverse.items == {'Olive Ocean - Hub Connection', 'Cabbage Cavern - Area Key'}
 
 
-def test_every_970_source_reference_is_unavailable():
+def test_every_970_source_reference_uses_copy_room_item_and_independent_region():
+    from ..traversal_data import graph_items
     targets, sources, _ = production_catalog()
-    assert sources['statues_970']['unavailable'].strip()
+    assert sources['statues_970']['items'] == ['Copy Ability Room Access']
+    assert 'unavailable' not in sources['statues_970']
+    assert 'statues_970' in data.regions['REGION_COPY_ABILITY_ROOM/MAIN'].traversal['source_sets']
     checked = 0
     for row in targets:
         for witness, payload in row['graphs'].items():
             if any(ref['id'] == 'statues_970' for ref in payload.get('source_sets', [])):
                 checked += 1
                 graph = room_traversal_graph(row['id'], witness)
-                assert graph.unavailable_reason
-                assert not graph.evaluate(SourcePolicy({'mode': 0}), frozenset(), False, True).positions
-    assert checked >= 2
+                assert graph.unavailable_reason is None
+                assert graph.access_region == 'REGION_COPY_ABILITY_ROOM/MAIN'
+                assert not graph.requires_all_hub_switches
+                assert all('Copy Ability Room Access' in p.requirements for p in graph.placements)
+                owned = graph_items(graph)
+                assert all(graph.evaluate(SourcePolicy({'mode': 0}), owned, False).reaches(target)
+                           for target in graph.required_targets)
+                assert not any(graph.evaluate(SourcePolicy({'mode': 0}),
+                                              owned - {'Copy Ability Room Access'}, False).reaches(target)
+                               for target in graph.required_targets)
+    assert checked == 2
+
+
+def test_source_set_item_requirements_union_without_replacing_placement_items(bundle):
+    bundle[1]['physical']['items'] = ['Room item']
+    bundle[1]['physical']['sources'][0]['items'] = ['Source item']
+    before = deepcopy(bundle)
+    graph = compile_bundle(bundle)
+    assert graph.placements[0].requirements == {'Room item', 'Source item'}
+    policy = SourcePolicy({'mode': 0})
+    assert graph.evaluate(policy, frozenset({'Room item', 'Source item'}), False).reaches('target')
+    for owned in (frozenset(), frozenset({'Room item'}), frozenset({'Source item'})):
+        assert not graph.evaluate(policy, owned, False).reaches('target')
+    assert bundle == before
