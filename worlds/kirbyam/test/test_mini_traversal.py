@@ -143,3 +143,79 @@ def test_mustard_5_native_entries_and_local_sources_are_not_merged():
                            ("mini_321_cross_to_right", "minny_088c4db4"),
                            ("mini_321_right_lower", "minny_088c4dd8")):
         assert {p.identity for p in room_traversal_graph(target, "local").placements} == {source}
+
+
+def test_mustard_cross_side_metadata_records_sufficient_recovery_witness():
+    from ..traversal_data import room_traversal_graph, room_traversal_targets
+
+    target = "mini_321_cross_to_right"
+    row = next(row for row in room_traversal_targets("mini") if row["id"] == target)
+    payload = row["graphs"]["local"]
+    route = next(route for route in payload["routes"] if route.get("capability") == "mini_corridor")
+    assert route["recover_dropped_ability"] is True
+    assert "y425->393->361->313" in route["evidence"]
+    assert "raw23/type0xA3" in route["evidence"]
+    assert "inhale-and-spit the Flamer rightward while Normal" in route["evidence"]
+    graph = room_traversal_graph(target, "local")
+    recovery, = [route for route in graph.routes if route.recover_dropped_ability]
+    assert (recovery.source, recovery.target) == (target + ":source", target + ":target")
+    assert not recovery.room_transition and not recovery.resets_room_instance
+    source, = graph.placements
+    assert (source.identity, source.source_key) == ("minny_088c4db4", "MINNY")
+    assert not source.renewable and source.retry_evidence is None
+    assert all(position.equipped == "Normal" for position in graph.starts)
+
+
+@pytest.mark.parametrize("gating", [False, True])
+def test_mustard_cross_side_recovery_still_needs_local_minny_and_permission(gating):
+    from dataclasses import replace
+    from .test_traversal import policy
+    from ..traversal_data import room_traversal_graph
+
+    target = "mini_321_cross_to_right:target"
+    graph = room_traversal_graph("mini_321_cross_to_right", "local")
+    resolver = policy(2, minny=False, weight=100)
+    owned = frozenset({"Mini Ability"})
+    assert graph.evaluate(resolver, owned, gating).reaches(target)
+    assert graph.evaluate(resolver, frozenset(), gating).reaches(target) is (not gating)
+    assert not replace(graph, placements=()).evaluate(resolver, owned, gating).reaches(target)
+    # The cleared Flamer is not the initial Mini source or a manufactured star.
+    source, = graph.placements
+    ordinary_source = replace(source, source_key="FLAMER")
+    assert not replace(graph, placements=(ordinary_source,)).evaluate(resolver, owned, gating).reaches(target)
+
+
+@pytest.mark.parametrize("recovery", ["absent", "wrong_ability", "uncertain", "can_fail"])
+def test_mustard_cross_side_requires_supported_guaranteed_recovery(monkeypatch, recovery):
+    from ..traversal import Grant
+    from ..traversal_data import room_traversal_graph
+    from .test_traversal import policy
+
+    graph = room_traversal_graph("mini_321_cross_to_right", "local")
+    resolver = policy(2, minny=False, weight=100)
+    outcomes = {
+        "absent": Grant(frozenset()),
+        "wrong_ability": Grant(frozenset({"Stone"})),
+        "uncertain": Grant(frozenset({"Mini", "Stone"}), randomized=True),
+        "can_fail": Grant(frozenset({"Mini"}), can_fail=True),
+    }
+    monkeypatch.setattr(resolver, "dropped_star_grant", lambda *args: outcomes[recovery])
+    result = graph.evaluate(resolver, frozenset({"Mini Ability"}), True, allow_documented_retries=True)
+    assert not result.reaches("mini_321_cross_to_right:target")
+    assert result.reaches("mini_321_cross_to_right:bypass")
+
+
+def test_installed_mustard_cross_side_recovery_does_not_gate_ordinary_upper_exit():
+    from unittest.mock import patch
+    from ..traversal import Grant
+
+    world = make_world(2, True, ability_randomization_no_ability_weight=100)
+    state = CollectionState(world.multiworld)
+    state.collect(world.create_item("Mini Ability"), prevent_sweep=True)
+    base = "REGION_MUSTARD_MOUNTAIN/ROOM_4_05"
+    cross = world.multiworld.get_entrance(base + " -> " + base + "__LOGIC__RIGHT_ENTRY", 1)
+    upper = world.multiworld.get_entrance(base + " -> REGION_MUSTARD_MOUNTAIN/ROOM_4_09", 1)
+    assert cross.access_rule(state)
+    with patch.object(SourcePolicy, "dropped_star_grant", return_value=Grant(frozenset())):
+        assert not cross.access_rule(state)
+        assert upper.access_rule(state)

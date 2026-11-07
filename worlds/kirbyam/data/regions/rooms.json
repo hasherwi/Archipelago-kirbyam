@@ -4884,8 +4884,8 @@
                   "from": "mini_321_cross_to_right:source",
                   "to": "mini_321_cross_to_right:target",
                   "capability": "mini_corridor",
-                  "recover_dropped_ability": false,
-                  "evidence": "docs/traversal-logic.md#mustard-5-entry-compartments"
+                  "recover_dropped_ability": true,
+                  "evidence": "Controller-tested sufficient witness: cross first 0x59 throat, drop Mini, inhale-and-spit the Flamer rightward while Normal, recover the actual raw23/type0xA3 Mini star, then use stepped jumps y425->393->361->313 to cross the second throat (mode2/100% Normal). This does not establish that every path requires recovery. docs/traversal-logic.md#mustard-5-entry-compartments"
                 },
                 {
                   "from": "mini_321_cross_to_right:arrival",

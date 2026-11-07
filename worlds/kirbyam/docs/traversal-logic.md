@@ -34,10 +34,11 @@ item-gated feature supersedes that restriction, not the historical finding that
 all-switch or legacy-word access was unsound.
 
 The native geometry and source evidence below support the room-owned carrier
-rules. A controller-only Wheel carrier replay now passes on the combined patch,
-under the controlled fixture described in the Wheel section. This does not
-establish the Smash carrier, Mini sequences, ordinary-enemy retry loops, or cannon
-timing. Those gameplay acceptance gaps remain listed below.
+rules. Controller-only Wheel and Smash carriers, the Olive Mini sequence, and
+entry-specific Mustard Mini routes now pass under the controlled fixtures below.
+The Mustard runs take damage and do not establish one-hit or low-health safety.
+Ordinary-enemy retry loops, cannon timing, and the other listed acceptance gaps
+remain separate from those results.
 
 ## Generation and accessibility
 
@@ -77,7 +78,7 @@ per-player access. The replay tests use the pinned fixture hashes and normal
 generation entrypoints in
 [`test_traversal_accessibility.py`](../test/test_traversal_accessibility.py).
 
-The focused integration suite passes all 325 tests, including these exact
+The initial focused integration suite passes all 325 tests, including these exact
 replays and true zero-item negatives. Installed-APWorld generation on runtime
 0.6.8 succeeds for 34 archives / 51 slots: 32 archives / 48 slots in the main
 matrix and 2 archives / 3 slots for explicit precollection. The matrix's former
@@ -85,8 +86,22 @@ two source rejections no longer occur. These outcomes use the real room-access
 item and actual statue grants, not relaxed target rules or invented equipment.
 The first full world run finished with 6,093 passed and one hosting failure from
 an environmental `AF_UNIX` socket-path length limit in the temporary directory.
-The unchanged hosting test passes when retried under a shorter temporary path.
-A clean full-suite rerun is pending; this is not yet a complete suite pass.
+The unchanged hosting test passes when retried under a shorter temporary path;
+the subsequent clean full run passes all 6,094 tests with zero failures in 18:24.
+The later Mustard cross-side recovery metadata correction adds eight regressions:
+339 focused tests pass and independent review finds no issue. Its full run
+finishes with 6,101 passed, one failed, and six warnings in 1952.81 seconds. The
+failure is the unchanged hosting harness at `ready.wait(30)`:
+`TimeoutError: Timed out waiting for local MultiServer startup`. This startup
+timeout is distinct from the earlier socket-path failure. An unchanged isolated
+hosting retry then passes: `1 passed in 13.46s`. The earlier clean 6,094-test pass
+does not cover the later metadata correction. The follow-up run and isolated
+retry are separate results, not a clean 6,102-test full-suite pass.
+
+The CI snapshot for head `82a0f92432b5f67e9de68776448be5e881aea0f6` has eight green
+workflows, a 500/500 fuzz pass, and all six actual unit jobs passed. Two preexisting
+Python 3.11 setup/dependency failures remain distinct from unit-test failures.
+Checks for the final follow-up commit must be verified separately.
 
 ## Contract
 
@@ -343,23 +358,136 @@ ordinary body can cross to the left after opening the bomb:
 `(184,248) -> (136,248) -> (136,344) -> (24,344)`.
 
 The left-to-right witness instead acquires left Minny `0x088C4DB4` at
-`(24,280)`, crosses both Mini throats `(12..13,26)` and `(19..20,19)`, then
-drops Mini on the right for ordinary flight/puff to the chest. The right lower
+`(24,280)` and crosses the first Mini throat `(12..13,26)`. The controller-tested
+route then drops Mini, inhales and spits out the Flamer as Normal, recovers the
+dropped Mini star, and uses stepped jumps to reach the second throat `(19..20,19)`.
+The spit faces right, away from the stored Mini star on the left. The chest
+continuation on the right uses ordinary flight/puff after returning to Normal. The right lower
 exit witness uses right Minny `0x088C4DD8` at `(472,232)`. The sources are
 inhaled from their approach alcoves; neither is a global room-wide source.
 The cross-side tile route is `(1,21) -> (8,21) -> (8,24) -> (9,25) ->
 (11,26) -> (14,26) -> (19,26) -> (19,22) -> (16,22) -> (16,19) ->
 (21,19) -> (24,19) -> (24,18) -> (29,18)`, including both Mini throats.
 
-These are native terrain/body and point/slope topology checks, not an emulator
-jump-physics replay. Ordinary enemy avoidance/combat is assumed. The earlier
-claim that the upper halves freely reconnect was incorrect: a wall reaches
-the top boundary, and the bomb approach is initially accessible only from the
+The coordinates above are native terrain/body and point/slope topology evidence,
+not a complete controller recipe. The actual stepped ascent and enemy handling
+are recorded below. The earlier claim that the upper halves freely reconnect
+was incorrect: a wall reaches the top boundary, and the bomb approach is initially accessible only from the
 right. Normal cannot reach the lower exit from either side even when ordinary
 bomb/F0 mutations and slopes are granted in the optimistic topology model.
 The [WiKirby Room5 description](https://wikirby.com/wiki/Mustard_Mountain_-_Room_5)
 corroborates cross-side Mini travel and a 1-Up chest, but does not by itself prove
 these entry-specific rules or the exhaustive native corridor census.
+
+#### Combined Mustard 5 acceptance
+
+Three entry-specific routes have completed cold-start controller witnesses:
+
+- Left arrival: actual left Minny acquisition and the first throat lead to the
+  native 321 -> 544 transition at frame 3268.
+- Right arrival: actual right Minny acquisition and the second throat lead to
+  the same lower destination at frame 3801. Both exits use record `0x08891758`,
+  not a transition to room 323.
+- Left to right to chest: one uninterrupted run crosses both throats, then opens
+  bomb `(14,15)` with ordinary flight/puff and records the chest counter 0 -> 1
+  for native source `0x088C4DFC` at frame 4088. A second cold replay reproduces
+  the cross-side run with additional read-only observations.
+
+The cross-side ascent is not a single 64-pixel Mini jump. Measured Mini jump rise
+is about 52 pixels; the successful route uses neighboring stepping ledges, with
+landing heights 425 -> 393 -> 361 -> 313. Between throats, Select deliberately
+drops Mini, Normal inhales and spits the Flamer away from the stored star, and
+the observed type `0xA3` / raw-ability 23 star restores actual Mini equipment.
+`mini_321_cross_to_right` therefore sets
+`recover_dropped_ability: true`. This is one sufficient witness, not a claim that
+every possible cross-side route requires recovery.
+
+The preferred inhale-and-spit witness completes a fresh 4,206-frame run. Its
+controller history differs from the original swallowing witness in exactly one
+frame: input start 2324 uses B (`2`) instead of Down (`128`), facing right. Native
+spit state `0x0805509D` is observed at frame 2325; its initializer
+`sub_08054F90` clears `transitioningAbility` without an enemy ability grant.
+There is no Flamer swallow/grant between capture and recovery.
+The later Down input swallows the recovered Mini star, restoring Mini 23 at frame
+2473. Room, ability, HP, and chest-event histories match the original, including
+the chest at frame 4088. Avoiding the enemy grant removes reliance on the Flamer
+granting Normal under other source policies; the actual emulator run still uses
+mode 2 / 100% Normal, not an all-policy gameplay matrix. The original swallowing
+witness is retained as policy-specific evidence, not the source-neutral recipe.
+
+All accepted complete Mini 321 runs take damage. The cross-side run takes one hit before
+acquisition, retains 5 HP from acquisition through both throats, then takes three
+more hits on the ordinary chest approach and finishes at 2 HP. The first of those
+later hits removes Mini. Both lower routes
+also finish at 2 HP and enter 544 as Normal after Mini was lost or dropped; they
+do not independently demonstrate Mini stripping on the transition. No one-hit or
+low-health acceptance is established. Observed hits do not prove that damage or
+a damage boost is required; partial avoidance trials are not complete no-hit
+witnesses.
+
+A separate right-arrival Normal chest run receives no items and keeps unlock
+mask zero and equipment Normal 0 throughout. The same chest source records
+counter 0 -> 1 at frame 2070 without any Mini acquisition. It takes one ordinary
+hit on the upper approach at frame 1413 and finishes at 5 HP. This preserves the
+ungated right-arrival alternative, but is not a damage-free or one-hit witness.
+
+The Mini entry fixtures change only Kirby 0's initial room and coordinates to
+321 left `(24,344)` or right `(472,296)`; the other three Kirby slots retain room
+803 and their original coordinates. These are controlled arrivals, not played
+304/546 ingress. Each uses a blank battery and no state reload, death, forced
+transition, or gameplay position/equipment/health injection. The real production
+client `ReceivedItems` path supplies only Mini permission `3860123` before
+movement, through simulated history and an in-process transport. Equipment stays
+Normal until actual acquisition. Mode 2 emits 73 Normal enemy assignments;
+Minny remains fixed at native ability 23, native statues are unchanged, ability
+gating is on, and Area Keys are off. There is no fixed Mini statue in room 970.
+These runs do not cover an external server, full campaign, locked Mini, save/load,
+other modes, or every source alternative. Earlier four-Kirby calibration is
+excluded.
+
+The patch and production-origin identities are shared with the combined-build
+identities below. Mini-specific SHA-256 identities are:
+
+- Left arrival: `ac75b40b4b8a9b0150a78488bb9a19e82c54c864be5aafd289e08bcb0c0d3c55`.
+- Right arrival: `4f3adda0b42747979fe34a91d74fffda78077bde9df3393dfba8059688bb34c0`.
+- Source configuration: `01ba62147d0c50c223c17f072bcbda53d2ca22d956be74488ef5b221e5635429`.
+- Headless libmGBA 0.10.5+dfsg-1 library:
+  `6a74d94811fc418ccb47c101aa3cdaa5a639a0484368d46d966b0fee87b5ae5c`.
+
+### Combined Olive 6 acceptance
+
+A complete cold-boot controller replay acquires Mini 23 from local Minny
+`0x088CBD88`, crosses the first two `0x59` throats, and drops Mini before the
+star-stone. Normal suction **pulls**, rather than swallows or destroys, movable
+type `0x79` star-stone `0x088CBD40` from x = 712 to x = 693.75. The actual emitted
+type `0xA3` / raw-ability 23 star is observed before capture and restores Mini
+after inhalation and swallowing, despite the 100% Normal generic-enemy policy.
+Kirby jumps over the moved stone, crosses the final throat at tiles 45..46 in
+row 15, and opens the chest at frame 2749: counter 0 -> 1, native source
+`0x088CBDAC`, AP `3960506` (Olive Ocean 6-06 - Spray Paint #7 Chest). All 6 HP
+remain throughout gameplay; Mini remains equipped at the chest event.
+
+The controlled fixture changes only Kirby 0's initial room/spawn to 134 at actual
+pixel `(24,104)`, matching native 133 -> 134 spawn `(2,7)`; it does not play the
+preceding room 133 journey. Other Kirby slots remain in 803. A blank battery and
+fresh native File 1 are used. The production client configuration routine receives
+only Mini permission `3860123`; all eight guarded writes finish before movement,
+with equipment still Normal. There are no later harness writes, state reloads,
+or position/equipment/health/completion/ownership injections during the route.
+The emitted policy is mode 2 with 73 included enemy assignments Normal, fixed
+Minny and native statues, gating on, and Area Keys off. This is simulated receipt
+history and in-process transport, not an external server or full campaign.
+
+The instrumented route and final cold replay use identical inputs and events
+through frame 2715; the final replay then completes the chest input. Damaged and
+star-loss calibration attempts are excluded. This proves one sufficient route,
+not mandatory recovery on every possible route, Droppy recovery, locked Mini,
+other modes, save/load, or reconnect behavior. Patch, clean input, production
+origin, and bridge identities match the shared identities below. Unique SHA-256
+values are:
+
+- Entry fixture: `c6dc1b0e6825752e423add5ad72e7faaf2417fbbca9a0592f30e26513b1dbe07`.
+- Configuration manifest: `948c88d18028d12669efdb568945a5d2d6aac69e4d24f48fc7968553b3e99f77`.
 
 ## Peg coverage
 
@@ -374,8 +502,8 @@ not automatically an executable route. Production source-aware gates currently c
   eligible Smash grant, and Smash permission when gating is enabled; all 15
   physical switches and Central access are not substitutes. The carry retains
   the East Hub Connection and conditional Moonlight Mansion Area Key requirements.
-  Smash's down attack clears the 149 ordinary floor. Room 147's documented vanilla
-  timed run is assumed, not emulator-replayed.
+  Smash's down attack clears the 149 ordinary floor. The complete combined-patch
+  carrier below now includes a controller replay of room 147's timed run.
 - 510 peg7,7: chest; Stone592 -> 528 -> 513 upper -> 509 upper-right -> 510 upper.
   The final segments need no peg, metal or rope clearing. The UFO inside the chest
   chamber is never used to bootstrap entry. A lower horizontal-metal alternative
@@ -487,10 +615,11 @@ activates the race bomb; Wheel reaches the chest, stops, and Up opens it. The
 single recorded event uses native source `0x088B7288`, mapped to AP location
 `3960567`.
 
-This is a controlled initial Central Circle fixture at pixel `(96,80)` with
-synthetic authentication and a blank native battery loaded only at startup. It
-is explicitly distinct from the configured production-origin ROM. Mode 2 uses
-100% Normal included enemies, passive enemies included, fixed native statues,
+This controlled hub fixture changes all four initial Kirby slots to Central
+Circle at pixel `(96,80)`, with synthetic authentication and a blank native
+battery loaded only at startup. It is explicitly distinct from the configured
+production-origin ROM. Mode 2 uses 100% Normal included enemies, passive enemies
+included, fixed native statues,
 ability gating enabled, and Area Keys off. The emitted Minny option is false,
 so Minny remains fixed; all 73 included enemy table writes are Normal. Real
 production client item synchronization grants East Hub (`3860401`), Wheel
@@ -508,7 +637,10 @@ the legacy gate, ownership and ability permissions remain zero, and aligned Up
 cannot enter 970. That negative has no post-start fixture writes and is not a
 played 15-switch campaign.
 
-The tested identities are:
+### Shared combined-build identities
+
+The accepted Wheel, Smash, Mustard, and Olive runs use this patch and configured
+production origin, with their separately disclosed initial-entry fixtures:
 
 - Clean input SHA-1: `274b102b6d940f46861a92b4e65f89a51815c12c`.
 - `base_patch.bsdiff4` SHA-256:
@@ -519,12 +651,49 @@ The tested identities are:
   `1c0e54360fe1558986896e6e2be6ba53c0c15f5e68e7ae4b478568a09f2879e9`.
 - Controlled hub-start ROM SHA-256:
   `ac1d5caead2fc99b49060668f18569a3a722b646a25850a71ff43150f9c8b0df`.
+- libmGBA 0.10.5 bridge SHA-256:
+  `792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055`.
 
 Independent review verifies all 19 native room 970 placements against their
 grant-table mappings and verifies that the reconstructed compiled payload matches
 the BSDIFF patch. Cached hooks, strict mypy on the six traversal modules, and 27
 release-related standalone tests pass. These checks do not establish additional
-gameplay routes or replace the pending clean full-suite rerun.
+gameplay routes or turn the follow-up suite's hosting startup timeout into a full
+pass. Its isolated retry is tracked above.
+
+### Combined patched-ROM Smash acceptance
+
+The actual fixed Smash statue `0x088D5FE8` at pixel `(312,240)` grants ability 22.
+A controller-only carry completes 970 -> 801 -> 190 -> 143 -> 145 -> 146 upper
+exit -> 147 -> 148 right arrival -> 149 ordinary floor -> peg -> chest. A second
+cold boot reproduces the full successful input sequence with extra read-only
+instrumentation. Smash and all 6 HP remain continuous from acquisition at frame
+3730 through the chest event at frame 12810.
+
+Smash Up+B cuts the room 143 rope and the lower bomb opens its ladder. Room 146
+passes left/above the heavy block. The room 147 timed switch, dash/jump through
+the gate, right ladder, bomb `(34,14)`, and lower spike/fireball corridor are
+controller-replayed, resolving the timing assumption for this configured carrier.
+Smash Down+B clears room 149 floor tiles `(37,13)` and `(38,13)`, then peg
+`(35,18)` and its linked barrier. Up opens native chest `0x088BC4A0`, event counter
+1, AP `3960569` (Moonlight Mansion 2-20 - Small Chest). Floor tile `(39,13)` and
+the alternative underwater F7 ceiling `(42,24)` / `(43,24)` stay unchanged.
+
+This uses the shared hub fixture, build hashes, and mode 2 policy described above:
+all 73 included enemy assignments are Normal, Minny is fixed, native statues are
+fixed, gating is enabled, and Area Keys are off. Production client synchronization
+receives East Hub `3860401`, Smash permission `3860122`, and Copy Ability Room
+Access `3860500`. Smash is the only received ability item. No Stone source or
+equipment is acquired; this does not imply that starting/ungated Stone permission
+was unavailable. All 12 client writes finish before pickup, with no later gameplay
+memory edits, state reloads, arbitrary equipment grants, or lost-ability recovery.
+
+East Hub plus Smash permission alone leaves the mirror closed; the room-access
+grant opens it without adding other ability permissions. Native File 3 -> mode
+menu -> Back preserves all 32,768 save bytes. These are simulated histories and
+an in-process transport, not an external server session or full campaign.
+Calibration attempts and separate PR #1025 baseline results are not counted as
+this carrier pass.
 
 ### Remaining acceptance
 
@@ -533,17 +702,17 @@ Before treating this draft as gameplay accepted:
 - Expand alternative witnesses where useful; all eleven AP peg targets have
   source-aware rules, but source availability is not guaranteed for every option
   combination. The three non-AP consumable pegs remain audit records.
-- Replay the complete room 970 Smash carrier on the combined patched ROM. The
-  passing Wheel carry and all-hubs negative do not validate Smash's rope, timing,
-  floor-clearing, or peg sequence.
 - Replay the local Wheelie acquisition route on the combined randomized/gated
   ROM and investigate more speed alternatives. The passed statue carrier does
   not validate local enemy retries; the rule retains its fresh-room opportunity
   assumption.
-- Replay the full Olive Mini sequence with the rebuilt randomized/gated ROM.
-- Replay both Mustard5 arrivals and the Mini cross-side route on that ROM;
-  its new compartment correction has native geometry and logic tests, not
-  completed Mini jump-physics or patched-ROM acceptance.
+- Establish one-hit and low-health safety for the Mustard 5 routes; all currently
+  accepted complete runs take damage. The Normal right-arrival chest remains an
+  independent ungated route, also currently witnessed with damage.
+- Extend Mini acceptance beyond the controlled 321/134 arrivals where needed,
+  including played ingress, the other corridor rooms, locked gating, and modes
+  not covered by these fixtures. Olive's passing recovery does not validate
+  Droppy or unrelated dropped-ability behavior.
 - Keep ordinary-enemy renewal limited to the four documented fuse-source
   viewport loops and the local Wheelie140/Giant Rocky149 loops. Replay those
   static native-code/geometry witnesses on the
@@ -552,8 +721,10 @@ Before treating this draft as gameplay accepted:
 - Complete target-specific Crash cannon timing and the remaining non-rope Cutter
   dependency review before broadening those claims. Burning and Cutter remain
   starting abilities.
-- Finish the clean full-suite rerun and verify checks against the final published
-  commit. The installed archive matrix above is complete for this tested build.
+- Verify checks against the final published commit, including hosting. The
+  isolated hosting retry does not turn the preceding full run into a clean pass.
+  The installed archive matrix above is complete for the earlier tested build,
+  not every future change.
 
 Research was pinned to native source commit
 `7d969fbce14fdc838d2c1ea01389717fb96c3189`. Published records contain compact
@@ -584,17 +755,19 @@ addresses are native record/object addresses, not stable shuffled assignments.
 ### Mini evidence: all four native 0x59 corridor rooms
 
 Native collision `0x59` / `sub_080088CC` requires actual Mini equipment. These
-reviewed routes do not exhaust source alternatives and make no emulator claim.
+reviewed routes do not exhaust source alternatives. The controlled 134/321
+emulator evidence and its limits are recorded above, not inferred for every row.
 Local Minny acquisition means inhaling from the approach to its pocket, not that
-Kirby can stand on its spawn tile. Only Olive needs the explicit dropped-ability
-recovery sequence. The cannon is a transition before acquisition, not a reset or
-a way to carry Mini between compartments.
+Kirby can stand on its spawn tile. The sufficient Olive and Mustard cross-side
+witnesses explicitly use dropped-ability recovery; neither establishes recovery
+as necessary on every possible route. The cannon is a transition before
+acquisition, not a reset or a way to carry Mini between compartments.
 
 | Native room | AP room and gated target | Canonical Minny objects | Additional evidence |
 | --- | --- | --- | --- |
-| 134 | Olive `ROOM_6_06`, `MINOR_CHEST_SPRAY_PAINT_07` (Ocean Spray) | `0x088CBD88` | Drop/inhale/recover at star-stone `0x088CBD40`; independent upper Goal1. |
+| 134 | Olive `ROOM_6_06`, `MINOR_CHEST_SPRAY_PAINT_07` (Ocean Spray) | `0x088CBD88` | Drop Mini, pull movable star-stone `0x088CBD40` with Normal suction, recover Mini; independent upper Goal1. |
 | 312 | Mustard `ROOM_4_18` to `ROOM_4_WARP` | `0x088C417C` | Approach is not a transition; ordinary Room19 independent. |
-| 321 | Mustard left and `RIGHT_ENTRY` to `ROOM_4_06`; left to right | Left `0x088C4DB4`, right `0x088C4DD8` | Approach is not a transition. Upper Room9 exits are independent; only the right arrival has a Normal bomb/chest witness. See entry-compartment proof above. |
+| 321 | Mustard left and `RIGHT_ENTRY` to `ROOM_4_06`; left to right | Left `0x088C4DB4`, right `0x088C4DD8` | Approach is not a transition. Cross-side witness uses dropped-Mini recovery and stepped jumps. Upper Room 9 exits are independent; only the right arrival has a Normal bomb/chest witness. See entry-compartment proof above. |
 | 736 | Carrot `ROOM_5_10` to `ROOM_5_CHEST_1` | `0x088D41A0` | Down cannon `0x088B2616` self-transitions before local acquisition; upper Room11 independent. |
 
 ### Peg census: 14 pegs in 13 rooms
@@ -641,7 +814,7 @@ upward-only, not undirected flood-fill connections.
   The carry retains East Hub Connection and the conditional Moonlight Mansion
   Area Key. The old all-15-switch/Central guard is historical and is not an
   alternative grant of room access.
-- Qualification: Smash Up+B0x2000 hits143 rope from344,216; Stone carry rejected.146 passes left/above heavy block.147 vanilla ordinary timed route assumed, puff retains Smash.149 Down+B calls Stone attack function and clears ordinary floor without dropping Smash. Local GiantRocky before peg remains separate early source.
+- Qualification: Smash Up+B `0x2000` hits the 143 rope from `(344,216)`; Stone cannot replace Smash on this carry. Room 146 passes left/above the heavy block. The combined controller replay completes room 147's timed route while retaining Smash. Room 149 Down+B calls the Stone attack function and clears the ordinary floor and peg without equipping Stone or dropping Smash. The local Giant Rocky before the peg remains a separate early source.
 
 #### `peg_204_62_4`
 
