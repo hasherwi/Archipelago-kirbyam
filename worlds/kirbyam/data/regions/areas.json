@@ -20,7 +20,8 @@
       "AREA_VISIT_2_MOONLIGHT_MANSION"
     ],
     "events": [
-      "Activate Big Switch - Moonlight Mansion"
+      "Activate Big Switch - Moonlight Mansion",
+      "Activate Big Switch - Rainbow Route East"
     ],
     "exits": []
   },
@@ -89,7 +90,6 @@
       "GOAL_AREA_BOSS_COUNT"
     ],
     "events": [
-      "Activate Big Switch - Rainbow Route East",
       "Activate Big Switch - Rainbow Route North",
       "Activate Big Switch - Rainbow Route South",
       "Activate Big Switch - Rainbow Route West"

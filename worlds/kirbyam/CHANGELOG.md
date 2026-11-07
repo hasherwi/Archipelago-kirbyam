@@ -8,7 +8,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## Unreleased
+## v0.5.1
 
 ### New Features
 - Access to the Copy Ability Room is now an AP Item (Issue #1002).
@@ -20,7 +20,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - None.
 
 ### Bug Fixes
-- None.
+- Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
 - Add source-aware peg and cannon-fuse traversal using reachable enemies and Copy Ability statues, and keep Minny fixed to Mini (PR #1041).

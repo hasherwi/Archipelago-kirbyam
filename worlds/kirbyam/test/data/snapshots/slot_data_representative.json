@@ -377,7 +377,7 @@
       "location_id": 3960411,
       "tags": [
         "HubSwitch",
-        "MAP_RAINBOW_ROUTE"
+        "MAP_MOONLIGHT_MANSION"
       ]
     },
     "HUB_SWITCH_RAINBOW_ROUTE_NORTH": {
@@ -6338,5 +6338,5 @@
     "Vitality Counter #8",
     "Vitality Counter #9"
   ],
-  "world_version": "0.5.0"
+  "world_version": "0.5.1"
 }
