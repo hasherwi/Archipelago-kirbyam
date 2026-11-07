@@ -7,8 +7,8 @@ Issue #111 defines three enemy randomization modes:
 
 Ability statue/stand randomization is intentionally out of scope for this
 module (issue #209); this module covers enemy-granted copy abilities only.
-The shared `ability_randomization_minny` policy flag is emitted here and can be
-consumed by statue randomization logic when that feature is enabled.
+Minny is never randomized. A false legacy Minny policy flag is retained for
+older consumers; Mini can still appear in unrelated enemy output pools.
 """
 
 from __future__ import annotations
@@ -49,7 +49,7 @@ def build_enemy_copy_ability_policy(
     mode: int,
     include_boss_spawns: bool,
     include_minibosses: bool,
-    include_minny: bool = True,
+    include_minny: bool = False,
     whitelist: Iterable[str] = VALID_ENEMY_COPY_ABILITIES,
     include_passive_enemies: bool = False,
     no_ability_weight: int = 0,
@@ -60,9 +60,9 @@ def build_enemy_copy_ability_policy(
     For completely random mode, source/event keys can be mapped with
     `ability_for_enemy_grant_event`.
 
-    Note: `ability_randomization_minny` is kept in the shared policy payload so
-    both enemy and statue randomization can honor one Minny include/exclude
-    source of truth.
+    ``include_minny`` is accepted only for old callers and ignored. Minny is
+    never randomized. The legacy policy field is emitted as false so old clients
+    also retain Mini. Other source pools may still produce Mini.
     """
     ordered = _normalize_whitelist(whitelist)
     normalized_no_ability_weight = _normalize_no_ability_weight(no_ability_weight)
@@ -72,7 +72,7 @@ def build_enemy_copy_ability_policy(
         "allowed_abilities": ordered,
         "ability_randomization_boss_spawns": bool(include_boss_spawns),
         "ability_randomization_minibosses": bool(include_minibosses),
-        "ability_randomization_minny": bool(include_minny),
+        "ability_randomization_minny": False,  # Legacy field: Minny is invariant.
         "ability_randomization_passive_enemies": bool(include_passive_enemies),
         "ability_randomization_no_ability_weight": normalized_no_ability_weight,
     }

@@ -37,6 +37,21 @@ static inline uint8_t ap_enemy_should_reroll(
         && verified_source_type == AP_ENEMY_MINNY_TYPE) ? 0u : 1u;
 }
 
+/* Native star swallow loads Object2::kirbyAbility from r5+0x84 and ORs
+ * 0x80 at 0x0809C69C. Preserve only raw Mini from verified A3/A4 stars.
+ * Do not infer recovery from Mini on an ordinary randomized enemy. The
+ * caller still applies the request gate and authoritative commit gate.
+ */
+static inline uint8_t ap_is_mini_star_recovery(
+    uint32_t caller_pc, uint32_t source_ptr, uint32_t ability_flags
+) {
+    uint8_t type;
+    if (caller_pc != 0x0809C69Cu || (ability_flags & 0x9Fu) != 0x97u
+        || ap_enemy_source_pointer_is_readable(source_ptr) == 0u) return 0u;
+    type = *(volatile uint8_t *)(uintptr_t)(source_ptr + 0x82u);
+    return (type == 0xA3u || type == 0xA4u) ? 1u : 0u;
+}
+
 #define AP_ENEMY_SOURCE_CONFIG_MAGIC 0x41534501u
 #define AP_ENEMY_SOURCE_CONFIG_LEGACY 0x41534500u
 

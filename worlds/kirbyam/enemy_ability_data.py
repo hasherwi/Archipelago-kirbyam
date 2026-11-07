@@ -39,8 +39,15 @@ def _parse_address(value: Any) -> int:
     raise ValueError(f"unsupported address value type: {type(value).__name__}")
 
 
-# Fixed initial permissions, independent of randomized ability assignment.
+# Legacy initial permissions, also retained for live-random mode during the traversal rollout.
 STARTING_COPY_ABILITIES: tuple[str, ...] = ("Beam", "Burning", "Cutter", "Mini", "Stone", "Wheel")
+
+
+def starting_copy_abilities(mode: int) -> tuple[str, ...]:
+    """Mini and Wheel have source-backed routes; Stone retains starting permission."""
+    return tuple(
+        ability for ability in STARTING_COPY_ABILITIES if ability not in {"Mini", "Wheel"}
+    )
 
 
 _ABILITY_DATA = _load_json_file("abilities.json")

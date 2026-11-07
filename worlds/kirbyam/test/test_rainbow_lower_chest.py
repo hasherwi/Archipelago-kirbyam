@@ -4,6 +4,7 @@ from BaseClasses import CollectionState
 from test.general import setup_multiworld
 from .. import KirbyAmWorld
 from ..data import data, load_json_data
+from ..wheel_traversal import RACE_ENTRANCE
 
 KEY = 'MINOR_CHEST_RAINBOW_ROUTE_1_06_UPPER'  # Preserve the existing slot-data key.
 PREFIX = 'REGION_RAINBOW_ROUTE/ROOM_1_06_'
@@ -44,21 +45,27 @@ def test_upper_entry_hub_receipts_and_alternate_routes(room_sanity, ability_gati
         state.sweep_for_advancements(locations=[loc for loc in mw.get_locations(1) if not loc.address])
         return state
 
+    def assert_lower_path(state):
+        # This regression checks entry topology. The new source-aware speed rule
+        # separately requires obtainable Wheel, rather than a hub receipt alone.
+        assert mw.get_region(PREFIX + 'LOWER_MID', 1).can_reach(state)
+        speed_rule = mw.get_entrance(RACE_ENTRANCE, 1).access_rule
+        assert chest.can_reach(state) == speed_rule(state)
+
     empty = state_with([])
     assert mw.get_region(PREFIX + 'UPPER', 1).can_reach(empty)
     assert not chest.can_reach(empty)
     assert not chest.can_reach(state_with(['Moonlight Mansion - Hub Connection']))
     for direction in ('East', 'West', 'North'):
         state = state_with([f'Rainbow Route {direction} - Hub Connection'])
-        assert chest.can_reach(state)
-        assert mw.get_region(PREFIX + 'LOWER_MID', 1).can_reach(state)
+        assert_lower_path(state)
     # Do not encode the report as a mandatory Rainbow-hub item requirement:
     # other unlocked overland routes may legitimately enter the lower cave.
     alternate = state_with([item.name for item in mw.itempool
                             if not (item.name.startswith('Rainbow Route ')
                                     and item.name.endswith('Hub Connection'))])
-    assert chest.can_reach(alternate)
-    assert chest.can_reach(state_with([
+    assert_lower_path(alternate)
+    assert_lower_path(state_with([
         'Carrot Castle - Area Key', 'Carrot Castle - Hub Connection',
         'Peppermint Palace - Area Key', 'Peppermint Palace East - Hub Connection',
     ]))

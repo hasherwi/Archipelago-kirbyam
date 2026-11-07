@@ -25,7 +25,7 @@ def test_minny_rom_policy(mode: int, include: bool | None) -> None:
     write_tokens(cast(Any, world), cast(Any, patch))
     assert [(offset, value) for _, offset, value in patch.token_writes
             if offset == ABILITY_RANDOMIZATION_MINNY_ROM_OFFSET] == [
-        (0x15F68C, int(include is not False).to_bytes(4, "little"))
+        (0x15F68C, (0).to_bytes(4, "little"))
     ]
 
 

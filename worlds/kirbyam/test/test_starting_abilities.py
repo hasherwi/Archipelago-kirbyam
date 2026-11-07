@@ -31,15 +31,17 @@ def test_generated_start_inventory_and_balanced_pool(tmp_path, gating, explicit)
     archive = generate_archive_from_fixture(player, tmp_path / "output", seed=957)
     decoded = load_multidata_from_archive(archive)
     inventory = Counter(decoded["precollected_items"][1])
-    assert {code: inventory[code] for code in STARTING_IDS} == {
-        code: max(1, explicit) if code == 3860107 else 1 for code in STARTING_IDS
+    expected_starts = STARTING_IDS - {3860123, 3860104}
+    assert {code: inventory[code] for code in expected_starts} == {
+        code: max(1, explicit) if code == 3860107 else 1 for code in expected_starts
     }
+    assert inventory[3860123] == inventory[3860104] == 0
     assert inventory[3860118] == 1  # Explicit Sword retained.
     assert inventory[3860026] == 2  # Unrelated multiplicity retained.
     locations = decoded["locations"][1]
     assert len(locations) == 124  # Main's 116 physical checks plus eight Area Key hub checks.
     pool = Counter(item[0] for item in locations.values())
-    assert STARTING_IDS.isdisjoint(pool)
+    assert expected_starts.isdisjoint(pool)
     gateable_ids = {3860100 + ABILITY_NAME_TO_ID[name] for name in GATEABLE_ENEMY_COPY_ABILITIES}
     assert gateable_ids.intersection(pool) == (gateable_ids if gating else set())
     slot = decoded["slot_data"][1]
@@ -51,7 +53,9 @@ def test_generated_start_inventory_and_balanced_pool(tmp_path, gating, explicit)
 def test_bootstrap_preserves_initial_access_without_any_received_items(gating):
     world = SimpleNamespace(options=SimpleNamespace(ability_gating=SimpleNamespace(value=gating)))
     gate = _initial_ability_gate_mask(world)
-    assert not gate & STARTING_MASK
+    assert not gate & (STARTING_MASK & ~((1 << 23) | (1 << 4)))
+    assert bool(gate & (1 << 23)) == bool(gating)
+    assert bool(gate & (1 << 4)) == bool(gating)
     assert bool(gate) == bool(gating)
     assert {KirbyAmWorld.item_name_to_id[f"{name} Ability"] for name in STARTING_COPY_ABILITIES} == STARTING_IDS
 
@@ -96,7 +100,8 @@ async def test_stock_history_and_unlock_restoration(mock_bizhawk_context, gating
             unlock = int.from_bytes(memory[client._transport_addr('ability_unlock_mask_runtime')], 'little')
             gate = int.from_bytes(memory[client._transport_addr('ability_gate_mask_runtime')], 'little')
             assert unlock == STARTING_MASK
-            assert gate & STARTING_MASK == 0
+            assert gate & (STARTING_MASK & ~((1 << 23) | (1 << 4))) == 0
+            assert bool(gate & (1 << 23)) == gating
             assert bool(gate) == gating
             # Runtime config never writes a held ability or any native Kirby field.
             assert set(memory) <= set(data.transport_ram_addresses.values())
@@ -113,7 +118,8 @@ def test_starting_ownership_is_visible_to_collection_state_without_new_gates():
     state = CollectionState(multiworld)
     for name in STARTING_COPY_ABILITIES:
         item = world.create_item(f"{name} Ability")
-        assert item.classification == ItemClassification.useful
+        expected = ItemClassification.progression if name in {"Mini", "Wheel"} else ItemClassification.useful
+        assert item.classification == expected
         assert not state.has(item.name, 1)
         assert world.collect(state, item)
         assert state.has(item.name, 1)

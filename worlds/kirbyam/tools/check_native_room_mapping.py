@@ -120,7 +120,9 @@ def main() -> None:
     elif text != expected:
         raise ValueError("documentation table is stale; run with --write")
     print("983 slots accounted for: 286 populated, 697 sentinel; "
-          "336 AP keys covered (322 top-level, 14 generated logical aliases)")
+          f"{sum(len(row['ap_keys']) for row in data['rooms'])} AP keys covered "
+          f"({len(rooms)} top-level, "
+          f"{sum(len(row.get('logical_subregions', {})) for row in rooms.values())} generated logical aliases)")
 
 
 if __name__ == "__main__":
