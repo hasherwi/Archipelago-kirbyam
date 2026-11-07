@@ -34,7 +34,8 @@ permissions: {}
 
 jobs:
   scan-build:
-    runs-on: ubuntu-latest
+    # LLVM 19 publishes packages for Noble, not the current ubuntu-latest codename.
+    runs-on: ubuntu-24.04
 
     steps:
     - uses: actions/checkout@v6.0.2
