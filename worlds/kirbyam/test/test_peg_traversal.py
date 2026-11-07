@@ -17,6 +17,10 @@ def test_census_covers_all_fourteen_pegs_without_blanket_room_gates():
         149, 204, 218, 221, 401, 411, 509, 510, 513, 527, 605, 741, 816,
     }
     assert len([row for row in rows if row["native_room"] == 527]) == 2
+    assert len(PEG_ROUTES) == 11
+    assert {row["id"] for row in rows} - {row["id"] for row in PEG_ROUTES} == {
+        "peg_218_9_33", "peg_509_32_2", "peg_741_27_13",
+    }
 
 
 @pytest.mark.parametrize("mode", [0, 1])
@@ -64,6 +68,8 @@ def test_fixed_statue_carry_requires_connections_and_preserves_stone(mode):
     policy_data["ability_randomization_no_ability_weight"] = 100
     policy = SourcePolicy(policy_data, include_statues=False)
     for row in PEG_ROUTES:
+        if row["room"] == 149:  # 143 rope requires Smash, tested separately with970 access.
+            continue
         graph = stone_carry_graph(row, True)
         items = frozenset(item for route in graph.routes for item in route.items)
         assert not graph.evaluate(policy, frozenset(), True).reaches("target")
@@ -124,16 +130,17 @@ def test_weight100_static_assignments_are_resampled_without_forcing_outputs():
     assert selected["ability_randomization_no_ability_weight"] == 100
 
 
-def test_assignment_budget_exhaustion_is_diagnostic_not_impossibility(monkeypatch, caplog):
+def test_assignment_budget_exhaustion_is_diagnostic_not_impossibility(monkeypatch):
     from .. import peg_traversal, wheel_traversal
     monkeypatch.setattr(wheel_traversal, "static_wheel_witness", lambda *args: True)
     initial = {"mode": 1}
     calls = []
     monkeypatch.setattr(peg_traversal, "SourcePolicy", lambda *args: type("Policy", (), {"mode": 1})())
     monkeypatch.setattr(peg_traversal, "_assignment_has_witness", lambda *args: False)
-    result = peg_traversal.validate_peg_assignment(initial, lambda: calls.append(1) or initial, False, 3)
-    assert result is initial and len(calls) == 2
-    assert "not a proof" in caplog.text
+    with pytest.raises(ValueError, match="peg-source search budget exhausted after 3 attempts") as error:
+        peg_traversal.validate_peg_assignment(initial, lambda: calls.append(1) or initial, False, 3)
+    assert len(calls) == 2
+    assert "does not prove" in str(error.value)
 
 
 def test_unvalidated_wheel_seed_fails_when_search_budget_exhausted(monkeypatch):
@@ -192,7 +199,7 @@ def test_527_peg_only_gates_lower_door():
         assert upper.access_rule(state) and lower.access_rule(state)
 
 
-@pytest.mark.parametrize("room", [204, 527, 605])
+@pytest.mark.parametrize("room", [204, 510, 513, 527, 605])
 def test_new_carriers_cannot_bootstrap_disconnected_source_hub(room):
     world = make_world(2, True, ability_randomization_no_ability_weight=100,
                        ability_randomization_statues=False)
@@ -209,3 +216,57 @@ def test_new_carriers_cannot_bootstrap_disconnected_source_hub(room):
     else:
         target = world.multiworld.get_location(data.locations[row["location"]].label, 1)
     assert not target.access_rule(state)
+
+
+def test_513_reverse_bomb_bypass_does_not_unlock_forward_peg():
+    from unittest.mock import patch
+    world = make_world(2, True, ability_randomization_no_ability_weight=100,
+                       ability_randomization_statues=False)
+    upper = "REGION_CABBAGE_CAVERN/ROOM_3_13"
+    lower = upper + "_LOWER"
+    forward = world.multiworld.get_entrance(upper + " -> " + lower, 1)
+    reverse = world.multiworld.get_entrance(lower + " -> " + upper, 1)
+    state = CollectionState(world.multiworld)
+    with patch.object(state, "can_reach_region", return_value=False):
+        assert reverse.access_rule(state)
+        assert not forward.access_rule(state)
+    state.collect(world.create_item("Cabbage Cavern - Area Key"), prevent_sweep=True)
+    with patch.object(state, "can_reach_region", return_value=True):
+        assert forward.access_rule(state) and reverse.access_rule(state)
+
+
+@pytest.mark.parametrize("mode", [0, 1, 2])
+def test_149_late_smash_carrier_needs_actual_source_unlock_and_cut(mode):
+    from ..peg_traversal import stone_carry_graph
+    raw = dict(make_world(mode, True)._enemy_copy_ability_policy)
+    raw["ability_randomization_no_ability_weight"] = 100
+    policy = SourcePolicy(raw, include_statues=False)
+    row = next(row for row in PEG_ROUTES if row["room"] == 149)
+    early = stone_carry_graph(row, True)
+    late = stone_carry_graph(row, True, statue_room=True)
+    items = frozenset(item for route in late.routes for item in route.items)
+    assert not early.evaluate(policy, items | {"Smash Ability"}, True).reaches("target")
+    assert not late.evaluate(policy, items, True).reaches("target")
+    assert late.evaluate(policy, items | {"Smash Ability"}, True).reaches("target")
+
+
+def test_149_late_statue_requires_each_physical_switch():
+    from contextlib import ExitStack
+    from unittest.mock import patch
+    from ..wheel_traversal import CENTRAL_REGION, HUB_SWITCH_LABELS
+    world = make_world(2, True, ability_randomization_no_ability_weight=100,
+                       ability_randomization_statues=False)
+    state = CollectionState(world.multiworld)
+    for name in ("Smash Ability", "Moonlight Mansion - Area Key", "Rainbow Route East - Hub Connection"):
+        state.collect(world.create_item(name), prevent_sweep=True)
+    target = world.multiworld.get_location(data.locations["MINOR_CHEST_MOONLIGHT_MANSION_2_20"].label, 1)
+    with ExitStack() as stack:
+        stack.enter_context(patch.object(state, "can_reach_region", side_effect=lambda name, player:
+                                         name == CENTRAL_REGION))
+        checks = [stack.enter_context(patch.object(world.multiworld.get_location(name, 1),
+                                                   "can_reach", return_value=True)) for name in HUB_SWITCH_LABELS]
+        assert target.access_rule(state)
+        for check in checks:
+            check.return_value = False
+            assert not target.access_rule(state)
+            check.return_value = True

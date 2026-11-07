@@ -97,7 +97,8 @@ def test_mini_clears_on_native_room_transition_not_compartment_change():
 
 def test_one_equipped_ability_and_open_peg_persists_only_in_room():
     routes = [PEG, Route("post", "pre", "peg", "peg_1"), Route("post", "other")]
-    result = run(routes, [Placement("post", "WHEELIE")], starts=[Position("pre", "Stone")])
+    result = run(routes, [Placement("post", "WHEELIE")], starts=[Position("pre", "Stone")],
+                 owned=frozenset({"Wheel Ability"}))
     assert any(p.node == "pre" and p.equipped == "Wheel" and p.opened == {"peg_1"} for p in result.positions)
     assert any(p.node == "other" and p.equipped == "Wheel" for p in result.positions)
     assert all(not p.opened for p in result.positions if p.node == "other")
@@ -149,9 +150,10 @@ def test_retry_requires_both_opt_in_and_placement_evidence():
     resolver = policy(2, pool=["Stone", "Wheel"])
     source = Placement("pre", "ROCKY", renewable=True,
                        retry_evidence="Fixture: safe renewable source, conditional eventual roll")
-    assert not run([PEG], [source], source_policy=resolver).reaches("post")
-    assert not run([PEG], [Placement("pre", "ROCKY")], source_policy=resolver, retry=True).reaches("post")
-    result = run([PEG], [source], source_policy=resolver, retry=True)
+    assert not run([PEG], [source], source_policy=resolver, owned=frozenset({"Wheel Ability"})).reaches("post")
+    assert not run([PEG], [Placement("pre", "ROCKY")], source_policy=resolver, retry=True,
+                   owned=frozenset({"Wheel Ability"})).reaches("post")
+    result = run([PEG], [source], source_policy=resolver, retry=True, owned=frozenset({"Wheel Ability"}))
     assert result.reaches("post")
     assert result.retry_assumptions == {source.retry_evidence}
 
@@ -262,7 +264,8 @@ def test_spent_source_cannot_be_reused_while_peg_stays_open():
               Route("c", "d", "peg", "second")]
     sources = [Placement("a", "ROCKY", identity="physical_rocky"), Placement("b", "WHEELIE"),
                Placement("c", "ROCKY", identity="physical_rocky")]
-    result = reachable_positions(nodes, routes, sources, [Position("a")], policy())
+    result = reachable_positions(nodes, routes, sources, [Position("a")], policy(),
+                                 owned=frozenset({"Wheel Ability"}))
     assert result.reaches("c") and not result.reaches("d")
 
 

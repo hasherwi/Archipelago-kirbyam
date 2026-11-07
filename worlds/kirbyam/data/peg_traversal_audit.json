@@ -60,9 +60,9 @@
         },
         "exit_gated": false
       },
-      "activation": "audit_only_pending_source_carry_graph",
+      "activation": "production_source_aware",
       "carry_evidence": {
-        "rejected_path": [
+        "path": [
           190,
           143,
           145,
@@ -71,7 +71,14 @@
           148,
           149
         ],
-        "reason": "Uncut143 star platforms block descent to bomb29,18 from190 arrival. Earlier collision mutation was not reachable. Stone carrier is not valid; local GiantRocky remains a separate candidate."
+        "required_equipment": "Smash",
+        "late_source_path": [
+          970,
+          801,
+          190
+        ],
+        "late_access": "All15 physical hub switches reachable, Central reachable, East Hub Connection; actual970 statue assignment and Smash gating apply.",
+        "qualification": "Smash Up+B0x2000 hits143 rope from344,216; Stone carry rejected.146 passes left/above heavy block.147 vanilla ordinary timed route assumed, puff retains Smash.149 Down+B calls Stone attack function and clears ordinary floor without dropping Smash. Local GiantRocky before peg remains separate early source."
       }
     },
     {
@@ -200,7 +207,7 @@
       ],
       "source_evidence": "none; Pengy/Cookin/Chip/BrontoBurt",
       "dynamic_gate": null,
-      "activation": "production_source_aware_with_explicit_draft_policy_deferral",
+      "activation": "production_source_aware",
       "carry_evidence": {
         "path": [
           190,
@@ -348,7 +355,7 @@
         "Treat shaft is not a treasure check in native objects; only gate consumable checks if those checks are enabled.",
         "Strict collision graph supports separation; tile15 semantics and complete movement have not been simulated."
       ],
-      "activation": "audit_only_pending_source_carry_graph"
+      "activation": "audit_only_non_AP_consumables_no_exit_gate"
     },
     {
       "id": "peg_221_41_12",
@@ -1012,7 +1019,7 @@
       ],
       "source_evidence": "none; only Blippers in room",
       "dynamic_gate": null,
-      "activation": "audit_only_pending_source_carry_graph"
+      "activation": "audit_only_non_AP_consumables_no_exit_gate"
     },
     {
       "id": "peg_510_7_7",
@@ -1156,7 +1163,17 @@
         }
       ],
       "dynamic_gate": null,
-      "activation": "audit_only_pending_source_carry_graph"
+      "activation": "production_source_aware",
+      "carry_evidence": {
+        "path": [
+          592,
+          528,
+          513,
+          509,
+          510
+        ],
+        "qualification": "528 wall puff and upper513 transition retain Stone.513 exit0889D458 ->509spawn43,17;509 exit0889B9AC ->510spawn4,6. Exact13px-body initial-map paths reach upperpeg with no prior peg/rope/metal. ChestUFO cannot bootstrap. Horizontalmetal alternate uncredited, not declared impossible."
+      }
     },
     {
       "id": "peg_513_4_7",
@@ -1294,7 +1311,15 @@
       ],
       "source_evidence": "none; upper Haley/Foley/Chip, lower Shooty/Foley",
       "dynamic_gate": null,
-      "activation": "audit_only_pending_source_carry_graph"
+      "activation": "production_source_aware",
+      "carry_evidence": {
+        "path": [
+          592,
+          528,
+          513
+        ],
+        "qualification": "528 ordinary wall puff and transition retain Stone.513 upper arrivals4,6/27,5 require peg4,7 then bomb5,18 to descend. Lower arrival27,19 can activate bomb then ascend without peg. Exact native terrain body[-6,-5,6,7] and upward-only0F preserve this directed distinction."
+      }
     },
     {
       "id": "peg_527_18_13",
@@ -1437,7 +1462,21 @@
         ],
         "note": "time-bounded gate; complete timing route not simulated; door absent from point graph"
       },
-      "activation": "audit_only_pending_source_carry_graph"
+      "activation": "production_source_aware",
+      "carry_evidence": {
+        "path": [
+          592,
+          528,
+          527
+        ],
+        "sequence": [
+          "ordinary timed switch route",
+          "bomb38,8",
+          "peg18,13",
+          "Sapphire"
+        ],
+        "qualification": "Wiki Room14 documents ordinary run through gate. Native timer100 loads102, gradual4px/7-update door animation, ordinary jump/horizontal movement shared by held Stone,176px clear waypoint route. Vanilla timed traversal assumed; no integrated frame schedule or emulator timing replay. No forced damage or ability drop."
+      }
     },
     {
       "id": "peg_527_56_16",
@@ -1580,7 +1619,7 @@
         ],
         "note": "time-bounded gate; complete timing route not simulated; door absent from point graph"
       },
-      "activation": "production_source_aware_with_explicit_draft_policy_deferral",
+      "activation": "production_source_aware",
       "carry_evidence": {
         "path": [
           592,
@@ -1669,7 +1708,7 @@
         "local_peg_solver": "none in inspected vanilla objects; not exhaustive remote ability search",
         "other_exit_gated": false
       },
-      "activation": "production_source_aware_with_explicit_draft_policy_deferral",
+      "activation": "production_source_aware",
       "carry_evidence": {
         "path": [
           592,
@@ -1730,7 +1769,7 @@
         },
         "exit_gated": false
       },
-      "activation": "audit_only_pending_source_carry_graph"
+      "activation": "audit_only_non_AP_consumables_no_exit_gate"
     },
     {
       "id": "peg_816_26_3",

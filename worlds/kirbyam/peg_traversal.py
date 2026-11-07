@@ -7,7 +7,6 @@ never credit a source behind its own peg. Other peg routes await a reviewed carr
 
 from __future__ import annotations
 
-import logging
 from typing import Any, Callable
 
 from .data import data
@@ -15,6 +14,24 @@ from .traversal import Node, Placement, Position, Route, SourcePolicy, Traversal
 
 
 PEG_ROUTES: tuple[dict[str, Any], ...] = (
+    {
+        "id": "peg_149_35_18", "room": 149,
+        "region": "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+        "exit": None, "location": "MINOR_CHEST_MOONLIGHT_MANSION_2_20",
+        "sources": (("GIANT_ROCKY", "0x088BC434"),), "carry_abilities": {"Smash"},
+    },
+    {
+        "id": "peg_510_7_7", "room": 510,
+        "region": "REGION_CABBAGE_CAVERN/ROOM_3_09",
+        "exit": None, "location": "MINOR_CHEST_CABBAGE_CAVERN_3_09",
+        "sources": (), "source_hub": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
+    },
+    {
+        "id": "peg_513_4_7", "room": 513,
+        "region": "REGION_CABBAGE_CAVERN/ROOM_3_13",
+        "exit": "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER", "location": None,
+        "sources": (), "source_hub": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
+    },
     {
         "id": "peg_204_62_4", "room": 204,
         "region": "REGION_PEPPERMINT_PALACE/ROOM_7_12",
@@ -31,6 +48,12 @@ PEG_ROUTES: tuple[dict[str, Any], ...] = (
         "id": "peg_527_56_16", "room": 527,
         "region": "REGION_CABBAGE_CAVERN/ROOM_3_14",
         "exit": "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY", "location": None,
+        "sources": (), "source_hub": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
+    },
+    {
+        "id": "peg_527_18_13", "room": 527,
+        "region": "REGION_CABBAGE_CAVERN/ROOM_3_14",
+        "exit": None, "location": "MINOR_CHEST_SPRAY_PAINT_08",
         "sources": (), "source_hub": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
     },
     {
@@ -62,20 +85,28 @@ PEG_ROUTES: tuple[dict[str, Any], ...] = (
 
 _STONE_HUB = "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
 _CARRY_PATHS = {
+    "peg_149_35_18": (190, 143, 145, 146, 147, 148, 149),
+    "peg_510_7_7": (592, 528, 513, 509, 510),
+    "peg_513_4_7": (592, 528, 513),
     "peg_204_62_4": (190, 801, 290, 210, 227, 204),
     "peg_605_12_24": (592, 690, 611, 601, 605),
     "peg_527_56_16": (592, 528, 527),
+    "peg_527_18_13": (592, 528, 527),
     "peg_816_26_3": (592, 801, 191, 890, 811, 830, 810, 802, 816),
     "peg_411_4_3": (190, 801, 490, 411),
     "peg_401_28_30": (190, 801, 490, 407, 401),
     "peg_221_41_12": (190, 801, 290, 291, 215, 212, 216, 217, 221),
 }
 _CARRY_ITEMS = {
+    "peg_149_35_18": frozenset(),
+    "peg_510_7_7": frozenset(),
+    "peg_513_4_7": frozenset(),
     "peg_204_62_4": frozenset({
         "Rainbow Route East - Hub Connection", "Peppermint Palace East - Hub Connection",
     }),
     "peg_605_12_24": frozenset({"Radish Ruins - Hub Connection"}),
     "peg_527_56_16": frozenset(),
+    "peg_527_18_13": frozenset(),
     "peg_816_26_3": frozenset({
         "Cabbage Cavern West - Hub Connection", "Cabbage Cavern East - Hub Connection",
         "Olive Ocean - Hub Connection",
@@ -93,7 +124,7 @@ _CARRY_ITEMS = {
 }
 
 
-def stone_carry_graph(row: dict[str, Any], area_keys: bool) -> TraversalGraph:
+def stone_carry_graph(row: dict[str, Any], area_keys: bool, statue_room: bool = False) -> TraversalGraph:
     """Reviewed Stone carry, not a global inventory/equipment OR.
 
     Candy407 uses an ordinary bomb approached from above. The PP212 path avoids
@@ -102,6 +133,10 @@ def stone_carry_graph(row: dict[str, Any], area_keys: bool) -> TraversalGraph:
     """
     path = _CARRY_PATHS[row["id"]]
     items = _CARRY_ITEMS[row["id"]]
+    if statue_room:
+        assert row["room"] == 149
+        path = (970, 801) + path
+        items |= {"Rainbow Route East - Hub Connection"}
     if area_keys:
         areas = {row["region"].split("/")[0].removeprefix("REGION_").replace("_", " ").title()}
         if row["room"] == 816:
@@ -112,16 +147,43 @@ def stone_carry_graph(row: dict[str, Any], area_keys: bool) -> TraversalGraph:
         Route(str(source), str(target), items=items)
         for source, target in zip(path, path[1:])
     ) + (Route(str(path[-1]), "target", "peg", row["id"], allowed_abilities=frozenset(
-        {"Stone", "Hammer", "Smash"} if row["room"] == 411 else {"Stone"}
+        row.get("carry_abilities", {"Stone", "Hammer", "Smash"} if row["room"] == 411 else {"Stone"})
     )),)
-    placements = (("STATUE:353900", "0x088B7CEC"), ("STATUE:3538FC", "0x088B7DA0"))
+    placements: tuple[tuple[str, str], ...] = (("STATUE:353900", "0x088B7CEC"), ("STATUE:3538FC", "0x088B7DA0"))
     if path[0] == 592:
         placements = (("STATUE:353900", "0x088CEFEC"), ("STATUE:3538FD", "0x088CEFC8"))
+    if statue_room:
+        from .wheel_traversal import STATUE_OBJECTS
+        placements = tuple((f"STATUE:{0x3538FC + index:06X}", address)
+                           for index, address in enumerate(STATUE_OBJECTS))
     sources = tuple(Placement(
         str(path[0]), key, identity=identity, renewable=True,
         retry_evidence="Permanent hub statue can be retouched before carry; eventual eligible draw assumed",
     ) for key, identity in placements)
     return TraversalGraph(nodes, routes, sources, (Position(str(path[0])),), frozenset({"target"}))
+
+
+def carry_graphs(row: dict[str, Any], area_keys: bool) -> tuple[TraversalGraph, ...]:
+    graphs: tuple[TraversalGraph, ...] = (stone_carry_graph(row, area_keys),)
+    if row["room"] == 149:
+        graphs += (stone_carry_graph(row, area_keys, statue_room=True),)
+    return graphs
+
+
+def carrier_reachable(world: Any, state: Any, policy: SourcePolicy, graph: TraversalGraph,
+                      source_hub: str, owned: frozenset[str], gating: bool) -> bool:
+    if graph.nodes[0].room == 970:
+        from .wheel_traversal import CENTRAL_REGION, HUB_SWITCH_LABELS
+        if not state.can_reach_region(CENTRAL_REGION, world.player):
+            return False
+        if not all(world.multiworld.get_location(name, world.player).can_reach(state)
+                   for name in HUB_SWITCH_LABELS):
+            return False
+    elif not state.can_reach_region(source_hub, world.player):
+        return False
+    required = frozenset(item for route in graph.routes for item in route.items)
+    owned |= frozenset(item for item in required if state.has(item, world.player))
+    return graph.evaluate(policy, owned, gating, allow_documented_retries=True).reaches("target")
 
 
 def peg_graph(row: dict[str, Any]) -> TraversalGraph:
@@ -142,9 +204,11 @@ def peg_logic_enabled(policy: dict[str, Any]) -> bool:
 def _assignment_has_witness(row: dict[str, Any], policy: SourcePolicy) -> bool:
     if peg_graph(row).evaluate(policy, frozenset(), False).reaches("target"):
         return True
-    graph = stone_carry_graph(row, False)
-    items = frozenset(item for route in graph.routes for item in route.items)
-    return graph.evaluate(policy, items, False).reaches("target")
+    for graph in carry_graphs(row, False):
+        items = frozenset(item for route in graph.routes for item in route.items)
+        if graph.evaluate(policy, items, False).reaches("target"):
+            return True
+    return False
 
 
 def validate_peg_assignment(
@@ -154,7 +218,7 @@ def validate_peg_assignment(
     """Select a valid deterministic assignment; do not rewrite individual grants.
 
     This is conservative source validation, not a proof that rejected assignments
-    have no remote-carried solution. Live random rollout remains incomplete.
+    have no remote-carried solution. Live random statues use explicit retry semantics.
     """
     if max_attempts < 1:
         raise ValueError("assignment search budget must be positive")
@@ -181,12 +245,11 @@ def validate_peg_assignment(
             f"(mode={initial.get('mode')}, initial seed={initial.get('seed')}). "
             "This does not prove the configuration or unreviewed alternatives impossible; try another seed."
         )
-    logging.getLogger(__name__).warning(
-        "No reviewed peg-source witness found within %s assignment attempts. "
-        "Keeping a Wheel-validated policy and deferring only unsupported draft peg routes; "
-        "this is not a proof that other carried-source alternatives are impossible.", max_attempts,
+    raise ValueError(
+        f"Reviewed peg-source search budget exhausted after {attempt + 1} attempts "
+        f"(mode={initial.get('mode')}, initial seed={initial.get('seed')}). "
+        "This does not prove the configuration or unreviewed alternatives impossible; try another seed."
     )
-    return wheel_valid_candidate
 
 
 def install_peg_rules(world: Any) -> None:
@@ -200,19 +263,18 @@ def install_peg_rules(world: Any) -> None:
     gating = world._ability_gating_enabled()
     for row in PEG_ROUTES:
         graph = peg_graph(row)
-        carry_graph = stone_carry_graph(row, world._area_keys_enabled())
+        carriers = carry_graphs(row, world._area_keys_enabled())
         all_items = frozenset(f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES)
-        all_items |= frozenset(item for route in carry_graph.routes for item in route.items)
-        if not (graph.evaluate(policy, all_items, gating).reaches("target") or carry_graph.evaluate(
-                policy, all_items, gating, allow_documented_retries=True).reaches("target")):
-            logging.getLogger(__name__).warning(
-                "Draft peg rule %s deferred: no reviewed source witness for this policy; "
-                "unreviewed alternatives are not declared impossible", row["id"],
+        all_items |= frozenset(item for carrier in carriers for route in carrier.routes for item in route.items)
+        if not any(candidate.evaluate(policy, all_items, gating, allow_documented_retries=True).reaches("target")
+                   for candidate in (graph, *carriers)):
+            raise ValueError(
+                f"No reviewed source witness for {row['id']} in mode {policy.mode}; "
+                "unreviewed alternatives are not declared impossible. Try another seed."
             )
-            continue
 
         def rule(state: Any, graph: TraversalGraph = graph,
-                 carry_graph: TraversalGraph = carry_graph,
+                 carriers: tuple[TraversalGraph, ...] = carriers,
                  source_hub: str = row.get("source_hub", _STONE_HUB)) -> bool:
             owned = frozenset(
                 f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES
@@ -220,13 +282,8 @@ def install_peg_rules(world: Any) -> None:
             )
             if graph.evaluate(policy, owned, gating).reaches("target"):
                 return True
-            # Recursive AP reachability only seeds the separately verified
-            # pre-gate source compartment. The carry path itself is explicit.
-            if not state.can_reach_region(source_hub, world.player):
-                return False
-            required = frozenset(item for route in carry_graph.routes for item in route.items)
-            owned |= frozenset(item for item in required if state.has(item, world.player))
-            return carry_graph.evaluate(policy, owned, gating, allow_documented_retries=True).reaches("target")
+            return any(carrier_reachable(world, state, policy, carrier, source_hub, owned, gating)
+                       for carrier in carriers)
 
         if row["exit"]:
             target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", world.player)

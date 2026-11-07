@@ -65,8 +65,20 @@ repatch from the supported original ROM.
 ## Peg coverage
 
 `peg_traversal_audit.json` records all14 pegs in13 native rooms. An audit record is
-not automatically an executable route. Production source-aware gates currently cover seven peg targets:
+not automatically an executable route. Production source-aware gates currently cover all eleven AP peg targets:
 
+- 149 peg35,18: chest, with a local Giant Rocky or a carried Smash. The carry
+  runs190 -> 143 -> 145 -> 146 upper exit -> 147 -> 148 right entry -> 149.
+  Smash Up+B cuts the143 star-platform rope; Stone cannot substitute there.
+  A190 statue may supply Smash under its actual assignment. The late970 statue
+  fallback requires all15 physical switches, Central access and the East hub
+  connection before this carry. Smash's down attack clears the149 ordinary floor.
+  Room147's documented vanilla timed run is assumed, not emulator-replayed.
+- 510 peg7,7: chest; Stone592 -> 528 -> 513 upper -> 509 upper-right -> 510 upper.
+  The final segments need no peg, metal or rope clearing. The UFO inside the chest
+  chamber is never used to bootstrap entry. A lower horizontal-metal alternative
+  remains uncredited; the implemented peg route is a sufficient witness, not a
+  claim that every other attack is impossible.
 - 401 peg28,30: right shaft to406 Sound Player; local Rockys or explicit Stone
   carry190 -> 801 -> 490 -> 407 -> 401. The407 bomb is approached from above with Stone.
 - 411 peg4,3: revealed405 doorway; Stone190 -> 801 -> 490 -> 411. Other exits stay free.
@@ -83,6 +95,14 @@ not automatically an executable route. Production source-aware gates currently c
 - 605 peg12,24: revealed610 door; Stone592 -> 690 -> 611 -> 601 upper exit -> 605.
   Standing untransformed on two native0x74 crumble objects removes the F7 floor
   layers without discarding Stone. The601 bomb uses an ordinary puff.
+- 513 peg4,7: upper-to-lower passage, then ordinary bomb5,18; Stone592 -> 528 ->
+  513 upper arrival. The528 wall puff and transition retaining Stone were replayed.
+  Reverse lower-to-upper movement can activate the bomb without the peg; the
+  directed0x0F platform prevents that reverse bypass from opening a forward route.
+- 527 peg18,13: Sapphire, after the timed gate and bomb38,8; Stone592 -> 528 ->
+  527. The documented vanilla timed run is assumed executable with untransformed
+  Stone, which shares ordinary movement. Native timing and gradual door animation
+  agree with that route; no exact frame schedule or emulator timing replay is claimed.
 - 527 peg56,16: lower515 entrance only; Stone592 -> 528 -> 527. This carry avoids
   the timed gate and rock body. Its narrow ordinary corridors fit native flight
   terrain bounds. The independent upper exit is not gated by this peg.
@@ -96,8 +116,11 @@ rewriting individual randomized outputs. Static policies, including shuffled wei
 1024 assignment attempts without forcing individual outputs. If that budget
 finds no Wheel-validated assignment, generation fails that seed with a precise
 search-budget diagnostic, not a claim that the configuration is impossible.
-A Wheel-validated policy may still defer unsupported peg rules with a warning. Unknown
-alternatives are not declared impossible; this remains incomplete draft coverage.
+A Wheel-valid candidate without all reviewed peg witnesses also fails after the
+bounded search. No target rule silently becomes permissive. Live-random rules
+validate positive-support renewable statue witnesses before installation. Unknown
+alternatives are not declared impossible; the diagnostic describes this seed and
+reviewed witness set, not global configuration impossibility.
 The current repository has no entrance
 shuffle option; RoomSanity adds checks, not shuffled transitions.
 
@@ -110,13 +133,9 @@ The527 upper arrival can reach the common exits but not that chest. The513 arriv
 occupies a separate shaft that can return to513 but cannot reach the chest or
 bottom500 exit. No Mini requirement is inferred from an ordinary16px corridor.
 
-Remaining audit-only AP targets:149 chest (Stone carrier blocked by143 star
-platforms; a separate local source is known),510 chest (different lower metal route),513
-upper-to-lower peg then bomb (reverse bomb bypass), and527 first peg/Sapphire.
 509 and218 gate food rather than AP exits;741 gates a loose1-Up, not its room exit.
 527 Sapphire requires bomb38,8 then peg18,13; an earlier bomb24,14-only bypass was
-invalidated by directed0x0F analysis. Its timed gate remains a separate unverified
-constraint. The816 remote bomb alternative remains unresolved. Ordinary underwater
+invalidated by directed0x0F analysis. Its timed gate uses the qualified ordinary-movement assumption above. The816 remote bomb alternative remains unresolved. Ordinary underwater
 weapons and puffs cannot break149's alternate F7 ceiling because they lack the
 required attack flag; environmental large-block/cannon alternatives are not claimed.
 
@@ -146,7 +165,8 @@ starting permissions in every mode, while Stone remains.
 
 Before treating this draft as gameplay accepted:
 
-- Finish source/compartment rules for the remaining mapped peg targets.
+- Expand alternative witnesses where useful; all eleven AP peg targets now have
+  source-aware rules, while the three non-AP consumable pegs remain audit records.
 - Repeat the verified native Rainbow108 carrier/reset route on the rebuilt
   randomized/gated ROM and investigate more speed alternatives. The current
   rule retains the explicit fresh-room opportunity assumption.
