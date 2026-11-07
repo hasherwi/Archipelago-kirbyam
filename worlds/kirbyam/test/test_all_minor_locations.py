@@ -133,7 +133,8 @@ def test_starting_ungated_native_abilities_cover_current_capability_groups():
     abilities = load_json_data('abilities.json')
     ungated = {name for name, row in abilities.items()
                if not row.get('safe_to_gate') and row.get('enemy_copy_allowed', True)}
-    assert ungated == {'Beam', 'Burning', 'Cutter', 'Stone', 'Wheel'}
+    assert ungated == {'Beam', 'Burning', 'Cutter', 'Stone'}
     assert all(ungated & choices for name, choices in _ABILITY_GATE_PLACEHOLDER_SOURCES.items()
                if name != "CanUseMini")
     assert abilities["Mini"]["safe_to_gate"]
+    assert abilities["Wheel"]["safe_to_gate"]
