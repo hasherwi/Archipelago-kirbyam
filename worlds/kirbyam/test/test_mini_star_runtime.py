@@ -68,6 +68,17 @@ int main(void) {
     uint32_t mode, type, unlocked, extra, i, before;
     uint32_t bad[] = {0u, 0x02000001u, 0x0203FFFFu, 0x03007FFFu};
     CHECK((uintptr_t)object == 0x02000000u && (uintptr_t)fallback == 0x03000000u);
+    /* Wheel now uses the same ordinary unlock gate in all three modes. */
+    object[0x82]=0x1D; /* native Wheelie */
+    AP_ABILITY_RANDOMIZATION_ALLOWED_MASK=1u<<4;
+    AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT=0;
+    for (mode=0; mode<3; mode++) for (unlocked=0; unlocked<2; unlocked++) {
+        AP_ABILITY_RANDOMIZATION_MODE=mode;
+        AP_ABILITY_GATE_MASK=1u<<4;
+        AP_ABILITY_UNLOCK_MASK=unlocked ? 1u<<4 : 0;
+        grant(AP_ENEMY_SWALLOW_CALLSITE,0x02000000,4);
+        CHECK(result==(unlocked ? 4u : 0u));
+    }
     AP_ABILITY_RANDOMIZATION_ALLOWED_MASK = 1u << 2;
     for (mode=0; mode<3; mode++) for (type=0xA3; type<=0xA4; type++)
     for (unlocked=0; unlocked<2; unlocked++) for (extra=0; extra<0x80; extra+=0x20) {

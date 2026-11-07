@@ -44,9 +44,9 @@ STARTING_COPY_ABILITIES: tuple[str, ...] = ("Beam", "Burning", "Cutter", "Mini",
 
 
 def starting_copy_abilities(mode: int) -> tuple[str, ...]:
-    """Mini is source-backed in every mode; Wheel/Stone retain starting permission."""
+    """Mini and Wheel have source-backed routes; Stone retains starting permission."""
     return tuple(
-        ability for ability in STARTING_COPY_ABILITIES if ability != "Mini"
+        ability for ability in STARTING_COPY_ABILITIES if ability not in {"Mini", "Wheel"}
     )
 
 

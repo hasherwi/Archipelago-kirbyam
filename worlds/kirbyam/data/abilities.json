@@ -107,7 +107,7 @@
   },
   "Wheel": {
     "runtime_ability_id": 4,
-    "safe_to_gate": false
+    "safe_to_gate": true
   },
   "Wait": {
     "runtime_ability_id": 27,

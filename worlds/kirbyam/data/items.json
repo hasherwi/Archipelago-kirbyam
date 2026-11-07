@@ -739,7 +739,7 @@
   },
   "ABILITY_UNLOCK_WHEEL": {
     "label": "Wheel Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860104,
     "tags": ["Abilities", "Unique"]
   },

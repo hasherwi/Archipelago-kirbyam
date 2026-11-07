@@ -157,7 +157,7 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | LEVER_WALL_MOONLIGHT_MANSION_2_11 .. LEVER_WALL_RADISH_RUINS_8_12 | 3860037 - 3860040 | Progression items that independently set the four native lever-controlled wall bits (Issue #859) |
 | AREA_KEY_2 .. AREA_KEY_9 | 3860041 - 3860048 | Progression items that unlock inter-area mirror destinations for Moonlight Mansion through Candy Constellation (bits `2..9` in `area_key_bitfield_runtime`) |
 | HUB_CONNECTION_RAINBOW_ROUTE_EAST .. HUB_CONNECTION_CANDY_CONSTELLATION | 3860401 - 3860415 | Progression items mapped in `WorldMapDoor` enum order; IDs `BASE_OFFSET + 400 + door_index` for native door indices 1..15 |
-| ABILITY_UNLOCK_* | 3860101 - 3860125 | Explicit ability items in `data/items.json`, preserving `BASE_OFFSET + 100 + runtime_ability_id`: 19 gateable unlocks and six guaranteed starting abilities. `Normal`, `Master`, and `Wait` have no AP item. |
+| ABILITY_UNLOCK_* | 3860101 - 3860125 | Explicit ability items in `data/items.json`, preserving `BASE_OFFSET + 100 + runtime_ability_id`: 21 gateable unlocks and four guaranteed starting abilities. `Normal`, `Master`, and `Wait` have no AP item. |
 | SPRAY_PAINT_01 .. SPRAY_PAINT_14 | 3860200 - 3860213 | Unique useful collection items; OR native Spray Paint ownership bits 0..13 |
 | MUSIC_SHEET_01 .. MUSIC_SHEET_10 | 3860214 - 3860223 | Unique useful collection items; OR native Music Player/Sheets bits 1..10, leaving bit 0 unchanged |
 | TRAP_HUB_TELEPORT | 3860300 | Explicit stable reservation; native warp-star return with receipt deferral |
@@ -378,7 +378,7 @@ no RAM reads, location sends, item writes, or goal reports occur.
 
 When runtime gate classifies non-gameplay:
 - Defer location polling and boss-defeat polling.
-- Defer new mailbox item writes, except the six guaranteed starting-ability precollect receipts during a live tutorial (native rooms 803–805, AI state 100, positive HP, demo flags zero). This exception accepts only Archipelago-origin `location=-2, player=0` receipts at the current history cursor; it never skips an intervening item or equips an ability. Other precollects and ordinary items remain deferred. Permission masks already synchronize before this receipt processing.
+- Defer new mailbox item writes, except precollect receipts for the six legacy starting-ability item IDs during a live tutorial (native rooms 803–805, AI state 100, positive HP, demo flags zero). This exception accepts only Archipelago-origin `location=-2, player=0` receipts at the current history cursor; it never skips an intervening item or equips an ability. Other precollects and ordinary items remain deferred. Permission masks already synchronize before this receipt processing.
 - Continue mailbox ACK/recovery handling for already-pending deliveries.
 - Continue goal polling (goal signal can occur in post-clear non-gameplay states).
 

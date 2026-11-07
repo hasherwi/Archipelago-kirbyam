@@ -12,13 +12,13 @@ from ..traversal import SourcePolicy
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 
 
-def make_world(mode, gating):
+def make_world(mode, gating, **extra_options):
     multiworld = MultiWorld(1)
     multiworld.game[1] = KirbyAmWorld.game
     multiworld.player_name = {1: "Mini traversal"}
     multiworld.set_seed(773)
     args = Namespace()
-    overrides = {"ability_randomization_mode": mode, "ability_gating": gating}
+    overrides = {"ability_randomization_mode": mode, "ability_gating": gating, **extra_options}
     for name, option in KirbyAmWorld.options_dataclass.type_hints.items():
         setattr(args, name, {1: option.from_any(overrides.get(name, option.default))})
     multiworld.set_options(args)
@@ -36,7 +36,7 @@ def test_all_four_exact_branches_and_bypasses(mode, gating):
     world = make_world(mode, gating)
     state = CollectionState(world.multiworld)
     assert not state.has("Mini Ability", 1)
-    assert state.has("Stone Ability", 1) and state.has("Wheel Ability", 1)
+    assert state.has("Stone Ability", 1) and not state.has("Wheel Ability", 1)
     for row, graph in mini_routes():
         if row["exit"]:
             target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", 1)
@@ -60,9 +60,9 @@ def test_only_minny_option_removed():
             "ability_randomization_minibosses", "ability_randomization_boss_spawns"} <= options.keys()
 
 
-def test_mini_removed_in_all_modes_without_changing_stone_or_wheel():
+def test_mini_and_wheel_removed_in_all_modes_without_changing_stone():
     assert starting_copy_abilities(0) == starting_copy_abilities(1)
-    assert set(starting_copy_abilities(0)) == set(STARTING_COPY_ABILITIES) - {"Mini"}
+    assert set(starting_copy_abilities(0)) == set(STARTING_COPY_ABILITIES) - {"Mini", "Wheel"}
     assert starting_copy_abilities(2) == starting_copy_abilities(0)
 
 

@@ -443,6 +443,8 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
     install_mini_rules(world)
     from .peg_traversal import install_peg_rules
     install_peg_rules(world)
+    from .wheel_traversal import install_wheel_rules
+    install_wheel_rules(world)
 
     for goal_location_name in _GOAL_LOCATION_LABELS.values():
         try:

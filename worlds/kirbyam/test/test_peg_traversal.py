@@ -85,7 +85,7 @@ def test_random_statue_retry_is_explicit_and_does_not_use_enemy_weight():
     raw = dict(make_world(2, True)._enemy_copy_ability_policy)
     raw["ability_randomization_no_ability_weight"] = 100
     policy = SourcePolicy(raw, include_statues=True)
-    graph = stone_carry_graph(PEG_ROUTES[0], False)
+    graph = stone_carry_graph(next(row for row in PEG_ROUTES if row["room"] == 411), False)
     items = frozenset(item for route in graph.routes for item in route.items)
     assert not graph.evaluate(policy, items, True).reaches("target")
     result = graph.evaluate(policy, items, True, allow_documented_retries=True)
@@ -97,7 +97,7 @@ def test_gate_side_reach_does_not_bootstrap_remote_statue():
     from unittest.mock import patch
     from ..peg_traversal import stone_carry_graph
     world = make_world(0, True)
-    row = PEG_ROUTES[0]  # 411 has no local source.
+    row = next(row for row in PEG_ROUTES if row["room"] == 411)  # 411 has no local source.
     graph = stone_carry_graph(row, world._area_keys_enabled())
     state = CollectionState(world.multiworld)
     for item in {item for route in graph.routes for item in route.items}:
@@ -125,7 +125,8 @@ def test_weight100_static_assignments_are_resampled_without_forcing_outputs():
 
 
 def test_assignment_budget_exhaustion_is_diagnostic_not_impossibility(monkeypatch, caplog):
-    from .. import peg_traversal
+    from .. import peg_traversal, wheel_traversal
+    monkeypatch.setattr(wheel_traversal, "static_wheel_witness", lambda *args: True)
     initial = {"mode": 1}
     calls = []
     monkeypatch.setattr(peg_traversal, "SourcePolicy", lambda *args: type("Policy", (), {"mode": 1})())
@@ -133,3 +134,12 @@ def test_assignment_budget_exhaustion_is_diagnostic_not_impossibility(monkeypatc
     result = peg_traversal.validate_peg_assignment(initial, lambda: calls.append(1) or initial, False, 3)
     assert result is initial and len(calls) == 2
     assert "not a proof" in caplog.text
+
+
+def test_unvalidated_wheel_seed_fails_when_search_budget_exhausted(monkeypatch):
+    from .. import peg_traversal, wheel_traversal
+    monkeypatch.setattr(wheel_traversal, "static_wheel_witness", lambda *args: False)
+    monkeypatch.setattr(peg_traversal, "SourcePolicy", lambda *args: type("Policy", (), {"mode": 1})())
+    initial = {"mode": 1, "seed": 123}
+    with pytest.raises(ValueError, match="Wheel-source search budget exhausted after 3 attempts"):
+        peg_traversal.validate_peg_assignment(initial, lambda: initial, False, 3)

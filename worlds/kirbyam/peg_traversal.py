@@ -16,6 +16,13 @@ from .traversal import Node, Placement, Position, Route, SourcePolicy, Traversal
 
 PEG_ROUTES: tuple[dict[str, Any], ...] = (
     {
+        "id": "peg_816_26_3", "room": 816,
+        "region": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
+        "exit": None, "location": "MAJOR_CHEST_OLIVE_OCEAN",
+        "sources": (("BONKERS", "0x088CE8FC"),),
+        "source_hub": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
+    },
+    {
         "id": "peg_411_4_3", "room": 411,
         "region": "REGION_CANDY_CONSTELLATION/ROOM_9_08",
         "exit": "REGION_CANDY_CONSTELLATION/ROOM_9_09", "location": None,
@@ -37,11 +44,16 @@ PEG_ROUTES: tuple[dict[str, Any], ...] = (
 
 _STONE_HUB = "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
 _CARRY_PATHS = {
+    "peg_816_26_3": (592, 801, 191, 890, 811, 830, 810, 802, 816),
     "peg_411_4_3": (190, 801, 490, 411),
     "peg_401_28_30": (190, 801, 490, 407, 401),
     "peg_221_41_12": (190, 801, 290, 291, 215, 212, 216, 217, 221),
 }
 _CARRY_ITEMS = {
+    "peg_816_26_3": frozenset({
+        "Cabbage Cavern West - Hub Connection", "Cabbage Cavern East - Hub Connection",
+        "Olive Ocean - Hub Connection",
+    }),
     "peg_411_4_3": frozenset({
         "Rainbow Route East - Hub Connection", "Candy Constellation - Hub Connection",
     }),
@@ -66,7 +78,10 @@ def stone_carry_graph(row: dict[str, Any], area_keys: bool) -> TraversalGraph:
     items = _CARRY_ITEMS[row["id"]]
     if area_keys:
         area = "Candy Constellation" if row["room"] in (401, 411) else "Peppermint Palace"
-        items |= {area + " - Area Key"}
+        if row["room"] == 816:
+            items |= {"Cabbage Cavern - Area Key", "Olive Ocean - Area Key"}
+        else:
+            items |= {area + " - Area Key"}
     nodes = tuple(Node(str(room), room) for room in path) + (Node("target", row["room"]),)
     routes = tuple(
         Route(str(source), str(target), items=items)
@@ -74,11 +89,14 @@ def stone_carry_graph(row: dict[str, Any], area_keys: bool) -> TraversalGraph:
     ) + (Route(str(path[-1]), "target", "peg", row["id"], allowed_abilities=frozenset(
         {"Stone", "Hammer", "Smash"} if row["room"] == 411 else {"Stone"}
     )),)
+    placements = (("STATUE:353900", "0x088B7CEC"), ("STATUE:3538FC", "0x088B7DA0"))
+    if path[0] == 592:
+        placements = (("STATUE:353900", "0x088CEFEC"), ("STATUE:3538FD", "0x088CEFC8"))
     sources = tuple(Placement(
-        "190", key, identity=identity, renewable=True,
-        retry_evidence="Hub190 permanent statue can be retouched before carry; eventual Stone draw assumed",
-    ) for key, identity in (("STATUE:353900", "0x088B7CEC"), ("STATUE:3538FC", "0x088B7DA0")))
-    return TraversalGraph(nodes, routes, sources, (Position("190"),), frozenset({"target"}))
+        str(path[0]), key, identity=identity, renewable=True,
+        retry_evidence="Permanent hub statue can be retouched before carry; eventual eligible draw assumed",
+    ) for key, identity in placements)
+    return TraversalGraph(nodes, routes, sources, (Position(str(path[0])),), frozenset({"target"}))
 
 
 def peg_graph(row: dict[str, Any]) -> TraversalGraph:
@@ -113,23 +131,37 @@ def validate_peg_assignment(
     This is conservative source validation, not a proof that rejected assignments
     have no remote-carried solution. Live random rollout remains incomplete.
     """
+    if max_attempts < 1:
+        raise ValueError("assignment search budget must be positive")
     if not peg_logic_enabled(initial):
         return initial
+    from .wheel_traversal import static_wheel_witness
+
     candidate = initial
+    wheel_valid_candidate = None
     for attempt in range(max_attempts):
         policy = SourcePolicy(candidate, include_statues)
-        if all(_assignment_has_witness(row, policy) for row in PEG_ROUTES):
+        wheel_valid = static_wheel_witness(policy)
+        if wheel_valid and wheel_valid_candidate is None:
+            wheel_valid_candidate = candidate
+        if wheel_valid and all(_assignment_has_witness(row, policy) for row in PEG_ROUTES):
             return candidate
         if policy.mode != 1:
             break
         if attempt + 1 < max_attempts:
             candidate = factory()
+    if wheel_valid_candidate is None:
+        raise ValueError(
+            f"Reviewed Wheel-source search budget exhausted after {attempt + 1} attempts "
+            f"(mode={initial.get('mode')}, initial seed={initial.get('seed')}). "
+            "This does not prove the configuration or unreviewed alternatives impossible; try another seed."
+        )
     logging.getLogger(__name__).warning(
         "No reviewed peg-source witness found within %s assignment attempts. "
-        "Keeping the original policy and deferring only unsupported draft routes; "
+        "Keeping a Wheel-validated policy and deferring only unsupported draft peg routes; "
         "this is not a proof that other carried-source alternatives are impossible.", max_attempts,
     )
-    return initial
+    return wheel_valid_candidate
 
 
 def install_peg_rules(world: Any) -> None:
@@ -155,7 +187,8 @@ def install_peg_rules(world: Any) -> None:
             continue
 
         def rule(state: Any, graph: TraversalGraph = graph,
-                 carry_graph: TraversalGraph = carry_graph) -> bool:
+                 carry_graph: TraversalGraph = carry_graph,
+                 source_hub: str = row.get("source_hub", _STONE_HUB)) -> bool:
             owned = frozenset(
                 f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES
                 if state.has(f"{name} Ability", world.player)
@@ -164,7 +197,7 @@ def install_peg_rules(world: Any) -> None:
                 return True
             # Recursive AP reachability only seeds the separately verified
             # pre-gate source compartment. The carry path itself is explicit.
-            if not state.can_reach_region(_STONE_HUB, world.player):
+            if not state.can_reach_region(source_hub, world.player):
                 return False
             required = frozenset(item for route in carry_graph.routes for item in route.items)
             owned |= frozenset(item for item in required if state.has(item, world.player))
@@ -172,6 +205,8 @@ def install_peg_rules(world: Any) -> None:
 
         if row["exit"]:
             target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", world.player)
+            hub = world.multiworld.get_region(row.get("source_hub", _STONE_HUB), world.player)
+            world.multiworld.register_indirect_condition(hub, target)
         else:
             location_data = data.locations[row["location"]]
             try:
