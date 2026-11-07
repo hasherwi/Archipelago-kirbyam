@@ -925,8 +925,8 @@ This preserves existing conservative transient-receipt recovery. A reset that lo
 **Copy Ability Room Access** (`3860500`) is one progression item replacing one
 filler. It gates only Adventure Central Circle 801 → 970. There is no new
 RoomSanity check: the optional catalog remains 263. No starting grant is added;
-explicit precollection and complete received-item history use the same ownership
-reconciliation. Access permits entering the room, not acquiring individual copy
+explicit precollection and complete received-item history use the same permanent
+grant path. Access permits entering the room, not acquiring individual copy
 abilities. Ordinary statues, Hub Connections, Big Switch checks, Collection and
 Boss Endurance 950 remain independent.
 
@@ -960,29 +960,32 @@ back to File 1.
 
 The feature mailbox occupies `0x0203B160`–`0x0203B16F`:
 - `0x160`: client request epoch, written last; zero is idle.
-- `0x164`: complete authoritative ownership, exactly zero or one.
+- `0x164`: grant request, exactly one. Zero and all other values are ignored.
 - `0x168`: last accepted epoch.
 - `0x16C`: last accepted ownership.
 
-The client waits for the current socket's complete item history, combines
-explicit precollection, and fences session identity, history, native epoch,
-selected file and ROM authentication before a guarded mailbox write. The runtime
-checks the live context again before changing the saved record. The ordinary
+The client waits for the current socket's complete item history and uses positive
+receipt or explicit precollection evidence to grant access. It never sends a
+revocation: empty history produces no write, and a saved grant is permanent
+within its authenticated seed and native file. Session identity, history, native
+epoch, selected file and ROM authentication are fenced before a guarded mailbox
+write. The runtime checks the live context again and accepts only a grant value
+of one; even a current-epoch zero cannot clear ownership. The ordinary
 item-delivery mailbox only acknowledges this item after authenticated ownership
-has arrived; a stale receipt cannot grant access. Disconnect sends no revocation
-and preserves authenticated offline ownership. Duplicate reconciliation does not
-make new dirty saves. Native save failures retry only the active file; changes
+has arrived; a stale receipt cannot grant access. Disconnect and incomplete or empty replay preserve authenticated offline
+ownership. Duplicate grants do not make new dirty saves. Changing files or
+leaving Adventure deactivates only the live context, not its saved grant. A fresh
+file or a mismatching seed initializes a separate unowned record; this prevents
+identity leakage and does not revoke ownership in a matching saved file. Native save failures retry only the active file; changes
 not yet saved can be lost on reset or leaving that context. Arbitrary save-state
 rollback is not a durability guarantee.
 
 The special mirror lookup at USA `0x0801E5B2` is intercepted before collision
 mutation, and the actual 801 → 970 transition checks authenticated ownership.
 Receipt while already in 801 opens the still-active native mirror initializer.
-Revocation blocks entry immediately and persists, but an already-open native
-mirror graphic can remain until Central Circle is fully reloaded, for example
-by returning to title and reloading the save. Ordinary leave/reentry may reuse
-the room buffer while an AI Kirby stays there. No forced respawn or live tile
-rewrite is used. The vanilla all-switch branch at ROM
+Ownership is grant-only; there is no live revocation or cosmetic-closing path.
+The actual transition still rejects inactive, mismatched-seed or wrong-file
+contexts. No forced respawn or live tile rewrite is used. The vanilla all-switch branch at ROM
 `0x12630C` changes from `46 D1` to `46 E0`: switch saving has already occurred,
 and cleanup at `0x12639C` runs without the automatic word-18 grant, redundant save
 or misleading unlock presentation. Exact retail-byte guards reject unexpected

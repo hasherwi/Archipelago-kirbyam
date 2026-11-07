@@ -78,23 +78,27 @@ int main(void) {
         CHECK(ap_copy_room_load(1,slot)==0);CHECK(!ap_copy_room_epoch());START();
         CHECK(ap_copy_room_owned() && CTX->epoch!=old_epoch);
         REQUEST[0]=old_epoch;REQUEST[1]=0;ap_copy_room_poll();CHECK(ap_copy_room_owned());
-        COMMAND(0);
-        CHECK(!ap_copy_room_owned() && !WORD18);
-        CHECK(files[slot][26]==AP_COPY_TAG);ap_copy_room_poll();CHECK(!ap_copy_room_owned());
-        COMMAND(1); /* Preserve independently for final offline loads. */
+        before=saves[slot];COMMAND(0); /* Even a current-epoch zero cannot revoke. */
+        CHECK(ap_copy_room_owned() && WORD18 && !REQUEST[0]);
+        CHECK(files[slot][26]==(AP_COPY_TAG|1) && saves[slot]==before);
+        COMMAND(2);CHECK(ap_copy_room_owned() && saves[slot]==before);
     }
     for(unsigned slot=0;slot<3;slot++) {
         SAVE_SLOT=slot;CHECK(ap_copy_room_load(1,slot)==0);START();CHECK(ap_copy_room_owned());
         CHECK(CTX->slot==slot);
     }
     /* A pending command cannot cross a file preview, failed load or clear. */
-    uint32_t stale=CTX->epoch;REQUEST[0]=stale;REQUEST[1]=0;
+    uint32_t stale=CTX->epoch;REQUEST[0]=stale;REQUEST[1]=1;
     SAVE_SLOT=0;CHECK(ap_copy_room_load(1,0)==0);CHECK(!REQUEST[0]);START();
     CHECK(ap_copy_room_owned());
     fail_load=1;CHECK(ap_copy_room_load(1,1)==-1);START();CHECK(!ap_copy_room_epoch());fail_load=0;
     SAVE_SLOT=1;ap_copy_room_clear(1);CHECK(!ap_copy_room_epoch());START();CHECK(!ap_copy_room_owned());
+    ap_copy_room_poll();unsigned clean_saves=saves[1];
+    REQUEST[0]=stale;REQUEST[1]=1;ap_copy_room_poll();
+    CHECK(!ap_copy_room_owned() && saves[1]==clean_saves);
+    COMMAND(0);CHECK(!ap_copy_room_owned() && saves[1]==clean_saves);
     COMMAND(1);CHECK(ap_copy_room_owned());
-    /* Changed native selection / non-adventure task revokes context, not another save. */
+    /* Changed native selection / non-adventure task deactivates context, not another save. */
     SAVE_SLOT=2;REQUEST[0]=CTX->epoch;REQUEST[1]=0;CHECK(!ap_copy_room_epoch());
     CHECK(ap_copy_room_load(1,2)==0);START();CHECK(ap_copy_room_owned());
     FLAGS=0x10;CHECK(!ap_copy_room_epoch());FLAGS=0;CHECK(!ap_copy_room_epoch());

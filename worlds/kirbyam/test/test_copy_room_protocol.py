@@ -40,7 +40,10 @@ def test_complete_history_and_precollection_in_each_native_file(monkeypatch, slo
     monkeypatch.setattr(protocol.bizhawk, "read", AsyncMock(side_effect=[[raw, auth], [raw[:12], auth]]))
     write = AsyncMock(return_value=True)
     monkeypatch.setattr(protocol.bizhawk, "guarded_write", write)
-    assert asyncio.run(protocol.sync_copy_room_ownership(ctx, lambda _: True))
+    assert asyncio.run(protocol.sync_copy_room_ownership(ctx, lambda _: True)) == bool(owned)
+    if not owned:
+        write.assert_not_called()
+        return
     assert write.call_args.args[1] == [(0x0203B164, owned.to_bytes(4, "little"), "System Bus"),
                                        (0x0203B160, (7).to_bytes(4, "little"), "System Bus")]
     assert write.call_args.args[2] == [(0x0203B13C, raw[:12], "System Bus"), (0xF00000, auth, "ROM")]
@@ -93,3 +96,19 @@ def test_disconnect_or_incomplete_replay_never_revokes_offline_ownership(monkeyp
     monkeypatch.setattr(protocol.bizhawk, "read", read)
     assert not asyncio.run(protocol.sync_copy_room_ownership(_ctx(), lambda _: False))
     read.assert_not_called()
+
+
+@pytest.mark.parametrize("slot", [0, 1, 2])
+@pytest.mark.parametrize("received", [False, True])
+def test_saved_grant_is_permanent_across_complete_history_replay(monkeypatch, slot, received):
+    ctx = _ctx([3860500] if received else [])
+    raw = _raw(slot, owned=1)
+    auth = base64.b64decode(ctx.auth)
+    read = AsyncMock(side_effect=[[raw, auth], [raw[:12], auth]])
+    write = AsyncMock()
+    monkeypatch.setattr(protocol.bizhawk, "read", read)
+    monkeypatch.setattr(protocol.bizhawk, "guarded_write", write)
+    assert asyncio.run(protocol.sync_copy_room_ownership(ctx, lambda _: True)) == received
+    write.assert_not_called()
+    if not received:
+        read.assert_not_called()  # Empty history is not an instruction to clear saved ownership.

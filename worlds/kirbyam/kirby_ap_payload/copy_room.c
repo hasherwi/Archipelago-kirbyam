@@ -97,24 +97,21 @@ AP_COPY_EXT void ap_copy_room_start(uint8_t humans, uint8_t local, const uint16_
     CTX->epoch=CTX->serial;
 }
 AP_COPY_EXT void ap_copy_room_poll(void) {
-    uint32_t epoch=ap_copy_room_epoch(), request=REQUEST[0], owned;
+    uint32_t epoch=ap_copy_room_epoch(), request=REQUEST[0];
     if (request) {
-        if (epoch && request==epoch && REQUEST[1]<=1u) {
-            owned=REQUEST[1];
-            if ((RECORD[4]&AP_COPY_OWNED)!=owned) {
-                RECORD[4]=AP_COPY_TAG|owned; CTX->dirty=1u; CTX->retry=0u;
+        if (epoch && request==epoch && REQUEST[1]==1u) {
+            /* Receipt is permanent within this authenticated native file.
+             * Empty/replayed histories and zero commands cannot revoke it. */
+            if (!(RECORD[4]&AP_COPY_OWNED)) {
+                RECORD[4]=AP_COPY_TAG|AP_COPY_OWNED; CTX->dirty=1u; CTX->retry=0u;
             }
-            CTX->owned=owned; REQUEST[3]=owned; REQUEST[2]=epoch;
+            CTX->owned=AP_COPY_OWNED; REQUEST[3]=AP_COPY_OWNED; REQUEST[2]=epoch;
         }
         REQUEST[0]=0u;
     }
     /* Never modify preview buffers or save outside the active native file. */
     if (!epoch) return;
     WORD18=ap_copy_room_owned();
-    /* An already opened mirror keeps its native graphic until a genuine room
-     * reload. Entry is denied immediately by the transition guard. Do not call
-     * the explicit-room transition with 801 -> 801: native code rejects it.
-     * Never force a respawn or modify live collision to refresh cosmetics. */
     if (CTX->dirty) {
         if (CTX->retry) --CTX->retry;
         else if (NATIVE_SAVE(1u,(uint16_t)CTX->slot)==0) CTX->dirty=0u;

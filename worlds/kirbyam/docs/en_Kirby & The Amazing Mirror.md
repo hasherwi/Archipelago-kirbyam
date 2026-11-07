@@ -208,5 +208,7 @@ requires explicit precollection. The room still follows your configured ability
 gating and statue randomization; entering it does not unlock unowned abilities.
 
 The existing three save files remain selectable. Ownership is saved in the active
-file and survives offline reload for that seed. Update the client and regenerate
+file and survives offline reload for that seed. Once granted, it is not taken
+away by reconnecting or replaying item history. Fresh files and different seeds
+still start without access. Update the client and regenerate
 the seed/patch together; the earlier single-save prototype is not compatible.

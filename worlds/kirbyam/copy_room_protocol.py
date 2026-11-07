@@ -53,7 +53,7 @@ def _session(ctx: Any) -> tuple[Any, ...]:
 
 
 async def sync_copy_room_ownership(ctx: Any, history_ready: Callable[[Any], bool]) -> bool:
-    """Fence complete current-socket history and the active native file epoch."""
+    """Grant permanently within the authenticated native file; never revoke."""
     slot = getattr(ctx, "slot_data", {})
     if not copy_room_slot_version(slot) or not history_ready(ctx):
         return False
@@ -63,6 +63,8 @@ async def sync_copy_room_ownership(ctx: Any, history_ready: Callable[[Any], bool
     if type(owned) is not bool:
         raise ValueError("invalid starting Copy Ability Room ownership")
     owned = owned or any(getattr(item, "item", None) == COPY_ROOM_ITEM_ID for item in items)
+    if not owned:
+        return False  # No grant evidence. Preserve saved ownership, including offline grants.
     try:
         auth = base64.b64decode(ctx.auth, validate=True)
     except (ValueError, TypeError):
@@ -80,10 +82,12 @@ async def sync_copy_room_ownership(ctx: Any, history_ready: Callable[[Any], bool
     snapshot = decode_copy_room_snapshot(bytes(raw[0]), bytes(fence[0]))
     if snapshot is None:
         return False
+    if snapshot.owned:
+        return True
     # The native handler checks the epoch, selected/loaded file, live task and
     # saved seed identity again. Publish request epoch last, never write WORLD.
     return await bizhawk.guarded_write(ctx.bizhawk_ctx, [
-        (COPY_ROOM_REQUEST_ADDRESS + 4, int(owned).to_bytes(4, "little"), "System Bus"),
+        (COPY_ROOM_REQUEST_ADDRESS + 4, (1).to_bytes(4, "little"), "System Bus"),
         (COPY_ROOM_REQUEST_ADDRESS, snapshot.epoch.to_bytes(4, "little"), "System Bus"),
     ], [
         (COPY_ROOM_CONTEXT_ADDRESS, bytes(fence[0]), "System Bus"),
