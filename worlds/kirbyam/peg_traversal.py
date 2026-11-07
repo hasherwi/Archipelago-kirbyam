@@ -58,28 +58,33 @@ def _assignment_has_witness(row: dict[str, Any], policy: SourcePolicy) -> bool:
 
 def validate_peg_assignment(
     initial: dict[str, Any], factory: Callable[[], dict[str, Any]], include_statues: bool,
-    max_attempts: int = 1024,
+    max_attempts: int = 8192,
 ) -> dict[str, Any]:
     """Select a valid deterministic assignment; do not rewrite individual grants.
 
-    This is conservative source validation, not a proof that rejected assignments
-    have no remote-carried solution. Live random statues use explicit retry semantics.
+    The bounded default allows rare joint Wheelie/peg-source assignments with fixed
+    statues. It never forces individual grants. Rejection does not prove that no
+    remote-carried solution exists. Live random statues use explicit retry semantics.
     """
     if max_attempts < 1:
         raise ValueError("assignment search budget must be positive")
     if not peg_logic_enabled(initial):
         return initial
     from .wheel_traversal import static_wheel_witness
+    from .traversal_rules import static_extra_witness
 
     candidate = initial
     wheel_valid_candidate = None
+    peg_valid_candidate = None
     for attempt in range(max_attempts):
         policy = SourcePolicy(candidate, include_statues)
         wheel_valid = static_wheel_witness(policy)
         if wheel_valid and wheel_valid_candidate is None:
             wheel_valid_candidate = candidate
         if wheel_valid and all(_assignment_has_witness(row, policy) for row in PEG_ROUTES):
-            return candidate
+            peg_valid_candidate = candidate
+            if static_extra_witness(policy):
+                return candidate
         if policy.mode != 1:
             break
         if attempt + 1 < max_attempts:
@@ -87,6 +92,12 @@ def validate_peg_assignment(
     if wheel_valid_candidate is None:
         raise ValueError(
             f"Reviewed Wheel-source search budget exhausted after {attempt + 1} attempts "
+            f"(mode={initial.get('mode')}, initial seed={initial.get('seed')}). "
+            "This does not prove the configuration or unreviewed alternatives impossible; try another seed."
+        )
+    if peg_valid_candidate is not None:
+        raise ValueError(
+            f"Reviewed fuse/rope-source search budget exhausted after {attempt + 1} attempts "
             f"(mode={initial.get('mode')}, initial seed={initial.get('seed')}). "
             "This does not prove the configuration or unreviewed alternatives impossible; try another seed."
         )
@@ -124,7 +135,8 @@ def install_peg_rules(world: Any) -> None:
                 f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES
                 if state.has(f"{name} Ability", world.player)
             )
-            if has_graph_access(world, state, graph) and graph.evaluate(policy, owned, gating).reaches("target"):
+            if (has_graph_access(world, state, graph)
+                    and graph.evaluate(policy, owned, gating, allow_documented_retries=True).reaches("target")):
                 return True
             return any(carrier_reachable(world, state, policy, carrier, owned, gating)
                        for carrier in carriers)

@@ -20,6 +20,8 @@ HUB_SWITCH_LABELS = tuple(row.label for row in data.locations.values()
 
 def has_graph_access(world: Any, state: Any, graph: TraversalGraph) -> bool:
     """Test independent acquisition access, not inventory-as-equipment."""
+    if graph.unavailable_reason is not None:
+        return False
     if graph.access_region is not None and not state.can_reach_region(graph.access_region, world.player):
         return False
     return not graph.requires_all_hub_switches or all(
@@ -36,11 +38,31 @@ def graph_access_regions(graph: TraversalGraph) -> frozenset[str]:
     return regions
 
 
+def _expand_graph_parts(expanded: dict[str, Any], graph_parts: Mapping[str, Any] | None) -> None:
+    references = expanded.pop("graph_parts", [])
+    if not isinstance(references, list) or any(not isinstance(key, str) for key in references):
+        raise ValueError("Graph part references must be a list of IDs")
+    if len(references) != len(set(references)):
+        raise ValueError("Duplicate graph part reference")
+    for key in references:
+        if graph_parts is None or key not in graph_parts:
+            raise ValueError(f"Unknown traversal graph part: {key}")
+        part = graph_parts[key]
+        if part.get("version") != 1 or part.get("status") != "reviewed" or set(part) - {
+            "version", "status", "nodes", "routes", "sources", "source_sets",
+        }:
+            raise ValueError(f"Unsupported traversal graph part: {key}")
+        for field in ("nodes", "routes", "sources", "source_sets"):
+            expanded.setdefault(field, []).extend(deepcopy(part.get(field, [])))
+
+
 def compile_room_graph(
     payload: Mapping[str, Any], source_sets: Mapping[str, Any], *, area_keys: bool = False,
+    graph_parts: Mapping[str, Any] | None = None,
 ) -> TraversalGraph:
     """Expand physical placements without changing their identity or retry policy."""
     expanded = deepcopy(dict(payload))
+    _expand_graph_parts(expanded, graph_parts)
     sources = expanded.setdefault("sources", [])
     nodes = {node["id"]: node["native_room"] for node in expanded["nodes"]}
     for reference in expanded.pop("source_sets", ()):
@@ -48,6 +70,11 @@ def compile_room_graph(
         if key not in source_sets:
             raise ValueError(f"Unknown traversal source set: {key}")
         definition = source_sets[key]
+        if "unavailable" in definition:
+            reason = definition["unavailable"]
+            if not isinstance(reason, str) or not reason.strip():
+                raise ValueError(f"Unavailable source set {key} needs a concrete reason")
+            expanded.setdefault("access", {})["unavailable"] = reason
         if nodes.get(node) != definition["native_room"]:
             raise ValueError(f"Source set {key} is not in its native room at {node}")
         for placement in definition["sources"]:
@@ -63,17 +90,22 @@ def compile_room_graph(
 
 def load_room_traversal(
     rooms: Mapping[str, Mapping[str, Any]],
-) -> tuple[tuple[dict[str, Any], ...], dict[str, Any]]:
+) -> tuple[tuple[dict[str, Any], ...], dict[str, Any], dict[str, Any]]:
     """Collect the shared schema and reject invalid or detached AP targets."""
     targets: list[dict[str, Any]] = []
     source_sets: dict[str, Any] = {}
+    graph_parts: dict[str, Any] = {}
     seen: set[str] = set()
     for region, room in rooms.items():
         traversal = room.get("traversal", {})
         if not traversal:
             continue
-        if traversal.get("version") != 1 or set(traversal) - {"version", "source_sets", "targets"}:
+        if traversal.get("version") != 1 or set(traversal) - {"version", "source_sets", "graph_parts", "targets"}:
             raise ValueError(f"Unsupported room traversal schema: {region}")
+        for key, definition in traversal.get("graph_parts", {}).items():
+            if key in graph_parts:
+                raise ValueError(f"Duplicate traversal graph part: {key}")
+            graph_parts[key] = definition
         for key, definition in traversal.get("source_sets", {}).items():
             if key in source_sets:
                 raise ValueError(f"Duplicate traversal source set: {key}")
@@ -85,20 +117,32 @@ def load_room_traversal(
             if row["id"] in seen:
                 raise ValueError(f"Duplicate traversal target: {row['id']}")
             seen.add(row["id"])
-            if row["kind"] not in {"mini", "peg", "wheel"}:
+            if row["kind"] not in {"mini", "peg", "wheel", "fuse", "rope"}:
                 raise ValueError(f"Unknown traversal target kind: {row['kind']}")
             _validate_target(row)
             targets.append(row)
+    _validate_graph_parts(graph_parts, source_sets)
     for row in targets:
-        _validate_graphs(row, source_sets)
-    return tuple(targets), source_sets
+        _validate_graphs(row, source_sets, graph_parts)
+    return tuple(targets), source_sets, graph_parts
 
 
-def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any]) -> None:
+def _validate_graph_parts(graph_parts: Mapping[str, Any], source_sets: Mapping[str, Any]) -> None:
+    for key, definition in graph_parts.items():
+        if not definition.get("nodes"):
+            raise ValueError(f"Empty traversal graph part: {key}")
+        # Validate even unused fragments, without inventing an equipped start.
+        compile_room_graph({
+            "version": 1, "status": "reviewed", "nodes": [], "routes": [],
+            "starts": [definition["nodes"][0]["id"]], "graph_parts": [key],
+        }, source_sets, graph_parts=graph_parts)
+
+
+def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], graph_parts: Mapping[str, Any]) -> None:
     if not row.get("graphs"):
         raise ValueError(f"Traversal target has no reviewed graphs: {row['id']}")
     for payload in row["graphs"].values():
-        graph = compile_room_graph(payload, source_sets)
+        graph = compile_room_graph(payload, source_sets, graph_parts=graph_parts)
         if not graph.starts or not graph.required_targets:
             raise ValueError(f"Traversal target has no start or required target: {row['id']}")
         target_rooms = {node.room for node in graph.nodes if node.key in graph.required_targets}
@@ -109,6 +153,10 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any]) -> 
 
 
 def _validate_target(row: Mapping[str, Any]) -> None:
+    if not isinstance(row.get("required_for_generation", True), bool):
+        raise ValueError("required_for_generation must be a boolean")
+    if not row.get("required_for_generation", True) and not row.get("optional_route_evidence"):
+        raise ValueError("Optional traversal route needs independent bypass evidence")
     region = data.regions.get(row["region"])
     if region is None:
         raise ValueError(f"Unknown traversal owner: {row['region']}")
@@ -122,7 +170,7 @@ def _validate_target(row: Mapping[str, Any]) -> None:
 
 
 @lru_cache(maxsize=1)
-def _room_catalog() -> tuple[tuple[dict[str, Any], ...], dict[str, Any]]:
+def _room_catalog() -> tuple[tuple[dict[str, Any], ...], dict[str, Any], dict[str, Any]]:
     return load_room_traversal({name: {"traversal": region.traversal} for name, region in data.regions.items()})
 
 
@@ -132,6 +180,6 @@ def room_traversal_targets(kind: str) -> tuple[dict[str, Any], ...]:
 
 @lru_cache(maxsize=None)
 def room_traversal_graph(target_id: str, witness: str, area_keys: bool = False) -> TraversalGraph:
-    targets, source_sets = _room_catalog()
+    targets, source_sets, graph_parts = _room_catalog()
     row = next(row for row in targets if row["id"] == target_id)
-    return compile_room_graph(row["graphs"][witness], source_sets, area_keys=area_keys)
+    return compile_room_graph(row["graphs"][witness], source_sets, area_keys=area_keys, graph_parts=graph_parts)

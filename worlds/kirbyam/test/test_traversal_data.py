@@ -39,10 +39,11 @@ def rooms(payload):
 
 def test_minimal_reviewed_schema_loads_without_mutation(rooms):
     original = deepcopy(rooms)
-    targets, sources = load_room_traversal(rooms)
+    targets, sources, parts = load_room_traversal(rooms)
     assert len(targets) == 1
     assert targets[0]["region"] == OWNER
     assert sources == {}
+    assert parts == {}
     assert rooms == original
 
 
@@ -157,6 +158,8 @@ def test_target_catalog_counts_and_provider_separation():
     assert CAPABILITY_ABILITIES == {
         "mini_corridor": frozenset({"Mini"}), "wheel_race": frozenset({"Wheel"}),
         "peg": frozenset({"Stone", "Hammer", "Smash", "Master"}),
+        "fuse": frozenset({"Fire", "Burning", "Bomb", "Laser", "UFO", "Master", "Hammer", "Crash"}),
+        "rope": frozenset({"Cutter", "Sword", "Cupid", "Smash", "Master"}),
     }
 
 
@@ -231,8 +234,8 @@ def test_documented_retries_are_false_by_default():
         def grant(self, key, permitted):
             return Grant(frozenset({"Wheel", "Stone"}), randomized=True, can_fail=True)
 
-    graph = room_traversal_graph("wheel_108_chest", "statues")
-    owned = frozenset({"Rainbow Route East - Hub Connection"})
+    graph = room_traversal_graph("wheel_108_chest", "hub_statues")
+    owned = frozenset(item for route in graph.routes for item in route.items)
     result = graph.evaluate(RandomWheelPolicy(), owned, False)
     assert not result.reaches("chest")
     assert not result.retry_assumptions
@@ -343,3 +346,19 @@ def test_renewability_requires_real_boolean(payload):
     payload["sources"][0].update(renewable="false", renewable_evidence="not actually renewable")
     with pytest.raises(ValueError, match="boolean"):
         compile_room_graph(payload, {})
+
+
+@pytest.mark.parametrize("value", [None, 0, 1, "false"])
+def test_optional_route_flag_requires_boolean(rooms, value):
+    rooms[OWNER]["traversal"]["targets"][0]["required_for_generation"] = value
+    with pytest.raises(ValueError, match="required_for_generation"):
+        load_room_traversal(rooms)
+
+
+def test_optional_route_requires_bypass_evidence(rooms):
+    target = rooms[OWNER]["traversal"]["targets"][0]
+    target["required_for_generation"] = False
+    with pytest.raises(ValueError, match="independent bypass"):
+        load_room_traversal(rooms)
+    target["optional_route_evidence"] = "Reviewed independent ordinary bypass to all AP targets"
+    load_room_traversal(rooms)

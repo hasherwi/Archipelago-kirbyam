@@ -3,6 +3,8 @@ import json
 import pickle
 import zipfile
 
+import pytest
+
 from ..build import build_apworld_in_place
 from ..options import StartingKirbyColor
 
@@ -74,8 +76,17 @@ def test_built_apworld_generates_single_and_multi_player_archives(tmp_path):
     )
     assert result.returncode == 0, result.stdout[-8000:]
     summary = json.loads((tmp_path / 'results/summary.json').read_text())
-    assert summary['archives'] == 32
-    assert summary['slots'] == 48
+    assert summary['archives'] == 30
+    assert summary['slots'] == 45
+    assert summary['rejected_cases'] == 2
+    assert summary['rejected_slots'] == 3
+    assert summary['attempts'] == 32
+    assert summary['attempted_slots'] == 48
+    assert {(row['case'], row['seed'], row['players']) for row in summary['rejections']} == {
+        (11, 935, 2), (11, 202610120972, 1),
+    }
+    assert all(row['reason'].startswith('No reviewed source witness for peg_149_35_18 in mode 2;')
+               for row in summary['rejections'])
     assert summary['option_values']['room_sanity'] == ['0', '1']
 
 
@@ -95,3 +106,51 @@ def test_packaged_data_listing_uses_a_package_anchor(monkeypatch, tmp_path):
     monkeypatch.setattr(data_module, "__file__", str(tmp_path / "kirbyam.apworld/kirbyam/data.py"))
     monkeypatch.setattr(data_module.resources, "files", package_only_files)
     assert "rooms.json" in data_module._list_data_files("regions")
+
+
+@pytest.mark.parametrize('mode', [0, 1, 2])
+@pytest.mark.parametrize('weight', [0, 55, 100])
+@pytest.mark.parametrize('statues', [0, 1])
+def test_packaging_expected_rejection_matches_only_known_options(mode, weight, statues):
+    from ..tools.verify_packaged_generation import expected_source_rejection
+    options = {'ability_randomization_mode': mode, 'ability_randomization_no_ability_weight': weight,
+               'ability_randomization_statues': statues}
+    reason = expected_source_rejection(options)
+    assert bool(reason) == (mode in (1, 2) and weight == 100 and statues == 0)
+    if reason:
+        assert reason == {
+            1: 'Reviewed Wheel-source search budget exhausted',
+            2: 'No reviewed source witness for peg_149_35_18 in mode 2;',
+        }[mode]
+
+
+@pytest.mark.parametrize('mode,prefix', [
+    (1, 'Reviewed Wheel-source search budget exhausted'),
+    (2, 'No reviewed source witness for peg_149_35_18 in mode 2;'),
+])
+def test_packaging_rejection_preserves_reason_and_rejects_unexpected_outcomes(mode, prefix):
+    from ..tools.verify_packaged_generation import checked_generation
+    options = {'ability_randomization_mode': mode, 'ability_randomization_no_ability_weight': 100,
+               'ability_randomization_statues': 0}
+    message = prefix + ' diagnostic details'
+
+    def expected():
+        raise ValueError(message)
+
+    assert checked_generation(expected, options) == message
+    with pytest.raises(AssertionError, match='Expected source rejection did not occur'):
+        checked_generation(lambda: None, options)
+
+    def unrelated():
+        raise ValueError('No reviewed source witness for fuse_126')
+
+    with pytest.raises(ValueError, match='fuse_126'):
+        checked_generation(unrelated, options)
+    with pytest.raises(ValueError, match=prefix):
+        checked_generation(expected, {**options, 'ability_randomization_statues': 1})
+
+    def wrong_type():
+        raise RuntimeError(message)
+
+    with pytest.raises(RuntimeError, match=prefix):
+        checked_generation(wrong_type, options)

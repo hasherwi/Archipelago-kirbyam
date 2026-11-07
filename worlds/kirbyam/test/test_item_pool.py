@@ -244,7 +244,9 @@ def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
         3860000 + 100 + runtime_id for runtime_id in expected_runtime_ids
     ]
     assert [item.label for item in ability_items] == expected_labels
-    progression_abilities = {"Mini Ability", "Wheel Ability", "Hammer Ability", "Smash Ability"}
+    progression_abilities = {f"{name} Ability" for name in (
+        "Mini", "Wheel", "Hammer", "Smash", "Fire", "Bomb", "Laser", "UFO", "Sword", "Cupid",
+    )}
     assert all(item.classification == (ItemClassification.progression if item.label in progression_abilities
                                        else ItemClassification.useful) for item in ability_items)
 
@@ -257,9 +259,7 @@ def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
         key = f"ABILITY_UNLOCK_{label.removesuffix(' Ability').upper()}"
         assert raw_abilities[key] == {
             "label": label,
-            "classification": ("PROGRESSION" if label in {
-                "Mini Ability", "Wheel Ability", "Hammer Ability", "Smash Ability"}
-                               else "USEFUL"),
+            "classification": ("PROGRESSION" if label in progression_abilities else "USEFUL"),
             "item_id": 3860100 + runtime_id,
             "tags": ["Abilities", "Unique"],
         }

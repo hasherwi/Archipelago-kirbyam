@@ -1332,7 +1332,8 @@
       "completion_index": 125,
       "object_list_index": 125,
       "ap_keys": [
-        "REGION_MUSTARD_MOUNTAIN/ROOM_4_14"
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT"
       ],
       "wiki_title": "Mustard Mountain - Room 14",
       "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_14",
@@ -1478,7 +1479,8 @@
       "completion_index": 137,
       "object_list_index": 137,
       "ap_keys": [
-        "REGION_MUSTARD_MOUNTAIN/ROOM_4_13"
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT"
       ],
       "wiki_title": "Mustard Mountain - Room 13",
       "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_13",

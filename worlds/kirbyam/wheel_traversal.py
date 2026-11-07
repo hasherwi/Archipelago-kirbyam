@@ -29,11 +29,11 @@ assert len(HUB_SWITCH_LABELS) == 15
 
 
 def static_wheel_witness(policy: SourcePolicy) -> bool:
-    if wheel_graph(False).evaluate(policy, frozenset(), False).reaches("chest"):
-        return True
-    return wheel_graph(True).evaluate(
-        policy, frozenset(item for route in wheel_graph(True).routes for item in route.items), False,
-    ).reaches("chest")
+    return any(
+        graph.evaluate(policy, frozenset(item for route in graph.routes for item in route.items), False)
+        .reaches("chest")
+        for graph in (room_traversal_graph(RACE["id"], witness) for witness in RACE["graphs"])
+    )
 
 
 def install_wheel_rules(world: Any) -> None:
@@ -44,8 +44,16 @@ def install_wheel_rules(world: Any) -> None:
     if not isinstance(raw, dict):
         return
     policy = SourcePolicy(raw, bool(world.options.ability_randomization_statues.value))
-    graphs = tuple(room_traversal_graph(RACE["id"], witness) for witness in RACE["graphs"])
+    graphs = tuple(room_traversal_graph(RACE["id"], witness, world._area_keys_enabled()) for witness in RACE["graphs"])
     gating = world._ability_gating_enabled()
+    all_items = frozenset(f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES)
+    all_items |= frozenset(item for graph in graphs for route in graph.routes for item in route.items)
+    if not any(graph.evaluate(policy, all_items, gating, allow_documented_retries=True).reaches("chest")
+               for graph in graphs):
+        raise ValueError(
+            "No reviewed non-970 Wheel source witness for these options. "
+            "Room 970 is unavailable until patched-ROM access is independently verified."
+        )
 
     def rule(state: Any) -> bool:
         owned = frozenset(f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES

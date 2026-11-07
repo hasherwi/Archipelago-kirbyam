@@ -1,18 +1,47 @@
 # Source-backed traversal (draft)
 
+## Current runtime blocker: room970 is unavailable
+
+The room970 ability-room sources are **not admitted as current witnesses**.
+Its special mirror requires native WORLD slot18. The normal setter is
+[`pause_world_map.c:1345-1357`](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/pause_world_map.c#L1345-L1357).
+The AP physical-switch intercept in
+[`ap_payload.c:1516-1526`](../kirby_ap_payload/ap_payload.c#L1516-L1526)
+records the physical bit and continues at `0x08039671`, bypassing the native
+unlock callback. Receipt handling at lines389-421 and2104-2117 writes slots1-15;
+no replacement slot18 setter has been established. Reachability of all15 physical
+switches, received Hub Connection items, and Central access are therefore not
+sufficient proof of access to970 in the patched ROM.
+
+`source_sets.statues_970.unavailable` makes every dependent graph fail closed
+with an explanatory reason. Historical geometry and acquisition evidence below
+is retained for investigation, not credited as an active fallback. No speculative
+runtime fix is included. The reviewed ordinary-hub statue network below provides
+alternative carriers with independently proved access, actual assignments, and
+per-route connection/Area Key guards. In particular, 100% Normal
+randomized enemies with fixed statues can leave no actual Wheel or Smash source;
+those seeds must fail closed. Complete coverage of all option combinations is not
+claimed.
+
 ## Contract
 
 An ability item permits acquisition; it does not equip Kirby. `traversal.py`
 models a directed entrance/compartment-to-exit/check graph, one equipped ability,
-physical source identities, source consumption, and transient opened pegs.
+physical source identities, source consumption, and transient opened obstacles.
+A fuse route abstracts an available cannon with a current fuse signal, possibly
+after clearing its occupant; it never grants a permanent opened switch.
 Capability providers are separate from room records. The policy resolver uses
 `build_enemy_copy_runtime_patch_writes`, the same assignments and eligibility
 bitmap as the ROM. Excluded categories keep their native grants.
 
 A source behind its own obstacle cannot solve it. Copying another ability replaces
 current equipment. Mini disappears on a transition, including a same-room cannon.
-A transition and a room-instance reset are distinct: only an explicit reset
-renews consumed sources, and a reset also loses opened pegs. Multiple rows for
+A transition and a room-instance reset are distinct. Only an evidenced reset
+renews consumed identities through a transition, and a reset loses opened pegs
+and ropes. Separately, the four documented fuse-source viewport loops and the
+local Wheelie140/Giant Rocky149 loops below prove their exact original ordinary
+enemy templates can respawn in place; this does not make
+other enemies renewable or establish a fresh room instance. Multiple rows for
 one physical source share its stable identity. No permanent AP peg event is used.
 
 Live random grants expose outcome sets, not the deterministic fallback hash.
@@ -27,7 +56,9 @@ PRNG alone does not prove it because grants consume differing numbers of draws.
 The reviewed hub190 regular statue is renewable in place: native
 `ability_objects.c:sub_080AA588` grants an ability without consuming the statue.
 Kirby can drop an unwanted result and touch it again. Ordinary enemies and ability
-stars do not inherit this renewable classification. Enemy weight100 removes
+stars do not inherit this renewable classification. The exact Hot Head/Foley
+loops under fuse cannons and the local Wheelie140/Giant Rocky149 loops have
+separate ordinary-enemy lifetime evidence; Boxy and Batafire remain finite defeated-midboss sources. Enemy weight100 removes
 random enemy outputs; statue output pools ignore that enemy weight. All gateable
 outputs still require their unlock items.
 
@@ -45,24 +76,143 @@ Each graph uses the same `compile_traversal_graph` compiler. Route `items` are
 unconditional prerequisites; `area_key_items` are added only with Area Keys on.
 `allowed_abilities` may narrow, but cannot expand, the separate capability
 providers in `traversal.py`. `room_transition` also covers a same-room cannon.
-Only `room_instance: reset` renews consumed sources, and it requires explicit
-`reset_evidence`; preserve and unknown lifetime remain distinct.
+Only `room_instance: reset` renews consumed sources on a transition, and it
+requires explicit `reset_evidence`; preserve and unknown lifetime remain distinct.
+A doorway alone proves neither a fresh instance nor replenishment. The separately
+reviewed fuse-source and local Wheelie/Giant Rocky viewport retries use explicit
+placement/retry evidence, not
+an automatic reset annotation.
 
 Local `sources` name exact acquisition nodes, physical identities and evidence.
 Shared `source_sets` live with their hub region, name their native room, and are
-referenced by ID and compartment in a witness. In particular, the nineteen 970
-statues are defined once and reused by the Wheel and Smash carriers. The source
+referenced by ID and compartment in a witness. The nineteen970 statues remain
+defined once for historical Wheel/Smash carrier records, but their source set is
+explicitly unavailable pending patched-ROM access proof. The source
 set's native room must match the receiving compartment. A renewable placement
 needs repeatability evidence, and possible-acquisition retries additionally need
 the witness's `retry_evidence` and an explicit evaluator opt-in.
+
+Reviewed `graph_parts` can share nodes, routes, sources, and source-set references.
+They cannot supply or override a consumer's starts, required targets, or access
+requirements. `ordinary_hub_statues` is one such shared part, expanded before
+compilation without adding room-reset credit. An unavailable source set makes
+every dependent graph unavailable, including static-assignment validation; it
+cannot be recovered through a different consumer of the same shared records.
 
 The graph's `access.region` is an independently reachable source region.
 `access.all_hub_switches` additionally requires each physical switch location,
 not owned connection items or an area event. The shared runtime helper also
 registers those access regions as indirect dependencies for entrance rules.
-The Mini, peg, and Wheel installers retain their assignment and option policy;
-they no longer carry a parallel hardcoded route/source catalog. Research-only
-non-AP pegs belong in the evidence census below, not executable targets.
+Mini, peg, Wheel, rope, and fuse targets use room-owned witness metadata and the
+resolved source policy, rather than parallel route/source catalogs. Research-only
+non-AP pegs and rope platforms belong in the evidence censuses below, not
+executable AP targets. Burning and Cutter remain starting abilities.
+
+## Ordinary hub statue network
+
+The reviewed `ordinary_hub_statues` prefix starts Normal at independently reachable
+Central Circle (native801). It covers 15 ordinary hub rooms plus Central, 30
+physical permanent statues, 15 native grant-table slots, and 30 directed mirrors.
+It has no room970 node, all-switch requirement, or source-respawn assumption.
+Owning the ability item alone never supplies equipment.
+
+### Physical access and grants
+
+Ordinary-body connectivity was checked from all21 hub-to-hub arrival positions.
+Both statues and every relevant return/inter-hub mirror are reachable on unchanged
+terrain. No bomb, rope, Mini corridor, metal destruction, boss, or ability swap is
+needed. Ordinary flight reaches upper statues around the central Big Button
+without activating it. All nine arrivals back into801 also reach its ordinary
+hub mirrors with normal flight. This is body/terrain verification, not a complete
+emulator flight replay.
+
+Each physical object's native address remains its stable source identity. Source
+keys are the native table addresses derived from statue family and subtype index,
+checked against `enemy_ability_runtime_patch._STATUE_TABLES`. The 30 placements
+cover these15 native grants: Beam, Burning, Laser, Fire, Stone, Fighter, Bomb,
+Tornado, Ice, Spark, Missile, Parasol, Sword, Cutter, and Cupid. **Fixed Wheel,
+Smash, Throw, and Hammer are absent from these ordinary hubs.** No graph may
+manufacture those grants from inventory permission or from another statue's slot.
+
+The pinned [statue touch routine, `sub_080AA588`](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/ability_objects.c)
+does not consume the object. Drop an unwanted live-random result and retouch
+before departure. Eligible positive-support acquisition uses the existing
+fairness assumption, not a finite-attempt guarantee. Actual static assignments,
+excluded categories' native grants, ability unlocks, and live output pools still
+apply. Enemy no-ability weight does not apply to statues, and this evidence does
+not make ordinary enemies renewable.
+
+### Directed mirror guards
+
+The following15 bidirectional pairs provide30 separately guarded edges. Each
+traversed direction requires its listed owned Hub Connection item. A cross-area
+edge also requires the destination Area Key when Area Keys are enabled. Only the
+connections and keys used by the chosen path are required, not the entire set.
+
+| Native room pair | Hub Connection item prefix |
+| --- | --- |
+|801 ↔190 | Rainbow Route East |
+|801 ↔191 | Cabbage Cavern East |
+|801 ↔192 | Rainbow Route West |
+|192 ↔193 | Carrot Castle |
+|801 ↔194 | Rainbow Route South |
+|194 ↔591 | Cabbage Cavern Center |
+|801 ↔290 | Peppermint Palace East |
+|290 ↔291 | Peppermint Palace West |
+|801 ↔590 | Rainbow Route North |
+|590 ↔390 | Mustard Mountain |
+|801 ↔490 | Candy Constellation |
+|801 ↔592 | Cabbage Cavern West |
+|592 ↔690 | Radish Ruins |
+|801 ↔790 | Moonlight Mansion |
+|191 ↔890 | Olive Ocean |
+
+In particular,890 ->191 and690 ->592 require the Cabbage Cavern Area Key when
+enabled. Return to Rainbow Route needs no Area Key item. Other cross-area forward
+edges require their destination keys. The290 ↔291 pair stays within Peppermint
+and has no additional area guard. Item names in the table use the suffix
+` - Hub Connection` in the executable records.
+
+### Reviewed continuations
+
+After acquiring an actual eligible provider, the shared prefix feeds these
+existing target-specific paths. It does not replace their obstacle or timing
+requirements:
+
+- Rope143: depart190 into the left approach.
+- Rope217: depart291 through215,212,216 to217's right arrival.
+- Rope227: depart290 through210's lower route and227's lower arrival, avoiding
+  Box Boxer.
+- Rope228: depart290 through210 and205, then the reviewed right-hand bomb approach.
+- Rope316: depart390 through304 and321's left upper exit to308, then its
+  single-bomb route to316.
+- Rope553: depart890 through811,551,815's underwater bypass, and553.
+- Mandatory fuse126: join the reviewed194 ->137 ->136 ->126 carrier.
+- Mandatory fuse827: join the reviewed890 ->823 ->828 ->827 carrier from below.
+  The optional323/502 cannon routes do not gain an unproved remote carrier.
+- Wheel108: join the existing carrier through140; retain `wheel_race` and the
+  explicit fresh108 return opportunity from110. The prefix adds no reset claim.
+- Smash149:190 ->143 ->145 ->146 ->147 ->148 ->149, retaining the documented rope
+  cut, ordinary-movement timing assumptions, and final `allowed_abilities` limit
+  to Smash for the peg action.
+
+The six rope graph sets, two mandatory fuse graph sets, Wheel108, and Smash149
+therefore gain source-aware ordinary-hub alternatives. They still need an actual
+reachable grant. With fixed excluded statues and100% Normal included enemies,
+this network provides neither Wheel nor Smash. The unavailable970 sources cannot
+mask that missing witness: another reviewed source or separately verified runtime
+unlock repair is needed before accepting such a configuration.
+
+### Network regression contract
+
+Check that zero hub items expose no network source; a statue pair opens only with
+its exact mirror item and conditional Area Key; reverse directions retain their
+guards; unrelated keys are unnecessary; and an ability item without a reachable
+source fails. Test actual shuffled assignments, fixed excluded native outputs,
+positive-support statue retries, and empty-pool failures. All970 consumers must
+remain unavailable, including static validation. Shared parts must not override
+starts/access or add reset credit. These are required checks, not a claim that
+the final full test suite or patched-ROM acceptance is complete.
 
 ## Mini
 
@@ -143,9 +293,9 @@ not automatically an executable route. Production source-aware gates currently c
 - 149 peg35,18: chest, with a local Giant Rocky or a carried Smash. The carry
   runs190 -> 143 -> 145 -> 146 upper exit -> 147 -> 148 right entry -> 149.
   Smash Up+B cuts the143 star-platform rope; Stone cannot substitute there.
-  A190 statue may supply Smash under its actual assignment. The late970 statue
-  fallback requires all15 physical switches, Central access and the East hub
-  connection before this carry. Smash's down attack clears the149 ordinary floor.
+  A190 statue may supply Smash under its actual assignment. The historical970
+  fallback is unavailable: all15 physical switches, Central access, and the East
+  hub connection do not prove the patched special mirror opens. Smash's down attack clears the149 ordinary floor.
   Room147's documented vanilla timed run is assumed, not emulator-replayed.
 - 510 peg7,7: chest; Stone592 -> 528 -> 513 upper -> 509 upper-right -> 510 upper.
   The final segments need no peg, metal or rope clearing. The UFO inside the chest
@@ -186,12 +336,16 @@ Carrier witnesses require an independently reachable source hub, actual Hub
 Connection items, and destination Area Key when that option is enabled. Static
 assignment validation accepts reviewed local or carrier witnesses rather than
 rewriting individual randomized outputs. Static policies, including shuffled weight100/statue configurations, get at most
-1024 assignment attempts without forcing individual outputs. If that budget
-finds no Wheel-validated assignment, generation fails that seed with a precise
+8192 assignment attempts without forcing individual outputs. The larger bounded
+search accommodates the rare joint Wheelie/peg-source assignment when ordinary
+hub statues remain fixed; the previous 1024-attempt budget rejected some ordinary
+55% no-ability seeds despite valid later candidates in the same deterministic
+stream. If that budget finds no Wheel-validated assignment, generation fails that
+seed with a precise
 search-budget diagnostic, not a claim that the configuration is impossible.
 A Wheel-valid candidate without all reviewed peg witnesses also fails after the
 bounded search. No target rule silently becomes permissive. Live-random rules
-validate positive-support renewable statue witnesses before installation. Unknown
+validate positive-support renewable source witnesses before installation. Unknown
 alternatives are not declared impossible; the diagnostic describes this seed and
 reviewed witness set, not global configuration impossibility.
 The current repository has no entrance
@@ -224,11 +378,11 @@ Wheel exclusivity is not established. A consolidated uninterrupted native replay
 now verifies Normal140 arrival, actual Wheelie acquisition, the independent108
 bomb,110 detour, fresh108 return, and chest collection. There were no RAM edits
 or reloads after initial140 setup. The exact108 lower-mid -> chest route is now enforced. Wheel140 supplies an early
-source when its actual output is Wheel. All19 regular statues in970 provide a
-late fallback after every physical hub switch can be activated. Area-wide events
-and received Hub Connection items do not substitute for those15 physical checks.
-The carry passes970 -> 801 -> 190 -> 140 -> 108 -> 110 -> 108, retainingWheel.
-The970-to140 path uses clear ordinary flight and avoids touching the190 statues. Only its final
+source when its actual output is Wheel. The19 regular statues in970 are not an
+admitted late fallback: patched-ROM access is unproved even with all15 physical
+switches reachable. The historical carry970 ->801 ->190 ->140 ->108 ->110 ->108
+retains Wheel once its start is supplied, but cannot prove access to that start.
+Its970-to140 geometry uses ordinary flight and avoids the190 statues. Only its final
 110 -> 108 return explicitly uses a fresh unoccupied room reset. Ordinary
 single-player opportunity for that reset is assumed; no adversarial-AI or bounded
 reset guarantee and no unlimited phone battery are claimed. Native code rebuilds
@@ -239,8 +393,12 @@ starting abilities in every mode, while Stone remains.
 
 Before treating this draft as gameplay accepted:
 
-- Expand alternative witnesses where useful; all eleven AP peg targets now have
-  source-aware rules, while the three non-AP consumable pegs remain audit records.
+- Expand alternative witnesses where useful; all eleven AP peg targets have
+  source-aware rules, but source availability is not guaranteed for every option
+  combination. The three non-AP consumable pegs remain audit records.
+- Prove the patched special-mirror slot18 unlock before admitting any970 source.
+  Until then, dependent witnesses remain unavailable; historical geometry is not
+  runtime-access evidence.
 - Repeat the verified native Rainbow108 carrier/reset route on the rebuilt
   randomized/gated ROM and investigate more speed alternatives. The current
   rule retains the explicit fresh-room opportunity assumption.
@@ -248,8 +406,14 @@ Before treating this draft as gameplay accepted:
 - Replay both Mustard5 arrivals and the Mini cross-side route on that ROM;
   its new compartment correction has native geometry and logic tests, not
   completed Mini jump-physics or patched-ROM acceptance.
-- Verify room-reset retry routes before marking any enemy renewable; AI occupancy
-  can preserve a room and prevent respawn.
+- Keep ordinary-enemy renewal limited to the four documented fuse-source
+  viewport loops and the local Wheelie140/Giant Rocky149 loops. Replay those
+  static native-code/geometry witnesses on the
+  patched ROM; other renewal claims still require evidence. AI occupancy can
+  preserve an instance, so a doorway alone is not reset proof.
+- Complete target-specific Crash cannon timing and the remaining non-rope Cutter
+  dependency review before broadening those claims. Burning and Cutter remain
+  starting abilities.
 - Run the complete world suite and archive generation matrix on the final commit.
 
 Research was pinned to native source commit
@@ -259,8 +423,8 @@ facts and addresses, not full ROMs, save states, or native collision dumps.
 
 ## Evidence appendices and ownership
 
-`data/regions/rooms.json` is the owner of executable Mini, Wheel, and peg traversal
-metadata. These appendices retain research provenance, native addresses, census
+`data/regions/rooms.json` is the owner of executable Mini, Wheel, peg, rope, and
+fuse traversal metadata. These appendices retain research provenance, native addresses, census
 coverage, and limitations; they are not a second executable graph or a blanket
 room gate. Capability-provider policy remains separate from room records.
 Historical static-connectivity observations below do not supersede the reviewed
@@ -332,8 +496,8 @@ upward-only, not undirected flood-fill connections.
 
 - Path: 190, 143, 145, 146, 147, 148, 149.
 - Required equipment: Smash.
-- Late source path: 970, 801, 190.
-- Late access: All15 physical hub switches reachable, Central reachable, East Hub Connection; actual970 statue assignment and Smash gating apply.
+- Historical late source path (currently unavailable): 970, 801, 190.
+- Historical late-access requirements: all15 physical hub switches reachable, Central reachable, East Hub Connection, actual970 statue assignment, and Smash gating. These are not sufficient patched-ROM access proof; no current witness may use970 until its slot18 unlock is proved.
 - Qualification: Smash Up+B0x2000 hits143 rope from344,216; Stone carry rejected.146 passes left/above heavy block.147 vanilla ordinary timed route assumed, puff retains Smash.149 Down+B calls Stone attack function and clears ordinary floor without dropping Smash. Local GiantRocky before peg remains separate early source.
 
 #### `peg_204_62_4`
@@ -773,7 +937,7 @@ alternatives have not been exhaustively excluded. The enforced AP segment is
 | Race trigger | Bomb `(36,18)` |
 | Target | Chest at pixel `(40,216)` |
 | Local source | Room140, `WHEELIE`, stationary subtype2 object `0x088B765C`, pixel `(680,56)` |
-| Source approach/departure | Ordinary flight; exit `(1,8)` to room108 spawn `(58,12)`; single-use, not assumed farmable |
+| Source approach/departure | Ordinary flight; exit `(1,8)` to room108 spawn `(58,12)`; original-template retry is proved by the local Wheelie loop below |
 | Independent opening | In108 an ordinary air puff activates bomb `(44,17)` while retaining equipment, opening the right wall |
 | Detour | Activate `(36,18)`; after mutation use door `(34,18)` to110, to the right of the final closing pillars |
 | Return | Room110 door `(7,7)` to108 spawn `(34,19)` with Wheel |
@@ -791,7 +955,75 @@ play is assumed able to obtain the opportunity. It is not guaranteed on every do
 use, under adversarial AI occupancy, or within bounded attempts; unlimited phone
 battery is not assumed.
 
+### Local Wheelie and Giant Rocky retries
+
+Two additional original-template sources have reviewed local renewal evidence.
+This supersedes the earlier single-use classification of Wheelie140; it does not
+extend to other Wheelies, Giant Rockys, or ordinary enemies by type alone.
+
+| Source | Native object and placement | Exact retreat, in pixels |
+| --- | --- | --- |
+| Wheelie140, stationary variant2 | `0x088B765C`, `(680,56)` | `(672,40)` -> `(624,40)` -> `(624,56)` -> `(400,56)`; reverse to return |
+| Giant Rocky149, stationary variant2 | `0x088BC434`, `(344,64)` | `(328,56)` -> `(328,40)` -> `(96,40)`; reverse to return |
+
+Both paths fit the native ordinary-body bounds `(-6,-5,+6,+7)` entirely through
+air. After consuming the source, discard an unsuitable grant, retreat along the
+listed route, and return. `ObjectDestroy` clears the original template's spawn
+bit for both objects: neither is a retained type. Giant Rocky's `unk22=1`
+kill-counter bookkeeping does not preserve that spawn bit. The camera-edge
+spawner can recreate the original source template on return.
+
+The original template scope/index is `(0,5)` for Wheelie and `(0,17)` for Giant
+Rocky; both have `unk5=0`, selecting ordinary viewport spawning. `ObjectDestroy`
+passes `sb=0` because neither type belongs to `ObjType38To52` or its exceptions.
+`sub_08001678` clears the original bit; `InitObject` saves the template pointer
+and reoccupies that same bit when the source is recreated.
+
+Camera following targets Kirby's x minus120, subject to room bounds. Let
+`q = floor(viewportX / 16)`. The full horizontal spawn window is `[q-3,q+19)`;
+the rightward edge spawns column `q+17`. Settle the camera at the retreat point
+before returning:
+
+| Source | Settled retreat camera | Why the template is outside | Return edge |
+| --- | --- | --- | --- |
+| Wheelie140 | Kirby x400; viewport x280; q17 | Window `[14,36)` excludes source column42 | q25 / viewport x400 spawns column42 |
+| Giant Rocky149 | Kirby x96; viewport clamps to0; q0 | Window `[-3,19)` excludes source column21 | q4 / viewport x64 spawns column21 |
+
+Source rows3 and4 remain inside the vertical spawning band. Every pixel of each
+listed path keeps all ordinary-body collision cells at `0x00`. Giant Rocky's
+corrected approach stays left of its crown pillar: Kirby's body right edge334
+is clear of the Giant's left edge336, with `0x0D` support below. The reviewed
+retreat/return is a500-pixel route. Use ordinary strength3 Super Inhale for Giant
+Rocky; no frame-perfect acquisition claim is needed.
+
+This is a single-human-player witness. Another human player's viewport can
+suppress spawning; CPU presence is irrelevant to that viewport check. These
+loops require no room reset, AI vacancy, phone battery, helper, ability, or
+barrier clearing. They prove original-template retry from native code and
+geometry, **not an emulator replay**. They do not renew another consumed source,
+preserve a transient opening across a reset, or establish a fresh room instance.
+The local source remains before its own obstacle, with its existing acquisition
+and target-route requirements unchanged.
+
+For live randomization, a retry is useful only with an unlocked eligible output
+of positive probability. Repeated eligible draws use a conditional eventual-draw
+fairness assumption, never a bounded-attempt guarantee. Empty output pools and
+100% Normal included-enemy settings still fail. Fixed ordinary-hub statues cannot
+supply the missing Wheel/Smash grants, and unavailable970 sources remain blocked.
+Static assignments and excluded categories must retain their actual grants.
+
+Pinned native evidence, commit `7d969fbce14fdc838d2c1ea01389717fb96c3189`:
+
+- [Wheelie stationary variant and initialization](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/wheelie.c#L34-L80).
+- [Giant Rocky initialization](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/giant_rocky.c#L33-L57) and [stationary variant](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/giant_rocky.c#L270-L280).
+- [`ObjectDestroy` lifetime handling](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/object.c#L325-L400) and [`InitObject` template identity](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/object.c#L2026-L2098).
+- [Original spawn-bit clearing](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c#L685-L710), [camera following](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c#L1689-L1720), [viewport scan](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c#L5872-L5997), and [edge spawning](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c#L6056-L6097).
+- [Kirby ordinary-body bounds](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c#L21-L35).
+
 #### Ability-room fallback provenance
+
+**Historical geometry only; currently unavailable.** The following records do not
+establish that the patched ROM opens the970 mirror. See the runtime blocker above.
 
 | Evidence point | Native detail |
 | --- | --- |
@@ -802,10 +1034,11 @@ battery is not assumed.
 |190 carrier segment | 14-node two-high air/door route avoids statue envelopes, to exit `0x08879CE4`, tile `(1,8)`, then140 spawn `(43,9)` |
 | Complete carry |970 ->801 ->190 ->140 ->108 ->110 ->108; requires Rainbow Route East - Hub Connection |
 
-All15 physical hub-switch activations populate native WORLD slots1..15;
-`WorldMapUnlockMain` then sets slot18. AP validates each physical switch location's
-reachability, not area-wide events or received Hub Connection items. Actual statue
-assignments and ability unlocks apply. There is no forced pickup, obstacle, or
+In the native game, all15 physical hub-switch activations populate WORLD
+slots1..15 and `WorldMapUnlockMain` sets slot18. The AP intercept bypasses that
+normal callback, and no replacement setter is proved. The earlier physical-switch
+reachability guard therefore does not establish patched-ROM970 access. Actual
+statue assignments and ability unlocks would still apply if access were proved. There is no forced pickup, obstacle, or
 ability change along the reviewed970-to140 carrier geometry. Permanent statues
 can be retouched after dropping unwanted results. Positive-support repeated
 acquisition relies on fairness, not a finite guarantee; enemy no-ability weight
@@ -816,3 +1049,418 @@ does not remove statue outputs.
 - Room424 Music Scores: Normal puff and run collected the chest in an isolated replay.
 - Room708: from743 return spawn `(30,29)`, Normal puff and run entered the distinct
   secret exit `(22,28)` to743 spawn `(6,3)`. Other arrivals are not inferred.
+
+
+## Rope traversal evidence
+
+Six AP rope targets have 17 sufficient source-aware witness graphs, including
+permanent statue carriers for all six. Executable bindings live in the owning
+room records; the following evidence records are not a second production catalog.
+Only the named target edge or check is gated. The seven non-AP platforms remain
+ungated, and unrelated exits and checks keep their independent routes.
+
+Native evidence is pinned to commit `7d969fbce14fdc838d2c1ea01389717fb96c3189`:
+
+- [Star-platform attack and collision removal](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/star_platform.c).
+- [Ability attack objects](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0806F780.c).
+- [Kirby attack dispatch](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c).
+- [Permanent statue grants](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/ability_objects.c).
+- [Standing-triggered crumble objects](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s).
+
+### Reliable rope providers
+
+Native star_platform.c:sub_0811FB54 requires attack flag 0x2000. It removes the supporting
+collision tiles at platform(x,y) and(x-1,y), then clears the rope rectangle. The following
+five reusable providers set that flag:
+
+- Cutter: code_0806F780.c:sub_08078EFC assigns 0x20002003; kirby.c dispatch15371-15372.
+- Sword: sub_0807529C assigns 0x30002003; kirby.c23707.
+- Cupid: sub_08081864 assigns 0x2003; kirby.c20709,20713,20715.
+- Smash: UpCutter sub_08080E9C assigns 0x30002003; Smash action sub_08069270 at
+  kirby.c21200.
+- Master: sub_08075DB0 assigns 0x30007103; kirby.c23710.
+
+Magic's random MetaKnight outcome also sets0x2000 in sub_080838DC/sub_08083B04, but is not a
+reliable reusable provider. Ordinary Stone does not cut ropes. An ability permission item is
+never equipment. Room transitions do not prove an instance reset: AI occupancy may preserve
+the instance. The one-way carrier records claim no source replenishment or retained rope
+opening across transitions.
+
+### Complete platform census
+
+All 983 native room slots were scanned. The 286 populated rooms contain 3476 decoded
+objects. There are 13 OBJ_STAR_PLATFORM objects in 8 rooms. Six platforms gate AP targets.
+The other seven affect only loose consumables or pits and must not receive AP target rules:
+
+- Room143 left:0x088B7BC4(176,224), loose Maxim Tomato.
+- Room147:0x088BBDAC(224,144), loose1Up.
+- Room211:0x088BF90C(288,256), loose Maxim Tomato.
+- Room553:0x088CC3C8(304,192), loose soda;0x088CC3EC(720,256) and0x088CC434(768,256),
+  platforms beside a loose1Up;0x088CC650(1024,208), pit floor.
+
+### rope_143_23_14
+
+Owner: Rainbow Route Room42. Bind only main -> ROOM_1_42_CUT. Right
+platform0x088B7B34(368,224) clears floor tiles22/23,row14. Sir Kibble0x088B7C0C(152,88) is
+reachable from141 spawn(3,3) and190 spawn(3,19) before the rope. Heavy
+Knight0x088B7B58(432,288) is below the rope and cannot bootstrap it.
+
+After cutting, lower bomb(29,18) opens the ascent to145. The reverse arrival from145
+at(27,5) approaches upper bomb(24,4) without cutting; preserve the separate reverse rule.
+The left platform only hides a loose Tomato.
+
+The 190 hub statues are renewable sources under their actual assignments; their native
+Stone/Beam do not cut. Hub 194 has fixed Cutter statue0x088B8528, key STATUE:35390D, and
+Laser0x088B854C, key3538FE. The carrier194->801->190->143 requires Rainbow Route South and
+East hub connections. Ordinary hub travel retains all five providers. This supplies a
+fixed-statue witness even when all included enemies return Normal, without relying on
+late970 access.
+
+Source: https://wikirby.com/wiki/Rainbow_Route_-_Room_42
+
+### rope_217_6_5
+
+Owner: Peppermint Room20. Bind only exit ROOM_7_21/native223. Platform0x088C1534(96,80)
+clears tiles5/6,row5. Exits to221/Room22 and216/Room19 remain independent. Arrivals from216
+at(14,9) and221 at(3,4) approach the same rope. Local Flamer0x088C15C4(120,16) qualifies
+only if its actual grant cuts; native Burning does not.
+
+Independent216/Room19 has Sir Kibble0x088C13EC(320,128), reachable from212 spawn(44,18)
+or217 spawn(3,19). Carry through216 door(1,18) to217 spawn(14,9). The291 hub statue carrier
+is291->215 spawn(27,29)->212 spawn(74,9)->216 spawn(44,18)->217 spawn(14,9), using ordinary
+F0 puffs and avoiding the metal chest branch. The same ordinary route was already reviewed
+for the Stone carrier to221.
+
+For excluded fixed statues,290/Hub1 has Cupid0x088C0EF4(160,48), key STATUE:35390E. Carry
+through291 and follow the same route. This requires Peppermint West hub connection. East
+connection is unnecessary when290 itself is the independently reachable start. All five
+providers retain ordinary movement here.
+
+Source: https://wikirby.com/wiki/Peppermint_Palace_-_Room_20
+
+### rope_227_20_12
+
+Owner: Peppermint Room6. Bind only MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_03,
+chest0x088C02B4(368,296), location3960591, native1Up. Platform0x088C02D8(320,192) clears
+tiles19/20,row12. Happy Notes and the other Tomato chest are not rope-gated.
+
+All arrivals can approach this rope. Pengy0x088C0224(368,184) is a pre-cut source under its
+actual assignment. Do not assume Pengy0x088C0200(608,136), by the separate Happy Notes
+arrival, is globally available.
+
+The fixed Sword witness starts independently at290/Hub1. Take290 door(1,8)->210
+spawn(27,49), climb to Sword Knight0x088BF658(112,464), then use210 LOWER door(1,23)->227
+spawn(58,17). Native ordinary-body connectivity reaches the source and this lower exit
+without bombs. This route never uses Box Boxer's upper door(1,14)->227 spawn(59,10). The290
+Cupid statue can instead supply a retained ability through this same lower arrival. All five
+providers can follow the ordinary carrier.
+
+Source: https://wikirby.com/wiki/Peppermint_Palace_-_Room_6
+
+### rope_228_11_21
+
+Owner: Peppermint Room9. Bind only MINOR_CHEST_PEPPERMINT_PALACE_7_09_OBJECT_02,
+chest0x088C04D8(240,456), location3960592, native Sparerib. Platform0x088C0520(176,336)
+clears tiles10/11,row21. The upper-right metal1Up chest0x088C046C and all three Room10 doors
+are separate routes.
+
+From205 spawn(26,29), pixel(408,456), climb the central ladder at x18, reach the right
+ladder at x23, and activate bomb(22,15) from the right. Return through the gap at
+x17,rows19/20, inhale Sir Kibble0x088C0424(320,328), move left to the rope at(176,312), cut,
+and descend to the chest. Do not activate bomb(17,23) first: it closes the gap at
+x17,rows19/20 and can seal this route.
+
+With only bomb(22,15) activated, the ordinary body reaches the Kibble and rope but not the
+chest. After the rope cut, the chest becomes reachable. Path to source:
+(408,456)->(313,456)->(313,392)->(374,392)->(374,328)->(320,328). The rope approach
+continues through(176,328)->(176,312). After cutting, descend at x185 to y437, then move
+to(240,456).
+
+Permanent source carrier:290 Cupid statue ->210 lower arrival(27,49), climb to upper
+exit(15,2)->205 spawn(10,19)->205 exit(44,2)->228 spawn(26,29). The210 route avoids Box
+Boxer. The205 route needs no bomb, metal, or copying: ordinary-body connectivity
+reaches(712,40) from(152,296). All five providers retain flight and swimming. At228 use the
+same right-hand bomb approach above, without replacing the carried ability.
+
+Source: https://wikirby.com/wiki/Peppermint_Palace_-_Room_9
+
+### rope_316_35_5
+
+Owner: Mustard Room10. Bind only MINOR_CHEST_MUSTARD_MOUNTAIN_4_10_OBJECT_01,
+chest0x088C4798(608,136), location3960597, native Energy Drink. Platform0x088C4870(560,80)
+clears tiles34/35,row5.
+
+Enter from308 at(60,4), pass above the rope to Sir Kibble0x088C47BC(168,104), acquire, and
+backtrack east to cut. Normal movement reaches the source and main exit before cutting, but
+not the chest. Pre-cut Wheelie0x088C4774(808,120) qualifies only if its actual grant cuts;
+native Wheel does not. Exit322 behind ordinary F0 blocks is not rope-gated.
+
+Permanent carrier:194 Cutter statue ->801->590->390->304 bottom arrival(28,39)->321 LEFT
+arrival(2,22)->321 upper-left exit(14,2)->308 LEFT bottom arrival(39,29)->316. Require
+Rainbow Route South, Rainbow Route North, and Mustard hub connections, plus Mustard Area Key
+when enabled. Native normal-body paths prove304 ascent and321 left-to-upper travel without
+Mini, bombs, or ability replacement.
+
+At308 the initial chamber reaches(604,456), immediately right of bomb(36,28). Puff left to
+open that chain. This single bomb suffices to reach the upper316 exit; no other bomb or
+crumble block is required. Path after activation:
+(616,456)->(422,456)->(422,440)->(406,440)->(406,424)->(390,424)->(390,408)->(358,408)->(358,392)->(329,392)->(329,344)->(377,344)->(377,264)->(425,264)->(425,248)->(441,248)->(441,200)->(470,200)->(470,56)->(424,56).
+All five providers retain ordinary flight and puffing.
+
+Source: https://wikirby.com/wiki/Mustard_Mountain_-_Room_10 (oldid574589)
+
+### rope_553_26_7
+
+Owner: Olive Room16. Bind only MINOR_CHEST_OLIVE_OCEAN_6_16, chest0x088CC458(1088,136). Of
+five platforms,0x088CC410(416,112) opens the lower corridor to this chest, removing floor
+tiles25/26,row7. Main exit832 at(73,4) remains reachable after upper bomb(50,4) without any
+rope cut. Native geometry with only that bomb has exit reachable/chest unreachable; cutting
+the416 rope makes the chest reachable.
+
+Local Sir Kibble0x088CC4A0(192,104) is enclosed. No successful inhalation witness is
+established, so it is excluded. A narrow left-side emulator test failed; that is not proof
+that every possible approach fails. Kibble0x088CC4E8(528,184) is behind the target rope and
+cannot bootstrap it.
+
+The conservative enemy carrier starts independently at890/Olive Hub ->811 spawn(4,4). Inhale
+Sword Knight0x088CC904(200,40). Ordinary F0 clearing and an underwater puff at bomb(25,10),
+from reachable(392,168), open the passage east and up. Clear Mirra at811 door(51,3)->551
+spawn(3,4). Follow the ordinary551 path to door(73,18)->815 spawn(5,9).
+
+In815, stand on crumble objects0x088CCDB0/0x088CCDD4 at(40/24,152). Native
+object_spawner.s:sub_0811BF24 detects standing and triggers collapse without an ability
+attack. Replacement records clear collision tiles1/2,row9. Swim through the lower bypass,
+then upward through0x0F platforms37/38,row9. Exact body path:
+(72,136)->(41,136)->(41,197)->(57,197)->(57,213)->(201,213)->(201,245)->(617,245)->(617,136)->(648,136).
+No heavy block, timed gate, or upper bomb puzzle is used. Door(40,8)->553 spawn(3,4). Sword
+is retained throughout.
+
+Renewable fixed alternative:191/Cabbage East Hub Sword statue0x088CB1C4, key STATUE:35390C,
+then191->890 through the Olive Hub Connection. Require Olive Area Key when enabled. The890
+Bomb/Parasol statues qualify only under actual cutting assignments. All five providers can
+use this ordinary swimming, puffing, and Mirra carrier. Ordinary enemy avoidance/combat is
+assumed. This is native geometry/body evidence, not a complete emulator jump-physics replay.
+
+Sources: https://wikirby.com/wiki/Olive_Ocean_-_Room_16 and
+https://wikirby.com/wiki/Olive_Ocean_-_Chest_1 (oldid459081 explicitly describes the lower
+underwater bypass).
+
+### rope-hub-sources
+
+Hubs 190/194/191/290/291/890 contain accessible permanent statues. Each physical object
+address is a stable source identity. Its source_key is the native grant-table address from
+enemy_ability_runtime_patch._STATUE_TABLES. Statues can be retouched without consumption,
+per ability_objects.c:sub_080AA588. Random statue pools ignore enemy Normal weight.
+
+SourcePolicy must resolve excluded categories' native grants, static shuffle writes, and
+live output pools. Gateable abilities still need permission items. For live random statues,
+drop an unwanted result and retouch before departure. Eventual positive-support acquisition
+is an explicit fairness assumption, not a finite-attempt guarantee. No rope enemy is marked
+renewable merely because it might respawn; the separately documented fuse retry loops do not
+confer renewal on rope witnesses. No route relies on copying a replacement ability or
+recovering a randomly changed dropped star. Master is not assumed to appear in ordinary
+enemy pools.
+
+### Rope regression contract and remaining Cutter safety work
+
+Test all six bindings and all seven non-AP exclusions; exact five providers; Stone and
+Normal negatives; permission without a source; a source behind its own rope; actual shuffle
+assignment; fixed excluded categories; 100%Normal enemies with permanent statue
+alternatives; live statue retries only when an eligible cutting output is unlocked; negative
+pools without a cutter; and missing hub/Area Key guards. Negative cases must leave unrelated
+exits and chests available. Preserve227 lower arrival versus Box Boxer upper arrival,321
+left versus right arrival, and228 bomb order. A room transition must not renew a consumed
+source without explicit lifetime evidence.
+
+Cutter remains starting. The structural non-rope inventory contains 35 small buttons across
+24 rooms and 403 F1 bomb tiles across 125 rooms, including unused/test rooms. Explicit
+far-switch placeholders are310 Mustard major chest,533 Mustard Room15->16, and209 Peppermint
+major chest. Button rooms
+are147,177,209,228,310,404,426,427,511,527,533,608,610,707,708,712,720,742,804,815,825,831,911,915.
+
+No unique Cutter-only obstacle type check was found, but range and projectile steering can
+matter even when attacks share eligibility. Absence of a type check does not establish a
+geometric alternative. Do not mark Cutter safe to gate or remove it from starting abilities
+until meaningful non-rope dependencies and patch/runtime/gate tests are covered.
+
+
+## Fuse cannon traversal evidence
+
+The complete native object inventory contains four fuse cannons and four fuse ends, in
+native rooms 126, 323, 502, and 827. The 57 rotating eight-direction cannons are a different
+object type and do not belong to this capability. Burning remains a starting ability; no
+starting ability or randomization option is changed by this audit.
+
+### Native attack capability
+
+The fuse accepts the heat attack bit and the Crash attack bit. Eight providers can ignite
+it: Fire, Burning, Bomb, Laser, UFO, Master, Hammer Flip, and Crash. Ordinary Hammer swings are not the
+relevant Hammer move. Missile explosions, ordinary Sword, Smash, Fighter, and a Foley
+exploding on its own are not substitutes. A copied Bomb ability is a valid provider; the
+Foley enemy's own explosion has a different attack mask.
+
+The production cannon witnesses currently admit the seven non-Crash providers. Crash
+ignition is proven, but its per-target traversal timing is not yet certified. Its long
+animation freezes same-room objects, apart from a short hit-processing interval, so
+animation length alone does not disqualify it. Nevertheless, attack-mask compatibility is
+not sufficient evidence that Kirby can finish the animation and enter each cannon in time.
+Crash must remain excluded from these traversal witnesses until that input/position check is
+completed. Any future Crash witness must consume Crash and leave Kirby Normal.
+
+A fuse is not a permanent opened switch. Its native state machine burns, signals the cannon,
+pauses, and regrows. Each route abstracts an available cannon with a current fuse
+signal followed by Kirby's transition. Clearing an occupied cannon may precede
+that signal; neither ignition nor occupant clearance grants persistent opened
+credit. The abstraction does not promise a single ignition.
+
+### Occupied fuse cannons
+
+Room 126's fuse cannon is unoccupied. The other three have Jack occupants:
+
+| Native room | Jack object | Cannon object | Fire / occupancy state slots |
+| --- | --- | --- | --- |
+| 323 | `0x088C50B8` | `0x088C5124` | 1 / 2 |
+| 827 | `0x088CD6EC` | `0x088CD65C` | 2 / 3 |
+| 502 | `0x088D1944` | `0x088D1608` | 1 / 2 |
+
+An exposed Jack clears protection flag `0x200`. Normal airshot damage 2 against
+Jack's HP 2, with zero relevant adjustments, can kill it; no extra ability gate
+or forced damage to Kirby is required by this clearing alternative. Alternatively,
+firing an occupied cannon ejects Jack and consumes the current fuse signal, but
+not Kirby's equipped ability or HP. Let the fuse regrow and relight it with the
+same one of the seven credited reusable providers; source reacquisition is not
+required.
+
+Ejection leaves Jack's HP positive. It must not be conflated with killing Jack,
+whose destruction can retain its original spawn bit. No permanent cleared-cannon
+state is credited, and no exactly-two-ignitions guarantee is claimed across
+viewport changes or room resets. Crash remains excluded from production cannon
+witnesses. This is native-code evidence, not a new emulator replay or a claim
+that Kirby must take damage.
+
+Pinned evidence at native commit `7d969fbce14fdc838d2c1ea01389717fb96c3189`:
+
+- [Jack initialization](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/jack.c#L36-L65), [exposure](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/jack.c#L247-L263), and [ejection behavior](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/jack.c#L307-L330).
+- [Cannon occupancy handling](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/kirby_cannon.s#L179-L242) and [firing state](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/kirby_cannon.s#L545-L656).
+- [Fuse regrowth and signaling](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/cannon_fuse.c#L506-L611).
+- [Kirby cannon entry](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c#L11153-L11268), [airshot dispatch](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c#L8812-L8835), and [airshot attack object](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0806F780.c#L2090-L2126).
+- [Object damage](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/object.c#L634-L703) and [destruction/spawn-state handling](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/object.c#L325-L375).
+- [WiKirby: Jack](https://wikirby.com/wiki/Jack).
+
+### The four directed transitions
+
+- Rainbow Route Room 32 (126) launches to the left part of Room 33 (570), arriving at the
+  upper entrance. There is no ordinary exit from 126. Its local Hot Head is a reachable Fire
+  source. An independent carrier can start at Rainbow Hub 2 (194), take its Laser statue or
+  a reviewed randomized Burning grant, and travel through Room 14 (137), Room 31 (136), and
+  Room 32. The left-side path through 137 does not require crossing its central bottomless
+  pool. A second carrier starts at Cabbage Hub 3 (592) with its native Burning statue, then
+  uses the Cabbage West and Rainbow South hub connections before following the same route.
+  Inventory permission alone is not a source.
+- Mustard Mountain Room 13 (323) launches to the left half of Room 14 (300). Room 13 has a
+  full-height wall: the secret upper door in Room 12 (315) enters the cannon side, while the
+  ordinary lower door enters the Batafire side. Batafire cannot provide an ability across
+  that wall. The cannon-side Hot Head is a reachable Fire source. The ordinary right-hand
+  ascent and door still reach the right half of Room 14 without lighting the fuse. Both
+  halves of Room 14 have doors to the same boss room (324), and both count for the same
+  room-visit check. The cannon half adds no exclusive check, but its statues must not be
+  credited on the other side. Retaining an imported ability through the Room 12
+  Heave-Ho/lava-wall setup remains unproved; no such carrier is claimed.
+- Radish Ruins Room 16 (502) launches to Room 17 (525). Its ordinary door also reaches 525
+  and remains ungated by fuse capability. The local Hot Head is a valid source. This cannon
+  is an optional shortcut, not a mandatory progression requirement.
+- Olive Ocean Room 7 (827) launches to the upper surface of Room 5 (133). That arrival
+  reaches Room 6 (134), not the isolated Cookin pocket with the door back to Room 7. It must
+  not inherit the old logical return-to-Room-7 edge. Native Room 5 has no outgoing door back
+  to Room 4 or to Room 23. Room 7's ordinary exit to Room 8 (828) remains available without
+  a fuse. Two upper Foleys are reachable Bomb sources after opening the main chamber. A
+  carrier can independently start at the Olive hub (890), use its Bomb statue or a reviewed
+  randomized Burning grant, swim the lower maze of Room 9 (823), cross Room 8, and enter
+  Room 7 from below. Water-gun block clearing preserves the carried Bomb/Burning. A Burning
+  carrier from Cabbage Hub 3 is also sufficient when its three hub-connection guards and the
+  Cabbage/Olive area-key guards are satisfied.
+
+### Repetition and live randomization
+
+The reviewed ordinary-enemy retries use the actual source templates, not an assumed global
+copy source:
+
+- In 126, swallow the upper Hot Head, discard an unsuitable result, descend the cleared
+  shaft to the bottom chamber, and fly back up.
+- In the left compartment of 323, swallow its Hot Head, discard an unsuitable result, fly up
+  the open left shaft, and return without crossing the wall.
+- In 502, swallow its Hot Head, retreat left through the main room until its template is
+  outside the spawn viewport, and return.
+- In 827, after Boxy is defeated, swallow either upper Foley, descend to the cleared main
+  chamber, and return.
+
+Ordinary Hot Head and Foley destruction clears their template's spawn bit, and viewport-edge
+spawning can create them again. These loops do not require the cannon being proved. They are
+static native-code and geometry proofs, not emulator replays. Boxy and Batafire are finite
+defeated-midboss sources and are not covered by that repeatability claim.
+
+A documented retry is useful only when the eligible copy pool is nonempty and its
+probability is positive. At enemy no-ability weight 100, a selected randomized ordinary
+enemy grants no ability; repetition must not make it pass. Included live-random statues use
+a separate allowed mask and do not inherit the enemy no-ability weight. Excluded categories
+retain their native grants. Native hub 190 statues are Stone and Beam, not Burning; native
+Burning is at hub 592. Source gating and the actual assignment policy still apply to every
+witness.
+
+Cross-room carriers claim ability retention only. They do not claim that every room change
+creates a fresh room instance: AI occupancy can preserve a room. The planner should discard
+unproved opened credit without renewing consumed source identities.
+
+### Regression coverage
+
+Test the exact provider set and rejection of the named nonproviders; ensure every cannon
+witness rejects inventory-only access and permanent opened-fuse metadata. Test local-source
+assignments with ability gating enabled and disabled; deterministic and live-random modes;
+included and excluded enemy/statue categories; default no-ability weighting; and weight 100.
+A renewable source with an empty pool must fail.
+
+For the room graph, test both Mustard entrances, separation of its local sources and
+destination statues, both ordinary progression bypasses, and the Olive cannon's upper
+arrival leading only to Room 6. Require the correct independent hub access, hub-connection
+items, and inter-area keys for remote carriers. Optional Mustard/Radish cannon failure must
+not invalidate their ordinary routes or shared checks. Burning starting behavior must remain
+unchanged.
+
+Coverage is exhaustive for the four native fuse placements and their direct destinations.
+The carrier list is a reviewed sufficient set, not a claim to enumerate every possible
+imported ability route. Remaining gaps are Crash's target-specific timing, the Mustard
+Heave-Ho retained-ability passage, and remote carriers to the optional Radish cannon. No
+emulator timing validation is claimed.
+
+### Sources
+
+Native source is pinned to commit 7d969fbce14fdc838d2c1ea01389717fb96c3189:
+
+- [Fuse collision and
+  lifecycle](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/cannon_fuse.c)
+- [Cannon destination decoding and
+  entry](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/kirby_cannon.s)
+- [Ability attack
+  objects](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0806F780.c)
+- [Ordinary-object destruction and freeze
+  handling](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/object.c#L180-L375)
+- [Spawn-state
+  clearing](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c#L685-L710)
+  and [viewport
+  spawning](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c#L5873-L6074)
+- [Kirby cannon entry
+  restrictions](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c#L11153-L11189)
+  and [Crash
+  animation/release](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c#L20753-L20949)
+- WiKirby: [Fuse](https://wikirby.com/wiki/Fuse), [Cannon](https://wikirby.com/wiki/Cannon),
+  [Rainbow Room 32](https://wikirby.com/wiki/Rainbow_Route_-_Room_32), [Rainbow Room
+  14](https://wikirby.com/wiki/Rainbow_Route_-_Room_14), [Rainbow Room
+  31](https://wikirby.com/wiki/Rainbow_Route_-_Room_31), [Mustard Room
+  12](https://wikirby.com/wiki/Mustard_Mountain_-_Room_12), [Mustard Room
+  13](https://wikirby.com/wiki/Mustard_Mountain_-_Room_13), [Mustard Room
+  14](https://wikirby.com/wiki/Mustard_Mountain_-_Room_14), [Radish Room
+  16](https://wikirby.com/wiki/Radish_Ruins_-_Room_16), [Olive Room
+  7](https://wikirby.com/wiki/Olive_Ocean_-_Room_7), [Olive Room
+  5](https://wikirby.com/wiki/Olive_Ocean_-_Room_5), [Olive Room
+  8](https://wikirby.com/wiki/Olive_Ocean_-_Room_8), [Olive Room
+  9](https://wikirby.com/wiki/Olive_Ocean_-_Room_9).

@@ -500,8 +500,8 @@ class KirbyAmWorld(World):
             validate_mini_sources(self._enemy_copy_ability_policy, randomize_statues)
             if not peg_logic_enabled(self._enemy_copy_ability_policy):
                 logger.warning(
-                    "[P%s] Peg source-aware rollout is incomplete for live random or all-Normal source mode; "
-                    "Mini corridors are source-backed with fixed Minny and gated Mini-star recovery.", self.player,
+                    "[P%s] Live-random traversal uses only reviewed repeatable sources with positive ability support; "
+                    "eventual eligible draws are conditional, not bounded guarantees.", self.player,
                 )
             allowed_abilities = tuple(
                 self._enemy_copy_ability_policy.get("allowed_abilities", ())

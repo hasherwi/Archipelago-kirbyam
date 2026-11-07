@@ -22,9 +22,16 @@ from .enemy_ability_runtime_patch import (
 
 CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "peg": frozenset({"Stone", "Hammer", "Smash", "Master"}),
+    "fuse": frozenset({"Fire", "Burning", "Bomb", "Laser", "UFO", "Master", "Hammer", "Crash"}),
+    "rope": frozenset({"Cutter", "Sword", "Cupid", "Smash", "Master"}),
     "mini_corridor": frozenset({"Mini"}),
     # Only attach to a route whose timing has actually been established.
     "wheel_race": frozenset({"Wheel"}),
+}
+# Equipment consumed by actually using a capability, not by crossing an already
+# opened barrier. Physical source consumption remains tracked independently.
+CAPABILITY_CONSUMED_ABILITIES: Mapping[str, frozenset[str]] = {
+    "fuse": frozenset({"Crash"}),
 }
 _ID_TO_NAME = {value: key for key, value in ABILITY_NAME_TO_ID.items()}
 _SOURCE_BY_KEY = {source.key: source for source in ABILITY_SOURCES}
@@ -217,6 +224,15 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             raise ValueError(f"Unknown traversal endpoint: {route}")
         if route.capability is not None and route.capability not in CAPABILITY_ABILITIES:
             raise ValueError(f"Unknown traversal capability: {route.capability}")
+        # Native cannon_fuse.c regrows the fuse after its timed pause; ignition
+        # cannot grant a persistent room-local opened event.
+        if route.capability == "fuse" and route.opens is not None:
+            raise ValueError("Timed fuse ignition cannot have a persistent opens event")
+        if route.allowed_abilities is not None and (
+            not route.allowed_abilities
+            or not route.allowed_abilities <= CAPABILITY_ABILITIES.get(route.capability or "", frozenset())
+        ):
+            raise ValueError("Allowed abilities must narrow the route capability providers")
         transitions = route.room_transition or node_by_key[route.source].room != node_by_key[route.target].room
         if route.resets_room_instance and route.preserves_room_instance:
             raise ValueError("A room instance cannot be both reset and preserved")
@@ -232,9 +248,17 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     queue = deque(starts)
     visited: set[Position] = set()
     assumptions: set[str] = set()
+    grants: dict[str, Grant] = {}
 
     def permitted(ability: str) -> bool:
         return ability_permission(ability, owned, gating)
+
+    def source_grant(key: str) -> Grant:
+        # Grants describe deterministic possibilities, not individual RNG draws.
+        # Policy, owned permissions and gating are fixed for this evaluation.
+        if key not in grants:
+            grants[key] = policy.grant(key, permitted)
+        return grants[key]
 
     while queue:
         position = queue.popleft()
@@ -253,7 +277,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             if identity in position.consumed:
                 continue
             consumed = position.consumed if source.renewable else position.consumed | {identity}
-            grant = policy.grant(source.source_key, permitted)
+            grant = source_grant(source.source_key)
             abilities = grant.guaranteed
             if (allow_documented_retries and source.renewable and source.retry_evidence
                     and grant.randomized and grant.abilities):
@@ -286,6 +310,13 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             if route.opens:
                 opened |= {route.opens}
             ability = position.equipped
+            if route.capability and not already_open:
+                spent = CAPABILITY_CONSUMED_ABILITIES.get(route.capability, frozenset())
+                if isinstance(ability, str):
+                    if ability in spent:
+                        ability = "Normal"
+                elif ability & spent:
+                    ability = (ability - spent) | {"Normal"}
             consumed = position.consumed
             if route.room_transition or node_by_key[position.node].room != node_by_key[route.target].room:
                 # A transition always clears Mini, but need not recreate the
@@ -314,9 +345,12 @@ class TraversalGraph:
     required_targets: frozenset[str]
     access_region: str | None = None
     requires_all_hub_switches: bool = False
+    unavailable_reason: str | None = None
 
     def evaluate(self, policy: SourcePolicy, owned: frozenset[str], gating: bool,
                  allow_documented_retries: bool = False) -> TraversalResult:
+        if self.unavailable_reason is not None:
+            return TraversalResult(frozenset(), frozenset())
         return reachable_positions(
             self.nodes, self.routes, self.placements, self.starts, policy, owned, gating,
             allow_documented_retries,
@@ -324,6 +358,12 @@ class TraversalGraph:
 
 
 def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
+    if set(row) - {
+        "from", "to", "capability", "opens", "items", "area_key_items", "evidence",
+        "allowed_abilities", "recover_dropped_ability", "room_transition",
+        "room_instance", "reset_evidence",
+    }:
+        raise ValueError("Unknown traversal route field or effect")
     if not row.get("evidence"):
         raise ValueError("Traversal route is missing evidence")
     if row.get("room_instance") not in (None, "reset", "preserve"):
@@ -335,6 +375,8 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
             raise ValueError(f"{key} must be a boolean")
     allowed = row.get("allowed_abilities")
     capability = row.get("capability")
+    if capability == "fuse" and row.get("opens") is not None:
+        raise ValueError("Timed fuse ignition cannot have a persistent opens event")
     providers = CAPABILITY_ABILITIES.get(capability, frozenset()) if isinstance(capability, str) else frozenset()
     if allowed is not None and (
         not allowed or not set(allowed) <= providers
@@ -390,18 +432,21 @@ def compile_traversal_graph(payload: Mapping[str, Any], *, area_keys: bool = Fal
     if not required_targets <= keys or any(position.node not in keys for position in starts):
         raise ValueError("Unknown start or required target")
     access = payload.get("access", {})
-    if not isinstance(access, dict) or set(access) - {"region", "all_hub_switches"}:
+    if not isinstance(access, dict) or set(access) - {"region", "all_hub_switches", "unavailable"}:
         raise ValueError("Unknown traversal access prerequisite")
-    if access and not isinstance(access.get("region"), str):
+    if set(access) - {"unavailable"} and not isinstance(access.get("region"), str):
         raise ValueError("Traversal access must name an independent region")
     if not isinstance(access.get("all_hub_switches", False), bool):
         raise ValueError("all_hub_switches must be a boolean")
+    if "unavailable" in access and (not isinstance(access["unavailable"], str) or not access["unavailable"].strip()):
+        raise ValueError("Unavailable traversal source needs a concrete reason")
     graph = TraversalGraph(
         nodes, tuple(routes), tuple(placements), starts, required_targets,
-        access.get("region"), access.get("all_hub_switches", False),
+        access.get("region"), access.get("all_hub_switches", False), access.get("unavailable"),
     )
-    # Validate all endpoints, capabilities and local events even if disconnected.
-    graph.evaluate(SourcePolicy({"mode": 0}), frozenset(), True)
+    # Validate all endpoints even when this reviewed geometry is currently
+    # unavailable on the patched ROM. Availability must not hide malformed data.
+    reachable_positions(graph.nodes, graph.routes, graph.placements, graph.starts, SourcePolicy({"mode": 0}))
     return graph
 
 

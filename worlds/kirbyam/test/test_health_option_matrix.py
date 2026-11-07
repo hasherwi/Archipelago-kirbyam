@@ -79,6 +79,9 @@ def test_health_cross_option_archive_generation(tmp_path, minimum, maximum, scen
     """Cross every health range with 12 mixed scenarios, not a Cartesian proof."""
     from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 
+    ability_mode = (scenario // 4) % 3
+    no_ability_weight = (0, 50, 100)[scenario % 3]
+    randomize_statues = (scenario // 5) % 2
     player = tmp_path / "player.yaml"
     player.write_text(
         "name: Health Matrix\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n"
@@ -92,15 +95,20 @@ def test_health_cross_option_archive_generation(tmp_path, minimum, maximum, scen
         f"  trap_fill_percentage: {(0, 1, 25, 99, 100)[scenario % 5]}\n"
         f"  death_link: {scenario % 2}\n"
         f"  enemy_health_multiplier: {(50, 100, 500)[scenario % 3]}\n"
-        f"  ability_randomization_mode: {(scenario // 4) % 3}\n"
-        f"  ability_randomization_no_ability_weight: {(0, 50, 100)[scenario % 3]}\n"
+        f"  ability_randomization_mode: {ability_mode}\n"
+        f"  ability_randomization_no_ability_weight: {no_ability_weight}\n"
         f"  ability_randomization_boss_spawns: {scenario % 2}\n"
         f"  ability_randomization_minibosses: {(scenario // 2) % 2}\n"
-        f"  ability_randomization_minny: {(scenario // 3) % 2}\n"
         f"  ability_randomization_passive_enemies: {(scenario // 4) % 2}\n"
-        f"  ability_randomization_statues: {(scenario // 5) % 2}\n",
+        f"  ability_randomization_statues: {randomize_statues}\n",
         encoding="utf-8",
     )
+    if (ability_mode, no_ability_weight, randomize_statues) == (2, 100, 0):
+        # Keep every health-range case: this exact option combination has no
+        # reviewed peg149 source, independently of its health/pool settings.
+        with pytest.raises(ValueError, match=r"^No reviewed source witness for peg_149_35_18 in mode 2;"):
+            generate_archive_from_fixture(player, tmp_path / "output", seed=934 + scenario)
+        return
     archive = generate_archive_from_fixture(player, tmp_path / "output", seed=934 + scenario)
     decoded = load_multidata_from_archive(archive)
     slot_data = decoded["slot_data"][1]

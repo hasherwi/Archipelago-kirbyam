@@ -721,7 +721,7 @@
   },
   "ABILITY_UNLOCK_FIRE": {
     "label": "Fire Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860101,
     "tags": ["Abilities", "Unique"]
   },
@@ -769,7 +769,7 @@
   },
   "ABILITY_UNLOCK_BOMB": {
     "label": "Bomb Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860109,
     "tags": ["Abilities", "Unique"]
   },
@@ -793,13 +793,13 @@
   },
   "ABILITY_UNLOCK_LASER": {
     "label": "Laser Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860113,
     "tags": ["Abilities", "Unique"]
   },
   "ABILITY_UNLOCK_UFO": {
     "label": "UFO Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860114,
     "tags": ["Abilities", "Unique"]
   },
@@ -823,13 +823,13 @@
   },
   "ABILITY_UNLOCK_SWORD": {
     "label": "Sword Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860118,
     "tags": ["Abilities", "Unique"]
   },
   "ABILITY_UNLOCK_CUPID": {
     "label": "Cupid Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860119,
     "tags": ["Abilities", "Unique"]
   },
