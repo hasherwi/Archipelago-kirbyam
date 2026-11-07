@@ -46,7 +46,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python:
-          - {version: '3.11.2'} # Change to '3.11' around 2026-06-10
+          - {version: '3.11'}  # latest supported patch for the oldest Python line
           - {version: '3.12'}
           - {version: '3.13'}
         include:
@@ -65,7 +65,8 @@ jobs:
         python-version: ${{ matrix.python.version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        # Old Python runner images bundle pkg_resources without normalized-name lookup.
+        python -m pip install --upgrade pip "setuptools>=75,<81"
         pip install -r ci-requirements.txt
         python ModuleUpdate.py --yes --force --append "WebHostLib/requirements.txt"
         python Launcher.py --update_settings  # make sure host.yaml exists for tests
