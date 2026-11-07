@@ -11,7 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- None.
+- Access to the Copy Ability Room is now an AP Item (Issue #1002).
 
 ### Improvements
 - None.

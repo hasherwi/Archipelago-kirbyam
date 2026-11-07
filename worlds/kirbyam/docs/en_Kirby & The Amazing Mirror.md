@@ -197,3 +197,18 @@ The six useful items are tracked in CollectionState without adding traversal gat
 The unchanged native unlock handler and gate bootstrap are covered by host tests;
 these tests are not emulator save/load acceptance. Fresh live acceptance of this
 inventory representation remains pending.
+
+
+### Copy Ability Room
+
+The Copy Ability Room above Central Circle opens with **Copy Ability Room Access**.
+Pressing all Big Switches or receiving all Hub Connections does not grant access.
+The item replaces a filler item and does not add a location. Starting access
+requires explicit precollection. The room still follows your configured ability
+gating and statue randomization; entering it does not unlock unowned abilities.
+
+The existing three save files remain selectable. Ownership is saved in the active
+file and survives offline reload for that seed. Once granted, it is not taken
+away by reconnecting or replaying item history. Fresh files and different seeds
+still start without access. Update the client and regenerate
+the seed/patch together; the earlier single-save prototype is not compatible.

@@ -1173,6 +1173,7 @@ class KirbyAmWorld(World):
         slot_data["world_version"] = self.world_version.as_simple_string()
         slot_data["health_protocol_version"] = 2
         slot_data["hub_connection_protocol_version"] = 2
+        slot_data["copy_ability_room_protocol_version"] = 2
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
         slot_data["kirby_color_catalog_version"] = 3
         slot_data["starting_kirby_color"] = resolved_color_id
@@ -1186,6 +1187,9 @@ class KirbyAmWorld(World):
         if multiworld is not None:
             precollected_by_player = getattr(multiworld, "precollected_items", {})
             precollected_items = precollected_by_player.get(getattr(self, "player", 1), ())
+        slot_data["starting_copy_ability_room_access"] = any(
+            item.name == "Copy Ability Room Access" for item in precollected_items
+        )
         slot_data["area_keys"] = self._area_keys_enabled()
         slot_data["starting_area_key_bitfield"] = (
             area_key_bitfield_from_items(precollected_items) if slot_data["area_keys"] else 0

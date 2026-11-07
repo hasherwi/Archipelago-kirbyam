@@ -2,6 +2,7 @@
 
 #include "hub_connection_runtime_logic.h"
 #include "hub_save_logic.h"
+#include "copy_room.h"
 #include "statue_runtime_logic.h"
 #include "transition_runtime_logic.h"
 #include "transition_route_logic.h"
@@ -559,6 +560,8 @@ static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_is_key
  */
 __attribute__((used, noinline, long_call, section(".aphub"))) uint32_t ap_transition_allowed(uint16_t source_room, uint16_t destination_room) {
     uint8_t destination_area;
+
+    if (source_room == 801u && destination_room == 970u) return ap_copy_room_owned();
 
     if (ap_is_keyed_inter_area_edge(source_room, destination_room) == 0u) {
         return 1u;
@@ -1146,7 +1149,7 @@ typedef void (*KirbyStartGameFn)(
     const uint32_t *flags
 );
 /* Thumb entry for native sub_080332BC, which creates the Kirby players. */
-#define KIRBY_START_GAME_FN ((KirbyStartGameFn)0x080332BDu)
+#define KIRBY_START_GAME_FN ap_copy_room_start
 
 typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define KIRBY_GIVE_INVINCIBILITY_FN ((KirbyGiveInvincibilityFn)0x0808324Du)
@@ -1953,6 +1956,8 @@ HUB_EXT void ap_hub_tasks(void) {
 
 // Returns 1 if item was successfully processed, 0 if unrecognized
 static uint8_t ap_apply_item(uint32_t ap_item_id) {
+    /* Only authenticated complete history may grant this access item. */
+    if (ap_item_id == AP_COPY_ROOM_ITEM) return (uint8_t)ap_copy_room_owned();
     // 1_UP = BASE+1
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 1u)) {
         ap_grant_lives(1u);
@@ -2130,6 +2135,7 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
 
 
 void ap_poll_mailbox_c(void) {
+    ap_copy_room_poll();
 
     // Hook liveness diagnostic counter; increments on every AP hook entry.
     AP_HOOK_HEARTBEAT++;

@@ -120,7 +120,7 @@ def main() -> None:
     elif text != expected:
         raise ValueError("documentation table is stale; run with --write")
     print("983 slots accounted for: 286 populated, 697 sentinel; "
-          "335 AP keys covered (321 top-level, 14 generated logical aliases)")
+          "336 AP keys covered (322 top-level, 14 generated logical aliases)")
 
 
 if __name__ == "__main__":

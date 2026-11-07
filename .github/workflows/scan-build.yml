@@ -34,20 +34,20 @@ permissions: {}
 
 jobs:
   scan-build:
-    runs-on: ubuntu-latest
+    # Noble provides LLVM 19 in its signed archive. ubuntu-latest may advance
+    # to a release without the matching apt.llvm.org repository.
+    runs-on: ubuntu-24.04
 
     steps:
     - uses: actions/checkout@v6.0.2
       with:
         submodules: recursive
-    - name: Install newer Clang
+    - name: Install LLVM 19 from Ubuntu packages
       run: |
-        wget https://apt.llvm.org/llvm.sh
-        chmod +x ./llvm.sh
-        sudo ./llvm.sh 19
-    - name: Install scan-build command
-      run: |
-        sudo apt install clang-tools-19
+        sudo apt-get update
+        sudo apt-get install --yes --no-install-recommends clang-19 clang-tools-19
+        clang-19 --version
+        command -v scan-build-19
     - name: Get a recent python
       uses: actions/setup-python@v6.2.0
       with:
@@ -60,7 +60,7 @@ jobs:
     - name: scan-build
       run: |
         source venv/bin/activate
-        scan-build-19 --status-bugs -o scan-build-reports -disable-checker deadcode.DeadStores python setup.py build -y
+        scan-build-19 --use-analyzer "$(command -v clang-19)" --status-bugs -o scan-build-reports -disable-checker deadcode.DeadStores python setup.py build -y
     - name: Store report
       if: failure()
       uses: actions/upload-artifact@v7.0.0
