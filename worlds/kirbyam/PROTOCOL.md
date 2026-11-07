@@ -40,11 +40,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
 
     0x02000000 - 0x02040000   EWRAM Region (256 KB)
         ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0203B000 - 0x0203B13B   AP Mailbox (reserved, 316-byte span)
+        ├─ 0x0203B000 - 0x0203B16F   AP Mailboxes and Copy Room context (368 bytes)
         └─ Remaining EWRAM (excluding AP mailbox block)
 ```
 
-### AP Mailbox Block (0x0203B000 - 0x0203B13B)
+### Base AP Mailbox Block (0x0203B000 - 0x0203B13B)
 
 **Transport Layer: Client ↔ ROM Communication**
 
@@ -277,10 +277,9 @@ Server → Client: ConnectionRefused | Connected
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the payload refreshes Kirby's live OBJ and matching HUD BG palettes, including Pink. Reconnect alone does not reroll the color.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
-- `copy_ability_room_protocol_version` (int): `1` requires the Copy Room ROM capability marker and authenticated ownership mailbox.
+- `copy_ability_room_protocol_version` (int): `2` requires the native three-file Copy Room ROM capability and authenticated ownership mailbox; prototype version `1` must regenerate.
 - `starting_copy_ability_room_access` (bool): true only when the access item was explicitly precollected; false by default.
 - `health_protocol_version` (int): `2` for newly generated ROMs; requires the format-2 client and `KIRBYAM APV2` ROM header. Missing version identifies the legacy four-counter contract.
-- `shared_save_protocol_version` (int): `1`; requires the APSHR02 single-save ROM marker and authenticated active adventure context.
 - `hub_connection_protocol_version` (int): `2` for Hub seeds; requires ROM marker `APHUB02\0` at file offset `0x1000008`. Earlier Hub drafts without this version must regenerate seed and patch together.
 - `minimum_health` (int): starting HP capacity (`1..10`, default `6`), embedded in new ROMs for native initialization and reconciled by the connected client after the tutorial. This is not a current-HP floor. Legacy nonzero presets take precedence for old slots.
 - `maximum_health` (int): final HP capacity (`1..10`, default `10`). Must be at least `minimum_health` and no more than nine HP above it. The difference determines how many of the nine unique Vitality Counter items are generated. Legacy nonzero presets take precedence for old slots.
@@ -920,215 +919,75 @@ The client waits before reserving or offering Candy (`3860029`) while its native
 
 This preserves existing conservative transient-receipt recovery. A reset that loses a pending native offer can still require explicit receipt resolution; it does not establish exactly-once delivery across unsaved power loss.
 
-## Shared native save context, version 1 (#1000 / #1002 foundation)
 
-The foundation reserves native WORLD words **22–26** (`0x02028C68` through
-`0x02028C7B`). Hub words 27–31 remain independent and unchanged. Words 22–25
-contain all 16 bytes of the ROM authentication identity. Word 26 is:
+## Copy Ability Room access (issue #1002, protocol 2)
 
-| Bits | Meaning |
-| --- | --- |
-| 0–15 | Goal Game completion flags (feature supplied separately) |
-| 16 | Copy Ability Room access owned (feature supplied separately) |
-| 17 | Copy Room ownership cache valid; clear means unknown, not owned |
-| 18–31 | Format tag; `(word & ~0x3FFFF) == 0x41500000` |
+**Copy Ability Room Access** (`3860500`) is one progression item replacing one
+filler. It gates only Adventure Central Circle 801 → 970. There is no new
+RoomSanity check: the optional catalog remains 263. No starting grant is added;
+explicit precollection and complete received-item history use the same ownership
+reconciliation. Access permits entering the room, not acquiring individual copy
+abilities. Ordinary statues, Hub Connections, Big Switch checks, Collection and
+Boss Endurance 950 remain independent.
 
-One validator owns the whole record. An unknown tag or any mismatching auth
-word invalidates **both** features. Initialization first invalidates word 26,
-then writes the authentication words, then publishes the tag with all feature
-bits clear. It never combines new authentication with stale feature bits.
-These are native save-buffer words, not direct SRAM offsets. Native section
-checksums and duplicate-copy recovery remain native; the section is expanded as documented below.
+The native three-file selector, mode-menu Back behavior, slot validation, WORLD
+descriptors, 788-byte saved WORLD copies, checksum rules and backup offsets are
+unchanged. Each selected native file stores its own seed-authenticated ownership
+in previously unused WORLD words 22–26 (`0x02028C68`): words 22–25 hold the full
+16-byte ROM auth token, word 26 is `0x43500000 | owned` with ownership exactly
+zero or one. Native WORLD word 18 is derived, never authority. A vanilla unlock,
+a mismatching seed, or the old prototype record never grants access. Hub words
+27–31 are untouched. There is no single-save bypass, 4 KiB extension or shared-save
+protocol dependency. Preserve original saves; the deferred prototype's expanded
+save format is not migrated by this feature.
 
-The ROM advertises `APSHR02\0` at ROM file offset `0x1000010`. All newly generated slots
-must set `shared_save_protocol_version: 1`; clients reject those slots with a
-missing/different ROM marker before watcher writes. The foundation alone adds
-no items or locations and does not change legacy slot catalogs. Its presence
-is not a Goal Game or Copy Room feature capability: each feature must also
-version its own slot/catalog and runtime support. New feature seeds require
-matching regenerated patches and clients.
+The ROM capability marker `APCPY02\0` is at file offset `0x100FFD4`, immediately
+before the existing source configuration. Slots require
+`copy_ability_room_protocol_version: 2`. Prototype version 1, mixed ROM/slot
+capabilities and a shared-save slot fail closed. Regenerate seeds and patches
+and update clients together. Legacy slots without this item retain their matching
+legacy ROM support.
 
-### Context lifecycle and mailbox allocation
+The runtime uses `0x0203B13C`–`0x0203B15F` for nine 32-bit context words:
+`epoch`, `serial`, `slot`, `dirty`, `loaded_slot`, `task`, `owned`, `cookie`,
+`retry`. Epoch zero is inactive. A valid context requires a successful native
+WORLD load/clear and an actual single-player Adventure start in the same native
+file 0, 1 or 2, a live local Kirby task, matching seed auth and no demo/linked or
+non-Adventure mode flags. Exact-site wrappers preserve the original load, clear
+and Adventure startup behavior. File previews deactivate before loading; they
+never publish a context or accept ownership commands. Invalid slots never fall
+back to File 1.
 
-The bypassed retail file-menu previews loaded every file's WORLD data while `gSaveID` could
-already refer to the selected file. Therefore neither `gSaveID`, AI state 300,
-nor a live AP mailbox alone authorizes shared-record use. Every inventoried
-native WORLD loader/clear call first invalidates the shared context. The two
-single-player adventure startup calls activate it **after** native player
-creation, only when the last loaded/cleared slot matches `gSaveID` 0.
-Activation composes with the existing starting-color hook. Demo, Boss Endurance,
-and linked startup do not activate it. Per-frame polling checks the original
-local Kirby task identity, file identity, mode, and record authentication; loss
-of that identity deactivates it. Features must use `ap_shared_epoch()` rather
-than infer activation from native globals. A feature must separately cancel an
-in-progress action on death/abort; completed persistent bits survive death.
+The feature mailbox occupies `0x0203B160`–`0x0203B16F`:
+- `0x160`: client request epoch, written last; zero is idle.
+- `0x164`: complete authoritative ownership, exactly zero or one.
+- `0x168`: last accepted epoch.
+- `0x16C`: last accepted ownership.
 
-| Mailbox offset | Owner / meaning |
-| --- | --- |
-| `0x13C` | Public active epoch, zero while inactive; published last |
-| `0x140` | Activation serial; increments and skips zero |
-| `0x144` | Active native slot, always 0; `0xFFFFFFFF` while inactive |
-| `0x148` | Dirty flag; native save has not yet succeeded |
-| `0x14C` | Private last loaded/cleared slot |
-| `0x150` | Private active local Kirby task pointer |
-| `0x154` | Public authenticated feature bits |
-| `0x158` | Private lifecycle cookie `0x41505331` |
-| `0x15C` | Private save retry countdown |
-| `0x160–0x16F` | Reserved for Copy Room feature; foundation does not write |
-| `0x170–0x18F` | Reserved for Goal Game feature; foundation does not write |
+The client waits for the current socket's complete item history, combines
+explicit precollection, and fences session identity, history, native epoch,
+selected file and ROM authentication before a guarded mailbox write. The runtime
+checks the live context again before changing the saved record. The ordinary
+item-delivery mailbox only acknowledges this item after authenticated ownership
+has arrived; a stale receipt cannot grant access. Disconnect sends no revocation
+and preserves authenticated offline ownership. Duplicate reconciliation does not
+make new dirty saves. Native save failures retry only the active file; changes
+not yet saved can be lost on reset or leaving that context. Arbitrary save-state
+rollback is not a durability guarantee.
 
-`shared_save_protocol.read_shared_snapshot` reads the context and then fences
-it with a second epoch/serial/slot read and full ROM-auth reads, discarding a
-changed context, ROM identity, or AP session. Callers must first authenticate ROM/slot identity and must not retain
-pending checks or receipt writes across a changed epoch or server session.
-Mutations use `ap_shared_update(clear_mask, set_mask)` only in an active context;
-it returns zero when inactive and one for an accepted update, including an
-idempotent repeat. Updates preserve all bits outside their supplied masks.
-Goal Games should OR their completion bits; Copy Room should only change bits
-16–17, reconciling its cache with complete server history.
+The special mirror lookup at USA `0x0801E5B2` is intercepted before collision
+mutation, and the actual 801 → 970 transition checks authenticated ownership.
+Receipt while already in 801 opens the still-active native mirror initializer.
+Revocation blocks entry immediately and persists, but an already-open native
+mirror graphic can remain until Central Circle is fully reloaded, for example
+by returning to title and reloading the save. Ordinary leave/reentry may reuse
+the room buffer while an AI Kirby stays there. No forced respawn or live tile
+rewrite is used. The vanilla all-switch branch at ROM
+`0x12630C` changes from `46 D1` to `46 E0`: switch saving has already occurred,
+and cleanup at `0x12639C` runs without the automatic word-18 grant, redundant save
+or misleading unlock presentation. Exact retail-byte guards reject unexpected
+sources. Native linked-GBA multiplayer is unsupported; AP multiworld is separate.
 
-Initialization/updates set dirty; native `UpdateSaveBufferByOffset(1, slot)`
-flushes both checksummed copies. Only return zero clears dirty; failures retry
-after 60 mailbox ticks. No invalid slot falls back to file 0. Teardown discards
-transient dirty state rather than risk writing a different loaded buffer.
-Power loss or leaving before a successful save can lose unsaved changes;
-deliberate save rollback is not an exactly-once persistence guarantee. Offline
-cache and completion records are restored for the same authentication identity.
-Native linked-GBA multiplayer within one world remains unsupported; ordinary
-Archipelago multiworld is a separate supported mode.
-
-
-### Single-save storage format (APSHR02)
-
-The title-screen dispatch at USA ROM `0x14A802` bypasses the file selector
-entirely, including its three-file preview loop. It sets `gSaveID=0` (visible
-File 1), loads WORLD through the native primary/backup verifier, clears through
-the native initializer on failure, and invokes the native mode-menu constructor `0x08138F68`, after computing
-File 1 completion through `0x0813914C`. This constructor never runs the three-file
-preview loop. Adventure, subgames (including normally unlocked Boss Endurance),
-and Collection remain reachable. Mode-menu Back returns to title through the
-native task teardown instead of reopening file selection. Adventure still uses
-the native continue path and existing starting-color → shared-start wrapper;
-menus and Boss Endurance never activate the AP Adventure epoch. The boot
-validation loop also visits only File 1; its all-blank error mask is adjusted
-from 15 to 3. Title/menu states publish no active epoch. New seed slots opt in
-to the shared client gate before AP data reads/writes; the ROM mailbox, Hub
-switch persistence require the active context too. Collection's native paint
-confirmation is the narrow exception: it validates the successful File 1 WORLD
-load and full seed-authenticated record without activating an Adventure epoch,
-then saves only the owned-paint preference through the native serializer. A
-failed load, different slot, invalid record or changed seed rejects that write.
-Feature flags and mailbox work remain inactive in Collection.
-
-The replacement native WORLD descriptor table lives at ROM `0x0900FF80`.
-All nine original table references are guarded and redirected. The seven
-native data spans remain byte-for-byte in order and size (780 bytes total),
-followed by **4096 bytes at EWRAM `0x0203B200..0x0203C1FF`**. The retail EWRAM
-heap ends at `0x02020080`, globals end at `0x0203ADE4`, and AP mailboxes end
-below `0x0203B200`; this reservation is separate from those regions. No native
-staging buffer is enlarged: the serializer iterates each descriptor directly.
-Native clears and checksum calculations include the extension. On a seed/tag
-mismatch, the extension is zeroed before activation; it is otherwise retained.
-The extension is reserved for future AP data, with no feature allocation yet.
-Consumers must validate the active epoch and request a native save after writes.
-WORLD 22–26, Hub 27–31 and feature mailbox allocations do not move.
-
-FILE_INFO remains two 12-byte records. Each WORLD copy is now 4884 bytes
-(8-byte checksum, 780 native bytes, 4096 AP bytes). File 1 copies occupy SRAM
-`[24,4908)` and `[4908,9792)`; bytes from 9792 onward are unused by this
-single-save path, not additional advertised capacity. The checksum covers the
-entire data portion. Native recovery from the backup repairs a damaged primary;
-a valid primary does not proactively repair an unused damaged backup until a
-subsequent save. Existing save migration and in-game erase/reset UI are out of
-scope. The APSHR02 marker intentionally rejects older foundation ROMs; regenerate
-matching ROMs/clients. Both dependent feature patches must be rebuilt from source.
-
-
-Native acceptance can be reproduced with a private, legally supplied clean USA
-ROM and mGBA 0.10.5 development headers/library. Build
-`test/native/shared_save_probe.c` against `libmgba`, then run:
-
-```sh
-python worlds/kirbyam/test/native/run_shared_save_probe.py --rom /private/kirby-usa.gba --observer /private/shared-save-probe --output /private/single-save-results
-```
-
-The probe uses normal controller input and read-only telemetry. The runner
-creates synthetic checksum-valid progress fixtures and corrupts copies only in
-its private output directory. It writes full private ROM/save/state/screenshot
-artifacts there; do not commit them. `dev-docs/single-save-evidence.json` records
-the tested layout and limits without distributing those artifacts.
-
-
-### Async watcher epoch fencing
-
-`shared_watcher` retains the initial authenticated epoch in a task-local scope
-for the whole watcher iteration. Every client memory read and write adds
-bridge GUARD checks for epoch/serial/slot and the full ROM auth token. Existing
-native write guards are retained. Response validation rejects results that
-were executed before reset but delivered after it, and AP location/goal sends
-revalidate the same context. AP session/socket/connector changes also abort
-the scope. Context changes invalidate cached RAM/receipt state for fresh
-reconciliation on the next valid iteration. Legacy slots retain their existing
-transport behavior. Feature integrations must route runtime I/O and messages
-through `shared_watcher` rather than bypass the active task scope.
-
-The separate `test/native/run_single_save_menu_probe.py` accepts the same
-`--rom`, `--observer`, and `--output` arguments. It verifies fresh/continued
-Adventure, native 100% Boss Endurance access and playable room 950, inactive AP
-state outside Adventure, mode-menu Back/title/re-entry, and Boss reset into
-Adventure. Its completed-progress fixture is synthetic and checksummed; all
-emulator actions use controller input and read-only telemetry.
-
-## Copy Ability Room access (issue #1002, protocol 1)
-
-Item `3860500`, **Copy Ability Room Access**, is a progression item replacing
-one filler slot. It gates only adventure Central Circle 801 → 970. There is no
-970 RoomSanity check: the existing optional catalog remains 263. No default
-starting grant exists; explicit precollection is serialized as
-`starting_copy_ability_room_access` and reconciled through the same ownership
-path as received item history. Access never grants individual copy abilities.
-Boss Endurance 950, ordinary statues, switch checks and Hub Connections retain
-independent behavior.
-
-Generated slots require `copy_ability_room_protocol_version: 1` and
-`shared_save_protocol_version: 1`. The ROM marker `APCPY01\0` lives at file
-offset `0x100FFD4` (eight bytes immediately before source configuration), avoiding
-allocation of #1000's extension-header space. Mixed ROM/slot capabilities fail
-closed before watcher writes. Regenerate seeds and patches and update clients;
-old native word 18 alone cannot migrate ownership. Older slots without this
-feature remain supported with their matching ROMs.
-
-The shared foundation owns WORLD 22–26 and context 0x0203B13C–0x0203B15F.
-This feature owns mailbox 0x0203B160–0x0203B16F:
-
-| Offset | Direction | Meaning |
-| --- | --- | --- |
-| 0x160 | client → ROM | Request epoch, written last; zero means idle |
-| 0x164 | client → ROM | Complete authoritative ownership, exactly 0 or 1 |
-| 0x168 | ROM → client | Last accepted epoch |
-| 0x16C | ROM → client | Last accepted ownership value |
-
-The client waits for the current socket's complete item history, combines it with
-explicit precollection, and fences the shared snapshot, connection identity,
-ROM auth and epoch before a guarded write through `shared_watcher`. The original
-watcher epoch remains authoritative even if a later snapshot observes a new
-context after reset. The runtime revalidates the active
-context before accepting the command. It sets validity and ownership together,
-preserving all Goal bits. A stale ordinary item-delivery mailbox cannot grant
-access: delivery acknowledges this item only after ownership reconciliation.
-Disconnect does not send a zero command or clear authenticated offline ownership.
-Duplicate commands do not create new dirty saves. Save failure/retry and native
-File 1 binding remain owned by the shared foundation. Arbitrary emulator-state
-rollback is not a guarantee of retention of unsaved progress.
-
-WORLD word 18 is derived, never authoritative. The native mirror lookup at USA
-0x0801E5B2 is intercepted before collision changes; the actual 801 → 970 transition
-also checks ownership. Live authoritative revocation in 801 uses the ordinary
-801 → 801 transition to rebuild the closed entrance. No per-frame writes target
-WORLD during file previews. The vanilla all-switch branch at ROM 0x12630C changes
-from `46 D1` to `46 E0`: individual switch saving has already occurred, and normal
-cleanup at 0x12639C runs without the automatic word-18 grant, its redundant save,
-or its misleading unlock presentation. Exact retail instruction guards reject
-unrecognized patch sources. WORLD 27–31 remain untouched.
-
-Native linked-GBA multiplayer is unsupported; ordinary AP multiworld is required.
+Host lifecycle/transport regressions are not native emulator or real-server
+acceptance. See [native acceptance and limits](dev-docs/copy-room-native-save-acceptance.md)
+for the tested patch identity and actual replay coverage.

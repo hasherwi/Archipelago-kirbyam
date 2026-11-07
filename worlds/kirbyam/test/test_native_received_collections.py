@@ -3,7 +3,6 @@
 Host execution checks native effects and ACKs; it does not simulate the ARM ABI,
 rendered HUD, cheats, or emulator save/load.
 """
-from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -20,6 +19,7 @@ def test_mailbox_collections_and_active_player_vitality(tmp_path: Path) -> None:
     if not compiler or not sys.platform.startswith('linux'):
         pytest.skip('requires Linux mapped memory and a C compiler')
     source = (WORLD / 'kirby_ap_payload/ap_payload.c').read_text()
+    source += "\n" + (WORLD / 'kirby_ap_payload/copy_room.c').read_text()
     source = re.sub(r'register uint32_t (\w+) asm\("r[458]"\);', r'uint32_t \1 = 0;', source)
     source = source.replace('__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));',
                             'caller_lr_snapshot = 0;')
@@ -33,14 +33,12 @@ def test_mailbox_collections_and_active_player_vitality(tmp_path: Path) -> None:
             end += 1
         source = source[:match.end()] + '}\n' + source[end:]
     source = '#define _GNU_SOURCE\n#include <sys/mman.h>\n#include <stdio.h>\n#include <string.h>\n' + source
-    # Shared lifecycle/access are covered by test_copy_room_runtime; isolate unrelated receipts.
     source += r'''
 #define CHECK(x) do { if (!(x)) {printf("failed line %d\n", __LINE__);return 1;} } while(0)
 static void reset(void) {
     memset((void *)0x02000000u, 0, 0x40000);
     AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     AI_KIRBY_STATE = AI_STATE_NORMAL;
-    host_shared_active();
 }
 static void receive(unsigned item) {
     AP_IN_ITEM_ID = item;
@@ -49,8 +47,6 @@ static void receive(unsigned item) {
     ap_poll_mailbox_c();
 }
 int main(void) {
-    CHECK(mmap((void*)0x03000000u,0x8000,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x03000000u);
-    CHECK(mmap((void*)0x08F00000u,4096,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x08F00000u);
     CHECK(mmap((void*)0x02000000u, 0x40000, PROT_READ|PROT_WRITE,
         MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x02000000u);
     for (unsigned item=3860200; item<=3860223; item++) {
@@ -75,7 +71,7 @@ int main(void) {
             }
         }
     }
-    for (unsigned player=0; player<1; player++) {
+    for (unsigned player=0; player<4; player++) {
         for (unsigned dead=0; dead<2; dead++) {
             reset();
             KIRBY_CURRENT_PLAYER = player;
@@ -104,7 +100,6 @@ int main(void) {
 }
 '''
     cfile, executable = tmp_path / 'receipts.c', tmp_path / 'receipts'
-    source = link_payload_modules(source, WORLD / 'kirby_ap_payload')
     cfile.write_text(source)
     result = subprocess.run([compiler, '-std=gnu99', '-w', '-I', str(WORLD / 'kirby_ap_payload'),
                              str(cfile), '-o', str(executable)], capture_output=True, text=True)

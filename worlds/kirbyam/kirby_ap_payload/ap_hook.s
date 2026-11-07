@@ -93,44 +93,6 @@ ap_on_warp_star_transition_entry:
 1:  .word ap_on_warp_star_transition
 .size ap_on_warp_star_transition_entry, .-ap_on_warp_star_transition_entry
 
-.section .text.ap_shared_entries,"ax",%progbits
-.balign 4
-.global ap_shared_load_entry
-.type ap_shared_load_entry, %function
-.thumb_func
-ap_shared_load_entry:
-    ldr r3, 1f
-    bx r3
-1: .word ap_shared_load
-
-.balign 4
-.global ap_shared_clear_entry
-.type ap_shared_clear_entry, %function
-.thumb_func
-ap_shared_clear_entry:
-    ldr r3, 1f
-    bx r3
-1: .word ap_shared_clear
-
-.section .text.ap_copy_room_entry,"ax",%progbits
-.balign 4
-.global ap_copy_room_state_entry
-.type ap_copy_room_state_entry, %function
-.thumb_func
-ap_copy_room_state_entry:
-    ldr r3, 1f
-    bx r3
-1: .word ap_copy_room_state
-.align 2
-.global ap_single_save_entry
-.type ap_single_save_entry, %function
-.thumb_func
-ap_single_save_entry:
-    ldr r3, 1f
-    bx r3
-.align 2
-1: .word ap_single_save_enter
-
 .section .text.ap_transition_entries,"ax",%progbits
 .balign 4
 .global ap_area_spawn_level_entry
@@ -189,3 +151,33 @@ ap_area_door_decoration_entry:
     bx r3
 1:  .word ap_area_door_decoration
 .size ap_area_door_decoration_entry, .-ap_area_door_decoration_entry
+
+.section .text.ap_copy_room_load_entry,"ax",%progbits
+.balign 4
+.global ap_copy_room_load_entry
+.type ap_copy_room_load_entry, %function
+.thumb_func
+ap_copy_room_load_entry:
+    ldr r3, 1f
+    bx r3
+1: .word ap_copy_room_load
+
+.section .text.ap_copy_room_clear_entry,"ax",%progbits
+.balign 4
+.global ap_copy_room_clear_entry
+.type ap_copy_room_clear_entry, %function
+.thumb_func
+ap_copy_room_clear_entry:
+    ldr r3, 1f
+    bx r3
+1: .word ap_copy_room_clear
+
+.section .text.ap_copy_room_state_entry,"ax",%progbits
+.balign 4
+.global ap_copy_room_state_entry
+.type ap_copy_room_state_entry, %function
+.thumb_func
+ap_copy_room_state_entry:
+    ldr r3, 1f
+    bx r3
+1: .word ap_copy_room_state

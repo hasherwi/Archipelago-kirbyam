@@ -206,3 +206,7 @@ Pressing all Big Switches or receiving all Hub Connections does not grant access
 The item replaces a filler item and does not add a location. Starting access
 requires explicit precollection. The room still follows your configured ability
 gating and statue randomization; entering it does not unlock unowned abilities.
+
+The existing three save files remain selectable. Ownership is saved in the active
+file and survives offline reload for that seed. Update the client and regenerate
+the seed/patch together; the earlier single-save prototype is not compatible.

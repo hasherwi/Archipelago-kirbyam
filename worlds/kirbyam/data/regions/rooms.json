@@ -258,8 +258,7 @@
         "included": true,
         "location_id": 3961017,
         "bit_index": 26
-      },
-      "MINOR_CHEST_RAINBOW_ROUTE_1_06_UPPER": null
+      }
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_05": null
@@ -282,7 +281,9 @@
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_CHEST": {
-    "locations": {},
+    "locations": {
+      "MINOR_CHEST_RAINBOW_ROUTE_1_06_UPPER": null
+    },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID": null
     }

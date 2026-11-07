@@ -16,9 +16,9 @@ No gameplay, region logic, locations, ROM patch or item pool changes accompany i
 | Unpopulated sentinel slots, in 58 inclusive ranges | 697 |
 | Populated records with a physical AP RoomSanity check | 263 |
 | Other populated records | 23 |
-| Top-level AP room keys accounted for | 322 |
+| Top-level AP room keys accounted for | 321 |
 | Generated logical subregion aliases accounted for | 14 |
-| Total AP keys in the table | 336 |
+| Total AP keys in the table | 335 |
 | Additional logical compartment keys sharing physical records | 55 |
 | Tutorial keys without RoomSanity checks | 3 |
 

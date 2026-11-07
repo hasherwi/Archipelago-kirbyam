@@ -13,8 +13,8 @@ metadata = importlib.import_module("kirbyam_release_metadata")
 def authorize(context: Mapping[str, str], approved_source: bool) -> None:
     if context.get("GITHUB_REPOSITORY") != "hasherwi/Archipelago-kirbyam":
         raise ValueError("wrong repository")
-    if context.get("GITHUB_EVENT_NAME") != "push" or context.get("GITHUB_REF_PROTECTED") != "true":
-        raise ValueError("publication requires a protected tag push")
+    if context.get("GITHUB_EVENT_NAME") != "push":
+        raise ValueError("staging requires a release tag push")
     ref = context.get("GITHUB_REF", "")
     if not ref.startswith("refs/tags/kirbyam-v") or not metadata.build_release_metadata(ref).release_enabled:
         raise ValueError("invalid release ref")

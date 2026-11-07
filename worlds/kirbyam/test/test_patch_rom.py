@@ -142,13 +142,25 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch: pytest.MonkeyPa
     monkeypatch.setattr(patch_rom, "build_runtime_regression_writes", lambda *args: {})
     # The hub contract has separate corruption tests and local real-ROM validation.
     monkeypatch.setattr(patch_rom, "build_hub_teleport_writes", lambda *args: {})
-    monkeypatch.setattr(patch_rom, "build_shared_save_writes", lambda *args: {})
+    monkeypatch.setattr(patch_rom, "build_copy_room_context_writes", lambda *args: {})
     monkeypatch.setattr(patch_rom, "build_copy_room_native_grant_writes", lambda *args: {})
     rom = bytearray(b"\xA5" * 0x200000)
+    # RC4 rolls back the coupled File 1/menu and WORLD-layout changes (#1037).
+    # The native selector, Back route and all three files must remain untouched.
+    native_file_selection = {
+        0x14A802: patch_rom.thumb_bl_bytes(0x0814A802, 0x08138B44),
+        0x13D8A0: bytes.fromhex("15c41308"),
+        0x26A: bytes.fromhex("022c"),
+        0x278: bytes.fromhex("0f2e"),
+    }
+    for offset in (0xA9EC, 0xAA18, 0xAADC, 0xAB04, 0xABF4, 0xAD4C,
+                   0x325DC, 0x32640, 0x3280C):
+        native_file_selection[offset] = bytes.fromhex("fc912d08")
+    for offset, native_bytes in native_file_selection.items():
+        rom[offset:offset + len(native_bytes)] = native_bytes
     rom[patch_rom.PAYLOAD_OFFSET:patch_rom.PAYLOAD_LEGACY_OFFSET] = bytes(0x400)
     for offset in patch_rom.HEALTH_HUD_CALLSITES:
         rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(0x08000000 + offset, 0x0803518C)
-    rom[0x1E5B2:0x1E5B6] = patch_rom.thumb_bl_bytes(0x0801E5B2, 0x08002888)
     rom[0x14406C:0x144070] = patch_rom.thumb_bl_bytes(0x0814406C, 0x081447E0)
     rom[0x14380A:0x14380E] = patch_rom.thumb_bl_bytes(0x0814380A, 0x08019F0C)
     rom[0x3EB0E:0x3EB14] = patch_rom.thumb_bl_bytes(0x0803EB0E, 0x08019F0C) + b"\x06\x30"
@@ -179,9 +191,12 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch: pytest.MonkeyPa
          "starting_color_start_game_hook_target": 0x08100000,
          "treasure_paint_hook_target": 0x08100400,
          "health_hud_hook_target": 0x08100100, "initial_health_hook_target": 0x08100200,
-         "vitality_menu_hook_target": 0x08100300, "copy_room_state_target": 0x08100700},
+         "vitality_menu_hook_target": 0x08100300},
         0x08000000,
     )
+
+    for offset, native_bytes in native_file_selection.items():
+        assert rom[offset:offset + len(native_bytes)] == native_bytes, hex(offset)
 
     for offset in patch_rom.HEALTH_HUD_CALLSITES:
         assert patch_rom.decode_thumb_bl_target(
@@ -227,7 +242,7 @@ def test_door_to_hub_init_state_lookup_is_separate_and_left_native(monkeypatch) 
     monkeypatch.setattr(patch_rom, "build_initial_health_writes", lambda *args: {})
     monkeypatch.setattr(patch_rom, "build_health_hud_writes", lambda *args: {})
     monkeypatch.setattr(patch_rom, "build_hub_teleport_writes", lambda *args: {})
-    monkeypatch.setattr(patch_rom, "build_shared_save_writes", lambda *args: {})
+    monkeypatch.setattr(patch_rom, "build_copy_room_context_writes", lambda *args: {})
     monkeypatch.setattr(patch_rom, "build_copy_room_native_grant_writes", lambda *args: {})
     # sub_0802AD00 in special_doors.c activates the physical door from this
     # state. The hook belongs only to sub_0811938C's switch initializer.
@@ -238,7 +253,6 @@ def test_door_to_hub_init_state_lookup_is_separate_and_left_native(monkeypatch) 
     switch_hook_target = 0x08100000
     rom = bytearray(0x200000)
     rom[0x14380A:0x14380E] = patch_rom.thumb_bl_bytes(0x0814380A, 0x08019F0C)
-    rom[0x1E5B2:0x1E5B6] = patch_rom.thumb_bl_bytes(0x0801E5B2, 0x08002888)
     rom[0x14406C:0x144070] = patch_rom.thumb_bl_bytes(0x0814406C, 0x081447E0)
     door_call = patch_rom.thumb_bl_bytes(0x08000000 + door_offset, native_target)
     switch_call = patch_rom.thumb_bl_bytes(0x08000000 + switch_offset, native_target)
@@ -274,7 +288,7 @@ def test_door_to_hub_init_state_lookup_is_separate_and_left_native(monkeypatch) 
         {"unknown83_transition_hook_target": 0x08100600, "starting_color_start_game_hook_target": 0x08100000,
          "health_hud_hook_target": 0x08100100, "initial_health_hook_target": 0x08100200,
          "vitality_menu_hook_target": 0x08100300,
-         "treasure_paint_hook_target": 0x08100400, "hub_trap_hook_target": 0x08100500, "copy_room_state_target": 0x08100700},
+         "treasure_paint_hook_target": 0x08100400, "hub_trap_hook_target": 0x08100500},
         0x08000000,
     )
 
@@ -527,42 +541,3 @@ def test_hub_dispatch_table_rejects_shifted_or_changed_callbacks():
             patch_rom.validate_hub_unlock_callback_table(bad)
     with pytest.raises(SystemExit, match="Hub unlock callback table"):
         patch_rom.validate_hub_unlock_callback_table(rom[:-1])
-
-
-def test_shared_save_hooks_validate_all_original_calls_before_patching():
-    calls = {
-        0x0800A91C: (0x222,0x242,0x32384,0x138CB2,0x13CA80,0x140430,0x141CA0,0x142638,0x1428AE),
-        0x0800AC00: (0x22E,0x250,0x270,0x25F9E,0x32390,0x138D10,0x13CA8C,0x14043C,0x141CAC,0x142644,0x1428BA,0x1429A6),
-    }
-    rom = bytearray(0x300000)
-    for target, offsets in calls.items():
-        for offset in offsets:
-            rom[offset:offset+4] = patch_rom.thumb_bl_bytes(0x08000000+offset,target)
-    from .native.single_save_fixture import populate_single_save_fixture
-    populate_single_save_fixture(rom, patch_rom.thumb_bl_bytes)
-    targets = {"shared_load_target":0x0815E000,"shared_clear_target":0x0815E008,
-               "single_save_target":0x0815E010}
-    writes = patch_rom.build_shared_save_writes(rom, targets)
-    assert len(writes) == 34
-    assert writes[0x13D8A0] == bytes.fromhex("a1211408")  # mode Back goes to title
-    assert 0x123EF2 not in writes  # existing starting-color hook composes activation
-    for offset in writes:
-        original = bytes(rom[offset:offset+4])
-        rom[offset] ^= 1
-        with pytest.raises(SystemExit, match="verified USA-ROM bytes"):
-            patch_rom.build_shared_save_writes(rom, targets)
-        rom[offset:offset+4] = original
-
-
-def test_single_save_rejects_changed_native_descriptor_layout():
-    from .native.single_save_fixture import populate_single_save_fixture
-    rom = bytearray(0x300000)
-    for native, _key, offsets in patch_rom.SHARED_SAVE_NATIVE_CALLS:
-        for offset in offsets:
-            rom[offset:offset+4] = patch_rom.thumb_bl_bytes(0x08000000+offset, native)
-    populate_single_save_fixture(rom, patch_rom.thumb_bl_bytes)
-    targets = {"shared_load_target":0x0815E000,"shared_clear_target":0x0815E008,
-               "single_save_target":0x0815E010}
-    rom[0x2D91FC+12] ^= 1
-    with pytest.raises(SystemExit, match="native WORLD descriptor layout"):
-        patch_rom.build_shared_save_writes(rom, targets)

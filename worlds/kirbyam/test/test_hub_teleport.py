@@ -1,5 +1,4 @@
 """Execute the real mailbox and hub dispatch against mapped host RAM."""
-from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -44,6 +43,7 @@ def test_actual_mailbox_and_hub_dispatch(tmp_path: Path, optimization: str) -> N
         pytest.skip("requires Linux low-address memory mapping and C compiler")
     assert compiler is not None
     source = (PAYLOAD / "ap_payload.c").read_text()
+    source += "\n" + (PAYLOAD / "copy_room.c").read_text()
     # Only platform calls/register bindings are substituted. All mailbox,
     # item effects, readiness guards and acknowledgement code run unchanged.
     source = re.sub(r'register uint32_t (\w+) asm\("r\d+"\);', r'uint32_t \1 = 0;', source)
@@ -58,7 +58,6 @@ def test_actual_mailbox_and_hub_dispatch(tmp_path: Path, optimization: str) -> N
     harness = (Path(__file__).parent / 'native/hub_teleport_host.c').read_text()
     source += '\nvoid ap_after_tasks(void) { ap_hub_tasks(); }\n'
     source = harness.replace('/* PAYLOAD */', source)
-    source = link_payload_modules(source, PAYLOAD)
     path = tmp_path / 'hub.c'
     path.write_text(source)
     exe = tmp_path / 'hub'

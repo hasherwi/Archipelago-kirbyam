@@ -998,27 +998,42 @@ class KirbyAmWorld(World):
             )
             logger.debug(f"[P{self.player}] Converted {goal_event_count} goal locations to locked events")
 
-    # Set world rules
+    @classmethod
+    def stage_create_items(cls, multiworld: MultiWorld) -> None:
+        # All Kirby regions and locked events now exist. Finalize the starting
+        # key before AP snapshots the item pool or applies item-link handling.
+        worlds = list(multiworld.get_game_worlds(cls.game))
+        for world in worlds:
+            world.set_rules()
+        for world in worlds:
+            world._ensure_starting_area_key()
+
+    # Rules are needed during item creation to evaluate real starting access.
+    # The normal set_rules stage must not stack the same entrance predicates.
     def set_rules(self) -> None:
+        if getattr(self, "_rules_applied", False):
+            return
         from .rules import set_rules as set_rules_impl
         set_rules_impl(self)
+        self._rules_applied = True
 
     # Helper methods for generation and output
     def generate_basic(self) -> None:
-        # Create auth for client connection.
+        # Create auth for client connection; the item pool is already final.
         self.auth = self.random.randbytes(16)
+
+    def _ensure_starting_area_key(self) -> None:
         if not self._area_keys_enabled():
             return
 
-        # Rules and user-provided starting inventory are both available at this
-        # stage.  Measure the real AP graph rather than approximating it with a
-        # second JSON traversal, then guarantee a viable deterministic start.
+        # Rules and user-provided starting inventory are available. Measure the
+        # real AP graph before finalizing the item pool, not a second JSON graph.
         state = CollectionState(self.multiworld)
         # Addressless locked events (area visits, switches, and other native
         # progression state) are part of the same graph used by fill.  Sweep
         # them before counting checks so the fallback decision cannot drift
         # from Archipelago's actual CollectionState semantics.
-        state.sweep_for_advancements()
+        state.sweep_for_advancements(locations=self.multiworld.get_locations(self.player))
         early_reachable_checks = [
             location
             for location in self.multiworld.get_locations(self.player)
@@ -1157,9 +1172,8 @@ class KirbyAmWorld(World):
         )
         slot_data["world_version"] = self.world_version.as_simple_string()
         slot_data["health_protocol_version"] = 2
-        slot_data["shared_save_protocol_version"] = 1
         slot_data["hub_connection_protocol_version"] = 2
-        slot_data["copy_ability_room_protocol_version"] = 1
+        slot_data["copy_ability_room_protocol_version"] = 2
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
         slot_data["kirby_color_catalog_version"] = 3
         slot_data["starting_kirby_color"] = resolved_color_id

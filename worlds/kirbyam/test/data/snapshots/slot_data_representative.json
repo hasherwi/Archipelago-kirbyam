@@ -9,7 +9,7 @@
   "ability_randomization_statues": false,
   "area_keys": true,
   "configured_area_boss": 7,
-  "copy_ability_room_protocol_version": 1,
+  "copy_ability_room_protocol_version": 2,
   "core_landmark_location_ids": [
     3961070,
     3961094,
@@ -995,7 +995,7 @@
     },
     "MINOR_CHEST_RAINBOW_ROUTE_1_06_UPPER": {
       "category": "MINOR_CHEST",
-      "label": "Rainbow Route 1-06 (Upper) - Small Chest",
+      "label": "Rainbow Route 1-06 (Lower) - Small Chest",
       "location_id": 3960567,
       "tags": [
         "ExactEventLocation",
@@ -6235,7 +6235,6 @@
     }
   },
   "shards": 2,
-  "shared_save_protocol_version": 1,
   "stake_breaking_abilities": [
     "Hammer",
     "Master",

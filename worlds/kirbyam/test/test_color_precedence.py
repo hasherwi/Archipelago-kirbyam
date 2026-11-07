@@ -1,5 +1,4 @@
 """Explicit owned-paint selection, color priority and palette lifecycle contracts."""
-from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -46,6 +45,7 @@ def test_shipping_color_precedence_and_lifecycle(tmp_path: Path) -> None:
         pytest.skip('requires Linux mapped-memory C harness')
     assert cc is not None
     source = (WORLD / 'kirby_ap_payload/ap_payload.c').read_text()
+    source += "\n" + (WORLD / 'kirby_ap_payload/copy_room.c').read_text()
     source = re.sub(r'register uint32_t (\w+) asm\("r[458]"\);', r'uint32_t \1 = 0;', source)
     source = source.replace('__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));',
                             'caller_lr_snapshot = 0;')
@@ -72,7 +72,6 @@ static void start_game(uint8_t,uint8_t,const uint16_t*,const int32_t*,const uint
 static uint32_t menu_select(uint8_t*);
 static int16_t save_world(uint32_t,uint16_t);
 ''' + source + (WORLD / 'test/native/color_precedence_host.c').read_text()
-    source = link_payload_modules(source, WORLD / 'kirby_ap_payload', native_start='start_game')
     cfile = tmp_path / 'color.c'
     cfile.write_text(source)
     exe = tmp_path / 'color'

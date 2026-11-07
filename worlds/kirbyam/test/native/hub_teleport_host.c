@@ -59,7 +59,6 @@ static void ready(void) {
     U16(KIRBY_STRUCTS_ADDR + 0x60) = 1;
     AP_IN_ITEM_ID = 3860300; AP_IN_PLAYER = 7; AP_IN_FLAG = 1;
     AP_ITEM_RCVD_COUNTER = 100;
-    host_shared_active();
     requests = tasks = script_after_tasks = cancel_call = 0; accepts = 1;
 }
 int main(void) {
@@ -67,7 +66,6 @@ int main(void) {
         MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x02000000);
     CHECK(mmap((void*)0x03000000, 0x8000, PROT_READ|PROT_WRITE,
         MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x03000000);
-    CHECK(mmap((void*)0x08F00000,4096,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x08F00000);
     ready();
     ap_poll_mailbox_c(); /* Input poll cannot execute or acknowledge this trap. */
     CHECK(AP_IN_FLAG == 1 && AP_ITEM_RCVD_COUNTER == 100 && !requests);
@@ -141,7 +139,6 @@ int main(void) {
     /* Saved completion is playable, but stale task memory must not launch. */
     for (unsigned state = 9999; state <= 10000; state++) {
         ready(); AI_KIRBY_STATE = state;
-        U32(0x03001008) = 0;
         KIRBY_CURRENT_ROOM = 101; U16(KIRBY_STRUCTS_ADDR+0x60) = 101;
         U16(0x03001002) = 0x19A0; U16(0x03001004) = 0x1A54;
         U16(0x03001006) = 0x3000; U16(0x03001010) = 0x3000;
@@ -156,7 +153,6 @@ int main(void) {
         DEMO_PLAYBACK_FLAGS = 0x40;
         ap_after_tasks(); CHECK(!requests && AP_IN_FLAG == 1 && HUB_STATE_FN == 0);
         DEMO_PLAYBACK_FLAGS = 0;
-        host_shared_active(); /* Genuine adventure re-entry is required after invalidation. */
         ap_after_tasks(); ap_after_tasks(); ap_after_tasks();
         CHECK(requests == 1 && AP_IN_FLAG == 0 && AP_ITEM_RCVD_COUNTER == 101);
         ap_after_tasks(); CHECK(requests == 1 && AP_ITEM_RCVD_COUNTER == 101);

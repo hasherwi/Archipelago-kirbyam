@@ -16,7 +16,7 @@ class PublishPolicyTests(unittest.TestCase):
         authorize(context, True)
         for key, value in (("GITHUB_EVENT_NAME", "pull_request"), ("GITHUB_EVENT_NAME", "workflow_dispatch"),
                            ("GITHUB_REF", "refs/heads/main"), ("GITHUB_REF", "refs/heads/arbitrary"),
-                           ("GITHUB_REF", "refs/tags/kirbyam-vbad"), ("GITHUB_REF_PROTECTED", "false"),
+                           ("GITHUB_REF", "refs/tags/kirbyam-vbad"),
                            ("GITHUB_REPOSITORY", "attacker/fork"), ("GITHUB_SHA", "--help")):
             with self.subTest(key=key, value=value), self.assertRaises(ValueError):
                 authorize({**context, key: value}, True)
@@ -24,14 +24,20 @@ class PublishPolicyTests(unittest.TestCase):
             authorize(context, False)
         # A build flag cannot grant or revoke authority; approved platform context does.
         authorize({**context, "release_enabled": "false"}, True)
+        # Optional tag protection does not require a second maintainer or a settings change.
+        for protected in ("true", "false", ""):
+            authorize({**context, "GITHUB_REF_PROTECTED": protected}, True)
 
     def test_workflow_boundary_is_wired(self) -> None:
         root = Path(__file__).resolve().parents[4]
         text = (root / ".github/workflows/kirbyam-apworld.yml").read_text()
         publisher = text.split("  release-apworld:", 1)[1]
         self.assertIn("github.event_name == 'push'", publisher)
-        self.assertIn("github.ref_protected == true", publisher)
+        self.assertNotIn("github.ref_protected", publisher)
+        # Existing environment restrictions must still be honored, not bypassed.
         self.assertIn("environment: kirbyam-release", publisher)
+        self.assertIn("group: kirbyam-release-${{ github.ref }}", publisher)
+        self.assertIn("cancel-in-progress: false", publisher)
         self.assertNotIn("needs.build-apworld.outputs", publisher)
         self.assertNotIn("pull-requests: write", publisher)
         self.assertIn("ref: main", publisher)

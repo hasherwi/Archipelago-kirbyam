@@ -29,3 +29,31 @@ def test_reject_changed_native_grant_or_cleanup(offset):
     rom[offset] ^= 1
     with pytest.raises(SystemExit):
         build_copy_room_native_grant_writes(rom)
+
+
+def test_context_hooks_preserve_native_three_file_selection_and_world_layout():
+    from ..kirby_ap_payload.patch_rom import (
+        COPY_ROOM_NATIVE_CALLS, build_copy_room_context_writes, thumb_bl_bytes,
+    )
+    rom = bytearray(0x2D9240)
+    targets = {"copy_room_load_target": 0x0815F300, "copy_room_clear_target": 0x0815F310,
+               "copy_room_state_target": 0x0815F320}
+    for native, _key, offsets in COPY_ROOM_NATIVE_CALLS:
+        for offset in offsets:
+            rom[offset:offset + 4] = thumb_bl_bytes(0x08000000 + offset, native)
+    before = bytes(rom)
+    writes = build_copy_room_context_writes(rom, targets)
+    assert bytes(rom) == before
+    assert set(writes) == {offset for _native, _key, offsets in COPY_ROOM_NATIVE_CALLS for offset in offsets}
+    assert len(writes) == 22
+    # No title/file-selector bypass, Back pointer, slot bounds or descriptor edits.
+    untouched = {0x14A802, 0x13D8A0, 0x26A, 0x278, 0x2D91FC,
+                 0xA9EC, 0xAA18, 0xAADC, 0xAB04, 0xABF4, 0xAD4C, 0x325DC, 0x32640, 0x3280C}
+    assert not set(writes) & untouched
+    for native, key, offsets in COPY_ROOM_NATIVE_CALLS:
+        for offset in offsets:
+            assert writes[offset] == thumb_bl_bytes(0x08000000 + offset, targets[key])
+            corrupt = bytearray(before)
+            corrupt[offset] ^= 1
+            with pytest.raises(SystemExit):
+                build_copy_room_context_writes(corrupt, targets)
