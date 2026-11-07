@@ -1235,7 +1235,8 @@
       "completion_index": 98,
       "object_list_index": 98,
       "ap_keys": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_06"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY"
       ],
       "wiki_title": "Peppermint Palace - Room 6",
       "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_6",

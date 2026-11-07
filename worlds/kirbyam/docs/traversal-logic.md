@@ -68,10 +68,10 @@ repatch from the supported original ROM.
 not automatically an executable route. Production source-aware gates currently:
 
 - 401 peg28,30: right shaft to406 Sound Player; local Rockys or explicit Stone
-  carry190Ã¢â€ â€™801Ã¢â€ â€™490Ã¢â€ â€™407Ã¢â€ â€™401. The407 bomb is approached from above with Stone.
-- 411 peg4,3: revealed405 doorway; Stone190Ã¢â€ â€™801Ã¢â€ â€™490Ã¢â€ â€™411. Other exits stay free.
+  carry190→801→490→407→401. The407 bomb is approached from above with Stone.
+- 411 peg4,3: revealed405 doorway; Stone190→801→490→411. Other exits stay free.
 - 221 peg41,12: Pink chest tunnel; local Giant Rockys or Stone
-  190Ã¢â€ â€™801Ã¢â€ â€™290Ã¢â€ â€™291Ã¢â€ â€™215Ã¢â€ â€™212Ã¢â€ â€™216Ã¢â€ â€™217Ã¢â€ â€™221. The carry avoids rock bodies,
+  190→801→290→291→215→212→216→217→221. The carry avoids rock bodies,
   ordinary blocks, and the star platform rather than assuming them absent.
 
 Carrier witnesses require an independently reachable source hub, actual Hub
@@ -85,7 +85,7 @@ alternatives are not declared impossible; this remains incomplete draft coverage
 The current repository has no entrance
 shuffle option; RoomSanity adds checks, not shuffled transitions.
 
-204Ã¢â€ â€™227 Happy Notes has a one-way target compartment: regular227 entry cannot
+204→227 Happy Notes has a one-way target compartment: regular227 entry cannot
 reach it through the nondroppable0x0F platform. The upper compartment can exit to
 main. Its exact peg-side entrance is separated, but its source rule is still
 pending. Do not describe that topology correction as completed source enforcement.
