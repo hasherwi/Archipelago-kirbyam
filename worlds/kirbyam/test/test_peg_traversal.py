@@ -107,3 +107,29 @@ def test_gate_side_reach_does_not_bootstrap_remote_statue():
         assert not target.access_rule(state)
     with patch.object(state, "can_reach_region", return_value=True):
         assert target.access_rule(state)
+
+
+def test_weight100_static_assignments_are_resampled_without_forcing_outputs():
+    import random
+    from ..ability_randomization import build_enemy_copy_ability_policy
+    from ..peg_traversal import _assignment_has_witness, validate_peg_assignment
+    rng = random.Random(939)
+
+    def factory():
+        return build_enemy_copy_ability_policy(rng, 1, False, False, no_ability_weight=100)
+
+    selected = validate_peg_assignment(factory(), factory, True)
+    policy = SourcePolicy(selected, include_statues=True)
+    assert all(_assignment_has_witness(row, policy) for row in PEG_ROUTES)
+    assert selected["ability_randomization_no_ability_weight"] == 100
+
+
+def test_assignment_budget_exhaustion_is_diagnostic_not_impossibility(monkeypatch, caplog):
+    from .. import peg_traversal
+    initial = {"mode": 1}
+    calls = []
+    monkeypatch.setattr(peg_traversal, "SourcePolicy", lambda *args: type("Policy", (), {"mode": 1})())
+    monkeypatch.setattr(peg_traversal, "_assignment_has_witness", lambda *args: False)
+    result = peg_traversal.validate_peg_assignment(initial, lambda: calls.append(1) or initial, False, 3)
+    assert result is initial and len(calls) == 2
+    assert "not a proof" in caplog.text

@@ -91,9 +91,9 @@ def peg_graph(row: dict[str, Any]) -> TraversalGraph:
 
 
 def peg_logic_enabled(policy: dict[str, Any]) -> bool:
-    """Draft rollout excludes unproved random and all-Normal source scenarios."""
+    """Static assignments can be validated, including weight100 statue carriers."""
     mode = int(policy.get("mode", 0))
-    return mode == 0 or (mode == 1 and int(policy.get("ability_randomization_no_ability_weight", 0)) < 100)
+    return mode in (0, 1)
 
 
 def _assignment_has_witness(row: dict[str, Any], policy: SourcePolicy) -> bool:
@@ -124,11 +124,12 @@ def validate_peg_assignment(
             break
         if attempt + 1 < max_attempts:
             candidate = factory()
-    raise ValueError(
-        "No assignment meets the reviewed local peg-source witnesses. "
-        "This does not prove all carried-source alternatives impossible. "
-        "Try another seed or reduce the no-ability weight; options and source outputs were not overridden."
+    logging.getLogger(__name__).warning(
+        "No reviewed peg-source witness found within %s assignment attempts. "
+        "Keeping the original policy and deferring only unsupported draft routes; "
+        "this is not a proof that other carried-source alternatives are impossible.", max_attempts,
     )
+    return initial
 
 
 def install_peg_rules(world: Any) -> None:

@@ -68,23 +68,24 @@ repatch from the supported original ROM.
 not automatically an executable route. Production source-aware gates currently:
 
 - 401 peg28,30: right shaft to406 Sound Player; local Rockys or explicit Stone
-  carry190â†’801â†’490â†’407â†’401. The407 bomb is approached from above with Stone.
-- 411 peg4,3: revealed405 doorway; Stone190â†’801â†’490â†’411. Other exits stay free.
+  carry190Ã¢â€ â€™801Ã¢â€ â€™490Ã¢â€ â€™407Ã¢â€ â€™401. The407 bomb is approached from above with Stone.
+- 411 peg4,3: revealed405 doorway; Stone190Ã¢â€ â€™801Ã¢â€ â€™490Ã¢â€ â€™411. Other exits stay free.
 - 221 peg41,12: Pink chest tunnel; local Giant Rockys or Stone
-  190â†’801â†’290â†’291â†’215â†’212â†’216â†’217â†’221. The carry avoids rock bodies,
+  190Ã¢â€ â€™801Ã¢â€ â€™290Ã¢â€ â€™291Ã¢â€ â€™215Ã¢â€ â€™212Ã¢â€ â€™216Ã¢â€ â€™217Ã¢â€ â€™221. The carry avoids rock bodies,
   ordinary blocks, and the star platform rather than assuming them absent.
 
 Carrier witnesses require an independently reachable source hub, actual Hub
 Connection items, and destination Area Key when that option is enabled. Static
 assignment validation accepts reviewed local or carrier witnesses rather than
-rewriting individual randomized outputs. If a configuration has no reviewed
-all-items source witness (notably shuffled weight100 with shuffled statues),
+rewriting individual randomized outputs. Static policies, including shuffled weight100/statue configurations, get at most
+1024 assignment attempts without forcing individual outputs. If that budget
+finds no reviewed all-items source witness,
 that finite-witness peg rule is explicitly deferred with a warning. Unknown
 alternatives are not declared impossible; this remains incomplete draft coverage.
 The current repository has no entrance
 shuffle option; RoomSanity adds checks, not shuffled transitions.
 
-204â†’227 Happy Notes has a one-way target compartment: regular227 entry cannot
+204Ã¢â€ â€™227 Happy Notes has a one-way target compartment: regular227 entry cannot
 reach it through the nondroppable0x0F platform. The upper compartment can exit to
 main. Its exact peg-side entrance is separated, but its source rule is still
 pending. Do not describe that topology correction as completed source enforcement.
