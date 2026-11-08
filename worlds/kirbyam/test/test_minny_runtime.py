@@ -132,10 +132,10 @@ int main(void) {
     }
     /* #1049: execute the actual wrapper against GBA-mapped ROM table bytes.
      * Unlike the pure helper test this catches file-offset/runtime-address drift. */
-    uint8_t *rom = mmap((void*)0x08351000u, 0x3000, PROT_READ | PROT_WRITE,
+    uint8_t *rom = mmap((void*)0x08350000u, 0x10000, PROT_READ | PROT_WRITE,
                        MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED, -1, 0);
     CHECK(rom != MAP_FAILED);
-    rom[0x7FE] = 18; /* Waddle Doo's table assignment: Sword. */
+    rom[0x17FE] = 18; /* Waddle Doo's table assignment: Sword. */
     object[0x82] = 18; /* OBJ_WADDLE_DOO */
     gApEnemySourceConfig[0] = AP_ENEMY_SOURCE_CONFIG_MAGIC;
     gApEnemySourceConfig[1] = 1u << 18;
@@ -154,7 +154,7 @@ int main(void) {
     grant(AP_ENEMY_SWALLOW_CALLSITE, 0x02000000u, 7);
     CHECK(result == 7);
     gApEnemySourceConfig[1] = 1u << 18;
-    rom[0x7FE] = 0;
+    rom[0x17FE] = 0;
     grant(AP_ENEMY_SWALLOW_CALLSITE, 0x02000000u, 7);
     CHECK(result == 0);
     return 0;
