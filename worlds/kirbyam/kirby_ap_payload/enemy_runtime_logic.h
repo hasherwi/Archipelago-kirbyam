@@ -67,4 +67,26 @@ static inline uint8_t ap_enemy_source_policy_allows(
     return (uint8_t)((config[1u + (source_type >> 5)] >> (source_type & 31u)) & 1u);
 }
 
+/* Shuffled tables are only an initializer: native enemy state changes (for
+ * example Waddle Doo walking/parasol states) can overwrite kirbyAbility.
+ * Resolve the seed assignment again at the verified ordinary swallow boundary.
+ * A legacy seed has no eligibility bitmap, so leave its behavior unchanged
+ * rather than guessing which native sources its options excluded.
+ * table points at the first ability byte, with the native 24-byte stride.
+ */
+static inline uint32_t ap_enemy_shuffled_ability_flags(
+    const volatile uint32_t *config, uint32_t mode, uint32_t caller_pc,
+    uint32_t source_ptr, uint32_t source_type, uint32_t ability_flags,
+    const volatile uint8_t *table
+) {
+    uint32_t ability;
+    if (mode != 1u || config[0] != AP_ENEMY_SOURCE_CONFIG_MAGIC
+        || ap_enemy_has_verified_source(caller_pc, source_ptr) == 0u
+        || ap_enemy_source_policy_allows(config, caller_pc, source_ptr, source_type) == 0u)
+        return ability_flags;
+    ability = table[source_type * 24u];
+    if (ability > 31u) return ability_flags;
+    return (ability_flags & ~31u) | ability;
+}
+
 #endif
