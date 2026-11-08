@@ -1095,6 +1095,8 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
 
 _PAYLOAD_TARGET_LABELS = {
     "goal_transition_target": "Goal Game doorway transition",
+    "goal_start_target": "Goal Game start callback",
+    "goal_landed_target": "Goal Game landing callback",
     "copy_room_load_target": "Copy Room load guard",
     "copy_room_clear_target": "Copy Room clear guard",
     "copy_room_state_target": "Copy Room state guard",
@@ -1138,6 +1140,10 @@ def validate_payload_targets(
     payload_rom_end: int,
 ) -> None:
     for name, target in hook_targets.items():
+        if name in ("goal_start_target", "goal_landed_target"):
+            if not 0x09000000 <= target < 0x0900FFD4:
+                raise SystemExit("Goal Game callback outside extension")
+            continue
         if not (payload_rom_start <= target < payload_rom_end):
             raise SystemExit(
                 "Error: "
@@ -1154,7 +1160,7 @@ def build_goal_game_writes(rom: bytes | bytearray, targets: dict[str, int]) -> d
                                 (0xD2DC, 0x0800D2E1, "goal_landed_target")):
         validate_expected_instruction_sequence(rom, offset, native.to_bytes(4, "little"), key)
         target = targets[key] | 1
-        if not 0x09000000 <= target < 0x0900FFDC:
+        if not 0x09000000 <= target < 0x0900FFD4:
             raise SystemExit("Goal Game callback outside extension")
         writes[offset] = target.to_bytes(4, "little")
     offset = 0x55DF0

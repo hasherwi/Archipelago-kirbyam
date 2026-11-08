@@ -562,3 +562,11 @@ def test_goal_game_hooks_validate_exact_native_completion_and_transition():
     for name in ('goal_start_target', 'goal_landed_target'):
         with pytest.raises(SystemExit):
             patch_rom.build_goal_game_writes(rom, dict(targets, **{name: 0x02000000}))
+
+
+@pytest.mark.parametrize("name", ["goal_start_target", "goal_landed_target"])
+def test_goal_callbacks_validate_only_extension_code(name):
+    patch_rom.validate_payload_targets({name: 0x09002000}, 0x0815DC00, 0x0815F688)
+    for target in (0x02000000, 0x0815DC00, 0x0900FFD4, 0x09010000):
+        with pytest.raises(SystemExit, match="callback outside extension"):
+            patch_rom.validate_payload_targets({name: target}, 0x0815DC00, 0x0815F688)
