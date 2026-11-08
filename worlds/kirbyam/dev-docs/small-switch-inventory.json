@@ -9,18 +9,19 @@
     "populated_rooms": 286,
     "unused_sentinel_slots": 697,
     "object_lists": 287,
-    "object_template_count": 1900,
-    "switch_rooms": 19,
-    "switch_instances": 23,
+    "object_template_count": 3482,
+    "switch_rooms": 24,
+    "switch_instances": 35,
     "orphan_object_lists": [
       {
         "object_list_index": 4,
         "switches": []
       }
     ],
-    "native_object_spawners_checked": 18,
+    "native_object_spawners_checked": 37,
     "spawners_targeting_small_switch": 0
   },
+  "object_template_stream_method": "Advance by template byte +1 until zero; header +0x0C is a type-list count, not a template count.",
   "small_switch_object_type": "0x6D",
   "small_switch_constructor": "0x081191C4",
   "constructor_pointer_verified": "0x081191C5",
@@ -147,6 +148,137 @@
             "unk_02": 0,
             "unk_03": 7,
             "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 177,
+      "completion_index": 57,
+      "object_list_index": 57,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3"
+      ],
+      "wiki_title": "Rainbow Route - Goal 3",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Goal_3",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x00934D54",
+      "switches": [
+        {
+          "index": 9,
+          "rom_offset": "0x008BB098",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 120,
+          "y": 288,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 7,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 60,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 8
+          },
+          "room_state_slot": 2,
+          "release_counter_parameter": 60,
+          "mode_flags": "0x0008",
+          "linked_vertical_gate_indices": [
+            8
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 8,
+              "y_pixel": 282,
+              "y_tile": 17,
+              "cells": [
+                {
+                  "x_tile": 7,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 8,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 9,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 10,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 57,
+        "rle_rom_offset": "0x00881620",
+        "width_tiles_16px": 46,
+        "height_tiles_16px": 23,
+        "expanded_byte_count": 1058,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "fighter_suggested_switch_route",
+        "in_scope": true,
+        "wiki_summary": "Absorbing Box Boxer for Fighter lets Kirby open the switch gate to the 1-Up. The specific move is not stated.",
+        "assessment": "One switch, counter 60, with a clear initial static row to its gate. The article proposes Fighter, but does not establish a specific Fighter move, exclusive ability need or arbitrary projectile compatibility.",
+        "unresolved": "Exact attack trajectories, helper positioning, timing and full route acceptance remain untested. No blanket ability grant follows from this description.",
+        "source_review": {
+          "checked_on": "2026-11-08",
+          "method": "Parent independently read WiKirby article text through the standard web tool; supplied summary retained here."
+        }
+      },
+      "vertical_gates": [
+        {
+          "index": 8,
+          "rom_offset": "0x008BB074",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 168,
+          "y": 288,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 6,
+            "unk_04": 2,
             "unk_05": 1,
             "unk_0A": 255,
             "unk_0B": 255,
@@ -705,6 +837,339 @@
       ]
     },
     {
+      "native_id": 426,
+      "completion_index": 167,
+      "object_list_index": 167,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3"
+      ],
+      "wiki_title": "Candy Constellation - Chest 3",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Chest_3",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x0093743C",
+      "switches": [
+        {
+          "index": 5,
+          "rom_offset": "0x008C888C",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 312,
+          "y": 128,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 5,
+            "unk_04": 3,
+            "unk_05": 0,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 20,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 32772
+          },
+          "room_state_slot": 3,
+          "release_counter_parameter": 0,
+          "mode_flags": "0x8004",
+          "linked_vertical_gate_indices": [
+            2
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 2,
+              "y_pixel": 122,
+              "y_tile": 7,
+              "cells": [
+                {
+                  "x_tile": 19,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 20,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 21,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 22,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 23,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "rom_offset": "0x008C88B0",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 312,
+          "y": 64,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 6,
+            "unk_04": 2,
+            "unk_05": 0,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 4
+          },
+          "room_state_slot": 2,
+          "release_counter_parameter": 0,
+          "mode_flags": "0x0004",
+          "linked_vertical_gate_indices": [
+            4
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 4,
+              "y_pixel": 58,
+              "y_tile": 3,
+              "cells": [
+                {
+                  "x_tile": 16,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 17,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 18,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 19,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "rom_offset": "0x008C88D4",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 184,
+          "y": 64,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 7,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 10,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 32768
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 0,
+          "mode_flags": "0x8000",
+          "linked_vertical_gate_indices": [
+            3
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 3,
+              "y_pixel": 58,
+              "y_tile": 3,
+              "cells": [
+                {
+                  "x_tile": 11,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 12,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 13,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 14,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 15,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 16,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 167,
+        "rle_rom_offset": "0x0089AF98",
+        "width_tiles_16px": 46,
+        "height_tiles_16px": 23,
+        "expanded_byte_count": 1058,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "cooperative_or_breath_timing_puzzle",
+        "in_scope": true,
+        "wiki_summary": "Swift movement and breath attacks, or friends, solve the map switch puzzle. A lower bypass exists; the room has no enemies.",
+        "assessment": "Three zero-counter switches link to three gates; all three sampled static horizontal rows are clear. Retain the ordinary breath, timing and cooperation alternatives and lower bypass rather than imposing a blanket Copy Ability requirement.",
+        "unresolved": "Exact attack trajectories, helper positioning, timing and full route acceptance remain untested. No blanket ability grant follows from this description.",
+        "source_review": {
+          "checked_on": "2026-11-08",
+          "method": "Parent independently read WiKirby article text through the standard web tool; supplied summary retained here."
+        }
+      },
+      "vertical_gates": [
+        {
+          "index": 2,
+          "rom_offset": "0x008C8820",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 376,
+          "y": 64,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 2,
+            "unk_04": 3,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        },
+        {
+          "index": 3,
+          "rom_offset": "0x008C8844",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 264,
+          "y": 64,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 3,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        },
+        {
+          "index": 4,
+          "rom_offset": "0x008C8868",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 264,
+          "y": 128,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 4,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
       "native_id": 427,
       "completion_index": 168,
       "object_list_index": 168,
@@ -1063,6 +1528,169 @@
       ]
     },
     {
+      "native_id": 511,
+      "completion_index": 177,
+      "object_list_index": 177,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_05"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 5",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_5",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x00938184",
+      "switches": [
+        {
+          "index": 10,
+          "rom_offset": "0x008C9808",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 56,
+          "y": 112,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 10,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 135,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 135,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            9
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 9,
+              "y_pixel": 106,
+              "y_tile": 6,
+              "cells": [
+                {
+                  "x_tile": 3,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 4,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 5,
+                  "tile_code": "0xF2"
+                },
+                {
+                  "x_tile": 6,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 7,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 8,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 9,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 10,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 11,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 12,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 13,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 14,
+                  "tile_code": "0x0D"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 177,
+        "rle_rom_offset": "0x0089CF28",
+        "width_tiles_16px": 47,
+        "height_tiles_16px": 13,
+        "expanded_byte_count": 611,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "ordinary_timing_or_cooperative_chest_route",
+        "in_scope": true,
+        "wiki_summary": "Jump on the switch and rush to Secret Sounds, or use friends.",
+        "assessment": "One switch at (56,112), counter 135. Its horizontal gate probe crosses 0x0D and F2 tiles, so the described ordinary/cooperative route is not proof of a flat projectile path.",
+        "unresolved": "Exact attack trajectories, helper positioning, timing and full route acceptance remain untested. No blanket ability grant follows from this description.",
+        "source_review": {
+          "checked_on": "2026-11-08",
+          "method": "Parent independently read WiKirby article text through the standard web tool; supplied summary retained here."
+        }
+      },
+      "vertical_gates": [
+        {
+          "index": 9,
+          "rom_offset": "0x008C97E4",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 232,
+          "y": 144,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 9,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
       "native_id": 527,
       "completion_index": 184,
       "object_list_index": 184,
@@ -1108,8 +1736,36 @@
           "room_state_slot": 1,
           "release_counter_parameter": 100,
           "mode_flags": "0x0008",
-          "linked_vertical_gate_indices": [],
-          "static_horizontal_probes": []
+          "linked_vertical_gate_indices": [
+            14
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 14,
+              "y_pixel": 186,
+              "y_tile": 11,
+              "cells": [
+                {
+                  "x_tile": 50,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 51,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 52,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 53,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
         }
       ],
       "collision_decode": {
@@ -1124,10 +1780,42 @@
         "classification": "ordinary_timing_puzzle",
         "in_scope": true,
         "wiki_summary": "The chest route involves pressing the switch, passing a gate quickly, defeating Sword Knight, breaking a Bomb Block and dashing to the Sapphire paint chest.",
-        "assessment": "Timed route with follow-on obstacles. No type 0x71 gate template shares this switch list; do not infer that the switch is unrelated just because the gate is tile-driven.",
-        "unresolved": "Trace the tile-driven gate state and route before allowing specific ranged alternatives."
+        "assessment": "Timed route with follow-on obstacles. The corrected complete stream includes vertical gate index 14 linked to switch index 2 by state slot 1. The direct static probe contains 0x0D geometry; the earlier claim that no object gate existed was a parser-truncation error.",
+        "unresolved": "Verify the whole timed route, approach and attack trajectory before allowing specific ranged alternatives."
       },
-      "vertical_gates": []
+      "vertical_gates": [
+        {
+          "index": 14,
+          "rom_offset": "0x008CA6F4",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 808,
+          "y": 144,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 14,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
     },
     {
       "native_id": 533,
@@ -1330,8 +2018,428 @@
           "room_state_slot": 5,
           "release_counter_parameter": 200,
           "mode_flags": "0x0000",
-          "linked_vertical_gate_indices": [],
-          "static_horizontal_probes": []
+          "linked_vertical_gate_indices": [
+            9
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 9,
+              "y_pixel": 90,
+              "y_tile": 5,
+              "cells": [
+                {
+                  "x_tile": 6,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 7,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 8,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 9,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 10,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 11,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 12,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 13,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 14,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 15,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 16,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 17,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 18,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 19,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 20,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "rom_offset": "0x008D0498",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 464,
+          "y": 112,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 5,
+            "unk_04": 4,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 255,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 4,
+          "release_counter_parameter": 255,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            10
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 10,
+              "y_pixel": 106,
+              "y_tile": 6,
+              "cells": [
+                {
+                  "x_tile": 11,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 12,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 13,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 14,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 15,
+                  "tile_code": "0x0E"
+                },
+                {
+                  "x_tile": 16,
+                  "tile_code": "0x0E"
+                },
+                {
+                  "x_tile": 17,
+                  "tile_code": "0x0E"
+                },
+                {
+                  "x_tile": 18,
+                  "tile_code": "0x0E"
+                },
+                {
+                  "x_tile": 19,
+                  "tile_code": "0x20"
+                },
+                {
+                  "x_tile": 20,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 21,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 22,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 23,
+                  "tile_code": "0x0A"
+                },
+                {
+                  "x_tile": 24,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 25,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 26,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 27,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 28,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 29,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "rom_offset": "0x008D04BC",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 752,
+          "y": 208,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 6,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 70,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 2,
+          "release_counter_parameter": 70,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            12
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 12,
+              "y_pixel": 202,
+              "y_tile": 12,
+              "cells": [
+                {
+                  "x_tile": 41,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 42,
+                  "tile_code": "0x21"
+                },
+                {
+                  "x_tile": 43,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 44,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 45,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 46,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 47,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "rom_offset": "0x008D04E0",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 1064,
+          "y": 272,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 7,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 70,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 70,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            11
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 11,
+              "y_pixel": 266,
+              "y_tile": 16,
+              "cells": [
+                {
+                  "x_tile": 62,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 63,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 64,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 65,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 66,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        },
+        {
+          "index": 14,
+          "rom_offset": "0x008D05DC",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 936,
+          "y": 48,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 14,
+            "unk_04": 3,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 30,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 3,
+          "release_counter_parameter": 30,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            13
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 13,
+              "y_pixel": 42,
+              "y_tile": 2,
+              "cells": [
+                {
+                  "x_tile": 58,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 59,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 60,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 61,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 62,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 63,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 64,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 65,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
         }
       ],
       "collision_decode": {
@@ -1346,10 +2454,166 @@
         "classification": "ordinary_puzzle_geometry_pending",
         "in_scope": true,
         "wiki_summary": "Interconnected corridors contain switch gates and Bomb Block barriers; a small switch puzzle guards the 1-Up chest.",
-        "assessment": "Counter parameter 200 and room-state slot 5. No type 0x71 gate template is in this room's object list, so identify the tile-driven effect before assigning a gate or range.",
-        "unresolved": "The article does not establish a mandatory ranged or cooperative solution."
+        "assessment": "Five switches are present, not one: indices 4, 5, 6, 7 and 14 use state slots 5, 4, 2, 1 and 3, and counter parameters 200, 255, 70, 70 and 30. Each has a corresponding type 0x71 gate. The earlier no-object-gate claim was a parser-truncation error. Some direct static rows are clear and others cross geometry; preserve the five independent objectives.",
+        "unresolved": "The article does not establish mandatory ranged or cooperative solutions. Classify each recovered switch/gate pair separately and verify approach, timing and target before assigning capabilities."
       },
-      "vertical_gates": []
+      "vertical_gates": [
+        {
+          "index": 9,
+          "rom_offset": "0x008D0528",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 104,
+          "y": 112,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 9,
+            "unk_04": 5,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        },
+        {
+          "index": 10,
+          "rom_offset": "0x008D054C",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 184,
+          "y": 112,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 10,
+            "unk_04": 4,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        },
+        {
+          "index": 11,
+          "rom_offset": "0x008D0570",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 1000,
+          "y": 272,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 11,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        },
+        {
+          "index": 12,
+          "rom_offset": "0x008D0594",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 664,
+          "y": 160,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 12,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        },
+        {
+          "index": 13,
+          "rom_offset": "0x008D05B8",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 1048,
+          "y": 48,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 13,
+            "unk_04": 3,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
     },
     {
       "native_id": 610,
@@ -1589,6 +2853,141 @@
             "unk_01": 36,
             "unk_02": 0,
             "unk_03": 2,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 708,
+      "completion_index": 72,
+      "object_list_index": 72,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 1",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x0093A04C",
+      "switches": [
+        {
+          "index": 12,
+          "rom_offset": "0x008BD068",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 80,
+          "y": 384,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 12,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 100,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 100,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            11
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 11,
+              "y_pixel": 378,
+              "y_tile": 23,
+              "cells": [
+                {
+                  "x_tile": 5,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 6,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 7,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 8,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 72,
+        "rle_rom_offset": "0x00883A34",
+        "width_tiles_16px": 46,
+        "height_tiles_16px": 33,
+        "expanded_byte_count": 1518,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "ordinary_timing_and_barrier_route",
+        "in_scope": true,
+        "wiki_summary": "Switch-toggled doors and metal/Bomb Block barriers feature in the room; the third lower-right door requires quick passage.",
+        "assessment": "One switch at (80,384), counter 100, with a clear initial static row to its gate. The article does not establish a remote-only requirement; barriers and the full approach still matter.",
+        "unresolved": "Exact attack trajectories, helper positioning, timing and full route acceptance remain untested. No blanket ability grant follows from this description.",
+        "source_review": {
+          "checked_on": "2026-11-08",
+          "method": "Parent independently read WiKirby article text through the standard web tool; supplied summary retained here."
+        }
+      },
+      "vertical_gates": [
+        {
+          "index": 11,
+          "rom_offset": "0x008BD044",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 136,
+          "y": 384,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 11,
             "unk_04": 1,
             "unk_05": 1,
             "unk_0A": 255,
@@ -1987,6 +3386,244 @@
             "unk_01": 36,
             "unk_02": 0,
             "unk_03": 8,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 804,
+      "completion_index": 2,
+      "object_list_index": 2,
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_02"
+      ],
+      "wiki_title": "Labyrinth Entrance Stage",
+      "wiki_url": "https://wikirby.com/wiki/Labyrinth_Entrance_Stage",
+      "verification": "shared",
+      "note": "Tutorial room 2; shared article",
+      "room_props_offset": "0x0093AF4C",
+      "switches": [
+        {
+          "index": 7,
+          "rom_offset": "0x008B4FA4",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 136,
+          "y": 80,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 3,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 10,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 32772
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 0,
+          "mode_flags": "0x8004",
+          "linked_vertical_gate_indices": [
+            10
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 10,
+              "y_pixel": 74,
+              "y_tile": 4,
+              "cells": [
+                {
+                  "x_tile": 8,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 9,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 10,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 11,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "rom_offset": "0x008B4FC8",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 296,
+          "y": 128,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 4,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 20,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 32768
+          },
+          "room_state_slot": 2,
+          "release_counter_parameter": 0,
+          "mode_flags": "0x8000",
+          "linked_vertical_gate_indices": [
+            9
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 9,
+              "y_pixel": 122,
+              "y_tile": 7,
+              "cells": [
+                {
+                  "x_tile": 18,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 19,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 20,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 21,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 22,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 23,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 24,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 2,
+        "rle_rom_offset": "0x0087374C",
+        "width_tiles_16px": 61,
+        "height_tiles_16px": 13,
+        "expanded_byte_count": 793,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "tutorial_cooperative_switch_route",
+        "in_scope": true,
+        "wiki_summary": "In the second tutorial room, the first switch opens by walking. The next timed switch calls for cell-phone friends to hold it while a Kirby reaches the Bomb Block.",
+        "assessment": "Two zero-counter switches control separate gates. This is a source-backed cooperation tutorial, not evidence for a mandatory acquired Copy Ability. The second static switch-to-gate row crosses 0x0D geometry; helper positioning and the Bomb Block stage must be retained.",
+        "unresolved": "Exact attack trajectories, helper positioning, timing and full route acceptance remain untested. No blanket ability grant follows from this description.",
+        "source_review": {
+          "checked_on": "2026-11-08",
+          "method": "Parent independently read WiKirby article text through the standard web tool; supplied summary retained here."
+        }
+      },
+      "vertical_gates": [
+        {
+          "index": 9,
+          "rom_offset": "0x008B4FEC",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 392,
+          "y": 80,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 5,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        },
+        {
+          "index": 10,
+          "rom_offset": "0x008B5010",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 184,
+          "y": 80,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 6,
             "unk_04": 1,
             "unk_05": 1,
             "unk_0A": 255,
@@ -2975,8 +4612,36 @@
   },
   "source_geometry_limit": "RLE collision probes are initial single-row samples. They are evidence against assuming clear horizontal sight, not full dynamic collision, projectile simulation, reachability or gameplay acceptance.",
   "web_verification": {
-    "unique_articles_read": 18,
+    "unique_articles_read": 23,
     "success": "WiKirby article text read through web tool on 2026-11-08",
-    "gallery_attempt": "Direct HTTPS page fetch for Peppermint Palace Chest returned HTTP 403; route stopped without retry or bypass. No gallery images acquired."
+    "gallery_attempt": "Direct HTTPS page fetch for Peppermint Palace Chest returned HTTP 403; route stopped without retry or bypass. No gallery images acquired.",
+    "scope": "The earlier 18 article texts plus five newly read articles now cover all 24 native switch-room rows. Dimension Mirror rooms share one page. Five additions read on 2026-11-08 through the standard web tool; none was a denied page."
+  },
+  "parser_correction": {
+    "corrected_on": "2026-11-08",
+    "previous_count": {
+      "switch_instances": 23,
+      "switch_rooms": 19,
+      "templates": 1900,
+      "spawners": 18
+    },
+    "corrected_count": {
+      "room_slots": 983,
+      "populated_rooms": 286,
+      "unused_sentinel_slots": 697,
+      "object_lists": 287,
+      "object_template_count": 3482,
+      "switch_rooms": 24,
+      "switch_instances": 35,
+      "orphan_object_lists": [
+        {
+          "object_list_index": 4,
+          "switches": []
+        }
+      ],
+      "native_object_spawners_checked": 37,
+      "spawners_targeting_small_switch": 0
+    },
+    "cause": "Header +0x0C is the count of distinct spawn-table-1 object types, not the number of ObjectTemplate records. Native code advances by each record byte +1 until zero. All 287 header type-list sets now match the complete decoded template streams."
   }
 }
