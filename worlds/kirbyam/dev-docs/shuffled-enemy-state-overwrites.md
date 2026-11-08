@@ -57,3 +57,17 @@ other than Beam, with that ability unlocked. Record build/seed/options.
 4. Check a Normal assignment and, with passive enemies enabled, Waddle Dee.
 5. Check excluded sources, vanilla and completely-random controls, recovery
    stars and statues. Avoid treating controlled host fixtures as game evidence.
+
+## Native room 1-01 result
+
+A controlled native-emulator replay now reproduces the report and verifies the
+fix: the first Waddle Doo grants Beam (7) on baseline main and Sword (18) on the
+rebuilt candidate, with the same Sword table assignment and controller inputs.
+Both runs finish in native room 101 at full health. Initial room/position and
+seed data are explicit test fixtures; gameplay uses controller inputs and the
+production client's runtime-config writes, with no direct gameplay RAM edits.
+This is not a complete generated-seed playthrough.
+
+See [the sanitized evidence record](shuffled-enemy-native-evidence.json) for
+patch/ROM hashes, fixture setup, inputs, config writes and resulting snapshots.
+Full ROMs and private save files are not included.
